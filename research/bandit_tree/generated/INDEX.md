@@ -6,9 +6,9 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1053 · raw hypothesis rows 309 · raw experiment rows 629 · legacy arms 18 · catalog files 65761.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1054 · raw hypothesis rows 309 · raw experiment rows 630 · legacy arms 18 · catalog files 65770.
 
-Config snapshot: [research/bandit_tree/generated/snapshots/config-bd8cd6affec72131ec874fec5c573492e1edeb22c96538756e5142abab9695cd.json](<snapshots/config-bd8cd6affec72131ec874fec5c573492e1edeb22c96538756e5142abab9695cd.json>).
+Config snapshot: [research/bandit_tree/generated/snapshots/config-bf40511c0f07841966d2e7f48868511c36334b83f0eb5c3fbba54d4f3cad9194.json](<snapshots/config-bf40511c0f07841966d2e7f48868511c36334b83f0eb5c3fbba54d4f3cad9194.json>).
 
 Missing or ambiguous artifact and relationship links are called out below and in `tree.json` warnings. The recursive file inventory is in `catalog.json`; generated output is excluded.
 
@@ -53,8 +53,8 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - artifact: [research/campaign_2026-10-06/bandit_continuation/local/E511_C1V2_C0_EVALUATION_v1/report.json](<../../campaign_2026-10-06/bandit_continuation/local/E511_C1V2_C0_EVALUATION_v1/report.json>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/local/C1V2_C0_PAIRED_GRADER_SPEC.json](<../../campaign_2026-10-06/bandit_continuation/local/C1V2_C0_PAIRED_GRADER_SPEC.json>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_PUBLIC_RESULTS_20261007_V1.json](<../../campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_PUBLIC_RESULTS_20261007_V1.json>)
-- **Compress complementary teacher recipes into a GRU256 student pair** (`arm:heterogeneous-teacher-compression`) — partial_variants_tested_closest_endpoint_pending; eligible=True.
-  - **next_test:** First independently authored all-data seed9/99 strong parents with source-matched Muon geometry/scaling, C1000/boot8/distillation/EMA; analogous full/raw teacher stages; raw unnormalized0.8125 mixture and fixed equal student pair. Compare own baseline/allowed organizer baseline and normalization separately. Seeds54354/7753191 extend the endpoint after the pair, not a prerequisite.
+- **Compress complementary teacher recipes into a GRU256 student pair** (`arm:heterogeneous-teacher-compression`) — faithful_source_device_check_passed_realdata_stage_pending; eligible=True.
+  - **next_test:** Actual-data seed9strong-parent representative23-output/auxiliary/propensity profile, then separately admitted fit; independently trained family ladder and equal seed9/99 final endpoint. Synthetic one-step cannot admit fit or predictthroughput.
   - **claim_scope:** Own normalized single public0.6653 below incumbent0.6660; close all-data teacher/seed-specific-parent blended endpoint remains untested. No teammate reproduction or public forecast.
   - artifact: [research/campaign_2026-10-06/branch_teacher_audit/RECENT_OTHER_BRANCHES.md](<../../campaign_2026-10-06/branch_teacher_audit/RECENT_OTHER_BRANCHES.md>)
   - artifact: [research/campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/iterations/2026-10-05-wave20/public-result.json](<../../campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/iterations/2026-10-05-wave20/public-result.json>)
@@ -63,6 +63,8 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - artifact: [specs/adr/0023-faithful-method-reconstruction-before-variants.md](<../../../specs/adr/0023-faithful-method-reconstruction-before-variants.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/MAXIM_CURRENT_RECIPE_DIFFERENCES_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/reviews/MAXIM_CURRENT_RECIPE_DIFFERENCES_20261008_R1.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_NORMALIZED_PUBLIC_RESULT_20261008_R1.json](<../../campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_NORMALIZED_PUBLIC_RESULT_20261008_R1.json>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_MUON_PROFILE_ROOT_OBSERVED_TERMINAL_20261008_R1.json](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_MUON_PROFILE_ROOT_OBSERVED_TERMINAL_20261008_R1.json>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_MUON_ACTUAL_DEVICE_PROFILE_CONTRACT_V1_20261008.json](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_MUON_ACTUAL_DEVICE_PROFILE_CONTRACT_V1_20261008.json>)
   - **Replace a teacher family with a two-stream teacher** (`arm:two-stream-teacher-compression`) — not_tested; eligible=False.
     - **next_test:** Hold student recipe, seeds and mixture construction fixed; compare raw-only and causal two-stream teacher components. Test the compressed student pair before any additional inference teacher member.
     - **claim_scope:** Root implementation and paired comparison untested; external public gain is source-reported evidence, not our expected delta
@@ -816,7 +818,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | arm:teacher-convergence-context | Convergence-aware causal attention and event context | arm · not_tested | arm:causal-transformer-teacher | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:learnable-privileged-transfer | Transfer predictable teacher structure separately from future innovation | arm · not_tested | arm:privileged-transformer | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:complementarity-gated-blend | Independent student complementarity and causal blend gates | arm · not_tested | arm:seed-ensemble | [research/bandit_tree/config.json](<../config.json>) | — |
-| arm:heterogeneous-teacher-compression | Compress complementary teacher recipes into a GRU256 student pair | arm · partial_variants_tested_closest_endpoint_pending | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:heterogeneous-teacher-compression | Compress complementary teacher recipes into a GRU256 student pair | arm · faithful_source_device_check_passed_realdata_stage_pending | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:two-stream-teacher-compression | Replace a teacher family with a two-stream teacher | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:distilled-function-preserving-widening | Function-preserving widening of a distilled student | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:greedy-stationary-feature-cliques | Greedy Sparse Mean-Reverting Feature Cliques (per L11 group) | arm · not_tested | family:representation | [research/bandit_tree/config.json](<../config.json>) | — |
@@ -1812,6 +1814,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-H233-FIXED-E1-FIT-TERMINAL-20261008-R1 | Matched contextual readout four-head fit on frozen own C1 trunk | experiment · fit_complete_predictions_pending | arm:conditional-bilinear-readout | [research/experiments.jsonl](<../../experiments.jsonl#L627>) | — |
 | experiment:E-H233-EXPORT-R2-FALSE-GUARD-20261008-R1 | Export-only producer-checkpoint versus alias-file identity failure | experiment · execution_failure_corrected_source_successor_admitted | arm:conditional-bilinear-readout | [research/experiments.jsonl](<../../experiments.jsonl#L628>) | — |
 | experiment:E-H233-FIXED-READOUT-GRADE-20261008-R1 | Frozen-parent matched contextual readout four-head comparison | experiment · evaluated_exposed_discovery | arm:conditional-bilinear-readout | [research/experiments.jsonl](<../../experiments.jsonl#L629>) | — |
+| experiment:E-H230-FAITHFUL-MUON-DEVICE-PROFILE-20261008-R1 | Whole-matrix Muon device/numerics readiness | experiment · device_profile_passed_no_scientific_fit | arm:heterogeneous-teacher-compression | [research/experiments.jsonl](<../../experiments.jsonl#L630>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |

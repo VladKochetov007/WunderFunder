@@ -1,0 +1,209 @@
+{
+  "created_utc": "2026-10-08T09:38:36Z",
+  "durable_attempt": {
+    "attempt_id": "h230-faithful-muon-matrix-profile-v1-20261008",
+    "contract_sha256": "d3a14e700913ab00d2fa6a2648bc81bcdd951a74193f81aab9a976d8f5969ce5",
+    "controller_elapsed_seconds": 5.038915896991966,
+    "exit_status": 0,
+    "finished_utc": "2026-10-08T09:38:00.865589+00:00",
+    "launch_admission": {
+      "committed_cpu_cores": 0.0,
+      "committed_ram_reserve_bytes": 0,
+      "parent_memory_current_bytes": 10902069248,
+      "profile_ram_reserve_bytes": 1500000000,
+      "support_cpu_reservations": {
+        "wnn-codex-research-watch.service": 0.05,
+        "wnn-research-tree-web.service": 0.5,
+        "wnn-vast-e529-vast-h217-fullfeature-v5r2-20261008.service": 1.0
+      },
+      "support_cpu_reserve_cores": 1.55
+    },
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-faithful-muon-matrix-profile-v1-20261008.json",
+    "sha256": "43d86d3ac43da0d33d0004ea31ba160fc71abfe1130e97543f4d7e115b4b5736",
+    "source_map_sha256": "31ffc8d6c65a5f452920491275f120aec93d863b0e53dffea18cdacb3efb9aaa",
+    "started_utc": "2026-10-08T09:37:55.800466+00:00",
+    "status": "finished",
+    "systemd_exit_status": 0,
+    "systemd_result": "success",
+    "unit": "wnn-bandit-h230-faithful-muon-matrix-profile-v1-20261008.service"
+  },
+  "fit_authorized": false,
+  "interpretation": "One synthetic B16 x C1000 forward/backward/optimizer update passed on actual CUDA hardware. This is a dtype/geometry/numerics readiness check only: no supplied data, fit, full-training throughput estimate, checkpoint, prediction, or score.",
+  "next_phase": "Actual-data loader/profile and the seed-9 fit require a separate root-reviewed recipe, fresh resource admission and separate authorization.",
+  "oom_evidence": {
+    "attempt_cgroup_scope": "memory.events (includes worker descendants)",
+    "attempt_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "attempt_initial_events": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "final_worker_parent_local_and_hierarchical_deltas_all_zero": true,
+    "historical_hierarchical_ooms_not_attributed_to_this_attempt": true,
+    "parent_hierarchical_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_hierarchical_initial_events": {
+      "high": 194296,
+      "low": 0,
+      "max": 13620988,
+      "oom": 16,
+      "oom_group_kill": 0,
+      "oom_kill": 12,
+      "sock_throttled": 34
+    },
+    "parent_local_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_local_initial_events": {
+      "high": 1458,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_local_scope": "memory.events.local"
+  },
+  "profile_result": {
+    "allocator_cap_bytes": 4300000000,
+    "bytes": 2204,
+    "changed_parameter_tensors": 14,
+    "cuda_bf16_supported": true,
+    "device": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "device_capability": [
+      8,
+      6
+    ],
+    "device_total_vram_bytes": 6141509632,
+    "model": {
+      "batch_size": 16,
+      "chunk_rows": 1000,
+      "hidden": 256,
+      "layers": 2,
+      "model_input_width": 211,
+      "parameter_shapes": {
+        "gru.weight_hh_l0": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l1": [
+          768,
+          256
+        ],
+        "gru.weight_ih_l0": [
+          768,
+          256
+        ],
+        "gru.weight_ih_l1": [
+          768,
+          256
+        ],
+        "head.0.weight": [
+          256,
+          512
+        ]
+      },
+      "raw_feature_width": 112
+    },
+    "optimizer": {
+      "groups": [
+        {
+          "blocks": 1,
+          "lr_scale": 1.0,
+          "muon": false,
+          "orthogonalization_dtype": "not_applicable",
+          "parameter_count": 57344
+        },
+        {
+          "blocks": 1,
+          "lr_scale": 1.0,
+          "muon": false,
+          "orthogonalization_dtype": "not_applicable",
+          "parameter_count": 770
+        },
+        {
+          "blocks": 1,
+          "lr_scale": 3.0,
+          "muon": true,
+          "orthogonalization_dtype": "bfloat16",
+          "parameter_count": 786432
+        },
+        {
+          "blocks": 1,
+          "lr_scale": 3.0,
+          "muon": true,
+          "orthogonalization_dtype": "bfloat16",
+          "parameter_count": 131072
+        }
+      ],
+      "muon_gatewise": "none",
+      "muon_lr_multiplier": 3.0,
+      "muon_momentum": 0.95,
+      "muon_scope": "hidden"
+    },
+    "orthogonalization_policy": "native_bf16_if_supported_else_fp32_v1",
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_MUON_DEVICE_PROFILE_ATTEMPT1_RESULT_V1_20261008.json",
+    "profile_compute_seconds": 0.46601402599480934,
+    "profile_pid": 852051,
+    "seed": 9,
+    "selected_orthogonalization_dtype": "bfloat16",
+    "sha256": "e9d91d1bec9da62dbc51ba41d643b7ba886e9b79a7ccfeb4f938bd2f2aa8ef48",
+    "status": "passed",
+    "torch_cuda_allocated_peak_bytes": 535250432,
+    "torch_cuda_reserved_peak_bytes": 610271232
+  },
+  "receipt_id": "H230_MUON_ACTUAL_DEVICE_PROFILE_TERMINAL_RECEIPT_V1_20261008",
+  "resources": {
+    "controller_sampled_observed_vram_peak_bytes": 79691776,
+    "cuda_allocator_admission_bytes": 4300000000,
+    "external_vram_sampling_limit": "Controller sampling interval exceeded the 0.466-second CUDA allocation window; 79,691,776 bytes is the sampled peak, not an observed allocation maximum. Use the profile runner CUDA allocator peak for transient tensor memory and do not report this external sample as peak device usage.",
+    "observed_vram_hard_ceiling_bytes": 5000000000,
+    "parent_memory_at_launch_bytes": 10902069248,
+    "parent_peak_memory_bytes": 10928259072,
+    "worker_cpu_cores": 1,
+    "worker_memory_reserve_bytes": 1500000000,
+    "worker_peak_ram_bytes": 1151193088
+  },
+  "root_authorization": {
+    "contract_sha256": "d3a14e700913ab00d2fa6a2648bc81bcdd951a74193f81aab9a976d8f5969ce5",
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_MUON_PROFILE_ROOT_AUTHORIZATION_20261008_R1.json",
+    "sha256": "f4da5ba15c586986f395c69df35f602b5cbfab0172c5f02444dbf846cbb65631",
+    "status": "approved_conditional_on_fresh_durable_admission"
+  },
+  "schema": "h230-muon-actual-device-profile-terminal-receipt-v1",
+  "source": {
+    "checks_receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_FAITHFUL_MUON_SOURCE_CHECKS_V1_20261008.json",
+    "checks_receipt_sha256": "b81a12c31db765d7558efb15c8dc5a0fa9294469b0da567e83e066e21e8c9efa",
+    "manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_FAITHFUL_MUON_SOURCE_MANIFEST_V4_20261008.json",
+    "manifest_sha256": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+    "member_count": 57,
+    "member_hash_mismatches": []
+  },
+  "status": "passed_synthetic_actual_device_profile_only"
+}

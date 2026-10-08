@@ -1,0 +1,97 @@
+{
+  "allocator_cap_bytes": 4300000000,
+  "changed_parameter_tensors": 14,
+  "device": "NVIDIA GeForce RTX 3060 Laptop GPU",
+  "device_capability": [
+    8,
+    6
+  ],
+  "device_total_vram_bytes": 6141509632,
+  "elapsed_seconds": 0.46601402599480934,
+  "loss": 0.007407916709780693,
+  "model": {
+    "batch_size": 16,
+    "chunk_rows": 1000,
+    "hidden": 256,
+    "layers": 2,
+    "model_input_width": 211,
+    "parameter_shapes": {
+      "gru.weight_hh_l0": [
+        768,
+        256
+      ],
+      "gru.weight_hh_l1": [
+        768,
+        256
+      ],
+      "gru.weight_ih_l0": [
+        768,
+        256
+      ],
+      "gru.weight_ih_l1": [
+        768,
+        256
+      ],
+      "head.0.weight": [
+        256,
+        512
+      ]
+    },
+    "raw_feature_width": 112
+  },
+  "optimizer": {
+    "groups": [
+      {
+        "blocks": 1,
+        "lr_scale": 1.0,
+        "muon": false,
+        "orthogonalization_dtype": "not_applicable",
+        "parameter_count": 57344
+      },
+      {
+        "blocks": 1,
+        "lr_scale": 1.0,
+        "muon": false,
+        "orthogonalization_dtype": "not_applicable",
+        "parameter_count": 770
+      },
+      {
+        "blocks": 1,
+        "lr_scale": 3.0,
+        "muon": true,
+        "orthogonalization_dtype": "bfloat16",
+        "parameter_count": 786432
+      },
+      {
+        "blocks": 1,
+        "lr_scale": 3.0,
+        "muon": true,
+        "orthogonalization_dtype": "bfloat16",
+        "parameter_count": 131072
+      }
+    ],
+    "muon_gatewise": "none",
+    "muon_lr_multiplier": 3.0,
+    "muon_momentum": 0.95,
+    "muon_scope": "hidden"
+  },
+  "profile_pid": 852051,
+  "runtime_policy": {
+    "cuda_bf16_supported": true,
+    "device_capability": [
+      8,
+      6
+    ],
+    "device_type": "cuda",
+    "policy": "native_bf16_if_supported_else_fp32_v1",
+    "selected_dtype": "bfloat16",
+    "torch_cuda_version": "13.0",
+    "torch_version": "2.14.0+cu130"
+  },
+  "schema": "h230-muon-actual-device-profile-result-v1",
+  "scope": "one synthetic full-shape optimizer update; no data, fit, checkpoint, prediction, or score",
+  "seed": 9,
+  "status": "passed",
+  "vram_peak_bytes": 535250432,
+  "vram_reserved_peak_bytes": 610271232
+}
