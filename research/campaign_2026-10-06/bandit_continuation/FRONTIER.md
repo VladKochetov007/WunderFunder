@@ -1,3 +1,13 @@
+## Live delivery frontier — 2026-10-08 10:36 UTC
+
+H272 direct-label readout fit completed successfully in 1941.25s:29,840 updates, no skipped updates or new OOM/kill, fixedepoch1 checkpoint528f2713…543d3. Root independently verified16 unchanged parent tensors and24 finite readout tensors. Export is admitted under1CPU/4GB/1800s, grading follows actual export closure; no quality or expected-public improvement claimed yet. [Fit review](continuous_execution_E529/reviews/H272_ROOT_FIXED_EP1_TERMINAL_REVIEW_20261008_R1.json).
+
+Faithful seed9 Muon parent actual-data local profile passed; private 2.001GB main-teacher cache is ready and its remote manifest verified. V3 cloud packet will profile the actual device and start a fresh full fit only if its gates pass; no profile-trained weights may carry into the full fit. This remains an approximate first strong-parent stage, not the completed teacher/student blend reconstruction.
+
+CapacityV3 Kaggle job reached ERROR before any profiling: input-receipt consumer raised KeyError `bytes`. Operator owns terminal download, exact schema diagnosis and a corrected identified packet. No negative scientific inference. TPUV6 still awaits actual provider terminal/reload evidence. [Successor queueR7](runtime/ACCELERATOR_SUCCESSOR_QUEUE_20261008_R7.json).
+
+“New best” means an expected stronger candidate, separate from verified public0.6660. No new expected best is established by these profiles or the not-yet-graded H272fit. All previous snapshots below remain historical.
+
 ## Faithful reconstruction and optimizer exploration — 2026-10-08 08:46 UTC
 
 Latest user priority is complete independently implemented teacher/parent/students-and-blend method, not a single compatible student. Seed9/99 strong parents target source-matched Muon, C1000/boot8/distillation/EMA; later54354/7753191 extend the blend. Final reference student AdamW+OneCycle is separate from Muon parent training. Whole-matrix versus own per-gate geometry and optimizer BF16/device compatibility are explicit treatments. [ADR0023](../../../specs/adr/0023-faithful-method-reconstruction-before-variants.md). No new close-recipe fit claimed yet.

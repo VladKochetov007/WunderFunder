@@ -43,3 +43,14 @@ H272 actualprofile completed10.09s/10updates/40finiteheadlossgradientchecks/0ski
 Status terminology (latest user clarification): “new best” refers to an expected stronger candidate before human browser upload. Report expected-candidate assessment separately from verified public0.6660; current newprofiles/runningfits have noqualitygrade yet, so no expectedbestincrease from them.
 
 CapacityV3private sourceuploaded and15remote files hashverified; one push succeededversion1. Providerresolved title-derived canonical `vladkochetov07/gru512-768-muon-v3-profile-only`; originallyrequested metadataid retained in canonical receipt. ObservedQUEUED10:15:06Z, noworkerstdout/fit yet. OperatorE540ownscollection and6000squota hold. Long-path localupload failedNAME_MAX beforeAPIcreate; samebytes shortstaging repair succeeded, no duplicatepush. H230 cloudV3profile-gated parent successor and separate2.001GBmain-cache upload review are in preparation, rawdata/target/propensityassets alreadymounted; no newVast rental while packetunready.
+
+## Live delivery frontier — 2026-10-08 10:36 UTC
+
+H272 direct-label readout fit completed successfully in 1941.25s:29,840 updates, no skipped updates or new OOM/kill, fixedepoch1 checkpoint528f2713…543d3. Root independently verified16 unchanged parent tensors and24 finite readout tensors. Export is admitted under1CPU/4GB/1800s, grading follows actual export closure; no quality or expected-public improvement claimed yet. [Fit review](../research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/reviews/H272_ROOT_FIXED_EP1_TERMINAL_REVIEW_20261008_R1.json).
+
+Faithful seed9 Muon parent actual-data local profile passed; private 2.001GB main-teacher cache is ready and its remote manifest verified. V3 cloud packet will profile the actual device and start a fresh full fit only if its gates pass; no profile-trained weights may carry into the full fit. This remains an approximate first strong-parent stage, not the completed teacher/student blend reconstruction.
+
+CapacityV3 Kaggle job reached ERROR before any profiling: input-receipt consumer raised KeyError `bytes`. Operator owns terminal download, exact schema diagnosis and a corrected identified packet. No negative scientific inference. TPUV6 still awaits actual provider terminal/reload evidence. [Successor queueR7](../research/campaign_2026-10-06/bandit_continuation/runtime/ACCELERATOR_SUCCESSOR_QUEUE_20261008_R7.json).
+
+“New best” means an expected stronger candidate, separate from verified public0.6660. No new expected best is established by these profiles or the not-yet-graded H272fit. All previous snapshots below remain historical.
+
