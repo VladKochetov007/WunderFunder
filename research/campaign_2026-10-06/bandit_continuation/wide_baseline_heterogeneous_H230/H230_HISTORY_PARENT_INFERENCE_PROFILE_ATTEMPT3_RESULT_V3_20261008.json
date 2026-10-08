@@ -1,0 +1,156 @@
+{
+  "schema": "h230-history-parent-inference-profile-result-v1",
+  "status": "profile_complete_no_export_no_fit",
+  "contract_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_PARENT_INFERENCE_PROFILE_AND_PHASE_SEQUENCE_V3_20261008.json",
+  "contract_sha256": "d3b6641b01984e8f6bdfdc54fda9222ec8a5a27fc171545d2c5d73dc094a2d70",
+  "profile_runner_sha256": "ab2d1952cd8a0e02d005f805795215b449373a51ce671ffdcd95349649f3361a",
+  "observed_utc": "2026-10-08T05:52:07Z",
+  "source_closure": {
+    "manifest_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_HISTORY_SWAP_SOURCE_MANIFEST_V1_20261008.json",
+    "manifest_sha256": "01aa939ddb95f91b24859ddf324a66188a3254c11691cd39b40ce77865b3b2f2",
+    "source_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_history_swap",
+    "verified_file_count": 59
+  },
+  "parent": {
+    "review_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_HISTORY_SWAP_ROOT_SOURCE_REVIEW_20261008_R1.json",
+    "review_sha256": "3c4ea40cc53f8c05a47998e33932b6284716bc36e8c6659902a35c0b73615b6c",
+    "recipe_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_SWAP_SEED3_SOURCE_CACHE_RECIPE_V1_20261008.json",
+    "recipe_sha256": "6d9d11f3116ebf61a2bc615e498d669ef4d6c080b588a2691752dc3f617cd8d1",
+    "run": "bd26_h230_all_data_parent_b16_ep3_retry3_v1",
+    "attempt_id": "h230-all-data-parent-fit-b16-ep3-retry3-v1-20261008",
+    "terminal_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-all-data-parent-fit-b16-ep3-retry3-v1-20261008.json",
+    "terminal_sha256": "29baa03564f124712bd596f4132288492d549073a7acc4c9adea655c7384a216",
+    "fit_contract_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_FIT_RETRY3_CONTRACT_V1_20261008.json",
+    "fit_contract_sha256": "2d98c38c18c143175e286fcff56911aecf6516871776b9945f102e6169bb915b",
+    "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_all_data_parent_b16_ep3_retry3_v1/provenance.json",
+    "provenance_sha256": "3becd92c4775098cf16b9005cf6c45361bbe776eb5601a6ebe89faa8605e22dd",
+    "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_all_data_parent_b16_ep3_retry3_v1/model_ep3.pt",
+    "checkpoint_sha256": "478773bd3d0754d261f8f3c9d46a135d56c3596c269d2a856b760caef05b93c7",
+    "checkpoint_epoch_zero_based": 3
+  },
+  "device": {
+    "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "total_memory_bytes": 6141509632,
+    "free_memory_bytes_before_profile": 5893914624,
+    "peak_allocated_bytes": 724847104,
+    "peak_reserved_bytes": 1065353216
+  },
+  "feature_widths": {
+    "raw_sequencefile_width": 112,
+    "event_features_from_sealed_trainer": 99,
+    "derived_model_input_width": 211,
+    "checkpoint_n_in": 211
+  },
+  "profile": {
+    "model_setup_and_preflight_seconds_excluded": true,
+    "total_profile_seconds": 7.993605554001988,
+    "splits": [
+      {
+        "split": "train",
+        "dataset_identity_stat_only": {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/train.parquet",
+          "bytes": 29240219011,
+          "mtime_ns": 1577826000000000000
+        },
+        "target_index_identity": {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/train_targets.npz",
+          "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+          "bytes": 1909335790,
+          "mtime_ns": 1790380544698167443
+        },
+        "target_index_group_count": 10606,
+        "sampled_groups": 64,
+        "sampled_row_groups_sha256": "7a4644928f3a08db905254fd7e5e53ef19a46d932a2ecd372b45462413a82619",
+        "batch_size": 16,
+        "chunk_rows": 4000,
+        "raw_feature_width_from_sealed_data_module": 112,
+        "model_input_width_after_sealed_preprocessing": 211,
+        "raw_feature_shape_per_batch": [
+          16,
+          20000,
+          112
+        ],
+        "model_input_shape_per_sequence": [
+          20000,
+          211
+        ],
+        "warmup_batches": 1,
+        "timed_batches": 3,
+        "timed_sequences": 48,
+        "timed_batch_wall_seconds": [
+          0.34164660799433477,
+          0.34138670600077603,
+          0.34161580400541425
+        ],
+        "timed_sequence_per_second": 46.8453045601269,
+        "timed_prediction_sha256": "3eff587d03c472c1d23ca28e933c695da3ff7e76715e348774932f4ca255f42a",
+        "prediction_dtype": "float32",
+        "prediction_shape_per_batch": [
+          16,
+          20000,
+          2
+        ],
+        "features_only": true,
+        "labels_or_masks_read": false,
+        "prediction_arrays_persisted": false
+      },
+      {
+        "split": "valid",
+        "dataset_identity_stat_only": {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+          "bytes": 5615509128,
+          "mtime_ns": 1577826000000000000
+        },
+        "target_index_identity": {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_targets.npz",
+          "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+          "bytes": 337186198,
+          "mtime_ns": 1790289582906701329
+        },
+        "target_index_group_count": 1873,
+        "sampled_groups": 64,
+        "sampled_row_groups_sha256": "7a4644928f3a08db905254fd7e5e53ef19a46d932a2ecd372b45462413a82619",
+        "batch_size": 16,
+        "chunk_rows": 4000,
+        "raw_feature_width_from_sealed_data_module": 112,
+        "model_input_width_after_sealed_preprocessing": 211,
+        "raw_feature_shape_per_batch": [
+          16,
+          20000,
+          112
+        ],
+        "model_input_shape_per_sequence": [
+          20000,
+          211
+        ],
+        "warmup_batches": 1,
+        "timed_batches": 3,
+        "timed_sequences": 48,
+        "timed_batch_wall_seconds": [
+          0.34235696999530774,
+          0.34281575099157635,
+          0.3453354980010772
+        ],
+        "timed_sequence_per_second": 46.578958921006674,
+        "timed_prediction_sha256": "58c6407c33d8fb47de95229cb553debf987bd3a9856ea83de7719f04cc8995aa",
+        "prediction_dtype": "float32",
+        "prediction_shape_per_batch": [
+          16,
+          20000,
+          2
+        ],
+        "features_only": true,
+        "labels_or_masks_read": false,
+        "prediction_arrays_persisted": false
+      }
+    ],
+    "prediction_state_reset": "each predict() call starts a fresh state; state spans only 4000-row chunks in that sequence",
+    "no_training_or_optimizer_step": true,
+    "no_targets_or_masks_read": true,
+    "no_prediction_arrays_written": true,
+    "no_cache_mutation": true,
+    "full_dataset_export_estimate": null
+  },
+  "process_max_rss_platform_units": 2397472,
+  "phase_boundary": "This profile is execution evidence only; each full split export, CPU cache build, and student fit requires a fresh phase admission."
+}
