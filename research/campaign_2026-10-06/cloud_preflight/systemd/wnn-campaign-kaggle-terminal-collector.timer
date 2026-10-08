@@ -1,0 +1,11 @@
+[Unit]
+Description=Schedule bounded terminal collection for smoke4 and TPUv7
+
+[Timer]
+OnBootSec=300s
+OnUnitInactiveSec=300s
+AccuracySec=10s
+Unit=wnn-campaign-kaggle-terminal-collector.service
+
+[Install]
+WantedBy=timers.target
