@@ -1,0 +1,37 @@
+[{"stream_name":"stdout","time":1.278093452,"data":"GRU_CAPACITY_PHASE {\"arm\": \"cohort\", \"elapsed_s\": 0.0, \"phase\": \"bootstrap\", \"status\": \"running\"}\n"}
+,{"stream_name":"stdout","time":1.286995198,"data":"GRU_CAPACITY_PHASE {\"arm\": \"cohort\", \"elapsed_s\": 0.0, \"phase\": \"source_verify\", \"status\": \"running\"}\n"}
+,{"stream_name":"stdout","time":19.905818717,"data":"GRU_CAPACITY_PHASE {\"arm\": \"cohort\", \"elapsed_s\": 18.6, \"phase\": \"input_mount\", \"status\": \"pass\"}\n"}
+,{"stream_name":"stdout","time":40.056293806,"data":"GRU_CAPACITY_PHASE {\"arm\": \"muon512\", \"elapsed_s\": 38.8, \"phase\": \"profile\", \"remaining_s\": 5161.2, \"status\": \"running\"}\n"}
+,{"stream_name":"stdout","time":60.373432044,"data":"GRU_CAPACITY_PHASE {\"arm\": \"muon512\", \"elapsed_s\": 59.1, \"phase\": \"profile\", \"remaining_s\": 5140.9, \"status\": \"running\"}\n"}
+,{"stream_name":"stdout","time":80.393906461,"data":"GRU_CAPACITY_PHASE {\"arm\": \"muon512\", \"elapsed_s\": 79.1, \"phase\": \"profile\", \"remaining_s\": 5120.9, \"status\": \"running\"}\n"}
+,{"stream_name":"stdout","time":90.490820394,"data":"GRU_CAPACITY_PHASE {\"arm\": \"muon512\", \"elapsed_s\": 89.2, \"phase\": \"profile\", \"status\": \"running\", \"step_wall_ms\": 1845.01}\n"}
+,{"stream_name":"stdout","time":90.492439543,"data":"GRU_CAPACITY_PHASE {\"amp_skips\": 0, \"arm\": \"muon512\", \"completed_updates\": 230, \"elapsed_s\": 89.2, \"optimizer_attempts\": 230, \"phase\": \"profile_gate\", \"status\": \"pass\"}\n"}
+,{"stream_name":"stdout","time":115.718493566,"data":"GRU_CAPACITY_PHASE {\"arm\": \"muon768\", \"elapsed_s\": 114.4, \"phase\": \"profile\", \"remaining_s\": 5085.6, \"status\": \"running\"}\n"}
+,{"stream_name":"stdout","time":135.740026268,"data":"GRU_CAPACITY_PHASE {\"arm\": \"muon768\", \"elapsed_s\": 134.5, \"phase\": \"profile\", \"remaining_s\": 5065.5, \"status\": \"running\"}\n"}
+,{"stream_name":"stdout","time":155.762266238,"data":"GRU_CAPACITY_PHASE {\"arm\": \"muon768\", \"elapsed_s\": 154.5, \"phase\": \"profile\", \"remaining_s\": 5045.5, \"status\": \"running\"}\n"}
+,{"stream_name":"stdout","time":174.180274239,"data":"GRU_CAPACITY_PHASE {\"arm\": \"muon768\", \"elapsed_s\": 172.9, \"phase\": \"profile\", \"status\": \"running\", \"step_wall_ms\": 2861.57}\n"}
+,{"stream_name":"stdout","time":174.181443284,"data":"GRU_CAPACITY_PHASE {\"amp_skips\": 0, \"arm\": \"muon768\", \"completed_updates\": 230, \"elapsed_s\": 172.9, \"optimizer_attempts\": 230, \"phase\": \"profile_gate\", \"status\": \"pass\"}\n"}
+,{"stream_name":"stdout","time":176.441442554,"data":"GRU_CAPACITY_PHASE {\"arm\": \"muon768\", \"elapsed_s\": 175.2, \"phase\": \"profile\", \"remaining_s\": 5024.8, \"status\": \"running\"}\n"}
+,{"stream_name":"stdout","time":176.442673563,"data":"GRU_CAPACITY_PHASE {\"arm\": \"cohort\", \"elapsed_s\": 175.2, \"phase\": \"terminal\", \"status\": \"fail\"}\n"}
+,{"stream_name":"stderr","time":176.445390361,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":176.446805318,"data":"  File \"/kaggle/src/script.py\", line 124, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":176.446823425,"data":"    main()\n"}
+,{"stream_name":"stderr","time":176.446828212,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":176.446832586,"data":"  File \"/kaggle/src/script.py\", line 114, in main\n"}
+,{"stream_name":"stderr","time":176.446836993,"data":"    receipt = worker.run(packet_root)\n"}
+,{"stream_name":"stderr","time":176.446841558,"data":"  File \"/kaggle/working/gru512_768_muon_capacity_v4_manifest_profile_packet/capacity_worker.py\", line 1679, in run\n"}
+,{"stream_name":"stderr","time":176.44684594,"data":"    _evaluate_batch_profiles(profiles, arms_at_batch, hardware)\n"}
+,{"stream_name":"stderr","time":176.44685,"data":"    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":176.446892565,"data":"  File \"/kaggle/working/gru512_768_muon_capacity_v4_manifest_profile_packet/capacity_worker.py\", line 1469, in _evaluate_batch_profiles\n"}
+,{"stream_name":"stderr","time":176.446897372,"data":"    _validate_precision_policy(arm, profiles[str(arm[\"id\"])], hardware)\n"}
+,{"stream_name":"stderr","time":176.44690116,"data":"    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":176.446905065,"data":"  File \"/kaggle/working/gru512_768_muon_capacity_v4_manifest_profile_packet/capacity_worker.py\", line 859, in _validate_precision_policy\n"}
+,{"stream_name":"stderr","time":176.446908821,"data":"    raise ValueError(\"Muon resolved dtype disagrees with the current device policy\")\n"}
+,{"stream_name":"stderr","time":176.446912706,"data":"ValueError: Muon resolved dtype disagrees with the current device policy\n"}
+,{"stream_name":"stderr","time":178.783991706,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":178.7840225,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":179.069000062,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":179.069032571,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":179.986649957,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":181.12820457,"data":"[NbConvertApp] Writing 298417 bytes to __results__.html\n"}
+]

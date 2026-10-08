@@ -1,0 +1,11 @@
+# GRU512/768 Muon capacity fit V5R2
+
+V5R2 preserves the V5R1 scientific recipe and reuses both completed V4 B8 profiles; it does not repeat profiles. It fits fresh seed-9, clean-fold Muon GRU512/768 models for four epochs with fixed epoch 3, FP16 autocast and GradScaler scale 4096, then exports FP32 feature-only predictions for the frozen 468 evaluation groups. The worker does not score predictions. The V4 profiles completed 230 updates each with zero skips; V4 did not fit because its post-profile consumer read the wrong precision metadata nesting.
+
+V5R1 verified all six mounted inputs by full streaming hash in 390.463 seconds. Immediately before worker admission, the measured 30 GiB host had 4.225 GB available. After the 20% operational reserve, the runner's available worker budget was -2.218 GB; its unchanged 8 GiB-per-worker gate therefore rejected before launching either arm. V5R2 records that failure in `producer_evidence/v5r1/repair_evidence_manifest.json`.
+
+V5R2 advises the kernel to drop only already-read, 64 MiB, page-aligned windows from the same six exact mounted regular files during a full-hash fallback, with progress receipts every 1 GiB. `POSIX_FADV_DONTNEED` is a hint; the worker makes no eviction or page-cache-hit claim. It then records cgroup current/maximum/available and system available memory in the actual runner inventory. The existing RAM reservation gate is unchanged and still rejects insufficient headroom before either worker starts. Inputs remain mounted and read-only; no 37 GB raw copy is made.
+
+The two independent arms each receive two CPU threads and a distinct physical T4 UUID. Shared-host fit timing is uncertain because prior profiles used four CPU threads per arm; actual per-arm progress and terminal output are required. The pair has no silent batch or single-arm fallback.
+
+This is a clean-fold capacity screen, not an all-data teacher-family replication or a public forecast. Valid local/cloud cross-validation is the primary selection evidence; public evaluation is confirmation, and a public mismatch alone does not automatically kill a direction. No fit is authorized until root embeds an independent source review and exact conditional-fit receipt.
