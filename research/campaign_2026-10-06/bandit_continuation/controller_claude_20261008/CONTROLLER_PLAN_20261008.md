@@ -47,3 +47,13 @@ Compute lanes:
 | Faithful seed9/99 Muon parents → students → pair | local | seed99 parent done; seed9 running | Muon fold0 +0.0030 vs control (muonfull_report) | students after seed9 |
 | Served-head GCorr on parent | local | graded +0.00083 vs parent (exposed fold0) | H272_S4 grade | fold for packaging later |
 | Warm screen queue | Kaggle/Vast/local | design | — | builder task |
+
+## Update 18:25 UTC — after host OOM session crash
+
+- Crash cause: subagent python (15.8 GB) outside the campaign slice → global OOM (HOST_OOM_SESSION_CRASH_20261008_R1.json). Rules: AGENT_RESOURCE_RULES.md (mandatory in every prompt). seed9 fit (systemd) unaffected.
+- Vast holds all settled: committed $1.79 (2 no-instance attempts $0, 5 destroyed at billed actuals). Credit $17.89 is the binding bound.
+- TPU V6 ran 17:53Z and failed in 2.4 s: "fold-0 assets file inventory differs from the reviewed 24-file bundle" (host 224 vCPU / 400 GB). Outputs in continuous_execution_E529/E463_TPU_V6_TERMINAL_OUTPUTS_20261008_R1/. Repair = low priority.
+- New tools: scripts/score_fold0_panel.py (reproduces E511 C1 grades exactly), scripts/make_cohort_specs.py, cohort arms COHORT1_FOLD0_STUDENT_ARMS.json (A00 = never-run C3 analogue; 13 one-flag arms).
+- Local lane: durable unit wnn-chain-after-seed9-v1-20261008 → after seed9 parent, reclaim file cache and launch guarded warm queue worker (attempt warm-queue-local-v1-20261008, 2 CPU / 9 GB / 6 h). Queue: faithful students seed99 (p10), seed9 (p11), then A00 s3 (p21), A01 s4 (p22), A04 s3 (p23). Profiles: student 9.0e9 peak; C1 fold0 fit 8.0e9; predict 4.0e9.
+- Agents: blend-lab-2 (marimo H-274..276), kaggle-cohort-2 (warm 2×T4 kernel, smoke first), vast-cohort-2 (warm rental admission request).
+- Maxim comparison: not comparable yet (his final models all-data; no fold0 panel run of his recipe). A00 vs C1 (0.6816181) is the first matched measurement.
