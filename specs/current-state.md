@@ -73,3 +73,6 @@ The latest user prioritizes runnable experiments while preferred recipes are pre
 H272 seed4 source and actual compiled native extension passed an independent20-test check with no skips. Its exact next-free local profile command is integrated, conditionally authorized and assigned to H232; current seed99 fit and priority export must finish first. No follow-up fit or serving package has been claimed.
 
 Vast seed54354 V3 had a real NPY-header consumer bug, reproduced before spending. Corrected V4 passes ten focused real-producer tests and exact archive/source/input transport review. Signed Kaggle prefetch stages34.856GB raw inputs directly on the rented worker; only4.249GB remains for SSH. Fresh CUDA13-capable3090 offers and complete all-in quote/launch admission are being prepared; no new paid worker is yet proven. Missing all-data teacher families remain separately queued and do not block this ready strong-parent fallback. No supported new expected-public best is established.
+
+
+History-swap ZIP submission is now user-reported submitted, awaiting the user’s public score; submission ID and score remain unknown. [User-report receipt](../research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_HISTORY_SWAP_USER_SUBMITTED_20261008_R1.json). No new public result or expected-best claim follows from submission alone.
