@@ -1,0 +1,104 @@
+{
+  "schema": "h232-export-asset-transport-verification-v1",
+  "recorded_utc": "2026-10-08T05:12:34Z",
+  "status": "private_asset_verified_kernel_pending_root_review",
+  "authority": {
+    "private_asset_create_authorized": true,
+    "kernel_push_authorized": false,
+    "fit_profile_and_scoring_enabled": false
+  },
+  "prior_failure_preservation": {
+    "r2_and_r3_failure_receipts_preserved": true,
+    "r3_provider_failure_receipt": "H232_EP3_EXPORT_PROVIDER_PUSH_20261008_R2.json",
+    "r3_failure_body_was_not_captured": true,
+    "source_limit_is_a_hypothesis_not_a_confirmed_provider_diagnosis": true
+  },
+  "r3_source_measurement": {
+    "kernel_source_bytes": 11875142,
+    "kernel_source_sha256": "a307809730010f04766cfa8c9f18923ad7df6809bd7c14ddc4c2745db2f4b1ee"
+  },
+  "kernel_candidate": {
+    "kernel_id": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r4-asset",
+    "kernel_title": "H232 GRU384 V7B EP3 Export 20261008 R4 Asset",
+    "kernel_source_bytes": 9227,
+    "kernel_source_sha256": "9a3451b800a5f67c73b62a7955f2c20d6e016b96c650670c558d42680b31f540",
+    "metadata_sha256": "9fecbd0735d9a21a04a23fa1bd6281cec8acb26c1ed333f5d009cb8d4b2f060c",
+    "kernel_inventory_before_push": "Not found",
+    "kernel_push_attempted": false,
+    "kernel_source_path": "kernel_packet_r4_v6/kernel.py",
+    "kernel_metadata_path": "kernel_packet_r4_v6/kernel-metadata.json"
+  },
+  "private_asset": {
+    "dataset_id": "vladkochetov07/h232-v7b-ep3-payload-b9e14e8509df",
+    "dataset_version": 1,
+    "dataset_source_pin": "vladkochetov07/h232-v7b-ep3-payload-b9e14e8509df/1",
+    "dataset_status": "ready",
+    "dataset_is_private": true,
+    "dataset_last_updated_utc": "2026-10-08T05:09:40.307Z",
+    "asset_files_observed_utc": "2026-10-08T05:09:45.776Z",
+    "no_additional_dataset_version_created": true,
+    "dataset_files": [
+      {
+        "name": "assets-manifest.json",
+        "bytes": 358,
+        "sha256": "d777e41460190e1355f8d5e48a41ee78c2a15fd538bc3c4768c505371ffb0578"
+      },
+      {
+        "name": "b9e14e8509dff6abc18f4e3aaffe4af031d78883e91fb98f28fb4a845ed1490e.wnn",
+        "bytes": 8321018,
+        "sha256": "b9e14e8509dff6abc18f4e3aaffe4af031d78883e91fb98f28fb4a845ed1490e"
+      }
+    ],
+    "remote_download_hashes_match": true
+  },
+  "frozen_payload": {
+    "zip_bytes": 8321018,
+    "zip_sha256": "b9e14e8509dff6abc18f4e3aaffe4af031d78883e91fb98f28fb4a845ed1490e",
+    "member_count": 17,
+    "checkpoint_sha256": "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829",
+    "source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+    "root_source_review_sha256": "732518cafe3dcb6db81f319252dce7310bb67f6872671f41589b46c9b93ae47a",
+    "worker_science_profile_and_checkpoint_changed": false
+  },
+  "build_receipt": {
+    "path": "H232_V7B_EP3_ASSET_TRANSPORT_R4_BUILD_RECEIPT_R6.json",
+    "sha256": "f7b38aab460b8441b9e8767a3d07f95563e39ebc1c367019e665a6ea48d9816e",
+    "parent_r3_receipt_sha256": "088d84ee349024105521872aec54dbfe79c5316cb38a71b4b6828d195982fa9b"
+  },
+  "checks": {
+    "unit_tests": {
+      "command": "scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m unittest discover -s research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_only_20261008/asset_transport_r4 -p 'test_*.py' -v",
+      "passed": 5,
+      "failed": 0,
+      "covered": [
+        "nested fake Kaggle mount discovery and manifest verification",
+        "modified asset bytes fail closed",
+        "all expected payload members hash before worker use",
+        "unsafe ZIP paths are rejected and extraction is cleaned",
+        "built packet pins asset version and stays below source limit"
+      ]
+    },
+    "ruff_format_check": "passed",
+    "ruff_check": "passed",
+    "git_diff_check": "passed",
+    "resource_limits": {
+      "cpu_quota": "1 CPU",
+      "memory_max_bytes": 1500000000,
+      "runtime_max": "120 seconds"
+    }
+  },
+  "implementation_sha256": {
+    "build_asset_transport_packet.py": "b2a778837b86ea8c1096f3615f22aa68825938d346ec32840911c0196230704c",
+    "h232_export_asset_bootstrap.py": "2dc4f6e8556e1115783e57b659c9314d6fa33042f61658484b5d3626489f8e2d",
+    "test_asset_bootstrap.py": "c98d70fa0f8216f9fe57567454c99be89a073873dff20dde0ae4dcbeb08d7df5"
+  },
+  "remote_verification": {
+    "downloaded_payload_bytes": 8321018,
+    "downloaded_payload_sha256": "b9e14e8509dff6abc18f4e3aaffe4af031d78883e91fb98f28fb4a845ed1490e",
+    "downloaded_manifest_bytes": 358,
+    "downloaded_manifest_sha256": "d777e41460190e1355f8d5e48a41ee78c2a15fd538bc3c4768c505371ffb0578",
+    "provider_cli": "Kaggle CLI datasets status/files/download; no kernel push",
+    "asset_uploaded_once": true,
+    "kernel_push_attempted": false
+  }
+}
