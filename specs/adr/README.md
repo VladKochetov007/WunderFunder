@@ -38,3 +38,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0023: faithful method reconstruction before variants](0023-faithful-method-reconstruction-before-variants.md): reproduce teacher training, seed-specific parents and student blends with independent code; make optimizer, baseline, normalization and schedule deviations explicit comparisons.
 
 - [ADR0024: AMP adaptation and empirical result delivery](0024-amp-adaptation-and-result-delivery.md): preserve legitimate skipped-update evidence and finite artifacts instead of a universal zero-skip rejection gate.
+
+- [ADR0025: bounded Sol continuation delivery](0025-sol-continuation-delivery.md): one authorized Sol lead, independent Luna verification, exact Z3 comparisons, serialized support, and signed-input capacity cohort with capped staging/spend.

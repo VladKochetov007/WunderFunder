@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "authorized_by": "root_controller",
+  "created_utc": "2026-10-08T19:33:32Z",
+  "decision": "admit_exact_two_private_cpu_mount_probes_once_each",
+  "operator": "runner_kaggle_builder",
+  "code_sha256": "3319f7360b5e885cc730b04ce4c8fb6fc0c99d0c77415d833d0db8bfdcd66760",
+  "packets": [
+    {
+      "slug": "vladkochetov07/wnn-warm-cohort-probe-raw-20261008-v1",
+      "metadata_sha256": "1f1c19321a8a132ea6f57741b4aa36cfab3189bfb9d906d4b48a09f12c74bd75",
+      "dataset_sources": ["vladkochetov07/wunder-funder"]
+    },
+    {
+      "slug": "vladkochetov07/wnn-warm-cohort-probe-assets-20261008-v1",
+      "metadata_sha256": "d6c6c1c2f5ded9729e00b66f62a163bf2223b6173ff6103952d8254f3cbffe97",
+      "dataset_sources": ["vladkochetov07/wnn-warm-cohort-src-20261008", "vladkochetov07/wnn-c20261004-fold0-assets"]
+    }
+  ],
+  "review": "Root read both final metadata files and actual source; independently checked all four file hashes. Title-derived slugs match intended IDs, bootstrap is small, private CPU-only/no internet. Source writes immediate boot marker, one-level mount inventory and preserves exception evidence. No fitting or payload data reads.",
+  "limits": {"max_pushes_per_packet": 1, "worker_wall_seconds": 600, "gpu_seconds": 0, "tpu_seconds": 0, "paid_spend_usd": 0},
+  "conditions": ["Preserve exact bytes and private settings", "Persist push/version receipts and terminal output", "On ambiguous push reconcile before retry", "Local calls use serialized capped support wrapper", "New smoke/fits require separate exact admission"]
+}

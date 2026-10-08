@@ -1,3 +1,11 @@
+# Live continuation — 2026-10-08 19:32 UTC
+
+User implementation plan is active under [ADR0025](adr/0025-sol-continuation-delivery.md): one Sol6.1/medium lead, two Luna/max roles, root admission/spending/synthesis. Local warm worker v3 is healthy with Z3 epoch1 advancing; existing head-finishing and fold0 queue preserved. Exact Z3 fold0 analogue is in review, fold1 robustness remains owed. No new expected-public best or public result established.
+
+Vast r4 is destroyed and settled at $0.15 from $0.149 itemized charges; [root settlement](../research/campaign_2026-10-06/bandit_continuation/vast_warm_cohort/SETTLEMENT_R4_ROOT_20261008_R1.json). Fresh account inspection: zero instances and $17.74 credit. r5 sequential capacity cohort is being prepared, including target-cache signed-download feasibility and less than100MB laptop staging; no new rental yet. Bare Kaggle probe COMPLETE with an actual `probe_ok []` execution log collected by operator; raw-only and source+assets mount probes are next. Earlier empty logs alone do not establish no execution. Local aggregate five CPU/20GB RAM/5GB VRAM retained; support commands serialized and capped. Disk about32GB free at entry, checked before collection.
+
+Historical snapshots below are preserved; latest continuation receipts take precedence for live status.
+
 # Session handoff — 2026-10-08 19:45 Kyiv
 
 [Resume snapshot and execution priorities](../.claude/chains/connectome-research/2026-10-08-1945-research-handoff.md). This is a handoff, not a stop. Public pair submission20o154uy scored **0.6653**; public best remains **0.6660**. Independent S4 endpoint grading now shows ordinary GCorr fixedhalf0.6818613275 exceeds the tested H272 hidden0.6814010973 and multiplicative0.6810719865 endpoints on the exposed fold; preserve method/fit-population caveats. Local fit/export and grade are complete, GPU idle at16:44UTC; corrected cloudfit packets are prepared but not launched, TPUV6 QUEUED, Vast create remains ambiguous with no proven instance. Read snapshot and refresh live state before claiming utilization.

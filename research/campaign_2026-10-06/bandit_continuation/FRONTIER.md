@@ -1,3 +1,9 @@
+## Live continuation — 2026-10-08 19:32 UTC
+
+[Sol continuation contract](controller_claude_20261008/SOL_CONTINUATION_CONTRACT_20261008_R1.md) owns delivery with independent Luna verification. Priorities: finish Z candidates and exact Z3 fold comparisons; capacity teachers and disagreement-selected distillation; preserve representation and serving-acceleration exploration in the handoff backlog. No new numerical prior or public forecast.
+
+Local v3 Z3 is fitting, head-finishing and existing fold0 comparisons follow. Exact seed4 Z3 fold0 analogue is in review. Vast r4 destroyed/settled $0.15; no live paid instance, credit$17.74. Sol prepares sequential512/768 r5 with verified large-input signed downloads and <100MB laptop transfers before root rental. Luna collected bare Kaggle probe execution log and prepares separate mount probes. TPU remains unproven after inventory failure. Provider/routing failures are execution evidence, not scientific negatives.
+
 ## Session handoff — 2026-10-08 16:45 UTC
 
 [Current handoff](../../../.claude/chains/connectome-research/2026-10-08-1945-research-handoff.md) records live-state qualification, CV-first/public-confirmation policy, new public pair0.6653 and independently graded GCorr-control comparison. Neither tested H272 S4 half-blend beat that control; no family-wide rejection or public forecast. Preserve queued TPU and ambiguous Vast attempt; do not stop experiments for this handoff.

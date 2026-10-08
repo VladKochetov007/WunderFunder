@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "authorized_by": "root_controller",
+  "decision": "admit_exact_two_private_cpu_isolation_probes_once_each",
+  "operator": "runner_kaggle_builder",
+  "basis": "Raw-only probe executed; combined source+fold0 assets failed with no marker collected. Both datasets ready/private and small manifests downloadable. Exact failure stage unknown, so isolate each mount before smoke.",
+  "code_sha256": "f4aa654b952425f845fdeb070ff71676367c0dc3aeb3a2e5c65f1865a4c26cc0",
+  "packets": [
+    {"slug": "vladkochetov07/wnn-warm-cohort-probe-source-only-20261008-v1", "metadata_sha256": "3d59dd14183b7da9cc4a7bbaaab0a9de7524404390cb9e27577c208314aea524", "dataset_sources": ["vladkochetov07/wnn-warm-cohort-src-20261008"]},
+    {"slug": "vladkochetov07/wnn-warm-cohort-probe-fold0-only-20261008-v1", "metadata_sha256": "854c20362cb705093f7de78318642206ac125afd1c146c76d25ff4e460f48860", "dataset_sources": ["vladkochetov07/wnn-c20261004-fold0-assets"]}
+  ],
+  "root_review": "Read final code and metadata, independently verified four hashes. Private, CPU only, internet disabled; title-derived slugs match. Immediate boot marker and depth-four inventory read no payload contents.",
+  "limits": {"max_pushes_per_packet": 1, "worker_wall_seconds": 600, "gpu_seconds": 0, "tpu_seconds": 0, "paid_spend_usd": 0},
+  "conditions": ["Persist push/version and terminal marker/log receipts", "Reconcile ambiguous push before retry", "Use serialized capped local support", "No smoke or scientific fit admitted by this receipt"]
+}
