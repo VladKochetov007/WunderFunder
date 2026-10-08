@@ -1,0 +1,9 @@
+# GRU512/768 Muon capacity packet V2
+
+This is a private, source-prepared Kaggle cohort for a bounded clean-fold screen. The pair is fresh seed-9 Muon512 versus Muon768; AdamW512 is an optional same-width control only when its actual profile and the root's predeclared runtime projection permit it.
+
+The source-only build has not been uploaded, pushed, fitted, scored, or graded. `ROOT_CONDITIONAL_FIT_AUTHORIZATION.json` is pending and grants no action. Both a packet review and fresh provider admission are required before execution.
+
+The worker verifies the exact raw train/valid files and four named fold-0 cache inputs, then shares those read-only mounts across arms. It profiles the required Muon pair at B8 and falls back to common B4 only after an explicit B8 CUDA allocation failure. The optional AdamW arm is profiled at the selected pair batch and cannot block the primary pair if it fails. The conditional fit gate requires four epochs, fixed epoch 3, the frozen clean split, and exact zero-skip update counts. Export uses feature-only FP32 prediction over exactly the 468 declared evaluation groups; the worker does not read target labels or scoring masks for that export and does not calculate a score.
+
+The trainer CLI receives profile and fit argv from one frozen constructor; the worker records sanitized phase heartbeats and private detailed receipts. The source tar explicitly includes the exact own-project `numeric_ple.py` runtime dependency required by unconditional trainer/model imports; its source snapshot and SHA-256 are recorded in the recipe. Two unrelated optional modules named in the older V1 archive are absent and unreferenced in this frozen runtime closure, so they are explicitly listed as omissions. The provider timeout is 6000 seconds, with an internal worker cap of 5200 seconds and a 300-second finalization reserve.
