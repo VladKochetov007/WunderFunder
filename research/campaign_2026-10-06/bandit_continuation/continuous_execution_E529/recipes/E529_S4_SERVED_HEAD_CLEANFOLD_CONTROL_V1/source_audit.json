@@ -1,0 +1,217 @@
+{
+  "actual_full_data_head": {
+    "argv": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "scripts/train_rnn.py",
+      "--name",
+      "c20261004_combo_head_s4_final",
+      "--init",
+      "c20261004_combo_s4_final@ep3",
+      "--train-source",
+      "valid",
+      "--full-valid",
+      "--mask-weight",
+      "--seed",
+      "3",
+      "--epochs",
+      "1",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--fast",
+      "--inherit-init-preprocessing",
+      "--loss",
+      "gcorr",
+      "--optim",
+      "adamw",
+      "--freeze",
+      "inp,gru",
+      "--lr",
+      "0.0005",
+      "--wd",
+      "0.01",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "0",
+      "--save-training-state",
+      "--eval-source",
+      "holdout"
+    ],
+    "attempt_path": "research/campaign_2026-10-04/runner/attempts/e450-combo-head-seed4-final-v1.json",
+    "attempt_sha256": "9bef155ccb16a3c705893d0f224a59a13f162bc0d94eef211bfc98da86ccd6bb",
+    "effective_args": {
+      "aux_mask": 0.0,
+      "aux_next": 0.3,
+      "aux_next_k": "",
+      "aux_quote": 0.0,
+      "aux_sign": 0.0,
+      "aux_struct": 0.3,
+      "aux_tier": 0.0,
+      "batch": 16,
+      "checkpoint_epoch": 0,
+      "checkpoint_policy": "fixed",
+      "chunk": 2000,
+      "distill": "",
+      "epochs": 1,
+      "eval_source": "holdout",
+      "fast": true,
+      "freeze": "inp,gru",
+      "full_valid": true,
+      "inherit_init_preprocessing": true,
+      "init": "c20261004_combo_s4_final@ep3",
+      "loss": "gcorr",
+      "lr": 0.0005,
+      "mask_weight": true,
+      "no_eval_during_fit": false,
+      "optim": "adamw",
+      "precision": "fp16",
+      "save_training_state": true,
+      "seed": 3,
+      "train_source": "valid",
+      "wd": 0.01
+    },
+    "fixed_epoch0_checkpoint_sha256": "f331b218b5d08626f01c56fae484b895b2b57df3ca90592ad0d71a9fd53985df",
+    "parent_fixed_epoch3_checkpoint_sha256": "87bafd489d7d6e5212589154f07fef96c447777f75f949ab4dadc1a6efe4caaf",
+    "parent_run": "c20261004_combo_s4_final",
+    "provenance_path": "artifacts/runs/c20261004_combo_head_s4_final/provenance.json",
+    "provenance_sha256": "98025975e263bfbaaff9ea37c4e545b897d0a75789cc3fbc100e62a0b2dffa3d",
+    "resource_receipt": {
+      "elapsed_seconds": 107.80672299000435,
+      "exit_code": 0,
+      "peak_observed_vram_bytes": 2276458496,
+      "peak_ram_bytes": 6207545344,
+      "worker_oom_kill_delta": 0
+    }
+  },
+  "actual_public_endpoint": {
+    "members": [
+      {
+        "coef": 1.0,
+        "source": "c20261004_combo_s4_final@ep3|c20261004_combo_head_s4_final@ep0",
+        "weights": "weights_0.npz"
+      }
+    ],
+    "members_json_sha256": "9b07d091261c0d78a077c7427523503f66a436af490007d99531328695b53a3c",
+    "merge_semantics": {
+      "formula": "mean of the two primary head functions; stack head.0 rows/biases, scale concatenated head.2 columns and biases by 1/2",
+      "result": "the actual public package is the 50/50 parent/head served endpoint, encoded as one merged member with coefficient 1.0",
+      "shared_non_head_tensors": "bitwise equal; exporter rejects mismatch",
+      "source": "scripts/package_submission.py::merged_heads at the E450 source commit"
+    },
+    "precision": "i16",
+    "submission_name": "c20261004_combo_s4_i16",
+    "weights_0_npz_sha256": "004d82067af773fc8ed5191b63ed552565b4cde6f521b198127cf02ab8216dbe",
+    "zip_path": "submissions/c20261004_combo_s4_i16/c20261004_combo_s4_i16.zip",
+    "zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a"
+  },
+  "cleanfold_parent": {
+    "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+    "epoch": 3,
+    "fit_train_group_count": 10535,
+    "fit_train_groups_ordered_int64_le_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49",
+    "fit_valid_group_count": 1405,
+    "fit_valid_groups_ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+    "provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332",
+    "run": "c20261003_combo_s4_f0",
+    "teacher_ancestry": [
+      {
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "epoch": 3,
+        "fold0_component_overlap": 0,
+        "fold0_valid_overlap_groups": 0,
+        "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "run": "c20260929_since_s3_f0"
+      },
+      {
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "epoch": 3,
+        "fold0_component_overlap": 0,
+        "fold0_valid_overlap_groups": 0,
+        "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "run": "c20260929_since_s4_f0"
+      }
+    ]
+  },
+  "fold0": {
+    "evaluation_components": 141,
+    "evaluation_groups": 468,
+    "fit_evaluation_component_overlap": 0,
+    "fit_train_groups": 10535,
+    "fit_valid_groups": 1405,
+    "fold": 0,
+    "identity_rule": "Always compare (source,row_group). The 463 train-source integer aliases are not leakage.",
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "train_source_integer_aliases_with_evaluation": 463
+  },
+  "read_only": true,
+  "schema": "e529-s4-served-head-source-audit-v1",
+  "source_identity": {
+    "cleanfold_parent_attempt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e503-c20261003-combo-s4-f0-train-v2.json",
+    "cleanfold_parent_attempt_sha256": "b21a508bbb487c2cf6ae250d205ce336d107eda96ec5d907a0103e1a98342211",
+    "cleanfold_parent_source_commit": "fa615eb3d13a8afb9fd7cba275ef64956bdb793e",
+    "cleanfold_parent_source_files_matched_to_commit": 267,
+    "cleanfold_parent_source_manifest_sha256": "6808e975a4b5aeba651d0498ace64b317e4b759cbd5515220c861daac8652675",
+    "cleanfold_parent_source_paths_missing_from_commit": [
+      "research/campaign_2026-10-06/bandit_continuation/CONTRACT.md",
+      "scripts/bandit_resources.py",
+      "scripts/research_tree.py"
+    ],
+    "current_main_source_is_not_runtime": "Current main trainer files are not overlaid into the runtime worktree. Root bandit_resources controller is separately hash-bound in source_lock.json.",
+    "e450_and_parent_head_recipe_helper_identical": true,
+    "e450_and_parent_prediction_script_identical": true,
+    "e450_vs_parent_source_delta": [
+      {
+        "e450_sha256": "672a31dfcd92fd5e1a8c6e1ce88368735903f6131f737527ca9f60fee5fc4575",
+        "parent_source_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+        "path": "scripts/train_rnn.py"
+      },
+      {
+        "e450_sha256": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+        "parent_source_sha256": "35dd701fdb33c50494a3c781a315731212da22f41cae331f2f85073af0637605",
+        "path": "src/wnn/campaign.py"
+      },
+      {
+        "e450_sha256": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+        "parent_source_sha256": "0213ff7a809ce898be5d3180c15e31d228ad6f3f03f1f08fd968f9186e91353d",
+        "path": "src/wnn/campaign_local.py"
+      },
+      {
+        "e450_sha256": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+        "parent_source_sha256": "5136703299585e81a9463a253133ba7f12da2c64ea863776c005d1fc5d3e8d7b",
+        "path": "src/wnn/campaign_spec.py"
+      },
+      {
+        "e450_sha256": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+        "parent_source_sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+        "path": "src/wnn/nn.py"
+      },
+      {
+        "e450_sha256": "7a5bb4f593fef1592abbeb3c096ece12dac019c029c43fa5f0f652cb2fe5edbd",
+        "parent_source_sha256": "30923120c1bd9773556556ee0fbbab5d8db4a5f4232c48b81f11fa87a5e74e52",
+        "path": "src/wnn/training_calibration.py"
+      },
+      {
+        "e450_sha256": "87b69d3cde4d4e0a38fdc4ebcca1c41ca20ab3bc28c540ab222cfba6e76d7cc2",
+        "parent_source_sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39",
+        "path": "src/wnn/training_controls.py"
+      }
+    ],
+    "historical_e450_attempt_sha256": "9bef155ccb16a3c705893d0f224a59a13f162bc0d94eef211bfc98da86ccd6bb",
+    "historical_e450_code_files_match_commit": 48,
+    "historical_e450_recipe_helper_sha256": "26077a78032d6e62440fa5894b2620409c984aae4db69cd3cb276afbcc0739b8",
+    "historical_e450_runtime_code_files": 48,
+    "historical_e450_source_commit": "756df1cbd27074a4239ff49e1eb0f1044c44dbf2",
+    "historical_e450_trainer_sha256": "672a31dfcd92fd5e1a8c6e1ce88368735903f6131f737527ca9f60fee5fc4575",
+    "training_source_choice": "Use the exact fold-parent E503 commit fa615, not the E450 full-parent commit, so the frozen cleanfold parent and head fit share the same GRU implementation. Preserve the E450 head argv/recipe settings; the seven source deltas are pinned. E450-only fixed_mix readout remains inactive (default GELU) and distill_reanchor remains inactive (no distillation)."
+  },
+  "valid_data_identity": {
+    "note": "Bound through the existing portable identity manifest; no parquet footer or data rows were read for this source audit.",
+    "portable_manifest_path": "research/campaign_2026-10-04/portable_inputs.json",
+    "portable_manifest_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "valid_parquet_bytes": 5615509128,
+    "valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  }
+}
