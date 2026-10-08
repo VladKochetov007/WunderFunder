@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import argparse
-import importlib
 import json
 import os
 import subprocess
@@ -11,7 +9,6 @@ import sys
 from pathlib import Path
 
 import pytest
-
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKET = (
@@ -25,25 +22,67 @@ sys.path.insert(0, str(ROOT / "src"))
 
 import capacity_worker  # noqa: E402
 
-_REAL_PARSE_ARGS = argparse.ArgumentParser.parse_args
 
+def _parse_archived_cli(
+    tmp_path: Path, tasks: list[tuple[str, list[str]]]
+) -> tuple[Path, list[dict[str, object]]]:
+    """Parse CLIs from the hash-verified archive in an uncontaminated process."""
+    project_root = tmp_path / "extracted-runtime"
+    observed = capacity_worker._safe_extract_source(PACKET, project_root)
+    manifest = json.loads(
+        (PACKET / "source/source_archive_manifest.json").read_text(encoding="utf-8")
+    )
+    expected = {item["path"]: item["sha256"] for item in manifest["members"]}
+    assert observed == expected
 
-def _capture_parser_exit(monkeypatch: pytest.MonkeyPatch, module, argv: list[str]):
-    """Run the real CLI parser, then stop before any data/model operation."""
-
-    class Parsed(Exception):
-        def __init__(self, namespace):
-            self.namespace = namespace
-
-    def parse_then_stop(parser, args=None, namespace=None):
-        parsed = _REAL_PARSE_ARGS(parser, args=args, namespace=namespace)
-        raise Parsed(parsed)
-
-    monkeypatch.setattr(argparse.ArgumentParser, "parse_args", parse_then_stop)
-    monkeypatch.setattr(sys, "argv", [module.__file__, *argv])
-    with pytest.raises(Parsed) as result:
-        module.main()
-    return result.value.namespace
+    parser_script = "\n".join(
+        [
+            "import argparse",
+            "import json",
+            "import sys",
+            "import predict_run",
+            "import train_rnn",
+            "modules = {'train': train_rnn, 'predict': predict_run}",
+            "parse_args = argparse.ArgumentParser.parse_args",
+            "class Parsed(Exception):",
+            "    def __init__(self, namespace):",
+            "        self.namespace = namespace",
+            "def parse_then_stop(parser, args=None, namespace=None):",
+            "    parsed = parse_args(parser, args=args, namespace=namespace)",
+            "    raise Parsed(parsed)",
+            "argparse.ArgumentParser.parse_args = parse_then_stop",
+            "records = []",
+            "for kind, argv in json.loads(sys.argv[1]):",
+            "    module = modules[kind]",
+            "    sys.argv = [module.__file__, *argv]",
+            "    try:",
+            "        module.main()",
+            "    except Parsed as result:",
+            "        records.append({'file': module.__file__, 'args': vars(result.namespace)})",
+            "print('ARCHIVED_CLI_RESULT=' + json.dumps(records, default=str), flush=True)",
+        ]
+    )
+    env = os.environ.copy()
+    env["PYTHONPATH"] = os.pathsep.join((str(project_root / "scripts"), str(project_root / "src")))
+    env["PYTHONNOUSERSITE"] = "1"
+    env["OMP_NUM_THREADS"] = "1"
+    env["MKL_NUM_THREADS"] = "1"
+    result = subprocess.run(
+        [sys.executable, "-c", parser_script, json.dumps(tasks)],
+        check=False,
+        capture_output=True,
+        text=True,
+        env=env,
+        cwd=project_root,
+        timeout=30,
+    )
+    assert result.returncode == 0, result.stderr
+    marker = "ARCHIVED_CLI_RESULT="
+    records = [
+        line[len(marker) :] for line in result.stdout.splitlines() if line.startswith(marker)
+    ]
+    assert len(records) == 1, result.stdout
+    return project_root, json.loads(records[0])
 
 
 @pytest.mark.parametrize(
@@ -51,9 +90,8 @@ def _capture_parser_exit(monkeypatch: pytest.MonkeyPatch, module, argv: list[str
     [("muon512", 512, "muon"), ("muon768", 768, "muon"), ("adamw512", 512, "adamw")],
 )
 def test_profile_and_fit_argv_parse_with_archived_trainer(
-    monkeypatch: pytest.MonkeyPatch, arm_id: str, hidden: int, optimizer: str
+    tmp_path: Path, arm_id: str, hidden: int, optimizer: str
 ) -> None:
-    train_rnn = importlib.import_module("train_rnn")
     arm = {
         "id": arm_id,
         "hidden": hidden,
@@ -70,37 +108,43 @@ def test_profile_and_fit_argv_parse_with_archived_trainer(
     assert "--profile-steps" not in fit_argv
     assert fit_argv[-1] != "20"
 
-    profile_args = _capture_parser_exit(monkeypatch, train_rnn, profile_argv)
-    fit_args = _capture_parser_exit(monkeypatch, train_rnn, fit_argv)
-    assert profile_args.name == arm["run_name"]
-    assert profile_args.hidden == hidden
-    assert profile_args.optim == optimizer
-    assert profile_args.profile_warmup == 3
-    assert profile_args.profile_steps == 20
-    assert fit_args.name == arm["run_name"]
-    assert fit_args.hidden == hidden
-    assert fit_args.optim == optimizer
-    assert fit_args.profile_warmup == 5
-    assert fit_args.profile_steps == 0
-    assert fit_args.epochs == 4
-    assert fit_args.checkpoint_epoch == 3
+    project_root, records = _parse_archived_cli(
+        tmp_path, [("train", profile_argv), ("train", fit_argv)]
+    )
+    assert len(records) == 2
+    assert all(record["file"] == str(project_root / "scripts/train_rnn.py") for record in records)
+    profile_args, fit_args = (record["args"] for record in records)
+    assert profile_args["name"] == arm["run_name"]
+    assert profile_args["hidden"] == hidden
+    assert profile_args["optim"] == optimizer
+    assert profile_args["profile_warmup"] == 3
+    assert profile_args["profile_steps"] == 20
+    assert fit_args["name"] == arm["run_name"]
+    assert fit_args["hidden"] == hidden
+    assert fit_args["optim"] == optimizer
+    assert fit_args["profile_warmup"] == 5
+    assert fit_args["profile_steps"] == 0
+    assert fit_args["epochs"] == 4
+    assert fit_args["checkpoint_epoch"] == 3
     if optimizer == "muon":
-        assert fit_args.muon_ortho_dtype_policy == "native_bf16_if_supported_else_fp32_v1"
+        assert fit_args["muon_ortho_dtype_policy"] == "native_bf16_if_supported_else_fp32_v1"
 
 
 def test_feature_only_prediction_argv_parses_with_archived_predictor(
-    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
 ) -> None:
-    predict_run = importlib.import_module("predict_run")
     argv = capacity_worker._predict_argv("muon512_b8", Path("/tmp/frozen-fold0.json"))
-    args = _capture_parser_exit(monkeypatch, predict_run, argv)
-    assert args.name == "muon512_b8"
-    assert args.split == "valid"
-    assert args.epoch == 3
-    assert args.output_name == "muon512_b8"
-    assert args.campaign_split_manifest == Path("/tmp/frozen-fold0.json")
-    assert args.inference_precision == "fp32"
-    assert args.fit_subset_manifest is None
+    project_root, records = _parse_archived_cli(tmp_path, [("predict", argv)])
+    assert len(records) == 1
+    assert records[0]["file"] == str(project_root / "scripts/predict_run.py")
+    args = records[0]["args"]
+    assert args["name"] == "muon512_b8"
+    assert args["split"] == "valid"
+    assert args["epoch"] == 3
+    assert args["output_name"] == "muon512_b8"
+    assert args["campaign_split_manifest"] == "/tmp/frozen-fold0.json"
+    assert args["inference_precision"] == "fp32"
+    assert args["fit_subset_manifest"] is None
 
 
 def test_profile_gate_requires_all_attempts_finite_and_zero_skips() -> None:
