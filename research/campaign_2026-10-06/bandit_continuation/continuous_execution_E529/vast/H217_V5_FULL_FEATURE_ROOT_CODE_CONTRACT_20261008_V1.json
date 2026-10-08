@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "code_only_not_fit_admitted",
+  "hypothesis_ids": [
+    "H217-FULLFEATURE-128",
+    "H217-FULLFEATURE-CAPACITY-256"
+  ],
+  "basis": "H217 V4 independently implemented sealed source; delivered raw-only TCN quality ungraded",
+  "root_scope": "Two matched full-feature cleanfold0 TCN widths, no provider actions in actor task",
+  "fit_authorized": false,
+  "provider_create_authorized": false,
+  "source_project": "h217_packet_v4/project",
+  "initializers": "scratch,own independently trained weights",
+  "fixed_epoch": 3,
+  "seeds": [
+    7
+  ],
+  "arms": [
+    {
+      "id": "tcn_full128",
+      "hidden": 128
+    },
+    {
+      "id": "tcn_full256",
+      "hidden": 256
+    }
+  ],
+  "feature_view": "existing full causal default211-wide",
+  "evaluation": "official metric; only frozen468 excluded previouslyexposedfold0 groups; all outcomes disclosed",
+  "continuation": "full-data independentteacher/distill and explicit blend/residual interactions after evidence, not universalCIreject",
+  "budget": "code only12min36turns1CPU600MB; cloud requires independentreview/root costadmission"
+}

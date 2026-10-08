@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "record_id": "H217_A3_TCN_FOLD0_GRADE_PREREG_20261008_R1",
+  "created_utc": "2026-10-08T03:52:00Z",
+  "owner": "independent grader",
+  "attempt_id": "e529-vast-h217-pair-v4-20261008-a3",
+  "claim_scope": "descriptive standalone score for the delivered seed-7 raw TCN fixed epoch-3 prediction on the frozen, exposed fold-0 evaluation groups only",
+  "candidate": {
+    "architecture": "causal raw TCN",
+    "hidden_channels": 128,
+    "layers": 12,
+    "seed": 7,
+    "fixed_checkpoint_epoch_zero_based": 3,
+    "precision_at_fit": "fp16",
+    "inference_precision": "fp32",
+    "train_source": "train+valid",
+    "valid_fold": 0,
+    "raw_only": true,
+    "recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H217_TCN_RAW_SCRATCH_STAGED_V1.json",
+    "recipe_sha256": "4ece85c35eb98e0f0dcbca8d44d9ce251a1e616af33be708f5e75be947659117",
+    "checkpoint_sha256": "5fbb9815b17973dd790cd10ee11af63c1a241ca716df32d44a5b56f099af7dbc",
+    "prediction_sha256": "d178d84a0bbd74158e5788713973fd7b5c16d5d6f71e6bcc976bce44e883f3aa"
+  },
+  "comparison": null,
+  "outcome": {
+    "primary_metric": "global_wp_clip2_v1",
+    "primary_endpoint": "one pooled row-weighted score, mean of t0 and t1, with labels and predictions clipped to [-2, 2] and weights abs(clipped label)",
+    "selection": "need_prediction AND is_scored; need_prediction is row index >= 99 within each sequence",
+    "evaluation_unit": "entire frozen fold-0 evaluation group, paired across targets; no row-level resampling",
+    "slices": [],
+    "blends": [],
+    "all_data_comparison": false,
+    "public_forecast": false
+  },
+  "frozen_split": {
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "evaluation_groups_expected": 468,
+    "fit_groups_expected": {
+      "train": 10535,
+      "valid": 1405
+    },
+    "exposure": "exposed; fold-0 has prior campaign use and is discovery evidence, not fresh confirmation"
+  },
+  "artifact_inputs": {
+    "result_json": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/downloads/e529-vast-h217-pair-v4-20261008-a3/result.json",
+      "sha256": "1c583b578107854f40d2e5b454cd9aeb731ebb2f300bb9c52bb46eec31a6b902"
+    },
+    "artifact_bundle_tar": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/downloads/e529-vast-h217-pair-v4-20261008-a3/artifact_bundle.tar",
+      "sha256": "e1b244d26dc3dee02089580b09aefaa3e57012a73f5a086c4b9d4de7863278e8"
+    },
+    "valid_targets_npz_stored_members_mmap_only": {
+      "path": "cache/valid_targets.npz",
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    },
+    "frozen_scorer": {
+      "path": "research/campaign_2026-09-30/audit/campaign_score.py",
+      "sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39"
+    }
+  },
+  "analysis_budget": {
+    "candidate_count": 1,
+    "checkpoint_count": 1,
+    "metric_count": 1,
+    "posthoc_variants": 0,
+    "bootstrap": "none; no comparator is declared, and this exposed single-checkpoint grade does not estimate training variability or public transfer"
+  },
+  "stopping_rule": "After verifying artifact, row order, fold membership and ancestry, report only the prespecified official metric and selected-row count; do not tune or add comparisons/slices/blends."
+}

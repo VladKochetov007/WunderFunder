@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "record_id": "H217_A3_TCN_FOLD0_INDEPENDENT_GRADE_20261008_R1",
+  "created_utc": "2026-10-08T03:54:44.512681+00:00",
+  "attempt_id": "e529-vast-h217-pair-v4-20261008-a3",
+  "grade_status": "completed_descriptive_exposed_fold_grade",
+  "worker_terminal_status": "partial_delivery_ungraded",
+  "worker_success": true,
+  "worker_exit_code": 0,
+  "matched_gru_arm": {
+    "fit_status": "blocked_profile",
+    "reason": "TimeoutError: projected four-epoch fit/export exceeds fit budget: 7303.2s",
+    "used_as_comparator": false
+  },
+  "claim_scope": "descriptive standalone score for the delivered seed-7 raw TCN fixed epoch-3 prediction on the frozen, exposed fold-0 evaluation groups only",
+  "metric_id": "global_wp_clip2_v1",
+  "metric": {
+    "t0": 0.6619325494909355,
+    "t1": 0.6810610576951277,
+    "wp": 0.6714968035930315,
+    "evaluation_groups": 468,
+    "selected_rows": 808863,
+    "selection": "need_prediction AND is_scored; need_prediction is row index >= 99",
+    "weighting_and_clipping": "clip target and prediction to [-2, 2]; weight each row by abs(clipped target)",
+    "aggregation": "pool selected rows separately for t0 and t1; report their arithmetic mean as wp"
+  },
+  "candidate": {
+    "architecture": "causal raw TCN",
+    "hidden_channels": 128,
+    "layers": 12,
+    "seed": 7,
+    "fixed_checkpoint_epoch_zero_based": 3,
+    "precision_at_fit": "fp16",
+    "inference_precision": "fp32",
+    "train_source": "train+valid",
+    "valid_fold": 0,
+    "raw_only": true,
+    "recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H217_TCN_RAW_SCRATCH_STAGED_V1.json",
+    "recipe_sha256": "4ece85c35eb98e0f0dcbca8d44d9ce251a1e616af33be708f5e75be947659117",
+    "checkpoint_sha256": "5fbb9815b17973dd790cd10ee11af63c1a241ca716df32d44a5b56f099af7dbc",
+    "prediction_sha256": "d178d84a0bbd74158e5788713973fd7b5c16d5d6f71e6bcc976bce44e883f3aa"
+  },
+  "membership_and_ancestry": {
+    "fold": 0,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "evaluation_group_count": 468,
+    "evaluation_groups_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "fit_group_counts": {
+      "train": 10535,
+      "valid": 1405
+    },
+    "fit_groups_match_frozen_manifest": true,
+    "evaluation_groups_match_checkpoint_provenance": true,
+    "fit_evaluation_component_overlap": 0,
+    "prediction_row_group_count": 1873,
+    "prediction_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+    "prediction_row_groups_are_target_cache_order": true,
+    "initialization": "fresh weights; no init checkpoint",
+    "distillation_or_teacher_ancestry": "none",
+    "exposure": "exposed discovery fold; not fresh confirmation"
+  },
+  "exposure_and_uncertainty": {
+    "fold_exposure": "exposed discovery fold; not fresh confirmation",
+    "training_seeds": 1,
+    "training_seed_uncertainty_estimated": false,
+    "public_transfer_estimated": false,
+    "bootstrap": null,
+    "all_data_comparison": null,
+    "public_forecast": null,
+    "blends_or_posthoc_slices": []
+  },
+  "execution": {
+    "profile_gate": {
+      "outer_batch_step_wall_ms": 133.09,
+      "projected_fit_and_export_seconds": 1792.2,
+      "status": "passed",
+      "timing_unit": "one outer DataLoader batch, including its internal chunk loop",
+      "update_evidence": {
+        "amp_skipped_updates": 0,
+        "counts_consistent": true,
+        "gradient_check_basis": "GradScaler found-inf flags after unscale, before optimizer step",
+        "gradient_finite": true,
+        "loss_checks": 230,
+        "loss_finite": true,
+        "optimizer_attempts": 230,
+        "optimizer_completed_updates": 230,
+        "scaler_final_scale": 4096.0,
+        "scaler_initial_scale": 4096.0,
+        "valid_for_throughput": true
+      }
+    },
+    "fit_seconds": 823.9716792257968,
+    "fit_exit_code": 0,
+    "fit_peak_host_rss_bytes": 9778192384,
+    "fit_peak_vram_bytes": 2084569088,
+    "export_seconds": 22.268858873983845,
+    "export_exit_code": 0,
+    "export_peak_host_rss_bytes": 3108737024,
+    "export_peak_vram_bytes": 1514143744
+  },
+  "verified_artifacts": {
+    "result_json_sha256": "1c583b578107854f40d2e5b454cd9aeb731ebb2f300bb9c52bb46eec31a6b902",
+    "artifact_bundle_sha256": "e1b244d26dc3dee02089580b09aefaa3e57012a73f5a086c4b9d4de7863278e8",
+    "artifact_manifest_sha256": "53691fc5cb8197c9df0e6c90bfe4c7a3477444bae6cd98df136beb5b951dbd95",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "valid_targets_npz_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "recipe_sha256": "4ece85c35eb98e0f0dcbca8d44d9ce251a1e616af33be708f5e75be947659117",
+    "frozen_campaign_scorer_sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39",
+    "official_metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "checkpoint_sha256": "5fbb9815b17973dd790cd10ee11af63c1a241ca716df32d44a5b56f099af7dbc",
+    "prediction_sha256": "d178d84a0bbd74158e5788713973fd7b5c16d5d6f71e6bcc976bce44e883f3aa",
+    "prediction_sidecar_sha256": "1a36a71bbc36615404f2a5c24efb40d7415734f2eb22bf9522b56f8604be6b88",
+    "fit_log_sha256": "d3e11890842c0bfa1c958b7ab59dc4cc767d23b998c63ff92bf0166309064d8b",
+    "export_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pre_registration_sha256": "fc9173b2afb6a50a424cce1799593b4fd832e251b6528363262383aa1eb8267a"
+  },
+  "method": "campaign_score.mmap_stored_npz and campaign_score.moments/pooled; target members mapped without extraction, prediction memory-mapped from the delivered tar member; no Parquet footer, NPZ decompression, fit, GPU or provider operation"
+}
