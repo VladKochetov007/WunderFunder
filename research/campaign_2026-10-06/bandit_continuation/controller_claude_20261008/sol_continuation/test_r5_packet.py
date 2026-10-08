@@ -99,3 +99,43 @@ def test_terminal_failure_still_produces_exact_collection_manifest(
         path = output / row["path"]
         assert row["size_bytes"] == path.stat().st_size
         assert row["sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def test_resource_monitor_sums_worker_and_descendants(packet) -> None:
+    supervisor = importlib.import_module("resource_supervisor")
+
+    class Process:
+        def __init__(self, rss, children=()):
+            self.rss, self.descendants = rss, children
+
+        def children(self, recursive):
+            assert recursive is True
+            return self.descendants
+
+        def memory_info(self):
+            from types import SimpleNamespace
+
+            return SimpleNamespace(rss=self.rss)
+
+    assert supervisor.aggregate_rss(Process(10, [Process(20), Process(30)])) == 60
+
+
+def test_resource_stop_terminates_nested_trainer_sessions(packet, monkeypatch) -> None:
+    supervisor = importlib.import_module("resource_supervisor")
+    from types import SimpleNamespace
+
+    sent = []
+    monkeypatch.setattr(
+        supervisor.psutil,
+        "Process",
+        lambda _: SimpleNamespace(children=lambda recursive: [SimpleNamespace(pid=200)]),
+    )
+    monkeypatch.setattr(supervisor.os, "getpgid", lambda pid: pid)
+    monkeypatch.setattr(supervisor.os, "getpgrp", lambda: 999)
+    monkeypatch.setattr(supervisor.os, "killpg", lambda pid, sig: sent.append((pid, sig)))
+    supervisor.stop_group(SimpleNamespace(pid=100, wait=lambda timeout: 0))
+    assert set(sent) == {
+        (pid, sig)
+        for pid in (100, 200)
+        for sig in (supervisor.signal.SIGTERM, supervisor.signal.SIGKILL)
+    }
