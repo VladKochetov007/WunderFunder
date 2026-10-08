@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "experiment_id": "E540",
+  "purpose": "Preserve capped actual-data reader failures and the single authorized Arrow-only shape smoke.",
+  "target": {
+    "file": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/train.parquet",
+    "row_group": 0,
+    "columns": "seq_ix and the 112 raw feature columns; targets and is_scored excluded",
+    "fit": false,
+    "provider_mutation": false
+  },
+  "attempts": [
+    {
+      "id": "E540-SMOKE-A1",
+      "command": "scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python scripts/e540_data_shape_smoke.py --train-parquet /home/vlad/development/wunder/wnn_connectome_starterpack/datasets/train.parquet --row-group 0 --rows 256 --hidden 128",
+      "cpu_quota": "100%",
+      "memory_max": "900M",
+      "exit_code": 137,
+      "last_observed_phase": "unknown; script had no stage receipt in this first attempt",
+      "terminal_output": "no output",
+      "interpretation": "Support process was killed at its scoped resource limit; no shape or model result was produced."
+    },
+    {
+      "id": "E540-SMOKE-A2",
+      "command": "scripts/limited Python staged torch+SequenceFile import and feature-only read of row group 0",
+      "cpu_quota": "100%",
+      "memory_max": "950M",
+      "exit_code": 137,
+      "last_observed_phase": "torch plus wnn.data imports completed at approximately 549 MB peak RSS; kill occurred in the SequenceFile open/read call",
+      "terminal_output": "Killed (SIGKILL)",
+      "interpretation": "No labels or masks were requested. The stage was not instrumented finely enough to distinguish footer expansion from feature decode."
+    },
+    {
+      "id": "E540-SMOKE-A3",
+      "command": "scripts/limited Python metadata-only pyarrow.parquet.ParquetFile(train.parquet) inspection",
+      "cpu_quota": "100%",
+      "memory_max": "900M",
+      "exit_code": 137,
+      "last_observed_phase": "no stage output before process termination",
+      "terminal_output": "Killed (SIGKILL)",
+      "interpretation": "Footer parsing was attempted without reading feature or target columns."
+    },
+    {
+      "id": "E540-SMOKE-A4",
+      "command": "scripts/limited Python staged pyarrow import, ParquetFile construction and row-group metadata access",
+      "cpu_quota": "100%",
+      "memory_max": "950M",
+      "exit_code": 137,
+      "last_observed_phase": "pyarrow and pyarrow.parquet imports completed at approximately 64 MB peak RSS; process was killed in ParquetFile construction before footer_loaded",
+      "terminal_output": "Killed (SIGKILL)",
+      "interpretation": "This isolates the failure to large-footer metadata expansion under the delegated memory cap; no row-group values or labels were read."
+    },
+    {
+      "id": "E540-SMOKE-A5",
+      "command": "PYTHONPATH=src:. WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2500000000 WNN_RUNTIME_MAX=300s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python scripts/e540_data_shape_smoke.py --train-parquet /home/vlad/development/wunder/wnn_connectome_starterpack/datasets/train.parquet --row-group 0 --receipt research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/DATA_SHAPE_SMOKE_ACTUAL_TRAIN_RG0_V1.jsonl",
+      "cpu_quota": "100%",
+      "memory_max_bytes": 2500000000,
+      "exit_code": 0,
+      "last_observed_phase": "combined_shape_complete",
+      "terminal_receipts": "DATA_SHAPE_SMOKE_ACTUAL_TRAIN_RG0_V1.jsonl",
+      "prelaunch_parent_slice_memory_current_bytes": 3966140416,
+      "projected_parent_plus_child_cap_bytes": 6466140416,
+      "parent_slice_memory_high_bytes": 18000000000,
+      "observer_fix_commit": "6618e192",
+      "maximum_process_rss_bytes": 1116422144,
+      "row_group_rows": 20000,
+      "raw_feature_width": 112,
+      "event_feature_width": 99,
+      "combined_input_width": 211,
+      "targets_loaded": false,
+      "scored_mask_loaded": false,
+      "interpretation": "The training row-group feature-only read and causal event derivation passed. The 10,607-row-group, 117-column footer opened at about 1.063 GB RSS; raw features peaked at about 1.095 GB RSS, and combined 211-wide inputs at about 1.116 GB RSS. No knot fitting, model fit, evaluation, or provider action occurred."
+    }
+  ],
+  "resource_context": {
+    "parent_slice_before_attempts": "Observed at 9.51 GB current against 18 GB high and 20 GB max for the final staged attempt; earlier reads ranged from 9.51 to 12.53 GB.",
+    "root_reported_incident": "The support-scope OOM signal was misattributed by the former aggregate observer and terminated a healthy GPU retry2. Root's corrected observer was committed as 6618e192 and independently passed before E540-SMOKE-A5.",
+    "scientific_result": false
+  },
+  "next_attempt": {
+    "authorized_scope": "Completed: one Arrow-only actual-data row-group shape read at 1 CPU and a 2.5 GB child cap after verifying parent MemoryCurrent + 2.5 GB < 18 GB.",
+    "instrumentation": "scripts/e540_data_shape_smoke.py writes import, metadata-open and feature-read JSONL receipts with peak RSS and elapsed time.",
+    "never_read": ["target columns", "is_scored mask", "full target NPZ", "all dataset rows"],
+    "never_do": ["fit knots", "train model weights", "launch provider work"],
+    "terminal_receipt": "DATA_SHAPE_SMOKE_ACTUAL_TRAIN_RG0_V1.jsonl"
+  }
+}
