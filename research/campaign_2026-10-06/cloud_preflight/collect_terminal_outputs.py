@@ -1,4 +1,4 @@
-"""Collect terminal Kaggle outputs for the two root-pinned recovery kernels."""
+"""Collect terminal Kaggle outputs for the finite root-pinned campaign kernels."""
 
 from __future__ import annotations
 
@@ -27,8 +27,9 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CONFIG = Path(__file__).with_name("terminal_collection_targets_20261008_r1.json")
 TERMINAL_STATES = {"COMPLETE", "COMPLETED", "ERROR", "FAILED", "CANCELED", "CANCELLED"}
 MAX_ATTEMPTS = 3
+GPU_R2_KERNEL = "vladkochetov07/wnn-loss-pair-gpu-20261009-v2"
 
-# Configuration is deliberately restricted to these two already admitted jobs.
+# Only the original fixed pair and its exact root-pinned GPU R2 extension are accepted.
 PINNED_TARGETS: dict[str, dict[str, Any]] = {
     "vladkochetov07/wnn-warm-cohort-smoke-20261008-v4": {
         "resource": "gpu",
@@ -82,6 +83,50 @@ PINNED_TARGETS: dict[str, dict[str, Any]] = {
             ),
         },
     },
+    GPU_R2_KERNEL: {
+        "resource": "gpu",
+        "metadata_id": GPU_R2_KERNEL,
+        "root_admission": (
+            "../bandit_continuation/diversity_stack_20261009/ROOT_GPU_R2_KERNEL_ADMISSION_R1.json"
+        ),
+        "root_admission_sha256": (
+            "df7e5265f8deabb407253427d4924f6f0e638b126efbd8f197b9087a66a4d14d"
+        ),
+        "artifact_dir": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "gpu_loss_pair_r2_terminal"
+        ),
+        "terminal_receipt": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "GPU_R2_TERMINAL_OPERATOR_RECEIPT_R1.json"
+        ),
+        "push_receipt": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "GPU_R2_PROVIDER_PUSH_RECEIPT_R1.json"
+        ),
+        "push_receipt_sha256": ("d3c9ce15e2de612ed604e750008bc699d94df1fcd530c2337289cf7304fa59ef"),
+        "admission_bindings": {
+            "packet_sha256": ("6aeda2f8a0839dee7c93d782bc765092c859c8336a762f7e42afb94e7ea6c7d9"),
+            "bootstrap_sha256": (
+                "229b93f9e61de82dd1dac5755303ec97a7a0077d4e805b66bc147d7a47871ae6"
+            ),
+            "metadata_sha256": ("89580cc03ec96dfb2901dac1775110e8bed62fe985f32e51b3ddad0ecac7e6ec"),
+            "root_sealed_review_sha256": (
+                "9c60105be2d1421b61c01f5fe89c6387d2e8274f6a42fe60af1704f94dfe1907"
+            ),
+            "readiness_quota_observation_sha256": (
+                "62b454dafa093d02d74f8d4590fd77e0ac2e0b3196a45de222993c43ef12e178"
+            ),
+        },
+        "source_dataset": "vladkochetov07/wnn-loss-pair-code-20261009-r2",
+        "source_dataset_version": 1,
+        "source_manifest_sha256": (
+            "d6ae4e62f36d1ddbc3ac298a511d31b52fbba9494d7127e8c0c38552b86009be"
+        ),
+        "provisional_reservation_seconds": 7200,
+        "provider_timeout_seconds": 3600,
+        "worker_max_seconds": 3300,
+    },
 }
 
 
@@ -131,6 +176,15 @@ def resolve_repo_path(repo_root: Path, config_dir: Path, relative_path: str) -> 
     return resolved
 
 
+def _allowed_target_sets(pinned_targets: dict[str, dict[str, Any]]) -> set[frozenset[str]]:
+    """Keep the original fixed pair valid and allow only its exact R2 successor."""
+    all_targets = frozenset(pinned_targets)
+    allowed = {all_targets}
+    if GPU_R2_KERNEL in all_targets:
+        allowed.add(all_targets - {GPU_R2_KERNEL})
+    return allowed
+
+
 def validate_config(
     config_path: Path,
     repo_root: Path,
@@ -149,8 +203,10 @@ def validate_config(
     if not isinstance(targets, list) or not targets:
         raise ValueError("collector targets must be a non-empty list")
     kernels = [target.get("kernel") for target in targets]
-    if len(kernels) != len(set(kernels)) or set(kernels) != set(pinned_targets):
-        raise ValueError("collector must contain exactly the two pinned kernels")
+    kernel_set = frozenset(kernels)
+    allowed_target_sets = _allowed_target_sets(pinned_targets)
+    if len(kernels) != len(set(kernels)) or kernel_set not in allowed_target_sets:
+        raise ValueError("collector targets must match one exact pinned target set")
 
     config_dir = config_path.parent
     for target in targets:
@@ -164,27 +220,70 @@ def validate_config(
         if sha256_file(admission_path) != target["root_admission_sha256"]:
             raise ValueError(f"{kernel}: root admission hash mismatch")
         admission = json.loads(admission_path.read_text())
-        if admission.get("authorized") is not True:
-            raise ValueError(f"{kernel}: root admission is not authorized")
-        if admission.get("kernel_id") != target["metadata_id"]:
-            raise ValueError(f"{kernel}: admission metadata ID mismatch")
-        for key, expected in target["admission_bindings"].items():
-            if admission.get(key) != expected:
-                raise ValueError(f"{kernel}: admission binding mismatch for {key}")
+        if kernel == GPU_R2_KERNEL:
+            if admission.get("state") != "one_private_kernel_push_conditionally_authorized":
+                raise ValueError(f"{kernel}: root admission state mismatch")
+            if admission.get("kernel") != target["metadata_id"]:
+                raise ValueError(f"{kernel}: admission kernel ID mismatch")
+            for key, expected in target["admission_bindings"].items():
+                if admission.get(key) != expected:
+                    raise ValueError(f"{kernel}: admission binding mismatch for {key}")
+            if (
+                admission.get("provisional_gpu_seconds")
+                != target["provisional_reservation_seconds"]
+            ):
+                raise ValueError(f"{kernel}: admission reservation mismatch")
+            if admission.get("provider_timeout_seconds") != target["provider_timeout_seconds"]:
+                raise ValueError(f"{kernel}: admission timeout mismatch")
+            if admission.get("worker_wall_seconds") != target["worker_max_seconds"]:
+                raise ValueError(f"{kernel}: admission worker bound mismatch")
+        else:
+            if admission.get("authorized") is not True:
+                raise ValueError(f"{kernel}: root admission is not authorized")
+            if admission.get("kernel_id") != target["metadata_id"]:
+                raise ValueError(f"{kernel}: admission metadata ID mismatch")
+            for key, expected in target["admission_bindings"].items():
+                if admission.get(key) != expected:
+                    raise ValueError(f"{kernel}: admission binding mismatch for {key}")
 
         push_receipt_path = resolve_repo_path(repo_root, config_dir, target["push_receipt"])
         push_receipt = json.loads(push_receipt_path.read_text())
-        if push_receipt.get("canonical_provider_slug") != kernel:
-            raise ValueError(f"{kernel}: provider push receipt slug mismatch")
-        if push_receipt.get("root_admission_sha256") != target["root_admission_sha256"]:
-            raise ValueError(f"{kernel}: provider push receipt admission mismatch")
-        if push_receipt.get("push_count") != 1 or push_receipt.get("kernel_version") != 1:
-            raise ValueError(f"{kernel}: expected exactly one accepted version")
-        packet = push_receipt.get("packet", {})
-        for key, expected in target["admission_bindings"].items():
-            receipt_value = packet.get(key, push_receipt.get(key, admission.get(key)))
-            if receipt_value != expected:
-                raise ValueError(f"{kernel}: provider receipt binding mismatch for {key}")
+        if kernel == GPU_R2_KERNEL:
+            if sha256_file(push_receipt_path) != target["push_receipt_sha256"]:
+                raise ValueError(f"{kernel}: exact provider push receipt hash mismatch")
+            if push_receipt.get("canonical_provider_slug") != kernel:
+                raise ValueError(f"{kernel}: provider push receipt slug mismatch")
+            if push_receipt.get("root_admission_sha256") != target["root_admission_sha256"]:
+                raise ValueError(f"{kernel}: provider push receipt admission mismatch")
+            if push_receipt.get("push_count") != 1 or push_receipt.get("kernel_version") != 1:
+                raise ValueError(f"{kernel}: expected exactly one accepted version")
+            if push_receipt.get("source_dataset") != target["source_dataset"]:
+                raise ValueError(f"{kernel}: source dataset mismatch")
+            if push_receipt.get("source_dataset_version") != target["source_dataset_version"]:
+                raise ValueError(f"{kernel}: source dataset version mismatch")
+            if push_receipt.get("source_dataset_ready_at_push") is not True:
+                raise ValueError(f"{kernel}: source dataset was not READY at push")
+            if (
+                push_receipt.get("source_manifest_sha256_verified")
+                != target["source_manifest_sha256"]
+            ):
+                raise ValueError(f"{kernel}: source manifest mismatch")
+            packet = push_receipt.get("packet", {})
+            for key, expected in target["admission_bindings"].items():
+                if packet.get(key) != expected:
+                    raise ValueError(f"{kernel}: push receipt packet binding mismatch for {key}")
+        else:
+            if push_receipt.get("canonical_provider_slug") != kernel:
+                raise ValueError(f"{kernel}: provider push receipt slug mismatch")
+            if push_receipt.get("root_admission_sha256") != target["root_admission_sha256"]:
+                raise ValueError(f"{kernel}: provider push receipt admission mismatch")
+            if push_receipt.get("push_count") != 1 or push_receipt.get("kernel_version") != 1:
+                raise ValueError(f"{kernel}: expected exactly one accepted version")
+            packet = push_receipt.get("packet", {})
+            for key, expected in target["admission_bindings"].items():
+                receipt_value = packet.get(key, push_receipt.get(key, admission.get(key)))
+                if receipt_value != expected:
+                    raise ValueError(f"{kernel}: provider receipt binding mismatch for {key}")
 
         for path_field in ("artifact_dir", "terminal_receipt", "push_receipt"):
             resolve_repo_path(repo_root, config_dir, target[path_field])
@@ -526,7 +625,7 @@ def collect_terminal_target(
 
 
 def run_once(config_path: Path, repo_root: Path) -> dict[str, Any]:
-    """Poll exactly two admitted kernels, then collect only terminal results."""
+    """Poll the exact configured admitted kernels and collect terminal results."""
     config, targets = validate_config(config_path, repo_root)
     config["repo_root"] = str(repo_root.resolve())
     config["config_dir"] = str(config_path.resolve().parent)
