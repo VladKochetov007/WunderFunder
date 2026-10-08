@@ -76,6 +76,14 @@ def seal(repo: Path, output: Path, admission_path: Path | None) -> Record:
         files[name] = (repo / name).read_bytes()
     source_manifest = {
         "base_commit": BASE_COMMIT,
+        "gpu_producer": {
+            "source_commit": "8924deec1eaf1a50cb31d4c42e042d24093b4be6",
+            "packet_commit": "0704ad3e1d44d1cc69b137b5c81aa5fe6faa174e",
+            "packet_sha256": "6aeda2f8a0839dee7c93d782bc765092c859c8336a762f7e42afb94e7ea6c7d9",
+            "worker_sha256": "8b59b258de30dbb8b51e6d7463b9ca6c4fdb47e1ac6e59f2772cbf9c085707c3",
+            "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v2",
+            "source_asset": "vladkochetov07/wnn-loss-pair-code-20261009-r2",
+        },
         "files": [
             {"path": name, "size_bytes": len(payload), "sha256": sha(payload)}
             for name, payload in sorted(files.items())
