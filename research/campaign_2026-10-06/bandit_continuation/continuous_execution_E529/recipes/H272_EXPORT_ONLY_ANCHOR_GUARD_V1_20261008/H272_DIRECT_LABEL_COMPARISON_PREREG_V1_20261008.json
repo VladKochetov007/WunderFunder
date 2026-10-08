@@ -1,0 +1,50 @@
+{
+  "id": "H272-DIRECT-LABEL-FIXED-EP1-COMPARISON-20261008-R1",
+  "created_utc": "2026-10-08T10:05:31.887757+00:00",
+  "status": "preregistered_before_H272_candidate_export_and_grade",
+  "hypothesis_id": "H-272",
+  "recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_C1S3_DIRECT_LABEL_READOUT_V1.json",
+  "recipe_sha256": "a5dd858598b6bf926410c80337aa8e725a809cbfee36af906d18c34d0859716f",
+  "runtime_source_lock_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_FROZEN_RUNTIME_SOURCE_LOCK_V1_20261008.json",
+  "runtime_source_lock_sha256": "a8d56811e97783bcaa354a28beb992f8ce8acebc1b62f70f945c6697426aaa76",
+  "base_grader_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/grade_h233_readouts.py",
+  "base_grader_sha256": "c084c12ea7ad3c9af3725a532c1aad3fd76e50a015b02931e2216cea53f7e19e",
+  "checkpoint_epoch": 1,
+  "candidate_checkpoint_sha256": null,
+  "metric": "global_wp_clip2_v1",
+  "evaluation": "The same exposed fold-0 evaluation set of 468 valid groups; full ordered 1,873-row valid export is source-qualified and fit-development groups are masked.",
+  "primary": "Each additive/multiplicative/conditional_residual standalone versus trained hidden_only control",
+  "modes": [
+    "hidden_only",
+    "additive",
+    "multiplicative",
+    "conditional_residual"
+  ],
+  "secondary": "Each mode standalone and fixed raw mixtures with own frozen C1 parent; official clipping only after blending",
+  "weights_on_readout": [
+    0,
+    0.1,
+    0.25,
+    0.5,
+    1
+  ],
+  "bootstrap": {
+    "unit": "paired frozen connected components",
+    "replicates": 2000,
+    "seed": 271828
+  },
+  "selection": "Report all declared comparisons; no hyperparameter/epoch/weight selection from evaluation",
+  "parent": {
+    "run": "bd26_c1v2_s3_f0",
+    "epoch": 1,
+    "checkpoint_sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+    "model_pt_alias_sha256": "5f21361d47cc1f010abb363e6aca6e3cbf50a3d5d40d88ad81851aed7519fc4d",
+    "valid_prediction_sha256": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+    "valid_sidecar_sha256": "bb335392edc599f181c0bbcb6523fd430b036647454bc0d76facf5b592211ad3",
+    "valid_sidecar_source": "Actual H233 producer sidecar; split=valid, epoch=1, exact complete 1,873-row valid order, inference_precision=fp16."
+  },
+  "comparison_limit": "H272 parent-anchor parity must pass the frozen <=1e-3 max-absolute-error gate. Parent blends are not bitwise precision matched; primary mode-vs-hidden_only comparisons share one H272 trunk path.",
+  "serving": "Any gain needs independent serving implementation, delivered ZIP reset/determinism/runtime checks; no immediate public forecast",
+  "admission": "Exact fit/export terminal receipts, fixed checkpoint, provenance, masks, sidecar, prediction hashes and source identity require separate root grade admission bound to this preregistration and grader. No score, weight selection or public forecast is authorized by this preregistration.",
+  "candidate_checkpoint_binding": "Bind the exact completed fixed-epoch checkpoint through root artifact admission before scoring; do not read its predictions during preregistration."
+}

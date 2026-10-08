@@ -1,0 +1,105 @@
+{
+  "schema": "h272-export-grade-source-handoff-v1",
+  "handoff_id": "H272-DIRECT-LABEL-EXPORT-GRADE-SOURCE-HANDOFF-20261008-R1",
+  "created_utc": "2026-10-08T10:11:07.289856+00:00",
+  "status": "source_only_pending_root_review",
+  "adapter_id": "H272_C1S3_EXPORT_ONLY_ANCHOR_GUARD_V1_20261008",
+  "grader_id": "H272-DIRECT-LABEL-FIXED-EP1-COMPARISON-20261008-R1",
+  "frozen_science": {
+    "recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_C1S3_DIRECT_LABEL_READOUT_V1.json",
+    "recipe_sha256": "a5dd858598b6bf926410c80337aa8e725a809cbfee36af906d18c34d0859716f",
+    "runtime_source_lock_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_FROZEN_RUNTIME_SOURCE_LOCK_V1_20261008.json",
+    "runtime_source_lock_sha256": "a8d56811e97783bcaa354a28beb992f8ce8acebc1b62f70f945c6697426aaa76",
+    "runtime_member_count": 55,
+    "scientific_recipe_modified": false,
+    "profile_or_fit_source_modified": false
+  },
+  "parent_anchor_diagnosis": {
+    "actual_sidecar_path": "cache/pred_bd26_c1v2_s3_f0_valid.json",
+    "actual_sidecar_sha256": "bb335392edc599f181c0bbcb6523fd430b036647454bc0d76facf5b592211ad3",
+    "producer_checkpoint_sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+    "distinct_model_pt_alias_sha256": "5f21361d47cc1f010abb363e6aca6e3cbf50a3d5d40d88ad81851aed7519fc4d",
+    "failure": "Frozen H272 compares sidecar checkpoint_sha256 to the model.pt alias although the actual sidecar identifies model_ep1.pt.",
+    "correction": "The identified export adapter changes only this comparison to the pinned producer checkpoint hash; original alias hash/tensor-equality, prediction hash, row-order, fixed epoch and output-path gates remain.",
+    "fixture_metadata": {
+      "run": "bd26_c1v2_s3_f0",
+      "split": "valid",
+      "epoch": 1,
+      "inference_precision": "fp16",
+      "row_groups": 1873
+    }
+  },
+  "preregistered_comparison_contract": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_EXPORT_ONLY_ANCHOR_GUARD_V1_20261008/H272_DIRECT_LABEL_COMPARISON_PREREG_V1_20261008.json",
+    "sha256": "aa76c3197ecf88b5e5d8c26b5f84948bf8b2b1ab25b664448f2eb3eb96ebce11",
+    "copied_design_from_h233": true,
+    "metric": "global_wp_clip2_v1",
+    "modes": [
+      "hidden_only",
+      "additive",
+      "multiplicative",
+      "conditional_residual"
+    ],
+    "primary": "Each additive/multiplicative/conditional_residual standalone versus trained hidden_only control",
+    "secondary": "Each mode standalone and fixed raw mixtures with own frozen C1 parent; official clipping only after blending",
+    "weights_on_readout": [
+      0,
+      0.1,
+      0.25,
+      0.5,
+      1
+    ],
+    "bootstrap": {
+      "unit": "paired frozen connected components",
+      "replicates": 2000,
+      "seed": 271828
+    },
+    "candidate_export_read_or_score_performed": false
+  },
+  "source_hashes": {
+    "adapter": "588c998598c0e580dc6b823b863af890814734846d426c5cad7dbb1d1f682db5",
+    "grader": "8a88161f7d5496170770f5e014003adcbd47993b74df56d74bdcbf0f516170ec",
+    "preregistration": "63e71c18789a5e559a88fbd2cee68627986d778500773bdac8402556842bdbad",
+    "adapter_test": "387d0374e01ae8616f578e159236322ad94f9419453f51b7180f524ba822d5a3",
+    "grader_test": "045e2246b7f023b69ea5715e1cdbf7c4f9d900333c103419d421764244ed2e63",
+    "actual_h233_parent_sidecar_fixture": "bb335392edc599f181c0bbcb6523fd430b036647454bc0d76facf5b592211ad3",
+    "readme": "a945707fb2e161ec407e9dd528e93121d74b7d9177b497227dd02a5bcd41918c",
+    "h272_recipe": "a5dd858598b6bf926410c80337aa8e725a809cbfee36af906d18c34d0859716f",
+    "h272_runtime_source_lock": "a8d56811e97783bcaa354a28beb992f8ce8acebc1b62f70f945c6697426aaa76",
+    "h233_frozen_grader": "c084c12ea7ad3c9af3725a532c1aad3fd76e50a015b02931e2216cea53f7e19e",
+    "shared_h218_grader": "88034869363f8475d8030f932e7bc24af0850241e3511d276b03ce7a53e5a4bd",
+    "e540_pair_scorer": "64d547a9f4f7861f5c104ebc95b6d9f8315f4d51554e092ec6cfd5076ccc5376",
+    "official_scorer": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39",
+    "gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "validation": {
+    "focused_tests": "21 passed in 1.68s under 1 CPU and 1 GB memory cap",
+    "ruff_format_check": "pass",
+    "ruff_check": "pass",
+    "adapter_export_help_smoke": "exit 0; verified all 55 H272 runtime members and the frozen recipe before argparse help",
+    "grader_source_closure_test": "pass; H272 preregistration, frozen H233 grader, shared grader, pair scorer, official scorer, metric, recipe and source-lock pins match expected hashes",
+    "mock_or_real_scoring": "none; only source/sidecar metadata fixtures were examined"
+  },
+  "future_export": {
+    "authorization_required": true,
+    "command_entrypoint": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_EXPORT_ONLY_ANCHOR_GUARD_V1_20261008/h272_export_only_anchor_guard.py",
+    "output_directory": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H272_C1S3_DIRECT_LABEL_E1_VALID_V1",
+    "valid_only": true,
+    "fit_or_profile_available_through_adapter": false
+  },
+  "future_grade": {
+    "authorization_required": true,
+    "authorization_schema": "h272-direct-label-readout-grade-admission-v1",
+    "preregistration_sha256_required": "aa76c3197ecf88b5e5d8c26b5f84948bf8b2b1ab25b664448f2eb3eb96ebce11",
+    "grader_sha256_required": "0dfc643bb5a9cbc6208b9e7f2b7055468824980590a9f15bcc3668e27b8f041a",
+    "export_terminal_and_all_artifact_hashes_required": true,
+    "public_forecast": null,
+    "weight_selection": false
+  },
+  "limitations": [
+    "Source preparation does not authorize export or grading.",
+    "No H272 fit checkpoint, H272 predictions, parent prediction array, target NPZ, or other candidate output was read in this preparation.",
+    "The existing H272 fit remains root-owned; do not alter or interrupt it.",
+    "Root must independently review adapter, preregistration and grader before export/grade admission."
+  ]
+}
