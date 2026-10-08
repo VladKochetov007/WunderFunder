@@ -1,0 +1,127 @@
+{
+  "earlier_memory_stat_boundary": {
+    "abort_state_inference": "none; later/abort-time composition was not captured",
+    "active_file_after_bytes": 2260815872,
+    "active_file_before_bytes": 10305536,
+    "anon_after_bytes": 54882304,
+    "anon_before_bytes": 37085184,
+    "inactive_file_after_bytes": 133890048,
+    "inactive_file_before_bytes": 2338213888,
+    "phase": "load_campaign_split",
+    "stat_during_sample_available": true,
+    "v6_eligibility_at_this_observed_boundary": "veto: inactive-file minimum fails and active file dominates",
+    "workingset_refault_file_counter_after": 0
+  },
+  "fit_admission": "not_admitted",
+  "hashes": {
+    "cache_pressure_recovery_sha256": "a33b100c38dfd61b8ac0b5196a6b7c52e24b2764fe3761d0f8660fc94d7ee5db",
+    "external_review_sha256": "b5ea273498652ae0d0c22e59db2738ce55058fc626e86d20c4671aeb1dd83037",
+    "packet_meta_sha256": "5e8484c3ff48157ec5111ba3f93c0d8a115d1c4f33b6fdf044635bc9c16cc4a5",
+    "profile_kernel_sha256": "fa8307541fee254f75624fc06db751aa42ad4a3547e6eba80b1ee9cbbf2c874c",
+    "profile_worker_sha256": "915fc9d49dd765f271c5a625064462e733abb4d8771f9feeb7f26c9239b348a7",
+    "source_archive_manifest_sha256": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42",
+    "source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+    "source_data_py_sha256": "3e32781997fd01e6dd94dd559fe6885490b8158136fc61aa87a7cf2e6ea08939",
+    "source_trainer_sha256": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a",
+    "transport_bundle_sha256": "545b1624c9f5e63bde2c3c532f73b1e1cd0d3f83f55fa24834780cf9c17d8978",
+    "transport_code_file_sha256": "6bc43cfe8f0dd30bd93c7af4fbfbf6fb6946ce868744429af616e345eebfb045"
+  },
+  "interpretation_limit": "V5's public resource termination establishes an execution censoring event, not a model-quality negative and not proof that file cache caused the abort. V6 eligibility and kernel effect remain unmeasured.",
+  "packet_id": "E529_H232_FULLFEATURE_GRU384_B8_AMP4096_CONDITIONAL_PROFILE_FIT_V6",
+  "postfit_export": {
+    "argv": [
+      "scripts/predict_run.py",
+      "bd26_h232_full_s3_f0_amp4096_v6",
+      "valid",
+      "--epoch",
+      "3",
+      "--output-name",
+      "h232_v6_fixed_ep3",
+      "--inference-precision",
+      "fp32"
+    ],
+    "cap_seconds": 1800,
+    "dtype": "float32",
+    "enabled": true,
+    "score_or_metric_computed": false,
+    "shape": [
+      1873,
+      20000,
+      2
+    ]
+  },
+  "provider_push_authorized": false,
+  "read_horizon_budget": {
+    "conservative_total_read_ceiling_bytes": 214749877962,
+    "cumulative_reserve_over_ceiling_bytes": 31010122038,
+    "event_capacity": 320,
+    "full_raw_pair_bytes": 34855728139,
+    "interpretation": "capacity reservation, not measured eviction or prediction",
+    "maximum_advice_rate_bytes_per_second": 38400000.0,
+    "minimum_events_with_10_percent_margin": 308,
+    "worker_lifetime_seconds": 34000
+  },
+  "schema": "h232-v6-resource-repair-receipt-v1",
+  "status": "assembled_pending_independent_review_and_fresh_root_admission",
+  "v5_diagnosis": {
+    "abort_time_memory_stat_available": false,
+    "abort_time_oom_counters_available": false,
+    "cgroup_available_bytes_at_abort": 8033509376,
+    "cgroup_available_fraction_at_abort": 0.24939295450846355,
+    "cgroup_limit_bytes": 32212254720,
+    "fit_elapsed_seconds": 726.240894,
+    "fit_run_name": "bd26_h232_full_s3_f0_amp4096_v5",
+    "fit_started": true,
+    "fraction_gate_deficit_bytes": 19554304,
+    "hard_fraction_gate": 0.25,
+    "host_available_bytes_at_abort": 27102777344,
+    "host_available_fraction_at_abort": 0.8052327498776372,
+    "host_total_bytes": 33658314752,
+    "minimum_available_bytes_gate": 6500000000,
+    "rss_peak_bytes": 2954981376,
+    "scientific_result": "resource_censored_no_score",
+    "terminal_reason": "SystemExit: 143",
+    "terminal_signal": 15
+  },
+  "v5_source_archive_comparison": {
+    "members_added": [],
+    "members_changed": [
+      "src/wnn/data.py"
+    ],
+    "members_removed": [],
+    "method": "compare member path-to-SHA256 maps in the frozen V5 and V6 source_archive_manifest.json files",
+    "v5_archive_sha256": "afde296e1c5e2f0c47a6fb352c2dea8e0a3df75900f53c26f103b3921df1f565",
+    "v5_manifest_sha256": "e9ca52c7247ebc944bac086261715879f37006033c556c9c9890445ac22bbb01",
+    "v5_member_count": 54,
+    "v6_member_count": 54
+  },
+  "v6_resource_contract": {
+    "failure_behavior": "preserve original hard abort",
+    "global_drop_caches": false,
+    "max_active_file_growth_per_sample_bytes": 256000000,
+    "max_active_to_inactive_ratio": 4.0,
+    "max_anon_growth_per_sample_bytes": 128000000,
+    "max_workingset_refault_growth_bytes": 64000000,
+    "maximum_bytes_per_event": 768000000,
+    "maximum_events": 320,
+    "maximum_total_advice_bytes": 245760000000,
+    "memory_reclaim_write": false,
+    "method": "POSIX_FADV_DONTNEED on recent identity-bound raw parquet row-group byte ranges from the existing PyArrow reader",
+    "minimum_headroom_bytes": 6500000000,
+    "minimum_headroom_fraction": 0.25,
+    "minimum_inactive_file_bytes": 768000000,
+    "minimum_seconds_between_events": 20.0,
+    "post_advice_measured_recheck_required": true,
+    "preserves_original_byte_and_fraction_gates": true,
+    "recovery_margin_bytes": 512000000
+  },
+  "validation": {
+    "bundle_build_command": "scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v6/build_h232_bundle.py research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v6/packet",
+    "packet_prepare_command": "scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v6/prepare_h232_v6_packet.py",
+    "ruff_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/ruff check research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v6/packet/cache_pressure_recovery.py research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v6/packet/profile_worker.py research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v6/source/src/wnn/data.py",
+    "ruff_result": "All checks passed",
+    "source_archive_command": "scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v6/build_h232_source_archive.py",
+    "test_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v6/tests",
+    "test_result": "18 passed in 0.21s"
+  }
+}
