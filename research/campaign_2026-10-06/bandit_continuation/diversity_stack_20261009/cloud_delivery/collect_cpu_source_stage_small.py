@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import csv
 import hashlib
+import io
 import json
 import logging
 import os
@@ -10,6 +12,7 @@ import re
 import shutil
 import subprocess
 import tempfile
+import time
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -20,11 +23,14 @@ TERMINAL_STATES = {"COMPLETE", "COMPLETED", "ERROR", "FAILED", "CANCELED", "CANC
 MAX_OUTPUT_BYTES = 64 * 1024**2
 MIN_FREE_BYTES = 4 * GIB
 COMMAND_TIMEOUT_SECONDS = 300
+LISTING_TIMEOUT_SECONDS = 60
+FILE_LISTING_PAGE_SIZE = 200
 FILE_PATTERN = (
     r"(^|/)(boot_marker\.json|heartbeat\.json|final_status\.json|phase\.jsonl|"
     r"source_stage_receipt\.json|failure\.json|manifest\.json|"
     r"source_verification\.json|reader_validation\.json|reader_profile\.json|"
-    r"cache_build\.log|cache_profile\.log)$"
+    r"cache_build\.log|cache_profile\.log|"
+    r"wnn-parsed-cache-source-stage-20261009-v1\.log)$"
 )
 ALLOWED_OUTPUT_NAME = re.compile(FILE_PATTERN)
 BASE = Path(__file__).resolve().parent
@@ -183,6 +189,126 @@ def already_collected() -> bool:
     )
 
 
+def parse_selected_file_listing(csv_text: str) -> tuple[list[dict[str, object]], int]:
+    """Select only allowed small outputs from Kaggle's metadata-only file listing."""
+    reader = csv.DictReader(io.StringIO(csv_text))
+    if not reader.fieldnames:
+        raise ValueError("Kaggle file listing has no CSV header")
+    fields = {re.sub(r"[^a-z0-9]", "", name.lower()): name for name in reader.fieldnames}
+    name_field = next((fields[key] for key in ("name", "filename", "file") if key in fields), None)
+    size_field = next(
+        (fields[key] for key in ("size", "sizebytes", "bytes", "totalbytes") if key in fields),
+        None,
+    )
+    if name_field is None or size_field is None:
+        raise ValueError(f"Kaggle file listing lacks filename/size fields: {reader.fieldnames!r}")
+    selected: list[dict[str, object]] = []
+    selected_names: set[str] = set()
+    total_bytes = 0
+    listing_rows = 0
+    for row in reader:
+        listing_rows += 1
+        if listing_rows >= FILE_LISTING_PAGE_SIZE:
+            raise ValueError(
+                "Kaggle file listing reached its page-size limit; refusing a possibly truncated inventory"
+            )
+        name = str(row.get(name_field, ""))
+        path_parts = Path(name).parts
+        if Path(name).is_absolute() or ".." in path_parts or "\\" in name:
+            raise ValueError(f"Kaggle file listing contains an unsafe path: {name!r}")
+        if not name or not ALLOWED_OUTPUT_NAME.search(name):
+            continue
+        if name in selected_names:
+            raise ValueError(f"Kaggle file listing contains a duplicate output path: {name!r}")
+        selected_names.add(name)
+        raw_size = str(row.get(size_field, "")).strip()
+        try:
+            size_bytes = int(raw_size)
+        except ValueError as error:
+            raise ValueError(f"Kaggle file listing has an invalid size for {name!r}") from error
+        if size_bytes < 0:
+            raise ValueError(f"Kaggle file listing has a negative size for {name!r}")
+        selected.append({"name": name, "size_bytes": size_bytes})
+        total_bytes += size_bytes
+    return selected, total_bytes
+
+
+def preflight_selected_output_bytes() -> tuple[list[dict[str, object]], int]:
+    """Read provider metadata before any output bytes are downloaded."""
+    result = subprocess.run(
+        [
+            str(KAGGLE),
+            "kernels",
+            "files",
+            KERNEL,
+            "--csv",
+            "--page-size",
+            str(FILE_LISTING_PAGE_SIZE),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=LISTING_TIMEOUT_SECONDS,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"Kaggle output inventory failed before download: {result.stderr[-2000:]}"
+        )
+    selected, expected_bytes = parse_selected_file_listing(result.stdout)
+    if expected_bytes > MAX_OUTPUT_BYTES:
+        raise RuntimeError(
+            f"selected provider outputs total {expected_bytes} bytes, above {MAX_OUTPUT_BYTES}-byte cap"
+        )
+    return selected, expected_bytes
+
+
+def tree_bytes(root: Path) -> int:
+    """Measure the attempt directory during download without reading file contents."""
+    total = 0
+    if root.is_dir():
+        for path in root.rglob("*"):
+            if path.is_symlink():
+                raise ValueError(f"refusing a symlinked collector path: {path}")
+            if path.is_file():
+                total += path.stat().st_size
+    return total
+
+
+def run_capped_download(command: list[str], provider_dir: Path, attempt: Path) -> tuple[int, str]:
+    """Run the output CLI while enforcing byte and free-space limits continuously."""
+    cli_log = attempt / "collector_cli.log"
+    with cli_log.open("xb") as log:
+        process = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT, text=True)
+        deadline = time.monotonic() + COMMAND_TIMEOUT_SECONDS
+        failure = ""
+        try:
+            while process.poll() is None:
+                if tree_bytes(attempt) > MAX_OUTPUT_BYTES:
+                    failure = "selected output exceeded its live byte cap"
+                elif shutil.disk_usage(provider_dir).free < MIN_FREE_BYTES:
+                    failure = "free disk fell below the collector reserve during download"
+                elif time.monotonic() >= deadline:
+                    failure = "terminal output command exceeded its wall timeout"
+                if failure:
+                    process.terminate()
+                    try:
+                        process.wait(timeout=5)
+                    except subprocess.TimeoutExpired:
+                        process.kill()
+                        process.wait(timeout=5)
+                    break
+                time.sleep(0.1)
+            if process.poll() is None:
+                process.wait(timeout=5)
+        finally:
+            log.flush()
+            os.fsync(log.fileno())
+    tail = cli_log.read_text(encoding="utf-8", errors="replace")[-4000:]
+    if failure:
+        return 75, f"{failure}\n{tail}"[-4000:]
+    return int(process.returncode), tail
+
+
 def collect() -> int:
     """Collect one terminal attempt's selected files without fetching cache arrays."""
     if already_collected():
@@ -192,9 +318,13 @@ def collect() -> int:
     if observation is None:
         logging.info("waiting for a terminal status in the active provider poll log")
         return 0
+    selected_files, expected_download_bytes = preflight_selected_output_bytes()
     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True, mode=0o700)
-    if shutil.disk_usage(OUTPUT_ROOT).free < MIN_FREE_BYTES:
-        raise RuntimeError("refusing terminal collection with less than 4 GiB free")
+    required_free_bytes = MIN_FREE_BYTES + expected_download_bytes
+    if shutil.disk_usage(OUTPUT_ROOT).free < required_free_bytes:
+        raise RuntimeError(
+            "refusing terminal collection without the 4 GiB reserve plus preflight output bytes"
+        )
     attempt = OUTPUT_ROOT / "attempt_001"
     if attempt.exists():
         raise RuntimeError("attempt_001 already exists; preserve it and review before retry")
@@ -208,6 +338,8 @@ def collect() -> int:
             "kernel": KERNEL,
             "terminal_observation": observation,
             "file_pattern": FILE_PATTERN,
+            "preflight_selected_files": selected_files,
+            "preflight_selected_bytes": expected_download_bytes,
             "max_output_bytes": MAX_OUTPUT_BYTES,
             "minimum_free_bytes": MIN_FREE_BYTES,
         },
@@ -225,22 +357,18 @@ def collect() -> int:
         "--file-pattern",
         FILE_PATTERN,
     ]
-    try:
-        result = subprocess.run(
-            command,
-            check=False,
-            capture_output=True,
-            text=True,
-            timeout=COMMAND_TIMEOUT_SECONDS,
-        )
-        process_exit_code = result.returncode
-        stderr_tail = result.stderr[-4000:]
-    except subprocess.TimeoutExpired as error:
-        process_exit_code = 124
-        stderr_tail = str(error)[:4000]
+    process_exit_code, stderr_tail = run_capped_download(command, provider_dir, attempt)
     try:
         files, downloaded_bytes = file_inventory(provider_dir)
-        output_valid = downloaded_bytes <= MAX_OUTPUT_BYTES
+        observed_sizes = {name: metadata["size_bytes"] for name, metadata in files.items()}
+        expected_sizes = {
+            str(metadata["name"]): metadata["size_bytes"] for metadata in selected_files
+        }
+        output_valid = downloaded_bytes <= MAX_OUTPUT_BYTES and observed_sizes == expected_sizes
+        if observed_sizes != expected_sizes:
+            stderr_tail = (
+                f"{stderr_tail}\nprovider output file inventory differed from metadata preflight"
+            )[-4000:]
     except (OSError, ValueError) as error:
         files, downloaded_bytes, output_valid = {}, 0, False
         stderr_tail = f"{stderr_tail}\n{type(error).__name__}: {error}"[-4000:]
@@ -260,6 +388,8 @@ def collect() -> int:
             "cache_payload_downloaded": False,
             "cache_payload_bytes": 0,
             "maximum_download_bytes": MAX_OUTPUT_BYTES,
+            "preflight_selected_bytes": expected_download_bytes,
+            "preflight_selected_files": selected_files,
             "downloaded_bytes": downloaded_bytes,
             "provider_output_exit_code": process_exit_code,
             "output_exit_code": recorded_exit_code,
@@ -277,6 +407,10 @@ def collect() -> int:
             "finished_at_utc": receipt["observed_at_utc"],
             "provider_exit_code": process_exit_code,
             "downloaded_bytes": downloaded_bytes,
+            "collector_cli_log": {
+                "size_bytes": (attempt / "collector_cli.log").stat().st_size,
+                "sha256": sha256_file(attempt / "collector_cli.log"),
+            },
             "collection_complete": collection_complete,
         }
     )

@@ -60,6 +60,97 @@ def test_output_filter_keeps_small_receipts_and_rejects_cache_arrays(tmp_path: P
         collector.file_inventory(provider_dir)
 
 
+def test_listing_preflight_sums_only_allowed_files_and_accepts_cli_headers() -> None:
+    """Metadata inventory accepts Kaggle CSV headers and excludes cache arrays."""
+    listing = (
+        "File Name,Total Bytes,Date\n"
+        "out/boot_marker.json,120,2026-10-09\n"
+        "out/parsed_cache/manifest.json,450,2026-10-09\n"
+        "out/parsed_cache/train_features.npy,7732440000,2026-10-09\n"
+    )
+
+    files, total = collector.parse_selected_file_listing(listing)
+
+    assert files == [
+        {"name": "out/boot_marker.json", "size_bytes": 120},
+        {"name": "out/parsed_cache/manifest.json", "size_bytes": 450},
+    ]
+    assert total == 570
+
+
+def test_listing_preflight_rejects_oversized_selected_outputs(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The provider metadata cap must reject before output-download is invoked."""
+    monkeypatch.setattr(collector, "MAX_OUTPUT_BYTES", 100)
+    monkeypatch.setattr(
+        collector.subprocess,
+        "run",
+        lambda *args, **kwargs: type(
+            "Completed",
+            (),
+            {"returncode": 0, "stdout": "name,size\nout/boot_marker.json,101\n", "stderr": ""},
+        )(),
+    )
+
+    with pytest.raises(RuntimeError, match="above .*byte cap"):
+        collector.preflight_selected_output_bytes()
+
+
+def test_listing_preflight_fails_closed_on_truncated_page() -> None:
+    """A full metadata page cannot silently understate selected download size."""
+    rows = ["name,size"] + [
+        f"unrelated-{index}.txt,1" for index in range(collector.FILE_LISTING_PAGE_SIZE)
+    ]
+
+    with pytest.raises(ValueError, match="possibly truncated"):
+        collector.parse_selected_file_listing("\n".join(rows))
+
+
+def test_live_download_terminates_when_provider_directory_crosses_cap(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The subprocess is stopped while writing, before post-download validation."""
+    attempt = tmp_path / "attempt"
+    attempt.mkdir()
+    provider_dir = attempt / "provider"
+    provider_dir.mkdir()
+    monkeypatch.setattr(collector, "MAX_OUTPUT_BYTES", 1)
+
+    class FakeProcess:
+        returncode: int | None = None
+
+        def poll(self) -> int | None:
+            if self.returncode is not None:
+                return self.returncode
+            (provider_dir / "boot_marker.json").write_bytes(b"oversize")
+            return None
+
+        def terminate(self) -> None:
+            self.returncode = -15
+
+        def wait(self, timeout: float | None = None) -> int:
+            assert timeout is not None
+            return int(self.returncode or 0)
+
+        def kill(self) -> None:
+            self.returncode = -9
+
+    fake_process = FakeProcess()
+    monkeypatch.setattr(collector.subprocess, "Popen", lambda *args, **kwargs: fake_process)
+    monkeypatch.setattr(
+        collector.time,
+        "sleep",
+        lambda _: pytest.fail("live byte limit failed to stop the download subprocess"),
+    )
+
+    exit_code, tail = collector.run_capped_download(["kaggle"], provider_dir, attempt)
+
+    assert exit_code == 75
+    assert "live byte cap" in tail
+    assert fake_process.returncode == -15
+
+
 def test_receipt_hash_recheck_rejects_changed_bytes(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
