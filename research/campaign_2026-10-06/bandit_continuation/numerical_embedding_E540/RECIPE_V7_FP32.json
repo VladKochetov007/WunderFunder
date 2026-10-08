@@ -1,0 +1,187 @@
+{
+  "arms": {
+    "linear": {
+      "basis": "8 zero ramp coordinates and one active raw bypass coordinate per feature",
+      "numeric_map": "linear"
+    },
+    "ple": {
+      "basis": "8 clamped cumulative linear ramps from at most 9 train-only quantile knots plus unbounded standardized raw bypass",
+      "numeric_map": "ple"
+    }
+  },
+  "capacity_disclosure": {
+    "allocated_parameters": "exactly equal by construction for the paired E540 arms",
+    "effective_capacity": "not equal: all 896 linear-control ramp input coordinates are zero, so their connected projection weights do not add data-dependent expressivity",
+    "interpretation": "A PLE gain cannot be attributed solely to spline geometry. A matched ordinary input MLP remains a later descendant."
+  },
+  "changed_factor": {
+    "name": "training precision changed from FP16 AMP4096 to FP32 with GradScaler disabled",
+    "reason": "V6's linear arm completed 72,967 of 72,996 attempted updates and skipped 29, so it failed the frozen zero-skip contract before PLE fitting. V7 is a new matched precision treatment, not a relaxation or relabeling of V6.",
+    "scientific_factors": "Same 512 selected components, 468 exposed evaluation groups, seed 540, clip2-target WMSE/chunk, fixed epoch 0, numeric maps, model shape, and fit objective; precision changes to FP32 in both arms."
+  },
+  "conditional_authorization": {
+    "conditional_fit_after_profile_gate": true,
+    "owner": "root",
+    "provider_launch_authorized_by_actor": false,
+    "receipt": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_V7_ROOT_CONDITIONAL_AUTHORIZATION.json",
+    "required_before_data_hashing": true,
+    "scope": "Permit the paired FP32 fit only after both profiles pass exact-update, finite-loss, complete finite GradStats, allocator-memory, and projected-runtime gates."
+  },
+  "data": {
+    "allowed_files": [
+      "datasets/train.parquet",
+      "datasets/valid.parquet"
+    ],
+    "dropped_sequence_identity": "unknown in the packet; the exact row is not inferred from the seed without an observed loader trace",
+    "eligible_component_count": 3148,
+    "evaluation_membership": "the exact frozen 468 valid row groups from the supplied split",
+    "expected_epoch0_consumed_sequence_count": 1848,
+    "expected_epoch0_dropped_sequence_count": 1,
+    "fit_membership": "selected train and non-evaluation valid groups only",
+    "fit_subset_manifest": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V5.json",
+    "fitting_subset": "exactly the first 512 components from the seed-540 permutation of sorted eligible component IDs; all fitting sequences in each selected component are included",
+    "knot_fit": {
+      "constant_feature": "one repeated knot, zero ramp coordinates, raw bypass retained",
+      "coordinates": "existing model mean/std fitted using the selected fitting training loader; both arms declare seed 540 and the same sampler configuration, but actual normalization batch indices are not captured.",
+      "labels_or_scored_mask": "never read for knot fitting",
+      "maximum_reservoir_rows": 65536,
+      "quantiles": "n_intervals+1 equally spaced empirical quantiles; duplicate values dropped per feature",
+      "reservoir_seed": 20261008,
+      "row_selection": "evenly spaced positions including sequence endpoints",
+      "rows_per_sequence": 128,
+      "sentinel": "finite -5.19934 follows the current unchanged-input policy as an ordinary scalar"
+    },
+    "membership_protocol_correction_from_v2": "The preserved V2 10%-of-components rule yields 315 of 3,148 eligible components under the frozen split, rather than its stated 512. V3 therefore freezes exactly 512 by seed-540 permutation rank; it is not described as a 10% subset or the same-size V2 realization.",
+    "paired_sample_order_status": "both arms pin the same seeded sampler configuration; realized order and dropped-row identity are not captured here",
+    "realized_component_fraction": 0.16264294790343076,
+    "selected_component_count": 512,
+    "selected_fit_sequence_count": 1849,
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "subset_selection_seed": 540
+  },
+  "execution_envelope_correction": {
+    "conditional_authorization_receipt": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_V7_ROOT_CONDITIONAL_AUTHORIZATION.json",
+    "kernel_process_wall_seconds_max": 6000,
+    "projection": "Gate-time elapsed already includes both completed profiles; add only projected fit/prediction work plus a separate 300-second worker projection margin.",
+    "provider_scope": "The 6,000-second kernel-process deadline starts at bootstrap entry. Kaggle queue/cold-start before process entry and provider output transport after process exit are outside the watchdog; no hard provider-from-push bound is claimed.",
+    "regression_case": "Runtime spec computed at t=200 with deadline 6000 has 5200 seconds; runner launch at t=700 resolves to 5000 seconds.",
+    "runner_finalization_reserve_seconds": 300,
+    "runner_watchdog_resolution": "Immediately before each worker Popen, runner computes min(existing spec timeout, 5200 seconds, kernel deadline - current monotonic time - 300 seconds). The resolved limit is persisted in spec.json, timeout_resolution.json, heartbeat and terminal/failure receipt.",
+    "startup_cli_validation": "Actual train_rnn.py profile/fit and predict_run.py parsers for both FP32 arms, stdlib-only, before mounted-input hashing; verifies --grad-stats and disabled-scaler precision.",
+    "worker_declared_ceiling_seconds": 5200,
+    "worker_projection_margin_seconds": 300,
+    "worker_runtime_limit": "min(5200, kernel deadline minus actual worker start minus 300 seconds); the same reduced limit is applied to the recipe worker and runner watchdog."
+  },
+  "expected_public_score": null,
+  "experiment_id": "E540_FP32_V7",
+  "fit_admitted": false,
+  "grader_owner": "root independent grader",
+  "hypothesis_ids": [
+    "H-234",
+    "H-E537-C",
+    "H-E540-A"
+  ],
+  "predecessor": {
+    "reason": "V7 changes the paired training precision and adds explicit GradStats evidence; V6 remains an immutable FP16 diagnostic.",
+    "recipe": "RECIPE_V6_AMP4096.json",
+    "scientific_recipe_unchanged": false,
+    "status": "preserved_immutable_packet_with_partial_FP16_execution"
+  },
+  "prediction_and_grade": {
+    "exposure": "These previously inspected evaluation groups remain exposed; no holdout or public forecast is implied.",
+    "onnx_export": "omitted from this bounded research screen",
+    "prediction_index": "row_groups array and evaluation_membership_sha256 accompany each prediction file; grader verifies both before scoring",
+    "prediction_membership": "exact sorted evaluation_groups from the frozen E540 fit-subset manifest; 468 valid row groups",
+    "prediction_precision": "fp32",
+    "prediction_reads": "features only; targets and is_scored masks are not requested"
+  },
+  "profile": {
+    "finite_timing_reason": "Timed FP32 steps include --grad-stats pre-clip gradient-norm instrumentation; measured profile cost is used directly in the fit projection.",
+    "fit_on_profile_failure": false,
+    "kernel_process_ceiling_seconds": 6000,
+    "optimizer_attempts_per_arm": 316,
+    "runner_finalization_reserve_seconds": 300,
+    "shape": {
+      "batch": 2,
+      "chunk_rows": 256,
+      "hidden": 128,
+      "layers": 1
+    },
+    "strict_gate": [
+      "both arms run on one verified Kaggle Tesla T4",
+      "all 316 profile losses are finite",
+      "all 316 optimizer updates complete with GradScaler disabled and no skipped updates",
+      "GradStats observes exactly 316 pre-clip gradient norms per arm with zero nonfinite steps",
+      "allocator reserved peak is at most 4.3 decimal GB per arm",
+      "the conservative full fit and both feature-only prediction exports project inside the worker deadline"
+    ],
+    "timed_outer_batches": 3,
+    "warmup_outer_batches": 1,
+    "worker_ceiling_seconds": 5200
+  },
+  "promotion": "A one-seed small-data screen can allocate a larger fidelity test; it cannot establish training-seed robustness, public transfer or final submission value.",
+  "provider_launch_authorized": false,
+  "scientific_factor_lineage": {
+    "V2_precision": "FP16; default GradScaler configuration recorded in preserved V2 recipe",
+    "V3_to_V6_precision": "FP16 autocast with declared initial GradScaler scale 4096",
+    "V6_status": "partial FP16 diagnostic: linear completed 72,967/72,996 updates with 29 skips; PLE was not fitted; no predictions or grade",
+    "V7_precision": "FP32 with GradScaler disabled; inert --amp-init-scale 1 argument is not applied"
+  },
+  "shared_model": {
+    "allocated_trainable_parameters_per_arm": 274050,
+    "allowed_skipped_updates_per_arm": 0,
+    "amp_init_scale_applied": false,
+    "amp_init_scale_argument": 1.0,
+    "auxiliary_objectives": "all disabled",
+    "batch_order": "seeded; same sampler configuration in both arms; DataLoader drop_last=True omits one of 1,849 selected sequences in epoch 0, with exact identity unobserved",
+    "batch_size": 2,
+    "checkpoint": "fixed epoch 0; evaluation withheld during fitting",
+    "chunk_rows": 256,
+    "distillation": "disabled",
+    "dropout": 0.0,
+    "effective_detach_rows": 256,
+    "effective_update_rows": 256,
+    "epochs": 1,
+    "event_feature_count": 99,
+    "expanded_width": 1107,
+    "expected_completed_updates_per_arm": 72996,
+    "expected_optimizer_attempts_per_arm": 72996,
+    "grad_scaler_enabled": false,
+    "gradient_finiteness": "GradStats pre-clip gradient norms for every optimizer attempt in profile and fit",
+    "hidden": 128,
+    "initialization": "from scratch; same seed and identical parameter layouts",
+    "input_width": 211,
+    "layers": 1,
+    "learning_rate": 0.001,
+    "loss": {
+      "denominator": "sum of both target weights over each 256-row chunk",
+      "name": "wmse",
+      "training_target_clip": [
+        -2.0,
+        2.0
+      ],
+      "validity_mask": "repository warmup validity; same for both arms",
+      "weight": "absolute clipped target magnitude"
+    },
+    "optimizer": "AdamW",
+    "precision": "fp32",
+    "propensity": "disabled",
+    "raw_feature_count": 112,
+    "schedule": "OneCycle",
+    "seed": 540,
+    "weight_decay": 0.01
+  },
+  "startup_preflight": {
+    "authorization": "Require a root-owned V7 packet/source/recipe/subset-bound conditional-fit receipt before mounted-input hashing.",
+    "cli_validation": "Actual train_rnn.py profile/fit and predict_run.py parsers for both FP32 arms, stdlib-only, before mounted-input hashing; verifies --grad-stats and disabled-scaler precision.",
+    "failure_behavior": "Persist startup_preflight.json and fail closed before mounted-input hashing, profiling or fit.",
+    "ordering": "Runs before streaming SHA-256 of mounted train.parquet, valid.parquet and target NPZ files.",
+    "torch_or_gpu": "No Torch import, CUDA call, dataset footer read or target-array load."
+  },
+  "status": "prepared_v7_fp32_pending_root_review_and_conditional_authorization",
+  "tails_factor": {
+    "raw_target_wmse": "separate future factor; not tested by E540 V3",
+    "status": "held fixed at clip2 for this pair"
+  },
+  "version": 7
+}
