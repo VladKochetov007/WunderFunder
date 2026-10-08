@@ -1,0 +1,244 @@
+{
+ "cohort_id": "COHORT1_FOLD0_STUDENT_20261008",
+ "run_prefix": "c1f0st",
+ "seed": 3,
+ "trainer": "scripts/train_rnn.py",
+ "fit_timeout": 7200,
+ "env": {
+  "PYTHONPATH": "{root}/src",
+  "OMP_NUM_THREADS": "2",
+  "MKL_NUM_THREADS": "2",
+  "OPENBLAS_NUM_THREADS": "2",
+  "WNN_LOADER_WORKERS": "0",
+  "WNN_PROJECT_ROOT": "{root}",
+  "PYTHONHASHSEED": "0"
+ },
+ "hypothesis": "H-230 heterogeneous teacher mix + family head on fold0 (never-run C3 analogue)",
+ "base_argv": [
+  "--name",
+  "X",
+  "--device",
+  "cuda",
+  "--arch",
+  "gru",
+  "--cell",
+  "gru",
+  "--hidden",
+  "256",
+  "--layers",
+  "2",
+  "--dropout",
+  "0",
+  "--seed",
+  "{seed}",
+  "--split-manifest",
+  "{root}/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "--valid-fold",
+  "0",
+  "--train-source",
+  "train+valid",
+  "--train-seqs",
+  "10607",
+  "--init",
+  "c20261003_combo_s{seed}_f0@ep3",
+  "--epochs",
+  "2",
+  "--checkpoint-policy",
+  "fixed",
+  "--checkpoint-epoch",
+  "1",
+  "--no-eval-during-fit",
+  "--batch",
+  "16",
+  "--chunk",
+  "2000",
+  "--loss",
+  "wmse",
+  "--loss-norm",
+  "chunk",
+  "--lr",
+  "0.0001",
+  "--wd",
+  "0.01",
+  "--optim",
+  "adamw",
+  "--sched",
+  "onecycle",
+  "--precision",
+  "fp16",
+  "--propensity",
+  "c20260929_prop_f0",
+  "--prop-power",
+  "2",
+  "--prop-eps",
+  "0.03",
+  "--valid-true-mask",
+  "0.03",
+  "--aux-struct",
+  "0.3",
+  "--aux-next",
+  "0.3",
+  "--distill-boot-h",
+  "0",
+  "--fast",
+  "--save-training-state",
+  "--distill-cache-root",
+  "{root}/cache/bd26_h230_fold0_teacher_family_all_rows_v1",
+  "--distill-cache-variant",
+  "source",
+  "--distill-alpha",
+  "0.7",
+  "--distill-family-weight",
+  "0.1",
+  "--distill-family-head",
+  "--distill-family-target-mode",
+  "raw"
+ ],
+ "score_references": [
+  "bd26_c1v2_s{seed}_f0@ep1",
+  "c20261003_combo_s{seed}_f0@ep3"
+ ],
+ "evaluation": "fold0 excluded-468 panel via scripts/score_fold0_panel.py; exposed development evidence",
+ "matched_control_rule": "Same seed, membership, init, data order, budget; one flag diff per arm vs A00 (seed3) or A01 (seed4).",
+ "arms": [
+  {
+   "id": "A00",
+   "diff": {},
+   "notes": "K0 control: H230 student science on fold0 (C3 analogue). Compare vs C1 bd26_c1v2_s3_f0@ep1 (0.6816181) and fold0 parent.",
+   "priority": 1,
+   "hypothesis": "H-230",
+   "seed": 3
+  },
+  {
+   "id": "A01",
+   "diff": {},
+   "notes": "K0 seed4: noise floor + equal pair with A00",
+   "priority": 2,
+   "hypothesis": "H-230",
+   "seed": 4
+  },
+  {
+   "id": "A04",
+   "diff": {
+    "--distill-family-weight": 0.0,
+    "--distill-family-head": null,
+    "--distill-family-target-mode": null
+   },
+   "notes": "C2 analogue: heterogeneous main target, no family head",
+   "priority": 3,
+   "hypothesis": "H-230",
+   "seed": 3
+  },
+  {
+   "id": "A02",
+   "diff": {
+    "--distill-alpha": 0.5
+   },
+   "notes": "alpha 0.5",
+   "priority": 4,
+   "hypothesis": "H-268",
+   "seed": 3
+  },
+  {
+   "id": "A03",
+   "diff": {
+    "--distill-alpha": 0.9
+   },
+   "notes": "alpha 0.9",
+   "priority": 5,
+   "hypothesis": "H-268",
+   "seed": 3
+  },
+  {
+   "id": "A06",
+   "diff": {
+    "--distill-cache-variant": "normalized"
+   },
+   "notes": "teacher sum normalized by 0.8125 (ADR0023 treatment)",
+   "priority": 6,
+   "hypothesis": "H-268",
+   "seed": 3
+  },
+  {
+   "id": "A05",
+   "diff": {
+    "--distill-family-target-mode": "clip2"
+   },
+   "notes": "family targets clipped +-2 (H-278 reverse)",
+   "priority": 7,
+   "hypothesis": "H-278",
+   "seed": 3
+  },
+  {
+   "id": "A08",
+   "diff": {
+    "--lr": 0.0002
+   },
+   "notes": "lr 2e-4",
+   "priority": 8,
+   "hypothesis": "H-266",
+   "seed": 3
+  },
+  {
+   "id": "A10",
+   "diff": {
+    "--epochs": 3,
+    "--checkpoint-epoch": 2
+   },
+   "notes": "3 epochs fixed ep2",
+   "priority": 9,
+   "hypothesis": "H-266",
+   "seed": 3
+  },
+  {
+   "id": "A11",
+   "diff": {
+    "--chunk": 1000
+   },
+   "notes": "chunk 1000 (finer TBPTT)",
+   "priority": 10,
+   "hypothesis": "H-230",
+   "seed": 3
+  },
+  {
+   "id": "A12",
+   "diff": {
+    "--distill-boot-h": 8
+   },
+   "notes": "bootstrap horizon 8 in student",
+   "priority": 11,
+   "hypothesis": "H-230",
+   "seed": 3
+  },
+  {
+   "id": "A07",
+   "diff": {
+    "--distill-cache-variant": "homogeneous"
+   },
+   "notes": "homogeneous teacher variant",
+   "priority": 12,
+   "hypothesis": "H-273",
+   "seed": 3
+  },
+  {
+   "id": "A09",
+   "diff": {
+    "--lr": 5e-05
+   },
+   "notes": "lr 5e-5",
+   "priority": 13,
+   "hypothesis": "H-266",
+   "seed": 3
+  },
+  {
+   "id": "A13",
+   "diff": {
+    "--optim": "muon"
+   },
+   "notes": "Muon student optimizer (final-stage transfer)",
+   "priority": 14,
+   "hypothesis": "H-265",
+   "seed": 3
+  }
+ ]
+}
