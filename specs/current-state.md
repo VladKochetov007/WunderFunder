@@ -1,3 +1,11 @@
+## All-data pair delivered; numerical representation successor — 2026-10-08 06:25 Kyiv
+
+Seed4 retry1 completed1947.66s,15580 optimizer attempts/15573updates/7 AMP skips, zeroOOM/kill. Fixedep1 checkpoint SHA `b8167fb32bd1d1759b6c8a3d0aa3642a9522a5b7897eee2facf9bf8bc6857e64`. New public-test ZIPs are `submissions/c20261008_h230_all_data_s4_i16.zip` and `submissions/c20261008_h230_all_data_pair_i16.zip`; pair weights are fixed0.5/0.5. Actor Python3.11 callback/reset/ABI/tensor checks and root delivered-byte/CRC/spec checks passed. These all-data models share an own parent; no heldout score, public forecast or upload is claimed. Publicbest remains0.6660. Approved normalized-target V2 isolates one main-target variant change and awaits fresh admission after bounded inactive cache handoff.
+
+E540 V6 terminal ERROR was a declared numerical-contract rejection after a completed linear fit, not failed CLI or data identity. Both profiles passed; linear fixed0 completed461.1s with72996attempts/72967updates/29AMPskips. Root finite CPU parameter scan passed15tensors. PLE did notfit and no prediction comparison exists. The actor prepares fresh FP32 paired treatment under ADR0020, symmetric actual-gradient diagnostics and root review beforepush. V6 artifacts are preserved.
+
+H232 remains healthy in epoch1 on Kaggle. Owned Vast54755890 completed training-file upload and is transferring validation data; full verification and fitting are pending. Grok4.7 is assigned isolated code-only block-memory integration; initial12-turn limit was exhausted before edits and a bounded36-turn continuation is active. This is not experimental evidence. TPU remains queued; cloud operator owns a bounded read-only queue/available-device audit.
+
 ## Continuous execution and confirmed cloud fit — 2026-10-08 06:02 Kyiv
 
 Research continues until explicit user stop. The active user timer changes local aggregate CPU from 12 to 5 cores at 10:00 Kyiv; verified parent limits remain 18 GB memory-high, 20 GB maximum and no swap. This is a CPU allocation change, not a research cutoff (ADR0017).

@@ -1,0 +1,80 @@
+{
+  "schema": "wnn.h230-root-release-zip-check.v1",
+  "created_utc": "2026-10-08T03:23:49.726327+00:00",
+  "owner": "root",
+  "artifacts": [
+    {
+      "kind": "s4",
+      "path": "submissions/c20261008_h230_all_data_s4_i16.zip",
+      "sha256": "d26c73eec2a2aac506a5e540a079f11bc728cb80ca0041e9de18cdb2e0c32270",
+      "bytes": 4674590,
+      "crc_safe_members_pass": true,
+      "public_text_reference_check_pass": true,
+      "members": [
+        "solution.py",
+        "members.json",
+        "precision.txt",
+        "v2/",
+        "v2/wnn_native.abi3.so",
+        "avx2/",
+        "avx2/wnn_native.abi3.so",
+        "v3/",
+        "v3/wnn_native.abi3.so",
+        "weights_0.npz"
+      ],
+      "json_specs": {
+        "members.json": [
+          {
+            "weights": "weights_0.npz",
+            "coef": 1.0,
+            "source": "bd26_h230_all_data_student_gru256_seed4_retry1_v1@ep1"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "pair",
+      "path": "submissions/c20261008_h230_all_data_pair_i16.zip",
+      "sha256": "d90bfb140fc15f98cdee96e3c0cb757b773d2378c6723dc984dce0abe9dffda7",
+      "bytes": 8301470,
+      "crc_safe_members_pass": true,
+      "public_text_reference_check_pass": true,
+      "members": [
+        "solution.py",
+        "members.json",
+        "precision.txt",
+        "v2/",
+        "v2/wnn_native.abi3.so",
+        "avx2/",
+        "avx2/wnn_native.abi3.so",
+        "v3/",
+        "v3/wnn_native.abi3.so",
+        "weights_0.npz",
+        "weights_1.npz"
+      ],
+      "json_specs": {
+        "members.json": [
+          {
+            "weights": "weights_0.npz",
+            "coef": 0.5,
+            "source": "bd26_h230_all_data_student_gru256_seed3_v1@ep1"
+          },
+          {
+            "weights": "weights_1.npz",
+            "coef": 0.5,
+            "source": "bd26_h230_all_data_student_gru256_seed4_retry1_v1@ep1"
+          }
+        ]
+      }
+    }
+  ],
+  "package_receipt_paths": [
+    "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_SEED4_FIXED_EP1_PACKAGE_VALIDATION_V1_20261008.json",
+    "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_SEED3_SEED4_EQUAL_PAIR_FIXED_EP1_PACKAGE_VALIDATION_V1_20261008.json"
+  ],
+  "limits": [
+    "Root this check verifies delivered ZIP bytes/CRC/paths/public text; actual Python3.11 ABI/reset/tensor gates are separate actor receipts.",
+    "Fixed coefficients and independently trained own checkpoints; common-parent ancestry remains explicit.",
+    "No public score or forecast; full public runtime unmeasured."
+  ]
+}
