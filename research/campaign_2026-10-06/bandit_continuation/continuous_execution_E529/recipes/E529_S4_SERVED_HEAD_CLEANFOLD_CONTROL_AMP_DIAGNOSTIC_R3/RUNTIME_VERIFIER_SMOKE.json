@@ -1,0 +1,36 @@
+{
+  "schema": "e529-ampdiag-r3-runtime-verifier-smoke-v1",
+  "recorded_utc": "2026-10-08T15:47:47+00:00",
+  "purpose": "Call only the R3 installed-Torch source verifier before requesting a profile admission; no trainer/profile step is invoked.",
+  "command": {
+    "launcher": "scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -",
+    "limits": {
+      "cpu_cores": 1,
+      "memory_max_bytes": 4000000000,
+      "runtime_max_seconds": 120,
+      "cuda_visible_devices": "",
+      "cuda_initialized": false
+    },
+    "operation": "import torch; load scripts/profile_amp_scale_diagnostic.py; call verify_torch_source(torch)"
+  },
+  "result": {
+    "exit_status": 0,
+    "torch_version": "2.14.0+cu130",
+    "adamw_class_module": "torch.optim.adamw",
+    "adamw_class_source": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/optim/adamw.py",
+    "adamw_step_unwrapped_module": "torch.optim.adam",
+    "adamw_step_unwrapped_source": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/optim/adam.py",
+    "verified_source_sha256": {
+      "torch.amp.GradScaler.module": "97c411da028daaf6a6ed15d06b9b20c017404846db68203be1a586e276e44039",
+      "torch.optim.AdamW.class_module": "39c5eaa04f83632285b114fd093eeb0006866e4adf59ad50cc28de12e63a8459",
+      "torch.optim.AdamW.step_implementation": "6f4a96e7bccd5e233a66f846c39f7a9da0157cf657c2275d2a269a78a6b90921"
+    }
+  },
+  "interpretation": "All three R3 runtime source pins match the actual installed files. This smoke only validates verifier identity and provides no training, profile, numerical, or scientific evidence.",
+  "source": {
+    "wrapper": "scripts/profile_amp_scale_diagnostic.py",
+    "wrapper_sha256": "780504c552a213110dbb52c43b239ac1d392539b459bf441b8ee2bcb5efb652e",
+    "recipe": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/E529_S4_SERVED_HEAD_CLEANFOLD_CONTROL_AMP_DIAGNOSTIC_R3/diagnostic_recipe.json",
+    "recipe_sha256": "8a8f21cdc48d934ef407c2eb49476fefb88e62e4651d0b5e9d5f8bf93229dcde"
+  }
+}
