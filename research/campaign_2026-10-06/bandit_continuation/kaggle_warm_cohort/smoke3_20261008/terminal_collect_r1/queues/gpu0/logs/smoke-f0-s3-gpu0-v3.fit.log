@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/tmp/wnn_repo/scripts/train_rnn.py", line 2853, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/wnn_repo/scripts/train_rnn.py", line 1727, in main
+    campaign_split = load_campaign_split(args.split_manifest, ROOT) if args.split_manifest else None
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/wnn_repo/src/wnn/splits.py", line 128, in load_campaign_split
+    raise ValueError(f"campaign source changed: {source}")
+ValueError: campaign source changed: /tmp/wnn_repo/cache/chain_folds.npz

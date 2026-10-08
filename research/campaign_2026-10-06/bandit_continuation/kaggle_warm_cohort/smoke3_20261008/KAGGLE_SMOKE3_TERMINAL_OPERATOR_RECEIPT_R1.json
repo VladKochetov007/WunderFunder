@@ -1,0 +1,68 @@
+{
+  "schema": "wnn.kaggle-smoke-terminal-operator-receipt.v1",
+  "observed_utc": "2026-10-08T20:37:11Z",
+  "kernel_id": "vladkochetov07/wnn-warm-cohort-smoke-20261008-v3",
+  "provider_status": "KernelWorkerStatus.COMPLETE",
+  "application_outcome": "both_fit_steps_failed_before_training; predict_and_grade_blocked",
+  "kernel_script_sha256": "caad47a642060a73d70098e5a92969c289ba0093a3716a3af6fda22c1cd8c54f",
+  "packet_sha256": "d098464599041526340206b58649c95cc1d3adcacf3cec4b949bd6d7bcaea693",
+  "source_manifest_sha256": "96fa0dcbd2c0a56f8ef9d23620080337799022290ffee87196d52de58aca4f70",
+  "provider_started_utc": "2026-10-08T20:32:06Z",
+  "provider_terminal_phase_utc": "2026-10-08T20:34:07Z",
+  "boot_marker": "terminal_collect_r1/boot_marker.json",
+  "boot_marker_sha256": "5805d8a74516281c5124fc1e07edaf3abd77952b6cb711e514b684854a282e14",
+  "collection": {
+    "directory": "terminal_collect_r1",
+    "provider_downloaded_file_count": 35,
+    "audit_file_count": 2,
+    "total_bytes": 6829219,
+    "file_inventory": "terminal_collect_r1/terminal_file_inventory_r1.txt",
+    "sha256sums": "terminal_collect_r1/terminal_sha256sums_r1.txt",
+    "sha256sums_count": 36
+  },
+  "phase_log_sha256": "840425c6feb878b6c0fa9a0501ec169ccd84d56fc95281541a9c1e528b634ff8",
+  "result_summary_sha256": "acea5b2651d124f12ef54afb526f85adb96f5fba20d22d7ca537d92954e45363",
+  "workers": [
+    {
+      "run_id": "smoke-f0-s3-gpu0-v3",
+      "fit_exit_code": 1,
+      "fit_wall_seconds": 13.7468,
+      "fit_peak_rss_bytes": 649580544,
+      "error": "ValueError: campaign source changed: /tmp/wnn_repo/cache/chain_folds.npz",
+      "prediction": "blocked_by_fit",
+      "grade": "blocked_by_prediction",
+      "expected_outputs_exist": false
+    },
+    {
+      "run_id": "smoke-f0-s13-gpu1-v3",
+      "fit_exit_code": 1,
+      "fit_wall_seconds": 2.1714,
+      "fit_peak_rss_bytes": 700973056,
+      "error": "ValueError: campaign source changed: /tmp/wnn_repo/cache/chain_folds.npz",
+      "prediction": "blocked_by_fit",
+      "grade": "blocked_by_prediction",
+      "expected_outputs_exist": false
+    }
+  ],
+  "device_and_resource_observations": {
+    "visible_gpus": 2,
+    "gpu_models": ["Tesla T4", "Tesla T4"],
+    "startup_cgroup_available_bytes": 32136204288,
+    "startup_host_available_bytes": 32569925632,
+    "heartbeat_cgroup_available_bytes_min": 31530786816,
+    "worker_sampled_rss_peak_bytes": 46075904,
+    "elapsed_seconds": 120.823
+  },
+  "diagnosis": {
+    "cause": "The source package's campaign split loader checked source file size and mtime_ns because WNN_PORTABLE_DATA_MANIFEST was absent from child step environments. Kaggle mounted the pinned chain_folds asset at a different mtime, so both fit jobs failed the split-source check before training.",
+    "evidence": [
+      "The smoke3 phase log records fold0 assets mounted and both GPU workers started before each fit failed in load_campaign_split.",
+      "The fold0 split manifest expects cache/chain_folds.npz SHA-256 a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f; the local reviewed source file matches that hash.",
+      "The source archive contains no cache/chain_folds.npz; the mounted fold0 assets expose the corresponding hash-named file and portable registry research/campaign_2026-10-04/portable_inputs.json (SHA-256 90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c).",
+      "Prior E520 terminal diagnosis records the same missing WNN_PORTABLE_DATA_MANIFEST environment handoff and prescribes passing the verified portable registry to the campaign split loader."
+    ],
+    "classification": "execution/package integration failure; no scientific fit or score evidence",
+    "corrective_action": "Build a new identified smoke successor that verifies the mounted portable registry against its reviewed hash and sets WNN_PORTABLE_DATA_MANIFEST for fit and prediction children; keep smoke3 frozen."
+  },
+  "next_attempt_admission": "not_authorized_by_this_receipt"
+}
