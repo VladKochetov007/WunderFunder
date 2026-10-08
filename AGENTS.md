@@ -169,6 +169,8 @@ Existing tooling: `scripts/kaggle_bundle.py`, `kaggle_assets.py`, `kaggle_gpu_ru
 
 Kaggle delivery preflight must check the actual title-derived slug against the intended new ID. Keep kernel bootstrap source below1MB as a conservative project envelope and mount larger source/checkpoint payloads through private, versioned, hash-bound assets. Validate the exact mounted payload and nested path offline; do not embed multi-megabyte model bytes in kernel source.
 
+Before dataset uploads, stage only the frozen upload files in a short physical private directory, then verify their hashes. Kaggle CLI 2.2.4 failed with `ENAMETOOLONG` when its upload-cache filename encoded a deep campaign path in both H232 R7 and E540 V10. Preserve the original failure and reconcile exact owner inventory/readiness before a corrected create. An immediate read-only download 404 after creation may precede READY; verify the exact version before launch. A provider RUNNING status and an empty stdout stream do not expose a worker that records phases only to output files; collect those receipts at terminal status and distinguish startup from fitting/export.
+
 Each admitted cloud cohort needs:
 
 1. A new identified packet with exact source/config/data/recipe hashes, private inputs and output path. Run the packet's own offline startup validators against the final embedded payload, including conditional-fit authorization receipts; an external controller approval does not populate a pending embedded receipt.
