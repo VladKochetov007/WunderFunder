@@ -1,0 +1,11 @@
+[Unit]
+Description=Poll the CPU source kernel collector every five minutes
+
+[Timer]
+OnBootSec=120s
+OnUnitActiveSec=300s
+AccuracySec=15s
+Unit=wnn-campaign-kaggle-cpu-small-collector.service
+
+[Install]
+WantedBy=timers.target
