@@ -1,0 +1,275 @@
+{
+  "schema": "wnn-followup-recipe-source-handoff-v1",
+  "id": "E529-H272-C1S4-MULTIPLICATIVE-DIRECT-LABEL-V1-20261008",
+  "created_utc": "2026-10-08T10:57:21Z",
+  "status": "source_proposal_only_pending_root_review_and_fresh_admission",
+  "hypothesis_id": "H-272",
+  "interaction": "H-272 direct-label multiplicative contextual readout × independently trained C1 seed-4 parent family",
+  "scope": {
+    "allowed_now": [
+      "Source and artifact identity audit",
+      "Recipe and serving feasibility handoff"
+    ],
+    "not_authorized": [
+      "Profile",
+      "Fit",
+      "Export of model predictions",
+      "Grade",
+      "Package or ZIP",
+      "Blend selection",
+      "Provider work"
+    ],
+    "owner": "root controls source review, profile/fit admission, final deployment composition, and all grade admission"
+  },
+  "motivation": {
+    "result_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_FIXED_EP1_COMPARISON_RESULT_20261008_R2.json",
+    "result_sha256": "2f7d911cb60445cca81df8db62447d81f332c140c01a38675fb176aac5cebfd4",
+    "direct_metric_check_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_ROOT_DIRECT_REFERENCE_SCORE_CHECK_20261008_R1.json",
+    "direct_metric_check_sha256": "790ae463c00e5593d83c5f0211e8630248905f3d02a246c5f1288a8e2f9a75bb",
+    "metric": "global_wp_clip2_v1",
+    "exposure": "Previously inspected fold-0 evaluation: 468 groups / 141 components; discovery evidence only, no public forecast.",
+    "multiplicative_vs_frozen_parent": {
+      "parent_wp": 0.6816181421809264,
+      "standalone_readout_wp": 0.6817322281366174,
+      "delta_wp": 0.00011408595569095681,
+      "paired_component_bootstrap_ci95": [
+        -0.0002861206673194339,
+        0.0005318920087011679
+      ],
+      "weights_on_readout_and_delta_wp": [
+        [0.1, 0.00002991190323475834],
+        [0.25, 0.00006545915499012178],
+        [0.5, 0.00010280362745196392],
+        [1.0, 0.00011408595569095681]
+      ],
+      "uncertainty": "All nonzero fixed raw blends were positive on this exposed fold, but their paired component intervals include zero; this motivates one bounded parent-family follow-up, not a gain/public-best claim."
+    },
+    "root_grade_source_review_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/reviews/H272_EXPORT_GRADE_ROOT_SOURCE_REVIEW_20261008_R1.json",
+    "root_grade_source_review_sha256": "0cc490418ad78a2eee06e4deb426e0dff0a0f62fe37a10bf6dd1ab8a8c28bc1a"
+  },
+  "screen_parent": {
+    "role": "cleanfold family/seed matched screen parent; not an exact teacher-ancestry match to the current full-data public-best base",
+    "run": "c20261003_combo_s4_f0",
+    "checkpoint": "artifacts/runs/c20261003_combo_s4_f0/model_ep3.pt",
+    "checkpoint_epoch": 3,
+    "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+    "provenance_path": "artifacts/runs/c20261003_combo_s4_f0/provenance.json",
+    "provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332",
+    "source_identity_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "membership": {
+      "train_source_groups": 10535,
+      "fit_valid_source_groups": 1405,
+      "total_fit_groups": 11940,
+      "evaluation_groups": 468,
+      "fit_valid_group_ids_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "train_group_ids_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49",
+      "evaluation_group_ids_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+      "evaluation_components": 141,
+      "fit_components": 3148,
+      "fit_evaluation_component_overlap": 0,
+      "evaluation_component_ids_sha256": "0911171cd5cabc8d8ce7f171f24485d1e1b0d65ad376cf2fa85ed242dac753d3",
+      "train_source_integer_aliases_with_evaluation": 463,
+      "source_qualification": "Join and validate (source, row_group); train and valid use separate namespaces. The 463 same-integer train-source collisions are not leakage. Valid-source fit/evaluation overlap is zero and evaluation component overlap is zero. The screen must preserve these source-qualified and component checks."
+    },
+    "recipe_summary": {
+      "seed": 4,
+      "family": "plain GRU, 256 hidden, 2 layers, 211 input features, primary pair plus 21 auxiliary outputs",
+      "own_teacher_ancestry": [
+        {
+          "run": "c20260929_since_s3_f0",
+          "epoch": 3,
+          "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+          "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+          "fold0_valid_group_overlap": 0,
+          "fold0_component_overlap": 0
+        },
+        {
+          "run": "c20260929_since_s4_f0",
+          "epoch": 3,
+          "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+          "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+          "fold0_valid_group_overlap": 0,
+          "fold0_component_overlap": 0
+        }
+      ],
+      "propensity_run": "c20260929_prop_f0",
+      "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+      "propensity_provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812"
+    },
+    "observed_checkpoint_shapes": {
+      "mean_and_std": [211],
+      "input_projection": [256, 211],
+      "gru_layer0_weight_ih": [768, 256],
+      "gru_layer1_weight_ih": [768, 256],
+      "parent_head_hidden": [256, 512],
+      "parent_head_outputs": [23, 256]
+    }
+  },
+  "full_data_parent": {
+    "role": "deployment-only final head parent; no local score or held-out claim",
+    "run": "c20261004_combo_s4_final",
+    "checkpoint": "artifacts/runs/c20261004_combo_s4_final/model_ep3.pt",
+    "checkpoint_epoch": 3,
+    "checkpoint_sha256": "87bafd489d7d6e5212589154f07fef96c447777f75f949ab4dadc1a6efe4caaf",
+    "provenance_path": "artifacts/runs/c20261004_combo_s4_final/provenance.json",
+    "provenance_sha256": "e7c43468e4da2a423b3fe880fbe2e1f0ae79a4dda134aceef5dd28717f873460",
+    "source_identity_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "membership": {
+      "train_source_groups": 10606,
+      "valid_source_groups": 1505,
+      "total_fit_groups": 12111,
+      "evaluation_during_head_fit": false,
+      "fit_group_ids_sha256": {
+        "train": "a7e2f3210c69cd8e01c811fb66cf1f81816141ad21c4262e9892ff69c355ad56",
+        "valid": "dfc372608d23c8ac46c4b6c37c276182e0352e7ac06ba20f6b5dd8d8063a1253"
+      }
+    },
+    "family_and_seed_match": "Same seed-4, plain GRU 256x2 checkpoint tensor shapes and source-code identity as the cleanfold screen parent.",
+    "nonmatched_training_ancestry": "The full-data parent uses ab67_final_since_s3/ab67_final_since_s4 and prop_v1; the cleanfold parent uses c20260929_since_s3_f0/c20260929_since_s4_f0 and c20260929_prop_f0. The source lineage and propensity inputs differ. Do not treat the cleanfold screen as an exact replication of the full-data parent's training ancestry.",
+    "propensity": {
+      "run": "prop_v1",
+      "checkpoint": "artifacts/runs/prop_v1/model.pt",
+      "checkpoint_sha256": "71889202ec172f4118bd26813a10a26f4358ecd1a256c7f884c38ff5c840617f",
+      "provenance_gap": "Only model.pt/history.json were found under artifacts/runs/prop_v1; independently bind its data/membership provenance before admitting the all-data head fit. Do not substitute the fold-0 propensity model."
+    },
+    "fold0_contamination": {
+      "audit_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_INCUMBENT_MEMBERSHIP_CORRECTION_V2_20261008.json",
+      "audit_sha256": "8133f0c4d61bdcff55ab603c21ff403d85db1626315d3e77654208ac4d8fe814",
+      "direct_valid_source_overlap_groups": 374,
+      "claim": "This parent was trained on 374 of the exposed 468 fold-0 evaluation groups. The full-data head is fit for deployment only; no fold-0 result may be attached to it."
+    }
+  },
+  "current_public_best_reference": {
+    "package": "submissions/c20261004_combo_s4_i16/pkg",
+    "member_manifest": "submissions/c20261004_combo_s4_i16/pkg/members.json",
+    "member_manifest_sha256": "9b07d091261c0d78a077c7427523503f66a436af490007d99531328695b53a3c",
+    "declared_source": "c20261004_combo_s4_final@ep3|c20261004_combo_head_s4_final@ep0",
+    "deployment_rule": "Keep this package as the fallback. The proposed head uses the base component c20261004_combo_s4_final; later served-endpoint comparison must explicitly decide whether it replaces or composes with the existing combo_head, and must compare the complete candidate endpoint against this package. No such choice is made here."
+  },
+  "followup_recipe": {
+    "scientific_change": "Train only the multiplicative contextual readout against direct clipped primary labels, on the declared frozen seed-4 C1 parent. Do not change the parent's training, targets, weights, preprocessing, or ancestry.",
+    "readout": {
+      "mode": "multiplicative",
+      "hidden_width": 512,
+      "event_context_width": 99,
+      "rank": 32,
+      "equation": "h_r=Wh*h; c_r=Wc*c; q=Wo*GELU(Wf*[0,0,h_r*c_r]+bf)+bo; prediction=parent_primary*(1+tanh(q))",
+      "initialization": "Initialize ConditionalReadoutHeads with head seed 3, then make only the multiplicative control trainable. This preserves the H272 multiplicative branch initialization order while removing unused trained controls from this follow-up. Verify by comparing the selected branch's initial tensor hashes in a small source test.",
+      "parameters_per_head": 22722,
+      "fp32_parameter_bytes": 90888,
+      "approx_multiply_accumulates_per_row": 22720
+    },
+    "objective": {
+      "target": "clip(original_label, -2, 2) for the primary pair only",
+      "row_weight": "abs(clip(original_label, -2, 2)) * same-recipe main_row_weights",
+      "main_row_weights": "Same split's independently trained propensity model, prop_power=2, prop_eps=0.03, valid_true_mask=0.03; mask_weight=false.",
+      "teacher_inputs": "none; do not append readout teacher columns. The frozen parent's own teacher ancestry remains preserved and is not changed.",
+      "loss": "H272 primary-pair weighted MSE, denominator per 2,000-row chunk, epsilon 1e-8; official evaluation metric remains unchanged.",
+      "parent": "Entire parent model is eval/frozen; only the multiplicative readout parameters update."
+    },
+    "training": {
+      "head_seed": 3,
+      "optimizer": "AdamW",
+      "learning_rate": 0.001,
+      "weight_decay": 0.01,
+      "schedule": "constant",
+      "batch_size": 8,
+      "chunk_rows": 2000,
+      "chunks_per_sequence": 10,
+      "loader_workers": 0,
+      "drop_last": true,
+      "epochs": 2,
+      "checkpoint": "fixed epoch 1 after completing both epochs; no metric-based epoch or blend selection",
+      "gradient_clip": "max norm 1.0 for the selected head",
+      "screen_expected_updates_per_epoch": 14920,
+      "screen_expected_total_updates": 29840,
+      "full_data_expected_updates_per_epoch": 15130,
+      "full_data_expected_total_updates": 30260,
+      "time_reference": "H272 four-head fit used 1,941.2489 seconds for 29,840 updates. Linear update-count scaling gives about 1,968.6 seconds for 30,260 updates, but one-head timing, data setup, and export were not measured; do not use this estimate as fit admission or truncate epochs to meet it.",
+      "execution_gate": "No profile or fit until root reviews this source proposal and admits fresh GPU/device quota, RAM/VRAM, exact source/data identities, and a whole-worker budget that covers startup, both fixed epochs, checkpointing, and export. Keep the original measured optimization budget intact."
+    },
+    "screen_fold0": {
+      "parent": "screen_parent",
+      "fit_membership": "Exactly 10,535 train-source plus 1,405 fit-valid-source groups; exclude all 468 fold-0 evaluation groups and reject source-qualified group or component overlap.",
+      "export": "Stream parent and candidate outputs to FP32 memmaps in the exact frozen valid order (1,873 groups x 20,000 rows x 2). Export the evaluation and selected masks; only 468 evaluation groups and official selected rows may enter the frozen grader. Do not materialize multiple full arrays in RAM.",
+      "comparisons": "Parent baseline alpha=0; multiplicative standalone alpha=1; and raw preclip mixtures (1-alpha)*parent + alpha*head at alpha 0.1, 0.25, and 0.5. Report every declared endpoint, no weight selection.",
+      "uncertainty": "Paired bootstrap over the same 141 frozen connected components, 2,000 replicates, seed 271828; fold 0 remains exposed development evidence only."
+    },
+    "full_data_deployment_head": {
+      "parent": "full_data_parent",
+      "fit_membership": "Exactly all 10,606 train-source and 1,505 valid-source groups in the parent's 12,111-group full-data universe; no held-out claim.",
+      "evaluation": "No local score, no fold-0 grade, and no public forecast. This is a deployment artifact only after the separate cleanfold source review and root admission.",
+      "admission_dependency": "Resolve and hash-bind prop_v1's data/membership provenance before creating a runnable packet."
+    }
+  },
+  "serving_feasibility": {
+    "assessment": "Plausible to implement in the existing native streaming engine, not yet implemented or validated.",
+    "why_plausible": "The current E416 native wrapper already computes the causal 99-column StreamFeatures context and calls FastRnn once per row. FastRnn internally forms the 512-wide concatenation [last recurrent state, projected input] before head.0. The additional rank-32 control is 22,722 FP32 parameters (90,888 bytes) and about 22,720 multiply-accumulates per row, roughly 2.3% of a plain 256x2 GRU's approximately 0.98M matrix multiply-accumulates per row; this is an architecture estimate, not a runtime measurement.",
+    "native_sources_reviewed": [
+      {
+        "path": "research/campaign_2026-10-04/E416_native_q8_build/native/src/rnn_fast.rs",
+        "sha256": "3d5186de4374716a4fa5f3f4503674386baaa33606c810ff76443b619f049e55"
+      },
+      {
+        "path": "research/campaign_2026-10-04/E416_native_q8_build/native/src/python.rs",
+        "sha256": "be5a47a33b6874710dec5eaa8f20f46cf9e907e7930ec6ed1727bd6d12c7df7a"
+      },
+      {
+        "path": "research/campaign_2026-10-04/E416_native_q8_build/native/src/stream.rs",
+        "sha256": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6"
+      },
+      {
+        "path": "submissions/c20261004_combo_s4_i16/pkg/solution.py",
+        "sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54"
+      }
+    ],
+    "required_engine_work": [
+      "Expose the parent's pre-head [recurrent, projected] representation to the native contextual head without changing state-update order.",
+      "Use StreamFeatures' already computed context; do not recompute or reorder event features in a separate Python path.",
+      "Add the multiplicative rank-32 correction and anchor gate in the native scorer, with model hash/shape validation and existing sequence reset semantics.",
+      "Preserve predict(data_point), need_prediction behavior, causal row order, deterministic inference, and sequence-state reset on seq_ix changes."
+    ],
+    "required_pre_zip_gates": [
+      "Independent FP32 Rust-vs-PyTorch readout forward tests over hand-built and randomized hidden/context/anchor fixtures, including zero initialization and saturation; use declared numerical tolerances.",
+      "Full predictor parity against the frozen Python reference on multiple supplied sequences, including warmup, row causality, two consecutive sequences, reset, and repeated-call determinism; compare raw outputs before official clipping.",
+      "Measure actual package bytes (must remain below the 20 MB campaign envelope), evaluator RSS (<=4 GB), and representative 1-CPU portal runtime (<=60 minutes) against the current public-best package; keep the current public package as fallback.",
+      "Validate the exact complete served endpoint against the existing public-best package only after root separately admits the exposure-appropriate comparison."
+    ],
+    "not_yet_measured": [
+      "Rust output-head implementation/parity",
+      "End-to-end native candidate parity",
+      "New ZIP size",
+      "New evaluator memory and runtime"
+    ]
+  },
+  "source_and_artifact_pins": {
+    "h272_recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_C1S3_DIRECT_LABEL_READOUT_V1.json",
+    "h272_recipe_sha256": "a5dd858598b6bf926410c80337aa8e725a809cbfee36af906d18c34d0859716f",
+    "h272_runtime_source_lock_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_FROZEN_RUNTIME_SOURCE_LOCK_V1_20261008.json",
+    "h272_runtime_source_lock_sha256": "a8d56811e97783bcaa354a28beb992f8ce8acebc1b62f70f945c6697426aaa76",
+    "h272_trainer_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_READOUT_V1_RUNTIME/scripts/train_conditional_readout.py",
+    "h272_trainer_sha256": "a98d551ea824569ed4fd4614cea537c382cefc5303d89b9cb76a43a10e283897",
+    "h272_conditional_readout_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_READOUT_V1_RUNTIME/src/wnn/conditional_readout.py",
+    "h272_conditional_readout_sha256": "6935636ebe90ef1bac8b74756a99aba22bc82f9454bd9d8b8d40b9bb0112cd64",
+    "h272_fit_receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_OPERATOR_FIT_TERMINAL_RECEIPT_20261008_R1.json",
+    "h272_fit_receipt_sha256": "e54a28b2a56a4c23ac92a642aa31acebf80ee21477f12887e1152299a7ee7ede",
+    "h272_export_receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_OPERATOR_EXPORT_TERMINAL_RECEIPT_20261008_R1.json",
+    "h272_export_receipt_sha256": "ab3770199163d671ec0f90e301248ba49cfd4950905cb2fb4fa79d97e627f66f",
+    "h272_fit_checkpoint_path": "artifacts/runs/bd26_h272_direct_label_c1s3_rank32_f0_v1/model_ep1.pt",
+    "h272_fit_checkpoint_sha256": "528f27132afafa4bdf841cffaf1e7c88ad0f4a916adc5b3a2228da2adad543d3",
+    "h272_score_result_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_FIXED_EP1_COMPARISON_RESULT_20261008_R2.json",
+    "h272_score_result_sha256": "2f7d911cb60445cca81df8db62447d81f332c140c01a38675fb176aac5cebfd4",
+    "official_metric_source_path": "src/wnn/gmetric.py",
+    "official_metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "required_source_tests_before_review": [
+    "Production function computes parent_primary * (1 + tanh(correction)); a hand-computed fixture catches additive/raw blend or postclip drift.",
+    "Zero-initialized multiplicative head is exactly anchor-valued; only multiplicative parameters change during a synthetic update; all parent tensors remain bitwise unchanged.",
+    "Seed-3 selected branch initialization matches the multiplicative branch of a freshly seeded H272 ConditionalReadoutHeads instance.",
+    "Fold-0 membership joins use (source, row_group), assert zero valid-source evaluation overlap and zero component overlap, and reject the prior 463 integer-alias false positives as an invalid join strategy.",
+    "Full-data arm uses the exact 12,111-group input set and refuses any fold-0 grading/claim; prop_v1 identity is mandatory before runtime admission.",
+    "Parent producer sidecar compares to actual model_ep3.pt checkpoint hash and independently validates model.pt alias bytes/tensor parity."
+  ]
+}
