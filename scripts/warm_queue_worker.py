@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
 import json
 import logging
@@ -25,9 +26,7 @@ LOG = logging.getLogger(__name__)
 
 def _atomic_json_write(path: Path, obj: Any) -> None:
     """Write JSON atomically via temp file + replace."""
-    with tempfile.NamedTemporaryFile(
-        mode="w", dir=path.parent, delete=False, suffix=".tmp"
-    ) as tmp:
+    with tempfile.NamedTemporaryFile(mode="w", dir=path.parent, delete=False, suffix=".tmp") as tmp:
         json.dump(obj, tmp)
         tmp_name = tmp.name
     os.replace(tmp_name, path)
@@ -36,6 +35,15 @@ def _atomic_json_write(path: Path, obj: Any) -> None:
 def _compute_sha256(data: bytes) -> str:
     """Return hex digest of SHA256(data)."""
     return hashlib.sha256(data).hexdigest()
+
+
+def _file_sha256(path: Path) -> str:
+    """Stream a file's SHA256 in 8 MiB blocks without holding it in memory."""
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        while block := handle.read(8 << 20):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def _validate_run_id(run_id: str) -> bool:
@@ -78,13 +86,20 @@ class QueueWorker:
         self.current_step: str | None = None
         self.last_idle_check = time.time()
         self.terminating = False
+        self.current_proc: subprocess.Popen[bytes] | None = None
 
         self._ensure_dirs()
         self._recover_orphans()
 
     def _ensure_dirs(self) -> None:
         """Create queue directories if missing."""
-        for d in [self.pending_dir, self.running_dir, self.done_dir, self.failed_dir, self.logs_dir]:
+        for d in [
+            self.pending_dir,
+            self.running_dir,
+            self.done_dir,
+            self.failed_dir,
+            self.logs_dir,
+        ]:
             d.mkdir(parents=True, exist_ok=True)
 
     def _recover_orphans(self) -> None:
@@ -168,9 +183,23 @@ class QueueWorker:
     def _run_spec(self, spec_path: Path) -> tuple[str, bool]:
         """Execute a run spec file. Returns (run_id, success)."""
         spec_bytes = spec_path.read_bytes()
-        spec = json.loads(spec_bytes)
-        run_id = spec.get("run_id", "")
         spec_sha256 = _compute_sha256(spec_bytes)
+        try:
+            spec = json.loads(spec_bytes)
+            if not isinstance(spec, dict):
+                raise ValueError("spec must be a JSON object")
+        except ValueError as error:
+            self._write_result(
+                run_id=spec_path.stem,
+                spec_sha256=spec_sha256,
+                arm=None,
+                hypothesis=None,
+                status="invalid_spec",
+                steps=[{"error": f"unreadable spec: {error}"}],
+                expected_outputs=[],
+            )
+            return spec_path.stem, False
+        run_id = spec.get("run_id", "")
 
         if not _validate_run_id(run_id):
             self._write_result(
@@ -237,16 +266,20 @@ class QueueWorker:
 
         expected_outputs_records = []
         if success:
-            expected_outputs_records = self._record_expected_outputs(
-                run_id, expected_outputs_spec
-            )
+            expected_outputs_records = self._record_expected_outputs(run_id, expected_outputs_spec)
 
         self._write_result(
             run_id=run_id,
             spec_sha256=spec_sha256,
             arm=arm,
             hypothesis=hypothesis,
-            status="succeeded" if success else "failed",
+            status=(
+                "succeeded"
+                if success
+                else "worker_terminated"
+                if any(step.get("status") == "worker_terminated" for step in steps_records)
+                else "failed"
+            ),
             steps=steps_records,
             expected_outputs=expected_outputs_records,
         )
@@ -281,11 +314,14 @@ class QueueWorker:
                     cwd=cwd,
                     start_new_session=True,
                 )
+            self.current_proc = proc
 
             try:
                 proc.wait(timeout=timeout_seconds)
                 exit_code = proc.returncode
-                status = "timeout" if exit_code is None else "succeeded" if exit_code == 0 else "failed"
+                status = (
+                    "timeout" if exit_code is None else "succeeded" if exit_code == 0 else "failed"
+                )
             except subprocess.TimeoutExpired:
                 try:
                     os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
@@ -299,6 +335,10 @@ class QueueWorker:
                 status = "timeout"
                 exit_code = "timeout"
 
+            self.current_proc = None
+            if self.terminating and status != "succeeded":
+                status = "worker_terminated"
+                exit_code = proc.returncode
             wall_seconds = time.time() - start_time
 
             try:
@@ -312,7 +352,7 @@ class QueueWorker:
                     "end_utc": datetime.now(UTC).isoformat(),
                     "wall_seconds": wall_seconds,
                     "exit_code": exit_code,
-                    "status": "succeeded" if status == "succeeded" else "failed" if status == "failed" else "timeout",
+                    "status": status,
                     "peak_rss_bytes": peak_rss_bytes,
                 }
             )
@@ -343,7 +383,7 @@ class QueueWorker:
                     size = path.stat().st_size
                     record["size"] = size
                     if size <= 2 * 1024**3:
-                        record["sha256"] = _compute_sha256(path.read_bytes())
+                        record["sha256"] = _file_sha256(path)
                 else:
                     record["exists"] = False
             except Exception as e:
@@ -355,6 +395,10 @@ class QueueWorker:
     def _handle_signal(self, signum: int, frame: FrameType | None) -> None:
         """Handle SIGTERM/SIGINT by terminating current step."""
         self.terminating = True
+        proc = getattr(self, "current_proc", None)
+        if proc is not None and proc.poll() is None:
+            with contextlib.suppress(ProcessLookupError):
+                os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
         if self.current_run_id:
             try:
                 log_path = self.logs_dir / f"{self.current_run_id}.{self.current_step}.log"
@@ -378,10 +422,18 @@ class QueueWorker:
                     LOG.info("Reached max_runs=%d", self.max_runs)
                     return 0
 
+                if self.stop_path.exists():
+                    LOG.info("STOP file present; exiting before claiming a run")
+                    self._write_heartbeat()
+                    return 0
+
                 spec_path = self._select_next_run()
 
                 if spec_path is None:
-                    if self.idle_exit_seconds is not None and time.time() - self.last_idle_check > self.idle_exit_seconds:
+                    if (
+                        self.idle_exit_seconds is not None
+                        and time.time() - self.last_idle_check > self.idle_exit_seconds
+                    ):
                         LOG.info("Idle for %d seconds, exiting", self.idle_exit_seconds)
                         return 0
                     if self.once:
@@ -431,9 +483,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--queue", type=Path, required=True, help="Queue directory")
     parser.add_argument("--poll-seconds", type=int, default=10, help="Polling interval")
-    parser.add_argument(
-        "--idle-exit-seconds", type=int, help="Exit after idle this long (seconds)"
-    )
+    parser.add_argument("--idle-exit-seconds", type=int, help="Exit after idle this long (seconds)")
     parser.add_argument("--once", action="store_true", help="Process at most one run")
     parser.add_argument("--max-runs", type=int, help="Exit after N runs")
     args = parser.parse_args()

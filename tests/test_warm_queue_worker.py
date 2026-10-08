@@ -187,8 +187,16 @@ class TestQueueWorker:
         spec = {
             "run_id": "chain_run",
             "steps": [
-                {"name": "step1", "argv": [sys.executable, "-c", "print('step 1')"], "timeout_seconds": 10},
-                {"name": "step2", "argv": [sys.executable, "-c", "print('step 2')"], "timeout_seconds": 10},
+                {
+                    "name": "step1",
+                    "argv": [sys.executable, "-c", "print('step 1')"],
+                    "timeout_seconds": 10,
+                },
+                {
+                    "name": "step2",
+                    "argv": [sys.executable, "-c", "print('step 2')"],
+                    "timeout_seconds": 10,
+                },
             ],
         }
         spec_path.write_text(json.dumps(spec))
@@ -219,7 +227,11 @@ class TestQueueWorker:
             "run_id": "fail_run",
             "steps": [
                 {"name": "step1", "argv": [sys.executable, "-c", "exit(1)"], "timeout_seconds": 10},
-                {"name": "step2", "argv": [sys.executable, "-c", "print('should not run')"], "timeout_seconds": 10},
+                {
+                    "name": "step2",
+                    "argv": [sys.executable, "-c", "print('should not run')"],
+                    "timeout_seconds": 10,
+                },
             ],
         }
         spec_path.write_text(json.dumps(spec))
@@ -307,7 +319,11 @@ class TestQueueWorker:
             "steps": [
                 {
                     "name": "create_output",
-                    "argv": [sys.executable, "-c", f"open('{output_file}', 'w').write('test data')"],
+                    "argv": [
+                        sys.executable,
+                        "-c",
+                        f"open('{output_file}', 'w').write('test data')",
+                    ],
                     "timeout_seconds": 10,
                 }
             ],
@@ -336,7 +352,13 @@ class TestQueueWorker:
         spec_path = queue_dir / "pending" / "once_run.json"
         spec = {
             "run_id": "once_run",
-            "steps": [{"name": "step1", "argv": [sys.executable, "-c", "print('done')"], "timeout_seconds": 10}],
+            "steps": [
+                {
+                    "name": "step1",
+                    "argv": [sys.executable, "-c", "print('done')"],
+                    "timeout_seconds": 10,
+                }
+            ],
         }
         spec_path.write_text(json.dumps(spec))
 
@@ -358,7 +380,9 @@ class TestQueueWorker:
             spec_path = queue_dir / "pending" / f"run_{i}.json"
             spec = {
                 "run_id": f"run_{i}",
-                "steps": [{"name": "step", "argv": [sys.executable, "-c", "pass"], "timeout_seconds": 10}],
+                "steps": [
+                    {"name": "step", "argv": [sys.executable, "-c", "pass"], "timeout_seconds": 10}
+                ],
             }
             spec_path.write_text(json.dumps(spec))
 
@@ -416,3 +440,64 @@ class TestQueueWorker:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
+
+
+def _spec(queue: Path, run_id: str, code: str, timeout: int = 30) -> None:
+    (queue / "pending").mkdir(parents=True, exist_ok=True)
+    spec = {
+        "run_id": run_id,
+        "steps": [{"name": "s", "argv": [sys.executable, "-c", code], "timeout_seconds": timeout}],
+    }
+    (queue / "pending" / f"{run_id}.json").write_text(json.dumps(spec))
+
+
+def _results(queue: Path) -> list[dict]:
+    return [json.loads(line) for line in (queue / "results.jsonl").read_text().splitlines()]
+
+
+def test_malformed_json_does_not_kill_worker(tmp_path: Path) -> None:
+    (tmp_path / "pending").mkdir(parents=True)
+    (tmp_path / "pending" / "a_bad.json").write_text("{not json")
+    _spec(tmp_path, "b_good", "print('ok')")
+    assert QueueWorker(tmp_path, poll_seconds=0, idle_exit_seconds=0).run() == 0
+    statuses = {row["run_id"]: row["status"] for row in _results(tmp_path)}
+    assert statuses == {"a_bad": "invalid_spec", "b_good": "succeeded"}
+    assert (tmp_path / "failed" / "a_bad.json").exists()
+
+
+def test_stop_file_exits_zero(tmp_path: Path) -> None:
+    _spec(tmp_path, "r1", "print('x')")
+    (tmp_path / "STOP").write_text("")
+    assert QueueWorker(tmp_path, poll_seconds=0).run() == 0
+    assert (tmp_path / "pending" / "r1.json").exists()
+
+
+def test_sigterm_kills_running_child_group(tmp_path: Path) -> None:
+    import signal
+    import subprocess
+    import time
+
+    marker = tmp_path / "child.pid"
+    _spec(
+        tmp_path,
+        "slow",
+        f"import os,time; open({str(marker)!r},'w').write(str(os.getpid())); time.sleep(60)",
+        timeout=120,
+    )
+    script = Path(__file__).parent.parent / "scripts" / "warm_queue_worker.py"
+    worker = subprocess.Popen(
+        [sys.executable, str(script), "--queue", str(tmp_path), "--poll-seconds", "0"]
+    )
+    deadline = time.time() + 20
+    while not marker.exists() and time.time() < deadline:
+        time.sleep(0.05)
+    assert marker.exists()
+    child = int(marker.read_text())
+    worker.send_signal(signal.SIGTERM)
+    assert worker.wait(timeout=30) == 130
+    time.sleep(0.2)
+    with pytest.raises(ProcessLookupError):
+        os.kill(child, 0)
+    rows = _results(tmp_path)
+    assert rows[-1]["run_id"] == "slow" and rows[-1]["status"] == "worker_terminated"
+    assert (tmp_path / "failed" / "slow.json").exists()
