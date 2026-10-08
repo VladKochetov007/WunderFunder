@@ -1,0 +1,36 @@
+{
+  "timestamp_utc": "2026-10-08T05:23:27.950548+00:00",
+  "reviewer": "root independent of actor",
+  "status": "PASS_scientific_source_only_future_phase_admission_required",
+  "manifest_sha256": "01aa939ddb95f91b24859ddf324a66188a3254c11691cd39b40ce77865b3b2f2",
+  "recipe_sha256": "6d9d11f3116ebf61a2bc615e498d669ef4d6c080b588a2691752dc3f617cd8d1",
+  "actual_source_files_rehashed": 59,
+  "independent_tests": "11 passed in1.52s, bounded1CPU/1.5GB/120s campaign unit",
+  "actual_producer_validation": {
+    "function": "wnn.history_swap_cache._validate_parent_fit",
+    "result": "PASS",
+    "train_groups": 10606,
+    "valid_groups": 1873,
+    "checks": [
+      "actual external provenance checkpoint table",
+      "actual terminal-success receipt and fit contract hashes",
+      "actual own initializer checkpoint/source ancestry",
+      "exact supplied target-index group order",
+      "same completed independently trained all-data parent"
+    ]
+  },
+  "source_review": [
+    "Feature-only exporter reads no targets/masks; uses FP32 with causal chunk-state reset per batch",
+    "Single FP64 accumulation/oneFP32cast formula main-.15S3-.15S4+.30parent",
+    "Four family arrays load unchanged from separately validated original base-cache root",
+    "Trainer changes scoped to variant dispatch/family-root/provenance",
+    "Builder guards base/cache overwrites and supports bounded16-sequence memmaps"
+  ],
+  "limitations": [
+    "Actual inference/device profile not yet performed",
+    "Large prediction arrays/base cache not read in this review",
+    "No cache build or student fit admission",
+    "All-data targets/fitting yield no held-out/public forecast"
+  ],
+  "allocation": "Finish healthy H218 fit and excluded-fold export first; next representative parent inference profile followed by admitted exports/cache/student fit with fresh resource observations"
+}
