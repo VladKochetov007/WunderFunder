@@ -1,0 +1,66 @@
+{
+  "schema": "h272-native-import-and-source-lock-correction-v1",
+  "receipt_id": "H272_NATIVE_IMPORT_CORRECTION_20261008_R1",
+  "status": "verified",
+  "preserves": {
+    "source_handoff_commit": "281153c65e9e490944751d454f48484a651db1e1",
+    "source_lock_sha256": "ee05ed9e3358998439e3c4f7e6460c73a089381b31be4850facd2515682e371e",
+    "source_validation_receipt_sha256": "8268279b9156300d83a28f120b2687e15eb805b536f4e8357fb5c2f731618911",
+    "scientific_recipe_or_parent_changes": false
+  },
+  "diagnosis": {
+    "initial_handoff_test_claim": "The inherited handoff notes reported 20 package tests passed, but the exact shell environment was not retained in that note.",
+    "default_venv_import": {
+      "module_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/wnn_native/__init__.py",
+      "module_sha256": "0cbf62fddaa57ad9aae99f62e03cd21af51050a02ec44f55e1027df320e05eae",
+      "conditional_predictor_present": false,
+      "conclusion": "This installed Python package is not the H272 E416 extension and cannot establish native-serving parity."
+    },
+    "source_lock_byte_drift": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/serving/solution_h272.py",
+      "locked_sha256": "0aabc534b6ca500716f771d3299265d4cd9f25c6a95e0f27a5eefff7c47c7f9b",
+      "post_commit_sha256_before_correction": "c37a0d8675faa4476b999c9fdbbda8fedf1f6751ef25bb36daf1c6f443326fdd",
+      "cause": "A pre-commit trailing-blank cleanup removed one final newline after source-lock generation.",
+      "correction": "Restored the exact source-locked bytes; serving source semantics and source lock are unchanged."
+    },
+    "first_actual_extension_suite": {
+      "passed": 18,
+      "failed": 2,
+      "reason": "The source lock correctly rejected the accidental serving-file byte drift above; no model, data, or predictor assertion failed."
+    }
+  },
+  "actual_extension": {
+    "source": "research/campaign_2026-10-04/E416_native_q8_build/native",
+    "library_path": "/home/vlad/development/wunder/worktrees/h272-multiplicative-parent-20261008/research/campaign_2026-10-04/E416_native_q8_build/native/target/debug/libwnn_native.so",
+    "library_sha256": "c895c265d5dae7c3ad3fd985cc17eb272e887e67ce1da06b22e4b0348c5813fc",
+    "temporary_python_import_alias": "/tmp/h272_native_ext_281153c6/wnn_native.abi3.so",
+    "preflight": "Asserted `ConditionalPredictor` exists, imported module resolves to the exact library path above, and its SHA-256 matches before invoking pytest."
+  },
+  "verification": {
+    "support_limits": {
+      "cpu_quota": "100%",
+      "threads": 1,
+      "memory_max_bytes": 1000000000,
+      "runtime_max": "120s",
+      "bytecode_writes": false
+    },
+    "targeted_native_parity": {
+      "command": "python -m pytest -q research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/tests/test_native_parent_readout_parity.py",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "elapsed_seconds": 17.23
+    },
+    "full_package_suite": {
+      "command": "python -m pytest -q research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/tests",
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "elapsed_seconds": 18.61
+    },
+    "actual_module_preflight": "PASS; module path and native shared-library SHA asserted before the full suite.",
+    "profile_fit_export_grade_provider_actions": 0
+  },
+  "control_capacity_note": "The hidden-only and multiplicative heads have equal stored parameter counts and matched initialization/order/objective/update budget. This is a nominal parameter-count match; the two structures need not have identical active functional capacity.",
+  "followup": "Root may independently review the unchanged source lock and the corrected native import evidence before any profile or fit admission."
+}
