@@ -1,0 +1,46 @@
+{
+  "final_archive_validation": "pending rebuilt V2 archive exact extraction and import smoke test",
+  "initial_v2_attempt": {
+    "extraction": "all archived regular members extracted and matched their manifest",
+    "failure_message": "No module named 'wnn.numeric_ple'",
+    "failure_type": "ModuleNotFoundError",
+    "member_count": 53,
+    "reproduction": "trainer/model import from extracted archive with only extracted scripts/src on PYTHONPATH",
+    "runtime_import_test": "test_built_archive_extracts_exact_manifest_and_imports_runtime",
+    "source_archive_path": "source_archive_missing_numeric_ple.tar",
+    "source_archive_sha256": "b2a45e2b8a5d2024a1e16d9386a5788ee9570c1e9f5f2a375c4fc8c9c07f1f84",
+    "source_manifest_path": "source_archive_manifest_missing_numeric_ple.json",
+    "source_manifest_sha256": "5179563cd06049101132976172750ea04729081aa38ca7adb1dc8a183ee95f4e"
+  },
+  "observed_date": "2026-10-08",
+  "required_repair": {
+    "path": "src/wnn/numeric_ple.py",
+    "reason": "both import wnn.numeric_ple at module load even when the plain linear encoder is selected",
+    "required_by": [
+      "scripts/train_rnn.py",
+      "src/wnn/nn.py"
+    ],
+    "sha256": "229a7e0f032cd65bbf6700fa9372c08016b20e4719cb2f9eddd540ff8c468720",
+    "source_main_commit": "83b97650270c8bb8fdbbe5715f659b59bd20316c",
+    "source_status_at_snapshot": "tracked in the main source snapshot; copied byte-for-byte into the isolated branch; no edits"
+  },
+  "schema": "wnn-gru-capacity-v2-source-closure-diagnostic-v1",
+  "status": "initial-runtime-import-failure-preserved",
+  "v1_optional_absent_members": [
+    {
+      "path": "src/wnn/conditional_readout.py",
+      "reason": "absent from the frozen isolated runtime source and no import/reference in included Python code"
+    },
+    {
+      "path": "src/wnn/online_dynamics.py",
+      "reason": "absent from the frozen isolated runtime source and no import/reference in included Python code"
+    }
+  ],
+  "v1_reference": {
+    "declared_member_count": 54,
+    "omitted_runtime_dependency": "src/wnn/numeric_ple.py",
+    "packet": "gru512_768_capacity_v1_20261008/packet",
+    "source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+    "source_manifest_sha256": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42"
+  }
+}
