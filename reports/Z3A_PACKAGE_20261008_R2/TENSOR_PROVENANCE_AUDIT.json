@@ -1,0 +1,69 @@
+{
+  "schema": "wnn.independent-package-tensor-audit.v1",
+  "status": "passed",
+  "zip": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261008_z3_combo_i16/submission.zip",
+  "zip_sha256": "c7e5ee0393b6f58a1ed3f381dad95de94518f566a1132a03aaaaf716c915b7d0",
+  "zip_bytes": 5165335,
+  "sources": [
+    {
+      "run_at": "z3_combo_s4_parent_student_v1_core@ep1",
+      "checkpoint": "artifacts/runs/z3_combo_s4_parent_student_v1_core/model_ep1.pt",
+      "checkpoint_sha256": "6c3e81f4f3aa71a037904f773cb3a103d77712a13f41a7ac6f4eaecb601dcbb7",
+      "provenance_checkpoint_hash_binding": "stale_core_source_hash_in_checkpoint_map",
+      "initial_checkpoint_sha256": "87bafd489d7d6e5212589154f07fef96c447777f75f949ab4dadc1a6efe4caaf",
+      "provenance": "artifacts/runs/z3_combo_s4_parent_student_v1_core/provenance.json",
+      "provenance_sha256": "1513bd2194ff9314404d666d1abf44732be25dbc2fa4248d7a721a53b205b820",
+      "fit_group_counts": {
+        "train": 10606,
+        "valid": 1873
+      },
+      "split_manifest_sha256": null
+    },
+    {
+      "run_at": "z3h_combo_s4_parent_student_hft_alldata_v1@ep0",
+      "checkpoint": "artifacts/runs/z3h_combo_s4_parent_student_hft_alldata_v1/model_ep0.pt",
+      "checkpoint_sha256": "e406710210b6577f1939cfdf1da9a3e5d070db0febca4d1488cd65559b8a1091",
+      "provenance_checkpoint_hash_binding": "matched",
+      "initial_checkpoint_sha256": "6c3e81f4f3aa71a037904f773cb3a103d77712a13f41a7ac6f4eaecb601dcbb7",
+      "provenance": "artifacts/runs/z3h_combo_s4_parent_student_hft_alldata_v1/provenance.json",
+      "provenance_sha256": "69141c01030e3140b8b0a2b5d5187f7a1a2ed97e8a6022f2cc8261b990673f5d",
+      "fit_group_counts": {
+        "train": 0,
+        "valid": 1505
+      },
+      "split_manifest_sha256": null
+    }
+  ],
+  "head_finetune_initializer_matches_core": true,
+  "head_finetune_initial_checkpoint_hash_matches_core": true,
+  "source_provenance_checkpoint_hash_binding": "stale_core_source_hash_in_checkpoint_map",
+  "independent_core_audit_sha256": "4480f335f8c127579ccc3122651a4a9b489fe6ab17f6f0f8cd426339322b95a2",
+  "head_finetune_freezes_input_and_recurrent_trunk": true,
+  "member_declaration": [
+    {
+      "weights": "weights_0.npz",
+      "coef": 1.0,
+      "source": "z3_combo_s4_parent_student_v1_core@ep1|z3h_combo_s4_parent_student_hft_alldata_v1@ep0"
+    }
+  ],
+  "precision": "i16",
+  "tensor_count": 16,
+  "all_exported_tensors_bitwise_equal_to_exact_equal_head_merge": true,
+  "all_non_head_tensors_in_source_pair_bitwise_equal": true,
+  "source_head_merge_coefficients": [
+    0.5,
+    0.5
+  ],
+  "native_code_sha256": {
+    "solution.py": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+    "v2/wnn_native.abi3.so": "b01becbbef79e87e61eda24fe4b15bba3a98eb5b7b7d51479ba3c22d420b82d8",
+    "avx2/wnn_native.abi3.so": "9754887ddc0a6d1745e507c5b1bdb01ea8d31da79eb25965da043de33f47bfa6",
+    "v3/wnn_native.abi3.so": "698b8b2c8b5167e2be5e1e151ef6aa3b325b12ef38c4718ceafa2db3375aa398"
+  },
+  "zip_crc_passed": true,
+  "under_20mb": true,
+  "limitations": [
+    "This binds ZIP tensors and code to source checkpoints; ABI, Python 3.11 callback, reset, metric, and runtime gates are separate.",
+    "Source provenance records fit ancestry but does not establish an unexposed evaluation claim for all-data fits."
+  ]
+}

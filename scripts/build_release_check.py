@@ -33,6 +33,8 @@ def main() -> None:
     parser.add_argument("--incumbent-zip", type=Path, required=True)
     parser.add_argument("--incumbent-replay", type=Path, required=True)
     parser.add_argument("--calibration", type=Path, required=True)
+    parser.add_argument("--public-incumbent-seconds", type=int, required=True)
+    parser.add_argument("--public-runtime-evidence", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
@@ -45,16 +47,19 @@ def main() -> None:
     incumbent_zip = args.incumbent_zip.resolve()
     incumbent_replay_path = args.incumbent_replay.resolve()
     calibration_path = args.calibration.resolve()
+    public_runtime_evidence_path = args.public_runtime_evidence.resolve()
     package_audit = read_json(package_audit_path)
     core_audit = read_json(core_audit_path)
     abi = read_json(abi_path)
     replay = read_json(submission_dir / "TIMED_REPLAY.json")
     incumbent_replay = read_json(incumbent_replay_path)
     calibration = read_json(calibration_path)
+    if args.public_incumbent_seconds <= 0 or not public_runtime_evidence_path.is_file():
+        raise ValueError("public incumbent runtime needs a positive duration and evidence file")
+    public_runtime_evidence = read_json(public_runtime_evidence_path)
     reference_report = read_json(submission_dir / "PY311_V3_REFERENCE.json")
     callback_paths = {
-        level: submission_dir / f"PY311_{level}_CALLBACK.json"
-        for level in ("V2", "AVX2", "V3")
+        level: submission_dir / f"PY311_{level}_CALLBACK.json" for level in ("V2", "AVX2", "V3")
     }
     callbacks = {level: read_json(path) for level, path in callback_paths.items()}
 
@@ -62,6 +67,17 @@ def main() -> None:
         raise FileNotFoundError("candidate or incumbent ZIP is missing")
     archive_hash = digest(archive)
     incumbent_hash = digest(incumbent_zip)
+    portal_rows = public_runtime_evidence.get("new_results", []) + public_runtime_evidence.get(
+        "reconfirmed_results", []
+    )
+    matched_runtime_rows = [row for row in portal_rows if row.get("zip_sha256") == incumbent_hash]
+    if len(matched_runtime_rows) != 1:
+        raise ValueError("runtime evidence must have exactly one row for the matched incumbent ZIP")
+    matched_runtime_row = matched_runtime_rows[0]
+    if int(matched_runtime_row.get("runtime_seconds", 0)) != args.public_incumbent_seconds:
+        raise ValueError(
+            "public runtime duration does not match the exact incumbent ZIP evidence row"
+        )
     if package_audit.get("status") != "passed" or package_audit.get("zip_sha256") != archive_hash:
         raise ValueError("independent tensor audit does not bind the actual candidate ZIP")
     if core_audit.get("status") != "passed":
@@ -70,11 +86,17 @@ def main() -> None:
         raise ValueError("static ABI receipt does not pass or does not bind the candidate ZIP")
     if replay.get("zip") != str(archive) or int(replay.get("rows", 0)) != 400_000:
         raise ValueError("timed replay is not the candidate's full 20-sequence replay")
-    if incumbent_replay.get("zip") != str(incumbent_zip) or int(incumbent_replay.get("rows", 0)) != 400_000:
+    if (
+        incumbent_replay.get("zip") != str(incumbent_zip)
+        or int(incumbent_replay.get("rows", 0)) != 400_000
+    ):
         raise ValueError("incumbent replay is not matched on the 20-sequence fixture")
     if digest(incumbent_zip) != incumbent_hash:
         raise ValueError("incumbent ZIP changed during receipt construction")
-    if reference_report.get("status") != "passed" or reference_report.get("zip_sha256") != archive_hash:
+    if (
+        reference_report.get("status") != "passed"
+        or reference_report.get("zip_sha256") != archive_hash
+    ):
         raise ValueError("Python 3.11 reference receipt does not bind the candidate ZIP")
     for level, report in callbacks.items():
         if (
@@ -148,7 +170,7 @@ def main() -> None:
     candidate_us = float(replay["us_per_row"])
     incumbent_us = float(incumbent_replay["us_per_row"])
     ratio = candidate_us / incumbent_us
-    public_incumbent_seconds = 37 * 60 + 7
+    public_incumbent_seconds = args.public_incumbent_seconds
     calibrated_minutes = public_incumbent_seconds * ratio / 60.0
     if calibration.get("projection_basis") is None:
         raise ValueError("baseline timing calibration lacks a documented projection basis")
@@ -198,9 +220,8 @@ def main() -> None:
                 "checkpoint_sha256": head_hash,
                 "provenance_sha256": digest(head_provenance_path),
                 "initial_checkpoint_sha256": head_provenance["initial_checkpoint_sha256"],
-                "initial_checkpoint_matches_core": head_provenance[
-                    "initial_checkpoint_sha256"
-                ] == core_hash,
+                "initial_checkpoint_matches_core": head_provenance["initial_checkpoint_sha256"]
+                == core_hash,
                 "freeze": head_provenance.get("args", {}).get("freeze"),
                 "seed": head_provenance.get("args", {}).get("seed"),
                 "fit_groups": {
@@ -219,9 +240,7 @@ def main() -> None:
             "fixed_head_merge": {
                 "source": member["source"],
                 "outer_coefficient": member["coef"],
-                "within_head_merge_coefficients": package_audit[
-                    "source_head_merge_coefficients"
-                ],
+                "within_head_merge_coefficients": package_audit["source_head_merge_coefficients"],
                 "zip_tensor_audit_sha256": digest(package_audit_path),
             },
         },
@@ -260,6 +279,14 @@ def main() -> None:
                 "candidate_over_incumbent_ratio": ratio,
                 "calibrated_public_runtime_minutes": calibrated_minutes,
                 "public_incumbent_seconds_used": public_incumbent_seconds,
+                "public_runtime_evidence": str(public_runtime_evidence_path),
+                "public_runtime_evidence_sha256": digest(public_runtime_evidence_path),
+                "public_runtime_evidence_match": {
+                    "name": matched_runtime_row.get("name"),
+                    "submission_id": matched_runtime_row.get("submission_id"),
+                    "runtime_seconds": matched_runtime_row.get("runtime_seconds"),
+                    "zip_sha256": matched_runtime_row.get("zip_sha256"),
+                },
                 "public_calibration_receipt": str(calibration_path),
                 "public_calibration_receipt_sha256": digest(calibration_path),
                 "incumbent_zip_sha256": incumbent_hash,
