@@ -1,12 +1,12 @@
-## Live delivery frontier — 2026-10-08 05:47 UTC
+## Live delivery frontier — 2026-10-08 06:03 UTC
 
-Research continues past10:00Kyiv with five local CPUs after that boundary; no time stop. Public best0.6660 and teammate0.6674 unreplicated. Latest details and original receipts: [current state](../../../specs/current-state.md).
+Research continues past10:00Kyiv with five local CPUs; no time stop. Public best0.6660 and teammate0.6674 unreplicated. [Current state](../../../specs/current-state.md) links raw receipts.
 
-- H218 block-memory scratch fit completed119400attempts/119352updates/48AMPskips, zero current OOM/kill; fixedep3 checkpoint preserved. Excluded468 export and preregistered standalone/five-blend grade are next.
-- E540 V9 accepted once on Kaggle T4; input validation observed. Reuses completed own linear control, fits only PLE. No embedding comparison score yet.
-- H232 GRU384 completed clean fixedep3; R5 export aborts on parent-packet metadata hash mismatch. Operator collects/diagnoses export-only successor; no refit.
-- H230 history swap source/profile-V3 reviewed; raw112/model211 distinguished. Profile/cache/student fit await H218 handoff and fresh admissions. All-data normalized seed3 and source/pair ZIPs delivered, unscored publicly.
-- Vast V5R2 create unresolved/no proven instance; no blind retry/adoption. Initial runtype diagnosis retracted against current official CLI. TPU actual-device gate remains queued.
+- H218 fixedep3 scratch block-memory is fully delivered and independently scored: exposed468 WP0.662403646 vs owncleanreference0.680941207; all fixed blends reduced score. Exact-recipe evidence preserved, attention-family/teacher/residual descendants remain eligible. [Marimo result](attention_training_H218/attention_result_review.py) and lineage plots saved.
+- H230 history-parent profile passed full211/raw112/finite/sourcelocks. Actual train FP32 export running since06:01:30Z, GPU97%/VRAM1.32GB at75.6s; valid export/cache/matchedstudent follow terminal gates. Earlier support-preflight fullNPZ-read OOM preserved and corrected, no model/data change.
+- E540 V9 Kaggle active worker: outermarker `validating_inputs` is stale after Popen; exact inner stage unobserved because worker.log is output-only. Completed own linear control reused; PLE comparison still pending.
+- H232 clean GRU384 fixedep3 preserved. R5 missing parent-metadata export failure collected; R6 adds only exact missing member, root full-extraction/unchanged-worker verifier tests pass. Private upload/remote verification and freshquota precede one corrected export-only push.
+- Vast TCN V5R2 remains ambiguous with2.80USD hold, no adoption/retry. Distinct ownGRU512/768 capacityteacher packet being prepared only within remaining6.80USD ledger headroom. TPU actual-device gate still pending.
 
 The following snapshots are historical and preserved; use original terminal receipts for claims.
 
