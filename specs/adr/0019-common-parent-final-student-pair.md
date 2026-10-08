@@ -1,0 +1,11 @@
+# ADR0019: common-parent final student pair and separate teacher-history follow-up
+
+Status: accepted, 2026-10-08. Owner: root.
+
+The current all-supplied-data parent fit has one independently trained seed3 initializer. Waiting for a second full-data parent would delay the first prospective paired submission. Train the planned seed3 and seed4 students from the same own parent at fixed epoch3, after its identity and complete-membership teacher cache are verified. Both students retain separate training recipes, seeds, outputs and ancestry records. Their common initialization means they are not independent model draws; do not infer ensemble diversity from seed labels alone.
+
+The resulting endpoint is a deliberately declared independent analogue of the teammate method. Its existing teachers were trained on fold-specific data, although their exports cover all supplied rows. Rebuilding a complete-membership cache does not change those teachers' fitting history. Register a separate follow-up cohort of independently trained all-data heterogeneous teachers to test this remaining gap. Do not reuse teammate weights, call the common-parent endpoint an exact replication, or treat its all-data training metric as held-out evidence.
+
+This decision prioritizes one delivered candidate while preserving the more complete teacher-history direction. It does not replace the matched fold comparison or make a public-score forecast. Root must review fixed checkpoints, cache identities, served weights and actual ZIP constraints before handoff. Revisit common-parent allocation when measured pair complementarity, public transfer, or a ready second parent warrants a different endpoint.
+
+Basis: [independent-training rules](0004-independent-training-and-target-variants.md), [replication reflection](../../research/campaign_2026-10-06/bandit_continuation/reviews/MAXIM_REPLICATION_REFLECTION.md), and [full-membership cache contract](../../research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_TEACHER_CACHE_BUILD_CONTRACT_V1_20261008.json). Existing frozen recipes and artifacts are preserved; this decision must be bound to a new paired-student contract before launch.
