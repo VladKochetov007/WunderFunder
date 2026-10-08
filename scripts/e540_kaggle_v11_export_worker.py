@@ -518,6 +518,7 @@ def _validate_checkpoints(
 
 def call_predictor(module: object, argv: list[str], log_path: Path) -> str:
     """Run one exact predict_run CLI in-process and keep a flushed phase log."""
+    (ROOT / "cache").mkdir(parents=True, exist_ok=True)
     capture = io.StringIO()
     old_argv = sys.argv
     try:
