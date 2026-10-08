@@ -1,0 +1,73 @@
+{
+  "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+  "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+  "cache_validation_receipt_sha256": "84686dff926036b37362a3ea28edcf2166d0bb44bee11b2fcbd64082e4b5cf35",
+  "feature_semantics": "112 raw float32 features plus 99 causal event features; not normalized; model applies shared normalization",
+  "format_version": 1,
+  "initial_state_sha256": "d980b5e6c3afbca94f1a88f74b55f551722633e0b192dca4f12c716c6db02092",
+  "normalization_sha256": "72dab03047a9975ef055916c394ff2ea54561ca148f8b6d89fa2917f4745edce",
+  "profile_inputs_arrays": {
+    "inputs": {
+      "dtype": "<f4",
+      "shape": [
+        32,
+        2000,
+        211
+      ]
+    },
+    "row_mask": {
+      "dtype": "|b1",
+      "shape": [
+        32,
+        2000
+      ]
+    },
+    "targets": {
+      "dtype": "<f4",
+      "shape": [
+        32,
+        2000,
+        2
+      ]
+    }
+  },
+  "profile_inputs_sha256": "652a618faa30716357dce9c74a2821f02cc3b2e68f56886ca3e15d33d9d427d7",
+  "row_mask_semantics": "row index >= 99; not the official is_scored mask",
+  "schema": "wnn.loss-pair.profile-inputs-receipt.v1",
+  "sequence_ids": [
+    "datasets/train.parquet::rg=0",
+    "datasets/train.parquet::rg=1",
+    "datasets/train.parquet::rg=2",
+    "datasets/train.parquet::rg=3",
+    "datasets/train.parquet::rg=4",
+    "datasets/train.parquet::rg=5",
+    "datasets/train.parquet::rg=6",
+    "datasets/train.parquet::rg=7",
+    "datasets/train.parquet::rg=8",
+    "datasets/train.parquet::rg=9",
+    "datasets/train.parquet::rg=10",
+    "datasets/train.parquet::rg=11",
+    "datasets/train.parquet::rg=12",
+    "datasets/train.parquet::rg=13",
+    "datasets/train.parquet::rg=14",
+    "datasets/train.parquet::rg=15",
+    "datasets/train.parquet::rg=16",
+    "datasets/train.parquet::rg=17",
+    "datasets/train.parquet::rg=18",
+    "datasets/train.parquet::rg=19",
+    "datasets/train.parquet::rg=20",
+    "datasets/train.parquet::rg=21",
+    "datasets/train.parquet::rg=22",
+    "datasets/train.parquet::rg=23",
+    "datasets/train.parquet::rg=24",
+    "datasets/train.parquet::rg=25",
+    "datasets/train.parquet::rg=26",
+    "datasets/train.parquet::rg=27",
+    "datasets/train.parquet::rg=28",
+    "datasets/train.parquet::rg=29",
+    "datasets/train.parquet::rg=30",
+    "datasets/train.parquet::rg=31"
+  ],
+  "source": "WMSE arm, actual first epoch-zero batch, before update attempt zero",
+  "target_semantics": "raw float32 target labels; TPU clips to [-2,2] and weights by absolute clipped labels"
+}
