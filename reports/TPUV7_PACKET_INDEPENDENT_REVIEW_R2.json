@@ -1,0 +1,29 @@
+{
+  "schema": "wnn.independent-packet-review-supplement.v1",
+  "record_id": "TPUV7_PACKET_INDEPENDENT_REVIEW_20261008_R2",
+  "recorded_at_utc": "2026-10-08T20:44:19Z",
+  "supplements": {
+    "record_id": "TPUV7_PACKET_INDEPENDENT_REVIEW_20261008_R1",
+    "sha256": "26f4119a0a469d28588652bf5faca08a210ac472312af769606f64d41f999d2a"
+  },
+  "scope": "Read-only confirmation of the current Kaggle provider file listing for the pinned private fold-zero asset dataset; no upload, version creation, or source mutation.",
+  "provider_listing": {
+    "dataset": "vladkochetov07/wnn-c20261004-fold0-assets",
+    "kaggle_cli_version": "2.1.1",
+    "page_size": 200,
+    "returned_rows": 24,
+    "payload_rows": 23,
+    "manifest_file_row": "assets-manifest.json,6268 bytes",
+    "exact_names_and_sizes_match_pinned_manifest_plus_separate_manifest": true,
+    "captured_csv_sha256": "f0baf3854865f286138b10138f19d430c44a6389f065aee5be71b2dc2574ced8",
+    "command": "flock -w 10 /tmp/wnn-codex-support.lock env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=60s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /bin/bash -c 'kaggle datasets files vladkochetov07/wnn-c20261004-fold0-assets --page-size 200 -v > /tmp/wnn-tpuv7-provider-listing-20261008.csv'",
+    "verification": "The captured 24-row CSV was parsed under the same support lock and compared as an exact filename-to-size map against all 23 packet-pinned manifest entries plus the 6268-byte assets-manifest.json. The maps matched."
+  },
+  "updated_assessment": {
+    "provider_dataset_inventory": "pass",
+    "future_kernel_mount_inventory": "runtime_check_pending",
+    "verdict": "Current provider listing confirms the intended 23 payload files plus assets-manifest.json. This does not observe a future/current kernel's mounted directory; the V7 fail-closed exact-name check remains necessary before materialization and TPU worker launch.",
+    "provider_push_authorized": false,
+    "scientific_or_device_claim": false
+  }
+}
