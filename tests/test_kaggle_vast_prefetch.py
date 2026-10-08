@@ -175,6 +175,45 @@ def test_public_binding_validates_private_plan_and_hides_url(tmp_path: Path) -> 
     assert URL not in repr(prepared)
 
 
+@pytest.mark.parametrize("remote_path", ["cache/train_targets.npz", "cache/valid_targets.npz"])
+def test_target_cache_prefetch_is_hash_bound_and_downloadable(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, remote_path: str
+) -> None:
+    monkeypatch.setitem(globals(), "REMOTE_PATH", remote_path)
+    runtime, private, admission, frozen, contents = _documents(tmp_path)
+    prepared = prefetch.prepare_prefetch(
+        private,
+        admission,
+        attempt_id=ATTEMPT,
+        campaign_label=LABEL,
+        frozen_inputs=frozen,
+        runtime_root=runtime,
+    )
+    payload = prefetch.make_remote_payload(
+        prepared,
+        attempt_id=ATTEMPT,
+        campaign_label=LABEL,
+        output_root=str(tmp_path / "results"),
+        budget_seconds=60,
+    )
+    code, output = _run_remote(payload, monkeypatch, _Opener(_Response(contents, URL)))
+    assert code == 0
+    assert URL not in output
+    assert (tmp_path / "results/.worker" / LABEL / "inputs" / remote_path).read_bytes() == contents
+    receipt = prefetch.validate_remote_result(output, prepared)
+    assert receipt["status"] == "complete"
+    frozen[0]["source_sha256"] = "0" * 64
+    with pytest.raises(prefetch.PrefetchPlanError, match="differ"):
+        prefetch.prepare_prefetch(
+            private,
+            admission,
+            attempt_id=ATTEMPT,
+            campaign_label=LABEL,
+            frozen_inputs=frozen,
+            runtime_root=runtime,
+        )
+
+
 @pytest.mark.parametrize(
     ("url", "source_hash", "mode"),
     [
@@ -388,3 +427,32 @@ def test_remote_accepts_http_response_that_closes_at_content_length(
     finally:
         reader.close()
         writer.close()
+
+
+def test_remote_accepts_complete_four_input_closure(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    contents = b"four frozen inputs"
+    payload = json.loads(_remote_payload(tmp_path, contents))
+    payload["inputs"] = [
+        {
+            "remote_path": path,
+            "sha256": _sha256(contents),
+            "size_bytes": len(contents),
+            "url": URL,
+        }
+        for path in sorted(prefetch.ALLOWED_REMOTE_PATHS)
+    ]
+
+    class FreshResponseOpener:
+        def open(self, request: Request, timeout: float) -> _Response:
+            assert request.full_url == URL
+            return _Response(contents, URL)
+
+    code, output = _run_remote(json.dumps(payload).encode(), monkeypatch, FreshResponseOpener())
+    assert code == 0
+    receipt = json.loads(output)
+    assert len(receipt["completed"]) == 4
+    assert URL not in output
+    for path in prefetch.ALLOWED_REMOTE_PATHS:
+        assert (tmp_path / "results/.worker" / LABEL / "inputs" / path).read_bytes() == contents
