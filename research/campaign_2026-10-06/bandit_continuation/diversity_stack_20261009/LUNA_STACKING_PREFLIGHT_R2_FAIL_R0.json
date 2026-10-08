@@ -1,0 +1,24 @@
+{
+  "schema": "wnn.luna-meta-crossfit-preflight.v1",
+  "experiment_id": "LUNA-STACK-R2-20261009",
+  "attempt_id": "report_schema_preflight_20261008_2151z_r0",
+  "status": "failed_no_score_consumer_compatibility_check",
+  "recorded_utc": "2026-10-08T21:52:03Z",
+  "admission_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LUNA_STACKING_ROOT_ADMISSION_R2.json",
+  "config_sha256": "45f9e6455a93ba85a90b11420228116c204f73f548717177e499496f7e090e59",
+  "assignment_sha256": "4b2c21fa1f964ea798f576f5219d8d09ea1f514fd445102da4ec54a80e65f1a6",
+  "source_script_sha256": "5710a57b2afa0c189620491ca23897a5c142301f28a34e645654ddf57352e031",
+  "source_checks": {
+    "root_admission_binding": "passed",
+    "h230_evidence_report": "passed through metric, split, population and public-forecast claim validation",
+    "exact_z3_evidence_report": "failed on missing `claim_limits` machine field",
+    "metric_or_score_computation": "not run"
+  },
+  "failure": {
+    "stage": "public-forecast limitation evidence",
+    "checker_expected": "claim_limits.public_forecast=false",
+    "producer_observed": "Z3 R1 has no claim_limits object; its exposure states `This result is not a public-score forecast.`",
+    "interpretation": "report schema omission, not a scientific or ancestry failure"
+  },
+  "repair_scope": "accept the pinned Z3 report's explicit exposure wording; endpoint pool, fit, metric, and resource cap unchanged"
+}
