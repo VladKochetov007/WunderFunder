@@ -73,7 +73,7 @@ def build_packet() -> dict[str, object]:
     if not V3_PACKET.is_dir():
         raise FileNotFoundError("committed V3 terminal packet is required as the frozen base")
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(V3_PACKET, OUT)
+    shutil.copytree(V3_PACKET, OUT, ignore=shutil.ignore_patterns("__pycache__"))
 
     old_recipe_path = OUT / V3_RECIPE
     recipe = json.loads(old_recipe_path.read_text(encoding="utf-8"))
