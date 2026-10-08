@@ -1,0 +1,140 @@
+{
+  "run_id": "f0_z3_combo_s4_student_hft_v2",
+  "priority": 9,
+  "arm": "Z3-F0-ENDPOINT",
+  "hypothesis": "Exact Z3h fold0 analogue: seed4 backbone/student, seed3 GCorr finishing, fixed half endpoint",
+  "notes": "Matched seed4 backbone/student; finishing seed3 matches actual Z3h. Fixed epoch0 GCorr finish, fixedhalf endpoint. Independent grader owns point/delta/bootstrap.",
+  "steps": [
+    {
+      "name": "make_core",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/make_core_checkpoint.py",
+        "f0_z3_combo_s4_student_v2",
+        "1",
+        "f0_z3_combo_s4_student_v2_core"
+      ],
+      "timeout_seconds": 300,
+      "env": {
+        "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+        "OMP_NUM_THREADS": "2",
+        "MKL_NUM_THREADS": "2",
+        "OPENBLAS_NUM_THREADS": "2",
+        "WNN_LOADER_WORKERS": "0",
+        "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONHASHSEED": "0"
+      },
+      "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+    },
+    {
+      "name": "fit",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/train_rnn.py",
+        "--name",
+        "f0_z3_combo_s4_student_hft_v2",
+        "--init",
+        "f0_z3_combo_s4_student_v2_core@ep1",
+        "--train-source",
+        "valid",
+        "--full-valid",
+        "--mask-weight",
+        "--seed",
+        "3",
+        "--epochs",
+        "1",
+        "--batch",
+        "16",
+        "--chunk",
+        "2000",
+        "--fast",
+        "--inherit-init-preprocessing",
+        "--loss",
+        "gcorr",
+        "--optim",
+        "adamw",
+        "--freeze",
+        "inp,gru",
+        "--lr",
+        "0.0005",
+        "--wd",
+        "0.01",
+        "--checkpoint-policy",
+        "fixed",
+        "--checkpoint-epoch",
+        "0",
+        "--save-training-state",
+        "--split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--no-eval-during-fit",
+        "--valid-fold",
+        "0"
+      ],
+      "timeout_seconds": 1800,
+      "env": {
+        "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+        "OMP_NUM_THREADS": "2",
+        "MKL_NUM_THREADS": "2",
+        "OPENBLAS_NUM_THREADS": "2",
+        "WNN_LOADER_WORKERS": "0",
+        "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONHASHSEED": "0"
+      },
+      "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+    },
+    {
+      "name": "predict",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+        "f0_z3_combo_s4_student_hft_v2",
+        "valid",
+        "--epoch",
+        "0"
+      ],
+      "timeout_seconds": 1800,
+      "env": {
+        "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+        "OMP_NUM_THREADS": "2",
+        "MKL_NUM_THREADS": "2",
+        "OPENBLAS_NUM_THREADS": "2",
+        "WNN_LOADER_WORKERS": "0",
+        "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONHASHSEED": "0"
+      },
+      "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+    },
+    {
+      "name": "predict_core",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+        "f0_z3_combo_s4_student_v2_core",
+        "valid",
+        "--epoch",
+        "1"
+      ],
+      "timeout_seconds": 1800,
+      "env": {
+        "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+        "OMP_NUM_THREADS": "2",
+        "MKL_NUM_THREADS": "2",
+        "OPENBLAS_NUM_THREADS": "2",
+        "WNN_LOADER_WORKERS": "0",
+        "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONHASHSEED": "0"
+      },
+      "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+    }
+  ],
+  "expected_outputs": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/f0_z3_combo_s4_student_hft_v2/model_ep0.pt",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_f0_z3_combo_s4_student_hft_v2_valid.npy",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_f0_z3_combo_s4_student_hft_v2_valid.json",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/f0_z3_combo_s4_student_hft_v2/provenance.json",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_f0_z3_combo_s4_student_v2_core_valid.npy",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_f0_z3_combo_s4_student_v2_core_valid.json",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/f0_z3_combo_s4_student_v2_core/model_ep1.pt",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/f0_z3_combo_s4_student_v2_core/provenance.json"
+  ]
+}
