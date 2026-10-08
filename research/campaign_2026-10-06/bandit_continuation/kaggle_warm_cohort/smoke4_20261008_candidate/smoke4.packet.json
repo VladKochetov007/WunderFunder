@@ -1,0 +1,74 @@
+{
+  "schema": "wnn.kaggle-warm-cohort-smoke-packet.v1",
+  "packet_id": "vladkochetov07/wnn-warm-cohort-smoke-20261008-v4",
+  "status": "sealed_candidate_waiting_root_admission",
+  "root_admission_required_before_push": true,
+  "kernel_metadata_id": "vladkochetov07/wnn-warm-cohort-smoke-20261008-v4",
+  "kernel_title": "wnn warm cohort smoke 20261008 v4",
+  "title_slug_matches_metadata_id": true,
+  "kernel_script": {
+    "path": "kernel/wnn-warm-cohort-smoke-20261008-v4.py",
+    "sha256": "5e75bdeade37964848e8e4f1023566e979ce29545edbd75ef64a59bb4204c538"
+  },
+  "kernel_metadata": {
+    "path": "kernel/kernel-metadata.json",
+    "sha256": "246c8415fd195827ef2432fabf6ac664858f27a6e3ee7281596abf42f043fae6"
+  },
+  "offline_preflight_receipt": {
+    "path": "offline_preflight_receipt.json",
+    "sha256": "2c4512126b9b594832c1436f5024904c8339a0205cb1f521ccc48f5818986151"
+  },
+  "offline_tests": {
+    "path": "tests/test_smoke4_mount_bindings.py",
+    "sha256": "d9ab14717aa9a60c7a0e1c458c449e1b895089aaaa5a9fe5bfad3395780747a1",
+    "result": "6 passed; ruff and py_compile passed"
+  },
+  "source_inputs": {
+    "source_dataset": {
+      "id": "vladkochetov07/wnn-warm-cohort-src-20261008-v2",
+      "version": 1,
+      "assets_manifest_sha256": "96fa0dcbd2c0a56f8ef9d23620080337799022290ffee87196d52de58aca4f70",
+      "source_archive_sha256": "2d64aaf9b3f416db460e41684def3b511462283aec588bc94f536b8db1f66930"
+    },
+    "fold0_assets_dataset": {
+      "id": "vladkochetov07/wnn-c20261004-fold0-assets",
+      "version": 1,
+      "assets_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+      "payload_entry_count": 23,
+      "regular_file_count_including_manifest": 24,
+      "portable_registry_path": "research/campaign_2026-10-04/portable_inputs.json",
+      "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "raw_dataset": {
+      "id": "vladkochetov07/wunder-funder",
+      "version": 1,
+      "train_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "valid_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    }
+  },
+  "source_kernel_specs": {
+    "smoke-f0-s3-gpu0-v3": "bf2229b2481db8cb7c7281c7abd73289a97001d5713c9520f2b49235033ec95c",
+    "smoke-f0-s13-gpu1-v3": "4ff2bb5c49d1912aa008f2cfde7b65fd08a99e144d623ee1c4ecd240c8380bfc"
+  },
+  "predecessor": {
+    "packet_id": "vladkochetov07/wnn-warm-cohort-smoke-20261008-v3",
+    "packet_sha256": "d098464599041526340206b58649c95cc1d3adcacf3cec4b949bd6d7bcaea693",
+    "terminal_operator_receipt_sha256": "f9934d493eebcc7f8e6250425be6cd27bd94769741213c766f5a924eed25780f",
+    "execution_result": "both fit children failed in load_campaign_split before training; no prediction, grade, or scientific result"
+  },
+  "scope": {
+    "only_change": "Verify exact source and fold-asset manifests plus the pinned portable input registry, then inject WNN_PORTABLE_DATA_MANIFEST into all child-step environments.",
+    "scientific_specs_changed": false,
+    "source_dataset_changed": false,
+    "runtime_hard_wall_seconds": 7800,
+    "provider_timeout_seconds": 7800,
+    "max_simultaneous_gpu_workers": 2,
+    "provisional_gpu_seconds_if_admitted": 15600,
+    "no_training_authorized_by_this_packet": true
+  },
+  "proposed_push": {
+    "command": "kaggle kernels push -p research/campaign_2026-10-06/bandit_continuation/kaggle_warm_cohort/smoke4_20261008_candidate/kernel -t 7800",
+    "provider_push_authorized": false
+  }
+}
