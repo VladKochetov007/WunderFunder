@@ -16,17 +16,15 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from poll_provider import append_jsonl
+    from poll_provider import _receipt_files_match, append_jsonl
     from poll_provider import collect as collect_provider_snapshot
 except ImportError:  # pragma: no cover - package import for focused tests
-    from .poll_provider import append_jsonl
+    from .poll_provider import _receipt_files_match, append_jsonl
     from .poll_provider import collect as collect_provider_snapshot
 
 GIB = 1024**3
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_CONFIG = Path(__file__).with_name(
-    "terminal_collection_targets_20261008_r1.json"
-)
+DEFAULT_CONFIG = Path(__file__).with_name("terminal_collection_targets_20261008_r1.json")
 TERMINAL_STATES = {"COMPLETE", "COMPLETED", "ERROR", "FAILED", "CANCELED", "CANCELLED"}
 MAX_ATTEMPTS = 3
 
@@ -36,15 +34,13 @@ PINNED_TARGETS: dict[str, dict[str, Any]] = {
         "resource": "gpu",
         "metadata_id": "vladkochetov07/wnn-warm-cohort-smoke-20261008-v4",
         "root_admission": (
-            "../bandit_continuation/controller_claude_20261008/"
-            "KAGGLE_SMOKE4_ROOT_ADMISSION_R1.json"
+            "../bandit_continuation/controller_claude_20261008/KAGGLE_SMOKE4_ROOT_ADMISSION_R1.json"
         ),
         "root_admission_sha256": (
             "79adf2e9b11dc737459bb770124e4401586920a36c68a3384050fc1c99886a23"
         ),
         "artifact_dir": (
-            "../bandit_continuation/kaggle_warm_cohort/"
-            "smoke4_20261008/terminal_collect_r1"
+            "../bandit_continuation/kaggle_warm_cohort/smoke4_20261008/terminal_collect_r1"
         ),
         "terminal_receipt": (
             "../bandit_continuation/kaggle_warm_cohort/"
@@ -58,12 +54,8 @@ PINNED_TARGETS: dict[str, dict[str, Any]] = {
             "kernel_script_sha256": (
                 "5e75bdeade37964848e8e4f1023566e979ce29545edbd75ef64a59bb4204c538"
             ),
-            "metadata_sha256": (
-                "246c8415fd195827ef2432fabf6ac664858f27a6e3ee7281596abf42f043fae6"
-            ),
-            "packet_sha256": (
-                "f7472dfd64f505de7e65a080691ae24917a4504c35e033f74084e88505e26179"
-            ),
+            "metadata_sha256": ("246c8415fd195827ef2432fabf6ac664858f27a6e3ee7281596abf42f043fae6"),
+            "packet_sha256": ("f7472dfd64f505de7e65a080691ae24917a4504c35e033f74084e88505e26179"),
             "independent_review_sha256": (
                 "62cf342c59b19af9c16bf5a00021ea7d6fb780dec384d32c8420eecb964d2469"
             ),
@@ -73,8 +65,7 @@ PINNED_TARGETS: dict[str, dict[str, Any]] = {
         "resource": "tpu",
         "metadata_id": "vladkochetov07/e463-tpu-realdata-reload-v7-20261008",
         "root_admission": (
-            "../bandit_continuation/controller_claude_20261008/"
-            "KAGGLE_TPU_V7_ROOT_ADMISSION_R1.json"
+            "../bandit_continuation/controller_claude_20261008/KAGGLE_TPU_V7_ROOT_ADMISSION_R1.json"
         ),
         "root_admission_sha256": (
             "dbb32828d38d3b3f0f294a4f08b3d7fd189740e973493a212ba29a36dcdc4bd4"
@@ -83,15 +74,9 @@ PINNED_TARGETS: dict[str, dict[str, Any]] = {
         "terminal_receipt": "E463_TPU_V7_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json",
         "push_receipt": "KAGGLE_TPU_V7_PROVIDER_PUSH_R1.json",
         "admission_bindings": {
-            "code_sha256": (
-                "d22947623bbe638280183ab019d4159ea37038b73840f3058e0137379bb4dad7"
-            ),
-            "metadata_sha256": (
-                "23e67bce8659cbd98bcc9c985c73637e8e3b161e17f56f5cdb185e030714c4ef"
-            ),
-            "bundle_sha256": (
-                "053638cf52a82f00b2da8fce82fcb63f21f7bfaccaf1b766b64e0ffd8ab1c528"
-            ),
+            "code_sha256": ("d22947623bbe638280183ab019d4159ea37038b73840f3058e0137379bb4dad7"),
+            "metadata_sha256": ("23e67bce8659cbd98bcc9c985c73637e8e3b161e17f56f5cdb185e030714c4ef"),
+            "bundle_sha256": ("053638cf52a82f00b2da8fce82fcb63f21f7bfaccaf1b766b64e0ffd8ab1c528"),
             "independent_review_sha256": (
                 "26f4119a0a469d28588652bf5faca08a210ac472312af769606f64d41f999d2a"
             ),
@@ -118,9 +103,7 @@ def atomic_write_json(path: Path, value: Any) -> None:
     """Durably replace a JSON receipt without exposing a partial document."""
     path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     encoded = (json.dumps(value, indent=2, sort_keys=True) + "\n").encode()
-    fd, temporary_name = tempfile.mkstemp(
-        prefix=f".{path.name}.", suffix=".tmp", dir=path.parent
-    )
+    fd, temporary_name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
     try:
         with os.fdopen(fd, "wb") as stream:
             stream.write(encoded)
@@ -177,9 +160,7 @@ def validate_config(
             if target.get(key) != expected:
                 raise ValueError(f"{kernel}: {key} does not match the pinned value")
 
-        admission_path = resolve_repo_path(
-            repo_root, config_dir, target["root_admission"]
-        )
+        admission_path = resolve_repo_path(repo_root, config_dir, target["root_admission"])
         if sha256_file(admission_path) != target["root_admission_sha256"]:
             raise ValueError(f"{kernel}: root admission hash mismatch")
         admission = json.loads(admission_path.read_text())
@@ -191,9 +172,7 @@ def validate_config(
             if admission.get(key) != expected:
                 raise ValueError(f"{kernel}: admission binding mismatch for {key}")
 
-        push_receipt_path = resolve_repo_path(
-            repo_root, config_dir, target["push_receipt"]
-        )
+        push_receipt_path = resolve_repo_path(repo_root, config_dir, target["push_receipt"])
         push_receipt = json.loads(push_receipt_path.read_text())
         if push_receipt.get("canonical_provider_slug") != kernel:
             raise ValueError(f"{kernel}: provider push receipt slug mismatch")
@@ -205,9 +184,7 @@ def validate_config(
         for key, expected in target["admission_bindings"].items():
             receipt_value = packet.get(key, push_receipt.get(key, admission.get(key)))
             if receipt_value != expected:
-                raise ValueError(
-                    f"{kernel}: provider receipt binding mismatch for {key}"
-                )
+                raise ValueError(f"{kernel}: provider receipt binding mismatch for {key}")
 
         for path_field in ("artifact_dir", "terminal_receipt", "push_receipt"):
             resolve_repo_path(repo_root, config_dir, target[path_field])
@@ -264,24 +241,17 @@ def directory_bytes(root: Path) -> int:
 
 
 def collection_is_complete(receipt_path: Path, artifact_dir: Path) -> bool:
-    """Check that terminal outputs and logs listed by a prior receipt still exist."""
+    """Check that terminal files still match their receipt sizes and hashes."""
     try:
         receipt = json.loads(receipt_path.read_text())
         collection = receipt["terminal_collection"]
         files = collection["files"]
         root = artifact_dir.resolve()
-        listed_files = [(artifact_dir / name, (root / name).resolve()) for name in files]
         return (
             terminal_state(receipt["terminal_status"])
             and collection["output_exit_code"] == 0
             and collection["log_exit_code"] == 0
-            and bool(files)
-            and all(
-                not source.is_symlink()
-                and resolved.is_relative_to(root)
-                and source.is_file()
-                for source, resolved in listed_files
-            )
+            and _receipt_files_match(files, root)
         )
     except (OSError, KeyError, TypeError, json.JSONDecodeError):
         return False
@@ -395,11 +365,7 @@ def _terminal_receipt(
 ) -> dict[str, Any]:
     """Create an auditable receipt, including partial attempts and all file hashes."""
     files = file_inventory(artifact_dir)
-    output_count = sum(
-        1
-        for name in files
-        if name.startswith(f"{attempt_dir.name}/outputs/")
-    )
+    output_count = sum(1 for name in files if name.startswith(f"{attempt_dir.name}/outputs/"))
     output_code = result.get("output", {}).get("exit_code")
     log_code = result.get("logs", {}).get("exit_code")
     complete = output_code == 0 and log_code == 0
@@ -480,8 +446,7 @@ def collect_terminal_target(
     result: dict[str, Any] = {"logs": None, "output": None}
     cli_info = kaggle_cli_version(config["kaggle_cli"])
     cli_matches = (
-        cli_info.get("exit_code") == 0
-        and cli_info.get("version") == config["expected_cli_version"]
+        cli_info.get("exit_code") == 0 and cli_info.get("version") == config["expected_cli_version"]
     )
     result["cli_version_match"] = cli_matches
     if not cli_matches:
@@ -514,7 +479,7 @@ def collect_terminal_target(
                     [cli_path, "kernels", "output", "-p", str(output_dir), "-o", "-q", slug],
                     stdout_path=attempt_dir / "output_command.stdout.txt",
                     stderr_path=attempt_dir / "output_command.stderr.txt",
-                    monitor_dir=output_dir,
+                    monitor_dir=attempt_dir,
                     min_free_bytes=int(config["minimum_free_bytes"]),
                     max_bytes=int(config["maximum_download_bytes"]),
                     deadline=deadline,
@@ -554,9 +519,7 @@ def collect_terminal_target(
             else "terminal_collection_partial"
         ),
         "attempt": attempt_dir.name,
-        "provider_output_file_count": receipt["terminal_collection"][
-            "provider_output_file_count"
-        ],
+        "provider_output_file_count": receipt["terminal_collection"]["provider_output_file_count"],
         "receipt": str(receipt_path),
         "file_count": len(receipt["terminal_collection"]["files"]),
     }
@@ -601,7 +564,11 @@ def run_once(config_path: Path, repo_root: Path) -> dict[str, Any]:
             outcomes.append({"kernel": target["kernel"], "state": "already_collected"})
         elif not terminal_state(str(row.get("status", ""))):
             outcomes.append(
-                {"kernel": target["kernel"], "state": "provider_not_terminal", "status": row.get("status")}
+                {
+                    "kernel": target["kernel"],
+                    "state": "provider_not_terminal",
+                    "status": row.get("status"),
+                }
             )
         else:
             outcomes.append(

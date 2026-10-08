@@ -8,12 +8,10 @@ from pathlib import Path
 
 import pytest
 
-MODULE_DIR = (
-    Path(__file__).resolve().parents[1]
-    / "research/campaign_2026-10-06/cloud_preflight"
-)
+MODULE_DIR = Path(__file__).resolve().parents[1] / "research/campaign_2026-10-06/cloud_preflight"
 sys.path.insert(0, str(MODULE_DIR))
 import collect_terminal_outputs as collector  # noqa: E402
+import poll_provider as poller  # noqa: E402
 
 
 def _write_json(path: Path, value: object) -> None:
@@ -105,9 +103,7 @@ def test_validate_config_binds_exact_root_admissions_and_single_push(
 ) -> None:
     config_path, repo_root, pins = _fixture_config(tmp_path)
 
-    config, targets = collector.validate_config(
-        config_path, repo_root, pinned_targets=pins
-    )
+    config, targets = collector.validate_config(config_path, repo_root, pinned_targets=pins)
 
     assert len(targets) == 2
     assert config["max_attempts"] == 3
@@ -168,7 +164,9 @@ def test_collection_receipt_requires_existing_files_and_both_downloads(
 ) -> None:
     artifact_dir = tmp_path / "artifacts"
     (artifact_dir / "attempt_001").mkdir(parents=True)
-    (artifact_dir / "attempt_001/provider_logs.txt").write_text("")
+    payload = b"terminal logs"
+    listed_file = artifact_dir / "attempt_001/provider_logs.txt"
+    listed_file.write_bytes(payload)
     receipt_path = tmp_path / "receipt.json"
     _write_json(
         receipt_path,
@@ -177,7 +175,12 @@ def test_collection_receipt_requires_existing_files_and_both_downloads(
             "terminal_collection": {
                 "output_exit_code": 0,
                 "log_exit_code": 0,
-                "files": {"attempt_001/provider_logs.txt": {}},
+                "files": {
+                    "attempt_001/provider_logs.txt": {
+                        "size_bytes": len(payload),
+                        "sha256": hashlib.sha256(payload).hexdigest(),
+                    }
+                },
             },
         },
     )
@@ -185,6 +188,44 @@ def test_collection_receipt_requires_existing_files_and_both_downloads(
     assert collector.collection_is_complete(receipt_path, artifact_dir)
     (artifact_dir / "attempt_001/provider_logs.txt").unlink()
     assert not collector.collection_is_complete(receipt_path, artifact_dir)
+
+
+def test_receipt_hashless_or_changed_files_are_not_verified(tmp_path: Path) -> None:
+    artifact_dir = tmp_path / "artifacts"
+    attempt_dir = artifact_dir / "attempt_001"
+    attempt_dir.mkdir(parents=True)
+    output = attempt_dir / "result.bin"
+    payload = b"same-size"
+    output.write_bytes(payload)
+    receipt_path = tmp_path / "receipt.json"
+    receipt = {
+        "terminal_status": "KernelWorkerStatus.ERROR",
+        "terminal_collection": {
+            "output_exit_code": 0,
+            "log_exit_code": 0,
+            "files": {
+                "attempt_001/result.bin": {
+                    "size_bytes": len(payload),
+                    "sha256": hashlib.sha256(payload).hexdigest(),
+                }
+            },
+        },
+    }
+    _write_json(receipt_path, receipt)
+
+    assert collector.collection_is_complete(receipt_path, artifact_dir)
+    target = {"terminal_receipt": "receipt.json", "artifact_dir": "artifacts"}
+    assert poller._terminal_evidence(target, tmp_path) is not None
+
+    output.write_bytes(b"tampered!")
+    assert not collector.collection_is_complete(receipt_path, artifact_dir)
+    assert poller._terminal_evidence(target, tmp_path) is None
+
+    output.write_bytes(payload)
+    receipt["terminal_collection"]["files"]["attempt_001/result.bin"].pop("sha256")
+    _write_json(receipt_path, receipt)
+    assert not collector.collection_is_complete(receipt_path, artifact_dir)
+    assert poller._terminal_evidence(target, tmp_path) is None
 
 
 def test_collection_receipt_rejects_paths_outside_artifact_directory(
@@ -204,7 +245,12 @@ def test_collection_receipt_rejects_paths_outside_artifact_directory(
             "terminal_collection": {
                 "output_exit_code": 0,
                 "log_exit_code": 0,
-                "files": {"attempt_001/escape.txt": {}},
+                "files": {
+                    "attempt_001/escape.txt": {
+                        "size_bytes": outside_file.stat().st_size,
+                        "sha256": hashlib.sha256(outside_file.read_bytes()).hexdigest(),
+                    }
+                },
             },
         },
     )
@@ -260,3 +306,31 @@ def test_bounded_command_rejects_fast_download_over_byte_cap(
     assert result["exit_code"] == 125
     assert result["stop_reason"] == "download_byte_limit_reached_after_process_exit"
     assert payload_path.exists()
+
+
+def test_output_download_observes_aggregate_attempt_byte_cap(tmp_path: Path) -> None:
+    attempt_dir = tmp_path / "attempt_001"
+    output_dir = attempt_dir / "outputs"
+    output_dir.mkdir(parents=True)
+    (attempt_dir / "provider_logs.txt").write_bytes(b"l" * 300)
+    payload_path = output_dir / "large-output.bin"
+
+    result = collector.run_bounded_command(
+        [
+            sys.executable,
+            "-c",
+            "import pathlib,sys; pathlib.Path(sys.argv[1]).write_bytes(b'x'*300)",
+            str(payload_path),
+        ],
+        stdout_path=attempt_dir / "output_command.stdout.txt",
+        stderr_path=attempt_dir / "output_command.stderr.txt",
+        monitor_dir=attempt_dir,
+        min_free_bytes=1,
+        max_bytes=512,
+        deadline=time.monotonic() + 20,
+    )
+
+    assert result["exit_code"] == 125
+    assert result["stop_reason"] == "download_byte_limit_reached_after_process_exit"
+    assert (attempt_dir / "provider_logs.txt").is_file()
+    assert payload_path.is_file()

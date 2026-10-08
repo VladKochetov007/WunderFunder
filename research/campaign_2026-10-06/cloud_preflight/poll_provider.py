@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import fcntl
+import hashlib
 import importlib.metadata
 import json
 import os
@@ -55,8 +56,49 @@ def _status(client: Any, kernel: str) -> dict[str, Any]:
     }
 
 
+def _receipt_files_match(files: Any, artifact_dir: Path) -> bool:
+    """Verify every receipt path remains inside its artifact root with pinned bytes."""
+    if not isinstance(files, dict) or not files:
+        return False
+    root = artifact_dir.resolve()
+    for name, metadata in files.items():
+        if not isinstance(name, str) or not name or Path(name).is_absolute():
+            return False
+        if not isinstance(metadata, dict):
+            return False
+        size_bytes = metadata.get("size_bytes")
+        expected_sha256 = metadata.get("sha256")
+        if (
+            type(size_bytes) is not int
+            or size_bytes < 0
+            or not isinstance(expected_sha256, str)
+            or len(expected_sha256) != 64
+            or any(character not in "0123456789abcdef" for character in expected_sha256)
+        ):
+            return False
+        path = artifact_dir / name
+        try:
+            resolved = path.resolve(strict=True)
+            if (
+                path.is_symlink()
+                or not resolved.is_relative_to(root)
+                or not path.is_file()
+                or path.stat().st_size != size_bytes
+            ):
+                return False
+            digest = hashlib.sha256()
+            with path.open("rb") as stream:
+                for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                    digest.update(chunk)
+            if digest.hexdigest() != expected_sha256:
+                return False
+        except OSError:
+            return False
+    return True
+
+
 def _terminal_evidence(target: dict[str, str], config_dir: Path) -> dict[str, Any] | None:
-    """Return a completed receipt only after all named output files exist."""
+    """Return a completed receipt only after every named file matches its hash."""
     receipt_name = target.get("terminal_receipt")
     if not receipt_name:
         return None
@@ -69,12 +111,11 @@ def _terminal_evidence(target: dict[str, str], config_dir: Path) -> dict[str, An
         return None
     collection = receipt.get("terminal_collection", {})
     files = collection.get("files", {})
-    artifact_dir = config_dir / target.get("artifact_dir", ".")
+    artifact_dir = (config_dir / target.get("artifact_dir", ".")).resolve()
     outputs_downloaded = (
         collection.get("output_exit_code") == 0
         and collection.get("log_exit_code") == 0
-        and bool(files)
-        and all((artifact_dir / name).is_file() for name in files)
+        and _receipt_files_match(files, artifact_dir)
     )
     terminal_status = receipt.get("terminal_status")
     if not outputs_downloaded or not terminal_status:
