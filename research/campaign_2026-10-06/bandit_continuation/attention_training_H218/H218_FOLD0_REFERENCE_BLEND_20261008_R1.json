@@ -1,0 +1,396 @@
+{
+  "schema_version": 1,
+  "record_id": "H218_FOLD0_REFERENCE_BLEND_20261008_R1",
+  "created_utc": "2026-10-08T05:50:03.139429+00:00",
+  "grade_status": "conditional_exposed_discovery_comparison",
+  "metric_id": "global_wp_clip2_v1",
+  "preregistration_sha256": "6c52f156344c5f8d084440044d980ae8d6a7b0b8ef9f97f6dcd48c249148ae73",
+  "evaluation": {
+    "fold": 0,
+    "evaluation_groups": 468,
+    "source_qualified_join": "(valid, row_group); candidate-only 468 rows join the full-valid reference and target cache by source-qualified identity",
+    "selected_rows": 808863,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "selection": "need_prediction AND is_scored; need_prediction is row index >= 99",
+    "exposure": "exposed discovery fold; no fresh confirmation"
+  },
+  "candidate": {
+    "prediction_path": "cache/pred_h218_block_memory_cleanfold0_seed7_ep3_fp32_eval468_v1_valid.npy",
+    "prediction_sidecar_path": "cache/pred_h218_block_memory_cleanfold0_seed7_ep3_fp32_eval468_v1_valid.json",
+    "checkpoint_path": "artifacts/runs/h218_block_memory_b128_l2_h4_r256_b4_c2000_fold0_seed7_4ep_fixedep3_v1_20261008/model_ep3.pt",
+    "fixed_epoch_zero_based": 3,
+    "shape": [
+      468,
+      20000,
+      2
+    ],
+    "row_groups_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "precision": "fp32",
+    "checkpoint_prediction_hashes": "Bind actual terminal/export hashes before evaluating; do not alter the selected epoch",
+    "checkpoint_sha256": "ab9c7ae1ef415de54dcc56bcfe1c47239e742d12e4413a88c9303a1500075700",
+    "prediction_sha256": "98d69b0901a92b9626dfdea2cdc5d0ef5116c57064acee301aec5790aba591b4",
+    "provenance_sha256": "ba283bde80371cfd49a77fd3e8e83d759117d83880c902c4c8fd0b18debb3056",
+    "fit_terminal_receipt_sha256": "08a28bcdc771f93ec20ebbca4ebaa29d9e23e3abde04a11849d532e39eed3842",
+    "export_terminal_receipt_sha256": "7c984ebb70d7ec37f08f4dd3e062df29e4669977991a5d28710acc017cfc87f6",
+    "sidecar_sha256": "73f4d63ed9aa265cbf25fe4d308e09ce3451d2e49a481211fbb80ee8c96393ba",
+    "source_lock_sha256": "64696558572c4afacc99224cfa0c6a72e94b99c57cdfc04e49ef4f2e21849a64",
+    "source_file_count": 42,
+    "membership": {
+      "fit_groups_by_source": {
+        "train": 10535,
+        "valid": 1405
+      },
+      "evaluation_groups": 468,
+      "fit_evaluation_source_qualified_overlap": 0,
+      "fit_evaluation_component_overlap": 0,
+      "evaluation_components": 141
+    }
+  },
+  "reference": {
+    "role": "own public-incumbent-lineage parent prediction; this is not the full public submission endpoint",
+    "run": "c20261003_combo_s3_f0",
+    "seed": 3,
+    "epoch_zero_based": 3,
+    "architecture": "GRU256x2",
+    "checkpoint_path": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+    "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "provenance_path": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+    "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+    "prediction_path": "cache/pred_c20261003_combo_s3_f0_valid.npy",
+    "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+    "sidecar_path": "cache/pred_c20261003_combo_s3_f0_valid.json",
+    "sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+    "fit_membership": {
+      "train_source_groups": 10535,
+      "valid_source_groups": 1405,
+      "exact_frozen_fold0_fit_match": true,
+      "evaluation_groups": 468,
+      "fit_evaluation_component_overlap": 0
+    },
+    "own_ancestors": [
+      {
+        "run": "c20260929_since_s3_f0",
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      },
+      {
+        "run": "c20260929_prop_f0",
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+        "fit_groups": {
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      }
+    ],
+    "ancestry_manifest": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/SOURCE_FAMILIES.json",
+      "sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d"
+    }
+  },
+  "reference_baseline_official_score": {
+    "t0": 0.6744630336944983,
+    "t1": 0.687419379919812,
+    "wp": 0.6809412068071552
+  },
+  "predeclared_blends_all_reported": [
+    {
+      "alpha_on_h218": 0.0,
+      "score": {
+        "t0": 0.6744630336944983,
+        "t1": 0.687419379919812,
+        "wp": 0.6809412068071552
+      },
+      "delta_vs_reference": {
+        "t0": 0.0,
+        "t1": 0.0,
+        "wp": 0.0
+      },
+      "paired_component_bootstrap_vs_reference": {
+        "candidate_wp": 0.6809412068071548,
+        "reference_wp": 0.6809412068071548,
+        "mean_diff": 0.0,
+        "bootstrap_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "p_le_0": 1.0,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    },
+    {
+      "alpha_on_h218": 0.1,
+      "score": {
+        "t0": 0.6737192389733964,
+        "t1": 0.6870195535454164,
+        "wp": 0.6803693962594064
+      },
+      "delta_vs_reference": {
+        "t0": -0.0007437947211019758,
+        "t1": -0.0003998263743955066,
+        "wp": -0.0005718105477487967
+      },
+      "paired_component_bootstrap_vs_reference": {
+        "candidate_wp": 0.6803693962594057,
+        "reference_wp": 0.6809412068071548,
+        "mean_diff": -0.0005718105477490187,
+        "bootstrap_sd": 0.00015633578287317198,
+        "ci95": [
+          -0.0008715755304039924,
+          -0.0002789307854252966
+        ],
+        "p_le_0": 1.0,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    },
+    {
+      "alpha_on_h218": 0.25,
+      "score": {
+        "t0": 0.6720714322356035,
+        "t1": 0.6859353303472907,
+        "wp": 0.6790033812914471
+      },
+      "delta_vs_reference": {
+        "t0": -0.002391601458894832,
+        "t1": -0.00148404957252124,
+        "wp": -0.0019378255157080915
+      },
+      "paired_component_bootstrap_vs_reference": {
+        "candidate_wp": 0.6790033812914469,
+        "reference_wp": 0.6809412068071548,
+        "mean_diff": -0.0019378255157078694,
+        "bootstrap_sd": 0.0003992593598384001,
+        "ci95": [
+          -0.0027091836078912634,
+          -0.0011959429950260645
+        ],
+        "p_le_0": 1.0,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    },
+    {
+      "alpha_on_h218": 0.5,
+      "score": {
+        "t0": 0.6678508584623765,
+        "t1": 0.682779596928302,
+        "wp": 0.6753152276953392
+      },
+      "delta_vs_reference": {
+        "t0": -0.006612175232121875,
+        "t1": -0.004639782991509911,
+        "wp": -0.0056259791118159486
+      },
+      "paired_component_bootstrap_vs_reference": {
+        "candidate_wp": 0.6753152276953394,
+        "reference_wp": 0.6809412068071548,
+        "mean_diff": -0.0056259791118153935,
+        "bootstrap_sd": 0.0008282359247443095,
+        "ci95": [
+          -0.007252371813338923,
+          -0.004106785027829565
+        ],
+        "p_le_0": 1.0,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    },
+    {
+      "alpha_on_h218": 1.0,
+      "score": {
+        "t0": 0.6536655960003966,
+        "t1": 0.6711416958936827,
+        "wp": 0.6624036459470397
+      },
+      "delta_vs_reference": {
+        "t0": -0.020797437694101695,
+        "t1": -0.01627768402612928,
+        "wp": -0.018537560860115487
+      },
+      "paired_component_bootstrap_vs_reference": {
+        "candidate_wp": 0.6624036459470388,
+        "reference_wp": 0.6809412068071548,
+        "mean_diff": -0.01853756086011593,
+        "bootstrap_sd": 0.0017843866236830976,
+        "ci95": [
+          -0.022156867380795083,
+          -0.015263852081615398
+        ],
+        "p_le_0": 1.0,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    }
+  ],
+  "pair_prediction_covariance_correlation": {
+    "definition": "Per target clipped member predictions and original clipped-target magnitude weights on official scored/prediction mask",
+    "per_target": {
+      "t0": {
+        "total_weight": 561243.6421255916,
+        "weighted_population_covariance": 0.8017757174739281,
+        "weighted_pearson_correlation": 0.9784329359824637
+      },
+      "t1": {
+        "total_weight": 575314.8110807091,
+        "weighted_population_covariance": 0.8491917211048153,
+        "weighted_pearson_correlation": 0.9804680806756015
+      }
+    }
+  },
+  "lineage_validation": {
+    "reference_run": "c20261003_combo_s3_f0",
+    "reference_fit_groups_match_frozen_manifest": true,
+    "reference_evaluation_groups": 468,
+    "fit_evaluation_component_overlap": 0,
+    "ancestry_runs": {
+      "c20261003_combo_s3_f0": {
+        "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+        "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "selected_epoch": 3,
+        "init": "",
+        "distill": "c20260929_since_s3_f0,c20260929_since_s4_f0",
+        "propensity": "c20260929_prop_f0"
+      },
+      "c20260929_since_s3_f0": {
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "selected_epoch": 3,
+        "init": "",
+        "distill": "",
+        "propensity": "c20260929_prop_f0"
+      },
+      "c20260929_since_s4_f0": {
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "selected_epoch": 3,
+        "init": "",
+        "distill": "",
+        "propensity": "c20260929_prop_f0"
+      },
+      "c20260929_prop_f0": {
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+        "fit_groups": {
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "selected_epoch": 3,
+        "init": null,
+        "distill": null,
+        "propensity": null
+      }
+    },
+    "source_families_sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d"
+  },
+  "uncertainty_and_limits": {
+    "bootstrap": "paired component bootstrap over 468 frozen fold-0 groups, 2,000 replicates, seed 271828",
+    "conditional_on_fixed_predictions": true,
+    "training_seed_uncertainty_estimated": false,
+    "public_transfer_estimated": false,
+    "blend_weight_selection": "none; all five preregistered weights are reported",
+    "all_data_comparison": null,
+    "public_forecast": null,
+    "comparability_limits": [
+      "H218 is full-feature attention128x2 scratchseed7; reference is own GRU256x2seed3 with since teachers and propensity ancestry",
+      "Not a matched architecture or compute-controlled contrast; report conditional model/ensemble value",
+      "Fold0 is exposed discovery; no fresh-confirmation or public-transfer claim"
+    ]
+  },
+  "verified_artifacts": {
+    "grader_sha256": "88034869363f8475d8030f932e7bc24af0850241e3511d276b03ce7a53e5a4bd",
+    "grade_admission_sha256": "a2fc8e8da371cafab0f038a65427acfc0578c81d32acb36e15bd0f2662522a05",
+    "pre_registration_sha256": "6c52f156344c5f8d084440044d980ae8d6a7b0b8ef9f97f6dcd48c249148ae73",
+    "candidate": {
+      "checkpoint_sha256": "ab9c7ae1ef415de54dcc56bcfe1c47239e742d12e4413a88c9303a1500075700",
+      "prediction_sha256": "98d69b0901a92b9626dfdea2cdc5d0ef5116c57064acee301aec5790aba591b4",
+      "provenance_sha256": "ba283bde80371cfd49a77fd3e8e83d759117d83880c902c4c8fd0b18debb3056",
+      "fit_terminal_receipt_sha256": "08a28bcdc771f93ec20ebbca4ebaa29d9e23e3abde04a11849d532e39eed3842",
+      "export_terminal_receipt_sha256": "7c984ebb70d7ec37f08f4dd3e062df29e4669977991a5d28710acc017cfc87f6",
+      "sidecar_sha256": "73f4d63ed9aa265cbf25fe4d308e09ce3451d2e49a481211fbb80ee8c96393ba",
+      "source_lock_sha256": "64696558572c4afacc99224cfa0c6a72e94b99c57cdfc04e49ef4f2e21849a64",
+      "source_file_count": 42,
+      "membership": {
+        "fit_groups_by_source": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "evaluation_groups": 468,
+        "fit_evaluation_source_qualified_overlap": 0,
+        "fit_evaluation_component_overlap": 0,
+        "evaluation_components": 141
+      }
+    },
+    "reference_prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+    "reference_sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2",
+    "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "source_families_sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d",
+    "frozen_campaign_scorer_sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39",
+    "official_metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "h217_reference_helpers_sha256": "ec5b94408a7670e727718d70d2e49dbb5225f5b3c6a3fdbd6fc83b8efbfede3a"
+  },
+  "method": "Frozen campaign scorer; target arrays are memory-mapped from stored NPZ members; candidate/reference predictions are NPY memory maps. No Parquet, NPZ decompression, fit, GPU, provider action, all-data comparison, or public forecast.",
+  "root_authorization": {
+    "status": "approved",
+    "approved_by": "root"
+  }
+}
