@@ -12,19 +12,20 @@
     "v6_eligibility_at_this_observed_boundary": "veto: inactive-file minimum fails and active file dominates",
     "workingset_refault_file_counter_after": 0
   },
-  "fit_admission": "not_admitted",
+  "fit_admission": "single provider attempt; same-worker profile-gated fit only",
   "hashes": {
     "cache_pressure_recovery_sha256": "a33b100c38dfd61b8ac0b5196a6b7c52e24b2764fe3761d0f8660fc94d7ee5db",
-    "external_review_sha256": "b5ea273498652ae0d0c22e59db2738ce55058fc626e86d20c4671aeb1dd83037",
-    "packet_meta_sha256": "5e8484c3ff48157ec5111ba3f93c0d8a115d1c4f33b6fdf044635bc9c16cc4a5",
+    "external_review_sha256": "5456139bd40ae4740635bbecdeb9f9e2eafe0fe42941a2b958f1f54f356565a7",
+    "kernel_metadata_sha256": "6e73379e1138f868d5df732d65be84710013dca43b1be48bdac2df8eb7293a2e",
+    "packet_meta_sha256": "3d6098378049a153899bd2d3bfbd949a9643e3c51dec3f9e278c1dae6f3bb667",
     "profile_kernel_sha256": "fa8307541fee254f75624fc06db751aa42ad4a3547e6eba80b1ee9cbbf2c874c",
     "profile_worker_sha256": "915fc9d49dd765f271c5a625064462e733abb4d8771f9feeb7f26c9239b348a7",
     "source_archive_manifest_sha256": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42",
     "source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
     "source_data_py_sha256": "3e32781997fd01e6dd94dd559fe6885490b8158136fc61aa87a7cf2e6ea08939",
     "source_trainer_sha256": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a",
-    "transport_bundle_sha256": "545b1624c9f5e63bde2c3c532f73b1e1cd0d3f83f55fa24834780cf9c17d8978",
-    "transport_code_file_sha256": "6bc43cfe8f0dd30bd93c7af4fbfbf6fb6946ce868744429af616e345eebfb045"
+    "transport_bundle_sha256": "8b8a09da227d4f858b5a8a37aaf5dee8436b3fdf0299fad33f2f7d8b4e68ffd0",
+    "transport_code_file_sha256": "6c5fd9baa365e0689583cadff134ed6512c086e59a270f92ae9c3cffe6707abb"
   },
   "interpretation_limit": "V5's public resource termination establishes an execution censoring event, not a model-quality negative and not proof that file cache caused the abort. V6 eligibility and kernel effect remain unmeasured.",
   "packet_id": "E529_H232_FULLFEATURE_GRU384_B8_AMP4096_CONDITIONAL_PROFILE_FIT_V6",
@@ -50,7 +51,7 @@
       2
     ]
   },
-  "provider_push_authorized": false,
+  "provider_push_authorized": true,
   "read_horizon_budget": {
     "conservative_total_read_ceiling_bytes": 214749877962,
     "cumulative_reserve_over_ceiling_bytes": 31010122038,
@@ -61,8 +62,17 @@
     "minimum_events_with_10_percent_margin": 308,
     "worker_lifetime_seconds": 34000
   },
+  "root_review": {
+    "admission_receipt": "V6_ROOT_FINAL_ADMISSION_RECEIPT_V1.json",
+    "exact_hash_confirmation_pending": true,
+    "reviewer": {
+      "id": "root-controller-20261008",
+      "role": "independent-controller"
+    },
+    "status": "approved"
+  },
   "schema": "h232-v6-resource-repair-receipt-v1",
-  "status": "assembled_pending_independent_review_and_fresh_root_admission",
+  "status": "root_approved_conditional_pending_exact_hash_confirmation",
   "v5_diagnosis": {
     "abort_time_memory_stat_available": false,
     "abort_time_oom_counters_available": false,
@@ -122,6 +132,6 @@
     "ruff_result": "All checks passed",
     "source_archive_command": "scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v6/build_h232_source_archive.py",
     "test_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v6/tests",
-    "test_result": "18 passed in 0.21s"
+    "test_result": "19 passed in 0.22s"
   }
 }

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import sys
 import tarfile
 import types
@@ -180,16 +181,30 @@ def test_loader_tensor_bytes_must_match_measured_source_shape(tmp_path: Path) ->
     assert "observed_loader_tensor_bytes_differ_from_frozen_batch_shape" in result["reasons"]
 
 
-def test_pending_v5_review_cannot_authorize_execution() -> None:
-    receipt_path = PACKET / "external_review.json"
-    receipt_bytes = receipt_path.read_bytes()
+def test_current_root_review_authorizes_only_conditional_v6_fit() -> None:
+    receipt_bytes = (PACKET / "external_review.json").read_bytes()
+    digest = hashlib.sha256(receipt_bytes).hexdigest()
+    receipt = validate_external_review(receipt_bytes, digest, "h232_cloud_operator")
+    assert receipt["status"] == "approved"
+    assert receipt["fit_admission"] == "same-worker-only-after-profile-gate"
+    assert receipt["provider_push_authorized"] is True
+
+
+def test_pending_review_cannot_authorize_execution() -> None:
+    receipt = json.loads((PACKET / "external_review.json").read_text(encoding="utf-8"))
+    receipt.update(
+        status="pending_independent_review",
+        conditional_fit_authorized=False,
+        fit_admission="not_admitted",
+    )
+    receipt_bytes = (json.dumps(receipt, indent=2, sort_keys=True) + "\n").encode()
     digest = hashlib.sha256(receipt_bytes).hexdigest()
     try:
         validate_external_review(receipt_bytes, digest, "h232_cloud_operator")
     except ProfileAbort as error:
         assert "lacks conditional fit authorization" in str(error)
     else:
-        raise AssertionError("pending V5 review unexpectedly authorized a fit")
+        raise AssertionError("pending review unexpectedly authorized a fit")
 
 
 def test_timed_amp_skip_rejects_without_fit(tmp_path: Path) -> None:
@@ -224,5 +239,6 @@ if __name__ == "__main__":
         test_loader_tensor_bytes_must_match_measured_source_shape(Path(temp))
     with TemporaryDirectory() as temp:
         test_timed_amp_skip_rejects_without_fit(Path(temp))
-    test_pending_v5_review_cannot_authorize_execution()
+    test_current_root_review_authorizes_only_conditional_v6_fit()
+    test_pending_review_cannot_authorize_execution()
     print("conditional H232 gate tests passed")
