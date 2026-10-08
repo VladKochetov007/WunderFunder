@@ -1,0 +1,30 @@
+{
+  "schema": "h230-history-parent-profile-shape-tests-v1",
+  "receipt_id": "H230_HISTORY_PARENT_PROFILE_V3_SHAPE_TESTS_V1_20261008",
+  "recorded_utc": "2026-10-08T05:39:19Z",
+  "status": "pass_no_gpu_no_real_data",
+  "runner_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/profile_history_parent_inference_v3.py",
+  "runner_sha256": "ab2d1952cd8a0e02d005f805795215b449373a51ce671ffdcd95349649f3361a",
+  "test_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/tests/test_history_parent_inference_profile_v3.py",
+  "test_sha256": "7f9251a67c02655318b8dcd6130cda3fac6deb48c1bfa00565446a5957ebac1f",
+  "command": "PYTHONDONTWRITEBYTECODE=1 scripts/limited .venv/bin/python -m pytest -q -p no:cacheprovider research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/tests/test_history_parent_inference_profile_v3.py",
+  "resource_boundary": {
+    "slice": "wnn-campaign.slice",
+    "cpu_quota": "100%",
+    "threads": 1,
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 120
+  },
+  "exit_code": 0,
+  "result": "3 passed in 1.36s",
+  "cases": [
+    "Sealed FeatureOnlyGroups with a mocked SequenceFile yields float32 raw (1,20000,112) and calls read(targets=False, mask=False).",
+    "The sealed trainer N_FEATURES=112 and N_EVENT_FEATURES=99 preprocessing maps a raw fixture to model width 211.",
+    "The shape validator rejects a raw-width-211 batch when the sealed raw-width constant is 112."
+  ],
+  "real_parquet_opened": false,
+  "targets_or_masks_read": false,
+  "cuda_initialized_or_used": false,
+  "fit_or_prediction_export_run": false,
+  "source_manifest_01aa939d_unchanged": true
+}
