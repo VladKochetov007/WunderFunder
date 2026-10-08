@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "owner": "root",
+  "authorized": false,
+  "status": "draft_requires_root_review",
+  "attempt_id": "warm-queue-local-v4-autopilot-20261008",
+  "queue_dir": "research/campaign_2026-10-06/bandit_continuation/runtime/warm_queue_local_v1",
+  "prior_attempt_id": "warm-queue-local-v3-20261008",
+  "prior_unit": "wnn-bandit-warm-queue-local-v3-20261008.service",
+  "prior_authorizations": [
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/WARM_QUEUE_LOCAL_V1_ROOT_AUTHORIZATION_20261008_R1.json",
+      "sha256": "68153a1f79e30438c230039f05989776c1a9385ac1614c41aa238a8c90cf407e"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/Z3_EXACT_FOLD0_ROOT_ADMISSION_R2.json",
+      "sha256": "33e46e625853ccb1e512e938ab1167a81f8656485afc8b99dcce91f6e01ac6f8"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/core_identity_successors_r1/ROOT_ADMISSION.json",
+      "sha256": "dc13097002fc6c889586fd1801cb51fcc7bd4ecf0dba66ac93c7aa7a3d4334b6"
+    }
+  ],
+  "resources": {
+    "cpu_cores": 2,
+    "worker_ram_bytes": 9000000000,
+    "observed_vram_ceiling_bytes": 5000000000,
+    "timeout_seconds": 21600,
+    "idle_exit_seconds": 300
+  },
+  "pending_spec_hashes": {
+    "h230-faithful-student-seed9-v1": "56c70d16a1dcb31024554a0db4da1f31f486199b16c0aca229dc6286101e147a",
+    "z4_seed99_student_hft_alldata_v2": "99ed5be94d4367db5705398ba01a0f853bd3e63f78467afae78003f87146600a",
+    "z5_seed9_student_hft_alldata_v2": "28f864c3f694024d1db2daceb471b92594553d7e87458684493f9e7aa100abac"
+  },
+  "prior_success_dependency": {
+    "run_id": "h230-faithful-student-seed99-v1",
+    "spec_sha256": "f4f8672eacdf1a0810c0993b10741cff71bc6d81dadb376f43120d919eb2b073",
+    "required_outputs": [
+      "artifacts/runs/bd26_h230_faithful_student_seed99_muonparent_v1/model_ep1.pt",
+      "artifacts/runs/bd26_h230_faithful_student_seed99_muonparent_v1/provenance.json",
+      "artifacts/runs/bd26_h230_faithful_student_seed99_muonparent_v1/history.json"
+    ]
+  },
+  "financial_authority": {
+    "new_paid_spend_usd": "0.00",
+    "provider_lanes": [],
+    "funding_authorized": false
+  },
+  "attempt_policy": {
+    "max_v4_launches": 1,
+    "reuse_completed_results": true,
+    "retry_uncertain_launch": false,
+    "retry_completed_failed_fit": false,
+    "interrupted_fit_handling": "fail_closed_for_root_review; frozen specs declare no resume_state_path"
+  },
+  "science_scope": "Only the four exact existing seed99/seed9/Z4/Z5 worker specs; all-data fits make no held-out claim."
+}

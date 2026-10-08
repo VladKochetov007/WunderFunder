@@ -1,0 +1,32 @@
+[Unit]
+Description=Root-reviewed finite local warm-queue successor supervisor
+After=default.target
+ConditionPathExists=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/autopilot_r1/LOCAL_V4_SERVICE.env
+StartLimitIntervalSec=30min
+StartLimitBurst=5
+
+[Service]
+Type=simple
+Slice=wnn-campaign.slice
+CPUQuota=100%
+MemoryMax=1000000000
+MemorySwapMax=0
+TasksMax=64
+UMask=0077
+Restart=on-failure
+RestartPreventExitStatus=2
+RestartSec=15s
+TimeoutStartSec=30s
+TimeoutStopSec=8h
+KillMode=control-group
+Environment=WNN_SLICE=wnn-campaign.slice
+Environment=WNN_CPU_QUOTA=100%
+Environment=WNN_THREADS=1
+Environment=WNN_MEM_MAX=1000000000
+Environment=WNN_RUNTIME_MAX=900s
+EnvironmentFile=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/autopilot_r1/LOCAL_V4_SERVICE.env
+WorkingDirectory=/home/vlad/development/wunder/wnn_connectome_starterpack
+ExecStart=/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/research_autopilot.py run --root /home/vlad/development/wunder/wnn_connectome_starterpack --queue /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/autopilot_r1/LOCAL_V4_FINITE_QUEUE.json --policy /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/autopilot_r1/LOCAL_V4_POLICY_DRAFT.json --review /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/autopilot_r1/LOCAL_V4_ROOT_REVIEW_DRAFT.json --runtime /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/autopilot_r1/runtime --expected-review-sha256 ${AUTOPILOT_REVIEW_SHA256}
+
+[Install]
+WantedBy=default.target
