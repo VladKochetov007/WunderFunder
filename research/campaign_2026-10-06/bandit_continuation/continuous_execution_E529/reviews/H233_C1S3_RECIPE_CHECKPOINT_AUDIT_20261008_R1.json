@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "audit_id": "H233-C1S3-RECIPE-CHECKPOINT-AUDIT-20261008-R1",
+  "status": "source_checkpoint_audit_complete_no_execution_drift_found",
+  "scope": {
+    "allowed": [
+      "inspect frozen recipe and source",
+      "read fit and export receipts",
+      "load fixed readout checkpoints on CPU and compute tensor norms"
+    ],
+    "not_performed": [
+      "fit or profile",
+      "read candidate prediction arrays",
+      "rerun or modify grader",
+      "cloud mutation"
+    ],
+    "interpretation_limit": "Root supplied the near-anchor grade as context; this audit did not independently read scores or predictions. Fold 0 remains exposed development evidence, not a public score forecast."
+  },
+  "reviewed_inputs": [
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+      "sha256": "a97bf67c68e2988044778f39254122683ef37899dd4384cc6e3571240c373022",
+      "role": "frozen experiment recipe"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/scripts/train_conditional_readout.py",
+      "sha256": "fd74eb03deb0cea24f89dc5d330fdca6c3135f7f3f48cccb31ac5be84ec9c645",
+      "role": "fit target construction, update path and checkpoint logic"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/src/wnn/conditional_readout.py",
+      "sha256": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426",
+      "role": "zero-initialized head, correction modes, parent freezing and weighted loss"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/scripts/train_rnn.py",
+      "sha256": "b49233a7ed7e7e44d1a67cd765879a96e9294a5934071840b77da0d37d7424c7",
+      "role": "same-fold teacher binding, teacher averaging and row weighting"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_FROZEN_RUNTIME_SOURCE_LOCK_V2_20261008.json",
+      "sha256": "831c3de1ea5ae48a9330f82a2cc829fb93021c8ac82f5dff9e1da40ea8bf1b3b",
+      "role": "frozen 11-member runtime source lock"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H233_C1S3_FIT_TERMINAL_DELIVERY_V1_20261008.json",
+      "sha256": "73f1d03075d637f342e375af2c346ddf1883d8f31029557b94fe886058c0f958",
+      "role": "successful fixed-epoch fit receipt and finite update evidence"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H233_ROOT_FIXED_EP1_TENSOR_SOURCE_CHECK_20261008_R1.json",
+      "sha256": "07decf6e3de3f3274fb26ea1d01cbae801f842dacd83da025537fb0ac4bfebb1",
+      "role": "root tensor/source identity and finite-state check"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H233_FIXED_EP1_VALID_EXPORT_R3_TERMINAL_DELIVERY_V1_20261008.json",
+      "sha256": "fd1163d14bc70a93418d625943d90e93f2a9b9746ce1cb7a4703ff8e9816c8a7",
+      "role": "export terminal metadata and exact parent-anchor replay parity"
+    },
+    {
+      "path": "artifacts/runs/bd26_h233_c1s3_rank32_f0_v2/model_ep0.pt",
+      "sha256": "532867f08c0c80003978034434393ea15748efbfc7511feddd9a80db2dd40599",
+      "role": "CPU-read initial completed-epoch readout checkpoint"
+    },
+    {
+      "path": "artifacts/runs/bd26_h233_c1s3_rank32_f0_v2/model_ep1.pt",
+      "sha256": "11b3e72d6f61acd0a45b68fe7edf0b66ccea4fa39a1492e8101821b154ba86ee",
+      "role": "CPU-read fixed selected epoch-1 checkpoint"
+    },
+    {
+      "path": "artifacts/runs/bd26_c1v2_s3_f0/model_ep1.pt",
+      "sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+      "role": "frozen parent checkpoint"
+    },
+    {
+      "path": "artifacts/runs/bd26_c1v2_s3_f0/provenance.json",
+      "sha256": "60e8884d3d5886dc53dcb2b7d280fef284a702de8769ab333e07e1819d66f28a",
+      "role": "frozen parent training provenance"
+    }
+  ],
+  "source_closure": {
+    "base_git_commit": "f40bff87304db1fa3bd727bfd096035c958bba4b",
+    "runtime_lock_sha256": "831c3de1ea5ae48a9330f82a2cc829fb93021c8ac82f5dff9e1da40ea8bf1b3b",
+    "runtime_members_rehashed_and_matching": 11,
+    "controller_recorded_source_manifest_sha256": "f98b962583e8b3c1de0ebb2c35977aa656a3ce0d9679bfa9ed42ccca40c4b04c"
+  },
+  "fit_evidence": {
+    "attempt_id": "h233-c1s3-readout-v2-fit-20261008",
+    "status": "finished",
+    "phase": "terminal",
+    "exit_status": 0,
+    "elapsed_seconds": 1991.7294487820036,
+    "fixed_selected_epoch": 1,
+    "parent_run": "bd26_c1v2_s3_f0",
+    "parent_epoch": 1,
+    "fit_membership": {
+      "train_groups": 10535,
+      "fit_development_valid_groups": 1405,
+      "excluded_evaluation_groups": 468
+    },
+    "updates_per_epoch": {
+      "optimizer_attempts": 14920,
+      "optimizer_completed_updates": 14920,
+      "amp_skipped_updates": 0,
+      "finite_gradient_checks_across_four_heads": 59680,
+      "finite_loss_checks_across_four_heads": 59680
+    },
+    "total_optimizer_steps": 29840,
+    "epoch_losses": [
+      {
+        "hidden_only": 0.10155177116394043,
+        "additive": 0.10154631733894348,
+        "multiplicative": 0.10155369341373444,
+        "conditional_residual": 0.10154450684785843
+      },
+      {
+        "hidden_only": 0.1012718677520752,
+        "additive": 0.10127057135105133,
+        "multiplicative": 0.10128813982009888,
+        "conditional_residual": 0.10127221047878265
+      }
+    ]
+  },
+  "checkpoint_measurements": {
+    "method": "Loaded model_ep0.pt and model_ep1.pt with torch.load(map_location='cpu'); computed FP32 L2 norms of named readout tensors only. No prediction arrays were opened.",
+    "readout_state_finite": true,
+    "modes": {
+      "hidden_only": {
+        "output_weight_norm_epoch0": 0.14646069705486298,
+        "output_weight_norm_epoch1": 0.28645408153533936,
+        "output_weight_delta_l2": 0.22998306155204773,
+        "hidden_projection_delta_l2": 6.298633575439453,
+        "context_projection_delta_l2": 0.0,
+        "interpretation": "The context projection is deliberately unused by this control."
+      },
+      "additive": {
+        "output_weight_norm_epoch0": 0.07123810797929764,
+        "output_weight_norm_epoch1": 0.2620864808559418,
+        "output_weight_delta_l2": 0.27396920323371887,
+        "hidden_projection_delta_l2": 7.441943168640137,
+        "context_projection_delta_l2": 3.4047272205352783
+      },
+      "multiplicative": {
+        "output_weight_norm_epoch0": 0.08547550439834595,
+        "output_weight_norm_epoch1": 0.0404030978679657,
+        "output_weight_delta_l2": 0.09025561064481735,
+        "hidden_projection_delta_l2": 9.907109260559082,
+        "context_projection_delta_l2": 4.03816556930542
+      },
+      "conditional_residual": {
+        "output_weight_norm_epoch0": 0.14598116278648376,
+        "output_weight_norm_epoch1": 0.18527421355247498,
+        "output_weight_delta_l2": 0.2103976011276245,
+        "hidden_projection_delta_l2": 5.858437538146973,
+        "context_projection_delta_l2": 2.6750950813293457
+      }
+    }
+  },
+  "recipe_fidelity_findings": {
+    "output_initialization": "All four final output projections initialize to zero, making their readouts equal the fixed parent at initialization. The output layers receive a gradient on the first backward pass; after their first update, gradients can propagate into hidden/context projections and fusion layers. Nonzero epoch-0 to epoch-1 deltas in those upstream tensors confirm the path became active.",
+    "parent": "The parent is set to eval mode, all parameters have requires_grad=false and are cleared of gradients, and each chunk forward is under torch.no_grad(). Root check reports 16 parent tensors bitwise equal across fit.",
+    "target": "label=clip(y,-2,2); teacher=clip(mean(0.8125*own_fold0_C1_seed3_ep3, 0.8125*own_fold0_C1_seed4_ep3),-2,2); target=0.3*label+0.7*teacher.",
+    "loss": "primary_pair_wmse clips target to [-2,2] and weights by abs(clipped_label)*main_row_weights. The target clip is idempotent for the convex blend.",
+    "row_weight": "Warmup rows are excluded. Same-fold cached propensity contributes p^2+0.03; valid_true_mask=0.03 rescales rows of sequences with scored rows to preserve their propensity weight mass. mask_weight=false only avoids initially defining weights by the score mask; it does not disable the true-mask correction.",
+    "head_semantics": "Only primary output channels 0:2 receive readout corrections; the 23-output frozen parent checkpoint is retained. The four controls have separate parameter sets and are trained against the same target, each with independently clipped gradient norm 1.0 before the shared AdamW step.",
+    "membership": "The parent/readout uses exactly 10,535 train groups and 1,405 fit-development valid groups; 468 evaluation groups are excluded from fitting.",
+    "anchor_replay": "Exporter terminal receipt records parent anchor replay max absolute error 0 and RMSE 0 against the pinned parent prediction. This is a parent replay identity check, not evidence that the child readouts equal the anchor."
+  },
+  "conclusion": {
+    "correction_capacity_trained": true,
+    "implementation_or_objective_drift_found": false,
+    "near_anchor_explanation": "Small readout deltas are consistent with the executed bounded correction setup and a target containing 70% same-fold own C1 teacher predictions, anchored by zero-initialized residual heads. The audit does not establish causality because it did not measure target-to-anchor residuals.",
+    "family_failure_claim": false
+  },
+  "proposed_descendant": {
+    "id": "H233-C1S3-DIRECT-LABEL-READOUT-V1",
+    "status": "proposal_only_not_fit_or_admitted",
+    "single_scientific_change": "Set DISTILL_ALPHA=0 so readouts target clipped labels directly instead of the 0.3 label / 0.7 teacher blend.",
+    "hold_fixed": [
+      "same frozen C1 seed-3 epoch-1 parent",
+      "same four readout controls and rank 32",
+      "same source-qualified 10,535 train plus 1,405 fit-development valid groups; same 468 excluded evaluation groups",
+      "same row weights, seed, AdamW settings, two epochs, fixed epoch 1, and export/grading contract"
+    ],
+    "purpose": "Disentangle teacher-heavy target alignment from correction-capacity limitations without changing architecture.",
+    "claim_limit": "Exposed fold-0 development only; no public score claim."
+  }
+}
