@@ -14,6 +14,10 @@ from typing import Any
 import pytest
 
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
+AUTOPILOT_DIR = (
+    Path(__file__).resolve().parents[1]
+    / "research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/autopilot_r1"
+)
 sys.path.insert(0, str(SCRIPTS))
 SPEC = importlib.util.spec_from_file_location(
     "research_autopilot", SCRIPTS / "research_autopilot.py"
@@ -523,3 +527,20 @@ def test_service_keeps_polling_until_live_v3_drain_finishes(
 
     assert result == 0
     assert waits == [10]
+
+
+def test_systemd_daemon_is_bounded_without_support_wrapper_timeout() -> None:
+    unit = (AUTOPILOT_DIR / "systemd/wnn-research-autopilot-local-v4.service").read_text(
+        encoding="utf-8"
+    )
+    exec_start = next(line for line in unit.splitlines() if line.startswith("ExecStart="))
+
+    assert "After=default.target" not in unit
+    assert "RuntimeMaxSec=" not in unit
+    assert "WNN_RUNTIME_MAX" not in unit
+    assert "/scripts/limited " not in exec_start
+    assert "/.venv/bin/python " in exec_start
+    assert "Slice=wnn-campaign.slice" in unit
+    assert "CPUQuota=100%" in unit
+    assert "MemoryMax=1000000000" in unit
+    assert "MemorySwapMax=0" in unit
