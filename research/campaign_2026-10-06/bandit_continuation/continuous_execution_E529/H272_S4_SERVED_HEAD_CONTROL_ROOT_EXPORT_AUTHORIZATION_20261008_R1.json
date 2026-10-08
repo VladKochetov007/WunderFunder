@@ -1,0 +1,43 @@
+{
+  "schema": "wnn-root-export-authorization-v1",
+  "created_utc": "2026-10-08T16:09:31.522843+00:00",
+  "authorized_by": "root_controller",
+  "status": "approved_fixed_fp32_export_only",
+  "recipe_id": "E529-S4-SERVED-HEAD-CLEANFOLD-CONTROL-20261008-R1",
+  "recipe_sha256": "ebd86d9e5c9be09456e3e97277dfc30e415901f44c863adf8a731e2c1a7f63c8",
+  "source_commit": "fa615eb3d13a8afb9fd7cba275ef64956bdb793e",
+  "export_argv": [
+    "{python}",
+    "scripts/predict_run.py",
+    "e529_s4_served_head_f0_control_v1",
+    "valid",
+    "--epoch",
+    "0",
+    "--output-name",
+    "e529_s4_served_head_f0_control_v1_fp32",
+    "--inference-precision",
+    "fp32"
+  ],
+  "resource_limits": {
+    "allocator_bytes": 4200000000,
+    "cpu_cores": 1,
+    "observed_vram_bytes_max": 5000000000,
+    "ram_bytes": 4000000000,
+    "wall_seconds": 1800
+  },
+  "checkpoint_sha256": "e6fd249022be91bda51d72376ece38289d8a46fa0d558d8c2e5b280849d0915a",
+  "terminal_receipt_sha256": "3d8f1af31a7f5b5bc06e01df2f332c50761a9c95581ad81c42efa56483edd110",
+  "membership_receipt_sha256": "355a59e25251b2af2324535dd3b4929bbc2faedd5cdf6415b64565c888bc88b2",
+  "root_checks": [
+    "Exact seed3 permutation of1405manifest fitting groups independently equals recorded provenance;468 evaluation groups disjoint",
+    "Actual cumulative870attempts/869completed/1skip independently read from provenance",
+    "Selectedcheckpoint and verified terminal receipt bound; finite tensors and frozen-parent equality recorded"
+  ],
+  "conditions": [
+    "FreshdurableexclusiveGPUadmission within aggregate5CPU/20GB/5GB",
+    "Exacthistoricalpredict_run export fp32, shape1873x20000x2, finite required rows and sidecar/checkpoint/roworder",
+    "1CPU4GB1800s/4.2GBallocator/5GBobservedVRAM; handlecachehandoff withoutchanginglimits"
+  ],
+  "grade_authorized": false,
+  "package_authorized": false
+}

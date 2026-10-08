@@ -36,3 +36,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 
 - [ADR0022: prepared successors and paid warm cohorts](0022-prepared-successors-and-paid-warm-cohorts.md): keep accelerator-specific executable queues ready before completion, overlap preparation/review, amortize data loading and terminate our paid workers when useful admitted work is exhausted.
 - [ADR0023: faithful method reconstruction before variants](0023-faithful-method-reconstruction-before-variants.md): reproduce teacher training, seed-specific parents and student blends with independent code; make optimizer, baseline, normalization and schedule deviations explicit comparisons.
+
+- [ADR0024: AMP adaptation and empirical result delivery](0024-amp-adaptation-and-result-delivery.md): preserve legitimate skipped-update evidence and finite artifacts instead of a universal zero-skip rejection gate.
