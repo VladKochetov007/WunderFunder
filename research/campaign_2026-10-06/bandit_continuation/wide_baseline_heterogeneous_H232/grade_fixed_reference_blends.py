@@ -28,6 +28,21 @@ def load_module(name: str, path: Path) -> ModuleType:
     return module
 
 
+def align_full_valid_export(
+    grade: ModuleType,
+    evaluation: list[int],
+    candidate_groups: list[int],
+    reference_groups: list[int],
+    target_groups: list[int],
+) -> list[tuple[tuple[str, int], int, int, int]]:
+    """Score excluded groups while retaining their actual full-export row indices."""
+    if candidate_groups != target_groups:
+        raise ValueError("Full-valid export differs from target-cache row order")
+    candidate_index = grade.source_group_index("valid", candidate_groups)
+    aligned = grade.align_evaluation_rows(evaluation, evaluation, reference_groups, target_groups)
+    return [(key, candidate_index[key], ref, target) for key, _, ref, target in aligned]
+
+
 def main() -> None:
     """Require a separate root receipt binding actual delivered artifacts."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -120,8 +135,8 @@ def main() -> None:
     groups = sidecar["row_groups"]
     if groups != targets["row_group"].tolist() or len(groups) != 1873:
         raise ValueError("Full-valid candidate row order differs from target cache")
-    alignment = grade.align_evaluation_rows(
-        evaluation, groups, reference_sidecar["row_groups"], targets["row_group"].tolist()
+    alignment = align_full_valid_export(
+        grade, evaluation, groups, reference_sidecar["row_groups"], targets["row_group"].tolist()
     )
     component = {row["row_group"]: row["component"] for row in split["sequences"]["valid"]}
     components = np.asarray([component[row[0][1]] for row in alignment], dtype=np.int64)
