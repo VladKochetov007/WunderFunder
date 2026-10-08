@@ -45,3 +45,4 @@ class PredictionModel:
             precision="f32",
         )
         self.predict = self.model.predict
+
