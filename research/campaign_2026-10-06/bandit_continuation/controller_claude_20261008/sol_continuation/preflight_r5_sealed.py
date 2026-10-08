@@ -13,7 +13,7 @@ OUT = Path(__file__).resolve().parent
 
 
 def main() -> None:
-    archive_path = OUT / "r5_capacity_packet_v2.tar"
+    archive_path = OUT / "r5_capacity_packet_v3.tar"
     with tempfile.TemporaryDirectory(prefix="r5-sealed-") as temporary:
         root = Path(temporary)
         packet = root / "packet"
@@ -21,8 +21,8 @@ def main() -> None:
         with tarfile.open(archive_path) as archive:
             archive.extractall(packet, filter="data")
         sys.path.insert(0, str(packet))
-        import capacity_worker as runtime
         import capacity_fit_worker
+        import capacity_worker as runtime
         import worker
 
         worker.PACKET = packet
@@ -92,7 +92,7 @@ def main() -> None:
             "gpu_used": False,
             "limitation": "root must embed final authorization, reseal, and run exact final admission validation before provider create; actual3090/4090 smoke gate runs on worker",
         }
-        (OUT / "R5_SEALED_PREFLIGHT_R2.json").write_text(json.dumps(result, indent=2) + "\n")
+        (OUT / "R5_SEALED_PREFLIGHT_R3.json").write_text(json.dumps(result, indent=2) + "\n")
         print(
             json.dumps(
                 {"status": result["status"], "source_members": len(hashes), "parsers": len(parsed)}

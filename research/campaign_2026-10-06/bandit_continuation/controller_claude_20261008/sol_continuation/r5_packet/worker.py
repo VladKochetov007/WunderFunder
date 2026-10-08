@@ -4,7 +4,6 @@ import json
 import math
 import os
 import shutil
-import sys
 import tarfile
 import time
 from dataclasses import asdict
@@ -117,20 +116,21 @@ def finalize(output: Path, result: dict[str, object]) -> None:
         relative = path.relative_to(output)
         if path.name in {"artifact_bundle.tar", "worker.log"}:
             continue
-        if relative.parts[0] != "project":
-            members.append((path, str(relative)))
-        elif path.name == "input_identity_receipt.json":
-            members.append((path, str(relative)))
-        elif "artifacts/runs" in str(relative) and path.name in {
-            "model_ep3.pt",
-            "provenance.json",
-            "history.json",
-        }:
-            members.append((path, str(relative)))
-        elif (
-            relative.parts[1] == "cache"
-            and path.name.startswith("pred_")
-            and path.suffix in {".npy", ".json"}
+        if (
+            relative.parts[0] != "project"
+            or path.name == "input_identity_receipt.json"
+            or "artifacts/runs" in str(relative)
+            and path.name
+            in {
+                "model_ep3.pt",
+                "provenance.json",
+                "history.json",
+            }
+            or (
+                relative.parts[1] == "cache"
+                and path.name.startswith("pred_")
+                and path.suffix in {".npy", ".json"}
+            )
         ):
             members.append((path, str(relative)))
     total = sum(path.stat().st_size for path, _ in members)

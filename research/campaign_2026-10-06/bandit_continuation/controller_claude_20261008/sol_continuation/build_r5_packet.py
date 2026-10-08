@@ -82,7 +82,7 @@ def main() -> None:
         )
         + "\n"
     )
-    archive_path = OUT / "r5_capacity_packet_v2.tar"
+    archive_path = OUT / "r5_capacity_packet_v3.tar"
     with tarfile.open(archive_path, "w") as archive:
         for path in sorted(DEST.rglob("*")):
             if path.is_file() and "__pycache__" not in path.parts:
@@ -106,7 +106,7 @@ def main() -> None:
         "authority_pending": True,
         "archive_path": str(archive_path),
     }
-    (OUT / "R5_PACKET_BUILD_R2.json").write_text(json.dumps(report, indent=2) + "\n")
+    (OUT / "R5_PACKET_BUILD_R3.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report))
 
 
