@@ -1,0 +1,28 @@
+GRU_CAPACITY_PHASE {"phase": "source_verify", "status": "running", "arm": "cohort", "elapsed_s": 0.0}
+GRU_CAPACITY_PHASE {"phase": "fit", "status": "running", "arm": "cohort", "elapsed_s": 390.7}
+GRU_CAPACITY_PHASE {"phase": "terminal", "status": "fail", "arm": "cohort", "elapsed_s": 390.8}
+Traceback (most recent call last):
+  File "/kaggle/working/gru_capacity_v5r1_packet/capacity_fit_worker.py", line 788, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/gru_capacity_v5r1_packet/capacity_fit_worker.py", line 777, in main
+    result = run(args.packet_root.resolve(strict=True))
+  File "/kaggle/working/gru_capacity_v5r1_packet/capacity_fit_worker.py", line 701, in run
+    kaggle_gpu_runner.run(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        RUN_ROOT,
+        ^^^^^^^^^
+    ...<5 lines>...
+        stop_on_worker_failure=False,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/kaggle/working/gru_capacity_v5r1_project/scripts/kaggle_gpu_runner.py", line 220, in run
+    concurrency = admit_specs(
+        specs,
+    ...<2 lines>...
+        maximum_preexisting_gpu_used_bytes=maximum_preexisting_gpu_used_bytes,
+    )
+  File "/kaggle/working/gru_capacity_v5r1_project/scripts/kaggle_gpu_runner.py", line 135, in admit_specs
+    raise ValueError("Worker reservation exceeds host operational budget")
+ValueError: Worker reservation exceeds host operational budget
