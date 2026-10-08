@@ -29,3 +29,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0018: attribute OOM to the resource boundary](0018-attribute-oom-to-resource-boundary.md).
 
 - [ADR0019: common-parent final student pair](0019-common-parent-final-student-pair.md): bounded paired endpoint now, separate all-data teacher-history follow-up; shared ancestry is explicit.
+
+- [ADR0020: explicit precision in paired representation tests](0020-explicit-precision-in-paired-representation-tests.md): preserve the FP16 control and skipped-update evidence; independently test both representations under an audited FP32 numerical treatment.

@@ -1,0 +1,195 @@
+{
+  "schema": "wnn.e540-root-downloaded-control-check.v1",
+  "owner": "root",
+  "created_utc": "2026-10-08T03:20:35.447423+00:00",
+  "kernel": "vladkochetov07/e540-v6-argv-20261008-runner",
+  "checkpoint_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/e540_v6/experiment/artifacts/runs/e540v6-linear-s540-amp4096/model_ep0.pt",
+  "checkpoint_sha256": "9a811cfc739424a2a3d0f8a9786160b8eb92525552e3eead3dc4be5547df7de3",
+  "checkpoint_bytes": 1130147,
+  "epoch": 0,
+  "model_tensors_finite": true,
+  "model_tensors": [
+    {
+      "name": "mean",
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "std",
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "numeric_feature_map.knots",
+      "shape": [
+        112,
+        9
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "numeric_feature_map.knot_counts",
+      "shape": [
+        112
+      ],
+      "dtype": "torch.int64"
+    },
+    {
+      "name": "numeric_feature_map.knots_fitted",
+      "shape": [],
+      "dtype": "torch.bool"
+    },
+    {
+      "name": "inp.weight",
+      "shape": [
+        128,
+        1107
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "inp.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "gru.weight_ih_l0",
+      "shape": [
+        384,
+        128
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "gru.weight_hh_l0",
+      "shape": [
+        384,
+        128
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "gru.bias_ih_l0",
+      "shape": [
+        384
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "gru.bias_hh_l0",
+      "shape": [
+        384
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "head.0.weight",
+      "shape": [
+        128,
+        256
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "head.0.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "head.2.weight",
+      "shape": [
+        2,
+        128
+      ],
+      "dtype": "torch.float32"
+    },
+    {
+      "name": "head.2.bias",
+      "shape": [
+        2
+      ],
+      "dtype": "torch.float32"
+    }
+  ],
+  "precision": "fp16",
+  "update_diagnostics": [
+    {
+      "epoch_index": 0,
+      "epoch": {
+        "optimizer_attempts": 72996,
+        "amp_skipped_updates": 29,
+        "optimizer_completed_updates": 72967,
+        "ema_updates": 0,
+        "completed_batches": 924
+      },
+      "cumulative": {
+        "optimizer_attempts": 72996,
+        "amp_skipped_updates": 29,
+        "optimizer_completed_updates": 72967,
+        "ema_updates": 0,
+        "completed_batches": 924
+      },
+      "sample_order_identity": {
+        "sampler_class": "EpochOrderSampler",
+        "batch_size": 2,
+        "drop_last": true,
+        "loader_generator": "global CPU RNG",
+        "loader_rng": {
+          "shape": [
+            5056
+          ],
+          "dtype": "torch.uint8",
+          "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f"
+        },
+        "sampler_generator": "global CPU RNG",
+        "sampler_rng": {
+          "shape": [
+            5056
+          ],
+          "dtype": "torch.uint8",
+          "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f"
+        },
+        "num_workers": 0,
+        "persistent_workers": false,
+        "sampler_replacement": null,
+        "sampler_num_samples": null,
+        "seeded_order": {
+          "seed": 540,
+          "epoch": 0,
+          "antithetic": false,
+          "shared_dropped_tail": true
+        }
+      },
+      "normalization_identity": {
+        "mean": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "7416158fd94418cb9f1396866f675da7ad46636ebc411d8517d008b76d93b579"
+        },
+        "std": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "fbacccb5d199aa70ee9d1ae571a1297619bfd715e93bc883449a6593348a65d9"
+        }
+      }
+    }
+  ],
+  "scientific_status": "FP16 linear control fit landed; paired PLE fit and predictions absent; fixed zero-skips packet predicate rejected completed control.",
+  "limits": [
+    "Parameter finiteness does not prove every intermediate loss/gradient finite.",
+    "No candidate/control evaluated comparison, public forecast, or PLE mechanism verdict.",
+    "Next declared FP32 pair must train both arms anew."
+  ]
+}
