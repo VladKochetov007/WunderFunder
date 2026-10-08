@@ -1,5 +1,9 @@
 # Live frontier — resumed independent training
 
+## Delivery corrections — 2026-10-08 08:15 Kyiv
+
+H218 attention is healthy in local epoch2; fixedep3 and excluded468 FP32 export remain owned. E540V8 completed a finite linear control then failed a checkpoint-hash consumer that read embedded rather than external provenance; V9 will preserve that control and fit onlyPLE. H232 completedmodel export is moving from rejected oversized inlinecode to a private exact-payload asset and smallbootstrap; no export job accepted yet. Vast V5R2 creation remains unresolved (ApiError/no instanceID), with strict no-repeat reconciliation; no confirmed owned fittingworker. Original checkpoints and negative/execution evidence preserved. Publicbest remains0.6660; normalizedstudent ZIP ready with noforecast. Five-core local transition10:00 doesnotstop research.
+
 ## Active delivery — 2026-10-08 07:48 Kyiv
 
 H230 normalized all-data seed3 ZIP is delivered and committed, with no held-out/public forecast; public best remains0.6660. H218 block-memory attention is training locally in epoch1, about9.3 sequences/second, no current-run OOM/kill. H232 completed four epochs; clean fixedepoch3 export-only recovery addresses false train/valid integer aliases. E540 completed FP32 linear control then failed a sibling-GradStats receipt read; V8 correction independently passed17tests and is admitted to one quota-bound push with6000seconds reserved for H232 export. TPU probe remains queued. Prior Vast is destroyed; full-feature TCN128/256 V5R2 exact-recipe guard passed36tests/root byte comparison and is assigned new owned-rental lifecycle under$2.80/$20 limits. Five-core local transition at10:00 does notstop research.
