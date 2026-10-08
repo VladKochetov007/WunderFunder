@@ -1,0 +1,58 @@
+diff --git a/scripts/vast_campaign.py b/scripts/vast_campaign.py
+index 2f5c442b..12052ea7 100644
+--- a/scripts/vast_campaign.py
++++ b/scripts/vast_campaign.py
+@@ -793,7 +793,7 @@ def _validate_intent(intent: Mapping[str, object], path: Path) -> dict[str, obje
+         raise CampaignError("instance payload contains unsupported or persistent-resource fields")
+     if payload.get("client_id", "me") != "me":
+         raise CampaignError("instance client_id must remain in the authenticated account scope")
+-    if payload.get("label") != label or payload.get("runtype") != "ssh_direc ssh_proxy":
++    if payload.get("label") != label or payload.get("runtype") != "ssh_direct":
+         raise CampaignError("instance label and SSH direct runtype must match the frozen intent")
+     if payload.get("cancel_unavail") is not True:
+         raise CampaignError("instance request must fail rather than wait for an unavailable offer")
+diff --git a/tests/test_vast_campaign.py b/tests/test_vast_campaign.py
+index fa7407ff..525d6fd7 100644
+--- a/tests/test_vast_campaign.py
++++ b/tests/test_vast_campaign.py
+@@ -66,6 +66,31 @@ def test_create_payload_cannot_switch_authenticated_client_scope(
+         vast._validate_intent(intent, intent_path)
+ 
+ 
++@pytest.mark.parametrize(
++    "runtype", ["ssh_direc ssh_proxy", "ssh_direct ssh_proxy", "ssh_direc", "", None, 5]
++)
++def test_create_payload_rejects_malformed_or_combined_runtype(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, runtype: object
++) -> None:
++    """A future request must select the documented single direct-SSH mode."""
++    intent_path, _, _, _ = make_attempt(tmp_path, monkeypatch)
++    intent = vast._read_object(intent_path)
++    intent["create_payload"]["runtype"] = runtype
++    with pytest.raises(vast.CampaignError, match="SSH direct runtype"):
++        vast._validate_intent(intent, intent_path)
++
++
++def test_create_payload_preserves_single_documented_runtype(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """The request sent later remains byte-bound to the approved direct mode."""
++    intent_path, _, _, _ = make_attempt(tmp_path, monkeypatch)
++    intent = vast._read_object(intent_path)
++    normalized = vast._validate_intent(intent, intent_path)
++    assert normalized["create_payload"]["runtype"] == "ssh_direct"
++    assert normalized["create_payload"] == intent["create_payload"]
++
++
+ def make_attempt(
+     root: Path,
+     monkeypatch: pytest.MonkeyPatch,
+@@ -141,7 +166,7 @@ def make_attempt(
+     payload: dict[str, object] = {
+         "image": f"example/worker@sha256:{'a' * 64}",
+         "disk": 40,
+-        "runtype": "ssh_direc ssh_proxy",
++        "runtype": "ssh_direct",
+         "label": label,
+         "onstart": "sleep infinity",
+         "cancel_unavail": True,

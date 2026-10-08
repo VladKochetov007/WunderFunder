@@ -1,0 +1,24 @@
+{
+  "timestamp_utc": "2026-10-08T05:35:54.139039+00:00",
+  "status": "retracted_invalid_runtype_diagnosis_proposed_patch_held_not_applied",
+  "original_claim": "Submitted ssh_direc ssh_proxy invalid based on current API documentation table",
+  "counterevidence": {
+    "source": "https://raw.githubusercontent.com/vast-ai/vast-python/master/vast.py",
+    "function": "get_runtype",
+    "source_lines": [
+      2186,
+      2203
+    ],
+    "observed_behavior": "Current official CLI returns ssh_direc ssh_proxy for args.ssh and args.direct; create__instance passes get_runtype result in JSON request (2332\u20132336)",
+    "client_id": "Official create__instance JSON also includes client_id=me (2309)"
+  },
+  "api_documentation": "https://docs.vast.ai/api-reference/creating-instances-with-api",
+  "conclusion": "Primary documentation and official CLI differ. Value is not established malformed; neither runtype nor client_id is established cause of lost ApiError. HTTPstatus unknown. No retry, no ownership adoption, no originalledger alteration.",
+  "unapplied_patch": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/VAST_RUNTYPE_PROPOSAL_HELD_20261008_R1.diff",
+    "sha256": "dcd019af4bfeb976926f8051006bbb3539d6642cc007734343657714180eb54b"
+  },
+  "source_policy": "Compare provider documentation with current official CLI/SDK behavior before changing an actual API contract; tests matching our expectations do not prove compatibility.",
+  "active_frozen_source_changed": false,
+  "provider_mutations": 0
+}
