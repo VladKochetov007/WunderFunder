@@ -1,0 +1,22 @@
+{
+  "schema": "wnn.fold1-baseline-pair.grade-terminal-failure.r1",
+  "observed_utc": "2026-10-09T04:01:32.701962+00:00",
+  "attempted_command": "scripts/limited .venv/bin/python scratch/fold1_gru384_successor_20261009/grading_r1/grade_fold1_baseline_pair_r1.py --root /home/vlad/development/wunder/wnn_connectome_starterpack --spec scratch/fold1_gru384_successor_20261009/grading_r1/FROZEN_BASELINE_PAIR_R1.json --expected-spec-sha256 f6de6f79fad019300ce95a5bcd96fadc1fdeaceae19ae272be76f6d88258428b --deadline-seconds 170",
+  "process_exit_status": 1,
+  "failure_stage": "post-score Markdown rendering",
+  "exception": "KeyError: 'grade_json_path'",
+  "diagnosis": "All 457 groups were scored and JSON plus centered-moment artifacts were persisted; renderer accessed report path fields that were set only after rendering. No scoring or bootstrap failure occurred.",
+  "persisted_grade_json": {
+    "path": "scratch/fold1_gru384_successor_20261009/grading_r1/BASELINE_PAIR_R1.json",
+    "sha256": "920981596b67d7115a8fc476eed7d10eb9784debb7f5ed38eb7042f3379fc224",
+    "bytes": 7517
+  },
+  "persisted_moments": {
+    "path": "scratch/fold1_gru384_successor_20261009/grading_r1/BASELINE_PAIR_R1.moments.npz",
+    "sha256": "1d5a2784781ddb9dfa91039cef681c4cad519b339a7e054ad3a05e374a29178e",
+    "bytes": 87131
+  },
+  "score_pass_runtime_seconds": 5.453,
+  "source_sha256": "b4dc398d993e1c9c8e7bef179742b159de9e0240b2af514e6a0826c5c22d773a",
+  "preservation": "R1 score JSON, moments, and grader source remain immutable; R2 only finalizes presentation and records the prior terminal error."
+}

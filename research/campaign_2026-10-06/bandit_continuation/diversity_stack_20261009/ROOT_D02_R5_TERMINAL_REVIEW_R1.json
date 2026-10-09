@@ -1,0 +1,63 @@
+{
+  "schema": "wnn.root-d02-r5-terminal-review.r1",
+  "created_utc": "2026-10-09T04:05:30.731859+00:00",
+  "status": "pass",
+  "checker_sha256": "e3c3743026e94f03e8d5c4e863036dce60d4e1ad264d680d5c5ae4c45870c7bb",
+  "collection_integrity_sha256": "93bc109fda57d8c0f91ff85c9cdb3ebe190a9be8a239313299bc75b1e9f20b4a",
+  "operator_receipt_sha256": "b5f704c5b188ee5af12286d148009596415f36157f487d799f46e2cf57de60a1",
+  "run_receipt_sha256": "939c82d104a98da2dbfcc9fc495d3eb2e3b0be3024396b1ec554208fdd9c3331",
+  "arms": {
+    "wmse": {
+      "checkpoint_sha256": "57796b59de367917dc3723435abe931fe638799e2c053b733a881e1be552f251",
+      "fixed_epoch1_sha256": "40129664590130dc3e5c343c466f5bbd9e2210cf618b4aa89da81610b8da9e86",
+      "prediction_sha256": "3f913d334cf988e106e4b08ed87ab5bb0efd15a2857440c736c742268bde84e9",
+      "provenance_sha256": "f9cd9efeeaedb171fc445624fd8a642ae64d71aa145de6ac7ea7764a3a82741a",
+      "traces": {
+        "schedule_trace.json": {
+          "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/d02_r5/terminal_collect_r1/attempt_001/outputs/out/arms/wmse/schedule_trace.json",
+          "sha256": "5792036f67d321aa0fde40d565675c228f997dfaaa9e2244f26140ee7cf95fb0"
+        },
+        "update_trace.jsonl": {
+          "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/d02_r5/terminal_collect_r1/attempt_001/outputs/out/arms/wmse/update_trace.jsonl",
+          "sha256": "e9733fdd7b6e25c726b5c22e05236ca1992e035e30ba20c423e1fbd8da1a673f"
+        }
+      },
+      "completed_updates": 220,
+      "fit_components": 83
+    },
+    "huber_d1": {
+      "checkpoint_sha256": "053a68440de4b7a251caa3c874477f9ec593883a602298bbeb0377e5ebba5470",
+      "fixed_epoch1_sha256": "99943d3a4ba05dcad24392818625f831a140471a3652d73877981b542ac2bd07",
+      "prediction_sha256": "970d88861bc43cbda16c5ae5c76b8661351ab7130b2e26f33e252a27a96b525d",
+      "provenance_sha256": "680077e99d6a688c223382af1a7d80b350413a9f62076c999c74814eb1296c5f",
+      "traces": {
+        "schedule_trace.json": {
+          "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/d02_r5/terminal_collect_r1/attempt_001/outputs/out/arms/huber_d1/schedule_trace.json",
+          "sha256": "5792036f67d321aa0fde40d565675c228f997dfaaa9e2244f26140ee7cf95fb0"
+        },
+        "update_trace.jsonl": {
+          "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/d02_r5/terminal_collect_r1/attempt_001/outputs/out/arms/huber_d1/update_trace.jsonl",
+          "sha256": "a68c8bf3eb0b6f7aeae56bc7d9246130e99337da0d958bbb0526a3efc7c5290e"
+        }
+      },
+      "completed_updates": 220,
+      "fit_components": 83
+    }
+  },
+  "schedule_qualification": "Raw traces differ because Muon records two optimizer groups; all 220 step/LR/beta1 values match AdamW semantically. Preserve raw hashes and use an identified grader successor.",
+  "checkpoint_qualification": "Prediction sidecars bind model.pt; its tensors equal fixed model_ep1.pt exactly. Archive hashes differ.",
+  "scientific_result": "pending independent frozen11endpoint grade",
+  "training_wall_seconds": [
+    {
+      "label": "fit_wmse",
+      "returncode": 0,
+      "wall_seconds": 61.645062655000004
+    },
+    {
+      "label": "fit_huber_d1",
+      "returncode": 0,
+      "wall_seconds": 61.644364146999976
+    }
+  ],
+  "worker_wall_seconds": 236.683095194
+}

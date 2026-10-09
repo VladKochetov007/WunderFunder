@@ -1,0 +1,9 @@
+{
+  "schema": "wnn.root-d02-artifact-audit-attempt.r1",
+  "status": "consumer_check_corrected_before_grading",
+  "failure": "The first root audit incorrectly required the prediction sidecar checkpoint hash to equal model_ep1.pt.",
+  "observed": "Both sidecars bind model.pt. Actual model.pt tensors equal model_ep1.pt tensors exactly, but torch archive bytes and SHA differ.",
+  "correction": "Bind the actual selected model.pt file and separately require tensor equality to the predeclared fixed epoch1 snapshot. No producer artifact is modified.",
+  "wmse_selected_sha256": "57796b59de367917dc3723435abe931fe638799e2c053b733a881e1be552f251",
+  "huber_selected_sha256": "053a68440de4b7a251caa3c874477f9ec593883a602298bbeb0377e5ebba5470"
+}
