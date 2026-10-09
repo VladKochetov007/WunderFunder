@@ -1,0 +1,31 @@
+{
+  "created_utc": "2026-10-09T02:32:52.310964+00:00",
+  "owner": "root",
+  "delivery_owner": "runner_kaggle_builder",
+  "state": "one_exact_private_kernel_push_authorized",
+  "kernel": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v3",
+  "packet_sha256": "6d4404bb5aca9e8e616b24a46211c524b4c023631138f1b913e5faef30f1536f",
+  "bootstrap_sha256": "9bc8a4aa069c00207ac4abccecfee999d99151bac1564523692b576d36861146",
+  "metadata_sha256": "254a63961a23194929f21c8f0ea231c32a1e038b661f593b9089cc59093d0e04",
+  "embedded_admission_sha256": "d7b5880ef51e4d3ae9e4c06c253ad2d4d27074ccbeb3f6456a99bd464d460c34",
+  "source_readiness_receipt_sha256": "3fd9041c1c2f11165f5bf6fb9c61cd37ae748020f47199004d24bf3c99dd6b01",
+  "root_source_admission_sha256": "81ca4132e166793b91614d4bbb5f604bc9fec155aa3f118939cfecffd15bfd1e",
+  "checks": {
+    "exact_final_bootstrap_offline": "pass",
+    "only_bootstrap_delta": "exact root-defined admission payload; all other source bytes identical",
+    "embedded_payload_matches_root": true,
+    "sealed_source_and_actual_R5_tests": "18passed; source archive unchanged"
+  },
+  "provisional_hold_seconds": 7200,
+  "worker_wall_seconds": 3300,
+  "provider_timeout_seconds": 3600,
+  "accelerator": "NvidiaTeslaT4",
+  "dispatch_conditions": [
+    "Use physical short private upload directory; inventory and manifest exact hashes; verify version1READY.",
+    "Preserve pending seal, create identified admitted seal; root checks final embedded payload and packet hashes before kernel push.",
+    "Recheck live quota before push; require this7200hold plus1000seconds unreserved headroom; other openholds included.",
+    "Exactly one private two-T4 kernel push;3300worker/3600provider budget; no blind retry or additional fit.",
+    "Install durable terminal collector and report actual provider/worker outcomes; preserve successful artifacts on postprocess failure."
+  ],
+  "terminal_owner_obligations": "Durablecollector/heartbeat,actualdevicegatebeforefits,completeweights/traces/predictions; rootgrades; diagnosefailureswithoutduplicatefits"
+}

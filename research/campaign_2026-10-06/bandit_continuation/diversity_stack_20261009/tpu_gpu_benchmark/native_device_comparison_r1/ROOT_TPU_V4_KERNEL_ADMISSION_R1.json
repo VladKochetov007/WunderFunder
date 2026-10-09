@@ -1,0 +1,37 @@
+{
+  "created_utc": "2026-10-09T02:41:05.719681+00:00",
+  "owner": "root",
+  "state": "one_exact_private_tpu_push_authorized",
+  "kernel": "vladkochetov07/wnn-native-device-tpu-20261009-v4",
+  "packet_sha256": "a435537f2c9960385b99a300d857de471b8b1906287eaadd6303fca7db08e008",
+  "bootstrap_sha256": "586e3d77bb80a6f1834ccfafe5bda338662dbacd68bb1e0a3937e128d7c32f15",
+  "metadata_sha256": "2ed68afcdfcbdb0765e5eab6d3ca007b07ad06039b25bb6154da56233c973cbc",
+  "source_archive_sha256": "5043aa6eccaa648477242fae98c3011dbea75a4a29626b215af9df8f909f0cf3",
+  "source_manifest_sha256": "eaa64c274267d7eb6c45b78381a7a29325a0ad0a3a6c22cb622f90f32ed4611e",
+  "embedded_admission_sha256": "bff439fceeaf7fd6c4c9d0808866f62fc56a8990ada900532875b2e8661af4e9",
+  "quota_receipt_sha256": "8ccce55afb4a5d12fd5e21cb7dad6c988788bdd838585500610614d0bb8fb621",
+  "tests": "17 roottests pass; exact finalsourcearchive differs only by rootadmission; embeddedpolicy equality and finalofflinebootstrap pass",
+  "provisional_tpu_seconds": 3600,
+  "previous_unresolved_tpu_hold_seconds": 1650,
+  "remaining_campaign_tpu_seconds_after_both_holds": 1686.192,
+  "worker_wall_seconds": 3300,
+  "provider_timeout_seconds": 3600,
+  "precision_order": "FP32 parity/full-shape/synchronizedprofile then BF16profile and two sequentialBF16fits if parity+timing+headroom pass",
+  "fit_headroom_policy": {
+    "minimum_device_free_bytes": 2000000000,
+    "minimum_host_available_bytes": 4000000000,
+    "minimum_cgroup_headroom_bytes": 4000000000,
+    "minimum_disk_free_bytes": 4000000000,
+    "schema": "wnn.loss-pair-tpu.fit-headroom-policy.v1"
+  },
+  "device": "TpuV5E8; require actualJAX8TPUdevices",
+  "dispatch_conditions": [
+    "exactnewprivate slug; checkownerinventorybeforeonepush",
+    "explicitacceleratorTpuV5E8;3600providertimeout; no repeatpush",
+    "actualdevice/gradient/reload/reset/prefix/remainder/fullshape gates beforefit",
+    "coldcompile/warmupdate/loading/export separate; savebothFP32andBF16profiles",
+    "collectterminal artifacts anddiagnose failures; RUNNING is not fit evidence"
+  ],
+  "final_candidate_relative": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_device_comparison_r1/sealed_admitted_r4_bf16_r1",
+  "earlier_preseal_failure": "ROOT_TPU_V4_EMBEDDED_ADMISSION_R1 omittedheadroompolicyschema; sealer rejectedbeforepacket/provider; correctedidentifiedR2input,sourceunchanged"
+}

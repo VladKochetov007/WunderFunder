@@ -83,3 +83,11 @@ R3 seed3 finished exit0 at02:20:12UTC. Final fixedepoch model0d087cac…/state d
 Bounded cache handoff reclaimed3.31GB, parent8.49GB before9GB successor; original seed4 launched02:27:29UTC, finite epoch0training observed. Effective2CPU/8GBhigh/9GBmax/noswap; parent5CPU/18GBhigh/20GBmax unchanged. Seed4 runs durably under systemd.
 
 D02R3 root18testsPASS6.50s using actualR5controls, exactsealedbootstrap/import/CLI checksPASS. Root reserved7200GPU seconds;16,723.481seconds remain afterhold. Exact2.05MB private source upload authorized; READYremote inventory verification and finalembeddedseal review precede one push. NativeTPUR4 source integrated; actualdevice evidence stillpending. AllagentsLuna/max; noVast.
+
+### 2026-10-09T02:50:18.191771+00:00 — D02 active; native TPU dispatch rejected by slot limit
+
+D02 one acceptedversion1push; providerRUNNING02:47UTC (no actualworkerphaseclaim). Root11endpointquartet preregistration b6e8ff17… fixed beforeMuonresults. Dedicated terminalcollector installed, actualfirstpass exit0,5minboundedpolling; priorTPUv7/R5collector retained. Local seed4 completedepoch0 in1112.5s (7460attempts/7456updates/4AMPskips), epoch1actualfiniteprogress; parent~14.8GB under18GBhigh/20GBmax and5CPU.
+
+NativeTPUR4 unbounded-cgroup successor integrated;17root testsPASS0.21s; actualadmittedsealedarchive/bootstrap checked, onlyrootpolicy changed. RootBFloat16 permission includes priorFP32fullshape/parity/profile; device2GB/host4GB/cgroup4GB/disk4GBreserves,3300worker/3600provider. Firstpresealinput omittedpolicyschema andfailedbeforepacket; identifiedR2inputcorrected. Finalpacket a435537f…/sourceeaa64c27….
+
+Kagglepush returnedCLI0 butexplicitmax1TPUsession rejection; **notaccepted**. Rawreceipt f0472141… androotadjudication retained. Olderownedv7QUEUED, TPUmetadata confirmed; numericcancellablesessionID absent fromstatus/get/outputSDKresponses. No guessedID/cancellation/blindretry. Userasyncasked tostopoldprobeorprovidesessionID. Prepared3600hold retainedpendingrepairedadmission; actualTPUusageunchanged398.431s. [Blocker](../diversity_stack_20261009/tpu_gpu_benchmark/native_device_comparison_r1/TPU_SLOT_BLOCKER_R1.md).

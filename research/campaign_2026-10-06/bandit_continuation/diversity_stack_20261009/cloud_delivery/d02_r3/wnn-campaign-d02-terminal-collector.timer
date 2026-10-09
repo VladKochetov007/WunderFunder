@@ -1,0 +1,11 @@
+[Unit]
+Description=Collect finite D02 job after provider terminal
+
+[Timer]
+OnBootSec=60s
+OnUnitInactiveSec=300s
+AccuracySec=10s
+Unit=wnn-campaign-d02-terminal-collector.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,92 @@
+{
+  "schema": "wnn.optimizer-loss-quartet-preregistration.v1",
+  "created_utc": "2026-10-09T02:34:06.128421+00:00",
+  "status": "frozen_before_muon_fit_results",
+  "question": "Does optimizer/loss diversity contribute to fixed blends beyond the matched AdamW WMSE control?",
+  "exposure": "Same previously exposed fold0; one fitseed/350training sequences83components;468evaluation sequences141components; no public-score forecast. AdamW results already known.",
+  "source_admitted_packet_sha256": "6d4404bb5aca9e8e616b24a46211c524b4c023631138f1b913e5faef30f1536f",
+  "initialization": "all cells own independently initialized tensors with same seed; exact shared normalization/orders/LRtrace; no teacher or checkpoint initializer",
+  "split": {
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "targets": {
+    "path": "cache/valid_targets.npz",
+    "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "cache_identity": {
+    "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+    "manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+    "membership_sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd"
+  },
+  "metric": "global_wp_clip2_v1; scored mask including row>=99; prediction/label clipping+-2; original clipped-label magnitude weights",
+  "singles": [
+    "adamw_wmse",
+    "adamw_huber_d1",
+    "muon_wmse",
+    "muon_huber_d1"
+  ],
+  "blends": {
+    "adamw_wmse__adamw_huber_d1": {
+      "adamw_wmse": 0.5,
+      "adamw_huber_d1": 0.5
+    },
+    "adamw_wmse__muon_wmse": {
+      "adamw_wmse": 0.5,
+      "muon_wmse": 0.5
+    },
+    "adamw_wmse__muon_huber_d1": {
+      "adamw_wmse": 0.5,
+      "muon_huber_d1": 0.5
+    },
+    "adamw_huber_d1__muon_wmse": {
+      "adamw_huber_d1": 0.5,
+      "muon_wmse": 0.5
+    },
+    "adamw_huber_d1__muon_huber_d1": {
+      "adamw_huber_d1": 0.5,
+      "muon_huber_d1": 0.5
+    },
+    "muon_wmse__muon_huber_d1": {
+      "muon_wmse": 0.5,
+      "muon_huber_d1": 0.5
+    },
+    "four_way_equal": {
+      "adamw_wmse": 0.25,
+      "adamw_huber_d1": 0.25,
+      "muon_wmse": 0.25,
+      "muon_huber_d1": 0.25
+    }
+  },
+  "primary_contrast": "equal AdamW-WMSE + Muon-WMSE minus AdamW-WMSE",
+  "secondary_contrasts": [
+    "Muon-WMSE minus AdamW-WMSE",
+    "Muon-Huber minus AdamW-Huber",
+    "equal AdamW-Huber + Muon-Huber minus AdamW-WMSE",
+    "four-way equal minus AdamW-WMSE",
+    "every declared pair minus each constituent, reported together without claiming a fresh selected-best comparison"
+  ],
+  "prediction_averaging": "average unclipped rawFP32 inFP64, round resultFP32, then official metric; no fitted or selected blend weights",
+  "bootstrap": {
+    "replicates": 2000,
+    "seed": 271828,
+    "unit": "whole source-qualified split components",
+    "paired": true,
+    "interval": "2.5%/97.5% percentile",
+    "limitations": "fixed fitted models, no training-seed or public-transfer uncertainty; multiple secondary contrasts descriptive"
+  },
+  "required_validation": [
+    "independent root terminal artifact/provenance review with exact digest supplied to grader",
+    "actual tensor/checkpoint/normalization/prediction sidecar hashes and FP32 shape468x20000x2",
+    "complete producer receipts including10-update CUDA profile gates and220completed finite fit updates",
+    "same exact membership/orders/schedule/normalization/fresh initial tensors as AdamWcontrol",
+    "no fit component/teacher/source ancestry overlap with evaluation",
+    "official streamed score agrees independently centered formula within1e-12"
+  ],
+  "diagnostics": [
+    "target-wise weighted prediction and residual correlations",
+    "per-arm LR/beta/gradient norm/clip fraction/nonfinite/update/skips",
+    "cold setup/cache validation/device profile/train/export/collection time separately"
+  ],
+  "allocation": "Positive or uncertain conditional gain may justify full-scale/fold/seed follow-up. A losing small screen does not reject all descendants; investigate scale and gradient/loss scaling when informative. No blanket rejection rule."
+}
