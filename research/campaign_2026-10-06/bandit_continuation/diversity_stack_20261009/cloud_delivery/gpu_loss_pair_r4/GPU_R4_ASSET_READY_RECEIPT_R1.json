@@ -1,0 +1,104 @@
+{
+  "schema": "wnn.kaggle-private-source-dataset-ready-receipt.v1",
+  "recorded_at_utc": "2026-10-09T00:51:08+00:00",
+  "root_admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_GPU_R4_ASSET_UPLOAD_ADMISSION_R1.json",
+    "sha256": "8260e87bf4c0b46c6878d81cd9e22660284a91ac037812180d102cac1334685a"
+  },
+  "kernel_admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_GPU_R4_KERNEL_ADMISSION_R1.json",
+    "sha256": "890e429a496a701542825f13208dc27377cf8ca97966e6c17465a957f9901fda"
+  },
+  "dataset": "vladkochetov07/wnn-loss-pair-code-20261009-r4",
+  "dataset_title": "WNN Loss Pair Code 20261009 R4",
+  "private": true,
+  "provider_version": 1,
+  "reconciled_before_create": {
+    "command": "kaggle datasets list --mine --search wnn-loss-pair-code-20261009-r4 --page-size 200 --format json",
+    "result": "No datasets found"
+  },
+  "create": {
+    "command": "kaggle datasets create -p /tmp/wlr4 -t -r skip",
+    "cli_executable": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle",
+    "cli_version": "Kaggle CLI 2.2.4",
+    "private_by_default": true,
+    "exit_code": 0,
+    "provider_response": "Your private Dataset is being created.",
+    "created_version": 1
+  },
+  "staged_upload": {
+    "path": "/tmp/wlr4",
+    "file_count": 7,
+    "total_bytes": 2045762,
+    "admission_maximum_bytes": 2100000,
+    "asset_manifest_sha256": "8ef360536ca117232198a4ee6dd8fabf072fb7bfad9812a83972d8bfb750f584",
+    "dataset_metadata_sha256": "2de77ec0cd9bf1738b094f0e64d579cbf8f7e489721c575bce5d9dca2f7249d5",
+    "payload_filenames_are_sha256_bound": true,
+    "source_code_commit": "1bc0fbacf53cdc08a8c4664c6f66f38f8980092c",
+    "opaque_asset_payload_commit": "1f4e08f02ff3c8abbc20ecc7e7dc369427810143"
+  },
+  "readiness": {
+    "status_command": "kaggle datasets status vladkochetov07/wnn-loss-pair-code-20261009-r4",
+    "status": "ready",
+    "observed_after_create_before_kernel_push": true,
+    "remote_manifest_download_command": "kaggle datasets download vladkochetov07/wnn-loss-pair-code-20261009-r4 -f assets-manifest.json -p /tmp/wlr4_remote_manifest",
+    "remote_manifest_downloaded_read_only": true,
+    "remote_manifest_sha256": "8ef360536ca117232198a4ee6dd8fabf072fb7bfad9812a83972d8bfb750f584",
+    "remote_manifest_matches_staged_bytes": true,
+    "remote_file_count": 6,
+    "remote_files": [
+      {
+        "name": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn",
+        "size_bytes": 1388846,
+        "provider_creation_time": "2026-10-09T00:50:08.623000"
+      },
+      {
+        "name": "0a6fa1567dde9ac5fc41d27eed8d9edb6f90a93afb891db5a4080770b65e4351.wnn",
+        "size_bytes": 10370,
+        "provider_creation_time": "2026-10-09T00:50:08.544000"
+      },
+      {
+        "name": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c.wnn",
+        "size_bytes": 2104,
+        "provider_creation_time": "2026-10-09T00:50:08.544000"
+      },
+      {
+        "name": "a3c616f6a9e2f55c2747cf771f8d76ce33cdd90b847e454c75df9cea6fedaa18.wnn",
+        "size_bytes": 389162,
+        "provider_creation_time": "2026-10-09T00:50:08.371000"
+      },
+      {
+        "name": "assets-manifest.json",
+        "size_bytes": 1521,
+        "provider_creation_time": "2026-10-09T00:50:08.427000"
+      },
+      {
+        "name": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd.wnn",
+        "size_bytes": 253578,
+        "provider_creation_time": "2026-10-09T00:50:08.496000"
+      }
+    ],
+    "remote_manifest_file_inventory_matches_admission": true
+  },
+  "pre_push_quota": {
+    "observed_at_utc": "2026-10-09T00:51:08+00:00",
+    "source": "read-only authenticated Kaggle SDK accelerator quota call",
+    "cli_package_version": "2.2.4",
+    "gpu_used_seconds": 69404.162,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_total_allowed_seconds": 108000.0,
+    "gpu_account_headroom_seconds": 38595.838,
+    "campaign_gpu_headroom_before_this_hold_seconds": 24423.67500000001,
+    "this_kernel_provisional_hold_seconds": 7200,
+    "other_open_gpu_holds_seconds": 0,
+    "campaign_gpu_headroom_after_this_hold_seconds": 17223.67500000001,
+    "tpu_used_seconds": 398.431,
+    "tpu_reserved_seconds": 0.0,
+    "tpu_campaign_headroom_seconds": 6936.192
+  },
+  "limitations": [
+    "Provider inventory reports names and byte sizes; the remote assets-manifest.json was separately downloaded and SHA-256 verified.",
+    "Provider payload bytes were not downloaded for local rehash; each uploaded filename and size matches the hash-bound manifest, and the exact local staged bytes were reverified before create.",
+    "Version 1 is the sole provider version because the exact owner search found no pre-existing dataset and this was the only create call."
+  ]
+}
