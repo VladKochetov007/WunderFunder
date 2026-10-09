@@ -14,11 +14,13 @@ receipts.
 
 Before fitting, the runtime also reads host `MemAvailable`, cgroup memory
 current use and the effective finite ceiling (`memory.high` and `memory.max`,
-or the cgroup-v1 equivalents), and free bytes on the output filesystem. The
+or the cgroup-v1 equivalent), and free bytes on the output filesystem. The
 root admission must bind positive byte reserves for device free memory, host
-available memory, cgroup headroom, and disk free space. The measured value for
-each resource must meet its bound. R4 does not infer reserves from the laptop
-or reuse local RAM limits for Kaggle TPU capacity.
+available memory, cgroup headroom, and disk free space. A finite cgroup ceiling
+must meet its reserve. If the cgroup sample explicitly reports no finite
+ceiling, the gate records that basis and enforces the host-available reserve;
+missing or incomplete cgroup samples block fitting. R4 does not infer reserves
+from the laptop or reuse local RAM limits for Kaggle TPU capacity.
 
 The outer worker repeats host, cgroup, and output-filesystem checks while the
 matched fit phase is active. A failed or unavailable live sample records a

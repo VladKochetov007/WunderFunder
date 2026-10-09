@@ -49,6 +49,21 @@ def _read_int(path: Path) -> int | None:
     return parsed if parsed >= 0 else None
 
 
+def _read_limit(path: Path) -> tuple[bool, int | None]:
+    """Distinguish an explicit unlimited value from an unreadable limit file."""
+    try:
+        value = path.read_text().strip()
+    except OSError:
+        return False, None
+    if value == "max":
+        return True, None
+    try:
+        parsed = int(value)
+    except ValueError:
+        return False, None
+    return (True, parsed) if parsed >= 0 else (False, None)
+
+
 def _host_available_bytes(meminfo_path: Path = Path("/proc/meminfo")) -> int | None:
     try:
         for line in meminfo_path.read_text().splitlines():
@@ -61,27 +76,35 @@ def _host_available_bytes(meminfo_path: Path = Path("/proc/meminfo")) -> int | N
     return None
 
 
-def _cgroup_memory(root: Path = Path("/sys/fs/cgroup")) -> dict[str, int | str | None]:
-    """Read cgroup-v2 or v1 current use and effective finite memory ceiling."""
+def _cgroup_memory(
+    root: Path = Path("/sys/fs/cgroup"),
+) -> dict[str, int | str | bool | None]:
+    """Read cgroup memory use and distinguish unlimited from missing limits."""
     v2_current = _read_int(root / "memory.current")
     if v2_current is not None:
-        limits = [
-            value
-            for value in (_read_int(root / "memory.high"), _read_int(root / "memory.max"))
-            if value is not None
-        ]
+        high_observed, high = _read_limit(root / "memory.high")
+        max_observed, maximum = _read_limit(root / "memory.max")
+        limits = [value for value in (high, maximum) if value is not None]
+        sample_complete = high_observed and max_observed
         ceiling = min(limits) if limits else None
         return {
             "version": "v2",
             "current_bytes": v2_current,
             "ceiling_bytes": ceiling,
+            "limit_sample_complete": sample_complete,
             "headroom_bytes": max(0, ceiling - v2_current) if ceiling is not None else None,
         }
     v1_root = root / "memory"
     current = _read_int(v1_root / "memory.usage_in_bytes")
-    ceiling = _read_int(v1_root / "memory.limit_in_bytes")
+    limit_observed, ceiling = _read_limit(v1_root / "memory.limit_in_bytes")
     if current is None:
-        return {"version": None, "current_bytes": None, "ceiling_bytes": None, "headroom_bytes": None}
+        return {
+            "version": None,
+            "current_bytes": None,
+            "ceiling_bytes": None,
+            "limit_sample_complete": False,
+            "headroom_bytes": None,
+        }
     # v1 reports a very large sentinel instead of "max" for an unlimited limit.
     if ceiling is not None and ceiling >= (1 << 60):
         ceiling = None
@@ -89,6 +112,7 @@ def _cgroup_memory(root: Path = Path("/sys/fs/cgroup")) -> dict[str, int | str |
         "version": "v1",
         "current_bytes": current,
         "ceiling_bytes": ceiling,
+        "limit_sample_complete": limit_observed,
         "headroom_bytes": max(0, ceiling - current) if ceiling is not None else None,
     }
 
@@ -108,17 +132,43 @@ def evaluate_live_resources(policy: Any, live: Any) -> dict[str, Any]:
     observed = live if isinstance(live, dict) else {}
     cgroup = observed.get("cgroup") if isinstance(observed.get("cgroup"), dict) else {}
     checks = {
-        "host_available_bytes": (observed.get("host_available_bytes"), "minimum_host_available_bytes"),
+        "host_available_bytes": (
+            observed.get("host_available_bytes"),
+            "minimum_host_available_bytes",
+        ),
         "cgroup_headroom_bytes": (cgroup.get("headroom_bytes"), "minimum_cgroup_headroom_bytes"),
         "disk_free_bytes": (observed.get("disk_free_bytes"), "minimum_disk_free_bytes"),
     }
     outcomes: dict[str, dict[str, Any]] = {}
     for name, (actual, reserve_name) in checks.items():
         reserve = normalized.get(reserve_name) if normalized else None
-        passed = _positive_int(actual) and reserve is not None and actual >= reserve
+        unbounded_cgroup = (
+            name == "cgroup_headroom_bytes"
+            and cgroup.get("version") in {"v1", "v2"}
+            and _nonnegative_int(cgroup.get("current_bytes"))
+            and cgroup.get("limit_sample_complete") is True
+            and cgroup.get("ceiling_bytes") is None
+            and actual is None
+        )
+        if unbounded_cgroup:
+            host_available = observed.get("host_available_bytes")
+            host_reserve = normalized.get("minimum_host_available_bytes") if normalized else None
+            passed = (
+                _positive_int(host_available)
+                and host_reserve is not None
+                and host_available >= host_reserve
+            )
+            basis = "no_finite_cgroup_ceiling; host_available_reserve_enforced"
+        else:
+            passed = _positive_int(actual) and reserve is not None and actual >= reserve
+            basis = "measured_cgroup_headroom" if name == "cgroup_headroom_bytes" else "measured"
+            if name == "cgroup_headroom_bytes" and cgroup.get("limit_sample_complete") is not True:
+                passed = False
+                basis = "incomplete_cgroup_limit_sample"
         outcomes[name] = {
             "observed_bytes": actual if _positive_int(actual) else None,
             "required_bytes": reserve,
+            "basis": basis,
             "passed": passed,
         }
         if not passed:
@@ -177,7 +227,11 @@ def evaluate_profile_headroom(
     device_checks: dict[str, Any] = {}
     for loss in ("wmse", "huber"):
         row = rows_by_loss.get(loss)
-        if not isinstance(row, dict) or row.get("shape") != [32, 2000, 211] or row.get("finite") is not True:
+        if (
+            not isinstance(row, dict)
+            or row.get("shape") != [32, 2000, 211]
+            or row.get("finite") is not True
+        ):
             errors.append(f"missing_or_invalid_{loss}_full_shape_profile")
         memory = row.get("memory_after_full_shape") if isinstance(row, dict) else None
         stats = memory.get("device_memory_stats") if isinstance(memory, dict) else None
@@ -217,7 +271,10 @@ def evaluate_profile_headroom(
                     "passed": passed,
                 }
             )
-        device_checks[loss] = {"passed": all(row.get("passed") for row in devices), "devices": devices}
+        device_checks[loss] = {
+            "passed": all(row.get("passed") for row in devices),
+            "devices": devices,
+        }
     live_check = evaluate_live_resources(policy, live)
     errors.extend(live_check["errors"])
     return {
