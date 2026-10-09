@@ -1,0 +1,12 @@
+{
+  "schema": "wnn.d02.r5-admitted-bootstrap-gate-failure.v1",
+  "state": "review_finding_preserved",
+  "recorded_at_utc": "2026-10-09T03:40:09Z",
+  "candidate_packet_sha256": "c64a8a75ff894dd3e8449acd9a5bf6ee533bf84b2b3faa04f3b4ea416c2f171d",
+  "candidate_bootstrap_sha256": "d8978eefb1671ba30680fedd3c6079a5c47614a0b4dca1cf14578482d495614f",
+  "review_finding": "The runtime admission guard compared admission.kernel_id with the R4 kernel ID even though the sealed R5 packet and pending admission name the R5 kernel ID.",
+  "effect": "An admitted R5 bootstrap would reject its own kernel identity before fold-0 asset discovery.",
+  "source_archive_changed": false,
+  "scientific_recipe_changed": false,
+  "provider_mutations": false
+}
