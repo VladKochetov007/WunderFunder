@@ -1,5 +1,5 @@
 [Unit]
-Description=Collect terminal outputs for the root-pinned smoke4 and TPUv7 kernels
+Description=Collect terminal outputs for the root-pinned TPUv7 and R5 GPU kernels
 After=network-online.target
 Wants=network-online.target
 
@@ -16,4 +16,4 @@ Environment=WNN_CPU_QUOTA=100%
 Environment=WNN_THREADS=1
 Environment=WNN_MEM_MAX=1000000000
 Environment=WNN_RUNTIME_MAX=850s
-ExecStart=/usr/bin/flock -n /tmp/wnn-codex-support.lock /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/collect_terminal_outputs.py --config /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/terminal_collection_targets_20261008_r1.json --repo-root /home/vlad/development/wunder/wnn_connectome_starterpack
+ExecStart=/usr/bin/flock -w 40 /tmp/wnn-codex-support.lock /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/collect_terminal_outputs.py --config /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/terminal_collection_targets_20261009_gpu_r5_r1.json --repo-root /home/vlad/development/wunder/wnn_connectome_starterpack
