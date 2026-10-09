@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import sys
 from pathlib import Path
 from types import SimpleNamespace
@@ -29,6 +30,35 @@ REGISTRY_RELATIVE = Path("research/campaign_2026-10-04/portable_inputs.json")
 ASSET_MANIFEST_RELATIVE = Path(
     "research/campaign_2026-10-04/kaggle/fold0_assets/assets-manifest.json"
 )
+
+
+def _reference_root() -> Path:
+    """Locate the checkout that contains the mounted-asset test fixture inputs."""
+    override = os.environ.get("WNN_REFERENCE_ROOT")
+    if override:
+        root = Path(override).resolve()
+        if (root / ASSET_MANIFEST_RELATIVE).is_file():
+            return root
+        raise RuntimeError(f"WNN_REFERENCE_ROOT has no fold-0 asset manifest: {root}")
+
+    worktree_root = PACKET_ROOT.parents[4]
+    git_file = worktree_root / ".git"
+    if git_file.is_file():
+        line = git_file.read_text(encoding="utf-8").strip()
+        prefix = "gitdir: "
+        if not line.startswith(prefix):
+            raise RuntimeError(f"unexpected worktree .git file: {git_file}")
+        gitdir = Path(line.removeprefix(prefix)).resolve()
+        for candidate in gitdir.parents:
+            if (candidate / "specs/README.md").is_file() and (
+                candidate / ASSET_MANIFEST_RELATIVE
+            ).is_file():
+                return candidate
+
+    for candidate in (worktree_root, *worktree_root.parents):
+        if (candidate / ASSET_MANIFEST_RELATIVE).is_file():
+            return candidate
+    raise RuntimeError("could not find the fold-0 asset manifest in a project checkout")
 
 
 def _cache_fixture() -> SimpleNamespace:
@@ -134,8 +164,7 @@ def test_disposable_profile_omits_only_epoch_continuation_request(tmp_path) -> N
 def test_actual_split_loader_consumes_verified_mounted_auxiliary_assets(
     tmp_path, monkeypatch
 ) -> None:
-    worktree_root = PACKET_ROOT.parents[4]
-    main_root = worktree_root.parents[1] / "wnn_connectome_starterpack"
+    main_root = _reference_root()
     manifest_path = SOURCE_STAGE_FIXTURE / "manifest.json"
     validation_path = SOURCE_STAGE_FIXTURE / "reader_validation.json"
     source_receipt_path = SOURCE_STAGE_FIXTURE / "source_stage_receipt.json"
