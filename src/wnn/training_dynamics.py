@@ -165,7 +165,7 @@ def build_scheduler(
         raise ValueError("warmup fraction must be finite and in [0,1)")
     if args.sched == "wsd":
         return torch.optim.lr_scheduler.LambdaLR(
-            opt, wsd_lambda(total, warm, args.wsd_decay, args.wsd_final)
+            opt, wsd_lambda(total, warm, args.wsd_decay, args.wsd_final, getattr(args, "wsd_shape", "sqrt"))
         )
     if args.sched == "sgdr":
         return torch.optim.lr_scheduler.LambdaLR(

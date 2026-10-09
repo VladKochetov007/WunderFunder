@@ -117,6 +117,16 @@ def test_wsd_shape():
     assert f(1000) == pytest.approx(0.01) and f(900) == pytest.approx(0.01 + 0.99 * (1 - math.sqrt(0.5)))
 
 
+def test_wsd_linear_decay_to_zero():
+    f = wsd_lambda(1000, warmup_frac=0.05, decay_frac=1.0, final_frac=0.0, shape="linear")
+    assert f(49) == pytest.approx(1.0) and f(50) == pytest.approx(1.0)
+    assert f(525) == pytest.approx(0.5) and f(1000) == 0.0
+    values = [f(s) for s in range(50, 1001)]
+    assert all(x >= y for x, y in zip(values, values[1:], strict=False))
+    with pytest.raises(ValueError):
+        wsd_lambda(1000, shape="cosine")
+
+
 @pytest.mark.parametrize("cell", ["gru", "lstm"])
 def test_chrono_orth_init(cell):
     m = _model(cell, hidden=32)

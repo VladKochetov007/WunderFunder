@@ -145,9 +145,19 @@ def muon_param_groups(model: nn.Module, scope: str = "rnn") -> list[dict]:
     return groups
 
 
-def wsd_lambda(total: int, warmup_frac: float = 0.05, decay_frac: float = 0.2, final_frac: float = 0.01):
-    """LambdaLR multiplier: linear warmup over ``warmup_frac`` of the steps, constant peak, then a (1 - sqrt)
-    cooldown to ``final_frac`` of the peak over the last ``decay_frac`` of the steps."""
+def wsd_lambda(
+    total: int,
+    warmup_frac: float = 0.05,
+    decay_frac: float = 0.2,
+    final_frac: float = 0.01,
+    shape: str = "sqrt",
+):
+    """LambdaLR multiplier: linear warmup over ``warmup_frac`` of the steps, constant peak, then a cooldown to
+    ``final_frac`` of the peak over the last ``decay_frac`` of the steps.  ``shape="sqrt"`` is the (1 - sqrt)
+    cooldown; ``shape="linear"`` with ``decay_frac=1`` and ``final_frac=0`` is linear decay-to-zero after warmup
+    (Bergsma et al. 2025, arXiv 2502.15938)."""
+    if shape not in {"sqrt", "linear"}:
+        raise ValueError(f"unknown WSD cooldown shape: {shape}")
     warm = max(1, round(warmup_frac * total))
     start = max(warm, total - round(decay_frac * total))
 
@@ -157,7 +167,7 @@ def wsd_lambda(total: int, warmup_frac: float = 0.05, decay_frac: float = 0.2, f
         if step < start:
             return 1.0
         t = min(1.0, (step - start) / max(1, total - start))
-        return final_frac + (1.0 - final_frac) * (1.0 - math.sqrt(t))
+        return final_frac + (1.0 - final_frac) * (1.0 - (t if shape == "linear" else math.sqrt(t)))
 
     return multiplier
 
