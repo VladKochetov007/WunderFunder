@@ -1,0 +1,26 @@
+{
+ "schema": "wnn.local-queue-item-contract.v1",
+ "created_utc": "2026-10-09T08:41:08.009185+00:00",
+ "attempt": "h230-f0-s4-onecycle-export-r1",
+ "note": "fold0 faithful seed4 student (seed-specific parent combo_s4_f0) to cross-validate the fold1 seed3+seed4 pair gain (+0.0006)",
+ "argv": [
+  "/usr/bin/timeout",
+  "--signal=TERM",
+  "--kill-after=20s",
+  "1800",
+  "/usr/bin/env",
+  "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts:/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+  "-c",
+  "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name=\"__main__\")",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
+  "bd26_h230_f0_s4_onecycle",
+  "valid",
+  "--epoch",
+  "1",
+  "--output-name",
+  "h230_f0_s4_onecycle_ep1"
+ ]
+}
