@@ -48,9 +48,18 @@ tests and two control-binding/mutation tests passed. The exporter fixture uses
 synthetic binaries, not actual data or accelerator parity. The unchanged large
 auxiliary-asset validation is covered by root's prior actual mount checks and is
 not rerun as part of these tiny support tests. Actual T4 claims remain pending.
+Two command checks also passed, including the regression that keeps continuation
+state in production fits and removes it from the disposable profile only. One
+common-command case repeats a check in the exporter suite.
 
 `seal_d02_candidate.py` reuses the existing GPU packet/asset/bootstrap approach,
 with a unique title-derived ID and hash-bound source archive. An embedded root
 record must bind the exact code manifest and completed control contract before
 runtime admission. Its pending form permits no execution. Root also owns source
 asset creation, provider quota, dispatch and independent result review.
+
+The initial sealed candidate binds implementation commit
+`db3cc61083bf27903bf272cfab592481603fe136` and the GPU-v3 kernel as a control
+dependency. The completed control contract is still absent. This candidate is
+for review, with both embedded admission flags false; a later identified admitted
+successor must bind the actual successful producer contract.
