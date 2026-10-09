@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E519",
+  "status": "plan_only_not_profiled_no_packet",
+  "owner_role": "experimental_actor_packet_plan",
+  "claim_scope": "exposed_fold0_development_screen_only",
+  "execution_started": false,
+  "packet_built": false,
+  "kaggle_pushed": false,
+  "kaggle_submitted": false,
+  "fit_started": false,
+  "score_results": null,
+  "source_identity": {
+    "git_head": "c4a72a14a1672f133789962232d627ad3160e85e",
+    "source_archive_sha256": "81dcd58e450a1fca05bef9bc6dc660af6a7a538873071576ce3ee6cba06f4534",
+    "archive_scope": "git archive HEAD scripts/train_rnn.py scripts/predict_run.py src/wnn",
+    "files": {
+      "scripts/train_rnn.py": "0e622a87888769ff7467fadd1d1a230886008d1803099e8881e100939082467d",
+      "scripts/predict_run.py": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+      "scripts/kaggle_gpu_runner.py": "c02bc4109c72bc6bb7c0d332b569417f3c2ecd5c26c7f70f24e159ed3eaae575",
+      "scripts/kaggle_common.py": "84ea63373021e3b229845f0aecff74e155896c9522f97d06f6aa142a545ac380",
+      "scripts/kaggle_kernel.py": "5ccdd49a6ed613c67011db75aa6c5ff7804535a66dd7811c53f85e2af3b43177",
+      "scripts/kaggle_bundle.py": "fb8aebe3022b2e3e5fbfd9302ebd25f4f3d5592b990f3de623109aebd8e19579",
+      "scripts/kaggle_assets.py": "09bf47bdd71b6a0118cae49e52c7402a297dff41e5c85c71072c2f6c9e4b3cc7",
+      "src/wnn/nn.py": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+      "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "src/wnn/portability.py": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a"
+    },
+    "packet_bundle_sha256": null,
+    "kernel_source_sha256": null
+  },
+  "data_identity": {
+    "raw_dataset": "vladkochetov07/wunder-funder",
+    "raw_dataset_version_observed": "2026-10-07T00:11:43Z E508-v5 profile; refresh required before use",
+    "raw_files": {
+      "datasets/train.parquet": {
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "bytes": 29240219011,
+        "footer_bytes": 60437285,
+        "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb"
+      },
+      "datasets/valid.parquet": {
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "bytes": 5615509128,
+        "footer_bytes": 10686926,
+        "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+      }
+    },
+    "fold_asset_dataset": "vladkochetov07/wnn-c20261004-fold0-assets",
+    "fold_split_manifest": {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "fold_asset_manifest": {
+      "path": "research/campaign_2026-10-04/kaggle/fold0_assets/assets-manifest.json",
+      "sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7"
+    },
+    "portable_input_registry": {
+      "path": "research/campaign_2026-10-04/portable_inputs.json",
+      "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+    },
+    "source_families_sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d",
+    "asset_files": {
+      "cache/chain_folds.npz": {
+        "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+        "bytes": 550072
+      },
+      "cache/chains.npz": {
+        "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+        "bytes": 650142
+      },
+      "cache/train_targets.npz": {
+        "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+        "bytes": 1909335790
+      },
+      "cache/valid_targets.npz": {
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "bytes": 337186198
+      }
+    },
+    "fit_membership": {
+      "train_groups": 10535,
+      "valid_training_groups": 1405,
+      "held_out_evaluation_groups": 468,
+      "corrupt_train_group_excluded": 528,
+      "expected_prediction_valid_groups": 1873
+    },
+    "identity_refresh_required": true
+  },
+  "recipe": {
+    "shared": {
+      "initialization": "scratch",
+      "teacher": null,
+      "teammate_weights": false,
+      "pretrained_source": null,
+      "input_view": "raw_only",
+      "loss": "wmse",
+      "loss_norm": "chunk",
+      "epochs": 2,
+      "registered_prediction_epoch": 1,
+      "optimizer": "trainer_default_adamw_onecycle",
+      "train_target_clipping": "trainer_default; official evaluation always clips predictions and labels at ±2",
+      "split": "same fold0 complete-chain exclusion for both candidates",
+      "batch_size": null,
+      "chunk_size": null,
+      "batch_chunk_selection": "fastest shared passing shape from actual T4 profile"
+    },
+    "candidates": [
+      {
+        "name": "e519_tcn_s519",
+        "family": "causal_tcn",
+        "seed": 519,
+        "args": {
+          "arch": "tcn",
+          "hidden": 32,
+          "layers": 5,
+          "tcn_mix": 0,
+          "dropout": 0,
+          "enc": "linear"
+        },
+        "checkpoint_sha256": null,
+        "provenance_sha256": null,
+        "prediction_sha256": null,
+        "prediction_metadata_sha256": null
+      },
+      {
+        "name": "e519_structured_s520",
+        "family": "structured_state_recurrence",
+        "seed": 520,
+        "args": {
+          "arch": "structured",
+          "hidden": 96,
+          "layers": 2,
+          "decay_init": "multi",
+          "dropout": 0,
+          "enc": "linear"
+        },
+        "checkpoint_sha256": null,
+        "provenance_sha256": null,
+        "prediction_sha256": null,
+        "prediction_metadata_sha256": null
+      }
+    ]
+  },
+  "profile_plan": {
+    "is_fit": false,
+    "does_not_emit_checkpoint_or_predictions": true,
+    "profile_warmup_batches": 1,
+    "profile_timed_steps_per_shape": 3,
+    "candidate_batch_chunk_shapes": [
+      [16, 2000],
+      [8, 2000],
+      [8, 1000],
+      [4, 1000]
+    ],
+    "profile_gpu_seconds_hard_cap": 1200,
+    "profile_wall_seconds_hard_cap": 1200,
+    "accepted_shape_thresholds_bytes": {
+      "allocated_target_max": 2000000000,
+      "allocated_abort_gt": 2500000000,
+      "reserved_abort_gt": 2500000000,
+      "rss_abort_gt": 16000000000,
+      "minimum_ram_headroom_bytes": 4294967296,
+      "minimum_ram_headroom_fraction": 0.2
+    },
+    "shared_shape_required": true,
+    "profiled_result": null
+  },
+  "provider_caps": {
+    "required_gpu_model": "NVIDIA T4",
+    "required_gpu_count": 1,
+    "current_remaining_quota_seconds": null,
+    "current_session_runtime_cap_seconds": null,
+    "current_worker_ram_bytes": null,
+    "must_refresh_before_profile": true,
+    "must_refresh_before_fit": true,
+    "source_of_live_caps": "Kaggle account/session and actual mounted runtime at launch time"
+  },
+  "budget": {
+    "cohort_gpu_seconds_hard_cap_including_profile": 12000,
+    "profile_gpu_seconds_cap": 1200,
+    "fit_prediction_gpu_seconds_cap": 10800,
+    "per_candidate_fit_prediction_seconds_cap": 5400,
+    "fit_prediction_wall_seconds_cap": 10800,
+    "gpu_workers": 1,
+    "parallel_candidates": false,
+    "gpu_memory_bytes_outer_limit": 2000000000,
+    "gpu_stop_threshold_bytes": 2500000000,
+    "rss_bytes_limit": 16000000000,
+    "data_loader_workers": 0,
+    "rough_fit_export_seconds_proxy": 4262,
+    "rough_proxy_basis": "half of E508-v5 8524-second projection for two 4-epoch fits/exports, assuming equal epoch throughput; excludes profile and is architecture-uncertain",
+    "runtime_estimate_confidence": "low_until_actual_profile"
+  },
+  "commands": {
+    "fit_argv_templates": [
+      "python scripts/train_rnn.py --name e519_tcn_s519 --data-root /kaggle/input/wunder-funder/datasets --output-root /kaggle/working/e519 --arch tcn --hidden 32 --layers 5 --tcn-mix 0 --dropout 0 --enc linear --raw-only --loss wmse --loss-norm chunk --epochs 2 --seed 519 --batch-size <BATCH> --chunk-size <CHUNK> --device cuda --split-manifest /kaggle/input/wnn-c20261004-fold0-assets/fold0.json",
+      "python scripts/train_rnn.py --name e519_structured_s520 --data-root /kaggle/input/wunder-funder/datasets --output-root /kaggle/working/e519 --arch structured --hidden 96 --layers 2 --decay-init multi --dropout 0 --enc linear --raw-only --loss wmse --loss-norm chunk --epochs 2 --seed 520 --batch-size <BATCH> --chunk-size <CHUNK> --device cuda --split-manifest /kaggle/input/wnn-c20261004-fold0-assets/fold0.json"
+    ],
+    "prediction_argv_templates": [
+      "python scripts/predict_run.py e519_tcn_s519 valid --epoch 1 --output-name pred_e519_tcn_s519_valid --inference-precision checkpoint",
+      "python scripts/predict_run.py e519_structured_s520 valid --epoch 1 --output-name pred_e519_structured_s520_valid --inference-precision checkpoint"
+    ],
+    "command_templates_require_parser_and_mount_validation": true,
+    "expected_prediction_shape": [1873, 20000, 2],
+    "expected_evaluation_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+  },
+  "evaluation_plan": {
+    "anchor": {
+      "definition": "equal mean of E511 C1 seed-3 and seed-4 epoch-1 validation predictions",
+      "recipe_manifest_path": "research/campaign_2026-10-06/bandit_continuation/local/E511_C1_MINIMAL_PAIRED.json",
+      "recipe_manifest_sha256": "c686c026a32fc986333aec8674f1b306b0e545938be5eeb85a71d09e9cd41362",
+      "teacher_audit_sha256": "e4fd58ec09cef2764bbedb392d2c50fc4f44e644160120a106f56d693e306ffc",
+      "evaluation_report_path": "research/campaign_2026-10-06/bandit_continuation/local/E511_C1V2_C0_EVALUATION_v1/report.json",
+      "evaluation_report_sha256": "1c3ff178843cdf14259615c4183e8b7599cd6488a22a41bdb7ff864ef363b9ae",
+      "seed3_checkpoint_sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+      "seed3_provenance_sha256": "60e8884d3d5886dc53dcb2b7d280fef284a702de8769ab333e07e1819d66f28a",
+      "seed3_prediction_sha256": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+      "seed4_checkpoint_sha256": "fd48545b6e24ec275ff0d3874590cb0c6c4e2e717bc81ff94be50a0439f162c2",
+      "seed4_provenance_sha256": "fee8029b38a6677f7414cc4185a5298f1d148283bd2ad64b2c84e68d473ee15f",
+      "seed4_prediction_sha256": "78635629c73738b29b4680eda0b15430078b01f09ba06c8c24fdfb8c6d71d1cd",
+      "prediction_sidecars": {
+        "seed3_metadata_sha256": "bb335392edc599f181c0bbcb6523fd430b036647454bc0d76facf5b592211ad3",
+        "seed4_metadata_sha256": "e659527584fadb6df41d08efd62f3e7d9abf4ab9a989c811e65cf450efc35ea4"
+      },
+      "source_manifest_e514_v3_sha256": "8de4dc6c1e2a9023510d3edbb3a46771579470bfb859ac50f451f7baa269d6fd"
+    },
+    "target_metric": "global_wp_clip2_v1",
+    "metric_rule": "score only fold0 held-out complete-chain groups; clip labels and predictions to ±2; use fixed scored mask and original clipped-label magnitude weights",
+    "grouping": "3-fold component crossfit over 141 connected components",
+    "selection": "on calibration components, choose the one of two candidates with lower absolute weighted residual correlation to anchor",
+    "shrinkage": {
+      "formula": "lambda = clip(sum(w*d*r)/sum(w*d*d), 0, 0.25)",
+      "r": "clip(y)-clip(anchor)",
+      "d": "clip(candidate)-clip(anchor)",
+      "w": "abs(clip(y))*scored_mask",
+      "pooled_channels": true,
+      "apply_to_held_out_components_only": true
+    },
+    "comparators": [
+      "anchor_only_lambda_0",
+      "candidate_tcn_individual",
+      "candidate_structured_individual",
+      "crossfit_selected_candidate_shrink",
+      "matched_random_candidate_shrink_seed_51920261007"
+    ],
+    "uncertainty": "paired connected-component bootstrap; grader to freeze replicate count and RNG before scoring",
+    "existing_evaluator_support": "unverified; must be validated or replaced by an independent grader before fit admission",
+    "all_fold0_data_exposed": true,
+    "public_score_claim_allowed": false
+  },
+  "dependency_dag": [
+    "controller freezes recipe/code/source/data hashes and reviews plan",
+    "refresh Kaggle quota/runtime/GPU/RAM/input versions",
+    "build and run profile-only packet; verify identities, fold membership, profile metrics, memory and time",
+    "independent profile receipt and evaluator-support review",
+    "freeze updated common batch/chunk and exact packet; admit only within remaining 12000 GPU-second budget",
+    "serial scratch fit TCN candidate then structured-state candidate",
+    "predict valid groups at epoch 1 for both candidates",
+    "download checkpoints, provenance, predictions, hashes and phase/resource receipts",
+    "independent grader computes fixed C1 anchor comparisons, shrink/control OOF metrics and component bootstrap",
+    "report as exposed development screen; no public forecast"
+  ],
+  "abort_paths": [
+    "stop before profile/fit if live Kaggle cap, actual GPU, runtime, or quota is insufficient",
+    "stop before fit if input hashes, fold membership, or mounted asset identities differ",
+    "stop before fit if any profiled candidate exceeds 2500000000 allocated or reserved bytes or RSS/headroom gate",
+    "stop before fit if there is no common passing batch/chunk shape",
+    "terminate cohort on any later memory threshold breach, timeout, or aggregate budget breach; preserve partial evidence; no same-ID retry",
+    "do not admit fit until independent evaluator can implement the registered anchor/control comparison"
+  ],
+  "unresolved_before_packet_freeze": [
+    "refresh actual Kaggle submission quota, session runtime, GPU count/model and worker RAM",
+    "validate exact trainer parser flags and actual input mount paths",
+    "validate existing evaluator against fixed C1 anchor, candidate controls, split, masks and global_wp_clip2_v1; otherwise assign independent grader",
+    "run profile-only packet under its separate 1200 GPU-second cap and update batch/chunk",
+    "compute final packet/kernel/archive hashes and record all terminal checkpoint/provenance/prediction hashes after any admitted fit"
+  ]
+}
