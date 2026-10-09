@@ -83,7 +83,40 @@ def score(targets: np.ndarray, mask: np.ndarray, prediction: np.ndarray) -> dict
     return {"wp": result["wp"], "t0": result["t0"], "t1": result["t1"]}
 
 
-def correlations(targets, mask, predictions: list[np.ndarray]) -> dict:
+class Lazy:
+    """Row-aligned float32 view over a memory-mapped prediction, read one group chunk at a time."""
+
+    def __init__(self, array: np.ndarray, order: list[int]) -> None:
+        self.array, self.order = array, np.asarray(order)
+
+    def __len__(self) -> int:
+        return len(self.order)
+
+    def __getitem__(self, part: slice) -> np.ndarray:
+        return np.asarray(self.array[np.sort(self.order[part])][np.argsort(np.argsort(self.order[part]))],
+                          dtype=np.float32)
+
+    def load(self) -> np.ndarray:
+        return np.concatenate([self[slice(i, i + GROUP_CHUNK)] for i in range(0, len(self), GROUP_CHUNK)])
+
+
+class LazyMean:
+    """Equal-weight mean of lazy members, evaluated per chunk."""
+
+    def __init__(self, members: list[Lazy]) -> None:
+        self.members = members
+
+    def __len__(self) -> int:
+        return len(self.members[0])
+
+    def __getitem__(self, part: slice) -> np.ndarray:
+        total = self.members[0][part].copy()
+        for member in self.members[1:]:
+            total += member[part]
+        return total / len(self.members)
+
+
+def correlations(targets, mask, predictions: list) -> dict:
     """Unweighted Pearson matrices of predictions and residuals on scored rows."""
     m = len(predictions)
     out = {}
@@ -145,7 +178,7 @@ def main() -> int:
         mask = np.asarray(cache["mask"][index], dtype=bool)
     mask &= (np.arange(targets.shape[1]) >= SCORED_FROM_ROW)[None, :]
 
-    predictions, identities, skipped, kept = [], {}, {}, []
+    lazies, identities, skipped, kept = [], {}, {}, []
     split_sha = sha256(args.split)
     for row in rows:
         result = aligned(row, groups, split_sha)
@@ -153,7 +186,7 @@ def main() -> int:
             skipped[row["name"]] = result
             continue
         array, order = result
-        predictions.append(np.asarray(array[order], dtype=np.float32))
+        lazies.append(Lazy(array, order))
         identities[row["name"]] = sha256(ROOT / row["prediction"])
         kept.append(row)
     rows = kept
@@ -161,39 +194,34 @@ def main() -> int:
     if not names:
         raise SystemExit(f"no verifiable predictions; skipped={skipped}")
 
-    singles = {name: score(targets, mask, p) for name, p in zip(names, predictions, strict=True)}
-    corr = correlations(targets, mask, predictions)
-    pairs = {}
+    singles = {name: score(targets, mask, p) for name, p in zip(names, lazies, strict=True)}
+    corr = correlations(targets, mask, lazies)
+    all_equal = score(targets, mask, LazyMean(lazies)) if len(names) > 1 else None
+    # Pairs and greedy selection only among the top singles, loaded into memory once.
     top = sorted(range(len(names)), key=lambda k: -singles[names[k]]["wp"])[: args.pair_top]
+    loaded = {i: lazies[i].load() for i in top}
+    pairs = {}
     for i, j in itertools.combinations(sorted(top), 2):
-        blend = 0.5 * (predictions[i] + predictions[j])
-        result = score(targets, mask, blend)
+        result = score(targets, mask, 0.5 * (loaded[i] + loaded[j]))
         result["gain_over_best_member"] = result["wp"] - max(
             singles[names[i]]["wp"], singles[names[j]]["wp"]
         )
         pairs[f"{names[i]}+{names[j]}"] = result
-    all_equal = None
-    if len(names) > 1:
-        mean = np.zeros_like(predictions[0])
-        for p in predictions:
-            mean += p / len(predictions)
-        all_equal = score(targets, mask, mean)
-        del mean
 
     # Greedy equal-weight selection with replacement (Caruana); exploratory only.
-    chosen, total, greedy = [], np.zeros_like(predictions[0]), []
-    for _ in range(min(args.greedy_steps, 4 * len(names))):
+    chosen, total, greedy = [], np.zeros_like(loaded[top[0]]), []
+    for _ in range(min(args.greedy_steps, 4 * len(top))):
         best = None
-        for i, p in enumerate(predictions):
-            trial = score(targets, mask, (total + p) / (len(chosen) + 1))
+        for i in top:
+            trial = score(targets, mask, (total + loaded[i]) / (len(chosen) + 1))
             if best is None or trial["wp"] > best[1]["wp"]:
                 best = (i, trial)
         chosen.append(best[0])
-        total += predictions[best[0]]
+        total += loaded[best[0]]
         greedy.append({"members": [names[i] for i in chosen], **best[1]})
 
     best_single = max(singles, key=lambda n: singles[n]["wp"])
-    reference = predictions[names.index(best_single)]
+    reference = loaded[names.index(best_single)]
     greedy_blend = total / len(chosen)
     ref_m, _ = paired_component_moments(targets, reference, reference, mask)
     blend_m, _ = paired_component_moments(targets, greedy_blend, greedy_blend, mask)

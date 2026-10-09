@@ -65,6 +65,10 @@ def any_attempt_active() -> bool:
     return False
 
 
+def admission_closed() -> bool:
+    return (STATE / "STOP_ADMISSION.json").exists()
+
+
 def admission_rejected(record: dict | None) -> bool:
     return bool(record) and record.get("status") == "not_started" and record.get("phase") == "admission_failed"
 
@@ -173,7 +177,7 @@ def main() -> int:
         elif state == "active":
             running = True
 
-    if running or (queue / "STOP").exists() or any_attempt_active():
+    if running or (queue / "STOP").exists() or any_attempt_active() or admission_closed():
         return 0
     for path in sorted(pending.glob("*.json")):
         item = json.loads(path.read_text())
@@ -190,6 +194,9 @@ def main() -> int:
         result = launch(item)
         log(queue, {"event": "launch", "attempt": item["attempt"], "rc": result.returncode,
                     "stderr_tail": result.stderr[-800:]})
+        if "new admission is closed" in result.stderr:
+            # The campaign barrier is closed after a resource incident; wait for its review.
+            return 0
         if result.returncode != 0 and attempt(item["attempt"]) is None:
             move(path, queue, "launch_failed")
         return 0

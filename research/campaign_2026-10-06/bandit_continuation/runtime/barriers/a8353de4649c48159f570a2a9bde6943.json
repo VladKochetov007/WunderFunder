@@ -1,0 +1,11 @@
+{
+  "closed_utc": "2026-10-09T07:26:26.744797+00:00",
+  "drain_attempts": [
+    "h230-f1-s3-wsd-fit-r1-a2"
+  ],
+  "id": "a8353de4649c48159f570a2a9bde6943",
+  "reason": "resource budget breach in h230-f1-s3-wsd-fit-r1-a2: aggregate working RAM exceeded 18000000000 bytes",
+  "reopened_utc": "2026-10-09T07:33:59.458269+00:00",
+  "review": "Root review 2026-10-09T07:40Z: breach caused by root-launched concurrent CPU analysis (grade-bank 59-model full load + cross-fold blend job, each up to 6 GB) overlapping the 9 GB H230 fold1 WSD fit; fit itself stayed at its 9 GB max with 0 OOM. Corrections: cross-fold job stopped; grader rewritten to stream memmaps and load only top-20 (peak ~2 GB); queue runner now waits on STOP_ADMISSION and never moves items on barrier rejections; analysis jobs will not run concurrently with a fit beyond 18 GB aggregate. WSD fit resumes from its saved epoch-0 state as identified successor h230-f1-s3-wsd-resume-r2.",
+  "unreadable_attempt_records": []
+}

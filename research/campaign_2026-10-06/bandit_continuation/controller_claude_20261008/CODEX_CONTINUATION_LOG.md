@@ -161,3 +161,10 @@ Efficiency so far: T4 small-screen fit 61.6 s (FP32 Muon) vs 71.6 s (native FP16
 - Kaggle r4 (12 random WSD/SGDR×loss×activation arms, fold0) pushed 06:54Z with 36,812 GPU-s left this week.
 - Multi-fold: fold1–3 memberships (sha256-sort whole-component 3%, seed 20261009; fold0 reproduces byte-identically), fold registries, per-fold CPU cache kernels `wnn-parsed-cache-stage-20261009-f{1,2,3}` running. Rolling worker/template/sealer accept fold pins; fold2 (363 seqs → 240 updates) will be marked unsupported by the 220-update invariant.
 - Incidents: queue runner first launched while the non-queue fit held resources (capacity rejections, no experiment started) → now waits for any active attempt and retries rejections under new IDs; grader crashed on legacy sidecars → now skips with reasons; launcher wrapper reserved 1 core → set 20%; support timer quotas lowered.
+
+
+### 2026-10-09T07:40Z — resource incident and recovery; r4 graded; fold1/fold3 Kaggle pins
+
+- Incident: supervisor killed h230-f1-s3-wsd-fit-r1-a2 at epoch 1 batch ~40 (aggregate working RAM > 18 GB) and closed admission. Cause: root ran the 59-model fold0 grading and a cross-fold blend job (each ≤6 GB) concurrently with the 9 GB fit. Fit itself: 0 OOM. Queue runner then bounced 4 launches on the closed barrier (no attempts created). Fixes: cross-fold job stopped; grader streams memmaps (top-20 loaded, peak ~2 GB, results identical to prior grade: max diff 0.0); runner waits on STOP_ADMISSION; review recorded via bandit_resources resume; identified successor h230-f1-s3-wsd-resume-r2 resumes from saved epoch-0 training_state.
+- r4 (fold0 small screens) graded: best huber4+fixed_mix+WSD(decay0.4, final0.1) 0.62076 > WSD-WMSE 0.61955 > onecycle control 0.60600. All top-9 use WSD. Greedy equal-weight blend 0.62268 (exposed fold).
+- r5 = first fold1 Kaggle round (controls only) pushed 07:32Z; fold3 cache pins collected.
