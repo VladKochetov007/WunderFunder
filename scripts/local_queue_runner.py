@@ -91,6 +91,30 @@ def move(item: Path, queue: Path, bucket: str) -> None:
     shutil.move(str(item), target / item.name)
 
 
+SLICE = Path("/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice")
+MEMORY_HIGH_GUARD = 18_000_000_000
+
+
+def reclaim_file_cache_for(reserve_bytes: int, queue: Path) -> None:
+    """Reclaim only file cache (swappiness=0) so measured use plus the reserve fits the guard."""
+    try:
+        current = int((SLICE / "memory.current").read_text())
+        stat = dict(line.split() for line in (SLICE / "memory.stat").read_text().splitlines())
+        file_bytes = int(stat["file"])
+    except (OSError, KeyError, ValueError):
+        return
+    want = current + reserve_bytes - (MEMORY_HIGH_GUARD - 500_000_000)
+    want = min(want, file_bytes - 500_000_000)
+    if want <= 0:
+        return
+    try:
+        (SLICE / "memory.reclaim").write_text(f"{want} swappiness=0")
+    except OSError as error:
+        log(queue, {"event": "reclaim_partial", "requested": want, "error": str(error)})
+    log(queue, {"event": "file_cache_reclaim", "requested": want, "before": current,
+                "after": int((SLICE / "memory.current").read_text())})
+
+
 def launch(item: dict) -> subprocess.CompletedProcess[str]:
     env = os.environ | {
         "WNN_SLICE": "wnn-campaign.slice",
@@ -162,6 +186,7 @@ def main() -> int:
             continue
         if attempt(item["attempt"]) is not None:
             continue
+        reclaim_file_cache_for(int(item["reserve_bytes"]), queue)
         result = launch(item)
         log(queue, {"event": "launch", "attempt": item["attempt"], "rc": result.returncode,
                     "stderr_tail": result.stderr[-800:]})
