@@ -214,9 +214,9 @@ def cmd_queue(_: argparse.Namespace) -> None:
 FAMILIES = [
     ("fold", re.compile(r"vt_f[023]_")), ("sched", re.compile(r"sgdr|trap|wsd|lineard2z|ep6")),
     ("optim", re.compile(r"adamw|muonhidden|_mu[36]")), ("weighting", re.compile(r"lw15|lwfloor|cls3|since|proppow")),
-    ("arch", re.compile(r"gated|tcn|structured|eventcontent|twoclock|dual|lstm|rawonly|encmlp")),
+    ("arch", re.compile(r"gated|tcn|structured|eventcontent|twoclock|dual|lstm|rawonly|encmlp|encconv|gru256x4|gru320x3|depth")),
     ("width", re.compile(r"gru(256x3|320|384|448|512)")), ("loss", re.compile(r"corr|huber|wmsegcorr")),
-    ("regularize", re.compile(r"drop2|wd05|swa|b16|tr_lr|tr_base|seed|_ema|ctrl")), ("distill", re.compile(r"dsq")),
+    ("regularize", re.compile(r"drop2|wd05|swa|b16|tr_lr|tr_base|seed|_ema|ctrl")), ("distill", re.compile(r"dsq")), ("init", re.compile(r"chrono|orth(?!ogonal)")), ("training", re.compile(r"chunk|lossmix|headlr")), ("data", re.compile(r"heur|onorm|thin")),
 ]
 
 

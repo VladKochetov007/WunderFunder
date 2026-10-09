@@ -28,9 +28,7 @@ WAVES = {
         # recipe fidelity from the teammate evidence ledger: Muon LR multiplier and EMA-evaluated weights, paired controls
         "vt_f1_ctrl_s3": {},
         "vt_f1_mu3": {"+": ["--muon-lr-mult", "3"]},
-        "vt_f1_mu3_s4": {"--seed": "4", "+": ["--muon-lr-mult", "3"]},
         "vt_f1_mu6": {"+": ["--muon-lr-mult", "6"]},
-        "vt_f1_mu6_s4": {"--seed": "4", "+": ["--muon-lr-mult", "6"]},
         "vt_f1_ema": {"+": ["--ema-teacher", "1.0", "--eval-ema"]},
         "vt_f1_mu3_ema": {"+": ["--muon-lr-mult", "3", "--ema-teacher", "1.0", "--eval-ema"]},
         "vt_f1_gru384_mu3": {"--hidden": "384", "+": ["--muon-lr-mult", "3"]},

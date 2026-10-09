@@ -1,14 +1,14 @@
 {
- "name": "vt_f1_mu3_s4",
+ "name": "vt_f1_chrono",
  "steps": [
   {
    "label": "fit",
-   "timeout": 14400,
+   "timeout": 21600,
    "argv": [
     "python",
     "/root/wnn/scripts/train_rnn.py",
     "--name",
-    "vt_f1_mu3_s4",
+    "vt_f1_chrono",
     "--device",
     "cuda",
     "--arch",
@@ -24,7 +24,7 @@
     "--dropout",
     "0",
     "--seed",
-    "4",
+    "3",
     "--split-manifest",
     "/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json",
     "--valid-fold",
@@ -76,8 +76,8 @@
     "0.3",
     "--since-weight",
     "32",
-    "--muon-lr-mult",
-    "3",
+    "--rnn-init",
+    "chrono",
     "--fast",
     "--save-training-state"
    ]
@@ -91,7 +91,7 @@
     "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__')",
     "/root/wnn/scripts/predict_run.py",
     "/root/wnn/scripts/train_rnn.py",
-    "vt_f1_mu3_s4",
+    "vt_f1_chrono",
     "valid",
     "--epoch",
     "3"

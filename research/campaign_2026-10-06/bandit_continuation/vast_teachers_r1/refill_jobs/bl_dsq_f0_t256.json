@@ -1,0 +1,21 @@
+{
+ "name": "vt_f0_dsq_t256",
+ "steps": [
+  {
+   "label": "pipeline",
+   "timeout": 14400,
+   "argv": [
+    "python",
+    "/root/wnn/scripts/distill_pipeline.py",
+    "--arm",
+    "f0t256",
+    "--fold",
+    "0",
+    "--teachers",
+    "vt_f0_gru256",
+    "--parent",
+    "c20261003_combo_s3_f0@ep3"
+   ]
+  }
+ ]
+}

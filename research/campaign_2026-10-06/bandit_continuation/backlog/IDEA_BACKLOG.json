@@ -27,8 +27,10 @@
      "0.5"
     ]
    },
-   "status": "ready",
-   "rationale": "R2-4: does a wide model work with EMA, lower Muon multiplier and 8 epochs"
+   "status": "queued",
+   "rationale": "R2-4: does a wide model work with EMA, lower Muon multiplier and 8 epochs",
+   "lane": "b",
+   "queued_utc": "2026-10-09T20:27:27.078562+00:00"
   },
   {
    "id": "scale768_ema_ep8",
@@ -79,8 +81,10 @@
      "--eval-ema"
     ]
    },
-   "status": "ready",
-   "rationale": "width 384 with EMA evaluated weights"
+   "status": "queued",
+   "rationale": "width 384 with EMA evaluated weights",
+   "lane": "b",
+   "queued_utc": "2026-10-09T20:27:27.078870+00:00"
   },
   {
    "id": "gru384_mu6",
@@ -129,8 +133,10 @@
      "--eval-ema"
     ]
    },
-   "status": "ready",
-   "rationale": "longer training with the strongest recipe levers"
+   "status": "queued",
+   "rationale": "longer training with the strongest recipe levers",
+   "lane": "b",
+   "queued_utc": "2026-10-09T20:27:27.079321+00:00"
   },
   {
    "id": "wsd_mu3",
@@ -174,8 +180,10 @@
      "3"
     ]
    },
-   "status": "ready",
-   "rationale": "third-fold transfer of the multiplier"
+   "status": "queued",
+   "rationale": "third-fold transfer of the multiplier",
+   "lane": "a",
+   "queued_utc": "2026-10-09T20:28:26.212298+00:00"
   },
   {
    "id": "f3_mu3",
@@ -196,8 +204,10 @@
      "3"
     ]
    },
-   "status": "ready",
-   "rationale": "fourth-fold transfer of the multiplier"
+   "status": "queued",
+   "rationale": "fourth-fold transfer of the multiplier",
+   "lane": "a",
+   "queued_utc": "2026-10-09T20:28:26.212381+00:00"
   },
   {
    "id": "f2_ctrl",
@@ -214,8 +224,8 @@
    "change": {
     "fold": 2
    },
-   "status": "ready",
-   "rationale": "paired control for fold2 levers"
+   "status": "dropped",
+   "rationale": "paired control for fold2 levers | dropped 2026-10-10: seed permutations add little (user: optimizer, training method and architecture move metrics, seeds do not)"
   },
   {
    "id": "f3_ctrl",
@@ -232,8 +242,8 @@
    "change": {
     "fold": 3
    },
-   "status": "ready",
-   "rationale": "paired control for fold3 levers"
+   "status": "dropped",
+   "rationale": "paired control for fold3 levers | dropped 2026-10-10: seed permutations add little (user: optimizer, training method and architecture move metrics, seeds do not)"
   },
   {
    "id": "dsq_f0_t384",
@@ -260,8 +270,10 @@
      "c20261003_combo_s3_f0@ep3"
     ]
    },
-   "status": "ready",
-   "rationale": "scale-then-distill on fold0 (replicates the fold1 chain)"
+   "status": "queued",
+   "rationale": "scale-then-distill on fold0 (replicates the fold1 chain)",
+   "lane": "a",
+   "queued_utc": "2026-10-09T20:28:26.212087+00:00"
   },
   {
    "id": "dsq_f0_t256",
@@ -288,8 +300,10 @@
      "c20261003_combo_s3_f0@ep3"
     ]
    },
-   "status": "ready",
-   "rationale": "fold0 control teacher"
+   "status": "queued",
+   "rationale": "fold0 control teacher",
+   "lane": "a",
+   "queued_utc": "2026-10-09T20:28:26.212206+00:00"
   },
   {
    "id": "dsq_f0_none",
@@ -316,8 +330,10 @@
      "--no-teacher"
     ]
    },
-   "status": "ready",
-   "rationale": "fold0 no-teacher continuation control"
+   "status": "queued",
+   "rationale": "fold0 no-teacher continuation control",
+   "lane": "a",
+   "queued_utc": "2026-10-09T20:28:26.212439+00:00"
   },
   {
    "id": "dsq_t384_seed4",
@@ -345,8 +361,8 @@
      "4"
     ]
    },
-   "status": "ready",
-   "rationale": "second seed for the scale-then-distill comparison"
+   "status": "dropped",
+   "rationale": "second seed for the scale-then-distill comparison | dropped 2026-10-10: seed permutations add little (user: optimizer, training method and architecture move metrics, seeds do not)"
   },
   {
    "id": "dsq_t256_seed4",
@@ -374,8 +390,8 @@
      "4"
     ]
    },
-   "status": "ready",
-   "rationale": "second seed control"
+   "status": "dropped",
+   "rationale": "second seed control | dropped 2026-10-10: seed permutations add little (user: optimizer, training method and architecture move metrics, seeds do not)"
   },
   {
    "id": "rawonly_mu3",
@@ -564,6 +580,312 @@
    "change": {},
    "status": "needs_code",
    "rationale": "class-3-heavy metric surrogate"
+  },
+  {
+   "id": "chrono",
+   "family": "init",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 1.0,
+   "name": "vt_f1_chrono",
+   "change": {
+    "+": [
+     "--rnn-init",
+     "chrono"
+    ]
+   },
+   "status": "queued",
+   "rationale": "chrono gate biases: memory timescales U[2,2000] rows (new for us; sequences are 20,000 rows long)",
+   "lane": "b",
+   "queued_utc": "2026-10-09T20:27:27.078732+00:00"
+  },
+  {
+   "id": "chrono_tmax8000",
+   "family": "init",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.0,
+   "name": "vt_f1_chrono8k",
+   "change": {
+    "+": [
+     "--rnn-init",
+     "chrono",
+     "--chrono-tmax",
+     "8000"
+    ]
+   },
+   "status": "queued",
+   "rationale": "longer maximum memory timescale",
+   "lane": "a",
+   "queued_utc": "2026-10-09T20:28:26.212522+00:00"
+  },
+  {
+   "id": "orth",
+   "family": "init",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.0,
+   "name": "vt_f1_orth",
+   "change": {
+    "+": [
+     "--rnn-init",
+     "orth"
+    ]
+   },
+   "status": "queued",
+   "rationale": "orthogonal recurrent matrices",
+   "lane": "a",
+   "queued_utc": "2026-10-09T20:28:26.212597+00:00"
+  },
+  {
+   "id": "chrono_orth",
+   "family": "init",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 1.0,
+   "name": "vt_f1_chrono_orth",
+   "change": {
+    "+": [
+     "--rnn-init",
+     "chrono_orth"
+    ]
+   },
+   "status": "queued",
+   "rationale": "both initializations",
+   "lane": "b",
+   "queued_utc": "2026-10-09T20:27:27.078987+00:00"
+  },
+  {
+   "id": "head_lr3",
+   "family": "optim",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.0,
+   "name": "vt_f1_headlr3",
+   "change": {
+    "+": [
+     "--head-lr-mult",
+     "3"
+    ]
+   },
+   "status": "ready",
+   "rationale": "3x learning rate on the readout head"
+  },
+  {
+   "id": "head_lr03",
+   "family": "optim",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 5,
+   "hours": 1.0,
+   "name": "vt_f1_headlr03",
+   "change": {
+    "+": [
+     "--head-lr-mult",
+     "0.3"
+    ]
+   },
+   "status": "ready",
+   "rationale": "slower readout head"
+  },
+  {
+   "id": "chunk500",
+   "family": "training",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.3,
+   "name": "vt_f1_chunk500",
+   "change": {
+    "--chunk": "500"
+   },
+   "status": "ready",
+   "rationale": "shorter truncated-BPTT chunks with twice the optimizer steps (teammate saw chunk 4000 hurt, 500 untested)"
+  },
+  {
+   "id": "loss_mix",
+   "family": "loss",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 6,
+   "hours": 1.0,
+   "name": "vt_f1_lossmix",
+   "change": {
+    "--loss": "mix"
+   },
+   "status": "ready",
+   "rationale": "trainer default mix loss (corr plus 0.5 wmse), teammate's raw-view loss"
+  },
+  {
+   "id": "depth4",
+   "family": "arch",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 1.4,
+   "name": "vt_f1_gru256x4",
+   "change": {
+    "--layers": "4"
+   },
+   "status": "queued",
+   "rationale": "depth 4 (3 layers was among the best scratch teachers)",
+   "lane": "b",
+   "queued_utc": "2026-10-09T20:27:27.079095+00:00"
+  },
+  {
+   "id": "depth3_320",
+   "family": "arch",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.5,
+   "name": "vt_f1_gru320x3",
+   "change": {
+    "--hidden": "320",
+    "--layers": "3"
+   },
+   "status": "ready",
+   "rationale": "width and depth together"
+  },
+  {
+   "id": "enc_conv",
+   "family": "arch",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 5,
+   "hours": 1.0,
+   "name": "vt_f1_encconv",
+   "change": {
+    "--enc": "conv"
+   },
+   "status": "ready",
+   "rationale": "convolutional per-row encoder (mlp encoder was worse)"
+  },
+  {
+   "id": "heuristics",
+   "family": "data",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 1.1,
+   "name": "vt_f1_heur",
+   "change": {
+    "+": [
+     "--heuristics"
+    ]
+   },
+   "status": "queued",
+   "rationale": "append the causal heuristic feature library as inputs (data-processing lever never run)",
+   "lane": "b",
+   "queued_utc": "2026-10-09T20:27:27.079199+00:00"
+  },
+  {
+   "id": "thin10",
+   "family": "augment",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 6,
+   "hours": 1.0,
+   "name": "vt_f1_thin10",
+   "change": {
+    "+": [
+     "--thin-prob",
+     "0.1"
+    ]
+   },
+   "status": "ready",
+   "rationale": "existing row-thinning augmentation"
+  },
+  {
+   "id": "online_norm",
+   "family": "data",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.0,
+   "name": "vt_f1_onorm",
+   "change": {
+    "+": [
+     "--online-norm"
+    ]
+   },
+   "status": "ready",
+   "rationale": "online z-score input view (teammate demean/online-norm family)"
   }
  ]
 }
