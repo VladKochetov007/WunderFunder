@@ -1,0 +1,569 @@
+{
+  "authorized_for_execution": false,
+  "control_gpu_kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v4",
+  "experiment": {
+    "actual_device_gate": "ten discarded full-shape T4 updates per loss, finite unscaled gradients, exact control bindings, checkpoint/optimizer reload/reset/prefix check",
+    "batch_tail_semantics": "final batch has 30 real sequences plus 2 zero-weight padded sequences",
+    "contrast": "two new Muon WMSE/Huber cells; no best-tuned Muon claim",
+    "evaluation_count": 468,
+    "fit_train_count": 350,
+    "fit_valid_count_retained_not_used": 28,
+    "fold": 0,
+    "hypothesis": "Equal-LR recurrent-only gatewise Muon may change the loss contrast and error complementarity; reuse the completed matched AdamW pair as controls.",
+    "maximum_cgroup_current_bytes": 24000000000,
+    "minimum_cgroup_headroom_bytes": 2000000000,
+    "minimum_mem_available_bytes": 2000000000,
+    "minimum_working_disk_free_bytes": 4000000000,
+    "muon_policy": {
+      "gatewise": "all",
+      "lr_max": 0.001,
+      "lr_multiplier": 1.0,
+      "ortho_dtype": "fp32",
+      "scope": "rnn"
+    },
+    "output_cap_bytes": 12000000000,
+    "per_update_diagnostics": [
+      "preclip gradient norms",
+      "clip and skip flags",
+      "LR",
+      "beta1",
+      "update timing"
+    ],
+    "predictions_and_checkpoints_retained": true,
+    "provisional_gpu_seconds": null,
+    "updates_per_arm": 220
+  },
+  "kernel": {
+    "accelerator": "NvidiaTeslaT4",
+    "actual_runtime_gate": "exactly two T4 devices; FP32 with CUDA TF32 disabled",
+    "code_file": "wnn-d02-muon-loss-gpu-20261009-v2.py",
+    "code_file_sha256": "17a13ec9cba165a00b8c19cd689182a06ac74fd6a8c8261ed5e7bc02732a700c",
+    "code_file_size_bytes": 13942,
+    "metadata": {
+      "code_file": "wnn-d02-muon-loss-gpu-20261009-v2.py",
+      "competition_sources": [],
+      "dataset_sources": [
+        "vladkochetov07/wnn-d02-muon-loss-code-20261009-r2",
+        "vladkochetov07/wnn-c20261004-fold0-assets"
+      ],
+      "enable_gpu": true,
+      "enable_internet": false,
+      "enable_tpu": false,
+      "id": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v2",
+      "is_private": true,
+      "kernel_sources": [
+        "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1",
+        "vladkochetov07/wnn-loss-pair-gpu-20261009-v4"
+      ],
+      "kernel_type": "script",
+      "language": "python",
+      "model_sources": [],
+      "title": "WNN D02 Muon Loss GPU 20261009 V2"
+    },
+    "metadata_sha256": "babd993c49c3b7ac091a1d805f9edc85b8365d3dc3faa46eeb2343399e2870f6",
+    "provider_timeout_seconds": 3600,
+    "source_kernel": "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1",
+    "title": "WNN D02 Muon Loss GPU 20261009 V2",
+    "title_slug_matches_id": true,
+    "worker_wall_seconds": 3300
+  },
+  "packet_id": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v2",
+  "producer": {
+    "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+    "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+    "cpu_profile_sha256": "c371f3c70e79e69de8b382b442869d2e06e72ea4890a16d19b22923d7c82825e",
+    "cpu_validation_sha256": "84686dff926036b37362a3ea28edcf2166d0bb44bee11b2fcbd64082e4b5cf35",
+    "fold0_auxiliary_mount_validation": {
+      "asset_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+      "dataset": "vladkochetov07/wnn-c20261004-fold0-assets",
+      "files": [
+        {
+          "path": "cache/chain_folds.npz",
+          "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+          "size_bytes": 550072
+        },
+        {
+          "path": "cache/chains.npz",
+          "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+          "size_bytes": 650142
+        },
+        {
+          "path": "cache/train_targets.npz",
+          "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+          "size_bytes": 1909335790
+        },
+        {
+          "path": "cache/valid_targets.npz",
+          "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+          "size_bytes": 337186198
+        }
+      ],
+      "method": "one bounded SHA-256 pass with DONTNEED advice and exact split/registry binding; symlink into cache; each fit process checks the sealed receipt plus path/stat identity without rehashing the large NPZs"
+    },
+    "membership_sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+    "mount_validation": "runtime one-pass full cache hashing with DONTNEED, then read-only mmap; no Parquet and no cache copy",
+    "phase_log_sha256": "cee62c0cdfa0a8b13998690fa49a7b111b56798a8ff6baf09e0a06b315c008e5",
+    "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "source_stage_receipt_sha256": "557cd0a61f1129f811dc104398c3c9c7295c3343a1c9a302018fcb588c0c1de7",
+    "source_verification_sha256": "1ccd91ccec85bd157cbd0244ae9032316b88d781a0caf19daf7a027f3a908567",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "r4_control_parent": {
+    "arms": {
+      "huber_d1": {
+        "checkpoint_sha256": "b61b5026386273b11db871f06f09eda7654af5814c066e850274e32d9cdfca77",
+        "checkpoint_size_bytes": 3922155,
+        "completed_updates": 220,
+        "fixed_epoch": 1,
+        "normalization_sha256": "d096115cb59a7462608d5d11df29ba77142aac03527f26fbb2a8534077e57849",
+        "prediction_export": "pending R5 export-only recovery",
+        "sample_orders_sha256": "cbb972a29278617890ac3e51d9f4d3cb954d392192aef3ebe044b8a71a8ec523",
+        "skipped_updates": 0
+      },
+      "wmse": {
+        "checkpoint_sha256": "71fcba3d9eaff3710f8fd42f3778ef74cd425f11977668a5575c21563a82c309",
+        "checkpoint_size_bytes": 3922155,
+        "completed_updates": 220,
+        "fixed_epoch": 1,
+        "normalization_sha256": "d096115cb59a7462608d5d11df29ba77142aac03527f26fbb2a8534077e57849",
+        "prediction_export": "pending R5 export-only recovery",
+        "sample_orders_sha256": "cbb972a29278617890ac3e51d9f4d3cb954d392192aef3ebe044b8a71a8ec523",
+        "skipped_updates": 0
+      }
+    },
+    "cache_runtime_validation_receipt_sha256": "f6452f4b03abf7c66a219008458e431a8c1b6a2ffba961f63e5f57d1e936076f",
+    "completed_fits_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_GPU_R4_COMPLETED_FITS_REVIEW_R1.json",
+      "sha256": "701987320ad045a4688e633cef19d59fb8b940cb1a75f53b089deaeb0a070e47",
+      "state": "completed_fits_verified_export_pending"
+    },
+    "control_contract_admitted": false,
+    "kernel_id": "vladkochetov07/wnn-loss-pair-gpu-20261009-v4",
+    "kernel_source_sha256": "86346f9c1addefbd38d3dcec52b18f514698a9514e7917aeb6081cc32f7eb039",
+    "note": "Do not fit or enable push until R5 restores the export/training contract and root reviews its exact hash and mounted artifacts.",
+    "operator_terminal_collection_receipt_sha256": "1bed2d7befbdd25b487f15f0b8788b8e514783058a2c7d5f683b31ff70a7500c",
+    "packet_sha256": "dd1f57dc288b8b75df349f150170c6fc60cdff474f2f6f14897baa60b9fcc16a",
+    "quality_score": null,
+    "reader_module_sha256": "35431e48583b1523188b3d6084fa12be23e7379560a323411655bf561507a693",
+    "schema": "wnn.d02.r4-control-parent-binding.v1",
+    "shared_prefit_and_schedule": {
+      "initial_state_identical_across_arms": true,
+      "normalization_sha256": "d096115cb59a7462608d5d11df29ba77142aac03527f26fbb2a8534077e57849",
+      "sample_orders_sha256": "cbb972a29278617890ac3e51d9f4d3cb954d392192aef3ebe044b8a71a8ec523",
+      "schedule_rows": 220,
+      "updates_verified_per_arm": 220
+    },
+    "source_asset_manifest_sha256": "8ef360536ca117232198a4ee6dd8fabf072fb7bfad9812a83972d8bfb750f584",
+    "source_commits": {
+      "opaque_source_payload": "1f4e08f02ff3c8abbc20ecc7e7dc369427810143",
+      "packet_kernel": "cc59806075863f41fe08c7a73a14c289a4bd4c39",
+      "reader_fix": "1bc0fbacf53cdc08a8c4664c6f66f38f8980092c"
+    },
+    "state": "fits_verified_export_recovery_pending",
+    "terminal_attempt_result_sha256": "b708bf12e32673b9f0e516dfa486733f7c356797e7dc0ae4f4c65178acf09232",
+    "training_contract_sha256": null
+  },
+  "root_admission_required_before_dataset_creation_or_kernel_push": true,
+  "root_admission_sha256": "88aa261bba56bb833a5e35d8835c9f184d06e72a8cfaf7eb6d183fce81184fdf",
+  "schema": "wnn.d02.kaggle-muon-loss-packet.v2",
+  "source": {
+    "archive_sha256": "3d86386dcde2ea099610f949004ceb64dc9200fcf511333caf79539f2d62e8c0",
+    "archive_size_bytes": 393526,
+    "asset_manifest_sha256": "df7c0bfd6155fe8ff043c10ba663da31e60b8d12b83853e6e9526738a520cbad",
+    "code_files": [
+      {
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "size_bytes": 1388846
+      },
+      {
+        "path": "research/campaign_2026-10-04/portable_inputs.json",
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+        "size_bytes": 2104
+      },
+      {
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/loss_pair_r1_membership_fold0_f03_s20261009.json",
+        "sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+        "size_bytes": 253578
+      },
+      {
+        "path": "scripts/loss_pair_gpu_worker.py",
+        "sha256": "1c8f605e678a98868cec9ff42548160ab3f809838248888bc1b1f6f6dccd851f",
+        "size_bytes": 61864
+      },
+      {
+        "path": "scripts/predict_run.py",
+        "sha256": "74d1eac17add3f9461e1205bac0eb5b6a78facd567898d679b15bdfa5bed4f5c",
+        "size_bytes": 14174
+      },
+      {
+        "path": "scripts/profile_parsed_sequence_cache.py",
+        "sha256": "5e5deb5cf0a89d09fe434f8e33f4fc2ef279feb85c5230f224d0faaebfafdd61",
+        "size_bytes": 5012
+      },
+      {
+        "path": "scripts/train_rnn.py",
+        "sha256": "4ff119dc7788500448e1918fea08337bf7a571c6c07d9c83b6f3cdb9cc31030c",
+        "size_bytes": 187818
+      },
+      {
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+        "size_bytes": 63
+      },
+      {
+        "path": "src/wnn/bandit_campaign_recipe.py",
+        "sha256": "883bc6415345ec5e4deff56be13fc0ae0be8791702e999898dfdb3557a5a6374",
+        "size_bytes": 34735
+      },
+      {
+        "path": "src/wnn/block_memory_attention.py",
+        "sha256": "a05c04d49f258d808ddb4fc4f7373a7bef57963050619f96698822e61840cc39",
+        "size_bytes": 6009
+      },
+      {
+        "path": "src/wnn/campaign.py",
+        "sha256": "35dd701fdb33c50494a3c781a315731212da22f41cae331f2f85073af0637605",
+        "size_bytes": 20774
+      },
+      {
+        "path": "src/wnn/campaign_local.py",
+        "sha256": "0213ff7a809ce898be5d3180c15e31d228ad6f3f03f1f08fd968f9186e91353d",
+        "size_bytes": 24324
+      },
+      {
+        "path": "src/wnn/campaign_spec.py",
+        "sha256": "5136703299585e81a9463a253133ba7f12da2c64ea863776c005d1fc5d3e8d7b",
+        "size_bytes": 10334
+      },
+      {
+        "path": "src/wnn/csrc/symreg_screen.cpp",
+        "sha256": "413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7",
+        "size_bytes": 4986
+      },
+      {
+        "path": "src/wnn/d02_controls.py",
+        "sha256": "c6b01d428c0439c6f70be1cc197d66df63d2d1e696e10697b1849d2965157638",
+        "size_bytes": 5849
+      },
+      {
+        "path": "src/wnn/d02_reload.py",
+        "sha256": "9a9c7dbd716472fa82ffb4dbdf431ac89f5dd1f54a38b6b9b64776fbb9390ede",
+        "size_bytes": 3476
+      },
+      {
+        "path": "src/wnn/data.py",
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+        "size_bytes": 4000
+      },
+      {
+        "path": "src/wnn/distillation.py",
+        "sha256": "5d68b03204b9413d2412533a7aa75ae0759276dacbbed4035b846da1d38350e2",
+        "size_bytes": 7875
+      },
+      {
+        "path": "src/wnn/distillation_cache.py",
+        "sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19",
+        "size_bytes": 10084
+      },
+      {
+        "path": "src/wnn/evaluation.py",
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+        "size_bytes": 8080
+      },
+      {
+        "path": "src/wnn/event_content.py",
+        "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+        "size_bytes": 7226
+      },
+      {
+        "path": "src/wnn/features.py",
+        "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "size_bytes": 5421
+      },
+      {
+        "path": "src/wnn/fold0_assets.py",
+        "sha256": "d1cc7d418c215523ece55836ec4b3f9e4e2c9cd6f51bda5f9422d9901c354f69",
+        "size_bytes": 14001
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size_bytes": 8902
+      },
+      {
+        "path": "src/wnn/heuristics.py",
+        "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e",
+        "size_bytes": 9025
+      },
+      {
+        "path": "src/wnn/infer.py",
+        "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9",
+        "size_bytes": 2377
+      },
+      {
+        "path": "src/wnn/markov.py",
+        "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2",
+        "size_bytes": 2624
+      },
+      {
+        "path": "src/wnn/metric.py",
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+        "size_bytes": 4806
+      },
+      {
+        "path": "src/wnn/nn.py",
+        "sha256": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+        "size_bytes": 21127
+      },
+      {
+        "path": "src/wnn/numeric_ple.py",
+        "sha256": "229a7e0f032cd65bbf6700fa9372c08016b20e4719cb2f9eddd540ff8c468720",
+        "size_bytes": 9598
+      },
+      {
+        "path": "src/wnn/optim.py",
+        "sha256": "c6036f4901eb770f887757af291b753dc653904b367be4e725a747841b107b64",
+        "size_bytes": 12749
+      },
+      {
+        "path": "src/wnn/outcomes.py",
+        "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+        "size_bytes": 4538
+      },
+      {
+        "path": "src/wnn/parsed_sequence_cache.py",
+        "sha256": "e65de5a8a86a9353d5e0e96f266ce48141fb63aaf64d5e0f17f43d61855c2bac",
+        "size_bytes": 39480
+      },
+      {
+        "path": "src/wnn/parsed_sequence_cache_reader.py",
+        "sha256": "35431e48583b1523188b3d6084fa12be23e7379560a323411655bf561507a693",
+        "size_bytes": 18631
+      },
+      {
+        "path": "src/wnn/portability.py",
+        "sha256": "a35f84ee5c95fd45cd76aa5f34f7013c8e1c5963a6306b0e4049386515589a44",
+        "size_bytes": 2239
+      },
+      {
+        "path": "src/wnn/privileged.py",
+        "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4",
+        "size_bytes": 6608
+      },
+      {
+        "path": "src/wnn/propensity.py",
+        "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+        "size_bytes": 1404
+      },
+      {
+        "path": "src/wnn/quantization.py",
+        "sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077",
+        "size_bytes": 6050
+      },
+      {
+        "path": "src/wnn/quantization_export.py",
+        "sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0",
+        "size_bytes": 3968
+      },
+      {
+        "path": "src/wnn/research_features.py",
+        "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8",
+        "size_bytes": 6234
+      },
+      {
+        "path": "src/wnn/resources.py",
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+        "size_bytes": 4485
+      },
+      {
+        "path": "src/wnn/run_identity.py",
+        "sha256": "d2f42ffb6d870007cfc6ee87b6d844dca54ea7bf0b87076684496b014be0457a",
+        "size_bytes": 4903
+      },
+      {
+        "path": "src/wnn/sentinel.py",
+        "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec",
+        "size_bytes": 8603
+      },
+      {
+        "path": "src/wnn/sentinel_calibration.py",
+        "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599",
+        "size_bytes": 8550
+      },
+      {
+        "path": "src/wnn/specialist.py",
+        "sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400",
+        "size_bytes": 12064
+      },
+      {
+        "path": "src/wnn/splits.py",
+        "sha256": "141973c528f515ea07af23b5d32ddd1c2025443438eb2d43fb2914c57836701c",
+        "size_bytes": 13281
+      },
+      {
+        "path": "src/wnn/spread_aux.py",
+        "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512",
+        "size_bytes": 7553
+      },
+      {
+        "path": "src/wnn/streaming.py",
+        "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e",
+        "size_bytes": 2422
+      },
+      {
+        "path": "src/wnn/structured_state.py",
+        "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+        "size_bytes": 9963
+      },
+      {
+        "path": "src/wnn/symreg.py",
+        "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849",
+        "size_bytes": 11386
+      },
+      {
+        "path": "src/wnn/tcn_ref.py",
+        "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa",
+        "size_bytes": 3511
+      },
+      {
+        "path": "src/wnn/ticks.py",
+        "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8",
+        "size_bytes": 4946
+      },
+      {
+        "path": "src/wnn/training_calibration.py",
+        "sha256": "30923120c1bd9773556556ee0fbbab5d8db4a5f4232c48b81f11fa87a5e74e52",
+        "size_bytes": 2694
+      },
+      {
+        "path": "src/wnn/training_controls.py",
+        "sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39",
+        "size_bytes": 10695
+      },
+      {
+        "path": "src/wnn/training_credit.py",
+        "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd",
+        "size_bytes": 2225
+      },
+      {
+        "path": "src/wnn/training_dynamics.py",
+        "sha256": "d57435bf30c5d6e1a7d5036331d4f9f7a3e7c0b885a8ceb15fd5e7262c3182c5",
+        "size_bytes": 16455
+      },
+      {
+        "path": "src/wnn/training_factorized.py",
+        "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2",
+        "size_bytes": 7615
+      },
+      {
+        "path": "src/wnn/training_qat.py",
+        "sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72",
+        "size_bytes": 6146
+      },
+      {
+        "path": "src/wnn/training_sampling.py",
+        "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2",
+        "size_bytes": 6540
+      },
+      {
+        "path": "src/wnn/training_state.py",
+        "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac",
+        "size_bytes": 8689
+      },
+      {
+        "path": "src/wnn/training_views.py",
+        "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142",
+        "size_bytes": 3065
+      },
+      {
+        "path": "src/wnn/twoclock_ref.py",
+        "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44",
+        "size_bytes": 3732
+      },
+      {
+        "path": "src/wnn/viz.py",
+        "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5",
+        "size_bytes": 4297
+      }
+    ],
+    "code_manifest_sha256": "a135c05d41193ae6fae90dbdcaf9bf8ff0f33b269dff25e4239809b0f0ce4f25",
+    "fold0_asset_dataset": "vladkochetov07/wnn-c20261004-fold0-assets",
+    "fold0_asset_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+    "private_upload_files": [
+      {
+        "path": "assets-manifest.json",
+        "sha256": "df7c0bfd6155fe8ff043c10ba663da31e60b8d12b83853e6e9526738a520cbad",
+        "size_bytes": 1525
+      },
+      {
+        "path": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "size_bytes": 1388846
+      },
+      {
+        "path": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c.wnn",
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+        "size_bytes": 2104
+      },
+      {
+        "path": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd.wnn",
+        "sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+        "size_bytes": 253578
+      },
+      {
+        "path": "a135c05d41193ae6fae90dbdcaf9bf8ff0f33b269dff25e4239809b0f0ce4f25.wnn",
+        "sha256": "a135c05d41193ae6fae90dbdcaf9bf8ff0f33b269dff25e4239809b0f0ce4f25",
+        "size_bytes": 10694
+      },
+      {
+        "path": "3d86386dcde2ea099610f949004ceb64dc9200fcf511333caf79539f2d62e8c0.wnn",
+        "sha256": "3d86386dcde2ea099610f949004ceb64dc9200fcf511333caf79539f2d62e8c0",
+        "size_bytes": 393526
+      },
+      {
+        "path": "dataset-metadata.json",
+        "sha256": "1456e29983876e5087c855a319bb477cd548433c1fc6b4076cc54900f734b90d",
+        "size_bytes": 189
+      }
+    ],
+    "source_commit": "df81ef0de614de954249f1d37c9a55402a2e2c83",
+    "source_dataset": "vladkochetov07/wnn-d02-muon-loss-code-20261009-r2",
+    "source_dataset_title": "WNN D02 Muon Loss Code 20261009 R2",
+    "source_dataset_title_slug_matches_id": true,
+    "trainer_base_commit": "d5daaa0f90b0362877522703c7e17aa78c19cac9",
+    "upload_inventory": [
+      {
+        "filename": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn",
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "size": 1388846
+      },
+      {
+        "filename": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c.wnn",
+        "path": "research/campaign_2026-10-04/portable_inputs.json",
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+        "size": 2104
+      },
+      {
+        "filename": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd.wnn",
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/loss_pair_r1_membership_fold0_f03_s20261009.json",
+        "sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+        "size": 253578
+      },
+      {
+        "filename": "a135c05d41193ae6fae90dbdcaf9bf8ff0f33b269dff25e4239809b0f0ce4f25.wnn",
+        "path": "source-code-manifest.json",
+        "sha256": "a135c05d41193ae6fae90dbdcaf9bf8ff0f33b269dff25e4239809b0f0ce4f25",
+        "size": 10694
+      },
+      {
+        "filename": "3d86386dcde2ea099610f949004ceb64dc9200fcf511333caf79539f2d62e8c0.wnn",
+        "path": "wnn_loss_pair_src.tar.gz",
+        "sha256": "3d86386dcde2ea099610f949004ceb64dc9200fcf511333caf79539f2d62e8c0",
+        "size": 393526
+      }
+    ]
+  },
+  "status": "sealed_candidate_waiting_root_review_and_admission"
+}

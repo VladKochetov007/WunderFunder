@@ -1,0 +1,11 @@
+# D02 identified R2 source successor
+
+D02 R2 preserves the frozen R1 science, optimizer policy, fit argv, sample membership and output requirements. It is a new, non-admitted packet bound to the completed R4 AdamW parent; R1 remains unchanged.
+
+The 63-file source closure differs from D02 R1 in exactly two files. `src/wnn/parsed_sequence_cache_reader.py` is the exact R4 audited reader (SHA-256 `35431e48583b1523188b3d6084fa12be23e7379560a323411655bf561507a693`, provenance commit `1bc0fbacf53cdc08a8c4664c6f66f38f8980092c`). `scripts/loss_pair_gpu_worker.py` removes the unsupported `--device cuda` pair only from prediction export; `predict_run.py` selects CUDA internally and its actual parser rejected that option in R4. The worker's code-source dataset identity is the new R2 ID. The source diff is otherwise empty, including training, optimizer, membership, loss and schedule code.
+
+The packet binds GPU R4 `vladkochetov07/wnn-loss-pair-gpu-20261009-v4` and records the reviewed packet, kernel, source-asset manifest, completed-fit review, collection receipts, and both exact checkpoint hashes. Root review verified both 16-tensor checkpoints are finite, match their own fixed epoch-1 states, share fresh initialization, normalization, sample orders and 220 LR/beta rows, and completed 220 updates with no AMP skips. Each model file is 3,922,155 bytes. Its score is unknown because R4 prediction export failed before evaluation.
+
+R2 deliberately leaves `gpu_control_contract_sha256` null and both push/conditional-fit flags false. The training contract and predictions remain pending the operator-owned R5 export-only recovery and root review. The packet cannot launch until root binds the resulting exact contract and mounted artifacts. No R2 GPU fit or device gate is claimed.
+
+`check_sealed_candidate_r2.py` validates the exact embedded source archive and bootstrap offline, then imports the worker and checks trainer/predictor CLI help without GPU access. `tests/test_d02_r2_export_cli.py` uses the actual collected R4 WMSE and Huber checkpoints by hash and their recorded run names, calls the candidate worker's exact export-command builder, and runs the candidate predictor parser with `--help`; it never loads a model or performs inference.

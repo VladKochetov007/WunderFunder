@@ -1,0 +1,32 @@
+{
+  "state": "pass",
+  "source_commit": "df81ef0de614de954249f1d37c9a55402a2e2c83",
+  "source_code_manifest_sha256": "a135c05d41193ae6fae90dbdcaf9bf8ff0f33b269dff25e4239809b0f0ce4f25",
+  "bootstrap_sha256": "17a13ec9cba165a00b8c19cd689182a06ac74fd6a8c8261ed5e7bc02732a700c",
+  "control_kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v4",
+  "control_contract_sha256": null,
+  "checks": [
+    {
+      "entrypoint": "loss_pair_gpu_worker.py",
+      "returncode": 0,
+      "check": "import",
+      "stderr_bytes": 0,
+      "gpu_work": false
+    },
+    {
+      "entrypoint": "train_rnn.py",
+      "returncode": 0,
+      "check": "help",
+      "stderr_bytes": 0,
+      "gpu_work": false
+    },
+    {
+      "entrypoint": "predict_run.py",
+      "returncode": 0,
+      "check": "help",
+      "stderr_bytes": 0,
+      "gpu_work": false
+    }
+  ],
+  "actual_device_validation": false
+}
