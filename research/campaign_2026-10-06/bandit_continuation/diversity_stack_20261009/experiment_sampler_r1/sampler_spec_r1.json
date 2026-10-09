@@ -1,0 +1,30 @@
+{
+  "schema": "wnn.diversity.recipe-sampler-spec.v1",
+  "max_recipes": 24,
+  "candidate_pool_path": "candidate_pool_r1.jsonl",
+  "trainer_cli_choices": [
+    "scripts/train_rnn.py",
+    "src/wnn/training_dynamics.py"
+  ],
+  "source_code_paths": [
+    "scripts/train_rnn.py",
+    "src/wnn/nn.py",
+    "src/wnn/training_dynamics.py",
+    "src/wnn/optim.py"
+  ],
+  "mandatory_candidate_ids": [
+    "A_adamw_wmse",
+    "B_adamw_huber_d1",
+    "C_muon_wmse",
+    "D_muon_huber_d1"
+  ],
+  "coverage_reserve_tags": [
+    "representation",
+    "activation",
+    "schedule",
+    "sample",
+    "precision",
+    "loss_shape",
+    "optimizer"
+  ]
+}
