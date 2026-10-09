@@ -1,10 +1,11 @@
 {
- "attempt": "h230-f1-s3-lr2e4-fit-r1",
- "kind": "gpu",
- "cpus": 3,
- "reserve_bytes": 9000000000,
- "profile": "H230 student fit (fold0 2000s, 9GB, 2.7GB VRAM)",
- "contract": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/contracts/h230-f1-s3-lr2e4-fit-r1.json",
+ "schema": "wnn.local-queue-item-contract.v1",
+ "created_utc": "2026-10-09T07:18:40.842993+00:00",
+ "attempt": "h230-f1-s3-lr2e4-fit-r2",
+ "authorization": "User 2026-10-09: keep all compute utilized; root decides promising experiments and cross-validates them",
+ "basis": "H230 f1 student argv with variant {'lr': '0.0002'}",
+ "note": "student learning rate 2e-4 vs 1e-4",
+ "exposure": "f1 evaluation groups historically exposed; excluded from fitting",
  "argv": [
   "/usr/bin/timeout",
   "--signal=TERM",
@@ -95,7 +96,5 @@
   "0",
   "--fast",
   "--save-training-state"
- ],
- "after": [],
- "admission_timeout": 900
+ ]
 }

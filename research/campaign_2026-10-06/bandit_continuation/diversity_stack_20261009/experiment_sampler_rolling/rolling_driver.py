@@ -201,6 +201,7 @@ def sample_round(tag: str, fold: int = 0) -> list[str]:
         # Cross-fold confirmation: matched controls first, then the best fold-0 recipes.
         priority = ["wmse_gelu_onecycle", "wmse_gelu_wsd_d0p2f0p01", *fold0_ranking()]
         remaining = [key for key in dict.fromkeys(priority) if key not in done]
+    remaining = [key for key in remaining if not key.startswith("huber")]  # 2026-10-10 evidence report: Huber -0.009 (CI excludes 0)
     picked = remaining[:ARMS_PER_ROUND]
     return picked[: len(picked) // 2 * 2]
 
