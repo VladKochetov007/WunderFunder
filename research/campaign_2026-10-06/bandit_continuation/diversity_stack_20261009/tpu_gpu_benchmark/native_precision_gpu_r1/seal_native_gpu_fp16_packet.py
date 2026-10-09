@@ -188,7 +188,7 @@ def _native_kernel(
     native_main = (
         main_marker
         + "        native_asset_root, native_manifest = discover_native_asset_manifest()\n"
-        + "        native_source_manifest = unpack_native_overlay(native_asset_root, native_manifest)\n"
+        + "        unpack_native_overlay(native_asset_root, native_manifest)\n"
     )
     if source.count(main_marker) != 1:
         raise ValueError("R4 main bootstrap invocation changed")
