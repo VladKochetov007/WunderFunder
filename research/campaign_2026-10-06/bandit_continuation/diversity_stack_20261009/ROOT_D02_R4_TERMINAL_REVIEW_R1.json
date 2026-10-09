@@ -1,0 +1,83 @@
+{
+  "schema": "wnn.d02-r4.root-terminal-review.r1",
+  "created_utc": "2026-10-09T03:31:46.328727+00:00",
+  "reviewer": "root independent of actor",
+  "state": "execution_failure_verified_no_full_fits",
+  "terminal_receipt_sha256": "546c267622e6968d318e6ff5d27bb1e4011e3766c3431d9f34420e9b3bafeba8",
+  "files_independently_hashed": 108,
+  "artifact_root": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r4_admitted_r2/terminal_collect_r1/attempt_001/outputs",
+  "failure": {
+    "elapsed_seconds": 99.09338755600004,
+    "error": "actual-T4 pre-fit producer omitted artifacts: ['profile_inputs.npz']",
+    "error_type": "WorkerRejected",
+    "state": "failed",
+    "traceback": "Traceback (most recent call last):\n  File \"/kaggle/working/wnn/scripts/loss_pair_gpu_worker.py\", line 1494, in main\n    result = run_worker(bootstrap_receipt)\n  File \"/kaggle/working/wnn/scripts/loss_pair_gpu_worker.py\", line 1359, in run_worker\n    loss: _run_device_shape_update_gate(\n          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n        manifest_path, runtime_validation, runtime_validation_sha, inventory, deadline, loss\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/kaggle/working/wnn/scripts/loss_pair_gpu_worker.py\", line 1146, in _run_device_shape_update_gate\n    raise WorkerRejected(f\"actual-T4 pre-fit producer omitted artifacts: {missing}\")\nWorkerRejected: actual-T4 pre-fit producer omitted artifacts: ['profile_inputs.npz']\n"
+  },
+  "actual_hardware": {
+    "devices": [
+      {
+        "compute_capability": [
+          7,
+          5
+        ],
+        "name": "Tesla T4",
+        "total_memory_bytes": 15636037632,
+        "visible_index": 0
+      },
+      {
+        "compute_capability": [
+          7,
+          5
+        ],
+        "name": "Tesla T4",
+        "total_memory_bytes": 15636037632,
+        "visible_index": 1
+      }
+    ],
+    "schema": "wnn.loss-pair.gpu-inventory.v1"
+  },
+  "profiles": {
+    "wmse": {
+      "update_evidence": {
+        "optimizer_attempts": 10,
+        "optimizer_completed_updates": 10,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 10,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 10,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "log_sha256": "d947ab15b3e962660ba38d6a99de2bf8c479bd2b1c36fcbe4067dc8944087b9e",
+      "has_profile_inputs": true
+    },
+    "huber": {
+      "update_evidence": {
+        "optimizer_attempts": 10,
+        "optimizer_completed_updates": 10,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 10,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 10,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "log_sha256": "24245d79922aa618b9aacca870e5cb2355879b68a41404dcad7381860d4edb0b",
+      "has_profile_inputs": false
+    }
+  },
+  "diagnosis": "Trainer emits profile_inputs.npz only for WMSE; gate consumer requires it for both losses. Preserve actual Huber absence. Identified R5 may repair producer without changing objective.",
+  "dispatch_deviation": "Actor omitted explicit accelerator option. Read-only metadata and actual worker both confirm requested T4 hardware; no retry/cancellation performed.",
+  "claim_limit": "No Muon full-fit checkpoint, prediction or scientific score. Ten-update profiles are not completed research comparisons.",
+  "next_owner": "Luna runner: repair producer condition, exercise actual artifacts, submit sealed R5 for root review",
+  "quota_receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/FRESH_GPU_QUOTA_ADMISSION_R1.json",
+  "quota_receipt_sha256": "7b13ba4960494dc4dcf265c800a528a7dee90e5327153ce451995ab2cfe84f7f"
+}
