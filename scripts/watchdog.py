@@ -1,0 +1,240 @@
+"""Lane watchdog: one pass over every compute lane, alerts only on state changes.
+
+Lanes: the receipt-owned Vast instance and its job queue, the local GPU queue and its admission barrier, the Kaggle
+capacity kernel, systemd timers and failed units, disk and memory.  Each pass compares the set of active problems with the
+previous pass; new problems become ``ALERT`` rows and cleared ones ``RECOVERED`` rows in ``ALERTS.jsonl`` (and a desktop
+notification with ``--notify``).  A broken check is itself an alert, so silence means every check ran and passed.
+
+    scripts/watchdog.py --once --notify          # systemd timer, every few minutes
+    tail -F research/.../watchdog/ALERTS.jsonl   # what the session monitor follows
+
+Consecutive-failure counts keep one-off blips (a slow ssh, a gap between queued jobs) from alerting.
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+import shutil
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+BC = ROOT / "research/campaign_2026-10-06/bandit_continuation"
+VAST = BC / "vast_teachers_r1"
+WATCH = BC / "watchdog"
+STATE_PATH = ROOT / ".runtime/watchdog_state.json"
+HEARTBEAT = ROOT / ".runtime/watchdog_heartbeat"
+KAGGLE_KERNELS = ["vladkochetov07/e529-gru512-768-muon-fit-v5r2-20261009"]
+EXPECTED_TIMERS = ["wnn-local-queue-r1", "wnn-vast-tick3", "wnn-grade-bank", "wnn-campaign-kaggle-poller"]
+SPEND_WARN = 9.6  # fraction of the tick cap (12) where a warning starts
+
+
+def now() -> str:
+    return dt.datetime.now(dt.UTC).isoformat(timespec="seconds")
+
+
+def sh(args: list[str], timeout: int = 60) -> str:
+    return subprocess.run(args, capture_output=True, text=True, timeout=timeout, check=False).stdout
+
+
+class Problems:
+    """Active problems of this pass with a persistence requirement (consecutive passes before alerting)."""
+
+    def __init__(self, previous_counts: dict[str, int]) -> None:
+        self.counts: dict[str, int] = {}
+        self.messages: dict[str, tuple[str, str]] = {}
+        self.previous = previous_counts
+
+    def add(self, key: str, severity: str, message: str, needed: int = 1) -> None:
+        count = self.previous.get(key, 0) + 1
+        self.counts[key] = count
+        self.messages[key] = (severity, message)
+        self.needed = getattr(self, "needed", {})
+        self.needed[key] = needed
+
+    def active(self) -> dict[str, tuple[str, str]]:
+        return {k: v for k, v in self.messages.items() if self.counts[k] >= self.needed[k]}
+
+
+def check_vast(problems: Problems, state: dict) -> None:
+    sys.path.insert(0, str(VAST))
+    import controller
+
+    receipt_path = controller.RECEIPT
+    if not receipt_path.exists():
+        return
+    receipt = json.loads(receipt_path.read_text())
+    if receipt.get("state") == "destroyed_verified":
+        return
+    row = json.loads(controller.vast("show", "instance", str(receipt["instance_id"])))
+    if row.get("actual_status") != "running":
+        problems.add("vast_instance_not_running", "CRIT",
+                     f"Vast instance {receipt['instance_id']} status {row.get('actual_status')} (intended {row.get('intended_status')})", 2)
+        return
+    try:
+        info = controller.probe()
+    except Exception as error:  # noqa: BLE001 - ssh failures are the signal
+        problems.add("vast_ssh_unreachable", "CRIT", f"cannot read the Vast host over ssh: {type(error).__name__}", 2)
+        return
+    if not info.get("GPU"):
+        problems.add("vast_probe_empty", "CRIT", "ssh worked but the host probe returned nothing", 2)
+        return
+    pending = int(info.get("PENDING", "0 RUNNING 0").split()[0])
+    in_flight = int(info.get("PENDING", "0 RUNNING 0").split("RUNNING")[1].split()[0])
+    utils = [float(x.split(",")[0]) for x in info["GPU"].split(";") if x.strip()]
+    if (pending or in_flight) and utils and max(utils) < 40:
+        problems.add("vast_gpu_idle_with_queue", "WARN",
+                     f"Vast GPUs idle (util {utils}) with {pending} pending and {in_flight} running jobs", 3)
+    daemon = controller.ssh("pgrep -fc '^python remote_refill.py' || true", timeout=40).stdout.strip()
+    if (pending or in_flight) and daemon in ("", "0"):
+        problems.add("vast_refill_daemon_dead", "CRIT", f"refill daemon not running with {pending} jobs pending", 2)
+    stale = controller.ssh(
+        "cd /root/run; for j in $(ls refill/running 2>/dev/null | sed 's/\\.json//'); do n=${j#*_}; "
+        "f=$(ls -t logs/${n}.*.log 2>/dev/null | head -1); [ -n \"$f\" ] && echo \"$n $(( ($(date +%s)-$(stat -c %Y $f))/60 ))\"; done",
+        timeout=40).stdout
+    for line in stale.splitlines():
+        name, _, age = line.partition(" ")
+        if age.strip().isdigit() and int(age) > 15:
+            problems.add(f"vast_job_stalled:{name}", "WARN", f"{name}: log not updated for {age} min", 2)
+    failed = controller.ssh("ls /root/run/refill/done | grep -v '\\.rc0\\.json$' || true", timeout=40).stdout.split()
+    seen = set(state.setdefault("vast_failed_seen", []))
+    for name in failed:
+        if name not in seen:
+            problems.add(f"vast_job_failed:{name}", "CRIT", f"Vast job finished with a failure: {name}", 1)
+            state["vast_failed_seen_new"] = state.get("vast_failed_seen_new", []) + [name]
+    hours, cost = controller.spend()
+    if cost >= SPEND_WARN:
+        problems.add("vast_spend_high", "WARN", f"Vast spend ${cost:.2f} on this instance ({hours:.1f} h); cap holds new jobs at $12", 1)
+
+
+def check_local(problems: Problems, state: dict) -> None:
+    barrier = BC / "runtime/STOP_ADMISSION.json"
+    if barrier.exists():
+        reason = json.loads(barrier.read_text()).get("reason", "?")[:160]
+        problems.add("local_admission_barrier_closed", "CRIT", f"local admission closed: {reason}", 1)
+    queue = BC / "local_queue_r1"
+    for folder in ("failed", "launch_failed", "blocked"):
+        names = sorted(p.name for p in (queue / folder).glob("*.json"))
+        seen = set(state.setdefault(f"local_{folder}_seen", names if not state.get("initialized") else []))
+        for name in names:
+            if name not in seen:
+                problems.add(f"local_{folder}:{name}", "CRIT", f"local queue item moved to {folder}: {name}", 1)
+                state.setdefault("local_new", []).append([folder, name])
+    pending = list((queue / "pending").glob("*.json"))
+    log = queue / "runner_log.jsonl"
+    last_event_age = (time.time() - log.stat().st_mtime) / 60 if log.exists() else 9999
+    gpu_apps = [line for line in sh(["nvidia-smi", "--query-compute-apps=pid", "--format=csv,noheader"]).splitlines() if line.strip()]
+    if pending and not gpu_apps and not barrier.exists() and last_event_age > 15:
+        problems.add("local_gpu_idle_with_queue", "WARN",
+                     f"local GPU idle {last_event_age:.0f} min with {len(pending)} queued items and no barrier", 2)
+    timers = sh(["systemctl", "--user", "list-timers", "--all", "--no-pager"])
+    for name in EXPECTED_TIMERS:
+        if name not in timers:
+            problems.add(f"timer_missing:{name}", "CRIT", f"systemd timer {name} is not loaded", 1)
+
+
+def check_systemd(problems: Problems, state: dict) -> None:
+    failed = sorted(line.split()[0] for line in sh(["systemctl", "--user", "--failed", "--no-legend", "--plain"]).splitlines()
+                    if line.strip() and "wnn" in line.split()[0])
+    baseline = set(state.setdefault("failed_units_baseline", failed if not state.get("initialized") else []))
+    for unit in failed:
+        if unit not in baseline:
+            problems.add(f"unit_failed:{unit}", "WARN", f"systemd unit failed: {unit}", 1)
+
+
+def check_kaggle(problems: Problems, state: dict) -> None:
+    last = state.get("kaggle_checked", 0)
+    if time.time() - last < 900:
+        for key, message in state.get("kaggle_problems", {}).items():
+            problems.add(key, message[0], message[1], 1)
+        return
+    state["kaggle_checked"] = time.time()
+    state["kaggle_problems"] = {}
+    for kernel in KAGGLE_KERNELS:
+        out = sh([str(ROOT / ".venv/bin/kaggle"), "kernels", "status", kernel], timeout=60)
+        status = out.strip().splitlines()[-1] if out.strip() else "unknown"
+        previous = state.setdefault("kaggle_status", {}).get(kernel)
+        state["kaggle_status"][kernel] = status
+        if "429" in out or "Too Many" in out or "unknown" in status:
+            continue
+        if any(word in status.upper() for word in ("ERROR", "CANCEL", "FAIL")):
+            key = f"kaggle_kernel_bad:{kernel}"
+            state["kaggle_problems"][key] = ["CRIT", f"Kaggle kernel {kernel}: {status[-120:]}"]
+            problems.add(key, "CRIT", f"Kaggle kernel {kernel}: {status[-120:]}", 1)
+        elif "COMPLETE" in status.upper() and previous and "COMPLETE" not in previous.upper():
+            problems.add(f"kaggle_kernel_done:{kernel}", "INFO", f"Kaggle kernel finished: {kernel} (collect and grade)", 1)
+
+
+def check_resources(problems: Problems, state: dict) -> None:
+    home_free = shutil.disk_usage("/home").free / 1e9
+    if home_free < 15:
+        problems.add("disk_home_critical", "CRIT", f"/home has only {home_free:.0f} GB free", 1)
+    elif home_free < 25:
+        problems.add("disk_home_low", "WARN", f"/home has {home_free:.0f} GB free", 1)
+    meminfo = dict(line.split(":") for line in Path("/proc/meminfo").read_text().splitlines())
+    available = int(meminfo["MemAvailable"].split()[0]) / 1e6
+    if available < 3:
+        problems.add("ram_low", "WARN", f"available RAM {available:.1f} GB", 2)
+
+
+CHECKS = [("vast", check_vast), ("local", check_local), ("systemd", check_systemd), ("kaggle", check_kaggle),
+          ("resources", check_resources)]
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--once", action="store_true", required=True)
+    parser.add_argument("--notify", action="store_true")
+    args = parser.parse_args()
+    STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    WATCH.mkdir(parents=True, exist_ok=True)
+    state = json.loads(STATE_PATH.read_text()) if STATE_PATH.exists() else {}
+    problems = Problems(state.get("counts", {}))
+    for name, check in CHECKS:
+        try:
+            check(problems, state)
+        except Exception as error:  # noqa: BLE001 - a broken check must be visible
+            problems.add(f"watchdog_check_error:{name}", "WARN", f"watchdog check '{name}' failed: {type(error).__name__}: {str(error)[:160]}", 3)
+    active = problems.active()
+    previous_active = state.get("active", {})
+    rows = []
+    for key, (severity, message) in active.items():
+        if key not in previous_active:
+            rows.append({"utc": now(), "event": "ALERT", "severity": severity, "key": key, "message": message})
+    for key, (_severity, message) in previous_active.items():
+        if key not in active and not key.startswith(("vast_job_failed", "local_failed", "local_launch_failed", "local_blocked", "unit_failed", "kaggle_kernel_done")):
+            rows.append({"utc": now(), "event": "RECOVERED", "severity": "INFO", "key": key, "message": f"recovered: {message}"})
+    # one-shot events become 'seen' once alerted so they do not repeat after the problem row disappears
+    for name in state.pop("vast_failed_seen_new", []):
+        state["vast_failed_seen"] = sorted(set(state.get("vast_failed_seen", [])) | {name})
+    for folder, name in state.pop("local_new", []):
+        state[f"local_{folder}_seen"] = sorted(set(state.get(f"local_{folder}_seen", [])) | {name})
+    for key in list(active):
+        if key.startswith(("unit_failed:", "kaggle_kernel_done")):
+            state.setdefault("failed_units_baseline", []).append(key.split(":", 1)[-1])
+    state["initialized"] = True
+    state["counts"] = problems.counts
+    state["active"] = {k: list(v) for k, v in active.items() if not k.startswith(("vast_job_failed", "local_failed", "local_launch_failed", "local_blocked"))}
+    state.pop("kaggle_status_prev", None)
+    STATE_PATH.write_text(json.dumps(state, indent=1))
+    HEARTBEAT.write_text(now())
+    if rows:
+        with (WATCH / "ALERTS.jsonl").open("a") as handle:
+            for row in rows:
+                handle.write(json.dumps(row) + "\n")
+        for row in rows:
+            print(f"{row['event']}|{row['severity']}|{row['key']}|{row['message']}", flush=True)
+            if args.notify and row["event"] == "ALERT" and row["severity"] in ("CRIT", "WARN"):
+                subprocess.run(["notify-send", "-u", "critical" if row["severity"] == "CRIT" else "normal",
+                                f"WNN watchdog {row['severity']}", row["message"][:200]], check=False)
+    return 0
+
+
+if __name__ == "__main__":
+    os.chdir(ROOT)
+    sys.exit(main())

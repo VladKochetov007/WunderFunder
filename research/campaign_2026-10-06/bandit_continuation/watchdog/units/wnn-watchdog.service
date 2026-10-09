@@ -1,0 +1,10 @@
+[Unit]
+Description=WNN lane watchdog (one pass; alerts on state changes only)
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/vlad/development/wunder/wnn_connectome_starterpack
+ExecStart=/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/watchdog.py --once --notify
+CPUQuota=25%
+MemoryMax=800M
+TimeoutStartSec=240
