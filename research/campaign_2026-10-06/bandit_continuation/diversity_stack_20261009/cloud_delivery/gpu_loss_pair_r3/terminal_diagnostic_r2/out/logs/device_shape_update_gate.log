@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/kaggle/working/wnn/scripts/train_rnn.py", line 3357, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/wnn/scripts/train_rnn.py", line 2073, in main
+    load_campaign_split(
+    ~~~~~~~~~~~~~~~~~~~^
+        args.split_manifest,
+        ^^^^^^^^^^^^^^^^^^^^
+        ROOT,
+        ^^^^^
+        preverified_sources=parsed_cache.preverified_sources if parsed_cache is not None else None,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/kaggle/working/wnn/src/wnn/splits.py", line 175, in load_campaign_split
+    raise ValueError("preverified cache receipt is not pinned to this split")
+ValueError: preverified cache receipt is not pinned to this split

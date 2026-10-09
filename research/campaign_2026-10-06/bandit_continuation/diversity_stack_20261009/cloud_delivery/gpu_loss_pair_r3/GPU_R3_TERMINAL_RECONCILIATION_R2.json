@@ -1,0 +1,154 @@
+{
+  "schema": "wnn.kaggle.gpu-loss-pair-terminal-reconciliation.v2",
+  "format_version": 2,
+  "supersedes": {
+    "path": "GPU_R3_WORKER_TERMINAL_DIAGNOSTIC_R1.json",
+    "sha256": "16604f12fed6a058a1bd9a07a10425f9cf76f4f308709ca5a2fac379e1e1936c"
+  },
+  "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v3",
+  "provider_version": 1,
+  "terminal_status": "KernelWorkerStatus.ERROR",
+  "kernel_packet_sha256": "ea31663b696b857c31f3fe1eb2a0ff5dd0e46ad4950423fe4fbd189c0cb91068",
+  "kernel_bootstrap_sha256": "ed1f7d35d3b393bcfc8a7ade6af4c213f84f336be1b726462f346ff7329dfba9",
+  "kernel_metadata_sha256": "75a5463f44d443cc3026c71c8dd3e5227a38ff9fbd8b6d2aab6a13dbc364f61f",
+  "provider_status": {
+    "status": "KernelWorkerStatus.ERROR",
+    "observed_at_utc": "2026-10-09T00:40:54Z",
+    "failure_message": "",
+    "source": "one read-only Kaggle SDK status query in poll_provider.py; no resubmit or cancel"
+  },
+  "worker_result": {
+    "state": "failed_before_fit",
+    "elapsed_seconds": 108.83314604399999,
+    "kernel_boot_utc": "2026-10-09T00:19:21Z",
+    "fold0_assets_verified_utc": "2026-10-09T00:20:32Z",
+    "parsed_cache_verified_utc": "2026-10-09T00:20:32Z",
+    "two_t4_pre_fit_gate_utc": "2026-10-09T00:22:15Z",
+    "failure_utc": "2026-10-09T00:22:21Z",
+    "failure_type": "WorkerRejected",
+    "failure_message": "actual-T4 shape/update gate failed: {'label': 'device_shape_update_gate', 'returncode': 1, 'wall_seconds': 5.330370518999985}",
+    "child_exception": "ValueError: preverified cache receipt is not pinned to this split",
+    "fit_pair_start_observed": false,
+    "science_result": null,
+    "interpretation": "The kernel booted, verified its bound source/cache and fold-0 assets, found two Tesla T4s, and passed the host resource gate. The disposable shape gate failed when ParsedSequenceCache.open passed raw receipt bytes into the split loader's SHA field. This is a consumer-validation failure before either scientific fit; it is not negative loss-comparison evidence."
+  },
+  "quota": {
+    "observed_at_utc": "2026-10-09T00:40:54Z",
+    "cli_package_version": "2.2.4",
+    "source": "read-only authenticated Kaggle SDK quota call; no provider mutation",
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "gpu": {
+      "used_seconds": 69404.162,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_used_seconds": 32356.840999999993,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 24423.67500000001
+    },
+    "tpu": {
+      "used_seconds": 398.431,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "campaign_baseline_used_seconds": 134.623,
+      "campaign_used_seconds": 263.808,
+      "campaign_cap_seconds": 7200.0,
+      "campaign_headroom_seconds": 6936.192
+    },
+    "account_gpu_usage_delta_since_pre_push_observation_seconds": 185.709,
+    "delta_attribution": "Account-level change only; not attributed solely to this kernel."
+  },
+  "provisional_hold": {
+    "ledger_path": "research/campaign_2026-10-06/bandit_continuation/CLOUD_BUDGET_EVENTS.jsonl",
+    "entry": {
+      "type": "loss_pair_gpu_r3_one_push_provisional_hold",
+      "created_utc": "2026-10-09T00:09:35.079079+00:00",
+      "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v3",
+      "seconds": 7200,
+      "source": "diversity_stack_20261009/ROOT_GPU_R3_KERNEL_ADMISSION_R1.json",
+      "reservation_is_actual_consumption": false,
+      "remaining_campaign_gpu_seconds_after_hold": 17409.384000000013
+    },
+    "terminal_close_action": "Root should append the terminal-hold closure after reviewing this exact provider ERROR evidence and quota snapshot."
+  },
+  "source_dataset": {
+    "id": "vladkochetov07/wnn-loss-pair-code-20261009-r3",
+    "title": "WNN Loss Pair Code 20261009 R3",
+    "private": true,
+    "provider_version": 1,
+    "source_commit": "cbf77aa485f072cf92bc123b240ce16c78a5eb30",
+    "assets_manifest_sha256": "eb0ae8d11e62e791bcf768283e84a467125eae17302f1b64ed1537c492de5610",
+    "code_manifest_sha256": "1e20aa3c0009a4af49cb83b1b5ea6d7e8b35049a5a91bc270fece770a736a30b",
+    "archive_sha256": "eaf57f529039961d727534510b1c73a4e0d42b9b0c8c17aad04b62054c26097f",
+    "provider_inventory_version": 1,
+    "opaque_payloads": [
+      {
+        "filename": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn",
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "size_bytes": 1388846,
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      {
+        "filename": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c.wnn",
+        "path": "research/campaign_2026-10-04/portable_inputs.json",
+        "size_bytes": 2104,
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+      },
+      {
+        "filename": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd.wnn",
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/loss_pair_r1_membership_fold0_f03_s20261009.json",
+        "size_bytes": 253578,
+        "sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd"
+      },
+      {
+        "filename": "1e20aa3c0009a4af49cb83b1b5ea6d7e8b35049a5a91bc270fece770a736a30b.wnn",
+        "path": "source-code-manifest.json",
+        "size_bytes": 10370,
+        "sha256": "1e20aa3c0009a4af49cb83b1b5ea6d7e8b35049a5a91bc270fece770a736a30b"
+      },
+      {
+        "filename": "eaf57f529039961d727534510b1c73a4e0d42b9b0c8c17aad04b62054c26097f.wnn",
+        "path": "wnn_loss_pair_src.tar.gz",
+        "size_bytes": 389150,
+        "sha256": "eaf57f529039961d727534510b1c73a4e0d42b9b0c8c17aad04b62054c26097f"
+      }
+    ],
+    "dataset_metadata_sha256": "144d727e234d63a9465f3334a9fd114ef8cd3ec4226fd9930c0275dfb04eb46b"
+  },
+  "terminal_collection": {
+    "collection_complete": true,
+    "collection_scope": "Complete small worker/bootstrap/cache/resource/log inventory; no checkpoint, prediction, NPY, or NPZ payloads were downloaded.",
+    "artifact_directory": "terminal_diagnostic_r2",
+    "recorded_at_utc": "2026-10-09T00:40:54Z",
+    "output_exit_code": 0,
+    "log_exit_code": 0,
+    "files": {
+      "failure.json": {"size_bytes": 970, "sha256": "07598ba601693c39ba38e74a21cfc891f837e119e1219b20a0604ff5bf047e26"},
+      "final_status.json": {"size_bytes": 65, "sha256": "1ea6bb52edb7a1fa02ccfaaaf02b5964675eb12ffd2d1c58461654f80b5f3222"},
+      "fold0_assets_validation.json": {"size_bytes": 6182, "sha256": "3109432c75273acf14d328b6fcef84dd1bed383770857114981ea62f36c3533c"},
+      "heartbeat.json": {"size_bytes": 957, "sha256": "2edcff7770ecbd8ee83db0547f5cc993dceaf404e51ed131b33f4600114dbbbc"},
+      "out/bootstrap_receipt.json": {"size_bytes": 916, "sha256": "e236fcdc076d1ede5923bb9fb396ba792915ce508cf118c897696a20053ec1a0"},
+      "out/gpu_inventory.json": {"size_bytes": 398, "sha256": "3ef9843b8d1fd8d3c78b226b4909fa06a812fc95ce113e51e6b65cbdb398dfec"},
+      "out/logs/cache_profile_verify.log": {"size_bytes": 396, "sha256": "efd3236dce6fda4fa3222ec65b751b1d98b9e684145c3f386cbea0704f099a94"},
+      "out/logs/device_shape_update_gate.log": {"size_bytes": 774, "sha256": "5a874c0e7169f136b63ccc3053627852fb861fca66ae39446fedb9f5beeada83"},
+      "out/shared/cache_reader_profile_runtime.json": {"size_bytes": 3138, "sha256": "c7846f4c3eb2f654518d684f78bd341d83708edac733d47f62935db7ad252055"},
+      "out/shared/cache_validation_runtime.json": {"size_bytes": 3409, "sha256": "7311fe9cb2a838f5e2ec8b255de29d71437f32be8e18881f669c97f0e4803e16"},
+      "out/shared/fold0_assets_validation.json": {"size_bytes": 6182, "sha256": "3109432c75273acf14d328b6fcef84dd1bed383770857114981ea62f36c3533c"},
+      "phase.jsonl": {"size_bytes": 1980, "sha256": "b40df86e783bfcaa0c5417d4c1828bc6cc611a95a1c6aa32c86cb53eabc520ec"},
+      "wnn-loss-pair-gpu-20261009-v3.log": {"size_bytes": 3450, "sha256": "093c864ed2e6a667fd6f513e0106e86240b174c6c2c29ddd3b670a4b6ec29cad"}
+    },
+    "unique_file_count": 13,
+    "total_unique_bytes": 28817,
+    "supplement_command": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle kernels output vladkochetov07/wnn-loss-pair-gpu-20261009-v3 --file-pattern '.*(cache_validation_runtime\\.json|cache_reader_profile_runtime\\.json|cache_profile_verify\\.log|heartbeat\\.json|fold0_assets_validation\\.json)$' -p /tmp/wnn-r3-small-20261009T0040Z"
+  },
+  "poll_snapshot": {
+    "command": "python research/campaign_2026-10-06/cloud_preflight/poll_provider.py --targets /tmp/wnn_r3_exact_target.json --log /tmp/wnn_r3_exact_poll.jsonl",
+    "snapshot_path": "/tmp/wnn_r3_exact_poll.jsonl",
+    "exit_code": 0,
+    "provider_sdk_observation_matches": true
+  },
+  "root_admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_GPU_R3_KERNEL_ADMISSION_R1.json",
+    "sha256": "0ffaaf4b9d3fd5ca8647995f45e4197ecfda9ff16f203dd637f95db717b8feaa"
+  }
+}
