@@ -15,9 +15,30 @@ from pathlib import Path
 from typing import Any
 
 BASE_COMMIT = "d5daaa0f90b0362877522703c7e17aa78c19cac9"
+R4_COMMIT = "1bc0fbacf53cdc08a8c4664c6f66f38f8980092c"
+R4_READER_PATH = (
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
+    "cloud_delivery/gpu_loss_pair_r4/code/src/wnn/parsed_sequence_cache_reader.py"
+)
+R4_READER_SHA256 = "35431e48583b1523188b3d6084fa12be23e7379560a323411655bf561507a693"
+R4_PACKET_PATH = (
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
+    "cloud_delivery/gpu_loss_pair_r4/gpu_loss_pair.packet.json"
+)
+R4_BRIDGE_TEST_PATH = (
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
+    "cloud_delivery/gpu_loss_pair_r4/tests/test_parsed_cache_receipt_bridge.py"
+)
+R4_BRIDGE_TEST_SHA256 = "5602f765c37b6e199b0f399191138dbda8a815c457d9b4172e758c56318a4c9f"
+R4_KERNEL_PATH = (
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
+    "cloud_delivery/gpu_loss_pair_r4/kernel/wnn-loss-pair-gpu-20261009-v4.py"
+)
+R4_PACKET_SHA256 = "dd1f57dc288b8b75df349f150170c6fc60cdff474f2f6f14897baa60b9fcc16a"
+R4_KERNEL_SHA256 = "86346f9c1addefbd38d3dcec52b18f514698a9514e7917aeb6081cc32f7eb039"
 PREFIX = "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_device_comparison_r1"
-KERNEL_TITLE = "WNN Native Device TPU 20261009 V1"
-KERNEL_ID = "vladkochetov07/wnn-native-device-tpu-20261009-v1"
+KERNEL_TITLE = "WNN Native Device TPU 20261009 V2"
+KERNEL_ID = "vladkochetov07/wnn-native-device-tpu-20261009-v2"
 BASE_FILES = tuple(
     f"src/wnn/{name}.py"
     for name in (
@@ -25,7 +46,6 @@ BASE_FILES = tuple(
         "data",
         "splits",
         "parsed_sequence_cache",
-        "parsed_sequence_cache_reader",
         "features",
         "gmetric",
         "nn",
@@ -44,6 +64,8 @@ OWN_FILES = tuple(
         "tpu_packet_runtime.py",
         "tests/test_feature_transform_contract.py",
         "tests/test_gru256_feature_adapter_parity.py",
+        "tests/test_native_precision_tiny.py",
+        "tests/test_native_admission.py",
     )
 )
 CORE_FILE = "research/campaign_2026-10-04/staging/jax_tpu_e465/src/wnn_jax/rnn.py"
@@ -72,16 +94,64 @@ def seal(repo: Path, output: Path, admission_path: Path | None) -> Record:
         ).stdout
         for name in BASE_FILES
     }
+    reader = subprocess.run(
+        ["git", "-C", str(repo), "show", f"{R4_COMMIT}:{R4_READER_PATH}"],
+        capture_output=True,
+        check=True,
+    ).stdout
+    if sha(reader) != R4_READER_SHA256:
+        raise ValueError("frozen R4 parsed-cache reader differs from its audited SHA-256")
+    files["src/wnn/parsed_sequence_cache_reader.py"] = reader
+    r4_packet = subprocess.run(
+        ["git", "-C", str(repo), "show", f"{R4_COMMIT}:{R4_PACKET_PATH}"],
+        capture_output=True,
+        check=True,
+    ).stdout
+    r4_kernel = subprocess.run(
+        ["git", "-C", str(repo), "show", f"{R4_COMMIT}:{R4_KERNEL_PATH}"],
+        capture_output=True,
+        check=True,
+    ).stdout
+    r4_bridge_test = subprocess.run(
+        ["git", "-C", str(repo), "show", f"{R4_COMMIT}:{R4_BRIDGE_TEST_PATH}"],
+        capture_output=True,
+        check=True,
+    ).stdout
+    if sha(r4_packet) != R4_PACKET_SHA256 or sha(r4_kernel) != R4_KERNEL_SHA256:
+        raise ValueError("frozen R4 packet or producer kernel differs from its audited SHA-256")
+    if sha(r4_bridge_test) != R4_BRIDGE_TEST_SHA256:
+        raise ValueError("frozen R4 cache bridge test differs from its audited SHA-256")
+    files.update(
+        {
+            "producer_evidence/r4/gpu_loss_pair.packet.json": r4_packet,
+            "producer_evidence/r4/wnn-loss-pair-gpu-20261009-v4.py": r4_kernel,
+            "producer_evidence/r4/test_parsed_cache_receipt_bridge.py": r4_bridge_test,
+        }
+    )
     for name in (*OWN_FILES, CORE_FILE):
         files[name] = (repo / name).read_bytes()
     source_manifest = {
         "base_commit": BASE_COMMIT,
         "gpu_producer": {
-            "source_commit": "cbf77aa485f072cf92bc123b240ce16c78a5eb30",
-            "packet_commit": "0ca9784f53375ab3110210fcb7b778702e832091",
-            "packet_sha256": "ea31663b696b857c31f3fe1eb2a0ff5dd0e46ad4950423fe4fbd189c0cb91068",
-            "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v3",
-            "source_asset": "vladkochetov07/wnn-loss-pair-code-20261009-r3",
+            "source_commit": R4_COMMIT,
+            "packet_path": "producer_evidence/r4/gpu_loss_pair.packet.json",
+            "packet_sha256": R4_PACKET_SHA256,
+            "kernel_code_path": "producer_evidence/r4/wnn-loss-pair-gpu-20261009-v4.py",
+            "kernel_code_sha256": R4_KERNEL_SHA256,
+            "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v4",
+            "source_asset": "vladkochetov07/wnn-loss-pair-code-20261009-r4",
+            "training_contract_sha256": None,
+            "status": "sealed_candidate_waiting_root_review_and_admission",
+        },
+        "parsed_cache_reader_override": {
+            "commit": R4_COMMIT,
+            "source_path": R4_READER_PATH,
+            "packaged_path": "src/wnn/parsed_sequence_cache_reader.py",
+            "sha256": R4_READER_SHA256,
+            "bridge_test_path": R4_BRIDGE_TEST_PATH,
+            "packaged_bridge_test_path": "producer_evidence/r4/test_parsed_cache_receipt_bridge.py",
+            "bridge_test_sha256": R4_BRIDGE_TEST_SHA256,
+            "focused_tests": "5 passed in 3.18s",
         },
         "files": [
             {"path": name, "size_bytes": len(payload), "sha256": sha(payload)}
@@ -101,7 +171,7 @@ def seal(repo: Path, output: Path, admission_path: Path | None) -> Record:
         "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
         "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
         "cpu_kernel": "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1",
-        "gpu_kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v3",
+        "gpu_kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v4",
         "native_bf16_fit_allowed": False,
         "tpu_compute_precision": "fp32",
     }
