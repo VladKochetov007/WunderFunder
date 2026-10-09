@@ -9,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from fit_headroom_gate_r4 import (
     EXPECTED_TPU_DEVICE_COUNT,
     HEADROOM_POLICY_SCHEMA,
+    _cgroup_memory,
     evaluate_actual_device_inventory,
     evaluate_live_resources,
     evaluate_profile_headroom,
@@ -29,7 +30,13 @@ def _policy(**overrides: Any) -> dict[str, Any]:
 def _live(**overrides: Any) -> dict[str, Any]:
     return {
         "host_available_bytes": 1_000,
-        "cgroup": {"headroom_bytes": 1_000},
+        "cgroup": {
+            "version": "v2",
+            "current_bytes": 0,
+            "ceiling_bytes": 1_000,
+            "limit_sample_complete": True,
+            "headroom_bytes": 1_000,
+        },
         "disk_free_bytes": 1_000,
         **overrides,
     }
@@ -69,6 +76,67 @@ def test_missing_device_stats_or_live_limits_fail_closed() -> None:
     assert "insufficient_or_missing_live_cgroup_headroom_bytes" in no_live_capacity["errors"]
 
 
+def test_unbounded_cgroup_requires_host_reserve_and_is_recorded_explicitly() -> None:
+    result = evaluate_live_resources(
+        _policy(),
+        {
+            "host_available_bytes": 1_000,
+            "cgroup": {
+                "version": "v2",
+                "current_bytes": 500,
+                "ceiling_bytes": None,
+                "limit_sample_complete": True,
+                "headroom_bytes": None,
+            },
+            "disk_free_bytes": 1_000,
+        },
+    )
+
+    assert result["passed"] is True
+    assert result["live_checks"]["cgroup_headroom_bytes"]["basis"] == (
+        "no_finite_cgroup_ceiling; host_available_reserve_enforced"
+    )
+
+
+def test_incomplete_cgroup_limit_sample_does_not_qualify_as_unbounded() -> None:
+    result = evaluate_live_resources(
+        _policy(),
+        {
+            "host_available_bytes": 1_000,
+            "cgroup": {
+                "version": "v2",
+                "current_bytes": 500,
+                "ceiling_bytes": 800,
+                "limit_sample_complete": False,
+                "headroom_bytes": 300,
+            },
+            "disk_free_bytes": 1_000,
+        },
+    )
+
+    assert result["passed"] is False
+    assert "insufficient_or_missing_live_cgroup_headroom_bytes" in result["errors"]
+
+
+def test_cgroup_v2_requires_both_limit_files_to_identify_unbounded_memory(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "memory.current").write_text("500\n")
+    (tmp_path / "memory.high").write_text("max\n")
+    (tmp_path / "memory.max").write_text("max\n")
+
+    complete = _cgroup_memory(tmp_path)
+
+    assert complete["limit_sample_complete"] is True
+    assert complete["ceiling_bytes"] is None
+    assert complete["headroom_bytes"] is None
+
+    (tmp_path / "memory.max").unlink()
+    incomplete = _cgroup_memory(tmp_path)
+
+    assert incomplete["limit_sample_complete"] is False
+
+
 def test_device_host_cgroup_or_disk_below_root_reserve_defers_fit() -> None:
     low_device = evaluate_profile_headroom(_policy(), _profile(device_peak=950), _live(), 2)
     assert low_device["passed"] is False
@@ -79,7 +147,13 @@ def test_device_host_cgroup_or_disk_below_root_reserve_defers_fit() -> None:
         _profile(),
         _live(
             host_available_bytes=199,
-            cgroup={"headroom_bytes": 299},
+            cgroup={
+                "version": "v2",
+                "current_bytes": 0,
+                "ceiling_bytes": 299,
+                "limit_sample_complete": True,
+                "headroom_bytes": 299,
+            },
             disk_free_bytes=399,
         ),
         2,
@@ -99,7 +173,9 @@ def test_unapproved_or_incomplete_policy_cannot_admit_fit() -> None:
     assert no_policy["passed"] is False
     assert "missing_or_invalid_headroom_policy" in no_policy["errors"]
     assert missing_reserve["passed"] is False
-    assert any(error.startswith("invalid_or_missing_policy:") for error in missing_reserve["errors"])
+    assert any(
+        error.startswith("invalid_or_missing_policy:") for error in missing_reserve["errors"]
+    )
 
 
 def test_actual_tpu_device_inventory_must_match_the_eight_device_packet() -> None:
