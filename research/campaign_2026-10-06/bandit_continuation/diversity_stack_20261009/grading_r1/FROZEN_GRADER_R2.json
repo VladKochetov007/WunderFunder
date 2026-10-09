@@ -1,0 +1,55 @@
+{
+  "schema": "wnn.recovered-loss-pair-grader.v2",
+  "created_utc": "2026-10-09T01:40:24.658009+00:00",
+  "status": "frozen_before_recovered_prediction_scoring",
+  "question": "Does weighted Huber or its fixed equal blend improve on paired AdamW WMSE for this small complete-component screen?",
+  "exposure": "exposed fold0; single training seed; this is discovery, not confirmation or a public-score forecast",
+  "primary_contrast": "huber_d1 minus wmse",
+  "secondary_contrasts": [
+    "equal_blend minus wmse",
+    "equal_blend minus huber_d1"
+  ],
+  "blend": "float64 average of unclipped raw FP32 predictions, rounded to FP32; official metric then clips +-2",
+  "split": {
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "targets": {
+    "path": "cache/valid_targets.npz",
+    "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "cache_identity": {
+    "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+    "manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+    "membership_sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd"
+  },
+  "source_sha256": {
+    "scripts/grade_recovered_loss_pair.py": "094ce7800a11a8b06ec5a549866b6f5821f62509d3d612ff085c7f29e0ea2321",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+  },
+  "arms": {
+    "wmse": {
+      "run": "loss_pair_r3_wmse",
+      "checkpoint_sha256": "71fcba3d9eaff3710f8fd42f3778ef74cd425f11977668a5575c21563a82c309",
+      "provenance": {
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/gpu_loss_pair_r4/terminal_collect_r1/attempt_001/outputs/out/arms/wmse/model/provenance.json",
+        "sha256": "c3e99c0c310288450f86fd007f8dfb9ffe80a5acd13857ebce455be83803477c"
+      }
+    },
+    "huber_d1": {
+      "run": "loss_pair_r3_huber_d1",
+      "checkpoint_sha256": "b61b5026386273b11db871f06f09eda7654af5814c066e850274e32d9cdfca77",
+      "provenance": {
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/gpu_loss_pair_r4/terminal_collect_r1/attempt_001/outputs/out/arms/huber_d1/model/provenance.json",
+        "sha256": "18e71073b7ac70fdac9aa57a3bd15fc0c55122472f9ace3eeeda0ab3befe8fe5"
+      }
+    }
+  },
+  "supersedes": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/grading_r1/FROZEN_GRADER_R1.json",
+    "sha256": "f2b365e747a795aca3644c362a2a66851bffa7cf23780818d021b0d9d13c6909",
+    "reason": "Independent Luna reviewer required explicit spec pin and separate reviewed export evidence; metric and contrasts unchanged."
+  },
+  "execution_pins": "CLI requires exact expected spec SHA and a separately reviewed export recovery receipt SHA; receipt must bind actual sidecar, model, payload and runtime cache validation."
+}

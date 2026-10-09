@@ -67,11 +67,51 @@ def validate_sidecar(
         raise ValueError("prediction has no cache validation receipt identity")
 
 
-def grade(root: Path, spec_path: Path, paths: dict[str, Path], output: Path) -> None:
+def validate_export_binding(receipt: Record, label: str, sidecar: Record, sidecar_sha: str) -> None:
+    """Bind predictions to the separately reviewed, hash-pinned export receipt."""
+    if (
+        receipt.get("schema") != "wnn.loss-pair.export-recovery-run-receipt.v1"
+        or receipt.get("state") != "complete_exports_pending_independent_grade"
+    ):
+        raise ValueError("export receipt is not a completed recovery")
+    producer = receipt.get("prediction_results", {}).get(label, {})
+    identity = producer.get("sidecar_identity", {})
+    if producer.get("returncode") != 0 or producer.get("guard_stop"):
+        raise ValueError("export process did not complete successfully")
+    expected = {
+        "sidecar_sha256": sidecar_sha,
+        "prediction_sha256": sidecar["prediction_sha256"],
+        "checkpoint_sha256": sidecar["checkpoint_sha256"],
+        "checkpoint_epoch": sidecar["epoch"],
+        "cache_validation_receipt_sha256": sidecar["parsed_sequence_cache"][
+            "validation_receipt_sha256"
+        ],
+    }
+    if any(identity.get(key) != value for key, value in expected.items()):
+        raise ValueError("export receipt does not bind the actual prediction sidecar")
+    if receipt.get("cache_validation_sha256") != expected["cache_validation_receipt_sha256"]:
+        raise ValueError("export receipt cache validation differs")
+    model = receipt.get("model_receipts", {}).get(label, {})
+    if model.get("checkpoint_sha256") != expected["checkpoint_sha256"]:
+        raise ValueError("export receipt model lineage differs")
+
+
+def grade(
+    root: Path,
+    spec_path: Path,
+    expected_spec_sha256: str,
+    export_receipt: Path,
+    expected_export_receipt_sha256: str,
+    paths: dict[str, Path],
+    output: Path,
+) -> None:
     """Evaluate WMSE, Huber and their fixed equal average on an exposed panel."""
     if output.exists():
         raise ValueError("result path already exists; preserve prior results")
-    spec = json.loads(spec_path.read_text())
+    spec = read_pinned(root, {"path": str(spec_path), "sha256": expected_spec_sha256})
+    receipt = read_pinned(
+        root, {"path": str(export_receipt), "sha256": expected_export_receipt_sha256}
+    )
     if spec["status"] != "frozen_before_recovered_prediction_scoring":
         raise ValueError("unfrozen grader specification")
     for relative, expected in spec["source_sha256"].items():
@@ -106,6 +146,7 @@ def grade(root: Path, spec_path: Path, paths: dict[str, Path], output: Path) -> 
         sidecar = json.loads(sidecar_path.read_text())
         digest = sha256(path)
         validate_sidecar(sidecar, arm, spec, groups, digest)
+        validate_export_binding(receipt, label, sidecar, sha256(sidecar_path))
         prediction = np.load(path, mmap_mode="r", allow_pickle=False)
         if prediction.dtype != np.float32 or prediction.shape != (468, 20_000, 2):
             raise ValueError(f"wrong prediction shape/dtype: {label}")
@@ -173,6 +214,7 @@ def grade(root: Path, spec_path: Path, paths: dict[str, Path], output: Path) -> 
     result = {
         "created_utc": datetime.now(UTC).isoformat(),
         "spec_sha256": sha256(spec_path),
+        "reviewed_export_receipt_sha256": expected_export_receipt_sha256,
         "bindings": bindings,
         "scores": scores,
         "comparisons": comparisons,
@@ -193,6 +235,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--spec", type=Path, required=True)
+    parser.add_argument("--expected-spec-sha256", required=True)
+    parser.add_argument("--export-receipt", type=Path, required=True)
+    parser.add_argument("--expected-export-receipt-sha256", required=True)
     parser.add_argument("--wmse", type=Path, required=True)
     parser.add_argument("--huber", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -200,6 +245,9 @@ def main() -> None:
     grade(
         args.root,
         args.spec,
+        args.expected_spec_sha256,
+        args.export_receipt,
+        args.expected_export_receipt_sha256,
         {"wmse": args.wmse, "huber_d1": args.huber},
         args.output,
     )
