@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.native-device.cpu-tiny-validation.v1",
+  "status": "pass",
+  "finished_at_utc": "2026-10-09 00:43:48 UTC",
+  "source_commit": "9f20145cc4e91a326525324a8266decb912959ae",
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s PYTHONPATH=/tmp/wnn-sol-jax-deps flock -w 180 /tmp/wnn-codex-support.lock scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_device_comparison_r1/tests/test_native_precision_tiny.py research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_device_comparison_r1/tests/test_native_admission.py",
+  "result": {
+    "exit_code": 0,
+    "pytest_output": "5 passed in 7.75s",
+    "wall_seconds_including_scope_startup": 8.45,
+    "tests_passed": 5,
+    "tests_skipped": 0
+  },
+  "environment": {
+    "python": "3.13.9",
+    "jax": "0.6.2",
+    "jaxlib": "0.6.2",
+    "backend": "cpu",
+    "device_inventory": ["CpuDevice(id=0)"],
+    "dependency_path": "/tmp/wnn-sol-jax-deps",
+    "test_interpreter": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "main_venv_mutated": false,
+    "limits": {
+      "shared_lock": "/tmp/wnn-codex-support.lock",
+      "cpu_quota": "100%",
+      "threads": 1,
+      "memory_max_bytes": 1500000000,
+      "swap_max_bytes": 0,
+      "runtime_max_seconds": 120
+    }
+  },
+  "checks": [
+    "batched-input GRU forward values, carry, gradients, and AdamW match the original own JAX core on a tiny fixture",
+    "BF16 compute keeps updated masters and both AdamW moments FP32 for WMSE and Huber",
+    "updated FP32 masters and moments survive NPZ save/reload",
+    "FP32 admission remains separate from native BF16 authority",
+    "unsupported precision and obsolete GPU producer identity fail closed"
+  ],
+  "not_established": [
+    "TPU forward or gradient parity",
+    "TPU replica reduction",
+    "actual-device memory or timing",
+    "GPU R4 completion or its training-contract SHA-256",
+    "model quality or throughput multiplier"
+  ],
+  "code_sha256": {
+    "tests/test_native_precision_tiny.py": "d6fcb427bd4c2933f486021a9c57e31454669fabaf925a71b174e9bfd1da9be8",
+    "tests/test_native_admission.py": "adaf507904c72dc298b4750a893979eb2d79b27898b085042fdb53d11354c3f0",
+    "jax_step.py": "6766ae82e37ca247629c67e5c7d0151fe1a379c2d67ff18d66fe6f1d0a57ea52",
+    "rnn_native.py": "3af81476aac29c8270b48b5e9f7bec90eb43a1c49cc8b5563e72fa39f4c80acf",
+    "tpu_packet_runtime.py": "406440163bdeab88dec1f83b9785d238f920fe0906523e69a822537e9efe6aac"
+  },
+  "setup_attempt_note": "The first invocation exited 127 because this isolated worktree has no .venv/bin/python; pytest did not start. The successful rerun used the existing project interpreter and temporary JAX dependency path without mutating the main environment."
+}
