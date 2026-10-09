@@ -1,0 +1,52 @@
+{"name": "e540v6-linear-s540-amp4096", "device": "cuda", "train_seqs": 10607, "valid_seqs": 600, "full_valid": false, "hidden": 128, "layers": 1, "dropout": 0.0, "chunk": 256, "update_rows": 0, "detach_rows": 0, "detach_boundary_jitter": false, "detach_jitter_seed": 271828, "origin_view": "off", "origin_seed": 79079, "credit_mode": "deterministic", "credit_keep_probability": 0.8, "credit_seed": 100100, "qat": "none", "recurrent_rank": 0, "sentinel_values": "unchanged", "sentinel_indicators": "none", "sentinel_base_width": 0, "batch": 2, "numeric_map": "linear", "ple_intervals": 8, "fit_subset_manifest": "/kaggle/working/experiment/research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V5.json", "epochs": 1, "stop_after_epoch": null, "checkpoint_policy": "fixed", "checkpoint_epoch": 0, "no_eval_during_fit": true, "split_manifest": "/kaggle/working/experiment/research/campaign_2026-09-29/artifacts/splits/fold0.json", "save_training_state": false, "resume_state": null, "lr": 0.001, "wd": 0.01, "optim": "adamw", "muon_scope": "rnn", "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "grad_stats": false, "loss": "wmse", "thin_prob": 0.0, "thin_range": "0.1,0.4", "thin_mode": "compress", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_cache_root": "", "distill_cache_variant": "source", "distill_family_weight": 0.0, "distill_alpha": 0.5, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 0, "distill_reanchor": 0.0, "readout_activation": "gelu", "aux_next": 0.0, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.0, "aux": "", "aux_weight": 0.0, "arch": "gru", "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "expert_hidden": 32, "num_experts": 4, "specialist_route": "learned", "hash_seed": 1729, "adapter_rank": 8, "adapter_mode": "conditional", "prefix_rows": 99, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "inherit_init_preprocessing": false, "freeze": "", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "ema_reference_rows": 0, "eval_ema": false, "mask_weight": false, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "research_features": "none", "privileged_mode": "none", "privileged_horizon": 8, "fit_groups_manifest": null, "seed": 540, "loss_norm": "chunk", "distill_denominator": "chunk", "distill_reference_mass": 0.0, "calibrate_distill_reference": "", "calibration_epochs": 1, "denominator_shuffle_seed": 314159, "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": false, "sync_free": false, "fused_adam": false, "pin_memory": false, "prop_cache": false, "precision": "fp16", "amp_init_scale": 4096.0, "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": true, "optim_switch": "", "warmup_frac": null, "restarts": 1, "head_lr_mult": 1.0, "clip_per_module": "", "grad_noise": 0.0, "zoneout": 0.0, "init_qmc": false, "batch_order": "seeded", "antithetic": false, "momentum": 0.0, "no_gradient_clip": false, "fit_subset_manifest_sha256": "ce84816336bc457d487cbddf2f7214ef4d8b0b02e83f9c8e60921b9ce2374d4d", "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"}
+{"source_train_sequences": 1597, "eligible_valid_train_sequences": 252, "used_valid_train_sequences": 252, "eval_sequences": 468}
+loader workers 0 prefetch 0; params 0.27M; steps 72996
+ep 0 batch 0/924 loss 0.1428 lr 4.11e-05 seq/s 4.1
+ep 0 batch 20/924 loss 1.6730 lr 4.52e-04 seq/s 4.0
+ep 0 batch 40/924 loss 1.9515 lr 9.70e-04 seq/s 4.0
+ep 0 batch 60/924 loss 0.2940 lr 9.99e-04 seq/s 4.0
+ep 0 batch 80/924 loss 2.3733 lr 9.96e-04 seq/s 4.0
+ep 0 batch 100/924 loss 1.5844 lr 9.90e-04 seq/s 4.0
+ep 0 batch 120/924 loss 0.0381 lr 9.82e-04 seq/s 4.0
+ep 0 batch 140/924 loss 0.3023 lr 9.72e-04 seq/s 4.0
+ep 0 batch 160/924 loss 0.0599 lr 9.58e-04 seq/s 4.0
+ep 0 batch 180/924 loss 0.1164 lr 9.43e-04 seq/s 4.0
+ep 0 batch 200/924 loss 0.0146 lr 9.25e-04 seq/s 4.0
+ep 0 batch 220/924 loss 0.7391 lr 9.05e-04 seq/s 4.0
+ep 0 batch 240/924 loss 0.0912 lr 8.83e-04 seq/s 4.0
+ep 0 batch 260/924 loss 0.2996 lr 8.59e-04 seq/s 4.0
+ep 0 batch 280/924 loss 0.2664 lr 8.34e-04 seq/s 4.0
+ep 0 batch 300/924 loss 1.5388 lr 8.06e-04 seq/s 4.0
+ep 0 batch 320/924 loss 2.7157 lr 7.77e-04 seq/s 4.0
+ep 0 batch 340/924 loss 0.7727 lr 7.47e-04 seq/s 4.0
+ep 0 batch 360/924 loss 0.4443 lr 7.15e-04 seq/s 4.0
+ep 0 batch 380/924 loss 0.0279 lr 6.82e-04 seq/s 4.0
+ep 0 batch 400/924 loss 0.7768 lr 6.48e-04 seq/s 4.0
+ep 0 batch 420/924 loss 1.0215 lr 6.14e-04 seq/s 4.0
+ep 0 batch 440/924 loss 0.9458 lr 5.79e-04 seq/s 4.0
+ep 0 batch 460/924 loss 3.7443 lr 5.43e-04 seq/s 4.0
+ep 0 batch 480/924 loss 2.2518 lr 5.08e-04 seq/s 4.0
+ep 0 batch 500/924 loss 0.0350 lr 4.72e-04 seq/s 4.0
+ep 0 batch 520/924 loss 0.6613 lr 4.36e-04 seq/s 4.0
+ep 0 batch 540/924 loss 0.8111 lr 4.01e-04 seq/s 4.0
+ep 0 batch 560/924 loss 0.0717 lr 3.66e-04 seq/s 4.0
+ep 0 batch 580/924 loss 0.2859 lr 3.32e-04 seq/s 4.0
+ep 0 batch 600/924 loss 0.3555 lr 2.99e-04 seq/s 4.0
+ep 0 batch 620/924 loss 0.8228 lr 2.67e-04 seq/s 4.0
+ep 0 batch 640/924 loss 1.9298 lr 2.36e-04 seq/s 4.0
+ep 0 batch 660/924 loss 1.8209 lr 2.06e-04 seq/s 4.0
+ep 0 batch 680/924 loss 0.6565 lr 1.78e-04 seq/s 4.0
+ep 0 batch 700/924 loss 0.1439 lr 1.51e-04 seq/s 4.0
+ep 0 batch 720/924 loss 0.0268 lr 1.27e-04 seq/s 4.0
+ep 0 batch 740/924 loss 3.2603 lr 1.04e-04 seq/s 4.0
+ep 0 batch 760/924 loss 0.2065 lr 8.30e-05 seq/s 4.0
+ep 0 batch 780/924 loss 4.4127 lr 6.44e-05 seq/s 4.0
+ep 0 batch 800/924 loss 1.6001 lr 4.80e-05 seq/s 4.0
+ep 0 batch 820/924 loss 2.5124 lr 3.40e-05 seq/s 4.0
+ep 0 batch 840/924 loss 1.3788 lr 2.23e-05 seq/s 4.0
+ep 0 batch 860/924 loss 0.8284 lr 1.30e-05 seq/s 4.0
+ep 0 batch 880/924 loss 0.0488 lr 6.30e-06 seq/s 4.0
+ep 0 batch 900/924 loss 1.3750 lr 2.09e-06 seq/s 4.0
+ep 0 batch 920/924 loss 0.0066 lr 4.29e-07 seq/s 4.0
+FIT {"epoch": 0, "train_seconds": 461.1, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 72996, "amp_skipped_updates": 29, "optimizer_completed_updates": 72967, "ema_updates": 0, "completed_batches": 924}, "cumulative": {"optimizer_attempts": 72996, "amp_skipped_updates": 29, "optimizer_completed_updates": 72967, "ema_updates": 0, "completed_batches": 924}, "sample_order_identity": {"sampler_class": "EpochOrderSampler", "batch_size": 2, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f"}, "num_workers": 0, "persistent_workers": false, "sampler_replacement": null, "sampler_num_samples": null, "seeded_order": {"seed": 540, "epoch": 0, "antithetic": false, "shared_dropped_tail": true}}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "7416158fd94418cb9f1396866f675da7ad46636ebc411d8517d008b76d93b579"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "fbacccb5d199aa70ee9d1ae571a1297619bfd715e93bc883449a6593348a65d9"}}}}
+SELECTED_FIXED 0

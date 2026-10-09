@@ -1,0 +1,96 @@
+{
+  "durable_target": {
+    "registry_path": "research/campaign_2026-10-06/cloud_preflight/provider_targets.json",
+    "registry_sha256_at_observation": "c47c65915975809235ebf8264d283d26a0fe3c1cbfda7ad0c183bb3e2e7b1377",
+    "row": {
+      "artifact_dir": "../bandit_continuation/continuous_execution_E529/downloads/h232_v7b_ep3_export_r8",
+      "kernel": "vladkochetov07/h232-ep3-export-r8-20261008",
+      "resource": "gpu",
+      "terminal_receipt": "../bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_r8_terminal_poll_receipt.json"
+    }
+  },
+  "kernel": "vladkochetov07/h232-ep3-export-r8-20261008",
+  "log_checks": [
+    {
+      "command": [
+        "kaggle",
+        "kernels",
+        "logs",
+        "vladkochetov07/h232-ep3-export-r8-20261008/1",
+        "--follow"
+      ],
+      "exit_code": 1,
+      "interpretation": "Version-suffixed stream endpoint returned 404; not a worker terminal status.",
+      "stderr": "404 Client Error: Not Found for url: https://api.kaggle.com/v1/kernels/logs/stream/vladkochetov07/h232-ep3-export-r8-20261008/1",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "kaggle",
+        "kernels",
+        "logs",
+        "vladkochetov07/h232-ep3-export-r8-20261008"
+      ],
+      "exit_code": 0,
+      "interpretation": "No static log lines were available at observation time.",
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "25s",
+        "kaggle",
+        "kernels",
+        "logs",
+        "vladkochetov07/h232-ep3-export-r8-20261008",
+        "--follow"
+      ],
+      "exit_code": 124,
+      "interpretation": "Canonical-ID live follow reached the 25s observation bound without log lines; timeout is nonterminal.",
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "next_action": "Continue bounded status and canonical-ID live-log polling until phase or terminal state is observed; do not infer a terminal result from empty logs or observation timeout.",
+  "observed_at_utc": "2026-10-08T07:27:41+00:00",
+  "phase": {
+    "predictions_present": false,
+    "status": "not_yet_observed",
+    "worker_input_profile_export_phase": null
+  },
+  "provider_retries": 0,
+  "push_receipt": "H232_R8_PROVIDER_PUSH_20261008_R1.json",
+  "push_receipt_sha256": "7ab9c3841746b9bf77782c9c2d6327029665ef85cd5e01f9f906b713457d4a4f",
+  "record_id": "H232_R8_STARTUP_MONITOR_20261008_R1",
+  "schema": "h232-r8-startup-monitor-v1",
+  "status_checks": [
+    {
+      "command": [
+        "kaggle",
+        "kernels",
+        "status",
+        "vladkochetov07/h232-ep3-export-r8-20261008/1"
+      ],
+      "exit_code": 0,
+      "interpretation": "Provider session is active; this status alone does not establish worker phase.",
+      "stdout": "vladkochetov07/h232-ep3-export-r8-20261008/1 has status \"KernelWorkerStatus.RUNNING\""
+    },
+    {
+      "command": [
+        "kaggle",
+        "kernels",
+        "status",
+        "vladkochetov07/h232-ep3-export-r8-20261008/1"
+      ],
+      "exit_code": 0,
+      "interpretation": "Still active; no terminal result.",
+      "observed_at_utc": "2026-10-08T07:27:24Z",
+      "stdout": "vladkochetov07/h232-ep3-export-r8-20261008/1 has status \"KernelWorkerStatus.RUNNING\""
+    }
+  ],
+  "terminal_collection_started": false,
+  "version": 1
+}

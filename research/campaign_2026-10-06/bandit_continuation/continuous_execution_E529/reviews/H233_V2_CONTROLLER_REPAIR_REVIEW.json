@@ -1,0 +1,33 @@
+{
+  "id": "H233_V2_CONTROLLER_REPAIR_REVIEW",
+  "observed_utc": "2026-10-07T20:30:29.133666+00:00",
+  "reviewer": "root; independent of H233 actor",
+  "status": "narrow_source_repair_passed_no_admission",
+  "recipe": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+  "recipe_sha256": "a97bf67c68e2988044778f39254122683ef37899dd4384cc6e3571240c373022",
+  "source_hashes_verified": {
+    "scripts/train_conditional_readout.py": "fd74eb03deb0cea24f89dc5d330fdca6c3135f7f3f48cccb31ac5be84ec9c645",
+    "scripts/train_rnn.py": "b49233a7ed7e7e44d1a67cd765879a96e9294a5934071840b77da0d37d7424c7",
+    "src/wnn/conditional_readout.py": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/metric.py": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+    "src/wnn/nn.py": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+    "src/wnn/propensity.py": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+    "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+    "tests/test_conditional_readout.py": "03ef71e9a8be106625ecc9ac9adec74fb25ff9637c3225230118ae604c8a7bdd"
+  },
+  "basis": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/reviews/H233_INDEPENDENT_REVIEW_V1.md",
+  "checks": [
+    "Reviewed V1-to-V2 module/trainer/test diff against preserved V1 snapshot.",
+    "Teacher provenance is pinned before use, with seed/epoch/checkpoint/split/exact fit-membership and component-exclusion checks.",
+    "Valid export restricts selected_mask to declared evaluation groups and writes separately hashed evaluation_group_mask and ordered group IDs.",
+    "Mask helper rejects duplicate/missing evaluated groups and matches actual export row order.",
+    "No change to model architecture, target objective, optimizer or scientific controls in the repair."
+  ],
+  "actor_validation": "Six focused CPU tests and read-only current-source/teacher/split/mask check reported passed; no new root full-data run.",
+  "public_feedback": "Parent C1s3 public0.6647 is below incumbent0.6660. This changes allocation context, not validity of a separately evaluated readout hypothesis.",
+  "scientific_fit": false,
+  "resource_admission": false
+}

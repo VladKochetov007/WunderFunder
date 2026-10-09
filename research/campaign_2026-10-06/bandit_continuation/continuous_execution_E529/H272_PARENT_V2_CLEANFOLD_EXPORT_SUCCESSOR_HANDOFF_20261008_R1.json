@@ -1,0 +1,104 @@
+{
+  "created_utc": "2026-10-08T13:12:07.160834+00:00",
+  "export": {
+    "authorization_required": true,
+    "command_template": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "1800s",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/scripts/train_parent_readout.py",
+      "export",
+      "--recipe",
+      "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/recipes/H272_PARENT_READOUT_V2_CLEANFOLD_20261008.json",
+      "--data-root",
+      ".",
+      "--authorization",
+      "<separately-approved-export-authorization>",
+      "--device",
+      "cuda",
+      "--output-dir",
+      "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H272_PARENT_V2_CLEANFOLD_VALID"
+    ],
+    "estimate_basis": "Measured profile loop was 0.754533s for one full representative batch's 10 chunks (2 warmup + 8 timed); recipe declares 1492 batches/epoch x 2 epochs. This scales to about 2251.5s training, before per-epoch/data/startup overhead. Fit's authorized whole-worker wall cap is 5400s.",
+    "estimated_elapsed_seconds_from_profile": 2251.527752192458,
+    "evaluation_groups": 468,
+    "expected_dtype": "float32",
+    "expected_files": [
+      "parent.npy",
+      "hidden_only.npy",
+      "multiplicative.npy",
+      "scored_mask.npy",
+      "row_groups.npy",
+      "evaluation_group_mask.npy",
+      "evaluation_selected_mask.npy",
+      "export_receipt.json"
+    ],
+    "expected_prediction_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "grading_authorized": false,
+    "output_dir": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H272_PARENT_V2_CLEANFOLD_VALID",
+    "proposed_authorization_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_PARENT_V2_CLEANFOLD_ROOT_EXPORT_AUTHORIZATION_20261008_R1.json",
+    "public_submission_authorized": false,
+    "resource_proposal_not_authorized": {
+      "allocator_bytes": 4300000000,
+      "cpu": 1,
+      "observed_vram_stop_bytes": 5000000000,
+      "wall_seconds": 1800,
+      "worker_ram_reserve_bytes": 4000000000
+    }
+  },
+  "fit": {
+    "attempt_id": "h272-parent-v2-cleanfold-fit-r1-20261008",
+    "attempt_record_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h272-parent-v2-cleanfold-fit-r1-20261008.json",
+    "expected_fixed_checkpoint": "artifacts/runs/h272s4_parent_readout_v2_cleanscreen/model_ep1.pt",
+    "fit_attempt_status_at_handoff": "running",
+    "fit_authorization_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_PARENT_V2_CLEANFOLD_ROOT_FIT_AUTHORIZATION_20261008_R1.json",
+    "fit_authorization_sha256": "81f7fcff0af66bb4f3108e8d79e82424a777ef58698b134a7e481919fc8bf1d9",
+    "fit_output_dir": "artifacts/runs/h272s4_parent_readout_v2_cleanscreen",
+    "fit_source_manifest_sha256": "8ac8a663cf5ad7750342e627c049f004c7fdfa0828b846a011a6e824b6f54971",
+    "recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/recipes/H272_PARENT_READOUT_V2_CLEANFOLD_20261008.json",
+    "recipe_sha256": "bd42d703763f53e67a5cf194eb70c4cb5714fdb30c77bb84cc68602fc51549f3",
+    "selected_checkpoint_epoch": 1,
+    "source_lock_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/H272_PARENT_READOUT_V2_SOURCE_LOCK_V1_20261008.json",
+    "source_lock_sha256": "ee05ed9e3358998439e3c4f7e6460c73a089381b31be4850facd2515682e371e",
+    "trainer_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/scripts/train_parent_readout.py",
+    "trainer_sha256": "da0d8e3ac46d568bbd773bdad035ed0608ef264345795e8943ca84bc0fe44716"
+  },
+  "next_gates": [
+    "Wait for fit terminal success.",
+    "Verify fixed epoch 1 checkpoint SHA, completed update counts per head, frozen parent parity, finite trained head tensors and zero run OOM/skip regressions.",
+    "Obtain separate root export authorization bound to the actual checkpoint SHA and a fresh bandit_resources GPU admission.",
+    "Export full 1,873-row valid predictions; preserve 468-group exposure mask; hand output to root-owned frozen grader."
+  ],
+  "profile": {
+    "attempt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h272-parent-v2-cleanfold-profile-r1-20261008.json",
+    "attempt_sha256": "5416bc980265e02d0a09f34da63d1cee46dbd2afad6951677cfd85b52f713eb3",
+    "device": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "elapsed_seconds": 0.7545334290189203,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/profiles/H272_PARENT_V2_CLEANFOLD_PROFILE.json",
+    "peak_allocated_bytes": 352491008,
+    "peak_observed_vram_bytes": 725614592,
+    "peak_reserved_bytes": 467664896,
+    "sha256": "0507bb902ff38b781fa44c05e7005f58b47bc1fced3c345a22267e6c3f2621b0",
+    "timed_chunks": 8,
+    "warmup_chunks": 2,
+    "worker_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "worker_peak_ram_bytes": 3778764800
+  },
+  "schema": "h272-parent-v2-cleanfold-export-successor-handoff-v1",
+  "scope": "Prediction export only for the cleanfold H272 V2 fixed epoch 1. This is not an export authorization and does not authorize grading or a public submission.",
+  "status": "prepared_waiting_for_fit_terminal_review_and_separate_export_authorization"
+}

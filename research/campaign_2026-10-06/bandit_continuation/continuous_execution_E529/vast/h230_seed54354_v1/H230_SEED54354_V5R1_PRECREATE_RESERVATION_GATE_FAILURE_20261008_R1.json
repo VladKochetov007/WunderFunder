@@ -1,0 +1,56 @@
+{
+  "attempt_id": "h230-vast-strong-parent-seed54354-muon-v5r1-20261008",
+  "campaign_ledger": {
+    "attempt_present": false,
+    "entry_count": 5,
+    "path": "/home/vlad/.local/state/wnn-campaign/vast/ledger.json"
+  },
+  "created_utc": "2026-10-08T13:11:50.070716+00:00",
+  "destination": {
+    "exists": false,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/attempts/h230-vast-strong-parent-seed54354-muon-v5r1-20261008"
+  },
+  "diagnosis": "The frozen $2.80 authorization used cohort_stage=first_cohort. The existing Vast ledger has prior first-cohort reservations/spend that exceed the $4 first-cohort aggregate, so the campaign controller rejected the reservation before writing this attempt to the ledger and before calling the provider create endpoint. The supervisor retried the same local gate five times and was stopped. This is an execution/budget-stage validation failure, not a scientific result.",
+  "dispatcher_record": {
+    "observed_utc": "2026-10-08T13:07:47.319051+00:00",
+    "path": ".runtime/vast_dispatch_h230_v5r1/attempts/h230-vast-strong-parent-seed54354-muon-v5r1-20261008.json",
+    "returncode": 0,
+    "sha256": "c0a8204eb1af40f8a5a8fc1af36f2e2c085ed7cd11be1515995c72709b6a989f",
+    "status": "submitted"
+  },
+  "execution_boundary": {
+    "dispatcher_launch_receipt_path": ".runtime/vast_dispatch_h230_v5r1/attempts/h230-vast-strong-parent-seed54354-muon-v5r1-20261008.json",
+    "local_supervisor_only_was_stopped": true,
+    "owned_instance_created": false,
+    "provider_mutating_create_called": false,
+    "read_only_provider_preflight_ran": true,
+    "unrelated_provider_instances_touched": false
+  },
+  "next_action": "Prepare a new unique attempt/intent/queue under cohort_stage=parallel_authorized bound to ADR0015, then validate admission and reservation logic against a copy of the live ledger before any provider create.",
+  "queue": {
+    "job_sha256": "ba85c1e60e959c4fbb1eeb685fbec88d296f7373870c9488dda0ea64e97ee025",
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V5R1_DISPATCH_QUEUE_20261008_R3.json",
+    "sha256": "af512815133a6ae91449cde04fa7915b80889cb82167982a16e70e8f0d8ee4ac"
+  },
+  "root_admission": {
+    "cohort_stage": "first_cohort",
+    "max_all_in_usd": "2.80",
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V5R1_ROOT_CREATE_ADMISSION_20261008_R3.json",
+    "sha256": "b61d281db46014bdf3c4af6fb837f5652a3436bb2c2acf84cc882583d05593c4",
+    "total_campaign_ceiling_usd": "20.00"
+  },
+  "schema": "wnn.h230.vast.precreate-reservation-gate-failure.v1",
+  "systemd": {
+    "budget_gate_failures": 5,
+    "error": "first-cohort reserved and settled spend is limited to $4 total",
+    "failure_timestamps_utc": [
+      "2026-10-08T13:07:49.349052+00:00",
+      "2026-10-08T13:08:01.453142+00:00",
+      "2026-10-08T13:08:14.559357+00:00",
+      "2026-10-08T13:08:26.670660+00:00",
+      "2026-10-08T13:08:38.638448+00:00"
+    ],
+    "post_stop_state": "ActiveState=inactive\nSubState=dead\nMainPID=0\nResult=success",
+    "unit": "wnn-vast-h230-seed54354-muon-v5r1-20261008.service"
+  }
+}

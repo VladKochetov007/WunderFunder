@@ -1,0 +1,42 @@
+{
+  "failure_class": "profile_validity_amp_skip",
+  "grad_scaler": {
+    "backoff_factor": 0.5,
+    "expected_scale_after_skip": 32768.0,
+    "growth_factor": 2.0,
+    "growth_interval": 2000,
+    "initial_scale": 65536.0,
+    "reasoning": "Default GradScaler configuration persisted across only 230 attempts; growth interval not reached.",
+    "scale_at_skip": 65536.0
+  },
+  "measured": {
+    "amp_skipped": 1,
+    "backward_ms_p50": 579.7649002075195,
+    "finite_losses": 230,
+    "forward_ms_p50": 458.4129753112793,
+    "host_batch_span_ms_p50": 1059.7085310000693,
+    "loader_wait_ms_p50": 0.2668740000899561,
+    "loss_finite": true,
+    "optimizer_attempts": 230,
+    "optimizer_updates": 229,
+    "reported_sequences_per_second_not_admitted": 7.008670391097428,
+    "valid_for_throughput": false,
+    "worker_wall_seconds": 442.81952512199996
+  },
+  "narrow_profile_successor": {
+    "attempt_id": "H232_PROFILE_V2",
+    "numeric_policy_change": "Explicit GradScaler init_scale=4096.0; retain FP16, growth_factor=2.0, backoff_factor=0.5, growth_interval=2000.",
+    "scope": "profile_only; no fit/checkpoint/prediction/grade",
+    "trace": "Record phase (3 warmup batches vs 20 timed), outer batch, window index and row range, finite loss, actual unscaled GradScaler found_inf flag, and derived scale before/after for all attempts. Accumulate flags on device and transfer once after profile; no per-update .item()/get_scale synchronization.",
+    "unchanged": "source scientific model/loss/data/split/order/optimizer/scheduler/arguments except the explicit scale option and profile trace path; same loader2 resource setup.",
+    "validity": "All 200 timed update attempts must have finite loss and no unscaled found_inf. Warmup attempts and any skips are separately counted and shown; never suppress or replace found_inf."
+  },
+  "receipt_id": "H232_PROFILE_V1_FAILURE_DIAGNOSIS_20261008_R1",
+  "schema_version": 1,
+  "scientific_result": null,
+  "skip_location": {
+    "value": null,
+    "why": "V1 records only an epoch aggregate via EpochUpdateCounter; no per-attempt phase/batch/window trace or per-step checkpoint exists."
+  },
+  "source_terminal_receipt": "h232_profile_terminal_poll_receipt.json"
+}

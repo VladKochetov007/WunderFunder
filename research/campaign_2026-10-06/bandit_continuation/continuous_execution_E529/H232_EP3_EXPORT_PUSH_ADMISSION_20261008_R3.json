@@ -1,0 +1,85 @@
+{
+  "authorization_basis": {
+    "metadata_correction": {
+      "authority": "Root explicitly authorized autonomous metadata-only repair and prescribed the exact new canonical ID and title.",
+      "canonical_kernel_id": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r3",
+      "regression_test": "PASS: title-derived slug matches ID; old R2 title mismatch is rejected.",
+      "title": "H232 GRU384 V7B EP3 Export 20261008 R3"
+    },
+    "rejected_attempt": {
+      "canonical_id_not_accepted": true,
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H232_EP3_EXPORT_PROVIDER_PUSH_20261008_R1.json",
+      "sha256": "44331dda8842181ab132f581886664e2c7b96005ea72a1929ae6b982463c5a39"
+    },
+    "source_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H232_EP3_EXPORT_ROOT_INDEPENDENT_REVIEW_20261008_R1.json",
+      "root_status": "export_only_source_approved_fresh_quota_admission_required",
+      "scope": "Source, fixed epoch 3 checkpoint, source-qualified membership, export worker and payload unchanged from reviewed R2.",
+      "sha256": "732518cafe3dcb6db81f319252dce7310bb67f6872671f41589b46c9b93ae47a"
+    }
+  },
+  "corrected_packet": {
+    "build_receipt_sha256": "088d84ee349024105521872aec54dbfe79c5316cb38a71b4b6828d195982fa9b",
+    "canonical_kernel_id": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r3",
+    "changed_packet_file": "kernel-metadata.json",
+    "embedded_payload_hashes_verified": 17,
+    "packet_file_hashes_verified": 20,
+    "packet_id": "E529_H232_V7B_EP3_FP32_EXPORT_ONLY_20261008_R2",
+    "path": "/tmp/wnn-h232-v7b-ep3-export-20261008/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_only_20261008/packet_r4_metadata_slugfix",
+    "source_commit": "bf7813c1",
+    "test_count_passed": 11,
+    "test_receipt_sha256": "ca2b4e9746a6cf0fd1ec525e8ef317fea3d16cd000e3e75d911c4b5a23a50058",
+    "title": "H232 GRU384 V7B EP3 Export 20261008 R3",
+    "unchanged_checkpoint_sha256": "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829",
+    "unchanged_payload_zip_sha256": "b9e14e8509dff6abc18f4e3aaffe4af031d78883e91fb98f28fb4a845ed1490e",
+    "unchanged_source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+    "unchanged_worker_code_sha256": "a307809730010f04766cfa8c9f18923ad7df6809bd7c14ddc4c2745db2f4b1ee"
+  },
+  "created_at_utc": "2026-10-08T05:01:09+00:00",
+  "execution_scope": {
+    "export_only": "own fixed epoch 3 FP32 predictions for all valid rows; later root-owned grader may score only the 468 source-qualified exposed evaluation groups",
+    "one_corrected_push_only": true,
+    "profiling": false,
+    "provider_timeout_seconds": 6000,
+    "scoring": false,
+    "training": false
+  },
+  "fresh_quota_poll": {
+    "gpu": {
+      "account_remaining_seconds": 44186.099429,
+      "account_total_allowed_seconds": 108000.0,
+      "account_used_seconds": 63813.900571,
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 30013.93642900001,
+      "campaign_used_seconds": 26766.579570999995,
+      "provider_reserved_seconds": 0.0
+    },
+    "live_kernel": "vladkochetov07/e540-v8-fp32-20261008-r1-runner",
+    "live_status": "KernelWorkerStatus.RUNNING",
+    "observed_at_utc": "2026-10-08T05:00:53+00:00",
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "source": "Read-only Kaggle SDK quota and E540 V8 status via scripts/limited; no push/cancel."
+  },
+  "prepush_inventory": {
+    "canonical_kernel_id": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r3",
+    "exit_code": 0,
+    "result": "Not found",
+    "source": "kaggle kernels list --mine --search h232-gru384-v7b-ep3-export-20261008-r3"
+  },
+  "prior_r2_admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H232_EP3_EXPORT_PUSH_ADMISSION_20261008_R2.json",
+    "sha256": "2d31dbbf049ca2245e4c25b0d488f68d98b87e8843843a6a4f7f3ab4b6513d21"
+  },
+  "provider_push_authorized": true,
+  "reservation_arithmetic_seconds": {
+    "campaign_headroom_after_holds": 18013.93642900001,
+    "campaign_headroom_before_holds": 30013.93642900001,
+    "corrected_h232_kernel_timeout": 6000.0,
+    "prediction_export_cap": 1800.0,
+    "retain_for_live_e540_v8": 6000.0,
+    "worker_wall_cap": 4500.0
+  },
+  "schema": "h232-export-only-push-admission-v3",
+  "status": "admitted_one_corrected_metadata_only_push"
+}

@@ -1,0 +1,85 @@
+{
+  "attempt_id": "h230-vast-strong-parent-seed54354-muon-v7-20261008",
+  "cache_preflight": {
+    "cache_root": "cache/bd26_h230_fold0_teacher_family_all_rows_v1",
+    "receipt_path": "artifacts/h230_mounted_cache_preflight.json",
+    "require_families": false,
+    "timeout_seconds": 600,
+    "variant": "source"
+  },
+  "input_contract": {
+    "additional_input_path": {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "required_mode": "regular copy inside project/data_root",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "size_bytes": 1388846
+    },
+    "archive_plus_input_bytes": 39106720559,
+    "expected_input_count": 11,
+    "input_bytes_total": 39105880879,
+    "materialized_copy_bytes": 2002264915,
+    "materialized_project_copy_paths": [
+      "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_train.npy",
+      "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_valid.npy",
+      "cache/bd26_h230_fold0_teacher_family_all_rows_v1/metadata.json",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json"
+    ],
+    "resource_note": "The copied cache metadata and two source arrays add about 2.001 GB to peak worker disk use while the uploaded input-root copies remain present; recheck full disk peak before any new admission.",
+    "worker_upload_cap_bytes": 41500000000
+  },
+  "launch_authorized": false,
+  "next_gate": "root independent review of exact V7 archive/input/peak-disk contract, followed by a separate fresh job admission; no new create or fit is authorized by this packet",
+  "recorded_at_utc": "2026-10-08T14:13:54.534612+00:00",
+  "references": {
+    "v6_archive_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/h230_seed54354_v6r1.tar",
+    "v6_terminal_receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V6R1_PRELAUNCH_TERMINAL_DESTROY_RECEIPT_20261008_R1.json",
+    "v7_archive_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/h230_seed54354_v7.tar"
+  },
+  "schema": "h230-vast-transport-source-packet-v1",
+  "source": {
+    "added_members": [
+      "project/scripts/validate_h230_mounted_cache.py",
+      "project/tests/test_h230_v7_transport.py"
+    ],
+    "fit_argv_equal_v6": true,
+    "mounted_cache_helper_sha256": "306ac2d80df9263d829c8a16aaad40cffcb95cf960b656181ce0261a98c6d884",
+    "profile_argv_equal_v6": true,
+    "profile_plan_sha256_equal_v6": true,
+    "recipe_sha256_equal_v6": true,
+    "replaced_v6_members": [
+      "worker.py",
+      "worker_spec.json"
+    ],
+    "science_or_source_change": false,
+    "source_manifest_sha256": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+    "source_pin_count": 65,
+    "test_sha256": "af9dd104edfc5ada8602b6868c0f8a131d8a79054ec3b1b1ac90147b85b5ba9b",
+    "unchanged_v6_members": 77,
+    "v6_archive_bytes": 819200,
+    "v6_archive_members": 79,
+    "v6_archive_sha256": "16b54cb53f76d0179fa50675190a90e53e4fe05649b7d3a10f66649cc20c5aa4",
+    "v7_archive_bytes": 839680,
+    "v7_archive_members": 81,
+    "v7_archive_sha256": "f5d68c22f31a3aca0b7f2f26a46630db14f19b63bf386191a4dc160eed242ec6",
+    "worker_sha256": "ee0ef0ed5c159b1d4d06b803510c8e75706f81bbad74546d036a59628b35a653"
+  },
+  "transport_changes": [
+    "Copy the exact regular fold0.json into project/research/campaign_2026-09-29/artifacts/splits/fold0.json so unchanged cache reader resolves it under data_root.",
+    "Copy cache metadata.json and selected main_source_train.npy/main_source_valid.npy as regular files under the declared cache_root; keep other staged inputs mounted according to the frozen worker contract.",
+    "Run a bounded standalone mounted-cache validator before CUDA device verification and profile/fit; assert the split and selected arrays are regular in-root files, then invoke the unchanged full validator again in the existing fit path.",
+    "Bind the V7 worker attempt ID, worker code hash, validation-helper hash, 11-file input count and exact source archive in the worker spec."
+  ],
+  "v6_failure_binding": {
+    "attempt_id": "h230-vast-strong-parent-seed54354-muon-v6r1-20261008",
+    "classification": "pre-worker startup/transport failure; no science result",
+    "supervisor_stop_receipt_sha256": "728f36e27ec867b355fd41e15335152b8da8acf699e4d5f0e24aa29a6f43ad41",
+    "terminal_destroy_receipt_sha256": "c32dd1103974f7e7d623feb084dd89a5350ff9ca37a158409e9cca0e904eeeb4"
+  },
+  "verification": {
+    "focused_tests": "7 passed",
+    "real_numpy_header_fixture": "open_memmap NPY fixtures tested for regular-file and symlink rejection",
+    "remote_actual_mounted_cache_validation": "not yet run; must pass before profile/fit on V7 worker",
+    "ruff": "format and check passed",
+    "sealed_v7_archive_source_pin_replay": "65 source pins + 57-file manifest + 2 execution pins passed"
+  }
+}

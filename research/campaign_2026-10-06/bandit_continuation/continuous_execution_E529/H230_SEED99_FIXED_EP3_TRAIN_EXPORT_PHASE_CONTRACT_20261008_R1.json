@@ -1,0 +1,171 @@
+{
+  "created_utc": "2026-10-08T12:44:03.268478+00:00",
+  "export": {
+    "attempt_id": "h230-seed99-ep3-fp32-train-export-20261008",
+    "command_argv": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "2400s",
+      "/usr/bin/env",
+      "PYTHONDONTWRITEBYTECODE=1",
+      "PYTHONUNBUFFERED=1",
+      "PYTHONHASHSEED=0",
+      "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/src",
+      "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "WNN_GPU_MEMORY_BYTES=4300000000",
+      "WNN_LOADER_RAM_GB=3",
+      "WNN_LOADER_WORKERS=0",
+      "WNN_THREADS=1",
+      "OMP_NUM_THREADS=1",
+      "MKL_NUM_THREADS=1",
+      "OPENBLAS_NUM_THREADS=1",
+      "NUMBA_NUM_THREADS=1",
+      "POLARS_MAX_THREADS=1",
+      "ARROW_NUM_THREADS=1",
+      "NUMEXPR_NUM_THREADS=1",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "-c",
+      "import pyarrow as pa,runpy,sys;pa.set_cpu_count(1);pa.set_io_thread_count(1);sys.path.insert(0,\"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/scripts\");sys.argv=['scripts/predict_run.py', 'bd26_h230_strong_parent_seed99_muon_local_v1', 'train', '--epoch', '3', '--output-name', 'h230_seed99_ep3_fp32', '--inference-precision', 'fp32'];runpy.run_path(\"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py\",run_name=\"__main__\")"
+    ],
+    "dtype": "float32",
+    "expected_data_bytes": 1696960000,
+    "output_npy": "cache/pred_h230_seed99_ep3_fp32_train.npy",
+    "output_sidecar": "cache/pred_h230_seed99_ep3_fp32_train.json",
+    "partial_npy": "cache/pred_h230_seed99_ep3_fp32_train.npy.partial",
+    "precision": "fp32",
+    "row_order_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+    "shape": [
+      10606,
+      20000,
+      2
+    ],
+    "split": "train",
+    "terminal_requirements": [
+      "worker exit status 0",
+      "full NPY SHA-256 and sidecar SHA-256",
+      "exact shape/dtype and finite FP32 payload",
+      "row_groups list exactly matches the source-qualified frozen split order",
+      "sidecar checkpoint/run/split/fixed epoch and precision match this contract",
+      "worker/parent RAM, VRAM, and OOM deltas are recorded"
+    ]
+  },
+  "fit_terminal_review": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_SEED99_LOCAL_FIXED_EP3_ROOT_TERMINAL_REVIEW_20261008_R1.json",
+    "sha256": "c0e661c0badfda3c6e5446cf611d776fd8c68dea4c93b6d0761f7d7ccc4aae2c"
+  },
+  "input_identity": {
+    "dataset": {
+      "bytes": 29240219011,
+      "path": "datasets/train.parquet",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+    },
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_IDENTITY_V1.json",
+    "row_groups": {
+      "count": 10606,
+      "evaluation_count": 0,
+      "fit_count": 10535,
+      "ordered_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe"
+    },
+    "sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "status": "passed",
+    "target_index": {
+      "bytes": 1909335790,
+      "path": "cache/train_targets.npz",
+      "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9"
+    }
+  },
+  "launch_command_template": [
+    "scripts/limited",
+    ".venv/bin/python",
+    "scripts/bandit_resources.py",
+    "--root",
+    ".",
+    "launch",
+    "--attempt",
+    "h230-seed99-ep3-fp32-train-export-20261008",
+    "--kind",
+    "gpu",
+    "--cpus",
+    "1",
+    "--reserve-bytes",
+    "9000000000",
+    "--profile",
+    "H230-SEED99-EP3-FP32-TRAIN-EXPORT",
+    "--contract",
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_SEED99_FIXED_EP3_TRAIN_EXPORT_PHASE_CONTRACT_20261008_R1.json",
+    "--admission-timeout",
+    "2400",
+    "--",
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "2400s",
+    "/usr/bin/env",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "PYTHONUNBUFFERED=1",
+    "PYTHONHASHSEED=0",
+    "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/src",
+    "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "WNN_GPU_MEMORY_BYTES=4300000000",
+    "WNN_LOADER_RAM_GB=3",
+    "WNN_LOADER_WORKERS=0",
+    "WNN_THREADS=1",
+    "OMP_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "NUMBA_NUM_THREADS=1",
+    "POLARS_MAX_THREADS=1",
+    "ARROW_NUM_THREADS=1",
+    "NUMEXPR_NUM_THREADS=1",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "-c",
+    "import pyarrow as pa,runpy,sys;pa.set_cpu_count(1);pa.set_io_thread_count(1);sys.path.insert(0,\"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/scripts\");sys.argv=['scripts/predict_run.py', 'bd26_h230_strong_parent_seed99_muon_local_v1', 'train', '--epoch', '3', '--output-name', 'h230_seed99_ep3_fp32', '--inference-precision', 'fp32'];runpy.run_path(\"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py\",run_name=\"__main__\")"
+  ],
+  "non_authorizations": {
+    "fit": true,
+    "grade": true,
+    "package": true,
+    "public_forecast": null
+  },
+  "owner": "h230_actual_delivery",
+  "parent": {
+    "checkpoint_path": "artifacts/runs/bd26_h230_strong_parent_seed99_muon_local_v1/model_ep3.pt",
+    "checkpoint_sha256": "b20fbd2911b220aaefd88986f308a713d465b898c6f7050c24d019c7a4b68e86",
+    "epoch_zero_based": 3,
+    "fit_membership": "all supplied train+valid groups; resulting exports have no heldout claim",
+    "run": "bd26_h230_strong_parent_seed99_muon_local_v1"
+  },
+  "phase": "one train-split FP32 prediction export of the root-reviewed all-data seed99 fixed-epoch-3 checkpoint; no fit, grade, or packaging",
+  "record_id": "H230_SEED99_FIXED_EP3_TRAIN_EXPORT_PHASE_CONTRACT_20261008_R1",
+  "resource_request": {
+    "cpu_cores": 1,
+    "cuda_allocator_bytes": 4300000000,
+    "gpu_workers": 1,
+    "loader_ram_gb": 3,
+    "loader_workers": 0,
+    "observed_vram_ceiling_bytes": 5000000000,
+    "one_gpu_worker": true,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_swap_bytes": 0,
+    "timeout_seconds": 2400,
+    "worker_ram_bytes": 9000000000
+  },
+  "root_authorization": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_SEED99_FIXED_EP3_TRAIN_EXPORT_ROOT_AUTHORIZATION_20261008_R1.json",
+    "sha256": "73fc55a06f59a9a22a120cea0626b7ac0303f0e3590fcc82f47bb695aede2d43"
+  },
+  "schema": "h230-seed99-fixed-ep3-export-phase-contract-v1",
+  "source": {
+    "manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_FAITHFUL_MUON_SOURCE_MANIFEST_V4_20261008.json",
+    "manifest_sha256": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+    "predictor_path": "scripts/predict_run.py",
+    "predictor_sha256": "fee58a359c24208116cbf3b86e7d4dcf90ba285494582ab2f760edd9f8e1d0aa",
+    "root_auth_bound_source_hash_count": 58,
+    "root_auth_bound_source_hashes_sha256": "612542b9737ef0cd7139bf880646ac9dcc6b08a219b4ed64a99666b2ec2f2dad",
+    "trainer_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/scripts/train_rnn.py"
+  },
+  "status": "authorized_conditional_fresh_durable_admission"
+}

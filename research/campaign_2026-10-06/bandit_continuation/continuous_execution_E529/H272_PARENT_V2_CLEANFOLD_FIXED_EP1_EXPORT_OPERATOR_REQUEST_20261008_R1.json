@@ -1,0 +1,129 @@
+{
+  "created_utc": "2026-10-08T13:45:00Z",
+  "export": {
+    "attempt_id": "h272-parent-v2-cleanfold-export-r1-20261008",
+    "authorization_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_PARENT_V2_CLEANFOLD_ROOT_EXPORT_AUTHORIZATION_20261008_R1.json",
+    "authorization_required": true,
+    "expected_evaluation_groups": 468,
+    "expected_files": [
+      "parent.npy",
+      "hidden_only.npy",
+      "multiplicative.npy",
+      "scored_mask.npy",
+      "row_groups.npy",
+      "evaluation_group_mask.npy",
+      "evaluation_selected_mask.npy",
+      "export_receipt.json"
+    ],
+    "expected_prediction_dtype": "float32",
+    "expected_prediction_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "grade_started": false,
+    "public_submission_authorized": false,
+    "required_authorization_bindings": {
+      "command": "export",
+      "recipe_id": "E529-H272-PARENT-READOUT-V2-CLEANFOLD-20261008",
+      "recipe_sha256": "bd42d703763f53e67a5cf194eb70c4cb5714fdb30c77bb84cc68602fc51549f3",
+      "selected_checkpoint_sha256": "6c57427ab603803229b5afa7024d492bb304aff7d9518b22fd3aa776ada3c1e7",
+      "selected_epoch": 1,
+      "source_lock_sha256": "ee05ed9e3358998439e3c4f7e6460c73a089381b31be4850facd2515682e371e",
+      "status": "approved"
+    },
+    "resource_request": {
+      "cpus": 1,
+      "cuda_allocator_bytes": 4300000000,
+      "observed_vram_stop_bytes": 5000000000,
+      "wall_seconds": 1800,
+      "worker_ram_reserve_bytes": 4000000000
+    },
+    "worker_command": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "1800s",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/scripts/train_parent_readout.py",
+      "export",
+      "--recipe",
+      "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/recipes/H272_PARENT_READOUT_V2_CLEANFOLD_20261008.json",
+      "--data-root",
+      ".",
+      "--authorization",
+      "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_PARENT_V2_CLEANFOLD_ROOT_EXPORT_AUTHORIZATION_20261008_R1.json",
+      "--device",
+      "cuda",
+      "--output-dir",
+      "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H272_PARENT_V2_CLEANFOLD_VALID"
+    ]
+  },
+  "fit": {
+    "amp_skipped_updates": 0,
+    "attempt_id": "h272-parent-v2-cleanfold-fit-r1-20261008",
+    "attempt_record_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h272-parent-v2-cleanfold-fit-r1-20261008.json",
+    "attempt_record_sha256": "4fc171ae0acca6b1fddb892a11d5d1df847e33ed8748a203a0a8ab74453b6d69",
+    "checkpoint_files": {
+      "model.pt": {
+        "bytes": 4707153,
+        "sha256": "be51810ab830be2c7ae3a397e845e8717e7d22bc733c107fd2f2b418c1b0ece8"
+      },
+      "model_ep0.pt": {
+        "bytes": 4707545,
+        "sha256": "de4c794870f0524fe50b66b87ed1499a19ab4fd82e26ef53626c687961b1723e"
+      },
+      "model_ep1.pt": {
+        "bytes": 4707801,
+        "sha256": "6c57427ab603803229b5afa7024d492bb304aff7d9518b22fd3aa776ada3c1e7"
+      },
+      "provenance.json": {
+        "bytes": 151933,
+        "sha256": "489848891071700bb3a2c4c24095e3b59ed58eda160f94f12b71497d1e9828ce"
+      }
+    },
+    "completed_updates_per_head": 29840,
+    "elapsed_seconds": 2039.8412810789887,
+    "exit_status": 0,
+    "finite_gradients_and_losses_each_epoch": true,
+    "fit_authorization_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_PARENT_V2_CLEANFOLD_ROOT_FIT_AUTHORIZATION_20261008_R1.json",
+    "fit_authorization_sha256": "81f7fcff0af66bb4f3108e8d79e82424a777ef58698b134a7e481919fc8bf1d9",
+    "fit_source_manifest_sha256": "8ac8a663cf5ad7750342e627c049f004c7fdfa0828b846a011a6e824b6f54971",
+    "parent_final_memory_event_deltas": {
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/recipes/H272_PARENT_READOUT_V2_CLEANFOLD_20261008.json",
+    "recipe_sha256": "bd42d703763f53e67a5cf194eb70c4cb5714fdb30c77bb84cc68602fc51549f3",
+    "selected_checkpoint_sha256": "6c57427ab603803229b5afa7024d492bb304aff7d9518b22fd3aa776ada3c1e7",
+    "selected_epoch": 1,
+    "source_lock_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/H272_PARENT_READOUT_V2_SOURCE_LOCK_V1_20261008.json",
+    "source_lock_sha256": "ee05ed9e3358998439e3c4f7e6460c73a089381b31be4850facd2515682e371e",
+    "terminal_status": "finished",
+    "trainer_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_PARENT_MULTIPLICATIVE_READOUT_V2_RUNTIME/scripts/train_parent_readout.py",
+    "trainer_sha256": "da0d8e3ac46d568bbd773bdad035ed0608ef264345795e8943ca84bc0fe44716",
+    "updates_per_head_per_epoch": 14920,
+    "worker_final_memory_event_deltas": {
+      "high": 0,
+      "max": 420025,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "worker_peak_observed_vram_bytes": 1042284544,
+    "worker_peak_ram_bytes": 6499999744
+  },
+  "next_gates": [
+    "Root independently reviews actual terminal fit checkpoint and provenance.",
+    "Root issues the separate authorization bound to the selected checkpoint and source lock.",
+    "Recheck fresh GPU admission, output-path absence, source-lock/checkpoint hashes, and no active GPU lock.",
+    "Launch exactly one export-only attempt; collect all eight expected files and hashes.",
+    "Hand predictions to the root-owned frozen grader; do not grade or select a winner in this operator request."
+  ],
+  "schema": "h272-parent-v2-cleanfold-fixed-ep1-export-operator-request-v1",
+  "scope": "Prediction export only from the terminal fixed epoch-1 cleanfold fit. No fitting, grading, public forecast, or submission.",
+  "status": "prepared_waiting_for_root_export_authorization_and_fresh_gpu_admission"
+}

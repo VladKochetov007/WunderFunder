@@ -1,0 +1,242 @@
+{
+  "attempt": {
+    "contract_sha256": "f948fb77901979ec1d687ccd25d65ddb250b889bd1bc75948571393ad2d647c8",
+    "exact_command": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "900s",
+      "/usr/bin/env",
+      "ARROW_NUM_THREADS=1",
+      "CUBLAS_WORKSPACE_CONFIG=:4096:8",
+      "CUDA_VISIBLE_DEVICES=0",
+      "MKL_NUM_THREADS=1",
+      "NUMBA_NUM_THREADS=1",
+      "OMP_NUM_THREADS=1",
+      "OPENBLAS_NUM_THREADS=1",
+      "POLARS_MAX_THREADS=1",
+      "PYTHONDONTWRITEBYTECODE=1",
+      "PYTHONHASHSEED=0",
+      "PYTHONUNBUFFERED=1",
+      "WNN_GPU_MEMORY_BYTES=4200000000",
+      "WNN_LOADER_RAM_GB=3",
+      "WNN_LOADER_WORKERS=0",
+      "WNN_PORTABLE_DATA_MANIFEST=research/campaign_2026-10-04/portable_inputs.json",
+      "WNN_THREADS=1",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "scripts/train_rnn.py",
+      "--name",
+      "e529_s4_served_head_f0_control_v1",
+      "--init",
+      "c20261003_combo_s4_f0@ep3",
+      "--train-source",
+      "valid",
+      "--full-valid",
+      "--mask-weight",
+      "--seed",
+      "3",
+      "--epochs",
+      "1",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--fast",
+      "--inherit-init-preprocessing",
+      "--loss",
+      "gcorr",
+      "--optim",
+      "adamw",
+      "--freeze",
+      "inp,gru",
+      "--lr",
+      "0.0005",
+      "--wd",
+      "0.01",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "0",
+      "--save-training-state",
+      "--split-manifest",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--no-eval-during-fit"
+    ],
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e529-s4-served-head-f0-control-v1-fit-20261008.json",
+    "profile": "E529-S4-SERVED-HEAD-CLEANFOLD-CONTROL-FIT-8GB-900S",
+    "sha256": "4ffd4c22d69c2de8cf435b6f1698d0da5c46a984ac8072566ad103fac0ba634a",
+    "source_manifest_sha256": "dbcc83bc5c71a6feb641e2467a383369e7981fa8f3280449f100cae51724ba81"
+  },
+  "attempt_id": "e529-s4-served-head-f0-control-v1-fit-20261008",
+  "authorization": {
+    "export_authorized": false,
+    "fit_only": true,
+    "grade_authorized": false,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_S4_SERVED_HEAD_CONTROL_ROOT_FIT_AUTHORIZATION_20261008_R1.json",
+    "recipe_id": "E529-S4-SERVED-HEAD-CLEANFOLD-CONTROL-20261008-R1",
+    "recipe_sha256": "ebd86d9e5c9be09456e3e97277dfc30e415901f44c863adf8a731e2c1a7f63c8",
+    "sha256": "f948fb77901979ec1d687ccd25d65ddb250b889bd1bc75948571393ad2d647c8",
+    "source_commit": "fa615eb3d13a8afb9fd7cba275ef64956bdb793e"
+  },
+  "checkpoint_verification": {
+    "all_float_model_tensors_finite": true,
+    "changed_head_tensor_count": 4,
+    "head_tensor_names": [
+      "head.0.bias",
+      "head.0.weight",
+      "head.2.bias",
+      "head.2.weight"
+    ],
+    "method": "CPU-loaded model_ep0.pt, model.pt, parent model_ep3.pt and training_state.pt; compared tensor states",
+    "model_pt_matches_model_ep0_tensorwise": true,
+    "model_tensor_count": 16,
+    "parent_checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+    "parent_non_head_bitwise_unchanged": true,
+    "parent_non_head_tensor_count": 12,
+    "result": "PASS",
+    "training_state_boundary": "epoch",
+    "training_state_model_matches_model_ep0_tensorwise": true,
+    "training_state_next_epoch": 1
+  },
+  "evaluation_during_fit": "withheld",
+  "exit_status": 0,
+  "finished_utc": "2026-10-08T16:02:17.127869+00:00",
+  "fit_seconds": 58.7,
+  "interpretation": "Exact authorized cleanfold control completed all870 optimizer attempts, with1 AMP-skipped update and869 completed. Saved optimizer counters agree at869 steps for each of four head tensors. Fixed epoch0 checkpoint/state are finite; all12 non-head parent tensors are unchanged. The fit used1,405 valid-source groups and withheld the468 evaluation groups. This is exposed fold0 development evidence only. Root terminal review is required before export or grading.",
+  "log": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/e529-s4-served-head-f0-control-v1-fit-20261008.log",
+    "sha256": "f1c6f1f283d9a917feb3ac14fe0dd712990c43cd3d7870e9da578495f0178e80"
+  },
+  "membership_verification": {
+    "actual_training_order_matches_seed3_manifest_permutation": true,
+    "canonical_recipe_hash_matches_actual_set": true,
+    "evaluation_groups": 468,
+    "fit_groups": 1405,
+    "fit_source": "valid",
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_S4_CONTROL_FIT_MEMBERSHIP_VERIFICATION_20261008_R1.json",
+    "result": "PASS",
+    "same_source_overlap": 0,
+    "sha256": "355a59e25251b2af2324535dd3b4929bbc2faedd5cdf6415b64565c888bc88b2"
+  },
+  "optimizer_diagnostics": {
+    "amp_skipped_updates": 1,
+    "completed_batches": 87,
+    "ema_updates": 0,
+    "optimizer_attempts": 870,
+    "optimizer_completed_updates": 869
+  },
+  "output": {
+    "checkpoint_epoch": 0,
+    "history": {
+      "path": "artifacts/runs/e529_s4_served_head_f0_control_v1/history.json",
+      "sha256": "f45681d7c2f480d753d91427758852c1fbdcb433c358c46b03301c96b7014d73"
+    },
+    "model_alias": {
+      "bytes": 3943595,
+      "path": "artifacts/runs/e529_s4_served_head_f0_control_v1/model.pt",
+      "sha256": "d49c50f6b16a70cef3ab2cb4dabdbdc260102d2e6135d75113331ed64b3cedb1"
+    },
+    "model_ep0": {
+      "bytes": 3944039,
+      "path": "artifacts/runs/e529_s4_served_head_f0_control_v1/model_ep0.pt",
+      "sha256": "e6fd249022be91bda51d72376ece38289d8a46fa0d558d8c2e5b280849d0915a"
+    },
+    "provenance": {
+      "path": "artifacts/runs/e529_s4_served_head_f0_control_v1/provenance.json",
+      "sha256": "4f02e119d2322210d9417085d97284ac1eeb6d9da65ffc67d19ba001a1e4b096"
+    },
+    "run_directory": "artifacts/runs/e529_s4_served_head_f0_control_v1",
+    "selected_epoch": 0,
+    "training_state": {
+      "bytes": 5059657,
+      "path": "artifacts/runs/e529_s4_served_head_f0_control_v1/training_state.pt",
+      "sha256": "e259c6ffb6568e8f46db231d597579d553686f4231113b3f6c8b34d6973588db"
+    }
+  },
+  "phase": "terminal",
+  "recorded_utc": "2026-10-08T16:07:55.460773+00:00",
+  "resources": {
+    "allocator_admission_bytes": 4300000000,
+    "hierarchical_parent_memory_event_baseline": {
+      "high": 194869,
+      "low": 0,
+      "max": 15396224,
+      "oom": 18,
+      "oom_group_kill": 0,
+      "oom_kill": 14,
+      "sock_throttled": 34
+    },
+    "hierarchical_parent_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 11373,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "local_parent_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "observed_vram_cap_bytes": 5000000000,
+    "observer_status": {
+      "attempt_memory_current": "ok",
+      "attempt_memory_events": "ok",
+      "attempt_memory_events_final": "ok",
+      "attempt_memory_events_start": "ok",
+      "attempt_memory_peak_final": "ok",
+      "attempt_systemd_runtime": "ok",
+      "attempt_systemd_start": "ok",
+      "nvidia_smi_admission": "ok",
+      "nvidia_smi_final": "ok",
+      "nvidia_smi_launch": "ok",
+      "nvidia_smi_runtime": "ok",
+      "parent_hierarchical_memory_events": "ok",
+      "parent_hierarchical_memory_events_final": "ok",
+      "parent_hierarchical_memory_events_start": "ok",
+      "parent_memory_admission": "ok",
+      "parent_memory_admission_recheck": "ok",
+      "parent_memory_current": "ok",
+      "parent_memory_current_final": "ok",
+      "parent_memory_events": "ok",
+      "parent_memory_events_admission": "ok",
+      "parent_memory_events_final": "ok",
+      "parent_memory_events_start": "ok",
+      "parent_systemd_launch": "ok",
+      "parent_systemd_runtime": "ok",
+      "parent_systemd_start": "ok"
+    },
+    "peak_observed_vram_bytes": 2038431744,
+    "peak_parent_ram_bytes": 14153019392,
+    "peak_worker_ram_bytes": 8000000000,
+    "reservation": {
+      "cpus": 1,
+      "ram_bytes": 8000000000
+    },
+    "worker_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 10978,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    }
+  },
+  "saved_optimizer_steps_per_head_tensor": [
+    869,
+    869,
+    869,
+    869
+  ],
+  "schema": "h272-s4-served-head-control-fit-terminal-operator-v1",
+  "started_utc": "2026-10-08T16:00:41.185026+00:00",
+  "status": "finished",
+  "wall_seconds": 95.91704399400624
+}

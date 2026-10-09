@@ -1,0 +1,53 @@
+{
+  "review": {
+    "experiment_id": "E529_H232_FULLFEATURE_GRU384_B8_LOADER2_PROFILE_V1",
+    "provider_push_authorized": false,
+    "reviewed_hashes": {
+      "H232_PROFILE_PLAN.json": "579ff2f911c678e4b4ce49b11234d77609687be01083c55577e76e3802f59e87",
+      "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+      "profile_kernel.py": "7c29df5aaa7c08af90f54b03cd4f71b048cf2ee5aa86be9df4c1777f2a3154c5",
+      "profile_worker.py": "400a26b5d3dd997c5f8db1f33dfee9f2e633474f49a67eb3e907c0741506ec7f",
+      "source_archive.tar": "f227ad167157018633c66dd4b89247f3c34375efef84a27527a950c2116e34a0",
+      "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+    },
+    "reviewer": {
+      "id": "root-controller",
+      "role": "independent-controller"
+    },
+    "schema": "independent-cloud-packet-review-v1",
+    "scientific_fit_authorized": false,
+    "scope": "profile-only",
+    "status": "approved",
+    "reviewed_utc": "2026-10-07T22:00:50.314757+00:00",
+    "checks": [
+      "54 source members safe regular files; all 19 frozen H232 hashes match (11 embedded science modules, 8 local reference/recipe/environment documents)",
+      "B8 GRU384x2 full-feature profile argv; no raw-only; 3 warmup/20 timed complete updates",
+      "Profile-only: no fit/checkpoint/predictions/metric promotion",
+      "Private/offline metadata; source and support embedded",
+      "Two loader workers/prefetch1; actual measured T4/host identity plus cloud headroom",
+      "Hash/stat handoff retains fallback and actual mounted fold/membership comparisons",
+      "Phase/resource heartbeats and wall limit 2400s"
+    ],
+    "notes": "Profile assembly only. Fresh quota/exact rebuilt hashes required before one push. B8 profile does not authorize B8 fit against B16 controls: freeze matched comparison before fits."
+  },
+  "source_checks": {
+    "embedded": 11,
+    "reference_local": 8
+  },
+  "rebuilt_bundle": {
+    "bundle_sha256": "779efd6062dd7060c26f992c7a3104df2b246298a31cbd213420b5288d334550",
+    "bundle_bytes": 187982,
+    "code_file_sha256": "dcefabe665f432932e5035b1b7079078de172f5407344eb60f749072056daef1",
+    "code_file_bytes": 270927,
+    "payload_hashes": {
+      "H232_PROFILE_PLAN.json": "579ff2f911c678e4b4ce49b11234d77609687be01083c55577e76e3802f59e87",
+      "external_review.json": "27091b31d50eb3e9febcde03caea061b2141f8e32dc4950d95db8a385f5362c2",
+      "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+      "packet_meta.json": "ffe1eb1dd2ddcac8a9b5146b1f0eef7963a0ac33e6dda08b396f3368e257deff",
+      "profile_kernel.py": "7c29df5aaa7c08af90f54b03cd4f71b048cf2ee5aa86be9df4c1777f2a3154c5",
+      "profile_worker.py": "400a26b5d3dd997c5f8db1f33dfee9f2e633474f49a67eb3e907c0741506ec7f",
+      "source_archive.tar": "f227ad167157018633c66dd4b89247f3c34375efef84a27527a950c2116e34a0",
+      "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+    }
+  }
+}

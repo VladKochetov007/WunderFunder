@@ -1,0 +1,75 @@
+{
+  "attempt_id": "h230-vast-strong-parent-seed54354-muon-v5r1-20261008",
+  "checks": {
+    "extracted_source_pin_verification": "65/65 pins passed; 57 manifest files unchanged",
+    "profile_cli_help_smoke": "exit 0; parser usage emitted; no data/GPU/fit access",
+    "pytest": "5 passed in 0.17s",
+    "pytest_command": "scripts/limited .venv/bin/python -m pytest -q <V5R1 project>/tests/test_h230_cuda_context_init.py",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed; two files already formatted"
+  },
+  "created_utc": "2026-10-08T12:39:18.243597+00:00",
+  "execution_adapter": {
+    "change": "Fresh child explicitly initializes CUDA and selects visible device 0 before fail-closed capability checks and peak-memory reset.",
+    "path": "project/scripts/h230_profile_then_fit.py",
+    "v4_sha256": "0d34bdeea724f5b27660f95692774c909b5f1834cf528c7fb4b6a09ee4bb6d72",
+    "v5r1_sha256": "e33c4a06b427d509b8a9a373d587e72e5d4ab50f7d1e286e9bd9170284453a9a"
+  },
+  "focused_test": {
+    "cases": [
+      "init \u2192 set_device(0) \u2192 frozen capability checks \u2192 reset_peak_memory_stats(0)",
+      "CUDA unavailable fails before reset",
+      "multiple visible GPUs fail before initialization/reset",
+      "capability mismatch fails before reset",
+      "BF16 mismatch fails before reset"
+    ],
+    "failed": 0,
+    "passed": 5,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/build_v5r1/project/tests/test_h230_cuda_context_init.py",
+    "sha256": "b7da4c5ad3ed593bc4569e7cade00b44b2de17cb41760fdcf33f192799788268"
+  },
+  "provider_create_or_fit_authorized": false,
+  "provider_operation_performed": false,
+  "root_review": "pending; no offer revalidation, create, fit, or dispatch receipt was performed",
+  "schema": "h230-vast-seed54354-v5r1-build-test-receipt-v1",
+  "scientific_recipe_changed": false,
+  "source_fidelity": {
+    "build_tree_differences_from_v4": [
+      "project/scripts/h230_profile_then_fit.py",
+      "project/tests/test_h230_cuda_context_init.py",
+      "worker_spec.json"
+    ],
+    "fit_profile_argv_unchanged": true,
+    "scientific_files_changed": 0,
+    "scientific_manifest_file_count": 57,
+    "scientific_manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_FAITHFUL_MUON_SOURCE_MANIFEST_V4_20261008.json",
+    "scientific_manifest_sha256": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+    "worker_source_pin_count": 65,
+    "worker_verify_source_passed": true
+  },
+  "status": "built_and_focused_checks_passed_pending_root_review",
+  "unreviewed_v5_draft_preserved": {
+    "packet_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/h230_seed54354_v5.tar",
+    "packet_sha256": "b4791b8f712e1b4a73d90f9348b3fdddf09212789f5a57480656b337628c6a2f",
+    "reason_superseded": "The focused test import required a style-only correction before freezing the reviewed successor."
+  },
+  "v4_preserved": {
+    "contract_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_VAST_TRANSPORT_CONTRACT_V4_20261008.json",
+    "contract_sha256": "d13b77daa5f9672c4bef6b66cdd16d2685d1631b549975c2cb9fb8767f3fd510",
+    "packet_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/h230_seed54354_v4.tar",
+    "packet_sha256": "6803f2c192e8dc905b6c894c0206de70615f0a9a00afda5c2cf2ef900569a406"
+  },
+  "v5r1_contract": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_VAST_TRANSPORT_CONTRACT_V5R1_20261008.json",
+    "sha256": "602168a92ef0b1ef7588b021a614a35edc59cd0db013f7dc94115ba7c9696a21"
+  },
+  "v5r1_packet": {
+    "all_member_hashes_verified": true,
+    "member_count": 79,
+    "no_symlinks": true,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/h230_seed54354_v5r1.tar",
+    "root_run_sh_count": 1,
+    "sha256": "ac1b8b57679b649974bd9b7ff9bb3c71c437ffe14b5957f9597ae9bf53ebc573",
+    "size_bytes": 819200
+  }
+}

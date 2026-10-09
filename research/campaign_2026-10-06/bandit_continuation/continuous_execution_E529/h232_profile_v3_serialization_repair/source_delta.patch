@@ -1,0 +1,78 @@
+--- h232_cloud_profile_v2/scripts/train_rnn.py
++++ h232_profile_v3_serialization_repair/scripts/train_rnn.py
+@@ -95,6 +95,14 @@
+ ROOT = Path(__file__).resolve().parents[1]
+ SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
+ EV_I0PX = N_FEATURES + FEATURE_NAMES.index("ev_i0px")
++
++
++def serializable_arguments(args: argparse.Namespace) -> dict[str, object]:
++    """Convert filesystem paths explicitly while keeping JSON strict elsewhere."""
++    return {
++        name: str(value) if isinstance(value, Path) else value
++        for name, value in vars(args).items()
++    }
+ 
+ 
+ def profile_update_evidence(
+@@ -1016,7 +1024,8 @@
+     """Bind an epoch continuation to its original data, code and fixed schedule."""
+     excluded = {"name", "resume_state", "save_training_state", "stop_after_epoch", "split_manifest",
+                 "fit_groups_manifest"}
+-    options = {key: value for key, value in vars(args).items() if key not in excluded}
++    options = {key: value for key, value in serializable_arguments(args).items()
++               if key not in excluded}
+     package = Path(__file__).resolve().parents[1] / "src/wnn"
+     sources = {str(path.relative_to(package)): file_sha256(path) for path in sorted(package.rglob("*.py"))}
+     sources["trainer"] = file_sha256(Path(__file__))
+@@ -1327,10 +1336,14 @@
+                       help="explicit FP16 GradScaler initial scale; None preserves the PyTorch default")
+     perf.add_argument("--profile-trace-output", type=Path, default=None,
+                       help="write bounded per-update profile evidence after the loop")
++    ap.add_argument("--serialization-smoke", action="store_true", help=argparse.SUPPRESS)
+     perf.add_argument("--parity-dump", default="", help="save per-step losses and final weights here, then exit")
+     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
+     add_dynamics_arguments(ap)
+     args = ap.parse_args()
++    if args.serialization_smoke:
++        print(json.dumps(serializable_arguments(args), sort_keys=True), flush=True)
++        return
+     if args.amp_init_scale is not None and (not math.isfinite(args.amp_init_scale) or args.amp_init_scale <= 0):
+         ap.error("--amp-init-scale must be finite and positive")
+     if args.profile_trace_output is not None and not args.profile_steps:
+@@ -1763,7 +1776,7 @@
+         valid_ds, batch_size=16, num_workers=0, prefetch_factor=None)
+ 
+     shifts = [int(v) for v in args.aux.split(",") if v]
+-    provenance = {"seed": args.seed, "args": vars(args).copy(),
++    provenance = {"seed": args.seed, "args": serializable_arguments(args),
+                   "split_manifest_sha256": campaign_split.sha256 if campaign_split is not None else None,
+                   "fit_row_groups": {"train": train_idx.tolist() if train_split == "train" else [],
+                                      "valid": train_idx.tolist() if train_split == "valid" else
+@@ -1982,7 +1995,7 @@
+             return weighted_mse_loss(o, t, v) + args.gcorr_weight * weighted_pooled_corr_loss(o, t, v)
+         return weighted_corr_loss(o, t, v) + 0.5 * weighted_mse_loss(o, t, v)
+ 
+-    print(json.dumps(vars(args)), flush=True)
++    print(json.dumps(serializable_arguments(args)), flush=True)
+     print(json.dumps({"source_train_sequences": len(train_idx),
+                       "eligible_valid_train_sequences": eligible_valid_count,
+                       "used_valid_train_sequences": len(extra_valid) if extra_valid is not None else
+@@ -2553,7 +2566,7 @@
+         # snapshot every epoch (~1 MB): lets any epoch be re-read out later without selection on the eval set
+         representation = inference_checkpoint_fields(eval_model, "ema" if args.eval_ema else
+                                                       "raw" if eval_model is model else "swa")
+-        checkpoint = {**representation, "args": vars(args), "n_in": n_in, "epoch": epoch,
++        checkpoint = {**representation, "args": serializable_arguments(args), "n_in": n_in, "epoch": epoch,
+                       "readout": None if READOUT is None else [t.cpu() for t in READOUT],
+                       "readout_tilted": READOUT_TILTED,
+                       "provenance": {key: value for key, value in provenance.items() if key != "checkpoint_sha256"}}
+@@ -2593,7 +2606,7 @@
+         provenance["fitting_seconds"] = prior_fit_seconds
+         representation = inference_checkpoint_fields(eval_model, "ema" if args.eval_ema else
+                                                       "raw" if eval_model is model else "swa")
+-        checkpoint = {**representation, "args": vars(args), "n_in": n_in,
++        checkpoint = {**representation, "args": serializable_arguments(args), "n_in": n_in,
+                       "epoch": args.epochs - 1,
+                       "readout": None if moments is None else [value.cpu() for value in moments.tables()],
+                       "readout_tilted": bool(args.ce_tilt),

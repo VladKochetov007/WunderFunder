@@ -1,0 +1,328 @@
+{
+  "changes": [
+    {
+      "change": "When raw_only and since_weight are enabled, compute since_i0px from original raw batch for row weights while leaving event channels zero in model inputs; fail closed without raw batch.",
+      "path": "scripts/train_rnn.py"
+    },
+    {
+      "change": "Parity regression for full/raw row weights on identical raw rows; asserts raw model event channels stay zero and missing raw batch errors.",
+      "path": "tests/test_h273_raw_only_since_weight.py"
+    },
+    {
+      "change": "Documents V5 semantics and limits.",
+      "path": "README.md"
+    }
+  ],
+  "file_count": 58,
+  "files": [
+    {
+      "bytes": 5433,
+      "path": "README.md",
+      "sha256": "96a2062efb61676dd25adda908e566deaa05ddd8fd178a7f7fe561dc219d8c2f"
+    },
+    {
+      "bytes": 24597,
+      "path": "scripts/build_distill_cache.py",
+      "sha256": "0ae5cc7000e25f36a2d428f7c543b13b75a3fd04aaa372664e977e7b908a7dc9"
+    },
+    {
+      "bytes": 7250,
+      "path": "scripts/profile_muon_device.py",
+      "sha256": "c5cb400011acceee24244fbdc99a405aa2fc0ff4a5cbecdb52d5915c5ab3e690"
+    },
+    {
+      "bytes": 148044,
+      "path": "scripts/train_rnn.py",
+      "sha256": "deb4332b42d372f11afea9119573ab46f7d612e517ddfb5a9b0273d5903c2864"
+    },
+    {
+      "bytes": 63,
+      "path": "src/wnn/__init__.py",
+      "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+    },
+    {
+      "bytes": 16522,
+      "path": "src/wnn/all_data_distillation_cache.py",
+      "sha256": "c46e309428fd096e00ac20767adfaf391362b93798deac37ee6befcc77886039"
+    },
+    {
+      "bytes": 34735,
+      "path": "src/wnn/bandit_campaign_recipe.py",
+      "sha256": "883bc6415345ec5e4deff56be13fc0ae0be8791702e999898dfdb3557a5a6374"
+    },
+    {
+      "bytes": 20774,
+      "path": "src/wnn/campaign.py",
+      "sha256": "35dd701fdb33c50494a3c781a315731212da22f41cae331f2f85073af0637605"
+    },
+    {
+      "bytes": 24324,
+      "path": "src/wnn/campaign_local.py",
+      "sha256": "0213ff7a809ce898be5d3180c15e31d228ad6f3f03f1f08fd968f9186e91353d"
+    },
+    {
+      "bytes": 10334,
+      "path": "src/wnn/campaign_spec.py",
+      "sha256": "5136703299585e81a9463a253133ba7f12da2c64ea863776c005d1fc5d3e8d7b"
+    },
+    {
+      "bytes": 4986,
+      "path": "src/wnn/csrc/symreg_screen.cpp",
+      "sha256": "413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7"
+    },
+    {
+      "bytes": 4000,
+      "path": "src/wnn/data.py",
+      "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+    },
+    {
+      "bytes": 8577,
+      "path": "src/wnn/distillation.py",
+      "sha256": "352a0c5b782f9e68fc7153783d20b04825e0c764b94f589cd71993580b7857c7"
+    },
+    {
+      "bytes": 10084,
+      "path": "src/wnn/distillation_cache.py",
+      "sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19"
+    },
+    {
+      "bytes": 8080,
+      "path": "src/wnn/evaluation.py",
+      "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+    },
+    {
+      "bytes": 7226,
+      "path": "src/wnn/event_content.py",
+      "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd"
+    },
+    {
+      "bytes": 5421,
+      "path": "src/wnn/features.py",
+      "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee"
+    },
+    {
+      "bytes": 8902,
+      "path": "src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    },
+    {
+      "bytes": 9025,
+      "path": "src/wnn/heuristics.py",
+      "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e"
+    },
+    {
+      "bytes": 2377,
+      "path": "src/wnn/infer.py",
+      "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9"
+    },
+    {
+      "bytes": 2624,
+      "path": "src/wnn/markov.py",
+      "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2"
+    },
+    {
+      "bytes": 4806,
+      "path": "src/wnn/metric.py",
+      "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc"
+    },
+    {
+      "bytes": 20537,
+      "path": "src/wnn/nn.py",
+      "sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca"
+    },
+    {
+      "bytes": 15926,
+      "path": "src/wnn/optim.py",
+      "sha256": "fd91a383ddc8cfd8e8cce64403ea0af2f71ac98fd2ae7f9aa8334ed76230ded3"
+    },
+    {
+      "bytes": 4538,
+      "path": "src/wnn/outcomes.py",
+      "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75"
+    },
+    {
+      "bytes": 1909,
+      "path": "src/wnn/portability.py",
+      "sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a"
+    },
+    {
+      "bytes": 6608,
+      "path": "src/wnn/privileged.py",
+      "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4"
+    },
+    {
+      "bytes": 1404,
+      "path": "src/wnn/propensity.py",
+      "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d"
+    },
+    {
+      "bytes": 6050,
+      "path": "src/wnn/quantization.py",
+      "sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077"
+    },
+    {
+      "bytes": 3968,
+      "path": "src/wnn/quantization_export.py",
+      "sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0"
+    },
+    {
+      "bytes": 6234,
+      "path": "src/wnn/research_features.py",
+      "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8"
+    },
+    {
+      "bytes": 4485,
+      "path": "src/wnn/resources.py",
+      "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+    },
+    {
+      "bytes": 4488,
+      "path": "src/wnn/run_identity.py",
+      "sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76"
+    },
+    {
+      "bytes": 8603,
+      "path": "src/wnn/sentinel.py",
+      "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec"
+    },
+    {
+      "bytes": 8550,
+      "path": "src/wnn/sentinel_calibration.py",
+      "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599"
+    },
+    {
+      "bytes": 12064,
+      "path": "src/wnn/specialist.py",
+      "sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400"
+    },
+    {
+      "bytes": 8647,
+      "path": "src/wnn/splits.py",
+      "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+    },
+    {
+      "bytes": 7553,
+      "path": "src/wnn/spread_aux.py",
+      "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512"
+    },
+    {
+      "bytes": 2422,
+      "path": "src/wnn/streaming.py",
+      "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e"
+    },
+    {
+      "bytes": 9963,
+      "path": "src/wnn/structured_state.py",
+      "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756"
+    },
+    {
+      "bytes": 11386,
+      "path": "src/wnn/symreg.py",
+      "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849"
+    },
+    {
+      "bytes": 3511,
+      "path": "src/wnn/tcn_ref.py",
+      "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa"
+    },
+    {
+      "bytes": 4946,
+      "path": "src/wnn/ticks.py",
+      "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8"
+    },
+    {
+      "bytes": 2694,
+      "path": "src/wnn/training_calibration.py",
+      "sha256": "30923120c1bd9773556556ee0fbbab5d8db4a5f4232c48b81f11fa87a5e74e52"
+    },
+    {
+      "bytes": 10695,
+      "path": "src/wnn/training_controls.py",
+      "sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39"
+    },
+    {
+      "bytes": 2225,
+      "path": "src/wnn/training_credit.py",
+      "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd"
+    },
+    {
+      "bytes": 18314,
+      "path": "src/wnn/training_dynamics.py",
+      "sha256": "9e019586100c44d106c7d68130773781000fe2f1a7003da0d20b581ec7ad6d6d"
+    },
+    {
+      "bytes": 7615,
+      "path": "src/wnn/training_factorized.py",
+      "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2"
+    },
+    {
+      "bytes": 6146,
+      "path": "src/wnn/training_qat.py",
+      "sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72"
+    },
+    {
+      "bytes": 6540,
+      "path": "src/wnn/training_sampling.py",
+      "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2"
+    },
+    {
+      "bytes": 8689,
+      "path": "src/wnn/training_state.py",
+      "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+    },
+    {
+      "bytes": 3065,
+      "path": "src/wnn/training_views.py",
+      "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142"
+    },
+    {
+      "bytes": 3732,
+      "path": "src/wnn/twoclock_ref.py",
+      "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44"
+    },
+    {
+      "bytes": 4297,
+      "path": "src/wnn/viz.py",
+      "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5"
+    },
+    {
+      "bytes": 7791,
+      "path": "tests/test_all_data_distillation_cache.py",
+      "sha256": "39cf1a8445bef79a5aa103664e76a56e39d2b9d6fd246f9b935d61dcef357d79"
+    },
+    {
+      "bytes": 7675,
+      "path": "tests/test_family_head_control.py",
+      "sha256": "8720102e0d4a8a91b2acd49e2bc2fe7d2c30b9738136e7529ec6c59d92398a3d"
+    },
+    {
+      "bytes": 2630,
+      "path": "tests/test_h273_raw_only_since_weight.py",
+      "sha256": "66342e6a5b2597c7dda8d14fdb141cfb9d9c360362c88d78cae16ab60815b3d4"
+    },
+    {
+      "bytes": 9114,
+      "path": "tests/test_muon_fidelity_controls.py",
+      "sha256": "f5e9fc63fa92d490f912f730a3aea177355135de89718684eb5c3cb2ff5bf1ec"
+    }
+  ],
+  "parent_source": {
+    "manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_FAITHFUL_MUON_SOURCE_MANIFEST_V4_20261008.json",
+    "manifest_sha256": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+    "source_files_copied": 57,
+    "source_id": "h230-source-v4-faithful-muon-20261008"
+  },
+  "reference": {
+    "command_path": "research/iterations/2026-10-02-slow-fast/final_rawW.sh",
+    "command_sha256": "48292ebc4332ccf7d20de206840fc1b679145f4a09fae904da23a34a1a62bcec",
+    "commit": "833aaf541155c591e930bbc6c640b8817e01a536",
+    "limit": "A predecessor command/source, not complete endpoint ancestry; no exact final endpoint replication claim.",
+    "trainer_path": "scripts/train_rnn.py",
+    "trainer_sha256": "199ca23d43bd9b24480df81baa04425454ab441769240acb4736bd8273dca01d"
+  },
+  "schema": "h230-independent-source-manifest-v1",
+  "source_id": "h230-source-v5-h273-raw-weight-parity-20261008",
+  "source_identity_note": "The frozen V4 source remains unchanged. V5 inherits the V4 source implementation and is independently maintained. The method reference is inspected only; no teammate code or weights are included.",
+  "source_sha256_scope": "SHA256 covers each listed file; this manifest and H273 recipe/test receipts are excluded to avoid recursion.",
+  "status": "prepared_source_only_no_actual_data_profile_or_fit"
+}

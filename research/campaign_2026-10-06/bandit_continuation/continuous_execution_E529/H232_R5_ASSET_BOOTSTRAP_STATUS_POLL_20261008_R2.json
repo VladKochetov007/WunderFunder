@@ -1,0 +1,46 @@
+{
+  "schema": "h232-r5-asset-bootstrap-status-poll-v1",
+  "observed_at_utc": "2026-10-08T05:38:01Z",
+  "kernel_id": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r5-asset",
+  "kernel_version": 1,
+  "provider_status": "KernelWorkerStatus.RUNNING",
+  "status_source": "read-only Kaggle SDK GetKernelSessionStatus",
+  "failure_message": "",
+  "logs_follow": {
+    "command": "kaggle kernels logs vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r5-asset --follow",
+    "bounded_timeout_seconds": 35,
+    "exit_code": 124,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "phase_marker_observed": false,
+    "interpretation": "No live log output was observed in this bounded follow window; this is not terminal evidence."
+  },
+  "quota": {
+    "source": "read-only Kaggle SDK accelerator quota call; CLI 2.2.4",
+    "total_allowed_seconds": 108000.0,
+    "used_seconds": 64777.988934,
+    "remaining_seconds": 43222.011066,
+    "provider_reserved_seconds": 0.0,
+    "campaign_baseline_used_seconds": 37047.321,
+    "campaign_used_seconds": 27730.667934,
+    "campaign_cap_seconds": 56780.516,
+    "campaign_headroom_seconds": 29049.848066,
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "gpu_used_delta_since_pre_push_snapshot_seconds": 702.649934,
+    "internal_holds_seconds": {
+      "r5_remaining_within_original_hold": 5297.350066,
+      "e540_successor": 6000
+    },
+    "campaign_headroom_after_remaining_holds_seconds": 17752.498,
+    "account_remaining_after_remaining_holds_seconds": 31924.661,
+    "e540_v8_status": "KernelWorkerStatus.ERROR"
+  },
+  "durable_monitor_target": {
+    "registered": true,
+    "config": "research/campaign_2026-10-06/cloud_preflight/provider_targets.json",
+    "terminal_receipt": "h232_v7b_ep3_export_r5_terminal_poll_receipt.json"
+  },
+  "science_or_export_phase_claimed": false,
+  "terminal_artifacts_collected": false,
+  "next_action": "Continue bounded log/status monitoring; collect complete outputs and logs only at terminal status; do not repush the accepted version."
+}

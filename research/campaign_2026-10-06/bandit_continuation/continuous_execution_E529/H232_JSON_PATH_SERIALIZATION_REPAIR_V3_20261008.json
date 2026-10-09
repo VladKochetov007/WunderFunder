@@ -1,0 +1,48 @@
+{
+  "base_attempt": "H232_PROFILE_V2",
+  "base_source_archive_sha256": "d819800e0beeff5733444752ea3badd9a4c043d63acbbac95e0598f80fe96c74",
+  "base_trainer_sha256": "3d223dd7d07512fef5b03385c7139a63bdc9bb589610ecb992a22c75ceafd50b",
+  "candidate_source_file_count": 85,
+  "candidate_trainer_sha256": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a",
+  "changed_members": [
+    {
+      "base_bytes": 153626,
+      "base_sha256": "3d223dd7d07512fef5b03385c7139a63bdc9bb589610ecb992a22c75ceafd50b",
+      "candidate_bytes": 154234,
+      "candidate_sha256": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a",
+      "path": "scripts/train_rnn.py"
+    }
+  ],
+  "created_utc": "2026-10-07T23:00:10.953523+00:00",
+  "id": "H232_JSON_PATH_SERIALIZATION_REPAIR_V3_20261008",
+  "patch_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_profile_v3_serialization_repair/source_delta.patch",
+  "patch_sha256": "b475c04ab2bc9f6bf2f84c19eff107779de3420f6a2199bbacb134e136056d98",
+  "ruff_format_check": "baseline trainer source does not satisfy whole-file ruff formatting; no whole-file reformat applied to preserve narrow source delta",
+  "schema": "h232-json-path-serialization-repair-v1",
+  "scope": "serialization repair only; no H232 scientific recipe or fit was changed",
+  "serialization_audit": {
+    "cli_smoke_flag": "--serialization-smoke; hidden; branches immediately after parse_args and before device/model/data setup",
+    "raw_namespace_uses_not_serialization": [
+      "make_model(vars(args),...)"
+    ],
+    "serializer": "serializable_arguments converts only pathlib.Path to str; unsupported values remain for strict json failure",
+    "uses_fixed": [
+      "resume_contract options",
+      "initial provenance args",
+      "trainer args JSON stdout",
+      "both checkpoint args dictionaries"
+    ]
+  },
+  "smoke_test": {
+    "checks": [
+      "actual trainer CLI parse with Path-typed --profile-trace-output and --split-manifest",
+      "strict JSON output contains both as strings",
+      "CUDA_VISIBLE_DEVICES empty",
+      "no trace file, no training entered"
+    ],
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python .../test_serialization_smoke.py",
+    "fitness_or_provider_execution": false,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_profile_v3_serialization_repair/test_serialization_smoke.py",
+    "status": "passed"
+  }
+}

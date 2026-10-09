@@ -1,0 +1,64 @@
+{
+  "attempt_id": "h230-vast-strong-parent-seed54354-muon-v5r1-20261008",
+  "objects": [
+    {
+      "get": {
+        "body_read": false,
+        "content_length": "29240219011",
+        "elapsed_ms": 331,
+        "status": 200
+      },
+      "head": {
+        "body_read": false,
+        "content_length": "29240219011",
+        "elapsed_ms": 263,
+        "status": 200
+      },
+      "remote_path": "datasets/train.parquet",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "signed_url_date": "20261008T125040Z",
+      "signed_url_ttl_seconds": 259200,
+      "size_bytes": 29240219011,
+      "url_path": "/kagglesdsdata/datasets/12352811/20287147/train.parquet"
+    },
+    {
+      "get": {
+        "body_read": false,
+        "content_length": "5615509128",
+        "elapsed_ms": 944,
+        "status": 200
+      },
+      "head": {
+        "body_read": false,
+        "content_length": "5615509128",
+        "elapsed_ms": 254,
+        "status": 200
+      },
+      "remote_path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "signed_url_date": "20261008T125041Z",
+      "signed_url_ttl_seconds": 259200,
+      "size_bytes": 5615509128,
+      "url_path": "/kagglesdsdata/datasets/12352811/20287147/valid.parquet"
+    }
+  ],
+  "observed_utc": "2026-10-08T12:52:45.491739+00:00",
+  "preserved_preflight_repair_note": "The first local prepare_prefetch validation rejected Kaggle SDK URLs solely for explicit default :443; that unnormalized temporary plan was corrected under the reviewed default-port rule before this successful validation.",
+  "private_plan_mode": "0600",
+  "private_plan_path": ".runtime/h230-seed54354-v5r1-20261008/signed_prefetch_v1.private.json",
+  "private_plan_sha256": "be3a9583994179cd8f187b88551df5814421107c8b74d9e82bf5a8722d7e47d3",
+  "public_admission_mode": "0600",
+  "public_admission_path": ".runtime/h230-seed54354-v5r1-20261008/prefetch_admission_v1.json",
+  "public_admission_sha256": "14198c092661f1bcf38575f5426281585c08ed2c64e1119a90e9fc75924d533d",
+  "schema": "h230-v5r1-prefetch-header-preflight-v1",
+  "scope": "Fresh signed Kaggle URLs; exact frozen Content-Length confirmed by HEAD and GET response headers, without reading bodies.",
+  "signed_plan_acquisition_completed_utc": "2026-10-08T12:52:45.491763+00:00",
+  "signed_plan_acquisition_started_utc": "2026-10-08T12:52:45.491759+00:00",
+  "status": "passed",
+  "url_normalization": "Removed only explicit default :443 from HTTPS storage.googleapis.com, preserving path and query byte-for-byte. This matches the previously reviewed H230 V4 preflight procedure.",
+  "validation": {
+    "binding": "passed",
+    "helper": "scripts/kaggle_vast_prefetch.py:prepare_prefetch",
+    "url_values_written_to_public_output": false
+  }
+}

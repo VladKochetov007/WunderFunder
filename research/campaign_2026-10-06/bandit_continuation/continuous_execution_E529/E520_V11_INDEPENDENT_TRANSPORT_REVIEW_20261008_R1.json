@@ -1,0 +1,200 @@
+{
+  "blocking_findings": [
+    "kernel-metadata.json omits enable_internet; Kaggle CLI 2.2.4 defaults missing enable_internet to true, contradicting the explicit-offline contract."
+  ],
+  "controller_manifest_sha256": "d9431c96a87f7289cd8bb2b0a8815effc1fbb3ca28f4570f0095f29737b48eba",
+  "embedded_payload": {
+    "expected_member_count": 19,
+    "extra_or_missing_members": [],
+    "member_count": 19,
+    "member_hash_mismatches": [],
+    "member_hashes": {
+      "E520_PACKET_PLAN.json": "7f9871a2b34daa25d21b3aaba27de8e2f521d6f4eea3a58c0da38156d225703d",
+      "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+      "external_review.json": "e81f70cd6c9bb688f95af00a1e7d9d46903d4e995fbfa3373a6416c275ec18cd",
+      "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+      "kernel-metadata.json": "60b394ba7ecf974de9fbd6dcb30812346f7a4ebade471b35a1343bf6967adc0e",
+      "packet_meta.json": "84f40403ef6c023293e88848a610a1bb07eb2fc009cd9f134923c0c72c42a40f",
+      "prepare_profile_packet.py": "c2f942133f4b4468bc34359eb5122dca5c0338b30c1d901c7766aaccd1059f26",
+      "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+      "profile_worker.py": "b6b86a7008b2f127a51a9376b708a48d42e8692db2e90f1c11628d47e8b50c19",
+      "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+      "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+      "tests/test_digest_handoff_integration.py": "ecafa7c47d572ae45c26cf3f0d327ab87e39eca2ba008c093c9a4048e082f434",
+      "tests/test_gpu_memory_domains.py": "0fd2f087588b05a2a9e7960858440ef4c02056f45b74f1e7566d0de35d934b41",
+      "tests/test_loader_hash_advice.py": "2291f4fca5bce5ee1adc99cb6a9b8b37d484e70268acfb0de70f879d8fa6c5a4",
+      "tests/test_portable_manifest_binding.py": "ac750b427b647f173e9e6155950572dd0693ad828d26dc10054b2e1f3a5491e4",
+      "tests/test_profile_bundle.py": "2b80a7fbd18514d4789e484eb35a18989c4132b93e3aa94c9bffb5ecefb5dd47",
+      "tests/test_profile_guards.py": "5d8c52bd4c787b4e9b8b370925f9fb8d6aa9db66c621fd82ab6acfef6d69c9b3",
+      "tests/test_split_manifest_cwd.py": "29d46be51b849d9ea1344d52bfb0e7a2eae1badd19d6da024f86208c9747fbe8",
+      "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+    },
+    "members_exact": true,
+    "sha256_expected": "b3767a6acd7c614284538c22764edb9cb5aa6a19375d777db967408ccd7882e4",
+    "sha256_match": true,
+    "sha256_observed": "b3767a6acd7c614284538c22764edb9cb5aa6a19375d777db967408ccd7882e4",
+    "unsafe_members": []
+  },
+  "fresh_quota": {
+    "gpu": {
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 44691.630000000005,
+      "campaign_used_seconds": 12088.885999999999,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "used_seconds": 49136.207
+    },
+    "kernel_status": [
+      {
+        "failure_message": "",
+        "kernel": "vladkochetov07/e520-profile-v10-live-gpu-uuid",
+        "monitoring_state": "polling_until_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence_receipt": null
+      },
+      {
+        "error": "403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus",
+        "error_type": "HTTPError",
+        "kernel": "vladkochetov07/e520-profile-v11-absolute-split-path",
+        "monitoring_state": "poll_error_retry_next_timer_tick",
+        "resource": "gpu",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py\", line 145, in collect\n    **_status(client, kernel),\n      ~~~~~~~^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py\", line 50, in _status\n    response = client.kernels.kernels_api_client.get_kernel_session_status(request)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kernels/services/kernels_api_service.py\", line 82, in get_kernel_session_status\n    return self._client.call(\"kernels.KernelsApiService\", \"GetKernelSessionStatus\", request, ApiGetKernelSessionStatusResponse)\n           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kaggle_http_client.py\", line 106, in call\n    response = self._prepare_response(response_type, http_response)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kaggle_http_client.py\", line 134, in _prepare_response\n    http_response.raise_for_status()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/requests/models.py\", line 1167, in raise_for_status\n    raise HTTPError(http_error_msg, response=self)\nrequests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus\n"
+      },
+      {
+        "failure_message": "",
+        "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+        "monitoring_state": "polling_until_terminal_evidence_downloaded",
+        "resource": "tpu",
+        "status": "KernelWorkerStatus.COMPLETE",
+        "terminal_evidence_receipt": null
+      },
+      {
+        "error": "403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus",
+        "error_type": "HTTPError",
+        "kernel": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v4",
+        "monitoring_state": "poll_error_retry_next_timer_tick",
+        "resource": "tpu",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py\", line 145, in collect\n    **_status(client, kernel),\n      ~~~~~~~^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py\", line 50, in _status\n    response = client.kernels.kernels_api_client.get_kernel_session_status(request)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kernels/services/kernels_api_service.py\", line 82, in get_kernel_session_status\n    return self._client.call(\"kernels.KernelsApiService\", \"GetKernelSessionStatus\", request, ApiGetKernelSessionStatusResponse)\n           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kaggle_http_client.py\", line 106, in call\n    response = self._prepare_response(response_type, http_response)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kaggle_http_client.py\", line 134, in _prepare_response\n    http_response.raise_for_status()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/requests/models.py\", line 1167, in raise_for_status\n    raise HTTPError(http_error_msg, response=self)\nrequests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus\n"
+      }
+    ],
+    "observed_at_utc": "2026-10-07T21:00:29+00:00",
+    "tpu": {
+      "campaign_baseline_used_seconds": 134.623,
+      "campaign_cap_seconds": 7200.0,
+      "campaign_headroom_seconds": 7082.242,
+      "campaign_used_seconds": 117.75800000000001,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "used_seconds": 252.381
+    }
+  },
+  "id": "E520_PROFILE_V11_INDEPENDENT_TRANSPORT_REVIEW_20261008_R1",
+  "metadata": {
+    "competition_sources": [],
+    "dataset_sources": [
+      "vladkochetov07/wunder-funder",
+      "vladkochetov07/wnn-c20261004-fold0-assets"
+    ],
+    "effective_default_source": "kaggle/api/kaggle_api_extended.py get_bool(meta_data, enable_internet, True)",
+    "effective_enable_internet": true,
+    "enable_gpu": true,
+    "enable_internet_field_present": false,
+    "fit_enabled": false,
+    "is_private": true,
+    "kaggle_cli_version": "2.2.4",
+    "plan_execution_authorized": false,
+    "prediction_export_enabled": false,
+    "profile_only": true,
+    "worker_wall_cap_seconds": 1450
+  },
+  "mount_contract_review": {
+    "fold_asset_source": "vladkochetov07/wnn-c20261004-fold0-assets",
+    "identity_checks": "worker requires unique train.parquet/valid.parquet plus assets-manifest, exact listed asset sizes/hashes, raw parquet hashes/footer identities, portable registry binding, fold split fingerprint/membership, and rejects corrupt row group 528 in fit",
+    "raw_dataset_hashed_by_reviewer": false,
+    "raw_sources": [
+      "vladkochetov07/wunder-funder"
+    ]
+  },
+  "offline_validation": {
+    "assembly_receipt_result": "44 passed in 0.30 seconds",
+    "independent_reviewer_reran_tests": false,
+    "reviewed_tests": [
+      "test_profile_bundle.py",
+      "test_split_manifest_cwd.py",
+      "test_portable_manifest_binding.py",
+      "test_gpu_memory_domains.py",
+      "test_loader_hash_advice.py",
+      "test_profile_guards.py",
+      "test_digest_handoff_integration.py"
+    ]
+  },
+  "outer_packet_file_count": 20,
+  "outer_packet_file_hashes": {
+    "E520_PACKET_PLAN.json": "7f9871a2b34daa25d21b3aaba27de8e2f521d6f4eea3a58c0da38156d225703d",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "external_review.json": "e81f70cd6c9bb688f95af00a1e7d9d46903d4e995fbfa3373a6416c275ec18cd",
+    "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+    "kernel-metadata.json": "60b394ba7ecf974de9fbd6dcb30812346f7a4ebade471b35a1343bf6967adc0e",
+    "packet_meta.json": "84f40403ef6c023293e88848a610a1bb07eb2fc009cd9f134923c0c72c42a40f",
+    "prepare_profile_packet.py": "c2f942133f4b4468bc34359eb5122dca5c0338b30c1d901c7766aaccd1059f26",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_kernel_bundle.py": "47d6ec6c7d043d0fed5cd66cab276e6c44ae91d6b8391daf4aafc117da0bca6c",
+    "profile_worker.py": "b6b86a7008b2f127a51a9376b708a48d42e8692db2e90f1c11628d47e8b50c19",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+    "tests/test_digest_handoff_integration.py": "ecafa7c47d572ae45c26cf3f0d327ab87e39eca2ba008c093c9a4048e082f434",
+    "tests/test_gpu_memory_domains.py": "0fd2f087588b05a2a9e7960858440ef4c02056f45b74f1e7566d0de35d934b41",
+    "tests/test_loader_hash_advice.py": "2291f4fca5bce5ee1adc99cb6a9b8b37d484e70268acfb0de70f879d8fa6c5a4",
+    "tests/test_portable_manifest_binding.py": "ac750b427b647f173e9e6155950572dd0693ad828d26dc10054b2e1f3a5491e4",
+    "tests/test_profile_bundle.py": "2b80a7fbd18514d4789e484eb35a18989c4132b93e3aa94c9bffb5ecefb5dd47",
+    "tests/test_profile_guards.py": "5d8c52bd4c787b4e9b8b370925f9fb8d6aa9db66c621fd82ab6acfef6d69c9b3",
+    "tests/test_split_manifest_cwd.py": "29d46be51b849d9ea1344d52bfb0e7a2eae1badd19d6da024f86208c9747fbe8",
+    "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+  },
+  "outer_packet_hashes_match_assembly_receipt": true,
+  "outer_packet_mismatches": [],
+  "packet_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v11",
+  "provider_admission": false,
+  "provider_push_attempted": false,
+  "provider_slug": "vladkochetov07/e520-profile-v11-absolute-split-path",
+  "reviewed_at_utc": "2026-10-07T21:00:29+00:00",
+  "reviewer": {
+    "id": "cloud_live_status_eta",
+    "role": "independent_cloud_transport_reviewer",
+    "separate_from_builder": "cloud_delivery_resume"
+  },
+  "runtime_evidence": {
+    "tpu_v3_update_seconds": 4.261135425,
+    "tpu_v3_worker_elapsed_seconds": 63.269333958,
+    "tpu_v4_runtime": "unmeasured; V4 adds full-batch/reference and distributed gradient comparisons plus three synchronized updates",
+    "v10_failure": "FileNotFoundError: [Errno 2] No such file or directory: '/kaggle/working/research/campaign_2026-09-29/artifacts/splits/fold0.json'",
+    "v10_observed_wall_seconds": 909.8244073679999,
+    "v10_reached_profile_updates": false,
+    "v10_terminal_phase": "failed",
+    "v11_profile_runtime_estimate_seconds": {
+      "additional_profile_plus_4000_row_probe": "unknown; V10 failed at load_campaign_split before measured trainer updates",
+      "measured_floor_before_v10_path_failure": 909.8244073679999,
+      "worker_cap": 1450
+    },
+    "v11_profile_steps": 20,
+    "v11_warmup_steps": 3
+  },
+  "safety_review": {
+    "fit_export_disabled": true,
+    "provider_network_not_used_in_review": true,
+    "wrapper_hash_checks": true,
+    "wrapper_rejects_absolute_parent_and_symlink_members": true
+  },
+  "schema_version": 1,
+  "scientific_result": null,
+  "source_archive": {
+    "contains_training_or_checkpoint_data": false,
+    "matches_source_review": true,
+    "sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tar_member_count": 51,
+    "unsafe_tar_members": []
+  },
+  "verdict": "FAIL_TRANSPORT_METADATA_DEFAULTS_INTERNET_ON"
+}

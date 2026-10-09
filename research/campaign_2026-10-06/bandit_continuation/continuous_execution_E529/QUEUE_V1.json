@@ -1,0 +1,285 @@
+{
+  "schema_version": 1,
+  "campaign": "E529",
+  "plan": "specs/plans/2026-10-07-continuous-research.md",
+  "allocation": {
+    "leading_fraction": 0.55,
+    "independent_exploration_fraction": 0.3,
+    "confirmation_serving_systems_fraction": 0.15,
+    "vast_first_cohort_usd": 4,
+    "vast_total_usd": 20,
+    "reflection_period_seconds": 7200,
+    "unrelated_vast_instances": "never touch"
+  },
+  "jobs": [
+    {
+      "attempt_id": "e529-h230-full-s3",
+      "lane": "local_gpu",
+      "hypothesis": "H-230",
+      "title": "H230 full student seed 3",
+      "predecessors": [],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h230-full-s3.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h230-full-s3.json",
+      "expected_artifacts": [
+        "checkpoint",
+        "predictions",
+        "grade"
+      ],
+      "blocked_reason": "H230 9GB successor and fresh host admission; GPU/systemd inaccessible"
+    },
+    {
+      "attempt_id": "e529-h230-familyoff-s3",
+      "lane": "local_gpu",
+      "hypothesis": "H-230",
+      "title": "Same main targets, family head disabled",
+      "predecessors": [
+        "e529-h230-full-s3"
+      ],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h230-familyoff-s3.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h230-familyoff-s3.json",
+      "expected_artifacts": [
+        "checkpoint",
+        "predictions",
+        "grade"
+      ],
+      "blocked_reason": "Matched control architecture/loss audit and fresh host admission"
+    },
+    {
+      "attempt_id": "e529-h230-full-s4",
+      "lane": "local_gpu",
+      "hypothesis": "H-230",
+      "title": "H230 full student seed 4",
+      "predecessors": [
+        "e529-h230-full-s3"
+      ],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h230-full-s4.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h230-full-s4.json",
+      "expected_artifacts": [
+        "checkpoint",
+        "predictions",
+        "grade"
+      ],
+      "blocked_reason": "Seed-4 source binding and fresh host admission"
+    },
+    {
+      "attempt_id": "e529-h230-familyoff-s4",
+      "lane": "local_gpu",
+      "hypothesis": "H-230",
+      "title": "Matched family-off seed 4",
+      "predecessors": [
+        "e529-h230-familyoff-s3"
+      ],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h230-familyoff-s4.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h230-familyoff-s4.json",
+      "expected_artifacts": [
+        "checkpoint",
+        "predictions",
+        "grade"
+      ],
+      "blocked_reason": "Seed-4 control binding and fresh host admission"
+    },
+    {
+      "attempt_id": "e529-h233-readout",
+      "lane": "local_gpu",
+      "hypothesis": "H-233",
+      "title": "Frozen-trunk conditional readout controls",
+      "predecessors": [],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h233-readout.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h233-readout.json",
+      "expected_artifacts": [
+        "checkpoint",
+        "predictions",
+        "grade",
+        "latency"
+      ],
+      "blocked_reason": "Implementation, causal/identity checks and bounded GPU profile required"
+    },
+    {
+      "attempt_id": "e529-e520-v11-profile",
+      "lane": "kaggle_gpu",
+      "hypothesis": "H-212",
+      "title": "Explicit-offline E520 V11 recovery profile",
+      "predecessors": [],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-e520-v11-profile.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-e520-v11-profile.json",
+      "expected_artifacts": [
+        "profile",
+        "logs"
+      ],
+      "blocked_reason": "Packet exists; independent transport review and fresh provider access/quota required"
+    },
+    {
+      "attempt_id": "e529-h232-full-s3",
+      "lane": "kaggle_gpu",
+      "hypothesis": "H-232",
+      "title": "Wide teacher with causal event features seed 3",
+      "predecessors": [
+        "e529-e520-v11-profile"
+      ],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h232-full-s3.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h232-full-s3.json",
+      "expected_artifacts": [
+        "checkpoint",
+        "predictions",
+        "grade"
+      ],
+      "blocked_reason": "Frozen H232 recipe, cloud packet and representative profile required"
+    },
+    {
+      "attempt_id": "e529-h232-full-s4",
+      "lane": "kaggle_gpu",
+      "hypothesis": "H-232",
+      "title": "Wide teacher with causal event features seed 4",
+      "predecessors": [
+        "e529-h232-full-s3"
+      ],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h232-full-s4.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h232-full-s4.json",
+      "expected_artifacts": [
+        "checkpoint",
+        "predictions",
+        "grade"
+      ],
+      "blocked_reason": "Same-recipe seed-4 packet and quota required"
+    },
+    {
+      "attempt_id": "e529-e463-v4-parity",
+      "lane": "kaggle_tpu",
+      "hypothesis": "H-214",
+      "title": "Unequal-weight synthetic gradient/reduction diagnostic",
+      "predecessors": [],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-e463-v4-parity.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-e463-v4-parity.json",
+      "expected_artifacts": [
+        "parity",
+        "logs"
+      ],
+      "blocked_reason": "Offline V4 packet exists; independent transport review and bounded live allocation required"
+    },
+    {
+      "attempt_id": "e529-tpu-realdata-parity",
+      "lane": "kaggle_tpu",
+      "hypothesis": "H-214",
+      "title": "Real-data Torch/JAX objective and update parity",
+      "predecessors": [
+        "e529-e463-v4-parity"
+      ],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-tpu-realdata-parity.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-tpu-realdata-parity.json",
+      "expected_artifacts": [
+        "parity",
+        "profile"
+      ],
+      "blocked_reason": "New real-data parity packet; synthetic V4 alone cannot admit production"
+    },
+    {
+      "attempt_id": "e529-h216-prefix-teacher",
+      "lane": "kaggle_tpu",
+      "hypothesis": "H-216",
+      "title": "Associative-recurrence complementary teacher",
+      "predecessors": [
+        "e529-tpu-realdata-parity"
+      ],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h216-prefix-teacher.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h216-prefix-teacher.json",
+      "expected_artifacts": [
+        "checkpoint",
+        "predictions",
+        "grade"
+      ],
+      "blocked_reason": "Independent implementation, sequential/prefix gradients, real-device profile"
+    },
+    {
+      "attempt_id": "e529-h217-tcn-profile",
+      "lane": "vast",
+      "hypothesis": "H-217",
+      "title": "Raw TCN128x12 complete-update profile",
+      "predecessors": [],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h217-tcn-profile.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h217-tcn-profile.json",
+      "expected_artifacts": [
+        "profile",
+        "logs"
+      ],
+      "blocked_reason": "Root-owned creation, live quote/all-in $4 admission, teardown guard and corrected profile required"
+    },
+    {
+      "attempt_id": "e529-h217-tcn-fit",
+      "lane": "vast",
+      "hypothesis": "H-217",
+      "title": "Raw TCN128x12 seed 7 four-epoch fit",
+      "predecessors": [
+        "e529-h217-tcn-profile"
+      ],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h217-tcn-fit.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h217-tcn-fit.json",
+      "expected_artifacts": [
+        "checkpoint",
+        "predictions",
+        "grade"
+      ],
+      "blocked_reason": "Profile-guided fit cap; ownership and $4 initial/$20 cumulative budget"
+    },
+    {
+      "attempt_id": "e529-h217-gru-control",
+      "lane": "vast",
+      "hypothesis": "H-217",
+      "title": "Raw GRU256x2 seed 7 matched-schedule control",
+      "predecessors": [
+        "e529-h217-tcn-profile"
+      ],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h217-gru-control.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h217-gru-control.json",
+      "expected_artifacts": [
+        "checkpoint",
+        "predictions",
+        "grade"
+      ],
+      "blocked_reason": "Same frozen schedule, no parameter/compute equality claim; cost release required"
+    },
+    {
+      "attempt_id": "e529-h218-attention-profile",
+      "lane": "kaggle_gpu",
+      "hypothesis": "H-218",
+      "title": "Protected independent attention prototype/profile",
+      "predecessors": [],
+      "prepared": false,
+      "launch_command": null,
+      "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/admissions/e529-h218-attention-profile.json",
+      "completion_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/results/e529-h218-attention-profile.json",
+      "expected_artifacts": [
+        "causality",
+        "profile"
+      ],
+      "blocked_reason": "Independent builder; protected exploration slot; no dependency on positive TCN score"
+    }
+  ]
+}

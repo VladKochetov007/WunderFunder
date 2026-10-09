@@ -1,0 +1,234 @@
+--- a/scripts/train_rnn.py
++++ b/scripts/train_rnn.py
+@@ -1323,10 +1323,18 @@
+     perf.add_argument("--profile-steps", type=int, default=0,
+                       help="time this many batches per stage (after --profile-warmup), print a table and exit")
+     perf.add_argument("--profile-warmup", type=int, default=5)
++    perf.add_argument("--amp-init-scale", type=float, default=None,
++                      help="explicit FP16 GradScaler initial scale; None preserves the PyTorch default")
++    perf.add_argument("--profile-trace-output", type=Path, default=None,
++                      help="write bounded per-update profile evidence after the loop")
+     perf.add_argument("--parity-dump", default="", help="save per-step losses and final weights here, then exit")
+     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
+     add_dynamics_arguments(ap)
+     args = ap.parse_args()
++    if args.amp_init_scale is not None and (not math.isfinite(args.amp_init_scale) or args.amp_init_scale <= 0):
++        ap.error("--amp-init-scale must be finite and positive")
++    if args.profile_trace_output is not None and not args.profile_steps:
++        ap.error("--profile-trace-output requires --profile-steps")
+     distillation_requested = bool(args.distill or args.distill_cache_root)
+     if args.distill and args.distill_cache_root:
+         ap.error("--distill and --distill-cache-root are mutually exclusive")
+@@ -1935,7 +1943,11 @@
+     provenance["optimizer_switch_events"] = dynamics.events
+     amp_dtype = torch.bfloat16 if args.precision == "bf16" else torch.float16
+     use_autocast = device.type == "cuda" and args.precision != "fp32"
+-    scaler = torch.amp.GradScaler(device.type, enabled=args.precision == "fp16")
++    scaler_init_scale = 65536.0 if args.amp_init_scale is None else args.amp_init_scale
++    scaler = torch.amp.GradScaler(
++        device.type, init_scale=scaler_init_scale, growth_factor=2.0,
++        backoff_factor=0.5, growth_interval=2000, enabled=args.precision == "fp16"
++    )
+     grad_stats = GradStats(model, args.clip) if args.grad_stats else None
+     swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
+     ema_model = None
+@@ -1983,6 +1995,11 @@
+     norm_ema = None  # running weight-sum normalizer for --loss-norm running
+     losses_trace = []
+     profile_losses: list[torch.Tensor] | None = [] if args.profile_steps else None
++    profile_attempt_meta: list[dict[str, int | str]] | None = [] if args.profile_steps else None
++    profile_update_flags: list[torch.Tensor] | None = [] if args.profile_steps else None
++    profile_loss_flags: list[torch.Tensor] | None = [] if args.profile_steps else None
++    profile_scale_before: list[torch.Tensor] | None = [] if args.profile_steps else None
++    profile_scale_after: list[torch.Tensor] | None = [] if args.profile_steps else None
+     best, t0, history = -1.0, time.time(), []
+     fitting_started = t0
+     cumulative_updates = {}
+@@ -2335,13 +2352,30 @@
+                     scaler.scale(loss).backward()
+                 timer.mark("backward")
+                 scaler.unscale_(opt)
+-                epoch_counter.observe_unscaled(scaler, opt)
++                found_inf = epoch_counter.observe_unscaled(scaler, opt)
++                if profile_attempt_meta is not None:
++                    profile_attempt_meta.append({
++                        "phase": "warmup" if b < args.profile_warmup else "timed",
++                        "outer_batch_index": int(b),
++                        "window_index": int(window_index),
++                        "row_start": int(sl.start),
++                        "row_stop": int(sl.stop),
++                    })
++                    profile_update_flags.append(found_inf.detach().clone())
++                    profile_loss_flags.append(torch.isfinite(loss.detach()).all())
++                    if scaler._scale is None:
++                        raise RuntimeError("enabled GradScaler has no initialized device scale")
++                    profile_scale_before.append(scaler._scale.detach().clone())
+                 if grad_stats is not None:
+                     grad_stats.observe()
+                 dynamics.perturb_and_clip(step_count)
+                 scaler.step(opt)
+                 invalidate_qat_cache(model)
+                 scaler.update()
++                if profile_scale_after is not None:
++                    if scaler._scale is None:
++                        raise RuntimeError("GradScaler device scale disappeared after update")
++                    profile_scale_after.append(scaler._scale.detach().clone())
+                 sched.step()
+                 timer.mark("optimizer")
+                 if args.parity_dump:
+@@ -2379,22 +2413,111 @@
+             med = timer.report(args.profile_warmup, args.batch)
+             print("PROFILE", json.dumps({k: round(v, 2) for k, v in med.items()}), flush=True)
+             update_counts = epoch_counter.finish(cumulative_updates)
+-            loss_finite = bool(
+-                profile_losses
+-                and torch.isfinite(torch.stack(profile_losses)).all().item()
++            epoch_updates = update_counts["epoch"]
++            if not scaler.is_enabled():
++                raise RuntimeError("H232 profile requires enabled FP16 GradScaler evidence")
++            if not profile_attempt_meta or not profile_update_flags or not profile_loss_flags:
++                raise RuntimeError("profile update trace is incomplete")
++            if not (
++                len(profile_attempt_meta) == len(profile_update_flags)
++                == len(profile_loss_flags) == len(profile_scale_before) == len(profile_scale_after)
++            ):
++                raise RuntimeError("profile update trace counts disagree")
++            # One device-to-host transfer after all attempts; no per-update sync.
++            evidence_flags = torch.stack((
++                torch.stack(profile_update_flags).to(torch.uint8),
++                torch.stack(profile_loss_flags).to(torch.uint8),
++                torch.stack(profile_scale_before).to(torch.float32),
++                torch.stack(profile_scale_after).to(torch.float32),
++            ), dim=1).cpu().tolist()
++            scale = float(scaler_init_scale)
++            growth_tracker = 0
++            attempts = []
++            for meta, flags in zip(profile_attempt_meta, evidence_flags, strict=True):
++                found_inf, loss_finite = bool(flags[0]), bool(flags[1])
++                observed_scale_before, observed_scale_after = float(flags[2]), float(flags[3])
++                expected_scale_before = scale
++                scale_consistent = math.isclose(
++                    observed_scale_before, expected_scale_before, rel_tol=1e-6, abs_tol=1e-6
++                )
++                if found_inf:
++                    scale *= 0.5
++                    growth_tracker = 0
++                else:
++                    growth_tracker += 1
++                    if growth_tracker >= 2000:
++                        scale *= 2.0
++                        growth_tracker = 0
++                scale_consistent = scale_consistent and math.isclose(
++                    observed_scale_after, scale, rel_tol=1e-6, abs_tol=1e-6
++                )
++                attempts.append({
++                    **meta,
++                    "unscaled_found_inf": found_inf,
++                    "loss_finite": loss_finite,
++                    "optimizer_update_completed": not found_inf,
++                    "scale_before": observed_scale_before,
++                    "scale_after": observed_scale_after,
++                    "scale_schedule_consistent": scale_consistent,
++                })
++            warmup_rows = [row for row in attempts if row["phase"] == "warmup"]
++            timed_rows = [row for row in attempts if row["phase"] == "timed"]
++
++            def summarize(rows):
++                return {
++                    "attempts": len(rows),
++                    "completed_updates": sum(not row["unscaled_found_inf"] for row in rows),
++                    "amp_skipped_updates": sum(row["unscaled_found_inf"] for row in rows),
++                    "loss_checks": len(rows),
++                    "loss_finite": all(row["loss_finite"] for row in rows),
++                    "gradient_finite": all(not row["unscaled_found_inf"] for row in rows),
++                }
++
++            warmup_summary = summarize(warmup_rows)
++            timed_summary = summarize(timed_rows)
++            expected_timed_attempts = args.profile_steps * math.ceil(SEQUENCE_LENGTH / update_rows)
++            valid_for_throughput = (
++                len(timed_rows) == expected_timed_attempts
++                and timed_summary["loss_finite"]
++                and timed_summary["gradient_finite"]
++                and all(row["scale_schedule_consistent"] for row in attempts)
+             )
+-            epoch_updates = update_counts["epoch"]
+-            evidence = profile_update_evidence(
+-                epoch_updates["optimizer_attempts"],
+-                epoch_updates["optimizer_completed_updates"],
+-                epoch_updates["amp_skipped_updates"],
+-                len(profile_losses or []),
+-                loss_finite,
+-                scaler.is_enabled(),
+-            )
+-            print("PROFILE_UPDATE_EVIDENCE", json.dumps(evidence), flush=True)
+-            if not evidence["valid_for_throughput"]:
+-                raise RuntimeError("profile update evidence is incomplete or nonfinite")
++            trace = {
++                "schema": "h232-profile-update-trace-v1",
++                "numeric_policy": {
++                    "initial_scale": float(scaler_init_scale),
++                    "growth_factor": 2.0,
++                    "backoff_factor": 0.5,
++                    "growth_interval": 2000,
++                    "scale_schedule_basis": "actual GradScaler device scale cloned before and after each update; all values transferred once after profile and checked against the configured found_inf recurrence",
++                    "capture_method": "device-side clone of GradScaler._scale; no per-update host synchronization",
++                },
++                "expected_timed_attempts": expected_timed_attempts,
++                "total_attempts": len(attempts),
++                "warmup": warmup_summary,
++                "timed": timed_summary,
++                "valid_for_throughput": valid_for_throughput,
++                "attempts": attempts,
++            }
++            if args.profile_trace_output is not None:
++                args.profile_trace_output.parent.mkdir(parents=True, exist_ok=True)
++                args.profile_trace_output.write_text(
++                    json.dumps(trace, sort_keys=True) + "\n", encoding="utf-8"
++                )
++            print("PROFILE_UPDATE_EVIDENCE", json.dumps({
++                "optimizer_attempts": epoch_updates["optimizer_attempts"],
++                "optimizer_completed_updates": epoch_updates["optimizer_completed_updates"],
++                "amp_skipped_updates": epoch_updates["amp_skipped_updates"],
++                "loss_checks": len(profile_losses or []),
++                "loss_finite_all_attempts": all(row["loss_finite"] for row in attempts),
++                "scale_schedule_consistent": all(row["scale_schedule_consistent"] for row in attempts),
++                "warmup": warmup_summary,
++                "timed": timed_summary,
++                "valid_for_throughput": valid_for_throughput,
++                "trace_path": str(args.profile_trace_output) if args.profile_trace_output else None,
++            }), flush=True)
++            if not valid_for_throughput:
++                raise RuntimeError("profile timed update evidence is incomplete or nonfinite")
+             return
+         if args.parity_dump:
+             torch.save({"losses": torch.stack(losses_trace).cpu(), "model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
+
+--- a/src/wnn/run_identity.py
++++ b/src/wnn/run_identity.py
+@@ -54,11 +54,11 @@
+         self.skips = torch.zeros((), dtype=torch.int64, device=device)
+ 
+     @torch.no_grad()
+-    def observe_unscaled(self, scaler, optimizer) -> None:
+-        """Call immediately after the existing unscale_; never alter its flags."""
++    def observe_unscaled(self, scaler, optimizer) -> torch.Tensor:
++        """Return the actual found-inf bit after unscale; never alter its flags."""
+         self.attempts += 1
+         if not scaler.is_enabled():
+-            return
++            return torch.zeros((), dtype=torch.bool, device=self.skips.device)
+         flags = scaler._found_inf_per_device(optimizer)
+         if not flags:
+             raise RuntimeError("enabled AMP has no unscaled optimizer inf flags")
+@@ -66,7 +66,9 @@
+         found = torch.zeros((), device=self.skips.device, dtype=torch.float32)
+         for value in flags.values():
+             found.add_(value.detach().to(device=self.skips.device, dtype=torch.float32))
+-        self.skips.add_(found.ne(0).to(torch.int64))
++        skipped = found.ne(0)
++        self.skips.add_(skipped.to(torch.int64))
++        return skipped
+ 
+     def finish(self, cumulative: dict[str, int]) -> dict[str, dict[str, int]]:
+         """Read exactly one device scalar after the epoch's fitting loop."""

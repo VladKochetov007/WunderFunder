@@ -1,0 +1,64 @@
+{
+  "status": "pending_git_metadata_write_and_network_access",
+  "last_observed_head": "099e6d56",
+  "reason": "Current managed workspace has read-only .git; no successful new commit or push is claimed. Preserve unrelated pre-existing staged changes.",
+  "steps": [
+    {
+      "title": "research: record bounded paid-compute ownership and continuous plan",
+      "paths": [
+        ".gitignore",
+        "AGENTS.md",
+        "specs/README.md",
+        "specs/adr/README.md",
+        "specs/adr/0013-owned-paid-compute-and-continuous-queue.md",
+        "specs/plans/2026-10-07-continuous-research.md"
+      ]
+    },
+    {
+      "title": "research: prepare guarded experiment delivery and independent model controls",
+      "paths": [
+        "scripts/research_dispatch.py",
+        "tests/test_research_dispatch.py",
+        "scripts/vast_campaign.py",
+        "tests/test_vast_campaign.py",
+        "scripts/train_rnn.py",
+        "tests/test_profile_update_evidence.py",
+        "src/wnn/block_memory_attention.py",
+        "tests/test_block_memory_attention.py",
+        "src/wnn/conditional_readout.py",
+        "scripts/train_conditional_readout.py",
+        "tests/test_conditional_readout.py",
+        "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529"
+      ]
+    },
+    {
+      "title": "research: record input-reuse evidence and online-learning exploration",
+      "paths": [
+        "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530",
+        "src/wnn/online_dynamics.py",
+        "tests/test_online_dynamics.py",
+        "research/hypotheses.jsonl",
+        "research/experiments.jsonl",
+        "research/bandit_tree/config.json",
+        "research/bandit_tree/journal.jsonl",
+        "research/bandit_tree/generated",
+        "research/campaign_2026-10-06/INDEX.md",
+        "research/campaign_2026-10-06/bandit_continuation/FRONTIER.md",
+        "specs/current-state.md"
+      ]
+    }
+  ],
+  "exclusions": [
+    ".env",
+    ".env.* except .env.example",
+    "vast.txt",
+    "credentials and private auth state",
+    "cache/model/checkpoint binaries",
+    "*.npy",
+    "*.pt",
+    "*.pyc",
+    "unrelated staged or untracked files"
+  ],
+  "commit_handoff": "Inspect exact diff and secret-safe file list at each step, rebuild tree after final writer handoff, then commit/push meaningful groups when supported. This manifest does not stage files."
+}

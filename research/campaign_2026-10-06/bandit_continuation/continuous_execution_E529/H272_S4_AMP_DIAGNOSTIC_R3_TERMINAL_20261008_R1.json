@@ -1,0 +1,794 @@
+{
+  "attempt_id": "e529-s4-served-head-f0-profile-r3-ampdiag-20261008",
+  "attempt_record": {
+    "contract_sha256": "cd1ed9b7df478446a1ab16c7fc1c47abccbf00d547eb1d3cd52d06a5e81c82e3",
+    "exact_command": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "900s",
+      "/usr/bin/env",
+      "ARROW_NUM_THREADS=1",
+      "CUBLAS_WORKSPACE_CONFIG=:4096:8",
+      "CUDA_VISIBLE_DEVICES=0",
+      "MKL_NUM_THREADS=1",
+      "NUMBA_NUM_THREADS=1",
+      "OMP_NUM_THREADS=1",
+      "OPENBLAS_NUM_THREADS=1",
+      "POLARS_MAX_THREADS=1",
+      "PYTHONDONTWRITEBYTECODE=1",
+      "PYTHONHASHSEED=0",
+      "PYTHONUNBUFFERED=1",
+      "PYTHONPATH=/home/vlad/development/wunder/worktrees/e529-s4-ampdiag-profile-r3a-20261008/src:/home/vlad/development/wunder/worktrees/e529-s4-ampdiag-profile-r3a-20261008",
+      "WNN_GPU_MEMORY_BYTES=4200000000",
+      "WNN_LOADER_RAM_GB=3",
+      "WNN_LOADER_WORKERS=0",
+      "WNN_PORTABLE_DATA_MANIFEST=research/campaign_2026-10-04/portable_inputs.json",
+      "WNN_PROJECT_ROOT=/home/vlad/development/wunder/worktrees/e529-s4-ampdiag-profile-r3a-20261008",
+      "WNN_THREADS=1",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/worktrees/e529-s4-ampdiag-profile-r3a-20261008/scripts/profile_amp_scale_diagnostic.py",
+      "--name",
+      "e529_s4_served_head_f0_profile_r3_scalerdiag",
+      "--init",
+      "c20261003_combo_s4_f0@ep3",
+      "--train-source",
+      "valid",
+      "--full-valid",
+      "--mask-weight",
+      "--seed",
+      "3",
+      "--epochs",
+      "1",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--fast",
+      "--inherit-init-preprocessing",
+      "--loss",
+      "gcorr",
+      "--optim",
+      "adamw",
+      "--freeze",
+      "inp,gru",
+      "--lr",
+      "0.0005",
+      "--wd",
+      "0.01",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "0",
+      "--split-manifest",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--no-eval-during-fit",
+      "--profile-steps",
+      "4",
+      "--profile-warmup",
+      "2",
+      "--grad-stats"
+    ],
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e529-s4-served-head-f0-profile-r3-ampdiag-20261008.json",
+    "source_manifest_sha256": "0d11097bd4c51e40c085b5330968bf02ccce7a02367e14f3c95d1882207ba9c6"
+  },
+  "authorization": {
+    "fit_authorized": false,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_S4_AMP_DIAGNOSTIC_ROOT_PROFILE_AUTHORIZATION_20261008_R3.json",
+    "recipe_id": "E529-S4-SERVED-HEAD-CLEANFOLD-AMP-DIAGNOSTIC-20261008-R3",
+    "recipe_sha256": "8a8f21cdc48d934ef407c2eb49476fefb88e62e4651d0b5e9d5f8bf93229dcde",
+    "sha256": "cd1ed9b7df478446a1ab16c7fc1c47abccbf00d547eb1d3cd52d06a5e81c82e3",
+    "status": "approved_profile_only"
+  },
+  "cache_handoff": {
+    "data_or_source_changed": false,
+    "limits_changed": false,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_S4_AMP_DIAGNOSTIC_R3_CACHE_HANDOFF_20261008_R1.json",
+    "sha256": "98dc53cbd642f8ea2e239b948090ac9f182f4be2deb9beef9091547b3351b0b2",
+    "status": "ready"
+  },
+  "elapsed_seconds": 45.38610033597797,
+  "exit_status": 0,
+  "finished_utc": "2026-10-08T15:54:44.365941+00:00",
+  "interpretation": {
+    "observed": "The sole loss-scale reduction occurred on update ordinal3 (65536 to32768); the aggregate gradient stats report one nonfinite step among60. Scale remained32768 for updates4\u201360. This is consistent with one AMP overflow-triggered skipped optimizer update followed by57 updates without further scaler reductions; the emitted trace does not include a per-step optimizer invocation counter, so the exact skipped-step ordinal is not asserted.",
+    "science": "Profile-only diagnostic. No fit, export, or grade was run; no scientific performance claim is made. Root terminal interpretation is required before any fit."
+  },
+  "log": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/e529-s4-served-head-f0-profile-r3-ampdiag-20261008.log",
+    "sha256": "df53695aa8eb752b28e2914f908d275166d238fc69273f596f3f85e0cca77719"
+  },
+  "phase": "terminal",
+  "provider": "local_durable_bandit_resources",
+  "recorded_utc": "2026-10-08T15:56:23.525704+00:00",
+  "resources": {
+    "allocator_admission_bytes": 4300000000,
+    "job_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "observed_vram_cap_bytes": 5000000000,
+    "observer_status": {
+      "attempt_memory_current": "ok",
+      "attempt_memory_events": "ok",
+      "attempt_memory_events_final": "ok",
+      "attempt_memory_events_start": "ok",
+      "attempt_memory_peak_final": "ok",
+      "attempt_systemd_runtime": "ok",
+      "attempt_systemd_start": "ok",
+      "nvidia_smi_admission": "ok",
+      "nvidia_smi_final": "ok",
+      "nvidia_smi_launch": "ok",
+      "nvidia_smi_runtime": "ok",
+      "parent_hierarchical_memory_events": "ok",
+      "parent_hierarchical_memory_events_final": "ok",
+      "parent_hierarchical_memory_events_start": "ok",
+      "parent_memory_admission": "ok",
+      "parent_memory_admission_recheck": "ok",
+      "parent_memory_current": "ok",
+      "parent_memory_current_final": "ok",
+      "parent_memory_events": "ok",
+      "parent_memory_events_admission": "ok",
+      "parent_memory_events_final": "ok",
+      "parent_memory_events_start": "ok",
+      "parent_systemd_launch": "ok",
+      "parent_systemd_runtime": "ok",
+      "parent_systemd_start": "ok"
+    },
+    "parent_hierarchical_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 3148,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "peak_job_ram_bytes": 6766628864,
+    "peak_observed_vram_bytes": 2038431744,
+    "peak_parent_ram_bytes": 12803117056,
+    "reservation": {
+      "cpus": 1,
+      "ram_bytes": 8000000000
+    }
+  },
+  "schema": "h272-s4-amp-diagnostic-terminal-v1",
+  "source": {
+    "attempt_source_manifest_sha256": "0d11097bd4c51e40c085b5330968bf02ccce7a02367e14f3c95d1882207ba9c6",
+    "commit": "e789ec515ea50ed77da97474d25505c37faaaefa",
+    "recipe_file_sha256": "8a8f21cdc48d934ef407c2eb49476fefb88e62e4651d0b5e9d5f8bf93229dcde",
+    "trainer_source_commit": "fa615eb3d13a8afb9fd7cba275ef64956bdb793e",
+    "worktree": "/home/vlad/development/wunder/worktrees/e529-s4-ampdiag-profile-r3a-20261008",
+    "wrapper_path": "/home/vlad/development/wunder/worktrees/e529-s4-ampdiag-profile-r3a-20261008/scripts/profile_amp_scale_diagnostic.py",
+    "wrapper_sha256": "780504c552a213110dbb52c43b239ac1d392539b459bf441b8ee2bcb5efb652e"
+  },
+  "started_utc": "2026-10-08T15:53:58.956038+00:00",
+  "status": "finished",
+  "trace": {
+    "grad_stats": {
+      "clip": 1.0,
+      "clip_rate": 0.4237,
+      "epoch": 0,
+      "family_median": {
+        "bias": 0.03916,
+        "head": 0.88452
+      },
+      "family_sq_share_mean": {
+        "bias": 0.0024,
+        "head": 0.9976
+      },
+      "mean_clip_factor": 0.9065,
+      "nonfinite_steps": 1,
+      "steps": 60,
+      "total_q05_q50_q95": [
+        0.54472,
+        0.88477,
+        1.69104
+      ]
+    },
+    "probe_events": [
+      {
+        "base_source_commit": "fa615eb3d13a8afb9fd7cba275ef64956bdb793e",
+        "event": "probe_start",
+        "measurement_note": "get_scale() synchronizes CUDA before and after every update; do not compare this timing with the uninstrumented profile",
+        "optim_source_sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+        "run_identity_source_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+        "torch_source_sha256": {
+          "torch.amp.GradScaler.module": "97c411da028daaf6a6ed15d06b9b20c017404846db68203be1a586e276e44039",
+          "torch.optim.AdamW.class_module": "39c5eaa04f83632285b114fd093eeb0006866e4adf59ad50cc28de12e63a8459",
+          "torch.optim.AdamW.step_implementation": "6f4a96e7bccd5e233a66f846c39f7a9da0157cf657c2275d2a269a78a6b90921"
+        },
+        "torch_version": "2.14.0+cu130",
+        "trainer_argv_sha256": "d2797b714f8baf5acb60d4a02b0d8feacdffaf8945e62828ee204a56779f8a5b",
+        "trainer_source_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf"
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 65536.0,
+        "scale_before": 65536.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 1
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 65536.0,
+        "scale_before": 65536.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 2
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 65536.0,
+        "scale_increased": false,
+        "scale_reduced": true,
+        "update_ordinal": 3
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 4
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 5
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 6
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 7
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 8
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 9
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 10
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 11
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 12
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 13
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 14
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 15
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 16
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 17
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 18
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 19
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 20
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 21
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 22
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 23
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 24
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 25
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 26
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 27
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 28
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 29
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 30
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 31
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 32
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 33
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 34
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 35
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 36
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 37
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 38
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 39
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 40
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 41
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 42
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 43
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 44
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 45
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 46
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 47
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 48
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 49
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 50
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 51
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 52
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 53
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 54
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 55
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 56
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 57
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 58
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 59
+      },
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 32768.0,
+        "scale_increased": false,
+        "scale_reduced": false,
+        "update_ordinal": 60
+      },
+      {
+        "count_matches_profile": true,
+        "event": "probe_summary",
+        "expected_update_calls": 60,
+        "update_calls": 60
+      }
+    ],
+    "profile": {
+      "backward": 15.66,
+      "forward": 231.37,
+      "gpu_total": 266.19,
+      "h2d": 0.02,
+      "inputs": 9.31,
+      "labels": 1.76,
+      "loader_wait": 307.24,
+      "loss": 3.35,
+      "optimizer": 3.8,
+      "seq_per_s": 28.36,
+      "step_wall": 564.26,
+      "syncs_per_step": 20.5,
+      "weights": 0.04
+    },
+    "scale_reductions": [
+      {
+        "enabled": true,
+        "event": "amp_scale_update",
+        "scale_after": 32768.0,
+        "scale_before": 65536.0,
+        "scale_increased": false,
+        "scale_reduced": true,
+        "update_ordinal": 3
+      }
+    ],
+    "update_count": 60
+  }
+}

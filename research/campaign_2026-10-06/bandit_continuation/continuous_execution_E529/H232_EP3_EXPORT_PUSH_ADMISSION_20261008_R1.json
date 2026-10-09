@@ -1,0 +1,70 @@
+{
+  "authorization_basis": "Explicit root instruction: record admission arithmetic and proceed if fresh actual quota covers 6000 seconds retained for running E540 V8 plus 6000 seconds for this H232 export kernel.",
+  "created_at_utc": "2026-10-08T04:55:40+00:00",
+  "fresh_quota_poll": {
+    "gpu": {
+      "account_remaining_seconds": 44560.162656,
+      "account_total_allowed_seconds": 108000.0,
+      "account_used_seconds": 63439.837344,
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 30387.999656000007,
+      "campaign_used_seconds": 26392.516343999996,
+      "provider_reserved_seconds": 0.0
+    },
+    "kernel": "vladkochetov07/e540-v8-fp32-20261008-r1-runner",
+    "kernel_status": "KernelWorkerStatus.RUNNING",
+    "observed_at_utc": "2026-10-08T04:54:39+00:00",
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "source": "Read-only Kaggle SDK quota and exact E540 V8 status poll via scripts/limited; no push/cancel.",
+    "tpu": {
+      "account_total_allowed_seconds": 72000.0,
+      "account_used_seconds": 378.665,
+      "provider_reserved_seconds": 0.0
+    }
+  },
+  "packet": {
+    "canonical_kernel_id": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r2",
+    "checkpoint_sha256": "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829",
+    "code_file_sha256": "a307809730010f04766cfa8c9f18923ad7df6809bd7c14ddc4c2745db2f4b1ee",
+    "embedded_payload_files_verified": 17,
+    "export_worker_sha256": "e5568c871f6c918330c424dafc03ece7018e2059d019c6f87ac72352fdf82201",
+    "final_local_verification": "PASS",
+    "isolated_source_commit": "bb11fdbd63b355ead17f97749982959ba012c9ff",
+    "packet_file_hashes_verified": 20,
+    "packet_id": "E529_H232_V7B_EP3_FP32_EXPORT_ONLY_20261008_R2",
+    "path": "/tmp/wnn-h232-v7b-ep3-export-20261008/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_only_20261008/packet_r3",
+    "payload_zip_sha256": "b9e14e8509dff6abc18f4e3aaffe4af031d78883e91fb98f28fb4a845ed1490e",
+    "source_archive_manifest_sha256": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42",
+    "source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+    "title": "H232 GRU384 V7B EP3 Export R2"
+  },
+  "provider_push_result": "pending",
+  "reservation_arithmetic_seconds": {
+    "campaign_gpu_headroom_before_admission": 30387.999656000007,
+    "h232_kernel_timeout_and_reservation": 6000.0,
+    "h232_prediction_export_cap": 1800.0,
+    "h232_worker_wall_cap": 4500.0,
+    "remaining_campaign_headroom_after_both_holds": 18387.999656000007,
+    "retain_for_live_e540_v8": 6000.0
+  },
+  "root_independent_review": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H232_EP3_EXPORT_ROOT_INDEPENDENT_REVIEW_20261008_R1.json",
+    "root_tests_passed": 10,
+    "root_verified_payload_files": 17,
+    "sha256": "732518cafe3dcb6db81f319252dce7310bb67f6872671f41589b46c9b93ae47a",
+    "status": "export_only_source_approved_fresh_quota_admission_required"
+  },
+  "schema": "h232-export-only-push-admission-v1",
+  "scope": {
+    "export": "own fixed epoch 3 checkpoint, FP32 predictions for all valid rows; only the source-qualified 468 exposed evaluation groups may later be graded by the root-owned independent grader",
+    "kernel_provider_timeout_seconds": 6000,
+    "one_provider_push": true,
+    "prediction_export_cap_seconds": 1800,
+    "profiling": false,
+    "scoring_or_grading": false,
+    "training": false,
+    "worker_wall_cap_seconds": 4500
+  },
+  "status": "admitted_one_push"
+}

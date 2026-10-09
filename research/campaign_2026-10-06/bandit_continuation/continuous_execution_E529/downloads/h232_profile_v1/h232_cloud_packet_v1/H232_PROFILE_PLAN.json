@@ -1,0 +1,56 @@
+{
+  "schema": "h232-kaggle-profile-plan-v1",
+  "packet_id": "E529_H232_FULLFEATURE_GRU384_B8_LOADER2_PROFILE_V1",
+  "status": "candidate-awaiting-root-review-and-admission",
+  "scope": "profile-only; no fit, checkpoint, prediction export, grading, or score",
+  "hypothesis_parent": "H-232",
+  "source_recipe": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H232_FULLFEATURE_GRU384_STAGED_V1.json",
+  "scientific_shape": {
+    "architecture": "GRU384x2",
+    "seed": 3,
+    "input_view": "full causal feature view; only H232's declared removal of --raw-only from E521 source recipe",
+    "batch_size": 8,
+    "chunk_rows": 2000,
+    "warmup_batches": 3,
+    "timed_batches": 20,
+    "optimizer_loss_schedule": "exact H232 frozen profile arguments; profile early-return only",
+    "fit_enabled": false
+  },
+  "loader_resource_change": {
+    "WNN_LOADER_WORKERS": 2,
+    "WNN_THREADS": 4,
+    "WNN_LOADER_RAM_GB": 0.30,
+    "schema_batch_bytes": 73120000,
+    "computed_capacity_batches": 4,
+    "expected_workers": 2,
+    "expected_prefetch_factor": 1,
+    "verification": "worker wraps the pinned dataloader_budget call and persists actual batch bytes, worker and prefetch values"
+  },
+  "input_identity": {
+    "expected_train_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+    "expected_valid_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "membership": "fold0 expected counts: train fit 10,535; valid fit 1,405; evaluation 468",
+    "receipt": "profile outputs include actual SHA-256, size, footer, and stat tuple for each read-only raw file; cross-kernel digest reuse is conditional on exact stat binding"
+  },
+  "cloud_resource_caps": {
+    "basis": "V12 actual Kaggle T4x2 / cgroup 32,212,254,720-byte measurement; one T4 selected per worker",
+    "selected_gpu_visible_count": 1,
+    "allocator_peak_bytes": 11500000000,
+    "device_process_bytes": 12000000000,
+    "gpu_headroom_fraction": 0.25,
+    "worker_rss_bytes": 25000000000,
+    "host_cgroup_headroom_bytes": 6500000000,
+    "host_headroom_fraction": 0.25,
+    "disk_free_bytes": 8000000000,
+    "worker_wall_cap_seconds": 2400,
+    "notes": "Caps are based on observed Kaggle cloud capacity and preserve at least 20% headroom; they are operational ceilings, not measured H232 consumption. Actual device identity, affinity, cgroup, resource snapshots and phase heartbeats are mandatory."
+  },
+  "source_archive": {
+    "path": "source_archive.tar",
+    "sha256": "f227ad167157018633c66dd4b89247f3c34375efef84a27527a950c2116e34a0",
+    "trainer_sha256": "b49233a7ed7e7e44d1a67cd765879a96e9294a5934071840b77da0d37d7424c7",
+    "h232_recipe_source_hashes_match": true,
+    "e520_v11_archive_reused": false
+  },
+  "next_gate": "Root independently reviews exact bundle/member hashes and fresh quota; no push is authorized by this packet."
+}

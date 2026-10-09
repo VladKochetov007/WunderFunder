@@ -1,0 +1,135 @@
+{
+  "account_scope_sha256": "5edaeb435fffdc8d36029206229fcf1ee9a930816996519f3c4fdeeb3d35858a",
+  "attempt_id": "h230-vast-strong-parent-seed54354-muon-v7r2-20261008",
+  "campaign_label": "wnn-e529-h230-seed54354-muon-v7r2-20261008",
+  "create_payload": {
+    "cancel_unavail": true,
+    "client_id": "me",
+    "disk": 120,
+    "image": "vastai/pytorch@sha256:450710d89268fcd55632f28fdd80508ee920a53075b3f8e9f828bdc154e3d856",
+    "label": "wnn-e529-h230-seed54354-muon-v7r2-20261008",
+    "onstart": "sleep infinity",
+    "runtype": "ssh_direc ssh_proxy"
+  },
+  "expected_artifacts": [
+    "artifact_bundle.tar",
+    "result.json",
+    "worker.log",
+    "image_preflight.json"
+  ],
+  "max_artifact_bytes": 3500000000,
+  "max_runtime_seconds": 25950,
+  "max_upload_bytes": 41500000000,
+  "max_worker_host_ram_gb": "28",
+  "min_offer_reliability": "0.97",
+  "offer": {
+    "cpu_cores": 80,
+    "cpu_cores_effective": 40.0,
+    "cpu_ram": 96017,
+    "cpu_ram_gib": "93.767",
+    "cuda_max_good": 13.2,
+    "disk_space": 6367.7,
+    "dph_cpu": null,
+    "dph_disk": null,
+    "dph_gpu": null,
+    "dph_ram": null,
+    "dph_total": 0.2655555555555556,
+    "external": null,
+    "geolocation": "California, US",
+    "gpu_name": "RTX 3090",
+    "gpu_ram": 24576,
+    "gpu_ram_gib": "24.000",
+    "id": 52800309,
+    "inet_down": 878.4,
+    "inet_down_cost": 0.0026041666666666665,
+    "inet_up": 885.6,
+    "inet_up_cost": 0.00390625,
+    "is_vm_deverified": false,
+    "machine_id": 152276,
+    "num_gpus": 1,
+    "query_type": "on-demand",
+    "reliability": 0.9862361,
+    "reliability2": 0.9862361,
+    "rentable": true,
+    "rented": false,
+    "storage_cost": 0.15333333333333335,
+    "type": null,
+    "verification": "verified",
+    "verified": null,
+    "verified_for_admission": true
+  },
+  "packet_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/h230_seed54354_v7.tar",
+  "packet_sha256": "f5d68c22f31a3aca0b7f2f26a46630db14f19b63bf386191a4dc160eed242ec6",
+  "remote_output_dir": "/workspace/results",
+  "schema_version": 1,
+  "upload_timeout_seconds": 5400,
+  "worker_inputs": [
+    {
+      "remote_path": "artifacts/runs/c20260929_prop_f0/model.pt",
+      "size_bytes": 165623,
+      "source_path": "artifacts/runs/c20260929_prop_f0/model.pt",
+      "source_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7"
+    },
+    {
+      "remote_path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_train.npy",
+      "size_bytes": 1696960128,
+      "source_path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_train.npy",
+      "source_sha256": "d706c979f3fae46258ee9684dc754d02a70c35d142fed5ebaf785ae7e1ded165"
+    },
+    {
+      "remote_path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_valid.npy",
+      "size_bytes": 299680128,
+      "source_path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_valid.npy",
+      "source_sha256": "e464d29ca5ec0c3c07e70e1f8b08afb180b5d35b70b4fb3130e6a8f56d0e1a8c"
+    },
+    {
+      "remote_path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/metadata.json",
+      "size_bytes": 4235813,
+      "source_path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/metadata.json",
+      "source_sha256": "b05e652f5fdec4e6b1e4e07d1d3a705655d4588ab8ee9d802ccdf4339fd66500"
+    },
+    {
+      "remote_path": "cache/chain_folds.npz",
+      "size_bytes": 550072,
+      "source_path": "cache/chain_folds.npz",
+      "source_sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+    },
+    {
+      "remote_path": "cache/chains.npz",
+      "size_bytes": 650142,
+      "source_path": "cache/chains.npz",
+      "source_sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+    },
+    {
+      "remote_path": "cache/train_targets.npz",
+      "size_bytes": 1909335790,
+      "source_path": "cache/train_targets.npz",
+      "source_sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9"
+    },
+    {
+      "remote_path": "cache/valid_targets.npz",
+      "size_bytes": 337186198,
+      "source_path": "cache/valid_targets.npz",
+      "source_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    },
+    {
+      "remote_path": "datasets/train.parquet",
+      "size_bytes": 29240219011,
+      "source_path": "datasets/train.parquet",
+      "source_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+    },
+    {
+      "remote_path": "datasets/valid.parquet",
+      "size_bytes": 5615509128,
+      "source_path": "datasets/valid.parquet",
+      "source_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    },
+    {
+      "remote_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "size_bytes": 1388846,
+      "source_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "source_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    }
+  ],
+  "worker_setup_timeout_seconds": 450
+}

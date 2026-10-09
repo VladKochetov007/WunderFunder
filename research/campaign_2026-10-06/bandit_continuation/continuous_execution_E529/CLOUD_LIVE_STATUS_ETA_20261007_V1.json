@@ -1,0 +1,290 @@
+{
+  "admission": {
+    "H232_fit_authorized": false,
+    "H232_profile_only": true,
+    "H232_profile_packet_pushed": true,
+    "H232_push_version": 1,
+    "H232_root_review_sha256": "fe94c2c16c43e833051bef2263bd772ee62a61ef495c14e0a1b6c233967f5a3c",
+    "TPU_V5_packet_pushed": true,
+    "TPU_V5_scientific_fit_authorized": false,
+    "next_H232_fit_requires_matched_comparison_freeze_and_root_admission": true,
+    "root_review_required_for_next_scientific_push": true
+  },
+  "live_job_observation": {
+    "H232_profile": {
+      "aggregate_gpu_account_used_delta_since_R28_seconds": 73.96410599999945,
+      "aggregate_gpu_account_used_delta_since_R30_seconds": 106.3490759999986,
+      "elapsed_since_provider_last_run_time_seconds": 424.013,
+      "fit_started_or_authorized": false,
+      "in_progress_output_files_available": false,
+      "interpretation": "Kaggle lifecycle is active, but no worker phase/heartbeat was observable. Do not infer that model fitting started; packet hard-disables fitting.",
+      "logs_available": false,
+      "provider_last_run_time_utc": "2026-10-07T22:02:39.987Z",
+      "provider_reserved_gpu_seconds": 0.0,
+      "provider_status": "KernelWorkerStatus.RUNNING",
+      "worker_phase": "unknown"
+    },
+    "TPU_V5": {
+      "elapsed_queued_seconds": 2378,
+      "eta": "Unknown",
+      "provider_reserved_tpu_seconds": 0.0,
+      "provider_status": "KernelWorkerStatus.QUEUED",
+      "worker_phase": "unknown"
+    },
+    "durable_monitoring": {
+      "E529_targets": "E529_LIVE_TARGETS_20261008_R9.json",
+      "global_targets": "research/campaign_2026-10-06/cloud_preflight/provider_targets.json",
+      "latest_manual_poll": "E529_LIVE_POLL_20261008_R30.jsonl",
+      "latest_observation_receipt": "H232_PROFILE_LIVE_OBSERVATION_R3.json",
+      "user_timer": "wnn-campaign-kaggle-poller.timer active/waiting"
+    },
+    "latest_manual_poll": "E529_LIVE_POLL_20261008_R31.jsonl",
+    "latest_observation_receipt": "H232_PROFILE_LIVE_OBSERVATION_R4.json",
+    "observed_at_utc": "2026-10-07T22:09:44+00:00"
+  },
+  "measured_runtime_evidence": {
+    "E463_V3_TPU": {
+      "actual_device": "8x TPU v5e; JAX 0.11.0",
+      "classification": "actual-device synthetic numerical/system preflight; not real-data Torch/JAX parity, fit, score, or production runtime evidence",
+      "export_reload_max_abs_error": 0,
+      "full_shape_synthetic_update_seconds": 4.261135,
+      "provider_start_utc": "2026-10-07T16:51:04.876364Z",
+      "provider_terminal_utc": "2026-10-07T16:52:08.146136Z",
+      "worker_elapsed_seconds": 63.269334
+    },
+    "E520_V10_PREDECESSOR": {
+      "failure": "FileNotFoundError: [Errno 2] No such file or directory: '/kaggle/working/research/campaign_2026-09-29/artifacts/splits/fold0.json'",
+      "reached_profile_updates": false,
+      "scientific_result": null,
+      "terminal_phase": "load_campaign_split",
+      "worker_elapsed_seconds": 909.8244073679999
+    },
+    "E520_V11_TRANSPORT": {
+      "cause": "Missing enable_internet in kernel metadata; Kaggle CLI 2.2.4 defaults it to true.",
+      "effective_enable_internet": true,
+      "provider_admission": false,
+      "provider_push_attempted": false,
+      "provider_slug": "vladkochetov07/e520-profile-v11-absolute-split-path",
+      "reviewed_at_utc": "2026-10-07T21:00:29+00:00",
+      "runtime": "None: packet was not submitted.",
+      "transport_review": "E520_V11_INDEPENDENT_TRANSPORT_REVIEW_20261008_R1.json",
+      "verdict": "FAIL_TRANSPORT_METADATA_DEFAULTS_INTERNET_ON"
+    },
+    "E520_V12": {
+      "data_identity": {
+        "evaluation_groups": 468,
+        "identity_status": "matched",
+        "raw_digest_reuse": "one hit per split inside this worker; zero fallback rehashes after preflight",
+        "train_fit_groups": 10535,
+        "train_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "valid_fit_groups": 1405,
+        "valid_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      },
+      "input_hash_seconds": {
+        "combined": 804.672075,
+        "train": 674.853557,
+        "valid": 129.818518
+      },
+      "interpretation": "Input-bound: loader wait was about 95.5% of median step wall; host batch span was about 2.0%. This is not a full-feature GRU384 profile and cannot be used as its fit runtime.",
+      "observed_hardware": {
+        "cuda_peak_allocated_bytes": 1054505472,
+        "cuda_peak_reserved_bytes": 1765801984,
+        "device_used_upper_bound_bytes": 2410872832,
+        "gpu": "2 visible Kaggle T4 devices; one selected device for profile",
+        "selected_physical_total_bytes": 16106127360,
+        "selected_usable_cuda_bytes": 15636037632,
+        "worker_cgroup_memory_cap_bytes": 32212254720,
+        "worker_peak_rss_bytes": 3697369088
+      },
+      "profile_shape": "raw-only GRU128x2, seed 3, B16, 2,000-row chunk, T4; profile-only, no fit/export/grade",
+      "profile_timed_batches": 20,
+      "throughput_sequences_per_second": 4.706794,
+      "timing_ms": {
+        "end_to_end_step_p50": 3399.341464,
+        "end_to_end_step_p90": 3738.006968,
+        "gpu_stages_total_p50": 369.768738,
+        "host_batch_span_p50": 68.975,
+        "loader_wait_p50": 3247.041953
+      },
+      "worker_wall_cap_seconds": 1450,
+      "worker_wall_seconds": 977.1013
+    }
+  },
+  "observed_at_utc": "2026-10-07T22:09:44+00:00",
+  "provider_status": [
+    {
+      "kernel": "vladkochetov07/e520-profile-v12-explicit-offline-metadata",
+      "monitor_state": "stopped_after_terminal_evidence_downloaded",
+      "outputs": {
+        "downloaded_bytes": 1958044,
+        "downloaded_file_count": 110,
+        "logs_exit_code": 0,
+        "outputs_exit_code": 0,
+        "terminal_receipt_sha256": "77222a2108284442daa859393608f17456a6c391a4c869b2b3047becb30f93ad"
+      },
+      "resource": "gpu",
+      "scientific_fit": false,
+      "state": "KernelWorkerStatus.COMPLETE",
+      "terminal_receipt": "e520_profile_terminal_v12_poll_receipt.json"
+    },
+    {
+      "actual_runtime_or_phase": null,
+      "elapsed_queued_at_observation_seconds": 2378,
+      "eta": "Unknown: still QUEUED at R31; 1,650-second bound starts only if the worker starts.",
+      "kernel": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v5",
+      "monitor_state": "polling_until_terminal_evidence_downloaded",
+      "provider_reservation_seconds_observed": 0,
+      "push_utc": "2026-10-07T21:30:06Z",
+      "resource": "tpu",
+      "state": "KernelWorkerStatus.QUEUED",
+      "worker_timeout_seconds_if_started": 1650
+    },
+    {
+      "diagnosis": "Kaggle staged only code_file probe.py; child import of combo_loss_reference failed before TPU comparison/update. No scientific result.",
+      "failure_classification": "infrastructure_packaging_import_path",
+      "kernel": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v4",
+      "monitor_state": "stopped_after_terminal_evidence_downloaded",
+      "resource": "tpu",
+      "state": "KernelWorkerStatus.ERROR",
+      "terminal_receipt": "e463_tpu_v4_terminal_poll_receipt.json",
+      "worker_elapsed_seconds": 24.386572643
+    },
+    {
+      "actual_worker_phase": null,
+      "eta": "Unknown: profile wall cap is 2,400 seconds after worker start; queue/startup delay and actual input/profile runtime are not measured.",
+      "kernel": "vladkochetov07/h232-full-feature-gru384-b8-loader2-profile-v1",
+      "latest_live_observation": "H232_PROFILE_LIVE_OBSERVATION_R4.json",
+      "max_worker_wall_seconds": 2400,
+      "monitor_state": "polling_until_terminal_evidence_downloaded",
+      "phase_evidence": "R31 direct status and poller confirm RUNNING; logs remain empty and no worker phase is exposed.",
+      "profile_only": true,
+      "provider_canonical_ref": "vladkochetov07/h232-full-feature-gru384-b8-loader2-profile-v1",
+      "provider_elapsed_since_last_run_time_seconds": 424.013,
+      "push_receipt": "H232_CLOUD_PROFILE_PUSH_RECEIPT_20261008_R1.json",
+      "resource": "gpu",
+      "reviewed_packet_metadata_id": "vladkochetov07/h232-fullfeature-gru384-b8-loader2-profile-v1",
+      "scientific_fit": false,
+      "state": "KernelWorkerStatus.RUNNING",
+      "terminal_receipt": "h232_profile_terminal_poll_receipt.json"
+    },
+    {
+      "diagnosis": "kernel-metadata.json omitted enable_internet; Kaggle CLI 2.2.4 defaults this field to true, violating the offline packet contract. No push was authorized or attempted.",
+      "kernel": "vladkochetov07/e520-profile-v11-absolute-split-path",
+      "monitor_state": "blocked_before_admission",
+      "provider_admission": false,
+      "provider_push_attempted": false,
+      "resource": "gpu",
+      "state": "not_submitted",
+      "transport_review": "E520_V11_INDEPENDENT_TRANSPORT_REVIEW_20261008_R1.json",
+      "transport_verdict": "FAIL_TRANSPORT_METADATA_DEFAULTS_INTERNET_ON"
+    },
+    {
+      "failure": "FileNotFoundError: [Errno 2] No such file or directory: '/kaggle/working/research/campaign_2026-09-29/artifacts/splits/fold0.json'",
+      "kernel": "vladkochetov07/e520-profile-v10-live-gpu-uuid",
+      "monitor_state": "historical_failure",
+      "reached_profile_updates": false,
+      "resource": "gpu",
+      "scientific_result": null,
+      "state": "KernelWorkerStatus.ERROR",
+      "terminal_phase": "failed",
+      "worker_elapsed_seconds": 909.8244073679999
+    }
+  ],
+  "quota": {
+    "gpu": {
+      "account_20_percent_reserve_seconds": 11490.3651,
+      "account_80_percent_allocation_seconds": 45961.4604,
+      "account_limit_seconds": 108000.0,
+      "account_remaining_seconds": 57451.8255,
+      "account_reserved_seconds": 0.0,
+      "account_used_seconds": 50548.1745,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 43279.662500000006,
+      "campaign_used_seconds": 13500.853499999997,
+      "effective_upper_bound_before_next_admission_seconds": 43279.662500000006,
+      "effective_upper_bound_before_root_admission_seconds": 43703.574,
+      "v12_retained_account_charge_seconds": 988.056
+    },
+    "observed_at_utc": "2026-10-07T22:09:44+00:00",
+    "refresh_utc": "2026-10-10T00:00:00",
+    "source_file": "E529_LIVE_POLL_20261008_R31.jsonl",
+    "tpu": {
+      "account_20_percent_reserve_seconds": 14341.385,
+      "account_80_percent_allocation_seconds": 57365.54,
+      "account_limit_seconds": 72000.0,
+      "account_remaining_seconds": 71706.925,
+      "account_reserved_seconds": 0.0,
+      "account_used_seconds": 293.075,
+      "campaign_cap_seconds": 7200.0,
+      "campaign_headroom_seconds": 7041.548,
+      "campaign_used_seconds": 158.452,
+      "effective_upper_bound_before_next_admission_seconds": 7041.548,
+      "effective_upper_bound_before_root_admission_seconds": 7041.548,
+      "v5_actual_charge_at_observation_seconds": 0
+    }
+  },
+  "recommended_next_steps": [
+    {
+      "action": "Continue monitoring H232 profile through worker-phase evidence and terminal outputs. Collect logs/output and reconcile quota only at terminal; do not infer a fit from RUNNING.",
+      "lane": "Kaggle GPU",
+      "priority": 1
+    },
+    {
+      "action": "Use the measured H232 profile to freeze a matched B8 comparison against the same-seed raw control before any fit. Then run one approach per available T4 before seed 4, preserving loader/input changes as declared resource-only descendants and keeping source hashes fixed.",
+      "lane": "Kaggle GPU",
+      "priority": 2
+    },
+    {
+      "action": "Keep the existing V5 diagnostic queued under its 1,650-second worker cap; poll and collect at terminal. No second TPU admission while this queued attempt is unresolved. V3 synthetic parity evidence does not authorize a production fit.",
+      "lane": "Kaggle TPU",
+      "priority": 3
+    }
+  ],
+  "recorded_local_date": "2026-10-08",
+  "runtime_estimates_and_unknowns": {
+    "E520_V11": {
+      "measured_floor_before_predecessor_failure_seconds": 909.8244073679999,
+      "profile_runtime": null,
+      "remaining_profile_and_4000_row_probe": "Unknown; V10 spent 909.824 seconds before a missing split path stopped it, before trainer updates. V11 itself was never submitted.",
+      "timed_steps": 20,
+      "warmup_steps": 3,
+      "worker_wall_cap_seconds": 1450
+    },
+    "E520_V12_hash_cost_reuse": {
+      "estimate_for_profile_then_multiple_fit_workers": "Potentially save up to about 805 seconds per subsequent worker if a content digest is reused through an exact read-only file-stat handoff. V12 did not persist the required raw-file stat tuple or dataset version, so its digest alone is not sufficient for cross-kernel reuse.",
+      "measured_per_worker_if_full_raw_hash_repeats_seconds": 804.672075
+    },
+    "H232_fullfeature_GRU384": {
+      "four_epoch_fit_runtime": null,
+      "live_observation_receipt": "H232_PROFILE_LIVE_OBSERVATION_R4.json",
+      "packet_transport": {
+        "admission_receipt": "H232_CLOUD_PROFILE_PUSH_ADMISSION_20261008_R1.json",
+        "admission_sha256": "bb166e63f5d09b17de0507412d27dc91cf09e64dcd8fcd31fba0a8f3dfd12a4d",
+        "bundle_zip_sha256": "779efd6062dd7060c26f992c7a3104df2b246298a31cbd213420b5288d334550",
+        "code_file_sha256": "dcefabe665f432932e5035b1b7079078de172f5407344eb60f749072056daef1",
+        "external_review": "root-controller approved profile-only; fresh quota and exact packet hashes passed",
+        "kernel_id_metadata": "vladkochetov07/h232-fullfeature-gru384-b8-loader2-profile-v1",
+        "manifest_sha256": "df2970f733583e0500e9a3d5b908a52f2c9107c9432a688ca4c1550b620bfc3e",
+        "provider_canonical_ref": "vladkochetov07/h232-full-feature-gru384-b8-loader2-profile-v1",
+        "provider_slug_warning": "Kaggle warned title did not resolve to metadata id; the returned URL-derived ref is accessible and is used for monitoring. No second push.",
+        "push_receipt": "H232_CLOUD_PROFILE_PUSH_RECEIPT_20261008_R1.json",
+        "push_version": 1,
+        "root_review": "ROOT_REVIEW_AND_REBUILD_V1.json",
+        "root_review_sha256": "fe94c2c16c43e833051bef2263bd772ee62a61ef495c14e0a1b6c233967f5a3c",
+        "source_archive_sha256": "f227ad167157018633c66dd4b89247f3c34375efef84a27527a950c2116e34a0",
+        "worker_sha256": "400a26b5d3dd997c5f8db1f33dfee9f2e633474f49a67eb3e907c0741506ec7f"
+      },
+      "profile_plan": "Pushed profile-only B8, 3 warmup + 20 timed batches, loader workers=2 and threads=4; 0.30 GiB loader RAM budget. Fit/checkpoint/predictions/grade remain disabled. A B8 fit versus prior B16 raw controls requires a newly frozen matched comparison and separate root admission.",
+      "profile_runtime": null,
+      "reason": "At R31, Kaggle reports RUNNING but exposes no live worker phase; the latest log probe was empty, and no profile timing is available. This is not evidence of fitting. V12 measures a different raw GRU128x2/B16 shape."
+    },
+    "TPU_V5": {
+      "elapsed_queued_seconds_at_latest_observation": 2378,
+      "reason": "Provider remains QUEUED at R31; no execution phase, reservation, or runtime is observed.",
+      "startup_and_queue_eta": null,
+      "worker_runtime": null
+    }
+  },
+  "schema": "e529-cloud-live-status-eta-v1",
+  "source": "Read-only Kaggle CLI/SDK 2.2.4 status/quota R30, current H232 output/log probes, and prior terminal receipts plus independent E520 V11 transport review."
+}

@@ -1,0 +1,67 @@
+{
+  "admission_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H232_EP3_EXPORT_PUSH_ADMISSION_20261008_R3.json",
+  "admission_receipt_sha256": "09f554907249e21a4bc1ce78bce12bc6dc82285399245c6455d0d57727109af8",
+  "attempt_id": "H232_EP3_EXPORT_R3_ASSET_TRANSPORT_REQUIRED_20261008_R1",
+  "canonical_kernel_id": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r3",
+  "code_file_bytes": 11875142,
+  "code_file_sha256": "a307809730010f04766cfa8c9f18923ad7df6809bd7c14ddc4c2745db2f4b1ee",
+  "diagnosis": {
+    "certainty": "strong hypothesis; HTTP response body was not captured, so the SaveKernel rejection reason is not definitive",
+    "likely_cause": "The inline kernel code is 11875142 bytes, exceeding the platform's documented 1 MiB source limit.",
+    "measured_source_size_exceeds_1mb": true,
+    "next_repair": "Move the exact reviewed payload ZIP into a private, content-addressed dataset asset and submit a small integrity-checking bootstrap.",
+    "public_platform_reference": {
+      "title": "The kernel source must be less than 1 megabyte in size.",
+      "url": "https://www.kaggle.com/discussions/questions-and-answers/103948"
+    },
+    "title_slug": "title-to-ID validation passed for the prescribed r3 pair"
+  },
+  "observed_at_utc": "2026-10-08T05:04:35+00:00",
+  "packet_id": "E529_H232_V7B_EP3_FP32_EXPORT_ONLY_20261008_R2",
+  "packet_path": "/tmp/wnn-h232-v7b-ep3-export-20261008/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_only_20261008/packet_r4_metadata_slugfix",
+  "payload_zip_sha256": "b9e14e8509dff6abc18f4e3aaffe4af031d78883e91fb98f28fb4a845ed1490e",
+  "preservation": {
+    "no_repush_or_retry_performed": true,
+    "r2_and_r3_packets_preserved": true,
+    "r2_failure_receipt_preserved": true
+  },
+  "provider_call": {
+    "accepted_job_claimed": false,
+    "command": "kaggle kernels push --path <packet_r4_metadata_slugfix> --timeout 6000 --accelerator NvidiaTeslaT4",
+    "endpoint": "SaveKernel",
+    "exit_code": 1,
+    "http_status": 400,
+    "response": "400 Client Error: Bad Request for url: https://api.kaggle.com/v1/kernels.KernelsApiService/SaveKernel",
+    "response_body_captured": false,
+    "title_slug_warning": false
+  },
+  "read_only_post_push_checks": {
+    "exact_id_inventory": {
+      "command": "kaggle kernels list --mine --search h232-gru384-v7b-ep3-export-20261008-r3 --page-size 20 --format json",
+      "interpretation": "ambiguous placeholder; does not establish a runnable accepted kernel",
+      "output": [
+        {
+          "author": "",
+          "lastRunTime": "2010-04-01T00:00:00",
+          "ref": "",
+          "title": "[Private Notebook]",
+          "totalVotes": 0
+        }
+      ]
+    },
+    "kernel_pull": {
+      "endpoint": "GetKernel",
+      "exit_code": 1,
+      "http_status": 403,
+      "interpretation": "provider denied metadata retrieval; does not establish acceptance"
+    },
+    "session_status": {
+      "endpoint": "GetKernelSessionStatus",
+      "exit_code": 1,
+      "http_status": 404,
+      "interpretation": "no provider session found"
+    }
+  },
+  "schema": "h232-export-only-provider-push-result-v1",
+  "title": "H232 GRU384 V7B EP3 Export 20261008 R3"
+}

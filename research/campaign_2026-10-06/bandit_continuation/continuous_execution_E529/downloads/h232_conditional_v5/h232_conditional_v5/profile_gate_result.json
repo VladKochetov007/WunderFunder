@@ -1,0 +1,220 @@
+{
+  "export_shape_probe": [
+    {
+      "gpu_free_after_bytes": 14852882432,
+      "input_dtype": "torch.float32",
+      "input_float32_bytes": 54016000,
+      "model_input_shape": [
+        16,
+        4000,
+        211
+      ],
+      "output_dtype": "torch.float32",
+      "output_finite": true,
+      "output_float32_bytes_if_written": 512000,
+      "output_shape": [
+        16,
+        4000,
+        2
+      ],
+      "predictions_written": false,
+      "raw_input_shape": [
+        16,
+        4000,
+        112
+      ],
+      "rss_after_bytes": 2883153920,
+      "rss_before_bytes": 2882998272,
+      "rss_peak_bytes": 2918322176,
+      "split": "train",
+      "torch_allocated_peak_bytes": 404321280,
+      "torch_reserved_peak_bytes": 608174080
+    },
+    {
+      "gpu_free_after_bytes": 14869659648,
+      "input_dtype": "torch.float32",
+      "input_float32_bytes": 54016000,
+      "model_input_shape": [
+        16,
+        4000,
+        211
+      ],
+      "output_dtype": "torch.float32",
+      "output_finite": true,
+      "output_float32_bytes_if_written": 512000,
+      "output_shape": [
+        16,
+        4000,
+        2
+      ],
+      "predictions_written": false,
+      "raw_input_shape": [
+        16,
+        4000,
+        112
+      ],
+      "rss_after_bytes": 2874798080,
+      "rss_before_bytes": 2874765312,
+      "rss_peak_bytes": 2918322176,
+      "split": "valid",
+      "torch_allocated_peak_bytes": 404855808,
+      "torch_reserved_peak_bytes": 591396864
+    }
+  ],
+  "external_review_sha256": "a6a0bc3433739f113d1f0115c0263f8402db9b94a7198206a57d17b32e800cde",
+  "feature_width_probe": {
+    "declared_event_feature_count": 99,
+    "derived_model_input_width": 211,
+    "event_feature_count": 99,
+    "event_features_source": "pinned source archive: src/wnn/features.py:event_features",
+    "probe_event_output_shape": [
+      2,
+      3,
+      99
+    ],
+    "probe_input_shape": [
+      2,
+      3,
+      112
+    ],
+    "raw_feature_count": 112
+  },
+  "fit_authorized_by_gate": true,
+  "input_identity_sha256": "04c4e8c8a3f7aac1af25383d297d83dd467e6e8e80508746a99987bb18ba4ca3",
+  "lifetime_projection": {
+    "epochs": 4,
+    "fit_batches_per_epoch": 1492,
+    "fit_sequences": 11940,
+    "fit_setup_overhead_seconds": 600,
+    "max_projected_fit_seconds": 28000,
+    "p50_batch_interval_ms": 1142.2749949999798,
+    "p90_batch_interval_ms": 1206.480883999916,
+    "projected_fit_seconds_p50": 8780.516604191855,
+    "projected_fit_seconds_p90": 9240.333498853797,
+    "safety_factor": 1.2,
+    "total_fit_batches": 5968,
+    "worker_elapsed_before_fit_seconds": 112.62225312999999,
+    "worker_wall_cap_seconds": 34000
+  },
+  "loader_budget": {
+    "batch_tensor_bytes": 73120000,
+    "configured_worker_cap": 2,
+    "effective_prefetch_factor": 1,
+    "effective_workers": 2,
+    "max_workers": 4,
+    "observed_threads": 4,
+    "ram_budget_bytes": 322122547
+  },
+  "loader_tensor_bytes_policy": {
+    "expected_batch_tensor_bytes": 73120000,
+    "formula": "8 * 20000 * ((112 raw features + 2 targets) * 4 bytes + 1 bool mask byte); event/normalization features are computed on device",
+    "observed_batch_tensor_bytes": 73120000
+  },
+  "packet_id": "E529_H232_FULLFEATURE_GRU384_B8_AMP4096_CONDITIONAL_PROFILE_FIT_V5",
+  "profile_digest_handoff_delta": {
+    "digest_reuse_hits": 2,
+    "digest_reuse_misses": 4,
+    "fallback_digest_calls": 4,
+    "verifier_lookups": 6
+  },
+  "profile_trace_sha256": "fb8ddee653433341b6eda1becc820acb9249126d1688efb22491369ef406bcd1",
+  "raw_digest_path_failures": {},
+  "raw_digest_path_profile_delta": {
+    "train": {
+      "digest_reuse_hits": 1,
+      "digest_reuse_misses": 0,
+      "fallback_digest_calls": 0,
+      "verifier_lookups": 1
+    },
+    "valid": {
+      "digest_reuse_hits": 1,
+      "digest_reuse_misses": 0,
+      "fallback_digest_calls": 0,
+      "verifier_lookups": 1
+    }
+  },
+  "raw_input_identity": {
+    "all_unchanged": true,
+    "files": {
+      "datasets/train.parquet": {
+        "canonical_path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/train.parquet",
+        "ctime_ns": 1791103235523599835,
+        "device": 52,
+        "identity_matches_initial_verified_binding": true,
+        "inode": 101726090503,
+        "mode": 33188,
+        "mtime_ns": 1791103235523599835,
+        "size": 29240219011
+      },
+      "datasets/valid.parquet": {
+        "canonical_path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/valid.parquet",
+        "ctime_ns": 1791101681739823113,
+        "device": 52,
+        "identity_matches_initial_verified_binding": true,
+        "inode": 101721042171,
+        "mode": 33188,
+        "mtime_ns": 1791101681739823113,
+        "size": 5615509128
+      }
+    }
+  },
+  "reasons": [],
+  "recipe_argument_mismatches": {},
+  "resource_failures": {},
+  "source_archive_sha256": "afde296e1c5e2f0c47a6fb352c2dea8e0a3df75900f53c26f103b3921df1f565",
+  "status": "pass",
+  "timing": {
+    "cuda_stage_median_ms": {
+      "backward": 585.6539554595947,
+      "forward": 458.9586887359619,
+      "gpu_total": 1061.5990600585938,
+      "h2d": 0.05766399949789047,
+      "inputs": 8.02184009552002,
+      "labels": 0.002047999994829297,
+      "loader_wait": 0.21248500002002402,
+      "loss": 0.9114559907466173,
+      "optimizer": 6.69937601685524,
+      "seq_per_s": 7.0035674728222,
+      "step_wall": 1142.2749949999798,
+      "syncs_per_step": 0.05,
+      "weights": 0.01145600015297532
+    },
+    "end_to_end_inter_start_ms": {
+      "count": 19,
+      "p50": 1142.2749949999798,
+      "p90": 1206.480883999916
+    },
+    "host_batch_span_ms": {
+      "count": 20,
+      "p50": 1060.5607520000149,
+      "p90": 1094.0142959999548
+    },
+    "loader_wait_ms": {
+      "count": 21,
+      "p50": 0.21248500002002402,
+      "p90": 0.3197739999905025
+    },
+    "timed_outer_batches": 20,
+    "timing_note": "p50/p90 of inter-start throughput intervals (19 observations from 20 timed starts); separate host spans and loader waits are not added."
+  },
+  "trace": {
+    "expected_timed_optimizer_updates": 200,
+    "expected_timed_outer_batches": 20,
+    "expected_warmup_outer_batches": 3,
+    "numeric_policy": {
+      "backoff_factor": 0.5,
+      "capture_method": "device-side clone of GradScaler._scale; no per-update host synchronization",
+      "growth_factor": 2.0,
+      "growth_interval": 2000,
+      "initial_scale": 4096.0,
+      "scale_schedule_basis": "actual GradScaler device scale cloned before and after each update; all values transferred once after profile and checked against the configured found_inf recurrence"
+    },
+    "observed_timed_optimizer_updates": 200,
+    "timed_amp_skipped_updates": 0,
+    "timed_gradient_finite": true,
+    "timed_loss_finite": true,
+    "warmup_amp_skipped_updates": 0,
+    "warmup_optimizer_updates": 30
+  },
+  "trainer_sha256": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a"
+}

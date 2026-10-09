@@ -1,0 +1,320 @@
+{
+  "actual_cloud_resources": {
+    "caps_bytes": {
+      "cuda_allocated_peak": 11500000000,
+      "cuda_reserved_peak": 11800000000,
+      "disk_free_minimum": 8000000000,
+      "gpu_free_minimum": 6442450944,
+      "gpu_process": 12000000000,
+      "host_and_cgroup_available_minimum": 6500000000,
+      "rss_peak": 25000000000
+    },
+    "loader_ram_gb": 0.3,
+    "loader_workers": 2,
+    "observed_host_basis": "E520 V12: T4x2 host, cgroup limit 32,212,254,720 bytes; one GPU visible/selected for this diagnostic",
+    "provider": "Kaggle",
+    "resource_note": "Cloud caps derive from observed Kaggle host measurements, not local CPU/VRAM ceilings. The second T4 remains unused during this first-profile/fit attempt pending measured input-loader and aggregate host-RAM headroom.",
+    "wall_cap_seconds": 34000,
+    "worker_cpu_threads": 4,
+    "worker_gpu_visible_count": 1
+  },
+  "conditional_fit": {
+    "argv_derivation": "remove only --profile-warmup/--profile-steps/--profile-trace-output; change only --name to the new attempt identity; retain --amp-init-scale4096.0 for the explicitly identified numeric successor; exact remaining token vector must match",
+    "grading": false,
+    "numeric_successor": "Both profile and fit use explicit initial scale4096.0; historical default65536 recipe remains recorded separately and no exact reproduction claim is made.",
+    "outputs": [
+      "checkpoint files",
+      "provenance.json",
+      "history.json",
+      "profile_update_trace.json",
+      "profile_gate_result.json",
+      "phase/resource/hash/cache-pressure receipts",
+      "all-valid ep3 FP32 prediction .npy plus verified JSON sidecar"
+    ],
+    "postfit_validation": [
+      "model.pt and model_ep3.pt exist and match trainer provenance SHA256",
+      "selected_epoch is 3",
+      "history contains exactly epochs 0..3 with evaluation withheld",
+      "trainer args equal profile scientific args except run name and profile-only diagnostics",
+      "fit row groups exactly match frozen fold0 train and valid groups",
+      "evaluation mask exactly 468 groups and overlap with fit is zero",
+      "valid export uses the fixed ep3 checkpoint and explicit FP32 inference",
+      "valid export sidecar row_group order exactly matches the frozen valid-target index",
+      "export is finite, float32, hash-bound, and evaluated offline by the root grader only"
+    ],
+    "prediction_export": {
+      "argv": [
+        "python",
+        "scripts/predict_run.py",
+        "bd26_h232_full_s3_f0_amp4096_v6",
+        "valid",
+        "--epoch",
+        "3",
+        "--output-name",
+        "h232_v6_fixed_ep3",
+        "--inference-precision",
+        "fp32"
+      ],
+      "cap_seconds": 1800,
+      "dtype": "float32",
+      "output": "cache/pred_h232_v6_fixed_ep3_valid.npy",
+      "score_or_metric": false,
+      "shape": [
+        1873,
+        20000,
+        2
+      ]
+    },
+    "run_name": "bd26_h232_full_s3_f0_amp4096_v6",
+    "same_worker_digest_handoff": "Record global and per-path raw train/valid digest counters immediately before and after the actual profile. Each raw path must have exactly one profile-window verifier lookup, resolved by either an exact authorized digest hit or the original full-content verifier fallback; every miss must equal one fallback. Auxiliary cache misses are permitted only when the pinned verifier fallback is observed. Preserve the original registry/footer/assets/split/membership checks.",
+    "scoring": false,
+    "start_condition": "same-worker profile gate status pass, exact root review receipt and fresh quota/resource admission, input identity and stat binding unchanged"
+  },
+  "current_v4_deliverable": "V5 passed the profile and started fitting, then was resource-censored at epoch0 batch660/1492. V6 preserves that frozen H232 fit treatment and adds bounded raw-input cache-pressure recovery plus a fixed-epoch valid export; neither V5 nor V6 has produced a graded score here.",
+  "declared_numeric_successor_change": {
+    "field": "FP16 GradScaler initial scale",
+    "fit": 4096.0,
+    "historical": 65536.0,
+    "profile": 4096.0,
+    "reason": "The default-scale H232 attempt had a startup AMP skip; lower-scale profile and fit make this optimizer numeric treatment explicit and traceable. This packet does not claim exact baseline reproduction.",
+    "scope": "both actual profile and gated fit"
+  },
+  "fit_run_name": "bd26_h232_full_s3_f0_amp4096_v6",
+  "historical_recipe": {
+    "basis": "pinned trainer default when --amp-init-scale is absent",
+    "original_fit_amp_initial_scale": 65536.0,
+    "recipe_id": "E529-H232-FULLFEATURE-GRU384-STAGED-V1",
+    "record": "preserved unchanged in H232_FULLFEATURE_GRU384_STAGED_V1.json"
+  },
+  "hypothesis_parent": "H-232",
+  "input_identity": {
+    "measured_prior_raw_hash_seconds": {
+      "total": 544.533,
+      "train": 456.929,
+      "valid": 87.604
+    },
+    "prior_attempt": "H232_PROFILE_V2",
+    "prior_receipt": "prior_input_identity_v2.json",
+    "raw_digest_gate": "V5 requires train and valid path-specific profile-window deltas, not initial pre-profile identity counters.",
+    "reuse": "Only if canonical read-only path and complete device/inode/size/mtime_ns/ctime_ns/mode stat tuple match; otherwise full raw content SHA-256 fallback with registry, footer, asset, split and membership checks.",
+    "train_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+    "v4_profile_observed_digest_handoff": {
+      "artifact": "downloads/h232_conditional_v4/h232_conditional_v4/profile_gate_result.json",
+      "interpretation": "two raw-source hits and four auxiliary-cache misses each validated by the original full-content verifier",
+      "profile_window_counts": {
+        "digest_reuse_hits": 2,
+        "digest_reuse_misses": 4,
+        "fallback_digest_calls": 4,
+        "verifier_lookups": 6
+      }
+    },
+    "valid_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  },
+  "loader_tensor_bytes": {
+    "expected": 73120000,
+    "formula": "8 * 20000 * ((112 raw features + 2 targets) * 4 bytes + 1 bool mask byte)",
+    "note": "Event and normalization features are computed on device and are not loader tensors, so model width 211 does not increase loader bytes."
+  },
+  "next_gate": "Root confirms the exact final packet metadata, external review, wrapper/bundle and quota receipt hashes; then the operator may make exactly one Kaggle push. The fit remains conditional on this worker's profile gate and the original resource caps.",
+  "packet_id": "E529_H232_FULLFEATURE_GRU384_B8_AMP4096_CONDITIONAL_PROFILE_FIT_V6",
+  "prior_attempts_preserved": [
+    "H232_PROFILE_V1",
+    "H232_PROFILE_V2"
+  ],
+  "profile": {
+    "chunk_windows_per_outer_batch": 10,
+    "lifetime_projection": {
+      "epochs": 4,
+      "fit_batches_per_epoch": 1492,
+      "p50_fit_max_seconds": 28000,
+      "p90_worker_total_max_seconds": 34000,
+      "safety_factor": 1.2,
+      "setup_overhead_seconds": 600,
+      "total_fit_batches": 5968
+    },
+    "loader_workers_expected": 2,
+    "numeric_policy": {
+      "amp_initial_scale": 4096.0,
+      "backoff_factor": 0.5,
+      "growth_factor": 2.0,
+      "growth_interval": 2000,
+      "precision": "fp16"
+    },
+    "prefetch_factor_expected": 1,
+    "required_timed_conditions": [
+      "all 200 timed losses finite",
+      "all 200 gradients finite after unscale",
+      "all 200 optimizer steps completed",
+      "zero timed AMP skips",
+      "exact scale recurrence",
+      "all 30 warmup records preserved and finite",
+      "profile input width 160",
+      "actual 16x4000 train and valid FP16 output probes finite",
+      "selected T4 UUID stable",
+      "read-only input stat tuple unchanged"
+    ],
+    "run_name": "bd26_h232_full_s3_f0_profile_b8_v6",
+    "timed_optimizer_attempts": 200,
+    "timed_outer_batches": 20,
+    "trace": "/kaggle/working/h232_conditional_v6/profile_update_trace.json",
+    "warmup_optimizer_attempts": 30,
+    "warmup_outer_batches": 3
+  },
+  "resource_contract_v6": {
+    "action": {
+      "fallback": "Unsupported advice, missing trace, changed source identity, inconsistent snapshot, refault/anon/active-file veto, or insufficient recovery preserves the original abort.",
+      "global_drop_caches_or_memory_reclaim_write": false,
+      "input_files": [
+        "identity-bound read-only datasets/train.parquet",
+        "identity-bound read-only datasets/valid.parquet"
+      ],
+      "maximum_advised_bytes_per_pressure_episode": 768000000,
+      "maximum_pressure_episodes_per_worker": 320,
+      "maximum_total_advice_bytes_per_worker": 245760000000,
+      "method": "POSIX_FADV_DONTNEED on recent compressed byte ranges recorded from the existing open PyArrow reader; no parquet footer is reopened during recovery",
+      "minimum_seconds_between_pressure_episodes": 20.0,
+      "recheck": "Reread resource snapshot and memory.stat; continue only if host gates pass and cgroup headroom exceeds the original byte/fraction gates plus the recovery margin.",
+      "recovery_margin_above_unchanged_hard_gate_bytes": 512000000
+    },
+    "advice_is_a_kernel_hint": true,
+    "budget_derivation": {
+      "additional_full_raw_passes_for_setup_and_fallback_hash": 2,
+      "conservative_total_read_ceiling_bytes": 214749877962,
+      "coverage_assumption": "Each fit epoch reads no more than one complete pass of both pinned raw files; one extra complete pair pass bounds profile/setup exposure even though profile is capped at 23 batches; one more pair pass bounds identity-hash fallback; prediction export reads no more than one complete valid file. This sizes a worst-case advice budget, not a prediction of cache eviction.",
+      "cumulative_reserve_over_covered_ceiling_bytes": 31010122038,
+      "fit_epochs": 4,
+      "fit_full_raw_pass_ceiling_bytes": 139422912556,
+      "full_raw_pair_bytes": 34855728139,
+      "hash_path_note": "The raw identity fallback independently streams through its existing bounded POSIX_FADV_DONTNEED path; one full pair pass is nevertheless included in this reserve.",
+      "maximum_advice_rate_bytes_per_second_if_every_event_hits_cap": 38400000.0,
+      "maximum_bytes_per_event": 768000000,
+      "maximum_cumulative_advice_bytes": 245760000000,
+      "maximum_events": 320,
+      "maximum_worker_lifetime_seconds": 34000,
+      "minimum_events_with_10pct_margin": 308,
+      "minimum_seconds_between_events": 20.0,
+      "rate_and_failure_policy": "Reserve at most one 768000000 byte advice episode per 20.0 seconds and 320 total; the existing memory.stat eligibility and post-advice gate-plus-512 MB recheck apply to every event. Any event/rate/byte cap or failed recheck preserves the original hard abort.",
+      "setup_and_fallback_hash_ceiling_bytes": 69711456278,
+      "train_raw_file_bytes": 29240219011,
+      "valid_prediction_export_full_pass_ceiling_bytes": 5615509128,
+      "valid_raw_file_bytes": 5615509128
+    },
+    "eligibility": {
+      "active_file_growth_maximum_bytes_per_sample": 256000000,
+      "active_file_to_inactive_file_max_ratio": 4.0,
+      "anonymous_growth_maximum_bytes_per_sample": 128000000,
+      "host_hard_gates_must_pass": true,
+      "inactive_file_minimum_bytes": 768000000,
+      "same_cgroup_prior_sample_required": true,
+      "workingset_refault_file_maximum_bytes_per_sample": 64000000
+    },
+    "hard_gates_unchanged": {
+      "host_and_cgroup_available_bytes_minimum": 6500000000,
+      "host_and_cgroup_available_fraction_minimum": 0.25
+    },
+    "receipts": [
+      "resource.json",
+      "resource_abort.json",
+      "memory_stat_phases.json",
+      "rowgroup_reads.tsv",
+      "cache_pressure_relief.jsonl"
+    ],
+    "sample": "Same most-constrained cgroup memory.current, memory.max and bounded memory.stat read on every resource guard sample; record anon, file, active_file, inactive_file, shmem and workingset_refault_file."
+  },
+  "schema": "h232-conditional-profile-fit-plan-v1",
+  "scientific_shape": {
+    "architecture": "GRU384x2",
+    "batch_size": 8,
+    "changed_scientific_recipe_fields": [
+      "FP16 GradScaler initial scale: pinned default65536 to explicit4096; all other recipe fields unchanged"
+    ],
+    "checkpoint_epoch_zero_based": 3,
+    "checkpoint_policy": "fixed",
+    "chunk_rows": 2000,
+    "epochs": 4,
+    "event_feature_count": 99,
+    "fit_enabled": "conditional-on-profile-gate-and-root-admission",
+    "fit_membership": {
+      "evaluation_excluded": 468,
+      "train": 10535,
+      "valid": 1405
+    },
+    "historical_initial_amp_scale": 65536.0,
+    "initial_amp_scale": 4096.0,
+    "initialization": "scratch; no checkpoint, teammate weights, teachers, distillation, propensity, EMA/SWA, or auxiliary objective",
+    "input_view": "full causal feature view",
+    "input_width_basis": "Pinned source smoke: event_features(np.zeros((2,3,112), dtype=float32)) returns (2,3,99); model input width is 112+99=211.",
+    "learning_rate": 0.001,
+    "loss": "WMSE",
+    "loss_normalization": "chunk",
+    "model_input_width": 211,
+    "no_eval_during_fit": true,
+    "optimizer": "AdamW",
+    "precision": "fp16",
+    "raw_feature_count": 112,
+    "schedule": "OneCycle",
+    "seed": 3,
+    "train_sequences_argument": 10607,
+    "train_source": "train+valid",
+    "weight_decay": 0.01
+  },
+  "scope": "One H232 seed-3 full-feature GRU384x2 numerical-policy successor. Profile with GradScaler initial scale4096 and, only after the exact strict profile gate passes, fit the same frozen scratch recipe at that same explicit scale. This is an identified numeric successor, not an exact reproduction of the historical default65536 recipe.",
+  "screening_followup": {
+    "admission": "No follow-up screens are admitted by this packet; root owns exact follow-up allocation.",
+    "candidate_control_distinction": "A completed screen requires a candidate plus matched control under the same frozen data, membership and metric contract.",
+    "current_v4_deliverable": "One actual-device diagnostic profile and, only if the corrected V5 same-worker profile gate passes under a new independent review and fresh admission, one full four-epoch fixed-epoch-3 fit. This packet exports no predictions and grades nothing, so its output is not a completed candidate/control idea screen.",
+    "per_screen_budget_seconds_at_5_per_hour": 720,
+    "provider_layout": "Once loader bandwidth and aggregate host RAM are measured, schedule independent approach workers across both visible Kaggle T4s with separate model/optimizer/output roots and one shared verified input identity. Run a distinct approach family on separately rented Vast GPU capacity, with its own actual headroom and durable ownership receipt. Do not use a fresh Kaggle kernel per screen: the measured full raw hash alone took544.533s on the previous mount.",
+    "screens_per_hour_target": 5,
+    "smallest_change_needed": "After a valid V5 profile/checkpoint, use one reviewed persistent-session cohort that stages and verifies the mount once, then serializes distinct predeclared approach hypotheses (not seed substitutions) with frozen candidate/control screen recipes and registered development metric outputs. A screen must include the candidate plus matched control result; profiles, failed starts, and partial fits remain execution evidence only."
+  },
+  "smallest_change_needed": "Root independently reviews the exact V6 source/worker/test hashes, confirms fresh cloud headroom, and separately admits any provider run. The valid prediction is an ungraded artifact for the root-owned official metric check.",
+  "source_archive": {
+    "changed_members_vs_H232_PROFILE_V2": [
+      "scripts/train_rnn.py",
+      "src/wnn/data.py"
+    ],
+    "manifest_path": "source_archive_manifest.json",
+    "manifest_sha256": "e9ca52c7247ebc944bac086261715879f37006033c556c9c9890445ac22bbb01",
+    "member_count": 54,
+    "path": "source_archive.tar",
+    "run_identity_sha256": "725685931dddce6c2c068f14cf51abb2dd1f67eb88c3f38f2c61ae271805b626",
+    "sha256": "afde296e1c5e2f0c47a6fb352c2dea8e0a3df75900f53c26f103b3921df1f565",
+    "source_change": "V5's reviewed trainer-only compatibility repair is retained. V6 adds only an opt-in rowgroup-read and compressed byte-range receipt hook in data.py using the existing PyArrow reader for verified raw train/valid files; feature values, targets, order, membership, model, objective, optimizer and AMP policy are unchanged.",
+    "trainer_sha256": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a"
+  },
+  "source_recipe": {
+    "embedded_member": "H232_AMP4096_SUCCESSOR_RECIPE.json",
+    "path": "packet/H232_AMP4096_SUCCESSOR_RECIPE.json",
+    "sha256": "c4bb48589f07b32226e486b6db00d197686be3abf260583e443e8af89587190b"
+  },
+  "source_recipe_sha256": "c4bb48589f07b32226e486b6db00d197686be3abf260583e443e8af89587190b",
+  "status": "v6-root-reviewed-awaiting-exact-final-hash-confirmation",
+  "timing_recording": {
+    "archive_and_mount_identity": "measured phase durations, with train/valid hash/fallback durations from per-file receipts",
+    "fit_and_checkpoint_write": "measured end-to-end trainer duration",
+    "output_validation": "measured separately",
+    "prediction_export": "not part of this packet and not authorized",
+    "profile": "wall duration plus 19 inter-start intervals, host spans, loader waits, CUDA stage timings",
+    "provider_queue_startup": "unknown until provider push/phase logs; not inferred from RUNNING status",
+    "shape_probe": "measured separately for actual train and valid 16x4000 probes",
+    "valid_prediction_export": "Separate fixed ep3 FP32 subprocess with argv, exit, source/checkpoint/input/row-order/array hashes, resource snapshots and an 1800-second cap; no metric is computed in the worker.",
+    "worker_startup_to_cuda": "measured by the worker from process start to CUDA initialized"
+  },
+  "v4_gate_failure_record": {
+    "actual_loader_batch_tensor_bytes": 73120000,
+    "actual_model_input_width": 211,
+    "actual_profile_window_digest_counts": {
+      "digest_reuse_hits": 2,
+      "digest_reuse_misses": 4,
+      "fallback_digest_calls": 4,
+      "verifier_lookups": 6
+    },
+    "artifact": "downloads/h232_conditional_v4/h232_conditional_v4/profile_gate_result.json",
+    "reasons": [
+      "profile_input_width_is_not_full_feature_160",
+      "same_worker_profile_digest_handoff_not_observed"
+    ],
+    "status": "reject_no_fit"
+  }
+}

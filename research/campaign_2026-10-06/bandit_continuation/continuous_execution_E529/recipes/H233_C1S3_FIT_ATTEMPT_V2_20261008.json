@@ -1,0 +1,123 @@
+{
+  "attempt_id": "h233-c1s3-readout-v2-fit-20261008",
+  "collector_requirements": [
+    "terminal exit/status",
+    "checkpoint hashes and fixed alias tensor equality to model_ep1.pt",
+    "all four head update/completion and finite-gradient evidence",
+    "row/group membership and source ancestry from provenance",
+    "worker and parent-local/hierarchical OOM/kill counter deltas",
+    "actual wall/CPU/GPU/RAM/VRAM observations"
+  ],
+  "command": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=30s",
+    "5400s",
+    "/usr/bin/env",
+    "WNN_THREADS=1",
+    "WNN_LOADER_WORKERS=0",
+    "ARROW_NUM_THREADS=1",
+    "OMP_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "NUMEXPR_NUM_THREADS=1",
+    "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/src:/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/scripts/train_conditional_readout.py",
+    "fit",
+    "--recipe",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+    "--device",
+    "cuda",
+    "--run-name",
+    "bd26_h233_c1s3_rank32_f0_v2",
+    "--output-dir",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h233_c1s3_rank32_f0_v2",
+    "--cpu-threads",
+    "1"
+  ],
+  "contract_id": "H233-C1S3-READOUT-V2-FIT-ATTEMPT2-20261008",
+  "created_utc": "2026-10-08T08:21:02.759879+00:00",
+  "expected_outputs": [
+    "model_ep0.pt",
+    "model_ep1.pt",
+    "model.pt fixed to epoch1",
+    "provenance.json"
+  ],
+  "frozen_recipe": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+    "recipe_id": "E529-H233-C1S3-CONDITIONAL-READOUT-V2",
+    "scientific_scope": "Exact reviewed H233 V2 four fixed readout variants, own frozen C1 trunk,2epochs/fixedep1/excluded468groups. No recipe/objective/membership change.",
+    "sha256": "a97bf67c68e2988044778f39254122683ef37899dd4384cc6e3571240c373022"
+  },
+  "handoff": "After valid terminal/checkpoint verification, prepare a separate fresh durable export contract and root authorization path; independent grading remains root-owned.",
+  "output_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h233_c1s3_rank32_f0_v2",
+  "profile_basis": {
+    "estimate_scope": "GPU/chunk compute only; I/O/setup/collection excluded.",
+    "planning_fit_compute_seconds": 1071.754760727199,
+    "profile_result_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/profiles/H233_C1S3_B8_PROFILE_V2_EXACTSOURCE_ATTEMPT2_20261008.json",
+    "profile_result_sha256": "c6c5a965c8d02e9692d5114dfe558fdd3a9f0675d559822ba2d3dd720f684ca9",
+    "terminal_receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/profiles/H233_C1S3_B8_PROFILE_ATTEMPT2_TERMINAL_V1_20261008.json",
+    "terminal_receipt_sha256": "dd7d95c4a511d20c5e4a0a985618734aeb90f471e9a999051f199c936ebafbec"
+  },
+  "resource_request": {
+    "aggregate_guard": "5 CPU cores,18GB memory.high,20GB memory.max,0 swap",
+    "cpus": 1,
+    "cuda_allocator_admission_bytes": 4300000000,
+    "kind": "gpu",
+    "loader_workers": 0,
+    "observed_vram_max_bytes": 5000000000,
+    "one_gpu_lock": true,
+    "ram_bytes": 6500000000,
+    "timeout_seconds": 5400
+  },
+  "root_authorization": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/reviews/H233_V2_ROOT_PROFILE_REVIEW_AND_FIT_AUTHORIZATION_20261008_R1.json",
+    "sha256": "ba24a34592f98ea7a9246a723272ba6cb460482283449e3a0740c7f2c3bb4c6a",
+    "status": "approved_conditional_durable_launch"
+  },
+  "run_id": "bd26_h233_c1s3_rank32_f0_v2",
+  "schema": "h233-fixed-readout-fit-attempt-contract-v1",
+  "scientific_invariants": {
+    "architecture": "frozen C1 seed3 GRU256x2 parent, fixed ep1; parent trunk frozen",
+    "epochs": 2,
+    "fit_membership": {
+      "excluded_evaluation_groups": 468,
+      "fit_valid_groups": 1405,
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "train_groups": 10535
+    },
+    "fit_time_evaluation": false,
+    "four_independent_heads": true,
+    "heldout_or_public_claim": false,
+    "recipe_change": false,
+    "selected_zero_based_epoch": 1,
+    "variants": [
+      "hidden_only",
+      "additive",
+      "multiplicative",
+      "conditional_residual"
+    ]
+  },
+  "source_lock": {
+    "base_git_commit": "f40bff87304db1fa3bd727bfd096035c958bba4b",
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_FROZEN_RUNTIME_SOURCE_LOCK_V2_20261008.json",
+    "runtime_root": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME",
+    "sha256": "831c3de1ea5ae48a9330f82a2cc829fb93021c8ac82f5dff9e1da40ea8bf1b3b",
+    "source_sha256": {
+      "scripts/train_conditional_readout.py": "fd74eb03deb0cea24f89dc5d330fdca6c3135f7f3f48cccb31ac5be84ec9c645",
+      "scripts/train_rnn.py": "b49233a7ed7e7e44d1a67cd765879a96e9294a5934071840b77da0d37d7424c7",
+      "src/wnn/conditional_readout.py": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426",
+      "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+      "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "src/wnn/metric.py": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+      "src/wnn/nn.py": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+      "src/wnn/propensity.py": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+      "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "tests/test_conditional_readout.py": "03ef71e9a8be106625ecc9ac9adec74fb25ff9637c3225230118ae604c8a7bdd"
+    }
+  },
+  "status": "root_authorized_pending_fresh_durable_admission",
+  "working_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME"
+}

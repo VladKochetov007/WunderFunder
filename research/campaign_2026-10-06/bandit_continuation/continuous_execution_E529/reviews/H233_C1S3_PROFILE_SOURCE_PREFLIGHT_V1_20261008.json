@@ -1,0 +1,49 @@
+{
+  "claim_limits": {
+    "checkpoint_created": false,
+    "export": false,
+    "full_fit": false,
+    "score": false
+  },
+  "command": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "-c",
+    "import train_conditional_readout as h; r=h._load_recipe(h.RECIPE_PATH); s,p,tr,va=h._verify_static_ancestry(r); h._verify_parent_alias()"
+  ],
+  "identity": "H233_C1S3_PROFILE_SOURCE_PREFLIGHT_V1_20261008",
+  "inputs": {
+    "fold_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "parent_checkpoint_sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+    "parent_provenance_sha256": "60e8884d3d5886dc53dcb2b7d280fef284a702de8769ab333e07e1819d66f28a",
+    "recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+    "recipe_sha256": "a97bf67c68e2988044778f39254122683ef37899dd4384cc6e3571240c373022",
+    "source_lock": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_FROZEN_RUNTIME_SOURCE_LOCK_V2_20261008.json",
+    "source_lock_sha256": "831c3de1ea5ae48a9330f82a2cc829fb93021c8ac82f5dff9e1da40ea8bf1b3b"
+  },
+  "recorded_utc": "2026-10-08T08:12:59.624473+00:00",
+  "resource_cap": {
+    "cpu_cores": 1,
+    "gpu_used": false,
+    "ram_bytes": 1500000000,
+    "runtime_seconds": 90
+  },
+  "result": {
+    "elapsed_seconds": 1.11,
+    "evaluation_groups": 468,
+    "fold": 0,
+    "large_teacher_or_propensity_arrays_read": false,
+    "maxrss_kib": 569212,
+    "parent_model_alias_equals_selected_checkpoint": true,
+    "pinned_source_count": 11,
+    "recipe_id": "E529-H233-C1S3-CONDITIONAL-READOUT-V2",
+    "train_groups": 10535,
+    "valid_fit_groups": 1405
+  },
+  "schema": "h233-static-source-preflight-v1",
+  "source_mount_correction": {
+    "added_mount": "datasets -> project datasets",
+    "failure_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/reviews/H233_C1S3_PROFILE_SOURCE_MOUNT_PREFLIGHT_FAILURE_V1_20261008.json",
+    "no_science_source_or_data_changes": true
+  },
+  "status": "passed_read_only_static_ancestry_and_parent_alias"
+}

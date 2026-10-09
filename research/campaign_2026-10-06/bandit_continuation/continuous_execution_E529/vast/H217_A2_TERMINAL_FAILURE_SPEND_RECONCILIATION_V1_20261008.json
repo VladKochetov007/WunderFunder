@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "kind": "provisional_vast_spend_reconciliation",
+  "attempt_id": "e529-vast-h217-pair-v2-20261008-a2",
+  "instance_id": "54725432",
+  "created_utc": "2026-10-07T22:08:13Z",
+  "destroy_requested_at_utc": "2026-10-07T22:40:28Z",
+  "destroy_verified_at_utc": "2026-10-07T22:40:30Z",
+  "terminal_status": "destroyed_verified",
+  "failure_class": "TimeoutExpired during input staging before worker launch",
+  "scientific_outcome": "none; no fit or evaluation began",
+  "reservation_usd": "2.00",
+  "reservation_is_not_actual_spend": true,
+  "billing": {
+    "status": "exact_invoice_pending",
+    "actual_all_in_usd": null,
+    "baseline_credit_usd": "19.65",
+    "baseline_precision": "rounded to cents in the pre-create account inspection",
+    "post_destroy_credit_usd": "19.505351113081247",
+    "post_destroy_credit_observed_at_utc": "2026-10-07T22:44:53Z",
+    "post_destroy_balance_usd": "0",
+    "approximate_credit_delta_usd": "0.144648886918753",
+    "credit_delta_attribution": "provisional; rounded baseline and possible unrelated account charges prevent treating this as an itemized invoice",
+    "compute_storage_rate_usd_per_hour": "0.214444",
+    "elapsed_instance_seconds_approx": 1938,
+    "compute_storage_component_at_quoted_rate_usd": "0.1154423533",
+    "active_paid_machines_after_destroy": 0,
+    "invoice_query": {
+      "sdk": "VastAI SDK 1.8.3",
+      "method": "show_invoices_v1",
+      "api": "GET /api/v0/charges/",
+      "charge_type": "instance",
+      "window_start_utc": "2026-10-07T22:00:00Z",
+      "window_end_utc": "2026-10-07T22:44:59Z",
+      "result_count": 1,
+      "exact_instance_contract_matches": 0,
+      "credential_source": "project .env loaded through scripts.vast_campaign.load_api_key and passed directly to the SDK; secret not logged or persisted",
+      "outcome": "no itemized row matched owned contract 54725432; no settlement performed"
+    },
+    "adapter_settlement": "pending; durable attempt actual_all_in_usd remains null until itemized billing evidence is available"
+  },
+  "staging": {
+    "upload_started_at_utc": "2026-10-07T22:10:28Z",
+    "progress_snapshot_at_utc": "2026-10-07T22:39:22.774498Z",
+    "total_upload_bytes": 37105570021,
+    "fully_hash_verified_bytes": 2249841882,
+    "additional_remote_train_partial_bytes": 20825505792,
+    "remaining_bytes_at_snapshot_estimate": 14030222347,
+    "observed_span_seconds": 1734,
+    "partial_train_throughput_decimal_mbps": 12.0101,
+    "all_visible_bytes_throughput_decimal_mbps": 13.3076,
+    "fully_verified_remote_files": [
+      "packet.tar",
+      "inputs/cache/chain_folds.npz",
+      "inputs/cache/chains.npz",
+      "inputs/cache/train_targets.npz",
+      "inputs/cache/valid_targets.npz"
+    ],
+    "partial_file": "inputs/datasets/train.parquet.part",
+    "remote_partial_data_destroyed_with_owned_instance": true
+  },
+  "source_receipts": {
+    "adapter_ledger": "~/.local/state/wnn-campaign/vast/ledger.json",
+    "staging_progress": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A2_STAGING_PROGRESS_20261008_V1.json",
+    "local_launch": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A2_LOCAL_SUPERVISOR_LAUNCH_V1.json"
+  },
+  "ownership_boundary": "Instance 54725432 was verified destroyed. Do not reconnect, revive, or adopt it; successor work requires a new root admission and creation receipt."
+}

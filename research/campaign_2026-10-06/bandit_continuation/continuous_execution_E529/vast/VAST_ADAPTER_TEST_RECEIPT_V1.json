@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "receipt_type": "implementation_test_receipt",
+  "actual_author": "cloud_delivery_resume",
+  "created_at_utc": "2026-10-07T20:01:30Z",
+  "implementation": {
+    "path": "scripts/vast_campaign.py",
+    "sha256": "4618b10cca9e07e53ea1710f3ba0e400d2fcae698858fd51ea3fcb7197459549"
+  },
+  "tests": {
+    "path": "tests/test_vast_campaign.py",
+    "sha256": "6894fc90302ebfe8e1a19f45d754a2d787da6e92e7251b408adfe0e26617d6d9",
+    "cases_passed": 26,
+    "maximum_rss_kib": 49276,
+    "test_credential": "synthetic token in a temporary .env fixture"
+  },
+  "handoff": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/README.md",
+    "sha256": "db8587d9837ecb03a33857ee3c851fcb2f90f17e6fce2ae4c5728e063b71b7cb"
+  },
+  "checks": [
+    {
+      "command": "taskset -c 0 .venv/bin/ruff check scripts/vast_campaign.py tests/test_vast_campaign.py",
+      "result": "passed"
+    },
+    {
+      "command": "taskset -c 0 .venv/bin/ruff format scripts/vast_campaign.py tests/test_vast_campaign.py",
+      "result": "passed"
+    },
+    {
+      "command": "taskset -c 0 .venv/bin/python -m py_compile scripts/vast_campaign.py tests/test_vast_campaign.py",
+      "result": "passed"
+    },
+    {
+      "command": "taskset -c 0 .venv/bin/python -m pytest -q tests/test_vast_campaign.py",
+      "result": "passed",
+      "cases": 26,
+      "maximum_rss_kib": 49276
+    },
+    {
+      "command": "taskset -c 0 .venv/bin/python -m basedpyright scripts/vast_campaign.py",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "command": "taskset -c 0 .venv/bin/python scripts/vast_campaign.py --help",
+      "result": "passed"
+    }
+  ],
+  "external_effects": {
+    "project_credential_file_read": false,
+    "provider_api_calls": 0,
+    "provider_mutations": 0,
+    "paid_instances_created": 0,
+    "global_billing_settings_changed": false
+  },
+  "documentation_sources": [
+    "https://docs.vast.ai/api-reference/accounts/show-user",
+    "https://docs.vast.ai/api-reference/creating-instances-with-api",
+    "https://docs.vast.ai/guides/instances/pricing"
+  ],
+  "authority": {
+    "review_state": "pending_independent_root_review",
+    "this_receipt_authorizes_provider_actions": false
+  },
+  "limitations": [
+    "No live marketplace availability, account balance, offer quote, bandwidth, or storage charge was queried.",
+    "Advertised host and GPU memory are eligibility filters; root must verify actual instance/cgroup capacity and I/O before a fit.",
+    "Public API and CLI creation paths are intentionally disabled until root provides a separately enforced lifecycle watchdog and tested collector/teardown owner.",
+    "The create-state-machine tests use a private mock-only seam; they do not grant provider or fit authority.",
+    "The adapter does not inspect or change global auto-top-up or billing settings.",
+    "A finite dispatcher/monitor must invoke teardown by the root-approved hard deadline; this CLI is not a watchdog."
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "base_git_commit": "f40bff87304db1fa3bd727bfd096035c958bba4b",
+  "base_source_note": "Repository files at this revision match the V2-pinned train_rnn.py and wnn.nn.py; H233 V2 additions are overlaid from their exact pinned bytes.",
+  "claim": "No scientific recipe, weights, input membership, or training code were changed; this reconstructs the exact source closure required by the existing V2 recipe after later shared-tree source drift.",
+  "mount_correction": "The first static preflight revealed V2 split loading resolves train.parquet/valid.parquet at ROOT/datasets; V1 lacked that exact data mount. V2 adds only this symlink to the existing unchanged supplied datasets.",
+  "mounts": {
+    "artifacts": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts",
+    "cache": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache",
+    "datasets": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets",
+    "research": "/home/vlad/development/wunder/wnn_connectome_starterpack/research"
+  },
+  "overlays": {
+    "scripts/train_conditional_readout.py": {
+      "sha256": "fd74eb03deb0cea24f89dc5d330fdca6c3135f7f3f48cccb31ac5be84ec9c645",
+      "source_path": "scripts/train_conditional_readout.py"
+    },
+    "src/wnn/conditional_readout.py": {
+      "sha256": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426",
+      "source_path": "src/wnn/conditional_readout.py"
+    },
+    "tests/test_conditional_readout.py": {
+      "sha256": "03ef71e9a8be106625ecc9ac9adec74fb25ff9637c3225230118ae604c8a7bdd",
+      "source_path": "tests/test_conditional_readout.py"
+    }
+  },
+  "pinned_source_validation": {
+    "scripts/train_conditional_readout.py": "fd74eb03deb0cea24f89dc5d330fdca6c3135f7f3f48cccb31ac5be84ec9c645",
+    "scripts/train_rnn.py": "b49233a7ed7e7e44d1a67cd765879a96e9294a5934071840b77da0d37d7424c7",
+    "src/wnn/conditional_readout.py": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/metric.py": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+    "src/wnn/nn.py": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+    "src/wnn/propensity.py": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+    "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+    "tests/test_conditional_readout.py": "03ef71e9a8be106625ecc9ac9adec74fb25ff9637c3225230118ae604c8a7bdd"
+  },
+  "recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+  "recipe_sha256": "a97bf67c68e2988044778f39254122683ef37899dd4384cc6e3571240c373022",
+  "runtime_id": "H233_C1S3_CONDITIONAL_READOUT_V2_FROZEN_RUNTIME_V2_20261008",
+  "runtime_root": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME",
+  "schema": "h233-frozen-runtime-source-lock-v1",
+  "supersedes": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_FROZEN_RUNTIME_SOURCE_LOCK_V1_20261008.json",
+    "sha256": "e0914fb83baf26340bdc3d0acdeede36c3f7296590edd661340b0c56202ba6d9"
+  }
+}

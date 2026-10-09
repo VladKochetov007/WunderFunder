@@ -1,0 +1,112 @@
+{
+  "campaign": "E529",
+  "estimates_and_unknowns": {
+    "h232_v2_data_hash_saving": "up to the measured V1 raw hash cost (363.46s) only if the exact canonical path, full stat tuple, and read-only mount match; otherwise V2 falls back to the original full hash. Match status is unknown until provider worker runs.",
+    "h232_v2_worker_wall": "unknown; V1 observed 442.82s including 363.46s hashing, but V2 startup/mount reuse is untested.",
+    "kaggle_queue_start_eta": "unknown for both V2 and TPU V5; no ETA inferred from status alone.",
+    "tpu_v5_terminal_eta": "unknown after 3597s in QUEUED state at snapshot"
+  },
+  "measured_runtime": {
+    "e463_v4": {
+      "TPU_compute_reached": false,
+      "worker_seconds": 24.386572643000022
+    },
+    "e463_v5": {
+      "queue_time_seconds": 3300.0,
+      "runtime_seconds": null,
+      "worker_runtime_estimate": "unknown until worker starts and logs establish phases"
+    },
+    "e520_v12": {
+      "p50_loader_wait_ms": 3247.041953000007,
+      "p50_step_ms": 3399.3414640001447,
+      "raw_parquet_hash_seconds": 804.672075,
+      "reported_seq_per_s": 4.706793998026942,
+      "validity": "profile-only throughput measurement, not fit or quality evidence",
+      "worker_wall_seconds": 977.1012997270001
+    },
+    "h232_v1": {
+      "p50_loader_wait_ms": 0.2668740000899561,
+      "p50_step_ms": 1141.4433200000076,
+      "raw_parquet_hash_seconds": 363.458513,
+      "reported_seq_per_s": 7.008670391097428,
+      "validity": "invalid for throughput admission: one skipped AMP update; retain as diagnostic only",
+      "worker_wall_seconds": 442.81952512199996
+    }
+  },
+  "next_gates": [
+    "Independently review exact H232 V2 packet/source and refresh GPU quota before one profile-only push.",
+    "After V2 terminal, download the per-update trace, verify all 200 timed updates have finite loss and no found_inf, and reconcile quota; no fit is authorized by profile success.",
+    "Keep E463 V5 as the sole active TPU request; poll and collect terminal artifacts before any TPU successor, then reconcile actual spending.",
+    "Before H232 B8 fitting, freeze the required matched B8/B16 scientific comparison and obtain root fit admission."
+  ],
+  "observed_at_utc": "2026-10-07T22:30:03+00:00",
+  "quota": {
+    "gpu": {
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 43251.975000000006,
+      "campaign_used_seconds": 13528.540999999997,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "used_seconds": 50575.862
+    },
+    "tpu": {
+      "campaign_baseline_used_seconds": 134.623,
+      "campaign_cap_seconds": 7200.0,
+      "campaign_headroom_seconds": 7041.548,
+      "campaign_used_seconds": 158.452,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "used_seconds": 293.075
+    }
+  },
+  "receipt_id": "CLOUD_LIVE_STATUS_ETA_20261008_R2",
+  "recommendation": "Keep GPU lane ready with V2 pending independent review and preserve TPU V5 without duplicate pushes. Do not start H232 fits until valid profile evidence and the matched comparison gate; after V5 completes, resolve whether the synthetic diagnostic passes before preparing the next TPU stage.",
+  "schema_version": 1,
+  "source": {
+    "method": "read-only Kaggle quota/status API; CLI 2.2.4",
+    "poll": "E529_LIVE_POLL_20261008_R37.jsonl",
+    "provider_mutations_during_poll": false
+  },
+  "status": {
+    "e463_v4": {
+      "classification": "helper import path failed before TPU compute",
+      "receipt": "e463_tpu_v4_terminal_poll_receipt.json",
+      "state": "KernelWorkerStatus.ERROR",
+      "terminal_evidence_collected": true,
+      "worker_wall_seconds": 24.386572643000022
+    },
+    "e463_v5": {
+      "fit_started": "unknown; QUEUED does not establish worker start",
+      "provider_ref": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v5",
+      "provider_reservation_seconds": 0.0,
+      "pushed_at_utc": "2026-10-07T21:30:06+00:00",
+      "queued_seconds_at_snapshot": 3597.0,
+      "state": "KernelWorkerStatus.QUEUED",
+      "terminal_evidence_collected": false,
+      "worker_cap_seconds": 1650
+    },
+    "e520_v12": {
+      "fit_started": false,
+      "receipt": "e520_profile_terminal_v12_poll_receipt.json",
+      "state": "KernelWorkerStatus.COMPLETE",
+      "terminal_evidence_collected": true,
+      "worker_wall_seconds": 977.1012997270001
+    },
+    "h232_v1": {
+      "classification": "AMP-skip invalidated profile; one of 230 updates skipped; exact location not recorded by V1",
+      "fit_started": false,
+      "receipt": "h232_profile_terminal_poll_receipt.json",
+      "state": "KernelWorkerStatus.ERROR",
+      "terminal_evidence_collected": true,
+      "worker_wall_seconds": 442.81952512199996
+    },
+    "h232_v2": {
+      "packet": "h232_cloud_profile_v2/packet",
+      "packet_manifest_sha256": "01f86f0f513d9c1885d374222f017b0a35ef0077cda25f05eda1545821206d16",
+      "review": "awaiting independent root review and fresh admission",
+      "scope": "profile-only",
+      "state": "not_submitted"
+    }
+  }
+}

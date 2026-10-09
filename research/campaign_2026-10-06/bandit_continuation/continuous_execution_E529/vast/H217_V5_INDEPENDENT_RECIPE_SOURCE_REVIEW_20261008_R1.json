@@ -1,0 +1,162 @@
+{
+  "admission": {
+    "fit_authorized": false,
+    "grade_authorized": false,
+    "profile_authorized": false,
+    "provider_create_authorized": false,
+    "push_authorized": false
+  },
+  "assignment": "Root requested independent V5 recipe/source/archive/CLI review; code-only, no provider or fit authority.",
+  "blocking_finding": {
+    "contract": "The V5 full-feature width comparison requires the exact same seed, cleanfold membership, and training treatment; the profile must bind the actual fit recipe.",
+    "current_packet_limit": "None of the reproduced mutations is present in the hash-verified current V5 archive. This finding concerns the startup validator and future or accidental recipe drift, not a detected change in current packet bytes.",
+    "disposition": "Do not rely on worker-side validate_recipe as the sole exact-recipe drift gate until corrected; root may separately bind and validate the exact reviewed packet hash before any admission.",
+    "id": "H217-V5-RECIPE-VALIDATOR-001",
+    "path": "h217_packet_v5/worker.py:validate_recipe and _option",
+    "reproduced_mutations_accepted": [
+      "append --lr 0.1 after existing --lr 0.001",
+      "append --seed 8 after existing --seed 7",
+      "append --class-balance",
+      "append --valid-repeat 2",
+      "append --epoch-samples 1"
+    ],
+    "scientific_consequence": "The actual argparse parser accepts these options. The later duplicate --lr/--seed values win; --class-balance enables a replacement WeightedRandomSampler; --valid-repeat repeats fold-fit valid sequences; --epoch-samples changes epoch sampling. Such a recipe could pass worker.validate_recipe while changing optimizer or sampling treatment and leaving the displayed V5 metadata unchanged.",
+    "severity": "blocking_for_relying_on_worker_self_validation",
+    "smallest_correction": "Validate each profile/fit argv against a canonical exact expected array or a complete per-stage allowlist with duplicate-option rejection. Add mutation tests for duplicate --lr/--seed and --class-balance, --valid-repeat, and --epoch-samples.",
+    "trigger": "The validator reads the first occurrence of selected flags and does not require an exact flag set or exact argv template. It neither rejects duplicate options nor unlisted science-affecting options."
+  },
+  "checks": [
+    {
+      "check": "focused V5 worker tests",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=600000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/pytest -q /tmp/wnn-h217-full-feature-ladder/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/test_h217_v5_worker.py",
+      "result": "27 passed in 0.18s"
+    },
+    {
+      "check": "direct V4/V5 project identity",
+      "result": "All 56 files match byte-for-byte against both the V4 project directory and all project/ members in the sealed V4 archive; pinned V4 archive and source-manifest hashes match."
+    },
+    {
+      "check": "V5 archive manifest verification",
+      "result": "All 61 file member sizes and SHA-256 digests match H217_V5_ARCHIVE_MANIFEST.json; archive, source manifest and archive manifest hashes match the build receipt."
+    },
+    {
+      "check": "actual trainer CLI parser option audit",
+      "result": "Parsed train_rnn.py syntax without importing it; all options in the four current V5 profile/fit argv arrays exist in the actual argparse declarations; no missing options and no raw-only/GRU arguments."
+    },
+    {
+      "check": "negative recipe-drift probe",
+      "result": "Mutations listed in blocking finding all pass worker.validate_recipe on a copy of the current recipe."
+    }
+  ],
+  "created_utc": "2026-10-08T04:14:15Z",
+  "current_packet_findings": {
+    "all_four_profile_and_fit_command_arrays_use_valid_train_rnn_parser_options": true,
+    "all_v5_archive_members_match_archive_manifest_hash_and_size": true,
+    "arm_specification": {
+      "architecture": "TCN",
+      "channels": [
+        128,
+        256
+      ],
+      "initialization": "scratch",
+      "input_width": 211,
+      "layers": 12,
+      "mix": 1,
+      "raw_only": false,
+      "seed": 7
+    },
+    "authorization": "Recipe, runtime, admission request and build receipt retain fit/profile/provider-create/push/grade authorization=false.",
+    "command_check_did_not_import_torch": true,
+    "feature_path_evidence": "train_rnn.py builds raw(112)+causal event(99) features by default; RAW_ONLY starts false and is set only by --raw-only, which is absent from all four current profile/fit commands.",
+    "fit_membership_semantics": "With the pinned fold0 split, campaign train_groups=10535; slicing its permutation to --train-seqs 10607 preserves all 10535. train+valid adds all 1405 fit-valid groups and excludes the 468 fold0 evaluation groups; the trainer asserts component-disjoint fitting membership.",
+    "science_recipe_matches_root_contract": true,
+    "training_treatment": {
+      "amp_initial_scale": 4096,
+      "auxiliary_losses": false,
+      "batch": 8,
+      "chunk": 2000,
+      "distillation": false,
+      "epochs": 4,
+      "evaluation_during_fit": false,
+      "excluded_evaluation_groups": 468,
+      "fit_train_groups": 10535,
+      "fit_valid_groups": 1405,
+      "fixed_epoch": 3,
+      "fold": 0,
+      "initialization": "scratch",
+      "learning_rate": 0.001,
+      "loss": "wmse",
+      "loss_norm": "chunk",
+      "optimizer": "adamw",
+      "precision": "fp16",
+      "profile_timed_outer_batches": 20,
+      "profile_warmup_outer_batches": 3,
+      "propensity": false,
+      "schedule": "onecycle",
+      "total_fit_groups": 11940,
+      "train_seqs_limit": 10607,
+      "train_source": "train+valid",
+      "weight_decay": 0.01
+    },
+    "two_arms": [
+      "tcn_full128",
+      "tcn_full256"
+    ],
+    "v5_archive_member_count": 61,
+    "v5_project_byte_identical_to_v4_archive_members": true,
+    "v5_project_byte_identical_to_v4_directory": true,
+    "v5_project_file_count": 56,
+    "worker_terminal_behavior": "Fixed epoch-3 valid-only FP32 export; validates checkpoint hash, row-group order, prediction shape/dtype/finiteness/hash; records no score."
+  },
+  "packet_identity": {
+    "admission_request_sha256": "ec63961f66e346956098c0dfa2639c2238fc8eac70db9ab8f22be0ce89159084",
+    "archive_manifest_sha256": "c6b7e81c0eeb3a270806d81a9ad552900f97c4605aa96decc69f2d757d5457c7",
+    "archive_member_count": 61,
+    "attempt_id": "e529-vast-h217-fullfeature-v5-20261008",
+    "build_receipt_sha256": "c065fd033c60c2168e9839978a0e533e7a99b6dc8363fd951c6044a43261d798",
+    "packet_identity": "E529-H217-TCN-FULLFEATURE-CAPACITY-V5-AMP4096",
+    "packet_path": "h217_packet_v5.tar",
+    "packet_sha256": "f369fee4ba081f430e67a44a1f1d2eadf3ba860126c0f79ef49831630d5b58f2",
+    "source_manifest_sha256": "8aca139739587546c0780d8b8eaa3cde52a970e300ae63eb3572e0a571b403f7",
+    "v4_packet_sha256": "38bb1893b946c85850268a95afcf88c40593f06f0f5a956f71eafd599e681656",
+    "v4_source_manifest_sha256": "7ea2bf3cfb6fee065148dfb1c4834d15b5cc92058bb4119153b814b6a940a8dc"
+  },
+  "prohibited_actions_not_performed": {
+    "archive_or_source_mutation": true,
+    "data_file_open_or_npz_decompression": true,
+    "gpu_use": true,
+    "parquet_footer_access": true,
+    "provider_or_credentials": true,
+    "torch_import_or_fit": true
+  },
+  "review_id": "H217_V5_INDEPENDENT_RECIPE_SOURCE_REVIEW_20261008_R1",
+  "review_limits": [
+    "Static CLI AST audit rather than executing train_rnn.py --help because trainer import would load Torch.",
+    "No actual device profile, fit, prediction, or provider execution was performed.",
+    "The review establishes source/recipe/execution-contract fidelity only, not model quality or public transfer."
+  ],
+  "review_status": "current_packet_bytes_pass; worker_recipe_validator_blocking_gap",
+  "reviewed_file_sha256": {
+    "builder": "3b69f532bfcf2de36bdde454a3dc8b26e940270f779b18bde8b7755ce486016d",
+    "data_py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "features_py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "predict_run": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+    "readme": "0626d9be367b94a377e4baf9a4b5af6634dbd371b4f55368b56a566dfcd60ff7",
+    "recipe": "c18b96fda798ead5cffbb089bd79589c5ce3aa5149cc81a49d2b4eb8985c9eac",
+    "run_sh": "16f8941fea46720f9efb21a82e267fd6cd6bc4838b7cef331031c298f4a6d440",
+    "runtime_resources": "cadc3156fb6cf73c2362cb9d8f1e19e2fcbcbc8b853111e8c65bb62fc40272fc",
+    "splits_py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+    "tests": "ce7c5a1572721809420a64e3c123ddb9c3c66804cafcff9e83a1bdc2e11c5a3a",
+    "train_rnn": "affae686fb97e39a2bfe49a96c2124ee2a66d30374a24ab1fe0a8ede9824bf5b",
+    "worker": "bd2383b85f6c7da827cbd6af8a86ddb4b1211525468b424aed596e84171312c6"
+  },
+  "reviewer_role": "independent bounded recipe/source reviewer",
+  "schema_version": 1,
+  "source_revision": {
+    "actor_task_sha256": "6ca21ed3352ed676309e91ea219a2c9455f874c2cc035976a361295e25292475",
+    "base_commit": "801b6629dc9e67becdca0514420bfe882bc9a48b",
+    "isolated_worktree": "/tmp/wnn-h217-full-feature-ladder",
+    "root_code_contract_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_V5_FULL_FEATURE_ROOT_CODE_CONTRACT_20261008_V1.json",
+    "root_code_contract_sha256": "b8d10462523051267fe5d29ce263235766ed393c6170b098c4ebd36ea79c60fe"
+  }
+}

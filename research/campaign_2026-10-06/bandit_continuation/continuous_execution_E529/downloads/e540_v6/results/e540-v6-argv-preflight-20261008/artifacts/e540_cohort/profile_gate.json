@@ -1,0 +1,44 @@
+{
+  "evaluation_group_count": 468,
+  "expected_fit_optimizer_attempts_per_arm": 72996,
+  "fitting_component_count": 512,
+  "fitting_component_sha256": "fe1b21de42d6bc1cf561243c0c8b033daccf19581992dc772e34c9507f5212c6",
+  "fitting_group_counts": {
+    "train": 1597,
+    "valid": 252
+  },
+  "fitting_group_sha256": {
+    "train": "212ef1b09ec79e2eada26aa388a81cdfbf1cb150e49859e7603c7b2109b25d38",
+    "valid": "8284633c0856bdade775a0fb2e550ac91b4819068eb8d49fab1ec61692bb74dc"
+  },
+  "fitting_members_sha256": "28747d40caefee2b559d16d7d05ec57e7c4b5079965acb2e590fa0cefec9580e",
+  "loader_membership": {
+    "batch_size": 2,
+    "drop_last": true,
+    "dropped_sequence_identity": null,
+    "expected_consumed_sequence_count_per_epoch": 1848,
+    "expected_dropped_sequence_count_per_epoch": 1,
+    "paired_order_status": "same seed and sampler configuration; realized order equivalence is not independently verified",
+    "selected_sequence_count": 1849,
+    "status": "derived_from_frozen_batch_size_and_drop_last_contract; actual_indices_not_captured"
+  },
+  "maximum_worker_seconds": 5200,
+  "membership_receipt": "membership.json",
+  "profile_attempts_per_arm": 316,
+  "profiles": {
+    "linear": {
+      "amp_skipped_updates": 0,
+      "peak_reserved_bytes": 230686720,
+      "step_wall_ms": 572.92
+    },
+    "ple": {
+      "amp_skipped_updates": 0,
+      "peak_reserved_bytes": 230686720,
+      "step_wall_ms": 521.31
+    }
+  },
+  "projected_total_worker_seconds": 2275.51981846,
+  "rule": "profile both arms, require zero AMP skips and <=4.3GB allocator reservation, then conservatively project all fit and prediction work inside the cap",
+  "status": "pass",
+  "worker_elapsed_seconds_at_gate": 585.957155562
+}

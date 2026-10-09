@@ -1,0 +1,206 @@
+{
+  "attempt_id": "h233-c1s3-b8-profile-v2-exactsource-attempt1-20261008",
+  "authority_basis": "Explicit root direction: run one bounded representative H233 local GPU profile only, after source/artifact fidelity and fresh controller admission; do not fit or export.",
+  "claim_limits": {
+    "bounded_profile_optimizer_updates_are_transient": true,
+    "full_scientific_fit_or_checkpoint_created": false,
+    "official_metric_computed": false,
+    "public_forecast": false,
+    "public_upload": false,
+    "score_claim": false,
+    "source_change": false
+  },
+  "command_argv": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "180s",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "scripts/train_conditional_readout.py",
+    "profile",
+    "--recipe",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+    "--device",
+    "cuda",
+    "--warmup-chunks",
+    "2",
+    "--steps",
+    "8",
+    "--output",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/profiles/H233_C1S3_B8_PROFILE_V2_EXACTSOURCE_ATTEMPT1_20261008.json"
+  ],
+  "created_utc": "2026-10-08T08:11:21.622534+00:00",
+  "independent_review": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/reviews/H233_V2_CONTROLLER_REPAIR_REVIEW.json",
+    "sha256": "47dd4c6b9835cc0f7e909e8d7986fec8ba481101f5cece6ee63f4c19066e31e8",
+    "status": "narrow_source_repair_passed_no_admission"
+  },
+  "preflight_artifacts": {
+    "large_teacher_arrays_stat_and_sidecar_verified_no_rehash": {
+      "cache/pred_c20261003_combo_s3_f0_train.npy": {
+        "bytes": 1696960128,
+        "expected_sha256": "55be3dffe899260f875e7d6460d37a24257067ebedb9273514cb38accc6af086",
+        "mtime_ns": 1791326208413150719,
+        "sidecar": "cache/pred_c20261003_combo_s3_f0_train.json",
+        "sidecar_sha256": "d9fa1459057e93d481db28aa6388cc7e801242ddcc6eb3e658cf83a559068837"
+      },
+      "cache/pred_c20261003_combo_s3_f0_valid.npy": {
+        "bytes": 299680128,
+        "expected_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+        "mtime_ns": 1791023155065468945,
+        "sidecar": "cache/pred_c20261003_combo_s3_f0_valid.json",
+        "sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2"
+      },
+      "cache/pred_c20261003_combo_s4_f0_train.npy": {
+        "bytes": 1696960128,
+        "expected_sha256": "6188bba89a0d5e30516c8ec4163746310aa0e4b634dd1bbc3da9a156b8d9bfb2",
+        "mtime_ns": 1791327257087729946,
+        "sidecar": "cache/pred_c20261003_combo_s4_f0_train.json",
+        "sidecar_sha256": "ea462accb17312f12c5a254df9aa94989952562f948234b5ebe2bcc6d5f8401e"
+      },
+      "cache/pred_c20261003_combo_s4_f0_valid.npy": {
+        "bytes": 299680128,
+        "expected_sha256": "f1a3b07072a62dce620dc0c90e9568093367d0aed1afa4e9ec550866f94df12b",
+        "mtime_ns": 1791028432680374820,
+        "sidecar": "cache/pred_c20261003_combo_s4_f0_valid.json",
+        "sidecar_sha256": "ad1257c7278c5402c409ec0e273c2202525bd1d6173699438efb6627262b9750"
+      }
+    },
+    "parent_valid_prediction_stat_and_sidecar_verified_no_rehash": {
+      "bytes": 299680128,
+      "expected_sha256": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+      "mtime_ns": 1791340421295843862,
+      "path": "cache/pred_bd26_c1v2_s3_f0_valid.npy",
+      "sidecar_sha256": "bb335392edc599f181c0bbcb6523fd430b036647454bc0d76facf5b592211ad3"
+    },
+    "propensity_arrays_stat_and_sidecar_verified_no_rehash": {
+      "cache/propcache_c20260929_prop_f0_train.npy": {
+        "bytes": 848560128,
+        "expected_sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174",
+        "mtime_ns": 1790712605563748005,
+        "sidecar_sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9"
+      },
+      "cache/propcache_c20260929_prop_f0_valid.npy": {
+        "bytes": 149840128,
+        "expected_sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c",
+        "mtime_ns": 1790712631182502714,
+        "sidecar_sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a"
+      }
+    },
+    "runtime_worker_rehash_policy": "The frozen profile path will revalidate every recipe-pinned teacher prediction and propensity array before loading a batch. No extra whole-array pre-read is performed.",
+    "small_hash_verified": {
+      "c20261003_combo_s3_f0": {
+        "bytes": 159653,
+        "path": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+        "sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f"
+      },
+      "c20261003_combo_s4_f0": {
+        "bytes": 159653,
+        "path": "artifacts/runs/c20261003_combo_s4_f0/provenance.json",
+        "sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332"
+      },
+      "parent_checkpoint": {
+        "bytes": 3977255,
+        "path": "artifacts/runs/bd26_c1v2_s3_f0/model_ep1.pt",
+        "sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0"
+      },
+      "parent_model_alias": {
+        "bytes": 3976747,
+        "path": "artifacts/runs/bd26_c1v2_s3_f0/model.pt",
+        "sha256": "5f21361d47cc1f010abb363e6aca6e3cbf50a3d5d40d88ad81851aed7519fc4d"
+      },
+      "parent_provenance": {
+        "bytes": 157935,
+        "path": "artifacts/runs/bd26_c1v2_s3_f0/provenance.json",
+        "sha256": "60e8884d3d5886dc53dcb2b7d280fef284a702de8769ab333e07e1819d66f28a"
+      },
+      "propensity_checkpoint": {
+        "bytes": 165623,
+        "path": "artifacts/runs/c20260929_prop_f0/model.pt",
+        "sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7"
+      },
+      "reference:cache/pred_bd26_c1v2_s3_f0_valid.json": {
+        "bytes": 18154,
+        "path": "cache/pred_bd26_c1v2_s3_f0_valid.json",
+        "sha256": "bb335392edc599f181c0bbcb6523fd430b036647454bc0d76facf5b592211ad3"
+      },
+      "reference:research/campaign_2026-10-06/bandit_continuation/ideation/review2_reframe_E526/E526_REVIEW2_REFRAME_CARDS_V1.md": {
+        "bytes": 19510,
+        "path": "research/campaign_2026-10-06/bandit_continuation/ideation/review2_reframe_E526/E526_REVIEW2_REFRAME_CARDS_V1.md",
+        "sha256": "555304250e876d02d470f09c44cb2fd59c12efccfbb4f26208b6b3da22a68829"
+      },
+      "reference:research/campaign_2026-10-06/bandit_continuation/local/E511_C1_FIT_S3_ADMISSION.json": {
+        "bytes": 1816,
+        "path": "research/campaign_2026-10-06/bandit_continuation/local/E511_C1_FIT_S3_ADMISSION.json",
+        "sha256": "5d293196e2c27495eece870d642c12f6efbcf6d7d3902b1281ac39b55270f36f"
+      },
+      "reference:research/campaign_2026-10-06/bandit_continuation/local/E511_C1_MINIMAL_PAIRED.json": {
+        "bytes": 13221,
+        "path": "research/campaign_2026-10-06/bandit_continuation/local/E511_C1_MINIMAL_PAIRED.json",
+        "sha256": "c686c026a32fc986333aec8674f1b306b0e545938be5eeb85a71d09e9cd41362"
+      },
+      "reference:research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/C1_PAIR_PACKAGE_CONTRACT_V1.json": {
+        "bytes": 2301,
+        "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/C1_PAIR_PACKAGE_CONTRACT_V1.json",
+        "sha256": "640495f6dcff319f7a19cdc9f8b40826f801b408c80af00b6b13147ec1e45e7d"
+      },
+      "split_manifest": {
+        "bytes": 1388846,
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      }
+    }
+  },
+  "profile_shape": {
+    "batch_size": 8,
+    "expected_optimizer_attempts": 10,
+    "finite_loss_gradient_checks_per_head": true,
+    "fit_started": false,
+    "heads_updated_per_chunk": 4,
+    "interpretation": "Ten transient optimizer attempts on one real batch update four FP32 readout heads, with finite loss/gradient checks; no full fit, checkpoint, export, score, or metric is produced.",
+    "rows_per_chunk": 2000,
+    "timed_chunks": 8,
+    "warmup_chunks": 2
+  },
+  "recipe": {
+    "fit_or_export_authorized": false,
+    "historical_recipe_unchanged": true,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+    "profile_only": true,
+    "recipe_id": "E529-H233-C1S3-CONDITIONAL-READOUT-V2",
+    "sha256": "a97bf67c68e2988044778f39254122683ef37899dd4384cc6e3571240c373022"
+  },
+  "resources": {
+    "allocator_bytes": 4300000000,
+    "cpus": 1,
+    "kind": "gpu",
+    "loader_workers": 0,
+    "observed_total_vram_max_bytes": 5000000000,
+    "one_gpu_worker": true,
+    "ram_reservation_basis": "exact H233 V2 profile ceiling; within root-authorized <=9GB and fits current fresh aggregate headroom",
+    "ram_reservation_bytes": 6500000000,
+    "runtime_timeout_seconds": 180
+  },
+  "runtime_source": {
+    "actual_pinned_source_sha256": {
+      "scripts/train_conditional_readout.py": "fd74eb03deb0cea24f89dc5d330fdca6c3135f7f3f48cccb31ac5be84ec9c645",
+      "scripts/train_rnn.py": "b49233a7ed7e7e44d1a67cd765879a96e9294a5934071840b77da0d37d7424c7",
+      "src/wnn/conditional_readout.py": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426",
+      "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+      "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "src/wnn/metric.py": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+      "src/wnn/nn.py": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+      "src/wnn/propensity.py": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+      "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "tests/test_conditional_readout.py": "03ef71e9a8be106625ecc9ac9adec74fb25ff9637c3225230118ae604c8a7bdd"
+    },
+    "base_commit": "f40bff87304db1fa3bd727bfd096035c958bba4b",
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME",
+    "recipe_pinned_hashes_passed": 11,
+    "source_lock_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_FROZEN_RUNTIME_SOURCE_LOCK_V1_20261008.json",
+    "source_lock_sha256": "e0914fb83baf26340bdc3d0acdeede36c3f7296590edd661340b0c56202ba6d9"
+  },
+  "schema": "h233-bounded-gpu-profile-attempt-v1",
+  "status": "prepared_for_fresh_durable_admission"
+}

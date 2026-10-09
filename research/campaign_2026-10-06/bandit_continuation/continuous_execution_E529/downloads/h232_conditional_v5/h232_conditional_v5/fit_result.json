@@ -1,0 +1,126 @@
+{
+  "fit_started": true,
+  "reason": "SystemExit: 143",
+  "run_name": "bd26_h232_full_s3_f0_amp4096_v5",
+  "status": "failed",
+  "timing": {
+    "actual_shape_probe_seconds": 7.193263,
+    "conditional_fit_seconds": 726.240894,
+    "input_digest_measurements": {
+      "total_current_digest_resolution_seconds": 0.026078,
+      "total_full_content_hash_seconds": 0.0,
+      "train": {
+        "bytes": 29240219011,
+        "bytes_hashed_this_attempt": 0,
+        "current_digest_resolution_seconds": 0.014024,
+        "digest_source": "prior_verified_stat_bound_receipt",
+        "full_content_hash_elapsed_seconds": null,
+        "full_hash_fallback_used": false,
+        "prior_identity_status": "reused_prior_verified_digest",
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "stat_binding": {
+          "canonical_path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/train.parquet",
+          "ctime_ns": 1791103235523599835,
+          "device": 52,
+          "inode": 101726090503,
+          "mode": 33188,
+          "mode_has_write_bits": true,
+          "mtime_ns": 1791103235523599835,
+          "size": 29240219011
+        }
+      },
+      "valid": {
+        "bytes": 5615509128,
+        "bytes_hashed_this_attempt": 0,
+        "current_digest_resolution_seconds": 0.012054,
+        "digest_source": "prior_verified_stat_bound_receipt",
+        "full_content_hash_elapsed_seconds": null,
+        "full_hash_fallback_used": false,
+        "prior_identity_status": "reused_prior_verified_digest",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "stat_binding": {
+          "canonical_path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/valid.parquet",
+          "ctime_ns": 1791101681739823113,
+          "device": 52,
+          "inode": 101721042171,
+          "mode": 33188,
+          "mode_has_write_bits": true,
+          "mtime_ns": 1791101681739823113,
+          "size": 5615509128
+        }
+      }
+    },
+    "input_identity_and_membership_seconds": 52.228715,
+    "profile_digest_handoff_delta": {
+      "digest_reuse_hits": 2,
+      "digest_reuse_misses": 4,
+      "fallback_digest_calls": 4,
+      "verifier_lookups": 6
+    },
+    "profile_to_fit_cuda_cleanup_seconds": 0.0,
+    "profile_update_trace_sha256": "fb8ddee653433341b6eda1becc820acb9249126d1688efb22491369ef406bcd1",
+    "raw_digest_handoff_after_profile": {
+      "digest_reuse_hits": 4,
+      "digest_reuse_misses": 8,
+      "fallback_digest_calls": 8,
+      "verifier_lookups": 12
+    },
+    "raw_digest_handoff_before_profile": {
+      "digest_reuse_hits": 2,
+      "digest_reuse_misses": 4,
+      "fallback_digest_calls": 4,
+      "verifier_lookups": 6
+    },
+    "raw_digest_path_metrics_after_profile": {
+      "train": {
+        "digest_reuse_hits": 2,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 2
+      },
+      "valid": {
+        "digest_reuse_hits": 2,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 2
+      }
+    },
+    "raw_digest_path_metrics_before_profile": {
+      "train": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      },
+      "valid": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      }
+    },
+    "raw_digest_path_profile_delta": {
+      "train": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      },
+      "valid": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      }
+    },
+    "source_archive_manifest_sha256": "e9ca52c7247ebc944bac086261715879f37006033c556c9c9890445ac22bbb01",
+    "source_archive_member_count": 54,
+    "source_archive_sha256": "afde296e1c5e2f0c47a6fb352c2dea8e0a3df75900f53c26f103b3921df1f565",
+    "trainer_profile_seconds": 43.841825,
+    "trainer_sha256": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a",
+    "worker_start_to_cuda_initialized_seconds": 61.389819,
+    "worker_start_unix": 1791417009.4744785,
+    "worker_start_utc": "2026-10-07T23:50:09Z"
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/working/h232_cloud_packet_v5/profile_worker.py\", line 3227, in run_profile\n    module.main()\n    ~~~~~~~~~~~^^\n  File \"/kaggle/working/h232_source_v5/scripts/train_rnn.py\", line 2365, in main\n    scaler.scale(loss).backward()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/usr/local/lib/python3.13/dist-packages/torch/_tensor.py\", line 631, in backward\n    torch.autograd.backward(\n    ~~~~~~~~~~~~~~~~~~~~~~~^\n        self, gradient, retain_graph, create_graph, inputs=inputs\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/usr/local/lib/python3.13/dist-packages/torch/autograd/__init__.py\", line 381, in backward\n    _engine_run_backward(\n    ~~~~~~~~~~~~~~~~~~~~^\n        tensors,\n        ^^^^^^^^\n    ...<5 lines>...\n        accumulate_grad=True,\n        ^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/usr/local/lib/python3.13/dist-packages/torch/autograd/graph.py\", line 869, in _engine_run_backward\n    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        t_outputs, *args, **kwargs\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )  # Calls into the C++ engine to run the backward pass\n    ^\n  File \"/kaggle/working/h232_cloud_packet_v5/profile_worker.py\", line 2621, in handle_termination\n    raise SystemExit(128 + signum)\nSystemExit: 143\n"
+}

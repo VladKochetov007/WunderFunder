@@ -1,0 +1,66 @@
+{
+  "aggregate_memory_after": {
+    "active_file": 5025394688,
+    "anon": 47935488,
+    "current": 11521630208,
+    "events_local": "low 0\nhigh 1458\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "file": 11262324736,
+    "inactive_file": 5497499648
+  },
+  "aggregate_memory_before": {
+    "active_file": 5138821120,
+    "anon": 47927296,
+    "current": 12862689280,
+    "events_local": "low 0\nhigh 1458\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "file": 12602281984,
+    "inactive_file": 6724030464
+  },
+  "file_contents_mutated": false,
+  "files": [
+    {
+      "advice": "POSIX_FADV_DONTNEED",
+      "bytes_range": "whole exact file; no content mutation",
+      "path": "datasets/train.parquet"
+    },
+    {
+      "advice": "POSIX_FADV_DONTNEED",
+      "bytes_range": "whole exact file; no content mutation",
+      "path": "datasets/valid.parquet"
+    }
+  ],
+  "gpu_lock": "research/campaign_2026-10-06/bandit_continuation/runtime/gpu.lock",
+  "limits_changed": false,
+  "observed_utc": "2026-10-08T08:18:36.586343+00:00",
+  "purpose": "Restore aggregate memory headroom for the already-authorized exact-source H233 fit.",
+  "schema": "h233-exact-dataset-pagecache-handoff-v1",
+  "scope": "Only the two exact campaign parquet files; no global cache drop, model/cache deletion, or worker-limit change.",
+  "stat_after": {
+    "datasets/train.parquet": {
+      "dev": 57,
+      "ino": 50918586,
+      "mtime_ns": 1577826000000000000,
+      "size": 29240219011
+    },
+    "datasets/valid.parquet": {
+      "dev": 57,
+      "ino": 50919096,
+      "mtime_ns": 1577826000000000000,
+      "size": 5615509128
+    }
+  },
+  "stat_before": {
+    "datasets/train.parquet": {
+      "dev": 57,
+      "ino": 50918586,
+      "mtime_ns": 1577826000000000000,
+      "size": 29240219011
+    },
+    "datasets/valid.parquet": {
+      "dev": 57,
+      "ino": 50919096,
+      "mtime_ns": 1577826000000000000,
+      "size": 5615509128
+    }
+  },
+  "status": "completed"
+}

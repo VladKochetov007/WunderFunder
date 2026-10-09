@@ -1,0 +1,84 @@
+{
+  "action": {
+    "command_exit_code": 0,
+    "ledger_mutated_for_cancellation": false,
+    "operation": "systemctl --user stop exact V6R1 campaign supervisor unit",
+    "post_stop_service_state": {
+      "ActiveState": "inactive",
+      "ExecMainStatus": "0",
+      "MainPID": "0",
+      "NRestarts": "0",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "provider_instance_mutated": false
+  },
+  "attempt_id": "h230-vast-strong-parent-seed54354-muon-v6r1-20261008",
+  "billing": {
+    "actual_all_in_usd": null,
+    "actual_billed_cost_pending_provider_settlement": true,
+    "reserved_all_in_usd": "2.80"
+  },
+  "next_action": {
+    "expected_safe_path": "The lifecycle startup-deadline check records failed_before_worker before staging, then destroy_owned verifies account and receipt-bound instance ID.",
+    "not_before_utc": "2026-10-08T14:05:45+00:00",
+    "path": "existing VastCampaign supervise lifecycle only after worker_startup_deadline_utc"
+  },
+  "ownership": {
+    "account_scope_sha256": "5edaeb435fffdc8d36029206229fcf1ee9a930816996519f3c4fdeeb3d35858a",
+    "creation_response_received_at_utc": "2026-10-08T13:35:45+00:00",
+    "instance_id": "54852864",
+    "machine_id": 145698,
+    "offer_id": 53282958,
+    "root_create_admission_sha256": "e53d73ea8e7f006d742c0a5c32ddcc72d86b65bd438cc4e13fae84f3883292f4",
+    "vast_ledger_path": "~/.local/state/wnn-campaign/vast/ledger.json"
+  },
+  "pre_stop_observation": {
+    "attempt_status": "created",
+    "provider_observed_at_utc": "2026-10-08T14:00:55+00:00",
+    "provider_status": "loading",
+    "service_pre_stop": {
+      "ActiveState": "active",
+      "MainPID": "1501303",
+      "NRestarts": "0",
+      "SubState": "running"
+    },
+    "service_scope": "user",
+    "service_unit": "wnn-vast-h230-seed54354-muon-v6r1-parallel1-20261008.service",
+    "ssh_key_attach_status": "pending",
+    "upload_started_at_utc": null,
+    "upload_total_bytes": null,
+    "worker_stage_attempts": 0,
+    "worker_started_at_utc": null,
+    "worker_startup_deadline_utc": "2026-10-08T14:05:44+00:00"
+  },
+  "reason": {
+    "category": "diagnosed_transport_blocker_before_worker_launch",
+    "detail": "The frozen V6R1 worker input set does not include a regular fold0.json inside project/data_root. The unchanged cache validator resolves teacher_source_split and requires containment under data_root, so the worker cannot pass validation. The unchanged cache reader also requires its cache arrays to resolve under cache_root; V7 must stage regular in-root split and array files.",
+    "science_result": "none; no fit or profile ran"
+  },
+  "recorded_at_utc": "2026-10-08T14:02:11.263247+00:00",
+  "references": {
+    "dispatch_receipt": {
+      "path": ".runtime/vast_dispatch_h230_v6r1_parallel1/attempts/h230-vast-strong-parent-seed54354-muon-v6r1-20261008.json",
+      "sha256": "6e93166d78f2b615449965258e90ac693e43ebab900ee4a40fb60a0908a0b179"
+    },
+    "queue": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V6R1_PARALLEL1_DISPATCH_QUEUE_20261008_R3.json",
+      "sha256": "751dcc85bf9beb5fa9d385086072c0bbaf55cbffdd86c49b5c427e48cbb41669"
+    },
+    "root_admission": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V6R1_PARALLEL1_ROOT_CREATE_ADMISSION_20261008_R3.json",
+      "sha256": "e53d73ea8e7f006d742c0a5c32ddcc72d86b65bd438cc4e13fae84f3883292f4"
+    },
+    "source_archive": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/h230_seed54354_v6r1.tar",
+      "sha256": "16b54cb53f76d0179fa50675190a90e53e4fe05649b7d3a10f66649cc20c5aa4"
+    },
+    "startup_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V6R1_CREATION_STARTUP_RECEIPT_20261008_R1.json",
+      "sha256": "bcc94b0f47af0c4ef5cba6c5984b72a90faa903cb6ada3deef3effb2bf2c0666"
+    }
+  },
+  "schema": "h230-vast-prelaunch-supervisor-stop-v1"
+}

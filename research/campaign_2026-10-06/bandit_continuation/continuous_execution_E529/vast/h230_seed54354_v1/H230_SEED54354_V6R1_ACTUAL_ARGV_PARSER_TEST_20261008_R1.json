@@ -1,0 +1,74 @@
+{
+  "attempt_id": "h230-vast-strong-parent-seed54354-muon-v6r1-20261008",
+  "base_packet": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/h230_seed54354_v5r1.tar",
+    "sha256": "ac1b8b57679b649974bd9b7ff9bb3c71c437ffe14b5957f9597ae9bf53ebc573"
+  },
+  "changed_archive_members": {
+    "project/scripts/h230_profile_then_fit.py": {
+      "after_sha256": "d9c5b01f99533419a1cb0c87cd2327cc387ce74e3ae8073a3a9657a7480159ba",
+      "before_sha256": "e33c4a06b427d509b8a9a373d587e72e5d4ab50f7d1e286e9bd9170284453a9a",
+      "child_cuda_context_initialization_retained": true,
+      "exact_change": "sys.argv = [\"scripts/train_rnn.py\", *argv] -> sys.argv = list(argv)"
+    },
+    "worker_spec.json": {
+      "attempt_id_after": "h230-vast-strong-parent-seed54354-muon-v6r1-20261008",
+      "attempt_id_before": "h230-vast-strong-parent-seed54354-muon-v5r1-20261008",
+      "source_pin_delta": {
+        "scripts/h230_profile_then_fit.py": [
+          "e33c4a06b427d509b8a9a373d587e72e5d4ab50f7d1e286e9bd9170284453a9a",
+          "d9c5b01f99533419a1cb0c87cd2327cc387ce74e3ae8073a3a9657a7480159ba"
+        ]
+      }
+    }
+  },
+  "created_utc": "2026-10-08T13:21:05.737191+00:00",
+  "paid_creation_authorized_by_this_receipt": false,
+  "parser_test": {
+    "asserted_recipe_fields": [
+      "name",
+      "seed=54354",
+      "epochs=4",
+      "checkpoint_epoch=3",
+      "optim=muon",
+      "muon_scope=hidden",
+      "muon_ortho_dtype_policy=native_bf16_if_supported_else_fp32_v1"
+    ],
+    "device_access": "CUDA_VISIBLE_DEVICES empty; parser-only; no CUDA initialization",
+    "fit_argv_tested": true,
+    "helper_source_sha256": "d9c5b01f99533419a1cb0c87cd2327cc387ce74e3ae8073a3a9657a7480159ba",
+    "invocation": "actual archived h230_profile_then_fit._invoke_trainer with actual archived train_rnn.main; patched only ArgumentParser.parse_args to raise immediately after successful parse so no data, CUDA, profile, or fit body ran",
+    "profile_argv_tested": true,
+    "resource_limit": "1 CPU, 1.5 GB memory, 120 seconds",
+    "source_verification": "worker.verify_source passed all 65 pins, including unchanged 57-file manifest closure",
+    "status": "passed_both_actual_frozen_argvs",
+    "trainer_source_sha256": "0e4c5e228c68aea12d2e4701475b71a5b881dac0229fcfe708a7caf46198e44a"
+  },
+  "preserved_predecessor_failures": {
+    "frozen_v5r1_error": "unrecognized arguments: scripts/train_rnn.py",
+    "frozen_v5r1_parser_exit_code": 2,
+    "v5r1_archive_unchanged": true
+  },
+  "provider_action": "none",
+  "schema": "h230-seed54354-v6r1-actual-parser-test-v1",
+  "status": "passed_execution_successor_ready_for_root_review",
+  "successor_packet": {
+    "bytes": 819200,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/h230_seed54354_v6r1.tar",
+    "sha256": "16b54cb53f76d0179fa50675190a90e53e4fe05649b7d3a10f66649cc20c5aa4"
+  },
+  "unchanged_science_and_source": {
+    "fit_argv_sha256_canonical_json": "75efa1434d51d4f604c8439af2d6704899ee0f9775dad6de1bad97354c3ad9dc",
+    "fit_argv_unchanged": true,
+    "profile_argv_sha256_canonical_json": "17d722293b481bcdc342a3cbc9b590ee13b7e7221008dd8514dd966af11d4ba0",
+    "profile_argv_unchanged": true,
+    "profile_plan_sha256": "5613b0987d6e15be0d3be4ed4b31ec426f8eec490a1ca08afa71eff791232bca",
+    "recipe_sha256": "71cb55943bbc5a1267415a6aca75062c70c0f5d6695d36e4453f2a14d792001e",
+    "source_manifest_file_count": 57,
+    "source_manifest_sha256": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+    "source_pin_changes": [
+      "scripts/h230_profile_then_fit.py"
+    ],
+    "source_pin_count": 65
+  }
+}

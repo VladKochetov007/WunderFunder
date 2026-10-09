@@ -1,0 +1,45 @@
+{
+  "external_review_sha256": "4124bc5245b8fd43820d9ec72a6e4792a789abc2f35ceb59a7885c02b76cd579",
+  "fit_enabled": false,
+  "numeric_policy_change": {
+    "amp_init_scale": 4096.0,
+    "backoff_factor": 0.5,
+    "growth_factor": 2.0,
+    "growth_interval": 2000,
+    "precision": "fp16",
+    "reason": "V1 recorded one aggregate-only AMP skip at the default initial scale 65536; V2 makes the lower initial scale explicit and identifies every unscaled update result.",
+    "scope": "profile-only numeric diagnostic; fit not authorized"
+  },
+  "packet_id": "E529_H232_FULLFEATURE_GRU384_B8_LOADER2_PROFILE_V2",
+  "prediction_export_enabled": false,
+  "prior_input_identity_sha256": "79ae9d3ce3107e873b879645e78864b87a6b26e0d02b40f237be273fc3603fea",
+  "profile_only": true,
+  "resource_caps": {
+    "allocator_peak_bytes": 11500000000,
+    "basis": "V12 actual Kaggle T4x2 / cgroup 32,212,254,720-byte measurement; one T4 selected per worker",
+    "device_process_bytes": 12000000000,
+    "disk_free_bytes": 8000000000,
+    "gpu_headroom_fraction": 0.25,
+    "host_cgroup_headroom_bytes": 6500000000,
+    "host_headroom_fraction": 0.25,
+    "notes": "Caps are based on observed Kaggle cloud capacity and preserve at least 20% headroom; they are operational ceilings, not measured H232 consumption. Actual device identity, affinity, cgroup, resource snapshots and phase heartbeats are mandatory.",
+    "selected_gpu_visible_count": 1,
+    "worker_rss_bytes": 25000000000,
+    "worker_wall_cap_seconds": 2400
+  },
+  "reviewed_hashes": {
+    "H232_PROFILE_PLAN.json": "0a9660e5018e12488a50ec1bd2b5480ceee412c476cd32c2fbcdc96c3e85d485",
+    "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+    "prior_input_identity_v1.json": "79ae9d3ce3107e873b879645e78864b87a6b26e0d02b40f237be273fc3603fea",
+    "profile_kernel.py": "7c29df5aaa7c08af90f54b03cd4f71b048cf2ee5aa86be9df4c1777f2a3154c5",
+    "profile_worker.py": "5154b96144aed8fd751bc5de19e678612dd953f2e914256e1cc0abef3b005fd4",
+    "source_archive.tar": "d819800e0beeff5733444752ea3badd9a4c043d63acbbac95e0598f80fe96c74",
+    "verified_digest_handoff.py": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
+  },
+  "reviewer_id": "root-controller-20261008",
+  "run_identity_sha256": "725685931dddce6c2c068f14cf51abb2dd1f67eb88c3f38f2c61ae271805b626",
+  "schema": "h232-kaggle-packet-metadata-v2",
+  "source_archive_sha256": "d819800e0beeff5733444752ea3badd9a4c043d63acbbac95e0598f80fe96c74",
+  "trace_output": "h232_profile_v2/profile_update_trace.json",
+  "trainer_sha256": "3d223dd7d07512fef5b03385c7139a63bdc9bb589610ecb992a22c75ceafd50b"
+}

@@ -1,0 +1,56 @@
+{
+  "attempt_id": "h230-vast-strong-parent-seed54354-muon-v4-20261008",
+  "external_operation": "Kaggle read-only object URL acquisition and storage header requests; no Vast create, upload or fit.",
+  "objects": [
+    {
+      "get": {
+        "body_read": false,
+        "content_length": "29240219011",
+        "elapsed_ms": 286,
+        "status": 200
+      },
+      "head": {
+        "content_length": "29240219011",
+        "elapsed_ms": 870,
+        "status": 200
+      },
+      "remote_path": "datasets/train.parquet",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "size_bytes": 29240219011
+    },
+    {
+      "get": {
+        "body_read": false,
+        "content_length": "5615509128",
+        "elapsed_ms": 314,
+        "status": 200
+      },
+      "head": {
+        "content_length": "5615509128",
+        "elapsed_ms": 811,
+        "status": 200
+      },
+      "remote_path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "size_bytes": 5615509128
+    }
+  ],
+  "observed_utc": "2026-10-08T12:26:10.888174+00:00",
+  "private_plan_mode": "0600",
+  "private_plan_path": ".runtime/h230-seed54354-v4-20261008/signed_prefetch_v1.private.json",
+  "private_plan_sha256": "1c366889ede7d97441d8efb3bbb78a56485871873126c00c3565543f487a1f51",
+  "public_admission_mode": "0600",
+  "public_admission_path": ".runtime/h230-seed54354-v4-20261008/prefetch_admission_v1.json",
+  "public_admission_sha256": "01444adcfb18d293e027d0fc1ca3d0082393d5ad3ddc880184d049e3cfbd388f",
+  "schema": "h230-v4-prefetch-header-preflight-v1",
+  "scope": "Fresh signed URL acquisition; exact immutable path/size/source-hash binding; HEAD and streamed GET response headers only; no body bytes read.",
+  "signed_plan_acquisition_completed_utc": "2026-10-08T12:26:08.588415+00:00",
+  "signed_plan_acquisition_started_utc": "2026-10-08T12:26:05.723819+00:00",
+  "status": "passed",
+  "url_normalization": "Remove only explicit default :443 from HTTPS storage.googleapis.com; preserve path and query exactly, matching root-reviewed H217 prefetch normalization.",
+  "validation": {
+    "binding": "passed",
+    "helper": "scripts/kaggle_vast_prefetch.py:prepare_prefetch",
+    "url_values_written_to_public_output": false
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "authorization": {
+    "maximum_tpu_quota_seconds": 1650.0,
+    "parent_timeout_seconds": 1650,
+    "scope": "synthetic reduction/gradient/full-shape TPU diagnostic only; no real-data fit or score",
+    "source": "root direct collaboration message 2026-10-07T21:28Z; one V5 packaging-repair push authorized after exact hash/fresh TPU quota checks",
+    "worker_timeout_seconds": 1500
+  },
+  "canonical_outer_manifest_sha256": "a1e0b3b0096f6929ff717cd81b79b864b1c730bce82ff26e8d6d9c4a8de9c46f",
+  "created_at_utc": "2026-10-07T21:29:49+00:00",
+  "fresh_quota_poll": {
+    "observed_at_utc": "2026-10-07T21:29:18+00:00",
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/E529_LIVE_POLL_20261008_R12.jsonl",
+    "tpu": {
+      "campaign_baseline_used_seconds": 134.623,
+      "campaign_cap_seconds": 7200.0,
+      "campaign_headroom_seconds": 7041.548,
+      "campaign_used_seconds": 158.452,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "used_seconds": 293.075
+    }
+  },
+  "interpretation": "V4 is terminal with downloaded outputs; large provisional reservation reconciled to zero. This V5 admission preserves the account reserve and campaign bound.",
+  "kernel_id": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v5",
+  "packet_files": {
+    "combo_loss_reference.py": "4e3bbaaea722ba9d36771521fcf3ac495d3e9e747ba8b1f8bb21be3158252d74",
+    "kernel-metadata.json": "d539858c252e6e9769435db8128d2b3a9ede0816b95e9e6bca511b2b2e246100",
+    "probe.py": "258590e4a1213a3c4a844a62b928efd82bbb32bef46109d01f67984867204d8f"
+  },
+  "packet_path": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v5_candidate_v1/packet",
+  "provider_absence_check": {
+    "command": "kaggle kernels list --mine --page-size 100 --csv",
+    "listed_before_submission": false,
+    "source": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/E529_KERNEL_LIST_BEFORE_TPU_V5_20261008_R1.csv",
+    "target_slug": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v5"
+  },
+  "provider_push_attempted": false,
+  "receipt_id": "E463_TPU_V5_PUSH_ADMISSION_20261008_R1",
+  "reserve_check": {
+    "campaign_headroom_after_seconds": 5391.548,
+    "campaign_headroom_before_seconds": 7041.548,
+    "max_attempt_seconds": 1650.0,
+    "remaining_account_tpu_seconds_before_attempt": 71706.925,
+    "required_20_percent_reserve_seconds": 14341.385000000002,
+    "spendable_after_attempt_seconds": 55715.54,
+    "spendable_after_reserve_seconds": 57365.54
+  },
+  "root_review": {
+    "decision": "PASS",
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/TPU_V5_ROOT_REVIEW_20261008_V1.json",
+    "sha256": "2dcf32cc4344d8379a9f798e36ec4aad11d130b349363c57e408410659d720ec"
+  },
+  "schema": "e529-kaggle-push-admission-v1"
+}

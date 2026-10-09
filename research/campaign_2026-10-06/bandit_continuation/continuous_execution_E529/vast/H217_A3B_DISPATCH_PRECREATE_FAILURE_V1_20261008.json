@@ -1,0 +1,54 @@
+{
+  "admission": {
+    "created_utc": "2026-10-07T23:10:36.301304+00:00",
+    "expires_utc": "2026-10-07T23:12:36.301304+00:00",
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_VAST_ADMISSION_V2_20261008_A3B.json",
+    "reused_for_retry": false,
+    "sha256": "eb2e875f0f517b7c77b39e1e8ffc290835580dbc307fb3d7fa594f561e4986cc"
+  },
+  "attempt_id": "e529-vast-h217-pair-v2-20261008-a3b",
+  "dispatcher_receipt": {
+    "created_utc": "2026-10-07T23:11:12.300617+00:00",
+    "job_sha256": "c68f27d19adcea6bc1ed86169784a54f51404ad4830baadbc4ca6468ae6d5d22",
+    "observed_utc": "2026-10-07T23:11:12.308032+00:00",
+    "path": ".runtime/vast_dispatch/attempts/e529-vast-h217-pair-v2-20261008-a3b.json",
+    "returncode": 0,
+    "sha256": "b0db976a94f003089fd69c2663c5edfb968f897dd8567149c234af3648766252",
+    "status": "submitted"
+  },
+  "failure": {
+    "adapter_error": "Vast mutation requires the root dispatcher's persisted launch intent",
+    "cause": "The dispatcher changed its atomic attempt receipt to status='submitted' after systemd-run --no-block returned 0, while the adapter accepted only status='launch_uncertain'.",
+    "phase": "local admission validation before provider API call"
+  },
+  "local_supervisor": {
+    "final_main_pid": 0,
+    "final_state": "inactive/dead",
+    "observed_restart_count_before_stop": 1,
+    "observed_state_before_stop": "activating/auto-restart",
+    "stopped_only_this_attempt_unit": true,
+    "unit": "wnn-vast-e529-h217-pair-v2-20261008-a3b.service"
+  },
+  "provider": {
+    "creation_receipt": "none",
+    "instance_id": "none",
+    "ledger_attempt_record": "none",
+    "provider_api_call_performed": false,
+    "provider_instance_touched": false
+  },
+  "recorded_at_utc": "2026-10-07T23:13:13Z",
+  "repair": {
+    "adapter_path": "scripts/vast_campaign.py",
+    "adapter_sha256": "ea1cbc2161e06f01fba07d6d9c5116dc4e143e1475e2a41a57aa0bb4dc8fd193",
+    "diff_check": "passed",
+    "new_rule": "accept submitted only with returncode 0, exact attempt/lane/job binding, and observed_utc within 120 seconds; preserve launch_uncertain path",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "test_result": "56 passed",
+    "tests_path": "tests/test_vast_campaign.py",
+    "tests_sha256": "2826eec0c346887c388f5ecbad4320a67e24976c53cfdc46a0153a87c4ef621d"
+  },
+  "schema_version": 1,
+  "scientific_result": "none; dispatch infrastructure failure before rental or worker start",
+  "status": "failed_before_provider_create_dispatch_status_mismatch"
+}

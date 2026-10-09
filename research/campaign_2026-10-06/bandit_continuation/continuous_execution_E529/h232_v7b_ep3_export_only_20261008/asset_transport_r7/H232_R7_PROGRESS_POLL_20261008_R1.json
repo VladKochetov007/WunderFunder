@@ -1,0 +1,77 @@
+{
+  "kernel_push_attempts": 1,
+  "kernel_statuses": {
+    "vladkochetov07/e540-v10-ple-reuse-control-20261008-runner": {
+      "error": "403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus",
+      "error_type": "HTTPError",
+      "kernel": "vladkochetov07/e540-v10-ple-reuse-control-20261008-runner"
+    },
+    "vladkochetov07/e540-v9-ple-reuse-control-20261008-runner": {
+      "failure_message": "",
+      "kernel": "vladkochetov07/e540-v9-ple-reuse-control-20261008-runner",
+      "status": "KernelWorkerStatus.ERROR"
+    },
+    "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r6": {
+      "failure_message": "",
+      "kernel": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r6",
+      "status": "KernelWorkerStatus.ERROR"
+    },
+    "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7": {
+      "failure_message": "",
+      "kernel": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7",
+      "status": "KernelWorkerStatus.RUNNING"
+    }
+  },
+  "latest_shared_poll": {
+    "active_gpu_targets": [
+      {
+        "failure_message": "",
+        "kernel": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7",
+        "monitoring_state": "polling_until_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.RUNNING",
+        "terminal_evidence_receipt": "../bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_r7_terminal_poll_receipt.json"
+      }
+    ],
+    "e540_v10_row": [
+      {
+        "error": "403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus",
+        "error_type": "HTTPError",
+        "kernel": "vladkochetov07/e540-v10-export-only-20261008-runner",
+        "monitoring_state": "poll_error_retry_next_timer_tick",
+        "resource": "gpu",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py\", line 145, in collect\n    **_status(client, kernel),\n      ~~~~~~~^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py\", line 50, in _status\n    response = client.kernels.kernels_api_client.get_kernel_session_status(request)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kernels/services/kernels_api_service.py\", line 82, in get_kernel_session_status\n    return self._client.call(\"kernels.KernelsApiService\", \"GetKernelSessionStatus\", request, ApiGetKernelSessionStatusResponse)\n           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kaggle_http_client.py\", line 106, in call\n    response = self._prepare_response(response_type, http_response)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kaggle_http_client.py\", line 134, in _prepare_response\n    http_response.raise_for_status()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/requests/models.py\", line 1167, in raise_for_status\n    raise HTTPError(http_error_msg, response=self)\nrequests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus\n"
+      }
+    ],
+    "observed_at_utc": "2026-10-08T06:44:11+00:00",
+    "r7_row": [
+      {
+        "failure_message": "",
+        "kernel": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7",
+        "monitoring_state": "polling_until_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.RUNNING",
+        "terminal_evidence_receipt": "../bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_r7_terminal_poll_receipt.json"
+      }
+    ]
+  },
+  "live_follow_observations_empty": 2,
+  "live_logs_snapshot_empty": true,
+  "live_output_fetch_files": 0,
+  "no_phase_claim": true,
+  "observed_at_utc": "2026-10-08T06:44:26+00:00",
+  "provider_running_is_not_export_started": true,
+  "quota": {
+    "account_remaining_seconds": 42150.529329,
+    "campaign_baseline_used_seconds": 37047.321,
+    "campaign_cap_seconds": 56780.516,
+    "campaign_headroom_seconds": 27978.366329000004,
+    "campaign_used_seconds": 28802.149671,
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "reserved_seconds": 0.0,
+    "total_allowed_seconds": 108000.0,
+    "used_seconds": 65849.470671
+  },
+  "record_id": "H232_R7_PROGRESS_POLL_20261008_R1",
+  "schema": "h232-r7-progress-poll-v1"
+}

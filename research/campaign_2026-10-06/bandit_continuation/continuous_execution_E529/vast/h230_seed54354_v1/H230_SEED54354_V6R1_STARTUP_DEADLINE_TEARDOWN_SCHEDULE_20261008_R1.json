@@ -1,0 +1,43 @@
+{
+  "action": {
+    "bounded_wrapper": "scripts/limited with 1 CPU, 1.5GB memory, 600 seconds",
+    "collection_timeout_seconds": 300,
+    "existing_entrypoint": "scripts/vast_campaign.py supervise",
+    "expected_prelaunch_behavior": "No SSH key attach, upload, profile, or fit; an API/provider error remains preserved for root follow-up.",
+    "poll_interval_seconds": 5,
+    "reason": "The existing destroy_owned guard requires a real worker-terminal failure, a collection terminal failure, collected status, or hard stop. At the persisted startup deadline, _stage_and_launch records failed_before_worker before any staging; supervise then uses receipt/account ownership checks for destroy.",
+    "scheduled_utc": "2026-10-08T14:05:45+00:00",
+    "unit": "wnn-vast-h230-v6r1-prelaunch-teardown-20261008.timer"
+  },
+  "attempt_id": "h230-vast-strong-parent-seed54354-muon-v6r1-20261008",
+  "limits": {
+    "actual_all_in_usd": null,
+    "cohort_cap_usd": "2.80",
+    "reserved_all_in_usd": "2.80"
+  },
+  "owned_instance_id": "54852864",
+  "recorded_at_utc": "2026-10-08T14:02:48.456273+00:00",
+  "references": {
+    "dispatch_receipt": {
+      "path": ".runtime/vast_dispatch_h230_v6r1_parallel1/attempts/h230-vast-strong-parent-seed54354-muon-v6r1-20261008.json",
+      "sha256": "6e93166d78f2b615449965258e90ac693e43ebab900ee4a40fb60a0908a0b179"
+    },
+    "root_create_admission": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V6R1_PARALLEL1_ROOT_CREATE_ADMISSION_20261008_R3.json",
+      "sha256": "e53d73ea8e7f006d742c0a5c32ddcc72d86b65bd438cc4e13fae84f3883292f4"
+    },
+    "supervisor_stop_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V6R1_PRELAUNCH_SUPERVISOR_STOP_20261008_R1.json",
+      "sha256": "728f36e27ec867b355fd41e15335152b8da8acf699e4d5f0e24aa29a6f43ad41"
+    }
+  },
+  "schema": "h230-vast-startup-deadline-teardown-schedule-v1",
+  "timer_observation": {
+    "ActiveState": "active",
+    "LastTriggerUSec": null,
+    "NextElapseUSecRealtime": "Thu 2026-10-08 17:05:45 EEST",
+    "Result": "success",
+    "SubState": "waiting",
+    "target_supervisor_unit_state": "inactive/dead, PID 0, NRestarts 0"
+  }
+}

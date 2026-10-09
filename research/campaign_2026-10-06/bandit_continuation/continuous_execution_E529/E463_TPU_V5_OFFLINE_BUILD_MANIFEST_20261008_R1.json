@@ -1,0 +1,68 @@
+{
+  "artifact_id": "E463_TPU_V5_OFFLINE_BUILD_20261008_R1",
+  "artifact_type": "offline_packet_build_manifest",
+  "builder_role": "cloud_delivery_resume",
+  "created_at_utc": "2026-10-07T21:27:13+00:00",
+  "execution_state": {
+    "fit_or_validation_run": false,
+    "independent_transport_review_received": false,
+    "metric_or_score_produced": false,
+    "paid_compute_used": false,
+    "provider_job_launched": false,
+    "provider_packet_pushed": false,
+    "root_admission_received": false
+  },
+  "next_gate": "Root must independently review exact V5 packet and new 3-file manifest, then provide fresh TPU quota admission before any push.",
+  "offline_packet": {
+    "canonical_outer_manifest_sha256": "a1e0b3b0096f6929ff717cd81b79b864b1c730bce82ff26e8d6d9c4a8de9c46f",
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1"
+    ],
+    "directory": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v5_candidate_v1/packet",
+    "file_count": 3,
+    "files": {
+      "combo_loss_reference.py": {
+        "sha256": "4e3bbaaea722ba9d36771521fcf3ac495d3e9e747ba8b1f8bb21be3158252d74",
+        "size_bytes": 5137
+      },
+      "kernel-metadata.json": {
+        "sha256": "d539858c252e6e9769435db8128d2b3a9ede0816b95e9e6bca511b2b2e246100",
+        "size_bytes": 478
+      },
+      "probe.py": {
+        "sha256": "258590e4a1213a3c4a844a62b928efd82bbb32bef46109d01f67984867204d8f",
+        "size_bytes": 56841
+      }
+    },
+    "gpu_enabled": false,
+    "internet_enabled": false,
+    "kernel_id": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v5",
+    "machine_shape": "TpuV5E8",
+    "metadata_sha256": "d539858c252e6e9769435db8128d2b3a9ede0816b95e9e6bca511b2b2e246100",
+    "private": true,
+    "total_bytes": 62456,
+    "tpu_enabled": true
+  },
+  "offline_validation": {
+    "TPU_or_JAX_executed_locally": false,
+    "embedded_helper_digest_and_staging_smoke": "passed: staged bytes equal source module, SHA matches, child-visible import succeeded, frozen loss_from_sums smoke value 2.1",
+    "py_compile": "passed: probe.py and combo_loss_reference.py",
+    "ruff_check": "passed for both packet Python files",
+    "ruff_format": "passed after formatting candidate probe.py"
+  },
+  "repair_basis": {
+    "repair": "Embed exact helper module bytes and SHA-256 in the single code_file; parent stages OUTPUT/support/combo_loss_reference.py before child launch and passes support directory in PYTHONPATH; child independently revalidates and inserts it before helper import.",
+    "supersedes_attempt": "E463 TPU V4, whose terminal truth remains preserved",
+    "v4_failure": "Kaggle ran only code_file probe.py at /kaggle/src/script.py; isolated worker could not import sibling combo_loss_reference.py from sys.path",
+    "v4_terminal_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/e463_tpu_v4_terminal_poll_receipt.json"
+  },
+  "source_and_science_invariants": {
+    "helper_equations_changed": false,
+    "helper_file_sha256": "4e3bbaaea722ba9d36771521fcf3ac495d3e9e747ba8b1f8bb21be3158252d74",
+    "helper_packet_bytes_identical_to_v4": true,
+    "jax_reduction_objective_changed": false,
+    "only_runtime_change": "Make declared code_file self-contained for its bounded child import; new output path and V5 identity.",
+    "source_dataset_archive_and_checkpoint_contract_changed": false,
+    "synthetic_fixture_or_update_recipe_changed": false
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "receipt_id": "E529_DISPATCH_PROFILE_TESTS_V2",
+  "observed_utc": "2026-10-07T20:02:11.834265+00:00",
+  "scope": "Code correctness only; no scientific fit or provider call",
+  "command": "taskset -c 0 prlimit --as=1500000000 --cpu=60 -- timeout 60s .venv/bin/python -m pytest -q tests/test_research_dispatch.py tests/test_profile_update_evidence.py",
+  "exit_code": 0,
+  "tests_passed": 20,
+  "pytest_seconds": 0.39,
+  "ruff_format_and_check": "PASS",
+  "source_hashes": {
+    "scripts/research_dispatch.py": "13eea84240d714aba9165c18788d348fa8f2432b72d50c1524d533d82d368fe9",
+    "tests/test_research_dispatch.py": "d7e8fe2b3a00773f97ede4e128469992fe7ed6abfd536e3eb8e055ff3d1cb436",
+    "scripts/train_rnn.py": "b49233a7ed7e7e44d1a67cd765879a96e9294a5934071840b77da0d37d7424c7",
+    "tests/test_profile_update_evidence.py": "da894181dbc20e6fb5560e7d83a318364e002e4af2234a1546a4d8bab9b978e0",
+    "src/wnn/block_memory_attention.py": "737d97e41b24eec956221d5cbf1657a27fe3029925987dbb820e8abba3888453",
+    "tests/test_block_memory_attention.py": "2a595201aaa23a347619478c2e7c9a41b1fb92fa99c3766537efb2ec98dc7666"
+  },
+  "review_status": "Independent original review found terminal-evidence/state-path gaps; root repaired and added concurrent-process/lost-receipt/path regression tests. Successor independent review pending.",
+  "fp16_profile_scope": "Enabled GradScaler found-inf flags; non-AMP profile evidence deliberately remains incomplete, no FP32/BF16 throughput support claimed."
+}
