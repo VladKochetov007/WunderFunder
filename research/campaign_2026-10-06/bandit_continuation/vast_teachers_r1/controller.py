@@ -196,7 +196,16 @@ def cmd_queue(_: argparse.Namespace) -> None:
 
 
 def cmd_pull(_: argparse.Namespace) -> None:
-    """Fetch every finished job (export log present, rc 0) not yet pulled; append bank rows."""
+    """Fetch every finished job not yet pulled; append bank rows.  Serialized by a file lock."""
+    import fcntl
+
+    RUNTIME.mkdir(parents=True, exist_ok=True)
+    with (RUNTIME / "pull.lock").open("w") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        _pull_locked()
+
+
+def _pull_locked() -> None:
     bank = ROOT / "research/campaign_2026-10-06/bandit_continuation/prediction_bank/BANK_FOLD1.jsonl"
     have = {json.loads(line)["name"] for line in bank.read_text().splitlines() if line.strip()}
     listing = ssh("cd /root/wnn && ls cache/pred_vt_*_valid.json 2>/dev/null").stdout.split()
@@ -205,10 +214,10 @@ def cmd_pull(_: argparse.Namespace) -> None:
         name = item.removeprefix("cache/pred_").removesuffix("_valid.json")
         if name in have:
             continue
-        sizes = ssh(f"cd /root/wnn && stat -c %s cache/pred_{name}_valid.npy && ls artifacts/runs/{name}/model_ep3.pt && pgrep -f 'predict_run.py.*{name}' || true").stdout
+        sizes = ssh(f"cd /root/wnn && stat -c %s cache/pred_{name}_valid.npy && ls artifacts/runs/{name}/model_ep3.pt").stdout
         if "model_ep3.pt" not in sizes:
             continue
-        busy = ssh(f"pgrep -f 'predict_run.py.* {name} ' || true").stdout.strip()
+        busy = ssh(f"pgrep -f '[p]redict_run.py.* {name} ' || true").stdout.strip()
         if busy:
             continue
         scp([f"/root/wnn/artifacts/runs/{name}"], str(ROOT / "artifacts/runs"), upload=False)

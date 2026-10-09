@@ -209,3 +209,8 @@ Efficiency so far: T4 small-screen fit 61.6 s (FP32 Muon) vs 71.6 s (native FP16
 - Staging: 37.1 GB via 16-range signed-URL download, SHA-256 verified, ~6 min total. Two GPUs at 86-95% utilization, 4 concurrent fits, 17-19 seq/s each, ~57 min per fit.
 - Wave 1 fold1 from-scratch teachers (combo recipe, seed 3): GRU384 0.66724, LSTM256 0.66581, GRU512 0.65800 vs GRU256 combo_s3 0.66742. Capacity did not help at 4 epochs; GRU512 -0.0094. Raises risk for Kaggle GRU512/768 capacity run.
 - Wave 2 (linear-D2Z, trapezoid, fixed_mix, GRU256x3 running; seed4 queued).
+
+## 2026-10-09 evening: Vast wave 2 + exact-structure replication request
+- Vast wave 2 (fold1 from-scratch teachers, wp; ref combo_s3 0.66742, seed-rerun noise: seed4 0.66675): gru256x3 0.66774, trapezoid 0.66744, gru384 0.66724, lstm256 0.66581, lineard2z 0.66504, fixmix 0.64900(!see bank), gru512 0.65800. No teacher beats baseline beyond noise; prediction corr vs combo_s3 0.95-0.99.
+- User request: replicate teammate approach exactly with our implementation (analysis only, not for submission). Our H230 already matched student/target recipe; remaining knowable deviation = strong source: ONE checkpoint at 0.30 (his fbc1k_s5) vs our two at 0.15. Queued `mexact`: cache h230_mexact_fold1_r1 (strong=combo_s4_f1@ep3*0.30, full x2 0.1, raw x2 0.125, baseline substitutes 0.03125 x2, sum 0.8125) + students s3 (parent combo_s3) and s4 (parent combo_s4) + exports. Compare to H230 s3 0.66882 / s4 0.66913 / pair 0.66946.
+- Not reproducible by rule/knowledge: organizer baseline checkpoint (0.0625), his teacher weights, all-data teacher fits, ffull/frawW exact recipes.
