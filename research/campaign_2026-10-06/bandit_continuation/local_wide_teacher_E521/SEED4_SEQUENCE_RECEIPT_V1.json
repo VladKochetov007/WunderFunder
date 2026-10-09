@@ -1,0 +1,13 @@
+{
+  "attempt": "e521-w384-s4-export-v1",
+  "error": "RuntimeError: guard refused e521-w384-s4-export-v1; inspect its retained record",
+  "heartbeat_utc": "2026-10-07T14:33:54.710102+00:00",
+  "index": 1,
+  "launch_returncode": 1,
+  "launch_stderr": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 1295, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 1273, in main\n    print(json.dumps(launch(args), indent=2))\n                     ~~~~~~^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 610, in launch\n    resources = verify_capacity(\n        state,\n    ...<4 lines>...\n        current_memory_bytes=measured,\n    )\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 427, in verify_capacity\n    raise RuntimeError(\n        f\"measured parent RAM plus profile reserve exceeds 18 GB: {measured}+{ram_bytes}\"\n    )\nRuntimeError: measured parent RAM plus profile reserve exceeds 18 GB: 13831172096+5500000000\n",
+  "plan": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/SEED4_SEQUENCE_V1.json",
+  "plan_sha256": "846983070d0205f099da19ae97320c3c96bf8fffd2dc7cd79e7206ab83ffe32c",
+  "status": "needs_review",
+  "worker_heartbeat": "2026-10-07T14:33:53.513526+00:00",
+  "worker_status": "finished"
+}
