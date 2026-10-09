@@ -1,0 +1,233 @@
+{
+  "schema": "wnn.kaggle-smoke-terminal-operator-receipt.v1",
+  "observed_utc": "2026-10-08T20:37:11Z",
+  "kernel_id": "vladkochetov07/wnn-warm-cohort-smoke-20261008-v3",
+  "provider_status": "KernelWorkerStatus.COMPLETE",
+  "application_outcome": "both_fit_steps_failed_before_training; predict_and_grade_blocked",
+  "kernel_script_sha256": "caad47a642060a73d70098e5a92969c289ba0093a3716a3af6fda22c1cd8c54f",
+  "packet_sha256": "d098464599041526340206b58649c95cc1d3adcacf3cec4b949bd6d7bcaea693",
+  "source_manifest_sha256": "96fa0dcbd2c0a56f8ef9d23620080337799022290ffee87196d52de58aca4f70",
+  "provider_started_utc": "2026-10-08T20:32:06Z",
+  "provider_terminal_phase_utc": "2026-10-08T20:34:07Z",
+  "boot_marker": "terminal_collect_r1/boot_marker.json",
+  "boot_marker_sha256": "5805d8a74516281c5124fc1e07edaf3abd77952b6cb711e514b684854a282e14",
+  "collection": {
+    "directory": "terminal_collect_r1",
+    "provider_downloaded_file_count": 35,
+    "audit_file_count": 2,
+    "total_bytes": 6829219,
+    "file_inventory": "terminal_collect_r1/terminal_file_inventory_r1.txt",
+    "sha256sums": "terminal_collect_r1/terminal_sha256sums_r1.txt",
+    "sha256sums_count": 36
+  },
+  "phase_log_sha256": "840425c6feb878b6c0fa9a0501ec169ccd84d56fc95281541a9c1e528b634ff8",
+  "result_summary_sha256": "acea5b2651d124f12ef54afb526f85adb96f5fba20d22d7ca537d92954e45363",
+  "workers": [
+    {
+      "run_id": "smoke-f0-s3-gpu0-v3",
+      "fit_exit_code": 1,
+      "fit_wall_seconds": 13.7468,
+      "fit_peak_rss_bytes": 649580544,
+      "error": "ValueError: campaign source changed: /tmp/wnn_repo/cache/chain_folds.npz",
+      "prediction": "blocked_by_fit",
+      "grade": "blocked_by_prediction",
+      "expected_outputs_exist": false
+    },
+    {
+      "run_id": "smoke-f0-s13-gpu1-v3",
+      "fit_exit_code": 1,
+      "fit_wall_seconds": 2.1714,
+      "fit_peak_rss_bytes": 700973056,
+      "error": "ValueError: campaign source changed: /tmp/wnn_repo/cache/chain_folds.npz",
+      "prediction": "blocked_by_fit",
+      "grade": "blocked_by_prediction",
+      "expected_outputs_exist": false
+    }
+  ],
+  "device_and_resource_observations": {
+    "visible_gpus": 2,
+    "gpu_models": [
+      "Tesla T4",
+      "Tesla T4"
+    ],
+    "startup_cgroup_available_bytes": 32136204288,
+    "startup_host_available_bytes": 32569925632,
+    "heartbeat_cgroup_available_bytes_min": 31530786816,
+    "worker_sampled_rss_peak_bytes": 46075904,
+    "elapsed_seconds": 120.823
+  },
+  "diagnosis": {
+    "cause": "The source package's campaign split loader checked source file size and mtime_ns because WNN_PORTABLE_DATA_MANIFEST was absent from child step environments. Kaggle mounted the pinned chain_folds asset at a different mtime, so both fit jobs failed the split-source check before training.",
+    "evidence": [
+      "The smoke3 phase log records fold0 assets mounted and both GPU workers started before each fit failed in load_campaign_split.",
+      "The fold0 split manifest expects cache/chain_folds.npz SHA-256 a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f; the local reviewed source file matches that hash.",
+      "The source archive contains no cache/chain_folds.npz; the mounted fold0 assets expose the corresponding hash-named file and portable registry research/campaign_2026-10-04/portable_inputs.json (SHA-256 90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c).",
+      "Prior E520 terminal diagnosis records the same missing WNN_PORTABLE_DATA_MANIFEST environment handoff and prescribes passing the verified portable registry to the campaign split loader."
+    ],
+    "classification": "execution/package integration failure; no scientific fit or score evidence",
+    "corrective_action": "Build a new identified smoke successor that verifies the mounted portable registry against its reviewed hash and sets WNN_PORTABLE_DATA_MANIFEST for fit and prediction children; keep smoke3 frozen."
+  },
+  "next_attempt_admission": "not_authorized_by_this_receipt",
+  "terminal_status": "KernelWorkerStatus.COMPLETE",
+  "terminal_status_observed_utc": "2026-10-08T20:37:11Z",
+  "terminal_collection": {
+    "collected_at_utc": "2026-10-08T20:37:11Z",
+    "collection_dir": "terminal_collect_r1",
+    "output_exit_code": 0,
+    "log_exit_code": 0,
+    "files": {
+      "boot_marker.json": {
+        "sha256": "5805d8a74516281c5124fc1e07edaf3abd77952b6cb711e514b684854a282e14",
+        "size_bytes": 97
+      },
+      "logs.stderr.txt": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "logs.txt": {
+        "sha256": "92b5832da2fdce60ed6aa3288fa668c9ecd8fdec6a55ecf78d808ff2abcad33a",
+        "size_bytes": 7188
+      },
+      "out/gpu0/logs/smoke-f0-s3-gpu0-v3.fit.log": {
+        "sha256": "c11cbf9074039d458ac05fbd58303fc24fbfc421c457a9fc5523bda645df0691",
+        "size_bytes": 565
+      },
+      "out/gpu0/results.jsonl": {
+        "sha256": "d1de5d487b192cadb11a540796bd9fb8bdfc49483a285940e9ba2eff039e9310",
+        "size_bytes": 1196
+      },
+      "out/gpu0/worker.log": {
+        "sha256": "c2f376413d96e875d51ca58b1aed9da5eab9dc882249ec14b635657c806856cf",
+        "size_bytes": 53
+      },
+      "out/gpu0/worker_heartbeat.json": {
+        "sha256": "5be44c418da4f45847fefbac340ca3b7698f7ccbd95cafb30c7378a3f972e5b8",
+        "size_bytes": 157
+      },
+      "out/gpu1/logs/smoke-f0-s13-gpu1-v3.fit.log": {
+        "sha256": "c11cbf9074039d458ac05fbd58303fc24fbfc421c457a9fc5523bda645df0691",
+        "size_bytes": 565
+      },
+      "out/gpu1/results.jsonl": {
+        "sha256": "4bb5a6b1d0e9a2008af94751592e67935458b9bab3bc6352f728177c43d6a638",
+        "size_bytes": 1201
+      },
+      "out/gpu1/worker.log": {
+        "sha256": "1fb59275c494bf6d546c073905331973e9117b99e5c8f91e93cf6fcca566698a",
+        "size_bytes": 53
+      },
+      "out/gpu1/worker_heartbeat.json": {
+        "sha256": "b0b6e1da96bd41a576de68099f407a2068d22d30f2047dc22521e46fd8001274",
+        "size_bytes": 157
+      },
+      "out/runs/c20260929_prop_f0/model.pt": {
+        "sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "size_bytes": 165623
+      },
+      "out/runs/c20260929_since_s3_f0/model.pt": {
+        "sha256": "d0b3bf32497f22a7fa940ff47b21bbc4ea2414d9f955731d7fbc3e33f2c9350b",
+        "size_bytes": 1091079
+      },
+      "out/runs/c20260929_since_s3_f0/provenance.json": {
+        "sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "size_bytes": 149468
+      },
+      "out/runs/c20260929_since_s4_f0/model.pt": {
+        "sha256": "25119fefe36f20fb93c8bcafb0748215e24ab956f6944f9ace34d629d36e0d2f",
+        "size_bytes": 1091079
+      },
+      "out/runs/c20260929_since_s4_f0/provenance.json": {
+        "sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "size_bytes": 149468
+      },
+      "out/runs/c20261003_combo_s3_f0/model_ep3.pt": {
+        "sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+        "size_bytes": 3977183
+      },
+      "out/runs/c20261003_combo_s3_f0/provenance.json": {
+        "sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+        "size_bytes": 159653
+      },
+      "out/summary.json": {
+        "sha256": "acea5b2651d124f12ef54afb526f85adb96f5fba20d22d7ca537d92954e45363",
+        "size_bytes": 85
+      },
+      "output_command.stderr.txt": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "output_command.stdout.txt": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "phase.jsonl": {
+        "sha256": "840425c6feb878b6c0fa9a0501ec169ccd84d56fc95281541a9c1e528b634ff8",
+        "size_bytes": 4714
+      },
+      "queues/gpu0/failed/smoke-f0-s3-gpu0-v3.json": {
+        "sha256": "43b02f66699158a38a3d99ba13981e87b16344a5ff741f1150f652fb1fa57a9e",
+        "size_bytes": 2760
+      },
+      "queues/gpu0/logs/smoke-f0-s3-gpu0-v3.fit.log": {
+        "sha256": "c11cbf9074039d458ac05fbd58303fc24fbfc421c457a9fc5523bda645df0691",
+        "size_bytes": 565
+      },
+      "queues/gpu0/progress/smoke-f0-s3-gpu0-v3.json": {
+        "sha256": "03a7846fc3a6f0aedeb1231c977e0d212efa2bcfe70199b0c6e03b51697d0415",
+        "size_bytes": 213
+      },
+      "queues/gpu0/results.jsonl": {
+        "sha256": "d1de5d487b192cadb11a540796bd9fb8bdfc49483a285940e9ba2eff039e9310",
+        "size_bytes": 1196
+      },
+      "queues/gpu0/worker_heartbeat.json": {
+        "sha256": "5be44c418da4f45847fefbac340ca3b7698f7ccbd95cafb30c7378a3f972e5b8",
+        "size_bytes": 157
+      },
+      "queues/gpu1/failed/smoke-f0-s13-gpu1-v3.json": {
+        "sha256": "917b50965b505e667d2c10cbf68ebf524f92e372871663348d73a735a6d5c4f3",
+        "size_bytes": 2769
+      },
+      "queues/gpu1/logs/smoke-f0-s13-gpu1-v3.fit.log": {
+        "sha256": "c11cbf9074039d458ac05fbd58303fc24fbfc421c457a9fc5523bda645df0691",
+        "size_bytes": 565
+      },
+      "queues/gpu1/progress/smoke-f0-s13-gpu1-v3.json": {
+        "sha256": "158f683fea240713d742884c4624c372ddffe7a2b0ccaf642c889ada7af9b042",
+        "size_bytes": 214
+      },
+      "queues/gpu1/results.jsonl": {
+        "sha256": "4bb5a6b1d0e9a2008af94751592e67935458b9bab3bc6352f728177c43d6a638",
+        "size_bytes": 1201
+      },
+      "queues/gpu1/worker_heartbeat.json": {
+        "sha256": "b0b6e1da96bd41a576de68099f407a2068d22d30f2047dc22521e46fd8001274",
+        "size_bytes": 157
+      },
+      "terminal_file_inventory_r1.txt": {
+        "sha256": "efe22fcc743946b9e117301b4ca16e7745405cf65a8517586c8131b5deea675f",
+        "size_bytes": 5274
+      },
+      "terminal_sha256sums_r1.txt": {
+        "sha256": "200997753e17573dc5f87303dce7f341516c3100e5497bad2c769084072c3f59",
+        "size_bytes": 7271
+      },
+      "wnn-warm-cohort-smoke-20261008-v3.log": {
+        "sha256": "6a7b87b2a462786d91a809779cf5e783af24a4afae022dd32075c97193900ff0",
+        "size_bytes": 7187
+      },
+      "worker_gpu0.log": {
+        "sha256": "c2f376413d96e875d51ca58b1aed9da5eab9dc882249ec14b635657c806856cf",
+        "size_bytes": 53
+      },
+      "worker_gpu1.log": {
+        "sha256": "1fb59275c494bf6d546c073905331973e9117b99e5c8f91e93cf6fcca566698a",
+        "size_bytes": 53
+      }
+    }
+  },
+  "receipt_revision": "R2",
+  "receipt_revision_utc": "2026-10-08T21:03:03+00:00",
+  "supersedes_r1_path": "research/campaign_2026-10-06/bandit_continuation/kaggle_warm_cohort/smoke3_20261008/KAGGLE_SMOKE3_TERMINAL_OPERATOR_RECEIPT_R1.json",
+  "supersedes_r1_sha256": "f9934d493eebcc7f8e6250425be6cd27bd94769741213c766f5a924eed25780f"
+}
