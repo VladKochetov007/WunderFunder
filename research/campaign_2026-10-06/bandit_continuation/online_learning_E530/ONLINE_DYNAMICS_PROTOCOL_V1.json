@@ -1,0 +1,51 @@
+{
+  "id": "E530_ONLINE_DYNAMICS_PROTOCOL_V1",
+  "observed_utc": "2026-10-07T20:12:56.980081+00:00",
+  "status": "cpu_protocol_passed",
+  "source_hashes": {
+    "src/wnn/online_dynamics.py": "15276c6879f770dcbb89f3dd7b10f916b7db7790f5564c7ca5fd690f25c2722b",
+    "tests/test_online_dynamics.py": "cf4fb44fef309d17baee88c0f0fb86f45f0ce519d313a9186eccf6122808091e"
+  },
+  "focused_tests_passed": 5,
+  "limits": {
+    "cpu_affinity": [
+      0
+    ],
+    "address_space_bytes": 1500000000,
+    "wall_seconds": 60,
+    "cuda_used": false
+  },
+  "process_peak_rss_bytes": 48377856,
+  "measurements": [
+    {
+      "latent_width": 16,
+      "rows_per_trial": 20000,
+      "trials": 3,
+      "seconds": [
+        0.5615440129913623,
+        0.5422689419938251,
+        0.5609482650033897
+      ],
+      "median_us_per_row": 28.047413250169484,
+      "state_bytes_excluding_python_objects": 6272,
+      "last_forecast_finite": true
+    },
+    {
+      "latent_width": 32,
+      "rows_per_trial": 20000,
+      "trials": 3,
+      "seconds": [
+        0.6916875149909174,
+        0.6804848589963512,
+        0.6943075460003456
+      ],
+      "median_us_per_row": 34.58437574954587,
+      "state_bytes_excluding_python_objects": 24832,
+      "last_forecast_finite": true
+    }
+  ],
+  "numerics": "float64 NumPy serial reference; ridge1,forgetting1,zero prior,synthetic independent Gaussian inputs",
+  "scope": "Numerical protocol and tiny-state reference timing only. No supplied data opened, no predictor fit, no official target score. Projection, parent inference, readout, scoring and native serving port excluded.",
+  "public_forecast": null,
+  "independent_review": "pending"
+}

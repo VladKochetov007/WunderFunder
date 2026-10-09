@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "campaign": "E530",
+  "recorded_at_utc": "2026-10-07T20:13:01Z",
+  "scope": "provider_runs only; independent ideation; no fits or provider mutations",
+  "brief": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/BRIEF.md",
+    "sha256": "618c8c8a97a7aff4e53bdbe35cfd934f8482707c7f356fc5bbb9633a1e36fcd0"
+  },
+  "resource_guard": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/provider_runs/tree_rss_watchdog.py",
+    "sha256": "33ee6358f2eed3b917079d5b4f59cb04acdfb2e7029257f4dfaa1e5d006a8d94",
+    "cpu_affinity": [0],
+    "rss_sum_limit_kib": 1048576,
+    "wall_time_limit_seconds": 600,
+    "self_test": {
+      "command": "/bin/sleep 0.2",
+      "return_code": 0,
+      "peak_rss_sum_kib": 2092,
+      "receipt": "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/provider_runs/grok_47/WATCHDOG_SELFTEST.json"
+    },
+    "rss_limit_self_test": {
+      "command": "Python test process allocating 64,000,000 bytes then sleeping",
+      "configured_limit_kib": 30000,
+      "peak_rss_sum_kib": 72124,
+      "outcome": "rss_limit_exceeded",
+      "wrapper_exit_code": 124,
+      "receipt": "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/provider_runs/grok_47/WATCHDOG_RSS_LIMIT_SELFTEST.json"
+    }
+  },
+  "providers": [
+    {
+      "tool": "Grok native CLI",
+      "version": "1.0.46 (2765805b9442)",
+      "model_id": "grok-4.7",
+      "route_basis": "model listed and a bounded request completed on 2026-10-07 per project access record; this task's attempt did not reach inference",
+      "cli_help_inspected": true,
+      "prompt": "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/provider_runs/grok_47/PROMPT.md",
+      "prompt_sha256": "f257b09fe673ea91637e0ee7332910120b3262b213888ba978a9440533c23510",
+      "attempt": {
+        "command": "grok --cwd <isolated-dir> --model grok-4.7 --no-subagents --permission-mode plan --max-turns 4 --prompt-file <prompt> --output-format plain",
+        "result": "local_session_storage_blocked",
+        "stage": "CLI failed while creating its local session",
+        "public_error": "Couldn't create session: An unexpected I/O error occurred; Read-only file system (os error 30)",
+        "current_model_response_returned": false,
+        "guard_receipt": "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/provider_runs/grok_47/WATCHDOG_GROK_RETRY.json",
+        "peak_rss_sum_kib": 79188,
+        "return_code": 1
+      },
+      "proposal_path": null
+    },
+    {
+      "tool": "Freebuff interactive CLI",
+      "version": "0.2.22",
+      "picker_model_label": "GLM 5.3 Flash • max",
+      "root_reported_configured_model_id": "z-ai/glm-5.3-flash",
+      "model_id_caveat": "Root traced this ID to ideation/random_1/job.json but reported that the later completed random_1 run used DeepSeek; this task observed the GLM display label only and sent no prompt.",
+      "cli_help_inspected": true,
+      "prompt": "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/provider_runs/freebuff_glm/PROMPT.md",
+      "prompt_sha256": "1125cd215e52328358dd76030fad9fd892657ec1732f3c9b63fc6c73aa1e1a2c",
+      "attempt": {
+        "command": "freebuff --cwd <isolated-dir> followed by the actual model picker; GLM 5.3 Flash was displayed as the active selection",
+        "result": "local_project_metadata_storage_blocked",
+        "stage": "CLI failed before the first user message while making its local project/session directory",
+        "public_error": "EROFS: read-only file system, mkdir '/home/vlad/.config/manicode/projects/freebuff_glm'",
+        "ui_notice": "Some models aren't available on this connection",
+        "first_message_submitted": false,
+        "model_inference_confirmed": false,
+        "guard_receipt": "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/provider_runs/freebuff_glm/WATCHDOG_FREEBUFF.json",
+        "peak_rss_sum_kib": 224204,
+        "return_code": 1
+      },
+      "proposal_path": null
+    },
+    {
+      "tool": "OpenCode CLI",
+      "version": "1.18.35 per project environment record",
+      "model_id": "opencode/muse-spark-1.3-contributor-free",
+      "route_basis": "exact historical route ID supplied by root from ideation/directed_rkd/job.json; historical HTTP 403 FreeTierError was not treated as the current failure",
+      "cli_help_inspected": true,
+      "prompt": "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/provider_runs/opencode_muse/PROMPT.md",
+      "prompt_sha256": "c904046b4180c2dbe1aab69577ace3c079d475b300600da56d783d693eb90326",
+      "attempt": {
+        "command": "opencode run --dir <isolated-dir> --model opencode/muse-spark-1.3-contributor-free --format default --file <prompt>",
+        "result": "local_log_storage_blocked",
+        "stage": "CLI startup before provider inference",
+        "public_error": "Unexpected error: FileSystem.open (/home/vlad/.local/share/opencode/log/opencode.log)",
+        "current_model_response_returned": false,
+        "guard_receipt": "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/provider_runs/opencode_muse/WATCHDOG_OPENCODE.json",
+        "peak_rss_sum_kib": 196720,
+        "return_code": 1
+      },
+      "proposal_path": null
+    },
+    {
+      "tool": "OpenCode Kimi route",
+      "model_id": null,
+      "route_status": "unresolved; no exact provider/model ID verified",
+      "basis": "root's 2026-10-07 model-list inspection found no verified Kimi ID; OpenCode startup currently fails on its local read-only log path",
+      "cli_help_inspected": true,
+      "prompt": "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/provider_runs/opencode_kimi/PROMPT.md",
+      "prompt_sha256": "52e9e3b0e71be0febd4fd4aaed4a1ab04cb5813d0a8ec02625b0e7f37369734a",
+      "attempt": {
+        "result": "not_attempted",
+        "reason": "do not guess a route ID; wait for a verified Kimi entry from a working route listing"
+      },
+      "proposal_path": null
+    }
+  ],
+  "summary": {
+    "provider_inference_confirmed": 0,
+    "public_model_proposals_returned": 0,
+    "proposal_claim": "none; all attempted calls stopped during local CLI/session startup before a provider response",
+    "credentials_manually_read_or_copied": false,
+    "private_auth_values_logged": false,
+    "private_reasoning_saved": false,
+    "fits_or_provider_mutations": false,
+    "unresolved_external_state": "read-only managed home prevents Grok, Freebuff and OpenCode session/log storage; Kimi route ID remains unverified"
+  },
+  "authority": {
+    "non_authorizing": true,
+    "does_not_allocate_compute_or_authorize_fits": true
+  }
+}

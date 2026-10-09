@@ -1,0 +1,9 @@
+# Long-sequence numerical stress
+
+[CPU stress receipt](ONLINE_DYNAMICS_STRESS_V1.json) closes a concrete limitation in the initial protocol review. Sixteen-dimensional, 20,000-row synthetic constant, rank-one drifting and full-rank input streams were replayed without labels, fits or GPU use.
+
+The default undiscounted reference (`forgetting=1`) remained finite for every stream. The discounted inverse-covariance update failed on constant inputs after 14,990 completed rows at 0.998 and 1,597 rows at 0.98; rank-one drift also failed. Full-rank random streams remained finite. These are numerical results, not evidence about competition performance. Constant and rank-one streams are paired across factors; the random streams use different consecutive seeded draws and are not paired quality comparisons.
+
+Forgetting lets uncertainty in unexcited directions grow while the original ridge prior decays. Large inverse-covariance entries and subtraction eventually cause the recursive denominator to lose positivity. Do not silently sanitize the state or call this a scientific rejection of online learning. The original source and observations remain preserved.
+
+Keep the default undiscounted method eligible for a bounded task experiment. Before admitting a discounted actual-data arm, implement and independently test a distinct numerically stable formulation, such as a persistent-ridge information update or a square-root factorization. Persistent ridge changes the objective and must be an explicit successor; it is not a cosmetic correction to the original direct-weighted-ridge parity claim. Test full sequence length, rank deficiency, scale variation, reset and causal prefixes before considering a fast native implementation. The raw inverse update is not production-ready at the discounted factors tested here.

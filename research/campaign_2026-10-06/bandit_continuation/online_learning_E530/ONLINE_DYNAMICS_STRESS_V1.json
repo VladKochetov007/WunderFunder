@@ -1,0 +1,98 @@
+{
+  "schema": "online_dynamics_stress_v1",
+  "seed": 53002,
+  "dimensions": 16,
+  "sequence_rows": 20000,
+  "scope": "CPU numerical protocol only, synthetic inputs, no task score or fit",
+  "cases": [
+    {
+      "forgetting": 1.0,
+      "input_case": "constant",
+      "rows_completed": 20000,
+      "failure": null,
+      "wall_seconds": 1.086482019003597,
+      "max_abs_innovation": 1.0,
+      "max_abs_inverse_precision": 0.9375001953216512
+    },
+    {
+      "forgetting": 1.0,
+      "input_case": "rank1_drift",
+      "rows_completed": 20000,
+      "failure": null,
+      "wall_seconds": 1.193154134991346,
+      "max_abs_innovation": 1.0001666663580249,
+      "max_abs_inverse_precision": 0.9375001945629701
+    },
+    {
+      "forgetting": 1.0,
+      "input_case": "full_rank",
+      "rows_completed": 20000,
+      "failure": null,
+      "wall_seconds": 1.1921734319912503,
+      "max_abs_innovation": 4.771651673203794,
+      "max_abs_inverse_precision": 5.138932252157223e-05
+    },
+    {
+      "forgetting": 0.998,
+      "input_case": "constant",
+      "rows_completed": 14990,
+      "failure": "invalid recursive dynamics denominator",
+      "wall_seconds": 0.8196890870021889,
+      "max_abs_innovation": 1.0,
+      "max_abs_inverse_precision": 10099222024999.34
+    },
+    {
+      "forgetting": 0.998,
+      "input_case": "rank1_drift",
+      "rows_completed": 14960,
+      "failure": "invalid recursive dynamics denominator",
+      "wall_seconds": 0.8137145020009484,
+      "max_abs_innovation": 1.0001666663580249,
+      "max_abs_inverse_precision": 9510517709725.113
+    },
+    {
+      "forgetting": 0.998,
+      "input_case": "full_rank",
+      "rows_completed": 20000,
+      "failure": null,
+      "wall_seconds": 1.1778798190061934,
+      "max_abs_innovation": 5.4237529222405385,
+      "max_abs_inverse_precision": 0.0022087175872966833
+    },
+    {
+      "forgetting": 0.98,
+      "input_case": "constant",
+      "rows_completed": 1597,
+      "failure": "invalid recursive dynamics denominator",
+      "wall_seconds": 0.0904236869973829,
+      "max_abs_innovation": 1.0,
+      "max_abs_inverse_precision": 94439672244436.67
+    },
+    {
+      "forgetting": 0.98,
+      "input_case": "rank1_drift",
+      "rows_completed": 1635,
+      "failure": "invalid recursive dynamics denominator",
+      "wall_seconds": 0.09512176699354313,
+      "max_abs_innovation": 1.0001666663580249,
+      "max_abs_inverse_precision": 203499616378042.97
+    },
+    {
+      "forgetting": 0.98,
+      "input_case": "full_rank",
+      "rows_completed": 20000,
+      "failure": null,
+      "wall_seconds": 1.0358474579988979,
+      "max_abs_innovation": 5.191714035370173,
+      "max_abs_inverse_precision": 0.027445990599215025
+    }
+  ],
+  "created_utc": "2026-10-07T21:05:35.996507+00:00",
+  "source_sha256": "15276c6879f770dcbb89f3dd7b10f916b7db7790f5564c7ca5fd690f25c2722b",
+  "limits": {
+    "cpu_quota_cores": 0.5,
+    "memory_max_bytes": 1000000000,
+    "runtime_max_seconds": 60
+  },
+  "case_comparison_note": "Constant and rank-one streams are identical across forgetting factors; full-rank streams use successive draws from one seeded generator and are separate stress cases, not paired quality comparisons."
+}

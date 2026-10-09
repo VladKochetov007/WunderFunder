@@ -1,0 +1,335 @@
+{
+  "artifact_version": 1,
+  "created_by": "independent native scientific scout",
+  "task": {
+    "objective_mode": "competition",
+    "objective": "Improve expected unseen Challenge 2 score while preserving a valid deterministic submission.",
+    "current_own_public_best": 0.666,
+    "metric": "global_wp_clip2_v1",
+    "interface": "One row at a time: seq_ix, step_in_seq, need_prediction, 112 float32 features; no test targets or is_scored mask.",
+    "invariants": [
+      "Process all rows in order, including rows where need_prediction is false.",
+      "Predict using only features through the current row.",
+      "Reset sequence-local mutable state on seq_ix change.",
+      "No inference update may use t0/t1, future rows, the hidden scored mask, or prior test sequences."
+    ],
+    "evaluation_exposure": "Existing validation folds are exposed. They support development screening only; public-transfer claims require prospective external evidence.",
+    "result_status": "proposals_only_no_fits_no_numerical_priors_no_launch_authority"
+  },
+  "existing_controls": [
+    "Active H230 source includes cumulative causal online_zscore_torch features.",
+    "Active H230 source includes a prefix-conditioned adapter using up to the first 99 rows.",
+    "Historical E-078 label-delayed ceiling assumes true evaluated labels after a lag and is not an available test-time information set."
+  ],
+  "directed_sources": [
+    {
+      "citation": "Sun et al., Test-Time Training with Self-Supervision for Generalization under Distribution Shifts, ICML 2020.",
+      "url": "https://proceedings.mlr.press/v119/sun20b.html",
+      "transfer_limit": "General unlabeled-input update pattern only; image-rotation objective and reported gains do not transfer as evidence."
+    },
+    {
+      "citation": "Arik, Yoder, and Pfister, Self-Adaptive Forecasting for Improved Deep Learning on Non-Stationary Time-Series, 2022.",
+      "url": "https://arxiv.org/abs/2202.02403",
+      "transfer_limit": "Backcasting inspires input-only adaptation within an observed causal window; never access future sequence rows."
+    },
+    {
+      "citation": "Chen et al., Test-Time Training for Spatial-Temporal Forecasting, SIAM SDM 2024.",
+      "url": "https://epubs.siam.org/doi/10.1137/1.9781611978032.54",
+      "transfer_limit": "Self-supervised reconstruction without target labels; their many-location effective batch differs from 112 correlated features here."
+    },
+    {
+      "citation": "Wang et al., Continual Test-Time Domain Adaptation, CVPR 2022.",
+      "url": "https://openaccess.thecvf.com/content/CVPR2022/html/Wang_Continual_Test-Time_Domain_Adaptation_CVPR_2022_paper.html",
+      "transfer_limit": "Teacher averaging and stochastic restoration motivate drift controls, not their classification result."
+    },
+    {
+      "citation": "Wu et al., Test-Time Adaptation for Non-stationary Time Series: From Synthetic Regime Shifts to Financial Markets, arXiv:2602.00073, 2026 preprint.",
+      "url": "https://arxiv.org/abs/2602.00073",
+      "transfer_limit": "Recent task-matched preprint; treat as external hypothesis context, not replicated Challenge 2 evidence."
+    },
+    {
+      "citation": "Kim et al., Battling the Non-stationarity in Time Series Forecasting via Test-time Adaptation, AAAI 2025.",
+      "url": "https://ojs.aaai.org/index.php/AAAI/article/view/33965",
+      "transfer_limit": "Uses partially observed ground truth; that component is excluded by the Challenge 2 callback."
+    },
+    {
+      "citation": "Wang et al., Adaptive Learning of Smoothing Functions: Application to Electricity Load Forecasting, NeurIPS 2012.",
+      "url": "https://proceedings.neurips.cc/paper/2012/hash/b571ecea16a9824023ee1af16897a582-Abstract.html",
+      "transfer_limit": "RLS with labels arriving online transfers only as a supervised training-time optimization pattern."
+    }
+  ],
+  "random_library_draw": {
+    "seed": 20261008,
+    "selection_pool": "research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/RANDOM_SELECTION_POOL.txt",
+    "procedure": "Sort the 14 unique absolute PDF paths; Python random.Random(seed).choice(paths); use the same RNG to choose a 1-based PDF page after reading page count.",
+    "selected_path": "/home/vlad/Documents/Trading/Random Matrix Theory.pdf",
+    "pdf_page": 6,
+    "printed_page": 5,
+    "work": "Livan, Novaes, and Vivo, Introduction to Random Matrices: Theory and Practice.",
+    "exact_passage": "Any time you need a matrix which is too complicated to study, you can try replacing it with a random matrix",
+    "transfer": "Compare a rolling feature-innovation covariance spectrum with a training-only block-shuffle null to trigger sparse adaptation; this is an analogy, not predictive evidence."
+  },
+  "cards": [
+    {
+      "card_id": "OL-1",
+      "title": "Robust two-timescale feature-state normalization",
+      "status": "proposed",
+      "expected_public_gain": null,
+      "numerical_prior": null,
+      "mechanism_family": "online_learning/label_free_sequence_local_statistic_adaptation",
+      "category": "label_free_inference_adaptation",
+      "intervention": "Keep model weights fixed. Maintain fast and slow exponentially weighted locations/scales per feature channel; normalize current x_t with statistics from x_<t, keep raw input as a parallel view, then update state with x_t. Bound statistic updates using train-fitted innovation caps. Train with the identical causal transform.",
+      "exact_information_set": {
+        "predict": "x_0 through x_t and statistics derived from x_0 through x_(t-1).",
+        "update": "x_t only, after prediction; also update on warmup rows.",
+        "excluded": [
+          "test t0/t1",
+          "is_scored",
+          "future feature rows",
+          "earlier test sequences"
+        ]
+      },
+      "reset_policy": "Clear all locations, scales, and buffers when seq_ix changes; fixed model weights and train-fitted caps persist.",
+      "source_components": [
+        "Online normalization estimation in MixNorm and the recent time-series TTA preprint."
+      ],
+      "structural_analogy": "Track within-sequence scale drift with a causal state estimate while retaining raw scale information.",
+      "overlap_and_boundary": "Compare against active H230 cumulative online_zscore_torch and its first-99-row prefix-conditioned adapter; historical online-norm branches mean this is a dynamic robust-timescale descendant, not a new claim for static normalization.",
+      "assumptions_and_breakpoints": [
+        "Feature location/scale drift is present and relevant to prediction.",
+        "Normalization does not erase predictive absolute scale.",
+        "The train transform matches the inference update order."
+      ],
+      "cheapest_decisive_test": "Replay one own checkpoint on one fixed exposed outer group with frozen normalization, current cumulative online-zscore, one-timescale EW, fast/slow EW, and shuffled-statistics sham. Continue to a tiny matched fit only if the dynamic state produces plausible target-aligned change.",
+      "controls": [
+        "frozen",
+        "current cumulative online-zscore",
+        "one-timescale EW",
+        "sequence-order-shuffled EW"
+      ],
+      "predicted_observable": "A complete official endpoint improvement on sequences with causal feature scale movement, near-anchor behavior on stable sequences.",
+      "falsifier": "No improvement over cumulative normalization, no residual contribution conditional on the anchor, or similar gain with shuffled statistics.",
+      "teacher_compression_path": "Distill an own larger teacher's input-state-conditioned predictions into an independently trained compact GRU and compare with/without the dynamic transform.",
+      "cpu_serving_cost_estimate": "Under 1 KB mutable state and O(112) scalar work per row; unmeasured and must be profiled in the compiled serving path.",
+      "bounded_gpu_training_path": "After root admission and actual shape/resource profile: one compact own-weight candidate/control paired seed, one declared group split, at most one epoch or one tenth of the current recipe's updates, whichever is smaller.",
+      "risks": [
+        "Existing online normalization overlap",
+        "Adaptive selection on exposed validation",
+        "Feature scaling may be economically irrelevant"
+      ],
+      "source_refs": [
+        "Sun2020",
+        "Wu2026preprint"
+      ]
+    },
+    {
+      "card_id": "OL-2",
+      "title": "Sparse self-supervised fast adapter with supervised outer training",
+      "status": "proposed",
+      "expected_public_gain": null,
+      "numerical_prior": null,
+      "mechanism_family": "online_learning/label_free_test_time_training",
+      "category": "label_free_inference_adaptation",
+      "intervention": "Freeze an own causal backbone and train a rank-4 to rank-8 adapter to improve a supervised outer objective after one regularized inner update on masked-channel or short-window feature reconstruction. At inference, update sparsely from an observed rolling window ending at t, anchored to initial adapter weights.",
+      "exact_information_set": {
+        "predict": "x_0 through x_t after an update whose reconstruction window contains only already observed rows.",
+        "update": "Current and past feature rows within the rolling window; no target or predicted-target pseudo-label.",
+        "outer_training": "Permitted training features/labels only; validation targets remain grader-only.",
+        "excluded": [
+          "future feature rows",
+          "test t0/t1",
+          "is_scored",
+          "cross-sequence test memory"
+        ]
+      },
+      "reset_policy": "Reset adapter fast state, reconstruction buffer, and update cadence when seq_ix changes; static backbone and adapter initialization persist.",
+      "source_components": [
+        "Self-supervised updates from one unlabeled test sample in Sun et al.",
+        "Backcasting/reconstruction adaptation in time-series forecasting.",
+        "Teacher anchoring/restoration as drift control in CoTTA."
+      ],
+      "structural_analogy": "Use the current causal feature window as a self-supervised adaptation set; meta-train on labeled episodes so the feature update helps the supervised forecast.",
+      "assumptions_and_breakpoints": [
+        "Feature reconstruction gradients align with useful forecast representation changes.",
+        "Sparse updates can adapt before a local regime is over.",
+        "The update remains stable without test labels or future rows."
+      ],
+      "cheapest_decisive_test": "Freeze one own backbone and train only a low-rank adapter; on one exposed outer group compare no update, regularized sparse update, random-gradient sham, and unanchored adaptation. Grade the full endpoint, drift, reconstruction loss, and serving latency.",
+      "controls": [
+        "no update",
+        "regularized sparse update",
+        "random-gradient sham",
+        "unanchored update"
+      ],
+      "predicted_observable": "Improved full endpoint in shifted feature regimes, small update norms, and transfer across held-out sequence groups.",
+      "falsifier": "Reconstruction improves but target endpoint does not; sham is similar; outputs drift over sequence length; or the update exceeds serving time.",
+      "teacher_compression_path": "Train a larger own adaptation-aware teacher and distill post-update outputs/states into an independently trained compact GRU student that keeps the causal sequence state without test-time backprop.",
+      "cpu_serving_cost_estimate": "Highest of these cards. Rank-4 adapter updates every 128 or 256 rows are estimated to add small-window buffer memory and sparse matrix-gradient work; exact latency is unmeasured. Require a compiled update and full 1-vCPU/60-minute test-set benchmark before promotion.",
+      "bounded_gpu_training_path": "After root admission and actual-shape profile: one frozen own backbone, one adapter rank, one seed, one sequence-group outer split, at most one epoch or one tenth of the parent recipe's updates. Defer teacher/student expansion to separate admission.",
+      "risks": [
+        "Self-referential drift",
+        "Gradient/task alignment may fail",
+        "Sparse update cadence may miss short regimes",
+        "CPU deployment cost"
+      ],
+      "source_refs": [
+        "Sun2020",
+        "Arik2022",
+        "Chen2024",
+        "CoTTA2022"
+      ]
+    },
+    {
+      "card_id": "OL-3",
+      "title": "Feature-only Bayesian regime filtering over fixed experts",
+      "status": "proposed",
+      "expected_public_gain": null,
+      "numerical_prior": null,
+      "mechanism_family": "online_learning/causal_regime_posterior_and_expert_mixture",
+      "category": "label_free_inference_state_inference",
+      "intervention": "Train a small bank of own experts and a diagonal feature-emission model on training groups. Update a K-state posterior per row from feature innovations and a learned transition matrix; mix fixed expert outputs using the posterior. No model parameter updates occur at inference.",
+      "exact_information_set": {
+        "predict": "Current x_t, past features and posterior q_(t-1), plus fixed expert predictions from causal recurrent states.",
+        "update": "Feature-only observation vector derived through t; transition/emission models trained on allowed training inputs.",
+        "excluded": [
+          "test targets",
+          "is_scored",
+          "future rows",
+          "previous test sequence posterior"
+        ]
+      },
+      "reset_policy": "Initialize from train-fitted prior and clear posterior/observation state at each seq_ix change; static experts/emissions remain fixed.",
+      "source_components": [
+        "Online regime tracking in continual adaptation literature."
+      ],
+      "structural_analogy": "Adapt the mixture weights as a filtered belief over observable input regimes rather than by gradient descent.",
+      "assumptions_and_breakpoints": [
+        "Input-only emissions identify states where expert residual behavior differs.",
+        "Regime posterior can change without becoming unstable.",
+        "The expert bank carries conditional complementarity."
+      ],
+      "cheapest_decisive_test": "Where eligible own experts exist, fit diagonal emissions/transitions from training inputs only and compare equal fixed mixture, posterior mixture, constant posterior, and sequence-order-shuffled posterior on the same exposed outer group. Train experts only if cross-fitted state already predicts residual complementarity.",
+      "controls": [
+        "equal fixed mixture",
+        "feature-posterior mixture",
+        "constant posterior",
+        "shuffled posterior"
+      ],
+      "predicted_observable": "Posterior changes track input shifts and improve the complete mixture endpoint over fixed/shuffled controls.",
+      "falsifier": "Feature likelihood does not predict expert usefulness, posterior collapses without gain, or equal/shuffled controls match.",
+      "teacher_compression_path": "Use a larger own expert bank as teacher and distill the posterior mixture into a compact recurrent student; retain the fixed mixture and student as separate endpoints.",
+      "cpu_serving_cost_estimate": "K=4 to 8 diagonal likelihoods over 8 to 32 features cost O(KF) per row and a few KB sequence state; unmeasured.",
+      "bounded_gpu_training_path": "Start with existing ancestry-audited own experts and a CPU-only filter fit. If experts must be trained, cap the first cohort at one compact four-expert seed, one sequence-group split, one epoch or one tenth of the current recipe's updates; require root admission.",
+      "risks": [
+        "Existing prefix-conditioned routing overlap",
+        "Static expert bank may lack complementarity",
+        "Posterior may respond to scale instead of predictive regime"
+      ],
+      "source_refs": [
+        "CoTTA2022",
+        "Wu2026preprint"
+      ]
+    },
+    {
+      "card_id": "OL-4",
+      "title": "Supervised prequential training with frozen deployment weights",
+      "status": "proposed",
+      "expected_public_gain": null,
+      "numerical_prior": null,
+      "mechanism_family": "online_learning/supervised_train_time_sequential_optimization",
+      "category": "training_time_only",
+      "intervention": "During permitted training only, predict each chronological row/chunk with current weights, then update a small readout after its supplied training label becomes available, using a predeclared delay and forgetting factor. Export final weights and freeze them at inference.",
+      "exact_information_set": {
+        "training_predict": "Training features through current row and only training labels whose predeclared availability time has passed.",
+        "inference_predict": "Current and prior test features only; trained weights are frozen.",
+        "excluded": [
+          "test target-driven updates",
+          "future training label in prequential prediction",
+          "test score mask"
+        ]
+      },
+      "reset_policy": "Reset recurrent/sequence context at each sequence boundary during training; optimizer's declared training state is logged. No sequence-adapted readout state is exported for test inference.",
+      "source_components": [
+        "Recursive least squares with forgetting for labeled online smoothing in the NeurIPS 2012 load-forecasting paper."
+      ],
+      "structural_analogy": "Apply label-driven online optimization as a training recipe under chronology, then deploy one fixed checkpoint.",
+      "assumptions_and_breakpoints": [
+        "Training sequence order contains a useful optimization signal beyond shuffled minibatch training.",
+        "A final frozen checkpoint captures any benefit after temporal training dynamics stop.",
+        "The chosen training delay matches the declared offline recipe, not an assumed test label feed."
+      ],
+      "cheapest_decisive_test": "One paired run from the same own initialization: chronological prequential readout updates versus current standard training with equal optimizer updates/compute, plus chronological-order-shuffled control. Evaluate fixed held-out groups only after training completes.",
+      "controls": [
+        "current standard recipe",
+        "chronological prequential updates",
+        "shuffled-order prequential control"
+      ],
+      "predicted_observable": "A better final frozen checkpoint at equal training budget, not a gain that exists only while labels continue to arrive.",
+      "falsifier": "No gain against both controls, gain depends on target updates during evaluation, or paired seed results do not hold.",
+      "teacher_compression_path": "If the frozen prequential model helps, use it as an own fixed teacher for an ordinary independently trained student.",
+      "cpu_serving_cost_estimate": "No added inference adaptation cost; frozen model latency is the same as its architecture/control.",
+      "bounded_gpu_training_path": "One candidate/control paired seed, one fold, equal update count, at most one epoch or one tenth of the current recipe's updates, whichever is smaller; root admission and device profile required.",
+      "risks": [
+        "May duplicate ordinary SGD order effects",
+        "Sequential optimization may overfit late training sequences",
+        "Not test-time learning"
+      ],
+      "source_refs": [
+        "Wang2012RLS"
+      ]
+    },
+    {
+      "card_id": "OL-5",
+      "title": "Random-matrix innovation trigger for sparse adaptation",
+      "status": "proposed_interaction",
+      "expected_public_gain": null,
+      "numerical_prior": null,
+      "mechanism_family": "online_learning/input_only_change_detection",
+      "category": "interaction_controller",
+      "interaction_with": [
+        "OL-2",
+        "OL-3"
+      ],
+      "intervention": "Maintain a rank-3 or rank-4 online covariance approximation of feature increments. Every 64 or 128 rows compare the leading eigenvalue with a threshold calibrated from block-shuffled training segments; trigger a small OL-2 update or raise OL-3 transition responsiveness only when a spike occurs.",
+      "exact_information_set": {
+        "predict": "Feature increments and rolling covariance through t, with only train-fitted thresholds.",
+        "update": "Current and past features; statistic state resets per sequence.",
+        "excluded": [
+          "test labels",
+          "future rows",
+          "scored mask",
+          "cross-sequence test memory"
+        ]
+      },
+      "reset_policy": "Reset covariance factors, buffer, and trigger cooldown on seq_ix change; static threshold persists.",
+      "source_components": [
+        "Livan, Novaes, Vivo, Introduction to Random Matrices: Theory and Practice, printed page 5, random library draw."
+      ],
+      "structural_analogy": "Compare a complicated rolling feature covariance with an empirical random/block-shuffle baseline; a spectral outlier may mark coherent input change.",
+      "assumptions_and_breakpoints": [
+        "The null preserves enough serial dependence for valid trigger calibration.",
+        "A spike indicates a context where the declared adaptation helps.",
+        "Feature co-movement is not merely nuisance volatility."
+      ],
+      "cheapest_decisive_test": "On a small predeclared exposed sequence sample, test whether trigger windows enrich for cross-fitted anchor residual magnitude or candidate-minus-anchor value versus equal-rate random triggers and the block-shuffle null. No GPU until this passes.",
+      "controls": [
+        "no trigger",
+        "random equal-rate trigger",
+        "block-shuffled null"
+      ],
+      "predicted_observable": "Sparse triggers detect coordinated feature movement and concentrate windows where the online update improves the official endpoint.",
+      "falsifier": "Null-like trigger frequency, no residual enrichment, or no gain over equal-rate random timing.",
+      "teacher_compression_path": "Use only as an update scheduler for an own larger teacher; distill its state-conditioned predictions into a compact student if the trigger ablation passes.",
+      "cpu_serving_cost_estimate": "Rank-4 state around 2 KB; O(112 times 4) arithmetic per update boundary, proposed every 64 or 128 rows. Compiled latency is unmeasured.",
+      "bounded_gpu_training_path": "Initial signal test is CPU-only. If positive, interact with only one already admitted OL-2 or OL-3 cohort; do not add a separate fit budget before root review.",
+      "risks": [
+        "Textbook random matrix assumptions fail under serial correlation",
+        "Threshold selection can overfit exposed data",
+        "Detector may trigger on volatility without predictive meaning"
+      ],
+      "source_refs": [
+        "RandomMatrixLibraryPassage"
+      ]
+    }
+  ]
+}
