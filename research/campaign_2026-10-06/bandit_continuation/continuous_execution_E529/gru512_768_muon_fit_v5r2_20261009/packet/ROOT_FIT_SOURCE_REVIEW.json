@@ -1,0 +1,17 @@
+{
+  "schema": "wnn-gru-capacity-fit-source-review-v1",
+  "packet_id": "E529_H232_GRU512_768_MUON_SEED9_FIT_V5R2_20261009",
+  "status": "approved",
+  "owner": "root_controller (claude-code)",
+  "created_utc": "2026-10-09T12:28:52.086806+00:00",
+  "recipe_sha256": "1c3014d03fc3ee8a0c05094ff93978f4e81c16e95491350d8490fd4d08eb3a6f",
+  "source_archive_sha256": "237a9c8fb5c1a9e68cd6518a6684238a40dc92c3fefc2e7582e9d087fa2560c3",
+  "source_manifest_sha256": "2156766d6d721637d640b57ccd9e8b6c4dada59e441e37f0d76ebcc822d29ba1",
+  "checks": [
+    "V5R1 terminal: fit stage entered, runner refused host admission because cgroup memory.current included ~28 GB reclaimable page cache from hashing 35 GB raw inputs (available 4.22 GB, budget negative); no training, no scientific result",
+    "V5R2 changes only: identities v5r1->v5r2 and one runner patch counting cgroup memory.stat 'file' as reclaimable in host_inventory; scientific recipe (seed9 fold0 GRU512/768 Muon B8 FP16 4 epochs fixed ep3) unchanged",
+    "Packet suite 10/10 PASS including new page-cache admission test (30 GiB limit, 29 GiB current with 28 GiB file -> 29 GiB available)",
+    "Built archive verified to contain the patched kaggle_gpu_runner.host_inventory"
+  ],
+  "independent_review": "none available (Codex reviewers out of quota); root self-review only \u2014 disclosed"
+}
