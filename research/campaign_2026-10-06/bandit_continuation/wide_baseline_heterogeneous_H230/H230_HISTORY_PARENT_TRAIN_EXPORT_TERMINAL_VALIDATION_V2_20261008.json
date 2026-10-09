@@ -1,0 +1,102 @@
+{
+  "attempt": {
+    "elapsed_seconds": 499.5469099900074,
+    "exit_status": 0,
+    "finished_utc": "2026-10-08T06:09:50.180294+00:00",
+    "id": "h230-history-parent-train-fp32-export-v1-20261008",
+    "parent_hierarchical_baseline": {
+      "high": 194296,
+      "low": 0,
+      "max": 11452001,
+      "oom": 16,
+      "oom_group_kill": 0,
+      "oom_kill": 12,
+      "sock_throttled": 34
+    },
+    "parent_hierarchical_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 83168,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_local_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_peak_ram_bytes": 14718304256,
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-history-parent-train-fp32-export-v1-20261008.json",
+    "peak_observed_vram_bytes": 1323302912,
+    "sha256": "7ea124570105c974d1c5326cdd465b483f2346b40fda04fcba578a5ee22ae351",
+    "started_utc": "2026-10-08T06:01:30.603143+00:00",
+    "worker_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 83168,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "worker_peak_ram_bytes": 8999997440
+  },
+  "contract_sha256": "c5537a50582fa1a94de867d747bbe2482a28cb2cb054442dca885fbc19618c36",
+  "created_utc": "2026-10-08T06:12:53.818572+00:00",
+  "first_threshold_interpretation": {
+    "actual_sequences_at_threshold": 112,
+    "measured_threshold_sequences_per_second": 20.740555892437595,
+    "reason": "B16 exporter checks after each complete batch; the seventh batch first reaches at least 100.",
+    "sidecar_field": "first_100_sequences_wall_seconds",
+    "sidecar_seconds": 5.400048127004993
+  },
+  "groups": {
+    "count": 10606,
+    "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+    "sequence_order": "exact ordered sparse train target-index list from the sidecar; its int64 digest matches frozen parent fit-membership. Root separately confirmed the list against train_targets.npz."
+  },
+  "parent_checkpoint_sha256": "478773bd3d0754d261f8f3c9d46a135d56c3596c269d2a856b760caef05b93c7",
+  "parent_run": "bd26_h230_all_data_parent_b16_ep3_retry3_v1",
+  "prediction_path": "cache/pred_h230_history_parent_ep3_fp32_v1_train.npy",
+  "prediction_sha256": "6d6fdbdafcf99f0677372de3398fd0a76c9fcb6c5306f438281a0a3501d2bb9f",
+  "record_id": "H230_HISTORY_PARENT_TRAIN_EXPORT_TERMINAL_VALIDATION_V2_20261008",
+  "schema": "h230-history-parent-train-export-terminal-validation-v2",
+  "schema_and_finiteness": {
+    "dtype": "float32",
+    "finite_values_checked": 424240000,
+    "fortran_order": false,
+    "header_bytes": 128,
+    "payload_bytes": 1696960000,
+    "sha256": "6d6fdbdafcf99f0677372de3398fd0a76c9fcb6c5306f438281a0a3501d2bb9f",
+    "shape": [
+      10606,
+      20000,
+      2
+    ]
+  },
+  "scope": {
+    "features_only": true,
+    "fit_performed": false,
+    "heldout_claim": false,
+    "metric_computed": false,
+    "targets_or_masks_read": false,
+    "valid_export_cache_build_and_student_fit": "require separate root authorization and fresh admission"
+  },
+  "sidecar_path": "cache/pred_h230_history_parent_ep3_fp32_v1_train.json",
+  "sidecar_sha256": "e03d85ddd2b48aebccb24d1e7965db5cdc630e0c5bf36c094929447dc1c6d307",
+  "sidecar_timing": {
+    "checkpoint_and_model_setup_seconds": 0.16080073599005118,
+    "first_100_sequences_wall_seconds": 5.400048127004993,
+    "sequence_rows_per_second": 427215.447042599,
+    "sequences_per_second": 21.36077244088246,
+    "total_export_wall_seconds": 496.51762438401056
+  },
+  "source_manifest_sha256": "01aa939ddb95f91b24859ddf324a66188a3254c11691cd39b40ce77865b3b2f2",
+  "status": "passed_train_only_feature_export_validation_no_score"
+}

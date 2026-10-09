@@ -1,0 +1,259 @@
+{
+  "schema": "h230-cache-output-review-targets-v1",
+  "created_utc": "2026-10-07T16:24:54+00:00",
+  "stage": "cache-build-and-output-validation",
+  "status": "frozen-for-independent-review",
+  "profile_or_fit_started": false,
+  "scientific_result_claimed": false,
+  "review_status": "pending",
+  "resources": {
+    "cache_attempt_id": "h230-w384-family-cache-v1",
+    "cache_exit_status": 0,
+    "cache_elapsed_seconds": 67.06789127500087,
+    "cache_worker_peak_bytes": 6499999744,
+    "cache_worker_memory_reservation_bytes": 6500000000,
+    "cache_parent_peak_bytes": 9048993792,
+    "cache_worker_memory_event_delta": {
+      "high": 0,
+      "low": 0,
+      "max": 198998,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "cache_parent_memory_event_delta": {
+      "high": 0,
+      "low": 0,
+      "max": 198998,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "output_validation_elapsed_seconds": 13.5142080289952,
+    "output_validation_max_rss_kib": 579044,
+    "output_validation_scope": "1 CPU, 2,000,000,000-byte MemoryMax, 120-second RuntimeMax; sequential, no Torch/GPU, no concurrent worker",
+    "resource_interpretation": "cache worker finished exit 0 with no OOM/OOM-kill delta but reached one page below MemoryMax; cgroup max-event delta was nonzero and requires reviewer/controller attention before profile admission"
+  },
+  "recipe_and_membership": {
+    "fold": 0,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "train_fit_groups": 10535,
+    "valid_fit_groups": 1405,
+    "valid_exposed_evaluation_groups": 468,
+    "row_order_source": "frozen train_targets.npz and valid_targets.npz row_group order filtered to the exact fold fit membership",
+    "family_order": [
+      "strong",
+      "full_finetuned",
+      "raw_wmse",
+      "samefold_baseline"
+    ],
+    "homogeneous_control_family": "strong",
+    "coefficient_sum": 0.8125,
+    "validation_scope": "development-only exposed fold 0; no score or public forecast"
+  },
+  "verified_outputs": {
+    "main_source_train": {
+      "path": "cache/bd26_h230_w384_family_v1/main_source_train.npy",
+      "bytes": 1685600128,
+      "sha256": "552db7586caf9b95b174170e16ad5f470e3e67c7d675f9675dee7c020fa43efb",
+      "shape": [
+        10535,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "finite_values": 421400000,
+      "fadvise_calls": 202,
+      "row_groups_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda"
+    },
+    "main_normalized_train": {
+      "path": "cache/bd26_h230_w384_family_v1/main_normalized_train.npy",
+      "bytes": 1685600128,
+      "sha256": "a92dba0571dd703b3184ef06bbbfed3abcfc480571645539714964860616e742",
+      "shape": [
+        10535,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "finite_values": 421400000,
+      "fadvise_calls": 202,
+      "row_groups_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda"
+    },
+    "main_homogeneous_train": {
+      "path": "cache/bd26_h230_w384_family_v1/main_homogeneous_train.npy",
+      "bytes": 1685600128,
+      "sha256": "c805cbdf2378d8c415ca3af5f9afd5dceaf9fceed198552afd967a9b0e5f7015",
+      "shape": [
+        10535,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "finite_values": 421400000,
+      "fadvise_calls": 202,
+      "row_groups_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda"
+    },
+    "families_train": {
+      "path": "cache/bd26_h230_w384_family_v1/families_train.npy",
+      "bytes": 6742400128,
+      "sha256": "a8017c06294acd23087d72b1942637c7ecd465ee24480d8e765d7a6c2a3506ad",
+      "shape": [
+        10535,
+        20000,
+        8
+      ],
+      "dtype": "float32",
+      "finite_values": 1685600000,
+      "fadvise_calls": 805,
+      "row_groups_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda"
+    },
+    "main_source_valid": {
+      "path": "cache/bd26_h230_w384_family_v1/main_source_valid.npy",
+      "bytes": 224800128,
+      "sha256": "411ef2451ef1cce425f3ec74ed01fd2f6b48c58c2b49eda67861b5b827212073",
+      "shape": [
+        1405,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "finite_values": 56200000,
+      "fadvise_calls": 28,
+      "row_groups_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+    },
+    "main_normalized_valid": {
+      "path": "cache/bd26_h230_w384_family_v1/main_normalized_valid.npy",
+      "bytes": 224800128,
+      "sha256": "057689f123804540800d251de0ded323ed22e93c1a25739de847f5d5c26f9134",
+      "shape": [
+        1405,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "finite_values": 56200000,
+      "fadvise_calls": 28,
+      "row_groups_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+    },
+    "main_homogeneous_valid": {
+      "path": "cache/bd26_h230_w384_family_v1/main_homogeneous_valid.npy",
+      "bytes": 224800128,
+      "sha256": "829603d4a7f8ee0547e40d058412c06e02873bb4af4083d945504081fbc9f190",
+      "shape": [
+        1405,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "finite_values": 56200000,
+      "fadvise_calls": 28,
+      "row_groups_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+    },
+    "families_valid": {
+      "path": "cache/bd26_h230_w384_family_v1/families_valid.npy",
+      "bytes": 899200128,
+      "sha256": "e1180f600dfdc58769c3bc0548683aa14edbf823d43361a62566419083176abe",
+      "shape": [
+        1405,
+        20000,
+        8
+      ],
+      "dtype": "float32",
+      "finite_values": 224800000,
+      "fadvise_calls": 109,
+      "row_groups_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+    }
+  },
+  "verification_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited /home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/.venv/bin/python research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/verify_h230_cache_outputs_v1.py --cache-dir cache/bd26_h230_w384_family_v1 --data-root . --metadata-sha256 398d7753a127054f3e38cd34c4730099843d60663541787e09ab38c9f45e47ad --split-sha256 09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d --receipt research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+  "review_targets": [
+    "Confirm exact eight-source ancestry and recipe against the reviewed source bundle and successful cache command.",
+    "Confirm fit/evaluation membership and row order are consistent with the frozen fold and target indexes.",
+    "Confirm all output bytes, NPY headers, hashes, finiteness, and cache metadata are bound by the validation receipt.",
+    "Assess near-cap cache resource evidence before any profile stage admission."
+  ],
+  "files": {
+    "allocation": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/CONDITIONAL_DELIVERY_ALLOCATION_V1.json",
+      "sha256": "e0198952bc05f38276521eba832688cc194eab68388a5103c59c4e221b5d6570",
+      "bytes": 4071
+    },
+    "execution_contract": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.json",
+      "sha256": "d5ade4ab645f06640a5f79e097ef00f428215f31b8941b97228357c5c51d0ddb",
+      "bytes": 29432
+    },
+    "static_contract_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_INDEPENDENT_STATIC_EXECUTION_REVIEW_V4_20261007_R1.json",
+      "sha256": "bf395ec97e3d24fefe271613e3125fff0814ec5320d899824449922de3c43a31",
+      "bytes": 8408
+    },
+    "actual_source_bundle": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_HASH_BUNDLE_V2.json",
+      "sha256": "c9f4235994e9fc85f0f732fd74852e1c28b1d5c7efc8a1ebefbc71f6dc673340",
+      "bytes": 70219
+    },
+    "actual_source_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ACTUAL_SOURCE_INDEPENDENT_REVIEW_V1_20261007_R1.json",
+      "sha256": "b7272d096d793ccf9252e98fcbbac495a51c202b916c1a3fa1d85018ec9d9124",
+      "bytes": 6831
+    },
+    "source_sealer_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_SEAL_INDEPENDENT_REVIEW_V3_20261007_R1.json",
+      "sha256": "69431f13b1d17f1bcf033cb13bbd8cf70d2addeed89f43c7667352d66052fc39",
+      "bytes": 3614
+    },
+    "live_input_identity": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_IDENTITY_V1.json",
+      "sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4",
+      "bytes": 17079
+    },
+    "worktree_recheck": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_WORKTREE_RECHECK_V1.json",
+      "sha256": "3add80cc2bfaf1b30f1b73cbf82500554daaf51dd7af209304e1410dda0cc3f8",
+      "bytes": 8047
+    },
+    "cache_stage_admission": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_STAGE_ADMISSION_V1.json",
+      "sha256": "d62b810971aed9b20376efe957e5c81a4ebb74dbf2783e7de300746fcf33d918",
+      "bytes": 7688
+    },
+    "pre_cache_handoff": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PRE_CACHE_HANDOFF_V2.json",
+      "sha256": "274cbf3585f31e91baf83c6f66054966ec3dfa97f7eff5228c18379be8a7533e",
+      "bytes": 754
+    },
+    "cache_attempt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-w384-family-cache-v1.json",
+      "sha256": "bd5b040b6d263c2706345e595175d7320ddfe7fe4fc7215e47ccd7d191184017",
+      "bytes": 36473
+    },
+    "cache_log": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/h230-w384-family-cache-v1.log",
+      "sha256": "f9c38c2adcba5729fa731268f3995b5980d92c87df942a5c37cc7d190027e53d",
+      "bytes": 247
+    },
+    "cache_metadata": {
+      "path": "cache/bd26_h230_w384_family_v1/metadata.json",
+      "sha256": "398d7753a127054f3e38cd34c4730099843d60663541787e09ab38c9f45e47ad",
+      "bytes": 841992
+    },
+    "cache_output_verification": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+      "sha256": "e04da68bad9ddbb0ec64baf1ad43c19381c0606d47dbed066416f84d3a03c3d8",
+      "bytes": 6389
+    },
+    "verifier_source": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/verify_h230_cache_outputs_v1.py",
+      "sha256": "790b8b16b3285290781c107774b4829fabaf37aed9506f4c9b08307d36b4f452",
+      "bytes": 13300
+    },
+    "focused_tests": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/tests/test_cache_output_verification_v1.py",
+      "sha256": "b0473590aa163f74486f1757c81744d2d0bb76d66676f5b30bfbd647b68aa630",
+      "bytes": 2479
+    }
+  }
+}

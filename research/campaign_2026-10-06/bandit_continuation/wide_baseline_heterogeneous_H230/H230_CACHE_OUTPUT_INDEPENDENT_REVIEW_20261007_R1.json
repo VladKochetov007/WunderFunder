@@ -1,0 +1,64 @@
+{
+  "schema_version": "h230-cache-output-independent-review-v1",
+  "receipt_id": "H230-cache-output-independent-review-20261007-R1",
+  "reviewer": "tpu_recovery_delivery",
+  "reviewed_utc": "2026-10-07T16:32:55Z",
+  "decision": "PASS_CACHE_OUTPUTS_AND_PROVENANCE; PROFILE_REQUIRES_FRESH_CONTROLLER_RESOURCE_ADMISSION",
+  "scope": "Independent review of the frozen cache output/provenance map, cache stage evidence, and bounded verifier implementation. This is not profile-stage admission, student-fit authorization, a score, or a scientific result.",
+  "freeze": {
+    "review_targets_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_REVIEW_TARGETS_V1.json",
+    "review_targets_sha256": "3d10d9e6d07cd64c9760711e6b45fffbb4ac4163b342d2e3227009461cf4a48f",
+    "cache_attempt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-w384-family-cache-v1.json",
+    "cache_attempt_sha256": "bd5b040b6d263c2706345e595175d7320ddfe7fe4fc7215e47ccd7d191184017",
+    "stage_admission_sha256": "d62b810971aed9b20376efe957e5c81a4ebb74dbf2783e7de300746fcf33d918",
+    "source_bundle_sha256": "c9f4235994e9fc85f0f732fd74852e1c28b1d5c7efc8a1ebefbc71f6dc673340",
+    "actual_source_review_sha256": "b7272d096d793ccf9252e98fcbbac495a51c202b916c1a3fa1d85018ec9d9124",
+    "live_input_identity_sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4",
+    "cache_metadata_sha256": "398d7753a127054f3e38cd34c4730099843d60663541787e09ab38c9f45e47ad",
+    "output_validation_receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+    "output_validation_receipt_sha256": "e04da68bad9ddbb0ec64baf1ad43c19381c0606d47dbed066416f84d3a03c3d8",
+    "verifier_sha256": "790b8b16b3285290781c107774b4829fabaf37aed9506f4c9b08307d36b4f452",
+    "focused_tests_sha256": "b0473590aa163f74486f1757c81744d2d0bb76d66676f5b30bfbd647b68aa630",
+    "allocation_sha256": "e0198952bc05f38276521eba832688cc194eab68388a5103c59c4e221b5d6570",
+    "execution_contract_sha256": "d5ade4ab645f06640a5f79e097ef00f428215f31b8941b97228357c5c51d0ddb"
+  },
+  "confirmed_findings": [
+    "Recomputed SHA-256 for the frozen review-target file and all 16 receipt/source files in its map; every value matched.",
+    "The cache attempt exited 0 in 67.07 seconds with no OOM, OOM-kill, or group-kill delta. Its command matches the frozen cache-stage argv and the bound worktree builder/source closure.",
+    "The sealed source bundle and prior independent source review bind eight own-checkpoint teacher inputs and their prediction ancestry. Cache metadata and verifier preserve the four declared family order (strong, full_finetuned, raw_wmse, samefold_baseline), 0.8125 coefficient sum, and strong homogeneous control; no teammate weights are identified as an initializer or teacher.",
+    "Fold-0 cache membership is train fit 10,535 groups, valid fit 1,405 groups, with the 468 exposed evaluation groups kept separate. Ordered train/valid row-group digests and source split digest are bound in metadata and the output validation receipt. This is exposed development data, not an untouched or public-result claim.",
+    "The bound verifier source checks metadata/split identity, family recipe, fit/evaluation membership, ordered target-index row groups, exact NPY shape/dtype/length, streaming SHA-256 and finite float32 values. Its frozen output receipt reports PASS for all eight arrays with exact hashes, counts, and row-order digests.",
+    "Independently opened the eight outputs as read-only memory maps and checked file lengths, NPY headers, shapes, and float32 dtype; all matched the frozen map. Independently ran the four focused verifier tests: 4 passed in 0.15 seconds under 1 CPU, 1 GB memory, 120 seconds."
+  ],
+  "output_summary": {
+    "array_count": 8,
+    "total_bytes": 13372801024,
+    "all_validator_statuses": "verified",
+    "all_shapes_dtypes_and_lengths_independently_header_checked": true,
+    "full_payload_hash_and_finiteness_evidence": "Bound validator receipt reports exact SHA-256 and finite-value counts for each array; reviewer inspected the verifier implementation and receipt but deliberately did not repeat a full 13.37 GB payload scan."
+  },
+  "resource_assessment": {
+    "cache_worker_exit_status": 0,
+    "elapsed_seconds": 67.06789127500087,
+    "worker_memory_peak_bytes": 6499999744,
+    "worker_memory_max_bytes": 6500000000,
+    "bytes_below_memory_max": 256,
+    "worker_memory_events_max_delta": 198998,
+    "worker_memory_events_oom_delta": 0,
+    "worker_memory_events_oom_kill_delta": 0,
+    "parent_memory_peak_bytes": 9048993792,
+    "output_validator_elapsed_seconds": 13.5142080289952,
+    "output_validator_max_rss_kib": 579044,
+    "interpretation": "Successful cache creation without OOM, but the worker reached effectively its entire reservation and generated many memory.events max events. This demonstrates artifact completion, not safe headroom for the separate full-shape GPU profile."
+  },
+  "conditions_before_profile_stage": {
+    "profile_admission_granted_by_this_review": false,
+    "required_action": "Root/controller must issue a fresh stage admission using current campaign memory/file-cache state, clean-cache handoff as appropriate, active reservations, exact profile memory envelope, and current OOM/event deltas. Keep the frozen cache outputs and unchanged recipe; do not treat this review as permission to run the profile.",
+    "science_status": "No student profile, fit, evaluation, or score was run or approved by this review."
+  },
+  "limitations": [
+    "Review validates cache artifact/provenance evidence and the validator's implementation; it does not independently rescan every byte of the 13.37 GB cache payload.",
+    "The source-seal evidence does not claim a fresh full raw-parquet SHA-256; later-stage identity gates remain required by the execution contract.",
+    "Fold 0 has been exposed and is development-only."
+  ]
+}

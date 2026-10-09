@@ -1,0 +1,162 @@
+{
+  "authority": {
+    "actual_source_review_decision": "PASS_WITH_CONDITIONS",
+    "actual_source_review_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ACTUAL_SOURCE_INDEPENDENT_REVIEW_V1_20261007_R1.json",
+    "actual_source_review_sha256": "b7272d096d793ccf9252e98fcbbac495a51c202b916c1a3fa1d85018ec9d9124",
+    "allocation_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/CONDITIONAL_DELIVERY_ALLOCATION_V1.json",
+    "allocation_sha256": "e0198952bc05f38276521eba832688cc194eab68388a5103c59c4e221b5d6570",
+    "execution_contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.json",
+    "execution_contract_sha256": "d5ade4ab645f06640a5f79e097ef00f428215f31b8941b97228357c5c51d0ddb",
+    "independent_reviewer": "tpu_recovery_delivery",
+    "independent_static_review_decision": "PASS_STATIC_CONTRACT_WITH_PRE_ADMISSION_REQUIREMENTS",
+    "independent_static_review_sha256": "bf395ec97e3d24fefe271613e3125fff0814ec5320d899824449922de3c43a31",
+    "root_controller": "root"
+  },
+  "created_utc": "2026-10-07T16:09:39.496763+00:00",
+  "fresh_preflight": {
+    "cache_output_absent": true,
+    "concurrent_support_reserve_bytes": 2000000000,
+    "data_identity_status": "passed",
+    "disk_free_bytes": 75632455680,
+    "exposed_evaluation_valid_rows": 468,
+    "full_portable_input_count": 6,
+    "parent_current_bytes": 2647871488,
+    "parent_high_bytes": 17999998976,
+    "projected_parent_with_cache_and_support_bytes": 11147871488,
+    "required_free_bytes": 40216345600,
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "target_row_groups": {
+      "train": {
+        "count": 10606,
+        "evaluation_count": 0,
+        "fit_count": 10535,
+        "ordered_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe"
+      },
+      "valid": {
+        "count": 1873,
+        "evaluation_count": 468,
+        "fit_count": 1405,
+        "ordered_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+      }
+    },
+    "train_bytes_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+    "valid_bytes_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "worker_peak_bytes": 50651136
+  },
+  "id": "H230-cache-stage-admission-v1",
+  "identity_receipts": {
+    "actual_source_review_map_v1": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ACTUAL_SOURCE_REVIEW_TARGETS_V1.json",
+      "sha256": "14b86be4d1e9c4944af1e8dcfd9d3d63c73ba0edd97a510d9c7be3c987a3485a"
+    },
+    "input_hash_progress_v1": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_HASH_PROGRESS_V1.json",
+      "sha256": "4c7923e3153320ac7f436cb28e34a977690dee4ca65a170c476e7616c5e0d172"
+    },
+    "live_input_identity_v1": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_IDENTITY_V1.json",
+      "sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4"
+    },
+    "pre_cache_handoff_v2": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PRE_CACHE_HANDOFF_V2.json",
+      "sha256": "274cbf3585f31e91baf83c6f66054966ec3dfa97f7eff5228c18379be8a7533e"
+    },
+    "source_bundle_v2": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_HASH_BUNDLE_V2.json",
+      "sha256": "c9f4235994e9fc85f0f732fd74852e1c28b1d5c7efc8a1ebefbc71f6dc673340"
+    },
+    "source_seal_progress_v4": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_SEAL_PROGRESS_V4.json",
+      "sha256": "b21ac766f66dfe662b0f9315462257bb6b850dc50fac500c7d95c4070f33c411"
+    },
+    "worktree_commit": "dde32d0f5e39efe65c0497fec06449d38e18b369",
+    "worktree_recheck_v1": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_WORKTREE_RECHECK_V1.json",
+      "sha256": "3add80cc2bfaf1b30f1b73cbf82500554daaf51dd7af209304e1410dda0cc3f8"
+    },
+    "worktree_source_file_count": 32
+  },
+  "scope": "single serial CPU cache build only; no profile, fit, prediction, score, or public forecast",
+  "stage": {
+    "argv": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=20s",
+      "3600",
+      "/usr/bin/env",
+      "PYTHONPATH=/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/src",
+      "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/.venv/bin/python",
+      "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/scripts/build_distill_cache.py",
+      "--data-root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "--teacher-cache-root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/cache",
+      "--checkpoint-root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs",
+      "--split-manifest",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--output",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+      "--teacher",
+      "strong=c20261003_combo_s3_f0@ep3*0.15",
+      "--teacher",
+      "strong=c20261003_combo_s4_f0@ep3*0.15",
+      "--teacher",
+      "full_finetuned=c20260929_ft_since_s3_f0@ep0*0.10",
+      "--teacher",
+      "full_finetuned=c20260929_ft_since_s4_f0@ep0*0.10",
+      "--teacher",
+      "raw_wmse=c20260929_since_s3_f0@ep3*0.125",
+      "--teacher",
+      "raw_wmse=c20260929_since_s4_f0@ep3*0.125",
+      "--teacher",
+      "samefold_baseline=bd26_w384raw_s3_f0@ep3*0.03125",
+      "--teacher",
+      "samefold_baseline=bd26_w384raw_s4_f0@ep3*0.03125",
+      "--homogeneous-family",
+      "strong",
+      "--expected-coefficient-sum",
+      "0.8125",
+      "--chunk-sequences",
+      "2",
+      "--output-budget-gb",
+      "30",
+      "--min-free-gb",
+      "25"
+    ],
+    "attempt_id": "h230-w384-family-cache-v1",
+    "chunk_sequences": 2,
+    "cpus": 1,
+    "estimated_output_bytes": 13372800000,
+    "kind": "cpu",
+    "launch_controller": "scripts/bandit_resources.py --root . --state research/campaign_2026-10-06/bandit_continuation/runtime launch",
+    "launch_time_resource_gate": "controller must freshly admit 1 CPU and 6.5 GB worker reservation against current parent memory/OOM events and active reservations; abort if any gate fails",
+    "max_attempts": 1,
+    "minimum_free_bytes": 40216345600,
+    "output_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+    "serial": true,
+    "terminal_checks": [
+      "exit status 0",
+      "cache metadata/provenance written",
+      "row-order and shapes verified",
+      "all arrays finite",
+      "output bytes within 30 GB budget"
+    ],
+    "timeout_seconds": 3600,
+    "worker_memory_bytes": 6500000000,
+    "workers": 0
+  },
+  "status": "conditional-cache-stage-under-root-allocation; launch-time-controller-gate-required",
+  "unchanged_science": {
+    "cache_main_variant": "source_unnormalized_sum",
+    "exposed_evaluation_valid": 468,
+    "family_target_mode": "raw",
+    "fit_membership": {
+      "train": 10535,
+      "valid": 1405
+    },
+    "fold": 0,
+    "official_metric": "global_wp_clip2_v1 unchanged; cache build does not score",
+    "teacher_coefficient_sum": 0.8125
+  }
+}

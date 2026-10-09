@@ -1,0 +1,249 @@
+{
+  "candidate": {
+    "checkpoint_provenance_sha256": "12ef3404fd6c73abf08a33ce99f4364b03d09421b7a761ed3eb7bbcc3ae1b04a",
+    "checkpoint_sha256": "59718b92befe647dde74335a17dc00d264e668ff8177201a1c636e7e194d72c9",
+    "epoch_zero_based": 1,
+    "inference_precision": "fp16",
+    "prediction_sha256": "8f0f53f7990739847cb4ecd785b508ef32a59c982a702b5e05cf04bbd1d78e78",
+    "prediction_sidecar_sha256": "71feb03d21843c396ded01664b6f160198910c86935cf3fb9d77e8bf5717b4f4",
+    "run": "bd26_h230_hetero_s3_f0",
+    "storage_dtype": "float32"
+  },
+  "candidate_standalone_official_metric": {
+    "metric_id": "global_wp_clip2_v1",
+    "selected_rows": 808863,
+    "t0": 0.6749096647889434,
+    "t1": 0.6885293385742314,
+    "wp": 0.6817195016815873
+  },
+  "comparisons": [
+    {
+      "candidate": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6749096647889434,
+        "t1": 0.6885293385742314,
+        "wp": 0.6817195016815873
+      },
+      "delta_candidate_minus_reference": {
+        "bootstrap_sd": 0.0005539794591499587,
+        "candidate_wp": 0.6817195016815878,
+        "centered_moments": true,
+        "ci95": [
+          -0.00034399837857553017,
+          0.0017840624941192398
+        ],
+        "mean_diff": 0.0007782948744328166,
+        "metric_id": "global_wp_clip2_v1",
+        "n_boot": 2000,
+        "n_components": 141,
+        "n_sequences": 468,
+        "p_le_0": 0.078,
+        "reference_wp": 0.680941206807155,
+        "seed": 20261008
+      },
+      "reference": "same-seed warm parent c20261003_combo_s3_f0@ep3",
+      "reference_score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6744630336944984,
+        "t1": 0.6874193799198118,
+        "wp": 0.6809412068071552
+      }
+    },
+    {
+      "candidate": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6749096647889434,
+        "t1": 0.6885293385742314,
+        "wp": 0.6817195016815873
+      },
+      "delta_candidate_minus_reference": {
+        "bootstrap_sd": 0.00027112768699050086,
+        "candidate_wp": 0.6817195016815878,
+        "centered_moments": true,
+        "ci95": [
+          -0.0004299250556781237,
+          0.0006170100638419022
+        ],
+        "mean_diff": 0.00010135950066181287,
+        "metric_id": "global_wp_clip2_v1",
+        "n_boot": 2000,
+        "n_components": 141,
+        "n_sequences": 468,
+        "p_le_0": 0.352,
+        "reference_wp": 0.681618142180926,
+        "seed": 20261008
+      },
+      "reference": "C1 seed-3 candidate bd26_c1v2_s3_f0@ep1",
+      "reference_score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6747800742937052,
+        "t1": 0.6884562100681477,
+        "wp": 0.6816181421809264
+      }
+    },
+    {
+      "candidate": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6749096647889434,
+        "t1": 0.6885293385742314,
+        "wp": 0.6817195016815873
+      },
+      "delta_candidate_minus_reference": {
+        "bootstrap_sd": 0.00043676387074260633,
+        "candidate_wp": 0.6817195016815878,
+        "centered_moments": true,
+        "ci95": [
+          -0.001283333255466934,
+          0.00043579358981369546
+        ],
+        "mean_diff": -0.0004563689610463939,
+        "metric_id": "global_wp_clip2_v1",
+        "n_boot": 2000,
+        "n_components": 141,
+        "n_sequences": 468,
+        "p_le_0": 0.853,
+        "reference_wp": 0.6821758706426342,
+        "seed": 20261008
+      },
+      "reference": "C1 seed-pair mean (equal weights; supplemental local endpoint)",
+      "reference_score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6752592522763028,
+        "t1": 0.6890924890089664,
+        "wp": 0.6821758706426346
+      }
+    },
+    {
+      "candidate": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6749096647889434,
+        "t1": 0.6885293385742314,
+        "wp": 0.6817195016815873
+      },
+      "delta_candidate_minus_reference": {
+        "bootstrap_sd": 0.00131816008119183,
+        "candidate_wp": 0.6817195016815878,
+        "centered_moments": true,
+        "ci95": [
+          -0.01101148069135762,
+          -0.005750983604468854
+        ],
+        "mean_diff": -0.0081149969954597,
+        "metric_id": "global_wp_clip2_v1",
+        "n_boot": 2000,
+        "n_components": 141,
+        "n_sequences": 468,
+        "p_le_0": 1.0,
+        "reference_wp": 0.6898344986770475,
+        "seed": 20261008
+      },
+      "reference": "primary incumbent FP32 source reconstruction: 0.5 parent@ep3 + 0.5 head@ep0",
+      "reference_score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6837240403064867,
+        "t1": 0.695944957047608,
+        "wp": 0.6898344986770473
+      }
+    }
+  ],
+  "created_utc": "2026-10-07T21:56:11Z",
+  "freeze_sha256": {
+    "candidate_initializer": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "candidate_source_manifest": "697d78e5a5ac5461e876486caa8b278298283a213ed03432c43a856fd7f1bd58",
+    "checkpoint_provenance": "12ef3404fd6c73abf08a33ce99f4364b03d09421b7a761ed3eb7bbcc3ae1b04a",
+    "distillation_cache_metadata": "398d7753a127054f3e38cd34c4730099843d60663541787e09ab38c9f45e47ad",
+    "export_receipt": "bffaac7584fa337dc7cd0a3fb4cb61f7fca900006218fc236cb4a7d6db4616d9",
+    "export_resource_binding": "ee3a6facf50d03b2e2f428871c2f9d9643ed84425f8f57737364b40dbca3ddc0",
+    "fit_receipt": "ddc8b33c05c84bc518fc716b92efacf150b543d6bff491d99666988b2e61ea22",
+    "fit_resource_binding": "11b39a4343b4f93ce7cb3c502e951806057aa880174b31a77499af0a2f6862b7",
+    "frozen_candidate_control_commands": "8c26c41ba802ed9ff611d812ac7ac63151ff5328ca661657e86b0b2194d3665c",
+    "frozen_export_command_freeze": "c1cee4c9202b7aa2a39598b64cbfad2ccc51601ac102b64308ee2fb0e5c06cd6",
+    "frozen_official_metric_source": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "frozen_split_manifest": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "grade_freeze": "210cc9ec2e2a7181bd25ff6f5618941630926a2314386cfa8a5475f3256b1b16",
+    "incumbent_freeze": "1d62c65412a504b9d8a596eb546ce9a484a22274e64b6574b3e33f6ff79317b1",
+    "incumbent_members": "9b07d091261c0d78a077c7427523503f66a436af490007d99531328695b53a3c",
+    "incumbent_weights": "004d82067af773fc8ed5191b63ed552565b4cde6f521b198127cf02ab8216dbe",
+    "incumbent_zip": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a",
+    "metric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "split": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "targets": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "interpretation": {
+    "C1_and_parent_comparisons": "supplemental exposed-data endpoint comparisons; not the frozen primary treatment contrast",
+    "family_head_effect": "not estimable yet: matched family-head-off seed-3 prediction is not in this grade; the candidate-only result is screening evidence",
+    "public_transfer": "none; do not add any local delta to the user-reported public best 0.6660"
+  },
+  "mask": {
+    "components": 141,
+    "evaluation_row_groups": 468,
+    "fit_membership": "reconstructed with frozen split; provenance train/valid memberships match and are component-disjoint from the 468 evaluated valid groups",
+    "metric_id": "global_wp_clip2_v1",
+    "row_group_mask_sha256_lsb0_bytes": "409c7b189c6ffd7037642936fdddb1932ce5a1976e17506b8b98cdfd81b4ee6b",
+    "scored_rows": 808863,
+    "valid_row_groups": 1873,
+    "warmup_rows_excluded_per_sequence": 99
+  },
+  "reference_artifacts": {
+    "C1 seed-3 candidate bd26_c1v2_s3_f0@ep1": {
+      "prediction_sha256": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+      "sidecar_sha256": "bb335392edc599f181c0bbcb6523fd430b036647454bc0d76facf5b592211ad3"
+    },
+    "C1 seed-pair mean (equal weights; supplemental local endpoint)": {
+      "seed3_prediction_sha256": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+      "seed3_sidecar_sha256": "bb335392edc599f181c0bbcb6523fd430b036647454bc0d76facf5b592211ad3",
+      "seed4_prediction_sha256": "78635629c73738b29b4680eda0b15430078b01f09ba06c8c24fdfb8c6d71d1cd",
+      "seed4_sidecar_sha256": "e659527584fadb6df41d08efd62f3e7d9abf4ab9a989c811e65cf450efc35ea4"
+    },
+    "primary incumbent FP32 source reconstruction: 0.5 parent@ep3 + 0.5 head@ep0": {
+      "head_prediction_sha256": "4f7f90a34713eb56d11abbdb98cb23cfbe8faf464650589846f22e2f6e5ce941",
+      "incumbent_zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a",
+      "parent_prediction_sha256": "5917763efafa5a5e3efae725b8b70ff14765696e5cd234d2500b1036604706dc"
+    },
+    "same-seed warm parent c20261003_combo_s3_f0@ep3": {
+      "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+      "sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2"
+    }
+  },
+  "review_script": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_INDEPENDENT_GRADE_V1.py",
+    "sha256": "45c42ea92a45d1e476e2b4aff5b66efe06c5f44a5a8d1db05143681e5d08dd47"
+  },
+  "sanity": {
+    "cgroup_memory_max_bytes": 1499996160,
+    "cgroup_memory_peak_bytes": 767397888,
+    "elapsed_seconds": 10.432703981001396,
+    "official_global_wp_vs_streaming_accumulator_abs_difference_first_two_groups": 1.1102230246251565e-16,
+    "resource_limits": {
+      "cpu_quota": "100% (one CPU)",
+      "gpu_use": false,
+      "memory_max_bytes_requested": 1500000000,
+      "worker_threads": 1
+    }
+  },
+  "schema": "h230-seed3-independent-masked-grade-v1",
+  "scope": "Frozen exposed fold-0 development data; descriptive seed-3 candidate grade, no family-loss causal estimate, no public score forecast.",
+  "serving_precision_limit": {
+    "incumbent_zip_path": "submissions/c20261004_combo_s4_i16/c20261004_combo_s4_i16.zip",
+    "incumbent_zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a",
+    "limit": "0.5 * parent@ep3 output + 0.5 * head@ep0 output. This is the float32 source-level equivalent of the exact merged-head package; package ZIP uses i16 precision, so the cached FP32 reference is not represented as bit-identical ZIP inference.",
+    "scored_reference": "frozen float32 source-level reconstruction, 0.5*parent@ep3 + 0.5*head@ep0",
+    "zip_inference_replayed_on_this_mask": false
+  },
+  "status": "PASS_DESCRIPTIVE_SEED3_GRADE",
+  "uncertainty": {
+    "components": 141,
+    "interpretation": "Conditional on these fixed checkpoints and previously exposed fold-0 groups; excludes training variability and public-transfer uncertainty.",
+    "method": "paired bootstrap of connected components with replacement, recomputing pooled global_wp_clip2_v1 delta per draw",
+    "replicates": 2000,
+    "seed": 20261008
+  }
+}

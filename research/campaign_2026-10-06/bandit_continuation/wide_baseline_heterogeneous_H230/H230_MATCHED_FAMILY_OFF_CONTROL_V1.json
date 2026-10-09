@@ -1,0 +1,225 @@
+{
+  "schema": "h230-matched-family-off-control-v1",
+  "id": "H230-family-off-matched-control-seed3-v1",
+  "created_utc": "2026-10-07",
+  "status": "prepared_but_not_runnable_at_pinned_source_commit",
+  "question": "For the same own GRU256x2 seed-3 start, source target and updates, does raw family auxiliary supervision help the H230 student?",
+  "matched_candidate": {
+    "contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_STAGE_CONTRACT_V1.json",
+    "contract_sha256": "8825d2c49b933586acdf47699127154f9ebc5affb595115b6e10727bedf286cc",
+    "run_name": "bd26_h230_hetero_s3_f0",
+    "seed": 3,
+    "initializer": "c20261003_combo_s3_f0@ep3",
+    "initializer_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "family_weight": 0.1,
+    "family_target_mode": "raw",
+    "profiled_architecture": "GRU 256x2, 31 outputs"
+  },
+  "control_recipe": {
+    "only_scientific_difference": "family auxiliary loss coefficient 0.1 -> 0.0",
+    "retain_same": [
+      "seed 3 and c20261003_combo_s3_f0@ep3 initializer, not C1",
+      "fold 0, fit membership, inputs, propensity, masks and labels",
+      "same eight source teachers/coefficient weights and unnormalized source main target, coefficient sum 0.8125",
+      "same source cache variant, distill-alpha, batch/chunk, AdamW/OneCycle, FP16, two epochs, fixed epoch 1",
+      "same 31-output architecture with the extra eight family readout rows",
+      "same cache root and same main_source and families channels loaded in the same sequence order"
+    ],
+    "candidate_loss": "L_main + 0.1 * four-family weighted MSE on raw family targets with existing main-label row weights",
+    "control_loss": "L_main + 0.0 * four-family weighted MSE; family rows/cache channels remain present but family loss contributes no gradient",
+    "expected_model_output_width": 31,
+    "main_distill_target_width": 2,
+    "family_target_width": 8,
+    "full_training_target_width_including_ground_truth": 12,
+    "family_order": [
+      "strong",
+      "full_finetuned",
+      "raw_wmse",
+      "samefold_baseline"
+    ],
+    "source_coefficients": [
+      {
+        "family": "strong",
+        "run": "c20261003_combo_s3_f0",
+        "epoch": 3,
+        "coefficient": 0.15
+      },
+      {
+        "family": "strong",
+        "run": "c20261003_combo_s4_f0",
+        "epoch": 3,
+        "coefficient": 0.15
+      },
+      {
+        "family": "full_finetuned",
+        "run": "c20260929_ft_since_s3_f0",
+        "epoch": 0,
+        "coefficient": 0.1
+      },
+      {
+        "family": "full_finetuned",
+        "run": "c20260929_ft_since_s4_f0",
+        "epoch": 0,
+        "coefficient": 0.1
+      },
+      {
+        "family": "raw_wmse",
+        "run": "c20260929_since_s3_f0",
+        "epoch": 3,
+        "coefficient": 0.125
+      },
+      {
+        "family": "raw_wmse",
+        "run": "c20260929_since_s4_f0",
+        "epoch": 3,
+        "coefficient": 0.125
+      },
+      {
+        "family": "samefold_baseline",
+        "run": "bd26_w384raw_s3_f0",
+        "epoch": 3,
+        "coefficient": 0.03125
+      },
+      {
+        "family": "samefold_baseline",
+        "run": "bd26_w384raw_s4_f0",
+        "epoch": 3,
+        "coefficient": 0.03125
+      }
+    ],
+    "source_coefficient_sum": 0.8125,
+    "attempt_id_candidate": "h230-w384-hetero-familyoff-s3-v1-20261007"
+  },
+  "proposed_control_argv_if_source_support_is_added": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=20s",
+    "2400",
+    "/usr/bin/env",
+    "PYTHONPATH=/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/src",
+    "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/.venv/bin/python",
+    "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/scripts/train_rnn.py",
+    "--name",
+    "bd26_h230_familyoff_s3_f0",
+    "--device",
+    "cuda",
+    "--arch",
+    "gru",
+    "--cell",
+    "gru",
+    "--hidden",
+    "256",
+    "--layers",
+    "2",
+    "--dropout",
+    "0",
+    "--seed",
+    "3",
+    "--split-manifest",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "--valid-fold",
+    "0",
+    "--eval-source",
+    "vfold",
+    "--train-source",
+    "train+valid",
+    "--train-seqs",
+    "10607",
+    "--init",
+    "c20261003_combo_s3_f0@ep3",
+    "--epochs",
+    "2",
+    "--checkpoint-policy",
+    "fixed",
+    "--checkpoint-epoch",
+    "1",
+    "--no-eval-during-fit",
+    "--batch",
+    "16",
+    "--chunk",
+    "2000",
+    "--loss",
+    "wmse",
+    "--loss-norm",
+    "chunk",
+    "--lr",
+    "0.0001",
+    "--wd",
+    "0.01",
+    "--optim",
+    "adamw",
+    "--sched",
+    "onecycle",
+    "--precision",
+    "fp16",
+    "--propensity",
+    "c20260929_prop_f0",
+    "--prop-power",
+    "2",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--aux-struct",
+    "0.3",
+    "--aux-next",
+    "0.3",
+    "--distill-cache-root",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+    "--distill-cache-variant",
+    "source",
+    "--distill-alpha",
+    "0.7",
+    "--distill-family-head",
+    "--distill-family-weight",
+    "0.0",
+    "--distill-family-target-mode",
+    "raw",
+    "--distill-boot-h",
+    "0",
+    "--fast",
+    "--save-training-state"
+  ],
+  "proposed_control_argv_sha256_canonical_json": "3aed1db31786e8592abee83cc5e26490368362f87f172693d9c0d6d167fde0d2",
+  "pinned_source_audit": {
+    "worktree_commit": "dde32d0f5e39efe65c0497fec06449d38e18b369",
+    "train_rnn_sha256": "fe283da2d70f370bfc82f0faf9f48a75ee4419cb1615024aa6911ec5f0452677",
+    "distillation_sha256": "352a0c5b782f9e68fc7153783d20b04825e0c764b94f589cd71993580b7857c7",
+    "distillation_cache_sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19",
+    "findings": [
+      {
+        "location": "scripts/train_rnn.py:1290-1295",
+        "finding": "Rejects raw family target mode when family_weight is zero."
+      },
+      {
+        "location": "scripts/train_rnn.py:1402-1405, 1661, 1673, 1814-1818",
+        "finding": "family_weight > 0 jointly controls family-cache requirement/loading, family target inclusion, output-head append and warm-start extension."
+      },
+      {
+        "location": "scripts/train_rnn.py:2047-2056, 2199-2206",
+        "finding": "Family target parsing and family loss are conditional on positive weight."
+      },
+      {
+        "location": "H230_PROFILE_RESULT_V1.json",
+        "finding": "Actual candidate full-shape profile is GRU256x2 with 31 outputs."
+      }
+    ],
+    "current_pinned_cli_accepts_matched_control": false,
+    "simple_weight_zero_result": "23 model outputs (31 minus 8 family rows), family arrays not required/loaded, family criterion omitted",
+    "consequence": "A simple weight-zero run changes architecture and cache path alongside the loss, so it is not the requested matched control."
+  },
+  "source_support_needed_before_profile_or_fit": [
+    "Add an explicit family-head enable independent of loss weight (proposed flag --distill-family-head).",
+    "Use head enable to append eight rows, extend the same parent head, require/load family cache arrays and preserve width 31; use family weight only as the loss multiplier.",
+    "Allow raw target mode when the head is enabled even at zero loss weight; retain unchanged candidate behavior at weight 0.1.",
+    "Check candidate/control state shapes and appended-head initialization parity under seed 3; assert [B,T,31] outputs and widths 2 main/8 family for both; verify the loss contrast on an independent tiny example.",
+    "Pin and independently review the new source revision before any resource admission."
+  ],
+  "resource_successor_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_RESOURCE_SUCCESSOR_V2.json",
+  "launch_authority": {
+    "fit_allowed_by_this_file": false,
+    "fresh_root_resource_admission_required": true,
+    "paid_compute": false,
+    "code_or_weights_written_by_this_audit": false
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "receipt_id": "H230_ACTUAL_SOURCE_INDEPENDENT_REVIEW_V1_20261007_R1",
+  "observed_at_utc": "2026-10-07T15:50:05Z",
+  "owner": "independent source and resource reviewer",
+  "decision": "PASS_WITH_CONDITIONS",
+  "review_scope": "Independent review of the exact H230 actual-source review map, terminal source-seal output and lineage/resource observations. This approves the sealed source artifact identity for controller consideration; it is not cache-build, fit, score, or public-forecast admission.",
+  "freeze": {
+    "review_targets_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ACTUAL_SOURCE_REVIEW_TARGETS_V1.json",
+    "review_targets_sha256": "14b86be4d1e9c4944af1e8dcfd9d3d63c73ba0edd97a510d9c7be3c987a3485a",
+    "source_seal_code_map_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_SEAL_REVIEW_TARGETS_V3.json",
+    "source_seal_code_map_sha256": "68f4501e2d560cd3634c24e14a2acb87845709040ae7b5cfac30152600ff8edc",
+    "source_bundle_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_HASH_BUNDLE_V2.json",
+    "source_bundle_sha256": "c9f4235994e9fc85f0f732fd74852e1c28b1d5c7efc8a1ebefbc71f6dc673340",
+    "terminal_progress_receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_SEAL_PROGRESS_V4.json",
+    "terminal_progress_receipt_sha256": "b21ac766f66dfe662b0f9315462257bb6b850dc50fac500c7d95c4070f33c411",
+    "upstream_sequence_receipt_sha256": "b11bd171ef8fa0295902ddeec4b9000e32173957eae637b12b7c5d616f87fd0a",
+    "upstream_e521_grade_report_sha256": "1a9fb6c8c6a171553fdfb6f1cd9b93235a940ade4988456a1d30628f2d233644",
+    "upstream_e521_grade_spec_sha256": "d6f2b76737a80f61e61a3c3a793fffced5df6e27dbd6d803fcb59bcceee45bcc"
+  },
+  "findings": [
+    {
+      "severity": "pass",
+      "finding": "The exact actual-source review map, all 13 ordinary member files, and all 32 freshly rehashed pinned worktree source files match their declared byte sizes and SHA-256 values. The V2 source bundle SHA equals the successful V3 progress receipt's output SHA. The progress receipt records all eight expected sources and sixteen prediction exports complete; the bundle records the expected train/valid ordered row-group identities (10,606 train; 1,873 valid, including 468 exposed evaluation groups).",
+      "evidence": "Review-target SHA 14b86be4d1e9c4944af1e8dcfd9d3d63c73ba0edd97a510d9c7be3c987a3485a; source bundle SHA c9f4235994e9fc85f0f732fd74852e1c28b1d5c7efc8a1ebefbc71f6dc673340; terminal receipt SHA b21ac766f66dfe662b0f9315462257bb6b850dc50fac500c7d95c4070f33c411."
+    },
+    {
+      "severity": "pass",
+      "finding": "The sealed inputs are tied to the exact terminal E521 train-export sequence plan/receipt and the frozen E521 V6 grade artifact report/spec. The V3 source-sealer code validates the pinned worktree commit and 32 source hashes, then calls the pinned cache builder's split, target-order, ancestor-closure, and teacher-inspection checks. Its bounded mmap validation covers checkpoint/provenance identity, clean-fold membership, sidecar run/split/epoch/checkpoint identity, prediction content SHA, ordered groups, expected shape/dtype, and finite values. It releases each source's prediction maps before proceeding. The seed-label mismatch retained in an inherited source is recorded diagnostically without changing the label or actual trainer seed.",
+      "evidence": "V3 code map SHA 68f4501e2d560cd3634c24e14a2acb87845709040ae7b5cfac30152600ff8edc; four focused V3 source-sealer guard tests independently passed. E521 source-artifact attestation is bound to grade report/spec hashes listed above."
+    },
+    {
+      "severity": "blocking_for_cache_resource_admission",
+      "finding": "The source-seal run completed, but its resource readings do not establish safe headroom for a later cache build. The 1,500,000,000-byte scoped cgroup reached 1,499,996,160 bytes (3,840 bytes below its hard limit) and ended at 1,475,993,600 bytes. The process ru_maxrss was 2,585,739,264 bytes, materially above the cgroup limit; the source handoff preserves both readings without an explanation. This is not evidence that the source seal failed, but the near-limit peak and RSS discrepancy cannot be carried forward as cache-stage resource approval.",
+      "required_followup": "Before cache execution, independently reconcile which memory domain ru_maxrss represents for this mmap-heavy worker and issue a fresh cache-stage resource admission against live parent/worker memory and the exact cache workload. Keep the declared 40,216,345,600-byte free-space gate, fresh input/fold identity checks, raw-parquet identity requirement, and all 32 worktree rehashes as separate gates."
+    }
+  ],
+  "verification": {
+    "review_map_member_hashes": "All 13 mapped members independently rehashed and matched both byte size and SHA-256.",
+    "worktree_source_hashes": "All 32 freshly pinned worktree sources independently rehashed and matched both byte size and SHA-256.",
+    "terminal_bundle_and_progress": "Bundle output SHA agrees with progress receipt output SHA; status finished; eight sources and sixteen exports recorded complete.",
+    "focused_tests": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 scripts/limited .venv/bin/python -m pytest -p no:cacheprovider -q research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/tests/test_source_sealer_v3_guards.py",
+      "result": "4 passed in 0.10s"
+    },
+    "large_prediction_payloads": "The independent reviewer did not reread and rehash the sixteen large prediction payloads. Their per-file verification is attributed to the exact frozen source-sealer worker and bound successful output/progress receipts; this review independently checked the maps and source code that performed those checks."
+  },
+  "conditions_and_limitations": [
+    "This PASS_WITH_CONDITIONS validates the sealed source artifact and lineage record only. It does not authorize or establish a cache build, student fit, scoring, or public forecast.",
+    "A fresh full raw-parquet/input/fold identity receipt is still required; the source seal expressly does not compute a fresh full SHA-256 of the 35 GB raw parquet files.",
+    "Fresh live resource and disk admission is mandatory. The source-seal peak is not cache-stage headroom evidence; the cgroup/RSS discrepancy remains explicitly unresolved.",
+    "The exact pinned 32-file worktree closure must be rehashed at each later stage as required by the execution contract."
+  ]
+}

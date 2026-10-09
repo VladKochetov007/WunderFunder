@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "owner": "root",
+  "observed_utc": "2026-10-08T01:24:15.955313+00:00",
+  "status": "source_compatibility_pass_pending_actual_checkpoint_and_cache",
+  "verified_identical_modules": [
+    {
+      "path": "src/wnn/nn.py",
+      "sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+      "byte_identical": true
+    },
+    {
+      "path": "src/wnn/features.py",
+      "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+      "byte_identical": true
+    },
+    {
+      "path": "src/wnn/propensity.py",
+      "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+      "byte_identical": true
+    },
+    {
+      "path": "src/wnn/data.py",
+      "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "byte_identical": true
+    },
+    {
+      "path": "src/wnn/training_state.py",
+      "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac",
+      "byte_identical": true
+    },
+    {
+      "path": "src/wnn/optim.py",
+      "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+      "byte_identical": true
+    }
+  ],
+  "actual_other_changes": [
+    "scripts/train_rnn.py",
+    "scripts/build_distill_cache.py",
+    "tests/test_all_data_distillation_cache.py",
+    "src/wnn/all_data_distillation_cache.py"
+  ],
+  "checkpoint_load_not_performed": true,
+  "remaining_checks": [
+    "Parentterminalfixedep3hash andstatearchitecture/preprocessingbuffers",
+    "Completeall-datacachemetadata andarrayorder/content identity",
+    "Studentexactinitializerloadandfamilyheadshapecompatibility"
+  ],
+  "note": "Byteidenticalmodel/feature/normdependenciesdo not bythemselves prove successful checkpointloading; nofitadmission."
+}

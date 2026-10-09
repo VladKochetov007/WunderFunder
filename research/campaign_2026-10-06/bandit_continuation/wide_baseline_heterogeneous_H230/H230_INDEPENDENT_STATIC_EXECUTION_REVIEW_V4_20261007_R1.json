@@ -1,0 +1,72 @@
+{
+  "id": "H230-independent-static-execution-review-v4-r1",
+  "reviewed_at_utc": "2026-10-07T15:08:15Z",
+  "reviewer": "tpu_recovery_delivery",
+  "role": "independent recipe/source/resource-contract reviewer",
+  "decision": "PASS_STATIC_CONTRACT_WITH_PRE_ADMISSION_REQUIREMENTS",
+  "scope": "Read-only review of the exact V4 static recipe, controller/worktree command binding, source map, cache-space arithmetic, fold membership, and profile/fit/export resource declarations. No cache, profile, fit, export, grade, or score was run.",
+  "bound_review_map": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_REVIEW_TARGETS_V4.json",
+    "sha256": "df4e994e5a152eead157772cda8c83ab0a3abe62703d81c1dbe7b1126cda9b08",
+    "target_count": 16,
+    "all_target_file_hashes_match": true,
+    "contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.json",
+    "contract_sha256": "d5ade4ab645f06640a5f79e097ef00f428215f31b8941b97228357c5c51d0ddb",
+    "contract_markdown_sha256": "6227ce98eb3553d181d7d70e3eed455fc3277e916a8b02343a133a987bd1bb0e",
+    "source_hash_bundle_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_HASH_BUNDLE_V1.json",
+    "source_hash_bundle_sha256": "6984c736f4683b557a5db5008cd9b79bccb552ce565126a0788a5d8e2b1c8cef"
+  },
+  "pinned_source_identity": {
+    "worktree": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007",
+    "commit": "dde32d0f5e39efe65c0497fec06449d38e18b369",
+    "tracked_source_and_environment_hash_entries_checked": 36,
+    "all_hash_and_byte_counts_match": true,
+    "worktree_status": "Only the four declared shared symlink directories are untracked; no tracked worktree changes.",
+    "shared_symlink_realpaths_match": true,
+    "controller_and_command_binding": "bandit_resources runs from the main root and supplies its own manifest/state there. Its child argv explicitly runs /usr/bin/env PYTHONPATH=<pinned worktree>/src followed by the absolute worktree interpreter and script; /usr/bin/env replaces the inherited main-root PYTHONPATH for the actual worker. The runner source manifest hashes main-root sources, the contract, and explicit command script paths; it does not replace the separately required 32-file worktree source rehash."
+  },
+  "verified_recipe_and_execution_findings": [
+    "V4 fixes the V3 source-root ambiguity: the controller/ledger stay rooted in main while every cache/profile/fit/export child has an absolute worktree Python/script path and explicit worktree PYTHONPATH. The four worktree shared paths currently resolve to the exact main .venv, artifacts, cache, and datasets targets; HEAD and all 32 tracked source plus four environment-file hashes currently match the frozen bundle.",
+    "The source recipe remains the eight declared own-checkpoint teachers with coefficients .15, .15, .10, .10, .125, .125, .03125, .03125 (sum .8125). The cache main target is the unnormalized source sum; the family targets are raw equal means in strong/full_finetuned/raw_wmse/samefold_baseline order, with family loss weight .1. Main labels and main teacher blend remain clipped to ±2 under their separate training treatment; official global_wp_clip2_v1 is unchanged.",
+    "The pinned trainer output arithmetic is 2 main + 19 structural (12 spread, 3 branch, 4 class) + 2 next-change + 8 family = 31 outputs; default aux-next-k is empty. The 10607 train-seqs argument is a ceiling/required full-index argument, not the observed fitted count. The split-bound fitted counts remain 10,535 train and 1,405 valid, with 468 exposed evaluation groups excluded.",
+    "The cache estimate is 11,940 fitting groups × 20,000 rows × 4 bytes × 14 channels = 13,372,800,000 bytes. The pinned builder converts the --min-free-gb and --output-budget-gb values using GiB; the 25-GiB floor plus payload requires 40,216,345,600 free bytes. V4 explicitly marks the earlier 24.2-GB reservation advisory/superseded and still requires live shape/channel/count and disk checks; the builder refuses existing output and partial paths.",
+    "Cache is serial CPU, chunk size 2, memmap, zero workers, 6.5-GB reservation and 3,600-second cap. Profile is profile-only at the full B16/chunk-2000 H230 shape, 3 warmup plus 20 timed batches, zero workers, no checkpoint/prediction write, 3 CPU/6.5-GB reservation, 4.3-GB allocator, 5-GB observed-VRAM ceiling and 900-second cap. The pinned trainer does not emit p90, so that statistic remains unavailable unless added by a separate profile receipt.",
+    "The two student fits are the fixed GRU256×2 seed-3/seed-4 pair with their own seed-matched initializers, identical two-epoch recipe and fixed zero-based epoch-1 checkpoint, no fit-time evaluation, serial one-GPU execution, and one attempt per seed. Valid exports are fixed to that checkpoint and the expected 1,873-row two-column index, but their current producer hashes must be freshly sealed before later grading.",
+    "The current fold0 comparison is exposed development evidence only. This contract does not admit cache, profile, fit, export, grade, or score, and H230 versus E511 C1 is a joint recipe comparison rather than an isolated family-head ablation or public forecast."
+  ],
+  "non_blocking_contract_note": "The human-readable scientific_recipe.cache_main_variant string is misspelled as source_unormalized_sum, while cache.cache_main_variant and the executable --distill-cache-variant source correctly bind the source-unnormalized variant. This label typo does not alter the frozen command or builder enum; preserve this contract and correct only in a reviewed successor if the label is reused in generated reporting.",
+  "pre_admission_requirements": [
+    {
+      "id": "fresh_e521_source_seal",
+      "severity": "blocking_for_cache",
+      "finding": "The V4 map intentionally binds a historical E521 status/source snapshot with incomplete/null teacher-array hashes. The current successful seed4 fit/valid export does not itself seal both seeds' train/valid exports or all checkpoint/provenance/sidecar/array identities.",
+      "required_check": "Wait for the exact seed3/seed4 fixed-epoch-3 train/valid exports to terminate successfully, refresh the live E521 receipt, stream-verify current checkpoint, provenance, prediction and sidecar hashes, full shape/dtype/finiteness/order, target-index identities and fold membership, then issue a fresh source seal and root per-stage admission."
+    },
+    {
+      "id": "worktree_source_rehash_each_stage",
+      "severity": "blocking_for_each_worker_stage",
+      "finding": "The main-root controller manifest does not hash every source file imported from the external worktree PYTHONPATH. Absolute worktree script paths and main-root sources are covered, but the 32-file worktree code bundle must be enforced independently.",
+      "required_check": "Immediately before each stage, rehash all 32 tracked source files and four environment files against the frozen source bundle, verify the pinned HEAD and the four realpath gates, and stop on any mismatch."
+    },
+    {
+      "id": "live_cache_and_profile_admission",
+      "severity": "blocking_for_cache_and_fit",
+      "finding": "The static 13,372,800,000-byte estimate and profile/fit caps are planning declarations only.",
+      "required_check": "At cache admission verify current target/split row identities, 14 float32 channels, calculated payload, absent output/partial paths, at least 40,216,345,600 bytes free, and live aggregate/worker/device/quota headroom. After cache validation, separately admit the exact full-shape profile; do not fit unless the actual profile and root resource gate pass."
+    },
+    {
+      "id": "frozen_independent_grader",
+      "severity": "blocking_for_h230_scoring",
+      "finding": "No score or independent comparison is authorized here.",
+      "required_check": "Freeze the complete comparison and official metric against exact candidate/control artifacts before reading score outputs; retain fold0 exposure and no public-transfer claim."
+    }
+  ],
+  "execution": {
+    "cache_run": false,
+    "profile_run": false,
+    "fit_run": false,
+    "prediction_export_run": false,
+    "grade_or_score_run": false,
+    "resource_review": "Static declarations only; dynamic root admissions remain separate."
+  }
+}

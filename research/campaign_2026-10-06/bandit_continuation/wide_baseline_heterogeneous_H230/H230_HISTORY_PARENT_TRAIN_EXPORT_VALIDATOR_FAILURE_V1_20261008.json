@@ -1,0 +1,23 @@
+{
+  "cause": "V1 validator incorrectly assumed the train target-index row-group identities were the contiguous sequence 0..10605. The frozen train pool uses a sparse ordered list; its digest is 658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe.",
+  "command": [
+    ".venv/bin/python",
+    "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/validate_h230_history_parent_train_export_v1.py",
+    "--root",
+    ".",
+    "--receipt",
+    "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_PARENT_TRAIN_EXPORT_TERMINAL_VALIDATION_V1_20261008.json"
+  ],
+  "created_utc": "2026-10-08T06:12:38.597776+00:00",
+  "data_integrity": "No model, prediction, target-index, parquet, checkpoint or cache payload was modified or read by this failed checker.",
+  "exit_status": 1,
+  "gpu_work": false,
+  "oom_observed": false,
+  "owner": "h230_actual_delivery",
+  "phase_reached": "After controller/contract/source hashes and small sidecar parsed; before prediction file open, NPY header/payload read, or receipt write.",
+  "record_id": "H230_HISTORY_PARENT_TRAIN_EXPORT_VALIDATOR_V1_FAILURE_V1_20261008",
+  "repair": "V2 takes the row-group list from the already sealed sidecar, recomputes its ordered int64 digest, and compares it to the frozen fit-membership digest. Root independently confirmed the sidecar order against train_targets.npz.",
+  "schema": "h230-train-export-validation-failure-v1",
+  "status": "checker_failed_before_prediction_payload_validation",
+  "validator_sha256": "fbf60f9d36c5ccc1d0e33787b1ed8861a3cd4ebe54839c70f4c5091a92c92b81"
+}

@@ -1,0 +1,175 @@
+{
+  "authority": {
+    "basis": "Root assignment to stage H230 seed-3 epoch-1 upload-ready ZIP using the existing independently written C1/export/native path; no public upload authorized.",
+    "scope": "Candidate-alone seed3 epoch1 package; package generation/validation only; no fitting, science score, control blend or public upload."
+  },
+  "candidate_binding": {
+    "checkpoint": "artifacts/runs/bd26_h230_hetero_s3_f0/model_ep1.pt",
+    "checkpoint_sha256": "seal_from_H230_SEED3_FIT_TERMINAL_RECEIPT_BEFORE_PACKAGE",
+    "fit_attempt_id": "h230-hetero-s3-fit-sourcev2-20261008-v1",
+    "fit_contract_sha256": "11b39a4343b4f93ce7cb3c502e951806057aa880174b31a77499af0a2f6862b7",
+    "prediction": "cache/pred_h230_hetero_s3_ep1_20261008_v1_valid.npy",
+    "prediction_sha256": "seal_from_terminal_export_receipt",
+    "run": "bd26_h230_hetero_s3_f0"
+  },
+  "created_utc": "2026-10-07T21:34:28.265741+00:00",
+  "fresh_gates_before_package": {
+    "checkpoint_sha256_matches_terminal_receipt": true,
+    "fit_attempt_terminal_exit_zero": true,
+    "package_and_native_source_hashes_match_this_freeze": true,
+    "package_output_paths_absent": true,
+    "prediction_export_terminal_and_sha_matches_receipt": true,
+    "root_independent_grade_handoff_recorded": true
+  },
+  "id": "H230-seed3-package-command-freeze-v1-sourcev2-20261008",
+  "implementation_binding": {
+    "native_source_package": "submissions/c20261004_combo_s4_i16/pkg",
+    "prior_delivery_reference": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_DELIVERED_ZIP_VALIDATION_RECEIPT_V1.json",
+    "prior_delivery_sha256": "727c20c898c20228e3792a8c6b1a1aa2290e4ae02784fd4828db11cca0e9e01e",
+    "python311_container": {
+      "cpu": 1,
+      "image": "wnn-python311-submission-check:latest",
+      "image_id": "sha256:949c72c9cf887a68e25dc00955ab030f1e528c21f1049459330ff022a7d51317",
+      "memory_bytes": 1000000000,
+      "network": "none",
+      "swap_bytes": 1000000000
+    },
+    "source_code_and_build": "Own project `scripts/package_submission.py`, existing project C1 `solution.py` wrapper and Rust native engine; no teammate weights/code/libraries are included.",
+    "source_file_hashes": {
+      "E524/package_contract": {
+        "bytes": 2301,
+        "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/C1_PAIR_PACKAGE_CONTRACT_V1.json",
+        "sha256": "640495f6dcff319f7a19cdc9f8b40826f801b408c80af00b6b13147ec1e45e7d"
+      },
+      "E524/package_provenance": {
+        "bytes": 3772,
+        "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_PACKAGE_PROVENANCE_VALIDATION.json",
+        "sha256": "669d7d12f878e8a090273d2111ba1530c76dc26f0dd2a5402dba3d207b816031"
+      },
+      "E524/package_validation_receipt": {
+        "bytes": 10185,
+        "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_DELIVERED_ZIP_VALIDATION_RECEIPT_V1.json",
+        "sha256": "727c20c898c20228e3792a8c6b1a1aa2290e4ae02784fd4828db11cca0e9e01e"
+      },
+      "cache/valid_subset20.parquet": {
+        "bytes": 90874551,
+        "path": "cache/valid_subset20.parquet",
+        "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37"
+      },
+      "native/avx2/wnn_native.abi3.so": {
+        "bytes": 767680,
+        "path": "submissions/c20261004_combo_s4_i16/pkg/avx2/wnn_native.abi3.so",
+        "sha256": "9754887ddc0a6d1745e507c5b1bdb01ea8d31da79eb25965da043de33f47bfa6"
+      },
+      "native/solution.py": {
+        "bytes": 3133,
+        "path": "submissions/c20261004_combo_s4_i16/pkg/solution.py",
+        "sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54"
+      },
+      "native/v2/wnn_native.abi3.so": {
+        "bytes": 766160,
+        "path": "submissions/c20261004_combo_s4_i16/pkg/v2/wnn_native.abi3.so",
+        "sha256": "b01becbbef79e87e61eda24fe4b15bba3a98eb5b7b7d51479ba3c22d420b82d8"
+      },
+      "native/v3/wnn_native.abi3.so": {
+        "bytes": 768072,
+        "path": "submissions/c20261004_combo_s4_i16/pkg/v3/wnn_native.abi3.so",
+        "sha256": "698b8b2c8b5167e2be5e1e151ef6aa3b325b12ef38c4718ceafa2db3375aa398"
+      },
+      "scripts/check_submission_abi.py": {
+        "bytes": 3379,
+        "path": "scripts/check_submission_abi.py",
+        "sha256": "a00bfca90d444c338eb7aff5ac4c99d6693aca552475ba1e6a782c94c9d76f13"
+      },
+      "scripts/check_submission_python311.py": {
+        "bytes": 5626,
+        "path": "scripts/check_submission_python311.py",
+        "sha256": "eb2c1c6d4d1e5411c292d101b086fb58e633a1dff43018d001d42f0b777fd870"
+      },
+      "scripts/limited": {
+        "bytes": 1542,
+        "path": "scripts/limited",
+        "sha256": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76"
+      },
+      "scripts/package_submission.py": {
+        "bytes": 6086,
+        "path": "scripts/package_submission.py",
+        "sha256": "cc609367b4aba93a7ba6d022fe0ad44625b1e63b898232e762c8e53532897bb2"
+      },
+      "scripts/verify_submission.py": {
+        "bytes": 6977,
+        "path": "scripts/verify_submission.py",
+        "sha256": "d2c75df6accf8f88c911844171c03a020756833843d0b6db856e0cdebbe6bfb4"
+      },
+      "sourcev2/scripts/train_rnn.py": {
+        "bytes": 144436,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
+        "sha256": "fc4f714396d6756237a6de4d237a06ab86bed17690fd6243b2f297e6b2195055"
+      },
+      "sourcev2/src/wnn/distillation.py": {
+        "bytes": 8577,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src/wnn/distillation.py",
+        "sha256": "352a0c5b782f9e68fc7153783d20b04825e0c764b94f589cd71993580b7857c7"
+      },
+      "sourcev2/src/wnn/nn.py": {
+        "bytes": 20537,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src/wnn/nn.py",
+        "sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca"
+      }
+    }
+  },
+  "limits_and_claims": {
+    "candidate_alone_only_until_control_later_frozen": true,
+    "local_exposed_reference_only": true,
+    "no_public_score_claim": true,
+    "no_public_upload": true,
+    "package_does_not_authorize_seed4_or_control_fit": true
+  },
+  "mathematical_export": {
+    "exactness": "For each of output rows 0 and 1, y_j = dot(W_j,h)+b_j; no other output row is an input to y_j. `scripts/package_submission.py` exports contiguous `head.2.weight[:2]` and `head.2.bias[:2]`. This preserves the H230 candidate first-two outputs exactly in real arithmetic; family auxiliary outputs are omitted from inference. Structural/tensor equality and delivered-ZIP numeric parity remain mandatory checks.",
+    "head_source": "E529 `append_family_output_head` adds only independent rows to final nn.Linear output; primary target rows remain indices 0:2.",
+    "model_source": "E529 H230 source-v2 RNNModel: concatenated recurrent/projection feature -> Linear(2H,H) -> GELU -> Linear(H,n_out).",
+    "trainer_source_file_count": 54,
+    "trainer_source_manifest_sha256": "697d78e5a5ac5461e876486caa8b278298283a213ed03432c43a856fd7f1bd58"
+  },
+  "package": {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/package_submission.py",
+      "h230_hetero_s3_ep1_i16",
+      "bd26_h230_hetero_s3_f0@ep1:1.0",
+      "--native-from",
+      "submissions/c20261004_combo_s4_i16/pkg",
+      "--solution",
+      "submissions/c20261004_combo_s4_i16/pkg/solution.py",
+      "--precision",
+      "i16"
+    ],
+    "max_zip_bytes": 20000000,
+    "members": [
+      {
+        "coefficient": 1.0,
+        "source": "bd26_h230_hetero_s3_f0@ep1"
+      }
+    ],
+    "name": "h230_hetero_s3_ep1_i16",
+    "named_zip_copy": "submissions/h230_hetero_s3_ep1_i16/h230_hetero_s3_ep1_i16.zip",
+    "named_zip_copy_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited /usr/bin/cp submissions/h230_hetero_s3_ep1_i16/submission.zip submissions/h230_hetero_s3_ep1_i16/h230_hetero_s3_ep1_i16.zip",
+    "precision": "i16",
+    "shell_command": "PYTHONPATH=src WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=180s scripts/limited .venv/bin/python scripts/package_submission.py h230_hetero_s3_ep1_i16 bd26_h230_hetero_s3_f0@ep1:1.0 --native-from submissions/c20261004_combo_s4_i16/pkg --solution submissions/c20261004_combo_s4_i16/pkg/solution.py --precision i16",
+    "staging_directory": "submissions/h230_hetero_s3_ep1_i16/pkg",
+    "staging_paths_absent_at_freeze": true,
+    "zip": "submissions/h230_hetero_s3_ep1_i16/submission.zip"
+  },
+  "schema": "h230-seed3-serving-package-command-freeze-v1",
+  "status": "frozen_candidate_fit_terminal_checkpoint_and_prediction_export_required",
+  "validation_plan": {
+    "archive_integrity": "Inspect named ZIP members and bytes, safe unique paths, zip CRC, size <=20MB, and byte-identical copy of staging submission.zip.",
+    "callback": "Run actual ZIP through scripts/check_submission_python311.py offline CPU-only, network-none container on two complete valid_subset20 streams for v2, avx2, v3; check reset/determinism and exact output to archived native.",
+    "checkpoint_export": "Compare exported NPZ tensors against checkpoint: every trunk tensor identical; final weight and bias equal checkpoint rows 0:2 exactly; only auxiliary output rows omitted.",
+    "float32_parity": "Produce a candidate-only CPU-float32 reference from the frozen E529 model/checkpoint for two exact streams; compare after warm-up against delivered ZIP native-i16 output; retain the existing 0.0003 max-absolute gate.",
+    "independent_review": "Root independently grades H230 prediction and reviews package evidence; actor does not self-approve. No public upload.",
+    "runtime": "Run scripts/verify_submission.py on cache/valid_subset20.parquet, one CPU/one thread/1GB/600s; record 20-sequence runtime and resource peak without claiming full-scorer or public runtime.",
+    "static_abi": "Run scripts/check_submission_abi.py on the delivered ZIP; require no libpython dependency and supported glibc ceiling as prior C1 gate."
+  }
+}

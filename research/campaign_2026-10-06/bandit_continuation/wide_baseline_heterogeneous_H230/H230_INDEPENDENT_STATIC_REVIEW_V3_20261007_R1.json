@@ -1,0 +1,58 @@
+{
+  "id": "H230-independent-static-source-recipe-review-v3-r1",
+  "reviewed_at_utc": "2026-10-07T14:47:31Z",
+  "reviewer": "tpu_recovery_delivery",
+  "role": "independent recipe/source/resource-contract reviewer",
+  "decision": "PASS_STATIC_RECIPE_ONLY_WITH_PRE_ADMISSION_REQUIREMENTS",
+  "scope": "Read-only review of exact V3 static contract, pinned source/worktree identity, H230 family-target/cache/trainer semantics, fold membership and stated profile/fit/export stages. No cache, profile, fit or score was run.",
+  "bound_review_map": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_REVIEW_TARGETS_V3.json",
+    "sha256": "305a7942edf67d9a3357c5cb442371f4f2907595623cb63fdc8c95dee39daffc",
+    "target_count": 12,
+    "all_target_file_hashes_match": true
+  },
+  "pinned_source_identity": {
+    "worktree": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007",
+    "commit": "dde32d0f5e39efe65c0497fec06449d38e18b369",
+    "tracked_source_and_environment_hash_entries_checked": 36,
+    "all_hash_and_byte_counts_match": true,
+    "worktree_source_hash_bundle_sha256": "6984c736f4683b557a5db5008cd9b79bccb552ce565126a0788a5d8e2b1c8cef"
+  },
+  "verified_source_recipe_findings": [
+    "The V3 contract corrects the V2 output-width defect. Pinned trainer derives 2 main + 19 structural (12 spread, 3 branch, 4 class) + 2 next-change + 8 family outputs =31. The empty default aux-next-k gives no additional horizons. Indices are main 0-1, structural 2-20, next-change 21-22 and family 23-30.",
+    "Both own GRU256x2 C1 seed-matched initializers use aux_struct=.3 and aux_next=.3 with no next-change horizons, so their checkpoint readouts have 23 rows; pinned family-head extension appends exactly eight rows and copies those 23. The declared 31-row model is compatible with the warm starts.",
+    "Cache source coefficients .15,.15,.10,.10,.125,.125,.03125,.03125 sum to .8125. The source variant is the unnormalized weighted sum; normalized and homogeneous variants are separate controls. Family targets are equal per-family means in strong/full_finetuned/raw_wmse/samefold_baseline order, with raw targets, weight .1, and the unchanged main label-derived weights. Main labels and source-sum teacher blend are clipped to \u00b12; official global_wp_clip2_v1 is unchanged.",
+    "The cached trainer dataset has original labels plus 2 main-cache channels plus 8 family channels (12 target columns); the source trainer checks this exact width. Family loss averages four two-target family WMSEs, weighted from clipped original labels. The family-head rows do not change exported predictions: predict_run returns the first two channels.",
+    "Pinned fold loader returned split SHA 09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d and exact groups 10,535 train fit, 1,405 valid fit and 468 excluded evaluation. Current train target index is 10,606 unique groups; valid index is 1,873 and equals the 1,405+468 valid partition. The full source rows are exported/available, while builder filtering and manifest membership gates are required before cache rows are admitted.",
+    "Builder output estimate 11,940 fit groups \u00d7 20,000 rows \u00d7 4 bytes \u00d714 channels =13,372,800,000 bytes; its 25-GiB free floor and 30-GiB output budget use powers of 2 despite --*-gb argument names. The exact builder floor plus estimate is 40,216,345,600 free bytes.",
+    "Profile is profile-only, one attempt, B16/chunk2000/full auxiliary+family path, 3 warmup and20 measured steps, one GPU lock, 3 CPU/6.5-GB worker, 4.3-GB allocator and5-GB observed-VRAM gate. Fit stays serial for seeds3/4, 2 epochs fixed zero-based epoch1 with no fit evaluation, 5.4k-second cap per seed; allocation requires the actual profile to project two epochs plus checkpoint save within cap and preserve resource headroom.",
+    "Prediction contract exports fixed epoch1 to the 1,873-row valid target index and 2 columns; grading still uses the frozen 468-row excluded fold0 mask. This is an exposed development comparison against E511 C1, not an isolated family-head effect or public forecast."
+  ],
+  "pre_admission_requirements": [
+    {
+      "id": "source_import_root_binding",
+      "severity": "blocking_for_cache_profile_fit",
+      "finding": "H230 requires the frozen worktree trainer and its raw-family transform, but the current contract records both main `paths.root` and worktree without freezing the resource runner import root. `bandit_resources` sets PYTHONPATH to `args.root/src`; main-tree `scripts/train_rnn.py` and `src/wnn/distillation.py` differ from the bound worktree, and main distillation lacks `family_targets_for_loss(..., mode=\"raw\").`",
+      "required_check": "Before any worker launch, root must bind the runner to the worktree source (for example `bandit_resources --root $WT` with explicit main-root data/artifact paths, or an equally exact `PYTHONPATH=$WT/src` environment) and record the resulting code manifest. Do not rely on the command path alone."
+    },
+    {
+      "id": "cache_space_reservation_reconciliation",
+      "severity": "blocking_for_cache_build",
+      "finding": "The static contract uses exact builder estimate13,372,800,000B and requires40,216,345,600B free; the source-family draft still says preserve a 24,200,000,000B conservative planning reservation until controller reconciliation.",
+      "required_check": "Root must explicitly supersede/reconcile the 24.2-GB draft reservation or retain it. Retaining it with the builder 25-GiB floor requires at least51,043,545,600B free; the builder itself checks only the 13.3728-GB estimate plus25GiB."
+    },
+    {
+      "id": "source_seal_after_E521_exports",
+      "severity": "blocking_for_cache_build",
+      "finding": "The bound immutable E521 status snapshot is from14:29Z and is not terminal-success evidence; the source draft still has null W384 seed4 checkpoint/provenance hashes and source prediction array hashes are deliberately pending.",
+      "required_check": "Use current successful seed4 fit/export records and the authorized train-export sequence outputs; seal actual checkpoint/provenance, prediction/sidecar SHA, dtype/shape/finite values, exact source row order and split identity, then issue a fresh exact source/cache map and review before cache launch."
+    }
+  ],
+  "current_controller_gates_preserved": {
+    "review_does_not_admit_cache_profile_fit_or_grade": true,
+    "root_conditional_allocation_sha256": "e0198952bc05f38276521eba832688cc194eab68388a5103c59c4e221b5d6570",
+    "actual_fullshape_profile_and_live_resource_admission_required": true,
+    "fit_admission_after_profile_and_independent_grader_freeze_required": true,
+    "no_public_forecast_or_submission": true
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "schema": "h230-profile-independent-resource-review-v1",
+  "reviewed_at_utc": "2026-10-07T16:54:37Z",
+  "reviewer": "tpu_recovery_delivery",
+  "role": "independent resource and execution-evidence reviewer",
+  "decision": "PASS_FOR_SERIAL_FIT_ADMISSION_WITH_FRESH_LIVE_MEMORY_CHECK",
+  "scope": "Read-only assessment of whether the measured full-shape profile supports proceeding to one serial seed fit at a time under the frozen resource caps. No fit, export, grade, or score was run.",
+  "bound_artifacts": {
+    "profile_result": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PROFILE_RESULT_V1.json",
+      "sha256": "99cbd6fb8f236f8e67e5a5bcf4fa69034a227e5eb3c6864763231fda019f2cb5"
+    },
+    "terminal_attempt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-w384-profile-v1.json",
+      "sha256": "e71680ac17b4fcc8e27da582732f2f977f580ada7505449fe2a73111987899b2"
+    },
+    "terminal_log": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/h230-w384-profile-v1.log",
+      "sha256": "7682356500025659ce0074d314cff90388c0800f38caa920bd0015f25c31f728"
+    },
+    "stage_preflight": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PROFILE_STAGE_PREFLIGHT_V2.json",
+      "sha256": "41d65c3205ae4c4704039e79819a9d93829fb09bfee97f30ee6b71b83ac38c11"
+    },
+    "execution_contract": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.json",
+      "sha256": "d5ade4ab645f06640a5f79e097ef00f428215f31b8941b97228357c5c51d0ddb"
+    },
+    "cache_independent_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_INDEPENDENT_REVIEW_20261007_R1.json",
+      "sha256": "91af823661cc93b3c7cccf10ed805d0ec918985695a5c026b5a7cc5dc2f68651"
+    },
+    "cache_output_verification": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+      "sha256": "e04da68bad9ddbb0ec64baf1ad43c19381c0606d47dbed066416f84d3a03c3d8"
+    },
+    "cache_attempt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-w384-family-cache-v1.json",
+      "sha256": "bd5b040b6d263c2706345e595175d7320ddfe7fe4fc7215e47ccd7d191184017"
+    }
+  },
+  "profile_observations": {
+    "status": "finished_exit_0_profile_only",
+    "attempt_elapsed_seconds": 45.41141478899954,
+    "profile_shape": "GRU 256x2, 31 outputs, batch 16, 20,000-row sequence, 2,000-row chunk, FP16 autocast",
+    "timing": {
+      "timed_batches": 20,
+      "warmup_batches": 3,
+      "loader_workers": 0,
+      "step_wall_p50_ms": 1095.08,
+      "loader_wait_p50_ms": 418.46,
+      "cuda_event_total_p50_ms": 675.8,
+      "cuda_event_forward_p50_ms": 245.16,
+      "cuda_event_backward_p50_ms": 404.99,
+      "cuda_event_h2d_p50_ms": 0.01,
+      "sequences_per_second": 14.61,
+      "p90": "not emitted"
+    },
+    "resource": {
+      "worker_ram_peak_bytes": 6499999744,
+      "worker_ram_cap_bytes": 6500000000,
+      "worker_memory_event_max_delta": 53036,
+      "worker_oom_event_delta": 0,
+      "worker_oom_kill_event_delta": 0,
+      "parent_ram_peak_bytes": 9927282688,
+      "parent_memory_high_bytes": 17999998976,
+      "observed_vram_peak_bytes": 2226126848,
+      "observed_vram_cap_bytes": 5000000000,
+      "allocator_admission_bytes": 4300000000,
+      "parent_oom_event_delta": 0,
+      "parent_oom_kill_event_delta": 0
+    },
+    "scope_limits": "Profile-only covered the production batch/sequence/chunk/target shape for 23 outer batches (3 warmup + 20 timed); it wrote no checkpoint or predictions and did not run either full epoch."
+  },
+  "assessment": [
+    "The profile passed at the exact planned training tensor shape and used one GPU with zero DataLoader workers. It finished successfully with 2.226 GB observed VRAM peak against the 5.0 GB ceiling and no worker or parent OOM/OOM-kill event. This is sufficient evidence to admit a single serial fit for fresh controller review under the unchanged limits.",
+    "The worker cgroup peak is 6,499,999,744 bytes against a 6,500,000,000-byte cap and its memory.events max counter increased. Treat this as cap pressure, not as proof of anonymous-memory headroom. The attempt receipt does not preserve worker memory.stat at peak and the service cgroup has since been removed. The pre-profile parent snapshot was file-cache dominated (5,016,666,112 bytes file, 4,994,121,728 bytes inactive_file, 18,247,680 bytes anon); this is consistent with reclaimable file-cache pressure. The frozen artifacts do not independently establish the worker peak's anon/file split, so no worker RAM headroom is claimed.",
+    "The measured CUDA event total is about 62% of the end-to-end step-wall median, while host loader wait is about 38% and H2D event time is negligible. This ratio is not an NVIDIA SM-utilization percentage; no sampled hardware utilization trace was persisted. It points to CPU/data loading or host-side gaps as a plausible throughput limit, not to an accelerator-memory problem.",
+    "The frozen two-epoch fit command has 746 outer batches per epoch. Multiplying by the measured p50 step wall gives approximately 1,634 seconds for two epochs, well within the 5,400-second per-seed fit timeout. This is a planning estimate only; it is not an observed fit duration, p90 estimate, checkpoint-save measurement, or export-time bound. The small 0.98M-parameter student makes optimizer/checkpoint state modest, but the fit's save-training-state path was not exercised by this profile."
+  ],
+  "fit_stage_conditions": [
+    "Keep seed fits serial under the single-GPU lock, at the frozen 3-CPU, 6.5-GB worker, 4.3-GB allocator, 5-GB observed-VRAM, zero-worker settings. Do not increase concurrency or infer a second-GPU run from this profile.",
+    "Root must issue a fresh per-seed admission from current parent and worker cgroup snapshots. Include memory.stat anon/file/inactive_file, current memory.events and event deltas, aggregate CPU reservations, current observed VRAM, and GPU-lock status. Confirm file-cache pressure remains reclaimable and anonymous usage leaves adequate margin; stop if OOM/OOM-kill occurs or anonymous memory approaches the worker cap.",
+    "Freshly recheck the pinned source/worktree, cache identities and fit command before each seed. Admit seed 4 only after seed 3 has a complete terminal receipt and resources are re-evaluated.",
+    "This review supports the fit stage only. It does not demonstrate the 5,400-second fit timeout plus any export cost, validate a prediction export, or authorize scoring."
+  ],
+  "fit_launch_authorized_by_reviewer": false,
+  "scientific_result_or_score": null
+}

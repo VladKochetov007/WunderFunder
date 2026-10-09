@@ -1,0 +1,83 @@
+{
+  "artifact_checks_before_scoring": [
+    "checkpoint SHA matches terminal fit receipt and embedded provenance",
+    "prediction SHA and sidecar match fixed epoch 1 checkpoint, metric split, output shape/dtype, finite values and exact row order",
+    "the 468 held-out evaluation groups do not occur in candidate/control direct fitting membership",
+    "candidate/control initialized from same seed-matched own checkpoint and differ only in family-loss weight",
+    "recompute official metric independently from raw prediction arrays and official labels/masks"
+  ],
+  "created_at_utc": "2026-10-07T21:11:15.713041+00:00",
+  "exposure_and_membership": {
+    "all_valid_prediction_rows": 1873,
+    "evaluation_split": "fold0 valid dataset",
+    "exposure_status": "exposed development data; prior local inspection and model selection exist",
+    "grader_must_reconstruct_membership_from_frozen_split": true,
+    "groups_excluded_from_student_fitting": true,
+    "official_evaluation_groups": 468,
+    "public_transfer_claim": "none"
+  },
+  "id": "H230-pre-score-grade-freeze-v1-20261008",
+  "independent_grader": "root controller; fit/export actor must not compute or approve the result",
+  "interpretation_boundary": "No public score forecast, no addition of local deltas to public best, and no promotion before independent grade and complete matched pair evidence.",
+  "metric_and_uncertainty": {
+    "evaluation_unit": "connected chain component; the independent grader reconstructs components and reports the count",
+    "paired_cluster_bootstrap": {
+      "replicates": 2000,
+      "resample": "connected components with replacement, paired across candidate/control; compute score delta on each draw",
+      "seed": 20261008
+    },
+    "prediction_mask": "need_prediction AND is_scored from valid_targets row order, intersected with the fold0 evaluation groups",
+    "row_weight": "absolute magnitude of clipped target, as implemented by global_wp_clip2_v1",
+    "target_and_prediction_clipping": "\u00b12 inside the official metric",
+    "uncertainty_limit": "Bootstrap conditions on fixed trained checkpoints and exposed groups; it excludes training variability and public-transfer uncertainty."
+  },
+  "planned_complete_pair": {
+    "report_each_seed_delta": true,
+    "report_pair_summary": "mean of the two paired seed deltas; retain both deltas and do not select a seed",
+    "seeds": [
+      3,
+      4
+    ],
+    "training_variation": "only two matched seeds; descriptive, not a precise population estimate"
+  },
+  "preliminary_seed3_delivery": {
+    "allowed_output": "Report candidate seed3 standalone WP and artifact validity as descriptive screening only after independent grading.",
+    "not_a_treatment_claim": "The matched seed3 effect is unavailable until the family-off prediction is graded."
+  },
+  "primary_outcome": {
+    "checkpoint": "fixed zero-based epoch 1",
+    "comparison": "Within each seed, candidate score minus matched family-head-off control score on the identical official fold0 row mask; candidate and control are paired at the connected-component level.",
+    "official_endpoint": "global_wp_clip2_v1; score T0 and T1 separately, then use the official mean",
+    "question": "Does enabling raw family-head supervision at coefficient 0.1 improve the fixed student endpoint relative to the same 31-output/cache/initializer recipe with coefficient 0.0?",
+    "treatment_difference": {
+      "candidate": "0.1",
+      "control": "0.0",
+      "flag": "--distill-family-weight"
+    }
+  },
+  "schema": "h230-pre-score-grade-freeze-v1",
+  "source_bindings": {
+    "candidate_control_commands": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/H230_CANDIDATE_CONTROL_COMMANDS_V1.json",
+      "sha256": "8c26c41ba802ed9ff611d812ac7ac63151ff5328ca661657e86b0b2194d3665c"
+    },
+    "export_command_freeze": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_EXPORT_COMMAND_FREEZE_V1_SOURCEV2_20261008.json",
+      "sha256": "c1cee4c9202b7aa2a39598b64cbfad2ccc51601ac102b64308ee2fb0e5c06cd6"
+    },
+    "official_metric_source": {
+      "metric_id": "global_wp_clip2_v1",
+      "path": "src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    },
+    "split_manifest": {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "valid_targets": {
+      "bytes": 337186198,
+      "path": "cache/valid_targets.npz"
+    }
+  },
+  "status": "frozen_before_H230_seed3_candidate_score"
+}

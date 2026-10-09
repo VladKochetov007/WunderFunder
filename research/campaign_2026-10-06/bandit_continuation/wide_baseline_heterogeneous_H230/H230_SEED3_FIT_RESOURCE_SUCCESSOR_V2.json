@@ -1,0 +1,335 @@
+{
+  "schema": "h230-seed3-fit-resource-successor-v2",
+  "id": "H230-seed3-fit-resource-successor-v2-9gb",
+  "created_utc": "2026-10-07",
+  "status": "prepared_contract_only_not_admitted_not_launched",
+  "authority": {
+    "controller": "root",
+    "basis": "Root instruction authorizes preparation of a resource-only 9GB/3CPU/2400s successor within aggregate 6CPU/20GB/5GB-VRAM caps and 4.3GB CUDA allocator ceiling.",
+    "scope": "This artifact authorizes no GPU launch, fit, export, grade or seed 4.",
+    "paid_compute": false
+  },
+  "predecessors": {
+    "frozen_campaign_contract": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.json",
+      "sha256": "d5ade4ab645f06640a5f79e097ef00f428215f31b8941b97228357c5c51d0ddb"
+    },
+    "seed3_fit_stage_contract": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_STAGE_CONTRACT_V1.json",
+      "sha256": "8825d2c49b933586acdf47699127154f9ebc5affb595115b6e10727bedf286cc"
+    },
+    "historical_preflight": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_STAGE_PREFLIGHT_V1.json",
+      "sha256": "6b4343d8c7a2b249b0b2691d1c985133b8b933c386c275d5115cf491259583d6",
+      "status": "passed_for_controller_launch_recheck"
+    },
+    "source_bundle": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_HASH_BUNDLE_V2.json",
+      "sha256": "c9f4235994e9fc85f0f732fd74852e1c28b1d5c7efc8a1ebefbc71f6dc673340"
+    },
+    "worktree_recheck": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_WORKTREE_RECHECK_V3.json",
+      "sha256": "3f0f3eb9c0758026512ddb56eada79d0a59836de1849767de07d79fb46a5fe4c"
+    },
+    "candidate_argv_sha256_canonical_json": "f52fac17113655a719e5e2e7d2aa3e99432e579de8f9227b58ab638835f505fc",
+    "candidate_science_argv_unchanged": true,
+    "changed_field_only": "worker RAM reservation 7,000,000,000 -> 9,000,000,000 bytes; fresh admission remains required."
+  },
+  "candidate": {
+    "run_name": "bd26_h230_hetero_s3_f0",
+    "seed": 3,
+    "initializer_reference": "c20261003_combo_s3_f0@ep3",
+    "initializer_checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+    "initializer_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "initializer_role": "our own independently trained c20261003_combo_s3_f0 checkpoint; not a C1 student initializer",
+    "profiled_architecture": "GRU 256x2, 31 outputs",
+    "argv_exact_from_frozen_seed3_fit_stage": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=20s",
+      "2400",
+      "/usr/bin/env",
+      "PYTHONPATH=/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/src",
+      "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/.venv/bin/python",
+      "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/scripts/train_rnn.py",
+      "--name",
+      "bd26_h230_hetero_s3_f0",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--hidden",
+      "256",
+      "--layers",
+      "2",
+      "--dropout",
+      "0",
+      "--seed",
+      "3",
+      "--split-manifest",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--valid-fold",
+      "0",
+      "--eval-source",
+      "vfold",
+      "--train-source",
+      "train+valid",
+      "--train-seqs",
+      "10607",
+      "--init",
+      "c20261003_combo_s3_f0@ep3",
+      "--epochs",
+      "2",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "1",
+      "--no-eval-during-fit",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--lr",
+      "0.0001",
+      "--wd",
+      "0.01",
+      "--optim",
+      "adamw",
+      "--sched",
+      "onecycle",
+      "--precision",
+      "fp16",
+      "--propensity",
+      "c20260929_prop_f0",
+      "--prop-power",
+      "2",
+      "--prop-eps",
+      "0.03",
+      "--valid-true-mask",
+      "0.03",
+      "--aux-struct",
+      "0.3",
+      "--aux-next",
+      "0.3",
+      "--distill-cache-root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+      "--distill-cache-variant",
+      "source",
+      "--distill-alpha",
+      "0.7",
+      "--distill-family-weight",
+      "0.1",
+      "--distill-family-target-mode",
+      "raw",
+      "--distill-boot-h",
+      "0",
+      "--fast",
+      "--save-training-state"
+    ],
+    "argv_sha256_canonical_json": "f52fac17113655a719e5e2e7d2aa3e99432e579de8f9227b58ab638835f505fc",
+    "science": {
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "train_source": "train+valid; frozen recipe uses 10,607 sequences",
+      "epochs": 2,
+      "checkpoint_policy": "fixed zero-based epoch 1",
+      "fit_time_evaluation": false,
+      "optimizer": "AdamW",
+      "scheduler": "OneCycle",
+      "learning_rate": 0.0001,
+      "weight_decay": 0.01,
+      "loss": "chunk-normalized wMSE",
+      "precision": "fp16",
+      "batch": 16,
+      "chunk_rows": 2000,
+      "distillation_variant": "source (unnormalized weighted sum)",
+      "distill_alpha": 0.7,
+      "family_weight": 0.1,
+      "family_target_mode": "raw",
+      "source_coefficient_sum": 0.8125,
+      "source_coefficients": [
+        {
+          "family": "strong",
+          "run": "c20261003_combo_s3_f0",
+          "epoch": 3,
+          "coefficient": 0.15
+        },
+        {
+          "family": "strong",
+          "run": "c20261003_combo_s4_f0",
+          "epoch": 3,
+          "coefficient": 0.15
+        },
+        {
+          "family": "full_finetuned",
+          "run": "c20260929_ft_since_s3_f0",
+          "epoch": 0,
+          "coefficient": 0.1
+        },
+        {
+          "family": "full_finetuned",
+          "run": "c20260929_ft_since_s4_f0",
+          "epoch": 0,
+          "coefficient": 0.1
+        },
+        {
+          "family": "raw_wmse",
+          "run": "c20260929_since_s3_f0",
+          "epoch": 3,
+          "coefficient": 0.125
+        },
+        {
+          "family": "raw_wmse",
+          "run": "c20260929_since_s4_f0",
+          "epoch": 3,
+          "coefficient": 0.125
+        },
+        {
+          "family": "samefold_baseline",
+          "run": "bd26_w384raw_s3_f0",
+          "epoch": 3,
+          "coefficient": 0.03125
+        },
+        {
+          "family": "samefold_baseline",
+          "run": "bd26_w384raw_s4_f0",
+          "epoch": 3,
+          "coefficient": 0.03125
+        }
+      ],
+      "family_order": [
+        "strong",
+        "full_finetuned",
+        "raw_wmse",
+        "samefold_baseline"
+      ]
+    },
+    "attempt_id_candidate": "h230-w384-hetero-s3-fit-r9g-v2-20261007"
+  },
+  "source_bindings": {
+    "worktree": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007",
+    "commit": "dde32d0f5e39efe65c0497fec06449d38e18b369",
+    "git_status_short": [
+      "?? .venv",
+      "?? artifacts",
+      "?? cache",
+      "?? datasets"
+    ],
+    "tracked_source_status": "clean at pin; status entries are only expected shared symlink placeholders .venv, artifacts, cache, datasets",
+    "source_hashes": {
+      "scripts/train_rnn.py": {
+        "bytes": 143763,
+        "sha256": "fe283da2d70f370bfc82f0faf9f48a75ee4419cb1615024aa6911ec5f0452677"
+      },
+      "scripts/build_distill_cache.py": {
+        "bytes": 22454,
+        "sha256": "09f7110f21507195199d1f50fad6d1074fef1cd4d670a91093935be333f9dd26"
+      },
+      "src/wnn/distillation.py": {
+        "bytes": 8577,
+        "sha256": "352a0c5b782f9e68fc7153783d20b04825e0c764b94f589cd71993580b7857c7"
+      },
+      "src/wnn/distillation_cache.py": {
+        "bytes": 10084,
+        "sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19"
+      },
+      "src/wnn/bandit_campaign_recipe.py": {
+        "bytes": 34735,
+        "sha256": "883bc6415345ec5e4deff56be13fc0ae0be8791702e999898dfdb3557a5a6374"
+      }
+    },
+    "cache_metadata": {
+      "path": "cache/bd26_h230_w384_family_v1/metadata.json",
+      "sha256": "398d7753a127054f3e38cd34c4730099843d60663541787e09ab38c9f45e47ad"
+    },
+    "cache_verification": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+      "sha256": "e04da68bad9ddbb0ec64baf1ad43c19381c0606d47dbed066416f84d3a03c3d8",
+      "status": "passed"
+    },
+    "cache_independent_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_INDEPENDENT_REVIEW_20261007_R1.json",
+      "sha256": "91af823661cc93b3c7cccf10ed805d0ec918985695a5c026b5a7cc5dc2f68651",
+      "decision": "PASS_CACHE_OUTPUTS_AND_PROVENANCE; PROFILE_REQUIRES_FRESH_CONTROLLER_RESOURCE_ADMISSION"
+    },
+    "profile_result": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PROFILE_RESULT_V1.json",
+      "sha256": "99cbd6fb8f236f8e67e5a5bcf4fa69034a227e5eb3c6864763231fda019f2cb5",
+      "worker_ram_peak_bytes": 6499999744,
+      "observed_vram_peak_bytes": 2226126848
+    },
+    "profile_resource_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PROFILE_INDEPENDENT_RESOURCE_REVIEW_20261007_R1.json",
+      "sha256": "f103b43ce4048272bf31643dbfb0bd27f12ef1e4930c85c1df059db7b68195ec",
+      "decision": "PASS_FOR_SERIAL_FIT_ADMISSION_WITH_FRESH_LIVE_MEMORY_CHECK"
+    },
+    "fold_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "historical_input_identity_must_be_refreshed": true
+  },
+  "resources": {
+    "worker": {
+      "cpu_cores": 3,
+      "ram_reservation_bytes": 9000000000,
+      "fit_timeout_seconds": 2400,
+      "attempts_per_seed": 1,
+      "cuda_allocator_bytes": 4300000000,
+      "observed_vram_cap_bytes": 5000000000,
+      "gpu_workers": 1,
+      "loader_workers": 0
+    },
+    "aggregate": {
+      "cpu_cores": 6,
+      "ram_bytes": 20000000000,
+      "memory_high_bytes": 18000000000,
+      "observed_vram_bytes": 5000000000,
+      "swap_bytes": 0,
+      "gpu_workers": 1
+    },
+    "nominal_unreserved_budget_before_support_and_current_host_usage": {
+      "cpu_cores": 3,
+      "ram_bytes": 11000000000
+    },
+    "historical_7gb_preflight_arithmetic_only": {
+      "captured_utc": "2026-10-07T17:05:19.684428+00:00",
+      "worker_reservation_bytes": 7000000000,
+      "declared_support_reserve_bytes": 3000000000,
+      "projected_parent_bytes": 16279917568,
+      "memory_high_bytes": 17999998976,
+      "projected_headroom_bytes": 1720081408,
+      "minimum_headroom_bytes": 750000000,
+      "same_state_projected_parent_with_9gb_bytes": 18279917568,
+      "same_state_projected_headroom_with_9gb_bytes": -279918592,
+      "shortfall_vs_minimum_headroom_bytes": 1029918592,
+      "interpretation": "If the old preflight state were unchanged, the 9GB worker would exceed the 18GB memory.high envelope by 279,918,592 bytes and miss the 750,000,000-byte minimum margin by 1,029,918,592 bytes. This old snapshot is not current admission evidence."
+    }
+  },
+  "live_admission": {
+    "status": "not performed; managed shell cannot inspect durable host service/lock/cgroup/GPU state",
+    "required_before_fit": [
+      "Check the durable attempt ledger and actual GPU lock/service; do not duplicate a live or uncertain job.",
+      "Run the resource controller with this exact 9GB/3CPU contract and a unique attempt ID; refresh parent memory.current, anon/file/inactive_file, memory.events, high/max and all support reservations.",
+      "Require at least 750MB projected memory.high headroom after worker and current support reservations; the historical 7GB preflight does not pass this 9GB contract.",
+      "Refresh actual GPU inventory, per-process/global VRAM, allocator availability and OOM deltas; keep 4.3GB allocator and 5GB observed ceilings.",
+      "Rehash pinned sources, source bundle, cache metadata, split, initializer and propensity inputs; refresh live fit-membership identity.",
+      "Confirm unique/absent output run directory and current source/input/exposure gates before one seed-3 fit."
+    ],
+    "export_or_grade_included": false,
+    "seed4_included": false,
+    "recovery_handoff_last_fit_phase": "not evidenced as launched; no fit checkpoint, training-state checkpoint, prediction export, or grade is present in the readable durable ledger"
+  },
+  "invariants": {
+    "candidate_science_recipe_unchanged": true,
+    "initializer_is_c20261003_combo_s3_f0_ep3": true,
+    "initializer_is_not_c1_student": true,
+    "source_worktree_written": false,
+    "weights_or_training_run_created": false,
+    "fit_launch": false,
+    "GPU_admission": false
+  },
+  "matched_control_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_MATCHED_FAMILY_OFF_CONTROL_V1.json"
+}

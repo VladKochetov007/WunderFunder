@@ -1,0 +1,89 @@
+{
+  "command": "CUDA_VISIBLE_DEVICES='' WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=3600s PYTHONPATH=/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/src scripts/limited /home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/seal_h230_source_bundle.py --root /home/vlad/development/wunder/wnn_connectome_starterpack --bundle /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_HASH_BUNDLE_V1.json --output /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_HASH_BUNDLE_V2.json --receipt /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_SEAL_PROGRESS_V2.json",
+  "dynamic_gates": [
+    {
+      "condition": "freshly read at execution; status and worker_status finished, launch_returncode 0, plan_sha256 equals frozen plan hash; exact current receipt SHA persisted in source progress and V2 bundle",
+      "path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/TRAIN_EXPORT_PAIR_SEQUENCE_RECEIPT_V3.json"
+    },
+    {
+      "condition": "created only after all eight sources and sixteen exports pass pinned builder checks; actual SHA remains null until terminal success",
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_HASH_BUNDLE_V2.json"
+    }
+  ],
+  "expected_source_bundle_v1_sha256": "6984c736f4683b557a5db5008cd9b79bccb552ce565126a0788a5d8e2b1c8cef",
+  "expected_worktree_commit": "dde32d0f5e39efe65c0497fec06449d38e18b369",
+  "id": "H230-actual-source-seal-review-v1",
+  "members": [
+    {
+      "bytes": 3035,
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_SEAL_V1.md",
+      "sha256": "dc95c66c43866fe2ee8bca0cd50d0177541d2469e0a2dc77ead52676fc27341c"
+    },
+    {
+      "bytes": 29432,
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.json",
+      "sha256": "d5ade4ab645f06640a5f79e097ef00f428215f31b8941b97228357c5c51d0ddb"
+    },
+    {
+      "bytes": 6524,
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.md",
+      "sha256": "6227ce98eb3553d181d7d70e3eed455fc3277e916a8b02343a133a987bd1bb0e"
+    },
+    {
+      "bytes": 8408,
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_INDEPENDENT_STATIC_EXECUTION_REVIEW_V4_20261007_R1.json",
+      "sha256": "bf395ec97e3d24fefe271613e3125fff0814ec5320d899824449922de3c43a31"
+    },
+    {
+      "bytes": 34811,
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_HASH_BUNDLE_V1.json",
+      "sha256": "6984c736f4683b557a5db5008cd9b79bccb552ce565126a0788a5d8e2b1c8cef"
+    },
+    {
+      "bytes": 6278,
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/SOURCE_FAMILIES_DRAFT_V2.json",
+      "sha256": "a292a8e241698d898feea434d5c86ab6b8e91781fcafe5db5287bb29b5549836"
+    },
+    {
+      "bytes": 20743,
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/seal_h230_source_bundle.py",
+      "sha256": "c0c0dc14fa9d3875998c766d2bdf0443af7fa37a049e79de988921d6fbb2797d"
+    },
+    {
+      "bytes": 2219,
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/tests/test_source_sealer_guards.py",
+      "sha256": "65e22b5fc0ef1882357846ab35046f57302331fc16783e3590f19f4f7df4d20f"
+    },
+    {
+      "bytes": 1542,
+      "path": "scripts/limited",
+      "sha256": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76"
+    },
+    {
+      "bytes": 52067,
+      "path": "scripts/bandit_resources.py",
+      "sha256": "61c686be1b114b857775fbd8d58185da74992dc39287316865682bdd783e148d"
+    },
+    {
+      "bytes": 22454,
+      "path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/scripts/build_distill_cache.py",
+      "sha256": "09f7110f21507195199d1f50fad6d1074fef1cd4d670a91093935be333f9dd26"
+    }
+  ],
+  "resource_guard": {
+    "cpu_quota": "100%",
+    "gpu": false,
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 3600,
+    "threads": 1
+  },
+  "scope": "CPU-only actual source identity seal; no cache build, student fit, score, or prediction generation",
+  "static_execution_review_map_sha256": "df4e994e5a152eead157772cda8c83ab0a3abe62703d81c1dbe7b1126cda9b08",
+  "static_execution_review_receipt_sha256": "bf395ec97e3d24fefe271613e3125fff0814ec5320d899824449922de3c43a31",
+  "verification": {
+    "focused_pytest": "2 passed",
+    "metadata_preflight": "passed; no prediction payload read",
+    "ruff_check": "passed",
+    "ruff_format": "passed"
+  }
+}

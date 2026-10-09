@@ -1,0 +1,112 @@
+{
+  "authority": {
+    "basis": "Explicit root assignment includes H230 seed-3 fixed-epoch-1 valid export and independent grade delivery after candidate fit.",
+    "controller": "root",
+    "paid_compute": false,
+    "scope": "Export the terminal seed-3 fixed epoch-1 checkpoint only; no fit, score or public claim in this stage."
+  },
+  "created_at_utc": "2026-10-07T21:10:50.792727+00:00",
+  "export": {
+    "argv": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=20s",
+      "1800",
+      "/usr/bin/env",
+      "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts:/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "-c",
+      "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name=\"__main__\")",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
+      "bd26_h230_hetero_s3_f0",
+      "valid",
+      "--epoch",
+      "1",
+      "--output-name",
+      "h230_hetero_s3_ep1_20261008_v1"
+    ],
+    "checkpoint_epoch_zero_based": 1,
+    "expected_dtype": "float32",
+    "expected_npy_bytes": 299680128,
+    "expected_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "official_fold0_eval_groups": 468,
+    "official_fold0_mask_applied_by_independent_grader": true,
+    "output_name": "h230_hetero_s3_ep1_20261008_v1",
+    "output_prediction": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_h230_hetero_s3_ep1_20261008_v1_valid.npy",
+    "output_sidecar": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_h230_hetero_s3_ep1_20261008_v1_valid.json",
+    "rows_written_in_valid_cache_order": 1873,
+    "run_name": "bd26_h230_hetero_s3_f0",
+    "shell_command": "/usr/bin/timeout --signal=TERM --kill-after=20s 1800 /usr/bin/env WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts:/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -c 'import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name=\"__main__\")' /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py bd26_h230_hetero_s3_f0 valid --epoch 1 --output-name h230_hetero_s3_ep1_20261008_v1",
+    "split": "valid",
+    "stale_metric_cache_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/seqsums_h230_hetero_s3_ep1_20261008_v1.npz",
+    "temporary_output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_h230_hetero_s3_ep1_20261008_v1_valid.npy.partial"
+  },
+  "fresh_admission_gates": {
+    "controller_rechecks_parent_memory_gpu_lock_and_barrier": true,
+    "fit_receipt_terminal_and_checkpoint_hash_matches": true,
+    "official_metric_frozen_before_grade": true,
+    "output_and_partial_paths_absent": true,
+    "predictor_script_hash_matches_this_receipt": true,
+    "source_snapshot_rehashed_against_manifest": true,
+    "valid_cache_identity_and_order_verified": true
+  },
+  "grading_boundary": {
+    "claim_limit": "Do not interpret as public transfer or a public-score forecast.",
+    "metric_id": "global_wp_clip2_v1",
+    "scope": "fold0 exposed development groups; 468 evaluation groups excluded from direct H230 fit membership",
+    "score_comparison": "candidate vs matched family-head-off control after the control export is terminal; this seed-3 single pair is a discovery screen. Root acts as independent grader."
+  },
+  "id": "H230-seed3-export-command-freeze-v1-sourcev2-20261008",
+  "predecessor_fit_binding": {
+    "attempt_id": "h230-hetero-s3-fit-sourcev2-20261008-v1",
+    "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_hetero_s3_f0/model_ep1.pt",
+    "checkpoint_sha256": "must_be_sealed_from_terminal_fit_receipt_before_admission",
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_RESOURCE_BINDING_V3_SOURCEV2_20261008.json",
+    "required_terminal_status": "finished_exit_0",
+    "sha256": "11b39a4343b4f93ce7cb3c502e951806057aa880174b31a77499af0a2f6862b7"
+  },
+  "resources": {
+    "cuda_allocator_bytes": 4300000000,
+    "gpu_workers": 1,
+    "loader_workers": 0,
+    "observed_vram_cap_bytes": 5000000000,
+    "same_campaign_aggregate": {
+      "cpu_cores": 6,
+      "gpu_workers": 1,
+      "memory_high_bytes": 18000000000,
+      "ram_bytes": 20000000000,
+      "swap_bytes": 0
+    },
+    "timeout_seconds": 1800,
+    "worker_cpu_cores": 3,
+    "worker_ram_reservation_bytes": 6500000000
+  },
+  "schema": "h230-seed3-fixed-epoch1-export-command-freeze-v1",
+  "source_binding": {
+    "predictor_import_path": "The frozen python -c adapter inserts the E529 snapshot scripts directory before runpy executes the root predictor, so import train_rnn resolves to this snapshot; PYTHONPATH then resolves wnn modules from the same snapshot. WNN_PROJECT_ROOT points data, cache, checkpoint and output resolution to the main project root.",
+    "predictor_script": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+      "sha256": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee"
+    },
+    "source_cli_help_check": {
+      "fit_or_export_executed": false,
+      "predict_run_help_exit_status": 0,
+      "trainer_resolved_to": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py"
+    },
+    "source_file_count": 54,
+    "source_manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/H230_SOURCE_SNAPSHOT_MANIFEST_V1.json",
+    "source_manifest_sha256": "697d78e5a5ac5461e876486caa8b278298283a213ed03432c43a856fd7f1bd58",
+    "trainer_script": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
+      "sha256": "fc4f714396d6756237a6de4d237a06ab86bed17690fd6243b2f297e6b2195055"
+    },
+    "trainer_source_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2"
+  },
+  "status": "command_frozen_fit_terminal_checkpoint_and_fresh_stage_admission_required"
+}

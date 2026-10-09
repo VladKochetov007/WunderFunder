@@ -1,0 +1,116 @@
+{
+  "schema": "h230-profile-result-v1",
+  "attempt_id": "h230-w384-profile-v1",
+  "status": "finished_exit_0_profile_only",
+  "scientific_score_claim": null,
+  "profile_scope": {
+    "architecture": "GRU 256x2, 31 outputs",
+    "batch": 16,
+    "chunk_rows": 2000,
+    "precision": "fp16",
+    "warmup_batches": 3,
+    "timed_batches": 20,
+    "loader_workers": 0,
+    "checkpoint_or_prediction_written": false,
+    "run_directory_file_count": 0
+  },
+  "profile_metrics": {
+    "step_wall_p50_ms": 1095.08,
+    "loader_wait_p50_ms": 418.46,
+    "cuda_event_p50_ms": {
+      "gpu_total": 675.8,
+      "forward": 245.16,
+      "backward": 404.99,
+      "h2d": 0.01,
+      "inputs": 9.33,
+      "labels": 2.08,
+      "loss": 6.72,
+      "optimizer": 2.43,
+      "weights": 0.31
+    },
+    "sequences_per_second": 14.61,
+    "syncs_per_step": 0.1,
+    "p90_emitted": false,
+    "timing_interpretation": "StageTimer reports per-step medians in milliseconds. CUDA event components and host loader wait may overlap; step_wall is the end-to-end start-interval median and is not the sum of the component medians. The trainer did not emit p90."
+  },
+  "resource_observation": {
+    "worker_ram_peak_bytes": 6499999744,
+    "worker_ram_reserved_bytes": 6500000000,
+    "worker_ram_peak_at_effective_page_rounded_cap": true,
+    "parent_ram_peak_bytes": 9927282688,
+    "parent_memory_high_bytes": 17999998976,
+    "parent_peak_headroom_bytes": 8072716288,
+    "observed_vram_peak_bytes": 2226126848,
+    "observed_vram_cap_bytes": 5000000000,
+    "allocator_admission_bytes": 4300000000,
+    "worker_oom_event_delta": 0,
+    "worker_oom_kill_event_delta": 0,
+    "parent_oom_event_delta": 0,
+    "parent_oom_kill_event_delta": 0,
+    "gpu_process_usage": "No per-process value is claimed; controller admission recorded the process table as empty/unavailable, and the profile worker's global observed VRAM monitor reported the peak above.",
+    "resource_review_status": "pending_independent_review_and_fresh_fit_admission"
+  },
+  "fit_runtime_projection": {
+    "basis": "Two epochs x 746 outer batches/epoch from the profile log x 1.09508s measured p50 step wall.",
+    "raw_two_epoch_fit_seconds": 1634.0,
+    "valid_prediction_export_seconds": null,
+    "combined_fit_and_export_seconds": null,
+    "interpretation": "The fit-only value is a median-based planning estimate, not an observed fit runtime. Export cost and p90 were not measured, so the 5400-second per-seed fit-plus-export cap is not yet demonstrated by this projection."
+  },
+  "input_and_recipe_bindings": {
+    "execution_contract": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.json",
+      "sha256": "d5ade4ab645f06640a5f79e097ef00f428215f31b8941b97228357c5c51d0ddb"
+    },
+    "allocation": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/CONDITIONAL_DELIVERY_ALLOCATION_V1.json",
+      "sha256": "e0198952bc05f38276521eba832688cc194eab68388a5103c59c4e221b5d6570"
+    },
+    "profile_preflight": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PROFILE_STAGE_PREFLIGHT_V2.json",
+      "sha256": "41d65c3205ae4c4704039e79819a9d93829fb09bfee97f30ee6b71b83ac38c11"
+    },
+    "cache_independent_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_INDEPENDENT_REVIEW_20261007_R1.json",
+      "sha256": "91af823661cc93b3c7cccf10ed805d0ec918985695a5c026b5a7cc5dc2f68651"
+    },
+    "cache_output_verification": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+      "sha256": "e04da68bad9ddbb0ec64baf1ad43c19381c0606d47dbed066416f84d3a03c3d8"
+    },
+    "cache_attempt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-w384-family-cache-v1.json",
+      "sha256": "bd5b040b6d263c2706345e595175d7320ddfe7fe4fc7215e47ccd7d191184017"
+    },
+    "worktree_recheck": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_WORKTREE_RECHECK_V2.json",
+      "sha256": "f154b31dfecdd1ac7d437d6b6aa0300286e5df34dec61ccbe9497b7510c60fd1"
+    },
+    "source_hash_bundle": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_HASH_BUNDLE_V2.json",
+      "sha256": "c9f4235994e9fc85f0f732fd74852e1c28b1d5c7efc8a1ebefbc71f6dc673340"
+    },
+    "source_manifest_sha256": "1ae08f66d265005638f4dc6373d08b108aaf9d400ad0dbe9f9b073a2cb0c984d",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "cache_metadata_sha256": "398d7753a127054f3e38cd34c4730099843d60663541787e09ab38c9f45e47ad"
+  },
+  "terminal_evidence": {
+    "attempt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-w384-profile-v1.json",
+      "sha256": "e71680ac17b4fcc8e27da582732f2f977f580ada7505449fe2a73111987899b2"
+    },
+    "log": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/h230-w384-profile-v1.log",
+      "sha256": "7682356500025659ce0074d314cff90388c0800f38caa920bd0015f25c31f728"
+    },
+    "attempt_elapsed_seconds": 45.41141478899954,
+    "attempt_exit_status": 0
+  },
+  "review_and_next_stage_gates": [
+    "Independent review of exact profile attempt/log and memory/VRAM interpretation.",
+    "Fresh controller admission immediately before seed 3 fit, including current cgroup headroom and concurrent support reservations.",
+    "Reviewer/controller must decide whether peak worker RAM at its effective page-rounded cap satisfies the allocation's profile-with-headroom condition; no worker headroom is claimed.",
+    "Fresh admission for seed 4 only after seed 3 fit/export terminal receipts and reassessment.",
+    "Keep seeds serial under the one-GPU lock; use fixed ep1 checkpoint and the frozen no-fit-time-evaluation recipe."
+  ]
+}

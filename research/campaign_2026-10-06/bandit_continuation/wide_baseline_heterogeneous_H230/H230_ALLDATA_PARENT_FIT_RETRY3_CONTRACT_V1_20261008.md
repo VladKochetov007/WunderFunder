@@ -1,0 +1,9 @@
+# H230 all-data parent fit retry3
+
+Retry3 is a new identified attempt after two preserved infrastructure terminations. It uses the exact V2 source and science recipe from retry2, starts fresh from the same own c20261003_combo_s3_f0@ep3 initializer, and keeps --save-training-state enabled. Its only worker-argv difference from retry2 is the unique output name. It does not resume from retry2.
+
+Retry2 terminal receipt SHA256: e579075df17544d530aaf862a4c6ca0620b573cbe3c5b3ade12290daf25f8dff. The worker had zero local OOM events, peaked at 8,000,000,000 bytes under the 8 GB reserve, and stopped after 202.19s when the old observer saw a sibling hierarchical-parent event. Root attributed that event to E540's Arrow reader expanding a 60 MB Parquet footer beyond the 950 MB helper cap. Root's attribution fix commit 6618e19205edb62ce5191d46e85d90c3dd3213c6 passed independent review and 26 focused resource/CPU tests. The contract binds controller SHA e8df7224dbaf87d11c524a23ffd490d601517d447633a6e99fc99bb2d6ba05a0 and current CPU-policy observer SHA 187504343643ed6356b68c3f5a4c54f144018b9669a2e9b108a191ad1097dc9b.
+
+The bounded exact-file cache hint is recorded at research/campaign_2026-10-06/bandit_continuation/runtime/H230_PARENT_FIT_RETRY3_DATASET_CACHE_HINT_V1_20261008.json with SHA256 161b5929c156e625e7b73f300bbd9994ca0498928df0dfa6fd765ffa76086f2a. Under the exclusive GPU lock it observed 75 MiB and 0% GPU before and after, preserved both parquet stat identities and all resource limits, and reduced parent cgroup memory from 9,695,199,232 bytes to 3,964,030,976 bytes. The fresh post-hint memory snapshot and its reserve arithmetic are in the JSON contract; controller admission remains pending.
+
+Retry3 still needs root approval and fresh admission. Contract SHA256: 2d98c38c18c143175e286fcff56911aecf6516871776b9945f102e6169bb915b. Approval-request SHA256: 2a08da550540ce32f341d6a0227bfb0339cb78ac2286235d1b1aae49e540b2eb.

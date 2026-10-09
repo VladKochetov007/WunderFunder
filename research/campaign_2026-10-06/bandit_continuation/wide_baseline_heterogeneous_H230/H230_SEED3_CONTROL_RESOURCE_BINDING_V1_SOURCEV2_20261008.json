@@ -1,0 +1,235 @@
+{
+  "authorization": {
+    "basis": "Explicit root task assignment queues the matched H230 family-off control after seed-3 candidate delivery.",
+    "controller": "root",
+    "paid_compute": false,
+    "science_change": "The predeclared comparator sets only --distill-family-weight from 0.1 to 0.0 while explicit 31-output family head/cache access remain enabled.",
+    "scope": "One serial seed-3 control fit, fixed zero-based epoch-1 checkpoint; fresh controller admission only after candidate terminal and resource recheck."
+  },
+  "candidate_source_binding": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_RESOURCE_BINDING_V3_SOURCEV2_20261008.json",
+    "portable_source_manifest_sha256": "697d78e5a5ac5461e876486caa8b278298283a213ed03432c43a856fd7f1bd58",
+    "portable_source_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2",
+    "sha256": "11b39a4343b4f93ce7cb3c502e951806057aa880174b31a77499af0a2f6862b7",
+    "source_tests": {
+      "latest_attempt": {
+        "address_space_limit_bytes": 4000000000,
+        "approach": "read only the first actual NPY payload rows into temporary small arrays; exercise the copied Sequences cache append path; use the actual own initializer checkpoint by SHA",
+        "id": "H230-SOURCE-V2-TEST-A4",
+        "interpretation": "implementation checks passed under the bounded CPU envelope; no fit, export, grade, or GPU use",
+        "process_tree_peak_rss_bytes": 786554880,
+        "rss_guard_triggered": false,
+        "status": "passed",
+        "terminal": "3 passed",
+        "test_count": 3,
+        "test_wall_seconds": 2.14
+      },
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/H230_SOURCE_TEST_ATTEMPTS_V1.json",
+      "sha256": "698923eddb0b6a434f54e06078a574bc2868cb0a4470310bfbf089afb071c7b5"
+    }
+  },
+  "control_command_binding": {
+    "argv": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=20s",
+      "2400",
+      "/usr/bin/env",
+      "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
+      "--name",
+      "bd26_h230_familyoff_s3_f0",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--hidden",
+      "256",
+      "--layers",
+      "2",
+      "--dropout",
+      "0",
+      "--seed",
+      "3",
+      "--split-manifest",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--valid-fold",
+      "0",
+      "--eval-source",
+      "vfold",
+      "--train-source",
+      "train+valid",
+      "--train-seqs",
+      "10607",
+      "--init",
+      "c20261003_combo_s3_f0@ep3",
+      "--epochs",
+      "2",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "1",
+      "--no-eval-during-fit",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--lr",
+      "0.0001",
+      "--wd",
+      "0.01",
+      "--optim",
+      "adamw",
+      "--sched",
+      "onecycle",
+      "--precision",
+      "fp16",
+      "--propensity",
+      "c20260929_prop_f0",
+      "--prop-power",
+      "2",
+      "--prop-eps",
+      "0.03",
+      "--valid-true-mask",
+      "0.03",
+      "--aux-struct",
+      "0.3",
+      "--aux-next",
+      "0.3",
+      "--distill-cache-root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+      "--distill-cache-variant",
+      "source",
+      "--distill-alpha",
+      "0.7",
+      "--distill-family-head",
+      "--distill-family-weight",
+      "0.0",
+      "--distill-family-target-mode",
+      "raw",
+      "--distill-boot-h",
+      "0",
+      "--fast",
+      "--save-training-state"
+    ],
+    "argv_sha256_compact_json": "205b6a7bdb1a9b8cf9eb7871170aba1958ffbbfdabf48ed0cb46f5d05a87d3e3",
+    "expected_output_width": 31,
+    "family_loss_weight": 0.0,
+    "family_target_mode": "raw",
+    "initializer_reference": "c20261003_combo_s3_f0@ep3",
+    "initializer_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "matched_candidate_run": "bd26_h230_hetero_s3_f0",
+    "only_scientific_difference": {
+      "candidate": "0.1",
+      "control": "0.0",
+      "flag": "--distill-family-weight"
+    },
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/H230_CANDIDATE_CONTROL_COMMANDS_V1.json",
+    "run_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_familyoff_s3_f0",
+    "run_name": "bd26_h230_familyoff_s3_f0",
+    "seed": 3,
+    "sha256": "8c26c41ba802ed9ff611d812ac7ac63151ff5328ca661657e86b0b2194d3665c",
+    "shell_command": "/usr/bin/timeout --signal=TERM --kill-after=20s 2400 /usr/bin/env WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py --name bd26_h230_familyoff_s3_f0 --device cuda --arch gru --cell gru --hidden 256 --layers 2 --dropout 0 --seed 3 --split-manifest /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json --valid-fold 0 --eval-source vfold --train-source train+valid --train-seqs 10607 --init c20261003_combo_s3_f0@ep3 --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 --no-eval-during-fit --batch 16 --chunk 2000 --loss wmse --loss-norm chunk --lr 0.0001 --wd 0.01 --optim adamw --sched onecycle --precision fp16 --propensity c20260929_prop_f0 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --aux-struct 0.3 --aux-next 0.3 --distill-cache-root /home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1 --distill-cache-variant source --distill-alpha 0.7 --distill-family-head --distill-family-weight 0.0 --distill-family-target-mode raw --distill-boot-h 0 --fast --save-training-state"
+  },
+  "created_at_utc": "2026-10-07T21:12:00.922879+00:00",
+  "fresh_gates": [
+    "candidate seed3 fit terminal exit 0 and fixed ep1 checkpoint hash sealed",
+    "portable snapshot all files rehashed against manifest",
+    "family-off output directory absent",
+    "same H230 cache/input/checkpoint identities verified",
+    "controller barrier, parent memory, CPU support reservations and GPU lock checked at admission"
+  ],
+  "id": "H230-seed3-familyoff-control-resource-binding-v1-sourcev2-20261008",
+  "inputs": {
+    "cache_independent_review": {
+      "decision": "PASS_CACHE_OUTPUTS_AND_PROVENANCE; PROFILE_REQUIRES_FRESH_CONTROLLER_RESOURCE_ADMISSION",
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_INDEPENDENT_REVIEW_20261007_R1.json",
+      "sha256": "91af823661cc93b3c7cccf10ed805d0ec918985695a5c026b5a7cc5dc2f68651"
+    },
+    "cache_metadata": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1/metadata.json",
+      "sha256": "398d7753a127054f3e38cd34c4730099843d60663541787e09ab38c9f45e47ad"
+    },
+    "cache_output_verification": {
+      "full_arrays_verified_by_receipt": true,
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+      "sha256": "e04da68bad9ddbb0ec64baf1ad43c19381c0606d47dbed066416f84d3a03c3d8",
+      "status": "passed"
+    },
+    "fold_manifest": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "propensity_caches": {
+      "train": {
+        "array_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_train.npy",
+        "array_present_and_size_checked": true,
+        "bytes": 848560128,
+        "metadata_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_train.json",
+        "metadata_sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9",
+        "sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174"
+      },
+      "valid": {
+        "array_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_valid.npy",
+        "array_present_and_size_checked": true,
+        "bytes": 149840128,
+        "metadata_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_valid.json",
+        "metadata_sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a",
+        "sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c"
+      }
+    },
+    "successful_raw_input_identity": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_IDENTITY_V1.json",
+      "sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4",
+      "status": "passed"
+    }
+  },
+  "profile_basis": {
+    "batches_per_epoch": 746,
+    "independent_resource_review": {
+      "decision": "PASS_FOR_SERIAL_FIT_ADMISSION_WITH_FRESH_LIVE_MEMORY_CHECK",
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PROFILE_INDEPENDENT_RESOURCE_REVIEW_20261007_R1.json",
+      "sha256": "f103b43ce4048272bf31643dbfb0bd27f12ef1e4930c85c1df059db7b68195ec"
+    },
+    "measured_step_wall_p50_seconds": 1.0950799999999998,
+    "observed_profile_vram_peak_bytes": 2226126848,
+    "p90_fit_or_export_runtime_measured": false,
+    "profile_result": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PROFILE_RESULT_V1.json",
+      "sha256": "99cbd6fb8f236f8e67e5a5bcf4fa69034a227e5eb3c6864763231fda019f2cb5",
+      "status": "finished_exit_0_profile_only"
+    },
+    "two_epoch_fit_estimate_seconds": 1634.0
+  },
+  "resources": {
+    "aggregate": {
+      "cpu_cores": 6,
+      "gpu_workers": 1,
+      "memory_high_bytes": 18000000000,
+      "observed_vram_bytes": 5000000000,
+      "ram_bytes": 20000000000,
+      "swap_bytes": 0
+    },
+    "controller_must_recheck_live_capacity_barrier_and_gpu": true,
+    "fit_plus_export_combined_outer_bound_seconds": 5400,
+    "worker": {
+      "cpu_cores": 3,
+      "cuda_allocator_bytes": 4300000000,
+      "fit_timeout_seconds": 2400,
+      "gpu_workers": 1,
+      "loader_workers": 0,
+      "observed_vram_cap_bytes": 5000000000,
+      "ram_reservation_bytes": 9000000000
+    }
+  },
+  "schema": "h230-seed3-familyoff-control-resource-binding-v1",
+  "status": "prepared_for_fresh_admission_after_candidate_terminal"
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "receipt_id": "H230_SOURCE_SEAL_INDEPENDENT_REVIEW_V3_20261007_R1",
+  "observed_at_utc": "2026-10-07T15:50:05Z",
+  "owner": "independent source-sealer reviewer",
+  "decision": "PASS",
+  "review_scope": "Read-only exact-map review of the H230 V3 source-seal worker and its focused fail-closed tests. PASS applies to source-seal code integrity and its bounded source-only purpose, not cache-build admission.",
+  "freeze": {
+    "review_targets_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_SEAL_REVIEW_TARGETS_V3.json",
+    "review_targets_sha256": "68f4501e2d560cd3634c24e14a2acb87845709040ae7b5cfac30152600ff8edc",
+    "worker_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/seal_h230_source_bundle_v3.py",
+    "worker_sha256": "09d8610816fbaa89b233d45a5d20d708cac5c61a5a0ad2ad7e29de9e9bb0bfe1",
+    "test_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/tests/test_source_sealer_v3_guards.py",
+    "test_sha256": "511d3b7049c9c136fb25c764d7908e8069ac7f7aa137dcd25e1e35d2d572dd82"
+  },
+  "findings": [
+    "All 23 exact-map member files matched their declared sizes and SHA-256 values. The worker checks the pinned worktree commit and all 32 source-bundle entries, including the builder bytes, before importing and invoking only that pinned cache builder.",
+    "The V3 worker requires the frozen paired E521 train-export plan plus a terminal successful sequence receipt, and validates the frozen E521 V6 artifact report/spec for the two raw sources. Snapshot hash changes are accepted only when they match the exact producer artifact hash; unresolved legacy seed labels are preserved and reported diagnostically.",
+    "For each source it calls the pinned builder's split/target, ancestor-closure, and teacher inspection logic; this retains checkpoint/provenance, membership, sidecar identity, full content hash, order, expected shape/dtype, and bounded finite-value checks. It releases each teacher's mmap arrays between sources and writes the output only if it does not already exist. It does not build the distillation cache, fit, or score.",
+    "The four focused V3 guard tests passed. They cover nullable versus frozen expected values, diagnostic-only seed-label mismatch, producer-bound stale-hash reconciliation, and terminal paired-sequence gating."
+  ],
+  "verification": {
+    "mapped_member_hashes": "23/23 exact target members independently rehashed and matched.",
+    "focused_tests": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 scripts/limited .venv/bin/python -m pytest -p no:cacheprovider -q research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/tests/test_source_sealer_v3_guards.py",
+      "result": "4 passed in 0.10s"
+    },
+    "reviewer_execution": "No source seal, cache build, fit, scoring, or provider action was launched by this reviewer."
+  },
+  "conditions_and_limitations": [
+    "This is a code/source-integrity PASS only. Actual artifact identity has a separate receipt, and cache build still requires its own fresh raw-data/fold, resource, disk, and controller-admission gates.",
+    "The V3 source seal records a near-hard-limit cgroup peak and an unexplained larger process ru_maxrss value; do not interpret this review as resolving that resource accounting or as cache-stage headroom evidence."
+  ]
+}

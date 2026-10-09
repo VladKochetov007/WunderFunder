@@ -1,0 +1,177 @@
+{
+  "authority": {
+    "basis": "Root authorized preparing a candidate-alone upload-ready H230 ZIP via the existing independent C1/native pipeline, plus validation; no upload.",
+    "controller": "root",
+    "scope": "One seed-3 fixed epoch-1 i16 candidate package only; no score, control package, ensemble or public submission."
+  },
+  "candidate_binding": {
+    "candidate_only": true,
+    "checkpoint": "artifacts/runs/bd26_h230_hetero_s3_f0/model_ep1.pt",
+    "checkpoint_sha256": "59718b92befe647dde74335a17dc00d264e668ff8177201a1c636e7e194d72c9",
+    "export_receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_EXPORT_TERMINAL_RECEIPT_V1_SOURCEV2_20261008.json",
+    "export_receipt_sha256": "bffaac7584fa337dc7cd0a3fb4cb61f7fca900006218fc236cb4a7d6db4616d9",
+    "fit_attempt_id": "h230-hetero-s3-fit-sourcev2-20261008-v1",
+    "fit_receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_TERMINAL_RECEIPT_V1_SOURCEV2_20261008.json",
+    "fit_receipt_sha256": "ddc8b33c05c84bc518fc716b92efacf150b543d6bff491d99666988b2e61ea22",
+    "fixed_zero_based_epoch": 1,
+    "prediction": "cache/pred_h230_hetero_s3_ep1_20261008_v1_valid.npy",
+    "prediction_sha256": "8f0f53f7990739847cb4ecd785b508ef32a59c982a702b5e05cf04bbd1d78e78",
+    "run": "bd26_h230_hetero_s3_f0"
+  },
+  "claims": {
+    "promotion_status": "await_independent_grade_and_root_review",
+    "public_transfer_claim": null,
+    "public_upload_authorized": false,
+    "scientific_score": null
+  },
+  "created_utc": "2026-10-07T21:48:58.898218+00:00",
+  "frozen_comparison_refs": {
+    "grade_freeze_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PRE_SCORE_GRADE_FREEZE_V1_20261008.json",
+    "grade_freeze_sha256": "210cc9ec2e2a7181bd25ff6f5618941630926a2314386cfa8a5475f3256b1b16",
+    "primary_incumbent_freeze_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PRE_SCORE_PRIMARY_INCUMBENT_FREEZE_V1_20261008.json",
+    "primary_incumbent_freeze_sha256": "1d62c65412a504b9d8a596eb546ce9a484a22274e64b6574b3e33f6ff79317b1"
+  },
+  "id": "H230-seed3-package-resource-binding-v1-sourcev2-20261008",
+  "independent_grader_handoff": {
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_GRADER_HANDOFF_RECEIPT_V1_20261008.json",
+    "receipt_sha256": "261799ed51f5fb63936a524cb0b3fc4bfb6d1610b1e3547ff6c3ed9290b51ebd",
+    "status": "sent; independent score pending; package validation is not promotion"
+  },
+  "package_freeze": {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/package_submission.py",
+      "h230_hetero_s3_ep1_i16",
+      "bd26_h230_hetero_s3_f0@ep1:1.0",
+      "--native-from",
+      "submissions/c20261004_combo_s4_i16/pkg",
+      "--solution",
+      "submissions/c20261004_combo_s4_i16/pkg/solution.py",
+      "--precision",
+      "i16"
+    ],
+    "max_zip_bytes": 20000000,
+    "named_zip_copy": "submissions/h230_hetero_s3_ep1_i16/h230_hetero_s3_ep1_i16.zip",
+    "package_name": "h230_hetero_s3_ep1_i16",
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_PACKAGE_COMMAND_FREEZE_V1_SOURCEV2_20261008.json",
+    "precision": "i16",
+    "sha256": "01965344b4d32c623f59fe2e0cd0bd31502baf75709971993d1a48c628df2ef6",
+    "shell_command": "PYTHONPATH=src WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=180s scripts/limited .venv/bin/python scripts/package_submission.py h230_hetero_s3_ep1_i16 bd26_h230_hetero_s3_f0@ep1:1.0 --native-from submissions/c20261004_combo_s4_i16/pkg --solution submissions/c20261004_combo_s4_i16/pkg/solution.py --precision i16",
+    "zip_path": "submissions/h230_hetero_s3_ep1_i16/submission.zip"
+  },
+  "package_sources_verified": {
+    "E524/package_contract": {
+      "bytes": 2301,
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/C1_PAIR_PACKAGE_CONTRACT_V1.json",
+      "sha256": "640495f6dcff319f7a19cdc9f8b40826f801b408c80af00b6b13147ec1e45e7d"
+    },
+    "E524/package_provenance": {
+      "bytes": 3772,
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_PACKAGE_PROVENANCE_VALIDATION.json",
+      "sha256": "669d7d12f878e8a090273d2111ba1530c76dc26f0dd2a5402dba3d207b816031"
+    },
+    "E524/package_validation_receipt": {
+      "bytes": 10185,
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_DELIVERED_ZIP_VALIDATION_RECEIPT_V1.json",
+      "sha256": "727c20c898c20228e3792a8c6b1a1aa2290e4ae02784fd4828db11cca0e9e01e"
+    },
+    "cache/valid_subset20.parquet": {
+      "bytes": 90874551,
+      "path": "cache/valid_subset20.parquet",
+      "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37"
+    },
+    "native/avx2/wnn_native.abi3.so": {
+      "bytes": 767680,
+      "path": "submissions/c20261004_combo_s4_i16/pkg/avx2/wnn_native.abi3.so",
+      "sha256": "9754887ddc0a6d1745e507c5b1bdb01ea8d31da79eb25965da043de33f47bfa6"
+    },
+    "native/solution.py": {
+      "bytes": 3133,
+      "path": "submissions/c20261004_combo_s4_i16/pkg/solution.py",
+      "sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54"
+    },
+    "native/v2/wnn_native.abi3.so": {
+      "bytes": 766160,
+      "path": "submissions/c20261004_combo_s4_i16/pkg/v2/wnn_native.abi3.so",
+      "sha256": "b01becbbef79e87e61eda24fe4b15bba3a98eb5b7b7d51479ba3c22d420b82d8"
+    },
+    "native/v3/wnn_native.abi3.so": {
+      "bytes": 768072,
+      "path": "submissions/c20261004_combo_s4_i16/pkg/v3/wnn_native.abi3.so",
+      "sha256": "698b8b2c8b5167e2be5e1e151ef6aa3b325b12ef38c4718ceafa2db3375aa398"
+    },
+    "scripts/check_submission_abi.py": {
+      "bytes": 3379,
+      "path": "scripts/check_submission_abi.py",
+      "sha256": "a00bfca90d444c338eb7aff5ac4c99d6693aca552475ba1e6a782c94c9d76f13"
+    },
+    "scripts/check_submission_python311.py": {
+      "bytes": 5626,
+      "path": "scripts/check_submission_python311.py",
+      "sha256": "eb2c1c6d4d1e5411c292d101b086fb58e633a1dff43018d001d42f0b777fd870"
+    },
+    "scripts/limited": {
+      "bytes": 1542,
+      "path": "scripts/limited",
+      "sha256": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76"
+    },
+    "scripts/package_submission.py": {
+      "bytes": 6086,
+      "path": "scripts/package_submission.py",
+      "sha256": "cc609367b4aba93a7ba6d022fe0ad44625b1e63b898232e762c8e53532897bb2"
+    },
+    "scripts/verify_submission.py": {
+      "bytes": 6977,
+      "path": "scripts/verify_submission.py",
+      "sha256": "d2c75df6accf8f88c911844171c03a020756833843d0b6db856e0cdebbe6bfb4"
+    },
+    "sourcev2/scripts/train_rnn.py": {
+      "bytes": 144436,
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
+      "sha256": "fc4f714396d6756237a6de4d237a06ab86bed17690fd6243b2f297e6b2195055"
+    },
+    "sourcev2/src/wnn/distillation.py": {
+      "bytes": 8577,
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src/wnn/distillation.py",
+      "sha256": "352a0c5b782f9e68fc7153783d20b04825e0c764b94f589cd71993580b7857c7"
+    },
+    "sourcev2/src/wnn/nn.py": {
+      "bytes": 20537,
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src/wnn/nn.py",
+      "sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca"
+    }
+  },
+  "pre_package_fresh_gates": {
+    "all_source_file_hashes_match_freeze": true,
+    "checkpoint_hash_matches_fit_receipt": true,
+    "fit_receipt_terminal_exit_zero": true,
+    "independent_grader_handoff_receipt_written": true,
+    "package_output_directory_absent": true,
+    "prediction_export_terminal_hash_matches_receipt": true,
+    "score_freezes_unchanged": true
+  },
+  "resources": {
+    "cpu_cores": 1,
+    "gpu_workers": 0,
+    "kind": "cpu",
+    "memory_max_bytes": 1000000000,
+    "network": "not used",
+    "runtime_seconds": 180,
+    "wrapper": "scripts/limited"
+  },
+  "schema": "h230-seed3-candidate-package-resource-binding-v1",
+  "serving_semantics": {
+    "31_output_training_head_reduced_to_first_two_target_rows": true,
+    "math_exactness_only_claim": "Exact for first two target rows; actual delivered ZIP checks remain mandatory.",
+    "reason": "Frozen E529 source has independent appended auxiliary rows; candidate serving outputs rows 0 and 1, with no cross-row dependence at final linear layer. Package will verify exact trunk and exact row slices plus native parity."
+  },
+  "validation_plan": {
+    "archive_integrity": "Inspect named ZIP members and bytes, safe unique paths, zip CRC, size <=20MB, and byte-identical copy of staging submission.zip.",
+    "callback": "Run actual ZIP through scripts/check_submission_python311.py offline CPU-only, network-none container on two complete valid_subset20 streams for v2, avx2, v3; check reset/determinism and exact output to archived native.",
+    "checkpoint_export": "Compare exported NPZ tensors against checkpoint: every trunk tensor identical; final weight and bias equal checkpoint rows 0:2 exactly; only auxiliary output rows omitted.",
+    "float32_parity": "Produce a candidate-only CPU-float32 reference from the frozen E529 model/checkpoint for two exact streams; compare after warm-up against delivered ZIP native-i16 output; retain the existing 0.0003 max-absolute gate.",
+    "independent_review": "Root independently grades H230 prediction and reviews package evidence; actor does not self-approve. No public upload.",
+    "runtime": "Run scripts/verify_submission.py on cache/valid_subset20.parquet, one CPU/one thread/1GB/600s; record 20-sequence runtime and resource peak without claiming full-scorer or public runtime.",
+    "static_abi": "Run scripts/check_submission_abi.py on the delivered ZIP; require no libpython dependency and supported glibc ceiling as prior C1 gate."
+  }
+}

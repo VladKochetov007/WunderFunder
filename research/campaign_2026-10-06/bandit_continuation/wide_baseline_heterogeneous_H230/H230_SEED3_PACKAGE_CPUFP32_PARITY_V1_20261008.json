@@ -1,0 +1,51 @@
+{
+  "checkpoint_path": "artifacts/runs/bd26_h230_hetero_s3_f0/model_ep1.pt",
+  "checkpoint_sha256": "59718b92befe647dde74335a17dc00d264e668ff8177201a1c636e7e194d72c9",
+  "created_utc": "2026-10-07T21:59:01.367381+00:00",
+  "frozen_gate": 0.0003,
+  "groups": [
+    0,
+    1
+  ],
+  "max_abs_fp32_vs_delivered_i16": 7.162988185882568e-05,
+  "native_comparison": "Actual delivered H230 i16 ZIP callback on the same valid parquet row groups with true need_prediction flags and model reset by seq_ix",
+  "official_metric_or_score_computed": false,
+  "package_zip_sha256": "446836bd5fcf88f1d84e83513aca87a4928727755517b5bed404760642fc6048",
+  "passed": true,
+  "per_group": [
+    {
+      "finite": true,
+      "max_abs_all_rows_with_warmup_zeroed": 7.162988185882568e-05,
+      "max_abs_per_target": [
+        7.162988185882568e-05,
+        4.965066909790039e-05
+      ],
+      "native_i16_callback_seconds": 1.8283605780015932,
+      "need_prediction_rows": 19901,
+      "rows": 20000,
+      "sequence_id": 256678,
+      "torch_cpu_fp32_seconds": 1.6538797600078396,
+      "valid_row_group": 0
+    },
+    {
+      "finite": true,
+      "max_abs_all_rows_with_warmup_zeroed": 6.556510925292969e-05,
+      "max_abs_per_target": [
+        6.556510925292969e-05,
+        4.947185516357422e-05
+      ],
+      "native_i16_callback_seconds": 3.6365457579959184,
+      "need_prediction_rows": 19901,
+      "rows": 20000,
+      "sequence_id": 751005,
+      "torch_cpu_fp32_seconds": 3.2389590550010325,
+      "valid_row_group": 1
+    }
+  ],
+  "prediction_package_zip": "submissions/h230_hetero_s3_ep1_i16/h230_hetero_s3_ep1_i16.zip",
+  "run": "bd26_h230_hetero_s3_f0",
+  "schema": "h230-seed3-package-cpufp32-parity-v1",
+  "scope": "Two exact valid row groups for package-only numeric parity; no metric aggregation or scientific inference.",
+  "source_model_inference": "E529 source-v2 model rebuilt from fixed checkpoint on CPU float32 via train_rnn.predict; causal row sequence, 4,000-row chunks, frozen preprocessing and normalization; scored outputs only compared and warmup outputs zeroed",
+  "source_snapshot_manifest_sha256": "697d78e5a5ac5461e876486caa8b278298283a213ed03432c43a856fd7f1bd58"
+}

@@ -1,0 +1,581 @@
+{
+  "authorization": {
+    "basis": "Explicit root task assignment authorizes the frozen H230 candidate fit after fresh source, input, output, barrier and resource checks.",
+    "controller": "root",
+    "paid_compute": false,
+    "science_recipe_changed": false,
+    "scope": "One serial seed-3 candidate fit to fixed zero-based epoch 1; export and grading require separate receipts; matched control and seed 4 require fresh admissions."
+  },
+  "created_at_utc": "2026-10-07T21:04:41.009779+00:00",
+  "fresh_checks_before_reservation": {
+    "attempt_id_absent": true,
+    "cache_metadata_hash_verified_and_output_verification_passed": true,
+    "candidate_and_control_output_directories_absent": true,
+    "fresh_cgroup_and_gpu_values": "Captured by bandit_resources launch at durable reservation boundary.",
+    "initializer_hash_verified": true,
+    "propensity_arrays_present_and_expected_sizes": true,
+    "source_snapshot_all_files_rehashed_against_manifest": true,
+    "split_hash_verified": true
+  },
+  "frozen_candidate": {
+    "argv": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=20s",
+      "2400",
+      "/usr/bin/env",
+      "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
+      "--name",
+      "bd26_h230_hetero_s3_f0",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--hidden",
+      "256",
+      "--layers",
+      "2",
+      "--dropout",
+      "0",
+      "--seed",
+      "3",
+      "--split-manifest",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--valid-fold",
+      "0",
+      "--eval-source",
+      "vfold",
+      "--train-source",
+      "train+valid",
+      "--train-seqs",
+      "10607",
+      "--init",
+      "c20261003_combo_s3_f0@ep3",
+      "--epochs",
+      "2",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "1",
+      "--no-eval-during-fit",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--lr",
+      "0.0001",
+      "--wd",
+      "0.01",
+      "--optim",
+      "adamw",
+      "--sched",
+      "onecycle",
+      "--precision",
+      "fp16",
+      "--propensity",
+      "c20260929_prop_f0",
+      "--prop-power",
+      "2",
+      "--prop-eps",
+      "0.03",
+      "--valid-true-mask",
+      "0.03",
+      "--aux-struct",
+      "0.3",
+      "--aux-next",
+      "0.3",
+      "--distill-cache-root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+      "--distill-cache-variant",
+      "source",
+      "--distill-alpha",
+      "0.7",
+      "--distill-family-head",
+      "--distill-family-weight",
+      "0.1",
+      "--distill-family-target-mode",
+      "raw",
+      "--distill-boot-h",
+      "0",
+      "--fast",
+      "--save-training-state"
+    ],
+    "argv_sha256_compact_json": "02368dbe81b0a30fe9a4cd3fa21c7dad14c438a7c064100bdd4794ed7f408dec",
+    "checkpoint": {
+      "fit_time_evaluation": false,
+      "policy": "fixed",
+      "zero_based_epoch": 1
+    },
+    "comparison_pair": {
+      "control_argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "2400",
+        "/usr/bin/env",
+        "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
+        "--name",
+        "bd26_h230_familyoff_s3_f0",
+        "--device",
+        "cuda",
+        "--arch",
+        "gru",
+        "--cell",
+        "gru",
+        "--hidden",
+        "256",
+        "--layers",
+        "2",
+        "--dropout",
+        "0",
+        "--seed",
+        "3",
+        "--split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--valid-fold",
+        "0",
+        "--eval-source",
+        "vfold",
+        "--train-source",
+        "train+valid",
+        "--train-seqs",
+        "10607",
+        "--init",
+        "c20261003_combo_s3_f0@ep3",
+        "--epochs",
+        "2",
+        "--checkpoint-policy",
+        "fixed",
+        "--checkpoint-epoch",
+        "1",
+        "--no-eval-during-fit",
+        "--batch",
+        "16",
+        "--chunk",
+        "2000",
+        "--loss",
+        "wmse",
+        "--loss-norm",
+        "chunk",
+        "--lr",
+        "0.0001",
+        "--wd",
+        "0.01",
+        "--optim",
+        "adamw",
+        "--sched",
+        "onecycle",
+        "--precision",
+        "fp16",
+        "--propensity",
+        "c20260929_prop_f0",
+        "--prop-power",
+        "2",
+        "--prop-eps",
+        "0.03",
+        "--valid-true-mask",
+        "0.03",
+        "--aux-struct",
+        "0.3",
+        "--aux-next",
+        "0.3",
+        "--distill-cache-root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+        "--distill-cache-variant",
+        "source",
+        "--distill-alpha",
+        "0.7",
+        "--distill-family-head",
+        "--distill-family-weight",
+        "0.0",
+        "--distill-family-target-mode",
+        "raw",
+        "--distill-boot-h",
+        "0",
+        "--fast",
+        "--save-training-state"
+      ],
+      "control_run_name": "bd26_h230_familyoff_s3_f0",
+      "normalized_argv_parity_verified": true,
+      "only_scientific_difference": {
+        "candidate": "0.1",
+        "control": "0.0",
+        "flag": "--distill-family-weight"
+      },
+      "pair_artifact": {
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/H230_CANDIDATE_CONTROL_COMMANDS_V1.json",
+        "sha256": "8c26c41ba802ed9ff611d812ac7ac63151ff5328ca661657e86b0b2194d3665c"
+      }
+    },
+    "initializer": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "reference": "c20261003_combo_s3_f0@ep3",
+      "sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+    },
+    "official_metric": "global_wp_clip2_v1; evaluation and grading are separate frozen stages.",
+    "run_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_hetero_s3_f0",
+    "run_name": "bd26_h230_hetero_s3_f0",
+    "seed": 3,
+    "shell_command": "/usr/bin/timeout --signal=TERM --kill-after=20s 2400 /usr/bin/env WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py --name bd26_h230_hetero_s3_f0 --device cuda --arch gru --cell gru --hidden 256 --layers 2 --dropout 0 --seed 3 --split-manifest /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json --valid-fold 0 --eval-source vfold --train-source train+valid --train-seqs 10607 --init c20261003_combo_s3_f0@ep3 --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 --no-eval-during-fit --batch 16 --chunk 2000 --loss wmse --loss-norm chunk --lr 0.0001 --wd 0.01 --optim adamw --sched onecycle --precision fp16 --propensity c20260929_prop_f0 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --aux-struct 0.3 --aux-next 0.3 --distill-cache-root /home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1 --distill-cache-variant source --distill-alpha 0.7 --distill-family-head --distill-family-weight 0.1 --distill-family-target-mode raw --distill-boot-h 0 --fast --save-training-state"
+  },
+  "id": "H230-seed3-fit-resource-binding-v3-sourcev2-20261008",
+  "input_bindings": {
+    "cache_independent_review": {
+      "decision": "PASS_CACHE_OUTPUTS_AND_PROVENANCE; PROFILE_REQUIRES_FRESH_CONTROLLER_RESOURCE_ADMISSION",
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_INDEPENDENT_REVIEW_20261007_R1.json",
+      "sha256": "91af823661cc93b3c7cccf10ed805d0ec918985695a5c026b5a7cc5dc2f68651"
+    },
+    "cache_metadata": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1/metadata.json",
+      "sha256": "398d7753a127054f3e38cd34c4730099843d60663541787e09ab38c9f45e47ad"
+    },
+    "cache_output_verification": {
+      "full_arrays_verified_by_receipt": true,
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+      "sha256": "e04da68bad9ddbb0ec64baf1ad43c19381c0606d47dbed066416f84d3a03c3d8",
+      "status": "passed"
+    },
+    "fold_manifest": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "propensity_caches": {
+      "train": {
+        "array_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_train.npy",
+        "array_present_and_size_checked": true,
+        "bytes": 848560128,
+        "metadata_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_train.json",
+        "metadata_sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9",
+        "sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174"
+      },
+      "valid": {
+        "array_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_valid.npy",
+        "array_present_and_size_checked": true,
+        "bytes": 149840128,
+        "metadata_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_valid.json",
+        "metadata_sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a",
+        "sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c"
+      }
+    },
+    "successful_raw_input_identity": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_IDENTITY_V1.json",
+      "sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4",
+      "status": "passed"
+    }
+  },
+  "profile_basis": {
+    "batches_per_epoch": 746,
+    "independent_resource_review": {
+      "decision": "PASS_FOR_SERIAL_FIT_ADMISSION_WITH_FRESH_LIVE_MEMORY_CHECK",
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PROFILE_INDEPENDENT_RESOURCE_REVIEW_20261007_R1.json",
+      "sha256": "f103b43ce4048272bf31643dbfb0bd27f12ef1e4930c85c1df059db7b68195ec"
+    },
+    "measured_step_wall_p50_seconds": 1.0950799999999998,
+    "observed_profile_vram_peak_bytes": 2226126848,
+    "p90_fit_or_export_runtime_measured": false,
+    "profile_result": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PROFILE_RESULT_V1.json",
+      "sha256": "99cbd6fb8f236f8e67e5a5bcf4fa69034a227e5eb3c6864763231fda019f2cb5",
+      "status": "finished_exit_0_profile_only"
+    },
+    "two_epoch_fit_estimate_seconds": 1634.0
+  },
+  "resources": {
+    "aggregate": {
+      "cpu_cores": 6,
+      "gpu_workers": 1,
+      "memory_high_bytes": 18000000000,
+      "observed_vram_bytes": 5000000000,
+      "ram_bytes": 20000000000,
+      "swap_bytes": 0
+    },
+    "controller_must_recheck_live_capacity_barrier_and_gpu": true,
+    "fit_plus_export_combined_outer_bound_seconds": 5400,
+    "worker": {
+      "cpu_cores": 3,
+      "cuda_allocator_bytes": 4300000000,
+      "fit_timeout_seconds": 2400,
+      "gpu_workers": 1,
+      "loader_workers": 0,
+      "observed_vram_cap_bytes": 5000000000,
+      "ram_reservation_bytes": 9000000000
+    }
+  },
+  "schema": "h230-seed3-fit-resource-binding-v3-sourcev2",
+  "source_binding": {
+    "executed_source_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2",
+    "old_worktree_reference_not_executed": {
+      "commit": "dde32d0f5e39efe65c0497fec06449d38e18b369",
+      "disposition": "Historical provenance only; command PYTHONPATH and trainer script use E529/h230_source_v2; interpreter is the root .venv.",
+      "path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007"
+    },
+    "portable_source_manifest": {
+      "file_count": 54,
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/H230_SOURCE_SNAPSHOT_MANIFEST_V1.json",
+      "sha256": "697d78e5a5ac5461e876486caa8b278298283a213ed03432c43a856fd7f1bd58"
+    },
+    "source_command_artifact": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/H230_CANDIDATE_CONTROL_COMMANDS_V1.json",
+      "sha256": "8c26c41ba802ed9ff611d812ac7ac63151ff5328ca661657e86b0b2194d3665c"
+    },
+    "source_files_sha256_and_bytes": {
+      "H230_CANDIDATE_CONTROL_COMMANDS_V1.json": {
+        "bytes": 11310,
+        "sha256": "8c26c41ba802ed9ff611d812ac7ac63151ff5328ca661657e86b0b2194d3665c"
+      },
+      "H230_SOURCE_TEST_ATTEMPTS_V1.json": {
+        "bytes": 2752,
+        "sha256": "698923eddb0b6a434f54e06078a574bc2868cb0a4470310bfbf089afb071c7b5"
+      },
+      "README.md": {
+        "bytes": 2751,
+        "sha256": "0cf4010bb95559b8b029da05c49d03336b1ca4351a0b3e88fc8795579da29a68"
+      },
+      "scripts/train_rnn.py": {
+        "bytes": 144436,
+        "sha256": "fc4f714396d6756237a6de4d237a06ab86bed17690fd6243b2f297e6b2195055"
+      },
+      "src/wnn/__init__.py": {
+        "bytes": 63,
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+      },
+      "src/wnn/bandit_campaign_recipe.py": {
+        "bytes": 34735,
+        "sha256": "883bc6415345ec5e4deff56be13fc0ae0be8791702e999898dfdb3557a5a6374"
+      },
+      "src/wnn/campaign.py": {
+        "bytes": 20774,
+        "sha256": "35dd701fdb33c50494a3c781a315731212da22f41cae331f2f85073af0637605"
+      },
+      "src/wnn/campaign_local.py": {
+        "bytes": 24324,
+        "sha256": "0213ff7a809ce898be5d3180c15e31d228ad6f3f03f1f08fd968f9186e91353d"
+      },
+      "src/wnn/campaign_spec.py": {
+        "bytes": 10334,
+        "sha256": "5136703299585e81a9463a253133ba7f12da2c64ea863776c005d1fc5d3e8d7b"
+      },
+      "src/wnn/csrc/symreg_screen.cpp": {
+        "bytes": 4986,
+        "sha256": "413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7"
+      },
+      "src/wnn/data.py": {
+        "bytes": 4000,
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      "src/wnn/distillation.py": {
+        "bytes": 8577,
+        "sha256": "352a0c5b782f9e68fc7153783d20b04825e0c764b94f589cd71993580b7857c7"
+      },
+      "src/wnn/distillation_cache.py": {
+        "bytes": 10084,
+        "sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19"
+      },
+      "src/wnn/evaluation.py": {
+        "bytes": 8080,
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+      },
+      "src/wnn/event_content.py": {
+        "bytes": 7226,
+        "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd"
+      },
+      "src/wnn/features.py": {
+        "bytes": 5421,
+        "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee"
+      },
+      "src/wnn/gmetric.py": {
+        "bytes": 8902,
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      },
+      "src/wnn/heuristics.py": {
+        "bytes": 9025,
+        "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e"
+      },
+      "src/wnn/infer.py": {
+        "bytes": 2377,
+        "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9"
+      },
+      "src/wnn/markov.py": {
+        "bytes": 2624,
+        "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2"
+      },
+      "src/wnn/metric.py": {
+        "bytes": 4806,
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc"
+      },
+      "src/wnn/nn.py": {
+        "bytes": 20537,
+        "sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca"
+      },
+      "src/wnn/optim.py": {
+        "bytes": 11736,
+        "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991"
+      },
+      "src/wnn/outcomes.py": {
+        "bytes": 4538,
+        "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75"
+      },
+      "src/wnn/portability.py": {
+        "bytes": 1909,
+        "sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a"
+      },
+      "src/wnn/privileged.py": {
+        "bytes": 6608,
+        "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4"
+      },
+      "src/wnn/propensity.py": {
+        "bytes": 1404,
+        "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d"
+      },
+      "src/wnn/quantization.py": {
+        "bytes": 6050,
+        "sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077"
+      },
+      "src/wnn/quantization_export.py": {
+        "bytes": 3968,
+        "sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0"
+      },
+      "src/wnn/research_features.py": {
+        "bytes": 6234,
+        "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8"
+      },
+      "src/wnn/resources.py": {
+        "bytes": 4485,
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+      },
+      "src/wnn/run_identity.py": {
+        "bytes": 4488,
+        "sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76"
+      },
+      "src/wnn/sentinel.py": {
+        "bytes": 8603,
+        "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec"
+      },
+      "src/wnn/sentinel_calibration.py": {
+        "bytes": 8550,
+        "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599"
+      },
+      "src/wnn/specialist.py": {
+        "bytes": 12064,
+        "sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400"
+      },
+      "src/wnn/splits.py": {
+        "bytes": 8647,
+        "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+      },
+      "src/wnn/spread_aux.py": {
+        "bytes": 7553,
+        "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512"
+      },
+      "src/wnn/streaming.py": {
+        "bytes": 2422,
+        "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e"
+      },
+      "src/wnn/structured_state.py": {
+        "bytes": 9963,
+        "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756"
+      },
+      "src/wnn/symreg.py": {
+        "bytes": 11386,
+        "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849"
+      },
+      "src/wnn/tcn_ref.py": {
+        "bytes": 3511,
+        "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa"
+      },
+      "src/wnn/ticks.py": {
+        "bytes": 4946,
+        "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8"
+      },
+      "src/wnn/training_calibration.py": {
+        "bytes": 2694,
+        "sha256": "30923120c1bd9773556556ee0fbbab5d8db4a5f4232c48b81f11fa87a5e74e52"
+      },
+      "src/wnn/training_controls.py": {
+        "bytes": 10695,
+        "sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39"
+      },
+      "src/wnn/training_credit.py": {
+        "bytes": 2225,
+        "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd"
+      },
+      "src/wnn/training_dynamics.py": {
+        "bytes": 14936,
+        "sha256": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294"
+      },
+      "src/wnn/training_factorized.py": {
+        "bytes": 7615,
+        "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2"
+      },
+      "src/wnn/training_qat.py": {
+        "bytes": 6146,
+        "sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72"
+      },
+      "src/wnn/training_sampling.py": {
+        "bytes": 6540,
+        "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2"
+      },
+      "src/wnn/training_state.py": {
+        "bytes": 8689,
+        "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+      },
+      "src/wnn/training_views.py": {
+        "bytes": 3065,
+        "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142"
+      },
+      "src/wnn/twoclock_ref.py": {
+        "bytes": 3732,
+        "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44"
+      },
+      "src/wnn/viz.py": {
+        "bytes": 4297,
+        "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5"
+      },
+      "tests/test_family_head_control.py": {
+        "bytes": 7675,
+        "sha256": "8720102e0d4a8a91b2acd49e2bc2fe7d2c30b9738136e7529ec6c59d92398a3d"
+      }
+    },
+    "source_semantics": "For positive family weight, the explicit head-enable flag preserves candidate behavior; at zero weight it preserves the same 31-output structure and family-cache reads for the matched control.",
+    "source_tests": {
+      "latest_attempt": {
+        "address_space_limit_bytes": 4000000000,
+        "approach": "read only the first actual NPY payload rows into temporary small arrays; exercise the copied Sequences cache append path; use the actual own initializer checkpoint by SHA",
+        "id": "H230-SOURCE-V2-TEST-A4",
+        "interpretation": "implementation checks passed under the bounded CPU envelope; no fit, export, grade, or GPU use",
+        "process_tree_peak_rss_bytes": 786554880,
+        "rss_guard_triggered": false,
+        "status": "passed",
+        "terminal": "3 passed",
+        "test_count": 3,
+        "test_wall_seconds": 2.14
+      },
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/H230_SOURCE_TEST_ATTEMPTS_V1.json",
+      "sha256": "698923eddb0b6a434f54e06078a574bc2868cb0a4470310bfbf089afb071c7b5"
+    }
+  },
+  "status": "ready_for_fresh_guarded_controller_admission",
+  "supersedes_for_execution_only": {
+    "reason": "Bind the already frozen candidate to the E529 portable source-v2 snapshot and exact command; retain science recipe and compute caps.",
+    "resource_successor_v2": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_RESOURCE_SUCCESSOR_V2.json",
+      "sha256": "a3049a0ec9090eb1af8ce7639baf2fee59a17355fe8feea1059f1a491e24a5af"
+    },
+    "seed3_fit_stage_contract": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_STAGE_CONTRACT_V1.json",
+      "sha256": "8825d2c49b933586acdf47699127154f9ebc5affb595115b6e10727bedf286cc"
+    }
+  }
+}

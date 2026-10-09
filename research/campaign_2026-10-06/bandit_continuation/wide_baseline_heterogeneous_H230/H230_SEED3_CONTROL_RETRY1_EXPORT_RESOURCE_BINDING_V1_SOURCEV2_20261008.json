@@ -1,0 +1,107 @@
+{
+  "authority": {
+    "basis": "Root authorized bounded H230 fixed-epoch1 export after successful control fit.",
+    "controller": "root",
+    "scope": "One export only; no score, promotion, or public upload."
+  },
+  "command_binding": {
+    "argv_sha256_compact_json": "ae67be60afa38046365158b497dcf2fd170da9ded87790f586fa29d39c7804b2",
+    "output_prediction": "cache/pred_h230_familyoff_s3_retry1_ep1_20261008_v1_valid.npy",
+    "output_sidecar": "cache/pred_h230_familyoff_s3_retry1_ep1_20261008_v1_valid.json",
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_CONTROL_RETRY1_EXPORT_COMMAND_FREEZE_V1_SOURCEV2_20261008.json",
+    "run_name": "bd26_h230_familyoff_s3_retry1_f0",
+    "sha256": "2104b99311389b9e7199d62fcff792f8f8d3146c83b02a5d86550187728a70f0"
+  },
+  "controller_must_recheck_at_atomic_launch": [
+    "barrier/admission",
+    "active/reserved attempts",
+    "GPU lock and observed VRAM",
+    "effective aggregate CPU/RAM limits",
+    "memory current plus reservation",
+    "resource contract/checkpoint/freeze hashes"
+  ],
+  "created_utc": "2026-10-07T23:11:29.906858+00:00",
+  "fit_terminal_binding": {
+    "attempt_id": "h230-hetero-familyoff-s3-retry1-sourcev2-20261008-v1",
+    "checkpoint_path": "artifacts/runs/bd26_h230_familyoff_s3_retry1_f0/model_ep1.pt",
+    "checkpoint_sha256": "5838cc30fa7a52211f5b74bc5471ada96e34adc2d5ffb25ad87d6cba1de254eb",
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_CONTROL_RETRY1_FIT_TERMINAL_RECEIPT_V1_SOURCEV2_20261008.json",
+    "selected_epoch_zero_based": 1,
+    "sha256": "d87ff78ad149ebb59272e29c1bda602961cfe3920b596f6091a8d360bc5529ec"
+  },
+  "fresh_preflight": {
+    "checks": {
+      "admission_open_no_active_attempt_and_parent_capacity": true,
+      "distillation_cache_metadata_and_verification_match": true,
+      "fit_terminal_receipt_success_and_fixed_epoch1": true,
+      "fold_manifest_hash_matches": true,
+      "gpu_lock_free": true,
+      "gpu_within_observed_cap": true,
+      "grade_freezes_unchanged": true,
+      "prediction_sidecar_partial_stale_paths_absent": true,
+      "predictor_script_hash_matches": true,
+      "retry_checkpoint_hash_matches": true,
+      "source_snapshot_54_files_rehashed": true,
+      "successful_file_cache_reclaim": true,
+      "trainer_script_hash_matches": true,
+      "valid_target_hash_and_canonical_row_order_match": true
+    },
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_CONTROL_RETRY1_EXPORT_PREFLIGHT_V1_20261008.json",
+    "sha256": "8b3167e624ef3f04f6b1fb7826d18cd8663e8dfbdef2fad1768d93c70187d1e5",
+    "status": "ready_for_atomic_controller_admission"
+  },
+  "grading_boundary": {
+    "actor_score_computed": false,
+    "grade_freeze_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PRE_SCORE_GRADE_FREEZE_V1_20261008.json",
+    "grade_freeze_sha256": "210cc9ec2e2a7181bd25ff6f5618941630926a2314386cfa8a5475f3256b1b16",
+    "independent_grader_owns_score": true,
+    "metric_id": "global_wp_clip2_v1",
+    "primary_incumbent_freeze_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PRE_SCORE_PRIMARY_INCUMBENT_FREEZE_V1_20261008.json",
+    "primary_incumbent_freeze_sha256": "1d62c65412a504b9d8a596eb546ce9a484a22274e64b6574b3e33f6ff79317b1",
+    "public_upload": false
+  },
+  "id": "H230-SEED3-CONTROL-RETRY1-EXPORT-RESOURCE-BINDING-V1-SOURCEV2-20261008",
+  "inputs": {
+    "cache_metadata_sha256": "398d7753a127054f3e38cd34c4730099843d60663541787e09ab38c9f45e47ad",
+    "cache_verification_receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+    "cache_verification_receipt_sha256": "e04da68bad9ddbb0ec64baf1ad43c19381c0606d47dbed066416f84d3a03c3d8",
+    "fold_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "pre_score_grade_freeze_sha256": "210cc9ec2e2a7181bd25ff6f5618941630926a2314386cfa8a5475f3256b1b16",
+    "primary_incumbent_freeze_sha256": "1d62c65412a504b9d8a596eb546ce9a484a22274e64b6574b3e33f6ff79317b1",
+    "successful_reclaim_receipt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/H230_CONTROL_EXPORT_CACHE_RECLAIM_20261008_V1.json",
+    "successful_reclaim_receipt_sha256": "b87797622e55be05ac5235428dabdbca372ed6c04da81d99f0f366c069dc33ad",
+    "valid_row_group_count": 1873,
+    "valid_row_group_order_sha256": "73e879bb572abbab3d4b1af9bb6ab179c54c8b2c2ee8485242bbb153fe5ef84e",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "resources": {
+    "aggregate_cpu_cores": 12,
+    "cuda_allocator_bytes": 4300000000,
+    "gpu_workers": 1,
+    "loader_workers": 0,
+    "observed_vram_cap_bytes": 5000000000,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_slice": "wnn-campaign.slice",
+    "parent_swap_max_bytes": 0,
+    "reservation_basis": {
+      "candidate_export_peak_vram_bytes": 1451229184,
+      "candidate_export_wall_seconds": 85.82488635099435,
+      "candidate_export_worker_peak_ram_bytes": 5127163904,
+      "candidate_prediction_write_window_seconds": 81.353879
+    },
+    "worker_cpu_cores": 3,
+    "worker_ram_reservation_bytes": 6500000000,
+    "worker_timeout_seconds": 1800
+  },
+  "schema": "h230-seed3-control-retry1-export-resource-binding-v1",
+  "source": {
+    "all_match": true,
+    "files_rehashed": 54,
+    "manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/H230_SOURCE_SNAPSHOT_MANIFEST_V1.json",
+    "manifest_sha256": "697d78e5a5ac5461e876486caa8b278298283a213ed03432c43a856fd7f1bd58",
+    "predictor_script_sha256": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+    "trainer_script_sha256": "fc4f714396d6756237a6de4d237a06ab86bed17690fd6243b2f297e6b2195055"
+  },
+  "status": "ready_for_atomic_controller_admission"
+}

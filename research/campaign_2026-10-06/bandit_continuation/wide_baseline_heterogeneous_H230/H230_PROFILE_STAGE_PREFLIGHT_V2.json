@@ -1,0 +1,269 @@
+{
+  "schema": "h230-profile-stage-preflight-v2",
+  "id": "H230-profile-preflight-v2",
+  "created_utc": "2026-10-07T16:45:43.857938+00:00",
+  "status": "preflight_passed_controller_recheck_required",
+  "checks": {
+    "cache_review_pass": true,
+    "cache_handoff_ready": true,
+    "prior_live_input_identity_pass": true,
+    "profile_worker_source_recheck_pass": true,
+    "parent_limits_within_authorized_caps": true,
+    "profile_plus_support_reserves_below_parent_high": true,
+    "aggregate_cpu_reservations_with_profile_at_or_below_six": true,
+    "no_new_oom_events_since_cache": true,
+    "disk_above_25_gib_floor": true,
+    "one_gpu_reported": true,
+    "global_gpu_usage_below_five_gb": true,
+    "compute_app_query_returned_successfully": true,
+    "gpu_lock_available": true,
+    "unique_profile_attempt_and_run_path": true
+  },
+  "all_preflight_checks_passed": true,
+  "controller_launch_recheck_required": true,
+  "scope": "One full-shape profile-only run. No checkpoint, predictions, evaluation, or score. This profile measures resource behavior and cannot select a checkpoint.",
+  "references": {
+    "allocation": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/CONDITIONAL_DELIVERY_ALLOCATION_V1.json",
+      "sha256": "e0198952bc05f38276521eba832688cc194eab68388a5103c59c4e221b5d6570"
+    },
+    "execution_contract": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.json",
+      "sha256": "d5ade4ab645f06640a5f79e097ef00f428215f31b8941b97228357c5c51d0ddb"
+    },
+    "cache_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_INDEPENDENT_REVIEW_20261007_R1.json",
+      "sha256": "91af823661cc93b3c7cccf10ed805d0ec918985695a5c026b5a7cc5dc2f68651"
+    },
+    "cache_output_map": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_REVIEW_TARGETS_V1.json",
+      "sha256": "3d10d9e6d07cd64c9760711e6b45fffbb4ac4163b342d2e3227009461cf4a48f"
+    },
+    "cache_output_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+      "sha256": "e04da68bad9ddbb0ec64baf1ad43c19381c0606d47dbed066416f84d3a03c3d8"
+    },
+    "pre_profile_handoff": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PRE_PROFILE_HANDOFF_V1.json",
+      "sha256": "1e7a1e769a2cac5da28881410231b65a8ffe75cca6dcda18fab792e99a939774"
+    },
+    "input_identity_v1": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_IDENTITY_V1.json",
+      "sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4"
+    },
+    "input_identity_v2_failed": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_IDENTITY_V2.json",
+      "sha256": "8d83368099db495248cc68e0bbb97f27acd0f9ec72f7c66e002dc63546fdb4af"
+    },
+    "worktree_recheck_v2": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_WORKTREE_RECHECK_V2.json",
+      "sha256": "f154b31dfecdd1ac7d437d6b6aa0300286e5df34dec61ccbe9497b7510c60fd1"
+    },
+    "cache_attempt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-w384-family-cache-v1.json",
+      "sha256": "bd5b040b6d263c2706345e595175d7320ddfe7fe4fc7215e47ccd7d191184017"
+    }
+  },
+  "input_identity_status": {
+    "last_full_input_hash_receipt": "passed before cache build",
+    "receipt_sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4",
+    "late_refresh_attempt": "failed closed before hashing because the completed cache output already exists; no identity mismatch; pinned trainer input/split verification must complete before profile batches",
+    "failed_attempt_receipt_sha256": "8d83368099db495248cc68e0bbb97f27acd0f9ec72f7c66e002dc63546fdb4af",
+    "failed_attempt_error": "IdentityError: cache output path already exists"
+  },
+  "fresh_parent_snapshot": {
+    "cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "memory_current_bytes": 5081563136,
+    "memory_high_bytes": 17999998976,
+    "memory_max_bytes": 19999997952,
+    "memory_swap_max_bytes": 0,
+    "memory_stat": {
+      "anon": 18247680,
+      "file": 5016666112,
+      "inactive_file": 4994121728,
+      "active_file": 10641408
+    },
+    "memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 3558064,
+      "oom": 7,
+      "oom_kill": 5,
+      "oom_group_kill": 0,
+      "sock_throttled": 34
+    },
+    "events_since_cache_attempt": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0,
+      "sock_throttled": 0
+    },
+    "disk_free_bytes": 65404682240,
+    "gpu_lock": "available"
+  },
+  "support_reservations": {
+    "root_reference_build": {
+      "cpus": 1,
+      "ram_bytes": 2147000000
+    },
+    "cloud_operator": {
+      "cpus": 1,
+      "ram_bytes": 1500000000
+    },
+    "independent_critic": {
+      "cpus": 1,
+      "ram_bytes": 1500000000
+    }
+  },
+  "resource_projection": {
+    "profile_cpus": 3,
+    "profile_memory_bytes": 6500000000,
+    "support_cpus": 3,
+    "support_memory_bytes": 5147000000,
+    "projected_parent_memory_bytes": 16728563136,
+    "parent_high_bytes": 17999998976,
+    "headroom_bytes": 1271435840,
+    "aggregate_cpu_cores": 6,
+    "aggregate_cpu_cap": 6
+  },
+  "gpu_snapshot": {
+    "physical_query": [
+      "nvidia-smi",
+      "--query-gpu=index,name,uuid,memory.used,memory.total,utilization.gpu,utilization.memory",
+      "--format=csv,noheader,nounits"
+    ],
+    "physical_returncode": 0,
+    "physical_stdout": "0, NVIDIA GeForce RTX 3060 Laptop GPU, GPU-afbf2864-833f-9bd2-10ac-536e31337638, 87, 6144, 17, 10\n",
+    "physical_stderr": "",
+    "devices": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+        "uuid": "GPU-afbf2864-833f-9bd2-10ac-536e31337638",
+        "memory_used_mib": 87,
+        "memory_total_mib": 6144,
+        "utilization_gpu_percent": 17,
+        "utilization_memory_percent": 10
+      }
+    ],
+    "compute_app_query": [
+      "nvidia-smi",
+      "--query-compute-apps=pid,used_memory,gpu_uuid",
+      "--format=csv,noheader,nounits"
+    ],
+    "compute_app_returncode": 0,
+    "compute_app_stdout": "",
+    "compute_app_stderr": "",
+    "compute_app_status": "empty response; per-process usage unavailable and not assumed zero",
+    "global_used_bytes_for_controller_gate": 92274688,
+    "controller_observed_vram_cap_bytes": 5000000000,
+    "allocator_cap_bytes": 4300000000
+  },
+  "profile_contract": {
+    "attempt": "h230-w384-profile-v1",
+    "run_name": "bd26_h230_profile_s3_f0",
+    "profile_only": true,
+    "warmup_batches": 3,
+    "timed_batches": 20,
+    "checkpoint_or_prediction_write": false,
+    "cpu_cores": 3,
+    "worker_memory_bytes": 6500000000,
+    "timeout_seconds": 900,
+    "argv": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=20s",
+      "900",
+      "/usr/bin/env",
+      "PYTHONPATH=/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/src",
+      "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/.venv/bin/python",
+      "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/scripts/train_rnn.py",
+      "--name",
+      "bd26_h230_profile_s3_f0",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--hidden",
+      "256",
+      "--layers",
+      "2",
+      "--dropout",
+      "0",
+      "--seed",
+      "3",
+      "--split-manifest",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--valid-fold",
+      "0",
+      "--eval-source",
+      "vfold",
+      "--train-source",
+      "train+valid",
+      "--train-seqs",
+      "10607",
+      "--init",
+      "c20261003_combo_s3_f0@ep3",
+      "--epochs",
+      "2",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "1",
+      "--no-eval-during-fit",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--lr",
+      "0.0001",
+      "--wd",
+      "0.01",
+      "--optim",
+      "adamw",
+      "--sched",
+      "onecycle",
+      "--precision",
+      "fp16",
+      "--propensity",
+      "c20260929_prop_f0",
+      "--prop-power",
+      "2",
+      "--prop-eps",
+      "0.03",
+      "--valid-true-mask",
+      "0.03",
+      "--aux-struct",
+      "0.3",
+      "--aux-next",
+      "0.3",
+      "--distill-cache-root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+      "--distill-cache-variant",
+      "source",
+      "--distill-alpha",
+      "0.7",
+      "--distill-family-weight",
+      "0.1",
+      "--distill-family-target-mode",
+      "raw",
+      "--distill-boot-h",
+      "0",
+      "--fast",
+      "--profile-warmup",
+      "3",
+      "--profile-steps",
+      "20"
+    ]
+  },
+  "failed_v1_preflight_note": "V1 draft incorrectly required exact decimal parent limits; systemd cgroup values are page-rounded down. This V2 checks they do not exceed authorized caps and that max is at least high."
+}

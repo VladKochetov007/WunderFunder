@@ -1,0 +1,118 @@
+{
+  "actor": "weak_diversity_kaggle_actor",
+  "admission_status": {
+    "cache_authorized": false,
+    "fit_authorized": false,
+    "grading_authorized": false,
+    "no_provider_action": true,
+    "prediction_export_authorized": false,
+    "profile_authorized": false,
+    "requires_actual_shape_and_channel_reconciliation": true,
+    "requires_fresh_source_seal": true,
+    "requires_root_stage_admission": true
+  },
+  "cache_reservation_reconciliation": {
+    "conditional_on_live_shape_count_and_14_channel_verification": true,
+    "draft_reservation_bytes": 24200000000,
+    "draft_reservation_status": "advisory_superseded_for_live_gate",
+    "exact_payload_estimate_bytes": 13372800000,
+    "formula": "exact payload estimate + 25 GiB free-space floor",
+    "minimum_free_bytes": 26843545600,
+    "required_free_bytes": 40216345600
+  },
+  "controller": "root",
+  "created_utc": "2026-10-07T14:54:14.332658+00:00",
+  "dynamic_gates_not_frozen_here": [
+    "Refresh E521 terminal receipt after all fixed-epoch-3 train/valid exports finish.",
+    "Seal actual checkpoint/provenance/prediction/sidecar hashes, target-index identities and row-group order for every source.",
+    "Recheck mounted data and split/fold membership before cache build.",
+    "Verify live target rows, fit membership, 14 float32 cache channels, output estimate and >=40,216,345,600 free bytes.",
+    "Acquire independent post-export source-map review and root per-stage resource admission."
+  ],
+  "id": "H230-static-contract-review-v4",
+  "review_scope": "Static H230 recipe/source audit plus exact main-root resource-controller and pinned worktree child invocation; cache-space reconciliation. No run admission, live source-seal, score, fit or scientific approval.",
+  "reviewer": "tpu_recovery_delivery",
+  "status": "frozen_static_execution_binding_candidate_pending_independent_review",
+  "supersedes": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_REVIEW_TARGETS_V3.json",
+    "reason": "V3 confirmed the 31-output recipe contract but identified that resource-controller --root/PYTHONPATH could resolve the main trainer rather than the raw-family worktree. V4 binds main-root controller and absolute worktree child argv, and records the controller cache-reservation reconciliation.",
+    "sha256": "305a7942edf67d9a3357c5cb442371f4f2907595623cb63fdc8c95dee39daffc"
+  },
+  "target_files": [
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.json",
+      "sha256": "d5ade4ab645f06640a5f79e097ef00f428215f31b8941b97228357c5c51d0ddb"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.md",
+      "sha256": "6227ce98eb3553d181d7d70e3eed455fc3277e916a8b02343a133a987bd1bb0e"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SOURCE_HASH_BUNDLE_V1.json",
+      "sha256": "6984c736f4683b557a5db5008cd9b79bccb552ce565126a0788a5d8e2b1c8cef"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_REVIEW_TARGETS_V3.json",
+      "sha256": "305a7942edf67d9a3357c5cb442371f4f2907595623cb63fdc8c95dee39daffc"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_INDEPENDENT_STATIC_REVIEW_V3_20261007_R1.json",
+      "sha256": "246877e31186b23124fe8e9031922cd217baabd311b912bf9158202dd783b23b"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_E521_STATUS_SNAPSHOT_V1.json",
+      "sha256": "8da6892a32a62b1fe542c620243022d5689b3a13467a1b497bbeef4d7c369d95"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/SOURCE_FAMILIES_DRAFT_V2.json",
+      "sha256": "a292a8e241698d898feea434d5c86ab6b8e91781fcafe5db5287bb29b5549836"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/PLAN.md",
+      "sha256": "1407e1c6fa96aecec3506ed8a338982897960668ea97758e96a8320d412a7d94"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PREPARATION_AUDIT_V1.md",
+      "sha256": "304655cb611758cffd157e16187c36179eb123f91efcba076ae1ee2deeb69fd7"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/CONDITIONAL_DELIVERY_ALLOCATION_V1.json",
+      "sha256": "e0198952bc05f38276521eba832688cc194eab68388a5103c59c4e221b5d6570"
+    },
+    {
+      "path": "scripts/bandit_resources.py",
+      "sha256": "61c686be1b114b857775fbd8d58185da74992dc39287316865682bdd783e148d"
+    },
+    {
+      "path": "scripts/limited",
+      "sha256": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76"
+    },
+    {
+      "path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/scripts/train_rnn.py",
+      "sha256": "fe283da2d70f370bfc82f0faf9f48a75ee4419cb1615024aa6911ec5f0452677"
+    },
+    {
+      "path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/scripts/build_distill_cache.py",
+      "sha256": "09f7110f21507195199d1f50fad6d1074fef1cd4d670a91093935be333f9dd26"
+    },
+    {
+      "path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/scripts/predict_run.py",
+      "sha256": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee"
+    },
+    {
+      "path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/src/wnn/distillation.py",
+      "sha256": "352a0c5b782f9e68fc7153783d20b04825e0c764b94f589cd71993580b7857c7"
+    }
+  ],
+  "worktree_verification_at_freeze": {
+    "head": "dde32d0f5e39efe65c0497fec06449d38e18b369",
+    "path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007",
+    "recheck_before_each_stage": true,
+    "symlinks": {
+      ".venv": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv",
+      "artifacts": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts",
+      "cache": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache",
+      "datasets": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets"
+    }
+  }
+}
