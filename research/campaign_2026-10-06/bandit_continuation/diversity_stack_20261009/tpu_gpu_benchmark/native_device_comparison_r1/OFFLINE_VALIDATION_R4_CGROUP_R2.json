@@ -1,0 +1,27 @@
+{
+  "schema": "wnn.native-device-tpu-offline-validation.v1",
+  "revision": "R4-cgroup-limit-completeness-successor",
+  "status": "passed_offline_startup_and_packaged_gate_tests",
+  "packet_sha256": "a3dac85a530e5ce771e2cfd4ab602d5491f046ebb36322e13fe60740910df18f",
+  "source_manifest_sha256": "eaa64c274267d7eb6c45b78381a7a29325a0ad0a3a6c22cb622f90f32ed4611e",
+  "offline_startup": {
+    "status": "complete",
+    "source_receipt_path": "sealed_candidate_r4_cgroup_r2/offline_boot_r1/out/offline_source_receipt.json",
+    "source_receipt_sha256": "778c3364d4420c6989bcdc882d669d5b9c0da38946b673dd70e31511bf689fb1",
+    "final_status_path": "sealed_candidate_r4_cgroup_r2/offline_boot_r1/final_status.json",
+    "final_status_sha256": "710715a73f62bd36717cd5b664cc13f21a132779a1029fc3c3a135d05f42b1bd",
+    "fit_admitted": false
+  },
+  "packaged_source_tests": {
+    "source": "tests extracted from the exact sealed source archive",
+    "result": "17 passed in 0.20s",
+    "tests": [
+      "test_fit_headroom_gate_r4.py",
+      "test_native_r4_binding.py"
+    ]
+  },
+  "ruff": "passed for the gate, regression tests, and sealer",
+  "deterministic_second_seal": "not repeated; root will perform the final authority-bound seal",
+  "actual_tpu_profile_or_fit": "not run; root admission denies provider push and conditional fitting",
+  "provider_action": "none"
+}
