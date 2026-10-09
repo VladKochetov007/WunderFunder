@@ -197,3 +197,9 @@ Efficiency so far: T4 small-screen fit 61.6 s (FP32 Muon) vs 71.6 s (native FP16
 - Local VRAM: GRU256 scratch teacher peaks 4.51 GB (b32/c1000), GRU384 3.2–4.0 GB (b16/c2000); GRU512 does not fit the 5 GB local cap at matched batch.
 - Revived the E529 GRU512/768 Muon seed9 fold0 capacity fit: V5R1 entered fit stage but runner refused host admission because cgroup memory.current held ~28 GB reclaimable page cache from hashing 35 GB raw inputs (available 4.22 GB). V5R2 = identities renamed + runner host_inventory counts memory.stat `file` as reclaimable; recipe unchanged (B8 FP16 Muon, 4 epochs, fixed ep3, 468 eval predictions exported; checkpoints collected for local train-split export/cache use). Packet suite 10/10 incl. new page-cache admission test; worker _validate_authorization passes offline; root self-review only (disclosed).
 - Pushed `vladkochetov07/e529-gru512-768-muon-fit-v5r2-20261009` v1 with 8.0 h GPU quota left (projections GRU512 3.7 h, GRU768 5.7 h; worker cap 26000 s). Rolling small screens paused (STOP) to preserve quota; resume scheduled 2026-10-10 03:05 Kyiv after the weekly reset. Collector timer wnn-collect-capacity-v5r2.
+
+
+### 2026-10-09T13:15Z — public results (user-reported); tail-weight negative
+
+- Public: Z4 seed99 Muon-parent student + head finishing 0.6662; Z3 student from combo_s4_final trunk + head finishing 0.6662; Z1c all-data-parent s4 student + head finishing 0.6649. New own public best 0.6662 (+0.0002 vs 0.6660); leaderboard rank 19, top-1 0.6717, top-10 cut 0.6677. Parent lineage (Muon parents) matters; finishing packages ~39 min runtime.
+- Tail-weighted student (|y|^1.5): 0.66827 vs 0.66882, −0.00055 [−0.00084, −0.00024]; tail emphasis beyond metric weighting hurts (H-295 power arm negative). Floor arm pending.
