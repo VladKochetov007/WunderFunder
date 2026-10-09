@@ -10,13 +10,15 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import os
 import tarfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
 HERE = Path(__file__).resolve().parent
 E529 = ROOT / "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529"
-SNAP = E529 / "h230_source_v3_lineard2z"
+LANE = os.environ.get("VT_LANE", "")
+SNAP = E529 / ("h230_source_v5_trace" if LANE else "h230_source_v3_lineard2z")
 MULTIFOLD = "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1"
 SPLIT = "research/campaign_2026-09-29/artifacts/splits/fold1.json"
 REGISTRY = f"{MULTIFOLD}/portable_inputs_fold1.json"
@@ -83,6 +85,10 @@ def export_argv(name: str, epoch: str = "3", output_name: str | None = None) -> 
 
 
 def jobs() -> dict:
+    if LANE:  # lane bundles start empty: every job comes through the refill queue
+        return {"pip": ["pyarrow", "scipy", "numba", "matplotlib"], "env": {"WNN_PORTABLE_DATA_MANIFEST": f"{W}/{REGISTRY}"},
+                "prepare": [{"label": "propcache", "timeout": 1800, "argv": [PY, f"{W}/scripts/cache_propensity.py", "c20260929_prop_f1"]}],
+                "slots": [], "stagger_seconds": 1, "jobs": []}
     return {
         "pip": ["pyarrow", "scipy", "numba", "matplotlib"],
         "env": {"WNN_PORTABLE_DATA_MANIFEST": f"{W}/{REGISTRY}"},
@@ -110,7 +116,7 @@ def add_bytes(archive: tarfile.TarFile, name: str, payload: bytes) -> None:
 
 
 def main() -> None:
-    out = HERE / "bundle"
+    out = HERE / (f"bundle_{LANE}" if LANE else "bundle")
     out.mkdir(exist_ok=True)
     tar_path = out / "bundle.tar.gz"
     with tarfile.open(tar_path, "w:gz") as archive:
@@ -118,7 +124,7 @@ def main() -> None:
             for path in sorted((SNAP / sub).rglob("*")):
                 if path.is_file() and "__pycache__" not in path.parts:
                     archive.add(path, arcname=f"{sub}/{path.relative_to(SNAP / sub)}")
-        for script in ("predict_run.py", "cache_propensity.py"):
+        for script in ("predict_run.py", "cache_propensity.py", "snapshot_curve.py", "grade_prediction_bank.py"):
             archive.add(ROOT / "scripts" / script, arcname=f"scripts/{script}")
         for relative in (SPLIT, REGISTRY):
             archive.add(ROOT / relative, arcname=relative)
@@ -129,6 +135,7 @@ def main() -> None:
     (out / "BUNDLE_RECEIPT.json").write_text(json.dumps({
         "bundle": "bundle.tar.gz", "sha256": digest, "bytes": tar_path.stat().st_size,
         "jobs": list(VARIANTS), "snapshot": str(SNAP.relative_to(ROOT)),
+        **({"dataset_slug": f"wnn-vast-teacher-bundle-20261010-{LANE}1", "dataset_file": "bundle.wnn"} if LANE else {}),
     }, indent=1))
     print(digest, tar_path.stat().st_size)
 

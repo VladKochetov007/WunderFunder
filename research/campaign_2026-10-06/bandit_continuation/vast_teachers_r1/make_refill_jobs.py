@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -10,6 +11,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_bundle as B  # noqa: E402
 
 WAVES = {
+    "w9": {
+        # data-weighting recipe knobs never swept for teachers
+        "vt_f1_since8": {"--since-weight": "8"},
+        "vt_f1_since128": {"--since-weight": "128"},
+        "vt_f1_proppow1": {"--prop-power": "1"},
+        "vt_f1_proppow3": {"--prop-power": "3"},
+    },
     "w8": {
         # teacher-side target weighting (tail power / zero-label floor / class 3), regularization before scale,
         # untried architectures and input views, alternative losses
@@ -85,6 +93,9 @@ WAVES = {
     },
 }
 
+LANE = os.environ.get("VT_LANE", "")
+LANE_WAVES = {"b": ("w8", "w9")}
+
 TRACE = ["--trace-every", "10", "--trace-state-every", "200", "--intra-epoch-points", "3", "--intra-snapshots"]
 
 
@@ -96,9 +107,13 @@ def with_trace(change: dict) -> dict:
 
 
 def main() -> None:
-    out = Path(__file__).resolve().parent / "refill_jobs"
+    out = Path(__file__).resolve().parent / (f"refill_jobs_{LANE}" if LANE else "refill_jobs")
     out.mkdir(exist_ok=True)
     for wave, variants in WAVES.items():
+        if LANE and wave not in LANE_WAVES.get(LANE, ()):
+            continue
+        if not LANE and wave in sum(LANE_WAVES.values(), ()):
+            continue
         for index, (name, change) in enumerate(variants.items()):
             snapshots = change.get("snapshots", [])
             fold = int(change.get("fold", 1))

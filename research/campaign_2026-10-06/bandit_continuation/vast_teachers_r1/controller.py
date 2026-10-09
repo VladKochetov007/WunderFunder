@@ -27,9 +27,16 @@ from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[4]
 HERE = Path(__file__).resolve().parent
-RUNTIME = ROOT / ".runtime/vast_teachers_r1"
-RECEIPT = HERE / "OWNERSHIP_RECEIPT.json"
+# Lane "" is the first Vast account (.env `vastai`); lane "b" is the second account (.env `vastai2`).  Each lane has its own
+# ownership receipt, runtime directory, bundle and job directory; no operation ever crosses lanes.
+LANE = os.environ.get("VT_LANE", "")
+SUFFIX = f"_{LANE}" if LANE else ""
+KEY_PREFIXES = ("vastai2=",) if LANE == "b" else ("vastai=", "VAST_API_KEY=")
+RUNTIME = ROOT / f".runtime/vast_teachers_r1{SUFFIX}"
+RECEIPT = HERE / f"OWNERSHIP_RECEIPT{SUFFIX}.json"
 PLAN = RUNTIME / "plan.private.json"
+BUNDLE_DIR = HERE / f"bundle{SUFFIX}"
+JOBS_DIR = HERE / f"refill_jobs{SUFFIX}"
 KEY = Path.home() / ".ssh/vast_key"
 VASTAI = str(Path.home() / ".local/bin/vastai")
 
@@ -40,7 +47,7 @@ def now() -> str:
 
 def api_key() -> str:
     for line in (ROOT / ".env").read_text().splitlines():
-        if line.strip().startswith(("vastai=", "VAST_API_KEY=")):
+        if line.strip().startswith(KEY_PREFIXES):
             return line.split("=", 1)[1].strip().strip('"').strip("'")
     raise SystemExit("no Vast key in .env")
 
@@ -90,13 +97,13 @@ def cmd_plan(_: argparse.Namespace) -> None:
                            "multifold_r1/portable_inputs_fold1.json").read_text())["sources"]
     assets = {row["path"]: row for row in json.loads(
         (ROOT / "research/campaign_2026-10-04/kaggle/fold0_assets/assets-manifest.json").read_text())["files"]}
-    bundle = json.loads((HERE / "bundle/BUNDLE_RECEIPT.json").read_text())
+    bundle = json.loads((BUNDLE_DIR / "BUNDLE_RECEIPT.json").read_text())
     wanted = [
         ("datasets/train.parquet", "wunder-funder", "train.parquet"),
         ("datasets/valid.parquet", "wunder-funder", "valid.parquet"),
         *[(p, "wnn-c20261004-fold0-assets", assets[p]["filename"]) for p in
           ("cache/chain_folds.npz", "cache/chains.npz", "cache/train_targets.npz", "cache/valid_targets.npz")],
-        ("bundle.tar.gz", "wnn-vast-teacher-bundle-20261009-r2", "bundle.wnn"),
+        ("bundle.tar.gz", bundle.get("dataset_slug", "wnn-vast-teacher-bundle-20261009-r2"), bundle.get("dataset_file", "bundle.wnn")),
     ]
     api = KaggleApi()
     api.authenticate()
@@ -183,7 +190,7 @@ def cmd_collect(_: argparse.Namespace) -> None:
 
 def cmd_queue(_: argparse.Namespace) -> None:
     """Ship refill daemon + job files to the owned host and start the daemon (idempotent)."""
-    jobs = sorted((HERE / "refill_jobs").glob("*.json"))
+    jobs = sorted(JOBS_DIR.glob("*.json"))
     ssh("mkdir -p /root/run/refill/pending /root/run/refill/running /root/run/refill/done")
     scp([str(HERE / "remote_refill.py")], "/root/run/", upload=True)
     have = {re.sub(r"^p\d\d_", "", name) for name in
