@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "observation_date_utc": "2026-10-07",
+  "market": "Vast.ai",
+  "status": "public_search_snapshot_seen_but_authenticated_offer_data_unavailable",
+  "actual_offer_records_observed": null,
+  "actual_offer_count": null,
+  "interpretation": "No structured authenticated offer query was performed. Public web-search index snapshots are recorded separately below (three older A40 cards and an incomplete recent-looking RTX 4090 snippet), but they lack a live recheck and do not provide the current marketplace count. Null here means no structured current offer record/count was obtained; it does not mean the marketplace had zero offers.",
+  "attempts": [
+    {
+      "timestamp_utc": "2026-10-07T13:01:48.223999+00:00",
+      "operation": "prior read-only current-user API query",
+      "endpoint": "/api/v0/users/current",
+      "result": "HTTP 401",
+      "authenticated": false,
+      "instances_created": 0,
+      "credits_spent": 0,
+      "receipt": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/VAST_ACCESS_READ_ONLY_20261007.json"
+    },
+    {
+      "timestamp_utc": "2026-10-07",
+      "operation": "open user-supplied create URL in browser tool",
+      "result": "internal error; no page content or offer values returned",
+      "url": "https://cloud.vast.ai/create/?machineCpuCoresMin=98&machineCpuGhzMin=0.12940811548017225&machineMegabitUploadMin=208&priceInstanceHourlyMax=3.226567036888505&machineReliabilityMin=0.6171071140248879&instanceDurationMin=7197&isOfferVerified=false&isOfferCompatible=false"
+    },
+    {
+      "timestamp_utc": "2026-10-07",
+      "operation": "open unauthenticated public bundles API route in browser tool",
+      "result": "internal error; no page content or offer values returned",
+      "url": "https://cloud.vast.ai/api/v0/bundles/?q=%7B%7D"
+    },
+    {
+      "timestamp_utc": "2026-10-07",
+      "operation": "public web-search index snapshot of Vast console query gpu_option=RTX 4090",
+      "result": "search result marked crawled today and showed a 1x RTX 4090 card at $1.341/hr plus bandwidth; opening the console yielded only its iframe shell, not the card or a structured offer record",
+      "url": "https://cloud.vast.ai/?gpu_option=RTX+4090",
+      "offer_id": null,
+      "live_availability_verified": false,
+      "authenticated": false
+    },
+    {
+      "timestamp_utc": "2026-10-07",
+      "operation": "open direct public create pages for indexed A40 offer IDs",
+      "result": "browser tool rejected each URL as inaccessible; no current availability or updated price was obtained",
+      "urls": [
+        "https://cloud.vast.ai/create/?offer_id=51337963",
+        "https://cloud.vast.ai/create/?offer_id=50510068",
+        "https://cloud.vast.ai/create/?offer_id=52628048"
+      ],
+      "authenticated": false,
+      "rental_or_mutation": false
+    },
+    {
+      "timestamp_utc": "2026-10-07",
+      "operation": "public web-search index checks for RTX 3090, A100 and H100 listing cards",
+      "result": "indexed card snippets with offer IDs and partial specs/prices were returned; crawl freshness varied from today to six days ago. No API query or live availability recheck occurred.",
+      "urls": [
+        "https://cloud.vast.ai/?template_id=e6330219a022c9511f290c3c2d44592d",
+        "https://cloud.vast.ai/?template_id=41c42b980c64558475ecba8a0c561253",
+        "https://cloud.vast.ai/?gpuModelNames=rtx4070S&instanceDiskSizeMin=16&instanceDurationMin=604800&isAvxSupported=false&isHostSecure=false&isMachineIpStatic=false&isOfferAvailable=true&isOfferCompatible=true&isOfferVerified=true&isQueryInverted=false&machineReliabilityMin=0.9&offerGpuNumMax=1&offerGpuNumMin=1&pageSize=128&ref_id=405929&rentalType=onDemand&sorts=score-desc"
+      ],
+      "authenticated": false,
+      "rental_or_mutation": false
+    },
+    {
+      "timestamp_utc": "2026-10-07",
+      "operation": "public web-search index snapshot of Vast console query gpu_option=RTX 4090",
+      "result": "the page was labeled Crawled: today and returned multiple detailed listing cards, including offer IDs 43266018 (1x RTX4090, Sweden) and 46613767 (2x RTX4090, Texas); cards and partial hosts are recorded below. No live availability/API check was performed.",
+      "url": "https://cloud.vast.ai/?gpu_option=RTX+4090",
+      "authenticated": false,
+      "rental_or_mutation": false,
+      "live_availability_verified": false
+    },
+    {
+      "timestamp_utc": "2026-10-07",
+      "operation": "public web-search index snapshot of the GPU-specific H100 PCIe console page",
+      "result": "the page was labeled Crawled: today and returned same-host verified rows #54467129 (1x H100 PCIe at $2.547/hr plus bandwidth) and #54467135 (2x H100 PCIe at $5.078/hr plus bandwidth) with partial host CPU/RAM/storage fields. Neither row was live-rechecked.",
+      "url": "https://cloud.vast.ai/?gpu_option=H100+PCIE",
+      "authenticated": false,
+      "rental_or_mutation": false,
+      "live_availability_verified": false
+    }
+  ],
+  "public_index_snapshot_not_a_quote": {
+    "search_observation_date_utc": "2026-10-07",
+    "page_url": "https://cloud.vast.ai/?gpu_option=RTX+4090",
+    "index_freshness_label": "Crawled: today",
+    "snippet_observed": "1x RTX 4090 ... $1.341/hr plus bandwidth",
+    "offer_id": null,
+    "host_cpu_ram_disk_duration_verified_reliability_fields": null,
+    "availability_rechecked": false,
+    "use": "Evidence that a public index exposed a recent-looking price snippet, not a usable current offer. It cannot rank a host, establish remaining availability, or support all-in cost/break-even. Treat as a dated non-offer observation until a structured read-only search is possible.",
+    "interpretation_after_expanded_same_day_query": "A later expanded search result for the same GPU-family page exposed card #43266018 (1x RTX4090 at $0.421/hr) and #46613767 (2x RTX4090 at $1.341/hr), plus other cards. The earlier generic snippet said “1x RTX4090 ... $1.341/hr” but had no offer ID, so it cannot be reconciled to a particular row and may reflect a different card or snippet ambiguity. Keep the initial snippet as an unresolved non-offer observation; use only the separately recorded detailed cards, still as non-live snapshots."
+  },
+  "public_indexed_offer_card_snapshots_not_live_verified": [
+    {
+      "search_observed_utc_date": "2026-10-07",
+      "index_freshness_label": "Crawled: 6 days ago",
+      "source_url": "https://cloud.vast.ai/?gpu_option=A40",
+      "offer_id": "51337963",
+      "listed_offer": "1x A40; Belgium; verified; 45 GB VRAM shown; 64/256 CPU and 513/2052 GB RAM shown; Toshiba storage card reports 2444 MB/s; max duration 11 days; reliability 98.4%; $0.405/hr plus bandwidth",
+      "live_availability_rechecked": false,
+      "current_quote": false
+    },
+    {
+      "search_observed_utc_date": "2026-10-07",
+      "index_freshness_label": "Crawled: 6 days ago",
+      "source_url": "https://cloud.vast.ai/?gpu_option=A40",
+      "offer_id": "50510068",
+      "listed_offer": "2x A40; Belgium; verified; 45 GB VRAM shown; 128/256 CPU and 1026/2052 GB RAM shown; Toshiba storage card reports 2514 MB/s; max duration 25 days; reliability 99.09%; $0.805/hr plus bandwidth",
+      "live_availability_rechecked": false,
+      "current_quote": false
+    },
+    {
+      "search_observed_utc_date": "2026-10-07",
+      "index_freshness_label": "Crawled: 6 days ago",
+      "source_url": "https://cloud.vast.ai/?gpu_option=A40",
+      "offer_id": "52628048",
+      "listed_offer": "1x A40; United Kingdom; verified; 45 GB VRAM shown; 20/40 CPU and 129/257 GB RAM shown; Dell NVMe reports 6355 MB/s; max duration 25 days; reliability 98.2%; $0.672/hr plus bandwidth",
+      "live_availability_rechecked": false,
+      "current_quote": false
+    },
+    {
+      "search_observed_utc_date": "2026-10-07",
+      "index_freshness_label": "Crawled: today",
+      "source_url": "https://cloud.vast.ai/?template_id=41c42b980c64558475ecba8a0c561253",
+      "offer_id": "53415049",
+      "listed_offer": "1x A100 PCIe; Estonia; verified; 40 GB VRAM; 8/16 CPU and 48/97 GB RAM shown; storage card reports 4050 MB/s; max duration 1 month; reliability 98.0%; $0.555/hr plus bandwidth",
+      "live_availability_rechecked": false,
+      "current_quote": false
+    },
+    {
+      "search_observed_utc_date": "2026-10-07",
+      "index_freshness_label": "Crawled: today",
+      "source_url": "https://cloud.vast.ai/?gpuModelNames=rtx4070S&instanceDiskSizeMin=16&instanceDurationMin=604800&isAvxSupported=false&isHostSecure=false&isMachineIpStatic=false&isOfferAvailable=true&isOfferCompatible=true&isOfferVerified=true&isQueryInverted=false&machineReliabilityMin=0.9&offerGpuNumMax=1&offerGpuNumMin=1&pageSize=128&ref_id=405929&rentalType=onDemand&sorts=score-desc",
+      "offer_id": "54467143",
+      "listed_offer": "1x H100 PCIe; South Africa; verified; 80 GB VRAM; 32/256 CPU and 256/2052 GB RAM shown; Micron storage reports 15424 MB/s; max duration 29 days; reliability 99.20%; $2.318/hr plus bandwidth",
+      "live_availability_rechecked": false,
+      "current_quote": false
+    },
+    {
+      "search_observed_utc_date": "2026-10-07",
+      "index_freshness_label": "Crawled: 6 days ago",
+      "source_url": "https://cloud.vast.ai/?template_id=e6330219a022c9511f290c3c2d44592d",
+      "offer_id": "7899210",
+      "listed_offer": "2x RTX 3090; Utah, US; verified; 24 GB VRAM shown per GPU; 14/28 CPU and 64/128 GB RAM shown; Samsung storage reports 3243 MB/s; max duration 1 month 14 days; reliability 99.0%; $0.406/hr plus bandwidth",
+      "live_availability_rechecked": false,
+      "current_quote": false
+    },
+    {
+      "search_observed_utc_date": "2026-10-07",
+      "index_freshness_label": "Crawled: today",
+      "source_url": "https://cloud.vast.ai/?gpu_option=RTX+4090",
+      "offer_id": "43266018",
+      "listed_offer": "1x RTX 4090; Sweden; verified; 24 GB VRAM shown; AMD EPYC 7443 24-Core; 6.9/48 CPU and 37/258 GB RAM shown; HUSMR7676BDP3Y1 storage card reports 3397 MB/s; max duration 1 month; reliability 98.7%; $0.421/hr plus bandwidth",
+      "live_availability_rechecked": false,
+      "current_quote": false,
+      "source_note": "Search-index card snapshot only; do not infer CPU units/field mapping from the UI without current structured API data."
+    },
+    {
+      "search_observed_utc_date": "2026-10-07",
+      "index_freshness_label": "Crawled: today",
+      "source_url": "https://cloud.vast.ai/?gpu_option=RTX+4090",
+      "offer_id": "46613767",
+      "listed_offer": "2x RTX 4090; Texas, US; verified; 48 GB VRAM shown in bundle; AMD EPYC 7B13 64-Core; 64/128 CPU and 258/516 GB RAM shown; Samsung storage reports 5550 MB/s; max duration 14 days; reliability 99.916%; $1.341/hr plus bandwidth",
+      "live_availability_rechecked": false,
+      "current_quote": false,
+      "source_note": "The indexed 2-GPU card belongs to a different host/offer cohort from the 1-GPU Sweden example. Listed $/hour is preserved as displayed and must be reconfirmed as bundle total before arithmetic. Do not infer performance or job completion."
+    },
+    {
+      "search_observed_utc_date": "2026-10-07",
+      "index_freshness_label": "Crawled: today",
+      "source_url": "https://cloud.vast.ai/?gpu_option=RTX+4090",
+      "offer_id": "46613770",
+      "listed_offer": "1x RTX 4090; Texas, US; verified; 48 GB VRAM shown by index; AMD EPYC 7B13 64-Core; 32/128 CPU and 129/516 GB RAM shown; same machine/host identifiers as indexed 2x card #46613767; Samsung storage reports 5550 MB/s; max duration 14 days; reliability 99.916%; $0.675/hr plus bandwidth",
+      "live_availability_rechecked": false,
+      "current_quote": false,
+      "source_note": "Same-host 1x/2x card pairing is useful for query design only. Index shows 48 GB even for its 1x row, so VRAM-total semantics are ambiguous; verify actual GPU UUID/count/VRAM and hourly bundle charge from a current structured API result."
+    },
+    {
+      "search_observed_utc_date": "2026-10-07",
+      "index_freshness_label": "Crawled: today",
+      "source_url": "https://cloud.vast.ai/?gpu_option=H100+PCIE",
+      "offer_id": "54467129",
+      "listed_offer": "1x H100 PCIe; South Africa; verified; 80 GB VRAM; AMD EPYC 7713 64-Core; 32/256 CPU and 256/2052 GB RAM shown; Micron_7450 storage reports 15530 MB/s; max duration 29 days; reliability 99.23%; $2.547/hr plus bandwidth",
+      "live_availability_rechecked": false,
+      "current_quote": false
+    },
+    {
+      "search_observed_utc_date": "2026-10-07",
+      "index_freshness_label": "Crawled: today",
+      "source_url": "https://cloud.vast.ai/?gpu_option=H100+PCIE",
+      "offer_id": "54467135",
+      "listed_offer": "2x H100 PCIe; same South Africa host as indexed #54467129; verified; 80 GB VRAM displayed per GPU; AMD EPYC 7713 64-Core; 64/256 CPU and 513/2052 GB RAM shown; Micron_7450 storage reports 15530 MB/s; max duration 29 days; reliability 99.23%; $5.078/hr plus bandwidth",
+      "live_availability_rechecked": false,
+      "current_quote": false,
+      "source_note": "Same-host multi-GPU bundle snapshot; displayed charge scope remains unverified until current API read."
+    }
+  ],
+  "user_filter_interpretation": [
+    {
+      "parameter": "machineCpuCoresMin",
+      "value": 98,
+      "evidence": "Official search API distinguishes cpu_cores (virtual CPUs) from cpu_cores_effective.",
+      "assessment": "98 is a severe and probably unnecessary single-GPU filter for the measured small GRU; it can hide useful one-GPU offers. Indexed cards display A40 allocations of 20/40 or 64/256 CPU, an A100 PCIe at 8/16 CPU, and an H100 PCIe at 32/256 CPU. If the URL maps to per-offer virtual CPU as the API's cpu_cores field suggests, 98 would exclude all these cards; confirm the UI-to-API mapping and compare effective vCPUs and measured input throughput after authentication."
+    },
+    {
+      "parameter": "machineCpuGhzMin",
+      "value": 0.12940811548017225,
+      "evidence": "Official API describes cpu_ghz in GHz.",
+      "assessment": "This cutoff is extremely low and likely removes very little. The URL is a console state; its precise parser behavior was not accessible."
+    },
+    {
+      "parameter": "machineMegabitUploadMin",
+      "value": 208,
+      "evidence": "Official API exposes separate inet_up, inet_down, and transfer-cost fields; the UI parameter's exact conversion was not documented in retrieved sources.",
+      "assessment": "May constrain host egress while initial dataset staging needs the reverse direction. Measure both. If it means sustained decimal Mbit/s, 208 Mbit/s is 26 MB/s and 34.86 GB takes at least 22.35 minutes one way before protocol, cache, hashing, or decompression."
+    },
+    {
+      "parameter": "priceInstanceHourlyMax",
+      "value": 3.226567036888505,
+      "evidence": "Closest documented API field is dph_total, described as total dollars per hour.",
+      "assessment": "A ceiling, not a live price or recommendation. Multiplying by 7197 seconds gives about $6.45 before any separately billed disk/network items or setup and cleanup delay."
+    },
+    {
+      "parameter": "machineReliabilityMin",
+      "value": 0.6171071140248879,
+      "evidence": "Official search API documents reliability as a score in [0,1].",
+      "assessment": "Permissive score threshold relative to the selected detailed public-index snapshots (their listed scores range from 98.0% to 99.916%), but this nonrandom, stale sample does not characterize the market. The docs do not define it as a job-completion probability; do not use 0.617 as a per-run success prior."
+    },
+    {
+      "parameter": "instanceDurationMin",
+      "value": 7197,
+      "evidence": "Official API documents duration as minimum offer availability in seconds.",
+      "assessment": "About two hours of availability, not a guaranteed end-to-end job deadline. Account for cold start, data movement, profiling, fit, export, download, and cleanup."
+    },
+    {
+      "parameter": "isOfferVerified",
+      "value": false,
+      "evidence": "Official API has an explicit verified filter for machine verification.",
+      "assessment": "A false UI toggle may disable that filter instead of requesting unverified hosts. Do not infer its truth table from the URL; query verified and relaxed cohorts explicitly after authentication works."
+    },
+    {
+      "parameter": "isOfferCompatible",
+      "value": false,
+      "evidence": "The retrieved search API exposes driver_version and compute_cap but no matching compatibility flag.",
+      "assessment": "False is not evidence that an offer is incompatible. Validate CUDA, PyTorch, cuDNN, device visibility, and the actual recurrent kernel in a bounded profile."
+    }
+  ],
+  "arithmetic_derived_from_user_filters_not_market_quotes": {
+    "requested_credit_balance_reported_by_user_usd": 20,
+    "hourly_price_ceiling_usd": 3.226567036888505,
+    "minimum_duration_seconds": 7197,
+    "minimum_duration_hours": 1.9991666666666668,
+    "ceiling_times_duration_usd": 6.4504452679129365,
+    "input_pair_size_gb_from_internal_E522_receipt": 34.86,
+    "upload_rate_assumption_mbit_s": 208,
+    "ideal_one_way_transfer_minutes_at_assumed_sustained_rate": 22.346153846153847,
+    "historical_E508_raw_GRU128_pair_fit_export_projection_seconds": 8524,
+    "price_ceiling_times_historical_projection_usd": 7.639793728454893,
+    "historical_projection_source": "research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/E508_V5_TERMINAL_PROFILE_RESULT_20261007.md",
+    "historical_projection_limit": "Different GRU128 two-seed recipe; old profile estimated fit/export before refusing a frozen 6300-second cap. It is not an H230 estimate, current offer quote, or completion-time guarantee.",
+    "status": "scenario arithmetic only; no offer, quote, transfer measurement, or success probability",
+    "credit_balance_divided_by_hourly_ceiling_hours_ignoring_other_costs": 6.1985384996949335,
+    "three_minimum_duration_windows_at_hourly_ceiling_usd": 19.351335803738806,
+    "balance_left_after_three_minimum_windows_at_ceiling_usd_before_other_costs": 0.6486641962611941,
+    "budget_arithmetic_limit": "At the URL ceiling the reported $20 balance represents about 6.20 billed hours before any nonincluded bandwidth or other cost. Three 7,197-second windows at that ceiling cost about $19.35, leaving about $0.65; this is scenario arithmetic only, not a recommendation, quote, or guarantee that an offer/job runs that long."
+  },
+  "read_only_followup_when_authentication_is_supplied": {
+    "sequence": [
+      "Query current balance, auto-top-up state, current instances, and account-wide active spend.",
+      "Search one-GPU on-demand verified/rentable capacity across a small GPU-family matrix; start with relaxed CPU filters and a price ceiling derived from the current remaining credit.",
+      "Query interruptible/bid offers as a separate cohort only after exact checkpoint/resume has passed; do not treat the advertised discount as a completion-rate prior. Avoid reserved terms for the short profile unless their actual upfront cost and term are favorable.",
+      "Repeat with one filter relaxed at a time to detect which saved UI filters remove otherwise compatible offers.",
+      "Save the raw response in the private authorized workspace and a redacted projection with timestamp, query, row count, offer identifiers, host identity hash, and all cost/compatibility fields.",
+      "Make no instance-creation call during market discovery."
+    ],
+    "minimum_fields": [
+      "GPU name/count/fraction/VRAM, compute capability, driver and CUDA ceiling",
+      "CPU model, effective virtual cores, CPU RAM, disk bandwidth and available space",
+      "reliability, verification, rentable state, duration, region",
+      "running price, storage price, bandwidth rates and per-GB costs",
+      "measured matched-shape wall time, complete-fit time, output-transfer time, and observed memory"
+    ],
+    "unmeasured_values_remain_null": [
+      "current offers and prices",
+      "Vast balance and automatic-top-up state",
+      "actual per-host reliability/completion rate",
+      "actual per-host input/output throughput",
+      "actual GRU throughput, fit time, and all-in cost"
+    ]
+  },
+  "evidence_urls": [
+    "https://docs.vast.ai/api-reference/search/search-offers",
+    "https://docs.vast.ai/api-reference/hello-world",
+    "https://docs.vast.ai/guides/instances/pricing",
+    "https://vast.ai/developers/api"
+  ]
+}

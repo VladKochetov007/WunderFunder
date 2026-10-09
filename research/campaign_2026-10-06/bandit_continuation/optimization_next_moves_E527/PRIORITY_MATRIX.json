@@ -1,0 +1,473 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-10-07",
+  "basis": "E527 read-only optimization study; mission remains top-1 and public score >0.700, with uncertain arms kept eligible.",
+  "inference_rule": "Qualitative ordering is conditional on the observed bottleneck. Every unmeasured score, speedup, cost, completion probability, and public-transfer field remains null. CI crossing zero is not a universal rejection rule.",
+  "measured_anchors": {
+    "local_H230_profile": {
+      "source": "research/campaign_2026-10-06/bandit_continuation/engine_efficiency_E525/COMPARISON.md",
+      "measured": {
+        "model": "GRU256x2, 31 outputs",
+        "batch": 16,
+        "sequence_rows": 20000,
+        "chunk_rows": 2000,
+        "precision": "FP16 autocast",
+        "warmup_batches": 3,
+        "timed_batches": 20,
+        "loader_workers": 0,
+        "end_to_end_outer_batch_ms_p50": 1095.08,
+        "sequences_per_second": 14.61,
+        "cuda_event_total_ms": 675.8,
+        "forward_ms": 245.16,
+        "backward_ms": 404.99,
+        "optimizer_ms": 2.43,
+        "loader_wait_ms": 418.46,
+        "observed_vram_gb": 2.226
+      },
+      "limits": [
+        "event and host intervals overlap",
+        "no p90 emitted",
+        "resource profile only"
+      ]
+    },
+    "compact_E522_probes": {
+      "source": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/UTILIZATION_REPORT.md",
+      "measured": {
+        "B16_zero_workers_sequences_per_second": 49.53,
+        "B32_zero_workers_sequences_per_second": 50.49,
+        "B16_one_worker_sequences_per_second": 51.72,
+        "B32_observed_vram_gb": 3.814,
+        "B16_two_workers": "OOM at the 5 GB scoped RAM cap; no throughput result"
+      },
+      "limits": [
+        "GRU128 model and different target path; do not project to H230"
+      ]
+    },
+    "current_status": {
+      "H230_profile": "completed and independently reviewed for serial fit admission subject to fresh root admission",
+      "scout_actions": "no fit, profile, grade, runtime mutation, or market API operation",
+      "open_tree": [
+        "H070",
+        "H214",
+        "H215",
+        "H216",
+        "H217",
+        "H218",
+        "H230",
+        "H233-H239"
+      ]
+    }
+  },
+  "candidates": [
+    {
+      "id": "C0_ACTIVE_H230_RECONCILIATION",
+      "qualitative_priority": "do not duplicate; check owner/receipt before any follow-up",
+      "hypothesis_or_question": "Complete the already owned H230 heterogeneous student path with fresh resource admission and measured fixed-student endpoint.",
+      "evidence": [
+        "E525 H230 profile: 1095.08 ms outer batch; loader wait 418.46 ms; backward 404.99 ms; optimizer 2.43 ms; 2.226 GB observed VRAM.",
+        "H230 independent review permits only a fresh serial fit admission; it does not authorize this scout to run one."
+      ],
+      "cheapest_discriminating_test": "Root reconciles current active receipt and owner first; preserve the frozen recipe and admit the next declared stage only under its live resource gate.",
+      "falsifier": "No eligible source/cache/fit admission under current data, ancestry, memory, or quota requirements; that blocks this recipe stage only.",
+      "mechanism_family": "teacher transfer and resource execution",
+      "new_science_run_by_scout": false,
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C1_MATCHED_GPU_PROFILE",
+      "qualitative_priority": "first hardware decision gate if no comparable device profile already exists",
+      "hypothesis_or_question": "Does a real Kaggle/Vast GPU complete the same full-shape GRU update faster after the measured host/input bottleneck is included?",
+      "evidence": [
+        "E525 measured only the local RTX 3060 profile.",
+        "E508-v5 completed a profile-only run on a Kaggle session that enumerated two T4s, but its raw GRU128 shape, one-warmup/three-timed sample, and loader_wait > step_wall do not answer the matched H230 GRU256 question. The two enumerated GPUs were not compared as a multi-GPU cohort."
+      ],
+      "cheapest_discriminating_test": "Frozen 3-warmup/20-timed batches at exact model, batch, sequence, chunk, target/cache and FP16; record GPU name/UUID/CC, driver/CUDA/cuDNN, p50/p90, loader wait, CUDA trace, host/cgroup memory, VRAM and OOM deltas. One card first. If visible locally or present in live offers, stratify P100/T4, RTX 3090/A40, RTX 4090, A100 and H100 classes; do not predict class speed from peak FLOPS. Compare same-recipe dense unsparsified arithmetic types only in separate declared precision pairs.",
+      "falsifier": "No lower total step/fit time after startup and input stages, or the device cannot fit the admitted shape/resource envelope.",
+      "mechanism_family": "hardware-throughput measurement",
+      "dependencies": [
+        "fresh source and quota admission",
+        "actual device inventory"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C2_COHORT_HASH_AND_DATA_STAGING",
+      "qualitative_priority": "high when remote setup/data hashing is material",
+      "hypothesis_or_question": "Verified once-per-cohort identity and local cache reuse can turn more rented wall time into useful model work.",
+      "evidence": [
+        "E522 E520v6 repeated hashing cost 748.68 seconds after initial train+valid hashes and produced no GPU profile.",
+        "E522 has an independently reviewed worker-local digest handoff candidate; verify current cloud integration receipt before reusing."
+      ],
+      "cheapest_discriminating_test": "On one admitted future packet, time cold staging, source verification, cache construction and same-worker reuse separately; bind source hashes and actual cache bytes.",
+      "falsifier": "Repeat hashing was already eliminated, staging is not on the critical path, or cache reuse changes data identity/order.",
+      "mechanism_family": "input pipeline and provenance",
+      "dependencies": [
+        "existing digest-handoff implementation reviewed for target provider path"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C3_LOADER_PREFETCH_LAYOUT",
+      "qualitative_priority": "high conditional on confirmed loader/host gaps; memory guarded",
+      "hypothesis_or_question": "A bounded reader/prefetch/layout change reduces CPU wait without changing sequence order or targets.",
+      "evidence": [
+        "H230 loader wait 418.46 ms and H2D 0.01 ms; local loader wait includes cache/data/target reads.",
+        "Compact E522 one-worker profile +4.42% is direction-only; two workers OOMed; trainer disables persistent workers because they changed shuffle order in parity E-169."
+      ],
+      "cheapest_discriminating_test": "Matched same-model 0-worker versus one-worker full-shape profile, identical frozen sample-order identity, cache residency, one prefetched batch, anon/file memory and no OOM; then inspect actual I/O and overlap timeline.",
+      "falsifier": "Wait/total wall time does not fall, sample-order identity changes, or memory headroom is insufficient.",
+      "mechanism_family": "input pipeline",
+      "dependencies": [
+        "same recipe/data order; never scale workers from the compact-model percentage"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C4_CUDNN_RECURRENT_KERNEL_SHAPE",
+      "qualitative_priority": "medium-high after a useful real-GPU trace",
+      "hypothesis_or_question": "The cuDNN GRU path has dispatch/layout/alignment choices that matter for our sequence and batch shape.",
+      "evidence": [
+        "E525 backward is 404.99 ms in the local profile.",
+        "PyTorch/cuDNN docs expose version/device/layout-dependent recurrent algorithms; PyTorch's specific documented persistent condition names V100, so it must not be assumed on T4."
+      ],
+      "cheapest_discriminating_test": "Capture Nsight Systems and profiler kernel/operator names plus actual cuDNN version for frozen update. If dispatch demonstrates a Tensor Core alignment fallback, test zero-extension of H230 input width 211 to the smallest installed-version multiple (e.g. 216 for an 8-wide rule or 212 for a 4-wide rule), preserving the original input matrix with zero extra columns; require forward/state/reset, gradient and one optimizer-step parity before matched full-step timing. Test only one layout/alignment/kernel change at a time.",
+      "falsifier": "Candidate dispatch is unsupported or adds copies/launches and fails to beat whole-step wall time.",
+      "mechanism_family": "recurrent kernels",
+      "dependencies": [
+        "actual card and cuDNN version"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C5_CUDA_GRAPH_OR_COMPILE",
+      "qualitative_priority": "conditional; only if trace shows host-launch gaps",
+      "hypothesis_or_question": "Static-shape capture/fusion reduces CPU launch and pointwise overhead enough to reduce end-to-end time.",
+      "evidence": [
+        "PyTorch reduce-overhead mode may use CUDA Graphs but can use more device memory and may not capture.",
+        "Current H230 CUDA event and host waits overlap; event/wall ratio is not utilization."
+      ],
+      "cheapest_discriminating_test": "Start with a no-fit capture feasibility/parity probe, then compare full-profile startup+steady-state wall and memory against eager; retain compile time and graph recapture counts.",
+      "falsifier": "No capture, graph breaks, numerical/optimizer-clock drift, memory pressure or amortized wall regression.",
+      "mechanism_family": "framework execution",
+      "dependencies": [
+        "profile confirms CPU dispatch rather than input wait or recurrent math dominates"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C6_BATCH_EFFECTIVE_UPDATE_AND_WORKERS",
+      "qualitative_priority": "bounded profile then science pair",
+      "hypothesis_or_question": "A larger physical batch or microbatch accumulation can increase examples processed per useful GPU second.",
+      "evidence": [
+        "Compact E522 B16->B32 was +1.94% throughput with +81.94% observed VRAM and different target/model; not an H230 effect."
+      ],
+      "cheapest_discriminating_test": "Resource profile first, then frozen paired recipes with the same effective examples/update, loss denominator, optimizer/scheduler/EMA clocks and step budget; report fixed endpoint separately.",
+      "falsifier": "Throughput gain is offset by memory or the matched quality endpoint falls.",
+      "mechanism_family": "batch and optimizer clock",
+      "dependencies": [
+        "separate speed-only profile from batch-size scientific treatment"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C7_GRADIENT_HORIZON",
+      "qualitative_priority": "scientifically distinct; promising if cost-per-quality matters",
+      "hypothesis_or_question": "Longer causal gradient flow across recurrent chunks improves the fixed endpoint enough to justify extra backward cost.",
+      "evidence": [
+        "Trainer exposes chunk, macro update_rows and detach_rows separately; detach_rows is the gradient horizon, while update_rows determines optimizer cadence.",
+        "Truncated state is still carried causally across the sequence."
+      ],
+      "cheapest_discriminating_test": "Choose one common update_rows macrostep that allows both candidate detach schedules; compare detach_rows values with same inputs, update count, batch order, clipping, scheduler, EMA, seed pairs and complete official endpoint.",
+      "falsifier": "Longer horizon raises compute/memory without a repeatable useful endpoint/teacher contribution, or state/reset/gradient parity fails.",
+      "mechanism_family": "temporal credit assignment and compute",
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C16_ACTIVATION_REMATERIALIZATION",
+      "qualitative_priority": "conditional compute-for-capacity component when activation memory constrains a wider teacher or longer tested gradient horizon",
+      "hypothesis_or_question": "Checkpointing recurrent chunk computations during backward may lower peak activation memory enough to test longer temporal credit assignment or a larger teacher, at an unknown recompute-time cost.",
+      "evidence": [
+        "PyTorch documents that checkpointed segments are replayed during backward; non-reentrant mode supports autograd.grad and detached tensors in the region, while RNG stashing/replay can add overhead.",
+        "The original sublinear-memory work includes long recurrent-sequence examples, but no effect was measured for this model/trainer.",
+        "The trainer separates detach_rows (gradient horizon) from update_rows (optimizer cadence); changing them remains a scientific treatment."
+      ],
+      "cheapest_discriminating_test": "At one frozen detach/update horizon, wrap the exact recurrent chunk forward returning logits and carried state with torch.utils.checkpoint.checkpoint(..., use_reentrant=False); keep the existing autocast context identical on recompute (use context_fn only if required). Check forward/state/reset, input/parameter gradients, successful GradScaler step, checkpoint reload, peak GPU memory and full backward wall. If valid and memory falls, test a longer detach_rows horizon with and without rematerialization under the same update_rows, examples, optimizer/scheduler/EMA clocks and official fixed endpoint.",
+      "falsifier": "No meaningful peak-memory reduction; checkpoint recomputation changes forward/state/gradient/update behavior; recompute makes full fit less useful than available capacity alternatives; or the paired longer-horizon endpoint provides no useful value at its measured cost. These outcomes apply to the tested boundary, not all checkpoint placements.",
+      "mechanism_family": "activation memory and temporal credit assignment",
+      "dependencies": [
+        "source inspection of actual recurrent chunk/carry/autocast boundary",
+        "fresh resource gate and paired recipe review before any science fit"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C8_NUMERICAL_PRECISION",
+      "qualitative_priority": "separate precision study; support varies by actual device",
+      "hypothesis_or_question": "A different arithmetic path can improve quality per hour or fit larger useful teachers.",
+      "evidence": [
+        "FP16+GradScaler is the active GPU path; FP32 parameters/optimizer state remain.",
+        "T4 lacks native BF16/FP8 Tensor Core paths; BF16 is a candidate on suitable Ampere+ hardware.",
+        "TE FP8 targets eligible matrices and imposes scaling/shape constraints; it does not replace cuDNN GRU."
+      ],
+      "cheapest_discriminating_test": "On supported hardware, pair FP16 against FP32/TF32 and BF16 with every other recipe field fixed; FP8 follows only after operation eligibility and forward/gradient/optimizer/reload numerical checks. Compare successful updates and fixed endpoint.",
+      "falsifier": "No wall-time benefit, overflow/scale instability, unacceptable gradient or prediction drift, or downstream student endpoint worsens.",
+      "mechanism_family": "numerical optimization",
+      "dependencies": [
+        "hardware dtype support and compatible kernel path"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C9_TEACHER_CACHE_REPRESENTATION",
+      "qualitative_priority": "medium if transfer/storage limits dominate",
+      "hypothesis_or_question": "A compact teacher-target cache representation can reduce staging, disk, or memory traffic without harming student value.",
+      "evidence": [
+        "H230 own family cache is about 13.37 GB; raw train/valid sources total about 34.86 GB.",
+        "The cache is a target, so quantization changes the scientific supervision path."
+      ],
+      "cheapest_discriminating_test": "Measure cold/warm reads and network/disk footprint; make a distinct FP16 or block-scaled cache and report teacher-target max/RMS error plus paired fixed-student scores and ancestry hashes.",
+      "falsifier": "Decode cost erases I/O savings or the fixed-student endpoint loses value.",
+      "mechanism_family": "teacher data representation",
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C10_WIDE_OR_PARALLEL_TEACHER",
+      "qualitative_priority": "high long-term competition value; scale after a representative profile",
+      "hypothesis_or_question": "Larger or hardware-parallel own teachers produce useful new supervision or blend contribution despite exceeding serving limits.",
+      "evidence": [
+        "ADR0008 explicitly separates research scale from serving limits.",
+        "Open family includes H070 low-rank W384, H214-H216 TPU recurrence/parallelism, H217 causal TCN, H218 block-recurrent attention, and active H230 heterogeneous student.",
+        "E521 already has an own GRU384x2 seed3 four-epoch export (5178.922s fit plus 80.652s export); AMP skipped 15/29,840 attempted updates and matched-control grading was pending, so reconcile/grade that standalone endpoint before duplicating width compute."
+      ],
+      "cheapest_discriminating_test": "First reconcile E521 seed3 and any current seed4 receipts and exact group membership; grade standalone output against its matched control only on the declared teacher-excluded exposed unit. Treat E521 as a student teacher only if source/teacher ancestry is disjoint from both student fitting and evaluation groups or a valid cross-fit recipe supplies the targets. Only then fund an independently initialized new family/scale profile and fixed-student comparison.",
+      "falsifier": "No better teacher/student/blend endpoint per measured budget on this exposed development evidence; retain other scale/family descendants.",
+      "mechanism_family": "architecture and teacher scale",
+      "dependencies": [
+        "matched teacher control",
+        "causal/reset tests",
+        "student/distillation plan",
+        "teacher/source/propensity ancestry excluded from evaluated student fitting groups and scored evaluation groups"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C11_LOW_RANK_RECURRENT",
+      "qualitative_priority": "open H070; bounded low-cost decomposition screen",
+      "hypothesis_or_question": "A wider recurrent state with rank-constrained matrices may retain useful capacity while lowering recurrent work.",
+      "evidence": [
+        "H070 is already open from E350 width evidence; train_rnn.py exposes --recurrent-rank.",
+        "Seeded library passage suggests spectrum as a screening idea only."
+      ],
+      "cheapest_discriminating_test": "Inspect owned checkpoint singular spectra across existing seeds; compare W384 dense and declared rank128/nearby rank arms under matched fit budget and actual timed forward/backward. Verify quality and served-student value.",
+      "falsifier": "No stable rank structure, factorized kernels slower at small shape, or fixed endpoint lacks value.",
+      "mechanism_family": "model compression and recurrent kernels",
+      "dependencies": [
+        "preserve H070 lineage; do not add Gaussian-spectrum numerical priors"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C12_MULTIGPU",
+      "qualitative_priority": "choose mode by bottleneck; two cards are not automatic speedup",
+      "hypothesis_or_question": "Two visible GPUs may create more complete independent teacher candidates per hour or reduce one fit's wall time.",
+      "evidence": [
+        "E525 notes actual Kaggle sessions may expose fewer usable devices than physical count; E521 experience requires unique UUIDs and host-resource accounting.",
+        "The current 0.975M-parameter model has an approximate 3.9 MB FP32 gradient payload; ideal two-rank ring volume is only about one gradient vector sent per rank, but actual collective launch/synchronization and reduced per-rank batch efficiency remain unmeasured."
+      ],
+      "cheapest_discriminating_test": "First run two independent own-seed fits on separate visible UUIDs with shared-host RAM/CPU/cache watch; compare completed graded candidates/$ versus one fit. Only if single-fit latency matters, compare synchronous DDP at matched global batch/update. Async one-step delay is a separate scientific arm.",
+      "falsifier": "Shared CPU/RAM/data interference or synchronization/communication consumes the gain.",
+      "mechanism_family": "multi-GPU scheduling and model parallelism",
+      "dependencies": [
+        "actual device enumeration and per-GPU process/host telemetry"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C13_TPU",
+      "qualitative_priority": "conditional free-compute lane; parity before production fit",
+      "hypothesis_or_question": "TPU-friendly scan/input-hoisting or one-model-per-chip routing can raise useful teacher throughput.",
+      "evidence": [
+        "E463v3 receipt lists eight TPU v5 lite devices, global B16/per-device B2 and chunk 2000; one synthetic pmap full-shape forward/backward/AdamW update measured 4.261 seconds from the first call, including compile/dispatch rather than warmed-step timing.",
+        "Outputs/state/gradients/parameters were finite and the short export/reload check had zero max-absolute error; no real-data quality, warmed throughput or full-objective Torch/JAX parity was measured. JAX scan lowers a loop to one WhileOp."
+      ],
+      "cheapest_discriminating_test": "Verify all weighted-loss numerators/denominators and gradients against an unsharded real-data oracle, including deliberately unequal shard mass; then compare warmed full-shape H214 input-projection hoisting and H215 independent model-per-chip against the same recipe before any bounded fit.",
+      "falsifier": "Parity fails, real-data sharding changes the weighted objective, or compile/warmup/communication dominate.",
+      "mechanism_family": "TPU systems and parallel recurrence",
+      "dependencies": [
+        "current TPU quota and actual kernel status"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C14_OPTIMIZER",
+      "qualitative_priority": "low for current small model throughput; still an open quality interaction",
+      "hypothesis_or_question": "An optimizer or schedule change improves the learned representation enough to justify its step cost.",
+      "evidence": [
+        "E525 optimizer is 2.43ms (about0.36% of CUDA event total) and Adam state is about15.6MB for 0.975M params.",
+        "E470 shows optimizer effects can interact with architecture/activation; it does not support a universal Muon gain."
+      ],
+      "cheapest_discriminating_test": "Keep as a paired scientific recipe on a GPU-supported exact implementation; compare complete fixed endpoint and wall per successful update, not optimizer-kernel microbench alone.",
+      "falsifier": "No useful endpoint improvement at affordable full-run time.",
+      "mechanism_family": "optimization dynamics",
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C15_DURABLE_AUTOMATION",
+      "qualitative_priority": "high reliability value after recipe freeze; implement only from existing tools",
+      "hypothesis_or_question": "A durable finite queue with event wakeups, polling fallback and terminal collection can keep authorized compute useful without idle GPU spend.",
+      "evidence": [
+        "Existing bandit_resources, bandit_sequence, kaggle_sequence, kaggle_gpu_runner and read-only Kaggle poller already cover most pieces.",
+        "Vast API documents onstart callback plus states that can remain failed; stopped storage may still bill."
+      ],
+      "cheapest_discriminating_test": "Design-only spec for parent review; later perform a no-spend state-machine/dry-run check against current durable receipts.",
+      "falsifier": "Existing finite sequence/status records already meet need or required host callback/API service is not authorized/available.",
+      "mechanism_family": "execution and resource lifecycle",
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    },
+    {
+      "id": "C17_DECODED_SEQUENCE_CACHE",
+      "qualitative_priority": "conditional high-value input-path probe if matched traces confirm repeated parquet decode/materialization is on the critical path",
+      "hypothesis_or_question": "A hash-bound row-major mmap of the existing exact float32 features could amortize repeated Arrow row-group decoding and column-stack/transpose materialization across epochs or same-source fits, without increasing loader workers.",
+      "evidence": [
+        "Local H230 measured loader wait 418.46ms versus 1095.08ms outer-batch wall, with near-zero H2D; intervals overlap so wait is not a separate wall component.",
+        "Owned SequenceFile.read selects a full sequence row group and 112 feature columns, stacks and materializes a contiguous row-major float32 array; the raw feature payload is 8.96MB/sequence. Sequences.__getitem__ calls it on each sampled item.",
+        "Two DataLoader workers already hit the scoped 5GB RAM cap on the compact E522 probe; replacing decode/copy work may be safer than increasing workers, but this is not measured."
+      ],
+      "cheapest_discriminating_test": "Only if actual exact-shape trace confirms input wait matters, compare the current reader with one source-hash-bound row-major float32 feature mmap generated through SequenceFile.read. Require bitwise feature/target/mask and row-order/split identity. Measure one-time build and incremental transfer, cold and warm epoch times, loader wait, storage and anonymous/file/page-cache RAM; leave workers at zero. Compute the measured break-even `T_build + K*T_cached < K*T_parquet` for actual planned passes/fits.",
+      "falsifier": "Reader is not on the critical path; build/staging/storage cost exceeds saved read time for the authorized number of passes; cache identity/order differs; or resource ceilings are violated.",
+      "mechanism_family": "input representation and cache reuse",
+      "dependencies": [
+        "source identity and existing reader parity",
+        "exact current host/worker memory gate",
+        "cached bytes and same-order test"
+      ],
+      "beliefs": {
+        "expected_global_wp_delta": null,
+        "matched_step_speedup": null,
+        "full_fit_seconds": null,
+        "all_in_usd": null,
+        "completion_probability": null,
+        "public_transfer": null
+      }
+    }
+  ]
+}

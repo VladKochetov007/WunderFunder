@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E527_INDEPENDENT_METHOD_AUDIT_V1",
+  "observed_at_utc": "2026-10-07T19:00:37Z",
+  "reviewer_role": "independent static source and method auditor",
+  "scope": {
+    "read_only": true,
+    "fit_or_profile_run": false,
+    "provider_request_or_push": false,
+    "paid_compute": false,
+    "score_produced": false,
+    "original_e527_artifacts_modified": false
+  },
+  "overall_finding": "Correct three method/feasibility assumptions before using the E527 shortlist as an execution recipe: teacher/student fitting-group disjointness is overstrict for H230; 211-wide raw input padding does not alter the 256-wide cuDNN GRU input; and a full decoded-feature mmap is 94.394 GB train-only or 106.982 GB across H230's complete fitting pool. Retain owner reconciliation and null hardware priors.",
+  "findings": [
+    {
+      "id": "E527-F1-TEACHER_ANCESTRY_OVERRESTRICTED",
+      "severity": "critical_method_correction",
+      "e527_locations": [
+        "SELECTION_BRIEF.md:10",
+        "PRIORITY_MATRIX.json:C10_WIDE_OR_PARALLEL_TEACHER (around line 319)",
+        "OPTIMIZATION_OPTIONS.md teacher-selection paragraph"
+      ],
+      "trigger": "Requires E521 teacher ancestry to be disjoint from both student fitting groups and scored evaluation groups, unless cross-fit targets are created.",
+      "evidence": [
+        {
+          "path": "AGENTS.md:39",
+          "sha256": "3eb807a79dfaedefb588b92bb5cf694c0a51cf9b61cbaf769fc6209d2d9f1939",
+          "observation": "Permits supplied train/valid fitting while requiring held-out claims to use data not used for fitting; provenance must be assessed against the evaluated groups."
+        },
+        {
+          "path": "specs/adr/0004-independent-training-and-target-variants.md",
+          "sha256": "dae9333dd0a8f566133286022371805b5316afc0b008134dfbe42645fc748907",
+          "observation": "Requires own weights, explicit ancestry and target variants; it does not impose teacher/student training-set disjointness."
+        },
+        {
+          "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_EXECUTION_CONTRACT_V2.md",
+          "sha256": "6227ce98eb3553d181d7d70e3eed455fc3277e916a8b02343a133a987bd1bb0e",
+          "observation": "Declares the own GRU384 pair as the samefold-baseline family, permits recursively audited ancestors from the allowed fitting subset, and excludes evaluation groups from fit/cache rows."
+        },
+        {
+          "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/SOURCE_FAMILIES_DRAFT_V2.json",
+          "sha256": "a292a8e241698d898feea434d5c86ab6b8e91781fcafe5db5287bb29b5549836",
+          "observation": "Registers bd26_w384raw_s3_f0 and bd26_w384raw_s4_f0 as samefold_baseline and describes the raw GRU384 baseline as trained on exact fold-0 fitting groups."
+        },
+        {
+          "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ACTUAL_SOURCE_INDEPENDENT_REVIEW_V1_20261007_R1.json",
+          "sha256": "b7272d096d793ccf9252e98fcbbac495a51c202b916c1a3fa1d85018ec9d9124",
+          "observation": "PASS_WITH_CONDITIONS on the exact sealed H230 source map, ancestor closure and teacher inspection; identifies 468 exposed evaluation groups separately from the 10,535 train-fit and 1,405 valid-fit cache groups. This is source review, not fit admission."
+        },
+        {
+          "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+          "sha256": "e04da68bad9ddbb0ec64baf1ad43c19381c0606d47dbed066416f84d3a03c3d8",
+          "observation": "Verified fit-cache shapes contain 10,535 train and 1,405 valid groups; the 468 exposed evaluation groups are not cache rows."
+        }
+      ],
+      "scientific_consequence": "The universal disjointness condition would invalidate the reviewed H230 samefold teacher/student training design without evidence of held-out leakage, and would force unnecessary cross-fit work. Shared permitted fitting groups remain a scientific provenance attribute and may affect target quality; they are not themselves evidence of evaluation contamination.",
+      "correction": "Require complete teacher/source/propensity ancestry to exclude the scored evaluation groups for the fixed transfer claim, and require student target-cache rows to match the allowed fitting split. Permit overlap between allowed teacher and student fitting groups. Require cross-fit only when the target for a particular comparison group must be out-of-fold."
+    },
+    {
+      "id": "E527-F2-CUDNN_INPUT_WIDTH_MISMATCH",
+      "severity": "critical_method_correction",
+      "e527_locations": [
+        "OPTIMIZATION_OPTIONS.md:74",
+        "SELECTION_BRIEF.md:21",
+        "PRIORITY_MATRIX.json:C4_CUDNN_RECURRENT_KERNEL_SHAPE"
+      ],
+      "evidence": [
+        {
+          "path": "src/wnn/nn.py",
+          "sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+          "lines": "35, 57-65, 72-93",
+          "observation": "RNNModel applies Linear(n_in, hidden), then constructs GRU(hidden, hidden); forward sends the projected tensor to the GRU."
+        },
+        {
+          "path": "src/wnn/data.py",
+          "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+          "lines": "15-18",
+          "observation": "The supplied sequence reader exposes 112 raw feature columns."
+        },
+        {
+          "path": "src/wnn/features.py",
+          "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+          "lines": "24-42",
+          "observation": "The causal event-feature block has 99 columns."
+        },
+        {
+          "path": "scripts/train_rnn.py",
+          "sha256": "0e622a87888769ff7467fadd1d1a230886008d1803099e8881e100939082467d",
+          "lines": "1761-1776",
+          "observation": "Default model input width is 112 + 99 = 211; H230 does not enable the optional input-width additions in this block."
+        }
+      ],
+      "shape_conclusion": {
+        "H230_raw_engineered_width": 211,
+        "input_projection": "Linear(211, 256)",
+        "GRU_input_size": 256,
+        "GRU_hidden_size": 256,
+        "batch_size": 16
+      },
+      "scientific_consequence": "Padding the raw 211 input does not change cuDNN's recurrent input_size; it cannot remove a GRU alignment fallback blamed on 211. It only changes the preceding input Linear GEMM reduction dimension and must be treated as a distinct measured dispatch hypothesis.",
+      "correction": "Relabel the candidate as input-projection GEMM padding and run it only if a real trace identifies a material fallback on that operator. Otherwise drop it. Require exact forward/state, gradient and optimizer-step parity plus profiler-free full-step timing."
+    },
+    {
+      "id": "E527-F3-DECODED_CACHE_STORAGE_GATE",
+      "severity": "high_feasibility_correction",
+      "e527_locations": [
+        "OPTIMIZATION_OPTIONS.md:31-35",
+        "PRIORITY_MATRIX.json:C17_DECODED_SEQUENCE_CACHE"
+      ],
+      "calculation": {
+        "bytes_per_sequence": 8960000,
+        "fit_train_groups": 10535,
+        "fit_train_feature_bytes": 94393600000,
+        "fit_train_decimal_gb": 94.3936,
+        "fit_train_gib": 87.910891,
+        "fit_valid_groups": 1405,
+        "h230_total_fit_groups": 11940,
+        "h230_total_fit_feature_bytes": 106982400000,
+        "h230_total_fit_decimal_gb": 106.9824,
+        "h230_total_fit_gib": 99.635124,
+        "excludes": ["labels", "scored masks", "metadata", "filesystem overhead", "scored evaluation groups"]
+      },
+      "evidence": [
+        {
+          "path": "src/wnn/data.py",
+          "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+          "observation": "SequenceFile reads one 20,000-row group and materializes 112 float32 features."
+        },
+        {
+          "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_STAGE_PREFLIGHT_V1.json",
+          "sha256": "6b4343d8c7a2b249b0b2691d1c985133b8b933c386c275d5115cf491259583d6",
+          "observation": "Prior snapshot at 2026-10-07T17:05:19.684428Z recorded 65,297,915,904 bytes free; it is historical, not a current disk measurement."
+        },
+        {
+          "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+          "sha256": "e04da68bad9ddbb0ec64baf1ad43c19381c0606d47dbed066416f84d3a03c3d8",
+          "observation": "Existing verified teacher-target cache totals 13,372,801,024 bytes."
+        }
+      ],
+      "correction": "Retain C17 only as a conditional arm. Require fresh fit-set disk and transfer headroom, a matched trace showing decode/materialization is critical, and measured break-even including build, staging, verification and K actual complete passes/fits: T_build + T_stage + T_verify + K*T_mmap < K*T_parquet."
+    }
+  ],
+  "corrected_priority": [
+    {
+      "rank": 1,
+      "action": "Reconcile the current H230 owner/attempt/GPU lock and fresh resource admission; do not infer present idleness from the 17:37Z handoff. If not already running or terminal and gates pass, continue the existing serial seed-3 fit, then its separately gated export and grade."
+    },
+    {
+      "rank": 2,
+      "action": "Use the existing exact-shape local H230 profile as the current profile evidence. Select a remote profile only for a concrete hardware decision after fresh provider quota/network/data staging and actual-device admission; do not delay an admitted H230 result."
+    },
+    {
+      "rank": 3,
+      "action": "Choose one post-profile systems change only from the measured critical path. C17 needs fresh storage plus break-even; C4 must distinguish 211-wide input GEMM from 256-wide GRU dispatch. Keep zero workers as baseline until same-order and memory checks pass."
+    },
+    {
+      "rank": 4,
+      "action": "Preserve the teacher-value lane: reconcile/grade existing E521 endpoints before duplicate width work; test transfer on the fixed student and declared teacher-excluded evaluation unit. Teacher/student fitting-set disjointness is not a prerequisite when the scored evaluation set remains excluded."
+    }
+  ],
+  "handoff_observations": {
+    "h230_latest_durable_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_RECOVERY_HANDOFF_20261007_V1.json",
+      "captured_at_utc": "2026-10-07T17:37:14.827081Z",
+      "status_at_capture": "no fit attempt receipt or run directory; host GPU lock/systemd state unknown from managed shell",
+      "current_state_claimed": false
+    },
+    "e520_v11": {
+      "packet": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v11",
+      "state": "offline assembled; root accepted schema projection only; packet transport review pending; provider push not authorized or attempted",
+      "internet_metadata_note": "assembly receipt says explicit enable_internet=false is absent and provider default remains to be reviewed"
+    },
+    "e463_tpu_v4": {
+      "manifest": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v4_candidate_v1/E463_TPU_V4_OFFLINE_BUILD_MANIFEST_20261007_R1.json",
+      "created_at_utc": "2026-10-07T18:12:52.757973Z",
+      "state": "offline-only candidate; no provider quota/status, transport review, push, TPU execution, fit or score"
+    }
+  },
+  "reviewed_artifact_hashes": {
+    "research/campaign_2026-10-06/bandit_continuation/optimization_next_moves_E527/SELECTION_BRIEF.md": "07b6dc8a234ed5490d958011745f711746f2648c6c249cdf49f6eac23456cbf9",
+    "research/campaign_2026-10-06/bandit_continuation/optimization_next_moves_E527/OPTIMIZATION_OPTIONS.md": "8695c07c7194f0e7bc702b6e4d5b29bdd11f5607fb514898b424bb0d6e21cb5e",
+    "research/campaign_2026-10-06/bandit_continuation/optimization_next_moves_E527/PRIORITY_MATRIX.json": "90d2323b4d7ef58c875c2b4600919042ca1c64ebc696d93fc11783ec8c0e45db",
+    "research/campaign_2026-10-06/bandit_continuation/optimization_next_moves_E527/SOURCE_LEDGER.json": "a499607dce75f35ac7d72fe3940df83ec7e11c94ed6b395e19daf22f343214b5",
+    "AGENTS.md": "3eb807a79dfaedefb588b92bb5cf694c0a51cf9b61cbaf769fc6209d2d9f1939",
+    "specs/adr/0004-independent-training-and-target-variants.md": "dae9333dd0a8f566133286022371805b5316afc0b008134dfbe42645fc748907",
+    "src/wnn/nn.py": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+    "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_RECOVERY_HANDOFF_20261007_V1.json": "49c898d51f34ea01402cecfd8a6181616750b5676573d3a82358f7d6e918f6f6",
+    "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_STAGE_PREFLIGHT_V1.json": "6b4343d8c7a2b249b0b2691d1c985133b8b933c386c275d5115cf491259583d6",
+    "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V11_OFFLINE_PACKET_ASSEMBLY_20261007_R1.json": "6cfcd93bd23f773dc1288563ea4d43705ca4e2146fe1faf19ea5d5e2c043f7b9",
+    "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v4_candidate_v1/E463_TPU_V4_OFFLINE_BUILD_MANIFEST_20261007_R1.json": "5743f6dde6dd5860de0903f7af30bdbcde5bf448716bcc813979666d0ad14c94"
+  },
+  "checks_performed": [
+    "Parsed and inspected the E527 selection brief, options and all 18 priority candidates.",
+    "Read project provenance rule, ADR0004, H230 V2 execution contract, samefold source manifest, independent actual-source review and cache verification receipt.",
+    "Traced the H230 feature width through train_rnn.py, causal event features, RNNModel input projection and GRU construction.",
+    "Recomputed float32 feature payload sizes directly from sequence length, feature count and verified fit-group counts.",
+    "Reviewed the latest readable H230 fit handoff and E520 V11 / E463 TPU V4 offline handoff states; no execution action taken."
+  ],
+  "limitations": [
+    "Managed shell cannot inspect current host systemd/GPU lock or prove whether H230 changed after its 17:37Z receipt.",
+    "The audit confirms source/membership claims from reviewed receipts and code; it does not rehash large prediction payloads or rerun the H230 sealer.",
+    "No new cuDNN kernel trace was collected; only the tensor-width reasoning is established from the owned model implementation.",
+    "Feature-cache break-even time and present disk headroom remain unmeasured."
+  ]
+}

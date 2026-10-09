@@ -1,0 +1,375 @@
+{
+  "schema_version": 1,
+  "observation_date_utc": "2026-10-07",
+  "scout": {
+    "selected_model": "gpt-6-luna",
+    "selected_model_identifier": "gpt-6-luna/max",
+    "reasoning_effort": "max",
+    "role": "read-only optimization and compute-market scout",
+    "no_fits_or_score_runs": true,
+    "no_rentals_or_credit_spend": true,
+    "no_credential_inspection": true,
+    "no_service_or_timer_mutation": true,
+    "resource_note": "Read-only source/repository work, primary-source browser research (including non-live public Vast search-index snapshots), and one small seeded library draw; no GPU, training, benchmark, external credential CLI, provider API request, rental, or credit spend."
+  },
+  "sources": [
+    {
+      "id": "E525_COMPARISON",
+      "kind": "internal measurement",
+      "path": "research/campaign_2026-10-06/bandit_continuation/engine_efficiency_E525/COMPARISON.md",
+      "supports": "H230-shaped RTX 3060 profile: batch16, fp16, 20,000-row sequences and 2,000-row chunks; phase medians show loader wait 418.46 ms, backward 404.99 ms, optimizer 2.43 ms, observed VRAM 2.226 GB.",
+      "limits": "One local device; host and GPU intervals overlap; resource-only, not a score or public forecast."
+    },
+    {
+      "id": "E522_UTILIZATION",
+      "kind": "internal measurement",
+      "path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/UTILIZATION_REPORT.md",
+      "supports": "Compact GRU B16->B32 throughput +1.94%; one loader worker +4.42%; two-worker 5GB scoped OOM; cloud duplicate hashing consumed 748.68 seconds.",
+      "limits": "Smaller model/targets than H230. The OOM is execution evidence for that worker profile, not a scientific result."
+    },
+    {
+      "id": "owned_sequence_reader_path",
+      "kind": "internal source inspection",
+      "path": "src/wnn/data.py",
+      "supports": "SequenceFile.read loads a full 20,000-row row group and 112 feature columns, stacks float32 columns, transposes and materializes a contiguous array; Sequences.__getitem__ invokes this path per item, with teacher arrays separately memory-mapped. The float32 feature payload is 8,960,000 bytes per sequence. The optional CudaPrefetcher queues pinned-tensor H2D on a side stream, but still obtains the next CPU batch via next(loader); zero DataLoader workers therefore leave row-group decode/collation synchronous on the iterator path.",
+      "limits": "Code path inspection only; no repeated-epoch decode timing, memory peak, cache break-even, or pinned-prefetch comparison was measured.",
+      "related_paths": [
+        "scripts/train_rnn.py"
+      ]
+    },
+    {
+      "id": "owned_durable_execution_tools",
+      "kind": "internal CLI help and source inspection",
+      "path": "scripts/bandit_resources.py",
+      "supports": "Existing durable helpers cover local attempt launch/status/reconcile/drain/resume, frozen finite distinct-ID job sequences, sealed Kaggle execution and resource heartbeats. Existing 60-second timer is for the Kaggle read-only quota/session poller.",
+      "limits": "CLI capability/source inspection only; this scout did not inspect host timer activity, launch attempts, change the queue, or build a Vast callback/API listener. The Kaggle poller is not a Vast process and needs an explicit stop/continuation decision when no active targets remain.",
+      "related_paths": [
+        "scripts/bandit_sequence.py",
+        "scripts/kaggle_sequence.py",
+        "scripts/kaggle_gpu_runner.py",
+        "research/campaign_2026-10-06/cloud_preflight/poll_provider.py",
+        "research/campaign_2026-10-06/cloud_preflight/systemd/wnn-campaign-kaggle-poller.timer",
+        "research/campaign_2026-10-06/cloud_preflight/systemd/wnn-campaign-kaggle-poller.service"
+      ]
+    },
+    {
+      "id": "E521_WIDE_FIT",
+      "kind": "internal own-fit and resource measurement",
+      "path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/FIT_EXPORT_REPORT_V1.md",
+      "supports": "An own raw GRU384x2 seed3 completed four epochs in 5178.922 seconds and prediction export in 80.652 seconds; full-shape B16 profile used 2.6225 GB VRAM and 4.3004 GB scoped RAM. This is an already-existing wider endpoint candidate to grade before buying duplicate width compute.",
+      "limits": "AMP skipped 15 of 29,840 attempted updates; fixed ep3 export and exposed fold0 remain pending matched-control grading. Not a public score or proof of teacher/student complementarity."
+    },
+    {
+      "id": "E508_T4_PROFILE",
+      "kind": "internal actual Kaggle T4 profile and admission result",
+      "path": "research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/E508_V5_TERMINAL_PROFILE_RESULT_20261007.md",
+      "supports": "Actual Kaggle session listed two Tesla T4 devices with 15,360 MiB each. A different raw GRU128 recipe (260,000 parameters) completed a profile-only gate: step_wall 1067.84 ms, CUDA event stages 229.03 ms, loader_wait 1251.06 ms, and 14.98 sequences/s; pair fit/export projection exceeded its frozen cap and fit correctly did not start.",
+      "limits": "One warmup and three timed outer batches, loader wait exceeds wall and intervals may overlap/timer boundaries differ. It is not an H230 GRU256 matched profile, robust 20-step device ranking, two-GPU experiment, training result, or score."
+    },
+    {
+      "id": "E522_TPU",
+      "kind": "internal source review / diagnostic",
+      "path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md",
+      "supports": "H214 input projection hoisting, H215 independent model per chip, H216 parallel recurrence; real-device full-objective parity and warmed throughput are still needed.",
+      "limits": "Synthetic diagnostic is not a scientific TPU fit."
+    },
+    {
+      "id": "E525_GPU_MATRIX",
+      "kind": "internal capability matrix",
+      "path": "research/campaign_2026-10-06/bandit_continuation/engine_efficiency_E525/GPU_EFFICIENCY_MATRIX_V1.md",
+      "supports": "Conditional GPU capability matrix and matched-device experiment recommendations.",
+      "limits": "Hardware support does not predict throughput for this GRU."
+    },
+    {
+      "id": "H230_CACHE_VERIFIED",
+      "kind": "internal artifact and cache measurement",
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_CACHE_OUTPUT_VERIFICATION_V1.json",
+      "supports": "Eight verified H230 cache arrays total 13,372,801,024 bytes and are float32; exact metadata/split/cache hashes and row-group digests were revalidated.",
+      "limits": "This verifies local cache identity/size only, not remote transfer, cache throughput, compression quality or a score."
+    },
+    {
+      "id": "E525_DELAY_PAPER",
+      "kind": "internal primary-source synthesis",
+      "path": "research/campaign_2026-10-06/bandit_continuation/engine_efficiency_E525/LITERATURE_OPTIMIZATION_APPLICABILITY.md",
+      "supports": "Source review of one-step delayed-gradient pipeline-parallel work and optimizer interactions.",
+      "limits": "No measured result for our architecture or objective."
+    },
+    {
+      "id": "E526_HYPOTHESES",
+      "kind": "internal untested hypotheses",
+      "path": "research/campaign_2026-10-06/bandit_continuation/ideation/review2_reframe_E526/E526_REVIEW2_REFRAME_CARDS_V1.md",
+      "supports": "H233-H239 are already registered, with null numerical priors.",
+      "limits": "No score or launch authorization."
+    },
+    {
+      "id": "vast_search_offers",
+      "kind": "official API reference",
+      "url": "https://docs.vast.ai/api-reference/search/search-offers",
+      "supports": "Authenticated POST /api/v0/bundles; documents CPU virtual/effective counts, GHz, GPU model/count/RAM, reliability, duration, dph_total, storage, bandwidth, driver and compute capability.",
+      "limits": "No live offer records were returned in this study."
+    },
+    {
+      "id": "vast_api_overview",
+      "kind": "official API overview",
+      "url": "https://vast.ai/developers/api",
+      "supports": "Offer search, instance listing/update/destroy endpoints; all API requests require a key.",
+      "limits": "No API operation was called by this scout."
+    },
+    {
+      "id": "vast_lifecycle",
+      "kind": "official API lifecycle guide",
+      "url": "https://docs.vast.ai/api-reference/hello-world",
+      "supports": "Status can be null/loading/running or fail as exited/unknown/offline; onstart can send a readiness callback; destroy stops billing while stop retains storage charges.",
+      "limits": "Typical startup time is not a deadline guarantee."
+    },
+    {
+      "id": "vast_pricing",
+      "kind": "official pricing documentation",
+      "url": "https://docs.vast.ai/guides/instances/pricing",
+      "supports": "Market rates fluctuate; compute, storage and bandwidth are separate; stopped instances can retain storage billing; interruptible rentals may pause.",
+      "limits": "No current offer, host storage rate, or transfer rate was observed."
+    },
+    {
+      "id": "vast_public_index_4090_snippet",
+      "kind": "public marketplace page captured through web-search index (non-authoritative snapshot)",
+      "url": "https://cloud.vast.ai/?gpu_option=RTX+4090",
+      "supports": "On 2026-10-07 the search result labeled the page 'Crawled: today' and its snippet showed '1x RTX 4090 ... $1.341/hr plus bandwidth'.",
+      "limits": "The initial snippet had no offer ID or host fields. A later same-day expanded index query returned named rows including two-GPU offer #46613767 at $1.341/hr, so the generic “1x at $1.341” snippet cannot be reconciled to that row and remains unresolved. Opening the console returned only an iframe shell; neither snippet is live-verified or usable as an all-in cost."
+    },
+    {
+      "id": "vast_public_index_a40_cards",
+      "kind": "public marketplace page captured through web-search index (dated card snapshots, not live-verified offers)",
+      "url": "https://cloud.vast.ai/?gpu_option=A40",
+      "supports": "On 2026-10-07 the index label said 'Crawled: 6 days ago' and exposed three A40 card rows: offer 51337963 (1x, Belgium, verified, 45 GB shown, $0.405/hr plus bandwidth, max 11 days, 98.4% reliability); 50510068 (2x, Belgium, verified, $0.805/hr plus bandwidth, max 25 days, 99.09% reliability); and 52628048 (1x, UK, verified, $0.672/hr plus bandwidth, max 25 days, 98.2% reliability). CPU/RAM/storage fields are preserved in MARKET_OBSERVATIONS.json.",
+      "limits": "Opening returned only the console iframe shell. The crawler freshness is relative, and no offer availability was rechecked; the rows may have changed or disappeared. Prices say 'plus bandwidth' and omit a verified all-in storage/network total. Treat only as dated, public indexed listings for follow-up query planning, never as quotes, selected providers, or evidence of a compute/completion/quality advantage."
+    },
+    {
+      "id": "vast_public_index_a100_card",
+      "kind": "public marketplace page captured through web-search index (card snapshot, not live-verified offer)",
+      "url": "https://cloud.vast.ai/?template_id=41c42b980c64558475ecba8a0c561253",
+      "supports": "The 2026-10-07 search result labeled 'Crawled: today' exposed offer 53415049: one verified A100 PCIe in Estonia, 40 GB VRAM, $0.555/hr plus bandwidth, maximum duration one month and reliability 98.0%; partial CPU/RAM/storage fields are in MARKET_OBSERVATIONS.json.",
+      "limits": "Console open returned only an iframe shell. No live offer/API verification, total storage/network rate, or matched model profile was obtained."
+    },
+    {
+      "id": "vast_public_index_4090_cards",
+      "kind": "public marketplace page captured through web-search index (non-live card snapshots)",
+      "url": "https://cloud.vast.ai/?gpu_option=RTX+4090",
+      "supports": "The 2026-10-07 index label said Crawled: today and returned #43266018 (1x RTX4090, Sweden, $0.421/hr plus bandwidth, 24GB shown, partial CPU/RAM/NVMe/reliability), plus same-host Texas cards #46613770 (1x at $0.675/hr) and #46613767 (2x at $1.341/hr). Full visible fields are in MARKET_OBSERVATIONS.json.",
+      "limits": "The console iframe was not live-rechecked and these are search-index cards, not current API offers. One 1x card displays 48GB VRAM, making allocated/total VRAM semantics ambiguous; price inclusion, availability, and host fields require a read-only authenticated query. Do not use DLPerf/$ or advertised TFLOPS to rank this GRU."
+    },
+    {
+      "id": "vast_public_index_h100_card",
+      "kind": "public marketplace page captured through web-search index (card snapshot, not live-verified offer)",
+      "url": "https://cloud.vast.ai/?gpuModelNames=rtx4070S&instanceDiskSizeMin=16&instanceDurationMin=604800&isAvxSupported=false&isHostSecure=false&isMachineIpStatic=false&isOfferAvailable=true&isOfferCompatible=true&isOfferVerified=true&isQueryInverted=false&machineReliabilityMin=0.9&offerGpuNumMax=1&offerGpuNumMin=1&pageSize=128&ref_id=405929&rentalType=onDemand&sorts=score-desc",
+      "supports": "The 2026-10-07 search result labeled 'Crawled: today' exposed offer 54467143: one verified H100 PCIe in South Africa, 80 GB VRAM, $2.318/hr plus bandwidth, maximum duration 29 days and reliability 99.20%; partial host fields are in MARKET_OBSERVATIONS.json.",
+      "limits": "The page query requested a different GPU family and the H100 card appeared in indexed result content; opening the console was not attempted for that exact row. No live offer/API verification, total storage/network rate, or matched model profile was obtained."
+    },
+    {
+      "id": "vast_public_index_two_3090_card",
+      "kind": "public marketplace page captured through web-search index (dated card snapshot, not live-verified offer)",
+      "url": "https://cloud.vast.ai/?template_id=e6330219a022c9511f290c3c2d44592d",
+      "supports": "The 2026-10-07 search result labeled 'Crawled: 6 days ago' exposed offer 7899210: two verified RTX 3090s in Utah, $0.406/hr plus bandwidth, max duration 1 month 14 days and reliability 99.0%; partial CPU/RAM/storage fields are in MARKET_OBSERVATIONS.json.",
+      "limits": "The index is stale and the offer was not rechecked. The result does not identify an independently purchasable GPU per price, total billing, actual availability, or job performance; treat it only as a cohort-search example."
+    },
+    {
+      "id": "pytorch_tuning",
+      "kind": "official framework guide",
+      "url": "https://docs.pytorch.org/tutorials/recipes/recipes/tuning_guide.html",
+      "supports": "Input workers, mixed precision, compilation and CUDA Graphs are candidate tools that require workload-specific tuning.",
+      "limits": "Does not show a speedup for this workload."
+    },
+    {
+      "id": "pytorch_compile",
+      "kind": "official framework API",
+      "url": "https://docs.pytorch.org/docs/stable/generated/torch.compile",
+      "supports": "reduce-overhead mode may use CUDA Graphs to reduce host launch overhead on eligible CUDA-only graphs.",
+      "limits": "Capture can consume extra memory and is not guaranteed; our GRU+optimizer graph is untested."
+    },
+    {
+      "id": "pytorch_gru",
+      "kind": "official framework API",
+      "url": "https://docs.pytorch.org/docs/main/generated/torch.nn.GRU.html",
+      "supports": "Documents a specific cuDNN persistent-algorithm condition involving V100, FP16 and unpacked input.",
+      "limits": "Do not generalize that condition to T4 or different library versions; inspect actual dispatch."
+    },
+    {
+      "id": "cudnn_rnn",
+      "kind": "official NVIDIA guide",
+      "url": "https://docs.nvidia.com/deeplearning/cudnn/archives/cudnn-850/developer-guide/index.html",
+      "supports": "cuDNN has multiple RNN/GRU algorithms and tensor-op/layout constraints.",
+      "limits": "Archived API detail must be checked against the installed cuDNN version."
+    },
+    {
+      "id": "cudnn_rnn_alignment_v98",
+      "kind": "official NVIDIA cuDNN v9.8 RNN guide",
+      "url": "https://docs.nvidia.com/deeplearning/cudnn/backend/v9.8.0/developer/legacy-api.html",
+      "supports": "RNN Tensor Core use is conditional on algorithm/math mode, input/hidden/batch dimensions, tensor alignment and architecture. Versioned guide is a source for a zero-padding alignment probe on the 211-feature H230 input.",
+      "limits": "Installed cuDNN version and actual kernel dispatch decide applicability; a documented condition is not proof PyTorch chose or failed a Tensor Core path."
+    },
+    {
+      "id": "pytorch_cuda_precision",
+      "kind": "official framework guide",
+      "url": "https://docs.pytorch.org/docs/stable/notes/cuda",
+      "supports": "TF32 settings affect GRU operations on supported Ampere-and-later devices.",
+      "limits": "No quality or speed effect measured for this workload."
+    },
+    {
+      "id": "pytorch_amp",
+      "kind": "official framework guide",
+      "url": "https://docs.pytorch.org/docs/stable/notes/amp_examples.html",
+      "supports": "AMP and GradScaler ordering and gradient-unscale guidance.",
+      "limits": "Does not certify a changed target, state dtype or optimizer recipe."
+    },
+    {
+      "id": "pytorch_checkpoint",
+      "kind": "official framework API and training guide",
+      "url": "https://docs.pytorch.org/docs/stable/checkpoint.html",
+      "supports": "Activation checkpointing recomputes a forward segment during backward; non-reentrant mode supports torch.autograd.grad and detached tensors in the region; RNG stashing/replay can add overhead, and context_fn controls original/recomputed execution contexts.",
+      "limits": "No memory, throughput, gradient-parity, or quality result has been measured for this trainer. The exact chunk/carry/autocast boundary requires an isolated parity probe."
+    },
+    {
+      "id": "chen_sublinear_memory_2016",
+      "kind": "primary research paper",
+      "url": "https://arxiv.org/abs/1604.06174",
+      "supports": "The paper studies memory-compute tradeoffs from activation recomputation, including recurrent networks trained on long sequences.",
+      "limits": "Architectures and workloads differ; its reported memory reductions and overhead are not a prior for this small GRU or its fused cuDNN backward."
+    },
+    {
+      "id": "pytorch_adamw",
+      "kind": "official framework API",
+      "url": "https://docs.pytorch.org/docs/stable/generated/torch.optim.AdamW",
+      "supports": "Fused and foreach AdamW variants.",
+      "limits": "Our current measured optimizer-stage timing remains the relevant evidence."
+    },
+    {
+      "id": "nvidia_nsight",
+      "kind": "official NVIDIA profiler guide",
+      "url": "https://docs.nvidia.com/nsight-systems/UserGuide/index.html",
+      "supports": "CUDA API, kernel and transfer timelines expose host launch, data movement and device overlap.",
+      "limits": "Trace overhead requires a separate unprofiled wall-time comparison."
+    },
+    {
+      "id": "nvidia_compute_capability",
+      "kind": "official NVIDIA developer hardware table",
+      "url": "https://developer.nvidia.com/cuda/gpus",
+      "supports": "Maps T4 to CC 7.5, A100 to CC 8.0, A40 and RTX 3090 to CC 8.6, RTX 4090 to CC 8.9, and H100 to CC 9.0; combine with CUDA's per-CC input-type table for candidate FP16/BF16/FP8 lanes.",
+      "limits": "Hardware instruction support is only an eligibility gate. Installed library kernels and the recurrent workload still require actual-device verification."
+    },
+    {
+      "id": "nvidia_precision_matrix",
+      "kind": "official NVIDIA TensorRT hardware support matrix",
+      "url": "https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-1060/pdf/TensorRT-Support-Matrix-Guide.pdf",
+      "supports": "Tabulates T4 as FP16/INT8-capable but TF32/BF16/FP8 unsupported; lists Ampere, Ada, and Hopper support by named device family.",
+      "limits": "Matrix is for TensorRT hardware eligibility; it does not establish PyTorch/cuDNN GRU kernel support or speed."
+    },
+    {
+      "id": "nvidia_p100_spec",
+      "kind": "official NVIDIA legacy accelerator specifications",
+      "url": "https://www.nvidia.com/en-in/data-center/tesla-p100/",
+      "supports": "P100 is a distinct CC 6.0, pre-Tensor-Core conditional Kaggle lane; NVIDIA's product table reports 21.2 TFLOPS FP16 arithmetic and no Tensor Core.",
+      "limits": "Product capability does not show that Kaggle currently exposes P100 or establish this model's cuDNN throughput."
+    },
+    {
+      "id": "nvidia_t4_fp16_peak",
+      "kind": "official NVIDIA T4 datasheet",
+      "url": "https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/tesla-t4/t4-tensor-core-datasheet-951643.pdf",
+      "supports": "The T4 datasheet reports 65 TFLOPS mixed FP16/FP32 Tensor Core performance.",
+      "limits": "Advertised peak is not GRU throughput or a measured Kaggle time."
+    },
+    {
+      "id": "nvidia_ga102_rtx3090_peak",
+      "kind": "official NVIDIA Ampere GA102 architecture whitepaper",
+      "url": "https://www.nvidia.com/content/PDF/nvidia-ampere-ga-102-gpu-architecture-whitepaper-v2.pdf",
+      "supports": "RTX 3090 listed peak is 71 dense FP16 Tensor TFLOPS with FP32 accumulation (142 with sparsity), or 142 dense with FP16 accumulation (284 with sparsity).",
+      "limits": "The rate depends on accumulator and sparsity mode; only dense unsparsified FP16 is used for table context."
+    },
+    {
+      "id": "nvidia_a40_fp16_peak",
+      "kind": "official NVIDIA A40 datasheet",
+      "url": "https://images.nvidia.com/content/Solutions/data-center/a40/nvidia-a40-datasheet.pdf",
+      "supports": "NVIDIA lists 149.7 FP16 Tensor TFLOPS for A40 before its separate 299.4 structural-sparsity figure.",
+      "limits": "Its public table labels the listed FP16 accumulation convention; vendor peak is not a host offer or workload result."
+    },
+    {
+      "id": "nvidia_ada_rtx4090_fp16_peak",
+      "kind": "official NVIDIA Ada GPU architecture whitepaper",
+      "url": "https://images.nvidia.com/aem-dam/Solutions/geforce/ada/nvidia-ada-gpu-architecture.pdf",
+      "supports": "RTX 4090 dense FP16 Tensor peak is 165.2 TFLOPS with FP32 accumulation; the 330.4 figure uses structural sparsity. The same table separates the 3090 Ti/4090 board variants.",
+      "limits": "The 4090 peak does not predict a sequential GRU's kernel or host-limited fit time."
+    },
+    {
+      "id": "nvidia_a100_fp16_peak",
+      "kind": "official NVIDIA A100 product specifications",
+      "url": "https://www.nvidia.com/en-us/data-center/a100/",
+      "supports": "NVIDIA lists 312 dense FP16 Tensor TFLOPS and 624 with structured sparsity for A100.",
+      "limits": "SXM/PCIe, clocks, framework dispatch and utilization change application throughput."
+    },
+    {
+      "id": "nvidia_h100_fp16_peak",
+      "kind": "official NVIDIA Hopper/H100 specifications",
+      "url": "https://developer.nvidia.com/blog/?p=45555",
+      "supports": "NVIDIA's H100 table shows dense FP16 Tensor peaks of 800 TFLOPS for PCIe and 1,000 for SXM (shown as dense/sparsity-doubled pairs).",
+      "limits": "Board type matters; 1,600/2,000 sparse peaks are excluded, and no H100 GRU result was measured."
+    },
+    {
+      "id": "nvidia_dense_performance",
+      "kind": "official NVIDIA performance guide",
+      "url": "https://docs.nvidia.com/deeplearning/performance/dl-performance-gpu-background/index.html",
+      "supports": "Explains compute/memory/latency limits, Tensor Core path constraints, and distinguishes peak dense examples from application throughput.",
+      "limits": "Peak matrix throughput is not a prediction for this sequential GRU; do not compare different arithmetic types or structured-sparse peak figures as if they were the same workload."
+    },
+    {
+      "id": "transformer_engine_fp8",
+      "kind": "official NVIDIA framework guide",
+      "url": "https://docs.nvidia.com/deeplearning/transformer-engine/examples/fp8_primer.html",
+      "supports": "FP8 uses explicit scaling recipes; TE Linear documents shape divisibility constraints.",
+      "limits": "TE Linear is not a drop-in replacement for the cuDNN GRU cell."
+    },
+    {
+      "id": "jax_scan",
+      "kind": "official JAX API",
+      "url": "https://docs.jax.dev/en/latest/_autosummary/jax.lax.scan.html",
+      "supports": "scan lowers to one WhileOp; carry shape/dtype stay fixed; unroll changes the loop structure.",
+      "limits": "No full-shape TPU speedup is implied."
+    },
+    {
+      "id": "delayed_gradient_paper",
+      "kind": "primary research paper",
+      "url": "https://arxiv.org/abs/2606.30634",
+      "supports": "Studies one-step delayed gradients in pipeline-parallel LLM pretraining, optimizer sensitivity and error-feedback correction.",
+      "limits": "Scale, architecture and objective differ; effect on our small GRU is unknown."
+    },
+    {
+      "id": "vast_public_index_h100_gpu_query",
+      "kind": "public marketplace page captured through web-search index (non-live card snapshots)",
+      "url": "https://cloud.vast.ai/?gpu_option=H100+PCIE",
+      "supports": "The same-day H100-family index page exposed verified #54467129 (one H100 PCIe at $2.547/hr plus bandwidth) and #54467135 (two H100 PCIe at $5.078/hr plus bandwidth), with CPU/RAM/NVMe/max-duration/reliability fields recorded in MARKET_OBSERVATIONS.json.",
+      "limits": "Only search-index content was read, not a live API result. Availability, price and charge scope can change; no matched H230 profile, fit cost, or measured completion probability was obtained."
+    }
+  ],
+  "random_library_draw": {
+    "selection_pool": "research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/RANDOM_SELECTION_POOL.txt",
+    "pool_sha256_of_sorted_unique_lines_without_final_newline": "899a7c60ac7f7d8ed14a09384e036b22a90456ca11ad045e9c7ff58c157fce62",
+    "pool_size": 14,
+    "procedure": "Python random.Random(seed).choice(sorted(unique nonempty lines)); no topic-conditioned filtering",
+    "seed": 20261008,
+    "selected_path": "/home/vlad/Documents/Trading/Random Matrix Theory.pdf",
+    "pdf_sha256": "c6ead35223f36b20b44fb3e3f5ef576c6d2d20422a8a57c79377006993ae1c46",
+    "title": "Introduction to Random Matrices: Theory and Practice",
+    "authors": [
+      "Giacomo Livan",
+      "Marcel Novaes",
+      "Pierpaolo Vivo"
+    ],
+    "random_page": {
+      "seed": 20261008,
+      "pdf_page": 38,
+      "printed_page": 37,
+      "selection": "fresh random.Random(seed).randint(1,112)"
+    },
+    "excerpt": "the normalized histogram of the N eigenvalues of a single (very big!) instance of the Gaussian ensemble",
+    "transfer": "Use a measured singular-spectrum elbow as a screen for whether an owned trained matrix merits one low-rank factorization profile. This is speculative; do not apply the Gaussian-ensemble law as a prior over trained network weights.",
+    "falsifier": "No stable low-rank elbow across own seeds/checkpoints, or factorization fails to improve measured step time at an acceptable fixed endpoint.",
+    "limits": "The sampled passage describes a Gaussian-ensemble eigenvalue density, not deep-learning optimization or this competition."
+  }
+}
