@@ -1,0 +1,52 @@
+{
+  "schema": "wnn.sampled-cohort-source-review.v1",
+  "reviewed_at_utc": "2026-10-09T04:32:53Z",
+  "status": "pass_with_nonblocking_metadata_caveat",
+  "review_scope": "Read-only review of the exact pending source packet, sealed bootstrap/admitted-sealer path, worker spec loading, and worker admission validation. This is not an actor approval, a scientific result, or evidence of an actual provider/GPU run.",
+  "source": {
+    "builder_commit": "487b6ae4fb0c7fc40232b9aa97ef74c575675ebe",
+    "packet_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/experiment_sampler_r3/sealed_candidate_pending_r1/sampled_cohort.packet.json",
+    "packet_sha256": "4c81fd04cba2e9f5626549ba19389e81cad8ec05746cfdba506794f87d64bf03",
+    "worker_sha256": "5fe8db6494269b94d7a59373e72f0bf19869792c3c6a95153e16d4e45c604e31",
+    "cohort_spec_sha256": "3c18a981109fb8711227db73ff80e42b530954023dff77bfac73745f6e2c526c",
+    "runner_overlay_manifest_sha256": "4e95563d6879364fd8928e82bf4bdeabf801ccd2e0d0fa9380cb9455a76e7a14",
+    "source_code_manifest_sha256": "dbd98f4b73f5cdc7dd8df137ae9d0bd23495fd8ee2067da02cc94d45699bd6e9",
+    "control_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+    "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b"
+  },
+  "checks": [
+    {
+      "name": "pending_packet_admission_state",
+      "result": "pass",
+      "details": "The reviewed packet embeds push_allowed=false and conditional_fit_allowed=false. It cannot be pushed as-is."
+    },
+    {
+      "name": "sealed_bootstrap_and_admitted_branch",
+      "result": "pass",
+      "details": "The sealer constructs a fresh admitted bootstrap from the exact root admission payload, re-embeds its canonical bytes, and regenerates overlay/bootstrap/packet hashes. Bootstrap validates source, archive, code manifest, split, registry, membership, overlay, cohort, control, cache, runtime, and admission pins before starting the worker. The worker repeats exact admission validation and requires both authorization booleans true."
+    },
+    {
+      "name": "worker_load_spec_and_recipe_cli_mapping",
+      "result": "pass",
+      "details": "The worker checks the exact cohort-spec hash and fixed six candidate IDs/waves; it maps the six recipes through the actual R5 trainer CLI and validates optimizer, loss, activation, schedule, precision, no-evaluation-during-fit, and fixed update/checkpoint controls."
+    },
+    {
+      "name": "focused_producer_shaped_tests",
+      "result": "pass",
+      "command": "pytest -q test_sampled_cohort_bootstrap.py test_sampled_recipe_worker.py::test_frozen_six_rows_match_r2_recipe_hashes_and_r5_source test_sampled_recipe_worker.py::test_each_candidate_maps_to_supported_cli_and_exact_science_delta",
+      "result_detail": "3 passed in 0.38 seconds under the shared support lock and bounded CPU/RAM wrapper. The bootstrap test creates an admitted sealed fixture, reaches the fold-0 mount boundary only after bootstrap admission validation, then calls the extracted worker's actual load_spec() and _validate_admission()."
+    },
+    {
+      "name": "execution_boundary",
+      "result": "pass",
+      "details": "No provider mutation or model fitting was performed during this review. Actual GPU execution, full cohort outputs, and scientific grading remain pending root admission and execution."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "nonblocking_metadata_caveat",
+      "details": "The pinned historical experiment_sampler_r2 candidate pool retains implementation_dependency.state=pending_recipe_aware_runner for selected rows. The R3 worker now supplies the selected-row implementation, and R3 does not consume that field. Preserve the historical pool hash and record the R3 successor status separately rather than editing the frozen pool."
+    }
+  ],
+  "required_handoff": "Root must create and review a newly sealed admitted candidate with exact current root authorization and then use that new packet's hashes. The pending packet remains preserved and unauthorized for provider mutation."
+}
