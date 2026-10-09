@@ -1,0 +1,22 @@
+{
+  "schema": "wnn.native-gpu-fp16-seal-validation-failure.r1",
+  "observed_at_utc": "2026-10-09T03:01:57Z",
+  "candidate": "vladkochetov07/wnn-native-gpu-fp16-20261009-r1",
+  "source_commit": "5d5c91d0",
+  "packet_sha256_before_self_pin": "112cc33baa410f436c9bd130da71cba4ae9096db317e9f3dd9cc332817457508",
+  "kernel_sha256": "aea97c35e853b0ec739855d70b16446825b752bed6ffe4148ae2199a5ff6e2f3",
+  "stage": "offline source lint after packet generation",
+  "failure": {
+    "type": "Ruff F841",
+    "path": "kernel/wnn-native-gpu-fp16-20261009-r1.py",
+    "line": 254,
+    "message": "unused assignment from unpack_native_overlay"
+  },
+  "effects": {
+    "candidate_packet_uploaded": false,
+    "kernel_pushed": false,
+    "provider_mutation": false,
+    "device_fit": false
+  },
+  "correction": "Remove the unused bootstrap assignment in the generator, preserve this generated packet, and reseal the corrected local candidate before root review."
+}
