@@ -1,0 +1,19 @@
+[Unit]
+Description=Poll and collect the admitted native GPU FP16 kernel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Slice=wnn-campaign.slice
+CPUQuota=100%
+MemoryMax=1000000000
+MemorySwapMax=0
+TimeoutStartSec=900s
+TimeoutStopSec=5s
+Environment=WNN_SLICE=wnn-campaign.slice
+Environment=WNN_CPU_QUOTA=100%
+Environment=WNN_THREADS=1
+Environment=WNN_MEM_MAX=1000000000
+Environment=WNN_RUNTIME_MAX=850s
+ExecStart=/usr/bin/flock -w 40 /tmp/wnn-codex-support.lock /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/collect_native_terminal_r1.py --native-dir /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1 --repo-root /home/vlad/development/wunder/wnn_connectome_starterpack

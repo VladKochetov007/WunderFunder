@@ -1,0 +1,97 @@
+{
+  "checks": {
+    "prepush_readiness_pass": true,
+    "provider_status_row_found": true,
+    "provider_status_running": true,
+    "pulled_code_matches_admitted_bootstrap": true,
+    "push_exit_zero": true,
+    "remote_metadata_gpu_enabled": true,
+    "remote_metadata_private": true,
+    "remote_metadata_t4": true
+  },
+  "dispatch_receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/ROOT_NATIVE_GPU_FP16_DISPATCH_R1.json",
+  "dispatch_receipt_sha256": "f0750930dc3afcd5573bcc89b0aefe2b50843885b7254358ffa1144a09981231",
+  "packet_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/native_gpu_fp16.packet.json",
+  "packet_sha256": "52ef723bc159773627d0d89ff6923fd62f8615bf012cc7ed14de148aa54807ac",
+  "phase_claim": "RUNNING confirms provider worker state only; no fit/profile claim until native phase artifacts are collected.",
+  "prepush_readiness_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/FRESH_GPU_QUOTA_ADMISSION_R1.json",
+  "prepush_readiness_sha256": "7b13ba4960494dc4dcf265c800a528a7dee90e5327153ce451995ab2cfe84f7f",
+  "provider_observation": {
+    "admitted_bootstrap_sha256": "51abf3abad8f32b020dca4dfe96f4ff2507933dba620176a4d531b46f5e4618f",
+    "kernel_owner_inventory": {
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle",
+        "kernels",
+        "list",
+        "--mine",
+        "--search",
+        "wnn-native-gpu-fp16-20261009-r1",
+        "--page-size",
+        "200",
+        "--format",
+        "json"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[\n  {\n    \"ref\": \"vladkochetov07/wnn-native-gpu-fp16-20261009-r1\",\n    \"title\": \"WNN Native GPU FP16 20261009 R1\",\n    \"author\": \"Vlad Kochetov\",\n    \"lastRunTime\": \"2026-10-09T03:31:28.647000\",\n    \"totalVotes\": 0\n  }\n]"
+    },
+    "pulled_code_sha256": "51abf3abad8f32b020dca4dfe96f4ff2507933dba620176a4d531b46f5e4618f",
+    "pulled_metadata": {
+      "code_file": "wnn-native-gpu-fp16-20261009-r1.py",
+      "competition_sources": [],
+      "dataset_sources": [
+        "vladkochetov07/wnn-loss-pair-code-20261009-r4",
+        "vladkochetov07/wnn-native-gpu-fp16-assets-20261009-r1",
+        "vladkochetov07/wnn-c20261004-fold0-assets"
+      ],
+      "docker_image": "",
+      "enable_gpu": true,
+      "enable_internet": false,
+      "enable_tpu": false,
+      "id": "vladkochetov07/wnn-native-gpu-fp16-20261009-r1",
+      "id_no": 137796126,
+      "is_private": true,
+      "kernel_sources": [
+        "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1"
+      ],
+      "kernel_type": "script",
+      "keywords": [],
+      "language": "python",
+      "machine_shape": "NvidiaTeslaT4",
+      "model_sources": [],
+      "title": "WNN Native GPU FP16 20261009 R1"
+    },
+    "pulled_metadata_sha256": "9c962b3de0d0ba7bc1335c8a3fae73af6638b09441f22081efbf0c0c15838c5a",
+    "status": {
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle",
+        "kernels",
+        "status",
+        "vladkochetov07/wnn-native-gpu-fp16-20261009-r1"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "vladkochetov07/wnn-native-gpu-fp16-20261009-r1 has status \"KernelWorkerStatus.RUNNING\""
+    }
+  },
+  "push_argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle",
+    "kernels",
+    "push",
+    "-p",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/kernel",
+    "--accelerator",
+    "NvidiaTeslaT4",
+    "-t",
+    "3600"
+  ],
+  "push_exit_code": 0,
+  "push_stdout": "Kernel version 1 successfully pushed. Please check progress at https://www.kaggle.com/code/vladkochetov07/wnn-native-gpu-fp16-20261009-r1",
+  "recorded_at_utc": "2026-10-09T03:32:27+00:00",
+  "root_admission_sha256": "571b43d16bec28eed4ac025de45d0f26e6ad7880e0f56013733b4190c70dcfee",
+  "schema": "wnn.native-gpu-fp16.provider-push-receipt.v1",
+  "source_dataset": "vladkochetov07/wnn-native-gpu-fp16-assets-20261009-r1",
+  "source_dataset_version": 1,
+  "source_ready_receipt_sha256": "5b7f58d0af7c957c32906aa835423a33370f8f491bfd8eb697a6f0234001d929",
+  "state": "accepted_v1_worker_running_phase_not_yet_confirmed"
+}

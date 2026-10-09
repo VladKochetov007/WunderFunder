@@ -1,0 +1,28 @@
+{
+  "schema": "wnn.native-gpu-collector.root-review.r1",
+  "created_utc": "2026-10-09T03:36:55.734040+00:00",
+  "status": "passed_installation_authorized",
+  "reviewer": "root independent of native actor",
+  "pins_sha256": {
+    "collect_native_terminal_r1.py": "9a209d146f7acfd71ad8cc856f1b0dcc20a51ff7f51a9c5e16d778a2e101ede0",
+    "native_terminal_collection_targets_r1.json": "a1c87c5f60d5e7c91bd6272531970d787158058bd5ced9463277080eb4cf9721",
+    "tests/test_collect_native_terminal_r1.py": "6000e8759f66421809b2be2ed6794e685f167f07bd28d3988c961d05a4049426",
+    "NATIVE_GPU_FP16_PROVIDER_PUSH_R1.json": "20b0a3a753f5dc723d40c11f3e6b54a5ccd8b63999f481b5231aac9393c79b33"
+  },
+  "tests": "4 passed in0.63s: actual admitted/provider receipts, device drift rejection, nonterminal no-download, terminal bounded helper handoff",
+  "installation": {
+    "slice": "wnn-campaign.slice",
+    "cpu_quota_percent": 100,
+    "memory_max_bytes": 1000000000,
+    "memory_swap_max": 0,
+    "support_lock": "/tmp/wnn-codex-support.lock",
+    "worker_runtime_seconds": 850,
+    "service_runtime_seconds": 900,
+    "poll_interval_seconds": 300,
+    "immediate_first_run": true,
+    "max_download_bytes": 8589934592,
+    "min_free_bytes": 4294967296,
+    "max_download_attempts": 3
+  },
+  "scope": "one exact native FP16 kernel read-only status and terminal artifact collection; no fit/retry/provider mutation"
+}

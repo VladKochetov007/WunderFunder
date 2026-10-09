@@ -1,0 +1,11 @@
+[Unit]
+Description=Schedule bounded terminal collection for native GPU FP16
+
+[Timer]
+OnBootSec=300s
+OnUnitInactiveSec=300s
+AccuracySec=10s
+Unit=wnn-native-gpu-fp16-terminal-collector.service
+
+[Install]
+WantedBy=timers.target

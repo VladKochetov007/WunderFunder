@@ -1,0 +1,63 @@
+{
+  "checks": {
+    "campaign_reserve_pass": true,
+    "no_existing_kernel": true,
+    "provider_unreserved_covers_worker": true,
+    "remote_inventory_exact": true,
+    "source_ready_v1": true
+  },
+  "dispatch_receipt_sha256": "f0750930dc3afcd5573bcc89b0aefe2b50843885b7254358ffa1144a09981231",
+  "kernel": "vladkochetov07/wnn-native-gpu-fp16-20261009-r1",
+  "observed_at_utc": "2026-10-09T03:31:22+00:00",
+  "provider_reads": {
+    "dataset_files_count": 24,
+    "dataset_status": {
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle",
+        "datasets",
+        "status",
+        "vladkochetov07/wnn-native-gpu-fp16-assets-20261009-r1",
+        "--format",
+        "json"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"status\": \"ready\", \"current_version_number\": 1}"
+    },
+    "kernel_owner_inventory": {
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle",
+        "kernels",
+        "list",
+        "--mine",
+        "--search",
+        "wnn-native-gpu-fp16-20261009-r1",
+        "--page-size",
+        "200",
+        "--format",
+        "json"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "Not found"
+    }
+  },
+  "quota": {
+    "campaign_headroom_before_holds_seconds": 23700.16000000001,
+    "campaign_residual_after_holds_seconds": 9300.16000000001,
+    "holds_seconds": {
+      "D02_R4": 7200,
+      "native": 7200
+    },
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "required_residual_reserve_seconds": 1000,
+    "reserved_seconds": 0.0,
+    "total_allowed_seconds": 108000.0,
+    "unreserved_after_worker_wall_seconds": 34572.323000000004,
+    "unreserved_seconds": 37872.323000000004,
+    "used_seconds": 70127.677
+  },
+  "result": "pass",
+  "schema": "wnn.native-gpu-fp16.prepush-readiness.v1",
+  "source_dataset": "vladkochetov07/wnn-native-gpu-fp16-assets-20261009-r1"
+}
