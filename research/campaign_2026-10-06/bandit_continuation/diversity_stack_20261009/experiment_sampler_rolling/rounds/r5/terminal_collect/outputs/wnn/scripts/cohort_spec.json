@@ -1,0 +1,141 @@
+{
+  "arms": [
+    {
+      "activation": "gelu",
+      "axis": "rolling random combination of loss x activation x schedule",
+      "candidate_id": "r5_wmse_gelu_onecycle",
+      "candidate_recipe_sha256": "d009603e5a1133e7c942eb8a4e88ed4f4511db7ee494a13ee0b3783f7fd7a048",
+      "huber_delta": null,
+      "loss": "wmse",
+      "parent_candidates": [
+        "D01_ADAMW_WMSE"
+      ],
+      "queue_id": "SAMPLED_R5_WMSE_GELU_ONECYCLE",
+      "recipe_key": "wmse_gelu_onecycle",
+      "run_name": "sampled_r5_wmse_gelu_onecycle",
+      "scheduler": "onecycle",
+      "scheduler_parameters": {
+        "final_div_factor": 100.0,
+        "peak_lr": 0.001,
+        "warmup_frac": 0.05
+      }
+    },
+    {
+      "activation": "gelu",
+      "axis": "rolling random combination of loss x activation x schedule",
+      "candidate_id": "r5_wmse_gelu_wsd_d0p2f0p01",
+      "candidate_recipe_sha256": "0d41bbb14c3bcbc140c75e12cf5166ad6383ccf05db74a68f841aedd6a5ed5bb",
+      "huber_delta": null,
+      "loss": "wmse",
+      "parent_candidates": [
+        "D01_ADAMW_WMSE"
+      ],
+      "queue_id": "SAMPLED_R5_WMSE_GELU_WSD_D0P2F0P01",
+      "recipe_key": "wmse_gelu_wsd_d0p2f0p01",
+      "run_name": "sampled_r5_wmse_gelu_wsd_d0p2f0p01",
+      "scheduler": "wsd",
+      "scheduler_parameters": {
+        "decay_share": 0.2,
+        "final_lr_fraction": 0.01,
+        "warmup_frac": 0.05
+      }
+    }
+  ],
+  "candidate_pool": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/experiment_sampler_r2/candidate_pool_r2.jsonl",
+    "sha256": "e5d37d2e5b427fee3648bb6cae1aebcd189bf9b4db642a1c07b47c64743935ee",
+    "source_closure_sha256": "3d86386dcde2ea099610f949004ceb64dc9200fcf511333caf79539f2d62e8c0"
+  },
+  "common_recipe": {
+    "architecture": "two-layer GRU, hidden 256, linear encoder, 211 input features, two outputs",
+    "batch_size": 32,
+    "checkpoint_epoch": 1,
+    "chunk_rows": 2000,
+    "epochs": 2,
+    "evaluation_during_fit": false,
+    "evaluation_exposure": "historically exposed; not a fresh holdout",
+    "evaluation_membership": "all 468 fixed validation sequences; historically exposed",
+    "fit_membership": "frozen complete components; 350 fit-train sequences; fit-valid 28 unused",
+    "fold": 1,
+    "loss_normalization": "chunk",
+    "metric_id": "global_wp_clip2_v1",
+    "optimizer": "AdamW, lr=0.001, beta2=0.999, weight_decay=0.01, clip=1.0",
+    "precision": "float32; TF32 disabled",
+    "prediction_export": "full fixed 468-sequence validation set after fitting",
+    "seed": 20261009,
+    "train_source": "train",
+    "update_attempts": 220
+  },
+  "controls": {
+    "huber_d1_run_name": "loss_pair_r3_huber_d1",
+    "kernel": "vladkochetov07/wnn-loss-pair-export-recovery-20261009-r1",
+    "training_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+    "wmse_run_name": "loss_pair_r3_wmse"
+  },
+  "execution": {
+    "fit_parallelism": 2,
+    "gpu_count": 2,
+    "gpu_model": "NvidiaTeslaT4",
+    "maximum_cgroup_current_bytes": 24000000000,
+    "maximum_working_output_bytes": 12000000000,
+    "minimum_disk_free_bytes": 4000000000,
+    "minimum_mem_available_bytes": 2000000000,
+    "prediction_parallelism": 2,
+    "provider_seconds": 3600,
+    "waves": [
+      [
+        "r5_wmse_gelu_onecycle",
+        "r5_wmse_gelu_wsd_d0p2f0p01"
+      ]
+    ],
+    "worker_wall_seconds": 3300
+  },
+  "fit_allowed": false,
+  "fold": 1,
+  "fold_pins": {
+    "EXPECTED_CACHE_KEY": "3b47f31906979bf6186ac195ad999f0ddf463c657e17d099484f1d979a5172da",
+    "EXPECTED_CACHE_MANIFEST_SHA256": "506ffa4588c0ff50d4b10e7ad2c7c34e93a53298c1e3a0c6158a815ff32d789b",
+    "EXPECTED_CPU_PROFILE_SHA256": "af97c92302fd54a014a372078b8ccdeff6e299bc6b6c4ea8d137af0c7b506c5c",
+    "EXPECTED_CPU_VALIDATION_SHA256": "e804cf496560436f8f5eacd61fcb69502058a77e5abf69932e11833b6f33ce1c",
+    "EXPECTED_MEMBERSHIP_SHA256": "ccaa82809e35eecf0375f72ac1e641af65fc17aa69659666e135ca2ad4111f93",
+    "EXPECTED_PHASE_LOG_SHA256": "78ea2579a1ac5e5399c6ebb709357f47a4f8a765d012c1c392dbf32807e07075",
+    "EXPECTED_REGISTRY_SHA256": "551905f3363c65608e2d5a0f49e8eeca362f574ab6d98d443e31cee0790fb5fd",
+    "EXPECTED_SOURCE_STAGE_RECEIPT_SHA256": "275edbcc2447ca1fba7704723be8cd1ff2fec76cc4483da16f1e4b036c08b90e",
+    "EXPECTED_SOURCE_VERIFICATION_SHA256": "2c429e3a6a61916dd520ea3c49ed23d84c79e6bdbb22ff251af2524e842b6307",
+    "EXPECTED_SPLIT_SHA256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "MEMBERSHIP_RELATIVE": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/membership_fold1_f03_s20261009.json",
+    "REGISTRY_RELATIVE": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold1.json",
+    "SOURCE_KERNEL": "vladkochetov07/wnn-parsed-cache-stage-20261009-f1",
+    "SPLIT_RELATIVE": "research/campaign_2026-09-29/artifacts/splits/fold1.json"
+  },
+  "format_version": 1,
+  "kernel_id": "vladkochetov07/wnn-sampled-recipe-cohort-20261009-r5",
+  "parsed_cache": {
+    "cache_key": "3b47f31906979bf6186ac195ad999f0ddf463c657e17d099484f1d979a5172da",
+    "cache_manifest_sha256": "506ffa4588c0ff50d4b10e7ad2c7c34e93a53298c1e3a0c6158a815ff32d789b",
+    "evaluation_count": 457,
+    "fit_train_count": 349,
+    "fit_valid_count_not_used": 28,
+    "kernel": "vladkochetov07/wnn-parsed-cache-stage-20261009-f1",
+    "membership_sha256": "ccaa82809e35eecf0375f72ac1e641af65fc17aa69659666e135ca2ad4111f93",
+    "parse_once": true,
+    "parse_once_evidence": "source_stage_receipt_sha256",
+    "parse_once_meaning": "one pinned CPU cache producer; fit subprocesses independently reopen read-only memmaps",
+    "registry_sha256": "551905f3363c65608e2d5a0f49e8eeca362f574ab6d98d443e31cee0790fb5fd",
+    "scope": "cohort",
+    "source_stage_receipt_sha256": "275edbcc2447ca1fba7704723be8cd1ff2fec76cc4483da16f1e4b036c08b90e",
+    "split_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "validation_sha256": "e804cf496560436f8f5eacd61fcb69502058a77e5abf69932e11833b6f33ce1c"
+  },
+  "queue_activation_allowed": false,
+  "runtime_source": {
+    "code_manifest_sha256": "dbd98f4b73f5cdc7dd8df137ae9d0bd23495fd8ee2067da02cc94d45699bd6e9",
+    "runner_overlay_dataset": "vladkochetov07/wnn-sampled-recipe-runner-code-20261009-r5",
+    "runner_overlay_title": "WNN Sampled Recipe Runner Code 20261009 R5",
+    "source_commit": "845405d16dc6b3768080aa99c3663a440d343ba5",
+    "source_dataset": "vladkochetov07/wnn-d02-muon-loss-code-20261009-r5",
+    "trainer_sha256": "6d6d28545051e7c7c450d7cb6299c9c20342bc21ec97a202abf5ebc64cfc46ef",
+    "worker_sha256": "48f8b7c897b72386410851123eac4fd1834f107a1d1ce6fa14485af0f6bda8a5"
+  },
+  "schema": "wnn.diversity.sampled-cohort-spec.v1"
+}

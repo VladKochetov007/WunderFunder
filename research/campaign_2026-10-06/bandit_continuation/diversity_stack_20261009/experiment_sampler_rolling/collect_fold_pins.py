@@ -42,7 +42,8 @@ def main() -> int:
     parser.add_argument("--fold", type=int, required=True)
     args = parser.parse_args()
     fold = args.fold
-    kernel = f"vladkochetov07/wnn-parsed-cache-stage-20261009-f{fold}"
+    source = json.loads((ROOT / MULTIFOLD / "FOLD_SOURCES.json").read_text())[str(fold)]
+    kernel = source["kernel"]
     out_path = HERE / "fold_pins" / f"fold_{fold}.json"
     unsupported = HERE / "fold_pins" / f"fold_{fold}.unsupported"
     if out_path.exists() or unsupported.exists() or list((HERE / "fold_pins").glob(f"fold_{fold}.disabled_*")):
@@ -51,7 +52,7 @@ def main() -> int:
     if "KernelWorkerStatus.COMPLETE" not in status.stdout:
         print(status.stdout.strip())
         return 0
-    dest = ROOT / MULTIFOLD / f"cpu_f{fold}_terminal"
+    dest = ROOT / MULTIFOLD / f"cpu_f{fold}_s{source['seed']}_terminal"
     dest.mkdir(parents=True, exist_ok=True)
     download = subprocess.run(
         [KAGGLE, "kernels", "output", kernel, "-p", str(dest), "--file-pattern", PATTERN, "-o"],
@@ -67,7 +68,7 @@ def main() -> int:
         raise SystemExit("phase.jsonl beside the kernel output root is missing")
     split_rel = f"research/campaign_2026-09-29/artifacts/splits/fold{fold}.json"
     registry_rel = f"{MULTIFOLD}/portable_inputs_fold{fold}.json"
-    membership_rel = f"{MULTIFOLD}/membership_fold{fold}_f03_s20261009.json"
+    membership_rel = source["membership"]
     pins = {
         "SOURCE_KERNEL": kernel,
         "EXPECTED_SOURCE_STAGE_RECEIPT_SHA256": sha256(receipt),

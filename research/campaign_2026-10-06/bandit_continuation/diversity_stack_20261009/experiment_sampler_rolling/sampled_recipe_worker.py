@@ -622,6 +622,80 @@ def verify_arm_fit(
     }
 
 
+def verify_arm_fit_fold(arm: dict[str, Any], arm_dir: Path) -> dict[str, Any]:
+    """Fold-k arms skip the fold-0 paired-prefit/trace export; check checkpoints and provenance."""
+    missing = [n for n in ("model_ep0.pt", "model_ep1.pt", "model.pt", "provenance.json", "history.json")
+               if not (arm_dir / "model" / n).is_file()]
+    if missing:
+        raise base.WorkerRejected(f"fold {FOLD} fit output is missing: {missing}")
+    provenance_path = arm_dir / "model" / "provenance.json"
+    provenance = _json(provenance_path)
+    args = provenance.get("args", {})
+    expected = {
+        "name": arm["run_name"], "loss": arm["loss"], "readout_activation": arm["activation"],
+        "sched": arm["scheduler"], "optim": "adamw", "precision": "fp32", "seed": 20261009, "epochs": 2,
+        "batch": 32, "chunk": 2000, "hidden": 256, "layers": 2, "train_source": "train",
+        "valid_fold": FOLD, "lr": 0.001, "wd": 0.01, "warmup_frac": 0.05, "checkpoint_epoch": 1,
+        "huber_delta": float(arm["huber_delta"]) if arm["loss"] == "huber" else 0.5,
+        "split_manifest_sha256": base.EXPECTED_SPLIT_SHA256,
+    }
+    if arm["scheduler"] == "wsd":
+        expected |= {"wsd_decay": arm["scheduler_parameters"]["decay_share"],
+                     "wsd_final": arm["scheduler_parameters"]["final_lr_fraction"]}
+    if arm["scheduler"] == "sgdr":
+        expected |= {"restarts": arm["scheduler_parameters"]["restarts"],
+                     "wsd_final": arm["scheduler_parameters"]["final_lr_fraction"]}
+    for key, value in expected.items():
+        if args.get(key) != value:
+            raise base.WorkerRejected(f"fold {FOLD} provenance differs for {arm['queue_id']}: args.{key}")
+    diagnostics = provenance.get("update_diagnostics", [])
+    attempts = sum(int(row.get("epoch", {}).get("optimizer_attempts", -1)) for row in diagnostics)
+    completed = sum(int(row.get("epoch", {}).get("optimizer_completed_updates", -1)) for row in diagnostics)
+    skipped = sum(int(row.get("epoch", {}).get("amp_skipped_updates", -1)) for row in diagnostics)
+    if attempts != 220 or completed != 220 or skipped != 0:
+        raise base.WorkerRejected(f"fold {FOLD} update counts are not 220 complete: {attempts}/{completed}/{skipped}")
+    return {
+        "fold_mode": FOLD,
+        "optimizer_attempts": attempts,
+        "optimizer_completed_updates": completed,
+        "amp_skipped_updates": skipped,
+        "update_diagnostics": diagnostics,
+        "checkpoint_binding": _verify_checkpoint_selection(arm_dir, arm["run_name"]),
+        "provenance": base._artifact(provenance_path, base.OUT),
+    }
+
+
+def collect_shared_fold(spec: dict[str, Any], manifest_path: Path, runtime_validation: Path,
+                        arm_dirs: dict[str, Path], fit_results: list[dict[str, Any]],
+                        prediction_results: dict[str, dict[str, Any]],
+                        fit_summaries: dict[str, dict[str, Any]]) -> None:
+    """Minimal fold-k training contract: cache identity plus per-arm fit/prediction bindings."""
+    shared = base.OUT / "shared"
+    base._copy_required(manifest_path, shared / "cache_manifest.json")
+    base._write_json(base.OUT / "training_contract.json", {
+        "schema": "wnn.diversity.sampled-cohort-fold-contract.v1",
+        "fold": FOLD,
+        "split_manifest_sha256": base.EXPECTED_SPLIT_SHA256,
+        "membership_sha256": base.EXPECTED_MEMBERSHIP_SHA256,
+        "cache_manifest_sha256": base.EXPECTED_CACHE_MANIFEST_SHA256,
+        "cache_key": base.EXPECTED_CACHE_KEY,
+        "cache_validation_runtime_sha256": _sha256(runtime_validation),
+        "fold0_paired_prefit_export": "not applicable: fold-0 D01 control contract; arms share seed 20261009",
+        "arms": {
+            arm["queue_id"]: {
+                "run_name": arm["run_name"], "loss": arm["loss"], "huber_delta": arm["huber_delta"],
+                "activation": arm["activation"], "scheduler": arm["scheduler"],
+                "scheduler_parameters": arm["scheduler_parameters"],
+                "fit_validation": fit_summaries[arm["queue_id"]],
+                "prediction": base._artifact(arm_dirs[arm["queue_id"]] / "predictions_valid.npy", base.OUT),
+            }
+            for arm in spec["arms"]
+        },
+        "fit_results": fit_results,
+        "prediction_results": prediction_results,
+    })
+
+
 def verify_prefit_against_control(*args: Any, **kwargs: Any) -> None:
     """Fold-0 cohorts share the D01 control's fresh state; other folds compare in-cohort only."""
     if FOLD != 0:
@@ -1152,7 +1226,7 @@ def run_cohort(bootstrap: dict[str, Any], spec_path: Path = SPEC_PATH) -> dict[s
             if run_dir.exists() or run_dir.is_symlink():
                 raise base.WorkerRejected(f"refusing to reuse an existing run directory: {run_dir}")
             arm_dir = arm_dirs[arm["queue_id"]]
-            env = base._environment(gpu=str(gpu_index), arm_dir=arm_dir, run_name=arm["run_name"])
+            env = base._environment(gpu=str(gpu_index), arm_dir=None if FOLD else arm_dir, run_name=arm["run_name"])
             env.pop("WNN_D02_CONTROL_CONTRACT", None)
             env.pop("WNN_D02_CONTROL_CONTRACT_SHA256", None)
             command = build_train_argv(arm, manifest_path, runtime_validation, validation_sha)
@@ -1169,15 +1243,18 @@ def run_cohort(bootstrap: dict[str, Any], spec_path: Path = SPEC_PATH) -> dict[s
         for arm in wave_arms:
             queue_id = arm["queue_id"]
             missing = _json(arm_dirs[queue_id] / "artifact_collection.json").get("missing", [])
+            if FOLD:
+                missing = [n for n in missing if n not in {"update_trace.jsonl", "schedule_trace.json", "training_state.pt", "checkpoint_timing.jsonl"}]
             if missing:
                 raise base.WorkerRejected(f"successful fit is missing required artifacts for {queue_id}: {missing}")
-            fit_summaries[queue_id] = verify_arm_fit(
+            fit_summaries[queue_id] = verify_arm_fit_fold(arm, arm_dirs[queue_id]) if FOLD else verify_arm_fit(
                 arm,
                 arm_dirs[queue_id],
                 control_schedule,
                 scheduler_preflights.get(queue_id),
             )
-        verify_prefit_arms(arm_dirs, {**spec, "arms": arms}, ready_candidate_ids=set(wave_ids))
+        if not FOLD:
+            verify_prefit_arms(arm_dirs, {**spec, "arms": arms}, ready_candidate_ids=set(wave_ids))
         verify_prefit_against_control(arm_dirs, arms, control_roles, ready_candidate_ids=set(wave_ids))
 
         prediction_specs = []
@@ -1226,24 +1303,29 @@ def run_cohort(bootstrap: dict[str, Any], spec_path: Path = SPEC_PATH) -> dict[s
         base._write_json(progress_path, {"schema": "wnn.diversity.sampled-cohort-progress.v1", "state": "running", "completed_waves": completed, "fit_results": fit_results, "arm_states": {arm["queue_id"]: ("predictions_complete" if arm["queue_id"] in prediction_results else "pending") for arm in arms}})
         base._append_phase("wave_complete", wave_index=wave_index, queue_ids=wave_ids)
 
-    verify_prefit_arms(arm_dirs, {**spec, "arms": arms})
-    verify_prefit_against_control(arm_dirs, arms, control_roles)
-    _collect_shared(
-        spec,
-        bootstrap,
-        source_receipt,
-        manifest_path,
-        runtime_validation,
-        runtime_profile,
-        control_contract,
-        control_roles,
-        control_path,
-        arm_dirs,
-        run_names,
-        fit_results,
-        prediction_results,
-        fit_summaries,
-    )
+    if FOLD:
+        collect_shared_fold(spec, manifest_path, runtime_validation, arm_dirs, fit_results,
+                            prediction_results, fit_summaries)
+    else:
+        verify_prefit_arms(arm_dirs, {**spec, "arms": arms})
+        verify_prefit_against_control(arm_dirs, arms, control_roles)
+    if not FOLD:
+        _collect_shared(
+            spec,
+            bootstrap,
+            source_receipt,
+            manifest_path,
+            runtime_validation,
+            runtime_profile,
+            control_contract,
+            control_roles,
+            control_path,
+            arm_dirs,
+            run_names,
+            fit_results,
+            prediction_results,
+            fit_summaries,
+        )
     contract_sha = _sha256(base.OUT / "training_contract.json")
     base._write_json(base.OUT / "commands.json", {"commands": base._COMMANDS})
     result = {

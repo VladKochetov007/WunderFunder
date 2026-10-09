@@ -29,16 +29,17 @@ MEMBERSHIP_PATH = EXPECTED_MEMBERSHIP_SHA256 = ""
 MULTIFOLD_DIR = "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1"
 
 
-def configure_fold(fold: int, repo: Path) -> None:
+def configure_fold(fold: int, repo: Path, seed: int = 20261009) -> None:
     """Bind per-fold dataset, kernel and membership identities."""
     global SOURCE_DATASET, SOURCE_DATASET_TITLE, KERNEL_TITLE, KERNEL_ID, KERNEL_FILENAME
     global MEMBERSHIP_PATH, EXPECTED_MEMBERSHIP_SHA256
-    SOURCE_DATASET_TITLE = f"WNN Parsed Cache Source 20261009 F{fold}"
+    tag = f"F{fold}" if seed == 20261009 else f"F{fold} S{seed}"
+    SOURCE_DATASET_TITLE = f"WNN Parsed Cache Source 20261009 {tag}"
     SOURCE_DATASET = "vladkochetov07/" + _title_slug(SOURCE_DATASET_TITLE)
-    KERNEL_TITLE = f"WNN Parsed Cache Stage 20261009 F{fold}"
+    KERNEL_TITLE = f"WNN Parsed Cache Stage 20261009 {tag}"
     KERNEL_ID = "vladkochetov07/" + _title_slug(KERNEL_TITLE)
     KERNEL_FILENAME = _title_slug(KERNEL_TITLE) + ".py"
-    MEMBERSHIP_PATH = f"{MULTIFOLD_DIR}/membership_fold{fold}_f03_s20261009.json"
+    MEMBERSHIP_PATH = f"{MULTIFOLD_DIR}/membership_fold{fold}_f03_s{seed}.json"
     EXPECTED_MEMBERSHIP_SHA256 = _sha256((repo / MEMBERSHIP_PATH).read_bytes())
 
 
@@ -285,8 +286,9 @@ def main() -> int:
     parser.add_argument("--repo", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--fold", type=int, required=True)
+    parser.add_argument("--seed", type=int, default=20261009)
     args = parser.parse_args()
-    configure_fold(args.fold, args.repo)
+    configure_fold(args.fold, args.repo, args.seed)
     packet = seal_candidate(args.repo, args.output)
     packet_sha = _sha256((args.output / "cpu_source_stage.packet.json").read_bytes())
     print(

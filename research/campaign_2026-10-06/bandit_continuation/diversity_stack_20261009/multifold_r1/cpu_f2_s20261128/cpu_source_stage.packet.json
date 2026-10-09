@@ -1,0 +1,130 @@
+{
+  "cache_contract": {
+    "cache_array_payload_bytes": 7732440000,
+    "cache_output_path": "/kaggle/working/out/parsed_cache",
+    "disk_reserves_bytes": {
+      "checkpoint": 0,
+      "free": 4000000000,
+      "output": 2000000000
+    },
+    "evaluation_sequences": 468,
+    "fit_train_sequences": 350,
+    "fit_valid_sequences_retained_but_not_used_for_fit": 28,
+    "fold": 2,
+    "output_cap_bytes": 12000000000,
+    "records_actual_parse_count_and_os_io_separately": true,
+    "train_source_bytes": 29240219011,
+    "valid_source_bytes": 5615509128
+  },
+  "kernel": {
+    "gpu": false,
+    "metadata": {
+      "path": "kernel/kernel-metadata.json",
+      "sha256": "a94cc227414d140e1bf6e836567b6f20bb77efa862e204ad9151c6df7a6fbfa2"
+    },
+    "provider_timeout_seconds": 3600,
+    "script": {
+      "path": "kernel/wnn-parsed-cache-stage-20261009-f2-s20261128.py",
+      "sha256": "1bdd5be3cb0d3d5b8124b2ff8aa2f1406a78cd07bbe5d65beb37e2c405069b15"
+    },
+    "title": "WNN Parsed Cache Stage 20261009 F2 S20261128",
+    "title_slug_matches_metadata_id": true,
+    "tpu": false,
+    "worker_wall_seconds": 3300
+  },
+  "packet_id": "vladkochetov07/wnn-parsed-cache-stage-20261009-f2-s20261128",
+  "proposed_commands": {
+    "dataset_create": "kaggle datasets create -p <candidate>/source_asset",
+    "kernel_push": "kaggle kernels push -p <candidate>/kernel -t 3600"
+  },
+  "root_admission_required_before_any_upload_or_push": true,
+  "schema": "wnn.kaggle-parsed-cache-source-stage-packet.v1",
+  "scope": {
+    "cpu_source_profile_only": true,
+    "no_gpu_or_tpu_fit": true,
+    "no_local_parquet_or_cache_build": true,
+    "no_provider_action_authorized": true
+  },
+  "source_asset": {
+    "archive_bytes": 20008,
+    "archive_entry_sha256s": [
+      {
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+        "size": 63
+      },
+      {
+        "path": "src/wnn/data.py",
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+        "size": 4000
+      },
+      {
+        "path": "src/wnn/splits.py",
+        "sha256": "d4f90e8f8dd6af314b218d1ea3366c4503874bed73503877da10b4a71ef146af",
+        "size": 12141
+      },
+      {
+        "path": "src/wnn/parsed_sequence_cache.py",
+        "sha256": "e65de5a8a86a9353d5e0e96f266ce48141fb63aaf64d5e0f17f43d61855c2bac",
+        "size": 39480
+      },
+      {
+        "path": "src/wnn/parsed_sequence_cache_reader.py",
+        "sha256": "4717eebf950cc82575bd5f79608fa95ecf79faec4515e07c1e46f6e4135be205",
+        "size": 18583
+      },
+      {
+        "path": "scripts/parsed_sequence_cache.py",
+        "sha256": "fc6945331c1d25f14286b31a15bbf1267f8700bea57ce70b0664cb98b6682040",
+        "size": 5653
+      },
+      {
+        "path": "scripts/profile_parsed_sequence_cache.py",
+        "sha256": "5e5deb5cf0a89d09fe434f8e33f4fc2ef279feb85c5230f224d0faaebfafdd61",
+        "size": 5012
+      }
+    ],
+    "archive_sha256": "8f3e60f40ef7135abdd3926aba2a068fe65933d1e98d010d69784724f75e43a7",
+    "assets_manifest_sha256": "79ec0f4f80ae167e9e315adf0f090d0609eeb0131da1e5288d2584d288d9f6b6",
+    "code_manifest_sha256": "b5de668eed86f527d639e7077cc827318c5b91426e4a880ac39f54c99cd83084",
+    "id": "vladkochetov07/wnn-parsed-cache-source-20261009-f2-s20261128",
+    "membership_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/membership_fold2_f03_s20261128.json",
+    "membership_sha256": "8e05ed1f26f3345ecf2d2ebfb040c31fca47b7548b9a4cb822629b9c4ffd342e",
+    "raw_sources": {
+      "train": {
+        "bytes": 29240219011,
+        "logical_name": "datasets/train.parquet",
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+      },
+      "valid": {
+        "bytes": 5615509128,
+        "logical_name": "datasets/valid.parquet",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      }
+    },
+    "title": "WNN Parsed Cache Source 20261009 F2 S20261128",
+    "title_slug_matches_metadata_id": true,
+    "upload_file_inventory": [
+      {
+        "filename": "8e05ed1f26f3345ecf2d2ebfb040c31fca47b7548b9a4cb822629b9c4ffd342e.wnn",
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/membership_fold2_f03_s20261128.json",
+        "sha256": "8e05ed1f26f3345ecf2d2ebfb040c31fca47b7548b9a4cb822629b9c4ffd342e",
+        "size": 315771
+      },
+      {
+        "filename": "b5de668eed86f527d639e7077cc827318c5b91426e4a880ac39f54c99cd83084.wnn",
+        "path": "source-code-manifest.json",
+        "sha256": "b5de668eed86f527d639e7077cc827318c5b91426e4a880ac39f54c99cd83084",
+        "size": 1279
+      },
+      {
+        "filename": "8f3e60f40ef7135abdd3926aba2a068fe65933d1e98d010d69784724f75e43a7.wnn",
+        "path": "wnn_src.tar.gz",
+        "sha256": "8f3e60f40ef7135abdd3926aba2a068fe65933d1e98d010d69784724f75e43a7",
+        "size": 20008
+      }
+    ],
+    "version": 1
+  },
+  "status": "sealed_candidate_waiting_root_review_and_admission"
+}

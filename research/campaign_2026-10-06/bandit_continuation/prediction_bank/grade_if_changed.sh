@@ -14,3 +14,11 @@ for spec in "1 BANK_FOLD1.jsonl fold1 FOLD1" "0 BANK_FOLD0_FULL.jsonl fold0 FOLD
   cp "$out" "$BANKDIR/LATEST_GRADE_${tag}.json"
   echo "$key" >"$state"
 done
+# Cross-fold blend transfer runs sequentially after grading (never concurrently with it).
+cf_key=$(cat "$BANKDIR/.graded_FOLD0FULL" "$BANKDIR/.graded_FOLD1" 2>/dev/null | sha256sum | cut -c1-16)
+if [ "$(cat "$BANKDIR/.crossfold_key" 2>/dev/null)" != "$cf_key" ]; then
+  out=$BANKDIR/CROSSFOLD_F0_F1_$(date -u +%Y%m%dT%H%M%SZ)_${cf_key}.json
+  "$ROOT/.venv/bin/python" "$ROOT/scripts/crossfold_blend.py" --bank-a "$BANKDIR/BANK_FOLD0_FULL.jsonl" --fold-a 0 \
+    --bank-b "$BANKDIR/BANK_FOLD1.jsonl" --fold-b 1 --output "$out" >"$out.stdout" 2>&1 && cp "$out" "$BANKDIR/LATEST_CROSSFOLD_F0_F1.json"
+  echo "$cf_key" >"$BANKDIR/.crossfold_key"
+fi
