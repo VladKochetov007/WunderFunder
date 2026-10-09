@@ -10,3 +10,4 @@ A previous subagent ran an unwrapped `python3` that reached 15.8 GB RSS outside 
 4. No docker/podman. No GPU use unless your task explicitly says so. Never start long jobs as session background shells; root launches long work as systemd units.
 5. Check `cat /sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/memory.current` before any step expected to use >1 GB; if it exceeds 14e9, wait or ask root.
 6. If a command is killed (exit 137) do not retry with a bigger cap blindly: reduce the data you load.
+7. Token/usage budget (user, 2026-10-08): write caveman-terse — no filler, fragments OK, technical terms exact. Minimize tool calls: batch reads, avoid re-reading files, prefer `rg`/`head` excerpts over whole files, monitor with long sleeps (≥5 min) instead of frequent polls. Final replies ≤12 lines.
