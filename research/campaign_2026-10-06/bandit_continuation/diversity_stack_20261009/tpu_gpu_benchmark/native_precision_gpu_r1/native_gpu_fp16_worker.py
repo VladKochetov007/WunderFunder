@@ -23,10 +23,13 @@ from native_gpu_fp16_contract import (
     R5_REVIEW_SHA256,
     ContractError,
     compare_npz_arrays,
-    native_train_argv,
+    create_native_trainer_overlay,
+    native_prediction_argv,
+    native_trainer_argv,
     sha256_file,
     summarize_update_trace,
     validate_fit_headroom,
+    validate_native_profile_evidence,
     verify_fp32_master_checkpoint,
     verify_r5_control_tree,
 )
@@ -152,18 +155,37 @@ def _patch_worker(
     admission_path: Path,
 ) -> None:
     original_train_argv = base._common_train_argv
+    original_export_predictions = base._export_predictions
     original_gate = base._run_device_shape_update_gate
     original_collect = base._collect_shared
     original_prefit_verify = base._verify_prefit_pair
+    trainer_source = base.ROOT / "scripts" / "train_rnn.py"
+    trainer_overlay = base.ROOT / "scripts" / "native_train_rnn_fp16.py"
+    trainer_overlay_receipt = create_native_trainer_overlay(trainer_source, trainer_overlay)
+    trainer_overlay_receipt_path = base.ROOT / "native_controls" / "trainer_precision_overlay.json"
+    base._write_json(trainer_overlay_receipt_path, trainer_overlay_receipt)
 
     def native_train_argv_wrapper(*args: Any, **kwargs: Any) -> list[str]:
-        return native_train_argv(original_train_argv(*args, **kwargs))
+        return native_trainer_argv(
+            original_train_argv(*args, **kwargs), trainer_source, trainer_overlay
+        )
+
+    def native_export_predictions(*args: Any, **kwargs: Any) -> dict[str, Any]:
+        prediction = original_export_predictions(*args, **kwargs)
+        prediction["command"] = native_prediction_argv(prediction["command"])
+        return prediction
 
     def native_profile_gate(*args: Any, **kwargs: Any) -> dict[str, Any]:
         deadline = float(args[4] if len(args) > 4 else kwargs["deadline"])
         try:
             receipt = original_gate(*args, **kwargs)
+            validate_native_profile_evidence(receipt["profile"]["evidence"])
         except BaseException as error:
+            if trainer_overlay_receipt_path.is_file():
+                base._copy_required(
+                    trainer_overlay_receipt_path,
+                    base.OUT / "shared" / "trainer_precision_overlay.json",
+                )
             log_path = base.OUT / "logs" / "device_shape_update_gate.log"
             evidence_rows = []
             if log_path.is_file():
@@ -246,13 +268,17 @@ def _patch_worker(
         receipt["profile"]["precision"] = "float16"
         receipt["lifecycle_gate"] = lifecycle_receipt
         receipt["conditional_fit_headroom"] = headroom
+        base._copy_required(
+            trainer_overlay_receipt_path,
+            base.OUT / "shared" / "trainer_precision_overlay.json",
+        )
         base._write_json(base.OUT / "shared" / "device_profile_gate.json", receipt)
         base._append_phase(
             "native_fp16_profile_pass",
             profile_completed_updates=receipt["native_precision"]["profile_completed_updates"],
             profile_skipped_updates=receipt["native_precision"]["profile_skipped_updates"],
             lifecycle_state=lifecycle_receipt.get("state"),
-            cgroup_headroom_bytes=headroom["cgroup_headroom_bytes"],
+            cgroup_headroom_bytes=headroom.get("cgroup_headroom_bytes"),
         )
         if admission.get("conditional_fit_allowed") is not True:
             raise FitNotAuthorized("root admission permits the standalone profile only")
@@ -313,6 +339,9 @@ def _patch_worker(
         contract["native_control_binding"] = {
             "producer_training_contract_sha256": R5_CONTRACT_SHA256,
             "producer_review_sha256": R5_REVIEW_SHA256,
+            "trainer_precision_overlay_sha256": sha256_file(
+                base.OUT / "shared" / "trainer_precision_overlay.json"
+            ),
             "producer_roles_sha256": {
                 role: row["sha256"]
                 for role, row in verify_r5_control_tree(controls_root)["artifacts"].items()
@@ -338,6 +367,9 @@ def _patch_worker(
         contract["artifacts"]["native_fp16_lifecycle_gate"] = base._artifact(
             base.OUT / "shared" / "native_fp16_lifecycle_gate.json", base.OUT
         )
+        contract["artifacts"]["trainer_precision_overlay"] = base._artifact(
+            base.OUT / "shared" / "trainer_precision_overlay.json", base.OUT
+        )
         contract["native_admission"] = {
             "source_manifest_sha256": admission["source_manifest_sha256"],
             "root_admission_sha256": sha256_file(admission_path),
@@ -347,6 +379,7 @@ def _patch_worker(
         return contract, profile_receipt
 
     base._common_train_argv = native_train_argv_wrapper
+    base._export_predictions = native_export_predictions
     base._run_device_shape_update_gate = native_profile_gate
     base._verify_prefit_pair = native_prefit_verify
     base._collect_shared = native_collect

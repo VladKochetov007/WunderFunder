@@ -22,6 +22,8 @@ CACHE_KERNEL = "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1"
 R4_KERNEL_SHA256 = "86346f9c1addefbd38d3dcec52b18f514698a9514e7917aeb6081cc32f7eb039"
 R4_ASSET_MANIFEST_SHA256 = "8ef360536ca117232198a4ee6dd8fabf072fb7bfad9812a83972d8bfb750f584"
 R4_CODE_MANIFEST_SHA256 = "0a6fa1567dde9ac5fc41d27eed8d9edb6f90a93afb891db5a4080770b65e4351"
+R4_TRAINER_SHA256 = "971c0336a71d374b507b0a5b83c312afc9ae8dbae8262cb492f0611e6d5bcc0b"
+R4_PREDICTOR_SHA256 = "74d1eac17add3f9461e1205bac0eb5b6a78facd567898d679b15bdfa5bed4f5c"
 R5_CONTRACT_SHA256 = "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7"
 R5_REVIEW_SHA256 = "60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9"
 R5_SHARED = {
@@ -116,18 +118,25 @@ def _native_kernel(
 ) -> bytes:
     source = base_bytes.decode()
     marker = "\n\ndef sha256_file(path: Path) -> str:\n"
+    quoted_asset_paths = ",\n".join(f"    {json.dumps(path)}" for path in sorted(asset_paths))
     constants = (
-        f"\nNATIVE_ASSET_DATASET = {SOURCE_DATASET!r}\n"
-        f"EXPECTED_NATIVE_ASSET_MANIFEST_SHA256 = {asset_manifest_sha!r}\n"
-        f"EXPECTED_NATIVE_SOURCE_MANIFEST_SHA256 = {source_manifest_sha!r}\n"
-        f"EXPECTED_NATIVE_ASSET_PATHS = set({tuple(sorted(asset_paths))!r})\n"
+        f"\nNATIVE_ASSET_DATASET = {json.dumps(SOURCE_DATASET)}\n"
+        "EXPECTED_NATIVE_ASSET_MANIFEST_SHA256 = (\n"
+        f"    {json.dumps(asset_manifest_sha)}\n"
+        ")\n"
+        "EXPECTED_NATIVE_SOURCE_MANIFEST_SHA256 = (\n"
+        f"    {json.dumps(source_manifest_sha)}\n"
+        ")\n"
+        "EXPECTED_NATIVE_ASSET_PATHS = {\n"
+        f"{quoted_asset_paths}\n"
+        "}\n"
     )
     if source.count(marker) != 1:
         raise ValueError("R4 kernel bootstrap insertion point changed")
     source = source.replace(marker, constants + marker)
 
     functions = [
-        "def discover_native_asset_manifest():",
+        "def discover_native_asset_manifest() -> tuple[Path, dict[str, Any]]:",
         "    found = []",
         "    root_depth = len(INPUT.parts)",
         "    for directory, subdirs, files in os.walk(INPUT, followlinks=False):",
@@ -141,39 +150,69 @@ def _native_kernel(
         '        if value.get("dataset") == NATIVE_ASSET_DATASET:',
         "            found.append((path, value))",
         "    if len(found) != 1:",
-        '        raise RuntimeError(f"expected one native overlay asset manifest, found {len(found)}")',
+        "        raise RuntimeError(",
+        '            f"expected one native overlay asset manifest, found {len(found)}"',
+        "        )",
         "    path, manifest = found[0]",
         "    if sha256_file(path) != EXPECTED_NATIVE_ASSET_MANIFEST_SHA256:",
-        '        raise RuntimeError("native overlay asset manifest hash differs from its packet pin")',
+        "        raise RuntimeError(",
+        '            "native overlay asset manifest hash differs from its packet pin"',
+        "        )",
         '    if manifest.get("private") is not True or manifest.get("version") != 1:',
         '        raise RuntimeError("native overlay asset manifest metadata is unsupported")',
         '    rows = manifest.get("files")',
-        '    if not isinstance(rows, list) or {row.get("path") for row in rows} != EXPECTED_NATIVE_ASSET_PATHS:',
-        '        raise RuntimeError("native overlay asset inventory differs from the sealed path set")',
+        "    if (",
+        "        not isinstance(rows, list)",
+        '        or {row.get("path") for row in rows} != EXPECTED_NATIVE_ASSET_PATHS',
+        "    ):",
+        "        raise RuntimeError(",
+        '            "native overlay asset inventory differs from the sealed path set"',
+        "        )",
         "    for row in rows:",
         '        filename = str(row.get("filename", ""))',
         '        if Path(filename).name != filename or not filename.endswith(".wnn"):',
-        '            raise RuntimeError("native overlay payload filenames must be flat opaque .wnn names")',
+        "            raise RuntimeError(",
+        '                "native overlay payload filenames must be flat opaque .wnn names"',
+        "            )",
         "        payload = path.parent / filename",
-        '        if payload.stat().st_size != int(row["size"]) or sha256_file(payload) != row["sha256"]:',
-        "            raise RuntimeError(f\"native overlay payload differs from its manifest: {row.get('path')}\")",
+        "        if (",
+        '            payload.stat().st_size != int(row["size"])',
+        '            or sha256_file(payload) != row["sha256"]',
+        "        ):",
+        "            raise RuntimeError(",
+        "                f\"native overlay payload differs from its manifest: {row.get('path')}\"",
+        "            )",
         "    return path.parent, manifest",
         "",
-        "def unpack_native_overlay(asset_root, manifest):",
+        "def unpack_native_overlay(",
+        "    asset_root: Path, manifest: dict[str, Any]",
+        ") -> dict[str, Any]:",
         '    for row in manifest["files"]:',
         '        relative = PurePosixPath(str(row["destination"]))',
-        '        if relative.is_absolute() or not relative.parts or any(part in ("", ".", "..") for part in relative.parts):',
+        "        if (",
+        "            relative.is_absolute()",
+        "            or not relative.parts",
+        '            or any(part in ("", ".", "..") for part in relative.parts)',
+        "        ):",
         '            raise RuntimeError("native overlay destination path is unsafe")',
         '        source_path = asset_root / row["filename"]',
         "        destination = REPO.joinpath(*relative.parts)",
         "        destination.parent.mkdir(parents=True, exist_ok=True)",
         "        shutil.copyfile(source_path, destination)",
-        '        if destination.stat().st_size != int(row["size"]) or sha256_file(destination) != row["sha256"]:',
-        "            raise RuntimeError(f\"extracted native overlay differs from its pin: {row.get('path')}\")",
+        "        if (",
+        '            destination.stat().st_size != int(row["size"])',
+        '            or sha256_file(destination) != row["sha256"]',
+        "        ):",
+        "            raise RuntimeError(",
+        "                f\"extracted native overlay differs from its pin: {row.get('path')}\"",
+        "            )",
         '    source_manifest_path = REPO / "native_controls/source_manifest.json"',
         "    if sha256_file(source_manifest_path) != EXPECTED_NATIVE_SOURCE_MANIFEST_SHA256:",
-        '        raise RuntimeError("native source manifest hash differs from its root review pin")',
+        "        raise RuntimeError(",
+        '            "native source manifest hash differs from its root review pin"',
+        "        )",
         '    return json.loads(source_manifest_path.read_text(encoding="utf-8"))',
+        "",
         "",
     ]
     functions_text = "\n".join(functions)
@@ -249,6 +288,10 @@ def seal(source_root: Path, artifact_root: Path) -> dict[str, Any]:
         raise ValueError("R4 code manifest differs from its reviewed pin")
     r4_code = json.loads(r4_code_path.read_text(encoding="utf-8"))
     r4_code_files = {row["path"]: row for row in r4_code["files"]}
+    if r4_code_files["scripts/train_rnn.py"]["sha256"] != R4_TRAINER_SHA256:
+        raise ValueError("reviewed R4 trainer source differs from its precision-overlay pin")
+    if r4_code_files["scripts/predict_run.py"]["sha256"] != R4_PREDICTOR_SHA256:
+        raise ValueError("reviewed R4 predictor source differs from its CLI-consumer pin")
     source_commit = subprocess.run(
         ["git", "-C", str(source_root), "rev-parse", "HEAD"],
         check=True,
@@ -319,6 +362,7 @@ def seal(source_root: Path, artifact_root: Path) -> dict[str, Any]:
             "base_gpu_source_commit": r4_packet_value["source"]["source_commit"],
             "base_gpu_worker_sha256": r4_code_files["scripts/loss_pair_gpu_worker.py"]["sha256"],
             "base_trainer_sha256": r4_code_files["scripts/train_rnn.py"]["sha256"],
+            "base_predictor_sha256": r4_code_files["scripts/predict_run.py"]["sha256"],
         },
         "precision_policy": {
             "compute": "PyTorch CUDA FP16 autocast",

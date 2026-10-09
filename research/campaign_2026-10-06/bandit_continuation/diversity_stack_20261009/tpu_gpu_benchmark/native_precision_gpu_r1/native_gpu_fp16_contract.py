@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
@@ -13,8 +14,16 @@ R5_CONTRACT_SHA256 = "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9ee
 R5_REVIEW_SHA256 = "60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9"
 R5_REVIEW_STATE = "verified_for_independent_grade_and_native_control_transport"
 AMP_INITIAL_SCALE = 1024.0
+R4_TRAINER_SOURCE_SHA256 = "971c0336a71d374b507b0a5b83c312afc9ae8dbae8262cb492f0611e6d5bcc0b"
+R4_PREDICTOR_SOURCE_SHA256 = "74d1eac17add3f9461e1205bac0eb5b6a78facd567898d679b15bdfa5bed4f5c"
 UPDATE_COUNT = 220
 PROFILE_UPDATE_COUNT = 20
+PRECISION_GUARD_BEFORE = (
+    b'            or args.precision != "fp32"\n            or args.resume_state\n'
+)
+PRECISION_GUARD_AFTER = (
+    b'            or args.precision not in {"fp32", "fp16"}\n            or args.resume_state\n'
+)
 REQUIRED_SHARED_ARTIFACTS = {
     "cache_manifest": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
     "cache_reader_profile": "fbac76445ff91dbe8d8336bc3ab2bc3e2ddddd3c4be90d25550c478ea774091e",
@@ -78,6 +87,94 @@ def native_train_argv(base_argv: Iterable[str]) -> list[str]:
     command[indexes[0] + 1] = "fp16"
     command.extend(("--amp-init-scale", str(AMP_INITIAL_SCALE)))
     return command
+
+
+def native_trainer_argv(
+    base_argv: Iterable[str], source_script: Path, overlay_script: Path
+) -> list[str]:
+    """Bind FP16 train commands to the exact guard-compatible R4 trainer overlay."""
+    command = native_train_argv(base_argv)
+    if len(command) < 2 or Path(command[1]) != source_script:
+        raise ContractError("native train command does not invoke the pinned R4 trainer")
+    command[1] = str(overlay_script)
+    return command
+
+
+def native_prediction_argv(base_argv: Iterable[str]) -> list[str]:
+    """Remove R4's unsupported device flag and request common FP32 predictions."""
+    command = list(base_argv)
+    if len(command) < 3 or Path(command[1]).name != "predict_run.py":
+        raise ContractError("prediction command does not use the sealed R4 predictor")
+    device_indexes = [index for index, token in enumerate(command) if token == "--device"]
+    if (
+        len(device_indexes) != 1
+        or device_indexes[0] + 1 >= len(command)
+        or command[device_indexes[0] + 1] != "cuda"
+    ):
+        raise ContractError("R4 prediction command must contain exactly one unsupported CUDA flag")
+    if "--inference-precision" in command:
+        raise ContractError("R4 prediction command has an ambiguous inference precision")
+    for option in (
+        "--parsed-cache-manifest",
+        "--parsed-cache-validation-receipt",
+        "--expected-parsed-cache-manifest-sha256",
+        "--expected-parsed-cache-validation-sha256",
+        "--expected-parsed-cache-key",
+    ):
+        if command.count(option) != 1:
+            raise ContractError(f"R4 prediction command lost its cache binding: {option}")
+    del command[device_indexes[0] : device_indexes[0] + 2]
+    command.extend(("--inference-precision", "fp32"))
+    return command
+
+
+def create_native_trainer_overlay(source_path: Path, destination: Path) -> dict[str, Any]:
+    """Create a hash-bound R4 trainer copy allowing FP16 in its loss-pair prefit guard."""
+    source_sha256 = sha256_file(source_path)
+    if source_sha256 != R4_TRAINER_SOURCE_SHA256:
+        raise ContractError("R4 train_rnn.py differs from the reviewed precision-guard source")
+    if destination.exists() or destination.is_symlink():
+        raise ContractError("native trainer overlay destination already exists")
+    source_bytes = source_path.read_bytes()
+    if source_bytes.count(PRECISION_GUARD_BEFORE) != 1:
+        raise ContractError("R4 trainer precision guard is not the exact single reviewed target")
+    overlay_bytes = source_bytes.replace(PRECISION_GUARD_BEFORE, PRECISION_GUARD_AFTER, 1)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = destination.with_name(f".{destination.name}.tmp-{os.getpid()}")
+    try:
+        with temporary.open("xb") as stream:
+            stream.write(overlay_bytes)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, destination)
+    except OSError:
+        temporary.unlink(missing_ok=True)
+        raise
+    return {
+        "schema": "wnn.native-gpu-fp16-trainer-overlay.v1",
+        "state": "created",
+        "base_trainer_sha256": source_sha256,
+        "overlay_trainer_sha256": sha256_file(destination),
+        "overlay_path": destination.as_posix(),
+        "exact_guard_replacement_count": 1,
+        "change": "loss-pair prefit export accepts fp32 or fp16; all other guard terms are unchanged",
+    }
+
+
+def validate_native_profile_evidence(evidence: dict[str, Any]) -> None:
+    """Require a finite 20-update CUDA profile with active GradScaler and no skips."""
+    expected = {
+        "valid_for_throughput": True,
+        "optimizer_attempts": PROFILE_UPDATE_COUNT,
+        "optimizer_completed_updates": PROFILE_UPDATE_COUNT,
+        "amp_skipped_updates": 0,
+        "loss_finite": True,
+        "gradient_finite": True,
+        "grad_scaler_enabled": True,
+    }
+    for key, value in expected.items():
+        if evidence.get(key) != value:
+            raise ContractError(f"native FP16 profile evidence differs at {key}")
 
 
 def validate_fit_headroom(sample: dict[str, Any], required_gpu_indices: set[int]) -> dict[str, Any]:

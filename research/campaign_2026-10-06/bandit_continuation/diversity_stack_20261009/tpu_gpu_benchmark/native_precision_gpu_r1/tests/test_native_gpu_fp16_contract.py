@@ -6,8 +6,12 @@ import ast
 import importlib.util
 import json
 import os
+import shutil
+import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
+from typing import Any
 
 import pytest
 
@@ -28,6 +32,9 @@ R4_WORKER = (
     / "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
     / "cloud_delivery/gpu_loss_pair_r4/code/scripts/loss_pair_gpu_worker.py"
 )
+R4_ROOT = R4_WORKER.parents[1]
+R4_TRAINER = R4_ROOT / "scripts/train_rnn.py"
+R4_PREDICTOR = R4_ROOT / "scripts/predict_run.py"
 
 
 def _actual_r4_worker():
@@ -76,6 +83,196 @@ def test_native_command_changes_only_autocast_precision_and_predeclared_scale():
     ]
     assert derived.count("--fused-adam") == 1
     assert derived.count("--grad-stats") == 1
+
+
+def test_trainer_overlay_changes_only_the_fp16_loss_pair_guard_and_cli_accepts_argv(
+    tmp_path: Path,
+):
+    base_bytes = R4_TRAINER.read_bytes()
+    overlay = tmp_path / "native_train_rnn_fp16.py"
+    receipt = contract.create_native_trainer_overlay(R4_TRAINER, overlay)
+    expected_bytes = base_bytes.replace(
+        contract.PRECISION_GUARD_BEFORE, contract.PRECISION_GUARD_AFTER, 1
+    )
+    assert contract.sha256_file(R4_TRAINER) == contract.R4_TRAINER_SOURCE_SHA256
+    assert overlay.read_bytes() == expected_bytes
+    assert receipt["base_trainer_sha256"] == contract.R4_TRAINER_SOURCE_SHA256
+    assert receipt["overlay_trainer_sha256"] == contract.sha256_file(overlay)
+    compile(overlay.read_text(encoding="utf-8"), str(overlay), "exec")
+
+    base = _actual_r4_worker()
+    base_command = base._common_train_argv(
+        "native_fp16_cli_probe",
+        "wmse",
+        Path("/cache/manifest.json"),
+        Path("/cache/validation.json"),
+        "a" * 64,
+    )
+    native_command = contract.native_trainer_argv(base_command, R4_TRAINER, overlay)
+    assert native_command[1] == str(overlay)
+    assert native_command[native_command.index("--precision") + 1] == "fp16"
+    assert native_command[native_command.index("--amp-init-scale") + 1] == "1024.0"
+    environment = os.environ.copy()
+    environment["PYTHONPATH"] = str(R4_ROOT / "src")
+    completed = subprocess.run(
+        [*native_command, "--help"],
+        cwd=R4_ROOT,
+        env=environment,
+        capture_output=True,
+        text=True,
+        timeout=30,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr
+    assert "--amp-init-scale" in completed.stdout
+
+
+def test_actual_predictor_cli_accepts_normalized_r4_export_argv():
+    assert contract.sha256_file(R4_PREDICTOR) == contract.R4_PREDICTOR_SOURCE_SHA256
+    base = _actual_r4_worker()
+    prediction = base._export_predictions(
+        "wmse",
+        "native_fp16_predict_cli_probe",
+        "0",
+        Path("/cache/manifest.json"),
+        Path("/cache/validation.json"),
+        "a" * 64,
+        Path("/out/arms/wmse"),
+    )
+    original_command = prediction["command"]
+    native_command = contract.native_prediction_argv(original_command)
+    assert "--device" in original_command
+    assert "--device" not in native_command
+    assert native_command[native_command.index("--inference-precision") + 1] == "fp32"
+    environment = os.environ.copy()
+    environment["PYTHONPATH"] = str(R4_ROOT / "src")
+
+    rejected = subprocess.run(
+        original_command,
+        cwd=R4_ROOT,
+        env=environment,
+        capture_output=True,
+        text=True,
+        timeout=30,
+        check=False,
+    )
+    assert rejected.returncode != 0
+    assert "unrecognized arguments: --device cuda" in rejected.stderr
+
+    accepted = subprocess.run(
+        native_command,
+        cwd=R4_ROOT,
+        env=environment,
+        capture_output=True,
+        text=True,
+        timeout=30,
+        check=False,
+    )
+    assert accepted.returncode != 0
+    assert "unrecognized arguments" not in accepted.stderr
+    assert "No such file or directory" in accepted.stderr
+
+
+def test_fp16_profile_requires_enabled_scaler_and_never_requires_it_disabled():
+    evidence = {
+        "valid_for_throughput": True,
+        "optimizer_attempts": 20,
+        "optimizer_completed_updates": 20,
+        "amp_skipped_updates": 0,
+        "loss_finite": True,
+        "gradient_finite": True,
+        "grad_scaler_enabled": True,
+    }
+    contract.validate_native_profile_evidence(evidence)
+    evidence["grad_scaler_enabled"] = False
+    with pytest.raises(contract.ContractError, match="grad_scaler_enabled"):
+        contract.validate_native_profile_evidence(evidence)
+
+
+def test_profile_preserves_successful_profile_when_headroom_defers_fit(tmp_path: Path):
+    out = tmp_path / "out"
+    for directory in (out / "logs", out / "shared", out / "profile_gate" / "prefit"):
+        directory.mkdir(parents=True)
+    repo = tmp_path / "repo"
+    scripts = repo / "scripts"
+    controls = repo / "native_controls"
+    scripts.mkdir(parents=True)
+    controls.mkdir()
+    shutil.copyfile(R4_TRAINER, scripts / "train_rnn.py")
+    for filename in (
+        "initial_state.npz",
+        "normalization.npz",
+        "profile_inputs.npz",
+        "sample_orders.json",
+    ):
+        shutil.copyfile(R5_OUTPUT / "shared" / filename, out / "profile_gate" / "prefit" / filename)
+
+    events: list[tuple[str, dict[str, Any]]] = []
+
+    def write_json(path: Path, value: dict[str, Any]) -> None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(value), encoding="utf-8")
+
+    def copy_required(source: Path, destination: Path) -> None:
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, destination)
+
+    def wait_one(command: list[str], *_args: Any, **_kwargs: Any) -> dict[str, int]:
+        output_path = Path(command[command.index("--output") + 1])
+        write_json(output_path, {"state": "passed"})
+        return {"returncode": 0}
+
+    def append_phase(name: str, **fields: Any) -> None:
+        events.append((name, fields))
+
+    evidence = {
+        "valid_for_throughput": True,
+        "optimizer_attempts": 20,
+        "optimizer_completed_updates": 20,
+        "amp_skipped_updates": 0,
+        "loss_finite": True,
+        "gradient_finite": True,
+        "grad_scaler_enabled": True,
+    }
+
+    def original_gate(*_args: Any, **_kwargs: Any) -> dict[str, Any]:
+        return {"state": "passed", "profile": {"evidence": evidence}}
+
+    base = SimpleNamespace(
+        OUT=out,
+        ROOT=repo,
+        _common_train_argv=lambda *_args, **_kwargs: [],
+        _export_predictions=lambda *_args, **_kwargs: {},
+        _run_device_shape_update_gate=original_gate,
+        _collect_shared=lambda *_args, **_kwargs: {},
+        _verify_prefit_pair=lambda *_args, **_kwargs: None,
+        _write_json=write_json,
+        _copy_required=copy_required,
+        _environment=lambda **_kwargs: {},
+        _wait_one=wait_one,
+        _sample=lambda _phase: {"memory": {}},
+        _guard=lambda _sample, _deadline: None,
+        _cgroup_directory=lambda: None,
+        _append_phase=append_phase,
+    )
+    admission = {
+        "conditional_fit_allowed": True,
+        "training_contract_sha256": contract.R5_CONTRACT_SHA256,
+        "source_manifest_sha256": "a" * 64,
+    }
+    admission_path = tmp_path / "root_admission.json"
+    admission_path.write_text("{}", encoding="utf-8")
+    worker._patch_worker(base, admission, R5_OUTPUT, admission_path)
+
+    with pytest.raises(worker.FitNotAuthorized) as rejected:
+        base._run_device_shape_update_gate(Path("manifest"), Path("validation"), "a" * 64, [], 1e9)
+
+    assert rejected.value.state == "profile_passed_fit_deferred_headroom"
+    profile_receipt = json.loads((out / "shared" / "device_profile_gate.json").read_text())
+    assert profile_receipt["state"] == "passed"
+    assert profile_receipt["conditional_fit_headroom"]["state"] == "deferred"
+    assert events[-1][0] == "native_fp16_profile_pass"
+    assert events[-1][1]["cgroup_headroom_bytes"] is None
 
 
 def test_command_policy_fails_closed_on_non_r4_or_duplicate_precision():
