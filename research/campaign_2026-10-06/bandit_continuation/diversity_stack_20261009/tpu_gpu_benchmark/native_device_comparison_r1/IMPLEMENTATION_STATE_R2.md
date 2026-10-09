@@ -22,15 +22,27 @@ norm, clip scale, and weighted/raw prediction drift to the FP32 fixture while
 checking FP32 master and optimizer state persistence.
 
 The R4 reader owner reports five focused producer/cache bridge tests passing
-in 3.18 seconds. This agent has not rerun them. The native source changes made
-after the prior CPU lifecycle receipt remain untested because root's local
-recovery checks have priority. The older bounded CPU attempt ended at its
-120-second limit before the current batched-gate and producer-binding changes;
-it is not evidence for these changes.
+in 3.18 seconds. This agent has not rerun that producer-specific suite. The
+full native lifecycle suite and full-size H256 CPU gradients remain
+unverified. The older bounded CPU attempt ended at its 120-second limit before
+the current batched-gate and producer-binding changes; it is not evidence for
+these changes.
 
-The pending validation sequence is: offline source/packet integrity and tiny
-tests, actual GPU R4 completion and exact training-contract pin, root admission,
-TPU source startup with cache-to-producer fixture equality, actual eight-device
-FP32 parity and memory gate, then separately admitted BF16 gate and bounded
-matched fits. No native result or speedup claim exists until artifacts from
-these stages are complete and reviewed.
+The focused native CPU tests then passed 5/5 in 7.75 seconds under one CPU,
+1.5 GB, and a 120-second runtime cap; the receipt is
+`CPU_NATIVE_TINY_TESTS_R2.json`. They compare the H8 batched-input core with the
+original own JAX core, exercise BF16 master/optimizer persistence for both
+losses, and check admission guards. This is CPU-only unit evidence, not TPU
+numerical parity.
+
+The exact generated V2 Kaggle bootstrap and packaged runtime passed the
+offline source validator; `PACKET_SEAL_R2.json` records packet/archive hashes
+and the `fit_admitted=false` result. The embedded root admission still denies
+push, fit, and BF16 and has no GPU training-contract hash.
+
+The remaining sequence is: successful admitted GPU R4 execution and exact
+training-contract pin, root admission, actual TPU startup with cache-to-producer
+fixture equality, actual eight-device FP32 parity and memory gate, then a
+separately admitted BF16 gate and bounded matched fits. No native result or
+speedup claim exists until artifacts from these stages are complete and
+reviewed.

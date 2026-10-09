@@ -15,7 +15,8 @@ from pathlib import Path
 from typing import Any
 
 BASE_COMMIT = "d5daaa0f90b0362877522703c7e17aa78c19cac9"
-R4_COMMIT = "1bc0fbacf53cdc08a8c4664c6f66f38f8980092c"
+R4_SOURCE_COMMIT = "1bc0fbacf53cdc08a8c4664c6f66f38f8980092c"
+R4_PACKET_COMMIT = "cc59806075863f41fe08c7a73a14c289a4bd4c39"
 R4_READER_PATH = (
     "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
     "cloud_delivery/gpu_loss_pair_r4/code/src/wnn/parsed_sequence_cache_reader.py"
@@ -24,6 +25,14 @@ R4_READER_SHA256 = "35431e48583b1523188b3d6084fa12be23e7379560a323411655bf561507
 R4_PACKET_PATH = (
     "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
     "cloud_delivery/gpu_loss_pair_r4/gpu_loss_pair.packet.json"
+)
+R4_KERNEL_METADATA_PATH = (
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
+    "cloud_delivery/gpu_loss_pair_r4/kernel/kernel-metadata.json"
+)
+R4_SOURCE_ASSET_MANIFEST_PATH = (
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
+    "cloud_delivery/gpu_loss_pair_r4/source_asset/assets-manifest.json"
 )
 R4_BRIDGE_TEST_PATH = (
     "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
@@ -36,6 +45,8 @@ R4_KERNEL_PATH = (
 )
 R4_PACKET_SHA256 = "dd1f57dc288b8b75df349f150170c6fc60cdff474f2f6f14897baa60b9fcc16a"
 R4_KERNEL_SHA256 = "86346f9c1addefbd38d3dcec52b18f514698a9514e7917aeb6081cc32f7eb039"
+R4_KERNEL_METADATA_SHA256 = "ced255b82699ff6d354b12e7b7687d122814a3b75f80827213dadbc7830e567d"
+R4_SOURCE_ASSET_MANIFEST_SHA256 = "8ef360536ca117232198a4ee6dd8fabf072fb7bfad9812a83972d8bfb750f584"
 PREFIX = "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_device_comparison_r1"
 KERNEL_TITLE = "WNN Native Device TPU 20261009 V2"
 KERNEL_ID = "vladkochetov07/wnn-native-device-tpu-20261009-v2"
@@ -95,7 +106,7 @@ def seal(repo: Path, output: Path, admission_path: Path | None) -> Record:
         for name in BASE_FILES
     }
     reader = subprocess.run(
-        ["git", "-C", str(repo), "show", f"{R4_COMMIT}:{R4_READER_PATH}"],
+        ["git", "-C", str(repo), "show", f"{R4_SOURCE_COMMIT}:{R4_READER_PATH}"],
         capture_output=True,
         check=True,
     ).stdout
@@ -103,21 +114,36 @@ def seal(repo: Path, output: Path, admission_path: Path | None) -> Record:
         raise ValueError("frozen R4 parsed-cache reader differs from its audited SHA-256")
     files["src/wnn/parsed_sequence_cache_reader.py"] = reader
     r4_packet = subprocess.run(
-        ["git", "-C", str(repo), "show", f"{R4_COMMIT}:{R4_PACKET_PATH}"],
+        ["git", "-C", str(repo), "show", f"{R4_PACKET_COMMIT}:{R4_PACKET_PATH}"],
         capture_output=True,
         check=True,
     ).stdout
     r4_kernel = subprocess.run(
-        ["git", "-C", str(repo), "show", f"{R4_COMMIT}:{R4_KERNEL_PATH}"],
+        ["git", "-C", str(repo), "show", f"{R4_PACKET_COMMIT}:{R4_KERNEL_PATH}"],
         capture_output=True,
         check=True,
     ).stdout
     r4_bridge_test = subprocess.run(
-        ["git", "-C", str(repo), "show", f"{R4_COMMIT}:{R4_BRIDGE_TEST_PATH}"],
+        ["git", "-C", str(repo), "show", f"{R4_SOURCE_COMMIT}:{R4_BRIDGE_TEST_PATH}"],
         capture_output=True,
         check=True,
     ).stdout
-    if sha(r4_packet) != R4_PACKET_SHA256 or sha(r4_kernel) != R4_KERNEL_SHA256:
+    r4_metadata = subprocess.run(
+        ["git", "-C", str(repo), "show", f"{R4_PACKET_COMMIT}:{R4_KERNEL_METADATA_PATH}"],
+        capture_output=True,
+        check=True,
+    ).stdout
+    r4_asset_manifest = subprocess.run(
+        ["git", "-C", str(repo), "show", f"{R4_PACKET_COMMIT}:{R4_SOURCE_ASSET_MANIFEST_PATH}"],
+        capture_output=True,
+        check=True,
+    ).stdout
+    if (
+        sha(r4_packet) != R4_PACKET_SHA256
+        or sha(r4_kernel) != R4_KERNEL_SHA256
+        or sha(r4_metadata) != R4_KERNEL_METADATA_SHA256
+        or sha(r4_asset_manifest) != R4_SOURCE_ASSET_MANIFEST_SHA256
+    ):
         raise ValueError("frozen R4 packet or producer kernel differs from its audited SHA-256")
     if sha(r4_bridge_test) != R4_BRIDGE_TEST_SHA256:
         raise ValueError("frozen R4 cache bridge test differs from its audited SHA-256")
@@ -125,6 +151,8 @@ def seal(repo: Path, output: Path, admission_path: Path | None) -> Record:
         {
             "producer_evidence/r4/gpu_loss_pair.packet.json": r4_packet,
             "producer_evidence/r4/wnn-loss-pair-gpu-20261009-v4.py": r4_kernel,
+            "producer_evidence/r4/kernel-metadata.json": r4_metadata,
+            "producer_evidence/r4/source-assets-manifest.json": r4_asset_manifest,
             "producer_evidence/r4/test_parsed_cache_receipt_bridge.py": r4_bridge_test,
         }
     )
@@ -133,18 +161,21 @@ def seal(repo: Path, output: Path, admission_path: Path | None) -> Record:
     source_manifest = {
         "base_commit": BASE_COMMIT,
         "gpu_producer": {
-            "source_commit": R4_COMMIT,
+            "source_commit": R4_SOURCE_COMMIT,
+            "packet_commit": R4_PACKET_COMMIT,
             "packet_path": "producer_evidence/r4/gpu_loss_pair.packet.json",
             "packet_sha256": R4_PACKET_SHA256,
             "kernel_code_path": "producer_evidence/r4/wnn-loss-pair-gpu-20261009-v4.py",
             "kernel_code_sha256": R4_KERNEL_SHA256,
+            "kernel_metadata_sha256": R4_KERNEL_METADATA_SHA256,
+            "source_asset_manifest_sha256": R4_SOURCE_ASSET_MANIFEST_SHA256,
             "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v4",
             "source_asset": "vladkochetov07/wnn-loss-pair-code-20261009-r4",
             "training_contract_sha256": None,
             "status": "sealed_candidate_waiting_root_review_and_admission",
         },
         "parsed_cache_reader_override": {
-            "commit": R4_COMMIT,
+            "commit": R4_SOURCE_COMMIT,
             "source_path": R4_READER_PATH,
             "packaged_path": "src/wnn/parsed_sequence_cache_reader.py",
             "sha256": R4_READER_SHA256,

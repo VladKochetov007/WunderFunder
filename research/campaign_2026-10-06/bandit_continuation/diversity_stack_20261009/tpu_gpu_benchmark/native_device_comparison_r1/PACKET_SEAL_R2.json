@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.native-device-packet-seal.v1",
+  "status": "sealed_offline_startup_pass_fit_not_admitted",
+  "finished_at_utc": "2026-10-09 00:45:25 UTC",
+  "source_branch": "codex/luna-native-diversity-delivery-20261009",
+  "source_commit": "9f20145cc4e91a326525324a8266decb912959ae",
+  "seal_script_sha256": "b3992d5290c8b1014454687f1668a719d5f5b9cfdd24f60e203dd66e6463f60d",
+  "packet": {
+    "path": "sealed_candidate_r2",
+    "kernel_id": "vladkochetov07/wnn-native-device-tpu-20261009-v2",
+    "kernel_title": "WNN Native Device TPU 20261009 V2",
+    "packet_sha256": "46d065be8ea4a240ac62869db802691b0edf5cf30fcbcb301d6192aa5b3cd718",
+    "source_manifest_sha256": "21ba3001291f7be39a9a4d1e2e9cc7194a3b5d6b5e07bea6fac3a2bda34d77a9",
+    "source_archive_sha256": "0abb40f1297d069e62e1509e65ded0cf6c505f72a75f8050623cb0121d0b225a",
+    "bootstrap_sha256": "385d1adace2b783c0302401e406008a5834c2164b7737549d776be9d6b2e7d41",
+    "bootstrap_bytes": 106723,
+    "metadata_sha256": "3b6af812eebf745ef2f73d423a40bee5f1cd053d1007314b7706ff4c2e9671a1",
+    "root_admission_sha256": "2d92cc66a08cf3528fdbb79ac6aa92bb42c92c70fffa609e45f150b0a4d881a1",
+    "source_file_count": 26,
+    "machine_shape_metadata": "TpuV5E8",
+    "push_allowed": false,
+    "conditional_fit_allowed": false,
+    "native_bf16_fit_allowed": false,
+    "gpu_training_contract_sha256": null
+  },
+  "producer_binding": {
+    "gpu_source_commit": "1bc0fbacf53cdc08a8c4664c6f66f38f8980092c",
+    "gpu_packet_commit": "cc59806075863f41fe08c7a73a14c289a4bd4c39",
+    "gpu_kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v4",
+    "gpu_packet_sha256": "dd1f57dc288b8b75df349f150170c6fc60cdff474f2f6f14897baa60b9fcc16a",
+    "gpu_kernel_sha256": "86346f9c1addefbd38d3dcec52b18f514698a9514e7917aeb6081cc32f7eb039",
+    "reader_sha256": "35431e48583b1523188b3d6084fa12be23e7379560a323411655bf561507a693",
+    "bridge_test_sha256": "5602f765c37b6e199b0f399191138dbda8a815c457d9b4172e758c56318a4c9f"
+  },
+  "offline_startup_validation": {
+    "status": "pass",
+    "exact_generated_bootstrap_executed": true,
+    "final_status_sha256": "d6cadb754f48fa87a43323bc8f762d58132b81e3887a862a1fbf2d1c12487b96",
+    "offline_source_receipt_sha256": "0d34ef684a8d6661af166733c6d9e6652705daf8c252670ecb6c4fbc5db0ca2a",
+    "observed_source_manifest_sha256": "21ba3001291f7be39a9a4d1e2e9cc7194a3b5d6b5e07bea6fac3a2bda34d77a9",
+    "fit_admitted": false,
+    "provider_or_accelerator_contact": false,
+    "configured_limits": {
+      "shared_lock": "/tmp/wnn-codex-support.lock",
+      "cpu_quota": "100%",
+      "threads": 1,
+      "memory_max_bytes": 1500000000,
+      "swap_max_bytes": 0,
+      "runtime_max_seconds": 120
+    }
+  },
+  "sealing_reconciliation": "The first seal attempt failed before creating an output directory because the R4 packet and kernel artifacts were not in the reader source commit 1bc0fbac. The immutable packet-artifact commit cc598060 was then pinned separately; reader and bridge-test provenance still use 1bc0fbac. The successful packet includes the exact R4 packet, kernel code, metadata, asset manifest, reader, and bridge test bytes.",
+  "next_gate": "Wait for root review/admission and a successful GPU R4 training-contract SHA-256 before binding exact producer inputs or performing actual TPU startup/parity."
+}

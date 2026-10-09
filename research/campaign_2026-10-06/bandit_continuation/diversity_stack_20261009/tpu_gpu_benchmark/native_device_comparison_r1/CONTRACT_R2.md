@@ -32,6 +32,7 @@ The producer binding for this revision is GPU R4:
 - Kernel: `vladkochetov07/wnn-loss-pair-gpu-20261009-v4`.
 - Code packet: `vladkochetov07/wnn-loss-pair-code-20261009-r4`.
 - Source commit: `1bc0fbacf53cdc08a8c4664c6f66f38f8980092c`.
+- Sealed packet commit: `cc59806075863f41fe08c7a73a14c289a4bd4c39`.
 - Kernel SHA-256: `86346f9c1addefbd38d3dcec52b18f514698a9514e7917aeb6081cc32f7eb039`.
 - Candidate packet SHA-256: `dd1f57dc288b8b75df349f150170c6fc60cdff474f2f6f14897baa60b9fcc16a`.
 - Actual completed training-contract SHA-256: pending root review and a
