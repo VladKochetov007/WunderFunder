@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1111 · raw hypothesis rows 328 · raw experiment rows 665 · legacy arms 18 · catalog files 69997.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1117 · raw hypothesis rows 328 · raw experiment rows 671 · legacy arms 18 · catalog files 72247.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-17ac1a49ff642545e07f0e746c7100e0fdd0732f39e74de9789b7d9ca2f34b90.json](<snapshots/config-17ac1a49ff642545e07f0e746c7100e0fdd0732f39e74de9789b7d9ca2f34b90.json>).
 
@@ -1895,6 +1895,12 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-H230-FINISHED-ENDPOINT-FOLD0-20261008-R1 | E-H230-FINISHED-ENDPOINT-FOLD0-20261008-R1 | experiment · completed_exposed_panel_small_positive_uncertain | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L663>) | — |
 | experiment:E-H277-EXACT-Z3-FOLD0-GRADED-20261008-R1 | E-H277-EXACT-Z3-FOLD0-GRADED-20261008-R1 | experiment · completed_exposed_panel_nearly_flat_slightly_negative | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L664>) | — |
 | experiment:E-H274-META-CROSSFIT-20261009-R2 | E-H274-META-CROSSFIT-20261009-R2 | experiment · completed_exposed_panel | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L665>) | — |
+| experiment:E-H291-D01-GPU-R4-FITS-20261009 | E-H291-D01-GPU-R4-FITS-20261009 | experiment · completed_fits_prediction_export_failed_recovery_pending | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L666>) | — |
+| experiment:E-H291-D01-GPU-R5-GRADED-20261009 | E-H291-D01-GPU-R5-GRADED-20261009 | experiment · completed_exposed_component_screen | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L667>) | — |
+| experiment:E-H291-D02-R3-LOG-COLLISION-20261009 | E-H291-D02-R3-LOG-COLLISION-20261009 | experiment · execution_failed_before_scientific_fit | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L668>) | — |
+| experiment:E-H291-D02-R4-PRODUCER-MISMATCH-20261009 | E-H291-D02-R4-PRODUCER-MISMATCH-20261009 | experiment · execution_failed_before_scientific_fit | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L669>) | — |
+| experiment:E-H291-D02-R5-COMPLETED-20261009 | E-H291-D02-R5-COMPLETED-20261009 | experiment · fits_and_predictions_independently_verified_grade_pending | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L670>) | — |
+| experiment:E-H230-FOLD1-GRU384-BASELINE-PAIR-20261009 | E-H230-FOLD1-GRU384-BASELINE-PAIR-20261009 | experiment · evaluated_diagnostic | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L671>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |

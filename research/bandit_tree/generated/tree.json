@@ -7998,7 +7998,7 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 665,
+      "experiments": 671,
       "hypotheses": 328,
       "journal": 106
     }
@@ -65087,6 +65087,296 @@
         }
       ],
       "title": "E-H274-META-CROSSFIT-20261009-R2",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-H291-D01-GPU-R4-FITS-20261009",
+      "latest_recorded_status": "completed_fits_prediction_export_failed_recovery_pending",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-H291-D01-GPU-R4-FITS-20261009\", \"hypothesis_id\": \"H-291\", \"created_utc\": \"2026-10-09T01:24:04.529347+00:00\", \"status\": \"completed_fits_prediction_export_failed_recovery_pending\", \"receipt\": \"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_GPU_R4_TERMINAL_REVIEW_R1.json\", \"receipt_sha256\": \"98df8eb784a8b5a81afea106419b10d12e296d66e43fcd865af62efa5682ce1d\", \"scientific_result\": null, \"expected_public_score\": null, \"fit_evidence\": {\"arms\": [\"AdamW WMSE\", \"AdamW weighted-Huber delta1\"], \"epochs\": 2, \"optimizer_updates_per_arm\": 220, \"skips_per_arm\": 0, \"training_sequences\": 350, \"eval_groups\": 468, \"epoch_train_seconds_per_arm\": [57.7, 23.1], \"precision\": \"fp32\", \"devices\": \"two Tesla T4, concurrent arms\"}, \"scope\": \"Exposed fold0 discovery; fixed complete-component sample; own matched initialization, normalization, sample order and LR/beta; no checkpoint scoring yet. Training wall excludes staging/profile/export.\"}\n",
+          "record": {
+            "created_utc": "2026-10-09T01:24:04.529347+00:00",
+            "expected_public_score": null,
+            "fit_evidence": {
+              "arms": [
+                "AdamW WMSE",
+                "AdamW weighted-Huber delta1"
+              ],
+              "devices": "two Tesla T4, concurrent arms",
+              "epoch_train_seconds_per_arm": [
+                57.7,
+                23.1
+              ],
+              "epochs": 2,
+              "eval_groups": 468,
+              "optimizer_updates_per_arm": 220,
+              "precision": "fp32",
+              "skips_per_arm": 0,
+              "training_sequences": 350
+            },
+            "hypothesis_id": "H-291",
+            "id": "E-H291-D01-GPU-R4-FITS-20261009",
+            "receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_GPU_R4_TERMINAL_REVIEW_R1.json",
+            "receipt_sha256": "98df8eb784a8b5a81afea106419b10d12e296d66e43fcd865af62efa5682ce1d",
+            "scientific_result": null,
+            "scope": "Exposed fold0 discovery; fixed complete-component sample; own matched initialization, normalization, sample order and LR/beta; no checkpoint scoring yet. Training wall excludes staging/profile/export.",
+            "status": "completed_fits_prediction_export_failed_recovery_pending"
+          },
+          "source": {
+            "line": 666,
+            "path": "research/experiments.jsonl",
+            "sha256": "ff7318205cf11d31e1a9d382f48b6f9136a52f974bf3fc201f96fddeee46bd1d"
+          }
+        }
+      ],
+      "title": "E-H291-D01-GPU-R4-FITS-20261009",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-H291-D01-GPU-R5-GRADED-20261009",
+      "latest_recorded_status": "completed_exposed_component_screen",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-H291-D01-GPU-R5-GRADED-20261009\", \"hypothesis_id\": \"H-291\", \"created_utc\": \"2026-10-09T02:09:17.801256+00:00\", \"status\": \"completed_exposed_component_screen\", \"receipt\": \"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_GPU_R5_TERMINAL_REVIEW_R1.json\", \"receipt_sha256\": \"60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9\", \"source_result\": \"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/grading_r1/LOSS_PAIR_R5_GRADE_R2.json\", \"source_result_sha256\": \"94c8bb8031be7e4776a7b80f694d852551165bb0b52f7f9df5d287c8b3b46f34\", \"scientific_result\": {\"wmse_wp\": 0.6060019230032425, \"huber_wp\": 0.6012391352737978, \"equal_blend_wp\": 0.6054802014069163, \"equal_minus_wmse\": {\"candidate_wp\": 0.6054802014069162, \"reference_wp\": 0.6060019230032426, \"mean_diff\": -0.0005217215963264632, \"bootstrap_sd\": 0.0009730386566271892, \"ci95\": [-0.002507811933221302, 0.0012634587209876846], \"p_le_0\": 0.717, \"n_sequences\": 468, \"n_components\": 141, \"n_boot\": 2000, \"seed\": 271828, \"metric_id\": \"global_wp_clip2_v1\", \"centered_moments\": true}, \"huber_minus_wmse\": {\"candidate_wp\": 0.6012391352737976, \"reference_wp\": 0.6060019230032426, \"mean_diff\": -0.0047627877294450505, \"bootstrap_sd\": 0.001983630789755416, \"ci95\": [-0.008843298189061632, -0.001161896207996264], \"p_le_0\": 0.996, \"n_sequences\": 468, \"n_components\": 141, \"n_boot\": 2000, \"seed\": 271828, \"metric_id\": \"global_wp_clip2_v1\", \"centered_moments\": true}}, \"fidelity\": {\"training_sequences\": 350, \"training_components\": 83, \"epochs\": 2, \"updates_per_arm\": 220, \"training_seeds\": 1, \"eval_groups\": 468, \"eval_components\": 141}, \"metric\": \"global_wp_clip2_v1\", \"selection\": \"three preregistered endpoints; no weight search; exposed fold0\", \"allocation\": \"Complete matched Muon loss pair; retain loss diversity and target-specific mixing as conditional hypotheses, no universal rejection. Huber/equal blend do not improve this primary screen.\", \"expected_public_score\": null, \"export_worker_wall_seconds\": 166.840449934, \"training_repeated_for_export\": false}\n",
+          "record": {
+            "allocation": "Complete matched Muon loss pair; retain loss diversity and target-specific mixing as conditional hypotheses, no universal rejection. Huber/equal blend do not improve this primary screen.",
+            "created_utc": "2026-10-09T02:09:17.801256+00:00",
+            "expected_public_score": null,
+            "export_worker_wall_seconds": 166.840449934,
+            "fidelity": {
+              "epochs": 2,
+              "eval_components": 141,
+              "eval_groups": 468,
+              "training_components": 83,
+              "training_seeds": 1,
+              "training_sequences": 350,
+              "updates_per_arm": 220
+            },
+            "hypothesis_id": "H-291",
+            "id": "E-H291-D01-GPU-R5-GRADED-20261009",
+            "metric": "global_wp_clip2_v1",
+            "receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_GPU_R5_TERMINAL_REVIEW_R1.json",
+            "receipt_sha256": "60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9",
+            "scientific_result": {
+              "equal_blend_wp": 0.6054802014069163,
+              "equal_minus_wmse": {
+                "bootstrap_sd": 0.0009730386566271892,
+                "candidate_wp": 0.6054802014069162,
+                "centered_moments": true,
+                "ci95": [
+                  -0.002507811933221302,
+                  0.0012634587209876846
+                ],
+                "mean_diff": -0.0005217215963264632,
+                "metric_id": "global_wp_clip2_v1",
+                "n_boot": 2000,
+                "n_components": 141,
+                "n_sequences": 468,
+                "p_le_0": 0.717,
+                "reference_wp": 0.6060019230032426,
+                "seed": 271828
+              },
+              "huber_minus_wmse": {
+                "bootstrap_sd": 0.001983630789755416,
+                "candidate_wp": 0.6012391352737976,
+                "centered_moments": true,
+                "ci95": [
+                  -0.008843298189061632,
+                  -0.001161896207996264
+                ],
+                "mean_diff": -0.0047627877294450505,
+                "metric_id": "global_wp_clip2_v1",
+                "n_boot": 2000,
+                "n_components": 141,
+                "n_sequences": 468,
+                "p_le_0": 0.996,
+                "reference_wp": 0.6060019230032426,
+                "seed": 271828
+              },
+              "huber_wp": 0.6012391352737978,
+              "wmse_wp": 0.6060019230032425
+            },
+            "selection": "three preregistered endpoints; no weight search; exposed fold0",
+            "source_result": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/grading_r1/LOSS_PAIR_R5_GRADE_R2.json",
+            "source_result_sha256": "94c8bb8031be7e4776a7b80f694d852551165bb0b52f7f9df5d287c8b3b46f34",
+            "status": "completed_exposed_component_screen",
+            "training_repeated_for_export": false
+          },
+          "source": {
+            "line": 667,
+            "path": "research/experiments.jsonl",
+            "sha256": "75f9027c7a2913dc3cc5d3606bdfe4d0af8927a5d07a07ace4df30496404644f"
+          }
+        }
+      ],
+      "title": "E-H291-D01-GPU-R5-GRADED-20261009",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-H291-D02-R3-LOG-COLLISION-20261009",
+      "latest_recorded_status": "execution_failed_before_scientific_fit",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-H291-D02-R3-LOG-COLLISION-20261009\", \"created_utc\": \"2026-10-09T02:59:07.189215+00:00\", \"hypothesis\": \"H291\", \"status\": \"execution_failed_before_scientific_fit\", \"recipe\": \"Muon WMSE/Huber D02 R3\", \"evidence\": \"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_D02_R3_TERMINAL_REVIEW_R1.json\", \"result\": \"Actual CUDA WMSE profile10/10finite, zero skips; second loss exclusive log-path collision; no full fit or score\", \"successor\": \"D02 R4 per-loss profile paths; independent root review required\", \"model_score\": null}\n",
+          "record": {
+            "created_utc": "2026-10-09T02:59:07.189215+00:00",
+            "evidence": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_D02_R3_TERMINAL_REVIEW_R1.json",
+            "hypothesis": "H291",
+            "id": "E-H291-D02-R3-LOG-COLLISION-20261009",
+            "model_score": null,
+            "recipe": "Muon WMSE/Huber D02 R3",
+            "result": "Actual CUDA WMSE profile10/10finite, zero skips; second loss exclusive log-path collision; no full fit or score",
+            "status": "execution_failed_before_scientific_fit",
+            "successor": "D02 R4 per-loss profile paths; independent root review required"
+          },
+          "source": {
+            "line": 668,
+            "path": "research/experiments.jsonl",
+            "sha256": "9b986a7fed5c7be3255828950d4154ebcdc4f965ff72e382c00bd7eb6c9faad1"
+          }
+        }
+      ],
+      "title": "E-H291-D02-R3-LOG-COLLISION-20261009",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-H291-D02-R4-PRODUCER-MISMATCH-20261009",
+      "latest_recorded_status": "execution_failed_before_scientific_fit",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-H291-D02-R4-PRODUCER-MISMATCH-20261009\", \"hypothesis_id\": \"H-291\", \"created_utc\": \"2026-10-09T03:38:56.164767+00:00\", \"status\": \"execution_failed_before_scientific_fit\", \"receipt\": \"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_D02_R4_TERMINAL_REVIEW_R1.json\", \"receipt_sha256\": \"3c091330f0f4aba38504edf79ddd44a2f96e71d165451fcf6c9a066ffeafa7cb\", \"profiles\": {\"actual_devices\": \"twoTeslaT4\", \"updates_per_loss\": 10, \"amp_skips_per_loss\": 0}, \"result\": \"Both profile computations finite; Huber profile_inputs.npz absent because producer exported only WMSE. No fullfit/prediction/score.\", \"scientific_result\": null, \"successor\": \"identifiedR5 producer correction; exact admitted bootstrap root review before push\", \"exposure\": \"same exposed fold0; no evaluation result\"}\n",
+          "record": {
+            "created_utc": "2026-10-09T03:38:56.164767+00:00",
+            "exposure": "same exposed fold0; no evaluation result",
+            "hypothesis_id": "H-291",
+            "id": "E-H291-D02-R4-PRODUCER-MISMATCH-20261009",
+            "profiles": {
+              "actual_devices": "twoTeslaT4",
+              "amp_skips_per_loss": 0,
+              "updates_per_loss": 10
+            },
+            "receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_D02_R4_TERMINAL_REVIEW_R1.json",
+            "receipt_sha256": "3c091330f0f4aba38504edf79ddd44a2f96e71d165451fcf6c9a066ffeafa7cb",
+            "result": "Both profile computations finite; Huber profile_inputs.npz absent because producer exported only WMSE. No fullfit/prediction/score.",
+            "scientific_result": null,
+            "status": "execution_failed_before_scientific_fit",
+            "successor": "identifiedR5 producer correction; exact admitted bootstrap root review before push"
+          },
+          "source": {
+            "line": 669,
+            "path": "research/experiments.jsonl",
+            "sha256": "0909ff5258aae47b11b148fd73e3709da7a743f6bed7b5d52a02db757fa5f2fa"
+          }
+        }
+      ],
+      "title": "E-H291-D02-R4-PRODUCER-MISMATCH-20261009",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-H291-D02-R5-COMPLETED-20261009",
+      "latest_recorded_status": "fits_and_predictions_independently_verified_grade_pending",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-H291-D02-R5-COMPLETED-20261009\", \"hypothesis_id\": \"H-291\", \"created_utc\": \"2026-10-09T04:08:34.732228+00:00\", \"status\": \"fits_and_predictions_independently_verified_grade_pending\", \"receipt\": \"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_D02_R5_TERMINAL_REVIEW_R1.json\", \"receipt_sha256\": \"927bd79e3e5bf2bd8ecaecb45c237c63b4a076230ffb51ed2adb8391574e08fe\", \"updates_per_loss\": 220, \"losses\": [\"wmse\", \"huber_delta1\"], \"optimizer\": \"muon\", \"worker_wall_seconds\": 236.683095194, \"fit_process_wall_seconds\": [61.645062655, 61.644364147], \"exposure\": \"350fitsequences83components;468exposedfold0evalgroups141components; onefitseed\", \"result\": null, \"grade_dependency\": \"actual two-group schedule semantic consumer R2; fixed11endpoints unchanged\"}\n",
+          "record": {
+            "created_utc": "2026-10-09T04:08:34.732228+00:00",
+            "exposure": "350fitsequences83components;468exposedfold0evalgroups141components; onefitseed",
+            "fit_process_wall_seconds": [
+              61.645062655,
+              61.644364147
+            ],
+            "grade_dependency": "actual two-group schedule semantic consumer R2; fixed11endpoints unchanged",
+            "hypothesis_id": "H-291",
+            "id": "E-H291-D02-R5-COMPLETED-20261009",
+            "losses": [
+              "wmse",
+              "huber_delta1"
+            ],
+            "optimizer": "muon",
+            "receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_D02_R5_TERMINAL_REVIEW_R1.json",
+            "receipt_sha256": "927bd79e3e5bf2bd8ecaecb45c237c63b4a076230ffb51ed2adb8391574e08fe",
+            "result": null,
+            "status": "fits_and_predictions_independently_verified_grade_pending",
+            "updates_per_loss": 220,
+            "worker_wall_seconds": 236.683095194
+          },
+          "source": {
+            "line": 670,
+            "path": "research/experiments.jsonl",
+            "sha256": "5ebe542944bd11fdec21ee54e22e1da94a911080847eb0f1402dd0429ee9d30c"
+          }
+        }
+      ],
+      "title": "E-H291-D02-R5-COMPLETED-20261009",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-H230-FOLD1-GRU384-BASELINE-PAIR-20261009",
+      "latest_recorded_status": "evaluated_diagnostic",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-H230-FOLD1-GRU384-BASELINE-PAIR-20261009\", \"hypothesis_id\": \"H-230\", \"created_utc\": \"2026-10-09T04:08:34.732228+00:00\", \"status\": \"evaluated_diagnostic\", \"receipt\": \"scratch/fold1_gru384_successor_20261009/grading_r1/BASELINE_PAIR_R1.json\", \"receipt_sha256\": \"920981596b67d7115a8fc476eed7d10eb9784debb7f5ed38eb7042f3379fc224\", \"independent_review\": \"scratch/fold1_gru384_successor_20261009/grading_r1/ROOT_BASELINE_GRADE_REVIEW_R1.json\", \"independent_review_sha256\": \"a5848b689604fbea463cbc682c76424f5beb8769076b496ad2f338ffacf27e35\", \"metric\": \"global_wp_clip2_v1\", \"scores\": {\"seed3\": 0.6576384375211055, \"seed4\": 0.6568668062676464, \"equal_pair\": 0.6591504363996316}, \"primary_delta\": 0.0015119988785258, \"paired_component_ci95\": [-0.000366105, 0.003279154], \"exposure\": \"457historicallyexposedfold1groups149components; singlepair; no weight/epoch search; no publicforecast\"}\n",
+          "record": {
+            "created_utc": "2026-10-09T04:08:34.732228+00:00",
+            "exposure": "457historicallyexposedfold1groups149components; singlepair; no weight/epoch search; no publicforecast",
+            "hypothesis_id": "H-230",
+            "id": "E-H230-FOLD1-GRU384-BASELINE-PAIR-20261009",
+            "independent_review": "scratch/fold1_gru384_successor_20261009/grading_r1/ROOT_BASELINE_GRADE_REVIEW_R1.json",
+            "independent_review_sha256": "a5848b689604fbea463cbc682c76424f5beb8769076b496ad2f338ffacf27e35",
+            "metric": "global_wp_clip2_v1",
+            "paired_component_ci95": [
+              -0.000366105,
+              0.003279154
+            ],
+            "primary_delta": 0.0015119988785258,
+            "receipt": "scratch/fold1_gru384_successor_20261009/grading_r1/BASELINE_PAIR_R1.json",
+            "receipt_sha256": "920981596b67d7115a8fc476eed7d10eb9784debb7f5ed38eb7042f3379fc224",
+            "scores": {
+              "equal_pair": 0.6591504363996316,
+              "seed3": 0.6576384375211055,
+              "seed4": 0.6568668062676464
+            },
+            "status": "evaluated_diagnostic"
+          },
+          "source": {
+            "line": 671,
+            "path": "research/experiments.jsonl",
+            "sha256": "297eb2af486ee1f236a80281c73c83ea8ce35a2d30cbb73b09969f2d42265982"
+          }
+        }
+      ],
+      "title": "E-H230-FOLD1-GRU384-BASELINE-PAIR-20261009",
       "type": "experiment"
     },
     {
