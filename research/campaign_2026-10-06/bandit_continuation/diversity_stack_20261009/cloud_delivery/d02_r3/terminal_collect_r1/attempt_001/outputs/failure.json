@@ -1,0 +1,7 @@
+{
+  "elapsed_seconds": 85.67606482400004,
+  "error": "[Errno 17] File exists: '/kaggle/working/out/logs/device_shape_update_gate.log'",
+  "error_type": "FileExistsError",
+  "state": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/working/wnn/scripts/loss_pair_gpu_worker.py\", line 1490, in main\n    result = run_worker(bootstrap_receipt)\n  File \"/kaggle/working/wnn/scripts/loss_pair_gpu_worker.py\", line 1355, in run_worker\n    loss: _run_device_shape_update_gate(\n          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n        manifest_path, runtime_validation, runtime_validation_sha, inventory, deadline, loss\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/kaggle/working/wnn/scripts/loss_pair_gpu_worker.py\", line 1089, in _run_device_shape_update_gate\n    result = _wait_one(\n        command,\n    ...<4 lines>...\n        poll_seconds=1.0,\n    )\n  File \"/kaggle/working/wnn/scripts/loss_pair_gpu_worker.py\", line 460, in _wait_one\n    process = _launch(command, label, log_path, env)\n  File \"/kaggle/working/wnn/scripts/loss_pair_gpu_worker.py\", line 418, in _launch\n    log = log_path.open(\"xb\")\n  File \"/usr/lib/python3.13/pathlib/_local.py\", line 537, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileExistsError: [Errno 17] File exists: '/kaggle/working/out/logs/device_shape_update_gate.log'\n"
+}
