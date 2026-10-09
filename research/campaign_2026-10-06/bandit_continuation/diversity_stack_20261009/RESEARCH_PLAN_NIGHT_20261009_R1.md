@@ -11,7 +11,7 @@ Companions: [optimizers and schedules](OPTIMIZERS_SCHEDULES_STABILITY_R1.md),
 |---|---|---|
 | Vast (1 receipt-owned 2x RTX 4090, $0.88/h, about $4.5 spent) | 4 jobs running at 93-95% GPU, 15 queued after the new wave | 14 jobs finished, 0 failed. Tick check every 5 min pulls results; spend cap 12 USD only holds queued jobs (never kills running ones); no hard stop |
 | Local GPU (one worker, 5 GB VRAM) | `h230-f1-s4-mexact-fit-r2` running, 17 items queued | admission barrier was closed 17:13-18:23 UTC after a supervisor RAM kill (my concurrent analyses), reopened with a written review |
-| Kaggle | GPU idle: campaign GPU quota exhausted (57,341 s used of the 56,780 s campaign cap; platform 94,389 of 108,000 s) | capacity V5R2 kernel ended ERROR (both arms hit the 15,500 s worker timeout in epoch 3 of 4; epoch 0-2 checkpoints collected and queued for local scoring); native-TPU v4 kernel also ended ERROR (cause not yet diagnosed); rolling small-screen sampler paused by STOP until 03:05 Kyiv |
+| Kaggle | GPU idle: campaign GPU quota exhausted (57,341 s used of the 56,780 s campaign cap; platform 94,389 of 108,000 s) | capacity V5R2 kernel ended ERROR (both arms hit the 15,500 s worker timeout in epoch 3 of 4; epoch 0-2 checkpoints collected and queued for local scoring); native-TPU v4 kernel also ended ERROR at startup: the runtime's own parity guard raised `native cache first batch differs from the GPU producer fixture` (tpu_packet_runtime_r4.py line 407; collected 14:58Z), i.e. a producer/consumer data mismatch caught before any TPU compute, not a hardware or quota failure; rolling small-screen sampler paused by STOP until 03:05 Kyiv |
 | Watchdog | `wnn-watchdog.timer` every 3 min, alert log, desktop notify, session monitor | first pass found the two failures above |
 
 ## 2. Results so far (fold1 unless stated, wp = `global_wp_clip2_v1`)
@@ -52,7 +52,7 @@ Findings, with evidence level:
 1. **Vast-hosted student pipeline** (direction C). Steps on the host: export train-split predictions of selected scratch teachers with `predict_run.py`; build a heterogeneous distillation cache with `build_distill_cache.py` (copy that script and `src/wnn/distillation.py` into the bundle); fit a warm-started student with the H230 recipe on the same box. This tests whether wider and more diverse teachers improve the *student*, which is the original teacher-quality question, without moving the large caches over the slow laptop uplink.
 2. **Nested-CV stacking tool** once folds 2 and 3 have teachers: fit blend weights on three folds, score on the fourth, report against the best single and against the closed-form rule.
 3. **Hidden-state probes** (gate timescales, linear probes for market class and time-since-event, CKA) on GRU256, GRU384, GRU448, gated, LSTM.
-4. **Diagnose the TPU v4 error** from collected outputs, then decide whether TPU work is still worth the quota.
+4. **TPU v4 error**: diagnosed as the first-batch parity guard (above). Fixing it means reconciling the native cache producer with the GPU fixture (ADR0021 class); low priority while Kaggle quota is exhausted and GPU results do not yet need TPU scale.
 
 ## 5. Risks and guards
 
