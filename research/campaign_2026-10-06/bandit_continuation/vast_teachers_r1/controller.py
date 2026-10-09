@@ -145,7 +145,7 @@ def cmd_start(_: argparse.Namespace) -> None:
         raise SystemExit("host not reachable yet")
     scp([str(PLAN), str(HERE / "remote_run.py")], "/root/run/", upload=True, timeout=600)
     ssh("mv /root/run/plan.private.json /root/run/plan.json && chmod 600 /root/run/plan.json")
-    started = ssh("cd /root/run && setsid nohup python remote_run.py > worker.out 2>&1 < /dev/null & echo started")
+    started = ssh("(cd /root/run && setsid nohup python remote_run.py > worker.out 2>&1 < /dev/null &) ; echo started")
     print(started.stdout.strip())
 
 
@@ -180,6 +180,120 @@ def cmd_collect(_: argparse.Namespace) -> None:
     print(json.dumps({"runs": runs, "predictions": preds}))
 
 
+def cmd_queue(_: argparse.Namespace) -> None:
+    """Ship refill daemon + job files to the owned host and start the daemon (idempotent)."""
+    jobs = sorted((HERE / "refill_jobs").glob("*.json"))
+    ssh("mkdir -p /root/run/refill/pending /root/run/refill/running /root/run/refill/done")
+    scp([str(HERE / "remote_refill.py")], "/root/run/", upload=True)
+    have = set(ssh("ls /root/run/refill/pending /root/run/refill/running /root/run/refill/done").stdout.split())
+    new = [str(j) for j in jobs if j.name not in have and not any(h.startswith(j.stem) for h in have)]
+    if new:
+        scp(new, "/root/run/refill/pending/", upload=True)
+    alive = ssh("pgrep -fc '^python remote_refill.py' || true").stdout.strip()
+    if alive in ("", "0"):
+        ssh("(cd /root/run && setsid nohup python remote_refill.py > refill.out 2>&1 < /dev/null &) ; echo started", timeout=30)
+    print(json.dumps({"queued": [Path(n).name for n in new], "daemon_was_running": alive not in ("", "0")}))
+
+
+def cmd_pull(_: argparse.Namespace) -> None:
+    """Fetch every finished job (export log present, rc 0) not yet pulled; append bank rows."""
+    bank = ROOT / "research/campaign_2026-10-06/bandit_continuation/prediction_bank/BANK_FOLD1.jsonl"
+    have = {json.loads(line)["name"] for line in bank.read_text().splitlines() if line.strip()}
+    listing = ssh("cd /root/wnn && ls cache/pred_vt_*_valid.json 2>/dev/null").stdout.split()
+    pulled = []
+    for item in listing:
+        name = item.removeprefix("cache/pred_").removesuffix("_valid.json")
+        if name in have:
+            continue
+        sizes = ssh(f"cd /root/wnn && stat -c %s cache/pred_{name}_valid.npy && ls artifacts/runs/{name}/model_ep3.pt && pgrep -f 'predict_run.py.*{name}' || true").stdout
+        if "model_ep3.pt" not in sizes:
+            continue
+        busy = ssh(f"pgrep -f 'predict_run.py.* {name} ' || true").stdout.strip()
+        if busy:
+            continue
+        scp([f"/root/wnn/artifacts/runs/{name}"], str(ROOT / "artifacts/runs"), upload=False)
+        scp([f"/root/wnn/cache/pred_{name}_valid.npy", f"/root/wnn/cache/pred_{name}_valid.json"], str(ROOT / "cache"), upload=False)
+        row = {"name": name, "fold": 1, "prediction": f"cache/pred_{name}_valid.npy",
+               "tags": {"scale": "full", "family": "teacher_scratch", "vast": "r1"}, "source": "vast_teachers_r1"}
+        with bank.open("a") as handle:
+            handle.write(json.dumps(row) + "\n")
+        pulled.append(name)
+    print(json.dumps({"pulled": pulled}))
+
+
+REMOTE_PROBE = r"""
+cd /root/run
+echo "GPU $(nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader,nounits | tr '\n' ';')"
+echo "GPUPROCS $(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l)"
+echo "PENDING $(ls refill/pending 2>/dev/null | wc -l) RUNNING $(ls refill/running 2>/dev/null | wc -l) DONEJOBS $(ls refill/done 2>/dev/null | tr '\n' ',')"
+echo "TERMINAL $(ls DONE.json FAILED.json 2>/dev/null | tr '\n' ',')"
+echo "PREDS $(ls /root/wnn/cache/pred_vt_*_valid.json 2>/dev/null | wc -l)"
+for f in logs/vt_*.fit.log; do n=$(basename $f .fit.log); l=$(grep '^ep ' $f | tail -1); [ -n "$l" ] && echo "JOB $n $l"; done
+"""
+
+
+def probe() -> dict:
+    out = ssh(REMOTE_PROBE, timeout=60).stdout.splitlines()
+    info: dict = {"jobs": {}}
+    for line in out:
+        key, _, rest = line.partition(" ")
+        if key == "JOB":
+            name, _, log = rest.partition(" ")
+            info["jobs"][name] = log
+        else:
+            info[key] = rest
+    return info
+
+
+def spend() -> tuple[float, float]:
+    row = json.loads(vast("show", "instance", str(receipt()["instance_id"])))
+    hours = (time.time() - float(row["start_date"])) / 3600
+    return hours, hours * float(row["dph_total"])
+
+
+def eta_minutes(log: str) -> str:
+    import re
+
+    match = re.match(r"ep (\d+) batch (\d+)/(\d+) loss ([\d.]+) lr \S+ seq/s ([\d.]+)", log)
+    if not match:
+        return "?"
+    epoch, batch, total, _, rate = int(match[1]), int(match[2]), int(match[3]), match[4], float(match[5])
+    remaining = ((3 - epoch) * total + (total - batch)) * 32 / max(rate, 1e-3) / 60
+    return f"ep{epoch} {batch}/{total} {rate:.0f}seq/s eta{remaining:.0f}m"
+
+
+def cmd_dash(_: argparse.Namespace) -> None:
+    info = probe()
+    hours, cost = spend()
+    print(f"GPU util%,MiB: {info.get('GPU')}  compute procs: {info.get('GPUPROCS')}  spend: {hours:.2f}h ${cost:.2f}")
+    print(f"queue pending={info.get('PENDING')}  terminal={info.get('TERMINAL')}  preds on host={info.get('PREDS')}")
+    for name, log in sorted(info["jobs"].items()):
+        print(f"  {name:26s} {eta_minutes(log)}")
+
+
+def cmd_tick(args: argparse.Namespace) -> None:
+    """Unattended step: pull finished jobs; destroy the owned instance when drained or over budget."""
+    if receipt().get("state") == "destroyed_verified":
+        print("already destroyed")
+        return
+    info = probe()
+    cmd_pull(args)
+    hours, cost = spend()
+    pending = int(info.get("PENDING", "1").split()[0])
+    running = int(info.get("GPUPROCS", "1"))
+    in_flight = int(info.get("PENDING", "1 RUNNING 1").split("RUNNING")[1].split()[0])
+    primary_done = bool(info.get("TERMINAL", "").strip(", "))
+    local = {p.name for p in (ROOT / "cache").glob("pred_vt_*_valid.npy")}
+    remote = int(info.get("PREDS", "0"))
+    drained = pending == 0 and in_flight == 0 and running == 0 and primary_done and len(local) >= remote
+    print(json.dumps({"hours": round(hours, 2), "cost": round(cost, 2), "pending": pending, "gpu_procs": running,
+                      "drained": drained, "gpu": info.get("GPU")}))
+    if drained or cost >= args.cap:
+        if cost >= args.cap and not drained:
+            print(f"spend cap ${args.cap} reached: pulling and destroying")
+        cmd_destroy(args)
+
+
 def cmd_destroy(_: argparse.Namespace) -> None:
     data = receipt()
     vast("destroy", "instance", str(data["instance_id"]), "-y")
@@ -204,11 +318,13 @@ def main() -> int:
     create.add_argument("--image", default="pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime")
     create.add_argument("--disk", type=int, default=150)
     create.add_argument("--hard-stop", required=True)
-    for name in ("start", "status", "collect", "destroy"):
-        sub.add_parser(name)
+    for name in ("start", "status", "collect", "destroy", "queue", "pull", "dash", "tick"):
+        node = sub.add_parser(name)
+        if name == "tick":
+            node.add_argument("--cap", type=float, default=5.0, help="destroy when this instance's spend reaches this many dollars")
     args = parser.parse_args()
     {"plan": cmd_plan, "create": cmd_create, "start": cmd_start, "status": cmd_status,
-     "collect": cmd_collect, "destroy": cmd_destroy}[args.command](args)
+     "collect": cmd_collect, "destroy": cmd_destroy, "queue": cmd_queue, "pull": cmd_pull, "dash": cmd_dash, "tick": cmd_tick}[args.command](args)
     return 0
 
 
