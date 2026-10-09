@@ -1,0 +1,60 @@
+{
+  "schema": "wnn.kaggle.gpu-worker-terminal-diagnostic.v1",
+  "format_version": 1,
+  "collected_at_utc": "2026-10-09T00:25:19Z",
+  "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v3",
+  "provider_version": 1,
+  "provider_status_after_worker_failure": "not_observed",
+  "provider_status_note": "Read-only output artifacts and kernel logs were collected; this receipt does not claim a post-failure provider status query.",
+  "collection_command": "kaggle kernels output vladkochetov07/wnn-loss-pair-gpu-20261009-v3 --file-pattern '.*(device_shape_update_gate\\.log|phase\\.jsonl|failure\\.json|final_status\\.json|bootstrap_receipt\\.json|gpu_inventory\\.json)$' -p <private-temporary-directory>",
+  "worker_state": "failed_before_fit",
+  "worker_elapsed_seconds": 108.83314604399999,
+  "startup": {
+    "kernel_boot_utc": "2026-10-09T00:19:21Z",
+    "fold0_auxiliary_assets_verified_utc": "2026-10-09T00:20:32Z",
+    "parsed_cache_verified_utc": "2026-10-09T00:20:32Z",
+    "pre_fit_gate_utc": "2026-10-09T00:22:15Z",
+    "device_shape_update_gate_start_utc": "2026-10-09T00:22:15Z",
+    "worker_failure_utc": "2026-10-09T00:22:21Z"
+  },
+  "device_observation": {
+    "gpu_inventory": "two Tesla T4 devices, compute capability 7.5, each 15636037632 bytes VRAM",
+    "pre_fit_cgroup_current_bytes": 832126976,
+    "pre_fit_cgroup_max_bytes": 32212254720,
+    "pre_fit_mem_available_bytes": 32226017280,
+    "pre_fit_gate": "passed",
+    "actual_shape_update_gate": "failed after 5.330370519 seconds; no fit arms started"
+  },
+  "failure": {
+    "type": "ValueError",
+    "message": "preverified cache receipt is not pinned to this split",
+    "origin": "train_rnn.py -> load_campaign_split -> src/wnn/splits.py:175",
+    "worker_wrapper_error": "actual-T4 shape/update gate failed: {'label': 'device_shape_update_gate', 'returncode': 1, 'wall_seconds': 5.330370518999985}"
+  },
+  "admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_GPU_R3_KERNEL_ADMISSION_R1.json",
+    "sha256": "0ffaaf4b9d3fd5ca8647995f45e4197ecfda9ff16f203dd637f95db717b8feaa"
+  },
+  "source_identity": {
+    "packet_sha256": "ea31663b696b857c31f3fe1eb2a0ff5dd0e46ad4950423fe4fbd189c0cb91068",
+    "bootstrap_sha256": "ed1f7d35d3b393bcfc8a7ade6af4c213f84f336be1b726462f346ff7329dfba9",
+    "metadata_sha256": "75a5463f44d443cc3026c71c8dd3e5227a38ff9fbd8b6d2aab6a13dbc364f61f",
+    "source_dataset": "vladkochetov07/wnn-loss-pair-code-20261009-r3",
+    "source_dataset_version": 1,
+    "source_manifest_sha256": "eb0ae8d11e62e791bcf768283e84a467125eae17302f1b64ed1537c492de5610",
+    "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+    "source_stage_receipt_sha256": "557cd0a61f1129f811dc104398c3c9c7295c3343a1c9a302018fcb588c0c1de7",
+    "fold0_asset_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7"
+  },
+  "artifact_directory": "terminal_diagnostic_r1/",
+  "downloaded_artifacts": [
+    {"path": "failure.json", "size_bytes": 970, "sha256": "07598ba601693c39ba38e74a21cfc891f837e119e1219b20a0604ff5bf047e26"},
+    {"path": "final_status.json", "size_bytes": 65, "sha256": "1ea6bb52edb7a1fa02ccfaaaf02b5964675eb12ffd2d1c58461654f80b5f3222"},
+    {"path": "out/bootstrap_receipt.json", "size_bytes": 916, "sha256": "e236fcdc076d1ede5923bb9fb396ba792915ce508cf118c897696a20053ec1a0"},
+    {"path": "out/gpu_inventory.json", "size_bytes": 398, "sha256": "3ef9843b8d1fd8d3c78b226b4909fa06a812fc95ce113e51e6b65cbdb398dfec"},
+    {"path": "out/logs/device_shape_update_gate.log", "size_bytes": 774, "sha256": "5a874c0e7169f136b63ccc3053627852fb861fca66ae39446fedb9f5beeada83"},
+    {"path": "phase.jsonl", "size_bytes": 1980, "sha256": "b40df86e783bfcaa0c5417d4c1828bc6cc611a95a1c6aa32c86cb53eabc520ec"},
+    {"path": "wnn-loss-pair-gpu-20261009-v3.log", "size_bytes": 3450, "sha256": "093c864ed2e6a667fd6f513e0106e86240b174c6c2c29ddd3b670a4b6ec29cad"}
+  ],
+  "interpretation": "Execution reached script boot, verified the admitted source and parsed-cache mounts and discovered two Tesla T4 devices. It passed the host resource gate but the disposable device update gate could not initialize the split loader because the preverified-cache receipt does not bind the fold-0 split. This is a consumer/input-binding failure, not a scientific loss comparison or a measured GPU throughput result."
+}
