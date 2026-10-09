@@ -2377,7 +2377,10 @@ def main():
                     torch.save({**point_representation, "args": vars(args), "n_in": n_in, "epoch": epoch,
                                 "intra_batch": b,
                                 "readout": None if moments is None else [t.cpu() for t in moments.tables()],
-                                "readout_tilted": args.ce_tilt}, out_dir / f"model_ep{epoch}p{b}.pt")
+                                "readout_tilted": args.ce_tilt,
+                                "provenance": {key: value for key, value in provenance.items()
+                                               if key != "checkpoint_sha256"}},
+                               out_dir / f"model_ep{epoch}p{b}.pt")
                 with (out_dir / "intra_eval.jsonl").open("a") as handle:
                     handle.write(json.dumps(point) + "\n")
                 print("INTRA", json.dumps(point), flush=True)

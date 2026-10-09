@@ -41,6 +41,7 @@
     "fixed",
     "--checkpoint-epoch",
     "3",
+    "--no-eval-during-fit",
     "--batch",
     "32",
     "--chunk",
@@ -86,6 +87,18 @@
     "--intra-snapshots",
     "--fast",
     "--save-training-state"
+   ]
+  },
+  {
+   "label": "curve",
+   "timeout": 5400,
+   "argv": [
+    "python",
+    "/root/wnn/scripts/snapshot_curve.py",
+    "--run",
+    "vt_f1_tr_sgdr2",
+    "--split",
+    "/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json"
    ]
   },
   {

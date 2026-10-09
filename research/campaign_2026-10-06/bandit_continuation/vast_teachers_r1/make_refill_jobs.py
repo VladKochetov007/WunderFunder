@@ -62,7 +62,6 @@ TRACE = ["--trace-every", "10", "--trace-state-every", "200", "--intra-epoch-poi
 def with_trace(change: dict) -> dict:
     merged = dict(change)
     merged["+"] = [*change.get("+", []), *TRACE]
-    merged["-"] = ["--no-eval-during-fit"]
     merged.pop("snapshots", None)
     return merged
 
@@ -80,6 +79,10 @@ def main() -> None:
                 {"label": "fit", "timeout": 4 * 3600, "argv": B.argv_for(name, change, fold)},
                 {"label": "export", "timeout": 1800, "argv": B.export_argv(name, change.get("--checkpoint-epoch", "3"))},
             ]
+            if wave in ("w5", "w6", "w7"):
+                steps.insert(1, {"label": "curve", "timeout": 5400, "argv": [
+                    B.PY, f"{B.W}/scripts/snapshot_curve.py", "--run", name, "--split",
+                    f"{B.W}/research/campaign_2026-09-29/artifacts/splits/fold{fold}.json"]})
             steps += [{"label": f"export_e{k}", "timeout": 1800, "argv": B.export_argv(name, str(k), f"{name}__ep{k}")}
                       for k in snapshots]
             job = {"name": name, "steps": steps}
