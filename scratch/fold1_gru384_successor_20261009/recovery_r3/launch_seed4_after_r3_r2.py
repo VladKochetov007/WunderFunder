@@ -13,6 +13,7 @@ import fcntl
 import hashlib
 import importlib.util
 import json
+import os
 import shutil
 import subprocess
 from datetime import UTC, datetime
@@ -61,7 +62,7 @@ def require_successful_predecessor(
     """Require the exact R3 fit, authority, output state, and successful unit."""
     if not isinstance(audit, dict) or audit.get("status") != "recovery_fit_and_output_passed":
         raise ValueError("seed4 requires a successful R3 terminal audit")
-    if audit.get("schema") != "wnn.fold1_gru384_resume_terminal_audit.r2":
+    if audit.get("schema") != "wnn.fold1_gru384_resume_terminal_audit.r3":
         raise ValueError("R3 audit receipt schema differs from the frozen recovery gate")
     if not isinstance(attempt, dict) or not isinstance(unit, dict):
         raise ValueError("seed4 predecessor attempt and systemd unit receipts are required")
@@ -70,9 +71,10 @@ def require_successful_predecessor(
         "authority_sha256": authority_sha256,
         "request_sha256": request_sha256,
         "attempt_sha256": attempt_sha256,
-        "recovered_training_state_sha256": recovered_state_sha256,
     }
-    if any(audit.get(key) != value for key, value in expected_audit.items()):
+    if any(audit.get(key) != value for key, value in expected_audit.items()) or (
+        audit.get("output_audit", {}).get("training_state_sha256") != recovered_state_sha256
+    ):
         raise ValueError("R3 audit does not bind the exact predecessor attempt and state")
     expected_attempt = {
         "id": attempt_id,
@@ -146,9 +148,10 @@ def campaign_parent_cgroup(
         "memory_max": int((cgroup / "memory.max").read_text()),
         "memory_swap_max": int((cgroup / "memory.swap.max").read_text()),
     }
+    page_size = os.sysconf("SC_PAGE_SIZE")
     expected_limits = {
-        "memory_high": int(properties["MemoryHigh"]),
-        "memory_max": int(properties["MemoryMax"]),
+        "memory_high": int(properties["MemoryHigh"]) // page_size * page_size,
+        "memory_max": int(properties["MemoryMax"]) // page_size * page_size,
         "memory_swap_max": int(properties["MemorySwapMax"]),
     }
     if limits != expected_limits:
@@ -221,26 +224,23 @@ def run(
     r3_attempt_id = request["resume_attempt_id"]
     r3_unit_name = f"wnn-bandit-{r3_attempt_id}.service"
     r3_unit_before = old_gate.verify_unit(r3_unit_name)
-    if AUDIT.exists():
-        result = gate.read_json(AUDIT)
-    else:
-        result = gate.audit(
-            argparse.Namespace(
-                root=root,
-                packet=PACKET,
-                packet_sha256=packet_sha,
-                request=REQUEST,
-                authority=AUTHORITY,
-                authority_sha256=authority_sha,
-                output=AUDIT,
-            )
+    result = gate.audit(
+        argparse.Namespace(
+            root=root,
+            packet=PACKET,
+            packet_sha256=packet_sha,
+            request=REQUEST,
+            authority=AUTHORITY,
+            authority_sha256=authority_sha,
+            output=AUDIT,
         )
+    )
     if result.get("status") != "recovery_fit_and_output_passed":
         raise ValueError("R3 audit did not establish a complete successful recovery")
     r3_unit_after = old_gate.verify_unit(r3_unit_name)
     r3_attempt_path = runtime / "attempts" / f"{r3_attempt_id}.json"
     r3_attempt = gate.read_json(r3_attempt_path)
-    recovered_state_path = root / validated_packet["resume_output_path"] / "training_state.pt"
+    recovered_state_path = root / validated_packet["resume"]["output_path"] / "training_state.pt"
     r3_state_sha = sha256_file(recovered_state_path)
     r3_attempt_sha = sha256_file(r3_attempt_path)
     audit_sha = sha256_file(AUDIT)

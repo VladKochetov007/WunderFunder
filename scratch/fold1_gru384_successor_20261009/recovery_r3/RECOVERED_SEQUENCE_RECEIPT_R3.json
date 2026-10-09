@@ -1,0 +1,13 @@
+{
+  "attempt": "fold1-gru384-s4-fit-r1",
+  "error": "RuntimeError: guard refused fold1-gru384-s4-fit-r1; inspect its retained record",
+  "heartbeat_utc": "2026-10-09T02:20:26.495222+00:00",
+  "index": 1,
+  "launch_returncode": 1,
+  "launch_stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import hashlib,pathlib,runpy,sys; p=pathlib.Path(sys.argv[1]); assert hashlib.sha256(p.read_bytes()).hexdigest()==sys.argv[2], \"reviewed handoff source changed\"; sys.argv=[str(p),*sys.argv[3:]]; runpy.run_path(str(p),run_name=\"__main__\")\n                                                                                                                                                                                                       ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen runpy>\", line 287, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scratch/fold1_gru384_successor_20261009/recovery_r3/launch_seed4_after_r3_r2.py\", line 550, in <module>\n    main()\n    ~~~~^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scratch/fold1_gru384_successor_20261009/recovery_r3/launch_seed4_after_r3_r2.py\", line 536, in main\n    run(\n    ~~~^\n        root=args.root,\n        ^^^^^^^^^^^^^^^\n    ...<3 lines>...\n        launch_seed4=args.launch_seed4,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ),\n    ^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scratch/fold1_gru384_successor_20261009/recovery_r3/launch_seed4_after_r3_r2.py\", line 227, in run\n    result = gate.audit(\n        argparse.Namespace(\n    ...<7 lines>...\n        )\n    )\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scratch/fold1_gru384_successor_20261009/recovery_r3/fold1_gru384_recovery_gate_r3.py\", line 766, in audit\n    raise ValueError(\n        f\"R3 unit resource properties differ from the admitted request: {properties}\"\n    )\nValueError: R3 unit resource properties differ from the admitted request: {'CPUQuotaPerSecUSec': 'infinity', 'MemoryHigh': 'infinity', 'MemoryMax': 'infinity', 'MemorySwapMax': 'infinity'}\n",
+  "plan": "/home/vlad/development/wunder/wnn_connectome_starterpack/scratch/fold1_gru384_successor_20261009/recovery_r3/RECOVERED_SEQUENCE_PLAN_R3.json",
+  "plan_sha256": "8048955265615f5407fd3c9a8210c5c12a63dbce17236c28ff10b43b983a7ce0",
+  "status": "needs_review",
+  "worker_heartbeat": "2026-10-09T02:20:12.639547+00:00",
+  "worker_status": "finished"
+}

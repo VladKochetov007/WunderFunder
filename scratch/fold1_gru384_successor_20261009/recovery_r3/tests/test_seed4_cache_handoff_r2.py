@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import importlib.util
+import json
+import os
 from pathlib import Path
 
 import pytest
@@ -16,13 +18,13 @@ SPEC.loader.exec_module(WRAPPER)
 
 def predecessor() -> tuple[dict, dict, dict]:
     audit = {
-        "schema": "wnn.fold1_gru384_resume_terminal_audit.r2",
+        "schema": "wnn.fold1_gru384_resume_terminal_audit.r3",
         "status": "recovery_fit_and_output_passed",
         "attempt_id": "fold1-gru384-s3-resume-r3",
         "authority_sha256": "a" * 64,
         "request_sha256": "b" * 64,
         "attempt_sha256": "c" * 64,
-        "recovered_training_state_sha256": "d" * 64,
+        "output_audit": {"training_state_sha256": "d" * 64},
     }
     attempt = {
         "id": audit["attempt_id"],
@@ -63,7 +65,7 @@ def test_missing_or_failed_r3_predecessor_fails_closed() -> None:
             request_sha256=audit["request_sha256"],
             attempt_sha256=audit["attempt_sha256"],
             unit_name=attempt["unit"],
-            recovered_state_sha256=audit["recovered_training_state_sha256"],
+            recovered_state_sha256=audit["output_audit"]["training_state_sha256"],
         )
     audit["status"] = "recovery_fit_failed"
     with pytest.raises(ValueError, match="successful R3 terminal audit"):
@@ -88,13 +90,34 @@ def test_mismatched_predecessor_identity_is_rejected(target: str, message: str) 
     elif target == "audit_hash":
         audit["attempt_sha256"] = "e" * 64
     else:
-        audit["recovered_training_state_sha256"] = "f" * 64
+        audit["output_audit"]["training_state_sha256"] = "f" * 64
     with pytest.raises(ValueError, match=message):
         validate((audit, attempt, unit))
 
 
 def test_exact_successful_r3_predecessor_passes() -> None:
     validate(predecessor())
+
+
+def test_actual_attempt_parent_limits_use_kernel_page_rounding() -> None:
+    root = Path("/home/vlad/development/wunder/wnn_connectome_starterpack")
+    attempt = json.loads(
+        (
+            root
+            / "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/fold1-gru384-s3-resume-r3.json"
+        ).read_text()
+    )
+    group, limits = WRAPPER.campaign_parent_cgroup(attempt, Path("/sys/fs/cgroup"), 5)
+    page = os.sysconf("SC_PAGE_SIZE")
+    assert group.name == "wnn-campaign.slice"
+    assert limits["memory_high"] == 18_000_000_000 // page * page
+    assert limits["memory_max"] == 20_000_000_000 // page * page
+
+
+def test_actual_packet_nests_resume_output_path() -> None:
+    packet = json.loads((SOURCE.parent / "RECOVERY_GATE_PACKET_R3.json").read_text())
+    request = json.loads((SOURCE.parent / "RESUME_REQUEST_R3.json").read_text())
+    assert packet["resume"]["output_path"] == request["resume_output_path"]
 
 
 def test_file_cache_reclaim_is_bounded_and_targets_parent_headroom() -> None:
