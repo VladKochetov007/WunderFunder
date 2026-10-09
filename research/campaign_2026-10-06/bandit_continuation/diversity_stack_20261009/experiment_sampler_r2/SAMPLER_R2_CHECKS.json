@@ -1,0 +1,58 @@
+{
+  "admission": {
+    "blocker": "No validated recipe-aware runner; the sealed D02 R2 worker is Muon-only.",
+    "fit_allowed": false,
+    "provider_mutations_allowed": false,
+    "queue_activation_allowed": false
+  },
+  "candidate_pool": {
+    "count": 24,
+    "parent_r1_sha256": "7971aa2c0d25c421892c8d21cbd237dab3e494fe1fd8c3e5eae049bc738f7bf0",
+    "sha256": "e5d37d2e5b427fee3648bb6cae1aebcd189bf9b4db642a1c07b47c64743935ee"
+  },
+  "checks": {
+    "focused_pytest_command": "pytest -q experiment_sampler_r2/test_recipe_sampler.py experiment_sampler_r2/test_d02_source_policy.py",
+    "focused_pytest_result": "13 passed in 1.80s",
+    "offline_four_cell_generation": "passed",
+    "offline_max24_generation": "passed",
+    "ruff_check": "All checks passed",
+    "ruff_format_check": "4 files already formatted"
+  },
+  "code_sha256": {
+    "freeze_candidate_pool_r2.py": "19b46f3cc386f7269f64f865d0953c05275cb7b37e6eda690080839b86011767",
+    "recipe_sampler.py": "cc624ecefdb33cd5596d401ce8b8e17f4478fd31de326c97e2797d1d16d0a645",
+    "sampler_spec_r2.json": "fdf7395ed57fb51c48c3f4251da7b403d1a5f2fa590756d5a48e3a663fd3e881",
+    "test_d02_source_policy.py": "f91b00bd4ab70ae81f1330cabeca6cdba6d907f5f9036de924cecf8c4636fffe",
+    "test_recipe_sampler.py": "9f466ca88507eccd058ea137d2fe73a5852d70ef974a4c79938a143729f70f2a"
+  },
+  "example_manifest": {
+    "count": 4,
+    "fit_allowed": true,
+    "ids": [
+      "A_adamw_wmse",
+      "B_adamw_huber_d1",
+      "C_muon_wmse",
+      "D_muon_huber_d1"
+    ],
+    "queue_activation_disabled": true,
+    "sha256": "f22bc96d7ab2883c579fc185331941be0b3cef581936d6c23220b2addecd13dd"
+  },
+  "max24_manifest": {
+    "count": 24,
+    "fit_allowed": true,
+    "queue_activation_disabled": true,
+    "sha256": "d01256ad3707e0e21a6240f9519139019c0e88ff8a30877b50142f2d7aeceb53"
+  },
+  "python_version": "Python 3.13.9",
+  "schema": "wnn.diversity.recipe-sampler-checks.v2",
+  "source_binding": {
+    "binding_sha256": "b93de51026490f85ae0d9bc9dcb9e4df3bf71b71e061c52863a006d4a398c7bf",
+    "code_payload_sha256": "3d86386dcde2ea099610f949004ceb64dc9200fcf511333caf79539f2d62e8c0",
+    "file_count": 63,
+    "main_live_optimizer_is_not_bound": true,
+    "optimizer_source_sha256": "c6036f4901eb770f887757af291b753dc653904b367be4e725a747841b107b64",
+    "scheduler_source_sha256": "d57435bf30c5d6e1a7d5036331d4f9f7a3e7c0b885a8ceb15fd5e7262c3182c5",
+    "source_commit": "df81ef0de614de954249f1d37c9a55402a2e2c83"
+  },
+  "task_scope": "code_only_no_fit_no_provider_mutations"
+}
