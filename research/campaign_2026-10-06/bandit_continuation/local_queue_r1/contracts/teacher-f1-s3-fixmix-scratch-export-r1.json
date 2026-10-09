@@ -1,0 +1,26 @@
+{
+ "schema": "wnn.local-queue-item-contract.v1",
+ "created_utc": "2026-10-09T10:21:04.915429+00:00",
+ "attempt": "teacher-f1-s3-fixmix-scratch-export-r1",
+ "note": "from-scratch fold1 teacher with fixed_mix readout activation (top of all small screens on folds 0/3); matched to onecycle scratch teacher except activation",
+ "argv": [
+  "/usr/bin/timeout",
+  "--signal=TERM",
+  "--kill-after=20s",
+  "1800",
+  "/usr/bin/env",
+  "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts:/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+  "-c",
+  "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name=\"__main__\")",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
+  "combo_scratch_s3_fixmix_f1",
+  "valid",
+  "--epoch",
+  "3",
+  "--output-name",
+  "combo_scratch_s3_fixmix_f1"
+ ]
+}
