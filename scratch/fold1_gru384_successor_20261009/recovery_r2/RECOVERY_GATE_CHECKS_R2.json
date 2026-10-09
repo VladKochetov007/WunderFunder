@@ -1,0 +1,99 @@
+{
+  "schema": "wnn.fold1_gru384_recovery_gate_checks.r2",
+  "status": "request_prepared_waiting_for_root_admission",
+  "recorded_utc": "2026-10-09T00:36:20Z",
+  "gate_source": {
+    "path": "scratch/fold1_gru384_successor_20261009/recovery_r2/fold1_gru384_recovery_gate.py",
+    "sha256": "52565eb1c9841fad51812fe86654fd9284bf65a002be086654f5481654c960d4"
+  },
+  "static_packet": {
+    "path": "scratch/fold1_gru384_successor_20261009/recovery_r2/RECOVERY_GATE_PACKET_R2.json",
+    "sha256": "2546654dde9e2cd1385e8c83ebea1739c3adb1e5872cbb818068b59dc126c8a7"
+  },
+  "dataset_identity_helper": {
+    "path": "scripts/build_campaign_splits.py",
+    "sha256": "f3545de3e6da18db8c0137a47762a523e1983dd20ab36ee0e764a4ac0c6b46b5"
+  },
+  "checks": [
+    {
+      "name": "ruff_check",
+      "result": "passed",
+      "execution": "shared lock; scripts/limited; 1 CPU; 1 GB memory; 60 second runtime cap"
+    },
+    {
+      "name": "ruff_format_check",
+      "result": "passed",
+      "execution": "shared lock; scripts/limited; 1 CPU; 1 GB memory; 60 second runtime cap"
+    },
+    {
+      "name": "gate_cli_help",
+      "result": "passed",
+      "execution": "shared lock; scripts/limited; 1 CPU; 1 GB memory; 60 second runtime cap"
+    },
+    {
+      "name": "actual_train_valid_parquet_footer_identity",
+      "result": "passed",
+      "execution": "shared lock; scripts/limited; 1 CPU; 1 GB memory; 60 second runtime cap",
+      "datasets": {
+        "train": {
+          "bytes": 29240219011,
+          "mtime_ns": 1577826000000000000,
+          "footer_bytes": 60437285,
+          "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb"
+        },
+        "valid": {
+          "bytes": 5615509128,
+          "mtime_ns": 1577826000000000000,
+          "footer_bytes": 10686926,
+          "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+        }
+      },
+      "comparison": "both helper outputs exactly matched the frozen fold1 manifest"
+    }
+  ],
+  "original_attempt_observation": {
+    "attempt_id": "fold1-gru384-s3-fit-r1",
+    "status": "failed",
+    "phase": "terminal",
+    "exit_status": 124,
+    "elapsed_seconds": 7204.758903740003,
+    "heartbeat_utc": "2026-10-09T00:35:24.278037+00:00",
+    "unit": {
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "Result": "exit-code",
+      "ExecMainStatus": "1"
+    },
+    "resource_evidence": {
+      "peak_ram_bytes": 8999997440,
+      "peak_observed_vram_bytes": 3188719616,
+      "required_observers_all_ok": true,
+      "all_six_local_parent_and_hierarchical_oom_delta_maps_zero": true
+    }
+  },
+  "prepared_request": {
+    "path": "scratch/fold1_gru384_successor_20261009/recovery_r2/RESUME_REQUEST_R2.json",
+    "sha256": "46f4b21c26eee379fd4212fe53d022285ac9d7a40157e14de60ac03c070ae0a5",
+    "original_training_state_sha256": "6fdef9e5d02fa1d379d9d3270e455c5c9ee8ea327b6f6d7306e33e1396509d9d",
+    "original_training_state_contract_sha256": "a070b46c3f954f5cde422ecc74e62de6dd60d1c7f482d4496b7483799322780e",
+    "next_epoch": 1,
+    "resume_timeout_seconds": 14400,
+    "resume_command_sha256_canonical_json": "4efb171acf6fbffa99906635b0d29adfd9292c19553bc05c70220dbb4be79978",
+    "prepared_with": "shared lock; scripts/limited; 1 CPU; 1.5 GB memory; 120 second runtime cap"
+  },
+  "seed4_waiter": {
+    "unit": "wnn-fold1-gru384-postfit-sequence-r1.service",
+    "unit_status": "failed",
+    "receipt_path": "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_DURABLE_SEQUENCE_RECEIPT_R1.json",
+    "receipt_sha256": "6042204d69c332676220f8350ea5c2848bf33be1704813daef58f59209c474b0",
+    "receipt_status": "needs_review",
+    "failure": "RuntimeError: fold1-gru384-s3-fit-r1 needs review: failed",
+    "seed4_attempt_absent": true,
+    "seed4_output_absent": true
+  },
+  "not_performed": [
+    "No recovery dispatch or seed4 launch was performed; root authority is not present.",
+    "No full raw parquet SHA was computed by the recovery gate or fixture check."
+  ],
+  "scope_note": "This records code and identity-helper checks only; root admission and all recovery conditions remain independently required."
+}
