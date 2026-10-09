@@ -1,0 +1,13 @@
+{
+  "schema": "wnn.admission-reopen-review.v1",
+  "date_utc": "2026-10-09",
+  "closed_by": "supervisor, 2026-10-09T17:13:34Z: aggregate working RAM exceeded 18000000000 bytes while h230-f1-s4-mexact-fit-r1 ran (batch 420/746 of epoch 0; killed with -15)",
+  "cause": "wnn-grade-bank.service (6 GB peak for 14 min, bank changed by Vast pulls) plus root analysis jobs (regime analysis, blend scoring, archive hashing) ran concurrently with a 9 GB fit. Same class of incident as the earlier WSD student kill.",
+  "impact": "local GPU queue idle about 68 minutes (not noticed: no watchdog); one fit lost, no data corrupted",
+  "mitigation": [
+    "wnn-grade-bank.service MemoryMax lowered to 3.5G and --pair-top reduced so it cannot take the fit down",
+    "root analyses use scripts/limited with explicit MemoryMax and are not launched while a fit is in its first epoch",
+    "scripts/watchdog.py monitors every lane and reports barrier closures, failed attempts and idle GPUs within minutes"
+  ],
+  "action": "reopen admission; rerun the failed fit as h230-f1-s4-mexact-fit-r2 from scratch (partial run directory kept as bd26_h230_f1_s4_mexact_failed_r1)"
+}

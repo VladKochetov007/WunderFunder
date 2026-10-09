@@ -1,0 +1,23 @@
+{
+ "schema": "wnn.local-queue-item-contract.v1",
+ "created_utc": "2026-10-09T18:24:36.096790+00:00",
+ "attempt": "snapcurve-capacity-gru768-f0-r1",
+ "authorization": "User 2026-10-09: keep experiments useful; watchdog found the kernel error",
+ "note": "score epoch 0-2 checkpoints of the Kaggle GRU capacity arms (fold0, seed 9) that hit the 15500 s worker timeout in epoch 3",
+ "exposure": "fold1 evaluation excluded from all teacher/student fitting by the fold1 split",
+ "argv": [
+  "/usr/bin/timeout",
+  "--signal=TERM",
+  "--kill-after=20s",
+  "3000",
+  "/usr/bin/env",
+  "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/snapshot_curve.py",
+  "--run",
+  "bd26_gru768_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009",
+  "--split",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json"
+ ]
+}

@@ -1,0 +1,25 @@
+{
+ "attempt": "snapcurve-capacity-gru512-f0-r1",
+ "kind": "gpu",
+ "cpus": 3,
+ "reserve_bytes": 6500000000,
+ "profile": "export",
+ "contract": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/contracts/snapcurve-capacity-gru512-f0-r1.json",
+ "argv": [
+  "/usr/bin/timeout",
+  "--signal=TERM",
+  "--kill-after=20s",
+  "3000",
+  "/usr/bin/env",
+  "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/snapshot_curve.py",
+  "--run",
+  "bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009",
+  "--split",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json"
+ ],
+ "after": [],
+ "admission_timeout": 900
+}
