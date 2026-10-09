@@ -18,6 +18,7 @@ BASE_COMMIT = "d5daaa0f90b0362877522703c7e17aa78c19cac9"
 R2_SOURCE_COMMIT = "9f20145cc4e91a326525324a8266decb912959ae"
 R3_SOURCE_COMMIT = "e5f761ce"
 NATIVE_R4_SOURCE_COMMIT = "d1baafd7ccb609d24946e353ce7694af44a647ed"
+NATIVE_R4_HEADROOM_PREDECESSOR_COMMIT = "58f17259ae2a359165e6a0698d187c852183a241"
 R4_SOURCE_COMMIT = "1bc0fbacf53cdc08a8c4664c6f66f38f8980092c"
 R4_PACKET_COMMIT = "cc59806075863f41fe08c7a73a14c289a4bd4c39"
 R5_SOURCE_COMMIT = "2b10067281ed7d6d2e5f6ae722072c49d793dde0"
@@ -297,13 +298,9 @@ def seal(
     files.update(
         {
             "predecessor_evidence/r3/packet.json": r3_predecessor[R3_PACKET_PATH],
-            "predecessor_evidence/r3/source_manifest.json": r3_predecessor[
-                R3_SOURCE_MANIFEST_PATH
-            ],
+            "predecessor_evidence/r3/source_manifest.json": r3_predecessor[R3_SOURCE_MANIFEST_PATH],
             "predecessor_evidence/r3/source.tar.gz": r3_predecessor[R3_SOURCE_ARCHIVE_PATH],
-            "predecessor_evidence/r3/PACKET_SEAL_R3.json": r3_predecessor[
-                R3_SEAL_RECEIPT_PATH
-            ],
+            "predecessor_evidence/r3/PACKET_SEAL_R3.json": r3_predecessor[R3_SEAL_RECEIPT_PATH],
         }
     )
     for name in R4_EXTRA_FILES:
@@ -334,6 +331,14 @@ def seal(
         "base_commit": BASE_COMMIT,
         "reused_native_implementation_commit": R2_SOURCE_COMMIT,
         "native_tpu_r4_source_commit": NATIVE_R4_SOURCE_COMMIT,
+        "native_tpu_r4_headroom_gate_successor": {
+            "predecessor_source_commit": NATIVE_R4_HEADROOM_PREDECESSOR_COMMIT,
+            "source_commit": NATIVE_R4_SOURCE_COMMIT,
+            "unbounded_cgroup_basis": (
+                "complete explicit unlimited limit sample; host available reserve enforced"
+            ),
+            "missing_or_incomplete_cgroup_sample": "fit_deferred",
+        },
         "source_sealer": {
             "path": f"{PREFIX}/seal_tpu_packet_r4.py",
             "sha256": sha(Path(__file__).read_bytes()),
@@ -424,7 +429,9 @@ def seal(
 
         _policy, policy_errors = validate_policy(admission.get("fit_headroom_policy"))
         if policy_errors:
-            raise ValueError("conditional fit admission needs explicit device/host/cgroup/disk reserves")
+            raise ValueError(
+                "conditional fit admission needs explicit device/host/cgroup/disk reserves"
+            )
     files["root_admission.json"] = canonical(admission)
     buf = io.BytesIO()
     with (
