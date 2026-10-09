@@ -299,12 +299,14 @@ def cmd_tick(args: argparse.Namespace) -> None:
     primary_done = bool(info.get("TERMINAL", "").strip(", "))
     local = {p.name for p in (ROOT / "cache").glob("pred_vt_*_valid.npy")}
     remote = int(info.get("PREDS", "0"))
-    drained = pending == 0 and in_flight == 0 and running == 0 and primary_done and len(local) >= remote
+    held = cost >= args.cap
+    if held and pending > 0:
+        ssh("mkdir -p /root/run/refill/held && mv /root/run/refill/pending/*.json /root/run/refill/held/ 2>/dev/null || true")
+        print(f"spend cap ${args.cap} reached: queued jobs moved to held/, running jobs finish gracefully")
+    drained = (pending == 0 or held) and in_flight == 0 and running == 0 and primary_done and len(local) >= remote
     print(json.dumps({"hours": round(hours, 2), "cost": round(cost, 2), "pending": pending, "gpu_procs": running,
-                      "drained": drained, "gpu": info.get("GPU")}))
-    if drained or cost >= args.cap:
-        if cost >= args.cap and not drained:
-            print(f"spend cap ${args.cap} reached: pulling and destroying")
+                      "held": held, "drained": drained, "gpu": info.get("GPU")}))
+    if drained:
         cmd_destroy(args)
 
 
@@ -335,7 +337,7 @@ def main() -> int:
     for name in ("start", "status", "collect", "destroy", "queue", "pull", "dash", "tick"):
         node = sub.add_parser(name)
         if name == "tick":
-            node.add_argument("--cap", type=float, default=5.0, help="destroy when this instance's spend reaches this many dollars")
+            node.add_argument("--cap", type=float, default=5.0, help="stop admitting queued jobs at this spend; running jobs always finish, then the instance is destroyed")
     args = parser.parse_args()
     {"plan": cmd_plan, "create": cmd_create, "start": cmd_start, "status": cmd_status,
      "collect": cmd_collect, "destroy": cmd_destroy, "queue": cmd_queue, "pull": cmd_pull, "dash": cmd_dash, "tick": cmd_tick}[args.command](args)
