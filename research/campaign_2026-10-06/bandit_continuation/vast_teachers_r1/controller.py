@@ -335,6 +335,7 @@ echo "GPUPROCS $(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc 
 echo "PENDING $(ls refill/pending 2>/dev/null | wc -l) RUNNING $(ls refill/running 2>/dev/null | wc -l) DONEJOBS $(ls refill/done 2>/dev/null | tr '\n' ',')"
 echo "TERMINAL $(ls DONE.json FAILED.json 2>/dev/null | tr '\n' ',')"
 echo "PREDS $(ls /root/wnn/cache/pred_vt_*_valid.json 2>/dev/null | wc -l)"
+echo "DISKFREE $(df -BG /root | tail -1 | awk '{print $4}' | tr -d G)"
 for f in logs/vt_*.fit.log; do n=$(basename $f .fit.log); l=$(grep '^ep ' $f | tail -1); [ -n "$l" ] && echo "JOB $n $l"; done
 """
 
@@ -399,6 +400,10 @@ def cmd_tick(args: argparse.Namespace) -> None:
     drained = (pending == 0 or held) and in_flight == 0 and running == 0 and primary_done and len(local) >= remote
     print(json.dumps({"hours": round(hours, 2), "cost": round(cost, 2), "pending": pending, "gpu_procs": running,
                       "held": held, "drained": drained, "gpu": info.get("GPU")}))
+    keepalive = ROOT / ".runtime/hpo_keepalive"
+    if drained and keepalive.exists() and time.time() - keepalive.stat().st_mtime < 1800:
+        print("drained but the hyper-parameter optimizer is active: keeping the instance")
+        drained = False
     if drained:
         cmd_destroy(args)
 

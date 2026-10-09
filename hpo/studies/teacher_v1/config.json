@@ -1,0 +1,15 @@
+{
+  "study": "teacher_v1",
+  "purpose": "scratch-teacher hyper-parameter search on fold 1 -> 0 -> (2,3), core space, TPE (multivariate, constant liar), anchors first",
+  "mode": "core",
+  "sampler": "tpe",
+  "seed": 20261010,
+  "folds": [1, 0, 2, 3],
+  "max_trials": 80,
+  "max_active_trials": 6,
+  "stage_timeout_h": 5.5,
+  "lanes": [
+    {"id": "a", "target": 2, "max_pending": 40, "spend_cap": 11.0, "folds": [0, 1, 2, 3]},
+    {"id": "b", "target": 2, "max_pending": 40, "spend_cap": 33.0, "folds": [0, 1, 2, 3]}
+  ]
+}

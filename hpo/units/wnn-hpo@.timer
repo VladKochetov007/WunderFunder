@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the hyper-parameter optimizer tick for study %i every 5 minutes
+
+[Timer]
+OnBootSec=120
+OnUnitActiveSec=300
+AccuracySec=15s
+
+[Install]
+WantedBy=timers.target

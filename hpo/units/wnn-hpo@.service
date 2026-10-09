@@ -1,0 +1,10 @@
+[Unit]
+Description=WNN hyper-parameter optimizer tick for study %i (stateless; resumes from the event log)
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/vlad/development/wunder/wnn_connectome_starterpack
+ExecStart=/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m hpo.orchestrator tick --study %i
+CPUQuota=25%
+MemoryMax=1500M
+TimeoutStartSec=420

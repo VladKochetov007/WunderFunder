@@ -128,6 +128,9 @@ def check_vast_lane(problems: Problems, state: dict, controller, lane: str) -> N
         if token not in seen:
             problems.add(f"vast_job_failed:{token}", "CRIT", f"lane {lane}: Vast job finished with a failure: {name}", 1)
             state["vast_failed_seen_new"] = state.get("vast_failed_seen_new", []) + [token]
+    disk = int(info.get("DISKFREE", "999") or 999)
+    if disk < 20:
+        problems.add(f"vast_{lane}_disk_low", "CRIT" if disk < 8 else "WARN", f"lane {lane}: only {disk} GB disk free on the host (disk_free_gb)", 1)
     hours, cost = controller.spend()
     if cost >= SPEND_WARN:
         problems.add(f"vast_{lane}_spend_high", "WARN", f"lane {lane}: spend ${cost:.2f} on this instance ({hours:.1f} h); queue holds near the cap", 1)
@@ -205,7 +208,23 @@ def check_resources(problems: Problems, state: dict) -> None:
         problems.add("ram_low", "WARN", f"available RAM {available:.1f} GB", 2)
 
 
-CHECKS = [("vast", check_vast), ("local", check_local), ("systemd", check_systemd), ("kaggle", check_kaggle),
+def check_hpo(problems: Problems, state: dict) -> None:
+    """Optimizer health: ticks must keep landing and a running study must keep producing events."""
+    for config in sorted((ROOT / "hpo/studies").glob("*/config.json")):
+        study = config.parent
+        events = study / "events.jsonl"
+        if not events.exists() or (study / "STOP").exists() or (study / "DISABLED").exists():
+            continue
+        age_min = (time.time() - events.stat().st_mtime) / 60
+        keepalive = ROOT / ".runtime/hpo_keepalive"
+        tick_age = (time.time() - keepalive.stat().st_mtime) / 60 if keepalive.exists() else 9999
+        if tick_age > 25:
+            problems.add(f"hpo_{study.name}_ticks_stopped", "CRIT", f"hpo study {study.name}: no tick for {tick_age:.0f} min (timer or orchestrator down)", 1)
+        if age_min > 150:
+            problems.add(f"hpo_{study.name}_no_progress", "WARN", f"hpo study {study.name}: no event for {age_min:.0f} min", 1)
+
+
+CHECKS = [("hpo", check_hpo), ("vast", check_vast), ("local", check_local), ("systemd", check_systemd), ("kaggle", check_kaggle),
           ("resources", check_resources)]
 
 

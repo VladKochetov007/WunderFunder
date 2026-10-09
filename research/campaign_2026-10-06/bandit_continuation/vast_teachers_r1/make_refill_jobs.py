@@ -143,6 +143,10 @@ def build_job(name: str, change: dict, wave: str = "bl") -> dict:
         steps.insert(1, {"label": "curve", "timeout": 5400, "argv": [
             B.PY, f"{B.W}/scripts/snapshot_curve.py", "--run", name, "--split",
             f"{B.W}/research/campaign_2026-09-29/artifacts/splits/fold{fold}.json"]})
+    if wave == "hpo":
+        steps.append({"label": "score", "timeout": 1800, "argv": [
+            B.PY, f"{B.W}/scripts/score_run.py", "--run", name, "--split",
+            f"{B.W}/research/campaign_2026-09-29/artifacts/splits/fold{fold}.json", "--epoch", epoch, "--cleanup"]})
     steps += [{"label": f"export_e{k}", "timeout": 1800, "argv": B.export_argv(name, str(k), f"{name}__ep{k}")}
               for k in snapshots]
     return {"name": name, "steps": steps}
