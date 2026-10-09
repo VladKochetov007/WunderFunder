@@ -1,0 +1,23 @@
+{
+ "schema": "wnn.local-queue-item-contract.v1",
+ "created_utc": "2026-10-09T10:07:10.093875+00:00",
+ "attempt": "export-train-c20261003_w320_s3_f1-r1",
+ "authorization": "User 2026-10-09 full autonomy; teacher research is the main lever",
+ "note": "train-split predictions for teacher c20261003_w320_s3_f1@ep3",
+ "exposure": "fold1 evaluation excluded from all teacher/student fitting by the fold1 split",
+ "argv": [
+  "/usr/bin/timeout",
+  "--signal=TERM",
+  "--kill-after=20s",
+  "2400",
+  "/usr/bin/env",
+  "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+  "c20261003_w320_s3_f1",
+  "train",
+  "--epoch",
+  "3"
+ ]
+}
