@@ -35,7 +35,7 @@
     {
       "experiment_id": "D01",
       "priority": 1,
-      "status": "R4_both_220_update_fits_complete; export_failed_bad_CLI; R5_export_only_recovery_preparing",
+      "status": "completed_graded_R5_export_recovery; 350_sequence_exposed_screen; equal_blend_not_better_than_WMSE",
       "mechanism": "loss",
       "optim": "AdamW",
       "loss": "wmse vs huber delta1",
@@ -48,12 +48,18 @@
       "evaluation_exposure": "exposed; unchanged fixed outer membership",
       "serving_path": "student/compression or measured complete endpoint",
       "budget": "requires separate root admission",
-      "wp": null
+      "wp": 0.6060019230032425,
+      "results": {
+        "wmse": 0.6060019230032425,
+        "huber_d1": 0.6012391352737978,
+        "equal_blend": 0.6054802014069163
+      },
+      "evidence": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/grading_r1/LOSS_PAIR_R5_GRADE_R2.json"
     },
     {
       "experiment_id": "D02",
       "priority": 2,
-      "status": "R2_source_and_sealed_boot_tests_pass; R5_private_controls_dependency; no_device_profile_or_fit",
+      "status": "R5_controls_root_verified; identified_R3_transport_preparing; no_Muon_fit",
       "mechanism": "optimizer\u00d7loss",
       "optim": "AdamW vs Muon",
       "loss": "wmse vs huber delta1",
@@ -421,7 +427,7 @@
     {
       "experiment_id": "D22",
       "priority": 2,
-      "status": "seed3_timeout_recovered_from_epoch0; exact_resume_active; seed4_durable_conditional",
+      "status": "seed3_R3_completed_and_tensor_audited; original_seed4_actually_training",
       "mechanism": "fold robustness/scale confirmation",
       "optim": "paired original",
       "loss": "",
@@ -433,7 +439,7 @@
       "retention": "checkpoint+norm+provenance+fixed float32 NPY/sidecar+rolling full resume state+LR/beta/unscaled-grad/clip/skip trace",
       "evaluation_exposure": "exposed; unchanged fixed outer membership",
       "serving_path": "student/compression or measured complete endpoint",
-      "budget": "requires separate root admission",
+      "budget": "original bounded allocation; one local GPU;2CPU/8GBhigh/9GBmax",
       "wp": null
     },
     {
@@ -457,6 +463,6 @@
       "wp": null
     }
   ],
-  "execution_status_updated_utc": "2026-10-09T00:14:43.598472+00:00",
+  "execution_status_updated_utc": "2026-10-09T02:09:17.801256+00:00",
   "previous_snapshot": "planned_experiments_initial_r1.json"
 }

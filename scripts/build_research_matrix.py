@@ -96,7 +96,7 @@ def write_csv(path: Path, rows: list[Record]) -> None:
     """Write the union of recorded dimensions in a filterable flat table."""
     fields = list(dict.fromkeys(key for row in rows for key in row))
     with path.open("w", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=fields)
+        writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows({k: text_cell(row.get(k)) for k in fields} for row in rows)
 
