@@ -1,0 +1,43 @@
+{
+  "correction": {
+    "child_log_access": "worker.log is a kernel output artifact; no worker.log content was available through live logs. Collect only after terminal output becomes available.",
+    "child_state": "A live resource heartbeat at 935.823s means the child process was launched and is being sampled; it does not distinguish internal hash, profile, fit, or another worker stage.",
+    "fit": "not observed in available provider stdout",
+    "inner_worker_phase": "unobserved in the provider live stream",
+    "input_identity": "not observed in available provider stdout",
+    "outer_event": "validating_inputs is an outer runner event preceding the file checks and child launch; it is not a continuously updated worker phase.",
+    "preserves_observations": [
+      "E540_V9_LIVE_OBSERVATION_20261008_R1.json",
+      "E540_V9_LIVE_OBSERVATION_20261008_R2.json",
+      "E540_V9_LIVE_OBSERVATION_20261008_R3.json",
+      "E540_V9_LIVE_OBSERVATION_20261008_R4.json"
+    ],
+    "profile": "not observed in available provider stdout",
+    "supersedes": "Any interpretation that the worker was still in outer mounted-input validation at the later heartbeat times."
+  },
+  "device": {
+    "index": 0,
+    "name": "Tesla T4",
+    "uuid": "GPU-6a98a6f6-c744-bfe2-688c-2d662d2aecf8"
+  },
+  "kernel": "vladkochetov07/e540-v9-ple-reuse-control-20261008-runner",
+  "latest_worker_elapsed_seconds": 935.823,
+  "observed_at_utc": "2026-10-08T06:00:36Z",
+  "packet_id": "E540_FP32_V9_REUSE_CONTROL",
+  "provider_push_receipt_sha256": "d1cf56bfa5a47482bc37f5db82e7c0f8f5f5398a2fa9edb7ee49be6fe7b7f94d",
+  "provider_status": "KernelWorkerStatus.RUNNING",
+  "resources": {
+    "peak_gpu_bytes": 437256192,
+    "peak_ram_bytes": 3939721216
+  },
+  "retry_or_duplicate_push": false,
+  "runner_source": {
+    "behavior": "prints validating_inputs once before the per-file checks; after those checks it Popen-launches the worker with stdout redirected to output/<job>/worker.log and stderr merged there; resource heartbeats are emitted for the active child.",
+    "path": "scripts/kaggle_gpu_runner.py",
+    "sha256": "4576c460764ec947e9d61867a3f418e1b6a7a4665e1ca4b67a523b5f8c892e8f"
+  },
+  "schema": "wnn.e540-v9-live-observation-correction.v1",
+  "scientific_interpretation": "Kernel remains RUNNING; resource heartbeats prove child resource activity after launch, but no input identity, profile or fit receipt is established.",
+  "worker_time_remaining_seconds_from_heartbeat": 4264.177,
+  "worker_timeout_seconds": 5200
+}

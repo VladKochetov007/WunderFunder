@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/kaggle/working/experiment/scripts/e540_kaggle_v11_export_worker.py", line 765, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/experiment/scripts/e540_kaggle_v11_export_worker.py", line 724, in main
+    call_predictor(predict_run, prediction_argv(mode), log_path)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/kaggle/working/experiment/scripts/e540_kaggle_v11_export_worker.py", line 530, in call_predictor
+    module.main()
+    ~~~~~~~~~~~^^
+  File "/kaggle/working/experiment/scripts/predict_run.py", line 179, in main
+    out = np.lib.format.open_memmap(
+        tmp, mode="w+", dtype=np.float32, shape=(len(groups), SEQUENCE_LENGTH, 2)
+    )
+  File "/usr/local/lib/python3.13/dist-packages/numpy/lib/format.py", line 946, in open_memmap
+    with open(os.fspath(filename), mode+'b') as fp:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/kaggle/working/experiment/cache/pred_e540v8-linear-s540-fp32-eval_valid.npy.partial'
