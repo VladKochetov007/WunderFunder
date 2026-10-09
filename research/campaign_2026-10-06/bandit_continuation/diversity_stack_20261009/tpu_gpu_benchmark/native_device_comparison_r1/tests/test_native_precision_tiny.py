@@ -63,9 +63,8 @@ def test_bf16_compute_keeps_updated_masters_and_moments_fp32(tmp_path, loss):
     assert bool(result[-1])
     assert result[2].dtype == jnp.bfloat16
     leaves = jax.tree_util.tree_leaves((result[0], result[1]))
-    for value in leaves:
-        if value.dtype.kind == "f":
-            assert value.dtype == jnp.float32
+    for value in jax.tree_util.tree_leaves((result[0], result[1].first, result[1].second)):
+        assert value.dtype == jnp.float32
     arrays = {f"leaf_{index}": np.asarray(value) for index, value in enumerate(leaves)}
     path = tmp_path / "updated_masters.npz"
     np.savez(path, **arrays)

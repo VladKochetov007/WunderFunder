@@ -71,8 +71,8 @@ def main() -> None:
                 samples.append(seconds)
             if not np.asarray(jax.device_get(result[-1])).all():
                 raise FloatingPointError(f"nonfinite native BF16 {loss} discarded update")
-        for value in jax.tree_util.tree_leaves((result[0], result[1])):
-            if value.dtype.kind == "f" and value.dtype != jnp.float32:
+        for value in jax.tree_util.tree_leaves((result[0], result[1].first, result[1].second)):
+            if value.dtype != jnp.float32:
                 raise ValueError("native BF16 master parameters/AdamW accumulators must be FP32")
         # Persist actual updated masters and moments, not merely an initial fixture.
         saved = {
