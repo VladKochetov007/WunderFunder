@@ -1,0 +1,66 @@
+{
+  "candidate_id": "E520_PROFILE_GPU_IDENTITY_LIVE_BINDING_V10",
+  "candidate_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/live_cuda_nvml_binding_v10_candidate_v1",
+  "checks": {
+    "builder_review_targets_only": "review-targets-only-no-packet-created",
+    "compileall": "pass",
+    "json_parse_and_invariants": "pass; science, inputs, pinned sources, digest handoff and memory/headroom thresholds byte-semantically match V9",
+    "provider_or_packet_action": "none",
+    "pytest": "43 passed",
+    "resource_boundary": "1 CPU, 1,500,000,000 bytes, 120 seconds",
+    "ruff_check": "pass",
+    "ruff_format": "14 files already formatted"
+  },
+  "created_utc": "2026-10-07T16:21:28.723652+00:00",
+  "id": "E520_PROFILE_V10_CODE_FREEZE_R1",
+  "review_target_map": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/live_cuda_nvml_binding_v10_candidate_v1/E520_V10_REVIEW_TARGETS.json",
+    "reviewed_hashes": {
+      "E520_PACKET_PLAN.json": "903169f07dd534c3400996024d02bee4194572d92c46499ed85bf390e82f88f2",
+      "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+      "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+      "prepare_profile_packet.py": "d8c7cb635a3c1ff4043bcd3ed40aad1b1d0e71d7e1b80ccb54626f9b38cc2578",
+      "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+      "profile_worker.py": "6f8fc29742a26e617fe37a27710652828eb0adf92b29475ace775f69d26b2085",
+      "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+      "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+      "tests/test_digest_handoff_integration.py": "ecafa7c47d572ae45c26cf3f0d327ab87e39eca2ba008c093c9a4048e082f434",
+      "tests/test_gpu_memory_domains.py": "0fd2f087588b05a2a9e7960858440ef4c02056f45b74f1e7566d0de35d934b41",
+      "tests/test_loader_hash_advice.py": "2291f4fca5bce5ee1adc99cb6a9b8b37d484e70268acfb0de70f879d8fa6c5a4",
+      "tests/test_portable_manifest_binding.py": "d63ef055b8045b82ae94ff98ad53a5fdb4d14069a5622378701e4a011d43b71c",
+      "tests/test_profile_bundle.py": "3a402022a588c80be04ec7e00efeaab0d24a7a3cc205a0066fb4518924feb1e4",
+      "tests/test_profile_guards.py": "5d8c52bd4c787b4e9b8b370925f9fb8d6aa9db66c621fd82ab6acfef6d69c9b3",
+      "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+    },
+    "sha256": "924bcf726cd282d80a156d6994f7fbca03078090d186c127478b1fd74abf0581"
+  },
+  "root_allocation": {
+    "cumulative_recovery_quota_cap_seconds": 9000,
+    "fit_export_grade_score_authorized": false,
+    "max_provisional_quota_seconds": 2900,
+    "max_worker_wall_seconds": 1450,
+    "paid_compute_authorized": false,
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V10_ROOT_SUCCESSOR_ALLOCATION_20261007_R1.json",
+    "profile_attempts": 1,
+    "remaining_after_max_reservation_seconds": 241.553,
+    "sha256": "0d4f48f970195e9579c98d83352def407bd0e22ab4ca2c5b6f8e4022df434d6a"
+  },
+  "semantic_invariants": {
+    "all_memory_and_headroom_thresholds_match_v9": true,
+    "all_memory_gpu_rss_disk_headroom_and_scientific_thresholds_match_v9": true,
+    "digest_handoff_matches_v9": true,
+    "input_identity_matches_v9": true,
+    "only_profile_wall_quota_caps_changed_under_successor_allocation": true,
+    "pinned_sources_match_v9": true,
+    "science_recipe_matches_v9": true,
+    "worker_wall_cap_only_tightened_to_v10_allocation": true
+  },
+  "source_change_summary": "Remove V9 cross-session UUID pin. At startup, map the single CUDA_VISIBLE_DEVICES numeric index or UUID token to exactly one complete matching NVML physical row and persist its UUID. All later resource snapshots require that exact same UUID, fail on missing/duplicate/drift, and use the matching row for unchanged CUDA/NVML domain ordering and upper bounds. Packet ID/title/path and the explicitly allocated V10 wall cap identify V10. No first-row identity inference, recipe/data/hash/membership/grader changes, or memory/VRAM/RSS/disk/headroom safety-threshold changes.",
+  "source_parent": {
+    "candidate_id": "E520_PROFILE_GPU_MEMORY_DOMAIN_V9",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/physical_memory_domain_v9_candidate_v1",
+    "v9_terminal_diagnosis_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V9_TERMINAL_DIAGNOSIS_20261007_R1.json",
+    "v9_terminal_diagnosis_sha256": "752a3cb424c06c0bcfa78b0dfa47349b7deb8c688a1340f6b736cdda78781b14"
+  },
+  "status": "frozen_source_only_pending_independent_exact_review_and_fresh_provider_admission"
+}

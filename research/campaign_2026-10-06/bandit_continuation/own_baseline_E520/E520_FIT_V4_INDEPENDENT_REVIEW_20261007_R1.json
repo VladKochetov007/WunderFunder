@@ -1,0 +1,70 @@
+{
+  "candidate_revision": "fit_v4_observer_fallback_candidate_v1",
+  "decision": "PASS",
+  "experiment_id": "E520_SCRATCH_PAIR_FIT_V1",
+  "findings": [
+    "All 21 exact-map file hashes match. A bounded prepare_fit_packet.py --review-targets-only replay reproduced the same map and returned review-targets-only-no-packet-created.",
+    "Before CUDA initialization, cuda_resource_snapshot(None, pid) records explicit pre_cuda_idle with no invented PID value; the pre-CUDA guard requires that state and is stopped with a durable handoff receipt before torch import/CUDA init.",
+    "Active PID absence/query_error remains unavailable rather than zero. The fallback is accepted only after CUDA is initialized, CUDA properties total equals mem_get_info total, total-minus-free is a nonnegative device-wide upper bound no greater than the unchanged 3,000,000,000-byte process cap, and free memory meets the unchanged 6,442,450,944-byte floor. Matched PID bytes are separately capped. No identity check is bypassed.",
+    "Physical inventory records all device rows with bounded stdout/stderr, byte length, SHA-256, truncation, return code, and timestamp; N/A metrics parse as null. Active admission requires usable inventory, UUIDs and memory totals for all rows, plus selected-device UUID and memory-total agreement with CUDA within 1 MiB.",
+    "Periodic full resource snapshots are atomically persisted before gates. Synchronous full-sample and batch-boundary gate failures and asynchronous poll failures persist resource_abort.json with the failing snapshot before propagating/terminating. CUDA startup failures persist resource_abort.json or the worker-level fit_pair_receipt.json before exit. The worker remains fail-closed.",
+    "Compared with frozen fit-v3, recipe, evaluation/grader, input identity, source, split, target semantics, execution optimization, and all numeric resource-policy values match. Only the descriptive gpu_process_memory_source field was added to resource_policy. The grader spec, evaluator, source archive, and plan recipe are byte-identical."
+  ],
+  "limitations": [
+    "A synthetic OSError injected at the earliest check_batch_boundary resource_snapshot(None, working) call propagated and was captured by the worker-level fit_pair_receipt, but that narrow pre-enforcement exception path does not write resource_abort.json or a new last-snapshot resource.json. It remains fail-closed and the exact exception is durable; wrapping the entire synchronous boundary sampler would improve resource-specific diagnostics. This is non-blocking for admission safety.",
+    "This receipt approves only the exact source/recipe/grader binding and observer integration. Fresh quota, campaign-cap, provider-runtime, actual-device profile, resource, input, controller-admission, and any separate production gates remain required before a fit."
+  ],
+  "receipt_id": "E520_FIT_V4_INDEPENDENT_REVIEW_20261007_R1",
+  "recorded_at_utc": "2026-10-07T14:18:00Z",
+  "reviewed_hashes": {
+    "E520_FIT_STAGE_PLAN.json": "f9e3f634a9933493008ce742f2727bb5c248410b3862d56a246a6dda149e4d4a",
+    "E520_GRADER_SPEC.json": "2ea67ab2f701d38de48c9aadae1b6b00d879f9da75fb87e1ec31e969080b853f",
+    "FIT_OUTPUT_RECEIPT_SCHEMA.json": "226d20d206009c30b9f6b3c92573a2659c5de2cd8f36218e8d57638ccfb7ba8b",
+    "FIT_STAGE_CONFIG.json": "c08478c1467e92afb1a4901545f0f576dc5d4dae463609c0c68a1d98c76db2f1",
+    "FIT_STAGE_README.md": "59d67405f7da6241c90e0d548730d0914f1f8ffb11de62dccd9348ecd578ea4a",
+    "evaluate_e520_pair.py": "d724e4ce789b97be8097c4956db08ff01e946093b22fa6703b0ead2f7f50fe96",
+    "fit_guards.py": "32df1c11b13079f2b5de993cb261c4a33a6cbd25cb31dfeebbf42a3703e3a36d",
+    "fit_kernel.py": "c877f0f297420cf6a713d2000c2ba44c2719a8b86be243a3148c9f91f950e198",
+    "fit_worker.py": "14d0eb40a3c77ac20ea3e681c705ed65ebba20bf9f419d5616147b60e795a37d",
+    "prepare_fit_packet.py": "9984070fbf651c191e4f5de9f00f15a6a03de6a8bda1b25db7447e32a39dd3ab",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "support/export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "support/gpu_inventory.py": "62ba97595ee284667eb46cf2aaf29e989b58fd422f7809d4fe34c69af0957347",
+    "support/gpu_observer.py": "779cf644c2f545d03221a5381008aaa981d38115b197368afaf429bdb0f86e7d",
+    "support/input_identity.py": "02ddda50fc35c439ee3ee8a22b3f0ddda79ba4e68d4fd65fe73e4177e71dc299",
+    "support/verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424",
+    "tests/test_digest_handoff.py": "dd4d362672febbd3ebf6bd0ba1d2f2f10c43714203209fef7330d75e1e741c54",
+    "tests/test_fit_gpu_observer.py": "3d72678ebcb50fa9195ceecaec8cbbd9ea039922e85cc2b29fc027f3de7553cc",
+    "tests/test_fit_guards.py": "77ffd73891af820b668dacb1904af061f00272b5339974bfac47c4d6f51e8b84",
+    "tests/test_fit_packet_builder.py": "95fa80ae96a259ad45dfe45d3e117d0884adc93287f18eced3236396f3eebb9f",
+    "tests/test_training_target_semantics.py": "0ecb3dee22b2a3064c9075a3a719b662be6c746a7cc2daa64efd8de865f490fb"
+  },
+  "reviewer": {
+    "id": "tpu_recovery_delivery",
+    "independent_of_implementation": true,
+    "role": "independent-recipe-grader"
+  },
+  "schema_version": 1,
+  "scope": "Exact-map source review of the V8 no-PID observer/startup integration, persistent failure handling, and unchanged E520 recipe/grader identity. This is not a live resource admission.",
+  "status": "approved",
+  "target": {
+    "candidate_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/fit_v4_observer_fallback_candidate_v1",
+    "code_receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/fit_v4_observer_fallback_candidate_v1/E520_FIT_V4_CODE_RECEIPT.json",
+    "code_receipt_sha256": "861da8705336e6574f8a287ae5276e9d7711ef60188adf7fea3eeb0565850cee",
+    "review_targets_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/fit_v4_observer_fallback_candidate_v1/E520_FIT_V4_REVIEW_TARGETS.json",
+    "review_targets_sha256": "7ef2b37c68008f5f736921f86f11a5202b2fcaca350f5a06191e333419ab9052"
+  },
+  "verification": {
+    "builder_replay": "Bounded review-targets-only replay reproduced the exact 21-entry map; no packet was created.",
+    "execution_scope": "Read-only hashes, source review, focused synthetic tests, and review-targets-only replay. No packet build, provider call, fit, export, grade, or score.",
+    "focused_tests": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=. OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /usr/bin/time -v /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m pytest -p no:cacheprovider -q tests/test_digest_handoff.py tests/test_fit_gpu_observer.py tests/test_fit_guards.py tests/test_fit_packet_builder.py tests/test_training_target_semantics.py",
+      "exit_code": 0,
+      "peak_rss_kib": 692736,
+      "result": "29 passed in 2.29s",
+      "wall_seconds_including_time_wrapper": 3.6
+    },
+    "hash_binding": "All 21 reviewed_hashes match the immutable review-target map.",
+    "recipe_comparison": "FIT_STAGE_CONFIG recipe/evaluation/input_identity/source/split/target_semantics and plan recipe/evaluation/execution_optimization match fit-v3; numeric resource-policy thresholds match; grader spec/evaluator/source archive hashes are unchanged."
+  }
+}

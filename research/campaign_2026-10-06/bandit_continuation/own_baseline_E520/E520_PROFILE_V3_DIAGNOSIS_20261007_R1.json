@@ -1,0 +1,43 @@
+{
+  "attempt_id": "E520_PROFILE_PAGECACHE_REPAIR_V1",
+  "diagnosis": "The worker completed POSIX_FADV_DONTNEED-advised full hashing of both raw parquet inputs and the nine expected/observed input identity entries matched. It then aborted in load_campaign_split on /kaggle/working/e520_source/cache/chain_folds.npz because the staged portable registry path was not handed into WNN_PORTABLE_DATA_MANIFEST. The pinned splits.py uses byte-hash verification through verify_portable_source only when that variable is set; otherwise it compares source size and mtime_ns, and the Kaggle-staged cache file failed the mtime branch. The repair is to verify the exact staged portable registry hash and set WNN_PORTABLE_DATA_MANIFEST to that path before load_campaign_split; preserve all identity and membership checks.",
+  "evidence": {
+    "environment_variable_behavior": "WNN_PORTABLE_DATA_MANIFEST enables verify_portable_source; absent variable falls back to size plus mtime_ns comparison",
+    "exact_failing_source": "/kaggle/working/e520_source/cache/chain_folds.npz",
+    "expected_equals_observed": true,
+    "input_identity_sha256": "f3c98b22e0f77c02e003c559261a7941eb3fa516744f986ecb5ce439d748b4c2",
+    "phase_sha256": "fca6e69f0dd1171a9237fd60ad9e5941e2773c415c4d5ae02299c1a40064a0a1",
+    "pinned_splits_py_archive_member": "src/wnn/splits.py",
+    "pinned_splits_py_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+    "resource_headroom_at_abort": {
+      "cgroup_available_bytes": 29834420224,
+      "cgroup_available_fraction": 0.9261823018391927,
+      "cgroup_limit_bytes": 32212254720,
+      "cuda_allocated_bytes": null,
+      "cuda_allocated_peak_bytes": null,
+      "cuda_reserved_bytes": null,
+      "cuda_reserved_peak_bytes": null,
+      "disk_free_bytes": 20938735616,
+      "gpu_free_bytes": null,
+      "gpu_process_bytes": null,
+      "gpu_process_query_raw": null,
+      "gpu_process_query_status": "pre_cuda_idle",
+      "host_available_bytes": 32582037504,
+      "host_available_fraction": 0.9680233184295254,
+      "host_total_bytes": 33658318848,
+      "rss_current_bytes": 28758016,
+      "rss_peak_bytes": 28565504
+    },
+    "traceback_log_sha256": "2ef1609a0fff2ebae4a960bd122ae5f4160a103efe2a2d8a728b298a17315ab6"
+  },
+  "quota_receipt_sha256": "76dd1e5aa41a7217262d4bfaf7dab772bebc9a84f12c8bae4e5b921632c38cb2",
+  "repair": {
+    "preserve_split_membership_and_source_hash_checks": true,
+    "profile_only_retry_id": "E520_PROFILE_PORTABLE_MANIFEST_HANDOFF_V1",
+    "set_verified_registry_env_before_split_load": true,
+    "verify_staged_registry_path_and_sha256": true
+  },
+  "schema_version": 1,
+  "terminal_receipt": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v3.json",
+  "terminal_receipt_sha256": "03118839920c7264b80a3af061b54ffeb006acb049d79d1296543606aa9d8485"
+}

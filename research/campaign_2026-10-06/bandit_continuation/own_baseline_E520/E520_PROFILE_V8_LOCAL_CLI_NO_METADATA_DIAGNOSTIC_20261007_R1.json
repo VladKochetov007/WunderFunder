@@ -1,0 +1,39 @@
+{
+  "attempted_cli": {
+    "executable": "kaggle kernels push",
+    "path_argument": "empty after unset shell variable expansion",
+    "time_limit_seconds": 1500,
+    "working_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+  },
+  "captured_cli_diagnostic": "Metadata file not found: /home/vlad/development/wunder/wnn_connectome_starterpack/kernel-metadata.json",
+  "classification": "local CLI metadata lookup failure; no E520 v8 provider kernel found after invocation",
+  "command_exit_code": null,
+  "construction_error": "The outer shell heredoc delimiter collided with the embedded script heredoc; the trailing push command ran at the repo root with an unset packet variable.",
+  "fit_or_score": false,
+  "observed_at_utc": "2026-10-07T13:59:15+00:00",
+  "post_invocation_provider_check": {
+    "output": "Not found",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V8_KERNEL_LIST_AFTER_LOCAL_CLI_ERROR_20261007T1358Z.txt",
+    "sha256": "493fda53120050f85836032324409be6c6484f90a0755ae0c6a673ba7626818b",
+    "stderr_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V8_KERNEL_LIST_AFTER_LOCAL_CLI_ERROR_20261007T1358Z.stderr.txt",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v8_slug_exists": false
+  },
+  "post_invocation_quota_check": {
+    "campaign_headroom_seconds": 47379.486000000004,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_used_seconds": 46448.351,
+    "observed_at_utc": "2026-10-07T13:58:57+00:00",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_V8_POST_ERROR_QUOTA_POLL.jsonl",
+    "sha256": "36f90fc0987e44be0850ba52fa2ea312faa92ce9a0124535fa8c44b47a793298",
+    "v8_status_error": "403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus",
+    "v8_status_monitoring_state": "poll_error_retry_next_timer_tick"
+  },
+  "profile_started": false,
+  "provider_effect": "No v8 kernel is visible; exact kernels-list query after the invocation returned Not found. This is recorded as a failed local invocation, not a provider run or profile attempt.",
+  "provider_push_count_for_v8": 0,
+  "receipt_id": "E520_PROFILE_V8_LOCAL_CLI_NO_METADATA_DIAGNOSTIC_20261007_R1",
+  "recovery_budget_charge_seconds": 0.0,
+  "repair_action": "Corrected push command will use the exact absolute reviewed packet path, a standalone guarded script with distinct heredoc delimiters, set -euo pipefail and fail-closed checks; only after pre-push receipt.",
+  "schema_version": 1
+}

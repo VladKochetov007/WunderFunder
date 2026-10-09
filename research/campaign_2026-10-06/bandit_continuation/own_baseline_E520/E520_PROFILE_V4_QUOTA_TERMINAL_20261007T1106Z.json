@@ -1,0 +1,33 @@
+{
+  "account_gpu": {
+    "account_counter_delta_since_prelaunch_seconds": 646.8899999999985,
+    "attribution": "v4 was the only newly admitted/active GPU kernel in the interval, so the terminal account-counter delta is attributed to this attempt for conservative campaign accounting; the API counter is account-wide, not kernel-scoped.",
+    "reserved_seconds": 0.0,
+    "total_allowed_seconds": 108000.0,
+    "used_before_v4_push_seconds": 43579.78,
+    "used_seconds": 44226.67
+  },
+  "campaign_gpu": {
+    "baseline_used_seconds": 37047.321,
+    "cap_seconds": 56780.516,
+    "headroom_seconds": 49601.16700000001,
+    "required_live_reserve_seconds": 21600.0,
+    "spendable_after_20_percent_account_reserve_seconds": 42173.33,
+    "used_seconds": 7179.348999999995
+  },
+  "e520_profile_recovery": {
+    "cap_seconds": 7200.0,
+    "cumulative_before_v4_seconds": 1222.1189999999988,
+    "cumulative_including_v4_seconds": 1869.0089999999973,
+    "per_attempt_max_reserved_quota_seconds": 3600,
+    "per_attempt_max_worker_wall_seconds": 1800,
+    "remaining_seconds": 5330.991000000003,
+    "v4_quota_charge_seconds": 646.8899999999985
+  },
+  "interpretation": "This terminal reconciliation uses actual account counter delta, not worker-wall multiplication. It is conservative attribution and can include unrelated account usage if any; reserved quota is zero. No paid compute.",
+  "observed_at_utc": "2026-10-07T11:06:56+00:00",
+  "quota_refresh_utc": "2026-10-10T00:00:00",
+  "receipt_id": "E520_PROFILE_V4_QUOTA_TERMINAL_20261007T1106Z",
+  "schema_version": 1,
+  "source": "read-only Kaggle SDK accelerator quota statistics"
+}

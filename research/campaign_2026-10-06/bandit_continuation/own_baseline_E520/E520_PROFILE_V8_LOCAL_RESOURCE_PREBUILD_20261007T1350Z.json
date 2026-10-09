@@ -1,0 +1,42 @@
+{
+  "decision": "CPU-only support may proceed inside the declared wrapper; local accelerator remains unavailable for this E520 cloud task.",
+  "observed_at_utc": "2026-10-07T13:50:27+00:00",
+  "receipt_id": "E520_PROFILE_V8_LOCAL_RESOURCE_PREBUILD_20261007T1350Z",
+  "resource_boundary": {
+    "gpu_inventory_query": {
+      "argv": [
+        "nvidia-smi",
+        "--query-gpu=uuid,name,memory.total,memory.free,utilization.gpu",
+        "--format=csv,noheader"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "GPU-afbf2864-833f-9bd2-10ac-536e31337638, NVIDIA GeForce RTX 3060 Laptop GPU, 6144 MiB, 2486 MiB, 97 %"
+    },
+    "host_meminfo_bytes": {
+      "MemAvailable": 32272248832,
+      "MemTotal": 67177951232,
+      "SwapFree": 2655973376,
+      "SwapTotal": 8589930496
+    },
+    "observed_memory_headroom_to_high_bytes": 1422971904,
+    "observed_memory_headroom_to_max_bytes": 3422971904,
+    "slice": "wnn-campaign.slice",
+    "support_wrapper": {
+      "cpu_quota": "100%",
+      "memory_max_bytes": 1000000000,
+      "runtime_max_seconds": 120,
+      "threads": 1
+    },
+    "systemd_properties": {
+      "CPUQuotaPerSecUSec": "6s",
+      "CPUUsageNSec": "14400955332000",
+      "MemoryCurrent": "16577028096",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    }
+  },
+  "schema_version": 1,
+  "scope": "local CPU-only packet build and review support; no local GPU use, fit, or profile admitted"
+}

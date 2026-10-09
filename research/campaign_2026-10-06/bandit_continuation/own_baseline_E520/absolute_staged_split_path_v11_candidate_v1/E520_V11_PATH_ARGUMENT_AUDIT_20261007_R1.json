@@ -1,0 +1,157 @@
+{
+  "boundary_smoke": {
+    "absolute_staged_argument": "child reads exact fixture bytes successfully",
+    "command": "timeout --signal=TERM --kill-after=2s 120s prlimit --as=1500000000 --cpu=60 -- env WNN_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 NUMBA_NUM_THREADS=1 POLARS_MAX_THREADS=1 ARROW_NUM_THREADS=1 taskset -c 0 .venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/absolute_staged_split_path_v11_candidate_v1/tests/test_split_manifest_cwd.py",
+    "fixture": "real JSON file written below source_root/SPLIT_RELATIVE",
+    "legacy_relative_argument": "child read fails with FileNotFoundError",
+    "limitation": "The fixture test exercises the same Path.resolve/read boundary as the pinned loader; it does not run the full trainer against the production multi-gigabyte datasets.",
+    "resource_bound": "one CPU affinity (CPU 0), 1,500,000,000-byte RLIMIT_AS, 120-second timeout",
+    "result": "passed: 1 test, 0.17 seconds",
+    "test": "tests/test_split_manifest_cwd.py::test_absolute_staged_manifest_survives_trainer_working_directory",
+    "test_child_cwd": "temporary working-root fixture, matching the V10 /kaggle/working boundary"
+  },
+  "candidate_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/absolute_staged_split_path_v11_candidate_v1",
+  "code_change_audit": {
+    "identical_reviewed_modules": [
+      "gpu_memory_domains.py",
+      "export_guards.py",
+      "verified_digest_handoff.py",
+      "tests/conftest.py",
+      "tests/test_profile_guards.py",
+      "tests/test_gpu_memory_domains.py",
+      "tests/test_loader_hash_advice.py",
+      "tests/test_digest_handoff_integration.py"
+    ],
+    "pinned_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "pinned_trainer_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "profile_worker_changes_from_reviewed_v10": "V11 packet ID, receipt/source extraction directory names, inclusion of the path test, and split argument changed to checked absolute staged path.",
+    "scientific_recipe_or_input_semantics_changed": false,
+    "transport_changes_from_reviewed_v10": "V11 packet ID, Kaggle slug/title, wrapper extraction path, and path test are updated."
+  },
+  "current_provider_access": {
+    "credential_contents_read_or_recorded": false,
+    "fresh_quota_or_gpu_admission_verified": false,
+    "interpretation": "historical context only; fresh provider quota, reserve, headroom, status, and resource admission remain required immediately before any authorized push",
+    "kaggle_cli_version": "Kaggle CLI 2.2.4",
+    "latest_persisted_gpu_account_total_seconds": 108000.0,
+    "latest_persisted_gpu_used_seconds": 49136.207,
+    "latest_persisted_quota_observation_utc": "2026-10-07T17:26:21+00:00",
+    "provider_slug_absence_verified": false,
+    "read_only_status_command": "kaggle kernels status vladkochetov07/e520-profile-v11-absolute-split-path",
+    "resource_wrapper_restriction": "The project scripts/limited wrapper could not connect to the user systemd bus in this managed sandbox. Read-only Kaggle status was separately attempted under taskset plus RLIMIT_AS; it then failed at DNS resolution.",
+    "result": "could not reach Kaggle API; DNS lookup for api.kaggle.com failed during OAuth token introspection with NameResolutionError"
+  },
+  "experiment_id": "E520_PROFILE_ABSOLUTE_STAGED_SPLIT_PATH_V11",
+  "invocation_and_cwd": {
+    "trainer_cwd_effect": "load_campaign_split(Path).resolve() resolves the supplied relative path against the inherited process cwd.",
+    "trainer_invocation": "profile_worker imports the pinned scripts/train_rnn.py, sets sys.argv, then calls module.main() in-process; it does not spawn the trainer or change cwd.",
+    "trainer_output_root": "Path(__file__).resolve().parents[1], absolute extracted source root; run output is independently rooted under e520_source_v11.",
+    "v10_observed_cwd": "/kaggle/working, established by the trainer-resolved missing path in V10 phase.json"
+  },
+  "observed_at_utc": "2026-10-07T17:30:20+00:00",
+  "path_argument_inventory": [
+    {
+      "option": "--split-manifest",
+      "type": "pathlib.Path",
+      "use": "nonempty and consumed by load_campaign_split",
+      "v10": "relative staged split path",
+      "v11": "absolute source_root / SPLIT_RELATIVE; is_file checked before argv construction"
+    },
+    {
+      "option": "--resume-state",
+      "type": "pathlib.Path",
+      "v11": "unset; parser default None"
+    },
+    {
+      "option": "--fit-groups-manifest",
+      "type": "pathlib.Path",
+      "v11": "unset; parser default None"
+    },
+    {
+      "option": "--calibrate-distill-reference",
+      "type": "string path reference",
+      "v11": "absent; parser default empty string"
+    },
+    {
+      "option": "--quote-cache-root",
+      "type": "string path root",
+      "v11": "absent; empty default; aux_quote=0 so not opened"
+    },
+    {
+      "option": "--spread-cache-root",
+      "type": "string path root",
+      "v11": "absent; empty default; spread_aux_mode=original so not opened"
+    },
+    {
+      "option": "--init",
+      "type": "string run reference",
+      "v11": "explicit empty string"
+    },
+    {
+      "option": "--distill",
+      "type": "string run reference",
+      "v11": "explicit empty string"
+    },
+    {
+      "option": "--propensity",
+      "type": "string run reference",
+      "v11": "explicit empty string"
+    },
+    {
+      "option": "--prop-input",
+      "type": "string run reference",
+      "v11": "explicit empty string"
+    },
+    {
+      "option": "--aux",
+      "type": "string run reference",
+      "v11": "explicit empty string"
+    },
+    {
+      "option": "--name",
+      "type": "run identifier",
+      "v11": "e520_profile_s3_f0; trainer appends it below its absolute ROOT"
+    }
+  ],
+  "receipt_id": "E520_V11_PATH_ARGUMENT_AUDIT_20261007_R1",
+  "review_state": {
+    "fit_export_grade_or_score": false,
+    "independent_review": "pending root controller review of this exact hash map",
+    "packet_built": false,
+    "provider_push_attempted": false,
+    "review_target_only_builder": "passed; status review-targets-only-no-packet-created",
+    "reviewed_hashes": {
+      "E520_PACKET_PLAN.json": "7f9871a2b34daa25d21b3aaba27de8e2f521d6f4eea3a58c0da38156d225703d",
+      "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+      "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+      "prepare_profile_packet.py": "c2f942133f4b4468bc34359eb5122dca5c0338b30c1d901c7766aaccd1059f26",
+      "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+      "profile_worker.py": "b6b86a7008b2f127a51a9376b708a48d42e8692db2e90f1c11628d47e8b50c19",
+      "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+      "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+      "tests/test_digest_handoff_integration.py": "ecafa7c47d572ae45c26cf3f0d327ab87e39eca2ba008c093c9a4048e082f434",
+      "tests/test_gpu_memory_domains.py": "0fd2f087588b05a2a9e7960858440ef4c02056f45b74f1e7566d0de35d934b41",
+      "tests/test_loader_hash_advice.py": "2291f4fca5bce5ee1adc99cb6a9b8b37d484e70268acfb0de70f879d8fa6c5a4",
+      "tests/test_portable_manifest_binding.py": "ac750b427b647f173e9e6155950572dd0693ad828d26dc10054b2e1f3a5491e4",
+      "tests/test_profile_bundle.py": "2b80a7fbd18514d4789e484eb35a18989c4132b93e3aa94c9bffb5ecefb5dd47",
+      "tests/test_profile_guards.py": "5d8c52bd4c787b4e9b8b370925f9fb8d6aa9db66c621fd82ab6acfef6d69c9b3",
+      "tests/test_split_manifest_cwd.py": "29d46be51b849d9ea1344d52bfb0e7a2eae1badd19d6da024f86208c9747fbe8",
+      "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+    }
+  },
+  "schema_version": 1,
+  "scope": "actor path argument and working-directory audit plus required real-fixture boundary smoke",
+  "v10_terminal_basis": {
+    "account_quota_charge_seconds": 920.099000000002,
+    "collected_files": 107,
+    "data_and_fold_identity": "train, valid, split, and membership passed before trainer call",
+    "device_identity": "live CUDA-to-NVML UUID binding passed on T4",
+    "downloaded_bytes": 1898752,
+    "fit_profile_export_grade_or_score": false,
+    "observed_missing_path": "/kaggle/working/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "reason": "relative split-manifest argument resolved under /kaggle/working instead of the extracted source tree",
+    "status": "KernelWorkerStatus.ERROR",
+    "terminal_download_manifest": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V10_TERMINAL_DOWNLOAD_20261007T1659Z.json",
+    "worker_wall_seconds": 909.824407368
+  }
+}

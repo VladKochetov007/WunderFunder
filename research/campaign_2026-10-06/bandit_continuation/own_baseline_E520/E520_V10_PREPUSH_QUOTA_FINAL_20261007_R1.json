@@ -1,0 +1,42 @@
+{
+  "account_20_percent_reserve_seconds": 21600.0,
+  "account_headroom_after_reserve_and_attempt_seconds": 35283.892,
+  "attempt_quota_reservation_seconds": 2900.0,
+  "campaign_headroom_after_attempt_seconds": 42711.72900000001,
+  "e520_prior_actual_recovery_spend_seconds": 5858.447,
+  "e520_recovery_cap_seconds": 9000.0,
+  "e520_remaining_after_attempt_reservation_seconds": 241.55299999999988,
+  "e520_remaining_before_attempt_seconds": 3141.553,
+  "gpu": {
+    "campaign_baseline_used_seconds": 37047.321,
+    "campaign_cap_seconds": 56780.516,
+    "campaign_headroom_seconds": 45611.72900000001,
+    "campaign_used_seconds": 11168.786999999997,
+    "reserved_seconds": 0.0,
+    "total_allowed_seconds": 108000.0,
+    "used_seconds": 48216.108
+  },
+  "observed_at_utc": "2026-10-07T16:35:45+00:00",
+  "paid_compute": false,
+  "provider_status": [
+    {
+      "error": "403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus",
+      "error_type": "HTTPError",
+      "kernel": "vladkochetov07/e520-profile-v10-live-uuid",
+      "monitoring_state": "poll_error_retry_next_timer_tick",
+      "resource": "gpu",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py\", line 145, in collect\n    **_status(client, kernel),\n      ~~~~~~~^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py\", line 50, in _status\n    response = client.kernels.kernels_api_client.get_kernel_session_status(request)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kernels/services/kernels_api_service.py\", line 82, in get_kernel_session_status\n    return self._client.call(\"kernels.KernelsApiService\", \"GetKernelSessionStatus\", request, ApiGetKernelSessionStatusResponse)\n           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kaggle_http_client.py\", line 106, in call\n    response = self._prepare_response(response_type, http_response)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kaggle_http_client.py\", line 134, in _prepare_response\n    http_response.raise_for_status()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/requests/models.py\", line 1167, in raise_for_status\n    raise HTTPError(http_error_msg, response=self)\nrequests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus\n"
+    }
+  ],
+  "quota_refresh_utc": "2026-10-10T00:00:00",
+  "source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel",
+  "tpu": {
+    "campaign_baseline_used_seconds": 134.623,
+    "campaign_cap_seconds": 7200.0,
+    "campaign_headroom_seconds": 7158.54,
+    "campaign_used_seconds": 41.46000000000001,
+    "reserved_seconds": 0.0,
+    "total_allowed_seconds": 72000.0,
+    "used_seconds": 176.083
+  }
+}

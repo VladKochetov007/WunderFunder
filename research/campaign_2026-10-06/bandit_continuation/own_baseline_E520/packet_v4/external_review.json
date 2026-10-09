@@ -1,0 +1,168 @@
+{
+  "attempt_id": "E520_PROFILE_PORTABLE_MANIFEST_V2",
+  "build_command_template": {
+    "command": "sha256sum --check --status <ADMISSION_CHECKSUM_FILE> && scripts/limited .venv/bin/python portable_manifest_repair_candidate_v1/prepare_profile_packet.py --build --repo-root . --plan portable_manifest_repair_candidate_v1/E520_PACKET_PLAN.json --output-dir packet_v4 --review-receipt E520_PROFILE_V4_CONTROLLER_ADMISSION_20261007_R1.json --review-sha256 <CONTROLLER_ADMISSION_SHA256>",
+    "requires_SHA256_guard_before_build": true,
+    "requires_admission_SHA256_as_builder_argument": true
+  },
+  "experiment_id": "E520_PROFILE_PORTABLE_MANIFEST_V2",
+  "fixed_profile_scope": {
+    "checkpoint_export_enabled": false,
+    "fit_enabled": false,
+    "prediction_export_enabled": false,
+    "profile_only": true,
+    "scoring_enabled": false,
+    "seed": 3,
+    "timed_outer_batches": 20,
+    "warmup_batches": 3
+  },
+  "hardware_basis": {
+    "latest_actual_profile_device": "Tesla T4",
+    "per_GPU_memory_MiB": 15360,
+    "prior_profile_attached_physical_GPUs": 2,
+    "source_receipt": "research/campaign_2026-10-06/cloud_preflight/e508_profile_terminal_v5.json",
+    "v4_selected_GPU_identity_is_measured_by_worker": true
+  },
+  "independent_review": {
+    "findings": [
+      "The worker removes any inherited WNN_PORTABLE_DATA_MANIFEST at input-check start. It sets the variable only after all mounted source identities and staged symlinks are checked, rehashes the exact staged portable registry, durably records expected and observed path/hash, and fails before loader use on mismatch. The pinned split loader is imported and called after this gate.",
+      "The builder emits profile_kernel_bundle.py as kernel-metadata code_file. Its deterministic embedded ZIP verifies archive and per-member SHA-256, extracts into a fresh packet directory, then prepends that directory to sys.path before importing profile_worker; the sibling-import entrypoint is not selected by Kaggle.",
+      "The final frozen bundle member list includes every REVIEWED_PACKET_FILES runtime check plus external_review.json, kernel-metadata.json, and packet_meta.json. The focused coverage test checks this invariant. A pre-freeze omission of tests/test_profile_bundle.py was reported to the actor and is fixed in the reviewed hash set.",
+      "E520_PACKET_PLAN.json is structurally identical to packet_v3; the worker diff is limited to packet/review file identities, the verified portable-manifest binding, and fresh v4 working paths. Profile-only trainer argv, timing/resource bounds, abort behavior, input membership, and no-fit/no-score guards remain unchanged.",
+      "The builder review-target mode is side-effect free for packet/provider purposes; build mode requires a controller receipt bound to this exact reviewed map and has no push action."
+    ],
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V4_INDEPENDENT_TRANSPORT_REVIEW_20261007_R1.json",
+    "reviewer": {
+      "agent": "/root/tpu_recovery_delivery",
+      "candidate_implementer": "weak_diversity_kaggle_actor",
+      "role": "independent_cloud_operator_code_review"
+    },
+    "scope": "E520 v4 profile-only portable-manifest environment binding and Kaggle transport; no packet build, provider calls, fit, prediction export, or scoring.",
+    "sha256": "abc1625a662a98e603139314de87f60d66e4d52e263fec81f4b4564d7be89dfd",
+    "verdict": "PASS_SOURCE_REVIEW_ONLY"
+  },
+  "input_identity_gates": {
+    "plan_sha256": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13",
+    "previous_v3_all_expected_inputs_equal_observed": true,
+    "previous_v3_input_identity_sha256": "f3c98b22e0f77c02e003c559261a7941eb3fa516744f986ecb5ce439d748b4c2",
+    "source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "v4_rechecks_mounted_hashes_and_fold_membership_before_CUDA": true
+  },
+  "issued_at_utc": "2026-10-07T10:32:30+00:00",
+  "latest_actual_cloud_resource_evidence": {
+    "attempt_id": "E520_PROFILE_PAGECACHE_REPAIR_V1",
+    "cgroup_available_bytes": 29834420224,
+    "cgroup_available_fraction": 0.9261823018391927,
+    "cgroup_limit_bytes": 32212254720,
+    "host_available_bytes": 32582037504,
+    "host_available_fraction": 0.9680233184295254,
+    "note": "v3 completed identity hashing and aborted before CUDA; its live memory/disk gates passed, but GPU metrics remain unknown until v4 measures them.",
+    "terminal_receipt": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v3.json",
+    "terminal_receipt_sha256": "03118839920c7264b80a3af061b54ffeb006acb049d79d1296543606aa9d8485",
+    "worker_wall_seconds": 367.45105270500005,
+    "working_disk_free_bytes": 20938735616
+  },
+  "local_resource_gates": {
+    "E520_operator_local_fit": false,
+    "bounded_support_max": {
+      "cpu_cores": 1,
+      "memory_bytes": 1500000000,
+      "wall_seconds": 120
+    },
+    "control_group": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "cpu_period_usec": 100000,
+    "cpu_quota_per_sec_usec": 6000000,
+    "effective_cpu_cores": 6,
+    "host_mem_available_kib": 33446396,
+    "memory_current_bytes": 16749015040,
+    "memory_headroom_to_high_bytes": 1250983936,
+    "memory_headroom_to_max_bytes": 3250982912,
+    "memory_high_bytes": 17999998976,
+    "memory_max_bytes": 19999997952,
+    "observed_at_utc": "2026-10-07T10:30:33+00:00",
+    "swap_max_bytes": 0,
+    "workspace_disk_available_bytes": 78515703808
+  },
+  "packet_and_provider": {
+    "artifact_directory": "downloads/e520_profile_v4",
+    "code_file": "profile_kernel_bundle.py",
+    "kernel_id": "vladkochetov07/e520-profile-v4",
+    "kernel_title": "E520 Profile V4",
+    "packet_directory": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v4",
+    "packet_id": "E520_PROFILE_PORTABLE_MANIFEST_V2",
+    "provider_timeout_seconds": 1800,
+    "terminal_receipt": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v4_poll_receipt.json"
+  },
+  "quota_admission": {
+    "account_20_percent_reserve_seconds": 21600.0,
+    "account_gpu_reserved_seconds": 0.0,
+    "account_gpu_total_allowed_seconds": 108000.0,
+    "account_gpu_used_seconds": 43579.78,
+    "account_spendable_after_full_profile_recovery_and_conditional_fit_seconds": 16442.339,
+    "account_spendable_after_reserve_seconds": 42820.22,
+    "campaign_gpu_headroom_seconds": 50248.05700000001,
+    "campaign_headroom_after_full_profile_recovery_and_conditional_fit_seconds": 23870.176000000007,
+    "conditional_fit_quota_seconds": 20400.0,
+    "fit_admitted": false,
+    "maximum_physical_GPUs_basis": 2,
+    "prior_E520_profile_spend_seconds": 1222.1189999999988,
+    "profile_cap_unreserved_after_v4_seconds": 2377.881000000001,
+    "profile_recovery_cap_seconds": 7200.0,
+    "profile_recovery_remaining_seconds": 5977.881000000001,
+    "quota_charge_multiplier_basis": 2,
+    "refresh_receipt": {
+      "observed_at_utc": "2026-10-07T10:31:57+00:00",
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V4_QUOTA_REFRESH_20261007T1031Z.json",
+      "provider_poll_line_sha256": "2692e7d11452a47ae69b2e8c1c3f3a9fc53c01528e18baf20a2cfad804edaf9d",
+      "sha256": "ecc99c9ed8e1c724f5aeb6542979e1fe837c8b6dadc97d0b1935a58eab76a5fa"
+    },
+    "scoring_admitted": false,
+    "v4_attempt_quota_reservation_seconds": 3600.0
+  },
+  "receipt_id": "E520_PROFILE_V4_CONTROLLER_ADMISSION_20261007_R1",
+  "review_target_receipt": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/portable_manifest_repair_candidate_v1/E520_PROFILE_V4_REVIEW_TARGETS.json",
+    "sha256": "a42cf12149636af53972b6899b4f01fc49b18402629888ac8bea9dbb86092b91",
+    "status": "review-targets-only-no-packet-created"
+  },
+  "reviewed_cloud_worker_guards": {
+    "automatic_OOM_retry": false,
+    "exact_visible_GPUs": 1,
+    "maximum_GPU_process_bytes": 3000000000,
+    "maximum_RSS_bytes": 8000000000,
+    "maximum_torch_allocated_bytes": 2000000000,
+    "maximum_torch_reserved_bytes": 2500000000,
+    "minimum_free_GPU_bytes": 6442450944,
+    "minimum_host_and_cgroup_available_bytes": 4294967296,
+    "minimum_host_and_cgroup_available_fraction": 0.2,
+    "minimum_working_disk_free_bytes": 8000000000,
+    "worker_wall_cap_seconds": 1800
+  },
+  "reviewed_hashes": {
+    "E520_PACKET_PLAN.json": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "prepare_profile_packet.py": "20caef2224d8d6d089479fb406a54eb1c8a424e5dabe11c4d52659ec98c74fe7",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_worker.py": "959fedbc8de7ee4c433cd3a9e60fb81ed863b8e8e765b42d3c2f89d79df29916",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+    "tests/test_portable_manifest_binding.py": "e65fda1d8ba9bfb55d3a3d11f55222b0d7819b7415577a092fe83b1edaa3025d",
+    "tests/test_profile_bundle.py": "87cc438ce2c5789e0d52ac91e3aef9c709148a72b4ba9d1927d1f5a7ca03c490",
+    "tests/test_profile_guards.py": "30f228831c3e9261dc824a1f7194572bff8bc1691fe3ee0cdad3a96cd039344b"
+  },
+  "reviewer": {
+    "candidate_implementer": "weak_diversity_kaggle_actor",
+    "id": "e520_cloud_delivery",
+    "role": "independent-controller"
+  },
+  "root_authorization": {
+    "authorized_by": "/root",
+    "normalized_scope": "Root authorization for E520 profile-only recovery: proceed after exact independent PASS plus fresh hash, quota, resource, and controller-admission checks within 7200 cumulative profile quota seconds; each worker is capped at 1800 wall seconds and reserves at most 3600 quota seconds for two physical T4s; repair scope is portable-manifest environment binding plus the reviewed v3 self-contained transport; no fit, prediction export, scoring, or paid compute.",
+    "normalized_scope_sha256": "4e17be0f3393584292dc81d75d70d5efe27dec36a12d5e6014ad2b60a341e5f2",
+    "paid_compute": false,
+    "source": "root collaboration instruction in this session on 2026-10-07"
+  },
+  "schema_version": 1,
+  "scope": "profile-only",
+  "status": "approved"
+}

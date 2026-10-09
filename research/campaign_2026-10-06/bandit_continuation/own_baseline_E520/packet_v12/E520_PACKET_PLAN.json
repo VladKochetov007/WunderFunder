@@ -1,0 +1,317 @@
+{
+  "admission": {
+    "execution_authorized": false,
+    "fresh_quota_receipt_sha256": null,
+    "independent_review_sha256": null,
+    "root_pre-push_admission": null,
+    "source_seal_sha256": null
+  },
+  "commands": {
+    "fit": null,
+    "focused_tests": "python -m pytest -q research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/absolute_staged_split_path_v11_candidate_v1/tests",
+    "packet_build": null,
+    "provider_push": null,
+    "review_target_only": "python research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/absolute_staged_split_path_v11_candidate_v1/prepare_profile_packet.py --review-targets-only --repo-root ."
+  },
+  "digest_handoff": {
+    "authorization": "Authorize only the handoff-issued receipt whose SHA-256 equals both the fixed expected raw digest and the already verified portable registry digest, whose byte count matches stat size, and whose descriptor/path stat identity stayed unchanged.",
+    "consumer": "Wrap only the pinned wnn.portability._content_digest after verifying module path and source SHA. The pinned portable registry and split loader continue their own source metadata and digest comparisons. Other paths and any stale/missing/mutated raw path fall through to the original pinned full content hash.",
+    "initial_hash": "Hash raw train and valid once with existing page-aligned POSIX_FADV_DONTNEED advice. Preserve the v6 before/after memory.stat and hash-progress receipts.",
+    "integrity_failure": "Persist expected and observed input identities before a mismatch abort; never suppress a failed hash, fadvise, registry comparison, or split-membership check.",
+    "observability": "Record per-raw-path portable verifier lookup, exact-stat hit/miss, and original full-hash fallback counts in input_identity.json and memory_stat_phases.json after load_campaign_split.",
+    "scope": "Exact canonical train/valid paths in this worker process only; no persisted or cross-attempt cache.",
+    "stat_tuple": [
+      "device",
+      "inode",
+      "size",
+      "mtime_ns",
+      "ctime_ns",
+      "mode"
+    ]
+  },
+  "experiment_id": "E520_PROFILE_ABSOLUTE_STAGED_SPLIT_PATH_V11",
+  "failure_basis_v9": {
+    "actual_cuda_visible_devices": "0",
+    "actual_selected_physical_gpu_uuid": "GPU-c6747be0-d0ca-9158-e195-5f8b14866cbd",
+    "actual_v9_account_quota_delta_seconds": 537.264,
+    "classification": "stale cross-session UUID observer mismatch before trainer profile; no scientific result, input mismatch, OOM, fit, prediction, or score",
+    "profile_started": false,
+    "recovery_quota_remaining_seconds_after_v9": 3141.553,
+    "repair_scope": "Replace only cross-session UUID pinning with exact per-worker CUDA visibility to NVML row binding and same-worker UUID persistence; preserve strict memory-domain ordering, all resource caps, digest handoff, input membership, profile recipe and no-fit scope.",
+    "stale_pinned_uuid": "GPU-2f8814a9-d330-e294-0068-7d7cac59cd21",
+    "terminal_diagnosis_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V9_TERMINAL_DIAGNOSIS_20261007_R1.json",
+    "terminal_diagnosis_sha256": "752a3cb424c06c0bcfa78b0dfa47349b7deb8c688a1340f6b736cdda78781b14"
+  },
+  "fresh_v10_preflight_values": {
+    "mounted_raw_hashes_refreshed": false,
+    "physical_gpu_inventory": null,
+    "provider_quota_remaining_seconds": null,
+    "provider_status": null,
+    "quota_reservation_seconds": null,
+    "selected_physical_gpu_uuid": null,
+    "source_seal_receipt_sha256": null
+  },
+  "fresh_v8_preflight_values": {
+    "physical_gpu_count": null,
+    "physical_gpu_uuids": null,
+    "provider_quota_remaining_seconds": null,
+    "provider_status": null,
+    "quota_reservation_seconds": null,
+    "raw_parquet_hashes_refreshed": false,
+    "selected_gpu_free_memory_bytes": null,
+    "selected_gpu_model": null,
+    "selected_gpu_total_memory_bytes": null
+  },
+  "input_identity": {
+    "expected_fold_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "expected_raw_train": {
+      "bytes": 29240219011,
+      "footer_bytes": 60437285,
+      "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+    },
+    "expected_raw_valid": {
+      "bytes": 5615509128,
+      "footer_bytes": 10686926,
+      "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    },
+    "fold_membership": {
+      "corrupt_group_excluded": 528,
+      "evaluation_groups": 468,
+      "target_rows_train": 10606,
+      "target_rows_valid": 1873,
+      "train_groups": 10535,
+      "valid_groups": 1405
+    },
+    "portable_manifest_env": "Set WNN_PORTABLE_DATA_MANIFEST only after staged registry bytes and expected SHA are durably checked, as implemented in the unchanged v6 worker.",
+    "portable_manifest_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "target_cache_sha256": {
+      "train": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+      "valid": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    }
+  },
+  "limits": {
+    "auto_retry": false,
+    "cuda_allocated_cap_bytes": 2000000000,
+    "cuda_nvml_ordering": "0<CUDAfree<=CUDAusableTotal<=NVMLphysicalTotal; exact selected UUID required; no tolerance",
+    "cuda_reserved_cap_bytes": 2500000000,
+    "disk_min_free_bytes": 8000000000,
+    "gpu_free_floor": "min(observed CUDA free, observed NVML physical free) >= 6 GiB",
+    "gpu_process_cap_bytes": 3000000000,
+    "gpu_telemetry": "Persist startup inventory before gating, then sample all nvidia-smi physical rows every 5 seconds during trainer.main, maximum 24 samples, 2-second subprocess timeout. Preserve index/name/driver/UUID/memory and utilization columns plus bounded raw stdout/stderr/return code; N/A/query errors stay null or diagnostic, never zero. Torch visibility remains exactly one selected device.",
+    "host_and_cgroup_min_available_bytes": 4294967296,
+    "host_and_cgroup_min_available_fraction": 0.2,
+    "max_conservative_quota_reservation_seconds": 2900,
+    "new_cap_reason": "Root V11 successor allocation permits one profile attempt up to 1,450 worker-wall seconds and 2,900 provisional quota seconds under a 12,000-second cumulative recovery ceiling. Fresh quota, reserve, and provider admission remain mandatory.",
+    "parallel_workers": false,
+    "physical_gpu_identity_binding": "At worker startup resolve the single CUDA_VISIBLE_DEVICES token to its exact NVML physical inventory row (numeric token by physical index, UUID token by exact UUID), and bind that row UUID for this worker. Every later active resource snapshot must select that exact UUID and abort if absent, duplicated, or changed. No first-row inference and no cross-session UUID pin.",
+    "profile_worker_wall_cap_seconds": 1450,
+    "rss_hard_cap_bytes": 8000000000,
+    "visible_gpus": 1
+  },
+  "objective": "Use the successful V10 live CUDA-to-NVML UUID binding and verified digest/input handoff, correcting only the trainer split-manifest argument to an absolute staged path. Preserve all memory/resource thresholds and the scientific profile recipe.",
+  "parent_packet": {
+    "id": "E520_PROFILE_GPU_OBSERVATION_FALLBACK_V8",
+    "source_candidate": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1",
+    "terminal_diagnosis_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V8_TERMINAL_DIAGNOSIS_20261007_R1.json",
+    "terminal_diagnosis_sha256": "61b5dd893e4c2519d9a48723abe940d64af0214b5a866556be5a270f492be7bc"
+  },
+  "pinned_sources": {
+    "commit": "69b2331825e193a070015ca4182872724595209a",
+    "portability_sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+    "source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "splits_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+    "trainer_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf"
+  },
+  "pre_execution_gates": {
+    "controller_admission": "Fresh quota/provider/runtime/resource receipt; reservation <=2900 seconds under the V11 root successor allocation; worker <=1450 seconds; bound selected UUID and both memory domains pass; one visible CUDA device; absolute staged split path opens from the actual worker/trainer calling-process cwd. The worker calls trainer.main() in-process; the cwd boundary fixture separately exercises relative versus absolute resolution in a child process.",
+    "external_review": "Exact independent receipt must bind current worker, helper, builder, bundle, path-resolution subprocess test, other tests, plan, and pinned source archive hashes.",
+    "independent_review": "Independent receipt must bind exact worker, helper, builder, wrapper, tests, plan and pinned archive hashes. No packet build before PASS.",
+    "input_refresh": "mounted bytes and hashes, portable manifest, fold split and target cache identities must pass before reuse authorization",
+    "output_validation": "offline self-contained bundle checks and actual downloaded files required after any future run",
+    "score": "not part of this profile-only candidate",
+    "trainer_path_resolution": "Audit every filesystem and run-reference argument against the pinned trainer parser, the worker argv, actual Kaggle process cwd, and mounted/staged paths. The worker imports train_rnn.py and calls module.main() in-process; it does not spawn the trainer as a subprocess. Only --split-manifest carries a nonempty filesystem path in this profile; it must be the absolute checked staged fold path. --resume-state and --fit-groups-manifest are unset; cache roots are empty and unused; all run/reference strings are empty. The real-file cwd boundary test must fail for the old relative value and open the fixture using the absolute staged value before packet build."
+  },
+  "repair": {
+    "domain_order": "Require 0 < CUDA free <= CUDA usable total <= NVML physical total. Require CUDA get_device_properties total == CUDA mem_get_info total; record both values and exact byte delta to NVML.",
+    "exact_selected_uuid": "Bound once per worker from the single CUDA visibility token to its matching NVML physical inventory entry; require exact same UUID on each later active snapshot.",
+    "free_gate": "Use min(CUDA free, NVML physical total minus NVML memory used) for the unchanged 6 GiB free-memory floor; missing/invalid free domains fail closed.",
+    "identity": "At startup, resolve CUDA_VISIBLE_DEVICES by exact NVML physical index for a numeric token or exact UUID for a UUID token; require a unique complete row and persist the token, row index and UUID. Carry the UUID in worker state. Later resource snapshots select the unique NVML row by that exact UUID and fail if the identity is absent, duplicated or changed. Never pin a prior-session UUID or choose the first inventory row.",
+    "no_pid_upper_bound": "Use max(NVML physical total minus CUDA free, NVML physical total minus NVML free), which is at least NVML physical total minus CUDA free. Continue the unchanged 3,000,000,000-byte process cap; never reinterpret an empty PID table as zero.",
+    "science_or_other_resource_thresholds_changed": false,
+    "trainer_split_manifest_path": {
+      "failure": "V10 staged and verified source_root / SPLIT_RELATIVE, then passed only the relative SPLIT_RELATIVE.as_posix() to train_rnn. The worker imports train_rnn.py and calls module.main() in the same process, inheriting the Kaggle kernel cwd. V10 records that cwd as /kaggle/working; load_campaign_split calls Path.resolve() and looked for /kaggle/working/research/campaign_2026-09-29/artifacts/splits/fold0.json, outside the extracted source tree.",
+      "fix": "Pass the absolute source_root / SPLIT_RELATIVE path after verifying the staged file exists. Its value remains absolute regardless of the inherited Kaggle cwd, and resolution follows any staged asset symlink to the mounted fold manifest.",
+      "science_or_input_semantics_changed": false,
+      "subprocess_boundary_test": "tests/test_split_manifest_cwd.py"
+    }
+  },
+  "resource_and_terminal_receipts": [
+    "input_identity.json",
+    "hash_io_advice.json",
+    "memory_stat_phases.json",
+    "environment.json",
+    "runtime_identity.json",
+    "phase.json",
+    "resource.json",
+    "resource_abort.json",
+    "training_profile_peak.json",
+    "gpu_telemetry.json"
+  ],
+  "root_repair_allocation": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V10_ROOT_SUCCESSOR_ALLOCATION_20261007_R1.json",
+    "provider_execution_authorized_by_this_candidate": false,
+    "sha256": "0d4f48f970195e9579c98d83352def407bd0e22ab4ca2c5b6f8e4022df434d6a"
+  },
+  "root_v10_allocation": {
+    "cumulative_recovery_quota_cap_seconds": 9000,
+    "exact_profile_attempts": 1,
+    "max_provisional_quota_seconds": 2900,
+    "max_worker_wall_seconds": 1450,
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V10_ROOT_SUCCESSOR_ALLOCATION_20261007_R1.json",
+    "remaining_after_v10_max_reservation_seconds": 241.553
+  },
+  "root_v11_allocation": {
+    "cumulative_recovery_quota_cap_seconds": 12000.0,
+    "exact_profile_attempts": 1,
+    "max_provisional_quota_seconds": 2900.0,
+    "max_worker_wall_seconds": 1450,
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V11_ROOT_SUCCESSOR_ALLOCATION_20261007_R1.json",
+    "remaining_after_v11_max_reservation_seconds": 2321.453999999998,
+    "sha256": "fe675f4cacecd59afcff42edc2699064be1114211a0b4a257cd7911ff81be4fd"
+  },
+  "schema_version": 1,
+  "science": {
+    "architecture": "raw-only GRU, hidden=128, layers=2, dropout=0",
+    "checkpoint_write_enabled": false,
+    "fit_enabled": false,
+    "official_metric_or_grader_changed": false,
+    "prediction_export_enabled": false,
+    "profile_only": true,
+    "profile_timed_outer_batches": 20,
+    "profile_warmup_outer_batches": 3,
+    "scientific_recipe_changed": false,
+    "seed": 3
+  },
+  "status": "isolated_profile_only_v11_candidate_pending_independent_exact_review_and_fresh_provider_admission",
+  "trainer_argument_path_audit": {
+    "actual_cwd_evidence": "V10 phase.json records the failed resolved path below /kaggle/working; this establishes the Kaggle process cwd at the failing split read.",
+    "cwd_boundary_test": "tests/test_split_manifest_cwd.py creates a real staged manifest fixture, runs a child Python process with cwd=working_root, verifies the legacy relative path fails, then verifies the absolute staged path reads the fixture. This mirrors the pinned loader Path.resolve() boundary; the actual trainer itself is invoked in-process.",
+    "filesystem_and_run_reference_options": {
+      "--aux": {
+        "parser_type": "string run reference",
+        "v11_effective_value": ""
+      },
+      "--calibrate-distill-reference": {
+        "parser_type": "string path reference",
+        "v11_effective_value": ""
+      },
+      "--distill": {
+        "parser_type": "string run reference",
+        "v11_effective_value": ""
+      },
+      "--fit-groups-manifest": {
+        "parser_type": "pathlib.Path",
+        "v11_effective_value": null
+      },
+      "--init": {
+        "parser_type": "string run reference",
+        "v11_effective_value": ""
+      },
+      "--prop-input": {
+        "parser_type": "string run reference",
+        "v11_effective_value": ""
+      },
+      "--propensity": {
+        "parser_type": "string run reference",
+        "v11_effective_value": ""
+      },
+      "--quote-cache-root": {
+        "parser_type": "string path root",
+        "use_in_profile": false,
+        "v11_effective_value": ""
+      },
+      "--resume-state": {
+        "parser_type": "pathlib.Path",
+        "v11_effective_value": null
+      },
+      "--split-manifest": {
+        "parser_type": "pathlib.Path",
+        "v10_value": "research/campaign_2026-09-29/artifacts/splits/fold0.json (relative; resolves under /kaggle/working and fails)",
+        "v11_value": "absolute source_root / research/campaign_2026-09-29/artifacts/splits/fold0.json after is_file check"
+      },
+      "--spread-cache-root": {
+        "parser_type": "string path root",
+        "use_in_profile": false,
+        "v11_effective_value": ""
+      }
+    },
+    "path_outputs": "Output run directory is anchored under the trainer __file__-derived ROOT and audited below source_root; the current working directory does not select it.",
+    "pinned_trainer_path": "scripts/train_rnn.py",
+    "pinned_trainer_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "private_mounts": "The worker stages only paths discovered under supplied Kaggle inputs; the fold manifest is hash-checked before trainer invocation.",
+    "trainer_invocation": "The worker imports scripts/train_rnn.py from the extracted absolute source root, assigns sys.argv, and calls module.main() in-process. The trainer does not run in a subprocess and no cwd change occurs before the call.",
+    "trainer_root_definition": "Path(__file__).resolve().parents[1], anchored to extracted e520_source_v11"
+  },
+  "transport": {
+    "builder_never_calls_provider": true,
+    "bundle_must_include_every_worker_review_target": true,
+    "embedded_single_file_wrapper": true,
+    "extraction_path": "/kaggle/working/e520_profile_packet_v11",
+    "kernel_id": "vladkochetov07/e520-profile-v11-absolute-split-path",
+    "kernel_title": "E520 Profile V11 Absolute Split Path",
+    "kernel_type": "private Python script, one GPU"
+  },
+  "v10_terminal_evidence": {
+    "actual_quota_charge_seconds": 920.099000000002,
+    "actual_worker_wall_seconds": 909.8244073679999,
+    "classification": "trainer argument path-resolution execution failure; not a scientific result or data mismatch",
+    "fit_export_grade_score": false,
+    "profile_batches_reached": false,
+    "quota_reconciliation_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V10_FINAL_QUOTA_RECONCILIATION_20261007_R1.json",
+    "quota_reconciliation_sha256": "d3ddbac6feaae1e6635c0bd10630f8c78f527295dfbfda27c1b31ac5f5779932",
+    "terminal_receipt_path": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v10_poll_receipt.json",
+    "terminal_receipt_sha256": "313fc35cfbc6343625f1a6564a0f33a24bb7304371b2d3e0df199a33a30a8ed4",
+    "terminal_status": "KernelWorkerStatus.ERROR"
+  },
+  "v6_measured_cost_basis": {
+    "initial_pair_hash_seconds": 984.220496,
+    "memory_or_oom_failure": false,
+    "no_cuda_or_profile_batches": true,
+    "potential_duplicate_pair_bytes_per_worker": 34855728139,
+    "runtime_interpretation": "v6 hit its 1800 s wall cap during the duplicate valid pass. One full repeated train pass is measured; the valid repeat's exact partial bytes are unknown. These timings motivate removing only the redundant same-worker digest pass; they are not profile or fit runtime estimates.",
+    "train_duplicate_verifier_bytes": 29240219011,
+    "train_duplicate_verifier_hash_seconds": 748.676424,
+    "train_initial_hash_seconds": 795.473306,
+    "valid_duplicate_verifier_exact_bytes": null,
+    "valid_duplicate_verifier_started_seconds": 4.448242,
+    "valid_initial_hash_seconds": 188.74719
+  },
+  "v7_failure_basis": {
+    "actual_quota_delta_seconds": 413.308,
+    "actual_worker_wall_seconds": 404.543,
+    "classification": "startup resource-observation failure; no scientific result, data mismatch, RAM abort, OOM, fit, prediction, or score",
+    "diagnosis_receipt": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V7_PHASE_DIAGNOSIS_20261007T1317Z.json",
+    "nvidia_process_query_raw_was_persisted": false,
+    "physical_gpu_count": null,
+    "profile_batches_reached": false,
+    "reported_e520_remaining_seconds_at_terminal": 3109.31,
+    "terminal_download_manifest_sha256": "02d798aeb04b0041bc1dd4cc43c9b46bf6ff43aca4d8a78d2ca292002747f13e",
+    "trigger": "nvidia-smi compute-apps query supplied no PID allocation; synchronous first active guard raised before persisting its snapshot",
+    "worker_sha256": "3318e1d54804a695d08a81a970b5f317cb492556de6b6b7c8dcc83027310a1f9"
+  },
+  "v8_failure_basis": {
+    "classification": "observer-domain mismatch before trainer profile; no scientific result, data mismatch, RAM abort, OOM, fit, prediction or score",
+    "cuda_free_bytes": 15526068224,
+    "cuda_usable_total_bytes": 15636037632,
+    "diagnosis_sha256": "61b5dd893e4c2519d9a48723abe940d64af0214b5a866556be5a270f492be7bc",
+    "nvidia_process_query_status": "pid_not_reported",
+    "nvml_physical_total_bytes": 16106127360,
+    "physical_minus_cuda_bytes": 470089728,
+    "physical_minus_cuda_fraction": 0.02918701171875,
+    "prior_device_upper_bound_bytes": 109969408,
+    "profile_started": false,
+    "selected_physical_gpu_uuid": "GPU-2f8814a9-d330-e294-0068-7d7cac59cd21"
+  }
+}

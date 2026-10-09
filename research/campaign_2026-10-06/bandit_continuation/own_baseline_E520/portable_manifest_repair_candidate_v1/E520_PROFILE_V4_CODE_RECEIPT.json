@@ -1,0 +1,83 @@
+{
+  "experiment_id": "E520_PROFILE_PORTABLE_MANIFEST_V2",
+  "status": "code_candidate_frozen_for_independent_review",
+  "packet_built": false,
+  "provider_calls": 0,
+  "fit_or_prediction_export": false,
+  "scoring": false,
+  "scientific_result": null,
+  "v3_failure_basis": {
+    "observation": "Mounted train, valid, split, asset, registry and target identities matched before load_campaign_split rejected the relocated chain_folds.npz mtime.",
+    "repair": "After all mounted identities match and staged symlinks are created, rehash and durably record the portable registry path and SHA-256, then set WNN_PORTABLE_DATA_MANIFEST to the exact staged path before importing/calling load_campaign_split.",
+    "recipe_changed": false
+  },
+  "packet_metadata": {
+    "packet_id": "E520_PROFILE_PORTABLE_MANIFEST_V2",
+    "title": "E520 Profile V4",
+    "id": "vladkochetov07/e520-profile-v4",
+    "code_file_after_gated_build": "profile_kernel_bundle.py",
+    "bundle_sha256": null,
+    "packet_sha256": null,
+    "fresh_extraction_directory": "/kaggle/working/e520_profile_packet_v4",
+    "worker_source_directory": "e520_source_v4",
+    "worker_receipt_directory": "e520_profile_v4"
+  },
+  "input_identities": {
+    "source_commit": "69b2331825e193a070015ca4182872724595209a",
+    "source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "trainer_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "train_parquet_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+    "valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "assets_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+    "fold_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "chain_folds_sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+    "chains_sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+    "train_targets_sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "v4_live_mount_receipt_sha256": null
+  },
+  "resource_policy": {
+    "profile_only": true,
+    "warmup_batches": 3,
+    "timed_batches": 20,
+    "worker_wall_cap_seconds": 1800,
+    "rss_cap_bytes": 8000000000,
+    "cuda_allocated_peak_cap_bytes": 2000000000,
+    "cuda_reserved_peak_cap_bytes": 2500000000,
+    "gpu_process_cap_bytes": 3000000000,
+    "host_and_cgroup_headroom_floor_bytes": 4294967296,
+    "host_and_cgroup_headroom_fraction_floor": 0.2,
+    "disk_free_floor_bytes": 8000000000,
+    "live_quota_seconds": null,
+    "live_provider_runtime_seconds": null
+  },
+  "review_target_receipt": {
+    "path": "E520_PROFILE_V4_REVIEW_TARGETS.json",
+    "sha256": "a42cf12149636af53972b6899b4f01fc49b18402629888ac8bea9dbb86092b91",
+    "status": "review-targets-only-no-packet-created",
+    "reviewer_id": null,
+    "independent_review_sha256": null
+  },
+  "validation": {
+    "cpu_limit": "1 core",
+    "memory_limit_bytes": 1500000000,
+    "runtime_limit_seconds": 120,
+    "ruff_format": "passed",
+    "ruff_check": "passed",
+    "pytest": "15 passed",
+    "pytest_command": "scripts/limited .venv/bin/pytest -q research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/portable_manifest_repair_candidate_v1/tests"
+  },
+  "reviewed_hashes": {
+    "E520_PACKET_PLAN.json": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "prepare_profile_packet.py": "20caef2224d8d6d089479fb406a54eb1c8a424e5dabe11c4d52659ec98c74fe7",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_worker.py": "959fedbc8de7ee4c433cd3a9e60fb81ed863b8e8e765b42d3c2f89d79df29916",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+    "tests/test_portable_manifest_binding.py": "e65fda1d8ba9bfb55d3a3d11f55222b0d7819b7415577a092fe83b1edaa3025d",
+    "tests/test_profile_bundle.py": "87cc438ce2c5789e0d52ac91e3aef9c709148a72b4ba9d1927d1f5a7ca03c490",
+    "tests/test_profile_guards.py": "30f228831c3e9261dc824a1f7194572bff8bc1691fe3ee0cdad3a96cd039344b"
+  }
+}

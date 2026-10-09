@@ -1,0 +1,44 @@
+{
+  "admission_check": {
+    "18gb_high_20gb_max_no_swap_preserved": true,
+    "memory_current_below_max": true,
+    "single_host_gpu_observed": true,
+    "six_core_cap_preserved": true
+  },
+  "collector_limit": {
+    "cpu_quota": "100%",
+    "memory_max_bytes": 1500000000,
+    "runtime_max": "120s",
+    "threads": 1,
+    "wrapper": "scripts/limited"
+  },
+  "command_outputs": {
+    "nvidia_smi_query": "0, GPU-afbf2864-833f-9bd2-10ac-536e31337638, NVIDIA GeForce RTX 3060 Laptop GPU, 6144, 1136, 4722, 99\n",
+    "systemd_show": "MemoryCurrent=15287660544\nMemoryPeak=17734045696\nTasksCurrent=75\nCPUQuotaPerSecUSec=6s\nMemoryHigh=18000000000\nMemoryMax=20000000000\nMemorySwapMax=0\n"
+  },
+  "gpu_fit_started": false,
+  "gpu_inventory": [
+    {
+      "index": 0,
+      "memory_free_mib": 4722,
+      "memory_total_mib": 6144,
+      "memory_used_mib": 1136,
+      "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+      "utilization_gpu_percent": 99,
+      "uuid": "GPU-afbf2864-833f-9bd2-10ac-536e31337638"
+    }
+  ],
+  "observed_at_utc": "2026-10-07T14:58:03.194525+00:00",
+  "parent_slice": {
+    "cpu_quota_per_sec_usec": "6s",
+    "memory_current_bytes": 15287660544,
+    "memory_high_bytes": 18000000000,
+    "memory_max_bytes": 20000000000,
+    "memory_peak_bytes": 17734045696,
+    "memory_swap_max_bytes": 0,
+    "tasks_current": 75
+  },
+  "receipt_id": "E520_V9_LOCAL_RESOURCE_PREBUILD_20261007_R1",
+  "schema_version": 1,
+  "scope": "bounded_cpu_support_only; no local E520 fit/profile; GPU not used by this receipt collector"
+}

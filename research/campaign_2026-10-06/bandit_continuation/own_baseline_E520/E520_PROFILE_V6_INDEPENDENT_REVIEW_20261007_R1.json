@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E520_PROFILE_V6_INDEPENDENT_REVIEW_20261007_R1",
+  "observed_at_utc": "2026-10-07T11:30:20Z",
+  "candidate_path": "bounded_memory_stat_read_v6_candidate_v1",
+  "actor_code_receipt": {
+    "path": "bounded_memory_stat_read_v6_candidate_v1/E520_PROFILE_V6_CODE_RECEIPT.json",
+    "sha256": "be672667b039a92d9fc0294849765d402e10ddc37304df0c48406549511dbc3a"
+  },
+  "review_target_receipt": {
+    "path": "bounded_memory_stat_read_v6_candidate_v1/E520_PROFILE_V6_REVIEW_TARGETS.json",
+    "sha256": "41d93bf24ab318c99bd7cc35528bf9ac1c1d3d303602b6335dabe5367a6c4580",
+    "status": "review-targets-only-no-packet-created"
+  },
+  "experiment_id": "E520_PROFILE_LOADER_HASH_ADVICE_V2",
+  "reviewer": {
+    "id": "/root/tpu_recovery_delivery",
+    "candidate_implementer": "weak_diversity_kaggle_actor",
+    "role": "independent-controller"
+  },
+  "scope": "profile-only",
+  "status": "approved",
+  "verdict": "PASS_SOURCE_REVIEW_ONLY",
+  "reviewed_hashes": {
+    "E520_PACKET_PLAN.json": "e7eb003bbd485638c42fe218d478fe5da00474061e070c5829300f5fa22fff47",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "prepare_profile_packet.py": "70bd9495cd8405333e546a79a7ad2603e9f0fc77479a6dcc78b788432b7d82ca",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_worker.py": "79019507b460f7a9c7e2f17073a6498bfab612b57f6b17b3c738cdcb87ca5b33",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+    "tests/test_loader_hash_advice.py": "c432d0ab550a4abba0c5c866f3b2df625c463182dc22ed310845261467916189",
+    "tests/test_portable_manifest_binding.py": "70d75e9d2c842e177d59ec09b6d8cb0bc16fd81177ccf05d503a2f84dd8a63ed",
+    "tests/test_profile_bundle.py": "1ffa2171cbeb368f36a96e77b034755b4f35ac5d32b08885fb54c1ceaa56f2cd",
+    "tests/test_profile_guards.py": "4a30b665ce4e14b2eba258b060a9f9da7f89f0c1d099f53827386ff1841fec12"
+  },
+  "findings": [
+    "The v5 unbounded memory.stat read is repaired. _read_memory_stat_file requests exactly MEMORY_STAT_MAX_BYTES + 1 (65,537) bytes, rejects the sentinel case before decoding, and returns explicit unavailable status, observed prefix count, and a diagnostic. It does not return partial counters or retry with an unbounded read. OSError, invalid ASCII, malformed lines, and negative counters also yield unavailable diagnostics.",
+    "cgroup_memory_stat_snapshot propagates an unavailable memory.stat result with the selected cgroup path and no fabricated memory_stat map. Phase receipts persist these diagnostic snapshots. Existing host/cgroup headroom gates continue to use their independent memory.current/memory.max and host observations.",
+    "The regression test creates an oversized file, spies on Path.open().read(size), asserts the sole read request is exactly 65,537 bytes, and checks unavailable status, observed length, and diagnostic. The pinned source archive and portability verifier are unchanged; the embedded module hash matches the worker constant.",
+    "The v5-to-v6 worker diff is limited to the packet identity, the bounded reader and its use, and fresh v6 receipt/source paths. The plan changes the builder/source/test paths and v6 status/diagnostic fields; scientific recipe, grader, fold/data identities, split membership, runtime/resource thresholds, no-fit/no-export scope, and strict gates remain intact.",
+    "The portable hash advice still verifies the exact pinned module path and source hash, wraps only _content_digest for resolved staged train.parquet and valid.parquet, and leaves registry identity, stat, byte-size, digest comparison, and cache behavior in the pinned verifier. POSIX_FADV_DONTNEED failures abort with a durable failure record and no plain-hash fallback. Fit admission remains failed/closed and the worker declares no fit, checkpoint, or prediction export."
+  ],
+  "checks": {
+    "exact_frozen_map": {
+      "freeze_receipt_sha256": "41d93bf24ab318c99bd7cc35528bf9ac1c1d3d303602b6335dabe5367a6c4580",
+      "review_targets_only_reproduced": true,
+      "independent_file_rehash_count": 11,
+      "mismatches": []
+    },
+    "pinned_portability_source": {
+      "source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+      "portability_module_sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+      "worker_constant_matches_module": true
+    },
+    "focused_tests": {
+      "command": "scripts/limited .venv/bin/pytest -q research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/bounded_memory_stat_read_v6_candidate_v1/tests",
+      "cpu_quota": "100% (1 CPU)",
+      "memory_max_bytes": 1500000000,
+      "runtime_max": "120s",
+      "result": "18 passed in 0.32s"
+    },
+    "ruff_check": "passed under 1 CPU / 1.5 GB / 120 s",
+    "ruff_format_check": "10 files already formatted under 1 CPU / 1.5 GB / 120 s",
+    "execution_scope": "Exact --review-targets-only reproduction, independent byte rehash, source inspection, and bounded local focused tests only; no packet build, provider call, fit, prediction export, or scoring."
+  },
+  "admission_effect": "Approves only this exact source candidate for the controller-conditional profile-only packet flow. Fresh live quota/reserve, packet-hash, runtime, input-identity, resource, and provider admission gates remain required; this receipt does not authorize fitting, scoring, or prediction export."
+}

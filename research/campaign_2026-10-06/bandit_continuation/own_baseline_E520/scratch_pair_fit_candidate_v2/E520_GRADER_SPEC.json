@@ -1,0 +1,112 @@
+{
+  "anchor": {
+    "data_exposure": "Fold-0 evaluation groups are exposed development data.",
+    "evaluation_report_path": "research/campaign_2026-10-06/bandit_continuation/local/E511_C1V2_C0_EVALUATION_v1/report.json",
+    "evaluation_report_sha256": "1c3ff178843cdf14259615c4183e8b7599cd6488a22a41bdb7ff864ef363b9ae",
+    "members": {
+      "3": {
+        "checkpoint_sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+        "epoch": 1,
+        "prediction_sha256": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+        "provenance_sha256": "60e8884d3d5886dc53dcb2b7d280fef284a702de8769ab333e07e1819d66f28a",
+        "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "run": "bd26_c1v2_s3_f0",
+        "seed": 3,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "4": {
+        "checkpoint_sha256": "fd48545b6e24ec275ff0d3874590cb0c6c4e2e717bc81ff94be50a0439f162c2",
+        "epoch": 1,
+        "prediction_sha256": "78635629c73738b29b4680eda0b15430078b01f09ba06c8c24fdfb8c6d71d1cd",
+        "provenance_sha256": "fee8029b38a6677f7414cc4185a5298f1d148283bd2ad64b2c84e68d473ee15f",
+        "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "run": "bd26_c1v2_s4_f0",
+        "seed": 4,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      }
+    },
+    "pair": "Equal 0.5/0.5 mean of raw fixed-epoch-1 C1-v2 seed-3 and seed-4 prediction tensors.",
+    "pair_blend": "equal 0.5/0.5 raw seed predictions before official metric clipping",
+    "reference_grader_script_path": "scripts/evaluate_bandit_pair_contrast.py",
+    "reference_grader_script_sha256": "a0efd54046b54116aa72e7766fbc3f1eea868d0612faecda06f605159913c6e3",
+    "reference_grader_spec_path": "research/campaign_2026-10-06/bandit_continuation/local/C1V2_C0_PAIRED_GRADER_SPEC.json",
+    "reference_grader_spec_sha256": "a23f03bc5f3ba42647456972cd6a06581d77723a42b5f7d7c99c6bd9d5377224"
+  },
+  "candidate": {
+    "checkpoint_paths": "e520_source/artifacts/runs/<run>/model.pt and model_ep3.pt",
+    "expected_recipe": "FIT_STAGE_CONFIG.json recipe; two independently scratch-initialized raw-only GRUs, fixed epoch-3 checkpoints.",
+    "experiment_id": "E520_SCRATCH_PAIR_FIT_V1",
+    "fixed_epoch_zero_based": 3,
+    "prediction_paths": "e520_fit/predictions/<run>_valid.npy",
+    "provenance_path": "e520_source/artifacts/runs/<run>/provenance.json",
+    "runs": [
+      "e520_raw_baseline_s3_f0",
+      "e520_raw_baseline_s4_f0"
+    ],
+    "seeds": [
+      3,
+      4
+    ],
+    "source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "trainer_source_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf"
+  },
+  "data_exposure": "Fold-0 evaluation groups are exposed; report is development evidence only and is not a public forecast or fresh confirmation.",
+  "dependencies": {
+    "scripts/evaluate_bandit_continuation.py": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+  },
+  "format": "fixed-pair-contrast-grader-v1",
+  "frozen_at_utc": "2026-10-07",
+  "id": "E520-raw-scratch-pair-vs-E511-C1V2-fixed-pair",
+  "input_identity": {
+    "asset_hashes": {
+      "cache/chain_folds.npz": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+      "cache/chains.npz": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+      "cache/train_targets.npz": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+      "cache/valid_targets.npz": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "research/campaign_2026-10-04/portable_inputs.json": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+    },
+    "assets_manifest_bytes": 6268,
+    "assets_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+    "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "train_parquet_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+    "valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  },
+  "metric": {
+    "bootstrap": {
+      "centered": true,
+      "interpretation": "conditional on these fixed checkpoints; excludes training-seed and public uncertainty",
+      "replicates": 2000,
+      "seed": 271828,
+      "unit": "frozen connected evaluation component"
+    },
+    "clipping": "official metric clips both predictions and targets at +/-2; original clipped-label magnitude defines row weights; no clipping before candidate pair averaging",
+    "id": "global_wp_clip2_v1",
+    "individual_seed_endpoints": "descriptive context only; no selection, seed-wise winner, or alternate checkpoint selection",
+    "need_prediction": "time_index >= 99",
+    "primary_anchor_pair": "equal 0.5/0.5 raw mean of fixed E511 C1-v2 seeds 3 and 4 at fixed zero-based epoch 1, float64 add then float32 result",
+    "primary_candidate_pair": "equal 0.5/0.5 raw mean of E520 seeds 3 and 4 at fixed zero-based epoch 3, float64 add then float32 result",
+    "primary_comparison": "E520 pair minus fixed E511 C1-v2 pair, evaluated on identical selected rows and target order",
+    "selection": "need_prediction AND is_scored",
+    "targets": "both target columns t0 and t1; official metric averages their pooled weighted Pearson scores",
+    "warmup_steps_excluded": 99
+  },
+  "public_forecast": null,
+  "purpose": "Development-only comparison of the E520 raw-only scratch pair against the fixed E511 C1-v2 equal-seed anchor on the same fold-0 valid evaluation groups.",
+  "selection_policy": "No post-outcome checkpoint, seed pair, pair weight, mask, or component selection; E520 fixed epochs/seeds and the single registered endpoint are used.",
+  "split": {
+    "evaluation_group_count": 468,
+    "fold": 0,
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "row_order": "exact cache/valid_targets.npz row_group order for candidate and anchor prediction arrays",
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "valid_target_cache_path": "cache/valid_targets.npz",
+    "valid_target_cache_row_count": 1873,
+    "valid_target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "valid_target_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+  },
+  "status": "root-frozen-before-E520-fit-scoring"
+}

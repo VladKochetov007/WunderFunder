@@ -1,0 +1,186 @@
+{
+  "attempt_id": "E520_PROFILE_V3_PAGECACHE_REPAIR_01",
+  "build_and_push": {
+    "admission_sha256_must_be_pinned_in_command": true,
+    "collect_full_terminal_logs_outputs_and_resource_receipts": true,
+    "packet_prebuilt_and_independently_reviewed": true,
+    "push_command_template": "sha256sum --check --status <<'EOF'\n<CONTROLLER_ADMISSION_SHA256>  research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V3_CONTROLLER_ADMISSION_20261007_R1.json\nEOF\nkaggle kernels push -p research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v3 -t 1800",
+    "register_durable_provider_poll_target_immediately_after_submission": true
+  },
+  "cloud_runtime_gates": {
+    "actual_v3_cloud_memory_device_mount_and_timing": "not yet observed; worker records and enforces these before profile batches",
+    "historical_representative_device": "Tesla T4 from admitted E508-v5 profile; this does not substitute for v3 live checks",
+    "profile_timeout_seconds": 1800,
+    "provider_status_is_not_payload_success": true,
+    "unchanged_worker_fail_closed_gates": "one CUDA-visible GPU; >=6 GiB free GPU; >=4 GiB and >=20% host/cgroup headroom; >=8 GB disk; RSS <=8 GB; CUDA allocated/reserved <=2.0/2.5 GB; GPU process <=3 GB; <=1800 worker wall seconds",
+    "wrapper_exposes_one_cuda_device": "CUDA_VISIBLE_DEVICES=0"
+  },
+  "execution_state_at_issuance": {
+    "fit_started": false,
+    "packet_built": true,
+    "packet_reviewed": true,
+    "profile_started": false,
+    "provider_called": false,
+    "pushed": false,
+    "score": null,
+    "scoring_started": false
+  },
+  "experiment_id": "E520_PROFILE_PAGECACHE_REPAIR_V1",
+  "independent_reviews": {
+    "packet_transport_review": {
+      "assembly_receipt_sha256": "a55d575275f2b8ed7be3e7295f2655dece53d53d3db3f5c0682d1235629afc73",
+      "embedded_zip_sha256": "0e2626b33e1da628de11db335449ed9b504b4ef5f6c270320eed1c88b282f603",
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V3_TRANSPORT_REVIEW_20261007_R1.json",
+      "result": "PASS",
+      "sha256": "e230579b02d211f2c8eaf4b27a70bfce701da36703f9b0b391dcc3aba10b9bdf",
+      "wrapper_sha256": "6ca6a0e39ce887cf554f720cdfccd0e9c03c23e80a042955b933148c582d25a8"
+    },
+    "pagecache_worker_review": {
+      "candidate_worker_sha256": "0ee01e1427574f4aec57954fa4cce252622fafbf2a62ba61b53b1a98cd389ccc",
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pagecache_repair_candidate_v1/E520_PAGECACHE_REPAIR_CODE_REVIEW_20261007_R1.json",
+      "result": "PASS",
+      "sha256": "2b2ae8a0c9cda92505b6d8be2c7f03fdb59c8f677e9bcfaf169d995029a81523"
+    }
+  },
+  "issued_at_utc": "2026-10-07T09:54:42.336684+00:00",
+  "live_quota_admission": {
+    "account_reserve_pass_after_remaining_e520_recovery_plus_conditional_fit_max": true,
+    "account_reserve_pass_after_this_attempt": true,
+    "account_unspent_after_remaining_e520_recovery_plus_conditional_fit_max_seconds": 38042.339,
+    "account_unspent_after_this_attempt_max_seconds": 61193.892,
+    "account_unspent_seconds": 64793.892,
+    "campaign_headroom_after_remaining_e520_recovery_plus_conditional_fit_max_seconds": 23870.176000000007,
+    "campaign_headroom_after_this_attempt_max_seconds": 47021.72900000001,
+    "e520_prior_charge_sources": [
+      {
+        "path": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v1.json",
+        "quota_delta_seconds": 6.348
+      },
+      {
+        "path": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v2.json",
+        "quota_delta_seconds": 842.099
+      }
+    ],
+    "e520_recovery_cap_remaining_seconds": 6351.553,
+    "e520_recovery_cap_seconds": 7200.0,
+    "e520_remaining_cap_after_this_attempt_max_seconds": 2751.553,
+    "e520_total_prior_charge_seconds": 848.447,
+    "gpu": {
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 50621.72900000001,
+      "campaign_used_seconds": 6158.786999999997,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "used_seconds": 43206.108
+    },
+    "no_paid_compute": true,
+    "observed_at_utc": "2026-10-07T09:50:25+00:00",
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V3_QUOTA_REFRESH_20261007T0952Z.json",
+    "receipt_sha256": "9a5d64662cd4d061819724d5bd71fe7538ef4994ba28ed22e5c6df2436c866a5",
+    "required_account_reserve_fraction": 0.2,
+    "required_account_reserve_seconds": 21600.0,
+    "reserved_gpu_seconds": 0.0,
+    "source": "Fresh read-only Kaggle SDK quota/status poll, CLI 2.2.4; no resubmit/cancel.",
+    "spendable_after_live_reserve_seconds": 43193.892
+  },
+  "local_resource_admission": {
+    "CPUQuotaPerSecUSec": "6s (6 cores; current user cap)",
+    "MemoryHigh_bytes": 18000000000,
+    "MemoryMax_bytes": 20000000000,
+    "MemorySwapMax_bytes": 0,
+    "captured_at_utc": "2026-10-07T09:54:42.336727+00:00",
+    "control_group": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "home_disk_available_bytes": 78713196544,
+    "host_available_memory_bytes": 38586064896,
+    "kaggle_poller_timer": "active",
+    "local_fit": false,
+    "local_support_cap": "1 CPU, 1.5 GB, 120 s",
+    "memory_current_bytes": 9973395456,
+    "persistent_slice": "wnn-campaign.slice"
+  },
+  "packet": {
+    "code_file": "profile_kernel_bundle.py",
+    "directory": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v3",
+    "embedded_zip_sha256": "0e2626b33e1da628de11db335449ed9b504b4ef5f6c270320eed1c88b282f603",
+    "external_review_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V3_EXTERNAL_REVIEW_20261007_R1.json",
+    "external_review_sha256": "6859adc6453741b1f93ade12e6f98b100c15640b04420054cb065280c5bdae5d",
+    "file_manifest": {
+      "E520_PACKET_PLAN.json": {
+        "bytes": 29493,
+        "sha256": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13"
+      },
+      "export_guards.py": {
+        "bytes": 3667,
+        "sha256": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550"
+      },
+      "external_review.json": {
+        "bytes": 1648,
+        "sha256": "6859adc6453741b1f93ade12e6f98b100c15640b04420054cb065280c5bdae5d"
+      },
+      "kernel-metadata.json": {
+        "bytes": 377,
+        "sha256": "e5c3785671e02fb72adcc9b2ece9ce2525cedd5a17cd92487f86cb4f2853c781"
+      },
+      "packet_meta.json": {
+        "bytes": 1380,
+        "sha256": "7a122fb6bae51dd8bf03411176f6f53b5ccc119014d338940fe391820db10fb5"
+      },
+      "prepare_profile_packet.py": {
+        "bytes": 7970,
+        "sha256": "1cb55b0ded8067bd0bee228f7d6f73e1acebff2dd13bea823aac90d315b54c19"
+      },
+      "profile_kernel.py": {
+        "bytes": 789,
+        "sha256": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb"
+      },
+      "profile_kernel_bundle.py": {
+        "bytes": 237895,
+        "sha256": "6ca6a0e39ce887cf554f720cdfccd0e9c03c23e80a042955b933148c582d25a8"
+      },
+      "profile_worker.py": {
+        "bytes": 54180,
+        "sha256": "0ee01e1427574f4aec57954fa4cce252622fafbf2a62ba61b53b1a98cd389ccc"
+      },
+      "source_archive.tar": {
+        "bytes": 512000,
+        "sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc"
+      },
+      "tests/test_profile_guards.py": {
+        "bytes": 10357,
+        "sha256": "77d8e5c9b543335d3903606db1f03fbcaace2d773468b0705ae0f82fd26b9d6c"
+      }
+    },
+    "kernel_id": "vladkochetov07/e520-profile-v3",
+    "kernel_metadata_sha256": "e5c3785671e02fb72adcc9b2ece9ce2525cedd5a17cd92487f86cb4f2853c781",
+    "packet_assembly_receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V3_PACKET_ASSEMBLY_20261007_R1.json",
+    "packet_assembly_receipt_sha256": "a55d575275f2b8ed7be3e7295f2655dece53d53d3db3f5c0682d1235629afc73",
+    "packet_id": "E520_PROFILE_PAGECACHE_REPAIR_V1",
+    "worker_sha256": "0ee01e1427574f4aec57954fa4cce252622fafbf2a62ba61b53b1a98cd389ccc",
+    "wrapper_sha256": "6ca6a0e39ce887cf554f720cdfccd0e9c03c23e80a042955b933148c582d25a8"
+  },
+  "receipt_id": "E520_PROFILE_V3_CONTROLLER_ADMISSION_20261007_R1",
+  "reviewer": {
+    "id": "e520_cloud_delivery",
+    "role": "independent-controller"
+  },
+  "root_authorization": {
+    "authorization": "Root instruction 2026-10-07: user demands continuous autonomous experimentation. Admit corrected E520 v3 PROFILE after targeted independent PASS, fresh quota/campaign availability, and exact frozen packet/transport hashes. Profile recovery cap is 7200 quota seconds total including 848.447 already spent; worker <=1800 wall seconds; <=3600 quota seconds per attempt for two physically attached T4 GPUs. Preserve live 20% account quota reserve; no paid compute. Do not stop after provider failure: diagnose and repair under the 7200 total cap. FIT is separately conditional, not admitted here.",
+    "fit_or_score_authorized_by_this_receipt": false,
+    "future_fit_conditional_envelope": {
+      "condition": "Only after successful representative profile/runtime-memory receipt, independent exact fit recipe/fitter/grader review, and a fresh separate root/controller admission.",
+      "max_quota_seconds_at_two_physical_gpus": 20400.0,
+      "max_worker_wall_seconds": 10200
+    },
+    "max_profile_recovery_quota_seconds_total": 7200.0,
+    "paid_compute": false,
+    "physical_gpu_assumption_for_charge": 2,
+    "prior_charged_quota_seconds": 848.447,
+    "remaining_recovery_quota_seconds": 6351.553,
+    "this_attempt_max_quota_reservation_seconds": 3600.0,
+    "worker_wall_limit_seconds": 1800
+  },
+  "schema_version": 1,
+  "scope": "one private profile-only Kaggle attempt; no fit, checkpoint, prediction export, scoring, or submission",
+  "status": "approved"
+}

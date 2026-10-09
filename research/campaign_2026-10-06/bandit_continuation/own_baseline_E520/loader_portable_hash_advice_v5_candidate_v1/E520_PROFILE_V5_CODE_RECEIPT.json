@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "candidate_id": "E520_PROFILE_LOADER_HASH_ADVICE_V1",
+  "status": "code_frozen_awaiting_independent_review_and_controller_admission",
+  "scope": "profile-only worker repair; no packet build, provider call, fit, prediction export, or score",
+  "review_target_map": {
+    "path": "E520_PROFILE_V5_REVIEW_TARGETS.json",
+    "sha256": "fdddd09a8ea74cfe61d0eb71f193facca90c189c7c6de32b70c3c0e14935e5cd"
+  },
+  "documentation": {
+    "readme_path": "README.md",
+    "readme_sha256": "1bd2367cee9fc8826d132042bfb9b7d98d6f10e373437972b94da6a2e07f5d8e"
+  },
+  "repair": {
+    "extra_raw_parquet_passes": 1,
+    "scope": "wnn.portability._content_digest only, for exact staged train.parquet and valid.parquet paths",
+    "bytes_and_digest_semantics": "unchanged 1 MiB sequential SHA-256 bytes/order and complete digest; page-aligned POSIX_FADV_DONTNEED advice; strict abort on advice failure with no fallback",
+    "identity_checks": "pinned portable registry stat/size/content-digest verification and full split/fold membership checks remain enabled",
+    "memory_diagnostics": "bounded cgroup memory.stat snapshots before/after each initial raw hash, each portable-registry hash, and load_campaign_split",
+    "resource_gates": "unchanged 8 GB RSS, 2 GB allocated, 2.5 GB reserved, 3 GB GPU-process, 8 GB disk reserve, 1,800 s worker limit, and continuous host/cgroup available >=4 GiB AND >=20%",
+    "headroom_abort_receipt": "resource_abort.reason identifies each failed available_bytes<4294967296 and/or available_fraction<0.2 predicate; snapshot retains measured values"
+  },
+  "validation": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/loader_portable_hash_advice_v5_candidate_v1/tests",
+    "result": "17 passed",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "plan_json_parse": "passed",
+    "review_target_only": "status review-targets-only-no-packet-created"
+  },
+  "unmodified": [
+    "packet_v4 and its receipts",
+    "all previous terminal attempts",
+    "source_archive.tar contents and pinned digest",
+    "recipe, grader, data identities, split/fold semantics, resource thresholds"
+  ],
+  "admission": {
+    "independent_review": "pending",
+    "fresh_controller_quota_runtime_input_receipt": "pending",
+    "packet_build_or_retry": "not authorized by this code receipt"
+  }
+}

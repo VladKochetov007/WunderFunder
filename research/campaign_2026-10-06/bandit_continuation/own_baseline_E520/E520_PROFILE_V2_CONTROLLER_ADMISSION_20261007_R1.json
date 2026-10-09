@@ -1,0 +1,201 @@
+{
+  "admission_action": {
+    "combined_E520_quota_limit_seconds": 3600,
+    "fit_or_checkpoint": false,
+    "kernel_id": "vladkochetov07/e520-profile-v2",
+    "maximum_additional_quota_seconds": 3580,
+    "no_further_profile_retry_after_this_attempt": true,
+    "packet_directory": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v2",
+    "paid_compute": false,
+    "permit_one_private_v2_profile_push": true,
+    "prediction_export": false,
+    "provider_timeout_seconds": 1790,
+    "push_command": "kaggle kernels push -p research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v2 -t 1790",
+    "register_durable_poll_target_and_collect_terminal_logs_outputs": true,
+    "scoring": false,
+    "worker_wall_limit_seconds": 1790
+  },
+  "attempt_id": "E520_PROFILE_V1_PACKAGING_REPAIR_01",
+  "controller_authorization": "Root explicitly delegated one bounded E520 profile and operational metadata/invocation repair as a new identified attempt if needed; no fit/scoring; <=1800 worker-wall seconds; combined E520 profile quota <=3600 seconds for two attached T4s; preserve 20% live account reserve; no paid compute; do not wait for another root message once targeted PASS and admission conditions hold.",
+  "critic_review": {
+    "decision": "PASS_PROFILE_ONLY_CODE_REVIEW",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_CODE_REVIEW_20261007_R2.json",
+    "reviewed_hashes": {
+      "E520_PACKET_PLAN.json": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13",
+      "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+      "prepare_profile_packet.py": "1cb55b0ded8067bd0bee228f7d6f73e1acebff2dd13bea823aac90d315b54c19",
+      "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+      "profile_worker.py": "e055d47d8950d211541298a37d237c1b7d76b5a5dc3121a0c9793ce7c74f2107",
+      "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+      "tests/test_profile_guards.py": "77d8e5c9b543335d3903606db1f03fbcaace2d773468b0705ae0f82fd26b9d6c"
+    },
+    "sha256": "42953ef39ac8035543cff1cf9019c712acb25be108a68d21a62acc413f9f7c63"
+  },
+  "execution_state_at_issuance": {
+    "fit_started": false,
+    "packet_prepared": true,
+    "profile_started": false,
+    "pushed": false,
+    "score": null
+  },
+  "experiment_id": "E520_PROFILE_V1",
+  "issued_at_utc": "2026-10-07T09:03:26+00:00",
+  "live_quota_and_campaign_admission": {
+    "account_unspent_after_v2_max_seconds": 62055.99100000001,
+    "account_unspent_seconds": 65635.99100000001,
+    "campaign_headroom_after_12000s_cohort_envelope_seconds": 35883.82800000001,
+    "campaign_headroom_after_v2_max_seconds": 47883.82800000001,
+    "combined_E520_max_charge_seconds": 3586.347999999998,
+    "combined_ceiling_pass": true,
+    "current_20_percent_reserve_seconds": 13127.198200000003,
+    "current_spendable_after_reserve_seconds": 52508.79280000001,
+    "gpu": {
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 51463.82800000001,
+      "campaign_used_seconds": 5316.687999999995,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "used_seconds": 42364.009
+    },
+    "kaggle_cli_version": "2.2.4",
+    "poll_log": "research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl",
+    "poll_log_line_sha256": "b975dca6d5ead6f79b7f1e98d74c9af280987158daff8fbbef1e7b914b94ad58",
+    "prior_v1_charged_interval_seconds": 6.347999999998137,
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "remaining_combined_E520_ceiling_seconds": 3593.652000000002,
+    "required_current_account_reserve_fraction": 0.2,
+    "reserved_gpu_seconds_before_v2": 0.0,
+    "source": "fresh read-only Kaggle poll_provider.py at 2026-10-07T09:01:16+00:00",
+    "v1_terminal_and_collected": true,
+    "v2_before_push": "403 for unsubmitted id; no session claimed",
+    "v2_max_quota_reservation_seconds": 3580,
+    "v2_provider_timeout_seconds": 1790
+  },
+  "packet_manifest": {
+    "code_file": "profile_kernel_bundle.py",
+    "file_count": 11,
+    "files": {
+      "E520_PACKET_PLAN.json": {
+        "bytes": 29493,
+        "sha256": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13"
+      },
+      "export_guards.py": {
+        "bytes": 3667,
+        "sha256": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550"
+      },
+      "external_review.json": {
+        "bytes": 9134,
+        "sha256": "25c9c1c95c1a62cfe4dfbc2ce88f0d3e02132769dc6971dc674d6b4a70e53390"
+      },
+      "kernel-metadata.json": {
+        "bytes": 354,
+        "sha256": "33e60b3db0cf870d9b886e54fc397bf92839729a15d285235105cc77e8818ea4"
+      },
+      "packet_meta.json": {
+        "bytes": 1206,
+        "sha256": "941ed5e9330a9906dc1c5e227f2188966e57a8ef96c38f3721a43053519311d9"
+      },
+      "prepare_profile_packet.py": {
+        "bytes": 7970,
+        "sha256": "1cb55b0ded8067bd0bee228f7d6f73e1acebff2dd13bea823aac90d315b54c19"
+      },
+      "profile_kernel.py": {
+        "bytes": 789,
+        "sha256": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb"
+      },
+      "profile_kernel_bundle.py": {
+        "bytes": 241997,
+        "sha256": "a1f782aa3243d957f9696b25fdce66c1ec22a584948249d286675397a96d063d"
+      },
+      "profile_worker.py": {
+        "bytes": 48132,
+        "sha256": "e055d47d8950d211541298a37d237c1b7d76b5a5dc3121a0c9793ce7c74f2107"
+      },
+      "source_archive.tar": {
+        "bytes": 512000,
+        "sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc"
+      },
+      "tests/test_profile_guards.py": {
+        "bytes": 10357,
+        "sha256": "77d8e5c9b543335d3903606db1f03fbcaace2d773468b0705ae0f82fd26b9d6c"
+      }
+    },
+    "gpu_enabled": true,
+    "kernel_id": "vladkochetov07/e520-profile-v2",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v2",
+    "private": true,
+    "repair_receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V2_PACKAGING_REPAIR_20261007_R1.json",
+    "repair_receipt_sha256": "8003e176b31458affbeea9247006f07ca36c1bbbdb7f11c8244b68dce24f6b6f",
+    "total_bytes": 865099
+  },
+  "prior_terminal_attempt": {
+    "account_campaign_gpu_delta_seconds": 6.347999999998137,
+    "path": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v1.json",
+    "science_started": false,
+    "sha256": "3e8126514af99f5b0a0e8ea64f2d008cbfc91c4cae56344b77cf6155d7c4339c",
+    "terminal_status": "KernelWorkerStatus.ERROR"
+  },
+  "private_input_metadata_preflight_reference": {
+    "controller_receipt": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_CONTROLLER_ADMISSION_20261007_R1.json",
+    "note": "same pinned data sources and sizes as reviewed v1; actual cloud bytes, identity and membership are rechecked by unchanged worker before profiling",
+    "sha256": "25c9c1c95c1a62cfe4dfbc2ce88f0d3e02132769dc6971dc674d6b4a70e53390"
+  },
+  "reviewed_hashes": {
+    "E520_PACKET_PLAN.json": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "prepare_profile_packet.py": "1cb55b0ded8067bd0bee228f7d6f73e1acebff2dd13bea823aac90d315b54c19",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_worker.py": "e055d47d8950d211541298a37d237c1b7d76b5a5dc3121a0c9793ce7c74f2107",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/test_profile_guards.py": "77d8e5c9b543335d3903606db1f03fbcaace2d773468b0705ae0f82fd26b9d6c"
+  },
+  "reviewed_transport_hashes": {
+    "embedded_zip_sha256": "2bf0a6d246274421c8f8060edaa9958e10e7bbafa981ab437ab5ef6b54340ea6",
+    "kernel-metadata.json": "33e60b3db0cf870d9b886e54fc397bf92839729a15d285235105cc77e8818ea4",
+    "profile_kernel_bundle.py": "a1f782aa3243d957f9696b25fdce66c1ec22a584948249d286675397a96d063d"
+  },
+  "reviewer": {
+    "id": "e520_cloud_delivery",
+    "role": "independent-controller"
+  },
+  "runtime_safety_admission": {
+    "campaign_slice": "wnn-campaign.slice",
+    "headroom_after_support_reservation_bytes": 8534847744,
+    "historical_device_evidence": "E508 observed 2 x T4; E520 worker independently confirms live topology and requires exactly one visible device",
+    "home_disk_available_bytes": 78753042432,
+    "host_memory_available_bytes": 40315072512,
+    "local_support_only": true,
+    "minimum_home_disk_available_bytes": 8589934592,
+    "minimum_host_available_bytes": 8589934592,
+    "minimum_local_parent_headroom_bytes": 4294967296,
+    "nonterminal_local_attempts": [],
+    "parent_headroom_bytes": 10034847744,
+    "parent_memory_current_bytes": 9965150208,
+    "parent_memory_max_bytes": 19999997952,
+    "parent_properties": {
+      "CPUQuotaPerSecUSec": "10s",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    },
+    "profile_cloud_gates": "unchanged worker requires one CUDA-visible GPU, >=6 GiB GPU free, >=4 GiB host/cgroup available and >=20% free, >=8 GiB working disk, hard RSS/CUDA/process ceilings, mounted dataset and split/membership identity before profile; failed gates persist receipts and abort",
+    "swap_max_bytes": 0
+  },
+  "schema_version": 1,
+  "scope": "profile-only",
+  "status": "approved",
+  "transport_critic_review": {
+    "decision": "PASS",
+    "embedded_zip_sha256": "2bf0a6d246274421c8f8060edaa9958e10e7bbafa981ab437ab5ef6b54340ea6",
+    "operational_note": "The wrapper intentionally refuses an existing /kaggle/working/e520_profile_packet_v2 path; use a fresh Kaggle working directory for the identified v2 attempt.",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V2_TRANSPORT_REVIEW_20261007_R1.json",
+    "reviewer": {
+      "id": "weak_diversity_design_critic",
+      "role": "independent-critic"
+    },
+    "sha256": "7b5bee2a742082cd00178488e13ed6175aeb38aaeeb06491b0ffffe242bb2861",
+    "wrapper_sha256": "a1f782aa3243d957f9696b25fdce66c1ec22a584948249d286675397a96d063d"
+  }
+}

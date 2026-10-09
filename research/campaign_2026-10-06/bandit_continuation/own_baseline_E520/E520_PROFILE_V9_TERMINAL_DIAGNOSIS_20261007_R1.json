@@ -1,0 +1,180 @@
+{
+  "classification": "observer identity binding mismatch; infrastructure/profile startup failure, not scientific negative",
+  "exact_root_cause": {
+    "actual_selected_physical_uuid": "GPU-c6747be0-d0ca-9158-e195-5f8b14866cbd",
+    "cuda_visible_devices": "0",
+    "failure_location": "gpu_memory_domains.validate_selected_uuid called by resource_snapshot; V9 helper still compares runtime UUID to the V8 session UUID",
+    "frozen_expected_physical_uuid": "GPU-2f8814a9-d330-e294-0068-7d7cac59cd21",
+    "no_pid_fallback_used": false,
+    "observed_memory_domains": {
+      "cuda_free_bytes": 15526068224,
+      "cuda_property_total_bytes": 15636037632,
+      "cuda_usable_total_bytes": 15636037632,
+      "nvml_physical_total_bytes": 16106127360,
+      "nvml_used_bytes": 3145728,
+      "strict_ordering_holds": true
+    },
+    "physical_gpu_inventory": [
+      {
+        "driver_version": "580.178.04",
+        "index": 0,
+        "memory_total_mib": 15360,
+        "memory_used_mib": 3,
+        "name": "Tesla T4",
+        "utilization_gpu_percent": 0,
+        "utilization_memory_percent": 0,
+        "uuid": "GPU-c6747be0-d0ca-9158-e195-5f8b14866cbd"
+      },
+      {
+        "driver_version": "580.178.04",
+        "index": 1,
+        "memory_total_mib": 15360,
+        "memory_used_mib": 0,
+        "name": "Tesla T4",
+        "utilization_gpu_percent": 0,
+        "utilization_memory_percent": 0,
+        "uuid": "GPU-9754a387-856a-cdbf-0130-e761fd037640"
+      }
+    ],
+    "process_bytes": 106954752,
+    "process_table_status": "matched_pid",
+    "resource_query_diagnostic": "ValueError: selected physical GPU UUID is missing or mismatched",
+    "selected_device_name": "Tesla T4",
+    "visible_gpu_count": 1
+  },
+  "experiment_id": "E520_PROFILE_GPU_MEMORY_DOMAIN_V9",
+  "fit_started": false,
+  "grading_or_scoring_run": false,
+  "input_identity_status": "matched",
+  "input_membership_counts": {
+    "train": 10535,
+    "valid": 1405
+  },
+  "kernel_id": "vladkochetov07/e520-profile-v9-memory-domains",
+  "prediction_export_enabled": false,
+  "profile_started": false,
+  "provider_status_verified_at_utc": "2026-10-07T15:39:13+00:00",
+  "provider_terminal_status": "KernelWorkerStatus.ERROR",
+  "provider_version": 1,
+  "quota_reconciliation": {
+    "actual_recovery_spend_through_v8_seconds": 5321.183,
+    "campaign_headroom_at_terminal_seconds": 45611.72900000001,
+    "charge_interpretation": "Account-wide GPU quota delta between the last pre-push poll and terminal reconciliation; only V9 was running on the GPU target list in this interval. Preserve as actual account delta; provider per-kernel billing attribution is not separately exposed.",
+    "observed_account_gpu_quota_delta_seconds": 537.264,
+    "prepush_gpu_account_used_seconds": 47678.844,
+    "prepush_observed_at_utc": "2026-10-07T15:25:40+00:00",
+    "remaining_of_9000_recovery_cap_after_v9_actual_delta_seconds": 3141.553,
+    "terminal_gpu_account_used_seconds": 48216.108,
+    "v9_account_delta_assigned_to_attempt_seconds": 537.264
+  },
+  "raw_hash_and_loader_timings": {
+    "initial_raw_hash:datasets/train.parquet": {
+      "details": {
+        "bytes": 29240219011,
+        "bytes_hashed": 29240219011,
+        "elapsed_seconds": 419.173269,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "status": "complete"
+      },
+      "elapsed_seconds": 419.173269
+    },
+    "initial_raw_hash:datasets/valid.parquet": {
+      "details": {
+        "bytes": 5615509128,
+        "bytes_hashed": 5615509128,
+        "elapsed_seconds": 60.900119,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "status": "complete"
+      },
+      "elapsed_seconds": 60.900119
+    },
+    "load_campaign_split": {
+      "details": {
+        "portable_verification_hashes_advised": false,
+        "raw_digest_handoff_metrics": {
+          "train": {
+            "digest_reuse_hits": 1,
+            "digest_reuse_misses": 0,
+            "fallback_digest_calls": 0,
+            "verifier_lookups": 1
+          },
+          "valid": {
+            "digest_reuse_hits": 1,
+            "digest_reuse_misses": 0,
+            "fallback_digest_calls": 0,
+            "verifier_lookups": 1
+          }
+        }
+      },
+      "elapsed_seconds": 7.861121
+    }
+  },
+  "raw_parquet_hash_advice": {
+    "datasets/train.parquet": {
+      "advice_calls": 27886,
+      "advice_failures": 0,
+      "bytes_hashed": 29240219011,
+      "elapsed_seconds": null,
+      "expected_file_bytes": 29240219011,
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "status": "complete"
+    },
+    "datasets/valid.parquet": {
+      "advice_calls": 5356,
+      "advice_failures": 0,
+      "bytes_hashed": 5615509128,
+      "elapsed_seconds": null,
+      "expected_file_bytes": 5615509128,
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "status": "complete"
+    }
+  },
+  "receipt_id": "E520_PROFILE_V9_TERMINAL_DIAGNOSIS_20261007_R1",
+  "repair_scope_for_next_candidate": {
+    "candidate_change": "Bind the exact physical UUID within the current run by mapping CUDA_VISIBLE_DEVICES to the runtime inventory and carrying that selected UUID into every resource snapshot. Reject any mismatch between the selected identity and the live inventory; do not pin an ephemeral UUID across distinct Kaggle sessions.",
+    "keep_memory_domain_order_and_all_resource_thresholds_unchanged": true,
+    "preserve_v9_immutable": true,
+    "requires_fresh_root_recovery_allocation_admission_before_provider_retry": true,
+    "requires_new_independent_source_and_transport_review": true
+  },
+  "resource_gate_observation": {
+    "cgroup_available_bytes": 29084610560,
+    "cgroup_available_fraction": 0.9029051462809244,
+    "disk_free_bytes": 20938387456,
+    "host_available_bytes": 32138051584,
+    "host_available_fraction": 0.9548323470680314,
+    "resource_abort_reason": "active CUDA device-memory measurement is unavailable or inconsistent",
+    "resource_thresholds_changed": false,
+    "rss_peak_bytes": 677208064
+  },
+  "schema_version": 1,
+  "source_execution_hash_binding": {
+    "all_reviewed_packet_source_hashes_match_terminal_download": true,
+    "gpu_memory_domains_sha256": "078f9aa8888560a162ad949c5dcc60e09be2439bf48b0d615b557ba549673faf",
+    "review_target_sha256": "60bac7cba692a3462cc0ffaee03bac7ca107762050fbfce396d9a6c29b4a88af",
+    "reviewed_source_members": 15,
+    "source_review_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V9_INDEPENDENT_SOURCE_REVIEW_20261007_R1.json",
+    "worker_sha256": "9df9396e69833955ef680f7e911571bd790ea389ad87ad9d5608610fa4d516e7"
+  },
+  "terminal_download_manifest_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V9_TERMINAL_DOWNLOAD_20261007T1539Z.json",
+  "terminal_download_manifest_sha256": "9450cdf1a1af53ecf8a0c1fbc7f055e5b1d46aaf07005c8bec646185839194a6",
+  "terminal_receipt_path": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v9_poll_receipt.json",
+  "terminal_receipt_sha256": "b17c734205e091793c9befa3ddbfee81123b7295124ca95ac2d26aa3e85731a7",
+  "verified_digest_handoff": {
+    "train": {
+      "digest_reuse_hits": 1,
+      "digest_reuse_misses": 0,
+      "fallback_digest_calls": 0,
+      "verifier_lookups": 1
+    },
+    "valid": {
+      "digest_reuse_hits": 1,
+      "digest_reuse_misses": 0,
+      "fallback_digest_calls": 0,
+      "verifier_lookups": 1
+    }
+  },
+  "worker_failure_reason": "ProfileAbort: active CUDA device-memory measurement is unavailable or inconsistent",
+  "worker_profile_cap_seconds": 1700,
+  "worker_wall_seconds": 526.0068898720001
+}

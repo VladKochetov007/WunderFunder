@@ -1,0 +1,239 @@
+{
+  "e520_actual_spend_after_v7_seconds": 4090.69,
+  "e520_profile_recovery_remaining_seconds": 3109.31,
+  "fit_or_score_authorized_by_this_receipt": false,
+  "hardware_accounting": {
+    "interpretation": "meter delta was close to 1x worker wall, but it does not establish physical GPU count or billing policy",
+    "no_paid_compute": true,
+    "physical_gpu_count_and_uuid": "unknown; failure before nvidia-smi inventory was durably written",
+    "quota_delta_per_worker_wall": 1.021667,
+    "worker_visible_gpu_count": "unknown; failure before runtime identity receipt"
+  },
+  "observed_at_utc": "2026-10-07T13:24:29+00:00",
+  "prior_e520_actual_spend_before_v7_seconds": 3677.382,
+  "profile_recovery_budget_seconds": 7200.0,
+  "receipt_id": "E520_PROFILE_V8_RETRY_RESERVE_SCENARIO_20261007T1322Z",
+  "retry_authorized_by_this_receipt": false,
+  "retry_scenario": {
+    "account_beyond_20_percent_reserve_after_retry_seconds": 36951.649,
+    "account_beyond_reserve_after_retry_plus_fit_seconds": 16551.649,
+    "campaign_headroom_after_retry_plus_fit_seconds": 23979.486,
+    "campaign_headroom_after_retry_seconds": 44379.486,
+    "conditional_fit_quota_seconds": 20400,
+    "conservative_quota_multiple": 2,
+    "quota_reservation_seconds": 3000,
+    "recovery_budget_after_retry_reservation_seconds": 109.31,
+    "worker_wall_cap_seconds": 1500
+  },
+  "schema_version": 1,
+  "source_poll_observed_at_utc": "2026-10-07T13:23:53+00:00",
+  "source_poll_path": "research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl",
+  "source_poll_snapshot": {
+    "cli_package_version": "2.2.4",
+    "observed_at_utc": "2026-10-07T13:23:53+00:00",
+    "quota": {
+      "gpu": {
+        "campaign_baseline_used_seconds": 37047.321,
+        "campaign_cap_seconds": 56780.516,
+        "campaign_headroom_seconds": 47379.486000000004,
+        "campaign_used_seconds": 9401.029999999999,
+        "reserved_seconds": 0.0,
+        "total_allowed_seconds": 108000.0,
+        "used_seconds": 46448.351
+      },
+      "tpu": {
+        "campaign_baseline_used_seconds": 134.623,
+        "campaign_cap_seconds": 7200.0,
+        "campaign_headroom_seconds": 7158.54,
+        "campaign_used_seconds": 41.46000000000001,
+        "reserved_seconds": 0.0,
+        "total_allowed_seconds": 72000.0,
+        "used_seconds": 176.083
+      }
+    },
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "session_id": {
+      "reason": "Kaggle status JSON currently omits kernel_session_id; do not substitute versionNumber.",
+      "value": null
+    },
+    "source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel",
+    "status": [
+      {
+        "kernel": "vladkochetov07/wnn-gru-device-preflight-20261006-v3",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.COMPLETE",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "gpu_terminal_v3.json",
+          "terminal_status": "KernelWorkerStatus.COMPLETE"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-gru-device-preflight-20261006-v2",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "gpu_terminal_v2.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261006-v1",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "tpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "tpu_terminal_v1.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "e508_profile_terminal_v1.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v2",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "e508_profile_terminal_v2.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v3",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "e508_profile_terminal_v3.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v4",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "e508_profile_terminal_v4.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "tpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "tpu_terminal_v2.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v5",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "e508_profile_terminal_v5_poll_receipt.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/e520-profile-v1",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "e520_profile_terminal_v1_poll_receipt.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/e520-profile-v2",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "e520_profile_terminal_v2_poll_receipt.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/e520-profile-only-v3-page-cache-repair",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "e520_profile_terminal_v3_poll_receipt.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "failure_message": "",
+        "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+        "monitoring_state": "polling_until_terminal_evidence_downloaded",
+        "resource": "tpu",
+        "status": "KernelWorkerStatus.QUEUED",
+        "terminal_evidence_receipt": "tpu_terminal_v3.json"
+      },
+      {
+        "kernel": "vladkochetov07/e520-profile-v4",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "e520_profile_terminal_v4_poll_receipt.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/e520-profile-v6",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.CANCEL_ACKNOWLEDGED",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "e520_profile_terminal_v6_poll_receipt.json",
+          "terminal_status": "KernelWorkerStatus.CANCEL_ACKNOWLEDGED"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/e520-profile-v7-digest-handoff",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "e520_profile_terminal_v7_poll_receipt.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      }
+    ]
+  },
+  "status": "quota_and_budget_scenario_only_no_retry_admission",
+  "v7_actual_global_gpu_quota_delta_seconds": 413.308,
+  "v7_worker_wall_seconds": 404.542832217
+}

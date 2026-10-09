@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E520_PROFILE_V5_INDEPENDENT_REVIEW_20261007_R1",
+  "observed_at_utc": "2026-10-07T11:26:02Z",
+  "candidate_path": "loader_portable_hash_advice_v5_candidate_v1",
+  "actor_code_receipt": {
+    "path": "loader_portable_hash_advice_v5_candidate_v1/E520_PROFILE_V5_CODE_RECEIPT.json",
+    "sha256": "727dcd4eba873f7fa3898be263b9cbdc909e72af7a411d9c5a4642cd038ad39b"
+  },
+  "review_target_receipt": {
+    "path": "loader_portable_hash_advice_v5_candidate_v1/E520_PROFILE_V5_REVIEW_TARGETS.json",
+    "sha256": "fdddd09a8ea74cfe61d0eb71f193facca90c189c7c6de32b70c3c0e14935e5cd",
+    "status": "review-targets-only-no-packet-created"
+  },
+  "reviewer": {
+    "agent": "/root/tpu_recovery_delivery",
+    "candidate_implementer": "weak_diversity_kaggle_actor",
+    "role": "independent_cloud_operator_code_review"
+  },
+  "scope": "E520 v5 profile-only raw-source hash advice, memory.stat diagnostics, exact source map and strict gate preservation; no packet build, provider calls, fit, prediction export, or scoring.",
+  "verdict": "FAIL_SOURCE_REVIEW_ONLY",
+  "reviewed_hashes": {
+    "E520_PACKET_PLAN.json": "d92a44b2bc658863ec3814ce82807666db7c91e4af481087197dd293eb26e4c3",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "prepare_profile_packet.py": "fbe8b16960ce08bd8f615749c9b87fc7aa5b736e0d1d3e501c7d5aaa9310c2a2",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_worker.py": "f0e57bfe947c9589e91dbabc7b0306938b79e16d971cee409dec48215a2c65fc",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+    "tests/test_loader_hash_advice.py": "8a040a4b67eb9f9e2010fe6e668c91e782d4a18a8ebe3749a895024f6f7bb525",
+    "tests/test_portable_manifest_binding.py": "764a1e608f6e8e58d16c413196cfbeb251c0189c51aff0629a21b94e39a624e7",
+    "tests/test_profile_bundle.py": "3b7f7d9f92e1f268963423e8d9371fdcd78176df4adc06c989f84a4e003317ed",
+    "tests/test_profile_guards.py": "3a57a5bb05fde8781f841dfda0d38cdda366b044154b78ca30444accf9e595d3"
+  },
+  "findings": [
+    {
+      "severity": "blocking",
+      "file": "profile_worker.py",
+      "line": 604,
+      "finding": "cgroup_memory_stat_snapshot() calls stat_path.read_bytes() and only checks len(raw) against MEMORY_STAT_MAX_BYTES afterward. This can materialize an arbitrarily large memory.stat file before applying the 65,536-byte cap, so the diagnostic read itself is not memory-bounded.",
+      "required_repair": "Read at most MEMORY_STAT_MAX_BYTES + 1 bytes (and reject/record oversized input before decoding), with a regression test proving the reader never consumes more than the cap plus one byte. Preserve the explicit unavailable/failure status and do not substitute zero or partial counters."
+    },
+    {
+      "severity": "coverage",
+      "file": "tests/test_loader_hash_advice.py",
+      "finding": "The focused tests cover matching raw digests, registry identity/digest rejection, and abort on page-cache advice failure, but do not currently assert a hard bound on memory.stat bytes read."
+    }
+  ],
+  "checks": {
+    "exact_frozen_map": {
+      "freeze_receipt_sha256": "fdddd09a8ea74cfe61d0eb71f193facca90c189c7c6de32b70c3c0e14935e5cd",
+      "review_targets_only_reproduced": true,
+      "independent_file_rehash_count": 11,
+      "mismatches": []
+    },
+    "portable_source_verification": "PASS: source_archive.tar is unchanged and pins the unchanged verify_portable_source implementation. It still checks registry version, exact original identity, observed byte size and registry content digest. The patch wraps only _content_digest, routes only resolved train/valid raw inputs through the advised hash, checks the stat identity tuple before hashing, and delegates all other paths to the original cached function.",
+    "hash_advice_failure": "PASS: page-cache advice/hash exceptions abort with ProfileAbort; the code does not silently fall back to a plain raw digest.",
+    "profile_and_input_gates": "PASS: input identity, portable-manifest binding, fit-group checks, profile-only trainer arguments, runtime/resource admission and no-fit/no-export behavior remain present; the only blocking issue is the unbounded memory.stat read.",
+    "focused_tests": "17 passed in 0.29 seconds under scripts/limited at 1 CPU and 1.5 GB memory.",
+    "style": "Ruff check passed; Ruff format --check reports 10 files already formatted.",
+    "execution_scope": "The exact --review-targets-only mode, source inspection, direct byte rehash and local focused tests only; no packet build, provider call, fit, prediction export, or scoring."
+  },
+  "admission_effect": "Do not build or push this v5 candidate. A corrected separately identified freeze may be reviewed against its own exact map."
+}

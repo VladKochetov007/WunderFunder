@@ -1,0 +1,610 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "E520-FIT-OUTPUT-RECEIPT-V1",
+  "title": "E520 serial scratch-pair fit and streaming-export receipts",
+  "description": "No score is computed by the fit worker. Complete receipts bind both fixed epoch-3 checkpoints, input identities, and streamed raw prediction exports.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "experiment_id": {
+      "const": "E520_SCRATCH_PAIR_FIT_V1"
+    },
+    "status": {
+      "enum": [
+        "starting",
+        "aborted",
+        "complete"
+      ]
+    },
+    "phase": {
+      "type": "string"
+    },
+    "fit_started": {
+      "type": "boolean"
+    },
+    "score_started": {
+      "const": false
+    },
+    "retry_count": {
+      "const": 0
+    },
+    "candidate_artifact_hashes": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/sha256"
+      }
+    },
+    "external_review_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "controller_admission_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "profile_receipt_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "grader_script_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "anchor_report_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "source_archive_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "trainer_source_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "input_identity_path": {
+      "type": "string"
+    },
+    "input_identity_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "input_identity": {
+      "$ref": "#/$defs/inputIdentity"
+    },
+    "target_orders": {
+      "$ref": "#/$defs/targetOrders"
+    },
+    "fit_order": {
+      "const": [
+        "seed3",
+        "seed4"
+      ]
+    },
+    "parallel_fits": {
+      "const": false
+    },
+    "members": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/member"
+      },
+      "minItems": 0,
+      "maxItems": 2
+    },
+    "prediction_payload_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "elapsed_seconds": {
+      "type": "number",
+      "minimum": 0
+    },
+    "terminal_resource_snapshot": {
+      "type": "object"
+    },
+    "abort_type": {
+      "type": "string"
+    },
+    "abort_reason": {
+      "type": "string"
+    },
+    "resource_abort_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "status",
+    "fit_started",
+    "score_started",
+    "retry_count",
+    "members"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "complete"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "source_archive_sha256",
+          "trainer_source_sha256",
+          "input_identity_path",
+          "input_identity_sha256",
+          "input_identity",
+          "target_orders",
+          "fit_order",
+          "parallel_fits",
+          "prediction_payload_bytes",
+          "elapsed_seconds",
+          "terminal_resource_snapshot"
+        ],
+        "properties": {
+          "fit_started": {
+            "const": true
+          },
+          "members": {
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "prediction_payload_bytes": {
+            "const": 3993280000
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "aborted"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "phase",
+          "elapsed_seconds",
+          "abort_type",
+          "abort_reason"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "inputIdentity": {
+      "type": "object",
+      "properties": {
+        "phase": {
+          "const": "input_identity"
+        },
+        "status": {
+          "const": "matched"
+        },
+        "expected": {
+          "type": "object"
+        },
+        "observed": {
+          "type": "object"
+        },
+        "split_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fit_membership_counts": {
+          "type": "object",
+          "properties": {
+            "train": {
+              "const": 10535
+            },
+            "valid": {
+              "const": 1405
+            }
+          },
+          "required": [
+            "train",
+            "valid"
+          ]
+        },
+        "evaluation_group_count": {
+          "const": 468
+        },
+        "target_counts": {
+          "type": "object",
+          "properties": {
+            "train": {
+              "const": 10606
+            },
+            "valid": {
+              "const": 1873
+            }
+          },
+          "required": [
+            "train",
+            "valid"
+          ]
+        },
+        "target_index_hashes": {
+          "type": "object",
+          "properties": {
+            "train": {
+              "$ref": "#/$defs/sha256"
+            },
+            "valid": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "train",
+            "valid"
+          ]
+        },
+        "portable_manifest_env": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "phase",
+        "status",
+        "expected",
+        "observed",
+        "split_sha256",
+        "fit_membership_counts",
+        "evaluation_group_count",
+        "target_counts",
+        "target_index_hashes",
+        "portable_manifest_env"
+      ]
+    },
+    "targetOrders": {
+      "type": "object",
+      "properties": {
+        "train": {
+          "$ref": "#/$defs/targetOrderTrain"
+        },
+        "valid": {
+          "$ref": "#/$defs/targetOrderValid"
+        }
+      },
+      "required": [
+        "train",
+        "valid"
+      ]
+    },
+    "targetOrderTrain": {
+      "type": "object",
+      "properties": {
+        "row_group_count": {
+          "const": 10606
+        },
+        "row_groups_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "target_index_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "target_cache_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "row_group_count",
+        "row_groups_sha256",
+        "target_index_sha256",
+        "target_cache_sha256"
+      ]
+    },
+    "targetOrderValid": {
+      "type": "object",
+      "properties": {
+        "row_group_count": {
+          "const": 1873
+        },
+        "row_groups_sha256": {
+          "const": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+        },
+        "target_index_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "target_cache_sha256": {
+          "const": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+        }
+      },
+      "required": [
+        "row_group_count",
+        "row_groups_sha256",
+        "target_index_sha256",
+        "target_cache_sha256"
+      ]
+    },
+    "export": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "experiment_id": {
+          "const": "E520_SCRATCH_PAIR_FIT_V1"
+        },
+        "run_name": {
+          "enum": [
+            "e520_raw_baseline_s3_f0",
+            "e520_raw_baseline_s4_f0"
+          ]
+        },
+        "seed": {
+          "enum": [
+            3,
+            4
+          ]
+        },
+        "split": {
+          "enum": [
+            "train",
+            "valid"
+          ]
+        },
+        "format": {
+          "const": "numpy-npy-float32"
+        },
+        "path": {
+          "type": "string"
+        },
+        "shape": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "enum": [
+                10606,
+                1873
+              ]
+            },
+            {
+              "const": 20000
+            },
+            {
+              "const": 2
+            }
+          ],
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "dtype": {
+          "const": "float32"
+        },
+        "row_group_order_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "target_index_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "target_cache_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "split_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "checkpoint_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "trainer_provenance_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "trainer_argv_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "trainer_source_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "source_archive_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "input_identity_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "selected_epoch": {
+          "const": 3
+        },
+        "prediction_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "chunk_rows": {
+          "const": 4000
+        },
+        "max_batch_rows": {
+          "const": 16
+        },
+        "finite_checked_per_chunk": {
+          "const": true
+        },
+        "official_metric_clipping_applied": {
+          "const": false
+        },
+        "sidecar_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "sidecar_path": {
+          "type": "string"
+        },
+        "hash_pagecache_advice_receipt": {
+          "type": "string"
+        },
+        "hash_pagecache_advice_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "write_pagecache_advice": {
+          "type": "string"
+        },
+        "status": {
+          "const": "complete"
+        }
+      },
+      "required": [
+        "schema_version",
+        "experiment_id",
+        "run_name",
+        "seed",
+        "split",
+        "format",
+        "path",
+        "shape",
+        "dtype",
+        "row_group_order_sha256",
+        "target_index_sha256",
+        "target_cache_sha256",
+        "split_manifest_sha256",
+        "checkpoint_sha256",
+        "trainer_provenance_sha256",
+        "trainer_argv_sha256",
+        "trainer_source_sha256",
+        "source_archive_sha256",
+        "input_identity_sha256",
+        "selected_epoch",
+        "prediction_sha256",
+        "chunk_rows",
+        "max_batch_rows",
+        "finite_checked_per_chunk",
+        "official_metric_clipping_applied",
+        "hash_pagecache_advice_receipt",
+        "hash_pagecache_advice_sha256",
+        "status"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "split": {
+                "const": "train"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "shape": {
+                "prefixItems": [
+                  {
+                    "const": 10606
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "split": {
+                "const": "valid"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "shape": {
+                "prefixItems": [
+                  {
+                    "const": 1873
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "member": {
+      "type": "object",
+      "properties": {
+        "seed": {
+          "enum": [
+            3,
+            4
+          ]
+        },
+        "run_name": {
+          "enum": [
+            "e520_raw_baseline_s3_f0",
+            "e520_raw_baseline_s4_f0"
+          ]
+        },
+        "selected_epoch": {
+          "const": 3
+        },
+        "fit_argv_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "checkpoint_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "epoch_checkpoint_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "trainer_provenance_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "input_identity_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "source_archive_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "exports": {
+          "type": "object",
+          "properties": {
+            "train": {
+              "$ref": "#/$defs/exportReceipt"
+            },
+            "valid": {
+              "$ref": "#/$defs/exportReceipt"
+            }
+          },
+          "required": [
+            "train",
+            "valid"
+          ]
+        }
+      },
+      "required": [
+        "seed",
+        "run_name",
+        "fit_argv_sha256",
+        "selected_epoch",
+        "checkpoint_sha256",
+        "epoch_checkpoint_sha256",
+        "trainer_provenance_sha256",
+        "input_identity_sha256",
+        "source_archive_sha256",
+        "exports"
+      ]
+    },
+    "exportReceipt": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/export"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "sidecar_path": {
+              "type": "string"
+            },
+            "sidecar_sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "sidecar_path",
+            "sidecar_sha256"
+          ]
+        }
+      ]
+    }
+  }
+}

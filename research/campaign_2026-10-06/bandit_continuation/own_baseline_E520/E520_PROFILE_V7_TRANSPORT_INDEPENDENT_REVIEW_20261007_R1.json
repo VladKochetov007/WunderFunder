@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E520_PROFILE_V7_TRANSPORT_INDEPENDENT_REVIEW_20261007_R1",
+  "observed_at_utc": "2026-10-07T12:57:21Z",
+  "reviewer": "/root/tpu_recovery_delivery",
+  "experiment_id": "E520_PROFILE_VERIFIED_DIGEST_HANDOFF_V7",
+  "decision": "PASS",
+  "review_scope": "Read-only static transport review of the exact v7 packet assembly, self-contained wrapper, embedded ZIP members, private kernel metadata, and packet identity. The wrapper was parsed but not executed; no provider call or profile was performed.",
+  "freeze": {
+    "packet_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v7",
+    "assembly_receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V7_PACKET_ASSEMBLY_20261007_R1.json",
+    "assembly_receipt_sha256": "c549531dbbbadf2080e3d438e098923b902ef99bc0df31ca77d6b561cfecb2ed",
+    "controller_admission_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V7_CONTROLLER_ADMISSION_20261007_R1.json",
+    "controller_admission_sha256": "d59e66115773464be173524d07cf1b3f38c45ee3d61261ab57be5c985feeebf1",
+    "source_review_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/E520_V7_INDEPENDENT_REVIEW_20261007_R1.json",
+    "source_review_sha256": "a16e05539cd4d3a7196a8ddc6ba15e8f3c9af8d369722e5230dce9d958999c74",
+    "packet_manifest_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V7_PACKET_SHA256SUMS_20261007_R1.txt",
+    "packet_manifest_sha256": "423500d4432ef5119b9454661c1aabe70fae4d13b154726a441c7254524c8f1d",
+    "wrapper_sha256": "16cefcd7f5a4fb8d6732639ee0db7f3ffb8d4ae3d542746756865ce102f96c80",
+    "embedded_zip_sha256": "4117921c09f5bae9978ee98885fc8b3904ec8795fbadf040c8892d1c6be3c3fb",
+    "embedded_member_count": 16,
+    "packet_file_count_including_wrapper": 17
+  },
+  "findings": [
+    "The packet assembly receipt, controller-admission binding, independent source-review binding, manifest, and on-disk packet file hashes match. All 13 frozen source-review members are present byte-for-byte, and the separately reviewed wrapper is the single metadata code file.",
+    "Static AST extraction of the wrapper's payload literals produced an embedded ZIP whose SHA-256 matches both the wrapper constant and assembly receipt. The archive has exactly 16 unique member names matching the declared payload set; names are relative, contain no parent traversal, and have no symlink or directory members. Each member's bytes match both the embedded payload hash and the packet file. The packet directory contains exactly those 16 members plus the wrapper.",
+    "Kernel metadata points to the private script `vladkochetov07/e520-profile-v7-digest-handoff` with the exact title `E520 Profile V7 Digest Handoff`, code file `profile_kernel_bundle.py`, no competition source, and only the two admitted private dataset sources. Packet metadata keeps profile-only true, fit and prediction export false, and the 1,700-second worker cap.",
+    "The embedded external review explicitly leaves provider push unauthorized. This receipt supplies only the requested static transport review and does not perform or grant provider admission."
+  ],
+  "verification": {
+    "method": "Bounded 1 CPU / 1 GB / 120 s static script: hash receipts/files; parse wrapper with `ast` without importing or executing it; decode and inspect ZIP in memory; verify unique safe member set and exact bytes; parse metadata/plan flags.",
+    "result": "PASS",
+    "wrapper_executed": false,
+    "provider_action_performed": false,
+    "fit_or_score_performed": false
+  },
+  "conditions": [
+    "The exact packet transport is sound for the reviewed profile-only wrapper. Before pushing, the operator must still perform fresh pre-push slug/status, quota and account-reserve checks, register the exact target without altering E463-v3, and retain the resulting push/status receipts.",
+    "This receipt does not authorize a fit, prediction export, grading, or scoring."
+  ]
+}

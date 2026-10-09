@@ -1,0 +1,125 @@
+{
+  "attempt_id": "E520_PROFILE_V6",
+  "authorization": {
+    "builder_controller_admission": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_CONTROLLER_ADMISSION_20261007_R1.json",
+      "sha256": "19e87b0902ac84bdd185a94dff55754574eb6d74448f5d85c538fa84bbe43247"
+    },
+    "root": "/root",
+    "root_scope": "one private profile-only push; 7,200 cumulative profile quota seconds including prior 1,869.009; worker <=1,800s; <=3,600 quota seconds for two physical T4s; retain account 20% reserve and campaign cap; no paid compute",
+    "source": "root collaboration messages authorizing E520 v6 after independent PASS and fresh admission gates"
+  },
+  "cloud_runtime_gates": {
+    "automatic_oom_retry": false,
+    "exact_visible_gpus": 1,
+    "maximum_gpu_process_bytes": 3000000000,
+    "maximum_rss_bytes": 8000000000,
+    "maximum_torch_allocated_bytes": 2000000000,
+    "maximum_torch_reserved_bytes": 2500000000,
+    "minimum_free_gpu_bytes": 6442450944,
+    "minimum_host_and_cgroup_available_bytes": 4294967296,
+    "minimum_host_and_cgroup_available_fraction": 0.2,
+    "minimum_working_disk_free_bytes": 8000000000,
+    "worker_wall_cap_seconds": 1800
+  },
+  "experiment_id": "E520_PROFILE_LOADER_HASH_ADVICE_V2",
+  "fresh_local_resource": {
+    "all_admission_checks_pass": true,
+    "cpu_cores": 6.0,
+    "disk_free_bytes": 78361305088,
+    "memory_current_bytes": 12597878784,
+    "memory_headroom_to_high_bytes": 5402120192,
+    "memory_high_bytes": 17999998976,
+    "memory_max_bytes": 19999997952,
+    "observed_at_utc": "2026-10-07T11:45:02Z",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_LOCAL_RESOURCE_PREPUSH_20261007T1144Z.json",
+    "sha256": "9840f36d4fd139ef3f3cddd5ad91f9c614595627bd9d6e46e5e8ca2196f40301",
+    "swap_max_bytes": 0
+  },
+  "fresh_quota": {
+    "E520_profile_remaining_seconds": 5330.991,
+    "account_20_percent_reserve_seconds": 21600.0,
+    "account_and_campaign_after_full_profile_plus_conditional_fit_reserve_seconds": {
+      "account": 16442.339,
+      "campaign": 23870.176000000007
+    },
+    "account_gpu_reserved_seconds": 0.0,
+    "account_gpu_used_seconds": 44226.67,
+    "campaign_headroom_seconds": 49601.16700000001,
+    "fit_remains_unadmitted": true,
+    "headroom_after_attempt_reservation_seconds": 46001.16700000001,
+    "observed_at_utc": "2026-10-07T11:45:01+00:00",
+    "paid_compute": false,
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_QUOTA_REFRESH_PREPUSH_20261007T1144Z.json",
+    "sha256": "6431f5f1216baac289cee4ce56587210d6ce77760876b73d14bbc4611754e548"
+  },
+  "guarded_push": {
+    "command": [
+      "sha256sum --check --status research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_PUSH_SHA256SUMS_20261007_R1.txt",
+      "timeout --signal=TERM --kill-after=5s 100s kaggle kernels push -p research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v6 -t 1800"
+    ],
+    "fail_closed_sha_guard_in_same_script": true,
+    "limited_local_envelope": {
+      "cpu_cores": 1,
+      "memory_bytes": 1500000000,
+      "wall_seconds": 120
+    },
+    "provider_call_started": false,
+    "script_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_GUARDED_PUSH_20261007_R1.sh",
+    "script_sha256": "dafcd98f26e4c1763055ab21c8edd5bff83771c501f0ada72cfb9e6134ee92f7"
+  },
+  "independent_source_review": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_INDEPENDENT_REVIEW_20261007_R1.json",
+    "sha256": "bd6cee8e079acdfc82976ed8ef608f93270c0db6ab186b0e47cad5fa1151aee3",
+    "target_map_sha256": "41d93bf24ab318c99bd7cc35528bf9ac1c1d3d303602b6335dabe5367a6c4580",
+    "verdict": "PASS_SOURCE_REVIEW_ONLY"
+  },
+  "independent_transport_review": {
+    "assembly_sha256": "cef1fa5e10972b84a6773ec4a31ac89b664b7f744c13db723198f86115cb3f08",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_PACKET_TRANSPORT_REVIEW_20261007_R1.json",
+    "sha256": "4e51f5258d27151c0c19042550e18e2217c308e48289e173b6150d94f8e96846",
+    "verdict": "PASS_STATIC_TRANSPORT_REVIEW_ONLY"
+  },
+  "kernel_identity": {
+    "E463_v3_preserved": true,
+    "all_previous_targets_preserved": true,
+    "durable_poller": "wnn-campaign-kaggle-poller.timer",
+    "exact_slug_absent_before_push": true,
+    "kernel_list_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_KERNEL_LIST_PREPUSH_20261007T1144Z.txt",
+    "kernel_list_sha256": "0ab7a8df377b9202e346e08637a8a2a8f1e3531fdade89ea3e607bc35b18210b",
+    "pre_push_status": "HTTP 403 because the exact registered slug has not yet been accepted/created; this is pre-push provider metadata state, not worker status",
+    "provider_pre_push_poll_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_PROVIDER_POLL_PREPUSH_20261007T1144Z.json",
+    "provider_pre_push_poll_sha256": "aad2cd3badd87a4e1acf0bb29da87b62260bde6aa9eaf04e4a57c28312c1fa37",
+    "provider_targets_registration_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_PROVIDER_TARGET_REGISTRATION_20261007_R1.json",
+    "provider_targets_registration_sha256": "a7deda7db823065c511f8f4348eb108bb51ddc8b166b9db503a38a208a653315",
+    "provider_targets_sha256_after_registration": "f78c1e4bdf01e22308fe5c5bd8e93ea397d45559a28e6f6c3e74cef132a47438"
+  },
+  "packet": {
+    "assembly_receipt_sha256": "cef1fa5e10972b84a6773ec4a31ac89b664b7f744c13db723198f86115cb3f08",
+    "checksummed_file_count": 15,
+    "code_file": "profile_kernel_bundle.py",
+    "embedded_zip_sha256": "3b85d81d635919aa1cf0321d5135f2129455576e7def6618d1afcc51aa05e691",
+    "metadata_private": true,
+    "metadata_slug": "vladkochetov07/e520-profile-v6",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v6",
+    "push_checksums_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_PUSH_SHA256SUMS_20261007_R1.txt",
+    "push_checksums_sha256": "2e8ed7c64d27b7f279404edf9f7a643e3a3ce7db7f621c6f0de2d9129703b98f",
+    "revalidation_receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_PACKET_REVALIDATION_20261007_R1.json",
+    "revalidation_receipt_sha256": "03eace39572f19f4693d583c03cc0f0b14f673f829ce0cfe72814e25aff3a893",
+    "wrapper_sha256": "6c741d26915c0626688d484a640b2e2d1f35229be3454cc4b66b89c4831f4b5d"
+  },
+  "receipt_id": "E520_PROFILE_V6_PREPUSH_ADMISSION_20261007_R1",
+  "recorded_at_utc": "2026-10-07T11:45:57Z",
+  "schema_version": 1,
+  "scope": {
+    "automatic_oom_retry": false,
+    "fit": false,
+    "max_quota_reservation_seconds": 3600,
+    "paid_compute": false,
+    "prediction_export": false,
+    "profile_only": true,
+    "scoring": false,
+    "worker_wall_cap_seconds": 1800
+  },
+  "status": "approved_for_one_profile_only_push_under_root_conditional_admission"
+}

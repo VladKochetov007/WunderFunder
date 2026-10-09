@@ -1,0 +1,144 @@
+{
+  "aggregate": {
+    "campaign_headroom_after_12000s_cohort_envelope_seconds": 38621.72900000001,
+    "combined_root_profile_quota_ceiling_seconds": 3600,
+    "live_account_gpu_spendable_after_reserve_seconds": 51835.113600000004,
+    "live_account_gpu_total_seconds": 108000.0,
+    "live_account_gpu_twenty_percent_reserve_seconds": 12958.778400000001,
+    "live_account_gpu_unspent_seconds": 64793.892,
+    "live_account_gpu_used_seconds": 43206.108,
+    "live_campaign_gpu_headroom_seconds": 50621.72900000001,
+    "observed_E520_account_campaign_gpu_charge_seconds": 848.4470000000001,
+    "quota_observed_at_utc": "2026-10-07T09:23:55+00:00",
+    "remaining_within_that_ceiling_seconds": 2751.553,
+    "reserved_gpu_seconds": 0.0
+  },
+  "attempts": [
+    {
+      "account_campaign_quota_delta_seconds": 6.347999999998137,
+      "failure_classification": "invocation_packaging_import_error",
+      "fit_started": false,
+      "kernel_id": "vladkochetov07/e520-profile-v1",
+      "poll_receipt": {
+        "path": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v1_poll_receipt.json",
+        "sha256": "39e7a8af32bffec5d0d2d048d83f3854b32580222fe6fa5d13633b3725473498"
+      },
+      "provider_version": 1,
+      "score": null,
+      "terminal_receipt": {
+        "path": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v1.json",
+        "sha256": "3e8126514af99f5b0a0e8ea64f2d008cbfc91c4cae56344b77cf6155d7c4339c"
+      },
+      "terminal_status": "KernelWorkerStatus.ERROR",
+      "worker_started": false,
+      "worker_wall_seconds": 0
+    },
+    {
+      "account_campaign_quota_delta_seconds": 842.099000000002,
+      "failure_classification": "guarded_cloud_cgroup_headroom_abort_during_input_identity",
+      "fit_started": false,
+      "kernel_id": "vladkochetov07/e520-profile-v2",
+      "poll_receipt": {
+        "path": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v2_poll_receipt.json",
+        "sha256": "374458fb11bba25d4a3426db0ecd6fad36f117f7c6011b83e6d1c579d97139da"
+      },
+      "profile_batches_started": false,
+      "provider_version": 1,
+      "resource_abort": {
+        "reason": "cgroup available memory fell below both E520 headroom gates",
+        "snapshot": {
+          "cgroup_available_bytes": 6410838016,
+          "cgroup_available_fraction": 0.1990186055501302,
+          "cgroup_limit_bytes": 32212254720,
+          "cuda_allocated_bytes": null,
+          "cuda_allocated_peak_bytes": null,
+          "cuda_reserved_bytes": null,
+          "cuda_reserved_peak_bytes": null,
+          "disk_free_bytes": 20938739712,
+          "gpu_free_bytes": null,
+          "gpu_process_bytes": null,
+          "gpu_process_query_raw": null,
+          "gpu_process_query_status": "pre_cuda_idle",
+          "host_available_bytes": 32563232768,
+          "host_available_fraction": 0.9674646233834382,
+          "host_total_bytes": 33658318848,
+          "rss_current_bytes": 27422720,
+          "rss_peak_bytes": 27009024
+        },
+        "status": "aborted",
+        "time_unix": 1791364697.674274
+      },
+      "score": null,
+      "terminal_receipt": {
+        "path": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v2.json",
+        "sha256": "e31f265c65056ea10bfea62b6c4d14da358891ba9b932430a01fec484c717615"
+      },
+      "terminal_status": "KernelWorkerStatus.ERROR",
+      "train_valid_identity_complete": false,
+      "worker_wall_seconds": 830.0747980420001
+    }
+  ],
+  "experiment_id": "E520_PROFILE_V1",
+  "monitoring": {
+    "all_terminal_logs_and_outputs_collected": true,
+    "both_targets": "stopped_after_terminal_evidence_downloaded",
+    "poller_timer": "active",
+    "provider_targets_path": "research/campaign_2026-10-06/cloud_preflight/provider_targets.json",
+    "target_ids": [
+      "vladkochetov07/e520-profile-v1",
+      "vladkochetov07/e520-profile-v2"
+    ]
+  },
+  "next_step": "A worker-level cache/memory I/O fix is under preparation as a new identified source candidate; any provider push requires a new independent review and root/controller admission. No further push has been made or is covered by the v2 admission.",
+  "recorded_at_utc": "2026-10-07T09:30:44+00:00",
+  "review_and_admission_chain": {
+    "independent_code_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_CODE_REVIEW_20261007_R2.json",
+      "sha256": "42953ef39ac8035543cff1cf9019c712acb25be108a68d21a62acc413f9f7c63"
+    },
+    "initial_controller_admission": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_CONTROLLER_ADMISSION_20261007_R1.json",
+      "sha256": "25c9c1c95c1a62cfe4dfbc2ce88f0d3e02132769dc6971dc674d6b4a70e53390"
+    },
+    "packet_v1_build": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_PACKET_BUILD_20261007_R1.json",
+      "sha256": "dbcdba29c5beb06b0f665077316c5fe507d21dcd3f4a0a8cf9c2424d98ae71b8"
+    },
+    "packet_v1_metadata_repair": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_PROVIDER_METADATA_REPAIR_20261007_R1.json",
+      "sha256": "f57ef9a31ee958cb4388534d319b743358101f0c4f311f4d7ef705d47af2dc45"
+    },
+    "packet_v1_preflight": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_PUSH_PREFLIGHT_20261007T0850Z.json",
+      "sha256": "d9061fa3b3fa4499e8c8a6a1a449d1ea69d50e12446464efa79829992187d1ad"
+    },
+    "packet_v2_controller_admission": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V2_CONTROLLER_ADMISSION_20261007_R1.json",
+      "sha256": "eca9fd00352413429bb99b7a95c4f0ea3f72ab4adda16b69f9305b0c96129a18"
+    },
+    "packet_v2_packaging_repair": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V2_PACKAGING_REPAIR_20261007_R1.json",
+      "sha256": "8003e176b31458affbeea9247006f07ca36c1bbbdb7f11c8244b68dce24f6b6f"
+    },
+    "packet_v2_preflight": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V2_PUSH_PREFLIGHT_20261007T0901Z.json",
+      "sha256": "d8d558f56e9ed197bebcf9a43e47e867fbe644e8fdad2c28401e316c77945f8a"
+    },
+    "packet_v2_transport_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V2_TRANSPORT_REVIEW_20261007_R1.json",
+      "sha256": "7b5bee2a742082cd00178488e13ed6175aeb38aaeeb06491b0ffffe242bb2861"
+    }
+  },
+  "schema_version": 1,
+  "scientific_outcome": {
+    "checkpoint_count": 0,
+    "fit_count": 0,
+    "interpretation": "two infrastructure failures before any model-quality measurement: v1 missing sibling import; v2 guarded cgroup-headroom abort during input identity hashing. No scientific negative or public score claim.",
+    "prediction_exports": 0,
+    "profile_completed": false,
+    "profile_measurement": null,
+    "score": null
+  },
+  "scope": "E520 profile-only cloud delivery, no fit/scoring",
+  "status": "terminal_preprofile_resource_abort; no profile measurement"
+}

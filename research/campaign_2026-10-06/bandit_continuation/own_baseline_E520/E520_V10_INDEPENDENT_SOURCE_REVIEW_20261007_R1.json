@@ -1,0 +1,76 @@
+{
+  "allocation_alignment": {
+    "builder_metadata_cap_seconds": 1450,
+    "one_attempt_only": true,
+    "plan_quota_reservation_seconds": 2900,
+    "plan_worker_cap_seconds": 1450,
+    "root_allocation_quota_reservation_seconds": 2900,
+    "worker_constant_seconds": 1450
+  },
+  "candidate_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/live_cuda_nvml_binding_v10_candidate_v1",
+  "code_freeze_receipt": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/live_cuda_nvml_binding_v10_candidate_v1/E520_V10_CODE_RECEIPT.json",
+    "sha256": "6f4613b2f5c54ed36f0fd981d9e2a97cc2807fbee718ec9d396420fe1cf3d1a2"
+  },
+  "created_utc": "2026-10-07T16:26:40Z",
+  "experiment_id": "E520_PROFILE_GPU_IDENTITY_LIVE_BINDING_V10",
+  "external_documentation_basis": {
+    "claim": "NVIDIA documents CUDA_VISIBLE_DEVICES integer identifiers as system GPU ordinals determined by nvidia-smi and supports exact UUID identifiers.",
+    "source": "https://docs.nvidia.com/cuda/cuda-programming-guide/05-appendices/environment-variables.html"
+  },
+  "findings": {
+    "builder_and_payload": "Builder target-only mode recomputed the exact 15-entry frozen hash map and reported no packet created. Focused bundle test asserts every reviewed worker file is embedded; builder stages a private single-script packet and contains no provider-push call.",
+    "identity_binding": "The worker resolves its single CUDA_VISIBLE_DEVICES token to exactly one current physical NVML row (numeric token by exact physical index; UUID token by exact UUID), requires UUID/index/used/total fields, persists the binding, and fails closed on absent/ambiguous/incomplete inventory. It never chooses the first NVML row or reuses a prior-session UUID.",
+    "recipe_and_inputs": "Compared with V9, the plan science block, input-identity block, digest-handoff block, pinned source/archive identities, and reviewed export guards are unchanged. The profile remains raw-only GRU hidden=128, layers=2, dropout=0, seed 3, 3 warmup plus 20 timed batches; fit/checkpoint/prediction/score remain disabled.",
+    "resource_safety": "Existing physical/CUDA ordering and conservative free/used calculations remain strict. Existing VRAM, process, RSS, host/cgroup headroom, disk, GPU free-memory, and telemetry gates remain intact; only the worker wall cap and provisional reservation are tightened to the allocation values.",
+    "same_worker_persistence": "The startup UUID is passed to each subsequent active resource snapshot. Snapshots require exactly one row for that UUID; memory-domain validation and the active guard abort if UUID is missing or changes. Startup environment/resource, abort, and phase receipts are persisted before profile work proceeds."
+  },
+  "gate_boundary": "This approval covers only the exact frozen source map. Static transport review of the assembled packet and fresh provider/quota/resource admission remain required before any provider action. No packet build, provider call, profile, fit, export, or scoring was performed by this reviewer.",
+  "id": "E520-V10-independent-source-review-r1",
+  "independent_validation": {
+    "focused_tests": "43 passed in 0.24s",
+    "frozen_map_hashes_recomputed": 15,
+    "mismatches": 0,
+    "resource_boundary": "1 CPU, 1,000,000,000 bytes, 120 seconds for focused checks",
+    "review_targets_only": "pass; exact map reproduced; no packet created",
+    "ruff_check": "pass",
+    "ruff_format": "14 files already formatted"
+  },
+  "review_target_map": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/live_cuda_nvml_binding_v10_candidate_v1/E520_V10_REVIEW_TARGETS.json",
+    "sha256": "924bcf726cd282d80a156d6994f7fbca03078090d186c127478b1fd74abf0581"
+  },
+  "reviewed_hashes": {
+    "E520_PACKET_PLAN.json": "903169f07dd534c3400996024d02bee4194572d92c46499ed85bf390e82f88f2",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+    "prepare_profile_packet.py": "d8c7cb635a3c1ff4043bcd3ed40aad1b1d0e71d7e1b80ccb54626f9b38cc2578",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_worker.py": "6f8fc29742a26e617fe37a27710652828eb0adf92b29475ace775f69d26b2085",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+    "tests/test_digest_handoff_integration.py": "ecafa7c47d572ae45c26cf3f0d327ab87e39eca2ba008c093c9a4048e082f434",
+    "tests/test_gpu_memory_domains.py": "0fd2f087588b05a2a9e7960858440ef4c02056f45b74f1e7566d0de35d934b41",
+    "tests/test_loader_hash_advice.py": "2291f4fca5bce5ee1adc99cb6a9b8b37d484e70268acfb0de70f879d8fa6c5a4",
+    "tests/test_portable_manifest_binding.py": "d63ef055b8045b82ae94ff98ad53a5fdb4d14069a5622378701e4a011d43b71c",
+    "tests/test_profile_bundle.py": "3a402022a588c80be04ec7e00efeaab0d24a7a3cc205a0066fb4518924feb1e4",
+    "tests/test_profile_guards.py": "5d8c52bd4c787b4e9b8b370925f9fb8d6aa9db66c621fd82ab6acfef6d69c9b3",
+    "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+  },
+  "reviewer": {
+    "id": "tpu_recovery_delivery",
+    "role": "independent-controller"
+  },
+  "root_allocation": {
+    "cumulative_recovery_quota_cap_seconds": 9000,
+    "exact_profile_attempts": 1,
+    "max_provisional_quota_seconds": 2900,
+    "max_worker_wall_seconds": 1450,
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V10_ROOT_SUCCESSOR_ALLOCATION_20261007_R1.json",
+    "remaining_after_max_reservation_seconds": 241.553,
+    "sha256": "0d4f48f970195e9579c98d83352def407bd0e22ab4ca2c5b6f8e4022df434d6a"
+  },
+  "scope": "profile-only",
+  "status": "approved",
+  "verdict": "PASS_SOURCE_ONLY_PENDING_STATIC_TRANSPORT_REVIEW"
+}

@@ -1,0 +1,15 @@
+{
+  "e463_v3_status": "KernelWorkerStatus.QUEUED",
+  "observed_at_utc": "2026-10-07T11:45:01+00:00",
+  "other_active_gpu_kernels": [],
+  "raw_poll_log_sha256": "c3d5279d7321f5b96b138796446be09e40ed5683c1793174076e60f64eea7896",
+  "receipt_id": "E520_PROFILE_V6_PROVIDER_POLL_PREPUSH_20261007T1144Z",
+  "v6_status": {
+    "error": "403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus",
+    "error_type": "HTTPError",
+    "kernel": "vladkochetov07/e520-profile-v6",
+    "monitoring_state": "poll_error_retry_next_timer_tick",
+    "resource": "gpu",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py\", line 145, in collect\n    **_status(client, kernel),\n      ~~~~~~~^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py\", line 50, in _status\n    response = client.kernels.kernels_api_client.get_kernel_session_status(request)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kernels/services/kernels_api_service.py\", line 82, in get_kernel_session_status\n    return self._client.call(\"kernels.KernelsApiService\", \"GetKernelSessionStatus\", request, ApiGetKernelSessionStatusResponse)\n           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kaggle_http_client.py\", line 106, in call\n    response = self._prepare_response(response_type, http_response)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kaggle_http_client.py\", line 134, in _prepare_response\n    http_response.raise_for_status()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/requests/models.py\", line 1167, in raise_for_status\n    raise HTTPError(http_error_msg, response=self)\nrequests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus\n"
+  }
+}

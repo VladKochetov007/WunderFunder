@@ -1,0 +1,33 @@
+{
+  "candidate_id": "E520_PROFILE_GPU_OBSERVATION_FALLBACK_V8",
+  "scope": "isolated profile-only worker repair; no packet build, provider call, fit, profile execution, or score",
+  "review_targets": {
+    "path": "E520_V8_REVIEW_TARGETS.json",
+    "sha256": "50e6d95d9d260a386dde37bd4a5654587a6b8138b5e99786173ac89ee4730849",
+    "status": "review-targets-only-no-packet-created"
+  },
+  "non_target_documentation": {
+    "README.md": "851684e7575428559de1f036781fe697ab8edbbbd96c7a7d93dd9703382c37b2"
+  },
+  "validation": {
+    "commands": [
+      "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1/tests",
+      "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/ruff check research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1",
+      "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/ruff format --check research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1"
+    ],
+    "results": ["29 tests passed", "ruff check passed", "12 files formatted"]
+  },
+  "execution_policy": {
+    "profile_only": true,
+    "worker_wall_cap_seconds": 1500,
+    "max_quota_reservation_seconds": 3000,
+    "active_gpu_allocation_cap_bytes": 3000000000,
+    "minimum_cuda_free_bytes": 6442450944,
+    "missing_pid_is_zero": false,
+    "missing_pid_fallback": "only matched CUDA total/free telemetry may bound usage as total minus free; otherwise abort",
+    "packet_built": false,
+    "provider_called": false,
+    "fit_or_score_run": false
+  },
+  "v7_failure_basis": "The v7 first active resource check failed because per-process nvidia-smi did not expose the worker PID. A monitor-handover race could also label initialized CUDA as pre-CUDA idle. This candidate records raw per-process query evidence and physical GPU inventory, uses only a conservative total-minus-free bound when PID is unavailable, and switches from an explicit pre-CUDA guard to an active CUDA guard before profile work."
+}

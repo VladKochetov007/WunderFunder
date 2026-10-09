@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "candidate_id": "E520_PROFILE_LOADER_HASH_ADVICE_V2",
+  "status": "code_frozen_awaiting_independent_review_and_controller_admission",
+  "scope": "profile-only worker repair; no packet build, provider call, fit, prediction export, or score",
+  "review_target_map": {
+    "path": "E520_PROFILE_V6_REVIEW_TARGETS.json",
+    "sha256": "41d93bf24ab318c99bd7cc35528bf9ac1c1d3d303602b6335dabe5367a6c4580"
+  },
+  "prior_review_finding": {
+    "v5_map_sha256": "fdddd09a8ea74cfe61d0eb71f193facca90c189c7c6de32b70c3c0e14935e5cd",
+    "finding": "memory.stat used an unbounded Path.read_bytes call before checking the size",
+    "repair_scope": "new isolated v6 worker candidate only; v5 and all earlier candidates remain unchanged"
+  },
+  "repair": {
+    "memory_stat_limit_bytes": 65536,
+    "read_request_bytes": 65537,
+    "oversized_result": "explicit unavailable status, observed prefix length, and diagnostic; no unbounded fallback",
+    "hash_advice_and_identity": "v5 behavior preserved: same exact pinned _content_digest call path, raw parquet scope, page-aligned POSIX_FADV_DONTNEED hint, complete digest and portable-registry checks",
+    "science_and_gates": "recipe, split/fold membership, grader, source archive, and resource thresholds unchanged"
+  },
+  "validation": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/bounded_memory_stat_read_v6_candidate_v1/tests",
+    "result": "18 passed",
+    "oversized_reader_test": "asserts exactly 65537 bytes requested and explicit unavailable result for a larger synthetic file",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "plan_json_parse": "passed",
+    "review_target_only": "status review-targets-only-no-packet-created"
+  },
+  "unmodified": [
+    "v5 candidate, code receipt, review-target map, and all earlier terminal attempts",
+    "source_archive.tar contents and pinned digest",
+    "recipe, grader, data identities, split/fold semantics, and resource thresholds"
+  ],
+  "admission": {
+    "independent_review": "pending",
+    "fresh_controller_quota_runtime_input_receipt": "pending",
+    "packet_build_or_retry": "not authorized by this code receipt"
+  }
+}

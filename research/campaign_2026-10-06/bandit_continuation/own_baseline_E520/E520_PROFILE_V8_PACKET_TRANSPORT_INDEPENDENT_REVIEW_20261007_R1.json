@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E520_PROFILE_V8_PACKET_TRANSPORT_INDEPENDENT_REVIEW_20261007_R1",
+  "observed_at_utc": "2026-10-07T13:54:36Z",
+  "experiment_id": "E520_PROFILE_GPU_OBSERVATION_FALLBACK_V8",
+  "decision": "PASS",
+  "review_scope": "Read-only static transport review of the exact assembled private profile-only packet and embedded wrapper ZIP. No packet regeneration, wrapper execution, provider action, fit, prediction, or score was performed.",
+  "freeze": {
+    "packet_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v8",
+    "assembly_receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V8_PACKET_ASSEMBLY_20261007_R1.json",
+    "assembly_receipt_sha256": "e1986014729abafc45df8f019aa06d9b40923f9eeef8b831c26d54699e383a81",
+    "packet_sha256sums_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V8_PACKET_SHA256SUMS_20261007_R1.txt",
+    "packet_sha256sums_sha256": "543c8b07b859a4761a013ad99b3854f4b11aa19e0374bf5d011de537d19d5147",
+    "controller_admission_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V8_CONTROLLER_ADMISSION_20261007_R1.json",
+    "controller_admission_sha256": "fbc45dc2a6c29870620bb1a5040d709a5152eeee5b0e45c55ceb922039676417",
+    "source_review_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1/E520_V8_INDEPENDENT_REVIEW_20261007_R1.json",
+    "source_review_sha256": "faddd1dc3ccfe7aed085c7e926280439b9817ea672a92cc6e1a1cb9f0bb37f9d",
+    "packet_manifest_sha256": "543c8b07b859a4761a013ad99b3854f4b11aa19e0374bf5d011de537d19d5147",
+    "wrapper_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v8/profile_kernel_bundle.py",
+    "wrapper_sha256": "1b364177673c9dacb8ab2d810767577a9853f4d303ceda7cfc18d7e1bb7c31ea",
+    "embedded_zip_sha256": "d9448ae474c3b8862890d165aaeb541ac1198385c17a277e4b7161ab155db2ae",
+    "packet_file_count_including_wrapper": 17,
+    "unique_embedded_zip_member_count": 16
+  },
+  "findings": [
+    "The assembly receipt, controller admission, source-review receipt, and packet SHA256SUMS file match their declared SHA-256 values. Every one of the 17 packet files matches both the assembly receipt's packet_file_hashes map and the independently parsed SHA256SUMS file.",
+    "The wrapper's embedded ZIP bytes were recovered statically from Python literal assignments without executing the wrapper. The archive SHA-256 matches both the assembly receipt and wrapper constant. Its 16 names are unique, safe relative paths; all members are regular files, with no absolute/traversal paths, symlinks, or duplicate names. The member set exactly equals the wrapper's payload hash map and the assembly receipt's actual_embedded_members, and every embedded byte hash matches.",
+    "The Kaggle metadata points to exactly one entrypoint, profile_kernel_bundle.py, with private script metadata and the requested slug vladkochetov07/e520-profile-v8-gpu-observation-fallback. The wrapper validates the embedded ZIP digest and each extracted member digest before importing profile_worker; extraction targets a fresh fixed v8 directory and refuses an existing directory.",
+    "The packet metadata and independent review remain bound to the exact V8 source map. Fit, prediction export, grading, and scoring are disabled. The controller admission records provider_push_now_authorized=false and requires a separate fresh pre-push admission; this review performed no provider operation."
+  ],
+  "verification": {
+    "assembly_bindings": "Assembly, admission, source-review, and checksum-manifest digests all match the exact declared values.",
+    "packet_files": "17/17 packet files match the assembly map and SHA256SUMS; packet count is 16 embedded members plus the single metadata entrypoint wrapper.",
+    "embedded_zip": "ZIP digest verified; 16/16 unique safe regular members and all embedded SHA-256 values verified.",
+    "metadata": "Private script slug, single entrypoint, dataset source IDs, source-review binding, and profile-only disabled-fit/export/score flags match the frozen packet."
+  },
+  "limitations_and_conditions": [
+    "This PASS applies only to the exact assembled bytes listed above. It does not authorize or evidence a provider push or successful cloud execution.",
+    "Before any push, the operator must perform a fresh exact-slug/kernel-list, quota and account-reserve, runtime/resource, target-registration, and packet-hash admission as required by the controller receipt."
+  ]
+}

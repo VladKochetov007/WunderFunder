@@ -1,0 +1,99 @@
+{
+  "attempt_id": "E520_PROFILE_V1",
+  "authorization_basis": "root conditional controller delegation after exact-hash independent PASS; this is execution evidence, not expanded authority",
+  "controller_admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_CONTROLLER_ADMISSION_20261007_R1.json",
+    "sha256": "25c9c1c95c1a62cfe4dfbc2ce88f0d3e02132769dc6971dc674d6b4a70e53390"
+  },
+  "critic_review": {
+    "decision": "PASS_PROFILE_ONLY_CODE_REVIEW",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_CODE_REVIEW_20261007_R2.json",
+    "sha256": "42953ef39ac8035543cff1cf9019c712acb25be108a68d21a62acc413f9f7c63"
+  },
+  "experiment_id": "E520_PROFILE_V1",
+  "limits": {
+    "fit_or_scoring_authorized": false,
+    "hardware_reservation": "Kaggle GPU mode; quota reserve accounts for two physically attached T4s; worker requires one CUDA-visible GPU",
+    "kaggle_worker_timeout_seconds": 1800,
+    "maximum_quota_charge_seconds": 3600,
+    "paid_compute_authorized": false
+  },
+  "local_safety": {
+    "admitted": true,
+    "headroom_after_support_memory_bytes": 8540586240,
+    "host_memory_available_bytes": 39556554752,
+    "minimum_headroom_bytes": 4294967296,
+    "minimum_host_available_bytes": 8589934592,
+    "nonterminal_local_attempts": [],
+    "parent_memory_current_bytes": 9959411712,
+    "parent_memory_headroom_bytes": 10040586240,
+    "parent_memory_max_bytes": 19999997952,
+    "parent_properties": {
+      "CPUQuotaPerSecUSec": "10s",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    },
+    "parent_slice": "wnn-campaign.slice",
+    "parent_swap_max_bytes": 0,
+    "support_command_limits": {
+      "cpu_cores": 1,
+      "memory_bytes": 1500000000,
+      "wall_seconds": 120
+    }
+  },
+  "metadata_repair": {
+    "kernel_id": "vladkochetov07/e520-profile-v1",
+    "metadata_sha256": "3ae47af686293d06cb1abd4fe4b572a0fe0a272227820d7cf6795e4cd161b236",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_PROVIDER_METADATA_REPAIR_20261007_R1.json",
+    "scientific_payload_unchanged": true,
+    "sha256": "f57ef9a31ee958cb4388534d319b743358101f0c4f311f4d7ef705d47af2dc45",
+    "slug_matches": true
+  },
+  "packet_build": {
+    "packet_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v1",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_PACKET_BUILD_20261007_R1.json",
+    "sha256": "dbcdba29c5beb06b0f665077316c5fe507d21dcd3f4a0a8cf9c2424d98ae71b8"
+  },
+  "provider_before_push": {
+    "existing_session_claimed": false,
+    "last_poll_status": "403 for not-yet-submitted kernel slug; retry on timer tick",
+    "monitor_target_registered": true,
+    "poll_log_line_sha256": "55f0434ce3ff3a29853e68a4f032dc015e7072bc3e0ca2f714d5794f808d28dc"
+  },
+  "push_command": [
+    "kaggle",
+    "kernels",
+    "push",
+    "-p",
+    "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v1",
+    "-t",
+    "1800"
+  ],
+  "quota": {
+    "account_reserve_seconds": 13128.467800000002,
+    "account_unspent_seconds": 65642.339,
+    "admitted": true,
+    "campaign_headroom_after_max_reservation_seconds": 47870.17600000001,
+    "gpu": {
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 51470.17600000001,
+      "campaign_used_seconds": 5310.3399999999965,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "used_seconds": 42357.661
+    },
+    "observed_at_utc": "2026-10-07T08:49:51+00:00",
+    "poll_log_line_sha256": "55f0434ce3ff3a29853e68a4f032dc015e7072bc3e0ca2f714d5794f808d28dc",
+    "poll_log_path": "research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl",
+    "profile_max_quota_reservation_seconds": 3600,
+    "required_account_reserve_fraction": 0.2,
+    "spendable_after_reserve_seconds": 52513.87120000001
+  },
+  "recorded_at_utc": "2026-10-07T08:51:50+00:00",
+  "schema_version": 1,
+  "scope": "one private profile-only Kaggle push; no fit, prediction export, or scoring",
+  "status": "pre_push_admission_pass"
+}

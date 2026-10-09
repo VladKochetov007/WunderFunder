@@ -1,0 +1,92 @@
+{
+  "adapter_acceptance": {
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_V11_ROOT_ADAPTER_ACCEPTANCE_20261007_R1.json",
+    "receipt_sha256": "6d91a5f297b216603f5597c64784ea777c95b627c8946f2b201bd9c6c131ff41",
+    "scope": "faithful offline build schema projection only",
+    "verdict": "ACCEPTED_ONLY_AS_OFFLINE_BUILD_SCHEMA_PROJECTION"
+  },
+  "adapter_author": "cloud_delivery_resume",
+  "approval_state": {
+    "adapter_approval": "root accepted exact adapter for offline build projection only",
+    "assembled_packet_transport_review": "pending",
+    "fit_export_grade_or_score": false,
+    "provider_push_attempted": false,
+    "provider_push_authorized": false,
+    "source_review": "PASS_SOURCE_TO_OFFLINE_PACKET_ASSEMBLY_ONLY"
+  },
+  "assembly_adapter": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_V11_OFFLINE_PACKET_ASSEMBLY_ADAPTER_20261007_R1.json",
+  "assembly_adapter_sha256": "e81f70cd6c9bb688f95af00a1e7d9d46903d4e995fbfa3373a6416c275ec18cd",
+  "build_command": "candidate prepare_profile_packet.py --build --repo-root . --plan absolute_staged_split_path_v11_candidate_v1/E520_PACKET_PLAN.json --output-dir packet_v11 --review-receipt E520_V11_OFFLINE_PACKET_ASSEMBLY_ADAPTER_20261007_R1.json --review-sha256 e81f70cd6c9bb688f95af00a1e7d9d46903d4e995fbfa3373a6416c275ec18cd",
+  "checks": {
+    "explicit_enable_internet_false_present": false,
+    "fit_disabled": true,
+    "gpu_enabled_for_one_profile_worker": true,
+    "note": "Reviewed builder omits enable_internet; static transport review must verify provider default or request a separately reviewed metadata repair before any push.",
+    "prediction_export_disabled": true,
+    "private_kernel": true
+  },
+  "embedded_bundle": {
+    "all_embedded_bytes_equal_staged_files": true,
+    "member_count": 19,
+    "members": [
+      "E520_PACKET_PLAN.json",
+      "export_guards.py",
+      "external_review.json",
+      "gpu_memory_domains.py",
+      "kernel-metadata.json",
+      "packet_meta.json",
+      "prepare_profile_packet.py",
+      "profile_kernel.py",
+      "profile_worker.py",
+      "source_archive.tar",
+      "tests/conftest.py",
+      "tests/test_digest_handoff_integration.py",
+      "tests/test_gpu_memory_domains.py",
+      "tests/test_loader_hash_advice.py",
+      "tests/test_portable_manifest_binding.py",
+      "tests/test_profile_bundle.py",
+      "tests/test_profile_guards.py",
+      "tests/test_split_manifest_cwd.py",
+      "verified_digest_handoff.py"
+    ],
+    "payload_file_hashes_exact": true,
+    "payload_zip_sha256": "b3767a6acd7c614284538c22764edb9cb5aa6a19375d777db967408ccd7882e4"
+  },
+  "id": "E520_PROFILE_V11_OFFLINE_PACKET_ASSEMBLY_20261007_R1",
+  "independent_validation_command": "pytest -q packet_v11/tests",
+  "observed_at_utc": "2026-10-07T17:47:28Z",
+  "packet_bytes": 1001296,
+  "packet_files": {
+    "E520_PACKET_PLAN.json": "7f9871a2b34daa25d21b3aaba27de8e2f521d6f4eea3a58c0da38156d225703d",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "external_review.json": "e81f70cd6c9bb688f95af00a1e7d9d46903d4e995fbfa3373a6416c275ec18cd",
+    "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+    "kernel-metadata.json": "60b394ba7ecf974de9fbd6dcb30812346f7a4ebade471b35a1343bf6967adc0e",
+    "packet_meta.json": "84f40403ef6c023293e88848a610a1bb07eb2fc009cd9f134923c0c72c42a40f",
+    "prepare_profile_packet.py": "c2f942133f4b4468bc34359eb5122dca5c0338b30c1d901c7766aaccd1059f26",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_kernel_bundle.py": "47d6ec6c7d043d0fed5cd66cab276e6c44ae91d6b8391daf4aafc117da0bca6c",
+    "profile_worker.py": "b6b86a7008b2f127a51a9376b708a48d42e8692db2e90f1c11628d47e8b50c19",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+    "tests/test_digest_handoff_integration.py": "ecafa7c47d572ae45c26cf3f0d327ab87e39eca2ba008c093c9a4048e082f434",
+    "tests/test_gpu_memory_domains.py": "0fd2f087588b05a2a9e7960858440ef4c02056f45b74f1e7566d0de35d934b41",
+    "tests/test_loader_hash_advice.py": "2291f4fca5bce5ee1adc99cb6a9b8b37d484e70268acfb0de70f879d8fa6c5a4",
+    "tests/test_portable_manifest_binding.py": "ac750b427b647f173e9e6155950572dd0693ad828d26dc10054b2e1f3a5491e4",
+    "tests/test_profile_bundle.py": "2b80a7fbd18514d4789e484eb35a18989c4132b93e3aa94c9bffb5ecefb5dd47",
+    "tests/test_profile_guards.py": "5d8c52bd4c787b4e9b8b370925f9fb8d6aa9db66c621fd82ab6acfef6d69c9b3",
+    "tests/test_split_manifest_cwd.py": "29d46be51b849d9ea1344d52bfb0e7a2eae1badd19d6da024f86208c9747fbe8",
+    "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+  },
+  "packet_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v11",
+  "reviewed_target_map_exact": true,
+  "source_review_receipt": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_V11_INDEPENDENT_CONTROLLER_SOURCE_REVIEW_20261007_R1.json",
+  "source_review_sha256": "2ba41c4cc2a2f3809e237a9e9bb0bb9ab118b0f3875ea02dea70c20e5a471aeb",
+  "technical_state": "offline_packet_assembled_and_payload_integrity_selfcheck_passed",
+  "validation_tests": {
+    "command": "PYTHONPATH=.../packet_v11 taskset -c 0 prlimit --as=1500000000 --cpu=120 -- timeout 120s .venv/bin/pytest -q .../packet_v11/tests",
+    "packet_file_hash_map_unchanged_after_test": true,
+    "pycache_removed_after_test": true,
+    "result": "44 passed in 0.30 seconds"
+  }
+}

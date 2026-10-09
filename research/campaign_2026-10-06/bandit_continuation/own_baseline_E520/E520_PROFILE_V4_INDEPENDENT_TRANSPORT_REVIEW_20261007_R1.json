@@ -1,0 +1,70 @@
+{
+  "actor_code_receipt": {
+    "path": "portable_manifest_repair_candidate_v1/E520_PROFILE_V4_CODE_RECEIPT.json",
+    "sha256": "c1fa6bb1970162d4910bdd9d36bc8acec7dde0d0e4d72478699411c2469deda6"
+  },
+  "admission_effect": "Independent source/transport review passes. E520 operator may proceed only with the controller-conditional profile-only packet build/push after fresh quota, reserve, exact packet hash, mounted input, runtime and resource gates. This does not authorize model fitting, prediction export, or scoring.",
+  "candidate_path": "portable_manifest_repair_candidate_v1",
+  "findings": [
+    "The worker removes any inherited WNN_PORTABLE_DATA_MANIFEST at input-check start. It sets the variable only after all mounted source identities and staged symlinks are checked, rehashes the exact staged portable registry, durably records expected and observed path/hash, and fails before loader use on mismatch. The pinned split loader is imported and called after this gate.",
+    "The builder emits profile_kernel_bundle.py as kernel-metadata code_file. Its deterministic embedded ZIP verifies archive and per-member SHA-256, extracts into a fresh packet directory, then prepends that directory to sys.path before importing profile_worker; the sibling-import entrypoint is not selected by Kaggle.",
+    "The final frozen bundle member list includes every REVIEWED_PACKET_FILES runtime check plus external_review.json, kernel-metadata.json, and packet_meta.json. The focused coverage test checks this invariant. A pre-freeze omission of tests/test_profile_bundle.py was reported to the actor and is fixed in the reviewed hash set.",
+    "E520_PACKET_PLAN.json is structurally identical to packet_v3; the worker diff is limited to packet/review file identities, the verified portable-manifest binding, and fresh v4 working paths. Profile-only trainer argv, timing/resource bounds, abort behavior, input membership, and no-fit/no-score guards remain unchanged.",
+    "The builder review-target mode is side-effect free for packet/provider purposes; build mode requires a controller receipt bound to this exact reviewed map and has no push action."
+  ],
+  "observed_at_utc": "2026-10-07T10:22:57+00:00",
+  "receipt_id": "E520_PROFILE_V4_INDEPENDENT_TRANSPORT_REVIEW_20261007_R1",
+  "review_target_receipt": {
+    "path": "portable_manifest_repair_candidate_v1/E520_PROFILE_V4_REVIEW_TARGETS.json",
+    "sha256": "a42cf12149636af53972b6899b4f01fc49b18402629888ac8bea9dbb86092b91",
+    "status": "review-targets-only-no-packet-created"
+  },
+  "reviewed_hashes": {
+    "E520_PACKET_PLAN.json": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "prepare_profile_packet.py": "20caef2224d8d6d089479fb406a54eb1c8a424e5dabe11c4d52659ec98c74fe7",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_worker.py": "959fedbc8de7ee4c433cd3a9e60fb81ed863b8e8e765b42d3c2f89d79df29916",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+    "tests/test_portable_manifest_binding.py": "e65fda1d8ba9bfb55d3a3d11f55222b0d7819b7415577a092fe83b1edaa3025d",
+    "tests/test_profile_bundle.py": "87cc438ce2c5789e0d52ac91e3aef9c709148a72b4ba9d1927d1f5a7ca03c490",
+    "tests/test_profile_guards.py": "30f228831c3e9261dc824a1f7194572bff8bc1691fe3ee0cdad3a96cd039344b"
+  },
+  "reviewer": {
+    "agent": "/root/tpu_recovery_delivery",
+    "candidate_implementer": "weak_diversity_kaggle_actor",
+    "role": "independent_cloud_operator_code_review"
+  },
+  "scope": "E520 v4 profile-only portable-manifest environment binding and Kaggle transport; no packet build, provider calls, fit, prediction export, or scoring.",
+  "verdict": "PASS_SOURCE_REVIEW_ONLY",
+  "verification": {
+    "candidate_focused_tests": {
+      "command": "scripts/limited .venv/bin/pytest -q research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/portable_manifest_repair_candidate_v1/tests",
+      "cpu_quota": "100% (1 CPU)",
+      "memory_max_bytes": 1000000000,
+      "result": "15 passed in 0.26s",
+      "runtime_max": "120s"
+    },
+    "exact_frozen_file_hash_map": {
+      "count": 10,
+      "status": "passed"
+    },
+    "in_memory_embedded_bundle_check": {
+      "all_runtime_review_checks_covered": true,
+      "archive_and_member_hashes_passed": true,
+      "embedded_members": 13,
+      "synthetic_metadata_only": [
+        "external_review.json",
+        "kernel-metadata.json",
+        "packet_meta.json"
+      ],
+      "writes_performed": false
+    },
+    "plan_identical_to_v3": true,
+    "provider_or_gpu_compute_used": false,
+    "review_targets_only_reproduced": true,
+    "ruff_check": "passed under 1 CPU / 1 GB / 120 s",
+    "ruff_format_check": "9 files already formatted under 1 CPU / 1 GB / 120 s"
+  }
+}

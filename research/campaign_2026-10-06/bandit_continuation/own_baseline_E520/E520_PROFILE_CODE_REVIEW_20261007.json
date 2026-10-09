@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "review_id": "E520_PROFILE_CODE_REVIEW_20261007",
+  "reviewer": {
+    "id": "weak_diversity_design_critic",
+    "role": "independent-critic"
+  },
+  "scope": "frozen E520 profile-only worker, kernel, builder, plan, guards, and synthetic tests",
+  "decision": "FAIL",
+  "reviewed_sha256": {
+    "profile_worker.py": "a508a76e3da8d06aef0201b01eef7604d430fca997a0f955e090e05c810fb084",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "prepare_profile_packet.py": "1cb55b0ded8067bd0bee228f7d6f73e1acebff2dd13bea823aac90d315b54c19",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "tests/test_profile_guards.py": "99d632fdbeee5c8c350dd79c9001b1f2adfdfb25556d7732b4dd0ffb1936b7d8",
+    "tests/conftest.py": "ae0e30988d2dbcf7f330efd81c85142a36ceb5203f08947fbb6effba985d5ee2",
+    "E520_PACKET_PLAN.json": "04e991ec63ae18193576470ee294cd15a55db128c5ff6a7aa6f520416cf63cb9",
+    "README.md": "fc9223e7bced6ea06f87290ffc9f771d9840bf69bfdf28a79929544207eaa088",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "pinned_train_rnn.py": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf"
+  },
+  "checks": {
+    "actor_hash_map_matches_local_bytes": true,
+    "pinned_git_archive_hash_recomputed": true,
+    "pinned_trainer_hash_recomputed": true,
+    "synthetic_tests": "PASS: 7 passed in 0.10s under scripts/limited (1 CPU, 1.5 GB cap)",
+    "static_profile_bound": "PASS: pinned trainer sets max_batches=warmup+steps and returns after PROFILE before checkpoint code; worker fixes 3 warmups and 20 timed outer batches and verifies 20 timed samples",
+    "fit_or_checkpoint_artifact_path": "PASS: fixed command has no fit/save/export flags; pinned early return precedes checkpoint branch; worker scans the named run directory for .pt/.npy/pred artifacts",
+    "packet_or_provider_or_fit_or_score_execution": false
+  },
+  "blockers": [
+    {
+      "id": "P1_PROCESS_GPU_MEASUREMENT_NOT_FAIL_CLOSED",
+      "evidence": "profile_worker.py:_nvidia_process_bytes returns 0 when nvidia-smi succeeds but no row matches the worker PID (line 278). enforce_resource_caps treats 0 as a valid observation; the plan explicitly says missing process-memory measurement aborts.",
+      "required_change": "Return None for an absent matching process row and keep the existing CUDA-active missing-measurement abort. Record the raw query result or a diagnostic receipt."
+    },
+    {
+      "id": "P1_TRAIN_PROFILE_VRAM_PEAKS_NOT_RECORDED_OR_GATED",
+      "evidence": "Profile resource snapshots and gates use current memory_allocated/reserved only (lines 245-246); the one-second poll and per-batch checks can miss within-batch peaks. Peak APIs are read only for the later exporter probe (lines 867-868), not for the 20-batch training profile, despite reset_peak_memory_stats before it and the plan's peak caps.",
+      "required_change": "Capture and report allocator allocated/reserved high-water values for the training profile, enforce the declared peak caps against those values, and retain the observed peak in the profile receipt."
+    },
+    {
+      "id": "P2_PROFILE_DEVICE_IDENTITY_MISSING",
+      "evidence": "The worker checks only that exactly one CUDA device is visible (line 624). It records no CUDA device name, driver/runtime, or Torch version, although the plan identifies a Tesla T4 profile and these measurements are used for timing projection.",
+      "required_change": "Record the actual GPU model and runtime versions in a pre-profile environment receipt; reject an incompatible device if the T4 constraint is binding."
+    },
+    {
+      "id": "P2_EXPORT_PROBE_DOES_NOT_ASSERT_ACTUAL_OUTPUT_SHAPE",
+      "evidence": "validate_export_shape validates fixed arguments, not tensors (line 158). The worker records outputs.shape/dtype (line 863) but never compares them with the required (16, 4000, 2) shape or expected dtype before marking profile complete.",
+      "required_change": "Fail unless the actual model-input and output shapes and output dtype match the frozen export contract; add synthetic coverage for a mismatched real-output shape."
+    },
+    {
+      "id": "P2_MISMATCH_FINGERPRINTS_NOT_PERSISTED_BEFORE_ABORT",
+      "evidence": "Asset hashes are compared before observed values are added and atomically written (lines 378-382); the assets-manifest mismatch path also aborts before recording its observed digest. Thus a changed mounted asset can leave the identity receipt without the expected/observed pair required for diagnosis.",
+      "required_change": "Persist expected and observed size/hash values before each mismatch check, including the assets manifest, then abort on mismatch."
+    }
+  ],
+  "non_blocking_separation": "No E520 grader/anchor freeze is required to review or run this profile-only worker because it does not score. Fit and scoring remain separately blocked pending their own grader and fit-worker reviews.",
+  "profile_semantics_note": "The profile performs 3 warmup plus 20 timed outer batches with transient in-memory optimizer updates (the pinned loop has 10 chunk updates per outer batch); it returns before checkpoint/export code. The result should describe this as a bounded profile with transient optimizer updates, not imply zero optimizer work.",
+  "limits": "Read-only static review plus synthetic tests only. No packet build, provider call, fit, data scoring, or live resource observation was performed."
+}

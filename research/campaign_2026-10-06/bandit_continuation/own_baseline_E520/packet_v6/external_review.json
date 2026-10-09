@@ -1,0 +1,144 @@
+{
+  "attempt_id": "E520_PROFILE_V6",
+  "builder_admission": {
+    "builder_command_template": "sha256sum --check --status research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_BUILD_SHA256SUMS_20261007_R1.txt && scripts/limited .venv/bin/python research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/bounded_memory_stat_read_v6_candidate_v1/prepare_profile_packet.py --build --repo-root . --plan research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/bounded_memory_stat_read_v6_candidate_v1/E520_PACKET_PLAN.json --output-dir research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v6 --review-receipt research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_CONTROLLER_ADMISSION_20261007_R1.json --review-sha256 <CONTROLLER_ADMISSION_SHA256>",
+    "builder_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/bounded_memory_stat_read_v6_candidate_v1/prepare_profile_packet.py",
+    "builder_review_receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_CONTROLLER_ADMISSION_20261007_R1.json",
+    "candidate_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/bounded_memory_stat_read_v6_candidate_v1",
+    "packet_build_now_authorized": true,
+    "packet_output_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v6",
+    "plan_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/bounded_memory_stat_read_v6_candidate_v1/E520_PACKET_PLAN.json",
+    "requires_sha256_guard_before_build": true,
+    "review_receipt_sha256_is_computed_after_write_and_passed_as_exact_cli_argument": true
+  },
+  "cloud_runtime_gates": {
+    "automatic_oom_retry": false,
+    "exact_visible_gpus": 1,
+    "maximum_gpu_process_bytes": 3000000000,
+    "maximum_rss_bytes": 8000000000,
+    "maximum_torch_allocated_bytes": 2000000000,
+    "maximum_torch_reserved_bytes": 2500000000,
+    "minimum_free_gpu_bytes": 6442450944,
+    "minimum_host_and_cgroup_available_bytes": 4294967296,
+    "minimum_host_and_cgroup_available_fraction": 0.2,
+    "minimum_working_disk_free_bytes": 8000000000,
+    "worker_wall_cap_seconds": 1800
+  },
+  "code_receipt": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/bounded_memory_stat_read_v6_candidate_v1/E520_PROFILE_V6_CODE_RECEIPT.json",
+    "sha256": "be672667b039a92d9fc0294849765d402e10ddc37304df0c48406549511dbc3a"
+  },
+  "experiment_id": "E520_PROFILE_LOADER_HASH_ADVICE_V2",
+  "fit_enabled": false,
+  "hardware_basis": {
+    "observed_devices": [
+      {
+        "name": "Tesla T4",
+        "total_memory_bytes": 15636037632
+      },
+      {
+        "name": "Tesla T4",
+        "total_memory_bytes": 15636037632
+      }
+    ],
+    "physical_GPU_reservation_max": 2,
+    "prior_actual_cloud_device_receipt": "research/campaign_2026-10-06/cloud_preflight/downloads/e508_v5/e508_raw_teacher_pair/worker_status.json",
+    "prior_actual_cloud_device_sha256": "486b1731b81059d57c9852ef11454267492c9280668a576a56cc001c2f7aa357",
+    "v6_cuda_visible_devices": "0 (set before importing torch; worker enforces exactly one visible device)",
+    "v6_worker_measures_device_identity_before_profile": true
+  },
+  "independent_review": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_INDEPENDENT_REVIEW_20261007_R1.json",
+    "review_target_sha256": "41d93bf24ab318c99bd7cc35528bf9ac1c1d3d303602b6335dabe5367a6c4580",
+    "scope": "exact v6 source candidate; no packet/provider/fit/score by reviewer",
+    "sha256": "bd6cee8e079acdfc82976ed8ef608f93270c0db6ab186b0e47cad5fa1151aee3",
+    "verdict": "PASS_SOURCE_REVIEW_ONLY"
+  },
+  "issued_at_utc": "2026-10-07T11:33:44+00:00",
+  "local_resource_admission": {
+    "cpu_quota_per_sec_usec": 6000000,
+    "effective_cpu_cores": 6,
+    "memory_current_bytes": 15711158272,
+    "memory_headroom_to_high_bytes": 2288840704,
+    "memory_headroom_to_max_bytes": 4288839680,
+    "memory_high_bytes": 17999998976,
+    "memory_max_bytes": 19999997952,
+    "no_local_fit_or_gpu_used": true,
+    "observed_at_utc": "2026-10-07T11:33:44+00:00",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_LOCAL_RESOURCE_20261007T1133Z.json",
+    "sha256": "105c48cda29039fc3726e839eb525104c22a7fe7c5bbb13e1a113974a036db21",
+    "support_max_cpu_cores": 1,
+    "support_max_memory_bytes": 1500000000,
+    "support_max_wall_seconds": 120,
+    "swap_max_bytes": 0,
+    "workspace_disk_free_bytes": 78394920960
+  },
+  "packet_or_provider_action_before_this_receipt": false,
+  "prediction_export_enabled": false,
+  "provider_preflight": {
+    "exact_slug_present_before_build": false,
+    "kernel_id": "vladkochetov07/e520-profile-v6",
+    "kernel_list_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_KERNEL_LIST_BEFORE_20261007T1133Z.txt",
+    "kernel_list_sha256": "d6cd3e715f3a3033a3b3fcf50b0bb13b12083c6af3132fb8894ca9b56a19529e",
+    "kernel_title": "E520 Profile V6",
+    "provider_target_added": false,
+    "status_of_previous_attempt": "v4 terminal ERROR, evidence downloaded; no active E520 GPU kernel"
+  },
+  "quota_admission": {
+    "account_20_percent_reserve_seconds": 21600.0,
+    "account_gpu_reserved_seconds": 0.0,
+    "account_gpu_total_allowed_seconds": 108000.0,
+    "account_gpu_used_seconds": 44226.67,
+    "attempt_reservation_seconds": 3600.0,
+    "campaign_after_full_recovery_and_conditional_fit_seconds": 23870.176000000007,
+    "campaign_gpu_headroom_seconds": 49601.16700000001,
+    "campaign_headroom_after_reservation_seconds": 46001.16700000001,
+    "conditional_fit_quota_seconds_not_admitted": 20400.0,
+    "fit_admitted": false,
+    "observed_at_utc": "2026-10-07T11:33:44+00:00",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_QUOTA_REFRESH_20261007T1133Z.json",
+    "prior_E520_profile_quota_seconds": 1869.0089999999973,
+    "profile_recovery_remaining_after_reservation_seconds": 1730.9910000000027,
+    "profile_recovery_remaining_before_v6_seconds": 5330.991000000003,
+    "scoring_admitted": false,
+    "sha256": "f2ccada03a82db861258fd24ad9cf2861238e93a90881ddac10548c664560bdd",
+    "spendable_after_full_recovery_and_conditional_fit_seconds": 16442.339,
+    "spendable_after_reservation_seconds": 38573.33,
+    "spendable_after_reserve_seconds": 42173.33
+  },
+  "quota_charge_policy": "Account-level terminal counter delta is used for actual charges; reservation is capped at 3600 seconds for two physical T4s and is not multiplied from worker wall time.",
+  "receipt_id": "E520_PROFILE_V6_CONTROLLER_ADMISSION_20261007_R1",
+  "review_target_receipt": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/bounded_memory_stat_read_v6_candidate_v1/E520_PROFILE_V6_REVIEW_TARGETS.json",
+    "sha256": "41d93bf24ab318c99bd7cc35528bf9ac1c1d3d303602b6335dabe5367a6c4580",
+    "status": "review-targets-only-no-packet-created"
+  },
+  "reviewed_hashes": {
+    "E520_PACKET_PLAN.json": "e7eb003bbd485638c42fe218d478fe5da00474061e070c5829300f5fa22fff47",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "prepare_profile_packet.py": "70bd9495cd8405333e546a79a7ad2603e9f0fc77479a6dcc78b788432b7d82ca",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_worker.py": "79019507b460f7a9c7e2f17073a6498bfab612b57f6b17b3c738cdcb87ca5b33",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+    "tests/test_loader_hash_advice.py": "c432d0ab550a4abba0c5c866f3b2df625c463182dc22ed310845261467916189",
+    "tests/test_portable_manifest_binding.py": "70d75e9d2c842e177d59ec09b6d8cb0bc16fd81177ccf05d503a2f84dd8a63ed",
+    "tests/test_profile_bundle.py": "1ffa2171cbeb368f36a96e77b034755b4f35ac5d32b08885fb54c1ceaa56f2cd",
+    "tests/test_profile_guards.py": "4a30b665ce4e14b2eba258b060a9f9da7f89f0c1d099f53827386ff1841fec12"
+  },
+  "reviewer": {
+    "candidate_implementer": "weak_diversity_kaggle_actor",
+    "id": "e520_cloud_delivery",
+    "role": "independent-controller"
+  },
+  "root_authorization": {
+    "authorized_by": "/root",
+    "normalized_scope": "After exact independent v6 profile-only PASS, issue controller admission and proceed with one reviewed E520 private profile attempt; cumulative profile recovery cap 7200 quota seconds including prior attempts; each worker <=1800 wall seconds, reserve <=3600 quota seconds for two attached Tesla T4 GPUs; preserve live 20% account reserve and campaign cap; no paid compute; profile only; no fit/scoring until profile runtime passes and a separate conditional fit gate is satisfied.",
+    "paid_compute": false,
+    "source": "root collaboration instructions in this session"
+  },
+  "schema_version": 1,
+  "scope": "profile-only",
+  "scoring_enabled": false,
+  "status": "approved"
+}

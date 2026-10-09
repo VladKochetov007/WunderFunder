@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "review_id": "E520_PROFILE_V3_TRANSPORT_REVIEW_20261007_R1",
+  "result": "PASS",
+  "scope": "Read-only offline transport-wrapper, embedded ZIP, packet metadata, and unchanged profile-worker target review. No wrapper, provider, profile, fit, or scoring execution occurred.",
+  "targets": {
+    "packet_directory": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v3/",
+    "assembly_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V3_PACKET_ASSEMBLY_20261007_R1.json",
+      "sha256": "a55d575275f2b8ed7be3e7295f2655dece53d53d3db3f5c0682d1235629afc73"
+    },
+    "wrapper": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v3/profile_kernel_bundle.py",
+      "sha256": "6ca6a0e39ce887cf554f720cdfccd0e9c03c23e80a042955b933148c582d25a8"
+    },
+    "embedded_zip": {
+      "sha256": "0e2626b33e1da628de11db335449ed9b504b4ef5f6c270320eed1c88b282f603",
+      "bytes": 164741
+    },
+    "kernel_metadata": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v3/kernel-metadata.json",
+      "sha256": "e5c3785671e02fb72adcc9b2ece9ce2525cedd5a17cd92487f86cb4f2853c781"
+    },
+    "packet_meta": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v3/packet_meta.json",
+      "sha256": "7a122fb6bae51dd8bf03411176f6f53b5ccc119014d338940fe391820db10fb5"
+    },
+    "external_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v3/external_review.json",
+      "sha256": "6859adc6453741b1f93ade12e6f98b100c15640b04420054cb065280c5bdae5d"
+    },
+    "pagecache_code_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pagecache_repair_candidate_v1/E520_PAGECACHE_REPAIR_CODE_REVIEW_20261007_R1.json",
+      "sha256": "2b2ae8a0c9cda92505b6d8be2c7f03fdb59c8f677e9bcfaf169d995029a81523"
+    }
+  },
+  "embedded_members": {
+    "E520_PACKET_PLAN.json": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "external_review.json": "6859adc6453741b1f93ade12e6f98b100c15640b04420054cb065280c5bdae5d",
+    "kernel-metadata.json": "e5c3785671e02fb72adcc9b2ece9ce2525cedd5a17cd92487f86cb4f2853c781",
+    "packet_meta.json": "7a122fb6bae51dd8bf03411176f6f53b5ccc119014d338940fe391820db10fb5",
+    "prepare_profile_packet.py": "1cb55b0ded8067bd0bee228f7d6f73e1acebff2dd13bea823aac90d315b54c19",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_worker.py": "0ee01e1427574f4aec57954fa4cce252622fafbf2a62ba61b53b1a98cd389ccc",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/test_profile_guards.py": "77d8e5c9b543335d3903606db1f03fbcaace2d773468b0705ae0f82fd26b9d6c"
+  },
+  "findings": [
+    {
+      "check": "embedded_archive_and_member_binding",
+      "result": "pass",
+      "detail": "Independently decoded PAYLOAD_B64 without executing the wrapper. Embedded ZIP digest and byte length match. The archive has exactly the ten expected unique members; each extracted member hash matches the wrapper map and the packet_v3 file on disk. No duplicate names, absolute paths, parent traversal, or symlink entries were found."
+    },
+    {
+      "check": "safe_extraction_and_import_target",
+      "result": "pass",
+      "detail": "Static inspection shows a fresh extraction directory at /kaggle/working/e520_profile_packet_v3 created with exist_ok=False. The wrapper rejects absolute/parent-traversal/symlink ZIP paths, verifies each member hash, adds only that extracted root to sys.path, and imports/calls profile_worker.run_profile(packet_root). It has no fit, prediction-export, or scoring dispatch."
+    },
+    {
+      "check": "private_kernel_and_profile_only_binding",
+      "result": "pass",
+      "detail": "Kaggle metadata selects profile_kernel_bundle.py for private kernel vladkochetov07/e520-profile-v3 and lists only the expected user and E520 asset datasets. packet_meta binds the external review and page-cache code-review receipts and states profile_only=true, fit_enabled=false, prediction_export_enabled=false. The external review is approved for profile-only scope and records no recipe or membership change."
+    },
+    {
+      "check": "unchanged_reviewed_worker_and_scientific_payload",
+      "result": "pass",
+      "detail": "Embedded profile_worker.py exactly matches the page-cache candidate PASS target SHA. The pinned source archive, profile kernel, plan, guards, builder, and tests match the packet map. No data or model recipe changes are introduced by the transport wrapper."
+    }
+  ],
+  "verification": {
+    "method": "AST extraction of wrapper constants, ZIP parsing and hashing, packet-file byte comparison, and JSON metadata/hash-binding checks; wrapper and provider were not executed.",
+    "resource_boundary": "Read-only verification ran through scripts/limited at 1 CPU, 1.5 GB memory, and 120 seconds maximum.",
+    "private_kernel_metadata": {
+      "id": "vladkochetov07/e520-profile-v3",
+      "code_file": "profile_kernel_bundle.py",
+      "is_private": true,
+      "dataset_sources": [
+        "vladkochetov07/wunder-funder",
+        "vladkochetov07/wnn-c20261004-fold0-assets"
+      ]
+    },
+    "static_entrypoint": "profile_worker.run_profile(packet_root)",
+    "static_extraction_path": "/kaggle/working/e520_profile_packet_v3",
+    "fresh_directory_required": true
+  },
+  "limitation": "The extraction directory intentionally must be absent; a reused non-empty Kaggle working directory will fail closed. This review establishes artifact binding and static transport behavior only, not Kaggle startup or device execution."
+}

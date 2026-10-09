@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "review_id": "E520_PAGECACHE_REPAIR_CODE_REVIEW_20261007_R1",
+  "result": "PASS",
+  "review_scope": "Independent read-only review of isolated profile-only raw-Parquet hash/page-cache advice code. This does not admit packetization, provider execution, fit, scoring, or any scientific claim.",
+  "targets": {
+    "candidate_worker": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pagecache_repair_candidate_v1/profile_worker_candidate.py",
+      "sha256": "0ee01e1427574f4aec57954fa4cce252622fafbf2a62ba61b53b1a98cd389ccc"
+    },
+    "candidate_manifest": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pagecache_repair_candidate_v1/E520_PAGECACHE_REPAIR_CANDIDATE_V1.json",
+      "sha256": "c1f8338deca73ef049dd5043cd947741da81fb61ed2212208f75e14c4f9c9290"
+    },
+    "candidate_readme": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pagecache_repair_candidate_v1/README.md",
+      "sha256": "190f11918da961ae576d9343eb71b8a6aa056ed413459f9e6ad06ecec041d53c"
+    },
+    "candidate_test_conftest": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pagecache_repair_candidate_v1/tests/conftest.py",
+      "sha256": "ab043665e471990efa1b8733836f516145f995eefae5d4b36b73662982d365af"
+    },
+    "candidate_tests": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pagecache_repair_candidate_v1/tests/test_hash_cache_advice.py",
+      "sha256": "beda2ec1061ff756e9bffae2e5d4b07e3d037ed605e406fddbbab9d007450e63"
+    },
+    "frozen_v2_worker": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v2/profile_worker.py",
+      "sha256": "e055d47d8950d211541298a37d237c1b7d76b5a5dc3121a0c9793ce7c74f2107"
+    }
+  },
+  "findings": [
+    {
+      "check": "change_is_narrow_and_identity_bound",
+      "result": "pass",
+      "detail": "Diff against the frozen v2 worker is limited to a new candidate packet ID, optional hash-advice helper/receipt, use of that helper for raw train/valid parquet SHA-256, and inclusion of its receipt in successful profile output. Expected SHA-256 values, byte counts, footer checks, assets, split/membership checks, profile recipe, and resource caps remain unchanged."
+    },
+    {
+      "check": "hash_equivalence_and_actual_advice_call",
+      "result": "pass",
+      "detail": "The helper updates SHA-256 with the same sequential bytes in order. A bounded local synthetic file of 3 MiB + 4 bytes, hashed using the real os.posix_fadvise implementation, matched hashlib's reference digest; it made three aligned advice calls and recorded the complete digest. The existing synthetic suite also passed byte-equivalence and page-alignment checks."
+    },
+    {
+      "check": "page_cache_advice_semantics",
+      "result": "pass_with_limit",
+      "detail": "On the Linux target, POSIX_FADV_DONTNEED on page-aligned ranges after each 1 MiB read is an applicable advisory for clean file-backed page-cache pages. The code rounds the advised end down to the system page size, checks block/page compatibility, and leaves at most the final partial page unadvised. A successful call is only a hint; it does not prove that pages were reclaimed."
+    },
+    {
+      "check": "failure_gates_and_identity_persistence",
+      "result": "pass",
+      "detail": "Unavailable advice support fails before reading. Advice/read errors write a durable failed progress record and abort without an unadvised fallback. Byte-count drift aborts. On completed hashes, expected and observed raw-Parquet identity data are persisted before mismatch comparison, preserving the v2 fail-closed identity check. The existing strict resource gates remain unchanged."
+    },
+    {
+      "check": "recipe_and_data_semantics",
+      "result": "pass",
+      "detail": "No model, fit, prediction, evaluation, data-membership, or score path changed. The candidate remains profile-only."
+    }
+  ],
+  "verification": {
+    "synthetic_pytest": "4 passed",
+    "ruff_check": "passed",
+    "actual_local_posix_fadvise_probe": {
+      "result": "passed",
+      "bytes": 3145732,
+      "advice_calls": 3,
+      "bytes_advised": 3145728,
+      "sha256_matches_reference": true,
+      "scope": "small temporary file only; no mounted dataset, GPU, packet, provider, fit, or scoring"
+    },
+    "resource_boundary": "All Python checks were run through scripts/limited at 1 CPU, 1.5 GB memory, and 120 seconds maximum."
+  },
+  "non_blocking_diagnostic_recommendation": "For the next admitted profile attempt, capture a small cgroup-v2 memory.stat sample (at least file, inactive_file, active_file, file_dirty, file_writeback) alongside existing memory.current/headroom snapshots before and after raw parquet hashing. This would test whether file cache caused the prior headroom abort and whether advice reduced it; successful fadvise calls alone cannot establish eviction. The missing sample does not block this code review because the candidate labels the diagnosis as an inference and retains strict abort gates.",
+  "limitations": [
+    "No Kaggle or mounted-parquet execution was performed; actual cgroup cache response remains unmeasured.",
+    "This PASS is for the isolated profile-worker code only and does not admit packetization, cloud execution, fitting, or scoring."
+  ]
+}

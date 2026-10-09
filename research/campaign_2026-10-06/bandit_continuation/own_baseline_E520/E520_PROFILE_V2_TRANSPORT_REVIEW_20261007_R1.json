@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "review_id": "E520_PROFILE_V2_TRANSPORT_REVIEW_20261007_R1",
+  "reviewer": {
+    "id": "weak_diversity_design_critic",
+    "role": "independent-critic"
+  },
+  "decision": "PASS",
+  "scope": "packaging-only v2 single-script transport wrapper and exact packet bytes",
+  "transport_wrapper_sha256": "a1f782aa3243d957f9696b25fdce66c1ec22a584948249d286675397a96d063d",
+  "embedded_zip_sha256": "2bf0a6d246274421c8f8060edaa9958e10e7bbafa981ab437ab5ef6b54340ea6",
+  "repair_receipt_sha256": "8003e176b31458affbeea9247006f07ca36c1bbbdb7f11c8244b68dce24f6b6f",
+  "prior_v1_log": {
+    "path": "research/campaign_2026-10-06/cloud_preflight/downloads/e520_profile_v1/e520-profile-v1.log",
+    "sha256": "25b282dc5d389fe2f706e57a57aef4c79f5badfba6d163e221f3cd4039473e26",
+    "observed_failure": "ModuleNotFoundError: No module named 'profile_worker' from /kaggle/src/script.py"
+  },
+  "packet_v2_files": {
+    "E520_PACKET_PLAN.json": {"bytes": 29493, "sha256": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13"},
+    "export_guards.py": {"bytes": 3667, "sha256": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550"},
+    "external_review.json": {"bytes": 9134, "sha256": "25c9c1c95c1a62cfe4dfbc2ce88f0d3e02132769dc6971dc674d6b4a70e53390"},
+    "kernel-metadata.json": {"bytes": 354, "sha256": "33e60b3db0cf870d9b886e54fc397bf92839729a15d285235105cc77e8818ea4"},
+    "packet_meta.json": {"bytes": 1206, "sha256": "941ed5e9330a9906dc1c5e227f2188966e57a8ef96c38f3721a43053519311d9"},
+    "prepare_profile_packet.py": {"bytes": 7970, "sha256": "1cb55b0ded8067bd0bee228f7d6f73e1acebff2dd13bea823aac90d315b54c19"},
+    "profile_kernel.py": {"bytes": 789, "sha256": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb"},
+    "profile_kernel_bundle.py": {"bytes": 241997, "sha256": "a1f782aa3243d957f9696b25fdce66c1ec22a584948249d286675397a96d063d"},
+    "profile_worker.py": {"bytes": 48132, "sha256": "e055d47d8950d211541298a37d237c1b7d76b5a5dc3121a0c9793ce7c74f2107"},
+    "source_archive.tar": {"bytes": 512000, "sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc"},
+    "tests/test_profile_guards.py": {"bytes": 10357, "sha256": "77d8e5c9b543335d3903606db1f03fbcaace2d773468b0705ae0f82fd26b9d6c"}
+  },
+  "verification": {
+    "packet_count_and_total_bytes_match_repair_receipt": "PASS: 11 files, 865099 bytes",
+    "embedded_zip_sha_and_member_hashes": "PASS: ZIP digest matches; exact ten-member set, no duplicates or symlinks/path traversal, every member matches its embedded SHA-256 and packet_v2 bytes",
+    "packet_v1_v2_scientific_payload": "PASS: worker, profile kernel, builder, guards, tests, plan, source archive, packet metadata, and external review are byte-identical; only Kaggle kernel metadata and the single-script transport entry differ",
+    "review_and_packet_meta_binding": "PASS: external review SHA matches packet_meta; reviewer is e520_cloud_delivery with independent-controller role; approved profile-only scope and reviewed hash map exactly match packet_meta",
+    "kaggle_metadata": "PASS: code_file is profile_kernel_bundle.py; private GPU script; no competition source; intended dataset sources retained",
+    "wrapper_behavior": "PASS: checks embedded ZIP digest; extracts only under fixed /kaggle/working/e520_profile_packet_v2 with absolute/parent/symlink path rejection; verifies all embedded file hashes before sys.path insertion/import; imports and calls only unchanged profile_worker.run_profile(packet_root)",
+    "science_and_admission": "PASS: wrapper does not alter the reviewed worker/recipe/data membership or add fit, prediction-export, metric, score, provider, or submission code",
+    "wrapper_or_provider_execution": false
+  },
+  "operational_note": "The wrapper intentionally refuses an existing /kaggle/working/e520_profile_packet_v2 path; use a fresh Kaggle working directory for the identified v2 attempt.",
+  "limits": "Read-only local byte/hash/metadata review and in-memory ZIP inspection only. The wrapper was not executed and no provider call, fit, or scoring was made."
+}

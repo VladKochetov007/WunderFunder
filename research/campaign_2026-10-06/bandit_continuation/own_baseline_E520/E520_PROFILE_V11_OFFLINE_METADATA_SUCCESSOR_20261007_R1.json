@@ -1,0 +1,109 @@
+{
+  "changed_files_from_parent": [
+    "kernel-metadata.json",
+    "packet_meta.json",
+    "profile_kernel_bundle.py"
+  ],
+  "cli_default_evidence": {
+    "api_source_path": ".venv/lib/python3.13/site-packages/kaggle/api/kaggle_api_extended.py",
+    "api_source_sha256": "210e589ab1f7359ffb560aacfe1c003ac1bc844c366f4ff709bf3d13de4d5458",
+    "cli_version": "Kaggle CLI 2.2.4",
+    "push_default": true,
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_KAGGLE_CLI_INTERNET_DEFAULT_20261007_R1.json",
+    "receipt_sha256": "680dac8b4038b51a2cb70bb66e00fd78395f2a57c7c4582fa55645fa5610c031"
+  },
+  "embedded_bundle": {
+    "embedded_bytes_equal_staged_files": true,
+    "member_count": 19,
+    "members": [
+      "E520_PACKET_PLAN.json",
+      "export_guards.py",
+      "external_review.json",
+      "gpu_memory_domains.py",
+      "kernel-metadata.json",
+      "packet_meta.json",
+      "prepare_profile_packet.py",
+      "profile_kernel.py",
+      "profile_worker.py",
+      "source_archive.tar",
+      "tests/conftest.py",
+      "tests/test_digest_handoff_integration.py",
+      "tests/test_gpu_memory_domains.py",
+      "tests/test_loader_hash_advice.py",
+      "tests/test_portable_manifest_binding.py",
+      "tests/test_profile_bundle.py",
+      "tests/test_profile_guards.py",
+      "tests/test_split_manifest_cwd.py",
+      "verified_digest_handoff.py"
+    ],
+    "payload_file_hash_map_exact": true,
+    "payload_zip_sha256": "7d7b0c73f126749526f47b77d904264a71a729c4b70deecd382f50dbe39310f0"
+  },
+  "focused_packet_tests": {
+    "command": "PYTHONPATH=.../packet_v11_offline_successor taskset -c 0 prlimit --as=1500000000 --cpu=120 -- timeout 120s .venv/bin/pytest -q .../packet_v11_offline_successor/tests",
+    "pycache_removed_after_test": true,
+    "result": "44 passed in 0.30 seconds",
+    "successor_packet_file_map_unchanged": true
+  },
+  "id": "E520_PROFILE_V11_OFFLINE_METADATA_SUCCESSOR_20261007_R1",
+  "kernel_metadata_delta": {
+    "enable_internet_parent": "omitted; Kaggle CLI 2.2.4 defaults true",
+    "enable_internet_successor": false,
+    "kernel_slug_unchanged": true,
+    "parent_sha256": "60b394ba7ecf974de9fbd6dcb30812346f7a4ebade471b35a1343bf6967adc0e",
+    "successor_sha256": "f2f8e6c43687037da8caa2af681a5612b1636baa556a1859ce5d69039843e1ad"
+  },
+  "linked_reviews": {
+    "adapter_acceptance_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_V11_ROOT_ADAPTER_ACCEPTANCE_20261007_R1.json",
+    "adapter_acceptance_sha256": "6d91a5f297b216603f5597c64784ea777c95b627c8946f2b201bd9c6c131ff41",
+    "adapter_acceptance_verdict": "ACCEPTED_ONLY_AS_OFFLINE_BUILD_SCHEMA_PROJECTION",
+    "fresh_quota_and_provider_status": "not refreshed; network DNS restriction persists",
+    "source_review_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_V11_INDEPENDENT_CONTROLLER_SOURCE_REVIEW_20261007_R1.json",
+    "source_review_sha256": "2ba41c4cc2a2f3809e237a9e9bb0bb9ab118b0f3875ea02dea70c20e5a471aeb",
+    "transport_review": "pending"
+  },
+  "observed_at_utc": "2026-10-07T17:52:15Z",
+  "parent_packet": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v11",
+  "parent_packet_manifest_sha256": "83ae63a9e019973a37fd3709a6d6218beae62ed875f13b6da5fe93512f2e8c4e",
+  "post_test_successor_packet_bytes": 1002693,
+  "provider_push_attempted": false,
+  "provider_push_authorized": false,
+  "required_next_gates": [
+    "Independent transport review of this exact successor packet and explicit offline metadata.",
+    "Fresh provider quota/status/reserve/headroom before one profile push under root admission.",
+    "Do not use parent packet_v11 because its missing enable_internet field defaults true in Kaggle CLI 2.2.4."
+  ],
+  "source_preservation": {
+    "all_16_root_reviewed_hashes_unchanged": true,
+    "profile_only_fit_disabled": true,
+    "profile_worker_sha256_unchanged": true,
+    "provider_push_attempted": false,
+    "source_archive_sha256_unchanged": true
+  },
+  "successor_packet": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v11_offline_successor",
+  "successor_packet_bytes": 1002693,
+  "successor_packet_files": {
+    "E520_PACKET_PLAN.json": "7f9871a2b34daa25d21b3aaba27de8e2f521d6f4eea3a58c0da38156d225703d",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "external_review.json": "e81f70cd6c9bb688f95af00a1e7d9d46903d4e995fbfa3373a6416c275ec18cd",
+    "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+    "kernel-metadata.json": "f2f8e6c43687037da8caa2af681a5612b1636baa556a1859ce5d69039843e1ad",
+    "packet_meta.json": "f559d687af38d057d560dea880e452a70e026c553722baeff80e8212fafff7f1",
+    "prepare_profile_packet.py": "c2f942133f4b4468bc34359eb5122dca5c0338b30c1d901c7766aaccd1059f26",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_kernel_bundle.py": "569f57c336162099f357fd14ce4fb7a21da508da428dd775b346340c2bd828de",
+    "profile_worker.py": "b6b86a7008b2f127a51a9376b708a48d42e8692db2e90f1c11628d47e8b50c19",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+    "tests/test_digest_handoff_integration.py": "ecafa7c47d572ae45c26cf3f0d327ab87e39eca2ba008c093c9a4048e082f434",
+    "tests/test_gpu_memory_domains.py": "0fd2f087588b05a2a9e7960858440ef4c02056f45b74f1e7566d0de35d934b41",
+    "tests/test_loader_hash_advice.py": "2291f4fca5bce5ee1adc99cb6a9b8b37d484e70268acfb0de70f879d8fa6c5a4",
+    "tests/test_portable_manifest_binding.py": "ac750b427b647f173e9e6155950572dd0693ad828d26dc10054b2e1f3a5491e4",
+    "tests/test_profile_bundle.py": "2b80a7fbd18514d4789e484eb35a18989c4132b93e3aa94c9bffb5ecefb5dd47",
+    "tests/test_profile_guards.py": "5d8c52bd4c787b4e9b8b370925f9fb8d6aa9db66c621fd82ab6acfef6d69c9b3",
+    "tests/test_split_manifest_cwd.py": "29d46be51b849d9ea1344d52bfb0e7a2eae1badd19d6da024f86208c9747fbe8",
+    "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+  },
+  "technical_state": "metadata_only_offline_successor_built_and_selfchecked",
+  "transport_review_status": "pending independent review of exact successor packet and explicit offline setting"
+}

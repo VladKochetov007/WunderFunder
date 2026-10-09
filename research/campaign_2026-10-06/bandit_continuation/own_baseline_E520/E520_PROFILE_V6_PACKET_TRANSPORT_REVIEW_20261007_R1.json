@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E520_PROFILE_V6_PACKET_TRANSPORT_REVIEW_20261007_R1",
+  "observed_at_utc": "2026-10-07T11:36:47Z",
+  "experiment_id": "E520_PROFILE_LOADER_HASH_ADVICE_V2",
+  "attempt_id": "E520_PROFILE_V6",
+  "packet_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v6",
+  "packet_assembly_receipt": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_PACKET_ASSEMBLY_20261007_R1.json",
+    "sha256": "cef1fa5e10972b84a6773ec4a31ac89b664b7f744c13db723198f86115cb3f08"
+  },
+  "controller_admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_CONTROLLER_ADMISSION_20261007_R1.json",
+    "sha256": "19e87b0902ac84bdd185a94dff55754574eb6d74448f5d85c538fa84bbe43247"
+  },
+  "independent_source_review": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_INDEPENDENT_REVIEW_20261007_R1.json",
+    "sha256": "bd6cee8e079acdfc82976ed8ef608f93270c0db6ab186b0e47cad5fa1151aee3",
+    "review_target_sha256": "41d93bf24ab318c99bd7cc35528bf9ac1c1d3d303602b6335dabe5367a6c4580",
+    "verdict": "PASS_SOURCE_REVIEW_ONLY"
+  },
+  "reviewer": {
+    "id": "/root/tpu_recovery_delivery",
+    "role": "independent_cloud_operator_transport_review",
+    "candidate_implementer": "weak_diversity_kaggle_actor",
+    "packet_assembler": "e520_cloud_delivery"
+  },
+  "scope": "Static review of the exact private profile-only packet assembly and Kaggle code-file transport; no wrapper execution, provider call, fit, prediction export, or score.",
+  "verdict": "PASS_STATIC_TRANSPORT_REVIEW_ONLY",
+  "packet_hashes": {
+    "E520_PACKET_PLAN.json": "e7eb003bbd485638c42fe218d478fe5da00474061e070c5829300f5fa22fff47",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "external_review.json": "19e87b0902ac84bdd185a94dff55754574eb6d74448f5d85c538fa84bbe43247",
+    "kernel-metadata.json": "488837350e04b96603b70eeaedf454f590a825c5b2e01ad9ed45c956d7dae0b7",
+    "packet_meta.json": "08e7d45d09dad9c8652eb1b4556bbca1c98f4013f1a5565fcc7d75d68c82964c",
+    "prepare_profile_packet.py": "70bd9495cd8405333e546a79a7ad2603e9f0fc77479a6dcc78b788432b7d82ca",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_kernel_bundle.py": "6c741d26915c0626688d484a640b2e2d1f35229be3454cc4b66b89c4831f4b5d",
+    "profile_worker.py": "79019507b460f7a9c7e2f17073a6498bfab612b57f6b17b3c738cdcb87ca5b33",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+    "tests/test_loader_hash_advice.py": "c432d0ab550a4abba0c5c866f3b2df625c463182dc22ed310845261467916189",
+    "tests/test_portable_manifest_binding.py": "70d75e9d2c842e177d59ec09b6d8cb0bc16fd81177ccf05d503a2f84dd8a63ed",
+    "tests/test_profile_bundle.py": "1ffa2171cbeb368f36a96e77b034755b4f35ac5d32b08885fb54c1ceaa56f2cd",
+    "tests/test_profile_guards.py": "4a30b665ce4e14b2eba258b060a9f9da7f89f0c1d099f53827386ff1841fec12"
+  },
+  "embedded_zip": {
+    "sha256": "3b85d81d635919aa1cf0321d5135f2129455576e7def6618d1afcc51aa05e691",
+    "member_count": 14,
+    "unique_member_names": true,
+    "safe_relative_regular_files_only": true,
+    "all_member_bytes_and_sha256_match_packet_and_assembly_map": true
+  },
+  "kernel_entrypoint": {
+    "metadata_path": "packet_v6/kernel-metadata.json",
+    "metadata_sha256": "488837350e04b96603b70eeaedf454f590a825c5b2e01ad9ed45c956d7dae0b7",
+    "private": true,
+    "slug": "vladkochetov07/e520-profile-v6",
+    "title": "E520 Profile V6",
+    "code_file": "profile_kernel_bundle.py"
+  },
+  "findings": [
+    "Independent rehash confirms all 15 packet files match the assembly receipt's names, byte sizes, and SHA-256 values. The assembly receipt, controller admission, and independent source-review receipt also match their cited hashes; packet external_review.json is byte-identical to the controller admission and packet_meta.json binds that same digest.",
+    "The embedded ZIP is decoded from the wrapper's literal constant without importing or executing the wrapper. Its SHA-256 matches both the wrapper constant and assembly receipt. It contains exactly 14 unique members; every member is a safe relative regular file with no absolute path, parent traversal, backslash, or symlink, and every member's bytes/hash match the packet directory and assembly map.",
+    "Static AST/source inspection confirms the Kaggle code entrypoint is the self-contained profile_kernel_bundle.py, whose imports are standard-library modules plus the dynamic profile_worker import after extraction. It verifies the embedded ZIP digest, uses a fresh extraction directory with exist_ok=False, rejects unsafe paths/symlinks, checks each embedded member digest, then adds the extracted packet root before importing profile_worker. There is no sibling-import regression in the selected code_file path.",
+    "The packet metadata is private and points to the exact E520 Profile V6 slug. The packet remains profile-only: fit, checkpoint, prediction export, and scoring are disabled. The controller admission separately preserves fresh pre-push quota/reserve, packet-hash, runtime, input-identity, and resource gates."
+  ],
+  "checks": {
+    "packet_file_count": 15,
+    "packet_file_hashes_match_assembly": true,
+    "embedded_member_count": 14,
+    "embedded_member_set_exact": true,
+    "wrapper_sha256": "6c741d26915c0626688d484a640b2e2d1f35229be3454cc4b66b89c4831f4b5d",
+    "embedded_zip_sha256": "3b85d81d635919aa1cf0321d5135f2129455576e7def6618d1afcc51aa05e691",
+    "code_file_metadata_points_to_wrapper": true,
+    "wrapper_executed": false,
+    "provider_called": false,
+    "fit_or_prediction_export_started": false,
+    "scoring_started": false
+  },
+  "admission_effect": "Static transport review passes for these exact packet bytes only. It does not itself submit or start the provider job; any push remains subject to the operator's fresh pre-push quota/reserve, target identity, runtime, input, and resource gates. It does not authorize fitting, scoring, or prediction export."
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E520_PROFILE_V1",
+  "identified_attempt": "E520_PROFILE_V1_METADATA_REPAIR_01",
+  "recorded_at_utc": "2026-10-07T08:48:43Z",
+  "status": "packet_metadata_repaired_before_any_provider_call",
+  "reason": "Kaggle CLI slugifies the title and warns when it does not match the explicit kernel id. The builder's original title slug was e520-profile-only-v1 while the authorized id ends in e520-profile-v1.",
+  "authority": {
+    "controller_admission_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_CONTROLLER_ADMISSION_20261007_R1.json",
+    "controller_admission_sha256": "25c9c1c95c1a62cfe4dfbc2ce88f0d3e02132769dc6971dc674d6b4a70e53390",
+    "scope": "operational Kaggle metadata fix only; profile-only admission unchanged"
+  },
+  "source_packet_build": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_PACKET_BUILD_20261007_R1.json",
+    "sha256": "dbcdba29c5beb06b0f665077316c5fe507d21dcd3f4a0a8cf9c2424d98ae71b8",
+    "packet_directory": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v1"
+  },
+  "provider_metadata_change": {
+    "file": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v1/kernel-metadata.json",
+    "original_sha256": "faff5395cf272d0bfe5cebb21034d0eac83736498bf494266986f05226251a68",
+    "new_sha256": "3ae47af686293d06cb1abd4fe4b572a0fe0a272227820d7cf6795e4cd161b236",
+    "changed_field": "title",
+    "old_title": "E520 profile-only v1",
+    "new_title": "E520 Profile V1",
+    "kernel_id": "vladkochetov07/e520-profile-v1",
+    "new_title_slug": "e520-profile-v1",
+    "slug_matches_id": true,
+    "private": true,
+    "gpu_enabled": true
+  },
+  "unchanged_reviewed_sources": {
+    "controller_reviewed_code_and_source_archive_hashes_remain": "bound by E520_PROFILE_CONTROLLER_ADMISSION_20261007_R1.json",
+    "no_scientific_recipe_or_data_membership_change": true,
+    "no_grader_or_score_change": true
+  },
+  "provider_action_before_repair": false,
+  "provider_timeout_seconds": 1800,
+  "maximum_reserved_quota_seconds": 3600,
+  "fit_or_scoring_authorized": false
+}

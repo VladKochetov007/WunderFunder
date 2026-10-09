@@ -1,0 +1,42 @@
+{
+  "decision": "one bounded CPU-only push CLI call may proceed; local accelerator remains outside scope",
+  "observed_at_utc": "2026-10-07T13:57:02+00:00",
+  "receipt_id": "E520_PROFILE_V8_LOCAL_RESOURCE_PREPUSH_20261007T1356Z",
+  "resource_boundary": {
+    "gpu_inventory_query": {
+      "argv": [
+        "nvidia-smi",
+        "--query-gpu=uuid,name,memory.total,memory.free,utilization.gpu",
+        "--format=csv,noheader"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "GPU-afbf2864-833f-9bd2-10ac-536e31337638, NVIDIA GeForce RTX 3060 Laptop GPU, 6144 MiB, 2486 MiB, 99 %"
+    },
+    "host_meminfo_bytes": {
+      "MemAvailable": 32730791936,
+      "MemTotal": 67177951232,
+      "SwapFree": 2657591296,
+      "SwapTotal": 8589930496
+    },
+    "observed_memory_headroom_to_high_bytes": 1235821568,
+    "observed_memory_headroom_to_max_bytes": 3235821568,
+    "push_wrapper": {
+      "cpu_quota": "100%",
+      "memory_max_bytes": 1000000000,
+      "runtime_max_seconds": 120,
+      "threads": 1
+    },
+    "slice": "wnn-campaign.slice",
+    "systemd_properties": {
+      "CPUQuotaPerSecUSec": "6s",
+      "CPUUsageNSec": "14832167417000",
+      "MemoryCurrent": "16764178432",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    }
+  },
+  "schema_version": 1,
+  "scope": "bounded CPU-only push tooling; no local GPU use, fit, or profile"
+}

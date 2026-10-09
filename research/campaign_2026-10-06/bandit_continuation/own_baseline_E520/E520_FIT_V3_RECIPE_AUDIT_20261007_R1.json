@@ -1,0 +1,385 @@
+{
+  "checks": {
+    "executed_in_this_audit": [
+      "rehashed all18 exact fit-v3 map entries",
+      "parsed fit config, plan and grader spec",
+      "compared target semantics between config and plan",
+      "read pinned trainer weighted_mse_loss and actual fit selection/membership code",
+      "compared frozen worker argv and grader endpoint fields"
+    ],
+    "independent_review_checks": {
+      "builder_replay": "Bounded --review-targets-only replay reproduced the map; it did not assemble a packet.",
+      "execution_scope": "Read-only code/hash review and focused tests only; no packet build, provider action, fit, export, grade, or score.",
+      "focused_tests": {
+        "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/pytest -q research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_fit_digest_handoff_candidate_v1/tests",
+        "result": "21 passed in 1.29s"
+      },
+      "hash_binding": "All 18 candidate map entries independently rehashed with no mismatch.",
+      "recipe_comparison": "FIT_STAGE_CONFIG recipe/evaluation/input_identity/resource_policy equal fit-v2; fit-stage plan budget and recipe equal; grader spec, evaluator, and source archive SHA-256 values match fit-v2."
+    },
+    "no_fit_or_score": true,
+    "no_packet_or_provider_action": true
+  },
+  "exact_seed_commands": {
+    "e520_raw_baseline_s3_f0": [
+      "python",
+      "scripts/train_rnn.py",
+      "--name",
+      "e520_raw_baseline_s3_f0",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--hidden",
+      "128",
+      "--layers",
+      "2",
+      "--dropout",
+      "0",
+      "--seed",
+      "3",
+      "--raw-only",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--train-source",
+      "train+valid",
+      "--train-seqs",
+      "10607",
+      "--split-manifest",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--valid-fold",
+      "0",
+      "--epochs",
+      "4",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "3",
+      "--no-eval-during-fit",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--lr",
+      "0.001",
+      "--wd",
+      "0.01",
+      "--optim",
+      "adamw",
+      "--sched",
+      "onecycle",
+      "--precision",
+      "fp16",
+      "--init",
+      "",
+      "--distill",
+      "",
+      "--distill-boot-h",
+      "0",
+      "--propensity",
+      "",
+      "--prop-input",
+      "",
+      "--prop-power",
+      "1",
+      "--prop-eps",
+      "0",
+      "--valid-true-mask",
+      "-1",
+      "--ema-teacher",
+      "0",
+      "--aux-struct",
+      "0",
+      "--aux-next",
+      "0",
+      "--aux-tier",
+      "0",
+      "--aux-mask",
+      "0",
+      "--aux-sign",
+      "0",
+      "--aux-quote",
+      "0",
+      "--aux",
+      "",
+      "--aux-weight",
+      "0",
+      "--swa-frac",
+      "0",
+      "--fast"
+    ],
+    "e520_raw_baseline_s4_f0": [
+      "python",
+      "scripts/train_rnn.py",
+      "--name",
+      "e520_raw_baseline_s4_f0",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--hidden",
+      "128",
+      "--layers",
+      "2",
+      "--dropout",
+      "0",
+      "--seed",
+      "4",
+      "--raw-only",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--train-source",
+      "train+valid",
+      "--train-seqs",
+      "10607",
+      "--split-manifest",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--valid-fold",
+      "0",
+      "--epochs",
+      "4",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "3",
+      "--no-eval-during-fit",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--lr",
+      "0.001",
+      "--wd",
+      "0.01",
+      "--optim",
+      "adamw",
+      "--sched",
+      "onecycle",
+      "--precision",
+      "fp16",
+      "--init",
+      "",
+      "--distill",
+      "",
+      "--distill-boot-h",
+      "0",
+      "--propensity",
+      "",
+      "--prop-input",
+      "",
+      "--prop-power",
+      "1",
+      "--prop-eps",
+      "0",
+      "--valid-true-mask",
+      "-1",
+      "--ema-teacher",
+      "0",
+      "--aux-struct",
+      "0",
+      "--aux-next",
+      "0",
+      "--aux-tier",
+      "0",
+      "--aux-mask",
+      "0",
+      "--aux-sign",
+      "0",
+      "--aux-quote",
+      "0",
+      "--aux",
+      "",
+      "--aux-weight",
+      "0",
+      "--swa-frac",
+      "0",
+      "--fast"
+    ]
+  },
+  "finding_first": {
+    "blocking_recipe_findings": [],
+    "execution_consequence": "Do not fit from this audit; v7 did not produce a GPU training profile and no fit packet/admission exists.",
+    "status": "recipe semantics and implementation agree on the frozen hashes; fit remains blocked solely on the failed/missing successful actual profile and new live admission"
+  },
+  "limitations": [
+    "This read-only recipe audit does not demonstrate runtime feasibility, successful training, checkpoint quality or public performance.",
+    "No E520 fit, checkpoint, prediction, grade or score exists yet.",
+    "The registered fold-0 evaluation is exposed development data; bootstrap does not include training-seed or public uncertainty.",
+    "v7 stopped before GPU environment/profile telemetry; the profile gate and fresh quota/resource admission must pass before fit."
+  ],
+  "observed_at_utc": "2026-10-07T13:29:40+00:00",
+  "receipt_id": "E520_FIT_V3_RECIPE_AUDIT_20261007_R1",
+  "recipe_difference_table": [
+    {
+      "classification": "match",
+      "implemented": "empty --init; raw-only; no distill/propensity/auxiliary/SWA/EMA",
+      "required_match": "two independent scratch raw-only GRUs, seeds3/4, no teacher initializer or distillation",
+      "topic": "model and ancestry"
+    },
+    {
+      "classification": "match by recipe/source contract; not observed in a fit",
+      "implemented": "train+valid with frozen fold0 manifest; 10,535 train groups +1,405 eligible valid groups; 468 evaluation groups; runtime membership is checked before each seed output",
+      "required_match": "fit only campaign-approved fold0 training groups; exclude evaluation components and corrupt group528",
+      "topic": "fold membership"
+    },
+    {
+      "classification": "match",
+      "implemented": "both frozen seed commands contain the declared flags; fit worker fixes serial seed3 then seed4 and verifies epoch3 checkpoint provenance",
+      "required_match": "GRU128x2, dropout0, batch16, chunk2000, AdamW/OneCycle, lr.001, wd.01, fp16, four epochs, fixed epoch3, no eval",
+      "topic": "model/update recipe"
+    },
+    {
+      "classification": "match; training clip is an intentional recipe variable",
+      "implemented": "clip targets \u00b12; weights abs(clipped target)*valid; sum(weight*float32 squared residual)/max(sum(weight),1e-8) per chunk; predictions are not clipped in training loss",
+      "required_match": "explicit WMSE target transformation, label weights and normalization separate from scorer clipping",
+      "topic": "training target/loss"
+    },
+    {
+      "classification": "intentional execution-only adaptation",
+      "implemented": "worker-local stat-bound digest handoff wraps only pinned wnn.portability._content_digest; raw SHA and portable registry comparisons plus split file hashing/membership remain",
+      "required_match": "no identity/membership/recipe change while removing only proven redundant content hashing",
+      "topic": "execution optimization"
+    },
+    {
+      "classification": "match",
+      "implemented": "frozen grader spec binds both fixed pairs; global_wp_clip2_v1 on need_prediction AND is_scored; 99 warmup rows removed; paired connected-component bootstrap n=2000 seed271828",
+      "required_match": "E520 equal raw mean seeds3/4 epoch3 vs fixed E511 C1-v2 equal raw mean seeds3/4 epoch1; identical target order/mask",
+      "topic": "fixed endpoint"
+    },
+    {
+      "classification": "match",
+      "implemented": "fold0\u2019s 468 evaluation groups are explicitly exposed development data; no public forecast; bootstrap is conditional on fixed checkpoints",
+      "required_match": "separate training variation, evaluation exposure and public transfer",
+      "topic": "claim scope"
+    }
+  ],
+  "reviewer": {
+    "id": "e520_cloud_delivery",
+    "independent_grader": false,
+    "independent_of_code_author": true,
+    "role": "controller-read-only-recipe-audit"
+  },
+  "schema_version": 1,
+  "source_revisions": {
+    "fit_guards_sha256": "922221b45a557e44cd5ef877008be534c7b40c832bcbc5af3928054fe2a34fc2",
+    "fit_worker_sha256": "571be4b42651d69bc85b1870718dc616f8262357ced77d6b5d666ff77c9cae07",
+    "grader_script_sha256": "d724e4ce789b97be8097c4956db08ff01e946093b22fa6703b0ead2f7f50fe96",
+    "grader_spec_sha256": "2ea67ab2f701d38de48c9aadae1b6b00d879f9da75fb87e1ec31e969080b853f",
+    "pinned_source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "trainer_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "trainer_source_file": "scripts/train_rnn.py inside pinned source archive",
+    "wmse_file_sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+    "wmse_function_sha256": "0d12688ff3b16ba0d0d58f57bc276aa3a822b553a6843cdebdb9804690be4869",
+    "wmse_source": "src/wnn/nn.py::weighted_mse_loss"
+  },
+  "target": {
+    "all_hashes_match": true,
+    "candidate_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_fit_digest_handoff_candidate_v1",
+    "code_receipt_sha256": "265cf3b28abdc1ca517ef37cca76c889e1c85cce50bd204b73fdabf814ea6c61",
+    "hashes": {
+      "E520_FIT_STAGE_PLAN.json": {
+        "expected": "265189efcbfce9573b9ff1dbe865b4cd68b220dbb1d30524e2401817de55784b",
+        "match": true,
+        "observed": "265189efcbfce9573b9ff1dbe865b4cd68b220dbb1d30524e2401817de55784b"
+      },
+      "E520_GRADER_SPEC.json": {
+        "expected": "2ea67ab2f701d38de48c9aadae1b6b00d879f9da75fb87e1ec31e969080b853f",
+        "match": true,
+        "observed": "2ea67ab2f701d38de48c9aadae1b6b00d879f9da75fb87e1ec31e969080b853f"
+      },
+      "FIT_OUTPUT_RECEIPT_SCHEMA.json": {
+        "expected": "058fc7a66656145cc716f42f38df1643e6e3b79ccb32b7d2f24a0e3eb293e5e4",
+        "match": true,
+        "observed": "058fc7a66656145cc716f42f38df1643e6e3b79ccb32b7d2f24a0e3eb293e5e4"
+      },
+      "FIT_STAGE_CONFIG.json": {
+        "expected": "8a19743bd78e453d0607211c6083c57d7a26079d3534535b54b0c4ed94e44f55",
+        "match": true,
+        "observed": "8a19743bd78e453d0607211c6083c57d7a26079d3534535b54b0c4ed94e44f55"
+      },
+      "FIT_STAGE_README.md": {
+        "expected": "0bc09182fa6ad6a202f3a3fbfd8daff44904397189890e9ba87d9191dc355e96",
+        "match": true,
+        "observed": "0bc09182fa6ad6a202f3a3fbfd8daff44904397189890e9ba87d9191dc355e96"
+      },
+      "evaluate_e520_pair.py": {
+        "expected": "d724e4ce789b97be8097c4956db08ff01e946093b22fa6703b0ead2f7f50fe96",
+        "match": true,
+        "observed": "d724e4ce789b97be8097c4956db08ff01e946093b22fa6703b0ead2f7f50fe96"
+      },
+      "fit_guards.py": {
+        "expected": "922221b45a557e44cd5ef877008be534c7b40c832bcbc5af3928054fe2a34fc2",
+        "match": true,
+        "observed": "922221b45a557e44cd5ef877008be534c7b40c832bcbc5af3928054fe2a34fc2"
+      },
+      "fit_kernel.py": {
+        "expected": "c877f0f297420cf6a713d2000c2ba44c2719a8b86be243a3148c9f91f950e198",
+        "match": true,
+        "observed": "c877f0f297420cf6a713d2000c2ba44c2719a8b86be243a3148c9f91f950e198"
+      },
+      "fit_worker.py": {
+        "expected": "571be4b42651d69bc85b1870718dc616f8262357ced77d6b5d666ff77c9cae07",
+        "match": true,
+        "observed": "571be4b42651d69bc85b1870718dc616f8262357ced77d6b5d666ff77c9cae07"
+      },
+      "prepare_fit_packet.py": {
+        "expected": "31b322884eb98c361baa28744bc1cbbbbad6dc12ee61d9f4bb62d06464ff69a8",
+        "match": true,
+        "observed": "31b322884eb98c361baa28744bc1cbbbbad6dc12ee61d9f4bb62d06464ff69a8"
+      },
+      "source_archive.tar": {
+        "expected": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+        "match": true,
+        "observed": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc"
+      },
+      "support/export_guards.py": {
+        "expected": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+        "match": true,
+        "observed": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550"
+      },
+      "support/input_identity.py": {
+        "expected": "8ee04a072725af6a3b2047c0101d35b5c2792930fd08238894627535109e113c",
+        "match": true,
+        "observed": "8ee04a072725af6a3b2047c0101d35b5c2792930fd08238894627535109e113c"
+      },
+      "support/verified_digest_handoff.py": {
+        "expected": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424",
+        "match": true,
+        "observed": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+      },
+      "tests/test_digest_handoff.py": {
+        "expected": "dd4d362672febbd3ebf6bd0ba1d2f2f10c43714203209fef7330d75e1e741c54",
+        "match": true,
+        "observed": "dd4d362672febbd3ebf6bd0ba1d2f2f10c43714203209fef7330d75e1e741c54"
+      },
+      "tests/test_fit_guards.py": {
+        "expected": "77ffd73891af820b668dacb1904af061f00272b5339974bfac47c4d6f51e8b84",
+        "match": true,
+        "observed": "77ffd73891af820b668dacb1904af061f00272b5339974bfac47c4d6f51e8b84"
+      },
+      "tests/test_fit_packet_builder.py": {
+        "expected": "95fa80ae96a259ad45dfe45d3e117d0884adc93287f18eced3236396f3eebb9f",
+        "match": true,
+        "observed": "95fa80ae96a259ad45dfe45d3e117d0884adc93287f18eced3236396f3eebb9f"
+      },
+      "tests/test_training_target_semantics.py": {
+        "expected": "0ecb3dee22b2a3064c9075a3a719b662be6c746a7cc2daa64efd8de865f490fb",
+        "match": true,
+        "observed": "0ecb3dee22b2a3064c9075a3a719b662be6c746a7cc2daa64efd8de865f490fb"
+      }
+    },
+    "independent_review_decision": "PASS",
+    "independent_review_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_fit_digest_handoff_candidate_v1/E520_FIT_V3_INDEPENDENT_REVIEW_20261007_R1.json",
+    "independent_review_sha256": "5a5a46c3f1adbaecc7d02d5e2003e027ce386d47ab8edd012dde408edfe205a6",
+    "rehashed_target_count": 18,
+    "review_targets_sha256": "8def0f759dce32828ee8f2075ac5b22a4ce53dd66b1e33363b764aa8798bb6eb"
+  }
+}

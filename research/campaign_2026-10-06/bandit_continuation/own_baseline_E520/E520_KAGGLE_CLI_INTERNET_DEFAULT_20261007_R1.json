@@ -1,0 +1,35 @@
+{
+  "id": "E520_KAGGLE_CLI_2_2_4_ENABLE_INTERNET_DEFAULT_20261007_R1",
+  "observed_at_utc": "2026-10-07T17:50:30Z",
+  "inspection": {
+    "network_used": false,
+    "credentials_read_or_logged": false,
+    "cli_version_command": ".venv/bin/kaggle --version",
+    "cli_version_output": "Kaggle CLI 2.2.4",
+    "package_module": ".venv/lib/python3.13/site-packages/kaggle/__init__.py"
+  },
+  "source": {
+    "path": ".venv/lib/python3.13/site-packages/kaggle/api/kaggle_api_extended.py",
+    "sha256": "210e589ab1f7359ffb560aacfe1c003ac1bc844c366f4ff709bf3d13de4d5458",
+    "push_method": {
+      "name": "KaggleApi.kernels_push",
+      "line": 6319,
+      "metadata_file_read": "kernel-metadata.json",
+      "request_enable_internet_assignment": "request.enable_internet = self.get_bool(meta_data, \"enable_internet\", True)",
+      "assignment_line": 6439
+    },
+    "boolean_default": {
+      "name": "KaggleApi.get_bool",
+      "definition_line": 8386,
+      "missing_key_behavior": "return default",
+      "return_line": 8400
+    }
+  },
+  "finding": {
+    "enable_internet_when_metadata_omits_field": true,
+    "v11_packet_metadata_explicitly_disables_internet": false,
+    "consequence": "The original packet_v11 metadata would request an internet-enabled kernel under the installed CLI and must remain unpushed.",
+    "repair": "Prepare a separately identified outer metadata successor that sets enable_internet:false; preserve packet_v11 and the reviewed source archive unchanged.",
+    "provider_push_authorized": false
+  }
+}

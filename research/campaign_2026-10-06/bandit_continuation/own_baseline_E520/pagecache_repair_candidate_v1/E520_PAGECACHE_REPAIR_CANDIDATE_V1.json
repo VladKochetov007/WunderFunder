@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "candidate_id": "E520_PAGECACHE_HASH_REPAIR_V1",
+  "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pagecache_repair_candidate_v1/",
+  "status": "code_candidate_only_pending_independent_review_and_controller_admission",
+  "source": {
+    "base_worker_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/profile_worker.py",
+    "base_worker_sha256": "e055d47d8950d211541298a37d237c1b7d76b5a5dc3121a0c9793ce7c74f2107",
+    "v2_packet_worker_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v2/profile_worker.py",
+    "v2_terminal_receipt_path": "research/campaign_2026-10-06/cloud_preflight/e520_profile_terminal_v2.json",
+    "v2_terminal_receipt_sha256": "e31f265c65056ea10bfea62b6c4d14da358891ba9b932430a01fec484c717615",
+    "v2_resource_abort": {
+      "worker_wall_seconds": 830.0747980420001,
+      "signal": 15,
+      "exit_code": 143,
+      "phase": "input_identity",
+      "cgroup_available_bytes": 6410838016,
+      "cgroup_limit_bytes": 32212254720,
+      "cgroup_available_fraction": 0.1990186055501302,
+      "strict_20_percent_threshold_bytes": 6442450944,
+      "below_threshold_bytes": 31612928,
+      "host_available_bytes": 32563232768,
+      "rss_current_bytes": 27422720,
+      "gpu_process_query_status": "pre_cuda_idle",
+      "profile_batches_started": false
+    },
+    "diagnosis": "Likely cgroup-accounted file-cache pressure during sequential full-file hashes, based on small RSS and abundant host memory at the cgroup headroom abort; memory.stat was not collected, so attribution remains an inference."
+  },
+  "change": {
+    "scope": "Only raw parquet SHA-256 streaming; no recipe, model, data identity, membership, grader, or scoring change.",
+    "hash_algorithm": "SHA-256 over the same sequential source bytes and order as the reviewed worker.",
+    "read_block_bytes": 1048576,
+    "cache_advice": "Required POSIX_FADV_DONTNEED calls on completed page-aligned ranges.",
+    "advice_is_a_hint": true,
+    "advice_failure_policy": "Write durable status and abort before accepting the hash; no unadvised fallback or retry.",
+    "unsupported_platform_policy": "Write capability failure and abort before reading raw parquet.",
+    "strict_resource_gates_unchanged": true,
+    "resource_caps": {
+      "minimum_host_and_cgroup_available_bytes": 4294967296,
+      "minimum_host_and_cgroup_available_fraction": 0.2,
+      "maximum_worker_rss_bytes": 8000000000,
+      "maximum_cuda_allocated_bytes": 2000000000,
+      "maximum_cuda_reserved_bytes": 2500000000,
+      "maximum_gpu_process_bytes": 3000000000,
+      "minimum_free_disk_bytes": 8000000000,
+      "minimum_free_gpu_bytes": 6442450944,
+      "maximum_worker_wall_seconds": 1800,
+      "automatic_retry": false
+    },
+    "receipt_path": "e520_profile/hash_io_advice.json",
+    "receipt_progress_interval_bytes": 268435456,
+    "receipt_atomic": true,
+    "receipt_bound_into_profile_result_on_success": true,
+    "no_full_prediction_or_model_arrays": true
+  },
+  "limits": {
+    "page_eviction_proven_by_successful_advice": false,
+    "profile_started": false,
+    "fit_started": false,
+    "packet_built": false,
+    "provider_called": false,
+    "scoring_started": false,
+    "quota_or_runtime_authorized_by_v2_receipt": false
+  },
+  "checks": {
+    "ruff_check": "passed",
+    "synthetic_tests": "4 passed",
+    "worker_sha256": "0ee01e1427574f4aec57954fa4cce252622fafbf2a62ba61b53b1a98cd389ccc",
+    "test_conftest_sha256": "ab043665e471990efa1b8733836f516145f995eefae5d4b36b73662982d365af",
+    "test_sha256": "beda2ec1061ff756e9bffae2e5d4b07e3d037ed605e406fddbbab9d007450e63",
+    "readme_sha256": "190f11918da961ae576d9343eb71b8a6aa056ed413459f9e6ad06ecec041d53c",
+    "manifest_sha256": null,
+    "note": "Manifest SHA-256 is supplied in the frozen handoff, not self-embedded."
+  },
+  "admission": {
+    "independent_review_required": true,
+    "fresh_controller_admission_required": true,
+    "automatic_retry": false,
+    "fit_or_score_authorized": false
+  }
+}

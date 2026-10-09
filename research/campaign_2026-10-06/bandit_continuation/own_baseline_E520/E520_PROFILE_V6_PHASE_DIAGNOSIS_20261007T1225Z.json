@@ -1,0 +1,304 @@
+{
+  "attempt_id": "E520_PROFILE_V6",
+  "diagnosis": {
+    "largest_avoidable_measured_phase": "A second full train.parquet digest in wnn.portability._content_digest took 748.676s for 29,240,219,011 bytes after the initial exact identity digest; this nested in load_campaign_split.",
+    "measured_bottleneck": "CPU/data-input path consumed the admitted 1,800s worker wall cap before CUDA profiling.",
+    "repair_scope_for_next_candidate": "Reuse or otherwise avoid only this duplicate portable-source content digest after proving identical path/size/mtime/source identity binding; keep initial full SHA, membership/registry checks, recipe, targets, and resource thresholds unchanged; require independent exact-hash review before a new packet."
+  },
+  "hash_advice": {
+    "advice": "POSIX_FADV_DONTNEED",
+    "failures": 0,
+    "initial_train": {
+      "advice": "POSIX_FADV_DONTNEED",
+      "advice_calls": 27886,
+      "advice_failures": 0,
+      "advice_semantics": "successful calls are kernel hints, not proof pages were evicted",
+      "bytes_advised": 29240217600,
+      "bytes_hashed": 29240219011,
+      "dontneed_constant_available": true,
+      "expected_file_bytes": 29240219011,
+      "hash_block_bytes": 1048576,
+      "page_size_bytes": 4096,
+      "path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/train.parquet",
+      "posix_fadvise_available": true,
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "status": "complete"
+    },
+    "initial_valid": {
+      "advice": "POSIX_FADV_DONTNEED",
+      "advice_calls": 5356,
+      "advice_failures": 0,
+      "advice_semantics": "successful calls are kernel hints, not proof pages were evicted",
+      "bytes_advised": 5615505408,
+      "bytes_hashed": 5615509128,
+      "dontneed_constant_available": true,
+      "expected_file_bytes": 5615509128,
+      "hash_block_bytes": 1048576,
+      "page_size_bytes": 4096,
+      "path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/valid.parquet",
+      "posix_fadvise_available": true,
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "status": "complete"
+    },
+    "interpretation": "Successful advice calls are hints; cgroup memory.stat shows little file-cache change on the initial hashes and only a 54MiB reduction during the repeated train digest, so eviction effectiveness is not established.",
+    "posix_fadvise_available": true,
+    "repeated_loader_train": {
+      "advice": "POSIX_FADV_DONTNEED",
+      "advice_calls": 27886,
+      "advice_failures": 0,
+      "advice_semantics": "successful calls are kernel hints, not proof pages were evicted",
+      "bytes_advised": 29240217600,
+      "bytes_hashed": 29240219011,
+      "dontneed_constant_available": true,
+      "expected_file_bytes": 29240219011,
+      "hash_block_bytes": 1048576,
+      "page_size_bytes": 4096,
+      "path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/train.parquet",
+      "posix_fadvise_available": true,
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "status": "complete"
+    },
+    "repeated_loader_valid": {
+      "advice": "POSIX_FADV_DONTNEED",
+      "advice_calls": 0,
+      "advice_failures": 0,
+      "advice_semantics": "successful calls are kernel hints, not proof pages were evicted",
+      "bytes_advised": 0,
+      "bytes_hashed": 0,
+      "dontneed_constant_available": true,
+      "expected_file_bytes": 5615509128,
+      "hash_block_bytes": 1048576,
+      "page_size_bytes": 4096,
+      "path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/valid.parquet",
+      "posix_fadvise_available": true,
+      "status": "starting"
+    }
+  },
+  "identity": {
+    "all_expected_fields_match_observed": true,
+    "checks": {
+      "assets-manifest.json": {
+        "fields": {
+          "bytes": true,
+          "sha256": true
+        },
+        "match": true
+      },
+      "cache/chain_folds.npz": {
+        "fields": {
+          "bytes": true,
+          "sha256": true
+        },
+        "match": true
+      },
+      "cache/chains.npz": {
+        "fields": {
+          "bytes": true,
+          "sha256": true
+        },
+        "match": true
+      },
+      "cache/train_targets.npz": {
+        "fields": {
+          "bytes": true,
+          "sha256": true
+        },
+        "match": true
+      },
+      "cache/valid_targets.npz": {
+        "fields": {
+          "bytes": true,
+          "sha256": true
+        },
+        "match": true
+      },
+      "datasets/train.parquet": {
+        "fields": {
+          "bytes": true,
+          "footer_bytes": true,
+          "footer_sha256": true,
+          "sha256": true
+        },
+        "match": true
+      },
+      "datasets/valid.parquet": {
+        "fields": {
+          "bytes": true,
+          "footer_bytes": true,
+          "footer_sha256": true,
+          "sha256": true
+        },
+        "match": true
+      },
+      "portable_manifest_binding": {
+        "fields": {
+          "relative_path": true,
+          "sha256": true
+        },
+        "match": true
+      },
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json": {
+        "fields": {
+          "bytes": true,
+          "sha256": true
+        },
+        "match": true
+      },
+      "research/campaign_2026-10-04/portable_inputs.json": {
+        "fields": {
+          "bytes": true,
+          "sha256": true
+        },
+        "match": true
+      }
+    },
+    "failure": "SystemExit: 143",
+    "recorded_status": "failed"
+  },
+  "phase_timings": {
+    "initial_raw_hash_train": {
+      "after_time_unix": 1791374429.8648896,
+      "before_time_unix": 1791373634.390302,
+      "bytes": 29240219011,
+      "bytes_per_second": 36758265.53883129,
+      "cgroup_file_delta_bytes": 3715072,
+      "cgroup_inactive_file_delta_bytes": 3715072,
+      "elapsed_seconds": 795.473306,
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "status": "complete"
+    },
+    "initial_raw_hash_valid": {
+      "after_time_unix": 1791374620.2244449,
+      "before_time_unix": 1791374431.4767377,
+      "bytes": 5615509128,
+      "bytes_per_second": 29751484.66051336,
+      "cgroup_file_delta_bytes": 876544,
+      "cgroup_inactive_file_delta_bytes": 880640,
+      "elapsed_seconds": 188.74719,
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "status": "complete"
+    },
+    "load_campaign_split_including_nested_loader_digest": {
+      "after_time_unix": 1791375380.2957313,
+      "before_time_unix": 1791374620.4386466,
+      "bytes": null,
+      "bytes_per_second": null,
+      "cgroup_file_delta_bytes": -9666560,
+      "cgroup_inactive_file_delta_bytes": -2260164608,
+      "elapsed_seconds": 759.8570847511292,
+      "sha256": null,
+      "status": "measured_phase"
+    },
+    "nested_loader_portable_content_digest_train": {
+      "after_time_unix": 1791375375.8251255,
+      "before_time_unix": 1791374627.1476052,
+      "bytes": 29240219011,
+      "bytes_per_second": 39055883.25431228,
+      "cgroup_file_delta_bytes": -56889344,
+      "cgroup_inactive_file_delta_bytes": -56852480,
+      "elapsed_seconds": 748.676424,
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "status": "complete"
+    },
+    "nested_loader_portable_content_digest_valid": {
+      "after_time_unix": 1791375380.2906473,
+      "before_time_unix": 1791375375.8417401,
+      "bytes": 5615509128,
+      "bytes_per_second": 1262410886.8177588,
+      "cgroup_file_delta_bytes": 1658880,
+      "cgroup_inactive_file_delta_bytes": 1667072,
+      "elapsed_seconds": 4.448242,
+      "sha256": null,
+      "status": "failed"
+    }
+  },
+  "provider": {
+    "kernel": "vladkochetov07/e520-profile-v6",
+    "status": "KernelWorkerStatus.CANCEL_ACKNOWLEDGED",
+    "status_observed_at_utc": "2026-10-07T12:20:51+00:00",
+    "status_receipt": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_POSTTERMINAL_QUOTA_STATUS_POLL_20261007T1220Z.json"
+  },
+  "quota": {
+    "campaign_headroom_seconds": 47792.79400000001,
+    "fresh_snapshot_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_POSTTERMINAL_QUOTA_STATUS_POLL_20261007T1220Z.json",
+    "observed_gpu_used_seconds": 46035.043,
+    "paid_compute": false
+  },
+  "receipt_id": "E520_PROFILE_V6_PHASE_DIAGNOSIS_20261007T1225Z",
+  "recorded_at_utc": "2026-10-07T12:27:04+00:00",
+  "resource_and_accelerator": {
+    "abort_snapshot": {
+      "reason": "profile worker exceeded its 1,800-second engineering wall cap",
+      "snapshot": {
+        "cgroup_available_bytes": 29812908032,
+        "cgroup_available_fraction": 0.9255144755045573,
+        "cgroup_limit_bytes": 32212254720,
+        "cuda_allocated_bytes": null,
+        "cuda_allocated_peak_bytes": null,
+        "cuda_reserved_bytes": null,
+        "cuda_reserved_peak_bytes": null,
+        "disk_free_bytes": 20938514432,
+        "gpu_free_bytes": null,
+        "gpu_process_bytes": null,
+        "gpu_process_query_raw": null,
+        "gpu_process_query_status": "pre_cuda_idle",
+        "host_available_bytes": 32573460480,
+        "host_available_fraction": 0.9677684921549651,
+        "host_total_bytes": 33658318848,
+        "rss_current_bytes": 73076736,
+        "rss_peak_bytes": 72646656
+      },
+      "status": "aborted",
+      "time_unix": 1791375380.2607753
+    },
+    "cuda_allocated_bytes": null,
+    "cuda_allocated_peak_bytes": null,
+    "cuda_reserved_bytes": null,
+    "cuda_reserved_peak_bytes": null,
+    "gpu_process_query_status": "pre_cuda_idle",
+    "gpu_utilization_measured": false,
+    "physical_gpu_inventory_available": false,
+    "reason_no_device_profile": "Execution remained pre_cuda_idle during CPU/input verification; no environment.json, profile_result.json, or training_profile_peak.json was emitted.",
+    "resource_snapshot": {
+      "phase": "profile_active",
+      "snapshot": {
+        "cgroup_available_bytes": 29812899840,
+        "cgroup_available_fraction": 0.9255142211914062,
+        "cgroup_limit_bytes": 32212254720,
+        "cuda_allocated_bytes": null,
+        "cuda_allocated_peak_bytes": null,
+        "cuda_reserved_bytes": null,
+        "cuda_reserved_peak_bytes": null,
+        "disk_free_bytes": 20938514432,
+        "gpu_free_bytes": null,
+        "gpu_process_bytes": null,
+        "gpu_process_query_raw": null,
+        "gpu_process_query_status": "pre_cuda_idle",
+        "host_available_bytes": 32568942592,
+        "host_available_fraction": 0.9676342641793967,
+        "host_total_bytes": 33658318848,
+        "rss_current_bytes": 73076736,
+        "rss_peak_bytes": 72646656
+      },
+      "time_unix": 1791375379.2559044
+    }
+  },
+  "schema_version": 1,
+  "terminal_download_manifest": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_TERMINAL_DOWNLOAD_20261007T1221Z.json",
+    "sha256": "5d81e50cb45b7bcbfa251f9a6b346aa642ccbcc16de79e1799ff78312b948054"
+  },
+  "worker": {
+    "elapsed_wall_seconds": 1800.608565446,
+    "fit_started": false,
+    "prediction_export_started": false,
+    "reason": "profile worker exceeded its 1,800-second engineering wall cap",
+    "rss_current_bytes_at_abort": 73076736,
+    "rss_peak_bytes_at_abort": 72646656,
+    "scoring_started": false,
+    "terminal_phase": "failed",
+    "terminal_reason": "SystemExit: 143",
+    "termination_signal": 15,
+    "worker_cap_seconds": 1800.0
+  }
+}

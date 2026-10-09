@@ -1,0 +1,81 @@
+{
+  "attempt_id": "E520_PROFILE_V4",
+  "correction_to_prior_monitor": {
+    "note": "Prior monitor double-subtracted remaining profile recovery from campaign headroom. This receipt preserves the original and supplies the corrected calculation; no source/quota bytes changed.",
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V4_MONITOR_20261007T1055Z.json",
+    "sha256": "76dd6cb080290bbd6fe9b4392542f385a405fe9dcaa8b9a8014d25fc3ca26561"
+  },
+  "local_resources": {
+    "control_group": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "effective_cpu_cores": 6,
+    "host_mem_available_kib": 32920708,
+    "parent_memory_current_bytes": 16832819200,
+    "parent_memory_max_headroom_bytes": 3167180800,
+    "properties": {
+      "CPUQuotaPerSecUSec": "6s",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    },
+    "support_max_cpu_cores": 1,
+    "support_max_memory_bytes": 1500000000,
+    "support_max_wall_seconds": 120,
+    "swap_max_bytes": 0
+  },
+  "phase": "provider_running_payload_phase_unobserved",
+  "poll_line": {
+    "path": "research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl",
+    "sha256": "24b6cf400a4de16f538873cbfe2fedebcb49490ef26a2af35c3418f7201c1095",
+    "source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel"
+  },
+  "provider": {
+    "durable_target_and_timer_active": true,
+    "kernel": "vladkochetov07/e520-profile-v4",
+    "monitoring_state": "polling_until_terminal_evidence_downloaded",
+    "observed_at_utc": "2026-10-07T10:59:15+00:00",
+    "status": "KernelWorkerStatus.RUNNING"
+  },
+  "push": {
+    "elapsed_provider_seconds": 671.0,
+    "started_at_utc": "2026-10-07T10:48:04Z",
+    "worker_wall": "unknown; no worker phase receipt visible"
+  },
+  "quota": {
+    "E520_cumulative_profile_spend_provisional_seconds": 1888.4799560000029,
+    "E520_profile_recovery_remaining_provisional_seconds": 5311.520043999997,
+    "account_20_percent_reserve_seconds": 21600.0,
+    "account_gpu_delta_vs_prepush_provisional_seconds": 666.3609560000041,
+    "account_spendable_after_full_remaining_profile_plus_conditional_fit_seconds": 16442.339,
+    "attribution": "Account-level delta is provisional; v4 is the sole monitored active GPU kernel. Reconcile exact charge at terminal.",
+    "campaign_formula": "current_campaign_headroom - remaining E520 profile recovery - conditional fit quota",
+    "campaign_headroom_after_full_remaining_profile_plus_conditional_fit_seconds": 23870.176000000007,
+    "conditional_fit_quota_not_admitted_seconds": 20400.0,
+    "current_attempt_reservation_seconds": 3600.0,
+    "prior_E520_profile_charges_seconds": 1222.1189999999988,
+    "snapshot": {
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 49581.696044000004,
+      "campaign_used_seconds": 7198.819955999999,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "used_seconds": 44246.140956
+    },
+    "spendable_after_reserve_seconds": 42153.859044,
+    "unreserved_recovery_after_attempt_reservation_seconds": 1711.5200439999971
+  },
+  "receipt_id": "E520_PROFILE_V4_MONITOR_20261007T1059Z",
+  "recorded_at_utc": "2026-10-07T10:59:27+00:00",
+  "schema_version": 1,
+  "visibility": {
+    "exact_kernel_status": "RUNNING",
+    "fit_or_score_started": false,
+    "input_identity": "not downloaded yet",
+    "live_output_files": 0,
+    "output_probe_exit_code": 0,
+    "output_probe_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V4_LIVECHECK_OUTPUT_20261007T105305Z.json",
+    "payload_phase": "not observed through provider while RUNNING",
+    "profile_result": "not available yet",
+    "remote_ram_cgroup_gpu_disk": "not visible yet"
+  }
+}

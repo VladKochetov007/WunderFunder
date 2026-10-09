@@ -1,0 +1,86 @@
+{
+  "attempt_id": "E520_PROFILE_V4",
+  "live_account_quota": {
+    "E520_cumulative_profile_spend_seconds_provisional": 1704.153631000001,
+    "E520_prior_profile_charges_seconds": 1222.1189999999988,
+    "E520_profile_remaining_seconds_provisional": 5495.846368999999,
+    "account_20_percent_reserve_seconds": 21600.0,
+    "account_delta_attribution": "Account-wide quota counter; sole tracked active GPU kernel is E520 v4, but reconcile exact charge at terminal.",
+    "account_delta_vs_10_41_prepush_seconds_provisional": 482.03463100000226,
+    "account_spendable_after_remaining_recovery_and_conditional_fit_seconds": 16442.339,
+    "campaign_headroom_after_remaining_recovery_and_conditional_fit_seconds": 18374.329631000008,
+    "conditional_fit_quota_seconds_not_admitted": 20400.0,
+    "snapshot": {
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 49766.022369000006,
+      "campaign_used_seconds": 7014.493630999998,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "used_seconds": 44061.814631
+    },
+    "spendable_after_reserve_seconds": 42338.185369,
+    "unreserved_recovery_after_attempt_reservation_seconds": 1895.846368999999,
+    "v4_current_attempt_reservation_seconds": 3600.0
+  },
+  "local_support_resource_check": {
+    "control_group": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "host_mem_available_kib": 33190268,
+    "parent_memory_current_bytes": 17086484480,
+    "parent_memory_max_headroom_bytes": 2913515520,
+    "properties": {
+      "CPUQuotaPerSecUSec": "6s",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    },
+    "support_scope_limit": {
+      "cpu_cores": 1,
+      "memory_bytes": 1500000000,
+      "wall_seconds": 120
+    },
+    "swap_max_bytes": 0
+  },
+  "phase": "provider_running_payload_phase_unobserved",
+  "poll_evidence": {
+    "line_sha256": "db8ae02ff3dcc19fc2045ba3059cc79a7db2c60174c5eeb223c80537b8ff3761",
+    "path": "research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl",
+    "source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel"
+  },
+  "provider": {
+    "durable_timer_active": true,
+    "kernel": "vladkochetov07/e520-profile-v4",
+    "observed_at_utc": "2026-10-07T10:56:11+00:00",
+    "poller_state": "polling_until_terminal_evidence_downloaded",
+    "status": "KernelWorkerStatus.RUNNING",
+    "terminal_receipt_target": "e520_profile_terminal_v4_poll_receipt.json",
+    "timer_unit": "wnn-campaign-kaggle-poller.timer"
+  },
+  "receipt_id": "E520_PROFILE_V4_MONITOR_20261007T1055Z",
+  "recorded_at_utc": "2026-10-07T10:56:37+00:00",
+  "remote_current_resource_measurements": {
+    "GPU_identity_and_VRAM": "not visible until output/worker telemetry is available",
+    "cgroup_ram": "not visible until output/worker telemetry is available",
+    "enforcement": "worker fails closed against frozen reviewed guards; v3 pre-CUDA resource sample passed but is not substituted for v4 measurements",
+    "host_ram": "not visible until output/worker telemetry is available",
+    "working_disk": "not visible until output/worker telemetry is available"
+  },
+  "schema_version": 1,
+  "visibility": {
+    "exact_slug_status_confirmation": "KernelWorkerStatus.RUNNING",
+    "files_visible_while_running": 0,
+    "fit_or_scoring": "not authorized and not started",
+    "input_identity_receipt": "not downloaded yet",
+    "kernel_list_after_push_lagged": true,
+    "live_output_probe_exit_code": 0,
+    "live_output_probe_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V4_LIVECHECK_OUTPUT_20261007T105305Z.json",
+    "payload_phase": "unobserved",
+    "resource_receipt": "not downloaded yet",
+    "training_profile": "not observed"
+  },
+  "wall_time": {
+    "elapsed_provider_seconds_since_push": 487.0,
+    "push_attempt_started_at_utc": "2026-10-07T10:48:04Z",
+    "worker_wall_seconds": "not observable until worker phase receipt; provider elapsed is not substituted"
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E520",
+  "packet_id": "E520_PROFILE_V1",
+  "scope": "read-only preflight; no packet build, provider push, profile, fit, prediction, or scoring",
+  "observed_at_utc": "2026-10-07T08:25:42Z",
+  "authorization_basis": {
+    "source": "root controller assignment",
+    "cohort_engineering_envelope_seconds": 12000,
+    "profile_worker_wall_cap_seconds": 1800,
+    "maximum_reserved_quota_seconds_for_profile": 3600,
+    "quota_reserve_fraction": 0.2,
+    "paid_compute": false,
+    "fit_or_scoring_authorized": false
+  },
+  "quota": {
+    "source": "Kaggle read-only SDK quota/status poll",
+    "poller": "research/campaign_2026-10-06/cloud_preflight/poll_provider.py",
+    "poll_log": "research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl",
+    "poll_log_line_observed_at_utc": "2026-10-07T08:25:41+00:00",
+    "poll_log_line_sha256": "851f6c13f8b0ee93ecdd96f686011c7f3bb3a2cdedd584d3412c136a7b22cff5",
+    "kaggle_cli_version": "2.2.4",
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "gpu": {
+      "used_seconds": 42357.661,
+      "total_allowed_seconds": 108000,
+      "currently_unspent_seconds": 65642.339,
+      "reserved_seconds": 0,
+      "active_campaign_cap_seconds": 56780.516,
+      "campaign_used_seconds": 5310.34,
+      "campaign_headroom_seconds": 51470.176,
+      "20_percent_reserve_seconds_of_current_unspent": 13128.468,
+      "maximum_spendable_while_preserving_reserve_seconds": 52513.871,
+      "profile_max_quota_charge_seconds": 3600,
+      "campaign_headroom_after_profile_reservation_seconds": 47870.176,
+      "current_unspent_after_profile_reservation_seconds": 62042.339,
+      "remaining_above_20_percent_reserve_after_profile_reservation_seconds": 48913.871,
+      "admission_arithmetic": "PASS: 3600-second worst-case profile reservation is below both live campaign headroom and spendable quota after the 20% reserve. The 12000-second cohort envelope also fits current campaign headroom."
+    },
+    "tpu": {
+      "used_seconds": 153.053,
+      "total_allowed_seconds": 72000,
+      "reserved_seconds": 0,
+      "campaign_headroom_seconds": 881.57
+    },
+    "provider_status": {
+      "e520": "not submitted",
+      "gpu_jobs_in_shared_target_set": "none active; prior GPU jobs are terminal with collected evidence",
+      "unrelated_tpu_job": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2 is QUEUED; no GPU quota reservation"
+    }
+  },
+  "private_dataset_metadata": {
+    "source": "read-only Kaggle dataset file-list API; names, byte sizes, and file creation dates only",
+    "dataset_version": null,
+    "raw_dataset": {
+      "id": "vladkochetov07/wunder-funder",
+      "files": {
+        "train.parquet": {
+          "size_bytes": 29240219011,
+          "creation_date": "2026-10-04T00:49:15.723000"
+        },
+        "valid.parquet": {
+          "size_bytes": 5615509128,
+          "creation_date": "2026-10-04T00:44:00.006000"
+        },
+        "valid_mask.parquet": {
+          "size_bytes": 91972846,
+          "creation_date": "2026-10-04T00:42:29.265000"
+        }
+      },
+      "expected_train_valid_sizes_match_plan": true,
+      "content_sha256_verified_by_api": false
+    },
+    "fold_assets": {
+      "id": "vladkochetov07/wnn-c20261004-fold0-assets",
+      "listed_file_count": 24,
+      "expected_named_artifacts_present": {
+        "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn": 1388846,
+        "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766.wnn": 650142,
+        "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c.wnn": 2104,
+        "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f.wnn": 550072,
+        "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955.wnn": 337186198,
+        "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9.wnn": 1909335790,
+        "assets-manifest.json": 6268
+      },
+      "metadata_only": true,
+      "actual_mount_and_content_hash_validation": "must run in profile worker before model work and persist expected/observed identities"
+    }
+  },
+  "provider_runtime_and_resource_gates": {
+    "e520_worker_wall_cap_seconds": 1800,
+    "kaggle_provider_hard_runtime_cap_seconds": null,
+    "reason_runtime_cap_unknown": "The read-only quota/status API does not expose a current per-kernel hard runtime cap; E520 worker enforces its 1800-second wall abort. No E520 runtime has been started.",
+    "prior_actual_device_evidence": {
+      "receipt": "research/campaign_2026-10-06/cloud_preflight/e508_profile_terminal_v5.json",
+      "kernel": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v5",
+      "terminal_status": "KernelWorkerStatus.ERROR after the successful profile-capacity guard; no fit or OOM",
+      "observed_gpu_topology": "2 x Tesla T4, 15360 MiB each",
+      "peak_cuda_allocated_bytes": 1054505472,
+      "peak_cuda_reserved_bytes": 1765801984,
+      "actual_e520_visible_gpu_count": "unknown until profile worker starts; code restricts visibility to GPU 0 and requires exactly one visible device"
+    },
+    "runtime_host_memory_cgroup_free_disk_and_gpu_headroom": "must be measured by the E520 worker on the actual Kaggle host before profile; worker abort gates are RSS <= 8000000000 bytes, >= 4 GiB and >= 20% host/cgroup headroom, >= 8000000000 free disk bytes, >= 6442450944 free GPU bytes before profile, CUDA allocated <= 2000000000 bytes, CUDA reserved <= 2500000000 bytes, and process GPU use <= 3000000000 bytes",
+    "single_visible_gpu_and_memory_gates_enforced_by_worker": true
+  },
+  "local_read_only_support_environment": {
+    "campaign_slice": {
+      "active": true,
+      "cpu_quota": "1000%",
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "memory_swap_max_bytes": 0
+    },
+    "host_memory_total_bytes": 67177951232,
+    "host_memory_available_bytes": 40601837568,
+    "home_disk_available_bytes": 78744133632,
+    "local_gpu": "NVIDIA GeForce RTX 3060 Laptop; 5772 MiB free of 6144 MiB",
+    "local_experiment_compute_started": false
+  },
+  "execution_state": {
+    "packet_built": false,
+    "uploaded": false,
+    "profile_started": false,
+    "fit_started": false,
+    "prediction_exported": false,
+    "score_result": null
+  },
+  "next_gates": [
+    "Receive targeted independent PASS for revised exact E520 source hashes; the earlier FAIL review cannot authorize a build.",
+    "Refresh quota close to admission and recompute the 20% reserve and campaign headroom.",
+    "Controller verifies revised review hash map and issues a separate profile-only builder-schema admission receipt bound to the critic receipt, SHA, and conditional profile-only authorization.",
+    "Build only the private profile packet; before any profile work the worker verifies mounted bytes, split membership, one visible GPU, memory headroom, free disk, and all safety gates, then records actual timing/resources and stops before fit/export/scoring."
+  ]
+}

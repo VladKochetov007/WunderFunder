@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E520_PROFILE_V1",
+  "scope": "profile-only",
+  "status": "approved",
+  "reviewer": {
+    "id": "e520_cloud_delivery",
+    "role": "independent-controller"
+  },
+  "issued_at_utc": "2026-10-07T08:46:03Z",
+  "controller_authorization": "Root instruction in this session: authorize one private E520 profile attempt after revised independent PASS, exact hash verification, fresh quota/campaign availability, and runtime safety checks; worker wall <=1800s; reserve <=3600 quota seconds for two attached T4s; preserve 20% live account quota reserve; register durable polling and collect outputs; no fit or scoring is admitted.",
+  "critic_review": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_CODE_REVIEW_20261007_R2.json",
+    "sha256": "42953ef39ac8035543cff1cf9019c712acb25be108a68d21a62acc413f9f7c63",
+    "review_id": "E520_PROFILE_CODE_REVIEW_20261007_R2",
+    "reviewer_id": "weak_diversity_design_critic",
+    "decision": "PASS_PROFILE_ONLY_CODE_REVIEW",
+    "exact_builder_hash_map_recomputed_and_matches": true,
+    "review_context_hashes_recomputed_and_match": true
+  },
+  "reviewed_hashes": {
+    "E520_PACKET_PLAN.json": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "prepare_profile_packet.py": "1cb55b0ded8067bd0bee228f7d6f73e1acebff2dd13bea823aac90d315b54c19",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "profile_worker.py": "e055d47d8950d211541298a37d237c1b7d76b5a5dc3121a0c9793ce7c74f2107",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "tests/test_profile_guards.py": "77d8e5c9b543335d3903606db1f03fbcaace2d773468b0705ae0f82fd26b9d6c"
+  },
+  "reviewed_context_hashes": {
+    "README.md": "58b786dbf680b5a57cc339cae10f7e18ef35da8b6a97137c1aa0bad3be7594f3",
+    "tests/conftest.py": "ae0e30988d2dbcf7f330efd81c85142a36ceb5203f08947fbb6effba985d5ee2",
+    "pinned_train_rnn.py": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf"
+  },
+  "live_quota_and_campaign_admission": {
+    "source": "read-only Kaggle SDK quota/status poll via research/campaign_2026-10-06/cloud_preflight/poll_provider.py",
+    "poll_log": "research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl",
+    "poll_log_line_sha256": "ac8cee6c2535ff377304f02e19497b292934b90929c01e745873b6ef0383f615",
+    "observed_at_utc": "2026-10-07T08:45:57+00:00",
+    "kaggle_cli_version": "2.2.4",
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "gpu": {
+      "used_seconds": 42357.661,
+      "total_allowed_seconds": 108000,
+      "unspent_seconds": 65642.339,
+      "reserved_seconds": 0,
+      "active_campaign_cap_seconds": 56780.516,
+      "campaign_used_seconds": 5310.34,
+      "campaign_headroom_seconds": 51470.176,
+      "20_percent_account_reserve_seconds": 13128.468,
+      "spendable_after_reserve_seconds": 52513.871,
+      "profile_max_quota_reservation_seconds": 3600,
+      "account_unspent_after_profile_reservation_seconds": 62042.339,
+      "campaign_headroom_after_profile_reservation_seconds": 47870.176,
+      "cohort_engineering_envelope_seconds": 12000,
+      "campaign_headroom_after_full_cohort_envelope_seconds": 39470.176,
+      "decision": "PASS: the 3600-second worst-case profile quota reservation, including two physically attached T4s at 1800 seconds wall time, fits live spendable account quota and campaign headroom while preserving the 20 percent account reserve."
+    },
+    "other_provider_status": {
+      "known_gpu_jobs": "all terminal with output evidence collected; no active GPU target or quota reservation",
+      "e463_v2_tpu": "QUEUED; separate TPU pool and does not reserve GPU quota"
+    }
+  },
+  "private_input_metadata_preflight": {
+    "queried_via": "read-only Kaggle dataset file-list API",
+    "metadata_observation_window_utc": "2026-10-07T08:43:10Z/2026-10-07T08:43:55Z",
+    "dataset_version_id": null,
+    "raw_dataset": {
+      "id": "vladkochetov07/wunder-funder",
+      "train.parquet_bytes": 29240219011,
+      "valid.parquet_bytes": 5615509128,
+      "expected_sizes_match_plan": true,
+      "api_content_hash_verification": false
+    },
+    "fold_assets_dataset": {
+      "id": "vladkochetov07/wnn-c20261004-fold0-assets",
+      "listed_file_count": 24,
+      "expected_hash_named_split_target_and_registry_artifacts_present": true,
+      "expected_named_assets": {
+        "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn": 1388846,
+        "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766.wnn": 650142,
+        "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c.wnn": 2104,
+        "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f.wnn": 550072,
+        "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955.wnn": 337186198,
+        "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9.wnn": 1909335790,
+        "assets-manifest.json": 6268
+      },
+      "content_identity_gate": "The Kaggle file-list endpoint exposes names/sizes but not content SHA-256. Before profiling, the worker hashes the mounted bytes, split, registry, targets, and row order, persists observed identity before mismatch aborts, and profiles only after all expected identity and membership checks pass."
+    }
+  },
+  "runtime_safety_admission": {
+    "cloud_profile_actual_environment": "Not observable before Kaggle kernel startup. Admission is conditional on the reviewed worker's live pre-profile checks; any failed or missing measurement aborts without retry or model profile.",
+    "prior_hardware_evidence": {
+      "receipt": "research/campaign_2026-10-06/cloud_preflight/e508_profile_terminal_v5.json",
+      "observed_topology": "2 x Tesla T4, 15360 MiB each",
+      "prior_peak_cuda_allocated_bytes": 1054505472,
+      "prior_peak_cuda_reserved_bytes": 1765801984,
+      "interpretation": "Historical actual-device capacity support only; E520 records and uses its own live environment, timing, and memory receipts."
+    },
+    "push_requested_provider_timeout_seconds": 1800,
+    "worker_wall_abort_seconds": 1800,
+    "physical_gpu_quota_charge_reservation_seconds": 3600,
+    "worker_requires_visible_gpu_count": 1,
+    "worker_requires_free_gpu_before_profile_bytes": 6442450944,
+    "worker_limits": {
+      "cuda_allocated_peak_bytes": 2000000000,
+      "cuda_reserved_peak_bytes": 2500000000,
+      "nvidia_process_bytes": 3000000000,
+      "rss_peak_bytes": 8000000000,
+      "minimum_host_and_cgroup_available_bytes": 4294967296,
+      "minimum_host_and_cgroup_available_fraction": 0.2,
+      "minimum_free_working_disk_bytes": 8000000000,
+      "missing_active_cuda_process_memory_measurement": "abort",
+      "mismatched_mount_identity_or_fold_membership": "persist expected/observed receipt and abort before profile",
+      "profile_failure_or_resource_abort": "preserve diagnostics; no automatic retry"
+    },
+    "profile_bounds": {
+      "seed": 3,
+      "warmup_outer_batches": 3,
+      "timed_outer_batches": 20,
+      "export_probe": "at most 4000 rows from each of 16 actual row groups; no prediction outputs",
+      "fit_or_checkpoint": false,
+      "prediction_export": false,
+      "scoring": false
+    }
+  },
+  "fresh_local_read_only_resources": {
+    "observed_at_utc": "2026-10-07T08:45:32Z",
+    "campaign_slice": {
+      "active": true,
+      "cpu_quota": "1000%",
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "memory_swap_max_bytes": 0
+    },
+    "host_memory_total_bytes": 67177951232,
+    "host_memory_available_bytes": 40422346752,
+    "home_disk_available_bytes": 78732496896,
+    "local_gpu": "NVIDIA GeForce RTX 3060 Laptop, 5772 MiB free of 6144 MiB",
+    "active_local_bandit_attempts": 0,
+    "local_admission_closed": false,
+    "local_fit_or_gpu_experiment_started": false,
+    "scope": "bounded support, monitoring, and packet preparation only; the local GPU experiment cutoff has passed"
+  },
+  "admission_action": {
+    "permit_private_packet_build": true,
+    "permit_one_private_profile_push": true,
+    "kernel_id": "vladkochetov07/e520-profile-v1",
+    "packet_directory": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v1",
+    "push_command": "kaggle kernels push -p research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v1 -t 1800",
+    "register_durable_poll_target_and_download_terminal_logs_outputs": true,
+    "maximum_quota_charge_seconds": 3600,
+    "fit_or_scoring_authorized": false,
+    "authority_does_not_extend_to": [
+      "any E520 fit, checkpoint, prediction export, or score",
+      "a second E520 profile push unless root issues a new identified admission",
+      "relaxing any code, data, memory, runtime, quota, or identity guard"
+    ]
+  },
+  "execution_state_at_issuance": {
+    "packet_built": false,
+    "pushed": false,
+    "profile_started": false,
+    "fit_started": false,
+    "score_result": null
+  }
+}

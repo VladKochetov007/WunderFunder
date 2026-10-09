@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "review_id": "E520_PROFILE_CODE_REVIEW_20261007_R2",
+  "supersedes_review": "E520_PROFILE_CODE_REVIEW_20261007.json",
+  "reviewer": {
+    "id": "weak_diversity_design_critic",
+    "role": "independent-critic"
+  },
+  "scope": "targeted re-review of the frozen profile-only worker repairs",
+  "decision": "PASS_PROFILE_ONLY_CODE_REVIEW",
+  "reviewed_hashes": {
+    "profile_worker.py": "e055d47d8950d211541298a37d237c1b7d76b5a5dc3121a0c9793ce7c74f2107",
+    "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+    "prepare_profile_packet.py": "1cb55b0ded8067bd0bee228f7d6f73e1acebff2dd13bea823aac90d315b54c19",
+    "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "tests/test_profile_guards.py": "77d8e5c9b543335d3903606db1f03fbcaace2d773468b0705ae0f82fd26b9d6c",
+    "E520_PACKET_PLAN.json": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc"
+  },
+  "reviewed_context_hashes": {
+    "README.md": "58b786dbf680b5a57cc339cae10f7e18ef35da8b6a97137c1aa0bad3be7594f3",
+    "tests/conftest.py": "ae0e30988d2dbcf7f330efd81c85142a36ceb5203f08947fbb6effba985d5ee2",
+    "pinned_train_rnn.py": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf"
+  },
+  "verification": {
+    "local_sha256_map_matches_actor_freeze": true,
+    "pinned_archive_hash_recomputed": true,
+    "pinned_trainer_hash_recomputed": true,
+    "synthetic_tests": "PASS: 10 passed under scripts/limited with 1 CPU and 1.5 GB cap",
+    "ruff": "PASS",
+    "profile_bound": "PASS: fixed seed-3 command requests 3 warmup and 20 timed outer batches; worker verifies 20 timed samples; pinned trainer returns before checkpoint/export branch",
+    "artifact_guard": "PASS: profile-only command cannot select fit/save/export flags, and post-run guard rejects .pt/.npy/pred artifacts",
+    "actual_device_observed": false,
+    "packet_build_or_provider_or_fit_or_score": false
+  },
+  "closed_findings": [
+    "Absent nvidia-smi PID rows now remain unavailable and abort during active CUDA; raw query status/output are retained.",
+    "CUDA allocated/reserved high-water values are captured and gated during the profile and persisted before trainer early return.",
+    "Environment receipt records the actual selected GPU, memory, compute capability, Torch/CUDA/cuDNN/Python and nvidia-smi identity; hardware is observed rather than hardcoded to T4.",
+    "Real exporter tensors are checked for exact input/output shapes, float32 dtypes, and finite output values before completion.",
+    "Expected and observed asset-manifest, asset, and parquet identities are persisted atomically before mismatch aborts."
+  ],
+  "execution_conditions": "This PASS covers profile-only code review. Controller must still refresh quota/provider/resource/input admission and review the actual environment.json and training_profile_peak.json from the bounded Kaggle profile. The observed GPU model must be reported and considered in any timing projection; this review does not require a hardcoded T4. No fit, grader, anchor, or scoring approval is implied.",
+  "profile_semantics_note": "The profile performs 23 outer batches total (3 warmup plus 20 timed), with transient in-memory optimizer updates across the trainer's chunks, and produces no checkpoint or prediction export.",
+  "limits": "Read-only code review and bounded synthetic checks only. No actual-device observation, packet build, provider call, fit, or scoring was performed."
+}

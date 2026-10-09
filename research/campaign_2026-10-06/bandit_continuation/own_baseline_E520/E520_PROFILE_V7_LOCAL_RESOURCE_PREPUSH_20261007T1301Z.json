@@ -1,0 +1,55 @@
+{
+  "exact_v7_slug_absent": true,
+  "host_memory": {
+    "available_bytes": 35381788672,
+    "available_fraction": 0.5266875220681931,
+    "total_bytes": 67177951232
+  },
+  "launch_checks_pass": true,
+  "local_gpu": {
+    "compute_apps_query": {
+      "argv": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    "gpu_query": {
+      "argv": [
+        "nvidia-smi",
+        "--query-gpu=index,name,uuid,memory.used,memory.total,utilization.gpu",
+        "--format=csv,noheader"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "0, NVIDIA GeForce RTX 3060 Laptop GPU, GPU-afbf2864-833f-9bd2-10ac-536e31337638, 86 MiB, 6144 MiB, 8 %"
+    },
+    "this_attempt_uses_local_gpu": false
+  },
+  "local_support_envelope": {
+    "cpu_cores": 1,
+    "memory_bytes": 1500000000,
+    "wall_seconds": 120
+  },
+  "no_local_fit_or_gpu_work": true,
+  "observed_at_utc": "2026-10-07T13:02:53+00:00",
+  "parent_slice": {
+    "control_group": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "cpu_max": "600000 100000",
+    "effective_cpu_cores": 6.0,
+    "memory_current_bytes": 15301459968,
+    "memory_headroom_to_high_bytes": 2698539008,
+    "memory_headroom_to_max_bytes": 4698537984,
+    "memory_high_bytes": 17999998976,
+    "memory_max_bytes": 19999997952,
+    "memory_swap_max_bytes": 0
+  },
+  "provider_kernel_list_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V7_KERNEL_LIST_PREPUSH_REGISTERED_20261007T1300Z.txt",
+  "provider_kernel_list_sha256": "1f5cae646176e79521f4428d5a78142f446de85b1b8e13e66a20110688b6d1d8",
+  "receipt_id": "E520_PROFILE_V7_LOCAL_RESOURCE_PREPUSH_20261007T1301Z",
+  "schema_version": 1,
+  "workspace_disk_free_bytes": 78033149952
+}
