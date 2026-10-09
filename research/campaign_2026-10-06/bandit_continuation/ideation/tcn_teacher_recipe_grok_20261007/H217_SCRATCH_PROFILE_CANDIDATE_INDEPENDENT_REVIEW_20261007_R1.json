@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "receipt_id": "H217_SCRATCH_PROFILE_CANDIDATE_INDEPENDENT_REVIEW_20261007_R1",
+  "observed_at_utc": "2026-10-07T15:40:26Z",
+  "owner": "independent recipe reviewer",
+  "decision": "FAIL",
+  "review_scope": "Read-only review of the exact H217 staged B8/B16 TCN profile candidate, its declared neutral recipe basis, source hashes, profile-return behavior, and existing independent CPU TCN preflight. This is not profile or fit authorization.",
+  "freeze": {
+    "candidate_path": "research/campaign_2026-10-06/bandit_continuation/ideation/tcn_teacher_recipe_grok_20261007/H217_SCRATCH_PROFILE_CANDIDATE_V1.json",
+    "candidate_sha256": "914e3af92b6c7ca94a4b591bc818922d6a334cbf26247c69a56940d9c6dbd064",
+    "recipe_basis_path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/SEED4_CONTRACT_V1.json",
+    "recipe_basis_sha256": "d63e103f25c2b266379cb64e13a8dc60b8be4bcd3dd036df07f4eb347b3193fb",
+    "reviewed_source_hashes": {
+      "scripts/train_rnn.py": "0e622a87888769ff7467fadd1d1a230886008d1803099e8881e100939082467d",
+      "scripts/bandit_resources.py": "61c686be1b114b857775fbd8d58185da74992dc39287316865682bdd783e148d",
+      "src/wnn/nn.py": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+      "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+      "src/wnn/training_dynamics.py": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294",
+      "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    }
+  },
+  "findings": [
+    {
+      "severity": "blocking",
+      "finding": "The candidate requires a profile report of attempted/completed/AMP-skipped updates and numerical finiteness, but the frozen trainer profile path does not emit that evidence. In scripts/train_rnn.py, the profile branch reports StageTimer and returns before EpochUpdateCounter.finish() and before the usual update_diagnostics persistence. EpochUpdateCounter does accumulate AMP skip flags, but profile exits without reading them; no per-step or aggregate finite-loss/gradient assertion is performed. An AMP-skipped or nonfinite update can therefore coexist with a successful process exit and an unusable throughput measurement.",
+      "evidence": "scripts/train_rnn.py lines 2316-2330; src/wnn/run_identity.py lines 49-78. Candidate admission gate explicitly requires complete forward/backward/optimizer wall, skipped updates, and numerical finiteness.",
+      "smallest_correction": "Before the profile return, emit attempted, completed, and AMP-skipped update counts from EpochUpdateCounter.finish() and add a bounded finite-loss/gradient status check that does not synchronize every timed step. Freeze the corrected trainer hash and focused test proving the profile receipt exposes these fields before reconsidering admission."
+    },
+    {
+      "severity": "nonblocking",
+      "finding": "The --cell gru argument is accepted but does not select the H217 architecture: --arch tcn constructs TCNModel using channels, layer count, and tcn_mix. The frozen command correctly selects TCN, but the ignored flag is misleading in the recorded invocation.",
+      "evidence": "scripts/train_rnn.py lines 749-753 select TCNModel from --arch tcn; the command binds --arch tcn, --hidden 128, --layers 12, and --tcn-mix 1.",
+      "smallest_correction": "Remove --cell gru from a successor command, or explicitly label it ignored without changing model semantics."
+    },
+    {
+      "severity": "informational",
+      "finding": "The source-bound architecture is a 128-channel, 12-block causal TCN with mix enabled; block dilations extend to 2048 and its receptive field is 4096 rows. Input width remains 211; --raw-only zeros the event channels while retaining the source ABI. The B8 command is appropriately first, with B16 conditional on measured conservative headroom. The TCN change, seed 7, and batch profile are explicit departures from the seed-4 GRU basis; WMSE/chunk normalization, split/fold, fixed epoch-3 checkpoint intent, zero auxiliary heads, and no-distillation basis are held constant. The separate Grok mix-loss proposal is not silently included.",
+      "evidence": "Exact B8/B16 argv in the frozen candidate and exact source hashes above; independent CPU oracle receipt below."
+    }
+  ],
+  "verification": {
+    "candidate_sha256": "914e3af92b6c7ca94a4b591bc818922d6a334cbf26247c69a56940d9c6dbd064",
+    "source_hashes": "All seven candidate-pinned source/data files independently rehashed and matched.",
+    "unique_output_paths": {
+      "bd26_h217_tcn128mix_raw_s7_f0_profile_b8": "Absent at review time.",
+      "bd26_h217_tcn128mix_raw_s7_f0_profile_b16": "Absent at review time."
+    },
+    "profile_boundary": "The trainer sets max_batches to profile_warmup + profile_steps (23 here), executes its ordinary forward/backward/scaler/optimizer path, then returns after timing before checkpoint/provenance persistence. The outer bounded GPU worker must enforce the candidate's CPU/RAM/VRAM and zero-loader limits; --fast enables sync-free/fused AdamW/pinned prefetch and propensity-cache mode, but no propensity model/cache is requested by this recipe.",
+    "supporting_cpu_preflight": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/ideation/tcn_teacher_recipe_grok_20261007/INDEPENDENT_PREFLIGHT_TCN_RECEIPT_20261007.json",
+      "sha256": "7a35f3c27ee39487dddb1e43c71b1a958bdac81d23ec4134b1195164d0d8fbdb",
+      "result": "Existing TCN tests and the independent B1/T4101/n_in211/C128/L12/mix1 CPU oracle passed: chunked forward matched full forward, future perturbation left the prefix unchanged, lag-2048 perturbation propagated, and within-chunk detached gradients were finite. This is CPU correctness evidence only, not CUDA AMP or profile evidence."
+    },
+    "execution": "No profile, fit, packet, provider action, or score was performed by this reviewer."
+  },
+  "limitations_and_conditions": [
+    "The recipe/model mapping is otherwise consistent with the declared exploratory profile purpose, but this FAIL blocks profile admission until the missing update/finiteness evidence is supplied under a new exact source freeze.",
+    "A profile can leave its uniquely named empty run directory because output directory creation precedes the profile return; the candidate paths were absent at review time and must be rechecked at any later admission.",
+    "The CPU preflight does not establish CUDA memory, FP16 behavior, or representative-device throughput."
+  ]
+}

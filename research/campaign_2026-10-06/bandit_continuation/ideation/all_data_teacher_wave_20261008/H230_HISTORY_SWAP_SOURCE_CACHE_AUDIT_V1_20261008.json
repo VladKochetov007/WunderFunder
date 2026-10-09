@@ -1,0 +1,519 @@
+{
+  "artifact_plan_after_root_review": {
+    "builder_resource_gate": "Separate root-approved bounded CPU task after H218 GPU fit/export frees headroom; stream/mmap only. Measure cache/file/anon peak and input bytes before selecting a reserve; no concurrent full-array rehash/Parquet metadata scan.",
+    "family_target_identity": "Use the existing base-cache arrays unchanged, hashes already bound in metadata.",
+    "fit_admission": "No fit command, attempt ID, public package, or resource admission is frozen here. A future student requires a new source-v4 manifest, root recipe review, exact target cache hashes, and fresh controller admission.",
+    "parent_prediction_export": "Two independent split exports using the frozen own prediction utility, output-name unique, epoch3, FP32, first two primary outputs, exact train/valid target-index group order, complete 10606+1873 membership, deterministic second export within predeclared1e-5, and per-sequence reset parity.",
+    "prediction_diagnostics": "Only after A and B_hist are validated: coverage, reset, deterministic export, per-target unclipped/clipped correlation and scalar residual plus clip-shell counts. Treat any local score as exposed descriptive evidence only.",
+    "target_cache_primary_shape_bytes": {
+      "combined_main_history_bytes": 1996640000,
+      "train": [
+        10606,
+        20000,
+        2
+      ],
+      "valid": [
+        1873,
+        20000,
+        2
+      ]
+    }
+  },
+  "base_student_recipe": {
+    "base_student_root_verified_parent_checkpoint_sha256": "478773bd3d0754d261f8f3c9d46a135d56c3596c269d2a856b760caef05b93c7",
+    "reference_contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_SEED4_RETRY1_RECIPE_CONTRACT_V5_20261008.json",
+    "reference_contract_sha256": "8328bf6d7eae5942786354e0a502e7b863bf231269b2956be745d2a52d174e01",
+    "source_manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/H230_ALLDATA_DISTILL_SOURCE_MANIFEST_V1_20261008.json",
+    "source_manifest_sha256": "9938cf880addd22467dd71fc81fc550ea3ab9c7ba792c84cbd73f7073e7de15d",
+    "student_source_trainer_sha256": "09902e4b4d886f863d5090ff58ba9ec4b7c677f995bb0192f0538c819a693bbb",
+    "unchanged_recipe_summary": {
+      "all_data_membership": "train+valid all supplied; no evaluation during fit; no held-out claim",
+      "architecture": "GRU256x2; 31 outputs (23 copied ordinary rows plus 8 fresh family rows)",
+      "auxiliary_weights": {
+        "next_event": 0.3,
+        "structural": 0.3
+      },
+      "batch": 16,
+      "chunk_rows": 2000,
+      "distill_alpha": 0.7,
+      "epochs": 2,
+      "family_loss_weight": 0.1,
+      "family_target_mode": "raw",
+      "fixed_checkpoint_epoch_zero_based": 1,
+      "loss": "raw chunk WMSE, AdamW lr0.0001 wd0.01, OneCycle, FP16",
+      "propensity": "own c20260929_prop_f0, power2.0, epsilon0.03, valid-true-mask0.03",
+      "seed": "one matched seed selected in a future root-approved successor contract; use the same seed and parent as the source-target comparison if chosen to isolate target change"
+    }
+  },
+  "created_utc": "2026-10-08T04:20:57.665345+00:00",
+  "existing_cache": {
+    "all_eight_source_records": [
+      {
+        "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+        "coefficient": 0.15,
+        "epoch": 3,
+        "family": "strong",
+        "predictions": {
+          "train": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20261003_combo_s3_f0_train.npy",
+            "prediction_sha256": "55be3dffe899260f875e7d6460d37a24257067ebedb9273514cb38accc6af086",
+            "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+            "sidecar_sha256": "d9fa1459057e93d481db28aa6388cc7e801242ddcc6eb3e658cf83a559068837"
+          },
+          "valid": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20261003_combo_s3_f0_valid.npy",
+            "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+            "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+            "sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2"
+          }
+        },
+        "run": "c20261003_combo_s3_f0"
+      },
+      {
+        "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+        "coefficient": 0.15,
+        "epoch": 3,
+        "family": "strong",
+        "predictions": {
+          "train": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20261003_combo_s4_f0_train.npy",
+            "prediction_sha256": "6188bba89a0d5e30516c8ec4163746310aa0e4b634dd1bbc3da9a156b8d9bfb2",
+            "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+            "sidecar_sha256": "ea462accb17312f12c5a254df9aa94989952562f948234b5ebe2bcc6d5f8401e"
+          },
+          "valid": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20261003_combo_s4_f0_valid.npy",
+            "prediction_sha256": "f1a3b07072a62dce620dc0c90e9568093367d0aed1afa4e9ec550866f94df12b",
+            "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+            "sidecar_sha256": "ad1257c7278c5402c409ec0e273c2202525bd1d6173699438efb6627262b9750"
+          }
+        },
+        "run": "c20261003_combo_s4_f0"
+      },
+      {
+        "checkpoint_sha256": "fa9f0353cf6cdd3c85fc56efc1e8a3f3dae0048fb1ccd995eeb7026afd269dc7",
+        "coefficient": 0.1,
+        "epoch": 0,
+        "family": "full_finetuned",
+        "predictions": {
+          "train": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20260929_ft_since_s3_f0_train.npy",
+            "prediction_sha256": "f673d3c0068c9bb653e1e61624141656f16f980e7a91c56be4508d6b8e0a6db4",
+            "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+            "sidecar_sha256": "7a6edcb5d0ef8d83d5ce4d4679079ecff50edd1cd6b60a7c16eabf2a3406d7de"
+          },
+          "valid": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20260929_ft_since_s3_f0_valid.npy",
+            "prediction_sha256": "48945ad91a1fa4dd135e1cef8d94b95f888c300323e21fb3c9257f88d4061524",
+            "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+            "sidecar_sha256": "3cd56c76c31fde3c3f8051f7f1896ba6de37ade65f6f233288f240672addc9af"
+          }
+        },
+        "run": "c20260929_ft_since_s3_f0"
+      },
+      {
+        "checkpoint_sha256": "e06b712decb62799c84be6907b8b5285724bbd6efe1f58a4aa1bf4a92f3b11b7",
+        "coefficient": 0.1,
+        "epoch": 0,
+        "family": "full_finetuned",
+        "predictions": {
+          "train": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20260929_ft_since_s4_f0_train.npy",
+            "prediction_sha256": "d50c7eda843ad37d5d64d9987ac1d2992f5b22fa5be5c316478d15ec5ddc7af4",
+            "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+            "sidecar_sha256": "adb89556c22cb2948424677c66edbacda240b5161e249127430d45398ea1fb39"
+          },
+          "valid": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20260929_ft_since_s4_f0_valid.npy",
+            "prediction_sha256": "ff788b6c5bd17b6bfa5186890787ea69b2965dc4100ff3a7838ed39f34424b64",
+            "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+            "sidecar_sha256": "47c381f004842a0603228668f77f89e0e054450b3dc7c07690f03f02fdb16f55"
+          }
+        },
+        "run": "c20260929_ft_since_s4_f0"
+      },
+      {
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "coefficient": 0.125,
+        "epoch": 3,
+        "family": "raw_wmse",
+        "predictions": {
+          "train": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20260929_since_s3_f0_train.npy",
+            "prediction_sha256": "2e74e44773d3d6d3e7c48c245a71f281b1659e6f6592ea2a9a2e4f96d37d19dc",
+            "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+            "sidecar_sha256": "da6b0b23fb0f6a063e7ab59d2bd59e4a045f3ba764dd23246c7386a42683e81f"
+          },
+          "valid": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20260929_since_s3_f0_valid.npy",
+            "prediction_sha256": "7a01c040849d9455016dee51a1f9c82c1079be085a0e6be23c99c23bddb3fba9",
+            "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+            "sidecar_sha256": "9ba5a0105e0d5265415cc621e50d90148211c85427a540f0ade06e01bb1665ca"
+          }
+        },
+        "run": "c20260929_since_s3_f0"
+      },
+      {
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "coefficient": 0.125,
+        "epoch": 3,
+        "family": "raw_wmse",
+        "predictions": {
+          "train": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20260929_since_s4_f0_train.npy",
+            "prediction_sha256": "819ab8ef0b1303b289af3475e173da8e9e7ff404ca7a8d8e7e10a3d443648241",
+            "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+            "sidecar_sha256": "978d949b9d7464c2706051bd351db6c1bbabe4ca3d32256afca3212b5439f5fe"
+          },
+          "valid": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20260929_since_s4_f0_valid.npy",
+            "prediction_sha256": "6aa7b150097ebdf43ddbea8c3a52f8d705ebd2dbd01470e3c45b7eb2dbcfc430",
+            "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+            "sidecar_sha256": "5f1aae3212e4316d94752b171692a8b8c5fb7d8bd9e141924aa8ddd03e708a07"
+          }
+        },
+        "run": "c20260929_since_s4_f0"
+      },
+      {
+        "checkpoint_sha256": "90b7357c8d5cf01219764ae58373099710f11d041a01ef5400e683bf854eb08f",
+        "coefficient": 0.03125,
+        "epoch": 3,
+        "family": "samefold_baseline",
+        "predictions": {
+          "train": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_bd26_w384raw_s3_f0_train.npy",
+            "prediction_sha256": "ceae80e735b5502dc763ed023e00842dbd2a881947a794c22ce8023d1342a451",
+            "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+            "sidecar_sha256": "e0f7f542ef9a0ef8b807681492e26b6efacf80d9084c2fcd090afbdc359b626a"
+          },
+          "valid": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_bd26_w384raw_s3_f0_valid.npy",
+            "prediction_sha256": "0dae84be777f8bf4ef80bb7c292e1466de5e326c6471cd2e28f22ef9e075ee2b",
+            "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+            "sidecar_sha256": "a45e6c5224e5c09216e199120f75261676416a9d8c8b9b5d0129f4d437b7b6c3"
+          }
+        },
+        "run": "bd26_w384raw_s3_f0"
+      },
+      {
+        "checkpoint_sha256": "7e83bebaab7f5de9601b9612ac637a53edd044aec4570d1cf787026b77b43e73",
+        "coefficient": 0.03125,
+        "epoch": 3,
+        "family": "samefold_baseline",
+        "predictions": {
+          "train": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_bd26_w384raw_s4_f0_train.npy",
+            "prediction_sha256": "694b95ac46471b04a99d1ac591865714ed81df91bb0c73e0e53d029d77f86b6a",
+            "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+            "sidecar_sha256": "60d227c35172a2dd2c05ba5be07115c1e23994660f3323a16f18dd9cb4f1c324"
+          },
+          "valid": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_bd26_w384raw_s4_f0_valid.npy",
+            "prediction_sha256": "47a42be2a55248b9fdd8af5ce63c4fed14ddf07ee178206d266b0bf2294e3379",
+            "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+            "sidecar_sha256": "e7442896c7572654e58d7a670d02ff0e8a9de674538a376519c432c35ff876ea"
+          }
+        },
+        "run": "bd26_w384raw_s4_f0"
+      }
+    ],
+    "arrays": {
+      "families_train": {
+        "dtype": "float32",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/families_train.npy",
+        "row_count": 10606,
+        "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+        "sha256": "13ec664cf8443f43594faecfd79c8c24ffc45960b15e38c42bbc79a26fc2e25a",
+        "shape": [
+          10606,
+          20000,
+          8
+        ]
+      },
+      "families_valid": {
+        "dtype": "float32",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/families_valid.npy",
+        "row_count": 1873,
+        "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "sha256": "85e6614f6609a3a8cdb776c1003e6178ef5550d9eb5491bb5e4d1e4952438804",
+        "shape": [
+          1873,
+          20000,
+          8
+        ]
+      },
+      "main_homogeneous_train": {
+        "dtype": "float32",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_homogeneous_train.npy",
+        "row_count": 10606,
+        "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+        "sha256": "d8a9ce5c45945c8a52faa7005cd300a0fc2aaeb4366e2ea7ffd3b9120a7aa653",
+        "shape": [
+          10606,
+          20000,
+          2
+        ]
+      },
+      "main_homogeneous_valid": {
+        "dtype": "float32",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_homogeneous_valid.npy",
+        "row_count": 1873,
+        "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "sha256": "17178136a96b49cd61f938af980afe2d6b70ad26b54f7e42c996cf0378c4cab4",
+        "shape": [
+          1873,
+          20000,
+          2
+        ]
+      },
+      "main_normalized_train": {
+        "dtype": "float32",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_normalized_train.npy",
+        "row_count": 10606,
+        "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+        "sha256": "4c0b42b52d7e5c5ef47579297394b7d398f5424f75f6e377c40685465cecbb06",
+        "shape": [
+          10606,
+          20000,
+          2
+        ]
+      },
+      "main_normalized_valid": {
+        "dtype": "float32",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_normalized_valid.npy",
+        "row_count": 1873,
+        "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "sha256": "da71a981f56fbf61ae8b5d0fcc7ca0ac6861877d14a0759dc4bf10778bdf17b3",
+        "shape": [
+          1873,
+          20000,
+          2
+        ]
+      },
+      "main_source_train": {
+        "dtype": "float32",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_train.npy",
+        "row_count": 10606,
+        "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+        "sha256": "d706c979f3fae46258ee9684dc754d02a70c35d142fed5ebaf785ae7e1ded165",
+        "shape": [
+          10606,
+          20000,
+          2
+        ]
+      },
+      "main_source_valid": {
+        "dtype": "float32",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_valid.npy",
+        "row_count": 1873,
+        "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "sha256": "e464d29ca5ec0c3c07e70e1f8b08afb180b5d35b70b4fb3130e6a8f56d0e1a8c",
+        "shape": [
+          1873,
+          20000,
+          2
+        ]
+      }
+    },
+    "evaluation_valid_groups_count": 468,
+    "family_order": [
+      "strong",
+      "full_finetuned",
+      "raw_wmse",
+      "samefold_baseline"
+    ],
+    "membership_counts": {
+      "train": 10606,
+      "valid": 1873
+    },
+    "metadata_path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/metadata.json",
+    "metadata_sha256": "b05e652f5fdec4e6b1e4e07d1d3a705655d4588ab8ee9d802ccdf4339fd66500",
+    "root": "cache/bd26_h230_fold0_teacher_family_all_rows_v1",
+    "row_group_hashes": {
+      "train": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+      "valid": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+    },
+    "schema": {
+      "format": "wnn.heterogeneous-distillation-cache",
+      "heldout_claim": false,
+      "membership_mode": "all_supplied_train_valid",
+      "teacher_prediction_coverage": "complete_train_valid_target_index",
+      "teacher_training_scope": "clean_fold_fit_only",
+      "version": 1
+    },
+    "source_cache_builder": "reuses existing complete full-row prediction caches; do not rerun teachers or rebuild the current cache.",
+    "strong_pair_source_files": [
+      {
+        "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+        "coefficient": 0.15,
+        "epoch": 3,
+        "family": "strong",
+        "predictions": {
+          "train": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20261003_combo_s3_f0_train.npy",
+            "prediction_sha256": "55be3dffe899260f875e7d6460d37a24257067ebedb9273514cb38accc6af086",
+            "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+            "sidecar_sha256": "d9fa1459057e93d481db28aa6388cc7e801242ddcc6eb3e658cf83a559068837"
+          },
+          "valid": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20261003_combo_s3_f0_valid.npy",
+            "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+            "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+            "sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2"
+          }
+        },
+        "run": "c20261003_combo_s3_f0"
+      },
+      {
+        "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+        "coefficient": 0.15,
+        "epoch": 3,
+        "family": "strong",
+        "predictions": {
+          "train": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20261003_combo_s4_f0_train.npy",
+            "prediction_sha256": "6188bba89a0d5e30516c8ec4163746310aa0e4b634dd1bbc3da9a156b8d9bfb2",
+            "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+            "sidecar_sha256": "ea462accb17312f12c5a254df9aa94989952562f948234b5ebe2bcc6d5f8401e"
+          },
+          "valid": {
+            "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20261003_combo_s4_f0_valid.npy",
+            "prediction_sha256": "f1a3b07072a62dce620dc0c90e9568093367d0aed1afa4e9ec550866f94df12b",
+            "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+            "sidecar_sha256": "ad1257c7278c5402c409ec0e273c2202525bd1d6173699438efb6627262b9750"
+          }
+        },
+        "run": "c20261003_combo_s4_f0"
+      }
+    ],
+    "total_sequences": 12479
+  },
+  "hypothesis_id": "H-ADH-20261008-R",
+  "identity": "H230_HISTORY_SWAP_SOURCE_CACHE_AUDIT_V1_20261008",
+  "implementation_audit": {
+    "current_loader": "Sequences reads main_{variant}_{split}.npy and families_{split}.npy from one cache root.",
+    "do_not_mutate": "Keep sealed V3 snapshot, C0 cache directory, raw teacher predictions, and parent checkpoint immutable. No source edits are included in this audit.",
+    "homogeneous_is_not_history": "main_homogeneous is the declared single-family control multiplied by the original 0.8125 total; it is not an all-data GRU parent history.",
+    "root_prediction_exporter": {
+      "observed_behavior": "Uses model_ep3 checkpoint when --epoch3 is supplied, sets inference fp32 when requested, writes two-channel float32 memmap predictions, and slices model output to p[..., :2]. It writes prediction files under cache/ and takes an output-name to avoid replacing existing artifacts.",
+      "path": "scripts/predict_run.py",
+      "sha256": "fee58a359c24208116cbf3b86e7d4dcf90ba285494582ab2f760edd9f8e1d0aa"
+    },
+    "sealed_v3_source_manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/H230_ALLDATA_DISTILL_SOURCE_MANIFEST_V1_20261008.json",
+    "sealed_v3_source_manifest_sha256": "9938cf880addd22467dd71fc81fc550ea3ab9c7ba792c84cbd73f7073e7de15d",
+    "source_hashes": {
+      "scripts/build_distill_cache.py": {
+        "sha256": "0ae5cc7000e25f36a2d428f7c543b13b75a3fd04aaa372664e977e7b908a7dc9"
+      },
+      "scripts/train_rnn.py": {
+        "sha256": "09902e4b4d886f863d5090ff58ba9ec4b7c677f995bb0192f0538c819a693bbb"
+      },
+      "src/wnn/all_data_distillation_cache.py": {
+        "sha256": "c46e309428fd096e00ac20767adfaf391362b93798deac37ee6befcc77886039"
+      },
+      "src/wnn/distillation.py": {
+        "sha256": "352a0c5b782f9e68fc7153783d20b04825e0c764b94f589cd71993580b7857c7"
+      },
+      "src/wnn/distillation_cache.py": {
+        "sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19"
+      }
+    },
+    "strict_validator": "source-v3 validate_all_data_distillation_cache also rejects history; it validates one requested primary array plus family arrays, complete all-supplied row order, dtype/shape, full byte hashes and finiteness.",
+    "trainer_parser": "source-v3 parser accepts only source, normalized, homogeneous. --distill-cache-variant history is rejected by argparse before training."
+  },
+  "interpretation_limits": {
+    "ideator_thresholds": "The card\u2019s numeric skip thresholds were explicitly not adopted by controller review as hard admission/rejection gates.",
+    "no_heldout_claim": "The parent and eventual student use all supplied train+valid groups; the local fold0 evaluation groups are exposed through the all-data parent/student ancestry.",
+    "no_public_forecast": "No local exposed proxy or all-data diagnostic is translated into a public-score forecast.",
+    "not_isolated_teacher_fit_membership_effect": "This is a compound target-plus-initializer endpoint comparison: the all-data parent is both the 0.30 teacher component and student initializer."
+  },
+  "minimal_source_v4_successor_plan": [
+    "Add a history target variant as a distinct immutable cache/target mode; retain source, normalized and homogeneous semantics unchanged.",
+    "Record history parent checkpoint bytes, exact fit ancestry/membership, epoch3, export file hashes, target formula, row-order identities, dtype and exporter/source hashes separately from the eight clean-fold family-source records.",
+    "Extend the strict validator to require and validate the history provenance record when variant=history; preserve full file hash and finite-value checks and all-supplied membership checks.",
+    "Reuse the existing full family arrays by an explicit, repository-relative, hash-bound base-cache dependency in V4; the validator must verify the base metadata hash and family array hashes before the loader opens them. Avoid duplicating or mutating the 8 family-target GB.",
+    "Add a separate streaming target assembler that writes only main_history_train/valid into a new .partial cache root, uses memmapped source/A arrays with small row chunks, verifies exact group order/finite values, hashes output while writing, then atomically finalizes. No zeros, positional guess, all-array in-RAM materialization, or teacher refit.",
+    "Update the V4 dataset loader to read the history primary array from the derived cache and family arrays only from the validated original base cache. Preserve the same target clamp, loss, optimizer, schedule, sampler and head initialization.",
+    "Add focused tests for coefficient/formula on synthetic values, wrong parent checkpoint/fit membership, missing/reordered row groups, bad dtype/shape, nonfinite values, wrong base cache hash, mutated family hash, and exact unchanged family-target identity."
+  ],
+  "owner": "h230_actual_delivery",
+  "parent_ancestry": {
+    "actual_parent_load_check_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_PARENT_LOAD_CHECK_V1_20261008.json",
+    "actual_parent_load_check_sha256": "0d784393eb1b05ab99a90fe582461f5c67c5f1c85e66e49989c89a73c24e3d77",
+    "checkpoint_path": "artifacts/runs/bd26_h230_all_data_parent_b16_ep3_retry3_v1/model_ep3.pt",
+    "checkpoint_sha256": "478773bd3d0754d261f8f3c9d46a135d56c3596c269d2a856b760caef05b93c7",
+    "fit_membership": "All supplied rows: 10606 train +1873 valid; parent was initialized from an own audited clean-fold strong seed3 checkpoint and then fitted across all supplied rows. The exact ancestry remains part of the claim limit.",
+    "fixed_epoch_zero_based": 3,
+    "parent_fit_contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_FIT_RETRY3_CONTRACT_V1_20261008.json",
+    "parent_fit_contract_sha256": "2d98c38c18c143175e286fcff56911aecf6516871776b9945f102e6169bb915b",
+    "run": "bd26_h230_all_data_parent_b16_ep3_retry3_v1",
+    "student_initialization": "The same fixed epoch3 parent also initializes the student; actual source-v3 load check verifies copying of the parent\u2019s 23 ordinary main/aux rows into a 31-row student and fresh seed-specific 8-row family head.",
+    "terminal_verification_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_SEED3_NORMALIZED_TERMINAL_VERIFICATION_V1_20261008.json",
+    "terminal_verification_sha256": "a0b51b0573e24b64708817a481ca48096e79fb590f973dfe4522a5c88567b1f5"
+  },
+  "question": "Does replacing only the 0.30 primary-target mass from the two clean-fold strong teachers with the own fixed-epoch3 all-supplied GRU256x2 parent predictions produce a materially different student target and useful trained student under the same H230 endpoint recipe?",
+  "reference_artifacts": {
+    "controller_review_path": "research/campaign_2026-10-06/bandit_continuation/ideation/all_data_teacher_wave_20261008/PROVIDER_DELIVERY_CONTROLLER_REVIEW_V1.json",
+    "idea_card_path": "research/campaign_2026-10-06/bandit_continuation/ideation/all_data_teacher_wave_20261008/GROK_PUBLIC_RECIPE_CARDS_V1.md",
+    "root_sampled_normalized_cache_audit_path": "research/campaign_2026-10-06/bandit_continuation/ideation/all_data_teacher_wave_20261008/NORMALIZED_CACHE_ROOT_SAMPLED_AUDIT_20261008_R1.json",
+    "root_sampled_normalized_cache_audit_sha256": "716d2c1594d8443a7286be569bbbbb11c69a221bc331e41d52c5bc6baf125b3f"
+  },
+  "schema": "wnn.h230.history-swap-source-cache-audit.v1",
+  "scope": "Source/parser/cache audit and implementation plan only. No prediction export, cache build, training, grade, submission or resource admission is authorized by this artifact.",
+  "status": "recipe_and_cache_audit_only_not_fit_admitted",
+  "target_delta": {
+    "baseline": "C0 primary blend, raw/source-scale total coefficient 0.8125.",
+    "coefficient_table": [
+      {
+        "baseline": 0.0,
+        "component": "own all-data GRU256x2 parent epoch3 export A",
+        "history": 0.3
+      },
+      {
+        "baseline": 0.15,
+        "component": "clean-fold strong seed3",
+        "history": 0.0
+      },
+      {
+        "baseline": 0.15,
+        "component": "clean-fold strong seed4",
+        "history": 0.0
+      },
+      {
+        "baseline": 0.1,
+        "component": "clean-fold full-finetuned seed3",
+        "history": 0.1
+      },
+      {
+        "baseline": 0.1,
+        "component": "clean-fold full-finetuned seed4",
+        "history": 0.1
+      },
+      {
+        "baseline": 0.125,
+        "component": "clean-fold raw-WMSE seed3",
+        "history": 0.125
+      },
+      {
+        "baseline": 0.125,
+        "component": "clean-fold raw-WMSE seed4",
+        "history": 0.125
+      },
+      {
+        "baseline": 0.03125,
+        "component": "clean-fold GRU128 raw seed3",
+        "history": 0.03125
+      },
+      {
+        "baseline": 0.03125,
+        "component": "clean-fold GRU128 raw seed4",
+        "history": 0.03125
+      }
+    ],
+    "formula": "B_hist = main_source - 0.15*S_strong_seed3 - 0.15*S_strong_seed4 + 0.30*A, with FP64 accumulation on memmapped FP32 sources and one FP32 output cast. Equivalently, recompute from the six unchanged source members plus one A term in a deterministic order.",
+    "history_variant": "B_hist replaces the two strong clean-fold prediction components (0.15 each) with one own all-data parent export A at coefficient0.30. All other six primary source terms retain their coefficients; the four family targets stay byte-identical.",
+    "precision": "Unclipped FP32 teacher A and B_hist are stored; the unchanged trainer applies its existing \u00b12 target clamp during loss.",
+    "primary_coefficient_total": 0.8125,
+    "training_target_mixing_in_base_student": "0.30*clamp(label,-2,2) + 0.70*clamp(primary_teacher_target,-2,2), weighted by abs(clamped label) and the existing main-valid mask; family loss remains separate at0.1."
+  }
+}
