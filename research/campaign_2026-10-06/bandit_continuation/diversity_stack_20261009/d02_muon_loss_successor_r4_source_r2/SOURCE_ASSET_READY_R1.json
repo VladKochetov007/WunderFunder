@@ -1,0 +1,62 @@
+{
+  "schema": "wnn.kaggle-d02-private-source-ready-receipt.v1",
+  "recorded_at_utc": "2026-10-09T03:15:18Z",
+  "root_source_admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_D02_R4_SOURCE_ADMISSION_R1.json",
+    "sha256": "c678becf01175b7227dc5667c810150a631bd7acdfd78b45bcdf146986d49792"
+  },
+  "dataset": "vladkochetov07/wnn-d02-muon-loss-code-20261009-r4",
+  "dataset_title": "WNN D02 Muon Loss Code 20261009 R4",
+  "private": true,
+  "provider_version": 1,
+  "owner_inventory_before_create": {
+    "command": "kaggle datasets list --mine --search wnn-d02-muon-loss-code-20261009-r4 --page-size 200 --format json",
+    "result": "No datasets found"
+  },
+  "create": {
+    "command": "kaggle datasets create -p /tmp/wnd02r4r2 -r zip",
+    "cli_executable": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle",
+    "cli_version": "Kaggle CLI 2.2.4",
+    "exit_code": 0,
+    "provider_response": "Your private Dataset is being created.",
+    "create_calls": 1
+  },
+  "staged_upload": {
+    "path": "/tmp/wnd02r4r2",
+    "private_by_default": true,
+    "physical_file_count": 7,
+    "total_bytes": 2050756,
+    "admission_maximum_bytes": 3000000,
+    "manifest_sha256": "c7bf7880a73a87b33d4c9c7d800384a5b245321721014ac214df3bd6b864f28f",
+    "metadata_sha256": "f2e96c83c92b8f1d99669afa89b721f4acd7dce32015a5b5b80959a839cde4e5",
+    "payload_file_count": 5,
+    "payload_bytes": 2049042,
+    "all_payload_names_are_content_hashes": true
+  },
+  "readiness": {
+    "observed_at_utc": "2026-10-09T03:15:18Z",
+    "status_command": "kaggle datasets status vladkochetov07/wnn-d02-muon-loss-code-20261009-r4 --format json",
+    "status": "ready",
+    "current_version_number": 1,
+    "file_inventory_command": "kaggle datasets files vladkochetov07/wnn-d02-muon-loss-code-20261009-r4 --format json --page-size 200",
+    "remote_data_file_count": 6,
+    "remote_payload_file_count": 5,
+    "remote_inventory_exactly_matches_manifest_names_and_sizes": true,
+    "remote_manifest_command": "kaggle datasets download vladkochetov07/wnn-d02-muon-loss-code-20261009-r4 -f assets-manifest.json -p /tmp/wnd02r4r2_remote_manifest --unzip",
+    "remote_manifest_size_bytes": 1525,
+    "remote_manifest_sha256": "c7bf7880a73a87b33d4c9c7d800384a5b245321721014ac214df3bd6b864f28f",
+    "remote_manifest_matches_staged_bytes": true,
+    "remote_files": [
+      {"name": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn", "size_bytes": 1388846},
+      {"name": "27255889fb180ec3845ab18be045dd4609d86b07ae1ab875e5a59b2573f3a05b.wnn", "size_bytes": 393820},
+      {"name": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c.wnn", "size_bytes": 2104},
+      {"name": "assets-manifest.json", "size_bytes": 1525},
+      {"name": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd.wnn", "size_bytes": 253578},
+      {"name": "f26c2ad9263378ff068372c98edb16a683503ed3c0836f9b10d9eaf187a8fc8d.wnn", "size_bytes": 10694}
+    ]
+  },
+  "limitations": [
+    "The Kaggle datasets files endpoint reports filenames and sizes; the remote assets-manifest.json was separately downloaded and SHA-256 checked against the short-path stage.",
+    "Version 1 is established by the no-prior-owner-match receipt and the single successful create call."
+  ]
+}
