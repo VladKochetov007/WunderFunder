@@ -1,0 +1,52 @@
+{
+  "schema": "wnn.d02.r5.root-source-admission.v1",
+  "created_utc": "2026-10-09T03:40:20.163409+00:00",
+  "owner": "root",
+  "delivery_owner": "runner_kaggle_builder Luna/max",
+  "state": "private_source_upload_and_admitted_packet_preparation_authorized",
+  "pending_packet_sha256": "c64a8a75ff894dd3e8449acd9a5bf6ee533bf84b2b3faa04f3b4ea416c2f171d",
+  "source_code_manifest_sha256": "dbd98f4b73f5cdc7dd8df137ae9d0bd23495fd8ee2067da02cc94d45699bd6e9",
+  "source_archive_sha256": "7c85e1175f3dfff01fc8ab5b2fee81f449cfb873c8f1303fece8b330ad67dcdc",
+  "source_asset_manifest_sha256": "9ab15bc1efae1b56e045413d3999c350ffdf75edbc541b49f053b41c3bb264c6",
+  "source_dataset": "vladkochetov07/wnn-d02-muon-loss-code-20261009-r5",
+  "kernel_id": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v5",
+  "control_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+  "root_validation": {
+    "source_review": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r5_profile_export_r2/ROOT_SOURCE_PAYLOAD_REVIEW_R1.json",
+    "source_review_sha256": "dc01f192907d8d71999d154938a946fa5980b37f404a8db885205f635fdfd12d",
+    "actual_producer_regression": "3root tests pass5.95s. Actual R4consecutive producer outputs; reconstructed Huberinput fixture explicitly labelled. No GPUprofile/fullfit.",
+    "source_payload": "Root verified all63archive/code files and5opaqueassets; exact sourcecommit exists; sealedbootstrap extraction/import/train+predicthelp passed.",
+    "runtime_admission_gate": "R2 wrongv4 kernel-ID check rejected byroot. R3bootstrap-only successor required and root exactadmitted branch review beforepush."
+  },
+  "private_upload_max_bytes": 3000000,
+  "root_admission_payload": {
+    "schema": "wnn.d02.root-admission.v1",
+    "kernel_id": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v5",
+    "push_allowed": true,
+    "conditional_fit_allowed": true,
+    "source_code_manifest_sha256": "dbd98f4b73f5cdc7dd8df137ae9d0bd23495fd8ee2067da02cc94d45699bd6e9",
+    "control_gpu_kernel": "vladkochetov07/wnn-loss-pair-export-recovery-20261009-r1",
+    "gpu_control_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+    "runtime_seconds": 3300
+  },
+  "provisional_gpu_seconds": 7200,
+  "worker_wall_seconds": 3300,
+  "provider_timeout_seconds": 3600,
+  "gpu_shape": "two T4",
+  "campaign_gpu_headroom_latest_seconds": 23700.16,
+  "campaign_gpu_headroom_after_hold_seconds": 9300.16,
+  "quota_observed_utc": "2026-10-09T03:31:22+00:00",
+  "dispatch_conditions": [
+    "Use physical short private upload directory; inventory and manifest exact hashes; verify version1READY.",
+    "Preserve pending seal, create identified admitted seal; root checks final embedded payload and packet hashes before kernel push.",
+    "Recheck live quota before push; require this7200hold plus1000seconds unreserved headroom; other openholds included.",
+    "Exactly one private two-T4 kernel push;3300worker/3600provider budget; no blind retry or additional fit.",
+    "Install durable terminal collector and report actual provider/worker outcomes; preserve successful artifacts on postprocess failure."
+  ],
+  "scope": "local/Kaggle only, no Vast/public upload; own independently initialized weights",
+  "source_commit": "845405d16dc6b3768080aa99c3663a440d343ba5",
+  "predecessor_terminal_review_sha256": "3c091330f0f4aba38504edf79ddd44a2f96e71d165451fcf6c9a066ffeafa7cb",
+  "other_open_holds": {
+    "native_gpu_fp16_r1": 7200
+  }
+}

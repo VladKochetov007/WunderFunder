@@ -1,0 +1,50 @@
+{
+  "status": "actual_worker_running",
+  "observed_utc": "2026-10-09T03:50:20.496106+00:00",
+  "packet_sha256": "66cf35b112c1721be0efe8336cb226a9e95b5228bc39275ba7c31b8ca8ceacfa",
+  "unit": "wnn-bandit-fold1-teacher-exports-r1.service",
+  "effective_properties": {
+    "ActiveState": "active",
+    "SubState": "running",
+    "RuntimeMaxUSec": "6h 1min",
+    "ExecMainStatus": "0",
+    "MemoryCurrent": "6036905984",
+    "CPUQuotaPerSecUSec": "2s",
+    "MemoryHigh": "8000000000",
+    "MemoryMax": "9000000000",
+    "MemorySwapMax": "0"
+  },
+  "attempt": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/fold1-teacher-exports-r1.json",
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=20s",
+    "21600",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "scratch/fold1_gru384_successor_20261009/export_r1/export_teachers.py",
+    "--packet",
+    "scratch/fold1_gru384_successor_20261009/export_r1/EXPORT_ADMISSION_R1.json",
+    "--packet-sha256",
+    "66cf35b112c1721be0efe8336cb226a9e95b5228bc39275ba7c31b8ca8ceacfa"
+  ],
+  "actual_started_utc": "2026-10-09T03:49:07.956151+00:00",
+  "actual_heartbeat_utc": "2026-10-09T03:50:18.593296+00:00",
+  "current_export": {
+    "command": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "scripts/predict_run.py",
+      "bd26_w384raw_s3_f1_resume_r3",
+      "valid",
+      "--epoch",
+      "3",
+      "--inference-precision",
+      "checkpoint"
+    ],
+    "phase": "predicting",
+    "run": "bd26_w384raw_s3_f1_resume_r3",
+    "split": "valid",
+    "started_utc": "2026-10-09T03:49:09.071290+00:00"
+  },
+  "guarded_scope": "exact8exports;2CPU8GBhigh9GBmax;singleGPUobserved5GB;no fitted model or cachebuild",
+  "continuation": "systemd worker independent of Codex session; perexport2400s and cohort21600s bounds; stop marker drains between exports; failedoutput retained withneeds_review"
+}

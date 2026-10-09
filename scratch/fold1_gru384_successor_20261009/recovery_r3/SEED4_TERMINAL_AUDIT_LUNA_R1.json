@@ -1,0 +1,234 @@
+{
+  "schema": "wnn.fold1_gru384_seed4_independent_terminal_review.r1",
+  "observed_utc": "2026-10-09T03:45:43Z",
+  "reviewer": "Luna/max independent read-only reviewer",
+  "verdict": "fit_integrity_pass_with_unrelated_controller_inventory_drift",
+  "scope": "Read-only audit of the admitted seed4 fit command, allocation, terminal state, model/checkpoint/training-state integrity, ancestry, counters, and resource receipts. No fit, export, evaluation, authority change, or source change was performed.",
+  "conclusion": "The exact admitted seed4 run completed successfully and produced a finite fixed epoch-3 checkpoint plus resumable epoch-boundary state. Executed trainer/model/data/split/optimizer source closure matches its pins. One broad controller source-inventory item changed after launch: scripts/build_research_matrix.py. It is a reporting script, is not in the executed training closure, and the exact trainer and model sources remain pinned. This does not block binding the verified teacher artifact for the separately admitted export sequence.",
+  "claim_limit": "This is a fit/checkpoint integrity result only. Evaluation was withheld for every epoch; no metric, held-out claim, public-score forecast, or scientific improvement claim is made.",
+  "authority_and_lineage_receipts": {
+    "allocation": {
+      "path": "scratch/fold1_gru384_successor_20261009/ROOT_CHECKPOINT_FIT_ALLOCATION_R2.json",
+      "sha256": "c04714f11840f44fca43ef4d59e35646c07b23fc1dfc2eaf740ba586458d1dd8",
+      "status": "conditional_exact_successor_authorized"
+    },
+    "prelaunch": {
+      "path": "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_CHECKPOINT_FIT_PRELAUNCH_RECEIPT_R1.json",
+      "sha256": "d5e35bff97264aeddf58f7641d245aaf23df4d382078dc8fb98d756aaf9f14a9"
+    },
+    "seed3_to_seed4_handoff_review": {
+      "path": "scratch/fold1_gru384_successor_20261009/recovery_r3/ROOT_SEED4_HANDOFF_REVIEW_R3.json",
+      "sha256": "321cbba4751adc7b5f1176f236beaa3d422170cfbfdb7706d5aa86d3ba85c56e",
+      "verdict": "pass",
+      "reviewed_seed4_limits": {
+        "cpu_cores": 2,
+        "memory_high_bytes": 8000000000,
+        "memory_max_bytes": 9000000000,
+        "swap_bytes": 0
+      }
+    },
+    "seed4_intent": {
+      "path": "scratch/fold1_gru384_successor_20261009/recovery_r3/SEED4_AFTER_R3_RECEIPT_R3.json",
+      "sha256": "a1aab8ea63395b57f09ee50afc85f0f80b9ebb1afd877ba0f302bf6710539df9",
+      "status_at_review": "seed4_reserved (prelaunch intent status is stale after execution)",
+      "reviewed_unit_properties": {
+        "CPUQuotaPerSecUSec": "2s",
+        "MemoryHigh": "8000000000",
+        "MemoryMax": "9000000000",
+        "MemorySwapMax": "0"
+      }
+    },
+    "seed3_terminal_audit_predecessor": {
+      "path": "scratch/fold1_gru384_successor_20261009/recovery_r3/RESUME_TERMINAL_AUDIT_R3_R4.json",
+      "sha256": "bbc23b9ab0a7ad89e2d84d6dab462c4208935d2f1a28308a12e1ab627379e527",
+      "status": "recovery_fit_and_output_passed"
+    }
+  },
+  "attempt": {
+    "id": "fold1-gru384-s4-fit-r1",
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/fold1-gru384-s4-fit-r1.json",
+    "sha256": "b1160291e4921ce88ee7df8479aef6b7f703eb8d9c3df8ac4d5003281427eb13",
+    "status": "finished",
+    "phase": "terminal",
+    "started_utc": "2026-10-09T02:27:30.079408Z",
+    "finished_utc": "2026-10-09T03:43:08.230067Z",
+    "elapsed_seconds": 4538.12817099801,
+    "exit_status": 0,
+    "signal": null,
+    "unit": "wnn-bandit-fold1-gru384-s4-fit-r1.service",
+    "unit_terminal_state_observed": {
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "Result": "success",
+      "ExecMainStatus": "0"
+    },
+    "note": "The transient unit was garbage-collected after completion. Its current unloaded-unit limits are not used as launch evidence; the recorded start properties and hash-bound seed4 handoff review supply the effective allocation."
+  },
+  "recipe": {
+    "run_name": "bd26_w384raw_s4_f1",
+    "architecture": "2-layer GRU, hidden width 384, 211 raw inputs",
+    "seed": 4,
+    "batch": 16,
+    "chunk": 2000,
+    "loss": "WMSE with chunk normalization",
+    "optimizer": "AdamW",
+    "schedule": "OneCycle",
+    "precision": "FP16 autocast with FP32 master parameters/optimizer state",
+    "epochs": 4,
+    "batches_per_epoch": 746,
+    "checkpoint_policy": "fixed epoch index 3; evaluation withheld",
+    "initial_checkpoint_sha256": null,
+    "teacher_predictions": {},
+    "consumed_caches": {},
+    "command_sha256_canonical_json": "b206c776f765711ebc7b1fa91460dab5bb4dfa0e657e2121fce539909b9fe959",
+    "command_hash_matches_intent_and_prelaunch_receipts": true,
+    "allocation_sha256": "c04714f11840f44fca43ef4d59e35646c07b23fc1dfc2eaf740ba586458d1dd8"
+  },
+  "training_progress": {
+    "epochs_recorded": [0, 1, 2, 3],
+    "completed_batches": 2984,
+    "optimizer_attempts": 29840,
+    "amp_skipped_updates": 15,
+    "optimizer_completed_updates": 29825,
+    "ema_updates": 0,
+    "training_state_next_epoch": 4,
+    "training_state_boundary": "epoch",
+    "scheduler_total_steps": 29840,
+    "scheduler_last_epoch": 29840,
+    "evaluation": "withheld for all four epochs"
+  },
+  "artifacts": {
+    "directory": "artifacts/runs/bd26_w384raw_s4_f1",
+    "model_pt": {
+      "bytes": 8658795,
+      "sha256": "4a05922b4d02209072e1d33955e6b668a52a7fd24e070379c45b95dba345aa79",
+      "epoch": 3
+    },
+    "model_ep3_pt": {
+      "bytes": 8659239,
+      "sha256": "866c3054b30d87f741a1729aa6b902a0da2c3ce2540a7185a42b8a5fda3b6e77",
+      "epoch": 3
+    },
+    "training_state_pt": {
+      "bytes": 25868847,
+      "sha256": "a5f63d06099a6e0fb8a59088fd044c4a509dbae7c71fc7fcf2993988c660ede2",
+      "next_epoch": 4
+    },
+    "history_json": {
+      "bytes": 6117,
+      "sha256": "8e6c4bec6abe05445d6aff532d9260929b8368773afd412b8d428dc88ca56ede"
+    },
+    "provenance_json": {
+      "bytes": 160032,
+      "sha256": "7eb1db1a0d690e049e8489aa437fe79544d242036fe10b51f193909b7fa81bde"
+    },
+    "selected_model_tensor_maps_equal": true,
+    "selected_model_tensor_count": 16,
+    "all_selected_model_tensors_finite": true,
+    "all_training_state_model_tensors_finite": true,
+    "optimizer_state_slots": 14,
+    "all_floating_optimizer_state_tensors_finite": true,
+    "provenance_checkpoint_hashes_match_all_five_files": true
+  },
+  "data_and_ancestry": {
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "train_dataset": {
+      "bytes": 29240219011,
+      "sha256_from_training_state_contract": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+    },
+    "valid_dataset": {
+      "bytes": 5615509128,
+      "sha256_from_training_state_contract": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    },
+    "fit_membership_from_training_state_contract": {
+      "train_count": 10533,
+      "train_ordered_int64_le_sha256": "35e122415b780c10092b215af19108ddc224726bee33970520636cd24d85bd5f",
+      "valid_count": 1416,
+      "valid_ordered_int64_le_sha256": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8",
+      "dataset_length": 11949
+    },
+    "initial_checkpoint_sha256": null,
+    "propensity_checkpoint_sha256": null,
+    "quote_cache": null,
+    "spread_aux": null,
+    "teacher_predictions": {},
+    "consumed_caches": {},
+    "source_evidence_caveat": "Dataset bytes/SHA values are the run's embedded training-state contract; this bounded independent audit did not re-read/hash the 34.9 GB raw parquet files. The split manifest itself was re-hashed and matched."
+  },
+  "source_integrity": {
+    "attempt_broad_source_pin_count": 332,
+    "current_broad_source_pin_mismatches": [
+      {
+        "path": "scripts/build_research_matrix.py",
+        "expected_sha256": "86d5aa941a8821f72fca05c0bcadb3caf49f9e4db37252bf9f4e250374003797",
+        "actual_sha256": "d56f8fb63d3851f8a8e1242d74947f27d32b3f6b1d479c24764c6ed9bd5ec68f",
+        "mtime_local": "2026-10-09T05:31:44.878425711+03:00",
+        "commit": "90107d455cb47478576f621460bcc10edd4c326e",
+        "commit_time_local": "2026-10-09T05:32:14+03:00",
+        "commit_subject": "Refresh diversity evidence matrix and active compute frontier",
+        "qualification": "The one-line reporting CSV newline fix landed after the fit began at 05:27:30 local. This script is absent from the executed training closure and is not imported by scripts/train_rnn.py or src/wnn."
+      }
+    ],
+    "executed_training_closure": {
+      "source_count": 53,
+      "current_mismatches": 0,
+      "trainer_sha256": "4de1f29b18aa7f9371010816cac04d986b0fcf881415ca562a89c22f1afbd207",
+      "split_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "verified_from": "training_state.pt contract.sources, contract.datasets, and contract.ancestors"
+    },
+    "distinction": "The attempt's controller inventory is broader than the executed recipe closure. Its post-start reporting-file change is disclosed and retained as evidence; trainer, model, optimizer, split, data identity, and run-identity inputs recorded in the checkpoint training-state contract match their current hashes."
+  },
+  "resource_evidence": {
+    "worker_launch_properties": {
+      "CPUQuotaPerSecUSec": "2s",
+      "MemoryMax": "9000000000",
+      "MemorySwapMax": "0"
+    },
+    "worker_memory_high_bytes": 8000000000,
+    "memory_high_source": "Hash-bound seed4 intent and root handoff review; the transient unit was unloaded by terminal audit, and the attempt's saved start-properties object omitted MemoryHigh.",
+    "worker_peak_ram_bytes": 8002596864,
+    "worker_peak_observed_vram_bytes": 3982491648,
+    "parent_start_properties": {
+      "CPUQuotaPerSecUSec": "5s",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    },
+    "parent_peak_ram_bytes": 15968665600,
+    "worker_memory_event_deltas": {
+      "high": 1027600,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "parent_local_memory_event_deltas": {
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "parent_hierarchical_memory_event_deltas": {
+      "high": 1027600,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "observer_status": "All attempt and parent start/runtime/final memory, systemd, and nvidia-smi observations recorded as ok; observer_events empty."
+  },
+  "checks": {
+    "command_hash_matches_intent_and_prelaunch": true,
+    "allocation_hash_matches_attempt": true,
+    "split_hash_matches_attempt_and_checkpoint": true,
+    "all_executed_source_pins_match_current": true,
+    "terminal_process_and_unit_success": true,
+    "all_four_epochs_and_fixed_final_checkpoint": true,
+    "model_and_optimizer_state_finite": true,
+    "checkpoint_and_training_state_ancestry_consistent": true,
+    "oom_or_memory_max_event": false,
+    "evaluation_metric_or_score_claim": false
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema": "wnn.fold1-baseline-pair.preregistration.r1",
+  "created_utc": "2026-10-09T03:54:21.580736+00:00",
+  "owner": "root",
+  "grader": "luna_native_diversity_delivery gpt-6-luna/max",
+  "status": "frozen_before_score_inspection",
+  "endpoints": [
+    "seed3",
+    "seed4",
+    "equal_raw_prediction_mean_fp64_cast_fp32_then_metric_clip"
+  ],
+  "primary_contrast": "equal_pair_minus_seed3",
+  "metric": "global_wp_clip2_v1",
+  "split": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+  "split_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+  "evaluation_groups": 457,
+  "evaluation_components": 149,
+  "exposure": "historically inspected fold1 robustness; no fresh holdout",
+  "bootstrap": {
+    "unit": "whole_connected_component",
+    "paired": true,
+    "replicates": 2000,
+    "seed": 271828
+  },
+  "selection_budget": {
+    "endpoints": 3,
+    "weight_search": false,
+    "epoch_search": false
+  },
+  "members": [
+    {
+      "run": "bd26_w384raw_s3_f1_resume_r3",
+      "epoch": 3,
+      "prediction": "cache/pred_bd26_w384raw_s3_f1_resume_r3_valid.npy",
+      "prediction_sha256": "480eef63366888a18a770ef4957f1982bc56d8d66cc4ad5b0404c4ac2c47893e",
+      "sidecar_sha256": "e154d507a19291c625db16151a0259beab07f1161391a162700cd9ad869dc862",
+      "checkpoint_sha256": "027b2a134b91bb9d42ed5e1615594ea77db9cd49cc22cbec1fbe4e9427d9ad23"
+    },
+    {
+      "run": "bd26_w384raw_s4_f1",
+      "epoch": 3,
+      "prediction": "cache/pred_bd26_w384raw_s4_f1_valid.npy",
+      "prediction_sha256": "9f83191772ec811d71c7594f42785719936f50e36659c83f21ef8f64dd6d1b6a",
+      "sidecar_sha256": "b62824ca8b7bff39b5dbd3f2c0052224aee613fdf9dd3b84f091074ba2ec1cf1",
+      "checkpoint_sha256": "866c3054b30d87f741a1729aa6b902a0da2c3ce2540a7185a42b8a5fda3b6e77"
+    }
+  ],
+  "claim_limit": "Baseline ensemble diagnostic and reusable teacher artifacts only. Singlepairedseedset; componentresampling excludes trainingvariability and publictransfer. No newbest/publicscore claim.",
+  "runtime_budget": {
+    "cpu_cores": 1,
+    "memory_max_bytes": 2000000000,
+    "timeout_seconds_per_command": 180,
+    "shared_support_lock": true
+  }
+}
