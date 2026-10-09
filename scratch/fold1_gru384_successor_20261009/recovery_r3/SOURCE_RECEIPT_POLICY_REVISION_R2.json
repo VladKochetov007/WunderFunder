@@ -1,0 +1,49 @@
+{
+  "schema": "wnn.fold1_gru384_recovery_r3_source_receipt_policy_revision.r2",
+  "prepared_utc_date": "2026-10-09",
+  "status": "prepared_for_root_review_not_admitted",
+  "reason": "The frozen R3 audit required every packet source pin to appear in the controller attempt source_sha256 map, but the packet dependency inventory JSON is validated by the packet loader and is not part of the controller's source_manifest output.",
+  "prior_candidate": {
+    "commit": "f4837e411b19a6252b6707d0d8e404b9c7b46cf0",
+    "packet_sha256": "c80c8b2946ad3d6102ac8c74de723c796553c4425f6aaf851160f3a819280526",
+    "gate_source_sha256": "ad462d2c2888e1f3acb5c366dec946cfa25545ecf72dad7b5046a7e65a4f37ae",
+    "request_sha256": "5665744651fed633c6040f0b9c927a656388535ae9661ce784920b54c7de2e90",
+    "command_sha256_canonical_json": "a5641445619a8b3bf04f47ec5701d55ff8231dcc38aa7d4b5d2a0d209d37d293",
+    "request_archive": "RESUME_REQUEST_R3_R1.json"
+  },
+  "revised_candidate": {
+    "packet_sha256": "225a852d617be561e035310fd4d457a188a2ee39c2f1a3cc651ee32ddf5c228e",
+    "gate_source_sha256": "9339b1f59976e9c0735170e779eed4ceaf59eacc5c02d06fb83f3ca6722faf21",
+    "test_source_sha256": "863de1416b07cbdad7a86ad48ffdd811914885bb0b7f08b0a3159136962471e9",
+    "request_sha256": "601ac588c3f5aac19fdd464f7d60ddbbbcfbf7f232a6e40d2161cd690c544b10",
+    "command_sha256_canonical_json": "a5641445619a8b3bf04f47ec5701d55ff8231dcc38aa7d4b5d2a0d209d37d293"
+  },
+  "source_pin_partition": {
+    "attempt_source_receipt_paths": [
+      "scripts/train_rnn.py",
+      "src/wnn/nn.py",
+      "src/wnn/splits.py",
+      "src/wnn/optim.py",
+      "src/wnn/run_identity.py",
+      "research/campaign_2026-09-29/artifacts/splits/fold1.json"
+    ],
+    "packet_loader_only_source_paths": [
+      "research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/sol_continuation/FOLD1_DEPENDENCY_INVENTORY_R1.json"
+    ],
+    "loader_only_pin_is_still_checked_by": "load_packet() hashes every source_pins_sha256 entry from the repository before preparing or auditing"
+  },
+  "unchanged": {
+    "training_command": true,
+    "recipe_and_science": true,
+    "resource_request": true,
+    "trainer_or_main_source": true,
+    "provider_or_fit_action": false
+  },
+  "verification": {
+    "producer_shaped_regression": "4 passed in 0.12s; invokes scripts/bandit_resources.py source_manifest() for the frozen command and verifies the packet-pin subset",
+    "ruff_check": "All checks passed",
+    "prepare_check_only": "passed actual R2/checkpoint/source validation; static only, no output receipt",
+    "prepare_request": "passed actual R2/checkpoint/source validation; writes pending request only",
+    "fit_or_provider_dispatch": "not run"
+  }
+}

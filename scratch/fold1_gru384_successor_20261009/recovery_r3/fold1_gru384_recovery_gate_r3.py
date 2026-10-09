@@ -74,6 +74,55 @@ def write_exclusive_json(path: Path, value: object) -> None:
         os.close(directory)
 
 
+def source_pin_partition(packet: Json) -> tuple[list[str], list[str]]:
+    """Split controller-captured paths from the packet-loader-only inventory pin."""
+    pins = packet.get("source_pins_sha256")
+    attempt_paths = packet.get("attempt_source_receipt_paths")
+    loader_paths = packet.get("packet_loader_only_source_paths")
+    if not isinstance(pins, dict) or not all(
+        isinstance(path, str) and isinstance(digest, str) and len(digest) == 64
+        for path, digest in pins.items()
+    ):
+        raise ValueError("source pins must map repository paths to SHA-256 values")
+    if (
+        not isinstance(attempt_paths, list)
+        or not isinstance(loader_paths, list)
+        or any(not isinstance(path, str) for path in (*attempt_paths, *loader_paths))
+        or len(attempt_paths) != len(set(attempt_paths))
+        or len(loader_paths) != len(set(loader_paths))
+        or set(attempt_paths) & set(loader_paths)
+        or set(attempt_paths) | set(loader_paths) != set(pins)
+    ):
+        raise ValueError("source pin receipt paths do not partition every pinned input")
+    inventory_path = (
+        "research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/"
+        "sol_continuation/FOLD1_DEPENDENCY_INVENTORY_R1.json"
+    )
+    if loader_paths != [inventory_path]:
+        raise ValueError("only the exact dependency inventory may be loader-only pinned")
+    return attempt_paths, loader_paths
+
+
+def verify_packet_source_pins(root: Path, packet: Json) -> None:
+    """Hash all source pins from disk, including files outside controller capture."""
+    source_pin_partition(packet)
+    for relative, expected in packet["source_pins_sha256"].items():
+        path = root / relative
+        if sha256_file(path) != expected:
+            raise ValueError(f"source pin changed: {relative}")
+
+
+def verify_attempt_source_receipts(attempt: Json, packet: Json) -> None:
+    """Match only command/source paths emitted by the resource-controller receipt."""
+    attempt_paths, _loader_paths = source_pin_partition(packet)
+    observed = attempt.get("source_sha256")
+    if not isinstance(observed, dict):
+        raise ValueError("R3 attempt source receipt is missing")
+    for relative in attempt_paths:
+        if observed.get(relative) != packet["source_pins_sha256"][relative]:
+            raise ValueError(f"R3 attempt source receipt differs: {relative}")
+
+
 def load_packet(root: Path, packet_path: Path, expected_sha: str) -> Json:
     """Validate the static R3 packet and every frozen predecessor file."""
     if sha256_file(packet_path) != expected_sha:
@@ -106,9 +155,7 @@ def load_packet(root: Path, packet_path: Path, expected_sha: str) -> Json:
         dropin = Path(section[dropin_path_key])
         if not dropin.is_file() or sha256_file(dropin) != section[dropin_sha_key]:
             raise ValueError(f"required preinstalled MemoryHigh drop-in changed: {dropin}")
-    for relative, expected in packet["source_pins_sha256"].items():
-        if sha256_file(root / relative) != expected:
-            raise ValueError(f"source pin changed: {relative}")
+    verify_packet_source_pins(root, packet)
     return packet
 
 
@@ -533,6 +580,8 @@ def prepare(args: argparse.Namespace) -> Json:
         "dataset_identity_receipt_sha256": _verified_r2_state["dataset_identity_receipt_sha256"],
         "source_identity_helper_sha256": packet["source_identity_helper_sha256"],
         "source_pins_sha256": packet["source_pins_sha256"],
+        "attempt_source_receipt_paths": packet["attempt_source_receipt_paths"],
+        "packet_loader_only_source_paths": packet["packet_loader_only_source_paths"],
         "resource_request": packet["resume"]["resource_request"],
         "unit_memory_high_dropin_path": packet["resume"]["unit_memory_high_dropin_path"],
         "unit_memory_high_dropin_sha256": packet["resume"]["unit_memory_high_dropin_sha256"],
@@ -575,6 +624,8 @@ def verify_authority(authority: Json, authority_sha: str, request: Json, request
         "resume_output_path": request["resume_output_path"],
         "resume_command_sha256_canonical_json": request["resume_command_sha256_canonical_json"],
         "source_pins_sha256": request["source_pins_sha256"],
+        "attempt_source_receipt_paths": request["attempt_source_receipt_paths"],
+        "packet_loader_only_source_paths": request["packet_loader_only_source_paths"],
         "resource_request": request["resource_request"],
         "unit_memory_high_dropin_path": request["unit_memory_high_dropin_path"],
         "unit_memory_high_dropin_sha256": request["unit_memory_high_dropin_sha256"],
@@ -617,6 +668,9 @@ def audit(args: argparse.Namespace) -> Json:
         or request.get("resume_command_sha256_canonical_json")
         != canonical_sha256(resume_command(r2_request, packet))
         or request.get("source_pins_sha256") != packet["source_pins_sha256"]
+        or request.get("attempt_source_receipt_paths") != packet["attempt_source_receipt_paths"]
+        or request.get("packet_loader_only_source_paths")
+        != packet["packet_loader_only_source_paths"]
         or request.get("resource_request") != packet["resume"]["resource_request"]
         or request.get("resume_training_state_sha256") != packet["r2"]["training_state_sha256"]
         or request.get("unit_memory_high_dropin_sha256")
@@ -650,14 +704,7 @@ def audit(args: argparse.Namespace) -> Json:
         or attempt.get("exit_status") != 0
     ):
         raise ValueError("R3 attempt did not finish under the exact root-admitted request")
-    if (
-        attempt.get("source_sha256", {}).get("scripts/train_rnn.py")
-        != packet["source_pins_sha256"]["scripts/train_rnn.py"]
-    ):
-        raise ValueError("R3 attempt trainer source differs from the pinned recipe")
-    for relative, expected in packet["source_pins_sha256"].items():
-        if attempt.get("source_sha256", {}).get(relative) != expected:
-            raise ValueError(f"R3 attempt source receipt differs: {relative}")
+    verify_attempt_source_receipts(attempt, packet)
     for key in (
         "memory_event_deltas",
         "final_memory_event_deltas",
