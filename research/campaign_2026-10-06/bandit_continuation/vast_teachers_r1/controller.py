@@ -214,13 +214,15 @@ def _pull_locked() -> None:
         name = item.removeprefix("cache/pred_").removesuffix("_valid.json")
         if name in have:
             continue
-        sizes = ssh(f"cd /root/wnn && stat -c %s cache/pred_{name}_valid.npy && ls artifacts/runs/{name}/model_ep3.pt").stdout
+        run = name.split("__")[0]
+        sizes = ssh(f"cd /root/wnn && stat -c %s cache/pred_{name}_valid.npy && ls artifacts/runs/{run}/model_ep3.pt").stdout
         if "model_ep3.pt" not in sizes:
             continue
         busy = ssh(f"pgrep -f '[p]redict_run.py.* {name} ' || true").stdout.strip()
         if busy:
             continue
-        scp([f"/root/wnn/artifacts/runs/{name}"], str(ROOT / "artifacts/runs"), upload=False)
+        if not (ROOT / "artifacts/runs" / run / "model_ep3.pt").exists():
+            scp([f"/root/wnn/artifacts/runs/{run}"], str(ROOT / "artifacts/runs"), upload=False)
         scp([f"/root/wnn/cache/pred_{name}_valid.npy", f"/root/wnn/cache/pred_{name}_valid.json"], str(ROOT / "cache"), upload=False)
         row = {"name": name, "fold": 1, "prediction": f"cache/pred_{name}_valid.npy",
                "tags": {"scale": "full", "family": "teacher_scratch", "vast": "r1"}, "source": "vast_teachers_r1"}
