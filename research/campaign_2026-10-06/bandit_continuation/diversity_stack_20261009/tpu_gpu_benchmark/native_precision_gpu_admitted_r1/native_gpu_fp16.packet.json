@@ -1,0 +1,254 @@
+{
+  "authorized_for_execution": true,
+  "conditional_fit_headroom": {
+    "minimum_bounded_cgroup_headroom_bytes": 4000000000,
+    "minimum_free_per_gpu_bytes": 2000000000,
+    "minimum_host_mem_available_bytes": 4000000000,
+    "minimum_working_disk_free_bytes": 4000000000,
+    "unbounded_cgroup_requires_explicit_observation_and_host_reserve": true
+  },
+  "kernel": {
+    "accelerator": "two Nvidia Tesla T4 GPUs",
+    "code_file": "wnn-native-gpu-fp16-20261009-r1.py",
+    "code_file_sha256": "51abf3abad8f32b020dca4dfe96f4ff2507933dba620176a4d531b46f5e4618f",
+    "id": "vladkochetov07/wnn-native-gpu-fp16-20261009-r1",
+    "metadata_sha256": "039f968f43c438a91b42e943dd3515186dd5b741ad7983b71a3cd737acf3fa26",
+    "provider_timeout_seconds": 3600,
+    "title": "WNN Native GPU FP16 20261009 R1",
+    "title_slug_matches_id": true,
+    "worker_wall_seconds": 3300
+  },
+  "packet_id": "vladkochetov07/wnn-native-gpu-fp16-20261009-r1",
+  "packet_sha256_before_self_pin": "a862b0365f97e58133b530cba40253ddbe070be164751a3b2d0e1db8a7b990ed",
+  "producer": {
+    "r4_code_dataset": "vladkochetov07/wnn-loss-pair-code-20261009-r4",
+    "r4_kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v4",
+    "r4_kernel_source_sha256": "86346f9c1addefbd38d3dcec52b18f514698a9514e7917aeb6081cc32f7eb039",
+    "r5_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+    "r5_root_terminal_review_sha256": "60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9"
+  },
+  "recipe": {
+    "GradScaler_initial_scale": 1024.0,
+    "batch_size": 32,
+    "chunk_rows": 2000,
+    "control_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+    "evaluation_sequences": 468,
+    "final_gpu_batch": "30 real sequences; drop_last=False",
+    "fit_sequences": 350,
+    "loss_arms": [
+      "WMSE",
+      "Huber delta 1"
+    ],
+    "precision": "native CUDA FP16 autocast; FP32 master parameters and AdamW accumulators",
+    "same_initialization_membership_order_and_schedule": true,
+    "scaler_search": false,
+    "updates_per_arm": 220
+  },
+  "root_admission": {
+    "amp_initial_scale": 1024.0,
+    "compute_precision": "fp16",
+    "conditional_fit_allowed": true,
+    "created_utc": "2026-10-09T03:20:42.915424+00:00",
+    "delivery_owner": "luna_native_diversity_delivery gpt-6-luna/max",
+    "minimum_free_bounded_cgroup_bytes": 4000000000,
+    "minimum_free_device_bytes": 2000000000,
+    "minimum_free_host_bytes": 4000000000,
+    "minimum_free_working_disk_bytes": 4000000000,
+    "owner": "root",
+    "profile_allowed": true,
+    "provider_timeout_seconds": 3600,
+    "provisional_gpu_seconds": 7200,
+    "push_allowed": true,
+    "r5_root_review_sha256": "60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9",
+    "r5_training_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+    "root_scope": "Exactly nativeFP16 AdamW WMSE/Huber two220update fits after finite20/20skipfree actualCUDA profile, reset/reload/prefix/headroom gates; noVast. Provider dispatch requires separate exact final packet receipt.",
+    "root_validation": "21 focused tests pass8.16s on main with actualR5weights/traces/predictions; exact pending extraction and worker refusal PASS. 2 finalizer actualworker-consumer regressions pass. Exact isolatedR4 precisionguard only; exportargv repaired to supportedcommonFP32.",
+    "schema": "wnn.native-gpu-fp16.root-admission.v1",
+    "source_manifest_sha256": "a7d20f81da789e3818d4fcddb201c6a144968f8875804df7cc38ec50d97447c0",
+    "state": "admitted",
+    "training_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+    "worker_wall_seconds": 3300
+  },
+  "root_admission_required_before_asset_upload_or_kernel_push": false,
+  "schema": "wnn.native-gpu-fp16.packet.v1",
+  "source_asset_dataset": "vladkochetov07/wnn-native-gpu-fp16-assets-20261009-r1",
+  "source_asset_manifest_sha256": "9d55596db3a6753abd8511611bbe63b15aff276c37632929115a25b06ef81c56",
+  "source_asset_upload_inventory": [
+    {
+      "destination": "native_source/BENCHMARK_CONTRACT_R1.md",
+      "filename": "2cbec6a81d3be9c4c4f3a1f9bd0321510e1da9b210750b81188405ae32cb005f.wnn",
+      "path": "native_code/BENCHMARK_CONTRACT_R1.md",
+      "sha256": "e8674a1054f46717f549fe67d60ea3ba381994da35f60c7bf5731920ff25f96a",
+      "size_bytes": 5726
+    },
+    {
+      "destination": "scripts/native_gpu_fp16_contract.py",
+      "filename": "f9eac1b02cf8516a61a56426531e21d35ec4f816b1389fb9c2202cb42c496e38.wnn",
+      "path": "native_code/native_gpu_fp16_contract.py",
+      "sha256": "18b3cb33b59fcba58941c524b464717a388b5563e85f206ead63643e68764c1f",
+      "size_bytes": 27550
+    },
+    {
+      "destination": "scripts/native_gpu_fp16_lifecycle_gate.py",
+      "filename": "1ba11ab913e353bb9555d442cf9cf2d1cbdb39525587c246140fb7039b83701f.wnn",
+      "path": "native_code/native_gpu_fp16_lifecycle_gate.py",
+      "sha256": "4cac9844844e8e9a20f7ccadfdd5fbf4c551a905b953b618b4200a6fe3614290",
+      "size_bytes": 9464
+    },
+    {
+      "destination": "scripts/native_gpu_fp16_worker.py",
+      "filename": "98b1479a9b9e342419a7b3a74942878f6e9990387a6fb541672e09c9c771e7e3.wnn",
+      "path": "native_code/native_gpu_fp16_worker.py",
+      "sha256": "509d05b832a7efd5d828333535b0509d41b9eb7fc7156d001fb8b79738ef1874",
+      "size_bytes": 18977
+    },
+    {
+      "destination": "native_source/tests/test_native_gpu_fp16_contract.py",
+      "filename": "45987595e2803c29b01195fe9a671bbe954f79b224680bd64b4b4630d37c2e48.wnn",
+      "path": "native_code/tests/test_native_gpu_fp16_contract.py",
+      "sha256": "deed18b68ca3501ae92002959ec1c42885c37f69d323fae127a64976650fdf2d",
+      "size_bytes": 18491
+    },
+    {
+      "destination": "native_controls/ROOT_GPU_R5_TERMINAL_REVIEW_R1.json",
+      "filename": "405bb23c61f6250195524c89474c733547c9c577ae3e760c0717a369dac499bd.wnn",
+      "path": "native_controls/ROOT_GPU_R5_TERMINAL_REVIEW_R1.json",
+      "sha256": "60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9",
+      "size_bytes": 4352
+    },
+    {
+      "destination": "native_controls/root_admission.json",
+      "filename": "6b46ab60a2544dc0fdd74a4899f45d189af423ee511283c82cd1065c2f4007e7.wnn",
+      "path": "native_controls/root_admission.json",
+      "sha256": "571b43d16bec28eed4ac025de45d0f26e6ad7880e0f56013733b4190c70dcfee",
+      "size_bytes": 1555
+    },
+    {
+      "destination": "native_controls/shared/cache_manifest.json",
+      "filename": "4d70a62fe0c719ecd55995a65d65248569116ee2eff20e62b2f73a0279c2e3b8.wnn",
+      "path": "native_controls/shared/cache_manifest.json",
+      "sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+      "size_bytes": 12722
+    },
+    {
+      "destination": "native_controls/shared/cache_reader_profile_runtime.json",
+      "filename": "33ed3c77ab591c5479e6bb08131a41ad3112a0620321782d1ebd3bf2dc4af4d7.wnn",
+      "path": "native_controls/shared/cache_reader_profile_runtime.json",
+      "sha256": "fbac76445ff91dbe8d8336bc3ab2bc3e2ddddd3c4be90d25550c478ea774091e",
+      "size_bytes": 3160
+    },
+    {
+      "destination": "native_controls/shared/cache_validation_runtime.json",
+      "filename": "395b9ee08123878bf253e6d419846f8264b6f7cabc5d44b6d184a581fd7cad2b.wnn",
+      "path": "native_controls/shared/cache_validation_runtime.json",
+      "sha256": "bf43ade9f08fb0447fc1df18dbb91f1d4723c828eaa3c14a7f5bffd73049f6ed",
+      "size_bytes": 3421
+    },
+    {
+      "destination": "native_controls/shared/device_profile_gate.json",
+      "filename": "20113a877fa65fd96b3b8060005858f6b0c09ea827e633ece7f4e132f918a817.wnn",
+      "path": "native_controls/shared/device_profile_gate.json",
+      "sha256": "70b8b40e994a74387a0b7e9055a532f21fbbb2ea516ead3ef3201d1ad3c575ae",
+      "size_bytes": 3204
+    },
+    {
+      "destination": "native_controls/shared/fold0_assets_validation.json",
+      "filename": "e48d0316ef19b0841d51cda40bfc43d841cee764694a4c4f762e729b3b4ecd69.wnn",
+      "path": "native_controls/shared/fold0_assets_validation.json",
+      "sha256": "93ecabd180a608d72f111b9886e8804cb084d4ace694de57d188b745c33dbd43",
+      "size_bytes": 6204
+    },
+    {
+      "destination": "native_controls/shared/initial_state.npz",
+      "filename": "dfb07af1c37c0fd45ca386109973aa6ebbcbd976de893f394ebc4a76a6163389.wnn",
+      "path": "native_controls/shared/initial_state.npz",
+      "sha256": "10e4b56002b52faaaf55dbfcbd28b37f479d2dbd69e727740250dbb90d873af1",
+      "size_bytes": 3908280
+    },
+    {
+      "destination": "native_controls/shared/normalization.json",
+      "filename": "48a712efc524d852ed334956c0a26126ea5612f9a9d251c1b110b5e51517237a.wnn",
+      "path": "native_controls/shared/normalization.json",
+      "sha256": "0e4762ebb51f95589b93e79545c769376b42afaa2e7069f81b199164dd59cf96",
+      "size_bytes": 4274
+    },
+    {
+      "destination": "native_controls/shared/normalization.npz",
+      "filename": "236483921caa06935a1aa55d5dc61cf3ead124d3b9148c3c07a47842a5e946fd.wnn",
+      "path": "native_controls/shared/normalization.npz",
+      "sha256": "d096115cb59a7462608d5d11df29ba77142aac03527f26fbb2a8534077e57849",
+      "size_bytes": 2188
+    },
+    {
+      "destination": "native_controls/shared/profile_inputs.npz",
+      "filename": "ba81f6503368d524b6908456efab7abcfd45d46fca7bb96d85762450d30c6d35.wnn",
+      "path": "native_controls/shared/profile_inputs.npz",
+      "sha256": "f042ae97ddebac87c1023758ccd84d9b2923e5cc6ae3ac878596e84bfde9a1c6",
+      "size_bytes": 54592760
+    },
+    {
+      "destination": "native_controls/shared/profile_inputs_receipt.json",
+      "filename": "3ef97f38a5ce5debaae3e797df07f28335d80e12c6d53dc36dd3a65a9ae4bb89.wnn",
+      "path": "native_controls/shared/profile_inputs_receipt.json",
+      "sha256": "6620c5f34c13fd9310a4aaa7d27e0631b9bdf8d05ceb0459863cfed1746596ab",
+      "size_bytes": 4509
+    },
+    {
+      "destination": "native_controls/shared/sample_orders.json",
+      "filename": "4b8e710e02f9f90334e269eb7ee6908b265c4c29fa926581f098000bf49ce36b.wnn",
+      "path": "native_controls/shared/sample_orders.json",
+      "sha256": "cbb972a29278617890ac3e51d9f4d3cb954d392192aef3ebe044b8a71a8ec523",
+      "size_bytes": 148958
+    },
+    {
+      "destination": "native_controls/shared/schedule_trace.json",
+      "filename": "e520e91d46f185e8ef28551b6c8ce4ac8bb549389d2e05242468925826dba6cf.wnn",
+      "path": "native_controls/shared/schedule_trace.json",
+      "sha256": "a46a5beb2484b3549b6fdb926b885ecbcaf4a61b1cec60dd3750760eafff27de",
+      "size_bytes": 67395
+    },
+    {
+      "destination": "native_controls/shared/source_stage_receipt.json",
+      "filename": "6fe1a86231f3db3f5eb805bf10b5dc9de454c0ac2ec36f5a3bf8052f2109f9d8.wnn",
+      "path": "native_controls/shared/source_stage_receipt.json",
+      "sha256": "557cd0a61f1129f811dc104398c3c9c7295c3343a1c9a302018fcb588c0c1de7",
+      "size_bytes": 34299
+    },
+    {
+      "destination": "native_controls/shared/source_verification.json",
+      "filename": "02ba5a5f049506a77ef25b9ae00c8a11afeb72cc5f078384f496d7cd10e58df3.wnn",
+      "path": "native_controls/shared/source_verification.json",
+      "sha256": "1ccd91ccec85bd157cbd0244ae9032316b88d781a0caf19daf7a027f3a908567",
+      "size_bytes": 4511
+    },
+    {
+      "destination": "native_controls/source_manifest.json",
+      "filename": "795d6638f9e2b527b3dbc397260b0039ad20ccc0ac83b2a51dcd031b9bbb1248.wnn",
+      "path": "native_controls/source_manifest.json",
+      "sha256": "a7d20f81da789e3818d4fcddb201c6a144968f8875804df7cc38ec50d97447c0",
+      "size_bytes": 6445
+    },
+    {
+      "destination": "native_controls/training_contract.json",
+      "filename": "f263faf3f4393ce0b913f854bbf6f790ba9f331ede83dfad6156b970117b76c8.wnn",
+      "path": "native_controls/training_contract.json",
+      "sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+      "size_bytes": 20489
+    },
+    {
+      "filename": "assets-manifest.json",
+      "path": "assets-manifest.json",
+      "sha256": "9d55596db3a6753abd8511611bbe63b15aff276c37632929115a25b06ef81c56",
+      "size_bytes": 7870
+    },
+    {
+      "filename": "dataset-metadata.json",
+      "path": "dataset-metadata.json",
+      "sha256": "43a588cd5cc6feb048c538c47bff53d2daeeb35fadc680b636fd576f34f81ffe",
+      "size_bytes": 199
+    }
+  ],
+  "source_commit": "6cf2ba7641f4e69595609a529892dc31882922fd",
+  "source_manifest_sha256": "a7d20f81da789e3818d4fcddb201c6a144968f8875804df7cc38ec50d97447c0",
+  "status": "root_admitted_ready_for_profile"
+}

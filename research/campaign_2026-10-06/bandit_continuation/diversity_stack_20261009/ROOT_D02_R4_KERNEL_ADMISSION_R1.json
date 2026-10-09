@@ -1,0 +1,32 @@
+{
+  "created_utc": "2026-10-09T03:17:01.555387+00:00",
+  "owner": "root",
+  "delivery_owner": "runner_kaggle_builder",
+  "state": "one_exact_private_kernel_push_authorized",
+  "kernel": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v4",
+  "packet_sha256": "e3c80582b15b1e1f71d172022c895402ef8ed1d4b4c787c7498db9287ef44650",
+  "bootstrap_sha256": "0a49f42afff170eb48d03d054ab0bbc66c091ecdda63cecffc17b24d0224f310",
+  "metadata_sha256": "8bcea8b07aecd567e62bbe0f730eff6d3d5e1e824afc745d7960b5633d89d623",
+  "embedded_admission_sha256": "08911f92985f0de59aa78f86cce516ce8582e241403a74f6ce26c9568d7d4c9f",
+  "source_readiness_receipt_sha256": "fa4c7951a6b8c060a41ec290c59ef53767db545dd8535d77bf5246891c1e8689",
+  "root_source_admission_sha256": "c678becf01175b7227dc5667c810150a631bd7acdfd78b45bcdf146986d49792",
+  "checks": {
+    "exact_final_bootstrap_offline": "root_pass",
+    "only_bootstrap_delta": "exact root-defined admission payload; remaining bootstrap bytes identical pending R2",
+    "embedded_payload_matches_root": true,
+    "sealed_source_tests": "root consecutive loss-gate regression passed; runtime source closure unchanged except reviewed collision fix; all final source hashes verified",
+    "runtime_source_commit": "3879b18c21f7100bfc4be205c969cd084e54bb0b"
+  },
+  "provisional_hold_seconds": 7200,
+  "worker_wall_seconds": 3300,
+  "provider_timeout_seconds": 3600,
+  "accelerator": "NvidiaTeslaT4",
+  "dispatch_conditions": [
+    "Use physical short private upload directory; inventory and manifest exact hashes; verify version1READY.",
+    "Preserve pending seal, create identified admitted seal; root checks final embedded payload and packet hashes before kernel push.",
+    "Recheck live quota before push; require this7200hold plus1000seconds unreserved headroom; other openholds included.",
+    "Exactly one private two-T4 kernel push;3300worker/3600provider budget; no blind retry or additional fit.",
+    "Install durable terminal collector and report actual provider/worker outcomes; preserve successful artifacts on postprocess failure."
+  ],
+  "terminal_owner_obligations": "Durablecollector/heartbeat,actualdevicegatebeforefits,completeweights/traces/predictions; rootgrades; diagnosefailureswithoutduplicatefits"
+}
