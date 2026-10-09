@@ -209,7 +209,7 @@ FAMILIES = [
     ("optim", re.compile(r"adamw|muonhidden|_mu[36]")), ("weighting", re.compile(r"lw15|lwfloor|cls3|since|proppow")),
     ("arch", re.compile(r"gated|tcn|structured|eventcontent|twoclock|dual|lstm|rawonly|encmlp")),
     ("width", re.compile(r"gru(256x3|320|384|448|512)")), ("loss", re.compile(r"corr|huber|wmsegcorr")),
-    ("regularize", re.compile(r"drop2|wd05|swa|b16|tr_lr|tr_base|seed|_ema|ctrl")),
+    ("regularize", re.compile(r"drop2|wd05|swa|b16|tr_lr|tr_base|seed|_ema|ctrl")), ("distill", re.compile(r"dsq")),
 ]
 
 
@@ -266,13 +266,13 @@ def _pull_locked() -> None:
         if name in have:
             continue
         run = name.split("__")[0]
-        sizes = ssh(f"cd /root/wnn && stat -c %s cache/pred_{name}_valid.npy && ls artifacts/runs/{run}/model_ep3.pt").stdout
-        if "model_ep3.pt" not in sizes:
+        sizes = ssh(f"cd /root/wnn && stat -c %s cache/pred_{name}_valid.npy && ls artifacts/runs/{run}/model_ep*.pt | head -1").stdout
+        if "model_ep" not in sizes:
             continue
         busy = ssh(f"pgrep -f '[p]redict_run.py.* {name} ' || true").stdout.strip()
         if busy:
             continue
-        if not (ROOT / "artifacts/runs" / run / "model_ep3.pt").exists():
+        if not list((ROOT / "artifacts/runs" / run).glob("model_ep*.pt")):
             scp([f"/root/wnn/artifacts/runs/{run}"], str(ROOT / "artifacts/runs"), upload=False)
         scp([f"/root/wnn/cache/pred_{name}_valid.npy", f"/root/wnn/cache/pred_{name}_valid.json"], str(ROOT / "cache"), upload=False)
         fold_match = re.match(r"vt_f(\d)_", name)

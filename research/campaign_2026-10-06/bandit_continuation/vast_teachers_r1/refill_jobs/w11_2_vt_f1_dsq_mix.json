@@ -1,0 +1,21 @@
+{
+ "name": "vt_f1_dsq_mix",
+ "steps": [
+  {
+   "label": "pipeline",
+   "timeout": 14400,
+   "argv": [
+    "python",
+    "/root/wnn/scripts/distill_pipeline.py",
+    "--arm",
+    "mix",
+    "--fold",
+    "1",
+    "--teachers",
+    "vt_f1_gru384,vt_f1_gru448",
+    "--parent",
+    "c20261003_combo_s3_f1@ep3"
+   ]
+  }
+ ]
+}

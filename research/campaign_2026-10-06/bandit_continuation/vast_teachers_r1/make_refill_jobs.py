@@ -10,7 +10,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_bundle as B  # noqa: E402
 
+PARENT = "c20261003_combo_s3_f1@ep3"
 WAVES = {
+    "w11": {
+        # scale-then-distill: matched H230-recipe students that differ only in the scratch teachers feeding the cache
+        "vt_f1_dsq_t256": {"pipeline": ["--arm", "t256", "--fold", "1", "--teachers", "vt_f1_seed4,vt_f1_seed5", "--parent", PARENT]},
+        "vt_f1_dsq_t384": {"pipeline": ["--arm", "t384", "--fold", "1", "--teachers", "vt_f1_gru384_s4,vt_f1_gru384_s5", "--parent", PARENT]},
+        "vt_f1_dsq_mix": {"pipeline": ["--arm", "mix", "--fold", "1", "--teachers", "vt_f1_gru384,vt_f1_gru448", "--parent", PARENT]},
+        "vt_f1_dsq_none": {"pipeline": ["--arm", "none", "--fold", "1", "--teachers", "", "--parent", PARENT, "--no-teacher"]},
+    },
     "w10": {
         # recipe fidelity from the teammate evidence ledger: Muon LR multiplier and EMA-evaluated weights, with paired controls
         "vt_f1_ctrl_s3": {},
@@ -53,7 +61,7 @@ WAVES = {
         "vt_f3_gru384": {"--hidden": "384", "fold": 3},
         "vt_f2_gru256": {"fold": 2},
         "vt_f3_gru256": {"fold": 3},
-        "vt_f1_cls3": {"+": ["--train-classes", "3"]},
+        # vt_f1_cls3 (class-3-only specialist) retired: teammate evidence says specialization loses 0.14 on class 3
         "vt_f1_gated384": {"--arch": "gated", "--hidden": "384"},
         "vt_f1_gated_trap": {"--arch": "gated", "--sched": "wsd", "+": ["--wsd-decay", "0.2", "--wsd-final", "0.0", "--wsd-shape", "linear"]},
     },
@@ -128,6 +136,11 @@ def main() -> None:
         if not LANE and wave in sum(LANE_WAVES.values(), ()):
             continue
         for index, (name, change) in enumerate(variants.items()):
+            if "pipeline" in change:
+                job = {"name": name, "steps": [{"label": "pipeline", "timeout": 4 * 3600,
+                                                "argv": [B.PY, f"{B.W}/scripts/distill_pipeline.py", *change["pipeline"]]}]}
+                (out / f"{wave}_{index}_{name}.json").write_text(json.dumps(job, indent=1))
+                continue
             snapshots = change.get("snapshots", [])
             fold = int(change.get("fold", 1))
             change = {k: v for k, v in change.items() if k != "fold"}
