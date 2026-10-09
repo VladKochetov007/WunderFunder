@@ -62,37 +62,53 @@ class Problems:
 
 
 def check_vast(problems: Problems, state: dict) -> None:
-    sys.path.insert(0, str(VAST))
-    import controller
+    import importlib
 
+    for lane in ("", "b"):
+        os.environ["VT_LANE"] = lane
+        sys.path.insert(0, str(VAST))
+        import controller
+
+        importlib.reload(controller)
+        try:
+            check_vast_lane(problems, state, controller, lane or "a")
+        finally:
+            os.environ.pop("VT_LANE", None)
+
+
+def check_vast_lane(problems: Problems, state: dict, controller, lane: str) -> None:
     receipt_path = controller.RECEIPT
     if not receipt_path.exists():
         return
     receipt = json.loads(receipt_path.read_text())
-    if receipt.get("state") == "destroyed_verified":
+    if receipt.get("state") in ("destroyed_verified", "creating"):
+        return
+    if "instance_id" not in receipt:
         return
     row = json.loads(controller.vast("show", "instance", str(receipt["instance_id"])))
     if row.get("actual_status") != "running":
-        problems.add("vast_instance_not_running", "CRIT",
-                     f"Vast instance {receipt['instance_id']} status {row.get('actual_status')} (intended {row.get('intended_status')})", 2)
+        age_min = (time.time() - float(row.get("start_date") or time.time())) / 60
+        if age_min > 12:  # loading is normal for the first minutes
+            problems.add(f"vast_{lane}_instance_not_running", "CRIT",
+                         f"Vast lane {lane} instance {receipt['instance_id']} status {row.get('actual_status')} (intended {row.get('intended_status')}) after {age_min:.0f} min", 2)
         return
     try:
         info = controller.probe()
     except Exception as error:  # noqa: BLE001 - ssh failures are the signal
-        problems.add("vast_ssh_unreachable", "CRIT", f"cannot read the Vast host over ssh: {type(error).__name__}", 2)
+        problems.add(f"vast_{lane}_ssh_unreachable", "CRIT", f"lane {lane}: cannot read the Vast host over ssh: {type(error).__name__}", 2)
         return
     if not info.get("GPU"):
-        problems.add("vast_probe_empty", "CRIT", "ssh worked but the host probe returned nothing", 2)
+        problems.add(f"vast_{lane}_probe_empty", "CRIT", f"lane {lane}: ssh worked but the host probe returned nothing", 2)
         return
     pending = int(info.get("PENDING", "0 RUNNING 0").split()[0])
     in_flight = int(info.get("PENDING", "0 RUNNING 0").split("RUNNING")[1].split()[0])
     utils = [float(x.split(",")[0]) for x in info["GPU"].split(";") if x.strip()]
     if (pending or in_flight) and utils and max(utils) < 40:
-        problems.add("vast_gpu_idle_with_queue", "WARN",
-                     f"Vast GPUs idle (util {utils}) with {pending} pending and {in_flight} running jobs", 3)
+        problems.add(f"vast_{lane}_gpu_idle_with_queue", "WARN",
+                     f"lane {lane}: Vast GPUs idle (util {utils}) with {pending} pending and {in_flight} running jobs", 3)
     daemon = controller.ssh("pgrep -fc '^python remote_refill.py' || true", timeout=40).stdout.strip()
     if (pending or in_flight) and daemon in ("", "0"):
-        problems.add("vast_refill_daemon_dead", "CRIT", f"refill daemon not running with {pending} jobs pending", 2)
+        problems.add(f"vast_{lane}_refill_daemon_dead", "CRIT", f"lane {lane}: refill daemon not running with {pending} jobs pending", 2)
     stale = controller.ssh(
         "cd /root/run; for j in $(ls refill/running 2>/dev/null | sed 's/\\.json//'); do n=${j#*_}; "
         "f=$(ls -t logs/${n}.*.log 2>/dev/null | head -1); [ -n \"$f\" ] && echo \"$n $(( ($(date +%s)-$(stat -c %Y $f))/60 ))\"; done",
@@ -100,16 +116,17 @@ def check_vast(problems: Problems, state: dict) -> None:
     for line in stale.splitlines():
         name, _, age = line.partition(" ")
         if age.strip().isdigit() and int(age) > 15:
-            problems.add(f"vast_job_stalled:{name}", "WARN", f"{name}: log not updated for {age} min", 2)
+            problems.add(f"vast_{lane}_job_stalled:{name}", "WARN", f"lane {lane}: {name}: log not updated for {age} min", 2)
     failed = controller.ssh("ls /root/run/refill/done | grep -v '\\.rc0\\.json$' || true", timeout=40).stdout.split()
     seen = set(state.setdefault("vast_failed_seen", []))
     for name in failed:
-        if name not in seen:
-            problems.add(f"vast_job_failed:{name}", "CRIT", f"Vast job finished with a failure: {name}", 1)
-            state["vast_failed_seen_new"] = state.get("vast_failed_seen_new", []) + [name]
+        token = f"{lane}:{name}"
+        if token not in seen:
+            problems.add(f"vast_job_failed:{token}", "CRIT", f"lane {lane}: Vast job finished with a failure: {name}", 1)
+            state["vast_failed_seen_new"] = state.get("vast_failed_seen_new", []) + [token]
     hours, cost = controller.spend()
     if cost >= SPEND_WARN:
-        problems.add("vast_spend_high", "WARN", f"Vast spend ${cost:.2f} on this instance ({hours:.1f} h); cap holds new jobs at $12", 1)
+        problems.add(f"vast_{lane}_spend_high", "WARN", f"lane {lane}: spend ${cost:.2f} on this instance ({hours:.1f} h); queue holds near the cap", 1)
 
 
 def check_local(problems: Problems, state: dict) -> None:
