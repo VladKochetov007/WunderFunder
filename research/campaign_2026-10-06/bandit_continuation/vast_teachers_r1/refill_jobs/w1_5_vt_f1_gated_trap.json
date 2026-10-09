@@ -1,5 +1,5 @@
 {
- "name": "vt_f1_proppow3",
+ "name": "vt_f1_gated_trap",
  "steps": [
   {
    "label": "fit",
@@ -8,11 +8,11 @@
     "python",
     "/root/wnn/scripts/train_rnn.py",
     "--name",
-    "vt_f1_proppow3",
+    "vt_f1_gated_trap",
     "--device",
     "cuda",
     "--arch",
-    "gru",
+    "gated",
     "--cell",
     "gru",
     "--enc",
@@ -59,13 +59,13 @@
     "--muon-scope",
     "rnn",
     "--sched",
-    "onecycle",
+    "wsd",
     "--precision",
     "fp16",
     "--propensity",
     "c20260929_prop_f1",
     "--prop-power",
-    "3",
+    "2",
     "--prop-eps",
     "0.03",
     "--valid-true-mask",
@@ -76,6 +76,12 @@
     "0.3",
     "--since-weight",
     "32",
+    "--wsd-decay",
+    "0.2",
+    "--wsd-final",
+    "0.0",
+    "--wsd-shape",
+    "linear",
     "--fast",
     "--save-training-state"
    ]
@@ -89,7 +95,7 @@
     "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__')",
     "/root/wnn/scripts/predict_run.py",
     "/root/wnn/scripts/train_rnn.py",
-    "vt_f1_proppow3",
+    "vt_f1_gated_trap",
     "valid",
     "--epoch",
     "3"

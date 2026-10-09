@@ -70,3 +70,13 @@ Ranking = expected unseen-score gain x probability / cost. Mechanism family in b
 2. Build the scale-then-distill pipeline (R2-3) as a chained Vast job: export train predictions -> `build_distill_cache.py` (single teacher) -> matched student fit -> export.
 3. Check the baseline-blend submission route (R2-6) against the rules and the packaging tool.
 4. Design the SSM arm (R2-7) and the mirror decoding (R2-8) as separate, bounded build tasks after steps 1-3 report.
+
+## 6. Status log
+
+- 2026-10-10 early: R2-6 checked locally and **not supported**: adding the organizer baseline (kept in files `baseline/baseline.onnx`, scores 0.598/0.604 alone) at the teammate's
+  weights (main 1-w, baseline 0.25 w) lowers our H230 students on fold1 (-0.0009 at w=0.25, -0.0003 at 0.15) and fold0 (-0.0013, -0.0005): they already carry baseline information in their
+  targets. Public gains reported for it came from non-distilled members. A Z4 + baseline probe stays optional and unpredicted.
+- Queue (both Vast lanes, interleaved by mechanism family): R2-1/R2-2 Muon multiplier and EMA arms with paired controls (lane B), fold0 transfer (lane A);
+  R2-3 scale-then-distill chain `distill_pipeline.py` with four matched student arms: scratch GRU256 teachers, scratch GRU384 teachers, mixed 384+448, and a no-teacher continuation control (lane A, where the teachers live).
+- Retired by prior evidence: class-3-only specialist (teammate -0.14), `since-weight` 8, `prop-power` 1/3 sweeps.
+- Next builds: R2-7 selective state-space teacher (parallel scan), R2-8 exact mirror via decoded event codes, bootstrap-h8 option in the chain (needs distillation).

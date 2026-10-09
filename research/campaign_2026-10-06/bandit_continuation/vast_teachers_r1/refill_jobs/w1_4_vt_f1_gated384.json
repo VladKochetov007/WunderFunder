@@ -1,5 +1,5 @@
 {
- "name": "vt_f1_since8",
+ "name": "vt_f1_gated384",
  "steps": [
   {
    "label": "fit",
@@ -8,17 +8,17 @@
     "python",
     "/root/wnn/scripts/train_rnn.py",
     "--name",
-    "vt_f1_since8",
+    "vt_f1_gated384",
     "--device",
     "cuda",
     "--arch",
-    "gru",
+    "gated",
     "--cell",
     "gru",
     "--enc",
     "linear",
     "--hidden",
-    "256",
+    "384",
     "--layers",
     "2",
     "--dropout",
@@ -75,7 +75,7 @@
     "--aux-next",
     "0.3",
     "--since-weight",
-    "8",
+    "32",
     "--fast",
     "--save-training-state"
    ]
@@ -89,7 +89,7 @@
     "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__')",
     "/root/wnn/scripts/predict_run.py",
     "/root/wnn/scripts/train_rnn.py",
-    "vt_f1_since8",
+    "vt_f1_gated384",
     "valid",
     "--epoch",
     "3"

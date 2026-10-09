@@ -20,7 +20,12 @@ WAVES = {
         "vt_f1_dsq_none": {"pipeline": ["--arm", "none", "--fold", "1", "--teachers", "", "--parent", PARENT, "--no-teacher"]},
     },
     "w10": {
-        # recipe fidelity from the teammate evidence ledger: Muon LR multiplier and EMA-evaluated weights, with paired controls
+        # fold0 transfer of the recipe-fidelity arms (lane A holds the fold0 assets)
+        "vt_f0_mu3": {"fold": 0, "+": ["--muon-lr-mult", "3"]},
+        "vt_f0_mu6": {"fold": 0, "+": ["--muon-lr-mult", "6"]},
+    },
+    "w10b": {
+        # recipe fidelity from the teammate evidence ledger: Muon LR multiplier and EMA-evaluated weights, paired controls
         "vt_f1_ctrl_s3": {},
         "vt_f1_mu3": {"+": ["--muon-lr-mult", "3"]},
         "vt_f1_mu3_s4": {"--seed": "4", "+": ["--muon-lr-mult", "3"]},
@@ -29,15 +34,10 @@ WAVES = {
         "vt_f1_ema": {"+": ["--ema-teacher", "1.0", "--eval-ema"]},
         "vt_f1_mu3_ema": {"+": ["--muon-lr-mult", "3", "--ema-teacher", "1.0", "--eval-ema"]},
         "vt_f1_gru384_mu3": {"--hidden": "384", "+": ["--muon-lr-mult", "3"]},
-        "vt_f0_mu3": {"fold": 0, "+": ["--muon-lr-mult", "3"]},
-        "vt_f0_mu6": {"fold": 0, "+": ["--muon-lr-mult", "6"]},
     },
     "w9": {
         # data-weighting recipe knobs never swept for teachers
-        "vt_f1_since8": {"--since-weight": "8"},
         "vt_f1_since128": {"--since-weight": "128"},
-        "vt_f1_proppow1": {"--prop-power": "1"},
-        "vt_f1_proppow3": {"--prop-power": "3"},
     },
     "w8": {
         # teacher-side target weighting (tail power / zero-label floor / class 3), regularization before scale,
@@ -115,7 +115,7 @@ WAVES = {
 }
 
 LANE = os.environ.get("VT_LANE", "")
-LANE_WAVES = {"b": ("w8", "w9")}
+LANE_WAVES = {"b": ("w10b", "w8", "w9")}
 
 TRACE = ["--trace-every", "10", "--trace-state-every", "200", "--intra-epoch-points", "3", "--intra-snapshots"]
 

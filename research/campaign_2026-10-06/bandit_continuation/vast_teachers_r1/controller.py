@@ -188,14 +188,21 @@ def cmd_collect(_: argparse.Namespace) -> None:
     print(json.dumps({"runs": runs, "predictions": preds}))
 
 
+def job_key(name: str) -> str:
+    """Job identity without ordering prefix, wave/index prefix, outcome suffix or extension."""
+    name = re.sub(r"^p\d\d_", "", name)
+    name = re.sub(r"^w\d+b?_\d+_", "", name)
+    return re.sub(r"(\.rc\d+)?\.json$", "", name)
+
+
 def cmd_queue(_: argparse.Namespace) -> None:
     """Ship refill daemon + job files to the owned host and start the daemon (idempotent)."""
     jobs = sorted(JOBS_DIR.glob("*.json"))
     ssh("mkdir -p /root/run/refill/pending /root/run/refill/running /root/run/refill/done")
     scp([str(HERE / "remote_refill.py")], "/root/run/", upload=True)
-    have = {re.sub(r"^p\d\d_", "", name) for name in
+    have = {job_key(name) for name in
             ssh("ls /root/run/refill/pending /root/run/refill/running /root/run/refill/done").stdout.split()}
-    new = [str(j) for j in jobs if j.name not in have and not any(h.startswith(j.stem) for h in have)]
+    new = [str(j) for j in jobs if job_key(j.name) not in have]
     if new:
         scp(new, "/root/run/refill/pending/", upload=True)
     alive = ssh("pgrep -fc '^python remote_refill.py' || true").stdout.strip()
