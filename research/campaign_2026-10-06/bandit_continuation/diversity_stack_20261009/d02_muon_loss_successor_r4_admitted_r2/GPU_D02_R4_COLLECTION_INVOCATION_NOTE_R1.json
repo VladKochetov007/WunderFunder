@@ -1,0 +1,42 @@
+{
+  "schema": "wnn.kaggle-terminal-collection-invocation-note.v1",
+  "recorded_at_utc": "2026-10-09T03:27:16Z",
+  "kernel": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v4",
+  "provider_status": {
+    "status": "KernelWorkerStatus.ERROR",
+    "observed_at_utc": "2026-10-09T03:25:23Z",
+    "command": "kaggle kernels status vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v4",
+    "observation_file": "GPU_D02_R4_TERMINAL_STATUS_CLI_R1.txt"
+  },
+  "collection": {
+    "config": "research/campaign_2026-10-06/cloud_preflight/terminal_collection_targets_20261009_d02_r4_r1.json",
+    "collector_source": "research/campaign_2026-10-06/cloud_preflight/collect_terminal_outputs.py",
+    "attempt_directory": "terminal_collect_r1/attempt_001",
+    "attempt_result_recorded_at_utc": "2026-10-09T03:26:29Z",
+    "logs_exit_code": 0,
+    "outputs_exit_code": 0,
+    "observed_downloaded_bytes": 82373545,
+    "terminal_receipt": "GPU_D02_R4_TERMINAL_OPERATOR_RECEIPT_R1.json",
+    "terminal_receipt_sha256": "546c267622e6968d318e6ff5d27bb1e4011e3766c3431d9f34420e9b3bafeba8",
+    "collection_complete": true,
+    "provider_output_file_count": 102,
+    "total_inventoried_file_count": 108
+  },
+  "local_invocation_history": [
+    {
+      "result": "failed_before_provider_io",
+      "error": "ModuleNotFoundError: No module named 'poll_provider'",
+      "note": "Initial importlib loading omitted the collector directory from sys.path; no Kaggle request was made."
+    },
+    {
+      "result": "provider_downloads_succeeded_then_local_finalizer_raised",
+      "error": "KeyError: 'repo_root'",
+      "note": "The direct helper call bypassed run_once, which normally injects repo_root and config_dir. Both bounded Kaggle commands completed successfully. The already-collected bytes were finalized locally with those two config fields set; no second download occurred."
+    },
+    {
+      "result": "terminal_receipt_finalized_from_existing_attempt",
+      "note": "The collector's terminal-receipt function hashed the existing attempt files and wrote the receipt above. No provider call occurred during finalization."
+    }
+  ],
+  "evidence_classification": "provider terminal failure and output collection are observed; no scientific fit completed"
+}
