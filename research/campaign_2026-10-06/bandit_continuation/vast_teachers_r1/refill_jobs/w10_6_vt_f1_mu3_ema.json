@@ -1,5 +1,5 @@
 {
- "name": "vt_f1_cls3",
+ "name": "vt_f1_mu3_ema",
  "steps": [
   {
    "label": "fit",
@@ -8,7 +8,7 @@
     "python",
     "/root/wnn/scripts/train_rnn.py",
     "--name",
-    "vt_f1_cls3",
+    "vt_f1_mu3_ema",
     "--device",
     "cuda",
     "--arch",
@@ -76,8 +76,11 @@
     "0.3",
     "--since-weight",
     "32",
-    "--train-classes",
+    "--muon-lr-mult",
     "3",
+    "--ema-teacher",
+    "1.0",
+    "--eval-ema",
     "--fast",
     "--save-training-state"
    ]
@@ -91,7 +94,7 @@
     "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__')",
     "/root/wnn/scripts/predict_run.py",
     "/root/wnn/scripts/train_rnn.py",
-    "vt_f1_cls3",
+    "vt_f1_mu3_ema",
     "valid",
     "--epoch",
     "3"

@@ -11,6 +11,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_bundle as B  # noqa: E402
 
 WAVES = {
+    "w10": {
+        # recipe fidelity from the teammate evidence ledger: Muon LR multiplier and EMA-evaluated weights, with paired controls
+        "vt_f1_ctrl_s3": {},
+        "vt_f1_mu3": {"+": ["--muon-lr-mult", "3"]},
+        "vt_f1_mu3_s4": {"--seed": "4", "+": ["--muon-lr-mult", "3"]},
+        "vt_f1_mu6": {"+": ["--muon-lr-mult", "6"]},
+        "vt_f1_mu6_s4": {"--seed": "4", "+": ["--muon-lr-mult", "6"]},
+        "vt_f1_ema": {"+": ["--ema-teacher", "1.0", "--eval-ema"]},
+        "vt_f1_mu3_ema": {"+": ["--muon-lr-mult", "3", "--ema-teacher", "1.0", "--eval-ema"]},
+        "vt_f1_gru384_mu3": {"--hidden": "384", "+": ["--muon-lr-mult", "3"]},
+        "vt_f0_mu3": {"fold": 0, "+": ["--muon-lr-mult", "3"]},
+        "vt_f0_mu6": {"fold": 0, "+": ["--muon-lr-mult", "6"]},
+    },
     "w9": {
         # data-weighting recipe knobs never swept for teachers
         "vt_f1_since8": {"--since-weight": "8"},
