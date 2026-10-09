@@ -471,7 +471,7 @@ try:
             phase=WORK/'out/phase.json'
             phase_record=json.loads(phase.read_text()) if phase.exists() else {'phase':'startup'}
             memory=Path('/sys/fs/cgroup/memory.current')
-            (WORK/'heartbeat.json').write_text(json.dumps({'pid':child.pid,'elapsed_seconds':time.monotonic()-started,'phase':phase_record,'memory_current_bytes':int(memory.read_text()) if memory.exists() else None,'unix':time.time()}))
+            heartbeat={'pid':child.pid,'elapsed_seconds':time.monotonic()-started,'phase':phase_record,'memory_current_bytes':int(memory.read_text()) if memory.exists() else None,'unix':time.time()}
             if phase_record.get('phase')=='matched_fit_pair':
                 try:
                     live=sample_live_resources(WORK/'out')
@@ -479,6 +479,9 @@ try:
                 except Exception as error:
                     live={'sampling_error':str(error)}
                     guard={'passed':False,'errors':['live_resource_sampling_failed'],'live_checks':{}}
+                heartbeat['live_resources']=live
+                heartbeat['headroom_guard']=guard
+                (WORK/'heartbeat.json').write_text(json.dumps(heartbeat,sort_keys=True))
                 if not guard['passed']:
                     stop={'schema':'wnn.loss-pair-tpu.live-fit-headroom-stop.v1','status':'stopped_fit_for_headroom','phase':phase_record,'live_resources':live,'guard':guard,'unix':time.time()}
                     (WORK/'out/resource_guard_stop.json').write_text(json.dumps(stop,sort_keys=True,indent=2)+'\\n')
@@ -486,6 +489,8 @@ try:
                     try: child.wait(timeout=10)
                     except subprocess.TimeoutExpired: os.killpg(child.pid,signal.SIGKILL)
                     break
+            else:
+                (WORK/'heartbeat.json').write_text(json.dumps(heartbeat,sort_keys=True))
             try: child.wait(timeout=15)
             except subprocess.TimeoutExpired: pass
         if child.returncode: raise subprocess.CalledProcessError(child.returncode,command)
