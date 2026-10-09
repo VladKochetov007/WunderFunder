@@ -80,3 +80,7 @@ Ranking = expected unseen-score gain x probability / cost. Mechanism family in b
   R2-3 scale-then-distill chain `distill_pipeline.py` with four matched student arms: scratch GRU256 teachers, scratch GRU384 teachers, mixed 384+448, and a no-teacher continuation control (lane A, where the teachers live).
 - Retired by prior evidence: class-3-only specialist (teammate -0.14), `since-weight` 8, `prop-power` 1/3 sweeps.
 - Next builds: R2-7 selective state-space teacher (parallel scan), R2-8 exact mirror via decoded event codes, bootstrap-h8 option in the chain (needs distillation).
+
+- 2026-10-10 public: Z5 (seed 9, Muon parent) **0.6664** (own best, +0.0002), Z2c (b16 parent) 0.6649; 5/5 daily quota used. Z-series pattern: Muon parents 0.6662/0.6664/0.6662, b16 parents 0.6649/0.6649.
+  Parent lineage is worth about 0.0013 public while seed spread inside a lineage is at most 0.0002 (H-320). Consequence: parent-side levers (R2-1 Muon multiplier, R2-2 EMA, bootstrap) rank above student-side ones.
+  Plan for the next five uploads: all-data Muon parents with the lever winners (Vast), same student plus head finishing, package with the existing gates.
