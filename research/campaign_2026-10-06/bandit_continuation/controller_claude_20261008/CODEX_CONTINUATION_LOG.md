@@ -214,3 +214,11 @@ Efficiency so far: T4 small-screen fit 61.6 s (FP32 Muon) vs 71.6 s (native FP16
 - Vast wave 2 (fold1 from-scratch teachers, wp; ref combo_s3 0.66742, seed-rerun noise: seed4 0.66675): gru256x3 0.66774, trapezoid 0.66744, gru384 0.66724, lstm256 0.66581, lineard2z 0.66504, fixmix 0.66490, gru512 0.65800. No teacher beats baseline beyond noise; prediction corr vs combo_s3 0.95-0.99.
 - User request: replicate teammate approach exactly with our implementation (analysis only, not for submission). Our H230 already matched student/target recipe; remaining knowable deviation = strong source: ONE checkpoint at 0.30 (his fbc1k_s5) vs our two at 0.15. Queued `mexact`: cache h230_mexact_fold1_r1 (strong=combo_s4_f1@ep3*0.30, full x2 0.1, raw x2 0.125, baseline substitutes 0.03125 x2, sum 0.8125) + students s3 (parent combo_s3) and s4 (parent combo_s4) + exports. Compare to H230 s3 0.66882 / s4 0.66913 / pair 0.66946.
 - Not reproducible by rule/knowledge: organizer baseline checkpoint (0.0625), his teacher weights, all-data teacher fits, ffull/frawW exact recipes.
+
+## 2026-10-09 night: blend theory and capacity-diverse teachers
+- Scratch teacher wave 3 (fold1, vs scratch baseline mean 0.6662 from seeds 0.66557/0.66675): wmsegcorr 0.66625, encmlp 0.66528, dual 0.66275, AdamW lr1e-3 0.66231 (Muon better by ~0.004, LR not yet tuned for AdamW).
+- Blend criterion: model j adds to model i iff corr(i,j) < r_j/r_i; equal-weight pair formula (r_i+r_j)/sqrt(2+2c) tracks 66 measured pair blends (corr 0.993, slope 0.69).
+- HEADLINE: best fold1 student 0.66913 + 0.4*scratch GRU384 teacher = 0.67207 (+0.0029); + GRU512/GRU256x3 four-way 0.67225. Weights chosen on exposed fold; replication queued (fold0 transfer GRU384/512, GRU384 seeds 4/5, widths 320/448).
+- Negatives: class-gated blend no gain; monotone recalibration no gain (exponent 1.0). Class 3 = 50% of metric weight at wp 0.44 vs 0.74-0.81 elsewhere.
+- Notes: OPTIMIZERS_SCHEDULES_STABILITY_R1.md, MECHANISTIC_INTERPRETABILITY_AND_BLEND_THEORY_R1.md. Vast: waves 0,3-7 queued (24 jobs); tick cap $8, hard stop 2026-10-10 03:00 Kyiv.
+- User approved more compute on the existing box; rent a new one only if something fails. Git cleanup by Haiku subagent: 34 commits, ~4,000 files; secrets/weights/large logs ignored.

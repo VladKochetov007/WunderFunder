@@ -47,8 +47,18 @@ VARIANTS = {
 }
 
 
-def argv_for(name: str, change: dict) -> list[str]:
+def fold_base(fold: int) -> list[str]:
     args = list(BASE)
+    if fold == 1:
+        return args
+    args[args.index("--split-manifest") + 1] = f"{W}/research/campaign_2026-09-29/artifacts/splits/fold{fold}.json"
+    args[args.index("--valid-fold") + 1] = str(fold)
+    args[args.index("--propensity") + 1] = f"c20260929_prop_f{fold}"
+    return args
+
+
+def argv_for(name: str, change: dict, fold: int = 1) -> list[str]:
+    args = fold_base(fold)
     for flag, value in change.items():
         if flag == "+":
             continue

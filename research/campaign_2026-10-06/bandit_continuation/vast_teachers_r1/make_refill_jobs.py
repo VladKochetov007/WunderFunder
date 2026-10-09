@@ -10,6 +10,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_bundle as B  # noqa: E402
 
 WAVES = {
+    "w0": {
+        # priority: does a capacity-diverse scratch teacher add to the best student?  (fold1 finding: +0.0029)
+        "vt_f0_gru384": {"--hidden": "384", "fold": 0},
+        "vt_f0_gru512": {"--hidden": "512", "fold": 0},
+        "vt_f1_gru384_s4": {"--hidden": "384", "--seed": "4"},
+        "vt_f1_gru384_s5": {"--hidden": "384", "--seed": "5"},
+        "vt_f1_gru320": {"--hidden": "320"},
+        "vt_f1_gru448": {"--hidden": "448"},
+    },
     "w3": {
         "vt_f1_adamw": {"--optim": "adamw"},
         "vt_f1_wmsegcorr": {"--loss": "wmse_gcorr"},
@@ -64,9 +73,11 @@ def main() -> None:
     for wave, variants in WAVES.items():
         for index, (name, change) in enumerate(variants.items()):
             snapshots = change.get("snapshots", [])
+            fold = int(change.get("fold", 1))
+            change = {k: v for k, v in change.items() if k != "fold"}
             change = with_trace({k: v for k, v in change.items() if k != "snapshots"}) if wave in ("w5", "w6", "w7") else change
             steps = [
-                {"label": "fit", "timeout": 4 * 3600, "argv": B.argv_for(name, change)},
+                {"label": "fit", "timeout": 4 * 3600, "argv": B.argv_for(name, change, fold)},
                 {"label": "export", "timeout": 1800, "argv": B.export_argv(name, change.get("--checkpoint-epoch", "3"))},
             ]
             steps += [{"label": f"export_e{k}", "timeout": 1800, "argv": B.export_argv(name, str(k), f"{name}__ep{k}")}

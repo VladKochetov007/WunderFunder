@@ -206,8 +206,10 @@ def cmd_pull(_: argparse.Namespace) -> None:
 
 
 def _pull_locked() -> None:
-    bank = ROOT / "research/campaign_2026-10-06/bandit_continuation/prediction_bank/BANK_FOLD1.jsonl"
-    have = {json.loads(line)["name"] for line in bank.read_text().splitlines() if line.strip()}
+    bank_dir = ROOT / "research/campaign_2026-10-06/bandit_continuation/prediction_bank"
+    banks = {1: bank_dir / "BANK_FOLD1.jsonl", 0: bank_dir / "BANK_FOLD0_VAST.jsonl"}
+    banks[0].touch()
+    have = {json.loads(line)["name"] for path in banks.values() for line in path.read_text().splitlines() if line.strip()}
     listing = ssh("cd /root/wnn && ls cache/pred_vt_*_valid.json 2>/dev/null").stdout.split()
     pulled = []
     for item in listing:
@@ -224,9 +226,10 @@ def _pull_locked() -> None:
         if not (ROOT / "artifacts/runs" / run / "model_ep3.pt").exists():
             scp([f"/root/wnn/artifacts/runs/{run}"], str(ROOT / "artifacts/runs"), upload=False)
         scp([f"/root/wnn/cache/pred_{name}_valid.npy", f"/root/wnn/cache/pred_{name}_valid.json"], str(ROOT / "cache"), upload=False)
-        row = {"name": name, "fold": 1, "prediction": f"cache/pred_{name}_valid.npy",
+        fold = 0 if name.startswith("vt_f0_") else 1
+        row = {"name": name, "fold": fold, "prediction": f"cache/pred_{name}_valid.npy",
                "tags": {"scale": "full", "family": "teacher_scratch", "vast": "r1"}, "source": "vast_teachers_r1"}
-        with bank.open("a") as handle:
+        with banks[fold].open("a") as handle:
             handle.write(json.dumps(row) + "\n")
         pulled.append(name)
     print(json.dumps({"pulled": pulled}))
