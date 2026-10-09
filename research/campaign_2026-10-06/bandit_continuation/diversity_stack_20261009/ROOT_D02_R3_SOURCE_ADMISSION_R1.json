@@ -1,0 +1,46 @@
+{
+  "schema": "wnn.d02.r3.root-source-admission.v1",
+  "created_utc": "2026-10-09T02:27:56.280673+00:00",
+  "owner": "root",
+  "delivery_owner": "runner_kaggle_builder Luna/max",
+  "state": "private_source_upload_and_admitted_packet_preparation_authorized",
+  "pending_packet_sha256": "7fa706deaf8f3a775ed229384c3598a88bdd33ee411560745f26692f3fc031e6",
+  "source_code_manifest_sha256": "562884c5739299d6ea51729bb082d56a47c34bffe10f7c999e3871da17b40118",
+  "source_archive_sha256": "3fdab3c93ecbe8b53834fb08204644c9d23501c96688a91fb9a422e27fbc33ef",
+  "source_asset_manifest_sha256": "c3807b6d6cf4a2456d4689934be9e5afee9d9123a69014152384d731afae8d9d",
+  "source_dataset": "vladkochetov07/wnn-d02-muon-loss-code-20261009-r3",
+  "kernel_id": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v3",
+  "control_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+  "root_validation": {
+    "tests": "18 passed in6.50s on main using actual collected R5 artifacts; original fixture-root failure preserved in tool record, test-only correction2fb008db",
+    "sealed_startup": "exact pending bootstrap/source archive/import/train and prediction CLI passed, no GPU used",
+    "source_asset": "all five physical payload byte counts and SHA256 recomputed",
+    "science": "FP32 recurrent gatewise Muon plus AdamW remainder; two220-update loss arms, actual CUDA full-shape10-update/reload/prefix/reset gates before each fit; original R5 controls unchanged"
+  },
+  "private_upload_max_bytes": 3000000,
+  "root_admission_payload": {
+    "schema": "wnn.d02.root-admission.v1",
+    "kernel_id": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v3",
+    "push_allowed": true,
+    "conditional_fit_allowed": true,
+    "source_code_manifest_sha256": "562884c5739299d6ea51729bb082d56a47c34bffe10f7c999e3871da17b40118",
+    "control_gpu_kernel": "vladkochetov07/wnn-loss-pair-export-recovery-20261009-r1",
+    "gpu_control_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+    "runtime_seconds": 3300
+  },
+  "provisional_gpu_seconds": 7200,
+  "worker_wall_seconds": 3300,
+  "provider_timeout_seconds": 3600,
+  "gpu_shape": "two T4",
+  "campaign_gpu_headroom_latest_seconds": 23923.481,
+  "campaign_gpu_headroom_after_hold_seconds": 16723.481,
+  "quota_observed_utc": "2026-10-09T02:21:49Z",
+  "dispatch_conditions": [
+    "Use physical short private upload directory; inventory and manifest exact hashes; verify version1READY.",
+    "Preserve pending seal, create identified admitted seal; root checks final embedded payload and packet hashes before kernel push.",
+    "Recheck live quota before push; require this7200hold plus1000seconds unreserved headroom; other openholds included.",
+    "Exactly one private two-T4 kernel push;3300worker/3600provider budget; no blind retry or additional fit.",
+    "Install durable terminal collector and report actual provider/worker outcomes; preserve successful artifacts on postprocess failure."
+  ],
+  "scope": "local/Kaggle only, no Vast/public upload; own independently initialized weights"
+}

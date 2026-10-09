@@ -1,0 +1,31 @@
+{
+  "schema": "wnn.loss-pair-disagreement-diagnostics.r1",
+  "created_utc": "2026-10-09T02:07:51.205441+00:00",
+  "source_sha256": "df9c1b5bc3bab9adedb02c50d5d89ada70ea14bfe9a8c2f4436c022412d6451f",
+  "primary_grade_sha256": "94c8bb8031be7e4776a7b80f694d852551165bb0b52f7f9df5d287c8b3b46f34",
+  "selection": "posthoc diagnostics after primary grade; no weight search or new endpoint",
+  "exposure": "same exposed fold0, one training seed, 350 fit sequences",
+  "diagnostic_weights": "original clipped-label magnitude on official fixed scored mask",
+  "prediction_representation": "each member independently clipped to +-2 for correlation",
+  "target_diagnostics": {
+    "t0": {
+      "prediction_weighted_correlation": 0.9856256547831922,
+      "residual_weighted_correlation": 0.984676695783884,
+      "weighted_disagreement_rms": 0.25700036359046774,
+      "weighted_disagreement_mae": 0.21935417065064686,
+      "wmse_member_wp": 0.5912121778033428,
+      "huber_member_wp": 0.5830894705977637,
+      "equal_blend_minus_wmse": -0.00233657648781449
+    },
+    "t1": {
+      "prediction_weighted_correlation": 0.9867148100329535,
+      "residual_weighted_correlation": 0.9860047922502048,
+      "weighted_disagreement_rms": 0.2668252606433679,
+      "weighted_disagreement_mae": 0.23415208810079535,
+      "wmse_member_wp": 0.6207916682031698,
+      "huber_member_wp": 0.6193887999498582,
+      "equal_blend_minus_wmse": 0.0012931332951620078
+    }
+  },
+  "allocation": "Complete the predeclared Muon cross before broad loss sweeps. Consider target-specific mixing and loss-scale controls as distinct prospective hypotheses; these diagnostics do not establish their generalization."
+}

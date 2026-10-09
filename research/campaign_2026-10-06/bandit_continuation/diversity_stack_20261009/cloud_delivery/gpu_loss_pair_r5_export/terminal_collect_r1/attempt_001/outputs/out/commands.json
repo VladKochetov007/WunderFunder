@@ -1,0 +1,105 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/kaggle/working/wnn/scripts/profile_parsed_sequence_cache.py",
+        "--manifest",
+        "/kaggle/input/notebooks/vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1/out/parsed_cache/manifest.json",
+        "--expected-manifest-sha256",
+        "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+        "--validation-receipt",
+        "/kaggle/working/out/shared/cache_validation_runtime.json",
+        "--profile-output",
+        "/kaggle/working/out/shared/cache_reader_profile_runtime.json",
+        "--per-role",
+        "2",
+        "--seed",
+        "20261009"
+      ],
+      "cwd": "/kaggle/working/wnn",
+      "environment": {
+        "WNN_PORTABLE_DATA_MANIFEST": "/kaggle/working/wnn/research/campaign_2026-10-04/portable_inputs.json",
+        "WNN_THREADS": "1"
+      },
+      "finished_monotonic_seconds": 83.50208195200001,
+      "label": "cache_profile_verify",
+      "log_path": "out/logs/cache_profile_verify.log",
+      "pid": 22,
+      "returncode": 0,
+      "started_monotonic_seconds": 22.61412079
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/kaggle/working/wnn/scripts/predict_run.py",
+        "loss_pair_r3_wmse",
+        "valid",
+        "--inference-precision",
+        "fp32",
+        "--parsed-cache-manifest",
+        "/kaggle/input/notebooks/vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1/out/parsed_cache/manifest.json",
+        "--parsed-cache-validation-receipt",
+        "/kaggle/working/out/shared/cache_validation_runtime.json",
+        "--expected-parsed-cache-manifest-sha256",
+        "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+        "--expected-parsed-cache-validation-sha256",
+        "bf43ade9f08fb0447fc1df18dbb91f1d4723c828eaa3c14a7f5bffd73049f6ed",
+        "--expected-parsed-cache-key",
+        "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+        "--expected-checkpoint-cache-validation-sha256",
+        "f6452f4b03abf7c66a219008458e431a8c1b6a2ffba961f63e5f57d1e936076f"
+      ],
+      "cwd": "/kaggle/working/wnn",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "WNN_LOSS_PAIR_ARM_DIR": "/kaggle/working/out/arms/wmse",
+        "WNN_LOSS_PAIR_RUN_NAME": "loss_pair_r3_wmse",
+        "WNN_PORTABLE_DATA_MANIFEST": "/kaggle/working/wnn/research/campaign_2026-10-04/portable_inputs.json",
+        "WNN_THREADS": "1"
+      },
+      "finished_monotonic_seconds": 165.169650208,
+      "label": "predict_wmse",
+      "log_path": "out/logs/predict_wmse.log",
+      "pid": 51,
+      "returncode": 0,
+      "started_monotonic_seconds": 83.80041399400001
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/kaggle/working/wnn/scripts/predict_run.py",
+        "loss_pair_r3_huber_d1",
+        "valid",
+        "--inference-precision",
+        "fp32",
+        "--parsed-cache-manifest",
+        "/kaggle/input/notebooks/vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1/out/parsed_cache/manifest.json",
+        "--parsed-cache-validation-receipt",
+        "/kaggle/working/out/shared/cache_validation_runtime.json",
+        "--expected-parsed-cache-manifest-sha256",
+        "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+        "--expected-parsed-cache-validation-sha256",
+        "bf43ade9f08fb0447fc1df18dbb91f1d4723c828eaa3c14a7f5bffd73049f6ed",
+        "--expected-parsed-cache-key",
+        "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+        "--expected-checkpoint-cache-validation-sha256",
+        "f6452f4b03abf7c66a219008458e431a8c1b6a2ffba961f63e5f57d1e936076f"
+      ],
+      "cwd": "/kaggle/working/wnn",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "1",
+        "WNN_LOSS_PAIR_ARM_DIR": "/kaggle/working/out/arms/huber_d1",
+        "WNN_LOSS_PAIR_RUN_NAME": "loss_pair_r3_huber_d1",
+        "WNN_PORTABLE_DATA_MANIFEST": "/kaggle/working/wnn/research/campaign_2026-10-04/portable_inputs.json",
+        "WNN_THREADS": "1"
+      },
+      "finished_monotonic_seconds": 165.16965661399996,
+      "label": "predict_huber_d1",
+      "log_path": "out/logs/predict_huber_d1.log",
+      "pid": 52,
+      "returncode": 0,
+      "started_monotonic_seconds": 83.801197988
+    }
+  ]
+}

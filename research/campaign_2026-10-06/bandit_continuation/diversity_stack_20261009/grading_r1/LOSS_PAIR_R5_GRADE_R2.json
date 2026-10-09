@@ -1,0 +1,107 @@
+{
+  "created_utc": "2026-10-09T02:04:19.644662+00:00",
+  "spec_sha256": "357c87a5e7bf76775f2b4d57e8c7a1abe1cedfb96439ac09bf57dc1c6905cbdd",
+  "reviewed_export_receipt_sha256": "791a3bbdde92034ec83ff1e220d698367731276c4ad9faa723c15ad16640f986",
+  "bindings": {
+    "wmse": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/gpu_loss_pair_r5_export/terminal_collect_r1/attempt_001/outputs/out/arms/wmse/predictions_valid.npy",
+      "sha256": "8b695aac4efd43c3a10ea398a836a3460769963e198f879bd8beb10a4b01fd5d",
+      "sidecar_sha256": "7ebf2025b7110fa4458cfd863abd5fd0c726cd177df460d8e0b5d80f276ac4c8",
+      "checkpoint_sha256": "71fcba3d9eaff3710f8fd42f3778ef74cd425f11977668a5575c21563a82c309",
+      "validation_receipt_sha256": "bf43ade9f08fb0447fc1df18dbb91f1d4723c828eaa3c14a7f5bffd73049f6ed"
+    },
+    "huber_d1": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/gpu_loss_pair_r5_export/terminal_collect_r1/attempt_001/outputs/out/arms/huber_d1/predictions_valid.npy",
+      "sha256": "cf763bcc1ed3dd6d2f299fd647b7967112d25a8cbafb9e13b56885739591d5f3",
+      "sidecar_sha256": "ba391743f7e490cb57cf250e3026256a58b44aa75787c1884777ebbb4f54201b",
+      "checkpoint_sha256": "b61b5026386273b11db871f06f09eda7654af5814c066e850274e32d9cdfca77",
+      "validation_receipt_sha256": "bf43ade9f08fb0447fc1df18dbb91f1d4723c828eaa3c14a7f5bffd73049f6ed"
+    }
+  },
+  "scores": {
+    "wmse": {
+      "t0": 0.5912121778033123,
+      "t1": 0.6207916682031728,
+      "wp": 0.6060019230032425,
+      "selected_rows": 808863,
+      "metric_id": "global_wp_clip2_v1",
+      "independent_centered_formula_wp": 0.6060019230032424
+    },
+    "huber_d1": {
+      "t0": 0.5830894705977334,
+      "t1": 0.6193887999498622,
+      "wp": 0.6012391352737978,
+      "selected_rows": 808863,
+      "metric_id": "global_wp_clip2_v1",
+      "independent_centered_formula_wp": 0.6012391352737976
+    },
+    "equal_blend": {
+      "t0": 0.5888756013154978,
+      "t1": 0.6220848014983348,
+      "wp": 0.6054802014069163,
+      "selected_rows": 808863,
+      "metric_id": "global_wp_clip2_v1",
+      "independent_centered_formula_wp": 0.6054802014069158
+    }
+  },
+  "comparisons": {
+    "huber_d1_minus_wmse": {
+      "candidate_wp": 0.6012391352737976,
+      "reference_wp": 0.6060019230032426,
+      "mean_diff": -0.0047627877294450505,
+      "bootstrap_sd": 0.001983630789755416,
+      "ci95": [
+        -0.008843298189061632,
+        -0.001161896207996264
+      ],
+      "p_le_0": 0.996,
+      "n_sequences": 468,
+      "n_components": 141,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "equal_blend_minus_wmse": {
+      "candidate_wp": 0.6054802014069162,
+      "reference_wp": 0.6060019230032426,
+      "mean_diff": -0.0005217215963264632,
+      "bootstrap_sd": 0.0009730386566271892,
+      "ci95": [
+        -0.002507811933221302,
+        0.0012634587209876846
+      ],
+      "p_le_0": 0.717,
+      "n_sequences": 468,
+      "n_components": 141,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "equal_blend_minus_huber_d1": {
+      "candidate_wp": 0.6054802014069162,
+      "reference_wp": 0.6012391352737976,
+      "mean_diff": 0.004241066133118587,
+      "bootstrap_sd": 0.0010187144481593842,
+      "ci95": [
+        0.002419368534871602,
+        0.006408734883954077
+      ],
+      "p_le_0": 0.0,
+      "n_sequences": 468,
+      "n_components": 141,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    }
+  },
+  "evaluation_groups": 468,
+  "components": 141,
+  "metric_id": "global_wp_clip2_v1",
+  "selection": "three declared endpoints; no searched weights or selected epochs",
+  "uncertainty": "Paired component resampling of fixed predictions; excludes training-seed variation and public transfer. Exposed development panel.",
+  "expected_public_score": null,
+  "moments_sha256": "5db6a91181b8d231127754d8d5f40018e8614e90f81afbc1d64d801132e4182a"
+}
