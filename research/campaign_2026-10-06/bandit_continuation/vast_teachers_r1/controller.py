@@ -186,7 +186,8 @@ def cmd_queue(_: argparse.Namespace) -> None:
     jobs = sorted((HERE / "refill_jobs").glob("*.json"))
     ssh("mkdir -p /root/run/refill/pending /root/run/refill/running /root/run/refill/done")
     scp([str(HERE / "remote_refill.py")], "/root/run/", upload=True)
-    have = set(ssh("ls /root/run/refill/pending /root/run/refill/running /root/run/refill/done").stdout.split())
+    have = {re.sub(r"^p\d\d_", "", name) for name in
+            ssh("ls /root/run/refill/pending /root/run/refill/running /root/run/refill/done").stdout.split()}
     new = [str(j) for j in jobs if j.name not in have and not any(h.startswith(j.stem) for h in have)]
     if new:
         scp(new, "/root/run/refill/pending/", upload=True)
@@ -194,6 +195,45 @@ def cmd_queue(_: argparse.Namespace) -> None:
     if alive in ("", "0"):
         ssh("(cd /root/run && setsid nohup python remote_refill.py > refill.out 2>&1 < /dev/null &) ; echo started", timeout=30)
     print(json.dumps({"queued": [Path(n).name for n in new], "daemon_was_running": alive not in ("", "0")}))
+
+
+FAMILIES = [
+    ("fold", re.compile(r"vt_f[023]_")), ("sched", re.compile(r"sgdr|trap|wsd|lineard2z|ep6")),
+    ("optim", re.compile(r"adamw|muonhidden")), ("weighting", re.compile(r"lw15|lwfloor|cls3")),
+    ("arch", re.compile(r"gated|tcn|structured|eventcontent|twoclock|dual|lstm|rawonly|encmlp")),
+    ("width", re.compile(r"gru(256x3|320|384|448|512)")), ("loss", re.compile(r"corr|huber|wmsegcorr")),
+    ("regularize", re.compile(r"drop2|wd05|swa|b16|tr_lr|tr_base|seed")),
+]
+
+
+def family_of(name: str) -> str:
+    for family, pattern in FAMILIES:
+        if pattern.search(name):
+            return family
+    return "other"
+
+
+def interleave(names: list[str]) -> list[str]:
+    """Round-robin across mechanism families so concurrently running jobs differ; stable within a family."""
+    buckets: dict[str, list[str]] = {}
+    for name in sorted(names):
+        buckets.setdefault(family_of(re.sub(r"^p\d\d_", "", name)), []).append(name)
+    order = []
+    while any(buckets.values()):
+        for family in sorted(buckets, key=lambda f: -len(buckets[f])):
+            if buckets[family]:
+                order.append(buckets[family].pop(0))
+    return order
+
+
+def cmd_reorder(_: argparse.Namespace) -> None:
+    pending = ssh("ls /root/run/refill/pending").stdout.split()
+    order = interleave(pending)
+    commands = [f"mv /root/run/refill/pending/{old} /root/run/refill/pending/p{i:02d}_{re.sub(r'^p[0-9][0-9]_', '', old)}"
+                for i, old in enumerate(order)]
+    if commands:
+        ssh(" ; ".join(commands) + " ; true", timeout=120)
+    print(json.dumps([f"p{i:02d}:{family_of(re.sub(r'^p[0-9][0-9]_', '', n))}" for i, n in enumerate(order)]))
 
 
 def cmd_pull(_: argparse.Namespace) -> None:
@@ -337,13 +377,13 @@ def main() -> int:
     create.add_argument("--image", default="pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime")
     create.add_argument("--disk", type=int, default=150)
     create.add_argument("--hard-stop", required=True)
-    for name in ("start", "status", "collect", "destroy", "queue", "pull", "dash", "tick"):
+    for name in ("start", "status", "collect", "destroy", "queue", "pull", "dash", "tick", "reorder"):
         node = sub.add_parser(name)
         if name == "tick":
             node.add_argument("--cap", type=float, default=5.0, help="stop admitting queued jobs at this spend; running jobs always finish, then the instance is destroyed")
     args = parser.parse_args()
     {"plan": cmd_plan, "create": cmd_create, "start": cmd_start, "status": cmd_status,
-     "collect": cmd_collect, "destroy": cmd_destroy, "queue": cmd_queue, "pull": cmd_pull, "dash": cmd_dash, "tick": cmd_tick}[args.command](args)
+     "collect": cmd_collect, "destroy": cmd_destroy, "queue": cmd_queue, "pull": cmd_pull, "dash": cmd_dash, "tick": cmd_tick, "reorder": cmd_reorder}[args.command](args)
     return 0
 
 

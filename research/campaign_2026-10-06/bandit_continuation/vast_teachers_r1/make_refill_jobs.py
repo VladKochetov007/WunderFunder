@@ -10,6 +10,22 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_bundle as B  # noqa: E402
 
 WAVES = {
+    "w8": {
+        # teacher-side target weighting (tail power / zero-label floor / class 3), regularization before scale,
+        # untried architectures and input views, alternative losses
+        "vt_f1_lw15": {"+": ["--label-weight-power", "1.5"]},
+        "vt_f1_lwfloor": {"+": ["--label-weight-floor", "0.1"]},
+        "vt_f1_cls3w2": {"+": ["--class-weight", "1,1,1,2"]},
+        "vt_f1_gru384_drop2": {"--hidden": "384", "--dropout": "0.2"},
+        "vt_f1_gru512_drop2": {"--hidden": "512", "--dropout": "0.2"},
+        "vt_f1_wd05": {"--wd": "0.05"},
+        "vt_f1_tcn": {"--arch": "tcn", "--layers": "10"},
+        "vt_f1_structured": {"--arch": "structured"},
+        "vt_f1_eventcontent": {"--arch": "event-content"},
+        "vt_f1_rawonly": {"+": ["--raw-only"]},
+        "vt_f1_corr": {"--loss": "corr"},
+        "vt_f1_huber": {"--loss": "huber"},
+    },
     "w1": {
         # four-fold evidence for width diversity (also feeds nested-CV stacking work) + new mechanisms on fold1
         "vt_f2_gru384": {"--hidden": "384", "fold": 2},

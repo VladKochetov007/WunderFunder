@@ -1948,6 +1948,11 @@ def main():
         if args.loss == "corr":
             return weighted_corr_loss(o, t, v)
         if args.loss == "wmse":
+            if args.label_weight_power != 1.0 or args.label_weight_floor > 0.0:
+                # Opt-in teacher-side tail emphasis (same form as the distillation branch); defaults keep |clip(y)| weights.
+                yc = t.float().clamp(-2, 2)
+                w = yc.abs().clamp_min(args.label_weight_floor) ** args.label_weight_power * v[..., None].float()
+                return (w * (o.float() - yc) ** 2).sum() / w.sum().clamp_min(1e-8)
             return weighted_mse_loss(o, t, v)
         if args.loss == "mse":  # unweighted MSE on clipped targets (organizer-baseline style)
             yv = t.float().clamp(-2, 2)
