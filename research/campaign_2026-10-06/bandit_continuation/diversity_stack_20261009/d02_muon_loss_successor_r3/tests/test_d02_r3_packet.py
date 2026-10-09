@@ -78,7 +78,9 @@ def test_source_asset_contains_exact_r3_worker_and_reader() -> None:
         controls_text = controls.read().decode("utf-8")
 
     source_rows = {row["path"]: row for row in source_manifest["files"]}
-    assert _sha256(reader_bytes) == "35431e48583b1523188b3d6084fa12be23e7379560a323411655bf561507a693"
+    assert (
+        _sha256(reader_bytes) == "35431e48583b1523188b3d6084fa12be23e7379560a323411655bf561507a693"
+    )
     assert source_rows["src/wnn/parsed_sequence_cache_reader.py"]["sha256"] == _sha256(reader_bytes)
     assert source_rows["scripts/loss_pair_gpu_worker.py"]["sha256"] == _sha256(worker_text.encode())
     assert source_rows["src/wnn/d02_controls.py"]["sha256"] == _sha256(controls_text.encode())
