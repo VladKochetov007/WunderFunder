@@ -84,6 +84,31 @@ def _write_json(path: Path, value: Any) -> bytes:
     return raw
 
 
+CACHE_PINS = {"manifest": CACHE_MANIFEST_SHA256, "key": CACHE_KEY, "kernel": CPU_SOURCE_KERNEL}
+EXTRA_OVERLAY: dict[str, bytes] = {}
+
+
+def configure_fold(spec: dict[str, Any], repo: Path) -> None:
+    """Bind cache pins, CPU kernel and extra overlay files for the spec's fold."""
+    global CACHE_PINS, EXTRA_OVERLAY
+    fold = int(spec.get("fold", 0))
+    if fold == 0:
+        CACHE_PINS = {"manifest": CACHE_MANIFEST_SHA256, "key": CACHE_KEY, "kernel": CPU_SOURCE_KERNEL}
+        EXTRA_OVERLAY = {}
+        return
+    pins = spec["fold_pins"]
+    CACHE_PINS = {"manifest": pins["EXPECTED_CACHE_MANIFEST_SHA256"], "key": pins["EXPECTED_CACHE_KEY"],
+                  "kernel": pins["SOURCE_KERNEL"]}
+    EXTRA_OVERLAY = {}
+    for name, sha_name in (("SPLIT_RELATIVE", "EXPECTED_SPLIT_SHA256"),
+                           ("REGISTRY_RELATIVE", "EXPECTED_REGISTRY_SHA256"),
+                           ("MEMBERSHIP_RELATIVE", "EXPECTED_MEMBERSHIP_SHA256")):
+        payload = (repo / pins[name]).read_bytes()
+        if sha_bytes(payload) != pins[sha_name]:
+            raise ValueError(f"fold file differs from its pin: {pins[name]}")
+        EXTRA_OVERLAY[pins[name]] = payload
+
+
 def _admission_payload(
     spec_sha: str,
     overlay_manifest_sha: str,
@@ -102,8 +127,8 @@ def _admission_payload(
         "candidate_pool_sha256": CANDIDATE_POOL_SHA256,
         "cohort_spec_sha256": spec_sha,
         "source_code_manifest_sha256": source_manifest_sha,
-        "cache_manifest_sha256": CACHE_MANIFEST_SHA256,
-        "cache_key": CACHE_KEY,
+        "cache_manifest_sha256": CACHE_PINS["manifest"],
+        "cache_key": CACHE_PINS["key"],
         "control_contract_sha256": CONTROL_CONTRACT_SHA256,
         "runner_overlay_manifest_sha256": overlay_manifest_sha,
         "runner_worker_sha256": runner_sha,
@@ -140,6 +165,7 @@ def seal_candidate(output: Path, spec_path: Path, admission_path: Path | None = 
     overlay_payloads = {
         "scripts/cohort_spec.json": spec_path.read_bytes(),
         "scripts/sampled_recipe_worker.py": worker_path.read_bytes(),
+        **EXTRA_OVERLAY,
     }
     overlay_rows = [
         {
@@ -204,6 +230,9 @@ def seal_candidate(output: Path, spec_path: Path, admission_path: Path | None = 
         "__RUNNER_WORKER_SHA256__": worker_sha,
         "__OVERLAY_DATASET__": OVERLAY_DATASET,
         "__KERNEL_ID__": KERNEL_ID,
+        "__OVERLAY_FILES_JSON__": json.dumps(sorted(overlay_payloads)),
+        "__CACHE_KEY__": CACHE_PINS["key"],
+        "__CACHE_MANIFEST_SHA256__": CACHE_PINS["manifest"],
     }
     for placeholder, value in replacements.items():
         bootstrap = bootstrap.replace(placeholder, value)
@@ -224,7 +253,7 @@ def seal_candidate(output: Path, spec_path: Path, admission_path: Path | None = 
         "enable_tpu": False,
         "enable_internet": False,
         "dataset_sources": [SOURCE_DATASET, FOLD0_ASSET_DATASET, OVERLAY_DATASET],
-        "kernel_sources": [CPU_SOURCE_KERNEL, CONTROL_KERNEL, R5_KERNEL],
+        "kernel_sources": [CACHE_PINS["kernel"], CONTROL_KERNEL, R5_KERNEL],
         "competition_sources": [],
         "model_sources": [],
     }
@@ -350,6 +379,7 @@ def main() -> int:
     spec = _read_json(arguments.spec)
     if spec.get("kernel_id") != KERNEL_ID or spec["runtime_source"]["runner_overlay_dataset"] != OVERLAY_DATASET:
         raise ValueError("spec kernel/overlay identities differ from the round tag")
+    configure_fold(spec, HERE.parents[4])
     receipt = seal_candidate(arguments.output, arguments.spec.resolve(), arguments.root_admission)
     print(json.dumps(receipt, sort_keys=True))
     return 0

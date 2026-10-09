@@ -103,11 +103,23 @@ ALREADY_RUN = {
 }
 
 
-def completed_keys() -> set[str]:
-    keys = set(ALREADY_RUN)
+def completed_keys(fold: int = 0) -> set[str]:
+    keys = set(ALREADY_RUN) if fold == 0 else set()
     for spec_path in ROUNDS.glob("r*/cohort_spec.json"):
-        keys.update(arm["recipe_key"] for arm in read(spec_path)["arms"])
+        spec = read(spec_path)
+        if int(spec.get("fold", 0)) == fold:
+            keys.update(arm["recipe_key"] for arm in spec["arms"])
     return keys
+
+
+def fold0_ranking() -> list[str]:
+    """Recipe keys ranked by their latest fold-0 small-screen score (best first)."""
+    grade = ROOT / "research/campaign_2026-10-06/bandit_continuation/prediction_bank/LATEST_GRADE_FOLD0.json"
+    if not grade.exists():
+        return []
+    singles = read(grade)["singles"]
+    ranked = sorted(singles, key=lambda name: -singles[name]["wp"])
+    return [name[2:] for name in ranked if name.startswith("s_") and name[2:] in GRID]
 
 
 def next_tag() -> str:
@@ -115,9 +127,30 @@ def next_tag() -> str:
     return f"r{max(numbers, default=3) + 1}"
 
 
-def build_spec(tag: str, keys: list[str]) -> dict:
+FOLD_PINS = HERE / "fold_pins"
+
+
+def available_folds() -> list[int]:
+    """Fold 0 always; other folds once their collected cache pins exist."""
+    return [0] + sorted(int(p.stem.split("_")[1]) for p in FOLD_PINS.glob("fold_*.json"))
+
+
+def build_spec(tag: str, keys: list[str], fold: int = 0) -> dict:
     seal.configure_round(tag)
     spec = read(TEMPLATE_SPEC)
+    if fold:
+        record = read(FOLD_PINS / f"fold_{fold}.json")
+        pins = record["pins"]
+        spec["fold"], spec["fold_pins"] = fold, pins
+        spec["parsed_cache"].update(
+            kernel=pins["SOURCE_KERNEL"], cache_manifest_sha256=pins["EXPECTED_CACHE_MANIFEST_SHA256"],
+            cache_key=pins["EXPECTED_CACHE_KEY"], validation_sha256=pins["EXPECTED_CPU_VALIDATION_SHA256"],
+            source_stage_receipt_sha256=pins["EXPECTED_SOURCE_STAGE_RECEIPT_SHA256"],
+            membership_sha256=pins["EXPECTED_MEMBERSHIP_SHA256"], split_sha256=pins["EXPECTED_SPLIT_SHA256"],
+            registry_sha256=pins["EXPECTED_REGISTRY_SHA256"], fit_train_count=record["fit_train_count"],
+            evaluation_count=record["evaluation_count"],
+        )
+        spec["common_recipe"]["fold"] = fold
     spec["kernel_id"] = seal.KERNEL_ID
     spec["runtime_source"]["runner_overlay_dataset"] = seal.OVERLAY_DATASET
     spec["runtime_source"]["runner_overlay_title"] = seal.OVERLAY_TITLE
@@ -143,12 +176,23 @@ def build_spec(tag: str, keys: list[str]) -> dict:
     return spec
 
 
-def sample_round(tag: str) -> list[str]:
-    remaining = sorted(set(GRID) - completed_keys())
-    rng = random.Random(f"wnn-rolling-{tag}")
-    rng.shuffle(remaining)
+def sample_round(tag: str, fold: int = 0) -> list[str]:
+    done = completed_keys(fold)
+    if fold == 0:
+        remaining = sorted(set(GRID) - done)
+        rng = random.Random(f"wnn-rolling-{tag}")
+        rng.shuffle(remaining)
+    else:
+        # Cross-fold confirmation: matched controls first, then the best fold-0 recipes.
+        priority = ["wmse_gelu_onecycle", "wmse_gelu_wsd_d0p2f0p01", *fold0_ranking()]
+        remaining = [key for key in dict.fromkeys(priority) if key not in done]
     picked = remaining[:ARMS_PER_ROUND]
     return picked[: len(picked) // 2 * 2]
+
+
+def choose_fold(tag: str) -> int:
+    folds = available_folds()
+    return folds[int(tag[1:]) % len(folds)]
 
 
 def gpu_seconds_left() -> float:
@@ -166,12 +210,16 @@ def gpu_seconds_left() -> float:
 
 def start_round() -> dict | None:
     tag = next_tag()
-    keys = sample_round(tag)
+    fold = choose_fold(tag)
+    keys = sample_round(tag, fold)
+    if len(keys) < 2 and fold != 0:
+        fold, keys = 0, sample_round(tag, 0)
     if len(keys) < 2:
         log("grid_exhausted")
         return None
     directory = ROUNDS / tag
-    spec = build_spec(tag, keys)
+    spec = build_spec(tag, keys, fold)
+    seal.configure_fold(spec, ROOT)
     write(directory / "cohort_spec.json", spec)
     spec_path = directory / "cohort_spec.json"
     worker_sha = seal.sha_file(HERE / "sampled_recipe_worker.py")
@@ -187,10 +235,10 @@ def start_round() -> dict | None:
     write(directory / "root_admission.json", admission)
     receipt = seal.seal_candidate(directory / "sealed", spec_path, directory / "root_admission.json")
     shutil.rmtree(directory / "probe_unadmitted")
-    state = {"tag": tag, "phase": "sealed", "kernel": seal.KERNEL_ID, "dataset": seal.OVERLAY_DATASET,
+    state = {"tag": tag, "fold": fold, "phase": "sealed", "kernel": seal.KERNEL_ID, "dataset": seal.OVERLAY_DATASET,
              "arms": keys, "seal_receipt": receipt, "created_utc": now()}
     write(directory / "round_state.json", state)
-    log("sealed", tag=tag, arms=keys)
+    log("sealed", tag=tag, fold=fold, arms=keys)
     return state
 
 
@@ -268,13 +316,15 @@ def bank(state: dict) -> None:
     with BANK.open("a") as handle:
         for arm in spec["arms"]:
             prediction = arms_root / arm["queue_id"] / "predictions_valid.npy"
-            name = f"s_{arm['recipe_key']}"
+            fold = int(spec.get("fold", 0))
+            name = f"s_{arm['recipe_key']}" if fold == 0 else f"s_f{fold}_{arm['recipe_key']}"
             if not prediction.is_file() or name in existing:
                 continue
             tags = {"scale": "small_screen_350seq_220upd", "arch": "gru256x2", "seed": 20261009, "optim": "adamw",
                     "loss": arm["recipe_key"].split("_")[0], "act": arm["activation"], "sched": arm["scheduler"],
-                    "sched_params": arm["scheduler_parameters"], "round": state["tag"], "prec": "fp32"}
-            handle.write(json.dumps({"name": name, "fold": 0, "prediction": str(prediction.relative_to(ROOT)),
+                    "sched_params": arm["scheduler_parameters"], "round": state["tag"], "prec": "fp32",
+                    "recipe_key": arm["recipe_key"]}
+            handle.write(json.dumps({"name": name, "fold": fold, "prediction": str(prediction.relative_to(ROOT)),
                                      "tags": tags, "source": "kaggle_t4"}) + "\n")
             added.append(name)
     complete = "COMPLETE" in state["terminal"]["terminal_status"] and added
@@ -283,10 +333,24 @@ def bank(state: dict) -> None:
     state["outcome"] = "success" if complete else "failure"
     write(ROUNDS / state["tag"] / "round_state.json", state)
     driver = read(STATE) if STATE.exists() else {}
-    driver["consecutive_failures"] = 0 if complete else driver.get("consecutive_failures", 0) + 1
+    record_outcome(driver, state, bool(complete))
     driver["active"] = None
     write(STATE, driver)
     log("banked", tag=state["tag"], added=added, outcome=state["outcome"])
+
+
+def record_outcome(driver: dict, state: dict, success: bool) -> None:
+    """A failed fold-k round disables only that fold; fold-0 failures count toward the stop."""
+    fold = int(state.get("fold", 0))
+    if success:
+        driver["consecutive_failures"] = 0
+    elif fold:
+        pins = FOLD_PINS / f"fold_{fold}.json"
+        if pins.exists():
+            pins.rename(FOLD_PINS / f"fold_{fold}.disabled_{state['tag']}")
+        log("fold_disabled", fold=fold, tag=state["tag"])
+    else:
+        driver["consecutive_failures"] = driver.get("consecutive_failures", 0) + 1
 
 
 def main() -> int:
@@ -308,7 +372,8 @@ def main() -> int:
         log("round_abandoned", tag=active)
         state["phase"], state["outcome"] = "abandoned", "failure"
         write(ROUNDS / active / "round_state.json", state)
-        driver["active"], driver["consecutive_failures"] = None, driver.get("consecutive_failures", 0) + 1
+        record_outcome(driver, state, False)
+        driver["active"] = None
         write(STATE, driver)
         return 0
     step = {"sealed": stage_and_create, "dataset_created": check_ready, "ready": push,

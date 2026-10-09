@@ -34,6 +34,40 @@ CANDIDATE_POOL_SHA256 = "e5d37d2e5b427fee3648bb6cae1aebcd189bf9b4db642a1c07b47c6
 ROOT_ADMISSION_ENV = "WNN_SAMPLED_ROOT_ADMISSION_JSON"
 # The sealed kernel embeds the root admission; it binds the exact cohort spec hash.
 SPEC_SHA256 = json.loads(os.environ.get(ROOT_ADMISSION_ENV) or "{}").get("cohort_spec_sha256", "")
+# Fold-0 auxiliary assets (chains/targets caches) are fold independent; they stay
+# validated against the fold-0 split and registry shipped in the R5 source.
+FOLD0_SPLIT_RELATIVE = base.SPLIT_RELATIVE
+FOLD0_REGISTRY_RELATIVE = base.REGISTRY_RELATIVE
+FOLD = 0
+FOLD_PIN_NAMES = (
+    "SOURCE_KERNEL",
+    "EXPECTED_SOURCE_STAGE_RECEIPT_SHA256",
+    "EXPECTED_PHASE_LOG_SHA256",
+    "EXPECTED_CACHE_MANIFEST_SHA256",
+    "EXPECTED_CACHE_KEY",
+    "EXPECTED_CPU_VALIDATION_SHA256",
+    "EXPECTED_CPU_PROFILE_SHA256",
+    "EXPECTED_SOURCE_VERIFICATION_SHA256",
+    "EXPECTED_SPLIT_SHA256",
+    "EXPECTED_REGISTRY_SHA256",
+    "EXPECTED_MEMBERSHIP_SHA256",
+    "SPLIT_RELATIVE",
+    "REGISTRY_RELATIVE",
+    "MEMBERSHIP_RELATIVE",
+)
+
+
+def apply_fold_pins(spec: dict[str, Any]) -> None:
+    """Rebind the base worker's parsed-cache and split identities to the spec's fold."""
+    global FOLD
+    FOLD = int(spec.get("fold", 0))
+    if FOLD == 0:
+        return
+    pins = spec.get("fold_pins")
+    if not isinstance(pins, dict) or set(pins) != set(FOLD_PIN_NAMES):
+        raise base.WorkerRejected("non-zero fold spec lacks the exact fold pin set")
+    for name in FOLD_PIN_NAMES:
+        setattr(base, name, pins[name])
 
 
 def _canonical_json(value: Any) -> bytes:
@@ -53,6 +87,7 @@ def load_spec(path: Path = SPEC_PATH) -> dict[str, Any]:
     if not path.is_file() or _sha256(path) != SPEC_SHA256:
         raise base.WorkerRejected("sampled cohort spec is missing or differs from the reviewed hash")
     spec = _json(path)
+    apply_fold_pins(spec)
     if (
         spec.get("schema") != "wnn.diversity.sampled-cohort-spec.v1"
         or spec.get("format_version") != 1
@@ -130,7 +165,7 @@ def build_train_argv(
         "--train-source",
         "train",
         "--valid-fold",
-        "0",
+        str(FOLD),
         "--full-valid",
         "--split-manifest",
         str(base.ROOT / base.SPLIT_RELATIVE),
@@ -201,6 +236,54 @@ def build_train_argv(
     if arm["loss"] == "huber":
         command += ["--huber-delta", str(float(arm["huber_delta"]))]
     return command
+
+
+def collect_prediction(prediction: dict[str, Any], run_name: str, arm_dir: Path) -> None:
+    """Fold 0 uses the reviewed base collector; other folds check their own evaluation count."""
+    if FOLD == 0:
+        base._collect_prediction(prediction, run_name, arm_dir)
+        return
+    import numpy as np
+
+    source = base.ROOT / "cache" / f"pred_{run_name}_valid.npy"
+    sidecar_path = source.with_suffix(".json")
+    sidecar = _json(sidecar_path)
+    membership_meta = prediction["manifest"]["membership_artifact"]
+    membership = _json(Path(prediction["manifest_path"]).parent / membership_meta["path"])
+    rows = membership["memberships"]["evaluation_valid"]
+    expected_groups = [int(row["row_group"]) for row in rows]
+    if sidecar.get("row_groups") != expected_groups or not rows:
+        raise base.WorkerRejected("prediction row order does not match the fold evaluation membership")
+    mapped = np.load(source, mmap_mode="r", allow_pickle=False)
+    if mapped.shape != (len(rows), 20_000, 2) or mapped.dtype != np.float32:
+        raise base.WorkerRejected("prediction array has the wrong shape or dtype")
+    for start in range(0, len(mapped), 8):
+        if not np.isfinite(mapped[start : start + 8]).all():
+            raise base.WorkerRejected("prediction array contains nonfinite values")
+    if sidecar.get("parsed_sequence_cache", {}).get("cache_key") != base.EXPECTED_CACHE_KEY:
+        raise base.WorkerRejected("prediction sidecar does not bind the parsed cache")
+    base._copy_required(source, arm_dir / "predictions_valid.npy")
+    base._copy_required(sidecar_path, arm_dir / "predictions_valid.json")
+    base._write_json(
+        arm_dir / "prediction_membership.json",
+        {
+            "schema": "wnn.loss-pair.prediction-membership.v1",
+            "format_version": 1,
+            "fold": FOLD,
+            "prediction_path": "predictions_valid.npy",
+            "prediction_shape": list(mapped.shape),
+            "prediction_dtype": mapped.dtype.str,
+            "cache_key": base.EXPECTED_CACHE_KEY,
+            "cache_manifest_sha256": base.EXPECTED_CACHE_MANIFEST_SHA256,
+            "membership_sha256": base.EXPECTED_MEMBERSHIP_SHA256,
+            "split_manifest_sha256": base.EXPECTED_SPLIT_SHA256,
+            "rows": [
+                {"position": i, "source": row["source"], "row_group": int(row["row_group"]),
+                 "sequence_id": str(row["sequence_id"])}
+                for i, row in enumerate(rows)
+            ],
+        },
+    )
 
 
 def _same_npz(left: Path, right: Path) -> None:
@@ -423,7 +506,7 @@ def verify_arm_fit(
         "hidden": 256,
         "layers": 2,
         "train_source": "train",
-        "valid_fold": 0,
+        "valid_fold": FOLD,
         "lr": 0.001,
         "wd": 0.01,
         "warmup_frac": 0.05,
@@ -539,7 +622,14 @@ def verify_arm_fit(
     }
 
 
-def verify_prefit_against_control(
+def verify_prefit_against_control(*args: Any, **kwargs: Any) -> None:
+    """Fold-0 cohorts share the D01 control's fresh state; other folds compare in-cohort only."""
+    if FOLD != 0:
+        return
+    _verify_prefit_against_control(*args, **kwargs)
+
+
+def _verify_prefit_against_control(
     arm_dirs: dict[str, Path],
     arms: list[dict[str, Any]],
     control_roles: dict[str, Path],
@@ -827,9 +917,9 @@ def _collect_shared(
             "membership_sha256": base.EXPECTED_MEMBERSHIP_SHA256,
             "split_manifest_sha256": base.EXPECTED_SPLIT_SHA256,
             "portable_registry_sha256": base.EXPECTED_REGISTRY_SHA256,
-            "fit_train_count": 350,
-            "fit_valid_count_not_used_for_fit": 28,
-            "evaluation_valid_count": 468,
+            "fold": FOLD,
+            "fit_train_count": len(_json(base.ROOT / base.MEMBERSHIP_RELATIVE)["memberships"]["fit_train"]),
+            "evaluation_valid_count": len(_json(base.ROOT / base.MEMBERSHIP_RELATIVE)["memberships"]["evaluation_valid"]),
             "array_payload_bytes": 7_732_440_000,
         },
         "source": {
@@ -916,12 +1006,23 @@ def run_cohort(bootstrap: dict[str, Any], spec_path: Path = SPEC_PATH) -> dict[s
 
     validate_preverified_fold0_assets(
         base.ROOT,
-        base.ROOT / base.SPLIT_RELATIVE,
-        base.ROOT / base.REGISTRY_RELATIVE,
+        base.ROOT / FOLD0_SPLIT_RELATIVE,
+        base.ROOT / FOLD0_REGISTRY_RELATIVE,
         copied_fold0,
         base._FOLD0_ASSET_RECEIPT_SHA256,
     )
     base._append_phase("fold0_auxiliary_assets_verified", receipt_sha256=base._FOLD0_ASSET_RECEIPT_SHA256)
+    if FOLD != 0:
+        # Fold-k children verify auxiliary sources through the fold-k portable registry.
+        base._FOLD0_ASSET_RECEIPT_SHA256 = None
+        for relative, expected in (
+            (base.SPLIT_RELATIVE, base.EXPECTED_SPLIT_SHA256),
+            (base.REGISTRY_RELATIVE, base.EXPECTED_REGISTRY_SHA256),
+            (base.MEMBERSHIP_RELATIVE, base.EXPECTED_MEMBERSHIP_SHA256),
+        ):
+            if _sha256(base.ROOT / relative) != expected:
+                raise base.WorkerRejected(f"installed fold {FOLD} identity differs: {relative}")
+        base._append_phase("fold_pins_applied", fold=FOLD, split_sha256=base.EXPECTED_SPLIT_SHA256)
     base._append_phase("cohort_worker_start", queue_ids=[row["queue_id"] for row in spec["arms"]], worker_wall_seconds=runtime_seconds)
 
     manifest_path, source_receipt_path = base._mounted_cache()
@@ -1104,7 +1205,7 @@ def run_cohort(bootstrap: dict[str, Any], spec_path: Path = SPEC_PATH) -> dict[s
             prediction.update(result)
             prediction["manifest_path"] = str(manifest_path)
             prediction["manifest"] = cache_manifest
-            base._collect_prediction(prediction, arm["run_name"], arm_dirs[queue_id])
+            collect_prediction(prediction, arm["run_name"], arm_dirs[queue_id])
             sidecar = _json(arm_dirs[queue_id] / "predictions_valid.json")
             prediction_path = arm_dirs[queue_id] / "predictions_valid.npy"
             checkpoint_sha = fit_summaries[queue_id]["checkpoint_binding"]["selected_model_sha256"]

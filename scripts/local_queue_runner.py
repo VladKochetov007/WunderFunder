@@ -29,7 +29,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "research/campaign_2026-10-06/bandit_continuation/runtime"
 ACTIVE = {"admitted", "running", "starting", "not_started_pending", "reserved", "launch_uncertain"}
-MAX_ADMISSION_RETRIES = 6
+MAX_ADMISSION_RETRIES = 40
 
 
 def now() -> str:
@@ -94,7 +94,7 @@ def move(item: Path, queue: Path, bucket: str) -> None:
 def launch(item: dict) -> subprocess.CompletedProcess[str]:
     env = os.environ | {
         "WNN_SLICE": "wnn-campaign.slice",
-        "WNN_CPU_QUOTA": "100%",
+        "WNN_CPU_QUOTA": "20%",
         "WNN_THREADS": "1",
         "WNN_MEM_MAX": "1500000000",
         "WNN_RUNTIME_MAX": "600s",

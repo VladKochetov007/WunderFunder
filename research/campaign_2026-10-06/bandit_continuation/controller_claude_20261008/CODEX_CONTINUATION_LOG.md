@@ -150,3 +150,14 @@ Codex Luna runner hit usage limit (resets 2026-10-15); this session is Claude Co
 - Local GPU: fold1 H230 heterogeneous student seed3 (exact fold0 argv with 6 fold substitutions: name, split, valid-fold, init c20261003_combo_s3_f1@ep3 sha b0dcc761…, propensity f1, fold1 four-family cache) launched via bandit_resources attempt `h230-fold1-hetero-s3-fit-r1-20261009`, 3 CPU / 9 GB, training at ep0 batch 40/746. Contract `H230_FOLD1_SEED3_FIT_CONTRACT_R1_20261009.json`.
 
 Efficiency so far: T4 small-screen fit 61.6 s (FP32 Muon) vs 71.6 s (native FP16 AdamW) per 220 updates — fixed overhead dominates at this scale. No TPU training timing yet; TPU queue wait ~9h is the dominant measured cost.
+
+
+### 2026-10-09T07:05Z — autonomous loops, fold1 bank, multi-fold Kaggle caches
+
+- Background systemd loops (Claude Code root): `wnn-kaggle-rolling.timer` (rolling 12-arm small-screen cohorts, quota-guarded, per-fold failure isolation), `wnn-local-queue-r1.timer` (fold1 H230 student variants + exports via bandit_resources), `wnn-grade-bank.timer` (bank re-grade on new predictions), `wnn-collect-fold-pins.timer`, collectors for TPU v4.
+- Fold0 small-screen bank (12): WSD 0.6196 vs onecycle control 0.6060; fixed_mix 0.6091; FP16==FP32; residual corr 0.97–0.99; greedy blend +0.00015 (CI crosses 0).
+- Fold1 full-scale bank (28 verified models; 10 legacy `ab*`/xf preds skipped for unverifiable sidecar/split): best single c20261003_combo_s4_f1 0.66790; all-equal 0.66701; greedy 8-member equal-weight 0.66896, +0.00106 vs best single, component bootstrap CI [0.00017, 0.00204] — selected on the same exposed fold, optimistic.
+- Fold1 H230 seed3 student (exact fold0 recipe analogue) finished: 2147 s, exit 0, fixed epoch 1. Export running.
+- Kaggle r4 (12 random WSD/SGDR×loss×activation arms, fold0) pushed 06:54Z with 36,812 GPU-s left this week.
+- Multi-fold: fold1–3 memberships (sha256-sort whole-component 3%, seed 20261009; fold0 reproduces byte-identically), fold registries, per-fold CPU cache kernels `wnn-parsed-cache-stage-20261009-f{1,2,3}` running. Rolling worker/template/sealer accept fold pins; fold2 (363 seqs → 240 updates) will be marked unsupported by the 220-update invariant.
+- Incidents: queue runner first launched while the non-queue fit held resources (capacity rejections, no experiment started) → now waits for any active attempt and retries rejections under new IDs; grader crashed on legacy sidecars → now skips with reasons; launcher wrapper reserved 1 core → set 20%; support timer quotas lowered.

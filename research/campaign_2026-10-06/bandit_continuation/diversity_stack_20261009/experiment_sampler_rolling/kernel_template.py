@@ -39,15 +39,13 @@ MEMBERSHIP_PATH = (
 )
 ASSET_PATHS = {ARCHIVE_PATH, CODE_MANIFEST_PATH, SPLIT_PATH, REGISTRY_PATH, MEMBERSHIP_PATH}
 OVERLAY_MANIFEST_SHA256 = "__OVERLAY_MANIFEST_SHA256__"
-OVERLAY_FILES = {
-    "scripts/sampled_recipe_worker.py",
-    "scripts/cohort_spec.json",
-}
+OVERLAY_FILES = set(json.loads("""__OVERLAY_FILES_JSON__"""))
 COHORT_SPEC_SHA256 = "__COHORT_SPEC_SHA256__"
 RUNNER_WORKER_SHA256 = "__RUNNER_WORKER_SHA256__"
 CANDIDATE_POOL_SHA256 = "e5d37d2e5b427fee3648bb6cae1aebcd189bf9b4db642a1c07b47c64743935ee"
 CONTROL_CONTRACT_SHA256 = "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7"
-EXPECTED_CACHE_KEY = "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6"
+EXPECTED_CACHE_KEY = "__CACHE_KEY__"
+EXPECTED_CACHE_MANIFEST_SHA256 = "__CACHE_MANIFEST_SHA256__"
 
 
 def sha256_file(path: Path) -> str:
@@ -262,7 +260,7 @@ def validate_root_admission(admission: Any) -> int:
         "candidate_pool_sha256": CANDIDATE_POOL_SHA256,
         "cohort_spec_sha256": COHORT_SPEC_SHA256,
         "source_code_manifest_sha256": EXPECTED_CODE_MANIFEST_SHA256,
-        "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+        "cache_manifest_sha256": EXPECTED_CACHE_MANIFEST_SHA256,
         "cache_key": EXPECTED_CACHE_KEY,
         "control_contract_sha256": CONTROL_CONTRACT_SHA256,
         "runner_overlay_manifest_sha256": OVERLAY_MANIFEST_SHA256,
