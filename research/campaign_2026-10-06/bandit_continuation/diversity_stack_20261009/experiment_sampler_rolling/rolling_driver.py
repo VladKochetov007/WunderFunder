@@ -112,14 +112,26 @@ def completed_keys(fold: int = 0) -> set[str]:
     return keys
 
 
+ALIASES = {
+    "s_adamw_wmse": "wmse_gelu_onecycle", "s_adamw_huber1": "huber1_gelu_onecycle",
+    "s_adamw_huber2": "huber2_gelu_onecycle", "s_adamw_huber4": "huber4_gelu_onecycle",
+    "s_fixmix_wmse": "wmse_fixed_mix_onecycle", "s_fixmix_huber1": "huber1_fixed_mix_onecycle",
+    "s_wsd_wmse": "wmse_gelu_wsd_d0p2f0p01", "s_sgdr_wmse": "wmse_gelu_sgdr_r1",
+}
+
+
 def fold0_ranking() -> list[str]:
     """Recipe keys ranked by their latest fold-0 small-screen score (best first)."""
     grade = ROOT / "research/campaign_2026-10-06/bandit_continuation/prediction_bank/LATEST_GRADE_FOLD0.json"
     if not grade.exists():
         return []
     singles = read(grade)["singles"]
-    ranked = sorted(singles, key=lambda name: -singles[name]["wp"])
-    return [name[2:] for name in ranked if name.startswith("s_") and name[2:] in GRID]
+    keys = {}
+    for name in singles:
+        key = ALIASES.get(name, name[2:] if name.startswith("s_") else None)
+        if key in GRID and (key not in keys or singles[name]["wp"] > singles[keys[key]]["wp"]):
+            keys[key] = name
+    return sorted(keys, key=lambda key: -singles[keys[key]]["wp"])
 
 
 def next_tag() -> str:
