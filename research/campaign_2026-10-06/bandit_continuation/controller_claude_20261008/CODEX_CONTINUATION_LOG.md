@@ -183,3 +183,10 @@ Efficiency so far: T4 small-screen fit 61.6 s (FP32 Muon) vs 71.6 s (native FP16
 - Literature mapped (Bergsma 2025 linear D2Z, Hägele 2024 WSD 1−sqrt, Defazio 2024 schedule-free, Kalra 2024 warmup, Ibrahim 2024 re-warming, SGDR, 1cycle). Our onecycle = warmup + cosine to ≈0 + beta1 cycling; WSD already 1−sqrt. Added `--wsd-shape linear` (main src + tests; h230_source_v3_lineard2z snapshot = v2 + that branch). Matched from-scratch fold1 teachers queued: onecycle (running), WSD, linear-D2Z.
 - Huber distillation students invalid (trainer requires WMSE for cached distillation; parse-time rejection, no compute). Retired; fold0 seed4 student added for seed-pair cross-validation.
 - Kaggle fold-k mode works: r7 (fold3) 12/12 arms. Small-screen WSD−onecycle +0.0134 on fold3 replicates fold0 +0.0136; same top recipe (huber4+fixed_mix+WSD0.4/0.1) on both folds. Fold-k round costs ~29 min (cold first-wave reads of auxiliary caches) vs ~15 min fold0.
+
+
+### 2026-10-09T12:25Z — expanded 12-teacher student result; uploads staged
+
+- Expanded 12-teacher fold1 cache (adds s100/w320 to strong, chunk1000/te07 to raw_wmse; same 0.8125 total) built and verified (12 sources, 13.4 GB). Matched seed3 student 0.66895 vs 8-teacher 0.66882: +0.00013 [−0.00001, +0.0003], p≤0 0.039; prediction correlation 1.000. Same-family GRU teacher diversity is saturated; next teacher work should change the target materially (capacity, cross-fitted targets, privileged teachers). H-296: tiny positive, not a material lever.
+- Scratch teachers: WSD 0.66663 vs onecycle 0.66557 (+0.0011, CI [−0.0025, +0.0047]); identical-recipe rerun noise ≈0.002.
+- Five own-model ZIPs staged for human upload (submissions/upload_2026-10-09, manifest copied to controller_claude_20261008/UPLOAD_2026-10-09_MANIFEST.json); technical gates passed; no expected public gain claimed.
