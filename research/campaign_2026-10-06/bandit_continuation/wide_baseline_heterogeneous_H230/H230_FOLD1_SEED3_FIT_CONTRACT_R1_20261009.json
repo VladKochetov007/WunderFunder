@@ -1,0 +1,148 @@
+{
+  "schema": "wnn.h230.fold1-student-contract.v1",
+  "created_at_utc": "2026-10-09T06:20:46.441311+00:00",
+  "authorization": {
+    "controller": "root (claude-code)",
+    "basis": "User 2026-10-09 instruction to continue the diversity/blend research and keep local GPU busy; fold1 H230 analogue designed by Luna (no recipe change) as the next local dependency.",
+    "paid_compute": false,
+    "science_recipe_changed": false,
+    "scope": "One fold1 seed3 H230 heterogeneous student fit to fixed epoch 1 with resumable state; export/grading separate."
+  },
+  "derived_from": {
+    "contract": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_RESOURCE_BINDING_V3_SOURCEV2_20261008.json",
+    "argv_substitutions": [
+      [
+        "bd26_h230_hetero_s3_f0",
+        "bd26_h230_hetero_s3_f1"
+      ],
+      [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json"
+      ],
+      [
+        "0",
+        "1"
+      ],
+      [
+        "c20261003_combo_s3_f0@ep3",
+        "c20261003_combo_s3_f1@ep3"
+      ],
+      [
+        "c20260929_prop_f0",
+        "c20260929_prop_f1"
+      ],
+      [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/h230_four_family_fold1_source_20261009_r1"
+      ]
+    ]
+  },
+  "inputs": {
+    "init_checkpoint": "artifacts/runs/c20261003_combo_s3_f1/model_ep3.pt",
+    "init_sha256": "b0dcc761751e3f807dba42d55650f06f392b2565fb51e4ba787d3603c13b3cc4",
+    "split_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "distill_cache_metadata_sha256": "8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703",
+    "distill_cache_review": "c820f63098116a2c42ebf82d20789ae71b27ba40019f635071aac92a974257c2",
+    "propensity": "cache/propcache_c20260929_prop_f1_{train,valid}.npy"
+  },
+  "exposure": "fold1 evaluation 457 groups historically exposed; excluded from fit, teacher and propensity fitting membership",
+  "comparator": "bd26_w384raw_s3_f1_resume_r3@ep3 (endpoint comparison, not one-variable ablation)",
+  "resource": {
+    "cpus": 3,
+    "ram_bytes": 9000000000,
+    "profile": "H230-GRU256x2-B16-T2000-fp16-seed3-family-head-sourcev2-fit-only (fold0 measured peak RAM 9.0GB at max, VRAM 2.70GB, 2000s)"
+  },
+  "frozen_candidate": {
+    "argv": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=20s",
+      "2400",
+      "/usr/bin/env",
+      "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/src",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
+      "--name",
+      "bd26_h230_hetero_s3_f1",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--hidden",
+      "256",
+      "--layers",
+      "2",
+      "--dropout",
+      "0",
+      "--seed",
+      "3",
+      "--split-manifest",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json",
+      "--valid-fold",
+      "1",
+      "--eval-source",
+      "vfold",
+      "--train-source",
+      "train+valid",
+      "--train-seqs",
+      "10607",
+      "--init",
+      "c20261003_combo_s3_f1@ep3",
+      "--epochs",
+      "2",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "1",
+      "--no-eval-during-fit",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--lr",
+      "0.0001",
+      "--wd",
+      "0.01",
+      "--optim",
+      "adamw",
+      "--sched",
+      "onecycle",
+      "--precision",
+      "fp16",
+      "--propensity",
+      "c20260929_prop_f1",
+      "--prop-power",
+      "2",
+      "--prop-eps",
+      "0.03",
+      "--valid-true-mask",
+      "0.03",
+      "--aux-struct",
+      "0.3",
+      "--aux-next",
+      "0.3",
+      "--distill-cache-root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/h230_four_family_fold1_source_20261009_r1",
+      "--distill-cache-variant",
+      "source",
+      "--distill-alpha",
+      "0.7",
+      "--distill-family-head",
+      "--distill-family-weight",
+      "0.1",
+      "--distill-family-target-mode",
+      "raw",
+      "--distill-boot-h",
+      "0",
+      "--fast",
+      "--save-training-state"
+    ]
+  }
+}

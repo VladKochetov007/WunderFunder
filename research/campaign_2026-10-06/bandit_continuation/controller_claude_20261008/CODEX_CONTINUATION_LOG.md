@@ -139,3 +139,14 @@ SamplerR3 sixrecipesR/Q(Huber4/2),I/U(fixed_mix×WMSE/Huber),J/K(WSD/SGDR) froze
 ### 2026-10-09T04:39:17.961734+00:00 — fold1 target cache delivered
 
 Existingbuilder completed70.56s/exit0, noOOM,peak4.001GB under4GBmemory-high/5GBmax. Outputmetadata8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703. Rootindependent18.86s streamingcheck validatedall8NPYheaders/fullhashes/finiteness andfitmembership,13,382,881,024B; first/middle/last complete fitsequences independently reconstructed inFP64 for alltargetvariants/families. Reviewc820f63098116a2c42ebf82d20789ae71b27ba40019f635071aac92a974257c2. NextlocalGPUdependency is reviewed exactstudentrecipe/profile, notmissingdata.
+
+
+### 2026-10-09T06:30Z — Claude Code root resumes; all three lanes filled
+
+Codex Luna runner hit usage limit (resets 2026-10-15); this session is Claude Code root. Vast off per user.
+
+- Kaggle 2xT4: sampler R3 overlay dataset retried from short /tmp/wsr1 stage (payload hashes and manifest 4e95563d… verified; dataset absent from owner inventory before create); READY; exact sealed admitted kernel `wnn-sampled-recipe-cohort-20261009-r1` pushed v1 06:1xZ, RUNNING. Six arms: Huber δ4/δ2, fixed-mix activation ×WMSE/Huber, WSD/SGDR. Receipt `experiment_sampler_r3/PROVIDER_PUSH_RECEIPT_R1.json`. Background collector `wnn-collect-sampled-cohort-r1.timer` (new narrow `scripts/kaggle_collect_kernel_output.py`).
+- Kaggle TPU: E463 v7 was not stuck — it waited ~9h in queue (pushed 20:44Z Oct 8), got a real TpuV5E8 host (224 CPU, 405 GB RAM) at 05:53Z and failed in 1.7s at host_admission: "portable registry differs for datasets/train.parquet" (same portable-manifest class fixed for GPU). Execution evidence only. Slot freed; admitted native TPU benchmark `wnn-native-device-tpu-20261009-v4` (sealed R4 BF16, hashes match root admission) pushed v1, QUEUED. Receipt `TPU_V4_PROVIDER_PUSH_RECEIPT_R2.json`; collector `wnn-collect-native-tpu-v4.timer`.
+- Local GPU: fold1 H230 heterogeneous student seed3 (exact fold0 argv with 6 fold substitutions: name, split, valid-fold, init c20261003_combo_s3_f1@ep3 sha b0dcc761…, propensity f1, fold1 four-family cache) launched via bandit_resources attempt `h230-fold1-hetero-s3-fit-r1-20261009`, 3 CPU / 9 GB, training at ep0 batch 40/746. Contract `H230_FOLD1_SEED3_FIT_CONTRACT_R1_20261009.json`.
+
+Efficiency so far: T4 small-screen fit 61.6 s (FP32 Muon) vs 71.6 s (native FP16 AdamW) per 220 updates — fixed overhead dominates at this scale. No TPU training timing yet; TPU queue wait ~9h is the dominant measured cost.
