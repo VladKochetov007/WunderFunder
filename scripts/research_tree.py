@@ -229,14 +229,11 @@ def _catalog(root: Path, documents: list[object], output: Path) -> dict[str, obj
 
 
 def _artifact_refs(
-    root: Path, artifacts: object, catalog: dict[str, object]
+    root: Path,
+    artifacts: object,
+    paths: set[str],
+    paths_by_name: dict[str, list[str]],
 ) -> list[dict[str, object]]:
-    catalog_files = catalog["files"]
-    paths = [
-        item["path"]
-        for item in catalog_files
-        if isinstance(item, dict) and item.get("type") in {"file", "symlink"}
-    ]
     refs: list[dict[str, object]] = []
     for artifact in _safe_sequence(artifacts):
         if not isinstance(artifact, str):
@@ -251,7 +248,7 @@ def _artifact_refs(
         if rel_path in paths and (resolved.is_file() or resolved.is_symlink()):
             refs.append({"path": artifact, "status": "resolved", "candidates": [rel_path]})
             continue
-        candidates = [path for path in paths if Path(str(path)).name == Path(artifact).name]
+        candidates = paths_by_name.get(Path(artifact).name, [])
         refs.append(
             {
                 "path": artifact,
@@ -362,10 +359,11 @@ def _build_documents(root: Path, config_path: Path, output: Path) -> dict[str, b
     catalog = _catalog(root, documents, output)
     catalog_bytes = _json_bytes(catalog)
     catalog_paths = {
-        item["path"]
-        for item in catalog["files"]
-        if item.get("type") in {"file", "symlink"}
+        item["path"] for item in catalog["files"] if item.get("type") in {"file", "symlink"}
     }
+    paths_by_name: dict[str, list[str]] = defaultdict(list)
+    for path in sorted(catalog_paths):
+        paths_by_name[Path(path).name].append(path)
 
     nodes: list[dict[str, object]] = []
     root_node: dict[str, object] = {
@@ -440,7 +438,9 @@ def _build_documents(root: Path, config_path: Path, output: Path) -> dict[str, b
                 "current_override": current_override,
                 "legacy_reference_stale": stale_legacy,
                 "source": {"path": _rel(root, config_path), "sha256": _sha256(config_bytes)},
-                "artifact_refs": _artifact_refs(root, item.get("artifacts", []), catalog),
+                "artifact_refs": _artifact_refs(
+                    root, item.get("artifacts", []), catalog_paths, paths_by_name
+                ),
             }
         )
         nodes.append(node)
@@ -542,9 +542,7 @@ def _build_documents(root: Path, config_path: Path, output: Path) -> dict[str, b
                 elif evidence.startswith(("research/", "reflect_05_day/")) or (
                     Path(evidence).suffix.casefold() in TEXT_SUFFIXES
                 ):
-                    candidates = [
-                        path for path in catalog_paths if Path(path).name == Path(evidence).name
-                    ]
+                    candidates = paths_by_name.get(Path(evidence).name, [])
                     edges.append(
                         {
                             "source_id": node["id"],
@@ -707,10 +705,10 @@ def _build_documents(root: Path, config_path: Path, output: Path) -> dict[str, b
             )
     for node in nodes:
         for artifact in node.get("artifact_refs", []):
-                if isinstance(artifact, dict) and artifact.get("status") != "resolved":
-                    warnings.append(
-                        f"{artifact['status']} artifact for {node['id']}: {artifact['path']}"
-                    )
+            if isinstance(artifact, dict) and artifact.get("status") != "resolved":
+                warnings.append(
+                    f"{artifact['status']} artifact for {node['id']}: {artifact['path']}"
+                )
         for evidence in node.get("evidence_refs", []):
             if isinstance(evidence, dict) and evidence.get("status") in {"missing", "ambiguous"}:
                 warnings.append(
@@ -909,10 +907,15 @@ def _build_index(
             if not isinstance(evidence, dict):
                 continue
             value = str(evidence.get("value", ""))
-            if evidence.get("kind") == "document" and evidence.get("status", "resolved") == "resolved":
+            if (
+                evidence.get("kind") == "document"
+                and evidence.get("status", "resolved") == "resolved"
+            ):
                 evidence_refs.append(_markdown_link(root, output, value))
             elif evidence.get("kind") == "experiment":
-                evidence_refs.append(f"{evidence.get('target_id', value)} ({'linked' if evidence.get('resolved') else 'missing'})")
+                evidence_refs.append(
+                    f"{evidence.get('target_id', value)} ({'linked' if evidence.get('resolved') else 'missing'})"
+                )
             elif evidence.get("kind") == "document":
                 evidence_refs.append(f"{value} ({evidence.get('status', 'missing')})")
             else:
