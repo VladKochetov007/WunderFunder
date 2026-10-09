@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 
 import pytest
@@ -10,6 +11,13 @@ SPEC = importlib.util.spec_from_file_location("fold1_recovery_r3", SOURCE)
 assert SPEC is not None and SPEC.loader is not None
 GATE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(GATE)
+ROOT = Path(__file__).resolve().parents[4]
+RESOURCE_SPEC = importlib.util.spec_from_file_location(
+    "bandit_resources_source_manifest", ROOT / "scripts" / "bandit_resources.py"
+)
+assert RESOURCE_SPEC is not None and RESOURCE_SPEC.loader is not None
+RESOURCE = importlib.util.module_from_spec(RESOURCE_SPEC)
+RESOURCE_SPEC.loader.exec_module(RESOURCE)
 
 
 def command_fixture() -> tuple[dict[str, object], dict[str, object]]:
@@ -88,3 +96,33 @@ def test_missing_or_nonzero_oom_delta_fails_closed() -> None:
     del record["parent_memory_event_deltas"]
     with pytest.raises(ValueError, match="missing/nonzero OOM evidence"):
         GATE.require_zero_oom_deltas(record)
+
+
+def test_controller_attempt_receipt_uses_exact_source_manifest_subset() -> None:
+    packet_path = SOURCE.with_name("RECOVERY_GATE_PACKET_R3.json")
+    packet = json.loads(packet_path.read_text(encoding="utf-8"))
+    attempt_paths, loader_paths = GATE.source_pin_partition(packet)
+    assert len(attempt_paths) == 6
+    assert loader_paths == [
+        "research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/"
+        "sol_continuation/FOLD1_DEPENDENCY_INVENTORY_R1.json"
+    ]
+    # Use the production controller's manifest builder on the frozen command.
+    # It captures source trees, command-path files, and the attempt contract;
+    # the packet-loader inventory JSON is deliberately outside that receipt.
+    request_path = SOURCE.with_name("RESUME_REQUEST_R3.json")
+    request = json.loads(request_path.read_text(encoding="utf-8"))
+    source_receipt = RESOURCE.source_manifest(ROOT, request["resume_command"], request_path)
+    assert loader_paths[0] not in source_receipt
+    GATE.verify_packet_source_pins(ROOT, packet)
+    GATE.verify_attempt_source_receipts({"source_sha256": source_receipt}, packet)
+
+    source_receipt["src/wnn/optim.py"] = "e" * 64
+    with pytest.raises(ValueError, match="attempt source receipt differs"):
+        GATE.verify_attempt_source_receipts({"source_sha256": source_receipt}, packet)
+
+    invalid_packet = dict(packet)
+    invalid_packet["attempt_source_receipt_paths"] = attempt_paths + loader_paths
+    invalid_packet["packet_loader_only_source_paths"] = []
+    with pytest.raises(ValueError, match="only the exact dependency inventory"):
+        GATE.source_pin_partition(invalid_packet)

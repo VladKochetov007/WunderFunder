@@ -51,13 +51,21 @@ the original seed4 command and the original two-fit allocation. It never
 changes the frozen R1/R2 gates or launches R3 itself.
 
 The reviewed candidate packet SHA-256 is
-`c80c8b2946ad3d6102ac8c74de723c796553c4425f6aaf851160f3a819280526`; the gate
-source is `ad462d2c2888e1f3acb5c366dec946cfa25545ecf72dad7b5046a7e65a4f37ae`.
-The prepared, not-admitted request receipt is
-`RESUME_REQUEST_R3.json` (SHA-256
-`5665744651fed633c6040f0b9c927a656388535ae9661ce784920b54c7de2e90`). Its
-command hash is
-`a5641445619a8b3bf04f47ec5701d55ff8231dcc38aa7d4b5d2a0d209d37d293`. The
-focused R3 tests pass (`3 passed`), and Ruff check passes for the gate,
-conditional seed4 wrapper and tests. The request records the existing STOP
-barrier; only root can record its supersession and admit R3.
+`225a852d617be561e035310fd4d457a188a2ee39c2f1a3cc651ee32ddf5c228e`; the gate
+source is `9339b1f59976e9c0735170e779eed4ceaf59eacc5c02d06fb83f3ca6722faf21`.
+The revised, not-admitted request receipt is `RESUME_REQUEST_R3.json` (SHA-256
+`601ac588c3f5aac19fdd464f7d60ddbbbcfbf7f232a6e40d2161cd690c544b10`). The
+original candidate request remains archived as `RESUME_REQUEST_R3_R1.json`
+(SHA-256 `5665744651fed633c6040f0b9c927a656388535ae9661ce784920b54c7de2e90`)
+and in git history. Revision R2 partitions packet pins by producer: the six
+source/command paths captured by `bandit_resources.source_manifest()` must
+match the attempt receipt, while the dependency-inventory JSON is independently
+hash-checked by `load_packet()` and is not incorrectly required in that receipt.
+The canonical command hash remains
+`a5641445619a8b3bf04f47ec5701d55ff8231dcc38aa7d4b5d2a0d209d37d293`; command,
+training inputs and resource limits are unchanged. Focused R3 tests pass
+(`4 passed`), Ruff check passes, and both check-only and request preparation
+passed actual R2 checkpoint/source validation. The request records the existing
+STOP barrier; only root can record its supersession and admit R3. The exact
+revision and prior artifact hashes are recorded in
+`SOURCE_RECEIPT_POLICY_REVISION_R2.json`.
