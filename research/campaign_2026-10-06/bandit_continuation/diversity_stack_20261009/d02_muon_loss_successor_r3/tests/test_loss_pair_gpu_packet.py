@@ -120,10 +120,12 @@ def test_gpu_arms_differ_only_by_loss_and_use_matched_fp32(tmp_path) -> None:
 
 
 def test_disposable_profile_omits_only_epoch_continuation_request(tmp_path) -> None:
-    fit = worker._common_train_argv("gate", "wmse", tmp_path / "manifest.json",
-                                  tmp_path / "validation.json", "b" * 64)
-    gate = worker._device_gate_argv("gate", "wmse", tmp_path / "manifest.json",
-                                  tmp_path / "validation.json", "b" * 64)
+    fit = worker._common_train_argv(
+        "gate", "wmse", tmp_path / "manifest.json", tmp_path / "validation.json", "b" * 64
+    )
+    gate = worker._device_gate_argv(
+        "gate", "wmse", tmp_path / "manifest.json", tmp_path / "validation.json", "b" * 64
+    )
     assert "--save-training-state" in fit
     expected = [token for token in fit if token != "--save-training-state"]
     assert gate == expected + ["--profile-steps", "1", "--profile-warmup", "0"]
