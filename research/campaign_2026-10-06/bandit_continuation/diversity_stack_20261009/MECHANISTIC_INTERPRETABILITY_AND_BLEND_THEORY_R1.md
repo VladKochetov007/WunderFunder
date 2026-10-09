@@ -13,6 +13,18 @@ On fold1, the best student (`h230_s4_onecycle`, wp 0.66913) blended with **0.4 o
 student-lineage models gained only +0.0003 to +0.0008. The ranking of partners was **predicted in advance by a two-number
 rule** (section 1) and the predicted gain tracked the measured gain closely. [measured]
 
+**Update (same day, later): the gain did NOT transfer to fold0.** With the weights frozen from fold1 (0.6 student, 0.4 teacher),
+the fold0 student (0.68172) blended with the fold0 scratch GRU384 (alone 0.66955, raw prediction corr 0.973) changed the score
+by -0.0004, -0.0011, -0.0020, -0.0033 at teacher weights 0.2, 0.3, 0.4, 0.5; GRU512 (alone 0.66125) was worse still; the four-way
+blend lost 0.0029. The closed-form rule predicted this: on fold0 the student leads the scratch teacher by 0.0122 (fold1: 0.0019),
+and with that gap the best attainable two-model gain is about +0.0006 at a small weight. So the rule works; the fold1 headline
+depended on a scratch teacher that is almost as good as the student. Within fold1 the effect replicates across seeds
+(GRU384 seeds 3/4/5: +0.0029, +0.0032, +0.0023; GRU384 fixed_mix +0.0033; width-256 seeds: +0.0009 to +0.0014), so width helps
+diversity there, but the partner's *quality gap* decides whether it can be used. The scratch recipe (no distillation, no EMA or boot)
+is much weaker than the distilled lineage on fold0, so the next test is a better-trained wide teacher (6 epochs, queued as
+`vt_f0_gru384_ep6`) and a width-256 scratch baseline (`vt_f0_gru256`) to see whether width still adds there.
+Do not use the fold1 number as an expected-improvement estimate. [measured]
+
 Caveats, stated plainly: the blend weights were chosen on the same exposed fold (mild optimism, perhaps a few 1e-4);
 partner selection was among six teachers; the effect is large compared with seed noise (about 0.001) but it still
 needs replication. Replication jobs are queued: fold0 GRU384 and GRU512 with the fold1 weights frozen (a true transfer test),

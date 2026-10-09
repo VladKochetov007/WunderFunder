@@ -222,3 +222,5 @@ Efficiency so far: T4 small-screen fit 61.6 s (FP32 Muon) vs 71.6 s (native FP16
 - Negatives: class-gated blend no gain; monotone recalibration no gain (exponent 1.0). Class 3 = 50% of metric weight at wp 0.44 vs 0.74-0.81 elsewhere.
 - Notes: OPTIMIZERS_SCHEDULES_STABILITY_R1.md, MECHANISTIC_INTERPRETABILITY_AND_BLEND_THEORY_R1.md. Vast: waves 0,3-7 queued (24 jobs); tick cap $8, hard stop 2026-10-10 03:00 Kyiv.
 - User approved more compute on the existing box; rent a new one only if something fails. Git cleanup by Haiku subagent: 34 commits, ~4,000 files; secrets/weights/large logs ignored.
+- Correction: the fold1 +0.0029 blend gain (student + 0.4 scratch GRU384) did not transfer to fold0 (-0.0020 at weight 0.4; fold0 student leads scratch GRU384 by 0.0122 vs 0.0019 on fold1). Within fold1 it replicates over GRU384 seeds 3/4/5 (+0.0029/+0.0032/+0.0023). Closed-form pair rule predicted the small fold0 ceiling (+0.0006). Queued vt_f0_gru256, vt_f0_gru384_ep6.
+- Telemetry arms failed at launch (trainer refuses in-fit evaluation under campaign manifests); fixed by scoring saved snapshots afterwards (scripts/snapshot_curve.py); relaunched.

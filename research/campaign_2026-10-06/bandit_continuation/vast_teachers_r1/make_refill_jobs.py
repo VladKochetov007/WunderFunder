@@ -18,6 +18,9 @@ WAVES = {
         "vt_f1_gru384_s5": {"--hidden": "384", "--seed": "5"},
         "vt_f1_gru320": {"--hidden": "320"},
         "vt_f1_gru448": {"--hidden": "448"},
+        # fold0 diagnostics after the fold1 gain failed to transfer (student-teacher gap 0.012 vs 0.002)
+        "vt_f0_gru256": {"fold": 0},
+        "vt_f0_gru384_ep6": {"--hidden": "384", "--epochs": "6", "--checkpoint-epoch": "5", "fold": 0},
     },
     "w3": {
         "vt_f1_adamw": {"--optim": "adamw"},
