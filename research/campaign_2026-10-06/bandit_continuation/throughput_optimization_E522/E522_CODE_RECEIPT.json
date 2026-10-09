@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E522_VERIFIED_DIGEST_HANDOFF_CORE",
+  "status": "author-checked-code-freeze-independent-review-pending",
+  "review_targets_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/E522_REVIEW_TARGETS.json",
+  "review_targets_sha256": "9c4fcfea49b56e7eaed24fc072d5720b7eaf7a525036a352206b46d25f4ba141",
+  "author_role": "implementation actor; not reviewer or admission authority",
+  "commands": [
+    "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/tests",
+    "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/ruff format --check research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/verified_digest_handoff.py research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/measure_io.py research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/tests",
+    "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/ruff check research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/verified_digest_handoff.py research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/measure_io.py research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/tests",
+    "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/measure_io.py"
+  ],
+  "limits": {
+    "cpu_cores": 1,
+    "memory_bytes": 1000000000,
+    "runtime_seconds_per_command": 120,
+    "gpu": false,
+    "fit_or_profile": false,
+    "provider_or_packet_action": false
+  },
+  "approval": null
+}
