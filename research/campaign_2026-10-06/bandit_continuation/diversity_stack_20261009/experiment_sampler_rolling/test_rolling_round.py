@@ -27,6 +27,7 @@ def test_grid_keys_are_unique_and_cover_the_already_run_controls() -> None:
 
 def test_rolling_round_seals_boots_and_maps_every_arm(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(driver, "ROUNDS", tmp_path / "rounds")
+    monkeypatch.setattr(driver, "FOLD_PINS", tmp_path / "no_fold_pins")
     state = driver.start_round()
     assert state["tag"] == "r4" and len(state["arms"]) == driver.ARMS_PER_ROUND
     assert not set(state["arms"]) & driver.ALREADY_RUN
