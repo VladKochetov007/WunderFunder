@@ -1,0 +1,40 @@
+{
+  "experiment_id": "E-517",
+  "receipt_type": "pre_score_code_mode_dependency_failure",
+  "observed_at_utc": "2026-10-07T06:20:46.726391+00:00",
+  "operation": "marimo code-mode run_cell('e517_verified_inputs')",
+  "outcome": "failed before source input loading: project_root was undefined because e517_setup had not been executed in this kernel",
+  "scientific_result": false,
+  "input_loader_started": false,
+  "attempt_marker_exists": false,
+  "result_artifacts_exist": false,
+  "execution_scope": {
+    "ActiveState": "active",
+    "RuntimeMaxUSec": "40min",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p826834-i798466.scope",
+    "MemoryCurrent": "530628608",
+    "MemoryPeak": "920559616",
+    "CPUQuotaPerSecUSec": "1s",
+    "MemoryMax": "2500000000",
+    "observed_cgroup": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "memory.current": 530628608,
+      "memory.peak": 920559616
+    }
+  },
+  "source_sha256": {
+    "E517_single_action_eda.py": "ed15fc20e6553faeb5968faa7359522b152d517070842d99f39ef65a3071b8cf",
+    "GATED_BLEND_PREREGISTRATION_E517.md": "94d19c03c258ce79efc8807fd8a543967ddbd1a3b4059cbb326102a5c000c803",
+    "disagreement_screen.py": "3e64d854fcc3a0df080f7ef9741cf6cd10b07664084be7a2eee952e003c4042d",
+    "disagreement_gate.py": "b0d43d462a604d0ec9f42413d2a410343d6557d0e2570a9c528c6f77bdd169dc"
+  },
+  "repair": "Explicitly run e517_setup before e517_verified_inputs, then inspect input identity and marker before any score action."
+}

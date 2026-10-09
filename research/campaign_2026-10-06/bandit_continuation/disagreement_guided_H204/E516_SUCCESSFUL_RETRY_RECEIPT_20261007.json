@@ -1,0 +1,87 @@
+{
+  "attempt": "successful retry after pre-score import failure; only live notebook cell bkHC was rerun",
+  "cell_output_completed_at_utc": "2026-10-07T05:28:19.557716+00:00",
+  "code_hashes": {
+    "disagreement_screen.py": "3e64d854fcc3a0df080f7ef9741cf6cd10b07664084be7a2eee952e003c4042d",
+    "simplex_stack.py": "bae6681cb56f5b17a22536ee73a7ba763ba203d01a488e17725a6f415acc09cc"
+  },
+  "experiment_id": "E-516",
+  "independent_endpoint_review": {
+    "anchor_wp": 0.6832264634983685,
+    "decision": "Exact registered pool/rule fails; no numerical prior or public-gain inference.",
+    "delta_vs_anchor": -0.0002939140868385426,
+    "endpoint_and_input_identity": "independently recomputed with official global_wp_clip2_v1 and reference formula; match saved result",
+    "reviewer": "complementarity_card_critic",
+    "saved_anchor_wp": 0.6832264634983684,
+    "saved_delta_vs_anchor": -0.00029391408683843157,
+    "saved_paired_chain_bootstrap_ci95": [
+      -0.0008241485069594656,
+      0.0003016217854686305
+    ],
+    "stack_wp": 0.6829325494115299,
+    "weak_member_mass": 0.0
+  },
+  "invocation": {
+    "completion_evidence": "The live code-mode API returned: edited code of cell bkHC and ran; notebook output timestamp is persisted in the cell output metadata.",
+    "exit_code": 0,
+    "helper": "/home/vlad/.agents/skills/marimo-pair/scripts/execute-code.sh --port 2720",
+    "operation": "marimo._code_mode context: edit_cell('bkHC', frozen source cell) then run_cell('bkHC')",
+    "server": "127.0.0.1:2720",
+    "session_id": "s_jnb1re"
+  },
+  "notebook_cell": "bkHC",
+  "notebook_cell_code_sha256": "2b0623f21d5c057254eb870ea4d1427aab7a3e51d62115c5c4da2ce5c023ecfc",
+  "notebook_path": "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/H204_complementarity_eda.py",
+  "notebook_sha256_at_receipt": "fd106739ce3e37154e4c4ff24044412d307414d6a85c114045e8147c5d210eea",
+  "outputs": {
+    "chain_summary_csv": "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/plots/E516_CHAIN_SUMMARY.csv",
+    "chain_summary_plot": "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/plots/simplex_per_chain_delta.png",
+    "chain_summary_rows": 123,
+    "oof_content_sha256": "a9870ef179796f104ce20b14b01df5ed8d3c73416e52c9c308159819043e7785",
+    "oof_dtype": "float32",
+    "oof_file_sha256": "ceca6104bda4082b397aa7b2363eef30792c083d6ea299cd167f98c1c2c95dc9",
+    "oof_path": "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E516_OOF_PREDICTIONS.npy",
+    "oof_shape": [
+      432,
+      20000,
+      2
+    ],
+    "result_path": "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E516_RESULT.json",
+    "result_sha256": "d05bd00a3c0140d5f26ec688d4dd4f2252581246859953b774dfa33a3ae08d3a"
+  },
+  "provenance_limitation": "The successful output, code, source identities and row-group digest are bound. Exact E-516 cell runtime was not captured at execution and is explicitly unavailable; no result artifact was rerun to manufacture a timing.",
+  "receipt_id": "E516_SUCCESSFUL_RETRY_20261007",
+  "recorded_at_utc": "2026-10-07T05:44:04.914831+00:00",
+  "repository_head_at_attempt": "c4a72a14",
+  "resource_observation": {
+    "campaign_oom_delta": 0,
+    "campaign_oom_events_at_receipt": 2,
+    "campaign_oom_events_before": 2,
+    "campaign_oom_kill_events_at_receipt": 2,
+    "campaign_oom_kill_events_before": 2,
+    "gpu_used": false,
+    "memory_max_bytes": 2499997696,
+    "memory_peak_bytes": 996052992,
+    "scope": "Marimo process scope for the full notebook session, not E-516 cell-only memory",
+    "scope_oom_events": 0,
+    "scope_oom_kill_events": 0,
+    "swap_max_bytes": 0
+  },
+  "runtime": {
+    "cell_elapsed_seconds": null,
+    "completed_at_is_not_runtime": true,
+    "status": "not instrumented during successful retry; exact start time and elapsed time cannot be reconstructed from persisted Marimo output metadata. Do not infer a duration."
+  },
+  "source_identity": {
+    "manifest_path": "research/campaign_2026-10-06/bandit_continuation/conditional_weak_portfolio_E514/SOURCE_MANIFEST_E514_V3.json",
+    "manifest_sha256": "8de4dc6c1e2a9023510d3edbb3a46771579470bfb859ac50f451f7baa269d6fd",
+    "partition_path": "research/campaign_2026-10-06/bandit_continuation/conditional_weak_portfolio_E514/E514_CHAIN_PARTITION.json",
+    "partition_sha256": "e9e0cb9391789f54e34c1d02836d02c336c5d3a13bde6f9473196bbbc71da1c2",
+    "row_groups_little_endian_int64_sha256": "e9584232498a4ac40ca0ad2bebeb1b136862e2de242c2ec4378ea425357aa4be",
+    "row_groups_shape": [
+      432
+    ],
+    "target_cache_path": "cache/valid_targets.npz",
+    "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  }
+}

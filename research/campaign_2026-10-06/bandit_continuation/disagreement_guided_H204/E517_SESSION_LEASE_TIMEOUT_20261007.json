@@ -1,0 +1,36 @@
+{
+  "experiment_id": "E-517",
+  "kind": "marimo session lease timeout before experiment start",
+  "observed_at_utc": "2026-10-07T06:13:26.189686+00:00",
+  "old_scope": "run-p724888-i754379.scope",
+  "old_scope_result": "timeout",
+  "scope_runtime_limit_seconds": 2700,
+  "scope_cpu_quota": "100000 100000",
+  "scope_memory_max_bytes": 2500000000,
+  "scope_memory_peak_bytes": 996052992,
+  "scope_swap_max_bytes": 0,
+  "scope_oom_count_after": 0,
+  "scope_oom_kill_count_after": 0,
+  "campaign_slice": {
+    "memory_current_bytes_after": 12649136128,
+    "memory_peak_bytes": 17027391488,
+    "memory_high_bytes": 18000000000,
+    "memory_max_bytes": 20000000000,
+    "oom_count_after": 2,
+    "oom_kill_count_after": 2,
+    "baseline_oom_count": 2,
+    "baseline_oom_kill_count": 2
+  },
+  "gpu": "idle for E-517; observed 86 MiB used of 6144 MiB",
+  "attempt_marker_created": false,
+  "result_written": false,
+  "predictions_computed": false,
+  "scientific_result": false,
+  "diagnosis": "The Marimo editor scope reached its 45-minute RuntimeMaxSec and terminated before the button-gated action began. The persistent attempt marker is absent. This is an execution-session timeout, not an OOM and not a scientific result.",
+  "retry_rule": "A fresh bounded Marimo session may execute the exact frozen E-517 action because its exclusive attempt marker was never created; no E-517 scientific computation began.",
+  "evidence": {
+    "prerun_receipt": "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E517_PRE_RUN_RESOURCE_RECEIPT_20261007.json",
+    "scope_status": "systemctl user status run-p724888-i754379.scope reported Result=timeout at 2026-10-07 09:08:58 Europe/Kyiv",
+    "oom_counters": "campaign memory.events unchanged from pre-run baseline: oom=2, oom_kill=2"
+  }
+}
