@@ -193,13 +193,23 @@ def main() -> None:
     runs = collect_runs(root, errors)
     planned = read_json(out / "planned_experiments.json")["experiments"]
     reviewed = read_json(out / "reviewed_endpoints.json")["endpoints"]
-    datasets = {"Recorded runs": runs, "Planned experiments": planned, "Reviewed results": reviewed}
-    for name, rows in zip(["runs", "planned", "reviewed"], datasets.values(), strict=True):
+    cloud_path = out / "verified_cloud_fits.json"
+    cloud = read_json(cloud_path)["fits"] if cloud_path.is_file() else []
+    datasets = {
+        "Recorded runs": runs,
+        "Verified cloud fits": cloud,
+        "Planned experiments": planned,
+        "Reviewed results": reviewed,
+    }
+    for name, rows in zip(
+        ["runs", "cloud_fits", "planned", "reviewed"], datasets.values(), strict=True
+    ):
         write_csv(out / f"{name}.csv", rows)
     write_browser(out / "experiment_matrix.html", datasets)
     snapshot = {
         "generated_utc": datetime.now(UTC).isoformat(),
         "run_rows": len(runs),
+        "verified_cloud_fit_rows": len(cloud),
         "plan_rows": len(planned),
         "reviewed_rows": len(reviewed),
         "optimizer_counts": dict(Counter(text_cell(r.get("optim")) for r in runs)),
@@ -210,7 +220,12 @@ def main() -> None:
         "generator_sha256": sha256(Path(__file__)),
         "input_sha256": {
             name: sha256(out / name)
-            for name in ("planned_experiments.json", "reviewed_endpoints.json")
+            for name in (
+                "planned_experiments.json",
+                "reviewed_endpoints.json",
+                "verified_cloud_fits.json",
+            )
+            if (out / name).is_file()
         },
         "inventory_source": str(root),
     }
@@ -218,9 +233,9 @@ def main() -> None:
     lines = [
         "# Experiment matrix",
         "",
-        f"Recorded runs: **{len(runs)}**. Planned mechanism rows: **{len(planned)}**. Reviewed endpoint rows: **{len(reviewed)}**.",
+        f"Recorded runs: **{len(runs)}**. Verified cloud fits: **{len(cloud)}**. Planned mechanism rows: **{len(planned)}**. Reviewed endpoint rows: **{len(reviewed)}**.",
         "",
-        "Open [the searchable table](experiment_matrix.html), or use [all run dimensions](runs.csv), [planned experiments](planned.csv), and [reviewed results](reviewed.csv).",
+        "Open [the searchable table](experiment_matrix.html), or use [all run dimensions](runs.csv), [verified cloud fits](cloud_fits.csv), [planned experiments](planned.csv), and [reviewed results](reviewed.csv).",
         "",
         "Blank cells mean unrecorded. Metadata presence does not establish successful training or valid held-out performance. Historical unreviewed scores are deliberately not ranked together. The full hypothesis/experiment ledgers remain authoritative.",
         "",

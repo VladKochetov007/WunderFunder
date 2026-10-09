@@ -1,0 +1,51 @@
+{
+  "observed_at_utc": "2026-10-09T01:23:19+00:00",
+  "cli_package_version": "2.2.4",
+  "source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel",
+  "quota_refresh_utc": "2026-10-10T00:00:00",
+  "quota": {
+    "gpu": {
+      "used_seconds": 69731.456,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_used_seconds": 32684.135000000002,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 24096.381
+    },
+    "tpu": {
+      "used_seconds": 398.431,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "campaign_baseline_used_seconds": 134.623,
+      "campaign_used_seconds": 263.808,
+      "campaign_cap_seconds": 7200.0,
+      "campaign_headroom_seconds": 6936.192
+    }
+  },
+  "status": [
+    {
+      "kernel": "vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
+      "status": "KernelWorkerStatus.QUEUED",
+      "failure_message": "",
+      "resource": "tpu",
+      "monitoring_state": "polling_until_terminal_evidence_downloaded",
+      "terminal_evidence_receipt": "../../../cloud_preflight/E463_TPU_V7_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json"
+    },
+    {
+      "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v2",
+      "resource": "gpu",
+      "status": "KernelWorkerStatus.ERROR",
+      "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+      "terminal_evidence": {
+        "receipt": "GPU_R2_TERMINAL_OPERATOR_RECEIPT_R1.json",
+        "terminal_status": "KernelWorkerStatus.ERROR",
+        "outputs_downloaded": true
+      }
+    }
+  ],
+  "session_id": {
+    "value": null,
+    "reason": "Kaggle status JSON currently omits kernel_session_id; do not substitute versionNumber."
+  }
+}

@@ -1,15 +1,15 @@
 # Experiment matrix
 
-Recorded runs: **255**. Planned mechanism rows: **23**. Reviewed endpoint rows: **6**.
+Recorded runs: **256**. Verified cloud fits: **2**. Planned mechanism rows: **23**. Reviewed endpoint rows: **6**.
 
-Open [the searchable table](experiment_matrix.html), or use [all run dimensions](runs.csv), [planned experiments](planned.csv), and [reviewed results](reviewed.csv).
+Open [the searchable table](experiment_matrix.html), or use [all run dimensions](runs.csv), [verified cloud fits](cloud_fits.csv), [planned experiments](planned.csv), and [reviewed results](reviewed.csv).
 
 Blank cells mean unrecorded. Metadata presence does not establish successful training or valid held-out performance. Historical unreviewed scores are deliberately not ranked together. The full hypothesis/experiment ledgers remain authoritative.
 
 | Priority | Experiment | Optimizer | Loss | Scheduler | Architecture / samples | Status |
 |---|---|---|---|---|---|---|
-| 1 | D01 | AdamW | wmse vs huber delta1 | OneCycle | GRU256x2; 350 complete training sequences | R3_failed_before_updates; R4_pushed_v1_provider_RUNNING_not_fit_evidence |
-| 2 | D02 | AdamW vs Muon | wmse vs huber delta1 | OneCycle | GRU256x2; same complete component sample | isolated_implementation_tested; R4_reader_control_successor_pending |
+| 1 | D01 | AdamW | wmse vs huber delta1 | OneCycle | GRU256x2; 350 complete training sequences | R4_both_220_update_fits_complete; export_failed_bad_CLI; R5_export_only_recovery_preparing |
+| 2 | D02 | AdamW vs Muon | wmse vs huber delta1 | OneCycle | GRU256x2; same complete component sample | R2_source_and_sealed_boot_tests_pass; R5_private_controls_dependency; no_device_profile_or_fit |
 | 3 | D03 | matched control |  | matched control | GELU vs fixed_mix readout; same GRU | planned_not_admitted |
 | 3 | D04 | matched control |  | matched control | GRU256→384→512→768 teacher ladder | planned_not_admitted |
 | 3 | D05 | matched control |  | matched control | GRU vs causal TCN; declared context/receptive field | planned_not_admitted |

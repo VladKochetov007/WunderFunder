@@ -1,0 +1,51 @@
+{
+  "observed_utc": "2026-10-09T01:05:05.537061+00:00",
+  "status": "completed_fits_verified_export_pending",
+  "source_kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v4",
+  "source_version": 1,
+  "artifact_source_directory": "/tmp/wlr4_review_small/out/arms",
+  "artifact_source_note": "Operator narrow terminal download; exact tensor files pinned here and moved into durable terminal collection by operator.",
+  "checks": [
+    "Both final model.pt tensors match own fixed epoch1 checkpoint exactly",
+    "All16 tensors finite, own initializer and no distill/teammate weights declared",
+    "Initial state tensors identical across matched loss arms",
+    "Sample order bytes and all220LR/beta rows identical",
+    "Each arm220finite updates/zeroAMPskips; final learned weights differ"
+  ],
+  "arms": {
+    "wmse": {
+      "model_sha256": "71fcba3d9eaff3710f8fd42f3778ef74cd425f11977668a5575c21563a82c309",
+      "tensor_count": 16,
+      "fixed_epoch1_tensor_identity": true,
+      "finite_tensors": true,
+      "updates": 220,
+      "amp_skips": 0,
+      "epoch_train_seconds": [
+        57.7,
+        23.1
+      ],
+      "unclipped_grad_norm_median": 0.6833941014565657,
+      "clip_fraction": 0.17272727272727273,
+      "sample_orders_sha256": "cbb972a29278617890ac3e51d9f4d3cb954d392192aef3ebe044b8a71a8ec523",
+      "norm_sha256": "d096115cb59a7462608d5d11df29ba77142aac03527f26fbb2a8534077e57849"
+    },
+    "huber_d1": {
+      "model_sha256": "b61b5026386273b11db871f06f09eda7654af5814c066e850274e32d9cdfca77",
+      "tensor_count": 16,
+      "fixed_epoch1_tensor_identity": true,
+      "finite_tensors": true,
+      "updates": 220,
+      "amp_skips": 0,
+      "epoch_train_seconds": [
+        57.7,
+        23.1
+      ],
+      "unclipped_grad_norm_median": 0.2301705091734866,
+      "clip_fraction": 0.0,
+      "sample_orders_sha256": "cbb972a29278617890ac3e51d9f4d3cb954d392192aef3ebe044b8a71a8ec523",
+      "norm_sha256": "d096115cb59a7462608d5d11df29ba77142aac03527f26fbb2a8534077e57849"
+    }
+  },
+  "scientific_score": null,
+  "limitation": "Prediction export CLI failed; no quality or public transfer result; epoch timing excludes staging/profile/export."
+}
