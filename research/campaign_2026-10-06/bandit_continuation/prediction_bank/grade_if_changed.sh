@@ -3,7 +3,7 @@
 set -euo pipefail
 ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack
 BANKDIR=$ROOT/research/campaign_2026-10-06/bandit_continuation/prediction_bank
-for spec in "1 BANK_FOLD1.jsonl fold1 FOLD1" "0 BANK.jsonl fold0 FOLD0" "1 BANK.jsonl fold1 SMALLFOLD1" "3 BANK.jsonl fold3 SMALLFOLD3"; do
+for spec in "1 BANK_FOLD1.jsonl fold1 FOLD1" "0 BANK_FOLD0_FULL.jsonl fold0 FOLD0FULL" "0 BANK.jsonl fold0 FOLD0" "1 BANK.jsonl fold1 SMALLFOLD1" "3 BANK.jsonl fold3 SMALLFOLD3"; do
   set -- $spec; fold=$1; bank=$BANKDIR/$2; split=$ROOT/research/campaign_2026-09-29/artifacts/splits/$3.json; tag=$4
   python3 -c "import json,sys;sys.exit(0 if any(json.loads(l)['fold']==int(sys.argv[2]) for l in open(sys.argv[1]) if l.strip()) else 1)" "$bank" "$fold" || continue
   key=$(python3 -c "import json,os,sys;r=[json.loads(l) for l in open(sys.argv[1]) if l.strip()];print(sorted((x['name'],os.path.getmtime(os.path.join(sys.argv[2],x['prediction']))) for x in r if os.path.isfile(os.path.join(sys.argv[2],x['prediction']))))" "$bank" "$ROOT" | sha256sum | cut -c1-16)

@@ -123,6 +123,7 @@ def main() -> int:
     parser.add_argument("--greedy-steps", type=int, default=8)
     parser.add_argument("--bootstrap", type=int, default=1000)
     parser.add_argument("--skip-missing", action="store_true", help="ignore rows not produced yet")
+    parser.add_argument("--pair-top", type=int, default=20, help="score pairs among the top-N singles only")
     args = parser.parse_args()
 
     rows = load_bank(args.bank, args.fold, args.skip_missing)
@@ -163,7 +164,8 @@ def main() -> int:
     singles = {name: score(targets, mask, p) for name, p in zip(names, predictions, strict=True)}
     corr = correlations(targets, mask, predictions)
     pairs = {}
-    for i, j in itertools.combinations(range(len(names)), 2):
+    top = sorted(range(len(names)), key=lambda k: -singles[names[k]]["wp"])[: args.pair_top]
+    for i, j in itertools.combinations(sorted(top), 2):
         blend = 0.5 * (predictions[i] + predictions[j])
         result = score(targets, mask, blend)
         result["gain_over_best_member"] = result["wp"] - max(
