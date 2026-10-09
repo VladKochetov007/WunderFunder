@@ -1,0 +1,46 @@
+{
+  "schema": "wnn.d02.r3.pre-admission-checks.v1",
+  "state": "pass_source_and_offline_checks_pending_root_review",
+  "packet_id": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v3",
+  "source_commit": "f465f7b3a2bf00c4c980ddf681828beef821e3d7",
+  "source_code_manifest_sha256": "562884c5739299d6ea51729bb082d56a47c34bffe10f7c999e3871da17b40118",
+  "source_archive_sha256": "3fdab3c93ecbe8b53834fb08204644c9d23501c96688a91fb9a422e27fbc33ef",
+  "source_asset_manifest_sha256": "c3807b6d6cf4a2456d4689934be9e5afee9d9123a69014152384d731afae8d9d",
+  "packet_sha256": "7fa706deaf8f3a775ed229384c3598a88bdd33ee411560745f26692f3fc031e6",
+  "kernel_bootstrap_sha256": "d45e9f4a8ec6b0c0e636d4ede3253f81bb202d523ecd53a4176cecb02b8b7159",
+  "kernel_metadata_sha256": "254a63961a23194929f21c8f0ea231c32a1e038b661f593b9089cc59093d0e04",
+  "control_kernel": "vladkochetov07/wnn-loss-pair-export-recovery-20261009-r1",
+  "control_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+  "control_basis": "actual root-reviewed R5 AdamW fits, exports, shared artifacts, and fixed grade",
+  "validation": {
+    "pytest_command": "pytest -q tests",
+    "pytest_result": "18 passed in 9.69s",
+    "pytest_used_actual_r5_output": true,
+    "ruff_check": "pass",
+    "ruff_format_check": "pass; 9 files already formatted",
+    "sealed_offline_bootstrap": "pass",
+    "sealed_worker_import": "pass",
+    "train_rnn_help": "pass",
+    "predict_run_help": "pass",
+    "offline_checks_performed_without_gpu": true
+  },
+  "preserved_science": {
+    "r2_muon_loss_recipe_identity_test": "pass; all experiment and exact argv fields match the frozen R2 fixture except explicit R5 control basis",
+    "planned_new_fits": 2,
+    "optimizer": "Muon",
+    "losses": ["WMSE", "Huber delta 1"],
+    "precision": "FP32",
+    "fold": 0,
+    "fit_train_sequences": 350,
+    "fit_valid_sequences_retained_but_unused": 28,
+    "evaluation_sequences": 468
+  },
+  "provider_mutations": false,
+  "actual_device_validation": false,
+  "root_admission": {
+    "push_allowed": false,
+    "conditional_fit_allowed": false,
+    "required_before_upload_or_push": true
+  },
+  "supersedes": "Two local, unadmitted draft seals were preserved outside this packet after tests found a stale R5 normalization digest and an inherited test path-index error. This R1 packet pins the corrected R5 digest and passed the full checks above."
+}
