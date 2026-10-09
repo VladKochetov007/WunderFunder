@@ -132,7 +132,7 @@ def test_disposable_profile_omits_only_epoch_continuation_request(tmp_path) -> N
 def test_actual_split_loader_consumes_verified_mounted_auxiliary_assets(
     tmp_path, monkeypatch
 ) -> None:
-    worktree_root = PACKET_ROOT.parents[5]
+    worktree_root = PACKET_ROOT.parents[4]
     main_root = worktree_root.parents[1] / "wnn_connectome_starterpack"
     manifest_path = SOURCE_STAGE_FIXTURE / "manifest.json"
     validation_path = SOURCE_STAGE_FIXTURE / "reader_validation.json"

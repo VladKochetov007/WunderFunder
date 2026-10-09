@@ -68,7 +68,7 @@ R5_SHARED_ROLES = {
     },
     "normalization": {
         "path": "shared/normalization.npz",
-        "sha256": "d096115cb59a7462608d5d11df29ba77142afaa2e7069f81b199164b88d5d768",
+        "sha256": "d096115cb59a7462608d5d11df29ba77142aac03527f26fbb2a8534077e57849",
         "size_bytes": 2188,
     },
     "normalization_metadata": {
