@@ -1,0 +1,23 @@
+{
+ "attempt": "h230-f1-s3-stage-broad2strong-core-r1",
+ "kind": "cpu",
+ "cpus": 1,
+ "reserve_bytes": 2000000000,
+ "profile": "checkpoint core conversion (seconds)",
+ "contract": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/contracts/h230-f1-s3-stage-broad2strong-core-r1.json",
+ "argv": [
+  "/usr/bin/timeout",
+  "300",
+  "/usr/bin/env",
+  "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/make_core_checkpoint.py",
+  "bd26_h230_f1_s3_stage_broad2strong_a",
+  "0",
+  "bd26_h230_f1_s3_stage_broad2strong_a_core"
+ ],
+ "after": [
+  "h230-f1-s3-stage-broad2strong-a-fit-r1"
+ ],
+ "admission_timeout": 900
+}

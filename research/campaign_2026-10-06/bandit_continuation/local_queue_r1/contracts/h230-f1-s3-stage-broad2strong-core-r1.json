@@ -1,0 +1,17 @@
+{
+ "schema": "wnn.local-queue-item-contract.v1",
+ "created_utc": "2026-10-09T11:21:08.414112+00:00",
+ "attempt": "h230-f1-s3-stage-broad2strong-core-r1",
+ "note": "strip the 8 family-head rows from stage-1 checkpoint so stage 2 can re-append them on init (as in Z runs)",
+ "argv": [
+  "/usr/bin/timeout",
+  "300",
+  "/usr/bin/env",
+  "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/make_core_checkpoint.py",
+  "bd26_h230_f1_s3_stage_broad2strong_a",
+  "0",
+  "bd26_h230_f1_s3_stage_broad2strong_a_core"
+ ]
+}

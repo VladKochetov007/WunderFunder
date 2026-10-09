@@ -1,10 +1,10 @@
 {
- "attempt": "export-train-c20261003_s100_s4_f1-r1",
+ "attempt": "export-train-c20261003_w320_s3_f1-r1-a1",
  "kind": "gpu",
  "cpus": 2,
  "reserve_bytes": 9000000000,
  "profile": "teacher train-split export (prior 8 exports: ~5.5 min each, 8.0 GB peak)",
- "contract": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/contracts/export-train-c20261003_s100_s4_f1-r1.json",
+ "contract": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/contracts/export-train-c20261003_w320_s3_f1-r1.json",
  "argv": [
   "/usr/bin/timeout",
   "--signal=TERM",
@@ -15,11 +15,13 @@
   "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src",
   "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
   "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
-  "c20261003_s100_s4_f1",
+  "c20261003_w320_s3_f1",
   "train",
   "--epoch",
   "3"
  ],
  "after": [],
- "admission_timeout": 900
+ "admission_timeout": 900,
+ "base_attempt": "export-train-c20261003_w320_s3_f1-r1",
+ "admission_retries": 1
 }
