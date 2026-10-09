@@ -145,7 +145,7 @@ def cmd_start(_: argparse.Namespace) -> None:
         raise SystemExit("host not reachable yet")
     scp([str(PLAN), str(HERE / "remote_run.py")], "/root/run/", upload=True, timeout=600)
     ssh("mv /root/run/plan.private.json /root/run/plan.json && chmod 600 /root/run/plan.json")
-    started = ssh("cd /root/run && nohup python remote_run.py > worker.out 2>&1 & echo started")
+    started = ssh("cd /root/run && setsid nohup python remote_run.py > worker.out 2>&1 < /dev/null & echo started")
     print(started.stdout.strip())
 
 
@@ -182,7 +182,7 @@ def cmd_collect(_: argparse.Namespace) -> None:
 
 def cmd_destroy(_: argparse.Namespace) -> None:
     data = receipt()
-    vast("destroy", "instance", str(data["instance_id"]))
+    vast("destroy", "instance", str(data["instance_id"]), "-y")
     for _ in range(12):
         time.sleep(10)
         listing = json.loads(vast("show", "instances"))

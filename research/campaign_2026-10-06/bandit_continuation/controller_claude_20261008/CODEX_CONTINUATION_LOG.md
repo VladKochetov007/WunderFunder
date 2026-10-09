@@ -203,3 +203,9 @@ Efficiency so far: T4 small-screen fit 61.6 s (FP32 Muon) vs 71.6 s (native FP16
 
 - Public: Z4 seed99 Muon-parent student + head finishing 0.6662; Z3 student from combo_s4_final trunk + head finishing 0.6662; Z1c all-data-parent s4 student + head finishing 0.6649. New own public best 0.6662 (+0.0002 vs 0.6660); leaderboard rank 19, top-1 0.6717, top-10 cut 0.6677. Parent lineage (Muon parents) matters; finishing packages ~39 min runtime.
 - Tail-weighted student (|y|^1.5): 0.66827 vs 0.66882, −0.00055 [−0.00084, −0.00024]; tail emphasis beyond metric weighting hurts (H-295 power arm negative). Floor arm pending.
+
+## 2026-10-09 Vast teachers r1 (receipt: vast_teachers_r1/OWNERSHIP_RECEIPT.json, instance 55030506, 2x RTX4090, $0.88/h)
+- Attempt 1 (offer 46123864, instance 55027730) stuck in `loading` 15 min; destroyed (first destroy no-oped: CLI needs `-y`; fixed in controller). Cost ~0. Attempt 2 (Quebec host) worked.
+- Staging: 37.1 GB via 16-range signed-URL download, SHA-256 verified, ~6 min total. Two GPUs at 86-95% utilization, 4 concurrent fits, 17-19 seq/s each, ~57 min per fit.
+- Wave 1 fold1 from-scratch teachers (combo recipe, seed 3): GRU384 0.66724, LSTM256 0.66581, GRU512 0.65800 vs GRU256 combo_s3 0.66742. Capacity did not help at 4 epochs; GRU512 -0.0094. Raises risk for Kaggle GRU512/768 capacity run.
+- Wave 2 (linear-D2Z, trapezoid, fixed_mix, GRU256x3 running; seed4 queued).
