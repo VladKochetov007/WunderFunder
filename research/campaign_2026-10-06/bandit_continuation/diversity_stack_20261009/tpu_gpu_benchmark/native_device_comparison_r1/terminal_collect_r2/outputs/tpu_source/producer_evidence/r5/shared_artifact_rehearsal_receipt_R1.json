@@ -1,0 +1,55 @@
+{
+  "schema": "wnn.loss-pair.shared-artifact-rehearsal.v1",
+  "format_version": 1,
+  "recorded_at_utc": "2026-10-09T01:40:15Z",
+  "result": "pass",
+  "test": {
+    "path": "tests/test_gpu_loss_pair_r5_shared_rehearsal.py",
+    "sha256": "b517c3cc6f3a317b944288a51dabbdb311029b65ac63d62f0ae3df43a75adb40",
+    "command": "pytest -q research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/gpu_loss_pair_r5_export/tests/test_gpu_loss_pair_r5_shared_rehearsal.py",
+    "result": "1 passed in 0.62s",
+    "resource_boundary": {
+      "cpu_quota": "100%",
+      "threads": 1,
+      "memory_max_bytes": 2000000000,
+      "runtime_max_seconds": 120
+    }
+  },
+  "producer": {
+    "kernel_code_sha256": "ddb6401a6bf3b59a8242e387d11da9c7dbc1713236e085bb3cade27de775fc19",
+    "packet_sha256": "ce58293e8124ef7e51d1e32c773c286ada5ca180c3e81a308bc31a95c3c108cc",
+    "metadata_sha256": "e57d5b86eca15818b18c0fd11d01190f5f4cd00ec868187f7ef89a1527dc9494"
+  },
+  "actual_inputs": {
+    "r4_gpu_worker_sha256": "a3d2570e569d6393b09cf46b5bea0a47d780284f5ca6863de6faf3a64b561011",
+    "r4_recovery_asset_manifest_sha256": "0d9d5b6d53017b8ef837c369d7aaa47ce2a676c37a1165cda71d6735b446bcfd",
+    "cpu_parsed_cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+    "cpu_source_stage_receipt_sha256": "557cd0a61f1129f811dc104398c3c9c7295c3343a1c9a302018fcb588c0c1de7",
+    "r4_cache_validation_receipt_sha256": "f6452f4b03abf7c66a219008458e431a8c1b6a2ffba961f63e5f57d1e936076f",
+    "r4_cache_reader_profile_sha256": "b9f101bfed6c046072fec42091a0780e5366c9cb68446e021e50a47e83e80a85",
+    "r4_bootstrap_receipt_sha256": "7f0d0e497a241fa9cb7bb7693caf85351c2c357086256235833516e4cdebbc68"
+  },
+  "observed_roles": [
+    "cache_manifest",
+    "cache_validation_receipt",
+    "cache_reader_profile",
+    "source_stage_receipt",
+    "source_verification",
+    "initial_state",
+    "normalization",
+    "normalization_metadata",
+    "sample_orders",
+    "onecycle_trace",
+    "profile_inputs",
+    "profile_inputs_receipt",
+    "device_profile_gate",
+    "fold0_asset_validation_receipt"
+  ],
+  "scope": {
+    "rehearsed_function": "R4 producer _collect_shared, invoked with the exact R5 collector arguments and recovered R4 fit artifacts",
+    "fit_or_prediction_process_run": false,
+    "prediction_process_rows": "synthetic placeholders with null elapsed time, used only to exercise contract serialization",
+    "prediction_arrays_created": false,
+    "claim": "shared artifact collection, path/size/hash bindings and TPU consumer-facing role schema were exercised; this is not a new fit or scientific result"
+  }
+}

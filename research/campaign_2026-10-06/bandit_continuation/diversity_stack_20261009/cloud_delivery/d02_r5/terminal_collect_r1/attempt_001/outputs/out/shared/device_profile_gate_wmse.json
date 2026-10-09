@@ -1,0 +1,167 @@
+{
+  "device": {
+    "compute_capability": [
+      7,
+      5
+    ],
+    "name": "Tesla T4",
+    "total_memory_bytes": 15636037632,
+    "visible_index": 0
+  },
+  "format_version": 1,
+  "log": {
+    "path": "logs/device_shape_update_gate_wmse.log",
+    "sha256": "43c569aa6f646448b8085270df426a64c6984194a2b5608185e9ad9268522f5a",
+    "size_bytes": 6472
+  },
+  "loss": "wmse",
+  "muon_precision": {
+    "device_type": "cuda",
+    "gatewise": "all",
+    "groups": [
+      {
+        "beta1": 0.95,
+        "beta2": 0.999,
+        "blocks": 1,
+        "group_index": 0,
+        "lr": 3.9999999999999996e-05,
+        "muon": false,
+        "orthogonalization_dtype_policy": "fp32",
+        "weight_decay": 0.01
+      },
+      {
+        "beta1": 0.95,
+        "beta2": 0.999,
+        "blocks": 3,
+        "group_index": 1,
+        "lr": 3.9999999999999996e-05,
+        "muon": true,
+        "orthogonalization_dtype_policy": "fp32",
+        "weight_decay": 0.01
+      }
+    ],
+    "model_precision": "fp32",
+    "muon_lr_multiplier": 1.0,
+    "orthogonalization_dtype_policy": "fp32",
+    "scope": "rnn",
+    "selected_orthogonalization_dtype": "float32",
+    "torch_version": "2.11.0+cu128"
+  },
+  "producer_fixture": {
+    "initial_state.npz": {
+      "path": "profile_gate/wmse/prefit/initial_state.npz",
+      "sha256": "10e4b56002b52faaaf55dbfcbd28b37f479d2dbd69e727740250dbb90d873af1",
+      "size_bytes": 3908280
+    },
+    "normalization.json": {
+      "path": "profile_gate/wmse/prefit/normalization.json",
+      "sha256": "d55aaed4e027aec9cb08a26272e69c68c5ecfca6a3ddab4800bd4312d6054426",
+      "size_bytes": 4274
+    },
+    "normalization.npz": {
+      "path": "profile_gate/wmse/prefit/normalization.npz",
+      "sha256": "d096115cb59a7462608d5d11df29ba77142aac03527f26fbb2a8534077e57849",
+      "size_bytes": 2188
+    },
+    "profile_inputs.npz": {
+      "path": "profile_gate/wmse/prefit/profile_inputs.npz",
+      "sha256": "f042ae97ddebac87c1023758ccd84d9b2923e5cc6ae3ac878596e84bfde9a1c6",
+      "size_bytes": 54592760
+    },
+    "sample_orders.json": {
+      "path": "profile_gate/wmse/prefit/sample_orders.json",
+      "sha256": "cbb972a29278617890ac3e51d9f4d3cb954d392192aef3ebe044b8a71a8ec523",
+      "size_bytes": 148958
+    }
+  },
+  "profile": {
+    "attempted_updates": 10,
+    "batch_size": 32,
+    "chunk_rows": 2000,
+    "evidence": {
+      "amp_skipped_updates": 0,
+      "counts_consistent": true,
+      "grad_scaler_enabled": false,
+      "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+      "gradient_finite": true,
+      "gradient_stats_nonfinite_steps": 0,
+      "gradient_stats_steps": 10,
+      "loss_checks": 10,
+      "loss_finite": true,
+      "optimizer_attempts": 10,
+      "optimizer_completed_updates": 10,
+      "valid_for_throughput": true
+    },
+    "hidden_size": 256,
+    "input_width": 211,
+    "layers": 2,
+    "measured_batches": 1,
+    "precision": "float32",
+    "process_wall_seconds": 29.918740869999993,
+    "tf32": false,
+    "warmup_batches": 0
+  },
+  "reload": {
+    "checkpoint_bytes": 8576262,
+    "device_type": "cuda",
+    "model_optimizer_scheduler_exact": true,
+    "prefix_and_chunk_carry_atol": 3e-06,
+    "prefix_and_chunk_carry_rtol": 3e-05,
+    "probe_shape": [
+      1,
+      64,
+      211
+    ],
+    "reset_exact": true,
+    "status": "pass"
+  },
+  "resource": {
+    "cgroup_current_after_bytes": 3333025792,
+    "cgroup_current_before_bytes": 891469824,
+    "cgroup_current_peak_sampled_bytes": 5394575360,
+    "child_peak_pss_bytes": 2359352320,
+    "child_peak_rss_bytes": 2480873472,
+    "gpu0_memory_used_peak_sampled_mib": 3807,
+    "gpu_samples_after": [
+      {
+        "memory_total_mib": 15360,
+        "memory_used_mib": 3,
+        "name": "Tesla T4",
+        "physical_index": 0,
+        "utilization_percent": 0
+      },
+      {
+        "memory_total_mib": 15360,
+        "memory_used_mib": 3,
+        "name": "Tesla T4",
+        "physical_index": 1,
+        "utilization_percent": 0
+      }
+    ],
+    "gpu_samples_before": [
+      {
+        "memory_total_mib": 15360,
+        "memory_used_mib": 3,
+        "name": "Tesla T4",
+        "physical_index": 0,
+        "utilization_percent": 0
+      },
+      {
+        "memory_total_mib": 15360,
+        "memory_used_mib": 3,
+        "name": "Tesla T4",
+        "physical_index": 1,
+        "utilization_percent": 0
+      }
+    ],
+    "sample_interval_seconds": 1.0
+  },
+  "run_name": "d02_muon_wmse_device_shape_profile",
+  "schema": "wnn.loss-pair.device-shape-update-gate.v1",
+  "state": "passed",
+  "update_trace": {
+    "path": "profile_gate/wmse/update_trace.jsonl",
+    "sha256": "eddef6ff7997051042afb5bf570172382e8158f709195389be7464596a468ea8",
+    "size_bytes": 6675
+  }
+}

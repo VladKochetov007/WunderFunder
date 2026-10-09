@@ -1,0 +1,126 @@
+{
+  "schema": "wnn.kaggle-loss-pair-export-recovery-packet.v1",
+  "format_version": 1,
+  "packet_id": "vladkochetov07/wnn-loss-pair-export-recovery-20261009-r1",
+  "title_slug_matches_id": true,
+  "root_admission_required_before_dataset_create_or_kernel_push": true,
+  "claim_state": "export_only_pending_independent_grade",
+  "scientific_claim": "none; both R4 fits are completed and root-verified, but this packet only exports predictions",
+  "predecessor": {
+    "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v4",
+    "terminal_receipt_sha256": "1bed2d7befbdd25b487f15f0b8788b8e514783058a2c7d5f683b31ff70a7500c",
+    "root_fit_review_sha256": "701987320ad045a4688e633cef19d59fb8b940cb1a75f53b089deaeb0a070e47",
+    "recovery_terminal_review_sha256": "98df8eb784a8b5a81afea106419b10d12e296d66e43fcd865af62efa5682ce1d",
+    "failure": "The predictor command supplied unsupported --device cuda after both fits completed; the checkpoints and fit diagnostics were preserved.",
+    "fits_repeated": false
+  },
+  "producer": {
+    "source_dataset": "vladkochetov07/wnn-loss-pair-code-20261009-r4",
+    "source_commit": "1bc0fbacf53cdc08a8c4664c6f66f38f8980092c",
+    "source_asset_manifest_sha256": "8ef360536ca117232198a4ee6dd8fabf072fb7bfad9812a83972d8bfb750f584",
+    "source_archive_sha256": "a3c616f6a9e2f55c2747cf771f8d76ce33cdd90b847e454c75df9cea6fedaa18",
+    "source_code_manifest_sha256": "0a6fa1567dde9ac5fc41d27eed8d9edb6f90a93afb891db5a4080770b65e4351",
+    "cache_source_kernel": "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1",
+    "cache_source_receipt_sha256": "557cd0a61f1129f811dc104398c3c9c7295c3343a1c9a302018fcb588c0c1de7",
+    "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+    "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+    "cache_membership_sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "fold0_asset_dataset": "vladkochetov07/wnn-c20261004-fold0-assets",
+    "fold0_asset_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+    "fold0_auxiliary_validation": "hash the pinned manifest, then use the existing validator to hash/link only the four required auxiliary files; unused prediction assets are not opened",
+    "checkpoint_original_cache_validation_receipt_sha256": "f6452f4b03abf7c66a219008458e431a8c1b6a2ffba961f63e5f57d1e936076f",
+    "fresh_cache_validation": "recomputed once on the new kernel mount; original checkpoint bytes and their provenance remain unchanged"
+  },
+  "recovery_asset": {
+    "dataset": "vladkochetov07/wnn-loss-pair-r4-recovery-20261009-r1",
+    "manifest_sha256": "0d9d5b6d53017b8ef837c369d7aaa47ce2a676c37a1165cda71d6735b446bcfd",
+    "metadata_sha256": "68cb754ced2f263221255c625726891331f669364d4d329db9c71046d2a9310f",
+    "file_count": 45,
+    "payload_bytes": 78942173,
+    "staging_receipt": "source_asset_stage/stage_receipt.json",
+    "payloads_are_hash_named_and_verified_at_startup": true,
+    "optimizer_training_state_included": false
+  },
+  "fits": {
+    "retrained": false,
+    "wmse": {
+      "run_name": "loss_pair_r3_wmse",
+      "checkpoint_sha256": "71fcba3d9eaff3710f8fd42f3778ef74cd425f11977668a5575c21563a82c309",
+      "epoch1_checkpoint_sha256": "da9763cf34280224561f6115baf413fa9779bf9381a590088a9a04e8bc01bc90",
+      "provenance_sha256": "c3e99c0c310288450f86fd007f8dfb9ffe80a5acd13857ebce455be83803477c",
+      "updates_completed": 220
+    },
+    "huber_d1": {
+      "run_name": "loss_pair_r3_huber_d1",
+      "checkpoint_sha256": "b61b5026386273b11db871f06f09eda7654af5814c066e850274e32d9cdfca77",
+      "epoch1_checkpoint_sha256": "6424b906c5b894598665843f043d7cdb28774211f8d9a0eb2474d20e37562390",
+      "provenance_sha256": "18e71073b7ac70fdac9aa57a3bd15fc0c55122472f9ace3eeeda0ab3befe8fe5",
+      "updates_completed": 220
+    }
+  },
+  "kernel": {
+    "code_file": "kernel/wnn-loss-pair-export-recovery-20261009-r1.py",
+    "code_file_sha256": "ddb6401a6bf3b59a8242e387d11da9c7dbc1713236e085bb3cade27de775fc19",
+    "code_file_size_bytes": 29270,
+    "metadata_file": "kernel/kernel-metadata.json",
+    "metadata_sha256": "e57d5b86eca15818b18c0fd11d01190f5f4cd00ec868187f7ef89a1527dc9494",
+    "source_kernel": "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1",
+    "accelerator_gate": "exactly two T4 devices, as in the admitted R4 cohort; export worker requires current memory/disk headroom",
+    "worker_wall_seconds": 3300,
+    "provider_timeout_seconds": 3600,
+    "output_cap_bytes": 600000000,
+    "maximum_cgroup_current_bytes": 24000000000,
+    "minimum_mem_available_bytes": 2000000000,
+    "minimum_working_disk_free_bytes": 4000000000,
+    "training_enabled": false,
+    "prediction_precision": "fp32",
+    "tf32": false
+  },
+  "expected_outputs": [
+    "out/arms/wmse/predictions_valid.npy",
+    "out/arms/wmse/predictions_valid.json",
+    "out/arms/wmse/prediction_membership.json",
+    "out/arms/huber_d1/predictions_valid.npy",
+    "out/arms/huber_d1/predictions_valid.json",
+    "out/arms/huber_d1/prediction_membership.json",
+    "out/training_contract.json",
+    "out/export_recovery_run_receipt.json",
+    "out/commands.json",
+    "out/shared/cache_manifest.json",
+    "out/shared/cache_validation_runtime.json",
+    "out/shared/cache_reader_profile_runtime.json",
+    "out/shared/source_stage_receipt.json",
+    "out/shared/source_verification.json",
+    "out/shared/device_profile_gate.json",
+    "out/shared/fold0_assets_validation.json",
+    "out/shared/initial_state.npz",
+    "out/shared/normalization.npz",
+    "out/shared/normalization.json",
+    "out/shared/sample_orders.json",
+    "out/shared/schedule_trace.json",
+    "out/shared/profile_inputs.npz",
+    "out/shared/profile_inputs_receipt.json"
+  ],
+  "prediction_identity_checks": [
+    "checkpoint SHA-256 equals the original R4 checkpoint",
+    "original run name and checkpoint epoch 1 are retained in the prediction sidecar",
+    "prediction SHA-256 and the exact 468-group order are verified",
+    "sidecar must bind FP32 inference, fold-0 split, cache key, manifest, membership and fresh runtime validation receipt",
+    "membership sidecar records the original checkpoint receipt, fresh runtime receipt, R4 kernel and recovery dataset ancestry"
+  ],
+  "grade": {
+    "state": "pending_independent_grade",
+    "metric_id": "global_wp_clip2_v1",
+    "fixed_evaluation_count": 468,
+    "exposure": "exposed fold-0 screen; no public-transfer claim",
+    "owner": "root independent grader",
+    "target_download": false
+  },
+  "offline_checks": {
+    "test_file": "tests/test_gpu_loss_pair_r5_export.py",
+    "test_sha256": "5ee4ef5bd535881bb3e2ed6649d368c4f0f14cc5e84a7b1ea2550800bff20fce",
+    "result": "6 passed; actual R4 checkpoints and predictor bytes, inference argv, sidecar identity, sealed packet pins, and actual fold0 manifest discovery without opening unused predictions"
+  }
+}
