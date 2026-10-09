@@ -1,0 +1,28 @@
+usage: vast_campaign.py [-h] [--ledger LEDGER] [--credentials CREDENTIALS]
+                        [--timeout TIMEOUT]
+                        {inspect,search,create,reconcile,status,collect,destroy,settle} ...
+
+Bounded, receipt-backed Vast.ai lifecycle operations for one campaign attempt.
+The controller is deliberately not a queue runner. It can inspect account
+state, search verified on-demand offers, create one explicitly admitted
+attempt, reconcile an ambiguous create without resubmitting, collect hash-
+checked artifacts, and destroy only an instance proven to belong to its
+durable creation receipt.
+
+positional arguments:
+  {inspect,search,create,reconcile,status,collect,destroy,settle}
+    inspect             read-only account balance and sanitized instance
+                        inventory
+    search              read-only verified on-demand offer search
+    create              create one root-admitted frozen packet
+    reconcile           read-only reconcile an ambiguous create
+    status              read-only status for one owned attempt
+    collect             download and hash-check expected artifacts
+    destroy             destroy and verify one receipt-owned instance
+    settle              settle actual cost from a root billing receipt
+
+options:
+  -h, --help            show this help message and exit
+  --ledger LEDGER
+  --credentials CREDENTIALS
+  --timeout TIMEOUT

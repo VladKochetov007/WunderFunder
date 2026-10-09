@@ -1,0 +1,28 @@
+usage: build_distill_cache.py [-h] [--data-root DATA_ROOT]
+                              [--teacher-cache-root TEACHER_CACHE_ROOT]
+                              [--checkpoint-root CHECKPOINT_ROOT]
+                              --split-manifest SPLIT_MANIFEST --output OUTPUT
+                              --teacher TEACHER
+                              [--homogeneous-family {strong,full_finetuned,raw_wmse,samefold_baseline}]
+                              [--expected-coefficient-sum EXPECTED_COEFFICIENT_SUM]
+                              [--chunk-sequences CHUNK_SEQUENCES]
+                              [--output-budget-gb OUTPUT_BUDGET_GB]
+                              [--min-free-gb MIN_FREE_GB]
+
+Build a fold-bound source-scale and four-family teacher-target cache.
+
+options:
+  -h, --help            show this help message and exit
+  --data-root DATA_ROOT
+  --teacher-cache-root TEACHER_CACHE_ROOT
+  --checkpoint-root CHECKPOINT_ROOT
+  --split-manifest SPLIT_MANIFEST
+  --output OUTPUT
+  --teacher TEACHER     family source: FAMILY=RUN[@epN]*COEFFICIENT (repeat
+                        for each source)
+  --homogeneous-family {strong,full_finetuned,raw_wmse,samefold_baseline}
+                        family mean scaled by the total coefficient for C1
+  --expected-coefficient-sum EXPECTED_COEFFICIENT_SUM
+  --chunk-sequences CHUNK_SEQUENCES
+  --output-budget-gb OUTPUT_BUDGET_GB
+  --min-free-gb MIN_FREE_GB

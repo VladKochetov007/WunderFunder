@@ -1,0 +1,9 @@
+# Live frontier — resumed independent training
+
+User explicitly resumed experiments on2026-10-07. [Current allocation](RESUMED_ALLOCATION_20261007.md), [resume receipt](runtime/RESUME_20261007.json), [historical stop](runtime/barriers/STOP_ADMISSION_20261006_230502_original.json). [Specifications and ADRs](../../../specs/README.md) record objective, basis, idea generation and result ownership. The wrap-up document is a historical stop snapshot.
+
+Own public best remains **0.6660**; Maxim's reported **0.6674** is not beaten. No new submission is ready. Paired C0 yielded no demonstrated gain: local difference−0.00018902 against warm parents,95% interval[−0.00536403,+0.00354846]. [Report](local/E502_C0_EVALUATION_v2/report.md). [Replication reflection](reviews/MAXIM_REPLICATION_REFLECTION.md) separates unrun candidates, recipe differences and execution bottlenecks.
+
+All four missing teacher training exports completed with zero OOM kills. C1–C4, E510 production, H196 and wider-model training have not yet fitted. Resumed priorities: minimal homogeneousC1 without unrelated cache dependencies; corrected Kaggle actual-data profile and own baseline pair; explicit raw-versus-clipped family targets; independent paired grading. E508V2 failed before profiling because the consumer's footer hash range omitted8trailerbytes. Correct local ranges match both frozen fingerprints; [diagnosis](reviews/E508_FOOTER_RANGE_DIAGNOSIS.md). NewV3 must verify provider inputs. Already-queued TPU has no ETA. Durable monitoring remains active.
+
+Twenty literature/implementation proposals H181–H200 are preserved with unknown numerical priors. SolarPro4 wrote four Net2Net cards and draft widening code; MiMo proposal inspired native H196 code. Independent criticism and actual API checks distinguish ideas from valid artifacts and scored experiments. Provider failures and original negative evidence remain preserved.

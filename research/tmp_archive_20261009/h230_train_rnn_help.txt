@@ -1,0 +1,459 @@
+usage: train_rnn.py [-h] --name NAME [--device {cuda,cpu}]
+                    [--train-seqs TRAIN_SEQS] [--valid-seqs VALID_SEQS]
+                    [--full-valid] [--hidden HIDDEN] [--layers LAYERS]
+                    [--dropout DROPOUT] [--chunk CHUNK]
+                    [--update-rows UPDATE_ROWS] [--detach-rows DETACH_ROWS]
+                    [--detach-boundary-jitter]
+                    [--detach-jitter-seed DETACH_JITTER_SEED]
+                    [--origin-view {off,prefix-fixed,prefix-random,prefix-discard}]
+                    [--origin-seed ORIGIN_SEED]
+                    [--credit-mode {deterministic,random-uncompensated,artbp}]
+                    [--credit-keep-probability CREDIT_KEEP_PROBABILITY]
+                    [--credit-seed CREDIT_SEED]
+                    [--qat {none,recurrent,recurrent_head}]
+                    [--recurrent-rank RECURRENT_RANK]
+                    [--sentinel-values {unchanged,neutral,safe}]
+                    [--sentinel-indicators {none,missing,current}]
+                    [--sentinel-base-width SENTINEL_BASE_WIDTH]
+                    [--batch BATCH] [--epochs EPOCHS]
+                    [--stop-after-epoch STOP_AFTER_EPOCH]
+                    [--checkpoint-policy {best,fixed}]
+                    [--checkpoint-epoch CHECKPOINT_EPOCH]
+                    [--no-eval-during-fit] [--split-manifest SPLIT_MANIFEST]
+                    [--save-training-state] [--resume-state RESUME_STATE]
+                    [--lr LR] [--wd WD] [--optim {adamw,muon,sgd}]
+                    [--muon-scope {rnn,hidden}] [--beta2 BETA2]
+                    [--sched {onecycle,wsd,sgdr}] [--wsd-decay WSD_DECAY]
+                    [--wsd-final WSD_FINAL]
+                    [--rnn-init {default,chrono,orth,chrono_orth}]
+                    [--chrono-tmax CHRONO_TMAX] [--clip CLIP] [--grad-stats]
+                    [--loss {corr,wmse,mix,huber,ce_joint,mse,gcorr,wmse_gcorr,gcorr_pool}]
+                    [--thin-prob THIN_PROB] [--thin-range THIN_RANGE]
+                    [--thin-mode {compress,retained-mass}]
+                    [--pool-decay POOL_DECAY] [--huber-delta HUBER_DELTA]
+                    [--ce-tilt] [--ce-mse CE_MSE] [--distill DISTILL]
+                    [--distill-cache-root DISTILL_CACHE_ROOT]
+                    [--distill-cache-variant {source,normalized,homogeneous}]
+                    [--distill-family-weight DISTILL_FAMILY_WEIGHT]
+                    [--distill-family-target-mode {clip2,raw}]
+                    [--distill-alpha DISTILL_ALPHA]
+                    [--distill-alpha-far DISTILL_ALPHA_FAR]
+                    [--distill-alpha-tau DISTILL_ALPHA_TAU]
+                    [--distill-boot-h DISTILL_BOOT_H]
+                    [--distill-reanchor DISTILL_REANCHOR]
+                    [--readout-activation {gelu,fixed_mix}]
+                    [--aux-next AUX_NEXT] [--aux-tier AUX_TIER]
+                    [--aux-mask AUX_MASK] [--aux-sign AUX_SIGN]
+                    [--aux-quote AUX_QUOTE]
+                    [--quote-cache-root QUOTE_CACHE_ROOT]
+                    [--aux-next-k AUX_NEXT_K]
+                    [--spread-aux-mode {original,proxy_known,current_known}]
+                    [--spread-cache-root SPREAD_CACHE_ROOT]
+                    [--aux-struct AUX_STRUCT] [--aux AUX]
+                    [--aux-weight AUX_WEIGHT]
+                    [--arch {gru,dual,gated,structured,event-content,tcn,twoclock,specialist,prefix-adapter}]
+                    [--tcn-mix TCN_MIX] [--decay-init {multi,single}]
+                    [--memory-arm {endpoint-content,endpoint-position,raw-code-content}]
+                    [--expert-hidden EXPERT_HIDDEN]
+                    [--num-experts NUM_EXPERTS]
+                    [--specialist-route {learned,hash,universal}]
+                    [--hash-seed HASH_SEED] [--adapter-rank ADAPTER_RANK]
+                    [--adapter-mode {conditional,unconditional,diagonal}]
+                    [--prefix-rows PREFIX_ROWS] [--gate-ce GATE_CE]
+                    [--cell {gru,lstm}] [--enc {linear,mlp,tokens,conv}]
+                    [--tok-dim TOK_DIM] [--att-layers ATT_LAYERS]
+                    [--conv-k CONV_K] [--event-hidden EVENT_HIDDEN]
+                    [--class-balance]
+                    [--train-source {train,valid_devA,train+valid,valid}]
+                    [--include-heldout-valid]
+                    [--valid-train-fraction VALID_TRAIN_FRACTION]
+                    [--epoch-samples EPOCH_SAMPLES]
+                    [--eval-source {dev,devB,holdout,vfold}]
+                    [--valid-fold VALID_FOLD] [--n-valid-folds N_VALID_FOLDS]
+                    [--valid-repeat VALID_REPEAT] [--init INIT]
+                    [--inherit-init-preprocessing] [--freeze FREEZE]
+                    [--ema-teacher EMA_TEACHER] [--ema-metric-weight]
+                    [--ema-decay EMA_DECAY]
+                    [--ema-reference-rows EMA_REFERENCE_ROWS] [--eval-ema]
+                    [--mask-weight] [--propensity PROPENSITY]
+                    [--prop-power PROP_POWER] [--prop-eps PROP_EPS]
+                    [--class-weight CLASS_WEIGHT]
+                    [--valid-true-mask VALID_TRUE_MASK]
+                    [--prop-input PROP_INPUT] [--swa-frac SWA_FRAC]
+                    [--train-classes TRAIN_CLASSES] [--online-norm]
+                    [--heuristics] [--raw-only]
+                    [--research-features {none,volume28,volume28_current}]
+                    [--privileged-mode {none,current,future}]
+                    [--privileged-horizon PRIVILEGED_HORIZON]
+                    [--fit-groups-manifest FIT_GROUPS_MANIFEST] [--seed SEED]
+                    [--loss-norm {chunk,running}]
+                    [--distill-denominator {chunk,fixed,shuffled}]
+                    [--distill-reference-mass DISTILL_REFERENCE_MASS]
+                    [--calibrate-distill-reference CALIBRATE_DISTILL_REFERENCE]
+                    [--calibration-epochs CALIBRATION_EPOCHS]
+                    [--denominator-shuffle-seed DENOMINATOR_SHUFFLE_SEED]
+                    [--since-weight SINCE_WEIGHT] [--since-floor SINCE_FLOOR]
+                    [--episode-weight EPISODE_WEIGHT]
+                    [--episode-floor EPISODE_FLOOR] [--td-alpha TD_ALPHA]
+                    [--td-ramp TD_RAMP] [--gcorr-weight GCORR_WEIGHT] [--fast]
+                    [--sync-free] [--fused-adam] [--pin-memory] [--prop-cache]
+                    [--precision {fp16,bf16,fp32}] [--max-batches MAX_BATCHES]
+                    [--profile-steps PROFILE_STEPS]
+                    [--profile-warmup PROFILE_WARMUP]
+                    [--parity-dump PARITY_DUMP] [--deterministic]
+                    [--optim-switch OPTIM_SWITCH] [--warmup-frac WARMUP_FRAC]
+                    [--restarts RESTARTS] [--head-lr-mult HEAD_LR_MULT]
+                    [--clip-per-module CLIP_PER_MODULE]
+                    [--grad-noise GRAD_NOISE] [--zoneout ZONEOUT] [--init-qmc]
+                    [--batch-order {random,seeded,qmc}] [--antithetic]
+                    [--momentum MOMENTUM] [--no-gradient-clip]
+
+options:
+  -h, --help            show this help message and exit
+  --name NAME
+  --device {cuda,cpu}   CPU is available for bounded implementation checks;
+                        production default remains CUDA
+  --train-seqs TRAIN_SEQS
+  --valid-seqs VALID_SEQS
+                        dev sequences used for selection
+  --full-valid          all 1505 dev sequences
+  --hidden HIDDEN
+  --layers LAYERS
+  --dropout DROPOUT
+  --chunk CHUNK
+  --update-rows UPDATE_ROWS
+                        opt-in distilled macrostep rows; 0 preserves one
+                        update per --chunk
+  --detach-rows DETACH_ROWS
+                        opt-in gradient detach interval; 0 uses --chunk, with
+                        state values carried
+  --detach-boundary-jitter
+                        randomize detach phase inside unchanged macro updates;
+                        requires chunk < detach rows
+  --detach-jitter-seed DETACH_JITTER_SEED
+  --origin-view {off,prefix-fixed,prefix-random,prefix-discard}
+                        replay causal prefixes before updates; discard matches
+                        fixed replay work while retaining carried state
+  --origin-seed ORIGIN_SEED
+  --credit-mode {deterministic,random-uncompensated,artbp}
+                        random recurrent credit within fixed update windows
+                        only
+  --credit-keep-probability CREDIT_KEEP_PROBABILITY
+  --credit-seed CREDIT_SEED
+  --qat {none,recurrent,recurrent_head}
+                        weight-only nearest-even q8 with identity STE; paired
+                        float control must use the same fp32 recipe
+  --recurrent-rank RECURRENT_RANK
+                        SVD-initialized rank per stacked GRU matrix; 0
+                        preserves dense recurrence
+  --sentinel-values {unchanged,neutral,safe}
+  --sentinel-indicators {none,missing,current}
+  --sentinel-base-width SENTINEL_BASE_WIDTH
+                        inherited only from a frozen sentinel_prepare
+                        initializer
+  --batch BATCH
+  --epochs EPOCHS
+  --stop-after-epoch STOP_AFTER_EPOCH
+                        end training after this epoch while the lr schedule
+                        still spans --epochs (cheap screens)
+  --checkpoint-policy {best,fixed}
+  --checkpoint-epoch CHECKPOINT_EPOCH
+                        zero-based fixed checkpoint epoch
+  --no-eval-during-fit  never construct or read an evaluation loader
+  --split-manifest SPLIT_MANIFEST
+                        frozen component-excluded outer-fold manifest
+  --save-training-state
+                        atomically save full training_state.pt at each epoch
+                        boundary; fixed final checkpoint only
+  --resume-state RESUME_STATE
+                        resume full epoch training state with the identical
+                        recipe and schedule horizon
+  --lr LR
+  --wd WD
+  --loss {corr,wmse,mix,huber,ce_joint,mse,gcorr,wmse_gcorr,gcorr_pool}
+  --thin-prob THIN_PROB
+                        training-view row thinning: probability per sequence
+                        (0 disables)
+  --thin-range THIN_RANGE
+                        low,high of the dropped share of quiet rows
+  --thin-mode {compress,retained-mass}
+                        retained-mass preserves the observed stream and masks
+                        the same sampled quiet rows only in losses
+  --pool-decay POOL_DECAY
+                        --loss gcorr_pool: per-chunk decay of the pooled
+                        weighted sums kept from earlier chunks
+  --huber-delta HUBER_DELTA
+  --ce-tilt             weight code cross-entropy rows by mean |clip(y)|
+  --ce-mse CE_MSE       add this weight x wMSE on the differentiable readout
+  --distill DISTILL     teacher runs name[*scale],...; cached
+                        pred_<name>_<split>.npy
+  --distill-cache-root DISTILL_CACHE_ROOT
+                        validated preweighted two-column teacher cache for
+                        independent distillation
+  --distill-cache-variant {source,normalized,homogeneous}
+                        main target column set in the preweighted cache
+  --distill-family-weight DISTILL_FAMILY_WEIGHT
+                        training-only weighted-MSE coefficient for the four-
+                        family eight-output head
+  --distill-family-target-mode {clip2,raw}
+                        family-head teacher targets: legacy clip2 default or
+                        raw teacher outputs
+  --distill-alpha DISTILL_ALPHA
+                        target = (1-a) y + a mean(teachers)
+  --distill-alpha-far DISTILL_ALPHA_FAR
+                        noise-adaptive distillation: a(u) = a + (far - a)(1 -
+                        exp(-u/tau)), u = rows until the label changes
+                        (training-time only; inputs stay causal)
+  --distill-alpha-tau DISTILL_ALPHA_TAU
+                        rows scale of the noise-adaptive weight
+  --distill-boot-h DISTILL_BOOT_H
+                        stopped bootstrap: in the distillation blend replace y
+                        by the teacher at row t+h while the label run outlives
+                        t+h, else keep y (training-time only; min(t+h, run
+                        end) is a stopping time)
+  --distill-reanchor DISTILL_REANCHOR
+                        original-label fraction of final distilled target on
+                        bootstrap-surviving rows only
+  --readout-activation {gelu,fixed_mix}
+                        readout-only fixed equal GELU/LeakyReLU(.01) mixture;
+                        research export required
+  --aux-next AUX_NEXT   weight of auxiliary heads: log rows to next target
+                        change (MSE) and its sign (BCE)
+  --aux-tier AUX_TIER   class-3 winning-target tick-tier auxiliary CE; head
+                        discarded for prediction
+  --aux-mask AUX_MASK   validation-source scoring-mask auxiliary BCE; head
+                        discarded for prediction
+  --aux-sign AUX_SIGN   current target-contrast direction BCE; head discarded
+                        for prediction
+  --aux-quote AUX_QUOTE
+                        training-only class-3 future 8/24-book-event mean
+                        quote displacement MSE
+  --quote-cache-root QUOTE_CACHE_ROOT
+                        optional paired auxiliary cache directory; historical
+                        cache remains the default
+  --aux-next-k AUX_NEXT_K
+                        extra event horizons for the next-change aux heads,
+                        e.g. 2,4
+  --spread-aux-mode {original,proxy_known,current_known}
+  --spread-cache-root SPREAD_CACHE_ROOT
+                        supervision-only cache bound to the clean fitting
+                        population
+  --aux-struct AUX_STRUCT
+                        weight of auxiliary cross-entropy heads for spread
+                        (ticks), branch and class
+  --aux AUX             future row shifts as auxiliary targets, e.g. 20,200
+  --aux-weight AUX_WEIGHT
+  --arch {gru,dual,gated,structured,event-content,tcn,twoclock,specialist,prefix-adapter}
+                        tcn: causal dilated conv stack, --hidden channels,
+                        --layers blocks (receptive field 2^layers); twoclock:
+                        --layers x GRU(--hidden) on rows + GRU(--event-hidden)
+                        stepping on a6 endpoint rows; specialist: shared GRU
+                        plus always-updated expert GRUs; prefix-adapter:
+                        matched low-rank arms
+  --tcn-mix TCN_MIX     --arch tcn: GELU + 1x1 conv after each block's conv
+  --decay-init {multi,single}
+                        structured-state initial half-lives; identical learned
+                        bounds and phases
+  --memory-arm {endpoint-content,endpoint-position,raw-code-content}
+  --expert-hidden EXPERT_HIDDEN
+                        --arch specialist: hidden width of each always-updated
+                        expert GRU
+  --num-experts NUM_EXPERTS
+                        --arch specialist: number of specialist GRU states
+  --specialist-route {learned,hash,universal}
+                        --arch specialist: learned causal top-one,
+                        deterministic prefix hash, or universal mean
+  --hash-seed HASH_SEED
+                        --arch specialist: salt for the fixed hash-routing
+                        control
+  --adapter-rank ADAPTER_RANK
+                        --arch prefix-adapter: rank shared by all adapter
+                        controls
+  --adapter-mode {conditional,unconditional,diagonal}
+                        --arch prefix-adapter: conditional, unconditional, or
+                        diagonal control
+  --prefix-rows PREFIX_ROWS
+                        maximum causal prefix rows used for routing and input
+                        adaptation
+  --gate-ce GATE_CE     BCE weight for the gated model's target-difference
+                        sign head
+  --cell {gru,lstm}
+  --enc {linear,mlp,tokens,conv}
+                        per-row encoder before the recurrent cell (residual on
+                        the linear projection)
+  --tok-dim TOK_DIM
+  --att-layers ATT_LAYERS
+  --conv-k CONV_K
+  --event-hidden EVENT_HIDDEN
+  --class-balance       sample train sequences so market-class shares match
+                        validation
+  --train-source {train,valid_devA,train+valid,valid}
+                        train+valid: all train sequences plus validation devA
+                        and devB (holdout never)
+  --include-heldout-valid
+                        final fit only: include the reserved validation block
+                        in training
+  --valid-train-fraction VALID_TRAIN_FRACTION
+                        fixed chain subset of eligible validation training
+                        sequences for a data-volume comparison
+  --epoch-samples EPOCH_SAMPLES
+                        draw this many training sequences with replacement
+                        each epoch to match optimizer steps
+  --eval-source {dev,devB,holdout,vfold}
+  --valid-fold VALID_FOLD
+                        K-fold over ALL validation sequences: train on train +
+                        other folds, evaluate on this fold
+  --n-valid-folds N_VALID_FOLDS
+  --valid-repeat VALID_REPEAT
+                        with train+valid: each validation training sequence
+                        appears this many times per epoch
+  --init INIT           run name whose model.pt initializes weights; NAME@epN
+                        loads model_epN.pt
+  --inherit-init-preprocessing
+                        inherit parent feature construction and architecture;
+                        reject conflicting explicit flags
+  --freeze FREEZE       comma-separated parameter-name prefixes kept fixed,
+                        e.g. inp,gru (inp,tcn for --arch tcn)
+  --ema-teacher EMA_TEACHER
+                        mean-teacher consistency: weight of (out - EMA-model
+                        out)^2 on the two target outputs
+  --ema-metric-weight   weight teacher consistency by |clipped target|,
+                        matching the scored loss
+  --ema-decay EMA_DECAY
+  --ema-reference-rows EMA_REFERENCE_ROWS
+                        0 keeps per-attempt decay; otherwise
+                        decay**(update_rows/reference_rows)
+  --eval-ema            evaluate and save the EMA weights instead of the raw
+                        ones
+  --mask-weight         main loss only on is_scored rows (needs a validation
+                        train source)
+  --propensity PROPENSITY
+                        run name of a frozen PropensityNet; weights main loss
+                        by p(x)
+  --prop-power PROP_POWER
+                        weights p(x)**power
+  --prop-eps PROP_EPS   floor added to propensity weights (mask robustness)
+  --class-weight CLASS_WEIGHT
+                        per-market-class multipliers on the main loss weights,
+                        e.g. 1.19,1.32,2.02,0.79
+  --valid-true-mask VALID_TRUE_MASK
+                        if >= 0: rows of sequences that carry a true scoring
+                        mask (validation) are weighted c*(is_scored + this
+                        eps) instead of by the propensity net; c matches the
+                        mean propensity weight
+  --prop-input PROP_INPUT
+                        run name of a frozen PropensityNet appended as an
+                        input feature
+  --swa-frac SWA_FRAC   average weights over the last fraction of optimizer
+                        steps; evaluate the average
+  --train-classes TRAIN_CLASSES
+                        comma-separated market classes to train on (oracle
+                        expert test)
+  --online-norm
+  --heuristics          append the causal heuristic library as inputs
+  --raw-only            zero the event-feature inputs (raw 112-column view)
+  --research-features {none,volume28,volume28_current}
+                        append causal volume features computed on full float32
+                        sequences
+  --privileged-mode {none,current,future}
+                        teacher-only equal-width current/future raw inputs;
+                        requires inner component crossfit
+  --privileged-horizon PRIVILEGED_HORIZON
+  --fit-groups-manifest FIT_GROUPS_MANIFEST
+                        strict inner component split within --split-manifest,
+                        for fresh teacher fitting
+  --seed SEED
+  --loss-norm {chunk,running}
+                        wmse main loss divided by each chunk's weight sum
+                        (chunk) or by a running mean of it (running: rows keep
+                        the pooled metric's relative weights across chunks;
+                        brainteaser card B)
+  --distill-denominator {chunk,fixed,shuffled}
+                        cached-distill MAIN loss: update mass, frozen
+                        reference mass, or shuffled mass-factor sham
+  --distill-reference-mass DISTILL_REFERENCE_MASS
+                        positive frozen fit-pool main mass for fixed/shuffled
+                        controls
+  --calibrate-distill-reference CALIBRATE_DISTILL_REFERENCE
+                        write a fit-pool mass report and exit before optimizer
+                        construction
+  --calibration-epochs CALIBRATION_EPOCHS
+                        complete training-loader passes used only for
+                        reference calibration
+  --denominator-shuffle-seed DENOMINATOR_SHUFFLE_SEED
+  --since-weight SINCE_WEIGHT
+                        if > 0: multiply main-loss row weights by max(floor,
+                        1/(1+since/tau)), since = rows since the last i0 price
+                        event (causal input only; ideas_round4 B2)
+  --since-floor SINCE_FLOOR
+  --episode-weight EPISODE_WEIGHT
+                        scale for training-only inverse-sqrt class-3 target
+                        episode length
+  --episode-floor EPISODE_FLOOR
+  --td-alpha TD_ALPHA   TD targets (ideas_round4 B1b): mix the label with the
+                        EMA teacher's output at the last row before the next
+                        label change (same |y| weights); needs the EMA model
+  --td-ramp TD_RAMP     epochs over which td-alpha ramps up from 0
+  --gcorr-weight GCORR_WEIGHT
+                        weight of the pooled-Pearson term in --loss wmse_gcorr
+
+optimizer research (src/wnn/optim.py; defaults reproduce AdamW + OneCycle):
+  --optim {adamw,muon,sgd}
+                        muon: orthogonalised per-gate updates on the recurrent
+                        matrices, AdamW elsewhere
+  --muon-scope {rnn,hidden}
+                        hidden: Muon also on head.0.weight
+  --beta2 BETA2         Adam second-moment decay
+  --sched {onecycle,wsd,sgdr}
+                        wsd: 5% linear warmup, constant lr, (1 - sqrt)
+                        cooldown over the last --wsd-decay
+  --wsd-decay WSD_DECAY
+                        cooldown share of all optimizer steps
+  --wsd-final WSD_FINAL
+                        final lr as a fraction of --lr
+  --rnn-init {default,chrono,orth,chrono_orth}
+                        chrono gate biases (memory timescales U[2, --chrono-
+                        tmax] rows) and/or orthogonal W_hh
+  --chrono-tmax CHRONO_TMAX
+  --clip CLIP           global gradient-norm clip
+  --grad-stats          per-epoch pre-clip gradient-norm quantiles, clip rate
+                        and family shares
+
+throughput (see research/perf-2026-09-27.md):
+  --fast                all verified throughput options: --sync-free --fused-
+                        adam --pin-memory --prop-cache
+  --sync-free           no per-step host<->GPU syncs in the train step
+  --fused-adam          fused AdamW (GradScaler skips inf steps on device)
+  --pin-memory          pinned persistent loaders + CUDA-stream prefetch
+  --prop-cache          read propensity from
+                        cache/propcache_<name>_<split>.npy
+                        (scripts/cache_propensity.py)
+  --precision {fp16,bf16,fp32}
+                        autocast dtype; bf16 trains without GradScaler
+  --max-batches MAX_BATCHES
+                        stop each epoch after this many batches (harness)
+  --profile-steps PROFILE_STEPS
+                        time this many batches per stage (after --profile-
+                        warmup), print a table and exit
+  --profile-warmup PROFILE_WARMUP
+  --parity-dump PARITY_DUMP
+                        save per-step losses and final weights here, then exit
+  --deterministic       cudnn deterministic, no benchmark (parity runs)
+
+opt2 dynamics (experimental, default off):
+  --optim-switch OPTIM_SWITCH
+                        completed step fraction:adamw|muon
+  --warmup-frac WARMUP_FRAC
+  --restarts RESTARTS   SGDR restart count (K+1 cycles)
+  --head-lr-mult HEAD_LR_MULT
+  --clip-per-module CLIP_PER_MODULE
+                        top-level module:cap,...
+  --grad-noise GRAD_NOISE
+                        variance eta, not standard deviation
+  --zoneout ZONEOUT     nonzero is unsupported for fused GRU
+  --init-qmc
+  --batch-order {random,seeded,qmc}
+  --antithetic
+  --momentum MOMENTUM   SGD momentum; Adam/Muon reject nonzero
+  --no-gradient-clip    do not transform finite gradients; nonfinite gradients
+                        abort

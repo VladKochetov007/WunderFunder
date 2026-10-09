@@ -1,0 +1,9 @@
+# H232 fixed-epoch export metadata repair R3
+
+The first export-only push was rejected by Kaggle HTTP 400 before kernel creation. The provider stated that title H232 GRU384 V7B EP3 Export R2 did not resolve to ID slug h232-gru384-v7b-ep3-export-20261008-r2; an exact owner inventory search after rejection returned Not found. The attempt and its admission are preserved in the main campaign receipts.
+
+Root authorized a metadata-only successor with canonical ID vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r3 and exact title H232 GRU384 V7B EP3 Export 20261008 R3. A source-side validator now checks that the title's normalized alphanumeric slug exactly matches the ID slug, and a regression test rejects the failed R2 title and accepts the prescribed R3 identity.
+
+The replacement packet is at /tmp/wnn-h232-v7b-ep3-export-20261008/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_only_20261008/packet_r4_metadata_slugfix. Its only changed packet file is kernel-metadata.json. All 17 embedded payload members, worker code, payload ZIP, source archive, fixed epoch 3 checkpoint, provenance, and scientific execution bytes match the rejected R2 packet. Training, profiling, scoring, and grading remain disabled. Fresh quota admission is recorded in H232_EP3_EXPORT_PUSH_ADMISSION_20261008_R2.json; it retains 6,000 seconds for live E540 V8 and admits one 6,000-second export kernel, with 18,107.367638 seconds remaining in the campaign GPU allowance after both holds.
+
+Offline validation: 11 focused tests pass, Ruff passes, and the R3 build receipt captures the exact packet hashes. No fit, profile, data load, score, or provider mutation occurred while preparing this successor. The exact R3 ID was absent from the private kernel inventory before push.

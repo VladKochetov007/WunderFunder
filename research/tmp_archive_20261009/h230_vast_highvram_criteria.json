@@ -1,0 +1,40 @@
+{
+  "num_gpus": {
+    "eq": 1
+  },
+  "gpu_ram": {
+    "gte": 32768
+  },
+  "cpu_ram": {
+    "gte": 32768
+  },
+  "cpu_cores_effective": {
+    "gte": 4
+  },
+  "disk_space": {
+    "gte": 100
+  },
+  "allocated_storage": 100,
+  "direct_port_count": {
+    "gte": 1
+  },
+  "cuda_max_good": {
+    "gte": 13.2
+  },
+  "dph_total": {
+    "lte": 0.5
+  },
+  "inet_down": {
+    "gte": 100
+  },
+  "reliability": {
+    "gte": 0.95
+  },
+  "order": [
+    [
+      "dph_total",
+      "asc"
+    ]
+  ],
+  "limit": 20
+}
