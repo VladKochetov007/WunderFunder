@@ -1,0 +1,19 @@
+[Unit]
+Description=Collect terminal outputs for the root-pinned D02 R5 GPU kernel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Slice=wnn-campaign.slice
+CPUQuota=100%
+MemoryMax=1G
+MemorySwapMax=0
+TimeoutStartSec=900s
+TimeoutStopSec=5s
+Environment=WNN_SLICE=wnn-campaign.slice
+Environment=WNN_CPU_QUOTA=100%
+Environment=WNN_THREADS=1
+Environment=WNN_MEM_MAX=1000000000
+Environment=WNN_RUNTIME_MAX=850s
+ExecStart=/usr/bin/flock -w 40 /tmp/wnn-codex-support.lock /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/collect_terminal_outputs.py --config /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/terminal_collection_targets_20261009_d02_r5_r1.json --repo-root /home/vlad/development/wunder/wnn_connectome_starterpack

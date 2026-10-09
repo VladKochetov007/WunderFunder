@@ -1,0 +1,11 @@
+[Unit]
+Description=Schedule bounded terminal collection for the D02 R5 GPU kernel
+
+[Timer]
+OnBootSec=300s
+OnUnitInactiveSec=300s
+AccuracySec=10s
+Unit=wnn-campaign-kaggle-terminal-collector-d02-r5.service
+
+[Install]
+WantedBy=timers.target

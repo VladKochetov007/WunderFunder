@@ -32,6 +32,7 @@ GPU_R4_KERNEL = "vladkochetov07/wnn-loss-pair-gpu-20261009-v4"
 GPU_R5_KERNEL = "vladkochetov07/wnn-loss-pair-export-recovery-20261009-r1"
 GPU_D02_R3_KERNEL = "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v3"
 GPU_D02_R4_KERNEL = "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v4"
+GPU_D02_R5_KERNEL = "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v5"
 TPU_V7_KERNEL = "vladkochetov07/e463-tpu-real-data-reload-v7-20261008"
 
 # Only the original fixed pair and its exact root-pinned GPU extensions are accepted.
@@ -339,9 +340,7 @@ PINNED_TARGETS: dict[str, dict[str, Any]] = {
             "../bandit_continuation/diversity_stack_20261009/"
             "d02_muon_loss_successor_r4_admitted_r2/GPU_D02_R4_PROVIDER_PUSH_RECEIPT_R1.json"
         ),
-        "push_receipt_sha256": (
-            "226f7bee47f5bd348e33e47312e1d4a820096b680f125e7f637fb36d5a2ff20a"
-        ),
+        "push_receipt_sha256": ("226f7bee47f5bd348e33e47312e1d4a820096b680f125e7f637fb36d5a2ff20a"),
         "asset_ready_receipt": (
             "../bandit_continuation/diversity_stack_20261009/"
             "d02_muon_loss_successor_r4_source_r2/SOURCE_ASSET_READY_R1.json"
@@ -355,15 +354,11 @@ PINNED_TARGETS: dict[str, dict[str, Any]] = {
             "c7bf7880a73a87b33d4c9c7d800384a5b245321721014ac214df3bd6b864f28f"
         ),
         "admission_bindings": {
-            "packet_sha256": (
-                "e3c80582b15b1e1f71d172022c895402ef8ed1d4b4c787c7498db9287ef44650"
-            ),
+            "packet_sha256": ("e3c80582b15b1e1f71d172022c895402ef8ed1d4b4c787c7498db9287ef44650"),
             "bootstrap_sha256": (
                 "0a49f42afff170eb48d03d054ab0bbc66c091ecdda63cecffc17b24d0224f310"
             ),
-            "metadata_sha256": (
-                "8bcea8b07aecd567e62bbe0f730eff6d3d5e1e824afc745d7960b5633d89d623"
-            ),
+            "metadata_sha256": ("8bcea8b07aecd567e62bbe0f730eff6d3d5e1e824afc745d7960b5633d89d623"),
             "embedded_admission_sha256": (
                 "08911f92985f0de59aa78f86cce516ce8582e241403a74f6ce26c9568d7d4c9f"
             ),
@@ -371,6 +366,70 @@ PINNED_TARGETS: dict[str, dict[str, Any]] = {
         "provisional_reservation_seconds": 7200,
         "provider_timeout_seconds": 3600,
         "worker_max_seconds": 3300,
+    },
+    GPU_D02_R5_KERNEL: {
+        "resource": "gpu",
+        "metadata_id": GPU_D02_R5_KERNEL,
+        "root_admission": (
+            "../bandit_continuation/diversity_stack_20261009/ROOT_D02_R5_KERNEL_ADMISSION_R1.json"
+        ),
+        "root_admission_sha256": (
+            "643ebedab510f62a28477b095fd67c7f2137824112f81f0aa63fe60479b35d43"
+        ),
+        "source_admission": (
+            "../bandit_continuation/diversity_stack_20261009/"
+            "d02_muon_loss_successor_r5_profile_export_r3/"
+            "ROOT_D02_R5_SOURCE_ADMISSION_R1.json"
+        ),
+        "source_admission_sha256": (
+            "eb2e58ca30e7d1d85936c7c3f94cae58daab406f7bd832a2a681477841515680"
+        ),
+        "artifact_dir": (
+            "../bandit_continuation/diversity_stack_20261009/"
+            "cloud_delivery/d02_r5/terminal_collect_r1"
+        ),
+        "terminal_receipt": (
+            "../bandit_continuation/diversity_stack_20261009/"
+            "cloud_delivery/d02_r5/GPU_D02_R5_TERMINAL_OPERATOR_RECEIPT_R1.json"
+        ),
+        "push_receipt": (
+            "../bandit_continuation/diversity_stack_20261009/"
+            "cloud_delivery/d02_r5/GPU_D02_R5_PROVIDER_PUSH_RECEIPT_R1.json"
+        ),
+        "push_receipt_sha256": ("cc71286530423010f0151a4c8a7032ebb543f234c262d8e3d4817ea56dda2d0e"),
+        "asset_ready_receipt": (
+            "../bandit_continuation/diversity_stack_20261009/"
+            "d02_muon_loss_successor_r5_profile_export_r3/"
+            "source_asset_ready_receipt_R1.json"
+        ),
+        "asset_ready_receipt_sha256": (
+            "a704d90465220cdfcea904c5c0db26c8b66dd412c82af82e3af3f6ab2389bc7e"
+        ),
+        "source_dataset": "vladkochetov07/wnn-d02-muon-loss-code-20261009-r5",
+        "source_dataset_version": 1,
+        "source_manifest_sha256": (
+            "9ab15bc1efae1b56e045413d3999c350ffdf75edbc541b49f053b41c3bb264c6"
+        ),
+        "admission_bindings": {
+            "packet_sha256": ("3aef965c421e86856e46d604911242ed85dd9e0be14b5163f7e0cdf6ddd3dbab"),
+            "bootstrap_sha256": (
+                "2c4f3de365baf65d9e3570327f6f6c53422682fa536ddee760b3d57bd0f13ba8"
+            ),
+            "metadata_sha256": ("6491368c526ea9a009d552c08c57fdfa5fe5e20184b1af7ac9aef0ed5402ccb9"),
+            "source_code_manifest_sha256": (
+                "dbd98f4b73f5cdc7dd8df137ae9d0bd23495fd8ee2067da02cc94d45699bd6e9"
+            ),
+            "source_asset_manifest_sha256": (
+                "9ab15bc1efae1b56e045413d3999c350ffdf75edbc541b49f053b41c3bb264c6"
+            ),
+            "embedded_admission_sha256": (
+                "8226e42266616c016e5ddf7b240bd5f1999e45c259dec5d72eff1fde3bffaf10"
+            ),
+        },
+        "provisional_reservation_seconds": 7200,
+        "provider_timeout_seconds": 3600,
+        "worker_max_seconds": 3300,
+        "other_open_gpu_holds": {"native_gpu_fp16_r1": 7200},
     },
 }
 
@@ -430,6 +489,7 @@ def _allowed_target_sets(pinned_targets: dict[str, dict[str, Any]]) -> set[froze
         GPU_R5_KERNEL,
         GPU_D02_R3_KERNEL,
         GPU_D02_R4_KERNEL,
+        GPU_D02_R5_KERNEL,
     }
     allowed = {legacy_targets}
     if GPU_R2_KERNEL in all_targets:
@@ -444,6 +504,8 @@ def _allowed_target_sets(pinned_targets: dict[str, dict[str, Any]]) -> set[froze
         allowed.add(frozenset({GPU_D02_R3_KERNEL}))
     if GPU_D02_R4_KERNEL in all_targets:
         allowed.add(frozenset({GPU_D02_R4_KERNEL}))
+    if GPU_D02_R5_KERNEL in all_targets:
+        allowed.add(frozenset({GPU_D02_R5_KERNEL}))
     return allowed
 
 
@@ -515,6 +577,31 @@ def validate_config(
                 or checks.get("embedded_payload_matches_root") is not True
             ):
                 raise ValueError(f"{kernel}: final sealed-packet checks are incomplete")
+        elif kernel == GPU_D02_R5_KERNEL:
+            if admission.get("state") != "one_exact_kernel_push_authorized":
+                raise ValueError(f"{kernel}: root admission state mismatch")
+            if admission.get("kernel") != target["metadata_id"]:
+                raise ValueError(f"{kernel}: admission kernel ID mismatch")
+            for key, expected in target["admission_bindings"].items():
+                if admission.get(key) != expected:
+                    raise ValueError(f"{kernel}: admission binding mismatch for {key}")
+            if (
+                admission.get("provisional_gpu_seconds")
+                != target["provisional_reservation_seconds"]
+            ):
+                raise ValueError(f"{kernel}: admission reservation mismatch")
+            if admission.get("provider_timeout_seconds") != target["provider_timeout_seconds"]:
+                raise ValueError(f"{kernel}: admission timeout mismatch")
+            if admission.get("worker_wall_seconds") != target["worker_max_seconds"]:
+                raise ValueError(f"{kernel}: admission worker bound mismatch")
+            if admission.get("accelerator") != "NvidiaTeslaT4":
+                raise ValueError(f"{kernel}: admission accelerator mismatch")
+            if admission.get("source_dataset") != target["source_dataset"]:
+                raise ValueError(f"{kernel}: source dataset mismatch in root admission")
+            if admission.get("source_asset_manifest_sha256") != target["source_manifest_sha256"]:
+                raise ValueError(f"{kernel}: source manifest mismatch in root admission")
+            if admission.get("source_ready_receipt_sha256") != target["asset_ready_receipt_sha256"]:
+                raise ValueError(f"{kernel}: source readiness receipt mismatch in root admission")
         elif kernel in {GPU_R2_KERNEL, GPU_R4_KERNEL, GPU_R5_KERNEL}:
             if admission.get("state") != "one_private_kernel_push_conditionally_authorized":
                 raise ValueError(f"{kernel}: root admission state mismatch")
@@ -559,7 +646,7 @@ def validate_config(
 
         push_receipt_path = resolve_repo_path(repo_root, config_dir, target["push_receipt"])
         push_receipt = json.loads(push_receipt_path.read_text())
-        if kernel in {GPU_D02_R3_KERNEL, GPU_D02_R4_KERNEL}:
+        if kernel in {GPU_D02_R3_KERNEL, GPU_D02_R4_KERNEL, GPU_D02_R5_KERNEL}:
             if sha256_file(push_receipt_path) != target["push_receipt_sha256"]:
                 raise ValueError(f"{kernel}: exact provider push receipt hash mismatch")
             if (
@@ -593,8 +680,11 @@ def validate_config(
                 or push_receipt.get("source_dataset_ready_at_push") is not True
                 or push_receipt.get("source_manifest_sha256_verified")
                 != target["source_manifest_sha256"]
-                or push_receipt.get("source_file_inventory_sha256_bound")
-                != target["source_manifest_sha256"]
+                or (
+                    kernel != GPU_D02_R5_KERNEL
+                    and push_receipt.get("source_file_inventory_sha256_bound")
+                    != target["source_manifest_sha256"]
+                )
                 or push_receipt.get("source_readiness_receipt_sha256")
                 != target["asset_ready_receipt_sha256"]
             ):
@@ -605,7 +695,15 @@ def validate_config(
                         f"{kernel}: provider receipt packet binding mismatch for {key}"
                     )
             quota = push_receipt.get("quota_snapshot", {})
-            if (
+            if kernel == GPU_D02_R5_KERNEL:
+                if (
+                    quota.get("provisional_gpu_hold_seconds")
+                    != target["provisional_reservation_seconds"]
+                    or quota.get("other_open_gpu_holds") != target["other_open_gpu_holds"]
+                    or float(quota.get("campaign_gpu_headroom_after_all_holds_seconds", 0)) < 1000
+                ):
+                    raise ValueError(f"{kernel}: provider receipt quota does not meet admission")
+            elif (
                 quota.get("provisional_gpu_hold_seconds")
                 != target["provisional_reservation_seconds"]
                 or quota.get("other_open_gpu_holds") != 0
@@ -651,8 +749,13 @@ def validate_config(
                 raise ValueError(f"{kernel}: exact source readiness receipt hash mismatch")
             asset_ready = json.loads(asset_ready_path.read_text())
             readiness = asset_ready.get("readiness", {})
+            expected_ready_schema = (
+                "wnn.d02.r5.private-source-ready-receipt.v1"
+                if kernel == GPU_D02_R5_KERNEL
+                else "wnn.kaggle-d02-private-source-ready-receipt.v1"
+            )
             if (
-                asset_ready.get("schema") != "wnn.kaggle-d02-private-source-ready-receipt.v1"
+                asset_ready.get("schema") != expected_ready_schema
                 or asset_ready.get("dataset") != target["source_dataset"]
                 or asset_ready.get("private") is not True
                 or asset_ready.get("provider_version") != target["source_dataset_version"]
