@@ -9,6 +9,7 @@ from typing import Any
 
 import pytest
 from collect_terminal_outputs import (
+    GPU_D02_R3_KERNEL,
     GPU_R2_KERNEL,
     GPU_R4_KERNEL,
     GPU_R5_KERNEL,
@@ -235,12 +236,13 @@ def _r4_fixture(tmp_path: Path) -> tuple[Path, dict[str, dict[str, Any]]]:
 
 
 def test_only_exact_original_pair_and_admitted_gpu_extensions_are_supported() -> None:
-    """Allow old fixed sets and the exact R5 plus TPUv7 recovery pair."""
+    """Allow old fixed sets and exact admitted GPU extensions only."""
     allowed = _allowed_target_sets(PINNED_TARGETS)
     legacy = frozenset(PINNED_TARGETS) - {
         GPU_R2_KERNEL,
         GPU_R4_KERNEL,
         GPU_R5_KERNEL,
+        GPU_D02_R3_KERNEL,
     }
     assert allowed == {
         legacy,
@@ -248,6 +250,7 @@ def test_only_exact_original_pair_and_admitted_gpu_extensions_are_supported() ->
         legacy | {GPU_R4_KERNEL},
         legacy | {GPU_R2_KERNEL, GPU_R4_KERNEL},
         frozenset({TPU_V7_KERNEL, GPU_R5_KERNEL}),
+        frozenset({GPU_D02_R3_KERNEL}),
     }
 
 
