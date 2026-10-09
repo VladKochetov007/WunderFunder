@@ -42,6 +42,6 @@ def test_unknown_precision_and_wrong_producer_fail_closed():
     with pytest.raises(ValueError, match="unsupported"):
         runtime.check_admission(record, "a" * 64)
     record["tpu_compute_precision"] = "fp32"
-    record["gpu_kernel"] = "vladkochetov07/wnn-loss-pair-gpu-20261009-v2"
+    record["gpu_kernel"] = "vladkochetov07/wnn-loss-pair-gpu-20261009-v3"
     with pytest.raises(ValueError, match="identity differs"):
         runtime.check_admission(record, "a" * 64)

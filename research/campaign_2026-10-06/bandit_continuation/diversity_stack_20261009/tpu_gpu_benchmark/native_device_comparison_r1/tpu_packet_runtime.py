@@ -18,7 +18,7 @@ MEMBERSHIP_SHA = "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3a
 SPLIT_SHA = "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
 REGISTRY_SHA = "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
 CPU_KERNEL = "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1"
-GPU_KERNEL = "vladkochetov07/wnn-loss-pair-gpu-20261009-v3"
+GPU_KERNEL = "vladkochetov07/wnn-loss-pair-gpu-20261009-v4"
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[5]
 # Heterogeneous historical producer records and JSON artifact contracts.
@@ -187,7 +187,7 @@ def main() -> None:
         },
     )
     sys.path.insert(0, str(ROOT / "src"))
-    from wnn.parsed_sequence_cache_reader import verify_parsed_cache
+    from wnn.parsed_sequence_cache_reader import ParsedSequenceCache, verify_parsed_cache
 
     validation_path = args.output_root / "tpu_mount_reader_validation.json"
     _, validation_sha = verify_parsed_cache(cache_manifest, CACHE_MANIFEST_SHA, validation_path)
@@ -195,12 +195,12 @@ def main() -> None:
     # The supervising process never creates an accelerator array or model fit.
     os.environ["JAX_PLATFORMS"] = "cpu"
     import numpy as np
-    from tpu_worker import EXPECTED_RECIPE, _read_onecycle_trace, _read_orders
+    from tpu_worker import EXPECTED_RECIPE, _cache_batch, _read_onecycle_trace, _read_orders
     from wnn_jax.rnn import validate_state_dict
 
     cache_metadata = read_json(cache_manifest)
     membership = read_json(cache_manifest.parent / cache_metadata["membership_artifact"]["path"])
-    _read_orders(shared["sample_orders"], membership)
+    orders = _read_orders(shared["sample_orders"], membership)
     _read_onecycle_trace(shared["onecycle_trace"])
     check_profile_binding(
         read_json(shared["profile_inputs_receipt"]),
@@ -217,6 +217,48 @@ def main() -> None:
                 for name in normalization.files
             ):
                 raise ValueError("shared normalization differs from initialized model buffers")
+    cache = ParsedSequenceCache.open(
+        cache_manifest,
+        expected_manifest_sha256=CACHE_MANIFEST_SHA,
+        validation_receipt_path=validation_path,
+        expected_validation_receipt_sha256=validation_sha,
+        expected_cache_key=CACHE_KEY,
+        expected_split_manifest_sha256=SPLIT_SHA,
+        expected_fold=0,
+    )
+    first_batch_ids = orders["epochs"]["0"][:32]
+    cache_features, cache_targets, _cache_scored, observed_ids = _cache_batch(
+        cache, orders["by_id"], first_batch_ids, "fit_train"
+    )
+    with np.load(shared["profile_inputs"], allow_pickle=False) as fixture:
+        fixture_inputs = fixture["inputs"]
+        fixture_targets = fixture["targets"]
+        fixture_mask = fixture["row_mask"].astype(bool)
+    expected_mask = np.broadcast_to(
+        np.arange(2000, dtype=np.int32)[None, :] >= 99, (32, 2000)
+    )
+    if observed_ids != first_batch_ids:
+        raise ValueError("native cache loader returned a different first-batch order")
+    if (
+        not np.array_equal(cache_features[:, :2000], fixture_inputs)
+        or not np.array_equal(cache_targets[:, :2000], fixture_targets)
+        or not np.array_equal(expected_mask, fixture_mask)
+    ):
+        raise ValueError("native cache first batch differs from the GPU producer fixture")
+    fixture_path_receipt = {
+        "status": "pass",
+        "cache_manifest_sha256": CACHE_MANIFEST_SHA,
+        "cache_validation_receipt_sha256": validation_sha,
+        "profile_inputs_sha256": digest(shared["profile_inputs"]),
+        "first_batch_sequence_ids": observed_ids,
+        "shape": [32, 2000, 211],
+        "features_equal": True,
+        "targets_equal": True,
+        "training_mask_equal": True,
+    }
+    write_json(args.output_root / "producer_consumer_fixture_receipt.json", fixture_path_receipt)
+    cache.close()
+    del cache_features, cache_targets, _cache_scored, cache
     parity_root = args.output_root / "device_parity"
     write_json(
         args.output_root / "phase.json",
@@ -231,6 +273,8 @@ def main() -> None:
         str(shared["profile_inputs"]),
         "--profile-inputs-receipt",
         str(shared["profile_inputs_receipt"]),
+        "--onecycle-trace",
+        str(shared["onecycle_trace"]),
         "--output-root",
         str(parity_root),
     ]
@@ -267,6 +311,8 @@ def main() -> None:
                     str(shared["profile_inputs_receipt"]),
                     "--fp32-receipt",
                     str(parity_root / "device_parity_receipt.json"),
+                    "--onecycle-trace",
+                    str(shared["onecycle_trace"]),
                     "--output-root",
                     str(native_root),
                 ],

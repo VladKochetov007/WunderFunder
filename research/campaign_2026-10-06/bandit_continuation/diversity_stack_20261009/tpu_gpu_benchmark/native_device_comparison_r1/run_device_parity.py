@@ -47,6 +47,7 @@ def main() -> None:
         help="Hash-bound actual parsed-cache first batch: inputs, targets, row_mask NPZ.",
     )
     parser.add_argument("--profile-inputs-receipt", type=Path)
+    parser.add_argument("--onecycle-trace", type=Path)
     parser.add_argument("--warm-repeats", type=int, default=5)
     args = parser.parse_args()
     if not 3 <= args.warm_repeats <= 10:
@@ -82,13 +83,30 @@ def main() -> None:
     import jax
     import jax.numpy as jnp
     import numpy as np
-    from tpu_worker import _replicate, _shard, _training_step, _write_json_atomic, sha256_file
+    from tpu_worker import (
+        _first_replica,
+        _forward_step,
+        _read_onecycle_trace,
+        _replicate,
+        _shard,
+        _training_step,
+        _write_json_atomic,
+        sha256_file,
+    )
     from rnn_native import adamw_init, load_npz_state
 
     jax.config.update("jax_default_matmul_precision", "highest")
     devices = [device for device in jax.devices() if device.platform == "tpu"]
     if len(devices) != 8:
         raise RuntimeError("this receipt requires eight actual TPU devices")
+    if args.profile_inputs and args.onecycle_trace is None:
+        raise ValueError("actual profile inputs require the producer's OneCycle trace")
+    if args.onecycle_trace is not None:
+        schedule = _read_onecycle_trace(args.onecycle_trace)
+        learning_rate, beta1 = (float(value) for value in schedule[0])
+        schedule_sha256 = sha256_file(args.onecycle_trace)
+    else:
+        learning_rate, beta1, schedule_sha256 = 0.001, 0.95, None
     params = load_npz_state(args.initial_state, 211, 256, 2, 2)
     host_x = np.random.default_rng(20261009).normal(size=(32, 2000, 211)).astype(np.float32)
     host_y = np.random.default_rng(7).normal(size=(32, 2000, 2)).astype(np.float32)
@@ -111,8 +129,24 @@ def main() -> None:
             or host_mask.shape != (32, 2000)
             or not np.isfinite(host_x).all()
             or not np.isfinite(host_y).all()
+            or np.any(host_mask[:, :99])
         ):
             raise ValueError("actual profile fixture shape or finiteness differs")
+    prediction_start = time.perf_counter()
+    fp32_forward = _forward_step("fp32")
+    fp32_params = _replicate(params, devices)
+    fp32_state = _replicate(jnp.zeros((2, 4, 256), dtype=jnp.float32), devices)
+    fp32_predictions, _ = fp32_forward(
+        fp32_params, _shard(host_x, devices), fp32_state
+    )
+    jax.block_until_ready(fp32_predictions)
+    profile_predictions_path = args.output_root / "profile_predictions_fp32.npy"
+    np.save(
+        profile_predictions_path,
+        np.asarray(jax.device_get(fp32_predictions)).reshape(32, 2000, 2),
+        allow_pickle=False,
+    )
+    prediction_check_seconds = time.perf_counter() - prediction_start
     # Time the real full batch; check zero-weight remainder reduction separately.
     padded_mask = host_mask.copy()
     padded_mask[30:] = False
@@ -131,8 +165,8 @@ def main() -> None:
             state,
             targets,
             mask,
-            np.full(8, 0.001, dtype=np.float32),
-            np.full(8, 0.95, dtype=np.float32),
+            np.full(8, learning_rate, dtype=np.float32),
+            np.full(8, beta1, dtype=np.float32),
         )
         jax.block_until_ready(output)
         cold = time.perf_counter() - step_start
@@ -146,8 +180,8 @@ def main() -> None:
                 state,
                 targets,
                 mask,
-                np.full(8, 0.001, dtype=np.float32),
-                np.full(8, 0.95, dtype=np.float32),
+                np.full(8, learning_rate, dtype=np.float32),
+                np.full(8, beta1, dtype=np.float32),
             )
             jax.block_until_ready(warm)
             warm_samples.append(time.perf_counter() - step_start)
@@ -156,6 +190,10 @@ def main() -> None:
         warm_seconds = float(np.median(warm_samples))
         if not np.asarray(jax.device_get(output[-1])).all():
             raise FloatingPointError(f"nonfinite {loss} full-shape discarded update")
+        update_scalars = [
+            float(np.asarray(jax.device_get(output[index])).reshape(-1)[0])
+            for index in (3, 4, 5)
+        ]
         # Compare the global replica reduction against one unsharded update
         # using a short prefix, preserving the padded-mask test independently.
         from jax_step import train_chunk_step
@@ -167,8 +205,8 @@ def main() -> None:
             None,
             jnp.asarray(host_y[:, :101]),
             jnp.asarray(padded_mask[:, :101]),
-            learning_rate=0.001,
-            beta1=0.95,
+            learning_rate=learning_rate,
+            beta1=beta1,
             loss_kind=loss,
             precision="fp32",
         )
@@ -179,8 +217,8 @@ def main() -> None:
             state,
             _shard(host_y[:, :101], devices),
             _shard(padded_mask[:, :101], devices),
-            np.full(8, 0.001, dtype=np.float32),
-            np.full(8, 0.95, dtype=np.float32),
+            np.full(8, learning_rate, dtype=np.float32),
+            np.full(8, beta1, dtype=np.float32),
         )
         jax.block_until_ready((reference, reduced))
         for index in (3, 4):
@@ -214,9 +252,18 @@ def main() -> None:
             "warm_update_statistic": "median",
             "warm_update_seconds_max": max(warm_samples),
             "synchronization": "jax.block_until_ready complete update result tree",
+            "synchronization_scope": "host call plus block_until_ready, including dispatch",
             "shape": [32, 2000, 211],
             "active_sequences": 32,
             "padded_remainder_active_sequences_checked": 30,
+            "first_discarded_update": {
+                "learning_rate": learning_rate,
+                "beta1": beta1,
+                "weighted_loss": update_scalars[0],
+                "unscaled_global_gradient_norm": update_scalars[1],
+                "gradient_clip_scale": update_scalars[2],
+                "finite": True,
+            },
             "finite": True,
             "memory_after_full_shape": _memory_snapshot(),
         }
@@ -228,7 +275,22 @@ def main() -> None:
             "profile_inputs_receipt": input_receipt,
             "platform": "tpu",
             "accelerator_count": 8,
-            "device_inventory": [str(device) for device in devices],
+            "device_inventory": [
+                {
+                    "id": str(device),
+                    "platform": device.platform,
+                    "kind": getattr(device, "device_kind", None),
+                    "platform_version": getattr(device, "platform_version", None),
+                }
+                for device in devices
+            ],
+            "onecycle_trace_sha256": schedule_sha256,
+            "profile_predictions_fp32": {
+                "path": profile_predictions_path.name,
+                "sha256": sha256_file(profile_predictions_path),
+                "prediction_check_seconds": prediction_check_seconds,
+                "shape": [32, 2000, 2],
+            },
             "passed_checks": [
                 "forward",
                 "gradient",
