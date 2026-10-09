@@ -1,0 +1,40 @@
+{
+  "created_utc": "2026-10-09T01:36:57.524559+00:00",
+  "status": "pass_source_and_recovery_payload_review",
+  "packet_sha256": "ce58293e8124ef7e51d1e32c773c286ada5ca180c3e81a308bc31a95c3c108cc",
+  "kernel_sha256": "ddb6401a6bf3b59a8242e387d11da9c7dbc1713236e085bb3cade27de775fc19",
+  "metadata_sha256": "e57d5b86eca15818b18c0fd11d01190f5f4cd00ec868187f7ef89a1527dc9494",
+  "recovery_asset_manifest_sha256": "0d9d5b6d53017b8ef837c369d7aaa47ce2a676c37a1165cda71d6735b446bcfd",
+  "recovery_payload_files": 45,
+  "recovery_payload_bytes": 78942173,
+  "checks": [
+    "actual sealed nested source and recovery mounted-manifest validators",
+    "all archived source members hash-verified",
+    "all45 actual recovered producer artifacts hash-verified",
+    "actual predictor patch applied to pinned R4 source",
+    "both actual final checkpoint tensor maps exactly equal epoch1 and finite"
+  ],
+  "checkpoint_checks": {
+    "wmse": {
+      "checkpoint_sha256": "71fcba3d9eaff3710f8fd42f3778ef74cd425f11977668a5575c21563a82c309",
+      "epoch1_sha256": "da9763cf34280224561f6115baf413fa9779bf9381a590088a9a04e8bc01bc90",
+      "checkpoint_epoch": 1,
+      "provenance_sha256": "c3e99c0c310288450f86fd007f8dfb9ffe80a5acd13857ebce455be83803477c"
+    },
+    "huber_d1": {
+      "checkpoint_sha256": "b61b5026386273b11db871f06f09eda7654af5814c066e850274e32d9cdfca77",
+      "epoch1_sha256": "6424b906c5b894598665843f043d7cdb28774211f8d9a0eb2474d20e37562390",
+      "checkpoint_epoch": 1,
+      "provenance_sha256": "18e71073b7ac70fdac9aa57a3bd15fc0c55122472f9ace3eeeda0ab3befe8fe5"
+    }
+  },
+  "predictor_patch": {
+    "schema": "wnn.loss-pair.r4-predictor-receipt-bridge.v1",
+    "original_sha256": "74d1eac17add3f9461e1205bac0eb5b6a78facd567898d679b15bdfa5bed4f5c",
+    "patched_sha256": "9757a0a0e5415aeaafac1989ba5b87e1bddf8b7d841706969bf2ee121fcec39c",
+    "original_checkpoint_cache_receipt_sha256": "f6452f4b03abf7c66a219008458e431a8c1b6a2ffba961f63e5f57d1e936076f",
+    "change": "the mounted cache uses a fresh runtime receipt while each unchanged R4 checkpoint must match its original receipt"
+  },
+  "limits": "CPU-only bootstrap, no inference/profile. Shared terminal contract consumer rehearsal pending operator.",
+  "local_test_transport_note": "Initial /tmp hardlink fixture failed EXDEV before source extraction; identified retry uses same-filesystem scratch temporary directory. No packet change."
+}
