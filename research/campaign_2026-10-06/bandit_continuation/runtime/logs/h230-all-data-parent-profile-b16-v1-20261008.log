@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py", line 2444, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py", line 1612, in main
+    prop_cache = {sp: prop_cache_path(args.propensity, sp) for sp in ("train", "valid")}
+                      ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py", line 352, in prop_cache_path
+    want = hashlib.sha256((ROOT / "artifacts" / "runs" / name / "model.pt").read_bytes()).hexdigest()
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/pathlib/_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/h230_all_data_parent_profile_root_v1/artifacts/runs/c20260929_prop_f0/model.pt'

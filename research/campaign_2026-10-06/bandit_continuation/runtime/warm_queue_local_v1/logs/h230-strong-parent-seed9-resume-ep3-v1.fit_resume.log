@@ -1,0 +1,45 @@
+muon_runtime {"cuda_bf16_supported": true, "device_capability": [8, 6], "device_type": "cuda", "gatewise": "none", "lr_multiplier": 3.0, "match_rms_scale": "0.2 * sqrt(max(matrix_rows, matrix_columns))", "momentum": 0.95, "policy": "native_bf16_if_supported_else_fp32_v1", "scope": "hidden", "selected_dtype": "bfloat16", "torch_cuda_version": "13.0", "torch_version": "2.14.0+cu130", "weight_decay_coefficient": 0.01, "weight_decay_semantics": "decoupled; per-step shrinkage follows each group's lr"}
+{"name": "bd26_h230_strong_parent_seed9_muon_local_v1", "device": "cuda", "train_seqs": 10607, "valid_seqs": 600, "full_valid": false, "hidden": 256, "layers": 2, "dropout": 0.0, "chunk": 1000, "update_rows": 0, "detach_rows": 0, "detach_boundary_jitter": false, "detach_jitter_seed": 271828, "origin_view": "off", "origin_seed": 79079, "credit_mode": "deterministic", "credit_keep_probability": 0.8, "credit_seed": 100100, "qat": "none", "recurrent_rank": 0, "sentinel_values": "unchanged", "sentinel_indicators": "none", "sentinel_base_width": 0, "batch": 16, "epochs": 4, "stop_after_epoch": null, "checkpoint_policy": "fixed", "checkpoint_epoch": 3, "no_eval_during_fit": true, "split_manifest": null, "save_training_state": true, "resume_state": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_strong_parent_seed9_muon_local_v1/training_state.pt", "lr": 0.001, "wd": 0.01, "optim": "muon", "muon_scope": "hidden", "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "grad_stats": false, "loss": "wmse", "thin_prob": 0.0, "thin_range": "0.1,0.4", "thin_mode": "compress", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_cache_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_fold0_teacher_family_all_rows_v1", "distill_cache_all_data": true, "distill_cache_variant": "source", "distill_family_weight": 0.0, "distill_family_head": false, "distill_family_target_mode": "clip2", "distill_alpha": 0.5, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 8, "distill_reanchor": 0.0, "readout_activation": "gelu", "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "expert_hidden": 32, "num_experts": 4, "specialist_route": "learned", "hash_seed": 1729, "adapter_rank": 8, "adapter_mode": "conditional", "prefix_rows": 99, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": true, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "dev", "valid_fold": -1, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "inherit_init_preprocessing": false, "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "ema_reference_rows": 0, "eval_ema": true, "mask_weight": false, "propensity": "c20260929_prop_f0", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "research_features": "none", "privileged_mode": "none", "privileged_horizon": 8, "fit_groups_manifest": null, "seed": 9, "loss_norm": "chunk", "distill_denominator": "chunk", "distill_reference_mass": 0.0, "calibrate_distill_reference": "", "calibration_epochs": 1, "denominator_shuffle_seed": 314159, "since_weight": 32.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": false, "sync_free": false, "fused_adam": false, "pin_memory": false, "prop_cache": false, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "optim_switch": "", "warmup_frac": 0.05, "restarts": 1, "head_lr_mult": 1.0, "muon_lr_mult": 3.0, "muon_momentum": 0.95, "muon_gatewise": "none", "muon_ortho_dtype_policy": "native_bf16_if_supported_else_fp32_v1", "clip_per_module": "", "grad_noise": 0.0, "zoneout": 0.0, "init_qmc": false, "batch_order": "random", "antithetic": false, "momentum": 0.0, "no_gradient_clip": false}
+{"source_train_sequences": 10606, "eligible_valid_train_sequences": 1873, "used_valid_train_sequences": 1873, "eval_sequences": 0}
+loader workers 0 prefetch 0; params 0.98M; steps 62320
+ep 3 batch 0/779 loss 0.5818 lr 1.61e-04 seq/s 0.5
+ep 3 batch 20/779 loss 0.7159 lr 1.54e-04 seq/s 5.1
+ep 3 batch 40/779 loss 0.6120 lr 1.46e-04 seq/s 6.6
+ep 3 batch 60/779 loss 0.6205 lr 1.39e-04 seq/s 7.3
+ep 3 batch 80/779 loss 0.6398 lr 1.31e-04 seq/s 7.7
+ep 3 batch 100/779 loss 0.5683 lr 1.24e-04 seq/s 8.0
+ep 3 batch 120/779 loss 0.7970 lr 1.17e-04 seq/s 8.2
+ep 3 batch 140/779 loss 0.6562 lr 1.11e-04 seq/s 8.2
+ep 3 batch 160/779 loss 0.4261 lr 1.04e-04 seq/s 8.3
+ep 3 batch 180/779 loss 0.5631 lr 9.77e-05 seq/s 8.4
+ep 3 batch 200/779 loss 0.6088 lr 9.15e-05 seq/s 8.4
+ep 3 batch 220/779 loss 0.6221 lr 8.55e-05 seq/s 8.2
+ep 3 batch 240/779 loss 0.6203 lr 7.97e-05 seq/s 7.9
+ep 3 batch 260/779 loss 0.6023 lr 7.40e-05 seq/s 7.8
+ep 3 batch 280/779 loss 0.6500 lr 6.86e-05 seq/s 7.7
+ep 3 batch 300/779 loss 0.3589 lr 6.33e-05 seq/s 7.6
+ep 3 batch 320/779 loss 0.5932 lr 5.83e-05 seq/s 7.6
+ep 3 batch 340/779 loss 0.7307 lr 5.34e-05 seq/s 7.6
+ep 3 batch 360/779 loss 0.6006 lr 4.88e-05 seq/s 7.6
+ep 3 batch 380/779 loss 0.6035 lr 4.43e-05 seq/s 7.7
+ep 3 batch 400/779 loss 0.5427 lr 4.01e-05 seq/s 7.7
+ep 3 batch 420/779 loss 0.6453 lr 3.60e-05 seq/s 7.7
+ep 3 batch 440/779 loss 0.5520 lr 3.22e-05 seq/s 7.7
+ep 3 batch 460/779 loss 0.5471 lr 2.86e-05 seq/s 7.8
+ep 3 batch 480/779 loss 0.6523 lr 2.52e-05 seq/s 7.8
+ep 3 batch 500/779 loss 0.5407 lr 2.20e-05 seq/s 7.8
+ep 3 batch 520/779 loss 0.6068 lr 1.90e-05 seq/s 7.8
+ep 3 batch 540/779 loss 0.6070 lr 1.63e-05 seq/s 7.8
+ep 3 batch 560/779 loss 0.5761 lr 1.37e-05 seq/s 7.8
+ep 3 batch 580/779 loss 0.5803 lr 1.14e-05 seq/s 7.8
+ep 3 batch 600/779 loss 0.5349 lr 9.29e-06 seq/s 7.8
+ep 3 batch 620/779 loss 0.5745 lr 7.41e-06 seq/s 7.8
+ep 3 batch 640/779 loss 0.6010 lr 5.75e-06 seq/s 7.7
+ep 3 batch 660/779 loss 0.4757 lr 4.31e-06 seq/s 7.7
+ep 3 batch 680/779 loss 0.6504 lr 3.10e-06 seq/s 7.7
+ep 3 batch 700/779 loss 0.5991 lr 2.11e-06 seq/s 7.7
+ep 3 batch 720/779 loss 0.5680 lr 1.34e-06 seq/s 7.7
+ep 3 batch 740/779 loss 0.5690 lr 8.05e-07 seq/s 7.8
+ep 3 batch 760/779 loss 0.7517 lr 4.91e-07 seq/s 7.8
+FIT {"epoch": 3, "train_seconds": 1597.1, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 15580, "amp_skipped_updates": 6, "optimizer_completed_updates": 15574, "ema_updates": 15580, "completed_batches": 779}, "cumulative": {"optimizer_attempts": 62320, "amp_skipped_updates": 26, "optimizer_completed_updates": 62294, "ema_updates": 62320, "completed_batches": 3116}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 16, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "2664904a5a4935333d3b86eb0defd47fc42185b969b136f4079a55be4db7e140"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "2664904a5a4935333d3b86eb0defd47fc42185b969b136f4079a55be4db7e140"}, "num_workers": 0, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 12479}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "874d4172eac199e72b569767f46d5f927ab1924cbf681fbb2f988c1071acedb1"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "0be44b1b731f270b9ca9ea8f5054f483774660b5fb0c4d180f3ea7d312b9104b"}}}}
+SELECTED_FIXED 3
