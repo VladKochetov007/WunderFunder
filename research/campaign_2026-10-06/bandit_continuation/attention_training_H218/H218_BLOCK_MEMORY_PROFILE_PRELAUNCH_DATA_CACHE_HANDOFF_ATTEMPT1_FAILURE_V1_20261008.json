@@ -1,0 +1,12 @@
+{
+  "schema": "wnn.h218-profile-cache-handoff-bookkeeping-failure.v1",
+  "identity": "H218_BLOCK_MEMORY_PROFILE_PRELAUNCH_DATA_CACHE_HANDOFF_ATTEMPT1_FAILURE_V1_20261008",
+  "created_utc": "2026-10-08T04:06:57.159084+00:00",
+  "status": "receipt_writer_failed_after_cache_advice",
+  "operation_scope": "Exact datasets/train.parquet and datasets/valid.parquet only; POSIX_FADV_DONTNEED calls completed without raising.",
+  "failure": "AttributeError: attempted TextIOWrapper.release(); lock would otherwise be released by context-manager close.",
+  "data_mutation": false,
+  "resource_limits_changed": false,
+  "fit_attempted": false,
+  "recovery": "Repeat the same bounded exact-file advice with corrected lock lifetime and before/after receipt; first operation remains historical evidence."
+}
