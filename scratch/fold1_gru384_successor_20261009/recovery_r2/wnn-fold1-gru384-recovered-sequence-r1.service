@@ -1,0 +1,15 @@
+[Unit]
+Description=Resume fold1 seed3 then audit and run admitted seed4
+
+[Service]
+Type=exec
+Slice=wnn-campaign.slice
+CPUQuota=5%
+MemoryMax=256000000
+MemorySwapMax=0
+RuntimeMaxSec=22000s
+Restart=no
+KillMode=control-group
+OOMPolicy=stop
+WorkingDirectory=/home/vlad/development/wunder/wnn_connectome_starterpack
+ExecStart=/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_sequence.py --plan /home/vlad/development/wunder/wnn_connectome_starterpack/scratch/fold1_gru384_successor_20261009/recovery_r2/RECOVERED_SEQUENCE_PLAN_R1.json --receipt /home/vlad/development/wunder/wnn_connectome_starterpack/scratch/fold1_gru384_successor_20261009/recovery_r2/RECOVERED_SEQUENCE_RECEIPT_R1.json

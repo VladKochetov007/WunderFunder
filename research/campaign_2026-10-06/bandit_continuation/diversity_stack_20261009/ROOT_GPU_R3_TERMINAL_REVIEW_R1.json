@@ -1,0 +1,50 @@
+{
+  "observed_utc": "2026-10-09T00:48:30.769168+00:00",
+  "status": "pass",
+  "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v3",
+  "terminal_receipt_sha256": "ab0e6f84a6c84f235110aaccd71edc7ec8d5c4f8a647a07176826003ceec501d",
+  "files_verified": 13,
+  "bytes_verified": 28817,
+  "worker_result": {
+    "state": "failed_before_fit",
+    "elapsed_seconds": 108.83314604399999,
+    "kernel_boot_utc": "2026-10-09T00:19:21Z",
+    "fold0_assets_verified_utc": "2026-10-09T00:20:32Z",
+    "parsed_cache_verified_utc": "2026-10-09T00:20:32Z",
+    "two_t4_pre_fit_gate_utc": "2026-10-09T00:22:15Z",
+    "failure_utc": "2026-10-09T00:22:21Z",
+    "failure_type": "WorkerRejected",
+    "failure_message": "actual-T4 shape/update gate failed: {'label': 'device_shape_update_gate', 'returncode': 1, 'wall_seconds': 5.330370518999985}",
+    "child_exception": "ValueError: preverified cache receipt is not pinned to this split",
+    "fit_pair_start_observed": false,
+    "science_result": null,
+    "interpretation": "The kernel booted, verified its bound source/cache and fold-0 assets, found two Tesla T4s, and passed the host resource gate. The disposable shape gate failed when ParsedSequenceCache.open passed raw receipt bytes into the split loader's SHA field. This is a consumer-validation failure before either scientific fit; it is not negative loss-comparison evidence."
+  },
+  "quota": {
+    "observed_at_utc": "2026-10-09T00:40:54Z",
+    "cli_package_version": "2.2.4",
+    "source": "read-only authenticated Kaggle SDK quota call; no provider mutation",
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "gpu": {
+      "used_seconds": 69404.162,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_used_seconds": 32356.840999999993,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 24423.67500000001
+    },
+    "tpu": {
+      "used_seconds": 398.431,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "campaign_baseline_used_seconds": 134.623,
+      "campaign_used_seconds": 263.808,
+      "campaign_cap_seconds": 7200.0,
+      "campaign_headroom_seconds": 6936.192
+    },
+    "account_gpu_usage_delta_since_pre_push_observation_seconds": 185.709,
+    "delta_attribution": "Account-level change only; not attributed solely to this kernel."
+  },
+  "source": "root independent exact file/hash review"
+}
