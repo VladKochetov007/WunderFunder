@@ -20,14 +20,14 @@ FOLD0_ASSET_DATASET = "vladkochetov07/wnn-c20261004-fold0-assets"
 EXPECTED_FOLD0_ASSET_MANIFEST_SHA256 = (
     "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7"
 )
-EXPECTED_ASSET_MANIFEST_SHA256 = "__ASSET_MANIFEST_SHA256__"
-EXPECTED_ARCHIVE_SHA256 = "__ARCHIVE_SHA256__"
-EXPECTED_CODE_MANIFEST_SHA256 = "__CODE_MANIFEST_SHA256__"
+EXPECTED_ASSET_MANIFEST_SHA256 = "154bb0ca41ada94015c0207cda10aabf8b2785dd7e58dcec7f9997a7e6468929"
+EXPECTED_ARCHIVE_SHA256 = "7d4007cd43002cd8efa439e0f93bd4ec8a5e8fab764218f06b291256b818535d"
+EXPECTED_CODE_MANIFEST_SHA256 = "51792a37b4197eb7e9e371c28c669eb9cb4802800925b86ec5daabd3ad7c63f0"
 EXPECTED_SPLIT_SHA256 = "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
 EXPECTED_REGISTRY_SHA256 = "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
 EXPECTED_MEMBERSHIP_SHA256 = "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd"
-SOURCE_COMMIT = "__SOURCE_COMMIT__"
-ROOT_ADMISSION_BYTES = base64.b64decode("__D02_ADMISSION_B64__")
+SOURCE_COMMIT = "db3cc61083bf27903bf272cfab592481603fe136"
+ROOT_ADMISSION_BYTES = base64.b64decode("ewogICJjb25kaXRpb25hbF9maXRfYWxsb3dlZCI6IGZhbHNlLAogICJjb250cm9sX2dwdV9rZXJuZWwiOiAidmxhZGtvY2hldG92MDcvd25uLWxvc3MtcGFpci1ncHUtMjAyNjEwMDktdjMiLAogICJncHVfY29udHJvbF9jb250cmFjdF9zaGEyNTYiOiBudWxsLAogICJrZXJuZWxfaWQiOiAidmxhZGtvY2hldG92MDcvd25uLWQwMi1tdW9uLWxvc3MtZ3B1LTIwMjYxMDA5LXYxIiwKICAicHVzaF9hbGxvd2VkIjogZmFsc2UsCiAgInJ1bnRpbWVfc2Vjb25kcyI6IDMzMDAsCiAgInNjaGVtYSI6ICJ3bm4uZDAyLnJvb3QtYWRtaXNzaW9uLnYxIiwKICAic291cmNlX2NvZGVfbWFuaWZlc3Rfc2hhMjU2IjogIjUxNzkyYTM3YjQxOTdlYjdlOWUzNzFjMjhjNjY5ZWI5Y2I0ODAyODAwOTI1Yjg2ZWM1ZGFhYmQzYWQ3YzYzZjAiCn0K")
 ARCHIVE_PATH = "wnn_loss_pair_src.tar.gz"
 CODE_MANIFEST_PATH = "source-code-manifest.json"
 SPLIT_PATH = "research/campaign_2026-09-29/artifacts/splits/fold0.json"
@@ -201,18 +201,26 @@ def main() -> int:
         asset_root, manifest = discover_asset_manifest()
         code_manifest = unpack_source(asset_root, manifest)
         if os.environ.get("WNN_D02_OFFLINE") == "1":
-            atomic_json(WORK / "offline_source_receipt.json", {
-                "status": "pass", "archive_sha256": EXPECTED_ARCHIVE_SHA256,
-                "code_manifest_sha256": EXPECTED_CODE_MANIFEST_SHA256,
-                "files_verified": len(code_manifest["files"]), "fit_admitted": False,
-            })
+            atomic_json(
+                WORK / "offline_source_receipt.json",
+                {
+                    "status": "pass",
+                    "archive_sha256": EXPECTED_ARCHIVE_SHA256,
+                    "code_manifest_sha256": EXPECTED_CODE_MANIFEST_SHA256,
+                    "files_verified": len(code_manifest["files"]),
+                    "fit_admitted": False,
+                },
+            )
             return 0
         admission = json.loads(ROOT_ADMISSION_BYTES)
-        if (admission.get("schema") != "wnn.d02.root-admission.v1"
-                or admission.get("kernel_id") != "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v1"
-                or admission.get("source_code_manifest_sha256") != EXPECTED_CODE_MANIFEST_SHA256
-                or admission.get("push_allowed") is not True
-                or not admission.get("gpu_control_contract_sha256")):
+        if (
+            admission.get("schema") != "wnn.d02.root-admission.v1"
+            or admission.get("kernel_id") != "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v1"
+            or admission.get("source_code_manifest_sha256") != EXPECTED_CODE_MANIFEST_SHA256
+            or admission.get("push_allowed") is not True
+            or admission.get("control_gpu_kernel") != "vladkochetov07/wnn-loss-pair-gpu-20261009-v3"
+            or not admission.get("gpu_control_contract_sha256")
+        ):
             raise RuntimeError("D02 root source/provider/completed-control admission is pending")
         fold0_manifest_path, _ = discover_fold0_asset_manifest()
         sys.path.insert(0, str(REPO / "src"))
