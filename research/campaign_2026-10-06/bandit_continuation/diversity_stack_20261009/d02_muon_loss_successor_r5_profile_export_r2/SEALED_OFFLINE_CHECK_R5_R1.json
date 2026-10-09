@@ -1,0 +1,34 @@
+{
+  "schema": "wnn.d02.r5-sealed-offline-check.v1",
+  "state": "pass",
+  "source_commit": "845405d16dc6b3768080aa99c3663a440d343ba5",
+  "source_code_manifest_sha256": "dbd98f4b73f5cdc7dd8df137ae9d0bd23495fd8ee2067da02cc94d45699bd6e9",
+  "bootstrap_sha256": "d8978eefb1671ba30680fedd3c6079a5c47614a0b4dca1cf14578482d495614f",
+  "control_kernel": "vladkochetov07/wnn-loss-pair-export-recovery-20261009-r1",
+  "control_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+  "checks": [
+    {
+      "entrypoint": "loss_pair_gpu_worker.py",
+      "check": "import",
+      "returncode": 0,
+      "gpu_work": false,
+      "stderr_bytes": 0
+    },
+    {
+      "entrypoint": "train_rnn.py",
+      "check": "help",
+      "returncode": 0,
+      "gpu_work": false,
+      "stderr_bytes": 0
+    },
+    {
+      "entrypoint": "predict_run.py",
+      "check": "help",
+      "returncode": 0,
+      "gpu_work": false,
+      "stderr_bytes": 0
+    }
+  ],
+  "actual_device_validation": false,
+  "provider_mutations": false
+}
