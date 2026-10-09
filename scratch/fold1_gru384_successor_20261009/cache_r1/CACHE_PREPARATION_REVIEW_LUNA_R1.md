@@ -1,0 +1,13 @@
+# Fold1 four-family cache preparation review
+
+The recipe, source pins, ancestry receipts, and completed export inventory pass this bounded read-only review. Root's exact input-hash and live-resource preflight remains required before building the cache.
+
+The preparation is pinned to `CACHE_PREPARATION_R1.json` SHA `69e433e3b6973c94932e9c85a613e002d1e68ca8714f7804426b8f7d3ae4a983`. All 34 declared cache-builder source files match. The eight fixed teachers retain the existing families and epochs—two strong, two full-finetuned, two raw WMSE, and the recovered same-fold baselines—with coefficients summing to 0.8125. The exact export admission packet is SHA `66cf35b112c1721be0efe8336cb226a9e95b5228bc39275ba7c31b8ca8ceacfa`; its terminal receipt SHA `ef40550ea53908929159dac6d747708b01cd69cc80c03d20e63be0fc6b4706d3` records all eight new exports complete at 04:33:45 UTC.
+
+All 16 required train/valid prediction arrays and sidecars are present. Sidecar run, split, epoch, and checkpoint identities match the eight recipe rows, and the eight new exports agree with their terminal receipt. This review checked file presence, stat sizes, and sidecar metadata; it did not reread the full NPY arrays. The cache builder will revalidate full hashes, row order, shapes, dtype, finiteness, selected checkpoints, and ancestry before writing.
+
+Fold1 membership is bound to split SHA `31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae`: 10,533 train groups and 1,416 fit-valid groups, with 457 historically exposed evaluation groups excluded. The six existing teacher ancestry preflight passes on that split and verifies exact unordered evaluation membership throughout each ancestry closure. Separate terminal audits bind the recovered seed3 and seed4 baselines to the same fit counts; the cache builder itself reruns ancestry closure for all eight teachers. It writes only split fit-train and fit-valid targets.
+
+The output and `.partial` path do not exist, and the candidate-local `scratch/fold1_gru384_successor_20261009/STOP_ADMISSION` marker does not exist. The planned cache payload is 13,382,880,000 bytes under a 15,032,385,536-byte output cap; the command must retain at least 26,843,545,600 bytes (25 GiB) free after the payload. I did not inspect live disk capacity or global admission state; root must verify those together with the current split and all 16 prediction pins, and confirm the proposed 1 CPU / 4 GB high / 5 GB max / no swap / 1,800 second unit before launch.
+
+No cache was built and no student fit or score was produced. Machine-readable pins and checks are in [CACHE_PREPARATION_REVIEW_LUNA_R1.json](CACHE_PREPARATION_REVIEW_LUNA_R1.json).

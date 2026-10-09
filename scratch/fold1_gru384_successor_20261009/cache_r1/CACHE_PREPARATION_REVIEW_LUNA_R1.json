@@ -1,0 +1,78 @@
+{
+  "schema": "wnn.fold1-fourfamily-cache-review.v1",
+  "reviewed_at_utc": "2026-10-09T04:35:23Z",
+  "status": "source_and_recipe_pass_runtime_preflight_remaining",
+  "review_scope": "Bounded read-only review of cache preparation, completed teacher exports, existing ancestry and membership receipts, and cache-builder filtering. This is not cache-build authorization or a scientific result.",
+  "preparation": {
+    "path": "scratch/fold1_gru384_successor_20261009/cache_r1/CACHE_PREPARATION_R1.json",
+    "sha256": "69e433e3b6973c94932e9c85a613e002d1e68ca8714f7804426b8f7d3ae4a983",
+    "export_admission_sha256": "66cf35b112c1721be0efe8336cb226a9e95b5228bc39275ba7c31b8ca8ceacfa",
+    "export_terminal_sha256": "ef40550ea53908929159dac6d747708b01cd69cc80c03d20e63be0fc6b4706d3",
+    "cache_builder_source_files": 34,
+    "cache_builder_source_pin_mismatches": 0,
+    "command_output": "cache/h230_four_family_fold1_source_20261009_r1",
+    "expected_payload_bytes": 13382880000,
+    "output_budget_bytes": 15032385536,
+    "required_free_after_build_bytes": 26843545600,
+    "proposed_resources": {
+      "cpus": 1,
+      "memory_high_bytes": 4000000000,
+      "memory_max_bytes": 5000000000,
+      "swap_bytes": 0,
+      "max_runtime_seconds": 1800,
+      "gpu_training": false
+    }
+  },
+  "exports": {
+    "packet_sha256_matches_preparation": true,
+    "terminal_status": "complete",
+    "completed_count": 8,
+    "expected_count": 8,
+    "last_export_finished_utc": "2026-10-09T04:33:45.581923+00:00",
+    "teacher_prediction_pairs_present": 16,
+    "sidecar_metadata_matches_all_16_pairs": true,
+    "full_prediction_arrays_reread_by_this_review": false
+  },
+  "recipe": {
+    "coefficient_sum": 0.8125,
+    "teachers": [
+      {"family": "strong", "run": "c20261003_combo_s3_f1", "epoch": 3, "coefficient": 0.15, "checkpoint_sha256": "b0dcc761751e3f807dba42d55650f06f392b2565fb51e4ba787d3603c13b3cc4", "provenance_sha256": "9609216da275455c1d2c2718fdc56b560be9e2ef10879fdf6620e9cb51b4549a"},
+      {"family": "strong", "run": "c20261003_combo_s4_f1", "epoch": 3, "coefficient": 0.15, "checkpoint_sha256": "456114b04d1371b994ed5d7fbfe9b39ee96f3c460286644baf161c8f3fbcd610", "provenance_sha256": "07924f4fe1064db4cce67094f183bbaad077b38b94dde15f5d0dc8b4cfc20a40"},
+      {"family": "full_finetuned", "run": "c20260929_ft_since_s3_f1", "epoch": 0, "coefficient": 0.1, "checkpoint_sha256": "1a76c748624e7c9a438675791c251ed142b7965879dfed691c210ae1881a1d7d", "provenance_sha256": "5ae3b676e3f083ab10440b7fa08b9ab5341bb2b6623ed78d515ff3015c354c9c"},
+      {"family": "full_finetuned", "run": "c20260929_ft_since_s4_f1", "epoch": 0, "coefficient": 0.1, "checkpoint_sha256": "814f6106f5422c962ff175e98bba15995b2cc45dc1fc0d172e88020784842330", "provenance_sha256": "4b409c5e18348eb4fcd297a69aa7c89e5fe5c6445e8f146bdc7358be4657d953"},
+      {"family": "raw_wmse", "run": "c20260929_since_s3_f1", "epoch": 3, "coefficient": 0.125, "checkpoint_sha256": "e1b97dffe5eaf59349b3378e72d7b8e01c6e92bc6d5a7164526106b3c5831df0", "provenance_sha256": "fecd314bd2973f33979222e5c05df9c499e4b6a7ecb7f6e0619f05fa0f07fbd4"},
+      {"family": "raw_wmse", "run": "c20260929_since_s4_f1", "epoch": 3, "coefficient": 0.125, "checkpoint_sha256": "1667b04000bead6ee5c3a66b0ed552df0f27ef682c18b598d100723c9b8cb8ff", "provenance_sha256": "293f01c644c4854d301c436aa9b04de869df150874db5cb4129e7de741d1d392"},
+      {"family": "samefold_baseline", "run": "bd26_w384raw_s3_f1_resume_r3", "epoch": 3, "coefficient": 0.03125, "checkpoint_sha256": "027b2a134b91bb9d42ed5e1615594ea77db9cd49cc22cbec1fbe4e9427d9ad23", "provenance_sha256": "4a9297a38ae3073502bd164ed608eb5632d24c888abe3ef55a6a7b952f099c8a"},
+      {"family": "samefold_baseline", "run": "bd26_w384raw_s4_f1", "epoch": 3, "coefficient": 0.03125, "checkpoint_sha256": "866c3054b30d87f741a1729aa6b902a0da2c3ce2540a7185a42b8a5fda3b6e77", "provenance_sha256": "7eb1db1a0d690e049e8489aa437fe79544d242036fe10b51f193909b7fa81bde"}
+    ]
+  },
+  "membership_and_ancestry": {
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "fit_train_groups": 10533,
+    "fit_valid_groups": 1416,
+    "historically_exposed_evaluation_groups_excluded": 457,
+    "six_existing_teachers_ancestry_receipt_sha256": "86f60541fd9246f123cd4faff40cd3c06ed4084762ff24ad649a9e0b07524d18",
+    "six_existing_teachers_ancestry_status": "passed_readonly_source_and_ancestry_only",
+    "six_existing_teachers_all_ancestor_eval_membership_exact_unordered": true,
+    "recovered_seed3_terminal_audit_sha256": "bbc23b9ab0a7ad89e2d84d6dab462c4208935d2f1a28308a12e1ab627379e527",
+    "seed4_terminal_audit_sha256": "ae6608c2291ba023f5b71e34b24fd651ea8e8b63652caaf7ff7b93df8a34d62f",
+    "seed3_and_seed4_fit_counts_match_split": true,
+    "runtime_builder_rechecks_all_eight_ancestor_closures": true,
+    "cache_outputs_only_split_fit_train_and_fit_valid_groups": true
+  },
+  "preflight": {
+    "cache_output_exists": false,
+    "cache_partial_exists": false,
+    "candidate_local_stop_admission_marker_exists": false,
+    "current_disk_floor_checked_by_reviewer": false,
+    "root_must_bind_current_split_and_all_16_prediction_pins": true,
+    "root_must_confirm_25_gib_free_remains_after_payload": true
+  },
+  "limitations": [
+    "This review inspected prediction files by existence and stat size and checked their small sidecar metadata; it did not reread or hash the full NPY arrays.",
+    "The cache-builder runtime must recheck every teacher's checkpoint, provenance/ancestor closure, full prediction hashes, row order, dtype, shape, finiteness, and split membership before it writes output.",
+    "No cache was built and no student fit or scientific score was produced."
+  ],
+  "recommendation": "Proceed only after root binds all current input hashes, verifies live disk reserve and resource properties, and admits the exact cache build."
+}

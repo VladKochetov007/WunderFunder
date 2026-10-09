@@ -59,7 +59,7 @@
     {
       "experiment_id": "D02",
       "priority": 2,
-      "status": "R5_complete_fullfits_predictions_root_verified; quartet_grade_pending",
+      "status": "completed11endpoint_grade; equalMuonAdamW_WMSE_blend_loses_specific_exposed_screen",
       "mechanism": "optimizer\u00d7loss",
       "optim": "AdamW vs Muon",
       "loss": "wmse vs huber delta1",
@@ -75,12 +75,12 @@
       "serving_path": "student/compression or measured complete endpoint",
       "budget": "requires separate root admission",
       "wp": null,
-      "evidence": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_D02_R5_TERMINAL_REVIEW_R1.json"
+      "evidence": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/grading_r2/QUARTET_GRADE_R2.json"
     },
     {
       "experiment_id": "D03",
       "priority": 3,
-      "status": "planned_not_admitted",
+      "status": "selected_fixedmix_WMSE_and_Huber_in_sealed_sampler_R3; upload_reconciliation",
       "mechanism": "activation",
       "optim": "matched control",
       "loss": "",
@@ -242,7 +242,7 @@
     {
       "experiment_id": "D12",
       "priority": 2,
-      "status": "planned_not_admitted",
+      "status": "selected_in_sealed_sampler_R3; upload_reconciliation",
       "mechanism": "scheduler WSD",
       "optim": "matched control",
       "loss": "",
@@ -428,7 +428,7 @@
     {
       "experiment_id": "D22",
       "priority": 2,
-      "status": "baseline_pair_graded_exposed_fold1; fixed_equal_blend_gain_uncertain; teacher_train_exports_running",
+      "status": "baseline_pair_graded; all8exports_complete; fourfamily_fold1_cache_running",
       "mechanism": "fold robustness/scale confirmation",
       "optim": "paired original",
       "loss": "",
@@ -440,7 +440,7 @@
       "retention": "checkpoint+norm+provenance+fixed float32 NPY/sidecar+rolling full resume state+LR/beta/unscaled-grad/clip/skip trace",
       "evaluation_exposure": "exposed; unchanged fixed outer membership",
       "serving_path": "student/compression or measured complete endpoint",
-      "budget": "original bounded allocation; one local GPU;2CPU/8GBhigh/9GBmax",
+      "budget": "cache1CPU/4GBhigh5GBmax/1800s; nextGPUfit requires exact recipe admission",
       "wp": null,
       "evidence": "scratch/fold1_gru384_successor_20261009/grading_r1/BASELINE_PAIR_R1.json"
     },
@@ -463,8 +463,171 @@
       "serving_path": "student/compression or measured complete endpoint",
       "budget": "requires separate root admission",
       "wp": null
+    },
+    {
+      "experiment_id": "SAMPLED_R3_HUBER_D4",
+      "priority": 2,
+      "status": "sealed_reviewed_source_admitted; upload_reconciliation_no_fit_yet",
+      "mechanism": "weighted Huber delta",
+      "optim": "AdamW",
+      "loss": "huber",
+      "huber_delta": 4.0,
+      "readout_activation": "gelu",
+      "sched": "onecycle",
+      "scheduler_parameters": {
+        "warmup_frac": 0.05,
+        "peak_lr": 0.001,
+        "final_div_factor": 100.0
+      },
+      "train_sample": "350 complete train sequences /83components; fixed exposedfold0 468eval groups /141components",
+      "seed": 20261009,
+      "update_attempts": 220,
+      "checkpoint_epoch": 1,
+      "parent_ids": [
+        "D01_ADAMW_HUBER_D1"
+      ],
+      "retention": "fixedep1 weights+resume state+FP32alignedNPY/sidecar+LR/gradient/update traces",
+      "evaluation_exposure": "historically exposed fold0; existing controls already inspected",
+      "evidence": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/experiment_sampler_r3/sealed_admitted_r1/sampled_cohort.packet.json",
+      "wp": null
+    },
+    {
+      "experiment_id": "SAMPLED_R3_HUBER_D2",
+      "priority": 2,
+      "status": "sealed_reviewed_source_admitted; upload_reconciliation_no_fit_yet",
+      "mechanism": "weighted Huber delta",
+      "optim": "AdamW",
+      "loss": "huber",
+      "huber_delta": 2.0,
+      "readout_activation": "gelu",
+      "sched": "onecycle",
+      "scheduler_parameters": {
+        "warmup_frac": 0.05,
+        "peak_lr": 0.001,
+        "final_div_factor": 100.0
+      },
+      "train_sample": "350 complete train sequences /83components; fixed exposedfold0 468eval groups /141components",
+      "seed": 20261009,
+      "update_attempts": 220,
+      "checkpoint_epoch": 1,
+      "parent_ids": [
+        "D01_ADAMW_HUBER_D1"
+      ],
+      "retention": "fixedep1 weights+resume state+FP32alignedNPY/sidecar+LR/gradient/update traces",
+      "evaluation_exposure": "historically exposed fold0; existing controls already inspected",
+      "evidence": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/experiment_sampler_r3/sealed_admitted_r1/sampled_cohort.packet.json",
+      "wp": null
+    },
+    {
+      "experiment_id": "SAMPLED_R3_FIXEDMIX_WMSE",
+      "priority": 2,
+      "status": "sealed_reviewed_source_admitted; upload_reconciliation_no_fit_yet",
+      "mechanism": "readout activation",
+      "optim": "AdamW",
+      "loss": "wmse",
+      "huber_delta": null,
+      "readout_activation": "fixed_mix",
+      "sched": "onecycle",
+      "scheduler_parameters": {
+        "warmup_frac": 0.05,
+        "peak_lr": 0.001,
+        "final_div_factor": 100.0
+      },
+      "train_sample": "350 complete train sequences /83components; fixed exposedfold0 468eval groups /141components",
+      "seed": 20261009,
+      "update_attempts": 220,
+      "checkpoint_epoch": 1,
+      "parent_ids": [
+        "D01_ADAMW_WMSE"
+      ],
+      "retention": "fixedep1 weights+resume state+FP32alignedNPY/sidecar+LR/gradient/update traces",
+      "evaluation_exposure": "historically exposed fold0; existing controls already inspected",
+      "evidence": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/experiment_sampler_r3/sealed_admitted_r1/sampled_cohort.packet.json",
+      "wp": null
+    },
+    {
+      "experiment_id": "SAMPLED_R3_FIXEDMIX_HUBER_D1",
+      "priority": 2,
+      "status": "sealed_reviewed_source_admitted; upload_reconciliation_no_fit_yet",
+      "mechanism": "activation by loss interaction",
+      "optim": "AdamW",
+      "loss": "huber",
+      "huber_delta": 1.0,
+      "readout_activation": "fixed_mix",
+      "sched": "onecycle",
+      "scheduler_parameters": {
+        "warmup_frac": 0.05,
+        "peak_lr": 0.001,
+        "final_div_factor": 100.0
+      },
+      "train_sample": "350 complete train sequences /83components; fixed exposedfold0 468eval groups /141components",
+      "seed": 20261009,
+      "update_attempts": 220,
+      "checkpoint_epoch": 1,
+      "parent_ids": [
+        "D01_ADAMW_HUBER_D1",
+        "SAMPLED_R3_FIXEDMIX_WMSE"
+      ],
+      "retention": "fixedep1 weights+resume state+FP32alignedNPY/sidecar+LR/gradient/update traces",
+      "evaluation_exposure": "historically exposed fold0; existing controls already inspected",
+      "evidence": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/experiment_sampler_r3/sealed_admitted_r1/sampled_cohort.packet.json",
+      "wp": null
+    },
+    {
+      "experiment_id": "SAMPLED_R3_WSD_WMSE",
+      "priority": 2,
+      "status": "sealed_reviewed_source_admitted; upload_reconciliation_no_fit_yet",
+      "mechanism": "learning-rate schedule",
+      "optim": "AdamW",
+      "loss": "wmse",
+      "huber_delta": null,
+      "readout_activation": "gelu",
+      "sched": "wsd",
+      "scheduler_parameters": {
+        "warmup_frac": 0.05,
+        "decay_share": 0.2,
+        "final_lr_fraction": 0.01
+      },
+      "train_sample": "350 complete train sequences /83components; fixed exposedfold0 468eval groups /141components",
+      "seed": 20261009,
+      "update_attempts": 220,
+      "checkpoint_epoch": 1,
+      "parent_ids": [
+        "D01_ADAMW_WMSE"
+      ],
+      "retention": "fixedep1 weights+resume state+FP32alignedNPY/sidecar+LR/gradient/update traces",
+      "evaluation_exposure": "historically exposed fold0; existing controls already inspected",
+      "evidence": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/experiment_sampler_r3/sealed_admitted_r1/sampled_cohort.packet.json",
+      "wp": null
+    },
+    {
+      "experiment_id": "SAMPLED_R3_SGDR_WMSE",
+      "priority": 2,
+      "status": "sealed_reviewed_source_admitted; upload_reconciliation_no_fit_yet",
+      "mechanism": "learning-rate schedule",
+      "optim": "AdamW",
+      "loss": "wmse",
+      "huber_delta": null,
+      "readout_activation": "gelu",
+      "sched": "sgdr",
+      "scheduler_parameters": {
+        "warmup_frac": 0.05,
+        "restarts": 1,
+        "final_lr_fraction": 0.01
+      },
+      "train_sample": "350 complete train sequences /83components; fixed exposedfold0 468eval groups /141components",
+      "seed": 20261009,
+      "update_attempts": 220,
+      "checkpoint_epoch": 1,
+      "parent_ids": [
+        "D01_ADAMW_WMSE"
+      ],
+      "retention": "fixedep1 weights+resume state+FP32alignedNPY/sidecar+LR/gradient/update traces",
+      "evaluation_exposure": "historically exposed fold0; existing controls already inspected",
+      "evidence": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/experiment_sampler_r3/sealed_admitted_r1/sampled_cohort.packet.json",
+      "wp": null
     }
   ],
-  "execution_status_updated_utc": "2026-10-09T02:09:17.801256+00:00",
+  "execution_status_updated_utc": "2026-10-09T04:37:24.581037+00:00",
   "previous_snapshot": "planned_experiments_initial_r1.json"
 }
