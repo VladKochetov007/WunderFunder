@@ -58,3 +58,14 @@ Not implemented yet, need the curves first (do not build blind):
 (loss EMA, lr, beta1, gradient norms and per-family norms, update ratio, second-moment RMS, weight norm,
 eval curve) plus a JSON summary. Collect runs with `vast_teachers_r1/controller.py pull`; snapshots and
 `trace.jsonl` come with the run directory.
+
+## Update 2026-10-09 (guard behaviour)
+
+The first launch of the telemetry arms failed in seconds with `campaign manifests require fixed checkpoints and --no-eval-during-fit`:
+the trainer refuses in-fit evaluation whenever a campaign split manifest is used (it protects the held-out fold from selection),
+and I had removed `--no-eval-during-fit` from those jobs. The guard is intentional and was kept. Intra-epoch points now save
+snapshots only (`--intra-epoch-points K --intra-snapshots`, which works without evaluation, snapshots carry provenance) and
+`scripts/snapshot_curve.py` scores every snapshot afterwards with `predict_run.py` and the official metric on the fixed
+evaluation groups, writing `artifacts/runs/<run>/snapshot_curve.jsonl`. Cost: about one prediction pass per snapshot (11 per
+4-epoch run). The `curve` step runs between `fit` and `export`, so the pull of a finished run includes its curve.
+Seventeen jobs were lost to this and relaunched; no GPU time beyond the idle gap was wasted.
