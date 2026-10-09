@@ -107,7 +107,10 @@ def completed_keys(fold: int = 0) -> set[str]:
     keys = set(ALREADY_RUN) if fold == 0 else set()
     for spec_path in ROUNDS.glob("r*/cohort_spec.json"):
         spec = read(spec_path)
-        if int(spec.get("fold", 0)) == fold:
+        state_path = spec_path.with_name("round_state.json")
+        outcome = read(state_path).get("outcome") if state_path.exists() else None
+        # Failed or abandoned rounds produced no predictions; their recipes stay eligible.
+        if int(spec.get("fold", 0)) == fold and outcome != "failure":
             keys.update(arm["recipe_key"] for arm in spec["arms"])
     return keys
 
