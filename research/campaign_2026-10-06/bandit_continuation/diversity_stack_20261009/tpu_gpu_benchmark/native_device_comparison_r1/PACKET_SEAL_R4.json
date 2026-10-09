@@ -1,0 +1,49 @@
+{
+  "schema": "wnn.native-device-tpu-packet-seal.v1",
+  "revision": "R4",
+  "status": "review_required_not_admitted",
+  "native_code_commit": "58f17259ae2a359165e6a0698d187c852183a241",
+  "packet_sealer_commit": "0320c3829a756d299e89be931b2a042c6376b810",
+  "packet_sealer_sha256": "9822391fbbe15ee1edf1714b0068a99e196906cf05201b4acdeb8ab1ce0c534a",
+  "kernel_id": "vladkochetov07/wnn-native-device-tpu-20261009-v4",
+  "kernel_title": "WNN Native Device TPU 20261009 V4",
+  "machine_shape": "TpuV5E8",
+  "source_file_count": 43,
+  "source_manifest_sha256": "15d3e06bfd1cc878371d9d44bb2222e00115b9dcbadf3d7478d04a1f65587971",
+  "source_archive_sha256": "5b5a0a641865004a5c71118733f78b035e338ec1aa1b71defaa6b05c05f60d5d",
+  "bootstrap_sha256": "43af24fc355bb9f66e0ec9fa788fcf1339b6e530c797902488251a133eb876ad",
+  "bootstrap_bytes": 298665,
+  "kernel_metadata_sha256": "2ed68afcdfcbdb0765e5eab6d3ca007b07ad06039b25bb6154da56233c973cbc",
+  "packet_sha256": "337429a9bcf040906d44938bbb92fb368d1e8c4c163fb0d3f77b7d99461de00f",
+  "root_admission_sha256": "b8650b91430d62a3705deb7d0f555ce3fdf544aadb86932bb64f27df3ea4aa0e",
+  "offline_validation_receipt_sha256": "b60b6edff0c89a061aef194ba5e2c7b9cb23eb914fea5e7337b282efa29872fe",
+  "offline_source_receipt_sha256": "1bd861555bca69b312f253b8b1684ac23eb13f0b8a83d5cf2a29e62163145ec8",
+  "gpu_training_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+  "gpu_root_terminal_review_sha256": "60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9",
+  "predecessor_r3": {
+    "source_commit": "e5f761ce",
+    "packet_sha256": "31667abbd6b7741293741fcbcebe9567ef725f549767348cdaafa2e755dfbd5d",
+    "source_manifest_sha256": "a7cd50522db8a9dd221fd8a637e1f5042eb356b16ac324df2068dc3296036f50",
+    "source_archive_sha256": "d19355d757cdf9f3d7524aa11c923b52be298f7a97a4a0194a5d78c205426945"
+  },
+  "admission": {
+    "push_allowed": false,
+    "conditional_fit_allowed": false,
+    "tpu_compute_precision": "fp32",
+    "fit_headroom_policy": null,
+    "required_policy_fields": [
+      "minimum_device_free_bytes",
+      "minimum_host_available_bytes",
+      "minimum_cgroup_headroom_bytes",
+      "minimum_disk_free_bytes"
+    ]
+  },
+  "validation": {
+    "focused_tests": "14 passed",
+    "ruff_check": "passed",
+    "offline_bootstrap": "passed; source manifest and extracted files verified; fit_admitted=false",
+    "deterministic_source_rebuild": "packet, manifest, archive, and bootstrap hashes were byte-identical",
+    "actual_tpu_profile": "pending root admission",
+    "provider_action": "not performed"
+  }
+}

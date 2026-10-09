@@ -1,0 +1,35 @@
+{
+  "schema": "wnn.native-device-tpu-offline-validation.v1",
+  "revision": "R4",
+  "status": "passed_offline_startup_only",
+  "packet_sha256": "337429a9bcf040906d44938bbb92fb368d1e8c4c163fb0d3f77b7d99461de00f",
+  "source_manifest_sha256": "15d3e06bfd1cc878371d9d44bb2222e00115b9dcbadf3d7478d04a1f65587971",
+  "offline_bootstrap": {
+    "command": "python kernel/wnn-native-device-tpu-20261009-v4.py",
+    "wrapper": "scripts/limited with 1 CPU, 1.5 GB memory, 120 seconds",
+    "environment": {
+      "WNN_TPU_OFFLINE": "1",
+      "KAGGLE_WORKING": "sealed_candidate_r4/offline_boot_r1"
+    },
+    "final_status_sha256": "b43e5511bd6f25113a0a4345baa1554d2f3c637816259693b764326d77dd0786",
+    "source_receipt_path": "offline_validation_r4/offline_source_receipt.json",
+    "source_receipt_sha256": "1bd861555bca69b312f253b8b1684ac23eb13f0b8a83d5cf2a29e62163145ec8",
+    "source_receipt_status": "pass",
+    "fit_admitted": false
+  },
+  "source_closure_rebuild": {
+    "status": "byte_identical",
+    "rebuilt_independently": true,
+    "packet_sha256": "337429a9bcf040906d44938bbb92fb368d1e8c4c163fb0d3f77b7d99461de00f",
+    "source_manifest_sha256": "15d3e06bfd1cc878371d9d44bb2222e00115b9dcbadf3d7478d04a1f65587971",
+    "source_archive_sha256": "5b5a0a641865004a5c71118733f78b035e338ec1aa1b71defaa6b05c05f60d5d",
+    "bootstrap_sha256": "43af24fc355bb9f66e0ec9fa788fcf1339b6e530c797902488251a133eb876ad"
+  },
+  "focused_tests": {
+    "command": "pytest -q tests/test_fit_headroom_gate_r4.py tests/test_native_r4_binding.py",
+    "result": "14 passed in 0.14s",
+    "ruff": "passed"
+  },
+  "provider_action": "none",
+  "actual_tpu_profile_or_fit": "not run; packet remains pending root admission"
+}
