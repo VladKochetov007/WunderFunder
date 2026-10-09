@@ -1,0 +1,933 @@
+{
+  "build_command": {
+    "argv": [
+      "/usr/bin/python3",
+      "/tmp/wnn_parsed_cache_source/scripts/parsed_sequence_cache.py",
+      "build",
+      "--membership",
+      "/tmp/wnn_parsed_cache_source/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/loss_pair_r1_membership_fold0_f03_s20261009.json",
+      "--expected-membership-sha256",
+      "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+      "--source-root",
+      "/tmp/wnn_parsed_cache_source",
+      "--output-dir",
+      "/kaggle/working/out/parsed_cache",
+      "--output-reserve-bytes",
+      "2000000000",
+      "--checkpoint-reserve-bytes",
+      "0",
+      "--free-reserve-bytes",
+      "4000000000"
+    ],
+    "label": "cache_build",
+    "log_path": "/kaggle/working/out/logs/cache_build.log",
+    "log_sha256": "890eac10e48b781422ab6511d87a5167283d0c1084286398c10c321818907e5b",
+    "peak_pss_bytes": 1458041856,
+    "peak_rss_bytes": 1463500800,
+    "process_io_delta": {
+      "cancelled_write_bytes": 4096,
+      "rchar": 37231798571,
+      "read_bytes": 37468487680,
+      "syscr": 99385,
+      "syscw": 2470,
+      "wchar": 7430649200,
+      "write_bytes": 7431213056
+    },
+    "process_io_first": {
+      "cancelled_write_bytes": 0,
+      "rchar": 6646,
+      "read_bytes": 102400,
+      "syscr": 12,
+      "syscw": 0,
+      "wchar": 0,
+      "write_bytes": 0
+    },
+    "process_io_last": {
+      "cancelled_write_bytes": 4096,
+      "rchar": 37231805217,
+      "read_bytes": 37468590080,
+      "syscr": 99397,
+      "syscw": 2470,
+      "wchar": 7430649200,
+      "write_bytes": 7431213056
+    },
+    "returncode": 0,
+    "sample_count": 53,
+    "wall_seconds": 520.753873311
+  },
+  "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+  "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+  "disk": {
+    "checkpoint_reserve_bytes": 0,
+    "final_free_bytes": 13207699456,
+    "free_reserve_bytes": 4000000000,
+    "initial_free_bytes": 20940472320,
+    "output_bytes": 7732719010,
+    "output_cap_bytes": 12000000000,
+    "output_reserve_bytes": 2000000000
+  },
+  "format_version": 1,
+  "gpu_enabled": false,
+  "membership_counts": {
+    "evaluation_valid": 468,
+    "fit_train": 350,
+    "fit_valid": 28
+  },
+  "membership_sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+  "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+  "producer_manifest": {
+    "arrays": {
+      "train_features": {
+        "dtype": "<f4",
+        "hash_method": "incremental-header-and-row-write-v1",
+        "path": "train_features.npy",
+        "sha256": "4873640cbe73b7462e5f57fd26ad10e96a385bbf8282dc67462036a4bb1f9000",
+        "shape": [
+          350,
+          20000,
+          112
+        ],
+        "size_bytes": 3136000128,
+        "writeback": {
+          "fadvise_dontneed_bytes": 3136000128,
+          "fadvise_dontneed_calls": 44,
+          "fadvise_is_advisory": true,
+          "sync_count": 44,
+          "sync_interval_bytes": 67108864,
+          "sync_method": "fdatasync"
+        }
+      },
+      "train_scored": {
+        "dtype": "|b1",
+        "hash_method": "incremental-header-and-row-write-v1",
+        "path": "train_scored.npy",
+        "sha256": "7355af6dcac577b0809ec92bff22712228279af068d0a0fe0b2875d781b61489",
+        "shape": [
+          350,
+          20000
+        ],
+        "size_bytes": 7000128,
+        "writeback": {
+          "fadvise_dontneed_bytes": 7000128,
+          "fadvise_dontneed_calls": 1,
+          "fadvise_is_advisory": true,
+          "sync_count": 1,
+          "sync_interval_bytes": 67108864,
+          "sync_method": "fdatasync"
+        }
+      },
+      "train_targets": {
+        "dtype": "<f4",
+        "hash_method": "incremental-header-and-row-write-v1",
+        "path": "train_targets.npy",
+        "sha256": "a371bfb6d333c1a8ac8debdbddeba655a40c65b27e5ba62c0425ce84a52d04d2",
+        "shape": [
+          350,
+          20000,
+          2
+        ],
+        "size_bytes": 56000128,
+        "writeback": {
+          "fadvise_dontneed_bytes": 56000128,
+          "fadvise_dontneed_calls": 1,
+          "fadvise_is_advisory": true,
+          "sync_count": 1,
+          "sync_interval_bytes": 67108864,
+          "sync_method": "fdatasync"
+        }
+      },
+      "valid_features": {
+        "dtype": "<f4",
+        "hash_method": "incremental-header-and-row-write-v1",
+        "path": "valid_features.npy",
+        "sha256": "e4cbed7b089d330dbebba40c9ae3d18f7391d6e999a88e82edf72671680325a1",
+        "shape": [
+          496,
+          20000,
+          112
+        ],
+        "size_bytes": 4444160128,
+        "writeback": {
+          "fadvise_dontneed_bytes": 4444160128,
+          "fadvise_dontneed_calls": 62,
+          "fadvise_is_advisory": true,
+          "sync_count": 62,
+          "sync_interval_bytes": 67108864,
+          "sync_method": "fdatasync"
+        }
+      },
+      "valid_scored": {
+        "dtype": "|b1",
+        "hash_method": "incremental-header-and-row-write-v1",
+        "path": "valid_scored.npy",
+        "sha256": "a49beb9a16ef7df284a9ea26aac30bd2bb96291325b8b3449380b3c592a79252",
+        "shape": [
+          496,
+          20000
+        ],
+        "size_bytes": 9920128,
+        "writeback": {
+          "fadvise_dontneed_bytes": 9920128,
+          "fadvise_dontneed_calls": 1,
+          "fadvise_is_advisory": true,
+          "sync_count": 1,
+          "sync_interval_bytes": 67108864,
+          "sync_method": "fdatasync"
+        }
+      },
+      "valid_targets": {
+        "dtype": "<f4",
+        "hash_method": "incremental-header-and-row-write-v1",
+        "path": "valid_targets.npy",
+        "sha256": "c171fa07eabd0ec73a5bdd919251635fbb8227202cbe19d1fdec679d74d64661",
+        "shape": [
+          496,
+          20000,
+          2
+        ],
+        "size_bytes": 79360128,
+        "writeback": {
+          "fadvise_dontneed_bytes": 79360128,
+          "fadvise_dontneed_calls": 2,
+          "fadvise_is_advisory": true,
+          "sync_count": 2,
+          "sync_interval_bytes": 67108864,
+          "sync_method": "fdatasync"
+        }
+      }
+    },
+    "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+    "disk_admission": {
+      "array_bytes": 7732440768,
+      "checkpoint_reserve_bytes": 0,
+      "estimated_cache_bytes": 7733742922,
+      "free_bytes_observed": 20940468224,
+      "free_reserve_bytes": 4000000000,
+      "membership_copy_bytes": 253578,
+      "metadata_reserve_bytes": 1048576,
+      "output_reserve_bytes": 2000000000,
+      "required_bytes": 13733742922
+    },
+    "estimated_array_bytes_before_admission": 7732440768,
+    "estimated_cache_bytes_before_admission": 7733742922,
+    "fold": 0,
+    "format_version": 1,
+    "member_counts": {
+      "evaluation_valid": 468,
+      "fit_train": 350,
+      "fit_valid": 28
+    },
+    "membership_artifact": {
+      "evaluation_membership_role": "evaluation_valid",
+      "fit_membership_roles": [
+        "fit_train",
+        "fit_valid"
+      ],
+      "path": "membership.json",
+      "sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd"
+    },
+    "parser_identity": {
+      "feature_columns_sha256": "9ebf934d940647f8f6dbfc8fe28237ac729ee7d51bc29d6f9a0cc0202fec72f2",
+      "producer_sha256": "e65de5a8a86a9353d5e0e96f266ce48141fb63aaf64d5e0f17f43d61855c2bac",
+      "sequence_reader_sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+    },
+    "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "schema": "wnn.parsed-sequence-cache",
+    "scope": "cohort",
+    "source_verification_artifact": {
+      "path": "source_verification.json",
+      "sha256": "1ccd91ccec85bd157cbd0244ae9032316b88d781a0caf19daf7a027f3a908567"
+    },
+    "sources": {
+      "train": {
+        "bytes": 29240219011,
+        "logical_name": "datasets/train.parquet",
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+      },
+      "valid": {
+        "bytes": 5615509128,
+        "logical_name": "datasets/valid.parquet",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      }
+    },
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "telemetry": {
+      "array_write": {
+        "memory_after": {
+          "cgroup_active_file_bytes": 22540288,
+          "cgroup_anon_bytes": 1420070912,
+          "cgroup_current_bytes": 9490382848,
+          "cgroup_file_bytes": 7848153088,
+          "cgroup_file_dirty_bytes": 8192,
+          "cgroup_file_writeback_bytes": 0,
+          "cgroup_inactive_file_bytes": 7825612800,
+          "cgroup_max_bytes": 32212254720,
+          "cgroup_path": "/sys/fs/cgroup",
+          "cgroup_slab_bytes": 218246992,
+          "process_anonymous_bytes": 1406971904,
+          "process_private_clean_bytes": 46211072,
+          "process_private_dirty_bytes": 1406971904,
+          "process_pss_bytes": 1458091008,
+          "process_rss_bytes": 1463549952
+        },
+        "memory_before": {
+          "cgroup_active_file_bytes": 19800064,
+          "cgroup_anon_bytes": 38928384,
+          "cgroup_current_bytes": 115474432,
+          "cgroup_file_bytes": 71872512,
+          "cgroup_file_dirty_bytes": 0,
+          "cgroup_file_writeback_bytes": 0,
+          "cgroup_inactive_file_bytes": 52072448,
+          "cgroup_max_bytes": 32212254720,
+          "cgroup_path": "/sys/fs/cgroup",
+          "cgroup_slab_bytes": 3118952,
+          "process_anonymous_bytes": 25919488,
+          "process_private_clean_bytes": 26685440,
+          "process_private_dirty_bytes": 25919488,
+          "process_pss_bytes": 57517056,
+          "process_rss_bytes": 62980096
+        },
+        "process_io_delta": {
+          "cancelled_write_bytes": 4096,
+          "rchar": 2470793126,
+          "read_bytes": 2673250304,
+          "syscr": 98538,
+          "syscw": 2570,
+          "wchar": 7732444691,
+          "write_bytes": 7733026816
+        },
+        "stream_bytes_written": 7732440768,
+        "wall_seconds": 127.011972851
+      },
+      "mmap_validation": {
+        "mapped_npy_file_count": 6,
+        "memory_after": {
+          "cgroup_active_file_bytes": 22564864,
+          "cgroup_anon_bytes": 1420075008,
+          "cgroup_current_bytes": 9490907136,
+          "cgroup_file_bytes": 7848669184,
+          "cgroup_file_dirty_bytes": 8192,
+          "cgroup_file_writeback_bytes": 0,
+          "cgroup_inactive_file_bytes": 7826087936,
+          "cgroup_max_bytes": 32212254720,
+          "cgroup_path": "/sys/fs/cgroup",
+          "cgroup_slab_bytes": 218230384,
+          "process_anonymous_bytes": 1406976000,
+          "process_private_clean_bytes": 46227456,
+          "process_private_dirty_bytes": 1406976000,
+          "process_pss_bytes": 1458111488,
+          "process_rss_bytes": 1463570432
+        },
+        "memory_before": {
+          "cgroup_active_file_bytes": 22540288,
+          "cgroup_anon_bytes": 1420070912,
+          "cgroup_current_bytes": 9490382848,
+          "cgroup_file_bytes": 7848153088,
+          "cgroup_file_dirty_bytes": 8192,
+          "cgroup_file_writeback_bytes": 0,
+          "cgroup_inactive_file_bytes": 7825612800,
+          "cgroup_max_bytes": 32212254720,
+          "cgroup_path": "/sys/fs/cgroup",
+          "cgroup_slab_bytes": 218246992,
+          "process_anonymous_bytes": 1406971904,
+          "process_private_clean_bytes": 46211072,
+          "process_private_dirty_bytes": 1406971904,
+          "process_pss_bytes": 1458091008,
+          "process_rss_bytes": 1463549952
+        },
+        "physical_io_is_reported_separately": true,
+        "process_io_delta": {
+          "cancelled_write_bytes": 0,
+          "rchar": 51138,
+          "read_bytes": 516096,
+          "syscr": 24,
+          "syscw": 0,
+          "wchar": 0,
+          "write_bytes": 0
+        },
+        "sampled_element_bytes": 36,
+        "virtual_mapping_bytes": 7732440000,
+        "wall_seconds": 0.012720335000039995
+      },
+      "observed_parse_once": true,
+      "parse_once_definition": "one SequenceFile.read call per unique source row group in this cache build",
+      "parsing": {
+        "decoded_feature_bytes": 7580160000,
+        "decoded_target_mask_bytes": 152280000,
+        "duplicate_source_row_group_read_count": 0,
+        "memory_after": {
+          "cgroup_active_file_bytes": 22540288,
+          "cgroup_anon_bytes": 1420062720,
+          "cgroup_current_bytes": 9622196224,
+          "cgroup_file_bytes": 7976181760,
+          "cgroup_file_dirty_bytes": 10817536,
+          "cgroup_file_writeback_bytes": 0,
+          "cgroup_inactive_file_bytes": 7953641472,
+          "cgroup_max_bytes": 32212254720,
+          "cgroup_path": "/sys/fs/cgroup",
+          "cgroup_slab_bytes": 221939088,
+          "process_anonymous_bytes": 1406963712,
+          "process_private_clean_bytes": 46211072,
+          "process_private_dirty_bytes": 1406963712,
+          "process_pss_bytes": 1458082816,
+          "process_rss_bytes": 1463541760
+        },
+        "memory_before": {
+          "cgroup_active_file_bytes": 19800064,
+          "cgroup_anon_bytes": 38928384,
+          "cgroup_current_bytes": 115474432,
+          "cgroup_file_bytes": 71872512,
+          "cgroup_file_dirty_bytes": 0,
+          "cgroup_file_writeback_bytes": 0,
+          "cgroup_inactive_file_bytes": 52072448,
+          "cgroup_max_bytes": 32212254720,
+          "cgroup_path": "/sys/fs/cgroup",
+          "cgroup_slab_bytes": 3118952,
+          "process_anonymous_bytes": 25923584,
+          "process_private_clean_bytes": 26685440,
+          "process_private_dirty_bytes": 25923584,
+          "process_pss_bytes": 57521152,
+          "process_rss_bytes": 62984192
+        },
+        "parquet_file_open_count": 2,
+        "process_io_delta": {
+          "cancelled_write_bytes": 4096,
+          "rchar": 2470789192,
+          "read_bytes": 2673250304,
+          "syscr": 98514,
+          "syscw": 2570,
+          "wchar": 7732444691,
+          "write_bytes": 7733026816
+        },
+        "sequence_read_invocations": 846,
+        "source_group_cache_drop_advice": "POSIX_FADV_DONTNEED after each row group when supported",
+        "source_group_cache_drop_advice_attempt_count": 846,
+        "source_group_cache_drop_advice_success_count": 846,
+        "source_layout": {
+          "datasets/train.parquet": {
+            "has_scored_mask_in_parquet": false,
+            "has_targets_in_parquet": true,
+            "missing_train_mask_policy": "all_false_as_train_rnn_Sequences_getitem"
+          },
+          "datasets/valid.parquet": {
+            "has_scored_mask_in_parquet": true,
+            "has_targets_in_parquet": true,
+            "missing_train_mask_policy": null
+          }
+        },
+        "unique_source_row_groups_parsed": 846,
+        "wall_seconds": 126.95695237899997
+      },
+      "source_verification": {
+        "aggregate": {
+          "memory_after": {
+            "cgroup_active_file_bytes": 19800064,
+            "cgroup_anon_bytes": 38928384,
+            "cgroup_current_bytes": 115474432,
+            "cgroup_file_bytes": 71872512,
+            "cgroup_file_dirty_bytes": 0,
+            "cgroup_file_writeback_bytes": 0,
+            "cgroup_inactive_file_bytes": 52072448,
+            "cgroup_max_bytes": 32212254720,
+            "cgroup_path": "/sys/fs/cgroup",
+            "cgroup_slab_bytes": 3118952,
+            "process_anonymous_bytes": 25915392,
+            "process_private_clean_bytes": 26685440,
+            "process_private_dirty_bytes": 25915392,
+            "process_pss_bytes": 57512960,
+            "process_rss_bytes": 62976000
+          },
+          "memory_before": {
+            "cgroup_active_file_bytes": 13942784,
+            "cgroup_anon_bytes": 39092224,
+            "cgroup_current_bytes": 114831360,
+            "cgroup_file_bytes": 71520256,
+            "cgroup_file_dirty_bytes": 487424,
+            "cgroup_file_writeback_bytes": 0,
+            "cgroup_inactive_file_bytes": 57536512,
+            "cgroup_max_bytes": 32212254720,
+            "cgroup_path": "/sys/fs/cgroup",
+            "cgroup_slab_bytes": 3100632,
+            "process_anonymous_bytes": 26279936,
+            "process_private_clean_bytes": 26685440,
+            "process_private_dirty_bytes": 26279936,
+            "process_pss_bytes": 57877504,
+            "process_rss_bytes": 63340544
+          },
+          "process_io_delta": {
+            "cancelled_write_bytes": 0,
+            "rchar": 34855737783,
+            "read_bytes": 34855731200,
+            "syscr": 4218,
+            "syscw": 0,
+            "wchar": 0,
+            "write_bytes": 0
+          },
+          "wall_seconds": 388.02243277400004
+        },
+        "per_source": {
+          "datasets/train.parquet": {
+            "bytes_hashed": 29240219011,
+            "fadvise_dontneed_calls": 3486,
+            "memory_after": {
+              "cgroup_active_file_bytes": 19800064,
+              "cgroup_anon_bytes": 38899712,
+              "cgroup_current_bytes": 115138560,
+              "cgroup_file_bytes": 71852032,
+              "cgroup_file_dirty_bytes": 0,
+              "cgroup_file_writeback_bytes": 0,
+              "cgroup_inactive_file_bytes": 52051968,
+              "cgroup_max_bytes": 32212254720,
+              "cgroup_path": "/sys/fs/cgroup",
+              "cgroup_slab_bytes": 3114864,
+              "process_anonymous_bytes": 25911296,
+              "process_private_clean_bytes": 26685440,
+              "process_private_dirty_bytes": 25911296,
+              "process_pss_bytes": 57508864,
+              "process_rss_bytes": 62971904
+            },
+            "memory_before": {
+              "cgroup_active_file_bytes": 13942784,
+              "cgroup_anon_bytes": 39092224,
+              "cgroup_current_bytes": 114831360,
+              "cgroup_file_bytes": 71520256,
+              "cgroup_file_dirty_bytes": 487424,
+              "cgroup_file_writeback_bytes": 0,
+              "cgroup_inactive_file_bytes": 57536512,
+              "cgroup_max_bytes": 32212254720,
+              "cgroup_path": "/sys/fs/cgroup",
+              "cgroup_slab_bytes": 3100632,
+              "process_anonymous_bytes": 26288128,
+              "process_private_clean_bytes": 26685440,
+              "process_private_dirty_bytes": 26288128,
+              "process_pss_bytes": 57885696,
+              "process_rss_bytes": 63348736
+            },
+            "process_io_delta": {
+              "cancelled_write_bytes": 0,
+              "rchar": 29240220938,
+              "read_bytes": 29240221696,
+              "syscr": 3499,
+              "syscw": 0,
+              "wchar": 0,
+              "write_bytes": 0
+            },
+            "wall_seconds": 331.83182642200006
+          },
+          "datasets/valid.parquet": {
+            "bytes_hashed": 5615509128,
+            "fadvise_dontneed_calls": 670,
+            "memory_after": {
+              "cgroup_active_file_bytes": 19800064,
+              "cgroup_anon_bytes": 38928384,
+              "cgroup_current_bytes": 115474432,
+              "cgroup_file_bytes": 71872512,
+              "cgroup_file_dirty_bytes": 0,
+              "cgroup_file_writeback_bytes": 0,
+              "cgroup_inactive_file_bytes": 52072448,
+              "cgroup_max_bytes": 32212254720,
+              "cgroup_path": "/sys/fs/cgroup",
+              "cgroup_slab_bytes": 3118952,
+              "process_anonymous_bytes": 25915392,
+              "process_private_clean_bytes": 26685440,
+              "process_private_dirty_bytes": 25915392,
+              "process_pss_bytes": 57512960,
+              "process_rss_bytes": 62976000
+            },
+            "memory_before": {
+              "cgroup_active_file_bytes": 19800064,
+              "cgroup_anon_bytes": 38899712,
+              "cgroup_current_bytes": 115138560,
+              "cgroup_file_bytes": 71852032,
+              "cgroup_file_dirty_bytes": 0,
+              "cgroup_file_writeback_bytes": 0,
+              "cgroup_inactive_file_bytes": 52051968,
+              "cgroup_max_bytes": 32212254720,
+              "cgroup_path": "/sys/fs/cgroup",
+              "cgroup_slab_bytes": 3114864,
+              "process_anonymous_bytes": 25911296,
+              "process_private_clean_bytes": 26685440,
+              "process_private_dirty_bytes": 25911296,
+              "process_pss_bytes": 57508864,
+              "process_rss_bytes": 62971904
+            },
+            "process_io_delta": {
+              "cancelled_write_bytes": 0,
+              "rchar": 5615511058,
+              "read_bytes": 5615509504,
+              "syscr": 683,
+              "syscw": 0,
+              "wchar": 0,
+              "write_bytes": 0
+            },
+            "wall_seconds": 56.179158841
+          }
+        }
+      }
+    }
+  },
+  "profile_command": {
+    "argv": [
+      "/usr/bin/python3",
+      "/tmp/wnn_parsed_cache_source/scripts/profile_parsed_sequence_cache.py",
+      "--manifest",
+      "/kaggle/working/out/parsed_cache/manifest.json",
+      "--expected-manifest-sha256",
+      "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+      "--validation-receipt",
+      "/kaggle/working/out/parsed_cache/reader_validation.json",
+      "--profile-output",
+      "/kaggle/working/out/parsed_cache/reader_profile.json",
+      "--per-role",
+      "2",
+      "--seed",
+      "20261009"
+    ],
+    "label": "cache_profile",
+    "log_path": "/kaggle/working/out/logs/cache_profile.log",
+    "log_sha256": "d65e6b5bca89d8eb14c32ec567963b3a9be2fc9b539a10a1bfb89be6ff2d387a",
+    "peak_pss_bytes": 76665856,
+    "peak_rss_bytes": 82018304,
+    "process_io_delta": {
+      "cancelled_write_bytes": 0,
+      "rchar": 7727626578,
+      "read_bytes": 7717687296,
+      "syscr": 1413,
+      "syscw": 0,
+      "wchar": 0,
+      "write_bytes": 0
+    },
+    "process_io_first": {
+      "cancelled_write_bytes": 0,
+      "rchar": 6646,
+      "read_bytes": 0,
+      "syscr": 12,
+      "syscw": 0,
+      "wchar": 0,
+      "write_bytes": 0
+    },
+    "process_io_last": {
+      "cancelled_write_bytes": 0,
+      "rchar": 7727633224,
+      "read_bytes": 7717687296,
+      "syscr": 1425,
+      "syscw": 0,
+      "wchar": 0,
+      "write_bytes": 0
+    },
+    "returncode": 0,
+    "sample_count": 6,
+    "wall_seconds": 50.074364180999964
+  },
+  "raw_source_bytes_expected": {
+    "train": 29240219011,
+    "valid": 5615509128
+  },
+  "raw_source_verification": {
+    "format_version": 1,
+    "hash_telemetry": {
+      "aggregate": {
+        "memory_after": {
+          "cgroup_active_file_bytes": 19800064,
+          "cgroup_anon_bytes": 38928384,
+          "cgroup_current_bytes": 115474432,
+          "cgroup_file_bytes": 71872512,
+          "cgroup_file_dirty_bytes": 0,
+          "cgroup_file_writeback_bytes": 0,
+          "cgroup_inactive_file_bytes": 52072448,
+          "cgroup_max_bytes": 32212254720,
+          "cgroup_path": "/sys/fs/cgroup",
+          "cgroup_slab_bytes": 3118952,
+          "process_anonymous_bytes": 25915392,
+          "process_private_clean_bytes": 26685440,
+          "process_private_dirty_bytes": 25915392,
+          "process_pss_bytes": 57512960,
+          "process_rss_bytes": 62976000
+        },
+        "memory_before": {
+          "cgroup_active_file_bytes": 13942784,
+          "cgroup_anon_bytes": 39092224,
+          "cgroup_current_bytes": 114831360,
+          "cgroup_file_bytes": 71520256,
+          "cgroup_file_dirty_bytes": 487424,
+          "cgroup_file_writeback_bytes": 0,
+          "cgroup_inactive_file_bytes": 57536512,
+          "cgroup_max_bytes": 32212254720,
+          "cgroup_path": "/sys/fs/cgroup",
+          "cgroup_slab_bytes": 3100632,
+          "process_anonymous_bytes": 26279936,
+          "process_private_clean_bytes": 26685440,
+          "process_private_dirty_bytes": 26279936,
+          "process_pss_bytes": 57877504,
+          "process_rss_bytes": 63340544
+        },
+        "process_io_delta": {
+          "cancelled_write_bytes": 0,
+          "rchar": 34855737783,
+          "read_bytes": 34855731200,
+          "syscr": 4218,
+          "syscw": 0,
+          "wchar": 0,
+          "write_bytes": 0
+        },
+        "wall_seconds": 388.02243277400004
+      },
+      "per_source": {
+        "datasets/train.parquet": {
+          "bytes_hashed": 29240219011,
+          "fadvise_dontneed_calls": 3486,
+          "memory_after": {
+            "cgroup_active_file_bytes": 19800064,
+            "cgroup_anon_bytes": 38899712,
+            "cgroup_current_bytes": 115138560,
+            "cgroup_file_bytes": 71852032,
+            "cgroup_file_dirty_bytes": 0,
+            "cgroup_file_writeback_bytes": 0,
+            "cgroup_inactive_file_bytes": 52051968,
+            "cgroup_max_bytes": 32212254720,
+            "cgroup_path": "/sys/fs/cgroup",
+            "cgroup_slab_bytes": 3114864,
+            "process_anonymous_bytes": 25911296,
+            "process_private_clean_bytes": 26685440,
+            "process_private_dirty_bytes": 25911296,
+            "process_pss_bytes": 57508864,
+            "process_rss_bytes": 62971904
+          },
+          "memory_before": {
+            "cgroup_active_file_bytes": 13942784,
+            "cgroup_anon_bytes": 39092224,
+            "cgroup_current_bytes": 114831360,
+            "cgroup_file_bytes": 71520256,
+            "cgroup_file_dirty_bytes": 487424,
+            "cgroup_file_writeback_bytes": 0,
+            "cgroup_inactive_file_bytes": 57536512,
+            "cgroup_max_bytes": 32212254720,
+            "cgroup_path": "/sys/fs/cgroup",
+            "cgroup_slab_bytes": 3100632,
+            "process_anonymous_bytes": 26288128,
+            "process_private_clean_bytes": 26685440,
+            "process_private_dirty_bytes": 26288128,
+            "process_pss_bytes": 57885696,
+            "process_rss_bytes": 63348736
+          },
+          "process_io_delta": {
+            "cancelled_write_bytes": 0,
+            "rchar": 29240220938,
+            "read_bytes": 29240221696,
+            "syscr": 3499,
+            "syscw": 0,
+            "wchar": 0,
+            "write_bytes": 0
+          },
+          "wall_seconds": 331.83182642200006
+        },
+        "datasets/valid.parquet": {
+          "bytes_hashed": 5615509128,
+          "fadvise_dontneed_calls": 670,
+          "memory_after": {
+            "cgroup_active_file_bytes": 19800064,
+            "cgroup_anon_bytes": 38928384,
+            "cgroup_current_bytes": 115474432,
+            "cgroup_file_bytes": 71872512,
+            "cgroup_file_dirty_bytes": 0,
+            "cgroup_file_writeback_bytes": 0,
+            "cgroup_inactive_file_bytes": 52072448,
+            "cgroup_max_bytes": 32212254720,
+            "cgroup_path": "/sys/fs/cgroup",
+            "cgroup_slab_bytes": 3118952,
+            "process_anonymous_bytes": 25915392,
+            "process_private_clean_bytes": 26685440,
+            "process_private_dirty_bytes": 25915392,
+            "process_pss_bytes": 57512960,
+            "process_rss_bytes": 62976000
+          },
+          "memory_before": {
+            "cgroup_active_file_bytes": 19800064,
+            "cgroup_anon_bytes": 38899712,
+            "cgroup_current_bytes": 115138560,
+            "cgroup_file_bytes": 71852032,
+            "cgroup_file_dirty_bytes": 0,
+            "cgroup_file_writeback_bytes": 0,
+            "cgroup_inactive_file_bytes": 52051968,
+            "cgroup_max_bytes": 32212254720,
+            "cgroup_path": "/sys/fs/cgroup",
+            "cgroup_slab_bytes": 3114864,
+            "process_anonymous_bytes": 25911296,
+            "process_private_clean_bytes": 26685440,
+            "process_private_dirty_bytes": 25911296,
+            "process_pss_bytes": 57508864,
+            "process_rss_bytes": 62971904
+          },
+          "process_io_delta": {
+            "cancelled_write_bytes": 0,
+            "rchar": 5615511058,
+            "read_bytes": 5615509504,
+            "syscr": 683,
+            "syscw": 0,
+            "wchar": 0,
+            "write_bytes": 0
+          },
+          "wall_seconds": 56.179158841
+        }
+      }
+    },
+    "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "schema": "wnn.cohort-source-verification",
+    "sources": {
+      "datasets/train.parquet": {
+        "bytes": 29240219011,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "stat": {
+          "bytes": 29240219011,
+          "ctime_ns": 1791326467362845791,
+          "device": 52,
+          "inode": 25575077604,
+          "mtime_ns": 1791326467362845791
+        }
+      },
+      "datasets/valid.parquet": {
+        "bytes": 5615509128,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "stat": {
+          "bytes": 5615509128,
+          "ctime_ns": 1791325785217661290,
+          "device": 52,
+          "inode": 25511656898,
+          "mtime_ns": 1791325785217661290
+        }
+      }
+    },
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "raw_source_verification_sha256": "1ccd91ccec85bd157cbd0244ae9032316b88d781a0caf19daf7a027f3a908567",
+  "reader_profile": {
+    "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+    "format_version": 1,
+    "full_array_hash_verification": {
+      "after_process_io": {
+        "cancelled_write_bytes": 0,
+        "rchar": 7737561544,
+        "read_bytes": 7727538176,
+        "syscr": 1430,
+        "syscw": 0,
+        "wchar": 0,
+        "write_bytes": 0
+      },
+      "before_process_io": {
+        "cancelled_write_bytes": 0,
+        "rchar": 5069555,
+        "read_bytes": 0,
+        "syscr": 477,
+        "syscw": 0,
+        "wchar": 0,
+        "write_bytes": 0
+      },
+      "memory_after": {
+        "cgroup_path": "/sys/fs/cgroup",
+        "memory_active_file_bytes": 63774720,
+        "memory_anon_bytes": 39890944,
+        "memory_current_bytes": 5142458368,
+        "memory_file_bytes": 4961103872,
+        "memory_file_dirty_bytes": 4096,
+        "memory_file_writeback_bytes": 0,
+        "memory_inactive_file_bytes": 4897308672,
+        "memory_max_bytes": 32212254720
+      },
+      "memory_before": {
+        "cgroup_path": "/sys/fs/cgroup",
+        "memory_active_file_bytes": 27467776,
+        "memory_anon_bytes": 40226816,
+        "memory_current_bytes": 8111554560,
+        "memory_file_bytes": 7851978752,
+        "memory_file_dirty_bytes": 286720,
+        "memory_file_writeback_bytes": 0,
+        "memory_inactive_file_bytes": 7824506880,
+        "memory_max_bytes": 32212254720
+      },
+      "method": "streamed_sha256_and_readonly_npy_header_v1"
+    },
+    "manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+    "mmap_sample": {
+      "bytes_copied_to_owned_arrays": 54840000,
+      "checksum": -10.403026029467583,
+      "elapsed_seconds": 0.40158477199997833,
+      "memory_after": {
+        "cgroup_path": "/sys/fs/cgroup",
+        "memory_active_file_bytes": 127963136,
+        "memory_anon_bytes": 58781696,
+        "memory_current_bytes": 5242744832,
+        "memory_file_bytes": 5042204672,
+        "memory_file_dirty_bytes": 8192,
+        "memory_file_writeback_bytes": 0,
+        "memory_inactive_file_bytes": 4914208768,
+        "memory_max_bytes": 32212254720
+      },
+      "memory_before": {
+        "cgroup_path": "/sys/fs/cgroup",
+        "memory_active_file_bytes": 64024576,
+        "memory_anon_bytes": 40112128,
+        "memory_current_bytes": 5142454272,
+        "memory_file_bytes": 4961112064,
+        "memory_file_dirty_bytes": 8192,
+        "memory_file_writeback_bytes": 0,
+        "memory_inactive_file_bytes": 4897087488,
+        "memory_max_bytes": 32212254720
+      },
+      "per_role_limit": 2,
+      "process_io_after": {
+        "cancelled_write_bytes": 0,
+        "rchar": 7737918419,
+        "read_bytes": 7789273088,
+        "syscr": 1487,
+        "syscw": 1,
+        "wchar": 3395,
+        "write_bytes": 4096
+      },
+      "process_io_before": {
+        "cancelled_write_bytes": 0,
+        "rchar": 7737886173,
+        "read_bytes": 7727538176,
+        "syscr": 1460,
+        "syscw": 1,
+        "wchar": 3395,
+        "write_bytes": 4096
+      },
+      "sequences_read": 6
+    },
+    "schema": "wnn.parsed-sequence-cache-reader-profile",
+    "validation_receipt_path": "/kaggle/working/out/parsed_cache/reader_validation.json",
+    "validation_receipt_sha256": "84686dff926036b37362a3ea28edcf2166d0bb44bee11b2fcbd64082e4b5cf35"
+  },
+  "reader_profile_sha256": "c371f3c70e79e69de8b382b442869d2e06e72ea4890a16d19b22923d7c82825e",
+  "reader_validation_sha256": "84686dff926036b37362a3ea28edcf2166d0bb44bee11b2fcbd64082e4b5cf35",
+  "resource_profile": {
+    "cgroup_min_headroom_bytes": 22895976448,
+    "cgroup_peak_bytes": {
+      "cgroup_anon_bytes": 1420017664,
+      "cgroup_current_bytes": 9316278272,
+      "cgroup_file_bytes": 7860809728,
+      "cgroup_file_dirty_bytes": 94248960,
+      "cgroup_file_writeback_bytes": 39440384,
+      "cgroup_inactive_file_bytes": 7832281088,
+      "cgroup_max_bytes": 32212254720
+    },
+    "child_peak_pss_bytes": 1458041856,
+    "child_peak_rss_bytes": 1463500800,
+    "mem_available_min_bytes": 10713415680,
+    "output_peak_bytes": 7732719010,
+    "sample_artifact": "heartbeat.json is latest sample; phase.jsonl records phase transitions",
+    "sample_count": 59,
+    "sample_interval_seconds": 10
+  },
+  "schema": "wnn.kaggle-parsed-cache-source-stage",
+  "source_archive_sha256": "8f3e60f40ef7135abdd3926aba2a068fe65933d1e98d010d69784724f75e43a7",
+  "source_asset_dataset": "vladkochetov07/wnn-parsed-cache-source-20261009-r1",
+  "source_asset_manifest_sha256": "6d7986ed4d80677fe6c59835b0b57ecb57348b7b0a862793de2516e6f13fd1ff",
+  "source_code_manifest_sha256": "b5de668eed86f527d639e7077cc827318c5b91426e4a880ac39f54c99cd83084",
+  "source_commit": "d5daaa0f90b0362877522703c7e17aa78c19cac9",
+  "source_root_mount": "/kaggle/input/datasets/vladkochetov07/wunder-funder",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "state": "complete",
+  "terminal_elapsed_seconds": 570.9327208909999,
+  "tpu_enabled": false
+}
