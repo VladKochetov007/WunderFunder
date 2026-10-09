@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 from types import SimpleNamespace
@@ -146,8 +147,14 @@ def test_actual_trainer_parser_accepts_disposable_profile_argv(
 def test_actual_split_loader_consumes_verified_mounted_auxiliary_assets(
     tmp_path, monkeypatch
 ) -> None:
-    worktree_root = PACKET_ROOT.parents[5]
-    main_root = worktree_root.parents[1] / "wnn_connectome_starterpack"
+    common_git_dir = subprocess.run(
+        ["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
+        cwd=PACKET_ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    main_root = Path(common_git_dir).resolve().parent
     manifest_path = SOURCE_STAGE_FIXTURE / "manifest.json"
     validation_path = SOURCE_STAGE_FIXTURE / "reader_validation.json"
     source_receipt_path = SOURCE_STAGE_FIXTURE / "source_stage_receipt.json"
