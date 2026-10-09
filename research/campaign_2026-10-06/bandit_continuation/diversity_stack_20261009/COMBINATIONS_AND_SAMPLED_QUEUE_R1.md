@@ -52,3 +52,4 @@ Keep final/fixed-epoch weights and provenance; one rolling exact-resume checkpoi
 ## Literature (2026-10-09)
 
 Schedules, staged distillation and tail-weighting sources mapped to our experiments: [LITERATURE_SCHEDULES_DISTILLATION_R1.md](LITERATURE_SCHEDULES_DISTILLATION_R1.md).
+- Training telemetry, callbacks and dynamics experiments: [TRAINING_TELEMETRY_AND_CALLBACKS_R1.md](TRAINING_TELEMETRY_AND_CALLBACKS_R1.md)

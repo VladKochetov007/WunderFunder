@@ -22,7 +22,26 @@ WAVES = {
         "vt_f1_gru384_fixmix": {"--hidden": "384", "+": ["--readout-activation", "fixed_mix"]},
         "vt_f1_seed5": {"--seed": "5"},
     },
+    "w5": {
+        # training-dynamics telemetry arms: trace.jsonl + intra-epoch evaluations/snapshots on every run
+        "vt_f1_tr_base": {},
+        "vt_f1_tr_wsd": {"--sched": "wsd"},
+        "vt_f1_tr_ep6": {"--epochs": "6", "--checkpoint-epoch": "5"},
+        "vt_f1_tr_lr2": {"--lr": "0.002"},
+        "vt_f1_tr_lrh": {"--lr": "0.0005"},
+        "vt_f1_tr_swa": {"+": ["--swa-frac", "0.25"]},
+        "vt_f1_tr_b16": {"--batch": "16"},
+    },
 }
+
+TRACE = ["--trace-every", "10", "--trace-state-every", "200", "--intra-epoch-points", "3", "--intra-snapshots"]
+
+
+def with_trace(change: dict) -> dict:
+    merged = dict(change)
+    merged["+"] = [*change.get("+", []), *TRACE]
+    merged["-"] = ["--no-eval-during-fit"]
+    return merged
 
 
 def main() -> None:
@@ -30,9 +49,10 @@ def main() -> None:
     out.mkdir(exist_ok=True)
     for wave, variants in WAVES.items():
         for index, (name, change) in enumerate(variants.items()):
+            change = with_trace(change) if wave == "w5" else change
             job = {"name": name, "steps": [
                 {"label": "fit", "timeout": 4 * 3600, "argv": B.argv_for(name, change)},
-                {"label": "export", "timeout": 1800, "argv": B.export_argv(name)},
+                {"label": "export", "timeout": 1800, "argv": B.export_argv(name, change.get("--checkpoint-epoch", "3"))},
             ]}
             (out / f"{wave}_{index}_{name}.json").write_text(json.dumps(job, indent=1))
     print(sorted(p.name for p in out.glob("*.json")))

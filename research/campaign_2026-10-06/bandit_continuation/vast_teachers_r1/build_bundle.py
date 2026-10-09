@@ -52,6 +52,9 @@ def argv_for(name: str, change: dict) -> list[str]:
     for flag, value in change.items():
         if flag == "+":
             continue
+        if flag == "-":
+            args = [a for a in args if a not in value]
+            continue
         args[args.index(flag) + 1] = value
     extra = change.get("+", [])
     position = args.index("--fast")
@@ -59,13 +62,13 @@ def argv_for(name: str, change: dict) -> list[str]:
     return [PY, f"{W}/scripts/train_rnn.py", "--name", name, *args]
 
 
-def export_argv(name: str) -> list[str]:
+def export_argv(name: str, epoch: str = "3") -> list[str]:
     runner = (
         "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; "
         "sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; "
         "runpy.run_path(run_script,run_name='__main__')"
     )
-    return [PY, "-c", runner, f"{W}/scripts/predict_run.py", f"{W}/scripts/train_rnn.py", name, "valid", "--epoch", "3"]
+    return [PY, "-c", runner, f"{W}/scripts/predict_run.py", f"{W}/scripts/train_rnn.py", name, "valid", "--epoch", epoch]
 
 
 def jobs() -> dict:
