@@ -1,0 +1,37 @@
+{
+  "status": "pass",
+  "claim": "consumer compatibility only; actual two AdamW producer cells; no quartet score",
+  "grader_sha256": "4b8525f52a300b2ebb6703b61cb6a0105eb22d11a2a0fbe04445ffd41a32d420",
+  "review_sha256": "60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9",
+  "source_sha256": {
+    "scripts/grade_recovered_loss_pair.py": "094ce7800a11a8b06ec5a549866b6f5821f62509d3d612ff085c7f29e0ea2321",
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "actual_arms": {
+    "adamw_wmse": {
+      "prediction_sha256": "8b695aac4efd43c3a10ea398a836a3460769963e198f879bd8beb10a4b01fd5d",
+      "sidecar_sha256": "7ebf2025b7110fa4458cfd863abd5fd0c726cd177df460d8e0b5d80f276ac4c8",
+      "checkpoint_sha256": "71fcba3d9eaff3710f8fd42f3778ef74cd425f11977668a5575c21563a82c309",
+      "terminal_review_sha256": "60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9",
+      "controls": {
+        "initial_state": "10e4b56002b52faaaf55dbfcbd28b37f479d2dbd69e727740250dbb90d873af1",
+        "normalization": "d096115cb59a7462608d5d11df29ba77142aac03527f26fbb2a8534077e57849",
+        "sample_orders": "cbb972a29278617890ac3e51d9f4d3cb954d392192aef3ebe044b8a71a8ec523",
+        "schedule": "a46a5beb2484b3549b6fdb926b885ecbcaf4a61b1cec60dd3750760eafff27de"
+      }
+    },
+    "adamw_huber_d1": {
+      "prediction_sha256": "cf763bcc1ed3dd6d2f299fd647b7967112d25a8cbafb9e13b56885739591d5f3",
+      "sidecar_sha256": "ba391743f7e490cb57cf250e3026256a58b44aa75787c1884777ebbb4f54201b",
+      "checkpoint_sha256": "b61b5026386273b11db871f06f09eda7654af5814c066e850274e32d9cdfca77",
+      "terminal_review_sha256": "60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9",
+      "controls": {
+        "initial_state": "10e4b56002b52faaaf55dbfcbd28b37f479d2dbd69e727740250dbb90d873af1",
+        "normalization": "d096115cb59a7462608d5d11df29ba77142aac03527f26fbb2a8534077e57849",
+        "sample_orders": "cbb972a29278617890ac3e51d9f4d3cb954d392192aef3ebe044b8a71a8ec523",
+        "schedule": "a46a5beb2484b3549b6fdb926b885ecbcaf4a61b1cec60dd3750760eafff27de"
+      }
+    }
+  }
+}
