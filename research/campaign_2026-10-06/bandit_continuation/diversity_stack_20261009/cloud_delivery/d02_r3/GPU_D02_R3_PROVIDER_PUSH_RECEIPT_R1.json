@@ -1,0 +1,80 @@
+{
+  "schema": "wnn.kaggle-d02-gpu-push-receipt.v1",
+  "recorded_at_utc": "2026-10-09T02:35:50Z",
+  "kernel": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v3",
+  "canonical_provider_slug": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v3",
+  "title": "WNN D02 Muon Loss GPU 20261009 V3",
+  "private": true,
+  "title_derived_slug_match": true,
+  "provider_version": 1,
+  "kernel_version": 1,
+  "push_count": 1,
+  "provider_cli": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle",
+  "provider_cli_version": "Kaggle CLI 2.2.4",
+  "command": "kaggle kernels push -p /home/vlad/development/wunder/worktrees/luna-runner-20261008/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/d02_r3/admitted_candidate_r1/kernel -t 3600",
+  "push_exit_code": 0,
+  "provider_response": "Kernel version 1 successfully pushed.",
+  "root_kernel_admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_D02_R3_KERNEL_ADMISSION_R1.json",
+    "sha256": "3fb53641b78245c780433031988089577ebaf061f89aa7070d96be7595f96fba"
+  },
+  "root_source_admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_D02_R3_SOURCE_ADMISSION_R1.json",
+    "sha256": "81ca4132e166793b91614d4bbb5f604bc9fec155aa3f118939cfecffd15bfd1e"
+  },
+  "source_dataset": "vladkochetov07/wnn-d02-muon-loss-code-20261009-r3",
+  "source_dataset_version": 1,
+  "source_dataset_ready_at_push": true,
+  "source_manifest_sha256_verified": "c3807b6d6cf4a2456d4689934be9e5afee9d9123a69014152384d731afae8d9d",
+  "source_file_inventory_sha256_bound": "c3807b6d6cf4a2456d4689934be9e5afee9d9123a69014152384d731afae8d9d",
+  "source_readiness_receipt_sha256": "3fd9041c1c2f11165f5bf6fb9c61cd37ae748020f47199004d24bf3c99dd6b01",
+  "packet": {
+    "packet_sha256": "6d4404bb5aca9e8e616b24a46211c524b4c023631138f1b913e5faef30f1536f",
+    "bootstrap_sha256": "9bc8a4aa069c00207ac4abccecfee999d99151bac1564523692b576d36861146",
+    "metadata_sha256": "254a63961a23194929f21c8f0ea231c32a1e038b661f593b9089cc59093d0e04",
+    "source_code_manifest_sha256": "562884c5739299d6ea51729bb082d56a47c34bffe10f7c999e3871da17b40118",
+    "source_archive_sha256": "3fdab3c93ecbe8b53834fb08204644c9d23501c96688a91fb9a422e27fbc33ef",
+    "source_asset_manifest_sha256": "c3807b6d6cf4a2456d4689934be9e5afee9d9123a69014152384d731afae8d9d",
+    "embedded_admission_sha256": "d7b5880ef51e4d3ae9e4c06c253ad2d4d27074ccbeb3f6456a99bd464d460c34",
+    "finalization_receipt_sha256": "64697dbf5d5d6792bedfc749221932f6d33ec92d9aee7322a540d95b1c8db134",
+    "admitted_offline_check_sha256": "37063d77d46f2fdeb6bbf3fd580f6f4a173da2f6b728f7a576bd5735b937b2b4"
+  },
+  "source": {
+    "code_dataset": "vladkochetov07/wnn-d02-muon-loss-code-20261009-r3",
+    "code_dataset_version": 1,
+    "code_asset_manifest_sha256": "c3807b6d6cf4a2456d4689934be9e5afee9d9123a69014152384d731afae8d9d",
+    "parsed_cache_kernel": "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1",
+    "parsed_cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+    "fold0_auxiliary_dataset": "vladkochetov07/wnn-c20261004-fold0-assets",
+    "fold0_auxiliary_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+    "control_gpu_kernel": "vladkochetov07/wnn-loss-pair-export-recovery-20261009-r1",
+    "control_training_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7"
+  },
+  "quota_snapshot": {
+    "observed_at_utc": "2026-10-09T02:34:29Z",
+    "source": "read-only authenticated Kaggle accelerator quota SDK request",
+    "gpu_used_seconds": 69904.356,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_total_allowed_seconds": 108000.0,
+    "provider_gpu_headroom_seconds": 38095.644,
+    "campaign_gpu_headroom_before_holds_seconds": 23923.481,
+    "provisional_gpu_hold_seconds": 7200,
+    "campaign_gpu_headroom_after_d02_hold_seconds": 16723.481,
+    "minimum_unreserved_campaign_headroom_after_hold_seconds": 1000,
+    "other_open_gpu_holds": 0
+  },
+  "worker_bounds": {
+    "provider_timeout_seconds": 3600,
+    "worker_wall_seconds": 3300,
+    "device_count": 2,
+    "device_type": "T4",
+    "precision": "FP32",
+    "tf32_enabled": false,
+    "training_enabled": true,
+    "actual_device_gate_before_fits": "ten discarded full-shape updates per loss plus finite-gradient, reset, checkpoint-reload, sample-order-prefix checks"
+  },
+  "provider_status_observed_after_push": "KernelWorkerStatus.RUNNING",
+  "status_observed_at_utc": "2026-10-09T02:35:05Z",
+  "status_command": "kaggle kernels status vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v3",
+  "status_observation_note": "RUNNING is provider state only; no worker boot, profile, fit, or artifact claim until actual output phase receipts are observed."
+}
