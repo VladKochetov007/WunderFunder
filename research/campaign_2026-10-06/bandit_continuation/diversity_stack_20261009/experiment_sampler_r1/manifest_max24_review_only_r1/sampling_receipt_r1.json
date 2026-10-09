@@ -1,0 +1,151 @@
+{
+  "bindings": {
+    "dataset_sources": [
+      {
+        "path": "datasets/train.parquet",
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+      },
+      {
+        "path": "datasets/valid.parquet",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      }
+    ],
+    "source_binding_sha256": "304aab4ad5d6c9530c975c8eff77bf3179839305d98faaeaa8a50e3fce941e9e",
+    "source_files": {
+      "scripts/train_rnn.py": "4de1f29b18aa7f9371010816cac04d986b0fcf881415ca562a89c22f1afbd207",
+      "src/wnn/nn.py": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+      "src/wnn/optim.py": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+      "src/wnn/training_dynamics.py": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294"
+    },
+    "trainer_cli_choices": {
+      "activation": [
+        "fixed_mix",
+        "gelu"
+      ],
+      "architecture": [
+        "block-memory",
+        "dual",
+        "event-content",
+        "gated",
+        "gru",
+        "prefix-adapter",
+        "specialist",
+        "structured",
+        "tcn",
+        "twoclock"
+      ],
+      "batch_order": [
+        "qmc",
+        "random",
+        "seeded"
+      ],
+      "cell": [
+        "gru",
+        "lstm"
+      ],
+      "encoder": [
+        "conv",
+        "linear",
+        "mlp",
+        "tokens"
+      ],
+      "loss": [
+        "ce_joint",
+        "corr",
+        "gcorr",
+        "gcorr_pool",
+        "huber",
+        "mix",
+        "mse",
+        "wmse",
+        "wmse_gcorr"
+      ],
+      "muon_scope": [
+        "hidden",
+        "rnn"
+      ],
+      "optimizer": [
+        "adamw",
+        "muon",
+        "sgd"
+      ],
+      "precision": [
+        "bf16",
+        "fp16",
+        "fp32"
+      ],
+      "recurrent_initialization": [
+        "chrono",
+        "chrono_orth",
+        "default",
+        "orth"
+      ],
+      "schedule": [
+        "onecycle",
+        "sgdr",
+        "wsd"
+      ],
+      "train_source": [
+        "train",
+        "train+valid",
+        "valid",
+        "valid_devA"
+      ]
+    }
+  },
+  "candidate_pool_sha256": "7971aa2c0d25c421892c8d21cbd237dab3e494fe1fd8c3e5eae049bc738f7bf0",
+  "coverage_reserve_tags": [
+    "representation",
+    "activation",
+    "schedule",
+    "sample",
+    "precision",
+    "loss_shape",
+    "optimizer"
+  ],
+  "fit_allowed": false,
+  "mandatory_candidate_ids": [
+    "A_adamw_wmse",
+    "B_adamw_huber_d1",
+    "C_muon_wmse",
+    "D_muon_huber_d1"
+  ],
+  "maximum_recipes": 24,
+  "provider_mutations_allowed": false,
+  "queue_activation_allowed": false,
+  "readable_table_sha256": "d69cdada466bc4fcd37deca319f6a6cd40b1a1da55698e3aca08d9b96e1de262",
+  "sampled_recipes_sha256": "0d443db883d406afa1aa456c682c689741d2164e992eae19381bc38a4d441b69",
+  "sampler_source_sha256": "916bb102319b2570f3dbe33e7b2abac3916f817b11713b0ced8f39104c13d4a1",
+  "sampler_version": 1,
+  "schema": "wnn.diversity.recipe-sampler-receipt.v1",
+  "seed": 20261009,
+  "selected_candidate_ids": [
+    "A_adamw_wmse",
+    "B_adamw_huber_d1",
+    "C_muon_wmse",
+    "D_muon_huber_d1",
+    "H_dual256_wmse",
+    "I_gru256_fixedmix",
+    "V_gru128_wsd",
+    "L_fold1_full_component",
+    "P_gru256_fp16",
+    "R_adamw_huber_d4",
+    "S_sgd_wmse",
+    "N_fold3_full_component",
+    "X_fold1_huber_d1",
+    "F_gru384_wmse",
+    "T_gru384_huber_d1",
+    "Q_adamw_huber_d2",
+    "G_tcn64_wmse",
+    "E_gru128_wmse",
+    "K_adamw_wmse_sgdr",
+    "W_muon_bf16_wmse",
+    "U_fixedmix_huber_d1",
+    "J_adamw_wmse_wsd",
+    "M_fold2_full_component",
+    "O_gru256_bf16"
+  ],
+  "selected_count": 24,
+  "selection_algorithm": "sha256-rank-v1",
+  "spec_sha256": "dfbbc2beee5d8c7098420627b90c0bc3474bfa3c85574100ec8e947d3965f746"
+}
