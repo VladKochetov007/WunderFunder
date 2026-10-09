@@ -1,0 +1,16 @@
+{
+  "schema": "wnn.native-gpu-fp16-terminal-review-attempt-failure.r1",
+  "created_utc": "2026-10-09T04:10:05.523710+00:00",
+  "attempt_id": "luna-review-r1-attempt-001",
+  "review_source_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/review_native_fp16_terminal_luna_r1.py",
+  "review_source_sha256": "0fd37c8f9240740cb72859dc62f7640e38cff7f2a287768ab208d84941daa43e",
+  "command": "flock -w 40 /tmp/wnn-codex-support.lock env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/review_native_fp16_terminal_luna_r1.py",
+  "exit_code": 1,
+  "failure_class": "torch.serialization.UnpicklingError",
+  "failure_summary": "torch.load(weights_only=True) rejected numpy._core.multiarray._reconstruct while inspecting the hash-verified training_state.pt; model.pt and model_ep1.pt were loaded and tensor-compared before failure.",
+  "classification": "review-consumer serialization-policy failure; no model fit/scientific result failure",
+  "review_output_written": false,
+  "producer_artifacts_modified": false,
+  "successor_source_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/review_native_fp16_terminal_luna_r2.py",
+  "successor_source_sha256_before_revision": "0fd37c8f9240740cb72859dc62f7640e38cff7f2a287768ab208d84941daa43e"
+}

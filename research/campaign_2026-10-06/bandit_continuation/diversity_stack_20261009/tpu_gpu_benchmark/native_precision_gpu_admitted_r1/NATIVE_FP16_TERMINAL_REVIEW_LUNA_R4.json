@@ -1,0 +1,438 @@
+{
+  "schema": "wnn.native-gpu-fp16-terminal-artifact-audit.r2",
+  "created_utc": "2026-10-09T04:12:20.229746+00:00",
+  "reviewer": "Luna/max native terminal artifact auditor",
+  "verdict": "terminal_integrity_pass",
+  "review_source": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/review_native_fp16_terminal_luna_r4.py",
+    "sha256": "8cbeab05f107de9663ae0d1c952aea8a6f250146739cc56ba9d78cb99239ea81"
+  },
+  "prior_review_attempts": [
+    {
+      "failure_receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/NATIVE_FP16_TERMINAL_REVIEW_LUNA_R1_ATTEMPT_FAILURE.json",
+      "failure_receipt_sha256": "93c9df73509aeec02e0c784bd598cef42e2975cf47c6d551d9fa9451ce169ce9",
+      "classification": "review-consumer serialization-policy failure"
+    },
+    {
+      "failure_receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/NATIVE_FP16_TERMINAL_REVIEW_LUNA_R2_ATTEMPT_FAILURE.json",
+      "failure_receipt_sha256": "b5c95c86c27d4c652ed4107e7bcd735045c006ac9c8f9a7b31cb88b431009537",
+      "classification": "review-consumer path-rendering failure"
+    },
+    {
+      "failure_receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/NATIVE_FP16_TERMINAL_REVIEW_LUNA_R3_ATTEMPT_FAILURE.json",
+      "failure_receipt_sha256": "e11502551475b131ffebe02f8e641b8006aedc2dd4e20026cf8781b2de27393d",
+      "classification": "review-consumer producer-schema mismatch"
+    }
+  ],
+  "scope": "Provider/worker terminal, actual T4 profile/lifecycle, paired FP16 update traces, FP32 checkpoint/state, prediction artifacts, and source-qualified fold0 output membership; no new fit or provider action. Root acceptance review is separate.",
+  "admission": {
+    "dispatch_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/ROOT_NATIVE_GPU_FP16_DISPATCH_R1.json",
+    "dispatch_sha256": "f0750930dc3afcd5573bcc89b0aefe2b50843885b7254358ffa1144a09981231",
+    "packet_sha256": "52ef723bc159773627d0d89ff6923fd62f8615bf012cc7ed14de148aa54807ac",
+    "provider_kernel": "vladkochetov07/wnn-native-gpu-fp16-20261009-r1",
+    "provider_status": "KernelWorkerStatus.COMPLETE",
+    "provider_observed_utc": "2026-10-09T04:03:18+00:00",
+    "provider_failure_message": ""
+  },
+  "terminal_collection": {
+    "attempt_result_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/terminal_collect_r1/attempt_001/attempt_result.json",
+    "attempt_result_sha256": "3c713fce88113dbbd60169a0e842f6179cb2ce764a35a653d17a343c194bb509",
+    "output_collection_exit_code": 0,
+    "output_collection_elapsed_seconds": 127.216,
+    "collected_bytes": 636136566,
+    "terminal_state": "complete",
+    "training_contract_sha256": "2088f82b9989a8cc623cb426e8ea9868fd41c84e3496534f06bcd5b404abb308",
+    "worker_pair_receipt_sha256": "24de792d75f10bb9e375c7fad1565272a239971d014a3fd15a0d078e4382cc65",
+    "phase_count": 11,
+    "final_phase": {
+      "contract_sha256": "2088f82b9989a8cc623cb426e8ea9868fd41c84e3496534f06bcd5b404abb308",
+      "elapsed_seconds": 301.004796618,
+      "phase": "worker_complete",
+      "utc": "2026-10-09T03:52:35Z"
+    }
+  },
+  "actual_device": {
+    "profile_device": {
+      "compute_capability": [
+        7,
+        5
+      ],
+      "name": "Tesla T4",
+      "total_memory_bytes": 15636037632,
+      "visible_index": 0
+    },
+    "visible_devices": [
+      {
+        "compute_capability": [
+          7,
+          5
+        ],
+        "name": "Tesla T4",
+        "total_memory_bytes": 15636037632,
+        "visible_index": 0
+      },
+      {
+        "compute_capability": [
+          7,
+          5
+        ],
+        "name": "Tesla T4",
+        "total_memory_bytes": 15636037632,
+        "visible_index": 1
+      }
+    ],
+    "lifecycle_device": {
+      "capability": [
+        7,
+        5
+      ],
+      "cuda_version": "12.8",
+      "cudnn_version": 91900,
+      "name": "Tesla T4",
+      "torch_version": "2.11.0+cu128",
+      "total_memory_bytes": 15636037632
+    },
+    "native_profile": {
+      "amp_initial_scale": 1024.0,
+      "compute_precision": "fp16 autocast",
+      "grad_scaler_enabled": true,
+      "master_parameter_dtype": "float32",
+      "optimizer_state_dtype": "float32",
+      "profile_attempts": 20,
+      "profile_completed_updates": 20,
+      "profile_skipped_updates": 0,
+      "profile_skips_count_as_throughput": false
+    },
+    "lifecycle": {
+      "all_outputs_and_states_finite": true,
+      "carried_prefix_suffix_max_absolute_error": 0.000244140625,
+      "first_forward_cuda_event_ms_including_lazy_setup": 264.0453186035156,
+      "prefix_max_absolute_error": 0.0001220703125,
+      "prefix_max_absolute_tolerance": 0.02,
+      "same_model_reset_is_bitwise_repeatable": true,
+      "serialized_state_reload_is_bitwise_repeatable": true,
+      "warmed_forward_cuda_event_ms": [
+        49.73062515258789,
+        49.39225769042969,
+        48.93695831298828
+      ],
+      "warmed_forward_median_cuda_event_ms": 49.39225769042969
+    },
+    "conditional_headroom": {
+      "cgroup_current_bytes": 3423412224,
+      "cgroup_headroom_bytes": 28788842496,
+      "cgroup_max_bytes": 32212254720,
+      "device_free_bytes": {
+        "0": 16102981632,
+        "1": 16102981632
+      },
+      "disk_free_bytes": 20819918848,
+      "host_mem_available_bytes": 31608066048,
+      "policy": {
+        "minimum_bounded_cgroup_headroom_bytes": 4000000000,
+        "minimum_free_per_gpu_bytes": 2000000000,
+        "minimum_host_available_bytes": 4000000000,
+        "minimum_working_disk_free_bytes": 4000000000
+      },
+      "sample": {
+        "children": {},
+        "elapsed_seconds": 140.99264862899986,
+        "gpus": [
+          {
+            "memory_total_mib": 15360,
+            "memory_used_mib": 3,
+            "name": "Tesla T4",
+            "physical_index": 0,
+            "utilization_percent": 0
+          },
+          {
+            "memory_total_mib": 15360,
+            "memory_used_mib": 3,
+            "name": "Tesla T4",
+            "physical_index": 1,
+            "utilization_percent": 0
+          }
+        ],
+        "memory": {
+          "cgroup_active_file_bytes": 1153536000,
+          "cgroup_anon_bytes": 315883520,
+          "cgroup_current_bytes": 3423412224,
+          "cgroup_file_bytes": 3071471616,
+          "cgroup_file_dirty_bytes": 45056,
+          "cgroup_file_writeback_bytes": 0,
+          "cgroup_inactive_file_bytes": 1917931520,
+          "cgroup_max_bytes": 32212254720,
+          "cgroup_path": "/sys/fs/cgroup",
+          "mem_available_bytes": 31608066048
+        },
+        "phase": "native_fp16_conditional_fit_headroom",
+        "utc": "2026-10-09T03:49:55Z",
+        "working_disk_free_bytes": 20819918848,
+        "working_output_bytes": 120194459
+      },
+      "state": "passed"
+    },
+    "resource_peak_cgroup_bytes": 11338534912
+  },
+  "paired_fit": {
+    "arm_count": 2,
+    "fit_process_receipts": [
+      {
+        "label": "fit_wmse",
+        "returncode": 0,
+        "wall_seconds": 71.62885266500007
+      },
+      {
+        "label": "fit_huber_d1",
+        "returncode": 0,
+        "wall_seconds": 71.62820155400004
+      }
+    ],
+    "arms": {
+      "huber_d1": {
+        "artifact_inventory": {
+          "verified_files": 18,
+          "verified_bytes": 102804495
+        },
+        "run_name": "loss_pair_r3_huber_d1",
+        "provenance_sha256": "4e39396e00c1f4da372b90c7d7a7f0994ab7b9f7bbe5e7ef24b2cbbde3ab9d8e",
+        "model_sha256": "a6c69a753341aa44caf718d29e755abc57df487f11876fcbe1f91f9a6f1509ad",
+        "model_ep1_sha256": "daa067165c80156bb01e95454f03fd3e2f6446543aca485b648f9e499bf19eef",
+        "model_pt_epoch1_tensor_equality": true,
+        "model_floating_tensor_count": 16,
+        "training_state_sha256": "f34daa775c7a683267e2375bac671239c4f5d01dc96e109be4625bda8a245f22",
+        "training_state_load_policy": "trusted_hash_verified_worker_output",
+        "training_state_next_epoch": 2,
+        "training_state_floating_tensor_count_finite": 58,
+        "prediction": {
+          "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/terminal_collect_r1/attempt_001/outputs/out/arms/huber_d1/predictions_valid.npy",
+          "sha256": "99dbc627d7b28ea136818ce8571f495435a76d75960e7342265b1d701ecbc2fc",
+          "shape": [
+            468,
+            20000,
+            2
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "sidecar_sha256": "b6cdbdc1b3e3a9de65b09a30bdd3fc098bf26a7b9ffad2aef08b9bb49edcb2e8",
+          "sidecar_checkpoint_target": "model.pt",
+          "row_group_count": 468,
+          "inference_precision": "fp32"
+        },
+        "updates": {
+          "optimizer_attempts": 220,
+          "completed": 220,
+          "skipped": 0,
+          "all_gradients_finite": true,
+          "amp_scale_min": 1024.0,
+          "amp_scale_max": 1024.0,
+          "update_trace_sha256": "e8ed2f4aa9db105a92216cbf6150bab024e0e62a482b25451118c104a58ce511"
+        },
+        "timing": {
+          "checkpoint_and_state_export_seconds_by_epoch": [
+            {
+              "checkpoint_and_state_export_seconds": 0.11062132600000041,
+              "epoch_index": 0
+            },
+            {
+              "checkpoint_and_state_export_seconds": 0.10086001099989517,
+              "epoch_index": 1
+            }
+          ],
+          "first_update_cuda_event_seconds_including_lazy_setup": 1.1510020751953125,
+          "fit_process_wall_seconds_including_startup_and_checkpoint_export": 71.62820155400004,
+          "median_update_cuda_event_seconds_after_first_five": 0.14528965759277343,
+          "prediction_export_wall_seconds": 25.399080817999902
+        }
+      },
+      "wmse": {
+        "artifact_inventory": {
+          "verified_files": 19,
+          "verified_bytes": 157396687
+        },
+        "run_name": "loss_pair_r3_wmse",
+        "provenance_sha256": "5da8d26d9378fd7b1eb9a208baf7fea09f310674e675ba2ad37aed95b64bea0c",
+        "model_sha256": "d19390dccd3d5d95cb9ceeb63e6b4b5f8a1682be105db76a7125e6352971660a",
+        "model_ep1_sha256": "8056d583ac2f96afe4b6c6a4d73d89b65bd6c7a22a05f1933c4c2516b242c6a7",
+        "model_pt_epoch1_tensor_equality": true,
+        "model_floating_tensor_count": 16,
+        "training_state_sha256": "bcede6eafe7fef8ee373f59cca9db22cbc4943a6dc51a7a32bccb117943047e0",
+        "training_state_load_policy": "trusted_hash_verified_worker_output",
+        "training_state_next_epoch": 2,
+        "training_state_floating_tensor_count_finite": 58,
+        "prediction": {
+          "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/native_precision_gpu_admitted_r1/terminal_collect_r1/attempt_001/outputs/out/arms/wmse/predictions_valid.npy",
+          "sha256": "b8cae78c1727cf5b69cd66fb2f3dfd7658247caae281425be0d3b794e4bb6a74",
+          "shape": [
+            468,
+            20000,
+            2
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "sidecar_sha256": "13a8d1115a10759cecd0cf5b8715df648d06a9ed95c14e97714dc7bcf5be634a",
+          "sidecar_checkpoint_target": "model.pt",
+          "row_group_count": 468,
+          "inference_precision": "fp32"
+        },
+        "updates": {
+          "optimizer_attempts": 220,
+          "completed": 220,
+          "skipped": 0,
+          "all_gradients_finite": true,
+          "amp_scale_min": 1024.0,
+          "amp_scale_max": 1024.0,
+          "update_trace_sha256": "7b135968874257633e98523c073baebb5dbbaceab43fa80e4b8c69519a9780bb"
+        },
+        "timing": {
+          "checkpoint_and_state_export_seconds_by_epoch": [
+            {
+              "checkpoint_and_state_export_seconds": 0.13101137000012386,
+              "epoch_index": 0
+            },
+            {
+              "checkpoint_and_state_export_seconds": 0.11238512400018408,
+              "epoch_index": 1
+            }
+          ],
+          "first_update_cuda_event_seconds_including_lazy_setup": 0.80537548828125,
+          "fit_process_wall_seconds_including_startup_and_checkpoint_export": 71.62885266500007,
+          "median_update_cuda_event_seconds_after_first_five": 0.1454871063232422,
+          "prediction_export_wall_seconds": 61.01722806499993
+        }
+      }
+    },
+    "shared_artifact_inventory": {
+      "verified_files": 16,
+      "verified_bytes": 58801469,
+      "roles": {
+        "cache_manifest": {
+          "path": "shared/cache_manifest.json",
+          "sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+          "size_bytes": 12722
+        },
+        "cache_reader_profile": {
+          "path": "shared/cache_reader_profile_runtime.json",
+          "sha256": "aac7734effaefc07f0a45c7c4dec4ec20f77ea283019ad40d80c6f4bd2651f15",
+          "size_bytes": 3152
+        },
+        "cache_validation_receipt": {
+          "path": "shared/cache_validation_runtime.json",
+          "sha256": "57396820e060ba3312023568b66424ffa6ef992a39564992c9c981007e5add78",
+          "size_bytes": 3423
+        },
+        "device_profile_gate": {
+          "path": "shared/device_profile_gate.json",
+          "sha256": "224bae39cfc47929a8099f8d17fe29086207b548f1f5207977316c3514919b15",
+          "size_bytes": 6855
+        },
+        "fold0_asset_validation_receipt": {
+          "path": "shared/fold0_assets_validation.json",
+          "sha256": "913cb6689df43ca94835169867a1c4e376027d352dc5a9c61ffdf98943c55156",
+          "size_bytes": 6208
+        },
+        "initial_state": {
+          "path": "shared/initial_state.npz",
+          "sha256": "10e4b56002b52faaaf55dbfcbd28b37f479d2dbd69e727740250dbb90d873af1",
+          "size_bytes": 3908280
+        },
+        "native_fp16_lifecycle_gate": {
+          "path": "shared/native_fp16_lifecycle_gate.json",
+          "sha256": "1aa6dcdeec51b87dc1c912d234e6650dfe32a5bc22d24a3ba565c7fe3903351c",
+          "size_bytes": 1458
+        },
+        "normalization": {
+          "path": "shared/normalization.npz",
+          "sha256": "d096115cb59a7462608d5d11df29ba77142aac03527f26fbb2a8534077e57849",
+          "size_bytes": 2188
+        },
+        "normalization_metadata": {
+          "path": "shared/normalization.json",
+          "sha256": "0e4762ebb51f95589b93e79545c769376b42afaa2e7069f81b199164dd59cf96",
+          "size_bytes": 4274
+        },
+        "onecycle_trace": {
+          "path": "shared/schedule_trace.json",
+          "sha256": "a46a5beb2484b3549b6fdb926b885ecbcaf4a61b1cec60dd3750760eafff27de",
+          "size_bytes": 67395
+        },
+        "profile_inputs": {
+          "path": "shared/profile_inputs.npz",
+          "sha256": "f042ae97ddebac87c1023758ccd84d9b2923e5cc6ae3ac878596e84bfde9a1c6",
+          "size_bytes": 54592760
+        },
+        "profile_inputs_receipt": {
+          "path": "shared/profile_inputs_receipt.json",
+          "sha256": "21968bec770c43bc198cc87413b79a002f6838b5297bf1c926dcdf4302915594",
+          "size_bytes": 4509
+        },
+        "sample_orders": {
+          "path": "shared/sample_orders.json",
+          "sha256": "cbb972a29278617890ac3e51d9f4d3cb954d392192aef3ebe044b8a71a8ec523",
+          "size_bytes": 148958
+        },
+        "source_stage_receipt": {
+          "path": "shared/source_stage_receipt.json",
+          "sha256": "557cd0a61f1129f811dc104398c3c9c7295c3343a1c9a302018fcb588c0c1de7",
+          "size_bytes": 34299
+        },
+        "source_verification": {
+          "path": "shared/source_verification.json",
+          "sha256": "1ccd91ccec85bd157cbd0244ae9032316b88d781a0caf19daf7a027f3a908567",
+          "size_bytes": 4511
+        },
+        "trainer_precision_overlay": {
+          "path": "shared/trainer_precision_overlay.json",
+          "sha256": "83981dafc3cdb1067e682a5befb8627824688c46b4a9487c69450ca53e7f6930",
+          "size_bytes": 477
+        }
+      }
+    },
+    "model": {
+      "activation": "GELU",
+      "family": "two-layer GRU",
+      "hidden_size": 256,
+      "input_layout": {
+        "causal_event_features": 99,
+        "raw_features": 112
+      },
+      "input_projection": "linear",
+      "input_width": 211,
+      "layers": 2,
+      "master_parameter_dtype": "float32",
+      "optimizer_accumulator_dtype": "float32",
+      "outputs": 2,
+      "precision": "fp16_autocast",
+      "tf32": false
+    },
+    "fit_contract": {
+      "amp": {
+        "initial_scale": 1024.0,
+        "skip_policy": "all 220 schedule attempts must complete; any skipped update invalidates the fit artifact",
+        "throughput_counts_only_completed_updates": true
+      },
+      "batch_size": 32,
+      "checkpoint_epoch_zero_indexed": 1,
+      "chunk_rows": 2000,
+      "epochs": 2,
+      "evaluation": "full fixed 468 sequence export after fit; held out during fitting",
+      "global_gradient_clip": 1.0,
+      "learning_rate_max": 0.001,
+      "loss_normalization": "per chunk",
+      "optimizer": "AdamW",
+      "optimizer_defaults": {
+        "beta2": 0.999,
+        "epsilon": 1e-08,
+        "weight_decay": 0.01
+      },
+      "pre_fit_device_gate_artifact_role": "device_profile_gate",
+      "schedule_trace_artifact_role": "onecycle_trace",
+      "scheduler": "OneCycleLR",
+      "seed": 20261009,
+      "updates_per_arm": 220,
+      "warmup_row_mask": "row_index >= 99"
+    }
+  },
+  "comparison_limit": "This terminal integrity review has no official metric grade. Fixed fold0 is exposed; R5 FP32 source review pins controls. Report native-vs-control quality only after the frozen native metric grade.",
+  "expected_public_score": null
+}

@@ -1,0 +1,43 @@
+{
+  "schema": "wnn.root-native-fp16-terminal-review.r1",
+  "created_utc": "2026-10-09T04:12:55.965094+00:00",
+  "status": "pass",
+  "operator_audit_sha256": "ca92e4751409c60c7b0dec15b7a9ec000e5b783c7f9c814ba330be6202a41758",
+  "terminal_receipt_sha256": "f71cb75b30ef82649f23e96025bf5399f130bb1c4d2643f029d968f824044ef8",
+  "files_verified": 189,
+  "bytes_verified": 636136933,
+  "arms": {
+    "wmse": {
+      "checkpoint_sha256": "d19390dccd3d5d95cb9ceeb63e6b4b5f8a1682be105db76a7125e6352971660a",
+      "prediction_sha256": "b8cae78c1727cf5b69cd66fb2f3dfd7658247caae281425be0d3b794e4bb6a74",
+      "completed_updates": 220,
+      "fit_component_count": 83
+    },
+    "huber_d1": {
+      "checkpoint_sha256": "a6c69a753341aa44caf718d29e755abc57df487f11876fcbe1f91f9a6f1509ad",
+      "prediction_sha256": "99dbc627d7b28ea136818ce8571f495435a76d75960e7342265b1d701ecbc2fc",
+      "completed_updates": 220,
+      "fit_component_count": 83
+    }
+  },
+  "checks": [
+    "all collectedfile hashes andsizes",
+    "FP16 AdamW fit args and0fit/evalcomponentoverlap",
+    "sameactualinitial/norm/orders controls",
+    "220finiteupdates perarm withzeroskips fixedAMPscale1024",
+    "finite model/state andfixedep1tensors; exactFP32prediction/sidecar order"
+  ],
+  "quality_claim": "not graded; no TPU/GPU speed ratio",
+  "fit_process_wall_seconds": [
+    {
+      "label": "fit_wmse",
+      "returncode": 0,
+      "wall_seconds": 71.62885266500007
+    },
+    {
+      "label": "fit_huber_d1",
+      "returncode": 0,
+      "wall_seconds": 71.62820155400004
+    }
+  ]
+}
