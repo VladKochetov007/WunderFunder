@@ -1,0 +1,26 @@
+{
+  "id": "E463_TPU_V3_ROOT_PACKET_REVIEW_20261007",
+  "reviewer": {
+    "id": "root",
+    "role": "independent_controller",
+    "independent_of_implementation": true
+  },
+  "reviewed_at_utc": "2026-10-07T09:59:27Z",
+  "decision": "PASS",
+  "scope": "v2-to-v3 direct source layout and bounded TPU systems preflight; no scientific fit approval",
+  "reviewed_hashes": {
+    "probe.py": "3988c913ce04765f0cbe9475f815e03329c5f8d7ddb5e236542c233a4560340e",
+    "kernel-metadata.json": "316ce590de1cb932e687a25e8c8e9e9d21d10b6a9d2c128b3e0b50b92ce8e67e"
+  },
+  "checks": {
+    "independent_diff_review": "Direct manifest/member identity replaces absent ZIP verification; independently pinned checkpoint/NPZ/sidecar/model source before JAX import; no gradient/model-update logic change.",
+    "member_gate": "Frozen manifest hash + exact file sizes and hashes + exact member set, reject unsafe paths and symlinks; read-only Kaggle source mount.",
+    "invocation": "Single selected probe.py uses same resolved file for child; source_root explicitly passed in environment; no sibling-package transport dependency.",
+    "deadline": "Parent1650s, worker1500s, provider1800s, group termination and terminal receipts in finally.",
+    "resources": "Existing eight-device inventory and realHBM20% reserve/fullshape peak checks retained; host20%/2GiB preflight gate retained.",
+    "independent_focused_tests": "4 passed via scripts/limited at1CPU1.5GB120s, no JAX/TPU/localfit.",
+    "private_metadata": "Correct source+raw dataset IDs, GPUfalse/TPUtrue, offlineprivate TpuV5E8."
+  },
+  "admission": "Root authorizes one exact reviewed v3 TPU preflight after fresh account/campaign reserve and packet-hash verification within cumulative7200quota seconds and provider1800wall. Operator may issue linked conditional admission and push without another root approval. No scientific fit or unreviewed source/metric change.",
+  "non_blocking_diagnostic": "On source identity mismatch report expected/observed fingerprints durably; current pinned identities independently verified by producer listing and download. No speculative failure required."
+}

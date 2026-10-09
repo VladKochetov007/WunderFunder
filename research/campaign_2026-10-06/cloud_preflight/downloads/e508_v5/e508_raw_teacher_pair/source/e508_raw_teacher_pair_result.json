@@ -1,0 +1,233 @@
+{
+  "disk_preflight": {
+    "free_bytes": 20939427840,
+    "minimum_free_after_exports": 1500000000,
+    "planned_prediction_bytes": 3993280000,
+    "staged_inputs_bytes_copied": 0
+  },
+  "error": "TimeoutError('profile projects 8524s, beyond the 6,300s production cap')",
+  "evaluation_valid_groups": 468,
+  "exact_fit_sets_validated": true,
+  "finish_unix": 1791348017.7667525,
+  "fit_group_counts": {
+    "train": 10535,
+    "valid": 1405
+  },
+  "hardware": {
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "cpu_affinity_count": 4,
+    "cuda_available": true,
+    "cuda_devices": [
+      {
+        "index": 0,
+        "name": "Tesla T4",
+        "total_memory": 15636037632
+      },
+      {
+        "index": 1,
+        "name": "Tesla T4",
+        "total_memory": 15636037632
+      }
+    ],
+    "meminfo_bytes": {
+      "Active": 1959211008,
+      "Active(anon)": 847872,
+      "Active(file)": 1958363136,
+      "AnonHugePages": 0,
+      "AnonPages": 496173056,
+      "Balloon": 0,
+      "Bounce": 0,
+      "Buffers": 1243447296,
+      "Cached": 31011639296,
+      "CmaFree": 0,
+      "CmaTotal": 0,
+      "CommitLimit": 16829157376,
+      "Committed_AS": 3019563008,
+      "DirectMap1G": 19327352832,
+      "DirectMap2M": 16970153984,
+      "DirectMap4k": 206336000,
+      "Dirty": 1085440,
+      "FileHugePages": 0,
+      "FilePmdMapped": 0,
+      "HardwareCorrupted": 0,
+      "HugePages_Free": 0,
+      "HugePages_Rsvd": 0,
+      "HugePages_Surp": 0,
+      "HugePages_Total": 0,
+      "Hugepagesize": 2097152,
+      "Hugetlb": 0,
+      "Inactive": 30792052736,
+      "Inactive(anon)": 496615424,
+      "Inactive(file)": 30295437312,
+      "KReclaimable": 261672960,
+      "KernelStack": 5373952,
+      "Mapped": 398819328,
+      "MemAvailable": 32341774336,
+      "MemFree": 303583232,
+      "MemTotal": 33658318848,
+      "Mlocked": 0,
+      "NFS_Unstable": 0,
+      "PageTables": 7942144,
+      "Percpu": 2080768,
+      "SReclaimable": 261672960,
+      "SUnreclaim": 69001216,
+      "SecPageTables": 0,
+      "Shmem": 1310720,
+      "ShmemHugePages": 0,
+      "ShmemPmdMapped": 0,
+      "Slab": 330674176,
+      "SwapCached": 0,
+      "SwapFree": 0,
+      "SwapTotal": 0,
+      "Unaccepted": 0,
+      "Unevictable": 0,
+      "VmallocChunk": 0,
+      "VmallocTotal": 35184372087808,
+      "VmallocUsed": 62541824,
+      "Writeback": 0,
+      "WritebackTmp": 0,
+      "Zswap": 0,
+      "Zswapped": 0
+    },
+    "nvidia_smi": "0, Tesla T4, 15360 MiB, 3 MiB\n1, Tesla T4, 15360 MiB, 3 MiB"
+  },
+  "input_map": {
+    "asset_files": {
+      "cache/chain_folds.npz": {
+        "path": "/kaggle/input/datasets/vladkochetov07/wnn-c20261004-fold0-assets/a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f.wnn",
+        "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+        "size": 550072
+      },
+      "cache/chains.npz": {
+        "path": "/kaggle/input/datasets/vladkochetov07/wnn-c20261004-fold0-assets/39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766.wnn",
+        "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+        "size": 650142
+      },
+      "cache/train_targets.npz": {
+        "path": "/kaggle/input/datasets/vladkochetov07/wnn-c20261004-fold0-assets/ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9.wnn",
+        "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+        "size": 1909335790
+      },
+      "cache/valid_targets.npz": {
+        "path": "/kaggle/input/datasets/vladkochetov07/wnn-c20261004-fold0-assets/dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955.wnn",
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "size": 337186198
+      },
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json": {
+        "path": "/kaggle/input/datasets/vladkochetov07/wnn-c20261004-fold0-assets/09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "size": 1388846
+      },
+      "research/campaign_2026-10-04/portable_inputs.json": {
+        "path": "/kaggle/input/datasets/vladkochetov07/wnn-c20261004-fold0-assets/90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c.wnn",
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+        "size": 2104
+      }
+    },
+    "assets_manifest": {
+      "path": "/kaggle/input/datasets/vladkochetov07/wnn-c20261004-fold0-assets/assets-manifest.json",
+      "sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7"
+    },
+    "audit_only_checkpoint": {
+      "path": "/kaggle/input/datasets/vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1/source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "used_for_fit": false
+    },
+    "fold0_manifest": {
+      "path": "/kaggle/input/datasets/vladkochetov07/wnn-c20261004-fold0-assets/09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "portable_registry": {
+      "path": "/kaggle/input/datasets/vladkochetov07/wnn-c20261004-fold0-assets/90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c.wnn",
+      "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+    },
+    "portable_registry_required_by_mtime": true,
+    "raw_files": {
+      "datasets/train.parquet": {
+        "expected": {
+          "bytes": 29240219011,
+          "dataset_ref": "vladkochetov07/wunder-funder",
+          "dataset_version_at_preregistration": 1,
+          "dataset_version_observed_at_utc": "2026-10-07T00:11:43+00:00",
+          "footer_bytes": 60437285,
+          "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+          "logical_path": "datasets/train.parquet",
+          "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+        },
+        "footer_identity_matches": true,
+        "full_file_sha256_matches": true,
+        "observed": {
+          "bytes": 29240219011,
+          "dataset_ref": "vladkochetov07/wunder-funder",
+          "dataset_version_from_runtime_mount": null,
+          "dataset_version_note": "Kaggle does not expose the attached dataset version in the mounted filesystem; version 1 was current at preregistration and exact file hashes bind mounted bytes to that frozen source registry",
+          "footer_bytes": 60437285,
+          "footer_range_bytes_including_trailer": 60437293,
+          "footer_range_start_offset": 29179781718,
+          "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+          "mount_path": "/kaggle/input/datasets",
+          "mtime_ns": 1791103235523599835,
+          "path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/train.parquet",
+          "relative_path_under_kaggle_input": "datasets/vladkochetov07/wunder-funder/train.parquet",
+          "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+          "sha256_elapsed_seconds": 599.2114908695221,
+          "sha256_finished_unix": 1791347153.4619224,
+          "sha256_started_unix": 1791346554.2504315,
+          "trailer_magic": "PAR1"
+        }
+      },
+      "datasets/valid.parquet": {
+        "expected": {
+          "bytes": 5615509128,
+          "dataset_ref": "vladkochetov07/wunder-funder",
+          "dataset_version_at_preregistration": 1,
+          "dataset_version_observed_at_utc": "2026-10-07T00:11:43+00:00",
+          "footer_bytes": 10686926,
+          "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+          "logical_path": "datasets/valid.parquet",
+          "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+        },
+        "footer_identity_matches": true,
+        "full_file_sha256_matches": true,
+        "observed": {
+          "bytes": 5615509128,
+          "dataset_ref": "vladkochetov07/wunder-funder",
+          "dataset_version_from_runtime_mount": null,
+          "dataset_version_note": "Kaggle does not expose the attached dataset version in the mounted filesystem; version 1 was current at preregistration and exact file hashes bind mounted bytes to that frozen source registry",
+          "footer_bytes": 10686926,
+          "footer_range_bytes_including_trailer": 10686934,
+          "footer_range_start_offset": 5604822194,
+          "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+          "mount_path": "/kaggle/input/datasets",
+          "mtime_ns": 1791101681739823113,
+          "path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/valid.parquet",
+          "relative_path_under_kaggle_input": "datasets/vladkochetov07/wunder-funder/valid.parquet",
+          "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+          "sha256_elapsed_seconds": 110.59041476249695,
+          "sha256_finished_unix": 1791347264.3097067,
+          "sha256_started_unix": 1791347153.719292,
+          "trailer_magic": "PAR1"
+        }
+      }
+    },
+    "source_manifest": {
+      "path": "/kaggle/input/datasets/vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1/source-manifest.json",
+      "sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb"
+    },
+    "staged_paths_are_symlinks": true
+  },
+  "packet": "E508_RAW_BASELINE_V5",
+  "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "start_unix": 1791346551.6526127,
+  "status": "failed",
+  "target_row_counts": {
+    "train": 10606,
+    "valid": 1873
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/working/e508_raw_teacher_pair/source/packet_worker.py\", line 1030, in main\n    raise TimeoutError(\n        f\"profile projects {estimated_seconds:.0f}s, beyond the 6,300s production cap\"\n    )\nTimeoutError: profile projects 8524s, beyond the 6,300s production cap\n"
+}

@@ -1,0 +1,25 @@
+{"step": "profile_then_conditional_fit", "event": "starting"}
+Traceback (most recent call last):
+  File "/kaggle/working/experiment/scripts/h230_profile_then_fit.py", line 561, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/experiment/scripts/h230_profile_then_fit.py", line 557, in main
+    run(args.plan)
+    ~~~^^^^^^^^^^^
+  File "/kaggle/working/experiment/scripts/h230_profile_then_fit.py", line 443, in run
+    torch.cuda.reset_peak_memory_stats(0)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/cuda/memory.py", line 376, in reset_peak_memory_stats
+    return torch._C._cuda_resetPeakMemoryStats(device)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+RuntimeError: Invalid device argument 
+Traceback (most recent call last):
+  File "/kaggle/working/experiment/scripts/kaggle_sequence.py", line 61, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/experiment/scripts/kaggle_sequence.py", line 57, in main
+    run(args.plan)
+    ~~~^^^^^^^^^^^
+  File "/kaggle/working/experiment/scripts/kaggle_sequence.py", line 47, in run
+    raise RuntimeError(f"Sealed step failed: {step['name']}")
+RuntimeError: Sealed step failed: profile_then_conditional_fit

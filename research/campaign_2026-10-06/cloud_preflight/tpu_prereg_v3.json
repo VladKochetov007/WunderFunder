@@ -1,0 +1,126 @@
+{
+  "packet_id": "wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+  "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+  "resource": "tpu",
+  "purpose": "actual eight-device compatibility, numerical, HBM, and export/reload preflight; synthetic diagnostic update only; no scientific fit or score",
+  "revision_reason": "V2 reached terminal ERROR before JAX import because it assumed the Kaggle source dataset contained a source_bundle.zip. Kaggle lists and mounts the manifest-bound source_bundle files directly. V3 verifies that exact nested read-only tree by frozen manifest hash and every file hash/size before JAX import, then uses the verified mounted source directly.",
+  "launch_state": "review_pending",
+  "push_status": "not_pushed",
+  "authorization": {
+    "controller": "root",
+    "allocation_record": "continuous_recovery_allocation_20261007.json",
+    "authority": "../../specs/adr/0010-continuous-experiment-delivery.md",
+    "maximum_cumulative_campaign_tpu_seconds": 7200.0,
+    "preserved_campaign_baseline_used_seconds": 134.623,
+    "maximum_seconds_per_attempt_including_provider_runtime": 1800.0,
+    "provider_runtime_seconds": 1800,
+    "payload_timeout_seconds": 1650,
+    "worker_timeout_seconds": 1500,
+    "no_paid_compute": true,
+    "preserve_20_percent_live_account_quota_reserve": true,
+    "scientific_fit_or_scoring_authorized": false
+  },
+  "quota_snapshot_for_review_only": {
+    "observed_at_utc": "2026-10-07T09:52:42Z",
+    "account_total_tpu_seconds": 72000.0,
+    "account_used_tpu_seconds": 176.083,
+    "account_reserved_tpu_seconds": 0.0,
+    "account_spendable_after_20_percent_reserve_seconds": 57459.1336,
+    "campaign_used_since_preserved_baseline_seconds": 41.46000000000001,
+    "campaign_headroom_seconds": 7158.54,
+    "fresh_quota_and_no_active_tpu_kernel_required_before_push": true
+  },
+  "previous_attempt": {
+    "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+    "terminal_status": "KernelWorkerStatus.ERROR",
+    "cause": "host_admission rejected the absent ZIP even though the Kaggle dataset contains the exact expanded source tree",
+    "terminal_receipt": "tpu_terminal_v2.json",
+    "science_result": null
+  },
+  "metadata": {
+    "id": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+    "title": "wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+    "code_file": "probe.py",
+    "language": "python",
+    "kernel_type": "script",
+    "is_private": true,
+    "enable_gpu": false,
+    "enable_tpu": true,
+    "enable_internet": false,
+    "machine_shape": "TpuV5E8",
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "competition_sources": [],
+    "kernel_sources": []
+  },
+  "packet_files_sha256": {
+    "probe.py": "3988c913ce04765f0cbe9475f815e03329c5f8d7ddb5e236542c233a4560340e",
+    "kernel-metadata.json": "316ce590de1cb932e687a25e8c8e9e9d21d10b6a9d2c128b3e0b50b92ce8e67e"
+  },
+  "review_scope": {
+    "reviewer": "root controller, independent of packet implementation",
+    "verdict": "pending",
+    "focus": [
+      "direct tree versus the frozen source manifest",
+      "nested source-mount identity and safe file handling",
+      "checkpoint, NPZ, sidecar, and model-source ancestry/hash checks",
+      "actual TPU/backend/HBM and bounded child execution gates",
+      "unchanged synthetic full-shape update, gradient, optimizer-step, and export/reload checks",
+      "private/offline TPU-only packet metadata and exact packet hashes"
+    ]
+  },
+  "verified_inputs": {
+    "source_dataset": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+    "provider_file_listing_sha256": "d155a614484c105c0cb42ac20133a52bebad5ed3af85109338fbee1224bfa77d",
+    "manifest_sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb",
+    "direct_bundle_file_count": 17,
+    "direct_bundle_identity_receipt": "tpu_results_v2/source_dataset_identity.json",
+    "archive_sha256_declared_but_not_observed_as_a_dataset_file": "a29bdf21a910a6d7b403d9ed8c52cf0761618f5ef6576b5f06d70d0a8fd5ec9e",
+    "epoch3_torch_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "epoch3_jax_npz_sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+    "epoch3_jax_npz_sidecar_sha256": "3e65d2a88352d22bc90d88b829f05beee3faa7a66b9de41c7507f521aab12668",
+    "exact_wnn_jax_rnn_source_sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+    "checkpoint_run_identity": "c20261003_combo_s3_f0; own E503 baseline run; no teammate initializer or teacher"
+  },
+  "shape_gate": {
+    "local_devices": 8,
+    "global_batch": 16,
+    "per_tpu_batch": 2,
+    "chunk_rows": 2000,
+    "input_width": 211,
+    "hidden": 256,
+    "layers": 2,
+    "output_width": 23,
+    "updates": 1,
+    "objective": "synthetic finite diagnostic objective only"
+  },
+  "headroom": {
+    "host_required_free_fraction": 0.2,
+    "host_minimum_free_bytes": 2147483648,
+    "each_tpu_required_free_fraction_before_test": 0.2,
+    "each_tpu_maximum_peak_fraction_after_test": 0.8,
+    "unknown_hbm_capacity_or_usage_fails": true
+  },
+  "required_stages": [
+    "python startup record before JAX import",
+    "host memory and actual nested mount inventory",
+    "manifest and exact direct source-tree identity",
+    "checkpoint/NPZ/sidecar/model-source hash and ancestry verification",
+    "actual eight-device TPU backend and per-device HBM inventory",
+    "short shape and finite forward/state check",
+    "one synthetic batch-16 full-shape forward/backward/update with finite loss/output/state/gradient/parameters and one AdamW step per TPU",
+    "NPZ export/reload prediction parity",
+    "post-update HBM headroom and terminal output collection"
+  ],
+  "local_validation": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited ruff check research/campaign_2026-10-06/cloud_preflight/tpu_probe_v3.py research/campaign_2026-10-06/cloud_preflight/test_tpu_probe_v3.py research/campaign_2026-10-06/cloud_preflight/verify_tpu_direct_dataset.py research/campaign_2026-10-06/cloud_preflight/test_verify_tpu_direct_dataset.py",
+    "focused_test_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/pytest -q research/campaign_2026-10-06/cloud_preflight/test_tpu_probe_v3.py research/campaign_2026-10-06/cloud_preflight/test_verify_tpu_direct_dataset.py",
+    "focused_tests_passed": 8,
+    "py_compile_passed": true,
+    "packet_probe_matches_source_byte_for_byte": true,
+    "actual_input_dataset_matches_manifest_and_provider_file_listing": true,
+    "local_jax_import_or_accelerator_use": false
+  }
+}

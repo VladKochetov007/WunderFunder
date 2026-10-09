@@ -1,0 +1,51 @@
+{
+  "schema": "wnn.kaggle-provider-push-receipt.v1",
+  "operator": "runner_kaggle_builder",
+  "root_admission_path": "research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/KAGGLE_TPU_V7_ROOT_ADMISSION_R1.json",
+  "root_admission_sha256": "dbb32828d38d3b3f0f294a4f08b3d7fd189740e973493a212ba29a36dcdc4bd4",
+  "authorized_push_count": 1,
+  "push_count": 1,
+  "intended_metadata_id": "vladkochetov07/e463-tpu-realdata-reload-v7-20261008",
+  "canonical_provider_slug": "vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
+  "kernel_version": 1,
+  "provider_status_after_push": "KernelWorkerStatus.QUEUED",
+  "status_observed_utc": "2026-10-08T20:45:43Z",
+  "command": "kaggle kernels push -p research/campaign_2026-10-06/cloud_preflight/tpu_packet_v7_inventory_repair_20261008/packet -t 1650",
+  "command_exit_code": 0,
+  "cli_stdout": "Your kernel title does not resolve to the specified id. This may result in surprising behavior. We suggest making your title something that resolves to the specified id. See https://en.wikipedia.org/wiki/Clean_URL#Slug for more information on how slugs are determined.\nKernel version 1 successfully pushed. Please check progress at https://www.kaggle.com/code/vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
+  "slug_resolution": {
+    "packet_id_status": "inaccessible after push; Permission kernels.get denied",
+    "canonical_title_slug_status": "KernelWorkerStatus.QUEUED",
+    "decision": "accept title-derived canonical slug for version 1; no repush"
+  },
+  "packet": {
+    "directory": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v7_inventory_repair_20261008/packet",
+    "manifest": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v7_inventory_repair_20261008/packet_manifest.json",
+    "bundle_sha256": "053638cf52a82f00b2da8fce82fcb63f21f7bfaccaf1b766b64e0ffd8ab1c528",
+    "code_sha256": "d22947623bbe638280183ab019d4159ea37038b73840f3058e0137379bb4dad7",
+    "metadata_sha256": "23e67bce8659cbd98bcc9c985c73637e8e3b161e17f56f5cdb185e030714c4ef",
+    "packet_manifest_sha256": "eb332ac3c1dc4913f8c0f457a1fda5bdc7ea2f4118eb921e485021d519d12c82"
+  },
+  "quota_at_authorization": {
+    "observed_utc": "2026-10-08T20:43:16Z",
+    "tpu_used_seconds": 398.431,
+    "tpu_reserved_seconds": 0,
+    "tpu_total_allowed_seconds": 72000,
+    "campaign_headroom_seconds": 6936.192,
+    "provisional_tpu_seconds": 1650,
+    "refresh_utc": "2026-10-10T00:00:00Z"
+  },
+  "poll_target": {
+    "path": "research/campaign_2026-10-06/cloud_preflight/provider_targets.json",
+    "kernel": "vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
+    "artifact_dir": "tpu_v7_terminal_20261008_r1",
+    "terminal_receipt": "E463_TPU_V7_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json"
+  },
+  "terminal_collection_receipt": "research/campaign_2026-10-06/cloud_preflight/E463_TPU_V7_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json",
+  "cli_resolution_observed_after_push": {
+    "observed_utc": "2026-10-08T20:50:18Z",
+    "executable": "/home/vlad/.local/bin/kaggle",
+    "version": "Kaggle CLI 2.1.1",
+    "scope": "Exact default `kaggle` executable resolved in the support shell for the post-push status/version check; push command was recorded as bare `kaggle`."
+  }
+}

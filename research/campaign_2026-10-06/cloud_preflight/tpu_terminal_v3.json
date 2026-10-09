@@ -1,0 +1,310 @@
+{
+  "actual_execution": {
+    "actual_hardware": {
+      "backend": "tpu",
+      "chip_version": "v5e",
+      "device_count": 8,
+      "hbm_capacity_bytes_per_device": 17200000000,
+      "jax_version": "0.11.0"
+    },
+    "checkpoint_identity": {
+      "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "dimensions": {
+        "hidden": 256,
+        "layers": 2,
+        "n_in": 211,
+        "n_out": 23
+      },
+      "epoch": 3,
+      "jax_npz_sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+      "model_source_sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+      "run": "c20261003_combo_s3_f0",
+      "sidecar_sha256": "3e65d2a88352d22bc90d88b829f05beee3faa7a66b9de41c7507f521aab12668"
+    },
+    "export_reload": {
+      "bytes": 3929868,
+      "npz_sha256": "8e900a6b390b2484261c31a8c6bb75637a31ef0052b29f82ee523f12c675d1a7",
+      "post_reload_max_abs_error": 0.0,
+      "status": "passed"
+    },
+    "fullshape_update": {
+      "chunk_rows": 2000,
+      "finite_loss_each_replica": [
+        0.38129398226737976,
+        0.38129398226737976,
+        0.38129398226737976,
+        0.38129398226737976,
+        0.38129398226737976,
+        0.38129398226737976,
+        0.38129398226737976,
+        0.38129398226737976
+      ],
+      "finite_outputs_states_gradients": true,
+      "global_batch": 16,
+      "local_batch_per_tpu": 2,
+      "optimizer_steps_per_replica": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "scientific_score_claim": null,
+      "status": "passed",
+      "synthetic_inputs_and_targets": true,
+      "update_seconds": 4.26113542500002
+    },
+    "hbm_headroom": {
+      "all_devices_passed": true,
+      "max_allowed_peak_fraction": 0.8,
+      "per_device_capacity_bytes": [
+        16909332480,
+        16909332480,
+        16909332480,
+        16909332480,
+        16909332480,
+        16909332480,
+        16909332480,
+        16909332480
+      ],
+      "per_device_peak_bytes": [
+        175764480,
+        33955328,
+        33955328,
+        33955328,
+        33955328,
+        33955328,
+        33955328,
+        33955328
+      ],
+      "required_free_fraction": 0.2
+    },
+    "provider_started_at_utc": "2026-10-07T16:51:04.876364+00:00",
+    "provider_terminal_at_utc": "2026-10-07T16:52:08.146136+00:00",
+    "short_forward": {
+      "finite": true,
+      "input_shape": [
+        1,
+        8,
+        211
+      ],
+      "output_shape": [
+        1,
+        8,
+        23
+      ],
+      "state_shape": [
+        2,
+        1,
+        256
+      ],
+      "status": "passed"
+    },
+    "source_identity": {
+      "dataset": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "direct_read_only_tree_status": "verified_direct_read_only_tree",
+      "source_archive_present": false,
+      "source_manifest_sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb",
+      "verified_bytes": 10207617,
+      "verified_file_count": 17,
+      "verified_representation": "frozen manifest SHA plus every direct file size/SHA and exact member set"
+    },
+    "worker_elapsed_seconds": 63.269333958999994,
+    "worker_returncode": 0
+  },
+  "application_status": "passed",
+  "classification": "successful actual-device TPUv5e full-shape systems/numerical preflight; one synthetic diagnostic update; not a scientific fit, evaluation, or score",
+  "collected_at_utc": "2026-10-07T17:05:34+00:00",
+  "diagnosis": {
+    "interpretation_limit": "The one update used synthetic inputs/targets and verified finiteness/replica update, not gradients against a Torch reference, a training recipe, a validation score, or scientific model quality.",
+    "next_gate": "Any scientific fit requires a separately frozen recipe/evaluator and fresh quota/headroom admission; this preflight itself authorizes no fit.",
+    "provider_warning": "Provider kernel log reports TPU runtime metrics-port SliceBuilder lookup warning and transparent hugepages disabled; despite these warnings, the worker returned zero and all TPU checks completed. Record as nonfatal runtime diagnostics, not as a failure.",
+    "result": "No application failure; all preregistered v3 device, host, direct-source identity, full-shape finite-gradient/update, reload-parity, and HBM checks passed."
+  },
+  "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+  "linked_receipts": {
+    "conditional_admission": {
+      "path": "tpu_admission_v3.json",
+      "sha256": "be42da72b663f84c697e0636bd5cb652f60016acc4867ba58373530d3b2548fe"
+    },
+    "kernel_metadata": {
+      "path": "tpu_packet_v3/kernel-metadata.json",
+      "sha256": "316ce590de1cb932e687a25e8c8e9e9d21d10b6a9d2c128b3e0b50b92ce8e67e"
+    },
+    "preregistration": {
+      "path": "tpu_prereg_v3.json",
+      "sha256": "4976ffa48206592a69bf5b7a2623e71d839a66c7dbc066f3c938f131e4567d2c"
+    },
+    "probe_source": {
+      "path": "tpu_probe_v3.py",
+      "sha256": "3988c913ce04765f0cbe9475f815e03329c5f8d7ddb5e236542c233a4560340e"
+    },
+    "push_result": {
+      "path": "tpu_push_result_v3.json",
+      "sha256": "c8f8a28be451b33b2937b8359141004e872db51ebeb198a72fc5a76ff965a70d"
+    },
+    "root_packet_review": {
+      "path": "TPU_V3_ROOT_PACKET_REVIEW_20261007.json",
+      "sha256": "27798a64110194cb9df6fc8d48872a34cb485a4060c7cf29fc422c64867c71be"
+    },
+    "source_identity_from_repaired_v2": {
+      "path": "tpu_results_v2/source_dataset_identity.json",
+      "sha256": "447af0ec8b2c340ed9a5a1d2394d3e10dd753e40034a18c1ddde5454fded2c7c"
+    }
+  },
+  "packet_id": "wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+  "provider_observation": {
+    "logs_command": "kaggle kernels logs vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+    "logs_exit_code": 0,
+    "output_command": "kaggle kernels output vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3 -p research/campaign_2026-10-06/cloud_preflight/tpu_results_v3",
+    "output_exit_code": 0,
+    "status": "KernelWorkerStatus.COMPLETE",
+    "status_command": "kaggle kernels status vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+    "status_exit_code": 0
+  },
+  "provider_poll_record": {
+    "last_line_sha256": "0c32e1b5c223ef318942373fa5a0341bc13bdc76be13bfacd2eb80fe9b9bb996",
+    "observed_at_utc": "2026-10-07T17:04:58+00:00",
+    "path": "provider_poll_log.jsonl",
+    "source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel"
+  },
+  "receipt_id": "E463_TPU_V3_TERMINAL_COLLECTION_20261007_R1",
+  "schema_version": 1,
+  "terminal_collection": {
+    "collected_at_utc": "2026-10-07T17:05:34+00:00",
+    "files": {
+      "cloud_preflight_tpu_v3/complete.json": {
+        "sha256": "73776d9fb6aa0a32cc61c555c55dfeb53ee1c729e6c6b8754567df115c9654bd",
+        "size_bytes": 803
+      },
+      "cloud_preflight_tpu_v3/device_worker_result.json": {
+        "sha256": "720a59c8fcb3d3abc3cf63682d93d858e291d69234d4c32351f47eeaf17e9e95",
+        "size_bytes": 13768
+      },
+      "cloud_preflight_tpu_v3/device_worker_start.json": {
+        "sha256": "ede680aa5a965d76a4bd8a7bb178a1ae5c49d9f1714130cccf6562f373fca5eb",
+        "size_bytes": 178
+      },
+      "cloud_preflight_tpu_v3/device_worker_terminal.json": {
+        "sha256": "0014528ab3e032dce28bba30139f3fcb6f16ac7134791bb9b65bd1d7222866c6",
+        "size_bytes": 14709
+      },
+      "cloud_preflight_tpu_v3/e463_checkpoint_identity.json": {
+        "sha256": "cfe155efbf21d5b6f9a9ace799aed8a0f20348e3fcf8bfc18975af816a55aba2",
+        "size_bytes": 1067
+      },
+      "cloud_preflight_tpu_v3/e463_tpu_fullshape_one_step.npz": {
+        "sha256": "8e900a6b390b2484261c31a8c6bb75637a31ef0052b29f82ee523f12c675d1a7",
+        "size_bytes": 3929868
+      },
+      "cloud_preflight_tpu_v3/host_start.json": {
+        "sha256": "d3362e6fa8f5fd56102c6e6dfdcfc9b7b5faf45ff3353e34666f866c9965e267",
+        "size_bytes": 555
+      },
+      "cloud_preflight_tpu_v3/input_mounts.json": {
+        "sha256": "9709c9548fe4a40abc84e43f136ee6daa04976278972483542643bf1bec5cc59",
+        "size_bytes": 1082
+      },
+      "cloud_preflight_tpu_v3/result.json": {
+        "sha256": "720a59c8fcb3d3abc3cf63682d93d858e291d69234d4c32351f47eeaf17e9e95",
+        "size_bytes": 13768
+      },
+      "cloud_preflight_tpu_v3/source_materialization.json": {
+        "sha256": "9018135bba4fe7e2964b0116dc940282dbb7e377c26bc9af89c61e600d862805",
+        "size_bytes": 3550
+      },
+      "cloud_preflight_tpu_v3/startup.json": {
+        "sha256": "c1aecb660d103c06972127b0793acee3f93e049d0d0c2aed2daef657a18bcaf0",
+        "size_bytes": 314
+      },
+      "cloud_preflight_tpu_v3/terminal.json": {
+        "sha256": "419561747b1a30518df06f1f4b4d7fd83823cba34d4831f78da0aec3d6c5def7",
+        "size_bytes": 754
+      },
+      "cloud_preflight_tpu_v3/tpu_export_reload.json": {
+        "sha256": "68bc651ba69afee6f5691f55844e841d430155e9f80310d48e48b6f1022702d0",
+        "size_bytes": 257
+      },
+      "cloud_preflight_tpu_v3/tpu_fullshape_complete.json": {
+        "sha256": "be6283ded74c29d3d01ec00732f9d1ceb8e3bd1b5353a5650db24377bfa8646b",
+        "size_bytes": 825
+      },
+      "cloud_preflight_tpu_v3/tpu_fullshape_started.json": {
+        "sha256": "4af0f1af1e0791f4947850761a7d036da955e80c2d2d8b07718fc169d2510620",
+        "size_bytes": 396
+      },
+      "cloud_preflight_tpu_v3/tpu_hbm_after.json": {
+        "sha256": "c53b5b1cfcb0f75cb481c36be39173b3a6825d23e0fe2183d923cf44c0c35cd4",
+        "size_bytes": 5504
+      },
+      "cloud_preflight_tpu_v3/tpu_hbm_before.json": {
+        "sha256": "ae03bfc7aacb40ddda0d2e5b78d4dc7b24c564983b86fb47ab6463cf1038a2cc",
+        "size_bytes": 5371
+      },
+      "cloud_preflight_tpu_v3/tpu_inventory.json": {
+        "sha256": "577050af4fbf84be6beaa2ee90fb26a2588991bc38dfb6656d4549fef0d28584",
+        "size_bytes": 6063
+      },
+      "cloud_preflight_tpu_v3/tpu_short_forward.json": {
+        "sha256": "e0f3382a16749c1914e9d5ee123cfb6ea53572cdfceb3c4780d6d90b99bec4b4",
+        "size_bytes": 201
+      },
+      "cloud_preflight_tpu_v3/tpu_worker.log": {
+        "sha256": "a64e2afbb05a698833f0222591b2ee15ef06ab779e08c3f7f6eb8533e897e5de",
+        "size_bytes": 11670
+      },
+      "cloud_preflight_tpu_v3/worker_launch.json": {
+        "sha256": "26c36057821627c0a1315f801d88cc945228c5c7c06a51902d6535080a9c1c75",
+        "size_bytes": 89
+      },
+      "cloud_preflight_tpu_v3/worker_process.json": {
+        "sha256": "b5253244ec21cf8e0711dc03b442ec851979eb7898c9ad8f07a2f83549b96771",
+        "size_bytes": 44
+      },
+      "provider_logs.stderr.txt": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "provider_logs_latest.json": {
+        "sha256": "842592584e9e7219cfebb7bdc29a3499bec2df35464caaf1a2dac5fa23eb07de",
+        "size_bytes": 232
+      },
+      "provider_status.stderr.txt": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "provider_status.txt": {
+        "sha256": "1bd392ca4058f6be01af211fb8f16df244812b21311308e20ea15ee6cc91b7da",
+        "size_bytes": 106
+      },
+      "wnn-e463-real-tpu-fullshape-preflight-20261007-v3.log": {
+        "sha256": "e60bda2bdf57c6d29441c7b5df4be1f20285d4517cdc406eb257504000f8c15c",
+        "size_bytes": 231
+      }
+    },
+    "live_provider_quota_after_terminal": {
+      "account_tpu_post_reserve_spendable_seconds": 57347.619000000006,
+      "account_tpu_reserved_seconds": 0.0,
+      "account_tpu_total_allowed_seconds": 72000.0,
+      "account_tpu_used_seconds": 252.381,
+      "campaign_baseline_seconds": 134.623,
+      "campaign_headroom_seconds": 7082.242,
+      "campaign_used_since_preserved_baseline_seconds": 117.75800000000001,
+      "controller_authorized_campaign_cap_seconds": 7200.0,
+      "observed_at_utc": "2026-10-07T17:04:58+00:00",
+      "source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel",
+      "twenty_percent_live_account_reserve_preserved": true
+    },
+    "log_command": "kaggle kernels logs vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+    "log_exit_code": 0,
+    "output_command": "kaggle kernels output vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3 -p research/campaign_2026-10-06/cloud_preflight/tpu_results_v3",
+    "output_exit_code": 0,
+    "status_command": "kaggle kernels status vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+    "status_exit_code": 0,
+    "total_downloaded_bytes": 4011405
+  },
+  "terminal_status": "KernelWorkerStatus.COMPLETE"
+}

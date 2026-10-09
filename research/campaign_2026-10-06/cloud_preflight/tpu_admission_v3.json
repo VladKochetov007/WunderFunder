@@ -1,0 +1,62 @@
+{
+  "conditions": "One exact reviewed 1800-second private offline TpuV5E8 diagnostic preflight; no scientific fit/score; no paid compute.",
+  "linked_review": {
+    "decision": "PASS",
+    "path": "TPU_V3_ROOT_PACKET_REVIEW_20261007.json",
+    "sha256": "27798a64110194cb9df6fc8d48872a34cb485a4060c7cf29fc422c64867c71be"
+  },
+  "live_quota": {
+    "campaign_baseline_used_seconds": 134.623,
+    "campaign_cap_seconds": 7200.0,
+    "campaign_headroom_after_max_attempt_seconds": 5358.54,
+    "campaign_headroom_before_push_seconds": 7158.54,
+    "campaign_used_seconds": 41.46000000000001,
+    "max_attempt_provider_seconds": 1800,
+    "observed_at_utc": "2026-10-07T10:00:21+00:00",
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "reserved_tpu_seconds": 0.0,
+    "spendable_after_20_percent_remaining_quota_reserve_seconds": 57459.1336,
+    "total_tpu_seconds": 72000.0,
+    "used_tpu_seconds": 176.083
+  },
+  "observed_at_utc": "2026-10-07T10:00:21+00:00",
+  "packet": {
+    "enable_gpu": false,
+    "enable_internet": false,
+    "enable_tpu": true,
+    "files_sha256": {
+      "kernel-metadata.json": "316ce590de1cb932e687a25e8c8e9e9d21d10b6a9d2c128b3e0b50b92ce8e67e",
+      "probe.py": "3988c913ce04765f0cbe9475f815e03329c5f8d7ddb5e236542c233a4560340e"
+    },
+    "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+    "machine_shape": "TpuV5E8",
+    "metadata_private": true
+  },
+  "prior_e463_tpu_kernels": [
+    {
+      "failure_message": "",
+      "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261006-v1",
+      "status": "KernelWorkerStatus.ERROR"
+    },
+    {
+      "failure_message": "",
+      "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+      "status": "KernelWorkerStatus.ERROR"
+    }
+  ],
+  "provider_targets_before_sha256": "d9b78ef2c07167177c9f4878cb7f0fee60c4c9388eea0cc5bf6cb5aa5666b1c4",
+  "receipt_id": "E463_TPU_V3_CONDITIONAL_ADMISSION_20261007",
+  "source_identity_receipt": {
+    "manifest_sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb",
+    "path": "tpu_results_v2/source_dataset_identity.json",
+    "sha256": "447af0ec8b2c340ed9a5a1d2394d3e10dd753e40034a18c1ddde5454fded2c7c",
+    "verified_file_count": 17
+  },
+  "status": "admitted_for_exact_packet_push",
+  "target": {
+    "artifact_dir": "tpu_results_v3",
+    "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+    "resource": "tpu",
+    "terminal_receipt": "tpu_terminal_v3.json"
+  }
+}

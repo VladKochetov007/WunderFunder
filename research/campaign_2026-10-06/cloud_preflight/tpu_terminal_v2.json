@@ -1,0 +1,93 @@
+{
+  "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+  "packet_id": "wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+  "terminal_status": "KernelWorkerStatus.ERROR",
+  "classification": "provider execution failure during host input admission; no JAX import, TPU initialization, model check, or scientific result",
+  "failure": {
+    "phase": "host_admission",
+    "error_type": "ValueError",
+    "error": "E463 source archive is absent or its frozen SHA-256 changed",
+    "elapsed_seconds": 0.43429135700000643,
+    "terminal_output": "tpu_results_v2/cloud_preflight_tpu_v2/terminal.json",
+    "terminal_output_sha256": "9fc4cd64c416456ef04cbfb9d8d2d3470c37e7abc63ddc1a7c5793fa030686c4"
+  },
+  "preflight_host_observation": {
+    "headroom_passed": true,
+    "cgroup_memory_current_bytes": 57204736,
+    "cgroup_memory_limit_bytes": 354334801920,
+    "process_peak_rss_bytes": 16515072,
+    "cpu_count": 224
+  },
+  "terminal_collection": {
+    "collected_at_utc": "2026-10-07T09:50:23Z",
+    "output_command": "kaggle kernels output vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2 -p research/campaign_2026-10-06/cloud_preflight/tpu_results_v2",
+    "output_exit_code": 0,
+    "log_command": "kaggle kernels logs vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+    "log_exit_code": 0,
+    "status_command": "kaggle kernels status vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+    "status_exit_code": 0,
+    "files": {
+      "cloud_preflight_tpu_v2/complete.json": {
+        "size_bytes": 1362,
+        "sha256": "868f412e8391d8965fa59ffff6725a2c6a2ee40bbacee6212749bd123cb66541"
+      },
+      "cloud_preflight_tpu_v2/host_start.json": {
+        "size_bytes": 555,
+        "sha256": "4a2ff0f83c21df0080f875b4939f5d25270df7c5d93fd0f021cbb5739d051c03"
+      },
+      "cloud_preflight_tpu_v2/input_mounts.json": {
+        "size_bytes": 335,
+        "sha256": "883432ea281feb7ce82290abcbc49650a0b25a9f725fb9ca7f3cafa5d9cf0e9b"
+      },
+      "cloud_preflight_tpu_v2/startup.json": {
+        "size_bytes": 313,
+        "sha256": "e72cd5895f714bbb7e8966a12392f150111a88151c3346d8e7f6b703822f3f10"
+      },
+      "cloud_preflight_tpu_v2/terminal.json": {
+        "size_bytes": 1315,
+        "sha256": "9fc4cd64c416456ef04cbfb9d8d2d3470c37e7abc63ddc1a7c5793fa030686c4"
+      },
+      "wnn-e463-real-tpu-fullshape-preflight-20261007-v2.log": {
+        "size_bytes": 977,
+        "sha256": "1a38b5a6c37c7f5c8f550fa823d4154f64eeb7961f2abab7057f996eef74ac7e"
+      },
+      "provider_logs_latest.json": {
+        "size_bytes": 978,
+        "sha256": "c48723a3d21186ecb4c299f82c4eb3f30536b81f149fd406bc9061fabb837926"
+      },
+      "provider_status.txt": {
+        "size_bytes": 103,
+        "sha256": "bf1bfe40dc08a13266229b6bc7baaff7714eca17646158657ed80f6dafc5b3bf"
+      }
+    },
+    "live_provider_quota_after_terminal": {
+      "observed_at_utc": "2026-10-07T09:52:42Z",
+      "source": "read-only Kaggle SDK quota/status calls",
+      "account_tpu_used_seconds": 176.083,
+      "account_tpu_reserved_seconds": 0.0,
+      "account_tpu_total_allowed_seconds": 72000.0,
+      "legacy_campaign_baseline_seconds": 134.623,
+      "legacy_campaign_cap_seconds": 900.0,
+      "controller_authorized_campaign_cap_seconds": 7200.0,
+      "campaign_used_since_preserved_baseline_seconds": 41.46000000000001,
+      "campaign_headroom_seconds": 7158.54,
+      "v2_prelaunch_account_tpu_used_seconds": 153.053,
+      "v2_observed_quota_charge_seconds": 23.030000000000001,
+      "recovery_envelope_authorized_seconds": 7200.0,
+      "recovery_allocation_record": "continuous_recovery_allocation_20261007.json",
+      "recovery_allocation_authority": "../../specs/adr/0010-continuous-experiment-delivery.md",
+      "post_reserve_account_spendable_seconds": 57459.1336,
+      "recovery_envelope_fits_after_20_percent_account_reserve": true
+    }
+  },
+  "source_identity_diagnosis": {
+    "diagnosis": "The v2 reader incorrectly assumed the provider dataset contained source_bundle.zip beside its manifest. Kaggle mounts this dataset as source-manifest.json plus an already-expanded source_bundle/ tree.",
+    "manifest_sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb",
+    "provider_listing_sha256": "d155a614484c105c0cb42ac20133a52bebad5ed3af85109338fbee1224bfa77d",
+    "provider_file_count": 18,
+    "direct_bundle_file_count": 17,
+    "direct_bundle_matches_manifest": true,
+    "archive_file_present": false,
+    "identity_receipt": "tpu_results_v2/source_dataset_identity.json"
+  }
+}

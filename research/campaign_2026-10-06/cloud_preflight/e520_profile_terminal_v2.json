@@ -1,0 +1,445 @@
+{
+  "admission_receipts": {
+    "controller_admission_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V2_CONTROLLER_ADMISSION_20261007_R1.json",
+    "controller_admission_sha256": "eca9fd00352413429bb99b7a95c4f0ea3f72ab4adda16b69f9305b0c96129a18",
+    "push_preflight_sha256": "d8d558f56e9ed197bebcf9a43e47e867fbe644e8fdad2c28401e316c77945f8a",
+    "transport_review_sha256": "7b5bee2a742082cd00178488e13ed6175aeb38aaeeb06491b0ffffe242bb2861"
+  },
+  "attempt_id": "E520_PROFILE_V1_PACKAGING_REPAIR_01",
+  "checkpoint_written": false,
+  "diagnosis": "The reviewed single-script transport loaded the unchanged worker and produced phase, input identity, resource and resource_abort receipts. During input identity hashing it received SIGTERM (143) from the resource guard after cgroup available memory crossed below the 20% headroom gate; this was a guarded abort, not an OOM, hash mismatch, fit or score.",
+  "experiment_id": "E520_PROFILE_V1",
+  "failure_classification": "guarded_cloud_cgroup_headroom_abort_during_input_identity",
+  "fit_started": false,
+  "fit_wall_seconds": 0.0,
+  "input_identity": {
+    "all_expected_bytes_and_hashes_match": false,
+    "expected_paths": [
+      "assets-manifest.json",
+      "cache/chain_folds.npz",
+      "cache/chains.npz",
+      "cache/train_targets.npz",
+      "cache/valid_targets.npz",
+      "datasets/train.parquet",
+      "datasets/valid.parquet",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "research/campaign_2026-10-04/portable_inputs.json"
+    ],
+    "failure": "SystemExit: 143",
+    "observed_paths": [
+      "assets-manifest.json",
+      "cache/chain_folds.npz",
+      "cache/chains.npz",
+      "cache/train_targets.npz",
+      "cache/valid_targets.npz",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "research/campaign_2026-10-04/portable_inputs.json"
+    ],
+    "path": "e520_profile/input_identity.json",
+    "phase": "input_identity",
+    "sha256": "a5272d03cee3d0193c2759100a95b72487ed7489b2a9ba66fe2cb3e62213790b",
+    "status": "failed",
+    "train_parquet_hash_complete": false,
+    "valid_parquet_hash_complete": false
+  },
+  "kernel_id": "vladkochetov07/e520-profile-v2",
+  "next_action": "No automatic retry. Any worker-level page-cache/memory I/O change and another profile run requires a new identified implementation, independent review and controller admission.",
+  "phase": {
+    "packet": "E520_PROFILE_V1",
+    "phase": "failed",
+    "reason": "SystemExit: 143",
+    "signal": 15,
+    "start_unix": 1791363867.6123075,
+    "status": "aborted",
+    "updated_unix": 1791364697.6871035,
+    "wall_seconds": 830.0747980420001
+  },
+  "prediction_export_started": false,
+  "profile_batches_started": false,
+  "provider_version": 1,
+  "quota": {
+    "account_20_percent_reserve_after_terminal_seconds": 12958.778400000001,
+    "account_gpu_interval_delta_seconds": 842.099000000002,
+    "account_spendable_after_terminal_reserve_seconds": 51835.113600000004,
+    "account_unspent_after_terminal_seconds": 64793.892,
+    "campaign_gpu_interval_delta_seconds": 842.099000000002,
+    "combined_E520_account_interval_delta_seconds": 848.4470000000001,
+    "combined_profile_cap_seconds": 3600,
+    "post_campaign_gpu_headroom_seconds": 50621.72900000001,
+    "post_reserved_gpu_seconds": 0.0,
+    "post_used_gpu_seconds": 43206.108,
+    "pre_used_gpu_seconds": 42364.009,
+    "pre_v2_poll_log_line_sha256": "b975dca6d5ead6f79b7f1e98d74c9af280987158daff8fbbef1e7b914b94ad58",
+    "pre_v2_poll_utc": "2026-10-07T09:01:16+00:00",
+    "remaining_combined_cap_seconds": 2751.553,
+    "terminal_poll_log_line_sha256": "5e39465d67052ca90269318d28618d0dc71d0398339ea2dc0d80c6e73b0b6af4",
+    "terminal_poll_utc": "2026-10-07T09:22:02+00:00",
+    "v1_terminal_charge_seconds": 6.348
+  },
+  "recorded_at_utc": "2026-10-07T09:23:39+00:00",
+  "resource_observations": {
+    "abort": {
+      "reason": "cgroup available memory fell below both E520 headroom gates",
+      "snapshot": {
+        "cgroup_available_bytes": 6410838016,
+        "cgroup_available_fraction": 0.1990186055501302,
+        "cgroup_limit_bytes": 32212254720,
+        "cuda_allocated_bytes": null,
+        "cuda_allocated_peak_bytes": null,
+        "cuda_reserved_bytes": null,
+        "cuda_reserved_peak_bytes": null,
+        "disk_free_bytes": 20938739712,
+        "gpu_free_bytes": null,
+        "gpu_process_bytes": null,
+        "gpu_process_query_raw": null,
+        "gpu_process_query_status": "pre_cuda_idle",
+        "host_available_bytes": 32563232768,
+        "host_available_fraction": 0.9674646233834382,
+        "host_total_bytes": 33658318848,
+        "rss_current_bytes": 27422720,
+        "rss_peak_bytes": 27009024
+      },
+      "status": "aborted",
+      "time_unix": 1791364697.674274
+    },
+    "abort_path": "e520_profile/resource_abort.json",
+    "abort_sha256": "a4a3df20a1bdaf014ab716f5ccbd135a16f8ace6be66e465c1fd347097bfc4ba",
+    "cgroup_20_percent_bytes": 6442450944,
+    "cgroup_bytes_below_20pct_by": 31612928,
+    "gpu_profile_started": false,
+    "last_snapshot": {
+      "cgroup_available_bytes": 6455398400,
+      "cgroup_available_fraction": 0.20040194193522134,
+      "cgroup_limit_bytes": 32212254720,
+      "cuda_allocated_bytes": null,
+      "cuda_allocated_peak_bytes": null,
+      "cuda_reserved_bytes": null,
+      "cuda_reserved_peak_bytes": null,
+      "disk_free_bytes": 20938739712,
+      "gpu_free_bytes": null,
+      "gpu_process_bytes": null,
+      "gpu_process_query_raw": null,
+      "gpu_process_query_status": "pre_cuda_idle",
+      "host_available_bytes": 32566185984,
+      "host_available_fraction": 0.9675523644263981,
+      "host_total_bytes": 33658318848,
+      "rss_current_bytes": 27422720,
+      "rss_peak_bytes": 27009024
+    },
+    "resource_path": "e520_profile/resource.json",
+    "resource_sha256": "7642cf2d0a447bb271b993ad1296c5790cbf793e407fd6ca88c94598e45f3156"
+  },
+  "schema_version": 1,
+  "scientific_interpretation": "Infrastructure/resource admission evidence only; not a negative result about E520, teacher complementarity, or any model quality. No profile measurement, fit, checkpoint, prediction, or score.",
+  "score": null,
+  "scoring_started": false,
+  "status_source": "fresh poll_provider.py terminal status and kaggle kernels status",
+  "terminal_collection": {
+    "artifact_directory": "research/campaign_2026-10-06/cloud_preflight/downloads/e520_profile_v2",
+    "complete_output_tree_downloaded": true,
+    "file_count": 74,
+    "files": {
+      "e520-profile-v2.log": {
+        "bytes": 809,
+        "sha256": "70e54b623d0bd9ab3badd6aa6edde948cb5aa6fa972da49a63d538cd2437c839"
+      },
+      "e520_profile/input_identity.json": {
+        "bytes": 2842,
+        "sha256": "a5272d03cee3d0193c2759100a95b72487ed7489b2a9ba66fe2cb3e62213790b"
+      },
+      "e520_profile/phase.json": {
+        "bytes": 236,
+        "sha256": "2cd11dcc4a4f435931b6f50ea6ab870edd7c514a717868ce16d0af862eb0d499"
+      },
+      "e520_profile/resource.json": {
+        "bytes": 741,
+        "sha256": "7642cf2d0a447bb271b993ad1296c5790cbf793e407fd6ca88c94598e45f3156"
+      },
+      "e520_profile/resource_abort.json": {
+        "bytes": 808,
+        "sha256": "a4a3df20a1bdaf014ab716f5ccbd135a16f8ace6be66e465c1fd347097bfc4ba"
+      },
+      "e520_profile_packet_v2/E520_PACKET_PLAN.json": {
+        "bytes": 29493,
+        "sha256": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13"
+      },
+      "e520_profile_packet_v2/__pycache__/profile_worker.cpython-313.pyc": {
+        "bytes": 60467,
+        "sha256": "6643cf1cd704de82459010bdb801e8954dbce07308963b2e256dccb5a6aef56a"
+      },
+      "e520_profile_packet_v2/export_guards.py": {
+        "bytes": 3667,
+        "sha256": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550"
+      },
+      "e520_profile_packet_v2/external_review.json": {
+        "bytes": 9134,
+        "sha256": "25c9c1c95c1a62cfe4dfbc2ce88f0d3e02132769dc6971dc674d6b4a70e53390"
+      },
+      "e520_profile_packet_v2/kernel-metadata.json": {
+        "bytes": 354,
+        "sha256": "33e60b3db0cf870d9b886e54fc397bf92839729a15d285235105cc77e8818ea4"
+      },
+      "e520_profile_packet_v2/packet_meta.json": {
+        "bytes": 1206,
+        "sha256": "941ed5e9330a9906dc1c5e227f2188966e57a8ef96c38f3721a43053519311d9"
+      },
+      "e520_profile_packet_v2/prepare_profile_packet.py": {
+        "bytes": 7970,
+        "sha256": "1cb55b0ded8067bd0bee228f7d6f73e1acebff2dd13bea823aac90d315b54c19"
+      },
+      "e520_profile_packet_v2/profile_kernel.py": {
+        "bytes": 789,
+        "sha256": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb"
+      },
+      "e520_profile_packet_v2/profile_worker.py": {
+        "bytes": 48132,
+        "sha256": "e055d47d8950d211541298a37d237c1b7d76b5a5dc3121a0c9793ce7c74f2107"
+      },
+      "e520_profile_packet_v2/source_archive.tar": {
+        "bytes": 512000,
+        "sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc"
+      },
+      "e520_profile_packet_v2/tests/test_profile_guards.py": {
+        "bytes": 10357,
+        "sha256": "77d8e5c9b543335d3903606db1f03fbcaace2d773468b0705ae0f82fd26b9d6c"
+      },
+      "e520_source/scripts/train_rnn.py": {
+        "bytes": 135624,
+        "sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf"
+      },
+      "e520_source/src/wnn/__init__.py": {
+        "bytes": 63,
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+      },
+      "e520_source/src/wnn/campaign.py": {
+        "bytes": 20774,
+        "sha256": "35dd701fdb33c50494a3c781a315731212da22f41cae331f2f85073af0637605"
+      },
+      "e520_source/src/wnn/campaign_local.py": {
+        "bytes": 24324,
+        "sha256": "0213ff7a809ce898be5d3180c15e31d228ad6f3f03f1f08fd968f9186e91353d"
+      },
+      "e520_source/src/wnn/campaign_spec.py": {
+        "bytes": 10334,
+        "sha256": "5136703299585e81a9463a253133ba7f12da2c64ea863776c005d1fc5d3e8d7b"
+      },
+      "e520_source/src/wnn/csrc/symreg_screen.cpp": {
+        "bytes": 4986,
+        "sha256": "413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7"
+      },
+      "e520_source/src/wnn/data.py": {
+        "bytes": 4000,
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      "e520_source/src/wnn/evaluation.py": {
+        "bytes": 8080,
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+      },
+      "e520_source/src/wnn/event_content.py": {
+        "bytes": 7226,
+        "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd"
+      },
+      "e520_source/src/wnn/features.py": {
+        "bytes": 5421,
+        "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee"
+      },
+      "e520_source/src/wnn/gmetric.py": {
+        "bytes": 8902,
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      },
+      "e520_source/src/wnn/heuristics.py": {
+        "bytes": 9025,
+        "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e"
+      },
+      "e520_source/src/wnn/infer.py": {
+        "bytes": 2377,
+        "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9"
+      },
+      "e520_source/src/wnn/markov.py": {
+        "bytes": 2624,
+        "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2"
+      },
+      "e520_source/src/wnn/metric.py": {
+        "bytes": 4806,
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc"
+      },
+      "e520_source/src/wnn/nn.py": {
+        "bytes": 20537,
+        "sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca"
+      },
+      "e520_source/src/wnn/optim.py": {
+        "bytes": 11736,
+        "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991"
+      },
+      "e520_source/src/wnn/outcomes.py": {
+        "bytes": 4538,
+        "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75"
+      },
+      "e520_source/src/wnn/portability.py": {
+        "bytes": 1909,
+        "sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a"
+      },
+      "e520_source/src/wnn/privileged.py": {
+        "bytes": 6608,
+        "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4"
+      },
+      "e520_source/src/wnn/propensity.py": {
+        "bytes": 1404,
+        "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d"
+      },
+      "e520_source/src/wnn/quantization.py": {
+        "bytes": 6050,
+        "sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077"
+      },
+      "e520_source/src/wnn/quantization_export.py": {
+        "bytes": 3968,
+        "sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0"
+      },
+      "e520_source/src/wnn/research_features.py": {
+        "bytes": 6234,
+        "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8"
+      },
+      "e520_source/src/wnn/resources.py": {
+        "bytes": 4485,
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+      },
+      "e520_source/src/wnn/run_identity.py": {
+        "bytes": 4488,
+        "sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76"
+      },
+      "e520_source/src/wnn/sentinel.py": {
+        "bytes": 8603,
+        "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec"
+      },
+      "e520_source/src/wnn/sentinel_calibration.py": {
+        "bytes": 8550,
+        "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599"
+      },
+      "e520_source/src/wnn/specialist.py": {
+        "bytes": 12064,
+        "sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400"
+      },
+      "e520_source/src/wnn/splits.py": {
+        "bytes": 8647,
+        "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+      },
+      "e520_source/src/wnn/spread_aux.py": {
+        "bytes": 7553,
+        "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512"
+      },
+      "e520_source/src/wnn/streaming.py": {
+        "bytes": 2422,
+        "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e"
+      },
+      "e520_source/src/wnn/structured_state.py": {
+        "bytes": 9963,
+        "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756"
+      },
+      "e520_source/src/wnn/symreg.py": {
+        "bytes": 11386,
+        "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849"
+      },
+      "e520_source/src/wnn/tcn_ref.py": {
+        "bytes": 3511,
+        "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa"
+      },
+      "e520_source/src/wnn/ticks.py": {
+        "bytes": 4946,
+        "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8"
+      },
+      "e520_source/src/wnn/training_calibration.py": {
+        "bytes": 2694,
+        "sha256": "30923120c1bd9773556556ee0fbbab5d8db4a5f4232c48b81f11fa87a5e74e52"
+      },
+      "e520_source/src/wnn/training_controls.py": {
+        "bytes": 10695,
+        "sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39"
+      },
+      "e520_source/src/wnn/training_credit.py": {
+        "bytes": 2225,
+        "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd"
+      },
+      "e520_source/src/wnn/training_dynamics.py": {
+        "bytes": 14936,
+        "sha256": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294"
+      },
+      "e520_source/src/wnn/training_factorized.py": {
+        "bytes": 7615,
+        "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2"
+      },
+      "e520_source/src/wnn/training_qat.py": {
+        "bytes": 6146,
+        "sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72"
+      },
+      "e520_source/src/wnn/training_sampling.py": {
+        "bytes": 6540,
+        "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2"
+      },
+      "e520_source/src/wnn/training_state.py": {
+        "bytes": 8689,
+        "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+      },
+      "e520_source/src/wnn/training_views.py": {
+        "bytes": 3065,
+        "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142"
+      },
+      "e520_source/src/wnn/twoclock_ref.py": {
+        "bytes": 3732,
+        "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44"
+      },
+      "e520_source/src/wnn/viz.py": {
+        "bytes": 4297,
+        "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5"
+      },
+      "live_output.exit": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "live_output.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "live_output.stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "logs_command.exit": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "logs_command.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "output_command.exit": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "output_command.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "output_command.stdout": {
+        "bytes": 8392,
+        "sha256": "b22853659f0e63c88b8a73c9c53534bbcd018291ad4fa3e8f7d38c9e629e0074"
+      },
+      "provider_logs.json": {
+        "bytes": 810,
+        "sha256": "4be85c8519b5b71660a39490b8dc2038a833caf06dda975873f603f37b33e2d4"
+      },
+      "status.txt": {
+        "bytes": 69,
+        "sha256": "8e2360bf6d6e3346f87b7e46726ec9793450b48e7052216b8aa1d25d00b9ef25"
+      },
+      "status_command.exit": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      }
+    },
+    "log_exit_code": 0,
+    "output_exit_code": 0,
+    "status_exit_code": 0
+  },
+  "terminal_status": "KernelWorkerStatus.ERROR",
+  "worker_wall_seconds": 830.0747980420001
+}

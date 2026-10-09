@@ -1,0 +1,114 @@
+{
+  "artifact_id": "E463_TPU_V4_OFFLINE_BUILD_20261007_R1",
+  "artifact_type": "offline_packet_build_manifest",
+  "builder_role": "cloud_delivery_resume",
+  "created_at_utc": "2026-10-07T18:12:52.757973+00:00",
+  "execution_state": {
+    "checkpoint_saved_or_exported": false,
+    "fit_or_validation_run": false,
+    "fresh_provider_status_or_quota_observed": false,
+    "independent_transport_review_received": false,
+    "jax_or_tpu_executed_locally": false,
+    "metric_or_score_produced": false,
+    "paid_compute_used": false,
+    "provider_job_launched": false,
+    "provider_packet_pushed": false
+  },
+  "offline_packet": {
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1"
+    ],
+    "directory": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v4_candidate_v1/packet",
+    "exact_file_count": 3,
+    "files": {
+      "combo_loss_reference.py": {
+        "sha256": "4e3bbaaea722ba9d36771521fcf3ac495d3e9e747ba8b1f8bb21be3158252d74",
+        "size_bytes": 5137
+      },
+      "kernel-metadata.json": {
+        "sha256": "7f0a096d0a0d4f4a6e0fca36e9a96d346ce1f36bbaa18f70385a775cc7fc7a1e",
+        "size_bytes": 478
+      },
+      "probe.py": {
+        "sha256": "dd1b92e72b2cb6539a06339ee45cd75d45a0fb784475850c8424014c0f6e7531",
+        "size_bytes": 47871
+      }
+    },
+    "gpu_enabled": false,
+    "internet_enabled": false,
+    "kernel_id": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v4",
+    "machine_shape": "TpuV5E8",
+    "metadata_sha256": "7f0a096d0a0d4f4a6e0fca36e9a96d346ce1f36bbaa18f70385a775cc7fc7a1e",
+    "raw_competition_data_mount_declared": false,
+    "total_bytes": 53486,
+    "tpu_enabled": true
+  },
+  "offline_validation": {
+    "direct_source_tree_hash_and_member_set_check": "passed; 17 files / 10,207,617 bytes",
+    "packet_exact_file_set_and_metadata_check": "passed; 3 files; internet false; private TPUv5E8; GPU false",
+    "py_compile": "passed",
+    "pytest": "2 passed in 0.14s",
+    "resource_wrapper_note": "scripts/limited could not connect to user-scope D-Bus in the managed sandbox; these small checks ran sequentially pinned to CPU 0 with a 120-second timeout.",
+    "ruff": "passed",
+    "synthetic_fixture_host_check": {
+      "jax_imported": false,
+      "main_mass_max_min_ratio": 158.273681640625,
+      "positive_global_next_mass": 31663.650390625,
+      "shape": [
+        8,
+        2,
+        2000,
+        211
+      ],
+      "status": "passed",
+      "tpu_used": false,
+      "zero_next_mass_replica": 0
+    }
+  },
+  "parent_terminal_result": {
+    "classification": "actual TPUv5e 8-device systems/numerical preflight; synthetic single update; no fit or score",
+    "path": "research/campaign_2026-10-06/cloud_preflight/tpu_terminal_v3.json",
+    "sha256": "d469c895dd8865973ef0b7eab634321716d0802ef18cb54580717677b1c4bf86"
+  },
+  "parent_v3_root_packet_review": {
+    "path": "research/campaign_2026-10-06/cloud_preflight/TPU_V3_ROOT_PACKET_REVIEW_20261007.json",
+    "sha256": "27798a64110194cb9df6fc8d48872a34cb485a4060c7cf29fc422c64867c71be"
+  },
+  "remaining_gate": "Independent worker/transport review, controller selection, and fresh provider quota/status are required before any push or TPU execution.",
+  "source_binding": {
+    "dataset": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+    "manifest_path": "research/campaign_2026-10-06/cloud_preflight/tpu_results_v2/provider_dataset_full/source-manifest.json",
+    "manifest_sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb",
+    "pinned_file_hashes_in_plan": {
+      "artifacts/runs/c20261003_combo_s3_f0/model_ep3.jax.npz": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+      "artifacts/runs/c20261003_combo_s3_f0/model_ep3.jax.npz.json": "3e65d2a88352d22bc90d88b829f05beee3faa7a66b9de41c7507f521aab12668",
+      "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "scripts/realdata_preflight.py": "ea67181bdac403ff2bb327707ce27a26eac8f4a2d9b0745273f75124fd4c74be",
+      "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+      "src/wnn_jax/bridge.py": "788e83eb24759e63c1dc877252ae4ad4a400f1f7f64af2dce8611e844d1990bb",
+      "src/wnn_jax/rnn.py": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc"
+    },
+    "privacy_and_resources": {
+      "gpu": false,
+      "internet": false,
+      "private": true,
+      "tpu": true
+    },
+    "source_archive_present": false,
+    "verified_bytes": 10207617,
+    "verified_file_count": 17
+  },
+  "worker_assembly_inputs": {
+    "numpy_objective_reference_sha256": "4e3bbaaea722ba9d36771521fcf3ac495d3e9e747ba8b1f8bb21be3158252d74",
+    "transformations": [
+      "replaced V3 packet/output identifiers with V4 identifiers",
+      "removed unused raw wunder-funder data mount and its presence gates",
+      "added parent and TPU-child persisted JSON phase markers plus flushed log events",
+      "replaced V3 single fixed-target worker with unequal-mass combo-loss value/gradient check and synthetic profile worker"
+    ],
+    "v3_parent_probe_path": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v3/probe.py",
+    "v3_parent_probe_sha256": "3988c913ce04765f0cbe9475f815e03329c5f8d7ddb5e236542c233a4560340e",
+    "worker_fragment_path": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v4_candidate_v1/worker_v4.fragment.py",
+    "worker_fragment_sha256": "b0232d30a71240b8bb59475f15169d94e1c6c908cbba5c6139912eed2123af98"
+  }
+}

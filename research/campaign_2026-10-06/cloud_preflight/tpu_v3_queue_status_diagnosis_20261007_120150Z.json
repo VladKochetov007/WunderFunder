@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E463_TPU_V3_QUEUE_STATUS_DIAGNOSIS_20261007_120150Z",
+  "observed_at_utc": "2026-10-07T12:01:50Z",
+  "receipt_written_at_utc": "2026-10-07T12:02:17Z",
+  "attempt_id": "E463_TPU_V3",
+  "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+  "status": "KernelWorkerStatus.QUEUED",
+  "failure_message": "",
+  "provider_session_id": null,
+  "provider_last_run_time": "2026-10-07 10:00:29.953000 (timezone omitted by CLI; matches push time to milliseconds)",
+  "timing": {
+    "push_at_utc": "2026-10-07T10:00:29Z",
+    "elapsed_since_push_seconds": 7281,
+    "first_durable_poll_at_utc": "2026-10-07T10:01:22+00:00",
+    "first_durable_poll_status": "KernelWorkerStatus.QUEUED"
+  },
+  "packet_and_admission": {
+    "root_packet_review_path": "research/campaign_2026-10-06/cloud_preflight/TPU_V3_ROOT_PACKET_REVIEW_20261007.json",
+    "root_packet_review_sha256": "27798a64110194cb9df6fc8d48872a34cb485a4060c7cf29fc422c64867c71be",
+    "conditional_admission_path": "research/campaign_2026-10-06/cloud_preflight/tpu_admission_v3.json",
+    "conditional_admission_sha256": "be42da72b663f84c697e0636bd5cb652f60016acc4867ba58373530d3b2548fe",
+    "push_result_path": "research/campaign_2026-10-06/cloud_preflight/tpu_push_result_v3.json",
+    "push_result_sha256": "c8f8a28be451b33b2937b8359141004e872db51ebeb198a72fc5a76ff965a70d",
+    "probe_sha256": "3988c913ce04765f0cbe9475f815e03329c5f8d7ddb5e236542c233a4560340e",
+    "kernel_metadata_sha256": "316ce590de1cb932e687a25e8c8e9e9d21d10b6a9d2c128b3e0b50b92ce8e67e"
+  },
+  "provider_observations": {
+    "direct_kernel_status": "KernelWorkerStatus.QUEUED",
+    "direct_kernel_logs_exit_code": 0,
+    "direct_kernel_logs_stdout_empty": true,
+    "kernel_list_last_run_time_matches_push": true,
+    "kernel_metadata": {
+      "enable_tpu": true,
+      "enable_gpu": false,
+      "machine_shape": "TpuV5E8",
+      "enable_internet": false,
+      "private": true
+    },
+    "status_api_response_fields": [
+      "status",
+      "failure_message"
+    ],
+    "queue_reason_exposed_by_installed_status_api": false,
+    "session_id_exposed": false,
+    "source": "Kaggle CLI/SDK 2.2.4 plus installed generated ApiGetKernelSessionStatusResponse schema; no alternate version/session substitution"
+  },
+  "output_and_terminal_state": {
+    "provider_target": {
+      "artifact_dir": "tpu_results_v3",
+      "terminal_receipt": "tpu_terminal_v3.json"
+    },
+    "output_directory_exists": true,
+    "output_files_present": [],
+    "terminal_receipt_exists": false,
+    "actual_tpu_phase_observed": false
+  },
+  "quota_snapshot": {
+    "observed_at_utc": "2026-10-07T12:01:50+00:00",
+    "account_tpu_used_seconds": 176.083,
+    "account_tpu_total_allowed_seconds": 72000.0,
+    "campaign_baseline_used_seconds": 134.623,
+    "campaign_used_seconds": 41.46,
+    "campaign_cap_seconds": 7200.0,
+    "campaign_headroom_seconds": 7158.54,
+    "reserved_seconds": 0.0,
+    "quota_exhaustion_indicated": false
+  },
+  "durable_poll_record": {
+    "path": "research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl",
+    "record_observed_at_utc": "2026-10-07T12:01:50+00:00",
+    "record_sha256": "731a24b200fde81649753ebac2d8e4dd0679fed6ee548c779eeb59acc216dfdc"
+  },
+  "diagnosis": {
+    "observed_blocker": "The provider continues to report QUEUED and has not exposed a session, worker logs, or an execution phase.",
+    "supported_cause": "Provider-side queue wait; the status API provides no queue reason and failure_message is blank.",
+    "ruled_out_by_this_snapshot": [
+      "campaign TPU quota exhaustion",
+      "GPU/TPU metadata misselection in the frozen packet",
+      "a visible worker failure or terminal application error"
+    ],
+    "not_claimed": [
+      "TPU execution started",
+      "scientific success or failure",
+      "a specific provider capacity cause"
+    ]
+  },
+  "next_action": "Keep the exact accepted v3 job and durable polling active. On the first RUNNING or terminal status, inspect phase logs immediately; on terminal status, download complete logs and outputs and write the immutable terminal receipt. No duplicate push, cancellation, budget mutation, fit, or scoring was performed.",
+  "scope": "Nonterminal queue-state diagnosis only; not a terminal receipt or scientific result."
+}

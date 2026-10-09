@@ -1,0 +1,102 @@
+{
+  "id": "E463_TPU_V4_LOSS_REDUCTION_DIAGNOSTIC_CANDIDATE_20261007_R1",
+  "state": "offline_packet_built_pending_independent_transport_review_and_fresh_admission",
+  "parent_result": "research/campaign_2026-10-06/cloud_preflight/tpu_terminal_v3.json",
+  "purpose": "Compare the frozen four-component combo objective and its gradient under an eight-way unequal-mass reduction; then profile three full-shape synthetic updates on actual TPU v5e devices.",
+  "execution_scope": {
+    "offline_packet_assembled": true,
+    "provider_packet_pushed": false,
+    "provider_job_launched": false,
+    "quota_admission": "required_after_independent_transport_review_controller_selection_and_fresh_status",
+    "fresh_provider_status_or_quota_observed": false,
+    "scientific_fit_authorized": false,
+    "validation_or_score_authorized": false,
+    "paid_compute": false
+  },
+  "source_binding": {
+    "dataset": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+    "manifest_sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb",
+    "source_archive_present": false,
+    "verified_file_count": 17,
+    "verified_bytes": 10207617,
+    "files": {
+      "src/wnn_jax/rnn.py": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+      "src/wnn_jax/bridge.py": "788e83eb24759e63c1dc877252ae4ad4a400f1f7f64af2dce8611e844d1990bb",
+      "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+      "scripts/realdata_preflight.py": "ea67181bdac403ff2bb327707ce27a26eac8f4a2d9b0745273f75124fd4c74be",
+      "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "artifacts/runs/c20261003_combo_s3_f0/model_ep3.jax.npz": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+      "artifacts/runs/c20261003_combo_s3_f0/model_ep3.jax.npz.json": "3e65d2a88352d22bc90d88b829f05beee3faa7a66b9de41c7507f521aab12668"
+    }
+  },
+  "equation": {
+    "source_function": "src/wnn_jax/bridge.py::combo_sbd_loss",
+    "components": [
+      {"name": "primary", "coefficient": 1.0, "numerator": "sum(abs(clip(labels,-2,2))*main_weights*(prediction[:2]-clip(fixed_target,-2,2))^2)", "denominator": "sum(abs(clip(labels,-2,2))*main_weights)"},
+      {"name": "ema_consistency", "coefficient": 1.0, "numerator": "sum(main_weights*(prediction[:2]-stop_gradient(ema_prediction[:2]))^2)", "denominator": "sum(main_weights)"},
+      {"name": "structural_cross_entropy", "coefficient": 0.3, "numerator": "sum(main_weights*CE(head12,label0))+sum(main_weights*CE(head3,label1))+sum(main_weights*CE(head4,label2))", "denominator": "sum(main_weights)"},
+      {"name": "next_change", "coefficient": 0.3, "numerator": "sum(next_weights*(next_distance_MSE+next_direction_BCE))", "denominator": "sum(next_weights)"}
+    ],
+    "denominator_floor": 1e-8,
+    "reduction_rule": "sum each raw component numerator and denominator across replicas before component normalization; sum local numerator gradients scaled by global denominators"
+  },
+  "shape": {
+    "backend": "TPU",
+    "chip_version": "v5e",
+    "device_count": 8,
+    "global_batch": 16,
+    "local_batch_per_device": 2,
+    "chunk_rows": 2000,
+    "input_width": 211,
+    "hidden_width": 256,
+    "layers": 2,
+    "output_width": 23,
+    "profiled_updates_after_compile": 3
+  },
+  "synthetic_fixture": {
+    "seed": 20261007,
+    "distinct_inputs_per_replica": true,
+    "unequal_main_weight_mass_per_replica": true,
+    "one_replica_zero_next_mass": true,
+    "global_next_mass_positive": true,
+    "fixed_ema_predictions": true,
+    "ema_predictions_are_synthetic": true,
+    "raw_data_or_real_caches_consumed": false
+  },
+  "acceptance": {
+    "source_combo_scalar_vs_independent_numpy": {"rtol": 0.0001, "atol": 0.00001},
+    "sum_of_replica_gradients_vs_full_batch_gradient": {"rtol": 0.0003, "atol": 0.00003},
+    "mean_of_locally_normalized_gradient_negative_control_relative_l2_minimum": 0.001,
+    "finite_components_outputs_states_gradients_and_parameters": true,
+    "steps_after_compile": 3,
+    "hbm_free_fraction_before": 0.2,
+    "hbm_peak_fraction_maximum": 0.8
+  },
+  "known_limits": [
+    "No EMA state exists in the pinned E503 checkpoint; the incoming consistency targets are deterministic synthetic arrays.",
+    "The verified V3 raw-data mount had train.parquet, valid.parquet, and valid_mask.parquet only; fold, teacher, and propensity assets needed by load_sequence_supervision were absent.",
+    "This check would verify JAX full-batch versus distributed gradient reduction, not Torch/JAX gradient parity or a scientific training recipe.",
+    "V3 systems checks and this host NumPy sufficient-statistics oracle do not establish a V4 TPU result.",
+    "The assembled packet has not received an independent transport review or fresh quota admission and has not been pushed."
+  ],
+  "artifacts_prepared": [
+    "README.md",
+    "PLAN.json",
+    "E463_TPU_V4_OFFLINE_BUILD_MANIFEST_20261007_R1.json",
+    "combo_loss_reference.py",
+    "tests/test_combo_loss_reference.py",
+    "packet/kernel-metadata.json",
+    "packet/probe.py",
+    "packet/combo_loss_reference.py"
+  ],
+  "local_validation": {
+    "ruff": "passed",
+    "pytest": "2 passed",
+    "py_compile": "passed",
+    "offline_packet_exact_file_set_and_metadata": "passed; exactly three packet members; explicit enable_internet=false",
+    "synthetic_fixture_host_shape": [8, 2, 2000, 211],
+    "synthetic_fixture_main_mass_max_min_ratio": 158.273681640625,
+    "jax_imported_locally": false,
+    "tpu_used_locally": false
+  }
+}
