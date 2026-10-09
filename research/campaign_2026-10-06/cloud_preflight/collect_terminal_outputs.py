@@ -24,12 +24,15 @@ except ImportError:  # pragma: no cover - package import for focused tests
 
 GIB = 1024**3
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_CONFIG = Path(__file__).with_name("terminal_collection_targets_20261008_r1.json")
+DEFAULT_CONFIG = Path(__file__).with_name("terminal_collection_targets_20261009_gpu_r5_r1.json")
 TERMINAL_STATES = {"COMPLETE", "COMPLETED", "ERROR", "FAILED", "CANCELED", "CANCELLED"}
 MAX_ATTEMPTS = 3
 GPU_R2_KERNEL = "vladkochetov07/wnn-loss-pair-gpu-20261009-v2"
+GPU_R4_KERNEL = "vladkochetov07/wnn-loss-pair-gpu-20261009-v4"
+GPU_R5_KERNEL = "vladkochetov07/wnn-loss-pair-export-recovery-20261009-r1"
+TPU_V7_KERNEL = "vladkochetov07/e463-tpu-real-data-reload-v7-20261008"
 
-# Only the original fixed pair and its exact root-pinned GPU R2 extension are accepted.
+# Only the original fixed pair and its exact root-pinned GPU extensions are accepted.
 PINNED_TARGETS: dict[str, dict[str, Any]] = {
     "vladkochetov07/wnn-warm-cohort-smoke-20261008-v4": {
         "resource": "gpu",
@@ -127,6 +130,132 @@ PINNED_TARGETS: dict[str, dict[str, Any]] = {
         "provider_timeout_seconds": 3600,
         "worker_max_seconds": 3300,
     },
+    GPU_R4_KERNEL: {
+        "resource": "gpu",
+        "metadata_id": GPU_R4_KERNEL,
+        "root_admission": (
+            "../bandit_continuation/diversity_stack_20261009/ROOT_GPU_R4_KERNEL_ADMISSION_R1.json"
+        ),
+        "root_admission_sha256": (
+            "890e429a496a701542825f13208dc27377cf8ca97966e6c17465a957f9901fda"
+        ),
+        "artifact_dir": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "gpu_loss_pair_r4/terminal_collect_r1"
+        ),
+        "terminal_receipt": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "gpu_loss_pair_r4/GPU_R4_TERMINAL_OPERATOR_RECEIPT_R1.json"
+        ),
+        "push_receipt": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "gpu_loss_pair_r4/GPU_R4_PROVIDER_PUSH_RECEIPT_R1.json"
+        ),
+        "push_receipt_sha256": ("6112ed6fbfcb10f541cd17f9f3a1b900742e504d2279fedca40733cf25beeceb"),
+        "asset_ready_receipt": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "gpu_loss_pair_r4/GPU_R4_ASSET_READY_RECEIPT_R1.json"
+        ),
+        "asset_ready_receipt_sha256": (
+            "1d0f3af9a3ec3f1d2d4f8ca8c1a776f514c22c01ac42c1f091cd32a775aa7184"
+        ),
+        "asset_upload_admission": (
+            "../bandit_continuation/diversity_stack_20261009/ROOT_GPU_R4_ASSET_UPLOAD_ADMISSION_R1.json"
+        ),
+        "asset_upload_admission_sha256": (
+            "8260e87bf4c0b46c6878d81cd9e22660284a91ac037812180d102cac1334685a"
+        ),
+        "admission_bindings": {
+            "packet_sha256": ("dd1f57dc288b8b75df349f150170c6fc60cdff474f2f6f14897baa60b9fcc16a"),
+            "bootstrap_sha256": (
+                "86346f9c1addefbd38d3dcec52b18f514698a9514e7917aeb6081cc32f7eb039"
+            ),
+            "metadata_sha256": ("ced255b82699ff6d354b12e7b7687d122814a3b75f80827213dadbc7830e567d"),
+            "root_sealed_review_sha256": (
+                "69bddcad812dcbe5b6abcee8853b53cd43330a411a215aea2ae2d5652979565c"
+            ),
+        },
+        "source_dataset": "vladkochetov07/wnn-loss-pair-code-20261009-r4",
+        "source_dataset_version": 1,
+        "source_manifest_sha256": (
+            "8ef360536ca117232198a4ee6dd8fabf072fb7bfad9812a83972d8bfb750f584"
+        ),
+        "provisional_reservation_seconds": 7200,
+        "provider_timeout_seconds": 3600,
+        "worker_max_seconds": 3300,
+    },
+    GPU_R5_KERNEL: {
+        "resource": "gpu",
+        "metadata_id": GPU_R5_KERNEL,
+        "root_admission": (
+            "../bandit_continuation/diversity_stack_20261009/ROOT_GPU_R5_KERNEL_ADMISSION_R1.json"
+        ),
+        "root_admission_sha256": (
+            "fc6872d0ef27ad7d7da843ce9b1939c340882dfcb99e8211a8f31df8317d4e7c"
+        ),
+        "artifact_dir": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "gpu_loss_pair_r5_export/terminal_collect_r1"
+        ),
+        "terminal_receipt": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "gpu_loss_pair_r5_export/GPU_R5_TERMINAL_OPERATOR_RECEIPT_R1.json"
+        ),
+        "push_receipt": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "gpu_loss_pair_r5_export/GPU_R5_PROVIDER_PUSH_RECEIPT_R1.json"
+        ),
+        "push_receipt_sha256": ("33dd6c5c8718976ee6f1466ef8f67bc5707f4c3cc772a3c064b27ab8edb2cb61"),
+        "asset_ready_receipt": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "gpu_loss_pair_r5_export/asset_upload_receipt_R1.json"
+        ),
+        "asset_ready_receipt_sha256": (
+            "b6e0d5acced34780a734c8770bc3b1969661ca983010dd21a1f3d9a84485e619"
+        ),
+        "asset_upload_admission": (
+            "../bandit_continuation/diversity_stack_20261009/"
+            "ROOT_GPU_R5_ASSET_UPLOAD_ADMISSION_R2.json"
+        ),
+        "asset_upload_admission_sha256": (
+            "19767481c504d198419e0f4ad2143e98ecd195751945bfeab5f5101689f72f1f"
+        ),
+        "recovery_asset_manifest": (
+            "../bandit_continuation/diversity_stack_20261009/cloud_delivery/"
+            "gpu_loss_pair_r5_export/source_asset_stage/assets-manifest.json"
+        ),
+        "admission_bindings": {
+            "packet_sha256": ("ce58293e8124ef7e51d1e32c773c286ada5ca180c3e81a308bc31a95c3c108cc"),
+            "bootstrap_sha256": (
+                "ddb6401a6bf3b59a8242e387d11da9c7dbc1713236e085bb3cade27de775fc19"
+            ),
+            "metadata_sha256": ("e57d5b86eca15818b18c0fd11d01190f5f4cd00ec868187f7ef89a1527dc9494"),
+            "root_source_review_sha256": (
+                "9aaab0bb6514c652e30bce15c37964a790ef44401cdd6de811a8a76b05aefd7a"
+            ),
+            "recovery_asset_admission_sha256": (
+                "19767481c504d198419e0f4ad2143e98ecd195751945bfeab5f5101689f72f1f"
+            ),
+        },
+        "source_dataset": "vladkochetov07/wnn-loss-pair-code-20261009-r4",
+        "source_dataset_version": 1,
+        "source_manifest_sha256": (
+            "8ef360536ca117232198a4ee6dd8fabf072fb7bfad9812a83972d8bfb750f584"
+        ),
+        "cache_source_kernel": "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1",
+        "cache_manifest_sha256": (
+            "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b"
+        ),
+        "recovery_dataset": "vladkochetov07/wnn-loss-pair-r4-recovery-20261009-r1",
+        "recovery_dataset_version": 1,
+        "recovery_manifest_sha256": (
+            "0d9d5b6d53017b8ef837c369d7aaa47ce2a676c37a1165cda71d6735b446bcfd"
+        ),
+        "rehearsal_commit": "fdc3c694",
+        "provisional_reservation_seconds": 7200,
+        "provider_timeout_seconds": 3600,
+        "worker_max_seconds": 3300,
+    },
 }
 
 
@@ -177,11 +306,18 @@ def resolve_repo_path(repo_root: Path, config_dir: Path, relative_path: str) -> 
 
 
 def _allowed_target_sets(pinned_targets: dict[str, dict[str, Any]]) -> set[frozenset[str]]:
-    """Keep the original fixed pair valid and allow only its exact R2 successor."""
+    """Keep the original fixed pair valid with either or both exact GPU extensions."""
     all_targets = frozenset(pinned_targets)
-    allowed = {all_targets}
+    legacy_targets = all_targets - {GPU_R2_KERNEL, GPU_R4_KERNEL, GPU_R5_KERNEL}
+    allowed = {legacy_targets}
     if GPU_R2_KERNEL in all_targets:
-        allowed.add(all_targets - {GPU_R2_KERNEL})
+        allowed.add(legacy_targets | {GPU_R2_KERNEL})
+    if GPU_R4_KERNEL in all_targets:
+        allowed.add(legacy_targets | {GPU_R4_KERNEL})
+    if GPU_R2_KERNEL in all_targets and GPU_R4_KERNEL in all_targets:
+        allowed.add(legacy_targets | {GPU_R2_KERNEL, GPU_R4_KERNEL})
+    if GPU_R5_KERNEL in all_targets and TPU_V7_KERNEL in all_targets:
+        allowed.add(frozenset({TPU_V7_KERNEL, GPU_R5_KERNEL}))
     return allowed
 
 
@@ -220,7 +356,7 @@ def validate_config(
         if sha256_file(admission_path) != target["root_admission_sha256"]:
             raise ValueError(f"{kernel}: root admission hash mismatch")
         admission = json.loads(admission_path.read_text())
-        if kernel == GPU_R2_KERNEL:
+        if kernel in {GPU_R2_KERNEL, GPU_R4_KERNEL, GPU_R5_KERNEL}:
             if admission.get("state") != "one_private_kernel_push_conditionally_authorized":
                 raise ValueError(f"{kernel}: root admission state mismatch")
             if admission.get("kernel") != target["metadata_id"]:
@@ -237,6 +373,22 @@ def validate_config(
                 raise ValueError(f"{kernel}: admission timeout mismatch")
             if admission.get("worker_wall_seconds") != target["worker_max_seconds"]:
                 raise ValueError(f"{kernel}: admission worker bound mismatch")
+            if kernel == GPU_R4_KERNEL:
+                if admission.get("source_dataset") != target["source_dataset"]:
+                    raise ValueError(f"{kernel}: source dataset mismatch in root admission")
+                if (
+                    admission.get("source_asset_manifest_sha256")
+                    != target["source_manifest_sha256"]
+                ):
+                    raise ValueError(f"{kernel}: source manifest mismatch in root admission")
+            if kernel == GPU_R5_KERNEL:
+                if admission.get("source_dataset") != target["recovery_dataset"]:
+                    raise ValueError(f"{kernel}: recovery dataset mismatch in root admission")
+                if (
+                    admission.get("source_asset_manifest_sha256")
+                    != target["recovery_manifest_sha256"]
+                ):
+                    raise ValueError(f"{kernel}: recovery manifest mismatch in root admission")
         else:
             if admission.get("authorized") is not True:
                 raise ValueError(f"{kernel}: root admission is not authorized")
@@ -272,6 +424,206 @@ def validate_config(
             for key, expected in target["admission_bindings"].items():
                 if packet.get(key) != expected:
                     raise ValueError(f"{kernel}: push receipt packet binding mismatch for {key}")
+        elif kernel == GPU_R4_KERNEL:
+            if sha256_file(push_receipt_path) != target["push_receipt_sha256"]:
+                raise ValueError(f"{kernel}: exact provider push receipt hash mismatch")
+            if push_receipt.get("canonical_provider_slug") != kernel:
+                raise ValueError(f"{kernel}: provider push receipt slug mismatch")
+            receipt_admission = push_receipt.get("root_admission", {})
+            if receipt_admission.get("sha256") != target["root_admission_sha256"]:
+                raise ValueError(f"{kernel}: provider push receipt admission mismatch")
+            receipt_asset_admission = push_receipt.get("asset_upload_admission", {})
+            if receipt_asset_admission.get("sha256") != target["asset_upload_admission_sha256"]:
+                raise ValueError(f"{kernel}: provider push receipt asset admission mismatch")
+            if push_receipt.get("push_count") != 1 or push_receipt.get("kernel_version") != 1:
+                raise ValueError(f"{kernel}: expected exactly one accepted version")
+            if push_receipt.get("source_dataset") != target["source_dataset"]:
+                raise ValueError(f"{kernel}: source dataset mismatch")
+            if push_receipt.get("source_dataset_version") != target["source_dataset_version"]:
+                raise ValueError(f"{kernel}: source dataset version mismatch")
+            if push_receipt.get("source_dataset_ready_at_push") is not True:
+                raise ValueError(f"{kernel}: source dataset was not READY at push")
+            if (
+                push_receipt.get("source_manifest_sha256_verified")
+                != target["source_manifest_sha256"]
+            ):
+                raise ValueError(f"{kernel}: source manifest mismatch")
+            packet = push_receipt.get("packet", {})
+            for key, expected in target["admission_bindings"].items():
+                if packet.get(key) != expected:
+                    raise ValueError(f"{kernel}: push receipt packet binding mismatch for {key}")
+
+            asset_admission_path = resolve_repo_path(
+                repo_root, config_dir, target["asset_upload_admission"]
+            )
+            if sha256_file(asset_admission_path) != target["asset_upload_admission_sha256"]:
+                raise ValueError(f"{kernel}: exact asset upload admission hash mismatch")
+            asset_admission = json.loads(asset_admission_path.read_text())
+            if asset_admission.get("dataset") != target["source_dataset"]:
+                raise ValueError(f"{kernel}: asset upload admission dataset mismatch")
+            if asset_admission.get("kernel") != kernel:
+                raise ValueError(f"{kernel}: asset upload admission kernel mismatch")
+            if (
+                asset_admission.get("source_asset_manifest_sha256")
+                != target["source_manifest_sha256"]
+            ):
+                raise ValueError(f"{kernel}: asset upload admission source manifest mismatch")
+
+            asset_ready_path = resolve_repo_path(
+                repo_root, config_dir, target["asset_ready_receipt"]
+            )
+            if sha256_file(asset_ready_path) != target["asset_ready_receipt_sha256"]:
+                raise ValueError(f"{kernel}: exact source readiness receipt hash mismatch")
+            asset_ready = json.loads(asset_ready_path.read_text())
+            if asset_ready.get("dataset") != target["source_dataset"]:
+                raise ValueError(f"{kernel}: source readiness dataset mismatch")
+            if asset_ready.get("private") is not True or asset_ready.get("provider_version") != 1:
+                raise ValueError(f"{kernel}: source readiness privacy/version mismatch")
+            if (
+                asset_ready.get("root_admission", {}).get("sha256")
+                != target["asset_upload_admission_sha256"]
+            ):
+                raise ValueError(f"{kernel}: asset upload admission mismatch")
+            if (
+                asset_ready.get("kernel_admission", {}).get("sha256")
+                != target["root_admission_sha256"]
+            ):
+                raise ValueError(f"{kernel}: kernel admission mismatch in source readiness receipt")
+            readiness = asset_ready.get("readiness", {})
+            if readiness.get("status") != "ready":
+                raise ValueError(f"{kernel}: private source dataset is not READY")
+            if readiness.get("remote_manifest_sha256") != target["source_manifest_sha256"]:
+                raise ValueError(f"{kernel}: remote source manifest mismatch")
+            if readiness.get("remote_manifest_matches_staged_bytes") is not True:
+                raise ValueError(f"{kernel}: remote source manifest did not match staged bytes")
+        elif kernel == GPU_R5_KERNEL:
+            if sha256_file(push_receipt_path) != target["push_receipt_sha256"]:
+                raise ValueError(f"{kernel}: exact provider push receipt hash mismatch")
+            if push_receipt.get("canonical_provider_slug") != kernel:
+                raise ValueError(f"{kernel}: provider push receipt slug mismatch")
+            if push_receipt.get("kernel_version") != 1 or push_receipt.get("push_count") != 1:
+                raise ValueError(f"{kernel}: expected exactly one accepted version")
+            if push_receipt.get("title_derived_slug_match") is not True:
+                raise ValueError(f"{kernel}: pushed title does not bind the canonical slug")
+            if push_receipt.get("private") is not True:
+                raise ValueError(f"{kernel}: push receipt does not establish a private kernel")
+            if (
+                push_receipt.get("root_admission", {}).get("sha256")
+                != target["root_admission_sha256"]
+            ):
+                raise ValueError(f"{kernel}: provider push receipt admission mismatch")
+            source = push_receipt.get("source", {})
+            for key in ("packet_sha256", "bootstrap_sha256", "metadata_sha256"):
+                if source.get(key) != target["admission_bindings"][key]:
+                    raise ValueError(
+                        f"{kernel}: provider receipt source binding mismatch for {key}"
+                    )
+            for key, expected in (
+                ("code_dataset", target["source_dataset"]),
+                ("code_dataset_version", target["source_dataset_version"]),
+                ("code_asset_manifest_sha256", target["source_manifest_sha256"]),
+                ("parsed_cache_kernel", target["cache_source_kernel"]),
+                ("parsed_cache_manifest_sha256", target["cache_manifest_sha256"]),
+                ("recovery_dataset", target["recovery_dataset"]),
+                ("recovery_dataset_version", target["recovery_dataset_version"]),
+                ("recovery_asset_manifest_sha256", target["recovery_manifest_sha256"]),
+                ("recovery_asset_upload_receipt_sha256", target["asset_ready_receipt_sha256"]),
+            ):
+                if source.get(key) != expected:
+                    raise ValueError(f"{kernel}: provider receipt source mismatch for {key}")
+            if push_receipt.get("rehearsal", {}).get("commit") != target["rehearsal_commit"]:
+                raise ValueError(f"{kernel}: shared-artifact rehearsal commit mismatch")
+            quota = push_receipt.get("quota_snapshot", {})
+            if (
+                float(quota.get("gpu_campaign_headroom_before_hold_seconds", 0)) < 8200
+                or quota.get("other_open_gpu_holds_seconds") != 0
+                or quota.get("provisional_gpu_hold_seconds")
+                != target["provisional_reservation_seconds"]
+            ):
+                raise ValueError(f"{kernel}: push receipt quota does not meet admission")
+            bounds = push_receipt.get("worker_bounds", {})
+            if (
+                bounds.get("provider_timeout_seconds") != target["provider_timeout_seconds"]
+                or bounds.get("worker_wall_seconds") != target["worker_max_seconds"]
+                or bounds.get("device_count") != 2
+                or bounds.get("device_type") != "T4"
+                or bounds.get("training_enabled") is not False
+                or bounds.get("prediction_precision") != "fp32"
+            ):
+                raise ValueError(f"{kernel}: export worker bounds differ from the admission")
+
+            asset_admission_path = resolve_repo_path(
+                repo_root, config_dir, target["asset_upload_admission"]
+            )
+            if sha256_file(asset_admission_path) != target["asset_upload_admission_sha256"]:
+                raise ValueError(f"{kernel}: exact recovery asset admission hash mismatch")
+            asset_admission = json.loads(asset_admission_path.read_text())
+            if (
+                asset_admission.get("state") != "one_exact_private_dataset_create_authorized"
+                or asset_admission.get("dataset") != target["recovery_dataset"]
+                or asset_admission.get("version") != target["recovery_dataset_version"]
+                or asset_admission.get("asset_manifest_sha256")
+                != target["recovery_manifest_sha256"]
+                or asset_admission.get("payload_file_count") != 39
+                or asset_admission.get("payload_bytes") != 74811058
+                or asset_admission.get("private") is not True
+            ):
+                raise ValueError(f"{kernel}: recovery asset admission does not match the packet")
+
+            asset_ready_path = resolve_repo_path(
+                repo_root, config_dir, target["asset_ready_receipt"]
+            )
+            if sha256_file(asset_ready_path) != target["asset_ready_receipt_sha256"]:
+                raise ValueError(f"{kernel}: exact recovery readiness receipt hash mismatch")
+            asset_ready = json.loads(asset_ready_path.read_text())
+            if (
+                asset_ready.get("dataset") != target["recovery_dataset"]
+                or asset_ready.get("version") != target["recovery_dataset_version"]
+                or asset_ready.get("private") is not True
+                or asset_ready.get("provider_status", {}).get("status") != "ready"
+                or asset_ready.get("provider_status", {}).get("current_version_number") != 1
+            ):
+                raise ValueError(f"{kernel}: recovery dataset is not private READY version1")
+            if (
+                asset_ready.get("admission", {}).get("sha256")
+                != target["asset_upload_admission_sha256"]
+            ):
+                raise ValueError(f"{kernel}: recovery asset receipt admission mismatch")
+            readiness = asset_ready.get("local_stage", {})
+            if (
+                readiness.get("physical_file_count") != 41
+                or readiness.get("unique_payload_file_count") != 39
+                or readiness.get("unique_payload_bytes") != 74811058
+                or readiness.get("manifest_logical_row_count") != 45
+                or readiness.get("manifest_sha256") != target["recovery_manifest_sha256"]
+                or readiness.get("stage_receipt_uploaded") is not False
+            ):
+                raise ValueError(f"{kernel}: recovery asset stage inventory mismatch")
+            remote_inventory = asset_ready.get("remote_inventory", {})
+            manifest_path = resolve_repo_path(
+                repo_root, config_dir, target["recovery_asset_manifest"]
+            )
+            if sha256_file(manifest_path) != target["recovery_manifest_sha256"]:
+                raise ValueError(f"{kernel}: pinned recovery manifest bytes changed")
+            manifest = json.loads(manifest_path.read_text())
+            unique_payloads = {row["filename"]: int(row["size"]) for row in manifest["files"]}
+            expected_remote = {
+                **unique_payloads,
+                "assets-manifest.json": manifest_path.stat().st_size,
+            }
+            remote_files = remote_inventory.get("files", [])
+            observed_remote = {row["name"]: int(row["size"]) for row in remote_files}
+            if (
+                len(manifest["files"]) != 45
+                or len(unique_payloads) != 39
+                or remote_inventory.get("file_count") != 40
+                or remote_inventory.get("payload_file_count") != 39
+                or len(remote_files) != 40
+                or observed_remote != expected_remote
+                or remote_inventory.get("dataset_metadata_json_listed_as_data_file") is not False
+                or asset_ready.get("remote_manifest_sha256") != target["recovery_manifest_sha256"]
+            ):
+                raise ValueError(f"{kernel}: remote recovery dataset inventory mismatch")
         else:
             if push_receipt.get("canonical_provider_slug") != kernel:
                 raise ValueError(f"{kernel}: provider push receipt slug mismatch")
@@ -285,8 +637,16 @@ def validate_config(
                 if receipt_value != expected:
                     raise ValueError(f"{kernel}: provider receipt binding mismatch for {key}")
 
-        for path_field in ("artifact_dir", "terminal_receipt", "push_receipt"):
-            resolve_repo_path(repo_root, config_dir, target[path_field])
+        for path_field in (
+            "artifact_dir",
+            "terminal_receipt",
+            "push_receipt",
+            "asset_ready_receipt",
+            "asset_upload_admission",
+            "recovery_asset_manifest",
+        ):
+            if path_field in target:
+                resolve_repo_path(repo_root, config_dir, target[path_field])
 
     cli_path = Path(config.get("kaggle_cli", ""))
     if not cli_path.is_absolute() or not cli_path.is_file() or not os.access(cli_path, os.X_OK):
