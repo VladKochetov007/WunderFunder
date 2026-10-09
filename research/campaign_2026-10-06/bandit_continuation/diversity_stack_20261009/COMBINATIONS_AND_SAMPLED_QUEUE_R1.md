@@ -47,3 +47,8 @@ Suggested next batch: finish the four optimizer/loss cells, measure their blends
 ## Saved outputs
 
 Keep final/fixed-epoch weights and provenance; one rolling exact-resume checkpoint; dense FP32 predictions with source-qualified row/group IDs, mask and hashes; optional scored-row Parquet with ZSTD compression for analysis. Record per-update unscaled gradient norms, clipping, skipped steps, LR/beta and timing while training. Final weights cannot reconstruct the historical gradient trace. Dense evaluation predictions for 468 sequences ×20,000 rows ×2 targets occupy74,880,000 data bytes per model; full-valid predictions are larger. Retention/admission must include teacher caches and all-data export separately.
+
+
+## Literature (2026-10-09)
+
+Schedules, staged distillation and tail-weighting sources mapped to our experiments: [LITERATURE_SCHEDULES_DISTILLATION_R1.md](LITERATURE_SCHEDULES_DISTILLATION_R1.md).
