@@ -1,0 +1,372 @@
+{
+  "authorized_for_execution": true,
+  "cohort_spec": {
+    "arms": [
+      {
+        "activation": "gelu",
+        "axis": "weighted Huber delta",
+        "candidate_id": "R_adamw_huber_d4",
+        "candidate_recipe_sha256": "44106f7704d4db54e4fb7489a1fa38384acf7d5929610de9cda27844a19f7c27",
+        "huber_delta": 4.0,
+        "loss": "huber",
+        "parent_candidates": [
+          "D01_ADAMW_HUBER_D1"
+        ],
+        "queue_id": "SAMPLED_R3_HUBER_D4",
+        "run_name": "sampled_r3_adamw_huber_d4",
+        "scheduler": "onecycle",
+        "scheduler_parameters": {
+          "final_div_factor": 100.0,
+          "peak_lr": 0.001,
+          "warmup_frac": 0.05
+        }
+      },
+      {
+        "activation": "gelu",
+        "axis": "weighted Huber delta",
+        "candidate_id": "Q_adamw_huber_d2",
+        "candidate_recipe_sha256": "a90fddcd25148a7db426eb3ab67a5ffa11a34892f62067b6dbeab1575b7e3e8f",
+        "huber_delta": 2.0,
+        "loss": "huber",
+        "parent_candidates": [
+          "D01_ADAMW_HUBER_D1"
+        ],
+        "queue_id": "SAMPLED_R3_HUBER_D2",
+        "run_name": "sampled_r3_adamw_huber_d2",
+        "scheduler": "onecycle",
+        "scheduler_parameters": {
+          "final_div_factor": 100.0,
+          "peak_lr": 0.001,
+          "warmup_frac": 0.05
+        }
+      },
+      {
+        "activation": "fixed_mix",
+        "axis": "readout activation",
+        "candidate_id": "I_gru256_fixedmix",
+        "candidate_recipe_sha256": "da89c12056c374f5b71adc895c25a435611ed2db6b65c6a80bf8b06e4fbf1937",
+        "huber_delta": null,
+        "loss": "wmse",
+        "parent_candidates": [
+          "D01_ADAMW_WMSE"
+        ],
+        "queue_id": "SAMPLED_R3_FIXEDMIX_WMSE",
+        "run_name": "sampled_r3_fixedmix_wmse",
+        "scheduler": "onecycle",
+        "scheduler_parameters": {
+          "final_div_factor": 100.0,
+          "peak_lr": 0.001,
+          "warmup_frac": 0.05
+        }
+      },
+      {
+        "activation": "fixed_mix",
+        "axis": "activation by loss interaction",
+        "candidate_id": "U_fixedmix_huber_d1",
+        "candidate_recipe_sha256": "97cdd9f7a0cd363b2db13ed57b36be2aa75faf530f8fa71887a4f46480d8354f",
+        "huber_delta": 1.0,
+        "loss": "huber",
+        "parent_candidates": [
+          "D01_ADAMW_HUBER_D1",
+          "SAMPLED_R3_FIXEDMIX_WMSE"
+        ],
+        "queue_id": "SAMPLED_R3_FIXEDMIX_HUBER_D1",
+        "run_name": "sampled_r3_fixedmix_huber_d1",
+        "scheduler": "onecycle",
+        "scheduler_parameters": {
+          "final_div_factor": 100.0,
+          "peak_lr": 0.001,
+          "warmup_frac": 0.05
+        }
+      },
+      {
+        "activation": "gelu",
+        "axis": "learning-rate schedule",
+        "candidate_id": "J_adamw_wmse_wsd",
+        "candidate_recipe_sha256": "c2fd9652b9f029d229da5b399e2d399c1c635fc91453b755762db98bd56474ac",
+        "huber_delta": null,
+        "loss": "wmse",
+        "parent_candidates": [
+          "D01_ADAMW_WMSE"
+        ],
+        "queue_id": "SAMPLED_R3_WSD_WMSE",
+        "run_name": "sampled_r3_adamw_wmse_wsd",
+        "scheduler": "wsd",
+        "scheduler_parameters": {
+          "decay_share": 0.2,
+          "final_lr_fraction": 0.01,
+          "warmup_frac": 0.05
+        }
+      },
+      {
+        "activation": "gelu",
+        "axis": "learning-rate schedule",
+        "candidate_id": "K_adamw_wmse_sgdr",
+        "candidate_recipe_sha256": "13a87dc20c18912a79a122c450838303286c24c1eef0e1e1ddbc6f86fd42a955",
+        "huber_delta": null,
+        "loss": "wmse",
+        "parent_candidates": [
+          "D01_ADAMW_WMSE"
+        ],
+        "queue_id": "SAMPLED_R3_SGDR_WMSE",
+        "run_name": "sampled_r3_adamw_wmse_sgdr",
+        "scheduler": "sgdr",
+        "scheduler_parameters": {
+          "final_lr_fraction": 0.01,
+          "restarts": 1,
+          "warmup_frac": 0.05
+        }
+      }
+    ],
+    "candidate_pool": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/experiment_sampler_r2/candidate_pool_r2.jsonl",
+      "sha256": "e5d37d2e5b427fee3648bb6cae1aebcd189bf9b4db642a1c07b47c64743935ee",
+      "source_closure_sha256": "3d86386dcde2ea099610f949004ceb64dc9200fcf511333caf79539f2d62e8c0"
+    },
+    "common_recipe": {
+      "architecture": "two-layer GRU, hidden 256, linear encoder, 211 input features, two outputs",
+      "batch_size": 32,
+      "checkpoint_epoch": 1,
+      "chunk_rows": 2000,
+      "epochs": 2,
+      "evaluation_during_fit": false,
+      "evaluation_exposure": "historically exposed; not a fresh holdout",
+      "evaluation_membership": "all 468 fixed validation sequences; historically exposed",
+      "fit_membership": "frozen complete components; 350 fit-train sequences; fit-valid 28 unused",
+      "fold": 0,
+      "loss_normalization": "chunk",
+      "metric_id": "global_wp_clip2_v1",
+      "optimizer": "AdamW, lr=0.001, beta2=0.999, weight_decay=0.01, clip=1.0",
+      "precision": "float32; TF32 disabled",
+      "prediction_export": "full fixed 468-sequence validation set after fitting",
+      "seed": 20261009,
+      "train_source": "train",
+      "update_attempts": 220
+    },
+    "controls": {
+      "huber_d1_run_name": "loss_pair_r3_huber_d1",
+      "kernel": "vladkochetov07/wnn-loss-pair-export-recovery-20261009-r1",
+      "training_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+      "wmse_run_name": "loss_pair_r3_wmse"
+    },
+    "deferred_candidate_ids": [
+      "S_sgd_wmse",
+      "E_gru384_wmse",
+      "F_gru384_huber_d1"
+    ],
+    "execution": {
+      "fit_parallelism": 2,
+      "gpu_count": 2,
+      "gpu_model": "NvidiaTeslaT4",
+      "maximum_cgroup_current_bytes": 24000000000,
+      "maximum_working_output_bytes": 12000000000,
+      "minimum_disk_free_bytes": 4000000000,
+      "minimum_mem_available_bytes": 2000000000,
+      "prediction_parallelism": 2,
+      "provider_seconds": 3600,
+      "waves": [
+        [
+          "R_adamw_huber_d4",
+          "Q_adamw_huber_d2"
+        ],
+        [
+          "I_gru256_fixedmix",
+          "U_fixedmix_huber_d1"
+        ],
+        [
+          "J_adamw_wmse_wsd",
+          "K_adamw_wmse_sgdr"
+        ]
+      ],
+      "worker_wall_seconds": 3300
+    },
+    "fit_allowed": false,
+    "format_version": 1,
+    "kernel_id": "vladkochetov07/wnn-sampled-recipe-cohort-20261009-r1",
+    "parsed_cache": {
+      "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+      "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+      "evaluation_count": 468,
+      "fit_train_count": 350,
+      "fit_valid_count_not_used": 28,
+      "kernel": "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1",
+      "membership_sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+      "parse_once": true,
+      "parse_once_evidence": "source_stage_receipt_sha256",
+      "parse_once_meaning": "one pinned CPU cache producer; fit subprocesses independently reopen read-only memmaps",
+      "registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+      "scope": "cohort",
+      "source_stage_receipt_sha256": "557cd0a61f1129f811dc104398c3c9c7295c3343a1c9a302018fcb588c0c1de7",
+      "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "validation_sha256": "84686dff926036b37362a3ea28edcf2166d0bb44bee11b2fcbd64082e4b5cf35"
+    },
+    "queue_activation_allowed": false,
+    "runtime_source": {
+      "code_manifest_sha256": "dbd98f4b73f5cdc7dd8df137ae9d0bd23495fd8ee2067da02cc94d45699bd6e9",
+      "runner_overlay_dataset": "vladkochetov07/wnn-sampled-recipe-runner-code-20261009-r1",
+      "runner_overlay_title": "WNN Sampled Recipe Runner Code 20261009 R1",
+      "source_commit": "845405d16dc6b3768080aa99c3663a440d343ba5",
+      "source_dataset": "vladkochetov07/wnn-d02-muon-loss-code-20261009-r5",
+      "trainer_sha256": "6d6d28545051e7c7c450d7cb6299c9c20342bc21ec97a202abf5ebc64cfc46ef",
+      "worker_sha256": "48f8b7c897b72386410851123eac4fd1834f107a1d1ce6fa14485af0f6bda8a5"
+    },
+    "schema": "wnn.diversity.sampled-cohort-spec.v1"
+  },
+  "controls": {
+    "kernel": "vladkochetov07/wnn-loss-pair-export-recovery-20261009-r1",
+    "profile_gate_kernel": "vladkochetov07/wnn-d02-muon-loss-gpu-20261009-v5",
+    "profile_gate_sha256": "a5445694b64988811b3dbf9b1dd5ea50a94ef2b7ee3f02c337c2647dd23d88d9",
+    "r5_fit_transport_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ROOT_GPU_R5_TERMINAL_REVIEW_R1.json",
+      "sha256": "60e9770de432a6b39d3ae41c818d60b2d47b5298f630b33ee3483a0e7fecc7f9"
+    },
+    "retrain_controls": false,
+    "training_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7"
+  },
+  "expected_artifacts": [
+    "boot_marker.json",
+    "phase.jsonl",
+    "gpu_inventory.json",
+    "fold0_assets_validation.json",
+    "out/bootstrap_receipt.json",
+    "out/final_status.json",
+    "out/failure.json",
+    "out/cohort_progress.json",
+    "out/training_contract.json",
+    "out/sampled_cohort_run_receipt.json",
+    "out/shared/*",
+    "out/arms/<queue_id>/model/model.pt",
+    "out/arms/<queue_id>/model/model_ep0.pt",
+    "out/arms/<queue_id>/model/model_ep1.pt",
+    "out/arms/<queue_id>/model/training_state.pt",
+    "out/arms/<queue_id>/model/provenance.json",
+    "out/arms/<queue_id>/predictions_valid.npy",
+    "out/arms/<queue_id>/prediction_membership.json",
+    "out/arms/<queue_id>/update_trace.jsonl",
+    "out/arms/<queue_id>/schedule_trace.json",
+    "out/arms/<queue_id>/schedule_trace_interpreted.json",
+    "out/logs/*"
+  ],
+  "format_version": 1,
+  "kernel": {
+    "accelerator": "NvidiaTeslaT4",
+    "bootstrap_sha256": "728ad634a363db7f9b3f57873816039801305615c2d62f01290b802fbd6047a0",
+    "bootstrap_size_bytes": 21224,
+    "gpu_count": 2,
+    "id": "vladkochetov07/wnn-sampled-recipe-cohort-20261009-r1",
+    "metadata_sha256": "297aa18b024a1c7ca776dd8b52ec3148d67e9f4e494b82229c4ab94b9c102fb4",
+    "provider_timeout_seconds": 3600,
+    "title": "WNN Sampled Recipe Cohort 20261009 R1",
+    "title_slug_matches_id": true,
+    "worker_wall_seconds": 3300
+  },
+  "limits": {
+    "maximum_cgroup_current_bytes": 24000000000,
+    "maximum_output_bytes": 12000000000,
+    "minimum_disk_free_bytes": 4000000000,
+    "minimum_mem_available_bytes": 2000000000,
+    "provider_calls": "one admitted private overlay dataset create and one admitted kernel push; status/collection are read-only"
+  },
+  "packet_id": "vladkochetov07/wnn-sampled-recipe-cohort-20261009-r1",
+  "producer": {
+    "cache_kernel": "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1",
+    "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+    "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+    "cache_payload_bytes": 7732440000,
+    "cache_source_stage_receipt_sha256": "557cd0a61f1129f811dc104398c3c9c7295c3343a1c9a302018fcb588c0c1de7",
+    "cache_validation_sha256": "84686dff926036b37362a3ea28edcf2166d0bb44bee11b2fcbd64082e4b5cf35",
+    "evaluation_count": 468,
+    "fit_train_count": 350,
+    "fit_valid_count_unused": 28,
+    "membership_sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+    "registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "runtime_mapping": "each fit process reopens the pinned cache as read-only memmaps; it is not one persistent parsed-array process",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "root_admission": {
+    "authority": "root: existing user authorization; no Vast; six finite screened recipes only",
+    "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+    "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+    "candidate_pool_sha256": "e5d37d2e5b427fee3648bb6cae1aebcd189bf9b4db642a1c07b47c64743935ee",
+    "cohort_spec_sha256": "3c18a981109fb8711227db73ff80e42b530954023dff77bfac73745f6e2c526c",
+    "conditional_fit_allowed": true,
+    "control_contract_sha256": "5b63ed39aa6046e9f02878e7dcb4b48982240bffa45ec09b7466dfb9eeac63f7",
+    "created_utc": "2026-10-09T04:32:55.889243+00:00",
+    "gpu_count": 2,
+    "gpu_model": "NvidiaTeslaT4",
+    "kernel_id": "vladkochetov07/wnn-sampled-recipe-cohort-20261009-r1",
+    "maximum_output_bytes": 12000000000,
+    "provider_seconds": 3600,
+    "push_allowed": true,
+    "review_basis": "Independent Luna exact packet PASS and root8testsPASS; root dispatch receipt and fresh source readiness required before provider push",
+    "runner_overlay_dataset": "vladkochetov07/wnn-sampled-recipe-runner-code-20261009-r1",
+    "runner_overlay_manifest_sha256": "4e95563d6879364fd8928e82bf4bdeabf801ccd2e0d0fa9380cb9455a76e7a14",
+    "runner_worker_sha256": "5fe8db6494269b94d7a59373e72f0bf19869792c3c6a95153e16d4e45c604e31",
+    "runtime_seconds": 3300,
+    "schema": "wnn.sampled-cohort.root-admission.v1",
+    "source_code_manifest_sha256": "dbd98f4b73f5cdc7dd8df137ae9d0bd23495fd8ee2067da02cc94d45699bd6e9",
+    "source_commit": "845405d16dc6b3768080aa99c3663a440d343ba5",
+    "source_commit_runner": "487b6ae4fb0c7fc40232b9aa97ef74c575675ebe",
+    "source_dataset": "vladkochetov07/wnn-d02-muon-loss-code-20261009-r5"
+  },
+  "root_admission_required_before_provider_mutation": true,
+  "schema": "wnn.diversity.sampled-cohort-packet.v1",
+  "source": {
+    "archive_sha256": "7c85e1175f3dfff01fc8ab5b2fee81f449cfb873c8f1303fece8b330ad67dcdc",
+    "asset_manifest_sha256": "9ab15bc1efae1b56e045413d3999c350ffdf75edbc541b49f053b41c3bb264c6",
+    "code_manifest_sha256": "dbd98f4b73f5cdc7dd8df137ae9d0bd23495fd8ee2067da02cc94d45699bd6e9",
+    "cohort_spec_sha256": "3c18a981109fb8711227db73ff80e42b530954023dff77bfac73745f6e2c526c",
+    "dataset": "vladkochetov07/wnn-d02-muon-loss-code-20261009-r5",
+    "runner_overlay_dataset": "vladkochetov07/wnn-sampled-recipe-runner-code-20261009-r1",
+    "runner_overlay_files": [
+      {
+        "filename": "3c18a981109fb8711227db73ff80e42b530954023dff77bfac73745f6e2c526c.wnn",
+        "path": "scripts/cohort_spec_r1.json",
+        "sha256": "3c18a981109fb8711227db73ff80e42b530954023dff77bfac73745f6e2c526c",
+        "size": 7290
+      },
+      {
+        "filename": "5fe8db6494269b94d7a59373e72f0bf19869792c3c6a95153e16d4e45c604e31.wnn",
+        "path": "scripts/sampled_recipe_worker.py",
+        "sha256": "5fe8db6494269b94d7a59373e72f0bf19869792c3c6a95153e16d4e45c604e31",
+        "size": 58970
+      }
+    ],
+    "runner_overlay_manifest_sha256": "4e95563d6879364fd8928e82bf4bdeabf801ccd2e0d0fa9380cb9455a76e7a14",
+    "runner_overlay_title": "WNN Sampled Recipe Runner Code 20261009 R1",
+    "runner_worker_sha256": "5fe8db6494269b94d7a59373e72f0bf19869792c3c6a95153e16d4e45c604e31",
+    "source_asset_files": {
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json": {
+        "filename": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn",
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "size": 1388846
+      },
+      "research/campaign_2026-10-04/portable_inputs.json": {
+        "filename": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c.wnn",
+        "path": "research/campaign_2026-10-04/portable_inputs.json",
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+        "size": 2104
+      },
+      "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/loss_pair_r1_membership_fold0_f03_s20261009.json": {
+        "filename": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd.wnn",
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/loss_pair_r1_membership_fold0_f03_s20261009.json",
+        "sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+        "size": 253578
+      },
+      "source-code-manifest.json": {
+        "filename": "dbd98f4b73f5cdc7dd8df137ae9d0bd23495fd8ee2067da02cc94d45699bd6e9.wnn",
+        "path": "source-code-manifest.json",
+        "sha256": "dbd98f4b73f5cdc7dd8df137ae9d0bd23495fd8ee2067da02cc94d45699bd6e9",
+        "size": 10694
+      },
+      "wnn_loss_pair_src.tar.gz": {
+        "filename": "7c85e1175f3dfff01fc8ab5b2fee81f449cfb873c8f1303fece8b330ad67dcdc.wnn",
+        "path": "wnn_loss_pair_src.tar.gz",
+        "sha256": "7c85e1175f3dfff01fc8ab5b2fee81f449cfb873c8f1303fece8b330ad67dcdc",
+        "size": 393950
+      }
+    },
+    "source_commit": "845405d16dc6b3768080aa99c3663a440d343ba5"
+  }
+}
