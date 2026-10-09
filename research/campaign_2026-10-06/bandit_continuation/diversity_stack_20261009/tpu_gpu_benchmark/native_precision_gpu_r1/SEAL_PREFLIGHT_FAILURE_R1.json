@@ -1,0 +1,21 @@
+{
+  "schema": "wnn.native-gpu-fp16-seal-preflight-failure.r1",
+  "observed_at_utc": "2026-10-09T03:00:08Z",
+  "candidate": "vladkochetov07/wnn-native-gpu-fp16-20261009-r1",
+  "attempted_source_commit": "1b710814",
+  "stage": "reviewed R4 code-manifest payload pin validation",
+  "failure": {
+    "type": "ValueError",
+    "message": "R4 code manifest differs from its reviewed pin",
+    "expected_sha256": "0a6fa1567dde9ac5e4deff56be13fc0ae0be8791702e999898dfdb3557a5a6374",
+    "observed_sha256": "0a6fa1567dde9ac5fc41d27eed8d9edb6f90a93afb891db5a4080770b65e4351",
+    "actual_r4_asset_manifest_sha256": "8ef360536ca117232198a4ee6dd8fabf072fb7bfad9812a83972d8bfb750f584"
+  },
+  "effects": {
+    "native_payloads_written": false,
+    "source_asset_and_kernel_directories_created_empty": true,
+    "provider_mutation": false,
+    "upload_or_launch": false
+  },
+  "correction": "Bind the sealer to the exact source-code-manifest payload hash recorded by the unchanged reviewed R4 asset manifest, then rerun offline sealing."
+}
