@@ -16,7 +16,7 @@ The producer consumer checks also run against the actual R5 checkpoints, update
 traces, NPY prediction headers, finite prediction chunks, and ordered
 membership sidecars.
 
-The only planned precision change is CUDA FP16 autocast in the existing
+The only planned training change is CUDA FP16 autocast in the existing
 `train_rnn.py` trainer. Parameters remain FP32 master weights and AdamW's
 floating accumulators remain FP32. CUDA TF32 stays disabled. The one predeclared
 GradScaler initial scale is 1024; ordinary dynamic growth/backoff remains
@@ -26,6 +26,17 @@ before the worker may consider either loss fit. Every full arm records 220
 attempted updates, completed updates, skips, and scale range; skipped updates
 never count as throughput, and any skip invalidates the fit artifact for this
 matched comparison.
+
+The frozen R4 trainer has an internal loss-pair prefit-export guard that only
+permits FP32. The worker preserves that source file and creates a hash-bound
+copy with exactly that guard predicate widened to accept FP16. All other guard
+terms and trainer bytes remain identical. A runtime receipt records both file
+hashes and the single replacement. This keeps profile and fit prefit artifacts
+available without editing the shared trainer. The inherited R4 prediction
+builder passes an unsupported `--device cuda` option; the worker removes that
+option and explicitly requests the R5-matched FP32 inference precision. An
+actual predictor CLI check confirms the inherited argv fails and the normalized
+argv parses before the expected absent-checkpoint boundary.
 
 The fixed recipe remains the R5 recipe: seed 20261009; 350 whole fit sequences;
 28 retained fit-validation sequences unused for fitting; fixed exposed
@@ -57,6 +68,10 @@ reserve; at least 4 GB working-disk free; and at least 2 GB free on each of the
 two actual GPUs. Missing measurements defer the fit while preserving a passed
 profile receipt. Existing worker cgroup, output, disk, and wall guards remain
 active. This is a cloud-device policy, not a local 20 GB assumption.
+
+There is one shared two-loss profile gate, called before construction of the
+WMSE/Huber fit pair. Its gate log and the standalone FP16 lifecycle log have
+separate paths, so the two fits cannot collide on per-loss profile filenames.
 
 The two same-shaped loss arms run concurrently on the two admitted T4 devices,
 as in D01. Each fit's time and aggregate pair wall time are separate. Cold

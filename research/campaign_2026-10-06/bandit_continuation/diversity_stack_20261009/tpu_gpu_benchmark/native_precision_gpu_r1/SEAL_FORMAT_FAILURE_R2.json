@@ -1,0 +1,21 @@
+{
+  "schema": "wnn.native-gpu-fp16-seal-format-failure.r1",
+  "observed_at_utc": "2026-10-09T03:05:06Z",
+  "candidate": "vladkochetov07/wnn-native-gpu-fp16-20261009-r1",
+  "source_commit": "07642d8f87f402bad3a7501d5ddd5be8ff4e82e2",
+  "packet_sha256": "e7dc2cc001465ce6ab8c5693d9012992fc5132f91dc9fe8167ba547aadcab423",
+  "kernel_sha256": "d93cda0f4bb431142ee8862a101770970d2b69e93a96a94b076d1795feceaa57",
+  "stage": "offline ruff format check of the generated bootstrap",
+  "failure": {
+    "type": "Ruff format difference",
+    "path": "kernel/wnn-native-gpu-fp16-20261009-r1.py",
+    "message": "injected asset constants and four long injected conditions were not formatter-clean"
+  },
+  "effects": {
+    "candidate_packet_uploaded": false,
+    "kernel_pushed": false,
+    "provider_mutation": false,
+    "device_fit": false
+  },
+  "correction": "Format only the generator-owned injected source and preserve this generated draft before producing a corrected local packet."
+}
