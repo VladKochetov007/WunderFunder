@@ -1,0 +1,45 @@
+{
+  "actual_d02_gpu_fit_or_profile": false,
+  "checks": [
+    {
+      "actual_r4_checkpoints": {
+        "huber_d1": {
+          "path_under_terminal_collection": "outputs/out/arms/huber_d1/model/model.pt",
+          "sha256": "b61b5026386273b11db871f06f09eda7654af5814c066e850274e32d9cdfca77"
+        },
+        "wmse": {
+          "path_under_terminal_collection": "outputs/out/arms/wmse/model/model.pt",
+          "sha256": "71fcba3d9eaff3710f8fd42f3778ef74cd425f11977668a5575c21563a82c309"
+        }
+      },
+      "command": "pytest -q research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r2/tests/test_d02_optimizer.py research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r2/tests/test_d02_control_bindings.py research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r2/tests/test_parsed_cache_receipt_bridge.py research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r2/tests/test_d02_r2_export_cli.py research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r2/tests/test_d02_r2_packet.py",
+      "mode": "parser-only; actual checkpoint hash and provenance run name checked; no model load or inference",
+      "name": "focused_optimizer_control_bridge_actual_r4_parser_and_packet_binding",
+      "result": "11 passed in 6.93s"
+    },
+    {
+      "bootstrap_sha256": "17a13ec9cba165a00b8c19cd689182a06ac74fd6a8c8261ed5e7bc02732a700c",
+      "command": "python research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r2/check_sealed_candidate_r2.py",
+      "name": "sealed_payload_offline_bootstrap",
+      "result": "pass; exact source archive verified, worker import and trainer/predictor --help passed; no GPU work"
+    },
+    {
+      "command": "ruff check research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r2/seal_d02_candidate_r2.py research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r2/check_sealed_candidate_r2.py research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r2/tests/test_d02_r2_export_cli.py research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r2/tests/test_d02_r2_packet.py research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/d02_muon_loss_successor_r2/code/scripts/loss_pair_gpu_worker.py",
+      "name": "ruff",
+      "result": "all checks passed"
+    }
+  ],
+  "observed_utc": "2026-10-09T01:20:50Z",
+  "packet_sha256": "30bc83d008ca477a07dc887c2768f8a08993a8d1dd32f93d1173e217d600653a",
+  "r4_prediction_exports": "pending operator-owned R5 recovery",
+  "r4_training_contract_sha256": null,
+  "root_admission": {
+    "conditional_fit_allowed": false,
+    "gpu_control_contract_sha256": null,
+    "push_allowed": false
+  },
+  "schema": "wnn.d02.r2-preflight-checks.v1",
+  "scientific_score": null,
+  "source_code_manifest_sha256": "a135c05d41193ae6fae90dbdcaf9bf8ff0f33b269dff25e4239809b0f0ce4f25",
+  "source_commit": "df81ef0de614de954249f1d37c9a55402a2e2c83"
+}
