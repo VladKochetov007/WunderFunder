@@ -45,6 +45,13 @@ the whole result tree. Enqueue latency is never device execution time. Discard
 warmup updates and restore exact initialization before fitting. Report device
 model/count and software versions. Measure single-T4 arm throughput, observed
 two-T4 concurrent pair aggregate, and eight-chip TPU pair wall time separately.
+The two T4s run disjoint loss fits concurrently; the eight-device TPU allocation
+runs one fit over eight cores and the pair sequentially. The selected supported
+provider metadata is TpuV5E8; its actual device kind and count remain unverified
+until the runtime receipt. Single-fit latency and whole-allocation pair
+throughput are separate measures, never a chip-to-chip speed ratio. Record
+provider-reported accelerator quota consumption separately from worker wall and
+device time, including whether quota accounting charges the session or devices.
 
 Fixed-work throughput uses identical attempted sequence/chunk work and useful
 completed updates, with padding reported separately. Time-to-comparable-score
@@ -70,6 +77,11 @@ The current GPU reference already uses native cuDNN; the TPU core uses compiled
 lax.scan and eight-device pmap. Necessary successor changes are the GPU-v3
 binding, explicit native-precision branch gated by FP32 evidence, repeated
 synchronized warm full-shape timing, measurement provenance and comparison
-outputs. Investigate TPU dispatch/buffer reuse from actual timing before adding
-an unmeasured optimization. No new runner framework, data reparse, local GPU fit
+outputs. Our generic GRU also computes the input-to-gate matrix multiply inside
+each recurrent step. The isolated `rnn_native.py` batches that independent
+projection over the chunk before scanning only hidden-to-hidden gates. This
+preserves the reset-after equations and causal row dependencies while adding
+a chunk-sized gate buffer. Tiny forward/gradient/AdamW comparisons and actual
+FP32/full-shape memory checks must pass; performance is unmeasured. Investigate
+further dispatch/buffer reuse from actual timing. No new runner framework, data reparse, local GPU fit
 or provider action is authorized by this contract.
