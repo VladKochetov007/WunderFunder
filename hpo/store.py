@@ -89,7 +89,7 @@ class Store:
                 elif kind == "stage_retry":
                     trial["stages"][fold] = {"status": "pending", "attempts": row.get("attempt", 1), "lane": row.get("lane")}
                 elif kind == "stage_pending":
-                    trial["stages"][fold] = {"status": "pending", "attempts": 0}
+                    trial["stages"][fold] = {"status": "pending", "attempts": 0, "role": row.get("role", "search")}
                 elif kind == "tell":
                     trial.update(state=row["state"], value=row.get("value"), told=row["t"], reason=row.get("reason", ""))
         return trials

@@ -1,0 +1,16 @@
+{
+  "study": "teacher_v2",
+  "purpose": "scratch-teacher search, space v2 (epochs 2-5, no corr/huber/tcn, widths <= 384); fold-difficulty adjusted objective over the dev folds 1 and 0; folds 2 and 3 reserved for finalist confirmation only",
+  "mode": "core",
+  "sampler": "tpe",
+  "seed": 20261011,
+  "folds": [1, 0],
+  "confirm_folds": [2, 3],
+  "max_trials": 60,
+  "max_active_trials": 6,
+  "stage_timeout_h": 5.5,
+  "lanes": [
+    {"id": "a", "target": 2, "max_pending": 40, "spend_cap": 11.0, "folds": [0, 1, 2, 3]},
+    {"id": "b", "target": 2, "max_pending": 40, "spend_cap": 33.0, "folds": [0, 1, 2, 3]}
+  ]
+}

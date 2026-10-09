@@ -1,4 +1,5 @@
-"""Search space for teacher hyper-parameter optimization and its mapping to trainer arguments.
+"""Search space (v2, narrowed by the 46-model evidence report: epochs above 4, the corr/huber losses, TCN and widths above 384
+are excluded; the continuous knobs are kept narrow because single-fold noise hides small effects) for teacher hyper-parameter optimization and its mapping to trainer arguments.
 
 Two modes share the parameter names: ``core`` suggests the dozen parameters with the strongest prior (learning-rate
 family, schedule, budget, width/depth, initialization, loss and target weighting, weight averaging); ``full`` also
@@ -8,7 +9,7 @@ searched.  The space is versioned (``SPACE_VERSION``): trials of different versi
 
 from __future__ import annotations
 
-SPACE_VERSION = "v1"
+SPACE_VERSION = "v2"
 COST_CAP_HOURS = 2.6  # trials estimated above this are infeasible for the sampler (TPE constraint), not skipped silently
 
 DEFAULTS = {
@@ -28,8 +29,8 @@ def suggest(trial, mode: str = "core") -> dict:
     full = mode == "full"
     p = dict(DEFAULTS)
     p["optim"] = trial.suggest_categorical("optim", ["muon_rnn", "muon_hidden"])
-    p["lr"] = trial.suggest_float("lr", 4e-4, 3e-3, log=True)
-    p["muon_mult"] = trial.suggest_float("muon_mult", 0.5, 8.0, log=True)
+    p["lr"] = trial.suggest_float("lr", 6e-4, 2e-3, log=True)
+    p["muon_mult"] = trial.suggest_float("muon_mult", 0.5, 2.0, log=True)
     p["wd"] = trial.suggest_float("wd", 3e-3, 6e-2, log=True)
     p["sched"] = trial.suggest_categorical("sched", ["onecycle", "wsd_sqrt", "wsd_linear", "sgdr"])
     if p["sched"].startswith("wsd"):
@@ -37,13 +38,13 @@ def suggest(trial, mode: str = "core") -> dict:
         p["wsd_final"] = trial.suggest_float("wsd_final", 0.0, 0.05)
     if p["sched"] == "sgdr":
         p["restarts"] = trial.suggest_int("restarts", 1, 4)
-    p["epochs"] = trial.suggest_categorical("epochs", [3, 4, 5, 6])
-    p["hidden"] = trial.suggest_categorical("hidden", [256, 320, 384, 448])
-    p["layers"] = trial.suggest_categorical("layers", [2, 3, 4])
+    p["epochs"] = trial.suggest_categorical("epochs", [2, 3, 4, 5])
+    p["hidden"] = trial.suggest_categorical("hidden", [256, 320, 384])
+    p["layers"] = trial.suggest_categorical("layers", [2, 3])
     p["rnn_init"] = trial.suggest_categorical("rnn_init", ["default", "chrono", "orth", "chrono_orth"])
     if "chrono" in p["rnn_init"]:
         p["chrono_tmax"] = trial.suggest_float("chrono_tmax", 500.0, 10000.0, log=True)
-    p["loss"] = trial.suggest_categorical("loss", ["wmse", "wmse_gcorr", "mix", "corr"])
+    p["loss"] = trial.suggest_categorical("loss", ["wmse", "wmse_gcorr", "mix"])
     if p["loss"] == "wmse_gcorr":
         p["gcorr_weight"] = trial.suggest_float("gcorr_weight", 0.05, 1.0)
     if p["loss"] == "wmse":
@@ -138,9 +139,9 @@ def to_change(p: dict, fold: int) -> dict:
 
 # First trials of every study: known-good anchors so the sampler starts from evidence, not only random draws.
 BASELINES = [
-    {},  # the recipe default (scratch combo, Muon x1)
-    {"muon_mult": 3.0},
-    {"muon_mult": 3.0, "avg": "ema"},
-    {"hidden": 384, "muon_mult": 3.0},
-    {"rnn_init": "chrono"},
+    {"epochs": 3},  # evidence: 6 and 8 epochs are far worse (-0.017, -0.036), shorter training is untested
+    {"epochs": 2},
+    {"epochs": 3, "hidden": 384},
+    {"hidden": 384, "dropout": 0.2},
+    {"epochs": 3, "sched": "wsd_sqrt"},
 ]

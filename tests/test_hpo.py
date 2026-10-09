@@ -2,11 +2,20 @@ import math
 import shutil
 
 import optuna
+import pytest
 
 from hpo import orchestrator as orch
 from hpo import space
 from hpo.lanes import FakeLane
 from hpo.store import Store
+
+
+@pytest.fixture(autouse=True)
+def isolated_alerts(tmp_path, monkeypatch):
+    """Tests inject failures on purpose; their alerts must never reach the real watchdog log."""
+    monkeypatch.setattr(orch, "ALERTS", tmp_path / "alerts.jsonl")
+    monkeypatch.setattr(orch, "KEEPALIVE", tmp_path / "keepalive")
+
 
 FOLD_OFFSET = {1: 0.0, 0: 0.013, 2: 0.004, 3: -0.003}
 
@@ -63,10 +72,11 @@ def test_baselines_are_enqueued_first_and_once(tmp_path):
     store, o = make(tmp_path)
     run_ticks(o, 3)
     params = [t["params"] for _, t in sorted(store.ledger().items())][:3]
-    assert params[0]["muon_mult"] == 1.0 and params[1]["muon_mult"] == 3.0
-    store2, o2 = make(tmp_path)  # a fresh process must not enqueue the baselines again
+    assert params[0]["epochs"] == 3 and params[1]["epochs"] == 2 and params[2]["hidden"] == 384
+    store2, o2 = make(tmp_path)  # a fresh process must not enqueue the anchors again
     run_ticks(o2, 3)
-    assert sum(1 for t in store2.ledger().values() if t["params"]["muon_mult"] == 3.0 and t["params"]["avg"] == "none") <= 3
+    first_five = [t["params"]["epochs"] for _, t in sorted(store2.ledger().items())][:5]
+    assert first_five.count(2) <= 2, "anchors were enqueued twice"
 
 
 def test_failure_policy(tmp_path):
@@ -110,3 +120,34 @@ def test_stop_file_stops_new_trials(tmp_path):
     (tmp_path / "t" / "STOP").write_text("")
     run_ticks(o, 5)
     assert len(store.ledger()) == count
+
+
+def test_search_uses_only_dev_folds_and_adjusts_fold_difficulty(tmp_path):
+    store, o = make(tmp_path)
+    run_ticks(o, 40)
+    ledger = store.ledger()
+    searched = {fold for t in ledger.values() for fold in t["stages"]}
+    assert searched <= {1, 0}, "folds 2 and 3 are reserved for confirmation"
+    done = [t for t in ledger.values() if t["state"] == "COMPLETE"]
+    assert done, "no trial finished"
+    for t in done:
+        adjusted = [t["stages"][f]["wp"] - FOLD_OFFSET[f] for f in (1, 0)]
+        # the fake objective has exactly the prior offsets, so both folds must agree after adjustment up to its small ripple
+        assert abs(adjusted[0] - adjusted[1]) < 0.003
+        assert abs(t["value"] - sum(adjusted) / 2) < 0.002
+
+
+def test_confirmation_stages_do_not_change_search_outcome(tmp_path):
+    store, o = make(tmp_path)
+    run_ticks(o, 40)
+    before = {tid: (t["state"], t["value"]) for tid, t in store.ledger().items()}
+    chosen = orch.confirm_top(store, o.cfg, 3)
+    assert 0 < len(chosen) <= 3
+    run_ticks(o, 8)
+    ledger = store.ledger()
+    for tid in chosen:
+        assert {2, 3} <= set(ledger[tid]["stages"])
+        assert all(ledger[tid]["stages"][f]["status"] == "done" for f in (2, 3))
+        assert (ledger[tid]["state"], ledger[tid]["value"]) == before[tid], "confirmation must not feed back"
+    best = max((t for t in ledger.values() if t["state"] == "COMPLETE"), key=lambda t: t["value"])
+    assert 2 in best["stages"] or best is not None

@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from hpo import space  # noqa: E402
-from hpo.store import FOLD_ORDER, Store  # noqa: E402
+from hpo.store import Store  # noqa: E402
 
 STUDIES = ROOT / "hpo/studies"
 ALERTS = ROOT / "research/campaign_2026-10-06/bandit_continuation/watchdog/ALERTS.jsonl"
@@ -66,7 +66,8 @@ def alert(key: str, severity: str, message: str) -> None:
 class Orchestrator:
     def __init__(self, store: Store, lanes: dict, config: dict) -> None:
         self.store, self.lanes, self.cfg = store, lanes, config
-        self.folds = tuple(config.get("folds", FOLD_ORDER))
+        self.folds = tuple(config.get("folds", (1, 0)))  # search folds: feedback to the sampler
+        self.confirm_folds = tuple(config.get("confirm_folds", (2, 3)))  # reserved: finalists only, no sampler feedback
         self.study = store.study
 
     # job naming: unique per (trial, fold, attempt) so a retry never collides with a half-finished run on the host
@@ -76,13 +77,28 @@ class Orchestrator:
     def _job_builder(self):
         return self.cfg.get("job_builder", _default_job_builder)
 
+    # ---- fold-level difficulty -----------------------------------------------------------------------------------
+    PRIOR_OFFSET = {1: 0.0, 0: 0.0131, 2: 0.004, 3: -0.003}  # fold0 is 0.0131 easier (28-recipe measurement)
+
+    def offsets(self, ledger: dict) -> dict[int, float]:
+        """Fold difficulty relative to fold 1, from trials that have both folds (median), else the measured prior."""
+        out = dict(self.PRIOR_OFFSET)
+        for fold in (0, 2, 3):
+            diffs = [t["stages"][fold]["wp"] - t["stages"][1]["wp"] for t in ledger.values()
+                     if t["stages"].get(fold, {}).get("status") == "done" and t["stages"].get(1, {}).get("status") == "done"
+                     and t["stages"][fold]["wp"] > 0.5 and t["stages"][1]["wp"] > 0.5]
+            if len(diffs) >= 4:
+                diffs.sort()
+                out[fold] = 0.5 * out[fold] + 0.5 * diffs[len(diffs) // 2]
+        return out
+
     # ---- ingest ------------------------------------------------------------------------------------------------
     def ingest(self, ledger: dict) -> None:
         by_lane: dict[str, list[tuple[int, int, dict]]] = {}
         for tid, trial in ledger.items():
-            if trial["state"] != "running":
-                continue
             for fold, stage in trial["stages"].items():
+                if trial["state"] != "running" and fold not in self.confirm_folds:
+                    continue
                 if stage["status"] == "submitted":
                     by_lane.setdefault(stage["lane"], []).append((tid, fold, stage))
         for lane_name, items in by_lane.items():
@@ -107,7 +123,8 @@ class Orchestrator:
             detail = {k: score.get(k) for k in ("t0", "t1", "class_wp", "train_seconds", "amp_skipped")}
             self.store.log("stage_result", trial=tid, fold=fold, wp=wp, detail=detail)
             ledger[tid]["stages"][fold].update(status="done", wp=wp, detail=detail)
-            self._progress(ledger, tid)
+            if fold not in self.confirm_folds:
+                self._progress(ledger, tid)
             return
         note = result.get("note", "")
         self._failure(ledger, tid, fold, stage, classify_failure(note, result.get("rc")), note)
@@ -120,6 +137,9 @@ class Orchestrator:
             return
         self.store.log("stage_failed", trial=tid, fold=fold, failure=kind, note=note[:300])
         ledger[tid]["stages"][fold].update(status="failed", failure=kind)
+        if fold in self.confirm_folds:  # a confirmation stage never changes the trial's search outcome
+            alert(f"confirm_lost_t{tid}_f{fold}", "WARN", f"confirmation fold {fold} of trial {tid} lost ({kind})")
+            return
         if kind == "numeric":
             penalty = self._penalty()
             self._tell(ledger, tid, "COMPLETE", penalty, f"numeric failure on fold {fold}: penalty")
@@ -139,7 +159,8 @@ class Orchestrator:
         done_folds = [f for f in self.folds if trial["stages"].get(f, {}).get("status") == "done"]
         if not done_folds:
             return
-        values = [trial["stages"][f]["wp"] for f in done_folds]
+        offsets = self.offsets(ledger)
+        values = [trial["stages"][f]["wp"] - offsets.get(f, 0.0) for f in done_folds]  # fold-difficulty adjusted
         cumulative = sum(values) / len(values)
         step = len(done_folds) - 1
         otrial = self._otrial(tid)
@@ -191,8 +212,9 @@ class Orchestrator:
                 for stage in trial["stages"].values():
                     if stage["status"] == "submitted":
                         inflight[stage["lane"]] = inflight.get(stage["lane"], 0) + 1
-        pending = [(tid, fold, stage) for tid, trial in sorted(ledger.items()) if trial["state"] == "running"
-                   for fold, stage in trial["stages"].items() if stage["status"] == "pending"]
+        pending = [(tid, fold, stage) for tid, trial in sorted(ledger.items())
+                   for fold, stage in trial["stages"].items()
+                   if stage["status"] == "pending" and (trial["state"] == "running" or fold in self.confirm_folds)]
         free = {name: lane.free_slots(inflight.get(name, 0)) for name, lane in self.lanes.items()}
         self._fill(ledger, pending, free)
         leftover = sum(1 for tid, fold, _ in pending if ledger[tid]["stages"][fold]["status"] == "pending")
@@ -253,6 +275,23 @@ class Orchestrator:
         return summarize(ledger)
 
 
+def confirm_top(store: Store, cfg: dict, k: int) -> list[int]:
+    """Schedule the reserved confirmation folds for the k best completed trials (no sampler feedback, one shot each)."""
+    folds = tuple(cfg.get("confirm_folds", (2, 3)))
+    ledger = store.ledger()
+    done = sorted((t for t in ledger.items() if t[1]["state"] == "COMPLETE" and t[1]["value"] is not None),
+                  key=lambda item: -item[1]["value"])[:k]
+    chosen = []
+    for tid, trial in done:
+        fresh = [f for f in folds if f not in trial["stages"]]
+        for fold in fresh:
+            store.log("stage_pending", trial=tid, fold=fold, role="confirm")
+        if fresh:
+            chosen.append(tid)
+    store.log("confirm_selected", trials=chosen, k=k)
+    return chosen
+
+
 def tid_to_number(study, tid: int) -> int:
     return tid  # events use Optuna's trial.number; kept explicit so a future remap has one place to change
 
@@ -292,14 +331,19 @@ def make_lanes(cfg: dict) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="cmd", required=True)
-    for name in ("tick", "status", "replay"):
+    for name in ("tick", "status", "replay", "confirm"):
         node = sub.add_parser(name)
         node.add_argument("--study", required=True)
+        if name == "confirm":
+            node.add_argument("--k", type=int, default=5)
     args = parser.parse_args()
     cfg = load_config(args.study)
     store = Store(STUDIES, args.study, cfg.get("sampler", "tpe"), cfg.get("seed", 20261010))
     if args.cmd == "replay":
         print(json.dumps({"replayed": store.replay()}))
+        return 0
+    if args.cmd == "confirm":
+        print(json.dumps({"scheduled": confirm_top(store, cfg, args.k)}))
         return 0
     if args.cmd == "status":
         print(json.dumps(summarize(store.ledger()), indent=1))

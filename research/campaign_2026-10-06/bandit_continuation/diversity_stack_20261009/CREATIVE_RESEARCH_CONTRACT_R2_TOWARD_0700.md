@@ -84,3 +84,7 @@ Ranking = expected unseen-score gain x probability / cost. Mechanism family in b
 - 2026-10-10 public: Z5 (seed 9, Muon parent) **0.6664** (own best, +0.0002), Z2c (b16 parent) 0.6649; 5/5 daily quota used. Z-series pattern: Muon parents 0.6662/0.6664/0.6662, b16 parents 0.6649/0.6649.
   Parent lineage is worth about 0.0013 public while seed spread inside a lineage is at most 0.0002 (H-320). Consequence: parent-side levers (R2-1 Muon multiplier, R2-2 EMA, bootstrap) rank above student-side ones.
   Plan for the next five uploads: all-data Muon parents with the lever winners (Vast), same student plus head finishing, package with the existing gates.
+
+- 2026-10-10 evidence report on 47 scratch models (fold 1): total sd of a one-run one-fold comparison 0.0022; only harmful changes are resolved (6 epochs -0.017, 8 epochs -0.036, corr loss diverged, Huber -0.009, TCN -0.007, Muon x6 -0.0055);
+  no positive lever is distinguishable from noise (best raw +0.0028 shrinks to about +0.0006). Muon multiplier (R2-1) not reproduced. Longer training overfits: epochs 2-3 become the lead (H-321).
+  Validation redesigned (hpo/VALIDATION_PROTOCOL.md): dev folds {1,0}, reserved confirmation folds {2,3}, fold-difficulty adjustment, shrinkage, power table. HPO study teacher_v2 replaces v1 (v1 drained).
