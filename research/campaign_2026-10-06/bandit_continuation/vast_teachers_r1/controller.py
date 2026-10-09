@@ -18,6 +18,7 @@ import argparse
 import datetime as dt
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -207,8 +208,9 @@ def cmd_pull(_: argparse.Namespace) -> None:
 
 def _pull_locked() -> None:
     bank_dir = ROOT / "research/campaign_2026-10-06/bandit_continuation/prediction_bank"
-    banks = {1: bank_dir / "BANK_FOLD1.jsonl", 0: bank_dir / "BANK_FOLD0_VAST.jsonl"}
-    banks[0].touch()
+    banks = {1: bank_dir / "BANK_FOLD1.jsonl", **{k: bank_dir / f"BANK_FOLD{k}_VAST.jsonl" for k in (0, 2, 3)}}
+    for path in banks.values():
+        path.touch()
     have = {json.loads(line)["name"] for path in banks.values() for line in path.read_text().splitlines() if line.strip()}
     listing = ssh("cd /root/wnn && ls cache/pred_vt_*_valid.json 2>/dev/null").stdout.split()
     pulled = []
@@ -226,7 +228,8 @@ def _pull_locked() -> None:
         if not (ROOT / "artifacts/runs" / run / "model_ep3.pt").exists():
             scp([f"/root/wnn/artifacts/runs/{run}"], str(ROOT / "artifacts/runs"), upload=False)
         scp([f"/root/wnn/cache/pred_{name}_valid.npy", f"/root/wnn/cache/pred_{name}_valid.json"], str(ROOT / "cache"), upload=False)
-        fold = 0 if name.startswith("vt_f0_") else 1
+        fold_match = re.match(r"vt_f(\d)_", name)
+        fold = int(fold_match.group(1)) if fold_match else 1
         row = {"name": name, "fold": fold, "prediction": f"cache/pred_{name}_valid.npy",
                "tags": {"scale": "full", "family": "teacher_scratch", "vast": "r1"}, "source": "vast_teachers_r1"}
         with banks[fold].open("a") as handle:

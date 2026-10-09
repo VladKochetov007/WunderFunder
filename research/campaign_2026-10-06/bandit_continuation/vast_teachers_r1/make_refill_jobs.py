@@ -10,6 +10,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_bundle as B  # noqa: E402
 
 WAVES = {
+    "w1": {
+        # four-fold evidence for width diversity (also feeds nested-CV stacking work) + new mechanisms on fold1
+        "vt_f2_gru384": {"--hidden": "384", "fold": 2},
+        "vt_f3_gru384": {"--hidden": "384", "fold": 3},
+        "vt_f2_gru256": {"fold": 2},
+        "vt_f3_gru256": {"fold": 3},
+        "vt_f1_cls3": {"+": ["--train-classes", "3"]},
+        "vt_f1_gated384": {"--arch": "gated", "--hidden": "384"},
+        "vt_f1_gated_trap": {"--arch": "gated", "--sched": "wsd", "+": ["--wsd-decay", "0.2", "--wsd-final", "0.0", "--wsd-shape", "linear"]},
+    },
     "w0": {
         # priority: does a capacity-diverse scratch teacher add to the best student?  (fold1 finding: +0.0029)
         "vt_f0_gru384": {"--hidden": "384", "fold": 0},
