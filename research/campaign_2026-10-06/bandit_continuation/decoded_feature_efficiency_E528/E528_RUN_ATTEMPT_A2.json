@@ -1,0 +1,50 @@
+{
+  "experiment_id": "E528",
+  "attempt_id": "E528-A2",
+  "phase": "run",
+  "status": "finished",
+  "started_at_utc": "2026-10-07T19:31:00Z",
+  "completed_at_utc": "2026-10-07T19:31:12Z",
+  "elapsed_wall_seconds": 12.68543659801071,
+  "argv": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "180s",
+    "/usr/bin/taskset",
+    "-c",
+    "0",
+    "/usr/bin/prlimit",
+    "--as=1500000000",
+    "--cpu=180",
+    "--rss=1000000000",
+    "--",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/benchmark_feature_reuse_v2.py",
+    "--run"
+  ],
+  "working_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "log_path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/E528_RUN_ATTEMPT_A2.log",
+  "exit_status": 0,
+  "rss_guard_terminated": false,
+  "wall_watchdog_terminated": false,
+  "resource_limits": {
+    "cpu_affinity": [
+      0
+    ],
+    "rlimit_cpu_seconds": 180,
+    "rlimit_rss_bytes": 1000000000,
+    "rlimit_address_space_bytes": 1500000000,
+    "wall_timeout_seconds": 180,
+    "rss_poll_interval_seconds": 0.1,
+    "observed_max_process_vm_rss_bytes": 339996672,
+    "observed_max_process_vm_hwm_bytes": 339996672,
+    "observed_max_tree_vm_rss_bytes_sum": 342147072,
+    "rss_tree_sum_note": "Conservative sum of sampled RSS across supervisor descendants; VmHWM is the kernel per-process high-water mark sampled while alive.",
+    "observed_descendant_pids": [
+      4,
+      5
+    ]
+  },
+  "device": "CPU only; CUDA_VISIBLE_DEVICES is empty"
+}

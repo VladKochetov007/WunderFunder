@@ -1,0 +1,64 @@
+{
+  "experiment_id": "E528",
+  "status": "frozen_before_timing",
+  "created_at_utc": "2026-10-07T19:12:11Z",
+  "parent_question": "Measure whether reusing exact decoded float32 features through a row-major mmap amortizes repeated SequenceFile Parquet decode and materialization on the bounded valid_subset20 cohort.",
+  "scope": {
+    "kind": "CPU storage and decode systems profile",
+    "data": "cache/valid_subset20.parquet",
+    "source_group_order_file": "cache/valid_subset20_groups.npy",
+    "cross_check_order_file": "cache/valid_subset20_idx.npy",
+    "expected_source_group_order": [0, 4, 8, 10, 11, 2, 6, 23, 27, 28, 1, 7, 9, 13, 17, 3, 5, 14, 18, 22],
+    "subset_parquet_row_group_positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+    "expected_seq_ix_order": [256678, 1990332, 8348957, 9579986, 9831922, 1200028, 4490992, 28417254, 29941155, 30273600, 751005, 6746551, 9147005, 16979262, 23433965, 1892371, 2308749, 19569293, 24654613, 28399078],
+    "sequence_length": 20000,
+    "feature_count": 112,
+    "feature_column_order_source": "src/wnn/data.py::FEATURE_COLUMNS; exact imported names and their SHA-256 are frozen in E528_FROZEN_INPUT_RECEIPT_V1.json before timing",
+    "decoded_representation": "float32, C-contiguous, row-major [sequence, time, feature]",
+    "scope_exclusions": [
+      "No model fit, GPU work, labels, scored masks, targets, metric or public-score claim",
+      "No full training cache; raw float32 feature payload for 10,535 sequences is approximately 94.3936 GB and exceeds current free disk",
+      "No extrapolation from this 20-sequence subset to full train, remote staging or end-to-end fit wall time"
+    ]
+  },
+  "methods": {
+    "parquet_decode": "For each local row-group position 0..19 in valid_subset20.parquet, call src.wnn.data.SequenceFile.read(position, targets=False, mask=False).features. The saved group array records the original source-group identity and fixes the subset-file order; local positions are not those original group IDs. This uses the training reader's seq_ix + exact FEATURE_COLUMNS selection, pyarrow read_row_group(use_threads=False), stack(axis=0), float32 conversion, transpose and np.ascontiguousarray copy.",
+    "mmap_reuse": "Build one NPY-format C-order float32 array from those exact SequenceFile outputs in the same saved row-group order, then replay read-only per-sequence views through numpy.load(mmap_mode='r').",
+    "common_consumer_touch": "Immediately after each sequence fetch, run np.sum(features, dtype=np.float64); this touches every feature value in both methods. Record fetch-only and fetch-plus-full-scan latency separately; complete epoch wall includes the common scan.",
+    "parity_gate": "Before replay timing, decode every source group again and require exact uint32-view equality for every cached float32 element, identical shape/dtype/contiguity, matching seq_ix order and matching canonical feature-payload SHA-256.",
+    "schedule": "Replay epoch counts K=1,2,4,8 with 2 repetitions each; fixed seed 20261007 randomizes K/repetition scheduling and parquet-versus-mmap block order; within every epoch preserve the frozen group order."
+  },
+  "cache": {
+    "format": "NPY v1/v2-compatible header + little-endian float32 C-order payload",
+    "shape": [20, 20000, 112],
+    "expected_payload_bytes": 179200000,
+    "disk_budget_bytes": 250000000,
+    "build_timing": "SequenceFile open, memmap allocation, decode-and-copy for all groups, flush and fsync; report separately from one-time parity validation and read-only mmap open.",
+    "break_even": "For this subset only, compare setup_seconds + K * mmap_median_epoch_seconds against K * parquet_median_epoch_seconds; setup_seconds includes cache build, cache-file SHA-256, exact parity validation and mmap/validation-reader opens. Source input identity hashing is timed and reported separately. Report the first integer K satisfying strict improvement, otherwise null. Transfer and training compute are excluded."
+  },
+  "timing_and_page_cache": {
+    "per_method_repetitions_per_K": 2,
+    "epoch_counts": [1, 2, 4, 8],
+    "latency_summaries": ["p50", "p90"],
+    "cache_policy": "Do not drop global or per-file page cache. The first timed pass is post-build/post-parity and its kernel page-cache state is unknown; record it as first observed replay, not cold. Subsequent passes are repeated replays after prior accesses, not a controlled cold/warm comparison.",
+    "randomization_seed": 20261007
+  },
+  "resource_admission": {
+    "cpu_cores": 1,
+    "rss_cap_bytes": 1000000000,
+    "address_space_cap_bytes": 1500000000,
+    "wall_timeout_seconds": 180,
+    "output_cache_disk_cap_bytes": 250000000,
+    "gpu": "none",
+    "systemd_or_dbus": "not required; use taskset + prlimit + timeout fallback if user-scope bus is unavailable",
+    "python_environment": ".venv-py311-profile/bin/python; require Python 3.11, NumPy 2.2.6, PyArrow 19.0.1",
+    "threads": 1
+  },
+  "success_criteria": [
+    "Input hashes and exact source reader/feature-order hashes are recorded before timings",
+    "All 20 groups have the frozen row order, complete 20,000-row shape and one seq_ix each",
+    "Cached payload is within 250,000,000 bytes and passes exact full-array parity",
+    "The bounded profile exits 0 within 180 seconds, with observed peak process RSS below 1,000,000,000 bytes",
+    "Actual cache build, parity, mmap open, replay p50/p90, wall time, output disk bytes and subset-only break-even/null are reported"
+  ]
+}

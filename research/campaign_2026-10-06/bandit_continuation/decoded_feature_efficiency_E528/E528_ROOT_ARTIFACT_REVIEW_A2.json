@@ -1,0 +1,91 @@
+{
+  "review_id": "E528_ROOT_ARTIFACT_REVIEW_A2",
+  "observed_utc": "2026-10-07T19:59:05.766843+00:00",
+  "reviewer": "root",
+  "status": "artifact_and_scope_checks_passed",
+  "checks": [
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/E528_RESULTS_V2.json",
+      "sha256": "cff3a864b1ddb0d67fcd8ad17e61d8d5a229ebdb33781e87bc15987e8fd12ad7",
+      "bytes": 120577
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/E528_FROZEN_INPUT_RECEIPT_V2.json",
+      "sha256": "e0a6b987a74472cf680c3d2527a0b5af5023ecc85e5af5c97a3a949562ba022d",
+      "bytes": 5305
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/E528_RUN_ATTEMPT_A2.json",
+      "sha256": "87088a0cb63dec5bf7bc6c02b4cf964323efae07a1b305d8374640d46e9a6a1f",
+      "bytes": 1728
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/benchmark_feature_reuse_v2.py",
+      "sha256": "28bca23b56c0342386bc2e20d300308b2a7fb9bfd2927775dc560f25ab39f7fe",
+      "bytes": 39441
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/run_e528_bounded_v2.py",
+      "sha256": "8b859725827bb6d02398b0a2bfc11d192c66ee347ed4ffa9d36d501f127e18e3",
+      "bytes": 7609
+    },
+    {
+      "path": "cache/valid_subset20.parquet",
+      "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+      "bytes": 90874551
+    },
+    {
+      "path": "cache/valid_subset20_groups.npy",
+      "sha256": "d914b2e0d387f97987e3c5364525b48d0dffd6de53bbdd7c07fc6c41b706e055",
+      "bytes": 288
+    },
+    {
+      "path": "cache/valid_subset20_idx.npy",
+      "sha256": "d914b2e0d387f97987e3c5364525b48d0dffd6de53bbdd7c07fc6c41b706e055",
+      "bytes": 288
+    },
+    {
+      "path": "src/wnn/data.py",
+      "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "bytes": 4000
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/valid_subset20_features_f32_v2.npy",
+      "sha256": "c3e3e8247d22656980fd4fb10da3403f1069e5c648f4a29e90eca6012173628e",
+      "bytes": 179200128
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/plots/E528_cache_break_even_A2.png",
+      "sha256": "2f1d96bda9a7d69abc1e472c0a3e797918ab45a4b1523b397c5cf9da3b8068ce",
+      "bytes": 76066
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/plots/E528_cache_break_even_A2.svg",
+      "sha256": "fce936ef4d16f24a4803b10b185614248c1b528c83940de1d0181da223391068",
+      "bytes": 60557
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/plot_e528_results_v2.py",
+      "sha256": "1ead4d5dd553c505c12fc4931bdcb0e4987a61ecd86be70e5098ba78987d6edf",
+      "bytes": 3223
+    }
+  ],
+  "scope": "Streamed SHA256 verification of actual source/data/cache/results/plots and inspection of bitwise/parity/checksum/break-even source; no new timing experiment, no full-train extrapolation.",
+  "timing_caveat_preserved": {
+    "raw_json_field": "run_wall_seconds_after_frozen_input_checks",
+    "raw_value_seconds": 0.8174850259965751,
+    "interpretation": "V2 helper reuses the name `run_start` for each timed method block, so this field is an early snapshot from the final block; do not treat it as total run wall.",
+    "total_worker_wall_seconds_from_external_monitor": 12.68543659801071,
+    "unaffected_measurements": [
+      "per-method replay timings",
+      "per-sequence p50/p90",
+      "cache build/hash/parity/open times",
+      "exact parity and hashes",
+      "break-even computation"
+    ],
+    "preservation": "E528_RESULTS_V2.json is preserved byte-for-byte; this audit binds the caveat rather than rewriting the raw terminal result."
+  },
+  "whole_worker_wall_seconds": 12.68543659801071,
+  "source_cache_parity_claim": "44,800,000 float32 values checked in actor receipt; source uses uint32 views for bitwise equality",
+  "no_scientific_score": true
+}

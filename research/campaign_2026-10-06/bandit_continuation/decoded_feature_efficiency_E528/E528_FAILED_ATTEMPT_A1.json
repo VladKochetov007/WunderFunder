@@ -1,0 +1,38 @@
+{
+  "experiment_id": "E528",
+  "attempt_id": "E528-A1",
+  "status": "failed_before_cache_build_or_timing",
+  "captured_at_utc": "2026-10-07",
+  "failure_class": "helper receipt-schema lookup error; not source drift or scientific evidence",
+  "terminal_exception": "RuntimeError: training reader source changed after freeze",
+  "diagnosis": {
+    "actual_reader_sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "frozen_reader_sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "reader_hash_actual_schema_path": "receipt.input_sha256.reader_source_sha256",
+    "v1_helper_checked": "receipt.reader_source_sha256",
+    "conclusion": "The V1 run dereferenced the wrong receipt key. Frozen src/wnn/data.py bytes match; no feature timing or cache build started."
+  },
+  "preserved_v1_sources": {
+    "helper_path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/benchmark_feature_reuse.py",
+    "helper_sha256": "e4a737acbd794223e77d2437b2324fc06ef850a3ad9fa6a777a6acf5ff79a9af",
+    "preregistration_path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/E528_PREREGISTRATION_V1.json",
+    "preregistration_sha256": "d8c28a30c52a6e40d1bba94d5edfcb7dd5978b27e1b502009f7a26180827b170",
+    "frozen_receipt_path": "research/campaign_2026-10-06/bandit_continuation/decoded_feature_efficiency_E528/E528_FROZEN_INPUT_RECEIPT_V1.json",
+    "frozen_receipt_sha256": "0b2e126cc7e4d66e9f82904bbe535031f572eeb62a23235393d6c4a69d1241e3"
+  },
+  "outputs_at_reconciliation": {
+    "progress_receipt_exists": false,
+    "results_json_exists": false,
+    "cache_npy_exists": false,
+    "cache_manifest_exists": false,
+    "feature_timing_collected": false,
+    "cache_created": false
+  },
+  "terminal_process_evidence": {
+    "shell_log_persisted": false,
+    "exit_status_persisted": false,
+    "wall_seconds_persisted": false,
+    "note": "The reported exception is preserved. No terminal shell receipt survived the environment transition, so exit status and elapsed time are left null rather than inferred."
+  },
+  "superseded_by": "E528-A2"
+}
