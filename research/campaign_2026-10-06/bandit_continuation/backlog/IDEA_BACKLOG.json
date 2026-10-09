@@ -1,0 +1,569 @@
+{
+ "schema": "wnn.idea-backlog.v1",
+ "note": "priority: higher first (expected LB value x probability per hour, hand-set and revised on results); status ready|queued|done|blocked|needs_code. Lanes: a (fold0-3 assets, teachers), b (fold1 only). Feed with controller.py feed.",
+ "items": [
+  {
+   "id": "scale512_ema_ep8",
+   "family": "scale",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 2.6,
+   "name": "vt_f1_gru512_ema_ep8",
+   "change": {
+    "--hidden": "512",
+    "--epochs": "8",
+    "--checkpoint-epoch": "7",
+    "+": [
+     "--ema-teacher",
+     "1.0",
+     "--eval-ema",
+     "--muon-lr-mult",
+     "0.5"
+    ]
+   },
+   "status": "ready",
+   "rationale": "R2-4: does a wide model work with EMA, lower Muon multiplier and 8 epochs"
+  },
+  {
+   "id": "scale768_ema_ep8",
+   "family": "scale",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 6,
+   "hours": 4.0,
+   "name": "vt_f1_gru768_ema_ep8",
+   "change": {
+    "--hidden": "768",
+    "--epochs": "8",
+    "--checkpoint-epoch": "7",
+    "+": [
+     "--ema-teacher",
+     "1.0",
+     "--eval-ema",
+     "--muon-lr-mult",
+     "0.35"
+    ]
+   },
+   "status": "ready",
+   "rationale": "R2-4: scale ladder top rung"
+  },
+  {
+   "id": "gru384_ema",
+   "family": "scale",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 1.2,
+   "name": "vt_f1_gru384_ema",
+   "change": {
+    "--hidden": "384",
+    "+": [
+     "--ema-teacher",
+     "1.0",
+     "--eval-ema"
+    ]
+   },
+   "status": "ready",
+   "rationale": "width 384 with EMA evaluated weights"
+  },
+  {
+   "id": "gru384_mu6",
+   "family": "optim",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 6,
+   "hours": 1.2,
+   "name": "vt_f1_gru384_mu6",
+   "change": {
+    "--hidden": "384",
+    "+": [
+     "--muon-lr-mult",
+     "6"
+    ]
+   },
+   "status": "ready",
+   "rationale": "teammate best multiplier on wider model (divergence risk)"
+  },
+  {
+   "id": "ep8_mu3_ema",
+   "family": "budget",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 2.0,
+   "name": "vt_f1_ep8_mu3_ema",
+   "change": {
+    "--epochs": "8",
+    "--checkpoint-epoch": "7",
+    "+": [
+     "--muon-lr-mult",
+     "3",
+     "--ema-teacher",
+     "1.0",
+     "--eval-ema"
+    ]
+   },
+   "status": "ready",
+   "rationale": "longer training with the strongest recipe levers"
+  },
+  {
+   "id": "wsd_mu3",
+   "family": "sched",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 5,
+   "hours": 1.0,
+   "name": "vt_f1_wsd_mu3",
+   "change": {
+    "--sched": "wsd",
+    "+": [
+     "--muon-lr-mult",
+     "3"
+    ]
+   },
+   "status": "ready",
+   "rationale": "schedule shape times Muon multiplier"
+  },
+  {
+   "id": "f2_mu3",
+   "family": "optim",
+   "lanes": [
+    "a"
+   ],
+   "needs": [
+    "fold2"
+   ],
+   "priority": 7,
+   "hours": 1.0,
+   "name": "vt_f2_mu3",
+   "change": {
+    "fold": 2,
+    "+": [
+     "--muon-lr-mult",
+     "3"
+    ]
+   },
+   "status": "ready",
+   "rationale": "third-fold transfer of the multiplier"
+  },
+  {
+   "id": "f3_mu3",
+   "family": "optim",
+   "lanes": [
+    "a"
+   ],
+   "needs": [
+    "fold3"
+   ],
+   "priority": 7,
+   "hours": 1.0,
+   "name": "vt_f3_mu3",
+   "change": {
+    "fold": 3,
+    "+": [
+     "--muon-lr-mult",
+     "3"
+    ]
+   },
+   "status": "ready",
+   "rationale": "fourth-fold transfer of the multiplier"
+  },
+  {
+   "id": "f2_ctrl",
+   "family": "control",
+   "lanes": [
+    "a"
+   ],
+   "needs": [
+    "fold2"
+   ],
+   "priority": 6,
+   "hours": 1.0,
+   "name": "vt_f2_ctrl_s3",
+   "change": {
+    "fold": 2
+   },
+   "status": "ready",
+   "rationale": "paired control for fold2 levers"
+  },
+  {
+   "id": "f3_ctrl",
+   "family": "control",
+   "lanes": [
+    "a"
+   ],
+   "needs": [
+    "fold3"
+   ],
+   "priority": 6,
+   "hours": 1.0,
+   "name": "vt_f3_ctrl_s3",
+   "change": {
+    "fold": 3
+   },
+   "status": "ready",
+   "rationale": "paired control for fold3 levers"
+  },
+  {
+   "id": "dsq_f0_t384",
+   "family": "distill",
+   "lanes": [
+    "a"
+   ],
+   "needs": [
+    "fold0",
+    "teachers_f0"
+   ],
+   "priority": 9,
+   "hours": 1.5,
+   "name": "vt_f0_dsq_t384",
+   "change": {
+    "pipeline": [
+     "--arm",
+     "f0t384",
+     "--fold",
+     "0",
+     "--teachers",
+     "vt_f0_gru384",
+     "--parent",
+     "c20261003_combo_s3_f0@ep3"
+    ]
+   },
+   "status": "ready",
+   "rationale": "scale-then-distill on fold0 (replicates the fold1 chain)"
+  },
+  {
+   "id": "dsq_f0_t256",
+   "family": "distill",
+   "lanes": [
+    "a"
+   ],
+   "needs": [
+    "fold0",
+    "teachers_f0"
+   ],
+   "priority": 9,
+   "hours": 1.5,
+   "name": "vt_f0_dsq_t256",
+   "change": {
+    "pipeline": [
+     "--arm",
+     "f0t256",
+     "--fold",
+     "0",
+     "--teachers",
+     "vt_f0_gru256",
+     "--parent",
+     "c20261003_combo_s3_f0@ep3"
+    ]
+   },
+   "status": "ready",
+   "rationale": "fold0 control teacher"
+  },
+  {
+   "id": "dsq_f0_none",
+   "family": "distill",
+   "lanes": [
+    "a"
+   ],
+   "needs": [
+    "fold0"
+   ],
+   "priority": 7,
+   "hours": 1.3,
+   "name": "vt_f0_dsq_none",
+   "change": {
+    "pipeline": [
+     "--arm",
+     "f0none",
+     "--fold",
+     "0",
+     "--teachers",
+     "",
+     "--parent",
+     "c20261003_combo_s3_f0@ep3",
+     "--no-teacher"
+    ]
+   },
+   "status": "ready",
+   "rationale": "fold0 no-teacher continuation control"
+  },
+  {
+   "id": "dsq_t384_seed4",
+   "family": "distill",
+   "lanes": [
+    "a"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 1.6,
+   "name": "vt_f1_dsq_t384_p4",
+   "change": {
+    "pipeline": [
+     "--arm",
+     "t384p4",
+     "--fold",
+     "1",
+     "--teachers",
+     "vt_f1_gru384_s4,vt_f1_gru384_s5",
+     "--parent",
+     "c20261003_combo_s4_f1@ep3",
+     "--seed",
+     "4"
+    ]
+   },
+   "status": "ready",
+   "rationale": "second seed for the scale-then-distill comparison"
+  },
+  {
+   "id": "dsq_t256_seed4",
+   "family": "distill",
+   "lanes": [
+    "a"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 1.6,
+   "name": "vt_f1_dsq_t256_p4",
+   "change": {
+    "pipeline": [
+     "--arm",
+     "t256p4",
+     "--fold",
+     "1",
+     "--teachers",
+     "vt_f1_seed4,vt_f1_seed5",
+     "--parent",
+     "c20261003_combo_s4_f1@ep3",
+     "--seed",
+     "4"
+    ]
+   },
+   "status": "ready",
+   "rationale": "second seed control"
+  },
+  {
+   "id": "rawonly_mu3",
+   "family": "diversity",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 6,
+   "hours": 1.0,
+   "name": "vt_f1_rawonly_mu3",
+   "change": {
+    "+": [
+     "--raw-only",
+     "--muon-lr-mult",
+     "3"
+    ]
+   },
+   "status": "ready",
+   "rationale": "teammate main diversity source with the stronger optimizer"
+  },
+  {
+   "id": "twoclock_mu3",
+   "family": "diversity",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 5,
+   "hours": 1.2,
+   "name": "vt_f1_twoclock_mu3",
+   "change": {
+    "--arch": "twoclock",
+    "+": [
+     "--muon-lr-mult",
+     "3"
+    ]
+   },
+   "status": "ready",
+   "rationale": "two-clock arch (teammate two-stream replicated +0.0007 blend)"
+  },
+  {
+   "id": "gated_mu3",
+   "family": "diversity",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 5,
+   "hours": 1.2,
+   "name": "vt_f1_gated_mu3",
+   "change": {
+    "--arch": "gated",
+    "+": [
+     "--muon-lr-mult",
+     "3"
+    ]
+   },
+   "status": "ready",
+   "rationale": "best single scratch arch so far with the multiplier"
+  },
+  {
+   "id": "ssm_teacher",
+   "family": "structure",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "code"
+   ],
+   "priority": 8,
+   "hours": 0,
+   "name": "ssm_teacher",
+   "change": {},
+   "status": "needs_code",
+   "rationale": "selective state-space teacher (parallel scan)"
+  },
+  {
+   "id": "mirror_decode",
+   "family": "data",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "code"
+   ],
+   "priority": 7,
+   "hours": 0,
+   "name": "mirror_decode",
+   "change": {},
+   "status": "needs_code",
+   "rationale": "exact bid/ask mirror from decoded event codes"
+  },
+  {
+   "id": "dirichlet_mix",
+   "family": "distill",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "code"
+   ],
+   "priority": 6,
+   "hours": 0,
+   "name": "dirichlet_mix",
+   "change": {},
+   "status": "needs_code",
+   "rationale": "per-batch Dirichlet teacher-family mixing"
+  },
+  {
+   "id": "noisy_student",
+   "family": "augment",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "code"
+   ],
+   "priority": 6,
+   "hours": 0,
+   "name": "noisy_student",
+   "change": {},
+   "status": "needs_code",
+   "rationale": "train-only input noise/dropout with clean-input teacher targets"
+  },
+  {
+   "id": "ssl_pretrain",
+   "family": "pretrain",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "code"
+   ],
+   "priority": 5,
+   "hours": 0,
+   "name": "ssl_pretrain",
+   "change": {},
+   "status": "needs_code",
+   "rationale": "next-step/masked or recurrent-VAE trunk pretraining"
+  },
+  {
+   "id": "boot_in_chain",
+   "family": "distill",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "code"
+   ],
+   "priority": 7,
+   "hours": 0,
+   "name": "boot_in_chain",
+   "change": {},
+   "status": "needs_code",
+   "rationale": "stopped-bootstrap h8 option inside distill_pipeline"
+  },
+  {
+   "id": "class_surrogate",
+   "family": "objective",
+   "lanes": [
+    "a",
+    "b"
+   ],
+   "needs": [
+    "code"
+   ],
+   "priority": 3,
+   "hours": 0,
+   "name": "class_surrogate",
+   "change": {},
+   "status": "needs_code",
+   "rationale": "class-3-heavy metric surrogate"
+  }
+ ]
+}

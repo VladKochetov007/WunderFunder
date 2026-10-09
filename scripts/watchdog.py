@@ -106,6 +106,10 @@ def check_vast_lane(problems: Problems, state: dict, controller, lane: str) -> N
     if (pending or in_flight) and utils and max(utils) < 40:
         problems.add(f"vast_{lane}_gpu_idle_with_queue", "WARN",
                      f"lane {lane}: Vast GPUs idle (util {utils}) with {pending} pending and {in_flight} running jobs", 3)
+    if pending <= 3:
+        ready = len(controller.ready_items(lane)) if hasattr(controller, "ready_items") else 0
+        problems.add(f"vast_{lane}_queue_low", "WARN",
+                     f"lane {lane}: only {pending} jobs pending ({in_flight} running); {ready} backlog items ready -> run `VT_LANE={'' if lane == 'a' else lane} controller.py feed`", 2)
     daemon = controller.ssh("pgrep -fc '^python remote_refill.py' || true", timeout=40).stdout.strip()
     if (pending or in_flight) and daemon in ("", "0"):
         problems.add(f"vast_{lane}_refill_daemon_dead", "CRIT", f"lane {lane}: refill daemon not running with {pending} jobs pending", 2)
@@ -149,6 +153,8 @@ def check_local(problems: Problems, state: dict) -> None:
     if pending and not gpu_apps and not barrier.exists() and last_event_age > 15:
         problems.add("local_gpu_idle_with_queue", "WARN",
                      f"local GPU idle {last_event_age:.0f} min with {len(pending)} queued items and no barrier", 2)
+    if len(pending) < 3:
+        problems.add("local_queue_low", "WARN", f"local GPU queue has only {len(pending)} pending items", 2)
     timers = sh(["systemctl", "--user", "list-timers", "--all", "--no-pager"])
     for name in EXPECTED_TIMERS:
         if name not in timers:

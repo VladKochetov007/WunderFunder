@@ -250,6 +250,42 @@ def cmd_reorder(_: argparse.Namespace) -> None:
     print(json.dumps([f"p{i:02d}:{family_of(re.sub(r'^p[0-9][0-9]_', '', n))}" for i, n in enumerate(order)]))
 
 
+BACKLOG = ROOT / "research/campaign_2026-10-06/bandit_continuation/backlog/IDEA_BACKLOG.json"
+LANE_ASSETS = {"a": {"fold0", "fold1", "fold2", "fold3", "teachers_f0"}, "b": {"fold1"}}
+
+
+def ready_items(lane: str) -> list[dict]:
+    items = json.loads(BACKLOG.read_text())["items"]
+    ok = [i for i in items if i["status"] == "ready" and lane in i["lanes"] and set(i["needs"]) <= LANE_ASSETS[lane]]
+    return sorted(ok, key=lambda i: -i["priority"])
+
+
+def cmd_feed(args: argparse.Namespace) -> None:
+    """Move the best eligible backlog items into this lane's job directory, then queue and interleave."""
+    lane = LANE or "a"
+    sys.path.insert(0, str(HERE))
+    import make_refill_jobs
+
+    chosen = ready_items(lane)[: args.n]
+    data = json.loads(BACKLOG.read_text())
+    JOBS_DIR.mkdir(exist_ok=True)
+    for item in chosen:
+        job = make_refill_jobs.build_job(item["name"], item["change"], "bl")
+        (JOBS_DIR / f"bl_{item['id']}.json").write_text(json.dumps(job, indent=1))
+        for row in data["items"]:
+            if row["id"] == item["id"]:
+                row.update(status="queued", lane=lane, queued_utc=now())
+    print(json.dumps({"lane": lane, "fed": [i["id"] for i in chosen], "est_hours": round(sum(i["hours"] for i in chosen), 1),
+                      "ready_left": len(ready_items(lane)) - len(chosen)}))
+    if args.dry_run or not chosen:
+        for item in chosen:
+            (JOBS_DIR / f"bl_{item['id']}.json").unlink(missing_ok=True)
+        return
+    BACKLOG.write_text(json.dumps(data, indent=1))
+    cmd_queue(args)
+    cmd_reorder(args)
+
+
 def cmd_pull(_: argparse.Namespace) -> None:
     """Fetch every finished job not yet pulled; append bank rows.  Serialized by a file lock."""
     import fcntl
@@ -391,13 +427,16 @@ def main() -> int:
     create.add_argument("--image", default="pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime")
     create.add_argument("--disk", type=int, default=150)
     create.add_argument("--hard-stop", required=True)
-    for name in ("start", "status", "collect", "destroy", "queue", "pull", "dash", "tick", "reorder"):
+    for name in ("start", "status", "collect", "destroy", "queue", "pull", "dash", "tick", "reorder", "feed"):
         node = sub.add_parser(name)
+        if name == "feed":
+            node.add_argument("--n", type=int, default=4, help="backlog items to queue")
+            node.add_argument("--dry-run", action="store_true")
         if name == "tick":
             node.add_argument("--cap", type=float, default=5.0, help="stop admitting queued jobs at this spend; running jobs always finish, then the instance is destroyed")
     args = parser.parse_args()
     {"plan": cmd_plan, "create": cmd_create, "start": cmd_start, "status": cmd_status,
-     "collect": cmd_collect, "destroy": cmd_destroy, "queue": cmd_queue, "pull": cmd_pull, "dash": cmd_dash, "tick": cmd_tick, "reorder": cmd_reorder}[args.command](args)
+     "collect": cmd_collect, "destroy": cmd_destroy, "queue": cmd_queue, "pull": cmd_pull, "dash": cmd_dash, "tick": cmd_tick, "reorder": cmd_reorder, "feed": cmd_feed}[args.command](args)
     return 0
 
 

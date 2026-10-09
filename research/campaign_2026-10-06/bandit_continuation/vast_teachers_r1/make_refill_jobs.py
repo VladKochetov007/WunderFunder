@@ -127,6 +127,29 @@ def with_trace(change: dict) -> dict:
     return merged
 
 
+def build_job(name: str, change: dict, wave: str = "bl") -> dict:
+    """One refill job from a variant spec; ``wave`` in w5/w6/w7 adds telemetry and the snapshot-curve step."""
+    if "pipeline" in change:
+        return {"name": name, "steps": [{"label": "pipeline", "timeout": 4 * 3600,
+                                         "argv": [B.PY, f"{B.W}/scripts/distill_pipeline.py", *change["pipeline"]]}]}
+    snapshots = change.get("snapshots", [])
+    fold = int(change.get("fold", 1))
+    change = {k: v for k, v in change.items() if k != "fold"}
+    change = with_trace({k: v for k, v in change.items() if k != "snapshots"}) if wave in ("w5", "w6", "w7") else change
+    epoch = change.get("--checkpoint-epoch", "3")
+    steps = [
+        {"label": "fit", "timeout": 6 * 3600, "argv": B.argv_for(name, change, fold)},
+        {"label": "export", "timeout": 1800, "argv": B.export_argv(name, epoch)},
+    ]
+    if wave in ("w5", "w6", "w7"):
+        steps.insert(1, {"label": "curve", "timeout": 5400, "argv": [
+            B.PY, f"{B.W}/scripts/snapshot_curve.py", "--run", name, "--split",
+            f"{B.W}/research/campaign_2026-09-29/artifacts/splits/fold{fold}.json"]})
+    steps += [{"label": f"export_e{k}", "timeout": 1800, "argv": B.export_argv(name, str(k), f"{name}__ep{k}")}
+              for k in snapshots]
+    return {"name": name, "steps": steps}
+
+
 def main() -> None:
     out = Path(__file__).resolve().parent / (f"refill_jobs_{LANE}" if LANE else "refill_jobs")
     out.mkdir(exist_ok=True)
@@ -136,27 +159,7 @@ def main() -> None:
         if not LANE and wave in sum(LANE_WAVES.values(), ()):
             continue
         for index, (name, change) in enumerate(variants.items()):
-            if "pipeline" in change:
-                job = {"name": name, "steps": [{"label": "pipeline", "timeout": 4 * 3600,
-                                                "argv": [B.PY, f"{B.W}/scripts/distill_pipeline.py", *change["pipeline"]]}]}
-                (out / f"{wave}_{index}_{name}.json").write_text(json.dumps(job, indent=1))
-                continue
-            snapshots = change.get("snapshots", [])
-            fold = int(change.get("fold", 1))
-            change = {k: v for k, v in change.items() if k != "fold"}
-            change = with_trace({k: v for k, v in change.items() if k != "snapshots"}) if wave in ("w5", "w6", "w7") else change
-            steps = [
-                {"label": "fit", "timeout": 4 * 3600, "argv": B.argv_for(name, change, fold)},
-                {"label": "export", "timeout": 1800, "argv": B.export_argv(name, change.get("--checkpoint-epoch", "3"))},
-            ]
-            if wave in ("w5", "w6", "w7"):
-                steps.insert(1, {"label": "curve", "timeout": 5400, "argv": [
-                    B.PY, f"{B.W}/scripts/snapshot_curve.py", "--run", name, "--split",
-                    f"{B.W}/research/campaign_2026-09-29/artifacts/splits/fold{fold}.json"]})
-            steps += [{"label": f"export_e{k}", "timeout": 1800, "argv": B.export_argv(name, str(k), f"{name}__ep{k}")}
-                      for k in snapshots]
-            job = {"name": name, "steps": steps}
-            (out / f"{wave}_{index}_{name}.json").write_text(json.dumps(job, indent=1))
+            (out / f"{wave}_{index}_{name}.json").write_text(json.dumps(build_job(name, change, wave), indent=1))
     print(sorted(p.name for p in out.glob("*.json")))
 
 
