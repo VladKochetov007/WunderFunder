@@ -1,0 +1,22 @@
+{
+  "schema": "wnn.native-gpu-fp16-seal-format-failure.r1",
+  "observed_at_utc": "2026-10-09T03:10:44Z",
+  "candidate": "vladkochetov07/wnn-native-gpu-fp16-20261009-r1",
+  "source_commit": "e1ed22cf7ecb6db5307d2f82cf5ec7db1ea83eca",
+  "packet_sha256": "029ed605d341e3a8adaea0ad75143fb4d54b4b0b5dacc08e5ca56c0a203ed676",
+  "kernel_sha256": "3c1723f539c5035ca656373d9de60549d72f7ed0a9980e3e3a9d9ec61fd7a057",
+  "source_manifest_sha256": "3c42d27487941b6906e06c83b5c736cbb3577583ce6db4a4f36b963e45e981f7",
+  "stage": "offline ruff format check of the generated bootstrap",
+  "failure": {
+    "type": "Ruff format difference",
+    "path": "kernel/wnn-native-gpu-fp16-20261009-r1.py",
+    "message": "generated constants and injected helper formatting differ from the repository formatter"
+  },
+  "effects": {
+    "candidate_packet_uploaded": false,
+    "kernel_pushed": false,
+    "provider_mutation": false,
+    "device_fit": false
+  },
+  "correction": "Adjust the local kernel generator to emit formatter-clean inserted source; preserve this candidate and regenerate before root review."
+}
