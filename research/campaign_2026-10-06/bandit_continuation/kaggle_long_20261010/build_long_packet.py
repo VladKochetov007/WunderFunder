@@ -16,10 +16,11 @@ import build_bundle as vb  # noqa: E402
 SNAP = vb.E529 / "h230_source_v6_lead"
 WSD = ["--wsd-decay", "0.25", "--wsd-final", "0.0", "--wsd-shape", "linear"]
 ARMS = {
-    "kg_stable_swa_e12": {"--epochs": "12", "--checkpoint-epoch": "11", "--lr": "0.0004", "--wd": "0.03", "--sched": "wsd", "--dropout": "0.0",
-                          "+": ["--intra-snapshots", "--wsd-decay", "0.1", "--wsd-final", "0.025", "--wsd-shape", "sqrt", "--swa-frac", "0.6"]},
-    "kg_thin_muonrnn_e12": {"--epochs": "12", "--checkpoint-epoch": "11", "--lr": "0.0005", "--wd": "0.05", "--sched": "wsd", "--dropout": "0.1",
-                            "+": ["--intra-snapshots", *WSD, "--thin-prob", "0.7", "--thin-range", "0.15,0.35"]},
+    "kg_prop0_s6": {"--epochs": "3", "--checkpoint-epoch": "2", "--prop-power": "0", "--seed": "6"},
+    "kg_prop0_s7": {"--epochs": "3", "--checkpoint-epoch": "2", "--prop-power": "0", "--seed": "7"},
+    "kg_muonall_h384_s6": {"--epochs": "3", "--checkpoint-epoch": "2", "--hidden": "384", "--muon-scope": "all", "--seed": "6"},
+    "kg_hpo52_h384_s6": {"--hidden": "384", "--dropout": "0.04171", "--epochs": "4", "--checkpoint-epoch": "3", "--lr": "0.000993371", "--wd": "0.00352859", "--muon-scope": "hidden", "--sched": "wsd", "--seed": "6",
+                         "+": ["--muon-lr-mult", "0.7037", "--wsd-decay", "0.1419", "--wsd-final", "0.03752", "--wsd-shape", "linear", "--label-weight-power", "1.032", "--label-weight-floor", "0.1819", "--class-weight", "1,1,1,1.192", "--swa-frac", "0.3092"]},
 }
 
 
