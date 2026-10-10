@@ -1851,6 +1851,42 @@
    "rationale": "Near-constant lr with SWA over the last 60% of steps (scored artifact is the average) | idea from Muse Spark round 4 (external_ideation_20261010/round4)",
    "lane": "b",
    "queued_utc": "2026-10-10T14:25:16.340618+00:00"
+  },
+  {
+   "id": "long_stable_swa_e14",
+   "family": "long_training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 3.0,
+   "name": "vt_f1_long_stable_swa_e14",
+   "change": {
+    "--epochs": "14",
+    "--checkpoint-epoch": "13",
+    "--lr": "0.0004",
+    "--wd": "0.03",
+    "--sched": "wsd",
+    "--dropout": "0.0",
+    "+": [
+     "--intra-snapshots",
+     "--wsd-decay",
+     "0.1",
+     "--wsd-final",
+     "0.025",
+     "--wsd-shape",
+     "sqrt",
+     "--swa-frac",
+     "0.6"
+    ]
+   },
+   "status": "ready",
+   "rationale": "Grok round 4: the cliff of the 6-epoch run sits in the annealing tail (lr 2.7e-4 -> 4e-7); stay at 4e-4 for 12 epochs, short sqrt decay, score the SWA average over the last 60% of steps (also keep raw snapshots)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T14:25:48.162198+00:00"
   }
  ]
 }
