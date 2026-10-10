@@ -1,0 +1,32 @@
+{
+ "attempt": "r3-fcast-export-r1",
+ "kind": "gpu",
+ "cpus": 3,
+ "reserve_bytes": 6500000000,
+ "profile": "export",
+ "contract": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/contracts/r3-fcast-export-r1.json",
+ "argv": [
+  "/usr/bin/timeout",
+  "--signal=TERM",
+  "--kill-after=20s",
+  "1800",
+  "/usr/bin/env",
+  "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v6_lead/scripts:/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v6_lead/src",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+  "-c",
+  "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name=\"__main__\")",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v6_lead/scripts/train_rnn.py",
+  "r3_fcast_f1_s3_e3",
+  "valid",
+  "--epoch",
+  "2",
+  "--output-name",
+  "r3_fcast_f1_s3_e3"
+ ],
+ "after": [
+  "r3-fcast-fit-r1"
+ ],
+ "admission_timeout": 900
+}
