@@ -13,6 +13,8 @@
 //! - `Precision::F16` / `I16` store the input projection, GRU and head.0 matrices as 16-bit
 //!   panels (`half`), halving the bytes streamed per row; accumulation, biases, head.2 and state
 //!   stay fp32.
+//! - `Precision::Q8Vnni` runs the GRU and head.0 matvecs as dynamic int8 (`vnni`): byte weights,
+//!   per-vector byte activations, exact int32 sums, AVX-512 VNNI / AVX2 / scalar with identical bits.
 //! - `Precision::Q16x` keeps the I16 weights and runs the GRU and head.0 matvecs as integer dot
 //!   products against int16 activation codes (`half::gemv_q16x`).
 
@@ -102,9 +104,26 @@ pub enum Precision {
     /// Imported FP32 U/V recurrence, float32 state, fixed non-fused reductions.
     FactorF32,
     FactorF32Portable,
+    /// Dynamic int8 (`vnni`): byte recurrent and split head.0 weights with per-row scales, byte
+    /// activations quantized per vector, int32 sums, int16 input projection, float32 final
+    /// head and state. Runs on AVX-512 VNNI; becomes `Q8VnniAvx2` or `Q8VnniPortable` on CPUs
+    /// without it. All three return the same bits.
+    Q8Vnni,
+    Q8VnniAvx2,
+    Q8VnniPortable,
 }
 
 impl Precision {
+    /// Kernel instruction set of a dynamic-int8 precision.
+    fn dyn8(self) -> Option<crate::vnni::Isa> {
+        match self {
+            Precision::Q8Vnni => Some(crate::vnni::Isa::Vnni512),
+            Precision::Q8VnniAvx2 => Some(crate::vnni::Isa::Avx2),
+            Precision::Q8VnniPortable => Some(crate::vnni::Isa::Portable),
+            _ => None,
+        }
+    }
+
     fn encoding(self) -> Option<Encoding> {
         match self {
             Precision::F32
@@ -115,7 +134,12 @@ impl Precision {
             | Precision::FactorF32
             | Precision::FactorF32Portable => None,
             Precision::F16 => Some(Encoding::F16),
-            Precision::I16 | Precision::Q16x | Precision::Q16xPortable => Some(Encoding::I16),
+            Precision::I16
+            | Precision::Q16x
+            | Precision::Q16xPortable
+            | Precision::Q8Vnni
+            | Precision::Q8VnniAvx2
+            | Precision::Q8VnniPortable => Some(Encoding::I16),
         }
     }
 
@@ -223,6 +247,13 @@ pub struct FastRnn {
     /// 16-bit matrices when `precision` is F16 or I16.
     half: HalfArena,
     q8: Vec<(String, crate::quant8::PackedQ8)>,
+    /// Dynamic-int8 matrices; `Mat::q8` indexes this vector when `precision.dyn8()` is set.
+    dq: Vec<crate::vnni::DynQ8>,
+    /// Dynamic-int8 activation bytes (offset codes), `padded_cols(hidden)` per block:
+    /// [h per layer | z]; the hidden blocks persist across steps. `dscales` holds each block's
+    /// dequantization scale.
+    dcodes: Vec<u8>,
+    dscales: Vec<f32>,
     factors: Vec<(String, crate::factorized::FloatFactors)>,
     factor_scratch: Vec<f32>,
     import_only_dense_bytes: usize,
@@ -690,6 +721,17 @@ impl FastRnn {
             Precision::Q8r | Precision::Q8rPortable | Precision::Q8x | Precision::Q8xPortable => {
                 precision
             }
+            Precision::Q8Vnni if !crate::vnni::supported(crate::vnni::Isa::Vnni512) => {
+                if crate::vnni::supported(crate::vnni::Isa::Avx2) {
+                    Precision::Q8VnniAvx2
+                } else {
+                    Precision::Q8VnniPortable
+                }
+            }
+            Precision::Q8VnniAvx2 if !crate::vnni::supported(crate::vnni::Isa::Avx2) => {
+                Precision::Q8VnniPortable
+            }
+            Precision::Q8Vnni | Precision::Q8VnniAvx2 | Precision::Q8VnniPortable => precision,
             Precision::Q16x if !crate::half::available() => Precision::Q16xPortable,
             Precision::Q16x | Precision::Q16xPortable => precision,
             _ if !crate::half::available() => Precision::F32,
@@ -707,6 +749,7 @@ impl FastRnn {
         let mut weights = Arena::new();
         let mut half = HalfArena::new();
         let mut q8 = Vec::new();
+        let mut dq = Vec::new();
         // The 16-bit projection writes whole COL_TILE row tiles; z and b_in are padded to match.
         let z_len = if precision.encoding().is_none() {
             hidden
@@ -765,6 +808,17 @@ impl FastRnn {
                     w: 0..0,
                     s: 0..0,
                     q8: None,
+                });
+            }
+            if precision.dyn8().is_some() {
+                let index = dq.len();
+                dq.push(
+                    crate::vnni::DynQ8::pack(m, rows, cols).map_err(|e| ShapeError(e.into()))?,
+                );
+                return Ok(Mat {
+                    w: 0..0,
+                    s: 0..0,
+                    q8: Some(index),
                 });
             }
             if byte {
@@ -827,7 +881,7 @@ impl FastRnn {
             })
             .collect::<Result<Vec<_>, ShapeError>>()?;
         let q16x = matches!(precision, Precision::Q16x | Precision::Q16xPortable);
-        let (w1, w1z) = if q16x || precision.q8_head() {
+        let (w1, w1z) = if q16x || precision.q8_head() || precision.dyn8().is_some() {
             let block = |k: usize| -> Vec<f32> {
                 w.w1.chunks_exact(2 * hidden)
                     .flat_map(|row| &row[k * hidden..(k + 1) * hidden])
@@ -898,6 +952,9 @@ impl FastRnn {
             0
         };
         let codes = vec![Codes([0; TILE_COLS]); code_blocks * hidden.div_ceil(TILE_COLS)];
+        let dyn_blocks = if precision.dyn8().is_some() { layers.len() + 1 } else { 0 };
+        let dcodes = vec![crate::vnni::OFFSET; dyn_blocks * crate::vnni::padded_cols(hidden)];
+        let dscales = vec![0.0; dyn_blocks];
         debug_assert!(weights.len >= weights.as_ref().len());
         Ok(Self {
             n_in,
@@ -909,6 +966,9 @@ impl FastRnn {
             weights,
             half,
             q8,
+            dq,
+            dcodes,
+            dscales,
             factors,
             factor_scratch,
             import_only_dense_bytes,
@@ -968,6 +1028,8 @@ impl FastRnn {
         self.state.len * 4 - self.recurrent_state_bytes()
             + self.factor_scratch.len() * 4
             + self.codes.len() * size_of::<Codes>()
+            + self.dcodes.len()
+            + self.dscales.len() * 4
             + self.nz.capacity() * size_of::<u32>()
     }
 
@@ -1006,6 +1068,7 @@ impl FastRnn {
                 .iter()
                 .map(|(_, matrix)| matrix.storage_bytes())
                 .sum::<usize>()
+            + self.dq.iter().map(|m| m.storage_bytes()).sum::<usize>()
             + self
                 .factors
                 .iter()
@@ -1022,6 +1085,8 @@ impl FastRnn {
         self.state.as_mut()[h].fill(0.0);
         self.state.as_mut()[c].fill(0.0);
         self.codes.fill(Codes([0; TILE_COLS]));
+        self.dcodes.fill(crate::vnni::OFFSET);
+        self.dscales.fill(0.0);
     }
 
     pub fn step(&mut self, x: &[f32], out: &mut [f32]) {
@@ -1061,6 +1126,14 @@ impl FastRnn {
             #[cfg(target_arch = "x86_64")]
             Precision::Q16x => unsafe { self.step_q16x(x, out, after) },
             Precision::Q16xPortable => self.step_q_impl::<false>(x, out, after),
+            // SAFETY: selected only when `vnni::supported` reported the instruction set.
+            #[cfg(target_arch = "x86_64")]
+            Precision::Q8Vnni => unsafe { self.step_dyn_vnni(x, out, after) },
+            #[cfg(target_arch = "x86_64")]
+            Precision::Q8VnniAvx2 => unsafe { self.step_dyn_avx2(x, out, after) },
+            Precision::Q8VnniPortable => {
+                self.step_dyn_impl::<false>(x, out, after, crate::vnni::Isa::Portable)
+            }
             #[cfg(target_arch = "x86_64")]
             Precision::Q8r | Precision::Q8x => unsafe { self.step_q16x(x, out, after) },
             Precision::Q8rPortable | Precision::Q8xPortable => {
@@ -1163,6 +1236,120 @@ impl FastRnn {
     #[target_feature(enable = "avx2,fma,f16c")]
     unsafe fn step_i16(&mut self, x: &[f32], out: &mut [f32]) {
         self.step_impl::<MODE_I16>(x, out)
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512bw,avx512vnni")]
+    unsafe fn step_dyn_vnni(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
+        self.step_dyn_impl::<true>(x, out, after, crate::vnni::Isa::Vnni512)
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[target_feature(enable = "avx2,fma,f16c")]
+    unsafe fn step_dyn_avx2(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
+        self.step_dyn_impl::<true>(x, out, after, crate::vnni::Isa::Avx2)
+    }
+
+    /// The dynamic-int8 step. `SIMD` selects the AVX2 helpers (projection, activations,
+    /// quantization); `isa` the matvec kernel. Every combination returns the same bits.
+    #[inline(always)]
+    fn step_dyn_impl<const SIMD: bool>(
+        &mut self,
+        x: &[f32],
+        out: &mut [f32],
+        mut after: Ahead,
+        isa: crate::vnni::Isa,
+    ) {
+        use crate::vnni::{padded_cols, quantize};
+        let n = self.hidden;
+        let fast = self.act == Activations::Fast;
+        let wts = self.weights.as_ref();
+        let half = self.half.as_ref();
+        let st = self.state.as_mut();
+        let kp = padded_cols(n);
+        let n_layers = self.layers.len();
+        let quant = |v: &[f32], q: &mut [u8]| -> f32 {
+            // SAFETY: SIMD is instantiated only from AVX2-enabled wrappers.
+            #[cfg(target_arch = "x86_64")]
+            if SIMD {
+                return unsafe { crate::vnni::quantize_avx2(v, q) };
+            }
+            quantize(v, q)
+        };
+        let gelu_all = |v: &mut [f32], ahead: &mut Ahead| {
+            // SAFETY: as for `quant`.
+            #[cfg(target_arch = "x86_64")]
+            if SIMD && fast {
+                return unsafe { crate::approx::avx2::gelu_slice(v, ahead) };
+            }
+            let _ = ahead;
+            if fast {
+                v.iter_mut().for_each(|v| *v = gelu_fast(*v));
+            } else {
+                v.iter_mut().for_each(|v| *v = gelu(*v));
+            }
+        };
+        let matrix_ahead = |m: &Mat| match m.q8 {
+            Some(index) => Ahead::bytes(self.dq[index].bytes()),
+            None => Ahead::NONE,
+        };
+
+        {
+            let b = &wts[self.b_in.clone()];
+            let padded = &mut st[self.z.start..self.z.start + b.len()];
+            let cols = &half[self.w_in_cols.w.clone()];
+            let scales = &wts[self.w_in_cols.s.clone()];
+            if SIMD && cfg!(target_arch = "x86_64") {
+                // SAFETY: SIMD is instantiated only from AVX2 + FMA + F16C wrappers.
+                #[cfg(target_arch = "x86_64")]
+                unsafe {
+                    crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
+                }
+            } else {
+                crate::half::project_q16_portable(cols, scales, b, x, padded);
+            }
+            gelu_all(&mut st[self.z.clone()], &mut matrix_ahead(&self.layers[0].w_ih));
+        }
+        let (hq, zq) = self.dcodes.split_at_mut(n_layers * kp);
+        let (hs, zs) = self.dscales.split_at_mut(n_layers);
+        zs[0] = quant(&st[self.z.clone()], zq);
+        let zs = zs[0];
+
+        for (k, li) in self.layers.iter().enumerate() {
+            let g = self.cell.gates() * n;
+            let (lo, hi) = st.split_at_mut(self.gi.start);
+            let (gi, rest) = hi.split_at_mut(g);
+            let gh_off = self.gh.start - self.gi.end;
+            let (rest, cells) = rest.split_at_mut(self.c.start - self.gi.end);
+            let gh = &mut rest[gh_off..gh_off + g];
+            let h = &mut lo[self.h.start + k * n..self.h.start + (k + 1) * n];
+            let (done, cur) = hq.split_at_mut(k * kp);
+            let (q_in, s_in) = if k == 0 {
+                (&*zq, zs)
+            } else {
+                (&done[(k - 1) * kp..], hs[k - 1])
+            };
+            self.dq[li.w_ih.q8.unwrap()].gemv(isa, q_in, s_in, Some(&wts[li.b_ih.clone()]), gi);
+            self.dq[li.w_hh.q8.unwrap()].gemv(isa, &cur[..kp], hs[k], Some(&wts[li.b_hh.clone()]), gh);
+            let next = self.layers.get(k + 1).map_or(&self.w1, |l| &l.w_ih);
+            match self.cell {
+                // SAFETY: as for `quant`.
+                #[cfg(target_arch = "x86_64")]
+                Cell::Gru if SIMD && fast => unsafe {
+                    gru_update_avx2(h, gi, gh, &mut matrix_ahead(next))
+                },
+                Cell::Gru => gru_update(h, gi, gh, fast),
+                Cell::Lstm => lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast),
+            }
+            hs[k] = quant(h, &mut cur[..kp]);
+        }
+
+        let a = &mut st[self.a.clone()];
+        let last = &hq[(n_layers - 1) * kp..n_layers * kp];
+        self.dq[self.w1.q8.unwrap()].gemv(isa, last, hs[n_layers - 1], Some(&wts[self.b1.clone()]), a);
+        self.dq[self.w1z.q8.unwrap()].gemv(isa, zq, zs, None, a);
+        gelu_all(a, &mut after);
+        gemv_lanes(&wts[self.w2.clone()], &wts[self.b2.clone()], a, out);
     }
 
     #[cfg(target_arch = "x86_64")]
@@ -1875,6 +2062,63 @@ mod tests {
                 q.step(x, &mut a);
                 assert_eq!(a[0].to_bits(), first[2 * t].to_bits());
                 assert_eq!(a[1].to_bits(), first[2 * t + 1].to_bits());
+            }
+        }
+    }
+
+    #[test]
+    fn dynamic_int8_isas_agree_bitwise_and_track_f32() {
+        use crate::vnni::{Isa, supported};
+        for (n_in, hidden, layers, lstm) in [(37, 20, 2, false), (211, 128, 2, false), (40, 33, 3, false), (211, 256, 2, false), (37, 24, 2, true)] {
+            let w = || {
+                if lstm {
+                    lstm_weights(n_in, hidden, layers, 9)
+                } else {
+                    weights(n_in, hidden, layers, 9)
+                }
+            };
+            let mut models: Vec<FastRnn> = [Precision::Q8Vnni, Precision::Q8VnniAvx2, Precision::Q8VnniPortable]
+                .into_iter()
+                .map(|p| FastRnn::with_precision(w(), Activations::Fast, p).unwrap())
+                .collect();
+            if supported(Isa::Vnni512) {
+                assert_eq!(models[0].precision(), Precision::Q8Vnni);
+            }
+            assert_eq!(models[2].precision(), Precision::Q8VnniPortable);
+            let mut f32 = FastRnn::new(w(), Activations::Fast).unwrap();
+            let mut q8x = FastRnn::with_precision(w(), Activations::Fast, Precision::Q8x).unwrap();
+            let mut q8x_out = vec![0.0f32; 2];
+            let mut q8x_worst = 0.0f32;
+            let mut outs = vec![vec![0.0f32; 2]; 3];
+            let mut d = vec![0.0f32; 2];
+            let (mut first, mut worst) = (Vec::new(), 0.0f32);
+            for x in inputs(n_in, 300) {
+                for (m, o) in models.iter_mut().zip(&mut outs) {
+                    m.step(&x, o);
+                }
+                f32.step(&x, &mut d);
+                q8x.step(&x, &mut q8x_out);
+                first.extend_from_slice(&outs[0]);
+                for o in &outs[1..] {
+                    assert_eq!(o[0].to_bits(), outs[0][0].to_bits(), "{hidden} lstm {lstm}");
+                    assert_eq!(o[1].to_bits(), outs[0][1].to_bits(), "{hidden} lstm {lstm}");
+                }
+                for k in 0..2 {
+                    worst = worst.max((outs[0][k] - d[k]).abs());
+                    q8x_worst = q8x_worst.max((q8x_out[k] - d[k]).abs());
+                }
+            }
+            eprintln!("{n_in}/{hidden}/{layers} lstm {lstm}: dynamic int8 vs f32 max {worst:.2e} (q8x {q8x_worst:.2e})");
+            // A reset restores the zero state exactly: the replay is bitwise the first pass.
+            for m in &mut models {
+                m.reset();
+            }
+            for (t, x) in inputs(n_in, 300).iter().enumerate() {
+                for (m, o) in models.iter_mut().zip(&mut outs) {
+                    m.step(x, o);
+                    assert_eq!(o[0].to_bits(), first[2 * t].to_bits());
+                    assert_eq!(o[1].to_bits(), first[2 * t + 1].to_bits());
+                }
             }
         }
     }
