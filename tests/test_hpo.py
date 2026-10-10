@@ -151,3 +151,15 @@ def test_confirmation_stages_do_not_change_search_outcome(tmp_path):
         assert (ledger[tid]["state"], ledger[tid]["value"]) == before[tid], "confirmation must not feed back"
     best = max((t for t in ledger.values() if t["state"] == "COMPLETE"), key=lambda t: t["value"])
     assert 2 in best["stages"] or best is not None
+
+
+def test_fresh_process_each_tick_never_repeats_a_configuration(tmp_path):
+    """Regression: a new process rebuilt the sampler from its fixed seed, so each tick re-proposed the same first draw."""
+    seen = []
+    for _ in range(12):
+        store, o = make(tmp_path)  # a brand new store and orchestrator per tick, as the timer does
+        run_ticks(o, 1)
+        seen = [t["params"] for t in store.ledger().values()]
+    assert len(seen) >= 6
+    keys = [repr(sorted(p.items())) for p in seen]
+    assert len(set(keys)) == len(keys), "duplicate configurations were proposed"

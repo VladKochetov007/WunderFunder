@@ -251,8 +251,16 @@ class Orchestrator:
             for override in space.BASELINES:
                 self.study.enqueue_trial({**space.DEFAULTS, **override}, skip_if_exists=False)
             self.study.set_user_attr("baselines_enqueued", True)
-        trial = self.study.ask()
-        params = space.suggest(trial, mode)
+        seen = [t["params"] for t in ledger.values()]
+        for attempt in range(20):
+            trial = self.study.ask()
+            params = space.suggest(trial, mode)
+            if params not in seen:
+                break
+            self.study.tell(trial.number, state=optuna.trial.TrialState.FAIL)  # exact duplicate of an earlier trial
+            self.store.log("duplicate_proposal", number=trial.number, attempt=attempt)
+        else:
+            raise RuntimeError("sampler kept proposing exact duplicates")
         trial.set_constraint("cost_hours", space.constraint(params))
         tid = trial.number
         self.store.log("ask", trial=tid, params=params, mode=mode, space=space.SPACE_VERSION)

@@ -38,6 +38,9 @@ class Store:
         self.name, self.sampler_name, self.seed = name, sampler, seed
         self.db_path = self.dir / "study.db"
         self.study = self._open(directions)
+        # A fresh process rebuilds the sampler from its fixed seed, so every tick's first ask would repeat the previous
+        # tick's first draw (found 2026-10-10: six identical trials). Fold the trial count into the seed.
+        self.study.sampler = make_sampler(self.sampler_name, self.seed + len(self.study.trials))
 
     def _open(self, directions: int):
         kwargs = {"study_name": self.name, "storage": f"sqlite:///{self.db_path}", "load_if_exists": True,
