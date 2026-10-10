@@ -1,0 +1,24 @@
+# Research notes and evidence index, 2026-10-06 .. 2026-10-10 (start here)
+
+Unified ledgers (append-only): [`hypotheses.jsonl`](hypotheses.jsonl) (H-1 .. H-342; this week H-321..H-342) and [`experiments.jsonl`](experiments.jsonl) (rows `E-*20261010*` added 2026-10-10 with receipts and SHA-256). Generated tree/index: [`bandit_tree/generated/INDEX.md`](bandit_tree/generated/INDEX.md) (rebuild with `scripts/research_tree.py --root . build`; last rebuilt see `integrity.json`). Live state: [`specs/current-state.md`](../specs/current-state.md).
+
+## Read in this order
+1. **Current best solution explained** (architecture, training, distillation, HPO, validation, plots, CIs): [`diversity_stack_20261009/solution_report/CURRENT_BEST_SOLUTION_EXPLAINED.md`](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/solution_report/CURRENT_BEST_SOLUTION_EXPLAINED.md)
+2. **Chronological research log with evidence per pass (passes 1-47):** [`LOOP_LOG_20261010.md`](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LOOP_LOG_20261010.md)
+3. **Contract (teacher-ceiling objective, falsifiers):** [`CONTRACT_R3_TEACHER_CEILING_20261010.md`](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTRACT_R3_TEACHER_CEILING_20261010.md)
+4. **Validation protocol and noise measurements:** [`hpo/VALIDATION_PROTOCOL.md`](../hpo/VALIDATION_PROTOCOL.md), evidence report [`hpo/evidence/scratch_effects_fold1.json`](../hpo/evidence/scratch_effects_fold1.json)
+5. **Santander/BNP transfer, EDA probes, serving-speed plan:** [`SANTANDER_LESSONS_AND_SERVING_SPEED_20261010.md`](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/SANTANDER_LESSONS_AND_SERVING_SPEED_20261010.md)
+6. **External ideation (Grok, OpenCode, Freebuff, Haiku miners) rounds 1-4 and teammate digest:** [`external_ideation_20261010/`](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/external_ideation_20261010/) (`SYNTHESIS_20261010.md`, `round2/SYNTHESIS_ROUND2.md`, `round3/SYNTHESIS_ROUND3.md`, `round4/*`, `TEAMMATE_RECIPE_DIGEST.md`, `BNP_TRANSCRIPT_MINING.md`, `OWN_NOTES_MINING_20261010.md`)
+7. **Backlog and queues:** [`backlog/IDEA_BACKLOG.json`](campaign_2026-10-06/bandit_continuation/backlog/IDEA_BACKLOG.json), local queue [`local_queue_r1/`](campaign_2026-10-06/bandit_continuation/local_queue_r1/), Vast lane [`vast_teachers_r1/`](campaign_2026-10-06/bandit_continuation/vast_teachers_r1/), HPO [`hpo/studies/teacher_v2/`](../hpo/studies/teacher_v2/), Kaggle long packet [`kaggle_long_20261010/`](campaign_2026-10-06/bandit_continuation/kaggle_long_20261010/)
+8. **Prediction bank (scores):** [`prediction_bank/`](campaign_2026-10-06/bandit_continuation/prediction_bank/) (BANK_FOLD*.jsonl, LATEST_GRADE_*.json)
+
+## Headline findings (details and evidence in the log)
+- Information ceiling: with k future rows visible fold-1 WP is 0.666 (0), 0.680 (2), 0.711 (8), 0.780 (32), 0.891 (128), 0.960 (512). Causal prediction is a long-horizon price forecast. (E-H330)
+- Recipe plateau: chunk length, bootstrap, snapping, width, epochs, forecasting head all within +-0.001-0.002 of the control (v6 seeds 0.66605/0.66578). (E-H331, E-H332)
+- Student distillation chain gives about +0.003 over a scratch teacher (paired CI +0.0016..+0.0049 on fold 1); student-stage knobs are flat.
+- Post-hoc output tricks, value-frequency features, duplicate-row/lattice ideas: closed or retracted (E-H339).
+- Teammate best public 0.6674 = 2-member distilled pair; leaderboard top 0.6717, ours 0.6664 (21st).
+- In flight: long-epoch ladder (Vast, local, Kaggle), dropout/gated/EMA arms, soup merge. Results append to the log and ledgers.
+
+## Policies in force
+Select on mean score, not CI lower bound (user 2026-10-10); public score decides. Single-member packages upload one at a time. No teammate code copied (independent implementation).

@@ -1,0 +1,1 @@
+I'll read the folder notes first, starting with the HPO record and the previous-competition tricks, then the rest, so the ten ideas stay distinct from what already ran.
