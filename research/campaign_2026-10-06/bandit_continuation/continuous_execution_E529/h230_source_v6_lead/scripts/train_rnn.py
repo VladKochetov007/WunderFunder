@@ -1899,7 +1899,11 @@ def main():
         if has_family_head:
             model.load_state_dict(extend_family_output_head(init["model"], model.state_dict()))
         else:
-            model.load_state_dict(init["model"])
+            _init_state = dict(init["model"])
+            for _key in ("head.2.weight", "head.2.bias"):  # research probe: a student with extra family-head rows can seed a head-finishing run with a narrower output (main rows come first)
+                if _key in _init_state and _key in model.state_dict() and _init_state[_key].shape[0] > model.state_dict()[_key].shape[0]:
+                    _init_state[_key] = _init_state[_key][: model.state_dict()[_key].shape[0]].clone()
+            model.load_state_dict(_init_state)
         sentinel_metadata = init.get("sentinel_preprocessing")
         if bool(sentinel_metadata) != bool(args.sentinel_base_width):
             ap.error("sentinel metadata requires matching inherited preprocessing options")
