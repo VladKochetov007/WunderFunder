@@ -208,6 +208,23 @@ def check_resources(problems: Problems, state: dict) -> None:
         problems.add("ram_low", "WARN", f"available RAM {available:.1f} GB", 2)
 
 
+def check_oom(problems: Problems, state: dict) -> None:
+    """Kernel OOM kills in the last 15 minutes (cgroup-limited campaign jobs, ad-hoc probes, anything else of this user)."""
+    import re
+
+    seen = set(state.get("oom_seen", []))
+    out = sh(["journalctl", "-k", "--since", "-15min", "--no-pager"], timeout=30)
+    for match in re.finditer(r"(Memory cgroup out of memory|Out of memory): Killed process (\d+) \((\S+)\) total-vm:\d+kB, anon-rss:(\d+)kB", out):
+        pid = match.group(2)
+        if pid in seen:
+            continue
+        seen.add(pid)
+        scope = re.search(rf"oom-kill:.*?oom_memcg=(\S+?),.*?pid={pid}", out)
+        where = scope.group(1).rsplit("/", 1)[-1] if scope else "?"
+        problems.add(f"oom_kill:{pid}", "WARN", f"OOM-killed pid {pid} ({match.group(3)}), anon {int(match.group(4)) / 1e6:.1f} GB, cgroup {where}", 1)
+    state["oom_seen"] = sorted(seen)[-200:]
+
+
 def check_hpo(problems: Problems, state: dict) -> None:
     """Optimizer health: ticks must keep landing and a running study must keep producing events."""
     for config in sorted((ROOT / "hpo/studies").glob("*/config.json")):
@@ -242,7 +259,7 @@ def check_hpo(problems: Problems, state: dict) -> None:
 
 
 CHECKS = [("hpo", check_hpo), ("vast", check_vast), ("local", check_local), ("systemd", check_systemd), ("kaggle", check_kaggle),
-          ("resources", check_resources)]
+          ("resources", check_resources), ("oom", check_oom)]
 
 
 def main() -> int:
@@ -266,7 +283,7 @@ def main() -> int:
         if key not in previous_active:
             rows.append({"utc": now(), "event": "ALERT", "severity": severity, "key": key, "message": message})
     for key, (_severity, message) in previous_active.items():
-        if key not in active and not key.startswith(("vast_job_failed", "local_failed", "local_launch_failed", "local_blocked", "unit_failed", "kaggle_kernel_done")):
+        if key not in active and not key.startswith(("vast_job_failed", "local_failed", "local_launch_failed", "local_blocked", "unit_failed", "kaggle_kernel_done", "oom_kill")):
             rows.append({"utc": now(), "event": "RECOVERED", "severity": "INFO", "key": key, "message": f"recovered: {message}"})
     # one-shot events become 'seen' once alerted so they do not repeat after the problem row disappears
     for name in state.pop("vast_failed_seen_new", []):
@@ -278,7 +295,7 @@ def main() -> int:
             state.setdefault("failed_units_baseline", []).append(key.split(":", 1)[-1])
     state["initialized"] = True
     state["counts"] = problems.counts
-    state["active"] = {k: list(v) for k, v in active.items() if not k.startswith(("vast_job_failed", "local_failed", "local_launch_failed", "local_blocked"))}
+    state["active"] = {k: list(v) for k, v in active.items() if not k.startswith(("vast_job_failed", "local_failed", "local_launch_failed", "local_blocked", "oom_kill"))}
     state.pop("kaggle_status_prev", None)
     STATE_PATH.write_text(json.dumps(state, indent=1))
     HEARTBEAT.write_text(now())
