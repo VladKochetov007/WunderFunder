@@ -1,10 +1,10 @@
 {
- "attempt": "teacher-f1-ep3s5-onecycle-scratch-fit-r2-a1",
+ "attempt": "teacher-f1-h384ep3s5-onecycle-scratch-fit-r1-a1",
  "kind": "gpu",
  "cpus": 3,
  "reserve_bytes": 9000000000,
  "profile": "GRU256x2 teacher fit (combo recipe ~42 min, 4 epochs chunk1000)",
- "contract": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/contracts/teacher-f1-ep3s5-onecycle-scratch-fit-r2.json",
+ "contract": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/contracts/teacher-f1-h384ep3s5-onecycle-scratch-fit-r1.json",
  "argv": [
   "/usr/bin/timeout",
   "--signal=TERM",
@@ -16,7 +16,7 @@
   "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
   "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
   "--name",
-  "combo_scratch_ep3s5_onecycle_f1",
+  "combo_scratch_h384ep3s5_onecycle_f1",
   "--device",
   "cuda",
   "--arch",
@@ -26,7 +26,7 @@
   "--enc",
   "linear",
   "--hidden",
-  "256",
+  "384",
   "--layers",
   "2",
   "--dropout",
@@ -89,6 +89,6 @@
  ],
  "after": [],
  "admission_timeout": 900,
- "base_attempt": "teacher-f1-ep3s5-onecycle-scratch-fit-r2",
+ "base_attempt": "teacher-f1-h384ep3s5-onecycle-scratch-fit-r1",
  "admission_retries": 1
 }
