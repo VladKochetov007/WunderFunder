@@ -2113,6 +2113,123 @@
    "rationale": "Teammate digest (TEAMMATE_RECIPE_DIGEST.md): six-epoch EMA 0.999 beat four-epoch by +0.0016 single-model; a 12-epoch run at wd 0.01 peaked near epoch 5 then fell 0.027; averaging late checkpoints did not help. Arms: EMA 0.999 weights are the saved/scored checkpoint (--eval-ema). Combined with dropout 0.2, Muon x1.",
    "lane": "b",
    "queued_utc": "2026-10-10T15:15:48.410211+00:00"
+  },
+  {
+   "id": "flow_v2_e3",
+   "family": "critic_review",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 14,
+   "hours": 0.9,
+   "name": "vt_f1_flow_v2_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "+": [
+     "--research-features",
+     "flow_v2"
+    ]
+   },
+   "status": "queued",
+   "rationale": "D: 74 causal flow features (i1 volume deltas, trade deltas, per-block ages, update rates over 16/64/256 rows, windowed price changes) added to the 211 inputs; fold1 seed3 3ep vs control 0.6660 | reviews/critic.md (2026-10-10)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T15:46:22.387016+00:00"
+  },
+  {
+   "id": "flow_v2_e3_s4",
+   "family": "critic_review",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 14,
+   "hours": 0.9,
+   "name": "vt_f1_flow_v2_e3_s4",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "4",
+    "+": [
+     "--research-features",
+     "flow_v2"
+    ]
+   },
+   "status": "queued",
+   "rationale": "D seed replicate | reviews/critic.md (2026-10-10)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T15:46:22.387328+00:00"
+  },
+  {
+   "id": "prop1_e3",
+   "family": "critic_review",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 14,
+   "hours": 0.9,
+   "name": "vt_f1_prop1_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "1"
+   },
+   "status": "queued",
+   "rationale": "C: propensity power 1 instead of 2 (less concentration on the visible scoring mask) | reviews/critic.md (2026-10-10)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T15:46:22.387499+00:00"
+  },
+  {
+   "id": "prop0_e3",
+   "family": "critic_review",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 14,
+   "hours": 0.9,
+   "name": "vt_f1_prop0_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0"
+   },
+   "status": "ready",
+   "rationale": "C: no propensity concentration (power 0) as a broad-training control | reviews/critic.md (2026-10-10)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T15:46:22.287181+00:00"
+  },
+  {
+   "id": "lossnorm_running_e3",
+   "family": "critic_review",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 14,
+   "hours": 0.9,
+   "name": "vt_f1_lossnorm_running_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--loss-norm": "running"
+   },
+   "status": "ready",
+   "rationale": "B: running loss normalisation instead of per-chunk normalisation (removes the implicit equal weight per chunk) | reviews/critic.md (2026-10-10)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T15:46:22.287181+00:00"
   }
  ]
 }

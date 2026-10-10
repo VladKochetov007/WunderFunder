@@ -19,15 +19,17 @@ DI = ROOT / "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20
 
 
 def sums(y, p, m):
+    """Per-target raw sums, shape (2, 6): the official WP is the mean of the two per-target pooled correlations."""
     yc, pc = np.clip(y, -2, 2), np.clip(p, -2, 2)
     w = np.abs(yc) * m[..., None]
-    return np.array([w.sum(), (w * yc).sum(), (w * pc).sum(), (w * yc * yc).sum(), (w * pc * pc).sum(), (w * yc * pc).sum()])
+    ax = tuple(range(yc.ndim - 1))
+    return np.stack([w.sum(ax), (w * yc).sum(ax), (w * pc).sum(ax), (w * yc * yc).sum(ax), (w * pc * pc).sum(ax), (w * yc * pc).sum(ax)], -1)
 
 
 def wp(s):
-    w, wy, wp_, wyy, wpp, wyp = s
+    w, wy, wp_, wyy, wpp, wyp = np.moveaxis(s, -1, 0)
     my, mp = wy / w, wp_ / w
-    return (wyp / w - my * mp) / np.sqrt((wyy / w - my * my) * (wpp / w - mp * mp))
+    return float(np.mean((wyp / w - my * mp) / np.sqrt((wyy / w - my * my) * (wpp / w - mp * mp))))
 
 
 def lr_curves():

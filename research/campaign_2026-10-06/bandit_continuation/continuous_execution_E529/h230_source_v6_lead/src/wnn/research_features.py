@@ -8,7 +8,15 @@ if TYPE_CHECKING:
     import torch
 
 ENDPOINT = np.float32(-5.199337482452393)
-RESEARCH_FEATURE_MODES = ("none", "volume28", "volume28_current")
+RESEARCH_FEATURE_MODES = ("none", "volume28", "volume28_current", "flow_v2")
+# flow_v2 (research arm from the 2026-10-10 critic review): second-instrument volume deltas, trade-stream deltas, per-block event ages,
+# per-block update intensity over 16/64/256 rows and signed windowed price changes. Torch/training-time only until a native port exists.
+_FLOW_BLOCKS = {"i0px": (0, 22), "i0vol": (22, 44), "i0trade": (44, 52), "i1px": (52, 74), "i1vol": (74, 96), "i1trade": (96, 104), "extra": (104, 112)}
+_FLOW_PRICE_COLS = (0, 11, 52, 63)
+_FLOW_WINDOWS = (16, 64, 256)
+FLOW_V2_NAMES = (tuple(f"i1dvol_{j}" for j in range(22)) + tuple(f"tradeD_{j}" for j in range(16)) + tuple(f"age_{b}" for b in _FLOW_BLOCKS)
+                 + tuple(f"rate{w}_{b}" for w in _FLOW_WINDOWS for b in _FLOW_BLOCKS)
+                 + tuple(f"pxchg{w}_{c}" for w in (16, 64) for c in _FLOW_PRICE_COLS))
 VOLUME28_NAMES = tuple(f"dVrun_{index}" for index in range(22)) + (
     "pathV_first11",
     "pathV_last11",
@@ -27,6 +35,8 @@ def research_feature_names(mode: str) -> tuple[str, ...]:
         return ()
     if mode == "volume28":
         return VOLUME28_NAMES
+    if mode == "flow_v2":
+        return FLOW_V2_NAMES
     return tuple(f"currentV_{index}" for index in range(22)) + (
         "current_step_path_first11",
         "current_step_path_last11",
@@ -84,6 +94,8 @@ def research_features_torch(raw: torch.Tensor, mode: str = "none") -> torch.Tens
         raise ValueError("Extract endpoint features from original float32 inputs before autocast")
     if not names:
         return raw.new_empty((*raw.shape[:2], 0))
+    if mode == "flow_v2":
+        return _flow_v2_torch(raw)
     volume = raw[..., 22:44]
     delta = torch.diff(volume, dim=1, prepend=volume[:, :1])
     path = torch.stack((delta[..., :11].abs().sum(-1), delta[..., 11:].abs().sum(-1)), -1)
@@ -100,6 +112,32 @@ def research_features_torch(raw: torch.Tensor, mode: str = "none") -> torch.Tens
         sums = torch.cat((path, changes.to(raw.dtype)), -1)
     net = torch.stack((volume[..., :11].abs().sum(-1), volume[..., 11:].abs().sum(-1)), -1)
     return torch.cat((volume, sums.to(raw.dtype), net), -1)
+
+
+def _flow_v2_torch(raw: torch.Tensor) -> torch.Tensor:
+    """Causal full-sequence flow features (every value uses rows <= t only)."""
+    import torch
+
+    b, t, _ = raw.shape
+    delta = torch.diff(raw, dim=1, prepend=raw[:, :1])
+    parts = [delta[..., 74:96], delta[..., 44:52], delta[..., 96:104]]
+    changed = [(delta[..., lo:hi] != 0).any(-1) for lo, hi in _FLOW_BLOCKS.values()]
+    index = torch.arange(t, device=raw.device).expand(b, t)
+    ages = []
+    for event in changed:
+        last = torch.cummax(torch.where(event, index, torch.zeros_like(index)), dim=1).values
+        ages.append(torch.log1p((index - last).to(raw.dtype).clamp(max=10_000.0)))
+    parts.append(torch.stack(ages, -1))
+    counts = torch.cumsum(torch.stack(changed, -1).to(torch.float64), dim=1)
+    for w in _FLOW_WINDOWS:
+        lagged = torch.cat([torch.zeros_like(counts[:, :w]), counts[:, :-w]], dim=1) if t > w else torch.zeros_like(counts)
+        parts.append(((counts - lagged) / w).to(raw.dtype))
+    price = delta[..., list(_FLOW_PRICE_COLS)].to(torch.float64)
+    total = torch.cumsum(price, dim=1)
+    for w in (16, 64):
+        lagged = torch.cat([torch.zeros_like(total[:, :w]), total[:, :-w]], dim=1) if t > w else torch.zeros_like(total)
+        parts.append((total - lagged).to(raw.dtype))
+    return torch.cat(parts, dim=-1)
 
 
 class StreamingResearchFeatures:

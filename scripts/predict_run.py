@@ -105,6 +105,7 @@ def main():
         default="checkpoint",
         help="force common fp32 evaluation for paired fp16/fp32 training controls",
     )
+    parser.add_argument("--dump-family", action="store_true", help="also save [main 2 outputs, last 8 family-head outputs] to cache/allout_<name>.npy (research probe)")
     parser.add_argument("--gate-mode", choices=["soft", "hard", "confident"], default="soft")
     args = parser.parse_args()
     name, split = args.name, args.split
@@ -185,9 +186,26 @@ def main():
         tmp, mode="w+", dtype=np.float32, shape=(len(groups), SEQUENCE_LENGTH, 2)
     )
     i = 0
+    fam = None
+    if args.dump_family:
+        fam = np.lib.format.open_memmap(ROOT / "cache" / f"allout_{args.output_name or name}_{split}.npy", mode="w+", dtype=np.float32,
+                                        shape=(len(groups), SEQUENCE_LENGTH, 10))
     for batch in loader:
         x = batch if feature_only else batch[0]
-        p = predict(model, x, 4000, device)
+        if fam is None:
+            p = predict(model, x, 4000, device)
+        else:  # research probe: keep every output column (family heads are the last 8)
+            model.eval()
+            with torch.no_grad():
+                inputs = train_rnn.build_inputs(x.to(device, non_blocking=True))
+            state, parts = None, []
+            for s0 in range(0, inputs.shape[1], 4000):
+                with torch.no_grad(), torch.autocast(device.type, dtype=torch.float16, enabled=device.type == "cuda"):
+                    o, state = train_rnn.forward_chunk(model, inputs, slice(s0, s0 + 4000), state)
+                parts.append(o.float())
+            full = torch.cat(parts, dim=1).detach().cpu().numpy()
+            p = full[..., :2]
+            fam[i : i + len(p)] = np.concatenate([full[..., :2], full[..., -8:]], axis=-1)
         out[i : i + len(p)] = p[..., :2]
         i += len(p)
     out.flush()
