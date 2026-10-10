@@ -16,6 +16,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--tol", type=float, default=0.01)
     ap.add_argument("--max-levels", type=int, default=120)
+    ap.add_argument("--max-jitter-sd", type=float, default=None, help="keep a column only if the sd of value-minus-centre is below this (pure lattice columns)")
     ap.add_argument("--output", type=Path, required=True)
     a = ap.parse_args()
     pf = pq.ParquetFile(ROOT / "datasets/train.parquet")
@@ -27,6 +28,10 @@ def main() -> int:
         if lab[-1] + 1 > a.max_levels or lab[-1] + 1 < 2:
             continue
         centers = np.bincount(lab, weights=u * c) / np.bincount(lab, weights=c)
+        if a.max_jitter_sd is not None:
+            jit_sd = np.sqrt((c * (u - centers[lab]) ** 2).sum() / c.sum())
+            if jit_sd > a.max_jitter_sd:
+                continue
         book[f"c{j}"] = centers.astype(np.float32)
     np.savez(a.output, **book)
     print(f"snapped columns: {len(book)} of {X.shape[1]}; levels per column: {[len(v) for v in book.values()][:30]}")
