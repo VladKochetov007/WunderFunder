@@ -76,4 +76,26 @@ Stop if the mean multiplier is above 0.7: the fast clocks dominate, the reweight
 
 Muon on the GRU, one ordinary step, learning rate 4e-4, no SAM through the recurrence. SAM with ρ = 0.05 around AdamW on the input projection, the head, and the biases, at 3e-4, weight decay 0.04. Same warmup–stable–decay shape as experiment 2, 16 epochs. EMA of the weights after the outer SAM step.
 
-A sharp head on a shared representation hurts both targets at once, and a finite set of repeated sequences is the setting where a flat head generalizes better than a minimized one. Keeping SAM off the GRU holds the run near the cost of
+A sharp head on a shared representation hurts both targets at once, and a finite set of repeated sequences is the setting where a flat head generalizes better than a minimized one. Keeping SAM off the GRU holds the run near the cost of a normal 16-epoch fit. A second backward through a 1,000-step cuDNN GRU would spend the budget on curvature of a truncated path.
+
+Pre-registered checkpoint: EMA at the end of the stable phase. **P ≈ 0.10.**
+
+Stop if epoch-5 WP is below 0.658 after a normal first epoch: ρ is too large and the head is underfit. Log the validation gap between the ascent weights and the descent weights. If that gap exceeds 0.01 and widens for three epochs while WP falls, sharpness is still growing. Stop and keep the higher-ρ rerun as the successor.
+
+## 8. Two BPTT alignments that must agree
+
+Ten epochs, batch 16, constant learning rate 3e-4, AdamW weight decay 0.02, Muon on the GRU, EMA 0.999. Two forwards per sequence: chunks of 1,000 aligned at 0, and chunks of 1,000 aligned at 500, state detached at every cut. Weighted MSE on both views. From epoch 2, on the overlapping rows, add 0.5 times the MSE between each view and a stop-gradient copy of the other view.
+
+This costs about two ordinary epochs per epoch, so ten epochs fill the same budget as a 20-epoch run.
+
+The label is a smooth function of a long future path, while the gradient of the current recipe sees one detached chunk. Once that one-chunk map has fit, more epochs only polish it. Forcing two truncations to predict the same overlap makes the carried state hold a forecast that does not depend on where the cut fell. Later epochs then have a constraint that epoch 3 did not.
+
+Pre-registered checkpoint: EMA at epoch 8. **P ≈ 0.09.**
+
+Stop at epoch 5 if the consistency term is already tiny and WP is following the baseline cliff: both views memorized the labels and the constraint is redundant. Also stop at epoch 5 if WP is below 0.648 and the consistency term stays large: the two views are fighting and neither is fitting.
+
+## What I would book, and the run I would start
+
+I would not spend a 3-hour slot on a one-cycle stretched to 15–20 epochs, on weight decay 0.05–0.1 at learning rate 1e-3, or on a Muon-scope comparison under that same tail. Those runs sit in the region the curve already shows is past the peak.
+
+Start with experiment 1. The epoch-3 weights are already paid for, the optimizer state must be discarded so the old moments do not carry the tail, and the failure signature is visible two or three epochs later. If the EMA is still above 0.666 at continuation epoch 6, let it finish. If it has fallen through 0.663, stop it and treat experiment 2 and experiment 3 as the runs that never enter that basin.
