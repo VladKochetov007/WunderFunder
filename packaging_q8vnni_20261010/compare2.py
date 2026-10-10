@@ -13,7 +13,7 @@ sys.path.insert(0, str(HERE.parents[0] / "src"))
 from utils import TARGET_COLUMNS  # noqa: E402
 from wnn.gmetric import global_wp  # noqa: E402
 
-gates = HERE / "gates_upload"
+gates = HERE / "gates_upload2"
 pf = pq.ParquetFile(MAIN / "datasets/valid.parquet")
 res = {}
 for label, ref, new in (("z5_single", "z5_i16_v3", "z5_q8vnni_v3"), ("z5_z4_pair", "z5z4pair_i16_v3", "pair_q8vnni_v3")):
