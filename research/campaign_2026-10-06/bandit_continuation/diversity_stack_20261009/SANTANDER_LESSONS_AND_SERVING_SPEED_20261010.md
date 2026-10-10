@@ -1,0 +1,23 @@
+# Santander transcript (writeups/santander_transcript_english_translation.md): transferable ideas, EDA, serving-speed plan - 2026-10-10
+
+## What transfers, and what our EDA says
+| Santander trick | Our check | Verdict / next |
+|---|---|---|
+| Fake/duplicate rows (non-unique values) | `scripts/row_duplicate_probe.py`: hash of all 112 columns; valid rows found in 150 train sequences: 0.0000-0.0003, within-sequence duplicate share 0.000 | No duplicated or synthetic rows. Closed. |
+| Value-count (frequency) features | `scripts/santander_eda_probe.py`: columns split three ways by cross-sequence value reuse: 63 columns reuse >50% of their values (median 0.97: a shared tick-like vocabulary), 3 columns 10-50%, 46 columns <10% (23 below 1%: continuous). Decimals: 5-6 for 100 columns, 7-9 for 12. | Real structure: lattice-valued vs continuous columns. Candidate features: log global frequency of the value per column (rarity), value-on-grid indicator. Test: add as inputs to the GRU (needs trainer hook); falsifier fold 1 >= +0.003 or class-3 sign acc +1 pt. Queue as R3-7. |
+| Unpivot (column = instance + column id, shared model, aggregate) | Our encoder is one linear 112->h map. A shared per-column encoder with column-id embedding then sum/attention pooling is a different inductive bias (weight sharing across the 63 lattice columns, value-vocabulary embedding). | Queue as R3-8 (encoder variant `colshare`; cost: small trainer change; falsifier fold 1 >= default mean +0.003). |
+| Shuffle-within-class augmentation (independent column shuffling) | Columns are NOT independent here (blocks update together, labels tied to joint state). Column-block shuffling across sequences of the same class would break the joint law. | Unlikely; only block-wise swaps (swap entire clock blocks between same-class sequences) are plausible; low priority. |
+| SHAP feature pruning improved score | We feed all 112 columns; raw-only and heuristics arms exist. | Possible cheap: permutation importance per block on the saved student; drop blocks with ~0 importance (fewer input MACs = faster serving too). Queue as R3-9, CPU-only on saved predictions/checkpoint. |
+| Rank blending, team diversity | Already in place. | - |
+
+## Inference-time plan (portal timeouts P1/P3 at 61m57s; P2 passed; portal up to 2x slower than local replay)
+Budget rule going forward: gate a package only if local timed replay of the delivered ZIP <= 25 min (portal factor 2 plus margin), not 60 min.
+Measured: ~74 us/row for width-256 2-layer GRU (i16), ~733 us/row/member for h384 on the current kernel (tuned for 256).
+Per row MACs ~ 112*768 (input) + 3*256*768 (rec1, in2, rec2) ~ 0.68 M; 74 us ~ 9 GMAC/s, well below single-core AVX2 i16 peak (tens of GMAC/s): the loop is latency/dependency bound, so wins come from restructuring:
+1. Exact, cheap: incremental input projection. Blocks update on 31/40/15/12/70/100% of rows; keep the cached W_x * x and add the delta only for changed columns (exact since the layer is linear). Saves a share of the 86k input MACs; expected -5..-8% time.
+2. Exact: skip the readout/output head on unscored rows (rows < 99 and unmasked rows) while still advancing state.
+3. Block-importance pruning (R3-9): remove input columns with zero permutation importance (exactness not required, score re-measured).
+4. Kernel: profile with `perf stat` (IPC, L2 misses); fuse gate nonlinearities with the matvec, pre-transposed packed weights, 16-wide i16 madd accumulations, prefetch next layer weights; width-384 needs its own tile sizes (733 us/row means the 256-tuned kernel is mis-tiled; a tuned kernel could plausibly reach ~200-300 us).
+5. Lower activation cost: piecewise-linear/LUT sigmoid/tanh (check we already use LUT).
+6. If the portal permits batching sequences or threads (to verify in the starter pack API): interleave several sequences' recurrences to turn matvecs into small matmuls (big speedup); the DataPoint interface seems per-row, so probably not.
+Next actions: (a) profile the P1/P3 kernels on this machine under `scripts/limited` and record where time goes; (b) implement 1+2 behind a bit-exact test against the current output; (c) time the delivered ZIP again with the 25-minute gate.
