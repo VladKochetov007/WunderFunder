@@ -1,0 +1,73 @@
+{
+  "authorized_scope": "Create exactly one new private R7 dataset; no kernel push is performed by this preflight.",
+  "dataset_metadata": {
+    "id": "vladkochetov07/h232-v7b-ep3-payload-r7-dda776b3f9b7",
+    "isPrivate": true,
+    "path": "asset_upload_v1/dataset-metadata.json"
+  },
+  "evidence_files": {
+    "H232_R7_EXACT_DATASET_SEARCH_R1.txt": {
+      "bytes": 18,
+      "sha256": "0b9d67dedc9e680b1e1d2fb0b227c1e0fad04b826bed3e72b93cadc905264be9"
+    },
+    "H232_R7_EXACT_KERNEL_SEARCH_R1.txt": {
+      "bytes": 10,
+      "sha256": "493fda53120050f85836032324409be6c6484f90a0755ae0c6a673ba7626818b"
+    },
+    "H232_R7_OWNER_DATASET_PAGE1_R1.json": {
+      "bytes": 5214,
+      "sha256": "462b9e45026d70cadf7010997420396d7e38550239178ae024d2ea7f6b62e88f"
+    },
+    "H232_R7_OWNER_DATASET_PAGE2_R1.json": {
+      "bytes": 4829,
+      "sha256": "b00d1cbcdd84e555d2db2e765f997975ab9579c17bbee9f810918e17dfb5962b"
+    },
+    "H232_R7_OWNER_DATASET_PAGE3_R1.json": {
+      "bytes": 18,
+      "sha256": "0b9d67dedc9e680b1e1d2fb0b227c1e0fad04b826bed3e72b93cadc905264be9"
+    }
+  },
+  "kernel_inventory": {
+    "command": "kaggle kernels list --mine --search h232-gru384-v7b-ep3-export-20261008-r7 --page-size 20 --format json",
+    "exact_r7_kernel_absent": true,
+    "result": "Not found"
+  },
+  "observed_at_utc": "2026-10-08T06:32:44+00:00",
+  "owner_inventory": {
+    "all_owner_pages_exhausted": true,
+    "commands": [
+      "kaggle datasets list --mine --page 1 --page-size 20 --format json",
+      "kaggle datasets list --mine --page 2 --page-size 20 --format json",
+      "kaggle datasets list --mine --page 3 --page-size 20 --format json"
+    ],
+    "exact_dataset_id_absent": true,
+    "exact_slug_search": "No datasets found",
+    "page_counts": [
+      20,
+      19
+    ],
+    "third_page_result": "No datasets found",
+    "total_items": 39
+  },
+  "prior_r7_create_upload_receipts": {
+    "found": false,
+    "search_patterns": [
+      "H232_R7_PRIVATE_ASSET_CREATE_*",
+      "H232_R7_PRIVATE_ASSET_UPLOAD_*"
+    ]
+  },
+  "provider": "Kaggle CLI 2.2.4",
+  "record_id": "H232_R7_PRIVATE_ASSET_CREATE_PREFLIGHT_20261008_R1",
+  "schema": "h232-r7-private-asset-create-preflight-v1",
+  "staged_payload": {
+    "bytes": 8325215,
+    "destination": "asset_upload_v1/dda776b3f9b77f143eae3642ac36c7f7b58d751557de8e440c8775b01df4857b.wnn",
+    "identity_matches_frozen_payload": true,
+    "sha256": "dda776b3f9b77f143eae3642ac36c7f7b58d751557de8e440c8775b01df4857b",
+    "source": "asset_transport_r6/r6_payload.wnn"
+  },
+  "status_endpoint_observation": {
+    "command": "kaggle datasets status <exact r7 dataset id> --format json",
+    "result": "403 Forbidden before creation; non-diagnostic, not used to infer absence"
+  }
+}

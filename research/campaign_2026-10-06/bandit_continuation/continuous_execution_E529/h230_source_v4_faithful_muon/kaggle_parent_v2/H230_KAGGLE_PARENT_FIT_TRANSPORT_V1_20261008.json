@@ -1,0 +1,70 @@
+{
+  "actual_data_profile_receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_STRONG_PARENT_SEED9_REAL_DATA_PROFILE_TERMINAL_RECEIPT_V1_20261008.json",
+  "actual_data_profile_receipt_sha256": "84a0c9c4b8fed89dbd18e1c7011514fe4678074352df210fbfea8177cc629f2b",
+  "attempt_id": "h230-strong-parent-seed9-kaggle-fit-v2-20261008",
+  "builder_evidence": {
+    "code_members": 65,
+    "external_mount_count": 11,
+    "external_mounts": [
+      "datasets/train.parquet=train.parquet",
+      "datasets/valid.parquet=valid.parquet",
+      "cache/train_targets.npz=vladkochetov07/wnn-c20261004-fold0-assets:ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9.wnn",
+      "cache/valid_targets.npz=vladkochetov07/wnn-c20261004-fold0-assets:dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955.wnn",
+      "artifacts/runs/c20260929_prop_f0/model.pt=vladkochetov07/wnn-c20261004-fold0-assets:b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7.wnn",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json=vladkochetov07/wnn-c20261004-fold0-assets:09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn",
+      ".transport/fold0-assets-manifest.json=vladkochetov07/wnn-c20261004-fold0-assets:assets-manifest.json",
+      "cache/bd26_h230_fold0_teacher_family_all_rows_v1/metadata.json=vladkochetov07/h230-seed9-parent-source-cache-v2:b05e652f5fdec4e6b1e4e07d1d3a705655d4588ab8ee9d802ccdf4339fd66500.wnn",
+      "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_train.npy=vladkochetov07/h230-seed9-parent-source-cache-v2:d706c979f3fae46258ee9684dc754d02a70c35d142fed5ebaf785ae7e1ded165.wnn",
+      "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_valid.npy=vladkochetov07/h230-seed9-parent-source-cache-v2:e464d29ca5ec0c3c07e70e1f8b08afb180b5d35b70b4fb3130e6a8f56d0e1a8c.wnn",
+      ".transport/h230-parent-cache-assets-manifest.json=vladkochetov07/h230-seed9-parent-source-cache-v2:assets-manifest.json"
+    ],
+    "spec_sha256": "bda9e65e14a62c54a751e8e3d1fb032ca09fb290b73b407d3261ab1b14096e9f"
+  },
+  "cache_asset_policy": "The uploaded parent cache contains metadata plus main_source train/valid arrays only. It excludes normalized/homogeneous/family arrays; no family head is used in this parent fit. Later family-head students require the separately bound family arrays.",
+  "created_utc": "2026-10-08",
+  "fit_authorized": false,
+  "fit_limits": {
+    "cpus": 2,
+    "gpu_memory_bytes": 4300000000,
+    "gpu_stop_bytes": 12000000000,
+    "ram_bytes": 9000000000,
+    "timeout_seconds": 5200
+  },
+  "fit_runtime_evidence": {
+    "actual_data_profile_stage_sum_ms": 1279.67,
+    "actual_data_profile_timed_batches": 1,
+    "arithmetic_stage_sum_projection_seconds": 3987.45172,
+    "limitation": "This arithmetic applies one measured RTX 3060 Laptop batch stage sum uniformly; it is not a wall-time ETA and does not measure Kaggle T4 throughput. The StageTimer interval estimate is NaN with one timed batch. Kaggle device and account quota must be freshly checked before any upload/push/fit.",
+    "projection_is_eta": false,
+    "recipe_epochs": 4,
+    "source_training_batches_per_epoch": 779
+  },
+  "fit_scope": "Four zero-based epochs over all 10,606 train plus 1,873 supplied valid groups; this is all-data fitting, including exposed validation groups, with no held-out or public-score claim.",
+  "future_student_note": "A student is a fresh independent AdamW/OneCycle model per ADR0023; its base output layout is 23 and the appended eight family outputs make 31 total. No parent checkpoint initialization is implied by these dimensions.",
+  "input_stage_policy": "The bundle runner streams SHA-256 over every declared mounted input before launching training; this includes raw Parquet. The parent trainer then performs its unchanged mandatory all-data cache metadata, membership, array-hash and finiteness validation.",
+  "kernel_process_wall_limit_seconds": 6000,
+  "kernel_runner_finalization_reserve_seconds": 300,
+  "non_authorizations": [
+    "No Kaggle dataset upload or kernel push was performed.",
+    "No Kaggle quota/runtime admission was inferred from list/status queries.",
+    "No fit may launch until root reviews this exact bundle/input/timeout contract and writes a separate fit authorization."
+  ],
+  "packet_id": "H230_STRONG_PARENT_SEED9_KAGGLE_FIT_V2_20261008",
+  "recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_STRONG_PARENT_SEED9_RECIPE_V2_20261008.json",
+  "recipe_sha256": "0ec28c2c4bfa7a0891aa4359075cef701be95f8f520701b02305d48d07ad1cc3",
+  "reference_fidelity": "Independent V4 method-compatible seed-9 strong parent; clean-fold-trained own teachers, source-scale coefficient mass 0.8125, not exact reference teacher ancestry.",
+  "run_name": "bd26_h230_strong_parent_seed9_muon_kaggle_v2",
+  "schema": "h230-kaggle-parent-fit-transport-v1",
+  "source_manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_FAITHFUL_MUON_SOURCE_MANIFEST_V4_20261008.json",
+  "source_manifest_sha256": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+  "status": "prepared_for_root_review_not_uploaded_not_launched",
+  "transports": {
+    "existing_fold_assets_dataset": "vladkochetov07/wnn-c20261004-fold0-assets",
+    "existing_raw_dataset": "vladkochetov07/wunder-funder",
+    "new_cache_asset_dataset": "vladkochetov07/h230-seed9-parent-source-cache-v2",
+    "new_code_bundle_dataset": "vladkochetov07/h230-seed9-parent-fit-v2",
+    "new_kernel": "vladkochetov07/h230-seed9-parent-fit-v2-runner",
+    "upload_or_push_performed": false
+  },
+  "worker_finalization_reserve_seconds": 300
+}

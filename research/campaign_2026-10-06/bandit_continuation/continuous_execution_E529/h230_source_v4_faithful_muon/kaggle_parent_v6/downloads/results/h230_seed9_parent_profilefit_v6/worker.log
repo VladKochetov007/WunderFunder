@@ -1,0 +1,35 @@
+{"step": "profile_then_conditional_fit", "event": "starting"}
+Traceback (most recent call last):
+  File "/kaggle/working/experiment/scripts/h230_profile_then_fit.py", line 570, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/experiment/scripts/h230_profile_then_fit.py", line 566, in main
+    run(args.plan)
+    ~~~^^^^^^^^^^^
+  File "/kaggle/working/experiment/scripts/h230_profile_then_fit.py", line 454, in run
+    profile_wall, loop_started = _invoke_trainer(
+                                 ~~~~~~~~~~~~~~~^
+        train_rnn, plan["profile_argv"], profile_log_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/kaggle/working/experiment/scripts/h230_profile_then_fit.py", line 390, in _invoke_trainer
+    module.main()
+    ~~~~~~~~~~~^^
+  File "/kaggle/working/experiment/scripts/train_rnn.py", line 1706, in main
+    distill_cache_validation = validate_all_data_distillation_cache(
+        cache_root, ROOT, args.distill_cache_variant,
+        require_families=has_family_head)
+  File "/kaggle/working/experiment/src/wnn/all_data_distillation_cache.py", line 238, in validate_all_data_distillation_cache
+    raise ValueError("teacher source split escapes the data root")
+ValueError: teacher source split escapes the data root
+Traceback (most recent call last):
+  File "/kaggle/working/experiment/scripts/kaggle_sequence.py", line 61, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/experiment/scripts/kaggle_sequence.py", line 57, in main
+    run(args.plan)
+    ~~~^^^^^^^^^^^
+  File "/kaggle/working/experiment/scripts/kaggle_sequence.py", line 47, in run
+    raise RuntimeError(f"Sealed step failed: {step['name']}")
+RuntimeError: Sealed step failed: profile_then_conditional_fit

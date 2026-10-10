@@ -1,0 +1,80 @@
+{
+  "schema": "h230-kaggle-private-cache-upload-terminal-v1",
+  "receipt_id": "H230_MAIN_SOURCE_CACHE_KAGGLE_PRIVATE_UPLOAD_V1_20261008",
+  "verified_at_utc": "2026-10-08T10:26:34Z",
+  "authorization": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_MAIN_SOURCE_CACHE_ROOT_PRIVATE_UPLOAD_AUTHORIZATION_20261008_R1.json",
+    "sha256": "e671f301d38b15b1aaa542735de6c821ea9a17c922f3cbeffd6cfba1b355956d"
+  },
+  "command": "kaggle datasets create --path research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/kaggle_parent_v2/cache_asset_upload --dir-mode skip",
+  "resource_wrapper": {
+    "slice": "wnn-campaign.slice",
+    "cpu_quota": "100%",
+    "threads": 1,
+    "memory_max_bytes": 1500000000,
+    "runtime_max": "3600s"
+  },
+  "upload_timing": {
+    "status_ready_observed_utc": "2026-10-08T10:26:34Z",
+    "upload_process_start_utc": null,
+    "duration_seconds_exact": null,
+    "duration_note": "The CLI progress showed about 43 seconds for the 1.58 GiB train array and about 10 seconds for the 286 MiB validation array; the exact local process start timestamp was not captured. Kaggle server file creation timestamps span 2026-10-08T10:24:40Z to 2026-10-08T10:25:11Z."
+  },
+  "remote_dataset": {
+    "canonical_id": "vladkochetov07/h230-seed9-parent-source-cache-v2",
+    "dataset_id": 12443401,
+    "version": 1,
+    "status": "ready",
+    "private": true,
+    "title": "H230 seed-9 parent source-cache inputs v1",
+    "creation_command_exit_code": 0,
+    "creation_result": "Kaggle confirmed private dataset creation; status query now returns ready, version 1.",
+    "files": [
+      {
+        "name": "b05e652f5fdec4e6b1e4e07d1d3a705655d4588ab8ee9d802ccdf4339fd66500.wnn",
+        "size": 4235813,
+        "sha256": "b05e652f5fdec4e6b1e4e07d1d3a705655d4588ab8ee9d802ccdf4339fd66500"
+      },
+      {
+        "name": "d706c979f3fae46258ee9684dc754d02a70c35d142fed5ebaf785ae7e1ded165.wnn",
+        "size": 1696960128,
+        "sha256": "d706c979f3fae46258ee9684dc754d02a70c35d142fed5ebaf785ae7e1ded165"
+      },
+      {
+        "name": "e464d29ca5ec0c3c07e70e1f8b08afb180b5d35b70b4fb3130e6a8f56d0e1a8c.wnn",
+        "size": 299680128,
+        "sha256": "e464d29ca5ec0c3c07e70e1f8b08afb180b5d35b70b4fb3130e6a8f56d0e1a8c"
+      },
+      {
+        "name": "assets-manifest.json",
+        "size": 2139,
+        "sha256": "03be6c32ea127251bba6659df49ef193d46f6df59e4f3847cbb5782d7ae9e8ca"
+      }
+    ],
+    "remote_files_total_bytes": 2000878208,
+    "remote_verification": {
+      "status_command": "kaggle datasets status vladkochetov07/h230-seed9-parent-source-cache-v2 --format json",
+      "files_command": "kaggle datasets files vladkochetov07/h230-seed9-parent-source-cache-v2 --format json",
+      "download_command": "kaggle datasets download vladkochetov07/h230-seed9-parent-source-cache-v2 --file assets-manifest.json --path <temporary-directory> --unzip --quiet",
+      "downloaded_manifest_sha256": "03be6c32ea127251bba6659df49ef193d46f6df59e4f3847cbb5782d7ae9e8ca",
+      "large_uploaded_arrays_downloaded_for_verification": false,
+      "large_uploaded_arrays_remote_sha256_rechecked": false,
+      "large_array_identity_basis": "Pre-upload authorization bound their source metadata and manifest hashes and same-inode file-size pins; worker mandatory cache validation must stream the declared array hashes before profile and fit."
+    },
+    "listing_size_caveat": "The Kaggle `datasets list` row reports size 0 even though `datasets files` returns four files and their exact sizes. The file-list API and downloaded manifest were used as the remote inventory evidence."
+  },
+  "source_asset": {
+    "local_directory": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/kaggle_parent_v2/cache_asset_upload",
+    "asset_manifest_sha256": "03be6c32ea127251bba6659df49ef193d46f6df59e4f3847cbb5782d7ae9e8ca",
+    "source_cache_metadata_sha256": "b05e652f5fdec4e6b1e4e07d1d3a705655d4588ab8ee9d802ccdf4339fd66500",
+    "array_bytes_uploaded": 1996640256
+  },
+  "scope": {
+    "code_bundle_uploaded": false,
+    "kernel_pushed": false,
+    "fit_launched": false,
+    "family_prediction_arrays_uploaded": false,
+    "public_dataset_or_submission": false,
+    "credentials_recorded": false
+  }
+}

@@ -1,0 +1,55 @@
+# Round 3: Eight Risky Ideas
+
+## 1. Bi-directional Teacher Distillation (Training-Time Freedom)
+**Mechanism**: Train a bidirectional GRU/Transformer on full sequences (past + future features) as a privileged teacher that learns optimal representations with lookahead. Distill into the causal width-256 student by matching hidden-state distributions at each timestep using a Wasserstein or MMD loss, forcing the student to approximate the teacher's future-informed beliefs using only causal features. The teacher is discarded at serving; only the distilled student remains.
+**Falsifier**: Train a bidirectional GRU (width 256, 2 layers) on fold 1 for 2 epochs with full-sequence teacher forcing; distill into causal student for 1 epoch with hidden-state MMD loss. **Go/no-go**: validation WP ≥ 0.675 on fold 1 (vs. 0.669 baseline).
+**Expected effect**: +0.015–0.025 if future context reveals recoverable signal; unknown if causal features are truly information-limited.
+**Failure mode**: Teacher learns future-dependent shortcuts (e.g., direct label copying) that cannot be causally approximated, wasting distillation capacity.
+
+## 2. Self-Training on Unlabeled Test-Like Sequences (Training-Time Freedom)
+**Mechanism**: The competition provides test-like feature sequences (unlabeled) during training. Use the current best teacher to generate pseudo-labels on these sequences, filter by teacher confidence (e.g., top 30% lowest predictive entropy), and retrain the student on the union of real labeled data + high-confidence pseudo-labeled data with importance weighting. Iterate once.
+**Falsifier**: Generate pseudo-labels for all unlabeled sequences using the best teacher; select top 30% by confidence; retrain student from scratch on combined data for 3 epochs. **Go/no-go**: validation WP ≥ 0.678 on fold 1.
+**Expected effect**: +0.01–0.02 if pseudo-labels add diverse regimes; unknown if distribution shift corrupts the student.
+**Failure mode**: Teacher is overconfident on out-of-distribution test sequences, injecting systematic errors that the small student cannot correct.
+
+## 3. Learned Feature Simulator for Synthetic Augmentation (Training-Time Freedom)
+**Mechanism**: Train a conditional diffusion model on the 112 feature columns, conditioned on market class (decodable from first 500 rows) and run-age, to capture the multi-rate clock dynamics and label-transition structure. Generate 10× synthetic sequences with realistic label dynamics (using a jointly trained label transition model), then train student on real + synthetic data with domain-adversarial regularization to prevent simulator artifacts.
+**Falsifier**: Train a lightweight conditional diffusion model (U-Net, 500k params) on fold 1 features for 50k steps; generate 50k synthetic sequences; train student on 50% real + 50% synthetic for 3 epochs. **Go/no-go**: validation WP ≥ 0.675 on fold 1.
+**Expected effect**: +0.01–0.03 if simulator captures true data manifold; unknown — simulators often miss subtle dependencies.
+**Failure mode**: Simulator learns spurious correlations in the finite 12k sequences; student overfits to simulator artifacts that don't generalize to held-out sequences.
+
+## 4. Cross-Sequence Shared Latent Factor Model (Data)
+**Mechanism**: The 20,000 sequences share hidden market regimes (evidenced by 99.4% class decode accuracy from first 500 rows). Fit a switching linear dynamical system (SLDS) or multi-sequence VAE across all sequences simultaneously to discover K=8–16 shared latent factors that drive both feature blocks and label dynamics. At serving, run a causal filter (e.g., Kalman) to infer factors in real-time and condition the student on them.
+**Falsifier**: Fit an SLDS with K=8 factors on fold 1 training sequences (EM, 50 iterations); infer factors on validation; train student conditioned on inferred factors for 3 epochs. **Go/no-go**: validation WP ≥ 0.680 on fold 1.
+**Expected effect**: +0.015–0.03 if factors capture class-3 regimes; unknown — factor identifiability from anonymous features is unproven.
+**Failure mode**: Factors are unidentifiable from 112 anonymous columns (rotationally ambiguous), or the causal filter introduces lag that degrades class-3's long-run predictions.
+
+## 5. Feature Block Denoising via Multi-Rate Autoencoder (Data)
+**Mechanism**: The 112 columns form 6 blocks with distinct update rates (31%, 40%, 15%, 12%, 69–71%, 100%). Train a hierarchical autoencoder where each block is encoded at its native rate (slow blocks subsampled, fast blocks upsampled via learned interpolation), merged in a bottleneck, and reconstructed at native rates. The bottleneck learns a denoised, rate-invariant representation; use it as student input (replacing raw 112 columns).
+**Falsifier**: Train the multi-rate autoencoder (bottleneck 64) on fold 1 for 20 epochs; freeze encoder; train student on encoded features for 3 epochs. **Go/no-go**: validation WP ≥ 0.677 on fold 1.
+**Expected effect**: +0.01–0.02 if noise is block-structured; unknown — denoising may discard predictive high-frequency signal.
+**Failure mode**: The "noise" in fast-update blocks is actually predictive signal for imminent label changes; denoising destroys the earliest change indicators.
+
+## 6. Meta-Learned Test-Time Adaptation (Training-Time Freedom)
+**Mechanism**: Train a small LSTM optimizer (meta-learner) that observes the student's recent feature history, prediction residuals, and gradient statistics, and outputs per-step learning rates for the student's last-layer weights (or a low-rank adapter). At serving, the student adapts online within the 74μs/row budget. Meta-train on truncated sequences with simulated regime shifts matching the observed change-point statistics.
+**Falsifier**: Meta-train the LSTM optimizer (hidden 32) on fold 1 for 10k meta-steps (each: 50-row inner loop); evaluate adapted student on fold 1 validation. **Go/no-go**: validation WP ≥ 0.678 on fold 1.
+**Expected effect**: +0.015–0.03 if regime shifts are predictable from features; unknown — meta-overfitting to training regimes is likely.
+**Failure mode**: Meta-learner overfits to training-sequence regime statistics; at serving, it makes harmful adaptations on novel regimes, degrading below static student.
+
+## 7. Evolutionary Search for GRU Initialization (Training-Time Freedom)
+**Mechanism**: The student architecture is fixed (2-layer GRU, width 256), but its initialization critically affects the basin of attraction. Use evolutionary strategies (CMA-ES or OpenAI-ES) to search over the ~500k initialization parameters, evaluating each candidate by training for 1 epoch and measuring validation WP. The final student uses the best-found initialization and trains normally for 3 epochs.
+**Falsifier**: Run CMA-ES (population 32, 20 generations) on fold 1; each candidate trains 1 epoch; take best initialization, retrain 3 epochs. **Go/no-go**: validation WP ≥ 0.678 on fold 1.
+**Expected effect**: +0.01–0.02 if loss landscape has isolated high-WP basins; unknown — initialization sensitivity at this scale is unmeasured.
+**Failure mode**: The 1-epoch proxy is uncorrelated with 3-epoch final performance; search finds initializations that look good early but overfit or plateau.
+
+## 8. Change-Point Aware Multi-Task Training (Data + Training)
+**Mechanism**: Labels are piecewise constant with 3.2× higher change probability at fast-clock updates. Add an auxiliary head predicting per-row label-change probability (binary, trained with focal loss), jointly optimized with the main regression head using gradient surgery (PCGrad) to avoid negative transfer. The change-point head forces the shared representation to encode regime-boundary information, improving sign accuracy in long runs (currently decays to 74%).
+**Falsifier**: Add change-point head (2-layer MLP on student hidden state) to best student; joint training with PCGrad for 3 epochs on fold 1. **Go/no-go**: validation WP ≥ 0.677 on fold 1, and sign accuracy in runs >512 rows ≥ 78%.
+**Expected effect**: +0.01–0.02 if change-point signal regularizes long-run predictions; unknown — auxiliary task may compete for capacity.
+**Failure mode**: Change-point prediction is too easy (fast-clock columns directly signal changes), so the head learns trivial shortcuts without improving level prediction.
+
+---
+
+## The One I'd Stake the Campaign On: **#1 Bi-directional Teacher Distillation**
+
+**Why**: This is the only idea that directly attacks the *causal information ceiling* — the fundamental limit of what can be predicted from past features alone. The oracle diagnostic (+0.025 on class 3 with true run boundaries) proves that future context *would* resolve class-3 ambiguity if it were available. A bidirectional teacher learns exactly the representations that *would* be optimal with lookahead; distillation forces the causal student to approximate them. If the causal features *contain* the information (just spread over 4+ rows per the oracle), the teacher discovers the sufficient statistics and the student learns to extract them causally. If not, the falsifier fails fast (1 day). No other idea targets this specific, measured gap with a mechanism that respects the serving constraint.

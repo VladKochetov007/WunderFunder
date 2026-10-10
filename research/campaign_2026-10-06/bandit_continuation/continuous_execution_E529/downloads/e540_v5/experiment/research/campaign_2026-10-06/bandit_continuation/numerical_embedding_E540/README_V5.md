@@ -1,0 +1,9 @@
+# E540 V5 runner-watchdog correction
+
+V5 is a runtime-only successor to V4. It preserves the clip2-target WMSE/chunk objective, disabled auxiliary/distillation/propensity paths, exact 512 complete fitting components, the fixed exposed 468 evaluation groups, AMP initial scale 4096 in both arms, fixed epoch-0 checkpoint, profile zero-skip gate, corrected projection, 6,000-second kernel-process deadline, and 300-second runner-finalization reserve. V4 files remain unchanged.
+
+The independent V4 activation review found that the bootstrap computes a spec timeout before the runner performs source/input preflight. The V4 worker independently shrinks its own stage-boundary budget at actual process start, but the runner's watchdog could remain stale during a blocked/long worker stage. V5 fixes this in `kaggle_gpu_runner.py`: immediately before each worker `Popen`, it resolves `min(spec timeout, 5,200, inherited kernel deadline - current monotonic time - 300 seconds)`. It fails closed for malformed/nonfinite deadlines or less than one second of worker budget. Generic invocations with no inherited kernel deadline retain their declared timeout.
+
+The runner persists the resolved timeout in the actual worker `spec.json`, `timeout_resolution.json`, heartbeat and terminal/failure receipt. The regression test constructs the earlier spec at t=200 with a 6,000-second deadline (5,200-second spec cap), then simulates launch at t=700 and asserts a 5,000-second watchdog.
+
+The 6,000-second watchdog begins at kernel-process entry; provider queue/cold-start before entry and output transport after exit remain outside packet control. The V5 packet has fresh source, generated-bootstrap, archive, manifest, and kernel-metadata hashes. It is prepared only: no Kaggle upload or kernel push, data footer/array load, profile, fit, prediction, or grade was performed. Root must independently review the source and current quota before provider action.

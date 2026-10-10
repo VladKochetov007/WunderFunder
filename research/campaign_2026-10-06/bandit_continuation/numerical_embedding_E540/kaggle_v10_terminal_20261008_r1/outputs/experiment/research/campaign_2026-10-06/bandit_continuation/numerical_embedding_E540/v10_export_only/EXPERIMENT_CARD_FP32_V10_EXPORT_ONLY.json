@@ -1,0 +1,38 @@
+{
+  "schema": "wnn.e540-export-handoff-card.v1",
+  "experiment_id": "E540_V10_FIXED_CHECKPOINT_EXPORT_ONLY",
+  "parent_experiment_ids": [
+    "E540_FP32_V8",
+    "E540_FP32_V9_REUSE_CONTROL"
+  ],
+  "status": "prepared_pending_root_review_and_authorization",
+  "scientific_hypothesis": null,
+  "purpose": "Complete the paired fixed-468 FP32 prediction artifacts from the already completed V8 linear and V9 PLE fits after a V9 post-fit timing-validator error.",
+  "source_fit_status": {
+    "linear_v8": "checkpoint and 72996 finite FP32 updates were independently revalidated by the V9 consumer and then reused",
+    "ple_v9": "72996 of 72996 updates, zero skipped updates, finite gradient diagnostics; root independently checked 15 fixed epoch-0 tensors finite"
+  },
+  "prior_consumer_failure": {
+    "attempt": "E540_FP32_V9_REUSE_CONTROL",
+    "failure": "strict equality rejected pre-save history 559.7 seconds versus post-save provenance 559.8 seconds",
+    "predictions_produced": false,
+    "grade_produced": false,
+    "interpretation": "delivery-validator error after fit, not an optimizer failure or scientific result"
+  },
+  "v10_scope": {
+    "new_fit": false,
+    "new_profile": false,
+    "checkpoint_mutation": false,
+    "prediction_arms": [
+      "e540v8-linear-s540-fp32",
+      "e540v9-ple-s540-fp32"
+    ],
+    "fixed_evaluation_group_count": 468,
+    "feature_only": true,
+    "grader_owner": "root independent grader"
+  },
+  "claim_limits": [
+    "No score exists until root independently grades both delivered prediction arrays.",
+    "The fixed evaluation groups are previously exposed; this is not a fresh holdout or public forecast."
+  ]
+}

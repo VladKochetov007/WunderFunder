@@ -1,0 +1,128 @@
+{
+  "allocation_owner": "root",
+  "artifact_finiteness": {
+    "checkpoint": "All model-state and fixed readout tensors must be finite and match trainer provenance hashes.",
+    "prediction": "Every value in each FP32 feature-only prediction array must be finite for the frozen 468 groups."
+  },
+  "builder": "scripts/build_e540_kaggle_v7_packet.py",
+  "changed_factor": {
+    "field": "paired training precision: FP32, GradScaler disabled",
+    "reason": "V6 linear FP16 diagnostic skipped 29 of 72,996 attempted optimizer updates and did not satisfy the strict zero-skip contract; V7 is a fresh matched pair.",
+    "scientific_factors": "The frozen 512/468 membership, seed/order configuration, clip2 WMSE/chunk objective, one fixed epoch 0, model shape, initialization and numeric maps remain the same."
+  },
+  "comparison": {
+    "amp_init_scale_applied": false,
+    "amp_init_scale_argument": 1.0,
+    "arms": [
+      "linear_raw_bypass",
+      "ple8_plus_raw_bypass"
+    ],
+    "auxiliary_objectives": "disabled in both arms",
+    "checkpoint": "fixed epoch 0; no evaluation during fitting",
+    "distillation": "disabled in both arms",
+    "dropped_sequence_identity": "unknown; this packet does not record actual sampler batch indices",
+    "eligible_components": 3148,
+    "epochs": 1,
+    "evaluation": "the exact frozen 468 component-separated valid row groups; previously exposed",
+    "expected_sequences_consumed_per_arm_epoch0": 1848,
+    "expected_sequences_dropped_by_batch2_drop_last": 1,
+    "fit_subset_selection_rule": "exactly the first 512 components from the seed-540 permutation of sorted eligible component IDs",
+    "grad_scaler_enabled": false,
+    "gradient_finiteness": "GradStats on every pre-clip optimizer attempt; exact count required and nonfinite count must be zero",
+    "membership_protocol_correction_from_v2": "The preserved V2 10%-of-components rule yields 315/3,148 eligible components under the frozen split, not its stated 512. V3 explicitly selects 512 by permutation rank and is not called a 10% subset or same-size V2 realization.",
+    "metric": "global_wp_clip2_v1",
+    "paired_order_status": "same seed and sampler configuration; realized order equivalence is not independently verified",
+    "precision": "fp32 in both arms",
+    "propensity": "disabled in both arms",
+    "raw_target_wmse": "separate future factor; not part of this pair",
+    "realized_component_fraction": 0.16264294790343076,
+    "seed": 540,
+    "selected_components": 512,
+    "selected_fit_sequences": 1849,
+    "training_objective": "WMSE on targets clipped to \u00b12 and weighted by absolute clipped target; chunk denominator"
+  },
+  "conditional_authorization": {
+    "conditional_fit_after_profile_gate": true,
+    "owner": "root",
+    "provider_launch_authorized_by_actor": false,
+    "receipt": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_V7_ROOT_CONDITIONAL_AUTHORIZATION.json",
+    "required_before_data_hashing": true,
+    "scope": "Conditional paired FP32 fit after both exact-update, finite-loss/GradStats, memory and projected-runtime gates pass."
+  },
+  "delivery_correction": {
+    "profile_projection": "The post-profile elapsed duration already includes the two profile runs; projection adds only remaining fit/prediction work plus its 300-second estimate margin.",
+    "provider_timing_scope": "Kaggle queue/cold start before kernel-process entry and output transport after process exit are outside this packet watchdog and have no hard 6,000-second promise.",
+    "regression_case": "A spec timeout computed at t=200 from a 6000-second deadline is 5200; a worker launch at t=700 receives 5000 seconds.",
+    "runner_watchdog": "The spec is created during bootstrap, but preflight can consume time before Popen. The runner now recomputes the timeout at launch and persists the resolved value in the worker spec and timeout receipt.",
+    "runtime_deadline": "A 6,000-second kernel-process deadline starts at bootstrap entry; the recipe worker and runner timeout are reduced by actual bootstrap/preflight elapsed time while preserving a separate 300 seconds for runner finalization."
+  },
+  "fit_admitted": false,
+  "fit_update_contract": {
+    "completed_updates_per_arm": 72996,
+    "gradient_stats_nonfinite_steps_per_arm": 0,
+    "gradient_stats_steps_per_arm": 72996,
+    "optimizer_attempts_per_arm": 72996,
+    "skipped_updates_per_arm": 0
+  },
+  "grader": "Root owns the independent grader and must verify both prediction row-group indexes against the frozen 468 evaluation groups before scoring.",
+  "hypothesis_ids": [
+    "H-234",
+    "H-E537-C",
+    "H-E540-A"
+  ],
+  "id": "E540_FP32_V7",
+  "kind": "new paired FP32 treatment with complete pre-clip gradient-finiteness evidence",
+  "known_comparison_limit": "Allocated parameter counts are equal, but linear-control ramp coordinates are identically zero, reducing effective trainable capacity. A future PLE result is not by itself evidence for spline geometry over generic nonlinear capacity.",
+  "predecessor": "EXPERIMENT_CARD_AMP4096_V6.json",
+  "prediction_delivery": {
+    "membership_source": "the exact E540 fit-subset manifest",
+    "onnx_or_full-valid_export": false,
+    "precision": "fp32",
+    "prediction_input_columns": "features only; targets and scored masks are not read",
+    "row_order": "sorted evaluation group IDs recorded in each prediction metadata sidecar"
+  },
+  "profile_gate": {
+    "amp_init_scale_applied": false,
+    "device": "one verified Kaggle Tesla T4",
+    "fit_requires_profile_pass": true,
+    "grad_scaler_enabled": false,
+    "gradient_stats_nonfinite_steps_per_arm": 0,
+    "gradient_stats_steps_per_arm": 316,
+    "instrumentation_overhead": "Symmetric --grad-stats cost is included in actual measured profile timing and fit projection.",
+    "maximum_cuda_allocator_reserved_bytes": 4300000000,
+    "optimizer_completed_updates_per_arm": 316,
+    "precision": "fp32",
+    "profile_optimizer_attempts_per_arm": 316,
+    "projected_worker_wall_max_seconds": 5200,
+    "strict": "Both arms: 316 completed updates, finite loss, complete finite GradStats, disabled GradScaler, <=4.3GB reserved, projected inside worker cap.",
+    "timed_outer_batches": 3,
+    "warmup_outer_batches": 1
+  },
+  "provider_launch_authorized": false,
+  "provider_mutation": false,
+  "public_forecast": null,
+  "recipe": "RECIPE_V7_FP32.json",
+  "recipe_source": "V7 changes the paired training precision to FP32 and uses symmetric GradStats checks; other scientific factors and membership are held fixed from V6.",
+  "resource_profiles_launched": 0,
+  "scientific_fits_launched": 0,
+  "startup_preflight": {
+    "authorization": "Require a root-owned packet/source/recipe/subset-bound conditional-fit receipt before mounted-input hashing.",
+    "cli_validation": "Actual profile, fit, and prediction parsers accept both FP32 arms; profile/fit argv include --grad-stats and inert scale metadata.",
+    "failure_behavior": "Persist startup_preflight.json and fail closed before mounted-input hashing, profiling or fit.",
+    "ordering": "Runs before streaming SHA-256 of mounted train.parquet, valid.parquet and target NPZ files.",
+    "torch_or_gpu": "No Torch import, CUDA call, dataset footer read or target-array load."
+  },
+  "status": "prepared_v7_fp32_pending_root_review_and_conditional_authorization",
+  "v6_execution_diagnostic": {
+    "classification": "partial FP16 execution failed the strict update contract; not a paired comparison and not a scientific grade",
+    "linear": {
+      "amp_skips": 29,
+      "attempts": 72996,
+      "completed": 72967
+    },
+    "ple_fit_started": false,
+    "predictions_exported": false
+  },
+  "version": 7,
+  "worker": "scripts/e540_kaggle_v7_worker.py"
+}

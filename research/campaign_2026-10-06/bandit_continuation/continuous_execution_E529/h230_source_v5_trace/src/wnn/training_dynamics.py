@@ -18,6 +18,8 @@ def add_arguments(parser: argparse.ArgumentParser) -> None:
     group.add_argument("--warmup-frac", type=float, default=None)
     group.add_argument("--restarts", type=int, default=1, help="SGDR restart count (K+1 cycles)")
     group.add_argument("--head-lr-mult", type=float, default=1.0)
+    group.add_argument("--muon-lr-mult", type=float, default=1.0,
+                       help="learning-rate multiplier of the Muon (recurrent matrix) group relative to --lr; teammate best was about 6")
     group.add_argument("--clip-per-module", default="", help="top-level module:cap,...")
     group.add_argument(
         "--grad-noise", type=float, default=0.0, help="variance eta, not standard deviation"
@@ -95,7 +97,12 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
     if momentum:
         raise ValueError("--momentum requires --optim sgd")
     common = dict(lr=args.lr, betas=(0.9, args.beta2), weight_decay=args.wd)
-    is_grouped = bool(args.optim_switch) or args.head_lr_mult != 1
+    muon_mult = getattr(args, "muon_lr_mult", 1.0)
+    if not math.isfinite(muon_mult) or muon_mult <= 0:
+        raise ValueError("muon lr multiplier must be positive and finite")
+    if muon_mult != 1 and args.optim != "muon":
+        raise ValueError("--muon-lr-mult requires --optim muon")
+    is_grouped = bool(args.optim_switch) or args.head_lr_mult != 1 or muon_mult != 1
     if not is_grouped:
         if args.optim == "muon":
             return MuonAdamW(muon_param_groups(model, args.muon_scope), **common)
@@ -115,7 +122,7 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
             params = [p for p in group["params"] if names[id(p)].startswith("head.") == is_head]
             if not params:
                 continue
-            scale = args.head_lr_mult if is_head else 1.0
+            scale = args.head_lr_mult if is_head else (muon_mult if group.get("muon", False) else 1.0)
             split.append(
                 {
                     **group,
@@ -172,7 +179,7 @@ def build_scheduler(
             opt, sgdr_lambda(total, warm, args.restarts, args.wsd_final)
         )
     max_lr = args.lr
-    if args.head_lr_mult != 1:
+    if args.head_lr_mult != 1 or getattr(args, "muon_lr_mult", 1.0) != 1:
         max_lr = [args.lr * g.get("lr_scale", 1.0) for g in opt.param_groups]
     return torch.optim.lr_scheduler.OneCycleLR(
         opt,

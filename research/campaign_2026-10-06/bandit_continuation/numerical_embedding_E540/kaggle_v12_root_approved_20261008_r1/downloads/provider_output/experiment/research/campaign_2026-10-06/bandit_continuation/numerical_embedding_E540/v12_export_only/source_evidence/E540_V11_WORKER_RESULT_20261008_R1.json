@@ -1,0 +1,273 @@
+{
+  "artifact_binding_sha256": "11abc0690fc4ac47856ec09f1a5af7d7a7f4ebf08f97a797f35739f4830d0091",
+  "asset_observations": {
+    "linear_control_manifest": {
+      "path": "e540_assets/linear_control_manifest.json",
+      "sha256": "af50c15d3b63f9a6eff9680b0d24be15969360feb95e073cfd24b8c5da799198",
+      "size": 4728
+    },
+    "linear_epoch0": {
+      "path": "e540_assets/linear_epoch0.pt",
+      "sha256": "17c91be768a7f41cd4c6ae0b2bbce26bcf7d6fbf5e4f6509e38c4be6bd44403a",
+      "size": 1130595
+    },
+    "linear_history": {
+      "path": "e540_assets/linear_history.json",
+      "sha256": "679b6c7bf3d8b93027c6076ab8bbe6216a9c76d94885a7a06ffeaa64929aaba0",
+      "size": 2174
+    },
+    "linear_model": {
+      "path": "e540_assets/linear_model.pt",
+      "sha256": "73880506cf241502d961ce2cba20819085056fef05f5ea8e56d586535bbfb946",
+      "size": 1129947
+    },
+    "linear_provenance": {
+      "path": "e540_assets/linear_provenance.json",
+      "sha256": "ef342abcc11b94eabed66bd4d1e29009fc645079bb17bb95f5f63d83b7e82794",
+      "size": 62599
+    },
+    "ple_epoch0": {
+      "path": "e540_assets/ple_epoch0.pt",
+      "sha256": "397b1666000c82534da8196298233786947c317f71dad8adfa2af360c593aa3d",
+      "size": 1131555
+    },
+    "ple_history": {
+      "path": "e540_assets/ple_history.json",
+      "sha256": "4f99ee2e91f41abcbd28ab1466b76e14bce318fdbc1aff2bd7d241ada3b7a090",
+      "size": 2174
+    },
+    "ple_model": {
+      "path": "e540_assets/ple_model.pt",
+      "sha256": "04feca17c7961d7071c74e5a1028d4e9753cab35599464b61daf1f2966b513da",
+      "size": 1130907
+    },
+    "ple_provenance": {
+      "path": "e540_assets/ple_provenance.json",
+      "sha256": "8e68f7c7387440dcdfaf16dca5dd532b1cc3a274c67998f8d4cd6f626e52eac2",
+      "size": 64332
+    }
+  },
+  "checkpoint_receipts": {
+    "linear": {
+      "checkpoint_sha256": "17c91be768a7f41cd4c6ae0b2bbce26bcf7d6fbf5e4f6509e38c4be6bd44403a",
+      "history_sha256": "679b6c7bf3d8b93027c6076ab8bbe6216a9c76d94885a7a06ffeaa64929aaba0",
+      "metadata": {
+        "completed_batches": 924,
+        "duration": {
+          "checkpoint_write_allowance_seconds": 30.0,
+          "history_train_seconds": 421.4,
+          "observed_post_history_seconds": 0.0,
+          "provenance_fitting_seconds": 421.4,
+          "rounding_tolerance_seconds": 0.11
+        },
+        "epoch": 0,
+        "evaluation": "withheld",
+        "mode": "linear",
+        "normalization_identity": {
+          "mean": {
+            "bytes_sha256": "7416158fd94418cb9f1396866f675da7ad46636ebc411d8517d008b76d93b579",
+            "dtype": "torch.float32",
+            "shape": [
+              211
+            ]
+          },
+          "std": {
+            "bytes_sha256": "fbacccb5d199aa70ee9d1ae571a1297619bfd715e93bc883449a6593348a65d9",
+            "dtype": "torch.float32",
+            "shape": [
+              211
+            ]
+          }
+        },
+        "run_name": "e540v8-linear-s540-fp32",
+        "sample_order_identity": {
+          "batch_size": 2,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f",
+            "dtype": "torch.uint8",
+            "shape": [
+              5056
+            ]
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_class": "EpochOrderSampler",
+          "sampler_generator": "global CPU RNG",
+          "sampler_num_samples": null,
+          "sampler_replacement": null,
+          "sampler_rng": {
+            "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f",
+            "dtype": "torch.uint8",
+            "shape": [
+              5056
+            ]
+          },
+          "seeded_order": {
+            "antithetic": false,
+            "epoch": 0,
+            "seed": 540,
+            "shared_dropped_tail": true
+          }
+        },
+        "updates": 72996
+      },
+      "model_sha256": "73880506cf241502d961ce2cba20819085056fef05f5ea8e56d586535bbfb946",
+      "numeric_preprocessing_sha256": "89f1db2f39dffe935f68ad6e8103cb7a58326ef772d3d3bd3cf12c72ca1637da",
+      "parameter_finiteness": {
+        "status": "finite",
+        "tensor_count": 15
+      },
+      "provenance_sha256": "ef342abcc11b94eabed66bd4d1e29009fc645079bb17bb95f5f63d83b7e82794",
+      "run_name": "e540v8-linear-s540-fp32",
+      "status": "checkpoint_and_fit_metadata_pass"
+    },
+    "paired_fit_identity": {
+      "normalization_identity_sha256": "3e2de732a4983ff4a63f79982ea6a052fb4945834fb01fc53161b3bfb2d3518b",
+      "sample_order_identity_sha256": "9d36712ef22608bd693c8d31480760f2e0c4e71ea97ae5a1ea01f8d8a8f362df",
+      "status": "matched_sampler_normalization_and_recipe"
+    },
+    "ple": {
+      "checkpoint_sha256": "397b1666000c82534da8196298233786947c317f71dad8adfa2af360c593aa3d",
+      "history_sha256": "4f99ee2e91f41abcbd28ab1466b76e14bce318fdbc1aff2bd7d241ada3b7a090",
+      "metadata": {
+        "completed_batches": 924,
+        "duration": {
+          "checkpoint_write_allowance_seconds": 30.0,
+          "history_train_seconds": 559.7,
+          "observed_post_history_seconds": 0.09999999999990905,
+          "provenance_fitting_seconds": 559.8,
+          "rounding_tolerance_seconds": 0.11
+        },
+        "epoch": 0,
+        "evaluation": "withheld",
+        "mode": "ple",
+        "normalization_identity": {
+          "mean": {
+            "bytes_sha256": "7416158fd94418cb9f1396866f675da7ad46636ebc411d8517d008b76d93b579",
+            "dtype": "torch.float32",
+            "shape": [
+              211
+            ]
+          },
+          "std": {
+            "bytes_sha256": "fbacccb5d199aa70ee9d1ae571a1297619bfd715e93bc883449a6593348a65d9",
+            "dtype": "torch.float32",
+            "shape": [
+              211
+            ]
+          }
+        },
+        "run_name": "e540v9-ple-s540-fp32",
+        "sample_order_identity": {
+          "batch_size": 2,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f",
+            "dtype": "torch.uint8",
+            "shape": [
+              5056
+            ]
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_class": "EpochOrderSampler",
+          "sampler_generator": "global CPU RNG",
+          "sampler_num_samples": null,
+          "sampler_replacement": null,
+          "sampler_rng": {
+            "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f",
+            "dtype": "torch.uint8",
+            "shape": [
+              5056
+            ]
+          },
+          "seeded_order": {
+            "antithetic": false,
+            "epoch": 0,
+            "seed": 540,
+            "shared_dropped_tail": true
+          }
+        },
+        "updates": 72996
+      },
+      "model_sha256": "04feca17c7961d7071c74e5a1028d4e9753cab35599464b61daf1f2966b513da",
+      "numeric_preprocessing_sha256": "d7190039c6b3136a32ad4fe1fdaabb652d432d3059c5bf92fec14e9c572f4ef7",
+      "parameter_finiteness": {
+        "status": "finite",
+        "tensor_count": 15
+      },
+      "provenance_sha256": "8e68f7c7387440dcdfaf16dca5dd532b1cc3a274c67998f8d4cd6f626e52eac2",
+      "run_name": "e540v9-ple-s540-fp32",
+      "status": "checkpoint_and_fit_metadata_pass"
+    }
+  },
+  "elapsed_worker_seconds": 57.448,
+  "error": "[Errno 2] No such file or directory: '/kaggle/working/experiment/cache/pred_e540v8-linear-s540-fp32-eval_valid.npy.partial'",
+  "error_type": "FileNotFoundError",
+  "fit_started": false,
+  "grade_started": false,
+  "hardware": {
+    "cuda": "12.8",
+    "device_capability": [
+      7,
+      5
+    ],
+    "device_name": "Tesla T4",
+    "device_total_bytes": 15636037632,
+    "torch": "2.11.0+cu128"
+  },
+  "membership": {
+    "evaluation_group_count": 468,
+    "evaluation_membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "selected_component_count": 512,
+    "selected_group_counts": {
+      "train": 1597,
+      "valid": 252
+    }
+  },
+  "packet_id": "E540_FP32_V11_FIXED_CHECKPOINT_EXPORT_ONLY",
+  "prediction_arms": {
+    "linear": {
+      "argv": [
+        "scripts/predict_run.py",
+        "e540v8-linear-s540-fp32",
+        "valid",
+        "--epoch",
+        "0",
+        "--inference-precision",
+        "fp32",
+        "--output-name",
+        "e540v8-linear-s540-fp32-eval",
+        "--fit-subset-manifest",
+        "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V5.json"
+      ],
+      "status": "prediction_running"
+    },
+    "ple": {
+      "status": "not_started"
+    }
+  },
+  "profile_started": false,
+  "recipe_sha256": "afab6e16593f0d7568c1d3c176c081efc8dedbdb17960bfa2dd3bd0d9702a268",
+  "schema": "wnn.e540-v11-export-worker-result.v1",
+  "started_unix": 1791444416.2165606,
+  "status": "failed",
+  "subset_manifest_sha256": "ce84816336bc457d487cbddf2f7214ef4d8b0b02e83f9c8e60921b9ce2374d4d",
+  "valid_input_identity": {
+    "expected": {
+      "path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "size": 5615509128
+    },
+    "observed": {
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "size": 5615509128
+    },
+    "read_policy": "byte identity check only; predictor reads selected features with targets=False, mask=False",
+    "status": "verified"
+  },
+  "worker_timeout_seconds": 5200
+}

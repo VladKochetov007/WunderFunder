@@ -1,0 +1,69 @@
+{
+  "command": [
+    "kaggle",
+    "datasets",
+    "create",
+    "--path",
+    "/tmp/r7h232u",
+    "--dir-mode",
+    "skip"
+  ],
+  "dataset_id": "vladkochetov07/h232-v7b-ep3-payload-r7-dda776b3f9b7",
+  "exit_code": 0,
+  "finished_at_utc": "2026-10-08T06:34:12+00:00",
+  "kernel_push_attempts": 0,
+  "precreate_absence_check": {
+    "command": [
+      "kaggle",
+      "datasets",
+      "list",
+      "--mine",
+      "-s",
+      "h232-v7b-ep3-payload-r7-dda776b3f9b7",
+      "--page-size",
+      "20",
+      "--format",
+      "json"
+    ],
+    "exit_code": 0,
+    "result": "No datasets found",
+    "stderr_path": "H232_R7_CREATE_RETRY_PRECHECK_STDERR_R1.txt",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_path": "H232_R7_CREATE_RETRY_PRECHECK_STDOUT_R1.txt",
+    "stdout_sha256": "0b9d67dedc9e680b1e1d2fb0b227c1e0fad04b826bed3e72b93cadc905264be9"
+  },
+  "private": true,
+  "record_id": "H232_R7_PRIVATE_ASSET_CREATE_RETRY1_RECEIPT_20261008_R1",
+  "repair_basis": {
+    "corrective_change": "Copy the identical three upload files into short physical path /tmp/r7h232u; no dataset bytes or metadata changed.",
+    "prior_attempt": "H232_R7_PRIVATE_ASSET_CREATE_RECEIPT_20261008_R1.json",
+    "prior_failure": "CLI temp sidecar basename exceeded NAME_MAX because Kaggle flattened the full long workspace path; payload upload never started. Owner listing after failure still had no R7 dataset."
+  },
+  "result_interpretation": "Dataset creation CLI result recorded; READY and remote hashes require separate status, file listing, and full pinned-version download.",
+  "schema": "h232-r7-private-asset-create-retry1-v1",
+  "single_corrected_create_attempt": true,
+  "staged_files": {
+    "dataset-metadata.json": {
+      "bytes": 193,
+      "sha256": "b7074a9ac5f606809f6d12df21fe57cb13f39fac4ee03fbed516df1cd7283bf6"
+    },
+    "dda776b3f9b77f143eae3642ac36c7f7b58d751557de8e440c8775b01df4857b.wnn": {
+      "bytes": 8325215,
+      "sha256": "dda776b3f9b77f143eae3642ac36c7f7b58d751557de8e440c8775b01df4857b"
+    },
+    "h232-v7b-ep3-payload-manifest-r7.json": {
+      "bytes": 361,
+      "sha256": "ea4d322ad305528c1292408d9bdc83e51beb038413f33f11a9424edf381d2b8e"
+    }
+  },
+  "staging_dir": "/tmp/r7h232u",
+  "started_at_utc": "2026-10-08T06:34:03+00:00",
+  "stderr_bytes": 414,
+  "stderr_path": "H232_R7_PRIVATE_ASSET_CREATE_RETRY1_STDERR_R1.txt",
+  "stderr_sha256": "64465ce6772ea1486015bb297c0461b2f747382f527ecc7f8c2343ab2c18d500",
+  "stdout_bytes": 463,
+  "stdout_path": "H232_R7_PRIVATE_ASSET_CREATE_RETRY1_STDOUT_R1.txt",
+  "stdout_sha256": "1f71cc72da2d9aec322adb31b6db7f7355e3598e8505fae2864719f0f97f284e",
+  "timed_out": false,
+  "timeout_seconds": 100
+}

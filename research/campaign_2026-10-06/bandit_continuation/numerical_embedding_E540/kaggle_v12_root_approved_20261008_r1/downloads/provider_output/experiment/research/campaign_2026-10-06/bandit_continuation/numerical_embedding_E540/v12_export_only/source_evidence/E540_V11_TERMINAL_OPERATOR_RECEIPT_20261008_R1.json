@@ -1,0 +1,86 @@
+{
+  "completed_stages": {
+    "all_nine_reused_asset_hashes_and_checkpoint_provenance": "PASS",
+    "authorization_and_actual_predictor_cli_preflight": "PASS",
+    "fit_started": false,
+    "grade_started": false,
+    "linear_prediction_completed": false,
+    "linear_prediction_started": true,
+    "ple_prediction_completed": false,
+    "ple_prediction_started": false,
+    "profile_started": false,
+    "valid_input_identity": "PASS"
+  },
+  "failure": {
+    "diagnosis": "The extracted project did not contain the project-local cache/ directory. scripts/predict_run.py attempted numpy.lib.format.open_memmap on the .partial output under that missing parent and raised FileNotFoundError before writing predictions.",
+    "exception_type": "FileNotFoundError",
+    "message": "[Errno 2] No such file or directory: '/kaggle/working/experiment/cache/pred_e540v8-linear-s540-fp32-eval_valid.npy.partial'",
+    "new_checkpoint_files": 0,
+    "prediction_array_files_found": 0,
+    "prediction_log_bytes": 0,
+    "prediction_phase_sha256": "41ce6cb78d8089ce9c4cc9b5cea296661412e928770ee0ce4883aa9acfc4dfb2",
+    "prediction_result_sha256": "26a0f907c476c00393bfab1e684cc81969bef30d6a98ac7f2c650a8a8621010c",
+    "scientific_outcome": "none; this is an export-path execution failure, not a model result",
+    "stage": "linear fixed-checkpoint prediction output initialization",
+    "worker_log_sha256": "d5f62e59980fe315ca23b8623bfea1714506bb880c3808c494a1449c7f53bd7c"
+  },
+  "frozen_attempt": {
+    "artifact_binding_sha256": "11abc0690fc4ac47856ec09f1a5af7d7a7f4ebf08f97a797f35739f4830d0091",
+    "prepush_admission_sha256": "b5f03c42bffe9212afd88c12443aa83e80ebe709b8f03157d75428b19510ff40",
+    "provider_push_receipt_sha256": "d22998cf9040a104e187530845a870d3081b6ed8005baed01096d2277d58c737",
+    "provider_targets_registry_sha256": "c47c65915975809235ebf8264d283d26a0fe3c1cbfda7ad0c183bb3e2e7b1377",
+    "recipe_sha256": "afab6e16593f0d7568c1d3c176c081efc8dedbdb17960bfa2dd3bd0d9702a268",
+    "root_authorization_id": "E540_V11_ROOT_20261008_R1",
+    "root_authorization_sha256": "86f80931810c5bda361b658af2cc9b7b435b07692f00c283f96ba477f6485c38",
+    "root_final_packet_review_sha256": "1aecbde8e5c5849d224978d2e96b27f9e1c4433e92f46d912fa693609b45c8c1",
+    "runtime_spec_sha256": "fbe71264986ba29a84a1ffa2779e8d35a47209d22547d9a9cc059e0f5ff8d080",
+    "source_bundle_archive_sha256": "eac435981cfd8d65a87e9204f83bdd1a7311e7f4ddfa568f3077d30bd766f8d1",
+    "source_commit": "b0724433bd627eaa8667f35c30d39b476c5199ef"
+  },
+  "next_repair": "Prepare a new identified export-only successor with only worker-local creation of the project cache directory before predictor invocation. Validate actual predictor file writing, partial-to-final NPY rename, sidecar, and finite output on one synthetic tiny Parquet sequence assigned an actual eligible valid group identity using an existing E540 checkpoint; retain all production identity checks. Root review and fresh admission required before any successor push.",
+  "observed_at_utc": "2026-10-08T07:33:54Z",
+  "observed_inputs_and_membership": {
+    "evaluation_group_count": 468,
+    "evaluation_membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "fit_subset_manifest_sha256": "ce84816336bc457d487cbddf2f7214ef4d8b0b02e83f9c8e60921b9ce2374d4d",
+    "selected_complete_component_count": 512,
+    "selected_group_counts": {
+      "train": 1597,
+      "valid": 252
+    },
+    "valid_parquet_bytes": 5615509128,
+    "valid_parquet_read_policy": "byte identity check only; predictor reads selected features with targets=False, mask=False",
+    "valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  },
+  "packet_id": "E540_FP32_V11_FIXED_CHECKPOINT_EXPORT_ONLY",
+  "provider": {
+    "accelerator": "NvidiaTeslaT4",
+    "device_name": "Tesla T4",
+    "kernel": "vladkochetov07/e540-v11-binding-fix-20261008-runner",
+    "peak_gpu_bytes": 133169152,
+    "peak_ram_bytes": 798752768,
+    "provider_timeout_seconds": 6000,
+    "push_count": 1,
+    "status_observed_at_utc": "2026-10-08T07:33:54Z",
+    "terminal_status": "KernelWorkerStatus.ERROR",
+    "terminal_status_command": "kaggle kernels status vladkochetov07/e540-v11-binding-fix-20261008-runner",
+    "version": 1,
+    "worker_returncode": 1,
+    "worker_timeout_seconds": 5200,
+    "worker_wall_seconds": 61.239103951
+  },
+  "record_id": "E540_V11_TERMINAL_OPERATOR_RECEIPT_20261008_R1",
+  "schema": "wnn.e540-v11-terminal-operator-receipt.v1",
+  "terminal_outputs": {
+    "collection_count": 2,
+    "file_count": 118,
+    "kernel_log_sha256": "00e223c672cb5868dcb039b2014ff91f422627b5f65ac29f3892acfd16404ff3",
+    "local_output_tree": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/kaggle_v11_root_authorized_20261008/outputs",
+    "manifest_path": "E540_V11_PROVIDER_OUTPUT_MANIFEST_20261008_R1.json",
+    "manifest_sha256": "90f59b9858acb2d6c9e4504d232c8350dadccb413959a018d24bf8f423a935c5",
+    "outputs_include": "full provider terminal download: experiment source/recipe/split and reused input artifact copies; worker logs/results/phases; inventory/summary/heartbeat; runtime spec",
+    "reservation": "6000s V11 hold retained for root quota settlement; do not release based only on terminal status",
+    "total_bytes": 11620049,
+    "verification_collections_identical": true
+  }
+}

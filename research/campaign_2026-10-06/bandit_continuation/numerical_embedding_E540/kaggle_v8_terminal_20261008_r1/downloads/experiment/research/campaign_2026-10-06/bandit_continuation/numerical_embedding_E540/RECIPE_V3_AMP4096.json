@@ -1,0 +1,135 @@
+{
+  "version": 3,
+  "experiment_id": "E540_AMP4096_V3",
+  "status": "provisional_v3_successor_pending_root_source_packet_quota_and_actual_profile_review",
+  "predecessor": {
+    "recipe": "RECIPE_V2.json",
+    "status": "preserved_unfitted",
+    "reason": "V2 leaves GradScaler at the trainer default of 65536. V3 is a separate numeric successor after an observed startup overflow risk; it is not an exact V2 reproduction."
+  },
+  "hypothesis_ids": ["H-234", "H-E537-C", "H-E540-A"],
+  "changed_factor": {
+    "name": "FP16 GradScaler initial scale",
+    "V2_initial_scale": 65536.0,
+    "V3_profile_initial_scale": 4096.0,
+    "V3_fit_initial_scale": 4096.0,
+    "scope": "Both arms, both actual-device profile and conditional fit",
+    "interpretation": "This is an explicitly identified numerical successor. The lower initial scale is not a response selected on evaluation labels. Zero AMP skips remain a strict profile and fit validity gate."
+  },
+  "data": {
+    "allowed_files": ["datasets/train.parquet", "datasets/valid.parquet"],
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "fitting_subset": "exactly the first 512 components from the seed-540 permutation of sorted eligible component IDs; all fitting sequences in each selected component are included",
+    "subset_selection_seed": 540,
+    "membership_protocol_correction_from_v2": "The preserved V2 10%-of-components rule yields 315 of 3,148 eligible components under the frozen split, rather than its stated 512. V3 therefore freezes exactly 512 by seed-540 permutation rank; it is not described as a 10% subset or the same-size V2 realization.",
+    "eligible_component_count": 3148,
+    "selected_component_count": 512,
+    "realized_component_fraction": 0.16264294790343076,
+    "selected_fit_sequence_count": 1849,
+    "expected_epoch0_consumed_sequence_count": 1848,
+    "expected_epoch0_dropped_sequence_count": 1,
+    "dropped_sequence_identity": "unknown in the packet; the exact row is not inferred from the seed without an observed loader trace",
+    "paired_sample_order_status": "both arms pin the same seeded sampler configuration; realized order and dropped-row identity are not captured here",
+    "fit_membership": "selected train and non-evaluation valid groups only",
+    "evaluation_membership": "the exact frozen 468 valid row groups from the supplied split",
+    "knot_fit": {
+      "coordinates": "existing model mean/std fitted from the first two batches of the selected training loader only; identical seeded order in both arms",
+      "rows_per_sequence": 128,
+      "row_selection": "evenly spaced positions including sequence endpoints",
+      "maximum_reservoir_rows": 65536,
+      "reservoir_seed": 20261008,
+      "quantiles": "n_intervals+1 equally spaced empirical quantiles; duplicate values dropped per feature",
+      "constant_feature": "one repeated knot, zero ramp coordinates, raw bypass retained",
+      "sentinel": "finite -5.19934 follows the current unchanged-input policy as an ordinary scalar",
+      "labels_or_scored_mask": "never read for knot fitting"
+    }
+  },
+  "shared_model": {
+    "raw_feature_count": 112,
+    "event_feature_count": 99,
+    "input_width": 211,
+    "expanded_width": 1107,
+    "hidden": 128,
+    "layers": 1,
+    "dropout": 0.0,
+    "allocated_trainable_parameters_per_arm": 274050,
+    "batch_size": 2,
+    "chunk_rows": 256,
+    "effective_update_rows": 256,
+    "effective_detach_rows": 256,
+    "epochs": 1,
+    "seed": 540,
+    "batch_order": "seeded; same sampler configuration in both arms; DataLoader drop_last=True omits one of 1,849 selected sequences in epoch 0, with exact identity unobserved",
+    "initialization": "from scratch; same seed and identical parameter layouts",
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "schedule": "OneCycle",
+    "precision": "fp16 autocast",
+    "amp_initial_scale": 4096.0,
+    "auxiliary_objectives": "all disabled",
+    "distillation": "disabled",
+    "propensity": "disabled",
+    "loss": {
+      "name": "wmse",
+      "training_target_clip": [-2.0, 2.0],
+      "weight": "absolute clipped target magnitude",
+      "denominator": "sum of both target weights over each 256-row chunk",
+      "validity_mask": "repository warmup validity; same for both arms"
+    },
+    "checkpoint": "fixed epoch 0; evaluation withheld during fitting"
+  },
+  "arms": {
+    "linear": {
+      "numeric_map": "linear",
+      "basis": "8 zero ramp coordinates and one active raw bypass coordinate per feature"
+    },
+    "ple": {
+      "numeric_map": "ple",
+      "basis": "8 clamped cumulative linear ramps from at most 9 train-only quantile knots plus unbounded standardized raw bypass"
+    }
+  },
+  "capacity_disclosure": {
+    "allocated_parameters": "exactly equal by construction for the paired E540 arms",
+    "effective_capacity": "not equal: all 896 linear-control ramp input coordinates are zero, so their connected projection weights do not add data-dependent expressivity",
+    "interpretation": "A PLE gain cannot be attributed solely to spline geometry. A matched ordinary input MLP remains a later descendant."
+  },
+  "profile": {
+    "shape": {"batch": 2, "chunk_rows": 256, "hidden": 128, "layers": 1},
+    "warmup_outer_batches": 1,
+    "timed_outer_batches": 3,
+    "optimizer_attempts_per_arm": 316,
+    "finite_timing_reason": "The trainer computes median step_wall from timed-batch start intervals and requires at least three timed batches.",
+    "strict_gate": [
+      "both arms run on one verified Kaggle Tesla T4",
+      "all 316 profile losses and gradients are finite",
+      "all 316 profile optimizer updates complete with zero AMP skips",
+      "allocator reserved peak is at most 4.3 decimal GB per arm",
+      "the conservative full fit and both feature-only prediction exports project inside the worker deadline"
+    ],
+    "fit_on_profile_failure": false
+  },
+  "prediction_and_grade": {
+    "prediction_membership": "exact sorted evaluation_groups from the frozen E540 fit-subset manifest; 468 valid row groups",
+    "prediction_reads": "features only; targets and is_scored masks are not requested",
+    "prediction_precision": "fp32",
+    "prediction_index": "row_groups array and evaluation_membership_sha256 accompany each prediction file; grader verifies both before scoring",
+    "onnx_export": "omitted from this bounded research screen",
+    "exposure": "These previously inspected evaluation groups remain exposed; no holdout or public forecast is implied."
+  },
+  "tails_factor": {
+    "status": "held fixed at clip2 for this pair",
+    "raw_target_wmse": "separate future factor; not tested by E540 V3"
+  },
+  "resource_envelope": {
+    "provider_wall_seconds_max": 6000,
+    "worker_wall_seconds_max": 5200,
+    "reserved_seconds": 800,
+    "reason": "The 800-second provider/worker margin covers kernel startup, bundle mount/extraction and terminal artifact transport. Exact mounted-input SHA-256 runs inside the 5,200-second worker cap and is included in its projection; root checks live quota and observed input-hash throughput before submission."
+  },
+  "expected_public_score": null,
+  "promotion": "A one-seed small-data screen can allocate a larger fidelity test; it cannot establish training-seed robustness, public transfer or final submission value.",
+  "fit_admitted": false,
+  "provider_launch_authorized": false,
+  "grader_owner": "root independent grader"
+}

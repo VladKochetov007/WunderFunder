@@ -1,0 +1,122 @@
+{
+  "schema": "wnn.e540-v9-terminal-operator-receipt.v1",
+  "packet_id": "E540_FP32_V9_REUSE_CONTROL",
+  "kernel": "vladkochetov07/e540-v9-ple-reuse-control-20261008-runner",
+  "provider_push_receipt_sha256": "d1cf56bfa5a47482bc37f5db82e7c0f8f5f5398a2fa9edb7ee49be6fe7b7f94d",
+  "observed_at_utc": "2026-10-08T06:14:46Z",
+  "provider_status": "KernelWorkerStatus.ERROR",
+  "runner_result": {
+    "status": "failed",
+    "returncode": 1,
+    "wall_seconds": 1397.096957862,
+    "worker_timeout_seconds": 5200,
+    "device": {
+      "name": "Tesla T4",
+      "uuid": "GPU-6a98a6f6-c744-bfe2-688c-2d662d2aecf8"
+    },
+    "peak_ram_bytes": 4027977728,
+    "peak_gpu_bytes": 468713472,
+    "result_json_sha256": "34b0d9b5df005bfd22722eeab47306ec31839d6522460c59c437e8d89fde5890"
+  },
+  "source_input_identity": {
+    "status": "verified",
+    "method": "Streaming SHA-256 identity checks; no parquet footer or target NPZ arrays loaded by this verifier.",
+    "portable_manifest_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "sources": [
+      {
+        "path": "datasets/train.parquet",
+        "size_bytes": 29240219011,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "status": "expected_observed_match"
+      },
+      {
+        "path": "datasets/valid.parquet",
+        "size_bytes": 5615509128,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "status": "expected_observed_match"
+      },
+      {
+        "path": "cache/train_targets.npz",
+        "size_bytes": 1909335790,
+        "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+        "status": "expected_observed_match"
+      },
+      {
+        "path": "cache/valid_targets.npz",
+        "size_bytes": 337186198,
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "status": "expected_observed_match"
+      }
+    ]
+  },
+  "profile": {
+    "status": "pass",
+    "optimizer_attempts": 316,
+    "optimizer_completed_updates": 316,
+    "amp_skipped_updates": 0,
+    "gradient_stats_steps": 316,
+    "gradient_stats_nonfinite_steps": 0,
+    "profile_wall_seconds": 141.45008392600005,
+    "step_wall_ms": 595.26,
+    "peak_cuda_reserved_bytes": 230686720,
+    "projected_total_worker_seconds": 1849.9244733850003,
+    "gate_elapsed_worker_seconds": 780.6104584440002
+  },
+  "ple_fit": {
+    "optimizer_attempts": 72996,
+    "optimizer_completed_updates": 72996,
+    "amp_skipped_updates": 0,
+    "completed_outer_batches": 924,
+    "gradient_stats_steps": 72996,
+    "gradient_stats_nonfinite_steps": 0,
+    "history_evaluation": "withheld",
+    "history_train_seconds": 559.7,
+    "provenance_fitting_seconds": 559.8,
+    "history_provenance_update_contract": "matches declared 72996 finite FP32 updates; timing validation failed before export",
+    "checkpoint_files": {
+      "model.pt": {
+        "sha256": "04feca17c7961d7071c74e5a1028d4e9753cab35599464b61daf1f2966b513da",
+        "matches_external_provenance": true,
+        "tensor_finiteness_inspected": false
+      },
+      "model_ep0.pt": {
+        "sha256": "397b1666000c82534da8196298233786947c317f71dad8adfa2af360c593aa3d",
+        "matches_external_provenance": true,
+        "tensor_finiteness_inspected": false
+      }
+    },
+    "external_provenance_sha256": "8e68f7c7387440dcdfaf16dca5dd532b1cc3a274c67998f8d4cd6f626e52eac2",
+    "history_sha256": "4f99ee2e91f41abcbd28ab1466b76e14bce318fdbc1aff2bd7d241ada3b7a090",
+    "predictions": "not produced",
+    "score": null
+  },
+  "terminal_error": {
+    "type": "ValueError",
+    "message": "history training duration differs from sibling provenance",
+    "worker_file": "scripts/e540_kaggle_v9_worker.py",
+    "validation_function": "validate_history",
+    "validation_line": 917,
+    "caller_line": 1557,
+    "worker_log_sha256": "c68a64a0959d887a3244b832532b646779b7d4c1a58a1c33809399240bc35dd0",
+    "cause": "train_rnn.py records history.train_seconds to 0.1s before checkpoint serialization, then records provenance.fitting_seconds to 0.1s after checkpoint serialization. The separately sampled values are 559.7 and 559.8; the consumer incorrectly requires absolute difference <=1e-9.",
+    "minimal_successor_repair": "Validate both durations as finite/positive and apply documented boundary semantics: history is sampled before checkpoint writes, provenance after writes. Permit a small bounded nonnegative serialization delta with explicit rounding tolerance, or make both fields use a shared timestamp. Do not change the scientific recipe."
+  },
+  "artifact_collection": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/kaggle_v9_root_approved_20261008/terminal_output_r1",
+    "file_count": 123,
+    "disk_size": "13M",
+    "runner_declared_artifacts": 18,
+    "runner_declared_artifacts_sha256_verified": 18,
+    "missing_prediction_files": [
+      "cache/pred_e540v8-linear-s540-fp32-eval_valid.npy",
+      "cache/pred_e540v8-linear-s540-fp32-eval_valid.json",
+      "cache/pred_e540v9-ple-s540-fp32-eval_valid.npy",
+      "cache/pred_e540v9-ple-s540-fp32-eval_valid.json"
+    ],
+    "worker_log_sha256": "c68a64a0959d887a3244b832532b646779b7d4c1a58a1c33809399240bc35dd0",
+    "kernel_log_sha256": "3ce9b07425429022c57beaddc5fb99800f3a494179fe2df0ac70cbfa9ea0a043",
+    "kernel_log_outer_error": "RuntimeError: Worker failed: e540-v9-ple-reuse-control-20261008"
+  },
+  "scientific_conclusion": "No comparison grade or score. Input identity and the actual PLE profile passed; the one-epoch PLE fit completed 72996/72996 updates with zero skips and finite gradient diagnostics, but post-fit duration validation rejected a 0.1-second boundary difference before prediction export. The checkpoint is preserved and hash-bound but tensor finiteness has not been inspected. This is a delivery-validator defect, not a negative scientific result.",
+  "retry_or_duplicate_push": false
+}

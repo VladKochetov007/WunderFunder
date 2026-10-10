@@ -1,0 +1,149 @@
+{
+  "arm": "muon512",
+  "assigned_device": {
+    "compute_capability": [
+      7,
+      5
+    ],
+    "name": "Tesla T4",
+    "nvidia_smi_free_bytes_before_fit": 15636365312,
+    "nvidia_smi_total_bytes": 16106127360,
+    "physical_index": 0,
+    "physical_uuid": "GPU-5dd68c88-270a-8ba0-1934-40cfa73e4483",
+    "torch_cuda_free_bytes_before_fit": 15526068224,
+    "torch_cuda_total_bytes": 15636037632,
+    "visible_device_count": 1
+  },
+  "batch": 8,
+  "fit_context_sha256": "c0ea0d9d4448d19145e8e7b3150e82672590fad8cf747ddb3d285fa2c3ca66c2",
+  "fit_started": true,
+  "fit_subprocess": {
+    "argv_receipt": "/kaggle/working/gru_capacity_v5r2_project/capacity_receipts/muon512/muon512-fit-argv.json",
+    "exit_code": -15,
+    "gpu": {
+      "gpu_min_free_mb": 13519,
+      "gpu_peak_used_mb": 1393,
+      "gpu_total_mb": 15360
+    },
+    "log": "/kaggle/working/gru_capacity_v5r2_project/capacity_receipts/muon512/muon512-fit.log",
+    "markers": {
+      "child_stage": "trainer_main_start",
+      "data_ready": {
+        "eval_sequences": 468,
+        "train_batches": 1492,
+        "train_sequences": 10535
+      },
+      "fit_epoch": {
+        "epoch": 2,
+        "evaluation": "withheld",
+        "train_seconds": 3426.7,
+        "update_diagnostics": {
+          "cumulative": {
+            "amp_skipped_updates": 20,
+            "completed_batches": 4476,
+            "ema_updates": 0,
+            "optimizer_attempts": 44760,
+            "optimizer_completed_updates": 44740
+          },
+          "epoch": {
+            "amp_skipped_updates": 6,
+            "completed_batches": 1492,
+            "ema_updates": 0,
+            "optimizer_attempts": 14920,
+            "optimizer_completed_updates": 14914
+          },
+          "normalization_identity": {
+            "mean": {
+              "bytes_sha256": "f2b3e00b947f7a636dbb7b17b0452d6057a806978fb147b4216029fbd40df448",
+              "dtype": "torch.float32",
+              "shape": [
+                211
+              ]
+            },
+            "std": {
+              "bytes_sha256": "077114d264cc45cf8d138844c40d8cf296b17a261214efd63d5ffe9826398e1a",
+              "dtype": "torch.float32",
+              "shape": [
+                211
+              ]
+            }
+          },
+          "sample_order_identity": {
+            "batch_size": 8,
+            "drop_last": true,
+            "loader_generator": "global CPU RNG",
+            "loader_rng": {
+              "bytes_sha256": "fbe19bb21fb5fdd08dc15a2a0f727c54c507638d7dee5a2a6c9248c0779d7ba2",
+              "dtype": "torch.uint8",
+              "shape": [
+                5056
+              ]
+            },
+            "num_workers": 0,
+            "persistent_workers": false,
+            "sampler_class": "EpochOrderSampler",
+            "sampler_generator": "global CPU RNG",
+            "sampler_num_samples": null,
+            "sampler_replacement": null,
+            "sampler_rng": {
+              "bytes_sha256": "fbe19bb21fb5fdd08dc15a2a0f727c54c507638d7dee5a2a6c9248c0779d7ba2",
+              "dtype": "torch.uint8",
+              "shape": [
+                5056
+              ]
+            },
+            "seeded_order": {
+              "antithetic": false,
+              "epoch": 2,
+              "seed": 9,
+              "shared_dropped_tail": true
+            }
+          }
+        }
+      },
+      "fit_progress": {
+        "batch": 1460,
+        "epoch": 3
+      },
+      "optimizer_precision": {
+        "groups": [
+          {
+            "device_capability": [
+              7,
+              5
+            ],
+            "device_type": "cuda",
+            "native_bf16_selected": false,
+            "policy": "native_bf16_if_supported_else_fp32_v1",
+            "selected_dtype": "float32",
+            "torch_cuda_bf16_supported": true
+          }
+        ],
+        "policy": "native_bf16_if_supported_else_fp32_v1"
+      }
+    },
+    "phase_timings": {
+      "child_process_seconds": 15181.844,
+      "fit_after_ready_seconds": 11915.291,
+      "load_and_model_setup_seconds": 64.186,
+      "trainer_import_seconds": 2.685
+    },
+    "status": "timeout",
+    "timed_out": true,
+    "worker_elapsed_seconds": 15200.308
+  },
+  "packet_id": "E529_H232_GRU512_768_MUON_SEED9_FIT_V5R2_20261009",
+  "phase_timings": {
+    "fit_subprocess_phases": {
+      "child_process_seconds": 15181.844,
+      "fit_after_ready_seconds": 11915.291,
+      "load_and_model_setup_seconds": 64.186,
+      "trainer_import_seconds": 2.685
+    },
+    "fit_subprocess_seconds": 15200.308
+  },
+  "run_name": "bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009",
+  "shared_input_binding_sha256": "4c9778c956d8fdb56c357919c3b4bc7d5f56477f820e0e09ad6b54240cd5d59f",
+  "status": "fit_failed",
+  "worker_seconds": 15200.309
+}
