@@ -401,7 +401,7 @@ def cmd_tick(args: argparse.Namespace) -> None:
     print(json.dumps({"hours": round(hours, 2), "cost": round(cost, 2), "pending": pending, "gpu_procs": running,
                       "held": held, "drained": drained, "gpu": info.get("GPU")}))
     keepalive = ROOT / ".runtime/hpo_keepalive"
-    if drained and keepalive.exists() and time.time() - keepalive.stat().st_mtime < 1800:
+    if drained and not held and keepalive.exists() and time.time() - keepalive.stat().st_mtime < 1800:  # a lane at its spend cap cannot take optimizer work
         print("drained but the hyper-parameter optimizer is active: keeping the instance")
         drained = False
     if drained:
