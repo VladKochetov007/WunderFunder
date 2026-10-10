@@ -1068,6 +1068,112 @@
    "rationale": "reserved fold 3: width 384 vs 256 (H-324/H-325 confirmation, seed 3)",
    "lane": "b",
    "queued_utc": "2026-10-10T09:13:07.557588+00:00"
+  },
+  {
+   "id": "k_chunk500_s4",
+   "family": "training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 1.4,
+   "name": "vt_f1_chunk500_s4",
+   "change": {
+    "--chunk": "500",
+    "--seed": "4"
+   },
+   "status": "queued",
+   "rationale": "seed replicate of the chunk-500 lead (single run +0.0020 over the 4-epoch default mean)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T09:25:12.683983+00:00"
+  },
+  {
+   "id": "k_chunk500_s5",
+   "family": "training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 1.4,
+   "name": "vt_f1_chunk500_s5",
+   "change": {
+    "--chunk": "500",
+    "--seed": "5"
+   },
+   "status": "queued",
+   "rationale": "second seed replicate of chunk 500",
+   "lane": "b",
+   "queued_utc": "2026-10-10T09:25:12.684185+00:00"
+  },
+  {
+   "id": "k_chunk250",
+   "family": "training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 1.4,
+   "name": "vt_f1_chunk250",
+   "change": {
+    "--chunk": "250"
+   },
+   "status": "queued",
+   "rationale": "dose-response: chunk 250 (4x optimizer steps per epoch)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T09:25:12.684339+00:00"
+  },
+  {
+   "id": "k_f0_chunk500",
+   "family": "training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold0"
+   ],
+   "priority": 9,
+   "hours": 1.4,
+   "name": "vt_f0_chunk500",
+   "change": {
+    "--chunk": "500",
+    "fold": 0
+   },
+   "status": "queued",
+   "rationale": "fold-0 transfer of chunk 500",
+   "lane": "b",
+   "queued_utc": "2026-10-10T09:25:12.684462+00:00"
+  },
+  {
+   "id": "k_chunk500_h384_e3",
+   "family": "training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 1.4,
+   "name": "vt_f1_chunk500_h384_e3",
+   "change": {
+    "--chunk": "500",
+    "--hidden": "384",
+    "--epochs": "3",
+    "--checkpoint-epoch": "2"
+   },
+   "status": "queued",
+   "rationale": "interaction: chunk 500 with the width-384 3-epoch recipe",
+   "lane": "b",
+   "queued_utc": "2026-10-10T09:25:12.684593+00:00"
   }
  ]
 }
