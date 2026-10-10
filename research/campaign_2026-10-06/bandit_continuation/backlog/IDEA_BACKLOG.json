@@ -2507,6 +2507,142 @@
    "rationale": "Muon on GRU + head hidden matrix (HPO muon_hidden is in most top trials), 3 epochs",
    "lane": "b",
    "queued_utc": "2026-10-10T18:36:04.730756+00:00"
+  },
+  {
+   "id": "prop0_e3_s4",
+   "family": "weighting",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 15,
+   "hours": 0.9,
+   "name": "vt_f1_prop0_e3_s4",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0",
+    "--seed": "4"
+   },
+   "status": "queued",
+   "rationale": "prop-power 0 (no propensity concentration) scored 0.66777 on fold 1 vs control 0.6660 (+0.0018; prop1 +0.0002): broader training weights may help; replicate and transfer | seed 4 replicate",
+   "lane": "b",
+   "queued_utc": "2026-10-10T19:21:33.690230+00:00"
+  },
+  {
+   "id": "prop0_s5",
+   "family": "weighting",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 15,
+   "hours": 0.9,
+   "name": "vt_f1_prop0_s5",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0",
+    "--seed": "5"
+   },
+   "status": "queued",
+   "rationale": "prop-power 0 (no propensity concentration) scored 0.66777 on fold 1 vs control 0.6660 (+0.0018; prop1 +0.0002): broader training weights may help; replicate and transfer | seed 5 replicate",
+   "lane": "b",
+   "queued_utc": "2026-10-10T19:21:33.690428+00:00"
+  },
+  {
+   "id": "prop0_h384_e3",
+   "family": "weighting",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 15,
+   "hours": 0.9,
+   "name": "vt_f1_prop0_h384_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0",
+    "--hidden": "384"
+   },
+   "status": "queued",
+   "rationale": "prop-power 0 (no propensity concentration) scored 0.66777 on fold 1 vs control 0.6660 (+0.0018; prop1 +0.0002): broader training weights may help; replicate and transfer | width 384",
+   "lane": "b",
+   "queued_utc": "2026-10-10T19:21:33.690550+00:00"
+  },
+  {
+   "id": "ctrl_s5",
+   "family": "weighting",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 15,
+   "hours": 0.9,
+   "name": "vt_f1_ctrl_s5",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "5"
+   },
+   "status": "queued",
+   "rationale": "matched control seed 5 for prop0 replicates (Vast trainer, prop-power 2)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T19:21:33.690653+00:00"
+  },
+  {
+   "id": "prop0_e3_f0",
+   "family": "weighting",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold0"
+   ],
+   "priority": 15,
+   "hours": 0.9,
+   "name": "vt_f0_prop0_e3_f0",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0",
+    "fold": 0
+   },
+   "status": "queued",
+   "rationale": "prop-power 0 (no propensity concentration) scored 0.66777 on fold 1 vs control 0.6660 (+0.0018; prop1 +0.0002): broader training weights may help; replicate and transfer | fold 0 transfer",
+   "lane": "b",
+   "queued_utc": "2026-10-10T19:21:33.690776+00:00"
+  },
+  {
+   "id": "prop2_e3_f0",
+   "family": "weighting",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold0"
+   ],
+   "priority": 15,
+   "hours": 0.9,
+   "name": "vt_f0_prop2_e3_f0",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "fold": 0
+   },
+   "status": "queued",
+   "rationale": "fold-0 control for prop0 transfer (prop-power 2)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T19:21:33.690884+00:00"
   }
  ]
 }
