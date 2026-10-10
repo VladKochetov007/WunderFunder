@@ -3563,9 +3563,169 @@
     "--seed": "4",
     "--wd": "0.0085"
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "same data, wd .0085 (the rule's all-data value) vs ctrl wd .01: isolates wd sensitivity (low power)",
-   "queued_utc": "2026-10-10T23:49:52.572059+00:00"
+   "queued_utc": "2026-10-10T23:52:45.791045+00:00",
+   "lane": "b"
+  },
+  {
+   "id": "d_highway",
+   "family": "discord_tricks",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.0,
+   "name": "vt_f1_d_highway",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "+": [
+     "--head",
+     "highway"
+    ]
+   },
+   "status": "queued",
+   "rationale": "Discord trick (v7 flag): highway head instead of MLP head",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:52:45.791384+00:00"
+  },
+  {
+   "id": "d_pre1",
+   "family": "discord_tricks",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.0,
+   "name": "vt_f1_d_pre1",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "+": [
+     "--pretrain-next-epochs",
+     "1",
+     "--pretrain-next-in-budget"
+    ]
+   },
+   "status": "queued",
+   "rationale": "Discord trick (v7 flag): 1 of 3 epochs spent on next-row pretraining (inputs only)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:52:45.791644+00:00"
+  },
+  {
+   "id": "d_pre2x",
+   "family": "discord_tricks",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.5,
+   "name": "vt_f1_d_pre2x",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "+": [
+     "--pretrain-next-epochs",
+     "2"
+    ]
+   },
+   "status": "queued",
+   "rationale": "Discord trick (v7 flag): 2 extra epochs next-row pretrain then 3 supervised",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:52:45.791850+00:00"
+  },
+  {
+   "id": "d_warp",
+   "family": "discord_tricks",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.0,
+   "name": "vt_f1_d_warp",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "+": [
+     "--aug-warp",
+     "0.5,0.8,1.25"
+    ]
+   },
+   "status": "queued",
+   "rationale": "Discord trick (v7 flag): causal static-row repeat/drop time-warp augmentation p=.5",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:52:45.792011+00:00"
+  },
+  {
+   "id": "d_anti",
+   "family": "discord_tricks",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.0,
+   "name": "vt_f1_d_anti",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "+": [
+     "--curriculum",
+     "anti"
+    ]
+   },
+   "status": "queued",
+   "rationale": "Discord trick (v7 flag): anti-curriculum hard-first sampling annealing to uniform",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:52:45.792157+00:00"
+  },
+  {
+   "id": "d_prop0_pre1",
+   "family": "discord_tricks",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 7,
+   "hours": 1.0,
+   "name": "vt_f1_d_prop0_pre1",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--prop-power": "0",
+    "+": [
+     "--pretrain-next-epochs",
+     "1",
+     "--pretrain-next-in-budget"
+    ]
+   },
+   "status": "ready",
+   "rationale": "Discord trick (v7 flag): pretrain trick on top of prop-power 0",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:52:45.690238+00:00"
   }
  ]
 }
