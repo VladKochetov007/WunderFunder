@@ -1449,6 +1449,60 @@
    "rationale": "matched control for r3_snap: default recipe, 3 epochs, seed 3, fold 1 | kept as the fold-1 3-epoch seed-3 baseline for the lookahead ladder",
    "lane": "b",
    "queued_utc": "2026-10-10T11:40:51.835712+00:00"
+  },
+  {
+   "id": "r3_fcast_w0.1",
+   "family": "aux_selfsup",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 0.9,
+   "name": "vt_f1_fcast_w0.1",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "+": [
+     "--aux-fcast",
+     "0.1",
+     "--aux-fcast-k",
+     "2,8"
+    ]
+   },
+   "status": "queued",
+   "rationale": "CPC-style self-supervised aux head: predict standardized change of every raw column 2 and 8 rows ahead from the hidden state (training only). Motivation: lookahead ladder shows the label is a function of the near-future path (lead 2 = +0.014); forcing the recurrence to forecast features may improve its price-move forecast. Control: fold-1 3-epoch seed-3 default (local r3_ctrl).",
+   "lane": "b",
+   "queued_utc": "2026-10-10T12:52:06.158215+00:00"
+  },
+  {
+   "id": "r3_fcast_w0.5",
+   "family": "aux_selfsup",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 0.9,
+   "name": "vt_f1_fcast_w0.5",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "+": [
+     "--aux-fcast",
+     "0.5",
+     "--aux-fcast-k",
+     "2,8"
+    ]
+   },
+   "status": "queued",
+   "rationale": "CPC-style self-supervised aux head: predict standardized change of every raw column 2 and 8 rows ahead from the hidden state (training only). Motivation: lookahead ladder shows the label is a function of the near-future path (lead 2 = +0.014); forcing the recurrence to forecast features may improve its price-move forecast. Control: fold-1 3-epoch seed-3 default (local r3_ctrl).",
+   "lane": "b",
+   "queued_utc": "2026-10-10T12:52:06.158215+00:00"
   }
  ]
 }

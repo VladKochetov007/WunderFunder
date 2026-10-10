@@ -952,6 +952,8 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "privileged_horizon",
         "input_lead",
         "snap_codebook",
+        "aux_fcast",
+        "aux_fcast_k",
         "sentinel_values",
         "sentinel_indicators",
         "sentinel_base_width",
@@ -1279,6 +1281,8 @@ def main():
     ap.add_argument("--privileged-horizon", type=int, default=8)
     ap.add_argument("--input-lead", type=int, default=0,
                     help="information-ceiling probe: row t sees raw features of row t+lead (labels unchanged); never deployable")
+    ap.add_argument("--aux-fcast", type=float, default=0.0, help="weight of the self-supervised future-feature forecast head (training only)")
+    ap.add_argument("--aux-fcast-k", default="2,8", help="forecast horizons (rows) for --aux-fcast")
     ap.add_argument("--snap-codebook", default="",
                     help="npz of per-column coarse level centres (scripts/build_snap_codebook.py); inputs snapped to levels; offline probe until ported to native")
     ap.add_argument("--fit-groups-manifest", type=Path,
@@ -1849,6 +1853,10 @@ def main():
     ks = [int(v) for v in args.aux_next_k.split(",") if v]
     if args.aux_next > 0:
         n_out += 2 + 2 * len(ks)
+    fk = [int(v) for v in args.aux_fcast_k.split(",") if v]
+    fcast_at = n_out
+    if args.aux_fcast > 0:
+        n_out += N_FEATURES * len(fk)
     tier_at = n_out
     if args.aux_tier > 0:
         n_out += 4
@@ -2311,6 +2319,19 @@ def main():
                             kmse = (o[..., col] - (kr[:, sl] - 4.0) / 2.0) ** 2
                             kbce = F.binary_cross_entropy_with_logits(o[..., col + 1], ku[:, sl], reduction="none")
                             loss = loss + args.aux_next * ((kmse + kbce) * kw).sum() / kw.sum().clamp_min(1e-8)
+                    if args.aux_fcast > 0:
+                        # self-supervised future-feature forecast (training-only head): standardized change of each raw column over the next k rows
+                        raw_all = inputs[..., :N_FEATURES].float()
+                        t_len = sl.stop - sl.start if sl.stop is not None else out.shape[1]
+                        for j, k in enumerate(fk):
+                            hi = min(sl.start + t_len + k, raw_all.shape[1])
+                            n_ok = hi - k - sl.start
+                            if n_ok <= 0:
+                                continue
+                            tgt_f = raw_all[:, sl.start + k:hi] - raw_all[:, sl.start:sl.start + n_ok]
+                            tgt_f = tgt_f / tgt_f.std(dim=(0, 1), keepdim=True).clamp_min(1e-3)
+                            pred_f = out[:, :n_ok, fcast_at + j * N_FEATURES: fcast_at + (j + 1) * N_FEATURES].float()
+                            loss = loss + args.aux_fcast * F.smooth_l1_loss(pred_f, tgt_f.clamp(-6, 6))
                     if args.aux_tier > 0:
                         ce = F.cross_entropy(
                             out[..., tier_at:tier_at + 4].float().reshape(-1, 4),
