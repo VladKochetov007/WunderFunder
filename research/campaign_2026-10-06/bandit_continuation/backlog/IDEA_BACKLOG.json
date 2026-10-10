@@ -1665,8 +1665,8 @@
      "linear"
     ]
    },
-   "status": "ready",
-   "rationale": "Muon rnn + dropout 0.2 + WSD | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves.",
+   "status": "deferred",
+   "rationale": "Muon rnn + dropout 0.2 + WSD | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves. | DEFERRED 2026-10-10 18:40: the first two 15-epoch arms (AdamW, Muon-all WSD) oscillate in 0.658-0.665 and finish below the 3-epoch recipe; more 15-20 epoch recipe variants wait for the stable-lr SWA (Kaggle/Vast) and EMA results",
    "lane": "b",
    "queued_utc": "2026-10-10T14:17:13.663985+00:00"
   },
@@ -1701,8 +1701,8 @@
      "linear"
     ]
    },
-   "status": "ready",
-   "rationale": "Muon everywhere, lr 1e-3, dropout 0.2, WSD, 20 epochs | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves.",
+   "status": "deferred",
+   "rationale": "Muon everywhere, lr 1e-3, dropout 0.2, WSD, 20 epochs | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves. | DEFERRED 2026-10-10 18:40: the first two 15-epoch arms (AdamW, Muon-all WSD) oscillate in 0.658-0.665 and finish below the 3-epoch recipe; more 15-20 epoch recipe variants wait for the stable-lr SWA (Kaggle/Vast) and EMA results",
    "lane": "b",
    "queued_utc": "2026-10-10T14:17:13.663985+00:00"
   },
@@ -1731,8 +1731,8 @@
      "--intra-snapshots"
     ]
    },
-   "status": "ready",
-   "rationale": "Muon everywhere, low lr 3e-4, wd 0.05, dropout 0.1, 20 epochs | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves.",
+   "status": "deferred",
+   "rationale": "Muon everywhere, low lr 3e-4, wd 0.05, dropout 0.1, 20 epochs | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves. | DEFERRED 2026-10-10 18:40: the first two 15-epoch arms (AdamW, Muon-all WSD) oscillate in 0.658-0.665 and finish below the 3-epoch recipe; more 15-20 epoch recipe variants wait for the stable-lr SWA (Kaggle/Vast) and EMA results",
    "lane": "b",
    "queued_utc": "2026-10-10T14:17:13.663985+00:00"
   },
@@ -1809,8 +1809,8 @@
     "--chunk": "250",
     "--batch": "64"
    },
-   "status": "ready",
-   "rationale": "Noisy short chunk: chunk 250, batch 64 (4x more optimizer steps/epoch) | idea from Muse Spark round 4 (external_ideation_20261010/round4)",
+   "status": "deferred",
+   "rationale": "Noisy short chunk: chunk 250, batch 64 (4x more optimizer steps/epoch) | idea from Muse Spark round 4 (external_ideation_20261010/round4) | DEFERRED 2026-10-10 18:40: the first two 15-epoch arms (AdamW, Muon-all WSD) oscillate in 0.658-0.665 and finish below the 3-epoch recipe; more 15-20 epoch recipe variants wait for the stable-lr SWA (Kaggle/Vast) and EMA results",
    "lane": "b",
    "queued_utc": "2026-10-10T14:25:16.340618+00:00"
   },
@@ -1847,8 +1847,8 @@
      "0.6"
     ]
    },
-   "status": "ready",
-   "rationale": "Near-constant lr with SWA over the last 60% of steps (scored artifact is the average) | idea from Muse Spark round 4 (external_ideation_20261010/round4)",
+   "status": "deferred",
+   "rationale": "Near-constant lr with SWA over the last 60% of steps (scored artifact is the average) | idea from Muse Spark round 4 (external_ideation_20261010/round4) | DEFERRED 2026-10-10 18:40: the first two 15-epoch arms (AdamW, Muon-all WSD) oscillate in 0.658-0.665 and finish below the 3-epoch recipe; more 15-20 epoch recipe variants wait for the stable-lr SWA (Kaggle/Vast) and EMA results",
    "lane": "b",
    "queued_utc": "2026-10-10T14:25:16.340618+00:00"
   },
@@ -2000,10 +2000,10 @@
      "3"
     ]
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "User observation: in HPO/evidence dropout 0.2 helps the most (h384+drop 0.2 +0.0028 raw delta; best HPO trials use dropout 0.1-0.25), then gated (+0.0022). Fold 1, seed 3, 3 epochs; compare r3_ctrl 0.6659 (two seeds) and the 0.0022 one-run sd. Gated architecture (level + gated movement size) with Muon x3 and dropout 0.2.",
    "lane": "b",
-   "queued_utc": "2026-10-10T15:15:48.410211+00:00"
+   "queued_utc": "2026-10-10T18:36:04.835800+00:00"
   },
   {
    "id": "gated_mu3_e3",
@@ -2026,10 +2026,10 @@
      "3"
     ]
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "User observation: in HPO/evidence dropout 0.2 helps the most (h384+drop 0.2 +0.0028 raw delta; best HPO trials use dropout 0.1-0.25), then gated (+0.0022). Fold 1, seed 3, 3 epochs; compare r3_ctrl 0.6659 (two seeds) and the 0.0022 one-run sd. Gated control without dropout.",
    "lane": "b",
-   "queued_utc": "2026-10-10T15:15:48.410211+00:00"
+   "queued_utc": "2026-10-10T18:36:04.836222+00:00"
   },
   {
    "id": "ema6_mu3",
@@ -2054,10 +2054,10 @@
      "0.999"
     ]
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "Teammate digest (TEAMMATE_RECIPE_DIGEST.md): six-epoch EMA 0.999 beat four-epoch by +0.0016 single-model; a 12-epoch run at wd 0.01 peaked near epoch 5 then fell 0.027; averaging late checkpoints did not help. Arms: EMA 0.999 weights are the saved/scored checkpoint (--eval-ema).",
    "lane": "b",
-   "queued_utc": "2026-10-10T15:15:48.410211+00:00"
+   "queued_utc": "2026-10-10T18:36:04.836442+00:00"
   },
   {
    "id": "ema4_mu3",
@@ -2082,10 +2082,10 @@
      "0.999"
     ]
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "Teammate digest (TEAMMATE_RECIPE_DIGEST.md): six-epoch EMA 0.999 beat four-epoch by +0.0016 single-model; a 12-epoch run at wd 0.01 peaked near epoch 5 then fell 0.027; averaging late checkpoints did not help. Arms: EMA 0.999 weights are the saved/scored checkpoint (--eval-ema). 4-epoch EMA control.",
    "lane": "b",
-   "queued_utc": "2026-10-10T15:15:48.410211+00:00"
+   "queued_utc": "2026-10-10T18:36:04.836610+00:00"
   },
   {
    "id": "ema6_mu1_drop02",
@@ -2109,10 +2109,10 @@
      "0.999"
     ]
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "Teammate digest (TEAMMATE_RECIPE_DIGEST.md): six-epoch EMA 0.999 beat four-epoch by +0.0016 single-model; a 12-epoch run at wd 0.01 peaked near epoch 5 then fell 0.027; averaging late checkpoints did not help. Arms: EMA 0.999 weights are the saved/scored checkpoint (--eval-ema). Combined with dropout 0.2, Muon x1.",
    "lane": "b",
-   "queued_utc": "2026-10-10T15:15:48.410211+00:00"
+   "queued_utc": "2026-10-10T18:36:04.836765+00:00"
   },
   {
    "id": "flow_v2_e3",
@@ -2301,10 +2301,10 @@
      "3"
     ]
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "raw control for ema6_mu3: same 6-epoch Muon x3 trajectory without EMA (clean EMA vs raw comparison) | reviews/WNN_Unified_Review_EN.md",
    "lane": "b",
-   "queued_utc": "2026-10-10T16:27:56.039888+00:00"
+   "queued_utc": "2026-10-10T18:36:04.836916+00:00"
   },
   {
    "id": "r3_soup2_s11",
@@ -2417,6 +2417,96 @@
    "rationale": "R3-2 soup of fine-tunes: 4 branches from the same trained parent (vt_f1_tr_base epoch 3, 0.6656), 2 epochs lr 3e-4, different seeds/data order; average the weights into ONE net (servable ensemble substitute) and compare with the mean branch and the parent",
    "lane": "b",
    "queued_utc": "2026-10-10T17:36:16.619950+00:00"
+  },
+  {
+   "id": "muonall_e3",
+   "family": "muon_scope",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 13,
+   "hours": 0.9,
+   "name": "vt_f1_muonall_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--muon-scope": "all"
+   },
+   "status": "ready",
+   "rationale": "User idea: Muon everywhere. The 15-epoch Muon-all WSD run reached 0.6671 at epoch 13 (best of any long arm); test Muon on every 2-D weight at the standard 3-epoch recipe, fold 1 seed 3, vs control 0.6660",
+   "lane": "b",
+   "queued_utc": "2026-10-10T18:36:04.730756+00:00"
+  },
+  {
+   "id": "muonall_e3_s4",
+   "family": "muon_scope",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 13,
+   "hours": 0.9,
+   "name": "vt_f1_muonall_e3_s4",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--muon-scope": "all",
+    "--seed": "4"
+   },
+   "status": "ready",
+   "rationale": "seed replicate of muonall_e3",
+   "lane": "b",
+   "queued_utc": "2026-10-10T18:36:04.730756+00:00"
+  },
+  {
+   "id": "muonall_h384_e3",
+   "family": "muon_scope",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 13,
+   "hours": 0.9,
+   "name": "vt_f1_muonall_h384_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--muon-scope": "all",
+    "--hidden": "384"
+   },
+   "status": "ready",
+   "rationale": "Muon-all at width 384, 3 epochs (h384 singles 0.66931/0.66816)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T18:36:04.730756+00:00"
+  },
+  {
+   "id": "muonhidden_e3",
+   "family": "muon_scope",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 13,
+   "hours": 0.9,
+   "name": "vt_f1_muonhidden_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--muon-scope": "hidden"
+   },
+   "status": "ready",
+   "rationale": "Muon on GRU + head hidden matrix (HPO muon_hidden is in most top trials), 3 epochs",
+   "lane": "b",
+   "queued_utc": "2026-10-10T18:36:04.730756+00:00"
   }
  ]
 }
