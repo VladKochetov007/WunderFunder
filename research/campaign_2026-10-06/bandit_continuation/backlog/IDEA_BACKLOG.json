@@ -3191,6 +3191,100 @@
    "rationale": "muonall h384 0.67021 (best scratch single so far, vs h384 plain 0.66931/0.66816): seed replicate",
    "lane": "b",
    "queued_utc": "2026-10-10T22:36:48.786058+00:00"
+  },
+  {
+   "id": "prop0_lwfloor_s4",
+   "family": "prop0_variants",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_prop0_lwfloor_s4",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0",
+    "--seed": "4",
+    "+": [
+     "--label-weight-power",
+     "1.032",
+     "--label-weight-floor",
+     "0.1819",
+     "--class-weight",
+     "1,1,1,1.192"
+    ]
+   },
+   "status": "ready",
+   "rationale": "prop0+lwfloor+class3 0.66876 (best h256 scratch single: +0.0027 over control): replicate",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:06:39.881935+00:00"
+  },
+  {
+   "id": "prop0_lwfloor_s5",
+   "family": "prop0_variants",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_prop0_lwfloor_s5",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0",
+    "--seed": "5",
+    "+": [
+     "--label-weight-power",
+     "1.032",
+     "--label-weight-floor",
+     "0.1819",
+     "--class-weight",
+     "1,1,1,1.192"
+    ]
+   },
+   "status": "ready",
+   "rationale": "prop0+lwfloor+class3 0.66876 (best h256 scratch single: +0.0027 over control): replicate",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:06:39.881935+00:00"
+  },
+  {
+   "id": "prop0_lwfloor_h384",
+   "family": "prop0_variants",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 0.9,
+   "name": "vt_f1_prop0_lwfloor_h384",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0",
+    "--seed": "3",
+    "+": [
+     "--label-weight-power",
+     "1.032",
+     "--label-weight-floor",
+     "0.1819",
+     "--class-weight",
+     "1,1,1,1.192"
+    ],
+    "--hidden": "384"
+   },
+   "status": "ready",
+   "rationale": "prop0+lwfloor at width 384",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:06:39.881935+00:00"
   }
  ]
 }
