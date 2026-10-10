@@ -23,12 +23,16 @@ ROOT = Path(__file__).resolve().parents[1]
 NATIVE_FROM = ROOT / "submissions" / "ab18_wmse_struct" / "pkg"
 
 
+RUNS_DIR = ROOT / "artifacts" / "runs"
+OUT_ROOT = ROOT / "submissions"
+
+
 def load_state(run: str) -> dict[str, np.ndarray]:
     import torch
 
     run_name, _, epoch = run.partition("@ep")
     ckpt = f"model_ep{int(epoch)}.pt" if epoch else "model.pt"
-    ck = torch.load(ROOT / "artifacts" / "runs" / run_name / ckpt, map_location="cpu", weights_only=False)
+    ck = torch.load(RUNS_DIR / run_name / ckpt, map_location="cpu", weights_only=False)
     if ck.get("args", {}).get("readout_activation", "gelu") != "gelu":
         raise ValueError("non-GELU readout requires a native port before packaging, including merged heads")
     if ck.get("sentinel_preprocessing"):
@@ -77,7 +81,7 @@ def export(run: str, path: Path):
     run_name, _, epoch = run.partition("@ep")
     ckpt = f"model_ep{int(epoch)}.pt" if epoch else "model.pt"
     ck = torch.load(
-        ROOT / "artifacts" / "runs" / run_name / ckpt, map_location="cpu", weights_only=False
+        RUNS_DIR / run_name / ckpt, map_location="cpu", weights_only=False
     )
     if ck.get("args", {}).get("readout_activation", "gelu") != "gelu":
         raise ValueError("non-GELU readout requires a native port before packaging")
@@ -95,16 +99,27 @@ def main():
     parser.add_argument("members", nargs="+")
     parser.add_argument("--native-from", type=Path, default=NATIVE_FROM)
     parser.add_argument("--solution", type=Path, default=ROOT / "submission" / "solution_multi.py")
-    parser.add_argument("--precision", choices=("f32", "f16", "i16", "q16x"), default=None,
-                        help="write precision.txt for the native solutions (default: solution's own default)")
+    parser.add_argument("--precision", choices=("f32", "f16", "i16", "q16x", "q8vnni"), default=None,
+                        help="write precision.txt for the native solutions (default: solution's own default). "
+                        "q8vnni is dynamic int8 with runtime ISA dispatch inside the native library "
+                        "(AVX-512 VNNI, then AVX2, then portable; identical bits on all three)")
+    parser.add_argument("--runs-dir", type=Path, default=None,
+                        help="training runs directory (default: artifacts/runs under the repo root)")
+    parser.add_argument("--out-root", type=Path, default=None,
+                        help="parent of NAME/pkg and NAME/submission.zip (default: submissions/)")
     args = parser.parse_args()
     name, members = args.name, args.members
+    global RUNS_DIR, OUT_ROOT
+    if args.runs_dir:
+        RUNS_DIR = args.runs_dir.resolve()
+    if args.out_root:
+        OUT_ROOT = args.out_root.resolve()
     for member in members:
         run, _, _ = member.rpartition(":")
         for component in run.split("|"):
             if component != "baseline":
                 load_state(component)  # Reject unsupported functions before replacing an existing package.
-    pkg = ROOT / "submissions" / name / "pkg"
+    pkg = OUT_ROOT / name / "pkg"
     shutil.rmtree(pkg, ignore_errors=True)
     pkg.mkdir(parents=True)
     levels = [lvl for lvl in ("v2", "avx2", "v3") if (args.native_from / lvl).is_dir()]
@@ -124,7 +139,7 @@ def main():
         export(run, pkg / fname)
         spec.append({"weights": fname, "coef": float(coef), "source": run})
     (pkg / "members.json").write_text(json.dumps(spec, indent=1))
-    zp = ROOT / "submissions" / name / "submission.zip"
+    zp = OUT_ROOT / name / "submission.zip"
     zp.unlink(missing_ok=True)
     files = ["solution.py", "members.json", *extra, *levels] + [s["weights"] for s in spec]
     subprocess.run([sys.executable, "-m", "zipfile", "-c", str(zp), *files], cwd=pkg, check=True)
