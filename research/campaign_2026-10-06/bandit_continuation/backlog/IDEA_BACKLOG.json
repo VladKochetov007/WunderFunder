@@ -3469,10 +3469,103 @@
     "--seed": "4",
     "--train-seqs": "8400"
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "data scaling: 79% of train sequences, 4 epochs (closer to equal steps)",
    "lane": "b",
-   "queued_utc": "2026-10-10T23:48:05.967202+00:00"
+   "queued_utc": "2026-10-10T23:49:52.672926+00:00"
+  },
+  {
+   "id": "data8400_wd126_s3",
+   "family": "data_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_data8400_wd126_s3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--train-seqs": "8400",
+    "--wd": "0.0126"
+   },
+   "status": "queued",
+   "rationale": "Wang&Aitchison AdamW timescale: wd ~ 1/N; at 79% data wd 0.01->0.0126; compare data8400_e3 wd .01",
+   "queued_utc": "2026-10-10T23:49:52.673207+00:00",
+   "lane": "b"
+  },
+  {
+   "id": "data_full_wd85_s3",
+   "family": "data_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 1.0,
+   "name": "vt_f1_data_full_wd85_s3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--wd": "0.0085"
+   },
+   "status": "queued",
+   "rationale": "same data, wd .0085 (the rule's all-data value) vs ctrl wd .01: isolates wd sensitivity (low power)",
+   "queued_utc": "2026-10-10T23:49:52.673419+00:00",
+   "lane": "b"
+  },
+  {
+   "id": "data8400_wd126_s4",
+   "family": "data_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_data8400_wd126_s4",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "4",
+    "--train-seqs": "8400",
+    "--wd": "0.0126"
+   },
+   "status": "queued",
+   "rationale": "Wang&Aitchison AdamW timescale: wd ~ 1/N; at 79% data wd 0.01->0.0126; compare data8400_e3 wd .01",
+   "queued_utc": "2026-10-10T23:49:52.673649+00:00",
+   "lane": "b"
+  },
+  {
+   "id": "data_full_wd85_s4",
+   "family": "data_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 1.0,
+   "name": "vt_f1_data_full_wd85_s4",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "4",
+    "--wd": "0.0085"
+   },
+   "status": "ready",
+   "rationale": "same data, wd .0085 (the rule's all-data value) vs ctrl wd .01: isolates wd sensitivity (low power)",
+   "queued_utc": "2026-10-10T23:49:52.572059+00:00"
   }
  ]
 }
