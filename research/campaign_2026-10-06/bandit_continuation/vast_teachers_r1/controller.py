@@ -400,6 +400,12 @@ def cmd_tick(args: argparse.Namespace) -> None:
     drained = (pending == 0 or held) and in_flight == 0 and running == 0 and primary_done and len(local) >= remote
     print(json.dumps({"hours": round(hours, 2), "cost": round(cost, 2), "pending": pending, "gpu_procs": running,
                       "held": held, "drained": drained, "gpu": info.get("GPU")}))
+    if not held and pending < 3 and ready_items(LANE or "a"):
+        # the backlog must never run dry while eligible items exist (the optimizer alone would otherwise fill the lane)
+        try:
+            cmd_feed(argparse.Namespace(n=2, dry_run=False))
+        except Exception as error:  # noqa: BLE001 - feeding must not break the unattended tick
+            print(f"auto-feed failed: {type(error).__name__}: {str(error)[:200]}")
     keepalive = ROOT / ".runtime/hpo_keepalive"
     if drained and not held and keepalive.exists() and time.time() - keepalive.stat().st_mtime < 1800:  # a lane at its spend cap cannot take optimizer work
         print("drained but the hyper-parameter optimizer is active: keeping the instance")
