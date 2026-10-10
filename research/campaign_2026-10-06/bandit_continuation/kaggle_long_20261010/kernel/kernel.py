@@ -21,8 +21,9 @@ def find(name, under="/kaggle/input"):
 
 def main():
     save(phase="locate", inputs=sorted(os.listdir("/kaggle/input")))
-    bundle = find("bundle.tar.gz")
-    with tarfile.open(bundle) as t:
+    bundle = find("bundle.wnn")
+    save(phase="bundle", bundle=bundle, listing=[str(x) for x in glob.glob("/kaggle/input/**", recursive=True)][:60])
+    with tarfile.open(bundle, mode="r:*") as t:
         t.extractall(W)
     jobs = json.loads((W / "kaggle_jobs.json").read_text())
     amap = {"cache/chain_folds.npz": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f.wnn", "cache/chains.npz": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766.wnn", "cache/train_targets.npz": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9.wnn", "cache/valid_targets.npz": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955.wnn"}

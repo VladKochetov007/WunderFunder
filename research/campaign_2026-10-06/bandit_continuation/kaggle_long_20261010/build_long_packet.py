@@ -39,7 +39,7 @@ def main() -> None:
             {"label": "export", "timeout": 3000, "argv": vb.export_argv(n, epoch=c["--checkpoint-epoch"])}]} for n, c in ARMS.items()],
     }
     out = HERE / "dataset"
-    tar_path = out / "bundle.tar.gz"
+    tar_path = out / "bundle.wnn"  # Kaggle unpacks .tar.gz uploads; an opaque extension keeps the bundle intact
     with tarfile.open(tar_path, "w:gz") as archive:
         for sub in ("src", "scripts"):
             for path in sorted((SNAP / sub).rglob("*")):

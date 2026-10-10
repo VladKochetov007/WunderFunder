@@ -38,3 +38,6 @@ Stack of the first three at their measured values is about +0.004-0.005 (0.670-0
 
 ## 4. Falsifiers and rules
 Head finishing: finished student must not score below the raw student on fold 1 (mean). VNNI int8: any WP loss above 0.0005 or non-determinism blocks packaging. Teacher transfer: t384n must beat t256n by >0.0005 mean for h384 teachers to be adopted. Selection by mean; report paired uncertainty; never add unrelated gains into a forecast. Do not run ad-hoc RAM-heavy jobs beside a queued fit.
+
+## 5. Update 18:05 UTC: serving frontier result
+Own AVX-512 VNNI int8 path built and merged (see LOOP_LOG pass 59): one h256 member 42 us/row (2.8x faster than i16), two members 94.5, one h384 member 92.5 (loaded machine), official-metric quality neutral (+0.00004 on 60 fold-1 sequences). H-344 moves to "supported pending packaging". Next gates: (1) probe the scoring CPU ISA with a tiny diagnostic submission (needs one of the daily uploads, user decision), (2) ship Q8Vnni through packaging + delivered-ZIP checks, (3) member-set quality check (h384, merged heads), (4) then assemble 2-3 member ensembles / h384 students for the public test.
