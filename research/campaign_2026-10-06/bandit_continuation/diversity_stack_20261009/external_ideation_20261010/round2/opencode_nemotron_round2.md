@@ -1,0 +1,77 @@
+# Round 2: Reframe, Elephants, Teacher Ceiling
+
+---
+
+## 1. Five Task Reframmings
+
+### Reframing A: Predict the *next change event* (time + direction + magnitude), then integrate
+**Mechanism**: Labels are piecewise constant with mean run length 9.5. Instead of regressing levels at every row, predict a sparse sequence of change-points: (Δt, Δsign, |Δy|) for each target. The integration step (cumsum) is exact and causal. This converts a dense regression on 99% redundant rows into a sparse classification/regression on the 10% of rows where information actually arrives.  
+**Cheapest 1-day experiment**: Take the best teacher's hidden states at rows where *any* label changes. Train a lightweight head (2-layer MLP) to predict (a) whether a change occurs in the next K rows, (b) direction, (c) magnitude bucket. Evaluate by reconstructing the full sequence and scoring WP.  
+**Falsifier**: If change-point prediction AUC < 0.65 or magnitude buckets have < 0.1 correlation with true |Δy|, the signal isn't recoverable from teacher states.  
+**Effect size**: Unknown — but if sign accuracy decays from 92% to 74% over runs, recovering the *change* signal could reclaim most of the 0.843 − 0.685 = 0.158 gap.
+
+### Reframing B: Infer the hidden *market class* + *regime state* jointly, then predict class-conditional
+**Mechanism**: Four market classes are decodable from first 500 rows (99.4% accuracy). Class 3 carries half the metric weight but has correlation 0.44 vs 0.74–0.81 for others. The class isn't static — within a sequence, the effective regime shifts. Model this as a two-level HMM: slow class identity (inferred from prefix) + fast regime state (inferred online from feature clocks). Predict y conditional on (class, regime).  
+**Cheapest 1-day experiment**: Freeze the best teacher. Cluster its hidden states at label-change rows into 4–8 regimes using GMM. Check if regime membership predicts (a) class 3 vs others, (b) sign flip probability, (c) magnitude. Train a regime-conditional output head.  
+**Falsifier**: If regime clusters don't separate class 3 weight concentration (73% in runs >16 rows) or sign-flip probability, the regime hypothesis is wrong.  
+**Effect size**: 0.01–0.03 if regime explains class-3 difficulty; unknown if regimes are the right latent.
+
+### Reframing C: Learn a *generative model of the feature clocks* and invert it for labels
+**Mechanism**: The 112 columns form 6 multi-rate clock blocks (update rates: 31%, 40%, 15%, 12%, 69–71%, 100%). Labels change 3.2x more when the 31%-block (fast clock) updates. The clocks *drive* the label process. Train a generative model (e.g., discrete-state SSM or normalizing flow over clock transitions) that captures the joint clock dynamics. Then condition on observed clocks to infer the latent label-generating state — this is a filtering problem, not regression.  
+**Cheapest 1-day experiment**: Build a tiny VAE/SSM on the 6 clock-block update indicators (binary per row). Train to reconstruct next-block-update pattern. Extract latent, feed to a linear probe for y. Compare WP to teacher baseline.  
+**Falsifier**: If clock-only latent gives WP < 0.55, the clocks don't carry sufficient label information alone.  
+**Effect size**: Unknown — could be large if clocks are the true causal parents; small if they're just correlates.
+
+### Reframing D: *Ranking/transport objective* — predict the conditional quantile function, not the mean
+**Mechanism**: The metric weights by |clip(y, −2, 2)|. The population optimum is E[w·y|H]/E[w|H] with w=|y|. Weighted MSE targets this but assumes symmetric errors. The label process has heavy tails (clipping at ±2) and piecewise-constant runs. Predict the full conditional quantile function Q(τ|H) for τ∈{0.1,0.25,0.5,0.75,0.9} via a monotone head. At serve time, compute the weighted-mean-optimal point prediction from the quantile curve. This captures asymmetry in the label distribution within each regime.  
+**Cheapest 1-day experiment**: Replace the teacher's output head with a 5-quantile monotone head (parallel linear layers + sort loss). Train on same data. Evaluate WP using the quantile-derived weighted mean.  
+**Falsifier**: If quantile head WP ≤ weighted-MSE head WP on validation, the conditional distribution is symmetric enough that mean suffices.  
+**Effect size**: 0.005–0.015 if label distribution within regimes is skewed; unknown otherwise.
+
+### Reframing E: Model the two targets as a *coupled jump process* with shared change-times
+**Mechanism**: t0 and t1 change together only 2.3x more than chance — but when they do, it's informative. Model (t0, t1) as a bivariate piecewise-constant process with a shared latent change-time process. The jump magnitudes can be target-specific, but the *clock* is shared. This reduces the effective prediction problem: detect the shared change clock, then predict two magnitudes.  
+**Cheapest 1-day experiment**: Compute empirical joint change-point alignment: for each row where t0 changes, what's P(t1 changes within ±2 rows)? Train a shared change-detector head (binary) + two magnitude heads. Evaluate reconstructed WP.  
+**Falsifier**: If joint change alignment is < 1.5x chance, the shared clock is too weak to exploit.  
+**Effect size**: 0.005–0.02 if shared clock explains the residual correlation structure; unknown.
+
+---
+
+## 2. Five Elephants in the Room
+
+| # | Assumption | Why It Might Be Wrong | Cheapest Measurement |
+|---|------------|----------------------|----------------------|
+| 1 | **The 112 columns are "features" to be fed to a recurrent net** | They form rigid multi-rate clock blocks. The *update pattern* (which block updates when) may be the true signal; the numeric values within blocks may be noise or distractors. No column is a small discrete alphabet — but the *block identity* is discrete. | Compute MI between (block-update-indicator at t) and (label change at t+1). If MI(block) ≫ MI(raw values), the clock topology is the signal. |
+| 2 | **Validation folds are representative of hidden test** | Hidden-test loss concentrates in class 3. Folds differ in difficulty (0.668–0.707). Class 3 has 73% weight in runs >16 rows — if hidden test has *longer* class-3 runs, the distribution shift is structural, not i.i.d. | Measure run-length distribution of class 3 in each fold. If fold 3 (0.707) has shorter class-3 runs than fold 0 (0.668), hidden test may resemble fold 0. |
+| 3 | **Weighted Pearson with |clip(y,−2,2)| weights is the right metric to optimize directly** | The metric weights by |y|, but the *optimal predictor* under this metric is E[w·y|H]/E[w|H] with w=|y|. Weighted MSE minimizes E[w·(y−ŷ)²], which is *not* the same objective unless w is constant. The clipping at ±2 means large |y| get capped weight, but the optimum still depends on the conditional density of y. | On validation, compute the WP of: (a) weighted-MSE predictor, (b) E[w·y|H]/E[w|H] estimated via quantile regression, (c) unweighted MSE predictor. If (b) ≫ (a), the loss is misaligned. |
+| 4 | **Teacher predictions are the right distillation target** | Teachers plateau at ~0.67 WP. Their pairwise correlation is 0.95–0.99. They all make the *same errors* on class 3. Distilling a wider/ensemble teacher into the width-256 student transferred *nothing*. The teacher's hidden states may not contain the missing signal — the teacher may be fundamentally limited by the same causal bottleneck. | Take the best teacher's hidden states at class-3 rows. Train a probe to predict y from *only* those states (no student architecture constraint). If probe WP ≤ teacher WP, the teacher's representation lacks the signal. |
+| 5 | **Causal serving constraint = causal training constraint** | The student must be causal at serve time (1 CPU, 60 min). But the *teacher* can be non-causal, huge, and use offline lookahead. The campaign has only tried "teacher predicts t+h, student mimics" and ensembles. There's a middle ground: teacher learns a *non-causal representation* (e.g., smoothed label trajectory, regime posterior), student learns to *predict that representation causally*. This is not the same as predicting the teacher's *prediction*. | Train a non-causal BiGRU teacher to output (a) smoothed y trajectory, (b) regime posterior. Distill *those* into causal student. Compare to distilling teacher's causal predictions. |
+
+---
+
+## 3. Three Ways to Raise the Teacher Ceiling
+
+### Teacher Ceiling 1: **Privileged Future-Aware Teacher → Causal Representation Distillation**
+**How the teacher gets extra information**: Train a *non-causal* teacher (BiLSTM/Transformer) on the full sequence with access to future features and labels. Its task: output a *causal-friendly representation* at each row — e.g., the posterior over the hidden regime state, or the smoothed label trajectory over a future window [t, t+K].  
+**How it becomes a causal student gain**: The student is trained to predict *this representation* causally from past features only. At serve time, the student outputs the representation; a fixed lightweight decoder (trained offline) converts it to y. The student never sees the future, but learns to anticipate the non-causal teacher's *inference* about the present.  
+**Different from "substitute teacher's prediction at t+h"**: That approach asks the student to predict a *future prediction*. This asks the student to predict a *current sufficient statistic* that the non-causal teacher computes using the future. The representation is lower-dimensional and more stable than raw y-predictions.  
+**Different from ensembles**: Ensembles average predictions. This transfers *structured latent knowledge* (regime posteriors, smoothed trajectories) that averages destroy.
+
+### Teacher Ceiling 2: **Multi-Rate Hierarchical Teacher with Explicit Clock Modeling**
+**How the teacher gets extra information**: The 112 columns form 6 clock blocks with known update rates. Build a teacher with *explicit hierarchical recurrence*: a slow RNN updated only when the 100%-block (every row) ticks, a medium RNN updated at 69–71% rows, a fast RNN at 31% rows, etc. Each level has its own hidden state and timescale. The teacher also receives *which block(s) updated* as an explicit input (one-hot clock ID).  
+**How it becomes a causal student gain**: The student distills the *entire hierarchical state* (concatenated slow/medium/fast hidden vectors) at every row. The student learns to maintain an approximation of this multi-timescale state using only its single causal recurrence. The clock-ID input teaches the teacher *when* to update each level — the student must learn to *anticipate* those updates from feature dynamics.  
+**Different from "substitute teacher's prediction"**: The target is the *multi-timescale hidden state*, not the output prediction. The student learns the *dynamics*, not just the output.  
+**Different from ensembles**: This is a single structured model with inductive bias matching the data's multi-rate structure, not an average of independent runs.
+
+### Teacher Ceiling 3: **Teacher Learns a Label-Change Event Generator; Student Learns Causal Event Detection**
+**How the teacher gets extra information**: Teacher is a sequence model (could be non-causal) trained to *generate* the label-change event sequence: at each row, output (a) probability of change in next K rows, (b) predicted direction, (c) predicted magnitude distribution. This is trained with a proper scoring rule (e.g., CRPS for magnitude, BCE for change/direction) on the *full sequence* with future context.  
+**How it becomes a causal student gain**: Student is trained to match the teacher's *event-generator outputs* causally. At serve time, student outputs event probabilities; a fixed integrator (cumsum with decay) converts to level predictions. The student learns *when labels will change* — the core signal — not the level itself.  
+**Different from "substitute teacher's prediction"**: Teacher predicts *events*, not levels. Student predicts *events*, not levels. The integration to levels is a deterministic, causal post-process. The teacher's future context helps it label historical change-points correctly (resolving ambiguity), which the student then learns to detect early.  
+**Different from ensembles**: This changes the *prediction target* from dense levels to sparse events, exploiting the piecewise-constant structure explicitly.
+
+---
+
+## 4. First Experiment to Run
+
+**Run Reframing A (change-event prediction) with the best teacher's hidden states at label-change rows, using a 2-layer MLP head to predict (change in next 10 rows, direction, magnitude bucket), reconstruct via cumsum, and score WP on validation.**
+
+**Why**: It directly attacks the largest known gap (sign accuracy decay from 92% to 74% over runs, and the 0.843 vs 0.685 oracle gap). It's the cheapest falsifiable test of whether the *information* to recover the missing 0.158 WP exists in the teacher's representations. If it fails, the problem isn't "dense regression on redundant rows" — it's that the teacher doesn't encode the change signal. If it works, it unlocks a new prediction target (sparse events) that the student can learn causally. One day, one GPU, uses existing teacher checkpoints, answers a binary question.
