@@ -222,6 +222,23 @@ def check_hpo(problems: Problems, state: dict) -> None:
             problems.add(f"hpo_{study.name}_ticks_stopped", "CRIT", f"hpo study {study.name}: no tick for {tick_age:.0f} min (timer or orchestrator down)", 1)
         if age_min > 150:
             problems.add(f"hpo_{study.name}_no_progress", "WARN", f"hpo study {study.name}: no event for {age_min:.0f} min", 1)
+        # Training is deterministic given (config, seed): equal scores of different trials mean the sampler repeated a configuration.
+        scores: dict[tuple, list[int]] = {}
+        failed: set[int] = set()
+        for line in events.read_text().splitlines():
+            try:
+                row = json.loads(line)
+            except ValueError:
+                continue
+            if row.get("ev") == "tell" and row.get("state") == "FAIL":
+                failed.add(row.get("trial"))
+            if row.get("ev") == "stage_result":
+                scores.setdefault((row.get("fold"), row.get("wp")), []).append(row.get("trial"))
+        scores = {key: [t for t in trials if t not in failed] for key, trials in scores.items()}
+        repeated = [trials for trials in scores.values() if len(set(trials)) > 2]
+        if repeated:
+            problems.add(f"hpo_{study.name}_duplicate_scores", "WARN",
+                         f"hpo study {study.name}: {len(repeated)} score value(s) shared by more than two trials (sampler repeating a configuration?)", 1)
 
 
 CHECKS = [("hpo", check_hpo), ("vast", check_vast), ("local", check_local), ("systemd", check_systemd), ("kaggle", check_kaggle),
