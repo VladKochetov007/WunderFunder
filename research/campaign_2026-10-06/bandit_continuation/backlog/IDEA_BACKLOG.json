@@ -3249,10 +3249,10 @@
      "1,1,1,1.192"
     ]
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "prop0+lwfloor+class3 0.66876 (best h256 scratch single: +0.0027 over control): replicate",
    "lane": "b",
-   "queued_utc": "2026-10-10T23:06:39.881935+00:00"
+   "queued_utc": "2026-10-10T23:48:06.076810+00:00"
   },
   {
    "id": "prop0_lwfloor_h384",
@@ -3285,6 +3285,194 @@
    "rationale": "prop0+lwfloor at width 384",
    "lane": "b",
    "queued_utc": "2026-10-10T23:06:42.026018+00:00"
+  },
+  {
+   "id": "scale_b16_lrsqrt",
+   "family": "lr_batch_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_scale_b16_lrsqrt",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--batch": "16",
+    "--lr": "0.0007"
+   },
+   "status": "queued",
+   "rationale": "batch 16 with Muon+AdamW lr 0.0007 (sqrt rule vs b32 lr 1e-3)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:48:06.077177+00:00"
+  },
+  {
+   "id": "scale_b16_lrlin",
+   "family": "lr_batch_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_scale_b16_lrlin",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--batch": "16",
+    "--lr": "0.0005"
+   },
+   "status": "queued",
+   "rationale": "batch 16 with Muon+AdamW lr 0.0005 (lin rule vs b32 lr 1e-3)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:48:06.077442+00:00"
+  },
+  {
+   "id": "scale_b64_lrsqrt",
+   "family": "lr_batch_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_scale_b64_lrsqrt",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--batch": "64",
+    "--lr": "0.0014"
+   },
+   "status": "queued",
+   "rationale": "batch 64 with Muon+AdamW lr 0.0014 (sqrt rule vs b32 lr 1e-3)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:48:06.077777+00:00"
+  },
+  {
+   "id": "scale_b64_lrlin",
+   "family": "lr_batch_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_scale_b64_lrlin",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--batch": "64",
+    "--lr": "0.002"
+   },
+   "status": "queued",
+   "rationale": "batch 64 with Muon+AdamW lr 0.002 (lin rule vs b32 lr 1e-3)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:48:06.078043+00:00"
+  },
+  {
+   "id": "data8400_e3_s3",
+   "family": "data_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_data8400_e3_s3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--train-seqs": "8400"
+   },
+   "status": "queued",
+   "rationale": "data scaling: 79% of train sequences, same 3 epochs (fewer steps)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:48:06.078389+00:00"
+  },
+  {
+   "id": "data8400_e4_s3",
+   "family": "data_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_data8400_e4_s3",
+   "change": {
+    "--epochs": "4",
+    "--checkpoint-epoch": "3",
+    "--seed": "3",
+    "--train-seqs": "8400"
+   },
+   "status": "queued",
+   "rationale": "data scaling: 79% of train sequences, 4 epochs (closer to equal steps)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:48:06.078627+00:00"
+  },
+  {
+   "id": "data8400_e3_s4",
+   "family": "data_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_data8400_e3_s4",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "4",
+    "--train-seqs": "8400"
+   },
+   "status": "queued",
+   "rationale": "data scaling: 79% of train sequences, same 3 epochs (fewer steps)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:48:06.078870+00:00"
+  },
+  {
+   "id": "data8400_e4_s4",
+   "family": "data_scaling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 8,
+   "hours": 0.9,
+   "name": "vt_f1_data8400_e4_s4",
+   "change": {
+    "--epochs": "4",
+    "--checkpoint-epoch": "3",
+    "--seed": "4",
+    "--train-seqs": "8400"
+   },
+   "status": "ready",
+   "rationale": "data scaling: 79% of train sequences, 4 epochs (closer to equal steps)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T23:48:05.967202+00:00"
   }
  ]
 }

@@ -1,0 +1,277 @@
+In my case, I used a lightweight GRU architecture and rolling-window features (w3, w13, w21) for volatility, ema, lag-diff, rank, trend, and regime change for each target.
+For cross-sectional features, I also built rolling-window features (w3 and w21) for asymmetry, rank, kurtosis, and correlation.
+Finally, I removed redundant features (corr  ≥ 0.9) and weak features, ending up with around 120 features.
+
+My score was 0.3710 (7 submissions)
+
+What did you do? 
+DerrickUnleashed — 02.12.2025, 19:09
+What was your public leader board score ?
+sultanmunirov — 02.12.2025, 19:19
+features meant almost nothing in my solution, I used only sigmoid, tanh, silu and gelu from raw features to diversify the predictions of the 3 main models. the main boost came from Highway head instead of linear layers, boosting on GRU and LSTM models (2 stages, the second predicts the error of the previous one), SWA (averaging the weights of the last 3-5 models during training), data augmentation (first, the data was reduced to the median variance in the training sample, then randomly stretched or compressed), 5 times more data was obtained than it originally was, chrono initialization in gru and lstm also gave a huge boost, finally, I will say that the "weak" metric model helped a lot, which, due to diversity boosted ensemble - bidirectional lstm over the window of the last 60 steps
+
+and automatic balancing of model weights depending on their MSE in each sequence also helped 
+Azure_UnshadeNN — 02.12.2025, 19:58
+What was your score on validation data?
+sultanmunirov — 02.12.2025, 20:01
+it depends on random seed if you shuffle data, but my highest score on last 20% is 0,3698 without shuffling 
+Azure_UnshadeNN — 02.12.2025, 20:09
+Ohh
+Similarly mine was 0.369 on validation and gave 0.3814 on LB
+sultanmunirov — 02.12.2025, 20:12
+0,3698 on validation = 0,3857 on lb
+(80% data used)
+Azure_UnshadeNN — 02.12.2025, 20:13
+Yeah
+I split with shuffling, basically stratified splitting
+I guess it was 85-15
+sultanmunirov — 02.12.2025, 20:15
+did u use adaptive weights?
+Azure_UnshadeNN — 02.12.2025, 20:33
+Nah
+I trained an ensemble of two models . Both in the same normalised space.
+Changing the normalisation space hurt the models so i kept it constant
+I did try adaptive normalisation but it didn't give good results.
+For model architectures i pre-trained with masked autoencoder and fine tuned on the train data.  But unfortunately one of my model overfit on validation but somehow it did generalise too.
+And even their ensemble gave better results
+*on leaderboard
+Azure_UnshadeNN — 02.12.2025, 20:44
+I did try adaptive weights but it gave very bad results
+Azure_UnshadeNN — 02.12.2025, 20:44
+You mean adaptive weights on feature wise loss right?
+Adaptive by the mean R2 score of that feature in val data ?
+sultanmunirov — 02.12.2025, 20:56
+did you use pretraned model in this competition?
+sultanmunirov — 02.12.2025, 20:57
+yes, meta model with adaptive weights 
+
+if model mistake a lot in sequence, its weight decreases 
+Azure_UnshadeNN — 02.12.2025, 21:03
+Nah, i  trained a masked autoencoder on my dataset  (this approach is called pre training)
+Basically in this approach the encoder tries to reconstruct the signals
+Azure_UnshadeNN — 02.12.2025, 21:04
+Rather than simply predicting
+sultanmunirov — 02.12.2025, 21:04
+which dataset u used?
+Azure_UnshadeNN — 02.12.2025, 21:04
+The complete dataset
+Pre trained on complete dataset and fine tuned on the train
+sultanmunirov — 02.12.2025, 21:05
+513 seqs?
+Azure_UnshadeNN — 02.12.2025, 21:05
+*517
+Yeah
+sultanmunirov — 02.12.2025, 21:06
+you just leaked val data in your autoencoder, but it worked fine
+Azure_UnshadeNN — 02.12.2025, 21:07
+Well yeah , but that was the only thing working fine in my case 🙂
+I am still learning ML and DL , am college sophomore 🙂
+sultanmunirov — 02.12.2025, 21:08
+you are 4 on the public)
+Azure_UnshadeNN — 02.12.2025, 21:08
+Just this overfitting or don't know what to call it, got me to 4th rank somehow
+Azure_UnshadeNN — 02.12.2025, 21:08
+Yeah
+Azure_UnshadeNN — 02.12.2025, 21:08
+That's before the final evaluation
+Moreover i have done one of the biggest blunders of my life while submitting the codes
+sultanmunirov — 02.12.2025, 21:09
+why?
+Azure_UnshadeNN — 02.12.2025, 21:09
+Check I sent you a dm
+denisalpino — 03.12.2025, 11:51
+The competition focused specifically on the architectural part, so I didn't touch the data. The only thing I tried to do was online normalization, but it didn't yield positive results.
+
+In my case, the solution consists of two encoders. The first encoder is Self-Attention + GeGLU MLP-Mixer. The second encoder is LSTM + Self-Attention on the last hidden state (this evens out the decay inherent in LSTM and is the most powerful core of the solution). Next comes a simple gate fusion of features from both encoders, including h and c from LSTM + FFN.
+
++ minor details PostNorm (RMSNorm), QKNorm, BatchNorm, SiLU, GELU, etc.
+
+In the last few epochs, I also did SWA, which gave a noticeable boost. 
+
+In any case, overall, I did not optimize the hyperparameters, as I have a weak laptop and it doesn’t allow me to do this within a reasonable time
+
+As a result, this solo-model solution brought 0.3863, but a funny story happened...💀💀💀 I decided not to push the code to the repository because I simply gave up on it. As a result, a week before the end, my laptop's SSD burned out... The whole system crashed, and I had to redo everything from scratch. I was unable to restore the hyperparameters I used in the solution that yielded 0.3863, and could only reach a maximum of 0.3839.
+
+On the last day, I gave up on trying to restore the hyperparameters of the training pipeline and decided to go with a sure thing. In the end, I trained 4 models and made a FiLM ensemble out of them, which resulted in an increase in the metric from 0.3839 to 0.3871.
+
+The moral of the story is: don't be lazy about creating a private repository😁 
+denisalpino — 03.12.2025, 12:00
+Overall, I want to say that the key difficulty of the task was that 517 sequences is terribly few, so all the guys from the leaderboard simply overfit, and those who were able to find a way to generalize better got the best scores. The most effective approach in such tasks is always ensemble learning, whether it be SWA, FiLM, MC-Dropout, or something else. However, in this case, the solution must run for less than 1 hour on the CPU, which is very strict and rules out most ensemble solutions, and the <20MB limit is also very restrictive. Nevertheless, if you use ONNX and quantization, you can achieve a good trade-off between speed and accuracy. For example, all 4 of my models are Int8 quants
+Azure_UnshadeNN — 03.12.2025, 12:18
+I don't understand, my model was overfitting but at the same it was giving top results 🙂
+I simply took an ensemble of a more generalized model (it gave 0.368 on 15% val data and 0.3814 on LB) and a slightly overfit model (0.4789 on 10% val and 0.3859 on LB) , basically I forcefully made this second model learn more patterns
+Their ensemble gave 0.3880 on LB
+Also this overfitting model was giving 0.42 score on the complete dataset (90% train + 10% val) , same for their ensemble
+And the minimum feature R2 score on the complete dataset was 0.2961 
+Изображение
+Azure_UnshadeNN — 03.12.2025, 12:21
+It's actually the complete dataset (not the validation one, that's typo)
+Azure_UnshadeNN — 03.12.2025, 12:45
+Btw that 0.3863 was on validation data?? 20% val data?
+denisalpino — 03.12.2025, 12:59
+0.3863 on LB. My validation set consisted of 20% of the sequences, which I shuffled the dataset before selecting, just in case. On validation, I managed to score exactly 0.4003. I tried several times to take different validations so that they would be more representative, but it always turned out that the validation did not reflect the true behavior of the model on LB very well. Nevertheless, I took a split that, in general, quite representatively reflects the rest of the data.
+denisalpino — 03.12.2025, 13:02
+Just forget about it)) Your model is just less overfitted than the others, and that's an advantage I was talking about above
+denisalpino — 03.12.2025, 13:05
+Hmm, interesting idea. I tried to add more variety by training almost identical architectures with slight differences in sequence lengths and hyperparameters, and that worked too
+What about Mamba, xLSTM, SoTA Transformers Hybrids? Did u try it? I rebuilt xLSTM and Mamba2 on pure PyTorch, but in the end they consistently produced worse metrics than the same basic LSTM + Attention. Maybe someone managed to find a use for them after all
+Azure_UnshadeNN — 03.12.2025, 13:31
+I tried more than 10 architectures
+In fact I tried all the sota type and related architectures
+Tried patch TST, TFT, informer, xlstm, classic lstm with attention, TFT TCN hybrid, TFT-TCN -LSTM hybrid, informer architecture, Mamba 2, GRU, but at the end only simple classic transformer with different kinds of training strategies helped
+I just pre trained my mask autoencoder on the complete dataset, it learnt the general patterns in the complete dataset. Then i fine tuned it specifically
+Azure_UnshadeNN — 03.12.2025, 13:35
+Like in one model fine tuned on 85% data and validated on 15%.
+In the other 90% - 10% but this was stratified split with slightly more harder sequences in validation
+Azure_UnshadeNN — 03.12.2025, 13:36
+Because of which my overfitting model learnt the easy features well and also give slightly better performance on hard features
+I think if I had used anti curriculum learning it would have given even better performance
+But somehow my account was not working properly in the last 2 days.  I wasn't able to submit anything, even that weird PRE Run error though the code was working perfectly fine on my system
+denisalpino — 03.12.2025, 13:40
+same thng. used to try TCN, TST, informer too. During the experiments, it seemed to me that better results could be obtained from most architectures; you just need to take an individual approach to the training pipeline and hyperparameter tuning, for which I no longer had sufficient resources
+Azure_UnshadeNN — 03.12.2025, 13:56
+Why didn't you use google colab or kaggle?
+denisalpino — 03.12.2025, 13:59
+I used Google Colab, but it runs out of resources very quickly. It was possible to optimize hp in general and through checkpointing with recovery, but I didn't have enough time to write a separate pipeline and wait for the resources to roll back
+Azure_UnshadeNN — 03.12.2025, 14:07
+You could have use mixed precision? I guess it helps
+Primarily I used google colab, and it did work fine. Just don't keep the batch sizes too high
+That's why took me 4 hours to pretrain and the next 3 hourse to find tune
+Azure_UnshadeNN — 03.12.2025, 14:09
+I remember I spent my whole day training my model  (and I mean it 🙂)
+sultanmunirov — 03.12.2025, 14:18
+In this competition, SWA gave an incredible boost, because of it alone, my metrics increased by 0.0020 for the base models
+denisalpino — 03.12.2025, 15:29
+That's it! The same applies to ensemble
+denisalpino — 03.12.2025, 15:32
+yeah, i used to but fp16 is stohastic, so it's a bit probably to evaluate real metrics using it. Also, the Adam family of optimizers has problems working in fp16. On the one hand, you can use StableAdamW, but it's more complicated and, oddly enough, the HPs are not always transferable
+denisalpino — 03.12.2025, 15:37
+SWA +0.0020-0.0025 and ensemble of 4 +0.0030-0.0035
+Azure_UnshadeNN — 03.12.2025, 15:45
+I did check other sota optimizers like Sophia, lion, ranger (RAdam + lookahead) and ranger was performing good
+Azure_UnshadeNN — 03.12.2025, 15:45
+In transformers ranger performed slightly better ig
+denisalpino — 03.12.2025, 17:46
+check for whitening matrix optimizers like Muon, AdaMuon, Shampoo and SOAP. There is a new generation, sometimes they perform very well. I tried Muon and it was just slightly better then AdamW. didn't really get to experiment with the others
+
+Muon: https://github.com/MoonshotAI/Moonlight/blob/master/Moonlight.pdf
+Nice comparison: https://arxiv.org/pdf/2510.25000 
+GitHub
+Moonlight/Moonlight.pdf at master · MoonshotAI/Moonlight
+Muon is Scalable for LLM Training. Contribute to MoonshotAI/Moonlight development by creating an account on GitHub.
+Muon is Scalable for LLM Training. Contribute to MoonshotAI/Moonlight development by creating an account on GitHub.
+sasha — 05.12.2025, 08:47
+I'll share mine, although I'm not that high. Maybe helpful to someone. First I managed to train Mamba2 well, it was fast but didn't make it more that .372 on LB, then I tried basic transformer architecture up to .376. And at some point by just averaging the two (with no time cost actually, since transformer took way more time than Mamba), the result jumped to over .38 I tweaked it to get out some more, but actually with all the effort and trying different other solutions, didn't move that much from there. 
+I really appreciate you guys sharing your techniques!
+Azure_UnshadeNN — 05.12.2025, 09:12
+Would you mind sharing your mamba approach please? 
+Actually i am curious to know how Mamba got worked
+I tried it several times but when training, the first epoch was taking a lot of time
+Azure_UnshadeNN — 05.12.2025, 09:13
+So that's why I dropped the idea of even trying mamba
+Azure_UnshadeNN — 05.12.2025, 09:14
+Btw i realised it very late. That the  best hack was using the transformer architecture 🙂. I realised it very late, I did try transformer earlier but shifted more focus to specific architectures like TFT or Informer which didn't give good results
+At last only the classic transformer with targeted training gave the best results
+Though i exploited some overfitting to get the better scores ( not a standard approach though and not recommended either but yeah since it was working i tried it)
+sasha — 05.12.2025, 09:28
+Yep, no problem, I just used chunked batches, with no loss for first 100 steps, to match the inference, nothing fancy actually. So mamba predicts BxLxF on training, and 1xF on inference in steps.
+I was actually very curious about the pretraining idea)))
+Azure_UnshadeNN — 05.12.2025, 09:30
+Ah i see, i will try mamba again sometime. Maybe  i did something wrong in the implementation
+Azure_UnshadeNN — 05.12.2025, 09:30
+Oh thanks )
+Actually earlier i tried to think of it like signal modelling (which it was in disguise)
+I thought why not break each of the signals into trend + seasonality + noise
+And then train models for each and take their ensemble
+But i realised the seasonality was very less in the data. Only the trend and noise dominated
+Moreover if you make a separate model for noise it would overfit very easily
+So that specific idea was not good here
+Then i thought, since we need to infer the regime (the temporal dynamics, the interdependencies , correlations) from just 100 market states why not model it as pattern recognition task
+Like I will make my model learn patterns in each window so it can infer the pattern from windows during inference and make predictions
+For that i did some research, found Random Matrix Theory, it gives SOTA results for this task but i couldn't implement it properly
+Then i came across this masked autoencoder. Basically made my model reconstruct the market states
+Trained it on the whole dataset. Fine tuned on train, validated on val
+I guess i would have tried more things if had time 😕. Wasted my 2 days celebrating the end of 3rd semester 😭😭
+denisalpino — 05.12.2025, 10:49
+Yes, there is such a problem. This is probably because, like all of us, you implemented Mamba on pure PyTorch, so you didn't write CUDA kernels that optimize GPU operations. For example, this greatly slows down matrix multiplication, as operations are fragmented rather than sent to the GPU as a single set of instructions
+
+The easiest way to partially fix this problem is to compile the architecture on PyTorch. Compilation can take quite a long time, but the effect is worth it. Ultimately, after compiling my xLSTM, the training time per epoch was reduced from 50 minutes to 2 minutes.
+Azure_UnshadeNN — 05.12.2025, 10:49
+I see
+denisalpino — 05.12.2025, 10:55
+Regarding Mamba2, since I also implemented this architecture, I can say that, based on my observations, Mamba is much worse at this task purely because it is not good at forgetting. For roughly the same reason, mLSTM and sLSTM performed slightly worse than the basic LSTM, in the latter two, the gates are exponential rather than sigmoid, so more information that is actually garbage passes into the context, and in mLSTM, because cell_state is implemented as a matrix rather than a compressed vector, the garbage information is even stronger and the context is updated much worse. The same applies to Mamba2. In such architectures, the implementation of the forget gate is a significant problem. These architectures can indeed be effective in many tasks, but not where the data is very noisy. For example, in NLP, these are perfectly acceptable solutions, but Vanilla implementations for financial time series perform really poorly unless the gate device is changed and additional features are added to implement a stronger forgetting mechanism
+Azure_UnshadeNN — 05.12.2025, 11:39
+Yeah i thought so too
+Transformers were the only ones performing well in this noisy data. But i think there might be more architectures. Did you try any stats models? Like Arima or Deep AR
+denisalpino — 05.12.2025, 13:01
+Nah, I saw that DeepAR sometimes performs well, but compared to ARIMA, it never really gets going in practice, so I didn't even bother with it 
+Azure_UnshadeNN — 05.12.2025, 14:15
+I see
+peter — 08.12.2025, 21:41
+post-hoc EMA + triple ensemble = +0.005 R2
+willsonn — 25.02.2026, 05:53
+1
+AlexKlos — 09.03.2026, 10:24
+I do not have extensive experience in machine learning, and this was my first participation in a competition of this kind.
+
+I describe only the approaches that actually worked for me in the WunderChallenge.
+
+The base model used in the solution was a Transformer.
+
+Difficulty-stratified split.
+In the solution I used a difficulty-stratified split, where the dataset is split according to the complexity of individual time series sequences.
+
+To estimate the sequence difficulty, a baseline Transformer model (after HPO) was used. The model predicts the next step of the time series based on the previous observation window.
+
+For each sequence the following metric is computed:
+
+difficulty(seq) = mean(MSE_prediction)
+
+All sequences are then sorted by difficulty. Extreme values are removed using quantile clipping, and the validation subset is selected from sequences that uniformly cover the remaining difficulty range.
+
+This approach did not provide a direct improvement in the evaluation metric, but it significantly stabilized the training process, improved the comparability of experimental results, and enabled the method described in section 6 below.
+Изображение
+PCA Clustering
+When projecting the original features (raw32) into a 3-dimensional PCA space, two distinct clusters become clearly visible.
+
+I used the distance from each point (the input raw32 vector) to the plane separating these clusters (the plane is shown in red in the figure).
+
+The resulting value was used as an additional feature.
+
+This approach provided a small improvement in the evaluation metric.
+Изображение
+Изображение
+Изображение
+GRU-Based Online Feature Extraction
+A lightweight GRU model was used as an online feature extractor.
+
+The GRU was trained to predict the next step of the sequence on the entire dataset. After training, the hidden state of the last GRU layer was used as an additional signal and fed into the Transformer model.
+
+This approach produced a very significant improvement in the evaluation metric.
+Изображение
+Stochastic Weight Averaging (SWA)
+Simple averaging of model weights from checkpoints obtained during the last epochs of training (using different combinations) produced a strong improvement in the evaluation metric.
+
+Unfortunately, I did not have enough time to fully implement this approach before the submission deadline, so it was not included in the final solution.
+
+Training on the Entire Dataset
+Another effective technique was training on the entire dataset.
+
+If a difficulty-stratified split is used (see above) and experiments are conducted with different train/validation ratios, the target metric (R²) shows a stable increase when the training set size grows. This suggests that the model benefits from additional training data.
+
+In this setup the leaderboard is used as the final evaluation metric, while the validation set is used only to detect the onset of overfitting by monitoring the divergence between train and validation metrics.
+
+After identifying the optimal hyperparameters and the epoch corresponding to the best validation performance, the model is retrained on the entire dataset using these parameters.
+
+This approach provided a strong improvement in the final score. 
+AlexKlos — 09.03.2026, 10:33
+P.S. 
+Using the complexity of each raw32 input vector at every time step of the sequence as an additional feature (similar to the approach described in section 2) did not produce positive results, although I spent considerable time testing multiple implementations of such a feature.
+
+This may indicate either that I was unable to find the correct relationship between these parameters, or that such a relationship does not exist.
+
+Intuitively, one might expect the complexity of each time step in a market state time series to depend on noise or volatility, which in turn should be related to the dynamics of market parameters (price, volatility, spread, etc.).
+
+However, the experimental results suggest that the dataset might consist of synthetic data that imitates market behavior, with noise added independently from the underlying signal.
+
+If this assumption is correct, the quality of the synthetic data could potentially be improved by introducing a dependency between the noise component and the underlying data.

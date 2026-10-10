@@ -1,0 +1,1 @@
+I'll read the three briefs and the reframe skill, then write a ranked architecture note from those constraints.The briefs pin the GRU error correlation and the multi-rate clocks. I'll check how those clock blocks are grouped so the layer dims match the data.
