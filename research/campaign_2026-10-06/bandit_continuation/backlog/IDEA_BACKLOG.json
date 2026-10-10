@@ -912,6 +912,117 @@
    "rationale": "online z-score input view (teammate demean/online-norm family)",
    "lane": "b",
    "queued_utc": "2026-10-10T00:36:06.748526+00:00"
+  },
+  {
+   "id": "w_h320_e3",
+   "family": "arch",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 1.0,
+   "name": "vt_f1_h320_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--hidden": "320"
+   },
+   "status": "queued",
+   "rationale": "width ladder at 3 epochs: 320 (sweet spot location)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T05:36:23.388744+00:00"
+  },
+  {
+   "id": "w_h448_e3",
+   "family": "arch",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 1.0,
+   "name": "vt_f1_h448_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--hidden": "448"
+   },
+   "status": "queued",
+   "rationale": "width ladder at 3 epochs: 448 (4-epoch run was -0.0008)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T05:36:23.388932+00:00"
+  },
+  {
+   "id": "w_h512_e3",
+   "family": "arch",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 1.0,
+   "name": "vt_f1_h512_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--hidden": "512"
+   },
+   "status": "queued",
+   "rationale": "width ladder at 3 epochs: 512 (4-epoch run was -0.0084)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T05:36:23.389058+00:00"
+  },
+  {
+   "id": "c_f2_h256_e3",
+   "family": "confirm",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold2"
+   ],
+   "priority": 9,
+   "hours": 1.0,
+   "name": "vt_f2_h256_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "fold": 2
+   },
+   "status": "queued",
+   "rationale": "PRE-REGISTERED H-324 confirmation on reserved fold 2: control (seed 3)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T05:37:53.559431+00:00"
+  },
+  {
+   "id": "c_f2_h384_e3",
+   "family": "confirm",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold2"
+   ],
+   "priority": 9,
+   "hours": 1.0,
+   "name": "vt_f2_h384_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--hidden": "384",
+    "fold": 2
+   },
+   "status": "queued",
+   "rationale": "PRE-REGISTERED H-324 confirmation on reserved fold 2: candidate (seed 3); accept if delta >= 0",
+   "lane": "b",
+   "queued_utc": "2026-10-10T05:37:53.559693+00:00"
   }
  ]
 }

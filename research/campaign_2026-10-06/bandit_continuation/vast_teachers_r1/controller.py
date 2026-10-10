@@ -251,7 +251,7 @@ def cmd_reorder(_: argparse.Namespace) -> None:
 
 
 BACKLOG = ROOT / "research/campaign_2026-10-06/bandit_continuation/backlog/IDEA_BACKLOG.json"
-LANE_ASSETS = {"a": {"fold0", "fold1", "fold2", "fold3", "teachers_f0"}, "b": {"fold1"}}
+LANE_ASSETS = {"a": {"fold0", "fold1", "fold2", "fold3", "teachers_f0"}, "b": {"fold0", "fold1", "fold2", "fold3"}}
 
 
 def ready_items(lane: str) -> list[dict]:
