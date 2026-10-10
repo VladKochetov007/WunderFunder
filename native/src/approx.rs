@@ -146,9 +146,156 @@ pub mod avx2 {
     }
 }
 
+/// 16-lane AVX-512F twins of the `avx2` functions: the same IEEE operations in the same order
+/// (integer-domain sign handling, so only AVX-512F is required), hence the same bits per lane.
+#[cfg(target_arch = "x86_64")]
+pub mod avx512 {
+    use std::arch::x86_64::*;
+
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    fn xor(a: __m512, b: __m512) -> __m512 {
+        _mm512_castsi512_ps(_mm512_xor_si512(_mm512_castps_si512(a), _mm512_castps_si512(b)))
+    }
+
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    fn and(a: __m512, b: __m512) -> __m512 {
+        _mm512_castsi512_ps(_mm512_and_si512(_mm512_castps_si512(a), _mm512_castps_si512(b)))
+    }
+
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    fn or(a: __m512, b: __m512) -> __m512 {
+        _mm512_castsi512_ps(_mm512_or_si512(_mm512_castps_si512(a), _mm512_castps_si512(b)))
+    }
+
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    fn andnot(a: __m512, b: __m512) -> __m512 {
+        _mm512_castsi512_ps(_mm512_andnot_si512(_mm512_castps_si512(a), _mm512_castps_si512(b)))
+    }
+
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    fn exp16(x: __m512) -> __m512 {
+        const LN2: f32 = std::f32::consts::LN_2;
+        let s = _mm512_set1_ps;
+        let x = _mm512_min_ps(s(40.0), _mm512_max_ps(s(-40.0), x));
+        let t = _mm512_div_ps(x, s(LN2));
+        let sign = and(t, s(-0.0));
+        let half = or(s(f32::from_bits(0x3eff_ffff)), sign);
+        let n = _mm512_roundscale_ps::<{ _MM_FROUND_TO_ZERO | _MM_FROUND_NO_EXC }>(_mm512_add_ps(t, half));
+        let r = _mm512_sub_ps(x, _mm512_mul_ps(n, s(LN2)));
+        let mut p = s(1.0 / 5040.0);
+        for c in [1.0 / 720.0, 1.0 / 120.0, 1.0 / 24.0, 1.0 / 6.0, 0.5, 1.0, 1.0] {
+            p = _mm512_add_ps(s(c), _mm512_mul_ps(r, p));
+        }
+        let pow2 = _mm512_slli_epi32::<23>(_mm512_add_epi32(_mm512_cvttps_epi32(n), _mm512_set1_epi32(127)));
+        _mm512_mul_ps(p, _mm512_castsi512_ps(pow2))
+    }
+
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    pub fn sigmoid16(x: __m512) -> __m512 {
+        let one = _mm512_set1_ps(1.0);
+        let e = exp16(xor(x, _mm512_set1_ps(-0.0)));
+        _mm512_div_ps(one, _mm512_add_ps(one, e))
+    }
+
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    pub fn tanh16(x: __m512) -> __m512 {
+        let two = _mm512_set1_ps(2.0);
+        _mm512_sub_ps(_mm512_mul_ps(two, sigmoid16(_mm512_mul_ps(two, x))), _mm512_set1_ps(1.0))
+    }
+
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    fn erf16(x: __m512) -> __m512 {
+        let s = _mm512_set1_ps;
+        let neg = s(-0.0);
+        let nan = _mm512_cmp_ps_mask::<_CMP_UNORD_Q>(x, x);
+        let sg = _mm512_mask_blend_ps(nan, or(s(1.0), and(x, neg)), s(f32::NAN));
+        let a = andnot(neg, x);
+        let t = _mm512_div_ps(s(1.0), _mm512_add_ps(s(1.0), _mm512_mul_ps(s(0.327_591_1), a)));
+        let mut p = s(1.061_405_4);
+        for c in [-1.453_152_1, 1.421_413_8, -0.284_496_74, 0.254_829_6] {
+            p = _mm512_add_ps(s(c), _mm512_mul_ps(t, p));
+        }
+        let poly = _mm512_mul_ps(t, p);
+        let e = exp16(_mm512_mul_ps(xor(a, neg), a));
+        _mm512_mul_ps(sg, _mm512_sub_ps(s(1.0), _mm512_mul_ps(poly, e)))
+    }
+
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    pub fn gelu16(x: __m512) -> __m512 {
+        let s = _mm512_set1_ps;
+        let e = erf16(_mm512_mul_ps(x, s(std::f32::consts::FRAC_1_SQRT_2)));
+        _mm512_mul_ps(_mm512_mul_ps(s(0.5), x), _mm512_add_ps(s(1.0), e))
+    }
+
+    /// `v[i] = gelu_fast(v[i])` for every element.
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    pub fn gelu_slice(v: &mut [f32], ahead: &mut crate::half::Ahead) {
+        let mut chunks = v.chunks_exact_mut(16);
+        for c in &mut chunks {
+            ahead.issue(2 * crate::half::AHEAD_LINES);
+            // SAFETY: `c` holds sixteen floats.
+            unsafe { _mm512_storeu_ps(c.as_mut_ptr(), gelu16(_mm512_loadu_ps(c.as_ptr()))) };
+        }
+        for x in chunks.into_remainder() {
+            *x = super::gelu_fast(*x);
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[cfg(target_arch = "x86_64")]
+    #[test]
+    fn avx512_activations_match_scalar_bitwise() {
+        if !std::arch::is_x86_feature_detected!("avx512f") {
+            return;
+        }
+        use std::arch::x86_64::*;
+        let mut xs: Vec<f32> = (-12_000..=12_000).map(|i| i as f32 * 1e-3).collect();
+        let mut s = 0x9e37_79b9u32;
+        for _ in 0..400_000 {
+            s ^= s << 13;
+            s ^= s >> 17;
+            s ^= s << 5;
+            let x = f32::from_bits(s);
+            if !x.is_nan() {
+                xs.push(x);
+            }
+        }
+        xs.extend([0.0, -0.0, 40.0, -40.0, 41.0, -41.0, 1e30, -1e30, f32::INFINITY, f32::NEG_INFINITY, f32::NAN]);
+        while xs.len() % 16 != 0 {
+            xs.push(0.25);
+        }
+        type Simd = unsafe fn(__m512) -> __m512;
+        let funcs: [(fn(f32) -> f32, Simd); 3] =
+            [(sigmoid_fast, avx512::sigmoid16), (tanh_fast, avx512::tanh16), (gelu_fast, avx512::gelu16)];
+        for (k, (scalar, simd)) in funcs.iter().enumerate() {
+            for c in xs.chunks_exact(16) {
+                let mut out = [0.0f32; 16];
+                unsafe { _mm512_storeu_ps(out.as_mut_ptr(), simd(_mm512_loadu_ps(c.as_ptr()))) };
+                for (x, y) in c.iter().zip(out) {
+                    let want = scalar(*x);
+                    assert!(
+                        y.to_bits() == want.to_bits() || (y.is_nan() && want.is_nan()),
+                        "f{k}({x:e}): {y:e} vs {want:e}"
+                    );
+                }
+            }
+        }
+    }
+
 
     fn grid() -> impl Iterator<Item = f32> {
         (-12_000..=12_000).map(|i| i as f32 * 1e-3)

@@ -11,6 +11,8 @@ crate-type = ["cdylib", "rlib"]
 
 [features]
 default = []
+# Per-stage cycle counters in the dynamic-int8 step (benchmarks only).
+profile = []
 python = ["dep:pyo3", "dep:numpy"]
 extension-module = ["python", "pyo3/extension-module"]
 

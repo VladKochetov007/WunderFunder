@@ -557,6 +557,46 @@ unsafe fn gru_update_avx2(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahe
     }
 }
 
+/// `gru_update_avx2` on sixteen lanes (`approx::avx512`); the same bits.
+///
+/// # Safety
+/// The CPU must support AVX-512F.
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx512f")]
+#[inline]
+unsafe fn gru_update_avx512(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahead) {
+    use crate::approx::avx512::{sigmoid16, tanh16};
+    use std::arch::x86_64::*;
+    let n = h.len();
+    assert!(gi.len() >= 3 * n && gh.len() >= 3 * n);
+    let main = n / 16 * 16;
+    unsafe {
+        let (i, g, hp) = (gi.as_ptr(), gh.as_ptr(), h.as_mut_ptr());
+        let ld = |p: *const f32, k: usize| _mm512_loadu_ps(p.add(k));
+        for j in (0..main).step_by(16) {
+            ahead.issue(4 * crate::half::AHEAD_LINES);
+            let r = sigmoid16(_mm512_add_ps(ld(i, j), ld(g, j)));
+            let u = sigmoid16(_mm512_add_ps(ld(i, n + j), ld(g, n + j)));
+            let c = tanh16(_mm512_add_ps(
+                ld(i, 2 * n + j),
+                _mm512_mul_ps(r, ld(g, 2 * n + j)),
+            ));
+            let keep = _mm512_mul_ps(u, ld(hp, j));
+            let y = _mm512_add_ps(
+                _mm512_mul_ps(_mm512_sub_ps(_mm512_set1_ps(1.0), u), c),
+                keep,
+            );
+            _mm512_storeu_ps(hp.add(j), y);
+        }
+    }
+    for j in main..n {
+        let r = sigmoid_fast(gi[j] + gh[j]);
+        let u = sigmoid_fast(gi[n + j] + gh[n + j]);
+        let c = tanh_fast(gi[2 * n + j] + r * gh[2 * n + j]);
+        h[j] = (1.0 - u) * c + u * h[j];
+    }
+}
+
 /// out = W x + b with eight fp32 lanes per row (multiply, then add) reduced in a fixed order.
 /// Plain IEEE operations that LLVM vectorizes without reassociating, so every build and CPU
 /// returns the same bits (Q16x head.2).
@@ -1005,6 +1045,11 @@ impl FastRnn {
         self.hidden
     }
 
+    /// Whether the step runs on the dynamic-int8 kernels (`Q8Vnni` and its fallbacks).
+    pub fn is_dynamic_int8(&self) -> bool {
+        self.precision.dyn8().is_some()
+    }
+
     pub fn precision(&self) -> Precision {
         self.precision
     }
@@ -1132,7 +1177,7 @@ impl FastRnn {
             #[cfg(target_arch = "x86_64")]
             Precision::Q8VnniAvx2 => unsafe { self.step_dyn_avx2(x, out, after) },
             Precision::Q8VnniPortable => {
-                self.step_dyn_impl::<false>(x, out, after, crate::vnni::Isa::Portable)
+                self.step_dyn_impl::<false, false>(x, out, after, crate::vnni::Isa::Portable)
             }
             #[cfg(target_arch = "x86_64")]
             Precision::Q8r | Precision::Q8x => unsafe { self.step_q16x(x, out, after) },
@@ -1241,19 +1286,20 @@ impl FastRnn {
     #[cfg(target_arch = "x86_64")]
     #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512bw,avx512vnni")]
     unsafe fn step_dyn_vnni(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
-        self.step_dyn_impl::<true>(x, out, after, crate::vnni::Isa::Vnni512)
+        self.step_dyn_impl::<true, true>(x, out, after, crate::vnni::Isa::Vnni512)
     }
 
     #[cfg(target_arch = "x86_64")]
     #[target_feature(enable = "avx2,fma,f16c")]
     unsafe fn step_dyn_avx2(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
-        self.step_dyn_impl::<true>(x, out, after, crate::vnni::Isa::Avx2)
+        self.step_dyn_impl::<true, false>(x, out, after, crate::vnni::Isa::Avx2)
     }
 
     /// The dynamic-int8 step. `SIMD` selects the AVX2 helpers (projection, activations,
-    /// quantization); `isa` the matvec kernel. Every combination returns the same bits.
+    /// quantization), `ZMM` (only from the AVX-512 wrapper) their sixteen-lane twins; `isa` the
+    /// matvec kernel. Every combination returns the same bits.
     #[inline(always)]
-    fn step_dyn_impl<const SIMD: bool>(
+    fn step_dyn_impl<const SIMD: bool, const ZMM: bool>(
         &mut self,
         x: &[f32],
         out: &mut [f32],
@@ -1268,6 +1314,7 @@ impl FastRnn {
         let st = self.state.as_mut();
         let kp = padded_cols(n);
         let n_layers = self.layers.len();
+        let mut clock = crate::vnni::prof::tick();
         let quant = |v: &[f32], q: &mut [u8]| -> f32 {
             // SAFETY: SIMD is instantiated only from AVX2-enabled wrappers.
             #[cfg(target_arch = "x86_64")]
@@ -1277,7 +1324,11 @@ impl FastRnn {
             quantize(v, q)
         };
         let gelu_all = |v: &mut [f32], ahead: &mut Ahead| {
-            // SAFETY: as for `quant`.
+            // SAFETY: as for `quant`; ZMM only from the AVX-512 wrapper.
+            #[cfg(target_arch = "x86_64")]
+            if ZMM && fast {
+                return unsafe { crate::approx::avx512::gelu_slice(v, ahead) };
+            }
             #[cfg(target_arch = "x86_64")]
             if SIMD && fast {
                 return unsafe { crate::approx::avx2::gelu_slice(v, ahead) };
@@ -1300,20 +1351,27 @@ impl FastRnn {
             let cols = &half[self.w_in_cols.w.clone()];
             let scales = &wts[self.w_in_cols.s.clone()];
             if SIMD && cfg!(target_arch = "x86_64") {
-                // SAFETY: SIMD is instantiated only from AVX2 + FMA + F16C wrappers.
+                // SAFETY: SIMD is instantiated only from AVX2 + FMA + F16C wrappers, ZMM only
+                // from the AVX-512 one.
                 #[cfg(target_arch = "x86_64")]
                 unsafe {
-                    crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
+                    if ZMM {
+                        crate::vnni::project_zmm(cols, scales, b, x, &mut self.nz, padded)
+                    } else {
+                        crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
+                    }
                 }
             } else {
                 crate::half::project_q16_portable(cols, scales, b, x, padded);
             }
             gelu_all(&mut st[self.z.clone()], &mut matrix_ahead(&self.layers[0].w_ih));
         }
+        crate::vnni::prof::lap(0, &mut clock);
         let (hq, zq) = self.dcodes.split_at_mut(n_layers * kp);
         let (hs, zs) = self.dscales.split_at_mut(n_layers);
         zs[0] = quant(&st[self.z.clone()], zq);
         let zs = zs[0];
+        crate::vnni::prof::lap(1, &mut clock);
 
         for (k, li) in self.layers.iter().enumerate() {
             let g = self.cell.gates() * n;
@@ -1330,10 +1388,16 @@ impl FastRnn {
                 (&done[(k - 1) * kp..], hs[k - 1])
             };
             self.dq[li.w_ih.q8.unwrap()].gemv(isa, q_in, s_in, Some(&wts[li.b_ih.clone()]), gi);
+            crate::vnni::prof::lap(2 + 4 * k, &mut clock);
             self.dq[li.w_hh.q8.unwrap()].gemv(isa, &cur[..kp], hs[k], Some(&wts[li.b_hh.clone()]), gh);
+            crate::vnni::prof::lap(3 + 4 * k, &mut clock);
             let next = self.layers.get(k + 1).map_or(&self.w1, |l| &l.w_ih);
             match self.cell {
-                // SAFETY: as for `quant`.
+                // SAFETY: as for `quant`; ZMM only from the AVX-512 wrapper.
+                #[cfg(target_arch = "x86_64")]
+                Cell::Gru if ZMM && fast => unsafe {
+                    gru_update_avx512(h, gi, gh, &mut matrix_ahead(next))
+                },
                 #[cfg(target_arch = "x86_64")]
                 Cell::Gru if SIMD && fast => unsafe {
                     gru_update_avx2(h, gi, gh, &mut matrix_ahead(next))
@@ -1341,15 +1405,20 @@ impl FastRnn {
                 Cell::Gru => gru_update(h, gi, gh, fast),
                 Cell::Lstm => lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast),
             }
+            crate::vnni::prof::lap(4 + 4 * k, &mut clock);
             hs[k] = quant(h, &mut cur[..kp]);
+            crate::vnni::prof::lap(5 + 4 * k, &mut clock);
         }
 
         let a = &mut st[self.a.clone()];
         let last = &hq[(n_layers - 1) * kp..n_layers * kp];
         self.dq[self.w1.q8.unwrap()].gemv(isa, last, hs[n_layers - 1], Some(&wts[self.b1.clone()]), a);
         self.dq[self.w1z.q8.unwrap()].gemv(isa, zq, zs, None, a);
+        crate::vnni::prof::lap(2 + 4 * n_layers, &mut clock);
         gelu_all(a, &mut after);
+        crate::vnni::prof::lap(3 + 4 * n_layers, &mut clock);
         gemv_lanes(&wts[self.w2.clone()], &wts[self.b2.clone()], a, out);
+        crate::vnni::prof::lap(4 + 4 * n_layers, &mut clock);
     }
 
     #[cfg(target_arch = "x86_64")]

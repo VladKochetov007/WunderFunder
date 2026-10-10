@@ -299,10 +299,27 @@ impl DynQ8 {
                     // Each accumulator holds (row, even/odd pair) sums for four rows.
                     let lo = _mm256_permute4x64_epi64::<0b11_01_10_00>(_mm256_hadd_epi32(s[0], s[1]));
                     let hi = _mm256_permute4x64_epi64::<0b11_01_10_00>(_mm256_hadd_epi32(s[2], s[3]));
-                    _mm256_storeu_si256(acc.as_mut_ptr().add(16 * block) as *mut __m256i, lo);
-                    _mm256_storeu_si256(acc.as_mut_ptr().add(16 * block + 8) as *mut __m256i, hi);
+                    if (sb + 1) * SUPER_ROWS <= self.rows {
+                        // Full super-block: vector epilogue, the same operations as `epilogue`.
+                        let xv = _mm256_set1_ps(xs);
+                        for (half, dot) in [lo, hi].into_iter().enumerate() {
+                            let r0 = sb * SUPER_ROWS + 16 * block + 8 * half;
+                            let scale = _mm256_mul_ps(_mm256_loadu_ps(self.scales.as_ptr().add(r0)), xv);
+                            let scaled = _mm256_mul_ps(_mm256_cvtepi32_ps(dot), scale);
+                            let base = match bias {
+                                Some(b) => _mm256_loadu_ps(b.as_ptr().add(r0)),
+                                None => _mm256_loadu_ps(out.as_ptr().add(r0)),
+                            };
+                            _mm256_storeu_ps(out.as_mut_ptr().add(r0), _mm256_add_ps(scaled, base));
+                        }
+                    } else {
+                        _mm256_storeu_si256(acc.as_mut_ptr().add(16 * block) as *mut __m256i, lo);
+                        _mm256_storeu_si256(acc.as_mut_ptr().add(16 * block + 8) as *mut __m256i, hi);
+                    }
                 }
-                self.epilogue(sb, &acc, false, xs, bias, out);
+                if (sb + 1) * SUPER_ROWS > self.rows {
+                    self.epilogue(sb, &acc, false, xs, bias, out);
+                }
             }
         }
     }
@@ -314,7 +331,6 @@ impl DynQ8 {
     unsafe fn gemv_vnni(&self, q: &[u8], xs: f32, bias: Option<&[f32]>, out: &mut [f32]) {
         use std::arch::x86_64::*;
         let kg = self.kgroups;
-        let mut acc = [0i32; SUPER_ROWS];
         unsafe {
             let base = self.lines.as_ptr() as *const __m512i;
             for sb in 0..self.rows.div_ceil(SUPER_ROWS) {
@@ -327,8 +343,7 @@ impl DynQ8 {
                 };
                 let mut g = 0;
                 while g + 2 <= kg {
-                    // No software prefetch: the contiguous stream is covered by the hardware
-                    // prefetcher, and explicit T0 hints measured slower (see the report).
+                    // No software prefetch: interleaved trials showed T1 hints 10-15% slower.
                     let (a0, a1) = (word(g), word(g + 1));
                     for i in 0..4 {
                         even[i] = _mm512_dpbusd_epi32(even[i], a0, _mm512_load_si512(stream.add(4 * g + i) as *const _));
@@ -342,13 +357,24 @@ impl DynQ8 {
                         even[i] = _mm512_dpbusd_epi32(even[i], a0, _mm512_load_si512(stream.add(4 * g + i) as *const _));
                     }
                 }
+                // Vector epilogue: the same convert, multiply, multiply, add as `epilogue`.
+                let xv = _mm512_set1_ps(xs);
                 for i in 0..4 {
-                    _mm512_storeu_si512(
-                        acc.as_mut_ptr().add(16 * i) as *mut _,
-                        _mm512_add_epi32(even[i], odd[i]),
-                    );
+                    let r0 = sb * SUPER_ROWS + 16 * i;
+                    if r0 >= self.rows {
+                        break;
+                    }
+                    let mask = ((1u32 << (self.rows - r0).min(16)) - 1) as u16;
+                    let total = _mm512_add_epi32(even[i], odd[i]);
+                    let dot = _mm512_sub_epi32(total, _mm512_loadu_si512(self.offset_sum.as_ptr().add(r0) as *const _));
+                    let scale = _mm512_mul_ps(_mm512_loadu_ps(self.scales.as_ptr().add(r0)), xv);
+                    let scaled = _mm512_mul_ps(_mm512_cvtepi32_ps(dot), scale);
+                    let base = match bias {
+                        Some(b) => _mm512_maskz_loadu_ps(mask, b.as_ptr().add(r0)),
+                        None => _mm512_maskz_loadu_ps(mask, out.as_ptr().add(r0)),
+                    };
+                    _mm512_mask_storeu_ps(out.as_mut_ptr().add(r0), mask, _mm512_add_ps(scaled, base));
                 }
-                self.epilogue(sb, &acc, true, xs, bias, out);
             }
         }
     }
@@ -432,6 +458,83 @@ pub unsafe fn quantize_avx2(x: &[f32], q: &mut [u8]) -> f32 {
     }
     q[x.len()..].fill(OFFSET);
     m / 127.0
+}
+
+/// `half::project_as::<true>` on sixteen lanes: the same per-lane multiply then add in the same
+/// column order, so every output equals the AVX2 version's bits.
+///
+/// # Safety
+/// The CPU must support AVX-512F (and BW for the surrounding wrapper).
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx512f")]
+pub unsafe fn project_zmm(
+    cols: &[u16],
+    scales: &[f32],
+    b: &[f32],
+    x: &[f32],
+    nz: &mut Vec<u32>,
+    out: &mut [f32],
+) {
+    use crate::half::COL_TILE;
+    use std::arch::x86_64::*;
+    let n_cols = x.len();
+    let tiles = out.len() / COL_TILE;
+    assert!(out.len().is_multiple_of(COL_TILE) && b.len() >= out.len());
+    assert!(cols.len() >= tiles * n_cols * COL_TILE && scales.len() >= n_cols);
+    nz.clear();
+    nz.extend((0..n_cols as u32).filter(|&j| x[j as usize] != 0.0));
+    unsafe {
+        for t in 0..tiles {
+            let bt = b.as_ptr().add(t * COL_TILE);
+            let mut acc: [__m512; 4] = std::array::from_fn(|i| _mm512_loadu_ps(bt.add(16 * i)));
+            let tile = cols.as_ptr().add(t * n_cols * COL_TILE);
+            for &j in nz.iter() {
+                let xj = _mm512_set1_ps(*x.get_unchecked(j as usize) * *scales.get_unchecked(j as usize));
+                let col = tile.add(j as usize * COL_TILE);
+                for (i, a) in acc.iter_mut().enumerate() {
+                    let v = _mm256_loadu_si256(col.add(16 * i) as *const __m256i);
+                    let w = _mm512_cvtepi32_ps(_mm512_cvtepi16_epi32(v));
+                    *a = _mm512_add_ps(*a, _mm512_mul_ps(w, xj));
+                }
+            }
+            let o = out.as_mut_ptr().add(t * COL_TILE);
+            for (i, a) in acc.iter().enumerate() {
+                _mm512_storeu_ps(o.add(16 * i), *a);
+            }
+        }
+    }
+}
+
+/// Optional per-stage cycle accounting of the dynamic-int8 step (cargo feature `profile`);
+/// compiles to nothing otherwise. Slots: 0 projection + GELU, 1 quantize z, then per layer k
+/// `2 + 4k` ih matvec, `3 + 4k` hh matvec, `4 + 4k` gate update, `5 + 4k` requantize h; after the
+/// last layer (2 layers: 10..) head.0 matvecs, head GELU, head.2.
+pub mod prof {
+    #[cfg(feature = "profile")]
+    pub static CYCLES: [std::sync::atomic::AtomicU64; 32] =
+        [const { std::sync::atomic::AtomicU64::new(0) }; 32];
+
+    /// Time stamp, or 0 when profiling is off.
+    #[inline(always)]
+    pub fn tick() -> u64 {
+        #[cfg(all(feature = "profile", target_arch = "x86_64"))]
+        // SAFETY: rdtsc has no preconditions.
+        return unsafe { std::arch::x86_64::_rdtsc() };
+        #[cfg(not(all(feature = "profile", target_arch = "x86_64")))]
+        0
+    }
+
+    /// Charge the time since `*t` to `slot` and restart the clock.
+    #[inline(always)]
+    #[allow(unused_variables)]
+    pub fn lap(slot: usize, t: &mut u64) {
+        #[cfg(feature = "profile")]
+        {
+            let now = tick();
+            CYCLES[slot].fetch_add(now - *t, std::sync::atomic::Ordering::Relaxed);
+            *t = now;
+        }
+    }
 }
 
 #[cfg(test)]

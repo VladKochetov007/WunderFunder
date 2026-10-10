@@ -121,3 +121,65 @@ PYTHONPATH=src python scripts/int8_vnni_quality.py --lib DIR --weights ep3.npz -
 5. Optional speed: reuse of activation quantization across matrices, fusing projection into int8,
    cross-member cache blocking (L2 is the limit beyond one member), AVX-VNNI (256-bit) path for CPUs
    without AVX-512.
+
+## Round 2: profile-guided speedups (this machine, loaded; Zen4 not measurable here)
+
+Profile of one member (cargo feature `profile`, `bench_int8 --profile K`: rdtsc stage shares plus
+perf_event_open hardware counters), before / after the changes below.
+
+| stage | before | after |
+|---|---:|---:|
+| input projection + GELU | 17.0% | 20.7% |
+| layer 0 ih / hh matvec | 15.0 / 14.9% | 15.5 / 15.2% |
+| layer 1 ih / hh matvec | 14.4 / 14.4% | 13.0 / 12.8% |
+| head.0 (two blocks) | 9.6% | 8.3% |
+| gate update layer 0 / 1 | 5.1 / 5.1% | 4.6 / 4.6% |
+| head GELU, head.2 | 2.1, 0.8% | 1.7, 1.2% |
+| quantize z, requantize h (x2) | 0.5, 1.1% | 0.7, 1.7% |
+| stream features (separate loop) | 0.6% of a row | 0.7% |
+| Python/FFI per row | n/a | under 1 us (`Predictor.step` loop 17.5 us vs 17-22 native) |
+
+Before: 38.8 us/row, 163.7k instructions/row, IPC 2.26. After: 20.1 us/row, 67.1k instructions. One
+member makes 1.9k LLC references per row; two members without alternation miss L2 on all 33k lines/row.
+
+Changes kept (each measured):
+1. Vector epilogue in the VNNI and AVX2 kernels (masked zmm convert/mul/mul/add instead of a scalar loop
+   over 64 rows): resident matvec 8.6k -> 4.9k cycles (2.8 -> 1.6 cycles per 64 B line); one member
+   38.8 -> 26.1 us.
+2. AVX-512F twins of gate/GELU (`approx::avx512`), the GRU update and the int16 projection
+   (`vnni::project_zmm`), bitwise equal to the AVX2/scalar functions: one member 26.1 -> 20.1 us.
+3. Alternating member order on odd rows in `EnsemblePredictor` (the blend still sums in index order, so
+   bits are unchanged; dynamic-int8 ensembles only): two members 90 -> 75 us in an interleaved sweep.
+
+Tried and removed: software prefetch T0/T1 at 1-8 KB (10-15% slower).
+
+Alternating old/new binaries, 3 rounds, median us/row (features included):
+
+| | before | after |
+|---|---:|---:|
+| 256 x1 | 31.5 | **25.7** |
+| 256 x2 | 104.3 | **68.5** |
+| 256 x3 | 159.0 | 116.8 |
+| 256 x4 | 225.3 | 162.0 |
+| 384 x1 | 101.7 | 91.7 |
+
+At a quieter moment the Python loop measured 17.5 us/row for one member and `EnsemblePredictor` with two
+members 52 us/row. Targets (<=30, <=65): met for one member; two members 52-68 depending on load.
+
+Not adopted: int4 (fake-quantized 60-sequence WP deltas vs fp32: -1.7e-3 per-row, +1.4e-3 group 64,
+-5.6e-4 group 32, +2e-5 group 32 with clipping; noise of about +-1.5e-3), int8 projection (same uop count),
+skipping heads on warm-up rows (0.5% of rows). Zen4 scorer: 512-bit ops run as two 256-bit halves and L2
+is 1 MB, so a member (about 1.0 MB with projection) will not fully fit; expect cache bandwidth to matter
+more than here and rerun `bench_int8` there. Bit identity of VNNI, AVX2 and portable is covered by unit
+tests and held on 60 real sequences (identical WP and error numbers). Quality, 60 fold-1 sequences,
+112,495 scored rows: q8vnni WP 0.624093 vs f32 0.624051 (+4.2e-5), unchanged from round 1.
+
+## Numba comparison (scripts/bench_numba_gru.py, this machine, one core)
+
+The same GRU256x2 step in numba runs 215-330 us/row (f32), 240-270 us/row (int8) and about 1500 us/row
+(int16 pair loop), against 17-26 us/row for Rust q8vnni: Rust is about 10x faster. By part: a numba int8
+768x256 matvec takes 34 us (best rewrite, column-major int32 accumulate, 17 us) versus 1.9 us for the
+VNNI kernel; gates 8-9 us per layer versus about 1 us; projection 3.5 us. If numba is the only option:
+store weights column-major and accumulate int32 over contiguous rows two columns per pass, use the
+polynomial exp, fuse the three gates in one loop, keep the whole sequence loop in one njit function
+(per-call overhead is only 1-3 us), and expect about 100 us/row at best; numba cannot emit `vpdpbusd`.

@@ -435,6 +435,9 @@ struct PyEnsemblePredictor {
     coefficients: Vec<f32>,
     active: usize,
     scratch: Vec<[f32; 2]>,
+    /// Step members in reverse order on odd rows (dynamic-int8 ensembles; see `advance`).
+    alternate: bool,
+    odd_row: bool,
     out: [f32; 2],
     seq: Option<i64>,
     governor: Option<Governor>,
@@ -540,39 +543,38 @@ impl PyEnsemblePredictor {
             norm.update(raw, zscores);
         }
         self.out = [0.0; 2];
-        let members = self
-            .models
-            .iter_mut()
-            .zip(self.scratch.iter_mut())
-            .zip(&self.coefficients)
-            .zip(&self.widths)
-            .take(self.active);
+        let active = self.active;
+        // Dynamic-int8 members together exceed L2: step them in reverse on every other row so the
+        // member stepped last (still cached) is first on the next row. Members are independent
+        // and the blend below always sums in index order, so the output bits do not change.
+        let reverse = self.alternate && self.odd_row;
+        self.odd_row = !self.odd_row;
+        let order = |k: usize| if reverse { active - 1 - k } else { k };
         match &mut self.governor {
             None => {
-                for (i, (((model, scratch), coefficient), &width)) in members.enumerate() {
+                for k in 0..active {
+                    let i = order(k);
                     // Prefetch the next member's first weights (for the last member, the next
                     // row's first) during this member's final activation pass.
-                    let after = self.firsts[(i + 1) % self.active];
-                    model.step_then(&self.input[..width], scratch, after);
-                    for (total, value) in self.out.iter_mut().zip(scratch) {
-                        *total += *coefficient * *value;
-                    }
+                    let after = self.firsts[order((k + 1) % active)];
+                    let width = self.widths[i];
+                    self.models[i].step_then(&self.input[..width], &mut self.scratch[i], after);
                 }
             }
             Some(governor) => {
-                let mut t = Instant::now();
-                for ((((model, scratch), coefficient), &width), spent) in
-                    members.zip(governor.member_time.iter_mut())
-                {
-                    model.step(&self.input[..width], scratch);
-                    for (total, value) in self.out.iter_mut().zip(scratch) {
-                        *total += *coefficient * *value;
-                    }
-                    let now = Instant::now();
-                    *spent += now - t;
-                    t = now;
+                for k in 0..active {
+                    let i = order(k);
+                    let t = Instant::now();
+                    let width = self.widths[i];
+                    self.models[i].step(&self.input[..width], &mut self.scratch[i]);
+                    governor.member_time[i] += t.elapsed();
                 }
                 governor.rows += 1;
+            }
+        }
+        for (scratch, coefficient) in self.scratch.iter().zip(&self.coefficients).take(active) {
+            for (total, value) in self.out.iter_mut().zip(scratch) {
+                *total += *coefficient * *value;
             }
         }
         for value in &mut self.out {
@@ -683,6 +685,8 @@ impl PyEnsemblePredictor {
             features: Default::default(),
             norm: needs_norm.then(Default::default),
             scratch: vec![[0.0; 2]; models.len()],
+            alternate: models.iter().all(FastRnn::is_dynamic_int8) && models.len() > 1,
+            odd_row: false,
             input: vec![0.0; if needs_norm { base + N_RAW } else { base }],
             widths,
             active: models.len(),
