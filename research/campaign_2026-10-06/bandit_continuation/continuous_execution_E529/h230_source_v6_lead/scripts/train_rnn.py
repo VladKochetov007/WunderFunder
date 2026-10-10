@@ -1116,7 +1116,7 @@ def main():
     research = ap.add_argument_group("optimizer research (src/wnn/optim.py; defaults reproduce AdamW + OneCycle)")
     research.add_argument("--optim", choices=["adamw", "muon", "sgd"], default="adamw",
                           help="muon: orthogonalised per-gate updates on the recurrent matrices, AdamW elsewhere")
-    research.add_argument("--muon-scope", choices=["rnn", "hidden"], default="rnn",
+    research.add_argument("--muon-scope", choices=["rnn", "hidden", "all"], default="rnn",
                           help="hidden: Muon also on head.0.weight")
     research.add_argument("--beta2", type=float, default=0.999, help="Adam second-moment decay")
     research.add_argument("--sched", choices=["onecycle", "wsd", "sgdr"], default="onecycle",

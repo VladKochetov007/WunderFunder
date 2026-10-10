@@ -1507,6 +1507,350 @@
    "rationale": "CPC-style self-supervised aux head: predict standardized change of every raw column 2 and 8 rows ahead from the hidden state (training only). Motivation: lookahead ladder shows the label is a function of the near-future path (lead 2 = +0.014); forcing the recurrence to forecast features may improve its price-move forecast. Control: fold-1 3-epoch seed-3 default (local r3_ctrl).",
    "lane": "b",
    "queued_utc": "2026-10-10T14:07:15.592258+00:00"
+  },
+  {
+   "id": "long_adamw_e15",
+   "family": "long_training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 3.2,
+   "name": "vt_f1_long_adamw_e15",
+   "change": {
+    "--epochs": "15",
+    "--checkpoint-epoch": "14",
+    "--lr": "0.0005",
+    "--wd": "0.1",
+    "--optim": "adamw",
+    "--muon-scope": "rnn",
+    "--sched": "onecycle",
+    "--dropout": "0.0",
+    "+": [
+     "--intra-snapshots"
+    ]
+   },
+   "status": "queued",
+   "rationale": "AdamW everywhere, lr 5e-4, wd 0.1 | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves.",
+   "lane": "b",
+   "queued_utc": "2026-10-10T14:17:36.743110+00:00"
+  },
+  {
+   "id": "long_muonrnn_e15",
+   "family": "long_training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 3.2,
+   "name": "vt_f1_long_muonrnn_e15",
+   "change": {
+    "--epochs": "15",
+    "--checkpoint-epoch": "14",
+    "--lr": "0.0005",
+    "--wd": "0.1",
+    "--optim": "muon",
+    "--muon-scope": "rnn",
+    "--sched": "onecycle",
+    "--dropout": "0.0",
+    "+": [
+     "--intra-snapshots"
+    ]
+   },
+   "status": "queued",
+   "rationale": "Muon on GRU matrices, lr 5e-4, wd 0.1 | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves.",
+   "lane": "b",
+   "queued_utc": "2026-10-10T14:17:36.743427+00:00"
+  },
+  {
+   "id": "long_muonall_e15",
+   "family": "long_training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 3.2,
+   "name": "vt_f1_long_muonall_e15",
+   "change": {
+    "--epochs": "15",
+    "--checkpoint-epoch": "14",
+    "--lr": "0.0005",
+    "--wd": "0.1",
+    "--optim": "muon",
+    "--muon-scope": "all",
+    "--sched": "onecycle",
+    "--dropout": "0.0",
+    "+": [
+     "--intra-snapshots"
+    ]
+   },
+   "status": "queued",
+   "rationale": "Muon on every 2-D weight (input, GRU, head) | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves.",
+   "lane": "b",
+   "queued_utc": "2026-10-10T14:17:36.743627+00:00"
+  },
+  {
+   "id": "long_muonall_wsd_e15",
+   "family": "long_training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 3.2,
+   "name": "vt_f1_long_muonall_wsd_e15",
+   "change": {
+    "--epochs": "15",
+    "--checkpoint-epoch": "14",
+    "--lr": "0.0005",
+    "--wd": "0.1",
+    "--optim": "muon",
+    "--muon-scope": "all",
+    "--sched": "wsd",
+    "--dropout": "0.0",
+    "+": [
+     "--intra-snapshots",
+     "--wsd-decay",
+     "0.3",
+     "--wsd-final",
+     "0.0",
+     "--wsd-shape",
+     "linear"
+    ]
+   },
+   "status": "queued",
+   "rationale": "Muon everywhere + WSD (long plateau then linear decay) | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves.",
+   "lane": "b",
+   "queued_utc": "2026-10-10T14:17:36.743763+00:00"
+  },
+  {
+   "id": "long_muonrnn_do_wsd_e15",
+   "family": "long_training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 3.2,
+   "name": "vt_f1_long_muonrnn_do_wsd_e15",
+   "change": {
+    "--epochs": "15",
+    "--checkpoint-epoch": "14",
+    "--lr": "0.0005",
+    "--wd": "0.1",
+    "--optim": "muon",
+    "--muon-scope": "rnn",
+    "--sched": "wsd",
+    "--dropout": "0.2",
+    "+": [
+     "--intra-snapshots",
+     "--wsd-decay",
+     "0.3",
+     "--wsd-final",
+     "0.0",
+     "--wsd-shape",
+     "linear"
+    ]
+   },
+   "status": "ready",
+   "rationale": "Muon rnn + dropout 0.2 + WSD | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves.",
+   "lane": "b",
+   "queued_utc": "2026-10-10T14:17:13.663985+00:00"
+  },
+  {
+   "id": "long_muonall_do_wsd_e20",
+   "family": "long_training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 3.2,
+   "name": "vt_f1_long_muonall_do_wsd_e20",
+   "change": {
+    "--epochs": "20",
+    "--checkpoint-epoch": "19",
+    "--lr": "0.001",
+    "--wd": "0.1",
+    "--optim": "muon",
+    "--muon-scope": "all",
+    "--sched": "wsd",
+    "--dropout": "0.2",
+    "+": [
+     "--intra-snapshots",
+     "--wsd-decay",
+     "0.3",
+     "--wsd-final",
+     "0.0",
+     "--wsd-shape",
+     "linear"
+    ]
+   },
+   "status": "ready",
+   "rationale": "Muon everywhere, lr 1e-3, dropout 0.2, WSD, 20 epochs | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves.",
+   "lane": "b",
+   "queued_utc": "2026-10-10T14:17:13.663985+00:00"
+  },
+  {
+   "id": "long_muonall_lowlr_e20",
+   "family": "long_training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 3.2,
+   "name": "vt_f1_long_muonall_lowlr_e20",
+   "change": {
+    "--epochs": "20",
+    "--checkpoint-epoch": "19",
+    "--lr": "0.0003",
+    "--wd": "0.05",
+    "--optim": "muon",
+    "--muon-scope": "all",
+    "--sched": "onecycle",
+    "--dropout": "0.1",
+    "+": [
+     "--intra-snapshots"
+    ]
+   },
+   "status": "ready",
+   "rationale": "Muon everywhere, low lr 3e-4, wd 0.05, dropout 0.1, 20 epochs | LONG-EPOCH LADDER: friend reports more epochs help; our 6-epoch default (lr 1e-3, wd 0.01, onecycle) peaked at epoch 3 and then overfit (0.6671 -> 0.649). Tests whether lower lr / higher wd / dropout / muon scope / schedule make 15-20 epochs pay. Intra-epoch snapshots saved for learning curves.",
+   "lane": "b",
+   "queued_utc": "2026-10-10T14:17:13.663985+00:00"
+  },
+  {
+   "id": "long_thin_muonrnn_e18",
+   "family": "long_training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 11,
+   "hours": 3.2,
+   "name": "vt_f1_long_thin_muonrnn_e18",
+   "change": {
+    "--epochs": "18",
+    "--checkpoint-epoch": "17",
+    "--lr": "0.0005",
+    "--wd": "0.05",
+    "--optim": "muon",
+    "--muon-scope": "rnn",
+    "--sched": "wsd",
+    "--dropout": "0.1",
+    "+": [
+     "--intra-snapshots",
+     "--wsd-decay",
+     "0.25",
+     "--wsd-final",
+     "0.0",
+     "--wsd-shape",
+     "linear",
+     "--thin-prob",
+     "0.7",
+     "--thin-range",
+     "0.15,0.35"
+    ]
+   },
+   "status": "ready",
+   "rationale": "Stale-row thinning (drop 15-35% of quiet rows, prob 0.7/sequence) + WSD: attacks repeat-count memorisation | idea from Muse Spark round 4 (external_ideation_20261010/round4)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T14:25:16.340618+00:00"
+  },
+  {
+   "id": "long_chunk250_adamw_e15",
+   "family": "long_training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 11,
+   "hours": 3.2,
+   "name": "vt_f1_long_chunk250_adamw_e15",
+   "change": {
+    "--epochs": "15",
+    "--checkpoint-epoch": "14",
+    "--lr": "0.0003",
+    "--wd": "0.05",
+    "--optim": "adamw",
+    "--muon-scope": "rnn",
+    "--sched": "wsd",
+    "--dropout": "0.1",
+    "+": [
+     "--intra-snapshots",
+     "--wsd-decay",
+     "0.25",
+     "--wsd-final",
+     "0.0",
+     "--wsd-shape",
+     "linear"
+    ],
+    "--chunk": "250",
+    "--batch": "64"
+   },
+   "status": "ready",
+   "rationale": "Noisy short chunk: chunk 250, batch 64 (4x more optimizer steps/epoch) | idea from Muse Spark round 4 (external_ideation_20261010/round4)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T14:25:16.340618+00:00"
+  },
+  {
+   "id": "long_adamw_swa_e20",
+   "family": "long_training",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 11,
+   "hours": 3.2,
+   "name": "vt_f1_long_adamw_swa_e20",
+   "change": {
+    "--epochs": "20",
+    "--checkpoint-epoch": "19",
+    "--lr": "0.0004",
+    "--wd": "0.05",
+    "--optim": "adamw",
+    "--muon-scope": "rnn",
+    "--sched": "wsd",
+    "--dropout": "0.1",
+    "+": [
+     "--intra-snapshots",
+     "--wsd-decay",
+     "0.05",
+     "--wsd-final",
+     "0.5",
+     "--wsd-shape",
+     "linear",
+     "--swa-frac",
+     "0.6"
+    ]
+   },
+   "status": "ready",
+   "rationale": "Near-constant lr with SWA over the last 60% of steps (scored artifact is the average) | idea from Muse Spark round 4 (external_ideation_20261010/round4)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T14:25:16.340618+00:00"
   }
  ]
 }

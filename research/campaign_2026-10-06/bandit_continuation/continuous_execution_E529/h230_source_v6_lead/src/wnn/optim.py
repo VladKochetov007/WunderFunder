@@ -109,11 +109,11 @@ def muon_param_groups(model: nn.Module, scope: str = "rnn") -> list[dict]:
 
     scope 'rnn': ``model.gru`` and optional ``model.experts`` recurrent
     ``weight_ih_l*`` / ``weight_hh_l*`` matrices (one Muon block per gate);
-    scope 'hidden': also the head's hidden layer ``head.0.weight``. The input
+    scope 'hidden': also the head's hidden layer ``head.0.weight``; scope 'all': also ``inp.weight`` and ``head.2.weight``. The input
     projection ``inp`` (first layer), output layers and biases stay on AdamW,
     as Muon prescribes for input/output layers and vectors.
     """
-    if scope not in ("rnn", "hidden"):
+    if scope not in ("rnn", "hidden", "all"):
         raise ValueError(scope)
     rnn = getattr(model, "gru", None)
     if not isinstance(rnn, (nn.GRU, nn.LSTM)):
@@ -133,8 +133,9 @@ def muon_param_groups(model: nn.Module, scope: str = "rnn") -> list[dict]:
             continue
         if name.startswith(recurrent_prefixes):
             gate_mats.append(p)
-        elif scope == "hidden" and name == "head.0.weight":
-            hidden_mats.append(p)
+        elif (scope == "hidden" and name == "head.0.weight") or (
+                scope == "all" and p.ndim == 2 and name.endswith(".weight") and name.startswith(("inp.", "head."))):
+            hidden_mats.append(p)  # scope 'all': input projection and both head matrices on Muon too (research arm)
         else:
             adam.append(p)
     if not gate_mats:
