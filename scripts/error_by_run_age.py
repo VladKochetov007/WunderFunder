@@ -20,12 +20,15 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from crossfold_blend import load_fold  # noqa: E402
 
+from wnn.data import market_class  # noqa: E402
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--bank", type=Path, required=True)
     parser.add_argument("--fold", type=int, required=True)
     parser.add_argument("--run", required=True)
+    parser.add_argument("--by-class", action="store_true", help="repeat the table inside each market class")
     args = parser.parse_args()
     split = ROOT / "research/campaign_2026-09-29/artifacts/splits" / f"fold{args.fold}.json"
     y, mask, _comp, models = load_fold(args.bank, args.fold, split, ROOT / "cache/valid_targets.npz")
@@ -43,19 +46,29 @@ def main() -> int:
     w = np.abs(yc) * mask[..., None]
     wrong = (np.sign(p) != np.sign(yc)) & (np.abs(yc) > 0)
     edges = [0, 1, 2, 4, 8, 16, 32, 64, 128, 512, 100000]
-    total_w, total_err = float(w.sum()), float((w * wrong).sum())
+    total_w = float(w.sum())
     runs = changed[mask].sum()
     print(f"run {args.run} fold {args.fold}: scored rows {int(mask.sum())}, label changes in scored rows {int(runs)}, "
           f"mean run length {mask.sum() / max(runs, 1):.1f}")
     print("age bucket      weight%  sign acc  error-mass%")
-    for lo, hi in zip(edges[:-1], edges[1:]):
-        sel = (age >= lo) & (age < hi)
-        wb = w * sel[..., None]
-        ws = float(wb.sum())
-        if ws == 0:
-            continue
-        err = float((wb * wrong).sum())
-        print(f"[{lo:>5},{hi:>6})  {100 * ws / total_w:7.2f}  {1 - err / ws:8.4f}  {100 * err / total_err:10.2f}")
+    def table(selection: np.ndarray, title: str) -> None:
+        w_sel = w * selection[:, None, None]
+        err_sel = float((w_sel * wrong).sum())
+        print(f"-- {title}: weight share {100 * w_sel.sum() / total_w:.1f}%, sign accuracy {1 - err_sel / max(float(w_sel.sum()), 1e-12):.4f}")
+        for lo, hi in zip(edges[:-1], edges[1:], strict=False):
+            sel = (age >= lo) & (age < hi)
+            wb = w_sel * sel[..., None]
+            ws = float(wb.sum())
+            if ws == 0:
+                continue
+            err = float((wb * wrong).sum())
+            print(f"[{lo:>5},{hi:>6})  {100 * ws / total_w:7.2f}  {1 - err / ws:8.4f}  {100 * err / max(err_sel, 1e-12):10.2f}")
+
+    table(np.ones(n, dtype=bool), "all classes")
+    if args.by_class:
+        classes = np.array([market_class(y[i][mask[i]]) for i in range(n)])
+        for c in sorted(set(classes.tolist())):
+            table(classes == c, f"class {c}")
     return 0
 
 
