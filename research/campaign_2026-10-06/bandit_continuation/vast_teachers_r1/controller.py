@@ -192,7 +192,7 @@ def job_key(name: str) -> str:
     """Job identity without ordering prefix, wave/index prefix, outcome suffix or extension."""
     name = re.sub(r"^p\d\d_", "", name)
     name = re.sub(r"^w\d+b?_\d+_", "", name)
-    return re.sub(r"(\.rc\d+)?\.json$", "", name)
+    return re.sub(r"(\.try\d+)?(\.rc\d+)?\.json$", "", name)
 
 
 def cmd_queue(_: argparse.Namespace) -> None:

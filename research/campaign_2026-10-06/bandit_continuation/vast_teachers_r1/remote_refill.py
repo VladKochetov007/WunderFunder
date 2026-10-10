@@ -46,10 +46,31 @@ def gpu_loads() -> dict[int, int]:
     return loads
 
 
+MIN_FREE_MIB, MAX_OOM_RETRIES = 7000, 3
+
+
+def gpu_free_mib() -> dict[int, int]:
+    rows = subprocess.run(["nvidia-smi", "--query-gpu=index,memory.total,memory.used", "--format=csv,noheader,nounits"],
+                          capture_output=True, text=True, check=False).stdout.splitlines()
+    return {int(r.split(",")[0]): int(r.split(",")[1]) - int(r.split(",")[2]) for r in rows if r.count(",") == 2}
+
+
+def oom_failure(job: dict) -> bool:
+    """True when a failed job's logs show a CUDA out-of-memory (or the async CUDA error it causes)."""
+    text = ""
+    for log in (RUN / "logs").glob(f"{job['name']}.*.log"):
+        with contextlib.suppress(OSError):
+            text += log.read_text(errors="ignore")[-6000:]
+    return "OutOfMemoryError" in text or "CUDA error" in text
+
+
 def launch(path: Path, env_base: dict) -> None:
     job = json.loads(path.read_text())
-    loads = gpu_loads()
-    gpu = min(loads, key=lambda g: loads[g]) if loads else 0
+    free_mib = gpu_free_mib()
+    candidates = {g: m for g, m in free_mib.items() if m >= MIN_FREE_MIB}
+    if not candidates:
+        raise FileNotFoundError("no GPU has enough free memory yet")  # swallowed by the caller; retry next cycle
+    gpu = max(candidates, key=lambda g: candidates[g])
     moved = RUNNING / path.name
     path.rename(moved)
     script = " && ".join(
@@ -111,7 +132,14 @@ def main() -> None:
         for job in list(active.values()):
             done, rc = finished(job)
             if done and job["file"].exists():
-                job["file"].rename(DONE / f"{job['file'].stem}.rc{rc}.json")
+                stem = job["file"].stem
+                tries = int(stem.rsplit(".try", 1)[1]) if ".try" in stem else 0
+                if rc != 0 and tries < MAX_OOM_RETRIES and oom_failure({"name": job["name"]}):
+                    base = stem.rsplit(".try", 1)[0]
+                    job["file"].rename(PENDING / f"{base}.try{tries + 1}.json")  # OOM is not a scientific result: run it again
+                    time.sleep(60)
+                    continue
+                job["file"].rename(DONE / f"{stem}.rc{rc}.json")
         queue = sorted(PENDING.glob("*.json"))
         free = min(max_jobs() - running_count(), max_jobs() - trainers())
         if queue and free > 0:
