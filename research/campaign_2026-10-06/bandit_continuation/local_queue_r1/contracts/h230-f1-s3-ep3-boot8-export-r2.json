@@ -1,10 +1,8 @@
 {
- "attempt": "teacher-f1-f0ep3s4-onecycle-scratch-export-r1",
- "kind": "gpu",
- "cpus": 3,
- "reserve_bytes": 6500000000,
- "profile": "export",
- "contract": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/contracts/teacher-f1-f0ep3s4-onecycle-scratch-export-r1.json",
+ "schema": "wnn.local-queue-item-contract.v1",
+ "created_utc": "2026-10-09T07:57:33.146753+00:00",
+ "attempt": "h230-f1-s3-ep3-boot8-export-r2",
+ "note": "student training length: 3 epochs (fixed ep2) vs 2 (fixed ep1); onecycle spans all 3 epochs",
  "argv": [
   "/usr/bin/timeout",
   "--signal=TERM",
@@ -18,15 +16,11 @@
   "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name=\"__main__\")",
   "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
   "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py",
-  "combo_scratch_f0ep3s4_onecycle_f0",
+  "bd26_h230_f1_s3_ep3_boot8",
   "valid",
   "--epoch",
   "2",
   "--output-name",
-  "combo_scratch_f0ep3s4_onecycle_f0"
- ],
- "after": [
-  "teacher-f1-f0ep3s4-onecycle-scratch-fit-r1"
- ],
- "admission_timeout": 900
+  "h230_f1_s3_ep3_ep2"
+ ]
 }

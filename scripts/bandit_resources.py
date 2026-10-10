@@ -908,7 +908,7 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
         "WNN_CPU_PCT": str(min(100, cpus * 10)),
         "WNN_MEM_MAX": str(ram_bytes),
         "WNN_SLICE": SLICE,
-        "WNN_LOADER_WORKERS": os.environ.get("WNN_LOCAL_LOADER_WORKERS", "0"),  # measured 2026-10-10: 0 leaves the local GPU at ~40% (CPU-bound parquet decode in the training thread)
+        "WNN_LOADER_WORKERS": os.environ.get("WNN_LOADER_WORKERS", "0"),  # the unit environment already carries the admitted value
         "CUDA_VISIBLE_DEVICES": "0" if kind == "gpu" else "",
     }
     for key in ("LD_LIBRARY_PATH", "VIRTUAL_ENV"):
