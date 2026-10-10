@@ -70,6 +70,14 @@ def factors(args: dict) -> dict:
     return out
 
 
+STUDENT_KEYS = ("init", "epochs", "lr", "optim", "sched", "distill_alpha", "distill_family_weight", "distill_cache_variant",
+                "distill_boot_h", "distill_family_target_mode", "seed", "batch", "chunk", "wd", "loss", "muon_lr_mult")
+
+
+def student_factors(args: dict) -> dict:
+    return {k: args.get(k) for k in STUDENT_KEYS if args.get(k) is not None}
+
+
 def label(diff: dict) -> str:
     if not diff:
         return "default"
@@ -85,6 +93,8 @@ def main() -> int:
     parser.add_argument("--extra-prefix", default="combo_scratch")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--n-boot", type=int, default=1000)
+    parser.add_argument("--students", action="store_true", help="report distilled/warm-started runs instead of scratch ones")
+    parser.add_argument("--baselines", nargs="*", default=[], help="run names that form the control group (students mode)")
     args = parser.parse_args()
     split = ROOT / "research/campaign_2026-09-29/artifacts/splits" / f"fold{args.fold}.json"
     y, mask, comp, models = load_fold(args.bank, args.fold, split, ROOT / "cache/valid_targets.npz")
@@ -97,15 +107,23 @@ def main() -> int:
         if checkpoint is None:
             continue
         ck_args = torch.load(checkpoint, map_location="cpu", weights_only=False).get("args", {})
-        if ck_args.get("distill") or ck_args.get("init") or ck_args.get("distill_cache_root"):
+        is_student = bool(ck_args.get("distill") or ck_args.get("init") or ck_args.get("distill_cache_root"))
+        if is_student != args.students:
             continue  # students and warm-started runs are a different population
         p = np.asarray(array[order], dtype=np.float32)
         wp = score(y, mask, p)["wp"]
         moments[name] = paired_component_moments(y, p, p, mask)[0]
         del p
-        diff = factors(ck_args)
+        diff = factors(ck_args) if not args.students else student_factors(ck_args)
         rows.append({"run": name, "wp": wp, "factors": diff, "label": label(diff), "seed": ck_args.get("seed")})
-    base = [r for r in rows if not r["factors"]]
+    if args.students:
+        base = [r for r in rows if r["run"] in args.baselines]
+        ref_factors = base[0]["factors"] if base else {}
+        for r in rows:
+            r["factors"] = {k: v for k, v in r["factors"].items() if ref_factors.get(k) != v or k not in ref_factors} if r not in base else {}
+            r["label"] = label(r["factors"])
+    else:
+        base = [r for r in rows if not r["factors"]]
     base_wp = np.array([r["wp"] for r in base])
     base_mean = float(base_wp.mean()) if len(base_wp) else float("nan")
     seed_sd = float(max(base_wp.std(ddof=1), 0.0008)) if len(base_wp) > 1 else 0.001
