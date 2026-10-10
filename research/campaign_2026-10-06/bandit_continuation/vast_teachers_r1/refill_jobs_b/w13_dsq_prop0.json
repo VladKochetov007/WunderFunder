@@ -1,0 +1,21 @@
+{
+ "name": "w13_dsq_prop0",
+ "steps": [
+  {
+   "label": "pipeline",
+   "timeout": 14400,
+   "argv": [
+    "python",
+    "/root/wnn/scripts/distill_pipeline.py",
+    "--arm",
+    "t_prop0",
+    "--fold",
+    "1",
+    "--teachers",
+    "vt_f1_prop0_e3_s4,vt_f1_prop0_s5",
+    "--parent",
+    "vt_f1_prop0_e3@ep3"
+   ]
+  }
+ ]
+}
