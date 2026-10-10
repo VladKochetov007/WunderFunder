@@ -47,7 +47,7 @@ class Store:
                   "sampler": make_sampler(self.sampler_name, self.seed)}
         if directions == 1:
             return optuna.create_study(direction="maximize",
-                                       pruner=optuna.pruners.MedianPruner(n_startup_trials=10, n_warmup_steps=0), **kwargs)
+                                       pruner=optuna.pruners.MedianPruner(n_startup_trials=10, n_warmup_steps=0), **kwargs)  # review 2026-10-10 suggests warmup 1 (two dev folds for new mechanisms); not applied: HPO is nearly complete and the test encodes pruning after fold 1
         return optuna.create_study(directions=["maximize"] * directions, **kwargs)
 
     # ---- event log -------------------------------------------------------------------------------------------

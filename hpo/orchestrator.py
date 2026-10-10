@@ -83,6 +83,8 @@ class Orchestrator:
     def offsets(self, ledger: dict) -> dict[int, float]:
         """Fold difficulty relative to fold 1, from trials that have both folds (median), else the measured prior."""
         out = dict(self.PRIOR_OFFSET)
+        if self.cfg.get("fixed_offsets", True):
+            return out  # re-estimating offsets while trials arrive gives later trials a different objective scale (review 2026-10-10: up to 0.00055)
         for fold in (0, 2, 3):
             diffs = [t["stages"][fold]["wp"] - t["stages"][1]["wp"] for t in ledger.values()
                      if t["stages"].get(fold, {}).get("status") == "done" and t["stages"].get(1, {}).get("status") == "done"

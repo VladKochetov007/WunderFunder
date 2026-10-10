@@ -2230,6 +2230,81 @@
    "rationale": "B: running loss normalisation instead of per-chunk normalisation (removes the implicit equal weight per chunk) | reviews/critic.md (2026-10-10)",
    "lane": "b",
    "queued_utc": "2026-10-10T15:46:22.287181+00:00"
+  },
+  {
+   "id": "vol28_e3",
+   "family": "unified_review",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 14,
+   "hours": 0.9,
+   "name": "vt_f1_vol28_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "+": [
+     "--research-features",
+     "volume28"
+    ]
+   },
+   "status": "ready",
+   "rationale": "E413 replication on the current recipe: 28 volume-history features (+0.00096, CI [-0.00008,+0.00206] one fold/seed) | reviews/WNN_Unified_Review_EN.md",
+   "lane": "b",
+   "queued_utc": "2026-10-10T16:27:56.039888+00:00"
+  },
+  {
+   "id": "vol28cur_e3",
+   "family": "unified_review",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 14,
+   "hours": 0.9,
+   "name": "vt_f1_vol28cur_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "+": [
+     "--research-features",
+     "volume28_current"
+    ]
+   },
+   "status": "ready",
+   "rationale": "E413 size-matched control: 28 current-input volume features | reviews/WNN_Unified_Review_EN.md",
+   "lane": "b",
+   "queued_utc": "2026-10-10T16:27:56.039888+00:00"
+  },
+  {
+   "id": "raw6_mu3",
+   "family": "unified_review",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 13,
+   "hours": 1.6,
+   "name": "vt_f1_raw6_mu3",
+   "change": {
+    "--epochs": "6",
+    "--checkpoint-epoch": "5",
+    "+": [
+     "--muon-lr-mult",
+     "3"
+    ]
+   },
+   "status": "ready",
+   "rationale": "raw control for ema6_mu3: same 6-epoch Muon x3 trajectory without EMA (clean EMA vs raw comparison) | reviews/WNN_Unified_Review_EN.md",
+   "lane": "b",
+   "queued_utc": "2026-10-10T16:27:56.039888+00:00"
   }
  ]
 }

@@ -1,0 +1,21 @@
+{
+ "name": "vt_f1_dsq_t384n",
+ "steps": [
+  {
+   "label": "pipeline",
+   "timeout": 14400,
+   "argv": [
+    "python",
+    "/root/wnn/scripts/distill_pipeline.py",
+    "--arm",
+    "t384n",
+    "--fold",
+    "1",
+    "--teachers",
+    "combo_scratch_h384ep3s4_onecycle_f1,combo_scratch_h384ep3s5_onecycle_f1",
+    "--parent",
+    "c20261003_combo_s3_f1@ep3"
+   ]
+  }
+ ]
+}
