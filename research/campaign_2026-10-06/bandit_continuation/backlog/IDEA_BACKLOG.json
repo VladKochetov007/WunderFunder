@@ -1174,6 +1174,131 @@
    "rationale": "interaction: chunk 500 with the width-384 3-epoch recipe",
    "lane": "b",
    "queued_utc": "2026-10-10T09:25:12.684593+00:00"
+  },
+  {
+   "id": "lead2",
+   "family": "ceiling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 10,
+   "hours": 1.0,
+   "name": "vt_f1_lead2",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "+": [
+     "--input-lead",
+     "2"
+    ]
+   },
+   "status": "queued",
+   "rationale": "INFORMATION CEILING PROBE (teacher-only, not deployable): row t sees raw features of row t+2; WP versus lead k measures how much of the label is determined by the near future",
+   "lane": "b",
+   "queued_utc": "2026-10-10T10:39:48.370944+00:00"
+  },
+  {
+   "id": "lead8",
+   "family": "ceiling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 10,
+   "hours": 1.0,
+   "name": "vt_f1_lead8",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "+": [
+     "--input-lead",
+     "8"
+    ]
+   },
+   "status": "queued",
+   "rationale": "INFORMATION CEILING PROBE (teacher-only, not deployable): row t sees raw features of row t+8; WP versus lead k measures how much of the label is determined by the near future",
+   "lane": "b",
+   "queued_utc": "2026-10-10T10:39:48.371065+00:00"
+  },
+  {
+   "id": "lead32",
+   "family": "ceiling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 10,
+   "hours": 1.0,
+   "name": "vt_f1_lead32",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "+": [
+     "--input-lead",
+     "32"
+    ]
+   },
+   "status": "queued",
+   "rationale": "INFORMATION CEILING PROBE (teacher-only, not deployable): row t sees raw features of row t+32; WP versus lead k measures how much of the label is determined by the near future",
+   "lane": "b",
+   "queued_utc": "2026-10-10T10:39:48.371149+00:00"
+  },
+  {
+   "id": "lead128",
+   "family": "ceiling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 10,
+   "hours": 1.0,
+   "name": "vt_f1_lead128",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "+": [
+     "--input-lead",
+     "128"
+    ]
+   },
+   "status": "queued",
+   "rationale": "INFORMATION CEILING PROBE (teacher-only, not deployable): row t sees raw features of row t+128; WP versus lead k measures how much of the label is determined by the near future",
+   "lane": "b",
+   "queued_utc": "2026-10-10T10:39:48.371230+00:00"
+  },
+  {
+   "id": "lead512",
+   "family": "ceiling",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 10,
+   "hours": 1.0,
+   "name": "vt_f1_lead512",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "+": [
+     "--input-lead",
+     "512"
+    ]
+   },
+   "status": "queued",
+   "rationale": "INFORMATION CEILING PROBE (teacher-only, not deployable): row t sees raw features of row t+512; WP versus lead k measures how much of the label is determined by the near future",
+   "lane": "b",
+   "queued_utc": "2026-10-10T10:39:48.371298+00:00"
   }
  ]
 }

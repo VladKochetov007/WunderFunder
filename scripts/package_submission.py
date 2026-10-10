@@ -33,6 +33,8 @@ def load_state(run: str) -> dict[str, np.ndarray]:
         raise ValueError("non-GELU readout requires a native port before packaging, including merged heads")
     if ck.get("sentinel_preprocessing"):
         raise ValueError("sentinel preprocessing requires a native port before packaging, including merged heads")
+    if ck.get("args", {}).get("input_lead") or ck.get("args", {}).get("privileged_mode", "none") != "none":
+        raise ValueError("teacher-only lookahead inputs are not deployable")
     return {k: v.float().numpy() for k, v in ck["model"].items()}
 
 
