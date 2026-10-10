@@ -1,10 +1,10 @@
 {
- "attempt": "teacher-f1-ep3s5-onecycle-scratch-fit-r1",
- "kind": "gpu",
- "cpus": 3,
- "reserve_bytes": 9000000000,
- "profile": "GRU256x2 teacher fit (combo recipe ~42 min, 4 epochs chunk1000)",
- "contract": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/contracts/teacher-f1-ep3s5-onecycle-scratch-fit-r1.json",
+ "schema": "wnn.local-queue-item-contract.v1",
+ "created_utc": "2026-10-09T07:57:14.630141+00:00",
+ "attempt": "teacher-f1-ep3s5-onecycle-scratch-fit-r2",
+ "authorization": "User 2026-10-09 full autonomy: keep compute utilized with promising cross-validated experiments",
+ "note": "from-scratch fold1 teacher replicate of c20261003_combo_s3_f1 recipe on pinned source v2 (seed/trainer noise reference)",
+ "exposure": "fold1 evaluation exposed; excluded from fitting",
  "argv": [
   "/usr/bin/timeout",
   "--signal=TERM",
@@ -86,7 +86,5 @@
   "32",
   "--fast",
   "--save-training-state"
- ],
- "after": [],
- "admission_timeout": 900
+ ]
 }
