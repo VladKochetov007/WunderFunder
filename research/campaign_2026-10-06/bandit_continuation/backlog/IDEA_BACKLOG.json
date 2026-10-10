@@ -2357,10 +2357,10 @@
      "--inherit-init-preprocessing"
     ]
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "R3-2 soup of fine-tunes: 4 branches from the same trained parent (vt_f1_tr_base epoch 3, 0.6656), 2 epochs lr 3e-4, different seeds/data order; average the weights into ONE net (servable ensemble substitute) and compare with the mean branch and the parent",
    "lane": "b",
-   "queued_utc": "2026-10-10T17:36:16.619950+00:00"
+   "queued_utc": "2026-10-10T21:31:42.925583+00:00"
   },
   {
    "id": "r3_soup2_s13",
@@ -2385,10 +2385,10 @@
      "--inherit-init-preprocessing"
     ]
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "R3-2 soup of fine-tunes: 4 branches from the same trained parent (vt_f1_tr_base epoch 3, 0.6656), 2 epochs lr 3e-4, different seeds/data order; average the weights into ONE net (servable ensemble substitute) and compare with the mean branch and the parent",
    "lane": "b",
-   "queued_utc": "2026-10-10T17:36:16.619950+00:00"
+   "queued_utc": "2026-10-10T21:31:42.925730+00:00"
   },
   {
    "id": "r3_soup2_s14",
@@ -2413,10 +2413,10 @@
      "--inherit-init-preprocessing"
     ]
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "R3-2 soup of fine-tunes: 4 branches from the same trained parent (vt_f1_tr_base epoch 3, 0.6656), 2 epochs lr 3e-4, different seeds/data order; average the weights into ONE net (servable ensemble substitute) and compare with the mean branch and the parent",
    "lane": "b",
-   "queued_utc": "2026-10-10T17:36:16.619950+00:00"
+   "queued_utc": "2026-10-10T21:31:42.925845+00:00"
   },
   {
    "id": "muonall_e3",
@@ -2643,6 +2643,342 @@
    "rationale": "fold-0 control for prop0 transfer (prop-power 2)",
    "lane": "b",
    "queued_utc": "2026-10-10T19:21:33.690884+00:00"
+  },
+  {
+   "id": "hpo52_s4",
+   "family": "hpo_replicate",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 1.6,
+   "name": "vt_f1_hpo52_s4",
+   "change": {
+    "--hidden": "384",
+    "--dropout": "0.04171",
+    "--epochs": "4",
+    "--checkpoint-epoch": "3",
+    "--lr": "0.000993371",
+    "--wd": "0.00352859",
+    "--muon-scope": "hidden",
+    "--sched": "wsd",
+    "--seed": "4",
+    "+": [
+     "--muon-lr-mult",
+     "0.7037",
+     "--wsd-decay",
+     "0.1419",
+     "--wsd-final",
+     "0.03752",
+     "--wsd-shape",
+     "linear",
+     "--label-weight-power",
+     "1.032",
+     "--label-weight-floor",
+     "0.1819",
+     "--class-weight",
+     "1,1,1,1.192",
+     "--swa-frac",
+     "0.3092"
+    ]
+   },
+   "status": "queued",
+   "rationale": "HPO t52 (obj 0.6690, h384 4ep wsd_linear swa) seed replicate; selection-biased single trial",
+   "lane": "b",
+   "queued_utc": "2026-10-10T21:33:32.806352+00:00"
+  },
+  {
+   "id": "hpo52_s5",
+   "family": "hpo_replicate",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 1.6,
+   "name": "vt_f1_hpo52_s5",
+   "change": {
+    "--hidden": "384",
+    "--dropout": "0.04171",
+    "--epochs": "4",
+    "--checkpoint-epoch": "3",
+    "--lr": "0.000993371",
+    "--wd": "0.00352859",
+    "--muon-scope": "hidden",
+    "--sched": "wsd",
+    "--seed": "5",
+    "+": [
+     "--muon-lr-mult",
+     "0.7037",
+     "--wsd-decay",
+     "0.1419",
+     "--wsd-final",
+     "0.03752",
+     "--wsd-shape",
+     "linear",
+     "--label-weight-power",
+     "1.032",
+     "--label-weight-floor",
+     "0.1819",
+     "--class-weight",
+     "1,1,1,1.192",
+     "--swa-frac",
+     "0.3092"
+    ]
+   },
+   "status": "queued",
+   "rationale": "HPO t52 (obj 0.6690, h384 4ep wsd_linear swa) seed replicate; selection-biased single trial",
+   "lane": "b",
+   "queued_utc": "2026-10-10T21:33:32.806487+00:00"
+  },
+  {
+   "id": "hpo52_prop0",
+   "family": "combo",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 1.6,
+   "name": "vt_f1_hpo52_prop0",
+   "change": {
+    "--hidden": "384",
+    "--dropout": "0.04171",
+    "--epochs": "4",
+    "--checkpoint-epoch": "3",
+    "--lr": "0.000993371",
+    "--wd": "0.00352859",
+    "--muon-scope": "hidden",
+    "--sched": "wsd",
+    "--prop-power": "0",
+    "--seed": "3",
+    "+": [
+     "--muon-lr-mult",
+     "0.7037",
+     "--wsd-decay",
+     "0.1419",
+     "--wsd-final",
+     "0.03752",
+     "--wsd-shape",
+     "linear",
+     "--label-weight-power",
+     "1.032",
+     "--label-weight-floor",
+     "0.1819",
+     "--class-weight",
+     "1,1,1,1.192",
+     "--swa-frac",
+     "0.3092"
+    ]
+   },
+   "status": "queued",
+   "rationale": "HPO t52 x prop-power 0 interaction",
+   "lane": "b",
+   "queued_utc": "2026-10-10T21:33:32.806604+00:00"
+  },
+  {
+   "id": "hpo52_prop0_s4",
+   "family": "combo",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 1.6,
+   "name": "vt_f1_hpo52_prop0_s4",
+   "change": {
+    "--hidden": "384",
+    "--dropout": "0.04171",
+    "--epochs": "4",
+    "--checkpoint-epoch": "3",
+    "--lr": "0.000993371",
+    "--wd": "0.00352859",
+    "--muon-scope": "hidden",
+    "--sched": "wsd",
+    "--prop-power": "0",
+    "--seed": "4",
+    "+": [
+     "--muon-lr-mult",
+     "0.7037",
+     "--wsd-decay",
+     "0.1419",
+     "--wsd-final",
+     "0.03752",
+     "--wsd-shape",
+     "linear",
+     "--label-weight-power",
+     "1.032",
+     "--label-weight-floor",
+     "0.1819",
+     "--class-weight",
+     "1,1,1,1.192",
+     "--swa-frac",
+     "0.3092"
+    ]
+   },
+   "status": "queued",
+   "rationale": "HPO t52 x prop-power 0 seed 4",
+   "lane": "b",
+   "queued_utc": "2026-10-10T21:33:32.806689+00:00"
+  },
+  {
+   "id": "hpo52_h256",
+   "family": "hpo_ablation",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 1.0,
+   "name": "vt_f1_hpo52_h256",
+   "change": {
+    "--hidden": "256",
+    "--dropout": "0.04171",
+    "--epochs": "4",
+    "--checkpoint-epoch": "3",
+    "--lr": "0.000993371",
+    "--wd": "0.00352859",
+    "--muon-scope": "hidden",
+    "--sched": "wsd",
+    "--seed": "3",
+    "+": [
+     "--muon-lr-mult",
+     "0.7037",
+     "--wsd-decay",
+     "0.1419",
+     "--wsd-final",
+     "0.03752",
+     "--wsd-shape",
+     "linear",
+     "--label-weight-power",
+     "1.032",
+     "--label-weight-floor",
+     "0.1819",
+     "--class-weight",
+     "1,1,1,1.192",
+     "--swa-frac",
+     "0.3092"
+    ]
+   },
+   "status": "queued",
+   "rationale": "HPO t52 at width 256 (serving-friendly): is gain width or schedule/SWA?",
+   "lane": "b",
+   "queued_utc": "2026-10-10T21:33:32.806794+00:00"
+  },
+  {
+   "id": "hpo52_h256_s4",
+   "family": "hpo_ablation",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 12,
+   "hours": 1.0,
+   "name": "vt_f1_hpo52_h256_s4",
+   "change": {
+    "--hidden": "256",
+    "--dropout": "0.04171",
+    "--epochs": "4",
+    "--checkpoint-epoch": "3",
+    "--lr": "0.000993371",
+    "--wd": "0.00352859",
+    "--muon-scope": "hidden",
+    "--sched": "wsd",
+    "--seed": "4",
+    "+": [
+     "--muon-lr-mult",
+     "0.7037",
+     "--wsd-decay",
+     "0.1419",
+     "--wsd-final",
+     "0.03752",
+     "--wsd-shape",
+     "linear",
+     "--label-weight-power",
+     "1.032",
+     "--label-weight-floor",
+     "0.1819",
+     "--class-weight",
+     "1,1,1,1.192",
+     "--swa-frac",
+     "0.3092"
+    ]
+   },
+   "status": "queued",
+   "rationale": "HPO t52 h256 seed 4",
+   "lane": "b",
+   "queued_utc": "2026-10-10T21:33:32.806880+00:00"
+  },
+  {
+   "id": "prop0_gated_drop02_s3",
+   "family": "dropout_gated_ema",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 11,
+   "hours": 0.9,
+   "name": "vt_f1_prop0_gated_drop02_s3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--arch": "gated",
+    "--dropout": "0.2",
+    "+": [
+     "--muon-lr-mult",
+     "3"
+    ],
+    "--prop-power": "0",
+    "--seed": "3"
+   },
+   "status": "ready",
+   "rationale": "combo: prop0 (+0.0015 over 3 seeds) x gated+dropout0.2 (+0.0011)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T21:34:41.979860+00:00"
+  },
+  {
+   "id": "prop0_gated_drop02_s4",
+   "family": "dropout_gated_ema",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 11,
+   "hours": 0.9,
+   "name": "vt_f1_prop0_gated_drop02_s4",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--arch": "gated",
+    "--dropout": "0.2",
+    "+": [
+     "--muon-lr-mult",
+     "3"
+    ],
+    "--prop-power": "0",
+    "--seed": "4"
+   },
+   "status": "ready",
+   "rationale": "combo: prop0 (+0.0015 over 3 seeds) x gated+dropout0.2 (+0.0011)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T21:34:41.979886+00:00"
   }
  ]
 }
