@@ -1,5 +1,10 @@
 # Current research state — 2026-10-09 04:37 UTC
 
+## 2026-10-10 session summary (added)
+
+Start at [`research/RESEARCH_NOTES_INDEX_20261010.md`](../research/RESEARCH_NOTES_INDEX_20261010.md). Key state: public best 0.6664 (top of leaderboard 0.6717; teammate 0.6674 with a 2-member pair); local best student `h230_f1_s3_ep3` fold-1 0.66922; recipe-knob plateau within +-0.001-0.002; lookahead ladder shows the label is a function of the long future path (0.666 -> 0.960 as lookahead grows). Running: long-epoch ladder on Vast B, Kaggle 2xT4 long kernel, local long born-again student, dropout/gated/EMA arms, HPO v2 (trial 55 of 60). Selection policy: rank on mean score (user instruction). No new public claim.
+
+
 Root Challenge2 only. Objective remains top-1 and public score above 0.700, with honest uncertainty. Latest user scope: **all subordinate roles Luna/max; Vast off; local and Kaggle research continues**. No Sol/Astra task may restart. [ADR0029](adr/0029-luna-only-native-diversity-delivery.md) supersedes the historical Sol exception. Root owns admissions, resources and independent synthesis; two active Luna roles own cloud delivery and native-device implementation.
 
 ## Execution frontier
