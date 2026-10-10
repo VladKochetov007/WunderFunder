@@ -1,0 +1,11 @@
+{
+  "closed_utc": "2026-10-10T15:46:18.970451+00:00",
+  "drain_attempts": [
+    "r3-longstudent-fit-r1"
+  ],
+  "id": "31846c1a8a84477098165b0ee2bce392",
+  "reason": "resource budget breach in r3-longstudent-fit-r1: aggregate working RAM exceeded 18000000000 bytes",
+  "reopened_utc": "2026-10-10T15:51:35.215840+00:00",
+  "review": "2026-10-10 15:55 UTC: admission closed because my own ad-hoc predict_run family-head dump (7 GB) ran next to the 12-epoch student fit (8.3 GB) and pushed the aggregate working RAM above 18 GB; the dump finished at 15:46 and is not running. Cause was an operator mistake, not a trainer fault. Mitigation: no ad-hoc GPU/RAM jobs while a queued fit runs; the failed attempt r1 is preserved in failed/, retried as r2.",
+  "unreadable_attempt_records": []
+}
