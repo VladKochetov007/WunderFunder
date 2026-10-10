@@ -1403,6 +1403,52 @@
    "rationale": "R3-2 servable weight-space merge: 4 branches from a common epoch-1 ancestor (vt_f1_tr_base, lineage declared), different data order; average weights into ONE width-256 net. Go: merged beats mean branch by >=0.003 and beats single 0.666; ensemble-of-branches is the upper bound",
    "lane": "b",
    "queued_utc": "2026-10-10T11:14:12.193766+00:00"
+  },
+  {
+   "id": "r3_snap",
+   "family": "data_decode",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 0.8,
+   "name": "vt_f1_snap_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "+": [
+     "--snap-codebook",
+     "/root/wnn/cache/snap_codebook_v1.npz"
+    ]
+   },
+   "status": "queued",
+   "rationale": "INPUT DECODE PROBE: 105/112 columns collapse to <=120 coarse levels (gap tol 0.01; many 2-30 levels) with ~1e-6..1e-3 jitter around them; snap inputs to level centres (event/change flags still from raw). Offline until ported to native. Compare with snap_ctrl (same recipe, no snap, seed 3)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T11:40:51.835712+00:00"
+  },
+  {
+   "id": "r3_snap_ctrl",
+   "family": "data_decode",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 9,
+   "hours": 0.8,
+   "name": "vt_f1_snap_ctrl_e3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2"
+   },
+   "status": "queued",
+   "rationale": "matched control for r3_snap: default recipe, 3 epochs, seed 3, fold 1",
+   "lane": "b",
+   "queued_utc": "2026-10-10T11:40:51.835712+00:00"
   }
  ]
 }

@@ -490,6 +490,7 @@ RESEARCH_FEATURES = "none"  # causal full-sequence features, before TBPTT slicin
 PRIVILEGED_MODE = "none"  # teacher-only current/future controls, never a deployed input
 PRIVILEGED_HORIZON = 8
 INPUT_LEAD = 0  # teacher-only information-ceiling probe: row t sees the raw features of row t+INPUT_LEAD (never deployable)
+SNAP_CODEBOOK = None  # per-column coarse level centres (input-only intervention, built from train rows by scripts/build_snap_codebook.py)
 SENTINEL_PREPROCESSOR = None  # frozen, input-only raw-level intervention
 
 
@@ -498,7 +499,11 @@ def build_inputs(x):
     if INPUT_LEAD:
         lead_index = (torch.arange(raw.shape[1], device=raw.device) + INPUT_LEAD).clamp_max(raw.shape[1] - 1)
         raw = raw.index_select(1, lead_index)
-    ev = event_features_torch(raw)
+    ev = event_features_torch(raw)  # event/change flags always come from the unsnapped values
+    if SNAP_CODEBOOK is not None:
+        raw = raw.clone()
+        for j, (mids, centres) in SNAP_CODEBOOK.items():
+            raw[..., j] = centres.to(raw.device, raw.dtype)[torch.bucketize(raw[..., j].contiguous(), mids.to(raw.device, raw.dtype))]
     if RAW_ONLY:
         ev = torch.zeros_like(ev)
     inputs = torch.cat([raw, ev], dim=-1)
@@ -946,6 +951,7 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "privileged_mode",
         "privileged_horizon",
         "input_lead",
+        "snap_codebook",
         "sentinel_values",
         "sentinel_indicators",
         "sentinel_base_width",
@@ -1273,6 +1279,8 @@ def main():
     ap.add_argument("--privileged-horizon", type=int, default=8)
     ap.add_argument("--input-lead", type=int, default=0,
                     help="information-ceiling probe: row t sees raw features of row t+lead (labels unchanged); never deployable")
+    ap.add_argument("--snap-codebook", default="",
+                    help="npz of per-column coarse level centres (scripts/build_snap_codebook.py); inputs snapped to levels; offline probe until ported to native")
     ap.add_argument("--fit-groups-manifest", type=Path,
                     help="strict inner component split within --split-manifest, for fresh teacher fitting")
     ap.add_argument("--seed", type=int, default=0)
@@ -1771,7 +1779,7 @@ def main():
     if inner_crossfit is not None:
         provenance["inner_crossfit"] = inner_crossfit
         provenance["deployment_safe"] = args.privileged_mode == "none"
-    if args.input_lead:
+    if args.input_lead or args.snap_codebook:
         provenance["deployment_safe"] = False
         provenance["native_export_supported"] = False
     if args.readout_activation != "gelu":
@@ -1797,8 +1805,12 @@ def main():
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
     global RESEARCH_FEATURES
     RESEARCH_FEATURES = args.research_features
-    global INPUT_LEAD
+    global INPUT_LEAD, SNAP_CODEBOOK
     INPUT_LEAD = args.input_lead
+    if args.snap_codebook:
+        import numpy as _np
+        _book = _np.load(args.snap_codebook)
+        SNAP_CODEBOOK = {int(k[1:]): (torch.tensor((v[1:] + v[:-1]) / 2), torch.tensor(v)) for k, v in _book.items()}
     global PRIVILEGED_MODE, PRIVILEGED_HORIZON
     PRIVILEGED_MODE, PRIVILEGED_HORIZON = args.privileged_mode, args.privileged_horizon
     global SENTINEL_PREPROCESSOR

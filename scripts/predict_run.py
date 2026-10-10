@@ -155,6 +155,10 @@ def main():
     train_rnn.ONLINE_NORM = bool(ck["args"].get("online_norm"))
     train_rnn.HEURISTICS = bool(ck["args"].get("heuristics"))
     train_rnn.INPUT_LEAD = int(ck["args"].get("input_lead", 0))
+    if ck["args"].get("snap_codebook"):
+        import numpy as _np
+        _book = _np.load(ck["args"]["snap_codebook"])
+        train_rnn.SNAP_CODEBOOK = {int(k[1:]): (torch.tensor((v[1:] + v[:-1]) / 2), torch.tensor(v)) for k, v in _book.items()}
     train_rnn.RESEARCH_FEATURES = ck["args"].get("research_features", "none")
     input_propensity = ck["args"].get("prop_input")
     train_rnn.INPUT_PROPENSITY = (
