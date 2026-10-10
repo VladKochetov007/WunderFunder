@@ -106,8 +106,10 @@
      "6"
     ]
    },
-   "status": "ready",
-   "rationale": "teammate best multiplier on wider model (divergence risk) | downgraded: Muon x3 gave -0.0015 (ns), the teammate gain did not reproduce"
+   "status": "queued",
+   "rationale": "teammate best multiplier on wider model (divergence risk) | downgraded: Muon x3 gave -0.0015 (ns), the teammate gain did not reproduce",
+   "lane": "b",
+   "queued_utc": "2026-10-10T04:36:57.738040+00:00"
   },
   {
    "id": "ep8_mu3_ema",
@@ -158,8 +160,10 @@
      "3"
     ]
    },
-   "status": "ready",
-   "rationale": "schedule shape times Muon multiplier"
+   "status": "queued",
+   "rationale": "schedule shape times Muon multiplier",
+   "lane": "a",
+   "queued_utc": "2026-10-10T00:37:04.003036+00:00"
   },
   {
    "id": "f2_mu3",
@@ -413,8 +417,10 @@
      "3"
     ]
    },
-   "status": "ready",
-   "rationale": "teammate main diversity source with the stronger optimizer"
+   "status": "queued",
+   "rationale": "teammate main diversity source with the stronger optimizer",
+   "lane": "b",
+   "queued_utc": "2026-10-10T00:36:06.748634+00:00"
   },
   {
    "id": "twoclock_mu3",
@@ -436,8 +442,10 @@
      "3"
     ]
    },
-   "status": "ready",
-   "rationale": "two-clock arch (teammate two-stream replicated +0.0007 blend)"
+   "status": "queued",
+   "rationale": "two-clock arch (teammate two-stream replicated +0.0007 blend)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T03:06:22.821929+00:00"
   },
   {
    "id": "gated_mu3",
@@ -459,8 +467,10 @@
      "3"
     ]
    },
-   "status": "ready",
-   "rationale": "best single scratch arch so far with the multiplier"
+   "status": "queued",
+   "rationale": "best single scratch arch so far with the multiplier",
+   "lane": "b",
+   "queued_utc": "2026-10-10T03:06:22.822159+00:00"
   },
   {
    "id": "ssm_teacher",
@@ -506,12 +516,12 @@
    "needs": [
     "code"
    ],
-   "priority": 6,
+   "priority": 2,
    "hours": 0,
    "name": "dirichlet_mix",
    "change": {},
    "status": "needs_code",
-   "rationale": "per-batch Dirichlet teacher-family mixing"
+   "rationale": "per-batch Dirichlet teacher-family mixing | downgraded 2026-10-10: the four teacher-family targets correlate 0.95-0.99 (strong, full_finetuned, raw_wmse, samefold_baseline) and the main target is a fixed linear mix (source weights 0.30/0.20/0.25/0.062); per-batch mixing weights can only change the target by a few percent of its variance, consistent with the flat student-recipe results"
   },
   {
    "id": "noisy_student",
@@ -698,8 +708,10 @@
      "3"
     ]
    },
-   "status": "ready",
-   "rationale": "3x learning rate on the readout head"
+   "status": "queued",
+   "rationale": "3x learning rate on the readout head",
+   "lane": "b",
+   "queued_utc": "2026-10-10T00:36:06.748214+00:00"
   },
   {
    "id": "head_lr03",
@@ -720,8 +732,10 @@
      "0.3"
     ]
    },
-   "status": "ready",
-   "rationale": "slower readout head"
+   "status": "queued",
+   "rationale": "slower readout head",
+   "lane": "b",
+   "queued_utc": "2026-10-10T03:06:22.822290+00:00"
   },
   {
    "id": "chunk500",
@@ -739,8 +753,10 @@
    "change": {
     "--chunk": "500"
    },
-   "status": "ready",
-   "rationale": "shorter truncated-BPTT chunks with twice the optimizer steps (teammate saw chunk 4000 hurt, 500 untested)"
+   "status": "queued",
+   "rationale": "shorter truncated-BPTT chunks with twice the optimizer steps (teammate saw chunk 4000 hurt, 500 untested)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T00:36:06.748339+00:00"
   },
   {
    "id": "loss_mix",
@@ -758,8 +774,10 @@
    "change": {
     "--loss": "mix"
    },
-   "status": "ready",
-   "rationale": "trainer default mix loss (corr plus 0.5 wmse), teammate's raw-view loss"
+   "status": "queued",
+   "rationale": "trainer default mix loss (corr plus 0.5 wmse), teammate's raw-view loss",
+   "lane": "b",
+   "queued_utc": "2026-10-10T00:36:06.748709+00:00"
   },
   {
    "id": "depth4",
@@ -799,8 +817,10 @@
     "--hidden": "320",
     "--layers": "3"
    },
-   "status": "ready",
-   "rationale": "width and depth together"
+   "status": "queued",
+   "rationale": "width and depth together",
+   "lane": "b",
+   "queued_utc": "2026-10-10T00:36:06.748440+00:00"
   },
   {
    "id": "enc_conv",
@@ -818,8 +838,10 @@
    "change": {
     "--enc": "conv"
    },
-   "status": "ready",
-   "rationale": "convolutional per-row encoder (mlp encoder was worse)"
+   "status": "queued",
+   "rationale": "convolutional per-row encoder (mlp encoder was worse)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T03:06:22.822410+00:00"
   },
   {
    "id": "heuristics",
@@ -863,8 +885,10 @@
      "0.1"
     ]
    },
-   "status": "ready",
-   "rationale": "existing row-thinning augmentation"
+   "status": "queued",
+   "rationale": "existing row-thinning augmentation",
+   "lane": "a",
+   "queued_utc": "2026-10-10T00:37:04.002844+00:00"
   },
   {
    "id": "online_norm",
@@ -884,8 +908,10 @@
      "--online-norm"
     ]
    },
-   "status": "ready",
-   "rationale": "online z-score input view (teammate demean/online-norm family)"
+   "status": "queued",
+   "rationale": "online z-score input view (teammate demean/online-norm family)",
+   "lane": "b",
+   "queued_utc": "2026-10-10T00:36:06.748526+00:00"
   }
  ]
 }
