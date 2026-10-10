@@ -14,6 +14,8 @@ bank = ROOT / "research/campaign_2026-10-06/bandit_continuation/prediction_bank/
 y, mask, comp, models = load_fold(bank, 1, ROOT / "research/campaign_2026-09-29/artifacts/splits/fold1.json", ROOT / "cache/valid_targets.npz")
 name, arr, order = models["h230_s3_ep3"]
 st = np.asarray(arr)[np.argsort(np.argsort(order))] if False else np.stack([np.asarray(arr[i]) for i in order]).astype(np.float32)
+pos = json.loads(Path(sys.argv[2]).read_text()) if len(sys.argv) > 2 else list(range(len(st)))
+st, y, mask, comp = st[pos], y[pos], mask[pos], comp[pos]
 assert st.shape == pred.shape == y.shape, (st.shape, pred.shape, y.shape)
 out = {"student": name}
 out["student_score"] = score(y, mask, st); out["gbm_score"] = score(y, mask, pred)
@@ -46,4 +48,4 @@ for tag, g in (("raw", pred), ("scaled", pred_s)):
         res[tag][f"fixed_w{w}"] = {"delta": bt["mean_diff"], "ci95": bt["ci95"]}
     print(tag, {k: v for k, v in res[tag].items() if k != "table"}, flush=True)
 out["blend"] = res
-(G / "eval_blend.json").write_text(json.dumps(out, indent=1, default=float))
+(G / (sys.argv[3] if len(sys.argv) > 3 else "eval_blend.json")).write_text(json.dumps(out, indent=1, default=float))

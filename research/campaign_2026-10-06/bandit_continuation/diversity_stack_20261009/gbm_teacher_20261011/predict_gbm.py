@@ -1,4 +1,5 @@
 """Predict full sequences (causal features -> LightGBM) for a list of parquet row groups; saves (N,20000,2) float32."""
+import sys; sys.path.append("/tmp/claude-1000/pylib/lgb")
 import json, sys
 from multiprocessing import Pool
 from pathlib import Path
