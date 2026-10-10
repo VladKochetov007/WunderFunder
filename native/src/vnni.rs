@@ -31,8 +31,6 @@ use bytemuck::{Pod, Zeroable};
 
 /// Rows per super-block (four zmm accumulators).
 pub const SUPER_ROWS: usize = 64;
-/// Software prefetch distance of the VNNI kernel in bytes.
-const PREFETCH: usize = 4096;
 /// Activation byte code that represents zero in the offset (unsigned) representation.
 pub const OFFSET: u8 = 128;
 
@@ -329,12 +327,8 @@ impl DynQ8 {
                 };
                 let mut g = 0;
                 while g + 2 <= kg {
-                    // Pull the stream PREFETCH bytes ahead (into the next super-block at the
-                    // end); a hint only, never changes results.
-                    let ahead = (stream as *const i8).add(256 * g + PREFETCH);
-                    for line in 0..8 {
-                        _mm_prefetch::<{ _MM_HINT_T0 }>(ahead.add(64 * line));
-                    }
+                    // No software prefetch: the contiguous stream is covered by the hardware
+                    // prefetcher, and explicit T0 hints measured slower (see the report).
                     let (a0, a1) = (word(g), word(g + 1));
                     for i in 0..4 {
                         even[i] = _mm512_dpbusd_epi32(even[i], a0, _mm512_load_si512(stream.add(4 * g + i) as *const _));
