@@ -316,3 +316,15 @@
 {"attempt": "r3-longstudent-fit-r1", "event": "failed", "utc": "2026-10-10T15:47:08.579166+00:00"}
 {"after": 8490225664, "before": 13272252416, "event": "file_cache_reclaim", "requested": 4772252416, "utc": "2026-10-10T15:53:12.876552+00:00"}
 {"attempt": "r3-longstudent-fit-r2", "event": "launch", "rc": 0, "stderr_tail": "", "utc": "2026-10-10T15:53:13.984893+00:00"}
+{"attempt": "r3-longstudent-fit-r2", "event": "done", "utc": "2026-10-10T18:53:41.353097+00:00"}
+{"after": 10998824960, "before": 11341643776, "event": "file_cache_reclaim", "requested": 341643776, "utc": "2026-10-10T18:53:41.835491+00:00"}
+{"attempt": "r3-longstudent-export-r1", "event": "launch", "rc": 0, "stderr_tail": "", "utc": "2026-10-10T18:53:42.735340+00:00"}
+{"attempt": "r3-longstudent-export-r1", "event": "done", "utc": "2026-10-10T18:55:43.069830+00:00"}
+{"after": 8497754112, "before": 12970782720, "event": "file_cache_reclaim", "requested": 4470782720, "utc": "2026-10-10T18:55:44.057389+00:00"}
+{"attempt": "r3-headft-fit-r1", "event": "launch", "rc": 0, "stderr_tail": "", "utc": "2026-10-10T18:55:45.093044+00:00"}
+{"attempt": "r3-headft-fit-r1", "event": "failed", "utc": "2026-10-10T18:57:45.357015+00:00"}
+{"after": ["r3-headft-fit-r1"], "attempt": "r3-headft-export-r1", "event": "blocked", "utc": "2026-10-10T18:57:45.467922+00:00"}
+{"attempt": "r3-fcast10-s3-export-r1", "event": "launch", "rc": 0, "stderr_tail": "", "utc": "2026-10-10T18:57:46.305763+00:00"}
+{"attempt": "r3-fcast10-s3-export-r1", "event": "done", "utc": "2026-10-10T18:59:46.436851+00:00"}
+{"after": 9314492416, "before": 12912128000, "event": "file_cache_reclaim", "requested": 4412128000, "utc": "2026-10-10T18:59:48.125166+00:00"}
+{"attempt": "r3-sign03-s3-fit-r1", "event": "launch", "rc": 1, "stderr_tail": "mExit(main())\n                     ~~~~^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 1325, in main\n    print(json.dumps(launch(args), indent=2))\n                     ~~~~~~^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 627, in launch\n    resources = verify_capacity(\n        state,\n    ...<4 lines>...\n        current_memory_bytes=measured,\n    )\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 443, in verify_capacity\n    raise RuntimeError(\n        f\"measured parent RAM plus profile reserve exceeds 18 GB: {measured}+{ram_bytes}\"\n    )\nRuntimeError: measured parent RAM plus profile reserve exceeds 18 GB: 9614716928+9000000000\n", "utc": "2026-10-10T18:59:49.363931+00:00"}

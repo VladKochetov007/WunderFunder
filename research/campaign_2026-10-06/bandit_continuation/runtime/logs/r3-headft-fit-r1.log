@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py", line 2444, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v2/scripts/train_rnn.py", line 1856, in main
+    model.load_state_dict(init["model"])
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 2643, in load_state_dict
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: Error(s) in loading state_dict for RNNModel:
+	size mismatch for head.2.weight: copying a param with shape torch.Size([31, 256]) from checkpoint, the shape in current model is torch.Size([23, 256]).
+	size mismatch for head.2.bias: copying a param with shape torch.Size([31]) from checkpoint, the shape in current model is torch.Size([23]).
