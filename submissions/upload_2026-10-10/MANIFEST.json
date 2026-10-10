@@ -1,0 +1,11 @@
+{
+  "created": "2026-10-10",
+  "note": "Own independently trained models only. Fold-1-held-out H230 students (train+valid folds 0,2,3; fold 1 never fitted). Technical gates passed for all three: zip < 20 MB, Python 3.11 offline callbacks at v2/avx2/v3, static ABI, package-vs-GPU prediction agreement (corr >= 0.99998), timed replay 74 us/row (matched Z5 native build; estimate about 30 min on the portal against a 60 min limit). No expected public gain is claimed: local fold-1 scores of these students (0.6684-0.6694) are within noise of each other and of the earlier student lineage.",
+  "why_no_teacher_ensemble": "The session's best local result (seed-average of width-384 scratch teachers, fold 1 WP 0.6702) cannot be served: width-384 members run at 733 us/row/member on the current native build (about 16 h projected for the test set) and two members exceed the 20 MB ZIP at float32. Distilling width-384 teachers into the width-256 student did not transfer on fold 1 (0.66836 vs 0.66938 from width-256 teachers).",
+  "order": "upload top to bottom (5/day quota); packages 1 and 2 differ only in the teacher width and form a paired public test of teacher scale transfer",
+  "packages": [
+    {"upload_file": "1_p2_student_distilled_from_scratch_h256_teachers.zip", "source_package": "c20261010_p2_dsq_t256_student", "run": "vt_f1_dsq_t256", "local_fold1_wp": 0.66938},
+    {"upload_file": "2_p3_student_distilled_from_scratch_h384_teachers.zip", "source_package": "c20261010_p3_dsq_t384_student", "run": "vt_f1_dsq_t384", "local_fold1_wp": 0.66836},
+    {"upload_file": "3_p1_h230_ep3_student.zip", "source_package": "c20261010_p1_h230_ep3_student", "run": "bd26_h230_f1_s3_ep3@ep2", "local_fold1_wp": 0.66923}
+  ]
+}
