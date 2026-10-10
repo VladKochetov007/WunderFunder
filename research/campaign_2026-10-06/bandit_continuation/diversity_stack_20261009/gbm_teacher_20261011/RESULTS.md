@@ -23,3 +23,5 @@ Blend (1-w)*student + w*GBM, w grid 0..0.3, weight chosen on one component-disjo
 - (a) OOF-level WP is only borderline (0.618 on an easy subset, ~0.58-0.60 projected to the full fold vs the 0.60 gate and the 0.666 teacher): fails the "near GRU teacher" bar.
 - (b) No complementary signal: blends do not improve the student at any weight, so the errors are not diverse in a useful way at this strength.
 - Step 4 (2-way OOF predictions over the 10.5k fold-1 train sequences) was not produced: at about 3-5 s per sequence this is >10 CPU-hours at 1 core, and the gate (a) and (b) evidence does not justify it. Caveats: small 300-sequence fit, only 100-110 rounds, no tuning, 1 seed; a larger fit might gain a few points but the blend headroom from E-093 (same conclusion with 3000 seqs) argues against it. Reopen only on a new representation (e.g. GBM on GRU hidden states or residual-to-student target).
+
+Note: `fit_report.json["kept_features"]` lists the 865 pre-prune names (bookkeeping slip); the authoritative 579-name list is `kept_features.txt` aligned with `kept_idx.npy`.
