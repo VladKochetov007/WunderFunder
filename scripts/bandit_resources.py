@@ -477,7 +477,7 @@ def service_command(
         "WNN_CPU_QUOTA": f"{cpus * 100}%",
         "WNN_CPU_PCT": str(min(100, cpus * 10)),
         "WNN_MEM_MAX": str(ram_bytes),
-        "WNN_LOADER_WORKERS": "0",
+        "WNN_LOADER_WORKERS": os.environ.get("WNN_LOCAL_LOADER_WORKERS", "0"),  # measured 2026-10-10: 0 leaves the local GPU at ~40% (CPU-bound parquet decode in the training thread)
         "OMP_NUM_THREADS": str(cpus),
         "MKL_NUM_THREADS": str(cpus),
         "OPENBLAS_NUM_THREADS": str(cpus),
@@ -908,7 +908,7 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
         "WNN_CPU_PCT": str(min(100, cpus * 10)),
         "WNN_MEM_MAX": str(ram_bytes),
         "WNN_SLICE": SLICE,
-        "WNN_LOADER_WORKERS": "0",
+        "WNN_LOADER_WORKERS": os.environ.get("WNN_LOCAL_LOADER_WORKERS", "0"),  # measured 2026-10-10: 0 leaves the local GPU at ~40% (CPU-bound parquet decode in the training thread)
         "CUDA_VISIBLE_DEVICES": "0" if kind == "gpu" else "",
     }
     for key in ("LD_LIBRARY_PATH", "VIRTUAL_ENV"):
