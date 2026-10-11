@@ -1,0 +1,57 @@
+{
+  "observed_utc": "2026-10-11T19:34:39.653033+00:00",
+  "operator": "same root controller",
+  "scope": "one T4 startup/numerical diagnostic profile only; no full fit",
+  "archive_sha256": "986304b0278ea2ea3c5b903984edd5b58fda6e04e497a6bd10f06a58a635e9e1",
+  "review_sha256": "eadd58c5fad39f3f1872ad68ebf3a8b310f7b4daa246f1a3bb1aef90053cc38f",
+  "ready_readback_sha256": "9a5108bce580ee83251004d85da147ac79c5c9ae14bbb8d1afe835c2a56433c3",
+  "quota_receipt_sha256": "23f59d3962d1e51ce85f1d226e682910b4210623e6e405379bfc77f14bcf35ad",
+  "quota_snapshot": {
+    "observed_at_utc": "2026-10-11T19:33:09+00:00",
+    "cli_package_version": "2.2.4",
+    "source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel",
+    "quota_refresh_utc": "2026-10-17T00:00:00",
+    "quota": {
+      "gpu": {
+        "used_seconds": 62182.058,
+        "reserved_seconds": 0.0,
+        "total_allowed_seconds": 108000.0,
+        "campaign_baseline_used_seconds": 37047.321,
+        "campaign_used_seconds": 25134.736999999994,
+        "campaign_cap_seconds": 56780.516,
+        "campaign_headroom_seconds": 31645.77900000001
+      },
+      "tpu": {
+        "used_seconds": 0.0,
+        "reserved_seconds": 0.0,
+        "total_allowed_seconds": 72000.0,
+        "campaign_baseline_used_seconds": 134.623,
+        "campaign_used_seconds": -134.623,
+        "campaign_cap_seconds": 7200.0,
+        "campaign_headroom_seconds": 7334.623
+      }
+    },
+    "status": [
+      {
+        "kernel": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r1-runner",
+        "status": "KernelWorkerStatus.ERROR",
+        "failure_message": "",
+        "resource": "gpu",
+        "monitoring_state": "polling_until_terminal_evidence_downloaded",
+        "terminal_evidence_receipt": null
+      }
+    ],
+    "session_id": {
+      "value": null,
+      "reason": "Kaggle status JSON currently omits kernel_session_id; do not substitute versionNumber."
+    }
+  },
+  "logical_reservation_gpu_seconds": 12000,
+  "reservation_basis": "kernel6000s ceiling times two available T4 devices; only one profile worker; close onterminal quota reconciliation",
+  "worker_timeout_seconds": 1800,
+  "kernel_id": "vladkochetov07/wnn-clean-t3-f0-startup-profile-20261011-r3-runner",
+  "kernel_title_derived_slug_verified": true,
+  "fit_admitted": false,
+  "paid_spend": 0,
+  "wording_erratum": "profile_updates warmup5/measured25 are complete batches, not optimizer updates; expected600 chunkstep attempts at20 chunks/batch, actual attempted/skipped/completed counts required; diagnostics overhead not throughput qualification"
+}
