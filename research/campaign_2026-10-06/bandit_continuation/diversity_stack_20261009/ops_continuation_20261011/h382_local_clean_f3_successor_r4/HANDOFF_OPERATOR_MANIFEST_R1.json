@@ -1,0 +1,36 @@
+{
+  "a_invocation_id_observed_by_root": "1f4ba4e38bb946bc8cd065d083229d4b",
+  "created_utc": "2026-10-11T17:00:47+00:00",
+  "launch_policy": "templates are frozen but not installed or started; root review/installation owns the one-shot handoff",
+  "operator_script": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_local_clean_f3_successor_r4/operators/handoff_r4a_to_r4b.py",
+    "sha256": "bf3a208cdcd57b329992eace23e4412451a9483c89a73e08294e694557d304fb"
+  },
+  "packet_id": "H382_LOCAL_CLEAN_CROSSFOLD_F3_E3_TO_E4_R4",
+  "plan_r4a_sha256": "acaae0562e261542ac36e58e514882385e082495f48ce2c0a513f31ce596f035",
+  "plan_r4b_sha256": "1a8d8784b6989b006a2db8c942a36956aa23ceead2aea4f5228db86397830a06",
+  "r4a_terminal_preflight": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_local_clean_f3_successor_r4/handoff_receipts/r4a_terminal_preflight_r1.json",
+    "sha256": "7d8d40c3b60c233904b48d78bcbd1ad6a17b22b52a04f44095ea1e66379e90be"
+  },
+  "r4b_gate_order": [
+    "exact R4A sequence plan and successful fit/export receipts",
+    "exact R4A CP2 prediction and matching sidecar",
+    "no active/unresolved campaign attempts",
+    "existing export-cache reclaim helper under GPU lock",
+    "reserve-aware file-cache reclaim under GPU lock to <= 6.5GB",
+    "unchanged campaign aggregate limits and no admission stop",
+    "start only the hash-matched frozen R4B systemd unit"
+  ],
+  "schema": "wnn.h382-local-f3-r4-handoff-operator-manifest.v1",
+  "unit_templates": {
+    "wnn-h382-local-f3-s3-e4-sequence-r4b.service": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_local_clean_f3_successor_r4/units/wnn-h382-local-f3-s3-e4-sequence-r4b.service",
+      "sha256": "aac49eea0eb3ba800e98654a6a80c16c8b2b645e561b792b17662bd281433537"
+    },
+    "wnn-h382-local-f3-s3-r4a-to-r4b-handoff.service": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_local_clean_f3_successor_r4/units/wnn-h382-local-f3-s3-r4a-to-r4b-handoff.service",
+      "sha256": "fda6fdd5475458600a8a03d90536d638f42a4bb6b6a12aefecbbc78d3235a4e5"
+    }
+  }
+}
