@@ -155,3 +155,13 @@ All fold-1 (exposed), h256 students from the same 3 muon-all h384 teachers, shar
 ## 14. Addendum 16:10 - second same-state tail (reviewer-scored, fold 1, seed 3)
 
 `r3_muonall256prop0_f1_s3_h380_e6` (owner's H380 same-prefix Muon tail to 6 epochs) = **0.66885** vs 0.66897 (same-seed 3-epoch endpoint) and 0.66891 (H378 tail): two different tail constructions, both null (-0.0001). Together with the cliff (scratch 6-epoch 0.6478) this closes "more epochs from the same trained state" for this recipe on fold 1: no gain, no collapse. Local GPU queue is empty at 16:05 (0 pending, GPU 17%) - the owner needs to refill it.
+
+## 15. Addendum 17:30 - first OOD/augmented-path distillation results (fold 1, reviewer-scored from the owner's rescued predictions)
+
+| Arm (v9, shared-cache serial R2, weak combo_scratch teachers, h256 student) | WP | Matched references (same teachers) |
+|---|---|---|
+| `ood_splice` (r2, homshare) | **0.66897** | dsq_t256 0.66938 ; no-teacher continuation dsq_none 0.66861 |
+| `ood_spmix` (splice + mixup_paths) | **0.66893** | same |
+
+* Both land between the no-teacher continuation (+0.0003) and the plain cached-target student (-0.0004): **no measurable gain from teacher outputs on spliced/augmented paths** with this teacher set. Together with section 12 (output-matching KD variants null, student plateau 0.6703-0.6710 for the strong-teacher cache) the picture is consistent: off-train-row targets from teachers that are themselves ~0.666-0.669 models carry no more usable signal than the cached train-row targets.
+* Not yet tested: OOD paths with the **strong** (muon-all h384 / 3-seed ensemble) teacher set, and `swn`/`swn25` (noise/warp variants) - the owner's run is serial; `ood_only` result pending. The mechanism is not refuted for strong teachers; it is refuted as a way to beat the 0.6705 plateau with the weak set.
