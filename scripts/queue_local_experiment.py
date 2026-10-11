@@ -39,8 +39,8 @@ def main() -> int:
         item = sub(tpl)
         contract = json.loads((Q / "contracts" / f"r3-ctrl-{kind}-r1.json").read_text())
         contract = sub(contract)
-        if kind == "fit" and "384" in a.extra:
-            item["reserve_bytes"] = 10500000000  # h384 fits peak ~9 GB incl. cache: 9 GB reserve killed r3-muonall384prop0-s7-a2
+        if kind == "fit":
+            item["reserve_bytes"] = 10500000000  # fits peak ~9 GB incl. page cache (muon-all h256 and h384): a 9 GB reserve killed r3-muonall384prop0-s7-a2 and r3-muonall256prop0-s4
         if kind == "fit":
             for o in (item, contract):
                 o["argv"][o["argv"].index("--seed") + 1] = a.seed
