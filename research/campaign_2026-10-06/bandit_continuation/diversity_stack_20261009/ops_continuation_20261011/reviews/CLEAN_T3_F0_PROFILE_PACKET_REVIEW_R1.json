@@ -1,0 +1,82 @@
+{
+  "schema": "wnn.clean_t3_f0_independent_packet_review.r1",
+  "reviewed_at_utc": "2026-10-11T18:05:12Z",
+  "reviewer_role": "independent read-only source and recipe reviewer",
+  "review_scope": "Static review of the actor worktree's H390 clean-fold T3 F0 profile-only Kaggle bundle, source bindings, recipe, actual parent artifacts/provenance, and current cache semantics. No provider calls, upload, queue action, fit, inference, or mutation of the actor packet.",
+  "actor_worktree": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_packet_builder_20261011_r1",
+  "actor_branch": "agent/kaggle-t3-f0-packet-20261011-r1",
+  "actor_head": "e4f044e56eed0224d9273b9bbd43241561ec36c7",
+  "reviewed_packet_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r1",
+  "reviewed_packet_file_inventory": {
+    "regular_file_count_excluding_pycache": 98,
+    "total_bytes": 3320365,
+    "canonical_path_size_sha256_inventory_sha256": "12cbe4b7e3046542b849684bb6b3e24bf696e35907e09f6b0becf851d1b90a67"
+  },
+  "decision": {
+    "profile_bundle_static_review": "pass",
+    "full_fit_bundle_review": "not_applicable_and_not_admitted",
+    "provider_or_compute_admission": "not_reviewed_or_authorized_by_this_receipt",
+    "scope_note": "The built archive contains only two bounded profile jobs. Passing this static review does not claim an actual T4 profile, remote input readiness, quota admission, or full-fit feasibility."
+  },
+  "artifact_bindings": {
+    "source_bindings_sha256": "f9d94d947c40da11cfc95fc4d207c9138f25d1b83ad9554f473f3d8a67d41a12",
+    "source_manifest_sha256": "fb32325fa1010615c12a45e67e81edfd18141e288c620a5c73664d45beb397ea",
+    "source_manifest_entries_verified": 60,
+    "source_manifest_local_byte_mismatches": 0,
+    "profile_bundle_manifest_sha256": "003d37e0c5eb9e409206c2247c00ca2e1a915633652014ab746d0ff73117a69a",
+    "profile_bundle_archive_bytes": 217105,
+    "profile_bundle_archive_sha256": "052924e0c6c39befed88257d8ec4de45ccfdffa3789c7cb316e7cdd2df6b193e",
+    "generated_kernel_sha256": "8907f0cd5c8232b101ba7d02cf8f52426831578c482b70c59b63f86348f884de",
+    "profile_spec_sha256": {
+      "clean_t3_f0_muonall_h384_e3_s3_t4_profile1_r1": "66451f330be446a617540d35a2b4af5281fb034ba11e14265f29116a016db573",
+      "clean_t3_f0_muonall_h384_e3_s3_t4_profile2_r1": "b33a43500cacff784b8545db914036ed65fa939936938a08549e39adee85e716"
+    },
+    "actual_parent_preflight_receipt_sha256": "fc16040084e041a8e458f80463f9096bcd9a3c946928580b55aa4468cde35afc",
+    "actual_f1_strong_t3_cache_metadata_sha256": "a2f82d8dbc7bbbe2c7cf36e18e3b7be0b41f887aa14a742b43f616b060856779"
+  },
+  "checks": [
+    {
+      "id": "source-snapshot-integrity",
+      "status": "pass",
+      "evidence": "The 60-entry SOURCE_MANIFEST_H390 mapping matches the extracted source snapshot file bytes. The generated archive contains exactly its 68 declared non-external files/specs; all bundled internal file sizes and SHA-256 digests match the manifest."
+    },
+    {
+      "id": "profile-entrypoint-and-import-root",
+      "status": "pass",
+      "evidence": "Both profile argv vectors point to the packaged research/.../source_snapshot/scripts/cleanfold_exec.py and pass scripts/train_rnn.py as its snapshot-relative child. Both paths resolve inside the archive; the wrapper sets PYTHONPATH to the frozen snapshot and the spec sets WNN_PROJECT_ROOT to /kaggle/working/experiment. The formerly missing leading research/ component is present."
+    },
+    {
+      "id": "profile-only-execution-contract",
+      "status": "pass",
+      "evidence": "Exactly two specs are packaged, each with five warmup batches, 25 measured batches, 240-second worker timeout, zero loader workers, no save-training-state option, and no declared output artifacts. The full teacher fit templates are absent from this archive."
+    },
+    {
+      "id": "mounted-input-closure",
+      "status": "pass-static",
+      "evidence": "All 13 external input mappings match the spec input declarations and generated kernel mount map. The packet binds the fold-0 split SHA 09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d and own fold-0 propensity model/cache assets. Remote dataset version/readiness was not checked by this review."
+    },
+    {
+      "id": "parent-artifact-and-membership",
+      "status": "pass-receipt-reviewed-and-byte-rechecked",
+      "evidence": "ACTUAL_PRODUCER_PREFLIGHT_R2 records both actual parent checkpoints passing frozen trainer validation, exact F0 fit membership (10,535 train plus 1,405 valid groups), and 468 excluded evaluation groups. This reviewer independently rehashed the staged parent checkpoint bytes and parsed their provenance. The H382 parent is kg_h382r3_f0_muonall_prop0_e4_s3, epoch 3, checkpoint SHA 359d337db09f0f8e306a225b050884741f006190523b2e940d36ef87d35a25be, propensity power 0. The control is c20261003_combo_s3_f0, epoch 3, checkpoint SHA d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e, propensity power 2. Its two declared own scratch teacher ancestors c20260929_since_s3_f0 and c20260929_since_s4_f0 each match the same F0 fit/evaluation membership and have zero valid-fit/evaluation overlap."
+    },
+    {
+      "id": "homogeneous-cache-target-semantics",
+      "status": "pass-metadata-and-source-operation",
+      "evidence": "The actual F1 cache metadata bytes at dc_98411230_metadata.json hash to a2f82d8dbc7bbbe2c7cf36e18e3b7be0b41f887aa14a742b43f616b060856779. It identifies variant homogeneous, homogeneous_family strong, coefficient_sum 0.8125, and six source coefficients. Frozen combine_teacher_chunk computes an unweighted float32 mean within each family and sets homogeneous to float32(total coefficient mass) times the selected family mean. Thus the selected F1 target is 0.8125 times the strong three-teacher mean, not the six-source main blend. The H390 cache source records the same reduction/division then scale operation. No teacher prediction arrays were available to this static review, so no numerical array equivalence is claimed."
+    }
+  ],
+  "remaining_gates": [
+    "Obtain read-only verification of exact current Kaggle dataset versions/READY state and nested mounts, then root-owned live quota/reservation/admission before running the profile bundle.",
+    "Collect actual T4 profile terminal records with device model/UUID, throughput, peak GPU and RSS, and no resource stop. Historical F1 teacher times (8,508.7 seconds total) do not establish F0 T4 timing; the planned full-fit cohort must be resealed and bounded from actual profiles before fitting.",
+    "Teacher prediction and cache consumers must be validated against actual producer outputs after the profile-gated fits; this review did not run the full teacher exporter or cache builder.",
+    "The packet has no final student prediction export recipe yet. Before student export/official scoring, preserve fit-only teacher-cache construction with zero evaluation predictions, but produce full-valid predictions in the required (1873, 20000, 2) row-group order for score_prediction_remote.py and fixed-blend consumers. Do not modify the grader to accept held-fold-only arrays.",
+    "Validate each produced six-epoch student training_state.pt with the frozen resume consumer and preserve full optimizer/scheduler/scaler/model/loader/RNG continuation at the scheduled boundaries."
+  ],
+  "resource_and_action_scope": {
+    "local_review_limit": "50% CPU quota, one thread, 700,000,000-byte memory maximum, 120-second command bound",
+    "gpu_or_provider_action": false,
+    "fit_or_inference": false,
+    "full_fit_or_public_score_claim": false
+  }
+}
