@@ -17,6 +17,8 @@ def main() -> int:
     ap.add_argument("--seed", default="3")
     ap.add_argument("--extra", default="")
     ap.add_argument("--note", default="")
+    ap.add_argument("--export-only", default="", help="existing run name: queue only an export of --epoch N of it (output pred name = <run>_x<N>)")
+    ap.add_argument("--epoch", default="", help="export epoch index (default: --checkpoint-epoch from --extra, else template)")
     a = ap.parse_args()
     nums = [int(m.group(1)) for d in ("pending", "done", "failed") for p in (Q / d).glob("*.json") if (m := re.match(r"(\d+)_", p.name))]
     num = max(nums) + 1
@@ -29,7 +31,11 @@ def main() -> int:
         for x, y in pairs:
             s = s.replace(x, y)
         return json.loads(s)
+    toks = shlex.split(a.extra)
+    exp_epoch = a.epoch or (toks[toks.index("--checkpoint-epoch") + 1] if "--checkpoint-epoch" in toks else "")
     for kind, tpl, n in (("fit", fit_t, num), ("export", exp_t, num + 1)):
+        if a.export_only and kind == "fit":
+            continue
         item = sub(tpl)
         contract = json.loads((Q / "contracts" / f"r3-ctrl-{kind}-r1.json").read_text())
         contract = sub(contract)
@@ -39,9 +45,18 @@ def main() -> int:
             for o in (item, contract):
                 o["argv"][o["argv"].index("--seed") + 1] = a.seed
                 o["argv"] += shlex.split(a.extra)
+        if kind == "export" and exp_epoch:
+            for o in (item, contract):
+                if "--epoch" in o["argv"]:
+                    o["argv"][o["argv"].index("--epoch") + 1] = exp_epoch
+        if kind == "export" and a.export_only:
+            for o in (item, contract):
+                o["argv"] = [a.export_only if x == name else x for x in o["argv"]]
+                if "--output-name" in o["argv"]:
+                    o["argv"][o["argv"].index("--output-name") + 1] = f"{a.export_only}_x{exp_epoch}"
         contract["created_utc"] = now
         contract["note"] = a.note or f"{a.tag}: extra args {a.extra}"
-        item["after"] = [] if kind == "fit" else [f"r3-{a.tag}-s{a.seed}-fit-r1"]
+        item["after"] = [] if (kind == "fit" or a.export_only) else [f"r3-{a.tag}-s{a.seed}-fit-r1"]
         (Q / "contracts" / f"{item['attempt']}.json").write_text(json.dumps(contract, indent=1))
         item["contract"] = f"research/campaign_2026-10-06/bandit_continuation/local_queue_r1/contracts/{item['attempt']}.json"
         (Q / "pending" / f"{n}_{item['attempt']}.json").write_text(json.dumps(item, indent=1))
