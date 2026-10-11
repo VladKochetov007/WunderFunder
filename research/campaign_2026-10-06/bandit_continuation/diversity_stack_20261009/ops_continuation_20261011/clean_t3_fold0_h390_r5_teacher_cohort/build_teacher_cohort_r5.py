@@ -89,13 +89,14 @@ def write_tar(files: dict[str, bytes], archive_path: Path) -> None:
 
 def changed_spec(payload: bytes) -> dict:
     spec = json.loads(payload)
-    spec["name"] = re.sub(r"(_s[345])_r3$", r"\1_r5", spec["name"])
-    spec["argv"] = [
-        re.sub(r"(_s[345])_r3(?=$|[^A-Za-z0-9])", r"\1_r5", value) for value in spec["argv"]
-    ]
-    spec["artifacts"] = [
-        re.sub(r"(_s[345])_r3(?=$|/)", r"\1_r5", value) for value in spec["artifacts"]
-    ]
+
+    def rename_attempt(value: str) -> str:
+        value = re.sub(r"(_s[345])_r3(?=$|[^A-Za-z0-9])", r"\1_r5", value)
+        return re.sub(r"(_paired_t4)_r3(?=$|[^A-Za-z0-9])", r"\1_r5", value)
+
+    spec["name"] = rename_attempt(spec["name"])
+    spec["argv"] = [rename_attempt(value) for value in spec["argv"]]
+    spec["artifacts"] = [rename_attempt(value) for value in spec["artifacts"]]
     spec["code_sha256"] = canonical_sha256(sorted(spec["code"], key=lambda row: row["path"]))
     return spec
 
