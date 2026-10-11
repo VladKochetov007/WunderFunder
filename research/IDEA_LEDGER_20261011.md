@@ -143,3 +143,7 @@ The independent reviewer also detected its owned Docker gate containers outside 
 
 Receipt: `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261011_1837_r1/PACKAGING_PRECISION_RETRACTION_R1.json`. Latest package-now scope and healthy research jobs continue; no spending or fitting authority changes.
 
+
+## G. Complete endpoint precision and blending (2026-10-11T20:50:24.624873+00:00)
+
+Latest user requests mixed precision, Q5–Q7 and quantization-aware fine-tuning. Cards H-QMIX-01..04 and bounded tests are in [MIXED_PRECISION_Q5_Q7_QAT_IDEAS_R1.md](campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/MIXED_PRECISION_Q5_Q7_QAT_IDEAS_R1.md). Selective FP16 transport/Q8 runtime is being implemented; the Q5–Q7, block sensitivity and QAT cards are proposed, not admitted fits. Choose total served blend score/capacity/runtime, retain local/Kaggle clean-fold work, and preserve Q4 wholeendpoint arms.
