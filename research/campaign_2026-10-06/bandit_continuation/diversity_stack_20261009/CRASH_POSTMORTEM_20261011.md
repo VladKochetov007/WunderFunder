@@ -54,3 +54,35 @@ Repair owner: Luna/max `submission_packager`, isolated worktree. Implement an ex
 Prevention required before corrected admission: check exact checkpoint epochs and hashes, complete NPY/header/sidecar bindings, output bytes plus headers/metadata and aggregate concurrent reservations, before GPU export work. Validate real producer/consumer fixtures and actual daemon shell rendering. A pipeline timeout field alone is not enforced by the current daemon: corrected jobs must include an explicit process timeout. Launch only after reviewed checks pass; inspect actual startup and logs. Healthy OOD-only and H384-student jobs remain running.
 
 Raw receipts: `ops_continuation_20261011/OOD_FAILURE_LOGS_R1.txt`, `OOD_STORAGE_AND_JOBS_R1.txt`, `OOD_CACHE_AND_PROP_IDENTITIES_R1.txt`. Repair is in implementation, not yet a successful rerun. These measures address the observed failure; they do not guarantee that unrelated errors are impossible.
+
+
+## 2026-10-11T12:12:53.397626+00:00 — H382 Kaggle pre-fit consumer failures and prevented successor defects
+
+R1 extracted bundled split/portable registry, then attempted to symlink mounted copies over the samepaths. ERROR beforerawvalidation/CUDAfit. R2 verifies bundledcopies against identical mountedSHA/bytes, keepsunexpectedexistingpaths failclosed, explicitly requests twoT4devices. AcceptedR2 remains under terminalowner; no doublepush.
+
+Rootactualproducer check discovered a secondR2 consumer defect: its Parquet footer seek used minusfooter_bytes instead of minus(footer_bytes+8). The producer scripts/build_campaign_splits.py:28–40 binds serializedmetadata plus the8byte length/PAR1trailer. Actualsame-size suppliedfiles match receipt digests exactly when hashing the producer range; do not suppress this failure or replace receipts with mismatching hashes. NewR3 must use exactrange, validate real11asset startupfixtures and preserve R2. The earlier actor/staticpacketvalidator covered sourcehashes/NPYproducer but did not execute the complete actualinputconsumer; that limitation allowed both errors.
+
+Before admission, independentreview also prevented H390 missingteacherprovenancekey and OOD incompleteimportclosure/12hperarm spending envelope/partialoverwrite issues. Fixes receive newR2 packets, not edits to frozenfirstattempts. Daemon envmaps are ignored; envassignments must be executableargv, no mixedquote inlinePython. Four OOD retryarms require serialcohort because their sequence lock deliberately rejectsparallel starts. No worker/source redesign is needed.
+
+## 2026-10-11T13:03:32.236705+00:00 — new diagnosed delivery risks
+
+Vast prepaid expiry now bounds execution: userdisabledauto-topup, accountcredit4.70009USD at12:56UTC, depletion~21:37Kyiv. Earlier70USDcap and10–15USDreviewallowance cannot authorize spending unavailable credit. Collect usefulCP/provenance/logs/source and missingpredictions beforedepletion; reservecollectiontime at each start. H390cache validates actualproducerfixtures; individual10800s+1800sjob bounds with13:30UTCstartcutoff replace an unaffordable7-hourserialpair. No billing/providercredentialchanges.
+
+Storage handoff removedonly18 independentlyverified remoteNPY/sidecar duplicates alreadyretainedlocally,2.697GB. Firstguards correctly refused historical/non-tokenexact dependency strings; corrected exactterminal dependency checks precede deletion. Immediatefreebytesunchanged, later+2.698GB observation: distinguish unlink from measured netreclamation, do not assume snapshotfreealreadycreditsqueuedwrites.
+
+OODwrappedpipeline remains healthy but watcher parser recognizes script onlyin argv[:3]; with GNUtimeout/env assignments it occurs later. Warningis observabilityfailure, not fitfailure. Record job-specific actualadvancing pipeline_spmix_r2.log/rootrefillstatus until reviewed boundedparserfix. Frozen healthyjob sources stayunchanged.
+
+Legacyownership create_response.instance_api_key removedfromcurrenttrackedreceipt, ownoriginalretainedmode0600 outsidegit; controller's existing _safe_create_response already filters futurefields. No credential value was printed, historywasnotrewritten andproviderkeyswerenotrotated. Receipt OWNERSHIP_RECEIPT_REDACTION_R1.json.
+
+## 2026-10-11T13:24:00.197679+00:00 — H390 R2 startup failure and bounded R3 successor
+
+The first R2student wrapper started13:01:39UTC but exitedbeforeanyfit/run-directory creation: finalcache guard read nonexistent argparse Namespace attribute `fit_subset_manifest`. Actualparser declares `fit_groups_manifest`. R3 removes the staleattribute while keeping subset/fixedrecipe guards, preserves R2producer/cache unchanged, and separatelypins originalproducer/source/packet/metadata/twoarray hashes and complete12479membership. Independent5testsPASS; added regression imports actualtrainer and captures its own exactCLI Namespace beforeGPU/data, demonstrates originalfailure andcorrectedacceptance plusfitgroupsrejection. ManualNamespacefixture alone was insufficient. Mountedactualcachepreflight still gatesfit. NewrunIDs end_r3; originalfailedlog/receiptretained.
+
+ActorbareVastCLI401was wrongcredentialroute, notaccount/hostfailure. At13:22:24UTC MAINcontrollerwithVT_LANE=b independentlyreturned owned55080658running/credit4.33338USD. Useexistingreceipt-bound m.ssh/m.scp, notunverifiedSSHaliases ornewAPI/billingroute. Conditional R3startdeadline13:30UTC and10800fit/1800export+1hcollection remain. No claimof scientificfitfromsource/CLI/bootstrapchecks.
+
+
+### H382 local profile mismatch caught before launch
+
+R1 scientific/membership review passed, but the R1 command used one loader worker while its sealed recovery profile used zero. Root and actor verified the copied review explicitly distinguishes the production one-worker observation from the zero-worker bounded profile. No fit launched on this mismatch. Preserve R1; corrected R2 must set WNN_LOADER_WORKERS=0, retain exact science/source, bind its new packet/sequence and pass independent delta review plus live aggregate checks. This is a resource-admission defect, not a scientific negative.
+
+H390 staging receipt initially lost exec_command session_id by returning only output, so an asynchronous SCP/stage continued while a retry hit the immutable destination guard. Verified original owner/staged hashes before reuse; no destination overwrite. Future yielded calls preserve session handles. Bare Vast CLI401 was an authentication-route issue; existing MAIN VT_LANE=b controller authenticated successfully. Neither incident invalidates model science.

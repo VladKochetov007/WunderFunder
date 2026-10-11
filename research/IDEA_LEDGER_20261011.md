@@ -65,3 +65,28 @@ E1 local queue treated admission_recheck_failed as permanent failure -> cascaded
 | A12 | USER renewed optimizer-specific batch/LR and mathematically controlled epoch scaling | ANALYSIS active, no fits admitted | root primary-source search, Luna frozen-recipe audit; preserve historical failed long arms |
 
 | A13 | H-377 current-lead batch response; H-378 same-prefix tail; H-379 noise-aware optimizer finish; H-380 auxiliary-objective finish | PROPOSED, no fits admitted | MUON_BATCH_EPOCH_MATH_20261011.md; independent Luna mathematical/code audit |
+
+
+## Controller update 2026-10-11T11:51:53.557056+00:00: strongest sources, conditional mixtures and repaired delivery
+
+F15: Original T3 teacher ensemble .67254162; naive T6 .67183372 and matched-count D3 .67184874 lose. Student+T3 .67264009 retains .00160862 over student (paired component CI positive) but adds little over teacher ensemble. Full frozen comparisons in QUALITY_DIVERSITY_PAIRED_R1.jsonl. Exposed, conditional fixed models; do not count members as replications.
+F16: Wider h384 alpha.7/e2 student finished .67041; fixed equal wide+narrow strong student .67203, wide+T3 .67215. Different width/parent/alpha recipes; this is useful endpoint evidence, not isolated capacity attribution. H384_STUDENT_GRADE_FREEZE_R1.json/H384_STUDENT_SCORES_R1.txt. Stronger KD schedule at matching width is next interaction after independent recipe review.
+A14: H378/H380 tails actually queued932-935; same prefix/full training state, tinyLRsuffix and isolated auxiliary-weight change. H377R2B64profile passed, fits remain conditional; H379 deferred.
+F17: H388 three own all-data h384 teachers actually admitted and fitting; H390 separate final-only raw12479-group homogeneous-cache/two students implemented, independent review active. No all-data heldout scores.
+E7: Four OOD cache jobs failed before fit at13.38GB requirement vs10.51GBbudget; compact1.912GBsharedcache repair implemented/tests11pass, independent review active. Preserve20GiBfloor and completed exports; do not substitute active different T3cache.
+E8: KaggleH382R1 ERROR beforefit because bundle-owned split path already existed duringassetlink. Original receipts retained; operator preparing identifiedR2 plus explicit2T4devicegate, matching-bundled-file identity handling.
+C7: Actual Q8runtimeheadroom student+h384113.14us/row; 3h256102.67; 2h384158.98. Full10seqx5replay1millioncallbacks deterministic. Runtime-only, quantized fullfoldscores pending.
+Research allocation and next10–15USDcheckpoint: CREATIVE_RESEARCH_ALLOCATION_R1.json. Source-grounded leads remain consistent-view OOD/functionmatching, width/strongtargets, nested component-crossfittedtargets (prospective, not yet fit; outerevaluation excluded from ALL ancestors), and causal representations. Current cached-row KD knobs did not show large improvement; this does not exhaust these distinct mechanisms. Literature basis: Beyer CVPR2022 https://arxiv.org/abs/2106.05237 and Stanton NeurIPS2021 https://arxiv.org/abs/2106.05945 (primary-source revisited this check; image results suggest mechanisms, not evidence they work here).
+
+### 2026-10-11T12:12:53.397626+00:00 controller update
+A15: Four-epoch Muon-all/prop0 h256 now five distinct seeds3/4/5/6/7, mean .67024/sampleSD .000978 vs3epoch .668968; local6/7 .66985/.66953 exactartifactchecked. Selectedseed4 is not recipeaverage.
+A16: Corrected LWF930/931 complete .66930 one seed; floor+classweight interaction, no bestendpoint promotion. H378/H380 remain active distinct preserved-prefix tails.
+F18: H390R1 preflight blocked missing provenance key; R2 pins exactproducerreceipts,16MiBreserve,realSequencesconsumer17tests; review before cachebuild. H391 widealpha.9/e6 strongtargetinteraction registeredplanned after .67203wide+narrowfixedblend, no isolatedwidthgainclaim.
+E9: OODR2 fullsourceclosure+serial4hcommands reviewed15testsPASS; actualdaemonenv-mapignored requires envargvcompiler, serialcohort, refreshed aggregate diskreservations.
+E10: H382R2 acceptedQUEUED; rootactualproducer check discovers footer-range8byte omission. Full11actualassets pass with proposedcorrectrange; sealedR3 and terminalquota gates remain. R1/R2 never establish negative model evidence.
+
+### 2026-10-11T13:03:32.236705+00:00 — cross-fold priorities and prepaid handoff
+A17: H378/H380 complete .66891/.66885, fixedhalfstudent .67158/.67157, n1; sameprefix lowLR/auxcooldown not a meaningful rescue. A9 historicalB64MuRNN/prop2 nowgraded linear .66715/sqrt .66588, fixedstudentpairs belowlead; not H377 currentMuonallprop0.
+F19: OOD-only .66730 / fixedstudentpair .66993, n1. Healthy reviewedmixedOODR2 cohort nowspmixfitting. H388all-datah384seed3/4/5 terminal; H390strictall-data2arraycachebuilt, fitstartadmissionboundedby prepaidexpiry.
+E11: Userauto-topupOFF; livecredit4.70009USD at12:56:37UTC, depletionestimate21:37Kyiv. Targeted6finalCP/provenancepairSCP started; no wholelanequiescentclaim or bulk timer. Prior10–15USDallowance superseded.
+F20: ADR0031/top-tieronlyafterexploration and cleanmultifoldranking binding. H382R3QUEUED12:55, nofittingclaim. Existingfold2/3MuRNNcontrols available, but no matchingMuonallprop0/leadstudent; localfourcleanfoldscratchsuccessors being prepared,notadmitted. Nofold1ancestorleak. Unstarted strictlabel-freeKD remainsproposed.

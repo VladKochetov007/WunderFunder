@@ -1,3 +1,21 @@
+# Current continuation — 2026-10-11T12:12:53.397626+00:00
+
+13:40 UTC actual phases: H390 s3_r3 epoch0 batch100/779; s4_r3 loading after13:40:03 supervisor start, no batch yet. GPU0 uses2637 MiB; OOD healthy on GPU1 uses2284 MiB. Mounted source/cache/parents passed; revised prepaid start deadline13:45 is explicit in H390_R3_PREPAID_CUTOFF_REASSESSMENT_R2.json. Six final weight/provenance/state bundles and H388 s3 full NPY rescued. Local H382 four-fit packet passed scientific review, but root requires corrected R2 zero-loader contracts to match the sealed recovery profile. Actor owns repair/cache handoff; preserve R1. Kaggle RUNNING, actual fitting unobserved. No weaker submission recommendation; .667–.669 remains a rough conditional judgment, not a measured interval or promise.
+
+Latest 2026-10-11T13:27:20.571989+00:00: six finalCP/provenance+states safelyretained; largepredictioncollection active, sixavailableNPYs~1.798GB; H256finalNPYsabsent. H390R3 reviewedactualCLI/source/producerreuse, mountedcachepreflight+stagepending start≤13:30UTC; R2failurebeforefitpreserved. KaggleproviderRUNNING13:06butactualphaseunknown. LocalcleanCV fourrunsf2/f3e3/e4 frozenbundle preparing/independentcriticassigned; shortidledependency activeowner. No weakerZIPrecommendations.
+
+## Effective frontier 2026-10-11T13:03:32.236705+00:00
+
+Clean cross-fold evidence and only strongest submissions after exploration are binding; priorfold1-onlypromotion cells below superseded. H382R3 QUEUED12:55, actualworkerphaseunknown; fourlocalfold2/3 scratchMuonallprop0e3/e4seed3successors being frozen,notadmitted. Oldfold2/3MuRNNcontrols available, exactleadstudentcrossfoldteachersmissing. Keep distinctmechanisms and alreadyadmittedarms; nofakefreshholdout. Earliest exploitation decision20–22Kyiv conditional onrobustness.
+
+VastB55080658 auto-topupOFF, livecredit4.70009USD12:56UTC/spendestimate34.43618USD, depletion~21:37Kyiv; targetcriticalcollection20:30. Sixall-datafinalcheckpoint/provtargetedcollection started, hashreceiptpending. H388teachers3/4/5 terminal, H390cachestrictPASS/startcutoff13:30UTC, healthyOODspmixfitting. No newpaidpaths/billing. LocalH378/H380completed .66891/.66885; queueempty12:57 untilcleanfoldbundle reviewed. NewOOD-only/B64oldgradesdo notimprovelead. [Status and exploitation record](diversity_stack_20261009/IDEA_STATUS_AND_EXPLOITATION_PLAN_20261011_R1.md).
+
+Root plans; all subordinate roles Luna/max, maximum3, isolatedwriters. Only ownedVastB55080658 under70USDcap; local5CPU/18GBworking20GBhard/noswap/5GBobservedVRAM; actualKagglequota beforedispatch. Research/local evidence selects submissions; public confirms transfer.
+
+Local H378 tail fitting after correctedLWF .66930; H380+exports supplied. E4scratch distinctseedmean .67024,n5, not selectedsingle .67195. Vast H388 all-datah384s4 complete,3/5 andOOD-only active; all-datah2563/4/5 complete. OODR2 reviewedserialcompactcache pipeline awaits rootfreshstorageadmission; H390R2 studentcache awaits independentreview. KaggleH382R2 acceptedQUEUED, diagnosedfooterconsumerbug; R3preparedafterterminalandexactactual-inputcheck. H391 widerstrongtargetinteraction planned, notfitadmitted. No numericalpublic forecast. [Loop](diversity_stack_20261009/LOOP_LOG_20261010.md), [state](../../../specs/current-state.md), [actualreceipts](diversity_stack_20261009/ops_continuation_20261011).
+
+The following are historical snapshots; their provider/model/stop authorities are superseded.
+
 ## Sol delivery and cache reuse — 2026-10-08 22:46 UTC
 
 The user now authorizes one Sol6.1/medium research and implementation lead, with two Luna/max execution roles; no Astra and no Vast. [ADR0028](../../../specs/adr/0028-sol-medium-diversity-delivery.md). The [experiment matrix](diversity_stack_20261009/matrix/experiment_matrix.html) covers254 recorded runs,23 planned contrasts and6 reviewed endpoints. Keep both weights and evaluation predictions, with actual gradient/LR traces, under the [retention policy](diversity_stack_20261009/ARTIFACT_RETENTION_R1.md).

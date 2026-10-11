@@ -1,0 +1,76 @@
+{
+  "utc": "2026-10-11T12:36:03.341050+00:00",
+  "metric": "global_wp_clip2_v1",
+  "fold": 1,
+  "exposure": "repeatedly exposed fold1; fixed official mask, clip2 and magnitude weights",
+  "distinct_seeds": 1,
+  "new_tail_score": 0.66891,
+  "parent_score": 0.66897,
+  "tail_student_equal_blend": 0.67158,
+  "parent_student_equal_blend": 0.67144,
+  "student_reference": 0.671031473,
+  "artifacts": [
+    {
+      "run": "r3_muonall256prop0_f1_s3_h378_e6",
+      "epoch": 5,
+      "checkpoint": "artifacts/runs/r3_muonall256prop0_f1_s3_h378_e6/model_ep5.pt",
+      "checkpoint_sha256": "8b17c1e56fc6ecf9ec0c89129c2c196880c8f780bbc91090156f9a2197d004b9",
+      "prediction_sha256": "92588bb82a63cdeb298de409780eb8986bb0db94d0ff26a94ea6bbe99f7c748e",
+      "prediction_bytes": 299680128,
+      "provenance_sha256": "e27568a2a413ffdb296bd6edf8b946b6d850b1332886edd17fcdd8812fbd663b",
+      "fit_counts": {
+        "train": 10533,
+        "valid": 1416
+      },
+      "evaluation_valid_count": 457,
+      "direct_valid_overlap": 0,
+      "branch_tail": {
+        "format": "wnn.training-tail-branch",
+        "version": 1,
+        "schedule": "cosine",
+        "tail_epochs": 3,
+        "steps": 22380,
+        "peak_lr": 3e-05,
+        "final_lr": 3e-07,
+        "beta1_policy": "restore-and-freeze-per-group",
+        "aux_schedule": "none",
+        "base_aux_struct": 0.3,
+        "base_aux_next": 0.3,
+        "ancestry": {
+          "parent_training_state_sha256": "0cb7c0138848a20e497c18f6c17465e30dba5732a47313d4ac4888448a795346",
+          "parent_next_epoch": 3,
+          "producer_source_ref": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v6_lead",
+          "producer_source_contract_sha256": "5ea4c9260dbffa939c47d991afb0a20eed50da5ba9d6685b924c397fe27bb262",
+          "producer_binding_sha256": "d672e552284e695228af88bf9d2d01488cbdc61abb9d4455ac911a8aae793411"
+        }
+      },
+      "branch_ancestry": {
+        "parent_training_state_sha256": "0cb7c0138848a20e497c18f6c17465e30dba5732a47313d4ac4888448a795346",
+        "parent_next_epoch": 3,
+        "producer_source_ref": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v6_lead",
+        "producer_source_contract_sha256": "5ea4c9260dbffa939c47d991afb0a20eed50da5ba9d6685b924c397fe27bb262",
+        "producer_binding_sha256": "d672e552284e695228af88bf9d2d01488cbdc61abb9d4455ac911a8aae793411"
+      },
+      "seed": 3
+    },
+    {
+      "run": "r3_muonall256prop0_f1_s3_e3",
+      "epoch": 2,
+      "checkpoint": "artifacts/runs/r3_muonall256prop0_f1_s3_e3/model_ep2.pt",
+      "checkpoint_sha256": "a600cdf88788c3e9717fb44d2ec07086d0f71958de81b700d9df90aeb2a981a1",
+      "prediction_sha256": "65e4e2885180912658850f63abe53b90f714f0f96dade2e6a44d2d166fa826ac",
+      "prediction_bytes": 299680128,
+      "provenance_sha256": "711413c0016d67405a2cac223e7887ad987ca81261d2126ea1c357efe4f7da02",
+      "fit_counts": {
+        "train": 10533,
+        "valid": 1416
+      },
+      "evaluation_valid_count": 457,
+      "direct_valid_overlap": 0,
+      "branch_tail": null,
+      "branch_ancestry": null,
+      "seed": 3
+    }
+  ],
+  "qualification": "Rounded scores; preserved-prefix added3epoch tail. Tiny single difference not evidence of equivalence; fixed mixture changes differently from standalone. No public forecast."
+}

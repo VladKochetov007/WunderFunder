@@ -1,0 +1,109 @@
+{
+  "created_utc": "2026-10-11T12:02:36.310978+00:00",
+  "metric": "global_wp_clip2_v1",
+  "exposure": "repeatedly exposed fold1; fixed mask rows>=99 clip2 original magnitude weights",
+  "artifacts": [
+    {
+      "run": "r3_muonall256prop0e4_f1_s6_e3",
+      "seed": 6,
+      "checkpoint_epoch": 3,
+      "prediction_sha256": "48eae45b7b2ed78b214970b3ec6435c38aec635f92dd3af77a0fa5a07bfd3eef",
+      "checkpoint_sha256": "35bbbb371f62224e176d78c37f1d7311903f5dc4d221b9a2501c7f45c383e4b0",
+      "provenance_sha256": "c62ec1de23da58767090f5c80bf22ef574ff995657762a50a27c7c92fa0fea74",
+      "fit_train": 10533,
+      "fit_valid": 1416,
+      "evaluation_valid": 457,
+      "direct_overlap": 0,
+      "args": {
+        "epochs": 4,
+        "muon_scope": "all",
+        "prop_power": 0.0,
+        "label_weight_floor": 0.0,
+        "class_weight": "",
+        "loss": "wmse",
+        "loss_norm": "chunk",
+        "init": "",
+        "distill_cache_root": ""
+      }
+    },
+    {
+      "run": "r3_muonall256prop0e4_f1_s7_e3",
+      "seed": 7,
+      "checkpoint_epoch": 3,
+      "prediction_sha256": "e82c0e98c2236948f86322ea82481046bd2ac9187d25c700935a9a8313ee2a27",
+      "checkpoint_sha256": "201cab7ebdc2619e4fc8addd91f9bee8dc2ac768e26d35151fcd5963aa58d983",
+      "provenance_sha256": "cda098e5e56a4d8ffc79b06892ef51ee41a2a9a36f6a38f9048efb568c87b761",
+      "fit_train": 10533,
+      "fit_valid": 1416,
+      "evaluation_valid": 457,
+      "direct_overlap": 0,
+      "args": {
+        "epochs": 4,
+        "muon_scope": "all",
+        "prop_power": 0.0,
+        "label_weight_floor": 0.0,
+        "class_weight": "",
+        "loss": "wmse",
+        "loss_norm": "chunk",
+        "init": "",
+        "distill_cache_root": ""
+      }
+    },
+    {
+      "run": "r3_muonall256prop0lwfrecovery_f1_s3_e3",
+      "seed": 3,
+      "checkpoint_epoch": 2,
+      "prediction_sha256": "d8dd5f029b27a7fb062e6fa6fb0f8d98b15d6a75d646ae767df0e553c1552c38",
+      "checkpoint_sha256": "9c53f5188b945e7d6631dacba19871117986e14093b87e1c0c6f4f42b43ca826",
+      "provenance_sha256": "48b2786a5a47989a439b5be69369be8b14cf837e26c088a4e1d24f5d4602ca43",
+      "fit_train": 10533,
+      "fit_valid": 1416,
+      "evaluation_valid": 457,
+      "direct_overlap": 0,
+      "args": {
+        "epochs": 3,
+        "muon_scope": "all",
+        "prop_power": 0.0,
+        "label_weight_floor": 0.1819,
+        "class_weight": "1,1,1,1.192",
+        "loss": "wmse",
+        "loss_norm": "chunk",
+        "init": "",
+        "distill_cache_root": ""
+      }
+    }
+  ],
+  "e4_seed_order": [
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "e4_rounded_scores": [
+    0.66976,
+    0.67195,
+    0.67011,
+    0.66985,
+    0.66953
+  ],
+  "e4_mean": 0.67024,
+  "e4_sample_sd": 0.0009782126558167512,
+  "e3_rounded_scores": [
+    0.66897,
+    0.66912,
+    0.66928,
+    0.66934,
+    0.66813
+  ],
+  "e3_mean": 0.668968,
+  "paired_rounded_deltas": [
+    0.0007900000000000684,
+    0.002829999999999999,
+    0.0008299999999999974,
+    0.0005099999999998994,
+    0.0013999999999999568
+  ],
+  "n_distinct_seeds": 5,
+  "qualification": "Historical seeds3/4 and Kaggle5 use previously graded rounded values; seed5 machine rerun not extra n. This check independently verifies local6/7 and corrected LWF actual artifacts. Seed means remain fold1 evidence, not public forecast. LWF is floor+class-weight interaction n1, not isolated floor effect."
+}

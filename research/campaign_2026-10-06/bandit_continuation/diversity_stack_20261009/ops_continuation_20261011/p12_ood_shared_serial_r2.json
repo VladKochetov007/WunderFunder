@@ -1,0 +1,92 @@
+{
+  "name": "vt_f1_ood_swn25_r2_homshare_r2",
+  "steps": [
+    {
+      "label": "splice_r2",
+      "argv": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=10s",
+        "14400s",
+        "/usr/bin/env",
+        "PYTHONPATH=/root/wnn/lr377_source_r1/src",
+        "WNN_FROZEN_SOURCE_ROOT=/root/wnn/lr377_source_r1",
+        "WNN_PROJECT_ROOT=/root/wnn",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/ood_cache_repair_20261011/r2/ood_student_pipeline_shared_r2.py",
+        "--arm",
+        "splice_r2",
+        "--bundle-manifest-sha256",
+        "c1740621c865b1c1ba11765c600dc5d98fbb6c8ede032a7ae971c607ff8a0ca6",
+        "--other-live-reservations-bytes",
+        "4500000000"
+      ]
+    },
+    {
+      "label": "spmix_r2",
+      "argv": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=10s",
+        "14400s",
+        "/usr/bin/env",
+        "PYTHONPATH=/root/wnn/lr377_source_r1/src",
+        "WNN_FROZEN_SOURCE_ROOT=/root/wnn/lr377_source_r1",
+        "WNN_PROJECT_ROOT=/root/wnn",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/ood_cache_repair_20261011/r2/ood_student_pipeline_shared_r2.py",
+        "--arm",
+        "spmix_r2",
+        "--bundle-manifest-sha256",
+        "c1740621c865b1c1ba11765c600dc5d98fbb6c8ede032a7ae971c607ff8a0ca6",
+        "--other-live-reservations-bytes",
+        "4500000000"
+      ]
+    },
+    {
+      "label": "swn_r2",
+      "argv": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=10s",
+        "14400s",
+        "/usr/bin/env",
+        "PYTHONPATH=/root/wnn/lr377_source_r1/src",
+        "WNN_FROZEN_SOURCE_ROOT=/root/wnn/lr377_source_r1",
+        "WNN_PROJECT_ROOT=/root/wnn",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/ood_cache_repair_20261011/r2/ood_student_pipeline_shared_r2.py",
+        "--arm",
+        "swn_r2",
+        "--bundle-manifest-sha256",
+        "c1740621c865b1c1ba11765c600dc5d98fbb6c8ede032a7ae971c607ff8a0ca6",
+        "--other-live-reservations-bytes",
+        "4500000000"
+      ]
+    },
+    {
+      "label": "swn25_r2",
+      "argv": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=10s",
+        "14400s",
+        "/usr/bin/env",
+        "PYTHONPATH=/root/wnn/lr377_source_r1/src",
+        "WNN_FROZEN_SOURCE_ROOT=/root/wnn/lr377_source_r1",
+        "WNN_PROJECT_ROOT=/root/wnn",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/ood_cache_repair_20261011/r2/ood_student_pipeline_shared_r2.py",
+        "--arm",
+        "swn25_r2",
+        "--bundle-manifest-sha256",
+        "c1740621c865b1c1ba11765c600dc5d98fbb6c8ede032a7ae971c607ff8a0ca6",
+        "--other-live-reservations-bytes",
+        "4500000000"
+      ]
+    }
+  ],
+  "controller_admission": "OOD_R2 serial4arms; measured remainingexternalreservation4.5GB; default6GB preserved in actorpacket; actualargvenvcompilation required by daemon",
+  "hypothesis_id": "H-350",
+  "cohort_worker_timeout_sum_seconds": 57600
+}

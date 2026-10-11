@@ -1,0 +1,22 @@
+queue {'pending': ['p08_w14_ood_swn.json', 'p09_w14_ood_swn25.json', 'p10_w15b_dm_h384_t3.json'], 'running': ['p07_w14_ood_spmix.json', 'p00_w19_kd_msepear.json', 'p04_bl_scale_b64_lrsqrt.json', 'p05_w14_ood_only.json', 'p06_w14_ood_splice.json', 'p00_w19_kd_pearson.json', 'p00_w19_kd_run05.json']}
+recentpred [('pred_vt_f1_muonall_h384_e3_s9_valid.npy', 299680128), ('pred_combo_scratch_ep3s4_onecycle_f1_valid.npy', 299680128), ('pred_vt_f1_muonall_h384_e3_s8_valid.npy', 299680128), ('pred_vt_f1_scale_b64_lrlin_valid.npy', 299680128), ('pred_vt_f1_dsq_kd_ch052_valid.npy', 299680128), ('pred_vt_f1_dsq_dm_a9_e10_valid.npy', 299680128), ('pred_vt_f1_dsq_dm_pm_a9_e6_valid.npy', 299680128), ('pred_vt_f1_dsq_dm_a95_e6_valid.npy', 299680128), ('pred_vt_f1_dsq_dm_ba_a9_e6_valid.npy', 299680128), ('pred_vt_f1_muonall_h384_e3_s10_valid.npy', 299680128), ('pred_vt_f1_dsq_kd_ch02_valid.npy', 299680128), ('pred_vt_f1_data8400_e4_s3_valid.npy', 299680128), ('pred_vt_f1_dsq_dm_a10_e6_valid.npy', 299680128), ('pred_vt_f1_long_small_muonrnn_e24_valid.npy', 299680128), ('pred_vt_f1_muonall_prop0_e4_s4_valid.npy', 299680128), ('pred_vt_f1_dsq_dm_a9_e2_valid.npy', 299680128), ('pred_vt_f1_muonall_prop0_e4_s3_valid.npy', 299680128), ('pred_vt_f1_muonall_h384_e4_s4_valid.npy', 299680128)]
+allruns ['vt_f1_long_muonall_e15', 'vt_f1_long_muonall_wsd_e15', 'vt_f1_muonall_e3_s4', 'vt_f1_muonall_h384_e3', 'vt_f1_muonall_h384_e3_s5', 'vt_f1_muonall_e3', 'vt_f1_muonall_h384_e3_s4', 'vt_f1_long_small_adamw_e24', 'vt_f1_long_small_muonall_e24', 'vt_f1_muonall_h384_prop0_s3', 'vt_f1_muonall_h384_prop0_s4', 'vt_f1_muonall_h384_prop0lwf_s3', 'vt_f1_muonall_h384_prop0lwf_s4', 'vt_f1_long_small_muonrnn_e24', 'vt_f1_muonall_h384_e4', 'vt_f1_muonall_e4_s3', 'vt_f1_muonall_e4_s4', 'vt_f1_muonall_h384_e4_s4', 'vt_f1_muonall_prop0_e4_s3', 'vt_f1_muonall_prop0_e4_s4', 'vt_f1_muonall_h384_e3_s10', 'vt_all_fin_mu256p0e4_s3', 'vt_all_fin_mu256p0e4_s4', 'vt_all_fin_mu256p0e4_s5', 'vt_f1_muonall_h384_e3_s8', 'vt_f1_muonall_h384_e3_s9']
+pipelineflags
+    parser.add_argument("--arm", required=True)
+    parser.add_argument("--fold", type=int, required=True)
+    parser.add_argument("--teachers", required=True, help="one or two scratch run names")
+    parser.add_argument("--teacher-epoch", type=int, default=3)
+    parser.add_argument("--parent", required=True, help="warm-start checkpoint RUN@epN")
+    parser.add_argument("--seed", type=int, default=3)
+    parser.add_argument("--alpha", type=float, default=0.7)
+    parser.add_argument("--variant", default="homogeneous", choices=["source", "normalized", "homogeneous"])
+    parser.add_argument("--epochs", type=int, default=2, help="student epochs (final checkpoint = epochs-1)")
+    parser.add_argument("--lr", type=float, default=0.0001)
+    parser.add_argument("--wd", type=float, default=0.01)
+    parser.add_argument("--hidden", type=int, default=256, help="student width (parent must match)")
+    parser.add_argument("--batch", type=int, default=16)
+    parser.add_argument("--sched", default="onecycle")
+    parser.add_argument("--extra-fit-args", default="", help="shell-split string appended to the trainer argv, e.g. '--distill-channel-weights 0.5,2'")
+    parser.add_argument("--no-teacher", action="store_true", help="control: same continuation without any distillation")
+    parser.add_argument("--keep-cache", action="store_true")
+           "--split-manifest", str(split_path), "--valid-fold", str(args.fold), "--eval-source", "vfold",
