@@ -47,3 +47,7 @@ root reported that the R5 logical hold was closed in
 `ROOT_R5_TERMINAL_RESERVATION_CLOSE_R1.json` (SHA-256
 `42a8ca0bd0ca90273cc5ee9d215c54ea12be53e95cc0d3cfea2a5053c0f19aa3`); that
 authority receipt is maintained by root and is not copied into this packet.
+The exact kernel files are staged locally, mode 0700, at
+`/tmp/wnn-clean-t3-f0-r5-kernel-v2-stage-dff5cbb4`; their hashes and the
+staging limitation are recorded in `R6_OPERATOR_STAGE_R1.json`. The dataset
+was not updated, and no kernel push or profile/fit was started.
