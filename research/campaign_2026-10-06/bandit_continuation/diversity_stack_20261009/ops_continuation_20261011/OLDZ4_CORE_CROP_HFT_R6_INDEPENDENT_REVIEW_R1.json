@@ -1,0 +1,59 @@
+{
+  "actor_commit": "caa24429155573689a4b67bd4153a18bdf58ec10",
+  "actor_worktree": "/home/vlad/development/wunder/wnn_oldz4_corecrop_hft_r6_20261012_r1",
+  "checks": {
+    "actual_cp1_full_consumer_fixture": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=120s WNN_LOADER_WORKERS=0 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=MAIN/src MAIN/scripts/limited MAIN/.venv/bin/python ACTOR_R6/verify_actual_cp1_consumer_r6.py",
+      "observed": "PASS_FULL_CONSUMER_AND_R5_DOWNSTREAM_READER; fixture admission and temporary project were isolated and removed. Actual CP1 SHA 664643b...95eb and provenance SHA 5af59c...f13c. Derived CP SHA f1fac7...e99a0; provenance SHA 11a737...fec62; 31-to-23 head crop, 8 family rows removed, 14 non-head tensors and 2 normalization tensors preserved. Unchanged R5 HFT receipt reader returned the same producer receipt.",
+      "status": "PASS_INDEPENDENT_RERUN"
+    },
+    "binding_delta": {
+      "observed": "The R6 runner reads snapshots.core_crop.files['scripts/make_core_checkpoint.py'] both during preflight and after derive, and checks it against the pinned crop source SHA. R5 contract, source-binding manifest, primitive and output verifier digests are pinned. Commit adds only the R6 packet; R5 source tree is untouched.",
+      "status": "PASS"
+    },
+    "effective_hft_objective": {
+      "observed": "Root clarification SHA f1af75...befd binds the sealed R5 contracts and actual CP1/provenance: primary gcorr plus inherited aux_struct=0.3 and aux_next=0.3. The R5 profile/fit argv inherit initialization preprocessing and retain the 23 primary/aux output rows. R6 changes only consumer source-path binding; no objective, parent, seed, fold or membership changed. F0 remains exposed: 1,405 valid fitting groups and 468 excluded F0 evaluation groups; no score is claimed here.",
+      "status": "PASS_WITH_ROOT_CLARIFICATION"
+    },
+    "fit_export_and_mutation_scope": {
+      "observed": "R6 adds a crop consumer/fixture only. It refuses an existing crop destination and producer receipt, uses exclusive receipt creation, pins and preserves the failed R5 pre-write receipt, imports only the frozen crop primitive and verifier, and does not invoke trainer/predictor/provider code. Actual R6 crop completed rc0 under root's admitted CPU bound; this review did not launch it. No profile or fit has been run or authorized by this review.",
+      "status": "PASS_NO_FIT_OR_EXPORT"
+    },
+    "main_crop_receipt_and_outputs": {
+      "observed": "MAIN root admission is PASS and its SHA is bound as root_admission_sha256 in the write-once R5-compatible receipt. Receipt names R6 attempt oldz4-r6-f0-s3-core-crop, consumer SHA and retry-contract SHA exactly. I independently SHA-256 checked the MAIN checkpoint (3,978,471 bytes) and provenance (159,229 bytes) against the receipt; both match.",
+      "status": "PASS_IDENTITY_VERIFIED"
+    },
+    "r5_hft_profile_gate": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=120s WNN_LOADER_WORKERS=0 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=MAIN/src MAIN/scripts/limited MAIN/.venv/bin/python R5_PACKET/run_hft_stage_r5.py --stage validate-import --project-root MAIN",
+      "observed": "PASS_IMPORT_AND_ROOT_BINDING. The unchanged R5 stage runner's profile path calls _load_crop_receipt before launch, verifies receipt schema/status, R5 crop contract SHA, destination run, actual cropped checkpoint/provenance hashes, then requires ROOT_HFT_PROFILE_LAUNCH_R5.json to bind the exact profile contract SHA and actual crop receipt SHA. R6 did not change this reader or stage runner. Root must use producer receipt SHA 09b083...2475f for the profile launch admission.",
+      "status": "PASS_STATIC_AND_IMPORT_PREFLIGHT"
+    }
+  },
+  "disposition": "PASS_R6_CROP_CONSUMER_AND_PROFILE_GATE",
+  "packet": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r6",
+  "pins": {
+    "actor_fixture_r2_receipt_sha256": "8f08e0d7b8f26c834ccd92c8d16c810ef600f1726e4d4dbe6cc5afb18ce5770c",
+    "actual_cropped_checkpoint_sha256": "f1fac7f6293082fe1dd416e4026cac56fe1bcfb533683837da2192bad69e99a0",
+    "actual_cropped_provenance_sha256": "11a7373acd6fb88417be27e1d34892590466412ba8f799e005045318329fec62",
+    "crop_primitive_sha256": "c805c4f8647abbaa434a575870199b558b411e412a3ceaff450a36e4a657161a",
+    "effective_hft_objective_clarification_sha256": "f1af75b47a48c440f7860f4e2a97b9eff7ac2594b2a885fc22f9583447c4befd",
+    "main_r5_compatible_crop_producer_receipt_sha256": "09b0836d182a22758ec5183f9a1891e53c4aa48f3164214382ab46f7ac62475f",
+    "main_r6_root_admission_sha256": "ca035d5944508dfaab07f65b7c9107eb7de5e81c8c9f757bff6bffe187bbbc98",
+    "r5_actual_output_verifier_sha256": "0ef213cf19fbf916fad921f8a348463f50d85d0c16ca1bec3d852a05906dcd48",
+    "r5_contract_sha256": "22a7e7f2553a6dcfe784b5e813b48aac37eff56c136b97a73694994626951cd9",
+    "r5_hft_reader_sha256": "395a603a9d7bd961a8ec0b45374f2a345243b915aa80d5783b1548887128f418",
+    "r5_independent_blocker_review_commit": "0b7abe3f49612574c6985085680351e57524dc63",
+    "r5_source_bindings_sha256": "b7c08e9b19ee6d4e802d858259caeba505538c8e4b5385bf52cd5f21e8a0985b",
+    "r6_crop_runner_sha256": "203ea796322d7ecbd238111b1339d144aec4caa2981ee9da6d4b62b481384d9b",
+    "r6_fixture_source_sha256": "e6226f05276dccf25f635aff1e6321a00b3b868086ec7bf45bca8b53949b63e8",
+    "r6_retry_contract_sha256": "12d21d956ac5402b97d8db0500f42b1bc5a9aadeb5e787c1b2fad5df05c1b693"
+  },
+  "residual_limitations": [
+    "If an actual derive fails after creating the destination but before the receipt, the write-once guard prevents same-attempt reuse; preserve partial evidence and use a newly identified root-admitted attempt.",
+    "Actual crop success is established by MAIN's root receipt and independently matched output hashes, not by the fixture alone. Profile and fit remain separate root-controlled stages."
+  ],
+  "reviewed_utc": "2026-10-11T22:26:21Z",
+  "reviewer_role": "independent_code_and_consumer_critic",
+  "schema": "wnn.independent-review.oldz4-core-crop-hft-r6.v1",
+  "scope": "R6 corrective crop consumer delta, actual CP1 consumer fixture, MAIN crop receipt/output identity and unchanged R5 HFT profile gate; no GPU fit/profile launch/provider/queue action"
+}
