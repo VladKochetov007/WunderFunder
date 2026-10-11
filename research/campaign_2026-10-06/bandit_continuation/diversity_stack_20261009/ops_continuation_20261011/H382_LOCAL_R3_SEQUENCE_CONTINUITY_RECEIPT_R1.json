@@ -1,0 +1,85 @@
+{
+  "current_frontier": {
+    "attempt_command_matches_frozen_step": true,
+    "attempt_heartbeat_utc": "2026-10-11T15:57:24.598570+00:00",
+    "attempt_id": "h382-local-clean-f2-s3-e4-fit-r3",
+    "attempt_max_event_delta": 0,
+    "attempt_oom_kill_delta": 0,
+    "attempt_peak_parent_ram_bytes": 15983058944,
+    "attempt_peak_ram_bytes": 9500213248,
+    "attempt_peak_vram_bytes": 4476370944,
+    "attempt_phase": "running",
+    "attempt_status": "running",
+    "current_visible_gpu_snapshot": [
+      "0, NVIDIA GeForce RTX 3060 Laptop GPU, 0, 4130, 6144"
+    ],
+    "fit_complete": false,
+    "fit_contract_sha256": "a11815d5b427ff577c31b47539ff7facd01bf97271d5c727e0c96a2028a2049b",
+    "fit_unit": {
+      "ActiveState": "active",
+      "CPUQuotaPerSecUSec": "3s",
+      "MemoryCurrent": "8943689728",
+      "Result": "success",
+      "SubState": "running"
+    },
+    "sequence_attempt": "h382-local-clean-f2-s3-e4-fit-r3",
+    "sequence_error": null,
+    "sequence_index": 0,
+    "sequence_status": "running",
+    "source_manifest_sha256": "1bb0d788bcab7e58069fc451999ae7fb7d333aaeec44fa70f3253a7987e4d3ed",
+    "worker_heartbeat_utc": "2026-10-11T15:57:19.553221+00:00",
+    "worker_status": "running"
+  },
+  "limitations": [
+    "The sequence wrapper is now durable and waiting on the existing fit; no terminal fit result or score is claimed.",
+    "The failed R1 wrapper receipt is preserved unchanged."
+  ],
+  "live_admission_snapshot": {
+    "active_attempt_count": 1,
+    "active_reserved_cpu_cores": 3.0,
+    "active_reserved_ram_bytes": 10500000000,
+    "parent_properties": {
+      "CPUQuotaPerSecUSec": "5s",
+      "MemoryCurrent": "14407372800",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    },
+    "parent_verified": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "stop_admission_marker_present": false,
+    "supervisor_added_cpu_cores": 0.5,
+    "supervisor_added_ram_max_bytes": 700000000
+  },
+  "observed_utc": "2026-10-11T15:57:28.274347+00:00",
+  "packet_id": "H382_LOCAL_CLEAN_CROSSFOLD_R3",
+  "prior_wrapper_failure": {
+    "attempt": "h382-local-clean-f2-s3-e4-fit-r3",
+    "launch_returncode": 1,
+    "reason": "Failed to start transient scope unit: Unit wnn-h382-local-r3-sequence-r1.scope was already loaded or has a fragment file.",
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/sequence_h382_local_r3_20261011_r1.json",
+    "receipt_sha256": "b923dbc20cedd29d7439d2770ae53ddeca7f896657d08966ef428ae205e077ae",
+    "status": "needs_review"
+  },
+  "repair": {
+    "environment_cleared": [
+      "WNN_SCOPE_UNIT"
+    ],
+    "new_durable_receipt": "research/campaign_2026-10-06/bandit_continuation/runtime/sequence_h382_local_r3_20261011_r2.json",
+    "new_supervisor_unit": "wnn-h382-local-r3-sequence-r2.service",
+    "sequence_receipt_sha256_at_observation": "48ad60046ca429c23e27d198ad2071a391c4b48e76a8107e160477f900a222db",
+    "sequence_runner_behavior": "It found the existing first attempt record and waited; launch_returncode is null, so it did not submit a duplicate fit.",
+    "service_invocation_id": "33e53cfdbd1447e58ee0ed35d8943470",
+    "supervisor_resource_bounds": {
+      "cpu_quota_per_sec": "500ms",
+      "memory_high_bytes": 700000000,
+      "memory_max_bytes": 700000000,
+      "memory_swap_max_bytes": 0,
+      "runtime_max": "8h",
+      "slice": "wnn-campaign.slice"
+    }
+  },
+  "schema": "wnn.h382-local-sequence-continuity-receipt.v1",
+  "sequence_packet_manifest_sha256": "da9630da411c800f5be3b77b8d96d532bdd45ab8c0831d57829f0b92d60eb5f2",
+  "sequence_plan_path": "/home/vlad/development/wunder/wnn_h382_t3_fold0_packet_20261011/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r3/SEQUENCE_PLAN_R3.json",
+  "sequence_plan_sha256": "a5a45b16efa6b6afa91500c79c6dafc8f157b6fe33c02eed04252b9a095cae53"
+}
