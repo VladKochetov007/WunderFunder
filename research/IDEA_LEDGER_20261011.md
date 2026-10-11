@@ -43,3 +43,12 @@ Status: DONE+pos / DONE+null / DONE+neg / RUNNING / QUEUED / PLANNED / NOT-START
 | D9 | OOD-path online distillation v9 (H-350) | DEPLOYED to Vast B 2026-10-11 (stage+mv), 5 arms queued w14_ood_{splice,swn,spmix,swn25,only} vs dsq_t256 0.66938 | h230_source_v9_ood README |
 ## E. Infrastructure lessons
 E1 local queue treated admission_recheck_failed as permanent failure -> cascaded blocked items (patched scripts/local_queue_runner.py). E2 CPU agents exceeded RAM/CPU admission (rule: agents <=1 core, <=3 GB). E3 Vast: non-atomic deploy raced running jobs; missing distill_pipeline.py on host; jobs with --save-training-state conflict with pretrain flag. E4 watchdog alerts were not read by the session: use scripts/alerts_unread.sh each pass. E5 HPO alerts silenced by .runtime/hpo_disabled.
+
+## F. Distillation deep dive (2026-10-11 05:31+)
+| F1 | ceilings: 3-seed muonall ens .67254; student best .66938 | DONE | distillation_deep_dive_20261011/CEILING_AND_PLAN.md |
+| F2 | literature survey (Beyer long schedules, Stanton, Cho&Hariharan, DEGU, DIST, LUPI) | DONE | LITERATURE.md |
+| F3 | external ideation grok-4.7 + opencode (nemotron/step-5) | DONE (longcat/muse empty) | ideation/ |
+| F4 | cache-only diagnostics: ens gain = 82% diff channel, 66% run-level | DONE | CACHE_ONLY_DIAGNOSTICS.md |
+| F5 | w15 student arms (muonall teachers, e6, lr2, alpha .9, none_e6, h384) | QUEUED front of Vast B | CEILING_AND_PLAN.md |
+| F6 | H-366 diff-channel KD, H-367 run-level KD, H-369 Pearson KD flags | IMPLEMENTATION NEXT | CACHE_ONLY_DIAGNOSTICS.md |
+| F7 | H-368 residual KD, H-371 LUPI, H-373 hidden KD | PROPOSED | grok_distill.md |
