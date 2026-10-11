@@ -3838,6 +3838,110 @@
    "rationale": "Round-6 consensus architecture: clockbank with prop0",
    "lane": "b",
    "queued_utc": "2026-10-11T00:14:50.546497+00:00"
+  },
+  {
+   "id": "long_small_adamw_e24",
+   "family": "long_small_lr",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 6,
+   "hours": 7.5,
+   "name": "vt_f1_long_small_adamw_e24",
+   "change": {
+    "--seed": "3",
+    "--epochs": "24",
+    "--checkpoint-epoch": "23",
+    "--sched": "wsd",
+    "--optim": "adamw",
+    "--lr": "0.00015",
+    "--wd": "0.05",
+    "+": [
+     "--intra-snapshots",
+     "--wsd-decay",
+     "0.2",
+     "--wsd-final",
+     "0.01",
+     "--wsd-shape",
+     "linear"
+    ]
+   },
+   "status": "queued",
+   "rationale": "USER H-351 small lr + 24 epochs: AdamW lr 1.5e-4 wd .05",
+   "lane": "b",
+   "queued_utc": "2026-10-11T00:19:16.272178+00:00"
+  },
+  {
+   "id": "long_small_muonrnn_e24",
+   "family": "long_small_lr",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 6,
+   "hours": 7.5,
+   "name": "vt_f1_long_small_muonrnn_e24",
+   "change": {
+    "--seed": "3",
+    "--epochs": "24",
+    "--checkpoint-epoch": "23",
+    "--sched": "wsd",
+    "--lr": "0.00025",
+    "--wd": "0.05",
+    "+": [
+     "--intra-snapshots",
+     "--wsd-decay",
+     "0.2",
+     "--wsd-final",
+     "0.01",
+     "--wsd-shape",
+     "linear"
+    ]
+   },
+   "status": "queued",
+   "rationale": "USER H-351 small lr + 24 epochs: Muon rnn lr 2.5e-4 wd .05",
+   "lane": "b",
+   "queued_utc": "2026-10-11T00:19:16.272390+00:00"
+  },
+  {
+   "id": "long_small_muonall_e24",
+   "family": "long_small_lr",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 6,
+   "hours": 7.5,
+   "name": "vt_f1_long_small_muonall_e24",
+   "change": {
+    "--seed": "3",
+    "--epochs": "24",
+    "--checkpoint-epoch": "23",
+    "--sched": "wsd",
+    "--lr": "0.0002",
+    "--wd": "0.05",
+    "--muon-scope": "all",
+    "+": [
+     "--intra-snapshots",
+     "--wsd-decay",
+     "0.2",
+     "--wsd-final",
+     "0.01",
+     "--wsd-shape",
+     "linear"
+    ]
+   },
+   "status": "queued",
+   "rationale": "USER H-351 small lr + 24 epochs: Muon all lr 2e-4 wd .05",
+   "lane": "b",
+   "queued_utc": "2026-10-11T00:19:16.272551+00:00"
   }
  ]
 }

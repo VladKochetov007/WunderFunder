@@ -430,7 +430,7 @@ def _(CLS, FEAT, M, P, Pfull, W, Y, Yfull, gi, mu_y, names, np, rss, table, qbin
 
 
 @app.cell
-def _(CLS, COMP, FEAT, G, M, P, Pfull, ROOT, RP, W, Y, Yfull, groups, gi, json, mu_y, np, stats, ti, wp_of):
+def _(CLS, COMP, FEAT, G, M, P, Pfull, ROOT, RP, W, Y, Yfull, chg, groups, gi, json, mu_y, np, stats, ti, wp_of):
     more = {}
     # (i) are label changes tied to book events?  since_book==0 (book event on this row) at run start vs inside runs
     _sb = FEAT["since_book"]
@@ -472,6 +472,15 @@ def _(CLS, COMP, FEAT, G, M, P, Pfull, ROOT, RP, W, Y, Yfull, groups, gi, json, 
     more["resid_corr_t0_t1"] = float(np.corrcoef(_res[:, 0], _res[:, 1])[0, 1])
     more["pred_corr_t0_t1"] = float(np.corrcoef(P["student"][:, 0], P["student"][:, 1])[0, 1])
     more["y_corr_t0_t1"] = float(np.corrcoef(Y[:, 0], Y[:, 1])[0, 1])
+    # (iii-b) NON-CAUSAL oracle: replace the prediction by its mean over each label run (bounds within-run jitter)
+    _orc = np.empty_like(P["student"])
+    for _k in range(2):
+        _rid = (np.cumsum(chg[:, :, _k], axis=1) + np.arange(G)[:, None] * 20000)[gi, ti]
+        _u_, _inv2 = np.unique(_rid, return_inverse=True)
+        _sm_ = np.bincount(_inv2, P["student"][:, _k]) / np.bincount(_inv2)
+        _orc[:, _k] = _sm_[_inv2]
+    more["oracle_runmean_wp"] = float(wp_of(_orc).mean())
+    more["oracle_mix_half_wp"] = float(wp_of((_orc + P["student"]) / 2).mean())
     # (v) bank-wide: class-wise best member (stitched) vs best single, exploratory/in-sample
     _bank = [json.loads(_l) for _l in (ROOT / "research/campaign_2026-10-06/bandit_continuation/prediction_bank/BANK_FOLD1.jsonl").read_text().splitlines() if _l.strip()]
     _grade = json.loads((ROOT / "research/campaign_2026-10-06/bandit_continuation/prediction_bank/LATEST_GRADE_FOLD1.json").read_text())["singles"]
@@ -505,6 +514,17 @@ def _(CLS, COMP, FEAT, G, M, P, Pfull, ROOT, RP, W, Y, Yfull, groups, gi, json, 
     for _k in range(4):
         _s = CLS == _k
         _stitch[_s] = _flat[_best_per_class[_k]][_s]
+    _res_s = Y - P["student"]
+    _rho, _gain = [], []
+    for _j, _p in enumerate(_flat):
+        if _names[_j] == "h230_f1_s3_ep3":
+            continue
+        _rj = Y - _p
+        _rho.append(float(np.mean([np.corrcoef(_res_s[:, _k], _rj[:, _k])[0, 1] for _k in range(2)])))
+        _gain.append(float(wp_of((P["student"] + _p) / 2).mean() - (0.6692300927903485 + _wp_single[_j]) / 2))
+    more["bank_pair_resid_rho_range"] = [min(_rho), max(_rho)]
+    more["bank_pair_gain_vs_rho_corr"] = float(np.corrcoef(_rho, _gain)[0, 1])
+    more["bank_pair_gain_range"] = [min(_gain), max(_gain)]
     more["bank_n"] = len(_flat)
     more["bank_best_single_wp"] = float(_wp_single.max())
     more["bank_classwise_best_member"] = [_names[_i] for _i in _best_per_class]
@@ -545,6 +565,13 @@ def _(CLS, FEAT, P, PLOTS, RP, ROOT, SL, W, Y, gi, lead, np, plt, wp_of):
         _p2 = np.stack([_pu + _lam * _pv, -_pu + _lam * _pv], 1).astype(np.float32)
         _shr[str(_lam)] = float(wp_of(_p2).mean())
     ev_["v_shrink_wp"] = _shr
+    _grid = {}
+    for _au in (0.8, 1.0, 1.25, 1.5, 2.0):
+        for _lam in (0.5, 0.75, 1.0):
+            _pu, _pv = _u(P["student"]), _v(P["student"])
+            _p2 = np.stack([_au * _pu + _lam * _pv, -_au * _pu + _lam * _pv], 1).astype(np.float32)
+            _grid[f"u{_au}_v{_lam}"] = float(wp_of(_p2).mean())
+    ev_["uv_scale_grid_wp"] = _grid
     # class descriptors from meta_valid
     with np.load(ROOT / "cache/meta_valid.npz") as _m:
         _mc = _m["market_class"]

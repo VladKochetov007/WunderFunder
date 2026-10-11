@@ -14,7 +14,7 @@ Status: DONE+pos / DONE+null / DONE+neg / RUNNING / QUEUED / PLANNED / NOT-START
 | A7 | weight soup of fine-tunes (R3-2) | DONE+neg | soup2 s11 0.6601 s12 0.6613 < parent |
 | A8 | gated+dropout, dropout, chrono, TCN, LSTM-256, encconv/mlp | DONE null/neg | pass 66,65; DISCORD deep dive table |
 | A9 | lr/batch scaling per optimiser (Muon vs AdamW: b16/b64 sqrt vs linear lr) | QUEUED vast scale_b* | LR_AND_DATA_SCALING_LITERATURE_20261011.md |
-| A10 | data-size scaling and wd ~ 1/N (Wang&Aitchison), 8400-seq arms, wd .0126/.0085 | QUEUED vast data8400_*, data_full_wd85_* | same literature note; fold-1 train 10607 vs all-data ~11.9k |
+| A10 | data-size scaling and wd ~ 1/N (Wang&Aitchison), 8400-seq arms, wd .0126/.0085 | RUNNING | data8400_e3_s3 0.66557 (-0.0004 vs ctrl: data volume weak lever, 1 seed); literature note LR_AND_DATA_SCALING_LITERATURE_20261011.md |
 | A11 | USER: small lr + 20-30 epochs (Muon/AdamW) | QUEUED (H-351) | previous long runs used lr 4e-4..5e-4 (worse); new arms lr 1.5e-4..2.5e-4 e24 |
 ## B. Student / distillation
 | B1 | student chain with teacher families (dsq_t256/t384/none) | DONE | dsq_t256 0.66938, t384 0.66836, none 0.66861 => teacher signal only +0.0008 over plain continuation |
