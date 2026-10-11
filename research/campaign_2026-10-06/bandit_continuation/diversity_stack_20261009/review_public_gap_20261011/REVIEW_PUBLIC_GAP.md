@@ -193,3 +193,20 @@ All fold-1 (exposed), h256 students from the same 3 muon-all h384 teachers, shar
 
 * **On fold 2 four epochs are worse than three (-0.0007) and below the control (-0.0007)**, while on fold 1 four epochs were +0.0015 over three (n=4 vs n=6). Two folds, opposite signs for the 4th epoch; and the muon-all x prop0 recipe gives no fold-2 gain at 3 epochs. The shipped 4-epoch scratch single was therefore doubly fold-1-specific. (n=1 seed on fold 2; folds 0 and 3 pending.)
 * `ood_swn25` = 0.66911 (fold 1) - the fourth OOD variant, again within 0.0005 of the no-teacher/cached-target references (0.66861/0.66938).
+
+## 19. Addendum 20:15 - cross-fold table now has four folds (reviewer re-scored every prediction with the repository scorer; fold 2 matched the owner's grade exactly)
+
+All muon-all x prop0 contrasts use seed 3, 3 epochs unless stated. "Control" = Muon-rnn, prop-power 2, 3 epochs, same fold/seed (fold 1 control from the long-standing ctrl runs, ~0.6660).
+
+| Fold | Candidate (muon-all x prop0, e3) | Control | Delta | e4 candidate | e4 - e3 |
+|---|---|---|---|---|---|
+| 1 | 0.6688 (mean n=6) | ~0.6660 | **+0.0028** | 0.6703 (n=4) | +0.0015 |
+| 2 | 0.70281 | 0.70283 | **-0.00002** | 0.70214 | **-0.0007** |
+| 3 | 0.70865 | 0.70676 (`vt_f3_h256_e3`) | **+0.0019** | - | - |
+| 0 | 0.67948 | n/a locally (muon-all prop2 e3: 0.67901, so prop0 alone +0.0005) | partial | 0.68026 | +0.0008 |
+
+* **Revision of section 16.** The recipe effect is **heterogeneous, not null**: +0.0028 / 0.0000 / +0.0019 on folds 1/2/3 (mean +0.0016 over those three), with fold 1 the largest. Fold 1's value overstates the average by roughly a factor of 1.7 on this sample - consistent with selection on fold 1 but not "purely fold-specific". All single-seed except fold 1; no seed means on folds 0/2/3.
+* **Fold 0 partial contrast (Kaggle `h382r3`, muon-all in all arms):** prop0 vs prop2 at e3 = +0.0005; e4 vs e3 = +0.0008. Fold-0 control with Muon-rnn is not in the local cache, so Muon-all-vs-rnn is not separable there.
+* **4th epoch:** fold 1 +0.0015, fold 0 +0.0008 (prop0 arm), fold 2 -0.0007: mixed, mean about +0.0005 - not established.
+* **Expected consequence for public:** an average recipe gain of ~+0.001-0.002 cannot explain, by itself, a public result 0.005 below the distilled student; the seed-4/e4 pick and fold-1 selection together with scratch-vs-student transfer remain the working explanation (REV-1/REV-5 unchanged), but the recipe is a modest real improvement on three of four folds, not noise.
+* New fold-1 datum: `h391` (h384 student, alpha 0.9, 6 epochs, seed 3) = 0.67024 vs the h256 student 0.67103: a wider student does not help (plateau again).
