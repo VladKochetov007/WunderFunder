@@ -78,6 +78,29 @@ class R4FinalizerTests(unittest.TestCase):
             self.assertFalse(output.exists())
             self.assertFalse(stage.exists())
 
+    def test_nonfinite_or_boolean_quota_headroom_refuses(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="wnn-r4-invalid-quota-test-") as temp_name:
+            temp = Path(temp_name)
+            receipt_path = temp / "root-release.json"
+            packet_bindings = FINALIZER.r3_packet_bindings(R3_PACKET)
+            invalid_values = (float("nan"), float("inf"), float("-inf"), True)
+            for field_name in (
+                "campaign_headroom_gpu_seconds",
+                "provider_headroom_gpu_seconds",
+            ):
+                for value in invalid_values:
+                    with self.subTest(field=field_name, value=value):
+                        receipt = authorized_receipt()
+                        receipt["binding"]["quota_budget"][field_name] = value
+                        receipt_bytes = (json.dumps(receipt, sort_keys=True) + "\n").encode()
+                        receipt_path.write_bytes(receipt_bytes)
+                        with self.assertRaises(FINALIZER.FinalizationError):
+                            FINALIZER.validate_root_release(
+                                receipt_path,
+                                FINALIZER.sha256_bytes(receipt_bytes),
+                                packet_bindings,
+                            )
+
     def test_authorized_shape_reseals_private_copy_only(self) -> None:
         source_archive = R3_PACKET / "bundle_teacher_cohort_r3/bundle.wnn"
         source_gate = R3_PACKET / FINALIZER.R3_GATE_NAME
@@ -101,6 +124,28 @@ class R4FinalizerTests(unittest.TestCase):
             checked = FINALIZER.validate_r4(
                 output, FINALIZER.sha256_bytes(receipt_bytes), R3_PACKET
             )
+            bootstrap_path = output / "bundle_teacher_cohort_r3/kernel/kernel.py"
+            bootstrap_namespace = {
+                "__name__": "r4_generated_bootstrap_test",
+                "__file__": str(bootstrap_path),
+            }
+            exec(
+                compile(
+                    bootstrap_path.read_text(encoding="utf-8"),
+                    str(bootstrap_path),
+                    "exec",
+                ),
+                bootstrap_namespace,
+            )
+            require_headroom = bootstrap_namespace["_require_finite_quota_headroom"]
+            self.assertIsNone(require_headroom(28_800, "integer test"))
+            self.assertIsNone(require_headroom(28_800.0, "float test"))
+            for value in (float("nan"), float("inf"), float("-inf"), True):
+                with (
+                    self.subTest(bootstrap_value=value),
+                    self.assertRaises(PermissionError),
+                ):
+                    require_headroom(value, "test field")
             self.assertEqual(result["status"], "PASS")
             self.assertEqual(checked["worker_spec_count"], 14)
             self.assertEqual(checked["dataset"], FINALIZER.R4_DATASET)
