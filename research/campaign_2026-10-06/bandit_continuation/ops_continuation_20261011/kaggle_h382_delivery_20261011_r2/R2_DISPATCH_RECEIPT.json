@@ -1,0 +1,96 @@
+{
+  "schema": "wnn.kaggle-h382-operator-dispatch.v1",
+  "recorded_at_utc": "2026-10-11T11:56:28Z",
+  "kernel": "vladkochetov07/wnn-kaggle-crossfold-h382-20261011-r2",
+  "provider_kernel_id_no": 138167307,
+  "provider_kernel_version": 1,
+  "packet": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/kaggle_crossfold_H382_r2_20261011/H382_PACKET_R2.json",
+    "sha256": "964a82d9299076344ac62314025d29afa8c2d8dd5788d0189d4c7759a7cb7fcf",
+    "builder_commit": "d00846dd",
+    "bundle_commit": "ecaa23e7",
+    "kernel_sha256": "9ce39a36a4645f9712c55759691cb354d6a9e78db2dda954de71aeba7f8fdbce",
+    "kernel_bytes": 26724,
+    "bundle_sha256": "639725151b75914aa759539e0de1fffd42d2e67baaab477e968bd46305ebe4c3",
+    "bundle_bytes": 355804,
+    "kernel_metadata_sha256": "08e57d21a448e65b623b0161b7b6641c50445313ea99ba0f50f88da16732bb89",
+    "dataset_metadata_sha256": "c9bfae55dedc8b626531c12a85f0f0f9745ae4b327bc2d70cf3ae5edd977b7ed"
+  },
+  "private_dataset": {
+    "slug": "vladkochetov07/wnn-kaggle-crossfold-h382-bundle-20261011-r2",
+    "version": 1,
+    "create_command": "kaggle datasets create -p <short-private-stage>/dataset",
+    "visibility": "private (CLI default; provider response said private Dataset)",
+    "provider_ready": true,
+    "status_current_version_number": 1,
+    "files": [
+      {
+        "name": "bundle.wnn",
+        "bytes": 355804,
+        "sha256_local_and_download_readback": "639725151b75914aa759539e0de1fffd42d2e67baaab477e968bd46305ebe4c3"
+      }
+    ],
+    "readback_sha256_verified": "639725151b75914aa759539e0de1fffd42d2e67baaab477e968bd46305ebe4c3",
+    "ready_and_hash_readback_confirmed_before_kernel_push": true
+  },
+  "quota_and_root_admission": {
+    "fresh_sdk_snapshot_at_utc": "2026-10-11T11:54:52+00:00",
+    "source": "poll_provider.py read-only Kaggle SDK quota/status call; exact machine-readable snapshot preserved beside this receipt",
+    "provider_gpu_used_seconds": 54257.415,
+    "provider_gpu_reserved_seconds": 0.0,
+    "provider_gpu_total_seconds": 108000.0,
+    "campaign_used_seconds": 17210.094,
+    "campaign_cap_seconds": 56780.516,
+    "campaign_headroom_seconds_before_r2": 39570.422,
+    "h382_root_authorized_maximum": {
+      "wall_seconds": 14400,
+      "simultaneous_t4_devices": 2,
+      "maximum_gpu_seconds": 28800,
+      "startup_reserve_seconds": 1000
+    },
+    "campaign_headroom_after_full_authorized_reserve_seconds": 9770.422,
+    "r1_charge_is_in_current_campaign_snapshot": true,
+    "provider_quota_refresh_utc": "2026-10-17T00:00:00"
+  },
+  "pre_dispatch_validation": {
+    "packet_validator": "pass",
+    "actual_v6_producer_array_and_sidecar": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/kaggle_long_20261010/output_v6/out/pred_kg_mu256_prop0_s5_valid.npy",
+      "prediction_sha256": "6f3e8fa1e03c5d12e223ec8b4c47da2c84df5f4ebe5f91169766211d9d7ce323",
+      "sidecar_sha256": "dd39d2f2c2d7dbe88019101f4c26b04af354f4a15ce42df6da04e7666ee10bf7",
+      "shape": [1873, 20000, 2],
+      "bytes": 299680128
+    },
+    "py_compile": "pass for builder, validator, generated worker, and worker template",
+    "staging": {
+      "physical_short_path": "/tmp/h3r2-XHrRB2",
+      "tree_mode": "0700",
+      "upload_file_count": 4,
+      "only_frozen_kernel_source_and_metadata_plus_dataset_bundle_and_metadata": true,
+      "all_staged_hashes_match_packet": true
+    },
+    "new_slug_owner_inventory_absence_before_create": true,
+    "new_kernel_slug_owner_inventory_absence_before_push": true
+  },
+  "dispatch": {
+    "kaggle_cli": "2.2.4",
+    "command": "kaggle kernels push -p <short-private-stage>/kernel --timeout 14400 --accelerator NvidiaTeslaT4",
+    "push_count": 1,
+    "provider_response": "Kernel version 1 successfully pushed",
+    "explicit_accelerator_requested": "NvidiaTeslaT4",
+    "remote_metadata_readback_machine_shape": "NvidiaTeslaT4",
+    "remote_metadata_readback_sha256": "2f71af18a615cff0656aa086bd5100fe03fa80f234b866e97aaa5eabc4af0f6f",
+    "remote_kernel_source_sha256": "9ce39a36a4645f9712c55759691cb354d6a9e78db2dda954de71aeba7f8fdbce",
+    "initial_status_observed_at_utc": "2026-10-11T11:55:35+00:00",
+    "initial_provider_status": "KernelWorkerStatus.QUEUED",
+    "worker_startup_observed": false,
+    "device_count_observed": false,
+    "fit_started": false
+  },
+  "terminal_owner": {
+    "owner": "H382 cloud-operator task / batch_packet_builder",
+    "next_action": "Poll the exact R2 kernel until worker startup; obtain actual output phase receipt and device gate result, then collect logs/status/prediction/checkpoint artifacts at terminal status.",
+    "handoff_condition": "Commit the complete terminal output and provider/accounting receipt; root integrates and grades."
+  },
+  "scope": "One private H382 R2 corrected delivery attempt. No local fit, public competition submission, or unrelated provider job."
+}
