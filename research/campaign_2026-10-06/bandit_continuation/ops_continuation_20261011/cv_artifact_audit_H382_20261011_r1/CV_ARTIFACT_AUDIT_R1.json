@@ -1,0 +1,141 @@
+{
+  "schema": "wnn.crossfold-existing-artifact-audit.v1",
+  "observed_utc": "2026-10-11T12:56:36Z",
+  "scope": "Read-only inventory for the authorized H382 crossfold effort; no training, grading, Vast queue edit, or provider mutation.",
+  "metric": "global_wp_clip2_v1",
+  "source_evidence": {
+    "fold0_recipe_audit": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/FOLD0_EXISTING_RECIPE_AUDIT_R1.json",
+      "sha256": "7e7127d7fdcfa4c798bc7b6b7a4307872f82e256ab72dbc1ca2965e739217646"
+    },
+    "fold0_portable_asset_inventory": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/LR_STUDENT_AND_FOLD0_R1.json",
+      "sha256": "f0f90df57e55acc01fbf23746cd088c698a72a88293d75f4c01057bbf1c4dab7"
+    },
+    "fold2_portable_inputs": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold2.json",
+      "sha256": "abc66f9f0f10511205ec087067690ddfe2d948b6454c79e20d611255000a8d5d",
+      "split_manifest_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+      "shared_source_entries": 6,
+      "binds_fold_propensity_model_and_cache": false
+    },
+    "fold3_portable_inputs": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold3.json",
+      "sha256": "06ceddef670dec39bf3f225d1be2afd4e2421e4298e76124cffc1e60cef2b5f2",
+      "split_manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343",
+      "shared_source_entries": 6,
+      "binds_fold_propensity_model_and_cache": false
+    },
+    "prediction_banks": {
+      "fold0": {"path": "research/campaign_2026-10-06/bandit_continuation/prediction_bank/BANK_FOLD0_VAST.jsonl", "sha256": "371162240fc84dc613bc0d6a1d85628bfa3f72913f85763953233cd4a5c0fbb9"},
+      "fold2": {"path": "research/campaign_2026-10-06/bandit_continuation/prediction_bank/BANK_FOLD2_VAST.jsonl", "sha256": "36320c5ecec54fa2ea241625420f111231485f1954353de54420831c16fac378"},
+      "fold3": {"path": "research/campaign_2026-10-06/bandit_continuation/prediction_bank/BANK_FOLD3_VAST.jsonl", "sha256": "ac93247c1750e2b75a6a96799c597c71bd436a5079740ca3f33ebadd061688b5"},
+      "score_rows_for_listed_runs": 0
+    },
+    "remote_recipe_templates": "research/campaign_2026-10-06/bandit_continuation/vast_teachers_r1/refill_jobs_b/bl_c_f{2,3}_h{256,384}_e3.json"
+  },
+  "existing_runs": [
+    {
+      "name": "vt_f0_prop0_e3_f0",
+      "fold": 0,
+      "recipe": {"hidden": 256, "layers": 2, "seed": 3, "epochs": 3, "selected_epoch": 2, "batch": 32, "chunk": 1000, "optimizer": "muon", "muon_scope": "rnn", "lr": 0.001, "wd": 0.01, "precision": "fp16", "propensity": "c20260929_prop_f0", "prop_power": 0.0, "train_source": "train+valid", "include_heldout_valid": false},
+      "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "fit_membership": {"dataset_length": 11940, "train_count": 10535, "train_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9", "valid_count": 1405, "valid_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"},
+      "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+      "checkpoint_sha256": "16b6cf78734a32e3badeafdddb1ddca09aa874fe200f9206d81281c17a48c52b",
+      "prediction_sha256": "3655864fe56bb46d2f5d21f48d6284bf9e3e33774923fad483b1cff98dd05b6e",
+      "prediction_bytes": 299680128,
+      "score": null,
+      "source_binding": "fold0 recipe audit records model_source_sha256=null; recipe/split/membership/checkpoint/propensity identities are present; not fully trainer-source-qualified"
+    },
+    {
+      "name": "vt_f0_prop2_e3_f0",
+      "fold": 0,
+      "recipe": {"hidden": 256, "layers": 2, "seed": 3, "epochs": 3, "selected_epoch": 2, "batch": 32, "chunk": 1000, "optimizer": "muon", "muon_scope": "rnn", "lr": 0.001, "wd": 0.01, "precision": "fp16", "propensity": "c20260929_prop_f0", "prop_power": 2.0, "train_source": "train+valid", "include_heldout_valid": false},
+      "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "fit_membership": {"dataset_length": 11940, "train_count": 10535, "train_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9", "valid_count": 1405, "valid_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"},
+      "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+      "checkpoint_sha256": "5cfa7e4eef17dcc5ab084d4f31b0018c819ad04354e0069af6483cb1b9a959f3",
+      "prediction_sha256": "d565fbf53f72d6b27b85faebd044ce2a345662b73f224ee6dc3c18df04c28d13",
+      "prediction_bytes": 299680128,
+      "score": null,
+      "source_binding": "fold0 recipe audit records model_source_sha256=null; recipe/split/membership/checkpoint/propensity identities are present; not fully trainer-source-qualified"
+    },
+    {
+      "name": "vt_f2_h256_e3",
+      "fold": 2,
+      "recipe": {"hidden": 256, "layers": 2, "seed": 3, "epochs": 3, "selected_epoch": 2, "batch": 32, "chunk": 1000, "optimizer": "muon", "muon_scope": "rnn", "lr": 0.001, "wd": 0.01, "precision": "fp16", "propensity": "c20260929_prop_f2", "prop_power": 2.0, "train_source": "train+valid", "include_heldout_valid": false},
+      "split_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+      "fit_membership": {"dataset_length": 11965, "train_count": 10535, "valid_count": 1430, "eval_units": 443},
+      "propensity_checkpoint_sha256": "f0b9eb7ba76b66c1710579082f434e66e9f8d3b4ec230d052a0cd466375307d6",
+      "checkpoint_sha256": "5244c2aca964a3d25d8904eb44c60459432e9b79c68a4ae6b65e5b34c3758a59",
+      "prediction_sha256": "e8e6304af7e383b2922b63a14b0a38e5b5969c98a13171003b7ed2fb24d63b85",
+      "prediction_bytes": 299680128,
+      "score": null,
+      "source_binding": "recipe template, split, fit groups, propensity checkpoint, model checkpoint and prediction sidecar were inspected; trainer/model source hashes unavailable in local audit artifacts"
+    },
+    {
+      "name": "vt_f2_h384_e3",
+      "fold": 2,
+      "recipe": {"hidden": 384, "layers": 2, "seed": 3, "epochs": 3, "selected_epoch": 2, "batch": 32, "chunk": 1000, "optimizer": "muon", "muon_scope": "rnn", "lr": 0.001, "wd": 0.01, "precision": "fp16", "propensity": "c20260929_prop_f2", "prop_power": 2.0, "train_source": "train+valid", "include_heldout_valid": false},
+      "split_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+      "fit_membership": {"dataset_length": 11965, "train_count": 10535, "valid_count": 1430, "eval_units": 443},
+      "propensity_checkpoint_sha256": "f0b9eb7ba76b66c1710579082f434e66e9f8d3b4ec230d052a0cd466375307d6",
+      "checkpoint_sha256": "9c7ad43b22631fc5491999648482bc5a21c86a3428ac8bc885640d3cb1a3f95a",
+      "prediction_sha256": "564a90a6d5c0c6a00b036f7f64f52d747cc55a349da704c0291afc643efc02b6",
+      "prediction_bytes": 299680128,
+      "score": null,
+      "source_binding": "recipe template, split, fit groups, propensity checkpoint, model checkpoint and prediction sidecar were inspected; trainer/model source hashes unavailable in local audit artifacts"
+    },
+    {
+      "name": "vt_f3_h256_e3",
+      "fold": 3,
+      "recipe": {"hidden": 256, "layers": 2, "seed": 3, "epochs": 3, "selected_epoch": 2, "batch": 32, "chunk": 1000, "optimizer": "muon", "muon_scope": "rnn", "lr": 0.001, "wd": 0.01, "precision": "fp16", "propensity": "c20260929_prop_f3", "prop_power": 2.0, "train_source": "train+valid", "include_heldout_valid": false},
+      "split_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343",
+      "fit_membership": {"dataset_length": 11907, "train_count": 10539, "valid_count": 1368, "eval_units": 505},
+      "propensity_checkpoint_sha256": "8898ef3d31533058c354a16d00632b7c7adca461eaa813f0bed1f59a1fef59b8",
+      "checkpoint_sha256": "527018252b98358e6e93533adff3c29614681c2ad4991c5068da1fbb4ef9d1d3",
+      "prediction_sha256": "829675ef4476a49059e6d4c23277a8c69344e899a8c19135e00b8dbb699c4c25",
+      "prediction_bytes": 299680128,
+      "score": null,
+      "source_binding": "recipe template, split, fit groups, propensity checkpoint, model checkpoint and prediction sidecar were inspected; trainer/model source hashes unavailable in local audit artifacts"
+    },
+    {
+      "name": "vt_f3_h384_e3",
+      "fold": 3,
+      "recipe": {"hidden": 384, "layers": 2, "seed": 3, "epochs": 3, "selected_epoch": 2, "batch": 32, "chunk": 1000, "optimizer": "muon", "muon_scope": "rnn", "lr": 0.001, "wd": 0.01, "precision": "fp16", "propensity": "c20260929_prop_f3", "prop_power": 2.0, "train_source": "train+valid", "include_heldout_valid": false},
+      "split_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343",
+      "fit_membership": {"dataset_length": 11907, "train_count": 10539, "valid_count": 1368, "eval_units": 505},
+      "propensity_checkpoint_sha256": "8898ef3d31533058c354a16d00632b7c7adca461eaa813f0bed1f59a1fef59b8",
+      "checkpoint_sha256": "29896cddf508e9ceae9ae4db929d4c18985594910fc912be3dea2543f1956202",
+      "prediction_sha256": "351e949ca50f477269f1b02b252895dc4eecc4b419353e6578c5c0a610f3a3d6",
+      "prediction_bytes": 299680128,
+      "score": null,
+      "source_binding": "recipe template, split, fit groups, propensity checkpoint, model checkpoint and prediction sidecar were inspected; trainer/model source hashes unavailable in local audit artifacts"
+    }
+  ],
+  "fold1_only_evidence": {
+    "teachers": [
+      {"name": "vt_f1_muonall_h384_e3", "seed": 3, "selected_epoch": 2, "checkpoint_sha256": "9c7d5e55fde7112dc691c80670fb17b62f24b9d759d2c90312a9ec89334843c6"},
+      {"name": "vt_f1_muonall_h384_e3_s4", "seed": 4, "selected_epoch": 2, "checkpoint_sha256": "752f462036a8e340db00de98dcb141795f3a0ae54cfffce3e95ce7ceed7f5e9e"},
+      {"name": "vt_f1_muonall_h384_e3_s5", "seed": 5, "selected_epoch": 2, "checkpoint_sha256": "ee154f035720069ef26bf0fd328c61887cdbb426c49d51fb25172e5bb52b1f80"}
+    ],
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "muon_scope": "all",
+    "propensity": "c20260929_prop_f1",
+    "student": {"name": "vt_f1_dsq_dm_t3_a9_e6", "selected_epoch": 5, "alpha": 0.9, "metric": 0.6710314729704142, "exposure": "fold1 exposed; conditional on fold1 teacher/parent ancestry"},
+    "cannot_parent_folds_0_2_3": true
+  },
+  "crossfold_gaps": [
+    "No fold2 or fold3 Muon-all + prop0 h256 e3/e4 runs found; the existing fold2/3 Muon scope is rnn, prop_power=2, e3 only.",
+    "No fold2/3 h384 Muon-all T3 teacher triplet or alpha=.9/e6 student lineage found; fold1 ancestry is not valid crossfold ancestry.",
+    "Fold2/3 portable manifests bind shared chains, targets and raw parquet identities but omit fold-specific propensity checkpoints/caches; stage complete fold-specific assets before new fits.",
+    "Existing fold0/2/3 listed predictions have no official metric score in their prediction banks; grade before using them as controls. Missing grades are not negative scientific evidence.",
+    "For historical Vast fold2/3 controls, trainer/model source closure is incomplete in locally persisted audit artifacts; treat them as recipe/data/checkpoint identified, not completely source-qualified.",
+    "All listed fold predictions are exposed validation; none supports a fresh holdout claim."
+  ],
+  "next_requested_tests": [
+    "Four fresh-scratch fold-specific Muon-all h256 seed3 runs: fold2 and fold3, each 3 and 4 epochs; fixed checkpoint ep2 and ep3 respectively.",
+    "Use each fold's own propensity model/cache, current v6-own trainer snapshot, B32/chunk1000, lr=.001/wd=.01, fp16, no init/teacher, no early selection."
+  ]
+}
