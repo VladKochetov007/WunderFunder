@@ -233,3 +233,7 @@ Reviewer observations (no new fits; from the receipts):
 4. Packaging hygiene: the owner already retracted a mislabeled FP32 packaging and required Q8 gate rows; package A has an FP32-vs-Q8 official-metric attempt receipt on the fold-1 sibling only - the complete-fold served-endpoint comparison remains the open closing check from section 11.
 
 Recommendation (reviewer, non-binding; user decides uploads): **A first.** Consider a 3-member variant instead of B. Ask the owner for a measured portal-minute estimate for B (callback time per row x 39.4M rows x the 0.616 portal/local factor used earlier: 58.3 s per panel vs 27.0 s for A scales A's ~27 portal-min to ~58).
+
+## 22. Addendum 23:35 - owner's precision grade of the H390 pair agrees with the reviewer's parity check
+
+`submission_selector_20261011_r1/q4_precision_h390_r1/PRECISION_GRADE_REPORT_R1.md`: on the same ten 20,000-row groups the corrected Q8 H390 pair scores 0.76337826 vs 0.76344916 for FP32 (**Q8 - FP32 = -0.0000709**); a Q4-rounded variant loses -0.0018 vs Q8 (smaller ZIP but not a native INT4 package or a speed measurement). This is independent confirmation of section 3 (Q8 serving lossless to ~1e-4 WP on gate sequences) for a second model family; Q4 is not supported as a replacement. The complete-fold served-endpoint check remains open but the evidence now spans three packages.
