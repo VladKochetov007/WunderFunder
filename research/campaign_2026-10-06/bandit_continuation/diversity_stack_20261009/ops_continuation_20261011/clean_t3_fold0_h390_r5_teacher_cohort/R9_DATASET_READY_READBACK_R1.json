@@ -1,0 +1,94 @@
+{
+  "create": {
+    "command": [
+      "kaggle",
+      "datasets",
+      "create",
+      "-p",
+      "/tmp/wnn-t3f0-r5-u4/dataset",
+      "-r",
+      "skip"
+    ],
+    "exit_code": 0,
+    "log_path": "R9_OPERATOR_EVIDENCE_R1/dataset_create.log",
+    "output_log_sha256": "d291f7d821dc422de3b2870a3b2cce50e4b7da8a09e4df2ce3a77d7561791e16",
+    "provider_message": "Your private Dataset is being created."
+  },
+  "evidence_files": {
+    "dataset_create.log": {
+      "bytes": 547,
+      "sha256": "d291f7d821dc422de3b2870a3b2cce50e4b7da8a09e4df2ce3a77d7561791e16"
+    },
+    "dataset_download.log": {
+      "bytes": 385,
+      "sha256": "9775226cd0235041a51729dcd114e6b56fba36598b2b1f0dc7bf7b3c0cbb9763"
+    },
+    "dataset_files.json": {
+      "bytes": 220,
+      "sha256": "e59b71c5d066468fe94e469370d97a79e076eb7593c4d87c704f7949e930ac10"
+    },
+    "dataset_status.json": {
+      "bytes": 48,
+      "sha256": "56f63d893f166f7cf38d5d212a5335798fcfde2198cc01dfaae24bb316aec585"
+    },
+    "quota_targets.json": {
+      "bytes": 895,
+      "sha256": "bb5d5735f72e70ac97906bf95df3f0af1296c0b077f1a335ec03eab745693694"
+    }
+  },
+  "kernel_push": {
+    "attempted": false,
+    "reason": "awaiting fresh quota/session and root logical-reservation receipt"
+  },
+  "observed_utc": "2026-10-11T23:22:15Z",
+  "paid_spending": false,
+  "precreate_guard_path": "R9_PRECREATE_GUARD_R1.json",
+  "precreate_guard_sha256": "5beaba4133ece9dde4a788392a584cf0c8c4c474540b6eccefd27e69a690b183",
+  "ready_readback": {
+    "current_version_number": 1,
+    "download_log_path": "R9_OPERATOR_EVIDENCE_R1/dataset_download.log",
+    "download_log_sha256": "9775226cd0235041a51729dcd114e6b56fba36598b2b1f0dc7bf7b3c0cbb9763",
+    "files": {
+      "bundle-manifest.json": {
+        "bytes": 31114,
+        "sha256": "5fc7423ebb8f8ef3c5c5bb0ec8be35352f3470dd75d99d47cad4180ac663c689"
+      },
+      "bundle.wnn": {
+        "bytes": 246396,
+        "sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549"
+      }
+    },
+    "files_output_log_path": "R9_OPERATOR_EVIDENCE_R1/dataset_files.json",
+    "files_output_log_sha256": "e59b71c5d066468fe94e469370d97a79e076eb7593c4d87c704f7949e930ac10",
+    "readback_archive": {
+      "bytes": 250306,
+      "content_hashes_and_sizes_match_frozen_stage": true,
+      "crc_check": "PASS",
+      "exact_member_set": [
+        "bundle-manifest.json",
+        "bundle.wnn"
+      ],
+      "path": "/tmp/wnn-t3f0-r5-readback-v1/wnn-clean-t3-f0-teachers-20261011-r5.zip",
+      "sha256": "faa0c14b58bf6652793abd570a32d890fe2c5de6112ff06807ac065627eed632"
+    },
+    "status": "ready",
+    "status_command": [
+      "kaggle",
+      "datasets",
+      "status",
+      "--format",
+      "json",
+      "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5"
+    ],
+    "status_output_log_path": "R9_OPERATOR_EVIDENCE_R1/dataset_status.json",
+    "status_output_log_sha256": "56f63d893f166f7cf38d5d212a5335798fcfde2198cc01dfaae24bb316aec585"
+  },
+  "root_dispatch_admission_sha256": "eb6560fa575bd220062ab498f6d7d87dfc26a43244a273a7afeb8fb81cf79036",
+  "schema": "wnn.kaggle.r9.dataset-ready-readback.r1",
+  "status": "READY_VERSION_1_EXACT_FILES_READBACK_PASS",
+  "target": {
+    "dataset": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5",
+    "version": 1,
+    "visibility": "private"
+  }
+}
