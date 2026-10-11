@@ -1,0 +1,75 @@
+{
+  "disposition": {
+    "conditions": [
+      "root binds commit 59ee05f4587478b01451a66f66115249b0969d70 and manifest 799eb10948008ed7c0e415d5328b3d0e440c087d2d92e9259ef49c54c34ef833 in the admission receipt",
+      "root performs fresh aggregate CPU/RAM/VRAM/disk and output-collision checks before launch",
+      "fit launch remains capped at 3 CPU cores and at most one GPU attempt is active",
+      "root verifies required file-cache handoff and that all frozen source and input paths exist at the integrated revision"
+    ],
+    "resource_evidence_limit": "The cited recovery profile records peak RAM 9500770304 bytes and peak VRAM 3570401280 bytes. It is a bounded profile, not a full-fold runtime estimate; it does not replace fresh aggregate admission.",
+    "result": "PASS_WITH_ROOT_ADMISSION_CONDITIONS"
+  },
+  "packet": {
+    "branch": "exp/h382-local-clean-r2-20261011",
+    "commit": "59ee05f4587478b01451a66f66115249b0969d70",
+    "manifest_digest_check": "PASS",
+    "manifest_path": "PACKET_MANIFEST_R2.json",
+    "manifest_sha256": "799eb10948008ed7c0e415d5328b3d0e440c087d2d92e9259ef49c54c34ef833",
+    "manifested_files_checked": 12,
+    "path": "research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r2",
+    "worktree": "/home/vlad/development/wunder/wnn_h382_local_r2_20261011"
+  },
+  "parent": {
+    "input_audit_sha256": "873aefba2a0217571b883867b8056fa28a011cba9a44e4a96a208be604672c49",
+    "parent_source_binding_sha256": "d672e552284e695228af88bf9d2d01488cbdc61abb9d4455ac911a8aae793411",
+    "pin_check": "PASS; R2 references the committed R1 source, inputs, split and propensity assets without changing their identities",
+    "r1_commit": "f73fde7bb4bd07cd4e9ca722afa509f0ba1efd1f",
+    "r1_packet_manifest_sha256": "4fec1d3b87c3761a80b753c2ca7bfad0113a07440740617407b3b03f55a7b2b0",
+    "source_manifest_sha256": "6ad301c43ad2eadd47d88af807b1ee74977052856ed6ddff3211c45c125999d6"
+  },
+  "profile_correction": {
+    "actual_profile_loader_workers": 0,
+    "actual_profile_log_line": "loader workers 0 prefetch 0; params 0.98M; steps 29840",
+    "hash_and_consistency_check": "PASS; local profile attempt, contract and log digests match R2 correction receipt; contract and finished log specify zero workers",
+    "historical_r1_conflict": "R1 input audit value 1 is retained as history. The recovery review explains the first production attempt inherited stale service environment with one worker and explicitly distinguishes it from the bounded zero-worker profile verified by the contract and finished log.",
+    "profile_attempt_sha256": "40b0b84209fa9afd2af1c0407c8533f9a9eac453c329425a4cc3143fd9ac5017",
+    "profile_contract_sha256": "4d05005f0bc5952c425fa13e27845c8c6fd5eac7243c101c5492cc0019f468b3",
+    "profile_log_sha256": "661d1fbd96f14c85823ce61ebe31747f7e323e3667df0c4783a8658151c50bc8",
+    "profile_review_sha256": "98d9ef42a6fd9b0f74b40446474b6a34e66fda866866d4905453b88f0a507f49",
+    "r1_packet_value": 1,
+    "r2_contract_and_command_value": 0,
+    "setting": "WNN_LOADER_WORKERS"
+  },
+  "recipe_and_commands": {
+    "argv_comparison": "PASS; after normalizing WNN_LOADER_WORKERS=1 to 0, all four fit and four export argv vectors match R1; scientific arguments and source/data/provenance digests are unchanged",
+    "attempt_ids": "new R2 attempt IDs; R1 attempts remain preserved",
+    "checkpoints": {
+      "3_epoch_schedule": 2,
+      "4_epoch_schedule": 3
+    },
+    "contracts_compared": 8,
+    "export_resource_contract": {
+      "cpus": 2,
+      "reserve_bytes": 6500000000
+    },
+    "export_timeout_seconds": 1800,
+    "exports": 4,
+    "fit_resource_contract": {
+      "cpus": 3,
+      "reserve_bytes": 10500000000
+    },
+    "fit_timeout_seconds": 4800,
+    "fits": 4,
+    "sequence": "PASS; fit then fixed-checkpoint export per arm, one GPU attempt at a time via the existing lock",
+    "sequence_manifest_binding": "packet_manifest_sha256_pending is null by design; root admission receipt must bind the exact R2 commit and manifest SHA"
+  },
+  "reviewed_utc": "2026-10-11T13:47:38Z",
+  "reviewer_role": "independent read-only packet audit; no fits, exports, queue changes, or admission",
+  "schema": "wnn.h382-local-clean-crossfold-independent-review.v1",
+  "scientific_interpretation": {
+    "exposure": "folds 2 and 3 were previously inspected in this campaign; their results are not fresh global holdouts",
+    "score_claim": "none; this review reports packet integrity and recipe execution fidelity, not a result or public forecast",
+    "selection_control_correction": "README correctly names fixed-epoch fold-1 references e3=0.66897 and e4=0.66976; H380 epoch-5 tail=0.66885 is contextual only and not a matched fixed-epoch control",
+    "status": "crossfold confirmation packet only; no R2 fit or export has launched"
+  }
+}
