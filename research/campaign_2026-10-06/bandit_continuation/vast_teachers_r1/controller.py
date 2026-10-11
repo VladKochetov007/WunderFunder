@@ -1264,20 +1264,23 @@ def cmd_tick(args: argparse.Namespace) -> None:
     if remote_quiet:
         collection_ok, collection_state = _collection_status(receipt())
         if not collection_ok:
-            try:
-                cmd_collect(args)
-            except SystemExit as error:
-                collection_state = f"collection_required: {str(error)[:240]}"
+            if getattr(args, "no_auto_collect", False):
+                collection_state = f"auto-collection disabled: {collection_state}"
             else:
-                # Collection itself may take long enough for another producer or
-                # admission path to change remote state. Recheck before teardown.
-                info = probe()
-                remote_quiet, collection_state = _remote_quiescence(info)
-                if not remote_quiet:
-                    _invalidate_collection()
-                    collection_state = f"remote changed after collection: {collection_state}"
+                try:
+                    cmd_collect(args)
+                except SystemExit as error:
+                    collection_state = f"collection_required: {str(error)[:240]}"
                 else:
-                    collection_ok, collection_state = _collection_status(receipt())
+                    # Collection itself may take long enough for another producer or
+                    # admission path to change remote state. Recheck before teardown.
+                    info = probe()
+                    remote_quiet, collection_state = _remote_quiescence(info)
+                    if not remote_quiet:
+                        _invalidate_collection()
+                        collection_state = f"remote changed after collection: {collection_state}"
+                    else:
+                        collection_ok, collection_state = _collection_status(receipt())
         collection_required = not collection_ok
     drained = remote_quiet and collection_ok
 
@@ -1350,6 +1353,11 @@ def main() -> int:
             node.add_argument("--dry-run", action="store_true")
         if name == "tick":
             node.add_argument("--no-pull", action="store_true", help="skip result pulls (a separate pull timer does them) so a slow scp cannot block cap/feed/drain")
+            node.add_argument(
+                "--no-auto-collect",
+                action="store_true",
+                help="report missing collection without collecting or destroying",
+            )
             node.add_argument("--cap", type=float, default=5.0, help="stop admitting queued jobs at this spend; running jobs always finish, then the instance is destroyed")
     args = parser.parse_args()
     {"plan": cmd_plan, "create": cmd_create, "start": cmd_start, "status": cmd_status,

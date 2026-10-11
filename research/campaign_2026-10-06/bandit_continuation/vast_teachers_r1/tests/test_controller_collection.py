@@ -589,6 +589,36 @@ def test_tick_stops_idle_refill_then_collects_reprobes_and_destroys(
     assert '"drained": true' in capsys.readouterr().out
 
 
+def test_tick_no_auto_collect_reports_missing_collection_without_teardown(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    _configure_collection(tmp_path, monkeypatch)
+    monkeypatch.setattr(controller, "receipt", lambda: OWNERSHIP)
+    monkeypatch.setattr(controller, "spend", lambda: (1.0, 1.0))
+    monkeypatch.setattr(controller, "probe", lambda: {})
+    monkeypatch.setattr(controller, "_remote_state", lambda _: None)
+    monkeypatch.setattr(controller, "_remote_quiescence", lambda _: (True, "missing"))
+    monkeypatch.setattr(controller, "_collection_status", lambda _: (False, "missing"))
+
+    def unexpected_collect(_: Namespace) -> None:
+        raise AssertionError("automatic collection must be disabled")
+
+    def unexpected_destroy(_: Namespace) -> None:
+        raise AssertionError("an uncollected lane must not be destroyed")
+
+    monkeypatch.setattr(controller, "cmd_collect", unexpected_collect)
+    monkeypatch.setattr(controller, "cmd_destroy", unexpected_destroy)
+
+    controller.cmd_tick(Namespace(no_pull=True, no_auto_collect=True, cap=70.0))
+
+    output = capsys.readouterr().out
+    result = json.loads(output.splitlines()[0])
+    assert result["collection_required"] is True
+    assert result["drained"] is False
+    assert result["collection_status"] == "auto-collection disabled: missing"
+    assert "collection required before teardown" in output
+
+
 def test_create_receipt_drops_api_key_and_unknown_response_fields(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
