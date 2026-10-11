@@ -1,3 +1,15 @@
+## 2026-10-11T22:08:51.128191+00:00 — F0 student graded; teacher admission repair; two ZIPs ready
+
+The own fold-0/seed-3 student CP1 is exported and graded: WP 0.6831418134 vs matched parent 0.6828233414; paired +0.00031847, CI [-0.00132008, +0.00179901], n1 / 468 exposed groups / 141 components. Core crop/HFT is the remaining local stage; review and actual profile precede admission. Kaggle R4 is completely collected, with both distinct-T4 profiles passing; host-memory admission blocked all teacher fits. A minimal diagnosed successor is being prepared. Fresh GPU campaign headroom 30,557.523 seconds; provider headroom 44,729.686 seconds. No scientific negative or new paid authority.
+
+Two reviewed all-data ZIPs are ready; prefer compact student/teacher pair 11 for runtime margin, trio 12 for quality upside with greater portal-time uncertainty. Their final weights have no held-out score. Planning windows in Kyiv October 12: local F0 completion around 02–03; complete old/new comparisons around 05–08 conditional on corrected Kaggle launch; strongest new finals around 08–12 conditional on useful evidence, training and native checks. Q5–Q7/QAT and archived ideas are not all queued and have no common finish ETA. See the latest [loop log](diversity_stack_20261009/LOOP_LOG_20261010.md) for exact receipts and qualified estimates.
+
+## 2026-10-11T21:51:37.091938+00:00 — ready endpoints, actual native evidence, completed student and terminal Kaggle error
+
+Ready: full-data compact H390/H388 Q8 pair and H388 teacher trio with float16 storage, for human upload. Ranking is provisional; final weights have no held-out score. Native 41-sequence / 14-component precision grading is complete; storage loss is 0.0000066413.
+
+Local: old Z4 fold-0 student CP1 is finished and finite. Corrected R5 export, grade, crop and HFT are next; fold-1 reconstruction is prepared but unadmitted. Kaggle: single-T4 profile collected; conditional teacher R4 reported ERROR, with no teacher artifacts observed. Batch operator/root own complete collection and diagnosis; the logical hold remains. Vast is stopped with zero credit. Preserve quality-first complete-pipeline CV and native checks; archived quantization ideas are not running. See [current state](../../../specs/current-state.md) and `diversity_stack_20261009/LOOP_LOG_20261010.md`.
+
 ## 2026-10-11T19:53:45.009559+00:00 — packaging precision preflight caught and corrected
 
 Retract the provisional Q8 label on all three new exploit-now_r1 ZIPs. The obsolete solution_multi wrapper ignored precision.txt and used native FP32 defaults. These ZIPs are withheld and preserved as failed serving attempts; source tensors, CRC and FP32 finite/reset evidence remain valid. This does not imply a serving failure in earlier audited public ZIPs. The new R2 keeps the same model tensors and fixed weights, uses our existing precision-aware solution_native/EnsemblePredictor route, and must assert actual native Q8 selection before release. Its callback/quality/independent gates are pending. R1 runtime numbers belong to FP32 and are not a Q8 capacity estimate.

@@ -147,3 +147,14 @@ Receipt: `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261
 ## G. Complete endpoint precision and blending (2026-10-11T20:50:24.624873+00:00)
 
 Latest user requests mixed precision, Q5–Q7 and quantization-aware fine-tuning. Cards H-QMIX-01..04 and bounded tests are in [MIXED_PRECISION_Q5_Q7_QAT_IDEAS_R1.md](campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/MIXED_PRECISION_Q5_Q7_QAT_IDEAS_R1.md). Selective FP16 transport/Q8 runtime is being implemented; the Q5–Q7, block sensitivity and QAT cards are proposed, not admitted fits. Choose total served blend score/capacity/runtime, retain local/Kaggle clean-fold work, and preserve Q4 wholeendpoint arms.
+
+## 2026-10-11T21:51:37.091938+00:00 — ready endpoints, actual native evidence, completed student and terminal Kaggle error
+
+Selective float16 storage with Q8 runtime is now measured: the same trio loses 0.0000066413 on 41 complete exposed fold-1 groups / 14 components. Independent official-metric recomputation agrees exactly. Half prototype student / half trio adds 0.0008769294 there, but its parent differs from final H390. The small panel favors the pair while full-fold float evidence favors the trio; preserve heterogeneity. Q5–Q7 packing, sensitivity-based mixed bits and matched QAT remain proposed, not queued.
+
+Old Z4 fold-0 student CP1 completed, exit 0: 14,920 attempts = 14,913 updates + seven AMP skips. R4's nested-key consumer bug is not a scientific failure. R5 fixes state/schema/import checks before export/crop/HFT. New clean T3 R4 reported ERROR; its inventory alone does not establish the cause or successful fitting. Complete collection and diagnosis are next. Two serving-reviewed full-data candidates are ready, with more portal-time uncertainty for the trio. Evidence and conditional estimates are in the latest LOOP_LOG entry.
+
+
+## 2026-10-11T22:08:51.128191+00:00 — current delivered stages and quality priority
+
+Student CP1 F0 is exported/graded, WP 0.6831418134, paired parent delta +0.0003184720, n1/468 exposed groups/141 components, conditional interval [-0.00132008,+0.00179901]. Core crop/HFT next; F1 pipeline prepared. Kaggle R4 paired profiles passed; no teacher fit started because of host-memory admission. Complete collected R2 receipts precede logical-hold release; minimal resource repair owned by batch builder. Two reviewed full-data Q8 ZIPs ready now; exact full-data forecasts unquantified. Latest user asks for ETA and explicitly prioritizes quality: complete comparable cross-fold pipelines, useful fixed mixtures and native checks before next strongest final batch. Planning times are conditional, not backlog-wide guarantees. See latest LOOP_LOG entry. No spending/cap/stop changes.

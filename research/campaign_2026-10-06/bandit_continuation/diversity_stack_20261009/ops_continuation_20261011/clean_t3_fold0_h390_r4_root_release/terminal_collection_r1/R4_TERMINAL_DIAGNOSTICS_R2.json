@@ -1,0 +1,229 @@
+{
+  "consumer_verification": {
+    "downloaded_file_count": 108,
+    "inventory_sha256": "03d0885ab7ddc7a6a26079eff3faa66171f5719fd1cef0fd703be06147278cc2",
+    "provider_file_count": 108,
+    "provider_inventory_matches_download": true,
+    "response_log_match": true,
+    "terminal_evidence_complete": true
+  },
+  "downloaded_attempt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r4_root_release/terminal_collection_r1/attempts/attempt_001",
+  "generic_terminal_receipt": {
+    "complete": true,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r4_root_release/terminal_collection_r1/TERMINAL_COLLECTION_RECEIPT_R2.json",
+    "root_admission_sha256": "3eee6881ec10d8d4b18b5769733982aa9baf47fa28e5a10cbed8698a310e546e",
+    "sha256": "833570ab8908a119811bed53a11477ba515db511eb65d55f08de659be61afac0"
+  },
+  "kernel": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r4-runner",
+  "pipeline": {
+    "completed_stages": [
+      {
+        "elapsed_seconds": 648.465749144,
+        "name": "paired_profiles",
+        "returncode": 0,
+        "status": "complete",
+        "workers": [
+          "profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r3",
+          "profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r3"
+        ]
+      }
+    ],
+    "error": "Worker reservation exceeds host operational budget",
+    "error_type": "ValueError",
+    "expected_fit_artifacts_present": [],
+    "expected_prediction_arrays_present": [],
+    "export_stage_started": false,
+    "fit_stage_started": false,
+    "host_preflight_inventory": {
+      "concurrency_admitted": 2,
+      "devices": [
+        {
+          "index": 0,
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0,
+          "uuid": "GPU-dfbcc501-cdac-ddc5-3aaa-463000daf205"
+        },
+        {
+          "index": 1,
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0,
+          "uuid": "GPU-4237eef5-b3e9-d318-7f24-5940dab8e3b5"
+        }
+      ],
+      "host": {
+        "affinity": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "available_bytes": 32154517504,
+        "capacity_bytes": 32212254720,
+        "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+        "versions": {
+          "numpy": "2.1.3",
+          "psutil": "5.9.5",
+          "pyarrow": "23.0.1",
+          "torch": "2.11.0+cu128"
+        }
+      }
+    },
+    "paired_profile_guard": {
+      "device_inventory": [
+        {
+          "index": 0,
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0,
+          "uuid": "GPU-dfbcc501-cdac-ddc5-3aaa-463000daf205"
+        },
+        {
+          "index": 1,
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0,
+          "uuid": "GPU-4237eef5-b3e9-d318-7f24-5940dab8e3b5"
+        }
+      ],
+      "distinct_t4_uuids": [
+        "GPU-4237eef5-b3e9-d318-7f24-5940dab8e3b5",
+        "GPU-dfbcc501-cdac-ddc5-3aaa-463000daf205"
+      ],
+      "fit_release": "still requires embedded root conditional admission; this receipt alone cannot authorize fits",
+      "host_inventory": {
+        "affinity": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "available_bytes": 32154517504,
+        "capacity_bytes": 32212254720,
+        "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+        "versions": {
+          "numpy": "2.1.3",
+          "psutil": "5.9.5",
+          "pyarrow": "23.0.1",
+          "torch": "2.11.0+cu128"
+        }
+      },
+      "initial_host_budget_bytes": 25712066560,
+      "profile_workers": [
+        {
+          "amp_skipped_updates": 0,
+          "completed_batches": 10,
+          "device_uuid": "GPU-dfbcc501-cdac-ddc5-3aaa-463000daf205",
+          "gradient_nonfinite_steps": 0,
+          "name": "profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r3",
+          "optimizer_attempts": 200,
+          "optimizer_completed_updates": 200,
+          "peak_gpu_bytes": 3497000960,
+          "peak_ram_bytes": 4669231104,
+          "profile": {
+            "backward": 1058.13,
+            "forward": 585.55,
+            "gpu_total": 2057.23,
+            "h2d": 0.06,
+            "inputs": 35.09,
+            "labels": 3.57,
+            "loader_wait": 2047.13,
+            "loss": 14.94,
+            "optimizer": 368.43,
+            "seq_per_s": 7.26,
+            "step_wall": 4408.95,
+            "syncs_per_step": 20.6,
+            "weights": 0.91
+          }
+        },
+        {
+          "amp_skipped_updates": 1,
+          "completed_batches": 10,
+          "device_uuid": "GPU-4237eef5-b3e9-d318-7f24-5940dab8e3b5",
+          "gradient_nonfinite_steps": 1,
+          "name": "profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r3",
+          "optimizer_attempts": 200,
+          "optimizer_completed_updates": 199,
+          "peak_gpu_bytes": 3497000960,
+          "peak_ram_bytes": 4583739392,
+          "profile": {
+            "backward": 1009.31,
+            "forward": 563.06,
+            "gpu_total": 1994.27,
+            "h2d": 0.08,
+            "inputs": 35.08,
+            "labels": 3.6,
+            "loader_wait": 2169.15,
+            "loss": 14.16,
+            "optimizer": 353.05,
+            "seq_per_s": 7.12,
+            "step_wall": 4496.92,
+            "syncs_per_step": 20.6,
+            "weights": 0.91
+          }
+        }
+      ],
+      "runner_concurrency": 2,
+      "schema": "wnn.kaggle.paired_t4_profile_guard_receipt.r1",
+      "status": "pass",
+      "sum_worker_peak_ram_bytes": 9252970496
+    },
+    "pipeline_sha256": "1d548128a590752935dcefbcc901dd92f1a58e1602460208eb53db23981f873a",
+    "profile_guard_sha256": "c48dd1a03fc1dbfed8db730fbef8e63b45cf649b85506a67da27089f7b56a39e",
+    "profile_preflight_sha256": "701e00c8354ef8f7330e0bddb093b3b0f4b7539e8cff26af4b6a66bd75a47d92",
+    "runner_stage_summaries": {
+      "paired_profiles": {
+        "finished": [
+          {
+            "name": "profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r3",
+            "returncode": 0,
+            "status": "complete"
+          },
+          {
+            "name": "profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r3",
+            "returncode": 0,
+            "status": "complete"
+          }
+        ],
+        "incident_present": false,
+        "not_started": [],
+        "path": "results/paired_profiles/summary.json",
+        "present": true
+      },
+      "teacher_exports": {
+        "present": false
+      },
+      "teacher_fits": {
+        "present": false
+      }
+    },
+    "status": "blocked_or_failed",
+    "worker_logs_present": [
+      "results/paired_profiles/profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r3/worker.log",
+      "results/paired_profiles/profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r3/worker.log"
+    ]
+  },
+  "r1_collector_sha256": "2de1b1d2bf5b843887220b720839248c868f97cf5d598ef552d6ba1f5983e19e",
+  "r2_collector_source_bindings": {
+    "KAGGLE_FILES_CLI_INTERFACE_R2.json": "c389206f3cb51d8ca242678e1cf97abb3c9aa0b70f1884474dc7a290c1c2229c",
+    "KAGGLE_SESSION_OUTPUT_INTERFACE_R3.json": "6bc5f2b820abf8aa2638be43afbeadb41f28505264adaeae7354bbdbb2f3133d",
+    "collect_profile_r2.py": "15b56f98d0b8ca336ea794142764a3d5a220ef75589e931c06b9dc87184e1da1",
+    "collect_terminal_outputs.py": "c1c65d1d55e46eff446817993cbf0258c321cfefc4bc9e60ab7400022ea9c85f",
+    "kaggle/cli.py": "8ed42fe894ba75631cec80b99bf736e1c69c48799df54ce89457f8d0ae9a7edd",
+    "kaggle/kaggle_api_extended.py": "210e589ab1f7359ffb560aacfe1c003ac1bc844c366f4ff709bf3d13de4d5458",
+    "kagglesdk/kernels_api_service.py": "a7dd65206e7fc27950385e7b163cda48a40766eb8ff7f89d7a334b9bfb151b5c",
+    "poll_provider.py": "aab0e1b0972d46e1c61699f770948d55a797cbedf139f3ff3ab194eac4e518c6"
+  },
+  "repair_reason": "R1 omitted root_admission_sha256 from the generic target after downloads completed",
+  "repair_scope": "receipt_creation_only_same_attempt_no_redownload",
+  "root_admission_collection_dir": null,
+  "root_download_admission_sha256": "3eee6881ec10d8d4b18b5769733982aa9baf47fa28e5a10cbed8698a310e546e",
+  "root_download_inventory_receipt_sha256": "1b834f5e77d6ebd493a93b8e9ae0e2791827078d5b9f3fb05a2f12b21114627b",
+  "root_fit_dispatch_sha256": "0079fed7fdc64bcab31fabdea7c3c2046303604765953ba4dcf6633475b66513",
+  "root_kernel_push_sha256": "098feb7c182723d42fa917e3561d295f2e8d1cc838d0c8ebd1ce39ac7c7030e5",
+  "schema": "wnn.kaggle.r4_terminal_receipt_repair.r2",
+  "scientific_interpretation": "Infrastructure execution failure after paired profiling; no teacher fit or export was started, and the paired profile guard passed. This is not a negative model result.",
+  "status": "terminal_download_complete_science_not_validated",
+  "strict_science_validation": "not_run_terminal_error"
+}

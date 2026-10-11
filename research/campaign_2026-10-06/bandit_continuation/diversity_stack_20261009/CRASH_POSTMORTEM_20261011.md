@@ -154,3 +154,15 @@ The independent reviewer also detected its owned Docker gate containers outside 
 
 Receipt: `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261011_1837_r1/PACKAGING_PRECISION_RETRACTION_R1.json`. Latest package-now scope and healthy research jobs continue; no spending or fitting authority changes.
 
+
+## 2026-10-11T21:51:37.091938+00:00 — preserved consumer failures, no repeated fit
+
+OldZ4 student CP1 fit is complete/finite. R4 exporter validator used absent top-level split_manifest_sha256/exposure although its own frozen contract stores nested pins; focused unit tests missed the actual contract fixture. Independent critic reproduced every sibling lookup and requested actualCP1 fixture/state checks. R5 validator/runner must both bind corrected schema, exact09902 fit trainer, actual imported module ROOT, zero loader, fixedCP1 and finite/matching continuation state; do not fix only standalone gate while invoking R4 again. OriginalR4 preserved, no export started and no scientific negative.
+
+R4 Kaggle conditional paired-profile cohort reached providerERROR with108 output names and no teacher_fit/export/CP names. Complete terminal logs are still pending diagnosis; no blind retry or profile/teacher success claim. New ROOT terminal-download-only receipt bounds collection. Earlier finalizer archive alias failure was caused by a gitignored frozen R3 archive missing in MAIN; original byte-identical232KB archive and correctedR4 archive are now specifically tracked. Private dataset readback's JSON-string assumption failed before dispatch, correctedR2 receipt preserves this; no duplicate create or fit. Exact integer/finite headroom gating now independently reviewed.
+
+## 2026-10-11T22:08:51.128191+00:00 — actual export recovery and collected resource-admission failure
+
+R5 actual student CP1 gate/export passed under the exact09902 producer module; complete NPY/state finite, exit0, no new max/OOM. Original R4 nested-schema consumer failure preserved. Paired grader expected canonical parent cache names while successful earlier export used export-r2 names: recovered with two immutable hash-bound symlink aliases, no refit/re-export. The first scorer failure and new paired receipt remain separate.
+
+R4 Kaggle downloaded all108 provider names with logs/output exit0, then generic receipt creation raised KeyError root_admission_sha256. The actual download-only config lacked the fit-receipt binding expected by the reused consumer. Identified R2 helper reconstructs receipts from the same existing attempt and exact dispatch/download bindings; generic consumer now passes. No redownload, fit or provider mutation. Future consumers must exercise this exact config/actual attempt, not only synthetic tests. Actual science pipeline stopped after successful paired T4 profiles at ValueError Worker reservation exceeds host operational budget. Initial host capacity32.212GB/budget25.712GB and summed measured worker peak9.253GB are recorded; actual post-profile budget/reservations still require diagnosis. Do not claim cache pressure proved or increase limits to clear the error.
