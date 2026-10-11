@@ -1,0 +1,57 @@
+{
+  "distillation_cache_consumer_sha256": "b0b588605b3134a62c7a0c634219030fbcdd820e572668aff6d33980db180740",
+  "parents": [
+    {
+      "architecture": "GRU256x2; n_in=211; student auxiliary output width=23",
+      "arm": "control",
+      "checkpoint_bytes": 3977183,
+      "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "consumer_checks": [
+        "frozen train_rnn.validate_campaign_checkpoint",
+        "frozen train_rnn.make_model with H390 auxiliary output shape",
+        "frozen parent head adaptation and model.load_state_dict"
+      ],
+      "evaluation_groups_excluded": 468,
+      "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+      "run": "c20261003_combo_s3_f0",
+      "source_qualified_evaluation_exclusion": "valid-fit row groups are disjoint from valid evaluation groups; train-source row-group integers are a separate namespace",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "status": "actual_producer_fixture_consumed_pass",
+      "train_fit_groups": 10535,
+      "valid_fit_groups": 1405
+    },
+    {
+      "architecture": "GRU256x2; n_in=211; student auxiliary output width=23",
+      "arm": "treatment",
+      "checkpoint_bytes": 3978087,
+      "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/kaggle_h382_delivery_20261011_r4/provider_output/out/runs/kg_h382r3_f0_muonall_prop0_e4_s3/model_ep3.pt",
+      "checkpoint_sha256": "359d337db09f0f8e306a225b050884741f006190523b2e940d36ef87d35a25be",
+      "consumer_checks": [
+        "frozen train_rnn.validate_campaign_checkpoint",
+        "frozen train_rnn.make_model with H390 auxiliary output shape",
+        "frozen parent head adaptation and model.load_state_dict"
+      ],
+      "evaluation_groups_excluded": 468,
+      "provenance_sha256": "b220b6e822c9e4779d508655c56ecacb4c42399a001a817d30de8fd3bd2610b7",
+      "run": "kg_h382r3_f0_muonall_prop0_e4_s3",
+      "source_qualified_evaluation_exclusion": "valid-fit row groups are disjoint from valid evaluation groups; train-source row-group integers are a separate namespace",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "status": "actual_producer_fixture_consumed_pass",
+      "train_fit_groups": 10535,
+      "valid_fit_groups": 1405
+    }
+  ],
+  "remaining_consumer_gates": [
+    "profile actual T4 memory/time for H384 teachers and H256 resume boundaries",
+    "validate producer-generated teacher prediction sidecars and arrays with cache builder",
+    "validate new six-epoch training_state.pt outputs with exact resume consumer after each real producer stage",
+    "grade final evaluation-only predictions against frozen fold0 evaluation membership"
+  ],
+  "schema": "wnn.cleanfold_t3_f0_actual_producer_preflight.r1",
+  "scope": "CPU checkpoint deserialization, exact fold/source-provenance gates, and real trainer model consumer load; no forward, fit, prediction, provider or queue action",
+  "source_snapshot_manifest_sha256": "fb32325fa1010615c12a45e67e81edfd18141e288c620a5c73664d45beb397ea",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "status": "pass_static_actual_producer_fixtures_only",
+  "train_rnn_consumer_sha256": "ef3f161916d6306dce331e21a06eb9b00583cbb2707725e9d2a05aaddb3f7bdd"
+}
