@@ -86,7 +86,9 @@ Mutable monitoring logs can make a generated catalog stale. Rebuild after meanin
 
 ## Agent roles and invocation
 
-Native subagents currently use **gpt-6-luna, reasoning effort max**. Do not use Sol or Astra unless the user changes this preference. Use isolated branches/worktrees for writers and minimal role-specific context. Keep at most three subordinate roles active; avoid recursive discussion swarms.
+Native subagents currently use **gpt-6-luna, reasoning effort max**.
+
+Dated user exception (2026-10-11): four independent `gpt-6-sol`/medium ideation reviews plus Grok/OpenCode/Freebuff access attempts were explicitly requested and completed/diagnosed in `ideation_exploitation_20261011_r1/INVOCATIONS_R1.json`. This was a bounded ideation round, not standing Sol implementation/review permission. Default remains Luna/max, at most three active subordinate roles; preserve independent first proposals before synthesis. Do not use Sol or Astra unless the user changes this preference. Use isolated branches/worktrees for writers and minimal role-specific context. Keep at most three subordinate roles active; avoid recursive discussion swarms.
 
 The 2026-10-08 user instruction authorized one Astra ideator for LR scheduling, plateau/noise alternatives and combinations (ADR0023); that task completed. The latest user instruction requires explicit confirmation before any further Astra task. Let an already-running Astra task finish; do not spawn or restart an Astra task autonomously. Default native implementation/ideation roles remain Luna/max.
 
