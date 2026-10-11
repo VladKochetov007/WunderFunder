@@ -23,7 +23,7 @@ command is:
 WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 \
 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=720s \
 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited \
-python /home/vlad/development/wunder/wnn_r4_terminal_collector_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_r4_terminal_collection_r1/collect_r4_terminal.py \
+/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_r4_terminal_collector_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_r4_terminal_collection_r1/collect_r4_terminal.py \
 --collect \
 --status-snapshot /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r4_root_release/ROOT_PROVIDER_POLL_R2.json \
 --download-admission /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r4_root_release/ROOT_TERMINAL_DOWNLOAD_ADMISSION_R1.json \
