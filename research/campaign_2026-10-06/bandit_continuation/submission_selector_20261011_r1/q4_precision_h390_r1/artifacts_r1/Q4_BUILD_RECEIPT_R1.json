@@ -1,0 +1,495 @@
+{
+  "interpretation": "Four-bit-grid rowwise weight rounding reconstructed as float32, then passed to the existing Q8 VNNI backend. This is not an INT4 runtime or speed claim.",
+  "member_tensor_audits": [
+    {
+      "member_index": 0,
+      "tensor_records": {
+        "gru.weight_hh_l0": {
+          "changed_elements": 195954,
+          "code_values": [
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "codes_sha256": "532edeb8d3737dce0988eb2c94c25ce3af1fe2df745b30ac3f5633fe3e40b1d1",
+          "dtype": "float32",
+          "elements": 196608,
+          "max_abs_error": 0.073167584836483,
+          "rmse": 0.010412457987940276,
+          "scale_max": 0.14871814846992493,
+          "scale_min": 0.019466372206807137,
+          "scales_sha256": "2685c315967e50ab000e4cec1da935b8372ac63e668bd7b409b423c0a91784ad",
+          "shape": [
+            768,
+            256
+          ],
+          "source_tensor_sha256": "c07bde9a1bbffd77e35d7f00fbc78c38443fd3b29c7a051b6a2c4b0258130e24",
+          "variant_tensor_sha256": "7365c5ed6592f4464ee1019f0cda8eb33ca181356610e16e722ec234b8936c61"
+        },
+        "gru.weight_hh_l1": {
+          "changed_elements": 195924,
+          "code_values": [
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "codes_sha256": "fe492f8b0dc7d6ce690563b5f632d299fcb491ffbb4c8798a8a979c0c0a48c65",
+          "dtype": "float32",
+          "elements": 196608,
+          "max_abs_error": 0.058483559638261795,
+          "rmse": 0.01151438904325993,
+          "scale_max": 0.11704213917255402,
+          "scale_min": 0.016992542892694473,
+          "scales_sha256": "f1072cb7e0b73dfc2e90bee63112716b2ad37c5bfdea9b80303d2ae569d33c6a",
+          "shape": [
+            768,
+            256
+          ],
+          "source_tensor_sha256": "509e7b7cf420129182b8c83e051bff434745f5b85f68d05c1f261c594996120c",
+          "variant_tensor_sha256": "710fe241ca1c77178fd848fd80f78e338ae653aa0397d81717929b754a75deab"
+        },
+        "gru.weight_ih_l0": {
+          "changed_elements": 195939,
+          "code_values": [
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "codes_sha256": "84af9f9ba5238c0c2a1d41bcddd13952d69b12b4e30d1461ae07dc479fcbd501",
+          "dtype": "float32",
+          "elements": 196608,
+          "max_abs_error": 0.05044575780630112,
+          "rmse": 0.00992521009550551,
+          "scale_max": 0.10111017525196075,
+          "scale_min": 0.02138051949441433,
+          "scales_sha256": "ed29dedcef6a4febe9091d1c0dfc8d0cb1d1fe507a0b7e15cbb41897582bbbfa",
+          "shape": [
+            768,
+            256
+          ],
+          "source_tensor_sha256": "122ee83a3aaa6607f10f917743cce4db18d37b10c7c1cb87e022325d82e4e9a7",
+          "variant_tensor_sha256": "202991dda4fd9064ac922a84be13715a7a88c6f8a53e96f9721129a0ae985c2d"
+        },
+        "gru.weight_ih_l1": {
+          "changed_elements": 195907,
+          "code_values": [
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "codes_sha256": "3224ec535ff8d0b214241b1b13098e87b3f1005e1c7199e7bd7e009192b5d663",
+          "dtype": "float32",
+          "elements": 196608,
+          "max_abs_error": 0.10675716400146484,
+          "rmse": 0.012541458364443469,
+          "scale_max": 0.21380706131458282,
+          "scale_min": 0.02010517381131649,
+          "scales_sha256": "597ff7a94b4319723ab64629cb5dcf4c82a247e843deaa0c84b2f372ddb7b29d",
+          "shape": [
+            768,
+            256
+          ],
+          "source_tensor_sha256": "d6dc859c6f9a88b1a25fdd3435a9931f243d7c89a7b6c3e23d45a13d5242c870",
+          "variant_tensor_sha256": "9f52c92012fcda190189679bb87221c11fabd73cb834db47ea7ce9cf906cac9b"
+        },
+        "head.0.weight": {
+          "changed_elements": 130836,
+          "code_values": [
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "codes_sha256": "1429c2ac48282612f801ffe312f774484640513e9c5109b4a2ef3e527fc5bc5f",
+          "dtype": "float32",
+          "elements": 131072,
+          "max_abs_error": 0.13493512570858002,
+          "rmse": 0.0158723796149492,
+          "scale_max": 0.27069416642189026,
+          "scale_min": 0.010709662921726704,
+          "scales_sha256": "0958a54bf96d97e6c7b542477b5331977d02052bfae055deb8f6076a5745236a",
+          "shape": [
+            256,
+            512
+          ],
+          "source_tensor_sha256": "87311a8c26712685efa876ae2e2e6a711a60d3292168efc6a6627d296af74604",
+          "variant_tensor_sha256": "4eb564483cf4524111fb3654649192937a33f2af74a75e930cc2f9fcc114c00d"
+        }
+      },
+      "unchanged_tensor_names": [
+        "gru.bias_hh_l0",
+        "gru.bias_hh_l1",
+        "gru.bias_ih_l0",
+        "gru.bias_ih_l1",
+        "head.0.bias",
+        "head.2.bias",
+        "head.2.weight",
+        "inp.bias",
+        "inp.weight",
+        "mean",
+        "std"
+      ]
+    },
+    {
+      "member_index": 1,
+      "tensor_records": {
+        "gru.weight_hh_l0": {
+          "changed_elements": 195955,
+          "code_values": [
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "codes_sha256": "26f5e161b73606dd378ab2d679eb8005bb84f0f4872fc4d0da9a8b0ffa3e5e43",
+          "dtype": "float32",
+          "elements": 196608,
+          "max_abs_error": 0.06448443233966827,
+          "rmse": 0.010469154186494788,
+          "scale_max": 0.12988421320915222,
+          "scale_min": 0.019700076431035995,
+          "scales_sha256": "8ef0f0c9eb7003a8da5a2e4657298912b7c5c66668ed53150a5dbce1f1f0fae9",
+          "shape": [
+            768,
+            256
+          ],
+          "source_tensor_sha256": "537bf8781e53e2270421a64337cb06f4f837fa106fedc4c09a86cecf80f38268",
+          "variant_tensor_sha256": "0144ce90930bbb503c67e98a40117670a8dbd80d42b7f59a4e7e8e948e43c7af"
+        },
+        "gru.weight_hh_l1": {
+          "changed_elements": 195920,
+          "code_values": [
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "codes_sha256": "1c13920495dfe03b929aad5fc6d233056d4fff81687f7ecda59ff9363dff9dec",
+          "dtype": "float32",
+          "elements": 196608,
+          "max_abs_error": 0.06978203356266022,
+          "rmse": 0.011739173124466238,
+          "scale_max": 0.13961558043956757,
+          "scale_min": 0.017022976651787758,
+          "scales_sha256": "7361b1a1cad56f77dce6d8368f4ad1d2797476db0becc3c6b25ebabbe16ff184",
+          "shape": [
+            768,
+            256
+          ],
+          "source_tensor_sha256": "ccb29a2f29951d7efc97e449acb4571669cc1fa4c229895aede1e1a893633b16",
+          "variant_tensor_sha256": "8a7a593fb039456b411555071e3d4f783e15d824bbd073192b7c3bdbaa3f393c"
+        },
+        "gru.weight_ih_l0": {
+          "changed_elements": 195937,
+          "code_values": [
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "codes_sha256": "85608e81806c2c80f545f57ed64c4dd5dff80c38b441866e9ef7e71e7702be32",
+          "dtype": "float32",
+          "elements": 196608,
+          "max_abs_error": 0.051677312701940536,
+          "rmse": 0.009907142157376682,
+          "scale_max": 0.10343487560749054,
+          "scale_min": 0.01883462443947792,
+          "scales_sha256": "2f391c1a052deab144c5682b2c8dd5b2e4dbe92408771ccb6f4ad543a51a7a0b",
+          "shape": [
+            768,
+            256
+          ],
+          "source_tensor_sha256": "8600e4bd62085a58cd93be7ec7fbe3973601329c23f6bc2d340496a729bd63a6",
+          "variant_tensor_sha256": "ec9aa149a85574dd98a0220d9706619a4d57fb909f189142ce493911af6dbb22"
+        },
+        "gru.weight_ih_l1": {
+          "changed_elements": 195921,
+          "code_values": [
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "codes_sha256": "98d5d2df288c7279d202d940180f7f771dc10241666775754415669f86b635a8",
+          "dtype": "float32",
+          "elements": 196608,
+          "max_abs_error": 0.07931216806173325,
+          "rmse": 0.011776962551344673,
+          "scale_max": 0.15871746838092804,
+          "scale_min": 0.018946992233395576,
+          "scales_sha256": "206eedfbe601b20b689a4d015ef1b7fcc90443104302bd38c4b6f8e0219f3bf1",
+          "shape": [
+            768,
+            256
+          ],
+          "source_tensor_sha256": "1312020fc6ed48b2a18323717b4aaaeb72a98c6724cd79ac38f2e4b0203fe425",
+          "variant_tensor_sha256": "c141161addbea41b33d5606683c7c4535efc83c85fa9044d08c8465df647b86d"
+        },
+        "head.0.weight": {
+          "changed_elements": 130838,
+          "code_values": [
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "codes_sha256": "a648674e2833d0dbc9b535561fb912884293887149954e5790c9f4c5a3b64b14",
+          "dtype": "float32",
+          "elements": 131072,
+          "max_abs_error": 0.14189156889915466,
+          "rmse": 0.01788814951684254,
+          "scale_max": 0.2841416001319885,
+          "scale_min": 0.011230682954192162,
+          "scales_sha256": "f3411b57a8112d752314256f8f89d3afcbe8dd59bcfd19ef7c460352168ed8c7",
+          "shape": [
+            256,
+            512
+          ],
+          "source_tensor_sha256": "e2bf413fb7778cb70bb2ac316231301228efd23196f18bf5600f824a0ce97fa0",
+          "variant_tensor_sha256": "4a33880d850f087b639958defbe17d7b684387f13a481767903d476b09f591ce"
+        }
+      },
+      "unchanged_tensor_names": [
+        "gru.bias_hh_l0",
+        "gru.bias_hh_l1",
+        "gru.bias_ih_l0",
+        "gru.bias_ih_l1",
+        "head.0.bias",
+        "head.2.bias",
+        "head.2.weight",
+        "inp.bias",
+        "inp.weight",
+        "mean",
+        "std"
+      ]
+    }
+  ],
+  "package_entries": [
+    {
+      "path": "avx2/wnn_native.abi3.so",
+      "payload_identical": true,
+      "source_payload_sha256": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+      "variant_payload_sha256": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2"
+    },
+    {
+      "path": "members.json",
+      "payload_identical": true,
+      "source_payload_sha256": "302393e2e311c5dab35a2b4bf72831e4d2f6d72436b3213996ea92997320b4ff",
+      "variant_payload_sha256": "302393e2e311c5dab35a2b4bf72831e4d2f6d72436b3213996ea92997320b4ff"
+    },
+    {
+      "path": "precision.txt",
+      "payload_identical": true,
+      "source_payload_sha256": "14ee38fd31cb3cc62f996a64cb7ddfa69c7bce784386c23890955bab6abc9e52",
+      "variant_payload_sha256": "14ee38fd31cb3cc62f996a64cb7ddfa69c7bce784386c23890955bab6abc9e52"
+    },
+    {
+      "path": "solution.py",
+      "payload_identical": true,
+      "source_payload_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+      "variant_payload_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54"
+    },
+    {
+      "path": "v2/wnn_native.abi3.so",
+      "payload_identical": true,
+      "source_payload_sha256": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+      "variant_payload_sha256": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed"
+    },
+    {
+      "path": "v3/wnn_native.abi3.so",
+      "payload_identical": true,
+      "source_payload_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+      "variant_payload_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+    },
+    {
+      "path": "weights_0.npz",
+      "payload_identical": false,
+      "source_payload_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6",
+      "variant_payload_sha256": "2906b848c129085c3858002612dd732a03c9c1349c4c431d9dc68ddb8b2bc80d"
+    },
+    {
+      "path": "weights_1.npz",
+      "payload_identical": false,
+      "source_payload_sha256": "9f019d54a147296037b1bb2c6ad8b15b87070bde0402ff5426ce9c4804f52eaf",
+      "variant_payload_sha256": "391129c145d0c2e75fe14a18f155cceee7b198e81ba1d3fad12909dc64462503"
+    }
+  ],
+  "quantization": {
+    "levels": [
+      -7,
+      -6,
+      -5,
+      -4,
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "next_backend": "same Q8 VNNI model loader and native inference path as source ZIP",
+    "reconstruction": "float32(code) * float32(row_scale)",
+    "rounding": "numpy.rint round-to-nearest, ties-to-even",
+    "scale": "per output row max(abs(weight))/7, float32",
+    "selected_tensors": [
+      "gru.weight_hh_l0",
+      "gru.weight_hh_l1",
+      "gru.weight_ih_l0",
+      "gru.weight_ih_l1",
+      "head.0.weight"
+    ],
+    "zero_row": "zero codes and zero scale"
+  },
+  "schema": "wnn.q4-rowwise-rounded-q8-backend-build.v1",
+  "source": {
+    "member_manifest": "pkg/members.json",
+    "members": [
+      {
+        "checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+        "source": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+        "weight_npz_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6",
+        "weights": "weights_0.npz"
+      },
+      {
+        "checkpoint_sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+        "source": "vt_all_h390_ds_homogeneous_s4_r3@ep5",
+        "weight_npz_sha256": "9f019d54a147296037b1bb2c6ad8b15b87070bde0402ff5426ce9c4804f52eaf",
+        "weights": "weights_1.npz"
+      }
+    ],
+    "source_zip_bytes": 8556250,
+    "zip_path": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011/submissions/10-11-exploit-now_r2/h390_full_data_pair_q8/submission.zip",
+    "zip_sha256": "3420ea5e6318e15b6340582125959ed7489983b17338f399c748965cb42c4a4a"
+  },
+  "variant": {
+    "codes_bytes": 876092,
+    "codes_path": "q4_codes_and_scales.npz",
+    "codes_sha256": "870e9afe5cc0357838cf3051fb05169335b7bfa6c31d0facf35c78ad45da1c68",
+    "only_changed_package_entries": [
+      "weights_0.npz",
+      "weights_1.npz"
+    ],
+    "zip_bytes": 3357848,
+    "zip_path": "submission_q4rounded_q8backend.zip",
+    "zip_sha256": "d3a6a80a69e3c3ab64b3ed23d99a2367ee32532c87dda5da1e9032fb0e959f58"
+  }
+}
