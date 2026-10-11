@@ -16,11 +16,11 @@ import build_bundle as vb  # noqa: E402
 SNAP = vb.E529 / "h230_source_v6_lead"
 WSD = ["--wsd-decay", "0.25", "--wsd-final", "0.0", "--wsd-shape", "linear"]
 ARMS = {
-    "kg_prop0_s6": {"--epochs": "3", "--checkpoint-epoch": "2", "--prop-power": "0", "--seed": "6"},
-    "kg_prop0_s7": {"--epochs": "3", "--checkpoint-epoch": "2", "--prop-power": "0", "--seed": "7"},
-    "kg_muonall_h384_s6": {"--epochs": "3", "--checkpoint-epoch": "2", "--hidden": "384", "--muon-scope": "all", "--seed": "6"},
-    "kg_hpo52_h384_s6": {"--hidden": "384", "--dropout": "0.04171", "--epochs": "4", "--checkpoint-epoch": "3", "--lr": "0.000993371", "--wd": "0.00352859", "--muon-scope": "hidden", "--sched": "wsd", "--seed": "6",
-                         "+": ["--muon-lr-mult", "0.7037", "--wsd-decay", "0.1419", "--wsd-final", "0.03752", "--wsd-shape", "linear", "--label-weight-power", "1.032", "--label-weight-floor", "0.1819", "--class-weight", "1,1,1,1.192", "--swa-frac", "0.3092"]},
+    "kg_muonall_h384_prop0_s5": {"--epochs": "3", "--checkpoint-epoch": "2", "--hidden": "384", "--muon-scope": "all", "--prop-power": "0", "--seed": "5"},
+    "kg_muonall_h384_prop0lwf_s5": {"--epochs": "3", "--checkpoint-epoch": "2", "--hidden": "384", "--muon-scope": "all", "--prop-power": "0", "--seed": "5",
+                                    "+": ["--label-weight-power", "1.032", "--label-weight-floor", "0.1819", "--class-weight", "1,1,1,1.192"]},
+    "kg_muonall_h384_s7": {"--epochs": "3", "--checkpoint-epoch": "2", "--hidden": "384", "--muon-scope": "all", "--seed": "7"},
+    "kg_muonall_h384_e5_s6": {"--epochs": "5", "--checkpoint-epoch": "4", "--hidden": "384", "--muon-scope": "all", "--seed": "6"},
 }
 
 
