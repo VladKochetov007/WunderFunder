@@ -1,0 +1,51 @@
+{
+  "schema": "wnn.clean_t3_f0_teacher_r4_finalizer_independent_review.v1",
+  "reviewer_role": "independent_code_and_authority_review",
+  "actor_commit": "ed08eb7844af850f016374ff19d89c17a9f1a19f",
+  "actor_worktree": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011",
+  "reviewed_files": {
+    "finalizer_sha256": "01e81b082e446a0973f41a23f0c406aeb0ee4c929d4ea47a7dc56f7ae33b5314",
+    "test_sha256": "faef66aeee3b48991cb8f2a938fa8d656ee13a50026ce11f146e88ce4444d700",
+    "preseal_bindings_sha256": "e5766ff8d4b8d6b7ba21c7bef0ce372c0425e19c33a1ad29dfd6334c9108e26c"
+  },
+  "disposition": "BLOCK_UNTIL_FINITE_QUOTA_HEADROOM_VALIDATION_IS_ADDED",
+  "r3_source_pins": {
+    "archive_sha256": "f6fc9de3b47289bbe7e95dc5cdf446ddd2d4b528ceb6e09cc1437a3f5ce7d2fd",
+    "bundle_manifest_sha256": "11430722c1f5591e1c00d09b6aeff4c556212d63bb6ccc973dadd0a5813a00a0",
+    "bootstrap_sha256": "ca085e79029794b0de92a32780d2a96f215c3c6c724f6164db5bd2e6acb654fa",
+    "gate_sha256": "14644f9feeb9f248dedae2ee2884e68fa394fb9da5aeaf5a23d16aa6b9f12df7",
+    "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa"
+  },
+  "checks": {
+    "expected_receipt_sha_required_and_compared_to_exact_bytes": "PASS",
+    "root_receipt_schema_status_authorized_and_preseal_r3_binding_checked": "PASS",
+    "allowlisted_delta_and_r4_dataset_kernel_id_checked": "PASS",
+    "r3_pending_gate_preserved_as_source_and_output_is_separate_create_only_clone": "PASS",
+    "bootstrap_checks_embedded_receipt_before_external_mounts_and_workers": "PASS_BY_SOURCE_INSPECTION",
+    "source_recipe_job_arguments_inputs_artifacts_limits_and_environment_rechecked": "PASS_BY_SOURCE_INSPECTION_AND_PRIVATE_COPY_TEST",
+    "archive_manifest_bootstrap_receipt_and_short_upload_stage_hashes_revalidated": "PASS_BY_SOURCE_INSPECTION_AND_PRIVATE_COPY_TEST",
+    "no_provider_actions_or_real_root_receipt": true
+  },
+  "focused_test": {
+    "command": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /usr/bin/env WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m unittest research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.ops_continuation_20261011.test_finalize_clean_t3_f0_teacher_r4 -v",
+    "result": "2 passed",
+    "coverage": [
+      "pending/unauthorized synthetic receipt refused before output or stage creation",
+      "authorized-shaped synthetic receipt resealed a private copy, validated its embedded bytes and 14 worker specs, and left source R3 archive/gate hashes unchanged"
+    ],
+    "authority_limit": "The synthetic authorized-shaped fixture is a path test only; it is not evidence of actual root approval, actual 77-file collection identity, or real quota headroom."
+  },
+  "blocking_findings": [
+    {
+      "id": "nonfinite_quota_headroom_can_pass",
+      "severity": "authorization_gate_blocker",
+      "finding": "validate_root_release accepts JSON NaN/Infinity for campaign_headroom_gpu_seconds or provider_headroom_gpu_seconds: Python json.loads accepts these nonstandard values, isinstance(value, (int,float)) passes, and NaN < 28800 is false. The generated bootstrap repeats the same lower-bound-only comparisons. Thus malformed non-finite headroom can satisfy both finalizer and runtime authorization checks.",
+      "minimal_fix": "Reject booleans/non-numbers/non-finite values and require finite numeric headroom >= 28,800 in both finalizer validation and generated bootstrap checks; add private-copy NaN and Infinity refusal tests."
+    }
+  ],
+  "root_owned_preseal_conditions": [
+    "Before invoking the finalizer, root must independently verify that the receipt's 77-file profile-collection digest refers to the actual preserved collection and that its quota/headroom values reflect the current reservation.",
+    "The preseal root receipt is intentionally external to immutable R3 and binds R3 science/spec/profile/input identities; a separate post-seal root admission must bind the final R4 archive, manifest, and bootstrap before any upload or dispatch."
+  ],
+  "scope": "Read-only review and private temporary test execution only. No persistent R4 output was created and no provider/upload/fit actions were taken."
+}
