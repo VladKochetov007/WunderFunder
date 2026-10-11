@@ -107,3 +107,7 @@ F20: ADR0031/top-tieronlyafterexploration and cleanmultifoldranking binding. H38
 ## 2026-10-11T16:43:54.676266+00:00 — landing and exploitation priorities
 
 H391 fixedwide CP5 is complete/finite; root export/grade pending. OOD SWN/SWN25 singles .66882/.66911 and fixedlead pairs .67030/.67034 have no lead improvement on n1 exposedF1, olderweakrecipe only. Exact oldZ4 source/ancestry review passed; six missing cleanfold fits+two crops first diagnostic, no fits admitted yet. Kaggle R4 accepted export-only recovery, no repeated fit. Keep whole finished old/new crossfold comparison and actualQ8 endpoint quality ahead of quantization exploration. Public expectation unquantified; .670+ target retained, no supported forecast yet.
+
+## Controller evidence update — 2026-10-11T17:40:47Z
+
+H382 mixed cross-fold epoch effects are now bound to eight actual source/membership/artifact records; one seed on F0/F2/F3 and exposed panels. Retain F1 distinct e3 n=5, not machine-count n=6. Longer training is not uniformly better: F0/e4 +.00078, F2/e4 about−.0007 versus e3; F3/e4 pending. Prioritize complete old/new clean student pipelines and fixed blend conditional value, not more F1 scratch repeats. No new hypothesis or public forecast from the collector repair. Existing H392/H393/H394 mechanisms remain pending/no-fit as previously registered; no reopening of closed exact arms.

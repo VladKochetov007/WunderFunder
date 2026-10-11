@@ -1,0 +1,74 @@
+{
+  "created_utc": "2026-10-11T17:40:47Z",
+  "scope": "scheduled controller check, existing lane preservation and narrow diagnosed repair",
+  "owner": "root",
+  "controller_commit": "4c4dc173",
+  "actor_commit": "78b1f0bee85d3c065c441871ea9904b8738b1576",
+  "controller_sha256": "fc21f6b078b8a7729c23d805de1cb87b77f192d1dbe2732a20041d552364bbc0",
+  "root_review": "diff and focused regression read independently; actor reports 2 focused tests and ruff passed; actual unit terminal independently observed",
+  "unit": "wnn-vast-tick-lane-b.service",
+  "override_sha256": "083273dcc81c15e121f72675002d07fb5f0e0c11dee706ee452109dcabbe706d",
+  "timer_preserved_active": true,
+  "actual_tick_terminal_utc": "2026-10-11T17:39:22Z",
+  "tick_exit": 0,
+  "tick_wall_seconds": 12.117,
+  "collection_required": true,
+  "drained": false,
+  "diagnosis": {
+    "previous_unknown_cause_retracted": true,
+    "cause": "tick --no-pull still auto-ran cmd_collect at quiescence; cmd_collect invalidated manifest then failed before artifacts due orphan JSON sidecars",
+    "manifest_sha256": "b4e496252c4b28884f37854e4705b2ff4751bafd9cf965317c543a2957cf94c6",
+    "manifest_entries": 2736,
+    "npy_count": 82,
+    "json_count": 171,
+    "unmatched_npy": 0,
+    "unmatched_json": 89,
+    "earlier_verified_prediction_pruning": "NPY pruning left sidecars; infrastructure issue, not scientific failure",
+    "fix": "--no-auto-collect skips only automatic collection when the current collection gate is false; default behavior and verified teardown guards retained",
+    "interrupted_tick": "only diagnosed futile collector stopped; no fit stopped",
+    "remaining": "complete collector receipt and verification still absent; restoration of inventory is not completion"
+  },
+  "paid_rescue": {
+    "instance_id": 55080658,
+    "new_fit": false,
+    "missing_checkpoints": 149,
+    "missing_states": 22,
+    "missing_provenance": 19,
+    "missing_histories": 23,
+    "missing_run_bytes": 1005156905,
+    "prior_intermediate_bytes": 179627904,
+    "gross_transfer_cap_bytes": 1500000000,
+    "priority": "all useful missing checkpoints, provenance/history/source/terminal logs first; optimizer states last",
+    "target_utc": "2026-10-11T18:20:00Z",
+    "estimated_credit_expiry_utc": "2026-10-11T18:34:19Z",
+    "observed_small_file_scp_bytes_per_second": 285869.35,
+    "sustained_archive_rate": "not measured yet; one archive avoids handshakes but is not assumed faster",
+    "bulk_cache_predictions_bytes": 8390000000,
+    "bulk_pull_authorized": false,
+    "h390_cp5_byte_variants": "separate source-qualified paths; identity unresolved, do not overwrite"
+  },
+  "local": {
+    "attempt": "h382-local-clean-f3-s3-e4-fit-r4",
+    "actual_phase": "epoch 2 batch20/372 at 17:39:38Z",
+    "completed_epoch_seconds": [
+      707.5,
+      738.8
+    ],
+    "parent_bytes_at_174047": 14449889280,
+    "gpu_utilization_percent_observed": [
+      81,
+      91
+    ],
+    "gpu_memory_mib": 4204,
+    "fits_restarted": 0,
+    "next": "already reviewed oldZ4 R3 actual-device profile after current fit/export and guarded cache handoff"
+  },
+  "kaggle": {
+    "quota_receipt": "KAGGLE_QUOTA_R1.json",
+    "terminal": "H382 R4 COMPLETE and collected",
+    "new_dispatch": false,
+    "next": "clean same-recipe strong-T3 F0 staged teacher/cache/two student packet; isolated actor sealing and bounded independent review pending"
+  },
+  "public_expectation": null,
+  "planning_baseline_user_reported": 0.6668
+}
