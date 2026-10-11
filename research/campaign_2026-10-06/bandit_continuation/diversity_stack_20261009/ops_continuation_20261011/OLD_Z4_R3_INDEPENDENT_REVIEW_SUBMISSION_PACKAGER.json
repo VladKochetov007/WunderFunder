@@ -1,0 +1,57 @@
+{
+  "schema": "wnn.oldz4-cleanfold-r3-independent-review.v1",
+  "reviewer": "submission_packager",
+  "result": "PASS_STATIC_PACKET_PENDING_ROOT_PROFILE_AND_ADMISSION",
+  "reviewed_actor_commit": "9c20e9f90559ce97a6826dd1745ce47db8eb7d56",
+  "packet_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_cleanfold_successor_20261011_r3",
+  "packet_pins": {
+    "source_snapshot_bindings_r3_sha256": "f0181c3715812eef2582ed1d62879089e35db9c403605a157c1466c9d7beabbf",
+    "input_bindings_r3_sha256": "e34460b7808c83dd18ba243de73184ca644c35ba6bed3c9efef8396b2ab8a440",
+    "profile_contract_r3_sha256": "dd1c1197090e359a16fb2c6d71f8548202c893c65aa11d150fbe2837d3c94ae2",
+    "profile_launch_packet_r3_sha256": "51f19e7253023baea9f2943eaea92c8120facc9f04b3d34f8452a88d235a8286",
+    "queue_plan_r3_sha256": "8254a7b3eefc2e2972e819de8bb7ed5b32ad93bcc79b6542b420118391354cb4",
+    "queue_stage_inventory_r3_sha256": "982626ff250350f30955032d76cd80a5ae549c1b38c7d19d69893d5467c3aaab",
+    "zero_loader_verification_r3_sha256": "3df9a8c6c4b8c3d72cf8a38defbf8b741d61c0a8c78002496e91704fa605fcd6",
+    "r3_reseal_sha256": "6aa8c4b4c9714a3879b3964385a2509f0d227fce4de6a7d6456731dcb52c2f8a",
+    "preserved_r2_source_bindings_sha256": "1bdb3a4fceaff44adb4ba6024c236063747af2e3ff3b2440f8269af7b11268a4"
+  },
+  "previous_review": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/OLD_Z4_SOURCE_FIDELITY_REVIEW_SUBMISSION_PACKAGER_R1.json",
+    "result": "PASS_WITH_NONBLOCKING_CLARIFICATION",
+    "recipe_sha256": "bc7bb99844804def1dacd0c6c2f1afe6f56d008cb1a0fb9d550c4f1a313e58c2"
+  },
+  "findings": [
+    {
+      "severity": "pass",
+      "finding": "R2 had a stale nested source_bindings digest in all 12 fit/export contracts and an inaccurate description of all eight family teachers as H384. R3 preserved R2, corrected the nested digests and dependent bindings, and describes the actual H128/H256/H384 teacher mix. The R3 source-bindings file SHA is f0181c37…abbf and every contract path/digest pair agrees with it.",
+      "evidence": "Independently hashed the referenced R3 JSON files and every contract. The prior R1 fidelity review remains bound to the same frozen recipe and source-method conclusion."
+    },
+    {
+      "severity": "pass",
+      "finding": "All 14 R3 contracts and six sequence plans are internally consistent. The 12 fit/export steps reference a contract and carry exactly its argv; all 14 attempts are unique. The 14 commands match R2 after the documented R3 release IDs/paths are normalized. The profile launch packet's command tail after the controller delimiter is byte-for-byte equal to the profile contract's expected command.",
+      "evidence": "Parsed the sealed JSON and compared all command arrays. Ran the real bandit_resources.py launch --help parser; it accepts the packet's --attempt, --kind, --cpus, --reserve-bytes, --profile, --contract, and --admission-timeout options. No R3 attempt or output path currently exists in runtime/artifacts."
+    },
+    {
+      "severity": "pass",
+      "finding": "The fold-specific split, teacher-cache, and propensity bindings match actual files. Both split manifests and cache metadata hashes match. Each fold's eight cache member files exist with recorded byte sizes; all eight teacher checkpoints per fold match their metadata SHA-256. Propensity model.pt and its provenance hashes match the input bindings, and the prop/cache fit-valid groups exclude the declared outer evaluation groups.",
+      "evidence": "Read-only metadata/file checks for F0 and F1: F0 has 1,405 fit-valid and 468 evaluation groups; F1 has 1,416 fit-valid and 457 evaluation groups. All teacher and propensity artifacts are the own, same-fold sources declared by cache provenance."
+    },
+    {
+      "severity": "pass",
+      "finding": "Trainer, student, crop, HFT, and export sources remain pinned to the previously reviewed scientific recipe. The R3 copied source_snapshots trees compare identical to R2; 53 HFT/crop bound files hash correctly, and both H230 trainer files and their source manifests match their declared hashes. Cached Python bytecode present in the v3/v4/c337 source trees compiles identically to each adjacent pinned .py source. The zero-loader receipt tests the exact resources module paths and records workers/prefetch as (0,0).",
+      "evidence": "Static hashes/source comparison plus bounded bytecode/source equivalence check; no imports that launch training, no CUDA initialization, and no model fitting."
+    },
+    {
+      "severity": "pass",
+      "finding": "The profile is correctly separate from fit authorization: it is one F0 parent B16/C1000 profile with two normalizer batches, one warmup and one timed batch, no checkpoint-save flag, explicit 600-second timeout, and fresh-output checks. The declared aggregate envelope is five CPUs, 18 GB memory-high, 20 GB hard memory, no swap, and under 5 GB observed VRAM; its worker reservation is two CPUs/6.5 GB with a 4.3 GB CUDA cap. No fit/profile/queue/provider action was performed during this review.",
+      "evidence": "Profile contract and launch packet agree and both report launch/fit authorization false. Actual device profile and fresh admission checks remain root-owned."
+    }
+  ],
+  "limitations_and_gates": [
+    "Large cache-array payloads were stat-checked against producer metadata but not fully rehashed in this bounded review; the actual training consumer must validate the recorded member hashes at launch.",
+    "Future parent/student/core/HFT checkpoints and exported predictions do not exist yet, so their producer-to-consumer handoffs remain runtime gates for the root-owned sequence.",
+    "The matched cleanfold T3 control is still unbound; this blocks comparative grading only, not a fit release.",
+    "Fold 0 and fold 1 were previously inspected. Any resulting score is exposed cross-fold robustness evidence, not a fresh holdout or public-score forecast."
+  ],
+  "review_scope": "Read-only static and actual-artifact audit under 50% CPU, one thread, 500 MB memory, and 120-second command bounds. No GPU/profile/fit/provider action, queue mutation, source mutation, score, or budget/grader change."
+}
