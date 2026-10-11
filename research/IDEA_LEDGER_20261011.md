@@ -90,3 +90,16 @@ A17: H378/H380 complete .66891/.66885, fixedhalfstudent .67158/.67157, n1; samep
 F19: OOD-only .66730 / fixedstudentpair .66993, n1. Healthy reviewedmixedOODR2 cohort nowspmixfitting. H388all-datah384seed3/4/5 terminal; H390strictall-data2arraycachebuilt, fitstartadmissionboundedby prepaidexpiry.
 E11: Userauto-topupOFF; livecredit4.70009USD at12:56:37UTC, depletionestimate21:37Kyiv. Targeted6finalCP/provenancepairSCP started; no wholelanequiescentclaim or bulk timer. Prior10–15USDallowance superseded.
 F20: ADR0031/top-tieronlyafterexploration and cleanmultifoldranking binding. H382R3QUEUED12:55, nofittingclaim. Existingfold2/3MuRNNcontrols available, but no matchingMuonallprop0/leadstudent; localfourcleanfoldscratchsuccessors being prepared,notadmitted. Nofold1ancestorleak. Unstarted strictlabel-freeKD remainsproposed.
+
+
+## 2026-10-11T16:12:34.068065+00:00 — independent synthesis and exact old-family recovery
+
+| Item | Status | Evidence / next action |
+|---|---|---|
+| Four Sol-medium + Grok ideation | DONE, not experiments | ideation_exploitation_20261011_r1/SYNTHESIS_R1.md; first proposals independently frozen |
+| OpenCode / Freebuff | ACCESS failures, no ideas | Actual MiMo CLI403 / GLM startup timeout twice, no paid fallback |
+| H392 exact old/new endpoint | Recipe reconstruction concrete | Old Z4 cacheKD+boot+EMA parent missing on F0/F1; reuse caches; six-fit/two-crop same-seed diagnostic preparing |
+| H393 target-specific fixed mixture | PREREGISTERED, NOT RUN | One development-nominated mapping, second component panel; no grid/public selection |
+| H394 prediction scale | PREREGISTERED, NOT RUN | One separate-calibration normalization; label-weighted moments declared fitted labels |
+| H382 F2/e4 | FIT+EXPORT complete, grade pending | Same-seed e3/e4 exact official paired comparison; F3 memory handoff correction underway |
+| H391 | FITTING | Actual ep3 batch320/746 at16:09UTC; no new paid fit, fixedCP5 rescue owned |
