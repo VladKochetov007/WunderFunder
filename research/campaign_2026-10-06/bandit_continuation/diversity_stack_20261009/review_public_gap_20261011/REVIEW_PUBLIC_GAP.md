@@ -237,3 +237,19 @@ Recommendation (reviewer, non-binding; user decides uploads): **A first.** Consi
 ## 22. Addendum 23:35 - owner's precision grade of the H390 pair agrees with the reviewer's parity check
 
 `submission_selector_20261011_r1/q4_precision_h390_r1/PRECISION_GRADE_REPORT_R1.md`: on the same ten 20,000-row groups the corrected Q8 H390 pair scores 0.76337826 vs 0.76344916 for FP32 (**Q8 - FP32 = -0.0000709**); a Q4-rounded variant loses -0.0018 vs Q8 (smaller ZIP but not a native INT4 package or a speed measurement). This is independent confirmation of section 3 (Q8 serving lossless to ~1e-4 WP on gate sequences) for a second model family; Q4 is not supported as a replacement. The complete-fold served-endpoint check remains open but the evidence now spans three packages.
+
+## 23. Addendum 00:40 - portal-time estimates for the FP16-transport packages (`submissions/10-11-exploit-now_r3_fp16transport_q8/`)
+
+Owner's callback panel (loaded, 1 core): existing H388 s4/s5 pair 103-117 us/row; H388 trio 148-149; H388 FP16-transport trio 152-156; H390 student 1/2 + H388 thirds 177-185. ZIPs: trio 13.7 MB (FP16 transport, 45.6% smaller than FP32 25.3 MB, which breaks the 20 MB ceiling), student+trio 15.7 MB.
+
+Calibration from our own public data (`SCORER_CPU_SPEC_20261010.md` / `PUBLIC_SCORES_20261011.md`): portal minutes ~ 0.616 x (QUIET local us/row) x 39.4M rows / 60 s; the earlier public pair measured 113.6 us/row loaded (~68-85 quiet) and took 27 portal-min. Loaded numbers overstate quiet ones by ~1.4-1.6x. Applying the same conversion:
+
+| Package | loaded us/row | ~quiet us/row | est. portal-min typical | at 1.8x portal variance |
+|---|---|---|---|---|
+| H388 s4/s5 pair | 103-117 | 70-80 | 28-32 | 50-58 |
+| H388 trio (FP16 transport) | 152-156 | 100-110 | 40-45 | 72-81 (timeout) |
+| H390 half + H388 thirds (4 members) | 177-185 | 115-125 | 47-51 | 85-92 (timeout) |
+| H390 pair (A, earlier) | ~ pair-class | ~70-80 | ~27-31 | ~49-56 |
+
+* The h384 members are no longer prohibitively slow (about 50 us/row each vs 733 us/row on the old kernel), but a **three-h384 package is at or beyond the limit once portal variance (observed ~1.8x, with two earlier TIMEOUTs at ~62 min) is included**. The 4-member student+trio is worse. Prior public evidence: pairs are safe (27 min), two-model h384 i16 timed out.
+* Fold-1 value of the trio: 0.67254 vs the h256 student 0.67103 (+0.0015, exposed); a package that times out scores nothing. Expected benefit per upload slot is therefore **lower than the H390 student pair at similar quality unless the portal time is confirmed well under ~35 min**. Recommended order unchanged: H390 pair (A) first; use a trio only if the user accepts the timeout risk for one slot, preferably after A's portal duration is known (calibrates the loaded->portal conversion for the current runtime).
