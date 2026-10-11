@@ -1,0 +1,45 @@
+{
+  "schema": "wnn.independent_native_panel_code_review.r1",
+  "review_id": "native_f1_precision_panel_r1_code_review_20261012",
+  "reviewer_role": "independent_critic",
+  "verdict": "PASS_WITH_QUALIFICATIONS",
+  "scope": "Static code and manifest review only. No model inference, candidate grade, or public-score estimate was produced by this review.",
+  "source_directory": "/home/vlad/development/wunder/wnn_native_f1_precision_panel_20261011_r1/research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/native_f1_precision_panel_r1",
+  "pins": {
+    "runner_sha256": "9c56920402ada7a4e3c00b8ddd24a5c88397eb9feb73a4cf02d86009ccc3e556",
+    "grader_sha256": "deb018311ff7d7f3bdee6eb6d7a7929d378f4cc2004136d4edc16abe46ed047a",
+    "candidate_catalog_r3_sha256": "c2a0dd18526f98e23bce64937336125fc12be6680c8640815879d8f64d5c6105",
+    "feature_panel_manifest_sha256": "733c7368506b42e7893f37dc07e5841e1c4d152faa03d7a0c5405454a85ba109",
+    "selection_reference_sha256": "4d68036453ca83545efc35be66936ab4f9f821502d2036b8d3b41f28fd194e4f",
+    "feature_fixture_sha256": "e44fd415caf13d60a09f572c12bd7e94292b6d56234ab53a8880f43e155f83a2",
+    "fold1_split_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+  },
+  "panel_contract": {
+    "candidate_count": 4,
+    "complete_sequences_per_candidate": 41,
+    "rows_per_sequence": 20000,
+    "native_callbacks_per_candidate": 820000,
+    "native_callbacks_across_four_candidates": 3280000,
+    "components": 14,
+    "selection_seed": 572911,
+    "exposure": "Historically exposed fold1 subset; the 41 groups are within the prior 457-group fold1 evaluation pool. This is serving/discovery evidence, not fresh CV confirmation.",
+    "feature_fixture_bytes": 86429639,
+    "feature_fixture_content": "Feature-only parquet; the inference runner asserts absence of labels and is_scored and validates per-sequence feature/need_prediction digests against the frozen manifest."
+  },
+  "checks": {
+    "package_identity": "Runner binds ZIP hash and exact member hashes to each build receipt, pins native library SHA ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e, checks solution source binding, actual loaded precision q8vnni, imported library path, and active native member count.",
+    "callback_contract": "Runner processes each full sequence in causal order, checks warmup callbacks return None, and rejects wrong-shape or non-finite predictions; output panel is shape/dtype/finite checked and written without overwriting prior outputs.",
+    "official_metric": "Grader uses global_wp_clip2_v1 with mask need_prediction AND is_scored, clipping at +/-2, absolute clipped-target magnitude weights, pooled weighted Pearson per target, then equal-mean target aggregation. It validates selected fold1 evaluation membership and split/sequence/component mapping.",
+    "bounded_review": "Static reads and SHA-256 of small code/manifests only. No inference or large binary rehash performed by this reviewer."
+  },
+  "qualifications": [
+    "The runner performs one pass through each full sequence. It does not explicitly rerun the same sequences to assert bitwise reset replay; do not claim repeated-reset evidence from this panel.",
+    "The full valid.parquet SHA-256 is not recorded by the grader. It records path, size, and mtime and verifies selected row-group identities/masks against the fold1 split and feature manifest. Preserve this source-identity limitation in the grade interpretation.",
+    "A panel grade is exposed fold1 discovery evidence only; it does not establish a held-out result or public leaderboard score."
+  ],
+  "reviewer_actions": {
+    "provider_actions": 0,
+    "inference_runs": 0,
+    "grade_runs": 0
+  }
+}
