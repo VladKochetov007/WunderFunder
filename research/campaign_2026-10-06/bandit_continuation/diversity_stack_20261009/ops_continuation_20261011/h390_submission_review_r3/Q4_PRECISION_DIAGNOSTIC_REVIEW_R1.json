@@ -1,0 +1,101 @@
+{
+  "schema": "wnn.independent-q4-precision-diagnostic-review.v1",
+  "review_revision": "R1",
+  "review_status": "PASS_BOUNDED_PRECISION_DIAGNOSTIC",
+  "review_scope": "Static and receipt/hash audit of the bounded Q4-grid-vs-Q8 H390 prediction diagnostic; no full prediction regrade, fit, upload, provider operation, or package mutation.",
+  "reviewer_worktree": "/home/vlad/development/wunder/wnn-agent-worktrees/submission-candidates",
+  "reviewer_base_commit": "f5cd8653773f1ef59ca1617ff1590d4d0f46e1fc",
+  "inputs": {
+    "selector_worktree": "/home/vlad/development/wunder/wnn_submission_selector_20261011_r1",
+    "q4_build_script": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/q4_precision_h390_r1/build_q4_variant.py",
+      "sha256": "e85bf891d3f5c38f62c58201f1debd31c4437abea37f63d07d4da69852c02471"
+    },
+    "q4_grade_script": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/q4_precision_h390_r1/grade_q4_variant.py",
+      "sha256": "8823ff5a89b9be6e8f6d3367b663f83a2980144dece9f88029639f1d562e6c38"
+    },
+    "metric_source": {
+      "path": "src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "q4_build_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/q4_precision_h390_r1/artifacts_r1/Q4_BUILD_RECEIPT_R1.json",
+      "sha256": "f6a04c25ad9548833b65ad322ccee06a4b158759d9f068ba52a28de0b21e6154"
+    },
+    "q4_grade_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/q4_precision_h390_r1/artifacts_r1/grade_r1/Q4_GRADE_RECEIPT_R1.json",
+      "sha256": "2751abfc7a68c33895be0a32d2da37bbc229dbd4de61c4bc9c71330f79a8f479"
+    }
+  },
+  "artifact_binding": {
+    "source_candidate": "h390_full_data_pair_q8",
+    "source_zip_sha256": "3420ea5e6318e15b6340582125959ed7489983b17338f399c748965cb42c4a4a",
+    "source_build_receipt_sha256": "288f0222cfb326c318f8ea990fa0840d34b8d911f873cdf84fede7b892092578",
+    "source_callback_receipt_sha256": "489acfce54cbd0cd95c21a982f8d93b12185d7affd8b5626d08c24fc4917ce20",
+    "source_q8_prediction_sha256": "682376c1f056efcd4a011d5e5edd5b3de585f1337e5f93313c3f1bf89a2e04c5",
+    "source_runtime_binding_sha256": "0b21f49c68afcff429d5e5ade6b9aeef1c7f5e635e506c88d6bc8ee21069cc8d",
+    "q4_variant_zip_sha256": "d3a6a80a69e3c3ab64b3ed23d99a2367ee32532c87dda5da1e9032fb0e959f58",
+    "q4_variant_zip_bytes": 3357848,
+    "q4_prediction_sha256": "f7ecba6a32a5e5cc7c66105f67f2cff3a41e91af9c4e395735aec459bd2b997d",
+    "q4_prediction_shape_dtype_finite": [
+      10,
+      20000,
+      2,
+      "float32",
+      true
+    ],
+    "q8_prediction_shape_dtype_finite": [
+      10,
+      20000,
+      2,
+      "float32",
+      true
+    ],
+    "native_v3_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+    "runtime_precision": "q8vnni",
+    "runtime_members": 2,
+    "sequence_ids": [
+      256678,
+      751005,
+      1200028,
+      1892371,
+      1990332,
+      2308749,
+      4490992,
+      6746551,
+      8348957,
+      9147005
+    ]
+  },
+  "checks": {
+    "hashes": "PASS: the local Q4 ZIP, Q4 prediction array, Q8 source ZIP, callback receipt, Q8 prediction array, Q4 build receipt, and Q4 grade receipt match their pinned SHA-256 values.",
+    "zip_integrity": "PASS: `unzip -tq` reported no errors for the Q4 variant archive.",
+    "precision_path": "PASS: Q4 grading code explicitly constructs the same native EnsemblePredictor with precision='q8vnni' and checks model.precision == 'q8vnni' plus active_members == 2. The underlying Q8 callback receipt binds the exact source ZIP, native library, prediction array, and panel; its actual startup line reports precision=q8vnni. This is not an INT4 runtime.",
+    "metric_and_mask": "PASS: the grader calls the pinned GlobalAccumulator from src/wnn/gmetric.py (official metric global_wp_clip2_v1), uses need_prediction AND is_scored, and applies target clipping to [-2,2] with absolute clipped-target weights. It rejects any selected row in the first 99 warmup positions and checks sequence IDs and panel need-mask identity.",
+    "row_count": "PASS: per-sequence selected row counts sum to 15615, matching both scored accumulators and the prediction-fidelity summary.",
+    "result_arithmetic": "PASS: recomputing q4_wp - q8_wp from the receipt fields gives -0.0018012472395336765.",
+    "no_regrade": "PASS: reviewed the receipt, executable grader/build source, pinned output hashes, score arithmetic, and prediction-array metadata; did not rerun the full grade or load full predictions into memory."
+  },
+  "result": {
+    "panel_groups": 10,
+    "selected_rows": 15615,
+    "q8_wp": 0.763378259474159,
+    "q4_grid_weights_on_q8_backend_wp": 0.7615770122346254,
+    "q4_minus_q8_wp": -0.0018012472395336765,
+    "q4_minus_q8_t0": -0.0012335147340004626,
+    "q4_minus_q8_t1": -0.0023689797450668904
+  },
+  "interpretation": {
+    "precision_choice": "This panel supports retaining Q8 over the tested Q4-grid-rounded weights for this H390 pair when prediction quality is the priority.",
+    "q4_definition": "Selected dense matrices were rounded rowwise to signed levels -7..7, reconstructed and stored as float32 NPZ arrays, then evaluated through the unchanged Q8 VNNI backend. Build receipt expressly disclaims INT4 runtime and speed claims.",
+    "exposure": "The H390 checkpoints were fit on train+valid. These ten valid sequences are in-sample precision-fidelity evidence, not held-out CV, public-score, or generalization evidence.",
+    "data_identity_limit": "The full 5.6 GB valid.parquet was not hashed. The receipt pins file size/mtime plus selected sequence IDs, panel digest, feature hashes, need-mask hashes, and per-group target/mask hashes; it explicitly records full_valid_parquet_sha256 as null.",
+    "not_established": [
+      "No general Q4-versus-Q8 effect across candidate families or folds.",
+      "No Q4 inference-speed benefit; both variants use the Q8 native runtime.",
+      "No public or held-out score forecast."
+    ]
+  }
+}
