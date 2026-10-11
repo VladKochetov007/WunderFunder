@@ -1,0 +1,75 @@
+{
+  "schema": "wnn.kaggle-h382-operator-terminal.v1",
+  "attempt": "R1",
+  "recorded_at_utc": "2026-10-11T11:50:58Z",
+  "kernel": "vladkochetov07/wnn-kaggle-crossfold-h382-20261011-r1",
+  "kernel_version": 1,
+  "bundle_dataset": "vladkochetov07/wnn-kaggle-crossfold-h382-bundle-20261011-r1",
+  "bundle_dataset_version": 1,
+  "terminal_status": "KernelWorkerStatus.ERROR",
+  "provider_terminal_interval": {
+    "started_at_utc": "2026-10-11T11:44:12Z",
+    "status_updated_at_utc": "2026-10-11T11:45:04Z"
+  },
+  "source": {
+    "packet_path": "research/campaign_2026-10-06/bandit_continuation/kaggle_crossfold_H382/H382_PACKET_R1.json",
+    "packet_sha256": "66478555d6743835854167466c67feef097b9ab719b1de9ceea858a4756b6fd8",
+    "kernel_sha256": "dc3268d8e0854310c098517163a05cb509f75ef427270b4cbc78d3c9a617e0fc",
+    "submitted_kernel_metadata_sha256": "7cfcd5def5211be1cf3c60ff239923a6cc2bb0dee83668b9f0b9e96b90b373a6",
+    "bundle_sha256": "1536753bda7f8e5a223a09ca86ffb9b18595049b2f15e28e5ffe328625bdd4ce",
+    "bundle_bytes": 354784,
+    "dataset_metadata_sha256": "263fbf96ec9cac0dcea0860ac223a047f95653344fb1b8dc166bce3cd648d1cb"
+  },
+  "dispatch": {
+    "kaggle_cli": "2.2.4",
+    "provider_command": "kaggle kernels push -p <short-private-stage>/kernel --timeout 14400",
+    "push_count": 1,
+    "provider_response": "Kernel version 1 successfully pushed",
+    "dataset_version_readback": "READY, current version 1, bundle file SHA-256 matched the submitted bytes"
+  },
+  "hardware_binding": {
+    "submitted_metadata_machine_shape": null,
+    "submitted_cli_accelerator": null,
+    "remote_metadata_readback_machine_shape": "NvidiaTeslaT4",
+    "actual_visible_gpu_count": null,
+    "actual_visible_gpu_model": null,
+    "interpretation": "The submission did not explicitly bind the accelerator. The kernel errored before CUDA or nvidia-smi enumeration, so two visible T4 devices were not established. R2 adds both an explicit request and a pre-input/pre-fit device gate."
+  },
+  "terminal_evidence": {
+    "status_command": "kaggle kernels status vladkochetov07/wnn-kaggle-crossfold-h382-20261011-r1",
+    "status_command_output": "KernelWorkerStatus.ERROR",
+    "failure_phase": "mounted asset setup in link_inputs",
+    "failure_type": "RuntimeError",
+    "failure_message": "H382 input path already exists: /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "assets_expected": 11,
+    "assets_hash_checked_before_failure": 10,
+    "checked_assets_all_matched": true,
+    "raw_files": [],
+    "inputs_validated": false,
+    "jobs": {},
+    "cuda_inventory_observed": false,
+    "model_fit_or_export_started": false,
+    "preserved_output_dir": "research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/kaggle_h382_delivery_20261011_r1/provider_output",
+    "preserved_files": {
+      "status.json": {
+        "sha256": "4fe306b764edb5936f496ae4b20d4b42e372b72ccd2fbe46beb2cac84e95c005",
+        "bytes": 560
+      },
+      "input_identity.json": {
+        "sha256": "4e2dab2edcb9448200bf4b5a38c66d2ea5d18d24267937fb7365d444e73df348",
+        "bytes": 5571
+      },
+      "wnn-kaggle-crossfold-h382-20261011-r1.log": {
+        "sha256": "98ac38651e5f13ba9591eb7d34f968544f24a201c6e8d8e691073dab836333c4",
+        "bytes": 1777
+      }
+    },
+    "remote_readback_metadata_sha256": "acc3ab1767ef0098eeb41623eb52013c7821667a5703edaaa222b4fe03179ed9",
+    "remote_readback_kernel_sha256": "dc3268d8e0854310c098517163a05cb509f75ef427270b4cbc78d3c9a617e0fc"
+  },
+  "quota": {
+    "post_terminal_campaign_charge_seconds_reported_by_controller": 62.6,
+    "charge_treatment": "count against H382's authorized cohort headroom; do not treat R1 as a fit result"
+  },
+  "scientific_interpretation": "Infrastructure/startup failure only. No model fit, score, or prediction was produced. R1 remains immutable and is not overwritten."
+}
