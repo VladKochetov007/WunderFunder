@@ -1,0 +1,100 @@
+{
+  "schema": "wnn.kaggle.teacher_cohort_resource_handoff_independent_review.r1",
+  "review_status": "blocked_for_release",
+  "actor_commit": "7ea91f9aef7233c35bb7d4e241202345e5f732d9",
+  "scope": {
+    "provider_calls": false,
+    "gpu_profiles_or_fits": false,
+    "uploads": false,
+    "large_input_rehash": false,
+    "claim": "Static packet and actual R4 producer-fixture review only; no R5 runtime result."
+  },
+  "archive": {
+    "sha256": "8afc11ea361c4b0ab5725bfc0f109b2b181570ec14c94ba9783dab766c3ac3c2",
+    "size_bytes": 245775,
+    "manifest_sha256": "d7847c5a57448610855bce864e197781b7a3e6f3122aa3aed2dda69bd01cd5f6",
+    "members": 95,
+    "expanded_bytes": 1234237,
+    "manifest_closure": "pass",
+    "driver_sha256": "e931157aa1c8be25180d4599fdc51cbb847a77f9c588d5e9245ba0a6255554e1",
+    "resource_contract_sha256": "060bfb8b3ad38822ee32c2c148b8ce82b244ade83209b2e9efa0e344d2e6afe5",
+    "preseal_sha256": "0727536611b3c132410ff0f06cc697417f92c972c19f2604ca6111c425c2fb54",
+    "preparation_receipt_sha256": "68c68546c5c9481ec5a574615d09dda65707920d854da794b99f2d181305b50f"
+  },
+  "blocking_finding": {
+    "id": "R5-SPEC-NAME-CLOSURE-001",
+    "severity": "release_blocker",
+    "driver_requests": {
+      "profiles": [
+        "profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r5",
+        "profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r5"
+      ],
+      "fits": [
+        "fit_clean_t3_f0_muonall_h384_e3_s3_r5",
+        "fit_clean_t3_f0_muonall_h384_e3_s4_r5",
+        "fit_clean_t3_f0_muonall_h384_e3_s5_r5"
+      ],
+      "exports_suffixes": ["_r5_fit_train", "_r5_fit_valid", "_r5_full_valid"]
+    },
+    "archive_contains": {
+      "profiles": [
+        "profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r3",
+        "profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r3"
+      ],
+      "fits": [
+        "fit_clean_t3_f0_muonall_h384_e3_s3_r5",
+        "fit_clean_t3_f0_muonall_h384_e3_s4_r5",
+        "fit_clean_t3_f0_muonall_h384_e3_s5_r5"
+      ],
+      "exports": "Nine JSON files with _r3 spec filenames/internal names; prediction output-name argv uses _r5."
+    },
+    "failing_resolution": "ensure_pair_admission() constructs root/kaggle_specs/{driver_profile_name}.json; the first requested _r5 profile spec is absent from the exact archive.",
+    "related_consumer_mismatch": "Archived profile spec internal name and --name are _r3 while profile_guard and _profile_input_receipts expect _r5 result names/directories. Export spec internal names are _r3 while driver stage validation expects _r5 names.",
+    "correction_required": "Create a new identified successor with aligned archived filenames, spec internal names, argv output/run names, driver stage names, and validators. Reseal archive/manifest/preseal/release and statically verify closure; preserve this packet as evidence."
+  },
+  "conditional_release": {
+    "preparation_status": "prepared_pending_independent_review_and_root_release",
+    "root_authorized": false,
+    "fit_admission_status": "pending_root_review_and_release"
+  },
+  "resource_handoff_review": {
+    "design_status": "bounded_static_design_pass; actual R5 capacity unmeasured",
+    "per_fit_ram_reservation_bytes": 8000000000,
+    "fit_admission": "unchanged kaggle_gpu_runner.admit_specs; requires exactly two admitted fits",
+    "allowlisted_input_total_bytes": 38101850961,
+    "input_policy": "No new input-content rehash; reuse current-attempt producer SHA receipts and compare device/inode/size/mtime/ctime snapshots before/after advice.",
+    "advice": "POSIX_FADV_DONTNEED on only the eight declared cache files and two declared Parquet files, after paired profiles exit; best effort only, not proof of eviction.",
+    "fallbacks_or_mutations": "No serial-fit fallback, reservation/cap change, drop_caches, or input mutation is permitted. Fresh host/cgroup/device snapshot plus unchanged two-fit admission must pass."
+  },
+  "allowlisted_cache_inputs": [
+    {"path": "cache/chain_folds.npz", "size_bytes": 550072, "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"},
+    {"path": "cache/chains.npz", "size_bytes": 650142, "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"},
+    {"path": "cache/propcache_c20260929_prop_f0_train.json", "size_bytes": 183, "sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9"},
+    {"path": "cache/propcache_c20260929_prop_f0_train.npy", "size_bytes": 848560128, "sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174"},
+    {"path": "cache/propcache_c20260929_prop_f0_valid.json", "size_bytes": 181, "sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a"},
+    {"path": "cache/propcache_c20260929_prop_f0_valid.npy", "size_bytes": 149840128, "sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c"},
+    {"path": "cache/train_targets.npz", "size_bytes": 1909335790, "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9"},
+    {"path": "cache/valid_targets.npz", "size_bytes": 337186198, "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"}
+  ],
+  "actual_r4_producer_fixture": {
+    "fixture_sha256": "f3770c483ee72c2a0bfa6f751b2e4072f9d40bcd23d934ac06019230841ae1a",
+    "terminal": "ERROR",
+    "error": "ValueError: Worker reservation exceeds host operational budget",
+    "paired_profiles_completed": true,
+    "fit_workers_started": false,
+    "post_profile_host_cgroup_inventory_persisted": false,
+    "file_cache_cause": "unproven hypothesis",
+    "profile_worker_logs": {
+      "seed3_sha256": "1f3d936ca0e878ab6d4cef5c6d9f09b00f5db6a4cfb8b0274b121959e4e695a7",
+      "seed4_sha256": "b683629c6409ce292570d94c0a4c90aee5935e98cc6e297511521731d167fafc"
+    },
+    "input_identity_receipts_sha256": "6593ee2470dbc7e296fa72f063fbb0cc295c3ef1eb467dd87feeaeecc7452203",
+    "producer_receipt_checks": "Both R4 worker identities cover the eight cache bindings; each worker log records full train.parquet and valid.parquet portable SHA completion matching the frozen contract. R4 only; not an R5 run."
+  },
+  "checks": [
+    "All 95 regular archive members match the manifest path/size/SHA entries.",
+    "Driver profile/fit/export names compared with actual archive spec paths and embedded names/argv.",
+    "Resource handoff contract compared with R3 input binding and actual R4 producer fixture/logs.",
+    "No provider/GPU action; no mounted input content rehash."
+  ]
+}
