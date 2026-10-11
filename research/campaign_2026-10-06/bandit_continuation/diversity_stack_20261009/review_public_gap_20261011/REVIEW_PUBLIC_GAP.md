@@ -124,3 +124,25 @@ The owner's note `PUBLIC_TRANSFER_RESPONSE_20261011.md` correctly rejects severa
 8. **Hypothesis ids**: my rows `H-376..H-381` collide with the owner's `H-375..H-381` (different statements). Canonical review ids are **`REV-1..REV-6`** (appended to `research/hypotheses.jsonl`); the colliding rows are historical and should be read together with their `mechanism_family` (validation_protocol / transfer_model / serving / blend).
 
 What stands: serving parity on the gate sequences; the observed public values; the student-vs-previous-student direction; the Kaggle v6 seed table (fold-1 seed sd small for this recipe); and the recommendation for cross-fold confirmation + a served-endpoint full-fold check before more scratch packaging.
+
+## 12. Addendum 14:30 - results found on the live Vast host (scored by the reviewer, read-only) and one ops failure
+
+All fold-1 (exposed), h256 students from the same 3 muon-all h384 teachers, shared cache, warm start from the combo parent unless noted. Control for the 2-epoch KD-loss arms = `dm_a9_e2` 0.67018.
+
+| Arm | WP | vs control / reading |
+|---|---|---|
+| `kd_ch052` (sum x0.5, diff x2) | 0.67040 | +0.0002, null |
+| `kd_ch02` (sum 0, diff 2) | 0.66862 | -0.0016 (dropping the sum channel hurts) |
+| `kd_pearson` | 0.67028 | +0.0001, null |
+| `kd_msepear` | 0.67029 | +0.0001, null |
+| `kd_run05` (run-level 0.5) | 0.67023 | +0.0000, null |
+| `dm_a95_e6` | 0.67094 | = a9_e6 0.67103 |
+| `dm_a9_e10` | 0.67094 | epochs 6->10 no change |
+| `dm_pm_a9_e6` (parent = muon-all h256 e3) | 0.67033 | stronger parent: no gain |
+| `dm_ba_a9_e6` (born-again, parent = best student) | 0.67054 | no gain |
+| earlier: `dm_a10_e6` .67068, `dm_a9_e6` .67103, `dm_t3` .66986, `dm_a9_e2` .67018 | | |
+
+* **Student plateau = 0.6703-0.6710 whatever the alpha, epochs, parent or iteration.** All of those knobs are now exhausted for the cached-train-row-target student.
+* **The cache-only diagnostic (82% of the ensemble gain sits in the difference channel, 66% in the run level) did not translate into a distillation gain.** Matching outputs on train rows cannot transfer it: the teachers have fit those rows (small disagreement), consistent with the memorization argument in the literature note. The untested remaining routes are targets *off* the train rows (OOD/augmented paths, `w14_*`) and a different information source.
+* New local datum: muon-all x prop0 e4 seed 7 = 0.66953 (e4 now n=4: .66976, .67195, .67011, .66953, mean 0.6703, sd 0.0010; e3 mean 0.6688, n=6). The e4 gain over e3 is ~+0.0015 on fold 1.
+* **OPS FAILURE (owner action needed):** the four OOD-distillation arms `w14_ood_splice/spmix/swn/swn25` finished **rc1** with `OSError: distillation cache needs 13.38 GB; available budget ... is 10.5 GB` (host disk 30 GB free; a cache build needs >= 33.4 GB free). They never trained. `w14_ood_only` (no cache) is the only OOD arm that ran/is running. The OOD route is the main untested mechanism for the user's "train on teacher outputs off the train rows" direction; free >= 5 GB on the Vast host (e.g. host copies of `pred_*_valid.npy` that exist locally with identical byte size) and requeue them. The watchdog alert `vast_b_job_log_unidentified:w14_ood_swn25` is this failure surfacing.
