@@ -1,0 +1,25 @@
+{
+ "name": "w14_ood_splice",
+ "steps": [
+  {
+   "label": "pipeline",
+   "timeout": 14400,
+   "argv": [
+    "python",
+    "/root/wnn/scripts/ood_student_pipeline.py",
+    "--arm",
+    "ood_splice",
+    "--fold",
+    "1",
+    "--teachers",
+    "combo_scratch_ep3s4_onecycle_f1,combo_scratch_ep3s5_onecycle_f1",
+    "--parent",
+    "c20261003_combo_s3_f1@ep3",
+    "--ood-aug",
+    "splice",
+    "--ood-frac",
+    "0.5"
+   ]
+  }
+ ]
+}

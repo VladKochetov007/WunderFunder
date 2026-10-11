@@ -40,6 +40,6 @@ Status: DONE+pos / DONE+null / DONE+neg / RUNNING / QUEUED / PLANNED / NOT-START
 | D6 | time-warp aug, median-variance rescale | QUEUED (d_warp) | v7 |
 | D7 | residual EDA (marimo-pair + creative-research lenses) | DONE -> H-361..365 | eda_residuals_20261011/RESULTS.md |
 | D8 | class-3 objective (H-361); event-change aux head (H-362, probe first); multi-lag aux (H-363); residual-decorrelated member (H-364); (u,v) loss (H-365) | PROPOSED, none queued | EDA RESULTS |
-| D9 | OOD-path online distillation v9 (H-350) | IMPLEMENTED (a1d38046, 17 tests), not deployed | h230_source_v9_ood README |
+| D9 | OOD-path online distillation v9 (H-350) | DEPLOYED to Vast B 2026-10-11 (stage+mv), 5 arms queued w14_ood_{splice,swn,spmix,swn25,only} vs dsq_t256 0.66938 | h230_source_v9_ood README |
 ## E. Infrastructure lessons
 E1 local queue treated admission_recheck_failed as permanent failure -> cascaded blocked items (patched scripts/local_queue_runner.py). E2 CPU agents exceeded RAM/CPU admission (rule: agents <=1 core, <=3 GB). E3 Vast: non-atomic deploy raced running jobs; missing distill_pipeline.py on host; jobs with --save-training-state conflict with pretrain flag. E4 watchdog alerts were not read by the session: use scripts/alerts_unread.sh each pass. E5 HPO alerts silenced by .runtime/hpo_disabled.
