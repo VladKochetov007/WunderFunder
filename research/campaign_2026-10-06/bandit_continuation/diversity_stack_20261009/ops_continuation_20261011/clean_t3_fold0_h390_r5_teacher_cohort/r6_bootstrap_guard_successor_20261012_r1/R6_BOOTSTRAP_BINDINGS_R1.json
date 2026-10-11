@@ -1,0 +1,72 @@
+{
+  "authorization": {
+    "new_root_version2_dispatch_release": "required and pending",
+    "provider_push_or_execution_by_packet_author": false,
+    "root_r5_embedded_authority": "unchanged and still consumed by bootstrap"
+  },
+  "bootstrap_delta": {
+    "additional_path_rejection": "backslash",
+    "archive_member_allowlist": "unchanged",
+    "existing_rejections_preserved": [
+      "absolute path",
+      ".. component",
+      "undeclared external key"
+    ],
+    "external_mount_allowlist": "separate keys from EXPECTED_EXTERNAL_MOUNTS after exact manifest equality check"
+  },
+  "collection_budget": {
+    "declared_output_artifacts": 33,
+    "prediction_npy_payload_bytes": 6630240000,
+    "proposed_download_cap_bytes": 8589934592,
+    "receipt": "R6_TERMINAL_COLLECTION_BUDGET_R1.json",
+    "sha256": "6e0c764113aa60fa1964703d97bd219d3d9a95d368a1cfed2280e10dc7c6238f",
+    "status": "limits are a proposed collection ceiling only; root must bind actual terminal inventory and authorize download"
+  },
+  "fixture_validation": {
+    "actual_archive_sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549",
+    "actual_bootstrap_main_called": true,
+    "actual_data_mount_or_content_validation": false,
+    "actual_r5_archive_extracted": true,
+    "cases": [
+      "valid exact external mapping reaches the pre-driver boundary",
+      "missing external mapping is refused",
+      "unexpected external key is refused",
+      "wrong-valued external mapping is refused",
+      "absolute logical path is refused",
+      "parent traversal logical path is refused",
+      "backslash logical path is refused",
+      "real archive member omitted from fixture manifest archive allowlist is refused"
+    ],
+    "driver_boundary": "subprocess.Popen intercepted after mount links were checked; no driver or worker started",
+    "fixture_filesystem": "temporary local directories substituted for /kaggle/input and /kaggle/working; external input file contents are placeholders",
+    "gpu_profile_or_fit_started": false,
+    "provider_write_performed": false,
+    "test_count": 8,
+    "test_file": "test_bootstrap_consumer.py",
+    "test_file_sha256": "e7336fa7aae45881820963f83236137d5b47a7f778698de2efd5c70076702ad7"
+  },
+  "operator_attempt": {
+    "data_upload_required": false,
+    "intended_kernel_version": 2,
+    "kernel_id": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5-runner",
+    "private_dataset_id": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5"
+  },
+  "schema": "wnn.kaggle.r5-bootstrap-only-successor-bindings.r1",
+  "source_files": {
+    "kernel_metadata_sha256": "970d83d28d67db05cabb816b07971fd9a125c42e7b65cd9d72a8f7a1f0399e27",
+    "r5_bundle_archive_sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549",
+    "r5_bundle_manifest_sha256": "5fc7423ebb8f8ef3c5c5bb0ec8be35352f3470dd75d99d47cad4180ac663c689",
+    "r5_dataset_metadata_sha256": "68042cb6281f9b813bbb1aa76837d1b6c5d18449616e399090e0b0ff48377d88",
+    "r6_bootstrap_sha256": "37f13b3e77808cf5fdd5ebd6cd9f2713228c7fd53ba463e4792ad9180b9b80fb",
+    "r9_bootstrap_sha256": "ab9e9799284aab8b202332fa4f7c3ce71744973a583f36f1385be510920189ca"
+  },
+  "status": "prepared_pending_independent_review_and_root_release",
+  "unchanged_contracts": [
+    "bundle archive and manifest bytes",
+    "private dataset metadata and existing READY asset identity",
+    "exact EXPECTED_EXTERNAL_MOUNTS key/value mapping",
+    "embedded R5 conditional release and profile/fit admissions",
+    "source snapshot, all 14 worker specs, driver, fit and export arguments",
+    "worker resource reservations, timeout, expected outputs, and two-T4 cohort plan"
+  ]
+}
