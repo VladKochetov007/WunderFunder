@@ -1,0 +1,40 @@
+{
+  "export_outputs": [
+    "fit_train and fit_valid cache arrays/sidecars",
+    "full_valid feature-only arrays/sidecars with 1873 rows",
+    "worker.log",
+    "result.json",
+    "input_identity.json"
+  ],
+  "fit_outputs": [
+    "model_ep2.pt",
+    "model.pt",
+    "training_state.pt",
+    "provenance.json",
+    "history.json",
+    "worker.log",
+    "result.json",
+    "input_identity.json"
+  ],
+  "profile_outputs": [
+    "results/paired_profiles/summary.json",
+    "per-worker result.json",
+    "worker.log",
+    "input_identity.json",
+    "preflight_inventory.json"
+  ],
+  "schema": "wnn.kaggle.teacher_cohort_collection.r3",
+  "stages": [
+    "paired_profiles",
+    "three_teacher_fits",
+    "nine_prediction_exports"
+  ],
+  "status": "required_at_terminal_not_collected",
+  "terminal_checks": [
+    "pairwise profile device UUID and resource-gate receipt",
+    "3 fit and 9 export workers complete with zero return code",
+    "copy both NPY and sidecar per fresh worker receipt",
+    "verify shape, dtype, finiteness, source run, checkpoint, split and membership ancestry",
+    "preserve provider terminal stdout/stderr and complete worker logs"
+  ]
+}

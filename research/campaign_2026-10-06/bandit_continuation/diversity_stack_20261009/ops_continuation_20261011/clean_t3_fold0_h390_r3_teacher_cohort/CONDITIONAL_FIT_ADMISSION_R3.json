@@ -1,0 +1,17 @@
+{
+  "note": "The builder cannot authorize this gate. The kernel runs full teacher fits only after a root-bound release is embedded and every live profile guard passes.",
+  "profile_guard_contract_sha256": "401ad91a7587894803a6701bf91130da134e290bcd0ebe1f9077b5107622c71d",
+  "profile_reference_sha256": "bed34488551ce7798330dcffef8f7f7b9f23fd13419b7d1fa89dade7f25e2790",
+  "release_authorized": false,
+  "required": [
+    "root signs a receipt bound to the exact R3 archive/kernel and this gate before dispatch",
+    "both profile workers complete on distinct actual Tesla T4 UUIDs with concurrency 2",
+    "both profiles report 10 completed batches, positive completed optimizer updates, consistent attempt counters and finite metrics",
+    "both per-worker and combined observed RAM/VRAM remain within PROFILE_GUARD_CONTRACT_R3.json",
+    "fresh Kaggle quota/session and exact private input READY/version/hash checks pass",
+    "the profile-gated 3-fit/9-export cohort remains within the root-admitted wall and GPU-second reservation"
+  ],
+  "root_release_receipt_sha256": null,
+  "schema": "wnn.kaggle.conditional_teacher_fit_admission.r3",
+  "status": "pending_root_review_and_release"
+}
