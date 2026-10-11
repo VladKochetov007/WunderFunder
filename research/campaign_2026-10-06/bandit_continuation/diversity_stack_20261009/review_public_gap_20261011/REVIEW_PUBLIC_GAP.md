@@ -165,3 +165,16 @@ All fold-1 (exposed), h256 students from the same 3 muon-all h384 teachers, shar
 
 * Both land between the no-teacher continuation (+0.0003) and the plain cached-target student (-0.0004): **no measurable gain from teacher outputs on spliced/augmented paths** with this teacher set. Together with section 12 (output-matching KD variants null, student plateau 0.6703-0.6710 for the strong-teacher cache) the picture is consistent: off-train-row targets from teachers that are themselves ~0.666-0.669 models carry no more usable signal than the cached train-row targets.
 * Not yet tested: OOD paths with the **strong** (muon-all h384 / 3-seed ensemble) teacher set, and `swn`/`swn25` (noise/warp variants) - the owner's run is serial; `ood_only` result pending. The mechanism is not refuted for strong teachers; it is refuted as a way to beat the 0.6705 plateau with the weak set.
+
+## 16. Addendum 18:30 - FIRST CROSS-FOLD CONFIRMATION RESULT (owner's `H382_F2_E3_GRADE_R1.json`, clean fold-2 fit, exposed development panel)
+
+| Fold 2 (443 sequences), h256, seed 3, 3 epochs | WP |
+|---|---|
+| **Candidate: Muon scope all, prop-power 0** (`h382_muonall256prop0_f2_s3_e3`) | **0.70281** |
+| Contextual control: Muon scope rnn, prop-power 2 (`vt_f2_h256_e3`) | 0.70283 |
+| Difference | **-0.00002** |
+
+* On fold 1 the same recipe contrast is about **+0.0028** with tight seeds (muon-all x prop0 e3 mean 0.6688, n=6, sd 0.0004, vs control ~0.6660). On fold 2 it is **zero** (one seed; the owner correctly notes the contrast changes scope *and* propensity power together, so no single-factor claim, no seed mean).
+* This is the first direct evidence for the review's leading hypothesis (REV-1): the large fold-1 advantage of the muon-all x prop0 recipe is **largely fold-specific**, consistent with its failure to transfer to public (scratch single 0.6616). It is not yet a refutation of the recipe (n=1 on fold 2; fold-0 and fold-3 and 4-epoch contrasts pending in the owner's H382 queue), and fold 2 is a different, easier panel (absolute 0.7028).
+* Read together with section 12 (student plateau, KD variants null) and section 15 (OOD null): **the fold-1 research gains of the last day concentrate in recipes that fold 1 happens to reward**; the part that transferred publicly (distilled student, +0.0013) is the warm-started, teacher-regularised path. The cross-fold program (H382 fold 0/2/3, 3 and 4 epochs) is the right gate before any further scratch-recipe packaging. Per CLAUDE.md (2026-10-11) submissions are now ranked by cross-fold evidence with distinct seeds.
+* Open: whether prop-power 0 alone (earlier fold-0 +0.0035) or Muon-all alone carries any cross-fold effect; whether the 4-epoch variant behaves differently on folds 0/2/3.
