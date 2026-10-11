@@ -16,10 +16,10 @@ import build_bundle as vb  # noqa: E402
 SNAP = vb.E529 / "h230_source_v8_arch"  # v8 = v7 flags (aug-warp, curriculum, ...) + arch flags; flag-off parity with v6
 WSD = ["--wsd-decay", "0.25", "--wsd-final", "0.0", "--wsd-shape", "linear"]
 ARMS = {
-    "kg_mu384_warp_e3": {"--epochs": "3", "--checkpoint-epoch": "2", "--hidden": "384", "--muon-scope": "all", "--seed": "3", "+": ["--aug-warp", "0.5,0.8,1.25"]},
-    "kg_mu384_warp_e6": {"--epochs": "6", "--checkpoint-epoch": "5", "--hidden": "384", "--muon-scope": "all", "--seed": "3", "+": ["--aug-warp", "0.5,0.8,1.25"]},
-    "kg_mu384_warp2_e6": {"--epochs": "6", "--checkpoint-epoch": "5", "--hidden": "384", "--muon-scope": "all", "--seed": "3", "+": ["--aug-warp", "0.8,0.6,1.6"]},
-    "kg_mu384_drop2_e5": {"--epochs": "5", "--checkpoint-epoch": "4", "--hidden": "384", "--muon-scope": "all", "--seed": "3", "--dropout": "0.2"},
+    "kg_mu256_prop0_s5": {"--epochs": "3", "--checkpoint-epoch": "2", "--muon-scope": "all", "--prop-power": "0", "--seed": "5"},
+    "kg_mu256_prop0_s6": {"--epochs": "3", "--checkpoint-epoch": "2", "--muon-scope": "all", "--prop-power": "0", "--seed": "6"},
+    "kg_mu256_prop0_s7": {"--epochs": "3", "--checkpoint-epoch": "2", "--muon-scope": "all", "--prop-power": "0", "--seed": "7"},
+    "kg_mu256_prop0_e4_s5": {"--epochs": "4", "--checkpoint-epoch": "3", "--muon-scope": "all", "--prop-power": "0", "--seed": "5"},
 }
 
 
