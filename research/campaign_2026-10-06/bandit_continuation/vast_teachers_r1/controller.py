@@ -18,6 +18,7 @@ import argparse
 import datetime as dt
 import hashlib
 import json
+import math
 import os
 import re
 import shlex
@@ -1168,6 +1169,89 @@ def spend() -> tuple[float, float]:
     return hours, hours * float(row["dph_total"])
 
 
+LANE_B_OWNED_INSTANCE_ID = 55080658
+
+
+def _instance_id(value: object) -> int | None:
+    if type(value) is int:
+        return value
+    if isinstance(value, str) and re.fullmatch(r"\d+", value):
+        return int(value)
+    return None
+
+
+def _lane_b_running_instance(
+    ownership: dict[str, object],
+) -> tuple[dict[str, object] | None, str]:
+    """Read the owned lane-B row before tick actions; fail closed on missing API rows."""
+    if _instance_id(ownership.get("instance_id")) != LANE_B_OWNED_INSTANCE_ID:
+        return None, "ownership_receipt_instance_id_mismatch"
+    try:
+        raw = vast("show", "instance", str(LANE_B_OWNED_INSTANCE_ID))
+        payload = json.loads(raw)
+    except (SystemExit, OSError, subprocess.TimeoutExpired, json.JSONDecodeError):
+        return None, "provider_instance_status_unavailable"
+
+    if isinstance(payload, dict) and "instances" in payload:
+        instances = payload["instances"]
+        if instances is None:
+            return None, "provider_returned_no_instance_rows"
+        rows = [instances] if isinstance(instances, dict) else instances
+    elif isinstance(payload, list):
+        rows = payload
+    elif isinstance(payload, dict):
+        rows = [payload]
+    else:
+        return None, "provider_instance_response_malformed"
+    if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
+        return None, "provider_instance_response_malformed"
+
+    matching = [row for row in rows if _instance_id(row.get("id")) == LANE_B_OWNED_INSTANCE_ID]
+    if len(matching) != 1:
+        return None, "provider_owned_instance_row_missing_or_ambiguous"
+    row = matching[0]
+    status = row.get("actual_status", row.get("status"))
+    if not isinstance(status, str) or status.strip().lower() != "running":
+        return None, "provider_owned_instance_not_running"
+
+    if isinstance(row.get("start_date"), bool) or isinstance(row.get("dph_total"), bool):
+        return None, "provider_running_instance_spend_fields_invalid"
+    try:
+        start_date = float(row["start_date"])
+        dph_total = float(row["dph_total"])
+    except (KeyError, TypeError, ValueError, OverflowError):
+        return None, "provider_running_instance_spend_fields_missing"
+    if (
+        not (math.isfinite(start_date) and math.isfinite(dph_total))
+        or start_date < 0
+        or dph_total < 0
+    ):
+        return None, "provider_running_instance_spend_fields_invalid"
+    return row, "running"
+
+
+def _print_lane_b_tick_unavailable(reason: str, ownership: dict[str, object]) -> None:
+    print(
+        json.dumps(
+            {
+                "status": "owned_instance_unavailable",
+                "reason": reason,
+                "instance_id": LANE_B_OWNED_INSTANCE_ID,
+                "ownership_state": ownership.get("state"),
+                "hours": None,
+                "cost": None,
+                "drained": False,
+                "collection_required": True,
+                "collection_complete": False,
+                "collection_status": "not_verified_provider_instance_unavailable",
+                "teardown_verified": False,
+                "provider_mutation": False,
+                "remote_access_attempted": False,
+            }
+        )
+    )
+
+
 def eta_minutes(log: str) -> str:
     import re
 
@@ -1190,12 +1274,25 @@ def cmd_dash(_: argparse.Namespace) -> None:
 
 def cmd_tick(args: argparse.Namespace) -> None:
     """Pull optionally, refill useful work, then collect and tear down a drained lane."""
-    if receipt().get("state") == "destroyed_verified":
+    ownership = receipt()
+    if ownership.get("state") == "destroyed_verified":
         print("already destroyed")
         return
+    lane_b_row = None
+    if LANE == "b":
+        lane_b_row, provider_status = _lane_b_running_instance(ownership)
+        if lane_b_row is None:
+            _print_lane_b_tick_unavailable(provider_status, ownership)
+            return
     if not getattr(args, "no_pull", False):
         cmd_pull(args)
-    hours, cost = spend()
+    if lane_b_row is None:
+        hours, cost = spend()
+    else:
+        # Use the preflight row so a missing/stopped instance never reaches spend's
+        # flat-row assumptions; calculate after pulls to include their elapsed time.
+        hours = (time.time() - float(lane_b_row["start_date"])) / 3600
+        cost = hours * float(lane_b_row["dph_total"])
     info = probe()
     held = cost >= args.cap
     state = _remote_state(info)
