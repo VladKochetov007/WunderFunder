@@ -1,0 +1,119 @@
+{
+  "audit_method": {
+    "copied_source_files_verified": 50,
+    "fold_specific_propensity_model_and_provenance_hashes_verified": [
+      {
+        "fold": 2,
+        "model_sha256": "f0b9eb7ba76b66c1710579082f434e66e9f8d3b4ec230d052a0cd466375307d6",
+        "provenance_sha256": "a85200c2fbd455c0b36fe722a3d01903393b736025be2437137ad1bb118f0277",
+        "split_manifest_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9"
+      },
+      {
+        "fold": 3,
+        "model_sha256": "8898ef3d31533058c354a16d00632b7c7adca461eaa813f0bed1f59a1fef59b8",
+        "provenance_sha256": "b8b1a35e7345b13338eddf3a3f206f96dfa624ed6741165bd02fd0a754932398",
+        "split_manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343"
+      }
+    ],
+    "no_fits_or_queue_mutations": true,
+    "packet_manifest_file_hashes_verified": 74,
+    "parent_contract_source_matches": 50,
+    "root_predictor_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+    "root_predictor_sha256": "afc5aaaef7edd78f4b719a6be450b10d82aefcbf497b4515f684f51930e229f9",
+    "source_semantics_checked": "The frozen train_rnn.py maps campaign-split vfold evaluation groups to the fold exclusion, places the remaining valid groups in the train+valid fitting pool, uses valid-seqs only to cap eval-source rows, and enforces fixed checkpoint/no-eval mode with campaign splits. The predictor argv wrapper puts the packet source_v6/scripts first on sys.path and passes that exact train_rnn.py, while WNN_PROJECT_ROOT points at the data/artifact root."
+  },
+  "limits": "This review does not admit work, predict a score, or claim unseen-fold/generalization evidence. The reviewer did not load or rehash large caches/parquet.",
+  "recipe_findings": {
+    "checkpoint_selection": "fixed zero-based endpoint: ep2 for 3-epoch arms, ep3 for 4-epoch arms; exporter binds the same run/epoch and writes full 1,873-row valid predictions. Grader must subset to the fold manifest evaluation.valid rows.",
+    "exposure": "The packet explicitly records folds2/3 were previously inspected. These are crossfold confirmation, not fresh global holdouts. A fold's eval groups may be in the other fold's training set; do not treat the two folds as independent seeds.",
+    "membership": {
+      "fold2": "10,535 train +1,430 valid fit rows; 443 valid eval rows, 144 eval components; recomputed fit/eval component overlap0.",
+      "fold3": "10,539 train +1,368 valid fit rows; 505 valid eval rows, 145 eval components; recomputed fit/eval component overlap0."
+    },
+    "prop_power_zero": "The fold-specific propensity checkpoint and caches are bound and loaded, but p^0 is constant for positive p; this is the declared prop0 arm, not evidence of a learned propensity weighting effect.",
+    "shared_fit": "scratch h256 two-layer GRU; Muon all; batch32/chunk1000; wMSE with chunk normalization; LR0.001/WD0.01/onecycle; fp16; fold-specific own propensity model at power0; seed3; no initializer, teacher, resume or fit-time evaluation."
+  },
+  "recipes": [
+    {
+      "checkpoint_epoch_zero_based": 2,
+      "epochs": 3,
+      "evaluation_components": 144,
+      "evaluation_valid_groups": 443,
+      "fit_evaluation_component_overlap": 0,
+      "fit_train_groups": 10535,
+      "fit_valid_groups": 1430,
+      "fold": 2,
+      "run": "h382_muonall256prop0_f2_s3_e3",
+      "seed": 3
+    },
+    {
+      "checkpoint_epoch_zero_based": 3,
+      "epochs": 4,
+      "evaluation_components": 144,
+      "evaluation_valid_groups": 443,
+      "fit_evaluation_component_overlap": 0,
+      "fit_train_groups": 10535,
+      "fit_valid_groups": 1430,
+      "fold": 2,
+      "run": "h382_muonall256prop0_f2_s3_e4",
+      "seed": 3
+    },
+    {
+      "checkpoint_epoch_zero_based": 2,
+      "epochs": 3,
+      "evaluation_components": 145,
+      "evaluation_valid_groups": 505,
+      "fit_evaluation_component_overlap": 0,
+      "fit_train_groups": 10539,
+      "fit_valid_groups": 1368,
+      "fold": 3,
+      "run": "h382_muonall256prop0_f3_s3_e3",
+      "seed": 3
+    },
+    {
+      "checkpoint_epoch_zero_based": 3,
+      "epochs": 4,
+      "evaluation_components": 145,
+      "evaluation_valid_groups": 505,
+      "fit_evaluation_component_overlap": 0,
+      "fit_train_groups": 10539,
+      "fit_valid_groups": 1368,
+      "fold": 3,
+      "run": "h382_muonall256prop0_f3_s3_e4",
+      "seed": 3
+    }
+  ],
+  "resource_and_command_review": {
+    "cpu_cap": "The fit/export argv and sequence plan do not encode a per-attempt CPU quota. Root must enforce <=300% CPU in the launch cgroup/wrapper, per requested cap.",
+    "export_ram_reserve_bytes": 6500000000,
+    "export_timeout_seconds": 1800,
+    "fit_ram_reserve_bytes": 10500000000,
+    "fit_timeout_seconds": 4800,
+    "outputs_absent_at_review": true,
+    "parquet_identity_limit": "The packet declares full train/valid parquet SHA values but records that full hashes were not recomputed; producer footer-plus-trailer hashes matched.",
+    "profile_attempt_peak_bytes": 9500770304,
+    "profile_oom_count": 0,
+    "profile_vram_peak_bytes": 3570401280,
+    "sequence_plan": "Eight exact fit/export commands, serial one GPU attempt at a time; actor marks root controller as admission owner."
+  },
+  "result": "PASS_WITH_ROOT_LAUNCH_CONDITIONS",
+  "reviewed_utc": "2026-10-11T13:34:41.709058Z",
+  "reviewer_role": "submission_packager; read-only independent recipe/source/membership audit",
+  "root_gates_before_admission": [
+    "Bind root admission to actor commit ae00d2c5cf647a613f9bd0a8a043fbe0f0099b9a and exact packet manifest SHA above; SEQUENCE_PLAN_R1.packet_manifest_sha256_pending is null.",
+    "Enforce a <=3 CPU cgroup/wrapper externally because it is absent from queued argv.",
+    "Refresh aggregate RAM/VRAM/disk headroom against the 10.5GB fit and 6.5GB export reservations; do not treat the 25-batch profile as a full-fold runtime estimate.",
+    "Recheck model/prediction destinations and partial files immediately before each sequence item."
+  ],
+  "schema": "wnn.independent_recipe_audit.v1",
+  "subject": {
+    "actor_branch": "exp/kaggle-h382-20261011",
+    "actor_commit": "ae00d2c5cf647a613f9bd0a8a043fbe0f0099b9a",
+    "input_audit_sha256": "873aefba2a0217571b883867b8056fa28a011cba9a44e4a96a208be604672c49",
+    "packet_manifest": "PACKET_MANIFEST_R1.json",
+    "packet_manifest_sha256": "4fec1d3b87c3761a80b753c2ca7bfad0113a07440740617407b3b03f55a7b2b0",
+    "packet_path": "/home/vlad/development/wunder/wnn_kaggle_h382_20261011/research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r1",
+    "parent_source_binding_sha256": "d672e552284e695228af88bf9d2d01488cbdc61abb9d4455ac911a8aae793411",
+    "source_manifest_sha256": "6ad301c43ad2eadd47d88af807b1ee74977052856ed6ddff3211c45c125999d6"
+  }
+}
