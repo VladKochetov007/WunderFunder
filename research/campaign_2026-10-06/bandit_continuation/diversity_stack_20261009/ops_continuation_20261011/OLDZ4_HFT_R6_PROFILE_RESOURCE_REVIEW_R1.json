@@ -1,0 +1,85 @@
+{
+  "schema": "wnn.oldz4-hft-profile-resource-review.v1",
+  "decision": "qualified_resource_only_recommendation_for_one_bounded_original_epoch",
+  "review_scope": "Independent read-only resource and numerical interpretation of the completed R6 profile. This review does not admit, launch, grade, or approve a fit.",
+  "profile_contract_sha256": "2ab8ead9afc6e8d33469d7c6e4b9a496403b46ca7852a853f11c2cbe24212a72",
+  "profile_launch_receipt_sha256": "88bd9c209d16ca1ce6e57a490791850f4f9fb73aa86197bc358eeb030debd925",
+  "profile_execution_launch_receipt_sha256": "4b5986812033683ff6955e398f57c47668708b10fbf3bfa6d330bb8cd54e1ee7",
+  "actual_cli_preflight_sha256": "d1963da7da42ac5a89f283ea03a06f4eaa70cf5a3e580bb61b35946b97484901",
+  "trainer_source_sha256": "5b135ea90480dde8b530c4543e1d587a044efa1f98dc6a3327b9dca6fcd40187",
+  "attempt_receipt": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/oldz4-r6-f0-s3-hft-profile.json",
+    "sha256": "e20d7a61b629cde8b75d75289581104441ef3cdf74f1f54cef1f23c4b09093ba",
+    "status": "failed",
+    "failure": "worker exited with status 1 after the strict profile gate rejected incomplete/nonfinite gradient evidence",
+    "elapsed_seconds": 25.23167859800742
+  },
+  "profile_log": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/oldz4-r6-f0-s3-hft-profile.log",
+    "sha256": "af6ac6aa2d41f8cf4b025d292beed314752f72869a047a22cf536817604f12ed",
+    "bytes": 6319
+  },
+  "observed_updates": {
+    "measured_batches": 27,
+    "optimizer_attempts": 270,
+    "optimizer_completed_updates": 269,
+    "amp_skipped_updates": 1,
+    "counts_consistent": true,
+    "loss_checks": 270,
+    "all_losses_finite": true,
+    "gradient_stats_steps": 270,
+    "gradient_stats_nonfinite_steps": 1,
+    "profile_valid_for_throughput": false,
+    "strict_failure_interpretation": "The frozen strict profile predicate requires zero AMP-skipped updates and finite gradients. It correctly rejects a clean-gradient/throughput claim; it does not establish that the skipped nonfinite gradient was applied."
+  },
+  "amp_safety_basis": {
+    "scaler_enabled": true,
+    "default_amp_scale_unchanged": true,
+    "frozen_code_path": "GradScaler.unscale_(optimizer) -> record _found_inf_per_device flags -> optional GradStats and clipping -> GradScaler.step(optimizer) -> GradScaler.update()",
+    "skip_accounting": "The source counter increments attempts after unscale, counts any nonzero found-inf flag, and records completed updates as attempts minus skips. GradScaler.step is the existing optimizer guard; one detected overflow is skipped, then the scale is updated.",
+    "qualification": "This is evidence of one protected skipped step among 270 attempts, not evidence that all gradients were finite or that future skip frequency is negligible. No parameter/optimizer-state tensor snapshot from the profile independently proves the skip effect."
+  },
+  "resources": {
+    "cpu_cores": 1,
+    "worker_memory_max_bytes": 6800000000,
+    "worker_memory_high_bytes": 6120000000,
+    "worker_peak_ram_bytes": 5022433280,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_peak_ram_bytes": 13354979328,
+    "worker_observed_vram_bytes": 2005925888,
+    "observed_vram_cap_bytes": 5000000000,
+    "worker_memory_event_deltas": {
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "resource_conclusion": "No worker or parent memory/VRAM limit event was observed in this profile. The measured peaks leave headroom under the recorded caps; they do not guarantee every phase of a full epoch has identical peaks."
+  },
+  "timing": {
+    "profile_median_step_wall_ms": 631.8,
+    "profile_sequences_per_second": 25.32,
+    "qualification": "The profile timing is a short measured-batch rate, not an end-to-end one-epoch measurement. No epoch duration is predicted by this review."
+  },
+  "recommendation_conditions": [
+    "A single original one-epoch fit may be considered for resource-only exploratory admission by the controller, under a new attempt ID and the existing source, crop, split, AMP scale, and recipe unchanged.",
+    "Do not call the R6 profile a clean numerical profile or a throughput-valid profile, and do not change AMP scale to force a zero-skip result.",
+    "Retain the existing run-level memory, runtime, source, split, crop, checkpoint, and provenance guards.",
+    "At terminal status, require successful fit completion, finite checkpoint tensors and optimizer/training-state tensors, and internally consistent attempt/completed/AMP-skip counts before any continuation, export, or promotion.",
+    "Report actual skip counts and scale behavior. Repeated or increasing skips, any nonfinite model/state tensor, or an unexplained count mismatch requires controller review before further training; this receipt does not impose a universal zero-skip threshold."
+  ],
+  "limitations": [
+    "This review gives no accuracy, convergence, public-score, or submission claim.",
+    "The profile itself exited nonzero because the strict diagnostic gate was not satisfied; that failure is preserved.",
+    "The recommendation is resource-only and conditional on the controller's independent fit admission."
+  ]
+}
