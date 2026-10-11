@@ -1,0 +1,53 @@
+{
+  "configured_bytes_for_two_complete_r1_hashers": 69711456278,
+  "configured_portable_hash_bytes_per_worker": {
+    "datasets/train.parquet": 29240219011,
+    "datasets/valid.parquet": 5615509128
+  },
+  "correction": {
+    "actual_update_counters": "profile-only optimizer attempts, AMP skips, completed updates, and completed batches",
+    "full_content_hashing_retained": true,
+    "gradient_stats": "finite-gradient/update evidence; diagnostic synchronization/compute overhead must be disclosed",
+    "hash_progress_and_split_phase_events": true,
+    "kernel_process_timeout_seconds": 6000,
+    "periodic_stack_heartbeat_seconds": 60,
+    "single_worker": true,
+    "timeout_seconds": 1800,
+    "unbuffered_output": true
+  },
+  "fit_admission": false,
+  "interpretation": "The source order and resource observations are consistent with a pre-GPU identity-hash bottleneck. R1 produced no worker stack or hash progress logs, so the exact stalled frame is not proven.",
+  "r1_archive_sha256": "0ba1b1f7b99dc5dabd892c7d99aa030733465aebc73bb652455c9bc527e0d65f",
+  "r1_kernel_id": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r1-runner",
+  "r1_observation": {
+    "finished_workers": 0,
+    "peak_gpu_bytes": [
+      0,
+      0
+    ],
+    "peak_ram_bytes": [
+      581152768,
+      587087872
+    ],
+    "profile_workers": 2,
+    "runner_exit": "RuntimeError: Timeout for clean_t3_f0_muonall_h384_e3_s3_t4_profile1_r1",
+    "worker_log_bytes": [
+      0,
+      0
+    ],
+    "worker_timeout_seconds": 240
+  },
+  "r1_terminal_capture": "clean_t3_f0_profile_collection_r2/raw_terminal_capture_r1/provider_output/attempt_001",
+  "schema": "wnn.kaggle.startup_profile_diagnosis.r3",
+  "source_order": [
+    "train_rnn.main calls load_campaign_split before configure_torch",
+    "load_campaign_split calls verify_portable_source for mounted train and valid parquet",
+    "_content_digest streams full SHA-256 input bytes in 1 MiB blocks"
+  ],
+  "unknowns": [
+    "actual hash and startup durations",
+    "actual one-T4 profile time and post-hash memory",
+    "two-worker concurrent startup and I/O behavior",
+    "full-fit or export throughput and cohort feasibility"
+  ]
+}
