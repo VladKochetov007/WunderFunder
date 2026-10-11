@@ -1,7 +1,10 @@
 # Research index
 
-Public best: **0.6660**. Public milestone: **0.7000**, unmet. Local validation
-scores are not public forecasts.
+Public best and candidate status live in [current state](../specs/current-state.md).
+The latest user-reported completed best is0.6668; this is not a fresh browser verification.
+The0.7000 research objective remains active. Local validation scores are not public forecasts.
+
+Latest continuation: [October12 CPU optimization, serving repair and fold/public diagnostics](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md), including independent Sol6.1/xhigh reviews, exact-package timings, unsuccessful PGO, the projection experiment, and Claude-comment reconciliation.
 
 The maintained navigation layer is the [bandit research tree](bandit_tree/README.md).
 It indexes original research rather than replacing it. [Configuration](bandit_tree/config.json)

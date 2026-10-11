@@ -1,5 +1,7 @@
 # Research notes and evidence index, 2026-10-06 .. 2026-10-10 (start here)
 
+October12 continuation: [all CPU optimization, serving repair, native measurements and public-fold diagnostics](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md). This includes unrun ideas and negative results. The historical policies/headlines below retain their dated scope; current ADR0030 uses local/CV evidence for selection and public scoring for transfer confirmation.
+
 Unified ledgers (append-only): [`hypotheses.jsonl`](hypotheses.jsonl) (H-1 .. H-342; this week H-321..H-342) and [`experiments.jsonl`](experiments.jsonl) (rows `E-*20261010*` added 2026-10-10 with receipts and SHA-256). Generated tree/index: [`bandit_tree/generated/INDEX.md`](bandit_tree/generated/INDEX.md) (rebuild with `scripts/research_tree.py --root . build`; last rebuilt see `integrity.json`). Live state: [`specs/current-state.md`](../specs/current-state.md).
 
 ## Read in this order
@@ -21,5 +23,5 @@ Unified ledgers (append-only): [`hypotheses.jsonl`](hypotheses.jsonl) (H-1 .. H-
 - In flight: long-epoch ladder (Vast, local, Kaggle), dropout/gated/EMA arms, soup merge. Results append to the log and ledgers.
 
 ## Policies in force
-Select on mean score, not CI lower bound (user 2026-10-10); public score decides. Single-member packages upload one at a time. No teammate code copied (independent implementation).
+Historical October10 policy: select on mean score, not CI lower bound; public score decides; single-member packages upload one at a time. Later user instructions/ADR0030/0032/0033 supersede the public-selection and release-timing parts: compare complete fixed feasible endpoints on local/CV evidence, package authorized available blends, and use public for confirmation. Independent implementation remains binding.
 - IDEA_LEDGER_20261011.md added to index

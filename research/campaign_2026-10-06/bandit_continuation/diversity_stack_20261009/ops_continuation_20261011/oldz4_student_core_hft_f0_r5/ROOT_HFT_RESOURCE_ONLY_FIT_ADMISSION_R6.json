@@ -1,0 +1,33 @@
+{
+  "schema": "wnn.oldz4.hft-resource-only-fit-admission.r6",
+  "decision": "PASS_FOR_ONE_BOUNDED_ORIGINAL_FIT",
+  "created_utc": "2026-10-11T22:49:01.929121+00:00",
+  "attempt": "oldz4-r6-f0-s3-hft-fit-resource",
+  "fit_run": "oldz4_h230_hft_f0_s3_r5",
+  "fit_contract_sha256": "64df5f235242042a3e9848eb260321d4a0b46979862aa9299dfa5f401059b541",
+  "fit_argv_unchanged": true,
+  "independent_resource_review_sha256": "fa1dad9bbf6c5587065402f85b102eb14dabdfccbfa13eb10993dd4d65e1ee19",
+  "resource_profile_actual_attempt": "oldz4-r6-f0-s3-hft-profile",
+  "profile_strict_gate_passed": false,
+  "profile_valid_for_throughput": false,
+  "profile_optimizer_attempts": 270,
+  "profile_optimizer_completed_updates": 269,
+  "profile_amp_skips": 1,
+  "all_profile_losses_finite": true,
+  "controller_basis": "independent resource-only eligibility; GradScaler skipped bad gradient, measured memory/VRAM adequate; no numerical-clean or throughput claim",
+  "legacy_consumer_limitation": "R5 fit adapter requires valid_for_throughput=true; preserve it and its failed profile. Dispatch exact existing c337 trainer via its already-audited import/input/crop helpers under this new explicit resource-only admission. No profile receipt is falsified.",
+  "source_or_scientific_argv_change": false,
+  "parent_memory_current_bytes": 8496820224,
+  "reserve_ram_bytes": 6800000000,
+  "cpu_cores": 1,
+  "max_observed_vram_bytes": 5000000000,
+  "wall_limit_seconds": 1800,
+  "terminal_guards": [
+    "actual fixed CP0/state finite",
+    "state equals checkpoint",
+    "consistentattempt/completed/AMPskip counts",
+    "ownsourcequalifiedexcluded468/groupsancestry",
+    "recurrent/input/normalization tensors stay unchanged for frozenmodules"
+  ],
+  "root_owner": "same research controller"
+}

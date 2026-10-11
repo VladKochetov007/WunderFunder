@@ -1,0 +1,46 @@
+{
+  "created_utc": "2026-10-11T23:21:21.222046+00:00",
+  "owner": "root",
+  "ready_to_recommend": [
+    {
+      "coefficients": [
+        0.5,
+        0.5
+      ],
+      "expected_public_score": null,
+      "independent_reviews": [
+        "4fa9d3ad",
+        "98f7121d"
+      ],
+      "members": 2,
+      "no_public_067_promise": true,
+      "path": "submissions/10-11-67/11_h390_student_s3_h388_teacher_s5_all_q8vnni.zip",
+      "precision": "Q8VNNI",
+      "runtime_audit": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/CPU_SUBMISSION_FIX_EVIDENCE_R3.json",
+      "runtime_audit_sha256": "606f53e208426d30e1347e5976982361276633d341263871f4185ae9de218e90",
+      "runtime_evidence": "Matched one-core Py311 400k complete-sequence callbacks, deterministic reset/replay, finite outputs; baseline74.84us initially,77.09\u201377.78us paired; locally faster than104.48us H388pair and158.62us timed-outtrio. Historical portal reference ratios imply38m20 or53m55 under different references; these are sensitivity scenarios, not completion bounds or guarantees.",
+      "runtime_tested_on": "Intel i9-11900H; no actual AMD EPYC9224 benchmark",
+      "scientific_evidence": "All-data12479fit; no held-out score forfinalweights. Related exposed F1 floatprototype.6725742672 has changed parent/since weighting; cleanfoldT3pipeline remains pending.",
+      "status": "recommended_first_runtime_canary_after_trio_timeout",
+      "zip_bytes": 12914019,
+      "zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284"
+    }
+  ],
+  "schema": "wnn.top-submission-recommendations.r6",
+  "scope": "Human upload only, strongest current compact CPU candidate after exact callback/runtime re-audit. No automatic portal submission; no numerical public forecast or guaranteed scoring-CPU completion.",
+  "supersedes": "READY_TOP_CANDIDATES_R5.json",
+  "withheld": [
+    {
+      "path": "submissions/10-11-67/12_h388_teacher_trio_all_fp16store_q8vnni.zip",
+      "reason": "Actual SCORE:TIMEOUT; do not re-upload unchanged."
+    },
+    {
+      "path": "submissions/10-11-67/10_h388_teacher_s4_s5_all_q8vnni.zip",
+      "reason": "Larger measured callback cost, weaker runtime margin than11; no supported quality advantage for this endpoint."
+    },
+    {
+      "path": "PGO_current11_candidate",
+      "reason": "No repeatable speedup; bitwise same predictions but0.14\u20130.22%slower inpairedruns."
+    }
+  ]
+}

@@ -1,4 +1,8 @@
-# October11 live continuation
+# October12 live continuation
+
+[CPU optimization and serving repair index](ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md) contains recent sources, both independent Sol reviews, exact-package runtime/PGO evidence, the admitted projection experiment, Claude's comments and the public-fold-affinity diagnostic. ZIP12 timed out and is withdrawn; ZIP11 is the strongest current compact upload candidate after re-audit, with scoring-CPU runtime still unmeasured. Local F1 parent is actually training; corrected Kaggle R5/R9 is completing its bounded dispatch. Vast has zero credit and remains unavailable. Current state overrides the historical October11 snapshot below.
+
+## Historical October11 continuation snapshot
 
 Latest authority and evidence are in [the continuation contract](CONTINUATION_CONTRACT_20261011.md) and [current state](../../../../specs/current-state.md). Local evidence selects submissions; public LB confirms transfer. Own fixed student–scratch pair scores0.67329 on exposed fold1; packaging destination `submissions/10-11-67`. Owned Vast B is active under the user-selected$70 ceiling, Kaggle longv6 and local four-epoch seed confirmations continue. The October9 allocation below is historical.
 

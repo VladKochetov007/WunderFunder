@@ -1,0 +1,37 @@
+{
+  "schema": "wnn.root.f1.export_dependency_review.r1",
+  "created_utc": "2026-10-11T23:44:15.139227+00:00",
+  "reviewer": "root separate from Luna writer",
+  "actor_commit": "f06a68cf3cf5622c7c07c54ba91cfeb76941b2dd",
+  "checks": [
+    {
+      "stage": "parent",
+      "changed_fields": [
+        "attempt",
+        "expected_fit_attempt"
+      ],
+      "successor_sha256": "0419ff0af8db215a7e48e2897e2c6ff394e70dbfdb48d509ba8204b7872c8926",
+      "expected_producer": "oldz4-r4-f1-s3-parent-fit",
+      "checkpoint_epoch": 3,
+      "output_exists_now": false
+    },
+    {
+      "stage": "student",
+      "changed_fields": [
+        "attempt",
+        "expected_fit_attempt"
+      ],
+      "successor_sha256": "9f8060a8569f3867d68810d4e179d1aaf4e0dc116809a3725fb59045b8e3c98b",
+      "expected_producer": "oldz4-r4-f1-s3-student-fit",
+      "checkpoint_epoch": 1,
+      "output_exists_now": false
+    }
+  ],
+  "verdict": "PASS dependency-only correction; no export admission",
+  "pending": [
+    "valid finite fixed checkpoint and actual producer completion/provenance hashes",
+    "fresh no-overwrite check",
+    "current resource admission and GPU handoff"
+  ],
+  "launch_authorized": false
+}

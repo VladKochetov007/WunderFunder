@@ -1,4 +1,6 @@
 # Idea ledger 2026-10-11 (everything proposed, tried or not; evidence and files)
+
+Latest continuation: [October12 optimization and transfer index](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md). Every new CPU hypothesis is linked in the append-only ledgers/tree; indexing does not authorize a launch or promote an unrun idea.
 Rule (user 2026-10-11): every idea, evidence, literature item and generated file mentioned in session summaries is recorded here with a status and a path. Machine rows: research/hypotheses.jsonl (H-347..H-360). Chronological detail: research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LOOP_LOG_20261010.md. Index: research/RESEARCH_NOTES_INDEX_20261010.md.
 Status: DONE+pos / DONE+null / DONE+neg / RUNNING / QUEUED / PLANNED / NOT-STARTED. Scores = fold-1 WP (control scratch teacher 0.6656-0.6662, one-run sd 0.002, seed sd 0.001) unless noted.
 
@@ -158,3 +160,8 @@ Old Z4 fold-0 student CP1 completed, exit 0: 14,920 attempts = 14,913 updates + 
 ## 2026-10-11T22:08:51.128191+00:00 — current delivered stages and quality priority
 
 Student CP1 F0 is exported/graded, WP 0.6831418134, paired parent delta +0.0003184720, n1/468 exposed groups/141 components, conditional interval [-0.00132008,+0.00179901]. Core crop/HFT next; F1 pipeline prepared. Kaggle R4 paired profiles passed; no teacher fit started because of host-memory admission. Complete collected R2 receipts precede logical-hold release; minimal resource repair owned by batch builder. Two reviewed full-data Q8 ZIPs ready now; exact full-data forecasts unquantified. Latest user asks for ETA and explicitly prioritizes quality: complete comparable cross-fold pipelines, useful fixed mixtures and native checks before next strongest final batch. Planning times are conditional, not backlog-wide guarantees. See latest LOOP_LOG entry. No spending/cap/stop changes.
+
+
+## H. CPU algorithms, compiler evidence and public-fold affinity — 2026-10-11T23:41:41Z
+
+[Consolidated index](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md) preserves all analyses and sources. H-CPU-PGO-01/H-CPU-PROJ-01 completed without a repeatable runtime gain; H-CPU-PREFIX-01 screened0/199,990 repeats and is deferred. H-CPU-MAX-01 activation/max fusion, H-CPU-GATE-01 exact recurrent gate tiling and H-CPU-VL-01 genuine EVEX YMM scheduling are proposed/unadmitted. H-CPU-SHARED-01 is a concrete own identical-backbone/student-HFT interaction: fixed F0 half blend .6834706265 vs student .6831418134, n1 exposed, imprecise positive component effect; serving consumer unimplemented. H-PUBLIC-AFFINITY-01 lacks matched public coverage to identify a preferred fold. Q4/Q8 panel, Q5–Q7, mixed precision, faithful QAT, low-rank arithmetic and constrained blend methods retain their original statuses and complete-endpoint gates; no blanket reopening of closed recipes.
