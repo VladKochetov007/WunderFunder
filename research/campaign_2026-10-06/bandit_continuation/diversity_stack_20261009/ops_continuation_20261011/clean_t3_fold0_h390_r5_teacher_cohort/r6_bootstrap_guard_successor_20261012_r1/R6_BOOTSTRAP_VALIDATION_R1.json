@@ -4,7 +4,7 @@
     "identical_to_r9": true,
     "sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549"
   },
-  "bindings_sha256": "bbdff494fb8919e55e879748749c2b0eebdafef7ae8a3f691ce6b29bc0804d0f",
+  "bindings_sha256": "f1d3acec7baab36ef60e0e0a8a12a58b4d1e887622195804a4886f93a0172722",
   "bootstrap_delta": {
     "archive_member_allowlist": "unchanged from R9; test demonstrates a real archive member is refused when absent from the fixture manifest allowlist",
     "external_input_allowlist": "separate set derived from EXPECTED_EXTERNAL_MOUNTS after exact manifest equality check",
@@ -20,12 +20,35 @@
   "coverage_gap_diagnosis": "Earlier archive and authority review did not execute the external-mount loop. R5 then failed there because external logical keys were checked against archive member names rather than EXPECTED_EXTERNAL_MOUNTS.",
   "dataset_and_kernel_metadata_identical_to_r9": true,
   "fit_or_profile_started": false,
+  "latest_read_only_r5_status_quota": {
+    "campaign_headroom_gpu_seconds": 30550.22400000001,
+    "observed_at_utc": "2026-10-11T23:57:33+00:00",
+    "poll_receipt": "R6_CURRENT_R5_QUOTA_POLL_R1.jsonl",
+    "poll_receipt_sha256": "d0c519b0828fa77f1a9f84d5291802840477117ef3899ccd48e848e1abbd66f1",
+    "poller_script_path": "research/campaign_2026-10-06/cloud_preflight/poll_provider.py",
+    "poller_script_sha256": "aab0e1b0972d46e1c61699f770948d55a797cbedf139f3ff3ab194eac4e518c6",
+    "provider_reserved_gpu_seconds": 0.0,
+    "provider_status": "KernelWorkerStatus.ERROR",
+    "provider_total_allowed_gpu_seconds": 108000.0,
+    "queried_kernel": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5-runner",
+    "scope_note": "only the existing R5 kernel was queried; there is no R6 version-2 provider status yet",
+    "session_id_available": false,
+    "used_gpu_seconds": 63277.613
+  },
   "manifest": {
     "identical_to_r9": true,
     "sha256": "5fc7423ebb8f8ef3c5c5bb0ec8be35352f3470dd75d99d47cad4180ac663c689"
   },
   "package_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1",
-  "provider_action": "none; version 2 still requires new root release",
+  "provider_action": "read-only status/quota query for the existing R5 kernel only; no provider writes",
+  "provider_write_performed": false,
+  "read_only_quota_status_sha256": "d0c519b0828fa77f1a9f84d5291802840477117ef3899ccd48e848e1abbd66f1",
+  "reported_root_r5_hold_close": {
+    "copied_into_this_worktree": false,
+    "provenance": "root message; root owns the authority receipt",
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/ROOT_R5_TERMINAL_RESERVATION_CLOSE_R1.json",
+    "sha256": "42a8ca0bd0ca90273cc5ee9d215c54ea12be53e95cc0d3cfea2a5053c0f19aa3"
+  },
   "resource_envelope": {
     "cpu_quota": "50%",
     "memory_max_bytes": 700000000,
