@@ -109,3 +109,18 @@ Do not read these as forecasts of the leaderboard; they are the transfer model f
 * Winner's curse from picking seed 4 is only ~ +0.0013 (0.67195 vs the e4 mean 0.6706). It cannot explain a 0.0046 shortfall relative to the student-class offset.
 * Consequence: the gap is **systematic, not seed noise** - fold 1 rewards this recipe more than the public set does (recipe-level fold-specific gain, H1), or scratch Muon-all models transfer worse as a family (H4). This raises the value of the two decisive tests in section 8: (a) the same recipe on other folds, (b) one non-selected scratch canary on public. Seed replicates on fold 1 add nothing more.
 * Kaggle v6 jobs: 4 finished, fit 2.9-3.5 ks each on T4 (rc 0). Preds in `kaggle_long_20261010/output_v6/` (gitignored).
+
+## 11. Corrections after the owner's response (13:55) - read this before sections 4, 6, 7
+
+The owner's note `PUBLIC_TRANSFER_RESPONSE_20261011.md` correctly rejects several things I stated too strongly. Adopted corrections:
+
+1. **No calibrated local->public offset.** "public = local - 0.0057" rests on two student points; it is a descriptive coincidence, not a rule. Section 7's expected-public table is **withdrawn** as a forecast; keep only the qualitative ordering (distilled student improved vs the previous fold-1-held-out student: .6639 -> .6652; scratch single much weaker; pair no better than its student).
+2. **No "3 sigma" significance claim** from dispersion across *different uploaded models*; that is not repeated-measurement portal noise. The .0002 pair-vs-student difference is observed, not significant.
+3. **The ~0.004 winner's-curse number is an illustrative independent-Gaussian calculation**, not a measured correction for adaptively chosen, correlated recipes/seeds. Use the *qualitative* statement: ranking a selected endpoint is not ranking a stable recipe mean; the shipped seed (s4) was the best of the first two completed seeds.
+4. **"Shrink fold-1 deltas by 0.5" and "ignore < 0.003" are unsupported rules** and are withdrawn. Uncertainty guides bounded allocation; it is not an automatic kill gate (ADR0009).
+5. **Leakage direction**: leakage can inflate local validation without improving public; ancestry/clean-fitting receipts are the relevant evidence, not my sentence that leakage "would raise public".
+6. **Infrastructure note**: Vast B is active (7 running / 7 pending, $32.37/$70 at the 10:26 UTC receipt), not drained. Live receipts override the infrastructure sentence in section 8.
+7. **Parity evidence**: 10 gate sequences only; it makes gross serving drift unlikely but does not exclude a concentrated error elsewhere. The owner's planned complete-fold served-endpoint check (shipped callback, official mask/clip/weights, Q8 vs native FP32) is the right closing test.
+8. **Hypothesis ids**: my rows `H-376..H-381` collide with the owner's `H-375..H-381` (different statements). Canonical review ids are **`REV-1..REV-6`** (appended to `research/hypotheses.jsonl`); the colliding rows are historical and should be read together with their `mechanism_family` (validation_protocol / transfer_model / serving / blend).
+
+What stands: serving parity on the gate sequences; the observed public values; the student-vs-previous-student direction; the Kaggle v6 seed table (fold-1 seed sd small for this recipe); and the recommendation for cross-fold confirmation + a served-endpoint full-fold check before more scratch packaging.
