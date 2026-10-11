@@ -1,0 +1,42 @@
+{
+  "schema": "wnn.oldz4-hft-profile-cli-independent-review.r1",
+  "decision": "QUALIFIED_PASS_PROFILE_ONLY",
+  "reviewed_actor_commit": "57f42e75537a79c18f6c742804444672a8cf72c8",
+  "scope": "R6 correction to the actual c337 HFT profile CLI; no fit or score review",
+  "pins": {
+    "profile_contract_sha256": "2ab8ead9afc6e8d33469d7c6e4b9a496403b46ca7852a853f11c2cbe24212a72",
+    "profile_runner_sha256": "d8e0f651da2ad1ee0f87fa14badfc3ee1cfd132dc1dfc13e70811a35f10c375d",
+    "actual_cli_preflight_sha256": "d1963da7da42ac5a89f283ea03a06f4eaa70cf5a3e580bb61b35946b97484901",
+    "fit_contract_r5_sha256": "64df5f235242042a3e9848eb260321d4a0b46979862aa9299dfa5f401059b541",
+    "source_bindings_r5_sha256": "b7c08e9b19ee6d4e802d858259caeba505538c8e4b5385bf52cd5f21e8a0985b",
+    "trainer_snapshot_commit": "c337e3a613f795fdbb057098d11c0191c37c3615",
+    "trainer_source_sha256": "5b135ea90480dde8b530c4543e1d587a044efa1f98dc6a3327b9dca6fcd40187",
+    "core_crop_receipt_sha256": "09b0836d182a22758ec5183f9a1891e53c4aa48f3164214382ab46f7ac62475f",
+    "objective_clarification_r5_sha256": "f1af75b47a48c440f7860f4e2a97b9eff7ac2594b2a885fc22f9583447c4befd",
+    "root_profile_launch_receipt_sha256": "88bd9c209d16ca1ce6e57a490791850f4f9fb73aa86197bc358eeb030debd925"
+  },
+  "recipe_audit": {
+    "argv_transform": "Independently reconstructed from the frozen R5 fit argv and matched byte-for-byte to R6 profile argv and the actual-c337 preflight argv.",
+    "only_cli_delta": "New profile run name; removal of --save-training-state for the early-exit profile; addition of --profile-warmup 2, --profile-steps 25, and --grad-stats.",
+    "fit_contract": "R5 fit contract bytes are unchanged and retain --save-training-state; R6 profile contract still binds the exact fit contract SHA.",
+    "method_and_membership": "The profile keeps F0 valid-fold split, seed 3, valid-only fit source, full-valid plus mask-weight, inherited CP1 preprocessing, GCorr, frozen inp/gru, AdamW/OneCycle, batch 16/chunk 2000, fp16, the unchanged fit recipe's fixed epoch-0 checkpoint setting, and no fit-time evaluation. The early-exit profile itself is expected to write no checkpoint. The parent-bound effective objective remains GCorr with aux_next=0.3 and aux_struct=0.3 per the objective clarification; this is not a no-aux ablation.",
+    "profile_semantics": "Two warm-up and 25 measured complete batches with gradient statistics; c337 rejects continuation-state saving on profile early exit, so removing that flag from this profile is required and does not alter the separate fit argv.",
+    "actual_cli_record": "The pinned preflight reports PASS_ACTUAL_C337_ARGV_BEFORE_DEVICE_AND_DATA and device_or_data_started=false after the actual main argv reached configure_torch. This reviewer checked its exact hashes/argv bindings and source ordering; the preflight itself was not rerun here.",
+    "exposure": "F0 has previously been inspected; this profile is only resource/update diagnostics and is not a score or fresh-holdout result."
+  },
+  "launch_pin_qualification": {
+    "limitation": "The profile worker's _require_launch_receipt does not itself compare profile_runner_sha256, despite README_R6 describing that binding.",
+    "accepted_external_control": "The immutable root launch receipt pins the exact R6 runner SHA and profile contract, fit contract, crop receipt, trainer source, and actual CLI preflight. Root records an external exact-runner SHA assertion immediately before dispatch and freezes the reviewed source for the job.",
+    "condition": "This PASS applies only with that external pre-dispatch runner pin and frozen-source control in force; the omission remains an internal consumer limitation, not a code-level fix."
+  },
+  "actions_and_tests": {
+    "independent_checks": [
+      "JSON/SHA closure for profile contract, R5 fit contract, trainer source, actual preflight, objective clarification, crop receipt, and root launch receipt",
+      "Small bounded Python check reproduced the exact allowed argv transformation and confirmed 2+25 profile batches and state-save flag separation",
+      "Static review of c337's inherit_init_arguments, profile continuation guard, split loading, and configure_torch boundary"
+    ],
+    "provider_calls": 0,
+    "gpu_or_fit_actions": 0,
+    "remaining_gate": "A full HFT fit still requires a separately reviewed finite-update/resource profile and its root fit release."
+  }
+}
