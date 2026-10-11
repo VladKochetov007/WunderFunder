@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.h390-fp32-q8-grade-independent-review.v1",
+  "review": "PASS",
+  "review_scope": "Read-only audit of the sealed ten-sequence FP32-versus-Q8 precision grade and its Q4 comparison; no model execution, data modification, or public/CV claim.",
+  "reviewed_artifacts": {
+    "selector_commit": "13f0f9b743a3221ffe3b1182d249f207ac4c38ec",
+    "grade_receipt_path": "/home/vlad/development/wunder/wnn_submission_selector_20261011_r1/research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/q4_precision_h390_r1/artifacts_r1/grade_r3/FP32_Q8_GRADE_RECEIPT_R1.json",
+    "grade_receipt_sha256": "83de990426407dcd2ca92ee917c9dd7dce4b888b1b58da57b3dc01d2ec57d62f",
+    "grade_source_path": "/home/vlad/development/wunder/wnn_submission_selector_20261011_r1/research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/q4_precision_h390_r1/grade_fp32_vs_q8_panel.py",
+    "grade_source_sha256": "f7ffa758735985c857017372c40136b1ce6c7b3cf5a1b709118755b653ebc97c",
+    "official_metric_source": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/gmetric.py",
+    "official_metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "q4_grade_receipt_sha256": "2751abfc7a68c33895be0a32d2da37bbc229dbd4de61c4bc9c71330f79a8f479",
+    "q4_build_receipt_sha256": "f6a04c25ad9548833b65ad322ccee06a4b158759d9f068ba52a28de0b21e6154",
+    "q8_zip_sha256": "3420ea5e6318e15b6340582125959ed7489983b17338f399c748965cb42c4a4a",
+    "q8_callback_receipt_sha256": "489acfce54cbd0cd95c21a982f8d93b12185d7affd8b5626d08c24fc4917ce20",
+    "q8_runtime_receipt_sha256": "0b21f49c68afcff429d5e5ade6b9aeef1c7f5e635e506c88d6bc8ee21069cc8d",
+    "r1_precision_retraction_sha256": "8d4f3cae2f786fde26f2d437eb04ec6ee68493cda6aad70d4bd0a4d0b12c7485"
+  },
+  "checks": {
+    "receipt_and_code_sha256": "PASS",
+    "actual_r1_precision_is_f32_despite_stale_q8_label": "PASS",
+    "actual_r2_runtime_precision_q8vnni_and_startup_binding": "PASS",
+    "same_two_member_npz_bytes_and_member_order_across_r1_r2": "PASS",
+    "same_ten_sequence_panel_and_q4_target_mask_group_hashes": "PASS",
+    "official_metric_global_wp_clip2_v1_mask_clip_and_weights": "PASS",
+    "row_count_15615_matches_sum_of_group_masks": "PASS",
+    "q4_grade_q8_score_crosscheck": "PASS"
+  },
+  "independent_bounded_check": {
+    "command_scope": "Python 3.11 metadata/receipt assertions through scripts/limited at 1 CPU, 1.2 GB, 120 seconds; no parquet scan or callback execution.",
+    "checks_run": [
+      "receipt/group row-count arithmetic and ordered ten group IDs",
+      "target and official-mask hashes equal the Q4 receipt for every group",
+      "actual precision assertions and expected exact ZIP/member hashes",
+      "official score values and Q4-versus-Q8 link consistency"
+    ],
+    "result": "PASS"
+  },
+  "results": {
+    "metric": "global_wp_clip2_v1",
+    "exposure": "Ten exposed valid groups; the two H390 models were fitted on all supplied train and valid groups, so this is an in-sample precision diagnostic.",
+    "selected_rows": 15615,
+    "fp32_wp": 0.7634491624539435,
+    "q8_wp": 0.763378259474159,
+    "q8_minus_fp32_wp": -0.00007090297978440407,
+    "q4_grid_on_q8_minus_q8_wp": -0.0018012472395336765
+  },
+  "limitations": [
+    "The full valid parquet was not hashed; the receipt binds its size/mtime and hashes the selected feature panel plus per-group target and mask arrays.",
+    "This result supports a bounded precision comparison only; it is not clean cross-validation, held-out generalization, a public-score estimate, or a full-data model-quality claim.",
+    "The earlier R1 package's Q8 label was false: its exact native members were FP32. Its retraction is preserved and the comparison correctly labels those predictions FP32."
+  ]
+}
