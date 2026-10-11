@@ -1,0 +1,27 @@
+{
+  "schema": "wnn.independent-r4-terminal-collector-review.r1",
+  "status": "block",
+  "scope": "Bounded static review of the download-only collector; no provider call, download, fit, push, or source edit.",
+  "reviewed_requested_commit": "de94051046326103d875b445ae43ff62dc8ff3ce",
+  "reviewed_functional_head": "9f281770f3ad1a219eb02573444a2146d65352a1",
+  "collector_source_sha256": "504ffff1f3297cde36f1bdab752b6469bd5c2f2a2b38edc58b747b13a85bc718",
+  "pins": {
+    "root_terminal_download_admission_sha256": "3eee6881ec10d8d4b18b5769733982aa9baf47fa28e5a10cbed8698a310e546e",
+    "pre_download_readonly_inventory_receipt_sha256": "1b834f5e77d6ebd493a93b8e9ae0e2791827078d5b9f3fb05a2f12b21114627b",
+    "reviewed_r2_adapter_sha256": "15b56f98d0b8ca336ea794142764a3d5a220ef75589e931c06b9dc87184e1da1",
+    "r2_independent_review_sha256": "995afd07ecfe7d4ca808e5d6a544eb4621eed971f9d03901fc8ee9fc5fb88ddf"
+  },
+  "findings": [
+    "The wrapper is download-only, requires the exact root-admitted ERROR status and pinned R4 artifacts, checks the fresh session-output endpoint before download, refuses an existing destination, and delegates one bounded attempt to the reviewed R2 collector.",
+    "The R2 collector compares the downloaded filename set and byte sizes with the fresh provider inventory, hashes every downloaded file, and compares the CLI response.log bytes/hash against the fresh session-output response-log metadata. The ERROR path writes terminal-download-complete/science-not-validated diagnostics and does not run strict scientific validation or issue a score.",
+    "The pinned pre-download receipt is internally consistent: outer and endpoint inventories each list 108 names, the endpoint inventory is complete, and the endpoint response-log SHA/size is recorded. The focused R4 wrapper tests passed 3/3 under 50% CPU, one thread, 700 MB, and 120 seconds."
+  ],
+  "blocking_finding": "The wrapper validates the pinned pre-download receipt only by schema, kernel, ERROR status, output count, no-download flag, and complete flag. It then gets a fresh session-output inventory and downloads against that fresh inventory without requiring its exact filenames to equal the 108 names in the pinned receipt. A changed 108-file set could therefore be downloaded under an admission reviewed against a different set. Before download, require exact filename-set equality with the pinned receipt (and preserve the fresh inventory receipt).",
+  "evidence": {
+    "admission_receipt_validation_lines": "collect_r4_terminal.py:202-210",
+    "fresh_inventory_to_download_lines": "collect_r4_terminal.py:905-927",
+    "test_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q .../clean_t3_f0_r4_terminal_collection_r1/test_collect_r4_terminal.py",
+    "test_result": "3 passed in 0.33s"
+  },
+  "scientific_interpretation": "The terminal ERROR is execution evidence only; this review makes no claim that the fit or any model failed scientifically."
+}
