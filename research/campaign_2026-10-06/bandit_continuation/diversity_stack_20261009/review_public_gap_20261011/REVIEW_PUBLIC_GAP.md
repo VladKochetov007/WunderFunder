@@ -210,3 +210,13 @@ All muon-all x prop0 contrasts use seed 3, 3 epochs unless stated. "Control" = M
 * **4th epoch:** fold 1 +0.0015, fold 0 +0.0008 (prop0 arm), fold 2 -0.0007: mixed, mean about +0.0005 - not established.
 * **Expected consequence for public:** an average recipe gain of ~+0.001-0.002 cannot explain, by itself, a public result 0.005 below the distilled student; the seed-4/e4 pick and fold-1 selection together with scratch-vs-student transfer remain the working explanation (REV-1/REV-5 unchanged), but the recipe is a modest real improvement on three of four folds, not noise.
 * New fold-1 datum: `h391` (h384 student, alpha 0.9, 6 epochs, seed 3) = 0.67024 vs the h256 student 0.67103: a wider student does not help (plateau again).
+
+## 20. Addendum 21:10 - fold-3 4-epoch result closes the epoch question (reviewer-scored)
+
+Fold 3 (seed 3, muon-all x prop0, h256): **e4 0.70657** vs e3 **0.70865** (-0.0021) and vs the Muon-rnn/prop2 3-epoch control 0.70676 (-0.0002).
+
+| 4th epoch effect (e4 - e3, seed 3) | fold 1 | fold 0 | fold 2 | fold 3 | mean |
+|---|---|---|---|---|---|
+| WP delta | +0.0015 (n=4 vs 6) | +0.0008 | -0.0007 | -0.0021 | **-0.0001** |
+
+* Across four folds the 4th epoch is **neutral on average (-0.0001) with sign flips**; it is a fold-1 feature. The shipped `ZIP9` (4 epochs, selected seed) took exactly the setting that only fold 1 rewarded; with 3 epochs the recipe would have been +0.0016 over the control on folds 1-3. Rule for the next owner: **muon-all x prop0 at 3 epochs only**; no 4-epoch variants without a multi-fold reason.
