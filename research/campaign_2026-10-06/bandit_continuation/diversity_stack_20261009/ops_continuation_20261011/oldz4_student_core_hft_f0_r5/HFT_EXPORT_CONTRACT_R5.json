@@ -1,0 +1,83 @@
+{
+  "attempt": "oldz4-r5-f0-s3-hft-export",
+  "dtype": "float32",
+  "environment": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONHASHSEED": "0",
+    "WNN_LOADER_WORKERS": "0",
+    "WNN_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "epoch": 0,
+  "expected_payload_bytes": 299680000,
+  "fit_contract_sha256": "64df5f235242042a3e9848eb260321d4a0b46979862aa9299dfa5f401059b541",
+  "grade_membership": {
+    "claim": "Previously inspected fold robustness evidence, not a fresh holdout or public result.",
+    "fixed_evaluation_group_count": 468,
+    "fold": 0,
+    "metric": "src/wnn/gmetric.py global_wp_clip2_v1",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "initializer": "oldz4_h230_core_f0_s3_r5@ep1",
+  "prediction_relative_path": "cache/pred_oldz4_h230_hft_f0_s3_r5_valid.npy",
+  "predictor_argv": [
+    "oldz4_h230_hft_f0_s3_r5",
+    "valid",
+    "--epoch",
+    "0",
+    "--output-name",
+    "oldz4_h230_hft_f0_s3_r5"
+  ],
+  "predictor_snapshot_commit": "c337e3a613f795fdbb057098d11c0191c37c3615",
+  "predictor_source_sha256": "fee58a359c24208116cbf3b86e7d4dcf90ba285494582ab2f760edd9f8e1d0aa",
+  "prepared_utc": "2026-10-11T22:05:33.999083+00:00",
+  "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "resource_limit": {
+    "cpu_quota": "100%",
+    "kind": "CUDA_export",
+    "memory_max_bytes": 6800000000,
+    "root_admission_required": true,
+    "runtime_max_seconds": 1800,
+    "threads": 1
+  },
+  "root_gates": {
+    "export_authorized": false,
+    "fit_authorized": false,
+    "terminal_fit_receipt": "ROOT_HFT_TERMINAL_ADMISSION_R5.json"
+  },
+  "row_order": "cache/valid_targets.npz row_group order; feature-only reads",
+  "run": "oldz4_h230_hft_f0_s3_r5",
+  "runner_command": [
+    "/usr/bin/env",
+    "WNN_SLICE=wnn-campaign.slice",
+    "WNN_CPU_QUOTA=100%",
+    "WNN_THREADS=1",
+    "WNN_MEM_MAX=6800000000",
+    "WNN_RUNTIME_MAX=1800s",
+    "WNN_LOADER_WORKERS=0",
+    "OMP_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "PYTHONHASHSEED=0",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_oldz4_corecrop_hft_20261012_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/run_hft_stage_r5.py",
+    "--stage",
+    "export",
+    "--project-root",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack"
+  ],
+  "schema": "wnn.oldz4-hft-export-contract.v1",
+  "shape": [
+    1873,
+    20000,
+    2
+  ],
+  "sidecar_relative_path": "cache/pred_oldz4_h230_hft_f0_s3_r5_valid.json",
+  "source_snapshot_bindings_sha256": "b7c08e9b19ee6d4e802d858259caeba505538c8e4b5385bf52cd5f21e8a0985b",
+  "split": "valid",
+  "status": "prepared_code_only_waiting_for_fit_and_root_terminal_admission"
+}

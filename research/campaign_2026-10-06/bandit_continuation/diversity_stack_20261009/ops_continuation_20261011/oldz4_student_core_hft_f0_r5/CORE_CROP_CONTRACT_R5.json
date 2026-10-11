@@ -1,0 +1,217 @@
+{
+  "actual_admission_receipt": "ROOT_CORE_CROP_ADMISSION_R5.json; schema wnn.oldz4-core-crop-admission.v1; decision PASS; binds core_crop_contract_sha256 and source_checkpoint_sha256.",
+  "attempt": "oldz4-r5-f0-s3-core-crop",
+  "authorization": "Root owns the actual crop stage execution and resource admission. This packet prepares an immutable write-once command only.",
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "WNN_LOADER_WORKERS=0",
+    "WNN_THREADS=1",
+    "OMP_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "PYTHONHASHSEED=0",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_oldz4_corecrop_hft_20261012_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/prepare_core_crop_r5.py",
+    "--project-root",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack"
+  ],
+  "crop_source_relative_path": "source_snapshots/core_crop_fe8/scripts/make_core_checkpoint.py",
+  "crop_source_sha256": "c805c4f8647abbaa434a575870199b558b411e412a3ceaff450a36e4a657161a",
+  "destination_checkpoint_epoch": 1,
+  "destination_must_not_exist": true,
+  "destination_run": "oldz4_h230_core_f0_s3_r5",
+  "environment": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONHASHSEED": "0",
+    "WNN_LOADER_WORKERS": "0",
+    "WNN_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "fit_membership": {
+    "eligible_valid_parquet_groups": 1405,
+    "excluded_outer_eval_valid_groups": 468,
+    "source_qualified_exclusion": "The group namespace includes source split; valid fold-0 fit groups are disjoint from valid fold-0 evaluation groups.",
+    "train_parquet_groups": 10535
+  },
+  "fold": 0,
+  "output_contract": {
+    "family_rows_removed": 8,
+    "first_23_output_weight_and_bias": "bitwise identical to actual parent CP1",
+    "model_output_rows": 23,
+    "other_model_tensors": "bitwise unchanged",
+    "receipt": "CORE_CROP_PRODUCER_RECEIPT_R5.json write-once",
+    "source_run_and_checkpoint": "never overwritten"
+  },
+  "parent_ancestry": {
+    "normalization_identity": {
+      "mean": {
+        "bytes_sha256": "b5c74bd5507b06fed49228172cbe7f60374c5ec98b6024885d317128adb71874",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      },
+      "std": {
+        "bytes_sha256": "281f23f5f7b071a8fa275ebaed4881b46d627eba532bb187250305c8c1c91218",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      }
+    },
+    "parent_cp1_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "parent_epoch": 1,
+    "parent_gate_relative_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_cp1_gate_r5/receipts/CP1_TERMINAL_GATE_R5_PRODUCER_TEST_R3.json",
+    "parent_gate_sha256": "0f31fbfe039b4fcbca66a296888af9fd68820a1dd2fc57b5c99d9a1ac7a90ee1",
+    "parent_gradient_finiteness_claim": "not independently measured by the parent terminal gate; do not infer from AMP skip counts",
+    "parent_init_checkpoint_sha256": "56b6413fdf9c9248961b0dfe6797890f2aae98bc85550b80c6b9524870e92532",
+    "parent_init_run_epoch": "oldz4_h230_parent_f0_s3_r3@ep3",
+    "parent_model_tensors_finite": true,
+    "parent_provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+    "parent_run": "oldz4_h230_student_f0_s3_r3",
+    "parent_terminal_gate_status": "pass",
+    "parent_update_totals": {
+      "amp_skipped_updates": 7,
+      "completed_batches": 1492,
+      "optimizer_attempts": 14920,
+      "optimizer_completed_updates": 14913
+    },
+    "post_crop_semantics": "Checkpoint CP1 retains the same ancestor/fit membership. Only the eight family readout rows are discarded; the HFT stage itself consumes no teacher, propensity, or cached targets.",
+    "source_fit_valid_eval_overlap_groups": 0,
+    "source_qualified_fit_group_count": {
+      "train": 10535,
+      "valid": 1405
+    },
+    "source_qualified_fit_membership_sha256": {
+      "train": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+      "valid": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+    },
+    "student_distillation_cache": {
+      "coefficient_sum": 0.8125,
+      "epoch_convention": {
+        "friend_at_ep1": "second additional epoch",
+        "source_zero_based": true,
+        "student_checkpoint_epoch": 1,
+        "student_checkpoint_policy": "fixed",
+        "student_epochs": 2
+      },
+      "family_order": [
+        "strong",
+        "full_finetuned",
+        "raw_wmse",
+        "samefold_baseline"
+      ],
+      "heldout_claim": null,
+      "homogeneous_family": "strong",
+      "membership_mode": "clean_fold_fit",
+      "metadata_sha256": "398d7753a127054f3e38cd34c4730099843d60663541787e09ab38c9f45e47ad",
+      "root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+      "source_coefficients": [
+        {
+          "coefficient": 0.15,
+          "epoch": 3,
+          "family": "strong",
+          "run": "c20261003_combo_s3_f0"
+        },
+        {
+          "coefficient": 0.15,
+          "epoch": 3,
+          "family": "strong",
+          "run": "c20261003_combo_s4_f0"
+        },
+        {
+          "coefficient": 0.1,
+          "epoch": 0,
+          "family": "full_finetuned",
+          "run": "c20260929_ft_since_s3_f0"
+        },
+        {
+          "coefficient": 0.1,
+          "epoch": 0,
+          "family": "full_finetuned",
+          "run": "c20260929_ft_since_s4_f0"
+        },
+        {
+          "coefficient": 0.125,
+          "epoch": 3,
+          "family": "raw_wmse",
+          "run": "c20260929_since_s3_f0"
+        },
+        {
+          "coefficient": 0.125,
+          "epoch": 3,
+          "family": "raw_wmse",
+          "run": "c20260929_since_s4_f0"
+        },
+        {
+          "coefficient": 0.03125,
+          "epoch": 3,
+          "family": "samefold_baseline",
+          "run": "bd26_w384raw_s3_f0"
+        },
+        {
+          "coefficient": 0.03125,
+          "epoch": 3,
+          "family": "samefold_baseline",
+          "run": "bd26_w384raw_s4_f0"
+        }
+      ],
+      "teacher_source_split": null,
+      "variant": "source",
+      "verified_files": {
+        "families_train": "a8017c06294acd23087d72b1942637c7ecd465ee24480d8e765d7a6c2a3506ad",
+        "families_valid": "e1180f600dfdc58769c3bc0548683aa14edbf823d43361a62566419083176abe",
+        "main_source_train": "552db7586caf9b95b174170e16ad5f470e3e67c7d675f9675dee7c020fa43efb",
+        "main_source_valid": "411ef2451ef1cce425f3ec74ed01fd2f6b48c58c2b49eda67861b5b827212073"
+      }
+    },
+    "student_propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7"
+  },
+  "parent_gate_relative_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_cp1_gate_r5/receipts/CP1_TERMINAL_GATE_R5_PRODUCER_TEST_R3.json",
+  "parent_gate_sha256": "0f31fbfe039b4fcbca66a296888af9fd68820a1dd2fc57b5c99d9a1ac7a90ee1",
+  "prepared_utc": "2026-10-11T22:05:33.999083+00:00",
+  "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "resource_limit": {
+    "cpu_quota": "50%",
+    "gpu_fit": false,
+    "kind": "CPU_only",
+    "memory_max_bytes": 700000000,
+    "runtime_max_seconds": 300,
+    "threads": 1
+  },
+  "runner_command": [
+    "/usr/bin/env",
+    "WNN_SLICE=wnn-campaign.slice",
+    "WNN_CPU_QUOTA=50%",
+    "WNN_THREADS=1",
+    "WNN_MEM_MAX=700000000",
+    "WNN_RUNTIME_MAX=300s",
+    "WNN_LOADER_WORKERS=0",
+    "OMP_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "PYTHONHASHSEED=0",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_oldz4_corecrop_hft_20261012_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/prepare_core_crop_r5.py",
+    "--project-root",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack"
+  ],
+  "schema": "wnn.oldz4-core-crop-contract.v1",
+  "seed": 3,
+  "source_checkpoint_epoch": 1,
+  "source_checkpoint_relative_path": "artifacts/runs/oldz4_h230_student_f0_s3_r3/model_ep1.pt",
+  "source_checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+  "source_provenance_relative_path": "artifacts/runs/oldz4_h230_student_f0_s3_r3/provenance.json",
+  "source_provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+  "source_run": "oldz4_h230_student_f0_s3_r3",
+  "source_snapshot_bindings_sha256": "b7c08e9b19ee6d4e802d858259caeba505538c8e4b5385bf52cd5f21e8a0985b",
+  "split_manifest_relative_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "status": "prepared_code_only_root_execution_not_authorized_by_packet"
+}
