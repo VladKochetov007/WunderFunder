@@ -253,3 +253,10 @@ Calibration from our own public data (`SCORER_CPU_SPEC_20261010.md` / `PUBLIC_SC
 
 * The h384 members are no longer prohibitively slow (about 50 us/row each vs 733 us/row on the old kernel), but a **three-h384 package is at or beyond the limit once portal variance (observed ~1.8x, with two earlier TIMEOUTs at ~62 min) is included**. The 4-member student+trio is worse. Prior public evidence: pairs are safe (27 min), two-model h384 i16 timed out.
 * Fold-1 value of the trio: 0.67254 vs the h256 student 0.67103 (+0.0015, exposed); a package that times out scores nothing. Expected benefit per upload slot is therefore **lower than the H390 student pair at similar quality unless the portal time is confirmed well under ~35 min**. Recommended order unchanged: H390 pair (A) first; use a trio only if the user accepts the timeout risk for one slot, preferably after A's portal duration is known (calibrates the loaded->portal conversion for the current runtime).
+
+## 24. Addendum 01:00 - owner's `TOP_CANDIDATES_R3.md` (2 operational candidates) against the portal-time estimate
+
+1. `12_h388_teacher_trio_all_fp16store_q8vnni.zip` - three own H384 seeds 3/4/5 (all-data), 13.7 MB. Fold-1 sibling (float) 0.67254. **Portal estimate (section 23): ~40-45 min typical, ~72-81 min at 1.8x variance: timeout risk.**
+2. `11_h390_student_s3_h388_teacher_s5_all_q8vnni.zip` - half H256 student, half H384 teacher, 12.9 MB, two members (~33-50 us/row quiet each => ~35 portal-min typical, ~63 at 1.8x). Related float prototype 0.67257; the student/teacher mixture has a *closer-in-kind* public precedent (pair 27 min). Lower timeout risk than #12 but not zero.
+
+Reviewer note: both are all-data finals (no held-out score), built from the *cross-fold-weak* recipe components (Muon-all teachers, 3 epochs - acceptable per section 20) and from the student recipe that transferred. The owner's README correctly gives no public forecast. Portal duration of whichever is uploaded first should be recorded to recalibrate the conversion before the second slot.
