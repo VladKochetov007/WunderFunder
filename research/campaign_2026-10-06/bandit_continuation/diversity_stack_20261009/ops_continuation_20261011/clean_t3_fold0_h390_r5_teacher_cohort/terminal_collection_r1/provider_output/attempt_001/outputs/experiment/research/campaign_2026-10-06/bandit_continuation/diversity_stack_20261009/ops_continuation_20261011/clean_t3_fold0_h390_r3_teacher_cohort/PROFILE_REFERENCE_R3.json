@@ -1,0 +1,31 @@
+{
+  "archive_sha256": "986304b0278ea2ea3c5b903984edd5b58fda6e04e497a6bd10f06a58a635e9e1",
+  "limitations": [
+    "one physical T4 only; does not qualify concurrent hashing, host memory, or dual-device throughput",
+    "no checkpoint save/reload was exercised",
+    "--grad-stats adds diagnostic synchronization; observed time is not an unbiased full-fit estimate",
+    "the 60-second faulthandler messages are periodic stack heartbeats, not timeout failures"
+  ],
+  "observed": {
+    "amp_skipped_updates": 1,
+    "device": "Tesla T4",
+    "grad_stats_nonfinite_steps": 1,
+    "measured_complete_batches": 25,
+    "optimizer_attempts": 600,
+    "optimizer_completed_updates": 599,
+    "peak_gpu_bytes": 3499098112,
+    "peak_ram_bytes": 4802109440,
+    "profile_gpu_total_ms": 1657.19,
+    "profile_loader_wait_ms": 1681.86,
+    "profile_step_wall_ms": 3355.74,
+    "warmup_complete_batches": 5,
+    "worker_wall_seconds": 397.85713796599975
+  },
+  "result_sha256": "a7cb249776485d259442c749ad3f82584da9386ab316320a731dd77b34479a68",
+  "schema": "wnn.kaggle.teacher_profile_reference.r3",
+  "scope": "one-worker startup/fit-shape profile only; not a paired-device or cohort qualification",
+  "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+  "terminal_collection_note": "R1 downloaded all outputs/logs then receipt construction failed for missing target/config bindings. First recovery used prohibited absolute receipt path and produced no receipt. Corrected recovery binds repo-relative ../ROOT_PROFILE_PUSH_R1.json; no new downloads or model computation.",
+  "terminal_handoff_sha256": "46eee3e280bbb1c436bb868c3e49696101726303c449be00b28a5c505d39afb1",
+  "worker_log_sha256": "220ee9cc858203bdc4b97d473132cc284a5a409ea6c2695c6fa681a3e8a87352"
+}
