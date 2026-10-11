@@ -1,0 +1,65 @@
+{
+  "schema": "wnn.h382-export-recovery-independent-review.v1",
+  "reviewer_role": "independent_code_consumer_review",
+  "reviewer": "submission_packager",
+  "recorded_utc": "2026-10-11T15:50:16Z",
+  "target": {
+    "worktree": "/home/vlad/development/wunder/wnn_h382_t3_fold0_packet_20261011",
+    "base_commit": "d0501a9dc7b70f49faa015f34b3c8a7f23d105e1",
+    "packet_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_export_recovery_20261011_r1",
+    "packet_manifest_sha256": "3db16e55b00116042ce046d2a63da54e47a2eae275d2dcc7706b0a1bba37cb1b",
+    "kernel_sha256": "955ee51f131efb054e64276a4c913e83fb7b66d6a9cab5e7d2e445b138387eb2",
+    "checkpoint_archive_sha256": "a57df09373de67618c7a5826a11a3756fbdb1640b38781af1467a6cbbc468285",
+    "checkpoint_manifest_sha256": "888e58735c05298efae44c2fa6ff4cd1904664b39e0f2758292c24abd7b700a8"
+  },
+  "verdict": "BLOCK_BEFORE_DISPATCH",
+  "blocking_findings": [
+    {
+      "id": "fresh_prediction_finiteness_not_checked",
+      "severity": "blocking",
+      "location": "kernel/kernel.py validate_export (around lines 179-243); pinned scripts/predict_run.py output path (around lines 183-246)",
+      "finding": "The recovery consumer hashes the full NPY and validates header, shape, dtype, exact binary length, checkpoint/split metadata, and ordered row groups, but it never rejects NaN or infinity values. The pinned predictor writes and hashes the float32 memmap without a finiteness check. A non-finite fresh export can therefore receive state=validated and contribute to terminal.complete.",
+      "consequence": "The required fresh-export acceptance evidence is incomplete even though checkpoint bytes and prediction-file identity are bound.",
+      "smallest_fix": "In a new packet identity, scan the produced NPY by memory map in bounded row/chunk slices with isfinite before marking the job validated; persist finite=true and checked element count in the export receipt. Keep the original R1 packet immutable."
+    }
+  ],
+  "additional_findings": [
+    {
+      "id": "reference_hash_map_missing_from_terminal_inventory",
+      "severity": "delivery_completeness",
+      "location": "kernel/kernel.py around lines 735-760",
+      "finding": "terminal_inventory.json is written before reference_prediction_hashes is added to the terminal object. The expected historical NPY hashes and collected hashes are saved only in status.json, not the terminal inventory.",
+      "consequence": "A terminal inventory reader cannot see the intended expected-versus-collected comparison without also reading status.json. The worker still records the map in status, so this is a completeness gap rather than evidence of bad predictions.",
+      "smallest_fix": "In a new packet identity, compute reference_prediction_hashes after the output file list is hashed but before serializing terminal_inventory.json; then save the same terminal object into status.json. Do not require equality with the old device's NPY hash; record equal/different."
+    },
+    {
+      "id": "packet_not_committed_in_reviewed_worktree",
+      "severity": "reproducibility_handoff",
+      "finding": "The reviewed packet files match all eight entries in PACKET_MANIFEST_R1.json, but the packet directory itself was untracked in the actor worktree at review time.",
+      "consequence": "The content hashes identify the reviewed bytes, but no commit currently freezes those files in the packet worktree.",
+      "smallest_fix": "Commit the reviewed packet files after corrections and publish the resulting commit and regenerated manifest digest before any provider handoff."
+    }
+  ],
+  "confirmed_passes": [
+    "Packet manifest and all eight declared packet files match their declared sizes and SHA-256 digests; packet and kernel hashes match the requested pins.",
+    "The actual 12,441,600-byte rescued checkpoint archive matches its pinned SHA-256. Its exact nine tar members match checkpoint_asset_manifest.json byte-for-byte and hash-for-hash.",
+    "AST-extracted the packet's exact stage_rescued_checkpoints and sha256_file helpers, without importing worker top-level code. In a private temporary project with a mocked nested Kaggle dataset mount, the actual checkpoint consumer staged all three real checkpoint/provenance/history triplets, rejected no valid member, and preserved the exact split, fold-0 fitting-membership, recipe, checkpoint, and provenance identities.",
+    "The recovered run set is the exact R3 fold-0 seed-3 cohort: propensity powers 2, 0, 0; selected epochs 2, 2, 3. Provenance binds train+valid fitting, vfold evaluation, valid_fold=0 and include_heldout_valid=false.",
+    "The R3 source manifest/job contract pins scripts/predict_run.py at SHA-256 afc5aaaef7edd78f4b719a6be450b10d82aefcbf497b4515f684f51930e229f9; the local file has the same digest. The recovery filters each bound source job to its original exact `predict_run.py RUN valid --epoch E` export argv and uses the original per-export 1,800-second limits. No fit command remains in the worker plan; packet manifest declares zero fit and three export commands.",
+    "The worker checks the requested two-T4 allocation, source-bundle digest and member source hashes, fold-0 asset/portable registry/raw-data footer identities, split-manifest digest, propensity cache metadata/layout, rescued archive identity, fresh NPY full-byte SHA/header/shape/dtype/length, sidecar checkpoint/split/run/epoch bindings and valid row order. The expected shape is (1873, 20000, 2) float32; recovery writes only the six exact run-specific prediction/sidecar files into out/predictions and inventories their bytes and hashes.",
+    "No worker execution, fit, GPU use, upload, provider mutation or scoring was performed by this review. The recovery output NPYs do not yet exist, so fresh-output finiteness and post-export collection could not be exercised here."
+  ],
+  "checks": {
+    "packet_manifest_and_member_hash_check": "PASS",
+    "actual_checkpoint_archive_member_and_provenance_check": "PASS",
+    "actual_stage_rescued_checkpoints_consumer_with_mocked_nested_mount": "PASS",
+    "finite_prediction_output_consumer_check": "NOT_RUN; no recovery prediction arrays have been produced",
+    "support_limits_per_command": {
+      "cpu_quota": "50%",
+      "threads": 1,
+      "memory_max_bytes": 700000000,
+      "runtime_max": "120s"
+    }
+  },
+  "release_recommendation": "Hold dispatch until a new, rehashed packet adds a bounded finiteness check and terminal-inventory reference hash map. Before release, commit the exact corrected packet and re-run its offline packet validator. The root remains responsible for quota/session and two-T4 admission."
+}
