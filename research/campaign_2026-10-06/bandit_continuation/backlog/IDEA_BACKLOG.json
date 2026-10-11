@@ -3722,10 +3722,122 @@
      "--pretrain-next-in-budget"
     ]
    },
-   "status": "ready",
+   "status": "queued",
    "rationale": "Discord trick (v7 flag): pretrain trick on top of prop-power 0",
    "lane": "b",
-   "queued_utc": "2026-10-10T23:52:45.690238+00:00"
+   "queued_utc": "2026-10-11T00:07:56.664168+00:00"
+  },
+  {
+   "id": "a_clockbank384",
+   "family": "new_arch_v8",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 5,
+   "hours": 1.2,
+   "name": "vt_f1_a_clockbank384",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--arch": "clockbank",
+    "--hidden": "384",
+    "+": [
+     "--cb-layout",
+     "hint"
+    ]
+   },
+   "status": "queued",
+   "rationale": "Round-6 consensus architecture: multi-rate clock-block minGRU bank",
+   "lane": "b",
+   "queued_utc": "2026-10-11T00:14:50.545892+00:00"
+  },
+  {
+   "id": "a_dssm384",
+   "family": "new_arch_v8",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 5,
+   "hours": 1.2,
+   "name": "vt_f1_a_dssm384",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--arch": "dssm",
+    "--hidden": "384",
+    "+": []
+   },
+   "status": "queued",
+   "rationale": "Round-6 consensus architecture: diagonal SSM decay bank",
+   "lane": "b",
+   "queued_utc": "2026-10-11T00:14:50.546143+00:00"
+  },
+  {
+   "id": "a_dualtower",
+   "family": "new_arch_v8",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 5,
+   "hours": 1.2,
+   "name": "vt_f1_a_dualtower",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--arch": "dualtower",
+    "--hidden": "224",
+    "+": [
+     "--event-hidden",
+     "160",
+     "--tower-skip",
+     "128"
+    ]
+   },
+   "status": "queued",
+   "rationale": "Round-6 consensus architecture: dual-tower book/trade event-gated",
+   "lane": "b",
+   "queued_utc": "2026-10-11T00:14:50.546345+00:00"
+  },
+  {
+   "id": "a_clockbank384_prop0",
+   "family": "new_arch_v8",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 5,
+   "hours": 1.2,
+   "name": "vt_f1_a_clockbank384_prop0",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--seed": "3",
+    "--arch": "clockbank",
+    "--hidden": "384",
+    "--prop-power": "0",
+    "+": [
+     "--cb-layout",
+     "hint"
+    ]
+   },
+   "status": "queued",
+   "rationale": "Round-6 consensus architecture: clockbank with prop0",
+   "lane": "b",
+   "queued_utc": "2026-10-11T00:14:50.546497+00:00"
   }
  ]
 }
