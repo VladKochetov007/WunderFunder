@@ -11,9 +11,10 @@ from typing import Any
 import numpy as np
 
 FINAL_CACHE_FORMAT = "wnn.all-data-homogeneous-distillation-cache"
-FINAL_CACHE_VERSION = 1
+FINAL_CACHE_VERSION = 2
 SEQUENCE_ROWS = 20_000
 TARGET_WIDTH = 2
+DISK_SAFETY_RESERVE_BYTES = 16 << 20
 TEACHER_SPLIT_MANIFEST_RELATIVE = Path("research/campaign_2026-09-29/artifacts/splits/fold1.json")
 EXPECTED_SPLIT_SHA256 = "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
 EXPECTED_PROPENSITY_SHA256 = "1fbf412df8823c703fdf79263830f341269a68e769bc4a7258d93cdf8e40dc5c"
@@ -23,14 +24,17 @@ TEACHERS = {
     "vt_f1_muonall_h384_e3": {
         "seed": 3,
         "checkpoint_sha256": "9c7d5e55fde7112dc691c80670fb17b62f24b9d759d2c90312a9ec89334843c6",
+        "provenance_sha256": "ca9f7c32910e5d71acddf78a474c06eee324b54d781ad9c736cd1f9a4a83deae",
     },
     "vt_f1_muonall_h384_e3_s4": {
         "seed": 4,
         "checkpoint_sha256": "752f462036a8e340db00de98dcb141795f3a0ae54cfffce3e95ce7ceed7f5e9e",
+        "provenance_sha256": "e11ca9b3bfb9fc302f199514eb075960933e8fd27dfa49d58a31b76d5f5011f6",
     },
     "vt_f1_muonall_h384_e3_s5": {
         "seed": 5,
         "checkpoint_sha256": "ee154f035720069ef26bf0fd328c61887cdbb426c49d51fb25172e5bb52b1f80",
+        "provenance_sha256": "45555945babdc6af0d56e1b5ab6a68585383bf32a73335fe8b92d84af7bdf03d",
     },
 }
 PARENTS = {
@@ -70,6 +74,14 @@ def source_qualified_groups_sha256(source: str, groups: list[int] | tuple[int, .
     digest = hashlib.sha256(source.encode("utf-8") + b"\0")
     digest.update(np.asarray(groups, dtype="<i8").tobytes())
     return digest.hexdigest()
+
+
+def cache_disk_requirement(row_count: int) -> tuple[int, int, int]:
+    """Return output bytes, reserved metadata/headroom bytes, and admitted bytes."""
+    if row_count <= 0:
+        raise ValueError("H390 cache row count must be positive")
+    output_bytes = row_count * SEQUENCE_ROWS * TARGET_WIDTH * np.dtype(np.float32).itemsize
+    return output_bytes, DISK_SAFETY_RESERVE_BYTES, output_bytes + DISK_SAFETY_RESERVE_BYTES
 
 
 def homogeneous_teacher_target(teacher_values: list[np.ndarray]) -> np.ndarray:
@@ -155,8 +167,8 @@ def verify_final_population_sources(
     return result
 
 
-def verify_h390_source_snapshot(source_root: Path) -> dict[str, Any]:
-    """Verify the child source files and bind them to their frozen R1 parent."""
+def verify_h390_r1_source_snapshot(source_root: Path) -> dict[str, Any]:
+    """Verify the original frozen R1 packet without applying R2 rules."""
     source_root = source_root.resolve(strict=True)
     parent_manifest = source_root / "SOURCE_MANIFEST.json"
     if file_sha256(parent_manifest) != R1_BASELINE_MANIFEST_SHA256:
@@ -223,6 +235,86 @@ def verify_h390_source_snapshot(source_root: Path) -> dict[str, Any]:
     }
 
 
+def verify_h390_source_snapshot(source_root: Path) -> dict[str, Any]:
+    """Verify the R2 child source, packet receipts, and immutable R1 ancestry."""
+    source_root = source_root.resolve(strict=True)
+    packet_root = source_root.parent
+    if file_sha256(source_root / "SOURCE_MANIFEST.json") != R1_BASELINE_MANIFEST_SHA256:
+        raise ValueError("H390 R2 parent manifest differs from frozen R1")
+    if file_sha256(packet_root / "h390_reference_r1.tar.gz") != R1_ARCHIVE_SHA256:
+        raise ValueError("H390 R2 reference archive differs from frozen R1")
+
+    packet_manifest_path = packet_root / "PACKET_MANIFEST_R2.json"
+    packet_manifest = json.loads(packet_manifest_path.read_text())
+    packet_files = packet_manifest.get("files")
+    expected_packet_files = {
+        "README.md",
+        "h390_reference_r1.tar.gz",
+        "parent_receipts_r1/vt_all_fin_mu256p0e4_s3.provenance.json",
+        "parent_receipts_r1/vt_all_fin_mu256p0e4_s4.provenance.json",
+        "teacher_receipts_r2/vt_f1_muonall_h384_e3.provenance.json",
+        "teacher_receipts_r2/vt_f1_muonall_h384_e3_s4.provenance.json",
+        "teacher_receipts_r2/vt_f1_muonall_h384_e3_s5.provenance.json",
+        "child_source_v1/SOURCE_MANIFEST.json",
+        "child_source_v1/SOURCE_MANIFEST_H390.json",
+    }
+    if (
+        packet_manifest.get("schema") != "wnn.h390-packet-manifest.v2"
+        or not isinstance(packet_files, dict)
+        or set(packet_files) != expected_packet_files
+    ):
+        raise ValueError("H390 R2 packet manifest has an unexpected file set")
+    for relative, digest in packet_files.items():
+        if file_sha256(packet_root / relative) != digest:
+            raise ValueError(f"H390 R2 packet file changed after freezing: {relative}")
+    for run, spec in TEACHERS.items():
+        receipt = packet_root / "teacher_receipts_r2" / f"{run}.provenance.json"
+        if file_sha256(receipt) != spec["provenance_sha256"]:
+            raise ValueError(f"H390 R2 teacher receipt differs from its reviewed producer: {run}")
+
+    parent_root = packet_root / "r1_baseline"
+    parent_manifest_data = json.loads((source_root / "SOURCE_MANIFEST.json").read_text())
+    parent_sources = parent_manifest_data.get("sources")
+    if not isinstance(parent_sources, dict) or not parent_sources:
+        raise ValueError("H390 R1 parent manifest has no source list")
+    for relative, digest in parent_sources.items():
+        if file_sha256(parent_root / relative) != digest:
+            raise ValueError(f"H390 R2 copied R1 parent differs from its manifest: {relative}")
+
+    manifest_path = source_root / "SOURCE_MANIFEST_H390.json"
+    manifest = json.loads(manifest_path.read_text())
+    if (
+        manifest.get("schema") != "wnn.h390-source-snapshot.v2"
+        or manifest.get("parent_archive_sha256") != R1_ARCHIVE_SHA256
+        or manifest.get("parent_manifest_sha256") != R1_BASELINE_MANIFEST_SHA256
+        or manifest.get("teacher_provenance_sha256")
+        != {run: spec["provenance_sha256"] for run, spec in TEACHERS.items()}
+    ):
+        raise ValueError("H390 R2 source manifest lacks the reviewed R1/teacher ancestry")
+    expected = manifest.get("sources")
+    if not isinstance(expected, dict) or not expected:
+        raise ValueError("H390 R2 source manifest has no source hashes")
+    current_paths = {
+        path.relative_to(source_root).as_posix()
+        for folder in (source_root / "scripts", source_root / "src/wnn")
+        for path in folder.rglob("*.py")
+        if path.is_file()
+    }
+    if set(expected) != current_paths:
+        raise ValueError("H390 R2 source file set differs from its frozen manifest")
+    for relative, digest in expected.items():
+        if file_sha256(source_root / relative) != digest:
+            raise ValueError(f"H390 R2 source file changed after freezing: {relative}")
+    return {
+        "source_manifest_sha256": file_sha256(manifest_path),
+        "packet_manifest_sha256": file_sha256(packet_manifest_path),
+        "parent_archive_sha256": R1_ARCHIVE_SHA256,
+        "parent_manifest_sha256": R1_BASELINE_MANIFEST_SHA256,
+        "teacher_provenance_sha256": manifest["teacher_provenance_sha256"],
+        "verified_sources": expected,
+    }
+
+
 def _safe_array_path(cache_root: Path, entry: dict[str, Any], key: str) -> Path:
     relative = Path(str(entry.get("path", "")))
     if relative.is_absolute() or len(relative.parts) != 1:
@@ -275,6 +367,13 @@ def validate_final_distillation_cache(cache_root: Path, data_root: Path) -> dict
         "clipping": "none during cache construction",
     }:
         raise ValueError("all-data homogeneous target semantics differ from H390")
+    output_bytes, safety_reserve_bytes, admitted_bytes = cache_disk_requirement(10_606 + 1_873)
+    if (
+        metadata.get("output_bytes") != output_bytes
+        or metadata.get("disk_safety_reserve_bytes") != safety_reserve_bytes
+        or metadata.get("estimated_bytes") != admitted_bytes
+    ):
+        raise ValueError("all-data cache disk estimate omits the H390 safety reserve")
     if (
         not isinstance(metadata.get("builder_source_manifest_sha256"), str)
         or len(metadata["builder_source_manifest_sha256"]) != 64
@@ -327,6 +426,7 @@ def validate_final_distillation_cache(cache_root: Path, data_root: Path) -> dict
             or record.get("seed") != expected["seed"]
             or record.get("epoch") != 2
             or record.get("checkpoint_sha256") != expected["checkpoint_sha256"]
+            or record.get("provenance_sha256") != expected["provenance_sha256"]
             or record.get("propensity_checkpoint_sha256") != EXPECTED_PROPENSITY_SHA256
             or record.get("split_manifest_sha256") != EXPECTED_SPLIT_SHA256
         ):
