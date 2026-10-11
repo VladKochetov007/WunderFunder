@@ -1,0 +1,37 @@
+{
+  "schema": "wnn.independent-r4-terminal-collection-audit.r1",
+  "status": "pass",
+  "scope": "Read-only audit of the already-downloaded R4 terminal ERROR attempt and its generic complete consumer. No provider call, download, fit, push, or score was performed.",
+  "receipt_repair_commit": "5ddade78bd453e78030e7b7b954e5ef4d06ec1c9",
+  "receipt_repair_source_sha256": "298d6f8aa10cead56008890c8e8c0109d329ccd2edb4c3389beb5fe848671ab9",
+  "paths": {
+    "collection_dir": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r4_root_release/terminal_collection_r1",
+    "attempt_dir": "attempts/attempt_001",
+    "generic_terminal_receipt": "TERMINAL_COLLECTION_RECEIPT_R2.json",
+    "diagnostic_receipt": "R4_TERMINAL_DIAGNOSTICS_R2.json",
+    "provider_inventory": "PROVIDER_INVENTORY_R1.json"
+  },
+  "artifact_sha256": {
+    "root_terminal_download_admission": "3eee6881ec10d8d4b18b5769733982aa9baf47fa28e5a10cbed8698a310e546e",
+    "preadmission_inventory_receipt": "1b834f5e77d6ebd493a93b8e9ae0e2791827078d5b9f3fb05a2f12b21114627b",
+    "fresh_provider_inventory": "03d0885ab7ddc7a6a26079eff3faa66171f5719fd1cef0fd703be06147278cc2",
+    "generic_terminal_receipt": "833570ab8908a119811bed53a11477ba515db511eb65d55f08de659be61afac0",
+    "r4_terminal_diagnostics": "121a317b9bd75117939af3901116e496a3466a6d477c6d5095f2be1ad8734ad8",
+    "r4_collector_source": "2de1b1d2bf5b843887220b720839248c868f97cf5d598ef552d6ba1f5983e19e",
+    "r2_collector_source": "15b56f98d0b8ca336ea794142764a3d5a220ef75589e931c06b9dc87184e1da1",
+    "r2_collector_independent_review": "995afd07ecfe7d4ca808e5d6a544eb4621eed971f9d03901fc8ee9fc5fb88ddf"
+  },
+  "checks": {
+    "root_admission_and_status_validation": "pass; exact admitted action/kernel/ERROR snapshot and collection path validated",
+    "root_request_ownership": "pass; generic receipt binds the exact terminal-download admission and root push; diagnostics bind admission, predownload inventory, root fit dispatch, and push",
+    "fresh_provider_inventory": "pass; complete unique 108-name `list_kernel_session_output` inventory exactly matches the reviewed predownload names; its response-log SHA/size equals the predownload metadata",
+    "generic_complete_consumer": "pass; reviewed adapter `collection_is_complete` and `terminal_evidence_complete` both returned true",
+    "downloaded_provider_outputs": "pass; 108 provider names exactly equal local outputs excluding the one CLI-generated response log",
+    "downloaded_hash_closure": "pass; all 115 generic-receipt file records (1,447,882 bytes total) matched current local files by size and SHA-256; no missing or changed file",
+    "response_log": "pass; downloaded 19,047-byte runner log SHA matched the fresh and predownload response-log metadata",
+    "fit_and_prediction_artifacts": "none; provider inventory and downloaded output contain zero `.npy`, `.pt`, `.pth`, or `.ckpt` files; diagnostics report no fit/export stage started and empty fit/prediction artifact lists",
+    "error_interpretation": "pass; provider status is `KernelWorkerStatus.ERROR`, strict science validation is `not_run_terminal_error`, and the diagnostic says infrastructure reservation failure after paired profiling; this is execution evidence, not a scientific model failure"
+  },
+  "limits": "Kaggle's endpoint exposed no per-file remote sizes or content hashes and did not pin the API response to a version. The review establishes exact admitted request ownership, stable filename inventory, fresh-response-log equality, local byte hashes, and generic-consumer completeness; it does not claim remote content-hash identity or scientific fit/export success.",
+  "independent_verification": "Revalidated frozen R4 bindings and root admission with the collector; loaded the pinned R2 adapter, called its read-only generic completion and inventory-comparison consumers, recomputed all 115 local file hashes, and matched the source-binding receipt. All checks ran with the requested 50% CPU, one thread, 700 MB, and 120-second support cap."
+}
