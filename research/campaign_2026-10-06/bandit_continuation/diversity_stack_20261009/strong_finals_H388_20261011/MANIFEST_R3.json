@@ -1,0 +1,73 @@
+{
+  "ancestry_support": [
+    {
+      "bytes": 12995,
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/strong_finals_H388_20261011/support/ancestry/propensity_training_job.json",
+      "sha256": "93c3345297b026202879a4324c9c7c0348a0418c2a172c980c01543b9361ddc7",
+      "source_path": "research/campaign_2026-09-29/jobs/c20260929_prop_f1.json"
+    },
+    {
+      "bytes": 695,
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/strong_finals_H388_20261011/support/ancestry/propensity_training_log.log",
+      "sha256": "4eb0e0f526550d78ebb91b82e2b788fb9cb9ec752ae88be077784060e01e035b",
+      "source_path": "research/campaign_2026-09-29/logs/c20260929_prop_f1.log"
+    }
+  ],
+  "cost_bound": "Three fits at <=7200s plus three full-valid exports at <=1800s; serial worst case is 7.5 GPU/runtime hours and $6.21 only if the prior $0.8278/h rate still applies. Queue admission and current quota remain root-owned.",
+  "created_utc": "2026-10-11T11:30:00+00:00",
+  "hypothesis": "H-388",
+  "jobs": [
+    {
+      "base_r2_job_sha256": "01c5ad18e20bc35afe9260fd7d2a7c732a251fcdae989c07a3c122bf30c82a47",
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/strong_finals_H388_20261011/p11_h388_all_t384_s3_r3.json",
+      "run": "vt_all_h388_muonall_h384_e3_s3",
+      "sha256": "55b278dd572a6c02e02d3fff274641e53dfb71e2d40d1b1b47cccb6a2fad98aa"
+    },
+    {
+      "base_r2_job_sha256": "b210a086a87d1b2c00b0fbda5e208c190a6e64e1fdc547960a68d78c8f712d09",
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/strong_finals_H388_20261011/p11_h388_all_t384_s4_r3.json",
+      "run": "vt_all_h388_muonall_h384_e3_s4",
+      "sha256": "99223f0699eaa0ea5be308d1f65f7e6aefc86f9ad4c1a73c31c48f98fc6b3e21"
+    },
+    {
+      "base_r2_job_sha256": "71b0625125783537fe7d1af126f5bc596d31fbbc63c797726169dd76b5bd301c",
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/strong_finals_H388_20261011/p11_h388_all_t384_s5_r3.json",
+      "run": "vt_all_h388_muonall_h384_e3_s5",
+      "sha256": "f07292a8fcacf677728fcf17d3f08d6fbdf1a5b286c8be788f7af3e426d47881"
+    }
+  ],
+  "predictor_binding": {
+    "path": "/root/wnn/lr377_source_r1/scripts/predict_run.py",
+    "reason": "Frozen predictor in LR377 source snapshot; invoked with snapshot src and project-root/data-manifest environment.",
+    "sha256": "46279845540e680940c4444124164102d2499e0468aa7767fc5ba64f90854018"
+  },
+  "propensity_inputs": {
+    "helper_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/strong_finals_H388_20261011/prop_input_preflight_r1.py",
+    "helper_sha256": "681be1c43607c50c52e4d510f0c7e639af190c92dbd8cb8f3d0ab0d8dd4815e0",
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/strong_finals_H388_20261011/PROP_INPUTS_R1.json",
+    "remote_helper_path": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/strong_finals_H388_20261011/prop_input_preflight_r1.py",
+    "sha256": "6a7de0ebbf486d7509bd002a8c9a6adf9d960223d000f4a357627aecf123aaf7"
+  },
+  "reason_for_r3": "R3 verifies all six own propensity inputs and their fold ancestry using the exact original training-job/log bytes included as identified support receipts; uses frozen-source predictor export; and makes job name match run name for refill-daemon restart adoption.",
+  "resource_bounds": {
+    "conditional_cost_at_observed_0_8278_usd_per_hour": 6.2085,
+    "conditional_cost_note": "Uses the historical observed hourly rate only; root must refresh live quota, obligations and headroom before dispatch. No new rental is requested.",
+    "extra_gpu_work": "No new fits relative to R2; export is bounded and produces full valid prediction targets.",
+    "full_valid_prediction_bytes_all_three": 899040384,
+    "full_valid_prediction_bytes_per_run": 299680128,
+    "maximum_gpu_seconds_for_three_fits_and_exports": 27000,
+    "per_export_timeout_seconds": 1800,
+    "per_fit_timeout_seconds": 7200,
+    "prop_input_preflight_gnu_timeout_seconds": 120,
+    "serial_worst_case_runtime_hours": 7.5,
+    "serial_worst_case_runtime_seconds": 27000
+  },
+  "schema": "wnn.h388-r3-packet.v1",
+  "status": "prepared_not_queued",
+  "supersedes_prepared_manifest": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/strong_finals_H388_20261011/MANIFEST_R2.json",
+    "sha256": "2eb3a9600bcd59e93dbdf80d2fb1b18fdc9defe12846714880bac16e963b2013",
+    "status": "prepared_not_queued_never_admitted"
+  },
+  "terminal_contract": "Each job name equals its --name run and completes a full valid export at fixed checkpoint epoch 2. remote_refill adoption check pred_{job_name}_valid.json can therefore succeed. Valid export is in-sample because this is all-data fitting; do not score it as held-out evidence."
+}

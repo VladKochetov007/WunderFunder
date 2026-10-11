@@ -1,0 +1,80 @@
+{
+  "ancestry": {
+    "checkpoint_epoch": 3,
+    "epochs": 4,
+    "fold_evaluation_valid_count": 457,
+    "fold_fit_valid_count": 1416,
+    "heldout_fold": 1,
+    "seed": 0,
+    "train_propensity_source_sha256": "ea6bf05470b8bf8afa23b00b95eb980646f6cb7935e013326815af626013f3b7"
+  },
+  "ancestry_receipts": {
+    "split_manifest": {
+      "bytes": 1388742,
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+      "sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+    },
+    "training_job": {
+      "bytes": 12995,
+      "original_path": "research/campaign_2026-09-29/jobs/c20260929_prop_f1.json",
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/strong_finals_H388_20261011/support/ancestry/propensity_training_job.json",
+      "sha256": "93c3345297b026202879a4324c9c7c0348a0418c2a172c980c01543b9361ddc7"
+    },
+    "training_log": {
+      "bytes": 695,
+      "original_path": "research/campaign_2026-09-29/logs/c20260929_prop_f1.log",
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/strong_finals_H388_20261011/support/ancestry/propensity_training_log.log",
+      "sha256": "4eb0e0f526550d78ebb91b82e2b788fb9cb9ec752ae88be077784060e01e035b"
+    }
+  },
+  "cache_layout": {
+    "train_dtype": "<f4",
+    "train_rows_filled": 10606,
+    "train_shape": [
+      10607,
+      20000
+    ],
+    "valid_dtype": "<f4",
+    "valid_rows_filled": 1873,
+    "valid_shape": [
+      1873,
+      20000
+    ]
+  },
+  "files": {
+    "model": {
+      "bytes": 165623,
+      "path": "artifacts/runs/c20260929_prop_f1/model.pt",
+      "sha256": "1fbf412df8823c703fdf79263830f341269a68e769bc4a7258d93cdf8e40dc5c"
+    },
+    "provenance": {
+      "bytes": 21648,
+      "path": "artifacts/runs/c20260929_prop_f1/provenance.json",
+      "sha256": "50e442a1f2d075b88cb9e50196dc57b81bd8d586a51fa0df3149a2c5d2e8cbf7"
+    },
+    "train_cache": {
+      "bytes": 848560128,
+      "path": "cache/propcache_c20260929_prop_f1_train.npy",
+      "sha256": "5862afe892147b39bd1afc8229e5b8f6372c4c09c33f3b5b8cc8689490017f4e"
+    },
+    "train_sidecar": {
+      "bytes": 183,
+      "path": "cache/propcache_c20260929_prop_f1_train.json",
+      "sha256": "21ebb9ed9f80f306f866e6c0c20ac62bb7495318e413791a8167364af95e68e6"
+    },
+    "valid_cache": {
+      "bytes": 149840128,
+      "path": "cache/propcache_c20260929_prop_f1_valid.npy",
+      "sha256": "27e7c1dd47dd78969ec08d64b5fe8d456c860f3fb872d69850fd5d280a798540"
+    },
+    "valid_sidecar": {
+      "bytes": 181,
+      "path": "cache/propcache_c20260929_prop_f1_valid.json",
+      "sha256": "48b551911a373bffd2fdd22183f4d0fe9ac38da5ace49265d13a2d968b869da7"
+    }
+  },
+  "note": "The train propensity cache has one padded, unfilled row corresponding to the excluded corrupt train group; it does not alter the 10606 fitted train sequences.",
+  "propensity_id": "c20260929_prop_f1",
+  "schema": "wnn.h388-prop-inputs.v1",
+  "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+}
