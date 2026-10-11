@@ -217,6 +217,7 @@ def main() -> None:
         predictor = model.model
         if predictor.precision != "q8vnni":
             raise ValueError(f"native runtime selected {predictor.precision}, expected q8vnni")
+        member_storage_bytes = predictor.storage_bytes
         cgroup_before_measure = read_cgroup_snapshot()
         loadavg_before_measure = Path("/proc/loadavg").read_text().strip()
 
@@ -225,6 +226,7 @@ def main() -> None:
             raise ValueError("members.json count differs from the build receipt")
 
         expected_predictions: dict[int, np.ndarray] = {}
+        prediction_hashes: dict[int, str] = {}
         trials = []
         per_sequence_ns: dict[int, list[int]] = {item["sequence_id"]: [] for item in sequences}
         for repeat in range(args.repeats):
@@ -234,6 +236,9 @@ def main() -> None:
                 sequence_id = sequence["sequence_id"]
                 if repeat == 0:
                     expected_predictions[sequence_id] = predictions
+                    prediction_hashes[sequence_id] = sha256_bytes(
+                        predictions[sequence["need"]].tobytes(order="C")
+                    )
                 elif not np.array_equal(
                     predictions, expected_predictions[sequence_id], equal_nan=True
                 ):
@@ -297,6 +302,7 @@ def main() -> None:
                 "precision": predictor.precision,
                 "native_level": module._LEVEL,
                 "model_count": len(members),
+                "member_storage_bytes": member_storage_bytes,
                 "cpu_model": cpu_model(),
                 "platform": platform.platform(),
                 "python": sys.version,
@@ -319,6 +325,9 @@ def main() -> None:
                 "raw_feature_columns": len(FEATURE_COLUMNS),
                 "features_sha256_by_sequence": {
                     str(item["sequence_id"]): item["features_sha256"] for item in sequences
+                },
+                "predictions_sha256_by_sequence": {
+                    str(sequence_id): digest for sequence_id, digest in prediction_hashes.items()
                 },
                 "repeats": args.repeats,
                 "reset_before_each_sequence_and_pass": True,

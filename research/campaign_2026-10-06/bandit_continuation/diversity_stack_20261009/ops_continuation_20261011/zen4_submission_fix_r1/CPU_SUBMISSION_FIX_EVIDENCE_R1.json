@@ -1,0 +1,991 @@
+{
+  "artifacts": {
+    "baseline_two_member": {
+      "blend": [
+        {
+          "coefficient": 0.5,
+          "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+        },
+        {
+          "coefficient": 0.5,
+          "run_reference": "vt_all_h388_muonall_h384_e3_s5@ep2"
+        }
+      ],
+      "build_receipt_sha256": "938fb0d85666c0400ffce939c55bfb6bb517786bd17fdfbf12ad913fcb53d73a",
+      "bytes": 12914019,
+      "member_count": 2,
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-exploit-now_r2/h390_student_h388_teacher_pair_q8/submission_r1.zip",
+      "sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+      "size_under_20mb": true
+    },
+    "local_architecture_pair": {
+      "ancestry": "All-data homogeneous H390 student s3@ep5 paired with H388 teacher s5@ep2; full-data package has no held-out score claim.",
+      "members": [
+        {
+          "coefficient": 0.5,
+          "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+        },
+        {
+          "coefficient": 0.5,
+          "run_reference": "vt_all_h388_muonall_h384_e3_s5@ep2"
+        }
+      ],
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-exploit-now_r2/h390_student_h388_teacher_pair_q8/submission_r1.zip",
+      "sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284"
+    },
+    "pgo_two_member": {
+      "build_receipt_sha256": "8bcd86b03de0288bad64e1b10c782a291cade86f464c62234577dce8c3dc0985",
+      "bytes": 12905551,
+      "changed_zip_members": [
+        "v3/wnn_native.abi3.so"
+      ],
+      "member_count": 2,
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/submissions/zen4_submission_fix_r1/current11_h390_h388_q8_pgo_r1/submission.zip",
+      "same_fixed_blend": true,
+      "same_solution_and_precision_files": true,
+      "sha256": "f65b4272065ee03833704d53d1117532476feaa9de236dec5fa6335ae3941f03",
+      "size_under_20mb": true
+    }
+  },
+  "decision": "Do not promote the PGO package as a runtime optimization; retain the unchanged current11 package as the faster measured two-member candidate, with host/portal-transfer limitations explicit.",
+  "elf_abi": {
+    "baseline": {
+      "bytes": 978056,
+      "maximum_glibc_symbol": "2.34",
+      "needed_libraries": [
+        "ld-linux-x86-64.so.2",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6"
+      ],
+      "path": "/tmp/wnn-zen4-pgo-current11-r1/base-v3.so",
+      "sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+    },
+    "debian_bookworm_glibc_ceiling": "2.36",
+    "dependencies_unchanged": true,
+    "pgo": {
+      "bytes": 972280,
+      "maximum_glibc_symbol": "2.34",
+      "needed_libraries": [
+        "ld-linux-x86-64.so.2",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libm.so.6"
+      ],
+      "path": "/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/libwnn_native.so",
+      "sha256": "4ed5b61df7794678ce6b31b9f100c29b8aa2ba8c5bfdc004db8d024b4a246940"
+    },
+    "pgo_maximum_glibc_compatible": true,
+    "python311_import_and_exact_callback_panel_passed": true
+  },
+  "input_manifest": {
+    "base_build_receipt_sha256": "938fb0d85666c0400ffce939c55bfb6bb517786bd17fdfbf12ad913fcb53d73a",
+    "base_zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+    "benchmark_runner_sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53",
+    "pgo_build_receipt_sha256": "8bcd86b03de0288bad64e1b10c782a291cade86f464c62234577dce8c3dc0985",
+    "pgo_build_record_sha256": "a88e1da8aefa81633c882f76f3a18b83b7d5652383a447745325ebfbf9c5a14b",
+    "pgo_zip_sha256": "f65b4272065ee03833704d53d1117532476feaa9de236dec5fa6335ae3941f03",
+    "rust_source_tree_sha256": {
+      "Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+      "Cargo.toml": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+      "INT8_VNNI_REPORT.md": "d70db0fb28b6f940dc2e96426144fef19584b4d3e00f8a4f97d66ff0223b6eb0",
+      "examples/bench_engine.rs": "dc972896c9d9d5d9b59c2ec96ca5d16959f11bad002ed24e5b85f35b3afaea66",
+      "examples/bench_fast.rs": "2d7695cd5008dd395ef4c8c3452102af19bab85fac2b95a7ffbeabb18bde751f",
+      "examples/bench_int8.rs": "a8402e22abd85f151f6590b04761d399f87b6bcd0adb0e8f28d87d7e1cad03a6",
+      "examples/bench_parts.rs": "0bb2c91d5deeac1f3fd5b8b2a50f551b7bc556c45f2975b4700760133da9dda4",
+      "examples/bench_quant8.rs": "256b4df5c59d45f20ed9ef499df5a68695393a2f0a50ff4e44e0ba10f2ad8200",
+      "examples/bench_saxpy.rs": "ffe54e6bec3f0311be01620db5a1e6a46fa433724d1c5f91d2066bc1a58e8356",
+      "examples/bench_step.rs": "f0bb96530364c6e5e49c6e9833fabe483cf6e0ede2a659b3dabef9e8863778d9",
+      "int8_vnni_quality_60.json": "6ece1f7471b95ae1baa5a3eeb325a21cbe7be2c06adcd100480d995db88ed8fb",
+      "pyproject.toml": "ce3fef53184a0fecae9a0928196f8a7e5359e64ed699470ae6419cd6c1fc907d",
+      "src/approx.rs": "9ccf56716d8416210cab7b6260df12bd30178a8cad6bb289f0b8d3111649f912",
+      "src/factorized.rs": "7e3666cceae408e746d171ea2096500f37aa0b1eaafa5974026f2623cd0d6199",
+      "src/half.rs": "87035e5569bb7a53295c222026337a4a08661f1d6d821c2b26074fa12b4bb9cc",
+      "src/kernels.rs": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+      "src/lib.rs": "356ad9c0f82a228a1e113214732d1356b5da3d3f72dac2aa497366033752fc8d",
+      "src/python.rs": "6f8a4107f2edcce13d6620a19970ec25f459e184d6bd3d111ed5f9d74242b322",
+      "src/quant8.rs": "07354c7f65deaa145127f359448b5fe1f5648e16fe3034bfdccd2939f91347cc",
+      "src/rnn.rs": "544135da67cb156a471d8ca0a9de7837f2ae3657a7885e4f8d95edf238cb0abf",
+      "src/rnn_fast.rs": "7e6df836313aac1f8175fd1952362f03738fcc5629318b4b01cc5a5e5057708b",
+      "src/stream.rs": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6",
+      "src/vnni.rs": "803b7e99a2234587eafef6861678e610c72ddf87fcc970958efdbedc7a8f3406"
+    }
+  },
+  "interpretation": {
+    "head_skip": "The measured sequences require prediction on 19,901 of 20,000 rows each, so skipping the stateless head on unrequested rows can affect at most 0.5% of callback rows and is not a timeout remedy.",
+    "paired_pgo_result": "Both paired comparisons are slightly slower with PGO (+0.22% and +0.14%); larger unpaired swings track host load and do not establish a gain.",
+    "precision_and_determinism": "Both packages load the shipped Q8VNNI native v3 runtime and produce bitwise-equal predictions on the fixed ten-sequence panel; resets replay bitwise identically.",
+    "quality": "This is a serving-capacity experiment, not a grade. The H390/H388 package is full-data trained; do not present its exposed fold1 prototype or old public score as a held-out score for this ZIP.",
+    "runtime_transfer": "Local timing is from a one-core Intel i9-11900H, not the competition EPYC 9224. Prior portal timings are not a direct runtime guarantee for these new members.",
+    "trio": "The three-H388 Q8/F16-transport candidate that the user uploaded timed out at 61m56 on Kaggle. Its fixed local panel is about 2x the current two-member panel callback time; no recommendation to re-upload it."
+  },
+  "member_storage_bytes": [
+    {
+      "factor_weights": 0,
+      "import_only_dense_recurrent": 0,
+      "recurrent_state": 2048,
+      "scratch": 11864,
+      "total_streamed_weights": 1071552
+    },
+    {
+      "factor_weights": 0,
+      "import_only_dense_recurrent": 0,
+      "recurrent_state": 3072,
+      "scratch": 17368,
+      "total_streamed_weights": 2294976
+    }
+  ],
+  "panels": {
+    "bench_4_r3": {
+      "callback_count": 400000,
+      "cpu_affinity": [
+        3
+      ],
+      "cpu_max": "100000 100000",
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+      "median_us_per_row": 52.74259793,
+      "member_count": 2,
+      "member_storage_bytes": null,
+      "memory_peak_bytes": 217964544,
+      "native_level": "v3",
+      "need_prediction_rows_each": [
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901
+      ],
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_4_r3.json",
+      "post_decode_wall_seconds": 23.444286740006646,
+      "precision": "q8vnni",
+      "prediction_hashes": null,
+      "repeats": 2,
+      "reset_replay_equal": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "sequence_lengths": [
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000
+      ],
+      "sha256": "4700fb465d3b88269a92b126d237d832a9ee130c97ecb91574f6dd23dacb3642",
+      "zip_bytes": 9544031,
+      "zip_sha256": "ff498873027318b5aa20e6ca95517bdb843b4656989a75aae148f1c141705327"
+    },
+    "bench_5_r1": {
+      "callback_count": 400000,
+      "cpu_affinity": [
+        3
+      ],
+      "cpu_max": "100000 100000",
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+      "median_us_per_row": 21.7678514175,
+      "member_count": 1,
+      "member_storage_bytes": null,
+      "memory_peak_bytes": 211505152,
+      "native_level": "v3",
+      "need_prediction_rows_each": [
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901
+      ],
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_5_r1.json",
+      "post_decode_wall_seconds": 10.66335032900679,
+      "precision": "q8vnni",
+      "prediction_hashes": null,
+      "repeats": 2,
+      "reset_replay_equal": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "sequence_lengths": [
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000
+      ],
+      "sha256": "db9228b3338e681792ce1ef4a110ba93efd7cc42fbc57e73cdc6e805b4fd8006",
+      "zip_bytes": 5419442,
+      "zip_sha256": "936f88d75f2950e17e0ba093328e5abec1cf6cbcc8d390baad8b8a3e38cdf83b"
+    },
+    "bench_current11_baseline_alt1": {
+      "callback_count": 400000,
+      "cpu_affinity": [
+        3
+      ],
+      "cpu_max": "100000 100000",
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+      "median_us_per_row": 77.7795520625,
+      "member_count": 2,
+      "member_storage_bytes": [
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "recurrent_state": 2048,
+          "scratch": 11864,
+          "total_streamed_weights": 1071552
+        },
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "recurrent_state": 3072,
+          "scratch": 17368,
+          "total_streamed_weights": 2294976
+        }
+      ],
+      "memory_peak_bytes": 233226240,
+      "native_level": "v3",
+      "need_prediction_rows_each": [
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901
+      ],
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_current11_baseline_alt1.json",
+      "post_decode_wall_seconds": 33.550012926978525,
+      "precision": "q8vnni",
+      "prediction_hashes": {
+        "1200028": "25c1724a132a36ab6f091ac0ce1fb3e3c507ce085e30263680c56b46330065e3",
+        "1892371": "dc66417849fc4405e6362cd4c73ed39cb8655292b7b43c7f6a7bd7ee06cd42dc",
+        "1990332": "cbb3884afafb9013a5e2f13382e968a56dcc2a34bcd1bb2ed0288b073c18a5c2",
+        "2308749": "00636ddac5300aea32a3017d7ad8489ec0f6894af85d62eb595f42c2a7a135eb",
+        "256678": "ab325e071ac06231c769bc98793e617b99cf5a9340b5f425e4ee2ab5ceee4806",
+        "4490992": "4d2b2345e5b518233c263e11b694eabf21bf0364c9dad695ea67599816f6d45d",
+        "6746551": "f2e86d55f861deb51e3dc17fb8212b32a428becbc1118bfa5645805dd08e8500",
+        "751005": "17b54cef9d70ab709af89560f2d380bbf738616b4d8a1340b62e740af14cddec",
+        "8348957": "66e391d843e8ee97c133935ff169242a0d62e226206ef93aa4bbeb1be2f48f5b",
+        "9147005": "3e22f5b69d2e3ef4d8d7297aa7ef6298e92fdacaa879b16035fc0629dded87cf"
+      },
+      "repeats": 2,
+      "reset_replay_equal": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "sequence_lengths": [
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000
+      ],
+      "sha256": "c4c0fed43a815683b1f3183765bb9dfbdc61218fe4bbeb1792713e4dca6722c0",
+      "zip_bytes": 12914019,
+      "zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284"
+    },
+    "bench_current11_baseline_alt2": {
+      "callback_count": 400000,
+      "cpu_affinity": [
+        3
+      ],
+      "cpu_max": "100000 100000",
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+      "median_us_per_row": 77.08852951,
+      "member_count": 2,
+      "member_storage_bytes": [
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "recurrent_state": 2048,
+          "scratch": 11864,
+          "total_streamed_weights": 1071552
+        },
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "recurrent_state": 3072,
+          "scratch": 17368,
+          "total_streamed_weights": 2294976
+        }
+      ],
+      "memory_peak_bytes": 230850560,
+      "native_level": "v3",
+      "need_prediction_rows_each": [
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901
+      ],
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_current11_baseline_alt2.json",
+      "post_decode_wall_seconds": 33.27525250200415,
+      "precision": "q8vnni",
+      "prediction_hashes": {
+        "1200028": "25c1724a132a36ab6f091ac0ce1fb3e3c507ce085e30263680c56b46330065e3",
+        "1892371": "dc66417849fc4405e6362cd4c73ed39cb8655292b7b43c7f6a7bd7ee06cd42dc",
+        "1990332": "cbb3884afafb9013a5e2f13382e968a56dcc2a34bcd1bb2ed0288b073c18a5c2",
+        "2308749": "00636ddac5300aea32a3017d7ad8489ec0f6894af85d62eb595f42c2a7a135eb",
+        "256678": "ab325e071ac06231c769bc98793e617b99cf5a9340b5f425e4ee2ab5ceee4806",
+        "4490992": "4d2b2345e5b518233c263e11b694eabf21bf0364c9dad695ea67599816f6d45d",
+        "6746551": "f2e86d55f861deb51e3dc17fb8212b32a428becbc1118bfa5645805dd08e8500",
+        "751005": "17b54cef9d70ab709af89560f2d380bbf738616b4d8a1340b62e740af14cddec",
+        "8348957": "66e391d843e8ee97c133935ff169242a0d62e226206ef93aa4bbeb1be2f48f5b",
+        "9147005": "3e22f5b69d2e3ef4d8d7297aa7ef6298e92fdacaa879b16035fc0629dded87cf"
+      },
+      "repeats": 2,
+      "reset_replay_equal": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "sequence_lengths": [
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000
+      ],
+      "sha256": "817fed3359214ee0a7b674e678a6743cd12e948b506b9e6402bc57d9815a473e",
+      "zip_bytes": 12914019,
+      "zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284"
+    },
+    "bench_current11_baseline_hash_r1": {
+      "callback_count": 400000,
+      "cpu_affinity": [
+        3
+      ],
+      "cpu_max": "100000 100000",
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+      "median_us_per_row": 73.9580281075,
+      "member_count": 2,
+      "member_storage_bytes": null,
+      "memory_peak_bytes": 230866944,
+      "native_level": "v3",
+      "need_prediction_rows_each": [
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901
+      ],
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_current11_baseline_hash_r1.json",
+      "post_decode_wall_seconds": 31.877190630999394,
+      "precision": "q8vnni",
+      "prediction_hashes": {
+        "1200028": "25c1724a132a36ab6f091ac0ce1fb3e3c507ce085e30263680c56b46330065e3",
+        "1892371": "dc66417849fc4405e6362cd4c73ed39cb8655292b7b43c7f6a7bd7ee06cd42dc",
+        "1990332": "cbb3884afafb9013a5e2f13382e968a56dcc2a34bcd1bb2ed0288b073c18a5c2",
+        "2308749": "00636ddac5300aea32a3017d7ad8489ec0f6894af85d62eb595f42c2a7a135eb",
+        "256678": "ab325e071ac06231c769bc98793e617b99cf5a9340b5f425e4ee2ab5ceee4806",
+        "4490992": "4d2b2345e5b518233c263e11b694eabf21bf0364c9dad695ea67599816f6d45d",
+        "6746551": "f2e86d55f861deb51e3dc17fb8212b32a428becbc1118bfa5645805dd08e8500",
+        "751005": "17b54cef9d70ab709af89560f2d380bbf738616b4d8a1340b62e740af14cddec",
+        "8348957": "66e391d843e8ee97c133935ff169242a0d62e226206ef93aa4bbeb1be2f48f5b",
+        "9147005": "3e22f5b69d2e3ef4d8d7297aa7ef6298e92fdacaa879b16035fc0629dded87cf"
+      },
+      "repeats": 2,
+      "reset_replay_equal": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "sequence_lengths": [
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000
+      ],
+      "sha256": "60a860b72662619b2b95d836ae61b46673cb6aa9ade4383107943d8c8a0e4f1a",
+      "zip_bytes": 12914019,
+      "zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284"
+    },
+    "bench_current11_pgo_alt1": {
+      "callback_count": 400000,
+      "cpu_affinity": [
+        3
+      ],
+      "cpu_max": "100000 100000",
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+      "median_us_per_row": 77.9533676575,
+      "member_count": 2,
+      "member_storage_bytes": [
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "recurrent_state": 2048,
+          "scratch": 11864,
+          "total_streamed_weights": 1071552
+        },
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "recurrent_state": 3072,
+          "scratch": 17368,
+          "total_streamed_weights": 2294976
+        }
+      ],
+      "memory_peak_bytes": 230875136,
+      "native_level": "v3",
+      "need_prediction_rows_each": [
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901
+      ],
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_current11_pgo_alt1.json",
+      "post_decode_wall_seconds": 33.73353463798412,
+      "precision": "q8vnni",
+      "prediction_hashes": {
+        "1200028": "25c1724a132a36ab6f091ac0ce1fb3e3c507ce085e30263680c56b46330065e3",
+        "1892371": "dc66417849fc4405e6362cd4c73ed39cb8655292b7b43c7f6a7bd7ee06cd42dc",
+        "1990332": "cbb3884afafb9013a5e2f13382e968a56dcc2a34bcd1bb2ed0288b073c18a5c2",
+        "2308749": "00636ddac5300aea32a3017d7ad8489ec0f6894af85d62eb595f42c2a7a135eb",
+        "256678": "ab325e071ac06231c769bc98793e617b99cf5a9340b5f425e4ee2ab5ceee4806",
+        "4490992": "4d2b2345e5b518233c263e11b694eabf21bf0364c9dad695ea67599816f6d45d",
+        "6746551": "f2e86d55f861deb51e3dc17fb8212b32a428becbc1118bfa5645805dd08e8500",
+        "751005": "17b54cef9d70ab709af89560f2d380bbf738616b4d8a1340b62e740af14cddec",
+        "8348957": "66e391d843e8ee97c133935ff169242a0d62e226206ef93aa4bbeb1be2f48f5b",
+        "9147005": "3e22f5b69d2e3ef4d8d7297aa7ef6298e92fdacaa879b16035fc0629dded87cf"
+      },
+      "repeats": 2,
+      "reset_replay_equal": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "sequence_lengths": [
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000
+      ],
+      "sha256": "d91688f59bc8e81bfd89fcaef0ed62fe80414d083f95e87d003d1869617b0d91",
+      "zip_bytes": 12905551,
+      "zip_sha256": "f65b4272065ee03833704d53d1117532476feaa9de236dec5fa6335ae3941f03"
+    },
+    "bench_current11_pgo_alt2": {
+      "callback_count": 400000,
+      "cpu_affinity": [
+        3
+      ],
+      "cpu_max": "100000 100000",
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+      "median_us_per_row": 77.19636679,
+      "member_count": 2,
+      "member_storage_bytes": [
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "recurrent_state": 2048,
+          "scratch": 11864,
+          "total_streamed_weights": 1071552
+        },
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "recurrent_state": 3072,
+          "scratch": 17368,
+          "total_streamed_weights": 2294976
+        }
+      ],
+      "memory_peak_bytes": 230608896,
+      "native_level": "v3",
+      "need_prediction_rows_each": [
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901
+      ],
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_current11_pgo_alt2.json",
+      "post_decode_wall_seconds": 33.26117322000209,
+      "precision": "q8vnni",
+      "prediction_hashes": {
+        "1200028": "25c1724a132a36ab6f091ac0ce1fb3e3c507ce085e30263680c56b46330065e3",
+        "1892371": "dc66417849fc4405e6362cd4c73ed39cb8655292b7b43c7f6a7bd7ee06cd42dc",
+        "1990332": "cbb3884afafb9013a5e2f13382e968a56dcc2a34bcd1bb2ed0288b073c18a5c2",
+        "2308749": "00636ddac5300aea32a3017d7ad8489ec0f6894af85d62eb595f42c2a7a135eb",
+        "256678": "ab325e071ac06231c769bc98793e617b99cf5a9340b5f425e4ee2ab5ceee4806",
+        "4490992": "4d2b2345e5b518233c263e11b694eabf21bf0364c9dad695ea67599816f6d45d",
+        "6746551": "f2e86d55f861deb51e3dc17fb8212b32a428becbc1118bfa5645805dd08e8500",
+        "751005": "17b54cef9d70ab709af89560f2d380bbf738616b4d8a1340b62e740af14cddec",
+        "8348957": "66e391d843e8ee97c133935ff169242a0d62e226206ef93aa4bbeb1be2f48f5b",
+        "9147005": "3e22f5b69d2e3ef4d8d7297aa7ef6298e92fdacaa879b16035fc0629dded87cf"
+      },
+      "repeats": 2,
+      "reset_replay_equal": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "sequence_lengths": [
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000
+      ],
+      "sha256": "d844485cc8bf77e15d868e5ecfec6d4e1dffc0e863e9a96293c9258d080cd7a1",
+      "zip_bytes": 12905551,
+      "zip_sha256": "f65b4272065ee03833704d53d1117532476feaa9de236dec5fa6335ae3941f03"
+    },
+    "bench_current11_pgo_training_r1": {
+      "callback_count": 400000,
+      "cpu_affinity": [
+        3
+      ],
+      "cpu_max": "100000 100000",
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+      "median_us_per_row": 76.27316118249999,
+      "member_count": 2,
+      "member_storage_bytes": null,
+      "memory_peak_bytes": 233193472,
+      "native_level": "v3",
+      "need_prediction_rows_each": [
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901
+      ],
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_current11_pgo_training_r1.json",
+      "post_decode_wall_seconds": 32.841551924007945,
+      "precision": "q8vnni",
+      "prediction_hashes": {
+        "1200028": "25c1724a132a36ab6f091ac0ce1fb3e3c507ce085e30263680c56b46330065e3",
+        "1892371": "dc66417849fc4405e6362cd4c73ed39cb8655292b7b43c7f6a7bd7ee06cd42dc",
+        "1990332": "cbb3884afafb9013a5e2f13382e968a56dcc2a34bcd1bb2ed0288b073c18a5c2",
+        "2308749": "00636ddac5300aea32a3017d7ad8489ec0f6894af85d62eb595f42c2a7a135eb",
+        "256678": "ab325e071ac06231c769bc98793e617b99cf5a9340b5f425e4ee2ab5ceee4806",
+        "4490992": "4d2b2345e5b518233c263e11b694eabf21bf0364c9dad695ea67599816f6d45d",
+        "6746551": "f2e86d55f861deb51e3dc17fb8212b32a428becbc1118bfa5645805dd08e8500",
+        "751005": "17b54cef9d70ab709af89560f2d380bbf738616b4d8a1340b62e740af14cddec",
+        "8348957": "66e391d843e8ee97c133935ff169242a0d62e226206ef93aa4bbeb1be2f48f5b",
+        "9147005": "3e22f5b69d2e3ef4d8d7297aa7ef6298e92fdacaa879b16035fc0629dded87cf"
+      },
+      "repeats": 2,
+      "reset_replay_equal": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "sequence_lengths": [
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000
+      ],
+      "sha256": "855ef7b9a7144535934d9331be78fb9422213e3a9c42c4ae8f16116d9bf83dab",
+      "zip_bytes": 13617369,
+      "zip_sha256": "c3c2be271b9d4b8e98eb0f5c5ffcb9fa8203c12a1d11ec62796650f9f15079fe"
+    },
+    "bench_h388_s4s5_pair_r1": {
+      "callback_count": 400000,
+      "cpu_affinity": [
+        3
+      ],
+      "cpu_max": "100000 100000",
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+      "median_us_per_row": 104.4801426875,
+      "member_count": 2,
+      "member_storage_bytes": null,
+      "memory_peak_bytes": 258723840,
+      "native_level": "v3",
+      "need_prediction_rows_each": [
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901
+      ],
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_h388_s4s5_pair_r1.json",
+      "post_decode_wall_seconds": 44.28863302999525,
+      "precision": "q8vnni",
+      "prediction_hashes": null,
+      "repeats": 2,
+      "reset_replay_equal": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "sequence_lengths": [
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000
+      ],
+      "sha256": "006336122c4276939ed504103d3f4946c47ea641fb77f10ecee9a2cd64967462",
+      "zip_bytes": 17272496,
+      "zip_sha256": "837b0fb3c71b22062747d7e1e3bfd2241cb6c5cd41edac908745dd36d5469410"
+    },
+    "bench_trio12_r1": {
+      "callback_count": 400000,
+      "cpu_affinity": [
+        3
+      ],
+      "cpu_max": "100000 100000",
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+      "median_us_per_row": 158.6199868575,
+      "member_count": 3,
+      "member_storage_bytes": null,
+      "memory_peak_bytes": 248582144,
+      "native_level": "v3",
+      "need_prediction_rows_each": [
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901,
+        19901
+      ],
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_trio12_r1.json",
+      "post_decode_wall_seconds": 66.14321730300435,
+      "precision": "q8vnni",
+      "prediction_hashes": null,
+      "repeats": 2,
+      "reset_replay_equal": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "sequence_lengths": [
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000,
+        20000
+      ],
+      "sha256": "3b91c8f6b92463d47fcded7a5be90c21fad9636e4186d1414b6188269674cb53",
+      "zip_bytes": 13735320,
+      "zip_sha256": "ecbf13cd321b90400a6a48bc6f20f43df4cfbef4aed650404785384c23631b7b"
+    }
+  },
+  "pgo_paired_comparisons": [
+    {
+      "base_us_per_row": 77.7795520625,
+      "pair": "alt1",
+      "pgo_delta_percent": 0.2234720956741043,
+      "pgo_us_per_row": 77.9533676575
+    },
+    {
+      "base_us_per_row": 77.08852951,
+      "pair": "alt2",
+      "pgo_delta_percent": 0.13988758208964835,
+      "pgo_us_per_row": 77.19636679
+    }
+  ],
+  "schema": "wnn.cpu-submission-fix-evidence.v1"
+}

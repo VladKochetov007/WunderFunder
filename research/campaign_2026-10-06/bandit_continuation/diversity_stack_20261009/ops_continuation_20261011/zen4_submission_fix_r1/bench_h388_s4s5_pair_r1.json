@@ -1,0 +1,192 @@
+{
+  "benchmark_runner": {
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/scripts/benchmark_submission_callbacks.py",
+    "sha256": "d5829e85af8406256525d530ab2d7792bb57b011793032c145b0d0ca5c9c70e8"
+  },
+  "build_members": [
+    {
+      "coefficient": 0.5,
+      "run_reference": "vt_all_h388_muonall_h384_e3_s4@ep2"
+    },
+    {
+      "coefficient": 0.5,
+      "run_reference": "vt_all_h388_muonall_h384_e3_s5@ep2"
+    }
+  ],
+  "build_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-exploit-now_r2/h388_full_data_teacher_pair_q8/BUILD_RECEIPT_R3.json",
+  "build_receipt_sha256": "849e9d41b04d5b2e3d28744f000088a6898c2c245ca36213dbd26a6f2411ba26",
+  "candidate": "h388_full_data_teacher_pair_q8_r3",
+  "checkpoint_sources": [
+    {
+      "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h388_muonall_h384_e3_s4/model_ep2.pt",
+      "checkpoint_sha256": "592c51fb9f8dd306c469f1b09cd20d57d06c54ce2a72d1e04ab00ac50f9a0fcc",
+      "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h388_muonall_h384_e3_s4/provenance.json",
+      "provenance_sha256": "a91a946d6594584af1ff808156eefe4b1af2feeaf99b1e9202d26021d9be64d1",
+      "run_reference": "vt_all_h388_muonall_h384_e3_s4@ep2"
+    },
+    {
+      "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h388_muonall_h384_e3_s5/model_ep2.pt",
+      "checkpoint_sha256": "7feefb8aaa8bca6f5ace10a8c0556dd07a067444b88fee43a9f941c74dc61943",
+      "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h388_muonall_h384_e3_s5/provenance.json",
+      "provenance_sha256": "2c9933c2eeb5da4a0c41b48e2a1867d73e869173900e6708d9e8cdd7be2d21ea",
+      "run_reference": "vt_all_h388_muonall_h384_e3_s5@ep2"
+    }
+  ],
+  "native_runtime": {
+    "libraries": {
+      "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+      "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+      "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+    },
+    "source_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/upload_2026-10-11/z1c_z4_pair_q8vnni/pkg"
+  },
+  "runtime": {
+    "affinity_before": [
+      3
+    ],
+    "affinity_used": [
+      3
+    ],
+    "cgroup_after_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 44535343\nuser_usec 44403938\nsystem_usec 131404\nnice_usec 44406734\ncore_sched.force_idle_usec 0\nnr_periods 447\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "256626688",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "1499996160",
+      "memory.peak": "258723840",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/zen4-callback-h388-pair-r1.scope"
+    },
+    "cgroup_before_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 697371\nuser_usec 573898\nsystem_usec 123472\nnice_usec 573765\ncore_sched.force_idle_usec 0\nnr_periods 7\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "256364544",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "1499996160",
+      "memory.peak": "256364544",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/zen4-callback-h388-pair-r1.scope"
+    },
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "loadavg_end": "1.38 1.03 0.82 3/3420 2221730",
+    "loadavg_start": "1.25 0.95 0.79 1/3420 2219467",
+    "max_rss_kib": 1363416,
+    "model_count": 2,
+    "native_level": "v3",
+    "numpy": "2.2.6",
+    "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "precision": "q8vnni",
+    "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]"
+  },
+  "schema": "wnn.native-callback-profile.v1",
+  "scope": "Runtime-capacity profile only. The fixed package is replayed over complete causal sequences; no metric is computed and no local/public score is claimed. Each sequence is reset before every pass, and predictions must be bitwise identical across resets.",
+  "submission": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-exploit-now_r2/h388_full_data_teacher_pair_q8/submission_r3.zip",
+  "submission_bytes": 17272496,
+  "submission_sha256": "837b0fb3c71b22062747d7e1e3bfd2241cb6c5cd41edac908745dd36d5469410",
+  "timing": {
+    "elapsed_callback_ns": 41792057075,
+    "elapsed_wall_seconds_after_sequence_decode": 44.28863302999525,
+    "mean_callback_us_per_row": 104.4801426875,
+    "measurement": "perf_counter_ns around each exact model.predict(DataPoint) callback",
+    "median_repeat_us_per_row": 104.4801426875,
+    "per_sequence_mean_us_per_row": {
+      "1200028": 107.30282175,
+      "1892371": 104.1267901,
+      "1990332": 103.7750324,
+      "2308749": 103.312813075,
+      "256678": 105.49904187499999,
+      "4490992": 104.58984465,
+      "6746551": 102.89954345,
+      "751005": 104.69211832500001,
+      "8348957": 103.51040205000001,
+      "9147005": 105.0930192
+    },
+    "reset_and_parquet_decode_excluded": true,
+    "rows_per_repeat": 200000,
+    "total_callback_calls": 400000,
+    "trials": [
+      {
+        "callback_ns": 20879286122,
+        "callback_us_per_row": 104.39643061,
+        "repeat": 0,
+        "rows": 200000
+      },
+      {
+        "callback_ns": 20912770953,
+        "callback_us_per_row": 104.563854765,
+        "repeat": 1,
+        "rows": 200000
+      }
+    ]
+  },
+  "utils_source": {
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/utils.py",
+    "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+  },
+  "workload": {
+    "data": "/tmp/wnn_submission_exploit_runtime_r1/valid_first10_complete_groups.parquet",
+    "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "features_sha256_by_sequence": {
+      "1200028": "016afe4a6d9bcf3af2ec7961295bd3106530f29a760d297d5a6fbb1390063c58",
+      "1892371": "4558b05652d6f9054170613d556ecd8e12fdb35b10d9027a9456e5b11b161c26",
+      "1990332": "05dbac3d81d7241a5761e009d0c5a11b4b152f1cf7890df75a6eac6776051f4b",
+      "2308749": "09e108511c35a5266f967bad67151321d7e8f16d2cee5cece69886392fd3216e",
+      "256678": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e",
+      "4490992": "a42ccf8b2e8ead95c55b6d8f785d5e25285ec2b65f56571021eca0f2ff9e3e63",
+      "6746551": "5b587d321a28146b43a5400cdc2450372af08041c21c7763086168b7c9966b21",
+      "751005": "da1552d094eee4cb347ee88c14613885802e54c3f7052e758834b36f7ad03a5f",
+      "8348957": "20947296e63f58d5210c4c6ae88442f04688bf79d66ff7bc624c283493f41175",
+      "9147005": "466d7cc953803912710c0e731aedd9de12446ea3f5e455502393461e242e9419"
+    },
+    "need_prediction_rows_each": [
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901
+    ],
+    "predictions_bitwise_identical_across_replays": true,
+    "raw_feature_columns": 112,
+    "repeats": 2,
+    "reset_before_each_sequence_and_pass": true,
+    "row_groups": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "sequence_ids": [
+      256678,
+      751005,
+      1200028,
+      1892371,
+      1990332,
+      2308749,
+      4490992,
+      6746551,
+      8348957,
+      9147005
+    ],
+    "sequence_lengths": [
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000
+    ]
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "base": {
+    "build_receipt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-exploit-now_r2/h390_student_h388_teacher_pair_q8/BUILD_RECEIPT_R1.json",
+    "build_receipt_sha256": "938fb0d85666c0400ffce939c55bfb6bb517786bd17fdfbf12ad913fcb53d73a",
+    "zip_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-exploit-now_r2/h390_student_h388_teacher_pair_q8/submission_r1.zip",
+    "zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284"
+  },
+  "baseline_panel": {
+    "median_callback_us_per_row": 73.9580281075,
+    "prediction_hashes": {
+      "1200028": "25c1724a132a36ab6f091ac0ce1fb3e3c507ce085e30263680c56b46330065e3",
+      "1892371": "dc66417849fc4405e6362cd4c73ed39cb8655292b7b43c7f6a7bd7ee06cd42dc",
+      "1990332": "cbb3884afafb9013a5e2f13382e968a56dcc2a34bcd1bb2ed0288b073c18a5c2",
+      "2308749": "00636ddac5300aea32a3017d7ad8489ec0f6894af85d62eb595f42c2a7a135eb",
+      "256678": "ab325e071ac06231c769bc98793e617b99cf5a9340b5f425e4ee2ab5ceee4806",
+      "4490992": "4d2b2345e5b518233c263e11b694eabf21bf0364c9dad695ea67599816f6d45d",
+      "6746551": "f2e86d55f861deb51e3dc17fb8212b32a428becbc1118bfa5645805dd08e8500",
+      "751005": "17b54cef9d70ab709af89560f2d380bbf738616b4d8a1340b62e740af14cddec",
+      "8348957": "66e391d843e8ee97c133935ff169242a0d62e226206ef93aa4bbeb1be2f48f5b",
+      "9147005": "3e22f5b69d2e3ef4d8d7297aa7ef6298e92fdacaa879b16035fc0629dded87cf"
+    },
+    "receipt_path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_current11_baseline_hash_r1.json",
+    "receipt_sha256": "60a860b72662619b2b95d836ae61b46673cb6aa9ade4383107943d8c8a0e4f1a"
+  },
+  "build": {
+    "cargo": "cargo 1.94.0 (85eff7c80 2026-01-15)",
+    "cargo_build_jobs": 1,
+    "cargo_target_directory": "/tmp/wnn-zen4-pgo-current11-r1/target",
+    "host_cpu": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "python": "3.11.16",
+    "rustc": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+    "rustflags": [
+      "-C target-cpu=x86-64-v3",
+      "-C profile-use=/tmp/wnn-zen4-pgo-current11-r1/merged.profdata",
+      "-C llvm-args=-pgo-warn-missing-function"
+    ],
+    "target": "x86_64-unknown-linux-gnu",
+    "target_cpu": "x86-64-v3"
+  },
+  "claim_scope": "A local compiler/runtime experiment only; no Zen4 timing, Kaggle runtime, score, or public outcome is inferred.",
+  "final_native_library": {
+    "bytes": 972280,
+    "path": "/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/libwnn_native.so",
+    "sha256": "4ed5b61df7794678ce6b31b9f100c29b8aa2ba8c5bfdc004db8d024b4a246940"
+  },
+  "instrumented_training": {
+    "build_receipt_sha256": "b36a0120a1ca49cfe4cfce3733a7f18921d4c80b2ddea68d59c10ea096725749",
+    "callback_count": 400000,
+    "native_v3_library_sha256": "407d0f5cb1674514f2c4ac6654cfac525750fbaea1e55cc479b25a30236dd57b",
+    "panel_receipt_path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/bench_current11_pgo_training_r1.json",
+    "panel_receipt_sha256": "855ef7b9a7144535934d9331be78fb9422213e3a9c42c4ae8f16116d9bf83dab",
+    "prediction_hashes_match_base": true,
+    "zip_path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/submissions/zen4_submission_fix_r1/current11_pgo_training.zip",
+    "zip_sha256": "c3c2be271b9d4b8e98eb0f5c5ffcb9fa8203c12a1d11ec62796650f9f15079fe"
+  },
+  "method": "Rust LLVM instrumentation PGO using the exact candidate callback path",
+  "native_source_sha256": {
+    "Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+    "Cargo.toml": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+    "INT8_VNNI_REPORT.md": "d70db0fb28b6f940dc2e96426144fef19584b4d3e00f8a4f97d66ff0223b6eb0",
+    "examples/bench_engine.rs": "dc972896c9d9d5d9b59c2ec96ca5d16959f11bad002ed24e5b85f35b3afaea66",
+    "examples/bench_fast.rs": "2d7695cd5008dd395ef4c8c3452102af19bab85fac2b95a7ffbeabb18bde751f",
+    "examples/bench_int8.rs": "a8402e22abd85f151f6590b04761d399f87b6bcd0adb0e8f28d87d7e1cad03a6",
+    "examples/bench_parts.rs": "0bb2c91d5deeac1f3fd5b8b2a50f551b7bc556c45f2975b4700760133da9dda4",
+    "examples/bench_quant8.rs": "256b4df5c59d45f20ed9ef499df5a68695393a2f0a50ff4e44e0ba10f2ad8200",
+    "examples/bench_saxpy.rs": "ffe54e6bec3f0311be01620db5a1e6a46fa433724d1c5f91d2066bc1a58e8356",
+    "examples/bench_step.rs": "f0bb96530364c6e5e49c6e9833fabe483cf6e0ede2a659b3dabef9e8863778d9",
+    "int8_vnni_quality_60.json": "6ece1f7471b95ae1baa5a3eeb325a21cbe7be2c06adcd100480d995db88ed8fb",
+    "pyproject.toml": "ce3fef53184a0fecae9a0928196f8a7e5359e64ed699470ae6419cd6c1fc907d",
+    "src/approx.rs": "9ccf56716d8416210cab7b6260df12bd30178a8cad6bb289f0b8d3111649f912",
+    "src/factorized.rs": "7e3666cceae408e746d171ea2096500f37aa0b1eaafa5974026f2623cd0d6199",
+    "src/half.rs": "87035e5569bb7a53295c222026337a4a08661f1d6d821c2b26074fa12b4bb9cc",
+    "src/kernels.rs": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+    "src/lib.rs": "356ad9c0f82a228a1e113214732d1356b5da3d3f72dac2aa497366033752fc8d",
+    "src/python.rs": "6f8a4107f2edcce13d6620a19970ec25f459e184d6bd3d111ed5f9d74242b322",
+    "src/quant8.rs": "07354c7f65deaa145127f359448b5fe1f5648e16fe3034bfdccd2939f91347cc",
+    "src/rnn.rs": "544135da67cb156a471d8ca0a9de7837f2ae3657a7885e4f8d95edf238cb0abf",
+    "src/rnn_fast.rs": "7e6df836313aac1f8175fd1952362f03738fcc5629318b4b01cc5a5e5057708b",
+    "src/stream.rs": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6",
+    "src/vnni.rs": "803b7e99a2234587eafef6861678e610c72ddf87fcc970958efdbedc7a8f3406"
+  },
+  "pgo_data": {
+    "merged_profile_bytes": 406712,
+    "merged_profile_path": "/tmp/wnn-zen4-pgo-current11-r1/merged.profdata",
+    "merged_profile_sha256": "9708f83e72142845d71c133f7ab9cfa33308ca7a2a64e271a62a0f190f04aca1",
+    "raw_profiles": {
+      "7586199005934154533_0-2239992.profraw": {
+        "bytes": 244376,
+        "sha256": "ae7fcb0ea5d7c16b9536b9c8c0643394b0079229f2169d73a767c28c87a54d7b"
+      }
+    }
+  },
+  "schema": "wnn.native-rust-pgo-build.v1",
+  "stage": "profile-use-build"
+}
