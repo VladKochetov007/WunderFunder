@@ -1,0 +1,185 @@
+{
+  "schema": "wnn.oldz4.hft.fit-artifact-independent-review.v1",
+  "review_id": "oldz4-hft-r6-fit-artifact-review-r1",
+  "reviewed_utc": "2026-10-11T23:01:16Z",
+  "reviewer_worktree_commit_before_review": "ec5daafb45fe62e025e81df6a1478145469bd09b",
+  "scope": "Read-only independent terminal artifact integrity audit for root-owned export admission; no fit, provider action, export, or grade was run.",
+  "result": "PASS_FOR_EXACT_CP0_EXPORT_AND_FIXED_F0_GRADE_HANDOFF",
+  "claim_limits": [
+    "Not a scientific-quality or metric result.",
+    "Not a clean-gradient or zero-AMP-skip claim; fit recorded two AMP skips and did not collect per-step grad stats.",
+    "Not a throughput profile; the bound R6 strict profile failed with one nonfinite-gradient AMP skip and profile_valid_for_throughput=false.",
+    "F0 is previously exposed robustness evidence, not a fresh holdout."
+  ],
+  "main_repo_paths": {
+    "attempt": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/oldz4-r6-f0-s3-hft-fit-resource.json",
+    "fit_log": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/oldz4-r6-f0-s3-hft-fit-resource.log",
+    "profile_attempt": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/oldz4-r6-f0-s3-hft-profile.json",
+    "profile_log": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/oldz4-r6-f0-s3-hft-profile.log",
+    "profile_review": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/OLDZ4_HFT_R6_PROFILE_RESOURCE_REVIEW_R1.json",
+    "contract": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/HFT_FIT_CONTRACT_R5.json",
+    "resource_only_admission": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/ROOT_HFT_RESOURCE_ONLY_FIT_ADMISSION_R6.json",
+    "source_bindings": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/SOURCE_BINDINGS_R5.json",
+    "crop_receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/CORE_CROP_PRODUCER_RECEIPT_R5.json",
+    "split": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "initializer_run": "artifacts/runs/oldz4_h230_core_f0_s3_r5",
+    "hft_run": "artifacts/runs/oldz4_h230_hft_f0_s3_r5"
+  },
+  "pins": {
+    "attempt_sha256": "bef20ae1ce7bf2dd64b89655287a529baa06a5f3af4beff99065ebbde2f9371a1",
+    "fit_contract_sha256": "64df5f235242042a3e9848eb260321d4a0b46979862aa9299dfa5f401059b541",
+    "resource_only_admission_sha256": "af53f34272cd023568773925a728b6df86b1b9063623ac2b29e943e4d88e472d",
+    "source_bindings_sha256": "b7c08e9b19ee6d4e802d858259caeba505538c8e4b5385bf52cd5f21e8a0985b",
+    "trainer_snapshot_sha256": "5b135ea90480dde8b530c4543e1d587a044efa1f98dc6a3327b9dca6fcd40187",
+    "crop_receipt_sha256": "09b0836d182a22758ec5183f9a1891e53c4aa48f3164214382ab46f7ac62475f",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "initializer_checkpoint_sha256": "f1fac7f6293082fe1dd416e4026cac56fe1bcfb533683837da2192bad69e99a0",
+    "selected_checkpoint_sha256": "2bde556119ededc3693733280444a42f0f64138a2e3759bed6b068cb72f18ec8",
+    "training_state_sha256": "35d3b22137a28c281d3a8892181d3eca50a23edfd07563a55edd6eb3818d41cd",
+    "provenance_sha256": "bf6105bfb1d137345bf775b09f06f432b5d993c61cf019aa927c2a896ebddac2",
+    "history_sha256": "b9e3f1cffdf86df26011df87441025f296261ccb28f03f8ca3c5ba765ed1e8fa",
+    "profile_attempt_sha256": "e20d7a61b629cde8b75d75289581104441ef3cdf74f1f54cef1f23c4b09093ba",
+    "profile_review_sha256": "fa1dad9bbf6c5587065402f85b102eb14dabdfccbfa13eb10993dd4d65e1ee19"
+  },
+  "checks": {
+    "fit_attempt": {
+      "status": "finished",
+      "exit_status": 0,
+      "elapsed_seconds": 65.51622898099595,
+      "train_seconds": 59.3,
+      "run": "oldz4_h230_hft_f0_s3_r5",
+      "checkpoint_epoch": 0,
+      "admission_decision": "PASS_FOR_ONE_BOUNDED_ORIGINAL_FIT",
+      "fit_argv_unchanged": true,
+      "profile_valid_for_throughput": false
+    },
+    "source": {
+      "snapshot_commit": "c337e3a613f795fdbb057098d11c0191c37c3615",
+      "source_bindings_file_count": 53,
+      "trainer_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/source_snapshots/hft_c337/scripts/train_rnn.py",
+      "trainer_sha256": "5b135ea90480dde8b530c4543e1d587a044efa1f98dc6a3327b9dca6fcd40187",
+      "actual_attempt_contains_contract_hash_and_imported_trainer_sha_assertions": true
+    },
+    "recipe": {
+      "initializer": "oldz4_h230_core_f0_s3_r5@ep1",
+      "initializer_checkpoint_sha256": "f1fac7f6293082fe1dd416e4026cac56fe1bcfb533683837da2192bad69e99a0",
+      "args": {
+        "seed": 3,
+        "epochs": 1,
+        "checkpoint_epoch": 0,
+        "train_source": "valid",
+        "eval_source": "vfold",
+        "valid_fold": 0,
+        "valid_train_fraction": 1.0,
+        "include_heldout_valid": false,
+        "loss": "gcorr",
+        "optimizer": "adamw",
+        "schedule": "onecycle",
+        "precision": "fp16",
+        "amp_init_scale": 65536.0,
+        "batch": 16,
+        "chunk": 2000,
+        "lr": 0.0005,
+        "weight_decay": 0.01,
+        "freeze": "inp,gru",
+        "inherit_init_preprocessing": true,
+        "mask_weight": true,
+        "no_eval_during_fit": true
+      }
+    },
+    "membership": {
+      "split_source": "valid.parquet",
+      "fit_count": 1405,
+      "evaluation_count": 468,
+      "fit_membership_matches_fold0_fit_valid_as_set": true,
+      "evaluation_membership_matches_fold0_evaluation_valid_as_set": true,
+      "source_qualified_fit_evaluation_overlap": 0,
+      "parent_core_fit_counts": {
+        "train": 10535,
+        "valid": 1405,
+        "evaluation_valid": 468
+      },
+      "parent_core_membership_matches_fold0": true,
+      "selection_exposure": "F0 was previously inspected; this is not fresh-holdout evidence."
+    },
+    "normalization_and_frozen_tensors": {
+      "feature_width": 211,
+      "mean_sha256": "b5c74bd5507b06fed49228172cbe7f60374c5ec98b6024885d317128adb71874",
+      "std_sha256": "281f23f5f7b071a8fa275ebaed4881b46d627eba532bb187250305c8c1c91218",
+      "normalization_inherited_bitwise": true,
+      "inp_and_gru_frozen_bitwise": true,
+      "unchanged_tensor_count_including_mean_std": 12,
+      "changed_tensors": [
+        "head.0.weight",
+        "head.0.bias",
+        "head.2.weight",
+        "head.2.bias"
+      ]
+    },
+    "checkpoint_and_state": {
+      "checkpoint_bytes": 3944423,
+      "checkpoint_floating_tensor_count": 16,
+      "checkpoint_all_finite": true,
+      "training_state_format": "wnn.epoch-training-state",
+      "training_state_version": 1,
+      "training_state_boundary": "epoch",
+      "training_state_next_epoch": 1,
+      "training_state_model_bitwise_equals_checkpoint": true,
+      "training_state_tensor_count": 30,
+      "training_state_floating_tensor_count": 28,
+      "training_state_all_finite": true,
+      "amp_scaler_scale_at_terminal": 16384.0
+    },
+    "update_counters": {
+      "batches": 87,
+      "optimizer_attempts": 870,
+      "optimizer_completed_updates": 868,
+      "amp_skipped_updates": 2,
+      "ema_updates": 0,
+      "fit_counter_sources_agree": [
+        "fit log",
+        "history.json",
+        "provenance.json",
+        "training_state.pt"
+      ],
+      "grad_stats_enabled": false
+    },
+    "prior_strict_profile": {
+      "status": "failed",
+      "elapsed_seconds": 25.23167859800742,
+      "optimizer_attempts": 270,
+      "optimizer_completed_updates": 269,
+      "amp_skipped_updates": 1,
+      "gradient_stats_nonfinite_steps": 1,
+      "all_losses_finite": true,
+      "profile_valid_for_throughput": false,
+      "strict_failure": "profile update evidence is incomplete or nonfinite"
+    },
+    "resources": {
+      "worker_cpus": 1,
+      "worker_memory_high_bytes": 6120000000,
+      "worker_memory_max_bytes": 6800000000,
+      "worker_peak_ram_bytes": 6122082304,
+      "worker_memory_high_event_delta": 13937,
+      "worker_memory_max_event_delta": 0,
+      "worker_oom_event_delta": 0,
+      "worker_oom_kill_event_delta": 0,
+      "worker_peak_vram_bytes": 2003828736,
+      "worker_vram_cap_bytes": 5000000000,
+      "parent_peak_ram_bytes": 14527782912,
+      "parent_memory_high_bytes": 18000000000,
+      "parent_memory_max_bytes": 20000000000,
+      "parent_memory_max_event_delta_local": 0,
+      "parent_oom_event_delta_local": 0,
+      "parent_oom_kill_event_delta_local": 0,
+      "swap_max_bytes": 0
+    }
+  },
+  "independent_commands": [
+    "MAIN scripts/limited with WNN_CPU_QUOTA=100%, WNN_THREADS=1, WNN_MEM_MAX=1000000000, WNN_RUNTIME_MAX=120s for bounded JSON/membership and checkpoint/state inspections",
+    "Read-only fit/profile log inspection"
+  ],
+  "open_gates": [
+    "Root-owned export consumer validation and fixed-F0 score remain to be run separately."
+  ]
+}
