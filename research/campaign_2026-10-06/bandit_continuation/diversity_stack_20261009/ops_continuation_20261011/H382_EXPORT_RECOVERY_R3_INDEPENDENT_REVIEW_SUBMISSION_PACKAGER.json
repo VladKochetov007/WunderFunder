@@ -1,0 +1,47 @@
+{
+  "schema": "wnn.h382-export-recovery-independent-review.v1",
+  "reviewer_role": "independent_r3_delta_review",
+  "reviewer": "submission_packager",
+  "recorded_utc": "2026-10-11T16:02:20Z",
+  "target": {
+    "packet_path": "/home/vlad/development/wunder/wnn_h382_t3_fold0_packet_20261011/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_export_recovery_20261011_r3",
+    "packet_manifest_sha256": "b1e6c3666ec4c0b197e475ca2bee45dfac49acd322666a62a6e75e2be02fb33a",
+    "kernel_sha256": "c010b7f7c2658c9ceeb8e3c22508f81f96516a2fe02dcd6ea0be1da4a833406f",
+    "r1_manifest_sha256": "3db16e55b00116042ce046d2a63da54e47a2eae275d2dcc7706b0a1bba37cb1b",
+    "r1_kernel_sha256": "955ee51f131efb054e64276a4c913e83fb7b66d6a9cab5e7d2e445b138387eb2",
+    "r2_manifest_sha256": "c9d9c79b10d51f872aaa179e4e6cb39564e0a07d3c6564f590fd2d3a46d74582",
+    "r2_kernel_sha256": "b909fc96a18c491613d17a20f166d7cee22b6775c29d40f83d916483fbe7bdcd",
+    "checkpoint_archive_sha256": "a57df09373de67618c7a5826a11a3756fbdb1640b38781af1467a6cbbc468285"
+  },
+  "verdict": "BLOCK_FRESH_COLLECTION_HASH_NOT_BOUND",
+  "blocking_findings": [
+    {
+      "id": "terminal_does_not_compare_collected_files_to_fresh_export_receipts",
+      "severity": "blocking",
+      "location": "kernel/kernel.py around lines 758-808",
+      "finding": "R3 removes the inappropriate historical-hash equality gate and records historical equality diagnostically. However, after copying the validated ROOT/cache NPY and sidecar files into OUT/predictions, it hashes those collected copies for terminal_inventory.json and only requires six paths/counts plus non-null collected hashes. It does not compare the collected NPY and sidecar SHA/bytes to the per-run fresh export_receipt hashes in status. A corrupted or truncated copy can therefore still satisfy terminal.complete.",
+      "consequence": "The recovery can report complete despite delivering prediction bytes that differ from the exact fresh files which passed checkpoint/sidecar/shape/order/finiteness validation.",
+      "smallest_fix": "For each of the three runs, compare terminal file inventory SHA and byte count for its collected predictions/<filename>.npy and .json against that run's fresh status export_receipt prediction_sha256/prediction_bytes and sidecar_sha256. Require all six fresh-copy comparisons and the exact six expected paths for complete. Keep historical hashes diagnostic only."
+    }
+  ],
+  "confirmed_passes": [
+    "R3 manifest SHA-256 is the requested b1e6c3666ec4c0b197e475ca2bee45dfac49acd322666a62a6e75e2be02fb33a; kernel SHA-256 is c010b7f7c2658c9ceeb8e3c22508f81f96516a2fe02dcd6ea0be1da4a833406f; all eight manifest-listed packet files match sizes and hashes.",
+    "Pinned R1 and R2 manifest/kernel bytes are unchanged. The R3-to-R2 code delta preserves the prior finite scan and checkpoint staging path, changes only the R2/R3 namespace/manifest pins and historical-comparison policy, and keeps the exact original source jobs and checkpoint archive digest.",
+    "R3 attaches expected/collected/matches_reference_export before writing terminal_inventory.json, and its completion gate no longer requires historical device-hash equality. It does require each collected prediction path/hash to be present, all six NPY/sidecar paths to be copied, and no worker errors.",
+    "The unchanged actual checkpoint staging consumer and finite-array helper were already independently exercised against the rescued archive and synthetic finite/NaN/Inf fixtures in the preceding R1/R2 review receipts; not repeated here as requested.",
+    "No worker execution, fit, GPU use, provider mutation, upload or scoring was performed. Full-size R3 prediction export/collection remains untested."
+  ],
+  "checks": {
+    "r1_r2_immutability": "PASS",
+    "r3_packet_manifest_and_eight_file_pins": "PASS",
+    "historical_hash_equality_diagnostic_only": "PASS",
+    "fresh_source_to_collected_npy_and_sidecar_sha_binding": "FAIL; no equality gate found",
+    "support_limits_per_command": {
+      "cpu_quota": "50%",
+      "threads": 1,
+      "memory_max_bytes": 700000000,
+      "runtime_max": "120s"
+    }
+  },
+  "release_recommendation": "Add and pin fresh source-to-collected NPY and sidecar identity checks in a new packet revision, then independently verify the diff and manifest before quota-gated dispatch. Root remains owner of live provider admission."
+}
