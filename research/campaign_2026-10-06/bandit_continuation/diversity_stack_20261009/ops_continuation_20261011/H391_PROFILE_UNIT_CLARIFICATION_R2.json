@@ -1,0 +1,21 @@
+{
+  "schema": "wnn.h391-profile-unit-clarification.v1",
+  "clarification_id": "h391_profile_unit_clarification_r2",
+  "packet_commit": "350d0abf7f6b1a20030880c580346a30dd1aad51",
+  "packet_manifest_sha256": "8e7e738a3e41e7a19c346f70a145e8b93c73cf9e3a08522794caa69375ecfe1e",
+  "source_trainer_sha256": "8c041bf2a49b43ef5a014a5f7cee59302605d464f5b82fe8c7dc12267c386a40",
+  "clarification_only": true,
+  "profile_run_id": "vt_f1_h391_dsq_h384_t3_a9_e6_s3_profile_r1",
+  "profile_steps_unit": "complete training batches, not optimizer updates",
+  "warmup_batches": 5,
+  "measured_batches": 25,
+  "window_length": 20000,
+  "chunk_length": 2000,
+  "expected_chunk_updates_per_batch": 10,
+  "expected_chunk_updates_total": 300,
+  "update_count_qualification": "Expected updates from 30 full batches x 10 chunks; fp16 gradient scaling may skip an optimizer update if it detects non-finite gradients.",
+  "device": "owned Vast instance 55080658, physical GPU 1 via CUDA_VISIBLE_DEVICES=1, only after fresh OOD phase/headroom check",
+  "profile_timeout_seconds": 120,
+  "fit_authorized": false,
+  "evidence": "The pinned trainer sets max_batches = profile_warmup + profile_steps and profile_steps terminates the batch loop; each 20,000-step sequence is processed in 2,000-step chunks."
+}
