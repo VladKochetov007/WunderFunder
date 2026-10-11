@@ -1,0 +1,63 @@
+{
+  "recorded_utc": "2026-10-11T16:54:06.098939+00:00",
+  "instance_id": 55080658,
+  "run": "vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2",
+  "checkpoint_epoch": 5,
+  "fold": 1,
+  "evaluation_groups": 457,
+  "distinct_student_seeds": 1,
+  "exposure": "repeatedly exposed fold1",
+  "comparison": "Frozen50/50 H391+strongh256 student; width/parent interaction, not isolated width effect",
+  "grade": {
+    "metric_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "export_validation": {
+      "bytes": 299680128,
+      "checkpoint_sha256": "0dde2adaf43f36c50862a4fed59e8572660a42dab9ead8cf14cb14f8cb173326",
+      "dtype": "float32",
+      "epoch": 5,
+      "prediction_sha256": "359ba96d4c5b0a72db71cac5635b918414139805241d45bf6d40043433b4f585",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "sidecar_sha256": "4c9942c4ded71c14fb0e6f3cce410e3839e56a74b66d8a34080e0c3d9af7a114",
+      "status": "valid_prediction_artifact"
+    },
+    "grade_results": [
+      {
+        "script": "score_prediction_remote.py",
+        "args": [
+          "1",
+          "vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2"
+        ],
+        "rc": 0,
+        "stdout": "vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2 0.67024 t0 0.66418 t1 0.67629\n",
+        "stderr": ""
+      },
+      {
+        "script": "blend_score_remote.py",
+        "args": [
+          "1",
+          "vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2+vt_f1_dsq_dm_t3_a9_e6"
+        ],
+        "rc": 0,
+        "stdout": "0.67177 t0 0.66635 t1 0.67719  vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2+vt_f1_dsq_dm_t3_a9_e6\n",
+        "stderr": ""
+      }
+    ],
+    "prediction_files": [
+      {
+        "remote_path": "/root/wnn/cache/pred_vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2_valid.npy",
+        "bytes": 299680128,
+        "sha256": "359ba96d4c5b0a72db71cac5635b918414139805241d45bf6d40043433b4f585"
+      },
+      {
+        "remote_path": "/root/wnn/cache/pred_vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2_valid.json",
+        "bytes": 18284,
+        "sha256": "4c9942c4ded71c14fb0e6f3cce410e3839e56a74b66d8a34080e0c3d9af7a114"
+      }
+    ]
+  },
+  "public_forecast": null
+}
