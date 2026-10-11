@@ -16,6 +16,7 @@ import argparse
 import fcntl
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -108,6 +109,7 @@ def main() -> int:
     parser.add_argument("--hidden", type=int, default=256, help="student width (parent must match)")
     parser.add_argument("--batch", type=int, default=16)
     parser.add_argument("--sched", default="onecycle")
+    parser.add_argument("--extra-fit-args", default="", help="shell-split string appended to the trainer argv, e.g. '--distill-channel-weights 0.5,2'")
     parser.add_argument("--no-teacher", action="store_true", help="control: same continuation without any distillation")
     parser.add_argument("--keep-cache", action="store_true")
     args = parser.parse_args()
@@ -151,7 +153,7 @@ def main() -> int:
            "--chunk", "2000", "--loss", "wmse", "--loss-norm", "chunk", "--lr", str(args.lr), "--wd", str(args.wd),
            "--optim", "adamw", "--sched", args.sched, "--precision", "fp16", "--propensity", f"c20260929_prop_f{args.fold}",
            "--prop-power", "2", "--prop-eps", "0.03", "--valid-true-mask", "0.03", "--aux-struct", "0.3",
-           "--aux-next", "0.3", *distill_flags, "--fast", "--save-training-state"]
+           "--aux-next", "0.3", *distill_flags, "--fast", "--save-training-state", *shlex.split(args.extra_fit_args)]
     run(fit, log)
     predict(student, "valid", args.epochs - 1, None, log)
     if False:  # shared cache is kept (reused by sibling arms); delete manually when the teacher set is retired

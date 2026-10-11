@@ -1,0 +1,29 @@
+{
+ "name": "w19_kd_ch052",
+ "steps": [
+  {
+   "label": "pipeline",
+   "timeout": 28800,
+   "argv": [
+    "python",
+    "/root/wnn/scripts/distill_pipeline.py",
+    "--arm",
+    "kd_ch052",
+    "--fold",
+    "1",
+    "--teachers",
+    "vt_f1_muonall_h384_e3,vt_f1_muonall_h384_e3_s4,vt_f1_muonall_h384_e3_s5",
+    "--parent",
+    "c20261003_combo_s3_f1@ep3",
+    "--teacher-epoch",
+    "2",
+    "--epochs",
+    "2",
+    "--alpha",
+    "0.9",
+    "--extra-fit-args",
+    "--distill-channel-weights 0.5,2"
+   ]
+  }
+ ]
+}
