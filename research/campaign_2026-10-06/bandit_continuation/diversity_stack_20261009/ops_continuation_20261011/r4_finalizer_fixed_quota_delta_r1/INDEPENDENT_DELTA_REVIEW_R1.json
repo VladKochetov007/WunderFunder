@@ -1,0 +1,38 @@
+{
+  "schema": "wnn.clean_t3_f0_teacher_r4_finalizer_fixed_quota_delta_review.v1",
+  "reviewer_role": "independent_code_and_authority_review",
+  "actor_commit": "782eafb793cbcdd1e307a56a924b836fc392f48f",
+  "actor_worktree": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011",
+  "prior_independent_delta_receipt_commit": "52b013cb",
+  "reviewed_files": {
+    "finalizer_sha256": "de6117ac7c682f04aff8ab3a7dcf69011ff050a5fc5eff807515173f0ae7ce1d",
+    "test_sha256": "ab4e636820c4bef60dd0d41ce55cb2fc7a4f6beec169bdbe8df9be0e4b242d76",
+    "preseal_bindings_sha256": "e5766ff8d4b8d6b7ba21c7bef0ce372c0425e19c33a1ad29dfd6334c9108e26c"
+  },
+  "disposition": "PASS_FIXED_QUOTA_INTEGER_DELTA",
+  "checks": {
+    "finalizer_requires_exact_json_int_for_wall_ceiling_two_device_upper_bound_and_reservation": "PASS_BY_SOURCE_INSPECTION",
+    "generated_bootstrap_applies_the_same_exact_int_checks_for_all_three_fields": "PASS_BY_SOURCE_INSPECTION",
+    "valid_expected_fixed_ints_are_accepted_and_float_or_bool_mutations_refused": "PASS_BY_FOCUSED_TEST",
+    "bootstrap_fixed_quota_guard_executes_and_refuses_float_and_bool": "PASS_BY_FOCUSED_TEST",
+    "previous_finite_headroom_validation_remains_unchanged": "PASS_BY_DIFF",
+    "preseal_bindings_and_scientific_r3_inputs_unchanged": "PASS_BY_HASH_AND_DIFF_PINS",
+    "no_actual_root_receipt_or_r4_packet_was_created": true
+  },
+  "focused_test": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m unittest research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.ops_continuation_20261011.test_finalize_clean_t3_f0_teacher_r4 -v",
+    "result": "4 passed",
+    "coverage": [
+      "pending receipt refusal before output or stage creation",
+      "authorized-shaped receipt reseals only a private copy and keeps source R3 archive/gate hashes unchanged",
+      "both finite-headroom fields reject NaN, positive infinity, negative infinity, and bool while accepting int/float headroom",
+      "all three fixed quota fields reject float and bool mutations and retain the exact expected integers",
+      "generated bootstrap helper rejects invalid headroom and fixed quota values"
+    ]
+  },
+  "root_owned_preseal_conditions": [
+    "Root must independently verify actual 77-file profile collection identity and current quota/headroom before supplying release authority.",
+    "A separate post-seal admission must bind final R4 archive, manifest, and bootstrap before upload or dispatch."
+  ],
+  "scope": "Read-only delta review and bounded private-copy tests; no actual root receipt, persistent R4 output, provider action, upload, or fit."
+}
