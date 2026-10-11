@@ -54,3 +54,5 @@ E1 local queue treated admission_recheck_failed as permanent failure -> cascaded
 | F7 | H-368 residual KD, H-371 LUPI, H-373 hidden KD | PROPOSED | grok_distill.md |
 | F8 | epoch scaling: e5 muonall .6465, dm_none_e6 .6533, long_small adamw/muon e24 .610/.578 (peak ep11 .6646) | NEGATIVE without regularisation | LOOP_LOG pass 105-109 |
 | F9 | regularised long schedules: aug-warp e3/e6, strong warp e6, dropout .2 e5 (Kaggle v5) | RUNNING | kaggle_long_20261010 |
+| F10 | student alpha ladder (alpha .9 e6 = .67103 best student; w17 alpha 1.0/.95/e2/e10 queued) | RUNNING | LOOP_LOG pass 120 |
+| F11 | h256 muon-all x prop0 stacks (.6690, 2 seeds); h256 epoch ladder e2 .6648 / e3 .6674 / e4 .6690 | CONFIRMED (e5/e6 pending) | pass 120 |

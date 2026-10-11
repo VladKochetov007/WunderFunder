@@ -1,0 +1,27 @@
+{
+ "name": "w17_dm_a9_e10",
+ "steps": [
+  {
+   "label": "pipeline",
+   "timeout": 36000,
+   "argv": [
+    "python",
+    "/root/wnn/scripts/distill_pipeline.py",
+    "--arm",
+    "dm_a9_e10",
+    "--fold",
+    "1",
+    "--teachers",
+    "vt_f1_muonall_h384_e3,vt_f1_muonall_h384_e3_s4,vt_f1_muonall_h384_e3_s5",
+    "--parent",
+    "c20261003_combo_s3_f1@ep3",
+    "--teacher-epoch",
+    "2",
+    "--epochs",
+    "10",
+    "--alpha",
+    "0.9"
+   ]
+  }
+ ]
+}
