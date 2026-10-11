@@ -1,0 +1,71 @@
+{
+  "schema": "wnn.kaggle.r4_terminal_receipt_repair_operator_receipt.r2",
+  "status": "terminal_download_complete_science_not_validated",
+  "repair_scope": "receipt_creation_only_same_attempt_no_redownload",
+  "kernel": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r4-runner",
+  "attempt": "attempt_001",
+  "root_download_admission_sha256": "3eee6881ec10d8d4b18b5769733982aa9baf47fa28e5a10cbed8698a310e546e",
+  "root_fit_dispatch_sha256": "0079fed7fdc64bcab31fabdea7c3c2046303604765953ba4dcf6633475b66513",
+  "root_kernel_push_sha256": "098feb7c182723d42fa917e3561d295f2e8d1cc838d0c8ebd1ce39ac7c7030e5",
+  "frozen_r1_collector_sha256": "2de1b1d2bf5b843887220b720839248c868f97cf5d598ef552d6ba1f5983e19e",
+  "repair_helper_sha256": "298d6f8aa10cead56008890c8e8c0109d329ccd2edb4c3389beb5fe848671ab9",
+  "download": {
+    "provider_file_count": 108,
+    "downloaded_file_count": 108,
+    "provider_inventory_matches_download": true,
+    "response_log_match": true,
+    "logs_exit_code": 0,
+    "outputs_exit_code": 0,
+    "no_redownload": true
+  },
+  "generic_terminal_receipt": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r4_root_release/terminal_collection_r1/TERMINAL_COLLECTION_RECEIPT_R2.json",
+    "sha256": "833570ab8908a119811bed53a11477ba515db511eb65d55f08de659be61afac0",
+    "generic_consumer_complete": true
+  },
+  "terminal_diagnostics": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r4_root_release/terminal_collection_r1/R4_TERMINAL_DIAGNOSTICS_R2.json",
+    "sha256": "121a317b9bd75117939af3901116e496a3466a6d477c6d5095f2be1ad8734ad8"
+  },
+  "pipeline": {
+    "status": "blocked_or_failed",
+    "error_type": "ValueError",
+    "error": "Worker reservation exceeds host operational budget",
+    "completed_stages": ["paired_profiles"],
+    "fit_stage_started": false,
+    "export_stage_started": false,
+    "strict_science_validation": "not_run_terminal_error"
+  },
+  "paired_profile": {
+    "guard_status": "pass",
+    "distinct_t4_devices": 2,
+    "stage_elapsed_seconds": 648.465749144,
+    "sum_worker_peak_ram_bytes": 9252970496,
+    "host_initial_operational_budget_bytes": 25712066560,
+    "host_capacity_bytes": 32212254720,
+    "host_available_bytes": 32154517504,
+    "workers": [
+      {
+        "seed": 3,
+        "completed_batches": 10,
+        "optimizer_attempts": 200,
+        "optimizer_completed_updates": 200,
+        "amp_skipped_updates": 0,
+        "gradient_nonfinite_steps": 0,
+        "peak_ram_bytes": 4669231104,
+        "peak_gpu_bytes": 3497000960
+      },
+      {
+        "seed": 4,
+        "completed_batches": 10,
+        "optimizer_attempts": 200,
+        "optimizer_completed_updates": 199,
+        "amp_skipped_updates": 1,
+        "gradient_nonfinite_steps": 1,
+        "peak_ram_bytes": 4583739392,
+        "peak_gpu_bytes": 3497000960
+      }
+    ]
+  },
+  "interpretation": "Infrastructure admission failure after profiling; not a negative scientific result."
+}
