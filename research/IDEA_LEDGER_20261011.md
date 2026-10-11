@@ -59,3 +59,7 @@ E1 local queue treated admission_recheck_failed as permanent failure -> cascaded
 
 | F12 | Fixed student–scratch equal blend H-376: alpha0.9 e6 student .67103 + Muon-all prop0 e4 seed4 .67195 -> .67329; same-recipe seed3/4 pair .67261 | EVALUATED exposed fold1; quantized packaging in submissions/10-11-67 | ops_continuation_20261011/RESEARCH_PAIR_SCORES_R1.txt |
 | E6 | Local10.5GB reservation breach repaired using per-attempt MemoryHigh9.5GB, unchanged hardcaps; actual25-batch profile passed, seed6e4 healthy; blocked925 export retains failed924 ancestry, corrected LWF retry930/931 queued | RUNNING | ops_continuation_20261011/LOCAL_RECOVERY_REVIEW_R1.json |
+
+| F13 | Channel-only KD sum0/diff2, alpha.9/e2 | DONE negative one seed; other KD mechanisms stay active | .66862 vs matched .67018, paired149componentCI[-.00224045,-.00084159]; NEW_RESULT_COMPARISON_R4.txt |
+| F14 | Born-again alpha.9/e6 seed4 initialized from own seed3 student | DONE unresolved vs parent; mixture useful | .67054 vs .67103 parent; fixed scratch pair .67317; NEW_RESULT_COMPARISON_R4.txt |
+| A12 | USER renewed optimizer-specific batch/LR and mathematically controlled epoch scaling | ANALYSIS active, no fits admitted | root primary-source search, Luna frozen-recipe audit; preserve historical failed long arms |
