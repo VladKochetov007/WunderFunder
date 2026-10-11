@@ -35,6 +35,18 @@ def test_frozen_bindings_membership_and_root_download_admission() -> None:
     )
     assert result["provider_status"] == "KernelWorkerStatus.ERROR"
     assert result["download_budget_bytes"] == 1024**3
+    inventory_payload = json.loads(inventory.read_text(encoding="utf-8"))
+    endpoint_files = inventory_payload["endpoint_inventory"]["files"]
+    assert (
+        len(
+            COLLECTOR.require_exact_inventory_names(result["expected_output_names"], endpoint_files)
+        )
+        == 108
+    )
+    with pytest.raises(ValueError, match="differs from pinned preinventory"):
+        COLLECTOR.require_exact_inventory_names(
+            result["expected_output_names"], endpoint_files[:-1]
+        )
 
 
 def test_actual_previous_producer_npy_header_and_sidecar() -> None:
