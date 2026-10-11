@@ -16,13 +16,15 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
 import json
 import os
 import re
+import stat
 import subprocess
 import sys
 import time
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -39,6 +41,14 @@ BUNDLE_DIR = HERE / f"bundle{SUFFIX}"
 JOBS_DIR = HERE / f"refill_jobs{SUFFIX}"
 KEY = Path.home() / ".ssh/vast_key"
 VASTAI = str(Path.home() / ".local/bin/vastai")
+COLLECTED_DIR = HERE / f"collected{SUFFIX}"
+COLLECTION_MANIFEST = COLLECTED_DIR / "collection_manifest.json"
+COLLECTION_RECEIPT = COLLECTED_DIR / "collection_receipt.json"
+COLLECTION_VERIFICATION = RUNTIME / "collection_verified.json"
+COLLECTION_MANIFEST_SCHEMA = "vast-teacher-remote-manifest-v1"
+COLLECTION_RECEIPT_SCHEMA = "vast-teacher-collection-receipt-v1"
+MAX_COLLECTION_JSON_BYTES = 8 * 1024 * 1024
+MAX_COLLECTION_ARTIFACTS = 4096
 
 
 def now() -> str:
@@ -62,6 +72,216 @@ def vast(*args: str, timeout: int = 120) -> str:
 
 def receipt() -> dict:
     return json.loads(RECEIPT.read_text())
+
+
+def _safe_create_response(response: object) -> dict[str, bool | int]:
+    """Keep only the scalar create fields needed for the ownership receipt."""
+    if not isinstance(response, dict):
+        raise SystemExit("Vast create response is not an object")
+    safe: dict[str, bool | int] = {}
+    success = response.get("success")
+    if type(success) is bool:
+        safe["success"] = success
+    contract = response.get("new_contract")
+    if type(contract) is int:
+        safe["new_contract"] = contract
+    elif isinstance(contract, str) and contract.isdecimal():
+        safe["new_contract"] = int(contract)
+    return safe
+
+
+def _collection_inventory_sha256(files: list[dict[str, object]]) -> str:
+    """Hash the sorted remote path, byte count and SHA-256 inventory."""
+    inventory = [
+        {"remote_path": item["remote_path"], "size_bytes": item["size_bytes"], "sha256": item["sha256"]}
+        for item in sorted(files, key=lambda value: str(value["remote_path"]))
+    ]
+    payload = json.dumps(inventory, sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _collection_local_path(remote_path: str) -> str | None:
+    """Map an allowed remote output path to its fixed collected/ destination."""
+    path = PurePosixPath(remote_path)
+    if path.is_absolute() or ".." in path.parts or not path.parts or path.as_posix() != remote_path:
+        return None
+    if path.parts[0] == "wnn" and len(path.parts) >= 3:
+        if path.parts[1] == "cache" and path.name.startswith("pred_vt_") and path.name.endswith(("_valid.npy", "_valid.json")):
+            return str(PurePosixPath("cache", *path.parts[2:]))
+        if path.parts[1:3] == ("artifacts", "runs") and len(path.parts) >= 4 and path.parts[3].startswith("vt_"):
+            return str(PurePosixPath("runs", *path.parts[3:]))
+    if path.parts[:2] == ("run", "logs") and len(path.parts) >= 3:
+        return str(PurePosixPath("logs", *path.parts[2:]))
+    if path.as_posix() in {"run/status.json", "run/DONE.json", "run/FAILED.json"}:
+        return path.name
+    return None
+
+
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(8 * 1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _collection_stat(path: Path) -> tuple[int, int, int, int, int] | None:
+    """Return a stable local identity without reading a potentially large artifact."""
+    try:
+        relative = path.relative_to(COLLECTED_DIR)
+        if COLLECTED_DIR.is_symlink():
+            return None
+        current = COLLECTED_DIR
+        for part in relative.parts:
+            current = current / part
+            if current.is_symlink():
+                return None
+        identity = path.lstat()
+    except OSError:
+        return None
+    except ValueError:
+        return None
+    if not stat.S_ISREG(identity.st_mode):
+        return None
+    return (identity.st_dev, identity.st_ino, identity.st_size, identity.st_mtime_ns, identity.st_ctime_ns)
+
+
+def _read_bounded_json(path: Path) -> tuple[dict[str, object] | None, bytes | None]:
+    try:
+        raw = path.read_bytes()
+    except OSError:
+        return None, None
+    if len(raw) > MAX_COLLECTION_JSON_BYTES:
+        return None, None
+    try:
+        value = json.loads(raw)
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return None, raw
+    if not isinstance(value, dict):
+        return None, raw
+    return value, raw
+
+
+def _collection_status(ownership: dict[str, object]) -> tuple[bool, str]:
+    """Verify the remote inventory and local hashes, caching unchanged files.
+
+    The remote manifest has ``schema``, ``inventory_complete``,
+    ``inventory_sha256`` and ``files`` fields. Each file records a path relative
+    to ``/root`` plus its byte count and SHA-256. The adjacent collector receipt
+    binds the manifest's raw SHA-256 and inventory identity, the owning
+    attempt/instance, ``collector_reviewed_complete: true``, and an ``artifacts``
+    list with matching remote paths/hashes and deterministic local paths.
+    Supported roots map ``wnn/cache`` to ``collected/cache``,
+    ``wnn/artifacts/runs`` to ``collected/runs``, ``run/logs`` to
+    ``collected/logs``, and run status/terminal files to ``collected``. Local
+    files are hashed once; the durable cache reuses that result while their
+    device, inode, size, mtime and ctime remain unchanged.
+    """
+    manifest, manifest_raw = _read_bounded_json(COLLECTION_MANIFEST)
+    collection, collection_raw = _read_bounded_json(COLLECTION_RECEIPT)
+    if manifest is None or manifest_raw is None:
+        return False, "remote collection manifest is missing or invalid"
+    if collection is None or collection_raw is None:
+        return False, "collector receipt is missing or invalid"
+    if manifest.get("schema") != COLLECTION_MANIFEST_SCHEMA or manifest.get("inventory_complete") is not True:
+        return False, "remote collection manifest is not marked complete"
+    if collection.get("schema") != COLLECTION_RECEIPT_SCHEMA:
+        return False, "collector receipt schema is unsupported"
+    if collection.get("collector_reviewed_complete") is not True:
+        return False, "collector has not reviewed complete artifact collection"
+    if collection.get("attempt_id") != ownership.get("attempt_id") or collection.get("instance_id") != ownership.get("instance_id"):
+        return False, "collector receipt belongs to another Vast attempt"
+    manifest_sha256 = hashlib.sha256(manifest_raw).hexdigest()
+    if collection.get("remote_manifest_sha256") != manifest_sha256:
+        return False, "collector receipt does not bind the remote manifest bytes"
+
+    raw_files = manifest.get("files")
+    if not isinstance(raw_files, list) or not raw_files or len(raw_files) > MAX_COLLECTION_ARTIFACTS:
+        return False, "remote collection manifest has no bounded artifact inventory"
+    files: list[dict[str, object]] = []
+    seen_remote: set[str] = set()
+    predictions: set[str] = set()
+    sidecars: set[str] = set()
+    for item in raw_files:
+        if not isinstance(item, dict) or set(item) != {"remote_path", "size_bytes", "sha256"}:
+            return False, "remote collection manifest has a malformed artifact entry"
+        remote_path = item.get("remote_path")
+        size_bytes = item.get("size_bytes")
+        sha256 = item.get("sha256")
+        if not isinstance(remote_path, str) or not isinstance(size_bytes, int) or isinstance(size_bytes, bool) or size_bytes < 0:
+            return False, "remote collection manifest has an invalid path or byte count"
+        if not isinstance(sha256, str) or re.fullmatch(r"[0-9a-f]{64}", sha256) is None:
+            return False, "remote collection manifest has an invalid SHA-256"
+        if remote_path in seen_remote or _collection_local_path(remote_path) is None:
+            return False, "remote collection manifest has a duplicate or unsupported path"
+        seen_remote.add(remote_path)
+        if remote_path.startswith("wnn/cache/") and remote_path.endswith("_valid.npy"):
+            predictions.add(remote_path.removesuffix(".npy"))
+        if remote_path.startswith("wnn/cache/") and remote_path.endswith("_valid.json"):
+            sidecars.add(remote_path.removesuffix(".json"))
+        files.append({"remote_path": remote_path, "size_bytes": size_bytes, "sha256": sha256})
+    if predictions != sidecars:
+        return False, "remote prediction arrays and sidecars do not match by name"
+    inventory_sha256 = _collection_inventory_sha256(files)
+    if manifest.get("inventory_sha256") != inventory_sha256 or collection.get("remote_inventory_sha256") != inventory_sha256:
+        return False, "collector receipt does not bind the exact remote inventory"
+
+    raw_artifacts = collection.get("artifacts")
+    if not isinstance(raw_artifacts, list) or len(raw_artifacts) != len(files):
+        return False, "collector receipt artifact count differs from the remote inventory"
+    by_remote: dict[str, dict[str, object]] = {}
+    for item in raw_artifacts:
+        if not isinstance(item, dict) or set(item) != {"remote_path", "local_path", "size_bytes", "sha256"}:
+            return False, "collector receipt has a malformed local artifact entry"
+        remote_path = item.get("remote_path")
+        if not isinstance(remote_path, str) or remote_path in by_remote:
+            return False, "collector receipt has a duplicate or invalid remote path"
+        by_remote[remote_path] = item
+    if set(by_remote) != seen_remote:
+        return False, "collector receipt names differ from the remote inventory"
+
+    local_files: list[tuple[dict[str, object], Path]] = []
+    for remote_file in sorted(files, key=lambda item: str(item["remote_path"])):
+        remote_path = str(remote_file["remote_path"])
+        artifact = by_remote[remote_path]
+        local_path = _collection_local_path(remote_path)
+        if local_path is None:
+            return False, f"remote artifact path is unsupported: {remote_path}"
+        if artifact != {**remote_file, "local_path": local_path}:
+            return False, f"collector receipt does not exactly bind {remote_path}"
+        path = COLLECTED_DIR.joinpath(*PurePosixPath(local_path).parts)
+        stat_identity = _collection_stat(path)
+        if stat_identity is None or stat_identity[2] != remote_file["size_bytes"]:
+            return False, f"collected artifact is missing or has the wrong size: {local_path}"
+        local_files.append((remote_file, path))
+
+    receipt_sha256 = hashlib.sha256(collection_raw).hexdigest()
+    cached, _ = _read_bounded_json(COLLECTION_VERIFICATION)
+    current_stats = [
+        {"local_path": _collection_local_path(str(item["remote_path"])), "stat": list(_collection_stat(path) or ())}
+        for item, path in local_files
+    ]
+    if cached is not None and cached.get("schema") == "vast-teacher-collection-verification-v1" and cached.get("receipt_sha256") == receipt_sha256 and cached.get("manifest_sha256") == manifest_sha256 and cached.get("files") == current_stats:
+        return True, "verified_cached"
+    for remote_file, path in local_files:
+        try:
+            local_sha256 = _file_sha256(path)
+        except OSError:
+            return False, f"could not hash collected artifact: {path.name}"
+        if local_sha256 != remote_file["sha256"]:
+            return False, f"collected artifact hash differs from remote manifest: {path.name}"
+
+    verified = {"schema": "vast-teacher-collection-verification-v1", "receipt_sha256": receipt_sha256,
+                "manifest_sha256": manifest_sha256, "verified_utc": now(), "files": current_stats}
+    try:
+        COLLECTION_VERIFICATION.parent.mkdir(parents=True, exist_ok=True)
+        temporary = COLLECTION_VERIFICATION.with_suffix(".tmp")
+        temporary.write_text(json.dumps(verified, separators=(",", ":")))
+        os.chmod(temporary, 0o600)
+        temporary.replace(COLLECTION_VERIFICATION)
+    except OSError:
+        return False, "could not persist verified collection evidence"
+    return True, "verified"
 
 
 def ssh_target(instance_id: int) -> tuple[str, int]:
@@ -139,8 +359,10 @@ def cmd_create(args: argparse.Namespace) -> None:
     RECEIPT.write_text(json.dumps(attempt, indent=1))
     out = vast("create", "instance", str(args.offer), "--image", args.image, "--disk", str(args.disk), "--ssh",
                "--direct", "--label", args.attempt)
-    response = json.loads(out)
-    attempt |= {"state": "created", "instance_id": int(response["new_contract"]), "create_response": response,
+    response = _safe_create_response(json.loads(out))
+    if "new_contract" not in response:
+        raise SystemExit("Vast create response omitted a valid new_contract")
+    attempt |= {"state": "created", "instance_id": response["new_contract"], "create_response": response,
                 "created_utc": now()}
     RECEIPT.write_text(json.dumps(attempt, indent=1))
     print(json.dumps({k: attempt[k] for k in ("attempt_id", "instance_id", "created_utc")}))
@@ -174,7 +396,7 @@ def cmd_status(_: argparse.Namespace) -> None:
 
 
 def cmd_collect(_: argparse.Namespace) -> None:
-    dest = HERE / "collected"
+    dest = COLLECTED_DIR
     (dest / "runs").mkdir(parents=True, exist_ok=True)
     (dest / "cache").mkdir(exist_ok=True)
     listing = ssh("cd /root/wnn && ls -d artifacts/runs/vt_* 2>/dev/null; ls cache/pred_vt_* 2>/dev/null")
@@ -184,8 +406,9 @@ def cmd_collect(_: argparse.Namespace) -> None:
         scp([f"/root/wnn/{run}"], str(dest / "runs"), upload=False)
     if preds:
         scp([f"/root/wnn/{p}" for p in preds], str(dest / "cache"), upload=False, timeout=3600)
-    scp(["/root/run/status.json", "/root/run/logs"], str(dest), upload=False)
-    print(json.dumps({"runs": runs, "predictions": preds}))
+    terminal = ssh("ls /root/run/DONE.json /root/run/FAILED.json 2>/dev/null").stdout.split()
+    scp(["/root/run/status.json", "/root/run/logs", *terminal], str(dest), upload=False)
+    print(json.dumps({"runs": runs, "predictions": preds, "terminal": terminal}))
 
 
 def job_key(name: str) -> str:
@@ -392,15 +615,23 @@ def cmd_tick(args: argparse.Namespace) -> None:
     running = int(info.get("GPUPROCS", "1"))
     in_flight = int(info.get("PENDING", "1 RUNNING 1").split("RUNNING")[1].split()[0])
     primary_done = bool(info.get("TERMINAL", "").strip(", "))
-    local = {p.name for p in (ROOT / "cache").glob("pred_vt_*_valid.npy")}
-    remote = int(info.get("PREDS", "0"))
     held = cost >= args.cap
     if held and pending > 0:
         ssh("mkdir -p /root/run/refill/held && mv /root/run/refill/pending/*.json /root/run/refill/held/ 2>/dev/null || true")
         print(f"spend cap ${args.cap} reached: queued jobs moved to held/, running jobs finish gracefully")
-    drained = (pending == 0 or held) and in_flight == 0 and running == 0 and primary_done and len(local) >= remote
+    remote_drained = (pending == 0 or held) and in_flight == 0 and running == 0 and primary_done
+    collection_required = False
+    collection_state = "awaiting_remote_drain"
+    drained = False
+    if remote_drained:
+        collection_ok, collection_state = _collection_status(receipt())
+        collection_required = not collection_ok
+        drained = collection_ok
     print(json.dumps({"hours": round(hours, 2), "cost": round(cost, 2), "pending": pending, "gpu_procs": running,
-                      "held": held, "drained": drained, "gpu": info.get("GPU")}))
+                      "held": held, "drained": drained, "collection_required": collection_required,
+                      "collection_status": collection_state, "gpu": info.get("GPU")}))
+    if collection_required:
+        print(f"collection required before teardown: {collection_state}")
     if not held and pending < 3 and ready_items(LANE or "a"):
         # the backlog must never run dry while eligible items exist (the optimizer alone would otherwise fill the lane)
         try:
@@ -417,6 +648,10 @@ def cmd_tick(args: argparse.Namespace) -> None:
 
 def cmd_destroy(_: argparse.Namespace) -> None:
     data = receipt()
+    collection_ok, collection_state = _collection_status(data)
+    if not collection_ok:
+        print(json.dumps({"collection_required": True, "collection_status": collection_state}))
+        raise SystemExit(f"collection required before teardown: {collection_state}")
     vast("destroy", "instance", str(data["instance_id"]), "-y")
     for _ in range(12):
         time.sleep(10)
