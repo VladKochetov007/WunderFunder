@@ -1,0 +1,84 @@
+{
+  "clean_t3_r4_kernel_status": {
+    "expected_fit_artifacts_present": 0,
+    "fit_stage_started": false,
+    "receipt_path": "R9_CLEAN_T3_R4_STATUS_R1.json",
+    "receipt_sha256": "1fbdbbec11d17f67c0cc687c11787698a3e58b6aa10c04c4c44e6261fc93ee7d",
+    "status": "KernelWorkerStatus.ERROR"
+  },
+  "dataset_readback_receipt": "R9_DATASET_READY_READBACK_R1.json",
+  "dataset_readback_receipt_sha256": "a588b330f2c6ec0f61914983b4d0e8cd4205390c3139d826af33f5c4460b4dee",
+  "dispatch_authority_sha256": "eb6560fa575bd220062ab498f6d7d87dfc26a43244a273a7afeb8fb81cf79036",
+  "evidence_files": {
+    "clean_t3_r4_kernel_status.txt": {
+      "bytes": 97,
+      "sha256": "2a8544cb1883bf8233cf1d988ddc2325bad824c877a7756d5542f9857cb5e07c"
+    },
+    "dataset_create.log": {
+      "bytes": 547,
+      "sha256": "d291f7d821dc422de3b2870a3b2cce50e4b7da8a09e4df2ce3a77d7561791e16"
+    },
+    "dataset_download.log": {
+      "bytes": 385,
+      "sha256": "9775226cd0235041a51729dcd114e6b56fba36598b2b1f0dc7bf7b3c0cbb9763"
+    },
+    "dataset_files.json": {
+      "bytes": 220,
+      "sha256": "e59b71c5d066468fe94e469370d97a79e076eb7593c4d87c704f7949e930ac10"
+    },
+    "dataset_status.json": {
+      "bytes": 48,
+      "sha256": "56f63d893f166f7cf38d5d212a5335798fcfde2198cc01dfaae24bb316aec585"
+    },
+    "quota_poll.jsonl": {
+      "bytes": 1394,
+      "sha256": "de15e7cd6b8c150a9be53b99069370daeeb06fa5fe87a717bb8db68e8c735e05"
+    },
+    "quota_poll.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "quota_targets.json": {
+      "bytes": 895,
+      "sha256": "bb5d5735f72e70ac97906bf95df3f0af1296c0b077f1a335ec03eab745693694"
+    }
+  },
+  "fresh_quota_snapshot": {
+    "campaign_headroom_seconds": 30557.52300000001,
+    "campaign_used_seconds": 26222.992999999995,
+    "gpu_provider_headroom_seconds": 44729.686,
+    "gpu_provider_reserved_seconds": 0.0,
+    "gpu_used_seconds": 63270.314,
+    "path": "R9_QUOTA_SNAPSHOT_R1.json",
+    "poll_log_path": "R9_OPERATOR_EVIDENCE_R1/quota_poll.jsonl",
+    "poll_log_sha256": "de15e7cd6b8c150a9be53b99069370daeeb06fa5fe87a717bb8db68e8c735e05",
+    "poller_cli_version": "2.2.4",
+    "poller_source": "research/campaign_2026-10-06/cloud_preflight/poll_provider.py",
+    "poller_source_sha256": "aab0e1b0972d46e1c61699f770948d55a797cbedf139f3ff3ab194eac4e518c6",
+    "quota_refresh_utc": "2026-10-17T00:00:00",
+    "session_id": null,
+    "session_id_note": "Kaggle status API omits session ID; no R5 kernel had been pushed at this snapshot.",
+    "sha256": "de15e7cd6b8c150a9be53b99069370daeeb06fa5fe87a717bb8db68e8c735e05",
+    "status_target_kernel": "vladkochetov07/wnn-h382-export-recovery-20261011-r4",
+    "status_target_note": "This is only the H382 export-recovery R4 target used for the quota poll; it is not the clean-T3 R4 kernel.",
+    "status_target_status": "KernelWorkerStatus.COMPLETE",
+    "status_target_terminal_evidence_downloaded": true,
+    "stderr_path": "R9_OPERATOR_EVIDENCE_R1/quota_poll.stderr.txt",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_path": "R9_QUOTA_SNAPSHOT_R1.json",
+    "target_scope": "R4 completed kernel only; no R5 kernel status query",
+    "targets_config_path": "R9_OPERATOR_EVIDENCE_R1/quota_targets.json",
+    "targets_config_sha256": "bb5d5735f72e70ac97906bf95df3f0af1296c0b077f1a335ec03eab745693694"
+  },
+  "kernel_push": {
+    "attempted": false
+  },
+  "logical_reservation": {
+    "note": "No kernel push until root issues and verifies fresh logical-hold/final-dispatch receipt bound to this dataset and quota snapshot.",
+    "required_gpu_seconds": 28800,
+    "status": "PENDING_ROOT_RECEIPT"
+  },
+  "observed_at_utc": "2026-10-11T23:22:55Z",
+  "paid_spending": false,
+  "schema": "wnn.kaggle.r9.operator-prepush-receipt.r1"
+}

@@ -2,7 +2,7 @@
   "schema": "wnn.kaggle-provider-targets.active.v1",
   "poll_interval_seconds": 300,
   "supersedes": "provider_targets_active_20261009_r1.json",
-  "change": "Preserve existing unresolved TPUv7 and GPU loss-pair monitoring plus H382 R3; add the conditionally released private export-only H382 R4 kernel and its terminal receipt target.",
+  "change": "Preserve existing unresolved TPUv7 and GPU loss-pair monitoring plus H382 R3; add the conditionally released private export-only H382 R4 kernel and its terminal receipt target; add root-released clean-T3 R5 teacher cohort and terminal receipt target.",
   "targets": [
     {
       "kernel": "vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
@@ -36,6 +36,17 @@
       "root_admission_sha256": "36b0f4d558bc92f9c19c1cb1c105d3ea1de209be1b21345741943e3447f39892",
       "worker_max_seconds": 3600,
       "provisional_reservation_seconds": 7200
+    },
+    {
+      "kernel": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5-runner",
+      "resource": "gpu",
+      "kernel_version": 1,
+      "artifact_dir": "../ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/terminal_collection_r1/provider_output",
+      "terminal_receipt": "../ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/R5_TERMINAL_OPERATOR_RECEIPT_R1.json",
+      "root_admission": "../ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/ROOT_R5_FINAL_PUSH_RELEASE_R1.json",
+      "root_admission_sha256": "83d620b620eedc8ffecb61349aa5e9767433bb312e13e69a178d9793bfc0d660",
+      "worker_max_seconds": 14400,
+      "provisional_reservation_seconds": 28800
     }
   ]
 }
