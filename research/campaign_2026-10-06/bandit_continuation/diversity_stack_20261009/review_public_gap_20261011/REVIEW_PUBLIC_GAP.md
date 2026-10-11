@@ -151,3 +151,7 @@ All fold-1 (exposed), h256 students from the same 3 muon-all h384 teachers, shar
 
 * `r3_muonall256prop0_f1_s3_h378_e6` (owner's same-prefix branch: the 3-epoch trained state continued to 6 epochs with a small-LR tail) = **0.66891** vs the same-seed 3-epoch endpoint 0.66897 (and e3 mean 0.6688): the extra small-LR epochs from an identical state neither help nor collapse (contrast: from-scratch 6-epoch schedule 0.6478). This is a clean separation of "more epochs from the same state" (null) from "a longer high-LR schedule" (collapse).
 * `r3_muonall256prop0lwfrecovery_f1_s3_e3` (+ label-weight floor) = **0.66930** vs 0.66897 same seed: +0.0003, null (consistent with earlier lwfloor-on-prop0 nulls).
+
+## 14. Addendum 16:10 - second same-state tail (reviewer-scored, fold 1, seed 3)
+
+`r3_muonall256prop0_f1_s3_h380_e6` (owner's H380 same-prefix Muon tail to 6 epochs) = **0.66885** vs 0.66897 (same-seed 3-epoch endpoint) and 0.66891 (H378 tail): two different tail constructions, both null (-0.0001). Together with the cliff (scratch 6-epoch 0.6478) this closes "more epochs from the same trained state" for this recipe on fold 1: no gain, no collapse. Local GPU queue is empty at 16:05 (0 pending, GPU 17%) - the owner needs to refill it.
