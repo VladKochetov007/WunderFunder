@@ -1,0 +1,47 @@
+{
+  "schema": "vast-b-tick-guard-review-r1",
+  "status": "implemented-and-locally-verified; provider-not-contacted",
+  "scope": "lane-b cmd_tick early read-only status guard for ownership receipt instance 55080658",
+  "source": {
+    "controller": "research/campaign_2026-10-06/bandit_continuation/vast_teachers_r1/controller.py",
+    "controller_sha256": "e13058bd9b83719c031340d94069e08c8644ece23b5ecf8cdb86acc227d48d85",
+    "focused_tests": "research/campaign_2026-10-06/bandit_continuation/vast_teachers_r1/tests/test_controller_tick_guard.py",
+    "focused_tests_sha256": "9360cc222eaf4e27a45bdf67c31649eda300777306c1d8ff0ffeb704ce842453"
+  },
+  "failure_basis": {
+    "reported_tick_failure": "KeyError: start_date in cmd_tick spend path",
+    "instance_id": 55080658,
+    "owned_receipt_state": "created",
+    "provider_observation": "show instance response had an instances envelope with null value and no rows",
+    "interpretation": "provider row unavailable; reason unknown; this is not verified teardown",
+    "read_only_receipts": [
+      {
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/VAST_B_READONLY_PROVIDER_20261012_R1.json",
+        "sha256": "7c9cecfb299304459a35b42d7d85059e4f4e76aa8c4df8871bfd13416cb59fab",
+        "observed_utc": "2026-10-11T22:22:58.896442+00:00"
+      },
+      {
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/VAST_B_READONLY_PROVIDER_20261012_R2.json",
+        "sha256": "ff0e0732a6a591eb4845c4d3d2956bdc7021ed149acd207d82c99bacd8f324cd",
+        "observed_utc": "2026-10-11T22:24:03.223902+00:00"
+      }
+    ]
+  },
+  "guard_behavior": {
+    "preflight": "Before pull, spend arithmetic, remote probe, feed, collection, or teardown, lane b requires a unique running provider row with id 55080658 and finite start_date/dph_total.",
+    "accepted_shapes": ["flat instance object", "instances envelope containing object or list", "direct list"],
+    "missing_or_invalid_row": "Print structured status with hours/cost null, drained false, collection_complete false, teardown_verified false, and return without SSH or provider mutation.",
+    "ownership_receipt": "Read-only; a missing provider row does not change ownership state or prove destruction.",
+    "valid_running_row": "Continue existing tick flow; compute elapsed cost from the validated preflight row after any requested pull.",
+    "provider_and_timer": "No provider lifecycle, billing, rental, timer, or ownership-receipt change was performed."
+  },
+  "verification": {
+    "focused_fake_provider_tests": "4 passed: null instances envelope, stopped flat row, mismatched running id, valid running envelope control",
+    "existing_controller_collection_tests": "19 passed",
+    "ruff_check": "passed for changed Python files",
+    "ruff_format_check": "passed for the new test file; full controller file is pre-existing unformatted, so it was not reformatted wholesale",
+    "git_diff_check": "passed",
+    "provider_calls": 0,
+    "gpu_or_fit_actions": 0
+  }
+}
