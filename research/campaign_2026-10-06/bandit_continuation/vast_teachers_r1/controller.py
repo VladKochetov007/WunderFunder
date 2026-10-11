@@ -48,7 +48,7 @@ COLLECTION_RECEIPT = COLLECTED_DIR / "collection_receipt.json"
 COLLECTION_VERIFICATION = RUNTIME / "collection_verified.json"
 COLLECTION_MANIFEST_SCHEMA = "vast-teacher-remote-manifest-v2"
 COLLECTION_RECEIPT_SCHEMA = "vast-teacher-collection-receipt-v1"
-COLLECTION_INVENTORY_SCOPE = "vast-teacher-terminal-outputs-v1"
+COLLECTION_INVENTORY_SCOPE = "vast-teacher-terminal-outputs-v2"
 MAX_COLLECTION_JSON_BYTES = 8 * 1024 * 1024
 MAX_COLLECTION_ARTIFACTS = 4096
 
@@ -135,6 +135,12 @@ def check_quiescent():
     )
     if gpu_probe.returncode != 0 or gpu_probe.stdout.strip():
         raise SystemExit("GPU process inventory is unavailable or still active")
+    daemon_probe = subprocess.run(
+        ["pgrep", "-f", "^python remote_refill.py"],
+        capture_output=True, text=True, check=False, timeout=30,
+    )
+    if daemon_probe.returncode not in (0, 1) or daemon_probe.stdout.strip():
+        raise SystemExit("refill daemon inventory is unavailable or the daemon is still active")
 
 check_quiescent()
 
@@ -193,21 +199,24 @@ add(RUN / terminal[0])
 cache_dir = WNN / "cache"
 if cache_dir.exists() and (cache_dir.is_symlink() or not cache_dir.is_dir()):
     raise SystemExit("prediction output root is not a real directory")
-for path in sorted(cache_dir.glob("pred_vt_*_valid.npy")):
-    add(path)
-for path in sorted(cache_dir.glob("pred_vt_*_valid.json")):
-    add(path)
+for pattern in ("pred_vt_*_valid.npy", "pred_vt_*_valid.json",
+                "pred_fin_*_valid.npy", "pred_fin_*_valid.json"):
+    for path in sorted(cache_dir.glob(pattern)):
+        add(path)
 runs = WNN / "artifacts/runs"
 artifacts_root = WNN / "artifacts"
 if artifacts_root.exists() and (artifacts_root.is_symlink() or not artifacts_root.is_dir()):
     raise SystemExit("artifact output root is not a real directory")
 if runs.exists() and (runs.is_symlink() or not runs.is_dir()):
     raise SystemExit("model output root is not a real directory")
-for run_dir in sorted(runs.glob("vt_*")):
+run_dirs = sorted({path for pattern in ("vt_*", "fin_*") for path in runs.glob(pattern)})
+for run_dir in run_dirs:
     if run_dir.is_symlink() or not run_dir.is_dir():
         raise SystemExit(f"run output is not a real directory: {run_dir}")
     for path in sorted(run_dir.iterdir()):
-        if path.name in {"model.pt", "provenance.json"} or re.fullmatch(r"model_ep[0-9]+\.pt", path.name):
+        if (path.name in {"model.pt", "training_state.pt"}
+                or re.fullmatch(r"model_ep[0-9]+\.pt", path.name)
+                or path.suffix == ".json"):
             add(path)
 logs = RUN / "logs"
 if logs.exists():
@@ -241,7 +250,7 @@ inventory_sha256 = hashlib.sha256(
 ).hexdigest()
 manifest = {
     "schema": "vast-teacher-remote-manifest-v2",
-    "inventory_scope": "vast-teacher-terminal-outputs-v1",
+    "inventory_scope": "vast-teacher-terminal-outputs-v2",
     "attempt_id": attempt_id,
     "instance_id": instance_id,
     "inventory_complete": True,
@@ -318,20 +327,45 @@ def _collection_local_path(remote_path: str) -> str | None:
         return None
     if any(re.fullmatch(r"[A-Za-z0-9_.-]+", part) is None for part in path.parts):
         return None
-    if (len(path.parts) == 3 and path.parts[:2] == ("wnn", "cache")
-            and path.name.startswith("pred_vt_") and path.name.endswith(("_valid.npy", "_valid.json"))):
+    if (
+        len(path.parts) == 3
+        and path.parts[:2] == ("wnn", "cache")
+        and path.name.startswith(("pred_vt_", "pred_fin_"))
+        and path.name.endswith(("_valid.npy", "_valid.json"))
+    ):
         return str(PurePosixPath("cache", path.name))
-    if (len(path.parts) == 5 and path.parts[:3] == ("wnn", "artifacts", "runs")
-            and path.parts[3].startswith("vt_")
-            and (path.name in {"model.pt", "provenance.json"} or re.fullmatch(r"model_ep[0-9]+\.pt", path.name))):
+    if (
+        len(path.parts) == 5
+        and path.parts[:3] == ("wnn", "artifacts", "runs")
+        and path.parts[3].startswith(("vt_", "fin_"))
+        and (
+            path.name in {"model.pt", "training_state.pt"}
+            or path.suffix == ".json"
+            or re.fullmatch(r"model_ep[0-9]+\.pt", path.name)
+        )
+    ):
         return str(PurePosixPath("runs", path.parts[3], path.name))
     if path.parts[:2] == ("run", "logs") and len(path.parts) == 3 and path.name.endswith(".log"):
         return str(PurePosixPath("logs", *path.parts[2:]))
-    if path.parts[:3] == ("run", "refill", "done") and len(path.parts) == 4 and path.name.endswith(".json"):
+    if (
+        path.parts[:3] == ("run", "refill", "done")
+        and len(path.parts) == 4
+        and path.name.endswith(".json")
+    ):
         return str(PurePosixPath("refill", "done", path.name))
-    if path.parts[:3] == ("run", "refill", "held") and len(path.parts) == 4 and path.name.endswith(".json"):
+    if (
+        path.parts[:3] == ("run", "refill", "held")
+        and len(path.parts) == 4
+        and path.name.endswith(".json")
+    ):
         return str(PurePosixPath("refill", "held", path.name))
-    if path.as_posix() in {"run/status.json", "run/DONE.json", "run/FAILED.json", "run/worker.out", "run/refill.out"}:
+    if path.as_posix() in {
+        "run/status.json",
+        "run/DONE.json",
+        "run/FAILED.json",
+        "run/worker.out",
+        "run/refill.out",
+    }:
         return path.name
     if path.as_posix() == "run/refill/status.json":
         return "refill/status.json"
@@ -361,6 +395,66 @@ def _write_private_json(path: Path, value: dict[str, object]) -> bytes:
     os.chmod(temporary, 0o600)
     temporary.replace(path)
     return raw
+
+
+def _invalidate_collection() -> None:
+    """Remove local evidence that predates newly admitted or moved refill work."""
+    for evidence in (COLLECTION_RECEIPT, COLLECTION_VERIFICATION, COLLECTION_MANIFEST):
+        evidence.unlink(missing_ok=True)
+
+
+def _remote_state(info: dict[str, object]) -> tuple[int, int, int, int, bool] | None:
+    """Parse queue, GPU and daemon counts plus the unique primary terminal marker."""
+    pending_text = str(info.get("PENDING", ""))
+    match = re.match(r"\s*(\d+)\s+RUNNING\s+(\d+)(?:\s|$)", pending_text)
+    if match is None:
+        return None
+    try:
+        gpu_processes = int(str(info["GPUPROCS"]))
+        refill_daemons = int(str(info["REFILL_DAEMON"]))
+    except (KeyError, ValueError):
+        return None
+    terminal = {name for name in str(info.get("TERMINAL", "")).split(",") if name}
+    has_terminal = terminal in ({"DONE.json"}, {"FAILED.json"})
+    return int(match[1]), int(match[2]), gpu_processes, refill_daemons, has_terminal
+
+
+def _remote_quiescence(info: dict[str, object]) -> tuple[bool, str]:
+    """Require empty queues, no GPU work, a terminal marker and an exited daemon."""
+    state = _remote_state(info)
+    if state is None:
+        return False, "remote quiescence probe is incomplete"
+    pending, running, gpu_processes, daemons, has_terminal = state
+    if pending or running:
+        return False, "remote refill queues are not drained"
+    if gpu_processes:
+        return False, "remote GPU processes are still active"
+    if not has_terminal:
+        return False, "primary worker has no unique terminal marker"
+    if daemons:
+        return False, "refill daemon is still active"
+    return True, "remote_quiescent"
+
+
+def _stop_refill_after_idle(info: dict[str, object]) -> dict[str, object]:
+    """Stop only an idle daemon, then wait briefly for it to exit before collection."""
+    state = _remote_state(info)
+    if state is None:
+        return info
+    pending, running, gpu_processes, daemons, has_terminal = state
+    if pending or running or gpu_processes or not has_terminal or not daemons:
+        return info
+    stopped = ssh("touch /root/run/refill/STOP", timeout=30)
+    if stopped.returncode != 0:
+        return info
+    latest = info
+    for _ in range(18):
+        time.sleep(5)
+        latest = probe()
+        latest_state = _remote_state(latest)
+        if latest_state is not None and latest_state[3] == 0:
+            return latest
+    return latest
 
 
 def _file_sha256(path: Path) -> str:
@@ -628,13 +722,19 @@ def cmd_create(args: argparse.Namespace) -> None:
 
 
 def cmd_start(_: argparse.Namespace) -> None:
-    result = ssh("mkdir -p /root/run && nvidia-smi --query-gpu=name,memory.total --format=csv,noheader && df -h /root | tail -1 && nproc && free -g | head -2")
+    _invalidate_collection()
+    result = ssh(
+        "mkdir -p /root/run && nvidia-smi --query-gpu=name,memory.total --format=csv,noheader && df -h /root | tail -1 && nproc && free -g | head -2"
+    )
     print(result.stdout, result.stderr[-300:])
     if result.returncode != 0:
         raise SystemExit("host not reachable yet")
     scp([str(PLAN), str(HERE / "remote_run.py")], "/root/run/", upload=True, timeout=600)
     ssh("mv /root/run/plan.private.json /root/run/plan.json && chmod 600 /root/run/plan.json")
-    started = ssh("(cd /root/run && setsid nohup python remote_run.py > worker.out 2>&1 < /dev/null &) ; echo started")
+    ssh("rm -f /root/run/refill/STOP")
+    started = ssh(
+        "(cd /root/run && setsid nohup python remote_run.py > worker.out 2>&1 < /dev/null &) ; echo started"
+    )
     print(started.stdout.strip())
 
 
@@ -659,10 +759,16 @@ def cmd_collect(_: argparse.Namespace) -> None:
     dest = COLLECTED_DIR
     dest.mkdir(parents=True, exist_ok=True, mode=0o700)
     # A failed retry must not leave an older receipt authorizing teardown.
-    for evidence in (COLLECTION_RECEIPT, COLLECTION_VERIFICATION, COLLECTION_MANIFEST):
-        evidence.unlink(missing_ok=True)
+    _invalidate_collection()
+    deadline = time.monotonic() + 2400
 
-    result = ssh(_collection_manifest_command(ownership), timeout=3600)
+    def remaining_timeout() -> int:
+        remaining = int(deadline - time.monotonic())
+        if remaining <= 0:
+            raise SystemExit("collection exceeded its 40-minute service budget")
+        return remaining
+
+    result = ssh(_collection_manifest_command(ownership), timeout=remaining_timeout())
     if result.returncode != 0:
         raise SystemExit(f"remote collection inventory failed: {result.stderr[-500:]}")
     try:
@@ -672,36 +778,61 @@ def cmd_collect(_: argparse.Namespace) -> None:
     if not isinstance(summary, dict) or summary.get("ok") is not True:
         raise SystemExit("remote collection inventory did not complete")
 
-    scp(["/root/run/collection_manifest.json"], str(dest), upload=False)
+    scp(
+        ["/root/run/collection_manifest.json"], str(dest), upload=False, timeout=remaining_timeout()
+    )
     manifest, manifest_raw = _read_bounded_json(COLLECTION_MANIFEST)
     if manifest is None or manifest_raw is None:
         raise SystemExit("downloaded remote collection manifest is missing or invalid")
     os.chmod(COLLECTION_MANIFEST, 0o600)
-    if (manifest.get("schema") != COLLECTION_MANIFEST_SCHEMA
-            or manifest.get("inventory_scope") != COLLECTION_INVENTORY_SCOPE
-            or manifest.get("inventory_complete") is not True or manifest.get("quiescent") is not True
-            or manifest.get("attempt_id") != ownership.get("attempt_id")
-            or manifest.get("instance_id") != ownership.get("instance_id")):
-        raise SystemExit("downloaded remote collection manifest is incomplete or belongs to another attempt")
+    if (
+        manifest.get("schema") != COLLECTION_MANIFEST_SCHEMA
+        or manifest.get("inventory_scope") != COLLECTION_INVENTORY_SCOPE
+        or manifest.get("inventory_complete") is not True
+        or manifest.get("quiescent") is not True
+        or manifest.get("attempt_id") != ownership.get("attempt_id")
+        or manifest.get("instance_id") != ownership.get("instance_id")
+    ):
+        raise SystemExit(
+            "downloaded remote collection manifest is incomplete or belongs to another attempt"
+        )
 
     raw_files = manifest.get("files")
-    if not isinstance(raw_files, list) or not raw_files or len(raw_files) > MAX_COLLECTION_ARTIFACTS:
+    if (
+        not isinstance(raw_files, list)
+        or not raw_files
+        or len(raw_files) > MAX_COLLECTION_ARTIFACTS
+    ):
         raise SystemExit("remote collection manifest has no bounded artifact inventory")
     files: list[dict[str, object]] = []
     predictions: set[str] = set()
     sidecars: set[str] = set()
     for item in raw_files:
-        if not isinstance(item, dict) or set(item) != {"remote_path", "transfer_path", "size_bytes", "sha256"}:
+        if not isinstance(item, dict) or set(item) != {
+            "remote_path",
+            "transfer_path",
+            "size_bytes",
+            "sha256",
+        }:
             raise SystemExit("remote collection manifest has a malformed artifact entry")
         remote_path = item.get("remote_path")
         transfer_path = item.get("transfer_path")
         size_bytes = item.get("size_bytes")
         sha256 = item.get("sha256")
-        if (not isinstance(remote_path, str) or _collection_local_path(remote_path) is None
-                or not isinstance(transfer_path, str) or not _collection_transfer_path(remote_path, transfer_path)):
+        if (
+            not isinstance(remote_path, str)
+            or _collection_local_path(remote_path) is None
+            or not isinstance(transfer_path, str)
+            or not _collection_transfer_path(remote_path, transfer_path)
+        ):
             raise SystemExit("remote collection manifest has an unsupported artifact path")
-        if (not isinstance(size_bytes, int) or isinstance(size_bytes, bool) or size_bytes < 0
-                or not isinstance(sha256, str) or re.fullmatch(r"[0-9a-f]{64}", sha256) is None):
+        if (
+            not isinstance(size_bytes, int)
+            or isinstance(size_bytes, bool)
+            or size_bytes < 0
+            or not isinstance(sha256, str)
+            or re.fullmatch(r"[0-9a-f]{64}", sha256) is None
+        ):
             raise SystemExit("remote collection manifest has an invalid artifact size or SHA-256")
         if any(existing["remote_path"] == remote_path for existing in files):
             raise SystemExit("remote collection manifest has duplicate artifact paths")
@@ -709,18 +840,32 @@ def cmd_collect(_: argparse.Namespace) -> None:
             predictions.add(remote_path.removesuffix(".npy"))
         if remote_path.startswith("wnn/cache/") and remote_path.endswith("_valid.json"):
             sidecars.add(remote_path.removesuffix(".json"))
-        files.append({"remote_path": remote_path, "transfer_path": transfer_path,
-                      "size_bytes": size_bytes, "sha256": sha256})
+        files.append(
+            {
+                "remote_path": remote_path,
+                "transfer_path": transfer_path,
+                "size_bytes": size_bytes,
+                "sha256": sha256,
+            }
+        )
     terminal = manifest.get("primary_terminal")
     names = {str(item["remote_path"]) for item in files}
     terminal_paths = {path for path in names if path in {"run/DONE.json", "run/FAILED.json"}}
-    if (terminal not in {"DONE.json", "FAILED.json"} or terminal_paths != {f"run/{terminal}"}
-            or "run/status.json" not in names or predictions != sidecars):
-        raise SystemExit("remote collection manifest is missing terminal status or paired prediction artifacts")
+    if (
+        terminal not in {"DONE.json", "FAILED.json"}
+        or terminal_paths != {f"run/{terminal}"}
+        or "run/status.json" not in names
+        or predictions != sidecars
+    ):
+        raise SystemExit(
+            "remote collection manifest is missing terminal status or paired prediction artifacts"
+        )
     inventory_sha256 = _collection_inventory_sha256(files)
-    if (manifest.get("inventory_sha256") != inventory_sha256
-            or summary.get("inventory_sha256") != inventory_sha256
-            or summary.get("files") != len(files)):
+    if (
+        manifest.get("inventory_sha256") != inventory_sha256
+        or summary.get("inventory_sha256") != inventory_sha256
+        or summary.get("files") != len(files)
+    ):
         raise SystemExit("remote collection manifest inventory digest does not match its summary")
 
     # Fetch only inventoried files, grouped by their deterministic local parent.
@@ -736,7 +881,7 @@ def cmd_collect(_: argparse.Namespace) -> None:
     for (local_parent, _), sources in groups.items():
         target = dest if local_parent == "." else dest.joinpath(*PurePosixPath(local_parent).parts)
         target.mkdir(parents=True, exist_ok=True, mode=0o700)
-        scp(sources, str(target), upload=False, timeout=3600)
+        scp(sources, str(target), upload=False, timeout=remaining_timeout())
 
     artifacts: list[dict[str, object]] = []
     cache_files: list[dict[str, object]] = []
@@ -761,8 +906,14 @@ def cmd_collect(_: argparse.Namespace) -> None:
         os.chmod(local_file, 0o600)
         after = _collection_stat(local_file)
         assert after is not None
-        artifacts.append({"remote_path": remote_path, "local_path": local_path,
-                          "size_bytes": item["size_bytes"], "sha256": local_sha256})
+        artifacts.append(
+            {
+                "remote_path": remote_path,
+                "local_path": local_path,
+                "size_bytes": item["size_bytes"],
+                "sha256": local_sha256,
+            }
+        )
         cache_files.append({"local_path": local_path, "stat": list(after)})
         total_bytes += int(item["size_bytes"])
 
@@ -777,26 +928,49 @@ def cmd_collect(_: argparse.Namespace) -> None:
         "artifacts": artifacts,
     }
     receipt_raw = _write_private_json(COLLECTION_RECEIPT, collection)
-    cache = {"schema": "vast-teacher-collection-verification-v1",
-             "receipt_sha256": hashlib.sha256(receipt_raw).hexdigest(),
-             "manifest_sha256": manifest_sha256, "verified_utc": now(), "files": cache_files}
+    cache = {
+        "schema": "vast-teacher-collection-verification-v1",
+        "receipt_sha256": hashlib.sha256(receipt_raw).hexdigest(),
+        "manifest_sha256": manifest_sha256,
+        "verified_utc": now(),
+        "files": cache_files,
+    }
     _write_private_json(COLLECTION_VERIFICATION, cache)
     verified, verification_status = _collection_status(ownership)
     if not verified:
         COLLECTION_RECEIPT.unlink(missing_ok=True)
         COLLECTION_VERIFICATION.unlink(missing_ok=True)
-        raise SystemExit(f"completed collection failed local receipt validation: {verification_status}")
+        raise SystemExit(
+            f"completed collection failed local receipt validation: {verification_status}"
+        )
 
-    runs = sorted({str(PurePosixPath(str(item["remote_path"])).parent).removeprefix("wnn/")
-                   for item in files if str(item["remote_path"]).startswith("wnn/artifacts/runs/")})
-    preds = sorted(str(item["remote_path"]).removeprefix("wnn/") for item in files
-                   if str(item["remote_path"]).startswith("wnn/cache/pred_vt_"))
+    runs = sorted(
+        {
+            str(PurePosixPath(str(item["remote_path"])).parent).removeprefix("wnn/")
+            for item in files
+            if str(item["remote_path"]).startswith("wnn/artifacts/runs/")
+        }
+    )
+    preds = sorted(
+        str(item["remote_path"]).removeprefix("wnn/")
+        for item in files
+        if str(item["remote_path"]).startswith("wnn/cache/pred_vt_")
+    )
     terminal_files = [f"/root/run/{terminal}"]
-    print(json.dumps({"runs": runs, "predictions": preds, "terminal": terminal_files,
-                      "collection_manifest": str(COLLECTION_MANIFEST),
-                      "collection_receipt": str(COLLECTION_RECEIPT),
-                      "artifacts": len(artifacts), "bytes": total_bytes,
-                      "collection_status": verification_status}))
+    print(
+        json.dumps(
+            {
+                "runs": runs,
+                "predictions": preds,
+                "terminal": terminal_files,
+                "collection_manifest": str(COLLECTION_MANIFEST),
+                "collection_receipt": str(COLLECTION_RECEIPT),
+                "artifacts": len(artifacts),
+                "bytes": total_bytes,
+                "collection_status": verification_status,
+            }
+        )
+    )
 
 
 def job_key(name: str) -> str:
@@ -811,15 +985,28 @@ def cmd_queue(_: argparse.Namespace) -> None:
     jobs = sorted(JOBS_DIR.glob("*.json"))
     ssh("mkdir -p /root/run/refill/pending /root/run/refill/running /root/run/refill/done")
     scp([str(HERE / "remote_refill.py")], "/root/run/", upload=True)
-    have = {job_key(name) for name in
-            ssh("ls /root/run/refill/pending /root/run/refill/running /root/run/refill/done").stdout.split()}
+    have = {
+        job_key(name)
+        for name in ssh(
+            "ls /root/run/refill/pending /root/run/refill/running /root/run/refill/done"
+        ).stdout.split()
+    }
     new = [str(j) for j in jobs if job_key(j.name) not in have]
     if new:
+        _invalidate_collection()
+        ssh("rm -f /root/run/refill/STOP")
         scp(new, "/root/run/refill/pending/", upload=True)
     alive = ssh("pgrep -fc '^python remote_refill.py' || true").stdout.strip()
     if alive in ("", "0"):
-        ssh("(cd /root/run && setsid nohup python remote_refill.py > refill.out 2>&1 < /dev/null &) ; echo started", timeout=30)
-    print(json.dumps({"queued": [Path(n).name for n in new], "daemon_was_running": alive not in ("", "0")}))
+        ssh(
+            "(cd /root/run && setsid nohup python remote_refill.py > refill.out 2>&1 < /dev/null &) ; echo started",
+            timeout=30,
+        )
+    print(
+        json.dumps(
+            {"queued": [Path(n).name for n in new], "daemon_was_running": alive not in ("", "0")}
+        )
+    )
 
 
 FAMILIES = [
@@ -871,7 +1058,7 @@ def ready_items(lane: str) -> list[dict]:
     return sorted(ok, key=lambda i: -i["priority"])
 
 
-def cmd_feed(args: argparse.Namespace) -> None:
+def cmd_feed(args: argparse.Namespace) -> bool:
     """Move the best eligible backlog items into this lane's job directory, then queue and interleave."""
     lane = LANE or "a"
     sys.path.insert(0, str(HERE))
@@ -886,15 +1073,25 @@ def cmd_feed(args: argparse.Namespace) -> None:
         for row in data["items"]:
             if row["id"] == item["id"]:
                 row.update(status="queued", lane=lane, queued_utc=now())
-    print(json.dumps({"lane": lane, "fed": [i["id"] for i in chosen], "est_hours": round(sum(i["hours"] for i in chosen), 1),
-                      "ready_left": len(ready_items(lane)) - len(chosen)}))
+    print(
+        json.dumps(
+            {
+                "lane": lane,
+                "fed": [i["id"] for i in chosen],
+                "est_hours": round(sum(i["hours"] for i in chosen), 1),
+                "ready_left": len(ready_items(lane)) - len(chosen),
+            }
+        )
+    )
     if args.dry_run or not chosen:
         for item in chosen:
             (JOBS_DIR / f"bl_{item['id']}.json").unlink(missing_ok=True)
-        return
+        return False
+    _invalidate_collection()
     BACKLOG.write_text(json.dumps(data, indent=1))
     cmd_queue(args)
     cmd_reorder(args)
+    return True
 
 
 def cmd_pull(_: argparse.Namespace) -> None:
@@ -944,6 +1141,7 @@ cd /root/run
 echo "GPU $(nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader,nounits | tr '\n' ';')"
 echo "GPUPROCS $(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l)"
 echo "PENDING $(ls refill/pending 2>/dev/null | wc -l) RUNNING $(ls refill/running 2>/dev/null | wc -l) DONEJOBS $(ls refill/done 2>/dev/null | tr '\n' ',')"
+echo "REFILL_DAEMON $(pgrep -fc '^python remote_refill.py' || true)"
 echo "TERMINAL $(ls DONE.json FAILED.json 2>/dev/null | tr '\n' ',')"
 echo "PREDS $(ls /root/wnn/cache/pred_vt_*_valid.json 2>/dev/null | wc -l)"
 echo "DISKFREE $(df -BG /root | tail -1 | awk '{print $4}' | tr -d G)"
@@ -991,45 +1189,125 @@ def cmd_dash(_: argparse.Namespace) -> None:
 
 
 def cmd_tick(args: argparse.Namespace) -> None:
-    """Unattended step: pull finished jobs; destroy the owned instance when drained or over budget."""
+    """Pull optionally, refill useful work, then collect and tear down a drained lane."""
     if receipt().get("state") == "destroyed_verified":
         print("already destroyed")
         return
-    info = probe()
     if not getattr(args, "no_pull", False):
         cmd_pull(args)
     hours, cost = spend()
-    pending = int(info.get("PENDING", "1").split()[0])
-    running = int(info.get("GPUPROCS", "1"))
-    in_flight = int(info.get("PENDING", "1 RUNNING 1").split("RUNNING")[1].split()[0])
-    primary_done = bool(info.get("TERMINAL", "").strip(", "))
+    info = probe()
     held = cost >= args.cap
-    if held and pending > 0:
-        ssh("mkdir -p /root/run/refill/held && mv /root/run/refill/pending/*.json /root/run/refill/held/ 2>/dev/null || true")
-        print(f"spend cap ${args.cap} reached: queued jobs moved to held/, running jobs finish gracefully")
-    remote_drained = (pending == 0 or held) and in_flight == 0 and running == 0 and primary_done
-    collection_required = False
-    collection_state = "awaiting_remote_drain"
-    drained = False
-    if remote_drained:
-        collection_ok, collection_state = _collection_status(receipt())
-        collection_required = not collection_ok
-        drained = collection_ok
-    print(json.dumps({"hours": round(hours, 2), "cost": round(cost, 2), "pending": pending, "gpu_procs": running,
-                      "held": held, "drained": drained, "collection_required": collection_required,
-                      "collection_status": collection_state, "gpu": info.get("GPU")}))
-    if collection_required:
-        print(f"collection required before teardown: {collection_state}")
-    if not held and pending < 3 and ready_items(LANE or "a"):
-        # the backlog must never run dry while eligible items exist (the optimizer alone would otherwise fill the lane)
+    state = _remote_state(info)
+    if held and state is not None and state[0] > 0:
+        _invalidate_collection()
+        moved = ssh(
+            "mkdir -p /root/run/refill/held && mv /root/run/refill/pending/*.json /root/run/refill/held/ 2>/dev/null || true"
+        )
+        print(
+            f"spend cap ${args.cap} reached: queued jobs moved to held/, running jobs finish gracefully"
+        )
+        if moved.returncode == 0:
+            info = probe()
+            state = _remote_state(info)
+
+    feed_attempted = False
+    if not held and state is not None and state[0] < 3:
         try:
-            cmd_feed(argparse.Namespace(n=2, dry_run=False))
+            eligible = ready_items(LANE or "a")
         except Exception as error:  # noqa: BLE001 - feeding must not break the unattended tick
-            print(f"auto-feed failed: {type(error).__name__}: {str(error)[:200]}")
+            eligible = None
+            feed_error = f"{type(error).__name__}: {str(error)[:200]}"
+        else:
+            feed_error = ""
+        if eligible is None:
+            feed_attempted = True
+            print(f"auto-feed eligibility could not be verified: {feed_error}")
+        elif eligible:
+            # Never destroy from a pre-admission drain snapshot. A failed attempt also
+            # suppresses teardown for this tick because admission may have partially run.
+            feed_attempted = True
+            try:
+                admitted = cmd_feed(argparse.Namespace(n=2, dry_run=False))
+                if admitted:
+                    _invalidate_collection()
+            except Exception as error:  # noqa: BLE001 - keep the tick alive and fail closed
+                print(f"auto-feed failed: {type(error).__name__}: {str(error)[:200]}")
+        if feed_attempted:
+            info = probe()
+            state = _remote_state(info)
+            print(
+                json.dumps(
+                    {
+                        "hours": round(hours, 2),
+                        "cost": round(cost, 2),
+                        "pending": state[0] if state else None,
+                        "gpu_procs": state[2] if state else None,
+                        "held": held,
+                        "drained": False,
+                        "collection_required": False,
+                        "collection_status": "feed_admission_pending",
+                        "gpu": info.get("GPU"),
+                    }
+                )
+            )
+            return
+
+    state = _remote_state(info)
+    if state is not None and state[0] == 0 and state[1] == 0 and state[2] == 0 and state[4]:
+        info = _stop_refill_after_idle(info)
+        state = _remote_state(info)
+
+    remote_quiet, collection_state = _remote_quiescence(info)
+    collection_required = False
+    collection_ok = False
+    if remote_quiet:
+        collection_ok, collection_state = _collection_status(receipt())
+        if not collection_ok:
+            try:
+                cmd_collect(args)
+            except SystemExit as error:
+                collection_state = f"collection_required: {str(error)[:240]}"
+            else:
+                # Collection itself may take long enough for another producer or
+                # admission path to change remote state. Recheck before teardown.
+                info = probe()
+                remote_quiet, collection_state = _remote_quiescence(info)
+                if not remote_quiet:
+                    _invalidate_collection()
+                    collection_state = f"remote changed after collection: {collection_state}"
+                else:
+                    collection_ok, collection_state = _collection_status(receipt())
+        collection_required = not collection_ok
+    drained = remote_quiet and collection_ok
+
     keepalive = ROOT / ".runtime/hpo_keepalive"
-    if drained and not held and keepalive.exists() and time.time() - keepalive.stat().st_mtime < 1800:  # a lane at its spend cap cannot take optimizer work
+    if (
+        drained
+        and not held
+        and keepalive.exists()
+        and time.time() - keepalive.stat().st_mtime < 1800
+    ):  # a lane at its spend cap cannot take optimizer work
         print("drained but the hyper-parameter optimizer is active: keeping the instance")
         drained = False
+    state = _remote_state(info)
+    print(
+        json.dumps(
+            {
+                "hours": round(hours, 2),
+                "cost": round(cost, 2),
+                "pending": state[0] if state else None,
+                "gpu_procs": state[2] if state else None,
+                "held": held,
+                "drained": drained,
+                "collection_required": collection_required,
+                "collection_status": collection_state,
+                "gpu": info.get("GPU"),
+            }
+        )
+    )
+    if collection_required:
+        print(f"collection required before teardown: {collection_state}")
     if drained:
         cmd_destroy(args)
 
@@ -1040,6 +1318,9 @@ def cmd_destroy(_: argparse.Namespace) -> None:
     if not collection_ok:
         print(json.dumps({"collection_required": True, "collection_status": collection_state}))
         raise SystemExit(f"collection required before teardown: {collection_state}")
+    remote_quiet, quiescence_state = _remote_quiescence(probe())
+    if not remote_quiet:
+        raise SystemExit(f"remote quiescence required before teardown: {quiescence_state}")
     vast("destroy", "instance", str(data["instance_id"]), "-y")
     for _ in range(12):
         time.sleep(10)
