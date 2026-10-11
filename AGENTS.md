@@ -14,6 +14,10 @@ At the start of a session or agent task:
 
 The latest user instruction overrides older instructions, specs and campaign allocations. Record its effective scope. An explicit stop closes new admission and drains healthy jobs; a subsequent explicit resume supersedes it while preserving the original record. Do not mistake a historical stop snapshot for current authorization.
 
+Latest submission instruction (2026-10-11): **Do not select from fold 1 alone. Diversify evaluation across source-qualified folds and distinct fitting seeds, with clean teacher/initializer ancestry. After the current exploration results land, rank complete deterministic endpoints using reliable cross-validation and deliver only the strongest supported submissions.** Keep fold exposure and uncertainty explicit; cross-fold evaluation is robustness evidence, not a newly pristine holdout. Preserve existing frozen ZIPs as historical artifacts, but do not recommend a stream of weaker variants. Public feedback remains transfer confirmation. See [ADR0031](specs/adr/0031-cross-fold-top-tier-submission-release.md) and the [current wave/exploitation record](research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/IDEA_STATUS_AND_EXPLOITATION_PLAN_20261011_R1.md). The subsequent exploitation phase should use measured serving headroom up to competition limits; Q4 must earn its place through actual quantized quality, package size and recurrent runtime measurements.
+
+Latest Vast instruction (2026-10-11): auto top-up is disabled. Remaining prepaid credit and provider expiry can be stricter than the $70 campaign ceiling. Reserve time for targeted collection before depletion, collect useful checkpoints/provenance/logs and evaluation predictions while work lands, and do not authorize a top-up, new rental or billing change. Jobs admitted under an older credit assumption need a recorded deadline/collection reassessment; no blind retry or late queued start.
+
 ## Crucial specifications and decisions
 
 | Subject | Read |

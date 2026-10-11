@@ -46,3 +46,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0029: Luna max only](0029-luna-only-native-diversity-delivery.md): latest user supersedes the Sol exception; transfer its completed native-device draft to an isolated Luna/max role and keep all subordinate work on Luna/max.
 
 - [ADR0030: local evidence selects submissions](0030-local-evidence-selects-submissions.md): research and local validation select models and fixed blends; public leaderboard confirms transfer.
+
+- [ADR0031: cross-fold top-tier release](0031-cross-fold-top-tier-submission-release.md): diversified clean cross-validation ranks complete endpoints; deliver only the strongest supported submissions after exploration lands, then exploit measured serving headroom.
