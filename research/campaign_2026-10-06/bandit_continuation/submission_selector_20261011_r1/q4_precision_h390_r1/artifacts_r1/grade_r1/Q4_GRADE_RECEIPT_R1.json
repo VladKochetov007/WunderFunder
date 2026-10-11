@@ -1,0 +1,264 @@
+{
+  "claim_scope": "Precision-fidelity diagnostic on an in-sample full-data H390 pair. The valid rows are not held-out generalization evidence for these all-data checkpoints.",
+  "evaluation": {
+    "data_identity_note": "The 5.6 GB parquet was not fully hashed; physical rowgroups 0..9, sequence IDs, need masks, and target/mask rowgroup digests are recorded below.",
+    "full_valid_parquet_sha256": null,
+    "native_backend": "v3/wnn_native.abi3.so",
+    "native_backend_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+    "official_clip": [
+      -2.0,
+      2.0
+    ],
+    "official_mask": "need_prediction AND is_scored",
+    "panel_callback_receipt_sha256": "489acfce54cbd0cd95c21a982f8d93b12185d7affd8b5626d08c24fc4917ce20",
+    "panel_feature_columns": 112,
+    "panel_group_sequence_ids": [
+      256678,
+      751005,
+      1200028,
+      1892371,
+      1990332,
+      2308749,
+      4490992,
+      6746551,
+      8348957,
+      9147005
+    ],
+    "panel_path": "/tmp/wnn_submission_exploit_runtime_r1/valid_first10_complete_groups.parquet",
+    "panel_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "q4_build_receipt_sha256": "f6a04c25ad9548833b65ad322ccee06a4b158759d9f068ba52a28de0b21e6154",
+    "q4_predictions_path": "q4rounded_q8backend_predictions.npy",
+    "q4_predictions_sha256": "f7ecba6a32a5e5cc7c66105f67f2cff3a41e91af9c4e395735aec459bd2b997d",
+    "q4_variant_zip_sha256": "d3a6a80a69e3c3ab64b3ed23d99a2367ee32532c87dda5da1e9032fb0e959f58",
+    "q8_predictions_path": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011/submissions/10-11-exploit-now_r2/h390_full_data_pair_q8/PREDICTIONS_PANEL_R2.npy",
+    "q8_predictions_sha256": "682376c1f056efcd4a011d5e5edd5b3de585f1337e5f93313c3f1bf89a2e04c5",
+    "q8_variant_zip_sha256": "3420ea5e6318e15b6340582125959ed7489983b17338f399c748965cb42c4a4a",
+    "runtime_members_asserted": 2,
+    "runtime_precision_asserted": "q8vnni",
+    "valid_parquet_bytes": 5615509128,
+    "valid_parquet_mtime_ns": 1577826000000000000,
+    "valid_parquet_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+    "weights": "absolute clipped target magnitude"
+  },
+  "execution": {
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "elapsed_seconds": 10.107531991001451,
+    "max_rss_kib": 1158888,
+    "prediction_output_bytes": 1600128
+  },
+  "groups": [
+    {
+      "delta_wp": -0.002455558464899754,
+      "official_mask_sha256": "6b59b3dc7a2cad69e0e09f35282da52b464ae5a0a48becbb073c46951810a700",
+      "q4_rounded_q8_wp": 0.7555162332626173,
+      "q8_wp": 0.757971791727517,
+      "selected_rows": 2599,
+      "sequence_id": 256678,
+      "targets_sha256": "0e8b3bd165ffa859b809d26d811ad6029265d3320a603b05a39cb67b1ba40520"
+    },
+    {
+      "delta_wp": -0.002607134187767368,
+      "official_mask_sha256": "71b5ba8eb24e55f0b607ee2f0cbd10b47da09d44276f3615a412aa8e08eea20e",
+      "q4_rounded_q8_wp": 0.6343699749659664,
+      "q8_wp": 0.6369771091537337,
+      "selected_rows": 611,
+      "sequence_id": 751005,
+      "targets_sha256": "7c04522f4ce7c86a428f5b75275edfcdde0e6d766847adc08bb4c26783a9c1b9"
+    },
+    {
+      "delta_wp": -0.0022219973914903157,
+      "official_mask_sha256": "5101801c1fec9e996721758111881888bcfcbddfbf11e9b7458c472c9f19a943",
+      "q4_rounded_q8_wp": 0.8583707743405233,
+      "q8_wp": 0.8605927717320137,
+      "selected_rows": 1835,
+      "sequence_id": 1200028,
+      "targets_sha256": "0b9b161a0f66ce122939cb2a3691fd17bf0046eb15c69e390aa815583a30c3b7"
+    },
+    {
+      "delta_wp": 0.004710343701795128,
+      "official_mask_sha256": "759feae8eae5c9dfcacd704b561cb7e4c4c899ff9f55eebc65a6f1deddb22a01",
+      "q4_rounded_q8_wp": 0.6827636228585938,
+      "q8_wp": 0.6780532791567987,
+      "selected_rows": 1065,
+      "sequence_id": 1892371,
+      "targets_sha256": "e60fb5eab63de930a9d742f4fbaa1a00a5bd41c13afb24e99a690d1bd58ad016"
+    },
+    {
+      "delta_wp": -0.001465941591596076,
+      "official_mask_sha256": "fbf5836475c824420f9b251acd6811f5d5536a393402d59f45c2e3e28d7d84c1",
+      "q4_rounded_q8_wp": 0.8335246545832027,
+      "q8_wp": 0.8349905961747988,
+      "selected_rows": 3000,
+      "sequence_id": 1990332,
+      "targets_sha256": "8522c7bdff325c10301cd01f7580060be3c9301cb7aca418cd758357d8885cdd"
+    },
+    {
+      "delta_wp": -0.00464718119943297,
+      "official_mask_sha256": "5993536aaa01331a90a5b6f84976acf05cfb40dc604fb606f0262f019ebe69e3",
+      "q4_rounded_q8_wp": 0.6045741359743539,
+      "q8_wp": 0.6092213171737869,
+      "selected_rows": 1601,
+      "sequence_id": 2308749,
+      "targets_sha256": "25ad42cdcb26e6ff0d55fb64d265ecb829cc76d192226bb33cb35495bfec6d08"
+    },
+    {
+      "delta_wp": -0.0009145565868770023,
+      "official_mask_sha256": "6ec4025f07a8afa7f5ddadb85571d820dc9cccc075a119e9fceee74e70706275",
+      "q4_rounded_q8_wp": 0.7570713968600558,
+      "q8_wp": 0.7579859534469328,
+      "selected_rows": 1535,
+      "sequence_id": 4490992,
+      "targets_sha256": "1637e7d084108ae9195b220daa1eefee0a8c79d34b4061eec4c0a2414c779743"
+    },
+    {
+      "delta_wp": -0.0021051602912705025,
+      "official_mask_sha256": "98ae72bb58e75ca090560fd24d57b8c4eb2e877b679096bf1ed78026eb3e6ba4",
+      "q4_rounded_q8_wp": 0.8760971436983651,
+      "q8_wp": 0.8782023039896356,
+      "selected_rows": 146,
+      "sequence_id": 6746551,
+      "targets_sha256": "fcc44aad58925a8472c8a7df6f061d40bdd038b29230fb5318136cd77ea14aed"
+    },
+    {
+      "delta_wp": -0.0022081300290403005,
+      "official_mask_sha256": "63cf68e70f9ccfb562d97a96b5a47e4292b1945c362fb4c2134e2f46bcccabc2",
+      "q4_rounded_q8_wp": 0.8772150882227192,
+      "q8_wp": 0.8794232182517595,
+      "selected_rows": 2246,
+      "sequence_id": 8348957,
+      "targets_sha256": "43c76b89b7cd94dcd89fe69c0f9ce9b64eca54d5aa559d29bb1e5fe031138ef8"
+    },
+    {
+      "delta_wp": 0.00021887375082318972,
+      "official_mask_sha256": "a61e1ecae1988063604d6f86f1e065b5feb997dd7822f856856e96e8b87e551a",
+      "q4_rounded_q8_wp": 0.5312872361601318,
+      "q8_wp": 0.5310683624093087,
+      "selected_rows": 977,
+      "sequence_id": 9147005,
+      "targets_sha256": "59a909476754f0d3514225196ece9809c2e2462f5bb08ce7df2d598ac3f8dc75"
+    }
+  ],
+  "metric_id": "global_wp_clip2_v1",
+  "panel_groups": [
+    {
+      "feature_sha256": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "panel_group": 0,
+      "sequence_id": 256678
+    },
+    {
+      "feature_sha256": "da1552d094eee4cb347ee88c14613885802e54c3f7052e758834b36f7ad03a5f",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "panel_group": 1,
+      "sequence_id": 751005
+    },
+    {
+      "feature_sha256": "016afe4a6d9bcf3af2ec7961295bd3106530f29a760d297d5a6fbb1390063c58",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "panel_group": 2,
+      "sequence_id": 1200028
+    },
+    {
+      "feature_sha256": "4558b05652d6f9054170613d556ecd8e12fdb35b10d9027a9456e5b11b161c26",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "panel_group": 3,
+      "sequence_id": 1892371
+    },
+    {
+      "feature_sha256": "05dbac3d81d7241a5761e009d0c5a11b4b152f1cf7890df75a6eac6776051f4b",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "panel_group": 4,
+      "sequence_id": 1990332
+    },
+    {
+      "feature_sha256": "09e108511c35a5266f967bad67151321d7e8f16d2cee5cece69886392fd3216e",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "panel_group": 5,
+      "sequence_id": 2308749
+    },
+    {
+      "feature_sha256": "a42ccf8b2e8ead95c55b6d8f785d5e25285ec2b65f56571021eca0f2ff9e3e63",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "panel_group": 6,
+      "sequence_id": 4490992
+    },
+    {
+      "feature_sha256": "5b587d321a28146b43a5400cdc2450372af08041c21c7763086168b7c9966b21",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "panel_group": 7,
+      "sequence_id": 6746551
+    },
+    {
+      "feature_sha256": "20947296e63f58d5210c4c6ae88442f04688bf79d66ff7bc624c283493f41175",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "panel_group": 8,
+      "sequence_id": 8348957
+    },
+    {
+      "feature_sha256": "466d7cc953803912710c0e731aedd9de12446ea3f5e455502393461e242e9419",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "panel_group": 9,
+      "sequence_id": 9147005
+    }
+  ],
+  "prediction_fidelity": {
+    "per_target": [
+      {
+        "prediction_mae": 0.028698820756373165,
+        "prediction_max_abs_delta": 0.18820959329605103,
+        "prediction_pearson_official_clip_weighted": 0.9992190033432703,
+        "prediction_pearson_raw": 0.9989272851133566,
+        "prediction_rmse": 0.03715234807444247,
+        "target": "t0"
+      },
+      {
+        "prediction_mae": 0.028273965309490636,
+        "prediction_max_abs_delta": 0.18575000762939453,
+        "prediction_pearson_official_clip_weighted": 0.9993370552026111,
+        "prediction_pearson_raw": 0.9990448020538106,
+        "prediction_rmse": 0.036905614989164004,
+        "target": "t1"
+      }
+    ],
+    "selected_rows": 15615
+  },
+  "schema": "wnn.q4-rounded-versus-q8-official-panel.v1",
+  "scores": {
+    "delta_q4_minus_q8": {
+      "t0": -0.0012335147340004626,
+      "t1": -0.0023689797450668904,
+      "wp": -0.0018012472395336765
+    },
+    "q4_rounded_then_q8": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 15615,
+      "t0": 0.7518113719169417,
+      "t1": 0.771342652552309,
+      "wp": 0.7615770122346254
+    },
+    "q8": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 15615,
+      "t0": 0.7530448866509422,
+      "t1": 0.7737116322973759,
+      "wp": 0.763378259474159
+    }
+  }
+}
