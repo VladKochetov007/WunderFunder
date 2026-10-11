@@ -1,0 +1,257 @@
+{
+  "created_utc": "2026-10-11T14:40:38+00:00",
+  "kaggle_h382_r3_poll": {
+    "failure_message": "",
+    "kernel": "vladkochetov07/wnn-kaggle-crossfold-h382-20261011-r3",
+    "monitoring_state": "polling_until_terminal_evidence_downloaded",
+    "observed_at_utc": "2026-10-11T14:40:38+00:00",
+    "poll_log": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r2.jsonl",
+    "poll_log_file_sha256": "4c3dcafc977e2b8c4685983ef83363cd8b7c3f9749641be392d8c95272e4847c",
+    "poll_record_sha256": "635473180bda955a9236379194e5753183e6614c06a271c7ce1d46e258d3104d",
+    "quota": {
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 33486.54976200001,
+      "campaign_used_seconds": 23293.966237999994,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "used_seconds": 60341.287238
+    },
+    "quota_refresh_utc": "2026-10-17T00:00:00",
+    "status": "KernelWorkerStatus.RUNNING",
+    "targets_file_sha256": "e6edbe6b08b6c40d4cd6edc06bf6adccc5e5ed8fc6c5bf1cc8bbeffcff803247",
+    "terminal_outputs_collected": false
+  },
+  "limits": [
+    "No predictions were scored in this audit.",
+    "The public package is not presented as clean cross-validation evidence.",
+    "The old H230 analogue is not promoted as the exact public Z1c/Z4 counterpart.",
+    "No local fit or cloud mutation was started."
+  ],
+  "own_clean_fold0_student_parent": {
+    "checkpoint_sha256_actual": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "checkpoint_sha256_provenance": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "fit_membership_identity": {
+      "dataset_length": 11940,
+      "train": {
+        "count": 10535,
+        "ordered_int64_le_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9"
+      },
+      "valid": {
+        "count": 1405,
+        "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      },
+      "valid_repeat": 1
+    },
+    "note": "Independently trained own fold-0 combo parent; recorded membership excludes the 468-group fold-0 evaluation panel. This parent supports the next T3 packet independently of the H230 analogue.",
+    "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+    "run_at": "c20261003_combo_s3_f0@ep3",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "own_fold0_h230_family_hft_analogue": {
+    "canonical_source": {
+      "checkpoint_sha256_actual": "59718b92befe647dde74335a17dc00d264e668ff8177201a1c636e7e194d72c9",
+      "checkpoint_sha256_provenance": "59718b92befe647dde74335a17dc00d264e668ff8177201a1c636e7e194d72c9",
+      "fit_membership_identity": {
+        "dataset_length": 11940,
+        "train": {
+          "count": 10535,
+          "ordered_int64_le_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9"
+        },
+        "valid": {
+          "count": 1405,
+          "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+        },
+        "valid_repeat": 1
+      },
+      "provenance_sha256": "12ef3404fd6c73abf08a33ce99f4364b03d09421b7a761ed3eb7bbcc3ae1b04a",
+      "run_at": "bd26_h230_hetero_s3_f0@ep1",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "derived_core_alias": {
+      "args": {
+        "distill_family_head": false,
+        "distill_family_weight": 0.0
+      },
+      "checkpoint_sha256_actual": "ecfddfe4c3a14620457cfdf92f501bd48d2a59a41c34d9ecc91bdfdedeb7349e",
+      "checkpoint_sha256_provenance_map": "59718b92befe647dde74335a17dc00d264e668ff8177201a1c636e7e194d72c9",
+      "declared_core_derivation": {
+        "dropped_family_rows": 8,
+        "source_epoch": 1,
+        "source_run": "bd26_h230_hetero_s3_f0"
+      },
+      "provenance_sha256": "0602564c9c4f9314e6d3f4f93bbf0d73207cb000413cae6b4c17f471c17e3397",
+      "run_at": "bd26_h230_hetero_s3_f0_core@ep1",
+      "source_provenance_sha256": "59718b92befe647dde74335a17dc00d264e668ff8177201a1c636e7e194d72c9"
+    },
+    "hft_initializer": {
+      "args": {
+        "eval_source": "vfold",
+        "full_valid": true,
+        "init": "bd26_h230_hetero_s3_f0_core@ep1",
+        "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "train_source": "valid",
+        "valid_fold": 0
+      },
+      "checkpoint_sha256": "887fd88dde75e1514e05f505e7f3a5432dc1b7a6109892e3893b2d706340314e",
+      "evaluation_row_group_count": 468,
+      "fit_membership_identity": {
+        "dataset_length": 1405,
+        "train": {
+          "count": 0,
+          "ordered_int64_le_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "valid": {
+          "count": 1405,
+          "ordered_int64_le_sha256": "b80550a7b2eb0c0ebef895e42e63af31422a0cadd056adece81fd013f8f1d76c"
+        },
+        "valid_repeat": 1
+      },
+      "initial_checkpoint_sha256": "ecfddfe4c3a14620457cfdf92f501bd48d2a59a41c34d9ecc91bdfdedeb7349e",
+      "initializer_matches_actual_core_alias": true,
+      "provenance_sha256": "5fb2cc96eb16571616c0569dd2fcca99f312666e4a79f43082b68ddeef06f5fd",
+      "run_at": "f0_h230_hetero_s3_hft_v1@ep0"
+    },
+    "independent_derivation_audit": {
+      "core_head_rows": 23,
+      "non_family_tensors_bitwise_equal": true,
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/H382_P0_H230_CORE_DERIVATION_AUDIT_R1.json",
+      "primary_output_rows_bitwise_equal": true,
+      "sha256": "012a284dd559694962a6b538dd0777fd25da9f8f4604c884bfa3afaa29b90c68",
+      "source_head_rows": 31,
+      "status": "passed"
+    },
+    "resolution": "Independent crop audit and HFT initializer hash verify canonical 31-row checkpoint -> 23-row core alias -> HFT initializer. The alias provenance checkpoint map intentionally/ historically retains the canonical 31-row source hash; that map differs from alias bytes and is explicitly disclosed here, not rewritten. This establishes the local fold-0 H230 family-HFT analogue only, not an exact Z1c/Z4 recipe match."
+  },
+  "public_package": {
+    "bytes": 9544031,
+    "interpretation": "Both published head-finetune stages declare train_source=valid, full_valid=true, valid_fold=-1, split_manifest=null, and 1505 fit-valid groups. This is an all-data finalization lineage, not a clean-fold certificate. No exact clean-fold Z1c/Z4 counterpart is established by this inventory.",
+    "members": [
+      {
+        "core": {
+          "args": {
+            "checkpoint_epoch": 1,
+            "distill_family_head": false,
+            "distill_family_weight": 0.0,
+            "full_valid": false,
+            "name": "bd26_h230_all_data_student_gru256_seed4_retry1_v1",
+            "split_manifest": null,
+            "train_source": "train+valid",
+            "valid_fold": -1
+          },
+          "checkpoint_sha256": "b8167fb32bd1d1759b6c8a3d0aa3642a9522a5b7897eee2facf9bf8bc6857e64",
+          "fit_membership_identity": {
+            "dataset_length": 12479,
+            "train": {
+              "count": 10606,
+              "ordered_int64_le_sha256": "a7e2f3210c69cd8e01c811fb66cf1f81816141ad21c4262e9892ff69c355ad56"
+            },
+            "valid": {
+              "count": 1873,
+              "ordered_int64_le_sha256": "05fb0358837a745b98b491dcecaff609544bc86f1d19cc915035be92c73ede95"
+            },
+            "valid_repeat": 1
+          },
+          "provenance_sha256": "b84357a64ce2d10c5913dfea24bc0051d6be4e3e3e4669a5b60645610d4c53c9",
+          "run_at": "bd26_h230_all_data_student_gru256_seed4_retry1_v1_core@ep1"
+        },
+        "head_finetune": {
+          "args": {
+            "checkpoint_epoch": 0,
+            "eval_source": "dev",
+            "full_valid": true,
+            "init": "bd26_h230_all_data_student_gru256_seed4_retry1_v1_core@ep1",
+            "name": "z1c_h230s4_student_hft_alldata_v3",
+            "split_manifest": null,
+            "train_source": "valid",
+            "valid_fold": -1
+          },
+          "checkpoint_sha256": "b6c1697935d21f9b4ce7c5bfb97e27bf3a9462ca808458cb3e09654d867cd4eb",
+          "evaluation_row_group_count": 1505,
+          "fit_membership_identity": {
+            "dataset_length": 1505,
+            "train": {
+              "count": 0,
+              "ordered_int64_le_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "valid": {
+              "count": 1505,
+              "ordered_int64_le_sha256": "71dc6b4744311533664ccd1fdb6472c03972bdb659c9e02eace557ecae5b552e"
+            },
+            "valid_repeat": 1
+          },
+          "initial_checkpoint_sha256": "97058aea36b74fafb230a32ffc9e7e5663b74d02814235eeee25b0f5e2e819ce",
+          "provenance_sha256": "d0c35d7a20706965eed6bceeba4274dfdb98742dfd4d64480146b6ec00add56d",
+          "run_at": "z1c_h230s4_student_hft_alldata_v3@ep0"
+        },
+        "outer_coefficient": 0.5,
+        "source": "bd26_h230_all_data_student_gru256_seed4_retry1_v1_core@ep1|z1c_h230s4_student_hft_alldata_v3@ep0"
+      },
+      {
+        "core": {
+          "args": {
+            "checkpoint_epoch": 1,
+            "distill_family_head": false,
+            "distill_family_weight": 0.0,
+            "full_valid": false,
+            "name": "bd26_h230_faithful_student_seed99_muonparent_v1",
+            "split_manifest": null,
+            "train_source": "train+valid",
+            "valid_fold": -1
+          },
+          "checkpoint_sha256": "a9cb31068d7078742309e63b25e8fb0ec2e71f3587c15410ccde321df1fb6382",
+          "fit_membership_identity": {
+            "dataset_length": 12479,
+            "train": {
+              "count": 10606,
+              "ordered_int64_le_sha256": "1f54c1ebacaab3d298dca5a5fbd9060e06860a1daded1af0eafe4b2fa30031f0"
+            },
+            "valid": {
+              "count": 1873,
+              "ordered_int64_le_sha256": "05fb0358837a745b98b491dcecaff609544bc86f1d19cc915035be92c73ede95"
+            },
+            "valid_repeat": 1
+          },
+          "provenance_sha256": "9f4af9092e12afd3eb7e247fbd50d881498ddaff477b317ebcfa7b10b9a682b3",
+          "run_at": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1"
+        },
+        "head_finetune": {
+          "args": {
+            "checkpoint_epoch": 0,
+            "eval_source": "dev",
+            "full_valid": true,
+            "init": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1",
+            "name": "z4_seed99_student_hft_alldata_v2",
+            "split_manifest": null,
+            "train_source": "valid",
+            "valid_fold": -1
+          },
+          "checkpoint_sha256": "9a1e338208d9de65ac9ec9f62c73ebd67c40ae634b5ae05e6c738ec5bf84d1d4",
+          "evaluation_row_group_count": 1505,
+          "fit_membership_identity": {
+            "dataset_length": 1505,
+            "train": {
+              "count": 0,
+              "ordered_int64_le_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "valid": {
+              "count": 1505,
+              "ordered_int64_le_sha256": "71dc6b4744311533664ccd1fdb6472c03972bdb659c9e02eace557ecae5b552e"
+            },
+            "valid_repeat": 1
+          },
+          "initial_checkpoint_sha256": "a9cb31068d7078742309e63b25e8fb0ec2e71f3587c15410ccde321df1fb6382",
+          "provenance_sha256": "56e0494fa4e507fd800e6c5247f37d2ed975d7acebd67e97a7bd576005d030e7",
+          "run_at": "z4_seed99_student_hft_alldata_v2@ep0"
+        },
+        "outer_coefficient": 0.5,
+        "source": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0"
+      }
+    ],
+    "members_json_sha256": "ee2f33b46fd5280fc0337e7db2f291cbe3ff30d1ced01bfb9b90c120ca72ec9f",
+    "path": "submissions/upload_2026-10-11/4_z1c_z4_pair_q8vnni.zip",
+    "sha256": "ff498873027318b5aa20e6ca95517bdb843b4656989a75aae148f1c141705327"
+  },
+  "schema": "wnn.p0.finished_zip_lineage_and_kaggle_poll.v1",
+  "scope": "Read-only audit of the exact public Z1c/Z4 package, available own fold-0 lineage artifacts, and current H382 Kaggle status. No fit, provider mutation, or scoring was performed."
+}

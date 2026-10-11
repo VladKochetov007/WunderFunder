@@ -1,0 +1,86 @@
+{
+  "admission": "packet prepared only; no provider dataset upload or kernel push",
+  "asset_stage": {
+    "checkpoint_archive_sha256": "a57df09373de67618c7a5826a11a3756fbdb1640b38781af1467a6cbbc468285",
+    "checkpoint_manifest_sha256": "bca79e00f62e89bae7b44a4261682d9cfc4ac6d280c6610bbe14f48619685164",
+    "dataset_metadata_sha256": "15d61babb30554e1af2677437cc71e130eebdc861a6aeec3d66d8e3a71b43f42",
+    "directory_mode": "0o700"
+  },
+  "checkpoint_archive_bytes": 12441600,
+  "checkpoint_archive_sha256": "a57df09373de67618c7a5826a11a3756fbdb1640b38781af1467a6cbbc468285",
+  "checkpoint_manifest_sha256": "bca79e00f62e89bae7b44a4261682d9cfc4ac6d280c6610bbe14f48619685164",
+  "expected_gpu_model": "NvidiaTeslaT4",
+  "expected_visible_gpu_count": 2,
+  "export_commands": 3,
+  "fit_commands": 0,
+  "kernel_title": "WNN H382 Export Recovery 20261011 R4",
+  "packet_files": {
+    "README.md": {
+      "bytes": 1480,
+      "sha256": "0019212b2a680a1b3fd77feb0135d2e36261a5e7cb648f6dc8e630c66cfa4516"
+    },
+    "build_export_recovery.py": {
+      "bytes": 43032,
+      "sha256": "6e55727e9b21d2ae06b4aaaf853e45f4070d6c27ec82842c531f3b1bbca617ef"
+    },
+    "checkpoint_asset_manifest.json": {
+      "bytes": 7010,
+      "sha256": "bca79e00f62e89bae7b44a4261682d9cfc4ac6d280c6610bbe14f48619685164"
+    },
+    "kernel/kernel-metadata.json": {
+      "bytes": 622,
+      "sha256": "7bb6f63fc7f9dc5826d022d948020b245f8253a1509f4f376aec403dae3fad8b"
+    },
+    "kernel/kernel.py": {
+      "bytes": 42174,
+      "sha256": "f7671c6bec834e7a26f5e65dcf9c014e0ec89f7cfd9fad97bbd02123aa27e45c"
+    },
+    "source/h382_source_manifest_r3.json": {
+      "bytes": 10731,
+      "sha256": "a98f035691dbd4f1d9e69ccbffc37d12fcbd0ec979a30d649c7919d1e0e9b979"
+    },
+    "source/kaggle_jobs_r3.json": {
+      "bytes": 12408,
+      "sha256": "0fda9c0fe9d8370a6c7d48afb6fa1009834689c4aed2400ed2301495bbfa45cd"
+    },
+    "tests/test_packet.py": {
+      "bytes": 6141,
+      "sha256": "c09be99c8dcf3420a2d7c5944f1a7962bd09107ba0b0f9f27eb81a24a0098952"
+    }
+  },
+  "packet_id": "vladkochetov07/wnn-h382-export-recovery-20261011-r4",
+  "prediction_artifact_count": 6,
+  "prediction_shape": [
+    1873,
+    20000,
+    2
+  ],
+  "quota_admission": "fresh Kaggle quota/session and two-device gate required before any upload or push",
+  "r2_corrections": [
+    "scan each exported float32 prediction in mmap row chunks and require all values finite",
+    "persist prediction_finite=true and scanned-row count in the per-run export receipt",
+    "attach expected/collected/match reference hashes before serializing terminal_inventory.json",
+    "require all three fresh collected NPY hashes to be present before terminal complete; reference-hash equality is diagnostic only"
+  ],
+  "r3_correction": "Reference R3 prediction digests are recorded and compared diagnostically; cross-device output hash equality is not a terminal success gate. Fresh checkpoint, sidecar, hash, shape, finiteness, split, source and complete-collection validations remain required.",
+  "recovery_reason": "R3 validated each export, but its final cache collection glob pred_kg_h382_* did not match actual run names pred_kg_h382r3_*; R1 also omitted finite-value scans and serialized terminal hashes before attaching the reference hashes.",
+  "reference_export_seconds": {
+    "kg_h382r3_f0_muonall_prop0_e3_s3": 82.2,
+    "kg_h382r3_f0_muonall_prop0_e4_s3": 160.6,
+    "kg_h382r3_f0_muonall_prop2_e3_s3": 160.5,
+    "measured_worker_setup_seconds": null,
+    "timing_note": "Observed export commands only; no separate worker startup/setup duration was recorded. Runtime bound is 3600 seconds, with 1800-second per-export limits inherited from the frozen job recipe."
+  },
+  "runtime_limit_seconds": 3600,
+  "schema": "wnn.h382-export-recovery-packet.v4",
+  "source_bundle_id": "vladkochetov07/wnn-kaggle-crossfold-h382-bundle-20261011-r3",
+  "source_bundle_sha256": "29da33ce7ad3273d830313c15614f2327ddf72597f6d6a9d55fd19e33880d31e",
+  "source_export_invocation": "python /root/wnn/scripts/predict_run.py RUN valid --epoch E",
+  "source_kernel_sha256": "b7f959750dfef32ec8ee43675dc05a859e0d99ed1d1c5468c6542f5bc13c12ed",
+  "source_packet_id": "vladkochetov07/wnn-kaggle-crossfold-h382-20261011-r3",
+  "source_prediction_hashes": {
+    "kg_h382r3_f0_muonall_prop0_e3_s3": "574353e110cff413959af22a7cfd185bf115bdf0f191852c6fa9c07c1cf72f78",
+    "kg_h382r3_f0_muonall_prop0_e4_s3": "43d7dc813b774cb78148141b6fab23cda58a97d7f22454c074dc882f37327d89",
+    "kg_h382r3_f0_muonall_prop2_e3_s3": "d12ee518ce4ba46b2af890552712f916b1bfb9e451805cf7daa671b4b3afc048"
+  }
+}
