@@ -115,3 +115,7 @@ H382 mixed cross-fold epoch effects are now bound to eight actual source/members
 ## Controller interpretation — 2026-10-11T18:29:47.051588Z
 
 F3/e4 .70657 vs e3 .70865 (same seed3/505 exposed groups) adds a second non-F1 fold with a negative longer-budget effect. F0/F1 gains and F2/F3 losses favor complete crossfold endpoint evidence over more selected F1 repeats. This does not isolate epochs from OneCycle horizon or close all Muon/KD descendants. H392 faithful oldF0parent is actually fitting; H390 cleanstrongT3F0 two-device profile is dispatched, full teacher/student fits remain stage-gated. H393/H394 no-fit mechanism screens remain parallel pending. No new hypothesis/public forecast from delivery repairs.
+
+## Controller status 2026-10-11T18:47:40.435166+00:00 — prepaid capacity ended, crossfold delivery continues
+
+Vast credit0/exited/intended stopped verified18:41:59; selected CP/state rescue complete, full2736 collection unverified and metadata reconciliation owned. Local H392 exactF0parent same invocation active ep0b640/746; export admitted/root-owned. Kaggle H390 cleanF0 profile RUNNING/phaseunknown; terminal collection owned, distinct teacher-only R2 preparation active, no fullfit admission. No new score/public forecast. REV-13 count/causal qualifications recorded in current-state; retain whole clean pipeline/fixed blend priority, H393/H394 parallel pending.
