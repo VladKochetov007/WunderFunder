@@ -42,7 +42,7 @@ EXPECTED_TIMERS = (
     "wnn-local-queue-r1",
     "wnn-campaign-kaggle-poller",
 )
-SPEND_WARN = 60.0  # user authorised ~$1/h auto top-up (2026-10-11); lane b cap 70
+SPEND_WARN = 60.0  # existing owned lane B cap70; no credit top-up authorized
 
 REMOTE_JOB_DIAGNOSTICS = r"""
 import json

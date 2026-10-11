@@ -1,0 +1,100 @@
+{
+  "utc": "2026-10-11T09:36:50.770055+00:00",
+  "status": "ready_for_human_upload",
+  "precision": "q8vnni",
+  "selection": "research and local evidence; public confirms transfer",
+  "metric": "global_wp_clip2_v1",
+  "exposure": "selected exposed fold1 endpoints; scores before native serving quantization; no public forecast",
+  "training": "own fold1-trained checkpoints; all-data final training continues separately",
+  "independent_review": "Luna/max independent_review; exported16tensors/member match checkpoint after slice to2 official targets; model/initializer/split/provenance/package checks passed",
+  "review_limit": "Distillation cache/metadata and some teacher directories are absent locally, so critic did not independently rehash all teacher-source artifacts; cached provenance records source IDs, hashes and own recipe family.",
+  "candidates": [
+    {
+      "rank": 1,
+      "file": "8_dm_t3_a9_e6_muonall_prop0_e4_s4_pair_fold1_q8vnni.zip",
+      "bytes": 8555307,
+      "sha256": "4d6198c2573dfbe9013025cbfa2111246102da53ea5b3226916d4b1a3f7f679d",
+      "local_score_before_quantization": 0.67329,
+      "gates": [
+        {
+          "path": "submissions/10-11-67/gates/pair_v3.json",
+          "sha256": "c751b639fc00cf087f70edefe09ca7ec919b9a7f1e6d57c12f3650a5a6f02316",
+          "rows": 600000,
+          "us_per_row": 95.60676006675446
+        },
+        {
+          "path": "submissions/10-11-67/gates/pair_avx2.json",
+          "sha256": "3e7e5514f9c4b4cc70a1c4510b474f359f320361a438394b6bb822ee7696e33d",
+          "rows": 200000,
+          "us_per_row": 67.45192761503858
+        },
+        {
+          "path": "submissions/10-11-67/gates/pair_v2.json",
+          "sha256": "c4dddae9538d8882cdb9cc4a04f899a0832c6b7e23162b4b6e1045ca4ec40dd3",
+          "rows": 200000,
+          "us_per_row": 64.81319871018059
+        }
+      ],
+      "abi_passed": true,
+      "cross_isa_predictions_bitwise_equal": true
+    },
+    {
+      "rank": 2,
+      "file": "9_muonall_prop0_e4_s4_fold1_q8vnni.zip",
+      "bytes": 4928070,
+      "sha256": "93366e8580b2fa00d7497aa3268b1aa8022c2ab9be6097ecf6ec758475dbe108",
+      "local_score_before_quantization": 0.67195,
+      "gates": [
+        {
+          "path": "submissions/10-11-67/gates/scratch_v3.json",
+          "sha256": "e3af712ee894d65be55f284c08292c8a819bf8f39eca8a88177fc7e550139415",
+          "rows": 200000,
+          "us_per_row": 34.18131506499776
+        },
+        {
+          "path": "submissions/10-11-67/gates/scratch_avx2.json",
+          "sha256": "307bdd63f260400b03e8c7fbc82dbb727e9047f16b1c5cdee5a48fea16597861",
+          "rows": 200000,
+          "us_per_row": 33.84369314509968
+        },
+        {
+          "path": "submissions/10-11-67/gates/scratch_v2.json",
+          "sha256": "e530d576a94c2e4a52e5dfe8aea21afc522f9965bc61b18bb5692c5616cfa107",
+          "rows": 200000,
+          "us_per_row": 31.87837438519637
+        }
+      ],
+      "abi_passed": true,
+      "cross_isa_predictions_bitwise_equal": true
+    },
+    {
+      "rank": 3,
+      "file": "7_dm_t3_a9_e6_fold1_q8vnni.zip",
+      "bytes": 4928931,
+      "sha256": "e1f218e88b6e704b2c9b5f8753c3924388a91e44e69ab4ff30702561c418734f",
+      "local_score_before_quantization": 0.67103,
+      "gates": [
+        {
+          "path": "submissions/10-11-67/gates/student_v3.json",
+          "sha256": "eb812b9cf2cf07d5180134da26c1a2de4892b81858afd0d96b592c6f04c13350",
+          "rows": 200000,
+          "us_per_row": 32.827755359976436
+        },
+        {
+          "path": "submissions/10-11-67/gates/student_avx2.json",
+          "sha256": "e0f2e063424aefa318ce31d819f2fec6400bdd659d9e064b7d925560bf550ad6",
+          "rows": 200000,
+          "us_per_row": 64.90409140511474
+        },
+        {
+          "path": "submissions/10-11-67/gates/student_v2.json",
+          "sha256": "c3541ae656c37e6ab90ce8c00e722d31b0efd7df870a30901dfb50c9984c6820",
+          "rows": 200000,
+          "us_per_row": 33.04361360002076
+        }
+      ],
+      "abi_passed": true,
+      "cross_isa_predictions_bitwise_equal": true
+    }
+  ]
+}
