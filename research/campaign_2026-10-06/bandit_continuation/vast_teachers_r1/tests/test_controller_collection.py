@@ -70,6 +70,24 @@ def _write_collection(collected: Path) -> list[dict[str, object]]:
             "refill/status.json",
             collected / "refill/status.json",
         ),
+        (
+            "wnn/artifacts/runs/fin_mu256p0e4_s3/model.pt",
+            "wnn/artifacts/runs/fin_mu256p0e4_s3/model.pt",
+            "runs/fin_mu256p0e4_s3/model.pt",
+            collected / "runs/fin_mu256p0e4_s3/model.pt",
+        ),
+        (
+            "wnn/artifacts/runs/fin_mu256p0e4_s3/training_state.pt",
+            "wnn/artifacts/runs/fin_mu256p0e4_s3/training_state.pt",
+            "runs/fin_mu256p0e4_s3/training_state.pt",
+            collected / "runs/fin_mu256p0e4_s3/training_state.pt",
+        ),
+        (
+            "wnn/artifacts/runs/fin_mu256p0e4_s3/args.json",
+            "wnn/artifacts/runs/fin_mu256p0e4_s3/args.json",
+            "runs/fin_mu256p0e4_s3/args.json",
+            collected / "runs/fin_mu256p0e4_s3/args.json",
+        ),
     ]
     artifacts[1][3].write_text('{"shape": [2, 2], "dtype": "float32"}')
     artifacts[2][3].parent.mkdir(parents=True)
@@ -80,6 +98,10 @@ def _write_collection(collected: Path) -> list[dict[str, object]]:
     artifacts[5][3].write_text('{"result": "success"}')
     artifacts[6][3].parent.mkdir(parents=True)
     artifacts[6][3].write_text('{"_pending": []}')
+    artifacts[7][3].parent.mkdir(parents=True)
+    artifacts[7][3].write_bytes(b"final model")
+    artifacts[8][3].write_bytes(b"optimizer and resume state")
+    artifacts[9][3].write_text('{"seed": 3, "recipe": "mu256p0e4"}')
 
     files = [
         {
@@ -136,6 +158,13 @@ def _seed_remote_outputs(remote_root: Path) -> None:
     (run_output / "model_ep1.pt").write_bytes(b"checkpoint")
     (run_output / "provenance.json").write_text('{"seed": 1}')
     (run_output / "optimizer.pt").write_bytes(b"not a model output")
+    final_output = remote_root / "wnn/artifacts/runs/fin_mu256p0e4_s3"
+    final_output.mkdir(parents=True)
+    (final_output / "model.pt").write_bytes(b"final checkpoint")
+    (final_output / "training_state.pt").write_bytes(b"optimizer resume state")
+    (final_output / "args.json").write_text('{"name": "fin_mu256p0e4_s3"}')
+    (final_output / "stats.json").write_text('{"loss": 0.5}')
+    (final_output / "init_provenance.json").write_text('{"source": "independent"}')
     cache = remote_root / "wnn/cache"
     (cache / "training_cache.bin").write_bytes(b"ephemeral cache")
     run = remote_root / "run"
@@ -158,13 +187,16 @@ def _seed_remote_outputs(remote_root: Path) -> None:
 
 
 def _run_remote_inventory(
-    remote_root: Path, gpu_processes: str = ""
+    remote_root: Path, gpu_processes: str = "", refill_daemon: bool = False
 ) -> subprocess.CompletedProcess[str]:
     fake_bin = remote_root.parent / "fake-bin"
     fake_bin.mkdir(exist_ok=True)
     nvidia_smi = fake_bin / "nvidia-smi"
     nvidia_smi.write_text(f"#!/bin/sh\nprintf '%s' {json.dumps(gpu_processes)}\n")
     nvidia_smi.chmod(0o700)
+    pgrep = fake_bin / "pgrep"
+    pgrep.write_text("#!/bin/sh\n" + ("echo 4173\nexit 0\n" if refill_daemon else "exit 1\n"))
+    pgrep.chmod(0o700)
     env = os.environ.copy()
     env["PATH"] = f"{fake_bin}:{env['PATH']}"
     return subprocess.run(
@@ -201,6 +233,11 @@ def test_remote_manifest_exhaustively_lists_bounded_output_scope(tmp_path: Path)
         "wnn/cache/pred_vt_fixture_valid.json",
         "wnn/artifacts/runs/vt_fixture/model_ep1.pt",
         "wnn/artifacts/runs/vt_fixture/provenance.json",
+        "wnn/artifacts/runs/fin_mu256p0e4_s3/model.pt",
+        "wnn/artifacts/runs/fin_mu256p0e4_s3/training_state.pt",
+        "wnn/artifacts/runs/fin_mu256p0e4_s3/args.json",
+        "wnn/artifacts/runs/fin_mu256p0e4_s3/stats.json",
+        "wnn/artifacts/runs/fin_mu256p0e4_s3/init_provenance.json",
         "run/logs/vt_fixture.fit.log",
         "run/status.json",
         "run/DONE.json",
@@ -214,6 +251,7 @@ def test_remote_manifest_exhaustively_lists_bounded_output_scope(tmp_path: Path)
         "training_cache" in path or "optimizer.pt" in path or path == "run/plan.json"
         for path in paths
     )
+    assert (remote_root / "run/collection_manifest.json").is_file()
     refill_status = next(
         item for item in manifest["files"] if item["remote_path"] == "run/refill/status.json"
     )
@@ -246,6 +284,28 @@ def test_remote_inventory_refuses_active_gpu_after_bootstrap_done(tmp_path: Path
     assert not (remote_root / "run/collection_manifest.json").exists()
 
 
+def test_remote_inventory_refuses_live_idle_refill_daemon(tmp_path: Path) -> None:
+    remote_root = tmp_path / "remote"
+    _seed_remote_outputs(remote_root)
+
+    result = _run_remote_inventory(remote_root, refill_daemon=True)
+
+    assert result.returncode != 0
+    assert "refill daemon" in result.stderr
+    assert not (remote_root / "run/collection_manifest.json").exists()
+
+
+def test_remote_state_parses_done_job_suffix_from_probe() -> None:
+    assert controller._remote_state(
+        {
+            "PENDING": "0 RUNNING 0 DONEJOBS first.rc0.json,",
+            "GPUPROCS": "0",
+            "REFILL_DAEMON": "0",
+            "TERMINAL": "DONE.json,",
+        }
+    ) == (0, 0, 0, 0, True)
+
+
 def test_cmd_collect_downloads_exact_inventory_and_writes_receipt(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
@@ -255,7 +315,7 @@ def test_cmd_collect_downloads_exact_inventory_and_writes_receipt(
     monkeypatch.setattr(controller, "receipt", lambda: OWNERSHIP)
 
     def fake_ssh(command: str, timeout: int = 120) -> subprocess.CompletedProcess[str]:
-        assert "vast-teacher-terminal-outputs-v1" in command
+        assert "vast-teacher-terminal-outputs-v2" in command
         return _run_remote_inventory(remote_root)
 
     def fake_scp(sources: list[str], destination: str, upload: bool, timeout: int = 1800) -> None:
@@ -278,6 +338,8 @@ def test_cmd_collect_downloads_exact_inventory_and_writes_receipt(
     assert output["collection_status"] == "verified_cached"
     assert controller._collection_status(OWNERSHIP) == (True, "verified_cached")
     assert (collected / "runs/vt_fixture/provenance.json").is_file()
+    assert (collected / "runs/fin_mu256p0e4_s3/training_state.pt").is_file()
+    assert (collected / "runs/fin_mu256p0e4_s3/args.json").is_file()
     assert (collected / "refill/held/capped.json").is_file()
     assert np.array_equal(
         np.load(collected / "cache/pred_vt_fixture_valid.npy", allow_pickle=False),
@@ -376,9 +438,18 @@ def test_collection_missing_blocks_tick_teardown(
     monkeypatch.setattr(
         controller,
         "probe",
-        lambda: {"PENDING": "0 RUNNING 0", "GPUPROCS": "0", "TERMINAL": "DONE.json"},
+        lambda: {
+            "PENDING": "0 RUNNING 0",
+            "GPUPROCS": "0",
+            "REFILL_DAEMON": "0",
+            "TERMINAL": "DONE.json",
+        },
     )
     monkeypatch.setattr(controller, "spend", lambda: (70.0, 70.0))
+    monkeypatch.setattr(controller, "ready_items", lambda _: [])
+    monkeypatch.setattr(
+        controller, "cmd_collect", lambda _: (_ for _ in ()).throw(SystemExit("fixture missing"))
+    )
     destroyed: list[bool] = []
     monkeypatch.setattr(controller, "cmd_destroy", lambda _: destroyed.append(True))
 
@@ -402,6 +473,120 @@ def test_direct_destroy_fails_closed_without_collection(
     monkeypatch.setattr(controller, "vast", unexpected_provider_call)
     with pytest.raises(SystemExit, match="collection required"):
         controller.cmd_destroy(Namespace())
+
+
+def test_direct_destroy_reprobes_remote_before_provider_mutation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    collected = _configure_collection(tmp_path, monkeypatch)
+    _write_collection(collected)
+    monkeypatch.setattr(controller, "receipt", lambda: OWNERSHIP)
+    monkeypatch.setattr(
+        controller,
+        "probe",
+        lambda: {
+            "PENDING": "1 RUNNING 0",
+            "GPUPROCS": "0",
+            "REFILL_DAEMON": "0",
+            "TERMINAL": "DONE.json,",
+        },
+    )
+
+    def unexpected_provider_call(*args: str, **kwargs: object) -> str:
+        pytest.fail("fresh quiescence must block destroy while refill work is pending")
+
+    monkeypatch.setattr(controller, "vast", unexpected_provider_call)
+    with pytest.raises(SystemExit, match="remote quiescence required"):
+        controller.cmd_destroy(Namespace())
+
+
+def test_tick_feeds_ready_backlog_and_invalidates_old_collection_without_destroy(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    collected = _configure_collection(tmp_path, monkeypatch)
+    _write_collection(collected)
+    monkeypatch.setattr(controller, "receipt", lambda: OWNERSHIP)
+    monkeypatch.setattr(
+        controller,
+        "probe",
+        lambda: {
+            "PENDING": "0 RUNNING 0",
+            "GPUPROCS": "0",
+            "REFILL_DAEMON": "0",
+            "TERMINAL": "DONE.json,",
+        },
+    )
+    monkeypatch.setattr(controller, "spend", lambda: (1.0, 1.0))
+    monkeypatch.setattr(controller, "ready_items", lambda _: [{"id": "ready"}])
+    fed: list[bool] = []
+    destroyed: list[bool] = []
+    monkeypatch.setattr(controller, "cmd_feed", lambda _: fed.append(True) or True)
+    monkeypatch.setattr(controller, "cmd_destroy", lambda _: destroyed.append(True))
+
+    controller.cmd_tick(Namespace(no_pull=True, cap=70.0))
+
+    assert fed == [True]
+    assert destroyed == []
+    assert not controller.COLLECTION_RECEIPT.exists()
+    assert not controller.COLLECTION_VERIFICATION.exists()
+
+
+def test_tick_stops_idle_refill_then_collects_reprobes_and_destroys(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    _configure_collection(tmp_path, monkeypatch)
+    monkeypatch.setattr(controller, "receipt", lambda: OWNERSHIP)
+    states = [
+        {"PENDING": "0 RUNNING 0", "GPUPROCS": "0", "REFILL_DAEMON": "1", "TERMINAL": "DONE.json,"},
+        {"PENDING": "0 RUNNING 0", "GPUPROCS": "0", "REFILL_DAEMON": "0", "TERMINAL": "DONE.json,"},
+        {"PENDING": "0 RUNNING 0", "GPUPROCS": "0", "REFILL_DAEMON": "0", "TERMINAL": "DONE.json,"},
+    ]
+    probes: list[bool] = []
+
+    def fake_probe() -> dict[str, str]:
+        probes.append(True)
+        return (
+            states.pop(0)
+            if states
+            else {
+                "PENDING": "0 RUNNING 0",
+                "GPUPROCS": "0",
+                "REFILL_DAEMON": "0",
+                "TERMINAL": "DONE.json,",
+            }
+        )
+
+    monkeypatch.setattr(controller, "probe", fake_probe)
+    monkeypatch.setattr(controller, "spend", lambda: (70.0, 70.0))
+    monkeypatch.setattr(controller, "ready_items", lambda _: [])
+    monkeypatch.setattr(controller.time, "sleep", lambda _: None)
+    stop_calls: list[str] = []
+    monkeypatch.setattr(
+        controller,
+        "ssh",
+        lambda command, **kwargs: (
+            stop_calls.append(command) or subprocess.CompletedProcess([], 0, "", "")
+        ),
+    )
+    collect_calls: list[bool] = []
+    status_calls: list[bool] = []
+
+    def fake_collection_status(_: dict[str, object]) -> tuple[bool, str]:
+        status_calls.append(True)
+        return (False, "missing") if len(status_calls) == 1 else (True, "verified")
+
+    monkeypatch.setattr(controller, "_collection_status", fake_collection_status)
+    monkeypatch.setattr(controller, "cmd_collect", lambda _: collect_calls.append(True))
+    destroyed: list[bool] = []
+    monkeypatch.setattr(controller, "cmd_destroy", lambda _: destroyed.append(True))
+
+    controller.cmd_tick(Namespace(no_pull=True, cap=70.0))
+
+    assert stop_calls == ["touch /root/run/refill/STOP"]
+    assert len(collect_calls) == 1
+    assert len(probes) >= 3  # initial, post-STOP, and post-collection freshness check
+    assert destroyed == [True]
+    assert '"drained": true' in capsys.readouterr().out
 
 
 def test_create_receipt_drops_api_key_and_unknown_response_fields(
