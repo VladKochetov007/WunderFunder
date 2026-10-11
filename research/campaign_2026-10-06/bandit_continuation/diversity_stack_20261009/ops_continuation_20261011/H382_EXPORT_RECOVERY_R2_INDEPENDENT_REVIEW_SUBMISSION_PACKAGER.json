@@ -1,0 +1,49 @@
+{
+  "schema": "wnn.h382-export-recovery-independent-review.v1",
+  "reviewer_role": "independent_r2_delta_review",
+  "reviewer": "submission_packager",
+  "recorded_utc": "2026-10-11T15:57:25Z",
+  "target": {
+    "worktree": "/home/vlad/development/wunder/wnn_h382_t3_fold0_packet_20261011",
+    "packet_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_export_recovery_20261011_r2",
+    "packet_manifest_sha256": "c9d9c79b10d51f872aaa179e4e6cb39564e0a07d3c6564f590fd2d3a46d74582",
+    "kernel_sha256": "b909fc96a18c491613d17a20f166d7cee22b6775c29d40f83d916483fbe7bdcd",
+    "r1_packet_manifest_sha256": "3db16e55b00116042ce046d2a63da54e47a2eae275d2dcc7706b0a1bba37cb1b",
+    "r1_kernel_sha256": "955ee51f131efb054e64276a4c913e83fb7b66d6a9cab5e7d2e445b138387eb2",
+    "checkpoint_archive_sha256": "a57df09373de67618c7a5826a11a3756fbdb1640b38781af1467a6cbbc468285"
+  },
+  "verdict": "BLOCK_UNTIL_HISTORICAL_HASH_POLICY_CORRECTED",
+  "blocking_findings": [
+    {
+      "id": "historical_device_hash_equality_required_for_completion",
+      "severity": "blocking",
+      "location": "kernel/kernel.py around lines 785-804",
+      "finding": "R2 correctly records each previous R3 prediction hash beside the newly collected NPY hash, but then requires every pair to be bitwise equal for terminal.complete. The requested contract explicitly says not to assume a historical NPY hash is reproducible across devices; equality/difference is a diagnostic, while each fresh result must bind to its own full SHA, sidecar, checkpoint, shape/order and finite scan.",
+      "consequence": "A valid finite export with complete per-file hashes and correct checkpoint/data identity can be marked failed solely because its historical GPU output differs at the byte level.",
+      "smallest_fix": "In a new packet identity, retain the expected/collected/match map before terminal inventory serialization, but let completion depend on successful fresh exports, finite/header/sidecar validation, complete six-file collection and fresh-source-to-collected hash equality. Do not gate completion on match to the historical prediction hash."
+    }
+  ],
+  "confirmed_passes": [
+    "R1 manifest and kernel remain unchanged at their pinned SHA-256 values.",
+    "R2 packet manifest and all eight listed packet files match their declared sizes and SHA-256 values; kernel SHA matches the requested pin.",
+    "R2 keeps the same checkpoint archive digest, source job file bytes, R3 source-manifest digest and historical reference prediction hashes. The exact stage_rescued_checkpoints helper AST is unchanged from R1; R1's independent test exercised that helper against the actual rescued archive in a private mocked nested mount and staged all three checkpoint/provenance/history triplets successfully.",
+    "The new scan_prediction_finiteness helper uses read-only NumPy mmap and 16-row chunks. I AST-extracted and executed the exact helper without importing or executing worker top-level code: a finite float32 array scanned all 34 rows; NaN, positive infinity and negative infinity in the second chunk were rejected. No GPU or provider call occurred.",
+    "validate_export invokes the finite scan before acceptance and returns prediction_finite, checked-row count and chunk-row count. It still verifies the full NPY SHA, shape/dtype/complete byte count and sidecar checkpoint/split/run/epoch/row-order binding.",
+    "The expected-versus-collected historical hash map is now attached before terminal_inventory.json serialization. R2 preserves zero fits and the original three R3 export argv values and 1,800-second per-export bounds, with a 3,600-second overall worker wall. The exact source jobs file is unchanged.",
+    "No remote worker, fit, provider mutation, upload or scoring was performed. Actual R2 prediction outputs do not yet exist, so the full-size exported arrays and six-file terminal collection remain runtime checks."
+  ],
+  "checks": {
+    "r1_immutability_and_r2_packet_file_hashes": "PASS",
+    "source_jobs_and_checkpoint_staging_consumer_preserved": "PASS",
+    "exact_finiteness_helper_finite_nan_positive_infinity_negative_infinity": "PASS",
+    "historical_hash_match_as_completion_gate": "FAIL; conflicts with requested cross-device hash policy",
+    "full_size_r2_prediction_export_and_terminal_collection": "NOT_RUN",
+    "support_limits_per_command": {
+      "cpu_quota": "50%",
+      "threads": 1,
+      "memory_max_bytes": 700000000,
+      "runtime_max": "120s"
+    }
+  },
+  "release_recommendation": "Correct only the historical-hash completion condition in a new immutable packet revision, retain the hash comparison as a diagnostic, then regenerate and verify packet digests. Root still owns fresh quota/session and two-T4 admission."
+}
