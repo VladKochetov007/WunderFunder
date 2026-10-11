@@ -1,0 +1,28 @@
+{
+  "schema": "wnn.independent-r4-terminal-collector-review.r2",
+  "status": "pass",
+  "scope": "Narrow review of the exact-inventory binding correction and the sealed ERROR-only download collector; no provider call, download, fit, push, or queue action was performed.",
+  "reviewed_commit": "05003dff5b86f5f075db1bd22f0541cc887da97f",
+  "requested_base_commit": "de94051046326103d875b445ae43ff62dc8ff3ce",
+  "reviewed_worktree": "/home/vlad/development/wunder/wnn_r4_terminal_collector_20261012",
+  "collector_source_sha256": "2de1b1d2bf5b843887220b720839248c868f97cf5d598ef552d6ba1f5983e19e",
+  "focused_test_source_sha256": "593d96fdd0e6d9dc5ff7cc7022730a278c241b5ad16fe8f215111e4c92ed4045",
+  "admission_and_inventory_pins": {
+    "root_terminal_download_admission_sha256": "3eee6881ec10d8d4b18b5769733982aa9baf47fa28e5a10cbed8698a310e546e",
+    "pre_download_readonly_inventory_receipt_sha256": "1b834f5e77d6ebd493a93b8e9ae0e2791827078d5b9f3fb05a2f12b21114627b",
+    "reviewed_r2_adapter_sha256": "15b56f98d0b8ca336ea794142764a3d5a220ef75589e931c06b9dc87184e1da1",
+    "r2_independent_review_sha256": "995afd07ecfe7d4ca808e5d6a544eb4621eed971f9d03901fc8ee9fc5fb88ddf"
+  },
+  "findings": [
+    "The R2 correction validates that the pinned pre-download receipt's outer `output_names` list and nested provider file descriptors contain the same unique 108 names. It returns that frozen set and requires the fresh, complete session-output inventory to match it exactly before invoking the downloader; an added, missing, or duplicate name fails closed before download.",
+    "The reviewed adapter binds the downloaded file set to the fresh provider inventory, hashes each downloaded payload, rejects symlinks/unsafe names, and checks the downloaded Kaggle response-log size and SHA-256 against the fresh session-output metadata. The provider did not expose remote content hashes or sizes, so the receipt reports local hashes and does not claim remote byte identity.",
+    "The runner is restricted to the exact root-admitted terminal ERROR and bounded one-attempt download. It refuses an existing collection directory, does not push, fit, or score, and labels the result `terminal_download_complete_science_not_validated`; strict scientific validation is not run for ERROR and diagnostics explicitly say the status is execution evidence only."
+  ],
+  "tests_and_evidence": {
+    "focused_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q .../clean_t3_f0_r4_terminal_collection_r1/test_collect_r4_terminal.py",
+    "result": "3 passed in 0.47s; includes actual pinned inventory/admission validation and a missing-name rejection case",
+    "manual_static_checks": "Confirmed the exact pre-download inventory receipt has 108 outer and nested names, complete=true, and records first-page response-log SHA/size. Confirmed the ERROR code path hashes downloaded files and response.log and does not call strict-success validation."
+  },
+  "qualification": "The downloaded response.log is matched to the fresh inventory's response-log SHA/size; no claim is made that those log bytes equal the earlier read-only receipt's response-log bytes. The endpoint is not version-pinned, and remote per-file size/checksum metadata was unavailable; the exact name set, fresh endpoint metadata, local payload hashes, and lack of remote-identity evidence remain explicit.",
+  "scientific_interpretation": "The root-authorized provider status is ERROR. This review does not infer a scientific model failure or success from that execution status."
+}
