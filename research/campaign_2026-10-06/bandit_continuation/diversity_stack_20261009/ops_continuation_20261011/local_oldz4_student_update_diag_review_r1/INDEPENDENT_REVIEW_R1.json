@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.local-oldz4-student-update-diagnostic-independent-review.v1",
+  "disposition": "PASS_SCIENTIFIC_AND_COMMAND_BINDINGS_WITH_BLOCKING_RESOURCE_CONTRACT_DRIFT",
+  "packet": {
+    "actor_commit": "6f1fa524",
+    "contract_path": "/home/vlad/development/wunder/wnn_old_pipeline_reconstruct_20261011_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/local_oldz4_f0_student_update_diag_r1/ROOT_STUDENT_UPDATE_DIAGNOSTIC_CONTRACT_R1.json",
+    "contract_sha256": "9657d6feb072ddb227f26acfb213a6dc737ee96d5048fdd0bf94d6ff481eef5d",
+    "validator_sha256": "63e5492006b3996bb68ba07b02e371bcc8dcc88eb69ba0c8e70595e78323635c",
+    "base_profile_contract_sha256": "bad8c64f29da580e7713ad51bee8cad3dd2a8cba8ac3b68c3c691a53d281cc02",
+    "base_expected_command_sha256": "232180c98313ba7d78d1126649cb9d7b3f74a2b156cb5f992aece63e96021280"
+  },
+  "checks": {
+    "base_contract_and_command_hashes": "PASS",
+    "ten_source_and_input_hashes": "PASS",
+    "executed_trainer_matches_frozen_snapshot": "PASS",
+    "initializer_checkpoint_sha256": "56b6413fdf9c9248961b0dfe6797890f2aae98bc85550b80c6b9524870e92532",
+    "parent_split_propensity_cache_metadata_and_source_bindings": "PASS",
+    "prefix_and_reload_argv_rederived_from_base": "PASS",
+    "profile_to_prefix_changes": "PASS: fresh run name; one epoch/fixed epoch 0; remove profile flags and cap at two batches; save training state",
+    "reload_argv": "PASS: identical diagnostic recipe plus exact prefix training_state.pt resume input and distinct run/output path",
+    "output_paths_currently_absent": true,
+    "fit_evaluation": "disabled",
+    "membership": "10,606 train groups + 1,405 eligible validation groups; 468 fold-0 evaluation groups excluded",
+    "exposure": "Previously inspected fold; robustness diagnostic only, not fresh held-out evidence",
+    "amp_and_finite_acceptance": "PASS: requires 20 attempts, explicit skipped+completed counter sum, finite checkpoint/state, zero unexpected memory/OOM events, exact zero-update resume and tensor-equal checkpoint re-export. A nonfinite GradStats norm alone is not classified as an AMP skip.",
+    "trainer_resume_semantics": "PASS: resume contract excludes run name/resume-state/save-state bookkeeping while preserving scientific/schedule arguments; next_epoch=1 equals epochs=1, so the loop performs no second-stage optimizer update and terminal recovery re-exports the restored state.",
+    "launch_or_fit_performed_by_reviewer": false
+  },
+  "blocking_finding": {
+    "code_location": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py:223",
+    "issue": "R1 declares a 6.5 GB memory reservation/max and 6.1 GB MemoryHigh, but the controller computes MemoryHigh = reserve - min(1 GB, reserve/10), which yields 5.85 GB for the declared 6.5 GB reserve. The contract and actual admission would therefore disagree.",
+    "consequence": "Do not launch using the R1 resource declaration as if its 6.1 GB MemoryHigh were applied. The actual 5.85 GB threshold would trigger reclaim earlier than declared and may cause unnecessary pressure/throttling; the separate 6.5 GB hard maximum is unchanged.",
+    "smallest_correction": "Root reports the R2 admission will use a 6.8 GB reservation/hard max; the controller formula then yields 6.12 GB MemoryHigh. Bind those R2 values in an immutable successor/admission receipt and refresh the aggregate-parent-capacity gate before launch. Keep the source/recipe argv unchanged.",
+    "r2_correction_independently_verified": false
+  },
+  "resources_otherwise_reviewed": {
+    "threads": 1,
+    "loader_workers": 0,
+    "cpu_reservation_cores": 2,
+    "gpu_allocator_bytes": 4300000000,
+    "observed_vram_ceiling_bytes": 5000000000,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "timeout_seconds": 600,
+    "swap": 0,
+    "root_reported_parent_current_gb_rounded": 10.33,
+    "projected_parent_plus_attempt_max_gb_rounded": 17.13,
+    "aggregate_capacity_interpretation": "Root reports the refreshed parent plus proposed 6.8 GB attempt max remains below 18 GB high; root retains the fresh live aggregate/GPU launch gate."
+  },
+  "limits": [
+    "This review verified cache metadata identity, not full cache-array bytes or all upstream teacher checkpoint contents.",
+    "No GPU work, code execution of the trainer, fit, quality grade, or launch was performed."
+  ]
+}
