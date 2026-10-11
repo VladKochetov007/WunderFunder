@@ -1,0 +1,139 @@
+LOG /root/run/logs/pipeline_ood_only.log 
+ {"name": "vt_f1_ood_ood_only", "device": "cuda", "train_seqs": 10607, "valid_seqs": 600, "full_valid": false, "hidden": 256, "layers": 2, "dropout": 0.0, "chunk": 2000, "update_rows": 0, "detach_rows": 0, "detach_boundary_jitter": false, "detach_jitter_seed": 271828, "origin_view": "off", "origin_seed": 79079, "credit_mode": "deterministic", "credit_keep_probability": 0.8, "credit_seed": 100100, "qat": "none", "recurrent_rank": 0, "sentinel_values": "unchanged", "sentinel_indicators": "none", "sentinel_base_width": 0, "batch": 16, "epochs": 2, "stop_after_epoch": null, "checkpoint_policy": "fixed", "checkpoint_epoch": 1, "no_eval_during_fit": true, "split_manifest": "/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json", "save_training_state": true, "resume_state": null, "lr": 0.0001, "wd": 0.01, "optim": "adamw", "muon_scope": "rnn", "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "wsd_shape": "sqrt", "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "trace_every": 0, "trace_state_every": 0, "intra_epoch_points": 0, "intra_snapshots": false, "grad_stats": false, "loss": "wmse", "thin_prob": 0.0, "thin_range": "0.1,0.4", "thin_mode": "compress", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_cache_root": "", "distill_cache_variant": "source", "distill_family_weight": 0.0, "distill_family_head": false, "distill_family_target_mode": "clip2", "distill_alpha": 0.5, "label_weight_power": 1.0, "label_weight_floor": 0.0, "distill_channel_weights": "1,1", "distill_loss": "mse", "distill_pearson_weight": 1.0, "distill_runlevel_weight": 0.0, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 0, "distill_reanchor": 0.0, "readout_activation": "gelu", "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "cb_layout": "semantic", "dssm_tmax": 512.0, "tower_skip": 128, "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "expert_hidden": 32, "num_experts": 4, "specialist_route": "learned", "hash_seed": 1729, "adapter_rank": 8, "adapter_mode": "conditional", "prefix_rows": 99, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 1, "n_valid_folds": 4, "valid_repeat": 1, "init": "c20261003_combo_s3_f1@ep3", "inherit_init_preprocessing": false, "freeze": "", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "ema_reference_rows": 0, "eval_ema": false, "mask_weight": false, "propensity": "c20260929_prop_f1", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "research_features": "none", "privileged_mode": "none", "privileged_horizon": 8, "input_lead": 0, "aux_fcast": 0.0, "aux_fcast_k": "2,8", "head": "mlp", "pretrain_next_epochs": 0, "pretrain_next_frac": 1.0, "pretrain_next_lr": 0.001, "pretrain_next_in_budget": false, "frozen_extractor": "", "aug_warp": "", "curriculum": "none", "curriculum_difficulty": "running", "curriculum_strength": 1.0, "input_act": "none", "input_act_table": "", "snap_codebook": "", "fit_groups_manifest": null, "seed": 3, "loss_norm": "chunk", "distill_denominator": "chunk", "distill_reference_mass": 0.0, "calibrate_distill_reference": "", "calibration_epochs": 1, "denominator_shuffle_seed": 314159, "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "ood_teachers": "combo_scratch_ep3s4_onecycle_f1@ep2,combo_scratch_ep3s5_onecycle_f1@ep2", "ood_mode": "only", "ood_frac": 0.5, "ood_aug": "splice,warp,noise", "ood_sources": 24, "ood_weight": "teacher", "ood_scale": 0.8125, "ood_quantile_table": "", "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "optim_switch": "", "warmup_frac": null, "restarts": 1, "head_lr_mult": 1.0, "muon_lr_mult": 1.0, "clip_per_module": "", "grad_noise": 0.0, "zoneout": 0.0, "init_qmc": false, "batch_order": "random", "antithetic": false, "momentum": 0.0, "no_gradient_clip": false, "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"}
+{"source_train_sequences": 10533, "eligible_valid_train_sequences": 1416, "used_valid_train_sequences": 1416, "eval_sequences": 457}
+loader workers 4 prefetch 2; params 0.98M; steps 14920
+ep 0 batch 0/746 OOD loss 0.0295 lr 4.04e-06
+ep 0 batch 20/746 OOD loss 0.0116 lr 2.16e-05
+ep 0 batch 40/746 OOD loss 0.0134 lr 5.96e-05
+ep 0 batch 60/746 OOD loss 0.0106 lr 9.24e-05
+ep 0 batch 80/746 OOD loss 0.0088 lr 1.00e-04
+ep 0 batch 100/746 OOD loss 0.0097 lr 9.99e-05
+ep 0 batch 120/746 OOD loss 0.0086 lr 9.97e-05
+ep 0 batch 140/746 OOD loss 0.0081 lr 9.95e-05
+ep 0 batch 160/746 OOD loss 0.0075 lr 9.91e-05
+ep 0 batch 180/746 OOD loss 0.0067 lr 9.86e-05
+ep 0 batch 200/746 OOD loss 0.0065 lr 9.80e-05
+ep 0 batch 220/746 OOD loss 0.0079 lr 9.74e-05
+ep 0 batch 240/746 OOD loss 0.0073 lr 9.66e-05
+ep 0 batch 260/746 OOD loss 0.0070 lr 9.58e-05
+ep 0 batch 280/746 OOD loss 0.0059 lr 9.49e-05
+ep 0 batch 300/746 OOD loss 0.0056 lr 9.38e-05
+ep 0 batch 320/746 OOD loss 0.0070 lr 9.27e-05
+ep 0 batch 340/746 OOD loss 0.0055 lr 9.15e-05
+ep 0 batch 360/746 OOD loss 0.0069 lr 9.03e-05
+ep 0 batch 380/746 OOD loss 0.0057 lr 8.89e-05
+ep 0 batch 400/746 OOD loss 0.0061 lr 8.75e-05
+ep 0 batch 420/746 OOD loss 0.0047 lr 8.60e-05
+ep 0 batch 440/746 OOD loss 0.0050 lr 8.44e-05
+ep 0 batch 460/746 OOD loss 0.0059 lr 8.28e-05
+ep 0 batch 480/746 OOD loss 0.0053 lr 8.10e-05
+ep 0 batch 500/746 OOD loss 0.0060 lr 7.93e-05
+ep 0 batch 520/746 OOD loss 0.0052 lr 7.75e-05
+ep 0 batch 540/746 OOD loss 0.0059 lr 7.56e-05
+ep 0 batch 560/746 OOD loss 0.0060 lr 7.37e-05
+
+LOG /root/run/logs/pipeline_ood_splice.log 
+ Traceback (most recent call last):
+  File "/root/wnn/scripts/build_distill_cache.py", line 516, in <module>
+    main()
+  File "/root/wnn/scripts/build_distill_cache.py", line 512, in main
+    build_cache(args)
+  File "/root/wnn/scripts/build_distill_cache.py", line 392, in build_cache
+    raise OSError(
+OSError: distillation cache needs 13382880000 bytes; available budget while preserving 21474836480 free bytes is 10514972672
+
+LOG /root/run/logs/pipeline_ood_spmix.log 
+ Traceback (most recent call last):
+  File "/root/wnn/scripts/build_distill_cache.py", line 516, in <module>
+    main()
+  File "/root/wnn/scripts/build_distill_cache.py", line 512, in main
+    build_cache(args)
+  File "/root/wnn/scripts/build_distill_cache.py", line 392, in build_cache
+    raise OSError(
+OSError: distillation cache needs 13382880000 bytes; available budget while preserving 21474836480 free bytes is 10514976768
+
+LOG /root/run/logs/pipeline_ood_swn.log 
+ Traceback (most recent call last):
+  File "/root/wnn/scripts/build_distill_cache.py", line 516, in <module>
+    main()
+  File "/root/wnn/scripts/build_distill_cache.py", line 512, in main
+    build_cache(args)
+  File "/root/wnn/scripts/build_distill_cache.py", line 392, in build_cache
+    raise OSError(
+OSError: distillation cache needs 13382880000 bytes; available budget while preserving 21474836480 free bytes is 10514972672
+
+LOG /root/run/logs/pipeline_ood_swn25.log 
+ Traceback (most recent call last):
+  File "/root/wnn/scripts/build_distill_cache.py", line 516, in <module>
+    main()
+  File "/root/wnn/scripts/build_distill_cache.py", line 512, in main
+    build_cache(args)
+  File "/root/wnn/scripts/build_distill_cache.py", line 392, in build_cache
+    raise OSError(
+OSError: distillation cache needs 13382880000 bytes; available budget while preserving 21474836480 free bytes is 10514964480
+
+LOG /root/run/logs/w14_ood_only.pipeline.log 
+ RUN /opt/conda/bin/python /root/wnn/scripts/train_rnn.py --name vt_f1_ood_ood_only --device cuda --arch gru --cell gru --hidden 256 --layers 2 --dropout 0 --seed 3 --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --valid-fold 1 --eval-source vfold --train-source train+
+
+LOG /root/run/logs/w14_ood_splice.pipeline.log 
+ RUN /opt/conda/bin/python -c import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__') /root/wnn/scripts/predict_run.py /root/wnn/scr
+RUN /opt/conda/bin/python -c import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__') /root/wnn/scripts/predict_run.py /root/wnn/scr
+RUN /opt/conda/bin/python -c import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__') /root/wnn/scripts/predict_run.py /root/wnn/scr
+RUN /opt/conda/bin/python -c import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__') /root/wnn/scripts/predict_run.py /root/wnn/scr
+RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_ood_splice/ckpt --teacher-cache-root /root/run/alias_ood_splice/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_ood_splice --homogene
+Traceback (most recent call last):
+  File "/root/wnn/scripts/ood_student_pipeline.py", line 91, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/wnn/scripts/ood_student_pipeline.py", line 64, in main
+    dp.run(build, log)
+  File "/root/wnn/scripts/distill_pipeline.py", line 34, in run
+    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)
+  File "/opt/conda/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_ood_splice/ckpt', '--teacher-cache-root', '/root/run/alias_ood_splice/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_ood_splice', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=combo_scratch_ep3s4_onecycle_f1@ep2*0.150000', '--teacher', 'strong=combo_scratch_ep3s5_onecycle_f1@ep2*0.150000', '--teacher', 'full_finetuned=combo_scratch_ep3s4_onecycle_f1_a1@ep2*0.2', '--teacher', 'raw_wmse=combo_scratch_ep3s5_onecycle_f1_a2@ep2*0.25', '--teacher', 'samefold_baseline=combo_scratch_ep3s4_onecycle_f1_a3@ep2*0.0625']' returned non-zero exit status 1.
+
+LOG /root/run/logs/w14_ood_spmix.pipeline.log 
+ RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_ood_spmix/ckpt --teacher-cache-root /root/run/alias_ood_spmix/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_ood_spmix --homogeneous
+Traceback (most recent call last):
+  File "/root/wnn/scripts/ood_student_pipeline.py", line 91, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/wnn/scripts/ood_student_pipeline.py", line 64, in main
+    dp.run(build, log)
+  File "/root/wnn/scripts/distill_pipeline.py", line 34, in run
+    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)
+  File "/opt/conda/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_ood_spmix/ckpt', '--teacher-cache-root', '/root/run/alias_ood_spmix/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_ood_spmix', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=combo_scratch_ep3s4_onecycle_f1@ep2*0.150000', '--teacher', 'strong=combo_scratch_ep3s5_onecycle_f1@ep2*0.150000', '--teacher', 'full_finetuned=combo_scratch_ep3s4_onecycle_f1_a1@ep2*0.2', '--teacher', 'raw_wmse=combo_scratch_ep3s5_onecycle_f1_a2@ep2*0.25', '--teacher', 'samefold_baseline=combo_scratch_ep3s4_onecycle_f1_a3@ep2*0.0625']' returned non-zero exit status 1.
+
+LOG /root/run/logs/w14_ood_swn.pipeline.log 
+ RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_ood_swn/ckpt --teacher-cache-root /root/run/alias_ood_swn/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_ood_swn --homogeneous-famil
+Traceback (most recent call last):
+  File "/root/wnn/scripts/ood_student_pipeline.py", line 91, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/wnn/scripts/ood_student_pipeline.py", line 64, in main
+    dp.run(build, log)
+  File "/root/wnn/scripts/distill_pipeline.py", line 34, in run
+    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)
+  File "/opt/conda/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_ood_swn/ckpt', '--teacher-cache-root', '/root/run/alias_ood_swn/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_ood_swn', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=combo_scratch_ep3s4_onecycle_f1@ep2*0.150000', '--teacher', 'strong=combo_scratch_ep3s5_onecycle_f1@ep2*0.150000', '--teacher', 'full_finetuned=combo_scratch_ep3s4_onecycle_f1_a1@ep2*0.2', '--teacher', 'raw_wmse=combo_scratch_ep3s5_onecycle_f1_a2@ep2*0.25', '--teacher', 'samefold_baseline=combo_scratch_ep3s4_onecycle_f1_a3@ep2*0.0625']' returned non-zero exit status 1.
+
+LOG /root/run/logs/w14_ood_swn25.pipeline.log 
+ RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_ood_swn25/ckpt --teacher-cache-root /root/run/alias_ood_swn25/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_ood_swn25 --homogeneous
+Traceback (most recent call last):
+  File "/root/wnn/scripts/ood_student_pipeline.py", line 91, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/wnn/scripts/ood_student_pipeline.py", line 64, in main
+    dp.run(build, log)
+  File "/root/wnn/scripts/distill_pipeline.py", line 34, in run
+    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)
+  File "/opt/conda/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_ood_swn25/ckpt', '--teacher-cache-root', '/root/run/alias_ood_swn25/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_ood_swn25', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=combo_scratch_ep3s4_onecycle_f1@ep2*0.150000', '--teacher', 'strong=combo_scratch_ep3s5_onecycle_f1@ep2*0.150000', '--teacher', 'full_finetuned=combo_scratch_ep3s4_onecycle_f1_a1@ep2*0.2', '--teacher', 'raw_wmse=combo_scratch_ep3s5_onecycle_f1_a2@ep2*0.25', '--teacher', 'samefold_baseline=combo_scratch_ep3s4_onecycle_f1_a3@ep2*0.0625']' returned non-zero exit status 1.
+
+
+STDERR
