@@ -21,6 +21,7 @@ from wnn.final_distillation_cache import (
     TARGET_MULTIPLIER,
     TARGET_WIDTH,
     TEACHERS,
+    cache_disk_requirement,
     file_sha256,
     homogeneous_teacher_target,
     row_groups_sha256,
@@ -120,6 +121,31 @@ def _target_index(data_root: Path, split: str) -> list[int]:
     return groups
 
 
+def _teacher_provenance_contract(run: str, provenance_path: Path) -> tuple[dict[str, Any], str]:
+    """Verify the pinned actual producer receipt before checkpoint/export access."""
+    spec = TEACHERS[run]
+    expected_sha = spec.get("provenance_sha256")
+    if not isinstance(expected_sha, str) or len(expected_sha) != 64:
+        raise ValueError(f"teacher {run} has no reviewed producer provenance hash")
+    if not provenance_path.is_file():
+        raise FileNotFoundError(f"teacher {run} lacks its producer provenance receipt")
+    provenance_sha = file_sha256(provenance_path)
+    if provenance_sha != expected_sha:
+        raise ValueError(f"teacher {run} provenance differs from the reviewed producer receipt")
+    provenance = json.loads(provenance_path.read_text())
+    args = provenance.get("args")
+    if not isinstance(args, dict) or args.get("name") != run or args.get("seed") != spec["seed"]:
+        raise ValueError(f"teacher identity differs from H390: {run}")
+    for key, expected in TEACHER_ARGS.items():
+        if not _same_value(args.get(key), expected):
+            raise ValueError(f"teacher {run} has unexpected {key}: {args.get(key)!r}")
+    if provenance.get("checkpoint_sha256", {}).get("model_ep2.pt") != spec["checkpoint_sha256"]:
+        raise ValueError(f"teacher {run} receipt does not bind its reviewed epoch-2 checkpoint")
+    if provenance.get("propensity_checkpoint_sha256") != EXPECTED_PROPENSITY_SHA256:
+        raise ValueError(f"teacher {run} receipt binds different propensity weights")
+    return provenance, provenance_sha
+
+
 def _teacher_contract(
     run: str,
     checkpoint_root: Path,
@@ -132,20 +158,9 @@ def _teacher_contract(
     run_root = checkpoint_root / run
     provenance_path = run_root / "provenance.json"
     checkpoint_path = run_root / "model_ep2.pt"
-    if not provenance_path.is_file() or not checkpoint_path.is_file():
-        raise FileNotFoundError(f"teacher {run} lacks provenance or model_ep2.pt")
-    provenance = json.loads(provenance_path.read_text())
-    provenance_sha = file_sha256(provenance_path)
-    if provenance_sha != spec["provenance_sha256"]:
-        raise ValueError(
-            f"student parent {run} provenance differs from the reviewed producer receipt"
-        )
-    args = provenance.get("args")
-    if not isinstance(args, dict) or args.get("name") != run or args.get("seed") != spec["seed"]:
-        raise ValueError(f"teacher identity differs from H390: {run}")
-    for key, expected in TEACHER_ARGS.items():
-        if not _same_value(args.get(key), expected):
-            raise ValueError(f"teacher {run} has unexpected {key}: {args.get(key)!r}")
+    provenance, provenance_sha = _teacher_provenance_contract(run, provenance_path)
+    if not checkpoint_path.is_file():
+        raise FileNotFoundError(f"teacher {run} lacks model_ep2.pt")
     checkpoint_sha = file_sha256(checkpoint_path)
     if checkpoint_sha != spec["checkpoint_sha256"]:
         raise ValueError(f"teacher {run} checkpoint bytes differ from the reviewed producer")
@@ -329,7 +344,7 @@ def build_cache(args: argparse.Namespace) -> Path:
     ]
 
     fit_rows = sum(map(len, target_orders.values()))
-    estimated_bytes = fit_rows * SEQUENCE_ROWS * TARGET_WIDTH * np.dtype(np.float32).itemsize + 512
+    output_bytes, disk_safety_reserve_bytes, estimated_bytes = cache_disk_requirement(fit_rows)
     output = args.output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     disk = shutil.disk_usage(output.parent)
@@ -402,6 +417,8 @@ def build_cache(args: argparse.Namespace) -> Path:
         "sources": teachers,
         "parents": parents,
         "files": files,
+        "output_bytes": output_bytes,
+        "disk_safety_reserve_bytes": disk_safety_reserve_bytes,
         "estimated_bytes": estimated_bytes,
     }
     (partial / "metadata.json").write_text(json.dumps(metadata, indent=2) + "\n")
@@ -413,6 +430,8 @@ def build_cache(args: argparse.Namespace) -> Path:
                 "cache": str(output),
                 "metadata_sha256": file_sha256(output / "metadata.json"),
                 "array_files": list(files),
+                "output_bytes": output_bytes,
+                "disk_safety_reserve_bytes": disk_safety_reserve_bytes,
                 "estimated_bytes": estimated_bytes,
                 "heldout_claim": False,
                 "source_manifest_sha256": source_snapshot["source_manifest_sha256"],
@@ -425,7 +444,9 @@ def build_cache(args: argparse.Namespace) -> Path:
 
 def main() -> None:
     """Parse the frozen H390 cache recipe and run its strict builder."""
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(
+        description=f"{__doc__} Admission includes a {16 << 20}-byte safety reserve."
+    )
     parser.add_argument("--data-root", type=Path, default=ROOT)
     parser.add_argument("--teacher-cache-root", type=Path, default=ROOT / "cache")
     parser.add_argument("--checkpoint-root", type=Path, default=ROOT / "artifacts" / "runs")

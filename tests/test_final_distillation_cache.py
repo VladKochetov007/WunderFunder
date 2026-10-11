@@ -3,14 +3,23 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
+import subprocess
+import sys
+import textwrap
 from pathlib import Path
 
 import numpy as np
 import pytest
 
-from scripts.build_final_distill_cache import PARENT_ARGS, _same_value
+from scripts.build_final_distill_cache import (
+    PARENT_ARGS,
+    _same_value,
+    _teacher_provenance_contract,
+)
 from wnn.final_distillation_cache import (
+    DISK_SAFETY_RESERVE_BYTES,
     EXPECTED_PROPENSITY_SHA256,
     EXPECTED_SPLIT_SHA256,
     FINAL_CACHE_FORMAT,
@@ -20,11 +29,13 @@ from wnn.final_distillation_cache import (
     TARGET_WIDTH,
     TEACHER_SPLIT_MANIFEST_RELATIVE,
     TEACHERS,
+    cache_disk_requirement,
     file_sha256,
     homogeneous_teacher_target,
     row_groups_sha256,
     source_qualified_groups_sha256,
     validate_final_distillation_cache,
+    verify_h390_r1_source_snapshot,
     verify_h390_source_snapshot,
 )
 
@@ -33,7 +44,12 @@ H390_SOURCE = (
     REPO / "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
     "ops_continuation_20261011/h390_all_data_homogeneous_r1/child_source_v1"
 )
+H390_SOURCE_R2 = (
+    REPO / "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/"
+    "ops_continuation_20261011/h390_all_data_homogeneous_r2/child_source_v1"
+)
 PARENT_RECEIPTS = H390_SOURCE.parent / "parent_receipts_r1"
+TEACHER_RECEIPTS_R2 = H390_SOURCE_R2.parent / "teacher_receipts_r2"
 
 
 def _groups() -> dict[str, list[int]]:
@@ -71,6 +87,7 @@ def _metadata(groups: dict[str, list[int]]) -> dict:
             "seed": spec["seed"],
             "epoch": 2,
             "checkpoint_sha256": spec["checkpoint_sha256"],
+            "provenance_sha256": spec["provenance_sha256"],
             "propensity_checkpoint_sha256": EXPECTED_PROPENSITY_SHA256,
             "split_manifest_sha256": EXPECTED_SPLIT_SHA256,
             "fit_membership": {
@@ -142,6 +159,9 @@ def _metadata(groups: dict[str, list[int]]) -> dict:
             "main_homogeneous_train": {},
             "main_homogeneous_valid": {},
         },
+        "output_bytes": cache_disk_requirement(12_479)[0],
+        "disk_safety_reserve_bytes": DISK_SAFETY_RESERVE_BYTES,
+        "estimated_bytes": cache_disk_requirement(12_479)[2],
     }
 
 
@@ -158,8 +178,8 @@ def _data_root(path: Path) -> Path:
     return path
 
 
-def test_h390_source_snapshot_matches_r1_parent_and_child_manifest() -> None:
-    result = verify_h390_source_snapshot(H390_SOURCE)
+def test_h390_r1_source_snapshot_remains_immutable() -> None:
+    result = verify_h390_r1_source_snapshot(H390_SOURCE)
     assert (
         result["parent_archive_sha256"]
         == "35761b8cf6bc5bcf5079b134bfcce81e48b5fd83136630c51b89d48f8759caf1"
@@ -170,6 +190,18 @@ def test_h390_source_snapshot_matches_r1_parent_and_child_manifest() -> None:
     )
     assert "scripts/train_rnn.py" in result["verified_sources"]
     assert "src/wnn/final_distillation_cache.py" in result["verified_sources"]
+
+
+def test_h390_r2_snapshot_binds_teacher_receipts_and_r1_ancestry() -> None:
+    result = verify_h390_source_snapshot(H390_SOURCE_R2)
+    assert (
+        result["parent_archive_sha256"]
+        == "35761b8cf6bc5bcf5079b134bfcce81e48b5fd83136630c51b89d48f8759caf1"
+    )
+    assert result["teacher_provenance_sha256"] == {
+        run: spec["provenance_sha256"] for run, spec in TEACHERS.items()
+    }
+    assert "scripts/train_rnn.py" in result["verified_sources"]
 
 
 @pytest.mark.parametrize(
@@ -197,6 +229,103 @@ def test_parent_receipts_match_frozen_recipe_and_population(seed: int) -> None:
     }
     assert receipt["args"]["no_eval_during_fit"] is True
     assert len(receipt["evaluation_row_groups"]) == 600
+
+
+@pytest.mark.parametrize("run", list(TEACHERS))
+def test_actual_teacher_producer_receipt_is_pinned_before_checkpoint_access(run: str) -> None:
+    receipt_path = TEACHER_RECEIPTS_R2 / f"{run}.provenance.json"
+    provenance, digest = _teacher_provenance_contract(run, receipt_path)
+    assert digest == TEACHERS[run]["provenance_sha256"]
+    assert provenance["checkpoint_sha256"]["model_ep2.pt"] == TEACHERS[run]["checkpoint_sha256"]
+
+
+def test_teacher_receipt_check_rejects_missing_provenance_pin(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    run = next(iter(TEACHERS))
+    monkeypatch.delitem(TEACHERS[run], "provenance_sha256")
+    with pytest.raises(ValueError, match="no reviewed producer provenance hash"):
+        _teacher_provenance_contract(run, TEACHER_RECEIPTS_R2 / f"{run}.provenance.json")
+
+
+def test_real_sequences_consumer_reads_homogeneous_cache(tmp_path: Path) -> None:
+    cache_root = tmp_path / "cache"
+    cache_root.mkdir()
+    cache_values = np.full((1, 20_000, 2), 0.25, dtype=np.float32)
+    np.save(cache_root / "main_homogeneous_train.npy", cache_values)
+    source_root = H390_SOURCE_R2
+    consumer_script = textwrap.dedent(
+        """
+        import importlib.util
+        import sys
+        from pathlib import Path
+
+        import numpy as np
+
+        source_root = Path(sys.argv[1])
+        cache_root = Path(sys.argv[2])
+        spec = importlib.util.spec_from_file_location(
+            "h390_r2_train_rnn_consumer", source_root / "scripts/train_rnn.py"
+        )
+        assert spec is not None and spec.loader is not None
+        trainer = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = trainer
+        spec.loader.exec_module(trainer)
+        trainer.HEURISTICS = False
+
+        class FakeSequenceFile:
+            def __init__(self, _path):
+                pass
+
+            def read(self, _row_group):
+                return type(
+                    "SequenceFixture",
+                    (),
+                    {
+                        "features": np.zeros((20_000, trainer.N_FEATURES), dtype=np.float32),
+                        "targets": np.zeros((20_000, 2), dtype=np.float32),
+                        "scored": np.zeros(20_000, dtype=np.bool_),
+                    },
+                )()
+
+        trainer.SequenceFile = FakeSequenceFile
+        dataset = trainer.Sequences(
+            "train",
+            [17],
+            distill_cache_root=cache_root,
+            distill_cache_variant="homogeneous",
+            distill_cache_metadata={
+                "metadata": {"files": {"main_homogeneous_train": {"row_groups": [17]}}}
+            },
+        )
+        features, targets, scored = dataset[0]
+        assert tuple(targets.shape) == (20_000, 4)
+        assert abs(targets[:, 2:].mean().item() - 0.25) < 1e-6
+        assert features.shape[0] == 20_000
+        assert not scored.any().item()
+        """
+    )
+    env = dict(os.environ)
+    child_src = str(source_root / "src")
+    env["PYTHONPATH"] = os.pathsep.join(
+        part for part in (child_src, env.get("PYTHONPATH", "")) if part
+    )
+    env["WNN_PROJECT_ROOT"] = str(tmp_path)
+    completed = subprocess.run(
+        [sys.executable, "-c", consumer_script, str(source_root), str(cache_root)],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=90,
+        env=env,
+    )
+    assert completed.returncode == 0, completed.stderr
+
+
+def test_cache_disk_estimate_includes_safety_reserve() -> None:
+    output_bytes, reserve_bytes, admitted_bytes = cache_disk_requirement(12_479)
+    assert reserve_bytes >= 16 * 1024 * 1024
+    assert admitted_bytes == output_bytes + reserve_bytes
 
 
 def test_homogeneous_target_uses_float32_mean_then_scale() -> None:
