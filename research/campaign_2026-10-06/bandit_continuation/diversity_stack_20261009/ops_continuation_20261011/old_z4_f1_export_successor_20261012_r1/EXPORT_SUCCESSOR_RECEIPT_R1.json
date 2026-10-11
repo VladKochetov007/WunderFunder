@@ -1,0 +1,87 @@
+{
+  "corrected_contracts": [
+    {
+      "argv_exactly_unchanged": true,
+      "argv_sha256_nul_terminated": "3b75bad6c2c869d4bb71549f264948c0354664ba67248e02ff02331b3756db98",
+      "checkpoint_epoch": 3,
+      "corrected_expected_fit_attempt": "oldz4-r4-f1-s3-parent-fit",
+      "new_contract_sha256": "0419ff0af8db215a7e48e2897e2c6ff394e70dbfdb48d509ba8204b7872c8926",
+      "only_contract_field_changes": [
+        "attempt",
+        "expected_fit_attempt"
+      ],
+      "original_attempt": "oldz4-r4-f1-s3-parent-export",
+      "original_contract_sha256": "b30e93ca151294f4b539c98a5430ae8172d21c19a11a6e3ec4c6e4639a66b79f",
+      "original_expected_fit_attempt": "oldz4-r3-f1-s3-parent-fit",
+      "output_path_unchanged": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_oldz4_h230_parent_f1_s3_r4_valid.npy",
+      "run_name": "oldz4_h230_parent_f1_s3_r4",
+      "stage": "parent",
+      "successor_attempt": "oldz4-r4-f1-s3-parent-export-r2"
+    },
+    {
+      "argv_exactly_unchanged": true,
+      "argv_sha256_nul_terminated": "6daeb8c6f31c8712dddef9bb19bb70cd72446550e1cc86fd6dce875cb0d5b5b3",
+      "checkpoint_epoch": 1,
+      "corrected_expected_fit_attempt": "oldz4-r4-f1-s3-student-fit",
+      "new_contract_sha256": "9f8060a8569f3867d68810d4e179d1aaf4e0dc116809a3725fb59045b8e3c98b",
+      "only_contract_field_changes": [
+        "attempt",
+        "expected_fit_attempt"
+      ],
+      "original_attempt": "oldz4-r4-f1-s3-student-export",
+      "original_contract_sha256": "98925fef7d81438c7bcf2ffeb3abefa74eb4fc5f475986bd0391492b4dde0439",
+      "original_expected_fit_attempt": "oldz4-r3-f1-s3-student-fit",
+      "output_path_unchanged": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_oldz4_h230_student_f1_s3_r4_valid.npy",
+      "run_name": "oldz4_h230_student_f1_s3_r4",
+      "stage": "student",
+      "successor_attempt": "oldz4-r4-f1-s3-student-export-r2"
+    }
+  ],
+  "execution": {
+    "checkpoint_payloads_rehashed": false,
+    "fit_or_prediction_execution": false,
+    "provider_actions": false
+  },
+  "frozen_r4_packet_manifest_sha256": "f1f250ac3d46ddb49e114d6dbc6100861f70a5e7681442d0029ff7520a355d7f",
+  "independent_audit_sha256": "7cbcb0631e50546ddcc478fae2a15fd823d1a3cf83bb9cdae81ced615b4e7ea3",
+  "manifest_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_f1_export_successor_20261012_r1/EXPORT_SUCCESSOR_MANIFEST_R1.json",
+  "manifest_sha256": "701ec62cb3182655be1e9a8fb74d1ad005eb78a2b5d678063aa2877b95af65ee",
+  "packet_id": "old_z4_f1_export_successor_20261012_r1",
+  "prepared_utc": "2026-10-11T23:42:02Z",
+  "preservation": {
+    "R4_sources_and_contracts_modified": false,
+    "export_argv_changed": false,
+    "fitting_recipe_or_argv_changed": false,
+    "membership_or_evaluation_mask_changed": false,
+    "new_fit_or_export_run": false,
+    "target_or_model_science_changed": false
+  },
+  "schema": "wnn-oldz4-f1-export-successor-receipt/v1",
+  "source_and_membership": {
+    "evaluation_group_count": 457,
+    "excluded_train_group_count": 73,
+    "fit_recipe_sha256": "bc7bb99844804def1dacd0c6c2f1afe6f56d008cb1a0fb9d550c4f1a313e58c2",
+    "input_bindings_r4_sha256": "6ac8af93bfd8d7e147291b2a9d9e93e34a397a22530645f5d0ed2ea9ccabf875",
+    "propensity_model_sha256": "1fbf412df8823c703fdf79263830f341269a68e769bc4a7258d93cdf8e40dc5c",
+    "propensity_provenance_sha256": "50e442a1f2d075b88cb9e50196dc57b81bd8d586a51fa0df3149a2c5d2e8cbf7",
+    "source_bindings_r4_sha256": "f0bca133215663ed2cf780a66af43f8461f7590df8a8595eea2aa01e9940a64c",
+    "source_qualified_fit_member_count": 11949,
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "teacher_cache_metadata_sha256": "8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703"
+  },
+  "terminal_checkpoint_gate": {
+    "must_pass_before_export": [
+      "exact expected_fit_attempt has terminal success and exit code 0",
+      "fixed checkpoint epoch matches 3 for parent or 1 for student",
+      "checkpoint, provenance and training state are present, finite and mutually consistent",
+      "actual checkpoint and provenance SHA-256 are written into root export-admission receipt",
+      "fresh output-collision check confirms expected prediction NPY and sidecar are absent"
+    ],
+    "parent_cp3_sha256": null,
+    "parent_provenance_sha256": null,
+    "reason": "Observed at preparation: parent producer has no terminal CP3/provenance yet; student producer attempt/output not present. Root must bind actual hashes only after each exact R4 fit attempt reaches verified success.",
+    "student_cp1_sha256": null,
+    "student_provenance_sha256": null
+  },
+  "verdict": "PASS_CONTRACT_CORRECTION_ONLY; EXPORTS_PENDING_TERMINAL_R4_CHECKPOINTS"
+}
