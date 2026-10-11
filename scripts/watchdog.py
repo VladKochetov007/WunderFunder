@@ -115,7 +115,7 @@ def check_vast_lane(problems: Problems, state: dict, controller, lane: str) -> N
         problems.add(f"vast_{lane}_refill_daemon_dead", "CRIT", f"lane {lane}: refill daemon not running with {pending} jobs pending", 2)
     stale = controller.ssh(
         "cd /root/run; for j in $(ls refill/running 2>/dev/null | sed 's/\\.json//'); do n=${j#*_}; "
-        "f=$(ls -t logs/${n}.*.log logs/pipeline_${n#w*_}.log 2>/dev/null | head -1); [ -n \"$f\" ] && echo \"$n $(( ($(date +%s)-$(stat -c %Y $f))/60 ))\"; done",
+        "f=$(ls -t logs/${n}.*.log logs/pipeline_${n#w*_}.log $(case $n in w1[3-6]_*) ls logs/pipeline_*.log;; esac) 2>/dev/null | head -1); [ -n \"$f\" ] && echo \"$n $(( ($(date +%s)-$(stat -c %Y $f))/60 ))\"; done",
         timeout=40).stdout
     for line in stale.splitlines():
         name, _, age = line.partition(" ")
