@@ -1,0 +1,30 @@
+{
+  "schema": "wnn.independent-oldz4-r5-cp1-export-review.r1",
+  "status": "pass",
+  "scope": "Static R5 delta review: CP1 gate and export runner binding; no export, fit, provider call, grade, or admission was performed.",
+  "reviewed_commit": "82869db455a6cce133f2c0f18d6c0d74d8fb25ce",
+  "reviewed_worktree": "/home/vlad/development/wunder/wnn_oldz4_student_cp1_export_20261012_r1",
+  "packet_relative_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_cp1_gate_r5",
+  "pins": {
+    "preserved_r4_contract_sha256": "665bdb087975ce5d74e485ea31aea88e7d07f8545af3dbee48e181d0bcba56fb",
+    "runner_contract_sha256": "30b6599e6be014a9b570d68d9c59edaaee9902278d80046f169b7ec65c42171b",
+    "validator_sha256": "cf93b55d8fa4c7cd3fb799bc7fd257aa0e85af17c5e7834226d39af33e1ab696",
+    "runner_sha256": "d6fb729ede522431829820cbe9b0a7d517159a47f714ac9383e87ac352b56fe9",
+    "actual_producer_gate_receipt_sha256": "0f31fbfe039b4fcbca66a296888af9fd68820a1dd2fc57b5c99d9a1ac7a90ee1",
+    "cp1_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "training_state_sha256": "79fafd258e5cd22700a6dd95f90175b1aca67e4813c8f28985cbed9d6b93810d"
+  },
+  "findings": [
+    "R5 preserves and checks the exact R4 scientific/export contract hash and referenced path; it uses a distinct R5 runner schema, CP1 gate schema, root-admission schema, and fixed attempt ID oldz4-r5-f0-s3-student-export.",
+    "Before predictor execution, the runner checks the admitted contract, R5 runner-contract hash, terminal CP1-gate hash and checkpoint hash, and export-only action. It then reruns the CP1 validator, rebinds the frozen trainer, predictor, and fit modules, binds trainer ROOT to the project, checks the actual zero-worker loader path, and rejects existing prediction, sidecar, partial, or sequence-summary outputs.",
+    "The R5 CP1 validator verifies the actual producer's checkpoint and training-state tensors are finite and that all 16 model tensors match bitwise; it validates epoch/next-epoch, recipe, history/provenance update totals, and source-qualified fold-0 fit/evaluation membership. The actual producer receipt reports 14,920 attempts, 14,913 completed updates, and 7 AMP skips; it explicitly makes no gradient-finiteness claim.",
+    "After the predictor returns, the runner checks the imported trainer and ROOT are unchanged. Export validation binds the prediction sidecar to CP1, requires the fixed 1,873 x 20,000 x 2 float32 payload, checks canonical row order, hashes the full file, and scans finiteness in bounded chunks. Fold 0 remains exposed development evidence, not a fresh holdout or public claim."
+  ],
+  "qualification": "The runner enforces the R5 runner-contract JSON hash but does not self-check its own source hash or the validator source hash against root admission. Before dispatch, root should independently pin and verify both code-file hashes in the admission/run preflight (in addition to the contract hash); no export authority is implied by this review.",
+  "tests_and_evidence": {
+    "actor_actual_producer_receipt": "pass; actual CP1/state fixture; receipt hash above",
+    "root_durable_cp1_gate": "pass; root reports finite CP1 and bitwise state equality",
+    "actor_focused_tests": "15 passed, 1 gated skip as reported by actor; not rerun for this minimal delta review",
+    "independent_checks": "Read exact R5 runner/validator/contracts and pinned producer receipt; verified listed file hashes and R4/R5 admission field checks. No GPU, export, provider, or model execution."
+  }
+}
