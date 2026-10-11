@@ -1,0 +1,75 @@
+{
+  "actor_snapshot": {
+    "base_commit": "61dbe366fa0e1231bbc80480746ba55988766997",
+    "contract_r4_sha256": "665bdb087975ce5d74e485ea31aea88e7d07f8545af3dbee48e181d0bcba56fb",
+    "focused_tests_sha256": "4c8b9f6394a03530eebad392e877e888601460e1d1d0acf1a31e9d10fdccb3a8",
+    "producer_gate_receipt_sha256": "31891ae1a701e4d5bd96603356777ccb5b2fb847915e3f1cfd192498bf260c2c",
+    "r5_files_uncommitted_at_review": true,
+    "runner_r5_sha256": "3cdadf7b610a0b87292eda15e224b58edc6dca7a9be4926e45564c54cf0f9f30",
+    "validator_r5_sha256": "d7355dbd887fc8495f39100e865faf3869c68c5ed5b5bec0addb338b4282deab",
+    "worktree": "/home/vlad/development/wunder/wnn_oldz4_student_cp1_export_20261012_r1"
+  },
+  "blocking_findings": [
+    {
+      "evidence": "It pins/imports the R4 gate helper and its root-admission helper requires schema wnn.oldz4.student-cp1-terminal-gate.r4 and the R4 admission fields. The R5 validator emits wnn.oldz4.student-cp1-terminal-gate.r5.",
+      "impact": "The R5 runner cannot consume the R5 gate; it will reject it and/or re-enter the broken R4 validator. No full-valid export is runnable through this launcher as reviewed.",
+      "issue": "The R5 runner is byte-identical to the old R4 runner and imports validate_student_export_r4 at line 16.",
+      "minimal_correction": "Preserve R4, then create an identified successor runner that imports the R5 validator and explicitly binds the R5 gate/admission schema, receipt hash and CP1 hash before launching the exact predictor."
+    }
+  ],
+  "positive_findings": [
+    "R5 validator uses fit_recipe_pins.split_manifest_sha256 and declared nested exposure fields, correcting the R4 KeyError paths while preserving the R4 contract bytes.",
+    "The R5 CP1 gate checks terminal attempt/source/admission bindings, fixed CP1 hash and epoch, provenance/hash/split membership, update counters, finite model/readout tensors, and training-state schema, epoch boundary, next_epoch=2, counters, required continuation fields and finite tensors.",
+    "The actual R5 producer receipt binds CP1 SHA 664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb, provenance/history, attempt terminal receipt, and training state; its declared gate status is pass and it makes no independent gradient-finiteness claim.",
+    "The focused R5 validator suite passed 12 tests; one opt-in actual-producer test was skipped (it requires WNN_RUN_ACTUAL_CP1_GATE=1). The separately recorded producer receipt is the actual-artifact evidence."
+  ],
+  "producer_gate": {
+    "admitted_fit_contract_sha256": "e6725f660b44aa9f53532c7b9e3324e88b9e494d08e48e856af9d6c4a6850fb2",
+    "amp_skipped_updates": 7,
+    "checkpoint_epoch": 1,
+    "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "contract_sha256": "665bdb087975ce5d74e485ea31aea88e7d07f8545af3dbee48e181d0bcba56fb",
+    "exposure": "Previously inspected fold-0 development panel; not a fresh holdout and not public score evidence.",
+    "fit_attempt_id": "oldz4-r4-f0-s3-student-fit",
+    "fit_attempt_receipt_sha256": "9da77d195f5200ccc87c1710909a6d33471d699331aeabe487d86b6333074b97",
+    "gradient_finiteness_claim": "not independently measured; AMP skip counts are reported",
+    "history_sha256": "d22e85330fc284df91bf0513d421ac16ef01049432b62205fb972264eba43c9a",
+    "model_tensor_count": 16,
+    "model_tensors_finite": true,
+    "optimizer_update_totals": {
+      "amp_skipped_updates": 7,
+      "completed_batches": 1492,
+      "optimizer_attempts": 14920,
+      "optimizer_completed_updates": 14913
+    },
+    "provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+    "run": "oldz4_h230_student_f0_s3_r3",
+    "schema": "wnn.oldz4.student-cp1-terminal-gate.r5",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "status": "pass",
+    "training_state_sha256": "79fafd258e5cd22700a6dd95f90175b1aca67e4813c8f28985cbed9d6b93810d",
+    "training_state_validation": {
+      "all_training_state_floats_finite": true,
+      "amp_skipped_updates": 7,
+      "boundary": "epoch",
+      "epochs": 2,
+      "finite_floating_scalar_count": 67,
+      "format": "wnn.epoch-training-state",
+      "next_epoch": 2,
+      "optimizer_attempts": 14920,
+      "optimizer_completed_updates": 14913,
+      "training_state_tensor_count": 60,
+      "version": 1
+    }
+  },
+  "remaining_qualification": [
+    "R5 training-state validation confirms finite tensors and epoch-2 continuation boundary, but does not compare saved state.model tensors directly with CP1.model. The actual files were previously inspected and those model tensors are equal; record the omission as a state-to-CP cross-binding gap, not evidence of a bad checkpoint. Fixed-epoch inference is bound to CP1 itself.",
+    "Gradient finiteness was not measured; seven AMP-skipped updates are transparently reported. Do not convert this into a claim that every attempted gradient was finite.",
+    "The CP0 one-row compatibility receipt is only a separate feature-path smoke probe and is not the CP1 full-valid export."
+  ],
+  "required_next_step": "A new runner/contract successor should consume the R5 gate, retain no-overwrite outputs and fixed epoch-1 prediction, and be statically/fixture reviewed before root export admission.",
+  "reviewed_utc": "2026-10-12",
+  "schema": "wnn.oldz4_cp1_student_export_r5_independent_delta_review.r1",
+  "scope": "Read-only review of actor R5 delta and its producer receipt. No fit, export, grade, GPU, provider, or admission action was performed.",
+  "verdict": "BLOCK_EXPORT_RUNNER_CONSUMER_MISMATCH"
+}
