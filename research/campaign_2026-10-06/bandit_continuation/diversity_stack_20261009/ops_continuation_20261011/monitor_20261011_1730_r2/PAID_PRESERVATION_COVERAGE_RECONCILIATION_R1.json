@@ -1,0 +1,293 @@
+{
+  "checks": {
+    "critical_prediction_receipt_rows_match_manifest_sha_size": true,
+    "local_size_mismatches_without_receipt": 0,
+    "missing_rows_are_all_prediction_npy_or_json": true,
+    "primary_archive_rows_match_manifest_sha_size": true,
+    "receipt_conflicts": 0,
+    "receipt_destination_stat_failures": 0,
+    "state_rows_match_manifest_sha_size": true
+  },
+  "coverage_classes": {
+    "conditionally_regenerable_prediction_pairs": {
+      "basis": "Each pair is missing locally, but its run has a matching checkpoint row and local history/provenance files. This is a candidate for re-export only after exact predictor/source/data and checkpoint selection are rebound; no regeneration or byte-equivalence is claimed.",
+      "bytes": 6893063192,
+      "pairs": 23,
+      "rows": 46,
+      "run_ids": [
+        "vt_f1_dsq_dm_a95_e6",
+        "vt_f1_dsq_dm_a9_e10",
+        "vt_f1_dsq_dm_ba_a9_e6",
+        "vt_f1_dsq_dm_pm_a9_e6",
+        "vt_f1_dsq_h384_t3",
+        "vt_f1_dsq_kd_ch052",
+        "vt_f1_dsq_kd_msepear",
+        "vt_f1_dsq_kd_pearson",
+        "vt_f1_dsq_kd_run05",
+        "vt_f1_long_small_muonall_e24",
+        "vt_f1_long_small_muonrnn_e24",
+        "vt_f1_muonall_e4_s3",
+        "vt_f1_muonall_e4_s4",
+        "vt_f1_muonall_h384_e3_s10",
+        "vt_f1_muonall_h384_e3_s8",
+        "vt_f1_muonall_h384_e3_s9",
+        "vt_f1_muonall_h384_e4",
+        "vt_f1_muonall_h384_e4_s4",
+        "vt_f1_muonall_prop0_e4_s3",
+        "vt_f1_muonall_prop0_e4_s4",
+        "vt_f1_ood_ood_only",
+        "vt_f1_scale_b64_lrlin",
+        "vt_f1_scale_b64_lrsqrt"
+      ]
+    },
+    "local_present_size_matched_unverified": {
+      "basis": "Expected local mapping exists and lstat size matches manifest; no receipt-qualified SHA match was found for that path in the selected sources, and no binary rehash was run.",
+      "bytes": 18718757920,
+      "rows": 1410
+    },
+    "missing_nonprediction_logs_or_run_metadata": {
+      "basis": "All missing manifest rows are prediction NPY/JSON pairs; no missing .log/.out/history/provenance/control row was identified in this manifest mapping.",
+      "bytes": 0,
+      "rows": 0
+    },
+    "missing_prediction_pairs_without_located_checkpoint": {
+      "basis": "No matching local model checkpoint/provenance was found for these five LSA epoch snapshots in the master checkpoint rows or expected local run directory. This is a bounded finding, not proof of global irrecoverability.",
+      "bytes": 1498492023,
+      "pairs": 5,
+      "rows": 10,
+      "run_ids": [
+        {
+          "npy_bytes": 299680128,
+          "pair_bytes": 299698404,
+          "run_id": "vt_f1_lsa_ep3",
+          "sidecar_bytes": 18276
+        },
+        {
+          "npy_bytes": 299680128,
+          "pair_bytes": 299698405,
+          "run_id": "vt_f1_lsa_ep7",
+          "sidecar_bytes": 18277
+        },
+        {
+          "npy_bytes": 299680128,
+          "pair_bytes": 299698405,
+          "run_id": "vt_f1_lsa_ep11",
+          "sidecar_bytes": 18277
+        },
+        {
+          "npy_bytes": 299680128,
+          "pair_bytes": 299698405,
+          "run_id": "vt_f1_lsa_ep15",
+          "sidecar_bytes": 18277
+        },
+        {
+          "npy_bytes": 299680128,
+          "pair_bytes": 299698405,
+          "run_id": "vt_f1_lsa_ep19",
+          "sidecar_bytes": 18277
+        }
+      ]
+    },
+    "receipt_qualified_rescued_or_preserved": {
+      "archive_and_state_subset": {
+        "archive_payload_bytes": 732881211,
+        "archive_rows": 1179,
+        "archive_sha256": "d7cdea95581c938cc7382c3561f6c14e842e970e0cfafc50b9cbb7b31586df4c",
+        "state_archive_sha256": "eb23f63deee1e30624c8b5a9009068c26b3e2d20d8dacb7e4abedc4ae8a10464",
+        "state_payload_bytes": 276788229,
+        "state_rows": 22,
+        "subset_bytes": 1009669440,
+        "subset_rows": 1201
+      },
+      "archive_postcheck": {
+        "no_symlinks": true,
+        "regular_files": 1179,
+        "result": "PASS",
+        "rows": 1179,
+        "sizes_match": true
+      },
+      "basis": "Unique manifest path + SHA-256 + size matched selected receipts; each recorded local destination was lstat-checked as a regular non-symlink file at expected size. Receipt hashes were cross-checked to manifest; local binaries were not rehashed in this pass.",
+      "bytes": 4245326500,
+      "checkpoint_sha_coverage": {
+        "bytes": 725061662,
+        "receipt": "PAID_CHECKPOINT_SHA_COVERAGE_R1.json",
+        "result": "PASS",
+        "rows": 149
+      },
+      "rows": 1270,
+      "selected_critical_prediction_files": 20,
+      "selected_critical_prediction_run_ids": [
+        "vt_all_h390_ds_homogeneous_s3_r3_export_r1",
+        "vt_all_h390_ds_homogeneous_s4_r3_export_r1",
+        "vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2",
+        "vt_f1_ood_swn_r2_homshare_r2",
+        "vt_f1_ood_swn25_r2_homshare_r2",
+        "vt_all_h388_muonall_h384_e3_s3",
+        "vt_all_h388_muonall_h384_e3_s4",
+        "vt_all_h388_muonall_h384_e3_s5",
+        "vt_f1_ood_splice_r2_homshare_r2",
+        "vt_f1_ood_spmix_r2_homshare_r2"
+      ]
+    }
+  },
+  "critical_receipt_hashes": [
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261011_1730_r2/PAID_ARTIFACT_ARCHIVE_MEMBER_INSTALL_R2.json",
+      "sha256": "df5a001a056022a099a23c781fd4a55e6e5f9f4a33e8f51721db6fc8a3c4be47",
+      "size_bytes": 874692
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261011_1730_r2/PAID_TRAINING_STATE_ARCHIVE_R1.json",
+      "sha256": "1e75dff1d705c6fbb193bfdbcc4c71ffd2f785d6594a513ddd8df5851d9e5dff",
+      "size_bytes": 15584
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261011_1730_r2/PAID_CHECKPOINT_SHA_COVERAGE_R1.json",
+      "sha256": "e20d8c73285102ef0cba201060d444d681cadb2a916654ed8456139e65ace5be",
+      "size_bytes": 54974
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261011_1730_r2/PAID_ARTIFACT_MEMBER_INSTALL_POSTCHECK_R1.json",
+      "sha256": "66783fafe83631332bec603357c4a2f5e55be0a12ab2977d20fa235db2f12182",
+      "size_bytes": 1783
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H390_S3_TERMINAL_RESCUE_R1.json",
+      "sha256": "48a30e0967cf31d06b95b135ece2e13c6e6174b3e00b6297d2a295c52f08193c",
+      "size_bytes": 5796
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H390_S4_TERMINAL_RESCUE_R1.json",
+      "sha256": "7158faa6bb48d0ba32bf46784b130df14d8fb871bc50b5c7d22efd7a3ae76716",
+      "size_bytes": 5646
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H390_S3_VALID_EXPORT_COLLECTION_R1.json",
+      "sha256": "cc313ba073f9cb59c44a0bb7f3b27de4790a5f2966c0aa526c5d3d95350c03af",
+      "size_bytes": 2040
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H390_S4_VALID_EXPORT_COLLECTION_R1.json",
+      "sha256": "9be712e44e626b76e13174ca0d6bcb06a6fb720df33c573a01ed81470ffcefe4",
+      "size_bytes": 2494
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H391_FIXED_CP5_COLLECTION_R1.json",
+      "sha256": "24fdb1f66a94d952997eae9e47f091e40150f8ee51405221ff3f4d76d3a5eca4",
+      "size_bytes": 1472
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H391_FIXED_CP5_PREDICTION_COLLECTION_R1.json",
+      "sha256": "b1dd059fe02dd2660b7e4d378818d765b87acd6e05cb9e1475276272a596cbcc",
+      "size_bytes": 1343
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H391_OOD_TERMINAL_LOG_COLLECTION_R1.json",
+      "sha256": "0509044a7774143bdf29783eb2799dd06f724ffdb1bc87b68e3f8df441396144",
+      "size_bytes": 2374
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/OOD_SWN_SWN25_TARGETED_RESCUE_R1.json",
+      "sha256": "e89cec49f8f9cd9c4d712b18ee82a18620eae44c622bcd2ba463c0394d915f7c",
+      "size_bytes": 5999
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/PREDICTION_RESCUE_vt_all_h388_muonall_h384_e3_s3_R1.json",
+      "sha256": "6f7d2b267ce85fdccf2f2b8b9e03c3d84bfb2e3f88f016bc74cf5deb31ec398e",
+      "size_bytes": 1774
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/PREDICTION_RESCUE_vt_all_h388_muonall_h384_e3_s4_R1.json",
+      "sha256": "2715e0b9237f92443fd4f1be843135acaf7bc5806a630c1dfaff5e7384366dcb",
+      "size_bytes": 1590
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/PREDICTION_RESCUE_vt_all_h388_muonall_h384_e3_s5_R1.json",
+      "sha256": "816c13e5eedafd3054e9402c891589037c38c4c7db17871c6fb5deff2f708aa7",
+      "size_bytes": 1958
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/PREDICTION_RESCUE_vt_f1_ood_splice_r2_homshare_r2_R2.json",
+      "sha256": "a135d3c7a1acc8ce86eb59abcef52bb723f7aa7939d3a27907216835c4490298",
+      "size_bytes": 2505
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/PREDICTION_RESCUE_vt_f1_ood_spmix_r2_homshare_r2_R2.json",
+      "sha256": "8c3f5038259ca4f9d53739a2060c500e91653b4860ad5331d09e5f136c01c2c4",
+      "size_bytes": 2502
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/SMALL_RESCUE_BATCH_H256_R1.json",
+      "sha256": "ca7a9ccc7af4d702820b2fa4f2d863de5fac3dd9c93afda057c583d3e82897b6",
+      "size_bytes": 2633
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/SMALL_RESCUE_BATCH_H384_R1.json",
+      "sha256": "c0dddada94b9e78b8ba1140bb492fc61b8d7e615507e5d0ca6eab740da86c4f5",
+      "size_bytes": 2722
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/OWNED_VAST_SMALL_ARTIFACT_RESCUE_R1.json",
+      "sha256": "c6f023de684e7e75e76a0d5064b1294506c1d1c515f7656ed9acc95c45aa8129",
+      "size_bytes": 12174
+    }
+  ],
+  "h390_identity_preservation": {
+    "files": [
+      {
+        "bytes": 4024406,
+        "path": "artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/model_ep5.pt",
+        "sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0"
+      },
+      {
+        "bytes": 4024406,
+        "path": "artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/model_ep5.pt",
+        "sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419"
+      },
+      {
+        "bytes": 4023970,
+        "path": "artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/model.pt",
+        "sha256": "ad69f91193cd8f5f9ee5e67cabdd70c4bc2c6165199a26b8772c1baad9149500"
+      },
+      {
+        "bytes": 4023970,
+        "path": "artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/model.pt",
+        "sha256": "7292bbe908da19a151f3d824f5d55be26513cf47f0f79638d2be25c22f5e1e14"
+      }
+    ],
+    "note": "Keep lane-B H390 run-qualified files separate. The terminal rescue receipts bind distinct s3 and s4 model_ep5 files; each run also has a distinct model.pt. No path was overwritten or coalesced."
+  },
+  "limitations": [
+    "The master inventory covers terminal outputs, not a complete immutable source snapshot; source/predictor/data bindings must be checked before any candidate re-export.",
+    "A size match is not a content-integrity check. Only receipt-qualified paths inherit prior receipt SHA verification.",
+    "The five LSA predictions are missing without matching local checkpoints in the bounded search; do not claim global irrecoverability or complete collection.",
+    "Do not infer that all 2,736 manifest rows were collected; controller collection gate remains false."
+  ],
+  "limits": {
+    "binary_hashes": "No checkpoint/state/prediction binary was rehashed by this reconciliation; accepted SHA evidence comes from the pinned receipts.",
+    "support": "scripts/limited; 25% CPU; 1 thread; 500000000B memory; 120s command caps"
+  },
+  "master_manifest": {
+    "bytes": 31355639635,
+    "controller_collection_gate": "FALSE; this report does not set or relax the controller gate",
+    "instance_id": 55080658,
+    "inventory_sha256": "ca709be18ce7d37b5a4a5370b06fd3d73a92853ad99531aaba17c8cf867dfeb8",
+    "manifest_flags": {
+      "inventory_complete": true,
+      "quiescent": true
+    },
+    "path": "research/campaign_2026-10-06/bandit_continuation/vast_teachers_r1/collected_b/collection_manifest.json",
+    "rows": 2736,
+    "schema": "vast-teacher-remote-manifest-v2",
+    "sha256": "b4e496252c4b28884f37854e4705b2ff4751bafd9cf965317c543a2957cf94c6"
+  },
+  "owner": "submission_packager",
+  "provider_and_science": {
+    "no_provider_mutation": true,
+    "no_public_or_validation_score_claim": true,
+    "provider_event": "Root reports instance55080658 reached credit0 and exited at 2026-10-11T18:41:59Z, as expected from prepaid expiry. This is an operational stop, not a scientific result."
+  },
+  "recorded_utc": "2026-10-11T18:53:32+00:00",
+  "schema": "wnn.paid-preservation-coverage-reconciliation.v1",
+  "scope": "Read-only metadata reconciliation of the complete Vast lane-B terminal manifest against selected install/state/checkpoint/prediction rescue receipts and local lstat sizes. No provider calls, remote actions, deletion, overwrite, model fitting, or binary rehash sweep."
+}
