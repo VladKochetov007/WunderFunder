@@ -1,0 +1,128 @@
+{
+  "schema": "wnn.h390-h388-compact-pair-independent-review.v1",
+  "review": "PASS_ARTIFACT_RUNTIME_WITH_SELECTION_CAVEAT",
+  "scope": "Independent exact-ZIP integrity, member lineage/tensor binding, and Python 3.11 Q8 callback/reset review. No fit, grade, upload, or public-score claim.",
+  "package": {
+    "candidate": "h390_student_h388_teacher_pair_q8",
+    "zip_path": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011/submissions/10-11-exploit-now_r2/h390_student_h388_teacher_pair_q8/submission_r1.zip",
+    "zip_bytes": 12914019,
+    "zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+    "build_receipt_sha256": "938fb0d85666c0400ffce939c55bfb6bb517786bd17fdfbf12ad913fcb53d73a",
+    "source_binding_path": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011/submissions/10-11-exploit-now_r2/h390_student_h388_teacher_pair_q8/SOURCE_BINDING_R1.json",
+    "source_binding_sha256": "6c041687888b12718a93401b0857821b3b1a72a82092b67ea44b6e2790b14bbc",
+    "package_limit_bytes": 20000000,
+    "member_count": 8,
+    "crc_and_member_sha256": "PASS",
+    "precision": "q8vnni"
+  },
+  "members": [
+    {
+      "order": 0,
+      "run": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+      "coefficient": 0.5,
+      "checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+      "provenance_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+      "history_sha256": "4845ca9202f9da1130f6ceb8ccc0db49c82920f71c0f0346c0f35bbf3a23a044",
+      "weights_npz_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6",
+      "fit_groups": {
+        "train": 10606,
+        "valid_used_for_fit": 1873,
+        "evaluation_groups": 0
+      },
+      "selected_recipe_facts": {
+        "architecture": "2-layer GRU, hidden 256",
+        "optimizer": "AdamW",
+        "seed": 3,
+        "epochs": 6,
+        "fixed_checkpoint_epoch": 5,
+        "initializer_run": "vt_all_fin_mu256p0e4_s3@ep3",
+        "initializer_checkpoint_sha256": "ca50c35c05a680b8009bb444485f1ff73aa99e3e50f96138faf266a92c146e5d",
+        "since_weight": 32.0,
+        "distillation_cache_metadata_sha256": "da9860193abbf096932ddc2e3b27ac51ff09cfea50bbf8480df79db8a419126e",
+        "distillation_target": "0.8125 * float32 mean of three H384 strong-T3 epoch-2 teachers"
+      }
+    },
+    {
+      "order": 1,
+      "run": "vt_all_h388_muonall_h384_e3_s5@ep2",
+      "coefficient": 0.5,
+      "checkpoint_sha256": "7feefb8aaa8bca6f5ace10a8c0556dd07a067444b88fee43a9f941c74dc61943",
+      "provenance_sha256": "2c9933c2eeb5da4a0c41b48e2a1867d73e869173900e6708d9e8cdd7be2d21ea",
+      "history_sha256": "be213d8412eadeabb0cd2ed131c2c24d75db7c156b5afec408e7cf52938f6d74",
+      "weights_npz_sha256": "e9d6677b4de383efb44f416b49a7072a9930729a5265071a2c423389b28ec8cb",
+      "fit_groups": {
+        "train": 10606,
+        "valid_used_for_fit": 1873,
+        "evaluation_groups": 0
+      },
+      "selected_recipe_facts": {
+        "architecture": "2-layer GRU, hidden 384",
+        "optimizer": "Muon-all",
+        "seed": 5,
+        "epochs": 3,
+        "fixed_checkpoint_epoch": 2,
+        "scratch_model_initialization": true,
+        "since_weight": 32.0
+      }
+    }
+  ],
+  "source_and_export_checks": {
+    "both_model_provenance_and_history_hashes_match_binding": "PASS",
+    "both_exact_checkpoint_hashes_match_binding": "PASS",
+    "all_member_npz_tensor_names_shapes_dtypes_and_bytes_match_build_receipt": "PASS",
+    "ancestry_scope_limit": "The review verified the packaged checkpoints, provenance/history, package bindings, and H390 immediate initializer checkpoint. It did not independently rehash the full distillation-cache arrays or recursively revalidate every upstream teacher/source artifact.",
+    "source_identity_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "packaged_solution_source_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+    "native_solution": "existing fixed-members EnsemblePredictor route, budget_s=None",
+    "v3_native_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+  },
+  "independent_python311_callback": {
+    "receipt_path": "/tmp/wnn_h390_student_h388_teacher_independent_review_r1/CALLBACK_PANEL_R1.json",
+    "receipt_sha256": "d370fcc4cad8c514f60cc191d21772511da9aef8368645b94fb781631a74d83b",
+    "predictions_path": "/tmp/wnn_h390_student_h388_teacher_independent_review_r1/PREDICTIONS_PANEL_R1.npy",
+    "predictions_sha256": "93f584a4df09c9f1b2aab1dd793c1dac22e0c085bd3bf08cc603d52fd46c2ac1",
+    "actor_callback_receipt_sha256": "30c167bb3f0d75d4719ec0ab2c449788cbd06d0107c959025258add9405752f4",
+    "actor_and_independent_feature_need_hashes_match": true,
+    "actor_and_independent_prediction_hashes_match": true,
+    "python": "3.11.16",
+    "native_level": "v3",
+    "runtime_precision": "q8vnni",
+    "runtime_member_count": 2,
+    "callbacks": "10 complete sequences x 20,000 rows, two passes (400,000 callbacks)",
+    "outputs_finite_shape_2": "PASS",
+    "reset_replay_bitwise_equal": true,
+    "callback_us_per_row_by_pass": [
+      74.814517835,
+      72.605498695
+    ],
+    "cgroup_memory_peak_bytes": 230404096,
+    "cgroup_high_max_oom_events": 0,
+    "data_panel_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "interpretation": "Serving and reset check only; this feature-only panel is not a quality grade or total competition runtime estimate."
+  },
+  "resource_scope": {
+    "parent_memory_current_before_run_bytes": 13159206912,
+    "parent_memory_high_bytes": 17999998976,
+    "parent_memory_max_bytes": 19999997952,
+    "support_cpu_quota": "100% (1 CPU)",
+    "support_memory_max_bytes": 1200000000,
+    "support_runtime_cap": "600s",
+    "observed_support_memory_peak_bytes": 230404096
+  },
+  "selection_evidence_and_limitations": {
+    "selection_metrics_sha256": "e030f8914aafa7bb172824577552d059a6e101ea7fc5c1ab97b1c2b9d33ff1f5",
+    "source_endpoint_map_sha256": "27a497479736f5f2a35f2bd507692caabb7031a9715d5773515ba3c6626166ba",
+    "fold1_prototype": "h256_h384_s5_equal: vt_f1_dsq_dm_t3_a9_e6 + vt_f1_muonall_h384_e3_s5, 0.5/0.5",
+    "fold1_prototype_global_wp_clip2_v1": 0.6725742672408415,
+    "fold1_exposure": "All 457 fold-1 evaluation groups were used in the selector; this score is exposed prototype evidence, not the grade of this final ZIP.",
+    "material_final_student_mismatch": "The fold-1 H256 prototype used parent c20261003_combo_s3_f1@ep3 and since_weight=0. The packaged full-data H390 student uses parent vt_all_fin_mu256p0e4_s3@ep3 and since_weight=32. The packaged blend therefore has no exact measured held-out analogue or grade.",
+    "full_data_fit": "Both packaged checkpoints fit all 10,606 train plus 1,873 valid groups; all-data outputs have no held-out score.",
+    "public_score_forecast": null,
+    "precision_quality": "Q8 callback precision is verified. The separate H390 FP32/Q8/Q4 quality diagnostic is for a different two-student ZIP and does not establish Q4 or Q8 quality deltas for this compact blend.",
+    "selection_interpretation": "The .6725743 value must be presented only as the fold-1 prototype score, not as the score of this final all-data submission."
+  },
+  "documentary_followup": {
+    "note": "The frozen build receipt still labels offline callback validation pending. The independent receipt and actor CALLBACK_PANEL_R1 bind the exact ZIP and close that operational gate without editing the build receipt.",
+    "actor_full_valid_file_sha256": null
+  }
+}
