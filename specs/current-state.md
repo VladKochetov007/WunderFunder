@@ -8,6 +8,8 @@ Live authority supersedes archived Vast-off/$20 snapshots: user selected a **$70
 
 Evidence and effective allocation: [continuation contract](../research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTINUATION_CONTRACT_20261011.md), [raw continuation receipts](../research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011), [research loop](../research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LOOP_LOG_20261010.md).
 
+The user requested monitoring and a durable30-minute callback to this same controller session. A user crontab entry at minute00/30 invokes scripts/research_monitor_wakeup.py through the campaign scope, with fixed session/config, a nonblocking lock and pending-message coalescing. The exact native Codex queue call accepted a full monitoring prompt. [Saved prompt](../research/RESEARCH_MONITOR_PROMPT_20261011.md) reloads Claude's handoff, instructions, current frontier and failure lessons. [Install receipt](../research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/MONITOR_CRON_INSTALL_R1.json). Recurring Vast bulk-pull and grade-bank timers remain disabled as Claude directed; one already-started bounded pull drains. Complete terminal collection/teardown now has an independent18-test offline review and source integration; actual collection must wait for quiescence.
+
 The following sections are preserved historical snapshots; their stop, spending and score statements do not override the continuation above.
 
 # Current research state — 2026-10-09 04:37 UTC

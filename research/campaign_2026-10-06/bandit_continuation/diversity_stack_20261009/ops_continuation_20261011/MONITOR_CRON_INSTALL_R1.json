@@ -1,0 +1,31 @@
+{
+  "utc": "2026-10-11T09:51:21.066836+00:00",
+  "schedule": "*/30 * * * *",
+  "timezone": "host Europe/Kyiv, minute00and30",
+  "thread_id": "01a12a30-1630-77e1-b9e2-28cd0aa662ea",
+  "method": "native codex queue same session, no new controller/model selection",
+  "marker": "# wnn-research-monitor-30m",
+  "entry": "*/30 * * * * XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus PATH=/home/vlad/.npm-global/bin:/usr/local/bin:/usr/bin:/bin WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=10\\% WNN_THREADS=1 WNN_MEM_MAX=512000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /usr/bin/python3 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/research_monitor_wakeup.py --config /home/vlad/development/wunder/wnn_connectome_starterpack/.runtime/research_monitor_30m/config.json >> /home/vlad/development/wunder/wnn_connectome_starterpack/.runtime/research_monitor_30m/cron.log 2>&1 # wnn-research-monitor-30m",
+  "config": "/home/vlad/development/wunder/wnn_connectome_starterpack/.runtime/research_monitor_30m/config.json",
+  "prompt": "research/RESEARCH_MONITOR_PROMPT_20261011.md",
+  "coalescing": "skip outstanding accepted wakeup until completed_utc ack or2h recovery",
+  "disable_file": "/home/vlad/development/wunder/wnn_connectome_starterpack/.runtime/research_monitor_30m/DISABLED",
+  "install_verified": true,
+  "tests": 8,
+  "script_commit": "c325a957",
+  "existing_entries_preserved": true,
+  "accepted_delivery_test": {
+    "accepted_utc": "2026-10-11T09:50:54.545906Z",
+    "codex_path": "/home/vlad/.npm-global/lib/node_modules/@openai/codex/bin/codex.js",
+    "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "exit_code": 0,
+    "prompt_bytes": 5361,
+    "prompt_sha256": "4721cc0e5a8f8d6350b3dd0ac39e873026e60401b3078f28b4f70ff6b3bea95e",
+    "queue_id": "01a12a5f-598c-7521-96a8-3570a6c4cefc",
+    "schema": "wnn.research-monitor-queued.v1",
+    "thread_id": "01a12a30-1630-77e1-b9e2-28cd0aa662ea"
+  },
+  "crond_active": true,
+  "user_linger": true,
+  "ack_state": "No completion ack written for the newly queued scheduled message; scheduled turn owns its acknowledgment."
+}

@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-11T09:43:03.828090+00:00",
+  "reason": "Reenabled disabled Vast B pull timer: previous failure was SSH/SCP timeout, not scientific failure. Current own checkpoints already fetched successfully. Exact aggregate accounting for support services, no cap increase.",
+  "services": {
+    "wnn-watchdog.service": "Slice=wnn-campaign.slice\nCPUQuotaPerSecUSec=250ms\nMemoryHigh=infinity\nMemoryMax=838860800\nEnvironment=OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1\n",
+    "wnn-vast-pull-lane-b.service": "Slice=wnn-campaign.slice\nCPUQuotaPerSecUSec=200ms\nMemoryHigh=1000000000\nMemoryMax=1500000000\nEnvironment=VT_LANE=b OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1\n",
+    "wnn-vast-tick-lane-b.service": "Slice=wnn-campaign.slice\nCPUQuotaPerSecUSec=200ms\nMemoryHigh=1887436800\nMemoryMax=2147483648\nEnvironment=VT_LANE=b OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1\n",
+    "wnn-local-queue-r1.service": "Slice=wnn-campaign.slice\nCPUQuotaPerSecUSec=200ms\nMemoryHigh=infinity\nMemoryMax=1572864000\nEnvironment=WNN_LOCAL_LOADER_WORKERS=0\n"
+  },
+  "pull_timer": "disabled; one already-started bounded collection drains",
+  "watchdog": "pull timer excluded; current tick/queue/Kagglepoller checked",
+  "notification": "notify-send completed for ready submissions",
+  "retraction": "Claude handoff section6 explicitly disabled recurring Vast bulk pulls because of slow link; memory accounting is not a network fix. The recurring pull timer is disabled again. Already-started bounded one-shot collection drains; subsequent monitoring uses targeted result/score collection and final reviewed terminalcollector. Never re-enable recurring pulls without throughput fix."
+}
