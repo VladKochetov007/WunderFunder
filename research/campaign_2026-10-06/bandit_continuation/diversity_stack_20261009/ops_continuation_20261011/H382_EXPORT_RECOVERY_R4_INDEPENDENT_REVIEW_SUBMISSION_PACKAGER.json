@@ -1,0 +1,48 @@
+{
+  "schema": "wnn.h382-export-recovery-independent-review.v1",
+  "reviewer": "submission_packager",
+  "result": "PASS",
+  "scope": "Narrow R3-to-R4 export-recovery collector delta only; no fit, provider action, upload, push, or scientific score review.",
+  "reviewed_packet": "/home/vlad/development/wunder/wnn_h382_t3_fold0_packet_20261011/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_export_recovery_20261011_r4",
+  "pins": {
+    "packet_manifest_sha256": "d7718aa30a11831d57b1e4bc12e00b61fcfd2213edcec8b8646ab9b17f3dfcc2",
+    "kernel_sha256": "f7671c6bec834e7a26f5e65dcf9c014e0ec89f7cfd9fad97bbd02123aa27e45c",
+    "asset_manifest_sha256": "bca79e00f62e89bae7b44a4261682d9cfc4ac6d280c6610bbe14f48619685164",
+    "checkpoint_archive": {
+      "bytes": 12441600,
+      "sha256": "a57df09373de67618c7a5826a11a3756fbdb1640b38781af1467a6cbbc468285"
+    },
+    "dataset_id": "vladkochetov07/wnn-h382-rescued-checkpoints-20261011-r4",
+    "kernel_id": "vladkochetov07/wnn-h382-export-recovery-20261011-r4"
+  },
+  "immutable_prior_packets": {
+    "r1": {
+      "manifest_sha256": "3db16e55b00116042ce046d2a63da54e47a2eae275d2dcc7706b0a1bba37cb1b",
+      "kernel_sha256": "955ee51f131efb054e64276a4c913e83fb7b66d6a9cab5e7d2e445b138387eb2"
+    },
+    "r2": {
+      "manifest_sha256": "c9d9c79b10d51f872aaa179e4e6cb39564e0a07d3c6564f590fd2d3a46d74582",
+      "kernel_sha256": "b909fc96a18c491613d17a20f166d7cee22b6775c29d40f83d916483fbe7bdcd"
+    },
+    "r3": {
+      "manifest_sha256": "b1e6c3666ec4c0b197e475ca2bee45dfac49acd322666a62a6e75e2be02fb33a",
+      "kernel_sha256": "c010b7f7c2658c9ceeb8e3c22508f81f96516a2fe02dcd6ea0be1da4a833406f"
+    }
+  },
+  "checks": {
+    "sealed_file_table": "All eight packet_files entries match the bytes and SHA-256 values in PACKET_MANIFEST_R4.json.",
+    "source_and_recipe": "The frozen R3 jobs and source-manifest files retain their bound hashes (0fda9c0fe9d8370a6c7d48afb6fa1009834689c4aed2400ed2301495bbfa45cd and a98f035691dbd4f1d9e69ccbffc37d12fcbd0ec979a30d649c7919d1e0e9b979). The three jobs and checkpoint epochs remain prop2/e3/seed3@ep2, prop0/e3/seed3@ep2, and prop0/e4/seed3@ep3; each export invokes the frozen predict_run.py RUN valid --epoch E command. No fit commands are present.",
+    "fresh_copy_binding": "For each run, validate_collected_prediction_pair checks the copied NPY and JSON sidecar exist and match the same run's fresh validated export receipt by exact byte count and SHA-256, and checks run/source packet/source bundle/split/checkpoint/epoch/shape/dtype/finiteness bindings. The worker records these collection checks before terminal serialization and requires all three checks valid, all six expected files, all three validated jobs, and no worker errors before terminal complete.",
+    "historical_hashes": "R3 reference prediction hashes and match booleans are retained as diagnostics. Completion requires a collected hash to be present but does not require equality to the historical device-specific hash.",
+    "metadata_and_archive": "The staged dataset metadata and kernel metadata both use the unique R4 dataset/kernel IDs. The staged checkpoint archive size and SHA-256 match the sealed asset manifest."
+  },
+  "focused_tests": {
+    "command": "scripts/limited .venv/bin/python -m pytest -q <R4 packet>/tests",
+    "limits": "50% CPU, one thread, 700000000-byte memory maximum, 120-second runtime cap",
+    "result": "4 passed in 0.31s; included valid tiny copy, corrupted copy/wrong identity rejection, and missing sidecar rejection."
+  },
+  "limitations": [
+    "The helper tests use small synthetic file contents; no R4 remote export was run or claimed.",
+    "Root retains responsibility for fresh quota/session/resource admission, dataset readiness, and any dispatch."
+  ]
+}
