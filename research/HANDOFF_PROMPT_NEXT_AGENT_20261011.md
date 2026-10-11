@@ -2,6 +2,8 @@
 
 You are taking over a running research campaign from another Claude Code session. **Read this whole file first, then do the "First 30 minutes" checklist, then run the "Loop pass" every time the user says `status? utilization? ...` (or every ~15-20 min if working autonomously).** Do not skip the rules in section 2: each one exists because something broke or was wasted.
 
+> **UPDATE 2026-10-11 ~15:50 (reviewer):** (1) Vast **auto top-up is now DISABLED** (see CLAUDE.md); the "~$1/hour auto top-up / cap 70" statements in this file are SUPERSEDED: collect artifacts early, no top-up, no new rental, no blind retries. (2) CLAUDE.md now says **do not select submissions from fold 1 alone**: rank complete endpoints by cross-fold evidence with distinct seeds and clean ancestry (ADR0031); the owner agent holds the live state. (3) The public results of the fold-1-held-out ZIPs and the review are in `diversity_stack_20261009/review_public_gap_20261011/REVIEW_PUBLIC_GAP.md` (read sections 11-13 first; the corrections there override sections 4, 6, 7).
+
 Working directory: `/home/vlad/development/wunder/wnn_connectome_starterpack` (git repo, branch `main`, remote `origin` on GitHub; commit AND push every meaningful step). Use `rg` not `grep`. Reply in a terse style (the user likes caveman-short status). Code, commits and security text are written normally.
 
 ---------------------------------------------------------------------
