@@ -1,0 +1,332 @@
+{
+  "schema": "wnn.compression-transport-static-probe.v1",
+  "status": "storage_and_tensor_rounding_only_no_predictive_or_runtime_claim",
+  "source_commit": "d2c82811c53f047585678dad52624136f117b5e9",
+  "bounds": {
+    "cpu_quota": "100%",
+    "ram_bytes": 700000000,
+    "runtime_seconds": 120,
+    "slice": "wnn-campaign.slice"
+  },
+  "conversion": "Only gru.weight_ih_*, gru.weight_hh_* and head.0.weight use float16 NPZ storage; all other tensors unchanged float32. np.savez then outer ZIP_DEFLATED at default compression; unchanged solution/native libraries/metadata. No source artifacts mutated.",
+  "candidates": [
+    {
+      "source_build_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-exploit-now_r2/h388_full_data_teacher_pair_q8/BUILD_RECEIPT_R3.json",
+      "source_build_receipt_sha256": "849e9d41b04d5b2e3d28744f000088a6898c2c245ca36213dbd26a6f2411ba26",
+      "source_zip_sha256": "837b0fb3c71b22062747d7e1e3bfd2241cb6c5cd41edac908745dd36d5469410",
+      "source_zip_bytes": 17272496,
+      "converted_zip_bytes": 9590917,
+      "converted_zip_sha256": "40b34ae2fbc40e661c69d779f0c1b6fcf3337abdc2ee856d9707e9f909e78ecd",
+      "members": [
+        {
+          "name": "weights_0.npz",
+          "source_npz_bytes": 8612024,
+          "fp16_npz_bytes": 4483256,
+          "raw_tensor_bytes_saved": 4128768,
+          "fp16_npz_sha256": "23c1564de7a76c499d1849c386bb7936ee06fad2c187bcbc22b8fb714818df76",
+          "changes": [
+            {
+              "tensor": "gru.weight_ih_l0",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.00015532970428466797,
+              "q8_code_changed_count": 3234,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1152,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_hh_l0",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.00022304058074951172,
+              "q8_code_changed_count": 3117,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1151,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_ih_l1",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.0004010200500488281,
+              "q8_code_changed_count": 3019,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1152,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_hh_l1",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.00022232532501220703,
+              "q8_code_changed_count": 3040,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1152,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "head.0.weight",
+              "shape": [
+                384,
+                768
+              ],
+              "max_abs_fp16_restore_error": 0.00044465065002441406,
+              "q8_code_changed_count": 1862,
+              "q8_code_elements": 294912,
+              "q8_scale_changed_rows": 768,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            }
+          ]
+        },
+        {
+          "name": "weights_1.npz",
+          "source_npz_bytes": 8612024,
+          "fp16_npz_bytes": 4483256,
+          "raw_tensor_bytes_saved": 4128768,
+          "fp16_npz_sha256": "6c28983b0a921aa6be9e2400770a2b092f5d57e3f8ab8f02a617333cc8872c5d",
+          "changes": [
+            {
+              "tensor": "gru.weight_ih_l0",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.00014609098434448242,
+              "q8_code_changed_count": 3109,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1152,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_hh_l0",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.00011938810348510742,
+              "q8_code_changed_count": 3256,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1152,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_ih_l1",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.0002440810203552246,
+              "q8_code_changed_count": 3280,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1152,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_hh_l1",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.00023794174194335938,
+              "q8_code_changed_count": 2958,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1152,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "head.0.weight",
+              "shape": [
+                384,
+                768
+              ],
+              "max_abs_fp16_restore_error": 0.00047266483306884766,
+              "q8_code_changed_count": 1777,
+              "q8_code_elements": 294912,
+              "q8_scale_changed_rows": 768,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source_build_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-exploit-now_r2/h390_student_h388_teacher_pair_q8/BUILD_RECEIPT_R1.json",
+      "source_build_receipt_sha256": "938fb0d85666c0400ffce939c55bfb6bb517786bd17fdfbf12ad913fcb53d73a",
+      "source_zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+      "source_zip_bytes": 12914019,
+      "converted_zip_bytes": 7364001,
+      "converted_zip_sha256": "271eb688f84e2d1c3da670088d4dbd9a5af2361ac60de46bcf602b6af9ec520d",
+      "members": [
+        {
+          "name": "weights_0.npz",
+          "source_npz_bytes": 3908280,
+          "fp16_npz_bytes": 2073272,
+          "raw_tensor_bytes_saved": 1835008,
+          "fp16_npz_sha256": "88dbafd2d97bc2f5fda7834e3089ccfdc17c9b2e187d93308a6afcb7f18f3eaa",
+          "changes": [
+            {
+              "tensor": "gru.weight_ih_l0",
+              "shape": [
+                768,
+                256
+              ],
+              "max_abs_fp16_restore_error": 0.0002365708351135254,
+              "q8_code_changed_count": 1465,
+              "q8_code_elements": 196608,
+              "q8_scale_changed_rows": 768,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_hh_l0",
+              "shape": [
+                768,
+                256
+              ],
+              "max_abs_fp16_restore_error": 0.00022357702255249023,
+              "q8_code_changed_count": 1468,
+              "q8_code_elements": 196608,
+              "q8_scale_changed_rows": 768,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_ih_l1",
+              "shape": [
+                768,
+                256
+              ],
+              "max_abs_fp16_restore_error": 0.0004843473434448242,
+              "q8_code_changed_count": 1415,
+              "q8_code_elements": 196608,
+              "q8_scale_changed_rows": 768,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_hh_l1",
+              "shape": [
+                768,
+                256
+              ],
+              "max_abs_fp16_restore_error": 0.00024074316024780273,
+              "q8_code_changed_count": 1455,
+              "q8_code_elements": 196608,
+              "q8_scale_changed_rows": 768,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "head.0.weight",
+              "shape": [
+                256,
+                512
+              ],
+              "max_abs_fp16_restore_error": 0.00048410892486572266,
+              "q8_code_changed_count": 822,
+              "q8_code_elements": 131072,
+              "q8_scale_changed_rows": 512,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            }
+          ]
+        },
+        {
+          "name": "weights_1.npz",
+          "source_npz_bytes": 8612024,
+          "fp16_npz_bytes": 4483256,
+          "raw_tensor_bytes_saved": 4128768,
+          "fp16_npz_sha256": "6c28983b0a921aa6be9e2400770a2b092f5d57e3f8ab8f02a617333cc8872c5d",
+          "changes": [
+            {
+              "tensor": "gru.weight_ih_l0",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.00014609098434448242,
+              "q8_code_changed_count": 3109,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1152,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_hh_l0",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.00011938810348510742,
+              "q8_code_changed_count": 3256,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1152,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_ih_l1",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.0002440810203552246,
+              "q8_code_changed_count": 3280,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1152,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "gru.weight_hh_l1",
+              "shape": [
+                1152,
+                384
+              ],
+              "max_abs_fp16_restore_error": 0.00023794174194335938,
+              "q8_code_changed_count": 2958,
+              "q8_code_elements": 442368,
+              "q8_scale_changed_rows": 1152,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            },
+            {
+              "tensor": "head.0.weight",
+              "shape": [
+                384,
+                768
+              ],
+              "max_abs_fp16_restore_error": 0.00047266483306884766,
+              "q8_code_changed_count": 1777,
+              "q8_code_elements": 294912,
+              "q8_scale_changed_rows": 768,
+              "q8_note": "NumPy algebra matching DynQ8 per-row max/127 + ties-even; not an actual native export/callback test."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "prospective_three_teachers_plus_one_student": {
+    "status": "shape-derived raw-size ceiling only; third teacher bytes not exported/checked",
+    "uncompressed_fp16_npz_payload_bytes": 15523040,
+    "observed_nonweight_uncompressed_bytes": 2908393,
+    "raw_sum_before_zip_headers": 18431433,
+    "qualification": "Same-shape independent third H384 with identical array schema expected. Allows archive/header slack; exact sealed ZIP, source identity, prediction quality and runtime still required. No duplicated model proposed for selection.",
+    "all_arrays_included": true,
+    "conservative_outer_zip_and_manifest_allowance_bytes": 24576,
+    "same_schema_raw_estimate_with_allowance_bytes": 18456009,
+    "header_qualification": "Every inner NPY/NPZ header included in measured converted NPZ lengths. Outer ZIP local/central/end headers, deflate overhead and extra manifest members included only through conservative24KiB allowance. Third independently trained teacher expected to have identical array schema; exact ZIP must be measured."
+  },
+  "source_file_sha256": {
+    "submission/solution_native.py": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+    "scripts/package_submission.py": "1e8ae603ae0bcc8d0d85c5a1ffb95674aa5e3f0b640e8df267e29b5c0751807c",
+    "native/src/python.rs": "6f8a4107f2edcce13d6620a19970ec25f459e184d6bd3d111ed5f9d74242b322",
+    "native/src/rnn_fast.rs": "7e6df836313aac1f8175fd1952362f03738fcc5629318b4b01cc5a5e5057708b",
+    "native/src/vnni.rs": "803b7e99a2234587eafef6861678e610c72ddf87fcc970958efdbedc7a8f3406",
+    "src/wnn/quantization.py": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077",
+    "src/wnn/quantization_export.py": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "probe_output_persistence": "Only this evidence receipt persisted. Converted ZIPs were constructed in memory and discarded; their hashes identify measured transient bytes, not retained release artifacts."
+}
