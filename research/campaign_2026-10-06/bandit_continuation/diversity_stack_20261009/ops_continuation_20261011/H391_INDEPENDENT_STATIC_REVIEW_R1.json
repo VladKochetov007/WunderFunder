@@ -1,0 +1,96 @@
+{
+  "checks": {
+    "delivery_bounds_seconds": {
+      "collection": 3600,
+      "export": 1800,
+      "fit": 7200,
+      "margin": 900,
+      "profile": 120
+    },
+    "focused_tests": "PASS; 5 tests",
+    "frozen_packet_verifier": "PASS; 58 source files, 3 teachers, 11,949 fit groups, 457 exposed evaluation groups excluded",
+    "parent": {
+      "checkpoint": "model_ep2.pt",
+      "is_also_seed4_teacher": true,
+      "parent_teacher_overlap_disclosed": true,
+      "run": "vt_f1_muonall_h384_e3_s4"
+    },
+    "selection_and_claims": {
+      "fixed_blend": "0.5*H391 + 0.5*vt_f1_dsq_dm_t3_a9_e6",
+      "fold1_exposed": true,
+      "fresh_heldout_claim": false,
+      "metric": "global_wp_clip2_v1",
+      "primary_reference": "vt_f1_dsq_dm_t3_a9_e6",
+      "public_score_claim": false,
+      "scientific_contrast": "width/parent/target interaction; not pure width-only; parent is a teacher member"
+    },
+    "target": {
+      "cache": "dc_98411230",
+      "evaluation_arrays_in_cache": false,
+      "evaluation_groups": 457,
+      "fit_groups": {
+        "train": 10533,
+        "valid": 1416
+      },
+      "formula": "homogeneous target = 0.8125 * mean(epoch-2 strong T3 teacher predictions)",
+      "metadata_sha256": "a2f82d8dbc7bbbe2c7cf36e18e3b7be0b41f887aa14a742b43f616b060856779",
+      "split_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "strict_consumer_checks": "split, memberships, producer metadata, NPY row ordering, shape, dtype, bytes, SHA-256, finite values",
+      "student_blend": "0.1*y + 0.9*cached homogeneous target"
+    },
+    "teacher_lineage": {
+      "checkpoint_epoch": 2,
+      "fold1_membership_matches_student_fit": true,
+      "run_ids": [
+        "vt_f1_muonall_h384_e3",
+        "vt_f1_muonall_h384_e3_s4",
+        "vt_f1_muonall_h384_e3_s5"
+      ],
+      "seeds": [
+        3,
+        4,
+        5
+      ],
+      "teacher_since_weight": 32.0,
+      "unique_checkpoint_hashes": 3
+    },
+    "trainer_cli": {
+      "all_flags_declared_by_frozen_trainer": true,
+      "argv_tokens": 93,
+      "fixed_checkpoint_epoch": 5,
+      "flags": 48,
+      "no_eval_during_fit": true,
+      "recipe_field_mismatches": 0,
+      "save_training_state": true,
+      "student_since_weight": 0.0
+    }
+  },
+  "fit_authorized": false,
+  "limitations": [
+    "H391 has no fit, local score, or public score yet.",
+    "Fold-1 evaluation groups are repeatedly exposed and excluded from fitting; any subsequent local grade remains exposed evaluation, not a fresh holdout.",
+    "The profile requires a separate fresh root resource and credit gate, physical-GPU-1 headroom, and concurrent H390/OOD observation.",
+    "Static PASS does not authorize staging, profiling, full fit, or spending; reviewer performed none of those operations."
+  ],
+  "packet": {
+    "branch": "exp/h391-f1-h384-20261011",
+    "commit": "350d0abf7f6b1a20030880c580346a30dd1aad51",
+    "manifest_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h391_f1_h384_t3_student_r1/PACKET_MANIFEST_R1.json",
+    "manifest_sha256": "8e7e738a3e41e7a19c346f70a145e8b93c73cf9e3a08522794caa69375ecfe1e",
+    "source_origin_manifest_sha256": "382beb68d556dd63215a9f7467bda09a23626ec3e1a2195739cffcab6819d9cc",
+    "trainer_sha256": "8c041bf2a49b43ef5a014a5f7cee59302605d464f5b82fe8c7dc12267c386a40",
+    "worktree": "/home/vlad/development/wunder/wnn_h391_f1_h384_20261011"
+  },
+  "profile_authorized_by_reviewer": false,
+  "profile_unit_clarification": {
+    "commit": "d5ef099e6c2b5d127de83b4cfa82efcdcd66bb09",
+    "meaning": "5 warm-up plus 25 measured complete batches; about 300 expected chunk updates, not 25 optimizer updates; 120-second profile only; fit remains unadmitted",
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/H391_PROFILE_UNIT_CLARIFICATION_R2.json",
+    "sha256": "fe3f20379e7a900d8050ffede8d78f386c571bb0d4f839f58881c6e893406cfa"
+  },
+  "recorded_utc": "2026-10-11T14:34:45+00:00",
+  "review_id": "h391_independent_static_review_r1",
+  "reviewer_role": "independent static recipe and packet critic",
+  "schema": "wnn.h391-independent-static-review.v1",
+  "status": "PASS_STATIC_AND_PROFILE_PACKET_ONLY"
+}
