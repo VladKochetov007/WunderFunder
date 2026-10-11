@@ -1,0 +1,67 @@
+{
+  "attempt_ids": [
+    "h382-local-clean-f2-s3-e3-fit-r1",
+    "h382-local-clean-f2-s3-e3-export-r1",
+    "h382-local-clean-f2-s3-e4-fit-r1",
+    "h382-local-clean-f2-s3-e4-export-r1",
+    "h382-local-clean-f3-s3-e3-fit-r1",
+    "h382-local-clean-f3-s3-e3-export-r1",
+    "h382-local-clean-f3-s3-e4-fit-r1",
+    "h382-local-clean-f3-s3-e4-export-r1"
+  ],
+  "control": "H380 fixed5 endpoint is the current fold1 lead comparison; these are separate fresh fold2/fold3 scratch fits, same matched recipe family, seed3, and no initializer/teacher.",
+  "control_receipt": {
+    "checkpoint_epoch": 5,
+    "exposure": "previously inspected fold 1; not a fresh holdout",
+    "fold": 1,
+    "path": "control_receipts/H380_LOCAL_TERMINAL_R1.json",
+    "run": "r3_muonall256prop0_f1_s3_h380_e6",
+    "sha256": "c3d5b21e36d18936d7ae7e9a6c9e38871664f949fe72239bdcb68599c49fbfe6",
+    "student_score": 0.66885
+  },
+  "exposure": "Folds 2 and 3 were previously inspected in this campaign; evaluation groups are excluded from fitting, but are not fresh global holdouts.",
+  "input_audit_sha256": "873aefba2a0217571b883867b8056fa28a011cba9a44e4a96a208be604672c49",
+  "packet_manifest_path": "PACKET_MANIFEST_R1.json (file inventory excludes its own digest; root binds the commit SHA)",
+  "prepared_utc": "2026-10-11T13:27:18.950780+00:00",
+  "remaining_root_gates": [
+    "independent packet/command review",
+    "live GPU and 18GB aggregate RAM admission check",
+    "queue/source snapshot path readiness after commit integration"
+  ],
+  "resource_evidence": {
+    "actual_loader_workers": 1,
+    "contract_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/RECOVERY_PROFILE_CONTRACT_R1.json",
+    "contract_sha256": "4d05005f0bc5952c425fa13e27845c8c6fd5eac7243c101c5492cc0019f468b3",
+    "interpretation": "25 measured full-shape batches only; representative resource receipt, not claimed full-fold runtime",
+    "oom": 0,
+    "peak_bytes": 9500770304,
+    "profile_attempt": "recovery-mu256p0-profile-20261011-r1",
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/LOCAL_RECOVERY_REVIEW_R1.json",
+    "receipt_sha256": "98d9ef42a6fd9b0f74b40446474b6a34e66fda866866d4905453b88f0a507f49",
+    "vram_peak_bytes": 3570401280
+  },
+  "resource_receipts": [
+    {
+      "path": "resource_receipts/LOCAL_RECOVERY_REVIEW_R1.json",
+      "sha256": "98d9ef42a6fd9b0f74b40446474b6a34e66fda866866d4905453b88f0a507f49"
+    },
+    {
+      "path": "resource_receipts/RECOVERY_PROFILE_CONTRACT_R1.json",
+      "sha256": "4d05005f0bc5952c425fa13e27845c8c6fd5eac7243c101c5492cc0019f468b3"
+    }
+  ],
+  "run_names": [
+    "h382_muonall256prop0_f2_s3_e3",
+    "h382_muonall256prop0_f2_s3_e4",
+    "h382_muonall256prop0_f3_s3_e3",
+    "h382_muonall256prop0_f3_s3_e4"
+  ],
+  "schema": "wnn.h382-local-clean-crossfold-prepared-review.v1",
+  "source_binding_sha256": "d672e552284e695228af88bf9d2d01488cbdc61abb9d4455ac911a8aae793411",
+  "source_manifest_sha256": "6ad301c43ad2eadd47d88af807b1ee74977052856ed6ddff3211c45c125999d6",
+  "split_manifest_sha256": {
+    "2": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+    "3": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343"
+  },
+  "status": "prepared_for_independent_review; no fits launched; no queue mutation performed"
+}
