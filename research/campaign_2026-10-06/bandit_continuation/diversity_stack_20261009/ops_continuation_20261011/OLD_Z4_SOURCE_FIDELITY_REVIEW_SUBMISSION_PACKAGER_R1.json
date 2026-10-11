@@ -1,0 +1,107 @@
+{
+  "schema": "wnn.old-z4-source-fidelity-independent-review.v1",
+  "reviewer": "submission_packager",
+  "result": "PASS_WITH_NONBLOCKING_CLARIFICATION",
+  "basis": {
+    "main_reconstruction_commit": "892d9bedd6a1cc815c41e8575bf1c3480ed1ecd4",
+    "recipe_sha256": "bc7bb99844804def1dacd0c6c2f1afe6f56d008cb1a0fb9d550c4f1a313e58c2",
+    "stage_inventory_sha256": "13af7668130538e4d6ac5699f2222fd5b643ae550dc6dc954f02c63b4c7b3880",
+    "reconstruction_sha256": "4e8477886ad3c448b9e18d20b41edad7dea310b4d55c7d9c105e098892732c66",
+    "scope": "Read-only historical HFT/source-method fidelity and producer/consumer audit. No fit, prediction, provider action, source edit, score, or budget/grader mutation."
+  },
+  "findings": [
+    {
+      "severity": "pass",
+      "location": "scripts/train_rnn.py at d3b2b825f181f89b6b6d99d487bbade3aaec7f40 and c337e3a613f795fdbb057098d11c0191c37c3615",
+      "finding": "The only trainer-source delta is a two-line parser addition for --wsd-shape and its help text. The planned HFT uses the OneCycle default, as did the historical HFT provenance; no GCorr, mask, freeze, initialization, split, normalizer, or checkpoint behavior changed between these revisions.",
+      "scientific_consequence": "No consequential historical-versus-planned HFT implementation drift was found. The source delta does not block the fold-clean candidate.",
+      "smallest_clarification": "Consider adding --sched onecycle explicitly to the planned HFT argv/method record so a future default change cannot silently alter the recipe. Current behavior is already OneCycle."
+    },
+    {
+      "severity": "pass",
+      "location": "recipe.json stages.muon_parent, family_student, and gcorr_hft; actual historical provenance.json files",
+      "finding": "Checked method fields have zero mismatches between the reconstructed parent/student method declarations and their actual historical provenance. The Z4 parent is the declared 4-epoch hidden-Muon parent at ep3; the family student is its 2-epoch AdamW child at ep1 with alpha .7, raw family targets and weight .1. Historical parent/student seeds are 99; the prepared clean screen uses seed 3 deliberately, so this is a method comparison with new weights, not historical-weight recovery.",
+      "scientific_consequence": "The ancestry and stage settings are coherent; preserve the seed change and clean-fold membership as explicit treatment details."
+    },
+    {
+      "severity": "pass",
+      "location": "scripts/train_rnn.py clean campaign-split path and recipe.json folds 0/1",
+      "finding": "The pinned split manifests match their declared hashes. Fold 0 partitions 1,405 valid fit groups and 468 evaluation groups; fold 1 partitions 1,416 fit and 457 evaluation groups. Each pair is disjoint and covers all 1,873 valid groups. With --train-source valid, the trainer builds the fit pool by subtracting fold_groups; campaign_split.assert_fit_groups checks the final fit groups. --full-valid sizes the evaluation index and does not widen train_idx.",
+      "scientific_consequence": "The planned fold masks separate fit and scored groups as intended. These already inspected folds are robustness evidence, not a fresh holdout."
+    },
+    {
+      "severity": "pass",
+      "location": "scripts/make_core_checkpoint.py at fe8e248f8e25e789274716ca29e5ab60903857ae and actual historical seed-99 student/crop/HFT checkpoints",
+      "finding": "The actual student model_ep1 checkpoint has 31 rows in head.2.weight/bias; the actual crop model_ep1 has 23. The crop preserves the first 23 rows exactly and every other model-state tensor exactly, dropping only the eight family rows. The actual HFT initializes from that crop at @ep1, writes fixed ep0, keeps all 10 inp/gru state tensors and mean/std unchanged, and changes head tensors. The planned --freeze inp,gru prefixes match actual model-state names.",
+      "scientific_consequence": "The historical producer format and HFT consumer path agree with the reconstructed crop-and-finetune contract."
+    },
+    {
+      "severity": "nonblocking_dependency",
+      "location": "recipe.json comparison.control and remaining_admission_gates",
+      "finding": "The matched same-fold/same-seed strong-T3 control run/checkpoint is not yet bound.",
+      "scientific_consequence": "This does not prevent fitting a valid candidate parent or its declared descendants; root must bind the control before comparative grading."
+    }
+  ],
+  "source_pins": {
+    "historical_hft_trainer": {
+      "commit": "d3b2b825f181f89b6b6d99d487bbade3aaec7f40",
+      "sha256": "4de1f29b18aa7f9371010816cac04d986b0fcf881415ca562a89c22f1afbd207"
+    },
+    "planned_hft_trainer": {
+      "commit": "c337e3a613f795fdbb057098d11c0191c37c3615",
+      "sha256": "5b135ea90480dde8b530c4543e1d587a044efa1f98dc6a3327b9dca6fcd40187"
+    },
+    "parent_source_trainer_sha256": "0e4c5e228c68aea12d2e4701475b71a5b881dac0229fcfe708a7caf46198e44a",
+    "student_source_trainer_sha256": "09902e4b4d886f863d5090ff58ba9ec4b7c677f995bb0192f0538c819a693bbb",
+    "crop_producer": {
+      "commit": "fe8e248f8e25e789274716ca29e5ab60903857ae",
+      "sha256": "c805c4f8647abbaa434a575870199b558b411e412a3ceaff450a36e4a657161a"
+    }
+  },
+  "historical_hft_vs_clean_recipe": {
+    "unchanged_method_flags": [
+      "GRU h256 x 2, zero dropout",
+      "seed 3 for the HFT stage",
+      "train-source valid",
+      "full-valid and mask-weight",
+      "GCorr with AdamW",
+      "freeze inp,gru",
+      "lr 0.0005, wd 0.01, batch 16, chunk 2000, fast path",
+      "inherit init preprocessing",
+      "one epoch, fixed checkpoint epoch 0"
+    ],
+    "intentional_cleanfold_changes": [
+      "Historical HFT has valid_fold=-1 and eval_source=dev; the clean recipe binds fold-specific split manifests and eval_source=vfold.",
+      "The clean HFT trains on the fold's eligible valid groups, excluding its evaluation groups; historical HFT fit 1,505 valid groups without a clean-fold mask.",
+      "Historical parent/student use seed 99; the clean diagnostic uses seed 3 throughout its chain and must not be described as recovering the historical weights.",
+      "The clean HFT initializes from its own fold's newly produced family-student crop at @ep1; historical HFT uses its all-data crop @ep1."
+    ],
+    "trainer_semantics_checked": {
+      "mask_weight": "main_row_weights selects valid & scored rows when enabled; the GCorr objective receives those weights.",
+      "freeze": "The trainer freezes parameters whose names begin inp or gru; actual crop/HFT states use those prefixes and the historical frozen tensors are unchanged.",
+      "fold_mask": "valid fit groups are set-differenced from the campaign evaluation fold and then checked by campaign_split.assert_fit_groups.",
+      "normalizer": "HFT inherits its crop initialization preprocessing; actual mean/std tensors are identical across historical crop and HFT.",
+      "checkpoint_path": "@ep1 resolves to model_ep1.pt; the crop produces model_ep1.pt and HFT selects model_ep0.pt."
+    }
+  },
+  "actual_checkpoint_checks": {
+    "student_model_ep1": {
+      "bytes": 3988199,
+      "sha256": "d86aefe78377331136c9617d5ab9ab911b167c6b947b25b7ba0219c92e20b04a"
+    },
+    "core_crop_model_ep1": {
+      "bytes": 3980135,
+      "sha256": "a9cb31068d7078742309e63b25e8fb0ec2e71f3587c15410ccde321df1fb6382"
+    },
+    "hft_model_ep0": {
+      "bytes": 3947431,
+      "sha256": "9a1e338208d9de65ac9ec9f62c73ebd67c40ae634b5ae05e6c738ec5bf84d1d4"
+    },
+    "load_method": "CPU weights-only load with the checkpoint's TorchVersion type explicitly allowlisted; no unsafe pickle load or GPU initialization.",
+    "observations": "31->23 output-row crop verified; other model tensors preserved. Historical HFT init provenance binds the crop SHA; 10 inp/gru tensors plus mean/std match exactly, while head tensors changed."
+  },
+  "limitations": [
+    "This is source/recipe and actual small-checkpoint fidelity review only; no new candidate was fit, scored, or promoted.",
+    "The live GPU/quota/provider admission remains root-owned."
+  ]
+}
