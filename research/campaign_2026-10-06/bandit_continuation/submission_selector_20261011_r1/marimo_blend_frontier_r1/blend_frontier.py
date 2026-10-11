@@ -104,5 +104,13 @@ def _(mo, selector):
     return
 
 
+@app.cell(hide_code=True)
+def _(json, mo, selector):
+    native_grade = json.loads((selector / "native_f1_precision_panel_r1/artifacts/NATIVE_F1_OFFICIAL_GRADE_R1.json").read_text())
+    native_rows = [{"endpoint": _k, "official_wp": _v["wp"], "t0": _v["t0"], "t1": _v["t1"]} for _k,_v in native_grade["candidate_scores"].items()]
+    mo.vstack([mo.md("### Completed native precision comparison\n41 complete sequences / 14 whole components from exposed fold 1; fixed pool, 94,546 scored rows. This subset is not comparable to the full-fold score. Float16 storage minus float32 storage on the same Q8 trio: **−0.0000066413**. Prototype half-student / half-teacher-trio adds **+0.0008769294** here; the final H390 student's parent differs, so this is prototype evidence. The pair edges the trio on this small panel; full-fold float evidence favors the trio. Independent official-metric recomputation agrees."), mo.ui.table(native_rows, selection=None)])
+    return
+
+
 if __name__ == "__main__":
     app.run()
