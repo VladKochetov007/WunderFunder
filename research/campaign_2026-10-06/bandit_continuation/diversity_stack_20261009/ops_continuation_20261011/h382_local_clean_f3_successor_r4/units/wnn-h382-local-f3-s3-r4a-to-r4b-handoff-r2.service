@@ -1,0 +1,20 @@
+[Unit]
+Description=H382 guarded R4A terminal to R4B handoff R2
+After=wnn-campaign.slice
+
+[Service]
+Type=oneshot
+Slice=wnn-campaign.slice
+CPUQuota=25%
+MemoryMax=700000000
+MemorySwapMax=0
+RuntimeMaxSec=14400
+Restart=no
+KillMode=control-group
+TimeoutStopSec=30
+Environment=WNN_SLICE=wnn-campaign.slice
+Environment=WNN_CPU_QUOTA=25%
+Environment=WNN_THREADS=1
+Environment=WNN_MEM_MAX=700000000
+Environment=WNN_RUNTIME_MAX=14400s
+ExecStart=/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_local_clean_f3_successor_r4/operators/handoff_r4a_to_r4b_r2.py
