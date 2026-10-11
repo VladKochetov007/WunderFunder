@@ -524,16 +524,7 @@ def _(CLS, FEAT, P, PLOTS, RP, ROOT, SL, W, Y, gi, lead, np, plt, wp_of):
     ev_["P_book_event_given_runstart"] = float((_start & _ev).sum() / _start.sum())
     ev_["book_event_row_frac"] = float(_ev.mean())
     ev_["weight_share_event_rows"] = float(W[_ev].sum() / W.sum())
-    # sample-and-hold: freeze the prediction at the last book-event row (causal), reset per sequence
-    _idx = np.arange(len(gi))
-    _first = np.zeros(len(gi), np.int64)
-    _newseq = np.r_[True, gi[1:] != gi[:-1]]
-    _first = np.maximum.accumulate(np.where(_newseq, _idx, 0))
-    _last = np.maximum.accumulate(np.where(_ev, _idx, -1))
-    _last = np.where(_last < _first, _idx, _last)
-    _hold = P["student"][_last]
-    ev_["hold_wp"] = float(wp_of(_hold).mean())
-    ev_["mix_hold_p_wp"] = float(wp_of((_hold + P["student"]) / 2).mean())
+    # NOTE: a sample-and-hold test was dropped: heur_valid covers only ~12% of grid steps, so events at other steps are invisible.
     # weighted share of residual SS on event vs non-event rows
     _r = W * (Y - P["student"]) ** 2
     ev_["resid_ss_share_event_rows"] = float(_r[_ev].sum() / _r.sum())
