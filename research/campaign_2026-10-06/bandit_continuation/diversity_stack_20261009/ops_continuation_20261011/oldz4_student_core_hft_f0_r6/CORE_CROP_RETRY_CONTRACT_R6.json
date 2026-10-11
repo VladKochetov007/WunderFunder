@@ -1,0 +1,70 @@
+{
+  "schema": "wnn.oldz4-core-crop-retry-contract.v1",
+  "attempt": "oldz4-r6-f0-s3-core-crop",
+  "superseded_attempt": "oldz4-r5-f0-s3-core-crop",
+  "failed_r5_receipt_relative_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/ROOT_ACTUAL_CORE_CROP_FAILURE_R5.json",
+  "failed_r5_receipt_sha256": "d9a8330f86d8707e60647f6bc7aa3dfbadeeb1bd3e5d33b8b8b0508b7889ffaf",
+  "r5_core_crop_contract_sha256": "22a7e7f2553a6dcfe784b5e813b48aac37eff56c136b97a73694994626951cd9",
+  "r5_source_bindings_sha256": "b7c08e9b19ee6d4e802d858259caeba505538c8e4b5385bf52cd5f21e8a0985b",
+  "r5_verifier_source_sha256": "0ef213cf19fbf916fad921f8a348463f50d85d0c16ca1bec3d852a05906dcd48",
+  "consumer_source_sha256": "203ea796322d7ecbd238111b1339d144aec4caa2981ee9da6d4b62b481384d9b",
+  "crop_source_sha256": "c805c4f8647abbaa434a575870199b558b411e412a3ceaff450a36e4a657161a",
+  "source_run": "oldz4_h230_student_f0_s3_r3",
+  "source_epoch": 1,
+  "source_checkpoint_relative_path": "artifacts/runs/oldz4_h230_student_f0_s3_r3/model_ep1.pt",
+  "source_checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+  "source_provenance_relative_path": "artifacts/runs/oldz4_h230_student_f0_s3_r3/provenance.json",
+  "source_provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+  "destination_run": "oldz4_h230_core_f0_s3_r5",
+  "destination_must_not_exist": true,
+  "producer_receipt_relative_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/CORE_CROP_PRODUCER_RECEIPT_R5.json",
+  "root_admission": {
+    "path": "ROOT_CORE_CROP_ADMISSION_R6.json",
+    "schema": "wnn.oldz4-core-crop-r6-admission.v1",
+    "decision": "PASS",
+    "binds": [
+      "attempt",
+      "retry_contract_sha256",
+      "consumer_source_sha256",
+      "r5_core_crop_contract_sha256",
+      "r5_source_bindings_sha256",
+      "source_checkpoint_sha256",
+      "source_provenance_sha256",
+      "crop_source_sha256",
+      "failed_r5_receipt_sha256",
+      "destination_run"
+    ]
+  },
+  "execution": {
+    "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "command": [
+      "/usr/bin/env",
+      "WNN_SLICE=wnn-campaign.slice",
+      "WNN_CPU_QUOTA=50%",
+      "WNN_THREADS=1",
+      "WNN_MEM_MAX=700000000",
+      "WNN_RUNTIME_MAX=120s",
+      "WNN_LOADER_WORKERS=0",
+      "OMP_NUM_THREADS=1",
+      "MKL_NUM_THREADS=1",
+      "OPENBLAS_NUM_THREADS=1",
+      "PYTHONHASHSEED=0",
+      "PYTHONDONTWRITEBYTECODE=1",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r6/prepare_core_crop_r6.py",
+      "--project-root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack"
+    ],
+    "writes": "The already root-admitted R5 crop destination and its write-once R5-compatible producer receipt, with R6 consumer provenance fields.",
+    "fit_or_profile": false,
+    "gpu": false
+  },
+  "scientific_semantics": {
+    "change": "consumer binding lookup only; no change to the R5 crop primitive, CP1, fit membership, or HFT recipe",
+    "expected_output": "31-to-23 output-row crop; first 23 head rows and all other model tensors remain bitwise unchanged",
+    "source_checkpoint_epoch": 1,
+    "fold": 0,
+    "seed": 3
+  }
+}
