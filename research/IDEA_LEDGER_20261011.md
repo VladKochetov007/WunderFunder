@@ -111,3 +111,7 @@ H391 fixedwide CP5 is complete/finite; root export/grade pending. OOD SWN/SWN25 
 ## Controller evidence update — 2026-10-11T17:40:47Z
 
 H382 mixed cross-fold epoch effects are now bound to eight actual source/membership/artifact records; one seed on F0/F2/F3 and exposed panels. Retain F1 distinct e3 n=5, not machine-count n=6. Longer training is not uniformly better: F0/e4 +.00078, F2/e4 about−.0007 versus e3; F3/e4 pending. Prioritize complete old/new clean student pipelines and fixed blend conditional value, not more F1 scratch repeats. No new hypothesis or public forecast from the collector repair. Existing H392/H393/H394 mechanisms remain pending/no-fit as previously registered; no reopening of closed exact arms.
+
+## Controller interpretation — 2026-10-11T18:29:47.051588Z
+
+F3/e4 .70657 vs e3 .70865 (same seed3/505 exposed groups) adds a second non-F1 fold with a negative longer-budget effect. F0/F1 gains and F2/F3 losses favor complete crossfold endpoint evidence over more selected F1 repeats. This does not isolate epochs from OneCycle horizon or close all Muon/KD descendants. H392 faithful oldF0parent is actually fitting; H390 cleanstrongT3F0 two-device profile is dispatched, full teacher/student fits remain stage-gated. H393/H394 no-fit mechanism screens remain parallel pending. No new hypothesis/public forecast from delivery repairs.
