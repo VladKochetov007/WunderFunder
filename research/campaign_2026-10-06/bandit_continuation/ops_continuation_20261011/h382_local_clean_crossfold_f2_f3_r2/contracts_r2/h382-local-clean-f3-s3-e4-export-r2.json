@@ -1,0 +1,52 @@
+{
+  "argv": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=20s",
+    "1800",
+    "/usr/bin/env",
+    "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r1/source_v6/scripts:/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r1/source_v6/src",
+    "WNN_LOADER_WORKERS=0",
+    "WNN_PORTABLE_DATA_MANIFEST=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r1/input_manifests/portable_inputs_fold3.json",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "-c",
+    "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name=\"__main__\")",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r1/source_v6/scripts/train_rnn.py",
+    "h382_muonall256prop0_f3_s3_e4",
+    "valid",
+    "--epoch",
+    "3",
+    "--output-name",
+    "h382_muonall256prop0_f3_s3_e4"
+  ],
+  "attempt": "h382-local-clean-f3-s3-e4-export-r2",
+  "authorization": "Root-authorized H382 R2 operational correction. Same scientific recipe and frozen R1 source/data; R2 explicitly sets zero loader workers to match the successful bounded recovery profile contract.",
+  "created_utc": "2026-10-11T13:44:26.441311+00:00",
+  "expected_fit_attempt": "h382-local-clean-f3-s3-e4-fit-r1",
+  "exposure": "Export includes all 1,873 supplied valid rows; score only the fold-specific evaluation.valid groups in the copied split manifest. Fold already inspected; not a fresh global holdout.",
+  "input_audit_sha256": "873aefba2a0217571b883867b8056fa28a011cba9a44e4a96a208be604672c49",
+  "note": "Frozen root predictor imports this exact trainer snapshot; export fixed checkpoint epoch only. Inference output does not establish heldout fit validity or a comparative gain until scored on the declared evaluation groups.",
+  "parent_source_binding_sha256": "d672e552284e695228af88bf9d2d01488cbdc61abb9d4455ac911a8aae793411",
+  "portable_manifest_sha256": "06ceddef670dec39bf3f225d1be2afd4e2421e4298e76124cffc1e60cef2b5f2",
+  "recipe": {
+    "checkpoint_epoch": 3,
+    "evaluation_count": 505,
+    "export_split": "valid",
+    "fold": 3,
+    "full_valid_rows": 1873,
+    "run": "h382_muonall256prop0_f3_s3_e4",
+    "seed": 3
+  },
+  "resource_profile": {
+    "actual_loader_workers": 0,
+    "contract_sha256": "4d05005f0bc5952c425fa13e27845c8c6fd5eac7243c101c5492cc0019f468b3",
+    "id": "export",
+    "profile_log_sha256": "661d1fbd96f14c85823ce61ebe31747f7e323e3667df0c4783a8658151c50bc8",
+    "reserve_bytes": 6500000000
+  },
+  "schema": "wnn.local-queue-item-contract.v1",
+  "source_digest": "6ad301c43ad2eadd47d88af807b1ee74977052856ed6ddff3211c45c125999d6",
+  "split_manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343"
+}
