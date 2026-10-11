@@ -1,0 +1,87 @@
+{
+  "control_wording_correction": {
+    "contextual_only": {
+      "export_epoch": 5,
+      "reason": "tail endpoint; not a matched fixed-epoch-3/4 comparison",
+      "run": "r3_muonall256prop0_f1_s3_h380_e6",
+      "score": 0.66885
+    },
+    "evidence_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/review_public_gap_20261011/REVIEW_PUBLIC_GAP.md",
+    "fold1_matched_recipe_references": [
+      {
+        "run": "r3_muonall256prop0_f1_s3_e3",
+        "score": 0.66897
+      },
+      {
+        "run": "r3_muonall256prop0_f1_s3_e4",
+        "score": 0.66976
+      }
+    ]
+  },
+  "correction": {
+    "actual_profile_attempt_sha256": "40b0b84209fa9afd2af1c0407c8533f9a9eac453c329425a4cc3143fd9ac5017",
+    "actual_profile_log_sha256": "661d1fbd96f14c85823ce61ebe31747f7e323e3667df0c4783a8658151c50bc8",
+    "profile_contract_sha256": "4d05005f0bc5952c425fa13e27845c8c6fd5eac7243c101c5492cc0019f468b3",
+    "profile_loader_workers_contract": 0,
+    "profile_log_loader_line": "loader workers 0 prefetch 0; params 0.98M; steps 29840",
+    "profile_review_sha256": "98d9ef42a6fd9b0f74b40446474b6a34e66fda866866d4905453b88f0a507f49",
+    "r1_input_audit_conflict": "R1 INPUT_AUDIT_R1.json has resource_profile.actual_loader_workers=1. R2 does not edit that historical audit; the field is superseded for profile interpretation by the exact profile contract, finished profile log, and recovery review described above.",
+    "r1_packet_value": 1,
+    "r2_value": 0,
+    "reason": "R1 launch commands and fit-contract recipe claimed one loader worker, but the actual bounded recovery profile contract records zero workers. Its finished profile log also says \"loader workers 0 prefetch 0\". LOCAL_RECOVERY_REVIEW_R1 separately records that the first production run used one worker under a stale loaded service environment and explicitly distinguishes that run from the zero-worker profile.",
+    "setting": "WNN_LOADER_WORKERS"
+  },
+  "created_utc": "2026-10-11T13:44:26.441311+00:00",
+  "parent_packet": {
+    "git_commit": "f73fde7bb4bd07cd4e9ca722afa509f0ba1efd1f",
+    "input_audit_sha256": "873aefba2a0217571b883867b8056fa28a011cba9a44e4a96a208be604672c49",
+    "manifest_sha256": "4fec1d3b87c3761a80b753c2ca7bfad0113a07440740617407b3b03f55a7b2b0",
+    "parent_source_binding_sha256": "d672e552284e695228af88bf9d2d01488cbdc61abb9d4455ac911a8aae793411",
+    "path": "research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r1",
+    "source_manifest_sha256": "6ad301c43ad2eadd47d88af807b1ee74977052856ed6ddff3211c45c125999d6"
+  },
+  "preservation": "R1 source, inputs, manifests, commands, and receipts remain untouched. R2 refers to the same committed R1 source and input paths; the corrected plan receives new R2 attempt IDs. No local fit/export was launched as of packet preparation.",
+  "purpose": "Correct only the loader-worker setting and the control wording before admission; preserve the sealed R1 packet unchanged.",
+  "schema": "wnn.h382-local-clean-crossfold-r2-correction.v1",
+  "status": "prepared_for_independent_review",
+  "unchanged_scientific_recipe": {
+    "architecture": "2-layer GRU, hidden 256",
+    "attempt_id_mapping": {
+      "h382-local-clean-f2-s3-e3-export-r1": "h382-local-clean-f2-s3-e3-export-r2",
+      "h382-local-clean-f2-s3-e3-fit-r1": "h382-local-clean-f2-s3-e3-fit-r2",
+      "h382-local-clean-f2-s3-e4-export-r1": "h382-local-clean-f2-s3-e4-export-r2",
+      "h382-local-clean-f2-s3-e4-fit-r1": "h382-local-clean-f2-s3-e4-fit-r2",
+      "h382-local-clean-f3-s3-e3-export-r1": "h382-local-clean-f3-s3-e3-export-r2",
+      "h382-local-clean-f3-s3-e3-fit-r1": "h382-local-clean-f3-s3-e3-fit-r2",
+      "h382-local-clean-f3-s3-e4-export-r1": "h382-local-clean-f3-s3-e4-export-r2",
+      "h382-local-clean-f3-s3-e4-fit-r1": "h382-local-clean-f3-s3-e4-fit-r2"
+    },
+    "batch": 32,
+    "chunk": 1000,
+    "epochs_and_fixed_checkpoints": {
+      "3": 2,
+      "4": 3
+    },
+    "fitting_membership": "same fold-specific train+valid source-qualified membership; unchanged split and portable manifests",
+    "fold_split_manifest_sha256": {
+      "2": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+      "3": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343"
+    },
+    "folds": [
+      2,
+      3
+    ],
+    "initializer": null,
+    "input_audit_sha256": "873aefba2a0217571b883867b8056fa28a011cba9a44e4a96a208be604672c49",
+    "lr": 0.001,
+    "optimizer": "Muon-all",
+    "precision": "fp16",
+    "propensity_power": 0,
+    "schedule": "onecycle",
+    "seed": 3,
+    "source_binding_sha256": "d672e552284e695228af88bf9d2d01488cbdc61abb9d4455ac911a8aae793411",
+    "source_manifest_sha256": "6ad301c43ad2eadd47d88af807b1ee74977052856ed6ddff3211c45c125999d6",
+    "teacher": null,
+    "wd": 0.01
+  }
+}
