@@ -1,0 +1,62 @@
+{
+  "schema": "wnn.clean_t3_f0_teacher_cohort_independent_review.v1",
+  "reviewer_role": "independent_packet_contract_and_runtime_review",
+  "actor_commit": "4778b881d3c3f3c717baa2373ae72499cf76b5e9",
+  "actor_worktree": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011",
+  "packet": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort",
+  "disposition": "PASS_SCIENCE_AND_PROFILE_GUARD_STATIC_REVIEW; BLOCK_R3_DISPATCH_PENDING_ROOT_ATTESTATION_AND_FINALIZER",
+  "sealed_packet_pins": {
+    "bundle_archive_sha256": "f6fc9de3b47289bbe7e95dc5cdf446ddd2d4b528ceb6e09cc1437a3f5ce7d2fd",
+    "bundle_manifest_sha256": "11430722c1f5591e1c00d09b6aeff4c556212d63bb6ccc973dadd0a5813a00a0",
+    "bootstrap_sha256": "ca085e79029794b0de92a32780d2a96f215c3c6c724f6164db5bd2e6acb654fa",
+    "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "profile_guard_contract_sha256": "401ad91a7587894803a6701bf91130da134e290bcd0ebe1f9077b5107622c71d",
+    "collection_contract_sha256": "5d0b9347b71d9c817fb7870d41ffea0abc5b3a47b9e038decf406e21e65e4b6b",
+    "cohort_plan_sha256": "aee76572ef4d2ba50b5d27b91aa9a8bd9ea7056702aace87bd936d535442ccd9",
+    "embedded_gate_sha256": "14644f9feeb9f248dedae2ee2884e68fa394fb9da5aeaf5a23d16aa6b9f12df7",
+    "driver_sha256": "08eb2f8e4aab6857dfec12a03a739825cf238819234c4f119494976c9cccf8af"
+  },
+  "independent_static_validation": {
+    "receipt_path": "/tmp/wnn_clean_t3_f0_teacher_r3_independent_validation.json",
+    "receipt_sha256": "6ed41d0e0b434c974d1be97aa0ffec5056088fb60d2c19f2a5894b7bdf8b53ef",
+    "command_boundary": {"cpu_quota": "25%", "threads": 1, "memory_max_bytes": 500000000, "runtime_max": "120s"},
+    "status": "PASS",
+    "archive_members": 89,
+    "source_and_archive_digest_closure": true,
+    "profile_jobs": 2,
+    "fit_jobs": 3,
+    "export_jobs": 9,
+    "fit_admission": false,
+    "provider_actions": 0
+  },
+  "scientific_contract": {
+    "recipe": "H384 two-layer GRU; Muon-all; prop-power 2; seeds 3/4/5; 3 epochs; fixed epoch-2 checkpoint; no initializer; FP16 training",
+    "fit_membership": {"train_groups": 10535, "valid_fit_groups": 1405, "excluded_valid_evaluation_groups": 468, "total_fit_groups": 11940},
+    "fold_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "source_qualified_exclusion": "Fold-0 evaluation groups are excluded from valid fitting; train and valid row-group integer namespaces are distinct.",
+    "input_identity": "13 external inputs are declared with exact paths/sizes/SHA-256; supplied train/valid data and propensity/target/split assets are bound. Exact current private dataset READY versions remain a root pre-dispatch check.",
+    "actual_producer_limit": "Producer preflight exercised two real checkpoint-to-trainer load paths and fold provenance on CPU. It explicitly does not validate prediction-cache sidecars/arrays or saved-state resume consumption; those checks remain outstanding."
+  },
+  "runtime_gate_review": {
+    "paired_profiles": "Driver requires concurrency admission of two workers before launch, two distinct T4 UUIDs equal to preflight inventory, 5 warmup + 5 measured complete batches per worker, positive completed updates, attempts = completed + AMP-skipped, finite parsed gradient/profile metrics, gradient step-count consistency, and per-worker/combined RAM/GPU caps.",
+    "profile_counter_source": "PROFILE_UPDATE_COUNTS is emitted after unscale/skip observation; --profile-steps counts complete train batches. The five-plus-five CLI produces ten complete batches, while the attempt counters include the chunk-level optimizer attempts.",
+    "limits": {"profile_worker_ram_bytes": 6000000000, "profile_worker_gpu_bytes": 5000000000, "paired_ram_bytes": 12000000000, "fit_worker_ram_bytes": 8000000000, "fit_worker_gpu_stop_bytes": 7000000000, "kernel_wall_seconds": 14400, "two_device_gpu_seconds_ceiling": 28800, "finalization_reserve_seconds": 300},
+    "deadline": "Monotonic budget begins at bootstrap import, is passed to the driver, shrinks worker timeouts, and terminates the worker process tree on expiry.",
+    "profile_reference": "The prior single-T4 reference is explicitly not treated as proof of paired-device throughput or full-fit ETA; plan ETA values remain null.",
+    "source_deltas": "The source manifest reseals startup hash/split telemetry, profile-only update counters, and optional stack heartbeat; static R3 validation verifies the full source/archive digest closure and the frozen trainer CLI matches the R2 recipe."
+  },
+  "blocking_findings": [
+    {
+      "id": "root_receipt_not_verified_by_worker",
+      "severity": "dispatch_blocker_for_this_R3_packet",
+      "finding": "The bootstrap and driver check that root_release_receipt_sha256 is a 64-character lowercase hex string, but do not load or verify an actual root receipt or its fields. The embedded gate is currently pending and the kernel pins its hash, so R3 itself cannot be released by a gate-only edit. A successor must be re-sealed and root must bind the final packet/gate/profile/input/quota decision out of band or expose an immutable external receipt the worker verifies.",
+      "acyclic_binding_guidance": "Keep a root attestation outside the frozen bundle. Bind it to the final archive, bootstrap, gate, source, inputs, profile contract and quota reservation after those hashes are fixed. If worker-side verification is required, mount a separate immutable root-receipt asset and validate its contents; avoid a receipt-hash-in-gate plus final-archive-hash-in-receipt cycle."
+    },
+    {
+      "id": "exports_not_content_validated_before_pipeline_complete",
+      "severity": "terminal_result_validation_required",
+      "finding": "After the nine-export stage, the driver marks the pipeline complete from runner return code only. The runner verifies that declared files exist and records their SHA-256, but neither validates NPY header/shape/dtype/finiteness nor checks sidecar source run/checkpoint/split/membership. The collection contract requires these checks; an external actual-producer consumer gate must pass before results are treated as complete or graded."
+    }
+  ],
+  "evidence_scope": "Static artifact validation and source inspection only. No Kaggle upload, provider operation, profile, fit, prediction, resume, or grade was executed by the reviewer."
+}
