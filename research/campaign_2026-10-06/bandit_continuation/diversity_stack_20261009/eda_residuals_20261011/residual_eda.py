@@ -544,6 +544,17 @@ def _(CLS, FEAT, P, PLOTS, RP, ROOT, SL, W, Y, gi, lead, np, plt, wp_of):
     ev_["P_book_event_given_runstart"] = float((_start & _ev).sum() / _start.sum())
     ev_["book_event_row_frac"] = float(_ev.mean())
     ev_["weight_share_event_rows"] = float(W[_ev].sum() / W.sum())
+    # causal expanding mean of the prediction since the last book-event scored row (reset per sequence); valid but conservative
+    _newseq = np.r_[True, gi[1:] != gi[:-1]]
+    _segstart = _newseq | _ev
+    _segid = np.cumsum(_segstart) - 1
+    _startidx = np.flatnonzero(_segstart)[_segid]
+    _cnt = (np.arange(len(gi)) - _startidx + 1)[:, None]
+    _cs = np.cumsum(P["student"].astype(np.float64), axis=0)
+    _base = np.where((_startidx > 0)[:, None], _cs[np.maximum(_startidx - 1, 0)], 0.0)
+    _cm = ((_cs - _base) / _cnt).astype(np.float32)
+    ev_["causal_segmean_wp"] = float(wp_of(_cm).mean())
+    ev_["causal_segmean_mix_wp"] = float(wp_of((_cm + P["student"]) / 2).mean())
     # NOTE: a sample-and-hold test was dropped: heur_valid covers only ~12% of grid steps, so events at other steps are invisible.
     # weighted share of residual SS on event vs non-event rows
     _r = W * (Y - P["student"]) ** 2
