@@ -1,0 +1,20 @@
+{
+  "failures": [
+    {
+      "attempt": 1,
+      "correction": "Compare valid fit IDs only with valid evaluation IDs, while validating each source membership against its corresponding split list.",
+      "diagnosis": "The checker compared raw integer row-group IDs across train and valid source namespaces. The fit/eval membership sets are source-qualified; train-source integer IDs can numerically match valid-source IDs without overlap.",
+      "observed_error": "control producer ancestry includes held-out fold-0 evaluation groups"
+    },
+    {
+      "attempt": 2,
+      "correction": "Construct the frozen trainer model with the exact H390 auxiliary output width and apply its actual parent head adaptation before load_state_dict.",
+      "diagnosis": "The checker constructed the consumer with n_out=2, omitting the H390 student auxiliary outputs. The exact student recipe uses a 23-row output head (2 main + 19 structure + 2 next-row outputs).",
+      "observed_error": "parent 23-row head could not load into a 2-output GRU model"
+    }
+  ],
+  "interpretation": "Both failures were preflight-checker defects. They did not show a producer provenance, parent checkpoint, split or training implementation failure. Corrected actual-producer consumer result is in ACTUAL_PRODUCER_PREFLIGHT_R2.json.",
+  "schema": "wnn.cleanfold_t3_actual_producer_preflight_attempt.r1",
+  "scope": "Actual producer preflight diagnostics; no fit, forward pass, provider, upload, queue or quota action.",
+  "status": "failed_checker_revision_preserved"
+}

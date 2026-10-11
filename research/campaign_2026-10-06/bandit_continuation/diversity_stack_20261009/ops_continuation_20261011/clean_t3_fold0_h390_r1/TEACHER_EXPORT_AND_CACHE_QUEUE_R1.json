@@ -1,0 +1,186 @@
+{
+  "cache_build": {
+    "argv": [
+      "{python}",
+      "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r1/source_snapshot/scripts/cleanfold_exec.py",
+      "scripts/build_cleanfold_t3_cache.py",
+      "--output",
+      "cache/clean_t3_f0_h390_r1",
+      "--chunk-sequences",
+      "4",
+      "--min-free-gb",
+      "20",
+      "--output-budget-gb",
+      "2.5"
+    ],
+    "artifacts": [
+      "cache/clean_t3_f0_h390_r1/metadata.json",
+      "cache/clean_t3_f0_h390_r1/main_homogeneous_train.npy",
+      "cache/clean_t3_f0_h390_r1/main_homogeneous_valid.npy"
+    ],
+    "depends_on": [
+      "pred_clean_t3_f0_muonall_h384_e3_s3_r1_train",
+      "pred_clean_t3_f0_muonall_h384_e3_s3_r1_valid",
+      "pred_clean_t3_f0_muonall_h384_e3_s4_r1_train",
+      "pred_clean_t3_f0_muonall_h384_e3_s4_r1_valid",
+      "pred_clean_t3_f0_muonall_h384_e3_s5_r1_train",
+      "pred_clean_t3_f0_muonall_h384_e3_s5_r1_valid"
+    ],
+    "name": "build_clean_t3_f0_h390_r1"
+  },
+  "gate": "No cache/student fit until all six teacher exports match source-bound F0 fitting memberships and the builder validates their source checkpoint, provenance, propensity and split hashes.",
+  "prediction_jobs": [
+    {
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r1/source_snapshot/scripts/cleanfold_exec.py",
+        "scripts/predict_run.py",
+        "clean_t3_f0_muonall_h384_e3_s3_r1",
+        "train",
+        "--epoch",
+        "2",
+        "--campaign-split-manifest",
+        "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--inference-precision",
+        "fp32"
+      ],
+      "artifacts": [
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r1_train.npy",
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r1_train.json"
+      ],
+      "depends_on": [
+        "clean_t3_f0_muonall_h384_e3_s3_r1:model_ep2.pt",
+        "clean_t3_f0_muonall_h384_e3_s3_r1:provenance.json"
+      ],
+      "expected_scope": "campaign split train fitting members only; feature-only dataset path",
+      "name": "pred_clean_t3_f0_muonall_h384_e3_s3_r1_train"
+    },
+    {
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r1/source_snapshot/scripts/cleanfold_exec.py",
+        "scripts/predict_run.py",
+        "clean_t3_f0_muonall_h384_e3_s3_r1",
+        "valid",
+        "--epoch",
+        "2",
+        "--campaign-split-manifest",
+        "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--inference-precision",
+        "fp32"
+      ],
+      "artifacts": [
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r1_valid.npy",
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r1_valid.json"
+      ],
+      "depends_on": [
+        "clean_t3_f0_muonall_h384_e3_s3_r1:model_ep2.pt",
+        "clean_t3_f0_muonall_h384_e3_s3_r1:provenance.json"
+      ],
+      "expected_scope": "campaign split valid fitting members only; feature-only dataset path",
+      "name": "pred_clean_t3_f0_muonall_h384_e3_s3_r1_valid"
+    },
+    {
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r1/source_snapshot/scripts/cleanfold_exec.py",
+        "scripts/predict_run.py",
+        "clean_t3_f0_muonall_h384_e3_s4_r1",
+        "train",
+        "--epoch",
+        "2",
+        "--campaign-split-manifest",
+        "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--inference-precision",
+        "fp32"
+      ],
+      "artifacts": [
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r1_train.npy",
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r1_train.json"
+      ],
+      "depends_on": [
+        "clean_t3_f0_muonall_h384_e3_s4_r1:model_ep2.pt",
+        "clean_t3_f0_muonall_h384_e3_s4_r1:provenance.json"
+      ],
+      "expected_scope": "campaign split train fitting members only; feature-only dataset path",
+      "name": "pred_clean_t3_f0_muonall_h384_e3_s4_r1_train"
+    },
+    {
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r1/source_snapshot/scripts/cleanfold_exec.py",
+        "scripts/predict_run.py",
+        "clean_t3_f0_muonall_h384_e3_s4_r1",
+        "valid",
+        "--epoch",
+        "2",
+        "--campaign-split-manifest",
+        "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--inference-precision",
+        "fp32"
+      ],
+      "artifacts": [
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r1_valid.npy",
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r1_valid.json"
+      ],
+      "depends_on": [
+        "clean_t3_f0_muonall_h384_e3_s4_r1:model_ep2.pt",
+        "clean_t3_f0_muonall_h384_e3_s4_r1:provenance.json"
+      ],
+      "expected_scope": "campaign split valid fitting members only; feature-only dataset path",
+      "name": "pred_clean_t3_f0_muonall_h384_e3_s4_r1_valid"
+    },
+    {
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r1/source_snapshot/scripts/cleanfold_exec.py",
+        "scripts/predict_run.py",
+        "clean_t3_f0_muonall_h384_e3_s5_r1",
+        "train",
+        "--epoch",
+        "2",
+        "--campaign-split-manifest",
+        "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--inference-precision",
+        "fp32"
+      ],
+      "artifacts": [
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r1_train.npy",
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r1_train.json"
+      ],
+      "depends_on": [
+        "clean_t3_f0_muonall_h384_e3_s5_r1:model_ep2.pt",
+        "clean_t3_f0_muonall_h384_e3_s5_r1:provenance.json"
+      ],
+      "expected_scope": "campaign split train fitting members only; feature-only dataset path",
+      "name": "pred_clean_t3_f0_muonall_h384_e3_s5_r1_train"
+    },
+    {
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r1/source_snapshot/scripts/cleanfold_exec.py",
+        "scripts/predict_run.py",
+        "clean_t3_f0_muonall_h384_e3_s5_r1",
+        "valid",
+        "--epoch",
+        "2",
+        "--campaign-split-manifest",
+        "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--inference-precision",
+        "fp32"
+      ],
+      "artifacts": [
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r1_valid.npy",
+        "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r1_valid.json"
+      ],
+      "depends_on": [
+        "clean_t3_f0_muonall_h384_e3_s5_r1:model_ep2.pt",
+        "clean_t3_f0_muonall_h384_e3_s5_r1:provenance.json"
+      ],
+      "expected_scope": "campaign split valid fitting members only; feature-only dataset path",
+      "name": "pred_clean_t3_f0_muonall_h384_e3_s5_r1_valid"
+    }
+  ],
+  "schema": "wnn.cleanfold_t3_teacher_exports_cache.r1",
+  "status": "commands_frozen_dynamic_output_hashes_pending"
+}

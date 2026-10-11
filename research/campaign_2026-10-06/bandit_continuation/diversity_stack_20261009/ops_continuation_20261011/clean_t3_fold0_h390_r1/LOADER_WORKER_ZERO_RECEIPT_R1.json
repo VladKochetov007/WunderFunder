@@ -1,0 +1,23 @@
+{
+  "command": "WNN_LOADER_WORKERS=0 WNN_LOADER_RAM_GB=4 PYTHONPATH=<packet>/source_snapshot/src python -c dataloader_budget(...)",
+  "environment": {
+    "PYTHONPATH": "exact frozen source_snapshot/src",
+    "WNN_LOADER_RAM_GB": "4",
+    "WNN_LOADER_WORKERS": "0",
+    "WNN_THREADS": "1"
+  },
+  "imported_module": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_packet_builder_20261011_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r1/source_snapshot/src/wnn/resources.py",
+  "resources_py_sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+  "schema": "wnn.cleanfold_t3_zero_loader_worker_receipt.r1",
+  "status": "pass",
+  "test_call": {
+    "batch_bytes": 1000000,
+    "observed_workers_prefetch": [
+      0,
+      0
+    ],
+    "ram_budget_bytes": 200000000
+  },
+  "trainer_budget_callsite": "train_rnn.py:2041 dataloader_budget(train_batch_bytes, ram_budget_bytes=loader_ram - 2 * valid_batch_bytes)",
+  "trainer_py_sha256": "ef3f161916d6306dce331e21a06eb9b00583cbb2707725e9d2a05aaddb3f7bdd"
+}

@@ -1,0 +1,127 @@
+{
+  "cohorts": [
+    {
+      "concurrency": "two separate profile workers exercise both available T4s when runner inventory supports it",
+      "fit_count": 0,
+      "gate": "Required receipt must be hash-bound into a newly generated fit bundle before any full fit spec is executable; current archive contains profiles only.",
+      "id": "teacher-device-profile",
+      "per_worker_timeout_seconds": 240,
+      "profile_steps": 25,
+      "profile_warmup": 5,
+      "required_receipt": [
+        "T4 model/UUID",
+        "actual worker argv/source bundle hashes",
+        "25 timed updates completed after five warmups",
+        "peak GPU bytes",
+        "peak RSS bytes",
+        "median batches/sec",
+        "no OOM or resource stop"
+      ],
+      "workers": [
+        "clean_t3_f0_muonall_h384_e3_s3_t4_profile1_r1",
+        "clean_t3_f0_muonall_h384_e3_s3_t4_profile2_r1"
+      ]
+    },
+    {
+      "additional_prediction_export_time": "unmeasured",
+      "concurrency": "future separate bundle; omitted from current profile-only archive",
+      "fit_count": 3,
+      "id": "teacher-fits",
+      "observed_reference_fit_seconds_f1_only": {
+        "3": 2158.9,
+        "4": 4821.5,
+        "5": 1528.3
+      },
+      "per_worker_timeout_seconds": 5200,
+      "profile_gate": "not met; root must bind both actual T4 profile receipts, reassess peak memory and fit timing, then reseal templates before release",
+      "workers": [
+        "clean_t3_f0_muonall_h384_e3_s3_r1",
+        "clean_t3_f0_muonall_h384_e3_s4_r1",
+        "clean_t3_f0_muonall_h384_e3_s5_r1"
+      ]
+    },
+    {
+      "cache_builds": 1,
+      "dependency": "three collected epoch-2 teacher checkpoints and provenance",
+      "exports": 6,
+      "fit_count": 0,
+      "id": "teacher-exports-and-cache",
+      "observed_runtime": "unmeasured",
+      "workers": 7
+    },
+    {
+      "actual_profile": "required before root admits this cohort",
+      "boundary_epoch": 1,
+      "id": "student-p1",
+      "timeout_seconds_per_worker": 5200,
+      "workers": [
+        "clean_t3_f0_control_s3_a9_e6_r1_p1",
+        "clean_t3_f0_treatment_s3_a9_e6_r1_p1"
+      ]
+    },
+    {
+      "actual_profile": "required before root admits this cohort",
+      "boundary_epoch": 3,
+      "dependency": "exact training_state.pt from same arm p1 and all unchanged parent/cache/data bindings",
+      "id": "student-p2",
+      "timeout_seconds_per_worker": 5200,
+      "workers": [
+        "clean_t3_f0_control_s3_a9_e6_r1_p2",
+        "clean_t3_f0_treatment_s3_a9_e6_r1_p2"
+      ]
+    },
+    {
+      "actual_profile": "required before root admits this cohort",
+      "boundary_epoch": 5,
+      "dependency": "exact training_state.pt from same arm p2",
+      "id": "student-p3",
+      "timeout_seconds_per_worker": 5200,
+      "workers": [
+        "clean_t3_f0_control_s3_a9_e6_r1_p3",
+        "clean_t3_f0_treatment_s3_a9_e6_r1_p3"
+      ]
+    }
+  ],
+  "completed_counts": {
+    "exact_f0_z4_t3_teachers": 0,
+    "prediction_exports": 0,
+    "student_arm_fits": 0,
+    "student_evaluation_exports": 0,
+    "student_parent_checkpoints_staged": 2,
+    "student_parent_pairs_reviewed_by_root": 0,
+    "target_caches": 0,
+    "teacher_fit_templates": 3,
+    "teacher_profile_bundle_built_offline": 1,
+    "teacher_profile_specs": 2
+  },
+  "hard_blockers": [
+    "two actual T4 profile receipts for H384/B32/C1000 with source/input identity and both devices recorded; this profile-only archive has no full-fit job",
+    "read-only verify exact current remote versions/READY status for raw training data, fold0 assets and R4 rescue dataset; local receipts pin bytes but fold0 remote version is unverified",
+    "root-owned fresh quota/cohort reservations and admission after profile; a future fit bundle must bind the receipt hashes",
+    "actual H256 B16/C2000 student profile and schedule-continuation profile before admitting student cohorts",
+    "all postfit checkpoint, prediction, target-cache and resume-state digests are naturally unknown until their producers complete",
+    "fold1 H382 treatment counterpart is absent, so this F0 cohort is a screen and cannot close crossfold qualification alone"
+  ],
+  "historical_fit_cost_reference": {
+    "fit_only_total_seconds": 27748.1,
+    "one_student_f1_seconds": 9619.7,
+    "status": "F1 historical recipe fit durations only; not F0 T4 profile or full-pipeline ETA; excludes all exports, cache build, provider startup, transfers, profiles and retries",
+    "teachers_f1_seconds_total": 8508.7,
+    "two_student_f1_seconds_total": 19239.4
+  },
+  "not_blocked_by": [
+    "historical seed-99 identity; this recipe comparison uses explicit seed 3",
+    "missing source: exact own H384 F1 teacher sources and H256 F1 student receipt are present",
+    "student parents: both exact own F0 checkpoint/provenance pairs are locally staged and content-bound"
+  ],
+  "required_work_counts": {
+    "one_train_only_cache_build": 1,
+    "student_final_exports": 2,
+    "student_fits": 6,
+    "teacher_fits": 3,
+    "teacher_prediction_exports": 6,
+    "teacher_profiles": 2
+  },
+  "schema": "wnn.cleanfold_t3_f0_stage_inventory.r1",
+  "status": "profile_only_bundle_sealed; full-fit bundle withheld pending exact device profiles and root reseal/admission"
+}

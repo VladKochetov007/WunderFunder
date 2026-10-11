@@ -1,0 +1,38 @@
+{
+  "full_fit_specs_in_profile_bundle": false,
+  "no_profile_means_no_fit": true,
+  "pass_requirements": [
+    "both profile specs exit 0",
+    "both emit a PROFILE record after 25 measured batches and 5 warmups",
+    "both resolve to actual T4 devices and record device UUID/model",
+    "peak GPU memory remains below each spec's 12,000,000,000-byte stop bound",
+    "no OOM/resource stop and RSS remains below each spec's 8,000,000,000-byte cap",
+    "measured throughput and full recipe reference timings support the proposed 5,200-second per-fit bound; otherwise the root must choose a different bounded cohort contract"
+  ],
+  "profile_bundle_archive_sha256": "0ba1b1f7b99dc5dabd892c7d99aa030733465aebc73bb652455c9bc527e0d65f",
+  "profile_contract": {
+    "architecture": "GRU(384x2)",
+    "batch": 32,
+    "chunk": 1000,
+    "loader_workers": 0,
+    "save_training_state": false,
+    "seed": 3,
+    "timed_steps": 25,
+    "timeout_seconds": 240,
+    "warmup_steps": 5
+  },
+  "profile_spec_sha256": {
+    "clean_t3_f0_muonall_h384_e3_s3_t4_profile1_r1": "cee04e56b6e4bf345b321d8e1ad6c0abc413b0cba26212df385c8453f1e6ff7e",
+    "clean_t3_f0_muonall_h384_e3_s3_t4_profile2_r1": "26d58c837d3993d218650b280c017cb8bb0c36975709bace09dd1e8fe0f3cf18"
+  },
+  "required_future_fit_reseal": [
+    "bind both profile terminal result/log hashes",
+    "bind observed device identities and peak GPU/RSS measurements",
+    "bind source bundle and input identity receipts",
+    "reassess timeout from actual T4 profile plus recorded F1 fit times",
+    "generate a new bundle containing the three full teacher fits and training_state.pt outputs",
+    "root-owned current quota, reservation and admission receipt"
+  ],
+  "schema": "wnn.cleanfold_t3_t4_profile_gate.r1",
+  "status": "pending_actual_device_profiles"
+}
