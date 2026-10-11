@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+from argparse import Namespace
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
@@ -197,6 +199,203 @@ def test_preweighted_cache_recomputes_declared_coefficient_sum(tmp_path: Path) -
 
     with pytest.raises(ValueError, match="coefficients must sum"):
         validate_cache(cache_root, data_root, split)
+
+
+def test_homogeneous_only_cache_validates_only_the_requested_main_target(tmp_path: Path) -> None:
+    from wnn.distillation_cache import validate_distillation_cache
+
+    data_root, cache_root, split = _tiny_cache(tmp_path)
+    metadata_path = cache_root / "metadata.json"
+    metadata = json.loads(metadata_path.read_text())
+    files: dict[str, dict[str, object]] = {}
+    for split_name, groups in (("train", [10]), ("valid", [20])):
+        key = f"main_homogeneous_{split_name}"
+        files[key] = _write_cache_array(
+            cache_root / f"{key}.npy",
+            np.full((1, SEQUENCE_LENGTH, 2), np.float32(0.8125), dtype=np.float32),
+            groups,
+        )
+    metadata["files"] = files
+    metadata["output_profile"] = "homogeneous-only"
+    metadata["stored_targets"] = ["main_homogeneous"]
+    metadata_path.write_text(json.dumps(metadata))
+
+    result = validate_distillation_cache(
+        cache_root, data_root, split, "homogeneous", require_families=False
+    )
+
+    assert set(result["verified_files"]) == {
+        "main_homogeneous_train",
+        "main_homogeneous_valid",
+    }
+    with pytest.raises(ValueError, match="missing main_source_train"):
+        validate_distillation_cache(cache_root, data_root, split, "source", require_families=False)
+    with pytest.raises(ValueError, match="missing families_train"):
+        validate_distillation_cache(
+            cache_root, data_root, split, "homogeneous", require_families=True
+        )
+
+
+def test_homogeneous_only_producer_is_bitwise_equal_to_full_profile(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from scripts import build_distill_cache as builder
+
+    data_root = tmp_path / "data"
+    data_root.mkdir()
+    split = CampaignSplit(
+        tmp_path / "fold1.json",
+        "fold1-sha",
+        1,
+        4,
+        (10,),
+        (20,),
+        (21,),
+        (("train", 10, 0), ("valid", 20, 1), ("valid", 21, 2)),
+    )
+    sources = [
+        TeacherSource("strong", "strong_s3", 0.15, 2),
+        TeacherSource("strong", "strong_s4", 0.15, 2),
+        TeacherSource("full_finetuned", "full_alias", 0.2, 2),
+        TeacherSource("raw_wmse", "raw_alias", 0.25, 2),
+        TeacherSource("samefold_baseline", "baseline_alias", 0.0625, 2),
+    ]
+    values = {
+        source.run: np.full(
+            (1, SEQUENCE_LENGTH, 2),
+            np.float32(index / 10 + 0.0000001),
+            dtype=np.float32,
+        )
+        for index, source in enumerate(sources, start=1)
+    }
+    monkeypatch.setattr(builder, "load_campaign_split", lambda *_: split)
+    monkeypatch.setattr(
+        builder,
+        "_target_order",
+        lambda _root, name: [10] if name == "train" else [20],
+    )
+    monkeypatch.setattr(builder, "_audit_ancestor_closure", lambda *_args, **_kwargs: [])
+
+    def inspect_teacher(
+        run: str, *_args: object
+    ) -> tuple[dict[str, object], dict[str, object], dict[str, object]]:
+        return {"run": run}, {"train": values[run], "valid": values[run]}, {}
+
+    monkeypatch.setattr(builder, "_inspect_teacher", inspect_teacher)
+
+    def arguments(output: Path, profile: str) -> Namespace:
+        return Namespace(
+            data_root=data_root,
+            teacher_cache_root=tmp_path / "predictions",
+            checkpoint_root=tmp_path / "checkpoints",
+            split_manifest=split.path,
+            output=output,
+            teacher=sources,
+            expected_coefficient_sum=0.8125,
+            homogeneous_family="strong",
+            chunk_sequences=1,
+            min_free_gb=0.0,
+            output_budget_gb=1.0,
+            output_profile=profile,
+        )
+
+    full_path = builder.build_cache(arguments(tmp_path / "full", "all"))
+    compact_path = builder.build_cache(arguments(tmp_path / "compact", "homogeneous-only"))
+
+    assert np.array_equal(
+        np.load(full_path / "main_homogeneous_train.npy", allow_pickle=False),
+        np.load(compact_path / "main_homogeneous_train.npy", allow_pickle=False),
+    )
+    assert np.array_equal(
+        np.load(full_path / "main_homogeneous_valid.npy", allow_pickle=False),
+        np.load(compact_path / "main_homogeneous_valid.npy", allow_pickle=False),
+    )
+    compact_metadata = json.loads((compact_path / "metadata.json").read_text())
+    assert compact_metadata["stored_targets"] == ["main_homogeneous"]
+    assert set(compact_metadata["files"]) == {
+        "main_homogeneous_train",
+        "main_homogeneous_valid",
+    }
+    assert {path.name for path in compact_path.iterdir()} == {
+        "main_homogeneous_train.npy",
+        "main_homogeneous_valid.npy",
+        "metadata.json",
+    }
+    full_metadata = json.loads((full_path / "metadata.json").read_text())
+    assert set(full_metadata["files"]) == {
+        "main_source_train",
+        "main_source_valid",
+        "main_normalized_train",
+        "main_normalized_valid",
+        "main_homogeneous_train",
+        "main_homogeneous_valid",
+        "families_train",
+        "families_valid",
+    }
+
+
+def test_compact_cache_storage_preflight_precedes_source_inspection(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from scripts import build_distill_cache as builder
+
+    split = CampaignSplit(
+        tmp_path / "fold1.json",
+        "fold1-sha",
+        1,
+        4,
+        (10,),
+        (20,),
+        (21,),
+        (("train", 10, 0), ("valid", 20, 1), ("valid", 21, 2)),
+    )
+    sources = [
+        TeacherSource("strong", "strong_s3", 0.3, 2),
+        TeacherSource("full_finetuned", "full_alias", 0.2, 2),
+        TeacherSource("raw_wmse", "raw_alias", 0.25, 2),
+        TeacherSource("samefold_baseline", "baseline_alias", 0.0625, 2),
+    ]
+    monkeypatch.setattr(builder, "load_campaign_split", lambda *_: split)
+    monkeypatch.setattr(
+        builder,
+        "_target_order",
+        lambda _root, name: [10] if name == "train" else [20],
+    )
+    monkeypatch.setattr(
+        builder,
+        "shutil",
+        SimpleNamespace(disk_usage=lambda _path: SimpleNamespace(free=0)),
+    )
+
+    def unexpected_inspection(*_args: object, **_kwargs: object) -> None:
+        pytest.fail("source checkpoint and prediction inspection must follow storage preflight")
+
+    monkeypatch.setattr(builder, "_audit_ancestor_closure", unexpected_inspection)
+    monkeypatch.setattr(builder, "_inspect_teacher", unexpected_inspection)
+    args = Namespace(
+        data_root=tmp_path,
+        teacher_cache_root=tmp_path / "predictions",
+        checkpoint_root=tmp_path / "checkpoints",
+        split_manifest=split.path,
+        output=tmp_path / "compact",
+        teacher=sources,
+        expected_coefficient_sum=0.8125,
+        homogeneous_family="strong",
+        chunk_sequences=1,
+        min_free_gb=20.0,
+        output_budget_gb=16.0,
+        output_profile="homogeneous-only",
+    )
+
+    with pytest.raises(OSError, match="distillation cache needs"):
+        builder.build_cache(args)
+
+
+def test_homogeneous_cache_size_matches_float32_payload_widths() -> None:
+    from scripts.build_distill_cache import estimate_output_bytes
+
+    assert estimate_output_bytes(11_949, "all") == 13_382_880_000
+    assert estimate_output_bytes(11_949, "homogeneous-only") == 1_911_840_000
 
 
 def test_teacher_epoch_and_clean_membership_allow_valid_only_teacher() -> None:

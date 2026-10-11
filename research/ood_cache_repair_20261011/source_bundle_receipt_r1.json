@@ -1,0 +1,24 @@
+{
+  "schema": "wnn.ood-shared-cache-repair-source-bundle.v1",
+  "source_files": [
+    {
+      "path": "scripts/build_distill_cache.py",
+      "sha256": "2db2d905bd6970b271d26fb4291b571c288789b0821a57af76b7ecc5738c1cd8"
+    },
+    {
+      "path": "scripts/ood_student_pipeline_shared_r1.py",
+      "sha256": "b88b63c5676b9d86efac2fccc0d278d468ee6c2e8b543a2e049d6bc1201e75ac"
+    }
+  ],
+  "deployed_source_receipt": "remote_snapshot/dependency_receipt_r2.json",
+  "deployed_source_hashes_verified_by_runner": {
+    "scripts/ood_student_pipeline.py": "1a3e680851415685982ac60f46ca1d8fd25cd0545c165154b6d8426193c3d6e0",
+    "scripts/distill_pipeline.py": "dd663a27e92ec7c0fb11542935a89e5011e83a32097335185ed14e39c019c449",
+    "scripts/train_rnn.py": "8c041bf2a49b43ef5a014a5f7cee59302605d464f5b82fe8c7dc12267c386a40",
+    "scripts/predict_run.py": "46279845540e680940c4444124164102d2499e0468aa7767fc5ba64f90854018",
+    "scripts/build_distill_cache.py": "09f7110f21507195199d1f50fad6d1074fef1cd4d670a91093935be333f9dd26",
+    "src/wnn/distillation_cache.py": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19"
+  },
+  "data_access": "Read-only source retrieval from ownership-bound Vast lane b, instance 55080658; no worker or provider mutation.",
+  "source_ownership": "Project's own deployed source snapshots; newly written compact builder and shared runner are separate files and leave deployed scripts unchanged."
+}
