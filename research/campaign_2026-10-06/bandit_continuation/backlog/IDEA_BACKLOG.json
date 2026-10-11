@@ -3942,6 +3942,122 @@
    "rationale": "USER H-351 small lr + 24 epochs: Muon all lr 2e-4 wd .05",
    "lane": "b",
    "queued_utc": "2026-10-11T00:19:16.272551+00:00"
+  },
+  {
+   "id": "muonall_h384_prop0_s3",
+   "family": "weighting",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 3,
+   "hours": 0.9,
+   "name": "vt_f1_muonall_h384_prop0_s3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0",
+    "--hidden": "384",
+    "--muon-scope": "all",
+    "--seed": "3"
+   },
+   "status": "queued",
+   "rationale": "INTERACTION: muonall h384 (3 seeds mean 0.6707, +0.0022 vs h384) x prop0; additive?",
+   "lane": "b",
+   "queued_utc": "2026-10-11T00:36:39.398246+00:00"
+  },
+  {
+   "id": "muonall_h384_prop0_s4",
+   "family": "weighting",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 3,
+   "hours": 0.9,
+   "name": "vt_f1_muonall_h384_prop0_s4",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0",
+    "--hidden": "384",
+    "--muon-scope": "all",
+    "--seed": "4"
+   },
+   "status": "queued",
+   "rationale": "INTERACTION: muonall h384 (3 seeds mean 0.6707, +0.0022 vs h384) x prop0; additive?",
+   "lane": "b",
+   "queued_utc": "2026-10-11T00:36:39.398446+00:00"
+  },
+  {
+   "id": "muonall_h384_prop0lwf_s3",
+   "family": "prop0_variants",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 3,
+   "hours": 0.9,
+   "name": "vt_f1_muonall_h384_prop0lwf_s3",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0",
+    "--seed": "3",
+    "+": [
+     "--label-weight-power",
+     "1.032",
+     "--label-weight-floor",
+     "0.1819",
+     "--class-weight",
+     "1,1,1,1.192"
+    ],
+    "--hidden": "384",
+    "--muon-scope": "all"
+   },
+   "status": "queued",
+   "rationale": "INTERACTION: muonall h384 (3 seeds mean 0.6707, +0.0022 vs h384) x prop0+lwfloor; additive?",
+   "lane": "b",
+   "queued_utc": "2026-10-11T00:36:39.398590+00:00"
+  },
+  {
+   "id": "muonall_h384_prop0lwf_s4",
+   "family": "prop0_variants",
+   "lanes": [
+    "b"
+   ],
+   "needs": [
+    "fold1"
+   ],
+   "priority": 3,
+   "hours": 0.9,
+   "name": "vt_f1_muonall_h384_prop0lwf_s4",
+   "change": {
+    "--epochs": "3",
+    "--checkpoint-epoch": "2",
+    "--prop-power": "0",
+    "--seed": "4",
+    "+": [
+     "--label-weight-power",
+     "1.032",
+     "--label-weight-floor",
+     "0.1819",
+     "--class-weight",
+     "1,1,1,1.192"
+    ],
+    "--hidden": "384",
+    "--muon-scope": "all"
+   },
+   "status": "queued",
+   "rationale": "INTERACTION: muonall h384 (3 seeds mean 0.6707, +0.0022 vs h384) x prop0+lwfloor; additive?",
+   "lane": "b",
+   "queued_utc": "2026-10-11T00:36:39.398702+00:00"
   }
  ]
 }
