@@ -1,0 +1,134 @@
+{
+  "schema": "wnn.h391-export-launch-contract.v1",
+  "status": "prepared_only_not_launched",
+  "owner": "submission_packager",
+  "authority": "Root owns the fresh GPU/resource gate and invocation; this packet grants no launch authority.",
+  "purpose": "Export valid predictions from the completed H391 FIT_R2 fixed epoch-5 checkpoint.",
+  "limitations": [
+    "The prediction file covers all 1,873 valid row groups, including the 1,416 valid groups used for fitting; do not score the full output as held out.",
+    "Only the 457 fold-1 evaluation groups were excluded from fit, and that fold is exposed local evaluation rather than a fresh holdout.",
+    "No local metric or public score is asserted by this export packet."
+  ],
+  "fit_receipts": {
+    "run_name": "vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2",
+    "selected_epoch": 5,
+    "checkpoint_policy": "fixed",
+    "fit_exit_code": 0,
+    "fit_terminal_audit_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/H391_FIT_R2_TERMINAL_AUDIT_R1.json",
+    "fit_terminal_audit_sha256": "3a8a8b8d3e425703e15fb881dc0eb1804d6c441c7e213f447cde3f517d5c6d46",
+    "fit_startup_handoff_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/H391_FIT_R2_STARTUP_HANDOFF_R1.json",
+    "fit_startup_handoff_sha256": "2a0c39324feb273bcb69e8dcc15ecc6706ed581cbcb7361633e7f98d56892538",
+    "fit_argv_sha256": "c15c32bce281408ced3c69000c23762ec3bc34245cc0d5590b1810f13b059cf2",
+    "producer_log_checks": {
+      "remote_run_dir": "/root/run/h391_fit_r2",
+      "exit_receipt": "/root/run/h391_fit_r2/trainer_exit_code.txt",
+      "log": "/root/run/h391_fit_r2/trainer.out",
+      "required_epochs": [0, 1, 2, 3, 4, 5],
+      "required_final_marker": "SELECTED_FIXED 5",
+      "terminal_completed_batches": 4476,
+      "terminal_optimizer_attempts": 44760,
+      "terminal_optimizer_updates": 44745,
+      "terminal_amp_skipped_updates": 15,
+      "evaluation_during_fit": "withheld"
+    }
+  },
+  "source": {
+    "source_root": "/root/wnn/h391_f1_h384_source_r1",
+    "manifest_path": "/root/wnn/h391_f1_h384_source_r1/SOURCE_MANIFEST_H391_R1.json",
+    "manifest_sha256": "744bb3d8b40f4816387f449bbd6c284cc419642e3be548580954e4067f4f7c3d",
+    "manifest_files_verified_by_launcher": 58,
+    "predictor_path": "/root/wnn/h391_f1_h384_source_r1/scripts/predict_run.py",
+    "predictor_sha256": "46279845540e680940c4444124164102d2499e0468aa7767fc5ba64f90854018",
+    "launcher_verifies_every_manifested_file_and_rejects_unmanifested_python_files": true
+  },
+  "checkpoint": {
+    "path": "/root/wnn/artifacts/runs/vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2/model_ep5.pt",
+    "bytes": 8695318,
+    "sha256": "0dde2adaf43f36c50862a4fed59e8572660a42dab9ead8cf14cb14f8cb173326",
+    "provenance_path": "/root/wnn/artifacts/runs/vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2/provenance.json",
+    "provenance_sha256": "e9c97557fa9be149153f15073365e31e445798f1820ddb28eae865663442493b",
+    "training_state_sha256": "9b58a7843b5843004bf4e759be6cb3f6ebc4c0bac177f4bcd9f95fead15f8181",
+    "history_sha256": "0b12832f3032d53e6b9c48112fab783a2274a8fed309236c721921cfae750638",
+    "launcher_checks": [
+      "checkpoint and provenance exact SHA-256 and checkpoint byte count",
+      "provenance run name/seed/fixed epoch/selected epoch and checkpoint map",
+      "source manifest and predictor identity",
+      "fit exit receipt, complete six-epoch log, selected-fixed marker, and terminal update counts"
+    ]
+  },
+  "inputs": {
+    "project_root": "/root/wnn",
+    "portable_manifest_path": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold1.json",
+    "portable_manifest_sha256": "551905f3363c65608e2d5a0f49e8eeca362f574ab6d98d443e31cee0790fb5fd",
+    "split_manifest_path": "/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json",
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "valid_parquet_path": "/root/wnn/datasets/valid.parquet",
+    "valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "valid_targets_path": "/root/wnn/cache/valid_targets.npz",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "command": [
+    "/opt/conda/bin/python",
+    "/root/wnn/h391_f1_h384_source_r1/scripts/predict_run.py",
+    "vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2",
+    "valid",
+    "--epoch",
+    "5"
+  ],
+  "environment": {
+    "WNN_PROJECT_ROOT": "/root/wnn",
+    "WNN_PORTABLE_DATA_MANIFEST": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold1.json",
+    "PYTHONPATH": "/root/wnn/h391_f1_h384_source_r1/src",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "physical_gpu": 0,
+    "WNN_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "device_argument": "predict_run.py default cuda; visible cuda:0 maps to physical GPU0"
+  },
+  "timeout": {
+    "binary": "/usr/bin/timeout",
+    "seconds": 1800,
+    "signal": "TERM",
+    "kill_after_seconds": 30
+  },
+  "outputs": {
+    "prediction": "/root/wnn/cache/pred_vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2_valid.npy",
+    "partial": "/root/wnn/cache/pred_vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2_valid.npy.partial",
+    "metadata": "/root/wnn/cache/pred_vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2_valid.json",
+    "seqsums_side_effect": "/root/wnn/cache/seqsums_vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2.npz",
+    "expected_npy_bytes": 299680128,
+    "expected_shape": [1873, 20000, 2],
+    "expected_dtype": "float32",
+    "overwrite_protection": "launcher aborts if final, partial, sidecar, or seqsums path exists or is a symlink; start wrapper aborts if receipt directory exists"
+  },
+  "receipt_directory": "/root/run/h391_export_r1",
+  "receipt_files": [
+    "start_intent.txt",
+    "supervisor.pid",
+    "supervisor_started_utc.txt",
+    "supervisor.log",
+    "before.txt",
+    "predictor.out",
+    "predictor_timeout.pid",
+    "timeout_exit_code.txt",
+    "output_validation.json (stdout validation line from launcher)",
+    "after.txt",
+    "exit_code.txt",
+    "ended_utc.txt"
+  ],
+  "scripts": {
+    "launch_path": "/root/run/H391_EXPORT_LAUNCH_R1.sh",
+    "launch_sha256": "bd489d9ca7ee8091b9a00cdc8f8256a7a7d82fa170b8202d8cde867ff60958ff",
+    "start_path": "/root/run/H391_EXPORT_START_R1.sh",
+    "start_sha256": "e7da8522921dc69576c904375c46cc4052381ba415e4cf22f2c4ce9dbde6232f"
+  },
+  "validation": {
+    "bash_n": "passed for both scripts under scripts/limited at 50% CPU, one thread, 500000000 bytes MemoryMax",
+    "local_pin_check": "passed: launch/start SHA pins, terminal audit/checkpoint/provenance bindings, and all 58 manifest-listed frozen source files",
+    "launch_script_execution": "not run; would require the root-owned remote worker and launch gate",
+    "provider_mutations": false,
+    "training_source_edits": false
+  }
+}
