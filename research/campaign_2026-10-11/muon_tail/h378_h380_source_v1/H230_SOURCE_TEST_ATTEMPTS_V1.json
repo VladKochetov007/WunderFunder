@@ -1,0 +1,55 @@
+{
+  "schema": "h230-portable-source-test-attempts-v1",
+  "scope": "bounded CPU implementation checks only; not H230 scientific execution",
+  "limits": {
+    "cpu_cores": 1,
+    "rss_guard_bytes": 1000000000,
+    "gpu_used": false,
+    "fit_or_export": false
+  },
+  "attempts": [
+    {
+      "id": "H230-SOURCE-V2-TEST-A1",
+      "status": "failed_before_test_assertions",
+      "approach": "open the real train/valid Parquet files through the copied Sequences reader",
+      "address_space_limit_bytes": 4000000000,
+      "process_tree_peak_rss_bytes": 784175104,
+      "rss_guard_triggered": false,
+      "terminal": "pyarrow.lib.ArrowMemoryError: malloc of size 60437312 failed",
+      "interpretation": "resource limitation in the full-Parquet reader test; no scientific result"
+    },
+    {
+      "id": "H230-SOURCE-V2-TEST-A2",
+      "status": "stopped_by_rss_guard",
+      "approach": "retry the full-Parquet reader test with a larger virtual-address allowance",
+      "address_space_limit_bytes": 12000000000,
+      "process_tree_peak_rss_bytes": 1002799104,
+      "rss_guard_triggered": true,
+      "terminal": "The process group was terminated after a sampled RSS value crossed the 1000000000-byte guard. Sampling overshot by 2799104 bytes.",
+      "interpretation": "resource limitation in the full-Parquet test; no system OOM, fit, or scientific result"
+    },
+    {
+      "id": "H230-SOURCE-V2-TEST-A3",
+      "status": "failed_before_test_assertions",
+      "approach": "map the full H230 family cache array to read the first row",
+      "address_space_limit_bytes": 12000000000,
+      "process_tree_peak_rss_bytes": 774877184,
+      "rss_guard_triggered": false,
+      "terminal": "OSError: [Errno 12] Cannot allocate memory while mapping families_train.npy with shape [10535, 20000, 8].",
+      "interpretation": "large virtual mapping is unsuitable for this test envelope; this motivated bounded header-plus-first-row reads"
+    },
+    {
+      "id": "H230-SOURCE-V2-TEST-A4",
+      "status": "passed",
+      "approach": "read only the first actual NPY payload rows into temporary small arrays; exercise the copied Sequences cache append path; use the actual own initializer checkpoint by SHA",
+      "address_space_limit_bytes": 4000000000,
+      "test_count": 3,
+      "test_wall_seconds": 2.14,
+      "process_tree_peak_rss_bytes": 786554880,
+      "rss_guard_triggered": false,
+      "terminal": "3 passed",
+      "interpretation": "implementation checks passed under the bounded CPU envelope; no fit, export, grade, or GPU use"
+    }
+  ],
+  "adaptation": "After A2 the full Parquet open was not retried. After A3 the full cache memmap was not retried. A4 reads one actual cache payload row without mapping multi-gigabyte arrays."
+}
