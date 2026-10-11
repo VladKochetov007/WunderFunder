@@ -1,0 +1,125 @@
+{
+  "schema": "wnn.h388-q8-package-independent-review.v1",
+  "review": "PASS_WITH_GATE_RECEIPT_ADDENDUM",
+  "scope": "Independent exact-ZIP integrity, ancestry/tensor binding, native Q8 callback, reset and bounded runtime review. No fit, score computation, upload, or public-score claim.",
+  "package": {
+    "candidate": "h388_full_data_teacher_pair_q8_r3",
+    "zip_path": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011/submissions/10-11-exploit-now_r2/h388_full_data_teacher_pair_q8/submission_r3.zip",
+    "zip_bytes": 17272496,
+    "zip_sha256": "837b0fb3c71b22062747d7e1e3bfd2241cb6c5cd41edac908745dd36d5469410",
+    "build_receipt_path": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011/submissions/10-11-exploit-now_r2/h388_full_data_teacher_pair_q8/BUILD_RECEIPT_R3.json",
+    "build_receipt_sha256": "849e9d41b04d5b2e3d28744f000088a6898c2c245ca36213dbd26a6f2411ba26",
+    "selection_binding_path": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011/submissions/10-11-exploit-now_r2/h388_full_data_teacher_pair_q8/SELECTION_AND_SOURCE_BINDING_R1.json",
+    "selection_binding_sha256": "306b24284ef443c92a83fd367cb670053f49d5fc900357ebe1f47c715422db8b",
+    "zip_limit_bytes": 20000000,
+    "member_count": 8,
+    "crc": "PASS"
+  },
+  "member_identity": [
+    {
+      "order": 0,
+      "run": "vt_all_h388_muonall_h384_e3_s4@ep2",
+      "coefficient": 0.5,
+      "seed": 4,
+      "checkpoint_sha256": "592c51fb9f8dd306c469f1b09cd20d57d06c54ce2a72d1e04ab00ac50f9a0fcc",
+      "provenance_sha256": "a91a946d6594584af1ff808156eefe4b1af2feeaf99b1e9202d26021d9be64d1",
+      "history_sha256": "e4023aa008c42a65737f090a8b95938bb8bd3e24e44862919831413ad3f1f29f",
+      "weights_npz_sha256": "c757f2619a35d110a8245ac8b7a52455fe0a1665d12eb51d0c61e6cd8db3fbc2",
+      "fit_groups": {
+        "train": 10606,
+        "valid_used_for_fit": 1873
+      }
+    },
+    {
+      "order": 1,
+      "run": "vt_all_h388_muonall_h384_e3_s5@ep2",
+      "coefficient": 0.5,
+      "seed": 5,
+      "checkpoint_sha256": "7feefb8aaa8bca6f5ace10a8c0556dd07a067444b88fee43a9f941c74dc61943",
+      "provenance_sha256": "2c9933c2eeb5da4a0c41b48e2a1867d73e869173900e6708d9e8cdd7be2d21ea",
+      "history_sha256": "be213d8412eadeabb0cd2ed131c2c24d75db7c156b5afec408e7cf52938f6d74",
+      "weights_npz_sha256": "e9d6677b4de383efb44f416b49a7072a9930729a5265071a2c423389b28ec8cb",
+      "fit_groups": {
+        "train": 10606,
+        "valid_used_for_fit": 1873
+      }
+    }
+  ],
+  "recipe_binding": {
+    "source_identity_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "architecture": "2-layer GRU, hidden size 384",
+    "optimizer": "Muon-all",
+    "propensity_power": 2.0,
+    "propensity_epsilon": 0.03,
+    "epochs": 3,
+    "fixed_checkpoint_epoch": 2,
+    "batch": 32,
+    "chunk": 1000,
+    "scheduler": "OneCycle",
+    "since_weight": 32.0,
+    "train_source": "train+valid",
+    "scratch_model_initialization": true,
+    "resume_state": null,
+    "shared_auxiliary_propensity": {
+      "run": "c20260929_prop_f1",
+      "checkpoint_sha256": "1fbf412df8823c703fdf79263830f341269a68e769bc4a7258d93cdf8e40dc5c",
+      "qualification": "Fixed propensity correction input; not a model-weight initializer. The same source is used by the fold-1 recipe comparator."
+    }
+  },
+  "exact_zip_checks": {
+    "zip_sha_and_bytes_match_build_receipt": "PASS",
+    "crc_and_all_eight_member_hashes_match_receipt": "PASS",
+    "both_cp_provenance_and_history_hashes_match_source_binding": "PASS",
+    "both_exported_npz_tensor_names_shapes_dtypes_and_byte_hashes_match_receipt": "PASS",
+    "same_existing_audited_native_ensemble_solution_source": "PASS",
+    "native_solution_source_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+    "precision_file": "q8vnni",
+    "v3_native_library_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+  },
+  "independent_python311_callback": {
+    "receipt_path": "/tmp/wnn_h388_independent_review_r1/CALLBACK_PANEL_R1.json",
+    "receipt_sha256": "d3052849b402bcebe06cf4aac97ca70f2ecfa1d973f6315ae491380219eb62dd",
+    "prediction_panel_path": "/tmp/wnn_h388_independent_review_r1/PREDICTIONS_PANEL_R1.npy",
+    "prediction_panel_sha256": "f59f81a7d78d608a69342c4c6979ae9cbf6e41f8c1127ec29d59c4e7f31451dd",
+    "python": "3.11.16",
+    "native_level": "v3",
+    "actual_runtime_precision": "q8vnni",
+    "native_member_count": 2,
+    "panel": "10 complete causal sequences x 20,000 rows, two complete passes (400,000 callbacks)",
+    "outputs_finite_and_shape_2": "PASS",
+    "reset_replay_bitwise_equal": true,
+    "actor_full_valid_panel_receipt_sha256": "41402054d66a82ff12523a904621bd398792c5bb7b1b53abb28cab6f08adf32f",
+    "actor_and_independent_feature_need_panel_hashes_match": true,
+    "actor_and_independent_prediction_sha256_match": true,
+    "independent_callback_us_per_row_by_pass": [
+      107.349885305,
+      95.51248370500001
+    ],
+    "independent_cgroup_memory_peak_bytes": 319283200,
+    "independent_cgroup_oom_high_max_events": 0,
+    "interpretation": "Measured callback cost on the review host only; not a total competition runtime prediction."
+  },
+  "selection_evidence": {
+    "metrics_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/generated_r6/F1_SELECTOR_METRICS_R1.json",
+    "metrics_sha256": "e030f8914aafa7bb172824577552d059a6e101ea7fc5c1ab97b1c2b9d33ff1f5",
+    "source_endpoint_map_sha256": "27a497479736f5f2a35f2bd507692caabb7031a9715d5773515ba3c6626166ba",
+    "fixed_fold1_pair": "H384 Muon-all, propensity power 2, seeds 4 and 5, equal weights; same declared fit recipe, trained with fold1 valid fold held out.",
+    "fold1_all_457_exposed_groups_global_wp_clip2_v1": 0.6723361172622251,
+    "selection_exposure": "All 457 fold1 evaluation groups were exposed to selection. This is recipe/seed-pair development evidence, not fresh confirmation.",
+    "fold1_component_complement_delta_vs_seed5": 0.0011303570902750915,
+    "component_bootstrap_95pct_interval": [
+      -0.003488126857459853,
+      0.00591352800634372
+    ]
+  },
+  "interpretation": {
+    "full_data_fit": "Both packaged models fit all 10,606 train and 1,873 valid groups; their all-data predictions have no held-out grade.",
+    "public_score_forecast": null,
+    "q4_transfer": "The separate H390 Q4-versus-Q8 diagnostic is not an exact precision-quality measurement on these H388 seed weights.",
+    "release_recommendation": "Artifact/runtime compatibility passes. Keep the candidate labeled as a full-data submission selected using exposed fold-1 counterpart evidence, with no held-out or public-score claim."
+  },
+  "documentary_followup": {
+    "note": "BUILD_RECEIPT_R3.gate_status and the R1 selection binding still say callback validation is pending; this independent receipt and CALLBACK_PANEL_R3 bind the exact R3 ZIP and close that operational gate without rewriting the frozen build receipt.",
+    "actor_callback_receipt_sha256": "41402054d66a82ff12523a904621bd398792c5bb7b1b53abb28cab6f08adf32f"
+  }
+}
