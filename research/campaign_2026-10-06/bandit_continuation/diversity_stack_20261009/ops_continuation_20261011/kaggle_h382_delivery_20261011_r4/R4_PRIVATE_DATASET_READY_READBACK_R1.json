@@ -1,0 +1,144 @@
+{
+  "admission": {
+    "h382_prior_kernel_status": {
+      "r1": "KernelWorkerStatus.ERROR",
+      "r2": "KernelWorkerStatus.ERROR",
+      "r3": "KernelWorkerStatus.COMPLETE"
+    },
+    "max_gpu_reservation_seconds": 7200,
+    "max_worker_wall_seconds": 3600,
+    "owned_targets_status": [
+      {
+        "kernel": "vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "tpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../../../cloud_preflight/E463_TPU_V7_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v2",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "GPU_R2_TERMINAL_OPERATOR_RECEIPT_R1.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-kaggle-crossfold-h382-20261011-r3",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.COMPLETE",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../../ops_continuation_20261011/kaggle_h382_delivery_20261011_r3/R3_TERMINAL_OPERATOR_RECEIPT.json",
+          "terminal_status": "KernelWorkerStatus.COMPLETE"
+        }
+      }
+    ],
+    "packet_manifest_sha256": "d7718aa30a11831d57b1e4bc12e00b61fcfd2213edcec8b8646ab9b17f3dfcc2",
+    "quota_snapshot": {
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 56780.516,
+      "campaign_headroom_seconds": 32208.63900000001,
+      "campaign_used_seconds": 24571.876999999993,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "used_seconds": 61619.198
+    },
+    "quota_snapshot_path": "/home/vlad/development/wunder/wnn_h382_t3_fold0_packet_20261011/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/kaggle_h382_delivery_20261011_r4/R4_PREPUSH_QUOTA_SESSION_POLL_R1.jsonl",
+    "quota_snapshot_sha256": "6997e4249965386e784cd5ef14ea1401dd440bfd3aeb0de5323f68a618346c2e",
+    "root_release_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/ROOT_H382_EXPORT_RECOVERY_R4_RELEASE_R1.json",
+    "root_release_sha256": "36b0f4d558bc92f9c19c1cb1c105d3ea1de209be1b21345741943e3447f39892",
+    "session_id": {
+      "reason": "Kaggle status JSON currently omits kernel_session_id; do not substitute versionNumber.",
+      "value": null
+    },
+    "simultaneous_gpu_count_max": 2
+  },
+  "export_commands": 3,
+  "fit_commands": 0,
+  "kernel": {
+    "exact_id_search_returned_no_match": true,
+    "id": "vladkochetov07/wnn-h382-export-recovery-20261011-r4",
+    "kernel_sha256": "f7671c6bec834e7a26f5e65dcf9c014e0ec89f7cfd9fad97bbd02123aa27e45c"
+  },
+  "observed_at_utc": "2026-10-11T16:27:02+00:00",
+  "operator": "batch_packet_builder",
+  "private_dataset": {
+    "create_exit_code": 0,
+    "current_version_number": 1,
+    "download_readback_dir": "/tmp/wnn-h382-rescued-checkpoints-r4-readback-20261011",
+    "files": {
+      "checkpoint_manifest.json": {
+        "bytes": 7010,
+        "sha256": "bca79e00f62e89bae7b44a4261682d9cfc4ac6d280c6610bbe14f48619685164"
+      },
+      "rescued_checkpoints.wnn": {
+        "bytes": 12441600,
+        "sha256": "a57df09373de67618c7a5826a11a3756fbdb1640b38781af1467a6cbbc468285"
+      }
+    },
+    "id": "vladkochetov07/wnn-h382-rescued-checkpoints-20261011-r4",
+    "metadata_id_matches": true,
+    "readback_argv": [
+      "kaggle",
+      "datasets",
+      "download",
+      "--path",
+      "/tmp/wnn-h382-rescued-checkpoints-r4-readback-20261011",
+      "--unzip",
+      "vladkochetov07/wnn-h382-rescued-checkpoints-20261011-r4"
+    ],
+    "status": "ready"
+  },
+  "provider": "Kaggle",
+  "schema": "wnn.h382-export-recovery-r4-dataset-readback.v1",
+  "scope": "Dataset was created once and downloaded as READY version 1. This receipt does not claim a kernel push or export execution.",
+  "upload_stage": {
+    "create_argv": [
+      "kaggle",
+      "datasets",
+      "create",
+      "--path",
+      "/tmp/wnn-h382-export-recovery-private-stage-r4-final2-20261011"
+    ],
+    "directory_mode": "0o700",
+    "files": {
+      "checkpoint_manifest.json": {
+        "bytes": 7010,
+        "mode": "0o600",
+        "sha256": "bca79e00f62e89bae7b44a4261682d9cfc4ac6d280c6610bbe14f48619685164"
+      },
+      "dataset-metadata.json": {
+        "bytes": 182,
+        "mode": "0o600",
+        "sha256": "15d61babb30554e1af2677437cc71e130eebdc861a6aeec3d66d8e3a71b43f42"
+      },
+      "rescued_checkpoints.wnn": {
+        "bytes": 12441600,
+        "mode": "0o600",
+        "sha256": "a57df09373de67618c7a5826a11a3756fbdb1640b38781af1467a6cbbc468285"
+      }
+    },
+    "path": "/tmp/wnn-h382-export-recovery-private-stage-r4-final2-20261011",
+    "public_flag_omitted_private_default_confirmed_by_cli_help": true
+  },
+  "verification": {
+    "archive_hash_matches_release": true,
+    "dataset_ready_version_1": true,
+    "kernel_includes_dataset": true,
+    "manifest_hash_matches_release": true,
+    "metadata_id_matches": true,
+    "remote_payload_exactly_matches_two_uploaded_files": true,
+    "root_release_kernel_match": true,
+    "root_release_manifest_match": true,
+    "stage_has_exactly_three_files": true
+  }
+}
