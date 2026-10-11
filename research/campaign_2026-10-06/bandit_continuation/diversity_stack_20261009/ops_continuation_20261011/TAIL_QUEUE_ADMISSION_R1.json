@@ -1,0 +1,138 @@
+{
+  "created_utc": "2026-10-11T10:56:52.093843+00:00",
+  "source_commit": "4c677022",
+  "source_digest": "26fca2c32c3d6776b1c038aab2cc34c3c19db6824f87492a5a1699b68cf5d124",
+  "review_commit": "aa766aafa7dcdf1362f6a65df990b1c6f96a0d1a",
+  "parent_sha256": "0cb7c0138848a20e497c18f6c17465e30dba5732a47313d4ac4888448a795346",
+  "device_admission_basis": {
+    "reused_same_shape_seed6_exit": 0,
+    "observed_peak_ram_bytes": 9502617600,
+    "observed_vram_bytes": 4510973952,
+    "reserve_bytes": 10500000000,
+    "workers": 1,
+    "note": "Same parent model/batch/chunk/precision/loader; branch adds no new model tensors. Runtime cap remains binding."
+  },
+  "items": [
+    {
+      "queue_file": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/pending/932_r3-h378-muon-tail-s3-fit-r1.json",
+      "attempt": "r3-h378-muon-tail-s3-fit-r1",
+      "after": [],
+      "argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "4800",
+        "/usr/bin/env",
+        "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-11/muon_tail/h378_h380_source_v1/src",
+        "WNN_LOADER_WORKERS=1",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-11/muon_tail/h378_h380_source_v1/scripts/train_rnn.py",
+        "--name",
+        "r3_muonall256prop0_f1_s3_h378_e6",
+        "--split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json",
+        "--branch-state",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/r3_muonall256prop0_f1_s3_e3/training_state.pt",
+        "--tail-epochs",
+        "3",
+        "--tail-schedule",
+        "cosine",
+        "--tail-peak-lr",
+        "3e-5",
+        "--tail-final-lr",
+        "3e-7",
+        "--tail-aux-schedule",
+        "none"
+      ]
+    },
+    {
+      "queue_file": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/pending/933_r3-h378-muon-tail-s3-export-r1.json",
+      "attempt": "r3-h378-muon-tail-s3-export-r1",
+      "after": [
+        "r3-h378-muon-tail-s3-fit-r1"
+      ],
+      "argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "1800",
+        "/usr/bin/env",
+        "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-11/muon_tail/h378_h380_source_v1/scripts:/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-11/muon_tail/h378_h380_source_v1/src",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "-c",
+        "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name=\"__main__\")",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-11/muon_tail/h378_h380_source_v1/scripts/train_rnn.py",
+        "r3_muonall256prop0_f1_s3_h378_e6",
+        "valid",
+        "--epoch",
+        "5",
+        "--output-name",
+        "r3_muonall256prop0_f1_s3_h378_e6"
+      ]
+    },
+    {
+      "queue_file": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/pending/934_r3-h380-muon-tail-s3-fit-r1.json",
+      "attempt": "r3-h380-muon-tail-s3-fit-r1",
+      "after": [],
+      "argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "4800",
+        "/usr/bin/env",
+        "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-11/muon_tail/h378_h380_source_v1/src",
+        "WNN_LOADER_WORKERS=1",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-11/muon_tail/h378_h380_source_v1/scripts/train_rnn.py",
+        "--name",
+        "r3_muonall256prop0_f1_s3_h380_e6",
+        "--split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json",
+        "--branch-state",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/r3_muonall256prop0_f1_s3_e3/training_state.pt",
+        "--tail-epochs",
+        "3",
+        "--tail-schedule",
+        "cosine",
+        "--tail-peak-lr",
+        "3e-5",
+        "--tail-final-lr",
+        "3e-7",
+        "--tail-aux-schedule",
+        "linear-to-zero"
+      ]
+    },
+    {
+      "queue_file": "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/pending/935_r3-h380-muon-tail-s3-export-r1.json",
+      "attempt": "r3-h380-muon-tail-s3-export-r1",
+      "after": [
+        "r3-h380-muon-tail-s3-fit-r1"
+      ],
+      "argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "1800",
+        "/usr/bin/env",
+        "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-11/muon_tail/h378_h380_source_v1/scripts:/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-11/muon_tail/h378_h380_source_v1/src",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "-c",
+        "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name=\"__main__\")",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-11/muon_tail/h378_h380_source_v1/scripts/train_rnn.py",
+        "r3_muonall256prop0_f1_s3_h380_e6",
+        "valid",
+        "--epoch",
+        "5",
+        "--output-name",
+        "r3_muonall256prop0_f1_s3_h380_e6"
+      ]
+    }
+  ],
+  "H379": "deferred code dependency; not queued"
+}

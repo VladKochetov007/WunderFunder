@@ -14,6 +14,22 @@ Scheduled10:04UTC check: local seed6 four-epoch fit completed and export follows
 
 LR/batch and epoch-scaling audit is complete: [mathematical analysis and source audit](../research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/MUON_BATCH_EPOCH_MATH_20261011.md). Historical B16 tests are single-seed Muon-rnn/AdamW hybrids; B64 lacks completed artifacts. Actual11949 fitting sequences give7460 attempted updates/epoch at B32. Longer OneCycle changes the earlier prefix; the24epoch Muon-all WSD treatment has13.46 times the reference decay exponent, not a controlled lower-movement extension. H377–H380 propose current-lead batch response, identical-prefix low-movement tails, fitting-only noise diagnostics/optimizer finish and auxiliary-objective conflict. They are proposed, not fit-admitted; current parallel queues remain active.
 
+
+
+### 2026-10-11T11:27:58.803640+00:00 — source quality, capacity and execution update
+
+Latest user prioritizes training the best models and using measured submission headroom for higher-quality blends. Six frozen exposed-fold1 comparisons were graded with the official metric: original three-H384-teacher blend .67254162; adding weaker seeds8/9/10 .67183372; replacing one with prop0 teacher .67184874; student plus original teacher ensemble .67264009; student plus stronger-parent student .67158010; student plus alpha.95 sibling .67099763. Adding teacher signal to the student improves this fixed endpoint by .00160862, paired149-component95% interval [.00061367,.00256185]; adding the student to the teacher ensemble changes only .00009847, interval [-.00065936,.00089053]. This favors retaining strong source signal over naive member-count/diversity expansion in these tested mixtures. It does not prove all diversity harmful. Teacher selection is exposed; component resampling does not measure seed or public-transfer uncertainty.
+
+New KD Pearson/MSE-Pearson singles .67028/.67029 and their fixed equal student pairs .67072/.67075 do not improve current student .67103. Channel sum/diff arm .67040, matched alpha.9/e2 control .67018; longer10-epoch student .67094 versus6-epoch .67103. These are bounded single-seed observations, not equivalence tests or universal nulls. Do not close all OOD/capacity/target descendants on these data. See QUALITY_DIVERSITY_PAIRED_R1.jsonl and NEW_KD_* receipts.
+
+Measured actual Q8VNNI callbacks: student-h256 plus one h384 (12.91 MB ZIP) 113.14 microseconds/row; two h384 (17.27 MB) 158.98; three h256 (12.18 MB) 102.67. Each 10 complete20k sequences x5 reset/replays, 1 million callbacks, deterministic replay. Runtime-only capacity checks; exact quantized endpoints remain ungraded. Corresponding frozen FP32 fold1 endpoints .67177/.67161/.67326. Do not translate these local timings into guaranteed portal runtimes, or local scores into public forecasts.
+
+Local seed7e4 fit/export completed; LWF930 fit continues,931 export and independently reviewed H378/H380 preserved-prefix tails932-935 supplied. Tail source frozen child26fca2c3…, same parent optimizer/scaler/RNG and actual loader1worker, tiny low-LR suffix; H380 changes auxiliary effective weight only. H377 full-shape B64 profile failed first due daemon `repr` shell quoting; external-script R2 passed rc0. Four batch fits are not admitted from an incomplete RAM/VRAM profile. H379 diagnostic remains deferred.
+
+Kagglev6 terminal outputs collected. E3 distinct seeds3/4/5/6/7 mean .668968, sampleSD .000490 from rounded canonical values; local/Kaggle seed5 counted once, not six seeds. Crossfold H382 three-arm Muon-all fold0 seed3 packet is being validated. Vast all-data h256 finals3/4/5 completed with raw10606train+1873valid=12479 fitting sequences; they support no held-out claims. H388 all-dataH384 teacher successors await content-pinned propensity preflight correction. H390 explicit all-data student cache mode is being independently implemented; old clean-fold cache membership must remain strict.
+
+Vast11:27UTC two actual activefits (OOD-only and H384student), pending0, GPU0 73%/5099MiB and GPU1 idle. Spend33.1922USD/$70; no new rental. Four OOD cache failures are diagnosed in the postmortem, compact shared target repair underway. Healthy jobs remain active; guard/timers and local limits unchanged. Exact freeze and paired evidence receipts are under ops_continuation_20261011.
+
 The following sections are preserved historical snapshots; their stop, spending and score statements do not override the continuation above.
 
 # Current research state — 2026-10-09 04:37 UTC
