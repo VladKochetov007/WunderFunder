@@ -1,0 +1,95 @@
+{
+  "bundle_manifest_sha256": "c1740621c865b1c1ba11765c600dc5d98fbb6c8ede032a7ae971c607ff8a0ca6",
+  "execution": "run sequentially; do not queue in parallel",
+  "jobs": [
+    {
+      "argv": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=10s",
+        "14400s",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/ood_cache_repair_20261011/r2/ood_student_pipeline_shared_r2.py",
+        "--arm",
+        "splice_r2",
+        "--bundle-manifest-sha256",
+        "c1740621c865b1c1ba11765c600dc5d98fbb6c8ede032a7ae971c607ff8a0ca6",
+        "--other-live-reservations-bytes",
+        "6000000000"
+      ],
+      "arm": "splice_r2",
+      "env": {
+        "PYTHONPATH": "/root/wnn/lr377_source_r1/src",
+        "WNN_FROZEN_SOURCE_ROOT": "/root/wnn/lr377_source_r1",
+        "WNN_PROJECT_ROOT": "/root/wnn"
+      }
+    },
+    {
+      "argv": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=10s",
+        "14400s",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/ood_cache_repair_20261011/r2/ood_student_pipeline_shared_r2.py",
+        "--arm",
+        "spmix_r2",
+        "--bundle-manifest-sha256",
+        "c1740621c865b1c1ba11765c600dc5d98fbb6c8ede032a7ae971c607ff8a0ca6",
+        "--other-live-reservations-bytes",
+        "6000000000"
+      ],
+      "arm": "spmix_r2",
+      "env": {
+        "PYTHONPATH": "/root/wnn/lr377_source_r1/src",
+        "WNN_FROZEN_SOURCE_ROOT": "/root/wnn/lr377_source_r1",
+        "WNN_PROJECT_ROOT": "/root/wnn"
+      }
+    },
+    {
+      "argv": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=10s",
+        "14400s",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/ood_cache_repair_20261011/r2/ood_student_pipeline_shared_r2.py",
+        "--arm",
+        "swn_r2",
+        "--bundle-manifest-sha256",
+        "c1740621c865b1c1ba11765c600dc5d98fbb6c8ede032a7ae971c607ff8a0ca6",
+        "--other-live-reservations-bytes",
+        "6000000000"
+      ],
+      "arm": "swn_r2",
+      "env": {
+        "PYTHONPATH": "/root/wnn/lr377_source_r1/src",
+        "WNN_FROZEN_SOURCE_ROOT": "/root/wnn/lr377_source_r1",
+        "WNN_PROJECT_ROOT": "/root/wnn"
+      }
+    },
+    {
+      "argv": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=10s",
+        "14400s",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/ood_cache_repair_20261011/r2/ood_student_pipeline_shared_r2.py",
+        "--arm",
+        "swn25_r2",
+        "--bundle-manifest-sha256",
+        "c1740621c865b1c1ba11765c600dc5d98fbb6c8ede032a7ae971c607ff8a0ca6",
+        "--other-live-reservations-bytes",
+        "6000000000"
+      ],
+      "arm": "swn25_r2",
+      "env": {
+        "PYTHONPATH": "/root/wnn/lr377_source_r1/src",
+        "WNN_FROZEN_SOURCE_ROOT": "/root/wnn/lr377_source_r1",
+        "WNN_PROJECT_ROOT": "/root/wnn"
+      }
+    }
+  ],
+  "schema": "wnn.ood-shared-cache-repair-jobs.v2"
+}
