@@ -20,6 +20,7 @@ import hashlib
 import json
 import os
 import re
+import shlex
 import stat
 import subprocess
 import sys
@@ -45,10 +46,220 @@ COLLECTED_DIR = HERE / f"collected{SUFFIX}"
 COLLECTION_MANIFEST = COLLECTED_DIR / "collection_manifest.json"
 COLLECTION_RECEIPT = COLLECTED_DIR / "collection_receipt.json"
 COLLECTION_VERIFICATION = RUNTIME / "collection_verified.json"
-COLLECTION_MANIFEST_SCHEMA = "vast-teacher-remote-manifest-v1"
+COLLECTION_MANIFEST_SCHEMA = "vast-teacher-remote-manifest-v2"
 COLLECTION_RECEIPT_SCHEMA = "vast-teacher-collection-receipt-v1"
+COLLECTION_INVENTORY_SCOPE = "vast-teacher-terminal-outputs-v1"
 MAX_COLLECTION_JSON_BYTES = 8 * 1024 * 1024
 MAX_COLLECTION_ARTIFACTS = 4096
+
+REMOTE_COLLECTION_SCRIPT = r"""
+import hashlib
+import json
+import os
+import re
+import stat
+import subprocess
+import sys
+from pathlib import Path
+
+REMOTE_ROOT = Path(sys.argv[3]) if len(sys.argv) > 3 else Path("/root")
+RUN = REMOTE_ROOT / "run"
+WNN = REMOTE_ROOT / "wnn"
+for required_dir in (RUN, WNN):
+    if required_dir.is_symlink() or not required_dir.is_dir():
+        raise SystemExit(f"required output root is not a real directory: {required_dir}")
+attempt_id, instance_id_raw = sys.argv[1:3]
+if not re.fullmatch(r"[A-Za-z0-9_.-]{1,128}", attempt_id):
+    raise SystemExit("invalid attempt id")
+if not instance_id_raw.isdecimal():
+    raise SystemExit("invalid instance id")
+instance_id = int(instance_id_raw)
+terminal = [name for name in ("DONE.json", "FAILED.json") if (RUN / name).exists()]
+if len(terminal) != 1:
+    raise SystemExit("primary worker has no unique terminal marker")
+status_path = RUN / "status.json"
+try:
+    if status_path.is_symlink():
+        raise SystemExit("primary status is a symlink")
+    if status_path.stat().st_size > 8 * 1024 * 1024:
+        raise SystemExit("primary status exceeds the collection bound")
+    status = json.loads(status_path.read_text())
+except (OSError, json.JSONDecodeError) as error:
+    raise SystemExit(f"primary status is missing or invalid: {error}")
+if not isinstance(status, dict):
+    raise SystemExit("primary status is not an object")
+expected_phase = "done" if terminal[0] == "DONE.json" else "failed"
+if status.get("phase") != expected_phase:
+    raise SystemExit("primary status does not match its terminal marker")
+
+pending, running = RUN / "refill/pending", RUN / "refill/running"
+refill_root = RUN / "refill"
+refill_status = RUN / "refill/status.json"
+
+def check_quiescent():
+    terminal_now = [name for name in ("DONE.json", "FAILED.json") if (RUN / name).exists()]
+    if terminal_now != terminal:
+        raise SystemExit("primary terminal marker changed during collection")
+    try:
+        if status_path.is_symlink() or status_path.stat().st_size > 8 * 1024 * 1024:
+            raise SystemExit("primary status became unsafe during collection")
+        latest_status = json.loads(status_path.read_text())
+    except (OSError, json.JSONDecodeError) as error:
+        raise SystemExit(f"primary status became invalid during collection: {error}")
+    if not isinstance(latest_status, dict) or latest_status.get("phase") != expected_phase:
+        raise SystemExit("primary status changed during collection")
+    if refill_root.exists() and (refill_root.is_symlink() or not refill_root.is_dir()):
+        raise SystemExit("refill output root is not a real directory")
+    for queue in (pending, running):
+        if queue.exists() and (queue.is_symlink() or not queue.is_dir()):
+            raise SystemExit(f"refill queue is not a real directory: {queue.name}")
+        if queue.exists() and any(queue.iterdir()):
+            raise SystemExit(f"refill queue is not drained: {queue.name}")
+    if refill_status.is_symlink():
+        raise SystemExit("refill status is a symlink")
+    if refill_status.exists():
+        try:
+            if refill_status.stat().st_size > 8 * 1024 * 1024:
+                raise SystemExit("refill status exceeds the collection bound")
+            refill = json.loads(refill_status.read_text())
+        except (OSError, json.JSONDecodeError) as error:
+            raise SystemExit(f"refill status is invalid: {error}")
+        if not isinstance(refill, dict) or refill.get("_pending", []) or any(
+            isinstance(value, dict) and value.get("running") is True
+            for key, value in refill.items() if not key.startswith("_")
+        ):
+            raise SystemExit("refill status still has pending or running jobs")
+    gpu_probe = subprocess.run(
+        ["nvidia-smi", "--query-compute-apps=pid", "--format=csv,noheader"],
+        capture_output=True, text=True, check=False, timeout=30,
+    )
+    if gpu_probe.returncode != 0 or gpu_probe.stdout.strip():
+        raise SystemExit("GPU process inventory is unavailable or still active")
+
+check_quiescent()
+
+snapshot_status = RUN / ".collection_snapshot/refill/status.json"
+entries = {}
+
+def add(source, transfer=None):
+    source = Path(source)
+    try:
+        identity = source.lstat()
+    except FileNotFoundError:
+        return
+    if not stat.S_ISREG(identity.st_mode):
+        raise SystemExit(f"output inventory contains a non-regular file: {source}")
+    relative = source.relative_to(REMOTE_ROOT).as_posix()
+    if any(re.fullmatch(r"[A-Za-z0-9_.-]+", part) is None for part in Path(relative).parts):
+        raise SystemExit(f"output inventory contains a path unsafe for exact scp: {relative}")
+    transfer_path = Path(transfer) if transfer else source
+    transfer_relative = transfer_path.relative_to(REMOTE_ROOT).as_posix()
+    inventory_path = source
+    if transfer:
+        snapshot_data = source.read_bytes()
+        after_read = source.lstat()
+        if (identity.st_dev, identity.st_ino, identity.st_size, identity.st_mtime_ns, identity.st_ctime_ns) != (
+            after_read.st_dev, after_read.st_ino, after_read.st_size, after_read.st_mtime_ns, after_read.st_ctime_ns
+        ):
+            raise SystemExit(f"output changed while being snapshotted: {source}")
+        if any(parent.is_symlink() for parent in (RUN / ".collection_snapshot", RUN / ".collection_snapshot/refill")):
+            raise SystemExit("collection snapshot path contains a symlink")
+        transfer_path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = transfer_path.with_suffix(".tmp")
+        temporary.write_bytes(snapshot_data)
+        os.chmod(temporary, 0o600)
+        os.replace(temporary, transfer_path)
+        inventory_path = transfer_path
+    inventory_identity = inventory_path.lstat()
+    digest = hashlib.sha256()
+    with inventory_path.open("rb") as handle:
+        for block in iter(lambda: handle.read(8 * 1024 * 1024), b""):
+            digest.update(block)
+    after = inventory_path.lstat()
+    if (inventory_identity.st_dev, inventory_identity.st_ino, inventory_identity.st_size,
+            inventory_identity.st_mtime_ns, inventory_identity.st_ctime_ns) != (
+        after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns
+    ):
+        raise SystemExit(f"output changed while being inventoried: {inventory_path}")
+    entries[relative] = {
+        "remote_path": relative,
+        "transfer_path": transfer_relative,
+        "size_bytes": inventory_identity.st_size,
+        "sha256": digest.hexdigest(),
+    }
+
+add(status_path)
+add(RUN / terminal[0])
+cache_dir = WNN / "cache"
+if cache_dir.exists() and (cache_dir.is_symlink() or not cache_dir.is_dir()):
+    raise SystemExit("prediction output root is not a real directory")
+for path in sorted(cache_dir.glob("pred_vt_*_valid.npy")):
+    add(path)
+for path in sorted(cache_dir.glob("pred_vt_*_valid.json")):
+    add(path)
+runs = WNN / "artifacts/runs"
+artifacts_root = WNN / "artifacts"
+if artifacts_root.exists() and (artifacts_root.is_symlink() or not artifacts_root.is_dir()):
+    raise SystemExit("artifact output root is not a real directory")
+if runs.exists() and (runs.is_symlink() or not runs.is_dir()):
+    raise SystemExit("model output root is not a real directory")
+for run_dir in sorted(runs.glob("vt_*")):
+    if run_dir.is_symlink() or not run_dir.is_dir():
+        raise SystemExit(f"run output is not a real directory: {run_dir}")
+    for path in sorted(run_dir.iterdir()):
+        if path.name in {"model.pt", "provenance.json"} or re.fullmatch(r"model_ep[0-9]+\.pt", path.name):
+            add(path)
+logs = RUN / "logs"
+if logs.exists():
+    if logs.is_symlink() or not logs.is_dir():
+        raise SystemExit("run logs path is not a real directory")
+    for path in sorted(logs.glob("*.log")):
+        add(path)
+for path in (RUN / "worker.out", RUN / "refill.out"):
+    add(path)
+if refill_status.exists():
+    add(refill_status, snapshot_status)
+for category in ("done", "held"):
+    directory = RUN / "refill" / category
+    if directory.exists():
+        if directory.is_symlink() or not directory.is_dir():
+            raise SystemExit(f"refill {category} path is not a real directory")
+        for path in sorted(directory.iterdir()):
+            if path.suffix != ".json":
+                raise SystemExit(f"unexpected refill {category} entry: {path.name}")
+            add(path)
+if len(entries) > 4096:
+    raise SystemExit("remote artifact inventory exceeds the collection bound")
+check_quiescent()
+files = [entries[name] for name in sorted(entries)]
+inventory = [
+    {"remote_path": item["remote_path"], "size_bytes": item["size_bytes"], "sha256": item["sha256"]}
+    for item in files
+]
+inventory_sha256 = hashlib.sha256(
+    json.dumps(inventory, sort_keys=True, separators=(",", ":")).encode()
+).hexdigest()
+manifest = {
+    "schema": "vast-teacher-remote-manifest-v2",
+    "inventory_scope": "vast-teacher-terminal-outputs-v1",
+    "attempt_id": attempt_id,
+    "instance_id": instance_id,
+    "inventory_complete": True,
+    "quiescent": True,
+    "primary_terminal": terminal[0],
+    "inventory_sha256": inventory_sha256,
+    "files": files,
+}
+target = RUN / "collection_manifest.json"
+temporary = target.with_suffix(".tmp")
+manifest_raw = json.dumps(manifest, sort_keys=True, separators=(",", ":"))
+if len(manifest_raw) > 8 * 1024 * 1024:
+    raise SystemExit("remote artifact manifest exceeds the collection bound")
+temporary.write_text(manifest_raw)
+os.chmod(temporary, 0o600)
+os.replace(temporary, target)
+print(json.dumps({"ok": True, "manifest": "run/collection_manifest.json", "files": len(files), "inventory_sha256": inventory_sha256}))
+"""
 
 
 def now() -> str:
@@ -105,16 +316,51 @@ def _collection_local_path(remote_path: str) -> str | None:
     path = PurePosixPath(remote_path)
     if path.is_absolute() or ".." in path.parts or not path.parts or path.as_posix() != remote_path:
         return None
-    if path.parts[0] == "wnn" and len(path.parts) >= 3:
-        if path.parts[1] == "cache" and path.name.startswith("pred_vt_") and path.name.endswith(("_valid.npy", "_valid.json")):
-            return str(PurePosixPath("cache", *path.parts[2:]))
-        if path.parts[1:3] == ("artifacts", "runs") and len(path.parts) >= 4 and path.parts[3].startswith("vt_"):
-            return str(PurePosixPath("runs", *path.parts[3:]))
-    if path.parts[:2] == ("run", "logs") and len(path.parts) >= 3:
+    if any(re.fullmatch(r"[A-Za-z0-9_.-]+", part) is None for part in path.parts):
+        return None
+    if (len(path.parts) == 3 and path.parts[:2] == ("wnn", "cache")
+            and path.name.startswith("pred_vt_") and path.name.endswith(("_valid.npy", "_valid.json"))):
+        return str(PurePosixPath("cache", path.name))
+    if (len(path.parts) == 5 and path.parts[:3] == ("wnn", "artifacts", "runs")
+            and path.parts[3].startswith("vt_")
+            and (path.name in {"model.pt", "provenance.json"} or re.fullmatch(r"model_ep[0-9]+\.pt", path.name))):
+        return str(PurePosixPath("runs", path.parts[3], path.name))
+    if path.parts[:2] == ("run", "logs") and len(path.parts) == 3 and path.name.endswith(".log"):
         return str(PurePosixPath("logs", *path.parts[2:]))
-    if path.as_posix() in {"run/status.json", "run/DONE.json", "run/FAILED.json"}:
+    if path.parts[:3] == ("run", "refill", "done") and len(path.parts) == 4 and path.name.endswith(".json"):
+        return str(PurePosixPath("refill", "done", path.name))
+    if path.parts[:3] == ("run", "refill", "held") and len(path.parts) == 4 and path.name.endswith(".json"):
+        return str(PurePosixPath("refill", "held", path.name))
+    if path.as_posix() in {"run/status.json", "run/DONE.json", "run/FAILED.json", "run/worker.out", "run/refill.out"}:
         return path.name
+    if path.as_posix() == "run/refill/status.json":
+        return "refill/status.json"
     return None
+
+
+def _collection_transfer_path(remote_path: str, transfer_path: str) -> bool:
+    """Restrict downloads to the inventoried source or its stable status snapshot."""
+    if transfer_path == remote_path:
+        return True
+    return remote_path == "run/refill/status.json" and transfer_path == "run/.collection_snapshot/refill/status.json"
+
+
+def _collection_manifest_command(ownership: dict[str, object]) -> str:
+    attempt_id = str(ownership.get("attempt_id", ""))
+    instance_id = str(ownership.get("instance_id", ""))
+    if re.fullmatch(r"[A-Za-z0-9_.-]{1,128}", attempt_id) is None or not instance_id.isdecimal():
+        raise SystemExit("ownership receipt has an invalid Vast attempt identity")
+    return f"python3 -c {shlex.quote(REMOTE_COLLECTION_SCRIPT)} {shlex.quote(attempt_id)} {shlex.quote(instance_id)}"
+
+
+def _write_private_json(path: Path, value: dict[str, object]) -> bytes:
+    path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    raw = json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    temporary.write_bytes(raw)
+    os.chmod(temporary, 0o600)
+    temporary.replace(path)
+    return raw
 
 
 def _file_sha256(path: Path) -> str:
@@ -165,9 +411,10 @@ def _read_bounded_json(path: Path) -> tuple[dict[str, object] | None, bytes | No
 def _collection_status(ownership: dict[str, object]) -> tuple[bool, str]:
     """Verify the remote inventory and local hashes, caching unchanged files.
 
-    The remote manifest has ``schema``, ``inventory_complete``,
-    ``inventory_sha256`` and ``files`` fields. Each file records a path relative
-    to ``/root`` plus its byte count and SHA-256. The adjacent collector receipt
+    The remote manifest has ``schema``, ``inventory_scope``, owner identity,
+    terminal/quiescent markers, ``inventory_sha256`` and ``files`` fields. Each
+    file records a source and transfer path relative to ``/root``, its byte
+    count and SHA-256. The adjacent collector receipt
     binds the manifest's raw SHA-256 and inventory identity, the owning
     attempt/instance, ``collector_reviewed_complete: true``, and an ``artifacts``
     list with matching remote paths/hashes and deterministic local paths.
@@ -183,8 +430,12 @@ def _collection_status(ownership: dict[str, object]) -> tuple[bool, str]:
         return False, "remote collection manifest is missing or invalid"
     if collection is None or collection_raw is None:
         return False, "collector receipt is missing or invalid"
-    if manifest.get("schema") != COLLECTION_MANIFEST_SCHEMA or manifest.get("inventory_complete") is not True:
+    if (manifest.get("schema") != COLLECTION_MANIFEST_SCHEMA
+            or manifest.get("inventory_scope") != COLLECTION_INVENTORY_SCOPE
+            or manifest.get("inventory_complete") is not True or manifest.get("quiescent") is not True):
         return False, "remote collection manifest is not marked complete"
+    if manifest.get("attempt_id") != ownership.get("attempt_id") or manifest.get("instance_id") != ownership.get("instance_id"):
+        return False, "remote collection manifest belongs to another Vast attempt"
     if collection.get("schema") != COLLECTION_RECEIPT_SCHEMA:
         return False, "collector receipt schema is unsupported"
     if collection.get("collector_reviewed_complete") is not True:
@@ -203,13 +454,16 @@ def _collection_status(ownership: dict[str, object]) -> tuple[bool, str]:
     predictions: set[str] = set()
     sidecars: set[str] = set()
     for item in raw_files:
-        if not isinstance(item, dict) or set(item) != {"remote_path", "size_bytes", "sha256"}:
+        if not isinstance(item, dict) or set(item) != {"remote_path", "transfer_path", "size_bytes", "sha256"}:
             return False, "remote collection manifest has a malformed artifact entry"
         remote_path = item.get("remote_path")
+        transfer_path = item.get("transfer_path")
         size_bytes = item.get("size_bytes")
         sha256 = item.get("sha256")
         if not isinstance(remote_path, str) or not isinstance(size_bytes, int) or isinstance(size_bytes, bool) or size_bytes < 0:
             return False, "remote collection manifest has an invalid path or byte count"
+        if not isinstance(transfer_path, str) or not _collection_transfer_path(remote_path, transfer_path):
+            return False, "remote collection manifest has an unsupported transfer path"
         if not isinstance(sha256, str) or re.fullmatch(r"[0-9a-f]{64}", sha256) is None:
             return False, "remote collection manifest has an invalid SHA-256"
         if remote_path in seen_remote or _collection_local_path(remote_path) is None:
@@ -220,6 +474,11 @@ def _collection_status(ownership: dict[str, object]) -> tuple[bool, str]:
         if remote_path.startswith("wnn/cache/") and remote_path.endswith("_valid.json"):
             sidecars.add(remote_path.removesuffix(".json"))
         files.append({"remote_path": remote_path, "size_bytes": size_bytes, "sha256": sha256})
+    terminal = manifest.get("primary_terminal")
+    terminal_paths = {path for path in seen_remote if path in {"run/DONE.json", "run/FAILED.json"}}
+    if (terminal not in {"DONE.json", "FAILED.json"} or terminal_paths != {f"run/{terminal}"}
+            or "run/status.json" not in seen_remote):
+        return False, "remote manifest is missing its terminal status artifacts"
     if predictions != sidecars:
         return False, "remote prediction arrays and sidecars do not match by name"
     inventory_sha256 = _collection_inventory_sha256(files)
@@ -396,19 +655,148 @@ def cmd_status(_: argparse.Namespace) -> None:
 
 
 def cmd_collect(_: argparse.Namespace) -> None:
+    ownership = receipt()
     dest = COLLECTED_DIR
-    (dest / "runs").mkdir(parents=True, exist_ok=True)
-    (dest / "cache").mkdir(exist_ok=True)
-    listing = ssh("cd /root/wnn && ls -d artifacts/runs/vt_* 2>/dev/null; ls cache/pred_vt_* 2>/dev/null")
-    runs = [line for line in listing.stdout.split() if line.startswith("artifacts/runs/")]
-    preds = [line for line in listing.stdout.split() if line.startswith("cache/")]
-    for run in runs:
-        scp([f"/root/wnn/{run}"], str(dest / "runs"), upload=False)
-    if preds:
-        scp([f"/root/wnn/{p}" for p in preds], str(dest / "cache"), upload=False, timeout=3600)
-    terminal = ssh("ls /root/run/DONE.json /root/run/FAILED.json 2>/dev/null").stdout.split()
-    scp(["/root/run/status.json", "/root/run/logs", *terminal], str(dest), upload=False)
-    print(json.dumps({"runs": runs, "predictions": preds, "terminal": terminal}))
+    dest.mkdir(parents=True, exist_ok=True, mode=0o700)
+    # A failed retry must not leave an older receipt authorizing teardown.
+    for evidence in (COLLECTION_RECEIPT, COLLECTION_VERIFICATION, COLLECTION_MANIFEST):
+        evidence.unlink(missing_ok=True)
+
+    result = ssh(_collection_manifest_command(ownership), timeout=3600)
+    if result.returncode != 0:
+        raise SystemExit(f"remote collection inventory failed: {result.stderr[-500:]}")
+    try:
+        summary = json.loads(result.stdout)
+    except json.JSONDecodeError as error:
+        raise SystemExit(f"remote collection inventory returned invalid JSON: {error}") from error
+    if not isinstance(summary, dict) or summary.get("ok") is not True:
+        raise SystemExit("remote collection inventory did not complete")
+
+    scp(["/root/run/collection_manifest.json"], str(dest), upload=False)
+    manifest, manifest_raw = _read_bounded_json(COLLECTION_MANIFEST)
+    if manifest is None or manifest_raw is None:
+        raise SystemExit("downloaded remote collection manifest is missing or invalid")
+    os.chmod(COLLECTION_MANIFEST, 0o600)
+    if (manifest.get("schema") != COLLECTION_MANIFEST_SCHEMA
+            or manifest.get("inventory_scope") != COLLECTION_INVENTORY_SCOPE
+            or manifest.get("inventory_complete") is not True or manifest.get("quiescent") is not True
+            or manifest.get("attempt_id") != ownership.get("attempt_id")
+            or manifest.get("instance_id") != ownership.get("instance_id")):
+        raise SystemExit("downloaded remote collection manifest is incomplete or belongs to another attempt")
+
+    raw_files = manifest.get("files")
+    if not isinstance(raw_files, list) or not raw_files or len(raw_files) > MAX_COLLECTION_ARTIFACTS:
+        raise SystemExit("remote collection manifest has no bounded artifact inventory")
+    files: list[dict[str, object]] = []
+    predictions: set[str] = set()
+    sidecars: set[str] = set()
+    for item in raw_files:
+        if not isinstance(item, dict) or set(item) != {"remote_path", "transfer_path", "size_bytes", "sha256"}:
+            raise SystemExit("remote collection manifest has a malformed artifact entry")
+        remote_path = item.get("remote_path")
+        transfer_path = item.get("transfer_path")
+        size_bytes = item.get("size_bytes")
+        sha256 = item.get("sha256")
+        if (not isinstance(remote_path, str) or _collection_local_path(remote_path) is None
+                or not isinstance(transfer_path, str) or not _collection_transfer_path(remote_path, transfer_path)):
+            raise SystemExit("remote collection manifest has an unsupported artifact path")
+        if (not isinstance(size_bytes, int) or isinstance(size_bytes, bool) or size_bytes < 0
+                or not isinstance(sha256, str) or re.fullmatch(r"[0-9a-f]{64}", sha256) is None):
+            raise SystemExit("remote collection manifest has an invalid artifact size or SHA-256")
+        if any(existing["remote_path"] == remote_path for existing in files):
+            raise SystemExit("remote collection manifest has duplicate artifact paths")
+        if remote_path.startswith("wnn/cache/") and remote_path.endswith("_valid.npy"):
+            predictions.add(remote_path.removesuffix(".npy"))
+        if remote_path.startswith("wnn/cache/") and remote_path.endswith("_valid.json"):
+            sidecars.add(remote_path.removesuffix(".json"))
+        files.append({"remote_path": remote_path, "transfer_path": transfer_path,
+                      "size_bytes": size_bytes, "sha256": sha256})
+    terminal = manifest.get("primary_terminal")
+    names = {str(item["remote_path"]) for item in files}
+    terminal_paths = {path for path in names if path in {"run/DONE.json", "run/FAILED.json"}}
+    if (terminal not in {"DONE.json", "FAILED.json"} or terminal_paths != {f"run/{terminal}"}
+            or "run/status.json" not in names or predictions != sidecars):
+        raise SystemExit("remote collection manifest is missing terminal status or paired prediction artifacts")
+    inventory_sha256 = _collection_inventory_sha256(files)
+    if (manifest.get("inventory_sha256") != inventory_sha256
+            or summary.get("inventory_sha256") != inventory_sha256
+            or summary.get("files") != len(files)):
+        raise SystemExit("remote collection manifest inventory digest does not match its summary")
+
+    # Fetch only inventoried files, grouped by their deterministic local parent.
+    groups: dict[tuple[str, str], list[str]] = {}
+    for item in sorted(files, key=lambda value: str(value["remote_path"])):
+        local_path = _collection_local_path(str(item["remote_path"]))
+        transfer_path = str(item["transfer_path"])
+        if local_path is None:
+            raise SystemExit("remote collection manifest contains an unsupported local path")
+        local_parent = str(PurePosixPath(local_path).parent)
+        transfer_parent = str(PurePosixPath(transfer_path).parent)
+        groups.setdefault((local_parent, transfer_parent), []).append(f"/root/{transfer_path}")
+    for (local_parent, _), sources in groups.items():
+        target = dest if local_parent == "." else dest.joinpath(*PurePosixPath(local_parent).parts)
+        target.mkdir(parents=True, exist_ok=True, mode=0o700)
+        scp(sources, str(target), upload=False, timeout=3600)
+
+    artifacts: list[dict[str, object]] = []
+    cache_files: list[dict[str, object]] = []
+    total_bytes = 0
+    for item in sorted(files, key=lambda value: str(value["remote_path"])):
+        remote_path = str(item["remote_path"])
+        local_path = _collection_local_path(remote_path)
+        assert local_path is not None
+        local_file = dest.joinpath(*PurePosixPath(local_path).parts)
+        before = _collection_stat(local_file)
+        if before is None or before[2] != item["size_bytes"]:
+            raise SystemExit(f"collected artifact is missing or has the wrong size: {local_path}")
+        try:
+            local_sha256 = _file_sha256(local_file)
+        except OSError as error:
+            raise SystemExit(f"could not hash collected artifact {local_path}: {error}") from error
+        after = _collection_stat(local_file)
+        if before != after:
+            raise SystemExit(f"collected artifact changed while being verified: {local_path}")
+        if local_sha256 != item["sha256"]:
+            raise SystemExit(f"collected artifact hash differs from remote manifest: {local_path}")
+        os.chmod(local_file, 0o600)
+        after = _collection_stat(local_file)
+        assert after is not None
+        artifacts.append({"remote_path": remote_path, "local_path": local_path,
+                          "size_bytes": item["size_bytes"], "sha256": local_sha256})
+        cache_files.append({"local_path": local_path, "stat": list(after)})
+        total_bytes += int(item["size_bytes"])
+
+    manifest_sha256 = hashlib.sha256(manifest_raw).hexdigest()
+    collection = {
+        "schema": COLLECTION_RECEIPT_SCHEMA,
+        "attempt_id": ownership["attempt_id"],
+        "instance_id": ownership["instance_id"],
+        "remote_manifest_sha256": manifest_sha256,
+        "remote_inventory_sha256": inventory_sha256,
+        "collector_reviewed_complete": True,
+        "artifacts": artifacts,
+    }
+    receipt_raw = _write_private_json(COLLECTION_RECEIPT, collection)
+    cache = {"schema": "vast-teacher-collection-verification-v1",
+             "receipt_sha256": hashlib.sha256(receipt_raw).hexdigest(),
+             "manifest_sha256": manifest_sha256, "verified_utc": now(), "files": cache_files}
+    _write_private_json(COLLECTION_VERIFICATION, cache)
+    verified, verification_status = _collection_status(ownership)
+    if not verified:
+        COLLECTION_RECEIPT.unlink(missing_ok=True)
+        COLLECTION_VERIFICATION.unlink(missing_ok=True)
+        raise SystemExit(f"completed collection failed local receipt validation: {verification_status}")
+
+    runs = sorted({str(PurePosixPath(str(item["remote_path"])).parent).removeprefix("wnn/")
+                   for item in files if str(item["remote_path"]).startswith("wnn/artifacts/runs/")})
+    preds = sorted(str(item["remote_path"]).removeprefix("wnn/") for item in files
+                   if str(item["remote_path"]).startswith("wnn/cache/pred_vt_"))
+    terminal_files = [f"/root/run/{terminal}"]
+    print(json.dumps({"runs": runs, "predictions": preds, "terminal": terminal_files,
+                      "collection_manifest": str(COLLECTION_MANIFEST),
+                      "collection_receipt": str(COLLECTION_RECEIPT),
+                      "artifacts": len(artifacts), "bytes": total_bytes,
+                      "collection_status": verification_status}))
 
 
 def job_key(name: str) -> str:
