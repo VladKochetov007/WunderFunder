@@ -52,3 +52,5 @@ E1 local queue treated admission_recheck_failed as permanent failure -> cascaded
 | F5 | w15 student arms (muonall teachers, e6, lr2, alpha .9, none_e6, h384) | QUEUED front of Vast B | CEILING_AND_PLAN.md |
 | F6 | H-366 diff-channel KD, H-367 run-level KD, H-369 Pearson KD flags | IMPLEMENTATION NEXT | CACHE_ONLY_DIAGNOSTICS.md |
 | F7 | H-368 residual KD, H-371 LUPI, H-373 hidden KD | PROPOSED | grok_distill.md |
+| F8 | epoch scaling: e5 muonall .6465, dm_none_e6 .6533, long_small adamw/muon e24 .610/.578 (peak ep11 .6646) | NEGATIVE without regularisation | LOOP_LOG pass 105-109 |
+| F9 | regularised long schedules: aug-warp e3/e6, strong warp e6, dropout .2 e5 (Kaggle v5) | RUNNING | kaggle_long_20261010 |
