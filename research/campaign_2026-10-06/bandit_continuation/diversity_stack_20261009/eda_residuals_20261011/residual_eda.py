@@ -516,10 +516,74 @@ def _(CLS, COMP, FEAT, G, M, P, Pfull, ROOT, RP, W, Y, Yfull, groups, gi, json, 
 
 
 @app.cell
-def _(HERE, SL, blends, conc, dtab, extra, more, join_rate, json, lead, res_corr, wp_report):
+def _(CLS, FEAT, P, PLOTS, RP, ROOT, SL, W, Y, gi, lead, np, plt, wp_of):
+    ev_ = {}
+    _ev = FEAT["since_book"] == 0
+    _start = RP.min(1) == 0
+    ev_["P_runstart_given_book_event"] = float((_start & _ev).sum() / _ev.sum())
+    ev_["P_book_event_given_runstart"] = float((_start & _ev).sum() / _start.sum())
+    ev_["book_event_row_frac"] = float(_ev.mean())
+    ev_["weight_share_event_rows"] = float(W[_ev].sum() / W.sum())
+    # sample-and-hold: freeze the prediction at the last book-event row (causal), reset per sequence
+    _idx = np.arange(len(gi))
+    _first = np.zeros(len(gi), np.int64)
+    _newseq = np.r_[True, gi[1:] != gi[:-1]]
+    _first = np.maximum.accumulate(np.where(_newseq, _idx, 0))
+    _last = np.maximum.accumulate(np.where(_ev, _idx, -1))
+    _last = np.where(_last < _first, _idx, _last)
+    _hold = P["student"][_last]
+    ev_["hold_wp"] = float(wp_of(_hold).mean())
+    ev_["mix_hold_p_wp"] = float(wp_of((_hold + P["student"]) / 2).mean())
+    # weighted share of residual SS on event vs non-event rows
+    _r = W * (Y - P["student"]) ** 2
+    ev_["resid_ss_share_event_rows"] = float(_r[_ev].sum() / _r.sum())
+    # sum/difference decomposition of the two targets
+    _u = lambda a: (a[:, 0] - a[:, 1]) / 2
+    _v = lambda a: (a[:, 0] + a[:, 1]) / 2
+    _wm = W.mean(1)
+    def _corr(a, b):
+        ma, mb = (_wm * a).sum() / _wm.sum(), (_wm * b).sum() / _wm.sum()
+        return float((_wm * (a - ma) * (b - mb)).sum() / np.sqrt((_wm * (a - ma) ** 2).sum() * (_wm * (b - mb) ** 2).sum()))
+    ev_["uv"] = dict(
+        var_y_u=float((_wm * _u(Y) ** 2).sum() / _wm.sum()), var_y_v=float((_wm * _v(Y) ** 2).sum() / _wm.sum()),
+        var_p_u=float((_wm * _u(P["student"]) ** 2).sum() / _wm.sum()), var_p_v=float((_wm * _v(P["student"]) ** 2).sum() / _wm.sum()),
+        corr_u=_corr(_u(Y), _u(P["student"])), corr_v=_corr(_v(Y), _v(P["student"])))
+    _shr = {}
+    for _lam in (1.5, 1.0, 0.75, 0.5, 0.25, 0.0):
+        _pu, _pv = _u(P["student"]), _v(P["student"])
+        _p2 = np.stack([_pu + _lam * _pv, -_pu + _lam * _pv], 1).astype(np.float32)
+        _shr[str(_lam)] = float(wp_of(_p2).mean())
+    ev_["v_shrink_wp"] = _shr
+    # class descriptors from meta_valid
+    with np.load(ROOT / "cache/meta_valid.npz") as _m:
+        _mc = _m["market_class"]
+        ev_["class_meta_means"] = {int(_c): {_k: float(_m[_k][_mc == _c].mean()) for _k in ("t0_std", "t1_std", "t0_zero", "t01_corr", "px_event_rate", "trade_rate", "i1_px_event_rate", "scored_frac")} for _c in range(4)}
+    # key figure
+    fig4, ax4 = plt.subplots(1, 4, figsize=(17, 3.4))
+    _d = SL["class"]
+    ax4[0].bar([r["slice"] for r in _d], [r["local_corr"] for r in _d], color="#1f77b4")
+    ax4[0].set_title("local weighted corr by market class")
+    _d = [r for r in SL["run position"]]
+    _o = ["start(0)", "1", "2-3", "4-7", "8-15", "16+"]
+    _d = sorted(_d, key=lambda r: _o.index(r["slice"]))
+    ax4[1].plot(_o, [r["local_corr"] for r in _d], "o-")
+    ax4[1].set_title("local corr vs rows since label change")
+    ax4[2].plot(list(lead.keys()), list(lead.values()), "o-")
+    ax4[2].set_title("corr(y_t, pred_{t+k})")
+    ax4[3].plot(list(ev_["v_shrink_wp"].keys()), list(ev_["v_shrink_wp"].values()), "o-")
+    ax4[3].set_title("WP vs shrink of common mode (t0+t1)/2")
+    for _a in ax4[2:3]:
+        _a.set_xticks(list(lead.keys())[::5])
+    fig4.tight_layout()
+    fig4.savefig(PLOTS / "key_surprises.png", dpi=110)
+    return (ev_,)
+
+
+@app.cell
+def _(HERE, SL, blends, conc, dtab, extra, ev_, more, join_rate, json, lead, res_corr, wp_report):
     (HERE / "results.json").write_text(json.dumps(dict(
         wp=wp_report, join_rate=join_rate, slices=SL, concentration={_k: _v for _k, _v in conc.items()},
-        blends=blends, resid_corr=res_corr, disagreement=dtab, leadlag=lead, extra=extra, more=more), indent=1, default=str))
+        blends=blends, resid_corr=res_corr, disagreement=dtab, leadlag=lead, extra=extra, more=more, events=ev_), indent=1, default=str))
     return
 
 

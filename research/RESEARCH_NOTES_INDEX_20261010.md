@@ -22,3 +22,4 @@ Unified ledgers (append-only): [`hypotheses.jsonl`](hypotheses.jsonl) (H-1 .. H-
 
 ## Policies in force
 Select on mean score, not CI lower bound (user 2026-10-10); public score decides. Single-member packages upload one at a time. No teammate code copied (independent implementation).
+- IDEA_LEDGER_20261011.md added to index

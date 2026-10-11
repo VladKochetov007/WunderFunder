@@ -226,6 +226,8 @@ def check_oom(problems: Problems, state: dict) -> None:
 
 
 def check_hpo(problems: Problems, state: dict) -> None:
+    if (ROOT / ".runtime/hpo_disabled").exists():  # user stopped the HPO direction 2026-10-11: no alerts for a deliberately stopped study
+        return
     """Optimizer health: ticks must keep landing and a running study must keep producing events."""
     for config in sorted((ROOT / "hpo/studies").glob("*/config.json")):
         study = config.parent

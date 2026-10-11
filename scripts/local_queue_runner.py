@@ -70,7 +70,7 @@ def admission_closed() -> bool:
 
 
 def admission_rejected(record: dict | None) -> bool:
-    return bool(record) and record.get("status") == "not_started" and record.get("phase") == "admission_failed"
+    return bool(record) and record.get("status") == "not_started" and record.get("phase") in {"admission_failed", "admission_recheck_failed"}
 
 
 def resolve(queue: Path, dependency: str) -> str:
