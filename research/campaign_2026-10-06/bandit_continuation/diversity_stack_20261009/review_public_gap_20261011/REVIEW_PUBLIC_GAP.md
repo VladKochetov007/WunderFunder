@@ -97,3 +97,15 @@ Do not read these as forecasts of the leaderboard; they are the transfer model f
 * Local scores: `LOOP_LOG_20261010.md` (passes 120-128), `ops_continuation_20261011/LOCAL_SCORES_R1.json`, `RESEARCH_PAIR_SCORES_R1.txt`.
 * Cross-fold: `prediction_bank/LATEST_CROSSFOLD_F0_F1.json` (29 paired recipes).
 * Deep dive and handoff: `DEEP_DIVE_CURRENT_BEST_20261011.md`, `research/HANDOFF_PROMPT_NEXT_AGENT_20261011.md`.
+
+## 10. Addendum 13:45 - Kaggle v6 seeds sharpen the diagnosis (fold 1, h256 Muon-all x prop0)
+
+| Recipe | Seeds (fold 1) | Mean | sd |
+|---|---|---|---|
+| 3 epochs | s3 .66897, s4 .66912, s5 .66924 (Kaggle) / .66928 (local), s6 .66934, s7 .66813 | **0.6688** | 0.0004 |
+| 4 epochs | s3 .66976, s4 .67195, s5 .67011 | **0.6706** | 0.0011 |
+
+* The same seed on different hardware reproduces to 4e-5 (s5: Kaggle .66924 vs local .66928). **Fold-1 seed noise of this recipe at 3 epochs is tiny (sd 0.0004), and 0.0011 at 4 epochs.** The fold-1 ranking of this recipe against its controls is therefore *precise*.
+* Winner's curse from picking seed 4 is only ~ +0.0013 (0.67195 vs the e4 mean 0.6706). It cannot explain a 0.0046 shortfall relative to the student-class offset.
+* Consequence: the gap is **systematic, not seed noise** - fold 1 rewards this recipe more than the public set does (recipe-level fold-specific gain, H1), or scratch Muon-all models transfer worse as a family (H4). This raises the value of the two decisive tests in section 8: (a) the same recipe on other folds, (b) one non-selected scratch canary on public. Seed replicates on fold 1 add nothing more.
+* Kaggle v6 jobs: 4 finished, fit 2.9-3.5 ks each on T4 (rc 0). Preds in `kaggle_long_20261010/output_v6/` (gitignored).
