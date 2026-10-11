@@ -1,0 +1,62 @@
+{
+  "folds": {
+    "0": {
+      "eligible_inner_valid_group_count": 1405,
+      "eval_source": "vfold",
+      "evaluation_group_count": 468,
+      "fold": 0,
+      "hft_normalizer": "inherit exact core checkpoint normalizer; observed hashes must match",
+      "outer_fold_exposure": "Previously inspected fold; robustness evidence, not a fresh holdout.",
+      "parent_normalizer": "fresh over fold-eligible train+valid groups",
+      "propensity_epsilon": 0.03,
+      "propensity_model_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+      "propensity_power": 2.0,
+      "propensity_run": "c20260929_prop_f0",
+      "seed": 3,
+      "source_qualified_train_membership": "10,606 train.parquet groups plus only the fold-eligible valid.parquet groups; outer evaluation groups excluded from every parent, student, teacher and propensity fit.",
+      "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "student_normalizer": "fresh over same fold-eligible train+valid groups",
+      "teacher_ancestry": "Eight own independently trained cleanfold H384 teachers; exact runs and qualified membership are bound by existing cache metadata.",
+      "teacher_cache": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+      "teacher_cache_metadata_sha256": "398d7753a127054f3e38cd34c4730099843d60663541787e09ab38c9f45e47ad",
+      "teacher_cache_variant": "source",
+      "train_source": "train+valid"
+    },
+    "1": {
+      "eligible_inner_valid_group_count": 1416,
+      "eval_source": "vfold",
+      "evaluation_group_count": 457,
+      "fold": 1,
+      "hft_normalizer": "inherit exact core checkpoint normalizer; observed hashes must match",
+      "outer_fold_exposure": "Previously inspected fold; robustness evidence, not a fresh holdout.",
+      "parent_normalizer": "fresh over fold-eligible train+valid groups",
+      "propensity_epsilon": 0.03,
+      "propensity_model_sha256": "1fbf412df8823c703fdf79263830f341269a68e769bc4a7258d93cdf8e40dc5c",
+      "propensity_power": 2.0,
+      "propensity_run": "c20260929_prop_f1",
+      "seed": 3,
+      "source_qualified_train_membership": "10,606 train.parquet groups plus only the fold-eligible valid.parquet groups; outer evaluation groups excluded from every parent, student, teacher and propensity fit.",
+      "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json",
+      "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "student_normalizer": "fresh over same fold-eligible train+valid groups",
+      "teacher_ancestry": "Eight own independently trained cleanfold H384 teachers; exact runs and qualified membership are bound by existing cache metadata.",
+      "teacher_cache": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/h230_four_family_fold1_source_20261009_r1",
+      "teacher_cache_metadata_sha256": "8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703",
+      "teacher_cache_variant": "source",
+      "train_source": "train+valid"
+    }
+  },
+  "inventory_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/old_pipeline_reconstruction_20261011_r1/stage_inventory.json",
+  "inventory_sha256": "13af7668130538e4d6ac5699f2222fd5b643ae550dc6dc954f02c63b4c7b3880",
+  "prepared_utc": "2026-10-11T16:39:59.314340+00:00",
+  "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "recipe_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/old_pipeline_reconstruction_20261011_r1/recipe.json",
+  "recipe_sha256": "bc7bb99844804def1dacd0c6c2f1afe6f56d008cb1a0fb9d550c4f1a313e58c2",
+  "reuse_rules": [
+    "Reuse the existing fold-specific cache and propensity; no teacher/cache build, propensity refit, provider upload or Kaggle asset is needed for this first local cohort.",
+    "At launch revalidate current source-qualified group exclusions, cache metadata/member hashes, propensity checkpoint hash, split digest and dataset identity through the actual consumer.",
+    "Never initialize from public all-data Z1c/Z4 weights or another fold."
+  ],
+  "schema": "wnn-old-z4-cleanfold-input-bindings/v1"
+}

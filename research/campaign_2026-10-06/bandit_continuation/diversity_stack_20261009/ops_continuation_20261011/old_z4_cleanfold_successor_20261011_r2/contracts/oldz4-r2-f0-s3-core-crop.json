@@ -1,0 +1,52 @@
+{
+  "attempt": "oldz4-r2-f0-s3-core-crop",
+  "authorization": "Root-owned stage release; not launched by packet construction.",
+  "command": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "300s",
+    "/usr/bin/env",
+    "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "WNN_LOADER_WORKERS=0",
+    "WNN_THREADS=1",
+    "OMP_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "PYTHONHASHSEED=0",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_old_pipeline_reconstruct_20261011_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_cleanfold_successor_20261011_r2/source_snapshots/core_crop_fe8/scripts/make_core_checkpoint.py",
+    "oldz4_h230_student_f0_s3_r2",
+    "1",
+    "oldz4_h230_core_f0_s3_r2",
+    "--root",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack"
+  ],
+  "destination_run": "oldz4_h230_core_f0_s3_r2",
+  "expected_output_checkpoint": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_core_f0_s3_r2/model_ep1.pt",
+  "expected_source_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "fold": 0,
+  "must_not_exist": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_core_f0_s3_r2"
+  ],
+  "next_stage": "Same-fold HFT fit initialized from core@ep1; inherit exact normalization.",
+  "prepared_utc": "2026-10-11T16:39:59.314340+00:00",
+  "producer_consumer_requirements": [
+    "Input same-fold family student ep1 only; no other fold/all-data checkpoint.",
+    "Actual serialized state has 31 head rows and 31 bias entries.",
+    "Output retains first23 and drops8; all other trained tensors are unchanged.",
+    "Bind input checkpoint/provenance hashes and new output checkpoint/provenance hashes; HFT initializer digest must equal core ep1.",
+    "No source model/provenance rewrite and no output overwrite."
+  ],
+  "resource_limit": "Use existing scripts/limited: WNN_CPU_QUOTA=50%, WNN_MEM_MAX=700000000, WNN_RUNTIME_MAX=300s; no GPU.",
+  "schema": "wnn.oldz4-core-crop-contract/v1",
+  "seed": 3,
+  "source_checkpoint_epoch": 1,
+  "source_checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f0_s3_r2/model_ep1.pt",
+  "source_provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f0_s3_r2/provenance.json",
+  "source_run": "oldz4_h230_student_f0_s3_r2",
+  "source_script": "/home/vlad/development/wunder/wnn_old_pipeline_reconstruct_20261011_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_cleanfold_successor_20261011_r2/source_snapshots/core_crop_fe8/scripts/make_core_checkpoint.py",
+  "source_script_sha256": "c805c4f8647abbaa434a575870199b558b411e412a3ceaff450a36e4a657161a",
+  "source_snapshot_bindings_sha256": "1bdb3a4fceaff44adb4ba6024c236063747af2e3ff3b2440f8269af7b11268a4",
+  "status": "prepared_code_only_not_admitted"
+}
