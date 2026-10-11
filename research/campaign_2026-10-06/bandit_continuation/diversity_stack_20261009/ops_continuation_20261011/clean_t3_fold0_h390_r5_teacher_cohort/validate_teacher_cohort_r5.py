@@ -54,6 +54,111 @@ def load_runner(files: dict[str, bytes]):
             sys.modules.pop("kaggle_common", None)
 
 
+def validate_archive_consumer(
+    r5_files: dict[str, bytes], preflight: dict[str, Any], manifest: dict[str, Any]
+) -> dict[str, Any]:
+    """Run the packaged pair-admission consumer on extracted archive bytes, without a GPU."""
+    driver_rel = f"{builder.R5_PACKET}/kernel_support/teacher_cohort_r5_driver.py"
+    driver_bytes = r5_files[driver_rel]
+    driver_hash = hashlib.sha256(driver_bytes).hexdigest()
+    expected_names: list[str] = []
+    with tempfile.TemporaryDirectory(prefix="wnn-r5-archive-consumer-") as temporary:
+        root = Path(temporary)
+        scripts = root / "scripts"
+        scripts.mkdir()
+        for relative in (
+            "scripts/kaggle_gpu_runner.py",
+            "scripts/kaggle_common.py",
+            "scripts/kaggle_kernel.py",
+        ):
+            (root / relative).parent.mkdir(parents=True, exist_ok=True)
+            (root / relative).write_bytes(r5_files[relative])
+
+        specs_dir = root / "kaggle_specs"
+        specs_dir.mkdir()
+        spec_names = [Path(path).stem for path in manifest["spec_paths"]]
+        if len(spec_names) != len(set(spec_names)):
+            raise ValueError("R5 archive manifest repeats a worker spec filename")
+
+        driver_path = root / driver_rel
+        driver_path.parent.mkdir(parents=True, exist_ok=True)
+        driver_path.write_bytes(driver_bytes)
+        driver_spec = importlib.util.spec_from_file_location(
+            "r5_archive_driver_under_test", driver_path
+        )
+        if driver_spec is None or driver_spec.loader is None:
+            raise RuntimeError("could not import driver from the unpacked R5 archive")
+        archived_driver = importlib.util.module_from_spec(driver_spec)
+        driver_spec.loader.exec_module(archived_driver)
+
+        expected_names = [
+            *archived_driver.PROFILE_NAMES,
+            *archived_driver.FIT_NAMES,
+            *archived_driver.EXPORT_NAMES,
+        ]
+        if len(expected_names) != 14 or set(spec_names) != set(expected_names):
+            raise ValueError(
+                "R5 archive spec filenames do not close over the exact profile/fit/export names"
+            )
+        for spec_path in manifest["spec_paths"]:
+            if spec_path not in r5_files:
+                raise ValueError(f"R5 worker spec is absent from the archive: {spec_path}")
+            spec_payload = r5_files[spec_path]
+            spec_value = json.loads(spec_payload)
+            expected_path = f"kaggle_specs/{spec_value.get('name')}.json"
+            if spec_path != expected_path:
+                raise ValueError(
+                    f"R5 worker spec filename/name disagree: {spec_path} != {expected_path}"
+                )
+            if spec_value["name"] not in expected_names:
+                raise ValueError(f"unexpected R5 worker name: {spec_value['name']}")
+            target = root / spec_path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(spec_payload)
+
+        original_load_runner = archived_driver.load_runner
+        archived_driver.load_runner = lambda package_root: _fixture_runner(
+            original_load_runner(package_root), preflight
+        )
+        archived_driver.memory_snapshot = lambda label, _runner: {
+            "label": label,
+            "fixture": "R4 actual paired-profile preflight inventory",
+        }
+        old_sys_path = list(sys.path)
+        try:
+            pair = archived_driver.ensure_pair_admission(
+                root,
+                archived_driver.PROFILE_NAMES,
+                root / "consumer_output",
+            )
+            if pair["preflight"].get("concurrency_admitted") != 2:
+                raise ValueError("actual packaged profile admission did not return concurrency two")
+            runner = pair["runner"]
+            for name in (*archived_driver.FIT_NAMES, *archived_driver.EXPORT_NAMES):
+                spec_value = runner.read_spec(root / "kaggle_specs" / f"{name}.json")
+                if spec_value.get("name") != name:
+                    raise ValueError(f"packaged consumer resolved a mismatched spec: {name}")
+        finally:
+            sys.path[:] = old_sys_path
+            sys.modules.pop("kaggle_common", None)
+            sys.modules.pop("r3_kaggle_gpu_runner", None)
+            sys.modules.pop("r3_kaggle_kernel_helpers", None)
+    return {
+        "status": "pass_actual_archive_consumer",
+        "driver_sha256": driver_hash,
+        "actual_profile_consumer": "ensure_pair_admission",
+        "profile_concurrency_from_actual_R4_preflight_fixture": 2,
+        "fit_and_export_spec_names_resolved": 12,
+        "gpu_or_provider_calls": 0,
+    }
+
+
+def _fixture_runner(runner, preflight: dict[str, Any]):
+    runner.host_inventory = lambda: preflight["host"]
+    runner.gpu_inventory = lambda: preflight["devices"]
+    return runner
+
+
 def validate(package_dir: Path, fixture_dir: Path, r4_packet: Path, diagnostics_path: Path) -> dict:
     package_dir = package_dir.resolve(strict=True)
     fixture_dir = fixture_dir.resolve(strict=True)
@@ -155,6 +260,9 @@ def validate(package_dir: Path, fixture_dir: Path, r4_packet: Path, diagnostics_
             raise ValueError(
                 f"R5 changed a scientific worker spec beyond unique IDs: {old_spec_path}"
             )
+
+    actual_preflight = read_json(fixture_dir / "R4_profile_preflight_inventory.json")
+    archive_consumer = validate_archive_consumer(r5_files, actual_preflight, manifest)
 
     mutation_refusals = 0
     with tempfile.TemporaryDirectory(prefix="wnn-r5-actual-receipt-mutation-") as temp:
@@ -291,6 +399,7 @@ def validate(package_dir: Path, fixture_dir: Path, r4_packet: Path, diagnostics_
         "actual_fixture_binding_sha256": digest(fixture_dir / "R4_ACTUAL_FAILURE_FIXTURE_R1.json"),
         "actual_profile_producer_evidence": producer_evidence,
         "actual_producer_fixture_mutations_refused": mutation_refusals,
+        "archive_consumer": archive_consumer,
         "strict_admission_fixture": {
             "runner_sha256": hashlib.sha256(r4_files["scripts/kaggle_gpu_runner.py"]).hexdigest(),
             "fit_worker_ram_reservation_bytes": 8_000_000_000,
