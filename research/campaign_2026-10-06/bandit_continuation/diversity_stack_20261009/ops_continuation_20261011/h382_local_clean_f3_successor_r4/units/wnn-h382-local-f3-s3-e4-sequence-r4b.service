@@ -1,0 +1,20 @@
+[Unit]
+Description=H382 fold-3 seed-3 fixed-e4 sequence R4B
+After=wnn-campaign.slice
+
+[Service]
+Type=simple
+Slice=wnn-campaign.slice
+CPUQuota=25%
+MemoryMax=700000000
+MemorySwapMax=0
+RuntimeMaxSec=14400
+Restart=no
+KillMode=control-group
+TimeoutStopSec=30
+Environment=WNN_SLICE=wnn-campaign.slice
+Environment=WNN_CPU_QUOTA=25%
+Environment=WNN_THREADS=1
+Environment=WNN_MEM_MAX=700000000
+Environment=WNN_RUNTIME_MAX=14400s
+ExecStart=/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_sequence.py --plan /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_local_clean_f3_successor_r4/SEQUENCE_PLAN_R4B.json --receipt /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/sequence_h382_local_f3_e4_20261011_r4b.json
