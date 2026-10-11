@@ -1,0 +1,259 @@
+{
+  "correction": {
+    "corrected_value_derived_from_file_and_manifest": "46279845540e680940c4444124164102d2499e0468aa7767fc5ba64f90854018",
+    "incorrect_r1_value": "46279845540e680940c4444124164102d2499e0468a7767fc5ba64f90854018",
+    "no_argv_or_science_change": true,
+    "reason": "R1 predictor digest was 63 hex characters. R2 derives the digest from the frozen predictor file and verifies it against SOURCE_MANIFEST_H390.json; both equal the remotely observed source digest.",
+    "superseded_r1_sha256": "942afb946efeee49994bf5c122edbd6bc0a21804d2417c18468fdd4276ac5e2e",
+    "supersedes_contract": "H390_R3_VALID_EXPORT_CONTRACT_R1.json"
+  },
+  "data_and_membership": {
+    "evaluation_population_groups": 0,
+    "fit_population_groups": 12479,
+    "heldout_claim": false,
+    "interpretation": "All-data final fit used train+valid; these valid predictions are in-sample. They are artifact outputs only and are not an independent validation score.",
+    "portable_manifest_remote_path": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold1.json",
+    "portable_manifest_sha256": "551905f3363c65608e2d5a0f49e8eeca362f574ab6d98d443e31cee0790fb5fd",
+    "prediction_rows": 1873,
+    "project_root": "/root/wnn",
+    "row_order": "valid_targets.npz row_group order, consumed by the frozen H390 R3 predictor",
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "valid_groups_in_fit": 1873,
+    "valid_parquet_bytes": 5615509128,
+    "valid_parquet_remote_path": "/root/wnn/datasets/valid.parquet",
+    "valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "valid_targets_bytes": 337186198,
+    "valid_targets_index_sha256": "ed030f767a6c650db666844ecffef21f0e96cc9fa2d7e77a0872bdf26c5bed38",
+    "valid_targets_remote_path": "/root/wnn/cache/valid_targets.npz",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "launch_authority": "root controls remote staging, fresh device/headroom gate and release; this contract grants no launch authority",
+  "limitations": [
+    "No valid prediction export was launched as part of this contract.",
+    "No local heldout score or public score is asserted for these all-data models.",
+    "Remote absence/collision checks and GPU utilization are snapshots and must be repeated immediately before execution.",
+    "Any new partial/final/sidecar file after an interrupted export blocks reuse of that output name; preserve it and assign a new run-specific output suffix after diagnosis."
+  ],
+  "observations": {
+    "both_h390_exit_codes": {
+      "s3": 0,
+      "s4": 0
+    },
+    "both_remote_fixed_epoch5_checkpoint_hashes_match_provenance": true,
+    "gpu_snapshot_csv": "physical GPU0: 0% utilization, 1 MiB / 24564 MiB; physical GPU1: 48% utilization, 2856 MiB / 24564 MiB",
+    "local_checkpoint_validation": {
+      "s4_checkpoint_args_run": "vt_all_h390_ds_homogeneous_s4_r3",
+      "s4_checkpoint_args_seed": 4,
+      "s4_checkpoint_args_train_seqs": 10607,
+      "s4_checkpoint_args_train_source": "train+valid",
+      "s4_checkpoint_args_valid_seqs": 0,
+      "s4_finite_float_elements": 981437,
+      "s4_finite_model_tensors": 16,
+      "s4_loaded_epoch": 5,
+      "s4_nonfinite_float_elements": 0,
+      "s4_provenance_selected_epoch": 5,
+      "support_cap": "50% CPU, one thread, 700000000 bytes MemoryMax, 120s"
+    },
+    "remote_snapshot_utc": "2026-10-11T15:02:52Z",
+    "s3_terminal_rescue_receipt": {
+      "commit": "5f45f8121a5faddfc4618ea5f7f8da9fb0c6a086",
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H390_S3_TERMINAL_RESCUE_R1.json",
+      "sha256": "48a30e0967cf31d06b95b135ece2e13c6e6174b3e00b6297d2a295c52f08193c"
+    },
+    "s4_collected_files": [
+      {
+        "bytes": 4024406,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/model_ep5.pt",
+        "sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419"
+      },
+      {
+        "bytes": 11826914,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/training_state.pt",
+        "sha256": "df0ec2c960ec5c0ef1e3778c4481036c1e06be1c87a1b229bbffcd2852e889a5"
+      },
+      {
+        "bytes": 374645,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/provenance.json",
+        "sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb"
+      },
+      {
+        "bytes": 9170,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/history.json",
+        "sha256": "ce6ada4ff29cde579dfa7ccd2a61d313196bebd19af437388b7daec9000293a6"
+      },
+      {
+        "bytes": 26171,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/remote_logs/s4.log",
+        "sha256": "f8154ce308df307ab8c6c6786e7865b2ec2d9211737f11c8d95623e49ce9d8f0"
+      },
+      {
+        "bytes": 2,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/remote_logs/s4.exit",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      }
+    ],
+    "s4_terminal_rescue_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H390_S4_TERMINAL_RESCUE_R1.json",
+      "sha256": "7158faa6bb48d0ba32bf46784b130df14d8fb871bc50b5c7d22efd7a3ae76716"
+    }
+  },
+  "owner": "submission_packager",
+  "purpose": "Export valid predictions for the two fixed-epoch H390 R3 artifacts so root can collect and preserve the artifacts. Do not grade these predictions as heldout validation.",
+  "recorded_utc": "2026-10-11T15:11:01Z",
+  "runs": [
+    {
+      "argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=60s",
+        "1800s",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/scripts/predict_run.py",
+        "vt_all_h390_ds_homogeneous_s3_r3",
+        "valid",
+        "--epoch",
+        "5",
+        "--output-name",
+        "vt_all_h390_ds_homogeneous_s3_r3_export_r1",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "checkpoint"
+      ],
+      "checkpoint": {
+        "bytes": 4024406,
+        "local_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/model_ep5.pt",
+        "provenance_path": "/root/wnn/artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/provenance.json",
+        "provenance_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+        "remote_path": "/root/wnn/artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/model_ep5.pt",
+        "selected_epoch_matches_checkpoint_map": true,
+        "sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+        "terminal_exit_code": 0
+      },
+      "outputs": {
+        "collision_state": "all four remote paths absent and not symlinks; local NPY/partial/sidecar/seqsums paths absent at preparation check",
+        "collision_state_observed_utc": "2026-10-11T15:02:52Z",
+        "partial_remote": "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s3_r3_export_r1_valid.npy.partial",
+        "prediction_local": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_vt_all_h390_ds_homogeneous_s3_r3_export_r1_valid.npy",
+        "prediction_remote": "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s3_r3_export_r1_valid.npy",
+        "seqsums_side_effect_remote": "/root/wnn/cache/seqsums_vt_all_h390_ds_homogeneous_s3_r3_export_r1.npz",
+        "sidecar_remote": "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s3_r3_export_r1_valid.json"
+      },
+      "postconditions": {
+        "expected_npy_bytes": 299680128,
+        "family_output_enabled": false,
+        "prediction_dtype": "float32",
+        "prediction_shape": [
+          1873,
+          20000,
+          2
+        ],
+        "sidecar_checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+        "sidecar_epoch": 5,
+        "sidecar_inference_precision": "fp16",
+        "sidecar_run": "vt_all_h390_ds_homogeneous_s3_r3",
+        "sidecar_split": "valid",
+        "verify_all_rows_written_and_header": true,
+        "verify_prediction_sha256_matches_sidecar": true
+      },
+      "run": "vt_all_h390_ds_homogeneous_s3_r3",
+      "seed": 3,
+      "selected_epoch": 5
+    },
+    {
+      "argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=60s",
+        "1800s",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/scripts/predict_run.py",
+        "vt_all_h390_ds_homogeneous_s4_r3",
+        "valid",
+        "--epoch",
+        "5",
+        "--output-name",
+        "vt_all_h390_ds_homogeneous_s4_r3_export_r1",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "checkpoint"
+      ],
+      "checkpoint": {
+        "bytes": 4024406,
+        "local_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/model_ep5.pt",
+        "provenance_path": "/root/wnn/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/provenance.json",
+        "provenance_sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb",
+        "remote_path": "/root/wnn/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/model_ep5.pt",
+        "selected_epoch_matches_checkpoint_map": true,
+        "sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+        "terminal_exit_code": 0
+      },
+      "outputs": {
+        "collision_state": "all four remote paths absent and not symlinks; local NPY/partial/sidecar/seqsums paths absent at preparation check",
+        "collision_state_observed_utc": "2026-10-11T15:02:52Z",
+        "partial_remote": "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s4_r3_export_r1_valid.npy.partial",
+        "prediction_local": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_vt_all_h390_ds_homogeneous_s4_r3_export_r1_valid.npy",
+        "prediction_remote": "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s4_r3_export_r1_valid.npy",
+        "seqsums_side_effect_remote": "/root/wnn/cache/seqsums_vt_all_h390_ds_homogeneous_s4_r3_export_r1.npz",
+        "sidecar_remote": "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s4_r3_export_r1_valid.json"
+      },
+      "postconditions": {
+        "expected_npy_bytes": 299680128,
+        "family_output_enabled": false,
+        "prediction_dtype": "float32",
+        "prediction_shape": [
+          1873,
+          20000,
+          2
+        ],
+        "sidecar_checkpoint_sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+        "sidecar_epoch": 5,
+        "sidecar_inference_precision": "fp16",
+        "sidecar_run": "vt_all_h390_ds_homogeneous_s4_r3",
+        "sidecar_split": "valid",
+        "verify_all_rows_written_and_header": true,
+        "verify_prediction_sha256_matches_sidecar": true
+      },
+      "run": "vt_all_h390_ds_homogeneous_s4_r3",
+      "seed": 4,
+      "selected_epoch": 5
+    }
+  ],
+  "runtime": {
+    "cuda_visible_devices": "0",
+    "device_argument": "cuda",
+    "device_mapping": "CUDA_VISIBLE_DEVICES=0 exposes physical GPU0 as process cuda:0",
+    "environment": {
+      "CUDA_VISIBLE_DEVICES": "0",
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONPATH": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/src",
+      "WNN_PORTABLE_DATA_MANIFEST": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold1.json",
+      "WNN_PROJECT_ROOT": "/root/wnn",
+      "WNN_THREADS": "1"
+    },
+    "execution_order": "S3 then S4 serially; do not overlap; no R4 profile until both exports are finished and collected",
+    "fresh_gate_required": "Immediately before each export, root rechecks S4/S3 terminal CP/provenance identity, all output collision paths (including symlinks), active H390 processes, GPU0 ownership/utilization/headroom, and campaign time/resource admission. The GPU snapshot below is not a launch gate. Also recheck the frozen valid.parquet/valid_targets identities against the H390 start receipt; do not score the exported valid predictions because all 1,873 valid groups were fitted.",
+    "per_export_command_deadline_seconds": 1800,
+    "physical_gpu": 0,
+    "timeout_termination_grace_seconds": 60
+  },
+  "schema": "wnn.h390.r3.valid-export-contract.v1",
+  "source": {
+    "execution_start_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/H390_R3_EXECUTION_START_R1.json",
+      "sha256": "09228ed1e70ba8a43a102cc58d4b43d9ed315ebfc35a5fd1b48f387be7864067"
+    },
+    "packet_manifest_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/PACKET_MANIFEST_R3.json",
+    "packet_manifest_sha256": "781c0237fc4b83e0715d43f3af4e4d1d83e076a72c754187d2c3bf6891414f19",
+    "predict_run_path": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/scripts/predict_run.py",
+    "predict_run_sha256_local_and_remote": "46279845540e680940c4444124164102d2499e0468aa7767fc5ba64f90854018",
+    "remote_hash_checked_utc": "2026-10-11T15:02:52Z",
+    "remote_root": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1",
+    "source_manifest_remote_path": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/SOURCE_MANIFEST_H390.json",
+    "source_manifest_sha256": "fb32325fa1010615c12a45e67e81edfd18141e288c620a5c73664d45beb397ea"
+  },
+  "status": "prepared_only_not_launched"
+}
