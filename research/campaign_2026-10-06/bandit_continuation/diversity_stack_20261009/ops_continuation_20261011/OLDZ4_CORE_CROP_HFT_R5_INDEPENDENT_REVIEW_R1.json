@@ -1,0 +1,75 @@
+{
+  "actor_commit": "6619b6e1fc8a49130e7866c45816b3f2f80e03ac",
+  "actor_worktree": "/home/vlad/development/wunder/wnn_oldz4_corecrop_hft_20261012_r1",
+  "blocking_finding": {
+    "consequence": "Root's actual production crop invocation failed with KeyError before creating the project destination. If only the first lookup is changed, the same missing-key access at line 198 fails after derive_core has written the checkpoint/provenance, leaving an incomplete write-once destination without producer receipt and preventing same-ID retry.",
+    "location": "prepare_core_crop_r5.py:145 and :198",
+    "other_consumers": "run_hft_stage_r5._load_bindings and verify_actual_cp1_crop_r5.py already use snapshot['files']; four focused tests call derive_core or receipt helpers directly and do not execute prepare_core_crop_r5.run(), so they did not catch the production schema mismatch.",
+    "smallest_fix": "Resolve one crop_source_sha from source_bindings['files']['scripts/make_core_checkpoint.py']; use it for pre-write validation and receipt construction. Add an end-to-end run() test with a private temporary project root and synthetic root admission so the production lookup/receipt path is exercised, not just derive_core directly.",
+    "trigger": "Root's actual production attempt independently reproduced the consumer mismatch: prepare_core_crop_r5.py:145 asks source_bindings['snapshots']['core_crop']['script_sha256']; SOURCE_BINDINGS_R5.json has no script_sha256 key. The crop digest is stored at files['scripts/make_core_checkpoint.py'] and matches CORE_CROP_CONTRACT_R5.crop_source_sha256 (c805c4f8647abbaa434a575870199b558b411e412a3ceaff450a36e4a657161a)."
+  },
+  "checks": {
+    "effective_objective_and_membership": {
+      "observed": "R5 imports parent args under inherit-init-preprocessing. The actual parent declares aux_struct=0.3 and aux_next=0.3; c337 inheritance copies them, and the 23-row core head retains 21 auxiliary outputs in addition to two primary outputs. ROOT_HFT_OBJECTIVE_CLARIFICATION_R5.json binds these values. The primary loss is gcorr, with inherited structural and next-change auxiliary losses. This exactly matches the recorded historical f0_h230_hetero_s3_hft_v1 HFT settings (same main/aux losses, mask, no propensity, freeze inp/gru, fp16, AdamW/OneCycle, LR 5e-4, WD 0.01, one epoch, valid-fold 0; 1405 fit groups and 468 evaluation groups). Historical log lacks a frozen source hash, so this is method/argv precedent, not byte-identical source proof.",
+      "status": "PASS_WITH_ROOT_CLARIFICATION"
+    },
+    "fit_and_stage_gates": {
+      "observed": "Profile requires the root launch receipt bound to exact profile contract and crop receipt. Fit requires the root profile-admission receipt, valid_for_throughput=true update evidence, and separate fit-admission receipt bound to exact fit/profile/crop. Export requires a terminal receipt bound to the fit/crop plus fixed CP0 SHA and refuses existing final NPY/JSON. No stage receipt authorizes a fit absent root admission.",
+      "status": "PASS_STATIC_GATING"
+    },
+    "independent_actual_cp1_temporary_crop": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_oldz4_corecrop_hft_20261012_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/verify_actual_cp1_crop_r5.py --project-root /home/vlad/development/wunder/wnn_connectome_starterpack",
+      "limits": {
+        "cpu_quota": "50%",
+        "memory_max_bytes": 700000000,
+        "runtime_max_seconds": 120,
+        "threads": 1
+      },
+      "observed": "Actual CP1/provenance copied to a temporary root; pinned primitive produced a 31-to-23 head crop, dropped only 8 family rows, preserved first 23 head rows and all 14 other model tensors plus both normalization tensors, and bound derivation/sidecar hashes. Temporary source bytes remained unchanged. Output checkpoint SHA f1fac7f6293082fe1dd416e4026cac56fe1bcfb533683837da2192bad69e99a0; output sidecar SHA 11a7373acd6fb88417be27e1d34892590466412ba8f799e005045318329fec62.",
+      "status": "PASS_ACTUAL_CP1_TEMPORARY_CROP"
+    },
+    "independent_validate_import": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_oldz4_corecrop_hft_20261012_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/run_hft_stage_r5.py --stage validate-import --project-root /home/vlad/development/wunder/wnn_connectome_starterpack",
+      "limits": {
+        "cpu_quota": "50%",
+        "memory_max_bytes": 700000000,
+        "runtime_max_seconds": 120,
+        "threads": 1
+      },
+      "observed": "Exact frozen c337 trainer and predictor imported; both module ROOT values resolve to MAIN; Sequences resolves to MAIN/datasets/valid.parquet; imported frozen dataloader helper returned workers=0 and prefetch_factor=0; CP1/provenance/split/parent gate hashes and memberships matched.",
+      "status": "PASS_IMPORT_AND_ROOT_BINDING"
+    }
+  },
+  "disposition": "BLOCK_R5_PRODUCTION_CROP_CONSUMER",
+  "execution_state": {
+    "export": "not run",
+    "fit": "not run; prepared only and remains root-gated",
+    "production_crop": "FAILED_BEFORE_WRITE with KeyError at prepare_core_crop_r5.py:145, as reported by root; no actual crop receipt or destination was created and CP1 remains unchanged",
+    "profile": "not run",
+    "scientific_score": null
+  },
+  "limitations": [
+    "No actual CUDA profile, HFT fit, export, or score was reviewed or run.",
+    "The export wrapper checks final NPY/JSON collisions but does not itself check predict_run's .partial path or its stale seqsums unlink target; both named paths were absent at review time. Recheck them before the eventual export."
+  ],
+  "packet": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5",
+  "pins": {
+    "actual_parent_cp1_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "actual_parent_provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+    "core_crop_contract_sha256": "22a7e7f2553a6dcfe784b5e813b48aac37eff56c136b97a73694994626951cd9",
+    "effective_objective_clarification_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_student_core_hft_f0_r5/ROOT_HFT_OBJECTIVE_CLARIFICATION_R5.json",
+    "effective_objective_clarification_sha256": "f1af75b47a48c440f7860f4e2a97b9eff7ac2594b2a885fc22f9583447c4befd",
+    "export_contract_sha256": "ab17e8d8b2362d77a2471f8d69653968391cfab515eb10f5e586d63ab727ef99",
+    "fit_contract_sha256": "64df5f235242042a3e9848eb260321d4a0b46979862aa9299dfa5f401059b541",
+    "parent_terminal_gate_sha256": "0f31fbfe039b4fcbca66a296888af9fd68820a1dd2fc57b5c99d9a1ac7a90ee1",
+    "predictor_source_sha256": "fee58a359c24208116cbf3b86e7d4dcf90ba285494582ab2f760edd9f8e1d0aa",
+    "profile_contract_sha256": "4b60d7bcde41b6a942e5ee3075ebd7efbcdb63afa893f493e68a90220296b56d",
+    "source_bindings_sha256": "b7c08e9b19ee6d4e802d858259caeba505538c8e4b5385bf52cd5f21e8a0985b",
+    "trainer_snapshot_commit": "c337e3a613f795fdbb057098d11c0191c37c3615",
+    "trainer_source_sha256": "5b135ea90480dde8b530c4543e1d587a044efa1f98dc6a3327b9dca6fcd40187"
+  },
+  "reviewed_utc": "2026-10-11T22:18:00Z",
+  "reviewer_role": "independent_code_and_consumer_critic",
+  "schema": "wnn.independent-review.oldz4-core-crop-hft-r5.v1",
+  "scope": "R5 source, actual CP1 temporary crop, ROOT/import binding, F0 membership, HFT objective and stage gates; no GPU fit, profile, export, provider, or queue action"
+}
