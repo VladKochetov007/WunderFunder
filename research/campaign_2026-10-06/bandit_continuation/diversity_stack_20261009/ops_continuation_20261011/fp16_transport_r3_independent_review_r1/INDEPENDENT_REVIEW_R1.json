@@ -1,0 +1,62 @@
+{
+  "schema": "wnn.fp16-transport-independent-review.v1",
+  "reviewer_role": "independent_package_and_callback_review",
+  "review_scope": "H388 full-data H384 teacher trio, selective FP16 transport, Q8VNNI callback, exposed diagnostic grade, and Python 3.11 exact-ZIP panel",
+  "actor_commit": "d5789e8a36465d79f5424e5aaaa0cf610df59deb",
+  "actor_worktree": "/home/vlad/development/wunder/wnn_old_pipeline_reconstruct_20261011_r1",
+  "disposition": "PASS_FOR_PROVISIONAL_CANDIDATE; NO_PUBLIC_OR_HELDOUT_CLAIM",
+  "candidate": {
+    "zip": "submissions/10-11-exploit-now_r3_fp16transport_q8/artifacts/h388_s3_s4_s5_equal_q8_fp16transport.zip",
+    "zip_bytes": 13735320,
+    "zip_sha256": "ecbf13cd321b90400a6a48bc6f20f43df4cfbef4aed650404785384c23631b7b",
+    "members": [
+      {"run": "vt_all_h388_muonall_h384_e3_s3@ep2", "source_checkpoint_sha256": "f61c1e72d7fee5023e32e7aab7ceb33a3ec6629c436bb9ab06a6111e6074a6b5", "coefficient": 0.3333333333333333, "weights_sha256": "8d21657c308c5f09ed932dcf5c249823db128e58758333ddeb66d85175f92d14"},
+      {"run": "vt_all_h388_muonall_h384_e3_s4@ep2", "source_checkpoint_sha256": "592c51fb9f8dd306c469f1b09cd20d57d06c54ce2a72d1e04ab00ac50f9a0fcc", "coefficient": 0.3333333333333333, "weights_sha256": "23c1564de7a76c499d1849c386bb7936ee06fad2c187bcbc22b8fb714818df76"},
+      {"run": "vt_all_h388_muonall_h384_e3_s5@ep2", "source_checkpoint_sha256": "7feefb8aaa8bca6f5ace10a8c0556dd07a067444b88fee43a9f941c74dc61943", "coefficient": 0.3333333333333333, "weights_sha256": "6c28983b0a921aa6be9e2400770a2b092f5d57e3f8ab8f02a617333cc8872c5d"}
+    ],
+    "source_bindings_sha256": "3d9a1354bf25719c2431dd4c1f4f22afa21bbbea38d7a338e75af97138d00783",
+    "build_receipt_sha256": "1588ed9c39017c4ae66ce84364d2a4c101d3e038d25aa79e16bca265776f0c61",
+    "runtime": {
+      "solution_native_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+      "precision": "q8vnni",
+      "precision_assertion": "native EnsemblePredictor reports q8vnni for the 3-member ensemble",
+      "native_level": "v3",
+      "native_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+      "weights_transport": "The four GRU recurrent matrices and head.0.weight are stored as float16; all other tensors remain float32. Existing runtime expands arrays for the Q8VNNI native callback. This is storage compression, not FP16 inference."
+    }
+  },
+  "python311_panel": {
+    "receipt_path": "/tmp/wnn_h388_fp16_trio_p311_review_r1/CALLBACK_PANEL_PY311_R1.json",
+    "receipt_sha256": "7f3d3e6a5490db8e994e33a49db1a59c4267f745968d04ddfe4f9ef0681f88e3",
+    "python": "3.11.16",
+    "command_limits": {"cpu_quota": "100%", "threads": 1, "memory_max_bytes": 1200000000, "runtime_max": "600s", "network": "none", "runtime": "59.581s"},
+    "panel": {"complete_sequences": 10, "rows_per_sequence": 20000, "repeats": 2, "callbacks": 400000, "finite": true, "reset_replay_bitwise_equal": true},
+    "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "prediction_sha256": "6b6772eb9eaae80857a1a73b9cc16123a7669e989e0e8714c3cd8dd54344af7e",
+    "matches_python313_panel_prediction_sha256": true,
+    "memory_peak_bytes": 248287232,
+    "memory_events": {"high": 0, "max": 0, "oom": 0, "oom_kill": 0}
+  },
+  "exposed_diagnostic_grade": {
+    "receipt_path": "submissions/10-11-exploit-now_r3_fp16transport_q8/artifacts/FP16_TRANSPORT_OFFICIAL_GRADE_R1.json",
+    "receipt_sha256": "b7e2ffc094367e431cab6321b8bd57c333ee97a216aed801fb79bcc5f382d695",
+    "metric": "global_wp_clip2_v1",
+    "scored_rows": 15615,
+    "sequence_count": 10,
+    "fp32_q8_trio_wp": 0.76625932453,
+    "fp16_transport_q8_trio_wp": 0.76625369562,
+    "delta_fp16_transport_vs_fp32": -0.00000562891,
+    "interpretation": "All-data fit groups include this valid-panel data. The result is a bounded exposed diagnostic only; it is not held-out evidence or a public-score forecast."
+  },
+  "review_findings": [
+    "Member checkpoint, provenance, export and tensor hashes resolve through the sealed source bindings and build receipt; fixed equal coefficients match the package member list.",
+    "Selective dtype conversion is limited to the five declared tensors per member; remaining arrays preserve float32 identity in the builder receipt. ZIP is below the 20,000,000-byte limit and CRC was sealed by the actor.",
+    "The package uses the existing precision-aware native ensemble path. Exact-ZIP Python 3.11 and Python 3.13 panels both report Q8VNNI, finite outputs and deterministic reset replay; the P311 output hash matches the P313 panel.",
+    "The measured FP16 transport grade is effectively tied to the FP32 transport control on the exposed panel; it supports the size tradeoff but does not establish generalization."
+  ],
+  "limitations": [
+    "This review independently reran the bounded P311 callback panel but did not rerun the actor's P313 panel, builder, or grade.",
+    "Full-data training used train and valid groups; the diagnostic panel reuses exposed valid groups.",
+    "No leaderboard score or expected-public score is asserted."
+  ]
+}
