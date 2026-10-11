@@ -45,7 +45,7 @@ Caveat on |y| slices: conditioning on the outcome (slope .02 at small |y|, 1.38 
 - t0/t1 labels correlate at -0.83, predictions only -0.61, residuals -0.75.
 - Mode variance (w-weighted): label difference mode u=(y0-y1)/2 1.474, common mode v=(y0+y1)/2 0.164. Prediction variance: u 0.520 (35% of the label's), v 0.171 (matches the label's). Mode corr: u 0.634, v 0.599.
 - Post-hoc rescaling does not help: shrinking v gives 0.6692 (lam=1.0) vs 0.6672 (.75) / 0.6581 (.5); a 2D grid on (u scale, v scale) peaks at (1.0, 1.0) within noise (0.6693 at u.8/v.75).
-- **H5 (loss reparameterisation).** Train on (u, v) with variance-normalised separate loss terms (u dominates the label variance, so v currently takes ~45% of the model's prediction variance for ~10% of label variance).
+- **H5 (loss reparameterisation).** Train on (u, v) with variance-normalised separate loss terms (u dominates the label variance, so v currently takes ~25% of the model's prediction variance for ~10% of label variance).
   - Cheapest falsifier: a pure-loss change (same net, same seed, 1 epoch): if WP is not above control by +0.001, drop it. Post-hoc scaling above already shows there is no free lunch in calibration.
 
 ## Nulls worth keeping
