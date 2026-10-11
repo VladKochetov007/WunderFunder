@@ -1,0 +1,123 @@
+{
+  "schema": "wnn.h390.valid-export-receipt.v1",
+  "run": "vt_all_h390_ds_homogeneous_s3_r3",
+  "seed": 3,
+  "recorded_utc": "2026-10-11T15:24:30Z",
+  "owner": "submission_packager",
+  "instance": {
+    "id": 55080658,
+    "lane": "b",
+    "controller_import_assertions": [
+      "VT_LANE=b",
+      "RECEIPT.name=OWNERSHIP_RECEIPT_b.json",
+      "instance_id=55080658"
+    ]
+  },
+  "contract": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H390_R3_VALID_EXPORT_CONTRACT_R2.json",
+    "sha256": "6aaee4aa3154f9da008002e60051a857b30429a5cba8b505b933a56bcf5fdd2f",
+    "root_release": "Root explicitly released serial S3 then S4 valid exports, physical GPU0, each bounded by GNU timeout 1800s."
+  },
+  "preflight": {
+    "remote_utc": "2026-10-11T15:18:49Z",
+    "result": "PASS immediately before launch",
+    "expected_observed_sha256": {
+      "predict_run.py": "46279845540e680940c4444124164102d2499e0468aa7767fc5ba64f90854018",
+      "SOURCE_MANIFEST_H390.json": "fb32325fa1010615c12a45e67e81edfd18141e288c620a5c73664d45beb397ea",
+      "PACKET_MANIFEST_R3.json": "781c0237fc4b83e0715d43f3af4e4d1d83e076a72c754187d2c3bf6891414f19",
+      "portable_inputs_fold1.json": "551905f3363c65608e2d5a0f49e8eeca362f574ab6d98d443e31cee0790fb5fd",
+      "fold1.json": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "valid.parquet": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "valid_targets.npz": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "model_ep5.pt": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+      "provenance.json": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c"
+    },
+    "fit_exit": 0,
+    "selected_epoch": 5,
+    "h390_trainer_active": false,
+    "output_paths_absent_and_not_symlinks": true,
+    "gpu0": {
+      "utilization_percent": 0,
+      "memory_used_mib": 1,
+      "memory_total_mib": 24564,
+      "compute_processes": 0
+    },
+    "gpu1": {
+      "utilization_percent": 0,
+      "memory_used_mib": 1,
+      "memory_total_mib": 24564
+    },
+    "free_bytes": 27660419072
+  },
+  "execution": {
+    "started_utc": "2026-10-11T15:18:49Z",
+    "ended_utc": "2026-10-11T15:19:34Z",
+    "exit_code": 0,
+    "physical_gpu": 0,
+    "cuda_visible_devices": "0",
+    "runtime_limit_seconds": 1800,
+    "supervisor_pid": 1977870,
+    "timeout_pid": 1977872,
+    "remote_task_root": "/root/run/h390_r3_exports/s3_export_r1",
+    "remote_runner_sha256": "4c601e5d97e6a9a38fe4cf5d9157f32ca0ec64ddb4df4c526ec14e350a7d39ca",
+    "argv": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=60s",
+      "1800s",
+      "/opt/conda/bin/python",
+      "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/scripts/predict_run.py",
+      "vt_all_h390_ds_homogeneous_s3_r3",
+      "valid",
+      "--epoch",
+      "5",
+      "--output-name",
+      "vt_all_h390_ds_homogeneous_s3_r3_export_r1",
+      "--device",
+      "cuda",
+      "--inference-precision",
+      "checkpoint"
+    ],
+    "thread_environment": {
+      "WNN_PROJECT_ROOT": "/root/wnn",
+      "PYTHONPATH": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/src",
+      "WNN_PORTABLE_DATA_MANIFEST": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold1.json",
+      "CUDA_VISIBLE_DEVICES": "0",
+      "WNN_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "outputs": {
+    "prediction_remote": "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s3_r3_export_r1_valid.npy",
+    "sidecar_remote": "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s3_r3_export_r1_valid.json",
+    "prediction_bytes": 299680128,
+    "prediction_sha256": "3bacc14413417dc45215eb3d1670bc98af0ce2c00ffc8e0198fada399e916c90",
+    "sidecar_sha256": "49dcf6c4bd1fbf6106c4e4cc357e2b200afff1bfead37dddd5ee72bc963b191d",
+    "header": {
+      "npy_version": [1, 0],
+      "shape": [1873, 20000, 2],
+      "dtype": "float32",
+      "fortran_order": false
+    },
+    "sidecar_binds": {
+      "run": "vt_all_h390_ds_homogeneous_s3_r3",
+      "split": "valid",
+      "epoch": 5,
+      "checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+      "prediction_sha256": "3bacc14413417dc45215eb3d1670bc98af0ce2c00ffc8e0198fada399e916c90",
+      "inference_precision": "fp16"
+    },
+    "row_groups": 1873,
+    "sidecar_row_order_equals_pinned_valid_targets_row_group": true,
+    "all_prediction_values_finite": true,
+    "partial_file_absent": true,
+    "seqsums_side_effect": "absent at preflight and after run; frozen predictor only removes an older stale seqsums file."
+  },
+  "limitations": [
+    "All 1,873 valid groups were included in the 12,479-group training population. This output is in-sample and is not a held-out validation score.",
+    "No public score or expected-public score is asserted.",
+    "The first ad hoc row-group digest trial used little-endian int64 bytes and did not match the separately named index digest. Direct elementwise sidecar order equality against the pinned valid_targets row_group array passed; the receipt does not claim equivalence of those distinct digest conventions."
+  ]
+}

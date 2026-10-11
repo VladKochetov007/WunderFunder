@@ -1,0 +1,60 @@
+{
+  "schema": "wnn.h390.valid-export-terminal.v1",
+  "run": "vt_all_h390_ds_homogeneous_s4_r3",
+  "seed": 4,
+  "recorded_utc": "2026-10-11T15:25:24Z",
+  "owner": "submission_packager",
+  "launch_receipt": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H390_S4_VALID_EXPORT_LAUNCH_R1.json"
+  },
+  "remote_terminal": {
+    "instance_id": 55080658,
+    "task_root": "/root/run/h390_r3_exports/s4_export_r1",
+    "started_utc": "2026-10-11T15:23:21Z",
+    "ended_utc": "2026-10-11T15:24:06Z",
+    "exit_code": 0,
+    "runtime_limit_seconds": 1800,
+    "supervisor_pid": 1979748,
+    "timeout_pid": 1979750
+  },
+  "device_clear_observation": {
+    "observed_utc": "2026-10-11T15:25:24Z",
+    "known_s3_and_s4_supervisor_timeout_pids_absent": true,
+    "gpu0_utilization_percent": 0,
+    "gpu0_memory_used_mib": 1,
+    "gpu0_memory_total_mib": 24564,
+    "gpu1_utilization_percent": 0,
+    "gpu1_memory_used_mib": 1,
+    "gpu1_memory_total_mib": 24564
+  },
+  "output": {
+    "prediction_remote": "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s4_r3_export_r1_valid.npy",
+    "sidecar_remote": "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s4_r3_export_r1_valid.json",
+    "prediction_bytes": 299680128,
+    "prediction_sha256": "0ea49071102e2bc170d333e533fc6ad88add9aecd8c1d93f4bcce57ad73a9c53",
+    "sidecar_sha256": "01c5b24786c1187528ec93cbd25f8e043e96d8a08ad71d4ceed65c31560880ea",
+    "partial_absent": true,
+    "seqsums_side_effect_absent_as_expected": true,
+    "npy_header": {
+      "version": [1, 0],
+      "shape": [1873, 20000, 2],
+      "dtype": "float32",
+      "fortran_order": false
+    },
+    "sidecar": {
+      "run": "vt_all_h390_ds_homogeneous_s4_r3",
+      "split": "valid",
+      "epoch": 5,
+      "checkpoint_sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+      "prediction_sha256": "0ea49071102e2bc170d333e533fc6ad88add9aecd8c1d93f4bcce57ad73a9c53",
+      "inference_precision": "fp16"
+    },
+    "row_groups": 1873,
+    "sidecar_row_order_equals_pinned_valid_targets_row_group": true,
+    "all_prediction_values_finite": true
+  },
+  "limitations": [
+    "All 1,873 valid groups were included in the 12,479-group training population; these predictions are in-sample, not held-out validation.",
+    "No local held-out score, public score or expected-public score is asserted."
+  ]
+}
