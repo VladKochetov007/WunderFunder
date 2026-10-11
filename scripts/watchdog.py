@@ -17,11 +17,13 @@ import argparse
 import datetime as dt
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import sys
 import time
 from pathlib import Path
+from types import ModuleType
 
 ROOT = Path(__file__).resolve().parents[1]
 BC = ROOT / "research/campaign_2026-10-06/bandit_continuation"
@@ -29,9 +31,117 @@ VAST = BC / "vast_teachers_r1"
 WATCH = BC / "watchdog"
 STATE_PATH = ROOT / ".runtime/watchdog_state.json"
 HEARTBEAT = ROOT / ".runtime/watchdog_heartbeat"
-KAGGLE_KERNELS = ["vladkochetov07/e529-gru512-768-muon-fit-v5r2-20261009", "vladkochetov07/wnn-native-device-tpu-20261009-v4"]
-EXPECTED_TIMERS = ["wnn-local-queue-r1", "wnn-campaign-kaggle-poller"]
+KAGGLE_KERNELS = ("vladkochetov07/wnn-kaggle-long-20261010-a",)
+RETIRED_KAGGLE_KERNELS = (
+    "vladkochetov07/e529-gru512-768-muon-fit-v5r2-20261009",
+    "vladkochetov07/wnn-native-device-tpu-20261009-v4",
+)
+EXPECTED_TIMERS = (
+    "wnn-watchdog",
+    "wnn-vast-tick-lane-b",
+    "wnn-local-queue-r1",
+    "wnn-campaign-kaggle-poller",
+)
 SPEND_WARN = 60.0  # user authorised ~$1/h auto top-up (2026-10-11); lane b cap 70
+
+REMOTE_JOB_DIAGNOSTICS = r"""
+import json
+import os
+import re
+import subprocess
+import time
+from pathlib import Path
+
+RUN = Path(os.environ["WNN_WATCHDOG_RUN_ROOT"])
+RUNNING = RUN / "refill" / "running"
+DONE = RUN / "refill" / "done"
+LOGS = RUN / "logs"
+TOKEN = re.compile(r"[A-Za-z0-9_.-]{1,160}")
+
+
+def safe_token(value):
+    return value if isinstance(value, str) and TOKEN.fullmatch(value) else None
+
+
+def option_value(argv, option):
+    for index, value in enumerate(argv):
+        if value == option and index + 1 < len(argv):
+            return safe_token(argv[index + 1])
+        if isinstance(value, str) and value.startswith(option + "="):
+            return safe_token(value.partition("=")[2])
+    return None
+
+
+def job_target(path):
+    try:
+        job = json.loads(path.read_text())
+    except (OSError, ValueError):
+        return {"job": safe_token(path.stem) or "unknown", "state": "unidentified",
+                "stage": "unknown", "log": None}
+    if not isinstance(job, dict):
+        return {"job": safe_token(path.stem) or "unknown", "state": "unidentified",
+                "stage": "unknown", "log": None}
+    job_name = safe_token(job.get("name")) or safe_token(path.stem) or "unknown"
+    steps = job.get("steps")
+    candidates = []
+    if isinstance(steps, list):
+        for step in steps:
+            if not isinstance(step, dict):
+                continue
+            label = step.get("label")
+            argv = step.get("argv")
+            if not isinstance(argv, list) or not all(isinstance(arg, str) for arg in argv):
+                continue
+            if any(Path(arg).name == "distill_pipeline.py" for arg in argv[:3]):
+                arm = option_value(argv, "--arm")
+                if arm:
+                    candidates.append({"job": job_name, "arm": arm, "run_name": None,
+                                       "stage": "pipeline", "log": f"pipeline_{arm}.log"})
+            elif label in ("fit", "export"):
+                run_name = option_value(argv, "--name")
+                if run_name:
+                    candidates.append({"job": job_name, "arm": None, "run_name": run_name,
+                                       "stage": label, "log": f"{job_name}.{label}.log"})
+    if not candidates:
+        return {"job": job_name, "state": "unidentified", "stage": "unknown", "log": None}
+    existing = []
+    for candidate in candidates:
+        path = LOGS / candidate["log"]
+        try:
+            existing.append((path.stat().st_mtime, candidate))
+        except OSError:
+            pass
+    if not existing:
+        return candidates[0] | {"state": "missing", "age_min": None}
+    modified, candidate = max(existing, key=lambda entry: entry[0])
+    return candidate | {"state": "present", "age_min": round(max(0, time.time() - modified) / 60, 1)}
+
+
+try:
+    daemon_result = subprocess.run(["pgrep", "-fc", "^python remote_refill.py"],
+                                   capture_output=True, text=True, timeout=5, check=False)
+    daemon_count = int(daemon_result.stdout.strip() or "0")
+except (OSError, subprocess.SubprocessError, ValueError):
+    daemon_count = None
+
+try:
+    running_paths = sorted(RUNNING.glob("*.json"))
+except OSError:
+    running_paths = []
+try:
+    failed_jobs = sorted(path.name for path in DONE.iterdir()
+                         if path.is_file() and not path.name.endswith(".rc0.json")
+                         and safe_token(path.name))
+except OSError:
+    failed_jobs = []
+
+print("WATCHDOG_DIAGNOSTICS=" + json.dumps({
+    "refill_daemon": daemon_count,
+    "running_jobs": [job_target(path) for path in running_paths],
+    "failed_jobs": failed_jobs,
+}, separators=(",", ":")))
+"""
+REMOTE_DIAGNOSTICS_MARKER = "WATCHDOG_DIAGNOSTICS="
 
 
 def now() -> str:
@@ -64,19 +174,48 @@ class Problems:
 def check_vast(problems: Problems, state: dict) -> None:
     import importlib
 
-    for lane in ("", "b"):
-        os.environ["VT_LANE"] = lane
-        sys.path.insert(0, str(VAST))
+    lane = "b"
+    os.environ["VT_LANE"] = lane
+    sys.path.insert(0, str(VAST))
+    try:
         import controller
 
         importlib.reload(controller)
-        try:
-            check_vast_lane(problems, state, controller, lane or "a")
-        finally:
-            os.environ.pop("VT_LANE", None)
+        check_vast_lane(problems, state, controller, lane)
+    finally:
+        os.environ.pop("VT_LANE", None)
+        sys.path.remove(str(VAST))
 
 
-def check_vast_lane(problems: Problems, state: dict, controller, lane: str) -> None:
+def _remote_vast_command(controller: ModuleType) -> str:
+    """Combine the existing host probe and safe job-specific diagnostics in one SSH read."""
+    diagnostics = shlex.quote(REMOTE_JOB_DIAGNOSTICS)
+    return (
+        f"{controller.REMOTE_PROBE.rstrip()}\n"
+        f"WNN_WATCHDOG_RUN_ROOT=/root/run python3 -c {diagnostics}"
+    )
+
+
+def _parse_vast_probe(stdout: str) -> tuple[dict[str, str], dict[str, object]]:
+    """Parse the existing probe fields and its single structured diagnostics record."""
+    info: dict[str, str] = {}
+    diagnostics: dict[str, object] | None = None
+    for line in stdout.splitlines():
+        if line.startswith(REMOTE_DIAGNOSTICS_MARKER):
+            value = json.loads(line[len(REMOTE_DIAGNOSTICS_MARKER) :])
+            if not isinstance(value, dict):
+                raise ValueError("Vast diagnostics record must be an object")
+            diagnostics = value
+            continue
+        key, _, rest = line.partition(" ")
+        if key and key != "JOB":
+            info[key] = rest
+    if diagnostics is None:
+        raise ValueError("Vast diagnostics record is missing")
+    return info, diagnostics
+
+
+def check_vast_lane(problems: Problems, state: dict, controller: ModuleType, lane: str) -> None:
     receipt_path = controller.RECEIPT
     if not receipt_path.exists():
         return
@@ -93,7 +232,10 @@ def check_vast_lane(problems: Problems, state: dict, controller, lane: str) -> N
                          f"Vast lane {lane} instance {receipt['instance_id']} status {row.get('actual_status')} (intended {row.get('intended_status')}) after {age_min:.0f} min", 2)
         return
     try:
-        info = controller.probe()
+        result = controller.ssh(_remote_vast_command(controller), timeout=60)
+        if result.returncode != 0:
+            raise RuntimeError("remote probe returned a nonzero status")
+        info, diagnostics = _parse_vast_probe(result.stdout)
     except Exception as error:  # noqa: BLE001 - ssh failures are the signal
         problems.add(f"vast_{lane}_ssh_unreachable", "CRIT", f"lane {lane}: cannot read the Vast host over ssh: {type(error).__name__}", 2)
         return
@@ -110,18 +252,25 @@ def check_vast_lane(problems: Problems, state: dict, controller, lane: str) -> N
         ready = len(controller.ready_items(lane)) if hasattr(controller, "ready_items") else 0
         problems.add(f"vast_{lane}_queue_low", "WARN",
                      f"lane {lane}: only {pending} jobs pending ({in_flight} running); {ready} backlog items ready -> run `VT_LANE={'' if lane == 'a' else lane} controller.py feed`", 2)
-    daemon = controller.ssh("pgrep -fc '^python remote_refill.py' || true", timeout=40).stdout.strip()
-    if (pending or in_flight) and daemon in ("", "0"):
+    daemon = diagnostics.get("refill_daemon")
+    if (pending or in_flight) and daemon == 0:
         problems.add(f"vast_{lane}_refill_daemon_dead", "CRIT", f"lane {lane}: refill daemon not running with {pending} jobs pending", 2)
-    stale = controller.ssh(
-        "cd /root/run; for j in $(ls refill/running 2>/dev/null | sed 's/\\.json//'); do n=${j#*_}; "
-        "f=$(ls -t logs/${n}.*.log logs/pipeline_${n#w*_}.log $(case $n in w1[3-6]_*) ls logs/pipeline_*.log;; esac) 2>/dev/null | head -1); [ -n \"$f\" ] && echo \"$n $(( ($(date +%s)-$(stat -c %Y $f))/60 ))\"; done",
-        timeout=40).stdout
-    for line in stale.splitlines():
-        name, _, age = line.partition(" ")
-        if age.strip().isdigit() and int(age) > 15:
-            problems.add(f"vast_{lane}_job_stalled:{name}", "WARN", f"lane {lane}: {name}: log not updated for {age} min", 2)
-    failed = controller.ssh("ls /root/run/refill/done | grep -v '\\.rc0\\.json$' || true", timeout=40).stdout.split()
+    for job in diagnostics.get("running_jobs", []):
+        if not isinstance(job, dict):
+            continue
+        name = str(job.get("job") or "unknown")
+        log = str(job.get("log") or "unidentified log")
+        job_state = job.get("state")
+        if job_state == "missing":
+            problems.add(f"vast_{lane}_job_stalled:{name}", "WARN", f"lane {lane}: {name}: expected log {log} is missing", 2)
+        elif job_state == "present" and isinstance(job.get("age_min"), (float, int)) and job["age_min"] > 15:
+            age = float(job["age_min"])
+            problems.add(f"vast_{lane}_job_stalled:{name}", "WARN", f"lane {lane}: {name}: log {log} not updated for {age:.0f} min", 2)
+        elif job_state == "unidentified":
+            problems.add(f"vast_{lane}_job_log_unidentified:{name}", "WARN", f"lane {lane}: {name}: running job has no exact --arm/--name log target", 2)
+    failed = diagnostics.get("failed_jobs", [])
+    if not isinstance(failed, list):
+        failed = []
     seen = set(state.setdefault("vast_failed_seen", []))
     for name in failed:
         token = f"{lane}:{name}"
@@ -174,13 +323,27 @@ def check_systemd(problems: Problems, state: dict) -> None:
 
 
 def check_kaggle(problems: Problems, state: dict) -> None:
+    retired = state.setdefault("kaggle_retired", {})
+    statuses = state.setdefault("kaggle_status", {})
+    cached_problems = state.setdefault("kaggle_problems", {})
+    for kernel in RETIRED_KAGGLE_KERNELS:
+        record = retired.setdefault(kernel, {})
+        if kernel in statuses:
+            record.setdefault("last_status", statuses.pop(kernel))
+        old_key = f"kaggle_kernel_bad:{kernel}"
+        if old_key in cached_problems:
+            record.setdefault("last_problem", cached_problems.pop(old_key))
+    targets = list(KAGGLE_KERNELS)
+    if state.get("kaggle_targets") != targets:
+        state["kaggle_checked"] = 0
+        state["kaggle_targets"] = targets
     last = state.get("kaggle_checked", 0)
     if time.time() - last < 900:
-        for key, message in state.get("kaggle_problems", {}).items():
+        for key, message in cached_problems.items():
             problems.add(key, message[0], message[1], 1)
         return
     state["kaggle_checked"] = time.time()
-    state["kaggle_problems"] = {}
+    cached_problems.clear()
     for kernel in KAGGLE_KERNELS:
         out = sh([str(ROOT / ".venv/bin/kaggle"), "kernels", "status", kernel], timeout=60)
         status = out.strip().splitlines()[-1] if out.strip() else "unknown"
