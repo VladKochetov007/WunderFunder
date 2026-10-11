@@ -1,0 +1,37 @@
+{
+  "evidence_source": "The terminated command output showed the first group success and wrapper Terminated; a bounded local inventory immediately afterward found only the listed staged checkpoint under its private temporary stage. That exact stage directory was removed, then spmix was retried under its own 300s command bound and every planned file matched remote SHA/size before and after transfer.",
+  "failure": {
+    "class": "local bounded-command timeout",
+    "effect": "First splice 7-file batch completed and was verified in 88.792s. The combined command reached its 120s cap during the subsequent spmix SCP; the helper process was terminated before spmix artifacts were installed or the batch receipt was written.",
+    "partial_staging": {
+      "bytes": 3979606,
+      "expected_sha256": "a76887ba66d95a33817a631e2fae0be0ae4b318524fe9508c4a25829d92444e7",
+      "observed_file": "model_ep1.pt",
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_f1_ood_spmix_r2_homshare_r2/.rolling-r2-jfmapmm8",
+      "run": "vt_f1_ood_spmix_r2_homshare_r2",
+      "status": "temporary partial only; not installed; removed before retry"
+    },
+    "runtime_cap_seconds": 120,
+    "scientific_result": "none; delivery failure only",
+    "spmix_final_destinations_untouched": true
+  },
+  "limitations": [
+    "No exact timestamp for the first command start was captured; failure is ordered between the 13:55 plan creation and 14:01:26 successful small-batch receipt.",
+    "No remote files or job state changed."
+  ],
+  "operation": "Two-run small artifact batch for OOD splice/spmix R2",
+  "ownership": {
+    "attempt_id": "vast-teachers-r1-lane-b-20261010",
+    "instance_id": 55080658,
+    "lane": "b"
+  },
+  "recorded_utc": "2026-10-11T14:17:33Z",
+  "recovery": {
+    "no_overwrite": true,
+    "retry_command_bound_seconds": 300,
+    "retry_receipt": "OOD_SPLICE_SPMIX_SMALL_RESCUE_R1.json",
+    "verified_final_files": 7,
+    "verified_spmix_transfer_group_seconds": 96.379
+  },
+  "schema": "wnn.vast-small-rescue-delivery-failure.v1"
+}
