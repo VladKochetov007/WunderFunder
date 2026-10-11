@@ -25,3 +25,6 @@ Follow-up 05:25: the breach also CLOSED local admission (STOP_ADMISSION.json 02:
 
 ## 05:55 d_pre1 / d_prop0_pre1 failed: `--checkpoint-epoch must be within the fitted epochs`
 `--pretrain-next-in-budget` subtracts the pretrain epochs from --epochs (3-1=2 fitted), so checkpoint-epoch 2 is invalid; use 1 (and export --epoch 1). Fixed in backlog + job files + host pending; d_pre1 requeued as bl_d_pre1b (run vt_f1_d_pre1b). Rule: in-budget pretrain => checkpoint-epoch = epochs - pretrain - 1.
+
+## 06:10 local admission closed again: aggregate working RAM > 18 GB (r3-muonall384prop0-s7-fit-r1-a3)
+Cause: `wnn-grade-bank.service` (grade_prediction_bank.py) ran 20+ min at 5.9 GB RSS inside wnn-campaign.slice (it re-grades ~240 banked preds after the pull timer delivered files) while the 10.5 GB h384 fit was admitted -> 16.4 GB + other. Fix: grade-bank timer DISABLED (systemctl --user disable --now wnn-grade-bank.timer; host-side score_prediction_remote.py / blend_score_remote.py do the scoring), service stopped, h384 local items (892-894) moved to local_queue_r1/retired, local lane hosts h256 only (reserve 9 GB), muonall256 s5/s6 queued, admission reopened with review. Rule: nothing >2 GB may run in wnn-campaign.slice while a fit is admitted.
