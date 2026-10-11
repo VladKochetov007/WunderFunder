@@ -220,6 +220,11 @@ def memory_events(group: str, *, local: bool = False) -> dict[str, int]:
     return values
 
 
+def attempt_memory_high_bytes(ram_bytes: int) -> int:
+    """Set per-attempt reclaim pressure below its unchanged hard memory reserve."""
+    return ram_bytes - min(1_000_000_000, ram_bytes // 10)
+
+
 def deltas(before: dict[str, int], after: dict[str, int]) -> dict[str, int]:
     """Compute nonnegative counter deltas, preserving counter resets as evidence."""
     result = {key: after.get(key, 0) - value for key, value in before.items()}
@@ -294,7 +299,7 @@ def systemd_properties(unit: str) -> dict[str, str]:
             "--user",
             "show",
             unit,
-            "--property=ActiveState,SubState,Result,ExecMainStatus,ControlGroup,CPUQuotaPerSecUSec,MemoryMax,MemorySwapMax,OOMPolicy,KillMode",
+            "--property=ActiveState,SubState,Result,ExecMainStatus,ControlGroup,CPUQuotaPerSecUSec,MemoryHigh,MemoryMax,MemorySwapMax,OOMPolicy,KillMode",
         ],
         check=True,
         capture_output=True,
@@ -477,7 +482,9 @@ def service_command(
         "WNN_CPU_QUOTA": f"{cpus * 100}%",
         "WNN_CPU_PCT": str(min(100, cpus * 10)),
         "WNN_MEM_MAX": str(ram_bytes),
-        "WNN_LOADER_WORKERS": os.environ.get("WNN_LOCAL_LOADER_WORKERS", "0"),  # measured 2026-10-10: 0 leaves the local GPU at ~40% (CPU-bound parquet decode in the training thread)
+        "WNN_LOADER_WORKERS": os.environ.get(
+            "WNN_LOCAL_LOADER_WORKERS", "0"
+        ),  # measured 2026-10-10: 0 leaves the local GPU at ~40% (CPU-bound parquet decode in the training thread)
         "OMP_NUM_THREADS": str(cpus),
         "MKL_NUM_THREADS": str(cpus),
         "OPENBLAS_NUM_THREADS": str(cpus),
@@ -508,6 +515,8 @@ def service_command(
         f"TimeoutStartSec={admission_timeout + 10}",
         "-p",
         f"CPUQuota={cpus * 100}%",
+        "-p",
+        f"MemoryHigh={attempt_memory_high_bytes(ram_bytes)}",
         "-p",
         f"MemoryMax={ram_bytes}",
         "-p",
@@ -749,6 +758,7 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
     cpus, ram_bytes = int(reservation["cpus"]), int(reservation["ram_bytes"])
     expected_properties = {
         "CPUQuotaPerSecUSec": f"{cpus}s",
+        "MemoryHigh": str(attempt_memory_high_bytes(ram_bytes)),
         "MemoryMax": str(ram_bytes),
         "MemorySwapMax": "0",
         "OOMPolicy": "continue",
@@ -908,7 +918,9 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
         "WNN_CPU_PCT": str(min(100, cpus * 10)),
         "WNN_MEM_MAX": str(ram_bytes),
         "WNN_SLICE": SLICE,
-        "WNN_LOADER_WORKERS": os.environ.get("WNN_LOADER_WORKERS", "0"),  # the unit environment already carries the admitted value
+        "WNN_LOADER_WORKERS": os.environ.get(
+            "WNN_LOADER_WORKERS", "0"
+        ),  # the unit environment already carries the admitted value
         "CUDA_VISIBLE_DEVICES": "0" if kind == "gpu" else "",
     }
     for key in ("LD_LIBRARY_PATH", "VIRTUAL_ENV"):

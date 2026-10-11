@@ -75,6 +75,7 @@ def prepare_worker_observers(
             "ControlGroup": group,
             "ActiveState": "active",
             "CPUQuotaPerSecUSec": "1s",
+            "MemoryHigh": str(resources.attempt_memory_high_bytes(2_000_000_000)),
             "MemoryMax": "2000000000",
             "MemorySwapMax": "0",
             "OOMPolicy": "continue",
@@ -155,10 +156,16 @@ def test_launch_preflight_excludes_its_own_unresolved_record(
         lambda _group, **_kwargs: {"oom": 0, "oom_kill": 0, "oom_group_kill": 0},
     )
     monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
+    launch_commands: list[list[str]] = []
+
+    def capture_launch(command: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
+        launch_commands.append(command)
+        return subprocess.CompletedProcess(command, 0, "", "")
+
     monkeypatch.setattr(
         resources.subprocess,
         "run",
-        lambda command, **_kwargs: subprocess.CompletedProcess(command, 0, "", ""),
+        capture_launch,
     )
     args = argparse.Namespace(
         attempt="launch-v2",
@@ -180,6 +187,8 @@ def test_launch_preflight_excludes_its_own_unresolved_record(
     record = resources.read_json(resources.attempt_path(state, "launch-v2"))
     assert record["status"] == "reserved"
     assert record["admission_measurement"]["committed_cpu_cores"] == 0
+    assert "MemoryHigh=900000000" in launch_commands[0]
+    assert "MemoryMax=1000000000" in launch_commands[0]
 
 
 def test_another_unresolved_attempt_still_blocks_admission(tmp_path: Path) -> None:
@@ -226,6 +235,7 @@ def test_gpu_service_is_directly_bounded_under_campaign_parent(tmp_path: Path) -
 
     assert "--slice=wnn-campaign.slice" in command
     assert "CPUQuota=500%" in command
+    assert "MemoryHigh=11000000000" in command
     assert "MemoryMax=12000000000" in command
     assert "MemorySwapMax=0" in command
     assert "OOMPolicy=continue" in command
@@ -234,6 +244,37 @@ def test_gpu_service_is_directly_bounded_under_campaign_parent(tmp_path: Path) -
     assert "--setenv=WNN_GPU_MEMORY_BYTES=4300000000" in command
     assert "--setenv=WNN_VRAM_GB=4.3" in command
     assert "--setenv=WNN_LOADER_WORKERS=0" in command
+
+
+@pytest.mark.parametrize(
+    ("reserve_bytes", "expected_high_bytes"),
+    [
+        (1_000_000_000, 900_000_000),
+        (9_000_000_000, 8_100_000_000),
+        (12_000_000_000, 11_000_000_000),
+        (18_000_000_000, 17_000_000_000),
+    ],
+)
+def test_attempt_memory_high_preserves_requested_headroom_formula(
+    reserve_bytes: int, expected_high_bytes: int
+) -> None:
+    assert resources.attempt_memory_high_bytes(reserve_bytes) == expected_high_bytes
+
+
+def test_systemd_properties_reads_effective_attempt_memory_high(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    observed_commands: list[list[str]] = []
+
+    def show(command: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
+        observed_commands.append(command)
+        return subprocess.CompletedProcess(command, 0, "MemoryHigh=1800000000\n", "")
+
+    monkeypatch.setattr(resources.subprocess, "run", show)
+
+    assert resources.systemd_properties("wnn-bandit-a1.service") == {"MemoryHigh": "1800000000"}
+    property_arg = next(arg for arg in observed_commands[0] if arg.startswith("--property="))
+    assert "MemoryHigh" in property_arg.split("=", 1)[1].split(",")
 
 
 def test_local_parent_events_exclude_sibling_oom(
@@ -328,6 +369,7 @@ def test_gpu_observer_timeout_is_unknown_and_does_not_kill_healthy_child(
         "ControlGroup": group,
         "ActiveState": "active",
         "CPUQuotaPerSecUSec": "1s",
+        "MemoryHigh": str(resources.attempt_memory_high_bytes(2_000_000_000)),
         "MemoryMax": "2000000000",
         "MemorySwapMax": "0",
         "OOMPolicy": "continue",
@@ -374,6 +416,40 @@ def test_gpu_observer_timeout_is_unknown_and_does_not_kill_healthy_child(
         event["observer"] for event in final["observer_events"] if event["state"] == "unknown"
     } >= {"nvidia_smi_runtime", "attempt_systemd_runtime"}
     assert not (state / "STOP_ADMISSION.json").exists()
+
+
+def test_worker_rejects_attempt_with_unverified_memory_high(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root, state, group, _ = worker_workspace(tmp_path)
+    prepare_worker_observers(monkeypatch, group)
+    monkeypatch.setattr(
+        resources,
+        "systemd_properties",
+        lambda _unit: {
+            "ControlGroup": group,
+            "ActiveState": "active",
+            "CPUQuotaPerSecUSec": "1s",
+            "MemoryHigh": "1900000000",
+            "MemoryMax": "2000000000",
+            "MemorySwapMax": "0",
+            "OOMPolicy": "continue",
+            "KillMode": "control-group",
+        },
+    )
+    monkeypatch.setattr(
+        resources.subprocess,
+        "Popen",
+        lambda *_args, **_kwargs: pytest.fail("worker started with the wrong MemoryHigh"),
+    )
+
+    result = resources.worker(root, state, "a1", 2)
+
+    receipt = resources.read_json(resources.attempt_path(state, "a1"))
+    assert result == 1
+    assert receipt["status"] == "not_started"
+    assert receipt["phase"] == "preflight_failed"
+    assert "MemoryHigh" in str(receipt["failure"])
 
 
 def test_observed_vram_breach_stops_only_that_child_and_closes_admission(
