@@ -1,0 +1,31 @@
+{
+  "schema": "wnn-native-single-member-projection-optimization/v1",
+  "status": "implemented_performance_gate_pending",
+  "hypothesis": "For Q8VNNI members' I16 input projection, precomputing each nonzero input times its column scale once per member-row avoids repeating that scalar multiply for each of the member's four or six output tiles.",
+  "treatment": "Add one n_in-sized scratch vector per FastRnn member; precompute scaled nonzero inputs once, then preserve ascending nonzero-column order and the existing separate IEEE multiply/add accumulation in each tile.",
+  "explicit_exclusions": [
+    "No shared nonzero scan with other projections.",
+    "No GRU fusion, YMM replacement, loop reordering, or other kernel changes.",
+    "No fast-math, FMA reassociation, skipped sequence rows, or model/weight changes."
+  ],
+  "frozen_comparison": {
+    "baseline_zip": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-exploit-now_r2/h390_student_h388_teacher_pair_q8/submission_r1.zip",
+    "baseline_zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+    "baseline_build_receipt_sha256": "938fb0d85666c0400ffce939c55bfb6bb517786bd17fdfbf12ad913fcb53d73a",
+    "measurement": "One CPU, exact ZIP callback, 10 fixed complete 20,000-row sequences, two resets/passes per panel, alternating baseline/candidate order for at least two paired rounds; require bitwise replay and finite outputs.",
+    "portal_runtime_claim": "None; this local Intel i9-11900H is not the competition AMD EPYC 9224."
+  },
+  "build": {
+    "toolchain": "rustc 1.94.0 / cargo 1.94.0",
+    "target": "x86_64-unknown-linux-gnu",
+    "rustflags": ["-C target-cpu=x86-64-v3"],
+    "cargo_build_jobs": 1,
+    "features": ["python", "extension-module"],
+    "pgo": false
+  },
+  "correctness_checks": {
+    "rust_library_tests": "55 passed, 1 pre-existing ignored",
+    "projection_parity": "Bitwise output and nonzero-column order matched for I16 projection across ragged column counts and 1/3/4/13/384 output rows; VNNI test compares the six-tile Q8 member projection to AVX2 reference.",
+    "python311_package_panel": "pending"
+  }
+}

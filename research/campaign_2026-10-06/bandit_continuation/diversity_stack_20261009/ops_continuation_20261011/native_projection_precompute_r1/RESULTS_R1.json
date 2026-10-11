@@ -1,0 +1,193 @@
+{
+  "aggregate": {
+    "baseline_mean_us_per_callback_row": 101.28222854750001,
+    "candidate_change_percent_lower_is_faster": -0.9863284722566146,
+    "candidate_mean_us_per_callback_row": 100.28325309,
+    "decision_basis": "paired round 1 is slower and paired round 2 is faster; with only two pairs and comparable within-panel variation, repeatable speedup is not established"
+  },
+  "build": {
+    "baseline_v3_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+    "build_receipt_sha256": "f0badac8aa20285a3cde8424e76594da5e00b8a31ea567af81429c517b54168c",
+    "candidate_v3_sha256": "6716126a214024ec2f7c9cad257bb074333f9d1d2ae67e3a3f38b5a18a251379",
+    "cargo_jobs": 1,
+    "implementation_patch_sha256": "4bb9f41a0d71bf930d2290e8ca95832d32222cee5a8d42e255bde0ef2f34f8f3",
+    "pgo": false,
+    "rust_target": "x86_64-unknown-linux-gnu",
+    "rustflags": [
+      "-C",
+      "target-cpu=x86-64-v3"
+    ],
+    "source_commit": "2b339ab1093b50a08154c68542a89dd8b3b0e5e6"
+  },
+  "candidate_zip": {
+    "baseline_bytes": 12914019,
+    "baseline_zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+    "bytes": 12937243,
+    "build_receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_projection_precompute_r1/CANDIDATE_BUILD_RECEIPT_R1.json",
+    "build_receipt_sha256": "f0badac8aa20285a3cde8424e76594da5e00b8a31ea567af81429c517b54168c",
+    "delta_bytes": 23224,
+    "path": "submissions/10-12-native-projection-precompute-r1/h390_h388_pair_projection_precompute.zip",
+    "sha256": "93daff3a56b5d10a42bc1172ea5e3dd6815a98f1998c3b6094bbcb9cfc989383",
+    "status": "benchmark-only; do not upload"
+  },
+  "decision": "not_promoted_no_repeatable_performance_gain",
+  "limitations": [
+    "Measurements are on Intel i9-11900H, not AMD EPYC 9224; no target-host runtime claim.",
+    "This is callback performance and exact-output parity only; no quality grade was run.",
+    "Candidate package ABI compatibility with Kaggle bookworm was not independently gated after performance promotion failed.",
+    "The measured baseline package/model/checkpoint/weights were unchanged; only the native extension differed."
+  ],
+  "pairs": [
+    {
+      "baseline_mean_us_per_callback_row": 100.0416131725,
+      "baseline_receipt": "baseline_pair1.json",
+      "baseline_receipt_sha256": "64a2cef254f724ca24b79b78f46980c31b15f5667d637150a21a948276137e9d",
+      "baseline_repeat_us_per_callback_row": [
+        99.40306659000001,
+        100.680159755
+      ],
+      "candidate_change_percent_lower_is_faster": 0.3448247749715527,
+      "candidate_mean_us_per_callback_row": 100.38658144,
+      "candidate_receipt": "candidate_pair1.json",
+      "candidate_receipt_sha256": "49b3077d7a82f9a4bb94b8219392d3e903eef09b15317ab581345cbe0a7604ad",
+      "candidate_repeat_us_per_callback_row": [
+        101.68761494,
+        99.08554794
+      ],
+      "cgroup_memory_peak_bytes_baseline_candidate": [
+        231370752,
+        231137280
+      ],
+      "order": "pair1_baseline_then_candidate",
+      "prediction_hash_maps_identical_by_sequence": true,
+      "ru_maxrss_kib_reported": [
+        1368028,
+        1368028
+      ],
+      "throttled_period_delta_baseline_candidate": [
+        0,
+        0
+      ],
+      "throttled_usec_delta_baseline_candidate": [
+        0,
+        0
+      ]
+    },
+    {
+      "baseline_mean_us_per_callback_row": 102.5228439225,
+      "baseline_receipt": "baseline_pair2.json",
+      "baseline_receipt_sha256": "29cb162290f07dac5ae92e58451482c2db10872e24a4a7b7388533081b99d7ad",
+      "baseline_repeat_us_per_callback_row": [
+        100.855154855,
+        104.19053299000001
+      ],
+      "candidate_change_percent_lower_is_faster": -2.285265500702538,
+      "candidate_mean_us_per_callback_row": 100.17992474,
+      "candidate_receipt": "candidate_pair2.json",
+      "candidate_receipt_sha256": "c5e73ffe52eb2e7af757a00054eaf3c0297cdd9dddab230cb4b4258ff5339833",
+      "candidate_repeat_us_per_callback_row": [
+        100.91401058,
+        99.4458389
+      ],
+      "cgroup_memory_peak_bytes_baseline_candidate": [
+        230572032,
+        230920192
+      ],
+      "order": "pair2_candidate_then_baseline",
+      "prediction_hash_maps_identical_by_sequence": true,
+      "ru_maxrss_kib_reported": [
+        1368028,
+        1368028
+      ],
+      "throttled_period_delta_baseline_candidate": [
+        0,
+        0
+      ],
+      "throttled_usec_delta_baseline_candidate": [
+        0,
+        0
+      ]
+    }
+  ],
+  "receipt_sha256": {
+    "baseline_pair1.json": "64a2cef254f724ca24b79b78f46980c31b15f5667d637150a21a948276137e9d",
+    "baseline_pair2.json": "29cb162290f07dac5ae92e58451482c2db10872e24a4a7b7388533081b99d7ad",
+    "candidate_pair1.json": "49b3077d7a82f9a4bb94b8219392d3e903eef09b15317ab581345cbe0a7604ad",
+    "candidate_pair2.json": "c5e73ffe52eb2e7af757a00054eaf3c0297cdd9dddab230cb4b4258ff5339833"
+  },
+  "resource_observations": {
+    "all_one_cpu_cgroup": true,
+    "cgroup_peak_bytes": [
+      230572032,
+      231370752
+    ],
+    "memory_cap_bytes": 1199996928,
+    "memory_note": "ru_maxrss reports 1,368,028 KiB in every panel while cgroup memory.peak is 230,572,032\u2013231,370,752 B; report both without conflating them",
+    "ru_maxrss_kib_reported": [
+      1368028
+    ],
+    "throttling_note": "three panels have zero cgroup throttled-period delta; candidate pair 1 has one period / 61 usec, negligible against the ~43s panel"
+  },
+  "schema": "wnn.native-projection-precompute-results/v1",
+  "workload": {
+    "affinity_used": [
+      3
+    ],
+    "baseline_candidate_prediction_hash_maps_equal_in_both_pairs": true,
+    "callbacks_per_panel": 400000,
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "each_panel_bitwise_repeatable_with_reset": true,
+    "fixture_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "lengths": [
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000
+    ],
+    "native_level": "v3",
+    "need_prediction_rows_each": [
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901
+    ],
+    "precision": "q8vnni",
+    "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+    "row_groups": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "sequence_ids": [
+      256678,
+      751005,
+      1200028,
+      1892371,
+      1990332,
+      2308749,
+      4490992,
+      6746551,
+      8348957,
+      9147005
+    ]
+  }
+}

@@ -1,0 +1,317 @@
+diff --git a/native/src/half.rs b/native/src/half.rs
+index 3bf34c69..d99f0b67 100644
+--- a/native/src/half.rs
++++ b/native/src/half.rs
+@@ -290,6 +290,43 @@ pub unsafe fn project_as<const Q: bool>(
+     x: &[f32],
+     nz: &mut Vec<u32>,
+     out: &mut [f32],
++) {
++    unsafe { project_as_impl::<Q>(cols, scales, b, x, nz, None, out) }
++}
++
++/// I16 column projection using caller-owned scratch for one scaled input per nonzero column.
++///
++/// The scratch buffer is sized when the member is constructed and reused on every row. The
++/// ascending nonzero-column order and per-output multiply/add order are unchanged.
++///
++/// # Safety
++/// The CPU must support AVX2, FMA and F16C (`available()`).
++#[cfg(target_arch = "x86_64")]
++#[target_feature(enable = "avx2,fma,f16c")]
++#[inline]
++pub unsafe fn project_i16_precomputed(
++    cols: &[u16],
++    scales: &[f32],
++    b: &[f32],
++    x: &[f32],
++    nz: &mut Vec<u32>,
++    scaled_x: &mut [f32],
++    out: &mut [f32],
++) {
++    unsafe { project_as_impl::<true>(cols, scales, b, x, nz, Some(scaled_x), out) }
++}
++
++#[cfg(target_arch = "x86_64")]
++#[target_feature(enable = "avx2,fma,f16c")]
++#[inline]
++unsafe fn project_as_impl<const Q: bool>(
++    cols: &[u16],
++    scales: &[f32],
++    b: &[f32],
++    x: &[f32],
++    nz: &mut Vec<u32>,
++    mut scaled_x: Option<&mut [f32]>,
++    out: &mut [f32],
+ ) {
+     use std::arch::x86_64::*;
+ 
+@@ -298,20 +335,33 @@ pub unsafe fn project_as<const Q: bool>(
+     assert!(out.len().is_multiple_of(COL_TILE) && b.len() >= out.len());
+     assert!(cols.len() >= tiles * n_cols * COL_TILE);
+     assert!(!Q || scales.len() >= n_cols);
++    assert!(scaled_x.as_deref().is_none_or(|values| values.len() >= n_cols));
+     nz.clear();
+     nz.extend((0..n_cols as u32).filter(|&j| x[j as usize] != 0.0));
++    if let Some(values) = scaled_x.as_deref_mut() {
++        for &j in nz.iter() {
++            let j = j as usize;
++            values[j] = unsafe { *x.get_unchecked(j) * *scales.get_unchecked(j) };
++        }
++    }
++    let scaled_x = scaled_x.as_deref();
+     unsafe {
+         for t in 0..tiles {
+             let bt = b.as_ptr().add(t * COL_TILE);
+             let mut acc: [__m256; 8] = std::array::from_fn(|i| _mm256_loadu_ps(bt.add(8 * i)));
+             let tile = cols.as_ptr().add(t * n_cols * COL_TILE);
+             for &j in nz.iter() {
+-                let mut xj = *x.get_unchecked(j as usize);
+-                if Q {
+-                    xj *= *scales.get_unchecked(j as usize);
+-                }
++                let j = j as usize;
++                let xj = if Q {
++                    match scaled_x {
++                        Some(values) => *values.get_unchecked(j),
++                        None => *x.get_unchecked(j) * *scales.get_unchecked(j),
++                    }
++                } else {
++                    *x.get_unchecked(j)
++                };
+                 let xj = _mm256_set1_ps(xj);
+-                let col = tile.add(j as usize * COL_TILE);
++                let col = tile.add(j * COL_TILE);
+                 for (i, a) in acc.iter_mut().enumerate() {
+                     let w = widen::<Q>(col.add(8 * i));
+                     *a = _mm256_add_ps(*a, _mm256_mul_ps(w, xj));
+@@ -876,7 +926,13 @@ mod tests {
+             for cols in [1, 15, 16, 33, 128, 211] {
+                 let w: Vec<f32> = (0..rows * cols).map(|_| rnd(&mut s) * 0.7).collect();
+                 let b: Vec<f32> = (0..rows).map(|_| rnd(&mut s)).collect();
+-                let x: Vec<f32> = (0..cols).map(|_| rnd(&mut s)).collect();
++                let mut x: Vec<f32> = (0..cols).map(|_| rnd(&mut s)).collect();
++                if !x.is_empty() {
++                    x[0] = 0.0;
++                }
++                if x.len() > 1 {
++                    x[1] = -0.0;
++                }
+                 let scales = row_scales(&w, rows, cols);
+                 let mut arena = HalfArena::new();
+                 let range = arena.push_panel_as(Encoding::I16, &w, &scales, rows, cols);
+@@ -915,9 +971,36 @@ mod tests {
+                 bp.resize(padded, 0.0);
+                 let mut out = vec![0.0; padded];
+                 let mut nz = Vec::new();
++                let mut cached = vec![0.0; padded];
++                let mut cached_nz = Vec::new();
++                let mut scaled_x = vec![0.0; cols];
++                unsafe {
++                    project_as::<true>(
++                        &arena.as_ref()[range.clone()],
++                        &cscale,
++                        &bp,
++                        &x,
++                        &mut nz,
++                        &mut out,
++                    )
++                };
+                 unsafe {
+-                    project_as::<true>(&arena.as_ref()[range], &cscale, &bp, &x, &mut nz, &mut out)
++                    project_i16_precomputed(
++                        &arena.as_ref()[range],
++                        &cscale,
++                        &bp,
++                        &x,
++                        &mut cached_nz,
++                        &mut scaled_x,
++                        &mut cached,
++                    )
+                 };
++                assert_eq!(nz, cached_nz, "rows {rows} cols {cols}");
++                assert_eq!(
++                    out.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
++                    cached.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
++                    "cached projection rows {rows} cols {cols}"
++                );
+                 for r in 0..rows {
+                     let want: f64 = f64::from(b[r])
+                         + (0..cols)
+diff --git a/native/src/rnn_fast.rs b/native/src/rnn_fast.rs
+index 6828306d..635e3519 100644
+--- a/native/src/rnn_fast.rs
++++ b/native/src/rnn_fast.rs
+@@ -277,6 +277,8 @@ pub struct FastRnn {
+     c: Range<usize>,
+     /// Nonzero input columns of the current row (half projection scratch).
+     nz: Vec<u32>,
++    /// Per-member I16 input values after their column scale, reused across output tiles.
++    proj_scaled_x: Vec<f32>,
+     /// Q16x activation codes, `hidden` padded to whole chunks per block: [h per layer | z]. The
+     /// hidden blocks persist across steps (each is requantized right after its update).
+     codes: Vec<Codes>,
+@@ -1029,6 +1031,7 @@ impl FastRnn {
+             a,
+             c,
+             nz: Vec::with_capacity(n_in),
++            proj_scaled_x: vec![0.0; n_in],
+             codes,
+         })
+     }
+@@ -1356,9 +1359,25 @@ impl FastRnn {
+                 #[cfg(target_arch = "x86_64")]
+                 unsafe {
+                     if ZMM {
+-                        crate::vnni::project_zmm(cols, scales, b, x, &mut self.nz, padded)
++                        crate::vnni::project_zmm(
++                            cols,
++                            scales,
++                            b,
++                            x,
++                            &mut self.nz,
++                            &mut self.proj_scaled_x,
++                            padded,
++                        )
+                     } else {
+-                        crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
++                        crate::half::project_i16_precomputed(
++                            cols,
++                            scales,
++                            b,
++                            x,
++                            &mut self.nz,
++                            &mut self.proj_scaled_x,
++                            padded,
++                        )
+                     }
+                 }
+             } else {
+@@ -1506,7 +1525,15 @@ impl FastRnn {
+                     // SAFETY: as for `matvec`.
+                     #[cfg(target_arch = "x86_64")]
+                     unsafe {
+-                        crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
++                        crate::half::project_i16_precomputed(
++                            cols,
++                            scales,
++                            b,
++                            x,
++                            &mut self.nz,
++                            &mut self.proj_scaled_x,
++                            padded,
++                        )
+                     }
+                 } else {
+                     crate::half::project_q16_portable(cols, scales, b, x, padded);
+@@ -1602,7 +1629,15 @@ impl FastRnn {
+                 #[cfg(target_arch = "x86_64")]
+                 unsafe {
+                     if MODE == MODE_I16 {
+-                        crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
++                        crate::half::project_i16_precomputed(
++                            cols,
++                            scales,
++                            b,
++                            x,
++                            &mut self.nz,
++                            &mut self.proj_scaled_x,
++                            padded,
++                        )
+                     } else {
+                         crate::half::project_as::<false>(cols, scales, b, x, &mut self.nz, padded)
+                     }
+diff --git a/native/src/vnni.rs b/native/src/vnni.rs
+index c6bc3364..1bbe3197 100644
+--- a/native/src/vnni.rs
++++ b/native/src/vnni.rs
+@@ -473,6 +473,7 @@ pub unsafe fn project_zmm(
+     b: &[f32],
+     x: &[f32],
+     nz: &mut Vec<u32>,
++    scaled_x: &mut [f32],
+     out: &mut [f32],
+ ) {
+     use crate::half::COL_TILE;
+@@ -481,15 +482,20 @@ pub unsafe fn project_zmm(
+     let tiles = out.len() / COL_TILE;
+     assert!(out.len().is_multiple_of(COL_TILE) && b.len() >= out.len());
+     assert!(cols.len() >= tiles * n_cols * COL_TILE && scales.len() >= n_cols);
++    assert!(scaled_x.len() >= n_cols);
+     nz.clear();
+     nz.extend((0..n_cols as u32).filter(|&j| x[j as usize] != 0.0));
++    for &j in nz.iter() {
++        let j = j as usize;
++        scaled_x[j] = unsafe { *x.get_unchecked(j) * *scales.get_unchecked(j) };
++    }
+     unsafe {
+         for t in 0..tiles {
+             let bt = b.as_ptr().add(t * COL_TILE);
+             let mut acc: [__m512; 4] = std::array::from_fn(|i| _mm512_loadu_ps(bt.add(16 * i)));
+             let tile = cols.as_ptr().add(t * n_cols * COL_TILE);
+             for &j in nz.iter() {
+-                let xj = _mm512_set1_ps(*x.get_unchecked(j as usize) * *scales.get_unchecked(j as usize));
++                let xj = _mm512_set1_ps(*scaled_x.get_unchecked(j as usize));
+                 let col = tile.add(j as usize * COL_TILE);
+                 for (i, a) in acc.iter_mut().enumerate() {
+                     let v = _mm256_loadu_si256(col.add(16 * i) as *const __m256i);
+@@ -562,6 +568,59 @@ mod tests {
+             .collect()
+     }
+ 
++    #[cfg(target_arch = "x86_64")]
++    #[test]
++    fn zmm_i16_projection_precompute_matches_avx2_bits() {
++        if !supported(Isa::Vnni512) {
++            return;
++        }
++        let (rows, cols) = (384, 37);
++        let mut rng = Rng(41);
++        let weights: Vec<f32> = (0..rows * cols).map(|_| rng.next() * 0.7).collect();
++        let scales = crate::half::column_scales(&weights, rows, cols);
++        let mut arena = crate::half::HalfArena::new();
++        let range = arena.push_columns_as(
++            crate::half::Encoding::I16,
++            &weights,
++            &scales,
++            rows,
++            cols,
++        );
++        let x: Vec<f32> = (0..cols)
++            .map(|j| if j % 5 == 0 { 0.0 } else { rng.next() })
++            .collect();
++        let bias: Vec<f32> = (0..rows).map(|_| rng.next()).collect();
++        let mut avx2 = vec![0.0; rows];
++        let mut zmm = vec![0.0; rows];
++        let mut avx2_nz = Vec::new();
++        let mut zmm_nz = Vec::new();
++        let mut scaled_x = vec![0.0; cols];
++        unsafe {
++            crate::half::project_as::<true>(
++                &arena.as_ref()[range.clone()],
++                &scales,
++                &bias,
++                &x,
++                &mut avx2_nz,
++                &mut avx2,
++            );
++            project_zmm(
++                &arena.as_ref()[range],
++                &scales,
++                &bias,
++                &x,
++                &mut zmm_nz,
++                &mut scaled_x,
++                &mut zmm,
++            );
++        }
++        assert_eq!(avx2_nz, zmm_nz);
++        assert_eq!(
++            avx2.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
++            zmm.iter().map(|v| v.to_bits()).collect::<Vec<_>>()
++        );
++    }
++
+     #[test]
+     fn pack_round_trip_keeps_codes() {
+         for (rows, cols) in [(1, 1), (5, 7), (64, 8), (70, 13), (192, 256)] {
