@@ -1,0 +1,88 @@
+{
+  "schema": "wnn.vast-paid-artifact-archive-resume-execution.v2",
+  "recorded_utc": "2026-10-11T18:03:30Z",
+  "operation": "Resume the manifest-bound lane-B paid-artifact archive from the intact previously downloaded prefix; no provider mutation.",
+  "ownership": {
+    "lane": "b",
+    "instance_id": 55080658,
+    "controller_module": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/vast_teachers_r1/controller.py",
+    "lane_asserted_before_import": true,
+    "receipt_asserted": "OWNERSHIP_RECEIPT_b.json"
+  },
+  "previous_interruption": {
+    "scope": "run-p1332832-i5500068.scope",
+    "result": "oom-kill",
+    "memory_max_bytes": 500000000,
+    "memory_peak_bytes": 500035584,
+    "oom_kills": 1,
+    "journal_child_peak": "476.8M",
+    "local_tmpfs_partial": "/tmp/paid_artifact_archive_b4e49625_r1.tar.partial",
+    "partial_bytes": 487511040,
+    "scientific_or_provider_failure": false,
+    "partial_was_preserved": true
+  },
+  "approved_resume_scope": {
+    "unit": "wnn-paid-archive-resume-r2-20261011.scope",
+    "cpu_quota_percent": 25,
+    "threads": 1,
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 1200,
+    "start_utc": "2026-10-11T17:59:01Z",
+    "finish_utc": "2026-10-11T18:02:20Z",
+    "exit_code": 0,
+    "journal_cpu_seconds": 4.610,
+    "journal_wall_seconds": 199.297,
+    "journal_rounded_memory_peak": "725.8M",
+    "last_live_observed_memory_peak_bytes": 612417536,
+    "scope_oom_kills_last_live_sample": 0,
+    "scope_oom_journal_events": 0,
+    "memory_peak_exact_after_unit_teardown": "unavailable; systemd retained only the rounded journal summary",
+    "earlier_partial_r2_memory_peak_observation_superseded_bytes": 512077824
+  },
+  "remote_archive": {
+    "path": "/root/run/paid_artifact_archive_b4e49625_r1.tar",
+    "size_bytes": 735406080,
+    "sha256": "d7cdea95581c938cc7382c3561f6c14e842e970e0cfafc50b9cbb7b31586df4c",
+    "selection_manifest_sha256": "bf24193b6a0dfcc61f9d54292576b976a50abe15901be680bba7f9739e720c7c",
+    "archive_members_expected": 1179,
+    "payload_bytes_expected": 732881211,
+    "remote_whole_sha_and_size_reasserted_before_append": true
+  },
+  "prefix_and_resume": {
+    "tmpfs_prefix_path": "/tmp/paid_artifact_archive_b4e49625_r1.tar.partial",
+    "prefix_bytes": 487511040,
+    "remote_prefix_sha256": "3a678554b6d26403480d99e5639b8d0a3aa950f6150566ab6d6196ee41f1c2eb",
+    "tmpfs_prefix_sha256": "3a678554b6d26403480d99e5639b8d0a3aa950f6150566ab6d6196ee41f1c2eb",
+    "disk_backed_prefix_copied_and_fsynced": true,
+    "disk_prefix_sha256": "3a678554b6d26403480d99e5639b8d0a3aa950f6150566ab6d6196ee41f1c2eb",
+    "resumed_remote_byte_range_start_inclusive": 487511040,
+    "resumed_bytes": 247895040,
+    "resume_elapsed_seconds": 199.206,
+    "final_disk_archive_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/paid_archive_resume_r2/paid_artifact_archive_b4e49625_r1.tar",
+    "final_disk_archive_size_bytes": 735406080,
+    "final_disk_archive_sha256": "d7cdea95581c938cc7382c3561f6c14e842e970e0cfafc50b9cbb7b31586df4c",
+    "whole_archive_sha_verified_before_atomic_install": true,
+    "independent_post_install_sha256_recheck": true,
+    "tmpfs_prefix_removed": false,
+    "archive_member_verification_and_install": "pending"
+  },
+  "local_aggregate": {
+    "pre_resume_parent_current_bytes": 14982914048,
+    "post_resume_parent_current_bytes": 14999928832,
+    "active_fit": "wnn-bandit-h382-local-clean-f3-s3-e4-fit-r4.service",
+    "active_fit_current_bytes_after_resume": 9047535616,
+    "active_fit_memory_max_bytes": 10500000000,
+    "active_fit_oom_kills": 0,
+    "working_limit_bytes": 18000000000,
+    "hard_limit_bytes": 20000000000,
+    "no_parent_or_fit_cap_changed": true
+  },
+  "implementation_notes": {
+    "executed_script_sha256": "af2824bd7bdf0c825bd1351e30da9c4bab7ccc36069018f5540eefce749b1b9f",
+    "corrected_script_sha256": "632e51c5d4f855127908a5b3fdcaf4c62824b7ac3648c67f4f74f594b56e3f1d",
+    "logger_defect": "The executed script caught SystemExit(0) as BaseException and printed a misleading trailing failure-shaped JSON line after its success line. The wrapper exit code was 0; installed archive size and full SHA were independently rechecked. Corrected handler catches Exception only; no transfer was rerun.",
+    "failed_prestart_attempts": "Two command-path/interpreter mistakes exited before transfer and changed no files; successful bounded unit start followed with correct MAIN interpreter and worktree script path."
+  },
+  "scope": "Delivery repair only; no fitting, provider action, source/model change, total-collection verification, or scientific result.",
+  "next": "Verify every archive member against the embedded selection manifest; perform no-overwrite/source-qualified atomic installs; record completion separately; then recheck aggregate and gross transfer cap before considering the 22 training-state archive."
+}
