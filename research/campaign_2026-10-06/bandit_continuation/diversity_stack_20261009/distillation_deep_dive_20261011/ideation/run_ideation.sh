@@ -1,0 +1,9 @@
+#!/bin/bash
+cd /home/vlad/development/wunder/wnn_connectome_starterpack
+O=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/distillation_deep_dive_20261011/ideation
+env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=3000000000 WNN_RUNTIME_MAX=1000s scripts/limited timeout --signal=TERM --kill-after=10s 15m ~/.grok/bin/grok --cwd /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/distillation_deep_dive_20261011/ideation/workspace --model grok-4.7 --no-subagents --permission-mode plan --max-turns 4 --prompt-file /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/distillation_deep_dive_20261011/ideation/workspace/TASK_DISTILL.md > $O/grok_distill.md 2> $O/grok_distill.err &
+for m in nemotron-3-ultra-free step-5-preview-free longcat-2.5-preview-free muse-spark-1.3-contributor-free; do
+  env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=3000000000 WNN_RUNTIME_MAX=1000s scripts/limited timeout --signal=TERM --kill-after=10s 12m ~/.opencode/bin/opencode run --dir /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/distillation_deep_dive_20261011/ideation/workspace --model opencode/$m --format json --file /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/distillation_deep_dive_20261011/ideation/workspace/TASK_DISTILL.md 'Perform the assigned task.' > $O/oc_distill_$m.json 2> $O/oc_distill_$m.err
+done
+wait
+echo done > $O/IDEATION_DONE
