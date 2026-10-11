@@ -182,3 +182,14 @@ All fold-1 (exposed), h256 students from the same 3 muon-all h384 teachers, shar
 ## 17. Addendum 19:40 - third OOD arm (reviewer-scored from rescued predictions)
 
 `ood_swn` (splice + warp + noise, weak combo_scratch teachers, shared-cache R2) = **0.66882** vs cached-target student `dsq_t256` 0.66938 and no-teacher `dsq_none` 0.66861; the earlier `ood_splice` 0.66897 and `ood_spmix` 0.66893. **Three OOD variants all land within 0.0006 of the no-teacher/cached references**: the OOD-path mechanism adds nothing measurable with this weak teacher set (REV-9 stands; `swn25` and `ood_only` predictions are bound/PASS in the owner's receipts but not yet in the local cache; strong-teacher OOD remains untested).
+
+## 18. Addendum 20:00 - fold-2 4-epoch result and last OOD arm (reviewer-scored; fold-2 scoring reproduces the owner's grade exactly)
+
+| Fold 2 (443 seq), muon-all x prop0, h256, seed 3 | WP |
+|---|---|
+| 3 epochs (owner grade 0.70281; reviewer re-score) | 0.70281 |
+| **4 epochs** | **0.70214** |
+| Muon-rnn / prop2 3-epoch control (owner grade) | 0.70283 |
+
+* **On fold 2 four epochs are worse than three (-0.0007) and below the control (-0.0007)**, while on fold 1 four epochs were +0.0015 over three (n=4 vs n=6). Two folds, opposite signs for the 4th epoch; and the muon-all x prop0 recipe gives no fold-2 gain at 3 epochs. The shipped 4-epoch scratch single was therefore doubly fold-1-specific. (n=1 seed on fold 2; folds 0 and 3 pending.)
+* `ood_swn25` = 0.66911 (fold 1) - the fourth OOD variant, again within 0.0005 of the no-teacher/cached-target references (0.66861/0.66938).
