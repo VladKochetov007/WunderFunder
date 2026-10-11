@@ -1,0 +1,9 @@
+# Clean T3 fold-0 teacher cohort R3
+
+This identified packet runs a short paired-device profile stage, then conditionally runs three fresh H384 Muon-all teachers (seeds 3/4/5, 3 epochs, fixed epoch-2 checkpoint) and their nine required exports. The paired stage uses the actual R3 diagnostic source closure `41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa` and five warmup plus five measured complete train batches on each T4. It must return two distinct T4 UUIDs, positive completed optimizer counts, finite metrics, and stay within the per-worker and combined RAM/VRAM guard. The runner refuses a serial profile before starting any worker. If any profile fails, the driver writes a refusal receipt and starts no fit; there is no automatic serial fallback.
+
+The previous one-T4 profile measured 5+25 complete batches, 599 completed optimizer updates, 1 AMP-skipped update, 4,802,109,440B peak worker RAM, and 3,499,092,112B peak GPU memory. It does not establish two-device concurrency or a full-fit estimate. Its `--grad-stats` instrumentation adds synchronization. Full-cohort fit/export ETA therefore remains null.
+
+Fold-0 fitting is source-qualified: 10,535 train-fit and 1,405 valid-fit groups; all 468 fold-0 valid evaluation groups are excluded. Fit-membership predictions (10,535/1,405 rows) are separate from full-valid feature-only predictions (1,873 rows). Each run retains fixed CP2, final model, full training state, provenance/history and worker receipts.
+
+The private dataset is `vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r3` and title-derived kernel ID is `vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r3-runner`. The embedded root admission gate is pending; this builder performed no upload, provider mutation, or fit. The kernel wall ceiling is 14,400 seconds and the two-device GPU-second ceiling is 28,800 seconds, not an ETA or admission.
