@@ -8,6 +8,7 @@ import hashlib
 import importlib.util
 import io
 import json
+import math
 import re
 import shutil
 import tarfile
@@ -53,6 +54,15 @@ def sha256_file(path: Path) -> str:
         for block in iter(lambda: stream.read(1 << 20), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def finite_number_at_least(value: object, minimum: int) -> bool:
+    """Accept finite JSON int/float values, excluding booleans and other types."""
+    if type(value) is int:
+        return value >= minimum
+    if type(value) is float:
+        return math.isfinite(value) and value >= minimum
+    return False
 
 
 def canonical_sha256(value: object) -> str:
@@ -207,15 +217,9 @@ def validate_root_release(
         or quota.get("paid_spending_authorized") is not False
     ):
         raise FinalizationError("root receipt quota/budget does not match the bounded R3 cohort")
-    if (
-        not isinstance(quota.get("campaign_headroom_gpu_seconds"), (int, float))
-        or quota["campaign_headroom_gpu_seconds"] < 28_800
-    ):
+    if not finite_number_at_least(quota.get("campaign_headroom_gpu_seconds"), 28_800):
         raise FinalizationError("root receipt lacks campaign headroom for the declared reservation")
-    if (
-        not isinstance(quota.get("provider_headroom_gpu_seconds"), (int, float))
-        or quota["provider_headroom_gpu_seconds"] < 28_800
-    ):
+    if not finite_number_at_least(quota.get("provider_headroom_gpu_seconds"), 28_800):
         raise FinalizationError("root receipt lacks provider headroom for the declared reservation")
     if receipt.get("allowed_delta") != EXPECTED_ALLOWED_DELTA:
         raise FinalizationError(
@@ -429,6 +433,10 @@ def update_bootstrap(
         if source.count(old) != 1:
             raise FinalizationError(f"unexpected R3 bootstrap binding; cannot replace {old[:50]!r}")
         source = source.replace(old, new, 1)
+    import_marker = "import hashlib\n"
+    if source.count(import_marker) != 1:
+        raise FinalizationError("R3 bootstrap import marker changed unexpectedly")
+    source = source.replace(import_marker, import_marker + "import math\n", 1)
     receipt_constants = (
         f"ROOT_RELEASE_RECEIPT_RELATIVE_PATH = {ROOT_RECEIPT_RELATIVE!r}\n"
         f"ROOT_RELEASE_RECEIPT_SHA256 = {receipt_sha256!r}\n"
@@ -438,6 +446,17 @@ def update_bootstrap(
     receipt_constants += (
         f"ROOT_RELEASE_TARGET = {{'dataset': {R4_DATASET!r}, "
         f"'kernel_id': {f'{R4_DATASET}-runner'!r}}}\n"
+    )
+    receipt_constants += (
+        "def _require_finite_quota_headroom(value: object, field_name: str) -> None:\n"
+        "    if type(value) is int:\n"
+        "        valid = value >= 28800\n"
+        "    elif type(value) is float:\n"
+        "        valid = math.isfinite(value) and value >= 28800\n"
+        "    else:\n"
+        "        valid = False\n"
+        "    if not valid:\n"
+        "        raise PermissionError(f'R4 root receipt has invalid {field_name}')\n"
     )
     marker = f"R3_GATE_SHA256 = {gate_sha256!r}\n"
     if source.count(marker) != 1:
@@ -473,8 +492,8 @@ def update_bootstrap(
         '    quota_budget = root_binding.get("quota_budget", {})\n'
         '    if quota_budget.get("wall_ceiling_seconds") != 14400 or quota_budget.get("two_device_gpu_seconds_upper_bound") != 28800 or quota_budget.get("reserved_gpu_seconds") != 28800 or quota_budget.get("paid_spending_authorized") is not False:\n'
         '        raise PermissionError("R4 root receipt quota/budget fields differ from the sealed ceiling")\n'
-        '    if quota_budget.get("campaign_headroom_gpu_seconds", 0) < 28800 or quota_budget.get("provider_headroom_gpu_seconds", 0) < 28800:\n'
-        '        raise PermissionError("R4 root receipt lacks headroom for the declared reservation")\n'
+        '    _require_finite_quota_headroom(quota_budget.get("campaign_headroom_gpu_seconds"), "campaign GPU headroom")\n'
+        '    _require_finite_quota_headroom(quota_budget.get("provider_headroom_gpu_seconds"), "provider GPU headroom")\n'
     )
     if source.count(check_marker) != 1:
         raise FinalizationError("R3 bootstrap admission boundary changed unexpectedly")
