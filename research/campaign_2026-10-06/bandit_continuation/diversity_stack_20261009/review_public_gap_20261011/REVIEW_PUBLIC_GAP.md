@@ -260,3 +260,19 @@ Calibration from our own public data (`SCORER_CPU_SPEC_20261010.md` / `PUBLIC_SC
 2. `11_h390_student_s3_h388_teacher_s5_all_q8vnni.zip` - half H256 student, half H384 teacher, 12.9 MB, two members (~33-50 us/row quiet each => ~35 portal-min typical, ~63 at 1.8x). Related float prototype 0.67257; the student/teacher mixture has a *closer-in-kind* public precedent (pair 27 min). Lower timeout risk than #12 but not zero.
 
 Reviewer note: both are all-data finals (no held-out score), built from the *cross-fold-weak* recipe components (Muon-all teachers, 3 epochs - acceptable per section 20) and from the student recipe that transferred. The owner's README correctly gives no public forecast. Portal duration of whichever is uploaded first should be recorded to recalibrate the conversion before the second slot.
+
+## 25. Addendum 01:20 - the right baseline was the existing H230 lineage, not the plain control (reviewer-scored fold-0 old-Z4 reconstruction + banked cross-fold table)
+
+Banked cross-fold scores (`prediction_bank/LATEST_CROSSFOLD_F0_F1.json`, same recipe trained for each fold, single models):
+
+| Recipe | Fold 0 | Fold 1 |
+|---|---|---|
+| `c20261004_combo_head_s3` | 0.6819 | 0.6673 |
+| **`h230_s3_onecycle` / `h230_s4_onecycle`** | **0.6817 / 0.6814** | **0.6688 / 0.6691** |
+| `c20261003_combo_s3/s4` | 0.6809 / 0.6810 | 0.6674 / 0.6679 |
+| **new: muon-all x prop0 e3, seed 3** | **0.6795** (Kaggle `h382r3`) | **0.6688** (n=6) |
+
+* The new owner-run fold-0 old-Z4-parent reconstruction (`oldz4_h230_parent_f0_s3_r3`) scores **0.68282**, its student **0.68314** (+0.0003 over the parent on fold 0, versus a student lift of about +0.003 on fold 1), reproduced with the exported copy (0.68282).
+* **Reframing:** the muon-all x prop0 recipe equals the existing H230-onecycle teacher recipe on fold 1 (0.6688 vs 0.6688-0.6691) and is **0.0022-0.0033 below it on fold 0**. Its "+0.0028 on fold 1" was measured against the *plain* 3-epoch control (0.6660), which is not the strongest prior recipe; relative to the lineage that produced the public best, the recipe is neutral on fold 1 and negative on fold 0. This explains why the fold-1-selected scratch single did not beat the H230-lineage uploads on public, without needing selection optimism alone.
+* The H230 student lift over its parent is also fold-dependent (+0.003 fold 1, +0.0003 fold 0): much of the "student gain" on fold 1 is fold-1-specific as well. The public student improvement observed (+0.0013 for the newer student vs the previous fold-1 student) therefore has two causes that cannot be separated with the data at hand.
+* Consequence for selection: every new recipe must be compared with the **H230 onecycle parent on the same folds**, not with the plain control (ADR0023: match teacher stages and parents). Cross-fold comparisons against `h230_s3/s4_onecycle` are available now from the bank for folds 0 and 1 and need only matched fits on 2/3.
