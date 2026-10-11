@@ -48,3 +48,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0030: local evidence selects submissions](0030-local-evidence-selects-submissions.md): research and local validation select models and fixed blends; public leaderboard confirms transfer.
 
 - [ADR0031: cross-fold top-tier release](0031-cross-fold-top-tier-submission-release.md): diversified clean cross-validation ranks complete endpoints; deliver only the strongest supported submissions after exploration lands, then exploit measured serving headroom.
+
+- [ADR0032: package available full-data blends now](0032-package-available-full-data-blends-now.md): latest user supersedes ADR0031's waiting requirement; deliver a small reviewed set now, retain honest cross-validation/provenance, and measure Q4/Q8 endpoint value.

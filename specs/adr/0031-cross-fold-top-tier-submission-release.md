@@ -2,6 +2,11 @@
 
 Status: Accepted. Date: 2026-10-11.
 
+The release timing requirement is superseded by
+[ADR0032](0032-package-available-full-data-blends-now.md), following the user's
+later request to package available full-data blends now. The other requirements
+below remain in force.
+
 ## Context
 
 The user explicitly requires diversified, reliable cross-validation rather than reliance on fold 1, and asks to receive only the best submissions after the current exploration results land. The selected scratch model's fold-1 gain did not transfer to public scoring. Additional seeds on the same exposed fold measure training variation but cannot by themselves measure fold dependence. The user also plans an exploitation phase using the competition's 60-minute serving headroom, potentially with Q4 compression.
