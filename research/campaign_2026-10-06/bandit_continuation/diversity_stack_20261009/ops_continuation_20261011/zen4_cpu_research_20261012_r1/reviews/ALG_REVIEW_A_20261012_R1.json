@@ -1,0 +1,65 @@
+{
+  "schema": "wnn.algorithmic_cpu_independent_review.r1",
+  "date": "2026-10-12",
+  "reviewer": "A",
+  "authorized_model": "gpt-6.1-sol",
+  "authorized_reasoning_effort": "xhigh",
+  "scope": "report-only, current native algorithms and actual ZIP10/11/12",
+  "independence": "sealed before reading reviewer B, current actor proposals or private root scout notes",
+  "main_source_head": "e4055421a64ca5eaf97aa88050f1bb1b0c989541",
+  "zip_sha256": {
+    "10": "837b0fb3c71b22062747d7e1e3bfd2241cb6c5cd41edac908745dd36d5469410",
+    "11": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+    "12": "ecbf13cd321b90400a6a48bc6f20f43df4cfbef4aed650404785384c23631b7b"
+  },
+  "shared_native_v3_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+  "precision": "q8vnni",
+  "wall_clock_governor": false,
+  "metadata_checks": {
+    "limited_commands": 2,
+    "tool_wall_seconds": [2.023060134, 0.764022167],
+    "cpu_quota": "50%",
+    "threads": 1,
+    "memory_max_bytes": 700000000,
+    "runtime_max_per_command_seconds": 120,
+    "inference_benchmarks_run": 0,
+    "gpu_or_provider_operations": 0
+  },
+  "confirmed": [
+    "ZIP12 FP16 is transport storage, then same Q8VNNI construction",
+    "distinct members have different input projections, biases and normalization",
+    "causal event features already shared",
+    "native recurrent scratch already persistent",
+    "existing ZMM VNNI has eight interleaved accumulators",
+    "H384 dynamic Q8 matrix bytes alone exceed Zen4 1 MiB L2",
+    "trio portal completion is right-censored; ZIP11 unuploaded"
+  ],
+  "arithmetic": {
+    "dense_terms_per_member": "14 H^2 + 213 H",
+    "h256": 972032,
+    "h384": 2146176,
+    "zip11": 3118208,
+    "zip10": 4292352,
+    "zip12": 6438528,
+    "dynamic_q8_matrix_bytes_h256": 946176,
+    "dynamic_q8_matrix_bytes_h384": 2107392
+  },
+  "priorities": [
+    {"id": "A1", "mechanism": "Zen4 AVX512VL/YMM VNNI schedule versus current ZMM", "kind": "exact kernel", "status": "proposed, no measured speedup"},
+    {"id": "A2", "mechanism": "per-hidden-tile fused ih/hh/gates, immutable old quantized h, max-pass reuse", "kind": "exact scheduling", "status": "proposed, same quadratic arithmetic"},
+    {"id": "A3", "mechanism": "shared nonzero indices, bounded counter LUT, conditional head omission", "kind": "exact micro-optimization subject to bit checks", "status": "small ceiling; false prediction rows only 0.495%"},
+    {"id": "A4", "mechanism": "low-rank recurrence with Q8-aware storage threshold", "kind": "quality tradeoff", "status": "existing FP32 factor kernel; actual H388 compression unvalidated"},
+    {"id": "A5", "mechanism": "complete-mixture compact student or shared-backbone residual heads", "kind": "new trained model", "status": "not ready, requires admitted GPU and clean cross-fold evidence"}
+  ],
+  "fp32_factor_bytes_better_than_dense_q8_condition": "rank < 3 H / 16, before metadata",
+  "fp32_factor_arithmetic_better_condition": "rank < 3 H / 4",
+  "release_admission": "not granted by this review",
+  "public_score_forecast": null,
+  "target_runtime_forecast": null,
+  "limitations": [
+    "no target Zen4 execution",
+    "no source-to-binary disassembly proof",
+    "historical and supplied callback timings were not rerun",
+    "no compression/student quality results generated"
+  ]
+}
