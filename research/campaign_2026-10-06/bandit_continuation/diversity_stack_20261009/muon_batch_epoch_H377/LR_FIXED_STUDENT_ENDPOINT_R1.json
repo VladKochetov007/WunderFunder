@@ -1,0 +1,22 @@
+{
+  "schema": "wnn.fixed-comparison-endpoint.v1",
+  "frozen_before_h377_results": true,
+  "purpose": "Prespecified50/50 conditional mixture for every H377 candidate; no weight search",
+  "run": "vt_f1_dsq_dm_t3_a9_e6",
+  "epoch": 5,
+  "checkpoint_sha256": "c8e08b33a316f3539d4381429233b90403b76de83bda6dbecc84d7952f8212ad",
+  "prediction_path": "/root/wnn/cache/pred_vt_f1_dsq_dm_t3_a9_e6_valid.npy",
+  "prediction_sha256": "bf1d4a52a67ccd530b0fff80976a6759d6a6265b7c699f77a73cfca9e044d0ad",
+  "prediction_bytes": 299680128,
+  "prediction_shape": [1873,20000,2],
+  "prediction_dtype": "float32",
+  "sidecar_sha256": "2323e59cde003aec195b6216a6367c1c9e9c3e893605b9575165f930ea48cefc",
+  "split_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+  "local_official_score": 0.671031473,
+  "metric": "global_wp_clip2_v1",
+  "exposure": "Repeatedly inspected fold1; one student fit; source-qualified evaluation excluded from fitted teacher/initializer ancestry per independent reviewR4",
+  "mixture": "0.5*candidate raw prediction+0.5*student raw prediction, then official clipping/mask/original-label magnitude weighting",
+  "public_confirmation": "User-reported Q8 ZIP7 score .6652; not a forecast or float/public calibration",
+  "receipt": "LR_STUDENT_AND_FOLD0_R1.json",
+  "owner": "root"
+}
