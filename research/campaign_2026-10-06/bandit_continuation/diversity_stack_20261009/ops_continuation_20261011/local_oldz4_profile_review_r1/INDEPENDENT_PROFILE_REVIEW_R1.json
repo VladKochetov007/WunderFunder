@@ -1,0 +1,41 @@
+{
+  "schema": "wnn.independent-local-profile-review.v1",
+  "review_status": "BLOCK_R1_PARENT_DIGEST_BINDING_PENDING",
+  "scope": "Read-only static audit of the OldZ4 F0 student resource-profile packet. No profile launch, fit, GPU action, source edit, or queue/provider operation.",
+  "reviewer_worktree": "/home/vlad/development/wunder/wnn-agent-worktrees/submission-candidates",
+  "reviewer_base_commit": "f42d85cd",
+  "packet": {
+    "intended_actor_worktree": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011",
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/local_oldz4_f0_student_profile_r1",
+    "profile_contract_sha256": "0778c9f91f38e560696910ea81c38d9a2e5a2dbf1d3811e37ddf2ab235a4cca8",
+    "launch_packet_sha256": "ae603a748ad19a9e49b3e39f5479d1d27f7a9d87e94bd133ca1146bab90314b2",
+    "validator_sha256": "5747c895d994a1fe0f852bfae426db78770f771dbe1a07c79f1f19b584685d39",
+    "readme_sha256": "0ed64d52875b02908ad0a29e0e3c17d9a107ac02a01c20e0f16947f6dcc362f5"
+  },
+  "checks": {
+    "validator": {
+      "result": "PASS",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=25% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python <actor-packet>/validate_profile_r1.py",
+      "observed": [
+        "exact fit-to-profile argv transformation and packet bindings passed",
+        "all 55 source files matched their manifest",
+        "no output collision was found",
+        "no Torch import, model load, GPU launch, or scientific fit occurred"
+      ]
+    },
+    "method_and_membership": "PASS: fold 0, seed 3, train_source=train+valid, 10,606 train groups, 1,405 eligible inner-valid groups, 468 fold-evaluation groups excluded; pinned split, propensity, cache metadata, fit recipe/contract, input bindings, and 55-file source manifest match their recorded hashes.",
+    "profile_shape": "PASS: exact profile transform is one warmup plus one timed full batch, batch 16/chunk 2000; `--grad-stats` should observe 20 pre-clip gradient vectors across two batches. Trainer exits before `EpochUpdateCounter.finish()`, so this is not successful optimizer-update evidence. The profile has no checkpoint, prediction, score, or fit authorization.",
+    "resource_contract": "PASS as a prepared request only: 2 CPU reservation, 6.5 GB RAM reserve, 4.3 GB allocator cap, 5.0 GB observed VRAM ceiling, zero loader workers, one worker thread, 600-second worker timeout; parent quota/device/headroom are explicitly left for root to refresh.",
+    "contract_path": "The launch packet points at the actor-worktree contract path. The validator passes when invoked on that exact packet. Running the copied MAIN validator against the MAIN copy fails its self-path equality check; dispatch must use the actor packet path or a successor that reseals the corresponding path fields."
+  },
+  "blocker": {
+    "reason": "PROFILE_CONTRACT_R1 has initializer.sha256=null and digest_pending_root_terminal_producer_binding=true despite the local ep3 checkpoint now existing. R1 does not bind the actual terminal parent checkpoint/provenance receipt. The validator only reports checkpoint presence and explicitly leaves root producer receipt/digest binding pending; it does not hash the checkpoint. Do not admit this R1 packet until a successor contract and launch packet pin the root-verified ep3 checkpoint and provenance identity.",
+    "affected_input": "oldz4_h230_parent_f0_s3_r3@ep3",
+    "r1_contract_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/local_oldz4_f0_student_profile_r1/PROFILE_CONTRACT_R1.json"
+  },
+  "limits": [
+    "The 468 excluded fold-evaluation groups were previously inspected; this is robustness evidence, not a fresh holdout.",
+    "A resource profile cannot establish student quality or authorize the later fit.",
+    "R1 remains immutable; the parent digest must be bound in a superseding packet."
+  ]
+}
