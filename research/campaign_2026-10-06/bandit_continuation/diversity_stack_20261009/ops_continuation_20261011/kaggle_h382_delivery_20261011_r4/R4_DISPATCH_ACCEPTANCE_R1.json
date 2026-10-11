@@ -1,0 +1,80 @@
+{
+  "schema": "wnn.h382-export-recovery-r4-dispatch-acceptance.v1",
+  "observed_at_utc": "2026-10-11T16:30:49+00:00",
+  "operator": "batch_packet_builder",
+  "scope": "Exact sealed R4 export-only packet was accepted by Kaggle and observed running. This receipt does not claim export startup or completed artifacts.",
+  "release": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/ROOT_H382_EXPORT_RECOVERY_R4_RELEASE_R1.json",
+    "sha256": "36b0f4d558bc92f9c19c1cb1c105d3ea1de209be1b21345741943e3447f39892"
+  },
+  "packet": {
+    "id": "vladkochetov07/wnn-h382-export-recovery-20261011-r4",
+    "manifest_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h382_export_recovery_20261011_r4/PACKET_MANIFEST_R4.json",
+    "manifest_sha256": "d7718aa30a11831d57b1e4bc12e00b61fcfd2213edcec8b8646ab9b17f3dfcc2",
+    "kernel_source_sha256": "f7671c6bec834e7a26f5e65dcf9c014e0ec89f7cfd9fad97bbd02123aa27e45c",
+    "archive_sha256": "a57df09373de67618c7a5826a11a3756fbdb1640b38781af1467a6cbbc468285",
+    "checkpoint_manifest_sha256": "bca79e00f62e89bae7b44a4261682d9cfc4ac6d280c6610bbe14f48619685164"
+  },
+  "provider": {
+    "name": "Kaggle",
+    "cli_package_version": "2.2.4",
+    "push_result": "accepted",
+    "accepted_version": 1,
+    "kernel_id": "vladkochetov07/wnn-h382-export-recovery-20261011-r4",
+    "machine_shape": "NvidiaTeslaT4",
+    "worker_max_seconds": 3600,
+    "push_return_code": 0,
+    "first_status_poll_path": "R4_PROVIDER_POLL_R1.jsonl",
+    "first_status_poll_sha256": "92fbe243e23bd7c576e64c1bddc3765f057ec6ba16ad77e82f3802cba4384bf6",
+    "first_observed_status": "KernelWorkerStatus.RUNNING",
+    "first_observed_at_utc": "2026-10-11T16:30:49+00:00",
+    "failure_message": "",
+    "kernel_session_id": null,
+    "kernel_session_id_note": "Kaggle status response omitted kernel_session_id; versionNumber was not substituted.",
+    "fit_count": 0,
+    "exports_expected": 3,
+    "exports_completed_claimed": 0
+  },
+  "private_dataset": {
+    "id": "vladkochetov07/wnn-h382-rescued-checkpoints-20261011-r4",
+    "version": 1,
+    "status": "ready",
+    "readback_receipt": "R4_PRIVATE_DATASET_READY_READBACK_R1.json",
+    "readback_sha256": "ff487e6bbd8cfba2e4da4584ab5e81ec10a77dc22dcad1144ef9aad85210497b"
+  },
+  "logical_reservation": {
+    "owner": "ROOT_H382_EXPORT_RECOVERY_R4_RELEASE_R1.json",
+    "reserved_device_gpu_seconds": 7200,
+    "reservation_status": "held_until_terminal_quota_reconciliation",
+    "provider_reported_reserved_seconds_at_first_poll": 0,
+    "campaign_headroom_before_logical_reservation_seconds": 32184.902534000008,
+    "campaign_headroom_after_logical_reservation_seconds": 24984.902534000008,
+    "actual_terminal_gpu_seconds": null,
+    "reconcile_after_terminal": true
+  },
+  "quota_snapshot": {
+    "path": "R4_PROVIDER_POLL_R1.jsonl",
+    "sha256": "92fbe243e23bd7c576e64c1bddc3765f057ec6ba16ad77e82f3802cba4384bf6",
+    "observed_used_gpu_seconds": 61642.934466,
+    "campaign_headroom_seconds": 32184.902534000008,
+    "provider_reserved_seconds": 0
+  },
+  "dispatch_gate_snapshot": {
+    "path": "R4_PREPUSH_QUOTA_SESSION_POLL_R2.jsonl",
+    "sha256": "e974bf495f4b5d55aeebd1609b838f03ccdf6eb64d2b4c26df65d612cc0001c0",
+    "observed_at_utc": "2026-10-11T16:29:58+00:00",
+    "used_gpu_seconds": 61619.198,
+    "campaign_headroom_before_logical_reservation_seconds": 32208.63900000001,
+    "logical_reservation_seconds": 7200,
+    "campaign_headroom_after_logical_reservation_seconds": 25008.63900000001,
+    "provider_reserved_seconds": 0,
+    "other_owned_gpu_sessions": 0,
+    "session_id": null
+  },
+  "terminal_collection_plan": "R4_TERMINAL_COLLECTION_PLAN_R1.json",
+  "durable_monitor_target": {
+    "config": "research/campaign_2026-10-06/bandit_continuation/cloud_preflight/provider_targets_active_20261009_r2.json",
+    "terminal_receipt": "R4_TERMINAL_OPERATOR_RECEIPT.json",
+    "monitoring_state": "polling_until_terminal_evidence_downloaded"
+  }
+}
