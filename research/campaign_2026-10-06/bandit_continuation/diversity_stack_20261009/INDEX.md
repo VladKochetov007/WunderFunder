@@ -1,3 +1,7 @@
+# October11 live continuation
+
+Latest authority and evidence are in [the continuation contract](CONTINUATION_CONTRACT_20261011.md) and [current state](../../../../specs/current-state.md). Local evidence selects submissions; public LB confirms transfer. Own fixed student–scratch pair scores0.67329 on exposed fold1; packaging destination `submissions/10-11-67`. Owned Vast B is active under the user-selected$70 ceiling, Kaggle longv6 and local four-epoch seed confirmations continue. The October9 allocation below is historical.
+
 # Diverse models, combinations and device comparison
 
 Updated October 9, 2026. This is the navigation page for the user's priority direction: independently train diverse teachers/students, retain their predictions, and measure their conditional value in blends, stacks and distillation. All subordinate roles now use Luna/max (ADR0029). Latest user instruction: compare the same mathematical training logic with native GPU and TPU implementations; document all ideas. A possible RTX5090 batch is a planning question only. **No rental is authorized by these notes; Vast remains off.**

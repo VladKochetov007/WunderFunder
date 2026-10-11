@@ -56,3 +56,6 @@ E1 local queue treated admission_recheck_failed as permanent failure -> cascaded
 | F9 | regularised long schedules: aug-warp e3/e6, strong warp e6, dropout .2 e5 (Kaggle v5) | RUNNING | kaggle_long_20261010 |
 | F10 | student alpha ladder (alpha .9 e6 = .67103 best student; w17 alpha 1.0/.95/e2/e10 queued) | RUNNING | LOOP_LOG pass 120 |
 | F11 | h256 muon-all x prop0 stacks (.6690, 2 seeds); h256 epoch ladder e2 .6648 / e3 .6674 / e4 .6690 | CONFIRMED (e5/e6 pending) | pass 120 |
+
+| F12 | Fixed student–scratch equal blend H-376: alpha0.9 e6 student .67103 + Muon-all prop0 e4 seed4 .67195 -> .67329; same-recipe seed3/4 pair .67261 | EVALUATED exposed fold1; quantized packaging in submissions/10-11-67 | ops_continuation_20261011/RESEARCH_PAIR_SCORES_R1.txt |
+| E6 | Local10.5GB reservation breach repaired using per-attempt MemoryHigh9.5GB, unchanged hardcaps; actual25-batch profile passed, seed6e4 healthy; blocked925 export retains failed924 ancestry, corrected LWF retry930/931 queued | RUNNING | ops_continuation_20261011/LOCAL_RECOVERY_REVIEW_R1.json |
