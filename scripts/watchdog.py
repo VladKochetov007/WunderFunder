@@ -31,7 +31,7 @@ STATE_PATH = ROOT / ".runtime/watchdog_state.json"
 HEARTBEAT = ROOT / ".runtime/watchdog_heartbeat"
 KAGGLE_KERNELS = ["vladkochetov07/e529-gru512-768-muon-fit-v5r2-20261009", "vladkochetov07/wnn-native-device-tpu-20261009-v4"]
 EXPECTED_TIMERS = ["wnn-local-queue-r1", "wnn-campaign-kaggle-poller"]
-SPEND_WARN = 9.6  # fraction of the tick cap (12) where a warning starts
+SPEND_WARN = 60.0  # user authorised ~$1/h auto top-up (2026-10-11); lane b cap 70
 
 
 def now() -> str:
