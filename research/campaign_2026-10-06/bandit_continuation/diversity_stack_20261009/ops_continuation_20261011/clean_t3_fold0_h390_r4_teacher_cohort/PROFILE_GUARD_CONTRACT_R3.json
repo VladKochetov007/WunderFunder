@@ -1,0 +1,24 @@
+{
+  "decision": "Any missing, failed, serialized, non-T4, resource-over-limit, or non-finite profile blocks all full fits in this kernel. No serial fallback is allowed after a failed profile gate; root may create a separately identified serial successor.",
+  "per_worker_peak_gpu_bytes_max": 5000000000,
+  "per_worker_peak_ram_bytes_max": 6000000000,
+  "profile_batches": {
+    "measured_complete_batches": 5,
+    "warmup_complete_batches": 5
+  },
+  "profile_jobs": [
+    "profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r3",
+    "profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r3"
+  ],
+  "require_exactly_two_distinct_t4_devices": true,
+  "require_profile_log_counters": {
+    "attempts_equal_completed_plus_amp_skipped": true,
+    "completed_batches_min": 10,
+    "finite_gradient_summary": true,
+    "finite_profile_metrics": true,
+    "optimizer_completed_updates_min": 1
+  },
+  "require_runner_concurrency": 2,
+  "schema": "wnn.kaggle.paired_t4_profile_guard.r1",
+  "sum_profile_worker_peak_ram_bytes_max": 12000000000
+}
