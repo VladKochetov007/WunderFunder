@@ -8,6 +8,7 @@ import math
 import os
 import re
 import shutil
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -27,7 +28,8 @@ from wnn.splits import CampaignSplit, load_campaign_split
 
 # Parsed JSON fields are intentionally dynamic and retain their source schema.
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", Path(__file__).resolve().parents[1])).resolve()
+sys.path.insert(0, str(ROOT))
 
 RUN_NAME = re.compile(r"[A-Za-z0-9_.-]+\Z")
 EPOCH_CONVENTION = {
@@ -37,6 +39,22 @@ EPOCH_CONVENTION = {
     "student_checkpoint_policy": "fixed",
     "student_checkpoint_epoch": 1,
 }
+OUTPUT_TARGETS = {
+    "all": ("main_source", "main_normalized", "main_homogeneous", "families"),
+    "homogeneous-only": ("main_homogeneous",),
+}
+TARGET_WIDTHS = {"main_source": 2, "main_normalized": 2, "main_homogeneous": 2, "families": 8}
+
+
+def estimate_output_bytes(fit_rows: int, output_profile: str) -> int:
+    """Estimate exact float payload bytes for one declared cache profile."""
+    if fit_rows < 0:
+        raise ValueError("fit row count must be nonnegative")
+    try:
+        width = sum(TARGET_WIDTHS[target] for target in OUTPUT_TARGETS[output_profile])
+    except KeyError as error:
+        raise ValueError(f"unknown distillation cache output profile: {output_profile}") from error
+    return fit_rows * SEQUENCE_ROWS * np.dtype(np.float32).itemsize * width
 
 
 def parse_teacher(value: str) -> TeacherSource:
@@ -121,6 +139,7 @@ def _audit_ancestor_closure(
     closure = [
         {
             "run": run,
+            "provenance_sha256": file_sha256(provenance_path),
             "checkpoint_file": checkpoint_file,
             "checkpoint_sha256": checkpoint_sha256,
             "split_manifest_sha256": split.sha256,
@@ -301,6 +320,7 @@ def _inspect_teacher(
         "run": run,
         "checkpoint_path": str(checkpoint_path),
         "checkpoint_sha256": checkpoint_sha256,
+        "provenance_sha256": file_sha256(provenance_path),
         "epoch": epoch,
         "architecture": args.get("arch"),
         "cell": cell,
@@ -331,7 +351,7 @@ def _array_entry(path: Path, row_groups: list[int], array: np.ndarray) -> dict[s
 
 
 def build_cache(args: argparse.Namespace) -> Path:
-    """Create the fixed four-family distillation targets without retaining array copies."""
+    """Create the declared fold-bound distillation targets without array copies."""
     data_root = args.data_root.resolve()
     cache_root = args.teacher_cache_root.resolve()
     checkpoint_root = args.checkpoint_root.resolve()
@@ -349,6 +369,8 @@ def build_cache(args: argparse.Namespace) -> Path:
         raise ValueError(f"teacher coefficients sum to {total}, expected 0.8125")
     if args.homogeneous_family not in FAMILY_ORDER:
         raise ValueError("homogeneous family must be one of the declared teacher families")
+    if args.output_profile not in OUTPUT_TARGETS:
+        raise ValueError(f"unknown distillation cache output profile: {args.output_profile}")
     if args.chunk_sequences < 1 or args.chunk_sequences > 64:
         raise ValueError("chunk sequence count must be between 1 and 64")
 
@@ -362,6 +384,25 @@ def build_cache(args: argparse.Namespace) -> Path:
     for name in ("train", "valid"):
         if set(row_groups[name]) != set(_expected_groups(split, name)):
             raise ValueError(f"target index omits {name} fitting groups")
+
+    fit_rows = sum(len(groups) for groups in row_groups.values())
+    output_path = args.output.resolve()
+    if output_path.exists():
+        raise FileExistsError(f"refusing to replace existing cache directory: {output_path}")
+    partial = output_path.with_name(output_path.name + ".partial")
+    if partial.exists():
+        raise FileExistsError(f"refusing to reuse partial cache directory: {partial}")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    estimated_bytes = estimate_output_bytes(fit_rows, args.output_profile)
+    usage = shutil.disk_usage(output_path.parent)
+    free_floor = int(args.min_free_gb * (1 << 30))
+    output_budget = int(args.output_budget_gb * (1 << 30))
+    if estimated_bytes > output_budget or usage.free - estimated_bytes < free_floor:
+        raise OSError(
+            f"distillation cache needs {estimated_bytes} bytes; available budget while preserving "
+            f"{free_floor} free bytes is {max(0, usage.free - free_floor)}"
+        )
+
     records: list[dict[str, Any]] = []
     predictions: dict[str, dict[str, np.ndarray]] = {}
     for source in args.teacher:
@@ -379,34 +420,14 @@ def build_cache(args: argparse.Namespace) -> Path:
         records.append(record)
         predictions[source.run] = arrays
 
-    fit_rows = sum(len(groups) for groups in row_groups.values())
-    output_path = args.output.resolve()
-    if output_path.exists():
-        raise FileExistsError(f"refusing to replace existing cache directory: {output_path}")
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    estimated_bytes = fit_rows * SEQUENCE_ROWS * 4 * (2 * 3 + 8)
-    usage = shutil.disk_usage(output_path.parent)
-    free_floor = int(args.min_free_gb * (1 << 30))
-    output_budget = int(args.output_budget_gb * (1 << 30))
-    if estimated_bytes > output_budget or usage.free - estimated_bytes < free_floor:
-        raise OSError(
-            f"distillation cache needs {estimated_bytes} bytes; available budget while preserving "
-            f"{free_floor} free bytes is {max(0, usage.free - free_floor)}"
-        )
-
-    partial = output_path.with_name(output_path.name + ".partial")
-    if partial.exists():
-        raise FileExistsError(f"refusing to reuse partial cache directory: {partial}")
     partial.mkdir()
     file_entries: dict[str, dict[str, Any]] = {}
     for split_name in ("train", "valid"):
         groups = row_groups[split_name]
         position = {group: index for index, group in enumerate(target_orders[split_name])}
         shapes = {
-            "main_source": (len(groups), SEQUENCE_ROWS, 2),
-            "main_normalized": (len(groups), SEQUENCE_ROWS, 2),
-            "main_homogeneous": (len(groups), SEQUENCE_ROWS, 2),
-            "families": (len(groups), SEQUENCE_ROWS, 8),
+            target: (len(groups), SEQUENCE_ROWS, TARGET_WIDTHS[target])
+            for target in OUTPUT_TARGETS[args.output_profile]
         }
         outputs = {
             name: np.lib.format.open_memmap(
@@ -425,12 +446,15 @@ def build_cache(args: argparse.Namespace) -> Path:
                 source_chunk, args.teacher, FAMILY_ORDER, args.homogeneous_family
             )
             stop = start + len(selected)
-            for name, values in (
+            target_values = (
                 ("main_source", main),
                 ("main_normalized", normalized),
                 ("main_homogeneous", homogeneous),
                 ("families", families),
-            ):
+            )
+            for name, values in target_values:
+                if name not in outputs:
+                    continue
                 outputs[name][start:stop] = values
         for array in outputs.values():
             array.flush()
@@ -461,6 +485,8 @@ def build_cache(args: argparse.Namespace) -> Path:
         ],
         "coefficient_sum": total,
         "homogeneous_family": args.homogeneous_family,
+        "output_profile": args.output_profile,
+        "stored_targets": list(OUTPUT_TARGETS[args.output_profile]),
         "epoch_convention": EPOCH_CONVENTION,
         "sources": records,
         "files": file_entries,
@@ -504,6 +530,12 @@ def main() -> None:
     )
     parser.add_argument("--expected-coefficient-sum", type=float, default=0.8125)
     parser.add_argument("--chunk-sequences", type=int, default=8)
+    parser.add_argument(
+        "--output-profile",
+        choices=tuple(OUTPUT_TARGETS),
+        default="all",
+        help="stored target set; homogeneous-only supports homogeneous-main students without family heads",
+    )
     parser.add_argument("--output-budget-gb", type=float, default=30.0)
     parser.add_argument("--min-free-gb", type=float, default=25.0)
     args = parser.parse_args()
