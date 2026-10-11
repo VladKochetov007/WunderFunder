@@ -1,0 +1,150 @@
+{
+  "comparison": {
+    "all_deltas_within_tolerance": true,
+    "all_selected_row_counts_equal": true,
+    "candidate_count": 4,
+    "candidate_ids": [
+      "f1_h256prototype_half_teachertrio_half_q8_fp16transport",
+      "f1_teacher_s3_s4_s5_q8_fp16transport",
+      "f1_teacher_s3_s4_s5_q8_fp32_control",
+      "f1_teacher_s4_s5_q8_fp32"
+    ],
+    "candidates": [
+      {
+        "candidate_id": "f1_h256prototype_half_teachertrio_half_q8_fp16transport",
+        "delta_independent_minus_official": {
+          "t0": 0.0,
+          "t1": 0.0,
+          "wp": 0.0
+        },
+        "independent_scores": {
+          "t0": 0.5421090431373424,
+          "t1": 0.617507899447057,
+          "wp": 0.5798084712921997
+        },
+        "max_abs_delta": 0.0,
+        "official_scores": {
+          "t0": 0.5421090431373424,
+          "t1": 0.617507899447057,
+          "wp": 0.5798084712921997
+        },
+        "selected_rows": 94546
+      },
+      {
+        "candidate_id": "f1_teacher_s3_s4_s5_q8_fp16transport",
+        "delta_independent_minus_official": {
+          "t0": 0.0,
+          "t1": 0.0,
+          "wp": 0.0
+        },
+        "independent_scores": {
+          "t0": 0.5413136785980225,
+          "t1": 0.6165494052117361,
+          "wp": 0.5789315419048793
+        },
+        "max_abs_delta": 0.0,
+        "official_scores": {
+          "t0": 0.5413136785980225,
+          "t1": 0.6165494052117361,
+          "wp": 0.5789315419048793
+        },
+        "selected_rows": 94546
+      },
+      {
+        "candidate_id": "f1_teacher_s3_s4_s5_q8_fp32_control",
+        "delta_independent_minus_official": {
+          "t0": 0.0,
+          "t1": 0.0,
+          "wp": 0.0
+        },
+        "independent_scores": {
+          "t0": 0.5413284963660441,
+          "t1": 0.6165478700060028,
+          "wp": 0.5789381831860234
+        },
+        "max_abs_delta": 0.0,
+        "official_scores": {
+          "t0": 0.5413284963660441,
+          "t1": 0.6165478700060028,
+          "wp": 0.5789381831860234
+        },
+        "selected_rows": 94546
+      },
+      {
+        "candidate_id": "f1_teacher_s4_s5_q8_fp32",
+        "delta_independent_minus_official": {
+          "t0": 0.0,
+          "t1": 0.0,
+          "wp": 0.0
+        },
+        "independent_scores": {
+          "t0": 0.5404331062655376,
+          "t1": 0.6178647148259331,
+          "wp": 0.5791489105457354
+        },
+        "max_abs_delta": 0.0,
+        "official_scores": {
+          "t0": 0.5404331062655376,
+          "t1": 0.6178647148259331,
+          "wp": 0.5791489105457354
+        },
+        "selected_rows": 94546
+      }
+    ],
+    "comparison_fields": [
+      "selected_rows",
+      "t0",
+      "t1",
+      "wp"
+    ],
+    "max_abs_delta_over_all_scores": 0.0,
+    "numeric_tolerance": 1e-12
+  },
+  "independent_recompute": {
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submission-candidates/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_submission_review_r1/f1_native_panel_code_review_r1/F1_INDEPENDENT_METRIC_RECOMPUTE_R1.json",
+    "sha256": "3a91a2015645d7bf8b6bbc9c324937ef1158e41f93727d4e54409f358f9c2874"
+  },
+  "interpretation": "This verifies arithmetic agreement between the independent recompute and official grade artifact on the same prespecified exposed fold1 panel. It is not independent data selection, fresh CV, held-out confirmation, or public-score evidence. One-pass native panel receipts do not prove repeated bitwise reset replay.",
+  "official_grade": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/native_f1_precision_panel_r1/artifacts/NATIVE_F1_OFFICIAL_GRADE_R1.json",
+    "sha256": "f4c07dbd74b9a7788739947909c7b252c2fe8f142c11d20312bd4513a5e1efb2"
+  },
+  "official_metric": {
+    "aggregation": "pooled weighted Pearson per target, then equal mean t0/t1",
+    "clip": [
+      -2.0,
+      2.0
+    ],
+    "implementation_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/gmetric.py",
+    "implementation_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "mask": "need_prediction AND is_scored",
+    "metric_id": "global_wp_clip2_v1",
+    "weights": "absolute clipped target magnitude"
+  },
+  "panel": {
+    "components": [
+      1322,
+      2815,
+      2817,
+      2863,
+      2891,
+      3008,
+      3021,
+      3037,
+      3121,
+      3162,
+      3219,
+      3226,
+      3248,
+      3286
+    ],
+    "evaluation_exposure": "historically exposed fold1, bounded serving/wholeendpoint discovery; not freshCV",
+    "feature_fixture_sha256": "e44fd415caf13d60a09f572c12bd7e94292b6d56234ab53a8880f43e155f83a2",
+    "feature_manifest_sha256": "733c7368506b42e7893f37dc07e5841e1c4d152faa03d7a0c5405454a85ba109",
+    "groups": 14,
+    "selected_rows_total": 94546
+  },
+  "reviewed_utc": "2026-10-12",
+  "schema": "wnn.native_f1_official_grade_independent_reconciliation.r1",
+  "verdict": "PASS_EXACT_METRIC_RECONCILIATION"
+}
