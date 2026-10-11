@@ -1,0 +1,58 @@
+{
+  "schema": "wnn.h390.valid-export-collection.v1",
+  "run": "vt_all_h390_ds_homogeneous_s4_r3",
+  "recorded_utc": "2026-10-11T15:34:13Z",
+  "owner": "submission_packager",
+  "instance_id": 55080658,
+  "transfer": {
+    "started_utc": "2026-10-11T15:30:11.450463+00:00",
+    "elapsed_seconds": 220.781,
+    "ended_utc_derived_from_start_plus_reported_elapsed": "2026-10-11T15:33:52.231463+00:00",
+    "transferred_bytes": 299698348,
+    "remote_sources": [
+      "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s4_r3_export_r1_valid.npy",
+      "/root/wnn/cache/pred_vt_all_h390_ds_homogeneous_s4_r3_export_r1_valid.json"
+    ],
+    "local_staging": "cache/.h390_s4_export_r1_stage",
+    "staging_removed_after_verification": true
+  },
+  "files": [
+    {
+      "local_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_vt_all_h390_ds_homogeneous_s4_r3_export_r1_valid.npy",
+      "bytes": 299680128,
+      "expected_remote_sha256": "0ea49071102e2bc170d333e533fc6ad88add9aecd8c1d93f4bcce57ad73a9c53",
+      "observed_local_sha256": "0ea49071102e2bc170d333e533fc6ad88add9aecd8c1d93f4bcce57ad73a9c53",
+      "verification": "PASS; installed atomically only after size/hash/sidecar checks"
+    },
+    {
+      "local_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_vt_all_h390_ds_homogeneous_s4_r3_export_r1_valid.json",
+      "bytes": 18220,
+      "expected_remote_sha256": "01c5b24786c1187528ec93cbd25f8e043e96d8a08ad71d4ceed65c31560880ea",
+      "observed_local_sha256": "01c5b24786c1187528ec93cbd25f8e043e96d8a08ad71d4ceed65c31560880ea",
+      "verification": "PASS; run/epoch/checkpoint metadata matched before install"
+    }
+  ],
+  "installation": {
+    "final_paths_were_absent_before_install": true,
+    "no_existing_file_overwritten": true,
+    "only_prediction_and_sidecar_installed": true,
+    "main_repository_cache_is_ignored": true
+  },
+  "validation": {
+    "remote_terminal_receipt": "H390_S4_VALID_EXPORT_TERMINAL_R1.json",
+    "npy_shape": [1873, 20000, 2],
+    "npy_dtype": "float32",
+    "epoch": 5,
+    "sidecar_checkpoint_sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+    "sidecar_row_order_equals_pinned_valid_targets_row_group": true,
+    "all_prediction_values_finite": true,
+    "partial_absent": true
+  },
+  "scope": {
+    "valid_groups_in_fit": 1873,
+    "total_fit_groups": 12479,
+    "evaluation_groups": 0,
+    "heldout_claim": false,
+    "score_computation_performed": false
+  }
+}
