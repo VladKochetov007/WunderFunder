@@ -1,0 +1,90 @@
+{
+  "candidate_names": [
+    "vt_f1_dsq_dm_a10_e6",
+    "vt_f1_dsq_dm_a9_e2",
+    "vt_f1_dsq_dm_none_e6",
+    "vt_f1_dsq_dm_t3_e6_lr2",
+    "vt_f1_dsq_dm_t3_e6",
+    "vt_f1_dsq_dm_t3",
+    "vt_f1_dsq_kd_ch02",
+    "vt_f1_dsq_t_prop0",
+    "vt_f1_muonall_e3"
+  ],
+  "cleanup_immediate_measurement": {
+    "deleted_exact_bytes": 2697285564,
+    "immediate_net_free_delta_bytes": 0,
+    "remote_free_after_bytes": 28325257216,
+    "remote_free_before_bytes": 28325257216
+  },
+  "cleanup_receipt": {
+    "approved_audit_sha256": "9f20547fa0c9b3d2bdb6af2b7ac8fdd41141b8c33abb55e21f0b4e29062b42eb",
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submission-candidates/research/storage_handoff_20261011/PREDICTION_DUPLICATES_CLEANUP_R1.json",
+    "sha256": "57cef94e3b3b173654a5dd29230a51e2de8427e6eba67671fabd28e6062a5c86"
+  },
+  "free_delta_minus_removed_bytes": 1044548,
+  "free_delta_since_cleanup_sample_bytes": 2698330112,
+  "interpretation": "No evidence that a process still holds any approved deleted inode open. The later free-space sample is 2,698,330,112 B above the immediate cleanup sample, within 1,044,548 B of the 2,697,285,564 B removed set. This is consistent with eventual reclamation or intervening allocation/release on the shared overlay filesystem; available evidence cannot distinguish delayed statfs/overlay accounting from transient concurrent allocation. The cleanup receipt retains its accurate immediate before/after readings and makes no net-gain claim for that instant.",
+  "later_read_only_measurement": {
+    "all_18_approved_paths_absent": true,
+    "df_B1_P": "overlay 161061273600 130037686272 31023587328 81% mounted on / for /root, /root/wnn, /root/wnn/cache",
+    "lsof_plus_L1_available": false,
+    "matching_proc_fd_entries": [],
+    "matching_proc_maps_entries": [],
+    "mounts": {
+      "/root": {
+        "device": "0:57",
+        "fstype": "overlay",
+        "lowerdir_present": true,
+        "mount_id": "1673",
+        "source": "overlay",
+        "target": "/",
+        "upperdir_present": true
+      },
+      "/root/wnn": {
+        "device": "0:57",
+        "fstype": "overlay",
+        "lowerdir_present": true,
+        "mount_id": "1673",
+        "source": "overlay",
+        "target": "/",
+        "upperdir_present": true
+      },
+      "/root/wnn/cache": {
+        "device": "0:57",
+        "fstype": "overlay",
+        "lowerdir_present": true,
+        "mount_id": "1673",
+        "source": "overlay",
+        "target": "/",
+        "upperdir_present": true
+      }
+    },
+    "paths": {
+      "/root": {
+        "free_bytes": 31023587328,
+        "shutil_disk_usage_free_bytes": 31023587328,
+        "statvfs_free_bytes": 31023587328,
+        "total_bytes": 161061273600,
+        "used_bytes": 130037686272
+      },
+      "/root/wnn": {
+        "free_bytes": 31023587328,
+        "shutil_disk_usage_free_bytes": 31023587328,
+        "statvfs_free_bytes": 31023587328,
+        "total_bytes": 161061273600,
+        "used_bytes": 130037686272
+      },
+      "/root/wnn/cache": {
+        "free_bytes": 31023587328,
+        "shutil_disk_usage_free_bytes": 31023587328,
+        "statvfs_free_bytes": 31023587328,
+        "total_bytes": 161061273600,
+        "used_bytes": 130037686272
+      }
+    },
+    "processes_killed": false,
+    "remote_mutations_performed": false
+  },
+  "recorded_utc": "2026-10-11T12:42:32.623048+00:00",
+  "schema": "wnn.remote_prediction_storage_diagnostic.v1"
+}
