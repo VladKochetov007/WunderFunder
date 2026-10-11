@@ -1,0 +1,103 @@
+{
+  "actor_packet": {
+    "commit": "61dbe366fa0e1231bbc80480746ba55988766997",
+    "contract": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_student_cp1_export_20261012_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/local_oldz4_f0_student_export_r4/STUDENT_EXPORT_CONTRACT_R4.json",
+      "sha256": "665bdb087975ce5d74e485ea31aea88e7d07f8545af3dbee48e181d0bcba56fb"
+    },
+    "runner": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_student_cp1_export_20261012_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/local_oldz4_f0_student_export_r4/run_student_export_r4.py",
+      "sha256": "3cdadf7b610a0b87292eda15e224b58edc6dca7a9be4926e45564c54cf0f9f30"
+    },
+    "validator": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_student_cp1_export_20261012_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/local_oldz4_f0_student_export_r4/validate_student_export_r4.py",
+      "sha256": "b067c36d4d1b014267d4cd6b2075d3d8ace90e6406b8b956984d157ac081a661"
+    },
+    "worktree": "/home/vlad/development/wunder/wnn_oldz4_student_cp1_export_20261012_r1"
+  },
+  "actual_producer_evidence": {
+    "artifacts": {
+      "history.json": {
+        "bytes": 3057,
+        "epoch_counters_match_terminal_totals": true,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f0_s3_r3/history.json",
+        "sha256": "d22e85330fc284df91bf0513d421ac16ef01049432b62205fb972264eba43c9a"
+      },
+      "model_ep1.pt": {
+        "bytes": 3986535,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f0_s3_r3/model_ep1.pt",
+        "sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb"
+      },
+      "provenance.json": {
+        "bytes": 159071,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f0_s3_r3/provenance.json",
+        "selected_epoch": 1,
+        "sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "training_state.pt": {
+        "bytes": 11845999,
+        "independent_content_check": "format=wnn.epoch-training-state, version=1, boundary=epoch, next_epoch=2; finite floating state tensors; model state exactly equals CP1 model tensors",
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f0_s3_r3/training_state.pt",
+        "sha256": "79fafd258e5cd22700a6dd95f90175b1aca67e4813c8f28985cbed9d6b93810d"
+      }
+    },
+    "fit_membership": {
+      "claim_limit": "fold0 robustness evidence; exposed fold, not a fresh holdout",
+      "excluded_fold0_evaluation_groups": 468,
+      "fit_valid_groups": 1405,
+      "train_groups": 10535
+    },
+    "fit_source_sha256": "09902e4b4d886f863d5090ff58ba9ec4b7c677f995bb0192f0538c819a693bbb",
+    "main_receipts": {
+      "cp1_gate_failure": {
+        "exception": "KeyError: split_manifest_sha256 at validate_student_export_r4.py:219",
+        "export_started": false,
+        "fit_repeated": false,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/local_oldz4_f0_student_export_r4/ROOT_CP1_GATE_FAILURE_R4.json",
+        "scientific_negative": false,
+        "sha256": "987b8e253a470291f561a044e34249d58db59f11a662bd8cbac219680fb78e1c"
+      },
+      "fit_terminal": {
+        "amp_skipped_updates": 7,
+        "completed_batches": 1492,
+        "exit_status": 0,
+        "oom_events": 0,
+        "optimizer_attempts": 14920,
+        "optimizer_completed_updates": 14913,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/local_oldz4_f0_student_export_r4/ROOT_STUDENT_FIT_TERMINAL_R1.json",
+        "selected_epoch": 1,
+        "sha256": "a6867957260a551228df5fad9f18bd0182d44060bbfc11e87a8656c642cde789"
+      }
+    },
+    "runner_review": "Static path/import review found exact pinned trainer/predictor, ROOT rebinding before the exact predictor entrypoint, valid split membership loading, fixed --epoch 1, inference-only runpy call, and collision checks for NPY/sidecar/partial/sequence-summary outputs. This review does not substitute for the blocked end-to-end export gate."
+  },
+  "blocking_findings": [
+    {
+      "contract_location": "fit_recipe_pins.split_manifest_sha256 and checkpoint_recipe_assertions.split_manifest_sha256",
+      "impact": "The actual gate fails at its first dereference (line 219) with KeyError before prediction export; remaining dereferences would fail later as well.",
+      "issue": "Validator reads missing top-level split_manifest_sha256 at lines 219, 224, 286, 328, and 349.",
+      "minimal_correction": "Use one explicit, consistent nested contract path and validate that the two pinned nested digests agree with each other and with fold0.json."
+    },
+    {
+      "contract_location": "export.exposure and grade_semantics.exposure",
+      "impact": "After correcting the split digest access, receipt construction/validation would fail at the exposure accesses.",
+      "issue": "Validator reads missing top-level exposure at lines 287 and 351.",
+      "minimal_correction": "Select and cross-check a declared nested exposure field; do not add an unpinned implicit top-level alias."
+    },
+    {
+      "impact": "This is a gate-coverage gap even though the actual artifacts pass those checks in the bounded independent inspection.",
+      "issue": "The current checkpoint gate hashes training_state.pt but does not load and validate its schema, boundary, next_epoch, finite state tensors, or equality to the fixed checkpoint model.",
+      "minimal_correction": "Add a bounded producer-format state validator asserting epoch boundary, next_epoch=2 for fixed epoch 1 of a 2-epoch recipe, finite floating tensors, and model-state equality to CP1."
+    }
+  ],
+  "reviewed_utc": "2026-10-12",
+  "schema": "wnn.oldz4_cp1_student_export_independent_review.r1",
+  "scope": "Independent static and receipt review of the CP1 fixed-checkpoint export packet only. No export, fit, grading, GPU, provider, or admission action was performed.",
+  "tests_and_limits": {
+    "actor_focused_tests": "10 passed in bounded run; tests did not bind the actual R4 contract to the validator and therefore missed the absent nested keys.",
+    "historical_probe": "CP0 one-row compatibility probe is a separate CPU feature/probe result; it does not validate CP1 full-valid export.",
+    "required_successor": "Preserve R4 bytes. Correct only a new identified validator/contract successor and add a regression that exercises this exact contract structure plus actual CP1/state fixtures before export admission."
+  },
+  "verdict": "BLOCK_CURRENT_R4_CONSUMER_CONTRACT_BINDING"
+}
