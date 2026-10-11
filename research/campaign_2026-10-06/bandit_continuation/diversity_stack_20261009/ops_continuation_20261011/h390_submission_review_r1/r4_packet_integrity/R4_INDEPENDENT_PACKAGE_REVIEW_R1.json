@@ -1,0 +1,38 @@
+{
+  "schema": "wnn.independent_kaggle_packet_integrity_review.r1",
+  "review_id": "clean_t3_f0_h390_teacher_cohort_r4_package_integrity_20261012",
+  "reviewer_role": "independent_critic",
+  "verdict": "PASS_PACKAGE_INTEGRITY",
+  "scope": "Final sealed R4 archive, manifest, bootstrap, admitted preseal receipt, source-preserving delta, and pre-mount authorization guard. This is not a provider admission or dispatch authorization.",
+  "reviewed_packet_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r4_teacher_cohort",
+  "final_artifact_location": {
+    "short_upload_stage_receipt": "R4_SHORT_UPLOAD_STAGE_R1.json",
+    "short_upload_stage_path": "/tmp/wnn-t3f0-r4-u1",
+    "dataset_id": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r4",
+    "kernel_id": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r4-runner"
+  },
+  "pins": {
+    "archive_sha256": "ae8796a9c0cca1ed64d45341c14c917fc19f6889a1df20ff1873a87a200570dc",
+    "archive_bytes": 234523,
+    "archive_members": 90,
+    "bundle_manifest_sha256": "5f3f0aa8f3759a5ff594c9414c04ad6c4c8834a22f156482af18b411388dcaf7",
+    "bootstrap_sha256": "48ddfe18ad60943efbede30923fad9231ce96705299fea2168ef4dbebdd4e78b",
+    "preseal_root_receipt_sha256": "bf79983eaf3548c8a3544139b94ad5c9f29baabecfced150b28cf4c27fe4f0ac",
+    "finalization_receipt_sha256": "1f3d930393694bd5904837395a8762c4ab4122f5a61d9d2d233500e0f05bb59e",
+    "validation_receipt_sha256": "ffb6fc5b0bef250674067ae778a1d3434e856013ae44531db0c41bd5b3ff7250",
+    "short_upload_stage_receipt_sha256": "260015d115fc98b70d7f91353c9698ee2f6296a3bf3ed18534a8e9439f3bf845",
+    "root_conditional_release_sha256": "bf79983eaf3548c8a3544139b94ad5c9f29baabecfced150b28cf4c27fe4f0ac",
+    "kernel_configuration_r4_sha256": "03445946aed5942d3cb51bc90486821ac97fd7ba40ecdd7f181f381bcb33f480"
+  },
+  "validation": {
+    "finalizer_validator": "validate_r4",
+    "result": "PASS",
+    "provider_actions_during_review": 0,
+    "external_mounts": 13,
+    "worker_specs": 14,
+    "source_delta_review": "R3 archive was byte-compared with R4: all 89 prior entries are retained; exactly one conditional root receipt is added; only the existing release gate and 14 worker descriptors are changed. The validator confirms all non-gate science fields in each descriptor remain identical to R3.",
+    "pre_mount_gate": "Kernel verifies the archive and embedded receipt/gate binding before mounting external inputs and before starting the driver. The driver checks paired-profile evidence before the fit stage.",
+    "review_limits": "Read-only static/package validation under scripts/limited at 50% CPU, 1 thread, 700 MB memory, 120 seconds. Root separately reported private asset READY v1 readback byte-identical to the reviewed archive; this reviewer did not call the provider."
+  },
+  "dispatch_boundary": "Package integrity passes. Root retains the separate live quota, readiness, admission, and dispatch decision; this receipt does not authorize a fit or provider action."
+}
