@@ -63,3 +63,5 @@ E1 local queue treated admission_recheck_failed as permanent failure -> cascaded
 | F13 | Channel-only KD sum0/diff2, alpha.9/e2 | DONE negative one seed; other KD mechanisms stay active | .66862 vs matched .67018, paired149componentCI[-.00224045,-.00084159]; NEW_RESULT_COMPARISON_R4.txt |
 | F14 | Born-again alpha.9/e6 seed4 initialized from own seed3 student | DONE unresolved vs parent; mixture useful | .67054 vs .67103 parent; fixed scratch pair .67317; NEW_RESULT_COMPARISON_R4.txt |
 | A12 | USER renewed optimizer-specific batch/LR and mathematically controlled epoch scaling | ANALYSIS active, no fits admitted | root primary-source search, Luna frozen-recipe audit; preserve historical failed long arms |
+
+| A13 | H-377 current-lead batch response; H-378 same-prefix tail; H-379 noise-aware optimizer finish; H-380 auxiliary-objective finish | PROPOSED, no fits admitted | MUON_BATCH_EPOCH_MATH_20261011.md; independent Luna mathematical/code audit |

@@ -1,0 +1,24 @@
+vt_f1_scale_b16_lrsqrt prediction_ready True
+SIDECAR vt_f1_scale_b16_lrsqrt 2 725f5409d28a1a5a2d2ebe3ac960cc7959ddedbe0af40acf10b6f9cd1039e42f
+vt_f1_scale_b16_lrlin prediction_ready True
+SIDECAR vt_f1_scale_b16_lrlin 2 a472a4ff9a2f264193cdffcf8babb929cb71a71d1e114b6bc9c6c14dbc32c9b6
+vt_f1_scale_b64_lrsqrt prediction_ready False
+vt_f1_scale_b64_lrlin prediction_ready False
+
+STDERR
+Traceback (most recent call last):
+  File "/root/wnn/scripts/score_prediction_remote.py", line 39, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/wnn/scripts/score_prediction_remote.py", line 28, in main
+    a = np.load(ROOT / f"cache/pred_{name}_valid.npy", mmap_mode="r")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py", line 459, in load
+    fid = stack.enter_context(open(os.fspath(file), "rb"))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/root/wnn/cache/pred_vt_f1_scale_b16_lrsqrt_valid.npy'
+Traceback (most recent call last):
+  File "<string>", line 8, in <module>
+  File "/opt/conda/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/conda/bin/python', 'scripts/score_prediction_remote.py', '1', 'vt_f1_scale_b16_lrsqrt', 'vt_f1_scale_b16_lrlin']' returned non-zero exit status 1.

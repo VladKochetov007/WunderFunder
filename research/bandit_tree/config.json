@@ -19,8 +19,8 @@
       "local_admission_cutoff": "None: latest explicit user instruction on2026-10-08 continues research until explicit stop; only local CPU quota changes at10:00Kyiv.",
       "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs",
       "first_review_after_hours": 24,
-      "new_experiment_compute": "Latest user scope: local and Kaggle only. Vast off; October9 RTX5090 question is planning only, explicitly do not rent. Existing credit ceilings are historical limits, not current rental authority.",
-      "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_GPU_RESUME_20261007.json",
+      "new_experiment_compute": "Latest October11 authority: local and Kaggle, plus existing campaign-owned VastB55080658 within user-approved70USD cap. No new rentals, top-up or billing changes; useful reviewed queues continue. Current continuation contract overrides historical off snapshots.",
+      "authority": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTINUATION_CONTRACT_20261011.md",
       "paid_compute_authority": "specs/adr/0015-flexible-credit-bounded-parallel-compute.md",
       "temporary_cpu_window": {
         "cores": 12,
@@ -28,7 +28,9 @@
         "default_cores_after": 5,
         "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_CONTINUOUS_20261008_V2.json"
       },
-      "cpu_purpose": "Analysis/EDA/support; no large CPU model fitting."
+      "cpu_purpose": "Analysis/EDA/support; no large CPU model fitting.",
+      "vast_existing_instance_id": 55080658,
+      "vast_cap_usd": 70
     },
     "external_reported_public_result": {
       "score": 0.6674,
@@ -4840,6 +4842,126 @@
         "priority": 5,
         "launch_authorized": false,
         "reason": "User explicitly requests native device optimization with same model/data/objective."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "unmeasured",
+        "reviewed": false
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:current_lead_batch_response",
+      "parent_id": "family:optimization",
+      "title": "Current lead Muon-all prop0 batch/LR response with explicitly accounted momentum and decay clocks.",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-377"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/MUON_BATCH_EPOCH_MATH_20261011.md"
+      ],
+      "status": "proposed_not_admitted",
+      "claim_scope": "Mathematical mechanism and frozen-recipe audit; no fit/effect/public forecast. Historical failed epoch recipes remain closed.",
+      "next_test": "Prepare reviewed exact candidate/control from report after existing useful queues; root owns admission and delivery.",
+      "allocation": {
+        "eligible": true,
+        "priority": 4,
+        "launch_authorized": false,
+        "reason": "User requests optimizer-specific batch/LR analysis and mechanisms enabling useful epoch scaling."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "unmeasured",
+        "reviewed": false
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:same_prefix_low_movement_tail",
+      "parent_id": "family:optimization",
+      "title": "Additional epochs from identical trained state with a small-LR tail; separate prefix scheduling from additional training.",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-378"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/MUON_BATCH_EPOCH_MATH_20261011.md"
+      ],
+      "status": "proposed_not_admitted",
+      "claim_scope": "Mathematical mechanism and frozen-recipe audit; no fit/effect/public forecast. Historical failed epoch recipes remain closed.",
+      "next_test": "Prepare reviewed exact candidate/control from report after existing useful queues; root owns admission and delivery.",
+      "allocation": {
+        "eligible": true,
+        "priority": 4,
+        "launch_authorized": false,
+        "reason": "User requests optimizer-specific batch/LR analysis and mechanisms enabling useful epoch scaling."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "unmeasured",
+        "reviewed": false
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:noise_aware_optimizer_finish",
+      "parent_id": "family:optimization",
+      "title": "Measure fitting-only late-gradient noise and test response-calibrated removal of orthogonalization if noise dominates.",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-379"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/MUON_BATCH_EPOCH_MATH_20261011.md"
+      ],
+      "status": "proposed_not_admitted",
+      "claim_scope": "Mathematical mechanism and frozen-recipe audit; no fit/effect/public forecast. Historical failed epoch recipes remain closed.",
+      "next_test": "Prepare reviewed exact candidate/control from report after existing useful queues; root owns admission and delivery.",
+      "allocation": {
+        "eligible": true,
+        "priority": 4,
+        "launch_authorized": false,
+        "reason": "User requests optimizer-specific batch/LR analysis and mechanisms enabling useful epoch scaling."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "unmeasured",
+        "reviewed": false
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:auxiliary_objective_finish",
+      "parent_id": "family:objective",
+      "title": "Same-prefix tail decays auxiliary losses while primary weighting, LR, WD and membership remain controlled.",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-380"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/MUON_BATCH_EPOCH_MATH_20261011.md"
+      ],
+      "status": "proposed_not_admitted",
+      "claim_scope": "Mathematical mechanism and frozen-recipe audit; no fit/effect/public forecast. Historical failed epoch recipes remain closed.",
+      "next_test": "Prepare reviewed exact candidate/control from report after existing useful queues; root owns admission and delivery.",
+      "allocation": {
+        "eligible": true,
+        "priority": 4,
+        "launch_authorized": false,
+        "reason": "User requests optimizer-specific batch/LR analysis and mechanisms enabling useful epoch scaling."
       },
       "belief": {
         "mu": null,

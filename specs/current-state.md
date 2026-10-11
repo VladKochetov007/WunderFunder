@@ -12,6 +12,8 @@ The user requested monitoring and a durable30-minute callback to this same contr
 
 Scheduled10:04UTC check: local seed6 four-epoch fit completed and export follows; VastB all-data finals seeds3/4/5 fit concurrently with12pending/7running, spend$32.057/$70. New exposedfold1 endpoints: born-again student .67054, channel-only KD .66862 versus matched .67018 (one seed; paired component interval negative), h384 teacherseed10 .66885; fixed BA–scratch pair .67317. Existing packaged .67329 remains strongest selected endpoint. [Check receipt](../research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/MONITOR_SNAPSHOT_R4.json). User now requests LR/batch mathematics and renewed epoch-scaling diagnosis; analysis is active without altering admitted fits.
 
+LR/batch and epoch-scaling audit is complete: [mathematical analysis and source audit](../research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/MUON_BATCH_EPOCH_MATH_20261011.md). Historical B16 tests are single-seed Muon-rnn/AdamW hybrids; B64 lacks completed artifacts. Actual11949 fitting sequences give7460 attempted updates/epoch at B32. Longer OneCycle changes the earlier prefix; the24epoch Muon-all WSD treatment has13.46 times the reference decay exponent, not a controlled lower-movement extension. H377–H380 propose current-lead batch response, identical-prefix low-movement tails, fitting-only noise diagnostics/optimizer finish and auxiliary-objective conflict. They are proposed, not fit-admitted; current parallel queues remain active.
+
 The following sections are preserved historical snapshots; their stop, spending and score statements do not override the continuation above.
 
 # Current research state — 2026-10-09 04:37 UTC
