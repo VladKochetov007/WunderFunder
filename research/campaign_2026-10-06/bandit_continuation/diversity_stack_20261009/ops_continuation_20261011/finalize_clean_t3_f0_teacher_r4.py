@@ -211,9 +211,12 @@ def validate_root_release(
     if not isinstance(quota, dict):
         raise FinalizationError("root receipt is missing quota and budget binding")
     if (
-        quota.get("wall_ceiling_seconds") != 14_400
-        or quota.get("two_device_gpu_seconds_upper_bound") != 28_800
-        or quota.get("reserved_gpu_seconds") != 28_800
+        type(quota.get("wall_ceiling_seconds")) is not int
+        or quota["wall_ceiling_seconds"] != 14_400
+        or type(quota.get("two_device_gpu_seconds_upper_bound")) is not int
+        or quota["two_device_gpu_seconds_upper_bound"] != 28_800
+        or type(quota.get("reserved_gpu_seconds")) is not int
+        or quota["reserved_gpu_seconds"] != 28_800
         or quota.get("paid_spending_authorized") is not False
     ):
         raise FinalizationError("root receipt quota/budget does not match the bounded R3 cohort")
@@ -458,6 +461,11 @@ def update_bootstrap(
         "    if not valid:\n"
         "        raise PermissionError(f'R4 root receipt has invalid {field_name}')\n"
     )
+    receipt_constants += (
+        "def _require_fixed_quota_integer(value: object, expected: int, field_name: str) -> None:\n"
+        "    if type(value) is not int or value != expected:\n"
+        "        raise PermissionError(f'R4 root receipt has invalid {field_name}')\n"
+    )
     marker = f"R3_GATE_SHA256 = {gate_sha256!r}\n"
     if source.count(marker) != 1:
         raise FinalizationError("R4 gate constant marker is missing after bootstrap reseal")
@@ -490,7 +498,10 @@ def update_bootstrap(
         '    if prior_profile.get("file_count") != 77 or not isinstance(prior_profile.get("sha256"), str) or len(prior_profile["sha256"]) != 64 or any(character not in "0123456789abcdef" for character in prior_profile["sha256"]):\n'
         '        raise PermissionError("R4 root receipt omits the prior 77-file profile collection")\n'
         '    quota_budget = root_binding.get("quota_budget", {})\n'
-        '    if quota_budget.get("wall_ceiling_seconds") != 14400 or quota_budget.get("two_device_gpu_seconds_upper_bound") != 28800 or quota_budget.get("reserved_gpu_seconds") != 28800 or quota_budget.get("paid_spending_authorized") is not False:\n'
+        '    _require_fixed_quota_integer(quota_budget.get("wall_ceiling_seconds"), 14400, "wall ceiling")\n'
+        '    _require_fixed_quota_integer(quota_budget.get("two_device_gpu_seconds_upper_bound"), 28800, "GPU upper bound")\n'
+        '    _require_fixed_quota_integer(quota_budget.get("reserved_gpu_seconds"), 28800, "GPU reservation")\n'
+        '    if quota_budget.get("paid_spending_authorized") is not False:\n'
         '        raise PermissionError("R4 root receipt quota/budget fields differ from the sealed ceiling")\n'
         '    _require_finite_quota_headroom(quota_budget.get("campaign_headroom_gpu_seconds"), "campaign GPU headroom")\n'
         '    _require_finite_quota_headroom(quota_budget.get("provider_headroom_gpu_seconds"), "provider GPU headroom")\n'
