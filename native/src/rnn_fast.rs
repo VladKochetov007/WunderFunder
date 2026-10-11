@@ -277,6 +277,8 @@ pub struct FastRnn {
     c: Range<usize>,
     /// Nonzero input columns of the current row (half projection scratch).
     nz: Vec<u32>,
+    /// Per-member I16 input values after their column scale, reused across output tiles.
+    proj_scaled_x: Vec<f32>,
     /// Q16x activation codes, `hidden` padded to whole chunks per block: [h per layer | z]. The
     /// hidden blocks persist across steps (each is requantized right after its update).
     codes: Vec<Codes>,
@@ -1029,6 +1031,7 @@ impl FastRnn {
             a,
             c,
             nz: Vec::with_capacity(n_in),
+            proj_scaled_x: vec![0.0; n_in],
             codes,
         })
     }
@@ -1356,9 +1359,25 @@ impl FastRnn {
                 #[cfg(target_arch = "x86_64")]
                 unsafe {
                     if ZMM {
-                        crate::vnni::project_zmm(cols, scales, b, x, &mut self.nz, padded)
+                        crate::vnni::project_zmm(
+                            cols,
+                            scales,
+                            b,
+                            x,
+                            &mut self.nz,
+                            &mut self.proj_scaled_x,
+                            padded,
+                        )
                     } else {
-                        crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
+                        crate::half::project_i16_precomputed(
+                            cols,
+                            scales,
+                            b,
+                            x,
+                            &mut self.nz,
+                            &mut self.proj_scaled_x,
+                            padded,
+                        )
                     }
                 }
             } else {
@@ -1506,7 +1525,15 @@ impl FastRnn {
                     // SAFETY: as for `matvec`.
                     #[cfg(target_arch = "x86_64")]
                     unsafe {
-                        crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
+                        crate::half::project_i16_precomputed(
+                            cols,
+                            scales,
+                            b,
+                            x,
+                            &mut self.nz,
+                            &mut self.proj_scaled_x,
+                            padded,
+                        )
                     }
                 } else {
                     crate::half::project_q16_portable(cols, scales, b, x, padded);
@@ -1602,7 +1629,15 @@ impl FastRnn {
                 #[cfg(target_arch = "x86_64")]
                 unsafe {
                     if MODE == MODE_I16 {
-                        crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
+                        crate::half::project_i16_precomputed(
+                            cols,
+                            scales,
+                            b,
+                            x,
+                            &mut self.nz,
+                            &mut self.proj_scaled_x,
+                            padded,
+                        )
                     } else {
                         crate::half::project_as::<false>(cols, scales, b, x, &mut self.nz, padded)
                     }

@@ -291,6 +291,43 @@ pub unsafe fn project_as<const Q: bool>(
     nz: &mut Vec<u32>,
     out: &mut [f32],
 ) {
+    unsafe { project_as_impl::<Q>(cols, scales, b, x, nz, None, out) }
+}
+
+/// I16 column projection using caller-owned scratch for one scaled input per nonzero column.
+///
+/// The scratch buffer is sized when the member is constructed and reused on every row. The
+/// ascending nonzero-column order and per-output multiply/add order are unchanged.
+///
+/// # Safety
+/// The CPU must support AVX2, FMA and F16C (`available()`).
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx2,fma,f16c")]
+#[inline]
+pub unsafe fn project_i16_precomputed(
+    cols: &[u16],
+    scales: &[f32],
+    b: &[f32],
+    x: &[f32],
+    nz: &mut Vec<u32>,
+    scaled_x: &mut [f32],
+    out: &mut [f32],
+) {
+    unsafe { project_as_impl::<true>(cols, scales, b, x, nz, Some(scaled_x), out) }
+}
+
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx2,fma,f16c")]
+#[inline]
+unsafe fn project_as_impl<const Q: bool>(
+    cols: &[u16],
+    scales: &[f32],
+    b: &[f32],
+    x: &[f32],
+    nz: &mut Vec<u32>,
+    mut scaled_x: Option<&mut [f32]>,
+    out: &mut [f32],
+) {
     use std::arch::x86_64::*;
 
     let n_cols = x.len();
@@ -298,20 +335,33 @@ pub unsafe fn project_as<const Q: bool>(
     assert!(out.len().is_multiple_of(COL_TILE) && b.len() >= out.len());
     assert!(cols.len() >= tiles * n_cols * COL_TILE);
     assert!(!Q || scales.len() >= n_cols);
+    assert!(scaled_x.as_deref().is_none_or(|values| values.len() >= n_cols));
     nz.clear();
     nz.extend((0..n_cols as u32).filter(|&j| x[j as usize] != 0.0));
+    if let Some(values) = scaled_x.as_deref_mut() {
+        for &j in nz.iter() {
+            let j = j as usize;
+            values[j] = unsafe { *x.get_unchecked(j) * *scales.get_unchecked(j) };
+        }
+    }
+    let scaled_x = scaled_x.as_deref();
     unsafe {
         for t in 0..tiles {
             let bt = b.as_ptr().add(t * COL_TILE);
             let mut acc: [__m256; 8] = std::array::from_fn(|i| _mm256_loadu_ps(bt.add(8 * i)));
             let tile = cols.as_ptr().add(t * n_cols * COL_TILE);
             for &j in nz.iter() {
-                let mut xj = *x.get_unchecked(j as usize);
-                if Q {
-                    xj *= *scales.get_unchecked(j as usize);
-                }
+                let j = j as usize;
+                let xj = if Q {
+                    match scaled_x {
+                        Some(values) => *values.get_unchecked(j),
+                        None => *x.get_unchecked(j) * *scales.get_unchecked(j),
+                    }
+                } else {
+                    *x.get_unchecked(j)
+                };
                 let xj = _mm256_set1_ps(xj);
-                let col = tile.add(j as usize * COL_TILE);
+                let col = tile.add(j * COL_TILE);
                 for (i, a) in acc.iter_mut().enumerate() {
                     let w = widen::<Q>(col.add(8 * i));
                     *a = _mm256_add_ps(*a, _mm256_mul_ps(w, xj));
@@ -876,7 +926,13 @@ mod tests {
             for cols in [1, 15, 16, 33, 128, 211] {
                 let w: Vec<f32> = (0..rows * cols).map(|_| rnd(&mut s) * 0.7).collect();
                 let b: Vec<f32> = (0..rows).map(|_| rnd(&mut s)).collect();
-                let x: Vec<f32> = (0..cols).map(|_| rnd(&mut s)).collect();
+                let mut x: Vec<f32> = (0..cols).map(|_| rnd(&mut s)).collect();
+                if !x.is_empty() {
+                    x[0] = 0.0;
+                }
+                if x.len() > 1 {
+                    x[1] = -0.0;
+                }
                 let scales = row_scales(&w, rows, cols);
                 let mut arena = HalfArena::new();
                 let range = arena.push_panel_as(Encoding::I16, &w, &scales, rows, cols);
@@ -915,9 +971,36 @@ mod tests {
                 bp.resize(padded, 0.0);
                 let mut out = vec![0.0; padded];
                 let mut nz = Vec::new();
+                let mut cached = vec![0.0; padded];
+                let mut cached_nz = Vec::new();
+                let mut scaled_x = vec![0.0; cols];
                 unsafe {
-                    project_as::<true>(&arena.as_ref()[range], &cscale, &bp, &x, &mut nz, &mut out)
+                    project_as::<true>(
+                        &arena.as_ref()[range.clone()],
+                        &cscale,
+                        &bp,
+                        &x,
+                        &mut nz,
+                        &mut out,
+                    )
                 };
+                unsafe {
+                    project_i16_precomputed(
+                        &arena.as_ref()[range],
+                        &cscale,
+                        &bp,
+                        &x,
+                        &mut cached_nz,
+                        &mut scaled_x,
+                        &mut cached,
+                    )
+                };
+                assert_eq!(nz, cached_nz, "rows {rows} cols {cols}");
+                assert_eq!(
+                    out.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+                    cached.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+                    "cached projection rows {rows} cols {cols}"
+                );
                 for r in 0..rows {
                     let want: f64 = f64::from(b[r])
                         + (0..cols)

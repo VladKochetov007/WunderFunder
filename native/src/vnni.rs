@@ -473,6 +473,7 @@ pub unsafe fn project_zmm(
     b: &[f32],
     x: &[f32],
     nz: &mut Vec<u32>,
+    scaled_x: &mut [f32],
     out: &mut [f32],
 ) {
     use crate::half::COL_TILE;
@@ -481,15 +482,20 @@ pub unsafe fn project_zmm(
     let tiles = out.len() / COL_TILE;
     assert!(out.len().is_multiple_of(COL_TILE) && b.len() >= out.len());
     assert!(cols.len() >= tiles * n_cols * COL_TILE && scales.len() >= n_cols);
+    assert!(scaled_x.len() >= n_cols);
     nz.clear();
     nz.extend((0..n_cols as u32).filter(|&j| x[j as usize] != 0.0));
+    for &j in nz.iter() {
+        let j = j as usize;
+        scaled_x[j] = unsafe { *x.get_unchecked(j) * *scales.get_unchecked(j) };
+    }
     unsafe {
         for t in 0..tiles {
             let bt = b.as_ptr().add(t * COL_TILE);
             let mut acc: [__m512; 4] = std::array::from_fn(|i| _mm512_loadu_ps(bt.add(16 * i)));
             let tile = cols.as_ptr().add(t * n_cols * COL_TILE);
             for &j in nz.iter() {
-                let xj = _mm512_set1_ps(*x.get_unchecked(j as usize) * *scales.get_unchecked(j as usize));
+                let xj = _mm512_set1_ps(*scaled_x.get_unchecked(j as usize));
                 let col = tile.add(j as usize * COL_TILE);
                 for (i, a) in acc.iter_mut().enumerate() {
                     let v = _mm256_loadu_si256(col.add(16 * i) as *const __m256i);
@@ -560,6 +566,59 @@ mod tests {
             .into_iter()
             .filter(|i| supported(*i))
             .collect()
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[test]
+    fn zmm_i16_projection_precompute_matches_avx2_bits() {
+        if !supported(Isa::Vnni512) {
+            return;
+        }
+        let (rows, cols) = (384, 37);
+        let mut rng = Rng(41);
+        let weights: Vec<f32> = (0..rows * cols).map(|_| rng.next() * 0.7).collect();
+        let scales = crate::half::column_scales(&weights, rows, cols);
+        let mut arena = crate::half::HalfArena::new();
+        let range = arena.push_columns_as(
+            crate::half::Encoding::I16,
+            &weights,
+            &scales,
+            rows,
+            cols,
+        );
+        let x: Vec<f32> = (0..cols)
+            .map(|j| if j % 5 == 0 { 0.0 } else { rng.next() })
+            .collect();
+        let bias: Vec<f32> = (0..rows).map(|_| rng.next()).collect();
+        let mut avx2 = vec![0.0; rows];
+        let mut zmm = vec![0.0; rows];
+        let mut avx2_nz = Vec::new();
+        let mut zmm_nz = Vec::new();
+        let mut scaled_x = vec![0.0; cols];
+        unsafe {
+            crate::half::project_as::<true>(
+                &arena.as_ref()[range.clone()],
+                &scales,
+                &bias,
+                &x,
+                &mut avx2_nz,
+                &mut avx2,
+            );
+            project_zmm(
+                &arena.as_ref()[range],
+                &scales,
+                &bias,
+                &x,
+                &mut zmm_nz,
+                &mut scaled_x,
+                &mut zmm,
+            );
+        }
+        assert_eq!(avx2_nz, zmm_nz);
+        assert_eq!(
+            avx2.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+            zmm.iter().map(|v| v.to_bits()).collect::<Vec<_>>()
+        );
     }
 
     #[test]
