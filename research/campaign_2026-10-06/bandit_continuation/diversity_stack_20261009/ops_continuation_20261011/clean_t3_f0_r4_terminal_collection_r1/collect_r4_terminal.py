@@ -162,6 +162,34 @@ def validate_frozen_r4_bindings() -> dict[str, Any]:
     }
 
 
+def require_exact_inventory_names(
+    expected_names: list[str], inventory_files: list[dict[str, Any]]
+) -> list[str]:
+    """Reject any fresh provider filename set differing from the pinned preinventory."""
+    if (
+        not isinstance(expected_names, list)
+        or any(not isinstance(name, str) or not name for name in expected_names)
+        or len(set(expected_names)) != len(expected_names)
+        or not isinstance(inventory_files, list)
+    ):
+        raise ValueError("inventory filename lists are malformed or duplicated")
+    observed_names = []
+    for row in inventory_files:
+        if not isinstance(row, dict) or not isinstance(row.get("name"), str):
+            raise ValueError("provider inventory contains an invalid filename descriptor")
+        observed_names.append(row["name"])
+    if len(set(observed_names)) != len(observed_names):
+        raise ValueError("provider inventory contains duplicate filenames")
+    if set(observed_names) != set(expected_names):
+        missing = sorted(set(expected_names) - set(observed_names))
+        added = sorted(set(observed_names) - set(expected_names))
+        raise ValueError(
+            f"fresh provider filename set differs from pinned preinventory; missing={len(missing)} "
+            f"added={len(added)}"
+        )
+    return sorted(observed_names)
+
+
 def validate_download_admission(
     admission_path: Path,
     status_path: Path,
@@ -208,6 +236,12 @@ def validate_download_admission(
         or inventory_receipt.get("endpoint_inventory", {}).get("complete") is not True
     ):
         raise ValueError("the exact read-only ERROR inventory receipt is not complete")
+    expected_names = inventory_receipt.get("output_names")
+    endpoint_names = require_exact_inventory_names(
+        expected_names, inventory_receipt["endpoint_inventory"].get("files", [])
+    )
+    if len(expected_names) != 108 or expected_names != endpoint_names:
+        raise ValueError("pinned read-only inventory has inconsistent names or count")
     snapshot, status_row = parse_status_snapshot(status_path, "2026-10-11T21:30:16.866625+00:00")
     del snapshot
     if status_row.get("status") != "KernelWorkerStatus.ERROR":
@@ -215,6 +249,7 @@ def validate_download_admission(
     return {
         "admission_sha256": R4_DOWNLOAD_ADMISSION_SHA256,
         "inventory_receipt_sha256": R4_READONLY_INVENTORY_SHA256,
+        "expected_output_names": sorted(expected_names),
         "provider_status": status_row.get("status"),
         "download_budget_bytes": MAX_DOWNLOAD_BYTES,
         "inner_runtime_seconds": MAX_DOWNLOAD_SECONDS,
@@ -908,6 +943,12 @@ def run_collection(
         deadline=time.monotonic() + MAX_INVENTORY_SECONDS,
     )
     adapter.write_immutable_json(collection_dir / "PROVIDER_INVENTORY_R1.json", inventory)
+    if not inventory.get("complete"):
+        raise RuntimeError("fresh terminal inventory is incomplete; no download started")
+    try:
+        require_exact_inventory_names(admission["expected_output_names"], inventory.get("files"))
+    except ValueError as error:
+        raise RuntimeError(f"{error}; no download started") from error
     if not inventory.get("complete") or adapter.inventory_log_collisions(inventory):
         raise RuntimeError("fresh session-output inventory is incomplete or collides with CLI log")
     target = {
