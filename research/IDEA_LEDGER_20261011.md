@@ -119,3 +119,18 @@ F3/e4 .70657 vs e3 .70865 (same seed3/505 exposed groups) adds a second non-F1 f
 ## Controller status 2026-10-11T18:47:40.435166+00:00 — prepaid capacity ended, crossfold delivery continues
 
 Vast credit0/exited/intended stopped verified18:41:59; selected CP/state rescue complete, full2736 collection unverified and metadata reconciliation owned. Local H392 exactF0parent same invocation active ep0b640/746; export admitted/root-owned. Kaggle H390 cleanF0 profile RUNNING/phaseunknown; terminal collection owned, distinct teacher-only R2 preparation active, no fullfit admission. No new score/public forecast. REV-13 count/causal qualifications recorded in current-state; retain whole clean pipeline/fixed blend priority, H393/H394 parallel pending.
+
+2026-10-11T18:57:30.335443+00:00: Paid inventory coverage reconciled, fullgatefalse;23 conditionalre-exportpairs/5 LSA pairswithoutlocatedCP. LocalH392 firstepoch1379.9s/ep1b260 supportsconditionalparentETA~23:00Kyiv, noZIPETA. CollectorR1gatebugs caughtbeforerelease; R2actor+independentcriticowncorrection, teacherpacketbuilderseparateworktree. No newscore/armclosure.
+
+## 2026-10-11T19:41:18.284975+00:00 — package now; output diversity analysis; corrected Kaggle diagnostic live
+
+The latest user asks for submissions now, full-data finals, output EDA and Q4/Q8 comparison. ADR0032 supersedes only ADR0031's waiting requirement. Root selects a small endpoint set; separate Luna/max packaging, grading and independent review roles remain active. Three Q8 candidates are sealed in an isolated worktree but callback/precision quality and final review are pending. H390 s3/s4 are fixed CP5 all-data students (12479 groups); their own valid exports are in-sample, and their Muon-all/prop0 parents differ from the strong held-out reference. No cross-validation score or public forecast is assigned to those finals.
+
+Exposed F1 output analysis gives H384 three-seed singles mean .67068046, equal trio .67254162 (+.00186116 vs mean, +.00104466 vs best); adding H256 at half family weight gives .67264009, only +.00009847 vs the trio. Raw residual correlations partly reflect output-scale differences. Calibration-only normalization and shrunk covariance weights show no material advantage over equal averaging on separate complete components. These are fixed-prediction discovery results, not fresh-fold or training-seed confirmation; independent selector review is still pending.
+
+Kaggle R1 profile ERROR is now strictly collected: 83 provider payload names, response-log closure, 90 locally hash-bound receipt files. No observed GPU computation and no scientific negative. R3 private v1 payload was read back by SHA and independently reviewed; one T4 diagnostic profile pushed19:34:42UTC and provider RUNNING19:35:29. Actual phase is not yet exposed. Full teacher fits remain unadmitted. Logical hold12000GPU-s; fresh provider unreserved headroom45772.445s, separate campaign headroom31600.282s. Corrected durable target paths are resolved and R1 terminal evidence verified.
+
+Local same invocation is healthy, epoch3 batch100/746 at19:38:14UTC; aggregate14.071GB, 18/20GB and five-core limits unchanged. Parent fitting remains conditionally due around23:00Kyiv, then admitted export. Vast B is stopped with zero credit; no new paid action. Selected rescue and coverage mapping are preserved, full collection remains false. Last elapsed cost estimate before stop is historical, not a final invoice. HPO/gradebank/bulk pull stay disabled; existing durable timers remain active.
+
+Receipt: `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261011_1837_r1/ROOT_CONTROLLER_DELIVERY_UPDATE_R4.json`.
+
