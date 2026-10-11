@@ -1,0 +1,31 @@
+{
+  "changes": [
+    "Release paths, filenames, attempt IDs, run IDs, output paths and sequence receipt paths use R3 to prevent collisions.",
+    "Corrected INPUT_BINDINGS teacher ancestry wording; cache payloads and teacher metadata were not altered.",
+    "Updated zero-loader receipt path/hash for the byte-identical copied source snapshots.",
+    "Corrected nested and outer source-snapshot binding digests and resealed input/profile dependent hashes.",
+    "No scientific recipe, argv, checkpoint ancestry, split, cache payload, or optimizer setting changed."
+  ],
+  "consumer_semantics": "Read-only audit: scripts/bandit_resources.py source_manifest hashes the entire contract and its source/command files; scripts/bandit_sequence.py verifies the frozen command in the attempt record. Search of bandit_resources.py, bandit_sequence.py, queue_local_experiment.py, the recipe validator, campaign.py and src/wnn found no parser/consumer for the nested source_bindings object. The stale nested SHA was a documentary cross-binding inconsistency, not demonstrated runtime launch failure.",
+  "old_nested_binding_sha256": "93a075e374824ec3ec7c57d0f4fa5e9d8b0b6a87366c53382dddc832c37b1abb",
+  "r2_binding_sha256": "1bdb3a4fceaff44adb4ba6024c236063747af2e3ff3b2440f8269af7b11268a4",
+  "r2_input_bindings_sha256": "cdfde966d257f5f7dbcbaed7d3885eae849d760604a8ae4545bb92ea0782768e",
+  "r2_preserved": true,
+  "r2_profile_contract_sha256": "774a2bf3d3b953ee0c33431ce916d02c16d93befadead214c0c7c543b3da701f",
+  "r3_binding_sha256": "f0181c3715812eef2582ed1d62879089e35db9c403605a157c1466c9d7beabbf",
+  "r3_input_bindings_sha256": "e34460b7808c83dd18ba243de73184ca644c35ba6bed3c9efef8396b2ab8a440",
+  "r3_profile_contract_sha256": "dd1c1197090e359a16fb2c6d71f8548202c893c65aa11d150fbe2837d3c94ae2",
+  "r3_zero_loader_receipt_sha256": "3df9a8c6c4b8c3d72cf8a38defbf8b741d61c0a8c78002496e91704fa605fcd6",
+  "schema": "wnn-old-z4-r3-reseal/v1",
+  "source_packet": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_cleanfold_successor_20261011_r2",
+  "successor_packet": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_cleanfold_successor_20261011_r3",
+  "validation": {
+    "all_r3_json_files_parse": 28,
+    "contract_source_snapshot_binding_fields_checked": 14,
+    "expected_command_arrays_equal_after_release_id_normalization": 14,
+    "input_manifest_and_profile_dependents_match_raw_file_sha256": true,
+    "nested_source_bindings_paths_and_digests_checked": 12,
+    "r3_source_snapshots_byte_identical_to_r2": true,
+    "result": "PASS"
+  }
+}
