@@ -1,0 +1,92 @@
+{
+  "schema": "wnn.independent_startup_profile_review.r1",
+  "review_status": "PASS",
+  "scope": "Static package, producer/consumer, exact-archive, profile-command and input-mount review only. No GPU execution, fit, provider call, queue action or admission change was performed.",
+  "reviewed_packet": {
+    "worktree": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_teacher_r2_20261011",
+    "commit": "4b4ab9823eb5db5482556704c2376c0e1db09524",
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_startup_profile_r3",
+    "archive_sha256": "986304b0278ea2ea3c5b903984edd5b58fda6e04e497a6bd10f06a58a635e9e1",
+    "bundle_manifest_sha256": "3fac2f74172125cb4b265e0d50e10ab38ceed2bb7da0e5ef4f968d201dcee878",
+    "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "profile_contract_sha256": "0296944cff4cf2a411b90a386ee08edcf19e22d181845da7295f23acb8c5f4f5",
+    "kernel_source_sha256": "56cba29a51cb25707cfbcc134b875a1d5b8245a61f96944ba58481bb56ff96d0",
+    "kernel_metadata_sha256": "60c8e56c73f61c3a41115e9bf1e8087f8725c6d70b123da2e281b112f777e65c",
+    "static_validation_sha256": "bf6f096f8815af974f494e1e9a8eefebdb3be9ebb4602a9ebd3e2f3ee8e74be5"
+  },
+  "checks": {
+    "static_validator": {
+      "status": "PASS",
+      "command": "python validate_profile_r3.py under scripts/limited (25% CPU, 700000000-byte memory cap, 120-second command cap)",
+      "exit_code": 0,
+      "validated_archive_sha256": "986304b0278ea2ea3c5b903984edd5b58fda6e04e497a6bd10f06a58a635e9e1",
+      "fit_admission": false,
+      "provider_actions": 0
+    },
+    "archive_members": {
+      "status": "PASS",
+      "method": "Independently opened final bundle.wnn as gzip tar and streamed each member SHA-256 and byte count.",
+      "archive_members": 68,
+      "declared_code_members_excluding_external_mounts": 67,
+      "declared_profile_specs": 1,
+      "external_mounts": 13,
+      "all_and_only_declared_code_and_spec_members": true,
+      "all_declared_member_sizes_and_hashes_match": true
+    },
+    "profile_command": {
+      "status": "PASS",
+      "comparison": "R3 argv equals frozen R1 argv after only the source-entrypoint path and run name are updated and --grad-stats is added.",
+      "one_profile_spec": true,
+      "inputs_identical_to_r1": true,
+      "profile_warmup_batches": 5,
+      "profile_measured_batches": 25,
+      "worker_timeout_seconds": 1800,
+      "kernel_process_timeout_seconds": 6000,
+      "artifacts_declared": 0,
+      "fit_admission": false
+    },
+    "resource_and_diagnostic_delta": {
+      "status": "PASS",
+      "limits_changed_from_r1": {
+        "timeout_seconds": [240, 1800]
+      },
+      "unchanged_worker_limits": {
+        "cpus": 2,
+        "ram_bytes": 8000000000,
+        "gpu_memory_bytes": 10000000000,
+        "gpu_stop_bytes": 12000000000
+      },
+      "new_environment_diagnostics": [
+        "PYTHONUNBUFFERED=1",
+        "WNN_STARTUP_DIAGNOSTICS=1",
+        "WNN_STARTUP_STACK_DUMP_SECONDS=60"
+      ],
+      "source_delta": [
+        "opt-in progress/time events around the unchanged full-content SHA-256 path",
+        "opt-in split-load begin/source-count/end events; membership checks retained",
+        "profile-only actual optimizer/update counters before the existing early return",
+        "profile-only repeating faulthandler stack dump"
+      ],
+      "gradient_diagnostics": "GradStats observes existing unscaled gradients before clipping and does not modify them; its compute/synchronization overhead is disclosed and makes timing nonrepresentative of a full fit."
+    },
+    "payload_entrypoint_and_mounts": {
+      "status": "PASS",
+      "kernel_id": "vladkochetov07/wnn-clean-t3-f0-startup-profile-20261011-r3-runner",
+      "private_gpu_t4_internet_disabled_tpu_disabled": true,
+      "entrypoint_chain": "kernel.py verifies the fixed archive hash, extracts declared files, invokes the archived kaggle_gpu_runner.py with exactly one spec; runner sets PYTHONPATH to experiment/src; cleanfold_exec.py confines the child script to the frozen source snapshot and launches scripts/train_rnn.py.",
+      "external_mounts_match_r1": true,
+      "full_identity_and_split_checks_retained": true,
+      "startup_progress_and_stack_diagnostics_reach_worker": true
+    }
+  },
+  "non_blocking_documentation_qualification": {
+    "finding": "README_R3 describes 5 warmup and 25 measured 'updates', but train_rnn.py sets max_batches = profile_warmup + profile_steps and StageTimer closes once per complete batch; optimizer attempts occur inside the per-batch chunk loop.",
+    "recommendation": "Describe these as 5 warmup batches plus 25 measured batches. Use PROFILE_UPDATE_COUNTS for actual optimizer attempts, AMP skips and completed updates. Keep the warning that --grad-stats adds diagnostic overhead.",
+    "release_impact": "The runnable profile remains valid; do not report 25 as the optimizer-update count or interpret its diagnostic timing as full-fit throughput."
+  },
+  "limitations": [
+    "No profile was run by this reviewer, and no full fit is authorized by this receipt.",
+    "The packet does not establish checkpoint save/reload correctness, export time, two-device concurrency, cohort memory, or full-fit ETA.",
+    "The observed startup-hash diagnosis remains a plausible explanation, not a proven historical stalled frame."
+  ]
+}
