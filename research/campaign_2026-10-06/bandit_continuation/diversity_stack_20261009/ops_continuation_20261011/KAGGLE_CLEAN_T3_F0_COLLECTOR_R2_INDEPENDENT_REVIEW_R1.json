@@ -1,0 +1,58 @@
+{
+  "schema": "wnn.independent_terminal_collector_review.r1",
+  "review_status": "PASS",
+  "scope": "Read-only review of the sealed Kaggle profile terminal collector. No provider/API call, download, GPU work, fit, queue action, or admission change was performed.",
+  "reviewed_packet": {
+    "worktree": "/home/vlad/development/wunder/wnn_kaggle_t3_f0_packet_builder_20261011_r1",
+    "commit": "c14ccf51461138bcb99a92f5a7455146697b3deb",
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_profile_collection_r2",
+    "collector_sha256": "15b56f98d0b8ca336ea794142764a3d5a220ef75589e931c06b9dc87184e1da1",
+    "readme_sha256": "d1ae1905e3f76844397ae08fb09b4d1e5445a177ed6cfd28e08ea29f53b91900",
+    "kaggle_cli_interface_sha256": "c389206f3cb51d8ca242678e1cf97abb3c9aa0b70f1884474dc7a290c1c2229c",
+    "session_output_interface_sha256": "6bc5f2b820abf8aa2638be43afbeadb41f28505264adaeae7354bbdbb2f3133d",
+    "raw_session_output_inventory_sha256": "3ff70884e9fecc01b3d4389b28448856f7f691826a153e45a72097af8ed33f84",
+    "raw_terminal_outcome": "ERROR; the receipt describes collection evidence, not a successful profile or scientific result."
+  },
+  "checks": {
+    "focused_tests": {
+      "status": "PASS",
+      "command": "python -m unittest test_collect_profile_r2.py under scripts/limited (25% CPU, 500000000-byte memory cap, 120-second command cap)",
+      "exit_code": 0,
+      "tests_passed": 16,
+      "provider_actions": 0
+    },
+    "actual_producer_interface": {
+      "status": "PASS",
+      "installed_cli": "Kaggle CLI 2.2.4",
+      "endpoint": "list_kernel_session_output, the endpoint consumed by kernels output; kernels files uses a different endpoint and its empty response is retained as a diagnostic only.",
+      "captured_actual_descriptors": 83,
+      "unique_safe_relative_file_names": 83,
+      "urls_persisted": false,
+      "version_pinned_by_api": false,
+      "qualification": "The unique slug is bound to the root push version 1 and returned source/spec digests. The installed output endpoint request is current-slug scoped and does not send version_label."
+    },
+    "inventory_and_download_comparison": {
+      "status": "PASS",
+      "pagination": "Page count, token-cycle, deadline, maximum-page, schema, duplicate-name, and safe-relative-path checks fail closed. Receipts persist page and next-token hashes, not paging tokens or URLs.",
+      "response_log": "Hashes and byte length from the first session-output response are compared with the CLI-generated <kernel-slug>.log sidecar; a same-name provider artifact is rejected before kernels output can overwrite it.",
+      "provider_file_identity": "All local output names and byte sizes must exactly match the fresh endpoint inventory; local SHA-256 values are recorded. The endpoint provides no remote sizes or content hashes, so the packet explicitly makes no remote-byte identity claim.",
+      "empty_inventory": "Focused tests verify that a valid zero-file inventory can match when the response.log sidecar matches; this is collection completeness only, not profile success."
+    },
+    "failure_and_retry_semantics": {
+      "status": "PASS",
+      "status_unavailable": "Returns nonzero and records an unavailable-status outcome.",
+      "retry_history": "Focused tests verify prior partial low-level receipt bytes are copied exactly to immutable history before a replacement attempt; per-invocation inventory and handoff paths are unique and write-once.",
+      "completion_gate": "collection_complete requires the low-level receipt/files to remain complete, a fresh complete session-output inventory, and an exact local inventory/log comparison. ERROR terminal status is separately preserved and profile_success remains false."
+    }
+  },
+  "non_blocking_limitation": {
+    "finding": "Kaggle client construction/authentication occurs before the per-page try/finally. If local authentication setup itself raises, the process fails closed but may exit without an immutable wrapper handoff receipt.",
+    "impact": "This cannot produce a false collection-complete result; the reviewed captured profile had an available terminal status and the sealed collector's normal API/error paths are receipt-bound.",
+    "recommendation": "If this collector is reused after local credentials/configuration change, wrap client setup in the same bounded failure-receipt path before dispatch."
+  },
+  "limitations": [
+    "This review did not call the provider or execute the collector. The captured 83-file fixture validates actual endpoint descriptor shape and safe names; response.log comparison and zero-file behavior were checked in focused tests.",
+    "The API does not pin output listing to a kernel version; the packet binds the one authorized v1 push and exact source/spec receipts and must not be reused if a later push changes the slug's current output.",
+    "No scientific/profile success, gradient counter, checkpoint-reload evidence, or feasibility conclusion follows from collection completeness."
+  ]
+}
