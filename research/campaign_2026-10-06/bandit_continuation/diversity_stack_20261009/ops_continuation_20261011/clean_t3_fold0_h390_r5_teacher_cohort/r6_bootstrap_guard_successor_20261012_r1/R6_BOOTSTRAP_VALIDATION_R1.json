@@ -1,0 +1,48 @@
+{
+  "archive": {
+    "bytes": 246396,
+    "identical_to_r9": true,
+    "sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549"
+  },
+  "bindings_sha256": "bbdff494fb8919e55e879748749c2b0eebdafef7ae8a3f691ce6b29bc0804d0f",
+  "bootstrap_delta": {
+    "archive_member_allowlist": "unchanged from R9; test demonstrates a real archive member is refused when absent from the fixture manifest allowlist",
+    "external_input_allowlist": "separate set derived from EXPECTED_EXTERNAL_MOUNTS after exact manifest equality check",
+    "trainer_driver_source_and_arguments_changed": false,
+    "unsafe_logical_path_rejections": [
+      "absolute",
+      "parent component",
+      "backslash"
+    ]
+  },
+  "bootstrap_sha256": "37f13b3e77808cf5fdd5ebd6cd9f2713228c7fd53ba463e4792ad9180b9b80fb",
+  "collection_budget_sha256": "6e0c764113aa60fa1964703d97bd219d3d9a95d368a1cfed2280e10dc7c6238f",
+  "coverage_gap_diagnosis": "Earlier archive and authority review did not execute the external-mount loop. R5 then failed there because external logical keys were checked against archive member names rather than EXPECTED_EXTERNAL_MOUNTS.",
+  "dataset_and_kernel_metadata_identical_to_r9": true,
+  "fit_or_profile_started": false,
+  "manifest": {
+    "identical_to_r9": true,
+    "sha256": "5fc7423ebb8f8ef3c5c5bb0ec8be35352f3470dd75d99d47cad4180ac663c689"
+  },
+  "package_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1",
+  "provider_action": "none; version 2 still requires new root release",
+  "resource_envelope": {
+    "cpu_quota": "50%",
+    "memory_max_bytes": 700000000,
+    "runtime_max_seconds": 120,
+    "threads": 1
+  },
+  "root_release_or_admission_created_by_packet_author": false,
+  "schema": "wnn.kaggle.r6.bootstrap-consumer-validation.r1",
+  "status": "prepared_pending_independent_review_and_root_release",
+  "test_file_sha256": "e7336fa7aae45881820963f83236137d5b47a7f778698de2efd5c70076702ad7",
+  "test_result": {
+    "actual_bootstrap_main_invoked": true,
+    "driver_launch_intercepted": true,
+    "elapsed_seconds": 0.214,
+    "failed": 0,
+    "fixture_uses_placeholder_mount_files": true,
+    "passed": 8,
+    "real_kaggle_mounts_or_gpu_used": false
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "bounded_validation": {
+    "cpu_quota": "50%",
+    "finite_scan_chunk_payload_bytes": 1280000,
+    "finite_scan_rows_per_chunk": 8,
+    "max_support_memory_bytes": 700000000,
+    "npy_access": "read-only mmap; inspect one declared output at a time",
+    "npy_finite_scan_rows_per_chunk": 8,
+    "runtime_seconds": 600,
+    "sha256_read_chunk_bytes": 1048576,
+    "threads": 1,
+    "validation": "reuse reviewed collector/source-qualified validator; verify all 9 NPY headers, finite values, row-group order, sidecars, exact run/checkpoint/epoch/source identity and all 15 fit outputs/logs before marking complete"
+  },
+  "bundle_manifest_sha256": "5fc7423ebb8f8ef3c5c5bb0ec8be35352f3470dd75d99d47cad4180ac663c689",
+  "declared_job_artifact_file_count": 33,
+  "exact_worker_stage_counts": {
+    "exports": 9,
+    "fits": 3,
+    "paired_profiles": 2
+  },
+  "fit_outputs": [
+    {
+      "artifact_sizes": "runtime-generated; use terminal inventory",
+      "artifacts": [
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model.pt",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/history.json",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/training_state.pt"
+      ],
+      "job": "fit_clean_t3_f0_muonall_h384_e3_s3_r5"
+    },
+    {
+      "artifact_sizes": "runtime-generated; use terminal inventory",
+      "artifacts": [
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/model_ep2.pt",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/model.pt",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/history.json",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/training_state.pt"
+      ],
+      "job": "fit_clean_t3_f0_muonall_h384_e3_s4_r5"
+    },
+    {
+      "artifact_sizes": "runtime-generated; use terminal inventory",
+      "artifacts": [
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/model_ep2.pt",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/model.pt",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/history.json",
+        "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/training_state.pt"
+      ],
+      "job": "fit_clean_t3_f0_muonall_h384_e3_s5_r5"
+    }
+  ],
+  "package_archive_sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549",
+  "prediction_exports": [
+    {
+      "dtype": "float32",
+      "job": "export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_train",
+      "kind": "fit_train",
+      "npy_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_fit_train_train.npy",
+      "npy_header_bytes": "implementation-generated; verify downloaded file size/header",
+      "npy_payload_bytes": 1685600000,
+      "shape": [
+        10535,
+        20000,
+        2
+      ],
+      "sidecar_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_fit_train_train.json",
+      "sidecar_bytes": "runtime-generated; verify provider inventory before download"
+    },
+    {
+      "dtype": "float32",
+      "job": "export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_valid",
+      "kind": "fit_valid",
+      "npy_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_fit_valid_valid.npy",
+      "npy_header_bytes": "implementation-generated; verify downloaded file size/header",
+      "npy_payload_bytes": 224800000,
+      "shape": [
+        1405,
+        20000,
+        2
+      ],
+      "sidecar_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_fit_valid_valid.json",
+      "sidecar_bytes": "runtime-generated; verify provider inventory before download"
+    },
+    {
+      "dtype": "float32",
+      "job": "export_clean_t3_f0_muonall_h384_e3_s3_r5_full_valid",
+      "kind": "full_valid",
+      "npy_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_full_valid_valid.npy",
+      "npy_header_bytes": "implementation-generated; verify downloaded file size/header",
+      "npy_payload_bytes": 299680000,
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "sidecar_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_full_valid_valid.json",
+      "sidecar_bytes": "runtime-generated; verify provider inventory before download"
+    },
+    {
+      "dtype": "float32",
+      "job": "export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_train",
+      "kind": "fit_train",
+      "npy_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_fit_train_train.npy",
+      "npy_header_bytes": "implementation-generated; verify downloaded file size/header",
+      "npy_payload_bytes": 1685600000,
+      "shape": [
+        10535,
+        20000,
+        2
+      ],
+      "sidecar_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_fit_train_train.json",
+      "sidecar_bytes": "runtime-generated; verify provider inventory before download"
+    },
+    {
+      "dtype": "float32",
+      "job": "export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_valid",
+      "kind": "fit_valid",
+      "npy_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_fit_valid_valid.npy",
+      "npy_header_bytes": "implementation-generated; verify downloaded file size/header",
+      "npy_payload_bytes": 224800000,
+      "shape": [
+        1405,
+        20000,
+        2
+      ],
+      "sidecar_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_fit_valid_valid.json",
+      "sidecar_bytes": "runtime-generated; verify provider inventory before download"
+    },
+    {
+      "dtype": "float32",
+      "job": "export_clean_t3_f0_muonall_h384_e3_s4_r5_full_valid",
+      "kind": "full_valid",
+      "npy_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_full_valid_valid.npy",
+      "npy_header_bytes": "implementation-generated; verify downloaded file size/header",
+      "npy_payload_bytes": 299680000,
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "sidecar_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_full_valid_valid.json",
+      "sidecar_bytes": "runtime-generated; verify provider inventory before download"
+    },
+    {
+      "dtype": "float32",
+      "job": "export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_train",
+      "kind": "fit_train",
+      "npy_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_fit_train_train.npy",
+      "npy_header_bytes": "implementation-generated; verify downloaded file size/header",
+      "npy_payload_bytes": 1685600000,
+      "shape": [
+        10535,
+        20000,
+        2
+      ],
+      "sidecar_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_fit_train_train.json",
+      "sidecar_bytes": "runtime-generated; verify provider inventory before download"
+    },
+    {
+      "dtype": "float32",
+      "job": "export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_valid",
+      "kind": "fit_valid",
+      "npy_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_fit_valid_valid.npy",
+      "npy_header_bytes": "implementation-generated; verify downloaded file size/header",
+      "npy_payload_bytes": 224800000,
+      "shape": [
+        1405,
+        20000,
+        2
+      ],
+      "sidecar_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_fit_valid_valid.json",
+      "sidecar_bytes": "runtime-generated; verify provider inventory before download"
+    },
+    {
+      "dtype": "float32",
+      "job": "export_clean_t3_f0_muonall_h384_e3_s5_r5_full_valid",
+      "kind": "full_valid",
+      "npy_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_full_valid_valid.npy",
+      "npy_header_bytes": "implementation-generated; verify downloaded file size/header",
+      "npy_payload_bytes": 299680000,
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "sidecar_artifact": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_full_valid_valid.json",
+      "sidecar_bytes": "runtime-generated; verify provider inventory before download"
+    }
+  ],
+  "prediction_payload_accounting": {
+    "bytes_per_row": 160000,
+    "elements_per_row": 40000,
+    "note": "Nine NPY payloads only; NPY headers, nine JSON sidecars, fifteen fit artifacts, stage receipts, and worker logs are additional and must be checked against the fresh provider inventory.",
+    "rows": {
+      "fit_train": 10535,
+      "fit_valid": 1405,
+      "full_valid": 1873
+    },
+    "total_exact_raw_float32_payload_bytes": 6630240000
+  },
+  "profile_or_fit_started": false,
+  "profile_specs": [
+    {
+      "declared_artifacts": [],
+      "job": "profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r5"
+    },
+    {
+      "declared_artifacts": [],
+      "job": "profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r5"
+    }
+  ],
+  "proposed_collection_bounds_not_authority": {
+    "abort_if_remote_inventory_total_exceeds_cap": true,
+    "bytes_remaining_after_exact_prediction_payload": 1959694592,
+    "download_timeout_is_a_hard_ceiling_not_a_throughput_estimate": true,
+    "download_timeout_seconds": 1800,
+    "initial_diagnostic_1_gib_cap_reused": false,
+    "maximum_total_download_bytes": 8589934592,
+    "minimum_free_disk_reserve_bytes": 4294967296,
+    "pre_download_free_disk_required_bytes": 12884901888,
+    "preflight_requires_fresh_exact_remote_filename_inventory": true,
+    "single_attempt_no_overwrite": true
+  },
+  "provider_action_performed": false,
+  "schema": "wnn.kaggle.r6.teacher-terminal-collection-budget.r1",
+  "status": "prepared_pending_root_release_and_terminal_collection"
+}
