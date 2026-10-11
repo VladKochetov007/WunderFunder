@@ -1,0 +1,52 @@
+{
+  "campaign_session_status_inventory": {
+    "nonterminal_target_count": 0,
+    "nonterminal_targets": [],
+    "observed_at_utc": "2026-10-11T12:31:59+00:00",
+    "session_id": "Not returned by current Kaggle status/quota API; poller explicitly records that session id must not be inferred from kernel version. No monitored campaign target reported QUEUED or RUNNING.",
+    "source": "research/campaign_2026-10-06/cloud_preflight/poll_provider.py on full current provider_targets.json; read-only SDK status for targets without terminal evidence and receipt validation for the rest",
+    "status_counts": {
+      "KernelWorkerStatus.CANCEL_ACKNOWLEDGED": 1,
+      "KernelWorkerStatus.COMPLETE": 8,
+      "KernelWorkerStatus.ERROR": 42
+    },
+    "target_count": 51,
+    "targeted_inventory_log": "R2_ACCOUNT_SESSION_INVENTORY_R1.jsonl",
+    "targeted_inventory_log_sha256": "5f0d3cdcfc13530cabd3d7db60e94fbc0dc7aea1f6fbb8bbfae3b13e6ab903d4"
+  },
+  "disposition": "Quota and campaign-session checks pass for one R3 attempt under the unchanged cap, subject to root/controller final admission and exact one-push owner inventory. No fit was started by R2.",
+  "owner": "H382 operator; read-only inventory after R2 terminal; no push/cancel during inventory",
+  "quota_snapshot": {
+    "campaign_cap_seconds": 56780.516,
+    "campaign_headroom_seconds": 39527.70900000001,
+    "campaign_used_seconds": 17252.806999999993,
+    "observed_at_utc": "2026-10-11T12:31:59+00:00",
+    "provider_gpu_reserved_seconds": 0.0,
+    "provider_gpu_total_seconds": 108000.0,
+    "provider_gpu_used_seconds": 54300.128,
+    "quota_refresh_utc": "2026-10-17T00:00:00"
+  },
+  "r2_terminal_receipt": "R2_TERMINAL_OPERATOR_RECEIPT.json",
+  "r3_admission_arithmetic": {
+    "authorized_worker_wall_seconds": 14400,
+    "campaign_headroom_after_full_reserve_seconds": 9727.70900000001,
+    "full_reserve_seconds": 29800,
+    "max_gpu_seconds": 28800,
+    "max_t4_devices": 2,
+    "provider_quota_after_full_reserve_seconds": 23899.872000000003,
+    "startup_reserve_seconds": 1000
+  },
+  "recent_owner_kernels": {
+    "interpretation": "Recent owner kernel listing contains R2 and R1 as latest two submissions; direct status checks returned R2 ERROR (separately captured), R1 ERROR, and prior long A COMPLETE. Listing itself reports lastRunTime, not session state.",
+    "latest_relevant_status_checks": [
+      "vladkochetov07/wnn-kaggle-crossfold-h382-20261011-r1 has status \"KernelWorkerStatus.ERROR\"",
+      "vladkochetov07/wnn-kaggle-long-20261010-a has status \"KernelWorkerStatus.COMPLETE\""
+    ],
+    "preserved_json": "R2_KAGGLE_OWNER_KERNEL_LIST_R1.json",
+    "preserved_sha256": "26c56a6d392348652e6e7e103533ea1cac9819d76c3f55f1192dbae3d1075733",
+    "rows_returned": 100,
+    "source": "kaggle kernels list -m --page-size 200 --sort-by dateRun --format json"
+  },
+  "recorded_at_utc": "2026-10-11T12:32:44+00:00",
+  "schema": "wnn.kaggle-h382-post-terminal-admission-snapshot.v1"
+}
