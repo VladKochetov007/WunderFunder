@@ -1,0 +1,17 @@
+{
+  "recorded_utc": "2026-10-11T16:21:38.525117+00:00",
+  "instance_id": 55080658,
+  "rc": 1,
+  "stdout": "{\"run\": \"vt_f1_ood_swn_r2_homshare_r2\", \"prediction_sha256\": \"f15b39d5b8c754071691ac94f71bb36545c75dbdd5e85df84aa59be36e50adb7\", \"sidecar_sha256\": \"8930350140404155a6ac156acf2bf9c28346d8dfbcb3dc9cbeed67bc64dc9a51\", \"checkpoint_ep1_sha256\": \"0039a1a6624de4000dc596bf8ca8385760e68bdd47b95f07fc0de43d37da64e9\", \"shape\": [1873, 20000, 2], \"finite\": true, \"sidecar_keys\": [\"run\", \"split\", \"epoch\", \"checkpoint_sha256\", \"prediction_sha256\", \"split_manifest_sha256\", \"quote_cache\", \"gate_mode\", \"inference_precision\", \"quantization_preset\", \"recurrent_rank\", \"sentinel_preprocessing\", \"numeric_preprocessing\", \"row_groups\", \"evaluation_membership_sha256\", \"fit_subset_manifest_sha256\"]}\n{\"run\": \"vt_f1_ood_swn25_r2_homshare_r2\", \"prediction_sha256\": \"2ea6a0deccba047bd7b7bc6ac40afa7de63e5b9fda94659aa30a8a1bd77bbf04\", \"sidecar_sha256\": \"9d8117197f1b1557ff5501a3ff20ee82ece9c3c28f78647d04bd2a75e2cdbbf6\", \"checkpoint_ep1_sha256\": \"69266fd3b448cc38d2bc7f6e9731f785683fe324b449c04dfdecad4faba2ffae\", \"shape\": [1873, 20000, 2], \"finite\": true, \"sidecar_keys\": [\"run\", \"split\", \"epoch\", \"checkpoint_sha256\", \"prediction_sha256\", \"split_manifest_sha256\", \"quote_cache\", \"gate_mode\", \"inference_precision\", \"quantization_preset\", \"recurrent_rank\", \"sentinel_preprocessing\", \"numeric_preprocessing\", \"row_groups\", \"evaluation_membership_sha256\", \"fit_subset_manifest_sha256\"]}\nvt_f1_ood_swn_r2_homshare_r2 0.66882 t0 0.66356 t1 0.67409\nvt_f1_ood_swn25_r2_homshare_r2 0.66911 t0 0.66394 t1 0.67428\n",
+  "stderr": "Traceback (most recent call last):\n  File \"/root/wnn/scripts/blend_score_remote.py\", line 44, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/root/wnn/scripts/blend_score_remote.py\", line 31, in main\n    parts.append((float(w or 1), np.load(ROOT / f\"cache/pred_{name}_valid.npy\", mmap_mode=\"r\")))\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/conda/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py\", line 459, in load\n    fid = stack.enter_context(open(os.fspath(file), \"rb\"))\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/root/wnn/cache/pred_vt_f1_dm_t3_a9_e6_valid.npy'\n",
+  "runs": [
+    "vt_f1_ood_swn_r2_homshare_r2",
+    "vt_f1_ood_swn25_r2_homshare_r2"
+  ],
+  "n_distinct_seeds_per_recipe": 1,
+  "fold": 1,
+  "exposure": "already inspected development fold1",
+  "metric": "global_wp_clip2_v1 fixedmask warmup99 clip2 labelmagnitude weights",
+  "control_requested": "vt_f1_dm_t3_a9_e6",
+  "inference": "old two-teacher alpha.7/e2 OOD recipes, not a matched current T3/OOD arm; no family-wide negative or public forecast"
+}
