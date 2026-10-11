@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import argparse
-import ast
 import json
 import os
 import subprocess
@@ -16,85 +14,124 @@ SOURCE_ROOT = PACKET_ROOT / "child_source_v1"
 sys.path.insert(0, str(SOURCE_ROOT / "src"))
 
 from wnn.final_distillation_cache import (  # noqa: E402
-    PARENTS,
     TEACHERS,
     file_sha256,
-    validate_h390_final_cli_contract,
     verify_h390_r3_cache_reuse,
     verify_h390_source_snapshot,
 )
 
-R2_SOURCE = (
-    PACKET_ROOT.parent
-    / "h390_all_data_homogeneous_r2"
-    / "child_source_v1"
-    / "scripts"
-    / "train_rnn.py"
-)
 
+def _actual_trainer_parse_result(mode: str) -> dict:
+    script = textwrap.dedent(
+        """
+        import argparse
+        import ast
+        import contextlib
+        import importlib.util
+        import io
+        import json
+        import sys
+        from pathlib import Path
 
-def _parsed_recipe(
-    fit_groups_manifest: str | None = None,
-) -> tuple[argparse.ArgumentParser, argparse.Namespace]:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--final-distill-cache-root", default=None)
-    parser.add_argument("--fit-groups-manifest", default=None)
-    parser.add_argument("--seed", type=int, default=3)
-    parser.add_argument("--name", default="vt_all_h390_ds_homogeneous_s3_r3")
-    parser.add_argument("--init", default=f"{PARENTS[3]['run']}@ep3")
-    parser.set_defaults(
-        train_source="train+valid",
-        include_heldout_valid=True,
-        valid_fold=-1,
-        train_seqs=10607,
-        valid_seqs=0,
-        no_eval_during_fit=True,
-        valid_train_fraction=1.0,
-        valid_repeat=1,
-        train_classes=False,
-        epoch_samples=0,
-        epochs=6,
-        checkpoint_policy="fixed",
-        checkpoint_epoch=5,
-        distill_alpha=0.9,
-        distill_alpha_far=None,
-        distill_boot_h=0,
-        distill_reanchor=0.0,
-        distill_denominator="chunk",
-        distill_family_weight=0.0,
-        inherit_init_preprocessing=True,
-        arch="gru",
-        cell="gru",
-        hidden=256,
-        layers=2,
-        dropout=0.0,
-        optim="adamw",
-        sched="onecycle",
-        lr=0.0001,
-        wd=0.01,
-        batch=16,
-        chunk=2000,
-        loss="wmse",
-        loss_norm="chunk",
-        precision="fp16",
-        propensity="c20260929_prop_f1",
-        prop_power=2.0,
-        prop_eps=0.03,
-        valid_true_mask=0.03,
-        aux_struct=0.3,
-        aux_next=0.3,
-        since_weight=32.0,
-        prop_input=None,
-        fast=True,
-        save_training_state=True,
-        profile_steps=0,
-        max_batches=0,
-        stop_after_epoch=None,
+        mode, source_root = sys.argv[1], Path(sys.argv[2])
+        sys.path.insert(0, str(source_root / "src"))
+        spec = importlib.util.spec_from_file_location(
+            "h390_r3_actual_trainer", source_root / "scripts/train_rnn.py"
+        )
+        trainer = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = trainer
+        spec.loader.exec_module(trainer)
+
+        argv = [
+            "--name", "vt_all_h390_ds_homogeneous_s3_r3", "--seed", "3",
+            "--device", "cuda", "--arch", "gru", "--cell", "gru",
+            "--hidden", "256", "--layers", "2", "--dropout", "0",
+            "--train-source", "train+valid", "--train-seqs", "10607",
+            "--valid-seqs", "0", "--valid-fold", "-1",
+            "--include-heldout-valid", "--no-eval-during-fit",
+            "--init", "vt_all_fin_mu256p0e4_s3@ep3", "--inherit-init-preprocessing",
+            "--final-distill-cache-root", "cache/h390_all_data_homogeneous_r2",
+            "--distill-alpha", "0.9", "--epochs", "6",
+            "--checkpoint-policy", "fixed", "--checkpoint-epoch", "5",
+            "--batch", "16", "--chunk", "2000", "--loss", "wmse",
+            "--loss-norm", "chunk", "--lr", "0.0001", "--wd", "0.01",
+            "--optim", "adamw", "--sched", "onecycle", "--precision", "fp16",
+            "--propensity", "c20260929_prop_f1", "--prop-power", "2",
+            "--prop-eps", "0.03", "--valid-true-mask", "0.03",
+            "--aux-struct", "0.3", "--aux-next", "0.3", "--since-weight", "32",
+            "--fast", "--save-training-state",
+        ]
+        if mode == "fit_groups":
+            argv += ["--fit-groups-manifest", "groups.json"]
+
+        class ParsedArgsCaptured(Exception):
+            pass
+
+        original_parse_args = argparse.ArgumentParser.parse_args
+        captured = []
+        def capture_parse_args(parser, args=None, namespace=None):
+            parsed = original_parse_args(parser, args=args, namespace=namespace)
+            captured.append((parser, parsed))
+            raise ParsedArgsCaptured
+
+        argparse.ArgumentParser.parse_args = capture_parse_args
+        sys.argv = [str(source_root / "scripts/train_rnn.py"), *argv]
+        try:
+            trainer.main()
+        except ParsedArgsCaptured:
+            pass
+        else:
+            raise AssertionError("trainer.main did not reach the actual parser")
+        parser, parsed = captured[0]
+        assert isinstance(parsed, argparse.Namespace)
+        assert not hasattr(parsed, "fit_subset_manifest")
+        if mode == "accept":
+            r2_source = source_root.parent.parent / "h390_all_data_homogeneous_r2" / "child_source_v1" / "scripts/train_rnn.py"
+            tree = ast.parse(r2_source.read_text())
+            stale = next(
+                node for node in ast.walk(tree)
+                if isinstance(node, ast.Attribute) and node.attr == "fit_subset_manifest" and node.lineno == 1705
+            )
+            expression = ast.fix_missing_locations(ast.Expression(stale))
+            try:
+                eval(compile(expression, str(r2_source), "eval"), {"args": parsed})
+            except AttributeError as error:
+                assert "fit_subset_manifest" in str(error)
+            else:
+                raise AssertionError("R2 stale parsed-Namespace access unexpectedly succeeded")
+            trainer.validate_h390_final_cli_contract(parsed, parser, trainer.FINAL_DISTILL_PARENTS)
+            result = {"mode": mode, "fit_groups_manifest": parsed.fit_groups_manifest, "guard": "accepted"}
+        else:
+            assert str(parsed.fit_groups_manifest) == "groups.json"
+            try:
+                with contextlib.redirect_stderr(io.StringIO()):
+                    trainer.validate_h390_final_cli_contract(parsed, parser, trainer.FINAL_DISTILL_PARENTS)
+            except SystemExit as error:
+                assert error.code == 2
+                result = {
+                    "mode": mode,
+                    "fit_groups_manifest": str(parsed.fit_groups_manifest),
+                    "guard": "rejected",
+                }
+            else:
+                raise AssertionError("final guard accepted a fit-groups manifest")
+        print(json.dumps(result, sort_keys=True))
+        """
     )
-    argv = ["--final-distill-cache-root", "cache/h390_all_data_homogeneous_r2"]
-    if fit_groups_manifest is not None:
-        argv.extend(["--fit-groups-manifest", fit_groups_manifest])
-    return parser, parser.parse_args(argv)
+    env = dict(os.environ)
+    env["PYTHONPATH"] = os.pathsep.join(
+        part for part in (str(SOURCE_ROOT / "src"), env.get("PYTHONPATH", "")) if part
+    )
+    completed = subprocess.run(
+        [sys.executable, "-c", script, mode, str(SOURCE_ROOT)],
+        capture_output=True,
+        check=False,
+        text=True,
+        timeout=90,
+        env=env,
+    )
+    assert completed.returncode == 0, completed.stderr
+    return json.loads(completed.stdout.strip().splitlines()[-1])
 
 
 def test_r3_snapshot_binds_original_producer_and_all_receipts() -> None:
@@ -116,26 +153,17 @@ def test_r3_snapshot_binds_original_producer_and_all_receipts() -> None:
 
 
 def test_r2_stale_namespace_reference_fails_and_r3_final_guard_accepts() -> None:
-    parser, args = _parsed_recipe()
-    assert isinstance(args, argparse.Namespace)
-    r2_tree = ast.parse(R2_SOURCE.read_text())
-    stale = next(
-        node
-        for node in ast.walk(r2_tree)
-        if isinstance(node, ast.Attribute)
-        and node.attr == "fit_subset_manifest"
-        and node.lineno == 1705
-    )
-    expression = ast.fix_missing_locations(ast.Expression(stale))
-    with pytest.raises(AttributeError, match="fit_subset_manifest"):
-        eval(compile(expression, str(R2_SOURCE), "eval"), {"args": args})
-    validate_h390_final_cli_contract(args, parser, PARENTS)
+    result = _actual_trainer_parse_result("accept")
+    assert result == {"mode": "accept", "fit_groups_manifest": None, "guard": "accepted"}
 
 
 def test_r3_final_guard_still_rejects_nonnull_fit_groups_manifest() -> None:
-    parser, args = _parsed_recipe("groups.json")
-    with pytest.raises(SystemExit):
-        validate_h390_final_cli_contract(args, parser, PARENTS)
+    result = _actual_trainer_parse_result("fit_groups")
+    assert result == {
+        "mode": "fit_groups",
+        "fit_groups_manifest": "groups.json",
+        "guard": "rejected",
+    }
 
 
 def test_r3_cache_reuse_rejects_nonproducer_metadata(tmp_path: Path) -> None:
