@@ -1,0 +1,99 @@
+{
+  "schema": "wnn.h390.valid-export-launch.v1",
+  "run": "vt_all_h390_ds_homogeneous_s4_r3",
+  "seed": 4,
+  "recorded_utc": "2026-10-11T15:24:30Z",
+  "owner": "submission_packager",
+  "instance": {
+    "id": 55080658,
+    "lane": "b",
+    "controller_import_assertions": [
+      "VT_LANE=b",
+      "RECEIPT.name=OWNERSHIP_RECEIPT_b.json",
+      "instance_id=55080658"
+    ]
+  },
+  "contract": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/storage_handoff_20261011/H390_R3_VALID_EXPORT_CONTRACT_R2.json",
+    "sha256": "6aaee4aa3154f9da008002e60051a857b30429a5cba8b505b933a56bcf5fdd2f",
+    "order": "S3 completed and was checked before the fresh S4 gate; S4 was launched serially after S3."
+  },
+  "preflight": {
+    "result": "PASS immediately before launch",
+    "expected_observed_sha256": {
+      "predict_run.py": "46279845540e680940c4444124164102d2499e0468aa7767fc5ba64f90854018",
+      "SOURCE_MANIFEST_H390.json": "fb32325fa1010615c12a45e67e81edfd18141e288c620a5c73664d45beb397ea",
+      "PACKET_MANIFEST_R3.json": "781c0237fc4b83e0715d43f3af4e4d1d83e076a72c754187d2c3bf6891414f19",
+      "portable_inputs_fold1.json": "551905f3363c65608e2d5a0f49e8eeca362f574ab6d98d443e31cee0790fb5fd",
+      "fold1.json": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "valid.parquet": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "valid_targets.npz": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "model_ep5.pt": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+      "provenance.json": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb"
+    },
+    "fit_exit": 0,
+    "selected_epoch": 5,
+    "s3_export_active": false,
+    "s4_output_paths_absent_and_not_symlinks": true,
+    "gpu0": {
+      "utilization_percent": 0,
+      "memory_used_mib": 1,
+      "memory_total_mib": 24564,
+      "compute_processes": 0
+    },
+    "gpu1": {
+      "utilization_percent": 0,
+      "memory_used_mib": 1,
+      "memory_total_mib": 24564
+    },
+    "free_bytes": 27360428032
+  },
+  "execution": {
+    "started_utc": "2026-10-11T15:23:21Z",
+    "status_as_of_utc": "2026-10-11T15:23:55Z",
+    "status": "predictor process observed active; timeout exit pending",
+    "physical_gpu": 0,
+    "cuda_visible_devices": "0",
+    "runtime_limit_seconds": 1800,
+    "supervisor_pid": 1979748,
+    "timeout_pid": 1979750,
+    "predictor_pid": 292274,
+    "gpu_compute_process_used_mib": 1600,
+    "gpu0_utilization_percent": 63,
+    "remote_task_root": "/root/run/h390_r3_exports/s4_export_r1",
+    "exact_process_observation": "Read comm/exe only for the known supervisor and timeout PIDs; nvidia-smi reported GPU0 compute PID 292274. No process arguments were inspected in this status poll.",
+    "argv": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=60s",
+      "1800s",
+      "/opt/conda/bin/python",
+      "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/scripts/predict_run.py",
+      "vt_all_h390_ds_homogeneous_s4_r3",
+      "valid",
+      "--epoch",
+      "5",
+      "--output-name",
+      "vt_all_h390_ds_homogeneous_s4_r3_export_r1",
+      "--device",
+      "cuda",
+      "--inference-precision",
+      "checkpoint"
+    ],
+    "thread_environment": {
+      "WNN_PROJECT_ROOT": "/root/wnn",
+      "PYTHONPATH": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/src",
+      "WNN_PORTABLE_DATA_MANIFEST": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold1.json",
+      "CUDA_VISIBLE_DEVICES": "0",
+      "WNN_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "limitations": [
+    "No held-out score is asserted; valid data were included in the all-data fit.",
+    "No public score or expected-public score is asserted.",
+    "A broad /proc cmdline scan was briefly used by the preceding corrected preflight before root clarified the narrower process inspection requirement. It produced only an active-process-absent result and printed no command arguments. Subsequent process observations use known receipt PIDs and the nvidia-smi compute PID inventory; do not repeat the broad scan."
+  ]
+}

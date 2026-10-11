@@ -1,0 +1,27 @@
+{
+  "schema": "wnn.h390.export-preflight-abort.v1",
+  "run": "vt_all_h390_ds_homogeneous_s4_r3",
+  "recorded_utc": "2026-10-11T15:24:30Z",
+  "owner": "submission_packager",
+  "instance_id": 55080658,
+  "status": "preflight_aborted_before_resource_gate_or_output_creation",
+  "cause": "An initial pgrep pattern matched its own remote bash -c command text because the command text contained the regex literal for the previous-run check.",
+  "observed": {
+    "source_manifest": "pinned hash passed",
+    "packet_manifest": "pinned hash passed",
+    "portable_manifest": "pinned hash passed",
+    "split_manifest": "pinned hash passed",
+    "valid_parquet": "pinned hash passed",
+    "valid_targets": "pinned hash passed",
+    "s4_checkpoint": "pinned hash passed",
+    "s4_provenance": "pinned hash passed",
+    "prior_process_predicate": "false positive from own shell invocation; it did not establish another active process"
+  },
+  "no_mutation": {
+    "s4_output_paths_created": false,
+    "s4_export_started": false,
+    "remote_task_directory_created": false,
+    "fit_or_checkpoint_changed": false
+  },
+  "correction": "The next preflight separately checked resource state and launched S4. The process-matching diagnostic is preserved here; do not reuse the false-positive pgrep method."
+}
