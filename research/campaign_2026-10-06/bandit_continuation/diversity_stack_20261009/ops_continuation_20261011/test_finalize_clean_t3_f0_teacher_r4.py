@@ -101,6 +101,30 @@ class R4FinalizerTests(unittest.TestCase):
                                 packet_bindings,
                             )
 
+    def test_fixed_quota_fields_require_exact_integers(self) -> None:
+        fixed_values = {
+            "wall_ceiling_seconds": 14_400,
+            "two_device_gpu_seconds_upper_bound": 28_800,
+            "reserved_gpu_seconds": 28_800,
+        }
+        with tempfile.TemporaryDirectory(prefix="wnn-r4-fixed-quota-test-") as temp_name:
+            temp = Path(temp_name)
+            receipt_path = temp / "root-release.json"
+            packet_bindings = FINALIZER.r3_packet_bindings(R3_PACKET)
+            for field_name, expected in fixed_values.items():
+                for value in (float(expected), True):
+                    with self.subTest(field=field_name, value=value):
+                        receipt = authorized_receipt()
+                        receipt["binding"]["quota_budget"][field_name] = value
+                        receipt_bytes = (json.dumps(receipt, sort_keys=True) + "\n").encode()
+                        receipt_path.write_bytes(receipt_bytes)
+                        with self.assertRaises(FINALIZER.FinalizationError):
+                            FINALIZER.validate_root_release(
+                                receipt_path,
+                                FINALIZER.sha256_bytes(receipt_bytes),
+                                packet_bindings,
+                            )
+
     def test_authorized_shape_reseals_private_copy_only(self) -> None:
         source_archive = R3_PACKET / "bundle_teacher_cohort_r3/bundle.wnn"
         source_gate = R3_PACKET / FINALIZER.R3_GATE_NAME
@@ -138,8 +162,16 @@ class R4FinalizerTests(unittest.TestCase):
                 bootstrap_namespace,
             )
             require_headroom = bootstrap_namespace["_require_finite_quota_headroom"]
+            require_fixed_integer = bootstrap_namespace["_require_fixed_quota_integer"]
             self.assertIsNone(require_headroom(28_800, "integer test"))
             self.assertIsNone(require_headroom(28_800.0, "float test"))
+            self.assertIsNone(require_fixed_integer(28_800, 28_800, "integer test"))
+            for value in (28_800.0, True):
+                with (
+                    self.subTest(bootstrap_fixed_value=value),
+                    self.assertRaises(PermissionError),
+                ):
+                    require_fixed_integer(value, 28_800, "test field")
             for value in (float("nan"), float("inf"), float("-inf"), True):
                 with (
                     self.subTest(bootstrap_value=value),
