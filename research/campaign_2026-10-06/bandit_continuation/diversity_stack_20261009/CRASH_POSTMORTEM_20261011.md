@@ -11,3 +11,7 @@ Why I missed alerts: the watchdog (scripts/watchdog.py --once) only prints NEW a
 | unit_failed kaggle-poller | transient, recovered by itself (poller Finished every 5 min since) | none |
 | hpo_* no_progress/ticks_stopped | deliberate: user stopped HPO | .runtime/hpo_disabled mutes check |
 | vast_b_spend_high | informational: tick cap is 36 on lane b; CLAUDE.md says $20 | pending user decision |
+
+## 2026-10-11 04:30 w13_dsq_prop0 failure (vast_job_failed p01_p00x_w13_dsq_prop0.rc1 / rc2)
+Root cause: `distill_pipeline.py --teacher-epoch` defaults to 3 -> needs `model_ep3.pt`, but 3-epoch teachers only have model_ep0..2.pt (zero-based; final = ep2). Teachers without cached `pred_<name>_train.json` hit ensure_train_predictions -> FileNotFoundError. rc1 earlier was missing distill_pipeline.py on host (shipped). Same defect would have killed all five w14_ood_* arms (combo_scratch teachers have no train cache). Fix: `--teacher-epoch 2` added to w14_* (host pending + local job files), requeued as w13b_dsq_prop0. Rule: any pipeline job on a new teacher pair must set --teacher-epoch to final epoch index and expect an extra train-set predict pass (~GPU time).
+Machine health: instance fine (GPU 99%/88%, 55C/50C, load 15.8, 47 GB disk free, 663 GB RAM free). Not stuck -> no stop/re-rent (cost ~$0.83/h already; re-rent = 100 GB data + stack redeploy, no better flops/$ identified). GPU0 memory 23.9/24.5 GB with 7 procs: watch for OOM, MIN_FREE_MIB=7000 admission still guards launches.
