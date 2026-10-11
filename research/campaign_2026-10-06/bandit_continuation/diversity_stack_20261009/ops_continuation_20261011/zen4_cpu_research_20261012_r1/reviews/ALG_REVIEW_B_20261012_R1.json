@@ -1,0 +1,31 @@
+{
+  "schema": "wnn.algorithmic_cpu_review.b.r1",
+  "date": "2026-10-12",
+  "owner": "algorithmic_compute_reviewer_b",
+  "independent_first_proposal": true,
+  "other_reviewers_or_actor_proposals_read_before_seal": false,
+  "role": "analysis_only",
+  "main_head": "4fa9d3ad0fca7ea627d4519f38f1a5ab18f39dc9",
+  "resource_check": {"slice_cpu_percent": 500, "memory_high_bytes": 18000000000, "memory_max_bytes": 20000000000, "swap_max_bytes": 0},
+  "support_check_limits": {"cpu_percent": 50, "threads": 1, "memory_max_bytes": 700000000, "runtime_max_s": 120},
+  "metadata_python_cpu_s_approx": 0.66,
+  "benchmarks_fits_provider_mutations_or_installations_run": false,
+  "actual_artifacts_checked": ["ZIP10", "ZIP11", "ZIP12", "uploaded_ZIP4", "uploaded_ZIP5"],
+  "frozen_zips_share_native_binaries": true,
+  "within_endpoint_identical_backbones_found": false,
+  "immediate_candidate": "ZIP11 pending ROOT runtime and release review",
+  "cpu_safe_portal_claim_established": false,
+  "timed_out_trio_completed_runtime_known": false,
+  "hidden_row_count": null,
+  "public_score_forecast": null,
+  "ranked_changes": [
+    {"rank": 1, "id": "scaled_sparse_projection_reuse", "status": "new", "kind": "bit_preserving_candidate", "location": "native/src/vnni.rs project_zmm; native/src/half.rs project_as; native/src/python.rs advance", "bound": "scaled-input multiplies tiles*nnz to nnz; shared ascending nonzero scan", "actual_speedup": null},
+    {"rank": 2, "id": "activation_max_fusion", "status": "new", "kind": "bit_preserving_candidate", "location": "native/src/rnn_fast.rs step_dyn_impl/gru_update; native/src/approx.rs gelu_slice; native/src/vnni.rs quantize", "bound": "remove 3H f32 maximum-scan reads per two-layer member/row", "actual_speedup": null},
+    {"rank": 3, "id": "gate_local_integer_fusion", "status": "new", "kind": "bit_preserving_candidate_larger_rewrite", "location": "DynQ8 packing/GEMV and step_dyn_impl", "bound": "remove about 96H scratch bytes per two-layer member/row; weight bytes unchanged", "actual_speedup": null},
+    {"rank": 4, "id": "raw_prefix_exact_cache", "status": "new_conditional", "kind": "bit_preserving_if_raw_key_matches", "precondition": "measured useful rate of bit-identical sanitized adjacent raw rows", "actual_speedup": null},
+    {"rank": 5, "id": "selective_lower_bit_complete_blend", "status": "future_arm", "kind": "quality_changing", "precondition": "real packed native consumer plus full fixed-blend grade/runtime; not urgent release prerequisite", "actual_speedup": null}
+  ],
+  "required_barriers": ["whole-sequence bit parity for exact arms", "persistent state/code/scale and reset equality", "same fixed blend and qualified evaluation membership", "actual final artifact and ABI/offline bootstrap", "matched one-core complete callback panel", "ROOT release decision"],
+  "known_nonrescue": ["FP16 transport does not shrink Q8 hot codes", "H384 Q4 whole member still exceeds 1MB L2", "need-prediction density permits at most 0.495 percent head-only skip opportunities", "independent seeds cannot share trunk exactly"],
+  "report": "ALG_REVIEW_B_20261012_R1.md"
+}
