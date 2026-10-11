@@ -20,3 +20,7 @@ Warm start from combo parent (h256, ~0.666), 2 epochs (NOT 3) AdamW 1e-4, batch 
 dm_t3 (3 muonall teachers, default recipe) ; dm_t3_e6 (6 epochs) ; dm_t3_e6_lr2 (6 ep lr 2e-4) ; dm_none_e6 (no teacher, 6 ep: separates epoch effect) ; dm_t3_a9_e6 (alpha .9) ; dm_h384_t3 (h384 student from muonall h384 parent: upper bound of absorption, serving cost 2x).
 Decision rules: student gain over dm_none_e6 = teacher value; gap to .6725 = remaining distillation headroom.
 Literature + external ideation: LITERATURE.md, ideation/ (pending).
+
+## Addendum 06:25: weaker partners hurt a strong member (fold 1, equal-weight pairs with muonall_h384 s3 = .67021)
++ a_dualtower (single .66521): .66978 (-0.0004) ; + ctrl_s3 h256 (.66559): .66975 (-0.0005) ; + prop0_e3 (.66818?~.6678): .67081 (+0.0006) ; 3 muonall + dualtower: .67197 (vs 3 muonall .67254, -0.0006).
+=> Equal-weight blending only helps when members are within ~0.001-0.002 of each other. The "+0.003 diverse pair" of earlier rounds was between equally-strong (~.666) members. For submission and for teacher sets: use the strongest recipe's seeds; add weaker diversity only with learned/lower weights.
