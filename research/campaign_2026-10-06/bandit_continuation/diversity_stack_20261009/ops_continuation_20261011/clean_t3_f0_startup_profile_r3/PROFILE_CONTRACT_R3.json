@@ -1,0 +1,27 @@
+{
+  "checkpoint_reload_validation": "not covered by this profile; keep as a separate full-fit release/integrity gate",
+  "dataset_id": "vladkochetov07/wnn-clean-t3-f0-startup-profile-20261011-r3",
+  "device": "one actual Tesla T4; no concurrency qualification",
+  "fit_admission": false,
+  "full_identity_checks": "unchanged and required",
+  "gradient_stats": "enabled for finite-gradient/update evidence; adds diagnostic device reductions and is not a throughput benchmark",
+  "kernel_id": "vladkochetov07/wnn-clean-t3-f0-startup-profile-20261011-r3-runner",
+  "kernel_process_wall_seconds_max": 6000,
+  "logical_gpu_reservation_ceiling_seconds": 12000,
+  "not_qualified": [
+    "two-device concurrency",
+    "full-fit or export ETA",
+    "cohort admission",
+    "checkpoint save/reload correctness"
+  ],
+  "profile_name": "clean_t3_f0_muonall_h384_e3_s3_t4_startup_profile_r3",
+  "profile_updates": {
+    "measured": 25,
+    "warmup": 5
+  },
+  "root_release_required": true,
+  "schema": "wnn.kaggle.startup_profile_contract.r3",
+  "update_counter_output": "PROFILE_UPDATE_COUNTS reports actual optimizer attempts, AMP skips, completed updates, and completed batches",
+  "worker_timeout_seconds": 1800,
+  "workers": 1
+}
