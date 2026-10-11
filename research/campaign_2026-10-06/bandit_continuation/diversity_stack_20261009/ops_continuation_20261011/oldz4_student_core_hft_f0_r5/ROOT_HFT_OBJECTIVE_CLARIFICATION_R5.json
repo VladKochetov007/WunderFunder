@@ -1,0 +1,24 @@
+{
+  "schema": "wnn.oldz4.hft-effective-objective-clarification.r5",
+  "created_utc": "2026-10-11T22:15:52.671946+00:00",
+  "decision": "PASS_INTENDED_FAITHFUL_INHERITANCE",
+  "sealed_actor_commit": "6619b6e1fc8a49130e7866c45816b3f2f80e03ac",
+  "parent_cp1_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+  "parent_provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+  "contracts": {
+    "CORE_CROP_CONTRACT_R5.json": "22a7e7f2553a6dcfe784b5e813b48aac37eff56c136b97a73694994626951cd9",
+    "HFT_FIT_CONTRACT_R5.json": "64df5f235242042a3e9848eb260321d4a0b46979862aa9299dfa5f401059b541",
+    "HFT_PROFILE_CONTRACT_R5.json": "4b60d7bcde41b6a942e5ee3075ebd7efbcdb63afa893f493e68a90220296b56d",
+    "SOURCE_BINDINGS_R5.json": "b7c08e9b19ee6d4e802d858259caeba505538c8e4b5385bf52cd5f21e8a0985b"
+  },
+  "primary_loss": "gcorr: weighted pooled correlation for the two primary targets",
+  "auxiliary_losses": {
+    "aux_next": 0.3,
+    "aux_struct": 0.3
+  },
+  "effective_semantics": "inherit-init-preprocessing copies auxiliary coefficients from own CP1; crop retains 23 main/aux outputs and drops only eight family outputs. Auxiliary next/struct objectives remain active as in the reconstructed HFT method.",
+  "not_run_arm": "two-output pure-GCorr/no-aux ablation is not this packet",
+  "fitting_membership": "valid.parquet 1405 fitting groups, excluded468 F0 eval groups; no teacher/cached distillation target at HFT stage",
+  "source_or_argv_changed": false,
+  "new_fit_admitted": false
+}
