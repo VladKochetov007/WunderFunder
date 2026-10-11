@@ -385,7 +385,8 @@ def cmd_tick(args: argparse.Namespace) -> None:
         print("already destroyed")
         return
     info = probe()
-    cmd_pull(args)
+    if not getattr(args, "no_pull", False):
+        cmd_pull(args)
     hours, cost = spend()
     pending = int(info.get("PENDING", "1").split()[0])
     running = int(info.get("GPUPROCS", "1"))
@@ -444,6 +445,7 @@ def main() -> int:
             node.add_argument("--n", type=int, default=4, help="backlog items to queue")
             node.add_argument("--dry-run", action="store_true")
         if name == "tick":
+            node.add_argument("--no-pull", action="store_true", help="skip result pulls (a separate pull timer does them) so a slow scp cannot block cap/feed/drain")
             node.add_argument("--cap", type=float, default=5.0, help="stop admitting queued jobs at this spend; running jobs always finish, then the instance is destroyed")
     args = parser.parse_args()
     {"plan": cmd_plan, "create": cmd_create, "start": cmd_start, "status": cmd_status,
