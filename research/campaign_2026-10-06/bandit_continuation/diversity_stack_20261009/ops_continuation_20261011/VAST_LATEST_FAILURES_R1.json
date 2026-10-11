@@ -1,0 +1,544 @@
+{
+  "gpu": "98 %, 13874 MiB\n81 %, 12054 MiB\n",
+  "disk_free_bytes": 40619008000,
+  "running": [
+    "p00_w17_dm_a95_e6.json",
+    "p00_w18_dm_ba_a9_e6.json",
+    "p00_bl_muonall_h384_e3_s10.json",
+    "p00_fin_mu256p0e4_s3.json",
+    "p00_w17_dm_a9_e10.json",
+    "p00_w18_dm_pm_a9_e6.json",
+    "p00_w19_kd_ch02.json"
+  ],
+  "pending": [
+    "p00_fin_mu256p0e4_s4.json",
+    "p00_fin_mu256p0e4_s5.json",
+    "p00_w19_kd_ch052.json",
+    "p00_w19_kd_msepear.json",
+    "p00_w19_kd_pearson.json",
+    "p00_w19_kd_run05.json",
+    "p01_bl_muonall_h384_e3_s8.json",
+    "p02_bl_muonall_h384_e3_s9.json",
+    "p03_bl_scale_b64_lrlin.json",
+    "p04_bl_scale_b64_lrsqrt.json",
+    "p05_w14_ood_only.json",
+    "p06_w14_ood_splice.json",
+    "p07_w14_ood_spmix.json",
+    "p08_w14_ood_swn.json",
+    "p09_w14_ood_swn25.json",
+    "p10_w15b_dm_h384_t3.json"
+  ],
+  "latest_failures": [
+    {
+      "file": "bl_d_prop0_pre1.rc2.json",
+      "mtime": 1791677312.5907414,
+      "job": {
+        "name": "vt_f1_d_prop0_pre1",
+        "steps": [
+          {
+            "label": "fit",
+            "timeout": 21600,
+            "argv": [
+              "python",
+              "/root/wnn/scripts/train_rnn.py",
+              "--name",
+              "vt_f1_d_prop0_pre1",
+              "--device",
+              "cuda",
+              "--arch",
+              "gru",
+              "--cell",
+              "gru",
+              "--enc",
+              "linear",
+              "--hidden",
+              "256",
+              "--layers",
+              "2",
+              "--dropout",
+              "0",
+              "--seed",
+              "3",
+              "--split-manifest",
+              "/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json",
+              "--valid-fold",
+              "1",
+              "--eval-source",
+              "vfold",
+              "--train-source",
+              "train+valid",
+              "--train-seqs",
+              "10607",
+              "--epochs",
+              "3",
+              "--checkpoint-policy",
+              "fixed",
+              "--checkpoint-epoch",
+              "2",
+              "--no-eval-during-fit",
+              "--batch",
+              "32",
+              "--chunk",
+              "1000",
+              "--loss",
+              "wmse",
+              "--loss-norm",
+              "chunk",
+              "--lr",
+              "0.001",
+              "--wd",
+              "0.01",
+              "--optim",
+              "muon",
+              "--muon-scope",
+              "rnn",
+              "--sched",
+              "onecycle",
+              "--precision",
+              "fp16",
+              "--propensity",
+              "c20260929_prop_f1",
+              "--prop-power",
+              "0",
+              "--prop-eps",
+              "0.03",
+              "--valid-true-mask",
+              "0.03",
+              "--aux-struct",
+              "0.3",
+              "--aux-next",
+              "0.3",
+              "--since-weight",
+              "32",
+              "--pretrain-next-epochs",
+              "1",
+              "--pretrain-next-in-budget",
+              "--fast",
+              "--save-training-state"
+            ]
+          },
+          {
+            "label": "export",
+            "timeout": 1800,
+            "argv": [
+              "python",
+              "-c",
+              "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__')",
+              "/root/wnn/scripts/predict_run.py",
+              "/root/wnn/scripts/train_rnn.py",
+              "vt_f1_d_prop0_pre1",
+              "valid",
+              "--epoch",
+              "2"
+            ]
+          }
+        ]
+      },
+      "logs": [
+        {
+          "name": "vt_f1_d_prop0_pre1.fit.log",
+          "tail": "180/373 loss 1.3934 lr 1.71e-04 seq/s 20.1\nep 1 batch 200/373 loss 1.7754 lr 1.39e-04 seq/s 20.1\nep 1 batch 220/373 loss 1.7355 lr 1.10e-04 seq/s 20.1\nep 1 batch 240/373 loss 1.4056 lr 8.35e-05 seq/s 20.1\nep 1 batch 260/373 loss 1.6662 lr 6.07e-05 seq/s 20.1\nep 1 batch 280/373 loss 1.4474 lr 4.13e-05 seq/s 20.1\nep 1 batch 300/373 loss 1.5223 lr 2.56e-05 seq/s 20.1\nep 1 batch 320/373 loss 1.7161 lr 1.36e-05 seq/s 20.2\nep 1 batch 340/373 loss 1.7210 lr 5.40e-06 seq/s 20.2\nep 1 batch 360/373 loss 1.6682 lr 1.10e-06 seq/s 20.2\nFIT {\"epoch\": 1, \"train_seconds\": 591.5, \"evaluation\": \"withheld\", \"update_diagnostics\": {\"epoch\": {\"optimizer_attempts\": 7460, \"amp_skipped_updates\": 2, \"optimizer_completed_updates\": 7458, \"ema_updates\": 0, \"completed_batches\": 373}, \"cumulative\": {\"optimizer_attempts\": 14920, \"amp_skipped_updates\": 7, \"optimizer_completed_updates\": 14913, \"ema_updates\": 0, \"completed_batches\": 746}, \"sample_order_identity\": {\"sampler_class\": \"RandomSampler\", \"batch_size\": 32, \"drop_last\": true, \"loader_generator\": \"global CPU RNG\", \"loader_rng\": {\"shape\": [5056], \"dtype\": \"torch.uint8\", \"bytes_sha256\": \"a1fc99ae778d2b528bd53f7f024e7dc3bda01836cff9875c508336d73e158301\"}, \"sampler_generator\": \"global CPU RNG\", \"sampler_rng\": {\"shape\": [5056], \"dtype\": \"torch.uint8\", \"bytes_sha256\": \"a1fc99ae778d2b528bd53f7f024e7dc3bda01836cff9875c508336d73e158301\"}, \"num_workers\": 4, \"persistent_workers\": false, \"sampler_replacement\": false, \"sampler_num_samples\": 11949}, \"normalization_identity\": {\"mean\": {\"shape\": [211], \"dtype\": \"torch.float32\", \"bytes_sha256\": \"d027c41ec00fb13e8faddfd1622b4cd9a6ccc7cac5ee8af97675428cb3c7d0ea\"}, \"std\": {\"shape\": [211], \"dtype\": \"torch.float32\", \"bytes_sha256\": \"c35df59abe84f4c5cac34a5cc461aa26ecb006fc55faa4fffb44cd3c3347c2f9\"}}}}\nSELECTED_FIXED 1\n"
+        },
+        {
+          "name": "vt_f1_d_prop0_pre1.export.log",
+          "tail": ""
+        }
+      ]
+    },
+    {
+      "file": "p07_p00x_bl_d_pre1.rc2.json",
+      "mtime": 1791677853.4723153,
+      "job": {
+        "name": "vt_f1_d_pre1",
+        "steps": [
+          {
+            "label": "fit",
+            "timeout": 21600,
+            "argv": [
+              "python",
+              "/root/wnn/scripts/train_rnn.py",
+              "--name",
+              "vt_f1_d_pre1",
+              "--device",
+              "cuda",
+              "--arch",
+              "gru",
+              "--cell",
+              "gru",
+              "--enc",
+              "linear",
+              "--hidden",
+              "256",
+              "--layers",
+              "2",
+              "--dropout",
+              "0",
+              "--seed",
+              "3",
+              "--split-manifest",
+              "/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json",
+              "--valid-fold",
+              "1",
+              "--eval-source",
+              "vfold",
+              "--train-source",
+              "train+valid",
+              "--train-seqs",
+              "10607",
+              "--epochs",
+              "3",
+              "--checkpoint-policy",
+              "fixed",
+              "--checkpoint-epoch",
+              "2",
+              "--no-eval-during-fit",
+              "--batch",
+              "32",
+              "--chunk",
+              "1000",
+              "--loss",
+              "wmse",
+              "--loss-norm",
+              "chunk",
+              "--lr",
+              "0.001",
+              "--wd",
+              "0.01",
+              "--optim",
+              "muon",
+              "--muon-scope",
+              "rnn",
+              "--sched",
+              "onecycle",
+              "--precision",
+              "fp16",
+              "--propensity",
+              "c20260929_prop_f1",
+              "--prop-power",
+              "2",
+              "--prop-eps",
+              "0.03",
+              "--valid-true-mask",
+              "0.03",
+              "--aux-struct",
+              "0.3",
+              "--aux-next",
+              "0.3",
+              "--since-weight",
+              "32",
+              "--pretrain-next-epochs",
+              "1",
+              "--pretrain-next-in-budget",
+              "--fast"
+            ]
+          },
+          {
+            "label": "export",
+            "timeout": 1800,
+            "argv": [
+              "python",
+              "-c",
+              "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__')",
+              "/root/wnn/scripts/predict_run.py",
+              "/root/wnn/scripts/train_rnn.py",
+              "vt_f1_d_pre1",
+              "valid",
+              "--epoch",
+              "2"
+            ]
+          }
+        ]
+      },
+      "logs": [
+        {
+          "name": "vt_f1_d_pre1.fit.log",
+          "tail": "{chunk,fixed,shuffled}]\n                    [--distill-reference-mass DISTILL_REFERENCE_MASS]\n                    [--calibrate-distill-reference CALIBRATE_DISTILL_REFERENCE]\n                    [--calibration-epochs CALIBRATION_EPOCHS]\n                    [--denominator-shuffle-seed DENOMINATOR_SHUFFLE_SEED]\n                    [--since-weight SINCE_WEIGHT] [--since-floor SINCE_FLOOR]\n                    [--episode-weight EPISODE_WEIGHT]\n                    [--episode-floor EPISODE_FLOOR] [--td-alpha TD_ALPHA]\n                    [--td-ramp TD_RAMP] [--ood-teachers OOD_TEACHERS]\n                    [--ood-mode {mix,only,alternate}] [--ood-frac OOD_FRAC]\n                    [--ood-aug OOD_AUG] [--ood-sources OOD_SOURCES]\n                    [--ood-weight {teacher,uniform}] [--ood-scale OOD_SCALE]\n                    [--ood-quantile-table OOD_QUANTILE_TABLE]\n                    [--gcorr-weight GCORR_WEIGHT] [--fast] [--sync-free]\n                    [--fused-adam] [--pin-memory] [--prop-cache]\n                    [--precision {fp16,bf16,fp32}] [--max-batches MAX_BATCHES]\n                    [--profile-steps PROFILE_STEPS]\n                    [--profile-warmup PROFILE_WARMUP]\n                    [--parity-dump PARITY_DUMP] [--deterministic]\n                    [--optim-switch OPTIM_SWITCH] [--warmup-frac WARMUP_FRAC]\n                    [--restarts RESTARTS] [--head-lr-mult HEAD_LR_MULT]\n                    [--muon-lr-mult MUON_LR_MULT]\n                    [--clip-per-module CLIP_PER_MODULE]\n                    [--grad-noise GRAD_NOISE] [--zoneout ZONEOUT] [--init-qmc]\n                    [--batch-order {random,seeded,qmc}] [--antithetic]\n                    [--momentum MOMENTUM] [--no-gradient-clip]\ntrain_rnn.py: error: --checkpoint-epoch must be within the fitted epochs\n"
+        },
+        {
+          "name": "vt_f1_d_pre1b.fit.log",
+          "tail": " 1 batch 180/373 loss 1.5082 lr 1.71e-04 seq/s 8.5\nep 1 batch 200/373 loss 1.9150 lr 1.39e-04 seq/s 8.7\nep 1 batch 220/373 loss 1.6046 lr 1.10e-04 seq/s 8.8\nep 1 batch 240/373 loss 1.4913 lr 8.35e-05 seq/s 8.9\nep 1 batch 260/373 loss 1.6632 lr 6.07e-05 seq/s 9.0\nep 1 batch 280/373 loss 1.4531 lr 4.13e-05 seq/s 9.1\nep 1 batch 300/373 loss 1.4890 lr 2.56e-05 seq/s 9.2\nep 1 batch 320/373 loss 1.8217 lr 1.36e-05 seq/s 9.3\nep 1 batch 340/373 loss 1.5706 lr 5.40e-06 seq/s 9.5\nep 1 batch 360/373 loss 1.7526 lr 1.10e-06 seq/s 9.6\nFIT {\"epoch\": 1, \"train_seconds\": 1227.7, \"evaluation\": \"withheld\", \"update_diagnostics\": {\"epoch\": {\"optimizer_attempts\": 7460, \"amp_skipped_updates\": 3, \"optimizer_completed_updates\": 7457, \"ema_updates\": 0, \"completed_batches\": 373}, \"cumulative\": {\"optimizer_attempts\": 14920, \"amp_skipped_updates\": 8, \"optimizer_completed_updates\": 14912, \"ema_updates\": 0, \"completed_batches\": 746}, \"sample_order_identity\": {\"sampler_class\": \"RandomSampler\", \"batch_size\": 32, \"drop_last\": true, \"loader_generator\": \"global CPU RNG\", \"loader_rng\": {\"shape\": [5056], \"dtype\": \"torch.uint8\", \"bytes_sha256\": \"a1fc99ae778d2b528bd53f7f024e7dc3bda01836cff9875c508336d73e158301\"}, \"sampler_generator\": \"global CPU RNG\", \"sampler_rng\": {\"shape\": [5056], \"dtype\": \"torch.uint8\", \"bytes_sha256\": \"a1fc99ae778d2b528bd53f7f024e7dc3bda01836cff9875c508336d73e158301\"}, \"num_workers\": 4, \"persistent_workers\": false, \"sampler_replacement\": false, \"sampler_num_samples\": 11949}, \"normalization_identity\": {\"mean\": {\"shape\": [211], \"dtype\": \"torch.float32\", \"bytes_sha256\": \"d027c41ec00fb13e8faddfd1622b4cd9a6ccc7cac5ee8af97675428cb3c7d0ea\"}, \"std\": {\"shape\": [211], \"dtype\": \"torch.float32\", \"bytes_sha256\": \"c35df59abe84f4c5cac34a5cc461aa26ecb006fc55faa4fffb44cd3c3347c2f9\"}}}}\nSELECTED_FIXED 1\n"
+        },
+        {
+          "name": "vt_f1_d_pre1b.export.log",
+          "tail": ""
+        }
+      ]
+    },
+    {
+      "file": "p01_p00x_w13_dsq_prop0.rc1.json",
+      "mtime": 1791677860.132334,
+      "job": {
+        "name": "w13_dsq_prop0",
+        "steps": [
+          {
+            "label": "pipeline",
+            "timeout": 14400,
+            "argv": [
+              "python",
+              "/root/wnn/scripts/distill_pipeline.py",
+              "--arm",
+              "t_prop0",
+              "--fold",
+              "1",
+              "--teachers",
+              "vt_f1_prop0_e3_s4,vt_f1_prop0_s5",
+              "--parent",
+              "vt_f1_prop0_e3@ep3"
+            ]
+          }
+        ]
+      },
+      "logs": [
+        {
+          "name": "w13_dsq_prop0.pipeline.log",
+          "tail": "python: can't open file '/root/wnn/scripts/distill_pipeline.py': [Errno 2] No such file or directory\nRUN /opt/conda/bin/python -c import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__') /root/wnn/scripts/predict_run.py /root/wnn/scr\nTraceback (most recent call last):\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 147, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 116, in main\n    ensure_train_predictions(name, args.teacher_epoch, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 51, in ensure_train_predictions\n    predict(name, split, epoch, None, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 41, in predict\n    run(argv, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 33, in run\n    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)\n  File \"/opt/conda/lib/python3.11/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['/opt/conda/bin/python', '-c', \"import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__')\", '/root/wnn/scripts/predict_run.py', '/root/wnn/scripts/train_rnn.py', 'vt_f1_prop0_e3_s4', 'train', '--epoch', '3']' returned non-zero exit status 1.\n"
+        }
+      ]
+    },
+    {
+      "file": "p00_aw15_dm_h384_t3.rc1.json",
+      "mtime": 1791686121.4880724,
+      "job": {
+        "name": "w15_dm_h384_t3",
+        "steps": [
+          {
+            "label": "pipeline",
+            "timeout": 28800,
+            "argv": [
+              "python",
+              "/root/wnn/scripts/distill_pipeline.py",
+              "--arm",
+              "h384_t3",
+              "--fold",
+              "1",
+              "--teachers",
+              "vt_f1_muonall_h384_e3,vt_f1_muonall_h384_e3_s4,vt_f1_muonall_h384_e3_s5",
+              "--parent",
+              "vt_f1_muonall_h384_e3_s4@ep3",
+              "--teacher-epoch",
+              "2",
+              "--hidden",
+              "384"
+            ]
+          }
+        ]
+      },
+      "logs": [
+        {
+          "name": "w15_dm_h384_t3.pipeline.log",
+          "tail": "dropout 0 --seed 3 --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --valid-fold 1 --eval-source vfold --train-source train+v\nTraceback (most recent call last):\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 153, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 143, in main\n    run(fit, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 33, in run\n    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)\n  File \"/opt/conda/lib/python3.11/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/train_rnn.py', '--name', 'vt_f1_dsq_h384_t3', '--device', 'cuda', '--arch', 'gru', '--cell', 'gru', '--hidden', '384', '--layers', '2', '--dropout', '0', '--seed', '3', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--valid-fold', '1', '--eval-source', 'vfold', '--train-source', 'train+valid', '--train-seqs', '10607', '--init', 'vt_f1_muonall_h384_e3_s4@ep3', '--epochs', '2', '--checkpoint-policy', 'fixed', '--checkpoint-epoch', '1', '--no-eval-during-fit', '--batch', '16', '--chunk', '2000', '--loss', 'wmse', '--loss-norm', 'chunk', '--lr', '0.0001', '--wd', '0.01', '--optim', 'adamw', '--sched', 'onecycle', '--precision', 'fp16', '--propensity', 'c20260929_prop_f1', '--prop-power', '2', '--prop-eps', '0.03', '--valid-true-mask', '0.03', '--aux-struct', '0.3', '--aux-next', '0.3', '--distill-cache-root', '/root/wnn/cache/dc_h384_t3', '--distill-cache-variant', 'homogeneous', '--distill-alpha', '0.7', '--distill-boot-h', '0', '--fast', '--save-training-state']' returned non-zero exit status 1.\n"
+        }
+      ]
+    },
+    {
+      "file": "p00_aw15_dm_t3.rc1.json",
+      "mtime": 1791686125.028042,
+      "job": {
+        "name": "w15_dm_t3",
+        "steps": [
+          {
+            "label": "pipeline",
+            "timeout": 28800,
+            "argv": [
+              "python",
+              "/root/wnn/scripts/distill_pipeline.py",
+              "--arm",
+              "dm_t3",
+              "--fold",
+              "1",
+              "--teachers",
+              "vt_f1_muonall_h384_e3,vt_f1_muonall_h384_e3_s4,vt_f1_muonall_h384_e3_s5",
+              "--parent",
+              "c20261003_combo_s3_f1@ep3",
+              "--teacher-epoch",
+              "2"
+            ]
+          }
+        ]
+      },
+      "logs": [
+        {
+          "name": "w15_dm_t3.pipeline.log",
+          "tail": "RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_dm_t3/ckpt --teacher-cache-root /root/run/alias_dm_t3/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_dm_t3 --homogeneous-family stro\nTraceback (most recent call last):\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 153, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 131, in main\n    run(build, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 33, in run\n    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)\n  File \"/opt/conda/lib/python3.11/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_dm_t3/ckpt', '--teacher-cache-root', '/root/run/alias_dm_t3/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_dm_t3', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=vt_f1_muonall_h384_e3@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s4@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s5@ep2*0.100000', '--teacher', 'full_finetuned=vt_f1_muonall_h384_e3_a1@ep2*0.2', '--teacher', 'raw_wmse=vt_f1_muonall_h384_e3_s5_a2@ep2*0.25', '--teacher', 'samefold_baseline=vt_f1_muonall_h384_e3_a3@ep2*0.0625']' returned non-zero exit status 1.\n"
+        },
+        {
+          "name": "w15_dm_t3_a9_e6.pipeline.log",
+          "tail": "RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_dm_t3_a9_e6/ckpt --teacher-cache-root /root/run/alias_dm_t3_a9_e6/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_dm_t3_a9_e6 --homog\nTraceback (most recent call last):\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 153, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 131, in main\n    run(build, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 33, in run\n    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)\n  File \"/opt/conda/lib/python3.11/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_dm_t3_a9_e6/ckpt', '--teacher-cache-root', '/root/run/alias_dm_t3_a9_e6/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_dm_t3_a9_e6', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=vt_f1_muonall_h384_e3@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s4@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s5@ep2*0.100000', '--teacher', 'full_finetuned=vt_f1_muonall_h384_e3_a1@ep2*0.2', '--teacher', 'raw_wmse=vt_f1_muonall_h384_e3_s5_a2@ep2*0.25', '--teacher', 'samefold_baseline=vt_f1_muonall_h384_e3_a3@ep2*0.0625']' returned non-zero exit status 1.\n"
+        },
+        {
+          "name": "w15_dm_t3_e6.pipeline.log",
+          "tail": "RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_dm_t3_e6/ckpt --teacher-cache-root /root/run/alias_dm_t3_e6/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_dm_t3_e6 --homogeneous-fa\nTraceback (most recent call last):\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 153, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 131, in main\n    run(build, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 33, in run\n    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)\n  File \"/opt/conda/lib/python3.11/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_dm_t3_e6/ckpt', '--teacher-cache-root', '/root/run/alias_dm_t3_e6/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_dm_t3_e6', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=vt_f1_muonall_h384_e3@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s4@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s5@ep2*0.100000', '--teacher', 'full_finetuned=vt_f1_muonall_h384_e3_a1@ep2*0.2', '--teacher', 'raw_wmse=vt_f1_muonall_h384_e3_s5_a2@ep2*0.25', '--teacher', 'samefold_baseline=vt_f1_muonall_h384_e3_a3@ep2*0.0625']' returned non-zero exit status 1.\n"
+        },
+        {
+          "name": "w15_dm_t3_e6_lr2.pipeline.log",
+          "tail": "RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_dm_t3_e6_lr2/ckpt --teacher-cache-root /root/run/alias_dm_t3_e6_lr2/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_dm_t3_e6_lr2 --ho\nTraceback (most recent call last):\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 153, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 131, in main\n    run(build, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 33, in run\n    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)\n  File \"/opt/conda/lib/python3.11/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_dm_t3_e6_lr2/ckpt', '--teacher-cache-root', '/root/run/alias_dm_t3_e6_lr2/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_dm_t3_e6_lr2', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=vt_f1_muonall_h384_e3@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s4@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s5@ep2*0.100000', '--teacher', 'full_finetuned=vt_f1_muonall_h384_e3_a1@ep2*0.2', '--teacher', 'raw_wmse=vt_f1_muonall_h384_e3_s5_a2@ep2*0.25', '--teacher', 'samefold_baseline=vt_f1_muonall_h384_e3_a3@ep2*0.0625']' returned non-zero exit status 1.\n"
+        }
+      ]
+    },
+    {
+      "file": "p00_aw15_dm_t3_a9_e6.rc1.json",
+      "mtime": 1791686126.660028,
+      "job": {
+        "name": "w15_dm_t3_a9_e6",
+        "steps": [
+          {
+            "label": "pipeline",
+            "timeout": 28800,
+            "argv": [
+              "python",
+              "/root/wnn/scripts/distill_pipeline.py",
+              "--arm",
+              "dm_t3_a9_e6",
+              "--fold",
+              "1",
+              "--teachers",
+              "vt_f1_muonall_h384_e3,vt_f1_muonall_h384_e3_s4,vt_f1_muonall_h384_e3_s5",
+              "--parent",
+              "c20261003_combo_s3_f1@ep3",
+              "--teacher-epoch",
+              "2",
+              "--epochs",
+              "6",
+              "--alpha",
+              "0.9"
+            ]
+          }
+        ]
+      },
+      "logs": [
+        {
+          "name": "w15_dm_t3_a9_e6.pipeline.log",
+          "tail": "RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_dm_t3_a9_e6/ckpt --teacher-cache-root /root/run/alias_dm_t3_a9_e6/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_dm_t3_a9_e6 --homog\nTraceback (most recent call last):\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 153, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 131, in main\n    run(build, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 33, in run\n    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)\n  File \"/opt/conda/lib/python3.11/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_dm_t3_a9_e6/ckpt', '--teacher-cache-root', '/root/run/alias_dm_t3_a9_e6/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_dm_t3_a9_e6', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=vt_f1_muonall_h384_e3@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s4@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s5@ep2*0.100000', '--teacher', 'full_finetuned=vt_f1_muonall_h384_e3_a1@ep2*0.2', '--teacher', 'raw_wmse=vt_f1_muonall_h384_e3_s5_a2@ep2*0.25', '--teacher', 'samefold_baseline=vt_f1_muonall_h384_e3_a3@ep2*0.0625']' returned non-zero exit status 1.\n"
+        }
+      ]
+    },
+    {
+      "file": "p00_aw15_dm_t3_e6.rc1.json",
+      "mtime": 1791686128.2920141,
+      "job": {
+        "name": "w15_dm_t3_e6",
+        "steps": [
+          {
+            "label": "pipeline",
+            "timeout": 28800,
+            "argv": [
+              "python",
+              "/root/wnn/scripts/distill_pipeline.py",
+              "--arm",
+              "dm_t3_e6",
+              "--fold",
+              "1",
+              "--teachers",
+              "vt_f1_muonall_h384_e3,vt_f1_muonall_h384_e3_s4,vt_f1_muonall_h384_e3_s5",
+              "--parent",
+              "c20261003_combo_s3_f1@ep3",
+              "--teacher-epoch",
+              "2",
+              "--epochs",
+              "6"
+            ]
+          }
+        ]
+      },
+      "logs": [
+        {
+          "name": "w15_dm_t3_e6.pipeline.log",
+          "tail": "RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_dm_t3_e6/ckpt --teacher-cache-root /root/run/alias_dm_t3_e6/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_dm_t3_e6 --homogeneous-fa\nTraceback (most recent call last):\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 153, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 131, in main\n    run(build, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 33, in run\n    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)\n  File \"/opt/conda/lib/python3.11/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_dm_t3_e6/ckpt', '--teacher-cache-root', '/root/run/alias_dm_t3_e6/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_dm_t3_e6', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=vt_f1_muonall_h384_e3@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s4@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s5@ep2*0.100000', '--teacher', 'full_finetuned=vt_f1_muonall_h384_e3_a1@ep2*0.2', '--teacher', 'raw_wmse=vt_f1_muonall_h384_e3_s5_a2@ep2*0.25', '--teacher', 'samefold_baseline=vt_f1_muonall_h384_e3_a3@ep2*0.0625']' returned non-zero exit status 1.\n"
+        },
+        {
+          "name": "w15_dm_t3_e6_lr2.pipeline.log",
+          "tail": "RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_dm_t3_e6_lr2/ckpt --teacher-cache-root /root/run/alias_dm_t3_e6_lr2/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_dm_t3_e6_lr2 --ho\nTraceback (most recent call last):\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 153, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 131, in main\n    run(build, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 33, in run\n    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)\n  File \"/opt/conda/lib/python3.11/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_dm_t3_e6_lr2/ckpt', '--teacher-cache-root', '/root/run/alias_dm_t3_e6_lr2/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_dm_t3_e6_lr2', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=vt_f1_muonall_h384_e3@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s4@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s5@ep2*0.100000', '--teacher', 'full_finetuned=vt_f1_muonall_h384_e3_a1@ep2*0.2', '--teacher', 'raw_wmse=vt_f1_muonall_h384_e3_s5_a2@ep2*0.25', '--teacher', 'samefold_baseline=vt_f1_muonall_h384_e3_a3@ep2*0.0625']' returned non-zero exit status 1.\n"
+        }
+      ]
+    },
+    {
+      "file": "p00_aw15_dm_t3_e6_lr2.rc1.json",
+      "mtime": 1791686129.9240005,
+      "job": {
+        "name": "w15_dm_t3_e6_lr2",
+        "steps": [
+          {
+            "label": "pipeline",
+            "timeout": 28800,
+            "argv": [
+              "python",
+              "/root/wnn/scripts/distill_pipeline.py",
+              "--arm",
+              "dm_t3_e6_lr2",
+              "--fold",
+              "1",
+              "--teachers",
+              "vt_f1_muonall_h384_e3,vt_f1_muonall_h384_e3_s4,vt_f1_muonall_h384_e3_s5",
+              "--parent",
+              "c20261003_combo_s3_f1@ep3",
+              "--teacher-epoch",
+              "2",
+              "--epochs",
+              "6",
+              "--lr",
+              "0.0002"
+            ]
+          }
+        ]
+      },
+      "logs": [
+        {
+          "name": "w15_dm_t3_e6_lr2.pipeline.log",
+          "tail": "RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_dm_t3_e6_lr2/ckpt --teacher-cache-root /root/run/alias_dm_t3_e6_lr2/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_dm_t3_e6_lr2 --ho\nTraceback (most recent call last):\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 153, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 131, in main\n    run(build, log)\n  File \"/root/wnn/scripts/distill_pipeline.py\", line 33, in run\n    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)\n  File \"/opt/conda/lib/python3.11/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_dm_t3_e6_lr2/ckpt', '--teacher-cache-root', '/root/run/alias_dm_t3_e6_lr2/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_dm_t3_e6_lr2', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=vt_f1_muonall_h384_e3@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s4@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s5@ep2*0.100000', '--teacher', 'full_finetuned=vt_f1_muonall_h384_e3_a1@ep2*0.2', '--teacher', 'raw_wmse=vt_f1_muonall_h384_e3_s5_a2@ep2*0.25', '--teacher', 'samefold_baseline=vt_f1_muonall_h384_e3_a3@ep2*0.0625']' returned non-zero exit status 1.\n"
+        }
+      ]
+    }
+  ],
+  "recent_logs": [
+    {
+      "name": "w19_kd_ch02.pipeline.log",
+      "age_s": 1325,
+      "tail": "REUSE shared distillation cache /root/wnn/cache/dc_98411230\nRUN /opt/conda/bin/python /root/wnn/scripts/train_rnn.py --name vt_f1_dsq_kd_ch02 --device cuda --arch gru --cell gru --hidden 256 --layers 2 --dropout 0 --seed 3 --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --valid-fold 1 --eval-source vfold --train-source train+v\n"
+    },
+    {
+      "name": "vt_f1_data8400_e4_s3.fit.log",
+      "age_s": 732,
+      "tail": "a256\": \"26a197e393364cf7ee5653936a00061afe79f06955a7bc47a77467b833dfecbd\"}, \"num_workers\": 4, \"persistent_workers\": false, \"sampler_replacement\": false, \"sampler_num_samples\": 9816}, \"normalization_identity\": {\"mean\": {\"shape\": [211], \"dtype\": \"torch.float32\", \"bytes_sha256\": \"fefe04b9cf6b4f50e7d52334f9f268db7e60883ccf1d6012c9be71fb687e172b\"}, \"std\": {\"shape\": [211], \"dtype\": \"torch.float32\", \"bytes_sha256\": \"cb2590dd271f1e82f7203daed1f19162b80dacca1c7fe86d2407d4c349a7c96e\"}}}}\nSELECTED_FIXED 3\n"
+    },
+    {
+      "name": "vt_f1_data8400_e4_s3.export.log",
+      "age_s": 730,
+      "tail": ""
+    },
+    {
+      "name": "fin_mu256p0e4_s3.fit.log",
+      "age_s": 35,
+      "tail": ".03e-04 seq/s 7.5\nep 0 batch 40/389 loss 1.6487 lr 5.61e-04 seq/s 9.4\nep 0 batch 60/389 loss 1.9025 lr 8.94e-04 seq/s 10.3\nep 0 batch 80/389 loss 1.9266 lr 1.00e-03 seq/s 10.9\nep 0 batch 100/389 loss 1.8545 lr 9.99e-04 seq/s 11.2\nep 0 batch 120/389 loss 1.4890 lr 9.98e-04 seq/s 11.5\nep 0 batch 140/389 loss 2.0054 lr 9.95e-04 seq/s 11.7\nep 0 batch 160/389 loss 1.5154 lr 9.92e-04 seq/s 11.8\nep 0 batch 180/389 loss 1.7962 lr 9.88e-04 seq/s 12.0\nep 0 batch 200/389 loss 1.7727 lr 9.83e-04 seq/s 12.0\n"
+    },
+    {
+      "name": "vt_f1_muonall_h384_e3_s10.fit.log",
+      "age_s": 27,
+      "tail": "04 seq/s 13.3\nep 1 batch 140/373 loss 1.4094 lr 6.08e-04 seq/s 13.1\nep 1 batch 160/373 loss 2.0712 lr 5.79e-04 seq/s 13.0\nep 1 batch 180/373 loss 1.4298 lr 5.49e-04 seq/s 12.9\nep 1 batch 200/373 loss 2.1123 lr 5.20e-04 seq/s 12.8\nep 1 batch 220/373 loss 1.7409 lr 4.90e-04 seq/s 12.8\nep 1 batch 240/373 loss 1.5820 lr 4.61e-04 seq/s 12.7\nep 1 batch 260/373 loss 2.1063 lr 4.32e-04 seq/s 12.7\nep 1 batch 280/373 loss 1.6240 lr 4.02e-04 seq/s 12.7\nep 1 batch 300/373 loss 1.5659 lr 3.74e-04 seq/s 12.6\n"
+    },
+    {
+      "name": "pipeline_kd_ch02.log",
+      "age_s": 22,
+      "tail": "a5ec5aaddfb8f40\"}}}}\nep 1 batch 0/746 loss 0.4709 lr 5.40e-05 seq/s 5.0\nep 1 batch 20/746 loss 0.5709 lr 5.18e-05 seq/s 10.9\nep 1 batch 40/746 loss 0.5767 lr 4.96e-05 seq/s 11.2\nep 1 batch 60/746 loss 0.5327 lr 4.74e-05 seq/s 11.3\nep 1 batch 80/746 loss 0.6967 lr 4.52e-05 seq/s 11.4\nep 1 batch 100/746 loss 0.6225 lr 4.30e-05 seq/s 11.4\nep 1 batch 120/746 loss 0.5916 lr 4.08e-05 seq/s 11.4\nep 1 batch 140/746 loss 0.5634 lr 3.86e-05 seq/s 11.5\nep 1 batch 160/746 loss 0.5973 lr 3.65e-05 seq/s 11.5\n"
+    },
+    {
+      "name": "pipeline_dm_a9_e10.log",
+      "age_s": 19,
+      "tail": "affb04e0694c97bb12e4b864ef2d934fc3733\"}, \"num_workers\": 4, \"persistent_workers\": false, \"sampler_replacement\": false, \"sampler_num_samples\": 11949}, \"normalization_identity\": {\"mean\": {\"shape\": [211], \"dtype\": \"torch.float32\", \"bytes_sha256\": \"c2735f3c99d6bb9db3d3cbc9fdacb581e439f959322fabd50f82d2c85821235a\"}, \"std\": {\"shape\": [211], \"dtype\": \"torch.float32\", \"bytes_sha256\": \"d3d87f517dd8dbe3aae67346cc11710bf49e1423fc3f65f2ba5ec5aaddfb8f40\"}}}}\nep 6 batch 0/746 loss 0.4818 lr 3.77e-05 seq/s 4.4\n"
+    },
+    {
+      "name": "pipeline_dm_pm_a9_e6.log",
+      "age_s": 12,
+      "tail": "e-05 seq/s 11.2\nep 2 batch 60/746 loss 0.5561 lr 7.78e-05 seq/s 11.4\nep 2 batch 80/746 loss 0.5758 lr 7.72e-05 seq/s 11.5\nep 2 batch 100/746 loss 0.5590 lr 7.65e-05 seq/s 11.5\nep 2 batch 120/746 loss 0.5173 lr 7.59e-05 seq/s 11.5\nep 2 batch 140/746 loss 0.5377 lr 7.53e-05 seq/s 11.6\nep 2 batch 160/746 loss 0.5530 lr 7.46e-05 seq/s 11.6\nep 2 batch 180/746 loss 0.5285 lr 7.40e-05 seq/s 11.6\nep 2 batch 200/746 loss 0.4871 lr 7.33e-05 seq/s 11.6\nep 2 batch 220/746 loss 0.5501 lr 7.27e-05 seq/s 11.6\n"
+    },
+    {
+      "name": "pipeline_dm_ba_a9_e6.log",
+      "age_s": 12,
+      "tail": "05 seq/s 11.5\nep 3 batch 200/746 loss 0.4794 lr 4.67e-05 seq/s 11.5\nep 3 batch 220/746 loss 0.4883 lr 4.60e-05 seq/s 11.5\nep 3 batch 240/746 loss 0.6019 lr 4.53e-05 seq/s 11.5\nep 3 batch 260/746 loss 0.5969 lr 4.45e-05 seq/s 11.5\nep 3 batch 280/746 loss 0.4492 lr 4.38e-05 seq/s 11.5\nep 3 batch 300/746 loss 0.5656 lr 4.31e-05 seq/s 11.5\nep 3 batch 320/746 loss 0.5183 lr 4.23e-05 seq/s 11.5\nep 3 batch 340/746 loss 0.5958 lr 4.16e-05 seq/s 11.5\nep 3 batch 360/746 loss 0.5593 lr 4.09e-05 seq/s 11.6\n"
+    },
+    {
+      "name": "pipeline_dm_a95_e6.log",
+      "age_s": 5,
+      "tail": "td\": {\"shape\": [211], \"dtype\": \"torch.float32\", \"bytes_sha256\": \"d3d87f517dd8dbe3aae67346cc11710bf49e1423fc3f65f2ba5ec5aaddfb8f40\"}}}}\nep 4 batch 0/746 loss 0.4468 lr 2.74e-05 seq/s 4.2\nep 4 batch 20/746 loss 0.4794 lr 2.68e-05 seq/s 7.3\nep 4 batch 40/746 loss 0.5371 lr 2.61e-05 seq/s 7.5\nep 4 batch 60/746 loss 0.5261 lr 2.55e-05 seq/s 7.5\nep 4 batch 80/746 loss 0.4515 lr 2.48e-05 seq/s 7.5\nep 4 batch 100/746 loss 0.5028 lr 2.42e-05 seq/s 7.6\nep 4 batch 120/746 loss 0.3800 lr 2.36e-05 seq/s 7.6\n"
+    }
+  ]
+}

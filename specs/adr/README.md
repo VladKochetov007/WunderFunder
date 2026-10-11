@@ -44,3 +44,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0027: diverse models and second-level learning](0027-diverse-models-and-second-level-learning.md): prioritize diverse own teachers/students and learned combinations for24h; one new explicitly authorized Astra/xhigh ideator, independent Luna/max investigations and requested external providers within existing caps.
 - [ADR0028: Sol medium diversity delivery](0028-sol-medium-diversity-delivery.md): latest explicit user authorization replaces the Luna lead with one Sol6.1/medium research/implementation lead; two operators remain Luna/max and no Astra task is authorized.
 - [ADR0029: Luna max only](0029-luna-only-native-diversity-delivery.md): latest user supersedes the Sol exception; transfer its completed native-device draft to an isolated Luna/max role and keep all subordinate work on Luna/max.
+
+- [ADR0030: local evidence selects submissions](0030-local-evidence-selects-submissions.md): research and local validation select models and fixed blends; public leaderboard confirms transfer.

@@ -1,3 +1,15 @@
+# Current research state — 2026-10-11 continuation
+
+The latest user clarification makes **our research and local evidence the basis for submissions; public LB confirms transfer**. [ADR0030](adr/0030-local-evidence-selects-submissions.md) and AGENTS.md now record this. Historical public best is user-reported 0.6668; it is not a selection veto or public forecast.
+
+Own exposed fold1 results: four-epoch Muon-all/prop0 h256 seeds3/4 score 0.66976/0.67195; the fixed equal pair scores **0.67261**. Three-teacher distilled h256 alpha0.9 student epoch5 scores **0.67103**; its fixed equal blend with scratch seed4 scores **0.67329**. These are selected exposed-fold endpoints, not fresh held-out confirmation or public predictions. The student and scratch checkpoints are collected with matching remote/local SHA256. Package the student single and student–scratch pair first; all-data finals continue in parallel. Local three-epoch Muon-all/prop0 mean is 0.669123 over three distinct seeds; duplicate machine reruns do not increase seed count.
+
+Live authority supersedes archived Vast-off/$20 snapshots: user selected a **$70 cap for existing owned Vast lane B instance55080658**, no new rentals or billing changes. Only Luna/max subordinates. Local remains5CPU/18GB working/20GB hard/no swap/5GB observed VRAM/oneGPU. Local memory-pressure recovery passed25 full-shape batches with zero loader workers,9.501GB attempt peak,15.443GB parent peak,3.570GB VRAM and zero OOM/max events; four-epoch distinct seeds6/7 plus exports are queued. Watchdog current-lane/job mapping is independently reviewed and integrated. Vast finals, loss-diverse KD, teacher and OOD branches continue; Kaggle long v6 is running, while exhausted rolling sampler is disabled. Monitor actual phases and collect terminals.
+
+Evidence and effective allocation: [continuation contract](../research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTINUATION_CONTRACT_20261011.md), [raw continuation receipts](../research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011), [research loop](../research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LOOP_LOG_20261010.md).
+
+The following sections are preserved historical snapshots; their stop, spending and score statements do not override the continuation above.
+
 # Current research state — 2026-10-09 04:37 UTC
 
 ## 2026-10-10 session summary (added)

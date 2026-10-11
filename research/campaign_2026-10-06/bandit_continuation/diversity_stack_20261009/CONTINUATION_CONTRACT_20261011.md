@@ -1,0 +1,11 @@
+# October 11 continuation contract
+
+User authorized implementation of the continuation plan, then prioritized latest failed jobs and monitoring local, Kaggle and Vast B. Root controls allocation and launches; subordinate implementation/review uses Luna/max only, at most three roles. Each command uses explicit CPU/RAM limits. Existing dirty monitoring files and frozen artifacts are preserved.
+
+Objective: strongest valid Challenge 2 submission selected from our research and local evidence; public LB confirms transfer; top-1 and >0.700 remain active goals. Public best is user-reported 0.6668. Exposed fold-1 evidence selects mechanisms, not public-score arithmetic. Recipe claims require distinct seed confirmation; machine reruns are not extra independent seeds. Official global_wp_clip2_v1, causal serving, independent weights and permitted data remain binding.
+
+Effective spending: user explicitly selected existing Vast lane B's $70 cap, approximately $1/hour. Only receipt-owned instance 55080658 may be operated through VT_LANE=b controller. No new rentals or billing changes. Historical $20/off snapshots do not govern this continuation. Local ceilings remain five CPU cores, 18 GB working/20 GB hard RAM, no swap and 5 GB observed VRAM. HPO remains disabled.
+
+First actions: diagnose local reservation breach, repair pressure headroom without raising ceilings, bounded real-data recovery profile, then four-epoch Muon-all/prop0 seeds 6 and 7. Keep healthy Vast finals/KD/OOD/student jobs running; collect terminal results and compare matched controls. Audit all-data membership and package fixed single/pair/triple endpoints after actual checkpoints land. Repair current-kernel and job-specific watchdog coverage; preserve artifact identities before paid teardown.
+
+Implementation assignments are code-only unless root explicitly admits computation. Isolated worktrees; <=1 CPU and 3 GB per command, no GPU/provider mutations by builders. Root integrates independently reviewed changes only when local reservation/start is inactive. Record phase, resources, failures, source/data hashes and every measured outcome; commit/push specific files.
