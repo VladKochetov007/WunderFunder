@@ -1,0 +1,60 @@
+{
+  "schema": "wnn.submission-selector-evidence-manifest.v1",
+  "worktree": "/home/vlad/development/wunder/wnn_submission_selector_20261011_r1",
+  "branch_base_commit": "469cb8cd84eea06c83e0ac8da3012e584968c347",
+  "analysis": {
+    "script": "research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/analyze_f1_pool.py",
+    "script_sha256": "ef859daabc71a6d6afaefcadbbfb87332ea060f69a5a8e6b5aad44446a90e040",
+    "output": "research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/generated_r6/F1_SELECTOR_METRICS_R1.json",
+    "output_sha256": "e030f8914aafa7bb172824577552d059a6e101ea7fc5c1ab97b1c2b9d33ff1f5",
+    "report": "research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/SELECTION_EDA_R1.md",
+    "report_sha256": "0adda816e753fae2cb8a64cce7bee3e7c91c79e7d581fb9cd9f0c5d0c08033a0",
+    "source_endpoint_map": "research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/SOURCE_ENDPOINT_MAP_R1.json",
+    "source_endpoint_map_sha256": "27a497479736f5f2a35f2bd507692caabb7031a9715d5773515ba3c6626166ba",
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_submission_selector_20261011_r1/research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/analyze_f1_pool.py --main-root /home/vlad/development/wunder/wnn_connectome_starterpack --output /home/vlad/development/wunder/wnn_submission_selector_20261011_r1/research/campaign_2026-10-06/bandit_continuation/submission_selector_20261011_r1/generated_r6 --bootstrap 800",
+    "resource_contract": "scripts/limited; 100% CPU, 1 thread, 700000000-byte memory maximum, 120-second runtime maximum; bounded streaming/memmap analysis only",
+    "mixture_pool": {"fixed_equal": 9, "calibration_fitted": 3, "total": 12},
+    "component_bootstrap": {"replicates": 800, "seed": 271828}
+  },
+  "input_data": {
+    "split": {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+      "sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "bytes": 1388742
+    },
+    "target_cache": {
+      "path": "cache/valid_targets.npz",
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "bytes": 337186198
+    },
+    "predictions": [
+      {"run": "vt_f1_dsq_dm_t3_a9_e6", "path": "cache/pred_vt_f1_dsq_dm_t3_a9_e6_valid.npy", "sha256": "bf1d4a52a67ccd530b0fff80976a6759d6a6265b7c699f77a73cfca9e044d0ad", "sidecar_sha256": "2323e59cde003aec195b6216a6367c1c9e9c3e893605b9575165f930ea48cefc", "checkpoint_sha256": "c8e08b33a316f3539d4381429233b90403b76de83bda6dbecc84d7952f8212ad"},
+      {"run": "vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2", "path": "cache/pred_vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2_valid.npy", "sha256": "359ba96d4c5b0a72db71cac5635b918414139805241d45bf6d40043433b4f585", "sidecar_sha256": "4c9942c4ded71c14fb0e6f3cce410e3839e56a74b66d8a34080e0c3d9af7a114", "checkpoint_sha256": "0dde2adaf43f36c50862a4fed59e8572660a42dab9ead8cf14cb14f8cb173326"},
+      {"run": "vt_f1_muonall_h384_e3", "path": "cache/pred_vt_f1_muonall_h384_e3_valid.npy", "sha256": "53a67d8e7af4f8d860c7be4d0bc697c55955c69c551df57e37b19fb9769b37e8", "sidecar_sha256": "b17054154213d1b702adee3fe3611ae51aedbb6bde4068e602255af49e5987da", "checkpoint_sha256": "9c7d5e55fde7112dc691c80670fb17b62f24b9d759d2c90312a9ec89334843c6"},
+      {"run": "vt_f1_muonall_h384_e3_s4", "path": "cache/pred_vt_f1_muonall_h384_e3_s4_valid.npy", "sha256": "e4f4ebb3559c0933b0d8f263f8ea6954d5ecb8e3d6d4ba26533a43f144e1ee2e", "sidecar_sha256": "085286079ef2949d1d69ded0a212f5db8461c37fb27dd2336fec8462d1b127ce", "checkpoint_sha256": "752f462036a8e340db00de98dcb141795f3a0ae54cfffce3e95ce7ceed7f5e9e"},
+      {"run": "vt_f1_muonall_h384_e3_s5", "path": "cache/pred_vt_f1_muonall_h384_e3_s5_valid.npy", "sha256": "3225864d4f830058366d41ba31f2d72d4b7f56143a0311ed3373f54ab3059b3c", "sidecar_sha256": "020debaa5c48211f943ee0a21cce9b768b1735d060a65a641b3c54b154c19b48", "checkpoint_sha256": "ee154f035720069ef26bf0fd328c61887cdbb426c49d51fb25172e5bb52b1f80"}
+    ]
+  },
+  "lineage_and_selection_receipts": [
+    {"path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261011_1730_r1/F1_STRONG_T3_ACTUAL_CACHE_METADATA_R2.json", "sha256": "a2f82d8dbc7bbbe2c7cf36e18e3b7be0b41f887aa14a742b43f616b060856779"},
+    {"path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/README.md", "sha256": "ca7fe981a7bc0179be50d4bbbe311e8936aa3162d2afd313065c226075ff1582"},
+    {"path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/H391_OFFICIAL_SINGLE_PAIR_GRADE_R1.json", "sha256": "0050c6ad0aa05e978dffd6a90f896e7181df7747f6992e9b63f3ef0cf4a67508"},
+    {"path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/HEADROOM_BLEND_SCORES_R1.txt", "sha256": "0ea1cf7f284f1ba679462fb90fb22b2cb382273f13bfd71335d0a6cec35b393f"},
+    {"path": "research/campaign_2026-10-06/bandit_continuation/prediction_bank/LATEST_CROSSFOLD_F0_F1.json", "sha256": "035bca5db580bf88eeb829dca4f2ad7e09cd9418e8f95cc925da6f24bd205417"},
+    {"path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/H382_CROSSFOLD_GRADE_EVIDENCE_R1.json", "sha256": "417e39aefb627164dccfe0b348f06b03dc5d03edc56e896b4e839a8d0ae1649e"},
+    {"path": "submissions/upload_2026-10-11/z1c_z4_pair_q8vnni/pkg/members.json", "sha256": "ee2f33b46fd5280fc0337e7db2f291cbe3ff30d1ced01bfb9b90c120ca72ec9f", "pair_zip_sha256": "ff498873027318b5aa20e6ca95517bdb843b4656989a75aae148f1c141705327"}
+  ],
+  "callback_capacity_profiles": [
+    {"path": "research/submission_callback_headroom_20261011/profiles/headroom_student256_h384s3_equal_q8vnni_10seq_5rep_r1.json", "sha256": "2770346f0bf4bcd0345803ea9d09ae5fecb21a70829aedd1034268811cb44d6a", "qualification": "Fold-1 checkpoint pair, capacity only."},
+    {"path": "research/submission_callback_headroom_20261011/profiles/capacity_h384_s3_s4_q8vnni_10seq_5rep_r1.json", "sha256": "a30d14f0c86e7533493c4a53f9b5e24bbe13075c822606e0cd3aca4690879e68", "qualification": "Fold-1 checkpoint pair, capacity only."},
+    {"path": "research/submission_callback_headroom_20261011/README.md", "sha256": "c9232d962e6566d4a764f0f0bb72d69c56dbed6a0749cf50bc8799010519e830", "qualification": "Capacity measurements are not quantized grade evidence."}
+  ],
+  "claim_limits": [
+    "Fold 1 and its component complement have prior model/blend selection exposure.",
+    "All-data valid predictions were not read or scored; their rows belong to fitting populations.",
+    "No exact fold counterpart is available for the old Z1c/Z4 pair or H390 all-data students.",
+    "Two prop0 headroom predictions are unavailable locally; only their prior score receipt is cited.",
+    "Callback profiles measure runtime capacity for fold-1 packages and do not establish Q8 quality for final all-data packages.",
+    "No public-score forecast or public/local delta was calculated."
+  ]
+}
