@@ -7,10 +7,11 @@
 | earlier (same list): z2c alldata 0.6649; z5 seed9 0.6664; z4 seed99 0.6662; z3 0.6662; p2 student 0.6639; p1/p3 students TIMEOUT 61m57s (i16 two-model h384 teachers) |
 
 ## Evidence / reading
-- Q8Vnni pair beats its own best member by only +0.0004 public (0.6668 vs 0.6664); single z1c q8vnni (0.6649) is 0.0015 below the same model in i16 form (z1c 0.6664 earlier? check: z1c i16 single listed 0.6664 in prior list) -> int8 quantisation may cost ~0.001 on single; pair partly masks it. Needs a paired comparison: z1c i16 vs q8 on identical local fold-1 predictions (quantisation loss measurement is open).
+- CORRECTION: z1c i16 single = 4_z1c_alldata_s4_student_hft 0.6649; q8 single 0.6649 => int8 Q8Vnni quantisation loss ~0 publicly (identical score). Pair z1c+z4 0.6668 vs members z1c 0.6649 / z4 0.6662: +0.0019 over z1c, +0.0006 over best member z4. Prior best 0.6664 was z5 seed9 single (i16).
+- Not yet tried: pair with z5 (0.6664) — 2_z5_z4_pair_q8vnni.zip is built and unuploaded; expected >= 0.6668.
 - Portal duration: pair 27m, single 15.7m => ~13 min/model on the scorer. Prior estimate (loaded 68-85 quiet) was pessimistic. Budget is 60 min => room for ~3-4 model Q8 ensembles (timeouts seen at ~62 min for two h384 i16).
 - Diversity gain pair vs single: 0.6668-0.6649 = +0.0019 in q8 domain (consistent with local pair gain ~+0.003).
 ## Actions
 1. Build 3-model Q8Vnni ensemble (z1c + z4 + muonall-h384/z5 diverse member) est ~40 min portal; check tail risk with 2x variance.
-2. Measure q8-vs-fp32 loss locally per member; consider per-layer scale calibration if >0.0005.
+2. q8 loss is ~0 (resolved). Upload 2_z5_z4_pair_q8vnni.zip next (27m-class, safe).
 3. Submissions slots: user reports 0/5 today.
