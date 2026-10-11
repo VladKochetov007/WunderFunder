@@ -1,0 +1,15 @@
+{
+  "schema": "wnn.kaggle.r5_r8_prefinalizer_diagnostic.r1",
+  "status": "corrected_local_preflight_only",
+  "stage": "archive_member_resolution",
+  "error_class": "ValueError",
+  "diagnosis": "The first bounded finalizer draft incorrectly expected the separately uploaded kernel bootstrap to be inside the dataset tar. The sealed R7 tar contains the root receipt and gate; kernel/kernel.py is staged beside the tar and scripts/kaggle_kernel.py is a different archived helper.",
+  "r7_archive_sha256": "1cf431474a7aed41a8df6606373c63a4d5816bdf0c77b4deff0c72dfefce2bca",
+  "r8_package_existed_at_failure": false,
+  "r7_modified": false,
+  "root_receipt_modified": false,
+  "provider_actions": 0,
+  "science_fits": 0,
+  "classification": "delivery_builder_mismatch_only_no_scientific_result",
+  "correction": "The R8 finalizer now updates the staged bootstrap separately, including its expected archive digest, and validates the rebuilt archive against the exact manifest and actual archived consumer."
+}
