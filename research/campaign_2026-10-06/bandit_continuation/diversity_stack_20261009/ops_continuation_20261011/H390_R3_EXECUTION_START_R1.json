@@ -1,0 +1,466 @@
+{
+  "schema": "wnn.h390.r3.execution-start.v1",
+  "recorded_utc": "2026-10-11T13:51:11Z",
+  "owner": "tail_builder",
+  "status": "both_fits_running_at_snapshot; no result claim",
+  "authorization": {
+    "instance_id": 55080658,
+    "lane": "b",
+    "owned_prepaid_instance_only": true,
+    "billing_mutations": false,
+    "original_release": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/H390_R3_ROOT_CONDITIONAL_RELEASE_R1.json",
+      "sha256": "2d308665786fb7ed305c02104ab353ee38cd0c6fb446caf9700b1fac7797ea6d",
+      "superseded_start_cutoff_utc": "2026-10-11T13:30:00Z"
+    },
+    "fresh_prepaid_reassessment": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/H390_R3_PREPAID_CUTOFF_REASSESSMENT_R2.json",
+      "sha256": "8cd723989d7df28bc13ac28d6087d236c5c4443ee75e72104004fcc584553a85",
+      "utc": "2026-10-11T13:32:15.920507Z",
+      "live_credit_usd": 4.201428585900004,
+      "hourly_rate_usd": 0.8277777777777777,
+      "expiry_utc": "2026-10-11T18:36:47.905230Z",
+      "revised_latest_start_utc": "2026-10-11T13:45:00Z",
+      "bounds_seconds": {
+        "fit_each": 10800,
+        "export_each": 1800,
+        "collection": 3600,
+        "extra_margin": 900
+      },
+      "release": true,
+      "no_topup_or_rental": true
+    }
+  },
+  "frozen_inputs": {
+    "worktree_branch": "exp/h390-r3-cache-reuse-20261011",
+    "source_commit": "0d885a501e3709e7df20d617109299b444a846b2",
+    "source_root_remote": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1",
+    "source_manifest_sha256": "fb32325fa1010615c12a45e67e81edfd18141e288c620a5c73664d45beb397ea",
+    "packet_manifest_sha256": "781c0237fc4b83e0715d43f3af4e4d1d83e076a72c754187d2c3bf6891414f19",
+    "recipe_readme_sha256": "ca7fe981a7bc0179be50d4bbbe311e8936aa3162d2afd313065c226075ff1582",
+    "r3_r2_cache_reuse_lineage_sha256": "52fa0a9b5a773a86cf0ac6d25bcae581e811f04853b75f12e41ffb7cdee5bfdb",
+    "independent_review": "batch_packet_builder; focused actual-argparse/cache suite 5 passed; PASS",
+    "portable_data_manifest_remote": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold1.json",
+    "portable_data_manifest_sha256": "551905f3363c65608e2d5a0f49e8eeca362f574ab6d98d443e31cee0790fb5fd",
+    "portable_inputs": {
+      "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "train_targets_index_sha256": "4e52088dc9fd01c19fa0d2558e87f60559ce84d1ab83cc3952c0ab9d9512c597",
+      "valid_targets_index_sha256": "ed030f767a6c650db666844ecffef21f0e96cc9fa2d7e77a0872bdf26c5bed38",
+      "train_parquet": {
+        "bytes": 29240219011,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "footer_bytes": 60437285,
+        "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb"
+      },
+      "valid_parquet": {
+        "bytes": 5615509128,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "footer_bytes": 10686926,
+        "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+      },
+      "actual_worker_registry_and_raw_footer_checks": "PASS in actual source/preflight and child trainer startup"
+    },
+    "parent_source_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "propensity_checkpoint_sha256": "1fbf412df8823c703fdf79263830f341269a68e769bc4a7258d93cdf8e40dc5c",
+    "parents": {
+      "3": {
+        "run": "vt_all_fin_mu256p0e4_s3",
+        "epoch": 3,
+        "checkpoint_sha256": "ca50c35c05a680b8009bb444485f1ff73aa99e3e50f96138faf266a92c146e5d",
+        "provenance_sha256": "7afe92cbcc9f5f1f615d0b536571bd4fe526365ddbd663e48b8c14619a237a06"
+      },
+      "4": {
+        "run": "vt_all_fin_mu256p0e4_s4",
+        "epoch": 3,
+        "checkpoint_sha256": "a6c1b1bf2b6b6c68df71af359cc732a7842c119bdbd43a5d4965bc321b47f0fc",
+        "provenance_sha256": "8a33e822638a292beda829163e1f2a750e6f70649b3182aaba7890ae44c4605e"
+      }
+    },
+    "teachers": [
+      {
+        "run": "vt_f1_muonall_h384_e3",
+        "seed": 3,
+        "epoch": 2,
+        "checkpoint_sha256": "9c7d5e55fde7112dc691c80670fb17b62f24b9d759d2c90312a9ec89334843c6",
+        "provenance_sha256": "ca9f7c32910e5d71acddf78a474c06eee324b54d781ad9c736cd1f9a4a83deae"
+      },
+      {
+        "run": "vt_f1_muonall_h384_e3_s4",
+        "seed": 4,
+        "epoch": 2,
+        "checkpoint_sha256": "752f462036a8e340db00de98dcb141795f3a0ae54cfffce3e95ce7ceed7f5e9e",
+        "provenance_sha256": "e11ca9b3bfb9fc302f199514eb075960933e8fd27dfa49d58a31b76d5f5011f6"
+      },
+      {
+        "run": "vt_f1_muonall_h384_e3_s5",
+        "seed": 5,
+        "epoch": 2,
+        "checkpoint_sha256": "ee154f035720069ef26bf0fd328c61887cdbb426c49d51fb25172e5bb52b1f80",
+        "provenance_sha256": "45555945babdc6af0d56e1b5ab6a68585383bf32a73335fe8b92d84af7bdf03d"
+      }
+    ],
+    "r2_cache_producer": {
+      "cache_root_remote": "/root/wnn/cache/h390_all_data_homogeneous_r2",
+      "source_manifest_sha256": "7c68c6de67f8498b92bfc0b462d76969444f2d8fc3289008c9caf060d9371d31",
+      "packet_manifest_sha256": "70a8e01570a2d65de9bbd5ee413b59fe52764a4cacd61c1882c3c669da82e352",
+      "metadata_sha256": "da9860193abbf096932ddc2e3b27ac51ff09cfea50bbf8480df79db8a419126e",
+      "arrays": {
+        "main_homogeneous_train.npy": {
+          "bytes": 1696960128,
+          "sha256": "0692a2b1cd638328344569ccb96d8760120bd35d50f5d1583d6aabd9493792b0"
+        },
+        "main_homogeneous_valid.npy": {
+          "bytes": 299680128,
+          "sha256": "d51495b8020bcfa15f4ac7cb0f2f1185cc271f9a338219cca1c580ad9d9755da"
+        }
+      },
+      "cache_target_provenance": "actual R2 teacher producer metadata/sidecars and source/packet hashes checked; R3 kept original producer hashes and metadata unchanged"
+    }
+  },
+  "actual_preflight_and_startup": {
+    "checks": {
+      "R3 source snapshot verifier": "PASS on actual worker; pinned source and packet manifests, 60 declared source hashes, R1/R2 lineage and teacher/parent receipts",
+      "R2 cache strict validator": "PASS on actual worker; both homogeneous arrays, metadata, full membership and heldout_claim=false",
+      "R3 cache reuse verifier": "PASS on actual worker; original R2 producer/source/packet, cache metadata and array identities matched",
+      "trainer startup guard": "PASS for both actual jobs; startup logs report 10,606 source-train groups, 1,873 valid-as-fit groups, 0 evaluation groups"
+    },
+    "cache_membership": {
+      "train_groups": 10606,
+      "valid_groups_fit": 1873,
+      "total_fit_groups": 12479,
+      "evaluation_groups": 0,
+      "heldout_claim": false
+    },
+    "actual_cache_path": "/root/wnn/cache/h390_all_data_homogeneous_r2",
+    "note": "R3 consumes the immutable R2 cache; no rebuild, relabel or metadata rewrite occurred."
+  },
+  "jobs": [
+    {
+      "run": "vt_all_h390_ds_homogeneous_s3_r3",
+      "seed": 3,
+      "parent": "vt_all_fin_mu256p0e4_s3@ep3",
+      "actual_start_utc": "2026-10-11T13:38:23Z",
+      "actual_argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=60s",
+        "10800s",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/scripts/train_rnn.py",
+        "--name",
+        "vt_all_h390_ds_homogeneous_s3_r3",
+        "--seed",
+        "3",
+        "--device",
+        "cuda",
+        "--arch",
+        "gru",
+        "--cell",
+        "gru",
+        "--hidden",
+        "256",
+        "--layers",
+        "2",
+        "--dropout",
+        "0",
+        "--train-source",
+        "train+valid",
+        "--train-seqs",
+        "10607",
+        "--valid-seqs",
+        "0",
+        "--valid-fold",
+        "-1",
+        "--include-heldout-valid",
+        "--no-eval-during-fit",
+        "--init",
+        "vt_all_fin_mu256p0e4_s3@ep3",
+        "--inherit-init-preprocessing",
+        "--final-distill-cache-root",
+        "/root/wnn/cache/h390_all_data_homogeneous_r2",
+        "--distill-alpha",
+        "0.9",
+        "--epochs",
+        "6",
+        "--checkpoint-policy",
+        "fixed",
+        "--checkpoint-epoch",
+        "5",
+        "--batch",
+        "16",
+        "--chunk",
+        "2000",
+        "--loss",
+        "wmse",
+        "--loss-norm",
+        "chunk",
+        "--lr",
+        "0.0001",
+        "--wd",
+        "0.01",
+        "--optim",
+        "adamw",
+        "--sched",
+        "onecycle",
+        "--precision",
+        "fp16",
+        "--propensity",
+        "c20260929_prop_f1",
+        "--prop-power",
+        "2",
+        "--prop-eps",
+        "0.03",
+        "--valid-true-mask",
+        "0.03",
+        "--aux-struct",
+        "0.3",
+        "--aux-next",
+        "0.3",
+        "--since-weight",
+        "32",
+        "--fast",
+        "--save-training-state"
+      ],
+      "environment": {
+        "PYTHONPATH": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/src",
+        "WNN_PROJECT_ROOT": "/root/wnn",
+        "WNN_PORTABLE_DATA_MANIFEST": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold1.json",
+        "CUDA_VISIBLE_DEVICES": "0",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "WNN_THREADS": "1"
+      },
+      "timeout": {
+        "program": "/usr/bin/timeout",
+        "signal": "TERM",
+        "kill_after_seconds": 60,
+        "fit_seconds": 10800
+      },
+      "processes": {
+        "launcher_pid": 1925044,
+        "timeout_pid": 1925048,
+        "trainer_pid": 1925049,
+        "data_worker_pid": 1925235
+      },
+      "log": "/root/run/h390_r3/s3.supervisor.log",
+      "exit_receipt": "/root/run/h390_r3/s3.exit",
+      "phase_at_2026-10-11T13:47:58Z": {
+        "phase": "fit",
+        "epoch_index": 0,
+        "batch_index": 620,
+        "batches_in_epoch": 779,
+        "observed_sequences_per_second": 18.9,
+        "status": "running"
+      },
+      "phase_at_2026-10-11T13:51:11Z": {
+        "phase": "fit",
+        "epoch_index": 1,
+        "batch_index": 60,
+        "batches_in_epoch": 779,
+        "observed_sequences_per_second": 17.2,
+        "status": "running",
+        "previous_epoch": {
+          "epoch_index": 0,
+          "completed_batches": 779,
+          "optimizer_attempts": 7790,
+          "optimizer_completed_updates": 7788,
+          "amp_skipped_updates": 2
+        }
+      }
+    },
+    {
+      "run": "vt_all_h390_ds_homogeneous_s4_r3",
+      "seed": 4,
+      "parent": "vt_all_fin_mu256p0e4_s4@ep3",
+      "actual_start_utc": "2026-10-11T13:40:03Z",
+      "actual_argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=60s",
+        "10800s",
+        "/opt/conda/bin/python",
+        "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/scripts/train_rnn.py",
+        "--name",
+        "vt_all_h390_ds_homogeneous_s4_r3",
+        "--seed",
+        "4",
+        "--device",
+        "cuda",
+        "--arch",
+        "gru",
+        "--cell",
+        "gru",
+        "--hidden",
+        "256",
+        "--layers",
+        "2",
+        "--dropout",
+        "0",
+        "--train-source",
+        "train+valid",
+        "--train-seqs",
+        "10607",
+        "--valid-seqs",
+        "0",
+        "--valid-fold",
+        "-1",
+        "--include-heldout-valid",
+        "--no-eval-during-fit",
+        "--init",
+        "vt_all_fin_mu256p0e4_s4@ep3",
+        "--inherit-init-preprocessing",
+        "--final-distill-cache-root",
+        "/root/wnn/cache/h390_all_data_homogeneous_r2",
+        "--distill-alpha",
+        "0.9",
+        "--epochs",
+        "6",
+        "--checkpoint-policy",
+        "fixed",
+        "--checkpoint-epoch",
+        "5",
+        "--batch",
+        "16",
+        "--chunk",
+        "2000",
+        "--loss",
+        "wmse",
+        "--loss-norm",
+        "chunk",
+        "--lr",
+        "0.0001",
+        "--wd",
+        "0.01",
+        "--optim",
+        "adamw",
+        "--sched",
+        "onecycle",
+        "--precision",
+        "fp16",
+        "--propensity",
+        "c20260929_prop_f1",
+        "--prop-power",
+        "2",
+        "--prop-eps",
+        "0.03",
+        "--valid-true-mask",
+        "0.03",
+        "--aux-struct",
+        "0.3",
+        "--aux-next",
+        "0.3",
+        "--since-weight",
+        "32",
+        "--fast",
+        "--save-training-state"
+      ],
+      "environment": {
+        "PYTHONPATH": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h390_all_data_homogeneous_r3/child_source_v1/src",
+        "WNN_PROJECT_ROOT": "/root/wnn",
+        "WNN_PORTABLE_DATA_MANIFEST": "/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold1.json",
+        "CUDA_VISIBLE_DEVICES": "0",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "WNN_THREADS": "1"
+      },
+      "timeout": {
+        "program": "/usr/bin/timeout",
+        "signal": "TERM",
+        "kill_after_seconds": 60,
+        "fit_seconds": 10800
+      },
+      "processes": {
+        "launcher_pid": 1925390,
+        "timeout_pid": 1925392,
+        "trainer_pid": 1925393,
+        "data_worker_pid": 1925590
+      },
+      "log": "/root/run/h390_r3/s4.log",
+      "pid_receipt": "/root/run/h390_r3/s4.pid",
+      "exit_receipt": "/root/run/h390_r3/s4.exit",
+      "phase_at_2026-10-11T13:47:58Z": {
+        "phase": "fit",
+        "epoch_index": 0,
+        "batch_index": 460,
+        "batches_in_epoch": 779,
+        "observed_sequences_per_second": 17.6,
+        "status": "running"
+      },
+      "phase_at_2026-10-11T13:51:11Z": {
+        "phase": "fit",
+        "epoch_index": 0,
+        "batch_index": 680,
+        "batches_in_epoch": 779,
+        "observed_sequences_per_second": 17.4,
+        "status": "running"
+      }
+    }
+  ],
+  "resource_snapshot": {
+    "observed_utc": "2026-10-11T13:51:11Z",
+    "disk_free_bytes": 28374581248,
+    "host_mem_available_bytes": 757067120640,
+    "gpu0": {
+      "name": "NVIDIA GeForce RTX 4090",
+      "used_mib": 4745,
+      "total_mib": 24564,
+      "utilization_percent": 97,
+      "jobs": [
+        "s3_r3",
+        "s4_r3"
+      ]
+    },
+    "gpu1": {
+      "name": "NVIDIA GeForce RTX 4090",
+      "used_mib": 2284,
+      "total_mib": 24564,
+      "utilization_percent_at_sample": 64,
+      "owner": "existing healthy OOD SWN R2; left unchanged"
+    },
+    "no_fit_error_observed": true
+  },
+  "co_resident_ood_observation": {
+    "actual_cli_run_id": "vt_f1_ood_swn_r2_homshare_r2",
+    "pipeline_log_alias": "vt_f1_ood_swn25_r2_homshare_r2.swn_r2.log",
+    "current_pipeline_log": "/root/run/logs/pipeline_swn_r2.log",
+    "phase_at_2026-10-11T13:47:58Z": {
+      "phase": "fit",
+      "epoch_index": 0,
+      "batch_index": 360,
+      "batches_in_epoch": 746,
+      "status": "running"
+    },
+    "cache": "/root/wnn/cache/dc_ood_fold1_strong2_ep2_homogeneous_r2",
+    "checkpoint_yet": false,
+    "left_unchanged": true,
+    "phase_at_2026-10-11T13:51:11Z": {
+      "phase": "fit",
+      "epoch_index": 0,
+      "batch_index": 440,
+      "batches_in_epoch": 746,
+      "status": "running",
+      "checkpoint_yet": false
+    }
+  },
+  "scientific_claims": {
+    "ood": "No score comparison recorded in this execution-start receipt.",
+    "h390": "All-data final fit only; all 12,479 supplied sequences/groups are in the fitting population; no heldout claim or clean-fold score."
+  },
+  "actual_argv_verification": {
+    "method": "bounded MAIN controller SSH read of each actual supervisor log argv= line; token-for-token match",
+    "wrapper": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited",
+    "result": "PASS",
+    "runs": {
+      "vt_all_h390_ds_homogeneous_s3_r3": {
+        "log_tokens": 79,
+        "match": true
+      },
+      "vt_all_h390_ds_homogeneous_s4_r3": {
+        "log_tokens": 79,
+        "match": true
+      }
+    }
+  }
+}
