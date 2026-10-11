@@ -1,0 +1,127 @@
+{
+  "receipt_id": "H391_FIT_R2_STARTUP_HANDOFF_R1",
+  "status": "active_fit_started",
+  "start_command_completed_utc": "2026-10-11T15:34:59Z",
+  "supervisor_started_utc": "2026-10-11T15:35:00Z",
+  "first_batch_observed_utc": "2026-10-11T15:35:46Z",
+  "owner": "root from startup handoff; root owns continued monitoring, epoch-5 export and terminal collection",
+  "admission": {
+    "release_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/ROOT_H391_FIT_R2_RELEASE_R1.json",
+    "release_sha256": "45f1ff0312de6a562e15e3d8d2d57f9c9887190b09aea77fe9dcc9b4380c97b8",
+    "finance_receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/PREPAID_REFRESH_H391_R4.json",
+    "finance_receipt_sha256": "bfe8c541669f7b17828a6ea61f97c686509543a9fe9dc0fcf9ab5fae2d00e456",
+    "instance_id": 55080658,
+    "lane": "b",
+    "physical_gpu": 0,
+    "timeout_seconds": 4500,
+    "latest_safe_start_utc": "2026-10-11T15:35:03Z",
+    "actual_start_before_cutoff": true,
+    "no_topup_or_new_rental": true
+  },
+  "launcher": {
+    "local_argv_path": "H391_FIT_R2_ARGV.json",
+    "argv_sha256": "c15c32bce281408ced3c69000c23762ec3bc34245cc0d5590b1810f13b059cf2",
+    "trainer_argv_token_count": 93,
+    "start_script_path": "H391_FIT_START_R2.sh",
+    "start_script_sha256": "f0df8cd9484e94fab0748dbd36359dc47f470b0228099cfc2e212da0daefa6af",
+    "launch_script_path": "H391_FIT_LAUNCH_R2.sh",
+    "launch_script_sha256": "417f6177fc512af1be7036e3468721dc01634581eb5348ad2a18923eff82f4ee",
+    "remote_launch_script_sha256_verified": true,
+    "remote_bash_n_passed": true,
+    "remote_stage_method": "unique temporary files written via authenticated controller SSH, SHA-256 and bash -n checked, then renamed into reviewed paths"
+  },
+  "run": {
+    "name": "vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2",
+    "remote_run_dir": "/root/run/h391_fit_r2",
+    "remote_supervisor_log": "/root/run/h391_fit_r2_supervisor.out",
+    "remote_supervisor_pidfile": "/root/run/h391_fit_r2_supervisor.pid",
+    "supervisor_pid": "1984958",
+    "timeout_and_trainer_pid": "1984988",
+    "sampler_pid": "1984989",
+    "fit_output_dir": "/root/wnn/artifacts/runs/vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2",
+    "current_status_as_of_utc": "2026-10-11T15:39:03Z",
+    "current_phase": "active fitting; ep 0 batch 240/746 observed",
+    "first_batch_line": "ep 0 batch 0/746 loss 0.5543 lr 4.00e-06 seq/s 3.9",
+    "trainer_namespace_membership": {
+      "source_train_sequences": 10533,
+      "eligible_valid_train_sequences": 1416,
+      "used_valid_train_sequences": 1416,
+      "evaluation_sequences_excluded": 457
+    },
+    "evaluation_during_fit": "withheld",
+    "nominated_checkpoint_epoch": 5,
+    "epochs": 6,
+    "fit_batches": 4476,
+    "current_progress_line": "ep 0 batch 240/746 loss 0.5763 lr 1.00e-04 seq/s 20.0",
+    "timeout_pid": "1984988",
+    "trainer_pid": "1984991"
+  },
+  "lineage": {
+    "recipe_sha256": "eab35516d6aa8c067ddde28d27b0bac8f4ceabb3f42f7642ed47ce467a826041",
+    "source_manifest_sha256": "744bb3d8b40f4816387f449bbd6c284cc419642e3be548580954e4067f4f7c3d",
+    "source_trainer_sha256": "8c041bf2a49b43ef5a014a5f7cee59302605d464f5b82fe8c7dc12267c386a40",
+    "cache_metadata_sha256": "a2f82d8dbc7bbbe2c7cf36e18e3b7be0b41f887aa14a742b43f616b060856779",
+    "parent_checkpoint_sha256": "752f462036a8e340db00de98dcb141795f3a0ae54cfffce3e95ce7ceed7f5e9e",
+    "parent_provenance_sha256": "e11ca9b3bfb9fc302f199514eb075960933e8fd27dfa49d58a31b76d5f5011f6",
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "portable_manifest_sha256": "551905f3363c65608e2d5a0f49e8eeca362f574ab6d98d443e31cee0790fb5fd"
+  },
+  "resources_at_first_batch": {
+    "gpu0_utilization_percent": 76,
+    "gpu0_memory_mib": 2600,
+    "gpu1_utilization_percent": 0,
+    "gpu1_memory_mib": 1,
+    "host_memavailable_kib": 756520536
+  },
+  "export_contract": {
+    "owner": "root",
+    "prerequisites": [
+      "fit supervisor terminal and trainer exit code 0",
+      "fixed model_ep5.pt and provenance/training_state/history verified in run output",
+      "fresh GPU0/resource and credit gate",
+      "preserve frozen source and root admission bounds"
+    ],
+    "timeout_seconds": 1800,
+    "command": "WNN_PROJECT_ROOT=/root/wnn WNN_PORTABLE_DATA_MANIFEST=/root/wnn/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/multifold_r1/portable_inputs_fold1.json PYTHONPATH=/root/wnn/h391_f1_h384_source_r1/src CUDA_VISIBLE_DEVICES=0 WNN_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 /usr/bin/timeout --signal=TERM --kill-after=30s 1800s /opt/conda/bin/python /root/wnn/h391_f1_h384_source_r1/scripts/predict_run.py vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2 valid --epoch 5",
+    "expected_prediction": "/root/wnn/cache/pred_vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2_valid.npy",
+    "expected_metadata": "/root/wnn/cache/pred_vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2_valid.json",
+    "export_ready": false
+  },
+  "terminal_collection_contract": {
+    "owner": "root/submission_packager after terminal fit and export",
+    "fit_files": [
+      "artifacts/runs/vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2/model_ep5.pt",
+      "artifacts/runs/vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2/model.pt",
+      "artifacts/runs/vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2/training_state.pt",
+      "artifacts/runs/vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2/provenance.json",
+      "artifacts/runs/vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2/history.json",
+      "/root/run/h391_fit_r2/identity.txt",
+      "/root/run/h391_fit_r2/before.txt",
+      "/root/run/h391_fit_r2/during_samples.txt",
+      "/root/run/h391_fit_r2/after.txt",
+      "/root/run/h391_fit_r2/trainer.out",
+      "/root/run/h391_fit_r2/trainer_exit_code.txt"
+    ],
+    "prediction_files": [
+      "cache/pred_vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2_valid.npy",
+      "cache/pred_vt_f1_h391_dsq_h384_t3_a9_e6_s3_r2_valid.json"
+    ],
+    "verify_sha256_and_checkpoint_epoch_before_collection": true,
+    "score_created_by_fit": false
+  },
+  "monitoring": {
+    "durable_remote_sampler": "/root/run/h391_fit_r2/during_samples.txt (60-second GPU/host/OOD samples)",
+    "terminal_supervisor_log": "/root/run/h391_fit_r2_supervisor.out",
+    "supervisor_pidfile": "/root/run/h391_fit_r2_supervisor.pid",
+    "timeout_receipt": "/root/run/h391_fit_r2_admitted_timeout_seconds.txt",
+    "max_timeout_seconds": 4500,
+    "healthy_job_must_not_be_interrupted": true,
+    "terminal_owner": "root; startup handoff completed, no need for tail_builder to retain a live role"
+  },
+  "resources_at_15_39_03_utc": {
+    "physical_gpu0_utilization_percent": 75,
+    "physical_gpu0_memory_mib": 2602,
+    "physical_gpu1_utilization_percent": 0,
+    "physical_gpu1_memory_mib": 1
+  }
+}

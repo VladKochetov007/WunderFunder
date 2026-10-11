@@ -1,0 +1,144 @@
+{
+  "receipt_id": "H391_PROFILE_R4_TERMINAL_R1",
+  "status": "successful_bounded_profile_only",
+  "attempt": "R4",
+  "started_utc": "2026-10-11T15:30:18Z",
+  "ended_utc": "2026-10-11T15:31:23Z",
+  "supervisor_started_utc": "2026-10-11T15:30:18Z",
+  "supervisor_pid": "1983005",
+  "trainer_pid": "1983035",
+  "trainer_exit_code": 0,
+  "physical_gpu": 0,
+  "visible_cuda_device": 0,
+  "launch": {
+    "argv_path": "H391_PROFILE_R4_ARGV.json",
+    "argv_sha256": "d681e63b954ae27019bcc969c5306ef758f54c989aca83282926ad554807e670",
+    "argv_token_count": 96,
+    "start_script_sha256": "330941ec8f04934554210221b04520bbffe7fef103a416f7d91091a11be33856",
+    "launch_script_sha256": "0d0f0f2d9ef3e5b4887e7b77fbec37698c6ee5f346221a892f938535fab04232"
+  },
+  "lineage": {
+    "frozen_recipe_sha256": "eab35516d6aa8c067ddde28d27b0bac8f4ceabb3f42f7642ed47ce467a826041",
+    "frozen_source_manifest_sha256": "744bb3d8b40f4816387f449bbd6c284cc419642e3be548580954e4067f4f7c3d",
+    "source_trainer_sha256": "8c041bf2a49b43ef5a014a5f7cee59302605d464f5b82fe8c7dc12267c386a40",
+    "parent_checkpoint_sha256": "752f462036a8e340db00de98dcb141795f3a0ae54cfffce3e95ce7ceed7f5e9e",
+    "cache_metadata_sha256": "a2f82d8dbc7bbbe2c7cf36e18e3b7be0b41f887aa14a742b43f616b060856779",
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+  },
+  "profile": {
+    "complete_batches": 30,
+    "warmup_complete_batches": 5,
+    "measured_complete_batches": 25,
+    "unit": "complete training batches, not optimizer updates",
+    "median_step_wall_ms": 793.98,
+    "reported_gpu_total_ms": 793.69,
+    "reported_seq_per_second": 20.15,
+    "timings_ms": {
+      "backward": 418.83,
+      "forward": 354.5,
+      "gpu_total": 793.69,
+      "h2d": 0.03,
+      "inputs": 2.86,
+      "labels": 0.3,
+      "loss": 10.29,
+      "optimizer": 5.89,
+      "weights": 0.08,
+      "loader_wait": 0.08,
+      "step_wall": 793.98,
+      "seq_per_s": 20.15,
+      "syncs_per_step": 0.08
+    },
+    "profile_runtime_limit_seconds": 120,
+    "full_fit_projection_seconds_with_20pct_and_180s_allowance": 4445
+  },
+  "resources": {
+    "gpu0_max_memory_mib": 2602,
+    "gpu1_max_memory_mib": 1,
+    "host_memavailable_min_kib": 753562808,
+    "ood_progress_first_observed": "ep 1 batch 560/746 loss 0.6785 lr 4.18e-06 seq/s 9.5",
+    "ood_progress_last_observed": "ep 1 batch 740/746 loss 0.7043 lr 4.29e-08 seq/s 9.6"
+  },
+  "scientific_output": {
+    "full_fit_authorized": false,
+    "checkpoint_created": false,
+    "training_state_created": false,
+    "score_or_validation_result": false
+  },
+  "raw_receipt_files": [
+    {
+      "path": "raw/h391_profile_r4/after.txt",
+      "bytes": 2330,
+      "sha256": "69bd4de49261b78dd66719c41049ac3e6c69dbb6a366fb8f00cb6c4ad56d608f"
+    },
+    {
+      "path": "raw/h391_profile_r4/before.txt",
+      "bytes": 2330,
+      "sha256": "6ad3633c528adaae142d3c5054dda7ee63bae38768d0de2bd7904527a2cafead"
+    },
+    {
+      "path": "raw/h391_profile_r4/during_samples.txt",
+      "bytes": 46004,
+      "sha256": "92167b5d2b07a9dfa2202433e3952f5aa5310fdeac39f7c6acd5b79989a8b003"
+    },
+    {
+      "path": "raw/h391_profile_r4/end_utc.txt",
+      "bytes": 21,
+      "sha256": "b69ebf8fd88b05617abc8651df229a2b2f9fcdfd274c2d883bbf06fffc97ded9"
+    },
+    {
+      "path": "raw/h391_profile_r4/identity.txt",
+      "bytes": 501,
+      "sha256": "3c5757b216f08d9d2a964b8adf468b0b08dffa9df0703c612bc777610c4269b3"
+    },
+    {
+      "path": "raw/h391_profile_r4/sampler.pid",
+      "bytes": 8,
+      "sha256": "827d979c0e704c84527f8a7f5c5bc17d8b5d578f296778e5854d4d859acb5b99"
+    },
+    {
+      "path": "raw/h391_profile_r4/start_utc.txt",
+      "bytes": 21,
+      "sha256": "175b7cac9c6688fcf26b8f89aa4bc0c9a707f4dc20e5e67b4c97c6fbf681644a"
+    },
+    {
+      "path": "raw/h391_profile_r4/trainer.out",
+      "bytes": 5279,
+      "sha256": "6cb4f078403057303f552ac8be2b1081d6842e9ddd739bc26585ec30e900d2b7"
+    },
+    {
+      "path": "raw/h391_profile_r4/trainer.pid",
+      "bytes": 8,
+      "sha256": "78225c550a0c12f7a9050ef5784dc1ac65a07502ab357ecca6c445a8544046b9"
+    },
+    {
+      "path": "raw/h391_profile_r4/trainer_argv.shell",
+      "bytes": 1018,
+      "sha256": "ff14cdad4b6c8333b35c7eacc92fdc06496a7269b6b8befe714105f4d6bcf993"
+    },
+    {
+      "path": "raw/h391_profile_r4/trainer_exit_code.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "raw/h391_profile_r4_supervisor.out",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/h391_profile_r4_supervisor.pid",
+      "bytes": 8,
+      "sha256": "03ec54770c5cb2e00b8f511ccd82dacce1ef5ebaf180ea74359c8f275e6e6de2"
+    },
+    {
+      "path": "raw/h391_profile_r4_supervisor_started_utc.txt",
+      "bytes": 21,
+      "sha256": "175b7cac9c6688fcf26b8f89aa4bc0c9a707f4dc20e5e67b4c97c6fbf681644a"
+    }
+  ],
+  "collection": {
+    "method": "controller SSH tar stream/base64 after the separate scp attempt timed out; byte hashes verified after transfer",
+    "first_scp_attempt": "timed out at 90 seconds without changing remote profile outputs",
+    "all_expected_raw_files_collected": true
+  }
+}
