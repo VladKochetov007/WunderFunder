@@ -1,0 +1,95 @@
+{
+  "candidate": {
+    "args": {
+      "batch": 32,
+      "checkpoint_epoch": 2,
+      "chunk": 1000,
+      "epochs": 3,
+      "eval_source": "vfold",
+      "hidden": 256,
+      "layers": 2,
+      "lr": 0.001,
+      "muon_scope": "all",
+      "optim": "muon",
+      "precision": "fp16",
+      "prop_power": 0.0,
+      "propensity": "c20260929_prop_f2",
+      "seed": 3,
+      "train_source": "train+valid",
+      "valid_fold": 2,
+      "wd": 0.01
+    },
+    "checkpoint_sha256": "1d51f0a21743982ba7bdc15e903319a48bf9dfa66b3cc5eafa12f1f13653a252",
+    "epoch": 2,
+    "evaluation_groups": 443,
+    "fit_counts": {
+      "train": 10535,
+      "valid": 1430
+    },
+    "official": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 903071,
+      "t0": 0.7025782086912997,
+      "t1": 0.7030326409577622,
+      "wp": 0.702805424824531
+    },
+    "prediction_bytes": 299680128,
+    "prediction_sha256": "02a03fe7384c80de048ceaf7073a2528e58c3e665af59a5db69764946b8f8562",
+    "run": "h382_muonall256prop0_f2_s3_e3",
+    "sidecar_sha256": "f06917c30dd5ed49a8a548d54d46d81872a27cb1209736b48734eb1a071493e3"
+  },
+  "contrast": {
+    "candidate_minus_contextual_control_wp": -2.037091815354497e-05,
+    "causal_interpretation": "not isolated: contextual run changes Muon scope (RNN vs all) and propensity power (2 vs 0), so no single-factor treatment claim; no seed mean or public-score arithmetic"
+  },
+  "created_utc": "2026-10-11T14:59:49.762444+00:00",
+  "evaluation_group_count": 443,
+  "exposure": "fold 2 is a repeatedly inspected campaign development panel; this is crossfold confirmation, not a fresh holdout or public score",
+  "fold": 2,
+  "metric_id": "global_wp_clip2_v1",
+  "nearest_same_fold_contextual_control": {
+    "args": {
+      "batch": 32,
+      "checkpoint_epoch": 2,
+      "chunk": 1000,
+      "epochs": 3,
+      "eval_source": "vfold",
+      "hidden": 256,
+      "layers": 2,
+      "lr": 0.001,
+      "muon_scope": "rnn",
+      "optim": "muon",
+      "precision": "fp16",
+      "prop_power": 2.0,
+      "propensity": "c20260929_prop_f2",
+      "seed": 3,
+      "train_source": "train+valid",
+      "valid_fold": 2,
+      "wd": 0.01
+    },
+    "checkpoint_sha256": "5244c2aca964a3d25d8904eb44c60459432e9b79c68a4ae6b65e5b34c3758a59",
+    "epoch": 2,
+    "evaluation_groups": 443,
+    "fit_counts": {
+      "train": 10535,
+      "valid": 1430
+    },
+    "official": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 903071,
+      "t0": 0.7030275140583968,
+      "t1": 0.7026240774269723,
+      "wp": 0.7028257957426846
+    },
+    "prediction_bytes": 299680128,
+    "prediction_sha256": "e8e6304af7e383b2922b63a14b0a38e5b5969c98a13171003b7ed2fb24d63b85",
+    "run": "vt_f2_h256_e3",
+    "sidecar_sha256": "61c5c7ad9815bbd1085d310198957739670ee815d955742ac8302477d8a9adce"
+  },
+  "schema": "wnn.h382-fold2-fixed-grade.v1",
+  "scoring_method": "official GlobalAccumulator from src/wnn/gmetric.py; evaluation groups from fold2 split; warmup rows excluded; rows streamed by sequence; prediction sidecars, model checkpoint hashes, valid target row order and exact fold membership checked",
+  "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r1/input_manifests/fold2.json",
+  "split_manifest_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+  "targets_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_targets.npz",
+  "targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+}
