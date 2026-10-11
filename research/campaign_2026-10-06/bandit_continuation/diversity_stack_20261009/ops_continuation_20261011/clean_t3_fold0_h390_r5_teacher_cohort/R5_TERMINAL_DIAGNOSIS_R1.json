@@ -1,0 +1,72 @@
+{
+  "attempt": {
+    "archive_sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549",
+    "bootstrap_sha256": "ab9e9799284aab8b202332fa4f7c3ce71744973a583f36f1385be510920189ca",
+    "kernel": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5-runner",
+    "provider_status": "KernelWorkerStatus.ERROR",
+    "provider_worker_failure_message": "",
+    "push_receipt_sha256": "a586c5a758f49a3b62950d932ccdf27dc3a7e6aeb0563c0e6256ba875a7340ce",
+    "root_push_release_sha256": "83d620b620eedc8ffecb61349aa5e9767433bb312e13e69a178d9793bfc0d660",
+    "terminal_operator_receipt_sha256": "630fd156d1bb1c4f2242f82f72100c36fd5bf311cb50dfc18462fb039ac79513",
+    "version": 1
+  },
+  "code_diagnosis": {
+    "failed_phase": "bootstrap external-input mapping preflight before driver launch",
+    "file": "bundle_teacher_cohort_r5/kernel/kernel.py",
+    "guard_lines_in_r9": [
+      175,
+      257,
+      258
+    ],
+    "identity_guard_preserved": "manifest external_mounts must equal EXPECTED_EXTERNAL_MOUNTS before these mapping checks",
+    "mechanism": "the extracted-archive allowlist is reused for external-mount logical keys; mounted paths are not archive members",
+    "science_interpretation": "infrastructure/bootstrap failure; no teacher fit, checkpoint, prediction, or scientific score"
+  },
+  "quota_refresh": {
+    "campaign_headroom_seconds": 30550.22400000001,
+    "exact_kernel_status": "KernelWorkerStatus.ERROR",
+    "gpu_reserved_seconds": 0.0,
+    "gpu_used_seconds": 63277.613,
+    "observed_at_utc": "2026-10-11T23:46:59+00:00",
+    "poll_file": "R5_QUOTA_POLL_R1.jsonl",
+    "poll_sha256": "0b46051b5f7d388b0671f3957b987c9cf18c681e8fca72311d47447c6ed49fc6",
+    "provider_headroom_seconds": 44722.387,
+    "quota_refresh_utc": "2026-10-17T00:00:00",
+    "quota_target_sha256": "6002f6b2aefb4ea27ed1d5bde07a7381048a8977c6346b3dabd856f62647f62f",
+    "session_id": {
+      "reason": "Kaggle status JSON currently omits kernel_session_id; do not substitute versionNumber.",
+      "value": null
+    }
+  },
+  "r6_successor_constraints": {
+    "external_dataset_and_bundle_archive_unchanged": true,
+    "intended_kernel_version": 2,
+    "kernel_id": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5-runner",
+    "only_bootstrap_mapping_guard_delta": true,
+    "required_external_keys": "allow only keys from exact EXPECTED_EXTERNAL_MOUNTS after exact mapping equality check",
+    "required_path_rejections": [
+      "absolute",
+      ".. path component",
+      "backslash"
+    ],
+    "root_final_release_and_push_admission_required": true,
+    "science_source_data_job_specs_and_resource_contract_unchanged": true
+  },
+  "recorded_utc": "2026-10-11T23:46:59+00:00",
+  "schema": "wnn.kaggle.r5-bootstrap-failure-diagnosis.r1",
+  "scope": "terminal diagnosis and identified R6 bootstrap-only repair preparation",
+  "terminal_collection": {
+    "bytes": 1239360,
+    "directory": "terminal_collection_r1/provider_output/attempt_001",
+    "file_count": 102,
+    "fit_or_export_started": false,
+    "provider_log_bytes": 1470,
+    "provider_log_sha256": "c896990196560abd71993d1700871c07e8337bcbcb7b72dd2aab209117d55747",
+    "traceback_excerpt": [
+      "File \"/kaggle/src/script.py\", line 258, in main",
+      "raise ValueError(\"Unsafe external input mapping\")",
+      "ValueError: Unsafe external input mapping"
+    ],
+    "worker_or_prediction_artifacts_present": false
+  }
+}

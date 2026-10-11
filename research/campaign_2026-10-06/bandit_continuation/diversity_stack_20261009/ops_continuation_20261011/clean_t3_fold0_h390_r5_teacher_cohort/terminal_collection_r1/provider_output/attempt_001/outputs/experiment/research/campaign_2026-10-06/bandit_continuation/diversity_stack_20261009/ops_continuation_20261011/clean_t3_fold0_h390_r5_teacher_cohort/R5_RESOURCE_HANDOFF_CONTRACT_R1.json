@@ -1,0 +1,64 @@
+{
+  "advice": "POSIX_FADV_DONTNEED",
+  "advice_semantics": "best-effort kernel hint; receipt never claims bytes were released",
+  "allowed_paths": [
+    {
+      "path": "cache/chain_folds.npz",
+      "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+      "size": 550072
+    },
+    {
+      "path": "cache/chains.npz",
+      "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+      "size": 650142
+    },
+    {
+      "path": "cache/propcache_c20260929_prop_f0_train.json",
+      "sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9",
+      "size": 183
+    },
+    {
+      "path": "cache/propcache_c20260929_prop_f0_train.npy",
+      "sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174",
+      "size": 848560128
+    },
+    {
+      "path": "cache/propcache_c20260929_prop_f0_valid.json",
+      "sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a",
+      "size": 181
+    },
+    {
+      "path": "cache/propcache_c20260929_prop_f0_valid.npy",
+      "sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c",
+      "size": 149840128
+    },
+    {
+      "path": "cache/train_targets.npz",
+      "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+      "size": 1909335790
+    },
+    {
+      "path": "cache/valid_targets.npz",
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "size": 337186198
+    },
+    {
+      "path": "datasets/train.parquet",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "size": 29240219011
+    },
+    {
+      "path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "size": 5615509128
+    }
+  ],
+  "fit_admission": "unchanged kaggle_gpu_runner.admit_specs; each fit retains its 8,000,000,000-byte RAM reservation",
+  "prohibited": [
+    "global/privileged drop_caches",
+    "advice to code, model checkpoints, split/portable manifests, propensity model, or undeclared paths",
+    "writes/deletes/data mutation, cap changes, reservation reductions, or serial-fit fallback"
+  ],
+  "schema": "wnn.kaggle.teacher_cache_handoff_contract.r5",
+  "status": "frozen"
+}
