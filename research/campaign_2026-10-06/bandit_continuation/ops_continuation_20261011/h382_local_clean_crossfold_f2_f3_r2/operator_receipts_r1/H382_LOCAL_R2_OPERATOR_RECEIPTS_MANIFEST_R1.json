@@ -1,0 +1,80 @@
+{
+  "captured_utc": "2026-10-11T14:13:52.109645+00:00",
+  "critic_commit": "faf65ea2a58c1e1466e74211eb146f0a00fc3a22",
+  "integrated_packet_commit": "31c0b4a470078043975dcab405a1c2399d26a376",
+  "notes": [
+    "R1 sequence receipt records a pre-fit transient-scope collision: inherited WNN_SCOPE_UNIT named the frozen sequence scope. It stopped before a fit service was admitted; the fit attempt path was still absent.",
+    "R2 reran the same frozen plan after clearing WNN_SCOPE_UNIT from the environment; launch_returncode=0 and worker_status=running at the snapshot time. No plan, recipe, source, or attempt ID changed.",
+    "The sequence R2 and fit-start JSON are point-in-time copies of mutable runtime receipts. The authoritative live receipts remain under the source runtime paths named above; these archived snapshots do not claim terminal success.",
+    "The cache and launch-admission records are preserved byte-for-byte; the earlier capacity gate failure remains evidence and was followed by bounded cache reclamation plus a separate successful admission record."
+  ],
+  "packet_manifest_sha256": "799eb10948008ed7c0e415d5328b3d0e440c087d2d92e9259ef49c54c34ef833",
+  "receipts": [
+    {
+      "artifact": "H382_LOCAL_R2_LIVE_CAPACITY_PRECHECK_R1.json",
+      "bytes": 905,
+      "role": "failed_pre_reclaim_capacity_gate",
+      "source_path": "ops_continuation_20261011/H382_LOCAL_R2_LIVE_CAPACITY_PRECHECK_R1.json",
+      "source_sha256": "44cd0a4998f3ab85c14c5687c56270e4cce4656faa1467df7f5b7ece27fef794",
+      "stored_sha256": "44cd0a4998f3ab85c14c5687c56270e4cce4656faa1467df7f5b7ece27fef794"
+    },
+    {
+      "artifact": "H382_LOCAL_R2_CACHE_HANDOFF_R1.json",
+      "bytes": 756,
+      "role": "file_cache_handoff_attempt_1",
+      "source_path": "ops_continuation_20261011/H382_LOCAL_R2_CACHE_HANDOFF_R1.json",
+      "source_sha256": "2cc2a1760def8a20b0236e98c1e7f13219f615e979a54dfe8ce9896a2b698131",
+      "stored_sha256": "2cc2a1760def8a20b0236e98c1e7f13219f615e979a54dfe8ce9896a2b698131"
+    },
+    {
+      "artifact": "H382_LOCAL_R2_CACHE_HANDOFF_R2.json",
+      "bytes": 1063,
+      "role": "file_cache_handoff_attempt_2",
+      "source_path": "ops_continuation_20261011/H382_LOCAL_R2_CACHE_HANDOFF_R2.json",
+      "source_sha256": "e68935f84250644a8461ab72e2aadbd08553edf152949f33004f157a271d1f80",
+      "stored_sha256": "e68935f84250644a8461ab72e2aadbd08553edf152949f33004f157a271d1f80"
+    },
+    {
+      "artifact": "H382_LOCAL_R2_CACHE_HANDOFF_R3.json",
+      "bytes": 1039,
+      "role": "file_cache_handoff_attempt_3",
+      "source_path": "ops_continuation_20261011/H382_LOCAL_R2_CACHE_HANDOFF_R3.json",
+      "source_sha256": "8af076dd8c88c03eb9dfaef68bc7ab0317aee03a6b2fb099d5734ef9bf5ef912",
+      "stored_sha256": "8af076dd8c88c03eb9dfaef68bc7ab0317aee03a6b2fb099d5734ef9bf5ef912"
+    },
+    {
+      "artifact": "H382_LOCAL_R2_LAUNCH_ADMISSION_R1.json",
+      "bytes": 22354,
+      "role": "root_authorized_launch_admission",
+      "source_path": "ops_continuation_20261011/H382_LOCAL_R2_LAUNCH_ADMISSION_R1.json",
+      "source_sha256": "1c092107d03113c02a036d7bf528245df371c1bd89819a612a569db5ac90f96c",
+      "stored_sha256": "1c092107d03113c02a036d7bf528245df371c1bd89819a612a569db5ac90f96c"
+    },
+    {
+      "artifact": "H382_LOCAL_R2_SEQUENCE_PREFIT_FAILURE_R1.json",
+      "bytes": 713,
+      "role": "prefit_failure_due_to_inherited_scope_unit",
+      "source_path": "runtime/sequence_h382_local_r2_20261011_r1.json",
+      "source_sha256": "ea81c6725992d090b09f5db42e973b756f80e537cd560f61adc4cdd9b5a83d5a",
+      "stored_sha256": "ea81c6725992d090b09f5db42e973b756f80e537cd560f61adc4cdd9b5a83d5a"
+    },
+    {
+      "artifact": "H382_LOCAL_R2_SEQUENCE_LAUNCH_SNAPSHOT_R1.json",
+      "bytes": 569,
+      "role": "successful_sequence_start_snapshot",
+      "source_path": "runtime/sequence_h382_local_r2_20261011_r2.json",
+      "source_sha256": "aa36d9bd06cd3d3baefc47521cd42321c66d57d812c9ece1296f831d15ca8531",
+      "stored_sha256": "aa36d9bd06cd3d3baefc47521cd42321c66d57d812c9ece1296f831d15ca8531"
+    },
+    {
+      "artifact": "H382_LOCAL_R2_FIRST_FIT_START_SNAPSHOT_R1.json",
+      "bytes": 48600,
+      "role": "first_fit_running_snapshot",
+      "source_path": "runtime/attempts/h382-local-clean-f2-s3-e3-fit-r2.json",
+      "source_sha256": "78fc75300be53312863b43794efc02436fef42be158a4c8414ebe06c62171fb3",
+      "stored_sha256": "78fc75300be53312863b43794efc02436fef42be158a4c8414ebe06c62171fb3"
+    }
+  ],
+  "schema": "wnn.h382-local-operator-receipts.v1",
+  "sequence_plan_sha256": "4d3660e93a1d56ad69a79320e53a8173e6483391edea45088136be439af23af7"
+}
