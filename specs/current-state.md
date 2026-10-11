@@ -1,3 +1,11 @@
+## 2026-10-11T19:53:45.009559+00:00 — packaging precision preflight caught and corrected
+
+Retract the provisional Q8 label on all three new exploit-now_r1 ZIPs. The obsolete solution_multi wrapper ignored precision.txt and used native FP32 defaults. These ZIPs are withheld and preserved as failed serving attempts; source tensors, CRC and FP32 finite/reset evidence remain valid. This does not imply a serving failure in earlier audited public ZIPs. The new R2 keeps the same model tensors and fixed weights, uses our existing precision-aware solution_native/EnsemblePredictor route, and must assert actual native Q8 selection before release. Its callback/quality/independent gates are pending. R1 runtime numbers belong to FP32 and are not a Q8 capacity estimate.
+
+The independent reviewer also detected its owned Docker gate containers outside the aggregate campaign slice, despite individual CPU/RAM/no-swap/network limits. It stopped only those owned attempts and is switching to installed host Python3.11 with explicit campaign-bound support limits. A wrapper timeout does not terminate a Docker-daemon-owned child; preserve that failure and avoid repeating this path.
+
+Receipt: `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261011_1837_r1/PACKAGING_PRECISION_RETRACTION_R1.json`. Latest package-now scope and healthy research jobs continue; no spending or fitting authority changes.
+
 ## 2026-10-11T19:41:18.284975+00:00 — package now; output diversity analysis; corrected Kaggle diagnostic live
 
 The latest user asks for submissions now, full-data finals, output EDA and Q4/Q8 comparison. ADR0032 supersedes only ADR0031's waiting requirement. Root selects a small endpoint set; separate Luna/max packaging, grading and independent review roles remain active. Three Q8 candidates are sealed in an isolated worktree but callback/precision quality and final review are pending. H390 s3/s4 are fixed CP5 all-data students (12479 groups); their own valid exports are in-sample, and their Muon-all/prop0 parents differ from the strong held-out reference. No cross-validation score or public forecast is assigned to those finals.

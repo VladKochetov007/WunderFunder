@@ -145,3 +145,12 @@ R1 wrapper9080f2ae reused reviewed output/logcollection, but returnedcompletewit
 ## 2026-10-11T19:41:18.284975+00:00 — R1 timeout collected; R3 diagnostic successor
 
 R1 worker240s timeout occurred before observed GPU work. Strict corrected R2 collector now closes83 provider names plus response.log, with90 locally hashed receipt files. The original failure and collector remain preserved. R3 keeps full-content identity checks, adds startup/split/hash and60s stack diagnostics, uses oneT4 and1800s worker bound. Profile only, no full-fit release. Five warmup/25 measured values are complete batches, not optimizer updates. Root readback scripts initially made API/type assumptions; both failed before dispatch and are recorded in READY receipt. Root durable target relative paths were corrected and resolved against actual config directory before terminal-evidence verification. None is negative science.
+
+## 2026-10-11T19:53:45.009559+00:00 — packaging precision preflight caught and corrected
+
+Retract the provisional Q8 label on all three new exploit-now_r1 ZIPs. The obsolete solution_multi wrapper ignored precision.txt and used native FP32 defaults. These ZIPs are withheld and preserved as failed serving attempts; source tensors, CRC and FP32 finite/reset evidence remain valid. This does not imply a serving failure in earlier audited public ZIPs. The new R2 keeps the same model tensors and fixed weights, uses our existing precision-aware solution_native/EnsemblePredictor route, and must assert actual native Q8 selection before release. Its callback/quality/independent gates are pending. R1 runtime numbers belong to FP32 and are not a Q8 capacity estimate.
+
+The independent reviewer also detected its owned Docker gate containers outside the aggregate campaign slice, despite individual CPU/RAM/no-swap/network limits. It stopped only those owned attempts and is switching to installed host Python3.11 with explicit campaign-bound support limits. A wrapper timeout does not terminate a Docker-daemon-owned child; preserve that failure and avoid repeating this path.
+
+Receipt: `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261011_1837_r1/PACKAGING_PRECISION_RETRACTION_R1.json`. Latest package-now scope and healthy research jobs continue; no spending or fitting authority changes.
+
