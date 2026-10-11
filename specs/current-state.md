@@ -179,3 +179,7 @@ The priority remains heterogeneous independently trained teachers/students: opti
 ## Preserved history
 
 The previous complete live-state document is archived byte-for-byte in [current-state-archive-20261009T0153Z.md](current-state-archive-20261009T0153Z.md), SHA256 `f3a3778a54955e6c64adf3b8c53d736d3763bacc43250374cc288feccb8ac21b`. It preserves earlier campaigns, all continuation snapshots and older archive links. Historical active/stop/model-provider statements are snapshots, not current authority. Raw experiment records and frozen packets remain unchanged.
+
+### 2026-10-11T17:25:29+00:00 — paid teardown dependency
+
+The terminal collector manifest disappeared from MAIN collected_b after a metadata read; complete collection receipt/verification are absent. Cause unknown. Current targeted models/predictions were separately verified; root holds paid teardown while preservation owner finishes exact missing intermediates/logs and reconciles the complete inventory. No new paid fit or new spending path.
