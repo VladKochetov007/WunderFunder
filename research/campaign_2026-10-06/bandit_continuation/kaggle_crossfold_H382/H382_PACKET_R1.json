@@ -1,0 +1,115 @@
+{
+  "admission": "Prepared for root review only; no provider upload or dispatch is performed by this builder.",
+  "asset_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+  "assets_dataset": "vladkochetov07/wnn-c20261004-fold0-assets",
+  "bundle_bytes": 354784,
+  "bundle_id": "vladkochetov07/wnn-kaggle-crossfold-h382-bundle-20261011-r1",
+  "bundle_sha256": "1536753bda7f8e5a223a09ca86ffb9b18595049b2f15e28e5ffe328625bdd4ce",
+  "cohort": [
+    {
+      "checkpoint_epoch": 2,
+      "contrast": "fold0 all-scope control",
+      "epochs": 3,
+      "name": "kg_h382_f0_muonall_prop2_e3_s3",
+      "prop_power": 2.0
+    },
+    {
+      "checkpoint_epoch": 2,
+      "contrast": "propensity-power contrast",
+      "epochs": 3,
+      "name": "kg_h382_f0_muonall_prop0_e3_s3",
+      "prop_power": 0.0
+    },
+    {
+      "checkpoint_epoch": 3,
+      "contrast": "longer fixed schedule contrast",
+      "epochs": 4,
+      "name": "kg_h382_f0_muonall_prop0_e4_s3",
+      "prop_power": 0.0
+    }
+  ],
+  "comparison_note": "Historical fold-0 prop0/prop2 runs used Muon scope rnn; they are not direct duplicates. The H382 prop2/e3 arm is a fresh all-scope anchor; prop0/e3 changes only propensity power relative to that anchor, and prop0/e4 changes the fixed schedule length/checkpoint.",
+  "dataset_metadata_sha256": "263fbf96ec9cac0dcea0860ac223a047f95653344fb1b8dc166bce3cd648d1cb",
+  "device_timing_reference": {
+    "device": "2x NVIDIA Tesla T4 (Kaggle)",
+    "scope": "Actual fold-1 V6 GRU256x2 runs; representative timing only, not a fold-0 profile or speedup claim.",
+    "v6_completed_same_shape_export_seconds": [
+      97,
+      140,
+      140,
+      142
+    ],
+    "v6_completed_same_shape_fit_seconds": [
+      2899,
+      2902,
+      2932,
+      3545
+    ]
+  },
+  "existing_recipe_audit_path": "h382_fold0_existing_recipe_audit.json",
+  "existing_recipe_audit_sha256": "7e7127d7fdcfa4c798bc7b6b7a4307872f82e256ab72dbc1ca2965e739217646",
+  "fit_membership": {
+    "dataset_length": 11940,
+    "train": {
+      "count": 10535,
+      "ordered_int64_le_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9"
+    },
+    "valid": {
+      "count": 1405,
+      "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+    },
+    "valid_repeat": 1
+  },
+  "fit_sequence_count": 11940,
+  "full_valid_prediction_dtype": "float32",
+  "full_valid_prediction_shape": [
+    1873,
+    20000,
+    2
+  ],
+  "kernel_bytes": 24885,
+  "kernel_metadata_sha256": "7cfcd5def5211be1cf3c60ff239923a6cc2bb0dee83668b9f0b9e96b90b373a6",
+  "kernel_sha256": "dc3268d8e0854310c098517163a05cb509f75ef427270b4cbc78d3c9a617e0fc",
+  "kernel_slug": "wnn-kaggle-crossfold-h382-20261011-r1",
+  "kernel_title": "WNN Kaggle Crossfold H382 20261011 R1",
+  "limits": {
+    "cohort_hardwall_seconds": 14400,
+    "max_export_seconds_per_job": 1800,
+    "max_fit_seconds_per_job": 5400,
+    "maximum_gpu_seconds_from_two_slots": 28800,
+    "source_bootstrap_bytes_max": 1000000
+  },
+  "optimizer_scope_caveat": "Muon scope all routes eligible parameters through Muon; fallback parameters use AdamW with the shared LR. This is not a pure-Muon optimizer claim.",
+  "packet_id": "vladkochetov07/wnn-kaggle-crossfold-h382-20261011-r1",
+  "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+  "preregistration_path": "h382_preregistration.md",
+  "preregistration_sha256": "6c6b6399afb6d75594905d29d6c24ffdb847eb95d6a896774019944083f89cc8",
+  "raw_dataset": "vladkochetov07/wunder-funder",
+  "recipe_note": "Fresh fold-0 seed-3 GRU-256x2; Muon scope all; batch32/chunk1000 WMSE chunk; LR .001, WD .01, OneCycle, fp16; all other flags fixed to the V6 control. The e4 arm is a fresh four-epoch OneCycle run, not an epoch continuation.",
+  "schema": "wnn.kaggle-h382-packet.v1",
+  "source_binding_note": "V8 frozen trainer/tree used for the completed V6 same-flag GRU baseline; the current project predictor helper is packaged once to match V6's effective extraction.",
+  "source_entrypoints": {
+    "optimizer": {
+      "bytes": 13217,
+      "path": "src/wnn/optim.py",
+      "sha256": "11ab797a3fa890b050dcb11483520647386ea09c6e00d2bdbee15510b4d731d9"
+    },
+    "predictor": {
+      "bytes": 11099,
+      "path": "scripts/predict_run.py",
+      "sha256": "afc5aaaef7edd78f4b719a6be450b10d82aefcbf497b4515f684f51930e229f9"
+    },
+    "trainer": {
+      "bytes": 164711,
+      "path": "scripts/train_rnn.py",
+      "sha256": "c23e0ecbc7018ddd6a2599a408a824bb6bde441eb5c80791e1e6756b44292a84"
+    }
+  },
+  "source_file_count": 63,
+  "source_manifest_sha256": "332fa38a65e61ac1a7eac37a337770e61eed3db472bef362514a38c0c87b5cb9",
+  "source_snapshot": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v8_arch",
+  "source_snapshot_manifest_sha256": "697d78e5a5ac5461e876486caa8b278298283a213ed03432c43a856fd7f1bd58",
+  "source_snapshot_note_sha256": "c360115e34293ec0ed347901feb294afd3eb627572cd2f7d86a22b505bbd8561",
+  "split_manifest_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+}
