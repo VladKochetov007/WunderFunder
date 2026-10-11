@@ -1,0 +1,179 @@
+{
+  "benchmark_runner": {
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/scripts/benchmark_submission_callbacks.py",
+    "sha256": "d5829e85af8406256525d530ab2d7792bb57b011793032c145b0d0ca5c9c70e8"
+  },
+  "build_members": [
+    {
+      "coef": 0.5,
+      "source": "bd26_h230_all_data_student_gru256_seed4_retry1_v1_core@ep1|z1c_h230s4_student_hft_alldata_v3@ep0",
+      "weights": "weights_0.npz"
+    },
+    {
+      "coef": 0.5,
+      "source": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0",
+      "weights": "weights_1.npz"
+    }
+  ],
+  "build_receipt": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/legacy_4_inventory_r3.json",
+  "build_receipt_sha256": "66f07fcd2a95e6ddc33f8803e8d1833afbf8dbe7d1c55da489497b2a76dbd5a0",
+  "candidate": "legacy4-z1c-z4",
+  "checkpoint_sources": [],
+  "native_runtime": {
+    "libraries": {
+      "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+      "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+      "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+    },
+    "source": "native libraries and precision file hashed from ZIP entries"
+  },
+  "runtime": {
+    "affinity_before": [
+      3
+    ],
+    "affinity_used": [
+      3
+    ],
+    "cgroup_after_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 23771885\nuser_usec 23677236\nsystem_usec 94649\nnice_usec 23679831\ncore_sched.force_idle_usec 0\nnr_periods 239\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "215867392",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "1499996160",
+      "memory.peak": "217964544",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/zen4-callback-4-r3.scope"
+    },
+    "cgroup_before_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 553481\nuser_usec 468864\nsystem_usec 84617\nnice_usec 469307\ncore_sched.force_idle_usec 0\nnr_periods 5\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "215953408",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "1499996160",
+      "memory.peak": "215953408",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/zen4-callback-4-r3.scope"
+    },
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "loadavg_end": "1.10 0.86 0.75 1/3416 2216981",
+    "loadavg_start": "0.97 0.81 0.73 2/3419 2215726",
+    "max_rss_kib": 1363416,
+    "model_count": 2,
+    "native_level": "v3",
+    "numpy": "2.2.6",
+    "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "precision": "q8vnni",
+    "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]"
+  },
+  "schema": "wnn.native-callback-profile.v1",
+  "scope": "Runtime-capacity profile only. The fixed package is replayed over complete causal sequences; no metric is computed and no local/public score is claimed. Each sequence is reset before every pass, and predictions must be bitwise identical across resets.",
+  "submission": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/upload_2026-10-11/4_z1c_z4_pair_q8vnni.zip",
+  "submission_bytes": 9544031,
+  "submission_sha256": "ff498873027318b5aa20e6ca95517bdb843b4656989a75aae148f1c141705327",
+  "timing": {
+    "elapsed_callback_ns": 21097039172,
+    "elapsed_wall_seconds_after_sequence_decode": 23.444286740006646,
+    "mean_callback_us_per_row": 52.74259793,
+    "measurement": "perf_counter_ns around each exact model.predict(DataPoint) callback",
+    "median_repeat_us_per_row": 52.74259793,
+    "per_sequence_mean_us_per_row": {
+      "1200028": 52.660832475,
+      "1892371": 52.4801034,
+      "1990332": 53.513938950000004,
+      "2308749": 52.3483829,
+      "256678": 52.98013395,
+      "4490992": 52.454779925000004,
+      "6746551": 52.541734975,
+      "751005": 52.81725245,
+      "8348957": 53.14709025,
+      "9147005": 52.481730025
+    },
+    "reset_and_parquet_decode_excluded": true,
+    "rows_per_repeat": 200000,
+    "total_callback_calls": 400000,
+    "trials": [
+      {
+        "callback_ns": 10645784429,
+        "callback_us_per_row": 53.228922145,
+        "repeat": 0,
+        "rows": 200000
+      },
+      {
+        "callback_ns": 10451254743,
+        "callback_us_per_row": 52.256273715000006,
+        "repeat": 1,
+        "rows": 200000
+      }
+    ]
+  },
+  "utils_source": {
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/utils.py",
+    "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+  },
+  "workload": {
+    "data": "/tmp/wnn_submission_exploit_runtime_r1/valid_first10_complete_groups.parquet",
+    "data_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "features_sha256_by_sequence": {
+      "1200028": "016afe4a6d9bcf3af2ec7961295bd3106530f29a760d297d5a6fbb1390063c58",
+      "1892371": "4558b05652d6f9054170613d556ecd8e12fdb35b10d9027a9456e5b11b161c26",
+      "1990332": "05dbac3d81d7241a5761e009d0c5a11b4b152f1cf7890df75a6eac6776051f4b",
+      "2308749": "09e108511c35a5266f967bad67151321d7e8f16d2cee5cece69886392fd3216e",
+      "256678": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e",
+      "4490992": "a42ccf8b2e8ead95c55b6d8f785d5e25285ec2b65f56571021eca0f2ff9e3e63",
+      "6746551": "5b587d321a28146b43a5400cdc2450372af08041c21c7763086168b7c9966b21",
+      "751005": "da1552d094eee4cb347ee88c14613885802e54c3f7052e758834b36f7ad03a5f",
+      "8348957": "20947296e63f58d5210c4c6ae88442f04688bf79d66ff7bc624c283493f41175",
+      "9147005": "466d7cc953803912710c0e731aedd9de12446ea3f5e455502393461e242e9419"
+    },
+    "need_prediction_rows_each": [
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901
+    ],
+    "predictions_bitwise_identical_across_replays": true,
+    "raw_feature_columns": 112,
+    "repeats": 2,
+    "reset_before_each_sequence_and_pass": true,
+    "row_groups": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "sequence_ids": [
+      256678,
+      751005,
+      1200028,
+      1892371,
+      1990332,
+      2308749,
+      4490992,
+      6746551,
+      8348957,
+      9147005
+    ],
+    "sequence_lengths": [
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000
+    ]
+  }
+}
