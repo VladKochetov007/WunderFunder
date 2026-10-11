@@ -220,3 +220,16 @@ Fold 3 (seed 3, muon-all x prop0, h256): **e4 0.70657** vs e3 **0.70865** (-0.00
 | WP delta | +0.0015 (n=4 vs 6) | +0.0008 | -0.0007 | -0.0021 | **-0.0001** |
 
 * Across four folds the 4th epoch is **neutral on average (-0.0001) with sign flips**; it is a fold-1 feature. The shipped `ZIP9` (4 epochs, selected seed) took exactly the setting that only fold 1 rewarded; with 3 epochs the recipe would have been +0.0016 over the control on folds 1-3. Rule for the next owner: **muon-all x prop0 at 3 epochs only**; no 4-epoch variants without a multi-fold reason.
+
+## 21. Addendum 23:20 - review of the new full-data packages (`submissions/10-11-exploit-now_r2/`, ADR0032 packaging-now)
+
+Packages: (A) `h390_full_data_pair_q8` = two all-data H390 students (strong-T3 teacher recipe, seeds 3/4, 50/50); (B) `old_pair_plus_h390_pair_q8` = old all-data z1c + z4 + the two H390 students, 0.25 each (4 members, 16.8 MB). Owner's selector note: `submission_selector_20261011_r1/SELECTION_EDA_R1.md` (fold-1: 3-seed H384 trio 0.67254, H256 + trio 0.67264, +0.0001 with CI spanning zero; no weight tuning).
+
+Reviewer observations (no new fits; from the receipts):
+
+1. **Package A is the right kind of candidate.** It is a *pair of students of the recipe that transferred* (+0.0013 public vs the previous fold-1 student), all-data, equal weights, ~27 s on the 10-sequence callback panel - the same cost class as the public-best pair (27 portal-min). It contains no scratch Muon-all member. Its all-data fit means no held-out grade exists for it; the relevant evidence is the fold-1 sibling (student 0.67103) and the three-fold-1 pair data.
+2. **Package B carries a portal-timeout risk.** The callback panel for B took **58.3 s vs 27.0 s for A (2.15x)**. The two earlier public timings were pair = 27 min and single = 15.7 min (~13.5 portal-min per h256 member), and two-model h384 packages timed out at ~62 min under a 60-min limit with ~2x portal variance. A 4-member h256 package projects to ~54-58 portal-min typical: **at or above the limit with no variance margin.** Unless the owner has a measured portal-equivalent estimate well under ~40 min, do not upload B; if it is uploaded, expect a real chance of `SCORE:TIMEOUT` (wasting a daily slot).
+3. **Value check for B.** In fold-1 terms the extra pair adds a pair-of-pairs effect of unknown size (z1c/z4 and H390 are different lineages: old H230 students vs strong-T3 students); no same-recipe clean-fold grade exists for the 4-member mixture, and the selector's own result for adding a 2nd family to an ensemble was +0.0001 (CI spans zero). Expected benefit does not justify the timeout risk; a 3-member variant (z1c + two H390) would cost ~40 portal-min.
+4. Packaging hygiene: the owner already retracted a mislabeled FP32 packaging and required Q8 gate rows; package A has an FP32-vs-Q8 official-metric attempt receipt on the fold-1 sibling only - the complete-fold served-endpoint comparison remains the open closing check from section 11.
+
+Recommendation (reviewer, non-binding; user decides uploads): **A first.** Consider a 3-member variant instead of B. Ask the owner for a measured portal-minute estimate for B (callback time per row x 39.4M rows x the 0.616 portal/local factor used earlier: 58.3 s per panel vs 27.0 s for A scales A's ~27 portal-min to ~58).
