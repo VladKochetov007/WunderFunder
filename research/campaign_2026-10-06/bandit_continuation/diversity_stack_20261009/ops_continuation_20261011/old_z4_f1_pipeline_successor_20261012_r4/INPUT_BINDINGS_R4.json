@@ -1,0 +1,127 @@
+{
+  "fold": {
+    "eligible_inner_valid_group_count": 1416,
+    "eval_source": "vfold",
+    "evaluation_group_count": 457,
+    "exact_parent_reuse": false,
+    "f1_parent_exists": false,
+    "fold": 1,
+    "hft_normalizer": "inherit exact core checkpoint normalizer; observed hashes must match",
+    "outer_fold_exposure": "Previously inspected fold; robustness evidence, not a fresh holdout.",
+    "parent_normalizer": "fresh over fold-eligible train+valid groups",
+    "propensity_epsilon": 0.03,
+    "propensity_model_sha256": "1fbf412df8823c703fdf79263830f341269a68e769bc4a7258d93cdf8e40dc5c",
+    "propensity_power": 2.0,
+    "propensity_run": "c20260929_prop_f1",
+    "seed": 3,
+    "source_qualified_fit_membership": {
+      "evaluation_valid_parquet": {
+        "count": 457,
+        "fingerprint_sha256": "a210f6f38578a291642785a47b74b58737e0cb66a89816707ab0b2f0107effa7"
+      },
+      "excluded_train_parquet": {
+        "count": 73,
+        "fingerprint_sha256": "e8589f08f6515a8b19aef67d8dc5cb271894ef6e2bdf6fbc9dea8ddaf4122631"
+      },
+      "membership_semantics": "All group identifiers are source-qualified; outer evaluation members are excluded from parent, student, teachers, propensity, and cache fitting.",
+      "total_source_qualified_groups": 11949,
+      "train.parquet": {
+        "count": 10533,
+        "fingerprint_sha256": "384da5aa27f8d239a7e2246b58a9159ad1e0e243c529744b82c2320fb12a39d"
+      },
+      "valid.parquet": {
+        "count": 1416,
+        "fingerprint_sha256": "7c69d6587f53578f41eeab77fc9dc69d7d2b05eb1278c7be72a11ee1aeeb1b7d"
+      }
+    },
+    "source_qualified_train_membership": "10,533 train.parquet groups plus 1,416 fold-eligible valid.parquet groups (11,949 source-qualified fit members total); the 457 outer evaluation groups are excluded from parent/student/teacher/propensity fitting.",
+    "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json",
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "student_normalizer": "fresh over same fold-eligible train+valid groups",
+    "teacher_ancestry": "Eight own independently trained cleanfold family-teacher sources spanning widths 128/256/384 and raw/full-finetuned, strong-combo, and baseline variants; exact runs and qualified membership are bound by cache metadata.",
+    "teacher_cache": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/h230_four_family_fold1_source_20261009_r1",
+    "teacher_cache_metadata_sha256": "8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703",
+    "teacher_cache_variant": "source",
+    "train_source": "train+valid"
+  },
+  "prepared_utc": "2026-10-11T22:40:33Z",
+  "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "propensity": {
+    "epsilon": 0.03,
+    "fit_membership": "Source-qualified fold-1 eligible train+valid fit members only; provenance names the fold-1 split and its valid fit set is disjoint from the 457 outer evaluation groups.",
+    "model_bytes": 165623,
+    "model_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20260929_prop_f1/model.pt",
+    "model_sha256": "1fbf412df8823c703fdf79263830f341269a68e769bc4a7258d93cdf8e40dc5c",
+    "power": 2.0,
+    "provenance_bytes": 21648,
+    "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20260929_prop_f1/provenance.json",
+    "provenance_sha256": "50e442a1f2d075b88cb9e50196dc57b81bd8d586a51fa0df3149a2c5d2e8cbf7",
+    "reuse_only": true,
+    "run": "c20260929_prop_f1"
+  },
+  "recipe_identity": {
+    "note": "R4 changes operational run IDs and corrects membership bookkeeping only. Scientific parent/student arguments remain identical to R3 F1 templates.",
+    "r3_recipe_sha256": "bc7bb99844804def1dacd0c6c2f1afe6f56d008cb1a0fb9d550c4f1a313e58c2"
+  },
+  "reuse_rules": [
+    "Reuse only the existing F1 family cache metadata/payload and F1 propensity checkpoint/provenance; do not build teachers, cache, or propensity again.",
+    "At actual admission, revalidate cache members, exact propensity, split membership, source exclusions, current profile, quota and output absence.",
+    "Never initialize from the all-data Z1c/Z4 public pair or from an F0 checkpoint.",
+    "Do not claim fresh holdout evidence from fold 1; it is previously exposed fold robustness evidence."
+  ],
+  "schema": "wnn-old-z4-cleanfold-input-bindings/v2",
+  "source_snapshot_bindings": {
+    "note": "R3 immutable source snapshot map; no source snapshot was copied or edited for R4.",
+    "path": "/home/vlad/development/wunder/wnn_old_pipeline_reconstruct_20261011_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_cleanfold_successor_20261011_r3/SOURCE_SNAPSHOT_BINDINGS_R3.json",
+    "sha256": "f0181c3715812eef2582ed1d62879089e35db9c403605a157c1466c9d7beabbf"
+  },
+  "split_manifest": {
+    "exposure": "Previously inspected fold; robustness evidence, not a fresh holdout.",
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json",
+    "sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+  },
+  "teacher_cache": {
+    "estimated_cache_payload_bytes": 13382880000,
+    "metadata_bytes": 842417,
+    "metadata_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/h230_four_family_fold1_source_20261009_r1/metadata.json",
+    "metadata_sha256": "8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703",
+    "own_teacher_sources": [
+      {
+        "checkpoint_sha256": "b0dcc761751e3f807dba42d55650f06f392b2565fb51e4ba787d3603c13b3cc4",
+        "run": "c20261003_combo_s3_f1"
+      },
+      {
+        "checkpoint_sha256": "456114b04d1371b994ed5d7fbfe9b39ee96f3c460286644baf161c8f3fbcd610",
+        "run": "c20261003_combo_s4_f1"
+      },
+      {
+        "checkpoint_sha256": "1a76c748624e7c9a438675791c251ed142b7965879dfed691c210ae1881a1d7d",
+        "run": "c20260929_ft_since_s3_f1"
+      },
+      {
+        "checkpoint_sha256": "814f6106f5422c962ff175e98bba15995b2cc45dc1fc0d172e88020784842330",
+        "run": "c20260929_ft_since_s4_f1"
+      },
+      {
+        "checkpoint_sha256": "e1b97dffe5eaf59349b3378e72d7b8e01c6e92bc6d5a7164526106b3c5831df0",
+        "run": "c20260929_since_s3_f1"
+      },
+      {
+        "checkpoint_sha256": "1667b04000bead6ee5c3a66b0ed552df0f27ef682c18b598d100723c9b8cb8ff",
+        "run": "c20260929_since_s4_f1"
+      },
+      {
+        "checkpoint_sha256": "027b2a134b91bb9d42ed5e1615594ea77db9cd49cc22cbec1fbe4e9427d9ad23",
+        "run": "bd26_w384raw_s3_f1_resume_r3"
+      },
+      {
+        "checkpoint_sha256": "866c3054b30d87f741a1729aa6b902a0da2c3ce2540a7185a42b8a5fda3b6e77",
+        "run": "bd26_w384raw_s4_f1"
+      }
+    ],
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/h230_four_family_fold1_source_20261009_r1",
+    "payload_rehashed_during_R4_preparation": false,
+    "source_exclusion_audit": "Eight own independently trained cleanfold family-teacher sources are bound by cache metadata; all use the same fold-1 source-qualified eligible fit membership and exclude the 457 outer evaluation groups. Existing cache/member hashes must be revalidated by the actual consumer before launch.",
+    "variant": "source"
+  }
+}

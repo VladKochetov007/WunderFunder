@@ -1,0 +1,64 @@
+{
+  "admission_owner": "root controller",
+  "existing_eligible_inputs": [
+    "F1 split manifest",
+    "F1 eight-teacher cache",
+    "F1 propensity model/provenance"
+  ],
+  "exposure": "Previously inspected fold-1 robustness evidence, not a fresh holdout.",
+  "fold": 1,
+  "input_bindings_r4_sha256": "6ac8af93bfd8d7e147291b2a9d9e93e34a397a22530645f5d0ed2ea9ccabf875",
+  "items": [
+    {
+      "attempt": "oldz4-r4-f1-s3-parent-fit",
+      "depends_on": [
+        "root current parent-architecture/profile/quota admission",
+        "F1 split/cache/propensity consumer validation"
+      ],
+      "produces": "artifacts/runs/oldz4_h230_parent_f1_s3_r4/model_ep3.pt plus provenance and training_state.pt",
+      "release_gate": "Fresh root admission; verify exact F1 source-qualified fitting membership, cache/propensity inputs, no output collision; after terminal require finite model, fixed epoch 3, optimizer/scheduler/training-state consistency before export/student.",
+      "stage": "parent-fit"
+    },
+    {
+      "attempt": "oldz4-r4-f1-s3-parent-export",
+      "depends_on": [
+        "oldz4-r4-f1-s3-parent-fit terminal finite CP3/provenance gate"
+      ],
+      "produces": "cache/pred_oldz4_h230_parent_f1_s3_r4_valid.npy",
+      "release_gate": "Root-owned GPU/export admission. Bind parent model_ep3.pt SHA; full-valid output must be float32 shape [1873,20000,2]; score only fixed fold-1 outer 457-group mask.",
+      "stage": "parent-export"
+    },
+    {
+      "attempt": "oldz4-r4-f1-s3-student-fit",
+      "depends_on": [
+        "oldz4-r4-f1-s3-parent-fit terminal finite CP3/provenance gate"
+      ],
+      "produces": "artifacts/runs/oldz4_h230_student_f1_s3_r4/model_ep1.pt plus provenance and training_state.pt",
+      "release_gate": "Fresh root fit admission. Must initialize only from same-fold parent @ep3, revalidate cache/propensity and F1 membership, and preserve exact two-epoch onecycle trajectory.",
+      "stage": "student-fit"
+    },
+    {
+      "attempt": "oldz4-r4-f1-s3-student-export",
+      "depends_on": [
+        "oldz4-r4-f1-s3-student-fit terminal finite CP1/provenance gate"
+      ],
+      "produces": "cache/pred_oldz4_h230_student_f1_s3_r4_valid.npy",
+      "release_gate": "Root-owned GPU/export admission. Bind student model_ep1.pt SHA; full-valid output must be float32 shape [1873,20000,2]; score only fixed fold-1 outer 457-group mask.",
+      "stage": "student-export"
+    }
+  ],
+  "missing_required_stages": [
+    "fresh F1 seed-3 parent fit/export",
+    "F1 seed-3 family student fit/export"
+  ],
+  "ordering_note": "Parent export and student fit both depend on parent CP3; student export depends on student CP1. Root may schedule the independent export/student branches according to GPU and cache handoff gates.",
+  "schema": "wnn-oldz4-f1-stage-plan/v1",
+  "seed": 3,
+  "source_bindings_r4_sha256": "f0bca133215663ed2cf780a66af43f8461f7590df8a8595eea2aa01e9940a64c",
+  "status": "code_only_prepared_not_admitted",
+  "unnecessary_rebuilds": [
+    "teacher models",
+    "teacher prediction/cache payload",
+    "propensity model"
+  ]
+}
