@@ -1,0 +1,184 @@
+{
+  "schema": "wnn.h382-crossfold-grade-evidence.v1",
+  "created_utc": "2026-10-11T17:24:10Z",
+  "scope": "Bounded provenance and source audit plus grades already recorded by the independent reviewer. No prediction arrays were rescored or rehashed for this receipt.",
+  "metric": {
+    "id": "global_wp_clip2_v1",
+    "implementation": "src/wnn/gmetric.py",
+    "implementation_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "source_bindings": {
+    "fold0_kaggle": {
+      "training_kernel_sha256": "b7f959750dfef32ec8ee43675dc05a859e0d99ed1d1c5468c6542f5bc13c12ed",
+      "input_bundle_sha256": "29da33ce7ad3273d830313c15614f2327ddf72597f6d6a9d55fd19e33880d31e",
+      "actual_input_preflight": {
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/H382_R3_ROOT_EXACT_ACTUAL_INPUT_PASS_R1.json",
+        "sha256": "decb6f7a1f0f098cc6cfaa252fc187ade3b28403149ace4f5ab6df93ee23a1a4",
+        "result": "pass",
+        "actual_asset_count": 11
+      },
+      "note": "This binds the actual R3 training kernel and validated input bundle. The later R4 kernel only exported rescued checkpoints; it did not refit these models."
+    },
+    "local_fold2_fold3": {
+      "source_manifest": "research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r1/SOURCE_MANIFEST_H382.json",
+      "source_manifest_sha256": "6ad301c43ad2eadd47d88af807b1ee74977052856ed6ddff3211c45c125999d6",
+      "parent_source_binding": "research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r1/source_v6/PARENT_SOURCE_BINDING_V1.json",
+      "parent_source_binding_sha256": "d672e552284e695228af88bf9d2d01488cbdc61abb9d4455ac911a8aae793411",
+      "parent_contract_sources_sha256": "5ea4c9260dbffa939c47d991afb0a20eed50da5ba9d6685b924c397fe27bb262",
+      "parent_contract_source_count": 50,
+      "parent_contract_source_matches": 50,
+      "run_identity_source_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76"
+    }
+  },
+  "fold_membership_audit": {
+    "interpretation": "Training-parquet and validation-parquet row-group identifiers are separate namespaces. For each model below, the fitting subset from valid.parquet is disjoint from its held-out evaluation groups; include_heldout_valid is false. Integer IDs from train.parquet were not compared to validation-parquet IDs as though they shared a namespace.",
+    "folds": [
+      {
+        "fold": 0,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "dataset_length": 11940,
+        "fit_train_groups": 10535,
+        "fit_valid_groups": 1405,
+        "evaluation_groups": 468,
+        "fit_valid_evaluation_overlap": 0,
+        "fit_train_ordered_int64_le_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+        "fit_valid_ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+        "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7"
+      },
+      {
+        "fold": 2,
+        "split_manifest_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+        "dataset_length": 11965,
+        "fit_train_groups": 10535,
+        "fit_valid_groups": 1430,
+        "evaluation_groups": 443,
+        "fit_valid_evaluation_overlap": 0,
+        "fit_train_ordered_int64_le_sha256": "eb321285a0707de0cba9f5744ef373128d69cd10521ae6effb2beec146231a7b",
+        "fit_valid_ordered_int64_le_sha256": "193dae0c97f1e8af3925ea20c5758381af36508772bd677adb1d95175e2815b5",
+        "propensity_checkpoint_sha256": "f0b9eb7ba76b66c1710579082f434e66e9f8d3b4ec230d052a0cd466375307d6"
+      },
+      {
+        "fold": 3,
+        "split_manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343",
+        "dataset_length": 11907,
+        "fit_train_groups": 10539,
+        "fit_valid_groups": 1368,
+        "evaluation_groups": 505,
+        "fit_valid_evaluation_overlap": 0,
+        "fit_train_ordered_int64_le_sha256": "3f50fa0a700104d4f7e134b49562e48c072cb5b4a81ad3d6dbdde17720520ffb",
+        "fit_valid_ordered_int64_le_sha256": "940fbfa20444ed5ca0da879bb0d54074bb53879cd2f17a5aa1500fd02812c1d7",
+        "propensity_checkpoint_sha256": "8898ef3d31533058c354a16d00632b7c7adca461eaa813f0bed1f59a1fef59b8"
+      }
+    ],
+    "model_provenance_sha256": {
+      "kg_h382r3_f0_muonall_prop2_e3_s3": "59c9b3c0a247cf4c15fc83c5c02edc9e4ec9f4569c1cd66cca38000a84894dac",
+      "kg_h382r3_f0_muonall_prop0_e3_s3": "cab326a5e38a3b91b638f0678dd45f5a31e5ee8a325263e0a401475bdcd4d663",
+      "kg_h382r3_f0_muonall_prop0_e4_s3": "b220b6e822c9e4779d508655c56ecacb4c42399a001a817d30de8fd3bd2610b7",
+      "h382_muonall256prop0_f2_s3_e3": "c2cbd70d2152b7fc2153880e810f57a9ce067234310e595afc9294f32a4f7ff0",
+      "h382_muonall256prop0_f2_s3_e4": "791bb1fce70896cb27144a9e28886f201faaef334f01e2bbecc03b8e7a09e333",
+      "vt_f2_h256_e3": "ec9a45e12dd79d16173b192cc39dcb1e7827f6dea489c3d234c1035c64a27842",
+      "h382_muonall256prop0_f3_s3_e3": "19ecd521658d1e65e67e6c4ce4987359803df5d54f60c3516a013c3429f810a4",
+      "vt_f3_h256_e3": "dc42def0e2c9445163501ca32a86a4d28d8ca09e78e40a42b0d6022e6e421610"
+    }
+  },
+  "artifact_inventory": {
+    "fold0_terminal_inventory": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/kaggle_h382_delivery_20261011_r4/provider_output/out/terminal_inventory.json",
+    "fold0_terminal_inventory_sha256": "0686f931ca34266583abce5d0a248ab86ce44a0bdd431fa27101e837f3d98597",
+    "complete": true,
+    "validated_jobs": 3,
+    "runtime_seconds": 271.1,
+    "export_validation": "All three copied prediction NPY and JSON sidecar hashes/byte counts are bound to their same-run fresh export receipts in the complete terminal inventory. The NPYs were not rehashed in this bounded grade audit."
+  },
+  "grades": [
+    {
+      "fold": 0,
+      "run": "kg_h382r3_f0_muonall_prop2_e3_s3",
+      "recipe": "h256, 2-layer GRU, Muon all, prop-power 2, seed 3, 3 epochs, selected epoch 2",
+      "wp": 0.67901,
+      "grade_precision": "reviewer-reported rounded value",
+      "checkpoint_sha256": "69f069dca20d71f0f5d9ea1d08bcd6884cb7a3d29699a5606e8828bd363467fa",
+      "prediction_sha256": "d12ee518ce4ba46b2af890552712f916b1bfb9e451805cf7daa671b4b3afc048",
+      "sidecar_sha256": "7ec42082a50199a930b1a742f058cd41e5935ede7c5d97149fd51fd62edb0b6f"
+    },
+    {
+      "fold": 0,
+      "run": "kg_h382r3_f0_muonall_prop0_e3_s3",
+      "recipe": "h256, 2-layer GRU, Muon all, prop-power 0, seed 3, 3 epochs, selected epoch 2",
+      "wp": 0.67948,
+      "grade_precision": "reviewer-reported rounded value",
+      "checkpoint_sha256": "4680306510a7c51cc41e44eb85cb0619142c6349787a682b18fb7ded570322db",
+      "prediction_sha256": "574353e110cff413959af22a7cfd185bf115bdf0f191852c6fa9c07c1cf72f78",
+      "sidecar_sha256": "03553b9b3784f531a7016dc1db82ea8d043dffa02da44ef035b2dafa1a539401"
+    },
+    {
+      "fold": 0,
+      "run": "kg_h382r3_f0_muonall_prop0_e4_s3",
+      "recipe": "h256, 2-layer GRU, Muon all, prop-power 0, seed 3, 4 epochs, selected epoch 3",
+      "wp": 0.68026,
+      "grade_precision": "reviewer-reported rounded value",
+      "checkpoint_sha256": "359d337db09f0f8e306a225b050884741f006190523b2e940d36ef87d35a25be",
+      "prediction_sha256": "43d7dc813b774cb78148141b6fab23cda58a97d7f22454c074dc882f37327d89",
+      "sidecar_sha256": "d293720fc2675d0f792bf26fbe6bef68666b26881b7639ae82005af7247a8575"
+    },
+    {
+      "fold": 2,
+      "run": "h382_muonall256prop0_f2_s3_e3",
+      "wp": 0.702805424824531,
+      "grade_precision": "exact owner grade receipt",
+      "grade_receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/H382_F2_E3_GRADE_R1.json",
+      "grade_receipt_sha256": "8732d6d80684bfffa712df03f343db6cd4dcdced90c554498b494e565b49dbde",
+      "checkpoint_sha256": "1d51f0a21743982ba7bdc15e903319a48bf9dfa66b3cc5eafa12f1f13653a252",
+      "prediction_sha256": "02a03fe7384c80de048ceaf7073a2528e58c3e665af59a5db69764946b8f8562",
+      "sidecar_sha256": "f06917c30dd5ed49a8a548d54d46d81872a27cb1209736b48734eb1a071493e3"
+    },
+    {
+      "fold": 2,
+      "run": "vt_f2_h256_e3",
+      "wp": 0.7028257957426846,
+      "grade_precision": "exact owner grade receipt; contextual control",
+      "checkpoint_sha256": "5244c2aca964a3d25d8904eb44c60459432e9b79c68a4ae6b65e5b34c3758a59",
+      "prediction_sha256": "e8e6304af7e383b2922b63a14b0a38e5b5969c98a13171003b7ed2fb24d63b85",
+      "sidecar_sha256": "61c5c7ad9815bbd1085d310198957739670ee815d955742ac8302477d8a9adce"
+    },
+    {
+      "fold": 2,
+      "run": "h382_muonall256prop0_f2_s3_e4",
+      "wp": 0.70214,
+      "grade_precision": "reviewer-reported rounded value; same-fold seed-3 epoch contrast",
+      "checkpoint_sha256": "27fd241071f26c3c11e9d0456a23ee436b098aced53f573e9efb3002c131261b",
+      "prediction_sha256": "1e3c48300e55d1fc0160c579581e0fdb1afc44f3a375b0fd604aa8b65562391a",
+      "sidecar_sha256": "dafea122a75633d19866ba0aa5fc312dff0af416faeea1353c4f0ac2ceb21524"
+    },
+    {
+      "fold": 3,
+      "run": "h382_muonall256prop0_f3_s3_e3",
+      "wp": 0.70865,
+      "grade_precision": "reviewer-reported rounded value",
+      "checkpoint_sha256": "7fd8100133e4533ef1a467589ba7d72f81a82d1ebdb6a7699d4ff9d9f996fe22",
+      "prediction_sha256": "f90b7cbb811ee0fcfc7ada6f51dbd1c7170d836c404202c4804d7fddd877aaf6",
+      "sidecar_sha256": "0c4e9b0612903a83bf704c3521f3227b965c862e3f0956d50b86187c00e895c0"
+    },
+    {
+      "fold": 3,
+      "run": "vt_f3_h256_e3",
+      "wp": 0.70676,
+      "grade_precision": "reviewer-reported rounded value; contextual control",
+      "checkpoint_sha256": "527018252b98358e6e93533adff3c29614681c2ad4991c5068da1fbb4ef9d1d3",
+      "prediction_sha256": "829675ef4476a49059e6d4c23277a8c69344e899a8c19135e00b8dbb699c4c25",
+      "sidecar_sha256": "f6d8f050f0db6632f2db0076e46bc7ecad648a7e066e168cf7ea549ceb1c9b37"
+    }
+  ],
+  "reviewer_source": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/review_public_gap_20261011/REVIEW_PUBLIC_GAP.md",
+    "sha256": "06088366e3491464d9a76eca0226ad76a4c135550bd6a945ffb5c162de6861f0",
+    "section": "19"
+  },
+  "interpretation": {
+    "fold0": "Within this same-fold, same-seed, same-Muon-all cohort, prop-power 0 versus 2 at epoch 3 is +0.00047 by rounded reviewer values; epoch 4 versus 3 within prop-power 0 is +0.00078. These are development-panel observations, not fresh-holdout estimates.",
+    "fold2": "The exact epoch-3 owner comparison is -0.00002037 versus a contextual control that changes both Muon scope and propensity power. The reviewer-reported epoch-4 score is approximately 0.0007 below epoch 3. The control contrast is confounded and is not a single-factor treatment effect.",
+    "fold3": "The rounded candidate-control difference is +0.00189, but the contextual control changes both Muon scope and propensity power. This does not isolate either factor.",
+    "fold1_seed_count_correction": "Section 19's e3 n=6 count includes a duplicate machine copy of seed 5. The verified distinct e3 seed count is n=5. The distinct e4 count is n=5, including local seeds 6 and 7; reviewer-reported e4 mean is 0.67024. The approximate control near 0.6660 is not a matched-seed mean. This receipt does not recompute or reuse the erroneous e3 mean.",
+    "exposure": "Folds 0, 1, 2, and 3 are previously inspected campaign development panels. Results are cross-fold evidence, not fresh holdout scores or public scores.",
+    "selection": "No fixed public forecast, public-score arithmetic, or new-best claim is made. F3 epoch-4 local fit/export/grade remains pending in this receipt."
+  }
+}
