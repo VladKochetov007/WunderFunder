@@ -1,0 +1,23 @@
+# Independent review: clean F0 T3 cache adapter R1
+
+Reviewed actor commit `ac2df71f22b2f722f12165e4b31144152cb646ba` from a separate review worktree. This review did not build a cache, launch a fit, read prediction data pages, or use a model/provider.
+
+**Result:** the row-group mapping, target arithmetic, and create-only output checks pass the scoped review. The adapter is not ready to materialize the cache or launch the student: the actual input receipt still has only seed 3 FIT_TRAIN predictions; seed 4 and seed 5 FIT_TRAIN exports are pending. No root materialization release exists.
+
+The provenance path correctly distinguishes membership from order. For each seed it compares that seed's ordered `fit_row_groups` hash to its provenance identity and separately compares the member set with the same F0 split. Prediction arrays are joined using their own sidecar `row_groups` order. Train and valid IDs are mapped independently. This avoids treating the three distinct randomized train orders as interchangeable while still requiring equal source-qualified fit membership.
+
+The full-valid source projection is correctly constrained. The split is 10,535 FIT_TRAIN groups from `train.parquet`, 1,405 FIT_VALID groups from `valid.parquet`, and 468 evaluation groups from `valid.parquet`. The two valid sets are disjoint and exactly cover 1,873 groups. Each full-valid producer sidecar covers the 1,873 valid groups in the pinned order; the adapter selects the exact 1,405 FIT_VALID rows by ID and rejects evaluation rows. It reads only the `row_group` member of the target-index NPZs.
+
+The target operation matches the frozen recipe: FP32 seed-3 + seed-4 + seed-5, divide by FP32 3, multiply by FP32 0.8125, without clipping. The frozen cache consumer requires three strong sources with coefficient 0.1 each (sum 0.3) and homogeneous scale 0.8125; the adapter metadata matches that contract. A deterministic seeded-array check compared the adapter result bitwise to the frozen `np.add.reduce(..., dtype=np.float32)` operation.
+
+Actual metadata tests passed against the three full-valid producer sidecars. Their pinned SHA256 values match the terminal handoffs: seed 3 `8414274a…5051a7`, seed 4 `1aeba1c1…616970`, and seed 5 `20040bdf…214beb`. Each binds epoch 2, FP32, the expected checkpoint and fold-0 split, full-valid feature-only scope, 1,873 ordered groups, shape `[1873, 20000, 2]`, and 299,680,128 bytes. The s3 FIT_TRAIN terminal receipt binds its complete 10,535-row FP32 output, sidecar and SHA256, and reports all 421,400,000 values finite. The s4/s5 terminal handoff reports complete full-valid outputs with matching sidecars/hashes and finite scans. This review verified receipt and sidecar metadata, not array pages.
+
+The implementation streams array hashes in 8 MiB reads, opens input NPYs as read-only memmaps, writes output memmaps in sequence blocks (default 8, maximum 32), and checks finiteness for every row written to the cache. Materialization requires a root receipt matching the exact contract hash and cache root. The writer refuses both an existing final cache path and an existing `.partial` path before writing. The collision test exercised the actual writer on temporary paths and confirmed existing contents stayed unchanged. One non-blocking efficiency issue: the final/partial collision is checked after the authorized path rehashes all producer arrays, so an existing output could cause avoidable hashing before refusal.
+
+The corrected sidecar hashes and recipe agreement are preserved in the actor packet and match the terminal handoffs; this review did not edit or replace the actor's historical transcription-failure evidence.
+
+## Validation
+
+The adapter suite ran through MAIN `scripts/limited` at 100% CPU, one thread, 650,000,000-byte memory max, 180-second runtime max. All 9 tests passed, including the actual producer metadata test. A separate review-only test ran under the same CPU/memory limits and passed 3 checks: actual full-valid sidecar/terminal/contract bindings, bitwise arithmetic equivalence, and rejection of both existing output and `.partial` destinations. Neither test read prediction data pages; the actual producer test checked sidecar/provenance content and NPY headers by mmap.
+
+The input validation remains `PARTIAL_INPUTS_VALIDATED_AWAITING_TRAIN_EXPORTS`: seed 3 FIT_TRAIN is present; seeds 4 and 5 FIT_TRAIN are missing. The build command itself forces streamed input SHA256 checks and refuses `--skip-array-hash` when `--build` is used. Cache output remains absent and unbuilt. Keep both student fit and cache materialization blocked until those two exports are complete, revalidated, and root supplies a release bound to this exact contract SHA.

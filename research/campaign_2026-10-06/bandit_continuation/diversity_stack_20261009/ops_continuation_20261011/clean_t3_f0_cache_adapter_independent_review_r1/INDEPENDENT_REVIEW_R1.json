@@ -1,0 +1,118 @@
+{
+  "schema": "wnn.clean-t3-f0-cache-adapter-independent-review.r1",
+  "created_utc": "2026-10-12T08:16:56Z",
+  "reviewed_actor_commit": "ac2df71f22b2f722f12165e4b31144152cb646ba",
+  "review_worktree": "/home/vlad/development/wunder/wnn-agent-worktrees/clean-t3-adapter-review-20261012",
+  "review_branch": "review/clean-t3-adapter-20261012",
+  "status": "PASS_ADAPTER_LOGIC_BLOCKED_ON_S4_S5_FIT_TRAIN_EXPORTS",
+  "authorization": {
+    "cache_materialized": false,
+    "student_fit_launched": false,
+    "root_release_present": false,
+    "provider_or_model_action": false
+  },
+  "reviewed_files": {
+    "contract": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r1/CACHE_ADAPTER_CONTRACT_R1.json",
+      "sha256": "2b94f8454009af6a549e555456185d02bd2d2c6d8628def30dc3a3d27fae62c9"
+    },
+    "builder": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r1/build_clean_t3_f0_homogeneous_cache_r1.py",
+      "sha256": "13b20f62a988df90f17da495b2cc7e4e219de0792291412165a10d2cd8b22380"
+    },
+    "adapter_tests": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r1/test_clean_t3_f0_homogeneous_cache_r1.py",
+      "sha256": "a494b60bb18f0b82c0227843563b09ffe66ac2dff93c0572d545e4dbfc38aff8"
+    },
+    "actor_actual_input_validation": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r1/ACTUAL_INPUT_VALIDATION_R1.json",
+      "sha256": "7dca58e3a0755483f3bbb91f89f981a0ca67bba18aa2a788d7060b04c76a9a14"
+    },
+    "student_recipe": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/STUDENT_RECIPE_PENDING_CACHE_R1.json",
+      "sha256": "8514e8a88bfecbc2cae9b8950cc88f2a1354f21b36a49dc9a3cd16b634598b32"
+    },
+    "frozen_cache_consumer": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/src/wnn/distillation_cache.py",
+      "sha256": "b0b588605b3134a62c7a0c634219030fbcdd820e572668aff6d33980db180740"
+    },
+    "s3_fit_train_terminal": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_local_s3_fit_train_profile_r1/TERMINAL_VALIDATION_R1.json",
+      "sha256": "1f8ff7382802abe76f57eb23458962422112c8383f7a3a6c7c9b84f93cf27ea8"
+    },
+    "s4_s5_full_valid_terminal": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_local_s4_s5_terminal_r1/LOCAL_EXPORT_TERMINAL_HANDOFF_R1.json",
+      "sha256": "6f11b22d113cb363351a5dd3dbe6da29271a350bfe17bc6cd39d6def36e4b195"
+    },
+    "s3_full_valid_terminal": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_local_s3_terminal_r1/LOCAL_TERMINAL_HANDOFF_R1.json",
+      "sha256": "0eabad07a2bea44f0d4691575ccc7105526c39049c56dbf32ba948d7efb717c8"
+    }
+  },
+  "checks": {
+    "source_qualified_fit_membership": "PASS: each seed's provenance ordered hash checked separately from membership-set equality; train/valid namespaces remain separate",
+    "valid_projection": "PASS: 1873 source-valid groups partition into 1405 FIT_VALID and 468 evaluation; output order selects exactly FIT_VALID and rejects evaluation rows",
+    "teacher_arithmetic": "PASS: FP32 three-seed mean then FP32 0.8125 scale, no clipping; deterministic bitwise check matches frozen np.add.reduce implementation",
+    "actual_full_valid_sidecars": {
+      "status": "PASS",
+      "all_seeds": [
+        3,
+        4,
+        5
+      ],
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "bytes": 299680128,
+      "sidecar_sha256": {
+        "s3": "8414274a245708e57b8fea28ebc7a71e4393e879eff9ff993229248e135051a7",
+        "s4": "1aeba1c1f41d799e15d7da443c0151f9f94a3771927edcaaf62f365220616970",
+        "s5": "20040bdfb2f0e9cd39f42338656e33ac8d8a008664f2b39813eb1e14b3214beb"
+      },
+      "scope": "epoch 2, FP32, exact checkpoint/split, full-valid-feature-only, ordered groups 0..1872; terminal receipts report full-array SHA and finiteness"
+    },
+    "s3_fit_train": {
+      "status": "PASS_TERMINAL_RECEIPT",
+      "shape": [
+        10535,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "finite_values": 421400000,
+      "sidecar_sha256": "ec9bf8fb761f4357ab7e191923a6476212b0022e183e1645f4eecc682cc6165d",
+      "prediction_sha256": "63153337ec262f8d182283731e409644c1b7b19332e8fef047f0fb1a72504f06"
+    },
+    "release_and_collision": "PASS: absent/mismatched release receipts rejected; actual writer rejects existing output and .partial paths in temp fixture without mutation",
+    "streaming": "PASS_STATIC: input memmaps, output open_memmap, sequence-block processing, bounded 8 MiB hashes and chunk finiteness checks",
+    "recipe_agreement": "PASS: adapter formula and student recipe/frozen consumer declarations agree; sidecar transcription correction matches terminal handoff and actor files were left unchanged"
+  },
+  "test_runs": [
+    {
+      "scope": "adapter unit and actual metadata/NPY-header tests",
+      "command": "WNN_T3_ARTIFACT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=650000000 WNN_RUNTIME_MAX=180s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m unittest -v research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.ops_continuation_20261011.clean_t3_f0_matched_student_r5_cache_r1.cache_adapter_r1.test_clean_t3_f0_homogeneous_cache_r1",
+      "result": "PASS",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "actual_producer_arrays_rehashed": false,
+      "prediction_data_pages_scanned": false
+    },
+    {
+      "scope": "independent arithmetic and actual writer collision guards",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=650000000 WNN_RUNTIME_MAX=120s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_cache_adapter_independent_review_r1/test_adapter_review_r1.py",
+      "result": "PASS",
+      "passed": 3,
+      "failed": 0
+    }
+  ],
+  "unresolved_gates": [
+    "s4 and s5 FIT_TRAIN prediction arrays and sidecars are absent; actual-input status remains PARTIAL_INPUTS_VALIDATED_AWAITING_TRAIN_EXPORTS",
+    "no root cache-materialization release exists",
+    "this review did not recompute full producer-array hashes or scan prediction data pages; builder is required to rehash before materialization, and producer terminal receipts bind the currently available arrays"
+  ],
+  "nonblocking_note": "The final/partial output collision guard runs after streamed input rehashing, so a collision may cause avoidable reads before refusal."
+}
