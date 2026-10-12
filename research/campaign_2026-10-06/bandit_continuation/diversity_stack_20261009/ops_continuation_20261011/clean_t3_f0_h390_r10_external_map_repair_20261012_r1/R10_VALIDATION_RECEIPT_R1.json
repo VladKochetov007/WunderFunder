@@ -1,0 +1,49 @@
+{
+  "base_commit": "f1cbfbd016f229d9f2e00de2d5089e647eff830b",
+  "branch": "agent/r10-r9-external-map-20261012",
+  "checks": {
+    "actual_r5_r9_worker_startup_fixture": {
+      "failures": 0,
+      "result": "PASS",
+      "runtime_seconds": 0.787,
+      "tests": 4
+    },
+    "fixture_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=650000000 WNN_RUNTIME_MAX=180s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /usr/bin/python3 <packet>/test_r10_transport.py",
+    "python_runtime_used_for_fixture": "3.14.7",
+    "ruff_check": {
+      "result": "PASS",
+      "version": "0.16.7"
+    },
+    "ruff_format_check": {
+      "result": "PASS"
+    }
+  },
+  "created_utc": "2026-10-12T09:19:23Z",
+  "fit_workers_started": 0,
+  "fixture_scope": [
+    "actual package_r9 R5 bundle archive/manifest verified and extracted",
+    "actual R9 checkpoint manifest and staged checkpoint/provenance files verified",
+    "all 13 R5 external mounts resolved to actual source paths and passed the unchanged mount checks",
+    "actual archived driver and five export specs loaded; first export worker intercepted before subprocess"
+  ],
+  "limitations": [
+    "fixture used a synthetic admitted receipt in a temporary directory solely to reach the intercepted first-worker boundary; it is not ROOT authorization",
+    "large parquet/cache payload bytes were not read or rehashed in the fixture",
+    "no provider operation, GPU worker, model load, fit, export, prediction, or full-data evaluation occurred",
+    "independent review, actual R10 ROOT release, and provider readiness remain required before dispatch"
+  ],
+  "packet_bindings": {
+    "actual_producer_fixture_sha256": "682ef9266ad2505cb84257463b9fd0d39374c02ae9457b1dd9c7eed961170230",
+    "build_receipt_sha256": "8901436d5d8c5e87b72176df9e1ba3984b0d4a1424ff2260bb910f502b1e10b4",
+    "kernel_sha256": "7b9c858eb3510171c5d98051442010f053837ab342f60a44073975b9ad0c9e42",
+    "metadata_sha256": "97d84ecc9241ffed07413aa392e15ab476b647b6b57432e1638e6f4df31562fc",
+    "r5_bundle_archive_sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549",
+    "r5_bundle_manifest_sha256": "5fc7423ebb8f8ef3c5c5bb0ec8be35352f3470dd75d99d47cad4180ac663c689"
+  },
+  "prediction_files_created": 0,
+  "provider_actions": 0,
+  "schema": "wnn.kaggle.r10_pre_dispatch_validation.r1",
+  "status": "PASS_STATIC_AND_ACTUAL_PRODUCER_STARTUP_FIXTURE_ONLY",
+  "target_kernel_id": "vladkochetov07/wnn-clean-t3-f0-h384-exp-20261012-r10",
+  "worktree": "/home/vlad/development/wunder/wnn-agent-worktrees/r10-r9-external-map-20261012"
+}
