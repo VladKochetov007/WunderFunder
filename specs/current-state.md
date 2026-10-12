@@ -523,3 +523,12 @@ No unread alerts or newly landed scientific scores since09:45check. S5 FIT_TRAIN
 Luna/max batch_packet_builder now prepares the useful matchedcleanF0 alpha.9e6 two-parent Kagglecohort inisolatedWT; no dispatch, profile or fit yet. Exact cache identity and readiness remainpending S5 and reviewedtargetmaterialization. Both parents/teacher source hashes and recipealreadyfrozen; startuppreflight must refuse missingcache instead of inventinghashes. No redundantfive-exportR10dispatch or speculative newseedqueue. Existingparallel scientific arms/evidence preserved.
 
 User asks ZIP ETA again: all3 exactreviewedZIPs alreadyready in submissions/10-12-best-r1, ETA now. Frozen hashes retained, Btwo-model thenAseedpair thenCoptionalhighercost. No new quality score or public forecast follows from packaging/runtime tests.
+
+
+## 2026-10-12T09:56:57.397062+00:00 — R19 export completed, cache materialization conditional release
+
+S5 actual exporter terminalsuccess: exit0,1058.49s controller/1056.46s runner; finalFP32[10535,20000,2] output exists1,685,600,128B, notyetindependentlyvalidated. Workerpeak4.9526GB,parent15.638GB,observedVRAM1.399GB,no max/OOM/kill/swap. NewvalidatorR1 failedbefore scan onnonexistentS5_S5_EXPORT_PREFLIGHT_R1path. Preservefailedconsumer, identifiedR2correctspath againstactualproducer; no repeatedexportfit. Ownerretained. Rootconditionalrelease authorizes reviewedadapteronlyaftercompleteS5R2PASS, exactsource/contractpins, fullinputSHA, block8, freshaggregate+650MB<=18GB,1CPU650MB/noGPU/no swap/1200s. No studentprofile/fit releaseyet.
+
+Kaggleidle: matchedcleanF0two-parent successor Luna/maxpreparation overlapslocalcachecompletion; actualtargethash/readinesspending. VastBno ownedinstance row/access/finalcollectionunverified,no newpaidspend. No newCVscores sinceR18. All3frozenZIPsready unchanged.
+
+Regression/diversity usersteering synthesis saved in monitorR19/REGRESSION_DIVERSITY_PRECISION_SYNTHESIS_R1.md. Metadataregressor remainsworse thanrecent-fivechronologicalbaseline; fixedsimpleblends strongerthanlearnedweights in testedpool; n3teacher seedaveraginggains~.0019vsmeanindividual ineachF0/F1. Addingnewfamilies tostrongbase small/null ornegativeconditionalgain; someold/newstudentblendpositiveimprecise. Q8fidelityloss~.000071gate vsQ4roundingextra~.00180,samepanel; Q4notnativeINT4speedtest. No crosspaneldeltaarithmetic/publicforecast.

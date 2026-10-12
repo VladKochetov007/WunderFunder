@@ -247,3 +247,7 @@ E/F: Older H230 HFT conditional gain changes sign F0(+.0003105)/F1(−.0003472),
 
 ### 2026-10-12T09:50:22.602757+00:00 — R18 useful successor preparation
 MatchedcleanF0 alpha.9/e6 two-parent student cohort now has a Luna/max packet preparation owner while finalS5cache exports. No targethash/readiness invented; no GPUfit/providerdispatch. Existing inferenceruntime and publiccalibration evidence unchanged. Three fixedall-dataQ8ZIPs ready forhuman upload now.
+
+
+### 2026-10-12T09:56:57.397062+00:00 — R19 sourcequality/diversity/quantization priority
+Publicregressor diagnosticdone, recent-five baselinebetter; no moreexposed-table tuning. Fixedblends remaincontrol. Seedaveragingn3 +~.0019vsmeanindividual/F0andF1, modeldiversityconditionalnotuniversallypositive. Q8tinygatefidelityloss vsQ4extra.00180notnativeINT4speedup. SameCVservedendpoint mustdecide lowbitlargerblends; current<20MBQ8 no pressure. S5exportcomplete, validatorpathrepairR2, conditionaltargetmaterializationrelease. MatchedF0students/sourcequality isnextinformativecomparison.

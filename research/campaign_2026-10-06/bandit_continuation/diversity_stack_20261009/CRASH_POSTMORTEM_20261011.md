@@ -241,3 +241,7 @@ R6preparation launch metadata gives WTcwd while actual main() requiresMAINcwd an
 
 ### R17 R9 terminal external-map failure / corrected R10
 R9 failed before any worker (1.266s startup): unsafe external mapping artifacts/runs/c20260929_prop_f0/model.pt. Archive/spec-only declared set excluded actual producer external files. Terminal outputs/logs completely collected, no prediction NPY. Corrected R10 validates the exact pinned13-key external map and retains path/content guards. Four actual package_r9/checkpoint startup tests pass with worker intercepted; no scientific negative, no actual export success or cloud release claimed. Root earlier package_r6 fixture-path error was caught by hash mismatch and corrected to package_r9. Local s4/s5 fallback retained to avoid duplicate exports.
+
+
+### R19 S5 validator-path typo
+Validexportcompleted1058.49s/exit0. NewterminalvalidatorR1 expected nonexistentS5_S5_EXPORT_PREFLIGHT_R1.json; stoppedbeforearray scan. PreserveR1failure; R2samebounded500MB1CPU120s validatorcorrectsactualreadinesspath/sourcehash. This is downstreamconsumerfailure, no model/science negative and no export rerun.
