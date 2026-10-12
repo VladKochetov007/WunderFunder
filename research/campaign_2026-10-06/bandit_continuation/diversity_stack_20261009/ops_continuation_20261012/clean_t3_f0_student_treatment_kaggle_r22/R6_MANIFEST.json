@@ -1,0 +1,75 @@
+{
+  "schema": "wnn.clean_t3_f0_student_treatment_kernel_deadline_cleanup_successor.r6",
+  "packet_id": "clean_t3_f0_student_treatment_kaggle_r22_kernel_r6",
+  "created_utc": "2026-10-12T12:28:38Z",
+  "status": "prepared_unuploaded",
+  "kernel_id": "vladkochetov07/wnn-clean-t3-f0-muonall-student-20261012-r22-runner",
+  "parent": {
+    "r5_manifest_sha256": "69114de869be48ba376df519656dc82345fbcd727f50874cdf64c92cc182475e",
+    "r5_kernel_sha256": "eee975e22a12939ec0d82465d3c4612491fb8354a00b6e42a176db07928243df",
+    "r5_validation_receipt_sha256": "82e812e9c65c8c1910b20fa033c16e851771d14167465cde78d3c9a013b4a725"
+  },
+  "change_scope": [
+    "outer runner subprocess timeout uses the full positive floating-point wall time remaining",
+    "worker deadline environment and runner's 300-second finalization reserve are unchanged",
+    "timeout fixture exercises actual runner watchdog cleanup and partial-artifact receipt"
+  ],
+  "source_bindings": {
+    "kaggle_gpu_runner_path": "scripts/kaggle_gpu_runner.py",
+    "kaggle_gpu_runner_sha256": "4576c460764ec947e9d61867a3f418e1b6a7a4665e1ca4b67a523b5f8c892e8f",
+    "runner_hash_binding_source": "/home/vlad/development/wunder/.wnn-clean-t3-f0-treatment-r22-source/bundle-manifest.json",
+    "source_bundle_sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549"
+  },
+  "budgets": {
+    "wall_ceiling_seconds": 10000,
+    "finalization_reserve_seconds": 300,
+    "provisioned_gpu_count": 2,
+    "cohort_gpu_seconds_upper_bound": 20000
+  },
+  "files": [
+    {
+      "path": "kernel_r6/kernel.py",
+      "bytes": 28567,
+      "sha256": "3196cb6c049f76bdcb76b3037ca91684d9a919f23f63cef2dd70ddc350927199"
+    },
+    {
+      "path": "kernel_r6/kernel-metadata.json",
+      "bytes": 658,
+      "sha256": "d7cda84a9a08ded24d7d43b6a236db1dc9701e4683fcde92a2e968b7706fe169"
+    },
+    {
+      "path": "kernel_r6/deadline_fixture_r6.py",
+      "bytes": 8951,
+      "sha256": "3c253071f19f2e3392c8eaa55fd8e211e9676020d79b70f7f95224a53273974d"
+    },
+    {
+      "path": "kernel_r6/DEADLINE_FIXTURE_OUTPUT_R6.json",
+      "bytes": 1023,
+      "sha256": "6a92bfcf7c89a9ee621010adb63cfcc1461d1712a307a7a4b81b5d4cbf97bb12"
+    },
+    {
+      "path": "README_R6.md",
+      "bytes": 1820,
+      "sha256": "19128b24316e53a0ea72cac248ca63f8842db98ee674dbc4f331706916135638"
+    }
+  ],
+  "validation": {
+    "result": "pass",
+    "fixture_output_sha256": "6a92bfcf7c89a9ee621010adb63cfcc1461d1712a307a7a4b81b5d4cbf97bb12",
+    "python": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "cpu_quota": "25%",
+    "threads": 1,
+    "memory_max_bytes": 700000000,
+    "runtime_max_seconds": 120,
+    "fixture_only": true,
+    "gpu_or_provider_used": false,
+    "actual_t4_profile": "pending"
+  },
+  "gates": {
+    "independent_review": "pending",
+    "root_release": "pending",
+    "private_inputs_ready_readback": "pending",
+    "fresh_quota_and_session_check": "pending",
+    "provider_dispatch": "not_performed"
+  }
+}
