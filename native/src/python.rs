@@ -95,6 +95,14 @@ fn storage_bytes(model: &FastRnn) -> HashMap<String, usize> {
         ("recurrent_state".into(), model.recurrent_state_bytes()),
         ("scratch".into(), model.scratch_bytes()),
         (
+            "shared_backbone_step_payload".into(),
+            model.shared_backbone_step_payload_bytes(),
+        ),
+        (
+            "independent_head_step_payload".into(),
+            model.independent_head_step_payload_bytes(),
+        ),
+        (
             "import_only_dense_recurrent".into(),
             model.import_only_dense_bytes(),
         ),
@@ -255,6 +263,76 @@ fn weights_from_dict(
         w2: take(&mut w, "head.2.weight")?,
         b2: take(&mut w, "head.2.bias")?,
     })
+}
+
+fn same_float_bits(left: &[f32], right: &[f32]) -> bool {
+    left.len() == right.len()
+        && left
+            .iter()
+            .zip(right)
+            .all(|(left, right)| left.to_bits() == right.to_bits())
+}
+
+fn same_shared_backbone(left: &RnnWeights, right: &RnnWeights) -> bool {
+    left.layers.len() == right.layers.len()
+        && same_float_bits(&left.mean, &right.mean)
+        && same_float_bits(&left.std, &right.std)
+        && same_float_bits(&left.w_in, &right.w_in)
+        && same_float_bits(&left.b_in, &right.b_in)
+        && left.layers.iter().zip(&right.layers).all(|(left, right)| {
+            same_float_bits(&left.w_ih, &right.w_ih)
+                && same_float_bits(&left.w_hh, &right.w_hh)
+                && same_float_bits(&left.b_ih, &right.b_ih)
+                && same_float_bits(&left.b_hh, &right.b_hh)
+        })
+}
+
+fn validate_shared_backbone_pair(
+    weights: &[RnnWeights],
+    coefficients: &[f32],
+    precision: Precision,
+    has_q8_codes: bool,
+    has_factors: bool,
+    has_governor: bool,
+) -> PyResult<()> {
+    if weights.len() != 2 {
+        return Err(PyValueError::new_err(
+            "shared_backbone requires exactly two models",
+        ));
+    }
+    if coefficients.len() != 2
+        || coefficients
+            .iter()
+            .any(|coefficient| coefficient.to_bits() != 0.5f32.to_bits())
+    {
+        return Err(PyValueError::new_err(
+            "shared_backbone requires fixed 0.5/0.5 output averaging",
+        ));
+    }
+    if weights.iter().any(|member| {
+        member.b2.len() != 2 || member.w2.len() != 2 * member.b1.len()
+    }) {
+        return Err(PyValueError::new_err(
+            "shared_backbone requires two-output heads",
+        ));
+    }
+    if !matches!(
+        precision,
+        Precision::Q8Vnni | Precision::Q8VnniAvx2 | Precision::Q8VnniPortable
+    ) || has_q8_codes
+        || has_factors
+        || has_governor
+    {
+        return Err(PyValueError::new_err(
+            "shared_backbone requires dynamic Q8VNNI without imported codes, factors or governor",
+        ));
+    }
+    if !same_shared_backbone(&weights[0], &weights[1]) {
+        return Err(PyValueError::new_err(
+            "shared_backbone rejected non-identical input, normalization or recurrent tensors",
+        ));
+    }
+    Ok(())
 }
 
 /// Stateful twin of wnn.nn.RNNModel. Construct from `model.state_dict()` arrays.
@@ -438,6 +516,7 @@ struct PyEnsemblePredictor {
     /// Step members in reverse order on odd rows (dynamic-int8 ensembles; see `advance`).
     alternate: bool,
     odd_row: bool,
+    shared_backbone: bool,
     out: [f32; 2],
     seq: Option<i64>,
     governor: Option<Governor>,
@@ -550,26 +629,38 @@ impl PyEnsemblePredictor {
         let reverse = self.alternate && self.odd_row;
         self.odd_row = !self.odd_row;
         let order = |k: usize| if reverse { active - 1 - k } else { k };
-        match &mut self.governor {
-            None => {
-                for k in 0..active {
-                    let i = order(k);
-                    // Prefetch the next member's first weights (for the last member, the next
-                    // row's first) during this member's final activation pass.
-                    let after = self.firsts[order((k + 1) % active)];
-                    let width = self.widths[i];
-                    self.models[i].step_then(&self.input[..width], &mut self.scratch[i], after);
+        if self.shared_backbone {
+            debug_assert!(self.governor.is_none());
+            let (first, second) = self.models.split_at_mut(1);
+            let (first_scratch, second_scratch) = self.scratch.split_at_mut(1);
+            first[0].step_with_shared_backbone(
+                &mut second[0],
+                &self.input[..self.widths[0]],
+                &mut first_scratch[0],
+                &mut second_scratch[0],
+            );
+        } else {
+            match &mut self.governor {
+                None => {
+                    for k in 0..active {
+                        let i = order(k);
+                        // Prefetch the next member's first weights (for the last member, the next
+                        // row's first) during this member's final activation pass.
+                        let after = self.firsts[order((k + 1) % active)];
+                        let width = self.widths[i];
+                        self.models[i].step_then(&self.input[..width], &mut self.scratch[i], after);
+                    }
                 }
-            }
-            Some(governor) => {
-                for k in 0..active {
-                    let i = order(k);
-                    let t = Instant::now();
-                    let width = self.widths[i];
-                    self.models[i].step(&self.input[..width], &mut self.scratch[i]);
-                    governor.member_time[i] += t.elapsed();
+                Some(governor) => {
+                    for k in 0..active {
+                        let i = order(k);
+                        let t = Instant::now();
+                        let width = self.widths[i];
+                        self.models[i].step(&self.input[..width], &mut self.scratch[i]);
+                        governor.member_time[i] += t.elapsed();
+                    }
+                    governor.rows += 1;
                 }
-                governor.rows += 1;
             }
         }
         for (scratch, coefficient) in self.scratch.iter().zip(&self.coefficients).take(active) {
@@ -596,7 +687,8 @@ impl PyEnsemblePredictor {
         budget_s=None,
         expected_rows=39_400_000.0,
         q8_codes=None,
-        factors=None
+        factors=None,
+        shared_backbone=false
     ))]
     fn new(
         py: Python<'_>,
@@ -608,6 +700,7 @@ impl PyEnsemblePredictor {
         expected_rows: f64,
         q8_codes: Option<Vec<Q8Codes>>,
         factors: Option<Vec<FactorTensors>>,
+        shared_backbone: bool,
     ) -> PyResult<Self> {
         if weights.is_empty() || weights.len() != coefficients.len() {
             return Err(PyValueError::new_err(
@@ -625,6 +718,7 @@ impl PyEnsemblePredictor {
                 "provide q8 tensors for every ensemble member",
             ));
         }
+        let has_q8_codes = q8_codes.is_some();
         let mut encoded = q8_codes.map(|codes| codes.into_iter());
         if factors
             .as_ref()
@@ -634,6 +728,7 @@ impl PyEnsemblePredictor {
                 "provide factors for every ensemble member",
             ));
         }
+        let has_factors = factors.is_some();
         let mut factors = factors.map(|items| items.into_iter());
         let activation = if fast_activations {
             Activations::Fast
@@ -641,12 +736,25 @@ impl PyEnsemblePredictor {
             Activations::Exact
         };
         let precision = parse_precision(precision)?;
+        let parsed_members = weights
+            .into_iter()
+            .map(weights_from_dict)
+            .collect::<PyResult<Vec<_>>>()?;
+        if shared_backbone {
+            validate_shared_backbone_pair(
+                &parsed_members,
+                &coefficients,
+                precision,
+                has_q8_codes,
+                has_factors,
+                budget_s.is_some(),
+            )?;
+        }
         use crate::stream::{N_EVENT, N_RAW};
         let base = N_RAW + N_EVENT;
-        let mut models = Vec::with_capacity(weights.len());
-        let mut widths = Vec::with_capacity(weights.len());
-        for member in weights {
-            let parsed = weights_from_dict(member)?;
+        let mut models = Vec::with_capacity(parsed_members.len());
+        let mut widths = Vec::with_capacity(parsed_members.len());
+        for parsed in parsed_members {
             let width = parsed.mean.len();
             if width != base && width != base + N_RAW {
                 return Err(PyValueError::new_err(format!(
@@ -685,8 +793,11 @@ impl PyEnsemblePredictor {
             features: Default::default(),
             norm: needs_norm.then(Default::default),
             scratch: vec![[0.0; 2]; models.len()],
-            alternate: models.iter().all(FastRnn::is_dynamic_int8) && models.len() > 1,
+            alternate: !shared_backbone
+                && models.iter().all(FastRnn::is_dynamic_int8)
+                && models.len() > 1,
             odd_row: false,
+            shared_backbone,
             input: vec![0.0; if needs_norm { base + N_RAW } else { base }],
             widths,
             active: models.len(),
@@ -934,5 +1045,95 @@ impl PyPredictor {
         let mut full = vec![0.0f32; self.model.n_out()];
         self.model.step(&self.input, &mut full);
         Ok(PyArray1::from_slice(py, &full))
+    }
+}
+
+#[cfg(test)]
+mod shared_backbone_tests {
+    use super::*;
+
+    fn fixture_weights(seed: usize) -> RnnWeights {
+        let values = |count: usize, offset: usize| {
+            (0..count)
+                .map(|index| ((index + offset + seed) % 31) as f32 / 31.0)
+                .collect::<Vec<_>>()
+        };
+        let hidden = 4;
+        let input = 3;
+        RnnWeights {
+            mean: values(input, 0),
+            std: values(input, 1),
+            w_in: values(hidden * input, 2),
+            b_in: values(hidden, 3),
+            layers: (0..2)
+                .map(|layer| GruLayer {
+                    w_ih: values(3 * hidden * hidden, 4 + layer),
+                    w_hh: values(3 * hidden * hidden, 6 + layer),
+                    b_ih: values(3 * hidden, 8 + layer),
+                    b_hh: values(3 * hidden, 10 + layer),
+                })
+                .collect(),
+            w1: values(hidden * 2 * hidden, 12),
+            b1: values(hidden, 13),
+            w2: values(2 * hidden, 14),
+            b2: values(2, 15),
+        }
+    }
+
+    #[test]
+    fn shared_backbone_preflight_allows_distinct_heads_and_rejects_changed_trunk() {
+        let first = fixture_weights(1);
+        let mut second = fixture_weights(1);
+        second.w1[0] = f32::from_bits(second.w1[0].to_bits() ^ 1);
+        second.w2[0] = f32::from_bits(second.w2[0].to_bits() ^ 1);
+        let half = [0.5, 0.5];
+        let precision = Precision::Q8VnniPortable;
+
+        assert!(
+            validate_shared_backbone_pair(
+                &[first, second],
+                &half,
+                precision,
+                false,
+                false,
+                false,
+            )
+            .is_ok(),
+            "different heads remain eligible for exact sharing"
+        );
+
+        let first = fixture_weights(1);
+        let mut incompatible = fixture_weights(1);
+        incompatible.layers[0].w_hh[0] = f32::from_bits(
+            incompatible.layers[0].w_hh[0].to_bits() ^ 1,
+        );
+        assert!(
+            validate_shared_backbone_pair(
+                &[first, incompatible],
+                &half,
+                precision,
+                false,
+                false,
+                false,
+            )
+            .is_err(),
+            "a changed recurrent tensor must reject sharing"
+        );
+
+        let mut incompatible_output = fixture_weights(1);
+        incompatible_output.w2 = (0..12).map(|index| index as f32).collect();
+        incompatible_output.b2 = vec![0.0; 3];
+        assert!(
+            validate_shared_backbone_pair(
+                &[fixture_weights(1), incompatible_output],
+                &half,
+                precision,
+                false,
+                false,
+                false,
+            )
+            .is_err(),
+            "a head without exactly two outputs must reject sharing"
+        );
     }
 }

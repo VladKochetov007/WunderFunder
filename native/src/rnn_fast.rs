@@ -1121,6 +1121,39 @@ impl FastRnn {
                 .sum::<usize>()
     }
 
+    /// Logical per-step bytes read from the shared input projection and recurrent weights.
+    ///
+    /// This excludes arena alignment padding and is defined for dynamic-int8 precision only.
+    pub fn shared_backbone_step_payload_bytes(&self) -> usize {
+        if self.precision.dyn8().is_none() {
+            return 0;
+        }
+        let recurrent_matrices = self
+            .layers
+            .iter()
+            .map(|layer| {
+                self.dq[layer.w_ih.q8.expect("dynamic input matrix")].storage_bytes()
+                    + self.dq[layer.w_hh.q8.expect("dynamic recurrent matrix")].storage_bytes()
+                    + (layer.b_ih.len() + layer.b_hh.len()) * size_of::<f32>()
+            })
+            .sum::<usize>();
+        self.half.bytes()
+            + (self.w_in_cols.s.len() + self.b_in.len()) * size_of::<f32>()
+            + recurrent_matrices
+    }
+
+    /// Logical per-step bytes read from this model's independent head weights.
+    ///
+    /// This excludes arena alignment padding and is defined for dynamic-int8 precision only.
+    pub fn independent_head_step_payload_bytes(&self) -> usize {
+        if self.precision.dyn8().is_none() {
+            return 0;
+        }
+        self.dq[self.w1.q8.expect("dynamic head matrix")].storage_bytes()
+            + self.dq[self.w1z.q8.expect("dynamic projection-head matrix")].storage_bytes()
+            + (self.b1.len() + self.w2.len() + self.b2.len()) * size_of::<f32>()
+    }
+
     pub fn cell(&self) -> Cell {
         self.cell
     }
@@ -1187,6 +1220,80 @@ impl FastRnn {
             #[cfg(not(target_arch = "x86_64"))]
             _ => unreachable!(),
         }
+    }
+
+    /// Run one dynamic-int8 backbone and evaluate a second model's independent head on it.
+    ///
+    /// The caller preflights byte-identical input/projection/recurrent tensors, matching
+    /// precision and dimensions, and two-output heads. The second model is used only as head
+    /// storage; its recurrent state is deliberately not advanced.
+    pub(crate) fn step_with_shared_backbone(
+        &mut self,
+        second_head: &mut Self,
+        x: &[f32],
+        first_out: &mut [f32],
+        second_out: &mut [f32],
+    ) {
+        debug_assert!(self.precision.dyn8().is_some());
+        debug_assert_eq!(self.precision, second_head.precision);
+        debug_assert_eq!(self.hidden, second_head.hidden);
+        debug_assert_eq!(self.layers.len(), second_head.layers.len());
+        debug_assert_eq!(self.n_out, second_head.n_out);
+        self.step(x, first_out);
+        let after = self.first_weights();
+        second_head.step_dyn_head_from(self, second_out, after);
+    }
+
+    fn step_dyn_head_from(&mut self, backbone: &FastRnn, out: &mut [f32], mut after: Ahead) {
+        use crate::vnni::padded_cols;
+
+        debug_assert!(self.precision.dyn8().is_some());
+        debug_assert_eq!(self.precision, backbone.precision);
+        debug_assert_eq!(self.hidden, backbone.hidden);
+        debug_assert_eq!(self.layers.len(), backbone.layers.len());
+        assert_eq!(out.len(), self.n_out, "output width");
+
+        let isa = self
+            .precision
+            .dyn8()
+            .expect("shared head requires dynamic int8");
+        let n_layers = self.layers.len();
+        let kp = padded_cols(self.hidden);
+        let (hq, zq) = backbone.dcodes.split_at(n_layers * kp);
+        let (hs, zs) = backbone.dscales.split_at(n_layers);
+        let last_hidden = &hq[(n_layers - 1) * kp..n_layers * kp];
+        let hidden_scale = hs[n_layers - 1];
+        let z_scale = zs[0];
+        let z_codes = &zq[..kp];
+
+        let wts = self.weights.as_ref();
+        let a = &mut self.state.as_mut()[self.a.clone()];
+        self.dq[self.w1.q8.expect("dynamic head weight")].gemv(
+            isa,
+            last_hidden,
+            hidden_scale,
+            Some(&wts[self.b1.clone()]),
+            a,
+        );
+        self.dq[self.w1z.q8.expect("dynamic projection-head weight")]
+            .gemv(isa, z_codes, z_scale, None, a);
+
+        let fast = self.act == Activations::Fast;
+        #[cfg(target_arch = "x86_64")]
+        if fast && self.precision == Precision::Q8Vnni {
+            // SAFETY: Q8Vnni is selected only after the AVX-512 VNNI capability check.
+            unsafe { crate::approx::avx512::gelu_slice(a, &mut after) };
+        } else if fast && self.precision == Precision::Q8VnniAvx2 {
+            // SAFETY: Q8VnniAvx2 is selected only after the AVX2 capability check.
+            unsafe { crate::approx::avx2::gelu_slice(a, &mut after) };
+        } else if fast {
+            let _ = after;
+            a.iter_mut().for_each(|value| *value = gelu_fast(*value));
+        } else {
+            let _ = after;
+            a.iter_mut().for_each(|value| *value = gelu(*value));
+        }
+        gemv_lanes(&wts[self.w2.clone()], &wts[self.b2.clone()], a, out);
     }
 
     fn step_factorized(&mut self, x: &[f32], out: &mut [f32]) {
@@ -2441,5 +2548,77 @@ mod tests {
         m.reset();
         m.step(&x[0], &mut out);
         assert_eq!(out, first);
+    }
+
+    #[test]
+    fn q8vnni_shared_backbone_matches_two_independent_heads_across_resets() {
+        let mut first = weights(211, 32, 2, 91);
+        let mut second = weights(211, 32, 2, 92);
+        second.mean = first.mean.clone();
+        second.std = first.std.clone();
+        second.w_in = first.w_in.clone();
+        second.b_in = first.b_in.clone();
+        second.layers = first
+            .layers
+            .iter()
+            .map(|layer| GruLayer {
+                w_ih: layer.w_ih.clone(),
+                w_hh: layer.w_hh.clone(),
+                b_ih: layer.b_ih.clone(),
+                b_hh: layer.b_hh.clone(),
+            })
+            .collect();
+        for model in [&mut first, &mut second] {
+            for layer in &mut model.layers {
+                layer
+                    .w_ih
+                    .iter_mut()
+                    .chain(&mut layer.w_hh)
+                    .for_each(|value| *value *= 0.05);
+            }
+            model
+                .w1
+                .iter_mut()
+                .chain(&mut model.w2)
+                .for_each(|value| *value *= 0.05);
+        }
+
+        let precision = Precision::Q8VnniPortable;
+        let mut baseline_first =
+            FastRnn::with_precision(weights_like(&first), Activations::Fast, precision).unwrap();
+        let mut baseline_second =
+            FastRnn::with_precision(weights_like(&second), Activations::Fast, precision).unwrap();
+        let mut shared_backbone =
+            FastRnn::with_precision(weights_like(&first), Activations::Fast, precision).unwrap();
+        let mut shared_second_head =
+            FastRnn::with_precision(weights_like(&second), Activations::Fast, precision).unwrap();
+        let input = inputs(211, 256);
+        let (mut expected_first, mut expected_second, mut actual_first, mut actual_second) =
+            ([0.0; 2], [0.0; 2], [0.0; 2], [0.0; 2]);
+
+        for _ in 0..2 {
+            baseline_first.reset();
+            baseline_second.reset();
+            shared_backbone.reset();
+            shared_second_head.reset();
+            for row in &input {
+                baseline_first.step(row, &mut expected_first);
+                baseline_second.step(row, &mut expected_second);
+                shared_backbone.step_with_shared_backbone(
+                    &mut shared_second_head,
+                    row,
+                    &mut actual_first,
+                    &mut actual_second,
+                );
+                assert_eq!(
+                    expected_first.map(f32::to_bits),
+                    actual_first.map(f32::to_bits)
+                );
+                assert_eq!(
+                    expected_second.map(f32::to_bits),
+                    actual_second.map(f32::to_bits)
+                );
+            }
+        }
     }
 }
