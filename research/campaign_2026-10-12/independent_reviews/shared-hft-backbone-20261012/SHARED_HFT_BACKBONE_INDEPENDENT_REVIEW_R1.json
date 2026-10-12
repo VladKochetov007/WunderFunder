@@ -1,0 +1,58 @@
+{
+  "schema": "wnn.independent.shared-hft-backbone-review.r1",
+  "verdict": "PASS_STATIC_SERVING_SEMANTICS_WITH_DEPLOYMENT_GATES",
+  "scope": "independent source/evidence review only; no build, benchmark, fit, or ZIP mutation",
+  "review_worktree_branch": "codex/f1-core-hft-review-20261012",
+  "reviewed_source_commit": "70749a118e1333fd04f1e09596de37b1d9126c80",
+  "reviewed_source_files": [
+    "native/src/python.rs",
+    "native/src/rnn_fast.rs"
+  ],
+  "reviewed_commits": ["a9f677e4", "0de336fe", "a1d4234d"],
+  "source_checks": {
+    "default_off_preserves_separate_path": true,
+    "exact_two_member_half_coefficients_required": true,
+    "dynamic_q8vnni_only_and_unsupported_modes_rejected": true,
+    "trunk_float_bits_checked": ["mean", "std", "inp.weight", "inp.bias", "gru tensors"],
+    "second_head_uses_own_q8_projection_and_nonlinearity": true,
+    "common_trunk_advanced_once_and_second_recurrent_state_not_advanced": true,
+    "feature_warmup_reset_and_callback_order_preserved": true,
+    "no_head_parameter_averaging": true
+  },
+  "f0_endpoint": {
+    "student_checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "hft_checkpoint_sha256": "2bde556119ededc3693733280444a42f0f64138a2e3759bed6b068cb72f18ec8",
+    "panel_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "sequences": 10,
+    "rows_per_sequence": 20000,
+    "reset_passes": 2,
+    "callbacks_per_method": 400000,
+    "labels_loaded": false,
+    "pair_receipts": {
+      "PAIR1_R1.json": "6eec55caceaa819ab5ea453dd08f12d3ef588ca25a3f50dc2aee026048f10932",
+      "PAIR2_R1.json": "fdd8785483558332e8ec68c2e84869eab32ba7b22330d087648aeccaadd22612",
+      "PY311_PAIR_R1.json": "1c3b89bb4e2e79d4dc224fe57111f097a557076a83c2478492447fc987a1c249"
+    },
+    "all_three_pairs_same_ten_sequence_output_hashes": true,
+    "same_api_and_callback_path_except_shared_flag": true
+  },
+  "python311_abi": {
+    "abi3_py311": true,
+    "libpython_dependency": false,
+    "maximum_glibc": "2.34",
+    "target_envelope_glibc": "2.36",
+    "wheel_sha256": "b4d71f3e06b51027d46bb74a7b2317405a69221f883e4c9c0efe2c8ea68f979f",
+    "extension_sha256": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326",
+    "raw_pair_directly_records_loaded_elf_hash": false,
+    "same_path_postrun_elf_probe_matches_wheel": true
+  },
+  "promotion_gates_open": [
+    "complete native-Q8 quality grade for exact fixed-mixture endpoint",
+    "F1 CP1/HFT CP0 exact producer hashes and post-export trunk identity",
+    "final ZIP ABI and direct loaded-ELF path/hash receipt under Python 3.11",
+    "full scorer callback/reset/warm-up parity and complete local grade",
+    "target AMD EPYC 9224 runtime/package validation"
+  ],
+  "public_score_forecast": null,
+  "timing_forecast": null
+}
