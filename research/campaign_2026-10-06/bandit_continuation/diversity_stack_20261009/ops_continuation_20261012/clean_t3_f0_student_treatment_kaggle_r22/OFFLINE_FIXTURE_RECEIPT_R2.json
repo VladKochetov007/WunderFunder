@@ -1,0 +1,83 @@
+{
+  "schema": "wnn.clean_f0_student_treatment_offline_fixture_receipt.r2",
+  "status": "pass",
+  "observed_at_utc": "2026-10-12T11:29:19Z",
+  "command": {
+    "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "argv": [
+      "scripts/limited",
+      ".venv/bin/python",
+      "/home/vlad/development/wunder/wnn_clean_f0_pair_kaggle_r21_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/clean_t3_f0_student_treatment_kaggle_r22/offline_fixture_r22.py"
+    ],
+    "limits": {
+      "cpu_quota": "50%",
+      "threads": 1,
+      "memory_max_bytes": 650000000,
+      "runtime_max_seconds": 120
+    }
+  },
+  "prepared_payload": {
+    "source_stage": "/home/vlad/development/wunder/.wnn-clean-t3-f0-treatment-r22-source",
+    "asset_stage": "/home/vlad/development/wunder/.wnn-clean-t3-f0-treatment-r22-assets",
+    "kernel_stage": "kernel/",
+    "plan_sha256": "b7ff3c92a50e70e22328ba569ad14c88138c72c863ec3b4c2d0bda08edf8269f",
+    "asset_manifest_sha256": "838870cea717a803866c4022cd6bc902113e448b4dcd32683ec7acd52aea3a21",
+    "source_bundle_manifest_sha256": "eac3be063ee0b3fd589191a45bf118b13277e313292ec36986c7bddfc7b810cc",
+    "trainer_bundle_sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549",
+    "kernel_sha256": "e9418f38bc6f446627d267dacef44ddae5198b9ee3362bf79b99f83a13e3d28d",
+    "flat_asset_payload_file_count": 6,
+    "flat_asset_payload_bytes": 1914863477,
+    "same_filesystem_cache_hardlinks": {
+      "train_npy": {
+        "source_bytes": 1685600128,
+        "sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3"
+      },
+      "fit_valid_npy": {
+        "source_bytes": 224800128,
+        "sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+      }
+    }
+  },
+  "actual_generated_kernel_fixture": {
+    "status": "pass",
+    "external_mounts_checked": 18,
+    "training_parquet_identity": "deferred to the frozen trainer's portable-input verification",
+    "pending_root_release_refused": true,
+    "treatment_only": true,
+    "fit_stages": [
+      {"stop_after_epoch_inclusive": 1},
+      {"stop_after_epoch_inclusive": 3},
+      {"stop_after_epoch_inclusive": 5}
+    ],
+    "export": {
+      "run": "clean_t3_f0_muonall_parent_s3_a9_t3r5_treatment_r22_p3",
+      "epoch": 5,
+      "shape": [1873, 20000, 2],
+      "dtype": "float32",
+      "bytes": 299680128
+    },
+    "control_fit_repeated": false,
+    "trainer_or_cuda_imported": false,
+    "fit_or_score_started": false,
+    "provider_mutation": false
+  },
+  "failed_fixture_receipts_preserved": [
+    "OFFLINE_FIXTURE_ATTEMPT_R1.json",
+    "OFFLINE_FIXTURE_ATTEMPT_R2.json"
+  ],
+  "execution_status": {
+    "source_or_asset_uploaded": false,
+    "kernel_pushed": false,
+    "kaggle_profile_started": false,
+    "fit_started": false,
+    "score_claim": false
+  },
+  "open_root_gates": [
+    "independent packet review",
+    "fresh quota/session and logical reservation",
+    "private dataset create/READY version readback with exact staged hashes",
+    "root-authorized profile receipt",
+    "actual Kaggle T4 30-batch profile pass before fit authorization",
+    "root final fit release"
+  ]
+}

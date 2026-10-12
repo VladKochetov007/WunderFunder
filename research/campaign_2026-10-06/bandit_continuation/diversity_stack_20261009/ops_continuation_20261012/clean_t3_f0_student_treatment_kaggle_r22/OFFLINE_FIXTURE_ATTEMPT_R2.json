@@ -1,0 +1,10 @@
+{
+  "schema": "wnn.clean_f0_student_treatment_fixture_attempt.r1",
+  "status": "failed_fixture_mount_model_corrected_in_source",
+  "observed_at_utc": "2026-10-12T11:28:07Z",
+  "command_scope": "bounded offline generated-kernel fixture; no trainer or CUDA import, no provider mutation, no fit or score",
+  "failure": "The fixture passed the physical upload-staging directory directly as a Kaggle input mount. That directory contains dataset-metadata.json, but Kaggle CLI dataset metadata is not a mounted data payload; the frozen runtime correctly rejected the extra file under its exact asset inventory guard.",
+  "failed_at": "generated kernel validate_and_mount_external flat asset inventory guard",
+  "impact": "No source or staged artifact was changed; the temporary fixture directory was cleaned by TemporaryDirectory. This was a fixture mount-model error, not a payload/inventory mismatch.",
+  "correction": "Build temporary source and asset mount directories with symlinks for exactly the uploaded data payloads, excluding dataset-metadata.json, then rerun the actual generated-kernel consumer."
+}

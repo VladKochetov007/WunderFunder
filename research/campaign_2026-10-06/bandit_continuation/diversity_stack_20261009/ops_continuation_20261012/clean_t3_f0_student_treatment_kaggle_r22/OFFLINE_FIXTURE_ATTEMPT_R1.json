@@ -1,0 +1,10 @@
+{
+  "schema": "wnn.clean_f0_student_treatment_fixture_attempt.r1",
+  "status": "failed_fixture_setup_corrected_in_source",
+  "observed_at_utc": "2026-10-12T11:27:21Z",
+  "command_scope": "bounded offline generated-kernel fixture; no trainer or CUDA import, no provider mutation, no fit or score",
+  "failure": "The fixture tried to symlink an asset into the same already-mounted physical asset-root path and correctly hit FileExistsError.",
+  "failed_at": "offline_fixture_r22.py:73, before validate_and_mount_external and worker-spec construction",
+  "impact": "No source or staged artifact was changed; the temporary fixture directory was cleaned by TemporaryDirectory.",
+  "correction": "Treat the physical asset mount as already present when source and mount target are the same path, then rerun the exact consumer fixture."
+}
