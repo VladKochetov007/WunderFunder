@@ -1442,6 +1442,8 @@ def main():
                     help="validated preweighted two-column teacher cache for independent distillation")
     ap.add_argument("--distill-cache-variant", choices=["source", "normalized", "homogeneous"],
                     default="source", help="main target column set in the preweighted cache")
+    ap.add_argument("--distill-cache-scale", type=float, default=1.0,
+                    help="scale cached main teacher targets before the training-time ±2 clip")
     ap.add_argument("--distill-family-weight", type=float, default=0.0,
                     help="training-only weighted-MSE coefficient for the four-family eight-output head")
     ap.add_argument("--distill-alpha", type=float, default=0.5, help="target = (1-a) y + a mean(teachers)")
@@ -1655,6 +1657,12 @@ def main():
         ap.error("--distill and --distill-cache-root are mutually exclusive")
     if not math.isfinite(args.distill_family_weight) or args.distill_family_weight < 0:
         ap.error("--distill-family-weight must be finite and nonnegative")
+    if not math.isfinite(args.distill_cache_scale) or args.distill_cache_scale <= 0:
+        ap.error("--distill-cache-scale must be finite and positive")
+    if args.distill_cache_scale != 1.0 and not args.distill_cache_root:
+        ap.error("--distill-cache-scale other than one requires --distill-cache-root")
+    if args.distill_cache_scale != 1.0 and args.distill_family_weight > 0:
+        ap.error("scaled main cache targets cannot be combined with family-target loss")
     if args.distill_family_weight > 0 and not args.distill_cache_root:
         ap.error("--distill-family-weight requires --distill-cache-root")
     if not math.isfinite(args.distill_reanchor) or not 0 <= args.distill_reanchor <= 1:
@@ -2111,6 +2119,8 @@ def main():
         provenance["distillation_cache"] = {
             "root": args.distill_cache_root,
             "variant": args.distill_cache_variant,
+            "main_target_scale": args.distill_cache_scale,
+            "main_target_scale_applied_before_training_clip": True,
             "metadata_sha256": distill_cache_validation["metadata_sha256"],
             "verified_files": distill_cache_validation["verified_files"],
             "source_coefficients": cache_metadata["source_coefficients"],
@@ -2457,6 +2467,8 @@ def main():
                             raise ValueError("four-family cache must append exactly eight family targets")
                         family_targets = y[..., 4:12]
                     teach, y = y[..., 2:4], y[..., :2]
+                    if args.distill_cache_scale != 1.0:
+                        teach = teach * args.distill_cache_scale
             steps = torch.arange(inputs.shape[1], device=device)[None].expand(inputs.shape[0], -1)
             valid = steps >= WARMUP
             if kept_len is not None:
