@@ -1,0 +1,88 @@
+{
+  "bindings": {
+    "builder_sha256": "0c675dd3f267be3c7e52d7b7e64ddb4bd0e33e2977edce600588ec20af0c62cb",
+    "contract_sha256": "312b57d7cff1386be2cb727a30ce66133588db1804fb50180ef96768374eea12",
+    "input_preflight_sha256": "681d8ba18ebdde8a703b96d3dbe5fd2b1380aba8f12e2977bd5978a0ac86c40a",
+    "input_validator_sha256": "67437a5cdcb50769074b1aae3ef2b0541b67da8d39917d435f2431acdc53c3d1",
+    "r2_single_contract_sha256": "801f54610f6cd7c39490b68b316fd2815ee312a383434a2c216bec2ad9d96f21",
+    "r2_single_dependency_probe_sha256": "f4d05b35bd2fba3849aeb6c476a2dd5ea5411f2d30bf3dd1f2bcf9bb6610e99f",
+    "r2_uv_incident_sha256": "aa3fa6dadb96709eaf8ce404caa9920d5b561f226fe24efd136e044281d9faea",
+    "readme_sha256": "f9a28d15de342de8d0cbca0bba8da109a96465fbcb3703ca2b8fb09c97274f38"
+  },
+  "created_utc": "2026-10-12T06:08:59.513077+00:00",
+  "execution": {
+    "authorization_created": false,
+    "callback_fixture_performed": false,
+    "full_fold_scoring_performed": false,
+    "inference_performed": false,
+    "provider_actions_performed": false,
+    "root_admission_still_required": true
+  },
+  "input_preflight": {
+    "contract_sha256": "312b57d7cff1386be2cb727a30ce66133588db1804fb50180ef96768374eea12",
+    "data_repo_path": "datasets/valid.parquet",
+    "identity": {
+      "bytes": 5615509128,
+      "footer_bytes": 10686926,
+      "footer_sha256_including_8_byte_trailer": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+    },
+    "metadata": {
+      "feature_columns": 112,
+      "required_columns_present": true,
+      "row_data_pages_read": false,
+      "row_groups": 1873,
+      "rows": 37460000,
+      "rows_per_group": 20000,
+      "schema_names_count": 118,
+      "schema_names_sha256": "ebe06eb2f2e0006e7c9770011665870a3dae2930ea230940dc4e94b851c6385c",
+      "schema_sha256": "9e6ee74d63839722306a1d10ca3795cb3df90034e8cc6d0b0b5a59e3e9455f15"
+    },
+    "model_imported_or_constructed": false,
+    "prediction_data_loaded": false,
+    "preflight_python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]",
+    "root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "scoring_performed": false,
+    "status": "PASS_FROZEN_FOOTER_AND_METADATA_ONLY"
+  },
+  "packet_id": "native-q8-single-model-controls-packet-r3",
+  "preserved_incident": {
+    "environment_or_cache_deleted": false,
+    "incident_id": "native-q8-controls-builder-env-setup-r1",
+    "receipt_repo_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r2/PREPARATION_INCIDENT_UV_R1.json",
+    "receipt_sha256": "aa3fa6dadb96709eaf8ce404caa9920d5b561f226fe24efd136e044281d9faea",
+    "status": "exited; ignored environment/cache preserved"
+  },
+  "python311_runtime": {
+    "executable": "/usr/bin/python3.11",
+    "fresh_read_only_module_probe": {
+      "numpy": false,
+      "pyarrow": false,
+      "ruff": false,
+      "torch": false
+    },
+    "frozen_r2_probe_repo_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r2/PY311_RUNTIME_DEPENDENCY_PROBE_R1.json",
+    "frozen_r2_probe_status": "blocked_missing_dependencies",
+    "full_score_blocker": "required Python 3.11 runtime lacks numpy, pyarrow, and torch; no environment or package was created or installed",
+    "python311_requirement_weakened": false,
+    "version": "3.11.16"
+  },
+  "repository": {
+    "absolute_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "base_main_commit": "bf3ea0740f3e1a4fd4675a87ea5ba1295144bc55",
+    "r2_files_modified": false,
+    "r2_inherited_commit_in_r3_worktree": "38727e111d1354596ce7125b8943fc46b4a1709b",
+    "root_main_tracked_files_modified_by_this_task": false
+  },
+  "schema": "wnn.native.single-member-controls-preparation-validation.r3",
+  "static_checks": {
+    "current_parquet_footer_identity": "PASS (size, trailer/footer length, footer+trailer SHA256)",
+    "git_diff_check_r2_files": "PASS (no R2 paths changed after inherited R2 commit)",
+    "json_parse": "PASS (R3 contract and input preflight receipt)",
+    "parquet_metadata_only_schema": "PASS (rows, row groups, complete lengths, required callback/metric columns)",
+    "python_ast_parse": "PASS (builder and input validator)",
+    "row_group_data_pages_read": false,
+    "ruff_check": "PASS (two R3 Python files)",
+    "ruff_format_check": "PASS (two R3 Python files)"
+  },
+  "status": "PASS_STATIC_HASH_SCHEMA_AND_INPUT_PREFLIGHT_EXECUTION_BLOCKED_PY311_DEPENDENCIES"
+}
