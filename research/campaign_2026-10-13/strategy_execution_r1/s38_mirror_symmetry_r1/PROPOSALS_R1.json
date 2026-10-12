@@ -1,0 +1,75 @@
+{
+  "proposal_id": "S38-H317-mirror-symmetry-diagnostic-r1",
+  "status": "frozen_before_data_diagnostic",
+  "created_utc_date": "2026-10-13",
+  "hypothesis_id": "H-STRATEGY-MIRROR-20261013",
+  "parent_hypothesis_id": "H-317",
+  "experiment_id": "E-STRATEGY-S38-H317-INPUT-SYMMETRY-DIAGNOSTIC-R1",
+  "source_hashes": {
+    "research/unified/ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md": "2ee7906b67deacc68a4d571fb7963b8f7183eaa1aba495d0a3f8db8a71998979",
+    "docs/data_overview.md": "c6d1e2c5ae25717362a993fab52e0af05c1f7f85e2d58dfe572dbfb2d9fdd1cc",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "input_identity_from_frozen_split": {
+    "path": "datasets/train.parquet",
+    "bytes": 29240219011,
+    "mtime_ns": 1577826000000000000,
+    "footer_bytes": 60437285,
+    "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb"
+  },
+  "fit_membership": {
+    "split": "train",
+    "split_manifest_fit_train_groups": 10535,
+    "distinct_components_minimum": 32,
+    "sequences": 32,
+    "selection": "uniform without replacement over sorted fit-train components, then one eligible train row group uniformly per selected component",
+    "rng": "numpy.random.default_rng",
+    "seed": 2026101338,
+    "sequence_policy": "complete row-group sequence; all feature rows, no row subsampling or reordering",
+    "labels_read": false,
+    "validation_or_evaluation_read": false
+  },
+  "maps": [
+    {
+      "name": "side_swap",
+      "permutation": "for i0 and i1, exchange each p block [0:11] with [11:22] and each v block [0:11] with [11:22]",
+      "sign": "all +1",
+      "other_fields": "dp,dv,a unchanged",
+      "augmentation_candidate": true,
+      "target_transform": null
+    },
+    {
+      "name": "price_axis_reflection",
+      "permutation": "same-index side_swap for p and v blocks of i0 and i1",
+      "sign": "-1 for every p and dp coordinate of i0 and i1; +1 otherwise",
+      "other_fields": "v,dv,a unchanged",
+      "augmentation_candidate": true,
+      "target_transform": "conditionally swap t0,t1 only if labels equal F-ask and bid-F"
+    },
+    {
+      "name": "price_sign_only_negative_control",
+      "permutation": "identity",
+      "sign": "-1 for every p and dp coordinate of i0 and i1; +1 otherwise",
+      "other_fields": "v,dv,a unchanged",
+      "augmentation_candidate": false,
+      "target_transform": null
+    }
+  ],
+  "analysis": {
+    "quantiles": [0.01, 0.05, 0.5, 0.95, 0.99],
+    "robust_scale": "max(q99-q01,abs(q50)*1e-6,1e-8)",
+    "empirical_tail_interval": [0.001, 0.999],
+    "strong_marginal_mismatch": "At least 16 of 32 components have more than 56 of 112 features whose maximum normalized quantile displacement exceeds 1.0.",
+    "interpretation": "necessary marginal screen only; no target/equivariance/model claim and no augmentation authorization"
+  },
+  "resource_bound": {
+    "cpu_cores": 1,
+    "memory_max_bytes": 1500000000,
+    "swap_max_bytes": 0,
+    "runtime_max": "120s",
+    "gpu": false,
+    "training": false,
+    "model_inference": false,
+    "provider_or_paid_action": false
+  }
+}
