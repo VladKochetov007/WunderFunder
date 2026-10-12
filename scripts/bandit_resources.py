@@ -362,7 +362,8 @@ def ensure_admission_open(state: Path) -> None:
 def source_manifest(root: Path, command: list[str], contract: Path) -> dict[str, str]:
     """Freeze campaign/runtime code plus explicit command source files."""
     root = root.resolve()
-    paths = {Path(__file__).resolve(), root / "scripts/limited"}
+    controller = Path(__file__).resolve()
+    paths = {controller, controller.with_name("limited")}
     for directory in (root / "src/wnn", root / "submission", root / "scripts"):
         if directory.exists():
             paths.update(path for path in directory.rglob("*.py") if path.is_file())

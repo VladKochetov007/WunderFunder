@@ -10,6 +10,21 @@ import pytest
 from scripts import bandit_resources as resources
 
 
+def test_manifest_binds_actual_controller_helper_with_separate_scientific_root(tmp_path: Path) -> None:
+    root = tmp_path / "scientific_source"
+    (root / "scripts").mkdir(parents=True)
+    script = root / "scripts/train.py"
+    script.write_text("# frozen scientific source\n")
+    contract = tmp_path / "recipe.json"
+    contract.write_text("{}\n")
+    manifest = resources.source_manifest(root, [str(script)], contract)
+    helper = Path(resources.__file__).resolve().with_name("limited")
+    assert manifest[str(helper)] == resources.sha256_file(helper)
+    assert manifest["scripts/train.py"] == resources.sha256_file(script)
+    assert manifest[str(contract)] == resources.sha256_file(contract)
+    assert not (root / "scripts/limited").exists()
+
+
 @pytest.fixture(autouse=True)
 def historical_cpu_policy(monkeypatch: pytest.MonkeyPatch) -> None:
     """Keep these existing reservation tests on their declared six-core policy."""
