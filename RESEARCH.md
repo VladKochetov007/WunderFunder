@@ -25,6 +25,6 @@ rg -n -i 'blend|quantization|public transfer' research/unified
 rg -n -i '0\.6671|Q8|fold|validation' research/unified/{validation,submissions,inference}
 ```
 
-## Legacy entry points
+## Canonical locations
 
-The older root entries `METRIC.md`, `oct5_ideas.md`, and `review_2.txt`, plus the `writeups/` and `reviews/` file paths, remain as compatibility symlinks to their canonical locations under `research/unified/`. The unified index also links to the [idea ledger](research/IDEA_LEDGER_20261011.md), [elephants review](research/ELEPHANTS_REVIEW_2026-10-05.md), [review file index](research/REVIEW_FILE_INDEX.md), [research methods](research/RESEARCH_METHODS.md), and the [October 12 handoff compatibility page](research/RESEARCH_COMPLETE_HANDOFF_20261012.md).
+The repository root contains no research compatibility aliases. Use the canonical [competition metric](research/unified/methods/COMPETITION_METRIC.md), [October 5 idea memo](research/unified/ideas/legacy/oct5_ideas.md), and [literature review](research/unified/reviews/legacy/review_2.txt). The old root writeups were sorted by type: imported reports are under `research/unified/sources/competition-writeups/`, generated ideas under `research/unified/ideas/legacy/`, internal reviews under `research/unified/reviews/legacy/`, and controller commentary under `research/unified/operations/legacy/`. The [WunderFunder source audit](research/unified/reviews/legacy/WunderFunder_audit_evidence.md) is filed with the historical reviews.

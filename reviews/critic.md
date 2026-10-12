@@ -1,1 +1,0 @@
-../research/unified/reviews/legacy/critic.md

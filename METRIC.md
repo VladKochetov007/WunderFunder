@@ -1,1 +1,0 @@
-research/unified/methods/COMPETITION_METRIC.md

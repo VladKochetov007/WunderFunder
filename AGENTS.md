@@ -20,7 +20,7 @@ Latest Vast instruction (2026-10-11): auto top-up is disabled. Remaining prepaid
 
 ## Research note organization
 
-Start at the repository [research index](RESEARCH.md), then follow the topic READMEs under `research/unified/`. Put new ideas in `research/unified/ideas/`, methods and metric references in `methods/`, independent reviews and audit receipts in `reviews/`, imported external writeups in `sources/`, and operational logs or incidents in `operations/`. Use the shared `templates/NOTE_TEMPLATE.md` for new narrative research notes and link them from the relevant topic README; record scientific hypotheses and experiments in the append-only JSONL ledgers as well. Keep frozen campaign recipes, run receipts, logs, and artifacts in their originating campaign folders. Root `METRIC.md`, `oct5_ideas.md`, `review_2.txt`, and individual paths in `writeups/` and `reviews/` are compatibility symlinks; do not add new content there.
+Start at the repository [research index](RESEARCH.md), then follow the topic READMEs under `research/unified/`. Put new ideas in `research/unified/ideas/`, methods and metric references in `methods/`, independent reviews and audit receipts in `reviews/`, imported external writeups in `sources/`, and operational logs or incidents in `operations/`. Use the shared `templates/NOTE_TEMPLATE.md` for new narrative research notes and link them from the relevant topic README; record scientific hypotheses and experiments in the append-only JSONL ledgers as well. Keep frozen campaign recipes, run receipts, logs, and artifacts in their originating campaign folders. Root compatibility aliases have been removed; link directly to canonical files under `research/unified/`.
 
 ## Crucial specifications and decisions
 
@@ -117,8 +117,8 @@ External models are authorized for diversity, literature ideation, criticism and
 | Tool | Verified interface and current limitations |
 |---|---|
 | OpenCode | Installed at `~/.opencode/bin/opencode`; version 1.18.35 at inspection. `opencode models` inspects available routes; `opencode run --help` documents invocation. MiMo-v2.6-flash-free supplied a proposal; Nemotron supplied criticism. Later free coding calls were denied, so verify each route before depending on it. |
-| Freebuff | Installed at `~/.npm-global/bin/freebuff`; version 0.2.15. Interactive CLI: `freebuff --cwd <isolated-workspace>`; `--continue [conversation-id]` resumes a conversation. Use its actual model picker. SolarPro4 produced proposals/draft code; a GLM attempt timed out. Do not invent headless flags. |
-| Grok | Native CLI `~/.grok/bin/grok`, version 1.0.46, is authenticated through grok.com. On 2026-10-07, `grok models` listed `grok-4.7` and a bounded native request using that model completed successfully. Default is `grok-4.6`, so select `--model grok-4.7` explicitly. Earlier alternate-route failures do not establish native CLI unavailability. See [access receipt](research/campaign_2026-10-06/bandit_continuation/reviews/GROK_NATIVE_ACCESS_20261007.json). |
+| Freebuff | Installed at `~/.npm-global/bin/freebuff`; version 0.2.26 observed 2026-10-12. Interactive CLI: `freebuff --cwd <isolated-workspace>`; `--continue [conversation-id]` resumes a conversation. Use its actual model picker. SolarPro4 produced proposals/draft code; a GLM attempt timed out. Do not invent headless flags. |
+| Grok | Native CLI `~/.grok/bin/grok`, version 1.0.50 observed 2026-10-12. Earlier on 2026-10-07, `grok models` listed `grok-4.7` and a bounded native request using that model completed successfully. Check `grok models` and access before each assignment; do not treat that historical route as permanent. See [access receipt](research/campaign_2026-10-06/bandit_continuation/reviews/GROK_NATIVE_ACCESS_20261007.json). |
 
 A bounded OpenCode invocation, after verifying the exact model and preparing an isolated context, is:
 

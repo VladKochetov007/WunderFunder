@@ -61,8 +61,8 @@ The generator found 2077 numerical files at least 1,048,576 bytes, totaling 191,
 
 | File | Bytes | Category | Purpose | Status |
 |---|---:|---|---|---|
-| [METRIC.md](../METRIC.md) | 4,130 | Result / score | Saved quantitative result; inspect split, metric, and uncertainty | tracked_clean |
-| [WunderFunder_audit_evidence.md](../WunderFunder_audit_evidence.md) | 124,754 | Research documentation | Supporting research documentation or notes | tracked_clean |
+| [METRIC.md](unified/methods/COMPETITION_METRIC.md) | 4,130 | Result / score | Saved quantitative result; inspect split, metric, and uncertainty | tracked_clean |
+| [WunderFunder_audit_evidence.md](unified/reviews/legacy/WunderFunder_audit_evidence.md) | 124,754 | Research documentation | Supporting research documentation or notes | tracked_clean |
 | [utils.py](../utils.py) | 12,328 | Canonical implementation | Core model, metric, feature, inference, or review-index code | tracked_clean |
 
 ### `docs`

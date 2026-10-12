@@ -1,1 +1,0 @@
-../research/unified/sources/competition-writeups/santander_transcript_english_translation.md

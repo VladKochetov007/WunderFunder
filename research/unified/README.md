@@ -29,4 +29,4 @@ Use the shared template for new narrative notes. Set its `kind` and `status`, li
 3. Follow its links to a dated synthesis, then to the source-qualified receipt or raw artifact.
 4. Check the linked H/E record and validation exposure before repeating a claim.
 
-The dated archive preserves the October 12 handoff as it stood when all admitted work finished. Domain pages provide the maintained navigation. Reviews, idea artifacts, methods references, and imported source writeups have canonical homes under this tree; root-level historical paths remain as compatibility symlinks.
+The dated archive preserves the October 12 handoff as it stood when all admitted work finished, including its historical path inventory. Domain pages provide maintained links to current locations. Reviews, idea artifacts, methods references, and imported source writeups have canonical homes under this tree; use those paths directly.

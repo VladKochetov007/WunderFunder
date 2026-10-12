@@ -9,4 +9,4 @@ This domain holds external writeups and source material that informed research. 
 - [BNP competition transcript](competition-writeups/semenov.txt)
 - [Discord feature and ensemble notes](competition-writeups/discord_tricks.txt)
 
-Keep provenance and source links with each imported item. Generated idea cards derived from these sources belong in [ideas](../ideas/README.md); critical reviews belong in [reviews](../reviews/README.md). Old `writeups/` paths remain as compatibility symlinks.
+Keep provenance and source links with each imported item. Generated idea cards derived from these sources belong in [ideas](../ideas/README.md); critical reviews belong in [reviews](../reviews/README.md). Imported writeups live in this canonical source tree.

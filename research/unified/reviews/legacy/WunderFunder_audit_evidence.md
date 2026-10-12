@@ -4,6 +4,8 @@ Audit date: 2 October 2026. Sources are the three archives uploaded in this conv
 
 C = `WunderFunder-research-creative-iteration-20260930` source snapshot. R = the newer `research-review/research` tree. Q = `WunderFunder-quant-probes` (earlier overlapping source snapshot). The latest R ledger contains 323 entries; its reference recipe is not identical to C/V1.
 
+This report was moved from the repository root into the review archive on 12 October 2026. Its citations retain source-snapshot paths; links now target repository files where those files are available, while sidecars absent from this checkout remain literal path references.
+
 ## Scope
 This is a source/artifact review, a selected data-free test run, and synthetic reproduction of specific implementation properties. The market dataset, prediction caches and trained checkpoint bodies were not available in the uploaded snapshots for independent retraining or score reproduction. Reported competition results are archive records, not independently fetched leaderboard results. No new market-data performance claim is made.
 
@@ -44,7 +46,7 @@ Lines 1–19:
 4: 
 5: ## Best recorded submission
 6: 
-7: **`candV1_ft2.zip`: public WP 0.6641, reported runtime 41m42s.** This is C's four-member ensemble with two epochs of head-only fine-tuning: distilled GRU256, GRU128 seed 3, GRU128 seed 4, and chunk-500 GRU128, equal weights, native C++ fp16 inference. The public result is recorded in the [September 29–30 journal](quant-probes-2026-09-29.md); it was not independently fetched from the leaderboard during this audit.
+7: **`candV1_ft2.zip`: public WP 0.6641, reported runtime 41m42s.** This is C's four-member ensemble with two epochs of head-only fine-tuning: distilled GRU256, GRU128 seed 3, GRU128 seed 4, and chunk-500 GRU128, equal weights, native C++ fp16 inference. The public result is recorded in the September 29–30 journal (`quant-probes-2026-09-29.md`); it was not independently fetched from the leaderboard during this audit.
 8: 
 9: | Candidate | Reported public WP | Reported runtime |
 10: |---|---:|---|
@@ -72,17 +74,17 @@ Lines 38–57:
 44: 
 45: ## Current creative-research iteration
 46: 
-47: The [registered iteration](iterations/2026-09-30-creative/) fixes three methodological problems: separate reused-fold discovery from confirmation and training-seed variation from chain uncertainty; optimize the user's competition objective instead of imposing novelty; replace categorical role vetoes with empirical comparisons and leakage checks.
+47: The registered iteration (`iterations/2026-09-30-creative/`) fixes three methodological problems: separate reused-fold discovery from confirmation and training-seed variation from chain uncertainty; optimize the user's competition objective instead of imposing novelty; replace categorical role vetoes with empirical comparisons and leakage checks.
 48: 
-49: M01 re-evaluated existing matched width-256/128 head-FT runs for seeds 3/4/5, fixed epochs, on 860 pure sequences in 250 chains. Candidate-minus-control deltas were **+0.000073, −0.000339, +0.000792**; mean **+0.000175**, sample SD **0.000572**. The three-seed mean-prediction ensemble improved by **+0.000696**, a different estimand. These results do not establish a stable positive per-model width effect. See the [immutable result and input hashes](iterations/2026-09-30-creative/M01-paired-seeds.result.json).
+49: M01 re-evaluated existing matched width-256/128 head-FT runs for seeds 3/4/5, fixed epochs, on 860 pure sequences in 250 chains. Candidate-minus-control deltas were **+0.000073, −0.000339, +0.000792**; mean **+0.000175**, sample SD **0.000572**. The three-seed mean-prediction ensemble improved by **+0.000696**, a different estimand. These results do not establish a stable positive per-model width effect. See the immutable result and input hashes (`iterations/2026-09-30-creative/M01-paired-seeds.result.json`).
 50: 
-51: I1 tested one preregistered disagreement-gated teacher mixture against a fixed mixture of the same models. Its pooled improvement was only **+0.000090**, below the **+0.0004** allocation threshold; gated target-weight coverage was **0.81% / 0.80%**, below the required **5%** in each fold. The specific screen failed its gate. No threshold was retuned and no student training was launched. See the [result](iterations/2026-09-30-creative/I1-result.json) and [completed iteration report](iterations/2026-09-30-creative/report.md).
+51: I1 tested one preregistered disagreement-gated teacher mixture against a fixed mixture of the same models. Its pooled improvement was only **+0.000090**, below the **+0.0004** allocation threshold; gated target-weight coverage was **0.81% / 0.80%**, below the required **5%** in each fold. The specific screen failed its gate. No threshold was retuned and no student training was launched. See the result (`iterations/2026-09-30-creative/I1-result.json`) and completed iteration report (`iterations/2026-09-30-creative/report.md`).
 52: 
-53: The [next quant round](iterations/2026-10-01-next/report.md) prioritizes a fixed-shape, main-only head fine-tune: current auxiliary losses remain active even when the GRU trunk is frozen. Two lower-priority feasibility studies examine actual decoded quote-event clocks and sparse volume-update coordinates before new architecture/feature training. The round also records cache cleanup, restoration mappings, and the two completed Transformer comparisons. These proposals have no new training result yet.
+53: The next quant round (`iterations/2026-10-01-next/report.md`) prioritizes a fixed-shape, main-only head fine-tune: current auxiliary losses remain active even when the GRU trunk is frozen. Two lower-priority feasibility studies examine actual decoded quote-event clocks and sparse volume-update coordinates before new architecture/feature training. The round also records cache cleanup, restoration mappings, and the two completed Transformer comparisons. These proposals have no new training result yet.
 54: 
-55: The [deeper three-branch audit](iterations/2026-10-01-deep/report.md) now supplies three completed training-side CPU diagnostics and detailed controlled study designs. Shared main/combined-aux gradients were positively aligned in two early windows (+.068/+.294), while global clipping coupling was measured; the generic conflict explanation is unsupported at these points. A new train-only class-3 decoder removes 35.67% of proxy event writes, but signed-key agreement/support gates prevent treating it as a certified quote clock; classes 0–2 remain entirely on fallback. The fixed sparse-volume dictionary failed its geometry gate (6.91–11.93% low-error coverage versus 80% required), despite passing simple planted sparse-data controls. No new GPU fit or validation WP query ran. Next training should use two-epoch V1-like anchors, not silently replace them with one-epoch C; ensemble-aware head FT is a separate reserve. The architecture alternative is row-GRU state rather than instantaneous projection as event-GRU input, with explicit freezing of `event_gru` during head-only FT. See the three dossiers and independent cross-reviews for limitations and costs.
+55: The deeper three-branch audit (`iterations/2026-10-01-deep/report.md`) now supplies three completed training-side CPU diagnostics and detailed controlled study designs. Shared main/combined-aux gradients were positively aligned in two early windows (+.068/+.294), while global clipping coupling was measured; the generic conflict explanation is unsupported at these points. A new train-only class-3 decoder removes 35.67% of proxy event writes, but signed-key agreement/support gates prevent treating it as a certified quote clock; classes 0–2 remain entirely on fallback. The fixed sparse-volume dictionary failed its geometry gate (6.91–11.93% low-error coverage versus 80% required), despite passing simple planted sparse-data controls. No new GPU fit or validation WP query ran. Next training should use two-epoch V1-like anchors, not silently replace them with one-epoch C; ensemble-aware head FT is a separate reserve. The architecture alternative is row-GRU state rather than instantaneous projection as event-GRU input, with explicit freezing of `event_gru` during head-only FT. See the three dossiers and independent cross-reviews for limitations and costs.
 56: 
-57: All validation folds have prior exposure. A pure chain excludes a training neighbour; it is not a fresh holdout. Chain bootstrap intervals condition on the fitted models, do not measure optimizer variation, and do not correct adaptive selection or hidden-test shift. Read recent pooled-WP comparisons separately from older block-averaged reports; historical scorers and definitions are retained with the source snapshots. On 1 October the official data overview and FAQ were retrieved through web search and explicitly confirmed global pooled scoring. This resolves the previous primary-source limitation: see [current metric](../METRIC.md) and [verification record](iterations/2026-10-01-next/metric-source.json). Historical reports retain what was known at their execution time.
+57: All validation folds have prior exposure. A pure chain excludes a training neighbour; it is not a fresh holdout. Chain bootstrap intervals condition on the fitted models, do not measure optimizer variation, and do not correct adaptive selection or hidden-test shift. Read recent pooled-WP comparisons separately from older block-averaged reports; historical scorers and definitions are retained with the source snapshots. On 1 October the official data overview and FAQ were retrieved through web search and explicitly confirmed global pooled scoring. This resolves the previous primary-source limitation: see [current metric](../../methods/COMPETITION_METRIC.md) and verification record (`iterations/2026-10-01-next/metric-source.json`). Historical reports retain what was known at their execution time.
 ```
 
 
@@ -109,13 +111,13 @@ Lines 1–20:
 11: 
 12: The final score is the arithmetic mean of the correlations for `t0` and `t1`. Higher is better. Average ensemble predictions before the scoring clip. A pooled score cannot generally be recovered by averaging fold or sequence correlations.
 13: 
-14: The current research implementation is [src/wnn/gmetric.py](src/wnn/gmetric.py): `global_wp` for arrays and `GlobalAccumulator` for streaming. [scripts/fold_eval.py](scripts/fold_eval.py) evaluates selected validation chains using the same six sufficient statistics per target. Computation uses float64 accumulation; local implementations return zero for degenerate sides.
+14: The current research implementation is [src/wnn/gmetric.py](../../../../src/wnn/gmetric.py): `global_wp` for arrays and `GlobalAccumulator` for streaming. scripts/fold_eval.py (`scripts/fold_eval.py`) evaluates selected validation chains using the same six sufficient statistics per target. Computation uses float64 accumulation; local implementations return zero for degenerate sides.
 15: 
 16: Model state must still reset at each new sequence and update on every row, including the 99 warm-up rows. The hidden scoring mask is unavailable at inference. These stream rules are independent of the global score aggregation.
 17: 
-18: The imported [block metric document](METRIC_BLOCK_HISTORICAL.md), `utils.BlockAccumulator`, and `src/wnn/metric.py` are retained for reproducing historical experiments. They implement a different aggregation and must not be used to label a new score as the current competition metric. Their tests and old results have not been rewritten.
+18: The imported block metric document (`METRIC_BLOCK_HISTORICAL.md`), `utils.BlockAccumulator`, and `src/wnn/metric.py` are retained for reproducing historical experiments. They implement a different aggregation and must not be used to label a new score as the current competition metric. Their tests and old results have not been rewritten.
 19: 
-20: See the [source-verification record](research/iterations/2026-10-01-next/metric-source.json). Documentation verifies the organizer's declared metric; it is not an audit of the platform's internal scorer.
+20: See the source-verification record (`research/iterations/2026-10-01-next/metric-source.json`). Documentation verifies the organizer's declared metric; it is not an audit of the platform's internal scorer.
 ```
 
 
@@ -1651,7 +1653,7 @@ Lines 1–79:
 29: 
 30: Ориентир из существующих логов — 15–25 GPU-минут плюс prediction/startup/I/O; это оценка, не новый benchmark. Основной readout — замена двух plain-slots в одном и том же двухэпохальном ансамбле, отдельно каждый seed/fold и pooled. Предложенный порог дальнейших затрат: +0.0003 pooled и положительный эффект в обоих фолдах для замены двух участников. Каждый standalone и отдельный slot effect обязательно публикуется; их неоднородность требует осторожности и повторения, но ухудшение standalone не является автоматическим запретом на полезный ансамбль. Порог не является статистической гарантией и перед запуском должен быть частью окончательного training contract.
 31: 
-32: Полный разбор формул, Adam/OneCycle, масок, происхождения auxiliary-меток, прошлых E-097/E-102/E-148/E-171 и точных контролей: [training.md](training.md). Измерения: [training-result.json](training-result.json).
+32: Полный разбор формул, Adam/OneCycle, масок, происхождения auxiliary-меток, прошлых E-097/E-102/E-148/E-171 и точных контролей: training.md (`training.md`). Измерения: training-result.json (`training-result.json`).
 33: 
 34: ## 2. Архитектура: содержимое событийной памяти важнее названия clock
 35: 
@@ -1673,7 +1675,7 @@ Lines 1–79:
 51: 
 52: Стоимость также не нулевая относительно обычной GRU: при H=E=128 дополнительные MACs составляют примерно `16,384 + 98,688 × event_rate` на строку. Native DualClock пока нет. Поэтому нужны измерение полного replacement-ансамбля и причинная parity-проверка; разницу между наблюдаемыми 41m42s V1 и лимитом 60 минут нельзя считать гарантированным запасом. Отдельный слабый резерв — зависимость readout событийного состояния от его возраста, без изменения записи; не смешивать её с заменой токена или clock в одном эксперименте.
 53: 
-54: Полный разбор реализации, прошлых E-056/R6/attention, декодера и стоимости: [architecture.md](architecture.md). Измерения: [architecture-result.json](architecture-output/architecture-result.json).
+54: Полный разбор реализации, прошлых E-056/R6/attention, декодера и стоимости: architecture.md (`architecture.md`). Измерения: architecture-result.json (`architecture-output/architecture-result.json`).
 55: 
 56: ## 3. Quant: физические очереди и полезные координаты — разные утверждения
 57: 
@@ -1692,7 +1694,7 @@ Lines 1–79:
 70: 
 71: Более обоснованный quant-резерв — **условная неожиданность trade-code события**. Из прошлых наблюдаемых категорий предсказывается распределение следующей категории; после её прихода вычисляется `onehot(mark) − P(mark | history)`. Это не требует знать физическую сторону сделки. Смысл — отличить ожидаемый устойчивый поток от неожиданного события. Сначала нужна причинная проверка prequential log-loss против постоянных частот; затем сравнение с raw mark/frequency признаками той же мощности внутри фиксированного price-предиктора. Хороший прогноз категории сам по себе не означает полезного прогноза цены. Это резерв, не выполненный эксперимент; старые отрицательные trade-flow результаты остаются существенным контраргументом.
 72: 
-73: Полный разбор идентифицируемости, требований queue-reactive литературы, отрицательных E-090/E-215/E-112 и возможных контролей: [quant.md](quant.md). Измерения: [quant-result.json](quant-result.json), [synthetic positive control](quant-toy-result.json).
+73: Полный разбор идентифицируемости, требований queue-reactive литературы, отрицательных E-090/E-215/E-112 и возможных контролей: quant.md (`quant.md`). Измерения: quant-result.json (`quant-result.json`), synthetic positive control (`quant-toy-result.json`).
 74: 
 75: ## Что теперь делать в первую очередь
 76: 
@@ -1948,7 +1950,7 @@ Lines 1–54:
 4: 
 5: ## Completed Transformer screen
 6: 
-7: The [contract](contract.json) fixed two comparisons before new scores: add the head-only or full-FT Transformer to C at weight 0.2, scaling C by 0.8. This is equal averaging of five raw member predictions before clipping. No weights, epochs, replacement arms or new seed subsets were searched.
+7: The contract (`contract.json`) fixed two comparisons before new scores: add the head-only or full-FT Transformer to C at weight 0.2, scaling C by 0.8. This is equal averaging of five raw member predictions before clipping. No weights, epochs, replacement arms or new seed subsets were searched.
 8: 
 9: | Fixed teacher mixture minus C | Fold 0 | Fold 1 | Pooled WP delta | Conditional chain 95% interval |
 10: |---|---:|---:|---:|---|
@@ -1957,7 +1959,7 @@ Lines 1–54:
 13: 
 14: C scored **0.702423801** on 860 pure validation sequences from folds 0/1. Both mixtures miss the registered +0.0005 spending threshold and have a negative fold-1 effect. Decision: **screen_failed for both fixed mixtures; no Transformer-student fit allocated from this screen**. This does not establish equivalence, a universal model ceiling or failure of every Transformer design.
 15: 
-16: Both evaluations used already saved predictions, two numerical threads, CPU quota 160%, an 8 GiB memory cap and a 480-second per-run limit. They completed in **15.80 seconds total**, with maximum RSS about **0.625 GiB**, and no GPU work. See the [head result](TFM-H.result.json), [full-FT result](TFM-F.result.json), [frozen input hashes and provenance](TFM-inputs.json), and [post-run identity check](TFM-postcheck.json). The new comparisons are discovery results on exposed folds; their chain intervals condition on one fitted Transformer seed and do not correct selection or estimate training variation.
+16: Both evaluations used already saved predictions, two numerical threads, CPU quota 160%, an 8 GiB memory cap and a 480-second per-run limit. They completed in **15.80 seconds total**, with maximum RSS about **0.625 GiB**, and no GPU work. See the head result (`TFM-H.result.json`), full-FT result (`TFM-F.result.json`), frozen input hashes and provenance (`TFM-inputs.json`), and post-run identity check (`TFM-postcheck.json`). The new comparisons are discovery results on exposed folds; their chain intervals condition on one fitted Transformer seed and do not correct selection or estimate training variation.
 17: 
 18: ## Ranked next interventions
 19: 
@@ -1967,7 +1969,7 @@ Lines 1–54:
 23: 
 24: The next bounded training comparison should keep the trained parent, model shape, initialization, masks, data order, scheduler and one-epoch head schedule fixed. Introduce a separate auxiliary **loss multiplier** of zero versus one; setting existing auxiliary flags to zero changes checkpoint dimensions and is not the same experiment. Start from matched seeds 3/4 and assess replacement of the corresponding h128 slots in C, not just standalone WP. A training-side gradient audit can explain priorities, but a cosine threshold is not a universal veto on the intervention. Auxiliary tasks may remain helpful even when some gradients conflict. [Du et al.](https://arxiv.org/abs/1812.02224) motivate that diagnostic, not a claimed gain here.
 25: 
-26: This has the best immediate cost profile: parent training is reused and serving shape, state and operation count are unchanged. No new head training has been launched in this round. Exact controls, thresholds, caveats and the proposed bounded audit are in [architecture-scout.json](architecture-scout.json).
+26: This has the best immediate cost profile: parent training is reused and serving shape, state and operation count are unchanged. No new head training has been launched in this round. Exact controls, thresholds, caveats and the proposed bounded audit are in architecture-scout.json (`architecture-scout.json`).
 27: 
 28: ### 2. Architecture: change the event branch's clock to actual decoded quote moves
 29: 
@@ -1979,21 +1981,21 @@ Lines 1–54:
 35: 
 36: Two books with similar current state can behave differently when one queue is replenished and another persistently depleted. Raw cumulative volume-code changes already failed here. A distinct first question is whether **increments** of anonymized volume codes admit a stable sparse decomposition into update coordinates during unchanged-price intervals.
 37: 
-38: Fit one train-only dictionary and test reconstruction/stability on other train chains before using target scores. Passing would justify checking whether signs and levels can be identified; reconstruction alone does not identify physical add/remove events or queue size. Only after that separate identification would a fixed state-by-add/remove-rate screen compare with C **and** a capacity-matched raw-code control. Price-changing or undecodable increments remain outside the dictionary's validated domain. An unnamed-coordinate predictive feature needs a separate hypothesis rather than a post-failure reinterpretation. [Queue-reactive Hawkes models](https://arxiv.org/abs/1901.08938) motivate combining book state with flow history; they do not prove that these transformed features expose their required variables. The detailed limits, independent review correction and cheaper falsifier are in [quant-scout.json](quant-scout.json).
+38: Fit one train-only dictionary and test reconstruction/stability on other train chains before using target scores. Passing would justify checking whether signs and levels can be identified; reconstruction alone does not identify physical add/remove events or queue size. Only after that separate identification would a fixed state-by-add/remove-rate screen compare with C **and** a capacity-matched raw-code control. Price-changing or undecodable increments remain outside the dictionary's validated domain. An unnamed-coordinate predictive feature needs a separate hypothesis rather than a post-failure reinterpretation. [Queue-reactive Hawkes models](https://arxiv.org/abs/1901.08938) motivate combining book state with flow history; they do not prove that these transformed features expose their required variables. The detailed limits, independent review correction and cheaper falsifier are in quant-scout.json (`quant-scout.json`).
 39: 
 40: A lower-priority quant reserve is conditional trade-mark surprise: predict an observed trade-code mark from prior flow, then use its innovation after arrival. This differs from the already failed MO0/MO1 sums, but must beat a raw mark/frequency control; mark predictability alone does not establish price predictability. No such screen ran this round.
 41: 
 42: ## Metric source resolved
 43: 
-44: The current indexed organizer [data overview](https://wundernn.io/connectome/docs/data_overview) and [FAQ](https://wundernn.io/connectome/docs/faq) explicitly specify global pooled WP. This resolves the preceding iteration's source-access uncertainty without changing the frozen evaluator. [METRIC.md](../../../METRIC.md) and the root README now describe that aggregation; the imported block specification is preserved as a historical document. See [metric-source.json](metric-source.json).
+44: The current indexed organizer [data overview](https://wundernn.io/connectome/docs/data_overview) and [FAQ](https://wundernn.io/connectome/docs/faq) explicitly specify global pooled WP. This resolves the preceding iteration's source-access uncertainty without changing the frozen evaluator. [METRIC.md](../../methods/COMPETITION_METRIC.md) and the root README now describe that aggregation; the imported block specification is preserved as a historical document. See metric-source.json (`metric-source.json`).
 45: 
 46: ## Cleanup
 47: 
-48: Local cleanup removed the task-created publishing checkout and incomplete archive worktree only after checking the published GitHub commit and retained server archives. Available local disk increased by **3,624,886,272 bytes** at measurement time. See [local plan](cleanup-local.plan.json) and [receipt](cleanup-local.result.json).
+48: Local cleanup removed the task-created publishing checkout and incomplete archive worktree only after checking the published GitHub commit and retained server archives. Available local disk increased by **3,624,886,272 bytes** at measurement time. See local plan (`cleanup-local.plan.json`) and receipt (`cleanup-local.result.json`).
 49: 
-50: The [server cleanup plan](cleanup-plan.json) was executed exactly: **154 derived prediction arrays and 24 aliases removed, no skips or errors**, reclaiming **54,534,419,712 logical bytes (50.789 GiB)**. The cache now contains 112 regular files and eight aliases, totaling 46,303,304,669 bytes (43.123 GiB). All 120 retained entries matched their original fingerprints. Checkpoints, experiment logs, datasets, foundational training metadata, current C/V1 controls, Transformer and prior M01/I1 inputs were preserved.
+50: The server cleanup plan (`cleanup-plan.json`) was executed exactly: **154 derived prediction arrays and 24 aliases removed, no skips or errors**, reclaiming **54,534,419,712 logical bytes (50.789 GiB)**. The cache now contains 112 regular files and eight aliases, totaling 46,303,304,669 bytes (43.123 GiB). All 120 retained entries matched their original fingerprints. Checkpoints, experiment logs, datasets, foundational training metadata, current C/V1 controls, Transformer and prior M01/I1 inputs were preserved.
 51: 
-52: See the [execution receipt](cleanup-execution.json), [post-cleanup inventory](cleanup-after-inventory.json), and [complete immutable audit](cleanup-receipt/), including per-file SHA256 recorded before guarded deletion and regeneration mappings. All 220 source checkpoints and seven generator scripts were checked before execution. Rebuilding deleted predictions costs inference compute and is not guaranteed to recreate bit-identical bytes across hardware/software. The GitHub archive remains the historical pre-cleanup snapshot; this receipt explains which derived caches are no longer present on the live server.
+52: See the execution receipt (`cleanup-execution.json`), post-cleanup inventory (`cleanup-after-inventory.json`), and complete immutable audit (`cleanup-receipt/`), including per-file SHA256 recorded before guarded deletion and regeneration mappings. All 220 source checkpoints and seven generator scripts were checked before execution. Rebuilding deleted predictions costs inference compute and is not guaranteed to recreate bit-identical bytes across hardware/software. The GitHub archive remains the historical pre-cleanup snapshot; this receipt explains which derived caches are no longer present on the live server.
 53: 
 54: No new model, competition submission or public score was produced. The next allocated research work should be the head-FT intervention; architecture and quant feature ideas first need their bounded feasibility checks.
 ```
