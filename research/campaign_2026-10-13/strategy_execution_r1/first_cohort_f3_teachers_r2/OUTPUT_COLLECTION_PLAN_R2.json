@@ -1,0 +1,66 @@
+{
+  "schema": "wnn.strategy.f3-teacher-output-collection.r2",
+  "status": "prepared_before_dispatch",
+  "kernel_id": "vladkochetov07/wnn-strategy-f3-t3-seed3-20261013-r2-runner",
+  "remote_inventory_required_before_download": true,
+  "output_directory": "results",
+  "required_stage_receipts": [
+    "f3_teacher_pipeline.json",
+    "quota_admission.json",
+    "profile/profile_guard_receipt.json",
+    "profile/summary.json",
+    "profile/profile_clean_t3_f3_muonall_h384_e3_s3_t4_r2/result.json",
+    "fit/summary.json",
+    "fit/fit_clean_t3_f3_muonall_h384_e3_s3_r2/result.json",
+    "exports/summary.json"
+  ],
+  "required_fit_artifacts": [
+    "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r2/model_ep2.pt",
+    "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r2/model.pt",
+    "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r2/provenance.json",
+    "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r2/history.json",
+    "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r2/training_state.pt"
+  ],
+  "required_prediction_artifacts": [
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r2_fit_train_train.npy",
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r2_fit_train_train.json",
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r2_fit_valid_valid.npy",
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r2_fit_valid_valid.json",
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r2_full_valid_valid.npy",
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r2_full_valid_valid.json"
+  ],
+  "prediction_geometry": {
+    "dtype": "float32",
+    "channels": 2,
+    "timesteps": 20000,
+    "artifacts": {
+      "fit_train": {"rows": 10539, "shape": [10539, 20000, 2], "raw_npy_payload_bytes": 1686240000, "maximum_npy_file_bytes": 1686244096},
+      "fit_valid": {"rows": 1368, "shape": [1368, 20000, 2], "raw_npy_payload_bytes": 218880000, "maximum_npy_file_bytes": 218884096},
+      "full_valid": {"rows": 1873, "shape": [1873, 20000, 2], "raw_npy_payload_bytes": 299680000, "maximum_npy_file_bytes": 299684096}
+    },
+    "npy_header_max_bytes": 4096,
+    "raw_payload_bytes_per_seed": 2204800000,
+    "raw_payload_bytes_for_three_seeds": 6614400000
+  },
+  "collection_bounds": {
+    "maximum_remote_inventory_bytes": 8589934592,
+    "minimum_free_physical_disk_before_download_bytes": 12884901888,
+    "single_download_attempt": true,
+    "no_overwrite": true,
+    "download_timeout_seconds": 3600,
+    "download_path": "/home/vlad/development/wunder/wnn-agent-worktrees/strategy-resources-20261013/artifacts/kgo/f3t3s3r2",
+    "command": "kaggle kernels output vladkochetov07/wnn-strategy-f3-t3-seed3-20261013-r2-runner -p /home/vlad/development/wunder/wnn-agent-worktrees/strategy-resources-20261013/artifacts/kgo/f3t3s3r2"
+  },
+  "validation": {
+    "check_exact_kernel_version_and_terminal_status": true,
+    "inventory_must_contain_every_required_artifact": true,
+    "hash_every_downloaded_file": true,
+    "verify_checkpoint_provenance_seed_fold_split_checkpoint_epoch_and_propensity": true,
+    "verify_npy_headers_shapes_dtype_and_finiteness": true,
+    "finite_scan_rows_per_chunk": 8,
+    "verify_prediction_sidecars_against_checkpoint_and_split": true,
+    "preserve_worker_logs_quota_receipt_profile_guard_and_pipeline_receipt": true,
+    "index_outputs_and_provenance_before_seed_4_or_5_admission": true
+  },
+  "provider_action_performed": false
+}

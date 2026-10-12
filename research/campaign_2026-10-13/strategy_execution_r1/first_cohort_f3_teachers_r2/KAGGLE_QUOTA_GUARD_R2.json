@@ -1,0 +1,37 @@
+{
+  "schema": "wnn.strategy.f3-teacher-quota-guard.r2",
+  "status": "snapshot_bound_root_review_pending",
+  "quota_snapshot": {
+    "source_receipt": "../first_cohort_f3_teachers_r1/KAGGLE_QUOTA_AUDIT_R1.json",
+    "checked_utc": "2026-10-12T23:42:23+00:00",
+    "refresh_utc": "2026-10-17T00:00:00Z",
+    "gpu_remaining_seconds": 35838.966,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_frozen": true,
+    "pay_to_scale_enabled": false
+  },
+  "billing_assumption": {
+    "billable_gpu_count": 2,
+    "basis": "Kaggle T4 machine shape is listed as T4 x2; quota billing multiplier is unverified, so budget conservatively for two GPU-seconds per wall-second.",
+    "quota_safety_reserve_gpu_seconds": 1800
+  },
+  "quota_bound_wall_window_seconds": 17019,
+  "provider_session_cap_seconds": 43200,
+  "stage_budgets_seconds": {
+    "profile_cap": 1800,
+    "fit_cap": 8500,
+    "exports_total_cap": 4500,
+    "exports": {
+      "fit_train": 2500,
+      "fit_valid": 900,
+      "full_valid_feature_only": 1100
+    },
+    "runner_and_session_finalization_reserve": 900
+  },
+  "maximum_planned_wall_seconds_including_reserve": 15700,
+  "extra_quota_window_margin_wall_seconds": 1319,
+  "snapshot_freshness_max_seconds_at_launch": 3600,
+  "dispatch_policy": "Before profile, fail closed unless the current quota snapshot is at most one hour old, the computed two-device quota window and provider session window both cover all stage caps plus finalization, and no concurrent Kaggle job has consumed unreserved allowance. After profile, recheck both deadlines before starting fit. Each worker receives its finite stage timeout. Never start profile without reserving a viable fit and all three exports.",
+  "checkpoint_preservation": "Fit writes model_ep2.pt, model.pt, provenance, history, and training_state as declared artifacts. The bootstrap persists pipeline status after every completed stage; on timeout/error it leaves current and prior stage outputs in Kaggle working output for terminal collection. A partial run is not marked complete.",
+  "no_paid_capacity": true
+}
