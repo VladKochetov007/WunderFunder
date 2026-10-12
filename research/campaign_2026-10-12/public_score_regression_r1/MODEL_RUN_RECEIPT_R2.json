@@ -1,0 +1,54 @@
+{
+  "status": "completed_result_and_postconditions_passed",
+  "run_plan": "MODEL_RUN_PLAN_R2.json",
+  "run_plan_sha256": "e6ae1dfdfd6cfa58ad5ca7eb861347db9225e01e8cc1ae846effc741ac3e2443",
+  "observed_execution_window_utc": {
+    "not_before": "2026-10-12 00:55:37 UTC",
+    "before": "2026-10-12 00:55:52 UTC"
+  },
+  "command": "env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=25% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=public-score-regression-r2 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn-agent-worktrees/public-score-regression-20261012/research/campaign_2026-10-12/public_score_regression_r1/fit_public_models_r2.py",
+  "result": "MODEL_RESULTS_R2.json",
+  "result_sha256": "622fb07b31dd8fe00100a4e94087433348e55911e6275dcc5cb00048be3defe8",
+  "bound_inputs": {
+    "script_sha256": "6e567167131fa19c6a487bdda1611cfb927c22365819cf0dd3459fa1a8c1d28c",
+    "contract_sha256": "704b8bf553218dc446ec2049805ec704385ee7223db5b693520d6b6ad4383313",
+    "coverage_sha256": "dbaacdade13daff25ce7a5bd86b8dcbca66849964df1ca483d47fc6cd8882b3b"
+  },
+  "postconditions": {
+    "all_digest_bindings_match_plan_and_result": true,
+    "target_and_exclusion_counts_match": "38 scored; 4 censored/error rows excluded from targets",
+    "source_precedence_example_0catwwxg": "legacy_since_ema",
+    "alias_fallback_examples": {
+      "27t6d4ur": "h230_hft_student",
+      "1n7tmww1": "h230_hft_student"
+    }
+  },
+  "diagnostic_summary": {
+    "grouped_component_ridge_alpha10": {
+      "rows": 38,
+      "exact_source_components": 18,
+      "mae": 0.001083917207606939,
+      "rmse": 0.0016817075549746198,
+      "mean_baseline_mae": 0.0017494907230317395
+    },
+    "chronological_purged_ridge_alpha10": {
+      "rows": 17,
+      "exact_source_components": 9,
+      "mae": 0.0009735267774580545,
+      "rmse": 0.0013995710466143335
+    },
+    "chronological_recent_five_baseline": {
+      "rows": 17,
+      "mae": 0.0007894117647058489,
+      "rmse": 0.001174984355340131
+    },
+    "local_metric_subsets": "No grouped local-score ridge fit: audited subsets have only 1, 1, 2, and 1 exact-source components, respectively."
+  },
+  "limitations": [
+    "R2 is a post-hoc mapping sensitivity/correction, not independent confirmation of inspected R1 results.",
+    "Displayed portal timestamps are not verified score-availability times; chronological results are retrospective.",
+    "The 18 groups are exact-source connected components, not 18 proven independent ancestry families; some teacher/initializer ancestry remains unavailable.",
+    "The recent-five chronology baseline outperforms the fixed ridge in the corrected chronological diagnostic.",
+    "No operational candidate score forecast or submission promotion is supported by this analysis."
+  ]
+}
