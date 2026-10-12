@@ -1,0 +1,61 @@
+{
+  "schema": "wnn.root.conditional-student-export-handoff.r4",
+  "created_utc": "2026-10-12T01:20:20.233612+00:00",
+  "root_owner": "same session root controller",
+  "operator": "Luna/max submission_packager",
+  "authorized_action": "exact fixed CP1 export only, after all listed producer/resource/source gates pass",
+  "producer_attempt": "oldz4-r4-f1-s3-student-fit",
+  "run": "oldz4_h230_student_f1_s3_r4",
+  "export_attempt": "oldz4-r4-f1-s3-student-export-rootbind-r3",
+  "checkpoint_epoch": 1,
+  "template_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_f1_root_bound_exports_20261012_r3/contracts/oldz4-r4-f1-s3-student-export-rootbind-r3.json",
+  "template_sha256": "d73e6c095f1ca62da8711a7ce8652c2a8f61349bbab911de5cc758fd297b5cb5",
+  "helper_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_f1_root_bound_exports_20261012_r3/run_predict_root_bound_r3.py",
+  "helper_sha256": "1ae6ae98e942eeefec3a35a9442a57fdcb361e3799bece714f5f39b9001e8e04",
+  "expected_fit_membership": {
+    "train": 10533,
+    "valid": 1416,
+    "evaluation_valid": 457,
+    "direct_overlap": 0
+  },
+  "expected_recipe": {
+    "seed": 3,
+    "hidden": 256,
+    "layers": 2,
+    "epochs": 2,
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch": 1,
+    "no_eval_during_fit": true,
+    "precision": "fp16",
+    "optim": "adamw",
+    "distill_alpha": 0.7,
+    "distill_family_weight": 0.1,
+    "distill_family_head": true,
+    "distill_family_target_mode": "raw",
+    "init": "oldz4_h230_parent_f1_s3_r4@ep3"
+  },
+  "initial_parent_checkpoint_sha256": "be2273cc96027295c19133504354a262cd1a2066fa5ae3df7d6be64ed0a1ad8e",
+  "gates": [
+    "actual producer terminal status finished and exit_status0; no live fitting worker",
+    "fixed CP1/provenance/training_state/history hashes; all model/state floats finite; next_epoch2; saved selected inference state agrees withCP1; optimizer/AMP/EMA counters reconcile without requiring zero skips",
+    "source-qualified membership and actual teacher/cache/propensity ancestry unchanged from ROOT_ACTUAL_F1_CACHE_CONSUMER_R1",
+    "unchanged bound helper/trainer/predictor/source/input hashes; strict actualCP1 make_model/state_dict load with imported C337 consumer after ROOTbinding",
+    "fresh NPY/JSON/partial/seqsums outputabsence; no overwrites",
+    "fresh GPUlock and live aggregate caps5CPU/18GBworking20GBhard/no swap/5GBobservedVRAM; use existing completed-export reclaim helper if needed; no property changes",
+    "root bound release COPY of preserved R3 template with actualCP1 SHA replacing exactly PENDING_ROOT_TERMINAL_SHA256; preserve original template and fullcommand/receipt",
+    "existing bandit_resources durablelaunch with cpu2,reserve6500000000,profileexport; inspectactual startup immediately and terminaloutputs fully"
+  ],
+  "max_export_worker_seconds": 1800,
+  "support_limits": {
+    "cpu_quota": "25%",
+    "threads": 1,
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 120
+  },
+  "deadline_utc": "2026-10-12T02:15:00+00:00",
+  "no_extra_fits_or_scientific_recipe_changes": true,
+  "no_provider_mutation_or_spending": true,
+  "quality_or_submission_promotion_authorized": false,
+  "on_gate_failure": "Preserve evidence, do not weaken gate; report concrete dependency to root. Keep healthy fit running.",
+  "human_uploads": true
+}
