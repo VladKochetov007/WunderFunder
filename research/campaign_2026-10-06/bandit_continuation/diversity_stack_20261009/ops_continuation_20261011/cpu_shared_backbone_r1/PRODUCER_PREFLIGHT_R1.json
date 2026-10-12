@@ -1,0 +1,64 @@
+{
+  "panel": "/tmp/wnn_submission_exploit_runtime_r1/valid_first10_complete_groups.parquet",
+  "panel_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+  "producer": {
+    "benchmark_precision_requested": "q8vnni",
+    "canonical_inference_config": {
+      "arch": "gru",
+      "cell": "gru",
+      "enc": "linear",
+      "heuristics": false,
+      "n_in": 211,
+      "numeric_map": "none",
+      "online_norm": false,
+      "privileged_horizon": 8,
+      "privileged_mode": "none",
+      "prop_input": "",
+      "raw_only": false,
+      "readout_present": false,
+      "readout_tilted": false,
+      "research_features": "none",
+      "sentinel_base_width": 0,
+      "sentinel_indicators": "none",
+      "sentinel_values": "unchanged"
+    },
+    "grade_precision": "fp16",
+    "grade_receipt_sha256": {
+      "fixed_half_blend": "953cfb19c2fd15cec68569fd5c29a29520261706e33f2a142417fccd30040e1b",
+      "hft": "61bbb255420dd2fece5e97563dcd973cd576c5bc3f5d9d8b8637b932a767bc63",
+      "student": "4f52c928e4da829876cb9f31f6292e5b7859478e84274800b42cfae630dc27cc"
+    },
+    "hft_checkpoint_sha256": "2bde556119ededc3693733280444a42f0f64138a2e3759bed6b068cb72f18ec8",
+    "hft_epoch": 0,
+    "hft_raw_output_shape": [
+      23,
+      256
+    ],
+    "hidden_width": 256,
+    "layers": 2,
+    "normalization_sha256": {
+      "mean": "b5c74bd5507b06fed49228172cbe7f60374c5ec98b6024885d317128adb71874",
+      "std": "281f23f5f7b071a8fa275ebaed4881b46d627eba532bb187250305c8c1c91218"
+    },
+    "raw_changed_tensors": [
+      "head.0.bias",
+      "head.0.weight",
+      "head.2.bias",
+      "head.2.weight"
+    ],
+    "served_output_crop": "first two rows, matching frozen predict_run.py p[..., :2]",
+    "served_output_shape_each": [
+      2,
+      256
+    ],
+    "student_checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "student_epoch": 1,
+    "student_raw_output_shape": [
+      31,
+      256
+    ]
+  },
+  "runner_sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53",
+  "runner_utils_sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+  "status": "PASS_PREFLIGHT"
+}
