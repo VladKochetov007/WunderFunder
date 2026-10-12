@@ -10,6 +10,7 @@ This domain stores independent critiques, strategy reviews, and structured audit
 
 ## Review files
 
+- [First-principles review plan and verdict (2026-10-12)](FIRST_PRINCIPLES_REVIEW_PLAN_20261012.md) — independent critique of the whole campaign: the productive Sep 15–28 analysis versus the Oct 6–12 compliance-heavy phase, the ignored power analysis (1-fold/1-seed MDE 0.0064), effort spent on sub-noise recipe tuning instead of variance reduction, a mis-specified >0.700 public objective and the private-runtime risk. Lists planned deliverables (full review, ranked idea cards, ledger rows). Proposal and static review of recorded evidence only; no new fits or recomputed scores.
 - [October 12 critical review and separate public and future private leaderboard plans](CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md) — audits recipe comparisons, fold exposure, target assumptions and delivery failures; proposes ranked experiments, scaling ladders and separate public and future-private selection criteria. Source-linked retrospective and proposed plan; no new empirical results.
 - [Independent strategy review receipt](../../campaign_2026-10-12/strategy_review_r1/INDEPENDENT_REVIEW.json) — records the validation, model and literature reviewers, material corrections and remaining limitations. Static critique by three Luna roles, not an empirical replication.
 - [WNN strategy review and agent execution brief](legacy/WNN_2026-10-11_Strategy_Review_and_Agent_Execution_Brief_EN.md)

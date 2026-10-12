@@ -4,6 +4,8 @@ This is the maintained, human-facing research map. It joins different result typ
 
 Latest requested review: [critical assessment and separate public and future private leaderboard strategies](reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md). It audits the previous approach and sets out ranked experiments, model and representation scaling, and selection for the public leaderboard versus two to four weeks of future private data. The refinements are proposals; this review does not resume experimental admission.
 
+Independent second review: [first-principles verdict and plan](reviews/FIRST_PRINCIPLES_REVIEW_PLAN_20261012.md). It disputes the framing of the review above, quantifies how little the late campaign moved the public score, and sets a deadline-bound plan. Proposal only; experimental admission is unchanged.
+
 ## Start by topic
 
 - [Ideas and hypotheses](ideas/README.md)
