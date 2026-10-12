@@ -1,0 +1,145 @@
+{
+  "schema": "wnn.shared-f0-q8vnni-benchmark-summary.r1",
+  "status": "PASS_EXACT_PARITY_REPEATABLE_RUNTIME_GAIN_BENCHMARK_ONLY",
+  "benchmark_only": true,
+  "promotion": "not_requested; root review and target quality/package gates remain",
+  "source": {
+    "branch": "codex/shared-hft-backbone-20261012",
+    "base_commit": "759c1450cd4852899ac518c2db1fdbe997af6ba1",
+    "source_commit": "70749a11b6e71209f4874e44e115e8bb78e5bdee",
+    "worktree": "/home/vlad/development/wunder/wnn-agent-worktrees/shared-hft-backbone-20261012",
+    "benchmark_program_sha256": "0333be5b058298b8dab2227a2581a1540d0748aee5ae1aa50d2a59a9deab09d3"
+  },
+  "build": {
+    "wheel_path": "/tmp/wnn-shared-f0-wheel-r1/wnn_native-0.1.0-cp311-abi3-manylinux_2_34_x86_64.whl",
+    "wheel_sha256": "76f55324d302c28325626d4e571e80b349b33849e29e1c75b215022e72e27151",
+    "native_module_sha256": "0cbf62fddaa57ad9aae99f62e03cd21af51050a02ec44f55e1027df320e05eae",
+    "python_soabi": "cpython-313-x86_64-linux-gnu",
+    "abi3_minimum_python": "3.11",
+    "cargo_build_jobs": 1
+  },
+  "native_tests": {
+    "command": "cargo test --lib --features python shared_backbone",
+    "result": "2 passed; 0 failed",
+    "checks": [
+      "portable dynamic-Q8 separate/shared output bit parity across two 256-row reset passes",
+      "distinct heads accepted",
+      "changed recurrent trunk rejected",
+      "non-two-output head rejected"
+    ]
+  },
+  "producer": {
+    "student_checkpoint": "artifacts/runs/oldz4_h230_student_f0_s3_r3/model_ep1.pt",
+    "student_checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "hft_checkpoint": "artifacts/runs/oldz4_h230_hft_f0_s3_r5/model_ep0.pt",
+    "hft_checkpoint_sha256": "2bde556119ededc3693733280444a42f0f64138a2e3759bed6b068cb72f18ec8",
+    "grade_precision": "fp16",
+    "benchmark_precision": "q8vnni",
+    "fixed_coefficients": [0.5, 0.5],
+    "output_semantics": "first two served rows of each model; independent heads and output averaging",
+    "identical_trunk_preflight_passed": true
+  },
+  "panel": {
+    "path": "/tmp/wnn_submission_exploit_runtime_r1/valid_first10_complete_groups.parquet",
+    "sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "sequences": 10,
+    "rows_per_sequence": 20000,
+    "reset_passes_per_method": 2,
+    "callbacks_per_method": 400000,
+    "labels_loaded": false
+  },
+  "runtime_host": {
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "affinity_used": [0],
+    "python_soabi": "cpython-313-x86_64-linux-gnu",
+    "q8vnni_selected_for_both_methods": true,
+    "command_cpu_quota": "100%",
+    "parent_campaign_cpu_quota": "500%",
+    "per_command_memory_max_bytes": 1200000000,
+    "per_command_runtime_max": "120s",
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_swap_max_bytes": 0,
+    "pair1_parent_memory_current_before_bytes": 14003716096,
+    "pair2_parent_memory_current_before_bytes": 13744144384,
+    "pair1_child_memory_peak_bytes": 537505792,
+    "pair2_child_memory_peak_bytes": 514256896,
+    "oom_or_high_events": 0
+  },
+  "pairs": [
+    {
+      "receipt": "PAIR1_R1.json",
+      "order": ["separate", "shared"],
+      "status": "PASS_PARITY",
+      "callbacks_per_method": 400000,
+      "separate_mean_callback_us_per_row": 56.186929532499995,
+      "shared_mean_callback_us_per_row": 28.4798432225,
+      "runtime_reduction_fraction": 0.4931233391917864,
+      "ten_sequence_prediction_hashes_match": true,
+      "two_pass_reset_replay_identical": true,
+      "child_memory_events_clean": true
+    },
+    {
+      "receipt": "PAIR2_R1.json",
+      "order": ["shared", "separate"],
+      "status": "PASS_PARITY",
+      "callbacks_per_method": 400000,
+      "separate_mean_callback_us_per_row": 58.515499645000006,
+      "shared_mean_callback_us_per_row": 29.9806670075,
+      "runtime_reduction_fraction": 0.48764571456476036,
+      "ten_sequence_prediction_hashes_match": true,
+      "two_pass_reset_replay_identical": true,
+      "child_memory_events_clean": true
+    }
+  ],
+  "logical_dynamic_q8_weight_payload_bytes": {
+    "per_callback_separate": 2142888,
+    "per_callback_shared": 1209692,
+    "saved_per_callback": 933196,
+    "saved_across_400000_callbacks": 373278400000,
+    "interpretation": "logical matrix payload accounting; not measured DRAM traffic"
+  },
+  "unchanged_resources": {
+    "resident_streamed_weights_bytes_each": 2143104,
+    "recurrent_state_bytes_each": 4096,
+    "scratch_bytes_each": 23728,
+    "second_member_recurrent_state_retained": true
+  },
+  "limitations": [
+    "Measured only on Intel i9-11900H; does not certify AMD EPYC 9224 runtime.",
+    "No Q8 target-quality grade or public forecast was computed.",
+    "No final submission ZIP, production integration, or model selection was produced."
+  ],
+  "artifact_sha256": {
+    "API_SELF_TEST_R1.json": "df6894f896fcb33192b36aaa7f3ee1d090f5f23a091a0015834b33a60fbde99e",
+    "PRODUCER_PREFLIGHT_R1.json": "3e6f0d13f98a6fdd3b4730b79ea733831af79323213b7c4e8dd541668c2255d9",
+    "PAIR1_R1.json": "6eec55caceaa819ab5ea453dd08f12d3ef588ca25a3f50dc2aee026048f10932",
+    "PAIR2_R1.json": "fdd8785483558332e8ec68c2e84869eab32ba7b22330d087648aeccaadd22612"
+  },
+  "attempt_ledger": [
+    {
+      "attempt": "initial cargo test from worktree root",
+      "outcome": "failed before compilation: Cargo.toml is under native/; corrected invocation passed"
+    },
+    {
+      "attempt": "first Python-feature Rust test run",
+      "outcome": "test process could not load libpython3.13; rerun with explicit LD_LIBRARY_PATH passed"
+    },
+    {
+      "attempt": "install temporary wheel through venv pip",
+      "outcome": "pip module unavailable; wheel was safely unpacked into /tmp instead"
+    },
+    {
+      "attempt": "repository-wide and targeted Rust format checks",
+      "outcome": "reported pre-existing native-source formatting drift; no whole-file formatter rewrite applied"
+    },
+    {
+      "attempt": "preflight command with mistyped packet path",
+      "outcome": "exit 2 before Python/checkpoint access; corrected frozen path passed"
+    },
+    {
+      "attempt": "pre-freeze release wheel",
+      "outcome": "built but not used for benchmark; final wheel rebuilt and hash-bound to frozen source commit"
+    }
+  ]
+}

@@ -1,0 +1,384 @@
+{
+  "benchmark_only": true,
+  "comparison": {
+    "eligible_for_one_alternating_pair": true,
+    "logical_step_weight_payload_bytes_per_callback": {
+      "saved": 933196,
+      "separate": 2142888,
+      "shared": 1209692
+    },
+    "logical_step_weight_payload_bytes_per_panel": {
+      "saved": 373278400000,
+      "separate": 857155200000,
+      "shared": 483876800000
+    },
+    "prediction_hashes_equal_by_sequence": true,
+    "recurrent_state_bytes_by_method": {
+      "separate": 4096,
+      "shared": 4096
+    },
+    "resident_weight_bytes_by_method": {
+      "separate": 2143104,
+      "shared": 2143104
+    },
+    "runtime_gain_fraction": 0.4931233391917864,
+    "scratch_bytes_by_method": {
+      "separate": 23728,
+      "shared": 23728
+    },
+    "second_model_recurrent_state_is_still_allocated": true,
+    "separate_mean_callback_us": 56.186929532499995,
+    "shared_mean_callback_us": 28.4798432225
+  },
+  "elapsed_wall_seconds_after_setup": 39.234746141999494,
+  "methodology": {
+    "callbacks_per_method": 400000,
+    "labels_loaded": false,
+    "material_runtime_gain_fraction": 0.05,
+    "panel": "/tmp/wnn_submission_exploit_runtime_r1/valid_first10_complete_groups.parquet",
+    "panel_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "parquet_decode_and_reset_excluded_from_callback_time": true,
+    "reset_passes_per_method": 2,
+    "rows_per_sequence": 20000,
+    "sequences": 10
+  },
+  "methods": {
+    "separate": {
+      "callback_ns": 22474771813,
+      "callbacks": 400000,
+      "mean_callback_us_per_row": 56.186929532499995,
+      "per_sequence_callback_ns": {
+        "256678": [
+          1180403839,
+          1147166882
+        ],
+        "751005": [
+          1136824649,
+          1163940328
+        ],
+        "1200028": [
+          1088714555,
+          1147569489
+        ],
+        "1892371": [
+          1158898942,
+          1128407115
+        ],
+        "1990332": [
+          1102235810,
+          1177524205
+        ],
+        "2308749": [
+          1067926492,
+          1122089899
+        ],
+        "4490992": [
+          1076414073,
+          1102966782
+        ],
+        "6746551": [
+          1111891742,
+          1081500085
+        ],
+        "8348957": [
+          1164451416,
+          1096537958
+        ],
+        "9147005": [
+          1126279593,
+          1093027959
+        ]
+      },
+      "precision": "q8vnni",
+      "prediction_sha256_by_sequence": {
+        "256678": "1f17b27713293ed25aa758abfead821c440aa66638170fa2fb45dd571b97d70b",
+        "751005": "6d3080ed44634515a055dead6f4ca01f1cb1fd77933750773ab9810ae665e3d1",
+        "1200028": "dfba76bcf7804d6c61833a986429ee2e10d3d0d707daafb0ec25a10bac59468c",
+        "1892371": "3d811945791a09babda85884b48e6f9b3c0bd05f6bc10abc0728c8973625cd5d",
+        "1990332": "f8f88fc425fd7b30a1735b8bb425633aa6b1dfd8341302fb16e08c431bc7ed1f",
+        "2308749": "b3f99e61e971969e94301a361c716027a20e322192b6e7fd9af02bf3f8c0caf4",
+        "4490992": "2cb5ca11da4cbc87232a0fbc46d3372f551f478c4d1ba511503a4fcbb8d1a241",
+        "6746551": "17b7b88b9f657f4cfa652e78278ea27aa5e3583dd257e709ec2b6f6c6a62514f",
+        "8348957": "6e26b2837b7efe63a6bb64f8da1399eaf91f5e1c0957b277cf11f396f5734d79",
+        "9147005": "a7206920b28838e28bfbb62ff238d69fbef0ff1c4788478c31e72ee1d6fca24b"
+      },
+      "reset_replay_bitwise_identical": true,
+      "storage_bytes_by_member": [
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "independent_head_step_payload": 138248,
+          "recurrent_state": 2048,
+          "scratch": 11864,
+          "shared_backbone_step_payload": 933196,
+          "total_streamed_weights": 1071552
+        },
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "independent_head_step_payload": 138248,
+          "recurrent_state": 2048,
+          "scratch": 11864,
+          "shared_backbone_step_payload": 933196,
+          "total_streamed_weights": 1071552
+        }
+      ],
+      "trials": [
+        {
+          "callback_ns": 11214041111,
+          "callback_us_per_row": 56.070205555,
+          "callbacks": 200000,
+          "repeat": 0,
+          "rows": 200000
+        },
+        {
+          "callback_ns": 11260730702,
+          "callback_us_per_row": 56.30365351,
+          "callbacks": 200000,
+          "repeat": 1,
+          "rows": 200000
+        }
+      ]
+    },
+    "shared": {
+      "callback_ns": 11391937289,
+      "callbacks": 400000,
+      "mean_callback_us_per_row": 28.4798432225,
+      "per_sequence_callback_ns": {
+        "256678": [
+          546393459,
+          560109167
+        ],
+        "751005": [
+          605773547,
+          559927824
+        ],
+        "1200028": [
+          545199660,
+          555033816
+        ],
+        "1892371": [
+          538968841,
+          542006418
+        ],
+        "1990332": [
+          580446341,
+          631927539
+        ],
+        "2308749": [
+          542045234,
+          659252309
+        ],
+        "4490992": [
+          541333664,
+          575936777
+        ],
+        "6746551": [
+          526208994,
+          567379575
+        ],
+        "8348957": [
+          601133269,
+          595208599
+        ],
+        "9147005": [
+          577276435,
+          540375821
+        ]
+      },
+      "precision": "q8vnni",
+      "prediction_sha256_by_sequence": {
+        "256678": "1f17b27713293ed25aa758abfead821c440aa66638170fa2fb45dd571b97d70b",
+        "751005": "6d3080ed44634515a055dead6f4ca01f1cb1fd77933750773ab9810ae665e3d1",
+        "1200028": "dfba76bcf7804d6c61833a986429ee2e10d3d0d707daafb0ec25a10bac59468c",
+        "1892371": "3d811945791a09babda85884b48e6f9b3c0bd05f6bc10abc0728c8973625cd5d",
+        "1990332": "f8f88fc425fd7b30a1735b8bb425633aa6b1dfd8341302fb16e08c431bc7ed1f",
+        "2308749": "b3f99e61e971969e94301a361c716027a20e322192b6e7fd9af02bf3f8c0caf4",
+        "4490992": "2cb5ca11da4cbc87232a0fbc46d3372f551f478c4d1ba511503a4fcbb8d1a241",
+        "6746551": "17b7b88b9f657f4cfa652e78278ea27aa5e3583dd257e709ec2b6f6c6a62514f",
+        "8348957": "6e26b2837b7efe63a6bb64f8da1399eaf91f5e1c0957b277cf11f396f5734d79",
+        "9147005": "a7206920b28838e28bfbb62ff238d69fbef0ff1c4788478c31e72ee1d6fca24b"
+      },
+      "reset_replay_bitwise_identical": true,
+      "storage_bytes_by_member": [
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "independent_head_step_payload": 138248,
+          "recurrent_state": 2048,
+          "scratch": 11864,
+          "shared_backbone_step_payload": 933196,
+          "total_streamed_weights": 1071552
+        },
+        {
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "independent_head_step_payload": 138248,
+          "recurrent_state": 2048,
+          "scratch": 11864,
+          "shared_backbone_step_payload": 933196,
+          "total_streamed_weights": 1071552
+        }
+      ],
+      "trials": [
+        {
+          "callback_ns": 5604779444,
+          "callback_us_per_row": 28.02389722,
+          "callbacks": 200000,
+          "repeat": 0,
+          "rows": 200000
+        },
+        {
+          "callback_ns": 5787157845,
+          "callback_us_per_row": 28.935789225,
+          "callbacks": 200000,
+          "repeat": 1,
+          "rows": 200000
+        }
+      ]
+    }
+  },
+  "objective": "exact fixed 0.5/0.5 F0 output blend with one shared Q8VNNI backbone",
+  "order": [
+    "separate",
+    "shared"
+  ],
+  "pair": "pair1",
+  "producer": {
+    "benchmark_precision_requested": "q8vnni",
+    "canonical_inference_config": {
+      "arch": "gru",
+      "cell": "gru",
+      "enc": "linear",
+      "heuristics": false,
+      "n_in": 211,
+      "numeric_map": "none",
+      "online_norm": false,
+      "privileged_horizon": 8,
+      "privileged_mode": "none",
+      "prop_input": "",
+      "raw_only": false,
+      "readout_present": false,
+      "readout_tilted": false,
+      "research_features": "none",
+      "sentinel_base_width": 0,
+      "sentinel_indicators": "none",
+      "sentinel_values": "unchanged"
+    },
+    "grade_precision": "fp16",
+    "grade_receipt_sha256": {
+      "fixed_half_blend": "953cfb19c2fd15cec68569fd5c29a29520261706e33f2a142417fccd30040e1b",
+      "hft": "61bbb255420dd2fece5e97563dcd973cd576c5bc3f5d9d8b8637b932a767bc63",
+      "student": "4f52c928e4da829876cb9f31f6292e5b7859478e84274800b42cfae630dc27cc"
+    },
+    "hft_checkpoint_sha256": "2bde556119ededc3693733280444a42f0f64138a2e3759bed6b068cb72f18ec8",
+    "hft_epoch": 0,
+    "hft_raw_output_shape": [
+      23,
+      256
+    ],
+    "hidden_width": 256,
+    "layers": 2,
+    "normalization_sha256": {
+      "mean": "b5c74bd5507b06fed49228172cbe7f60374c5ec98b6024885d317128adb71874",
+      "std": "281f23f5f7b071a8fa275ebaed4881b46d627eba532bb187250305c8c1c91218"
+    },
+    "raw_changed_tensors": [
+      "head.0.bias",
+      "head.0.weight",
+      "head.2.bias",
+      "head.2.weight"
+    ],
+    "served_output_crop": "first two rows, matching frozen predict_run.py p[..., :2]",
+    "served_output_shape_each": [
+      2,
+      256
+    ],
+    "student_checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "student_epoch": 1,
+    "student_raw_output_shape": [
+      31,
+      256
+    ]
+  },
+  "promotion": "not_requested; target-quality/native-package gates remain",
+  "runtime": {
+    "affinity_allowed": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "affinity_used": [
+      0
+    ],
+    "cgroup_after": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 40957625\nuser_usec 40633161\nsystem_usec 324464\nnice_usec 40615519\ncore_sched.force_idle_usec 0\nnr_periods 414\nnr_throttled 1\nthrottled_usec 7937\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "535412736",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "1199996928",
+      "memory.peak": "537505792",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p2666698-i6836085.scope"
+    },
+    "cgroup_before": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 2097004\nuser_usec 1782152\nsystem_usec 314852\nnice_usec 1773086\ncore_sched.force_idle_usec 0\nnr_periods 21\nnr_throttled 1\nthrottled_usec 7937\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "535146496",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "1199996928",
+      "memory.peak": "535146496",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p2666698-i6836085.scope"
+    },
+    "cpu_flags": "fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities",
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "finish_utc": "2026-10-12T01:25:11.437704+00:00",
+    "loadavg_after": "2.53 2.30 2.02 4/3341 2668658",
+    "loadavg_before": "2.18 2.21 1.99 5/3333 2666884",
+    "native_module_path": "/tmp/wnn-shared-f0-package-r1/wnn_native/__init__.py",
+    "native_module_sha256": "0cbf62fddaa57ad9aae99f62e03cd21af51050a02ec44f55e1027df320e05eae",
+    "native_precision_by_method": {
+      "separate": "q8vnni",
+      "shared": "q8vnni"
+    },
+    "numpy": "2.2.6",
+    "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]",
+    "python_implementation": "CPython",
+    "python_soabi": "cpython-313-x86_64-linux-gnu",
+    "start_utc": "2026-10-12T01:24:32.202930+00:00",
+    "wall_seconds_after_model_setup": 39.234746141999494
+  },
+  "schema": "wnn.shared-f0-q8vnni-callback-benchmark.r1",
+  "self_test": {
+    "callbacks": 256,
+    "default_and_explicit_disabled_equal": true,
+    "incompatible_backbone_rejected": true,
+    "output_sha256": "bb76f7be8bda35387dfadd1fffecb7f44e2649a1c29e97fe2b85439e66cf5327",
+    "precision": "q8vnni",
+    "shared_q8_outputs_equal": true
+  },
+  "source": {
+    "base_commit": "759c1450cd4852899ac518c2db1fdbe997af6ba1",
+    "benchmark_source_sha256": "0333be5b058298b8dab2227a2581a1540d0748aee5ae1aa50d2a59a9deab09d3",
+    "branch": "codex/shared-hft-backbone-20261012",
+    "runner_path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/scripts/benchmark_submission_callbacks.py",
+    "runner_sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53",
+    "runner_utils_sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+    "source_commit": "70749a11b6e71209f4874e44e115e8bb78e5bdee",
+    "worktree": "/home/vlad/development/wunder/wnn-agent-worktrees/shared-hft-backbone-20261012"
+  },
+  "status": "PASS_PARITY"
+}
