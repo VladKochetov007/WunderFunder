@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-v",
+    "-s",
+    "/home/vlad/development/wunder/wnn-agent-worktrees/student-export-handoff-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_f1_hft_export_r3",
+    "-p",
+    "test_run_f1_hft_export_r3.py"
+  ],
+  "created_utc": "2026-10-12T02:59:01.344974+00:00",
+  "environment": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "WNN_CPU_QUOTA": "50%",
+    "WNN_MEM_MAX": "1500000000",
+    "WNN_RUNTIME_MAX": "120s",
+    "WNN_SLICE": "wnn-campaign.slice",
+    "WNN_THREADS": "1"
+  },
+  "hashes": {
+    "actual_producer_preflight_sha256": "dba470e5a336f1be5984205c4f5205b555e266e2eba1c5edcfe29f44533fd4e1",
+    "contract_sha256": "997cbe40016cd1acfe7af07b8e86bda990d6724d9bcbea1042336b42fd19c231",
+    "runner_sha256": "677c7e81003660d543de91c356e768b9caf2fa0332ccc412c567b9a28db6bc2b",
+    "test_source_sha256": "33b3149492b9a4b091e4b30aba3de5ed9a6743aa9f6aadf588f41e69aeff873c"
+  },
+  "profile": {
+    "cpu_quota": "50%",
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 120,
+    "threads": 1
+  },
+  "schema": "wnn.oldz4-hft-export-r3-test-result.v1",
+  "scope": "Contract and consumer checks only; no fit, prediction export, score, or root authorization.",
+  "status": "PASS",
+  "test_names": [
+    "test_actual_producer_preflight_binds_cp0_without_export",
+    "test_collision_guard_covers_partial_and_predictor_deleted_sequence_sums",
+    "test_export_requires_frozen_result_receipt_before_root_gate_reads",
+    "test_r2_actual_contract_locates_fixed_epoch_and_trainer_argv",
+    "test_terminal_gate_requires_matching_digest_and_schema"
+  ],
+  "tests_failed": 0,
+  "tests_passed": 5
+}

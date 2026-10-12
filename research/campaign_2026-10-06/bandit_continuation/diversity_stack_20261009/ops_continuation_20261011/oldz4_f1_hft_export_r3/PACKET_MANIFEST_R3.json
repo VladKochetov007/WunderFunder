@@ -1,0 +1,60 @@
+{
+  "export_authorized": false,
+  "file_count": 9,
+  "files": {
+    "CP0_EXPORT_PREFLIGHT_PRE_RESULT_BIND_R3.json": {
+      "bytes": 4093,
+      "sha256": "5158812bfc12b52706d11880aa89d67d92b86ff6af7db0cdb0ac4977260e47ae"
+    },
+    "CP0_EXPORT_PREFLIGHT_PRE_RUNNER_BIND_R3.json": {
+      "bytes": 4122,
+      "sha256": "d9618813bb93b7f0e8129ea78ff9d4fb075da2a84bb71aa8f464def82d02456f"
+    },
+    "CP0_EXPORT_PREFLIGHT_R3.json": {
+      "bytes": 4209,
+      "sha256": "dba470e5a336f1be5984205c4f5205b555e266e2eba1c5edcfe29f44533fd4e1"
+    },
+    "HFT_EXPORT_CONTRACT_R3.json": {
+      "bytes": 10130,
+      "sha256": "997cbe40016cd1acfe7af07b8e86bda990d6724d9bcbea1042336b42fd19c231"
+    },
+    "README.md": {
+      "bytes": 3682,
+      "sha256": "b47688035de91880df7e43afb161d7370f443c483101e647f58bcca0b8356624"
+    },
+    "TEST_RESULT_PRE_RESULT_PATH_GUARD_R3.json": {
+      "bytes": 1511,
+      "sha256": "98be5736442b7cc073803b70e29db674571ac865d85bc2e7a84903e758b7e282"
+    },
+    "TEST_RESULT_R3.json": {
+      "bytes": 1977,
+      "sha256": "0d2138571aea6761373808422be72817c3a47928309a70c2ebbfa34bb44b44d0"
+    },
+    "run_f1_hft_export_r3.py": {
+      "bytes": 40660,
+      "sha256": "677c7e81003660d543de91c356e768b9caf2fa0332ccc412c567b9a28db6bc2b"
+    },
+    "test_run_f1_hft_export_r3.py": {
+      "bytes": 6211,
+      "sha256": "33b3149492b9a4b091e4b30aba3de5ed9a6743aa9f6aadf588f41e69aeff873c"
+    }
+  },
+  "fit_artifacts": {
+    "checkpoint_sha256": "41e7aa3fb27024f2612f8f6b8f4232ca446ba92022dbf7ba90893ffee2292410",
+    "history_sha256": "87b604dc3a69a9a56c12d92c3408baeb342db452e7c24042c03f4c25018b86ad",
+    "provenance_sha256": "468ac58e9f59e9f32ea425f8556b26073e61b108eafa468ccf06f1cd0d3d1b9d",
+    "training_state_sha256": "76824f2e1c93c07088c49fb9523d1b5ec06a48c4089ce80bfda9518a2a711c53"
+  },
+  "parent_r2_packet_manifest_sha256": "39f01a1fa6a7124ca07bb92350042e5e9bd4ff150daa870584948a74b440bbbb",
+  "r2_exporter_mismatches_corrected": [
+    "trainer_argv is read from the fit contract, not the export contract",
+    "fixed checkpoint epoch is read from expected_checkpoint_epoch and trainer argv; the actual sidecar field is epoch",
+    "collision checks include the .partial NPY and the sequence-sums file the predictor removes before rename",
+    "the one-export result receipt destination is fixed and checked for collision before the predictor starts"
+  ],
+  "r3_export_attempt_id": "oldz4-r3-f1-s3-hft-export",
+  "r3_resource_fit_attempt_id": "oldz4-r3-f1-s3-hft-fit-resource",
+  "schema": "wnn.oldz4-hft-export-r3-packet-manifest.v1",
+  "status": "producer_preflight_passed_waiting_for_root_terminal_and_export_admission",
+  "zip_or_prediction_created": false
+}
