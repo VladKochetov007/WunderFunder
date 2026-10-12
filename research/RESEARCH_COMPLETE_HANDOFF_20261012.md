@@ -1,6 +1,6 @@
 # Challenge 2 research handoff — 2026-10-12
 
-**Archive state: FINAL — 2026-10-12T16:12:41.588603+00:00.** Both admitted logical runs are terminal and all three delegated roles are finished. The clean-F0 seed4 control completed its fixed CP5 export and official grade; Kaggle R7 failed before fitting and was completely collected. Source integration HEAD before final appendix regeneration: `2e2df4674c3793e91961372ce9dfce9d17f16f1d`. This archive records completed, failed, uncertain, and untested work; it authorizes no new research. Research admission is closed and the research wakeup cron is disabled.
+**Archive state: FINAL — 2026-10-12T16:12:41.588603+00:00.** Both admitted logical runs are terminal and all three delegated roles are finished. The clean-F0 seed4 control completed its fixed CP5 export and official grade; Kaggle R7 failed before fitting and was completely collected. Source integration HEAD before final appendix regeneration: `99455217227e531c50dee5fcedf63184f8f07770`. This archive records completed, failed, uncertain, and untested work; it authorizes no new research. Research admission is closed and the research wakeup cron is disabled.
 
 The governing record is
 [STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json](campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json).
@@ -467,11 +467,14 @@ navigational snapshots; append-only ledgers and source-bound result receipts
 remain authoritative. Raw provider output, private credentials, challenge-3
 materials and model/data binaries are not embedded or exposed here.
 
+
+Final metadata-only inventory: [MAIN_STATUS_INVENTORY_FINAL_R1.json](campaign_2026-10-12/research_archive_inventory_r1/MAIN_STATUS_INVENTORY_FINAL_R1.json). Historical inventories retain their original snapshots.
+
 <!-- BEGIN GENERATED LEDGER AND FILE APPENDICES -->
 
 ## Appendix generation record
 
-Generated from source repository HEAD `2e2df4674c3793e91961372ce9dfce9d17f16f1d`. The generator streams each source JSONL record with an 8 MiB per-line bound, preserves the raw row, and catalogs documentation by filesystem metadata only.
+Generated from source repository HEAD `99455217227e531c50dee5fcedf63184f8f07770`. The generator streams each source JSONL record with an 8 MiB per-line bound, preserves the raw row, and catalogs documentation by filesystem metadata only.
 
 ## Complete append-only ledger records
 
@@ -11788,7 +11791,7 @@ Source: [journal.jsonl line 135](bandit_tree/journal.jsonl#L135). no compact sta
 
 ## Grouped documentation and receipt catalog
 
-Metadata-only inventory: 28510 Markdown/JSON/JSONL files under README.md, AGENTS.md, research/, specs/, writeups/, submissions/, artifacts/, hpo/, and docs/; 641 directory/file entries were excluded by private-path, challenge-3, symlink, or generated-environment filters. Suffix counts: `.json` 25226, `.jsonl` 914, `.md` 2370. No cataloged file contents are opened by this generator. JSON files larger than 2 MiB are explicitly marked; JSON files of every size remain metadata-only here.
+Metadata-only inventory: 28512 Markdown/JSON/JSONL files under README.md, AGENTS.md, research/, specs/, writeups/, submissions/, artifacts/, hpo/, and docs/; 641 directory/file entries were excluded by private-path, challenge-3, symlink, or generated-environment filters. Suffix counts: `.json` 25228, `.jsonl` 914, `.md` 2370. No cataloged file contents are opened by this generator. JSON files larger than 2 MiB are explicitly marked; JSON files of every size remain metadata-only here.
 
 Filename-based labels are navigational hints only. A claim-bearing result still requires checking its named source, manifest, terminal, and grade tuple. Historical source snapshots and duplicate copies are retained and should not be mistaken for independent evidence.
 
@@ -17073,7 +17076,7 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [profiling-2026-09-15.md](profiling-2026-09-15.md) — 3,169 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
 - [README.md](README.md) — 1,257 bytes; modified 2026-10-05 21:04:06Z; source snapshot / plan by filename.
 - [reflection-2026-09-26.md](reflection-2026-09-26.md) — 4,934 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
-- [RESEARCH_COMPLETE_HANDOFF_20261012.md](RESEARCH_COMPLETE_HANDOFF_20261012.md) — 8,993,841 bytes; modified 2026-10-12 16:12:41Z; claim-receipt-like by filename.
+- [RESEARCH_COMPLETE_HANDOFF_20261012.md](RESEARCH_COMPLETE_HANDOFF_20261012.md) — 9,163,011 bytes; modified 2026-10-12 16:16:22Z; claim-receipt-like by filename.
 - [RESEARCH_METHODS.md](RESEARCH_METHODS.md) — 19,659 bytes; modified 2026-10-07 07:59:42Z; documentation / metadata by filename.
 - [RESEARCH_MONITOR_PROMPT_20261011.md](RESEARCH_MONITOR_PROMPT_20261011.md) — 5,361 bytes; modified 2026-10-11 09:48:03Z; documentation / metadata by filename.
 - [RESEARCH_NOTES_INDEX_20261010.md](RESEARCH_NOTES_INDEX_20261010.md) — 6,178 bytes; modified 2026-10-12 16:12:41Z; source snapshot / plan by filename.
@@ -17194,10 +17197,10 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 
 ### `research/bandit_tree/generated/`
 
-- [catalog.json](bandit_tree/generated/catalog.json) — 30,547,562 bytes; modified 2026-10-12 11:05:02Z; source snapshot / plan by filename; >2 MiB, content not opened.
-- [INDEX.md](bandit_tree/generated/INDEX.md) — 626,048 bytes; modified 2026-10-12 11:05:02Z; source snapshot / plan by filename.
-- [integrity.json](bandit_tree/generated/integrity.json) — 1,582 bytes; modified 2026-10-12 11:05:02Z; documentation / metadata by filename.
-- [tree.json](bandit_tree/generated/tree.json) — 4,757,269 bytes; modified 2026-10-12 11:05:02Z; documentation / metadata by filename; >2 MiB, content not opened.
+- [catalog.json](bandit_tree/generated/catalog.json) — 30,746,129 bytes; modified 2026-10-12 16:14:27Z; source snapshot / plan by filename; >2 MiB, content not opened.
+- [INDEX.md](bandit_tree/generated/INDEX.md) — 629,825 bytes; modified 2026-10-12 16:14:27Z; source snapshot / plan by filename.
+- [integrity.json](bandit_tree/generated/integrity.json) — 1,582 bytes; modified 2026-10-12 16:14:27Z; documentation / metadata by filename.
+- [tree.json](bandit_tree/generated/tree.json) — 4,795,021 bytes; modified 2026-10-12 16:14:27Z; documentation / metadata by filename; >2 MiB, content not opened.
 
 ### `research/bandit_tree/generated/snapshots/`
 
@@ -17231,6 +17234,7 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [config-7d64fe4e922a93e375a0a6a4fb9b014e705aa784ef9e6e63145984cb1cdb8c00.json](bandit_tree/generated/snapshots/config-7d64fe4e922a93e375a0a6a4fb9b014e705aa784ef9e6e63145984cb1cdb8c00.json) — 159,212 bytes; modified 2026-10-07 22:43:28Z; documentation / metadata by filename.
 - [config-859171552e83ce8e39b54b854df2d756c0b528a6b073fd81b42346ed2c1e86d8.json](bandit_tree/generated/snapshots/config-859171552e83ce8e39b54b854df2d756c0b528a6b073fd81b42346ed2c1e86d8.json) — 97,349 bytes; modified 2026-10-07 06:49:03Z; documentation / metadata by filename.
 - [config-875b8a12e024d449c009d97825d60a048c86fc11eaaf9f5bb118283b79ab36e1.json](bandit_tree/generated/snapshots/config-875b8a12e024d449c009d97825d60a048c86fc11eaaf9f5bb118283b79ab36e1.json) — 118,617 bytes; modified 2026-10-07 13:38:15Z; documentation / metadata by filename.
+- [config-8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff.json](bandit_tree/generated/snapshots/config-8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff.json) — 242,205 bytes; modified 2026-10-12 16:14:27Z; documentation / metadata by filename.
 - [config-93ef72077ce21116b0b76b2819963bd41a3338d75ef326c0a42be3f8ce7656fe.json](bandit_tree/generated/snapshots/config-93ef72077ce21116b0b76b2819963bd41a3338d75ef326c0a42be3f8ce7656fe.json) — 99,740 bytes; modified 2026-10-07 08:00:10Z; documentation / metadata by filename.
 - [config-9446655bc736bd245d35b263572dfa71316c117f75a1e655fe350b325cd9e38d.json](bandit_tree/generated/snapshots/config-9446655bc736bd245d35b263572dfa71316c117f75a1e655fe350b325cd9e38d.json) — 34,989 bytes; modified 2026-10-06 17:58:33Z; documentation / metadata by filename.
 - [config-98f5270c82413814d1b0bf4491d4a4211fcc936e6e9f2008acc66c764ac4e65b.json](bandit_tree/generated/snapshots/config-98f5270c82413814d1b0bf4491d4a4211fcc936e6e9f2008acc66c764ac4e65b.json) — 229,215 bytes; modified 2026-10-11 10:17:03Z; documentation / metadata by filename.
@@ -19332,8 +19336,8 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [RUNTIME_MIGRATION.md](campaign_2026-10-03/continuation/RUNTIME_MIGRATION.md) — 2,042 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
 - [STATE.json](campaign_2026-10-03/continuation/STATE.json) — 2,910 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
 - [SUBMISSION_ARCHIVES.json](campaign_2026-10-03/continuation/SUBMISSION_ARCHIVES.json) — 3,862 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
-- [watch_memory.json](campaign_2026-10-03/continuation/watch_memory.json) — 102,416 bytes; modified 2026-10-12 16:12:44Z; documentation / metadata by filename.
-- [watch_status.json](campaign_2026-10-03/continuation/watch_status.json) — 241 bytes; modified 2026-10-12 16:12:44Z; source snapshot / plan by filename.
+- [watch_memory.json](campaign_2026-10-03/continuation/watch_memory.json) — 102,415 bytes; modified 2026-10-12 16:15:49Z; documentation / metadata by filename.
+- [watch_status.json](campaign_2026-10-03/continuation/watch_status.json) — 241 bytes; modified 2026-10-12 16:15:49Z; source snapshot / plan by filename.
 - [WRAP_COMPLETED.md](campaign_2026-10-03/continuation/WRAP_COMPLETED.md) — 2,046 bytes; modified 2026-10-03 19:52:12Z; documentation / metadata by filename.
 - [WRAP_VERIFICATION.json](campaign_2026-10-03/continuation/WRAP_VERIFICATION.json) — 881 bytes; modified 2026-10-03 19:51:40Z; documentation / metadata by filename.
 
@@ -19348,7 +19352,7 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 
 - [historical_migration_barrier.json](campaign_2026-10-03/continuation/logs/historical_migration_barrier.json) — 423 bytes; modified 2026-10-03 12:59:42Z; documentation / metadata by filename.
 - [incidents.jsonl](campaign_2026-10-03/continuation/logs/incidents.jsonl) — 1,253,161 bytes; modified 2026-10-12 11:46:21Z; documentation / metadata by filename.
-- [journal_events.jsonl](campaign_2026-10-03/continuation/logs/journal_events.jsonl) — 84,856,958 bytes; modified 2026-10-12 16:12:43Z; documentation / metadata by filename.
+- [journal_events.jsonl](campaign_2026-10-03/continuation/logs/journal_events.jsonl) — 84,881,297 bytes; modified 2026-10-12 16:14:46Z; documentation / metadata by filename.
 - [kernel_events.jsonl](campaign_2026-10-03/continuation/logs/kernel_events.jsonl) — 121,489 bytes; modified 2026-10-12 11:19:44Z; documentation / metadata by filename.
 
 ### `research/campaign_2026-10-03/continuation/reproduction/`
@@ -33705,7 +33709,7 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 ### `research/campaign_2026-10-05/checks/monitor_runtime/`
 
 - [ALERT_HISTORY.jsonl](campaign_2026-10-05/checks/monitor_runtime/ALERT_HISTORY.jsonl) — 5,529,289 bytes; modified 2026-10-12 14:42:53Z; documentation / metadata by filename.
-- [STATUS.json](campaign_2026-10-05/checks/monitor_runtime/STATUS.json) — 170,623 bytes; modified 2026-10-12 16:10:59Z; source snapshot / plan by filename.
+- [STATUS.json](campaign_2026-10-05/checks/monitor_runtime/STATUS.json) — 170,415 bytes; modified 2026-10-12 16:16:10Z; source snapshot / plan by filename.
 
 ### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/e482-six-recipe-private-t4-replication-draft/e482-results/`
 
@@ -41948,10 +41952,10 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [GPU_R2_READINESS_QUOTA_OBSERVATION_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/GPU_R2_READINESS_QUOTA_OBSERVATION_R1.json) — 5,863 bytes; modified 2026-10-08 23:19:38Z; documentation / metadata by filename.
 - [GPU_R2_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/GPU_R2_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl) — 69,681 bytes; modified 2026-10-09 02:04:33Z; claim-receipt-like by filename.
 - [GPU_R2_TERMINAL_OPERATOR_RECEIPT_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/GPU_R2_TERMINAL_OPERATOR_RECEIPT_R1.json) — 19,999 bytes; modified 2026-10-08 23:49:17Z; claim-receipt-like by filename.
-- [GPU_R5_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/GPU_R5_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl) — 2,515,104 bytes; modified 2026-10-12 16:11:02Z; claim-receipt-like by filename.
+- [GPU_R5_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/GPU_R5_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl) — 2,517,566 bytes; modified 2026-10-12 16:16:04Z; claim-receipt-like by filename.
 - [KAGGLE_CPU_CACHE_PROVIDER_PUSH_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/KAGGLE_CPU_CACHE_PROVIDER_PUSH_R1.json) — 2,164 bytes; modified 2026-10-08 22:27:34Z; documentation / metadata by filename.
 - [KAGGLE_STAGE_OPERATOR_HANDOFF_R1.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/KAGGLE_STAGE_OPERATOR_HANDOFF_R1.md) — 5,802 bytes; modified 2026-10-08 22:06:10Z; claim-receipt-like by filename.
-- [provider_poll_log_active_20261009_r1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r1.jsonl) — 2,100,344 bytes; modified 2026-10-12 16:09:34Z; source snapshot / plan by filename.
+- [provider_poll_log_active_20261009_r1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r1.jsonl) — 2,104,345 bytes; modified 2026-10-12 16:14:39Z; source snapshot / plan by filename.
 - [provider_poll_log_active_20261009_r2.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r2.jsonl) — 5,786 bytes; modified 2026-10-11 15:06:30Z; source snapshot / plan by filename.
 - [provider_poll_log_active_20261009_r3.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r3.jsonl) — 2,860 bytes; modified 2026-10-12 05:51:34Z; source snapshot / plan by filename.
 - [provider_poll_log_active_20261009_r4.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r4.jsonl) — 2,860 bytes; modified 2026-10-12 06:01:38Z; source snapshot / plan by filename.
@@ -57304,6 +57308,7 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [FINAL_FRONTIER_R1.json](campaign_2026-10-12/research_archive_inventory_r1/FINAL_FRONTIER_R1.json) — 801 bytes; modified 2026-10-12 16:12:41Z; source snapshot / plan by filename.
 - [IGNORED_USEFUL_METADATA_SELECTION_R1.json](campaign_2026-10-12/research_archive_inventory_r1/IGNORED_USEFUL_METADATA_SELECTION_R1.json) — 279,424 bytes; modified 2026-10-12 14:55:22Z; documentation / metadata by filename.
 - [LEDGER_READ_BOUNDS_VALIDATION_R1.json](campaign_2026-10-12/research_archive_inventory_r1/LEDGER_READ_BOUNDS_VALIDATION_R1.json) — 2,449 bytes; modified 2026-10-12 14:43:00Z; claim-receipt-like by filename.
+- [MAIN_STATUS_INVENTORY_FINAL_R1.json](campaign_2026-10-12/research_archive_inventory_r1/MAIN_STATUS_INVENTORY_FINAL_R1.json) — 1,843 bytes; modified 2026-10-12 16:15:43Z; source snapshot / plan by filename.
 - [MAIN_STATUS_INVENTORY_R1.json](campaign_2026-10-12/research_archive_inventory_r1/MAIN_STATUS_INVENTORY_R1.json) — 561,796 bytes; modified 2026-10-12 14:16:41Z; source snapshot / plan by filename.
 - [TMP_DURABLE_COPY_RECEIPT_R1.json](campaign_2026-10-12/research_archive_inventory_r1/TMP_DURABLE_COPY_RECEIPT_R1.json) — 2,589,612 bytes; modified 2026-10-12 15:52:18Z; claim-receipt-like by filename; >2 MiB, content not opened.
 - [TMP_DURABLE_MIGRATION_RECEIPT_R1.json](campaign_2026-10-12/research_archive_inventory_r1/TMP_DURABLE_MIGRATION_RECEIPT_R1.json) — 38,058 bytes; modified 2026-10-12 15:57:22Z; claim-receipt-like by filename.

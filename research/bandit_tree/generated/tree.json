@@ -11,7 +11,7 @@
       "uncertainty": "A confidence interval crossing zero never sets eligibility or a stop by itself. It describes one estimand/design and is not a posterior over the lineage. Null numerical priors mean unknown, not zero; use qualitative priority and bounded cross-family exploration when numeric inputs are indefensible."
     },
     "classification_policy": "Curated membership first; keyword family fallback is navigation-only, not a scientific assertion; uncertain nodes remain unclassified",
-    "config_snapshot": "research/bandit_tree/generated/snapshots/config-c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409.json",
+    "config_snapshot": "research/bandit_tree/generated/snapshots/config-8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff.json",
     "exposure_note": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
     "journal_records": [
       {
@@ -3301,6 +3301,50 @@
           "line": 133,
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "f1341ce76a98bcd40c056bf4ff404bebe0c3a2f484b41a229b91d56da27e5c82"
+        }
+      },
+      {
+        "raw_record": "{\"created_utc\":\"2026-10-12T14:08:11Z\",\"decision\":\"Archive-builder draft recorded at Main snapshot 3b8c5fb2. New research admission remains closed by the user STOP; only the already admitted clean-F0 seed4 logical run and Kaggle R7 drain remain. The handoff is pre-drain and must be reconciled with actual terminal records before it is called final. The generated tree and metadata inventory need a post-cleanup/post-drain refresh.\",\"evidence\":[\"research/RESEARCH_COMPLETE_HANDOFF_20261012.md\",\"research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json\",\"research/campaign_2026-10-12/research_archive_inventory_r1/MAIN_STATUS_INVENTORY_R1.json\"],\"new_spend_usd\":0,\"public_score_claim\":null,\"type\":\"research_archive_draft_and_stop_snapshot\"}\n",
+        "record": {
+          "created_utc": "2026-10-12T14:08:11Z",
+          "decision": "Archive-builder draft recorded at Main snapshot 3b8c5fb2. New research admission remains closed by the user STOP; only the already admitted clean-F0 seed4 logical run and Kaggle R7 drain remain. The handoff is pre-drain and must be reconciled with actual terminal records before it is called final. The generated tree and metadata inventory need a post-cleanup/post-drain refresh.",
+          "evidence": [
+            "research/RESEARCH_COMPLETE_HANDOFF_20261012.md",
+            "research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json",
+            "research/campaign_2026-10-12/research_archive_inventory_r1/MAIN_STATUS_INVENTORY_R1.json"
+          ],
+          "new_spend_usd": 0,
+          "public_score_claim": null,
+          "type": "research_archive_draft_and_stop_snapshot"
+        },
+        "source": {
+          "line": 134,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "83fa45194a0dc4dbf80938ef73f82907855bc850c14a7d24dcaccffaf2f5dc62"
+        }
+      },
+      {
+        "raw_record": "{\"id\":\"ARCHIVE-FINAL-DRAIN-20261012-R1\",\"utc\":\"2026-10-12T16:12:41.588603+00:00\",\"event\":\"archive_finalization_only\",\"science_completed\":[\"S4 fixedCP5 export/officialgrade\",\"R7 terminal pre-fit failure collection\"],\"new_research_admission\":\"closed\",\"active_subordinate_roles\":0,\"research_wakeup_cron\":\"disabled\",\"temporary_research_artifacts\":\"Durable copies verified;165original paths compatibility symlinks; model/data/binaries ignored by Git\",\"archive\":\"research/RESEARCH_COMPLETE_HANDOFF_20261012.md\",\"public_best_user_reported\":0.6671,\"public_forecast\":null}\n",
+        "record": {
+          "active_subordinate_roles": 0,
+          "archive": "research/RESEARCH_COMPLETE_HANDOFF_20261012.md",
+          "event": "archive_finalization_only",
+          "id": "ARCHIVE-FINAL-DRAIN-20261012-R1",
+          "new_research_admission": "closed",
+          "public_best_user_reported": 0.6671,
+          "public_forecast": null,
+          "research_wakeup_cron": "disabled",
+          "science_completed": [
+            "S4 fixedCP5 export/officialgrade",
+            "R7 terminal pre-fit failure collection"
+          ],
+          "temporary_research_artifacts": "Durable copies verified;165original paths compatibility symlinks; model/data/binaries ignored by Git",
+          "utc": "2026-10-12T16:12:41.588603+00:00"
+        },
+        "source": {
+          "line": 135,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "07e6ffd043cfa1e42688a635af5fd08ab3dd435527d223deed7ce23194c081fa"
         }
       }
     ],
@@ -8893,8 +8937,8 @@
         "interim_public_milestone": 0.672,
         "metric_id": "global_wp_clip2_v1",
         "objective_mode": "competition",
-        "public_best": 0.6668,
-        "public_best_status": "user-reported October11 exact Z1c/Z4 pair; not independently browser refreshed",
+        "public_best": 0.6671,
+        "public_best_status": "User-reported October12 H390s3/s4/Z4 half Q8 candidateC 1ya21vpd, 36m36s; not independently browser refreshed.",
         "public_milestone": 0.7,
         "public_milestone_status": "unmet",
         "resources": {
@@ -8904,13 +8948,15 @@
           "authority": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTINUATION_CONTRACT_20261011.md",
           "cpu_purpose": "Analysis/EDA/support; no large CPU model fitting.",
           "first_review_after_hours": 24,
-          "local_admission_cutoff": "None: latest explicit user instruction on2026-10-08 continues research until explicit stop; only local CPU quota changes at10:00Kyiv.",
+          "latest_scope_authority": "research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json",
+          "local_admission_cutoff": "Explicit user stop October12: no new research admission; only already-admitted S4 sixepoch continuation/export/grade and R7 terminal collection may drain, then archive and stop.",
           "local_allocator_initial_bytes": 4300000000,
           "local_gpu_workers_max": 1,
           "memory_high_bytes": 18000000000,
-          "new_experiment_compute": "Latest October11 authority: local and Kaggle, plus existing campaign-owned VastB55080658 within user-approved70USD cap. No new rentals, top-up or billing changes; useful reviewed queues continue. Current continuation contract overrides historical off snapshots.",
+          "new_experiment_compute": "No new experiments, cohorts, retries, rentals, top-ups or spending. Finalization-only latest authority: research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json.",
           "paid_compute_authority": "specs/adr/0015-flexible-credit-bounded-parallel-compute.md",
           "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs",
+          "support_admission_target_bytes": 17000000000,
           "temporary_cpu_window": {
             "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_CONTINUOUS_20261008_V2.json",
             "cores": 12,
@@ -8942,8 +8988,8 @@
       "interim_public_milestone": 0.672,
       "metric_id": "global_wp_clip2_v1",
       "objective_mode": "competition",
-      "public_best": 0.6668,
-      "public_best_status": "user-reported October11 exact Z1c/Z4 pair; not independently browser refreshed",
+      "public_best": 0.6671,
+      "public_best_status": "User-reported October12 H390s3/s4/Z4 half Q8 candidateC 1ya21vpd, 36m36s; not independently browser refreshed.",
       "public_milestone": 0.7,
       "public_milestone_status": "unmet",
       "resources": {
@@ -8953,13 +8999,15 @@
         "authority": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTINUATION_CONTRACT_20261011.md",
         "cpu_purpose": "Analysis/EDA/support; no large CPU model fitting.",
         "first_review_after_hours": 24,
-        "local_admission_cutoff": "None: latest explicit user instruction on2026-10-08 continues research until explicit stop; only local CPU quota changes at10:00Kyiv.",
+        "latest_scope_authority": "research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json",
+        "local_admission_cutoff": "Explicit user stop October12: no new research admission; only already-admitted S4 sixepoch continuation/export/grade and R7 terminal collection may drain, then archive and stop.",
         "local_allocator_initial_bytes": 4300000000,
         "local_gpu_workers_max": 1,
         "memory_high_bytes": 18000000000,
-        "new_experiment_compute": "Latest October11 authority: local and Kaggle, plus existing campaign-owned VastB55080658 within user-approved70USD cap. No new rentals, top-up or billing changes; useful reviewed queues continue. Current continuation contract overrides historical off snapshots.",
+        "new_experiment_compute": "No new experiments, cohorts, retries, rentals, top-ups or spending. Finalization-only latest authority: research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json.",
         "paid_compute_authority": "specs/adr/0015-flexible-credit-bounded-parallel-compute.md",
         "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs",
+        "support_admission_target_bytes": 17000000000,
         "temporary_cpu_window": {
           "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_CONTINUOUS_20261008_V2.json",
           "cores": 12,
@@ -8973,9 +9021,9 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 790,
+      "experiments": 798,
       "hypotheses": 479,
-      "journal": 133
+      "journal": 135
     }
   },
   "nodes": [
@@ -8998,8 +9046,8 @@
         "interim_public_milestone": 0.672,
         "metric_id": "global_wp_clip2_v1",
         "objective_mode": "competition",
-        "public_best": 0.6668,
-        "public_best_status": "user-reported October11 exact Z1c/Z4 pair; not independently browser refreshed",
+        "public_best": 0.6671,
+        "public_best_status": "User-reported October12 H390s3/s4/Z4 half Q8 candidateC 1ya21vpd, 36m36s; not independently browser refreshed.",
         "public_milestone": 0.7,
         "public_milestone_status": "unmet",
         "resources": {
@@ -9009,13 +9057,15 @@
           "authority": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTINUATION_CONTRACT_20261011.md",
           "cpu_purpose": "Analysis/EDA/support; no large CPU model fitting.",
           "first_review_after_hours": 24,
-          "local_admission_cutoff": "None: latest explicit user instruction on2026-10-08 continues research until explicit stop; only local CPU quota changes at10:00Kyiv.",
+          "latest_scope_authority": "research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json",
+          "local_admission_cutoff": "Explicit user stop October12: no new research admission; only already-admitted S4 sixepoch continuation/export/grade and R7 terminal collection may drain, then archive and stop.",
           "local_allocator_initial_bytes": 4300000000,
           "local_gpu_workers_max": 1,
           "memory_high_bytes": 18000000000,
-          "new_experiment_compute": "Latest October11 authority: local and Kaggle, plus existing campaign-owned VastB55080658 within user-approved70USD cap. No new rentals, top-up or billing changes; useful reviewed queues continue. Current continuation contract overrides historical off snapshots.",
+          "new_experiment_compute": "No new experiments, cohorts, retries, rentals, top-ups or spending. Finalization-only latest authority: research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json.",
           "paid_compute_authority": "specs/adr/0015-flexible-credit-bounded-parallel-compute.md",
           "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs",
+          "support_admission_target_bytes": 17000000000,
           "temporary_cpu_window": {
             "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_CONTINUOUS_20261008_V2.json",
             "cores": 12,
@@ -9031,7 +9081,7 @@
       "parent_id": null,
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Wunder Connectome Challenge2 research",
       "type": "root"
@@ -9046,7 +9096,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Teachers and knowledge transfer",
       "type": "family"
@@ -9063,7 +9113,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Temporal state and memory",
       "type": "family"
@@ -9080,7 +9130,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Targets, losses and supervision",
       "type": "family"
@@ -9098,7 +9148,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Data and feature representation",
       "type": "family"
@@ -9115,7 +9165,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Optimization and training stability",
       "type": "family"
@@ -9132,7 +9182,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Diversity, ensembles and interactions",
       "type": "family"
@@ -9149,7 +9199,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Serving and compression",
       "type": "family"
@@ -9167,7 +9217,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Evaluation, data exposure and diagnostics",
       "type": "family"
@@ -9183,7 +9233,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Compute, safety and recovery",
       "type": "family"
@@ -9194,7 +9244,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Unresolved classification",
       "type": "family"
@@ -9211,7 +9261,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "title": "Within-sequence online learning and adaptive state",
       "type": "family"
@@ -9281,7 +9331,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "source_recipe_evidence": {
         "fifth_member_delta": 0.00028,
@@ -9336,7 +9386,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Transfer Transformer predictions into the serving GRU",
@@ -9378,7 +9428,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Temporal summary / representation transfer",
@@ -9422,7 +9472,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Quiet-row transfer from an attention teacher",
@@ -9480,7 +9530,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Origin-target privileged attention teacher",
@@ -9562,7 +9612,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "local_gain_vs_C0_public_single_regression",
       "title": "Teacher lineage, cross-fitting and ensemble targets",
@@ -9618,7 +9668,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -9677,7 +9727,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -9750,7 +9800,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "interrupted",
       "title": "Distillation alpha × bootstrap horizon",
@@ -9794,7 +9844,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Measured denominator: chunk / fixed / shuffled mass",
@@ -9852,7 +9902,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -9911,7 +9961,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "insufficient_evidence",
       "title": "Precision and optimizer-step mechanism",
@@ -9983,7 +10033,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "diagnostic_completed",
       "title": "Production event clock / quiet-row anatomy",
@@ -10038,7 +10088,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Event/quiet residual belief updates",
@@ -10097,7 +10147,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "prepared_unrun",
       "title": "Residual diagonal / content / erase-write memory",
@@ -10165,7 +10215,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "insufficient_evidence",
       "title": "Hole-only episode loss in a tiny recurrent specialist",
@@ -10225,7 +10275,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "screen_failed",
       "title": "All-row and mixed episode objectives: tested recipes",
@@ -10285,7 +10335,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "screen_failed",
       "title": "Quiet-row output holds / online corrections: tested recipes",
@@ -10366,7 +10416,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -10413,7 +10463,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Serving-feasible seed mixtures and tensor soups",
@@ -10460,7 +10510,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Quantization and native runtime headroom",
@@ -10714,7 +10764,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "E508_v5_profile_terminal_E463_v2_queued_E520_profile_planning",
       "title": "OOM, provider and monitor recovery",
@@ -10757,7 +10807,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Attention-teacher transfer × origin-label reanchor",
@@ -10800,7 +10850,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Gradient cadence × measured denominator",
@@ -10854,7 +10904,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Convergence-aware causal attention and event context",
@@ -10909,7 +10959,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Transfer predictable teacher structure separately from future innovation",
@@ -11003,7 +11053,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Independent student complementarity and causal blend gates",
@@ -11133,7 +11183,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "source_recipe_details": {
         "additional_epochs": 2,
@@ -11223,7 +11273,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Replace a teacher family with a two-stream teacher",
@@ -11293,7 +11343,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Function-preserving widening of a distilled student",
@@ -11347,7 +11397,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Greedy Sparse Mean-Reverting Feature Cliques (per L11 group)",
@@ -11410,7 +11460,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Pair-Seeded Stagewise Interaction Grower",
@@ -11473,7 +11523,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Greedy Sparse Stationarity Scout for Causal State Management (unconventional)",
@@ -11527,7 +11577,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Simplex-Sparse Greedy Correction of the Served Blend",
@@ -11601,7 +11651,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "insufficient_evidence_provenance_gate_failed",
       "title": "Fixed Weak-Model Cohort as a Residual Portfolio",
@@ -11820,7 +11870,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "completed_exploratory_no_nonzero_mix_selected",
       "title": "Screen Weak Members by Conditional Signal Before Averaging",
@@ -11874,7 +11924,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting",
@@ -11928,7 +11978,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Invert the diagnostic: train a dependence-predictive filter, not a flatness test",
@@ -11982,7 +12032,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Small transferable statistic: nearest-neighbor correlation contrast as a regime cue",
@@ -12036,7 +12086,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Unconventional: invert to mis-specification hunting via alternative-class sensitivity",
@@ -12090,7 +12140,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Unconventional: threshold-style regime switch for dependence diagnostics, not for returns",
@@ -12144,7 +12194,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Null-safe use: treat the test as local specification feedback, not global rejection",
@@ -12198,7 +12248,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Directed relative-distance distillation on causally valid pairs",
@@ -12252,7 +12302,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Angle-wise relational distillation over triplets anchored by a driver feature",
@@ -12306,7 +12356,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Temporal relational contrast across consecutive valid rows",
@@ -12360,7 +12410,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Causal-robustness relational distillation with paired view perturbation",
@@ -12414,7 +12464,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Unconventional: teacher-relation amortization as an unsupervised student regularizer",
@@ -12476,7 +12526,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "MiMo bounded within-sequence output-distance transfer",
@@ -12538,7 +12588,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Warm-up-wide: function-preserving widening of the recurrent blend hidden state",
@@ -12600,7 +12650,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Deeper-recurrent insertion: ReLU-identity layer insertion inside recurrence",
@@ -12662,7 +12712,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Channel-coupled widening with symmetry-breaking schedule for recurrent feature maps",
@@ -12724,7 +12774,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "not_tested",
       "title": "Unconventional: warm-start prediction-head distillation from a no-gradient teacher blend, risking the source's negative result",
@@ -12865,7 +12915,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "completed_exposed_error_location_signal_no_fit",
       "title": "Disagreement-guided student optimization",
@@ -13005,7 +13055,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "closed_exact_pool_rule_negative",
       "title": "Target-wise stacking of weak, less-correlated models",
@@ -13257,7 +13307,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "closed_exact_exposed_pool_gate_screen_failed",
       "title": "Rowwise disagreement-gated weak-model blend",
@@ -13362,7 +13412,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "seed3_descriptive_grade_completed_seed4_training",
       "title": "Independent raw-feature GRU384 capacity source",
@@ -13432,7 +13482,7 @@
       "parent_id": "family:infrastructure",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "engineering_measurements_and_integration",
       "title": "Verify once per worker; improve useful GPU throughput",
@@ -13476,7 +13526,7 @@
       "parent_id": "family:infrastructure",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Hoist GRU input-gate projection outside causal scan",
@@ -13520,7 +13570,7 @@
       "parent_id": "family:infrastructure",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Independent own model cohorts per TPU chip",
@@ -13564,7 +13614,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Parallel linear recurrence as complementary TPU teacher",
@@ -13608,7 +13658,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Hardware-shaped causal TCN teacher",
@@ -13652,7 +13702,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Block-recurrent causal attention teacher",
@@ -13696,7 +13746,7 @@
       "parent_id": "family:infrastructure",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Independent own seeds on separate physical Kaggle GPUs",
@@ -13740,7 +13790,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Sparse echo-state reservoir with streaming readout",
@@ -13784,7 +13834,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Liquid microstate with input-dependent retention",
@@ -13828,7 +13878,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Sliding-DFT state on trade channels",
@@ -13872,7 +13922,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Input-only EDMD coordinates",
@@ -13916,7 +13966,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Random Fourier features on short causal windows",
@@ -13960,7 +14010,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Instrument-wise invariant pooling",
@@ -14004,7 +14054,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Gaussian predictive information bottleneck",
@@ -14048,7 +14098,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Time-augmented depth2 path signature",
@@ -14092,7 +14142,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Shared semantic group encoder before small recurrent core",
@@ -14136,7 +14186,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Fixed causal scattering features as low-backprop teacher",
@@ -14196,7 +14246,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "conditional_delivery_owned",
       "title": "Wide own baseline family × heterogeneous student distillation",
@@ -14248,7 +14298,7 @@
       "parent_id": "family:temporal",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Fast row clock plus causal event-time slow delay line",
@@ -14292,7 +14342,7 @@
       "parent_id": "family:teacher",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "interaction_recipe_proposed",
       "title": "Own teacher capacity × live causal event features",
@@ -14381,7 +14431,7 @@
       "parent_id": "family:objective",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "fixed_recipe_evaluated_near_anchor_no_promotion",
       "title": "Low-rank conditional residual from frozen recurrent state and causal context",
@@ -14425,7 +14475,7 @@
       "parent_id": "family:representation",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Monotone scalar calibration before causal structured input contrasts",
@@ -14469,7 +14519,7 @@
       "parent_id": "family:temporal",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Bounded learned multi-half-life causal EMA bank",
@@ -14513,7 +14563,7 @@
       "parent_id": "family:temporal",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Fixed-query content-weighted discounted pooling of recurrent states",
@@ -14557,7 +14607,7 @@
       "parent_id": "family:ensemble",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Parameter-efficient readout ensemble on one frozen own recurrent trunk",
@@ -14601,7 +14651,7 @@
       "parent_id": "family:representation",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Raw regime context retained beside causal normalized innovations",
@@ -14650,7 +14700,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Width by causal feature-view factorial and fixed-student teacher contribution",
@@ -14748,7 +14798,7 @@
       "parent_id": "family:online-learning",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "cpu_protocol_passed_no_task_fit",
       "title": "Causal adaptive feature dynamics and innovation readout",
@@ -14801,7 +14851,7 @@
       "parent_id": "family:online-learning",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Offline-trained self-supervised fast-weight recurrence",
@@ -14878,7 +14928,7 @@
       "parent_id": "family:online-learning",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Task-aligned causal self-supervised adapter updates",
@@ -14936,7 +14986,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Adaptive expert reliability from observable proxy errors",
@@ -15001,7 +15051,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Robust fast/slow sequence-local feature statistics",
@@ -15066,7 +15116,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Feature-likelihood regime posterior over own experts",
@@ -15127,7 +15177,7 @@
       "parent_id": "family:online-learning",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Prequential supervised training with fixed deployment weights",
@@ -15193,7 +15243,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Innovation-spectrum trigger for sparse adaptation",
@@ -15249,7 +15299,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Warm verified data sessions across diverse experiment cohorts",
@@ -15322,7 +15372,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Causal trailing-window distribution shape",
@@ -15378,7 +15428,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Causal lagged and cross-channel feature coupling",
@@ -15432,7 +15482,7 @@
       "scientific_parent_hypotheses": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Bounded nonlinear temporal feature morphology",
@@ -15492,7 +15542,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Causal feature regime context × complementary teacher",
@@ -15607,7 +15657,7 @@
       "parent_id": "family:representation",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "three_provider_proposals_delivered_crosswalk_reviewed",
       "title": "Independent Grok/Muse transfer from ROGII first-place writeup",
@@ -15671,7 +15721,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Soft scalar value-grid head and expectation loss",
@@ -15736,7 +15786,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Deterministic rare-jump causal belief as model component",
@@ -15803,7 +15853,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Reliability gate for new belief and shape endpoints",
@@ -15865,7 +15915,7 @@
       "scientific_parent_hypotheses": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Coherent affine nuisance corruption with joint training",
@@ -15929,7 +15979,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Fixed causal pooling and hold-last TCN resampling",
@@ -15994,7 +16044,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Causal auxiliary-channel anti-shortcut corruption",
@@ -16059,7 +16109,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_untested",
       "title": "Earlier-prefix bin calibration with raw residual context",
@@ -16107,7 +16157,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_untested",
       "title": "Observable window-innovation auxiliary supervision",
@@ -16156,7 +16206,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_untested",
       "title": "Privileged smoothed belief teacher to causal student",
@@ -16202,7 +16252,7 @@
       "scientific_parent_hypotheses": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_untested",
       "title": "Matched robust point-loss and target-range comparison",
@@ -16248,7 +16298,7 @@
       "scientific_parent_hypotheses": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_untested",
       "title": "Representative nested-data multi-fidelity screens",
@@ -16304,7 +16354,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "tested_exact_recipe_point_negative",
       "title": "Equal attention/TCN mixture conditional value",
@@ -16366,7 +16416,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "source_grounded_proposals_and_existing_muon_evidence",
       "title": "Recurrent matrix geometry, preconditioning and adaptive-step optimizer families",
@@ -16430,7 +16480,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Stage-specific final-student optimizer transfer",
@@ -16494,7 +16544,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Stable WSD cooldown package",
@@ -16558,7 +16608,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Finite plateau-triggered reheating and noise",
@@ -16622,7 +16672,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Teacher-mixture amplitude as a treatment",
@@ -16686,7 +16736,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Own-best and heterogeneous-distillation endpoint interaction",
@@ -16750,7 +16800,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Residual family supervision",
@@ -16814,7 +16864,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Antithetic teacher-disagreement dither",
@@ -16876,7 +16926,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "AdamW",
@@ -16940,7 +16990,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "RAdam",
@@ -17004,7 +17054,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "AdaBelief",
@@ -17068,7 +17118,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Adafactor",
@@ -17132,7 +17182,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Muon hybrid",
@@ -17196,7 +17246,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "NorMuon",
@@ -17260,7 +17310,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Polar Express",
@@ -17324,7 +17374,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Scion norm-constrained updates",
@@ -17388,7 +17438,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Shampoo",
@@ -17452,7 +17502,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "SOAP",
@@ -17516,7 +17566,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "SPlus",
@@ -17580,7 +17630,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "DASH",
@@ -17644,7 +17694,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "K-FAC",
@@ -17708,7 +17758,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Lion/sign momentum",
@@ -17772,7 +17822,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "SGD/momentum/Nesterov",
@@ -17836,7 +17886,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Schedule-Free",
@@ -17900,7 +17950,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Prodigy",
@@ -17964,7 +18014,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "D-Adaptation",
@@ -18028,7 +18078,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Sophia",
@@ -18092,7 +18142,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Muon whole matrix versus per gate",
@@ -18156,7 +18206,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Muon recurrent-only versus hidden matrices",
@@ -18220,7 +18270,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Muon RMS/shape/LR scaling",
@@ -18284,7 +18334,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Stage-specific optimizer handoff",
@@ -18348,7 +18398,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "LR schedule and beta1 coupling",
@@ -18412,7 +18462,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Finite plateau reheating/noise",
@@ -18476,7 +18526,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_tested",
       "title": "Muon matrix precision/device policy",
@@ -18578,7 +18628,7 @@
       "parent_id": "arm:conditional-bilinear-readout",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "graded_positive_multiplicative_discovery_followup_eligible",
       "title": "Direct-label correction around independently trained frozen recurrent parent",
@@ -18642,7 +18692,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "positive_imprecise_existing_pool_new_contrasts_pending",
       "title": "Diverse own models, combinations and compression",
@@ -18713,7 +18763,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "D01_R3_admitted_D02_prepared_not_evaluated",
       "title": "Optimizer × robust-loss interaction and conditional blend value",
@@ -18776,7 +18826,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "CPU_contract_checks_only_actual_device_comparison_pending",
       "title": "Same mathematical logic, native GPU and TPU execution",
@@ -18828,7 +18878,7 @@
       "parent_id": "family:optimization",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_admitted",
       "title": "Current lead Muon-all prop0 batch/LR response with explicitly accounted momentum and decay clocks.",
@@ -18880,7 +18930,7 @@
       "parent_id": "family:optimization",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_admitted",
       "title": "Additional epochs from identical trained state with a small-LR tail; separate prefix scheduling from additional training.",
@@ -18932,7 +18982,7 @@
       "parent_id": "family:optimization",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_admitted",
       "title": "Measure fitting-only late-gradient noise and test response-calibrated removal of orthogonalization if noise dominates.",
@@ -18984,7 +19034,7 @@
       "parent_id": "family:objective",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "proposed_not_admitted",
       "title": "Same-prefix tail decays auxiliary losses while primary weighting, LR, WD and membership remain controlled.",
@@ -19137,7 +19187,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "old_F0_F1_complete_newF0_teacher_trio_graded_fixed_mix_tiny_uncertain_newstudent_pending",
       "title": "Complete finished old/new student pipeline complementarity",
@@ -19192,7 +19242,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "preregistered_not_run",
       "title": "One fixed target-specific strong-source endpoint",
@@ -19247,7 +19297,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "preregistered_not_run",
       "title": "One fixed prediction-scale normalization diagnostic",
@@ -19319,7 +19369,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "pgo_projection_activation_max_not_promoted_other_exact_arms_proposed",
       "title": "Exact complete-Q8 CPU serving optimization",
@@ -19433,7 +19483,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "native_R2_fullfold_Q8_complete_quality_mixed_no_deployment_promotion",
       "title": "Own shared frozen backbone and fixed head blend",
@@ -19489,7 +19539,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "insufficient_matched_coverage_no_public_like_fold",
       "title": "Public transfer and matched cross-fold recipe rankings",
@@ -19556,7 +19606,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "c63ca697e378daceedd1b1ac2a864f0f15af6f21d4ccbefa0017f7cfc2a26409"
+        "sha256": "8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff"
       },
       "status": "bounded_retrospective_diagnostic_complete_no_current_forecast",
       "title": "Source-qualified public-score calibration and grouped backtests",
@@ -77725,6 +77775,447 @@
         }
       ],
       "title": "E-CLEAN-T3-F0-PROFILE-R2-20261012",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-CLEAN-T3-F0-MATCHED-STUDENT-R2-FIVE-STAGE-RELEASE",
+      "latest_recorded_status": "conditionally-released-templates",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-CLEAN-T3-F0-MATCHED-STUDENT-R2-FIVE-STAGE-RELEASE\", \"observed_utc\": \"2026-10-12T11:15:54.395706+00:00\", \"status\": \"conditionally-released-templates\", \"current_fit\": \"clean-t3-f0-control-s3-a9-r2-p1-20261012\", \"successors\": [\"control_p2\", \"control_p3\", \"treatment_p1\", \"treatment_p2\", \"treatment_p3\"], \"scientific_gain\": null, \"fit_state_binding\": \"pending real predecessor terminal\", \"evidence\": \"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1107_r22/ROOT_FIVE_STAGE_CONDITIONAL_RELEASE_R1.json\"}\n",
+          "record": {
+            "current_fit": "clean-t3-f0-control-s3-a9-r2-p1-20261012",
+            "evidence": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1107_r22/ROOT_FIVE_STAGE_CONDITIONAL_RELEASE_R1.json",
+            "fit_state_binding": "pending real predecessor terminal",
+            "id": "E-CLEAN-T3-F0-MATCHED-STUDENT-R2-FIVE-STAGE-RELEASE",
+            "observed_utc": "2026-10-12T11:15:54.395706+00:00",
+            "scientific_gain": null,
+            "status": "conditionally-released-templates",
+            "successors": [
+              "control_p2",
+              "control_p3",
+              "treatment_p1",
+              "treatment_p2",
+              "treatment_p3"
+            ]
+          },
+          "source": {
+            "line": 791,
+            "path": "research/experiments.jsonl",
+            "sha256": "8be486282a04e20ca32575408f9de38c18804503d9eaad903ebfcb2f0fd050d9"
+          }
+        }
+      ],
+      "title": "E-CLEAN-T3-F0-MATCHED-STUDENT-R2-FIVE-STAGE-RELEASE",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-J1-EXPOSED-COMPONENT-WEIGHTS-R1-ADMISSION",
+      "latest_recorded_status": "admitted-calibration-running",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"event\": \"controller_r23_execution_progress\", \"observed_utc\": \"2026-10-12T12:02:17.846606+00:00\", \"claim_scope\": \"execution and exposed fixed-prediction screen admission, no new scientific score\", \"local_attempt\": \"clean-t3-f0-control-s3-a9-r2-p2-envr1-20261012\", \"j1_release\": \"research/campaign_2026-10-12/joint_endpoint_optimization_r1/ROOT_J1_ADMISSION_R1.json\", \"new_model_seeds\": 0, \"paid_spend_added\": 0, \"kaggle_launch\": false, \"id\": \"E-J1-EXPOSED-COMPONENT-WEIGHTS-R1-ADMISSION\", \"status\": \"admitted-calibration-running\", \"scientific_gain\": null, \"evidence\": \"research/campaign_2026-10-12/joint_endpoint_optimization_r1/ROOT_J1_ADMISSION_R1.json\"}\n",
+          "record": {
+            "claim_scope": "execution and exposed fixed-prediction screen admission, no new scientific score",
+            "event": "controller_r23_execution_progress",
+            "evidence": "research/campaign_2026-10-12/joint_endpoint_optimization_r1/ROOT_J1_ADMISSION_R1.json",
+            "id": "E-J1-EXPOSED-COMPONENT-WEIGHTS-R1-ADMISSION",
+            "j1_release": "research/campaign_2026-10-12/joint_endpoint_optimization_r1/ROOT_J1_ADMISSION_R1.json",
+            "kaggle_launch": false,
+            "local_attempt": "clean-t3-f0-control-s3-a9-r2-p2-envr1-20261012",
+            "new_model_seeds": 0,
+            "observed_utc": "2026-10-12T12:02:17.846606+00:00",
+            "paid_spend_added": 0,
+            "scientific_gain": null,
+            "status": "admitted-calibration-running"
+          },
+          "source": {
+            "line": 792,
+            "path": "research/experiments.jsonl",
+            "sha256": "0d817cda68619497b258e693a922be6d7e00b131a5941b626ee48de498b719dc"
+          }
+        }
+      ],
+      "title": "E-J1-EXPOSED-COMPONENT-WEIGHTS-R1-ADMISSION",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-J1-EXPOSED-COMPONENT-WEIGHTS-R1-RESULT",
+      "latest_recorded_status": "screen-complete",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-J1-EXPOSED-COMPONENT-WEIGHTS-R1-RESULT\", \"observed_utc\": \"2026-10-12T12:05:47.185224+00:00\", \"status\": \"screen-complete\", \"claim_scope\": \"48 exposed F0components fixed three-seed teacherpool\", \"calibration_delta_vs_equal\": 3.2072613445732756e-05, \"evaluation_delta_vs_equal\": -0.00012020420551062116, \"evaluation_equaltrio_delta_vs_fixed_seed3_seed4_pair\": 0.0007328236765172802, \"new_trained_seeds\": 0, \"public_forecast\": null, \"evidence\": \"research/campaign_2026-10-12/joint_endpoint_optimization_r1/J1_EVALUATION_RESULT_R1.json\"}\n",
+          "record": {
+            "calibration_delta_vs_equal": 3.2072613445732756e-05,
+            "claim_scope": "48 exposed F0components fixed three-seed teacherpool",
+            "evaluation_delta_vs_equal": -0.00012020420551062116,
+            "evaluation_equaltrio_delta_vs_fixed_seed3_seed4_pair": 0.0007328236765172802,
+            "evidence": "research/campaign_2026-10-12/joint_endpoint_optimization_r1/J1_EVALUATION_RESULT_R1.json",
+            "id": "E-J1-EXPOSED-COMPONENT-WEIGHTS-R1-RESULT",
+            "new_trained_seeds": 0,
+            "observed_utc": "2026-10-12T12:05:47.185224+00:00",
+            "public_forecast": null,
+            "status": "screen-complete"
+          },
+          "source": {
+            "line": 793,
+            "path": "research/experiments.jsonl",
+            "sha256": "110b02ded80f6996628d2eae9bf22954763187928c5d63f20b30c51f7360330f"
+          }
+        }
+      ],
+      "title": "E-J1-EXPOSED-COMPONENT-WEIGHTS-R1-RESULT",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-CLEAN-T3-F0-CONTROL-S3-A9-T3R5-R2-CP5-GRADE-20261012-R1",
+      "latest_recorded_status": "complete_exposed_f0_single_student_grade",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"checkpoint_epoch\":5,\"created_utc\":\"2026-10-12T13:31:17.656842+00:00\",\"distinct_student_fit_seeds\":1,\"evaluation_groups\":468,\"expected_public_score\":null,\"exposure\":\"repeatedly exposed F0; single endpoint, n=1 student fit seed\",\"fold\":0,\"grade_receipt\":\"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/f0_grade_r1/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1.grade.json\",\"grade_receipt_sha256\":\"c518f7cdb5f3e5148f72de152c3aaecd308ff97c83aa74169fdaa95442e085a0\",\"handoff_receipt\":\"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_CP5_FULL_VALID_GRADE_HANDOFF_R1.json\",\"handoff_receipt_sha256\":\"ef7e3a4638229f99f9ca4f0aefbcaa4bb330d48d3a567138a68cfd0a3caafb31\",\"hypothesis_id\":\"H-390\",\"id\":\"E-CLEAN-T3-F0-CONTROL-S3-A9-T3R5-R2-CP5-GRADE-20261012-R1\",\"interpretation\":\"One completed clean T3 control student endpoint scored 0.68115536 on the repeatedly exposed F0 panel. This is not cross-fold confirmation or submission-selection evidence; no paired delta or public forecast is claimed.\",\"metric\":\"global_wp_clip2_v1\",\"paired_component_ci\":null,\"prediction_sha256\":\"f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6\",\"run\":\"clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1\",\"selected_rows\":808863,\"source_qualified_fit_membership\":{\"same_valid_source_fit_eval_overlap\":0,\"train_parquet_train\":10535,\"valid_parquet_eval_excluded_from_fit\":468,\"valid_parquet_fit_valid\":1405},\"status\":\"complete_exposed_f0_single_student_grade\",\"student_family\":\"GRU256x2\",\"student_seed\":3,\"t0\":0.6743770243809764,\"t1\":0.6879336962856963,\"teacher_alpha\":0.9,\"teacher_parents\":[{\"coefficient\":0.1,\"epoch\":2,\"run\":\"clean_t3_f0_muonall_h384_e3_s3_r5\"},{\"coefficient\":0.1,\"epoch\":2,\"run\":\"clean_t3_f0_muonall_h384_e3_s4_r5\"},{\"coefficient\":0.1,\"epoch\":2,\"run\":\"clean_t3_f0_muonall_h384_e3_s5_r5\"}],\"validation_receipt\":\"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_CP5_FULL_VALID_EXPORT_TERMINAL_VALIDATION_R1.json\",\"validation_receipt_sha256\":\"4029b09616ea8a705c47673a76c698dbda0d92a45a39097374f6b467840dcf19\",\"wp\":0.6811553603333363}\n",
+          "record": {
+            "checkpoint_epoch": 5,
+            "created_utc": "2026-10-12T13:31:17.656842+00:00",
+            "distinct_student_fit_seeds": 1,
+            "evaluation_groups": 468,
+            "expected_public_score": null,
+            "exposure": "repeatedly exposed F0; single endpoint, n=1 student fit seed",
+            "fold": 0,
+            "grade_receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/f0_grade_r1/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1.grade.json",
+            "grade_receipt_sha256": "c518f7cdb5f3e5148f72de152c3aaecd308ff97c83aa74169fdaa95442e085a0",
+            "handoff_receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_CP5_FULL_VALID_GRADE_HANDOFF_R1.json",
+            "handoff_receipt_sha256": "ef7e3a4638229f99f9ca4f0aefbcaa4bb330d48d3a567138a68cfd0a3caafb31",
+            "hypothesis_id": "H-390",
+            "id": "E-CLEAN-T3-F0-CONTROL-S3-A9-T3R5-R2-CP5-GRADE-20261012-R1",
+            "interpretation": "One completed clean T3 control student endpoint scored 0.68115536 on the repeatedly exposed F0 panel. This is not cross-fold confirmation or submission-selection evidence; no paired delta or public forecast is claimed.",
+            "metric": "global_wp_clip2_v1",
+            "paired_component_ci": null,
+            "prediction_sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6",
+            "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+            "selected_rows": 808863,
+            "source_qualified_fit_membership": {
+              "same_valid_source_fit_eval_overlap": 0,
+              "train_parquet_train": 10535,
+              "valid_parquet_eval_excluded_from_fit": 468,
+              "valid_parquet_fit_valid": 1405
+            },
+            "status": "complete_exposed_f0_single_student_grade",
+            "student_family": "GRU256x2",
+            "student_seed": 3,
+            "t0": 0.6743770243809764,
+            "t1": 0.6879336962856963,
+            "teacher_alpha": 0.9,
+            "teacher_parents": [
+              {
+                "coefficient": 0.1,
+                "epoch": 2,
+                "run": "clean_t3_f0_muonall_h384_e3_s3_r5"
+              },
+              {
+                "coefficient": 0.1,
+                "epoch": 2,
+                "run": "clean_t3_f0_muonall_h384_e3_s4_r5"
+              },
+              {
+                "coefficient": 0.1,
+                "epoch": 2,
+                "run": "clean_t3_f0_muonall_h384_e3_s5_r5"
+              }
+            ],
+            "validation_receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_CP5_FULL_VALID_EXPORT_TERMINAL_VALIDATION_R1.json",
+            "validation_receipt_sha256": "4029b09616ea8a705c47673a76c698dbda0d92a45a39097374f6b467840dcf19",
+            "wp": 0.6811553603333363
+          },
+          "source": {
+            "line": 794,
+            "path": "research/experiments.jsonl",
+            "sha256": "114492ba8d2b118c072925b82bb5cb0f389b14bc8e25a910d6e38bba8f0cd8c0"
+          }
+        }
+      ],
+      "title": "E-CLEAN-T3-F0-CONTROL-S3-A9-T3R5-R2-CP5-GRADE-20261012-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-CLEAN-T3-F0-CONTROL-S4-A9-T3R5-R3-P1-START-20261012-R1",
+      "latest_recorded_status": "fit_started_actual_p1_running_final_score_pending",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"completed\":false,\"created_utc\":\"2026-10-12T13:46:16+00:00\",\"execution\":{\"actual_trainer_progress\":\"ep 0 batch 120/746 loss 0.4878 lr 5.82e-05 seq/s 11.0\",\"attempt_id\":\"clean-t3-f0-control-s4-a9-r3-p1-20261012\",\"attempt_status_at_receipt\":\"running\",\"contract_sha256\":\"c3ba92816800c8cc7adfe603cc74bef6bb6a0da7e5f0d378443ed8ed04d33c90\",\"heartbeat_utc\":\"2026-10-12T13:42:56.235320+00:00\",\"launch_manifest_sha256\":\"af9e7c0198d66e20348f07d069d17ed36cbb6ce902572d1551e98de3ddebec2c\",\"phase_at_receipt\":\"running\",\"root_release_sha256\":\"3c4fd04c82e0386ce8071238a678009bf0350594460d83c5fc87c00d1dc84b78\",\"started_utc\":\"2026-10-12T13:39:49.386270+00:00\",\"startup_receipt\":\"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P1_STARTUP_RECEIPT_R1.json\",\"startup_receipt_sha256\":\"8d1fa67161dab342f2536f97ca364665c65706c2bfdfda20fb40617ffd7cd10f\"},\"expected_public_score\":null,\"exposure\":\"Repeatedly exposed F0; this is an independent student-seed run with fixed teacher targets and its own seed4 initializer, not a fresh fold or holdout.\",\"final_score\":null,\"fit_verified\":false,\"hypothesis_id\":\"H-390\",\"id\":\"E-CLEAN-T3-F0-CONTROL-S4-A9-T3R5-R3-P1-START-20261012-R1\",\"interpretation\":\"Actual P1 trainer progress is confirmed. No completed endpoint, grade, or seed-level result is claimed until all six epochs, actual CP5 export, and fixed-mask grade complete.\",\"model_family\":\"GRU256x2\",\"recipe\":{\"batch\":16,\"checkpoint_epoch\":5,\"checkpoint_policy\":\"fixed\",\"chunk\":2000,\"epochs\":6,\"evaluation_during_fit\":false,\"learning_rate\":0.0001,\"onecycle_total_optimizer_updates\":44760,\"optimizer\":\"AdamW\",\"precision\":\"fp16\",\"stage\":\"P1 actual start; inclusive epochs0 and1 are not yet terminal\",\"weight_decay\":0.01},\"resource_snapshot_bytes\":{\"allocator_cap\":4300000000,\"loader_workers\":0,\"observed_vram_cap\":5000000000,\"parent_peak_ram\":13789814784,\"swap_cap\":0,\"worker_max_oom_kill_deltas\":{\"max\":0,\"oom\":0,\"oom_group_kill\":0,\"oom_kill\":0},\"worker_peak_observed_vram\":2181038080,\"worker_peak_ram\":4949192704,\"worker_ram_reserve\":5500000000},\"run\":\"clean_t3_f0_control_s4_a9_t3r5_r3_p1\",\"scientific_result\":null,\"source_qualified_fit_membership\":{\"fit_train_order_sha256\":\"1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49\",\"fit_valid_order_sha256\":\"0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75\",\"same_valid_source_fit_eval_overlap\":0,\"split_manifest_sha256\":\"09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d\",\"train_parquet_train\":10535,\"valid_parquet_eval_excluded_from_fit\":468,\"valid_parquet_fit_valid\":1405},\"status\":\"fit_started_actual_p1_running_final_score_pending\",\"student_initializer\":{\"checkpoint_sha256\":\"0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d\",\"epoch\":3,\"provenance_sha256\":\"c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332\",\"run\":\"c20261003_combo_s4_f0\",\"seed\":4},\"student_seed\":4,\"teacher_alpha\":0.9,\"teacher_parents\":[{\"coefficient\":0.1,\"epoch\":2,\"run\":\"clean_t3_f0_muonall_h384_e3_s3_r5\"},{\"coefficient\":0.1,\"epoch\":2,\"run\":\"clean_t3_f0_muonall_h384_e3_s4_r5\"},{\"coefficient\":0.1,\"epoch\":2,\"run\":\"clean_t3_f0_muonall_h384_e3_s5_r5\"}]}\n",
+          "record": {
+            "completed": false,
+            "created_utc": "2026-10-12T13:46:16+00:00",
+            "execution": {
+              "actual_trainer_progress": "ep 0 batch 120/746 loss 0.4878 lr 5.82e-05 seq/s 11.0",
+              "attempt_id": "clean-t3-f0-control-s4-a9-r3-p1-20261012",
+              "attempt_status_at_receipt": "running",
+              "contract_sha256": "c3ba92816800c8cc7adfe603cc74bef6bb6a0da7e5f0d378443ed8ed04d33c90",
+              "heartbeat_utc": "2026-10-12T13:42:56.235320+00:00",
+              "launch_manifest_sha256": "af9e7c0198d66e20348f07d069d17ed36cbb6ce902572d1551e98de3ddebec2c",
+              "phase_at_receipt": "running",
+              "root_release_sha256": "3c4fd04c82e0386ce8071238a678009bf0350594460d83c5fc87c00d1dc84b78",
+              "started_utc": "2026-10-12T13:39:49.386270+00:00",
+              "startup_receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P1_STARTUP_RECEIPT_R1.json",
+              "startup_receipt_sha256": "8d1fa67161dab342f2536f97ca364665c65706c2bfdfda20fb40617ffd7cd10f"
+            },
+            "expected_public_score": null,
+            "exposure": "Repeatedly exposed F0; this is an independent student-seed run with fixed teacher targets and its own seed4 initializer, not a fresh fold or holdout.",
+            "final_score": null,
+            "fit_verified": false,
+            "hypothesis_id": "H-390",
+            "id": "E-CLEAN-T3-F0-CONTROL-S4-A9-T3R5-R3-P1-START-20261012-R1",
+            "interpretation": "Actual P1 trainer progress is confirmed. No completed endpoint, grade, or seed-level result is claimed until all six epochs, actual CP5 export, and fixed-mask grade complete.",
+            "model_family": "GRU256x2",
+            "recipe": {
+              "batch": 16,
+              "checkpoint_epoch": 5,
+              "checkpoint_policy": "fixed",
+              "chunk": 2000,
+              "epochs": 6,
+              "evaluation_during_fit": false,
+              "learning_rate": 0.0001,
+              "onecycle_total_optimizer_updates": 44760,
+              "optimizer": "AdamW",
+              "precision": "fp16",
+              "stage": "P1 actual start; inclusive epochs0 and1 are not yet terminal",
+              "weight_decay": 0.01
+            },
+            "resource_snapshot_bytes": {
+              "allocator_cap": 4300000000,
+              "loader_workers": 0,
+              "observed_vram_cap": 5000000000,
+              "parent_peak_ram": 13789814784,
+              "swap_cap": 0,
+              "worker_max_oom_kill_deltas": {
+                "max": 0,
+                "oom": 0,
+                "oom_group_kill": 0,
+                "oom_kill": 0
+              },
+              "worker_peak_observed_vram": 2181038080,
+              "worker_peak_ram": 4949192704,
+              "worker_ram_reserve": 5500000000
+            },
+            "run": "clean_t3_f0_control_s4_a9_t3r5_r3_p1",
+            "scientific_result": null,
+            "source_qualified_fit_membership": {
+              "fit_train_order_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49",
+              "fit_valid_order_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+              "same_valid_source_fit_eval_overlap": 0,
+              "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+              "train_parquet_train": 10535,
+              "valid_parquet_eval_excluded_from_fit": 468,
+              "valid_parquet_fit_valid": 1405
+            },
+            "status": "fit_started_actual_p1_running_final_score_pending",
+            "student_initializer": {
+              "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+              "epoch": 3,
+              "provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332",
+              "run": "c20261003_combo_s4_f0",
+              "seed": 4
+            },
+            "student_seed": 4,
+            "teacher_alpha": 0.9,
+            "teacher_parents": [
+              {
+                "coefficient": 0.1,
+                "epoch": 2,
+                "run": "clean_t3_f0_muonall_h384_e3_s3_r5"
+              },
+              {
+                "coefficient": 0.1,
+                "epoch": 2,
+                "run": "clean_t3_f0_muonall_h384_e3_s4_r5"
+              },
+              {
+                "coefficient": 0.1,
+                "epoch": 2,
+                "run": "clean_t3_f0_muonall_h384_e3_s5_r5"
+              }
+            ]
+          },
+          "source": {
+            "line": 795,
+            "path": "research/experiments.jsonl",
+            "sha256": "7a2c96508bbf8313d170ab50d70cc814b6828dd1b844c7a1b22cc9fc1ab3b9e6"
+          }
+        }
+      ],
+      "title": "E-CLEAN-T3-F0-CONTROL-S4-A9-T3R5-R3-P1-START-20261012-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-CLEAN-T3-F0-CONTROL-S3-OLDZ4-FIXED-HALF-20261012-R1",
+      "latest_recorded_status": "completed_exposed_fixed_endpoint_screen",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-CLEAN-T3-F0-CONTROL-S3-OLDZ4-FIXED-HALF-20261012-R1\",\"hypothesis_id\":\"H-390\",\"status\":\"completed_exposed_fixed_endpoint_screen\",\"candidate_wp\":0.683254949838229,\"reference_wp\":0.6831418133898598,\"paired_delta_wp\":0.00011313644836952186,\"ci95\":[-0.0012870053160526835,0.0015165560705333284],\"evaluation_groups\":468,\"components\":141,\"distinct_student_seeds_per_recipe\":1,\"exposure\":\"repeatedly exposed F0; conditional fixed-prediction component resampling\",\"frozen_policy\":\"one equal blend new cleanT3 CP5 plus oldZ4 CP1; no weight search\",\"public_forecast\":null,\"promotion\":false,\"evidence\":\"research/campaign_2026-10-12/clean_t3_f0_student_contribution_screen_r1/RESULT_HANDOFF_R1.json\",\"resource_note\":\"success6.64s/RSS1435762688B under1.5GB but tight; no OOM counter increase, aggregate max events+7 unattributed; future same legitimate task planned1.9GB under17GB aggregate target\"}\n",
+          "record": {
+            "candidate_wp": 0.683254949838229,
+            "ci95": [
+              -0.0012870053160526835,
+              0.0015165560705333284
+            ],
+            "components": 141,
+            "distinct_student_seeds_per_recipe": 1,
+            "evaluation_groups": 468,
+            "evidence": "research/campaign_2026-10-12/clean_t3_f0_student_contribution_screen_r1/RESULT_HANDOFF_R1.json",
+            "exposure": "repeatedly exposed F0; conditional fixed-prediction component resampling",
+            "frozen_policy": "one equal blend new cleanT3 CP5 plus oldZ4 CP1; no weight search",
+            "hypothesis_id": "H-390",
+            "id": "E-CLEAN-T3-F0-CONTROL-S3-OLDZ4-FIXED-HALF-20261012-R1",
+            "paired_delta_wp": 0.00011313644836952186,
+            "promotion": false,
+            "public_forecast": null,
+            "reference_wp": 0.6831418133898598,
+            "resource_note": "success6.64s/RSS1435762688B under1.5GB but tight; no OOM counter increase, aggregate max events+7 unattributed; future same legitimate task planned1.9GB under17GB aggregate target",
+            "status": "completed_exposed_fixed_endpoint_screen"
+          },
+          "source": {
+            "line": 796,
+            "path": "research/experiments.jsonl",
+            "sha256": "4a68f8f57e5e17fe7a9ae125c1d497c76c7e739e9447ddc3765dfbed3ccebaed"
+          }
+        }
+      ],
+      "title": "E-CLEAN-T3-F0-CONTROL-S3-OLDZ4-FIXED-HALF-20261012-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-CLEAN-T3-F0-MUONALL-TREATMENT-KAGGLE-R7-TERMINAL-20261012-R1",
+      "latest_recorded_status": "screen_failed_execution_before_fit",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-CLEAN-T3-F0-MUONALL-TREATMENT-KAGGLE-R7-TERMINAL-20261012-R1\",\"hypothesis_id\":\"H-390\",\"created_utc\":\"2026-10-12T14:50:06.218352+00:00\",\"status\":\"screen_failed_execution_before_fit\",\"provider_status\":\"ERROR\",\"kernel\":\"vladkochetov07/wnn-clean-t3-f0-student-20261012-r24\",\"kernel_version\":1,\"failure\":\"Literal {python} remained in worker argv; attempted to open /kaggle/working/experiment/{python}. Profile process exit2 after0.291s, GPUbytes0.\",\"scientific_result\":null,\"public_forecast\":null,\"collection_verified_files\":114,\"collection_verified_bytes\":1363683,\"receipt\":\"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/r7_terminal_triage_r1/TERMINAL_TRIAGE_R1.json\",\"receipt_sha256\":\"41abef7c1733a5f3da8073df444be4c83994d3c01d0c9a6f456cfe63e7130aae\",\"retry_authorized\":false,\"interpretation\":\"Pre-fit infrastructure failure, not a negative result for the Muon initializer or distillation objective. Frozen packet validators missed actual argv interpolation; exact mounted bootstrap/worker command must be exercised against producer artifacts before any future authorized dispatch.\"}\n",
+          "record": {
+            "collection_verified_bytes": 1363683,
+            "collection_verified_files": 114,
+            "created_utc": "2026-10-12T14:50:06.218352+00:00",
+            "failure": "Literal {python} remained in worker argv; attempted to open /kaggle/working/experiment/{python}. Profile process exit2 after0.291s, GPUbytes0.",
+            "hypothesis_id": "H-390",
+            "id": "E-CLEAN-T3-F0-MUONALL-TREATMENT-KAGGLE-R7-TERMINAL-20261012-R1",
+            "interpretation": "Pre-fit infrastructure failure, not a negative result for the Muon initializer or distillation objective. Frozen packet validators missed actual argv interpolation; exact mounted bootstrap/worker command must be exercised against producer artifacts before any future authorized dispatch.",
+            "kernel": "vladkochetov07/wnn-clean-t3-f0-student-20261012-r24",
+            "kernel_version": 1,
+            "provider_status": "ERROR",
+            "public_forecast": null,
+            "receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/r7_terminal_triage_r1/TERMINAL_TRIAGE_R1.json",
+            "receipt_sha256": "41abef7c1733a5f3da8073df444be4c83994d3c01d0c9a6f456cfe63e7130aae",
+            "retry_authorized": false,
+            "scientific_result": null,
+            "status": "screen_failed_execution_before_fit"
+          },
+          "source": {
+            "line": 797,
+            "path": "research/experiments.jsonl",
+            "sha256": "383c86a39f104a7f32d4fbbc113d9138c5831fe05ad954a7360e8276cdfa9610"
+          }
+        }
+      ],
+      "title": "E-CLEAN-T3-F0-MUONALL-TREATMENT-KAGGLE-R7-TERMINAL-20261012-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-CLEAN-T3-F0-CONTROL-S4-A9-T3R5-R3-CP5-GRADE-20261012-R1",
+      "latest_recorded_status": "complete_exposed_f0_fixed_cp5_grade",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-CLEAN-T3-F0-CONTROL-S4-A9-T3R5-R3-CP5-GRADE-20261012-R1\",\"hypothesis_id\":\"H-390\",\"created_utc\":\"2026-10-12T16:12:41.588603+00:00\",\"status\":\"complete_exposed_f0_fixed_cp5_grade\",\"run\":\"clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1\",\"student_seed\":4,\"checkpoint_epoch\":5,\"metric\":\"global_wp_clip2_v1\",\"wp\":0.6812584217032286,\"t0\":0.6742837473503716,\"t1\":0.6882330960560856,\"evaluation_groups\":468,\"evaluation_components\":141,\"selected_rows\":808863,\"checkpoint_sha256\":\"e6be82ff799f4ea2b62e770e9c340a8cfd8f98780d1c7dec4a76eab5a853d35c\",\"prediction_sha256\":\"f0689f9596d5319e7f5f2e54c5598168f17bcfd926e93e7724fc3878103edec8\",\"optimizer_attempts\":44760,\"optimizer_completed_updates\":44740,\"amp_skipped_updates\":20,\"source_qualified_fit_membership\":{\"eval_groups_excluded_from_fit\":468,\"eval_source\":\"valid.parquet\",\"fit_valid_groups\":1405,\"fit_valid_order_sha256\":\"0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75\",\"fit_valid_source\":\"valid.parquet\",\"fold0_exposed_not_pristine_holdout\":true,\"full_valid_feature_groups\":1873,\"full_valid_order_sha256\":\"008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7\",\"same_valid_source_overlap\":0,\"split_manifest_sha256\":\"09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d\",\"train_groups\":10535,\"train_order_sha256\":\"1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49\",\"train_source\":\"train.parquet\"},\"receipt\":\"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/SEED4_CONTROL_FINAL_RECEIPT_R1.json\",\"receipt_sha256\":\"430d1e5e574737b134515732ce785131ec13d65b82e2c769bc24d0ef7153ff98\",\"target_treatment\":\"T=float32(.8125*mean3 own teachers), no cache clipping; primary target=.1*clip(y,2)+.9*clip(T,2); GT magnitude weights/auxiliaries remain. coefficient.1 provenance rows describe family lineage, not numeric mixture.\",\"distinct_student_initializer_seeds\":2,\"shared_teacher_cohorts\":1,\"two_seed_mean\":0.6812068910182825,\"two_seed_sample_sd\":7.287539352918035e-05,\"exposure\":\"Repeatedly exposed F0, shared teachers, own seed-matched initializers. No new fold/teacher replication, served ensemble evaluation, or public forecast.\",\"expected_public_score\":null,\"new_research_admission\":\"closed by user\"}\n",
+          "record": {
+            "amp_skipped_updates": 20,
+            "checkpoint_epoch": 5,
+            "checkpoint_sha256": "e6be82ff799f4ea2b62e770e9c340a8cfd8f98780d1c7dec4a76eab5a853d35c",
+            "created_utc": "2026-10-12T16:12:41.588603+00:00",
+            "distinct_student_initializer_seeds": 2,
+            "evaluation_components": 141,
+            "evaluation_groups": 468,
+            "expected_public_score": null,
+            "exposure": "Repeatedly exposed F0, shared teachers, own seed-matched initializers. No new fold/teacher replication, served ensemble evaluation, or public forecast.",
+            "hypothesis_id": "H-390",
+            "id": "E-CLEAN-T3-F0-CONTROL-S4-A9-T3R5-R3-CP5-GRADE-20261012-R1",
+            "metric": "global_wp_clip2_v1",
+            "new_research_admission": "closed by user",
+            "optimizer_attempts": 44760,
+            "optimizer_completed_updates": 44740,
+            "prediction_sha256": "f0689f9596d5319e7f5f2e54c5598168f17bcfd926e93e7724fc3878103edec8",
+            "receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/SEED4_CONTROL_FINAL_RECEIPT_R1.json",
+            "receipt_sha256": "430d1e5e574737b134515732ce785131ec13d65b82e2c769bc24d0ef7153ff98",
+            "run": "clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1",
+            "selected_rows": 808863,
+            "shared_teacher_cohorts": 1,
+            "source_qualified_fit_membership": {
+              "eval_groups_excluded_from_fit": 468,
+              "eval_source": "valid.parquet",
+              "fit_valid_groups": 1405,
+              "fit_valid_order_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+              "fit_valid_source": "valid.parquet",
+              "fold0_exposed_not_pristine_holdout": true,
+              "full_valid_feature_groups": 1873,
+              "full_valid_order_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+              "same_valid_source_overlap": 0,
+              "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+              "train_groups": 10535,
+              "train_order_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49",
+              "train_source": "train.parquet"
+            },
+            "status": "complete_exposed_f0_fixed_cp5_grade",
+            "student_seed": 4,
+            "t0": 0.6742837473503716,
+            "t1": 0.6882330960560856,
+            "target_treatment": "T=float32(.8125*mean3 own teachers), no cache clipping; primary target=.1*clip(y,2)+.9*clip(T,2); GT magnitude weights/auxiliaries remain. coefficient.1 provenance rows describe family lineage, not numeric mixture.",
+            "two_seed_mean": 0.6812068910182825,
+            "two_seed_sample_sd": 7.287539352918035e-05,
+            "wp": 0.6812584217032286
+          },
+          "source": {
+            "line": 798,
+            "path": "research/experiments.jsonl",
+            "sha256": "910057dd452d049aba96f19b90b8ed4463e0c190b94d6ede5535f203006cd52f"
+          }
+        }
+      ],
+      "title": "E-CLEAN-T3-F0-CONTROL-S4-A9-T3R5-R3-CP5-GRADE-20261012-R1",
       "type": "experiment"
     },
     {
