@@ -1,0 +1,32 @@
+{
+  "schema": "wnn.e529-fixed-blend-rowwise-moment-equivalence.r1",
+  "status": "PASS",
+  "created_utc": "2026-10-12T04:26:39Z",
+  "test_script": "check_rowwise_moments.py",
+  "test_script_sha256": "2d871534fb640b6df5aba3144d50b1a7f6b9a0589da11f0bf60a7c903cc53b6c",
+  "grader_script": "grade_e529_fixed_blend_r2.py",
+  "grader_script_sha256": "329d834bf17f855f8d705fa4df4883c86179f16cd032e21b4a7ca9b680175254",
+  "helper_source_sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+  "fixture": {
+    "rng_seed": 41,
+    "sequence_count": 7,
+    "sequence_length": 100,
+    "target_channels": 2,
+    "components": 4,
+    "bootstrap_resamples": 16,
+    "bootstrap_seed": 271828
+  },
+  "assertions": [
+    "batched and per-sequence paired_component_moments outputs are elementwise identical",
+    "batched and per-sequence 16-draw paired_component_bootstrap result dictionaries are identical"
+  ],
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=25% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python check_rowwise_moments.py",
+  "stdout": "rowwise moment and bootstrap outputs exactly equal batched helper",
+  "limits": {
+    "cpu_quota_percent": 25,
+    "threads": 1,
+    "memory_max_bytes": 500000000,
+    "wall_seconds": 120,
+    "gpu_count": 0
+  }
+}

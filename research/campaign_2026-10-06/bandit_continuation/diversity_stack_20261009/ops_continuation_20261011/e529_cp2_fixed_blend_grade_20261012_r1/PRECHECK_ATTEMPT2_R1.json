@@ -1,0 +1,20 @@
+{
+  "schema": "wnn.e529-fixed-blend-grade-precheck-attempt.r1",
+  "status": "blocked_before_scoring_provenance_endpoint_field_mismatch",
+  "support_limits": {
+    "cpu_quota_percent": 50,
+    "threads": 1,
+    "memory_max_bytes": 700000000,
+    "wall_seconds": 600,
+    "gpu_count": 0,
+    "swap_bytes": 0
+  },
+  "failure": {
+    "exception": "ValueError",
+    "message": "oldz4_h230_student_f0_s3_r3 provenance checkpoint binding mismatch",
+    "failure_stage": "member pin validation before official scorer/bootstrap",
+    "check": "provenance.checkpoint_sha256 versus actual model_ep1.pt SHA256"
+  },
+  "scientific_result": null,
+  "corrective_action": "Investigate the actual provenance/checkpoint schema and independent terminal consumer receipts; do not relax the pin until endpoint identity is established."
+}
