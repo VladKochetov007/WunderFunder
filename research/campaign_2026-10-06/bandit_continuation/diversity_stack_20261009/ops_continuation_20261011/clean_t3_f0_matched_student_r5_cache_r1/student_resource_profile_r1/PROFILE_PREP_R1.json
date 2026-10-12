@@ -1,0 +1,75 @@
+{
+  "schema": "wnn.clean-t3-f0-h256-resource-profile-prep.r1",
+  "status": "PROFILE_TARGET_FIXTURE_READY_STOCK_TRAINER_BLOCKED_ON_PARTIAL_CACHE",
+  "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "student_recipe": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/STUDENT_RECIPE_PENDING_CACHE_R1.json",
+    "sha256": "8514e8a88bfecbc2cae9b8950cc88f2a1354f21b36a49dc9a3cd16b634598b32"
+  },
+  "frozen_source": {
+    "snapshot_root": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot",
+    "trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+    "distillation_cache_validator_sha256": "b0b588605b3134a62c7a0c634219030fbcdd820e572668aff6d33980db180740",
+    "profile_flags": ["--profile-steps", "--profile-warmup", "--max-batches"]
+  },
+  "data_and_teacher_bindings": {
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "train_parquet": {
+      "bytes": 29240219011,
+      "footer_bytes": 60437285,
+      "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb"
+    },
+    "valid_parquet": {
+      "bytes": 5615509128,
+      "footer_bytes": 10686926,
+      "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+    },
+    "fit_valid_count": 1405,
+    "evaluation_valid_count": 468,
+    "teacher_inputs": "three actual feature-only full-valid arrays; target fixture joins by valid.parquet row_group ID and selects only 16 FIT_VALID groups",
+    "target_formula": "float32(0.8125 * float32_mean([seed3, seed4, seed5])); no cache-time clipping"
+  },
+  "profile_fixture": {
+    "directory": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_resource_profile_r1/fixture_r1",
+    "receipt": "PROFILE_TARGET_SLICE_RECEIPT_R1.json",
+    "receipt_sha256": "4b674290bba7f7a60b729883582e2a77ef7e5b3bf79474c1e6bffeeed758a60d",
+    "array": "teacher_target_fit_valid16.npy",
+    "shape": [16, 20000, 2],
+    "dtype": "float32",
+    "bytes": 2560128,
+    "sha256": "8d6566dbf9fd559efa6cf995e35c437026dccc64b219346c0adc5a669fadc67d",
+    "row_groups": [0, 1, 2, 3, 6, 8, 10, 11, 13, 14, 15, 16, 17, 20, 21, 23],
+    "ordered_int64_le_sha256": "0105f74ac80f47a126bf74d0de637fbd2996ca374b6854f1ebc805ea5c0a2bd7",
+    "evaluation_groups_selected": 0,
+    "not_a_complete_student_cache": true
+  },
+  "requested_geometry": {
+    "architecture": "GRU hidden=256 layers=2",
+    "initializer_role": "own control parent",
+    "initializer_run": "c20261003_combo_s3_f0@ep3",
+    "initializer_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "initializer_provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+    "profile_batch_sequences": 16,
+    "sequence_rows": 20000,
+    "chunk_rows": 2000,
+    "precision": "fp16",
+    "distill_alpha": 0.9,
+    "requested_optimizer": "AdamW; geometry-only profile does not step or measure optimizer state",
+    "workers": 0,
+    "device": "one local CUDA GPU"
+  },
+  "stock_cli_blocker": {
+    "status": "CONFIRMED_STATIC_SOURCE_GAP",
+    "reason": "The frozen trainer loads and verifies the complete F0 CampaignSplit and validate_distillation_cache requires both complete FIT_TRAIN (10,535) and FIT_VALID (1,405) memberships and their full-shape arrays. It has no accepted profile-only 16-row cache mode. Passing the actual profile fixture as a cache would fail validation; generating placeholder/full arrays would misstate the cache and is prohibited.",
+    "action_taken": "No frozen source, validator, or membership checks were changed or bypassed. No trainer command was launched.",
+    "s4_s5_fit_train_exports": "pending",
+    "safe_next_step": "Wait for complete R9 caches and run the stock trainer profile after root admission, or have root separately review a narrowly scoped geometry-only helper."
+  },
+  "execution": {
+    "gpu_profile_started": false,
+    "student_cache_materialized": false,
+    "student_fit_launched": false,
+    "scientific_grade_created": false
+  },
+  "profile_fixture_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=180s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_resource_profile_r1/build_profile_target_slice_r1.py --project-root /home/vlad/development/wunder/wnn_connectome_starterpack --adapter-contract /home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r1/CACHE_ADAPTER_CONTRACT_R1.json --output-dir /home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_resource_profile_r1/fixture_r1"
+}
