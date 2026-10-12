@@ -1,0 +1,2827 @@
+{
+  "kind": "E481 matched-center recurrent candidate-shape screen",
+  "status": "all_18_fit_arms_complete_test_unread",
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "seeds": [
+    271828,
+    271829,
+    271830
+  ],
+  "optimizers": [
+    "adamw",
+    "muon_adamw"
+  ],
+  "shapes": [
+    "baseline",
+    "sine",
+    "cubic"
+  ],
+  "planned_fit_count": 18,
+  "architecture": "42->GELU projection->2x H64 reset-after GRU->concat state/embedding->GELU head",
+  "candidate_formulas": {
+    "baseline": "u",
+    "sine": "u+0.1*sin(pi*u)",
+    "cubic": "u+0.1*pi*u*(1-u*u)"
+  },
+  "parameters_per_arm": 61058,
+  "optimizer": {
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "schedule": "constant",
+    "clip_norm": 1.0,
+    "muon_matrices": [
+      "gru.weight_hh_l0",
+      "gru.weight_hh_l1",
+      "gru.weight_ih_l0",
+      "gru.weight_ih_l1"
+    ],
+    "muon_blocks_per_matrix": 3
+  },
+  "updates_per_full_fit": 474,
+  "batch": 4,
+  "chunk_rows": 256,
+  "telemetry_steps_zero_based": [
+    0,
+    46,
+    236,
+    473
+  ],
+  "parent_source_sha256": {
+    "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+    "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068"
+  },
+  "source_sha256": {
+    "fit_recurrent_curvature.py": "3d97d2d07b116b3cf04b365c33e3d3caed2c96c35108bd28f3a6ff63b54d65cc",
+    "tests.py": "ae5e277b1551d2b6c338aa90e83bb1fb7ffff0d29271d33f1f3498caa8e69ee2",
+    "gpu_probe.py": "e311e022232807c407d4fe56720c9e16d6474af04528064f05886487e9fd077a"
+  },
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "fit_only_cohort": {
+    "cohort": [
+      {
+        "row_group": 1735,
+        "seq_ix": 1989531794,
+        "component": 2795,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1766,
+        "seq_ix": 2024723908,
+        "component": 2854,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 233,
+        "seq_ix": 235282549,
+        "component": 2806,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 38,
+        "seq_ix": 45323361,
+        "component": 2828,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 807,
+        "seq_ix": 941450430,
+        "component": 2991,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1125,
+        "seq_ix": 1294249563,
+        "component": 3200,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1015,
+        "seq_ix": 1168194342,
+        "component": 3010,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 105,
+        "seq_ix": 109463899,
+        "component": 2882,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 483,
+        "seq_ix": 547472527,
+        "component": 2801,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1062,
+        "seq_ix": 1227566939,
+        "component": 2860,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1666,
+        "seq_ix": 1917373469,
+        "component": 2940,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1214,
+        "seq_ix": 1413037324,
+        "component": 2861,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1130,
+        "seq_ix": 1302007606,
+        "component": 2901,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1793,
+        "seq_ix": 2051491347,
+        "component": 3223,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 87,
+        "seq_ix": 89214899,
+        "component": 2866,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1869,
+        "seq_ix": 2144431796,
+        "component": 2902,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1053,
+        "seq_ix": 1218942404,
+        "component": 3182,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1390,
+        "seq_ix": 1596351500,
+        "component": 2948,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 614,
+        "seq_ix": 701505430,
+        "component": 3090,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1284,
+        "seq_ix": 1494588886,
+        "component": 2982,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1309,
+        "seq_ix": 1512273149,
+        "component": 3079,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1725,
+        "seq_ix": 1979171607,
+        "component": 3193,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 713,
+        "seq_ix": 815144844,
+        "component": 2936,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1567,
+        "seq_ix": 1795366096,
+        "component": 2930,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      }
+    ],
+    "selection_rule": "6 fit + 4 test distinct components per cached label-derived class; SHA256 target-mechanics-v1 component/group order; legacy protected holdout excluded",
+    "component_overlap": [],
+    "historical_exposure": "Validation labels and panels have extensive historical use. This is descriptive, not a fresh holdout or generalization claim. Class is label-derived and never an inference input.",
+    "metric": "global_wp_clip2_v1",
+    "fit_subsample": "every twentieth row >=128; no is_scored fit filtering",
+    "frozen_models": "ridge alpha=100; direct histogram 60 trees/12 leaves; factor sign and magnitude 30 trees each/12 leaves; shared full design; no search",
+    "normalization": {
+      "fit_mean": [
+        -1.5363867282867432,
+        -0.689834713935852,
+        1.2887780666351318,
+        -0.44421306252479553,
+        -1.0049716234207153,
+        0.024608345702290535,
+        -1.5609498023986816,
+        -0.6866507530212402,
+        1.1618949174880981,
+        -0.19426357746124268,
+        -0.881924569606781,
+        -0.014319630339741707,
+        -0.05646130442619324,
+        0.00033203521161340177,
+        -0.169044628739357,
+        -0.25854653120040894,
+        0.03898943215608597,
+        -0.2861734628677368,
+        -0.7288678288459778,
+        -2.0230934619903564,
+        -3.5546049730328377e-06,
+        2.096900971082505e-06,
+        4.6128329813655e-06,
+        -6.393834610207705e-06,
+        -5.608798801404191e-06,
+        2.5743427158886334e-06,
+        3.8066496017563622e-06,
+        4.4812200030719396e-06,
+        2.4200901407311903e-06,
+        -3.6629234045904013e-07,
+        -5.957327630312648e-06,
+        7.801266292517539e-06,
+        -4.835311301576439e-06,
+        9.792628588911612e-06,
+        4.220727987558348e-06,
+        3.4390102428005775e-06,
+        3.5663190374179976e-06,
+        3.5245990147814155e-05,
+        -3.0046541724004783e-05,
+        2.8520629712147638e-05,
+        2.0363821983337402,
+        0.2820541560649872
+      ],
+      "fit_scale": [
+        0.32517191767692566,
+        0.2430306077003479,
+        0.7047637104988098,
+        0.7663655877113342,
+        0.5567672848701477,
+        0.6080858707427979,
+        0.37485629320144653,
+        0.2399095743894577,
+        0.6885117888450623,
+        0.8592969179153442,
+        0.6910661458969116,
+        0.7655671238899231,
+        0.9265031814575195,
+        0.9781677722930908,
+        0.7986375689506531,
+        0.8008037209510803,
+        0.9514464735984802,
+        1.8925610780715942,
+        2.087163209915161,
+        2.956484317779541,
+        0.23587879538536072,
+        0.10206638276576996,
+        0.2836126685142517,
+        0.25912606716156006,
+        0.43994584679603577,
+        1.0169508457183838,
+        0.1448771208524704,
+        0.08167517185211182,
+        0.2859937250614166,
+        0.30186182260513306,
+        0.4794560968875885,
+        1.243190050125122,
+        0.9874710440635681,
+        1.6637933254241943,
+        0.10818876326084137,
+        0.03457668796181679,
+        1.073975682258606,
+        1.5013998746871948,
+        2.07209849357605,
+        2.8346872329711914,
+        1.8456852436065674,
+        0.4499995708465576
+      ]
+    }
+  },
+  "arms": [
+    {
+      "seed": 271828,
+      "optimizer": "adamw",
+      "shape": "baseline",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 90.24370660400018,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005001834501969796,
+            "gru": 0.0012119737305638998,
+            "head": 0.015532640550642185
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999655743118741,
+            "gru": 0.0009932551888044922,
+            "head": 0.000999956165191533
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "loss": 2.3267135620117188,
+          "state_abs_max": 0.5120865106582642
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.003463257258211889,
+            "gru": 0.0011557782906596885,
+            "head": 0.012771518004846211
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002852582851343055,
+            "gru": 0.00032800242405721716,
+            "head": 0.0002373671025456306
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "loss": 0.7148799896240234,
+          "state_abs_max": 0.7104552984237671
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.025601804744008576,
+            "gru": 0.0026840519761201507,
+            "head": 0.041080975982114874
+          },
+          "parameter_update_rms": {
+            "inp": 0.00026514961351814704,
+            "gru": 0.00027755597438587875,
+            "head": 0.00025777899145950413
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "loss": 3.209782600402832,
+          "state_abs_max": 0.6833344101905823
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.009576259786282359,
+            "gru": 0.0009536378327230863,
+            "head": 0.021251711094670816
+          },
+          "parameter_update_rms": {
+            "inp": 0.00016227011298293475,
+            "gru": 0.00019672299981804864,
+            "head": 0.00012005827234247268
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "loss": 2.48652982711792,
+          "state_abs_max": 0.8369348049163818
+        }
+      ],
+      "checkpoint": "seed271828_adamw_baseline.pt",
+      "checkpoint_sha256": "373f064ccfb20909ad861f6fd6adbc341ca57c0b187250ad559b6895829c77c3"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "adamw",
+      "shape": "sine",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 119.12673706399801,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005510925644556376,
+            "gru": 0.0020221074469924105,
+            "head": 0.016368490492762285
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999546597902358,
+            "gru": 0.0009964914504915752,
+            "head": 0.0009999588364445683
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "loss": 2.3299026489257812,
+          "state_abs_max": 0.6150537133216858
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.004435705643673791,
+            "gru": 0.0019375325915699643,
+            "head": 0.013779951733062729
+          },
+          "parameter_update_rms": {
+            "inp": 0.00030244827334304603,
+            "gru": 0.0003464051969825821,
+            "head": 0.0002721337076060588
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "loss": 0.7456172108650208,
+          "state_abs_max": 0.8574182987213135
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.022971740950073764,
+            "gru": 0.0031286525447251946,
+            "head": 0.04466584748915275
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002274269062276073,
+            "gru": 0.00024160381856689237,
+            "head": 0.0002654567956608332
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "loss": 3.2108874320983887,
+          "state_abs_max": 0.8610495328903198
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.008332667982946676,
+            "gru": 0.001080010356753604,
+            "head": 0.023497945800647242
+          },
+          "parameter_update_rms": {
+            "inp": 0.00014446898399619938,
+            "gru": 0.00014647742110298525,
+            "head": 0.00012057884074345605
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "loss": 2.454939603805542,
+          "state_abs_max": 0.9653663039207458
+        }
+      ],
+      "checkpoint": "seed271828_adamw_sine.pt",
+      "checkpoint_sha256": "a3250498a8e44f063211964fc1140b7acfff516e0595c1fd7ee966de94602e4f"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "adamw",
+      "shape": "cubic",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 124.1189663910045,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005542561924389647,
+            "gru": 0.00206868167960758,
+            "head": 0.01642380574734137
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999331378701525,
+            "gru": 0.000996650536624575,
+            "head": 0.0009998955811534403
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "loss": 2.3299286365509033,
+          "state_abs_max": 0.641396701335907
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.004427884569669569,
+            "gru": 0.0019623473780639215,
+            "head": 0.013883751465040462
+          },
+          "parameter_update_rms": {
+            "inp": 0.00030206523648236935,
+            "gru": 0.0003463449955430944,
+            "head": 0.00027576138588299956
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "loss": 0.7476406097412109,
+          "state_abs_max": 0.8976008892059326
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.022935821939460536,
+            "gru": 0.0031970397482300804,
+            "head": 0.045378314022707526
+          },
+          "parameter_update_rms": {
+            "inp": 0.00022595447062176982,
+            "gru": 0.0002393118733532434,
+            "head": 0.0002663417488153031
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "loss": 3.216187000274658,
+          "state_abs_max": 0.900553822517395
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.00821737913597664,
+            "gru": 0.0010851457073359778,
+            "head": 0.024088003653384777
+          },
+          "parameter_update_rms": {
+            "inp": 0.0001406865293590914,
+            "gru": 0.00014125502658694298,
+            "head": 0.00011843366704631998
+          },
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "loss": 2.45585298538208,
+          "state_abs_max": 0.9826181530952454
+        }
+      ],
+      "checkpoint": "seed271828_adamw_cubic.pt",
+      "checkpoint_sha256": "176c535229dcc3edb7682b3f2d504164365dc84fef2a09c0c50877fbfc47c8f8"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "shape": "baseline",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 87.92141401499975,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005001834488577107,
+            "gru": 0.0012119737275273956,
+            "head": 0.015532640527090991
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999656268520037,
+            "gru": 0.000186241273536117,
+            "head": 0.0009999562591395126
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "loss": 2.3267135620117188,
+          "state_abs_max": 0.5120865106582642
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0025670102606531707,
+            "gru": 0.0007707530565048469,
+            "head": 0.013484982928396018
+          },
+          "parameter_update_rms": {
+            "inp": 0.0004097028188463464,
+            "gru": 0.00015957919944684394,
+            "head": 0.0002059151716261882
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "loss": 0.6553837060928345,
+          "state_abs_max": 0.4414399266242981
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.03078843427603113,
+            "gru": 0.004324285500623472,
+            "head": 0.03769788818727374
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003246038142137966,
+            "gru": 0.00014014733637946855,
+            "head": 0.00026687681804975916
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "loss": 3.2516753673553467,
+          "state_abs_max": 0.430569052696228
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012057651515484904,
+            "gru": 0.0017442450404000242,
+            "head": 0.016954851607907127
+          },
+          "parameter_update_rms": {
+            "inp": 0.00020969588498871494,
+            "gru": 0.00015712826186488533,
+            "head": 0.0001400490291123966
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "loss": 2.518941879272461,
+          "state_abs_max": 0.5877990126609802
+        }
+      ],
+      "checkpoint": "seed271828_muon_adamw_baseline.pt",
+      "checkpoint_sha256": "a0646b501e578c56d81eead33e0a6424dd5943242552dfad1b4483007a617304"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "shape": "sine",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 113.02569063899864,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005510925644556376,
+            "gru": 0.0020221074469924105,
+            "head": 0.016368490492762285
+          },
+          "parameter_update_rms": {
+            "inp": 0.000999954741852647,
+            "gru": 0.0001882336101493364,
+            "head": 0.0009999589208918847
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "loss": 2.3299026489257812,
+          "state_abs_max": 0.6150537133216858
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0029480785754464212,
+            "gru": 0.001339518240445436,
+            "head": 0.0143992133189911
+          },
+          "parameter_update_rms": {
+            "inp": 0.00038827899723038506,
+            "gru": 0.00016106559155300908,
+            "head": 0.00022325979157921907
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "loss": 0.6600713133811951,
+          "state_abs_max": 0.540169894695282
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.03242911887757062,
+            "gru": 0.006922277860609867,
+            "head": 0.04158338916998996
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028419698867473476,
+            "gru": 0.00014467660562622248,
+            "head": 0.0002630999185463578
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "loss": 3.317215919494629,
+          "state_abs_max": 0.5454776287078857
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012201394254279213,
+            "gru": 0.0026640363193497297,
+            "head": 0.01810699481594809
+          },
+          "parameter_update_rms": {
+            "inp": 0.00021518675017592818,
+            "gru": 0.00016351702358770098,
+            "head": 0.00015140199959458824
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "loss": 2.5389182567596436,
+          "state_abs_max": 0.7186914086341858
+        }
+      ],
+      "checkpoint": "seed271828_muon_adamw_sine.pt",
+      "checkpoint_sha256": "a7effc74d7cf3fec9e577f032d5cb7cca2a8372175c6a5f44182b0d548191b10"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "shape": "cubic",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 124.89926120000018,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005542561924389647,
+            "gru": 0.00206868167960758,
+            "head": 0.01642380574734137
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999332010831464,
+            "gru": 0.00018814820068275076,
+            "head": 0.000999895653406834
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "loss": 2.3299286365509033,
+          "state_abs_max": 0.641396701335907
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.002980020683337618,
+            "gru": 0.0013812563917393232,
+            "head": 0.01442707053377614
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003874306783295401,
+            "gru": 0.0001607826033655602,
+            "head": 0.00022448735127115793
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "loss": 0.6601779460906982,
+          "state_abs_max": 0.5518835186958313
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.03288505618428662,
+            "gru": 0.007161411635788681,
+            "head": 0.041862111619312616
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002830398589507835,
+            "gru": 0.00014403368233116017,
+            "head": 0.00026208102539369425
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "loss": 3.3238797187805176,
+          "state_abs_max": 0.5660743713378906
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012212988223735866,
+            "gru": 0.002727584586080978,
+            "head": 0.018160529768794748
+          },
+          "parameter_update_rms": {
+            "inp": 0.00021577619374010966,
+            "gru": 0.00016320524025959375,
+            "head": 0.00015237630533523113
+          },
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "loss": 2.539360523223877,
+          "state_abs_max": 0.7490294575691223
+        }
+      ],
+      "checkpoint": "seed271828_muon_adamw_cubic.pt",
+      "checkpoint_sha256": "06f58b5af7abea39b5e1b3a83fb75c8a80aca3958e5002c675ab704e0698c7a9"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "adamw",
+      "shape": "baseline",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 97.14439246100665,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005131167129842926,
+            "gru": 0.0010745817637766194,
+            "head": 0.01564355910978011
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999020381064698,
+            "gru": 0.0009932716970486072,
+            "head": 0.0009999628642179477
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "loss": 1.7827768325805664,
+          "state_abs_max": 0.5743891596794128
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006138923536791915,
+            "gru": 0.002234503116634946,
+            "head": 0.00875898667002137
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003109395373791542,
+            "gru": 0.0002693490933595226,
+            "head": 0.00018821132945277244
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "loss": 0.7648224830627441,
+          "state_abs_max": 0.8119835257530212
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.022551770300997333,
+            "gru": 0.002848603520213444,
+            "head": 0.024612201143859504
+          },
+          "parameter_update_rms": {
+            "inp": 0.00036069314874063795,
+            "gru": 0.00025280568747326293,
+            "head": 0.0002544977512542916
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "loss": 2.3947196006774902,
+          "state_abs_max": 0.536410391330719
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.01305090736639928,
+            "gru": 0.002185502817830343,
+            "head": 0.018435173560399656
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002651815422161622,
+            "gru": 0.0002335373210366042,
+            "head": 0.00022790120602267993
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "loss": 1.3868777751922607,
+          "state_abs_max": 0.6273424029350281
+        }
+      ],
+      "checkpoint": "seed271829_adamw_baseline.pt",
+      "checkpoint_sha256": "bf01b618cd07de2137602c6d1171b0313fd9e9d08f0798d3bc9116e6265099d7"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "adamw",
+      "shape": "sine",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 128.0520800170052,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.0056202177236183174,
+            "gru": 0.0017545686202227807,
+            "head": 0.016436499319916333
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999238776303417,
+            "gru": 0.0009963527549571615,
+            "head": 0.0009999602449957076
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "loss": 1.7926356792449951,
+          "state_abs_max": 0.6791178584098816
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006822650108615317,
+            "gru": 0.00263699629965503,
+            "head": 0.00882116102251979
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003020557948343137,
+            "gru": 0.00025760456924922104,
+            "head": 0.00017417267819424151
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "loss": 0.7082966566085815,
+          "state_abs_max": 0.895331621170044
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.020532414189380337,
+            "gru": 0.0033777132933658655,
+            "head": 0.02553923875598523
+          },
+          "parameter_update_rms": {
+            "inp": 0.00034891698251694644,
+            "gru": 0.0002378756659503472,
+            "head": 0.0002429193729657317
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "loss": 2.3880364894866943,
+          "state_abs_max": 0.6685805916786194
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012809406924173258,
+            "gru": 0.002461638820899243,
+            "head": 0.02012426565141357
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002481902101425758,
+            "gru": 0.0002114966385666036,
+            "head": 0.00021673316779507887
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "loss": 1.3459051847457886,
+          "state_abs_max": 0.7539336681365967
+        }
+      ],
+      "checkpoint": "seed271829_adamw_sine.pt",
+      "checkpoint_sha256": "3e686ab4ca4029021212d8d9080d2861683e80cb85fa21adfe43a1bf45581ebc"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "adamw",
+      "shape": "cubic",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 139.46675152699754,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005648339270043933,
+            "gru": 0.001791501348782416,
+            "head": 0.01647949992280369
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999425483259619,
+            "gru": 0.000996368682800989,
+            "head": 0.0009999521095905449
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "loss": 1.7932921648025513,
+          "state_abs_max": 0.7096595168113708
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006707310650392258,
+            "gru": 0.0026061790388555005,
+            "head": 0.008790708058708196
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003000178190471004,
+            "gru": 0.000256321150026917,
+            "head": 0.00017441454568726394
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "loss": 0.7011817693710327,
+          "state_abs_max": 0.9273473024368286
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.020675095958498885,
+            "gru": 0.0034342709645274676,
+            "head": 0.025505636243099237
+          },
+          "parameter_update_rms": {
+            "inp": 0.00034692574285200814,
+            "gru": 0.00023063328835791383,
+            "head": 0.00024058576341757314
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "loss": 2.384291172027588,
+          "state_abs_max": 0.695462703704834
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012921190054436678,
+            "gru": 0.0025194646868372584,
+            "head": 0.02030246277473867
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002467164315319773,
+            "gru": 0.00020791259423002268,
+            "head": 0.00021275806658902345
+          },
+          "seed": 271829,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "loss": 1.3454527854919434,
+          "state_abs_max": 0.7904844284057617
+        }
+      ],
+      "checkpoint": "seed271829_adamw_cubic.pt",
+      "checkpoint_sha256": "b6caf474b3b21ee03197c5ef8918373eaf8e71ddf5fdf476f04d6a466488714d"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "muon_adamw",
+      "shape": "baseline",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 98.71145119900757,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005131167129842926,
+            "gru": 0.0010745817637766194,
+            "head": 0.01564355910978011
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999021005285315,
+            "gru": 0.0001863342217547454,
+            "head": 0.0009999629369457123
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "loss": 1.7827768325805664,
+          "state_abs_max": 0.5743891596794128
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0028368371583375354,
+            "gru": 0.0008395086949900596,
+            "head": 0.0046681335994437105
+          },
+          "parameter_update_rms": {
+            "inp": 0.00033903025061538135,
+            "gru": 0.00015681149859429294,
+            "head": 0.00026885778124856167
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "loss": 0.6877423524856567,
+          "state_abs_max": 0.599996030330658
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.01877330869166533,
+            "gru": 0.0020690508618305195,
+            "head": 0.019504163482426864
+          },
+          "parameter_update_rms": {
+            "inp": 0.00032342063782771143,
+            "gru": 0.00015092327726703886,
+            "head": 0.00025266707853272794
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "loss": 2.2291676998138428,
+          "state_abs_max": 0.43121376633644104
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012931750323861079,
+            "gru": 0.0032068760920364015,
+            "head": 0.016938297394572713
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028655250727050704,
+            "gru": 0.00015081778964347114,
+            "head": 0.0002052564414822116
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "loss": 1.4579625129699707,
+          "state_abs_max": 0.39293622970581055
+        }
+      ],
+      "checkpoint": "seed271829_muon_adamw_baseline.pt",
+      "checkpoint_sha256": "2bd426dd6cf3980d8665a06251f0907e81780bf30a9bf1fbb0a9480499c0b968"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "muon_adamw",
+      "shape": "sine",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 116.86777748400345,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.0056202177236183174,
+            "gru": 0.0017545686202227807,
+            "head": 0.016436499319916333
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999239271202577,
+            "gru": 0.00018900103045173315,
+            "head": 0.0009999603271032662
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "loss": 1.7926356792449951,
+          "state_abs_max": 0.6791178584098816
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0029527171679789416,
+            "gru": 0.0011467501426325796,
+            "head": 0.004703465399534023
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003316486776074876,
+            "gru": 0.00016075660876577912,
+            "head": 0.0002581602234368595
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "loss": 0.6771838068962097,
+          "state_abs_max": 0.6705446839332581
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.01966456853691074,
+            "gru": 0.0035421541357805175,
+            "head": 0.02096413311699498
+          },
+          "parameter_update_rms": {
+            "inp": 0.00032226183866512087,
+            "gru": 0.00015474721985714654,
+            "head": 0.00024914469748053326
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "loss": 2.274980306625366,
+          "state_abs_max": 0.5260802507400513
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.01337457173688082,
+            "gru": 0.004571324311291294,
+            "head": 0.017637885000767843
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002845890368490852,
+            "gru": 0.0001558023783852417,
+            "head": 0.00020317808680039037
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "loss": 1.4297531843185425,
+          "state_abs_max": 0.5518043041229248
+        }
+      ],
+      "checkpoint": "seed271829_muon_adamw_sine.pt",
+      "checkpoint_sha256": "f3c93bf390a0299071f28164b0607a992d79b25f4dc2162059771ea680492e69"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "muon_adamw",
+      "shape": "cubic",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 127.34399140599999,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005648339270043933,
+            "gru": 0.001791501348782416,
+            "head": 0.01647949992280369
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999426309704896,
+            "gru": 0.00018888692382406443,
+            "head": 0.00099995218818808
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "loss": 1.7932921648025513,
+          "state_abs_max": 0.7096595168113708
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.002976892134241053,
+            "gru": 0.0011805347820376553,
+            "head": 0.004725782796882156
+          },
+          "parameter_update_rms": {
+            "inp": 0.00033194084015384355,
+            "gru": 0.0001605715659772167,
+            "head": 0.00025750634329486574
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "loss": 0.6768035888671875,
+          "state_abs_max": 0.6901688575744629
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.01971673829648981,
+            "gru": 0.0036047416367121963,
+            "head": 0.020991121927426772
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003227485785401301,
+            "gru": 0.00015450147713119927,
+            "head": 0.0002486008947499427
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "loss": 2.2752609252929688,
+          "state_abs_max": 0.5400063395500183
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.013399992206150551,
+            "gru": 0.004635748650123858,
+            "head": 0.017684353014754385
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002841971654441821,
+            "gru": 0.0001553163792473788,
+            "head": 0.00020302772672933664
+          },
+          "seed": 271829,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "loss": 1.4316602945327759,
+          "state_abs_max": 0.5716032385826111
+        }
+      ],
+      "checkpoint": "seed271829_muon_adamw_cubic.pt",
+      "checkpoint_sha256": "7822859d3b6e9e307082326e33f90e5c4e1056598222007fe34b49d464b21785"
+    },
+    {
+      "seed": 271830,
+      "optimizer": "adamw",
+      "shape": "baseline",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 92.05282677100331,
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793,
+        713,
+        1390,
+        87,
+        483,
+        1130,
+        1567,
+        1725,
+        807,
+        1125,
+        1062,
+        1869,
+        1766,
+        38,
+        1284,
+        1015,
+        1666,
+        1735,
+        1053,
+        105,
+        233
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005223308396421706,
+            "gru": 0.0007652483430946307,
+            "head": 0.006982645959618021
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999005211173472,
+            "gru": 0.000995457195106885,
+            "head": 0.0009999719376854977
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 0,
+          "loss": 2.3745908737182617,
+          "state_abs_max": 0.4685414731502533
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.003305663991340727,
+            "gru": 0.0007618306780361916,
+            "head": 0.003268644615681816
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003410178617395616,
+            "gru": 0.00038858793388663504,
+            "head": 0.0002697941957079439
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 11776,
+          "loss": 0.5566450357437134,
+          "state_abs_max": 0.685647189617157
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.03921079639143742,
+            "gru": 0.0061771056016874165,
+            "head": 0.044278994860699666
+          },
+          "parameter_update_rms": {
+            "inp": 0.00041377809285384935,
+            "gru": 0.0005360741182650901,
+            "head": 0.0003616343737808276
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1130,
+            1567,
+            1725,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 3.6511545181274414,
+          "state_abs_max": 0.5852105021476746
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.018451432790063133,
+            "gru": 0.0014790967882599062,
+            "head": 0.015492399279996653
+          },
+          "parameter_update_rms": {
+            "inp": 0.00041883059943693366,
+            "gru": 0.00030437669919750727,
+            "head": 0.00021421324716308917
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1735,
+            1053,
+            105,
+            233
+          ],
+          "chunk_start": 19968,
+          "loss": 1.74916410446167,
+          "state_abs_max": 0.5035989880561829
+        }
+      ],
+      "checkpoint": "seed271830_adamw_baseline.pt",
+      "checkpoint_sha256": "8dd8aedba06a3c425e56c9feeb91b03649562d4796cda997d4361ba607863c90"
+    },
+    {
+      "seed": 271830,
+      "optimizer": "adamw",
+      "shape": "sine",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 117.38447242899565,
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793,
+        713,
+        1390,
+        87,
+        483,
+        1130,
+        1567,
+        1725,
+        807,
+        1125,
+        1062,
+        1869,
+        1766,
+        38,
+        1284,
+        1015,
+        1666,
+        1735,
+        1053,
+        105,
+        233
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006036587276866382,
+            "gru": 0.0013258906279564901,
+            "head": 0.007478615173060494
+          },
+          "parameter_update_rms": {
+            "inp": 0.000999963208805678,
+            "gru": 0.0009979023811912497,
+            "head": 0.0009999657008993598
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 0,
+          "loss": 2.379055976867676,
+          "state_abs_max": 0.568882405757904
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0031323247528474347,
+            "gru": 0.0007179545909924834,
+            "head": 0.004227356815755416
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003295709546864412,
+            "gru": 0.00034296810960959237,
+            "head": 0.00022893279393706542
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 11776,
+          "loss": 0.5554065108299255,
+          "state_abs_max": 0.8069611191749573
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.03744084744844222,
+            "gru": 0.007126583233465568,
+            "head": 0.049658115600592176
+          },
+          "parameter_update_rms": {
+            "inp": 0.00037827641532517717,
+            "gru": 0.00049421826733562,
+            "head": 0.0003534568090890057
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1130,
+            1567,
+            1725,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 3.745755672454834,
+          "state_abs_max": 0.7699973583221436
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.019763819700571263,
+            "gru": 0.0020960097719831647,
+            "head": 0.01624584632420381
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003957974506728499,
+            "gru": 0.00029195865696303165,
+            "head": 0.00020413354278342924
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1735,
+            1053,
+            105,
+            233
+          ],
+          "chunk_start": 19968,
+          "loss": 1.7321193218231201,
+          "state_abs_max": 0.5934744477272034
+        }
+      ],
+      "checkpoint": "seed271830_adamw_sine.pt",
+      "checkpoint_sha256": "09d898baf6eadb09cfc6c47b392a3005fa7d8f6d4a5e05a6a038373e2340a308"
+    },
+    {
+      "seed": 271830,
+      "optimizer": "adamw",
+      "shape": "cubic",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 126.35869925300358,
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793,
+        713,
+        1390,
+        87,
+        483,
+        1130,
+        1567,
+        1725,
+        807,
+        1125,
+        1062,
+        1869,
+        1766,
+        38,
+        1284,
+        1015,
+        1666,
+        1735,
+        1053,
+        105,
+        233
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006093947594888933,
+            "gru": 0.0013630446152283083,
+            "head": 0.007521488607948438
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999590556788796,
+            "gru": 0.000998032823064097,
+            "head": 0.0009999806335217753
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 0,
+          "loss": 2.379391670227051,
+          "state_abs_max": 0.5857717394828796
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0032237697002416845,
+            "gru": 0.0007229000672671961,
+            "head": 0.004275624313588325
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003334881020720379,
+            "gru": 0.00034534808624359445,
+            "head": 0.00022777573644426494
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 11776,
+          "loss": 0.5552623867988586,
+          "state_abs_max": 0.8449804186820984
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.03858388492521399,
+            "gru": 0.007450509932741131,
+            "head": 0.049725415560536654
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003829424223199586,
+            "gru": 0.0004901365197572809,
+            "head": 0.0003467693766846845
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1130,
+            1567,
+            1725,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 3.7486166954040527,
+          "state_abs_max": 0.8057965040206909
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.019815646907037528,
+            "gru": 0.0021421402725222177,
+            "head": 0.016353389261798367
+          },
+          "parameter_update_rms": {
+            "inp": 0.00039709327681302606,
+            "gru": 0.00029426504575504774,
+            "head": 0.00020632877522603374
+          },
+          "seed": 271830,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1735,
+            1053,
+            105,
+            233
+          ],
+          "chunk_start": 19968,
+          "loss": 1.7336747646331787,
+          "state_abs_max": 0.6090924143791199
+        }
+      ],
+      "checkpoint": "seed271830_adamw_cubic.pt",
+      "checkpoint_sha256": "a509f1daa89894ae48751642abfd1cf3b6a9c95bf13475baf566546e822de466"
+    },
+    {
+      "seed": 271830,
+      "optimizer": "muon_adamw",
+      "shape": "baseline",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 94.45996338600526,
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793,
+        713,
+        1390,
+        87,
+        483,
+        1130,
+        1567,
+        1725,
+        807,
+        1125,
+        1062,
+        1869,
+        1766,
+        38,
+        1284,
+        1015,
+        1666,
+        1735,
+        1053,
+        105,
+        233
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005223308396421706,
+            "gru": 0.0007652483430946307,
+            "head": 0.006982645959618021
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999005900087198,
+            "gru": 0.00019119770946220875,
+            "head": 0.0009999720098457275
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 0,
+          "loss": 2.3745908737182617,
+          "state_abs_max": 0.4685414731502533
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.002247578234853757,
+            "gru": 0.0008344263425974909,
+            "head": 0.005107341710784631
+          },
+          "parameter_update_rms": {
+            "inp": 0.00035318581742776496,
+            "gru": 0.0001552928990293356,
+            "head": 0.000360678775705247
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 11776,
+          "loss": 0.5962038040161133,
+          "state_abs_max": 0.4500789940357208
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.03849131564700482,
+            "gru": 0.007983541171161502,
+            "head": 0.039520956636487484
+          },
+          "parameter_update_rms": {
+            "inp": 0.00040928431566623566,
+            "gru": 0.0001450444120032111,
+            "head": 0.00032105442684548575
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1130,
+            1567,
+            1725,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 3.5330986976623535,
+          "state_abs_max": 0.45292943716049194
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.01671640728423856,
+            "gru": 0.0020534498063958556,
+            "head": 0.015213810306511482
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003942822069053346,
+            "gru": 0.00016181981530736313,
+            "head": 0.0002304056364547185
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1735,
+            1053,
+            105,
+            233
+          ],
+          "chunk_start": 19968,
+          "loss": 1.765133261680603,
+          "state_abs_max": 0.3630037009716034
+        }
+      ],
+      "checkpoint": "seed271830_muon_adamw_baseline.pt",
+      "checkpoint_sha256": "cd49711ab78091ffd151ce9af051f5f86c69aae729ea0a08f8e43e3fe1ca5aea"
+    },
+    {
+      "seed": 271830,
+      "optimizer": "muon_adamw",
+      "shape": "sine",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 117.47354987100698,
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793,
+        713,
+        1390,
+        87,
+        483,
+        1130,
+        1567,
+        1725,
+        807,
+        1125,
+        1062,
+        1869,
+        1766,
+        38,
+        1284,
+        1015,
+        1666,
+        1735,
+        1053,
+        105,
+        233
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006036587276866382,
+            "gru": 0.0013258906279564901,
+            "head": 0.007478615173060494
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999632821688315,
+            "gru": 0.0001933041898833395,
+            "head": 0.0009999657816522484
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 0,
+          "loss": 2.379055976867676,
+          "state_abs_max": 0.568882405757904
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.002425336459443525,
+            "gru": 0.0011911626342517435,
+            "head": 0.005108756577293709
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003359338593379694,
+            "gru": 0.0001577322548113889,
+            "head": 0.00033840049617365044
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 11776,
+          "loss": 0.588457465171814,
+          "state_abs_max": 0.5605068802833557
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.040205487898026845,
+            "gru": 0.0110260722212307,
+            "head": 0.04281295347418844
+          },
+          "parameter_update_rms": {
+            "inp": 0.00038570886117020255,
+            "gru": 0.00014981361775020719,
+            "head": 0.000308422521357255
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1130,
+            1567,
+            1725,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 3.6183218955993652,
+          "state_abs_max": 0.6045218110084534
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.018448379189571165,
+            "gru": 0.0034627959622961697,
+            "head": 0.015913285096004863
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003929740776267089,
+            "gru": 0.00016582437608366997,
+            "head": 0.00023175669231901815
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1735,
+            1053,
+            105,
+            233
+          ],
+          "chunk_start": 19968,
+          "loss": 1.768998384475708,
+          "state_abs_max": 0.44569918513298035
+        }
+      ],
+      "checkpoint": "seed271830_muon_adamw_sine.pt",
+      "checkpoint_sha256": "303c99df2b115786f240cb6fb45eac0517297661208f0fe128079229d5444424"
+    },
+    {
+      "seed": 271830,
+      "optimizer": "muon_adamw",
+      "shape": "cubic",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 130.15603452100186,
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793,
+        713,
+        1390,
+        87,
+        483,
+        1130,
+        1567,
+        1725,
+        807,
+        1125,
+        1062,
+        1869,
+        1766,
+        38,
+        1284,
+        1015,
+        1666,
+        1735,
+        1053,
+        105,
+        233
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006093947594888933,
+            "gru": 0.0013630446152283083,
+            "head": 0.007521488607948438
+          },
+          "parameter_update_rms": {
+            "inp": 0.000999959123862007,
+            "gru": 0.00019311160091802055,
+            "head": 0.0009999807191915296
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 0,
+          "loss": 2.379391670227051,
+          "state_abs_max": 0.5857717394828796
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0024518289455019793,
+            "gru": 0.001218250464953341,
+            "head": 0.005118677902072549
+          },
+          "parameter_update_rms": {
+            "inp": 0.00033530882021889674,
+            "gru": 0.000157470906847565,
+            "head": 0.00033761380927975254
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            614,
+            1309,
+            1214,
+            1793
+          ],
+          "chunk_start": 11776,
+          "loss": 0.588391900062561,
+          "state_abs_max": 0.5822091698646545
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.04044244774318922,
+            "gru": 0.011156549259442459,
+            "head": 0.04277434656993852
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003845846528454836,
+            "gru": 0.00014941313839908377,
+            "head": 0.00030594782469073307
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1130,
+            1567,
+            1725,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 3.614758014678955,
+          "state_abs_max": 0.6115957498550415
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.018516704352318232,
+            "gru": 0.0035343566672986874,
+            "head": 0.015938145092692174
+          },
+          "parameter_update_rms": {
+            "inp": 0.00039433922391356516,
+            "gru": 0.00016574206608054007,
+            "head": 0.00023337086627901897
+          },
+          "seed": 271830,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1735,
+            1053,
+            105,
+            233
+          ],
+          "chunk_start": 19968,
+          "loss": 1.765942096710205,
+          "state_abs_max": 0.4620562195777893
+        }
+      ],
+      "checkpoint": "seed271830_muon_adamw_cubic.pt",
+      "checkpoint_sha256": "ebb870b8148af83463c97b30b2905ae8b16c202f293928c666443b5ae866c402"
+    }
+  ],
+  "precision": {
+    "device_math": "FP32 IEEE",
+    "autocast": false,
+    "torch.backends.fp32_precision": "ieee",
+    "torch.backends.cuda.matmul.fp32_precision": "ieee",
+    "torch.backends.cudnn.fp32_precision": "ieee",
+    "torch.backends.cudnn.rnn.fp32_precision": "ieee"
+  }
+}

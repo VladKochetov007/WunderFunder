@@ -1,0 +1,225 @@
+{
+  "benchmark_runner": {
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submission-candidates/scripts/benchmark_submission_callbacks.py",
+    "sha256": "d5829e85af8406256525d530ab2d7792bb57b011793032c145b0d0ca5c9c70e8"
+  },
+  "build_members": [
+    {
+      "coefficient": 0.5,
+      "run_reference": "vt_f1_dsq_dm_t3_a9_e6@ep5"
+    },
+    {
+      "coefficient": 0.5,
+      "run_reference": "vt_f1_muonall_h384_e3@ep2"
+    }
+  ],
+  "build_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-headroom/headroom_student256_h384s3_equal_q8vnni_build_receipt.json",
+  "build_receipt_sha256": "c28b7d565a354e2addda274ba996f46404c4828274be8b091f13c2e48591ba5b",
+  "candidate": "headroom_student256_h384s3_equal_q8vnni",
+  "checkpoint_sources": [
+    {
+      "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_f1_dsq_dm_t3_a9_e6/model_ep5.pt",
+      "checkpoint_sha256": "c8e08b33a316f3539d4381429233b90403b76de83bda6dbecc84d7952f8212ad",
+      "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_f1_dsq_dm_t3_a9_e6/provenance.json",
+      "provenance_sha256": "327506329a6d958f6b684d04af5e6e10135c7803cd1cafa7a40fe883212a5861",
+      "run_reference": "vt_f1_dsq_dm_t3_a9_e6@ep5"
+    },
+    {
+      "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_f1_muonall_h384_e3/model_ep2.pt",
+      "checkpoint_sha256": "9c7d5e55fde7112dc691c80670fb17b62f24b9d759d2c90312a9ec89334843c6",
+      "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_f1_muonall_h384_e3/provenance.json",
+      "provenance_sha256": "ca9f7c32910e5d71acddf78a474c06eee324b54d781ad9c736cd1f9a4a83deae",
+      "run_reference": "vt_f1_muonall_h384_e3@ep2"
+    }
+  ],
+  "native_runtime": {
+    "libraries": {
+      "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+      "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+      "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+    },
+    "source_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/upload_2026-10-11/z1c_z4_pair_q8vnni/pkg"
+  },
+  "runtime": {
+    "affinity_before": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "affinity_used": [
+      0
+    ],
+    "cgroup_after_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 121822863\nuser_usec 121534242\nsystem_usec 288620\nnice_usec 121416726\ncore_sched.force_idle_usec 0\nnr_periods 1237\nnr_throttled 1\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "349220864",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "1199996928",
+      "memory.peak": "351531008",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p190166-i4392636.scope"
+    },
+    "cgroup_before_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 1581906\nuser_usec 1345579\nsystem_usec 236326\nnice_usec 1343026\ncore_sched.force_idle_usec 0\nnr_periods 16\nnr_throttled 1\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "349171712",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "1199996928",
+      "memory.peak": "349777920",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p190166-i4392636.scope"
+    },
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "loadavg_end": "4.15 3.22 3.04 2/3358 196232",
+    "loadavg_start": "2.76 2.67 2.85 3/3366 190320",
+    "max_rss_kib": 634304,
+    "model_count": 2,
+    "native_level": "v3",
+    "numpy": "2.2.6",
+    "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "precision": "q8vnni",
+    "python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]"
+  },
+  "schema": "wnn.native-callback-profile.v1",
+  "scope": "Runtime-capacity profile only. The fixed package is replayed over complete causal sequences; no metric is computed and no local/public score is claimed. Each sequence is reset before every pass, and predictions must be bitwise identical across resets.",
+  "submission": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-headroom/headroom_student256_h384s3_equal_q8vnni.zip",
+  "submission_bytes": 12913680,
+  "submission_sha256": "95ea869cc8965b1f5df9b65263c78895549eac34cd7f4117e2076f30acf29e4f",
+  "timing": {
+    "elapsed_callback_ns": 113141899289,
+    "elapsed_wall_seconds_after_sequence_decode": 122.73449573200196,
+    "mean_callback_us_per_row": 113.141899289,
+    "measurement": "perf_counter_ns around each exact model.predict(DataPoint) callback",
+    "median_repeat_us_per_row": 115.76891031999999,
+    "per_sequence_mean_us_per_row": {
+      "1200028": 114.55794279000001,
+      "1990332": 110.26919687,
+      "256678": 110.85734580999998,
+      "28417254": 115.47603000999999,
+      "29941155": 117.21095778,
+      "30273600": 122.67225404000001,
+      "4490992": 111.25296625,
+      "8348957": 108.09264680999999,
+      "9579986": 107.87248674000001,
+      "9831922": 113.15716579000001
+    },
+    "reset_and_parquet_decode_excluded": true,
+    "rows_per_repeat": 200000,
+    "total_callback_calls": 1000000,
+    "trials": [
+      {
+        "callback_ns": 21880810145,
+        "callback_us_per_row": 109.40405072499999,
+        "repeat": 0,
+        "rows": 200000
+      },
+      {
+        "callback_ns": 23153782064,
+        "callback_us_per_row": 115.76891031999999,
+        "repeat": 1,
+        "rows": 200000
+      },
+      {
+        "callback_ns": 21460877791,
+        "callback_us_per_row": 107.30438895500001,
+        "repeat": 2,
+        "rows": 200000
+      },
+      {
+        "callback_ns": 23438529610,
+        "callback_us_per_row": 117.19264805,
+        "repeat": 3,
+        "rows": 200000
+      },
+      {
+        "callback_ns": 23207899679,
+        "callback_us_per_row": 116.039498395,
+        "repeat": 4,
+        "rows": 200000
+      }
+    ]
+  },
+  "utils_source": {
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submission-candidates/utils.py",
+    "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+  },
+  "workload": {
+    "data": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_subset20.parquet",
+    "data_sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+    "features_sha256_by_sequence": {
+      "1200028": "016afe4a6d9bcf3af2ec7961295bd3106530f29a760d297d5a6fbb1390063c58",
+      "1990332": "05dbac3d81d7241a5761e009d0c5a11b4b152f1cf7890df75a6eac6776051f4b",
+      "256678": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e",
+      "28417254": "558fa0025e4839763d758d6f7369ea3c99eb9073d9a3fb659db3c5b73aea8d16",
+      "29941155": "ca44b0489f33be7a7314d347edfe2773944cbaae0566f0e43ede0dcd58d8730a",
+      "30273600": "f84babd6b2d6e92345cfc068cc774bda0dd6e6dd71957fb76ccaf87683b5eb2d",
+      "4490992": "a42ccf8b2e8ead95c55b6d8f785d5e25285ec2b65f56571021eca0f2ff9e3e63",
+      "8348957": "20947296e63f58d5210c4c6ae88442f04688bf79d66ff7bc624c283493f41175",
+      "9579986": "bb0771ec0cf369652ffaf32889ab4787379b23387a6db065cb8afb021c9bb124",
+      "9831922": "a235c02a78fdc86211bf246534d3b8ea8daec76ee9899a17dc814b2c6385c235"
+    },
+    "need_prediction_rows_each": [
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901
+    ],
+    "predictions_bitwise_identical_across_replays": true,
+    "raw_feature_columns": 112,
+    "repeats": 5,
+    "reset_before_each_sequence_and_pass": true,
+    "row_groups": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "sequence_ids": [
+      256678,
+      1990332,
+      8348957,
+      9579986,
+      9831922,
+      1200028,
+      4490992,
+      28417254,
+      29941155,
+      30273600
+    ],
+    "sequence_lengths": [
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000
+    ]
+  }
+}

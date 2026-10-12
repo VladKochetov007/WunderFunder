@@ -1,0 +1,121 @@
+{
+  "schema": "wnn.exploratory-package-release-check.v1",
+  "status": "technical_gates_passed_exploratory_not_quality_promoted",
+  "package": {
+    "directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261008_z1c_combo_i16",
+    "zip": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261008_z1c_combo_i16/submission.zip",
+    "zip_sha256": "72a5fbeebaa3235f23ebbfed4c5e79ac4b45b0b52769be3383f150af6698ac36",
+    "zip_bytes": 5165300,
+    "zip_limit_bytes": 20000000,
+    "under_zip_limit": true
+  },
+  "lineage": {
+    "source_student_31_row_checkpoint": {
+      "run_at": "bd26_h230_all_data_student_gru256_seed4_retry1_v1@ep1",
+      "checkpoint_sha256": "b8167fb32bd1d1759b6c8a3d0aa3642a9522a5b7897eee2facf9bf8bc6857e64",
+      "provenance_sha256": "d921614f66dbeca982564958e6b3d726058e99b1aa4026b2252269e8b93b983f"
+    },
+    "derived_core_23_row_checkpoint": {
+      "run_at": "bd26_h230_all_data_student_gru256_seed4_retry1_v1_core@ep1",
+      "checkpoint_sha256": "97058aea36b74fafb230a32ffc9e7e5663b74d02814235eeee25b0f5e2e819ce",
+      "provenance_sha256": "b84357a64ce2d10c5913dfea24bc0051d6be4e3e3e4669a5b60645610d4c53c9",
+      "raw_checkpoint_map_sha256": "b8167fb32bd1d1759b6c8a3d0aa3642a9522a5b7897eee2facf9bf8bc6857e64",
+      "raw_checkpoint_map_binding": "stale_source_hash_preserved_and_disclosed",
+      "derivation_receipt": "/home/vlad/development/wunder/worktrees/luna-package-20261008/reports/Z1C_CORE_DERIVATION_20261008_R1.json",
+      "derivation_receipt_sha256": "a5281191bef0b61bd7b67cf63f63d4a4034fb6c76bb9ebd6bbc381d3d99f1aa3",
+      "retained_non_family_tensors_bitwise_equal": true,
+      "retained_primary_rows_bitwise_equal": true,
+      "row_counts": {
+        "source": 31,
+        "core": 23,
+        "dropped_family_rows": 8
+      }
+    },
+    "head_finetune_checkpoint": {
+      "run_at": "z1c_h230s4_student_hft_alldata_v3@ep0",
+      "checkpoint_sha256": "b6c1697935d21f9b4ce7c5bfb97e27bf3a9462ca808458cb3e09654d867cd4eb",
+      "provenance_sha256": "d0c35d7a20706965eed6bceeba4274dfdb98742dfd4d64480146b6ec00add56d",
+      "initial_checkpoint_sha256": "97058aea36b74fafb230a32ffc9e7e5663b74d02814235eeee25b0f5e2e819ce",
+      "initial_checkpoint_matches_core": true,
+      "freeze": "inp,gru",
+      "seed": 3,
+      "fit_groups": {
+        "train": 0,
+        "valid": 1505
+      },
+      "full_valid_fit": true,
+      "train_source": "valid",
+      "include_heldout_valid": false,
+      "eval_source": "dev",
+      "valid_fold": -1,
+      "split_manifest_sha256": null
+    },
+    "fixed_head_merge": {
+      "source": "bd26_h230_all_data_student_gru256_seed4_retry1_v1_core@ep1|z1c_h230s4_student_hft_alldata_v3@ep0",
+      "outer_coefficient": 1.0,
+      "within_head_merge_coefficients": [
+        0.5,
+        0.5
+      ],
+      "zip_tensor_audit_sha256": "cdef1e21ba93f95b1b810931b72f0e8942c8a1a983230e04643993bce5088c41"
+    }
+  },
+  "gates": {
+    "tensor_and_provenance_chain": {
+      "passed": true,
+      "audit": "/home/vlad/development/wunder/worktrees/luna-package-20261008/reports/Z1C_PACKAGE_TENSOR_AUDIT_20261008_R1.json",
+      "audit_sha256": "cdef1e21ba93f95b1b810931b72f0e8942c8a1a983230e04643993bce5088c41",
+      "stale_core_map_is_explicit_warning": true
+    },
+    "static_abi": {
+      "passed": true,
+      "receipt": "/home/vlad/development/wunder/worktrees/luna-package-20261008/reports/Z1C_ABI_20261008_R1.json",
+      "receipt_sha256": "0cbbde2fbad226ac867efcc881baf27d24df4bb297aecf964e892c40733f846c"
+    },
+    "python311_callback_and_reset": {
+      "passed": true,
+      "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+      "rows_per_callback_suite": 40000,
+      "reset_prefix_rows": 120,
+      "max_abs_vs_v3_reference_by_level": {
+        "v2": 0.0,
+        "avx2": 0.0,
+        "v3": 0.0
+      },
+      "reference_receipt_sha256": "62e34ec99774fd2d0c0d32b35be6e307112556ebccf3151e291cbc5f0ee7e3e3",
+      "callback_receipt_sha256": {
+        "v2": "d67c94bc6e5642adf2a0d71881b8a9cc0af87614e6f45923e604fc96cb3d01b5",
+        "avx2": "859c2742a5b14f90c78759eeb8ae1c96987971e4400bad4d007685099436e2bd",
+        "v3": "e5ae0c4b7f4c5d3acdb3bd76f67517054332433f6ba95bcd3e1df2e6cee7c773"
+      }
+    },
+    "timed_replay": {
+      "passed_relative_to_matched_incumbent": true,
+      "candidate_rows": 400000,
+      "candidate_us_per_row": 105.5307681796694,
+      "incumbent_rows": 400000,
+      "incumbent_us_per_row": 112.36828194756526,
+      "candidate_over_incumbent_ratio": 0.9391508560121398,
+      "calibrated_public_runtime_minutes": 34.858149272317256,
+      "public_incumbent_seconds_used": 2227,
+      "public_calibration_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/ENGINE_TIMING_20261008.json",
+      "public_calibration_receipt_sha256": "22dfb48da76418b5f66ed924d8ee038b1afa1fbf60d13bc1a3787f93f75b3da3",
+      "incumbent_zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a",
+      "incumbent_local_replay_receipt": "/home/vlad/development/wunder/worktrees/luna-package-20261008/reports/INCUMBENT_MATCHED_TIMED_REPLAY_20261008_R1.json",
+      "incumbent_local_replay_receipt_sha256": "714d3dde52b45fdb93dccf92db2b90f416ba9b520fdbbb4a4f1542770737b55e",
+      "candidate_local_replay_receipt_sha256": "ebafb72da9aca8bd7c682fdf9d887a3fd88cd7553cb7d9359535807eda96b5e4",
+      "scope": "qualified matched local estimate using the documented public incumbent calibration; no full public scorer run"
+    }
+  },
+  "scientific_status": {
+    "score_evaluated": false,
+    "candidate_status": "exploratory_unpromoted",
+    "heldout_claim": "none; source/core and head fits include validation groups",
+    "public_score_claim": "none",
+    "selection_exposure": "all-data validation fit; exposed groups cannot support a heldout claim"
+  },
+  "warnings": [
+    "The inherited core provenance checkpoint map contains the source checkpoint hash; this manifest binds the actual 23-row core hash through the independent derivation audit and the head-fit initializer hash.",
+    "The local matched timing ratio is calibrated to a historical public incumbent runtime; it is an estimate, not a public run of this candidate."
+  ]
+}

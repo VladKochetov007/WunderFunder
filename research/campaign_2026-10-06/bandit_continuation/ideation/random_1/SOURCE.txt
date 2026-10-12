@@ -1,0 +1,93 @@
+11/2/23, 10:28 AM
+
+Identifying Small Mean Reverting Portfolios - An Analysis (Part 2, with code)
+
+That looks prety good! This is our Signal basically, let’s now look at our Portfolio values.
+First we gotta re-mean our assets.
+
+S_original = np.vstack((BTC_original, BCH_original, ADA_original,
+AVAX_original))
+P_mr_value = [1]
+P_mom_value = [1]
+for i in range(len(S[0])-1):
+rets = (S_original[:, i+1] - S_original[:, i])/S_original[:, i]
+P_mr_value.append(P_mr_value[i] * (1 + (rets @ x_mr)[0]))
+P_mom_value.append(P_mom_value[i] * (1 + (rets @ x_mom)[0]))
+
+https://www.vertoxquant.com/p/identifying-small-mean-reverting-a8e
+
+7/10
+
+11/2/23, 10:28 AM
+
+Identifying Small Mean Reverting Portfolios - An Analysis (Part 2, with code)
+
+The Momentum Portfolio looks especially good but this is still In-Sample ofc.
+Now that we have all the theory from the last part coded up let’s continue with theory
+again.
+
+https://www.vertoxquant.com/p/identifying-small-mean-reverting-a8e
+
+8/10
+
+11/2/23, 10:28 AM
+
+Identifying Small Mean Reverting Portfolios - An Analysis (Part 2, with code)
+
+Johansen Procedure
+The Johansen Test tests if multiple L(1) Time Series are cointegrated or not.
+L(1) means that if you take the last value from your time series and subtract it from the
+current value then your timeseries becomes stationary.
+L(2) would mean you would have to do this twice for it to become stationary etc.
+
+Greedy Search
+So we have been looking at constructing a mean reverting portfolio but not a sparse one.
+We want to find the most mean reverting portfolio in our entire universe that only
+contains at most k assets. Let’s formulate this problem:
+
+So we want to find the weights that minimize our portfolios predictability but the number
+of non-zero elements in our weight vector should be smaller than or equal to k and the
+weights should sum up to 1.
+As usual you would do maximization for a momentum portfolio.
+This problem is NP-Hard.
+We need to get a suboptimal solution that is still good and fast enough.
+
+One of them is called Greedy Search.
+I talk about this exact scenario in the following tweet:
+https://twitter.com/Vertox_DF/status/1667137463985352705
+
+TLDR:
+
+https://www.vertoxquant.com/p/identifying-small-mean-reverting-a8e
+
+9/10
+
+11/2/23, 10:28 AM
+
+Identifying Small Mean Reverting Portfolios - An Analysis (Part 2, with code)
+
+1. Brute force the most mean reverting ( / trending) pair
+2. Add one asset that will give you the most mean reverting triplet
+3. Continue adding assets until you have k assets.
+This algorithm is not only fast it also gives you a way more robust solution than simply
+searching for the absolutely most optimal weight vector.
+The paper made this very simple technique look a lot harder than it actually is.
+
+Final Remarks
+In the next part we will code up greedy search and learn the theory for Semidefinite
+Relaxation.
+The code is available on discord as usual: https://discord.gg/DgpX4cHX
+
+3 Likes
+
+Comments
+Write a comment...
+
+© 2023 Vertox ∙ Privacy ∙ Terms ∙ Collection notice
+Substack is the home for great writing
+
+https://www.vertoxquant.com/p/identifying-small-mean-reverting-a8e
+
+10/10
+
+

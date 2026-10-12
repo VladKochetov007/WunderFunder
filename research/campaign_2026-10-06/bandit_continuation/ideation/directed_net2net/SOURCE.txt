@@ -1,0 +1,317 @@
+Published as a conference paper at ICLR 2016
+
+Net2Net: ACCELERATING L EARNING
+VIA K NOWLEDGE T RANSFER
+Tianqi Chen∗, Ian Goodfellow, and Jonathon Shlens
+Google Inc., Mountain View, CA
+tqchen@cs.washington.edu, {goodfellow,shlens}@google.com
+
+arXiv:1511.05641v4 [cs.LG] 23 Apr 2016
+
+A BSTRACT
+We introduce techniques for rapidly transferring the information stored in one
+neural net into another neural net. The main purpose is to accelerate the training of a significantly larger neural net. During real-world workflows, one often
+trains very many different neural networks during the experimentation and design process. This is a wasteful process in which each new model is trained from
+scratch. Our Net2Net technique accelerates the experimentation process by instantaneously transferring the knowledge from a previous network to each new
+deeper or wider network. Our techniques are based on the concept of functionpreserving transformations between neural network specifications. This differs
+from previous approaches to pre-training that altered the function represented by
+a neural net when adding layers to it. Using our knowledge transfer mechanism
+to add depth to Inception modules, we demonstrate a new state of the art accuracy
+rating on the ImageNet dataset.
+
+1 I NTRODUCTION
+We propose a new kind of operation to perform on large neural networks: rapidly transfering knowledge contained in one neural network to another neural network. We call this the Net2Net family of operations. We use Net2Net as a general term describing any process of training a student network significantly faster than would otherwise be possible by leveraging knowledge from a
+teacher network that was already trained on the same task. In this article, we propose two specific
+Net2Net methodologies. Both are based on the idea of function-preserving transformations of
+neural networks. Specifically, we initialize the student to be a neural network that represents the
+same function as the teacher, but using a different parameterization. One of these transformations,
+Net2WiderNet allows replacing a model with an equivalent model that is wider (has more units in
+each hidden layer). Another of these transformations, Net2DeeperNet allows replacing a model
+that satisfies some properties with an equivalent, deeper model. After initializing the larger network
+to contain all of the knowledge previously acquired by the smaller network, the larger network may
+be trained to improve its performance.
+Traditionally, machine learning algorithms have been designed to receive a fixed dataset as input,
+initialize a new model with no knowledge, and train that model to convergence on that dataset. Real
+workflows are considerably more complicated than this idealized scenario. We advocate Net2Net
+operations as a useful tool for accelerating real-world workflows.
+One way that real workflows deviate from the idealized scenario is that machine learning practitioners usually do not train only a single model on each dataset. Instead, one typically trains multiple
+models, with each model designed to improve upon the previous model in some way. Each step in
+the iterative design process relies on fully training and evaluating the innovation from the previous
+step. For many large models, training is a long process, lasting for a week or even for a month. This
+makes data-driven iterative design slow, due to the latency of evaluating whether each change to the
+model caused an improvement.
+Net2Net operations accelerate these workflows by rapidly transferring knowledge from the previous best model into each new model that an experimenter proposes. Instead of training each
+considered design of model for as much as a month, the experimenter can use Net2Net to train the
+∗
+
+Tianqi Chen is also a PhD student at University of Washington.
+
+1
+
+Published as a conference paper at ICLR 2016
+
+Figure 1: Comparison between a traditional workflow and the Net2Net Workflow; Net2Net
+reuses information from an already trained model to speed up the training of a new model.
+model for a shorter period of time beginning from the function learned by the previous best model.
+Fig 1 demonstrates the difference of this approach from traditional one.
+More ambitiously, real machine learning systems will eventually become lifelong learning systems (Thrun, 1995; Silver et al., 2013; Mitchell et al., 2015). These machine learning systems need
+to continue to function for long periods of time and continually experience new training examples
+as these examples become available. We can think of a lifelong learning system as experiencing a
+continually growing training set. The optimal model complexity changes as training set size changes
+over time. Initially, a small model may be preferred, in order to prevent overfitting and to reduce
+the computational cost of using the model. Later, a large model may be necessary to fully utilize
+the large dataset. Net2Net operations allow us to smoothly instantiate a significantly larger model
+and immediately begin using it in our lifelong learning system, rather than needing to spend weeks
+or months re-train a larger model from scratch on the latest, largest version of the training set.
+
+2 M ETHODOLOGY
+In this section, we describe our new Net2Net operations and how we applied them on real deep
+neural nets.
+2.1 F EATURE PREDICTION
+We briefly experimented with a method that proved not to offer a significant advantage: training a
+large student network beginning from a random initialization, and introducing a set of extra “teacher
+prediction” layers into the student network. Specifically, several convolutional hidden layers of the
+student network were provided as input to new, learned, convolutional layers. The cost function
+was modified to include terms encouraging the output of these auxiliary layers to be close to a
+corresponding layer in the teacher network. In other words, the student is trained to use each of its
+hidden layers to predict the values of the hidden layers in the teacher.
+The goal was that the teacher would provide a good internal representation for the task that the student could quickly copy and then begin to refine. The approach resembles the FitNets (Romero et al.,
+2014) strategy for training very thin networks of moderate depth. Unfortunately, we did not find that
+this method offered any compelling speedup or other advantage relative to the baseline approach.
+This may be because our baseline was very strong, based on training with batch normalization (Ioffe
+& Szegedy, 2015). Mahayri et al. (2015) independently observed that the benefits of the FitNets
+training strategy were eliminated after changing the model to use batch normalization.
+The FitNets-style approach to Net2Net learning is very general, in the sense that, if successful, it
+would allow any architecture of student network to learn from any architecture of teacher network.
+Though we were not able to make this general approach work, we encourage other researchers to
+attempt to design fully general Net2Net strategies in the future. We instead turned to different
+Net2Net strategies that were limited in scope but more effective.
+2.2 F UNCTION - PRESERVING INITIALIZATIONS
+We introduce two effective Net2Net strategies. Both are based on initializing the student network
+to represent the same function as the teacher, then continuing to train the student network by normal
+means. Specifically, suppose that a teacher network is represented by a function y = f (x; θ) where
+2
+
+Published as a conference paper at ICLR 2016
+
+Algorithm 1: Net2WiderNet
+Input: {W (i) |i = 1, 2, · · · n}, the weight matrix of teacher net
+Use forward inference to generate a consistent random mapping {g (i) }
+for i ∈ 1, 2, · · · n do
+cj ← 0 for j ∈ 1, 2, · · · q do
+cg(i−1) (j) ← cg(i−1) (j) + 1
+end
+for j ∈ 1, 2, · · · q do
+(i)
+(i)
+Uk,j ← c1j Wg(i−1) (k),g(i) (j)
+end
+end
+Output: {U (i) |i = 1, 2, · · · n}: the transformed weight matrix for wider net.
+
+x is the input to the network, y is the output of the network, and θ is the parameters of the network.
+In our experiments, f is defined by a convolutional network, x is an input image, and y is a vector
+of probabilities representing the conditional distribution over object categories given x.
+Our strategy is to choose a new set of parameters θ 0 for a student network g(x; θ 0 ) such that
+∀x, f (x; θ) = g(x; θ 0 ).
+In our description of the method, we assume for simplicity that both the teacher and student networks
+contain compositions of standard linear neural network layers of the form h(i) = φ(W (i)> h(i−1) )
+where h(i) is the activations of hidden layer i, W (i) is the matrix of incoming weights for this
+layer, and φ is an activation function, such as as the rectified linear activation function (Jarrett et al.,
+2009; Glorot et al., 2011) or the maxout activation function (Goodfellow et al., 2013). We use this
+layer formalization for clarity, but our method generalizes to arbitrary composition structure of these
+layers, such as Inception (Szegedy et al., 2014). All of our experiments are in fact performed using
+Inception networks.
+Though we describe the method in terms of matrix multiplication for simplicity, it readily extends to
+convolution (by observing that convolution is multiplication by a doubly block circulant matrix) and
+to the addition of biases (by treating biases as a row of W that are multiplied by a constant input
+of 1). We will also give a specific description for the convolutional case in subsequent discussions
+of the details of the method. Function-preserving initialization carries many advantages over other
+approaches to growing the network:
+• The new, larger network immediately performs as well as the original network, rather than
+spending time passing through a period of low performance.
+• Any change made to the network after initialization is guaranteed to be an improvement, so
+long as each local step is an improvement. Previous methods could fail to improve over the
+baseline even if each local step was guaranteed to be an improvement, because the initial
+change to the larger model size could worsen performance.
+• It is always “safe” to optimize all parameters in the network. There is never a stage where
+some layers receive harmful gradients and must be frozen. This is in contrast to approaches
+such as cascade correlation, where the old units are frozen in order to avoid making poor
+adaptations while attempting to influence the behavior of new randomly connected units.
+2.3 N ET 2W IDER N ET
+Our first proposed transformation is Net2WiderNet transformation. This allows a layer to be
+replaced with a wider layer, meaning a layer that has more units. For convolution architectures, this
+means the layers will have more convolution channels.
+Let us start with a simple special case to illustrate the operation. Suppose that layer i and layer
+i + 1 are both fully connected layers, and layer i uses an elementwise non-linearity. To widen
+layer i, we replace W (i) and W (i+1) . If layer i has m inputs and n outputs, and layer i + 1
+has p outputs, then W (i) ∈ Rm×n and W (i+1) ∈ Rn×p . Net2WiderNet allows us to replace
+3
+
+Published as a conference paper at ICLR 2016
+
+y
+
+y
+
+e
+
+h[1]
+
+f
+
+b
+
+c
+
+e
+
+h[2]
+
+a
+
+h[1]
+d
+
+x[1]
+
+a
+
+x[2]
+
+x[1]
+
+f/2
+
+b
+
+c
+
+h[2]
+d
+
+f/2
+
+h[3]
+
+c
+d
+
+x[2]
+
+Figure 2: The Net2WiderNet transformation. In this example, the teacher network has an input
+layer with two inputs x[1] and x[2], a hidden layer with two rectified linear hidden units h[1] and h[2],
+and an output y. We use the Net2WiderNet operator to create a student network that represents
+the same function as the teacher network. The student network is larger because we replicate the
+h[2] unit of the teacher. The labels on the edges indicate the value of the associated weights. To
+replicate the h[2] unit, we copy its weights c and d to the new h[3] unit. The weight f , going out
+of h[2], must be copied to also go out of h[3]. This outgoing weight must also be divided by 2 to
+compensate for the replication of h[2]. This is a simple example intended to illustrate the conceptual
+idea. For a practical application, we would simultaneously replicate many randomly chosen units,
+and we would add a small amount of noise to break symmetry after the replication. We also typically
+widen many layers rather than just one layer, by recursively applying the Net2WiderNet operator.
+layer i with a layer that has q outputs, with q > n. We will introduce a random mapping function
+g : {1, 2, · · · , q} → {1, 2, · · · , n}, that satisfies
+
+j
+j≤n
+g(j) =
+random sample from {1, 2, · · · n} j > n
+We introduce a new weight matrix U (i) and U (i+1) representing the weights for these layers in the
+new student network. Then the new weights are given by
+(i)
+
+(i)
+
+(i+1)
+
+Uk,j = Wk,g(j) , Uj,h
+
+=
+
+1
+(i+1)
+W
+.
+|{x|g(x) = g(j)}| g(j),h
+
+Here, the first n columns of W (i) are copied directly into U (i) . Columns n+1 through q of U (i) are
+created by choosing a random as defined in g. The random selection is performed with replacement,
+so each column of W (i) is copied potentially many times. For weights in U (i+1) , we must account
+1
+, so all the
+for the replication by dividing the weight by replication factor given by |{x|g(x)=g(j)}|
+units have the exactly the same value as the unit in the original net.
+This description can be generalized to making multiple layers wider, with the layers composed as
+described by an arbitrary directed acyclic computation graph. This general procedure is illustrated
+by Fig. 2. So far we have only discussed the use of a single random mapping function to expand
+one layer. We can in fact introduce a random mapping function g (i) for every non-output layer.
+Importantly, these g (i) are subject to some constraints as defined by the computation graph. Care
+needs to be taken to ensure that the remapping functions do in fact result in function preservation.
+To explain, we provide examples of two computational graph structures that impose specific constraints on the random remapping functions.
+One example is the layer structure used by batch normalization (Ioffe & Szegedy, 2015). The
+layer involves both a standard linear transformation, but also involves elementwise multiplication
+by learned parameters that allow the layer to represent any range of outputs despite the normalization operation. The random remapping for the multiplication parameters must match the random
+remapping for the weight matrix. Otherwise we could generate a new unit that uses the weight
+vector for pre-existing unit i but is scaled by the multiplication parameter for unit j. The new unit
+would not implement the same function as the old unit i or as the old unit j.
+4
+
+Published as a conference paper at ICLR 2016
+
+Figure 3: The Net2DeeperNet Transformation
+Another example is concatenation. If we concatenate the output of layer 1 and layer 2, then pass this
+concatenated output to layer 3, the remapping function for layer 3 needs to take the concatenation
+into account. The width of the output of layer 1 will determine the offset of the coordinates of units
+originating in layer 2.
+To make Net2WiderNet a fully general algorithm, we would need a remapping inference algorithm that makes a forward pass through the graph, querying each operation in the graph about how
+to make the remapping functions consistent. For our experiments, we manually designed all of the
+inference necessary rules for the Inception network, which also works for most feed forward network. This is similar to the existing shape inference functionality that allows us to predict the shape
+of any tensor in the computational graph by making a forward pass through the graph, beginning
+with input tensors of known shape.
+After we get the random mapping, we can copy the weight over and divide by the replication factor,
+which is formally given by the following equation.
+1
+(i)
+(i)
+Uk,j =
+W (i−1) (k),g(i) (j)
+(i−1)
+|{x|g
+(x) = g (i−1) (k)}| g
+It is essential that each unit be replicated at least once, hence the constraint that the resulting layer
+be wider. This operator can be applied arbitrarily many times; we can expand only one layer of the
+network, or we can expand all non-output layers.
+In the setting where several units need to share the same weights, for example convolution operations. We can add such constraint to the random mapping generation, such that source of weight is
+consistent. This corresponds to make a random mapping on the channel level, instead of unit level,
+the rest procedure remains the same.
+When training with certain forms of randomization on the widened layer, such as dropout (Srivastava
+et al., 2014), it is acceptable to use perfectly transformation preserving Net2WiderNet, as we have
+described so far. When using a training algorithm that does not use randomization to encourage
+identical units to learn different functions, one should add a small amount of noise to all but the first
+copy of each column of weights. This results in the student network representing only approximately
+the same function as the teacher, but this approximation is necessary to ensure that the student can
+learn to use its full capacity when training resumes.
+2.4 N ET 2D EEPER N ET
+We also introduce a second function-preserving transformation, Net2DeeperNet. This allows us
+to transform an existing net into a deeper one. Specifically, the Net2DeeperNet
+replaces a layer
+
+h(i) = φ(h(i−1)> W (i) ) with two layers h(i) = φ U (i)> φ W (i)> h(i−1) . The new matrix U is
+initialized to an identity matrix, but remains free to learn to take on any value later. This operation
+is only applicable when φ is chosen such that φ(Iφ(v)) = φ(v) for all vectors v. This property
+holds for the rectified linear activation. To obtain Net2DeeperNet for maxout units, one must
+use a matrix that is similar to identity, but with replicated columns. Unfortunately, for some popular
+activation functions, such as the logistic sigmoid, it is not possible to insert a layer of the same
+type that represents an identity function over the required domain. When we apply it to convolution
+networks, we can simply set the convolution kernels to be identity filters.
+In some cases, to build an identity layer requires additional work. For example, when using batch
+normalization, we must set the output scale and output bias of the normalization layer to undo
+the normalization of the layer’s statistics. This requires running forward propagation through the
+network on training data in order to estimate the activation statistics.
+The approach we take is a specific case of a more general approach, that is to build a multiple layer
+network that factorizes the original layer. Making a deeper but equivalent representation. However it
+is hard to do general factorization of layers which non-linear transformation units, such as rectified
+5
+
+

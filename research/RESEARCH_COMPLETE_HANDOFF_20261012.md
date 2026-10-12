@@ -3,8 +3,8 @@
 **Archive state: pre-drain draft.** This handoff is based on Main snapshot
 `cfea172a0b95ba42450f611ad69a407dc40eeb73`, including the latest stop
 and memory-margin instructions and the documentation/evidence cleanup commits.
-It intentionally leaves the two already admitted logical runs pending. Root
-must add their terminal outcomes and artifact inventory, refresh current-state,
+Kaggle R7 is terminal and collected; only the admitted local seed4 logical run remains pending. Root
+must add its terminal outcome and artifact inventory, refresh current-state,
 index, and generated-tree snapshots, and mark the archive final only after
 those runs are reconciled. This document does not admit, recommend, or launch
 work.
@@ -196,7 +196,7 @@ targets use the declared clipped mixture
 while primary MSE continues to use clipped true-label magnitude weights and
 the existing auxiliary objectives. Alpha 0.9 has a favorable result in the
 tested one-seed ladder; it is an exploitation setting, not a universally
-established optimum. The main-target alpha=1.0 arm did run on exposed F1: 0.67068 versus alpha0.9 0.67103 and alpha0.7 0.66991 (six epochs, same cached targets). That is teacher-only primary-target mixing, but true-label magnitude weights and auxiliary supervision remain; a strict entirely label-free objective was not run. See [deep dive](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/DEEP_DIVE_CURRENT_BEST_20261011.md) and LOOP_LOG passes120/125. These one-seed results do not establish a universal optimum.
+established optimum. The main-target alpha=1.0 arm did run on exposed F1: 0.67068 versus alpha0.9 0.67103 and alpha0.7 0.66991 (six epochs, same cached targets). That is teacher-only primary-target mixing, but true-label magnitude weights and auxiliary supervision remain; a strict entirely label-free objective was not run. See [deep dive](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/DEEP_DIVE_CURRENT_BEST_20261011.md) and LOOP_LOG passes125/128. These one-seed results do not establish a universal optimum.
 
 The clean-T3 CP5 control is the most recent completed local student grade in
 this snapshot. The independent review reports 0.6811553603333363 for seed 3,

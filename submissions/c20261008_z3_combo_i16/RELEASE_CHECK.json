@@ -1,0 +1,129 @@
+{
+  "schema": "wnn.exploratory-package-release-check.v1",
+  "status": "technical_gates_passed_exploratory_not_quality_promoted",
+  "package": {
+    "directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261008_z3_combo_i16",
+    "zip": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261008_z3_combo_i16/submission.zip",
+    "zip_sha256": "c7e5ee0393b6f58a1ed3f381dad95de94518f566a1132a03aaaaf716c915b7d0",
+    "zip_bytes": 5165335,
+    "zip_limit_bytes": 20000000,
+    "under_zip_limit": true
+  },
+  "lineage": {
+    "source_student_31_row_checkpoint": {
+      "run_at": "z3_combo_s4_parent_student_v1@ep1",
+      "checkpoint_sha256": "88c7424ac5f79760cdc791ebadc98c0da841f5b64e2796a02888467d2bb4c274",
+      "provenance_sha256": "9f2be77f59b5401326a41c5535e284b41952ac2ba3f218f7b9e75435170d2c20"
+    },
+    "derived_core_23_row_checkpoint": {
+      "run_at": "z3_combo_s4_parent_student_v1_core@ep1",
+      "checkpoint_sha256": "6c3e81f4f3aa71a037904f773cb3a103d77712a13f41a7ac6f4eaecb601dcbb7",
+      "provenance_sha256": "1513bd2194ff9314404d666d1abf44732be25dbc2fa4248d7a721a53b205b820",
+      "raw_checkpoint_map_sha256": "88c7424ac5f79760cdc791ebadc98c0da841f5b64e2796a02888467d2bb4c274",
+      "raw_checkpoint_map_binding": "stale_source_hash_preserved_and_disclosed",
+      "derivation_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261008_z3_combo_i16/CORE_DERIVATION_AUDIT.json",
+      "derivation_receipt_sha256": "4480f335f8c127579ccc3122651a4a9b489fe6ab17f6f0f8cd426339322b95a2",
+      "retained_non_family_tensors_bitwise_equal": true,
+      "retained_primary_rows_bitwise_equal": true,
+      "row_counts": {
+        "source": 31,
+        "core": 23,
+        "dropped_family_rows": 8
+      }
+    },
+    "head_finetune_checkpoint": {
+      "run_at": "z3h_combo_s4_parent_student_hft_alldata_v1@ep0",
+      "checkpoint_sha256": "e406710210b6577f1939cfdf1da9a3e5d070db0febca4d1488cd65559b8a1091",
+      "provenance_sha256": "69141c01030e3140b8b0a2b5d5187f7a1a2ed97e8a6022f2cc8261b990673f5d",
+      "initial_checkpoint_sha256": "6c3e81f4f3aa71a037904f773cb3a103d77712a13f41a7ac6f4eaecb601dcbb7",
+      "initial_checkpoint_matches_core": true,
+      "freeze": "inp,gru",
+      "seed": 3,
+      "fit_groups": {
+        "train": 0,
+        "valid": 1505
+      },
+      "full_valid_fit": true,
+      "train_source": "valid",
+      "include_heldout_valid": false,
+      "eval_source": "dev",
+      "valid_fold": -1,
+      "split_manifest_sha256": null
+    },
+    "fixed_head_merge": {
+      "source": "z3_combo_s4_parent_student_v1_core@ep1|z3h_combo_s4_parent_student_hft_alldata_v1@ep0",
+      "outer_coefficient": 1.0,
+      "within_head_merge_coefficients": [
+        0.5,
+        0.5
+      ],
+      "zip_tensor_audit_sha256": "89c17d0ccbc1e374d4e6dab2d2cb3483d4aa4e3dbd1f5fbded3bf1240e609bb5"
+    }
+  },
+  "gates": {
+    "tensor_and_provenance_chain": {
+      "passed": true,
+      "audit": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261008_z3_combo_i16/TENSOR_PROVENANCE_AUDIT.json",
+      "audit_sha256": "89c17d0ccbc1e374d4e6dab2d2cb3483d4aa4e3dbd1f5fbded3bf1240e609bb5",
+      "stale_core_map_is_explicit_warning": true
+    },
+    "static_abi": {
+      "passed": true,
+      "receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261008_z3_combo_i16/ABI_STATIC.json",
+      "receipt_sha256": "62faaf1e4da2df836d289546d744e2559de5d6365f1bb16415a36950e2d03c93"
+    },
+    "python311_callback_and_reset": {
+      "passed": true,
+      "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+      "rows_per_callback_suite": 40000,
+      "reset_prefix_rows": 120,
+      "max_abs_vs_v3_reference_by_level": {
+        "v2": 0.0,
+        "avx2": 0.0,
+        "v3": 0.0
+      },
+      "reference_receipt_sha256": "32cc1f0122fa59b865455eafc27cd7eb2ba32c1efed8cef6fc6211ddb537e7e3",
+      "callback_receipt_sha256": {
+        "v2": "a633cef427fff18769a9dff4108ec6dd9424b1181f23206a4ed75ac9e8fdb8c5",
+        "avx2": "d0eb5dd15b08c16bf3ae3e3810685c747b7ef9c3f1254b09bb779a75823d9a1e",
+        "v3": "bae734b46a09beb5e2db4847cfcae04dd7a4d4f4eea09a01778c2c9814272054"
+      }
+    },
+    "timed_replay": {
+      "passed_relative_to_matched_incumbent": true,
+      "candidate_rows": 400000,
+      "candidate_us_per_row": 109.61326732489397,
+      "incumbent_rows": 400000,
+      "incumbent_us_per_row": 112.36828194756526,
+      "candidate_over_incumbent_ratio": 0.9754822751142811,
+      "calibrated_public_runtime_minutes": 36.2066504446584,
+      "public_incumbent_seconds_used": 2227,
+      "public_runtime_evidence": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/PORTAL_RESULTS_20261004_LATE.json",
+      "public_runtime_evidence_sha256": "19be6c65437426840702c74685f880971dc3f92a939e9063a079d05e3d70acdf",
+      "public_runtime_evidence_match": {
+        "name": "c20261004_combo_s4_i16",
+        "submission_id": "2e5j6bnt",
+        "runtime_seconds": 2227,
+        "zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a"
+      },
+      "public_calibration_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/ENGINE_TIMING_20261008.json",
+      "public_calibration_receipt_sha256": "22dfb48da76418b5f66ed924d8ee038b1afa1fbf60d13bc1a3787f93f75b3da3",
+      "incumbent_zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a",
+      "incumbent_local_replay_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261008_z3_combo_i16/INCUMBENT_MATCHED_TIMED_REPLAY.json",
+      "incumbent_local_replay_receipt_sha256": "714d3dde52b45fdb93dccf92db2b90f416ba9b520fdbbb4a4f1542770737b55e",
+      "candidate_local_replay_receipt_sha256": "81f264e29d2cf21843e647d8a63eb6bff4d7c85a0d90911416aa62db8b71109d",
+      "scope": "qualified matched local estimate using the documented public incumbent calibration; no full public scorer run"
+    }
+  },
+  "scientific_status": {
+    "score_evaluated": false,
+    "candidate_status": "exploratory_unpromoted",
+    "heldout_claim": "none; source/core and head fits include validation groups",
+    "public_score_claim": "none",
+    "selection_exposure": "all-data validation fit; exposed groups cannot support a heldout claim"
+  },
+  "warnings": [
+    "The inherited core provenance checkpoint map contains the source checkpoint hash; this manifest binds the actual 23-row core hash through the independent derivation audit and the head-fit initializer hash.",
+    "The local matched timing ratio is calibrated to a historical public incumbent runtime; it is an estimate, not a public run of this candidate."
+  ]
+}

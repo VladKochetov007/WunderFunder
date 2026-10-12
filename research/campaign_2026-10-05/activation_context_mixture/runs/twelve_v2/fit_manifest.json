@@ -1,0 +1,2620 @@
+{
+  "kind": "E484 causal context-conditioned activation mixture",
+  "status": "all_12_fit_arms_complete_test_unread",
+  "design_sha256": "e2657b85e31c10d0bab3edab066ba71faa6f2eee79c5cddfd9aff86c6f89b398",
+  "blind_critic_sha256": "7f1325b9f9517199bb0a2af08a4a86a7625c917814458bf17a254fe9b79303d4",
+  "critic_response_sha256": "9325be932eb0427db6631bc616b35dfbe285da78c876df99c966b19b8817315e",
+  "seeds": [
+    271834,
+    271835
+  ],
+  "arms": [
+    "gelu",
+    "fixed_mix",
+    "static_mix",
+    "recurrent_mix",
+    "projection_mix",
+    "self_mix"
+  ],
+  "registered_contrasts_per_seed": [
+    "recurrent_mix - static_mix",
+    "recurrent_mix - projection_mix",
+    "recurrent_mix - self_mix",
+    "static_mix - fixed_mix",
+    "recurrent_mix - fixed_mix",
+    "projection_mix - fixed_mix",
+    "self_mix - fixed_mix",
+    "gelu - fixed_mix"
+  ],
+  "registered_contrast_count": 16,
+  "fit_count": 12,
+  "parameters_per_arm": {
+    "gelu": 61058,
+    "fixed_mix": 61058,
+    "static_mix": 61122,
+    "recurrent_mix": 61122,
+    "projection_mix": 61122,
+    "self_mix": 61122
+  },
+  "updates_per_fit": 474,
+  "batch": 4,
+  "chunk_rows": 256,
+  "telemetry_steps_zero_based": [
+    0,
+    46,
+    236,
+    473
+  ],
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "schedule": "constant",
+    "clip_norm": 1.0
+  },
+  "gate": {
+    "mixture_formula": "g*GELU(h)+(1-g)*LeakyReLU_0.01(h)",
+    "sources": {
+      "recurrent_mix": "recurrent",
+      "projection_mix": "projection",
+      "self_mix": "head_self",
+      "static_mix": "learned constant per-channel",
+      "fixed_mix": "0.5"
+    },
+    "context_rms_epsilon": 1e-06,
+    "context_centered": false,
+    "initial_coefficients": 0.0,
+    "extra_parameters_per_learned_gate": 64
+  },
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "parent_source_sha256": {
+    "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+    "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+    "e477": "2d4b1b103dd31912fea7ab24a63e6ce176e532dca8d0dfa2cdb32aebd9e567d7",
+    "wnn.nn": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+    "wnn.resources": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "actor_source_sha256": {
+    "fit_context_mixture_v2.py": "2dec963a966ba30e1dc3deed40472fd2d0129a2d24fa07585a3a7ed4e2e1dcbc",
+    "tests_v2.py": "0d7030f0197c949c3cd72ea0b1e338cfe8b86e66b7de69b9f00853a6f154c9d2",
+    "gpu_probe_v2.py": "06e4b056dd0c9ea3eeab3d7725918801a6796b68d7f82b734e191aa366a2018d"
+  },
+  "initial_state_sha256": {
+    "271834": "bf03a2dd7d286dc5099f0b2d024d3d32723ddf13e19785fe2b73f50053199341",
+    "271835": "e3e06add3c401996400bb2749b4f3d7d52d9b356346e617f8816798dfc4be632"
+  },
+  "fit_only_cohort": {
+    "cohort": [
+      {
+        "row_group": 1735,
+        "seq_ix": 1989531794,
+        "component": 2795,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1766,
+        "seq_ix": 2024723908,
+        "component": 2854,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 233,
+        "seq_ix": 235282549,
+        "component": 2806,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 38,
+        "seq_ix": 45323361,
+        "component": 2828,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 807,
+        "seq_ix": 941450430,
+        "component": 2991,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1125,
+        "seq_ix": 1294249563,
+        "component": 3200,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1015,
+        "seq_ix": 1168194342,
+        "component": 3010,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 105,
+        "seq_ix": 109463899,
+        "component": 2882,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 483,
+        "seq_ix": 547472527,
+        "component": 2801,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1062,
+        "seq_ix": 1227566939,
+        "component": 2860,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1666,
+        "seq_ix": 1917373469,
+        "component": 2940,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1214,
+        "seq_ix": 1413037324,
+        "component": 2861,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1130,
+        "seq_ix": 1302007606,
+        "component": 2901,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1793,
+        "seq_ix": 2051491347,
+        "component": 3223,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 87,
+        "seq_ix": 89214899,
+        "component": 2866,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1869,
+        "seq_ix": 2144431796,
+        "component": 2902,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1053,
+        "seq_ix": 1218942404,
+        "component": 3182,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1390,
+        "seq_ix": 1596351500,
+        "component": 2948,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 614,
+        "seq_ix": 701505430,
+        "component": 3090,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1284,
+        "seq_ix": 1494588886,
+        "component": 2982,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1309,
+        "seq_ix": 1512273149,
+        "component": 3079,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1725,
+        "seq_ix": 1979171607,
+        "component": 3193,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 713,
+        "seq_ix": 815144844,
+        "component": 2936,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1567,
+        "seq_ix": 1795366096,
+        "component": 2930,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      }
+    ],
+    "selection_rule": "6 fit + 4 test distinct components per cached label-derived class; SHA256 target-mechanics-v1 component/group order; legacy protected holdout excluded",
+    "component_overlap": [],
+    "historical_exposure": "Validation labels and panels have extensive historical use. This is descriptive, not a fresh holdout or generalization claim. Class is label-derived and never an inference input.",
+    "metric": "global_wp_clip2_v1",
+    "fit_subsample": "every twentieth row >=128; no is_scored fit filtering",
+    "frozen_models": "ridge alpha=100; direct histogram 60 trees/12 leaves; factor sign and magnitude 30 trees each/12 leaves; shared full design; no search",
+    "normalization": {
+      "fit_mean": [
+        -1.5363867282867432,
+        -0.689834713935852,
+        1.2887780666351318,
+        -0.44421306252479553,
+        -1.0049716234207153,
+        0.024608345702290535,
+        -1.5609498023986816,
+        -0.6866507530212402,
+        1.1618949174880981,
+        -0.19426357746124268,
+        -0.881924569606781,
+        -0.014319630339741707,
+        -0.05646130442619324,
+        0.00033203521161340177,
+        -0.169044628739357,
+        -0.25854653120040894,
+        0.03898943215608597,
+        -0.2861734628677368,
+        -0.7288678288459778,
+        -2.0230934619903564,
+        -3.5546049730328377e-06,
+        2.096900971082505e-06,
+        4.6128329813655e-06,
+        -6.393834610207705e-06,
+        -5.608798801404191e-06,
+        2.5743427158886334e-06,
+        3.8066496017563622e-06,
+        4.4812200030719396e-06,
+        2.4200901407311903e-06,
+        -3.6629234045904013e-07,
+        -5.957327630312648e-06,
+        7.801266292517539e-06,
+        -4.835311301576439e-06,
+        9.792628588911612e-06,
+        4.220727987558348e-06,
+        3.4390102428005775e-06,
+        3.5663190374179976e-06,
+        3.5245990147814155e-05,
+        -3.0046541724004783e-05,
+        2.8520629712147638e-05,
+        2.0363821983337402,
+        0.2820541560649872
+      ],
+      "fit_scale": [
+        0.32517191767692566,
+        0.2430306077003479,
+        0.7047637104988098,
+        0.7663655877113342,
+        0.5567672848701477,
+        0.6080858707427979,
+        0.37485629320144653,
+        0.2399095743894577,
+        0.6885117888450623,
+        0.8592969179153442,
+        0.6910661458969116,
+        0.7655671238899231,
+        0.9265031814575195,
+        0.9781677722930908,
+        0.7986375689506531,
+        0.8008037209510803,
+        0.9514464735984802,
+        1.8925610780715942,
+        2.087163209915161,
+        2.956484317779541,
+        0.23587879538536072,
+        0.10206638276576996,
+        0.2836126685142517,
+        0.25912606716156006,
+        0.43994584679603577,
+        1.0169508457183838,
+        0.1448771208524704,
+        0.08167517185211182,
+        0.2859937250614166,
+        0.30186182260513306,
+        0.4794560968875885,
+        1.243190050125122,
+        0.9874710440635681,
+        1.6637933254241943,
+        0.10818876326084137,
+        0.03457668796181679,
+        1.073975682258606,
+        1.5013998746871948,
+        2.07209849357605,
+        2.8346872329711914,
+        1.8456852436065674,
+        0.4499995708465576
+      ]
+    }
+  },
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "fit_manifest_arms": [
+    {
+      "seed": 271834,
+      "arm": "gelu",
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.5739779199939221,
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105,
+        1130,
+        1869,
+        1284,
+        1053,
+        233,
+        1666,
+        1567,
+        614,
+        38,
+        1390,
+        1725,
+        1766,
+        1062,
+        1735,
+        1214,
+        483,
+        87,
+        1309,
+        1125,
+        807
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61058
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005923134212910513,
+            "gru": 0.0009992090211050633,
+            "head": 0.010171626572136664
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999949163949722,
+            "gru": 0.0009964013206268506,
+            "head": 0.0009999716313734465
+          },
+          "seed": 271834,
+          "arm": "gelu",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 0,
+          "loss": 2.665431261062622,
+          "state_abs_max": 0.40777361392974854,
+          "gate": null
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0035365598698421895,
+            "gru": 0.000603403764813633,
+            "head": 0.0033520651442133327
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003236229431149055,
+            "gru": 0.00030196138827088105,
+            "head": 0.0002490252899066311
+          },
+          "seed": 271834,
+          "arm": "gelu",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 11776,
+          "loss": 0.5883581638336182,
+          "state_abs_max": 0.4055686891078949,
+          "gate": null
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.014553469997086175,
+            "gru": 0.0024632712385598884,
+            "head": 0.010699245216156401
+          },
+          "parameter_update_rms": {
+            "inp": 0.0004084025619357132,
+            "gru": 0.0003122304357749325,
+            "head": 0.0002652147758080627
+          },
+          "seed": 271834,
+          "arm": "gelu",
+          "fit_row_groups": [
+            233,
+            1666,
+            1567,
+            614
+          ],
+          "chunk_start": 19968,
+          "loss": 2.6320629119873047,
+          "state_abs_max": 0.6096566319465637,
+          "gate": null
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.015905464686306093,
+            "gru": 0.0027452066007126207,
+            "head": 0.02461521613655017
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002654829693920712,
+            "gru": 0.00032119245470598184,
+            "head": 0.00027468944794304035
+          },
+          "seed": 271834,
+          "arm": "gelu",
+          "fit_row_groups": [
+            87,
+            1309,
+            1125,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 1.5175104141235352,
+          "state_abs_max": 0.615124523639679,
+          "gate": null
+        }
+      ],
+      "checkpoint": "seed271834_gelu.pt",
+      "checkpoint_sha256": "fae80e6abf76e8921a43309b0d0f5c21ef9e425672baaae600f91f0770ebf203"
+    },
+    {
+      "seed": 271834,
+      "arm": "fixed_mix",
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.428186484001344,
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105,
+        1130,
+        1869,
+        1284,
+        1053,
+        233,
+        1666,
+        1567,
+        614,
+        38,
+        1390,
+        1725,
+        1766,
+        1062,
+        1735,
+        1214,
+        483,
+        87,
+        1309,
+        1125,
+        807
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61058
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006242436695922357,
+            "gru": 0.0010648415193548037,
+            "head": 0.010533366500171587
+          },
+          "parameter_update_rms": {
+            "inp": 0.000999935826752708,
+            "gru": 0.0009967312218556533,
+            "head": 0.00099995721256066
+          },
+          "seed": 271834,
+          "arm": "fixed_mix",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 0,
+          "loss": 2.6593332290649414,
+          "state_abs_max": 0.40777361392974854,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0035373504206610853,
+            "gru": 0.0005921980398386099,
+            "head": 0.0035573537212184765
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003160470398729833,
+            "gru": 0.0002999920068486316,
+            "head": 0.000240867737760705
+          },
+          "seed": 271834,
+          "arm": "fixed_mix",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 11776,
+          "loss": 0.5928521156311035,
+          "state_abs_max": 0.4126627445220947,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.014556368763412219,
+            "gru": 0.0021410254405064347,
+            "head": 0.011168838152744293
+          },
+          "parameter_update_rms": {
+            "inp": 0.000405030340143762,
+            "gru": 0.0003082746438178204,
+            "head": 0.0002751545610126831
+          },
+          "seed": 271834,
+          "arm": "fixed_mix",
+          "fit_row_groups": [
+            233,
+            1666,
+            1567,
+            614
+          ],
+          "chunk_start": 19968,
+          "loss": 2.652057647705078,
+          "state_abs_max": 0.6264082193374634,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.01497009302010244,
+            "gru": 0.002409055564688019,
+            "head": 0.024228640398238032
+          },
+          "parameter_update_rms": {
+            "inp": 0.00024769655900340644,
+            "gru": 0.0002744003994466825,
+            "head": 0.0002337461350396385
+          },
+          "seed": 271834,
+          "arm": "fixed_mix",
+          "fit_row_groups": [
+            87,
+            1309,
+            1125,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 1.402571201324463,
+          "state_abs_max": 0.642375111579895,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        }
+      ],
+      "checkpoint": "seed271834_fixed_mix.pt",
+      "checkpoint_sha256": "2ed031ce71d906eb227ab8a7505962408d493f3eaaea6dd46c13a81508d609eb"
+    },
+    {
+      "seed": 271834,
+      "arm": "static_mix",
+      "parameters": 61122,
+      "updates": 474,
+      "fit_seconds": 1.4177822939964244,
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105,
+        1130,
+        1869,
+        1284,
+        1053,
+        233,
+        1666,
+        1567,
+        614,
+        38,
+        1390,
+        1725,
+        1766,
+        1062,
+        1735,
+        1214,
+        483,
+        87,
+        1309,
+        1125,
+        807
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006242436695922357,
+            "gru": 0.0010648415193548037,
+            "head": 0.010493554253726854
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999358309537964,
+            "gru": 0.0009967311827543122,
+            "head": 0.0009999570358240214
+          },
+          "seed": 271834,
+          "arm": "static_mix",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 0,
+          "loss": 2.6593332290649414,
+          "state_abs_max": 0.40777361392974854,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.003538142283722089,
+            "gru": 0.0005923344794671908,
+            "head": 0.0035445304393930325
+          },
+          "parameter_update_rms": {
+            "inp": 0.00031593501804803577,
+            "gru": 0.0002999426412065931,
+            "head": 0.00024055889755896897
+          },
+          "seed": 271834,
+          "arm": "static_mix",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 11776,
+          "loss": 0.5928661823272705,
+          "state_abs_max": 0.41267380118370056,
+          "gate": {
+            "min": 0.4966430962085724,
+            "max": 0.5038941502571106,
+            "mean": 0.5003284215927124,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.014556288869495698,
+            "gru": 0.0021409751868134825,
+            "head": 0.011120904546844071
+          },
+          "parameter_update_rms": {
+            "inp": 0.0004051360144026529,
+            "gru": 0.0003082442742425861,
+            "head": 0.0002761606204901018
+          },
+          "seed": 271834,
+          "arm": "static_mix",
+          "fit_row_groups": [
+            233,
+            1666,
+            1567,
+            614
+          ],
+          "chunk_start": 19968,
+          "loss": 2.651815891265869,
+          "state_abs_max": 0.6258947253227234,
+          "gate": {
+            "min": 0.49285367131233215,
+            "max": 0.5065211057662964,
+            "mean": 0.5004079341888428,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.01496410352207311,
+            "gru": 0.002408727354633708,
+            "head": 0.024148836723103164
+          },
+          "parameter_update_rms": {
+            "inp": 0.00024745537107222156,
+            "gru": 0.00027446650169290284,
+            "head": 0.00023316049046195138
+          },
+          "seed": 271834,
+          "arm": "static_mix",
+          "fit_row_groups": [
+            87,
+            1309,
+            1125,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 1.4031879901885986,
+          "state_abs_max": 0.6427223086357117,
+          "gate": {
+            "min": 0.49070489406585693,
+            "max": 0.5093927383422852,
+            "mean": 0.5010321140289307,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        }
+      ],
+      "checkpoint": "seed271834_static_mix.pt",
+      "checkpoint_sha256": "2b98915b9a2e1a63c76bba60da215f579afe37a8c42a98780a76c5140d4cb671"
+    },
+    {
+      "seed": 271834,
+      "arm": "recurrent_mix",
+      "parameters": 61122,
+      "updates": 474,
+      "fit_seconds": 1.5947712899942417,
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105,
+        1130,
+        1869,
+        1284,
+        1053,
+        233,
+        1666,
+        1567,
+        614,
+        38,
+        1390,
+        1725,
+        1766,
+        1062,
+        1735,
+        1214,
+        483,
+        87,
+        1309,
+        1125,
+        807
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006242436695922357,
+            "gru": 0.0010648415193548037,
+            "head": 0.010493571637997644
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999358283117397,
+            "gru": 0.000996731184850189,
+            "head": 0.0009999569678796692
+          },
+          "seed": 271834,
+          "arm": "recurrent_mix",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 0,
+          "loss": 2.6593332290649414,
+          "state_abs_max": 0.40777361392974854,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0035393533877766045,
+            "gru": 0.0005927025213028996,
+            "head": 0.0035466264786086395
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003160003103857096,
+            "gru": 0.0002999366087464044,
+            "head": 0.00024094288235136253
+          },
+          "seed": 271834,
+          "arm": "recurrent_mix",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 11776,
+          "loss": 0.592868983745575,
+          "state_abs_max": 0.4126187562942505,
+          "gate": {
+            "min": 0.4859335124492645,
+            "max": 0.5109322667121887,
+            "mean": 0.49990034103393555,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.014550506469447295,
+            "gru": 0.0021449574659795426,
+            "head": 0.011122907196105043
+          },
+          "parameter_update_rms": {
+            "inp": 0.00040523055720611726,
+            "gru": 0.00030879916038823173,
+            "head": 0.0002764962895875739
+          },
+          "seed": 271834,
+          "arm": "recurrent_mix",
+          "fit_row_groups": [
+            233,
+            1666,
+            1567,
+            614
+          ],
+          "chunk_start": 19968,
+          "loss": 2.6511526107788086,
+          "state_abs_max": 0.6240594983100891,
+          "gate": {
+            "min": 0.485723614692688,
+            "max": 0.5212996006011963,
+            "mean": 0.5003262758255005,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.014966558194322695,
+            "gru": 0.002411649765926524,
+            "head": 0.024160006869096053
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002474338092395576,
+            "gru": 0.0002744168572998355,
+            "head": 0.00023330383875953912
+          },
+          "seed": 271834,
+          "arm": "recurrent_mix",
+          "fit_row_groups": [
+            87,
+            1309,
+            1125,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 1.4033286571502686,
+          "state_abs_max": 0.6416816711425781,
+          "gate": {
+            "min": 0.4559035897254944,
+            "max": 0.5433455109596252,
+            "mean": 0.49955880641937256,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        }
+      ],
+      "checkpoint": "seed271834_recurrent_mix.pt",
+      "checkpoint_sha256": "949054ceab4c9c801f4d742c1f28daeab0f794dc6e3e12cfd45765e8669ffad3"
+    },
+    {
+      "seed": 271834,
+      "arm": "projection_mix",
+      "parameters": 61122,
+      "updates": 474,
+      "fit_seconds": 1.5745211479952559,
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105,
+        1130,
+        1869,
+        1284,
+        1053,
+        233,
+        1666,
+        1567,
+        614,
+        38,
+        1390,
+        1725,
+        1766,
+        1062,
+        1735,
+        1214,
+        483,
+        87,
+        1309,
+        1125,
+        807
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006242436695922357,
+            "gru": 0.0010648415193548037,
+            "head": 0.010493607371857568
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999358295411922,
+            "gru": 0.000996731172340807,
+            "head": 0.0009999570780327626
+          },
+          "seed": 271834,
+          "arm": "projection_mix",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 0,
+          "loss": 2.6593332290649414,
+          "state_abs_max": 0.40777361392974854,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0035371572108994103,
+            "gru": 0.0005918211649196075,
+            "head": 0.0035440335832895827
+          },
+          "parameter_update_rms": {
+            "inp": 0.00031598100759276193,
+            "gru": 0.00029994100022196017,
+            "head": 0.00024093648925714993
+          },
+          "seed": 271834,
+          "arm": "projection_mix",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 11776,
+          "loss": 0.592841386795044,
+          "state_abs_max": 0.41247591376304626,
+          "gate": {
+            "min": 0.47579628229141235,
+            "max": 0.5338438153266907,
+            "mean": 0.5000430345535278,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.014554429402607353,
+            "gru": 0.002140707419732679,
+            "head": 0.011127893120493964
+          },
+          "parameter_update_rms": {
+            "inp": 0.00040517126789762196,
+            "gru": 0.00030843262391227214,
+            "head": 0.0002767548231296583
+          },
+          "seed": 271834,
+          "arm": "projection_mix",
+          "fit_row_groups": [
+            233,
+            1666,
+            1567,
+            614
+          ],
+          "chunk_start": 19968,
+          "loss": 2.651778221130371,
+          "state_abs_max": 0.6263355016708374,
+          "gate": {
+            "min": 0.44808757305145264,
+            "max": 0.5444881916046143,
+            "mean": 0.49983543157577515,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.014963315995642195,
+            "gru": 0.0024068726822842924,
+            "head": 0.024151781745816947
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002474335230855319,
+            "gru": 0.00027444077123239385,
+            "head": 0.00023337645893163188
+          },
+          "seed": 271834,
+          "arm": "projection_mix",
+          "fit_row_groups": [
+            87,
+            1309,
+            1125,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 1.4027245044708252,
+          "state_abs_max": 0.6401200890541077,
+          "gate": {
+            "min": 0.44761550426483154,
+            "max": 0.5652109980583191,
+            "mean": 0.4998481869697571,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        }
+      ],
+      "checkpoint": "seed271834_projection_mix.pt",
+      "checkpoint_sha256": "c0c2bfca81b7dfda890a943c4ff301b8687a82db7d02406e1f49c37e2e57c200"
+    },
+    {
+      "seed": 271834,
+      "arm": "self_mix",
+      "parameters": 61122,
+      "updates": 474,
+      "fit_seconds": 1.5032929419976426,
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105,
+        1130,
+        1869,
+        1284,
+        1053,
+        233,
+        1666,
+        1567,
+        614,
+        38,
+        1390,
+        1725,
+        1766,
+        1062,
+        1735,
+        1214,
+        483,
+        87,
+        1309,
+        1125,
+        807
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006242436695922357,
+            "gru": 0.0010648415193548037,
+            "head": 0.0104939406662105
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999358254955044,
+            "gru": 0.0009967310950970963,
+            "head": 0.000999957298122068
+          },
+          "seed": 271834,
+          "arm": "self_mix",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 0,
+          "loss": 2.6593332290649414,
+          "state_abs_max": 0.40777361392974854,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0035386804575201947,
+            "gru": 0.0005917413291547777,
+            "head": 0.0035455794045800653
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003158393825582321,
+            "gru": 0.00029991215600931994,
+            "head": 0.0002406707498699617
+          },
+          "seed": 271834,
+          "arm": "self_mix",
+          "fit_row_groups": [
+            713,
+            1793,
+            1015,
+            105
+          ],
+          "chunk_start": 11776,
+          "loss": 0.592815637588501,
+          "state_abs_max": 0.4124964773654938,
+          "gate": {
+            "min": 0.48006248474121094,
+            "max": 0.5170700550079346,
+            "mean": 0.49996161460876465,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.014564066701283709,
+            "gru": 0.00214196659708684,
+            "head": 0.01112593163412869
+          },
+          "parameter_update_rms": {
+            "inp": 0.00040508811908808955,
+            "gru": 0.000308423683088036,
+            "head": 0.00027623217679319473
+          },
+          "seed": 271834,
+          "arm": "self_mix",
+          "fit_row_groups": [
+            233,
+            1666,
+            1567,
+            614
+          ],
+          "chunk_start": 19968,
+          "loss": 2.6514992713928223,
+          "state_abs_max": 0.6251074075698853,
+          "gate": {
+            "min": 0.47508686780929565,
+            "max": 0.525778591632843,
+            "mean": 0.4993293881416321,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.014968518525330994,
+            "gru": 0.0024107530162015183,
+            "head": 0.024151502050900407
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002474816890841935,
+            "gru": 0.00027409683860861266,
+            "head": 0.00023335021669355964
+          },
+          "seed": 271834,
+          "arm": "self_mix",
+          "fit_row_groups": [
+            87,
+            1309,
+            1125,
+            807
+          ],
+          "chunk_start": 19968,
+          "loss": 1.4029163122177124,
+          "state_abs_max": 0.6395010948181152,
+          "gate": {
+            "min": 0.45933741331100464,
+            "max": 0.5286357998847961,
+            "mean": 0.4990243911743164,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        }
+      ],
+      "checkpoint": "seed271834_self_mix.pt",
+      "checkpoint_sha256": "c3c7e280343b44f68be3073a572c11c7a84f8c1d05f5af55208b58cfeaf3af7d"
+    },
+    {
+      "seed": 271835,
+      "arm": "gelu",
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.4179472229880048,
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483,
+        1567,
+        1053,
+        1390,
+        105,
+        87,
+        1766,
+        614,
+        1062,
+        1666,
+        1793,
+        1015,
+        1725,
+        1309,
+        807,
+        233,
+        713,
+        1869,
+        1735,
+        1214,
+        38
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61058
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.0034941351859658887,
+            "gru": 0.0011292901505953346,
+            "head": 0.014280785315648074
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999559419596438,
+            "gru": 0.0009947056299538088,
+            "head": 0.0009999597501109212
+          },
+          "seed": 271835,
+          "arm": "gelu",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 0,
+          "loss": 1.2985656261444092,
+          "state_abs_max": 0.45569825172424316,
+          "gate": null
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.005854733811295281,
+            "gru": 0.001100343996462178,
+            "head": 0.015118321117035127
+          },
+          "parameter_update_rms": {
+            "inp": 0.00033941060094618214,
+            "gru": 0.0003510345511112013,
+            "head": 0.00040987171970599507
+          },
+          "seed": 271835,
+          "arm": "gelu",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 11776,
+          "loss": 0.8620998859405518,
+          "state_abs_max": 0.6118341088294983,
+          "gate": null
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.018005360798051512,
+            "gru": 0.002752615118327839,
+            "head": 0.03663894511344576
+          },
+          "parameter_update_rms": {
+            "inp": 0.00026314527012522834,
+            "gru": 0.0002073687457642898,
+            "head": 0.00020729692172864308
+          },
+          "seed": 271835,
+          "arm": "gelu",
+          "fit_row_groups": [
+            87,
+            1766,
+            614,
+            1062
+          ],
+          "chunk_start": 19968,
+          "loss": 2.788273334503174,
+          "state_abs_max": 0.571649432182312,
+          "gate": null
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.015817035948085242,
+            "gru": 0.0025173053997304367,
+            "head": 0.018434140052817613
+          },
+          "parameter_update_rms": {
+            "inp": 0.0005043732723194369,
+            "gru": 0.00036078074100998997,
+            "head": 0.0003606207093369013
+          },
+          "seed": 271835,
+          "arm": "gelu",
+          "fit_row_groups": [
+            1869,
+            1735,
+            1214,
+            38
+          ],
+          "chunk_start": 19968,
+          "loss": 0.7614399790763855,
+          "state_abs_max": 0.7740527391433716,
+          "gate": null
+        }
+      ],
+      "checkpoint": "seed271835_gelu.pt",
+      "checkpoint_sha256": "9c249229802f8b09ee0f18efd5ff2f10e64dcb8ba77718f80009b7eb989be520"
+    },
+    {
+      "seed": 271835,
+      "arm": "fixed_mix",
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.3438290909980424,
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483,
+        1567,
+        1053,
+        1390,
+        105,
+        87,
+        1766,
+        614,
+        1062,
+        1666,
+        1793,
+        1015,
+        1725,
+        1309,
+        807,
+        233,
+        713,
+        1869,
+        1735,
+        1214,
+        38
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61058
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.003689119086354745,
+            "gru": 0.0011463834908246166,
+            "head": 0.014927135752171954
+          },
+          "parameter_update_rms": {
+            "inp": 0.000999942701743307,
+            "gru": 0.0009951792812181285,
+            "head": 0.0009999587971590478
+          },
+          "seed": 271835,
+          "arm": "fixed_mix",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 0,
+          "loss": 1.2898950576782227,
+          "state_abs_max": 0.45569825172424316,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.005456445645775566,
+            "gru": 0.0010009741389686842,
+            "head": 0.015987210654128284
+          },
+          "parameter_update_rms": {
+            "inp": 0.00032611747853615917,
+            "gru": 0.000342490083588073,
+            "head": 0.0003902128202608194
+          },
+          "seed": 271835,
+          "arm": "fixed_mix",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 11776,
+          "loss": 0.8540569543838501,
+          "state_abs_max": 0.6432347297668457,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.015965306121575592,
+            "gru": 0.0025157819180042303,
+            "head": 0.04058971928515262
+          },
+          "parameter_update_rms": {
+            "inp": 0.00027082150198357014,
+            "gru": 0.0002769574497883305,
+            "head": 0.0002354750877391444
+          },
+          "seed": 271835,
+          "arm": "fixed_mix",
+          "fit_row_groups": [
+            87,
+            1766,
+            614,
+            1062
+          ],
+          "chunk_start": 19968,
+          "loss": 2.8196911811828613,
+          "state_abs_max": 0.593473494052887,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.01760880843094949,
+            "gru": 0.0026396494380715356,
+            "head": 0.01909116415177165
+          },
+          "parameter_update_rms": {
+            "inp": 0.0005245053750857376,
+            "gru": 0.0003355938274303706,
+            "head": 0.0003780588164538693
+          },
+          "seed": 271835,
+          "arm": "fixed_mix",
+          "fit_row_groups": [
+            1869,
+            1735,
+            1214,
+            38
+          ],
+          "chunk_start": 19968,
+          "loss": 0.7802689075469971,
+          "state_abs_max": 0.5416525602340698,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        }
+      ],
+      "checkpoint": "seed271835_fixed_mix.pt",
+      "checkpoint_sha256": "a19f2b669668cf86a4150c9d950ca0f88106b8fb69d71b74ea0706334edacfef"
+    },
+    {
+      "seed": 271835,
+      "arm": "static_mix",
+      "parameters": 61122,
+      "updates": 474,
+      "fit_seconds": 1.4048700370040024,
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483,
+        1567,
+        1053,
+        1390,
+        105,
+        87,
+        1766,
+        614,
+        1062,
+        1666,
+        1793,
+        1015,
+        1725,
+        1309,
+        807,
+        233,
+        713,
+        1869,
+        1735,
+        1214,
+        38
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.003689119086354745,
+            "gru": 0.0011463834908246166,
+            "head": 0.01487078194472232
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999426920958964,
+            "gru": 0.0009951792128772379,
+            "head": 0.0009999583533105828
+          },
+          "seed": 271835,
+          "arm": "static_mix",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 0,
+          "loss": 1.2898950576782227,
+          "state_abs_max": 0.45569825172424316,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.005455037201145922,
+            "gru": 0.0010005556587718428,
+            "head": 0.015924478312199425
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003260692766380426,
+            "gru": 0.0003423956476816988,
+            "head": 0.000391769993282126
+          },
+          "seed": 271835,
+          "arm": "static_mix",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 11776,
+          "loss": 0.8538550138473511,
+          "state_abs_max": 0.6434212923049927,
+          "gate": {
+            "min": 0.495295912027359,
+            "max": 0.5040125250816345,
+            "mean": 0.4994139075279236,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.015973431641333663,
+            "gru": 0.002516406770952892,
+            "head": 0.04043054148887914
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002708738080282919,
+            "gru": 0.00027725175320266295,
+            "head": 0.0002349122583201462
+          },
+          "seed": 271835,
+          "arm": "static_mix",
+          "fit_row_groups": [
+            87,
+            1766,
+            614,
+            1062
+          ],
+          "chunk_start": 19968,
+          "loss": 2.819528579711914,
+          "state_abs_max": 0.5929396152496338,
+          "gate": {
+            "min": 0.48995301127433777,
+            "max": 0.5082199573516846,
+            "mean": 0.4985983371734619,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.017614963493121274,
+            "gru": 0.0026422741318794683,
+            "head": 0.019024987423359327
+          },
+          "parameter_update_rms": {
+            "inp": 0.0005244921390196428,
+            "gru": 0.0003360162320026492,
+            "head": 0.0003775553034981667
+          },
+          "seed": 271835,
+          "arm": "static_mix",
+          "fit_row_groups": [
+            1869,
+            1735,
+            1214,
+            38
+          ],
+          "chunk_start": 19968,
+          "loss": 0.7800734043121338,
+          "state_abs_max": 0.5428754091262817,
+          "gate": {
+            "min": 0.48828548192977905,
+            "max": 0.5103362798690796,
+            "mean": 0.49759942293167114,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        }
+      ],
+      "checkpoint": "seed271835_static_mix.pt",
+      "checkpoint_sha256": "fb484d0126576a9ca8e7dfb786c2351630e4a815576aa2b5257b8704f0246b20"
+    },
+    {
+      "seed": 271835,
+      "arm": "recurrent_mix",
+      "parameters": 61122,
+      "updates": 474,
+      "fit_seconds": 1.6737073120020796,
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483,
+        1567,
+        1053,
+        1390,
+        105,
+        87,
+        1766,
+        614,
+        1062,
+        1666,
+        1793,
+        1015,
+        1725,
+        1309,
+        807,
+        233,
+        713,
+        1869,
+        1735,
+        1214,
+        38
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.003689119086354745,
+            "gru": 0.0011463834908246166,
+            "head": 0.014870714555126521
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999426978159988,
+            "gru": 0.0009951792287891598,
+            "head": 0.0009999583702647392
+          },
+          "seed": 271835,
+          "arm": "recurrent_mix",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 0,
+          "loss": 1.2898950576782227,
+          "state_abs_max": 0.45569825172424316,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.005462445801131873,
+            "gru": 0.0010022713818856343,
+            "head": 0.015928551686807263
+          },
+          "parameter_update_rms": {
+            "inp": 0.00032604974247884205,
+            "gru": 0.00034235485355839867,
+            "head": 0.0003902551643686335
+          },
+          "seed": 271835,
+          "arm": "recurrent_mix",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 11776,
+          "loss": 0.8541441559791565,
+          "state_abs_max": 0.6432982683181763,
+          "gate": {
+            "min": 0.49044400453567505,
+            "max": 0.5087108612060547,
+            "mean": 0.4999413788318634,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.016022663529463535,
+            "gru": 0.0025246564744740843,
+            "head": 0.040435041780213524
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002711527606052481,
+            "gru": 0.00027724455095203855,
+            "head": 0.0002357704750779788
+          },
+          "seed": 271835,
+          "arm": "recurrent_mix",
+          "fit_row_groups": [
+            87,
+            1766,
+            614,
+            1062
+          ],
+          "chunk_start": 19968,
+          "loss": 2.81960391998291,
+          "state_abs_max": 0.5928149223327637,
+          "gate": {
+            "min": 0.4843951463699341,
+            "max": 0.5156351923942566,
+            "mean": 0.49962764978408813,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.01757225908521377,
+            "gru": 0.002629800358476605,
+            "head": 0.018996557544802138
+          },
+          "parameter_update_rms": {
+            "inp": 0.000524290335327201,
+            "gru": 0.00033504141299506095,
+            "head": 0.00037685745779279274
+          },
+          "seed": 271835,
+          "arm": "recurrent_mix",
+          "fit_row_groups": [
+            1869,
+            1735,
+            1214,
+            38
+          ],
+          "chunk_start": 19968,
+          "loss": 0.7823272943496704,
+          "state_abs_max": 0.5382635593414307,
+          "gate": {
+            "min": 0.479806512594223,
+            "max": 0.5203470587730408,
+            "mean": 0.4996299743652344,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        }
+      ],
+      "checkpoint": "seed271835_recurrent_mix.pt",
+      "checkpoint_sha256": "cdb4373d3195fbdefe7e9842fcd68b22db995e90e766f57e1692d51e83d8a851"
+    },
+    {
+      "seed": 271835,
+      "arm": "projection_mix",
+      "parameters": 61122,
+      "updates": 474,
+      "fit_seconds": 1.5590627729980042,
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483,
+        1567,
+        1053,
+        1390,
+        105,
+        87,
+        1766,
+        614,
+        1062,
+        1666,
+        1793,
+        1015,
+        1725,
+        1309,
+        807,
+        233,
+        713,
+        1869,
+        1735,
+        1214,
+        38
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.003689119086354745,
+            "gru": 0.0011463834908246166,
+            "head": 0.014870583219403245
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999426957789795,
+            "gru": 0.000995179260922895,
+            "head": 0.0009999576821521723
+          },
+          "seed": 271835,
+          "arm": "projection_mix",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 0,
+          "loss": 1.2898950576782227,
+          "state_abs_max": 0.45569825172424316,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.00545984058784855,
+            "gru": 0.0010008058797106117,
+            "head": 0.015923360750519876
+          },
+          "parameter_update_rms": {
+            "inp": 0.00032619165201932187,
+            "gru": 0.0003424807804061621,
+            "head": 0.0003899676241539392
+          },
+          "seed": 271835,
+          "arm": "projection_mix",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 11776,
+          "loss": 0.8541470170021057,
+          "state_abs_max": 0.6430721282958984,
+          "gate": {
+            "min": 0.4553925096988678,
+            "max": 0.5385153293609619,
+            "mean": 0.4997655153274536,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.015995942487064315,
+            "gru": 0.002517420864739233,
+            "head": 0.04045436678836509
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002709985552195409,
+            "gru": 0.0002771383300394106,
+            "head": 0.00023569123512152547
+          },
+          "seed": 271835,
+          "arm": "projection_mix",
+          "fit_row_groups": [
+            87,
+            1766,
+            614,
+            1062
+          ],
+          "chunk_start": 19968,
+          "loss": 2.8198025226593018,
+          "state_abs_max": 0.5932343006134033,
+          "gate": {
+            "min": 0.4401635527610779,
+            "max": 0.5313968062400818,
+            "mean": 0.49961939454078674,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.017607937168916073,
+            "gru": 0.002636595623343951,
+            "head": 0.01900592888636645
+          },
+          "parameter_update_rms": {
+            "inp": 0.0005244205648711693,
+            "gru": 0.00033552700664166266,
+            "head": 0.0003784757257468422
+          },
+          "seed": 271835,
+          "arm": "projection_mix",
+          "fit_row_groups": [
+            1869,
+            1735,
+            1214,
+            38
+          ],
+          "chunk_start": 19968,
+          "loss": 0.7812709808349609,
+          "state_abs_max": 0.5407806038856506,
+          "gate": {
+            "min": 0.4240953326225281,
+            "max": 0.5563026070594788,
+            "mean": 0.5001049041748047,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        }
+      ],
+      "checkpoint": "seed271835_projection_mix.pt",
+      "checkpoint_sha256": "0afe3b6049616f413981e670d8d8037c679e76c1709c236a685c2aabd44a45de"
+    },
+    {
+      "seed": 271835,
+      "arm": "self_mix",
+      "parameters": 61122,
+      "updates": 474,
+      "fit_seconds": 1.593055026998627,
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483,
+        1567,
+        1053,
+        1390,
+        105,
+        87,
+        1766,
+        614,
+        1062,
+        1666,
+        1793,
+        1015,
+        1725,
+        1309,
+        807,
+        233,
+        713,
+        1869,
+        1735,
+        1214,
+        38
+      ],
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_steps_zero_based": [
+        0,
+        46,
+        236,
+        473
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.003689119086354745,
+            "gru": 0.0011463834908246166,
+            "head": 0.014870785998484055
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999427023325077,
+            "gru": 0.0009951792107378854,
+            "head": 0.000999958290068589
+          },
+          "seed": 271835,
+          "arm": "self_mix",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 0,
+          "loss": 1.2898950576782227,
+          "state_abs_max": 0.45569825172424316,
+          "gate": {
+            "min": 0.5,
+            "max": 0.5,
+            "mean": 0.5,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0054594927902372695,
+            "gru": 0.0010013423320214853,
+            "head": 0.015927617330494033
+          },
+          "parameter_update_rms": {
+            "inp": 0.00032617157315562533,
+            "gru": 0.0003424519239255402,
+            "head": 0.0003902206578687673
+          },
+          "seed": 271835,
+          "arm": "self_mix",
+          "fit_row_groups": [
+            1125,
+            1284,
+            1130,
+            483
+          ],
+          "chunk_start": 11776,
+          "loss": 0.8541322946548462,
+          "state_abs_max": 0.643187940120697,
+          "gate": {
+            "min": 0.4886002838611603,
+            "max": 0.5111687779426575,
+            "mean": 0.49963951110839844,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.015985882137400743,
+            "gru": 0.002518832483329246,
+            "head": 0.04046898733652404
+          },
+          "parameter_update_rms": {
+            "inp": 0.00027079759893888707,
+            "gru": 0.00027736624918744485,
+            "head": 0.0002358241754662567
+          },
+          "seed": 271835,
+          "arm": "self_mix",
+          "fit_row_groups": [
+            87,
+            1766,
+            614,
+            1062
+          ],
+          "chunk_start": 19968,
+          "loss": 2.8196475505828857,
+          "state_abs_max": 0.5933011770248413,
+          "gate": {
+            "min": 0.47938016057014465,
+            "max": 0.512742817401886,
+            "mean": 0.4985819160938263,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.017636687959083682,
+            "gru": 0.0026466225140665675,
+            "head": 0.019017900359803955
+          },
+          "parameter_update_rms": {
+            "inp": 0.0005244987875215899,
+            "gru": 0.0003356652886061001,
+            "head": 0.00037769427500914716
+          },
+          "seed": 271835,
+          "arm": "self_mix",
+          "fit_row_groups": [
+            1869,
+            1735,
+            1214,
+            38
+          ],
+          "chunk_start": 19968,
+          "loss": 0.7804710865020752,
+          "state_abs_max": 0.5408653616905212,
+          "gate": {
+            "min": 0.45025551319122314,
+            "max": 0.5217581391334534,
+            "mean": 0.49895280599594116,
+            "saturated_fraction_at_0_01": 0.0
+          }
+        }
+      ],
+      "checkpoint": "seed271835_self_mix.pt",
+      "checkpoint_sha256": "bfbab5ccaa6b7a890f108a4015026bfebbbc8d29701eda7dc47b1071c7814e86"
+    }
+  ],
+  "precision": {
+    "device_math": "FP32 IEEE",
+    "autocast": false,
+    "torch.backends.fp32_precision": "ieee",
+    "torch.backends.cuda.matmul.fp32_precision": "ieee",
+    "torch.backends.cudnn.fp32_precision": "ieee",
+    "torch.backends.cudnn.rnn.fp32_precision": "ieee"
+  },
+  "device": "NVIDIA GeForce RTX 3060 Laptop GPU"
+}

@@ -1,0 +1,138 @@
+{
+  "schema": "wnn.exploratory-package-release-check.v1",
+  "status": "technical_gates_passed_exploratory_not_quality_promoted",
+  "package": {
+    "directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261009_z4_combo_i16",
+    "zip": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261009_z4_combo_i16/submission.zip",
+    "zip_sha256": "29e6b89b2673744e9c1ae8abbed4281f126171863bc07e813420cdbea28667dd",
+    "zip_bytes": 5172422,
+    "zip_limit_bytes": 20000000,
+    "under_zip_limit": true
+  },
+  "lineage": {
+    "source_student_31_row_checkpoint": {
+      "run_at": "bd26_h230_faithful_student_seed99_muonparent_v1@ep1",
+      "checkpoint_sha256": "d86aefe78377331136c9617d5ab9ab911b167c6b947b25b7ba0219c92e20b04a",
+      "provenance_sha256": "12cd9407923b1d4ce3ad5780d8fd41031974ea6bca618bc1ac3cb0bb5d1148f2"
+    },
+    "derived_core_23_row_checkpoint": {
+      "run_at": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1",
+      "checkpoint_sha256": "a9cb31068d7078742309e63b25e8fb0ec2e71f3587c15410ccde321df1fb6382",
+      "provenance_sha256": "9f4af9092e12afd3eb7e247fbd50d881498ddaff477b317ebcfa7b10b9a682b3",
+      "raw_checkpoint_map_sha256": "a9cb31068d7078742309e63b25e8fb0ec2e71f3587c15410ccde321df1fb6382",
+      "raw_checkpoint_map_binding": "actual_derived_core_checkpoint_sha256",
+      "derivation_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261009_z4_combo_i16/CORE_DERIVATION_AUDIT.json",
+      "derivation_receipt_sha256": "cb8a3639e53ad879de6efcbf0ea71426d47b1c224983402e937b494494440ddb",
+      "retained_non_family_tensors_bitwise_equal": true,
+      "retained_primary_rows_bitwise_equal": true,
+      "row_counts": {
+        "source": 31,
+        "core": 23,
+        "dropped_family_rows": 8
+      }
+    },
+    "head_finetune_checkpoint": {
+      "run_at": "z4_seed99_student_hft_alldata_v2@ep0",
+      "checkpoint_sha256": "9a1e338208d9de65ac9ec9f62c73ebd67c40ae634b5ae05e6c738ec5bf84d1d4",
+      "provenance_sha256": "56e0494fa4e507fd800e6c5247f37d2ed975d7acebd67e97a7bd576005d030e7",
+      "initial_checkpoint_sha256": "a9cb31068d7078742309e63b25e8fb0ec2e71f3587c15410ccde321df1fb6382",
+      "initial_checkpoint_matches_core": true,
+      "freeze": "inp,gru",
+      "seed": 3,
+      "fit_groups": {
+        "train": 0,
+        "valid": 1505
+      },
+      "full_valid_fit": true,
+      "train_source": "valid",
+      "include_heldout_valid": false,
+      "eval_source": "dev",
+      "valid_fold": -1,
+      "split_manifest_sha256": null
+    },
+    "fixed_head_merge": {
+      "source": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0",
+      "outer_coefficient": 1.0,
+      "within_head_merge_coefficients": [
+        0.5,
+        0.5
+      ],
+      "zip_tensor_audit_sha256": "f9c7c6281e8dc64135cd84fb656188d364b7dcccb3ea5da17c594160dfe4845b"
+    }
+  },
+  "gates": {
+    "tensor_and_provenance_chain": {
+      "passed": true,
+      "audit": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261009_z4_combo_i16/TENSOR_PROVENANCE_AUDIT.json",
+      "audit_sha256": "f9c7c6281e8dc64135cd84fb656188d364b7dcccb3ea5da17c594160dfe4845b",
+      "core_provenance_checkpoint_map_binding": "actual_derived_core_checkpoint_sha256",
+      "stale_core_map_is_explicit_warning": false
+    },
+    "static_abi": {
+      "passed": true,
+      "receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261009_z4_combo_i16/ABI_STATIC.json",
+      "receipt_sha256": "f3c53fddf989c9a954ed78aafcd75a0abbf65de24e0dc23bbfbcff524a0766a4"
+    },
+    "python311_callback_and_reset": {
+      "passed": true,
+      "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+      "rows_per_callback_suite": 40000,
+      "reset_prefix_rows": 120,
+      "max_abs_vs_v3_reference_by_level": {
+        "v2": 0.0,
+        "avx2": 0.0,
+        "v3": 0.0
+      },
+      "reference_receipt_sha256": "2b9266115dd2e7dacf4974113459eadfad8a896c465d5a3b112a26123f9e75a1",
+      "callback_receipt_sha256": {
+        "v2": "5fbbca48f555edf772485337c006633f516aed65d35b84a989ccc872ac2fe77d",
+        "avx2": "c9084b57c2ba5a879bf7f76de58471d54fe6ecf7ee56570d718e9b132aa62fe2",
+        "v3": "dde51ab732250c38ce75d061c82434f0cc4571b5ec59af281129855694615ace"
+      }
+    },
+    "full_stream_causal_reset": {
+      "passed": true,
+      "reset_bitwise": true,
+      "past_only_bitwise": true,
+      "data_sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+      "receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261009_z4_combo_i16/CAUSAL_RESET_A_B_A.json",
+      "receipt_sha256": "1f1ffc6a37724cad17f98bab22a79eda951063914819d082028eea56fe58513c"
+    },
+    "timed_replay": {
+      "passed_relative_to_matched_incumbent": true,
+      "candidate_rows": 400000,
+      "candidate_us_per_row": 96.7,
+      "incumbent_rows": 400000,
+      "incumbent_us_per_row": 91.8,
+      "candidate_over_incumbent_ratio": 1.053376906318083,
+      "calibrated_public_runtime_minutes": 39.09783950617284,
+      "public_incumbent_seconds_used": 2227,
+      "public_runtime_evidence": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/PORTAL_RESULTS_20261004_LATE.json",
+      "public_runtime_evidence_sha256": "19be6c65437426840702c74685f880971dc3f92a939e9063a079d05e3d70acdf",
+      "public_runtime_evidence_match": {
+        "name": "c20261004_combo_s4_i16",
+        "submission_id": "2e5j6bnt",
+        "runtime_seconds": 2227,
+        "zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a"
+      },
+      "public_calibration_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/ENGINE_TIMING_20261008.json",
+      "public_calibration_receipt_sha256": "22dfb48da76418b5f66ed924d8ee038b1afa1fbf60d13bc1a3787f93f75b3da3",
+      "incumbent_zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a",
+      "incumbent_local_replay_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261009_z4_combo_i16/INCUMBENT_MATCHED_TIMED_REPLAY.json",
+      "incumbent_local_replay_receipt_sha256": "e21db717359e8d9fc564ea32ecb730c6004f82f644af5a234d03002ac7d0922c",
+      "candidate_local_replay_receipt_sha256": "5d5c14cfb03533b8deed0ca1ee1c7100746c7581ac549155629408d97b03ef56",
+      "scope": "qualified matched local estimate using the documented public incumbent calibration; no full public scorer run"
+    }
+  },
+  "scientific_status": {
+    "score_evaluated": false,
+    "candidate_status": "exploratory_unpromoted",
+    "heldout_claim": "none; source/core and head fits include validation groups",
+    "public_score_claim": "none",
+    "selection_exposure": "all-data validation fit; exposed groups cannot support a heldout claim"
+  },
+  "warnings": [
+    "The core identity-v2 provenance map binds the actual 23-row checkpoint; the independent derivation receipt preserves source ancestry and exact tensor parity.",
+    "The local matched timing ratio is calibrated to a historical public incumbent runtime; it is an estimate, not a public run of this candidate."
+  ]
+}
