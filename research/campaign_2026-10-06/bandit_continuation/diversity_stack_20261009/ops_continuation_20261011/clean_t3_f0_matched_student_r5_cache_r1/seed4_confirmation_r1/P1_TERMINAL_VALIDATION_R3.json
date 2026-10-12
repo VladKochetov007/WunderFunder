@@ -1,0 +1,367 @@
+{
+  "actual_provenance": {
+    "distillation_cache": {
+      "coefficient_sum": 0.30000000000000004,
+      "epoch_convention": {
+        "student_checkpoint_epoch": 5,
+        "student_checkpoint_policy": "fixed",
+        "student_epochs": 6
+      },
+      "family_order": [
+        "strong"
+      ],
+      "homogeneous_family": "strong",
+      "metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+      "root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r2",
+      "source_coefficients": [
+        {
+          "coefficient": 0.1,
+          "epoch": 2,
+          "family": "strong",
+          "run": "clean_t3_f0_muonall_h384_e3_s3_r5"
+        },
+        {
+          "coefficient": 0.1,
+          "epoch": 2,
+          "family": "strong",
+          "run": "clean_t3_f0_muonall_h384_e3_s4_r5"
+        },
+        {
+          "coefficient": 0.1,
+          "epoch": 2,
+          "family": "strong",
+          "run": "clean_t3_f0_muonall_h384_e3_s5_r5"
+        }
+      ],
+      "variant": "homogeneous",
+      "verified_files": {
+        "main_homogeneous_train": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+        "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+      }
+    },
+    "evaluation_group_count": 468,
+    "fit_membership_identity": {
+      "dataset_length": 11940,
+      "train": {
+        "count": 10535,
+        "ordered_int64_le_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49"
+      },
+      "valid": {
+        "count": 1405,
+        "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      },
+      "valid_repeat": 1
+    },
+    "fit_valid_eval_overlap": 0,
+    "initial_checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+    "seed": 4,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "attempt": {
+    "elapsed_seconds": 2023.5117275119992,
+    "exit_status": 0,
+    "finished_utc": "2026-10-12T14:13:32.923834+00:00",
+    "id": "clean-t3-f0-control-s4-a9-r3-p1-20261012",
+    "memory_event_deltas": {
+      "high": 562040,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_hierarchical_memory_event_deltas": {
+      "high": 562040,
+      "low": 0,
+      "max": 7,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_local_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-control-s4-a9-r3-p1-20261012.json",
+    "peak_observed_vram_bytes": 2638217216,
+    "peak_ram_bytes": 4952309760,
+    "sha256": "5e1dec15aaf0278c30ba895f74c7b1609e32e586c209f4012866ea86869eb667",
+    "started_utc": "2026-10-12T13:39:49.386270+00:00",
+    "unit": "wnn-bandit-clean-t3-f0-control-s4-a9-r3-p1-20261012.service"
+  },
+  "checks": [
+    {
+      "name": "attempt_terminal_finished_exit0",
+      "observed": {
+        "exit_status": 0,
+        "finished_utc": "2026-10-12T14:13:32.923834+00:00",
+        "phase": "terminal",
+        "status": "finished"
+      },
+      "passed": true
+    },
+    {
+      "name": "root_release_authorized_and_pinned",
+      "observed": {
+        "authorized": true,
+        "contract_sha256": "c3ba92816800c8cc7adfe603cc74bef6bb6a0da7e5f0d378443ed8ed04d33c90"
+      },
+      "passed": true
+    },
+    {
+      "name": "memory_margin_rule_documented",
+      "observed": {
+        "unchanged_hard_limit_bytes": 20000000000,
+        "working_admission_target_bytes": 17000000000
+      },
+      "passed": true
+    },
+    {
+      "name": "state_loader_full_epoch_format",
+      "observed": {
+        "boundary": "epoch",
+        "format": "wnn.epoch-training-state",
+        "version": 1
+      },
+      "passed": true
+    },
+    {
+      "name": "next_epoch_2",
+      "observed": 2,
+      "passed": true
+    },
+    {
+      "name": "fixed_six_epoch_full_schedule",
+      "observed": {
+        "epochs": 6,
+        "options_epochs": 6,
+        "total_steps": 44760
+      },
+      "passed": true
+    },
+    {
+      "name": "recipe_seed4_h256_adamw_fp16_alpha09",
+      "observed": {
+        "distill_alpha": 0.9,
+        "hidden": 256,
+        "layers": 2,
+        "optim": "adamw",
+        "precision": "fp16",
+        "seed": 4
+      },
+      "passed": true
+    },
+    {
+      "name": "trainer_source_pin",
+      "observed": {
+        "pinned_trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+        "state_trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6"
+      },
+      "passed": true
+    },
+    {
+      "name": "actual_provenance_parent_and_split",
+      "observed": {
+        "initial_checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+        "seed": 4,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "passed": true
+    },
+    {
+      "name": "actual_fit_membership_pins",
+      "observed": {
+        "evaluation_groups": 468,
+        "fit_valid": {
+          "count": 1405,
+          "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+        },
+        "fit_valid_eval_overlap": 0,
+        "state_contract_matches_provenance": true,
+        "train": {
+          "count": 10535,
+          "ordered_int64_le_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49"
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "actual_teacher_cache_ancestry",
+      "observed": {
+        "epoch_convention": {
+          "student_checkpoint_epoch": 5,
+          "student_checkpoint_policy": "fixed",
+          "student_epochs": 6
+        },
+        "metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+        "teacher_sources": [
+          [
+            "clean_t3_f0_muonall_h384_e3_s3_r5",
+            2,
+            0.1
+          ],
+          [
+            "clean_t3_f0_muonall_h384_e3_s4_r5",
+            2,
+            0.1
+          ],
+          [
+            "clean_t3_f0_muonall_h384_e3_s5_r5",
+            2,
+            0.1
+          ]
+        ],
+        "variant": "homogeneous"
+      },
+      "passed": true
+    },
+    {
+      "name": "loader_and_full_state_sections",
+      "observed": {
+        "loader": {
+          "batch_size": 16,
+          "dataset_length": 11940,
+          "drop_last": true,
+          "loader_generator": null,
+          "num_workers": 0,
+          "sampler_epoch": null,
+          "sampler_generator": null,
+          "sampler_state": null,
+          "sampler_type": "torch.utils.data.sampler.RandomSampler"
+        },
+        "sections": {
+          "auxiliary": true,
+          "model": true,
+          "optimizer": true,
+          "progress": true,
+          "rng": true,
+          "scaler": true,
+          "scheduler": true
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "actual_checkpoint_matches_provenance_model_ep1",
+      "observed": {
+        "model_ep1_sha256": "b04674d4b3227986adff99dd3666bd23bf27b7817120d461e931a8122cade2ba",
+        "provenance_checkpoint_sha256": {
+          "model_ep0.pt": "a5f27955372b805f611576ed13b111759ca7690bce6842a0d3bfead37749c2b8",
+          "model_ep1.pt": "b04674d4b3227986adff99dd3666bd23bf27b7817120d461e931a8122cade2ba"
+        }
+      },
+      "passed": true
+    }
+  ],
+  "fresh_support_admission": {
+    "captured_utc": "2026-10-12T14:21:43Z",
+    "parent_memory_current_bytes_before_support": 9576873984,
+    "sum_bytes": 11076873984,
+    "support_cpu_cores": 1,
+    "support_memory_bound_bytes": 1500000000,
+    "support_timeout_seconds": 120,
+    "within_target": true,
+    "worker_reservation_active": false,
+    "working_target_bytes": 17000000000
+  },
+  "inputs": {
+    "contract_path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/FIT_CONTRACT_R1.json",
+    "contract_sha256": "c3ba92816800c8cc7adfe603cc74bef6bb6a0da7e5f0d378443ed8ed04d33c90",
+    "memory_margin_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-12/ADMISSION_MEMORY_MARGIN_20261012_R1.json",
+    "memory_margin_sha256": "cd49957e35bee9f8bb2b2458577c64c88af61612857050c9a60f1b250061db06",
+    "p1_model_ep1_sha256": "b04674d4b3227986adff99dd3666bd23bf27b7817120d461e931a8122cade2ba",
+    "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1/provenance.json",
+    "provenance_sha256": "157319815648021a83e2b5a34833197bce298bfbfd3f82c3465622dd361f25e2",
+    "root_release_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/ROOT_SEED4_CONDITIONAL_RELEASE_R1.json",
+    "root_release_sha256": "3c4fd04c82e0386ce8071238a678009bf0350594460d83c5fc87c00d1dc84b78",
+    "state_bytes": 11823087,
+    "state_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1/training_state.pt",
+    "state_sha256": "3c45113e75e4e19549d5e2b542423225beea125fbce93a8c3a85bdd2d19ae6bf"
+  },
+  "no_scientific_grade": true,
+  "recorded_utc": "2026-10-12T14:21:48+00:00",
+  "schema": "wnn.clean-t3-control-seed4-p1-terminal-validation.r1",
+  "scope": "P1 terminal state/provenance validation only; no score or grade.",
+  "state": {
+    "auxiliary_keys": [
+      "dynamics",
+      "norm_ema",
+      "pool_memory",
+      "readout_moments"
+    ],
+    "boundary": "epoch",
+    "component_sha256": {
+      "auxiliary": "15bc3c05bb8216d5052b19289c7fe090e6b2d3455f4344cdc8a590744484959c",
+      "ema": "fc9199fc7b9f184be381d187e6d579b26ef77a4a495d99d9ba7b1ccd81beec01",
+      "loader": "b488fccee910910c6ec22721d910c0a3ca827de062e376c62d193422f3132706",
+      "model": "0ece88875531639cbb1a8e7ce8f052877e1493a53b0f1ccc6eda787f6c99ced2",
+      "optimizer": "1dbf4a5ccceea73d32d07b5358ed6ff127ae6c561a955508b2065d92272bdebe",
+      "progress": "3f47ccff11d04f4a9822c9643ef58a030b43b392207046bf7249acd1be817b55",
+      "rng": "bef1943cfe72536f3bf4a072fb50e7e8559d3e4067e6af4aa6385ec2cc84ebe0",
+      "scaler": "8118b1568f93ccf71823e1bf9b65e95fa0a90f1f8f2e3d29d086ae22d2d246fd",
+      "scheduler": "52569d4ccefd42367250938847e4faa083538a86667719b905a1a962b495612c",
+      "swa": "fc9199fc7b9f184be381d187e6d579b26ef77a4a495d99d9ba7b1ccd81beec01"
+    },
+    "component_sha256_method": "torch.save(component, BytesIO()) then SHA-256; whole-file SHA is authoritative.",
+    "contract_sha256": "8a0a2b7b1a9eeaba0577a0a12350c6b382d0e086a80dbbfcb64dab2fe397aabf",
+    "cuda_rng_states": 1,
+    "format": "wnn.epoch-training-state",
+    "loader": {
+      "batch_size": 16,
+      "dataset_length": 11940,
+      "drop_last": true,
+      "loader_generator": null,
+      "num_workers": 0,
+      "sampler_epoch": null,
+      "sampler_generator": null,
+      "sampler_state": null,
+      "sampler_type": "torch.utils.data.sampler.RandomSampler"
+    },
+    "model_tensor_count": 16,
+    "next_epoch": 2,
+    "optimizer_parameter_group_count": 1,
+    "optimizer_state_parameter_count": 14,
+    "progress": {
+      "cumulative_updates": {
+        "amp_skipped_updates": 8,
+        "completed_batches": 1492,
+        "ema_updates": 0,
+        "optimizer_attempts": 14920,
+        "optimizer_completed_updates": 14912
+      },
+      "fitting_seconds": 2017.1,
+      "step_count": 14920
+    },
+    "rng_keys": [
+      "cuda",
+      "numpy",
+      "python",
+      "torch"
+    ],
+    "scaler": {
+      "_growth_tracker": 38,
+      "growth_interval": 2000,
+      "scale": 32768.0
+    },
+    "scheduler": {
+      "_step_count": 14921,
+      "_total_steps": null,
+      "last_epoch": 14920
+    },
+    "version": 1
+  },
+  "status": "PASS",
+  "validator": {
+    "operation": "wnn.training_state.load_training_state(path) from frozen source snapshot",
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P1_TERMINAL_VALIDATOR_R2.py",
+    "sha256": "f2a4932ba8b5c9201a7280bc7ab252d274a6a68c9a126c0f4ac36fe25ba50ddd",
+    "state_loader_source": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/src/wnn/training_state.py"
+  }
+}
