@@ -1,0 +1,109 @@
+{
+  "schema": "wnn.clean-t3-f0-cp5-oldz4-fixed-halfblend-result.r1",
+  "status": "COMPLETED_FIXED_EXPOSED_F0_SCREEN_NO_PROMOTION",
+  "preregistration": {
+    "commit": "60a9c58f3f3190a94291d70e2c8160ac9e4e0b22",
+    "path": "research/campaign_2026-10-12/clean_t3_f0_student_contribution_screen_r1/PREREGISTRATION_R1.json",
+    "sha256": "b868ef8f3ef7a50a14c57b8dbeddf6a64f90a3c7bb2f880bc67d8746e4fdfbe6",
+    "frozen_policy": "One 50:50 arithmetic prediction blend, compared to the exact old Z4 endpoint; no weights, members, or evaluation protocol were selected from this result."
+  },
+  "question": "Does the weaker clean-T3 F0 CP5 endpoint add conditional value to the old Z4 F0 student under a root-frozen equal-weight blend?",
+  "result": {
+    "metric_id": "global_wp_clip2_v1",
+    "candidate": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5*0.5,oldz4_h230_student_f0_s3_r3@ep1*0.5",
+    "candidate_wp": 0.683254949838229,
+    "reference": "oldz4_h230_student_f0_s3_r3@ep1",
+    "reference_wp": 0.6831418133898598,
+    "paired_delta_wp": 0.00011313644836952186,
+    "paired_whole_component_bootstrap": {
+      "ci95": [-0.0012870053160526835, 0.0015165560705333284],
+      "bootstrap_sd": 0.0007200886432080722,
+      "p_delta_le_zero": 0.39,
+      "replicates": 800,
+      "seed": 271828,
+      "resampling_unit": "141 connected valid-source components"
+    },
+    "evaluation_units": {
+      "exposed_fold": "F0 excluded-468 development panel; repeatedly inspected, not a fresh holdout",
+      "evaluation_groups": 468,
+      "selected_rows": 808863,
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+    }
+  },
+  "endpoint_bindings": [
+    {
+      "role": "new clean-T3 CP5 member",
+      "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+      "epoch": 5,
+      "weight": 0.5,
+      "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "prediction_sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6",
+      "sidecar_sha256": "ad3ef0a0ad9f9668ab9764f40f916752d450554517859fb6782978ca5e97348e",
+      "provenance_sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+      "inference_precision": "fp32",
+      "prediction_shape_dtype": "(1873, 20000, 2), float32",
+      "grade_handoff_sha256": "ef7e3a4638229f99f9ca4f0aefbcaa4bb330d48d3a567138a68cfd0a3caafb31",
+      "terminal_validation_sha256": "4029b09616ea8a705c47673a76c698dbda0d92a45a39097374f6b467840dcf19"
+    },
+    {
+      "role": "old Z4 comparator/member",
+      "run": "oldz4_h230_student_f0_s3_r3",
+      "epoch": 1,
+      "weight_in_candidate": 0.5,
+      "weight_in_reference": 1.0,
+      "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+      "prediction_sha256": "1e8259b829dcde4e3e395ac6e56e2d187b5b0c3e0ba343a98f9cbf530893712f",
+      "sidecar_sha256": "5310ee451377522b43eb0f217933ad73ad162b944093515107806a7ee1984f7a",
+      "provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+      "inference_precision": "fp16",
+      "prediction_shape_dtype": "(1873, 20000, 2), float32",
+      "grade_receipt_sha256": "f6fb615b329d1d3acb513a8ac87693eeb87987af799ddd683329c1d9fa36fbae"
+    }
+  ],
+  "execution": {
+    "method": "Score the already-materialized endpoint prediction banks using the pinned fold-0 panel evaluator; no model inference, fit, or prediction generation was run.",
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-clean-t3-f0-oldz4-halfblend-r1-20261012.scope scripts/limited /usr/bin/time -v .venv/bin/python scripts/score_fold0_panel.py 'clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5*0.5,oldz4_h230_student_f0_s3_r3@ep1*0.5' --reference 'oldz4_h230_student_f0_s3_r3@ep1' --n-boot 800 --out GRADE_FIXED_HALF_R1.json",
+    "limited_scope_unit": "wnn-clean-t3-f0-oldz4-halfblend-r1-20261012.scope",
+    "scope_result": "success",
+    "exit_status": 0,
+    "elapsed_seconds": 6.64,
+    "user_cpu_seconds": 5.32,
+    "system_cpu_seconds": 1.12,
+    "max_rss_kib": 1402112,
+    "max_rss_decimal_bytes_approx": 1435762688,
+    "memory_limit_decimal_bytes": 1500000000,
+    "swap_used_bytes": 0,
+    "raw_stdout_sha256": "068caee6c730fd97e7788a0e4d0914b76505bcea9da4687c96f917bdbe36ab6f",
+    "raw_stderr_time_sha256": "1fd2e1bafe9b07bb7d3be03799e9456aa54f2d6bf7ae02e33cea25f7297befe9",
+    "grade_output_sha256": "3a36a8d875967d4e493d9a14a2468af7b3abd2440c5a8ae9fd363cf6fffa5b37"
+  },
+  "aggregate_admission_observations": {
+    "pre_run_utc": "2026-10-12T13:48:34Z",
+    "parent_memory_current_bytes_pre": 13599981568,
+    "active_fit_worker": "wnn-bandit-clean-t3-f0-control-s4-a9-r3-p1-20261012.service",
+    "worker_memory_current_bytes_pre": 4662673408,
+    "worker_reservation_bytes": 5500000000,
+    "unused_worker_reservation_bytes_pre": 837326592,
+    "support_memory_cap_bytes": 1500000000,
+    "aggregate_estimate_bytes_pre": 15937308160,
+    "aggregate_limit_bytes": 18000000000,
+    "cpu_admission": "Parent 5 CPU cores; active worker 1 CPU plus support 1 CPU = 2/5 cores.",
+    "memory_events_before": {"high": 13540714, "max": 74857790, "oom": 9, "oom_kill": 9},
+    "memory_events_after_sample": {"high": 13550099, "max": 74857797, "oom": 9, "oom_kill": 9},
+    "event_attribution_limit": "The cgroup memory.max event counter increased by 7 while the separate S4 worker remained active; the retained record cannot attribute those events to this short scope. This run exited successfully below its cap, used no swap, and the OOM counters did not change. The transient scope's MemoryPeak and PID were not retained."
+  },
+  "interpretation_limits": [
+    "The observed delta is small and its paired 95% component-resampling interval crosses zero; this does not establish a benefit or a recipe winner.",
+    "Uncertainty covers only resampling of the fixed, previously exposed F0 components. It excludes training-seed, recipe, target/initializer ancestry, inference-precision, fold-transfer and public-transfer uncertainty.",
+    "The new and old members differ in recipe and ancestry as well as inference precision (FP32 versus FP16); this screen does not isolate architecture or precision effects.",
+    "The result is not a public-score forecast and does not promote, package, or authorize a submission."
+  ],
+  "source_pins": {
+    "scoring_script_sha256": "0f67ac06cd769a582901b854737528c89e9a7738c3057acf68d7f99eddbfa2d0",
+    "comparison_module_sha256": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+    "official_metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "split_loader_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+  }
+}

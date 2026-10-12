@@ -1,0 +1,81 @@
+{
+ "metric_id": "global_wp_clip2_v1",
+ "created_utc": "2026-10-12T13:48:55.889910+00:00",
+ "candidate": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5*0.5,oldz4_h230_student_f0_s3_r3@ep1*0.5",
+ "candidate_members": [
+  {
+   "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+   "epoch": 5,
+   "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+   "prediction_sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6",
+   "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+   "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+   "inference_precision": "fp32",
+   "weight": 0.5
+  },
+  {
+   "run": "oldz4_h230_student_f0_s3_r3",
+   "epoch": 1,
+   "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+   "prediction_sha256": "1e8259b829dcde4e3e395ac6e56e2d187b5b0c3e0ba343a98f9cbf530893712f",
+   "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+   "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+   "inference_precision": "fp16",
+   "weight": 0.5
+  }
+ ],
+ "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+ "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+ "evaluation_groups": 468,
+ "components": 141,
+ "official": {
+  "t0": 0.6769247115830936,
+  "t1": 0.6895851880933643,
+  "wp": 0.683254949838229,
+  "selected_rows": 808863,
+  "metric_id": "global_wp_clip2_v1"
+ },
+ "exposure": "fold0 excluded-468 panel; repeatedly inspected development evidence, not a public forecast",
+ "contrasts": [
+  {
+   "reference": "oldz4_h230_student_f0_s3_r3@ep1",
+   "reference_members": [
+    {
+     "run": "oldz4_h230_student_f0_s3_r3",
+     "epoch": 1,
+     "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+     "prediction_sha256": "1e8259b829dcde4e3e395ac6e56e2d187b5b0c3e0ba343a98f9cbf530893712f",
+     "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+     "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+     "inference_precision": "fp16",
+     "weight": 1.0
+    }
+   ],
+   "reference_official": {
+    "t0": 0.67716948514808,
+    "t1": 0.6891141416316396,
+    "wp": 0.6831418133898598,
+    "selected_rows": 808863,
+    "metric_id": "global_wp_clip2_v1"
+   },
+   "paired": {
+    "candidate_wp": 0.6832549498382293,
+    "reference_wp": 0.6831418133898598,
+    "mean_diff": 0.00011313644836952186,
+    "bootstrap_sd": 0.0007200886432080722,
+    "ci95": [
+     -0.0012870053160526835,
+     0.0015165560705333284
+    ],
+    "p_le_0": 0.39,
+    "n_sequences": 468,
+    "n_components": 141,
+    "n_boot": 800,
+    "seed": 271828,
+    "metric_id": "global_wp_clip2_v1",
+    "centered_moments": true,
+    "selected_rows": 808863
+   }
+  }
+ ]
+}
