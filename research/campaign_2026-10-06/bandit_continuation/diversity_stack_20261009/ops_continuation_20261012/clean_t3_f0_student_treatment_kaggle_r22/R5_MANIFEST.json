@@ -1,0 +1,74 @@
+{
+  "change_scope": [
+    "kernel wall cap reduced from 14400 to 10000 seconds",
+    "machine-checked explicit 2-device/20000 GPU-second root quota binding",
+    "terminal pipeline receipt records dual-device budget"
+  ],
+  "created_utc": "2026-10-12T12:12:55Z",
+  "files": [
+    {
+      "bytes": 28212,
+      "path": "kernel_r5/kernel.py",
+      "sha256": "eee975e22a12939ec0d82465d3c4612491fb8354a00b6e42a176db07928243df"
+    },
+    {
+      "bytes": 658,
+      "path": "kernel_r5/kernel-metadata.json",
+      "sha256": "d7cda84a9a08ded24d7d43b6a236db1dc9701e4683fcde92a2e968b7706fe169"
+    },
+    {
+      "bytes": 3064,
+      "path": "kernel_r5/actual_t4_profile_guard_fixture_r1.json",
+      "sha256": "831b7be436a736b3ff65c0648b8edd163f864cab58accce9506320914dcbe093"
+    },
+    {
+      "bytes": 14949,
+      "path": "offline_fixture_r5.py",
+      "sha256": "afd06ca3454aa6a8a58ca769771308cee6e0a5593a05cb9103a55984d7908548"
+    },
+    {
+      "bytes": 2048,
+      "path": "OFFLINE_FIXTURE_OUTPUT_R5.json",
+      "sha256": "82e04770e566132af652046b94f1b346f0a744a262dbec3f5a6a2916667ce18b"
+    },
+    {
+      "bytes": 2444,
+      "path": "README_R5.md",
+      "sha256": "4bd970cbf9209248a538153f6b7e10a66d462931ec6f79d2af4ae876b6971568"
+    },
+    {
+      "bytes": 4700,
+      "path": "VALIDATION_RECEIPT_R5.json",
+      "sha256": "82e812e9c65c8c1910b20fa033c16e851771d14167465cde78d3c9a013b4a725"
+    }
+  ],
+  "gates": {
+    "actual_treatment_profile": "pending",
+    "dataset_ready_readback": "pending",
+    "fresh_quota_resource_admission": "pending",
+    "independent_review": "pending",
+    "provider_dispatch": "not_performed",
+    "root_release": "pending"
+  },
+  "kernel_id": "vladkochetov07/wnn-clean-t3-f0-muonall-student-20261012-r22-runner",
+  "parent_packet": {
+    "id": "clean_t3_f0_student_treatment_kaggle_r22",
+    "r4_commit": "187a433d869825169ea9bdc5d3bd8ef75c55d612",
+    "r4_manifest_sha256": "adb14bda7ee49ec450ac811eeef1fb1614c677f2f4e4b8dcec3199ed372c470f"
+  },
+  "quota": {
+    "cohort_gpu_seconds_upper_bound": 20000,
+    "finalization_reserve_seconds": 300,
+    "per_device_gpu_seconds_upper_bound": 10000,
+    "provisioned_gpu_count": 2,
+    "reason": "Kaggle provisions two T4 devices; charge the full kernel wall ceiling against both regardless of observed worker utilization.",
+    "wall_ceiling_seconds": 10000
+  },
+  "schema": "wnn.clean_t3_f0_student_treatment_kaggle_mount_quota_successor.r5",
+  "science_source_cache_and_argv_changes": false,
+  "status": "prepared_unuploaded",
+  "validation_receipt": {
+    "path": "VALIDATION_RECEIPT_R5.json",
+    "sha256": "82e812e9c65c8c1910b20fa033c16e851771d14167465cde78d3c9a013b4a725"
+  }
+}
