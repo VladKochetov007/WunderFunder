@@ -1,0 +1,185 @@
+{
+  "schema": "wnn.clean-t3-f0-row-group-cache-adapter-contract.r1",
+  "status": "ADAPTER_CONTRACT_PENDING_S4_S5_TRAIN_PREDICTIONS_AND_ROOT_CACHE_RELEASE",
+  "authorization": {
+    "cache_materialized": false,
+    "student_fit_launched": false,
+    "root_release_required_for_materialization": true,
+    "do_not_run_frozen_builder": true
+  },
+  "lineage": {
+    "student_recipe_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/STUDENT_RECIPE_PENDING_CACHE_R1.json",
+    "student_recipe_sha256": "8514e8a88bfecbc2cae9b8950cc88f2a1354f21b36a49dc9a3cd16b634598b32",
+    "split_manifest_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "source_snapshot_root": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot",
+    "consumer_cache_validator_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/src/wnn/distillation_cache.py",
+    "consumer_cache_validator_sha256": "b0b588605b3134a62c7a0c634219030fbcdd820e572668aff6d33980db180740",
+    "frozen_legacy_builder_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/scripts/build_cleanfold_t3_cache.py",
+    "frozen_legacy_builder_sha256": "62aea91099b14cdd5ef987dcbd60675dbb650b152bdfe2a27aeda3ed24e3d12e",
+    "frozen_legacy_builder_must_not_be_run_unchanged": true,
+    "terminal_s3_export_receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_local_s3_fit_train_profile_r1/TERMINAL_VALIDATION_R1.json",
+    "terminal_s3_export_receipt_sha256": "1f8ff7382802abe76f57eb23458962422112c8383f7a3a6c7c9b84f93cf27ea8",
+    "terminal_s3_export_commit": "17c0eb5fc2a781dbb70ef95c4c6f29d19c449a14"
+  },
+  "source_qualified_membership": {
+    "fold": 0,
+    "fit_train_source": "datasets/train.parquet",
+    "fit_train_count": 10535,
+    "fit_train_prediction_order_sha256_seed3": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+    "fit_valid_source": "datasets/valid.parquet",
+    "fit_valid_count": 1405,
+    "evaluation_valid_count": 468,
+    "full_valid_prediction_count": 1873,
+    "required_fit_valid_evaluation_overlap": 0,
+    "comparison_rule": "Keep train.parquet and valid.parquet row-group IDs source-qualified. Compare each seed's ordered fit_row_groups with that seed's provenance fingerprint, check equal membership sets against the exact F0 split, and join prediction rows by IDs. Do not equate randomized trainer order with prediction order."
+  },
+  "teachers": [
+    {
+      "seed": 3,
+      "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+      "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+      "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+      "fit_membership_identity": {
+        "train": {
+          "count": 10535,
+          "ordered_int64_le_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9"
+        },
+        "valid": {
+          "count": 1405,
+          "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+        }
+      },
+      "fit_train_prediction": {
+        "path": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_fit_train_r1_train.npy",
+        "sidecar_path": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_fit_train_r1_train.json",
+        "expected_shape": [10535, 20000, 2],
+        "expected_dtype": "float32",
+        "expected_file_bytes": 1685600128,
+        "sidecar_sha256": "ec9bf8fb761f4357ab7e191923a6476212b0022e183e1645f4eecc682cc6165d",
+        "prediction_sha256": "63153337ec262f8d182283731e409644c1b7b19332e8fef047f0fb1a72504f06",
+        "ordered_row_groups_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+        "terminal_validation_status": "PASS_TERMINAL_ACTUAL_PRODUCER_VALIDATION"
+      },
+      "fit_valid_full_valid_prediction": {
+        "path": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1_valid.npy",
+        "sidecar_path": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1_valid.json",
+        "expected_shape": [1873, 20000, 2],
+        "expected_dtype": "float32",
+        "expected_file_bytes": 299680128,
+        "sidecar_sha256": "8414274a245708e57b8fea28ebc7a71e4393e879eff9ff993229248e135051a7",
+        "prediction_sha256": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1",
+        "ordered_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+      }
+    },
+    {
+      "seed": 4,
+      "run": "clean_t3_f0_muonall_h384_e3_s4_r5",
+      "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+      "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+      "fit_membership_identity": {
+        "train": {
+          "count": 10535,
+          "ordered_int64_le_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49"
+        },
+        "valid": {
+          "count": 1405,
+          "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+        }
+      },
+      "fit_train_prediction": {
+        "path": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_local_fit_train_r1_train.npy",
+        "sidecar_path": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_local_fit_train_r1_train.json",
+        "expected_shape": [10535, 20000, 2],
+        "expected_dtype": "float32",
+        "expected_file_bytes": 1685600128,
+        "status": "PENDING_SOURCE_QUALIFIED_TRAIN_EXPORT"
+      },
+      "fit_valid_full_valid_prediction": {
+        "path": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_local_full_valid_r1_valid.npy",
+        "sidecar_path": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_local_full_valid_r1_valid.json",
+        "expected_shape": [1873, 20000, 2],
+        "expected_dtype": "float32",
+        "expected_file_bytes": 299680128,
+        "sidecar_sha256": "1aeba1c1f41d799e15d7da443c0151f9f94a3771927edcaaf62f365220616970",
+        "prediction_sha256": "314172c91053c5581ac73160dc936fb3fa5d8615b8dac5fffeca73f0d7524d1a",
+        "ordered_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+      }
+    },
+    {
+      "seed": 5,
+      "run": "clean_t3_f0_muonall_h384_e3_s5_r5",
+      "checkpoint_sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+      "provenance_sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18",
+      "fit_membership_identity": {
+        "train": {
+          "count": 10535,
+          "ordered_int64_le_sha256": "6e8cb1e840301ef6c03ee3dc4a3b400c719cd4959d6f038eeddfa4b60de016c2"
+        },
+        "valid": {
+          "count": 1405,
+          "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+        }
+      },
+      "fit_train_prediction": {
+        "path": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_local_fit_train_r1_train.npy",
+        "sidecar_path": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_local_fit_train_r1_train.json",
+        "expected_shape": [10535, 20000, 2],
+        "expected_dtype": "float32",
+        "expected_file_bytes": 1685600128,
+        "status": "PENDING_SOURCE_QUALIFIED_TRAIN_EXPORT"
+      },
+      "fit_valid_full_valid_prediction": {
+        "path": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_local_full_valid_r1_valid.npy",
+        "sidecar_path": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_local_full_valid_r1_valid.json",
+        "expected_shape": [1873, 20000, 2],
+        "expected_dtype": "float32",
+        "expected_file_bytes": 299680128,
+        "sidecar_sha256": "20040bdfb2f0e9cd39f42338656e33ac8d8a008664f2b39813eb1e14b3214beb",
+        "prediction_sha256": "13420c11164234ce14a49aaae9c7612c8e54d32fde02acd062991b47deb21e92",
+        "ordered_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+      }
+    }
+  ],
+  "projection": {
+    "valid_source_order": "read cache/valid_targets.npz member row_group and filter to exact F0 fit.valid IDs in that order",
+    "valid_input_membership": "exact union of 1,405 FIT_VALID and 468 evaluation IDs from datasets/valid.parquet",
+    "output_membership": "exact 1,405 FIT_VALID IDs only; reject any evaluation ID",
+    "train_source_order": "read cache/train_targets.npz member row_group and filter to exact F0 fit.train IDs in that order",
+    "join": "map each per-seed producer sidecar row_groups list to array row indices by group ID before reading output chunks",
+    "source_qualification": "train and valid maps are constructed independently; equal numeric row-group IDs from different parquet files are never joined",
+    "teacher_target_operation_order": "float32 add s3 then s4 then s5; divide by float32(3); multiply by float32(0.8125); no clipping",
+    "block_sequences": 8
+  },
+  "output": {
+    "cache_root": "cache/clean_t3_f0_h390_t3r5_a9_r1",
+    "files": {
+      "main_homogeneous_train.npy": {
+        "shape": [10535, 20000, 2],
+        "dtype": "float32",
+        "expected_bytes_including_npy_header": 1685600128
+      },
+      "main_homogeneous_valid.npy": {
+        "shape": [1405, 20000, 2],
+        "dtype": "float32",
+        "expected_bytes_including_npy_header": 224800128
+      }
+    },
+    "metadata": "metadata.json",
+    "expected_total_array_bytes_including_headers": 1910400256,
+    "write_mode": "read-only input memmaps, output open_memmap chunks, create unique .partial directory and refuse overwrite; metadata written last; atomically rename on success"
+  },
+  "actual_producer_validation": {
+    "actual_full_valid_sidecars": "s3/s4/s5 JSON sidecars and NPY headers must be consumed by the tests with exact run/seed/epoch/checkpoint/split/scope/row_groups binding",
+    "actual_s3_fit_train_export": "terminal receipt binds completed output and sidecar SHA; adapter does not trust the earlier 16-sequence profile",
+    "array_hashing": "actual source array SHA256 must match each producer sidecar immediately before materialization; use bounded streaming reads",
+    "finite_values": "scan source and output chunks during materialization; reject nonfinite values",
+    "frozen_builder": "record its identity only; do not import, execute, or modify it"
+  },
+  "deferred_work": [
+    "Await s4/s5 FIT_TRAIN prediction sidecars; do not launch additional teacher export from this adapter.",
+    "Wait for an explicit root cache-materialization release; this contract is not a cache-build or student-fit authorization.",
+    "After release, build once at the unique cache root and run the frozen consumer validator with actual train_targets.npz and valid_targets.npz row_group members.",
+    "No provider action, package installation, data mutation, cache eviction, fitting, grading, or scorer/predictor changes."
+  ]
+}
