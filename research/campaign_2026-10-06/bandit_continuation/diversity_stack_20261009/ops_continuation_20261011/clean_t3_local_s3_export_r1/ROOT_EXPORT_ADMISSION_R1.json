@@ -1,0 +1,81 @@
+{
+  "schema": "wnn.root.clean-t3-local-s3-export-admission.r1",
+  "created_utc": "2026-10-12T04:40:04.626490+00:00",
+  "status": "admitted_one_bounded_actual_device_prediction_export",
+  "owner": "root",
+  "attempt": "clean-t3-f0-s3-cp2-full-valid-local-export-r1",
+  "preflight_sha256": "27dd6502f9378b8676e5428df882d85c7a0d256c4da1f99643851be1463dd06e",
+  "actual_consumer_review_sha256": "5f5ea45496db354ab47839250528930d525e4734059fe25b7e61029af637d8d9",
+  "raw_valid_full_content_review_sha256": "5b9a346d10c19eacce6ef7c7db313315986d4c47e0b20a480ac8f31c65039862",
+  "command": {
+    "argv": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/scripts/predict_run.py",
+      "clean_t3_f0_muonall_h384_e3_s3_r5",
+      "valid",
+      "--epoch",
+      "2",
+      "--output-name",
+      "clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1",
+      "--campaign-split-manifest",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--device",
+      "cuda",
+      "--inference-precision",
+      "fp32",
+      "--campaign-full-valid-feature-only"
+    ],
+    "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "environment": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/src",
+      "WNN_LOADER_WORKERS": "0",
+      "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+    },
+    "expected_npy_bytes_including_header": 299680128,
+    "expected_npy_dtype": "float32",
+    "expected_npy_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "output_json": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1_valid.json",
+    "output_npy": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1_valid.npy",
+    "pending_root_gates": [
+      "fresh local aggregate RAM/CPU/GPU admission",
+      "actual local-device export admission/profile",
+      "root reconciles the local raw valid.parquet bytes to the frozen full-content binding; this preflight checks size/mtime/footer only"
+    ],
+    "proposed_resource_envelope_pending_root_admission": {
+      "cpu_quota_percent": 100,
+      "gpu_allocator_target_bytes": 4300000000,
+      "loader_workers": 0,
+      "memory_max_bytes": 6800000000,
+      "observed_vram_guard_bytes": 5000000000,
+      "threads": 1,
+      "timeout_seconds": 1800
+    },
+    "semantics": "full-valid feature-only, official valid_targets row order; not a held-out score",
+    "status": "prepared_not_launched"
+  },
+  "resources": {
+    "cpu_cores": 1,
+    "ram_reserve_bytes": 6800000000,
+    "gpu_allocator_bytes": 4300000000,
+    "observed_vram_max_bytes": 5000000000,
+    "threads": 1,
+    "loader_workers": 0,
+    "swap_bytes": 0,
+    "wall_seconds": 1800
+  },
+  "parent_memory_at_admission_bytes": 8485060608,
+  "selected_epoch": 2,
+  "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+  "new_spend_usd": 0,
+  "training_repeated": false,
+  "profile_limitation": "No prior exact local H384 FP32 export timing/profile claim; this bounded actual-device inference must be observed promptly and enforces resource guards. Existing H512/oldstudent export evidence supports estimate only.",
+  "grading_gate": "Complete finite NPY/sidecar expected299680128bytes/1873x20000x2, epoch2/source-qualifiedCP/fold hash/rowgroups/FP32forward; no grade until terminal validation; exposed cleanF0 only, source/propensity ancestry excluded."
+}

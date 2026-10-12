@@ -1,0 +1,52 @@
+{
+  "schema": "wnn.root.clean-t3-local-f0-s3-first-source-grade-admission.r1",
+  "created_utc": "2026-10-12T04:45:43.138075+00:00",
+  "status": "admitted_fixed_official_source_and_conditional_comparison",
+  "owner": "root",
+  "operator": "batch_packet_builder",
+  "prediction_name": "clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1",
+  "prediction_sha256": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1",
+  "sidecar_sha256": "8414274a245708e57b8fea28ebc7a71e4393e879eff9ff993229248e135051a7",
+  "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+  "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "metric": "global_wp_clip2_v1",
+  "fixed_mask": "is_scored & need_prediction >=99",
+  "metric_clipping": [
+    -2,
+    2
+  ],
+  "weights": "original clipped-label magnitude",
+  "evaluated_groups": 468,
+  "components": 141,
+  "exposed": true,
+  "distinct_seed": 1,
+  "inference_precision": "newteacherFP32, legacyoldstudentFP16, no nativequantizationgrade",
+  "grade_specs": [
+    "newteacher standalone",
+    "fixed 50/50 oldz4_h230_student_f0_s3_r3 CP1 / newteacher CP2 output blend",
+    "oldstudent control"
+  ],
+  "scientific_ancestry_gate": "source-qualified component fitting/propensity/teacher/initializer exclusions already admitted; raw train/valid integers never conflated",
+  "resources": {
+    "cpu_quota_percent": 50,
+    "threads": 1,
+    "memory_max_bytes": 1500000000,
+    "wall_seconds": 600,
+    "gpu_count": 0,
+    "swap_bytes": 0,
+    "parent_current_bytes": 11770290176
+  },
+  "bootstrap_if_preparing": {
+    "unit": "complete component",
+    "resamples": 800,
+    "seed": 271828,
+    "frozen_comparison": "samefixed50/50 vsoldstudent; no searchedweights"
+  },
+  "not_authorized": [
+    "weightsearch",
+    "newfit",
+    "publicscoreforecast",
+    "submissionrelease"
+  ],
+  "new_spend_usd": 0
+}

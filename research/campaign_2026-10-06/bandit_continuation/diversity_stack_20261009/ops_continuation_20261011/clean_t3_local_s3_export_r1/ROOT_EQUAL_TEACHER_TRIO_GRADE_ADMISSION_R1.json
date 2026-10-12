@@ -1,0 +1,59 @@
+{
+  "schema": "wnn.root.clean-t3-local-f0-equal-trio-grade-admission.r1",
+  "created_utc": "2026-10-12T05:03:54.201304+00:00",
+  "status": "admitted_frozen_distinct_seed_and_fixed_trio_comparisons",
+  "owner": "root",
+  "operator": "batch_packet_builder",
+  "seeds": [
+    3,
+    4,
+    5
+  ],
+  "selected_checkpoint_epoch": 2,
+  "prediction_names": [
+    "clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1",
+    "clean_t3_f0_muonall_h384_e3_s4_r5_local_full_valid_r1",
+    "clean_t3_f0_muonall_h384_e3_s5_r5_local_full_valid_r1"
+  ],
+  "prediction_sha256": {
+    "s3": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1",
+    "s4": "314172c91053c5581ac73160dc936fb3fa5d8615b8dac5fffeca73f0d7524d1a",
+    "s5": "13420c11164234ce14a49aaae9c7612c8e54d32fde02acd062991b47deb21e92"
+  },
+  "control": "oldz4_h230_student_f0_s3_r3 CP1",
+  "grade_specs": [
+    "all3singles for distinct-seed mean/SD (reuse pinned s3 score wherepossible)",
+    "equal1/3 teacher trio",
+    "fixed1/2 oldstudent +1/6 eachteacher versusoldstudent"
+  ],
+  "no_selected_seed": true,
+  "metric": "global_wp_clip2_v1",
+  "mask": "is_scored & fixed need_prediction >=99",
+  "clipping": [
+    -2,
+    2
+  ],
+  "weights": "original clipped-label magnitude",
+  "evaluation_groups": 468,
+  "components": 141,
+  "exposed": true,
+  "precision": "newteachersFP32,oldstudentFP16,pre-nativequantization",
+  "resources": {
+    "cpu_quota_percent": 50,
+    "threads": 1,
+    "memory_max_bytes": 1500000000,
+    "wall_seconds": 600,
+    "gpu_count": 0,
+    "swap_bytes": 0,
+    "parent_current_bytes": 10814128128
+  },
+  "bootstrap": {
+    "unit": "completecomponent",
+    "resamples": 800,
+    "seed": 271828,
+    "candidate": "fixed oldstudent/equaltrio half",
+    "reference": "oldstudent"
+  },
+  "scope": "Complete existing distinct-seed source evidence; no fitting, weightsearch, publicforecast or ZIPrelease",
+  "new_spend_usd": 0
+}

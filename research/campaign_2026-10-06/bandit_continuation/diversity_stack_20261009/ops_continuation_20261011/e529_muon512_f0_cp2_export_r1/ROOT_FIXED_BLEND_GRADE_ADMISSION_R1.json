@@ -1,0 +1,73 @@
+{
+  "schema": "wnn.root.e529-cp2-fixed-conditional-blend-grade-admission.r1",
+  "created_utc": "2026-10-12T04:12:59.295776+00:00",
+  "status": "admitted_one_fixed_conditional_comparison",
+  "owner": "root",
+  "operator": "submission_packager",
+  "fixed_blend": {
+    "metric_and_comparison": "If root later admits the predeclared blend analysis, compare only on the exact 468 fold0 evaluation row_group IDs under global_wp_clip2_v1; these groups were excluded from fitting but already exposed by the snapshot-curve analysis.",
+    "old_student": {
+      "run_id": "oldz4_h230_student_f0_s3_r3",
+      "epoch": 1,
+      "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+      "provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+      "prediction_path": "cache/pred_oldz4_h230_student_f0_s3_r3_valid.npy",
+      "prediction_bytes": 299680128,
+      "prediction_sidecar_sha256": "5310ee451377522b43eb0f217933ad73ad162b944093515107806a7ee1984f7a",
+      "prediction_sha256_from_sidecar": "1e8259b829dcde4e3e395ac6e56e2d187b5b0c3e0ba343a98f9cbf530893712f",
+      "weight": 0.75
+    },
+    "h512_prefix": {
+      "run_id": "bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009",
+      "checkpoint_epoch_argument": 2,
+      "checkpoint_sha256": "9cbfa401c3432bc027dfb809be07d2d6ab76c82c5007e1fe99d413af566b684c",
+      "weight": 0.25
+    },
+    "blend_weights_sum": 1.0,
+    "status": "predeclared_fixed_conditional_value_only; no local blend grade is performed by this export contract"
+  },
+  "candidate_weights": [
+    0.75,
+    0.25
+  ],
+  "control": "oldz4_h230_student_f0_s3_r3 CP1",
+  "candidate_h512_prediction_sha256": "f60b535ec82b04a91388ffea5c078ea888dece07e42ace73af473b1f8ec3ebef",
+  "candidate_h512_sidecar_sha256": "e682f51c0050119a949ee052096adc20b7e187083772cd16951a626e8944f0f9",
+  "base_prediction_sha256_from_pinned_sidecar": "1e8259b829dcde4e3e395ac6e56e2d187b5b0c3e0ba343a98f9cbf530893712f",
+  "source_qualified_fold0_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "evaluation_row_groups": 468,
+  "evaluation_components": 141,
+  "exposure": "previously inspected outer-fold CV; one seed per source recipe; no public score forecast",
+  "metric": "global_wp_clip2_v1",
+  "metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+  "scorer_source_sha256": "87cb00f8a2d9f4b2c0a9c9dc39dc5f5ffa627b45c0b2c14de950ebbbb259594f",
+  "pregrade_checks": [
+    "actual full prediction hashes match sidecars",
+    "baseline and candidate producer/CP/source ancestry and evaluation component exclusion",
+    "legacy scorer fold0 IDs equal source-qualified E529 fold0 IDs exactly",
+    "cache mask retains is_scored and fixed need_prediction mask, clipping\u00b12 and original clipped-label-magnitude weights unchanged"
+  ],
+  "resources": {
+    "cpu_quota_percent": 50,
+    "threads": 1,
+    "memory_max_bytes": 700000000,
+    "wall_seconds": 600,
+    "gpu_count": 0,
+    "swap_bytes": 0,
+    "parent_current_bytes": 11961937920
+  },
+  "bootstrap": {
+    "unit": "complete component",
+    "resamples": 800,
+    "seed": 271828,
+    "implementation": "wnn.evaluation.paired_component_moments and paired_component_bootstrap"
+  },
+  "not_authorized": [
+    "weight search",
+    "standalone H512 regrade",
+    "new fit",
+    "package build",
+    "public forecast"
+  ],
+  "new_spend_usd": 0
+}

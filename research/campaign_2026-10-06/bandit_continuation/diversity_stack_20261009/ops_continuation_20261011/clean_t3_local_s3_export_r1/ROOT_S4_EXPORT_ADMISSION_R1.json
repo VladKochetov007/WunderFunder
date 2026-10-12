@@ -1,0 +1,75 @@
+{
+  "schema": "wnn.root.clean-t3-local-sibling-export-admission.r1",
+  "created_utc": "2026-10-12T04:56:34.132813+00:00",
+  "status": "admitted_one_serial_gpu_prediction_export",
+  "attempt": "clean-t3-f0-s4-cp2-full-valid-local-export-r1",
+  "owner": "root",
+  "successor": {
+    "seed": 4,
+    "run": "clean_t3_f0_muonall_h384_e3_s4_r5",
+    "checkpoint_epoch": 2,
+    "pins": {
+      "model_ep2.pt": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+      "provenance.json": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+      "history.json": "54dc09a767bf79811281e36e4daf3bb4ed08e353d5f1c7ca4a5f8e6846c8282c",
+      "training_state.pt": "51718a1c913ed696357eb3e28e35304b8053ad8fc5d6cf33239ef75c7ab42543"
+    },
+    "actual_predictor_source_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "actual_trainer_source_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "source_and_architecture_signature_matches_profiled_s3_except_name_seed": true,
+    "membership_set_matches_frozen_fold": true,
+    "fit_train_groups": 10535,
+    "fit_valid_groups": 1405,
+    "evaluation_groups": 468,
+    "actual_preflight_reached_before_CUDA": true,
+    "command": {
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/scripts/predict_run.py",
+        "clean_t3_f0_muonall_h384_e3_s4_r5",
+        "valid",
+        "--epoch",
+        "2",
+        "--output-name",
+        "clean_t3_f0_muonall_h384_e3_s4_r5_local_full_valid_r1",
+        "--campaign-split-manifest",
+        "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "fp32",
+        "--campaign-full-valid-feature-only"
+      ],
+      "environment": {
+        "MKL_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/src",
+        "WNN_LOADER_WORKERS": "0",
+        "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+      }
+    },
+    "output_npy": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_local_full_valid_r1_valid.npy",
+    "output_sidecar": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_local_full_valid_r1_valid.json"
+  },
+  "producer_preflight_sha256": "b8125a02e2a44ce946272ce196bcc6fe0b0b5f56083cae120475e11047e55cf7",
+  "profile_reference_attempt": "clean-t3-f0-s3-cp2-full-valid-local-export-r1",
+  "profile_reference_peak_ram_bytes": 4347756544,
+  "reserve_rationale": "Same actual arguments/model/source/shape except seed/name; successful s3 measured4.348GB worker RAM,5.5GB reserve provides1.152GB margin. This reduces reservation without changing parentcaps or science.",
+  "resources": {
+    "cpu_cores": 1,
+    "ram_reserve_bytes": 5500000000,
+    "gpu_allocator_bytes": 4300000000,
+    "observed_vram_max_bytes": 5000000000,
+    "threads": 1,
+    "loader_workers": 0,
+    "swap_bytes": 0,
+    "wall_seconds": 1800
+  },
+  "GPU_execution": "durable single GPU lock serializes s4/s5; ledger checks live capacity again before start",
+  "training_repeated": false,
+  "new_spend_usd": 0,
+  "grading_authorized": false,
+  "scope": "complete predictions from previously admitted distinct teacher fits, no repeated seeds/model training or public forecast"
+}

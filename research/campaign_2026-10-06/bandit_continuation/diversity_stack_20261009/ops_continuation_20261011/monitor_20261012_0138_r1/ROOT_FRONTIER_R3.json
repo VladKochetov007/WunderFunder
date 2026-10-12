@@ -1,0 +1,173 @@
+{
+  "schema": "wnn.root.parallel-quality-inference-frontier.r3",
+  "observed_utc": "2026-10-12T04:08:27.380471+00:00",
+  "local_attempts": {
+    "native-shared-cleanfold-q8-r2": {
+      "id": "native-shared-cleanfold-q8-r2",
+      "kind": "cpu",
+      "status": "running",
+      "phase": "running",
+      "started_utc": "2026-10-12T04:00:42.654686+00:00",
+      "heartbeat_utc": "2026-10-12T04:08:24.784513+00:00",
+      "elapsed_seconds": 462.11435291098314,
+      "reservation": {
+        "cpus": 1,
+        "ram_bytes": 1000000000
+      },
+      "peak_ram_bytes": 898957312,
+      "peak_parent_ram_bytes": 13350178816,
+      "peak_observed_vram_bytes": 0,
+      "memory_event_deltas": {
+        "high": 733,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0,
+        "sock_throttled": 0
+      },
+      "parent_memory_event_deltas": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0,
+        "sock_throttled": 0
+      },
+      "failure": null,
+      "exit_status": null
+    },
+    "e529-muon512-f0-cp2-prefix4-retained-export-r1": {
+      "id": "e529-muon512-f0-cp2-prefix4-retained-export-r1",
+      "kind": "gpu",
+      "status": "running",
+      "phase": "running",
+      "started_utc": "2026-10-12T04:07:15.732703+00:00",
+      "heartbeat_utc": "2026-10-12T04:08:26.489532+00:00",
+      "elapsed_seconds": 70.69859255000483,
+      "reservation": {
+        "cpus": 1,
+        "ram_bytes": 6800000000
+      },
+      "peak_ram_bytes": 3389005824,
+      "peak_parent_ram_bytes": 12354707456,
+      "peak_observed_vram_bytes": 1322254336,
+      "memory_event_deltas": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0,
+        "sock_throttled": 0
+      },
+      "parent_memory_event_deltas": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0,
+        "sock_throttled": 0
+      },
+      "failure": null,
+      "exit_status": null
+    }
+  },
+  "kaggle_latest_read_only_poll": {
+    "cli_package_version": "2.2.4",
+    "observed_at_utc": "2026-10-12T04:06:03+00:00",
+    "quota": {
+      "gpu": {
+        "campaign_baseline_used_seconds": 37047.321,
+        "campaign_cap_seconds": 56780.516,
+        "campaign_headroom_seconds": 21729.443000000007,
+        "campaign_used_seconds": 35051.073,
+        "reserved_seconds": 0.0,
+        "total_allowed_seconds": 108000.0,
+        "used_seconds": 72098.394
+      },
+      "tpu": {
+        "campaign_baseline_used_seconds": 134.623,
+        "campaign_cap_seconds": 7200.0,
+        "campaign_headroom_seconds": 7334.623,
+        "campaign_used_seconds": -134.623,
+        "reserved_seconds": 0.0,
+        "total_allowed_seconds": 72000.0,
+        "used_seconds": 0.0
+      }
+    },
+    "quota_refresh_utc": "2026-10-17T00:00:00",
+    "session_id": {
+      "reason": "Kaggle status JSON currently omits kernel_session_id; do not substitute versionNumber.",
+      "value": null
+    },
+    "source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel",
+    "status": [
+      {
+        "kernel": "vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "tpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../../../cloud_preflight/E463_TPU_V7_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v2",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "GPU_R2_TERMINAL_OPERATOR_RECEIPT_R1.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-kaggle-crossfold-h382-20261011-r3",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.COMPLETE",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../../ops_continuation_20261011/kaggle_h382_delivery_20261011_r3/R3_TERMINAL_OPERATOR_RECEIPT.json",
+          "terminal_status": "KernelWorkerStatus.COMPLETE"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-h382-export-recovery-20261011-r4",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.COMPLETE",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../ops_continuation_20261011/kaggle_h382_delivery_20261011_r4/R4_TERMINAL_OPERATOR_RECEIPT.json",
+          "terminal_status": "KernelWorkerStatus.COMPLETE"
+        }
+      },
+      {
+        "failure_message": "",
+        "kernel": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5-runner",
+        "monitoring_state": "polling_until_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence_receipt": "../ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1/terminal_collection_v2/R6_V2_TERMINAL_OPERATOR_RECEIPT_R1.json"
+      }
+    ]
+  },
+  "kaggle_actual_failed_stage": "pending complete terminal collection/diagnosis owned by exact_activation_fusion",
+  "vast": "No new paid action, credit0/no owned live row at prior fresh check",
+  "new_spend_usd": 0,
+  "source_freezing": "Preserve MAIN runtime/source code and all declared WT/tmp sources through terminal",
+  "submission": "No new ZIP;12 withdrawn after actualtimeout,11 operationalcanary without numerical forecast",
+  "priorities": [
+    "stronger independent sources and matched complete blends",
+    "prediction-preserving inference savings and full-fold Q8 quality",
+    "public calibration diagnostic with uncertainty, not public-fold targeting"
+  ],
+  "local_gpu_pending_generic": 0
+}

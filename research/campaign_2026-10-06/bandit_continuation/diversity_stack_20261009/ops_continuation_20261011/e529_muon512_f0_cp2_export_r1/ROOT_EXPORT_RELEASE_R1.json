@@ -1,0 +1,66 @@
+{
+  "schema": "wnn.root.e529-cp2-retained-prediction-export-release.r1",
+  "status": "authorized_one_export",
+  "launch_authorized": true,
+  "created_utc": "2026-10-12T04:07:15.119355+00:00",
+  "owner": "root",
+  "attempt": "e529-muon512-f0-cp2-prefix4-retained-export-r1",
+  "contract_sha256": "c4e56bd0d0054f8a13838e744d662b8dfbe3966612aa6f70d45484284a45b050",
+  "helper_sha256": "4434d42bca05f9332f0c8b0f6c097a4ea64ad702bff12d43fe995625903c260a",
+  "run_id": "bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009",
+  "checkpoint_epoch_arg": 2,
+  "checkpoint_sha256": "9cbfa401c3432bc027dfb809be07d2d6ab76c82c5007e1fe99d413af566b684c",
+  "provenance_sha256": "909c0ff76e742cfd16342f9063364a36986d07aa2754330b59c183cd38bf4f71",
+  "fit_terminal_sha256": "ec066ad090c6e8c83d2acc6736e9438e3ed1ae6300a476935e070b73caac6eb4",
+  "runner_result_sha256": "48e142210d1ab1f7607ef4131c047c048a4cb4f9841b68beb4fd9080cce7684f",
+  "fold0_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "source_snapshot_bindings_sha256": "f0181c3715812eef2582ed1d62879089e35db9c403605a157c1466c9d7beabbf",
+  "predictor_sha256": "fee58a359c24208116cbf3b86e7d4dcf90ba285494582ab2f760edd9f8e1d0aa",
+  "trainer_sha256": "5b135ea90480dde8b530c4543e1d587a044efa1f98dc6a3327b9dca6fcd40187",
+  "output_name": "e529_muon512_f0_cp2_prefix4_retained_r1",
+  "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_e529_muon512_f0_cp2_prefix4_retained_r1_valid.npy",
+  "prediction_bytes": 299680128,
+  "fixed_blend": {
+    "metric_and_comparison": "If root later admits the predeclared blend analysis, compare only on the exact 468 fold0 evaluation row_group IDs under global_wp_clip2_v1; these groups were excluded from fitting but already exposed by the snapshot-curve analysis.",
+    "old_student": {
+      "run_id": "oldz4_h230_student_f0_s3_r3",
+      "epoch": 1,
+      "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+      "provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+      "prediction_path": "cache/pred_oldz4_h230_student_f0_s3_r3_valid.npy",
+      "prediction_bytes": 299680128,
+      "prediction_sidecar_sha256": "5310ee451377522b43eb0f217933ad73ad162b944093515107806a7ee1984f7a",
+      "prediction_sha256_from_sidecar": "1e8259b829dcde4e3e395ac6e56e2d187b5b0c3e0ba343a98f9cbf530893712f",
+      "weight": 0.75
+    },
+    "h512_prefix": {
+      "run_id": "bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009",
+      "checkpoint_epoch_argument": 2,
+      "checkpoint_sha256": "9cbfa401c3432bc027dfb809be07d2d6ab76c82c5007e1fe99d413af566b684c",
+      "weight": 0.25
+    },
+    "blend_weights_sum": 1.0,
+    "status": "predeclared_fixed_conditional_value_only; no local blend grade is performed by this export contract"
+  },
+  "resource_admission": {
+    "cpu_cores": 1,
+    "gpu_count": 1,
+    "memory_reserve_bytes": 6800000000,
+    "allocator_budget_bytes": 4300000000,
+    "observed_vram_limit_bytes": 5000000000,
+    "loader_workers": 0,
+    "threads": 1,
+    "swap_bytes": 0,
+    "worker_timeout_seconds": 900,
+    "fresh_snapshot_passed": true
+  },
+  "fresh_parent_memory_bytes": 8970706944,
+  "actual_producer_review_sha256": "9cbcc0ee87282cdc676c026c672844aaad1eccfbee66d47205fa91c37fcb53dd",
+  "cache_handoff": "monitor_20261012_0138_r1/ROOT_CACHE_HANDOFF_R18.json",
+  "new_spend_usd": 0,
+  "terminal_additional_checks": [
+    "sidecar epoch must equal2",
+    "sidecar prediction_sha256 equals recomputed NPY SHA",
+    "all needed predictions finite and complete; missing final/partial treated as execution failure"
+  ]
+}
