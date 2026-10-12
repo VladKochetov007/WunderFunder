@@ -48,11 +48,10 @@ def authorized_cpu_cap(now: datetime | None = None) -> int:
     return 12 if current >= TEMPORARY_CPU_START else CPU_CAP
 
 
-RAM_WORKING_BYTES = 18_000_000_000
+RAM_WORKING_BYTES = 17_000_000_000
 RAM_PARENT_BYTES = 20_000_000_000
 RAM_HIGH_BYTES = 18_000_000_000
-GPU_ALLOCATOR_BYTES = 4_300_000_000
-GPU_OBSERVED_BYTES = 5_000_000_000
+GPU_MEMORY_SAFETY_RESERVE_BYTES = 1_000_000_000
 ACTIVE = {"reserved", "waiting", "running"}
 UNRESOLVED = {"preflight", "launch_uncertain"}
 ATTEMPT_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}\Z")
@@ -66,6 +65,16 @@ T = TypeVar("T")
 def utc_now() -> str:
     """Return a UTC timestamp suitable for an immutable attempt record."""
     return datetime.now(UTC).isoformat()
+
+
+def gpu_memory_safety_reserve_bytes() -> int:
+    """Read the configurable free-memory reserve, defaulting to one decimal GB."""
+    value = os.environ.get("WNN_GPU_MEMORY_RESERVE_BYTES")
+    if value is None:
+        return GPU_MEMORY_SAFETY_RESERVE_BYTES
+    if not value.isascii() or not value.isdigit():
+        raise ValueError("WNN_GPU_MEMORY_RESERVE_BYTES must be a nonnegative integer")
+    return int(value)
 
 
 def sha256_file(path: Path) -> str:
@@ -440,13 +449,13 @@ def verify_capacity(
     if active_cpus + support_cpus + cpus > cpu_cap:
         raise RuntimeError(f"CPU reservation would exceed {cpu_cap} aggregate cores")
     if active_ram + ram_bytes > RAM_WORKING_BYTES:
-        raise RuntimeError("profiled RAM reservations would exceed the 18 GB working allowance")
+        raise RuntimeError("profiled RAM reservations would exceed the 17 GB working allowance")
     measured = (
         memory_current(parent_group) if current_memory_bytes is None else current_memory_bytes
     )
     if measured + ram_bytes > RAM_WORKING_BYTES:
         raise RuntimeError(
-            f"measured parent RAM plus profile reserve exceeds 18 GB: {measured}+{ram_bytes}"
+            f"measured parent RAM plus profile reserve exceeds 17 GB: {measured}+{ram_bytes}"
         )
     return {
         "parent_memory_current_bytes": measured,
@@ -500,8 +509,7 @@ def service_command(
         if key in os.environ:
             env[key] = os.environ[key]
     if kind == "gpu":
-        env["WNN_GPU_MEMORY_BYTES"] = str(GPU_ALLOCATOR_BYTES)
-        env["WNN_VRAM_GB"] = "4.3"
+        env["WNN_GPU_MEMORY_RESERVE_BYTES"] = str(gpu_memory_safety_reserve_bytes())
     command = [
         "systemd-run",
         "--user",
@@ -557,7 +565,7 @@ def launch(args: argparse.Namespace) -> dict[str, object]:
     if not 1 <= args.cpus <= cpu_cap:
         raise ValueError(f"worker CPU reservation must be in [1, {cpu_cap}]")
     if not 1 <= args.reserve_bytes <= RAM_WORKING_BYTES:
-        raise ValueError("profile reserve must be a positive byte count within 18 GB")
+        raise ValueError("profile reserve must be a positive byte count within 17 GB")
     if args.admission_timeout <= 0:
         raise ValueError("admission timeout must be positive")
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
@@ -588,6 +596,14 @@ def launch(args: argparse.Namespace) -> dict[str, object]:
         ).hexdigest(),
         "parent_slice": SLICE,
         "reservation": {"cpus": args.cpus, "ram_bytes": args.reserve_bytes},
+        "observed_vram_cap_bytes": None if args.kind == "gpu" else 0,
+        "allocator_admission_bytes": None if args.kind == "gpu" else 0,
+        "gpu_memory_policy": (
+            "cuda_free_bytes_minus_configurable_safety_reserve" if args.kind == "gpu" else None
+        ),
+        "gpu_memory_safety_reserve_bytes": (
+            gpu_memory_safety_reserve_bytes() if args.kind == "gpu" else 0
+        ),
         "phase": "preflight",
         "status": "preflight",
         "created_utc": utc_now(),
@@ -615,10 +631,6 @@ def launch(args: argparse.Namespace) -> dict[str, object]:
                 initial_vram = observe("nvidia_smi_launch", gpu_memory_bytes, record, record_path)
                 if initial_vram is None:
                     raise RuntimeError("initial GPU memory is unknown after bounded retries")
-                if initial_vram >= GPU_OBSERVED_BYTES:
-                    raise RuntimeError(
-                        f"device use is already at the {GPU_OBSERVED_BYTES} byte ceiling"
-                    )
             measured = observe(
                 "parent_memory_admission",
                 lambda: memory_current(parent_group),
@@ -654,9 +666,7 @@ def launch(args: argparse.Namespace) -> dict[str, object]:
             parent_properties_at_launch=props,
             admission_measurement=resources,
             parent_memory_events_at_launch=parent_events,
-            observed_vram_cap_bytes=GPU_OBSERVED_BYTES if args.kind == "gpu" else 0,
             initial_observed_vram_bytes=initial_vram,
-            allocator_admission_bytes=GPU_ALLOCATOR_BYTES if args.kind == "gpu" else 0,
             peak_parent_ram_bytes=resources["parent_memory_current_bytes"],
             phase="reserved",
             status="reserved",
@@ -807,16 +817,6 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
             atomic_json(record_path, record)
             lock_file.close()
             return 1
-        if initial_vram >= GPU_OBSERVED_BYTES:
-            record.update(
-                status="not_started",
-                phase="gpu_budget_preflight",
-                failure=f"device was already at {initial_vram} observed bytes",
-                finished_utc=utc_now(),
-            )
-            atomic_json(record_path, record)
-            lock_file.close()
-            return 1
     measured_parent = observe(
         "parent_memory_admission_recheck",
         lambda: memory_current(parent_group),
@@ -936,8 +936,7 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
         env[key] = str(cpus)
     env["ARROW_NUM_THREADS"] = "1"
     if kind == "gpu":
-        env["WNN_GPU_MEMORY_BYTES"] = str(GPU_ALLOCATOR_BYTES)
-        env["WNN_VRAM_GB"] = "4.3"
+        env["WNN_GPU_MEMORY_RESERVE_BYTES"] = str(gpu_memory_safety_reserve_bytes())
     try:
         with log_path.open("xb", buffering=0) as log:
             record.update(
@@ -1031,9 +1030,6 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
                     record["peak_observed_vram_bytes"] = max(
                         int(record["peak_observed_vram_bytes"]), observed_vram
                     )
-                    if observed_vram >= GPU_OBSERVED_BYTES:
-                        failure = f"observed VRAM exceeded {GPU_OBSERVED_BYTES} bytes"
-                        breach = True
                 if events is not None:
                     delta = deltas(start_events, events)
                     record["memory_event_deltas"] = delta
@@ -1145,10 +1141,6 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
                 record["peak_observed_vram_bytes"] = max(
                     int(record["peak_observed_vram_bytes"]), final_vram
                 )
-                if final_vram >= GPU_OBSERVED_BYTES:
-                    status = "failed"
-                    failure = f"observed VRAM reached {GPU_OBSERVED_BYTES} bytes at exit"
-                    close_admission(state, f"resource budget breach in {attempt}: {failure}")
         if (
             child is not None
             and not breach

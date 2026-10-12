@@ -10,8 +10,9 @@ import os
 import time
 
 CPU_FRACTION = 0.75
-# Allocator limits supplement the campaign's total-device 5 GB VRAM monitor.
-GPU_FRACTION = min(0.75, float(os.environ.get("WNN_GPU_FRACTION", "0.70")))
+# Leave measured free memory for CUDA context, kernels and non-PyTorch allocations.
+GPU_MEMORY_SAFETY_RESERVE_BYTES = 1_000_000_000
+GPU_FRACTION = min(1.0, float(os.environ.get("WNN_GPU_FRACTION", "1.0")))
 # GPU busy-time rate limit per job (DutyCycle). 1.0 = no throttling (the single-job fast path);
 # set WNN_GPU_DUTY below 1 only to deliberately share the GPU with other work.
 GPU_DUTY = min(1.0, float(os.environ.get("WNN_GPU_DUTY", "1.0")))
@@ -44,11 +45,15 @@ class DutyCycle:
 
 
 def configure_torch(gpu_fraction: float | None = None, duty: float | None = None):
-    """Cap torch CPU threads and GPU memory; return a GPU DutyCycle, or None when not rate-limited.
+    """Set CPU threads and a live-memory-aware CUDA allocator limit.
 
-    WNN_GPU_MEMORY_BYTES overrides the legacy fractional allocator cap when explicitly set.
+    WNN_GPU_MEMORY_BYTES preserves an explicit byte cap for older frozen attempts.
+    Otherwise the allocator limit follows currently free device memory and leaves
+    WNN_GPU_MEMORY_RESERVE_BYTES free, defaulting to 1 GB.
     The rate limit comes from WNN_GPU_DUTY (default 1.0 = none).
     With a DutyCycle, call ``torch.cuda.synchronize()`` then ``duty.tick()`` at step ends.
+
+    Returns a GPU DutyCycle, or None when execution is not rate-limited.
     """
     import torch
 
@@ -59,6 +64,12 @@ def configure_torch(gpu_fraction: float | None = None, duty: float | None = None
         if memory_bytes is not None:
             total = torch.cuda.get_device_properties(torch.cuda.current_device()).total_memory
             gpu_fraction = allocator_fraction(memory_bytes, total)
+        else:
+            free_bytes, total_bytes = torch.cuda.mem_get_info(torch.cuda.current_device())
+            available_fraction = available_allocator_fraction(
+                free_bytes, total_bytes, gpu_memory_safety_reserve_bytes()
+            )
+            gpu_fraction = min(gpu_fraction, available_fraction)
         torch.cuda.set_per_process_memory_fraction(gpu_fraction)
         torch.backends.cudnn.benchmark = False
         torch.backends.cudnn.deterministic = True
@@ -78,6 +89,26 @@ def allocator_fraction(memory_bytes: str, total_bytes: int) -> float:
     if not 0 < limit <= total_bytes:
         raise ValueError("WNN_GPU_MEMORY_BYTES must fit the selected device")
     return limit / total_bytes
+
+
+def available_allocator_fraction(free_bytes: int, total_bytes: int, reserve_bytes: int) -> float:
+    """Return an allocator fraction from current free bytes and a safety reserve."""
+    if total_bytes <= 0 or free_bytes < 0 or free_bytes > total_bytes or reserve_bytes < 0:
+        raise ValueError("GPU memory observations and reserve must be nonnegative and consistent")
+    usable_bytes = free_bytes - reserve_bytes
+    if usable_bytes <= 0:
+        raise RuntimeError("free GPU memory does not exceed the configured safety reserve")
+    return min(1.0, usable_bytes / total_bytes)
+
+
+def gpu_memory_safety_reserve_bytes() -> int:
+    """Return a validated configurable reserve for CUDA and non-PyTorch allocations."""
+    value = os.environ.get("WNN_GPU_MEMORY_RESERVE_BYTES")
+    if value is None:
+        return GPU_MEMORY_SAFETY_RESERVE_BYTES
+    if not value.isascii() or not value.isdigit():
+        raise ValueError("WNN_GPU_MEMORY_RESERVE_BYTES must be a nonnegative integer")
+    return int(value)
 
 
 def dataloader_budget(
