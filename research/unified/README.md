@@ -2,6 +2,8 @@
 
 This is the maintained, human-facing research map. It joins different result types through shared topic pages while preserving the original campaign records and evidence paths.
 
+Latest requested review: [critical assessment and separate public and future private leaderboard strategies](reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md). This review adds proposed refinements and does not resume experimental admission.
+
 ## Start by topic
 
 - [Ideas and hypotheses](ideas/README.md)

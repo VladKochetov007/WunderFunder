@@ -10,6 +10,7 @@ This domain stores independent critiques, strategy reviews, and structured audit
 
 ## Review files
 
+- [October 12 critical review and separate public and future private leaderboard plans](CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md)
 - [WNN strategy review and agent execution brief](legacy/WNN_2026-10-11_Strategy_Review_and_Agent_Execution_Brief_EN.md)
 - [Unified campaign review](legacy/WNN_Unified_Review_EN.md)
 - [Independent critic memo](legacy/critic.md)

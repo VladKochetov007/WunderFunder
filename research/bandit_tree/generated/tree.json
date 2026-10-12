@@ -3346,6 +3346,33 @@
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "07e6ffd043cfa1e42688a635af5fd08ab3dd435527d223deed7ce23194c081fa"
         }
+      },
+      {
+        "raw_record": "{\"type\": \"requested_strategy_review_no_experimental_resume\", \"created_utc\": \"2026-10-12T19:08:27Z\", \"decision\": \"Completed user-requested critical review and literature ideation. Proposed separate public and future-private plans, with four explicit refinements of existing parents. Experimental admission remains closed; no model fit, export, blend search, submission, provider mutation or paid spend.\", \"hypothesis_ids\": [\"H-STRATEGY-20261012-01\", \"H-STRATEGY-20261012-02\", \"H-STRATEGY-20261012-03\", \"H-STRATEGY-20261012-04\"], \"evidence\": [\"research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md\", \"research/campaign_2026-10-12/strategy_review_r1/CONTRACT.json\", \"research/campaign_2026-10-12/strategy_review_r1/INDEPENDENT_REVIEW.json\", \"research/campaign_2026-10-12/strategy_review_r1/LITERATURE_SEARCH.json\"], \"new_spend_usd\": 0, \"public_score_claim\": null}\n",
+        "record": {
+          "created_utc": "2026-10-12T19:08:27Z",
+          "decision": "Completed user-requested critical review and literature ideation. Proposed separate public and future-private plans, with four explicit refinements of existing parents. Experimental admission remains closed; no model fit, export, blend search, submission, provider mutation or paid spend.",
+          "evidence": [
+            "research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md",
+            "research/campaign_2026-10-12/strategy_review_r1/CONTRACT.json",
+            "research/campaign_2026-10-12/strategy_review_r1/INDEPENDENT_REVIEW.json",
+            "research/campaign_2026-10-12/strategy_review_r1/LITERATURE_SEARCH.json"
+          ],
+          "hypothesis_ids": [
+            "H-STRATEGY-20261012-01",
+            "H-STRATEGY-20261012-02",
+            "H-STRATEGY-20261012-03",
+            "H-STRATEGY-20261012-04"
+          ],
+          "new_spend_usd": 0,
+          "public_score_claim": null,
+          "type": "requested_strategy_review_no_experimental_resume"
+        },
+        "source": {
+          "line": 136,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "79caa5d94a6533fb369da415403d3eb9ce3a1bedf48e870105f4c732555d1082"
+        }
       }
     ],
     "legacy_archive": {
@@ -9022,8 +9049,8 @@
     },
     "source_rows": {
       "experiments": 798,
-      "hypotheses": 479,
-      "journal": 135
+      "hypotheses": 483,
+      "journal": 136
     }
   },
   "nodes": [
@@ -41586,6 +41613,302 @@
         }
       ],
       "title": "H-JOINT-SHARED-HEAD-COST-01",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:representation",
+        "matches": [
+          "family:representation"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-STRATEGY-20261012-01",
+      "latest_recorded_status": "not_tested",
+      "parent_id": "family:representation",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-STRATEGY-20261012-01\", \"parent_ids\": [\"H-238\", \"H-127\"], \"mechanism_family\": \"causal representation and scoring-selection interaction\", \"statement\": \"Raw context plus causal normalized innovations may improve future-regime robustness, with an effect that depends on training mask concentration.\", \"proposed_change\": \"Compare raw, raw-plus-causal-moments, and raw-plus-moments-plus-innovations under a fixed current weighting; then cross the useful representation with one less-concentrated predeclared propensity/since weighting, one factor at a time.\", \"expected_mechanism\": \"Preserve level/regime information while giving a stable innovation representation; test whether historical weighting suppresses the rows that benefit.\", \"claim_scope\": \"Complete current student or fixed blend, multiple exposed folds and paired seeds; future transfer remains unconfirmed.\", \"assumptions\": [\"Observable activity/source shifts contain nuisance variation\", \"Running statistics are causal and trained with identical equations\", \"Raw branch retains predictive distribution context\"], \"predicted_observable\": \"Improved official complete-endpoint score or smaller matched deterioration under declared activity/source shifts without a large ordinary-CV loss.\", \"cheap_test\": \"Use fitting-only causal summary distributions and existing prediction residuals to choose two contrasts; run equal-capacity candidate/control on two contrasting outer folds before a factorial extension.\", \"falsifier\": \"No repeatable residual relationship or candidate loses to raw-plus-moments/shared-capacity control across folds; a smoother feature distribution alone is insufficient.\", \"known_failure_modes\": [\"Removing useful price/volume level information\", \"Full-sequence statistics at inference\", \"Unstable first-99-row estimates\", \"Selecting stress scenarios after leaderboard feedback\", \"Conflating input and scoring-mask shift\"], \"estimated_cost\": {\"relative\": \"medium; matched student fits plus existing controls\", \"gpu_hours\": null, \"serving\": \"small causal moments and input branch; actual native callback profile required\"}, \"reusable_artifacts\": [\"Causal normalizer with fit-only priors\", \"Frozen shift panels\", \"Complete predictions and weighted-moment diagnostics\"], \"sources\": [\"https://arxiv.org/abs/1803.06917\", \"https://arxiv.org/abs/2205.14415\", \"scripts/train_rnn.py\"], \"status\": \"not_tested\", \"admission\": \"none\", \"numerical_gain_prior\": null, \"expected_public_score\": null, \"committed_at\": \"2026-10-12T19:08:27Z\", \"proposed_by\": \"root synthesis with independent Luna/max reviews\", \"source\": \"research/unified/ideas/STRATEGY_REFINEMENTS_20261012.json\"}\n",
+          "record": {
+            "admission": "none",
+            "assumptions": [
+              "Observable activity/source shifts contain nuisance variation",
+              "Running statistics are causal and trained with identical equations",
+              "Raw branch retains predictive distribution context"
+            ],
+            "cheap_test": "Use fitting-only causal summary distributions and existing prediction residuals to choose two contrasts; run equal-capacity candidate/control on two contrasting outer folds before a factorial extension.",
+            "claim_scope": "Complete current student or fixed blend, multiple exposed folds and paired seeds; future transfer remains unconfirmed.",
+            "committed_at": "2026-10-12T19:08:27Z",
+            "estimated_cost": {
+              "gpu_hours": null,
+              "relative": "medium; matched student fits plus existing controls",
+              "serving": "small causal moments and input branch; actual native callback profile required"
+            },
+            "expected_mechanism": "Preserve level/regime information while giving a stable innovation representation; test whether historical weighting suppresses the rows that benefit.",
+            "expected_public_score": null,
+            "falsifier": "No repeatable residual relationship or candidate loses to raw-plus-moments/shared-capacity control across folds; a smoother feature distribution alone is insufficient.",
+            "id": "H-STRATEGY-20261012-01",
+            "known_failure_modes": [
+              "Removing useful price/volume level information",
+              "Full-sequence statistics at inference",
+              "Unstable first-99-row estimates",
+              "Selecting stress scenarios after leaderboard feedback",
+              "Conflating input and scoring-mask shift"
+            ],
+            "mechanism_family": "causal representation and scoring-selection interaction",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-238",
+              "H-127"
+            ],
+            "predicted_observable": "Improved official complete-endpoint score or smaller matched deterioration under declared activity/source shifts without a large ordinary-CV loss.",
+            "proposed_by": "root synthesis with independent Luna/max reviews",
+            "proposed_change": "Compare raw, raw-plus-causal-moments, and raw-plus-moments-plus-innovations under a fixed current weighting; then cross the useful representation with one less-concentrated predeclared propensity/since weighting, one factor at a time.",
+            "reusable_artifacts": [
+              "Causal normalizer with fit-only priors",
+              "Frozen shift panels",
+              "Complete predictions and weighted-moment diagnostics"
+            ],
+            "source": "research/unified/ideas/STRATEGY_REFINEMENTS_20261012.json",
+            "sources": [
+              "https://arxiv.org/abs/1803.06917",
+              "https://arxiv.org/abs/2205.14415",
+              "scripts/train_rnn.py"
+            ],
+            "statement": "Raw context plus causal normalized innovations may improve future-regime robustness, with an effect that depends on training mask concentration.",
+            "status": "not_tested"
+          },
+          "source": {
+            "line": 480,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "2a4a33f5699d6ad398a184459f6184f27f382ef5ba5942c8287c0a1ddbcc7b3f"
+          }
+        }
+      ],
+      "title": "Raw context plus causal normalized innovations may improve future-regime robustness, with an effect that depends on training mask concentration.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:temporal",
+        "matches": [
+          "family:temporal"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-STRATEGY-20261012-02",
+      "latest_recorded_status": "not_tested",
+      "parent_id": "family:temporal",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-STRATEGY-20261012-02\", \"parent_ids\": [\"H-227\", \"H-E537-E\", \"H-136\"], \"mechanism_family\": \"path-order memory and causal activity-dependent forgetting\", \"statement\": \"A small path-order memory with a learned causal decay clock may retain inter-instrument lead-lag information that equal endpoints and row-clock states obscure.\", \"proposed_change\": \"Use low-dimensional causal instrument projections, displacement and signed-area state; a positive bounded feature-change clock affects exponential decay, window membership or time-channel areas. Preserve elapsed rows and process every input.\", \"expected_mechanism\": \"Represent order of innovations and adapt memory persistence to observed activity while maintaining fixed bounded inference state.\", \"claim_scope\": \"Refinement of existing path-area and clock proposals; not evidence against or repetition of the old second event-GRU screen.\", \"assumptions\": [\"Inter-instrument order carries conditional information\", \"Anonymous input projections need no physical depth mapping\", \"Activity clock is computed only from allowed history\"], \"predicted_observable\": \"A fixed complete endpoint improves relative to displacement-only and fixed-decay-area controls, particularly on declared asynchronous-update regimes.\", \"cheap_test\": \"Algebraic equal-displacement/different-order and reset fixtures; verify pure time relabeling is invariant, then compare fixed decay and learned decay/time-channel controls with the same feature dimension and capacity.\", \"falsifier\": \"Clock only reparameterizes the same path and leaves areas unchanged, learned clock collapses without a useful simpler arm, or no complete-endpoint conditional gain survives matched folds.\", \"known_failure_modes\": [\"Geometric path signatures are invariant under pure monotone time reparameterization\", \"Mistaking pseudo-time for physical timestamps\", \"Forward-filled stale inputs create spurious events\", \"A new feature merely duplicates existing GRU state\"], \"estimated_cost\": {\"relative\": \"medium pilot; bounded low-dimensional streaming state\", \"gpu_hours\": null, \"serving\": \"O(k squared) small-state update per row for small fixed k; no full history scan\"}, \"reusable_artifacts\": [\"Path-state reference implementation\", \"Order-sensitive fixtures\", \"Candidate/control residual and shift diagnostics\"], \"sources\": [\"https://arxiv.org/abs/2301.04333\", \"https://arxiv.org/abs/1612.09328\", \"research/hypotheses.jsonl\"], \"status\": \"not_tested\", \"admission\": \"none\", \"numerical_gain_prior\": null, \"expected_public_score\": null, \"committed_at\": \"2026-10-12T19:08:27Z\", \"proposed_by\": \"root synthesis with independent Luna/max reviews\", \"source\": \"research/unified/ideas/STRATEGY_REFINEMENTS_20261012.json\"}\n",
+          "record": {
+            "admission": "none",
+            "assumptions": [
+              "Inter-instrument order carries conditional information",
+              "Anonymous input projections need no physical depth mapping",
+              "Activity clock is computed only from allowed history"
+            ],
+            "cheap_test": "Algebraic equal-displacement/different-order and reset fixtures; verify pure time relabeling is invariant, then compare fixed decay and learned decay/time-channel controls with the same feature dimension and capacity.",
+            "claim_scope": "Refinement of existing path-area and clock proposals; not evidence against or repetition of the old second event-GRU screen.",
+            "committed_at": "2026-10-12T19:08:27Z",
+            "estimated_cost": {
+              "gpu_hours": null,
+              "relative": "medium pilot; bounded low-dimensional streaming state",
+              "serving": "O(k squared) small-state update per row for small fixed k; no full history scan"
+            },
+            "expected_mechanism": "Represent order of innovations and adapt memory persistence to observed activity while maintaining fixed bounded inference state.",
+            "expected_public_score": null,
+            "falsifier": "Clock only reparameterizes the same path and leaves areas unchanged, learned clock collapses without a useful simpler arm, or no complete-endpoint conditional gain survives matched folds.",
+            "id": "H-STRATEGY-20261012-02",
+            "known_failure_modes": [
+              "Geometric path signatures are invariant under pure monotone time reparameterization",
+              "Mistaking pseudo-time for physical timestamps",
+              "Forward-filled stale inputs create spurious events",
+              "A new feature merely duplicates existing GRU state"
+            ],
+            "mechanism_family": "path-order memory and causal activity-dependent forgetting",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-227",
+              "H-E537-E",
+              "H-136"
+            ],
+            "predicted_observable": "A fixed complete endpoint improves relative to displacement-only and fixed-decay-area controls, particularly on declared asynchronous-update regimes.",
+            "proposed_by": "root synthesis with independent Luna/max reviews",
+            "proposed_change": "Use low-dimensional causal instrument projections, displacement and signed-area state; a positive bounded feature-change clock affects exponential decay, window membership or time-channel areas. Preserve elapsed rows and process every input.",
+            "reusable_artifacts": [
+              "Path-state reference implementation",
+              "Order-sensitive fixtures",
+              "Candidate/control residual and shift diagnostics"
+            ],
+            "source": "research/unified/ideas/STRATEGY_REFINEMENTS_20261012.json",
+            "sources": [
+              "https://arxiv.org/abs/2301.04333",
+              "https://arxiv.org/abs/1612.09328",
+              "research/hypotheses.jsonl"
+            ],
+            "statement": "A small path-order memory with a learned causal decay clock may retain inter-instrument lead-lag information that equal endpoints and row-clock states obscure.",
+            "status": "not_tested"
+          },
+          "source": {
+            "line": 481,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "3ef4407163425eddae749dc29fa24ec6e4b9bde9eab909fe73c0349e0825fc94"
+          }
+        }
+      ],
+      "title": "A small path-order memory with a learned causal decay clock may retain inter-instrument lead-lag information that equal endpoints and row-clock states obscure.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:teacher",
+        "matches": [
+          "family:teacher"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-STRATEGY-20261012-03",
+      "latest_recorded_status": "not_tested",
+      "parent_id": "family:teacher",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-STRATEGY-20261012-03\", \"parent_ids\": [\"H-133\", \"H-261\", \"H-371\"], \"mechanism_family\": \"privileged conditional-moment distillation\", \"statement\": \"Projecting separately estimated weighted target moments into a causal student may improve on direct output distillation without assuming a universal target law.\", \"proposed_change\": \"Own teachers estimate E[S W Y|G] and E[S W|G] for clipped Y and W=abs(Y), using richer fitting-only context G. Cross-fit teacher predictions inside each outer fit set, project the two moments separately to allowed history H, use shrunk positive denominator and direct-regression fallback.\", \"expected_mechanism\": \"Transfer predictive parts of a richer teacher under the metric's weighted measure while separating expected magnitude from signed outcome; a hypothesis about finite-sample estimation, not extra information at inference.\", \"claim_scope\": \"Causal student improvement on outer excluded groups; teacher oracle score and representation loss alone do not support it.\", \"assumptions\": [\"G contains H and genuinely useful fitting-only information\", \"Moments are estimated well enough for a stable ratio\", \"Unknown training scoring indicator requires an explicitly qualified in-fold approximation\", \"No outer-evaluation rows enter teachers or normalization\"], \"predicted_observable\": \"Causal student beats identical direct-WMSE and causal-output-distillation controls on official score; advantage survives direct-lookahead-teacher versus causal-teacher ablation.\", \"cheap_test\": \"Use a small source-qualified complete-component subset and short future horizon to test predictable teacher residual/moments; retain full-budget follow-up for a promising but uncertain arm.\", \"falsifier\": \"Only future-aware teacher improves, projected denominator destabilizes outputs, or causal student shows no useful standalone/conditional gain at matched cost.\", \"known_failure_modes\": [\"E[ratio|H] is not ratio of projected moments\", \"Applying outcome weights again to moment projection changes estimand\", \"Teacher errors copied into the student\", \"Privileged features escape into inference\", \"Label-derived class/spread reconstruction assumed exact\"], \"estimated_cost\": {\"relative\": \"high; extra teacher fits, inner cross-fitting and student fits\", \"gpu_hours\": null, \"serving\": \"Two moment heads per target or distill back to standard compact output; no future input\"}, \"reusable_artifacts\": [\"Clean teacher-moment caches\", \"Causal projection controls\", \"Denominator and clipping diagnostics\"], \"sources\": [\"https://arxiv.org/abs/1511.03643\", \"src/wnn/gmetric.py\", \"src/wnn/outcomes.py\"], \"status\": \"not_tested\", \"admission\": \"none\", \"numerical_gain_prior\": null, \"expected_public_score\": null, \"committed_at\": \"2026-10-12T19:08:27Z\", \"proposed_by\": \"root synthesis with independent Luna/max reviews\", \"source\": \"research/unified/ideas/STRATEGY_REFINEMENTS_20261012.json\"}\n",
+          "record": {
+            "admission": "none",
+            "assumptions": [
+              "G contains H and genuinely useful fitting-only information",
+              "Moments are estimated well enough for a stable ratio",
+              "Unknown training scoring indicator requires an explicitly qualified in-fold approximation",
+              "No outer-evaluation rows enter teachers or normalization"
+            ],
+            "cheap_test": "Use a small source-qualified complete-component subset and short future horizon to test predictable teacher residual/moments; retain full-budget follow-up for a promising but uncertain arm.",
+            "claim_scope": "Causal student improvement on outer excluded groups; teacher oracle score and representation loss alone do not support it.",
+            "committed_at": "2026-10-12T19:08:27Z",
+            "estimated_cost": {
+              "gpu_hours": null,
+              "relative": "high; extra teacher fits, inner cross-fitting and student fits",
+              "serving": "Two moment heads per target or distill back to standard compact output; no future input"
+            },
+            "expected_mechanism": "Transfer predictive parts of a richer teacher under the metric's weighted measure while separating expected magnitude from signed outcome; a hypothesis about finite-sample estimation, not extra information at inference.",
+            "expected_public_score": null,
+            "falsifier": "Only future-aware teacher improves, projected denominator destabilizes outputs, or causal student shows no useful standalone/conditional gain at matched cost.",
+            "id": "H-STRATEGY-20261012-03",
+            "known_failure_modes": [
+              "E[ratio|H] is not ratio of projected moments",
+              "Applying outcome weights again to moment projection changes estimand",
+              "Teacher errors copied into the student",
+              "Privileged features escape into inference",
+              "Label-derived class/spread reconstruction assumed exact"
+            ],
+            "mechanism_family": "privileged conditional-moment distillation",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-133",
+              "H-261",
+              "H-371"
+            ],
+            "predicted_observable": "Causal student beats identical direct-WMSE and causal-output-distillation controls on official score; advantage survives direct-lookahead-teacher versus causal-teacher ablation.",
+            "proposed_by": "root synthesis with independent Luna/max reviews",
+            "proposed_change": "Own teachers estimate E[S W Y|G] and E[S W|G] for clipped Y and W=abs(Y), using richer fitting-only context G. Cross-fit teacher predictions inside each outer fit set, project the two moments separately to allowed history H, use shrunk positive denominator and direct-regression fallback.",
+            "reusable_artifacts": [
+              "Clean teacher-moment caches",
+              "Causal projection controls",
+              "Denominator and clipping diagnostics"
+            ],
+            "source": "research/unified/ideas/STRATEGY_REFINEMENTS_20261012.json",
+            "sources": [
+              "https://arxiv.org/abs/1511.03643",
+              "src/wnn/gmetric.py",
+              "src/wnn/outcomes.py"
+            ],
+            "statement": "Projecting separately estimated weighted target moments into a causal student may improve on direct output distillation without assuming a universal target law.",
+            "status": "not_tested"
+          },
+          "source": {
+            "line": 482,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "0273a7ee942d62189df704853e5f2b456b4e56147d8868b21a08a9b07e480636"
+          }
+        }
+      ],
+      "title": "Projecting separately estimated weighted target moments into a causal student may improve on direct output distillation without assuming a universal target law.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:temporal",
+        "matches": [
+          "family:temporal"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-STRATEGY-20261012-04",
+      "latest_recorded_status": "not_tested",
+      "parent_id": "family:temporal",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-STRATEGY-20261012-04\", \"parent_ids\": [\"H-195\", \"H-230\"], \"mechanism_family\": \"relational teacher-state compression\", \"statement\": \"Matching relationships between selected own-teacher states may compress complementary predictive structure more effectively than direct state-coordinate MSE.\", \"proposed_change\": \"Compare output-only, output-plus-coordinate, and output-plus-distance/angle distillation with the same student. Use bounded pairs/triples stratified by causal event age inside source-qualified fitting groups; never materialize all-pairs arrays.\", \"expected_mechanism\": \"Preserve task-relevant relationships without assuming teacher and student hidden-state coordinates align.\", \"claim_scope\": \"Refinement of registered relational and hidden-state proposals, conditional on a useful own teacher portfolio.\", \"assumptions\": [\"Teacher geometry contains information beyond scalar predictions\", \"Selected relationships correlate with task quality\", \"Pair sampling does not mainly copy source identity\"], \"predicted_observable\": \"The same compact student's official score or contribution to the frozen final blend improves across paired seeds/folds with no additional inference module.\", \"cheap_test\": \"Bounded one-fold paired student screen with teacher sidecars streamed at sparse fitting rows, then two-fold comparison if informative.\", \"falsifier\": \"Relations are matched but official student quality does not improve, or benefit disappears against coordinate/equal-capacity controls.\", \"known_failure_modes\": [\"Preserving nuisance source geometry\", \"Unbounded quadratic pair memory\", \"Teacher-sidecar cost overwhelms information value\", \"No clean ancestry for the teacher portfolio\"], \"estimated_cost\": {\"relative\": \"medium after teacher portfolio exists; otherwise high\", \"gpu_hours\": null, \"serving\": \"Training-only loss/projector removed; unchanged compact recurrent endpoint\"}, \"reusable_artifacts\": [\"Bounded state-sidecar exporter\", \"Pair-selection policy\", \"Matched compressed endpoints\"], \"sources\": [\"https://arxiv.org/abs/1904.05068\", \"research/hypotheses.jsonl\"], \"status\": \"not_tested\", \"admission\": \"none\", \"numerical_gain_prior\": null, \"expected_public_score\": null, \"committed_at\": \"2026-10-12T19:08:27Z\", \"proposed_by\": \"root synthesis with independent Luna/max reviews\", \"source\": \"research/unified/ideas/STRATEGY_REFINEMENTS_20261012.json\"}\n",
+          "record": {
+            "admission": "none",
+            "assumptions": [
+              "Teacher geometry contains information beyond scalar predictions",
+              "Selected relationships correlate with task quality",
+              "Pair sampling does not mainly copy source identity"
+            ],
+            "cheap_test": "Bounded one-fold paired student screen with teacher sidecars streamed at sparse fitting rows, then two-fold comparison if informative.",
+            "claim_scope": "Refinement of registered relational and hidden-state proposals, conditional on a useful own teacher portfolio.",
+            "committed_at": "2026-10-12T19:08:27Z",
+            "estimated_cost": {
+              "gpu_hours": null,
+              "relative": "medium after teacher portfolio exists; otherwise high",
+              "serving": "Training-only loss/projector removed; unchanged compact recurrent endpoint"
+            },
+            "expected_mechanism": "Preserve task-relevant relationships without assuming teacher and student hidden-state coordinates align.",
+            "expected_public_score": null,
+            "falsifier": "Relations are matched but official student quality does not improve, or benefit disappears against coordinate/equal-capacity controls.",
+            "id": "H-STRATEGY-20261012-04",
+            "known_failure_modes": [
+              "Preserving nuisance source geometry",
+              "Unbounded quadratic pair memory",
+              "Teacher-sidecar cost overwhelms information value",
+              "No clean ancestry for the teacher portfolio"
+            ],
+            "mechanism_family": "relational teacher-state compression",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-195",
+              "H-230"
+            ],
+            "predicted_observable": "The same compact student's official score or contribution to the frozen final blend improves across paired seeds/folds with no additional inference module.",
+            "proposed_by": "root synthesis with independent Luna/max reviews",
+            "proposed_change": "Compare output-only, output-plus-coordinate, and output-plus-distance/angle distillation with the same student. Use bounded pairs/triples stratified by causal event age inside source-qualified fitting groups; never materialize all-pairs arrays.",
+            "reusable_artifacts": [
+              "Bounded state-sidecar exporter",
+              "Pair-selection policy",
+              "Matched compressed endpoints"
+            ],
+            "source": "research/unified/ideas/STRATEGY_REFINEMENTS_20261012.json",
+            "sources": [
+              "https://arxiv.org/abs/1904.05068",
+              "research/hypotheses.jsonl"
+            ],
+            "statement": "Matching relationships between selected own-teacher states may compress complementary predictive structure more effectively than direct state-coordinate MSE.",
+            "status": "not_tested"
+          },
+          "source": {
+            "line": 483,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "ca406cb06f4133842581c665dc96d06b3fa0320355287edef102d79ca0ffe795"
+          }
+        }
+      ],
+      "title": "Matching relationships between selected own-teacher states may compress complementary predictive structure more effectively than direct state-coordinate MSE.",
       "type": "hypothesis"
     },
     {
@@ -81198,6 +81521,116 @@
       },
       "source_id": "hypothesis:H-JOINT-SHARED-HEAD-COST-01",
       "target_path": "research/campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 480,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "2a4a33f5699d6ad398a184459f6184f27f382ef5ba5942c8287c0a1ddbcc7b3f"
+      },
+      "source_id": "hypothesis:H-STRATEGY-20261012-01",
+      "target_id": "hypothesis:H-238"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 480,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "2a4a33f5699d6ad398a184459f6184f27f382ef5ba5942c8287c0a1ddbcc7b3f"
+      },
+      "source_id": "hypothesis:H-STRATEGY-20261012-01",
+      "target_id": "hypothesis:H-127"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 481,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "3ef4407163425eddae749dc29fa24ec6e4b9bde9eab909fe73c0349e0825fc94"
+      },
+      "source_id": "hypothesis:H-STRATEGY-20261012-02",
+      "target_id": "hypothesis:H-227"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 481,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "3ef4407163425eddae749dc29fa24ec6e4b9bde9eab909fe73c0349e0825fc94"
+      },
+      "source_id": "hypothesis:H-STRATEGY-20261012-02",
+      "target_id": "hypothesis:H-E537-E"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 481,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "3ef4407163425eddae749dc29fa24ec6e4b9bde9eab909fe73c0349e0825fc94"
+      },
+      "source_id": "hypothesis:H-STRATEGY-20261012-02",
+      "target_id": "hypothesis:H-136"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 482,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "0273a7ee942d62189df704853e5f2b456b4e56147d8868b21a08a9b07e480636"
+      },
+      "source_id": "hypothesis:H-STRATEGY-20261012-03",
+      "target_id": "hypothesis:H-133"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 482,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "0273a7ee942d62189df704853e5f2b456b4e56147d8868b21a08a9b07e480636"
+      },
+      "source_id": "hypothesis:H-STRATEGY-20261012-03",
+      "target_id": "hypothesis:H-261"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 482,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "0273a7ee942d62189df704853e5f2b456b4e56147d8868b21a08a9b07e480636"
+      },
+      "source_id": "hypothesis:H-STRATEGY-20261012-03",
+      "target_id": "hypothesis:H-371"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 483,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "ca406cb06f4133842581c665dc96d06b3fa0320355287edef102d79ca0ffe795"
+      },
+      "source_id": "hypothesis:H-STRATEGY-20261012-04",
+      "target_id": "hypothesis:H-195"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 483,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "ca406cb06f4133842581c665dc96d06b3fa0320355287edef102d79ca0ffe795"
+      },
+      "source_id": "hypothesis:H-STRATEGY-20261012-04",
+      "target_id": "hypothesis:H-230"
     },
     {
       "relation": "ledger_hypothesis_reference",

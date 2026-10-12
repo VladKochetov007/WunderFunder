@@ -4,6 +4,7 @@ Use this page to navigate proposals, mechanism families, and their evidence. An 
 
 ## Core records
 
+- [October 12 strategy refinements and falsifiers](STRATEGY_REFINEMENTS_20261012.json), with [ranked public and private plans](../reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md); proposed only, experimental admission remains closed.
 - [Append-only hypothesis ledger](../../hypotheses.jsonl) and [experiment ledger](../../experiments.jsonl)
 - [Generated research tree](../../bandit_tree/generated/INDEX.md), [tree configuration](../../bandit_tree/config.json), and [decision journal](../../bandit_tree/journal.jsonl)
 - [October 11 idea ledger](../../IDEA_LEDGER_20261011.md)

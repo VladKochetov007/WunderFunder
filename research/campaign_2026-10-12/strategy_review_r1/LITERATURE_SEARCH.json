@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-12",
+  "owner": "literature_scout",
+  "provider": "native gpt-6-luna, reasoning max",
+  "wrapper": "/home/vlad/src/agent-system/arxiv-search/arxiv_search",
+  "implementation": "curl fallback; scout reported Python arxiv package absent",
+  "queries": ["\"order book\" forecasting deep learning limit order book", "\"limit order book\" order flow imbalance neural networks", "\"market microstructure\" point process order book prediction", "\"time series\" concept drift nonstationary forecasting normalization"],
+  "outcome": "Four completed searches; noisy broad retrieval. Primary arXiv abstract pages verified separately. No code from papers executed.",
+  "primary_sources": ["https://arxiv.org/abs/1803.06917", "https://arxiv.org/abs/1808.03668", "https://arxiv.org/abs/1612.09328", "https://arxiv.org/abs/2301.04333", "https://arxiv.org/abs/2205.14415", "https://arxiv.org/abs/2207.00347", "https://arxiv.org/abs/1904.05068"],
+  "additional_root_sources": ["https://arxiv.org/abs/2007.01434", "https://arxiv.org/abs/1911.08731", "https://arxiv.org/abs/1511.03643", "https://arxiv.org/abs/2007.10099", "https://arxiv.org/abs/2303.06349", "https://arxiv.org/abs/2312.00752"],
+  "random_source": {
+    "pool": ["1612.09328", "2005.08926", "2009.08295", "2301.04333"],
+    "method": "random.Random(20261012).randrange(4)",
+    "selected_index": 3,
+    "selected_id": "2301.04333",
+    "actual_passage_location": "arXiv abstract, sentence beginning 'However, NCDEs use existing interpolation algorithms'",
+    "short_excerpt": "we present a method to generate another latent path",
+    "transfer": "Proposed input-dependent causal memory decay/time-channel interaction; pure monotone time reparameterization cannot change spatial signed areas."
+  },
+  "scope": "Literature motivates proposed components only; no project score forecasts or empirical replication claims."
+}
