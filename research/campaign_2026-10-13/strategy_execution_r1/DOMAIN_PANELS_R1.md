@@ -47,7 +47,11 @@ strata, and exact agreement with physically repeated complete-component data.
 They passed along with Ruff. The wider metric precheck passed 43 tests.
 
 This is engineering and panel-coverage evidence only. No new model result or
-private-performance claim follows from it. Independent review is pending.
+private-performance claim follows from it. [Independent review](reviews/domain_stress_r1/README.md)
+checked the frozen panels and found that equal label moments alone could not
+prove equal mask membership. The corrected public evaluator constructs both
+prediction moments together from one supplied mask; exact source/group/mask
+bindings remain mandatory in each grading receipt.
 
 ## Limits and validity
 

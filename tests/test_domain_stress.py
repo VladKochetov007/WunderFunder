@@ -3,7 +3,12 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from wnn.domain_stress import freeze_binary_panel, mixture_counts, paired_mixture_scores
+from wnn.domain_stress import (
+    _paired_mixture_scores,
+    evaluate_domain_mixtures,
+    freeze_binary_panel,
+    mixture_counts,
+)
 from wnn.evaluation import paired_component_moments
 from wnn.gmetric import global_wp
 
@@ -39,7 +44,9 @@ def test_mixture_equals_actual_complete_component_replication() -> None:
     reference = y * 0.6 + rng.normal(size=y.shape)
     mask = rng.uniform(size=y.shape[:2]) > 0.25
     a, b = paired_component_moments(y, prediction, reference, mask)
-    panels = paired_mixture_scores(a, b, np.arange(4), np.array([0, 0, 1, 1]), 1)
+    panels = evaluate_domain_mixtures(
+        y, prediction, reference, mask, np.arange(4), np.array([0, 0, 1, 1]), 1
+    )
     for result, repetitions in zip(panels, ([3, 3, 1, 1], [1, 1, 3, 3]), strict=True):
         indices = np.repeat(np.arange(4), repetitions)
         expected = global_wp(y[indices], prediction[indices], mask[indices])["wp"]
@@ -49,4 +56,4 @@ def test_mixture_equals_actual_complete_component_replication() -> None:
     altered = b.copy()
     altered[0, 0, 0] *= 1.01
     with pytest.raises(ValueError, match="label moments"):
-        paired_mixture_scores(a, altered, np.arange(4), np.array([0, 0, 1, 1]), 1)
+        _paired_mixture_scores(a, altered, np.arange(4), np.array([0, 0, 1, 1]), 1)

@@ -1,0 +1,114 @@
+{
+  "format": "wnn.independent-domain-stress-review",
+  "version": 1,
+  "created_utc": "2026-10-12T23:22:33Z",
+  "candidate_commit": "8940db0d",
+  "panel_artifact": "research/campaign_2026-10-13/strategy_execution_r1/DOMAIN_PANELS_R1.json",
+  "panel_artifact_sha256": "3fdf85bac3c5e19387357b08d449f173f1a24a28a4d9f25511d427b7160471ac",
+  "summary_source_sha256": "ab559297f0fa6cc9797e7d81666679d713616faca96f3bccea84b38951db32bf",
+  "scope": [
+    "input-only descriptor construction",
+    "outer-fit component cutoff and evaluation assignment",
+    "component-frequency mixture weights",
+    "pooled official metric recomputation",
+    "candidate/reference row-mask alignment",
+    "panel completeness and exposure"
+  ],
+  "findings": [
+    {
+      "id": "DSR1-01",
+      "severity": "pass",
+      "classification": "frozen input-only panel construction",
+      "status": "pass with restricted-source limitation",
+      "location": "scripts/freeze_strategy_domains.py:12-107; src/wnn/domain_stress.py:8-57",
+      "evidence": {
+        "valid_summary_rows_match_frozen_valid_component_map": true,
+        "fit_and_evaluation_components_disjoint": true,
+        "label_or_score_derived_columns_read": false,
+        "code_hashes_match_panel_record": true,
+        "fold_count": 4,
+        "panel_names": [
+          "activity",
+          "instrument1_change_frequency",
+          "feature_support"
+        ],
+        "all_panels_available": true,
+        "minimum_evaluation_stratum_components": 60,
+        "data_exposure": "all campaign folds previously exposed; constructed sensitivity only"
+      },
+      "limitation": "Cutpoints use the explicitly restricted valid-source summary; train-source rows are not represented in this descriptor cache."
+    },
+    {
+      "id": "DSR1-02",
+      "severity": "pass",
+      "classification": "component-frequency mixtures and pooled metric",
+      "status": "pass for aligned paired moments",
+      "location": "src/wnn/domain_stress.py:59-129; tests/test_domain_stress.py:27-53",
+      "evidence": {
+        "component_multiplier_matches_declared_frequency_mixture": true,
+        "complete_components_retained": true,
+        "official_clipping_and_weighting_inherited_from_paired_component_moments": true,
+        "pooled_target_correlations_recomputed": true,
+        "domain_correlations_averaged": false,
+        "tests": "3 passed in 0.19s",
+        "replication_equivalence_test": true
+      }
+    },
+    {
+      "id": "DSR1-03",
+      "severity": "high",
+      "classification": "pairing guard is insufficient",
+      "status": "original commit issue; closed at the current public API boundary, pending receipt binding",
+      "location": "src/wnn/domain_stress.py:106-113",
+      "trigger": "Candidate and reference moments are produced using distinct masks that retain identical per-sequence label mass, mean, and M2.",
+      "evidence": {
+        "counterexample": "Two masks select different rows with the same [-1,+1] labels per sequence; the label-moment equality check passes and the cross-mask pair is accepted.",
+        "reported_cross_mask_candidate_wp": 1.0,
+        "reported_cross_mask_reference_wp": 1.0,
+        "reported_cross_mask_delta": 0.0,
+        "model_outcome_used": false
+      },
+      "resolution": "Current worktree wrapper computes both moment arrays internally from one raw-target/candidate/reference/mask call. Bind its exact SHA-256 d6f7ac1ce7c96b8095d53de91ae862f3fee2fbcb76d1e2e84cd5302f7af9ff31 plus row order, source/component identity, and official-mask identity in a new grading receipt before scoring."
+    },
+    {
+      "id": "DSR1-04",
+      "severity": "limitation",
+      "classification": "partial private robustness coverage",
+      "status": "three of six planned panel families frozen",
+      "location": "DOMAIN_PANELS_R1.json:pending_panels; strategy contract stress definitions",
+      "evidence": {
+        "frozen_families": 3,
+        "planned_families": 6,
+        "pending": [
+          "quiet/transition row states",
+          "source similarity",
+          "cross-fitted scoring propensity"
+        ],
+        "confidence_interval_provided_by_helper": false
+      },
+      "resolution": "Treat these results as partial sensitivity only. Add remaining panels with separate frozen definitions and report component uncertainty and fitting variation separately."
+    }
+  ],
+  "checks": {
+    "tests": {
+      "interpreter": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "files": ["tests/test_domain_stress.py"],
+      "limits": "1 CPU, 1 GB memory maximum, 120 s",
+      "result": "3 passed in 0.23s after wrapper patch"
+    },
+    "frozen_panel_source_code_hashes_match_at_commit_8940db0d": true,
+    "post_commit_wrapper_source_sha256": "d6f7ac1ce7c96b8095d53de91ae862f3fee2fbcb76d1e2e84cd5302f7af9ff31",
+    "post_commit_wrapper_is_uncommitted_worktree_change": true,
+    "wrapper_calls_paired_moment_builder_once_with_one_mask": true,
+    "caller_must_bind_row_component_source_and_mask_identity": true,
+    "panel_component_count_check": {
+      "folds": 4,
+      "panels": 3,
+      "minimum_stratum_components": 60,
+      "all_status_available": true
+    },
+    "candidate_result_reviewed": false,
+    "gpu_provider_or_paid_action": false
+  },
+  "disposition": "pass_for_frozen_three_panel_method; conditional_pass_for_current_wrapper_pending_exact_source_and_input_receipt; only partial sensitivity claim"
+}

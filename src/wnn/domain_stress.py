@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from wnn.evaluation import _score_component_moments
+from wnn.evaluation import _score_component_moments, paired_component_moments
 
 
 def component_means(values: np.ndarray, components: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -86,7 +86,7 @@ def mixture_counts(
     return multipliers[domains.astype(np.int64)]
 
 
-def paired_mixture_scores(
+def _paired_mixture_scores(
     candidate: np.ndarray,
     reference: np.ndarray,
     components: np.ndarray,
@@ -106,7 +106,7 @@ def paired_mixture_scores(
         raise ValueError("nonfinite centered moments")
     if (candidate[:, :, 0] < 0).any() or (reference[:, :, 0] < 0).any():
         raise ValueError("negative moment mass")
-    # Equal label moments establish that both predictions use the same rows and weights.
+    # This is only a coarse consistency check; equal moments do not prove row identity.
     if not np.allclose(
         candidate[:, :, [0, 1, 3]], reference[:, :, [0, 1, 3]], rtol=1e-12, atol=1e-12
     ):
@@ -126,3 +126,23 @@ def paired_mixture_scores(
             }
         )
     return output
+
+
+def evaluate_domain_mixtures(
+    targets: np.ndarray,
+    candidate: np.ndarray,
+    reference: np.ndarray,
+    mask: np.ndarray,
+    components: np.ndarray,
+    domains: np.ndarray,
+    minimum_components: int = 20,
+) -> list[dict[str, float | str]]:
+    """Score both predictions using one shared row selection and original labels.
+
+    Build paired moments together so independently masked moment caches cannot
+    be mistaken for a matched comparison. Callers still verify source/group
+    alignment and bind this mask to the supplied official mask in their receipt.
+    The array input can be a bounded memmap of aligned evaluation sequences.
+    """
+    a, b = paired_component_moments(targets, candidate, reference, mask)
+    return _paired_mixture_scores(a, b, components, domains, minimum_components)
