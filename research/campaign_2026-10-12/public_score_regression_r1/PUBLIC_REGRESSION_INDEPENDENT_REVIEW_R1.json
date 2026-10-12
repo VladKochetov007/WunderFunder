@@ -1,0 +1,78 @@
+{
+  "review_id": "PUBLIC_REGRESSION_INDEPENDENT_REVIEW_R1",
+  "base_commit": "e084c22dd9e6bb595265023188cbe06383ae3176",
+  "verdict": "diagnostic_only_no_numerical_current_candidate_forecast",
+  "coverage": {
+    "visible_rows": 42,
+    "score": 38,
+    "timeout": 3,
+    "check_error": 1,
+    "reported_unseen": 3,
+    "scored_rows_with_local_metric": 11,
+    "scored_rows_without_comparable_local_metric": 27,
+    "censored_rows_with_local_proxy_excluded": 3
+  },
+  "independent_recalculation": {
+    "r1": {
+      "result_sha256": "69f3efc3cfbb4ed445ea26ebfe3747b6d7d76c885baa0a83b4d8c16a7f3a229f",
+      "groups": 18,
+      "grouped": {
+        "rows": 38,
+        "ridge_mae": 0.00100003171018,
+        "ridge_rmse": 0.00149920482128,
+        "mean_mae": 0.00174949072303,
+        "mean_rmse": 0.0023142263154
+      },
+      "chronological": {
+        "rows": 17,
+        "groups": 9,
+        "ridge_mae": 0.00107762940295,
+        "ridge_rmse": 0.00151733166491,
+        "mean_mae": 0.00201093776641,
+        "mean_rmse": 0.00213737128073,
+        "recent5_mae": 0.000789411764706,
+        "recent5_rmse": 0.00117498435534
+      },
+      "implementation": "independent pure-Python reconstruction"
+    },
+    "r2": {
+      "result_sha256": "622fb07b31dd8fe00100a4e94087433348e55911e6275dcc5cb00048be3defe8",
+      "contract_sha256": "704b8bf553218dc446ec2049805ec704385ee7223db5b693520d6b6ad4383313",
+      "endpoint_csv_sha256": "dbaacdade13daff25ce7a5bd86b8dcbca66849964df1ca483d47fc6cd8882b3b",
+      "groups": 18,
+      "grouped": {
+        "rows": 38,
+        "ridge_mae": 0.00108391720761,
+        "ridge_rmse": 0.00168170755497,
+        "mean_mae": 0.00174949072303,
+        "mean_rmse": 0.0023142263154
+      },
+      "chronological": {
+        "rows": 17,
+        "groups": 9,
+        "ridge_mae": 0.00097352677746,
+        "ridge_rmse": 0.00139957104661,
+        "mean_mae": 0.00201093776641,
+        "mean_rmse": 0.00213737128073,
+        "recent5_mae": 0.000789411764706,
+        "recent5_rmse": 0.00117498435534
+      },
+      "implementation": "independent NumPy reconstruction"
+    },
+    "agreement": "Both independent recalculations match stored metrics within 2e-14."
+  },
+  "source_mapping": {
+    "r1_precedence_bug": true,
+    "r2_precedence_corrected": true,
+    "alias_only_h230_rows": ["20o154uy", "27t6d4ur", "1n7tmww1"],
+    "declared_source_groups_are_verified_ancestries": false,
+    "possible_d256_suffix_identity_unresolved": true
+  },
+  "missing_evidence": [
+    "exact ZIP11 member/hash and native Q8 serving receipt",
+    "matching held-out local score on complete source-qualified groups with verified teacher/initializer/propensity exclusions",
+    "prospective frozen public outcomes for forecast-error assessment",
+    "public score-availability timestamps for a true time-forward replay"
+  ],
+  "model_selection": "No current ZIP forecast, public-optimized blend selection, or promotion."
+}
