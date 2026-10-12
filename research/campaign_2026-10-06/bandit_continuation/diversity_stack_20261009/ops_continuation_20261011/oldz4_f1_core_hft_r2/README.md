@@ -50,11 +50,11 @@ order, with sidecar and streamed finite checks. Output-level student/HFT
 averaging would differ from the historical parameter-averaged `PARENT|HEAD`
 mechanism; this packet does not define a blend.
 
-The failed unsealed R1 draft is preserved outside this packet. R2 corrects its
-two pre-freeze consumer errors: the source snapshot's separately pinned extra
-file and the crop digest lookup at the actual nested source-binding key.
-R2 ran only the separate temporary crop fixture described above; no admitted
-crop, device profile, fit or export stage ran.
+The unsealed R1 draft is not part of this release; its two pre-freeze findings
+are preserved in `R1_PRE_FREEZE_DIAGNOSIS_R2.json`. R2 corrects the source
+snapshot's separately pinned extra file and the crop digest lookup at the
+actual nested source-binding key. R2 ran only the separate temporary crop
+fixture described above; no admitted crop, device profile, fit or export stage ran.
 
 `tests/run_actual_cp1_crop_fixture_r2.py` runs the exact frozen F0 crop
 producer and downstream verifier on the actual hash-bound F1 CP1 in a new
