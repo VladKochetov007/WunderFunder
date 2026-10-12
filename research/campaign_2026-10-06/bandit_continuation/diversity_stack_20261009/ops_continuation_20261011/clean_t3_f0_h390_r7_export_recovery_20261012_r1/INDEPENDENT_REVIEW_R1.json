@@ -1,0 +1,100 @@
+{
+  "schema": "r7_independent_export_packet_review_v1",
+  "reviewed_on": "2026-10-12",
+  "decision": "PASS_OFFLINE_PREFLIGHT_BLOCKED_PENDING_ROOT_RUNTIME_RELEASE",
+  "scope": {
+    "provider_calls": 0,
+    "worker_launches": 0,
+    "fits": 0,
+    "packet_or_source_mutations": 0
+  },
+  "target": {
+    "builder_commit": "cd9ff50b385471a244e11ac7fd7ad23c281dcb07",
+    "packet": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_h390_r7_export_recovery_20261012_r1",
+    "manifest_sha256": "ed5533b7869f1fbb326f896c4e413db919a73741082fcbdc7987b99653b2be6a",
+    "offline_validator_receipt_sha256": "6ee7495507db9576e542aac1e0df8b013fc94871af2bb6b3ba2c0799f96b450c",
+    "r5_bundle_sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549",
+    "r5_bundle_bytes": 246396,
+    "source_handoff_sha256": "0eabad07a2bea44f0d4691575ccc7105526c39049c56dbf32ba948d7efb717c8",
+    "kernel_sha256": "f38ac7bd72c762b265e5951096e57b799cf632f43f7f96819a45d38772277cb6",
+    "bindings_sha256": "39127244077e0937934fce1fedc131f7fa440ff18f7bc7fc3508f6f69e318d0f",
+    "metadata_sha256": "7e27b1b4ec8a29e9635bd3e30f3c66404356cbcaea9332d22b608b1d0bf7be6e",
+    "root_release_sha256": "7b76769bf34bf1f43b3ff23c9f5c59616cd80188c232b46df667083793b70940"
+  },
+  "independent_validation": {
+    "status": "PASS_OFFLINE_ACTUAL_PRODUCER_CONSUMER_PREFLIGHT",
+    "raw_output_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_h390_r7_export_recovery_20261012_r1/INDEPENDENT_VALIDATION_R1.json",
+    "raw_output_sha256": "8bdc6fa7219219cc821704274188d83fa6c8142bf2da2148b5c14eab6c2c4015",
+    "elapsed_seconds": 2.066,
+    "actual_wrapper": {
+      "launcher": "MAIN scripts/limited",
+      "slice": "wnn-campaign.slice",
+      "cpu_quota": "50%",
+      "threads": 1,
+      "memory_max_bytes": 1000000000,
+      "runtime_max_seconds": 120
+    },
+    "raw_output_support_envelope_note": "The validator hard-codes memory_max_bytes=1500000000 in its output; that value is not evidence of this run's wrapper. Actual invocation used 1000000000 bytes."
+  },
+  "exports": {
+    "count": 6,
+    "selectors": ["FIT_TRAIN", "FIT_VALID"],
+    "seeds": [3, 4, 5],
+    "selected_epoch": 2,
+    "all_specs_match_r5_preseal_and_r7_binding": true,
+    "serial_single_worker_stages": true,
+    "actual_r6_checkpoints_loaded_through_r5_consumer": true,
+    "checkpoint_sha256": {
+      "seed3": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+      "seed4": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+      "seed5": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1"
+    },
+    "source_membership": {
+      "train_fit_groups": 10535,
+      "valid_fit_groups": 1405,
+      "valid_eval_groups": 468,
+      "source_handoff_matches_binding": true,
+      "source_qualified_fit_eval_disjoint": true
+    }
+  },
+  "output_accounting": {
+    "dtype": "float32",
+    "order": "C",
+    "sequence_length": 20000,
+    "channels": 2,
+    "train_shape": [10535, 20000, 2],
+    "valid_shape": [1405, 20000, 2],
+    "npy_header_bytes_per_file": 128,
+    "six_array_total_bytes": 5731200768,
+    "temporary_copy_cap_bytes": 2000000000,
+    "free_disk_reserve_bytes": 4294967296,
+    "non_array_reserve_bytes": 268435456,
+    "collection_cap_bytes": 8589934592,
+    "actual_r7_outputs_available": false,
+    "future_output_finite_and_hash_validation_required": true
+  },
+  "runtime_contract": {
+    "per_worker_ram_bytes": 8000000000,
+    "per_worker_cpu_cores": 2,
+    "per_worker_gpu_bytes": 5000000000,
+    "per_worker_stop_gpu_bytes": 6000000000,
+    "per_worker_timeout_seconds": 1800,
+    "host_reserve_fraction": 0.2,
+    "fresh_inventory_per_worker": true,
+    "launch_guard_still_pending": true,
+    "observed_prior_free_host_bytes": 3868000000,
+    "observed_prior_host_reserve_bytes": 6442000000,
+    "fresh_host_and_disk_admission_complete": false
+  },
+  "remaining_gates": [
+    "Fresh provider version-2 readback and actual mounted content verification for source/checkpoint/provenance hashes",
+    "Root release bound to fresh readback and exact mounted artifacts",
+    "Fresh host and disk admission for each worker while preserving 8000000000-byte reservation and 20% host reserve",
+    "Terminal validation and receipts for all six real output arrays and sidecars"
+  ],
+  "claims_not_established": [
+    "Kaggle runtime success",
+    "R7 outputs exist or are finite",
+    "new score or submission-quality improvement"
+  ]
+}
