@@ -120,21 +120,164 @@ def test_admission_obeys_aggregate_cpu_ram_and_measured_headroom(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     state = tmp_path / "state"
+    existing = attempt_record("existing", cpus=4, ram_bytes=12_000_000_000)
+    existing["unit"] = "wnn-bandit-existing.service"
     resources.atomic_json(
         resources.attempt_path(state, "existing"),
-        attempt_record("existing", cpus=4, ram_bytes=12_000_000_000),
+        existing,
     )
     monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
     monkeypatch.setattr(resources, "memory_current", lambda _group: 2_000_000_000)
+    monkeypatch.setattr(
+        resources,
+        "systemd_properties",
+        lambda _unit: {"ControlGroup": "/test/parent/wnn-bandit-existing.service"},
+    )
     with pytest.raises(RuntimeError, match="CPU reservation"):
         resources.verify_capacity(state, "/test/parent", 3, 1_000_000_000)
-    with pytest.raises(RuntimeError, match="reservations"):
+    with pytest.raises(RuntimeError, match="17 GB"):
         resources.verify_capacity(state, "/test/parent", 1, 7_000_000_000)
     admitted = resources.verify_capacity(state, "/test/parent", 1, 5_000_000_000)
     assert admitted["parent_memory_current_bytes"] == 2_000_000_000
+    assert admitted["active_measured_ram_headroom_bytes"] == 10_000_000_000
+    assert admitted["projected_committed_ram_bytes"] == 17_000_000_000
     monkeypatch.setattr(resources, "memory_current", lambda _group: 14_000_000_000)
-    with pytest.raises(RuntimeError, match="measured parent RAM"):
+    with pytest.raises(RuntimeError, match="17 GB"):
         resources.verify_capacity(state, "/test/parent", 1, 5_000_000_000)
+
+
+def test_active_worker_unused_reservation_blocks_ram_overcommit(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "state"
+    record = attempt_record("active", cpus=2, ram_bytes=12_000_000_000)
+    record["unit"] = "wnn-bandit-active.service"
+    resources.atomic_json(resources.attempt_path(state, "active"), record)
+    worker_group = "/test/parent/wnn-bandit-active.service"
+    monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
+    monkeypatch.setattr(
+        resources, "systemd_properties", lambda _unit: {"ControlGroup": worker_group}
+    )
+    monkeypatch.setattr(
+        resources,
+        "memory_current",
+        lambda group: 8_000_000_000 if group == worker_group else 10_000_000_000,
+    )
+
+    with pytest.raises(RuntimeError, match="projected=18000000000"):
+        resources.verify_capacity(
+            state, "/test/parent", 1, 4_000_000_000, current_memory_bytes=10_000_000_000
+        )
+
+
+def test_active_worker_use_is_not_double_counted_in_ram_headroom(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "state"
+    record = attempt_record("active", cpus=2, ram_bytes=12_000_000_000)
+    record["unit"] = "wnn-bandit-active.service"
+    resources.atomic_json(resources.attempt_path(state, "active"), record)
+    worker_group = "/test/parent/wnn-bandit-active.service"
+    monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
+    monkeypatch.setattr(
+        resources, "systemd_properties", lambda _unit: {"ControlGroup": worker_group}
+    )
+    monkeypatch.setattr(
+        resources,
+        "memory_current",
+        lambda group: 8_000_000_000 if group == worker_group else 10_000_000_000,
+    )
+
+    admitted = resources.verify_capacity(
+        state, "/test/parent", 1, 3_000_000_000, current_memory_bytes=10_000_000_000
+    )
+
+    assert admitted["active_reserved_ram_bytes"] == 12_000_000_000
+    assert admitted["active_measured_ram_headroom_bytes"] == 4_000_000_000
+    assert admitted["projected_committed_ram_bytes"] == 17_000_000_000
+
+
+def test_waiting_attempt_without_worker_counts_full_ram_reservation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "state"
+    record = attempt_record("queued", cpus=2, ram_bytes=8_000_000_000)
+    record.update(status="waiting", unit="wnn-bandit-queued.service")
+    resources.atomic_json(resources.attempt_path(state, "queued"), record)
+    monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
+    monkeypatch.setattr(resources, "systemd_properties", lambda _unit: {"ControlGroup": ""})
+    monkeypatch.setattr(
+        resources,
+        "memory_current",
+        lambda group: (
+            5_000_000_000
+            if group == "/test/parent"
+            else pytest.fail("missing worker cgroup was measured")
+        ),
+    )
+
+    admitted = resources.verify_capacity(
+        state, "/test/parent", 1, 4_000_000_000, current_memory_bytes=5_000_000_000
+    )
+
+    measurement = admitted["active_ram_measurements"][0]
+    assert measurement["measured_cgroup_bytes"] is None
+    assert measurement["remaining_reserved_bytes"] == 8_000_000_000
+    assert admitted["projected_committed_ram_bytes"] == 17_000_000_000
+
+
+def test_vanished_active_cgroup_counts_full_reservation_headroom(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "state"
+    record = attempt_record("vanished", cpus=2, ram_bytes=8_000_000_000)
+    record["unit"] = "wnn-bandit-vanished.service"
+    resources.atomic_json(resources.attempt_path(state, "vanished"), record)
+    worker_group = "/test/parent/wnn-bandit-vanished.service"
+    monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
+    monkeypatch.setattr(
+        resources, "systemd_properties", lambda _unit: {"ControlGroup": worker_group}
+    )
+
+    def memory_current(group: str) -> int:
+        if group == worker_group:
+            raise FileNotFoundError("attempt cgroup vanished")
+        return 6_000_000_000
+
+    monkeypatch.setattr(resources, "memory_current", memory_current)
+
+    with pytest.raises(RuntimeError, match="active_unused_reservations=8000000000"):
+        resources.verify_capacity(
+            state, "/test/parent", 1, 5_000_000_000, current_memory_bytes=6_000_000_000
+        )
+
+
+def test_parent_ram_is_sampled_after_active_worker_for_race_safety(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "state"
+    record = attempt_record("active", cpus=2, ram_bytes=12_000_000_000)
+    record["unit"] = "wnn-bandit-active.service"
+    resources.atomic_json(resources.attempt_path(state, "active"), record)
+    worker_group = "/test/parent/wnn-bandit-active.service"
+    sampled_groups: list[str] = []
+    monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
+    monkeypatch.setattr(
+        resources, "systemd_properties", lambda _unit: {"ControlGroup": worker_group}
+    )
+
+    def memory_current(group: str) -> int:
+        sampled_groups.append(group)
+        return 8_000_000_000 if group == worker_group else 11_000_000_000
+
+    monkeypatch.setattr(resources, "memory_current", memory_current)
+
+    with pytest.raises(RuntimeError, match="projected=19000000000"):
+        resources.verify_capacity(
+            state, "/test/parent", 1, 4_000_000_000, current_memory_bytes=10_000_000_000
+        )
+
+    assert sampled_groups == [worker_group, "/test/parent"]
 
 
 def test_launch_preflight_excludes_its_own_unresolved_record(
