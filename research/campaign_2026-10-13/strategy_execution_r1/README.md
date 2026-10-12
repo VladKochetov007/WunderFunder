@@ -34,7 +34,7 @@ Resume research under the new authority, update GPU guards, prepare and independ
 
 ## First amplitude packet
 
-[F0 seed-3 target-amplitude packet](target_amplitude_f0_s3_r1/README.md) has an R2 correction prepared for independent recipe review. It binds the actual F0 cache consumer, matched shape profile, historical R3 control and exact staged fit/export/grade argv. R2 preserves the `16/13` target treatment, uses the reviewed dynamic GPU allocator policy, and fixes P2/P3 resume paths; R1 remains preserved but is not launchable. No amplitude fit has launched and no treatment score is claimed. F3 remains dependent on a clean T3 teacher cohort, predictions, cache and matched control.
+[F0 seed-3 target-amplitude packet](target_amplitude_f0_s3_r1/README.md) now has an R3 command-only path correction after R2 P1 failed before fitting: `load_campaign_split` resolved a relative split path against the source-overlay working directory. R3 makes all fit and export split-manifest paths absolute and assigns fresh attempt/output identities; its actual-overlay loader and exact worker-vector source-manifest preflights passed. Root conditionally authorized execution after fresh shared-resource admission. The failure is infrastructure evidence only; no amplitude score exists. F3 remains dependent on a clean T3 teacher cohort, predictions, cache and matched control.
 
 ## Source records
 

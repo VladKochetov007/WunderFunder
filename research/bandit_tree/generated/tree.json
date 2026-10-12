@@ -3373,6 +3373,27 @@
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "79caa5d94a6533fb369da415403d3eb9ce3a1bedf48e870105f4c732555d1082"
         }
+      },
+      {
+        "raw_record": "{\"id\": \"STRATEGY-RESUME-20261013-R1\", \"created_utc\": \"2026-10-12T22:59:14Z\", \"type\": \"explicit_user_resume_and_gpu_authorization\", \"decision\": \"Implement all actionable review ideas; use all live Kaggle allowance and local GPU without previous time/artificialVRAM limits. Preserve separate CPU/RAM/no-paid-spend;private mean-CV sacrifice<=.001.\", \"evidence\": [\"specs/adr/0034-strategy-execution-full-gpu-allowance.md\", \"research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json\", \"research/campaign_2026-10-13/strategy_execution_r1/COVERAGE.json\"], \"new_fits\": 0, \"public_forecast\": null}\n",
+        "record": {
+          "created_utc": "2026-10-12T22:59:14Z",
+          "decision": "Implement all actionable review ideas; use all live Kaggle allowance and local GPU without previous time/artificialVRAM limits. Preserve separate CPU/RAM/no-paid-spend;private mean-CV sacrifice<=.001.",
+          "evidence": [
+            "specs/adr/0034-strategy-execution-full-gpu-allowance.md",
+            "research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json",
+            "research/campaign_2026-10-13/strategy_execution_r1/COVERAGE.json"
+          ],
+          "id": "STRATEGY-RESUME-20261013-R1",
+          "new_fits": 0,
+          "public_forecast": null,
+          "type": "explicit_user_resume_and_gpu_authorization"
+        },
+        "source": {
+          "line": 137,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "f5a2c1eaafc4e153b08e4f4a7577467acfe726b55a70df7f2e97e35ef2d5e53a"
+        }
       }
     ],
     "legacy_archive": {
@@ -9048,9 +9069,9 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 798,
+      "experiments": 802,
       "hypotheses": 483,
-      "journal": 136
+      "journal": 137
     }
   },
   "nodes": [
@@ -13262,18 +13283,14 @@
           "status": "resolved"
         },
         {
-          "candidates": [
-            "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_GATED_OOF_PREDICTIONS.npy"
-          ],
+          "candidates": [],
           "path": "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_GATED_OOF_PREDICTIONS.npy",
-          "status": "resolved"
+          "status": "missing"
         },
         {
-          "candidates": [
-            "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_GLOBAL_OOF_PREDICTIONS.npy"
-          ],
+          "candidates": [],
           "path": "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_GLOBAL_OOF_PREDICTIONS.npy",
-          "status": "resolved"
+          "status": "missing"
         }
       ],
       "artifacts": [
@@ -78542,6 +78559,186 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-AMP-F0-S3-20261013-R1",
+      "latest_recorded_status": "prepared_awaiting_independent_recipe_review_and_root_release",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"bindings\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/SOURCE_AND_INPUT_BINDINGS_R1.json\",\"bindings_sha256\":\"2986dfb887e211a7c22f2b3b4be2468a379f9aa135fddaaece3730a02f2d946a\",\"candidate_wp\":null,\"commands\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R1.json\",\"commands_sha256\":\"af9ee972a5b98ea0244117f3ab9ae26649400c7afbceac3ea1254b259a4c0838\",\"control\":{\"exposure\":\"repeatedly exposed F0 panel\",\"metric\":\"global_wp_clip2_v1\",\"run\":\"clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1\",\"wp\":0.6811553603333363},\"date\":\"2026-10-13\",\"fit_authorized\":false,\"hypothesis_id\":\"H-268\",\"id\":\"E-STRATEGY-AMP-F0-S3-20261013-R1\",\"interpretation\":\"Preparation and bounded implementation parity only; no treatment score or public claim. F0 packet is runnable subject to independent recipe verdict, root release and fresh shared-resource admission. F3 requires a clean-T3 teacher cohort/cache and matched homogeneous control.\",\"kind\":\"target_amplitude_f0_seed3_recipe_preparation\",\"packet\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/README.md\",\"public_forecast\":null,\"scientific_fits_completed\":0,\"status\":\"prepared_awaiting_independent_recipe_review_and_root_release\",\"treatment\":\"Scale the cached homogeneous clean-T3 F0 teacher target from 0.8125 to 1.0 by multiplying 16/13 before the existing clip; retain matched seed-3 parent, alpha 0.9, schedule, precision, fitting membership and auxiliary losses.\"}\n",
+          "record": {
+            "bindings": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/SOURCE_AND_INPUT_BINDINGS_R1.json",
+            "bindings_sha256": "2986dfb887e211a7c22f2b3b4be2468a379f9aa135fddaaece3730a02f2d946a",
+            "candidate_wp": null,
+            "commands": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R1.json",
+            "commands_sha256": "af9ee972a5b98ea0244117f3ab9ae26649400c7afbceac3ea1254b259a4c0838",
+            "control": {
+              "exposure": "repeatedly exposed F0 panel",
+              "metric": "global_wp_clip2_v1",
+              "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+              "wp": 0.6811553603333363
+            },
+            "date": "2026-10-13",
+            "fit_authorized": false,
+            "hypothesis_id": "H-268",
+            "id": "E-STRATEGY-AMP-F0-S3-20261013-R1",
+            "interpretation": "Preparation and bounded implementation parity only; no treatment score or public claim. F0 packet is runnable subject to independent recipe verdict, root release and fresh shared-resource admission. F3 requires a clean-T3 teacher cohort/cache and matched homogeneous control.",
+            "kind": "target_amplitude_f0_seed3_recipe_preparation",
+            "packet": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/README.md",
+            "public_forecast": null,
+            "scientific_fits_completed": 0,
+            "status": "prepared_awaiting_independent_recipe_review_and_root_release",
+            "treatment": "Scale the cached homogeneous clean-T3 F0 teacher target from 0.8125 to 1.0 by multiplying 16/13 before the existing clip; retain matched seed-3 parent, alpha 0.9, schedule, precision, fitting membership and auxiliary losses."
+          },
+          "source": {
+            "line": 799,
+            "path": "research/experiments.jsonl",
+            "sha256": "af397de1b88542366b699fe0469b3ac341fb18e6c525991e563aad2d37afe0d0"
+          }
+        }
+      ],
+      "title": "target_amplitude_f0_seed3_recipe_preparation",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-AMP-F0-S3-20261013-R2",
+      "latest_recorded_status": "prepared_for_independent_recipe_review_r2",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"bindings\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/SOURCE_AND_INPUT_BINDINGS_R2.json\",\"bindings_sha256\":\"e4240b0d041072c97eefe03cfe1a281ad32bcbe7279f28dc8691d1c4a999ccb2\",\"candidate_wp\":null,\"commands\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R2.json\",\"commands_sha256\":\"318dff806c73799c84b8c0a140824f427f0acb8b1b07c77d4098dc58725bbc06\",\"date\":\"2026-10-13\",\"fit_authorized\":false,\"hypothesis_id\":\"H-268\",\"id\":\"E-STRATEGY-AMP-F0-S3-20261013-R2\",\"interpretation\":\"Corrected runnable recipe prepared for independent R2 review. R1 remains immutable and is not launchable. No amplitude score or public claim exists; F3 is still blocked on a clean-T3 teacher/cache/control cohort.\",\"kind\":\"target_amplitude_f0_seed3_recipe_correction\",\"operational_resource_policy\":\"Uses the independently reviewed main dynamic free-VRAM allocator implementation with pinned 1,000,000,000-byte safety reserve and fraction 1.0; no WNN_GPU_MEMORY_BYTES override. P2/P3 resume-state inputs are absolute main-project paths.\",\"packet\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/RECIPE_REVIEW_CORRECTION_R2.md\",\"public_forecast\":null,\"scientific_fits_completed\":0,\"source_manifest\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2/SOURCE_MANIFEST_R2.json\",\"source_manifest_sha256\":\"ac086fd55d9833492191507cbfba7f1d978a763011be698097bd582372402818\",\"status\":\"prepared_for_independent_recipe_review_r2\",\"supersedes_preparation_record\":\"E-STRATEGY-AMP-F0-S3-20261013-R1\",\"treatment\":\"Same scale-16/13 homogeneous clean-T3 F0 cached teacher target before the existing clip, matched to seed-3 parent, alpha 0.9, schedule, precision, fitting membership and auxiliary losses.\"}\n",
+          "record": {
+            "bindings": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/SOURCE_AND_INPUT_BINDINGS_R2.json",
+            "bindings_sha256": "e4240b0d041072c97eefe03cfe1a281ad32bcbe7279f28dc8691d1c4a999ccb2",
+            "candidate_wp": null,
+            "commands": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R2.json",
+            "commands_sha256": "318dff806c73799c84b8c0a140824f427f0acb8b1b07c77d4098dc58725bbc06",
+            "date": "2026-10-13",
+            "fit_authorized": false,
+            "hypothesis_id": "H-268",
+            "id": "E-STRATEGY-AMP-F0-S3-20261013-R2",
+            "interpretation": "Corrected runnable recipe prepared for independent R2 review. R1 remains immutable and is not launchable. No amplitude score or public claim exists; F3 is still blocked on a clean-T3 teacher/cache/control cohort.",
+            "kind": "target_amplitude_f0_seed3_recipe_correction",
+            "operational_resource_policy": "Uses the independently reviewed main dynamic free-VRAM allocator implementation with pinned 1,000,000,000-byte safety reserve and fraction 1.0; no WNN_GPU_MEMORY_BYTES override. P2/P3 resume-state inputs are absolute main-project paths.",
+            "packet": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/RECIPE_REVIEW_CORRECTION_R2.md",
+            "public_forecast": null,
+            "scientific_fits_completed": 0,
+            "source_manifest": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2/SOURCE_MANIFEST_R2.json",
+            "source_manifest_sha256": "ac086fd55d9833492191507cbfba7f1d978a763011be698097bd582372402818",
+            "status": "prepared_for_independent_recipe_review_r2",
+            "supersedes_preparation_record": "E-STRATEGY-AMP-F0-S3-20261013-R1",
+            "treatment": "Same scale-16/13 homogeneous clean-T3 F0 cached teacher target before the existing clip, matched to seed-3 parent, alpha 0.9, schedule, precision, fitting membership and auxiliary losses."
+          },
+          "source": {
+            "line": 800,
+            "path": "research/experiments.jsonl",
+            "sha256": "918f80e8ce939bafca75f929d9ea03e614e724c975d4913f03c5bb43d5f898fd"
+          }
+        }
+      ],
+      "title": "target_amplitude_f0_seed3_recipe_correction",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-AMP-F0-S3-20261013-R2-P1-PREFIT-FAILURE",
+      "latest_recorded_status": "infrastructure_pre_fit_failure",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"attempt\":\"clean-t3-f0-amplitude1-s3-a9-r1-p1-20261013\",\"candidate_wp\":null,\"commands\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R2.json\",\"commands_sha256\":\"318dff806c73799c84b8c0a140824f427f0acb8b1b07c77d4098dc58725bbc06\",\"date\":\"2026-10-13\",\"failure_receipt\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/P1_ATTEMPT_FAILURE_R2.json\",\"failure_receipt_sha256\":\"d2b90b482fc92f2ffa819cfed66a530b81fd32bc0422155ec36478f9b712c861\",\"hypothesis_id\":\"H-268\",\"id\":\"E-STRATEGY-AMP-F0-S3-20261013-R2-P1-PREFIT-FAILURE\",\"interpretation\":\"The R2 worker exited before fitting because the relative campaign split manifest was resolved under source_overlay_r2 cwd. This is path-resolution infrastructure evidence only; it provides no evidence for or against target amplitude.\",\"kind\":\"target_amplitude_f0_seed3_execution_failure\",\"public_forecast\":null,\"runtime\":{\"elapsed_seconds\":5.055068740000024,\"peak_observed_vram_bytes\":79691776,\"worker_peak_ram_bytes\":363032576},\"scientific_fits_completed\":0,\"status\":\"infrastructure_pre_fit_failure\"}\n",
+          "record": {
+            "attempt": "clean-t3-f0-amplitude1-s3-a9-r1-p1-20261013",
+            "candidate_wp": null,
+            "commands": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R2.json",
+            "commands_sha256": "318dff806c73799c84b8c0a140824f427f0acb8b1b07c77d4098dc58725bbc06",
+            "date": "2026-10-13",
+            "failure_receipt": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/P1_ATTEMPT_FAILURE_R2.json",
+            "failure_receipt_sha256": "d2b90b482fc92f2ffa819cfed66a530b81fd32bc0422155ec36478f9b712c861",
+            "hypothesis_id": "H-268",
+            "id": "E-STRATEGY-AMP-F0-S3-20261013-R2-P1-PREFIT-FAILURE",
+            "interpretation": "The R2 worker exited before fitting because the relative campaign split manifest was resolved under source_overlay_r2 cwd. This is path-resolution infrastructure evidence only; it provides no evidence for or against target amplitude.",
+            "kind": "target_amplitude_f0_seed3_execution_failure",
+            "public_forecast": null,
+            "runtime": {
+              "elapsed_seconds": 5.055068740000024,
+              "peak_observed_vram_bytes": 79691776,
+              "worker_peak_ram_bytes": 363032576
+            },
+            "scientific_fits_completed": 0,
+            "status": "infrastructure_pre_fit_failure"
+          },
+          "source": {
+            "line": 801,
+            "path": "research/experiments.jsonl",
+            "sha256": "cd28b90c9ab844cd63f8375a05f520ee18c8a53ca2b6afd4a1887e16e2464687"
+          }
+        }
+      ],
+      "title": "target_amplitude_f0_seed3_execution_failure",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-AMP-F0-S3-20261013-R3-PATH-CORRECTION",
+      "latest_recorded_status": "prepared_conditionally_authorized_after_actual_split_loader_preflight",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"candidate_wp\":null,\"commands\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R3.json\",\"commands_sha256\":\"559d9dc39923cc9d0e6b412468c6529dafbaa09dbb1813e64a7694c89bc94cbc\",\"date\":\"2026-10-13\",\"failure_receipt\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/P1_ATTEMPT_FAILURE_R2.json\",\"fit_authorized\":true,\"hypothesis_id\":\"H-268\",\"id\":\"E-STRATEGY-AMP-F0-S3-20261013-R3-PATH-CORRECTION\",\"interpretation\":\"The R3 packet changes only relative split-manifest CLI values to the absolute main-project path and uses fresh attempt/output identities. Root authorized launch after the actual-overlay preflight and conditional on fresh shared-resource admission. No model fit or candidate result has occurred.\",\"kind\":\"target_amplitude_f0_seed3_recipe_path_correction\",\"packet\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/README.md\",\"preflight\":{\"cwd\":\"source_overlay_r2\",\"evaluation_groups\":468,\"fit_valid_groups\":1405,\"fold\":0,\"n_folds\":4,\"result\":\"pass\",\"split_sha256\":\"09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d\",\"train_groups\":10535},\"public_forecast\":null,\"scientific_fits_completed\":0,\"source_manifest\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2/SOURCE_MANIFEST_R2.json\",\"source_manifest_sha256\":\"ac086fd55d9833492191507cbfba7f1d978a763011be698097bd582372402818\",\"status\":\"prepared_conditionally_authorized_after_actual_split_loader_preflight\",\"supersedes_preparation_record\":\"E-STRATEGY-AMP-F0-S3-20261013-R2\"}\n",
+          "record": {
+            "candidate_wp": null,
+            "commands": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R3.json",
+            "commands_sha256": "559d9dc39923cc9d0e6b412468c6529dafbaa09dbb1813e64a7694c89bc94cbc",
+            "date": "2026-10-13",
+            "failure_receipt": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/P1_ATTEMPT_FAILURE_R2.json",
+            "fit_authorized": true,
+            "hypothesis_id": "H-268",
+            "id": "E-STRATEGY-AMP-F0-S3-20261013-R3-PATH-CORRECTION",
+            "interpretation": "The R3 packet changes only relative split-manifest CLI values to the absolute main-project path and uses fresh attempt/output identities. Root authorized launch after the actual-overlay preflight and conditional on fresh shared-resource admission. No model fit or candidate result has occurred.",
+            "kind": "target_amplitude_f0_seed3_recipe_path_correction",
+            "packet": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/README.md",
+            "preflight": {
+              "cwd": "source_overlay_r2",
+              "evaluation_groups": 468,
+              "fit_valid_groups": 1405,
+              "fold": 0,
+              "n_folds": 4,
+              "result": "pass",
+              "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+              "train_groups": 10535
+            },
+            "public_forecast": null,
+            "scientific_fits_completed": 0,
+            "source_manifest": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2/SOURCE_MANIFEST_R2.json",
+            "source_manifest_sha256": "ac086fd55d9833492191507cbfba7f1d978a763011be698097bd582372402818",
+            "status": "prepared_conditionally_authorized_after_actual_split_loader_preflight",
+            "supersedes_preparation_record": "E-STRATEGY-AMP-F0-S3-20261013-R2"
+          },
+          "source": {
+            "line": 802,
+            "path": "research/experiments.jsonl",
+            "sha256": "4cd9e2c5aeb3b9fb1546b32301693a20a7d67973d2878a39a074c4a903250d47"
+          }
+        }
+      ],
+      "title": "target_amplitude_f0_seed3_recipe_path_correction",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -85753,6 +85950,8 @@
     "Unresolved ledger_parent_id link: hypothesis:H-E537-H -> E535",
     "ambiguous artifact for arm:online-feature-dynamics: src/wnn/online_dynamics.py",
     "ambiguous evidence document for hypothesis:H-347-r1: diversity_stack_20261009/gbm_teacher_20261011/RESULTS.md",
+    "missing artifact for arm:disagreement-gated-weak-blend: research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_GATED_OOF_PREDICTIONS.npy",
+    "missing artifact for arm:disagreement-gated-weak-blend: research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_GLOBAL_OOF_PREDICTIONS.npy",
     "missing artifact for arm:disagreement-gated-weak-blend: tests/test_metric_aligned_gate.py",
     "missing artifact for arm:disagreement-gated-weak-blend: tests/test_weak_model_complementarity.py",
     "missing artifact for arm:disagreement-guided-training: tests/test_weak_model_complementarity.py",
