@@ -1,0 +1,166 @@
+{
+  "actual_start": {
+    "attempt_id": "clean-t3-f0-control-s4-a9-r3-p1-20261012",
+    "attempt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-control-s4-a9-r3-p1-20261012.json",
+    "attempt_sha256_at_receipt": "96d987083b60452ccaee47687d9999f4bba2316f8b512821fa8549d4e719e550",
+    "controller_log_bytes": 5421,
+    "controller_log_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/logs/clean-t3-f0-control-s4-a9-r3-p1-20261012.log",
+    "controller_log_sha256_at_receipt": "9a5c3f2cf92bc4c0081950c9e2f4369ba22dd39abc3768b1dbbb56487f38e93f",
+    "controller_pid": 423977,
+    "elapsed_seconds_at_attempt_snapshot": 186.80590754197328,
+    "gpu_sample": "61 %, 2079 MiB",
+    "heartbeat_utc": "2026-10-12T13:42:56.235320+00:00",
+    "manager": "systemd --user",
+    "phase": "running",
+    "started_utc": "2026-10-12T13:39:49.386270+00:00",
+    "status": "running",
+    "systemd_properties": {
+      "ActiveState": "active",
+      "CPUUsageNSec": "182771264000",
+      "ExecMainStatus": "0",
+      "MainPID": "423977",
+      "MemoryCurrent": "4662902784",
+      "MemoryPeak": "4952080384",
+      "SubState": "running"
+    },
+    "trainer_processes": [
+      {
+        "command": "/usr/bin/timeout --signal=TERM --kill-after=30s 3600s /usr/bin/env WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack WNN_LOADER_RAM_GB=4 PYTHONDONTWRITEBYTECODE=1 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/scripts/cleanfold_exec.py scripts/train_rnn.py --name clean_t3_f0_control_s4_a9_t3r5_r3_p1 --seed 4 --device cuda --arch gru --cell gru --hidden 256 --layers 2 --dropout 0 --train-source train+valid --train-seqs 10607 --valid-seqs 600 --valid-fold 0 --no-eval-during-fit --split-manifest research/campaign_2026-09-29/artifacts/splits/fold0.json --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --save-training-state --batch 16 --chunk 2000 --loss wmse --loss-norm chunk --lr 0.0001 --wd 0.01 --optim adamw --sched onecycle --precision fp16 --propensity c20260929_prop_f0 --prop-power 2 --prop-eps 0.03 --prop-cache --valid-true-mask 0.03 --aux-struct 0.3 --aux-next 0.3 --since-weight 0 --since-floor 0.25 --distill-cache-root cache/clean_t3_f0_h390_t3r5_a9_r2 --distill-cache-variant homogeneous --distill-alpha 0.9 --fast --sync-free --fused-adam --pin-memory --init c20261003_combo_s4_f0@ep3 --stop-after-epoch 1 --distill-loss mse --distill-channel-weights 1,1 --distill-denominator chunk --distill-alpha-tau 32 --distill-boot-h 0 --distill-reanchor 0 --distill-family-weight 0 --label-weight-power 1 --label-weight-floor 0",
+        "pid": 423982,
+        "ppid": 423977
+      },
+      {
+        "command": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/scripts/cleanfold_exec.py scripts/train_rnn.py --name clean_t3_f0_control_s4_a9_t3r5_r3_p1 --seed 4 --device cuda --arch gru --cell gru --hidden 256 --layers 2 --dropout 0 --train-source train+valid --train-seqs 10607 --valid-seqs 600 --valid-fold 0 --no-eval-during-fit --split-manifest research/campaign_2026-09-29/artifacts/splits/fold0.json --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --save-training-state --batch 16 --chunk 2000 --loss wmse --loss-norm chunk --lr 0.0001 --wd 0.01 --optim adamw --sched onecycle --precision fp16 --propensity c20260929_prop_f0 --prop-power 2 --prop-eps 0.03 --prop-cache --valid-true-mask 0.03 --aux-struct 0.3 --aux-next 0.3 --since-weight 0 --since-floor 0.25 --distill-cache-root cache/clean_t3_f0_h390_t3r5_a9_r2 --distill-cache-variant homogeneous --distill-alpha 0.9 --fast --sync-free --fused-adam --pin-memory --init c20261003_combo_s4_f0@ep3 --stop-after-epoch 1 --distill-loss mse --distill-channel-weights 1,1 --distill-denominator chunk --distill-alpha-tau 32 --distill-boot-h 0 --distill-reanchor 0 --distill-family-weight 0 --label-weight-power 1 --label-weight-floor 0",
+        "pid": 423984,
+        "ppid": 423982
+      },
+      {
+        "command": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/scripts/train_rnn.py --name clean_t3_f0_control_s4_a9_t3r5_r3_p1 --seed 4 --device cuda --arch gru --cell gru --hidden 256 --layers 2 --dropout 0 --train-source train+valid --train-seqs 10607 --valid-seqs 600 --valid-fold 0 --no-eval-during-fit --split-manifest research/campaign_2026-09-29/artifacts/splits/fold0.json --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --save-training-state --batch 16 --chunk 2000 --loss wmse --loss-norm chunk --lr 0.0001 --wd 0.01 --optim adamw --sched onecycle --precision fp16 --propensity c20260929_prop_f0 --prop-power 2 --prop-eps 0.03 --prop-cache --valid-true-mask 0.03 --aux-struct 0.3 --aux-next 0.3 --since-weight 0 --since-floor 0.25 --distill-cache-root cache/clean_t3_f0_h390_t3r5_a9_r2 --distill-cache-variant homogeneous --distill-alpha 0.9 --fast --sync-free --fused-adam --pin-memory --init c20261003_combo_s4_f0@ep3 --stop-after-epoch 1 --distill-loss mse --distill-channel-weights 1,1 --distill-denominator chunk --distill-alpha-tau 32 --distill-boot-h 0 --distill-reanchor 0 --distill-family-weight 0 --label-weight-power 1 --label-weight-floor 0",
+        "pid": 423993,
+        "ppid": 423984
+      },
+      {
+        "command": "/bin/bash -lc python3 - <<'PY' import datetime as dt import hashlib import json import pathlib import subprocess  wt = pathlib.Path('/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile') main = pathlib.Path('/home/vlad/development/wunder/wnn_connectome_starterpack') rel = pathlib.Path('research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1') main_runtime = main / 'research/campaign_2026-10-06/bandit_continuation/runtime' attempt_id = 'clean-t3-f0-control-s4-a9-r3-p1-20261012' unit = 'wnn-bandit-clean-t3-f0-control-s4-a9-r3-p1-20261012.service' attempt_path = main_runtime / 'attempts' / f'{attempt_id}.json' log_path = main_runtime / 'logs' / f'{attempt_id}.log' contract_path = wt / rel / 'FIT_CONTRACT_R1.json' manifest_path = wt / rel / 'LAUNCH_MANIFEST_R1.json' release_path = main / rel / 'ROOT_SEED4_CONDITIONAL_RELEASE_R1.json' templates_path = wt / rel / 'SUCCESSOR_TEMPLATES_R1.json'  def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest() def systemd_props():     keys=['ActiveState','SubState','MainPID','ExecMainStatus','MemoryCurrent','MemoryPeak','CPUUsageNSec']     p=subprocess.run(['systemctl','--user','show',unit,*[f'--property={k}' for k in keys]],text=True,capture_output=True,check=True)     return dict(line.split('=',1) for line in p.stdout.splitlines() if '=' in line) def gpu_sample():     p=subprocess.run(['nvidia-smi','--query-gpu=utilization.gpu,memory.used','--format=csv,noheader'],text=True,capture_output=True,check=True)     return p.stdout.strip() def trainer_processes():     p=subprocess.run(['ps','-eo','pid=,ppid=,args='],text=True,capture_output=True,check=True)     rows=[]     needle='scripts/train_rnn.py --name clean_t3_f0_control_s4_a9_t3r5_r3_p1'     for line in p.stdout.splitlines():         if needle in line:             bits=line.strip().split(None,2)             if len(bits)==3: rows.append({'pid':int(bits[0]),'ppid':int(bits[1]),'command':bits[2]})     return rows  attempt_bytes=attempt_path.read_bytes(); attempt=json.loads(attempt_bytes) log_bytes=log_path.read_bytes(); log_lines=log_bytes.decode('utf-8',errors='replace').splitlines() progress=[line for line in log_lines if line.startswith('ep 0 batch ')] progress_evidence=progress[:1]+(progress[-1:] if len(progress)>1 else []) release=json.loads(release_path.read_bytes()); contract=json.loads(contract_path.read_bytes()); manifest=json.loads(manifest_path.read_bytes()) reserve=attempt.get('reservation',{}).get('ram_bytes',0) parent_current=attempt.get('admission_measurement_at_start',{}).get('parent_memory_current_bytes',0) gate=release['limits']['fresh_parent_current_plus_new_reserve_max_bytes'] receipt={   'schema':'wnn.clean-t3-f0-seed4-p1-startup-receipt.r1',   'status':'RUNNING_STARTUP_AND_FIT_PROGRESS_CONFIRMED',   'recorded_utc':dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds'),   'authorization':{'root_release_path':str(release_path),'root_release_sha256':sha(release_path),'authorized':release.get('authorized'),'contract_sha256':release.get('contract_sha256'),'launch_manifest_sha256':release.get('manifest_sha256'),'scope':'Seed4 independent clean F0 control; P1 of the six-epoch 44,760-update schedule. P2/P3 and CP5 export remain subject to release conditions and fresh admission.'},   'frozen_inputs':{'contract_path':str(contract_path),'contract_sha256':sha(contract_path),'launch_manifest_path':str(manifest_path),'launch_manifest_sha256':sha(manifest_path),'source_manifest_sha256':contract['source']['manifest_sha256'],'source_delta_sha256':contract['source']['source_delta_sha256'],'trainer_sha256':contract['source']['trainer_sha256'],'wrapper_sha256':contract['source']['wrapper_sha256'],'parent_checkpoint_sha256':contract['source']['parent_source']['checkpoint_sha256'],'teacher_cache_root':'cache/clean_t3_f0_h390_t3r5_a9_r2','fit_train_order_sha256':contract['source']['parent_source']['fit_train_order_sha256'],'fit_valid_order_sha256':contract['source']['parent_source']['fit_valid_order_sha256'],'split_manifest_sha256':contract['source']['parent_source']['split_manifest_sha256']},   'actual_start':{'attempt_id':attempt_id,'attempt_path':str(attempt_path),'attempt_sha256_at_receipt':hashlib.sha256(attempt_bytes).hexdigest(),'unit':unit,'manager':'systemd --user','systemd_properties':systemd_props(),'started_utc':attempt.get('started_utc'),'heartbeat_utc':attempt.get('heartbeat_utc'),'elapsed_seconds_at_attempt_snapshot':attempt.get('elapsed_seconds'),'status':attempt.get('status'),'phase':attempt.get('phase'),'controller_pid':int(systemd_props()['MainPID']),'trainer_processes':trainer_processes(),'controller_log_path':str(log_path),'controller_log_sha256_at_receipt':hashlib.sha256(log_bytes).hexdigest(),'controller_log_bytes':len(log_bytes),'trainer_progress_lines':progress_evidence,'gpu_sample':gpu_sample()},   'fresh_admission':{'parent_slice':attempt.get('parent_slice'),'measurement_at_start':attempt.get('admission_measurement_at_start'),'worker_reservation_bytes':reserve,'parent_current_plus_reserve_bytes':parent_current+reserve,'gate_max_bytes':gate,'within_gate':parent_current+reserve<=gate,'initial_gpu_vram_bytes':attempt.get('initial_observed_vram_bytes'),'worker_caps':release['limits'],'worker_peak_ram_bytes_at_attempt_snapshot':attempt.get('peak_ram_bytes'),'worker_peak_observed_vram_bytes_at_attempt_snapshot':attempt.get('peak_observed_vram_bytes'),'parent_peak_ram_bytes_at_attempt_snapshot':attempt.get('peak_parent_ram_bytes'),'worker_memory_event_deltas_at_attempt_snapshot':attempt.get('memory_event_deltas'),'parent_memory_event_deltas_at_attempt_snapshot':attempt.get('parent_memory_event_deltas')},   'recipe_observed':{'profile_id':manifest.get('profile_id'),'output_directory':manifest.get('output_directory'),'run_name':'clean_t3_f0_control_s4_a9_t3r5_r3_p1','actual_trainer_source':'immutable cleanfold source snapshot','seed':4,'hidden':256,'layers':2,'batch':16,'chunk':2000,'precision':'fp16','optimizer':'AdamW','epochs':6,'inclusive_stop_after_epoch':1,'actual_stage_epochs':[0,1],'fixed_checkpoint_epoch':5,'onecycle_total_optimizer_updates':44760,'fit_train_groups':10535,'fit_valid_groups':1405,'evaluation_groups_excluded':468,'loader_workers':0,'evaluation_during_fit':False},   'successor_templates':{'path':str(templates_path),'sha256':sha(templates_path),'predecessor_state_sha_bound_after_terminal':True,'launch_not_authorized_by_template':True} } out=wt/rel/'P1_STARTUP_RECEIPT_R1.json' out.write_text(json.dumps(receipt,indent=2,sort_keys=True)+'\\n') print(out) print('receipt_sha256='+sha(out)) print('status='+str(receipt['actual_start']['status'])+'/'+str(receipt['actual_start']['phase'])) print('heartbeat='+str(receipt['actual_start']['heartbeat_utc'])) print('latest_progress='+str(progress_evidence[-1] if progress_evidence else 'none')) print('unit='+json.dumps(receipt['actual_start']['systemd_properties'],sort_keys=True)) print('peak_worker_ram='+str(receipt['fresh_admission']['worker_peak_ram_bytes_at_attempt_snapshot'])) PY",
+        "pid": 432317,
+        "ppid": 3994711
+      }
+    ],
+    "trainer_progress_lines": [
+      "ep 0 batch 0/746 loss 0.5368 lr 4.00e-06 seq/s 0.5",
+      "ep 0 batch 120/746 loss 0.4878 lr 5.82e-05 seq/s 11.0"
+    ],
+    "unit": "wnn-bandit-clean-t3-f0-control-s4-a9-r3-p1-20261012.service"
+  },
+  "authorization": {
+    "authorized": true,
+    "contract_sha256": "c3ba92816800c8cc7adfe603cc74bef6bb6a0da7e5f0d378443ed8ed04d33c90",
+    "launch_manifest_sha256": "af9e7c0198d66e20348f07d069d17ed36cbb6ce902572d1551e98de3ddebec2c",
+    "root_release_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/ROOT_SEED4_CONDITIONAL_RELEASE_R1.json",
+    "root_release_sha256": "3c4fd04c82e0386ce8071238a678009bf0350594460d83c5fc87c00d1dc84b78",
+    "scope": "Seed4 independent clean F0 control; P1 of the six-epoch 44,760-update schedule. P2/P3 and CP5 export remain subject to release conditions and fresh admission."
+  },
+  "fresh_admission": {
+    "gate_max_bytes": 18000000000,
+    "initial_gpu_vram_bytes": 79691776,
+    "measurement_at_start": {
+      "committed_cpu_cores": 0.0,
+      "committed_ram_reserve_bytes": 0,
+      "parent_memory_current_bytes": 12052987904,
+      "profile_ram_reserve_bytes": 5500000000,
+      "support_cpu_reservations": {
+        "wnn-codex-research-watch.service": 0.05,
+        "wnn-slice-filecache-guard.service": 0.05
+      },
+      "support_cpu_reserve_cores": 0.1
+    },
+    "parent_current_plus_reserve_bytes": 17552987904,
+    "parent_memory_event_deltas_at_attempt_snapshot": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_peak_ram_bytes_at_attempt_snapshot": 13789814784,
+    "parent_slice": "wnn-campaign.slice",
+    "within_gate": true,
+    "worker_caps": {
+      "aggregate_cpu_max": 5,
+      "allocator_bytes": 4300000000,
+      "cpu_cores": 1,
+      "export_timeout_seconds": 1800,
+      "fresh_parent_current_plus_new_reserve_max_bytes": 18000000000,
+      "gpu_workers": 1,
+      "loader_workers": 0,
+      "observed_vram_ceiling_bytes": 5000000000,
+      "per_fit_stage_timeout_seconds": 3600,
+      "support_controller_ram_max_bytes": 500000000,
+      "swap_bytes": 0,
+      "worker_ram_reserve_bytes": 5500000000
+    },
+    "worker_memory_event_deltas_at_attempt_snapshot": {
+      "high": 65642,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "worker_peak_observed_vram_bytes_at_attempt_snapshot": 2181038080,
+    "worker_peak_ram_bytes_at_attempt_snapshot": 4949192704,
+    "worker_reservation_bytes": 5500000000
+  },
+  "frozen_inputs": {
+    "contract_path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/FIT_CONTRACT_R1.json",
+    "contract_sha256": "c3ba92816800c8cc7adfe603cc74bef6bb6a0da7e5f0d378443ed8ed04d33c90",
+    "fit_train_order_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49",
+    "fit_valid_order_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+    "launch_manifest_path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/LAUNCH_MANIFEST_R1.json",
+    "launch_manifest_sha256": "af9e7c0198d66e20348f07d069d17ed36cbb6ce902572d1551e98de3ddebec2c",
+    "parent_checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+    "source_delta_sha256": "912205eba101c8539c372206e5ae0e56f2d0a39f8997b271189b3d2f7d601406",
+    "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "teacher_cache_root": "cache/clean_t3_f0_h390_t3r5_a9_r2",
+    "trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+    "wrapper_sha256": "246586bfd4be3a4e3d95ac026860bb835611f09958193b75798124c9500455ab"
+  },
+  "recipe_observed": {
+    "actual_stage_epochs": [
+      0,
+      1
+    ],
+    "actual_trainer_source": "immutable cleanfold source snapshot",
+    "batch": 16,
+    "chunk": 2000,
+    "epochs": 6,
+    "evaluation_during_fit": false,
+    "evaluation_groups_excluded": 468,
+    "fit_train_groups": 10535,
+    "fit_valid_groups": 1405,
+    "fixed_checkpoint_epoch": 5,
+    "hidden": 256,
+    "inclusive_stop_after_epoch": 1,
+    "layers": 2,
+    "loader_workers": 0,
+    "onecycle_total_optimizer_updates": 44760,
+    "optimizer": "AdamW",
+    "output_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1",
+    "precision": "fp16",
+    "profile_id": "clean_t3_f0_control_s4_a9_t3r5_r3_p1",
+    "run_name": "clean_t3_f0_control_s4_a9_t3r5_r3_p1",
+    "seed": 4
+  },
+  "recorded_utc": "2026-10-12T13:42:59+00:00",
+  "schema": "wnn.clean-t3-f0-seed4-p1-startup-receipt.r1",
+  "status": "RUNNING_STARTUP_AND_FIT_PROGRESS_CONFIRMED",
+  "successor_templates": {
+    "launch_not_authorized_by_template": true,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/SUCCESSOR_TEMPLATES_R1.json",
+    "predecessor_state_sha_bound_after_terminal": true,
+    "sha256": "5d75510e603c5569be2f376b18902d1d7ba157b1a9cf92db0d1ab9ad3f221740"
+  }
+}
