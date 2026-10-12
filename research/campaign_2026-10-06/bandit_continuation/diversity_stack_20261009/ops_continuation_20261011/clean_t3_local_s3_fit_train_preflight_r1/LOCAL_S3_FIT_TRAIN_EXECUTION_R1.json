@@ -1,0 +1,63 @@
+{
+  "cgroup_peak_and_event_deltas": null,
+  "command_argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+    "env",
+    "-u",
+    "WNN_PORTABLE_DATA_MANIFEST",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_local_s3_fit_train_preflight_r1/prepare_fit_train_preflight.py"
+  ],
+  "command_environment": {
+    "WNN_CPU_QUOTA": "50%",
+    "WNN_MEM_MAX": "1500000000",
+    "WNN_RUNTIME_MAX": "120s",
+    "WNN_SLICE": "wnn-campaign.slice",
+    "WNN_THREADS": "1"
+  },
+  "cpu_duration_seconds": null,
+  "created_utc": "2026-10-12T05:17:54.666878+00:00",
+  "failed_preflight_attempts": [
+    {
+      "attempt": 1,
+      "diagnosis": "an initial validator compared numeric row-group IDs across train and valid without source namespaces; replaced with source-qualified component overlap check",
+      "outcome": "preflight aborted before CUDA/export",
+      "stderr_sha256": "a0a7cdebf20b4f99936eda7a90db610cb54e2daa228f1c4e7d64751016533886"
+    },
+    {
+      "attempt": 2,
+      "diagnosis": "runpy harness had not inserted the frozen predictor scripts directory on sys.path; added the actual script directory",
+      "outcome": "preflight aborted before CUDA/export",
+      "stderr_sha256": "51053eab91021e5600831a5621011d9019c47c693f91bad24dcef384bbb72ba4"
+    },
+    {
+      "attempt": 3,
+      "diagnosis": "harness expected selected_epoch inside checkpoint provenance although the producer stores it in the separately bound provenance JSON",
+      "outcome": "preflight aborted before CUDA/export",
+      "stderr_sha256": "68062dab292842e68a6adf6e58a95787df1365c064cec551b9c946d6116671c4"
+    },
+    {
+      "attempt": 4,
+      "diagnosis": "confirmed the checkpoint does not contain that inferred field; validation now relies on actual checkpoint epoch and hash-bound provenance",
+      "outcome": "preflight aborted before CUDA/export",
+      "stderr_sha256": "be2037f318026ad3f72c7101a2be106dcdbde28eb3d03e03cfbce75e4683250b"
+    }
+  ],
+  "no_cuda_export_or_fit": true,
+  "preflight_receipt_path": "LOCAL_S3_FIT_TRAIN_PREFLIGHT_R1.json",
+  "preflight_receipt_sha256": "701642f796a5d4fc19ccebc9c0f71d126308d74f347c784dc083fc713f6f5c7a",
+  "preflight_script_path": "prepare_fit_train_preflight.py",
+  "preflight_script_sha256": "1244c51221c272e55a44b79e1ccf31b8ce17aae29fb074469016b413e2f764cf",
+  "remaining_gates": [
+    "fresh local aggregate CPU/RAM/GPU admission",
+    "actual local-device fit-train export resource/profile gate; the earlier 1,873-row valid export does not qualify this 10,535-row shape",
+    "root-controlled export admission and checkpoint/output collision recheck"
+  ],
+  "schema": "wnn.local-clean-t3-f0-s3-fit-train-preflight-execution.r1",
+  "status": "PASS_ACTUAL_SELECTOR_BEFORE_CUDA; PREPARED_NOT_LAUNCHED",
+  "stderr_path": "PREFLIGHT_STDERR_R5.txt",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_path": "PREFLIGHT_STDOUT_R5.txt",
+  "stdout_sha256": "474343568040ceff63d200cade036eb2828bed5b52d562e1b333d5819fc91851",
+  "unmeasured_fields_note": "scripts/limited did not emit duration/peak/event data for this support invocation; no resource measurements are claimed."
+}
