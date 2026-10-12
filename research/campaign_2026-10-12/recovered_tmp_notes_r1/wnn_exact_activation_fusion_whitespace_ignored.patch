@@ -1,0 +1,1336 @@
+diff --git a/native/src/approx.rs b/native/src/approx.rs
+index d94f7324..6ea35df0 100644
+--- a/native/src/approx.rs
++++ b/native/src/approx.rs
+@@ -78,13 +78,25 @@ pub mod avx2 {
+         // expansion of llvm.round on x86: the same value for every input.
+         let sign = _mm256_and_ps(t, s(-0.0));
+         let half = _mm256_or_ps(s(f32::from_bits(0x3eff_ffff)), sign);
+-        let n = _mm256_round_ps::<{ _MM_FROUND_TO_ZERO | _MM_FROUND_NO_EXC }>(_mm256_add_ps(t, half));
++        let n =
++            _mm256_round_ps::<{ _MM_FROUND_TO_ZERO | _MM_FROUND_NO_EXC }>(_mm256_add_ps(t, half));
+         let r = _mm256_sub_ps(x, _mm256_mul_ps(n, s(LN2)));
+         let mut p = s(1.0 / 5040.0);
+-        for c in [1.0 / 720.0, 1.0 / 120.0, 1.0 / 24.0, 1.0 / 6.0, 0.5, 1.0, 1.0] {
++        for c in [
++            1.0 / 720.0,
++            1.0 / 120.0,
++            1.0 / 24.0,
++            1.0 / 6.0,
++            0.5,
++            1.0,
++            1.0,
++        ] {
+             p = _mm256_add_ps(s(c), _mm256_mul_ps(r, p));
+         }
+-        let pow2 = _mm256_slli_epi32::<23>(_mm256_add_epi32(_mm256_cvttps_epi32(n), _mm256_set1_epi32(127)));
++        let pow2 = _mm256_slli_epi32::<23>(_mm256_add_epi32(
++            _mm256_cvttps_epi32(n),
++            _mm256_set1_epi32(127),
++        ));
+         _mm256_mul_ps(p, _mm256_castsi256_ps(pow2))
+     }
+ 
+@@ -100,7 +112,10 @@ pub mod avx2 {
+     #[inline]
+     pub fn tanh8(x: __m256) -> __m256 {
+         let two = _mm256_set1_ps(2.0);
+-        _mm256_sub_ps(_mm256_mul_ps(two, sigmoid8(_mm256_mul_ps(two, x))), _mm256_set1_ps(1.0))
++        _mm256_sub_ps(
++            _mm256_mul_ps(two, sigmoid8(_mm256_mul_ps(two, x))),
++            _mm256_set1_ps(1.0),
++        )
+     }
+ 
+     #[target_feature(enable = "avx2,fma")]
+@@ -110,9 +125,16 @@ pub mod avx2 {
+         let neg = s(-0.0);
+         // signum: copysign(1, x), NaN for NaN.
+         let nan = _mm256_cmp_ps::<_CMP_UNORD_Q>(x, x);
+-        let sg = _mm256_blendv_ps(_mm256_or_ps(s(1.0), _mm256_and_ps(x, neg)), s(f32::NAN), nan);
++        let sg = _mm256_blendv_ps(
++            _mm256_or_ps(s(1.0), _mm256_and_ps(x, neg)),
++            s(f32::NAN),
++            nan,
++        );
+         let a = _mm256_andnot_ps(neg, x);
+-        let t = _mm256_div_ps(s(1.0), _mm256_add_ps(s(1.0), _mm256_mul_ps(s(0.327_591_1), a)));
++        let t = _mm256_div_ps(
++            s(1.0),
++            _mm256_add_ps(s(1.0), _mm256_mul_ps(s(0.327_591_1), a)),
++        );
+         let mut p = s(1.061_405_4);
+         for c in [-1.453_152_1, 1.421_413_8, -0.284_496_74, 0.254_829_6] {
+             p = _mm256_add_ps(s(c), _mm256_mul_ps(t, p));
+@@ -134,16 +156,51 @@ pub mod avx2 {
+     #[target_feature(enable = "avx2,fma")]
+     #[inline]
+     pub fn gelu_slice(v: &mut [f32], ahead: &mut crate::half::Ahead) {
++        let _ = unsafe { gelu_slice_inner::<false>(v, ahead) };
++    }
++
++    /// Apply the existing GELU arithmetic and return its exact whole-vector absmax.
++    #[target_feature(enable = "avx2,fma")]
++    #[inline]
++    pub fn gelu_slice_with_absmax(v: &mut [f32], ahead: &mut crate::half::Ahead) -> f32 {
++        unsafe { gelu_slice_inner::<true>(v, ahead) }
++    }
++
++    #[target_feature(enable = "avx2,fma")]
++    #[inline]
++    unsafe fn gelu_slice_inner<const TRACK_MAX: bool>(
++        v: &mut [f32],
++        ahead: &mut crate::half::Ahead,
++    ) -> f32 {
++        let mut vector_max = _mm256_setzero_ps();
++        let sign = _mm256_set1_ps(-0.0);
+         let mut chunks = v.chunks_exact_mut(8);
+         for c in &mut chunks {
+             ahead.issue(crate::half::AHEAD_LINES);
+             // SAFETY: `c` holds eight floats.
+-            unsafe { _mm256_storeu_ps(c.as_mut_ptr(), gelu8(_mm256_loadu_ps(c.as_ptr()))) };
++            unsafe {
++                let y = gelu8(_mm256_loadu_ps(c.as_ptr()));
++                if TRACK_MAX {
++                    vector_max = _mm256_max_ps(_mm256_andnot_ps(sign, y), vector_max);
++                }
++                _mm256_storeu_ps(c.as_mut_ptr(), y);
++            }
++        }
++        let mut maximum = 0.0f32;
++        if TRACK_MAX {
++            let mut lanes = [0.0f32; 8];
++            unsafe { _mm256_storeu_ps(lanes.as_mut_ptr(), vector_max) };
++            maximum = lanes.iter().fold(0.0f32, |m, value| m.max(*value));
+         }
+         for x in chunks.into_remainder() {
+-            *x = super::gelu_fast(*x);
++            let y = super::gelu_fast(*x);
++            *x = y;
++            if TRACK_MAX {
++                maximum = maximum.max(y.abs());
+             }
+         }
++        maximum
++    }
+ }
+ 
+ /// 16-lane AVX-512F twins of the `avx2` functions: the same IEEE operations in the same order
+@@ -155,25 +212,37 @@ pub mod avx512 {
+     #[target_feature(enable = "avx512f")]
+     #[inline]
+     fn xor(a: __m512, b: __m512) -> __m512 {
+-        _mm512_castsi512_ps(_mm512_xor_si512(_mm512_castps_si512(a), _mm512_castps_si512(b)))
++        _mm512_castsi512_ps(_mm512_xor_si512(
++            _mm512_castps_si512(a),
++            _mm512_castps_si512(b),
++        ))
+     }
+ 
+     #[target_feature(enable = "avx512f")]
+     #[inline]
+     fn and(a: __m512, b: __m512) -> __m512 {
+-        _mm512_castsi512_ps(_mm512_and_si512(_mm512_castps_si512(a), _mm512_castps_si512(b)))
++        _mm512_castsi512_ps(_mm512_and_si512(
++            _mm512_castps_si512(a),
++            _mm512_castps_si512(b),
++        ))
+     }
+ 
+     #[target_feature(enable = "avx512f")]
+     #[inline]
+     fn or(a: __m512, b: __m512) -> __m512 {
+-        _mm512_castsi512_ps(_mm512_or_si512(_mm512_castps_si512(a), _mm512_castps_si512(b)))
++        _mm512_castsi512_ps(_mm512_or_si512(
++            _mm512_castps_si512(a),
++            _mm512_castps_si512(b),
++        ))
+     }
+ 
+     #[target_feature(enable = "avx512f")]
+     #[inline]
+     fn andnot(a: __m512, b: __m512) -> __m512 {
+-        _mm512_castsi512_ps(_mm512_andnot_si512(_mm512_castps_si512(a), _mm512_castps_si512(b)))
++        _mm512_castsi512_ps(_mm512_andnot_si512(
++            _mm512_castps_si512(a),
++            _mm512_castps_si512(b),
++        ))
+     }
+ 
+     #[target_feature(enable = "avx512f")]
+@@ -185,13 +254,26 @@ pub mod avx512 {
+         let t = _mm512_div_ps(x, s(LN2));
+         let sign = and(t, s(-0.0));
+         let half = or(s(f32::from_bits(0x3eff_ffff)), sign);
+-        let n = _mm512_roundscale_ps::<{ _MM_FROUND_TO_ZERO | _MM_FROUND_NO_EXC }>(_mm512_add_ps(t, half));
++        let n = _mm512_roundscale_ps::<{ _MM_FROUND_TO_ZERO | _MM_FROUND_NO_EXC }>(_mm512_add_ps(
++            t, half,
++        ));
+         let r = _mm512_sub_ps(x, _mm512_mul_ps(n, s(LN2)));
+         let mut p = s(1.0 / 5040.0);
+-        for c in [1.0 / 720.0, 1.0 / 120.0, 1.0 / 24.0, 1.0 / 6.0, 0.5, 1.0, 1.0] {
++        for c in [
++            1.0 / 720.0,
++            1.0 / 120.0,
++            1.0 / 24.0,
++            1.0 / 6.0,
++            0.5,
++            1.0,
++            1.0,
++        ] {
+             p = _mm512_add_ps(s(c), _mm512_mul_ps(r, p));
+         }
+-        let pow2 = _mm512_slli_epi32::<23>(_mm512_add_epi32(_mm512_cvttps_epi32(n), _mm512_set1_epi32(127)));
++        let pow2 = _mm512_slli_epi32::<23>(_mm512_add_epi32(
++            _mm512_cvttps_epi32(n),
++            _mm512_set1_epi32(127),
++        ));
+         _mm512_mul_ps(p, _mm512_castsi512_ps(pow2))
+     }
+ 
+@@ -207,7 +289,10 @@ pub mod avx512 {
+     #[inline]
+     pub fn tanh16(x: __m512) -> __m512 {
+         let two = _mm512_set1_ps(2.0);
+-        _mm512_sub_ps(_mm512_mul_ps(two, sigmoid16(_mm512_mul_ps(two, x))), _mm512_set1_ps(1.0))
++        _mm512_sub_ps(
++            _mm512_mul_ps(two, sigmoid16(_mm512_mul_ps(two, x))),
++            _mm512_set1_ps(1.0),
++        )
+     }
+ 
+     #[target_feature(enable = "avx512f")]
+@@ -218,7 +303,10 @@ pub mod avx512 {
+         let nan = _mm512_cmp_ps_mask::<_CMP_UNORD_Q>(x, x);
+         let sg = _mm512_mask_blend_ps(nan, or(s(1.0), and(x, neg)), s(f32::NAN));
+         let a = andnot(neg, x);
+-        let t = _mm512_div_ps(s(1.0), _mm512_add_ps(s(1.0), _mm512_mul_ps(s(0.327_591_1), a)));
++        let t = _mm512_div_ps(
++            s(1.0),
++            _mm512_add_ps(s(1.0), _mm512_mul_ps(s(0.327_591_1), a)),
++        );
+         let mut p = s(1.061_405_4);
+         for c in [-1.453_152_1, 1.421_413_8, -0.284_496_74, 0.254_829_6] {
+             p = _mm512_add_ps(s(c), _mm512_mul_ps(t, p));
+@@ -240,15 +328,50 @@ pub mod avx512 {
+     #[target_feature(enable = "avx512f")]
+     #[inline]
+     pub fn gelu_slice(v: &mut [f32], ahead: &mut crate::half::Ahead) {
++        let _ = unsafe { gelu_slice_inner::<false>(v, ahead) };
++    }
++
++    /// Apply the existing GELU arithmetic and return its exact whole-vector absmax.
++    #[target_feature(enable = "avx512f")]
++    #[inline]
++    pub fn gelu_slice_with_absmax(v: &mut [f32], ahead: &mut crate::half::Ahead) -> f32 {
++        unsafe { gelu_slice_inner::<true>(v, ahead) }
++    }
++
++    #[target_feature(enable = "avx512f")]
++    #[inline]
++    unsafe fn gelu_slice_inner<const TRACK_MAX: bool>(
++        v: &mut [f32],
++        ahead: &mut crate::half::Ahead,
++    ) -> f32 {
++        let mut vector_max = _mm512_setzero_ps();
++        let sign = _mm512_set1_ps(-0.0);
+         let mut chunks = v.chunks_exact_mut(16);
+         for c in &mut chunks {
+             ahead.issue(2 * crate::half::AHEAD_LINES);
+             // SAFETY: `c` holds sixteen floats.
+-            unsafe { _mm512_storeu_ps(c.as_mut_ptr(), gelu16(_mm512_loadu_ps(c.as_ptr()))) };
++            unsafe {
++                let y = gelu16(_mm512_loadu_ps(c.as_ptr()));
++                if TRACK_MAX {
++                    vector_max = _mm512_max_ps(andnot(sign, y), vector_max);
++                }
++                _mm512_storeu_ps(c.as_mut_ptr(), y);
++            }
++        }
++        let mut maximum = 0.0f32;
++        if TRACK_MAX {
++            let mut lanes = [0.0f32; 16];
++            unsafe { _mm512_storeu_ps(lanes.as_mut_ptr(), vector_max) };
++            maximum = lanes.iter().fold(0.0f32, |m, value| m.max(*value));
+         }
+         for x in chunks.into_remainder() {
+-            *x = super::gelu_fast(*x);
++            let y = super::gelu_fast(*x);
++            *x = y;
++            if TRACK_MAX {
++                maximum = maximum.max(y.abs());
++            }
+         }
++        maximum
+     }
+ }
+ 
+@@ -274,13 +397,28 @@ mod tests {
+                 xs.push(x);
+             }
+         }
+-        xs.extend([0.0, -0.0, 40.0, -40.0, 41.0, -41.0, 1e30, -1e30, f32::INFINITY, f32::NEG_INFINITY, f32::NAN]);
++        xs.extend([
++            0.0,
++            -0.0,
++            40.0,
++            -40.0,
++            41.0,
++            -41.0,
++            1e30,
++            -1e30,
++            f32::INFINITY,
++            f32::NEG_INFINITY,
++            f32::NAN,
++        ]);
+         while xs.len() % 16 != 0 {
+             xs.push(0.25);
+         }
+         type Simd = unsafe fn(__m512) -> __m512;
+-        let funcs: [(fn(f32) -> f32, Simd); 3] =
+-            [(sigmoid_fast, avx512::sigmoid16), (tanh_fast, avx512::tanh16), (gelu_fast, avx512::gelu16)];
++        let funcs: [(fn(f32) -> f32, Simd); 3] = [
++            (sigmoid_fast, avx512::sigmoid16),
++            (tanh_fast, avx512::tanh16),
++            (gelu_fast, avx512::gelu16),
++        ];
+         for (k, (scalar, simd)) in funcs.iter().enumerate() {
+             for c in xs.chunks_exact(16) {
+                 let mut out = [0.0f32; 16];
+@@ -296,6 +434,52 @@ mod tests {
+         }
+     }
+ 
++    #[cfg(target_arch = "x86_64")]
++    #[test]
++    fn fused_gelu_absmax_matches_activation_then_scan() {
++        let mut cases = vec![
++            vec![],
++            vec![-0.0],
++            vec![0.0; 7],
++            vec![
++                f32::NAN,
++                f32::INFINITY,
++                f32::NEG_INFINITY,
++                -0.0,
++                1.0,
++                -3.0,
++                0.25,
++            ],
++        ];
++        cases.push((0..37).map(|i| (i as f32 - 18.0) * 0.125).collect());
++
++        for input in cases {
++            let expected: Vec<f32> = input.iter().map(|x| gelu_fast(*x)).collect();
++            let expected_max = expected.iter().fold(0.0f32, |m, value| m.max(value.abs()));
++
++            if std::arch::is_x86_feature_detected!("avx2")
++                && std::arch::is_x86_feature_detected!("fma")
++            {
++                let mut actual = input.clone();
++                let mut ahead = crate::half::Ahead::NONE;
++                let maximum = unsafe { avx2::gelu_slice_with_absmax(&mut actual, &mut ahead) };
++                assert_eq!(maximum.to_bits(), expected_max.to_bits());
++                for (got, want) in actual.iter().zip(&expected) {
++                    assert!(got.to_bits() == want.to_bits() || (got.is_nan() && want.is_nan()));
++                }
++            }
++
++            if std::arch::is_x86_feature_detected!("avx512f") {
++                let mut actual = input.clone();
++                let mut ahead = crate::half::Ahead::NONE;
++                let maximum = unsafe { avx512::gelu_slice_with_absmax(&mut actual, &mut ahead) };
++                assert_eq!(maximum.to_bits(), expected_max.to_bits());
++                for (got, want) in actual.iter().zip(&expected) {
++                    assert!(got.to_bits() == want.to_bits() || (got.is_nan() && want.is_nan()));
++                }
++            }
++        }
++    }
+ 
+     fn grid() -> impl Iterator<Item = f32> {
+         (-12_000..=12_000).map(|i| i as f32 * 1e-3)
+@@ -332,7 +516,9 @@ mod tests {
+     #[cfg(target_arch = "x86_64")]
+     #[test]
+     fn avx2_activations_match_scalar_bitwise() {
+-        if !(std::arch::is_x86_feature_detected!("avx2") && std::arch::is_x86_feature_detected!("fma")) {
++        if !(std::arch::is_x86_feature_detected!("avx2")
++            && std::arch::is_x86_feature_detected!("fma"))
++        {
+             return;
+         }
+         use std::arch::x86_64::*;
+@@ -347,13 +533,33 @@ mod tests {
+                 xs.push(x);
+             }
+         }
+-        xs.extend([0.0, -0.0, 40.0, -40.0, 41.0, -41.0, 1e30, -1e30, f32::INFINITY, f32::NEG_INFINITY]);
+-        xs.extend([f32::MIN_POSITIVE, -f32::MIN_POSITIVE, 1e-40, -1e-40, 0.5 * std::f32::consts::LN_2]);
++        xs.extend([
++            0.0,
++            -0.0,
++            40.0,
++            -40.0,
++            41.0,
++            -41.0,
++            1e30,
++            -1e30,
++            f32::INFINITY,
++            f32::NEG_INFINITY,
++        ]);
++        xs.extend([
++            f32::MIN_POSITIVE,
++            -f32::MIN_POSITIVE,
++            1e-40,
++            -1e-40,
++            0.5 * std::f32::consts::LN_2,
++        ]);
+         while xs.len() % 8 != 0 {
+             xs.push(0.25);
+         }
+-        let funcs: [(fn(f32) -> f32, unsafe fn(__m256) -> __m256); 3] =
+-            [(sigmoid_fast, avx2::sigmoid8), (tanh_fast, avx2::tanh8), (gelu_fast, avx2::gelu8)];
++        let funcs: [(fn(f32) -> f32, unsafe fn(__m256) -> __m256); 3] = [
++            (sigmoid_fast, avx2::sigmoid8),
++            (tanh_fast, avx2::tanh8),
++            (gelu_fast, avx2::gelu8),
++        ];
+         for (k, (scalar, simd)) in funcs.iter().enumerate() {
+             for c in xs.chunks_exact(8) {
+                 let mut out = [0.0f32; 8];
+diff --git a/native/src/rnn_fast.rs b/native/src/rnn_fast.rs
+index 6828306d..09d62e9c 100644
+--- a/native/src/rnn_fast.rs
++++ b/native/src/rnn_fast.rs
+@@ -488,8 +488,9 @@ unsafe fn gemv_avx2(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
+ 
+ /// PyTorch GRU update from the two gate preactivation blocks [r | u | n].
+ #[inline(always)]
+-fn gru_update(h: &mut [f32], gi: &[f32], gh: &[f32], fast: bool) {
++fn gru_update<const TRACK_MAX: bool>(h: &mut [f32], gi: &[f32], gh: &[f32], fast: bool) -> f32 {
+     let n = h.len();
++    let mut maximum = 0.0f32;
+     let (gi_r, gi_rest) = gi.split_at(n);
+     let (gi_u, gi_c) = gi_rest.split_at(n);
+     let (gh_r, gh_rest) = gh.split_at(n);
+@@ -504,16 +505,25 @@ fn gru_update(h: &mut [f32], gi: &[f32], gh: &[f32], fast: bool) {
+             let r = sigmoid_fast(ir + hr);
+             let u = sigmoid_fast(iu + hu);
+             let c = tanh_fast(ic + r * hc);
+-            *hj = (1.0 - u) * c + u * *hj;
++            let y = (1.0 - u) * c + u * *hj;
++            *hj = y;
++            if TRACK_MAX {
++                maximum = maximum.max(y.abs());
++            }
+         }
+     } else {
+         for (hj, (((ir, hr), (iu, hu)), (ic, hc))) in h.iter_mut().zip(gates) {
+             let r = sigmoid(ir + hr);
+             let u = sigmoid(iu + hu);
+             let c = (ic + r * hc).tanh();
+-            *hj = (1.0 - u) * c + u * *hj;
++            let y = (1.0 - u) * c + u * *hj;
++            *hj = y;
++            if TRACK_MAX {
++                maximum = maximum.max(y.abs());
++            }
+         }
+     }
++    maximum
+ }
+ 
+ /// `gru_update` with fast activations on eight lanes at a time (`approx::avx2`), the same bits,
+@@ -524,12 +534,19 @@ fn gru_update(h: &mut [f32], gi: &[f32], gh: &[f32], fast: bool) {
+ #[cfg(target_arch = "x86_64")]
+ #[target_feature(enable = "avx2,fma")]
+ #[inline]
+-unsafe fn gru_update_avx2(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahead) {
++unsafe fn gru_update_avx2<const TRACK_MAX: bool>(
++    h: &mut [f32],
++    gi: &[f32],
++    gh: &[f32],
++    ahead: &mut Ahead,
++) -> f32 {
+     use crate::approx::avx2::{sigmoid8, tanh8};
+     use std::arch::x86_64::*;
+     let n = h.len();
+     assert!(gi.len() >= 3 * n && gh.len() >= 3 * n);
+     let main = n / 8 * 8;
++    let mut vector_max = _mm256_setzero_ps();
++    let sign = _mm256_set1_ps(-0.0);
+     unsafe {
+         let (i, g, hp) = (gi.as_ptr(), gh.as_ptr(), h.as_mut_ptr());
+         let ld = |p: *const f32, k: usize| _mm256_loadu_ps(p.add(k));
+@@ -546,15 +563,29 @@ unsafe fn gru_update_avx2(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahe
+                 _mm256_mul_ps(_mm256_sub_ps(_mm256_set1_ps(1.0), u), c),
+                 keep,
+             );
++            if TRACK_MAX {
++                vector_max = _mm256_max_ps(_mm256_andnot_ps(sign, y), vector_max);
++            }
+             _mm256_storeu_ps(hp.add(j), y);
+         }
+     }
++    let mut maximum = 0.0f32;
++    if TRACK_MAX {
++        let mut lanes = [0.0f32; 8];
++        unsafe { _mm256_storeu_ps(lanes.as_mut_ptr(), vector_max) };
++        maximum = lanes.iter().fold(0.0f32, |m, value| m.max(*value));
++    }
+     for j in main..n {
+         let r = sigmoid_fast(gi[j] + gh[j]);
+         let u = sigmoid_fast(gi[n + j] + gh[n + j]);
+         let c = tanh_fast(gi[2 * n + j] + r * gh[2 * n + j]);
+-        h[j] = (1.0 - u) * c + u * h[j];
++        let y = (1.0 - u) * c + u * h[j];
++        h[j] = y;
++        if TRACK_MAX {
++            maximum = maximum.max(y.abs());
++        }
+     }
++    maximum
+ }
+ 
+ /// `gru_update_avx2` on sixteen lanes (`approx::avx512`); the same bits.
+@@ -564,12 +595,19 @@ unsafe fn gru_update_avx2(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahe
+ #[cfg(target_arch = "x86_64")]
+ #[target_feature(enable = "avx512f")]
+ #[inline]
+-unsafe fn gru_update_avx512(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahead) {
++unsafe fn gru_update_avx512<const TRACK_MAX: bool>(
++    h: &mut [f32],
++    gi: &[f32],
++    gh: &[f32],
++    ahead: &mut Ahead,
++) -> f32 {
+     use crate::approx::avx512::{sigmoid16, tanh16};
+     use std::arch::x86_64::*;
+     let n = h.len();
+     assert!(gi.len() >= 3 * n && gh.len() >= 3 * n);
+     let main = n / 16 * 16;
++    let mut vector_max = _mm512_setzero_ps();
++    let sign = _mm512_set1_ps(-0.0);
+     unsafe {
+         let (i, g, hp) = (gi.as_ptr(), gh.as_ptr(), h.as_mut_ptr());
+         let ld = |p: *const f32, k: usize| _mm512_loadu_ps(p.add(k));
+@@ -586,15 +624,29 @@ unsafe fn gru_update_avx512(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut A
+                 _mm512_mul_ps(_mm512_sub_ps(_mm512_set1_ps(1.0), u), c),
+                 keep,
+             );
++            if TRACK_MAX {
++                vector_max = _mm512_max_ps(_mm512_andnot_ps(sign, y), vector_max);
++            }
+             _mm512_storeu_ps(hp.add(j), y);
+         }
+     }
++    let mut maximum = 0.0f32;
++    if TRACK_MAX {
++        let mut lanes = [0.0f32; 16];
++        unsafe { _mm512_storeu_ps(lanes.as_mut_ptr(), vector_max) };
++        maximum = lanes.iter().fold(0.0f32, |m, value| m.max(*value));
++    }
+     for j in main..n {
+         let r = sigmoid_fast(gi[j] + gh[j]);
+         let u = sigmoid_fast(gi[n + j] + gh[n + j]);
+         let c = tanh_fast(gi[2 * n + j] + r * gh[2 * n + j]);
+-        h[j] = (1.0 - u) * c + u * h[j];
++        let y = (1.0 - u) * c + u * h[j];
++        h[j] = y;
++        if TRACK_MAX {
++            maximum = maximum.max(y.abs());
++        }
+     }
++    maximum
+ }
+ 
+ /// out = W x + b with eight fp32 lanes per row (multiply, then add) reduced in a fixed order.
+@@ -852,9 +904,7 @@ impl FastRnn {
+             }
+             if precision.dyn8().is_some() {
+                 let index = dq.len();
+-                dq.push(
+-                    crate::vnni::DynQ8::pack(m, rows, cols).map_err(|e| ShapeError(e.into()))?,
+-                );
++                dq.push(crate::vnni::DynQ8::pack(m, rows, cols).map_err(|e| ShapeError(e.into()))?);
+                 return Ok(Mat {
+                     w: 0..0,
+                     s: 0..0,
+@@ -992,7 +1042,11 @@ impl FastRnn {
+             0
+         };
+         let codes = vec![Codes([0; TILE_COLS]); code_blocks * hidden.div_ceil(TILE_COLS)];
+-        let dyn_blocks = if precision.dyn8().is_some() { layers.len() + 1 } else { 0 };
++        let dyn_blocks = if precision.dyn8().is_some() {
++            layers.len() + 1
++        } else {
++            0
++        };
+         let dcodes = vec![crate::vnni::OFFSET; dyn_blocks * crate::vnni::padded_cols(hidden)];
+         let dscales = vec![0.0; dyn_blocks];
+         debug_assert!(weights.len >= weights.as_ref().len());
+@@ -1238,7 +1292,7 @@ impl FastRnn {
+                 gh,
+                 portable,
+             );
+-            gru_update(hidden, gi, gh, fast);
++            gru_update::<false>(hidden, gi, gh, fast);
+         }
+         let (low, head) = state.split_at_mut(self.cat.start);
+         let (cat, rest) = head.split_at_mut(2 * n);
+@@ -1306,7 +1360,7 @@ impl FastRnn {
+         mut after: Ahead,
+         isa: crate::vnni::Isa,
+     ) {
+-        use crate::vnni::{padded_cols, quantize};
++        use crate::vnni::{padded_cols, quantize, quantize_with_max};
+         let n = self.hidden;
+         let fast = self.act == Activations::Fast;
+         let wts = self.weights.as_ref();
+@@ -1323,6 +1377,14 @@ impl FastRnn {
+             }
+             quantize(v, q)
+         };
++        let quant_with_max = |v: &[f32], maximum: f32, q: &mut [u8]| -> f32 {
++            // SAFETY: SIMD is instantiated only from AVX2-enabled wrappers.
++            #[cfg(target_arch = "x86_64")]
++            if SIMD {
++                return unsafe { crate::vnni::quantize_avx2_with_max(v, maximum, q) };
++            }
++            quantize_with_max(v, maximum, q)
++        };
+         let gelu_all = |v: &mut [f32], ahead: &mut Ahead| {
+             // SAFETY: as for `quant`; ZMM only from the AVX-512 wrapper.
+             #[cfg(target_arch = "x86_64")]
+@@ -1340,12 +1402,37 @@ impl FastRnn {
+                 v.iter_mut().for_each(|v| *v = gelu(*v));
+             }
+         };
++        let gelu_all_with_absmax = |v: &mut [f32], ahead: &mut Ahead| -> f32 {
++            // SAFETY: as for `quant`; ZMM only from the AVX-512 wrapper.
++            #[cfg(target_arch = "x86_64")]
++            if ZMM && fast {
++                return unsafe { crate::approx::avx512::gelu_slice_with_absmax(v, ahead) };
++            }
++            #[cfg(target_arch = "x86_64")]
++            if SIMD && fast {
++                return unsafe { crate::approx::avx2::gelu_slice_with_absmax(v, ahead) };
++            }
++            let _ = ahead;
++            let mut maximum = 0.0f32;
++            if fast {
++                for value in v {
++                    *value = gelu_fast(*value);
++                    maximum = maximum.max(value.abs());
++                }
++            } else {
++                for value in v {
++                    *value = gelu(*value);
++                    maximum = maximum.max(value.abs());
++                }
++            }
++            maximum
++        };
+         let matrix_ahead = |m: &Mat| match m.q8 {
+             Some(index) => Ahead::bytes(self.dq[index].bytes()),
+             None => Ahead::NONE,
+         };
+ 
+-        {
++        let z_max = {
+             let b = &wts[self.b_in.clone()];
+             let padded = &mut st[self.z.start..self.z.start + b.len()];
+             let cols = &half[self.w_in_cols.w.clone()];
+@@ -1364,12 +1451,15 @@ impl FastRnn {
+             } else {
+                 crate::half::project_q16_portable(cols, scales, b, x, padded);
+             }
+-            gelu_all(&mut st[self.z.clone()], &mut matrix_ahead(&self.layers[0].w_ih));
+-        }
++            gelu_all_with_absmax(
++                &mut st[self.z.clone()],
++                &mut matrix_ahead(&self.layers[0].w_ih),
++            )
++        };
+         crate::vnni::prof::lap(0, &mut clock);
+         let (hq, zq) = self.dcodes.split_at_mut(n_layers * kp);
+         let (hs, zs) = self.dscales.split_at_mut(n_layers);
+-        zs[0] = quant(&st[self.z.clone()], zq);
++        zs[0] = quant_with_max(&st[self.z.clone()], z_max, zq);
+         let zs = zs[0];
+         crate::vnni::prof::lap(1, &mut clock);
+ 
+@@ -1389,30 +1479,48 @@ impl FastRnn {
+             };
+             self.dq[li.w_ih.q8.unwrap()].gemv(isa, q_in, s_in, Some(&wts[li.b_ih.clone()]), gi);
+             crate::vnni::prof::lap(2 + 4 * k, &mut clock);
+-            self.dq[li.w_hh.q8.unwrap()].gemv(isa, &cur[..kp], hs[k], Some(&wts[li.b_hh.clone()]), gh);
++            self.dq[li.w_hh.q8.unwrap()].gemv(
++                isa,
++                &cur[..kp],
++                hs[k],
++                Some(&wts[li.b_hh.clone()]),
++                gh,
++            );
+             crate::vnni::prof::lap(3 + 4 * k, &mut clock);
+             let next = self.layers.get(k + 1).map_or(&self.w1, |l| &l.w_ih);
+-            match self.cell {
++            let hidden_max = match self.cell {
+                 // SAFETY: as for `quant`; ZMM only from the AVX-512 wrapper.
+                 #[cfg(target_arch = "x86_64")]
+-                Cell::Gru if ZMM && fast => unsafe {
+-                    gru_update_avx512(h, gi, gh, &mut matrix_ahead(next))
+-                },
++                Cell::Gru if ZMM && fast => {
++                    Some(unsafe { gru_update_avx512::<true>(h, gi, gh, &mut matrix_ahead(next)) })
++                }
+                 #[cfg(target_arch = "x86_64")]
+-                Cell::Gru if SIMD && fast => unsafe {
+-                    gru_update_avx2(h, gi, gh, &mut matrix_ahead(next))
+-                },
+-                Cell::Gru => gru_update(h, gi, gh, fast),
+-                Cell::Lstm => lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast),
++                Cell::Gru if SIMD && fast => {
++                    Some(unsafe { gru_update_avx2::<true>(h, gi, gh, &mut matrix_ahead(next)) })
+                 }
++                Cell::Gru => Some(gru_update::<true>(h, gi, gh, fast)),
++                Cell::Lstm => {
++                    lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast);
++                    None
++                }
++            };
+             crate::vnni::prof::lap(4 + 4 * k, &mut clock);
+-            hs[k] = quant(h, &mut cur[..kp]);
++            hs[k] = match hidden_max {
++                Some(maximum) => quant_with_max(h, maximum, &mut cur[..kp]),
++                None => quant(h, &mut cur[..kp]),
++            };
+             crate::vnni::prof::lap(5 + 4 * k, &mut clock);
+         }
+ 
+         let a = &mut st[self.a.clone()];
+         let last = &hq[(n_layers - 1) * kp..n_layers * kp];
+-        self.dq[self.w1.q8.unwrap()].gemv(isa, last, hs[n_layers - 1], Some(&wts[self.b1.clone()]), a);
++        self.dq[self.w1.q8.unwrap()].gemv(
++            isa,
++            last,
++            hs[n_layers - 1],
++            Some(&wts[self.b1.clone()]),
++            a,
++        );
+         self.dq[self.w1z.q8.unwrap()].gemv(isa, zq, zs, None, a);
+         crate::vnni::prof::lap(2 + 4 * n_layers, &mut clock);
+         gelu_all(a, &mut after);
+@@ -1545,9 +1653,11 @@ impl FastRnn {
+                 // SAFETY: as for `matvec`.
+                 #[cfg(target_arch = "x86_64")]
+                 Cell::Gru if SIMD && fast => unsafe {
+-                    gru_update_avx2(h, gi, gh, &mut matrix_ahead(next))
++                    gru_update_avx2::<false>(h, gi, gh, &mut matrix_ahead(next));
+                 },
+-                Cell::Gru => gru_update(h, gi, gh, fast),
++                Cell::Gru => {
++                    gru_update::<false>(h, gi, gh, fast);
++                }
+                 Cell::Lstm => lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast),
+             }
+             quantize(h, Some(1.0), cur);
+@@ -1651,7 +1761,7 @@ impl FastRnn {
+                 lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast);
+                 continue;
+             }
+-            gru_update(h, gi, gh, fast);
++            gru_update::<false>(h, gi, gh, fast);
+         }
+ 
+         let last = self.h.start + (self.layers.len() - 1) * n;
+@@ -1694,35 +1804,69 @@ mod tests {
+                     // matrices are a determinism stress test, not a uniform error bound.
+                     let scale = 1.0 / (hidden as f32).sqrt();
+                     for layer in &mut value.layers {
+-                        layer.w_ih.iter_mut().chain(&mut layer.w_hh).for_each(|w| *w *= scale);
++                        layer
++                            .w_ih
++                            .iter_mut()
++                            .chain(&mut layer.w_hh)
++                            .for_each(|w| *w *= scale);
+                     }
+-                    value.w1.iter_mut().chain(&mut value.w2).for_each(|w| *w *= scale);
++                    value
++                        .w1
++                        .iter_mut()
++                        .chain(&mut value.w2)
++                        .for_each(|w| *w *= scale);
+                     value
+                 };
+                 let mut represented = make();
+                 for layer in &mut represented.layers {
+                     for values in [&mut layer.w_ih, &mut layer.w_hh] {
+-                        *values = crate::quant8::PackedQ8::pack(values, 3 * hidden, hidden).unwrap().dequantize();
++                        *values = crate::quant8::PackedQ8::pack(values, 3 * hidden, hidden)
++                            .unwrap()
++                            .dequantize();
+                     }
+                 }
+                 if precision.q8_head() {
+                     for half in 0..2 {
+-                        let block: Vec<f32> = represented.w1.chunks_exact(2 * hidden)
+-                            .flat_map(|row| &row[half * hidden..(half + 1) * hidden]).copied().collect();
+-                        let decoded = crate::quant8::PackedQ8::pack(&block, hidden, hidden).unwrap().dequantize();
+-                        for (row, values) in represented.w1.chunks_exact_mut(2 * hidden).zip(decoded.chunks_exact(hidden)) {
++                        let block: Vec<f32> = represented
++                            .w1
++                            .chunks_exact(2 * hidden)
++                            .flat_map(|row| &row[half * hidden..(half + 1) * hidden])
++                            .copied()
++                            .collect();
++                        let decoded = crate::quant8::PackedQ8::pack(&block, hidden, hidden)
++                            .unwrap()
++                            .dequantize();
++                        for (row, values) in represented
++                            .w1
++                            .chunks_exact_mut(2 * hidden)
++                            .zip(decoded.chunks_exact(hidden))
++                        {
+                             row[half * hidden..(half + 1) * hidden].copy_from_slice(values);
+                         }
+                     }
+                 }
+                 let mut q = FastRnn::with_precision(make(), Activations::Fast, precision).unwrap();
+-                let mut scalar = FastRnn::with_precision(make(), Activations::Fast, portable).unwrap();
++                let mut scalar =
++                    FastRnn::with_precision(make(), Activations::Fast, portable).unwrap();
+                 let mut reference = FastRnn::new(represented, Activations::Fast).unwrap();
+                 assert!(q.weight_bytes() < reference.weight_bytes());
+-                let preserved = q.q8_matrices().iter().map(|(name, matrix)| {
++                let preserved = q
++                    .q8_matrices()
++                    .iter()
++                    .map(|(name, matrix)| {
+                         let (codes, scales) = matrix.to_rows();
+-                    (name.clone(), crate::quant8::PackedQ8::from_rows(&codes, &scales, matrix.rows(), matrix.cols()).unwrap())
+-                }).collect();
++                        (
++                            name.clone(),
++                            crate::quant8::PackedQ8::from_rows(
++                                &codes,
++                                &scales,
++                                matrix.rows(),
++                                matrix.cols(),
++                            )
++                            .unwrap(),
++                        )
++                    })
++                    .collect();
+                 scalar.load_q8_matrices(preserved).unwrap();
+                 let (mut a, mut b, mut c) = ([0.0; 2], [0.0; 2], [0.0; 2]);
+                 let mut outputs = Vec::new();
+@@ -1735,7 +1879,10 @@ mod tests {
+                     worst = worst.max((a[0] - c[0]).abs()).max((a[1] - c[1]).abs());
+                     outputs.push(a);
+                 }
+-                assert!(worst < 1e-3, "{precision:?} H{hidden} own-reference error: {worst}");
++                assert!(
++                    worst < 1e-3,
++                    "{precision:?} H{hidden} own-reference error: {worst}"
++                );
+                 q.reset();
+                 for (input, expected) in inputs(n_in, 300).iter().zip(outputs) {
+                     q.step(input, &mut a);
+@@ -1747,9 +1894,16 @@ mod tests {
+ 
+     #[test]
+     fn q8_unscaled_recurrent_stress_is_finite_and_bitwise_portable() {
+-        for (precision, portable) in [(Precision::Q8r, Precision::Q8rPortable), (Precision::Q8x, Precision::Q8xPortable)] {
+-            let mut simd = FastRnn::with_precision(weights(211, 128, 2, 17), Activations::Fast, precision).unwrap();
+-            let mut scalar = FastRnn::with_precision(weights(211, 128, 2, 17), Activations::Fast, portable).unwrap();
++        for (precision, portable) in [
++            (Precision::Q8r, Precision::Q8rPortable),
++            (Precision::Q8x, Precision::Q8xPortable),
++        ] {
++            let mut simd =
++                FastRnn::with_precision(weights(211, 128, 2, 17), Activations::Fast, precision)
++                    .unwrap();
++            let mut scalar =
++                FastRnn::with_precision(weights(211, 128, 2, 17), Activations::Fast, portable)
++                    .unwrap();
+             let (mut a, mut b) = ([0.0; 2], [0.0; 2]);
+             for input in inputs(211, 300) {
+                 simd.step(&input, &mut a);
+@@ -1840,6 +1994,98 @@ mod tests {
+         assert!(err < 1e-4, "{err}");
+     }
+ 
++    fn assert_hidden_and_q8_match(expected: &[f32], actual: &[f32], maximum: f32, simd: bool) {
++        let expected_bits: Vec<_> = expected.iter().map(|value| value.to_bits()).collect();
++        let actual_bits: Vec<_> = actual.iter().map(|value| value.to_bits()).collect();
++        assert_eq!(actual_bits, expected_bits);
++
++        let mut expected_codes = vec![0u8; crate::vnni::padded_cols(expected.len())];
++        let expected_scale = if simd {
++            // SAFETY: callers only set `simd` after checking AVX2 support.
++            unsafe { crate::vnni::quantize_avx2(expected, &mut expected_codes) }
++        } else {
++            crate::vnni::quantize(expected, &mut expected_codes)
++        };
++        let mut actual_codes = vec![0u8; crate::vnni::padded_cols(actual.len())];
++        let actual_scale = if simd {
++            // SAFETY: callers only set `simd` after checking AVX2 support.
++            unsafe { crate::vnni::quantize_avx2_with_max(actual, maximum, &mut actual_codes) }
++        } else {
++            crate::vnni::quantize_with_max(actual, maximum, &mut actual_codes)
++        };
++        assert_eq!(actual_codes, expected_codes);
++        assert_eq!(actual_scale.to_bits(), expected_scale.to_bits());
++    }
++
++    fn gru_fixture(n: usize) -> (Vec<f32>, Vec<f32>, Vec<f32>) {
++        let values = |length: usize, offset: usize| {
++            (0..length)
++                .map(|i| (((i * 37 + offset * 19) % 211) as f32 - 105.0) / 97.0)
++                .collect::<Vec<_>>()
++        };
++        (values(n, 1), values(3 * n, 2), values(3 * n, 3))
++    }
++
++    #[test]
++    fn fused_gru_update_absmax_preserves_state_codes_and_scales() {
++        for n in [1, 7, 8, 9, 15, 16, 17, 31, 32, 33, 384] {
++            for fast in [false, true] {
++                let (initial, gi, gh) = gru_fixture(n);
++                let mut expected = initial.clone();
++                let mut actual = initial.clone();
++                let full_scan_max = gru_update::<false>(&mut expected, &gi, &gh, fast);
++                let fused_max = gru_update::<true>(&mut actual, &gi, &gh, fast);
++                assert_eq!(full_scan_max.to_bits(), 0.0f32.to_bits());
++                assert_hidden_and_q8_match(&expected, &actual, fused_max, false);
++            }
++        }
++    }
++
++    #[cfg(target_arch = "x86_64")]
++    #[test]
++    fn fused_avx2_gru_update_absmax_preserves_state_codes_and_scales() {
++        if !(std::arch::is_x86_feature_detected!("avx2")
++            && std::arch::is_x86_feature_detected!("fma"))
++        {
++            return;
++        }
++        for n in [1, 7, 8, 9, 15, 16, 17, 31, 32, 33, 384] {
++            let (initial, gi, gh) = gru_fixture(n);
++            let mut expected = initial.clone();
++            let mut actual = initial;
++            let mut expected_ahead = Ahead::NONE;
++            let mut actual_ahead = Ahead::NONE;
++            let full_scan_max =
++                unsafe { gru_update_avx2::<false>(&mut expected, &gi, &gh, &mut expected_ahead) };
++            let fused_max =
++                unsafe { gru_update_avx2::<true>(&mut actual, &gi, &gh, &mut actual_ahead) };
++            assert_eq!(full_scan_max.to_bits(), 0.0f32.to_bits());
++            assert_hidden_and_q8_match(&expected, &actual, fused_max, true);
++        }
++    }
++
++    #[cfg(target_arch = "x86_64")]
++    #[test]
++    fn fused_avx512_gru_update_absmax_preserves_state_codes_and_scales() {
++        if !std::arch::is_x86_feature_detected!("avx512f") {
++            return;
++        }
++        for n in [1, 7, 8, 9, 15, 16, 17, 31, 32, 33, 384] {
++            let (initial, gi, gh) = gru_fixture(n);
++            let mut expected = initial.clone();
++            let mut actual = initial;
++            let mut expected_ahead = Ahead::NONE;
++            let mut actual_ahead = Ahead::NONE;
++            let full_scan_max =
++                unsafe { gru_update_avx512::<false>(&mut expected, &gi, &gh, &mut expected_ahead) };
++            let fused_max =
++                unsafe { gru_update_avx512::<true>(&mut actual, &gi, &gh, &mut actual_ahead) };
++            assert_eq!(full_scan_max.to_bits(), 0.0f32.to_bits());
++            // The AVX-512 GRU is followed by the same AVX2 Q8 encoding used in the step path.
++            assert_hidden_and_q8_match(&expected, &actual, fused_max, true);
++        }
++    }
++
+     #[test]
+     fn arena_segments_are_64_byte_aligned() {
+         let m = FastRnn::new(weights(37, 20, 2, 3), Activations::Fast).unwrap();
+@@ -2091,7 +2337,12 @@ mod tests {
+ 
+     #[test]
+     fn q16x_tracks_f32_and_portable_path_is_bitwise_identical() {
+-        for (n_in, hidden, layers, lstm) in [(37, 20, 2, false), (211, 128, 2, false), (40, 33, 3, false), (37, 24, 2, true)] {
++        for (n_in, hidden, layers, lstm) in [
++            (37, 20, 2, false),
++            (211, 128, 2, false),
++            (40, 33, 3, false),
++            (37, 24, 2, true),
++        ] {
+             let w = || {
+                 if lstm {
+                     lstm_weights(n_in, hidden, layers, 9)
+@@ -2108,7 +2359,8 @@ mod tests {
+             }
+             let mut i16 = FastRnn::with_precision(w(), Activations::Fast, Precision::I16).unwrap();
+             let mut f32 = FastRnn::new(w(), Activations::Fast).unwrap();
+-            let (mut a, mut b, mut c, mut d) = (vec![0.0; 2], vec![0.0; 2], vec![0.0; 2], vec![0.0; 2]);
++            let (mut a, mut b, mut c, mut d) =
++                (vec![0.0; 2], vec![0.0; 2], vec![0.0; 2], vec![0.0; 2]);
+             let mut first = Vec::new();
+             let (mut worst_q, mut worst_i16) = (0.0f32, 0.0f32);
+             for x in inputs(n_in, 300) {
+@@ -2124,7 +2376,9 @@ mod tests {
+                     worst_i16 = worst_i16.max((c[k] - d[k]).abs());
+                 }
+             }
+-            eprintln!("{n_in}/{hidden}/{layers} lstm {lstm}: q16x vs f32 {worst_q:.2e}, i16 vs f32 {worst_i16:.2e}");
++            eprintln!(
++                "{n_in}/{hidden}/{layers} lstm {lstm}: q16x vs f32 {worst_q:.2e}, i16 vs f32 {worst_i16:.2e}"
++            );
+             assert!(worst_q < 3e-3, "hidden {hidden}: q16x vs fp32 {worst_q}");
+             q.reset();
+             for (t, x) in inputs(n_in, 300).iter().enumerate() {
+@@ -2138,7 +2392,13 @@ mod tests {
+     #[test]
+     fn dynamic_int8_isas_agree_bitwise_and_track_f32() {
+         use crate::vnni::{Isa, supported};
+-        for (n_in, hidden, layers, lstm) in [(37, 20, 2, false), (211, 128, 2, false), (40, 33, 3, false), (211, 256, 2, false), (37, 24, 2, true)] {
++        for (n_in, hidden, layers, lstm) in [
++            (37, 20, 2, false),
++            (211, 128, 2, false),
++            (40, 33, 3, false),
++            (211, 256, 2, false),
++            (37, 24, 2, true),
++        ] {
+             let w = || {
+                 if lstm {
+                     lstm_weights(n_in, hidden, layers, 9)
+@@ -2146,7 +2406,11 @@ mod tests {
+                     weights(n_in, hidden, layers, 9)
+                 }
+             };
+-            let mut models: Vec<FastRnn> = [Precision::Q8Vnni, Precision::Q8VnniAvx2, Precision::Q8VnniPortable]
++            let mut models: Vec<FastRnn> = [
++                Precision::Q8Vnni,
++                Precision::Q8VnniAvx2,
++                Precision::Q8VnniPortable,
++            ]
+             .into_iter()
+             .map(|p| FastRnn::with_precision(w(), Activations::Fast, p).unwrap())
+             .collect();
+@@ -2177,7 +2441,9 @@ mod tests {
+                     q8x_worst = q8x_worst.max((q8x_out[k] - d[k]).abs());
+                 }
+             }
+-            eprintln!("{n_in}/{hidden}/{layers} lstm {lstm}: dynamic int8 vs f32 max {worst:.2e} (q8x {q8x_worst:.2e})");
++            eprintln!(
++                "{n_in}/{hidden}/{layers} lstm {lstm}: dynamic int8 vs f32 max {worst:.2e} (q8x {q8x_worst:.2e})"
++            );
+             // A reset restores the zero state exactly: the replay is bitwise the first pass.
+             for m in &mut models {
+                 m.reset();
+@@ -2209,7 +2475,8 @@ mod tests {
+         merged.b2 = (0..2)
+             .map(|o| heads.iter().map(|h| h.b2[o]).sum::<f32>() / 2.0)
+             .collect();
+-        let mut wide = FastRnn::with_precision(merged, Activations::Exact, Precision::Q16x).unwrap();
++        let mut wide =
++            FastRnn::with_precision(merged, Activations::Exact, Precision::Q16x).unwrap();
+         let mut single: Vec<FastRnn> = (0..2)
+             .map(|k| {
+                 let mut w = weights(n_in, hidden, 2, 50);
+diff --git a/native/src/vnni.rs b/native/src/vnni.rs
+index c6bc3364..94638f33 100644
+--- a/native/src/vnni.rs
++++ b/native/src/vnni.rs
+@@ -213,9 +213,7 @@ impl DynQ8 {
+         match isa {
+             // SAFETY: `supported` is the dispatch contract; `check` covers every bound.
+             #[cfg(target_arch = "x86_64")]
+-            Isa::Vnni512 if supported(Isa::Vnni512) => unsafe {
+-                self.gemv_vnni(q, xs, bias, out)
+-            },
++            Isa::Vnni512 if supported(Isa::Vnni512) => unsafe { self.gemv_vnni(q, xs, bias, out) },
+             #[cfg(target_arch = "x86_64")]
+             Isa::Vnni512 | Isa::Avx2 if supported(Isa::Avx2) => unsafe {
+                 self.gemv_avx2(q, xs, bias, out)
+@@ -261,7 +259,11 @@ impl DynQ8 {
+         let count = SUPER_ROWS.min(self.rows - first);
+         for j in 0..count {
+             let r = first + j;
+-            let dot = if offset { acc[j] - self.offset_sum[r] } else { acc[j] };
++            let dot = if offset {
++                acc[j] - self.offset_sum[r]
++            } else {
++                acc[j]
++            };
+             let scaled = dot as f32 * (self.scales[r] * xs);
+             out[r] = scaled + bias.map_or(out[r], |b| b[r]);
+         }
+@@ -284,10 +286,8 @@ impl DynQ8 {
+                     for g in 0..kg {
+                         // Four signed codes repeated for four rows: lanes (a0 a1)(a2 a3)...
+                         let word = std::ptr::read_unaligned(q.as_ptr().add(4 * g) as *const i32);
+-                        let a = _mm256_sub_epi16(
+-                            _mm256_cvtepu8_epi16(_mm_set1_epi32(word)),
+-                            offset,
+-                        );
++                        let a =
++                            _mm256_sub_epi16(_mm256_cvtepu8_epi16(_mm_set1_epi32(word)), offset);
+                         let line = base.add(((sb * kg + g) * 4 + block) * 64);
+                         for (quad, sum) in s.iter_mut().enumerate() {
+                             let w = _mm256_cvtepi8_epi16(_mm_loadu_si128(
+@@ -297,14 +297,17 @@ impl DynQ8 {
+                         }
+                     }
+                     // Each accumulator holds (row, even/odd pair) sums for four rows.
+-                    let lo = _mm256_permute4x64_epi64::<0b11_01_10_00>(_mm256_hadd_epi32(s[0], s[1]));
+-                    let hi = _mm256_permute4x64_epi64::<0b11_01_10_00>(_mm256_hadd_epi32(s[2], s[3]));
++                    let lo =
++                        _mm256_permute4x64_epi64::<0b11_01_10_00>(_mm256_hadd_epi32(s[0], s[1]));
++                    let hi =
++                        _mm256_permute4x64_epi64::<0b11_01_10_00>(_mm256_hadd_epi32(s[2], s[3]));
+                     if (sb + 1) * SUPER_ROWS <= self.rows {
+                         // Full super-block: vector epilogue, the same operations as `epilogue`.
+                         let xv = _mm256_set1_ps(xs);
+                         for (half, dot) in [lo, hi].into_iter().enumerate() {
+                             let r0 = sb * SUPER_ROWS + 16 * block + 8 * half;
+-                            let scale = _mm256_mul_ps(_mm256_loadu_ps(self.scales.as_ptr().add(r0)), xv);
++                            let scale =
++                                _mm256_mul_ps(_mm256_loadu_ps(self.scales.as_ptr().add(r0)), xv);
+                             let scaled = _mm256_mul_ps(_mm256_cvtepi32_ps(dot), scale);
+                             let base = match bias {
+                                 Some(b) => _mm256_loadu_ps(b.as_ptr().add(r0)),
+@@ -314,7 +317,10 @@ impl DynQ8 {
+                         }
+                     } else {
+                         _mm256_storeu_si256(acc.as_mut_ptr().add(16 * block) as *mut __m256i, lo);
+-                        _mm256_storeu_si256(acc.as_mut_ptr().add(16 * block + 8) as *mut __m256i, hi);
++                        _mm256_storeu_si256(
++                            acc.as_mut_ptr().add(16 * block + 8) as *mut __m256i,
++                            hi,
++                        );
+                     }
+                 }
+                 if (sb + 1) * SUPER_ROWS > self.rows {
+@@ -346,15 +352,27 @@ impl DynQ8 {
+                     // No software prefetch: interleaved trials showed T1 hints 10-15% slower.
+                     let (a0, a1) = (word(g), word(g + 1));
+                     for i in 0..4 {
+-                        even[i] = _mm512_dpbusd_epi32(even[i], a0, _mm512_load_si512(stream.add(4 * g + i) as *const _));
+-                        odd[i] = _mm512_dpbusd_epi32(odd[i], a1, _mm512_load_si512(stream.add(4 * g + 4 + i) as *const _));
++                        even[i] = _mm512_dpbusd_epi32(
++                            even[i],
++                            a0,
++                            _mm512_load_si512(stream.add(4 * g + i) as *const _),
++                        );
++                        odd[i] = _mm512_dpbusd_epi32(
++                            odd[i],
++                            a1,
++                            _mm512_load_si512(stream.add(4 * g + 4 + i) as *const _),
++                        );
+                     }
+                     g += 2;
+                 }
+                 if g < kg {
+                     let a0 = word(g);
+                     for i in 0..4 {
+-                        even[i] = _mm512_dpbusd_epi32(even[i], a0, _mm512_load_si512(stream.add(4 * g + i) as *const _));
++                        even[i] = _mm512_dpbusd_epi32(
++                            even[i],
++                            a0,
++                            _mm512_load_si512(stream.add(4 * g + i) as *const _),
++                        );
+                     }
+                 }
+                 // Vector epilogue: the same convert, multiply, multiply, add as `epilogue`.
+@@ -366,14 +384,21 @@ impl DynQ8 {
+                     }
+                     let mask = ((1u32 << (self.rows - r0).min(16)) - 1) as u16;
+                     let total = _mm512_add_epi32(even[i], odd[i]);
+-                    let dot = _mm512_sub_epi32(total, _mm512_loadu_si512(self.offset_sum.as_ptr().add(r0) as *const _));
++                    let dot = _mm512_sub_epi32(
++                        total,
++                        _mm512_loadu_si512(self.offset_sum.as_ptr().add(r0) as *const _),
++                    );
+                     let scale = _mm512_mul_ps(_mm512_loadu_ps(self.scales.as_ptr().add(r0)), xv);
+                     let scaled = _mm512_mul_ps(_mm512_cvtepi32_ps(dot), scale);
+                     let base = match bias {
+                         Some(b) => _mm512_maskz_loadu_ps(mask, b.as_ptr().add(r0)),
+                         None => _mm512_maskz_loadu_ps(mask, out.as_ptr().add(r0)),
+                     };
+-                    _mm512_mask_storeu_ps(out.as_mut_ptr().add(r0), mask, _mm512_add_ps(scaled, base));
++                    _mm512_mask_storeu_ps(
++                        out.as_mut_ptr().add(r0),
++                        mask,
++                        _mm512_add_ps(scaled, base),
++                    );
+                 }
+             }
+         }
+@@ -388,6 +413,15 @@ impl DynQ8 {
+ #[inline(always)]
+ pub fn quantize(x: &[f32], q: &mut [u8]) -> f32 {
+     let m = x.iter().fold(0.0f32, |m, v| m.max(v.abs()));
++    quantize_with_max(x, m, q)
++}
++
++/// Quantize a whole vector using an absolute maximum computed while producing `x`.
++///
++/// This retains the same encoding pass as [`quantize`]; callers must supply the exact
++/// result of the existing max operation over the complete vector.
++#[inline(always)]
++pub(crate) fn quantize_with_max(x: &[f32], m: f32, q: &mut [u8]) -> f32 {
+     finish_quantize(x, m, q)
+ }
+ 
+@@ -427,6 +461,18 @@ pub unsafe fn quantize_avx2(x: &[f32], q: &mut [u8]) -> f32 {
+         let m = lanes.iter().fold(0.0f32, |m, v| m.max(*v));
+         x[x.len() / 8 * 8..].iter().fold(m, |m, v| m.max(v.abs()))
+     };
++    unsafe { quantize_avx2_with_max(x, m, q) }
++}
++
++/// AVX2 Q8 encoding using an exact whole-vector maximum supplied by a fused producer.
++///
++/// # Safety
++/// The CPU must support AVX2 and FMA. `m` must equal the maximum used by [`quantize_avx2`].
++#[cfg(target_arch = "x86_64")]
++#[target_feature(enable = "avx2,fma")]
++#[inline]
++pub(crate) unsafe fn quantize_avx2_with_max(x: &[f32], m: f32, q: &mut [u8]) -> f32 {
++    use std::arch::x86_64::*;
+     let padded = padded_cols(x.len());
+     let q = &mut q[..padded];
+     if !(m > 0.0 && m.is_finite()) {
+@@ -436,17 +482,27 @@ pub unsafe fn quantize_avx2(x: &[f32], q: &mut [u8]) -> f32 {
+     let inv = 127.0 / m;
+     let main = x.len() / 16 * 16;
+     unsafe {
+-        let (vi, lo, hi) = (_mm256_set1_ps(inv), _mm256_set1_ps(-127.0), _mm256_set1_ps(127.0));
++        let (vi, lo, hi) = (
++            _mm256_set1_ps(inv),
++            _mm256_set1_ps(-127.0),
++            _mm256_set1_ps(127.0),
++        );
+         let code = |p: *const f32| {
+             let v = _mm256_min_ps(_mm256_max_ps(_mm256_mul_ps(_mm256_loadu_ps(p), vi), lo), hi);
+-            _mm256_cvtps_epi32(_mm256_round_ps::<{ _MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC }>(v))
++            _mm256_cvtps_epi32(_mm256_round_ps::<
++                { _MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC },
++            >(v))
+         };
+         let offset = _mm256_set1_epi16(128);
+         for i in (0..main).step_by(16) {
+             let packed = _mm256_packs_epi32(code(x.as_ptr().add(i)), code(x.as_ptr().add(i + 8)));
+-            let ordered = _mm256_add_epi16(_mm256_permute4x64_epi64::<0b11_01_10_00>(packed), offset);
++            let ordered =
++                _mm256_add_epi16(_mm256_permute4x64_epi64::<0b11_01_10_00>(packed), offset);
+             let bytes = _mm256_packus_epi16(ordered, ordered);
+-            _mm_storel_epi64(q.as_mut_ptr().add(i) as *mut __m128i, _mm256_castsi256_si128(bytes));
++            _mm_storel_epi64(
++                q.as_mut_ptr().add(i) as *mut __m128i,
++                _mm256_castsi256_si128(bytes),
++            );
+             _mm_storel_epi64(
+                 q.as_mut_ptr().add(i + 8) as *mut __m128i,
+                 _mm256_extracti128_si256::<1>(bytes),
+@@ -489,7 +545,9 @@ pub unsafe fn project_zmm(
+             let mut acc: [__m512; 4] = std::array::from_fn(|i| _mm512_loadu_ps(bt.add(16 * i)));
+             let tile = cols.as_ptr().add(t * n_cols * COL_TILE);
+             for &j in nz.iter() {
+-                let xj = _mm512_set1_ps(*x.get_unchecked(j as usize) * *scales.get_unchecked(j as usize));
++                let xj = _mm512_set1_ps(
++                    *x.get_unchecked(j as usize) * *scales.get_unchecked(j as usize),
++                );
+                 let col = tile.add(j as usize * COL_TILE);
+                 for (i, a) in acc.iter_mut().enumerate() {
+                     let v = _mm256_loadu_si256(col.add(16 * i) as *const __m256i);
+@@ -545,7 +603,10 @@ mod tests {
+ 
+     impl Rng {
+         fn next(&mut self) -> f32 {
+-            self.0 = self.0.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
++            self.0 = self
++                .0
++                .wrapping_mul(6364136223846793005)
++                .wrapping_add(1442695040888963407);
+             ((self.0 >> 40) as f32 / 16777216.0 - 0.5) * 2.0
+         }
+     }
+@@ -600,10 +661,56 @@ mod tests {
+         }
+     }
+ 
++    #[test]
++    fn fused_precomputed_max_q8_encoder_matches_full_scan_including_edges() {
++        let cases = [
++            vec![],
++            vec![0.0, -0.0],
++            vec![
++                f32::NAN,
++                f32::INFINITY,
++                f32::NEG_INFINITY,
++                -0.0,
++                1.0,
++                -3.0,
++                0.25,
++            ],
++            vec![f32::NAN; 33],
++            (0..37).map(|i| (i as f32 - 18.0) * 0.125).collect(),
++        ];
++
++        for x in cases {
++            let maximum = x.iter().fold(0.0f32, |m, value| m.max(value.abs()));
++            let mut expected = vec![0u8; padded_cols(x.len())];
++            let expected_scale = quantize(&x, &mut expected);
++            let mut actual = vec![0u8; padded_cols(x.len())];
++            let actual_scale = quantize_with_max(&x, maximum, &mut actual);
++            assert_eq!(actual, expected);
++            assert_eq!(actual_scale.to_bits(), expected_scale.to_bits());
++
++            if supported(Isa::Avx2) {
++                let mut expected = vec![0u8; padded_cols(x.len())];
++                let expected_scale = unsafe { quantize_avx2(&x, &mut expected) };
++                let mut actual = vec![0u8; padded_cols(x.len())];
++                let actual_scale = unsafe { quantize_avx2_with_max(&x, maximum, &mut actual) };
++                assert_eq!(actual, expected);
++                assert_eq!(actual_scale.to_bits(), expected_scale.to_bits());
++            }
++        }
++    }
++
+     #[test]
+     fn kernels_match_integer_oracle_bitwise() {
+         let mut r = Rng(3);
+-        for (rows, cols) in [(1, 1), (3, 5), (64, 4), (65, 9), (130, 33), (768, 256), (1152, 384)] {
++        for (rows, cols) in [
++            (1, 1),
++            (3, 5),
++            (64, 4),
++            (65, 9),
++            (130, 33),
++            (768, 256),
++            (1152, 384),
++        ] {
+             let m = DynQ8::pack(&matrix(rows, cols, 17), rows, cols).unwrap();
+             let x: Vec<f32> = (0..cols).map(|_| r.next()).collect();
+             let bias: Vec<f32> = (0..rows).map(|_| r.next()).collect();
+@@ -642,9 +749,13 @@ mod tests {
+     fn extreme_codes_do_not_overflow() {
+         // Every weight -127 or 127 against saturated activations: largest-magnitude sums.
+         let (rows, cols) = (64, 512);
+-        let weights: Vec<f32> = (0..rows * cols).map(|i| if (i % cols) % 3 == 0 { -1.0 } else { 1.0 }).collect();
++        let weights: Vec<f32> = (0..rows * cols)
++            .map(|i| if (i % cols) % 3 == 0 { -1.0 } else { 1.0 })
++            .collect();
+         let m = DynQ8::pack(&weights, rows, cols).unwrap();
+-        let x: Vec<f32> = (0..cols).map(|i| if i % 3 == 0 { -1.0 } else { 1.0 }).collect();
++        let x: Vec<f32> = (0..cols)
++            .map(|i| if i % 3 == 0 { -1.0 } else { 1.0 })
++            .collect();
+         let mut q = vec![0u8; cols];
+         let xs = quantize(&x, &mut q);
+         let reference = {
