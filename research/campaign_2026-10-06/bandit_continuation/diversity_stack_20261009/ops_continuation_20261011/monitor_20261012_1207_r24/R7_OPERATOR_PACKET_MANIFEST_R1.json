@@ -1,0 +1,79 @@
+{
+  "schema": "wnn.clean_t3_f0_student_treatment_operator_packet.r7.v1",
+  "file_base": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009",
+  "kernel": "vladkochetov07/wnn-clean-t3-f0-student-20261012-r24",
+  "kernel_version": 1,
+  "status": "accepted_queued_monitoring_and_terminal_collection_prepared",
+  "bindings": {
+    "kernel_sha256": "31206a824b03ec9e8f182f74bef79fad378456c51ddfa7383ea8485b3b3f269a",
+    "root_release_sha256": "4c397f2f08cada184ce029745041d5458bf90a7b39184fb8d6a54dcb48559745",
+    "push_receipt_sha256": "06ed8c461e64ecdfeab76f64ba8d142ac05758d631e89c3f4b92bf860d263916"
+  },
+  "poller_target_update": {
+    "path": "cloud_delivery/provider_targets_active_20261009_r2.json",
+    "parent_sha256": "33645ba569c585c4eafa21a7b6976e1f34ab884513a97431f621c4773ff1068d",
+    "updated_sha256": "54299278a6f93b523965755334086f50e1c86df6ae5691e78a7530786e638d8a",
+    "existing_targets_preserved": 7,
+    "target_count_after": 8,
+    "active_poller_service_already_uses_target_path": true
+  },
+  "files": [
+    {
+      "path": "cloud_delivery/provider_targets_active_20261009_r2.json",
+      "sha256": "54299278a6f93b523965755334086f50e1c86df6ae5691e78a7530786e638d8a",
+      "bytes": 6296
+    },
+    {
+      "path": "ops_continuation_20261011/monitor_20261012_1207_r24/R7_PROVIDER_STATUS_TARGET_R1.json",
+      "sha256": "3bd7538fedfabe83a9b161988549572f07c894dc2e11c46017287066cebedc3c",
+      "bytes": 325
+    },
+    {
+      "path": "ops_continuation_20261011/monitor_20261012_1207_r24/R7_PROVIDER_POLL_LOG_R1.jsonl",
+      "sha256": "df279358e65cefaa5a162e3fe140aa7facae37f7a7b2722bb1a0374c6712e4d1",
+      "bytes": 1137
+    },
+    {
+      "path": "ops_continuation_20261011/monitor_20261012_1207_r24/collect_r7_terminal.py",
+      "sha256": "6b329d082db3ab6b93779f892495d81dfbe419a395a252eec7b32460217ddd48",
+      "bytes": 8779
+    },
+    {
+      "path": "ops_continuation_20261011/monitor_20261012_1207_r24/R7_OPERATOR_HANDOFF_R1.json",
+      "sha256": "1e90d53879f373f3934de6b38a877db306a64a210c2de6557940483f2b75a734",
+      "bytes": 1802
+    },
+    {
+      "path": "ops_continuation_20261011/monitor_20261012_1207_r24/README_R7_OPERATOR.md",
+      "sha256": "eb293f7558c941143816a18d5559c91bd6dfd8fe162975fc689aa4d4f09522bc",
+      "bytes": 1344
+    }
+  ],
+  "validation": {
+    "status": "pass",
+    "target_append_check": "All seven previous target objects are byte-semantically unchanged; one exact R7 object is appended.",
+    "root_and_push_binding_check": "pass",
+    "provider_status": "KernelWorkerStatus.QUEUED",
+    "provider_status_observed_utc": "2026-10-12T13:13:54Z",
+    "quota_session_limitation": "No provider session ID was returned; no per-kernel quota attribution is claimed.",
+    "ruff_check": "pass",
+    "ruff_format_check": "pass",
+    "check_only_command": "scripts/limited .venv/bin/python monitor_20261012_1207_r24/collect_r7_terminal.py --repo-root /home/vlad/development/wunder/wnn_connectome_starterpack --check-only",
+    "provider_write_or_download": false
+  },
+  "collection_bounds": {
+    "download_ceiling_bytes": 8589934592,
+    "minimum_free_bytes": 4294967296,
+    "max_runtime_seconds": 800,
+    "collect_only_after_terminal_status": true,
+    "partial_checkpoints_preserved": true,
+    "classification": "Generic collector hashes terminal outputs; CP5/full-pipeline classification follows as a separate artifact audit."
+  },
+  "quota": {
+    "logical_hold_gpu_seconds": 21600,
+    "provider_timeout_seconds": 10800,
+    "worker_wall_ceiling_seconds": 10000,
+    "provisioned_gpu_count": 2,
+    "paid_spending_authorized": false
+  }
+}
