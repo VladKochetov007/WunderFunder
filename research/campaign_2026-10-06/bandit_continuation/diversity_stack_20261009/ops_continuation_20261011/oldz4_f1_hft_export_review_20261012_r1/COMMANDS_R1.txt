@@ -1,0 +1,28 @@
+MAIN=/home/vlad/development/wunder/wnn_connectome_starterpack
+REVIEW=/home/vlad/development/wunder/wnn-agent-worktrees/student-export-handoff-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_f1_hft_export_review_20261012_r1
+
+# Actual HFT export already completed under its frozen ROOT admission; this is
+# the exact command used for the bounded validation/bootstrap receipt.
+env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=25% WNN_THREADS=1 \
+  WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s \
+  "$MAIN/scripts/limited" "$MAIN/.venv/bin/python" "$REVIEW/grade_export_r1.py"
+
+# Official metric scorer over the 457 previously exposed fold-1 groups. Fixed
+# interactions were prespecified in ROOT_EXTRA_SHARED_HEAD_INTERACTION_CONTRACT_R1.json.
+env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=25% WNN_THREADS=1 \
+  WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s \
+  "$MAIN/scripts/limited" "$MAIN/.venv/bin/python" "$MAIN/scripts/blend_score_remote.py" 1 \
+  'oldz4_h230_student_f1_s3_r4:1+oldz4_h230_hft_f1_s3_r2:1' \
+  'oldz4_h230_hft_f1_s3_r2' \
+  'oldz4_h230_student_f1_s3_r4' \
+  'vt_f1_dsq_dm_t3_a9_e6' \
+  'oldz4_h230_student_f1_s3_r4:1+vt_f1_dsq_dm_t3_a9_e6:1' \
+  'oldz4_h230_student_f1_s3_r4:1+oldz4_h230_hft_f1_s3_r2:1+vt_f1_dsq_dm_t3_a9_e6:2' \
+  > "$REVIEW/BLEND_SCORE_STDOUT_R1.txt"
+
+# The actual validation/bootstrap, official blend scorer, Ruff check and Ruff
+# format check all returned status 0 under their recorded limits.
+
+# SHA-256 pins for the captured official scorer output and independent receipt.
+sha256sum "$REVIEW/BLEND_SCORE_STDOUT_R1.txt" "$REVIEW/grade_export_r1.py" \
+  "$REVIEW/EXPORT_GRADE_BOOTSTRAP_R1.json"
