@@ -1,8 +1,16 @@
 # Research index
 
 Public best and candidate status live in [current state](../specs/current-state.md).
-The latest user-reported completed best is0.6668; this is not a fresh browser verification.
-The0.7000 research objective remains active. Local validation scores are not public forecasts.
+The latest user-reported completed best is 0.6671 for the C blend in the October 12
+Q8 portfolio; this is a portal observation transcribed by the user, not a fresh
+browser verification or a matched clean-CV estimate. The 0.7000 research objective
+remains active. Local validation scores are not public forecasts.
+
+The detailed [October12 research handoff](RESEARCH_COMPLETE_HANDOFF_20261012.md)
+collects methods, source-qualified evidence, submission/runtime results,
+historical ideas and failures, a linked artifact catalog, and the current
+pre-drain STOP. It remains a draft until the already admitted seed4 and Kaggle
+R7 work is terminal and root refreshes the archive inventory/tree.
 
 Latest continuation: [October12 CPU optimization, serving repair and fold/public diagnostics](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md), including independent Sol6.1/xhigh reviews, exact-package timings, unsuccessful PGO, the projection experiment, and Claude-comment reconciliation.
 
@@ -38,6 +46,8 @@ The standalone [general research methodology](RESEARCH_METHODS.md) describes age
 ### 2026-10-12 compact Q8 all-data portfolio
 
 [Packages and exact runtime evidence](../submissions/10-12-best-r1/README_R1.md); [root human-upload release](../submissions/10-12-best-r1/ROOT_UPLOAD_RELEASE_R1.json); [independent artifact review](../artifacts/submission_review_10_12_best_r1/SUBMISSION_PACKAGE_REVIEW_R1.json). Three fixed blends, known Q8runtime/FP32storage; Cpaired cost1.438xpublicreference locally, noEPYC/time/publicscore guarantee. Source-strength/CV, publiccalibration and nativeoptimization remain parallel.
+
+[Latest user-reported public result](../submissions/10-12-best-r1/PUBLIC_RESULTS_20261012_R1.json): C scored 0.6671 in 36m36s. The additional D/E Q8 blends are technically packaged and runtime-checked but have no quality grade; see [their status](../submissions/10-12-best-r2/README_R1.md). Do not treat local callback scaling as portal timing.
 
 
 ### 2026-10-12 joint quality/runtime endpoint optimization
