@@ -32,6 +32,10 @@ Existing folds are exposed; future transfer is tier C. No local delta becomes a 
 
 Resume research under the new authority, update GPU guards, prepare and independently review the first actual-producer packet, then fit/export/grade it. Reuse successful checkpoints and collect terminal evidence. Root owns admission and synthesis; each admitted run retains a delivery owner.
 
+## First amplitude packet
+
+[F0 seed-3 target-amplitude packet](target_amplitude_f0_s3_r1/README.md) has an R2 correction prepared for independent recipe review. It binds the actual F0 cache consumer, matched shape profile, historical R3 control and exact staged fit/export/grade argv. R2 preserves the `16/13` target treatment, uses the reviewed dynamic GPU allocator policy, and fixes P2/P3 resume paths; R1 remains preserved but is not launchable. No amplitude fit has launched and no treatment score is claimed. F3 remains dependent on a clean T3 teacher cohort, predictions, cache and matched control.
+
 ## Source records
 
 - [Original stop](../../campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json), preserved as historical authority.

@@ -1,0 +1,27 @@
+# F0 seed-3 cached-teacher amplitude packet
+
+**Status: R2 corrected packet prepared for independent recipe review; no fit or export has launched.** R1 is preserved as audit history but has two critic-identified launch blockers and must not be launched. Root must issue a fresh fit release and the shared resource controller must admit each stage before any GPU work. Candidate output paths were absent when this packet was built. The treatment has no measured score yet. See [R2 correction receipt](RECIPE_REVIEW_CORRECTION_R2.md).
+
+This packet tests one variable: multiply the stored homogeneous teacher target by `16/13` before the trainer's existing `[-2, 2]` clip. The cache stores `float32(0.8125 * float32_mean(three epoch-2 clean T3 F0 teacher predictions))` without cache clipping. The student remains seed 3, initialized from `c20261003_combo_s3_f0@ep3`, with alpha `0.9`, the same fitting membership, six-epoch OneCycle schedule, fixed epoch-5 checkpoint, FP16 training, unchanged label weighting and auxiliary losses, and FP32 full-valid export. Scale `1` is the exact no-op control path.
+
+The current exact P1/P2/P3, CP5 export and grade argv are in [FIT_AND_EXPORT_COMMANDS_R2.json](FIT_AND_EXPORT_COMMANDS_R2.json); it uses absolute P2/P3 resume-state paths and the dynamic allocator policy. Provenance and input ancestry are in [SOURCE_AND_INPUT_BINDINGS_R2.json](SOURCE_AND_INPUT_BINDINGS_R2.json). The two-file R2 delta and complete R3-derived source tree with explicit trainer and operational resource-policy overrides are in [SOURCE_DELTA_R2.patch](SOURCE_DELTA_R2.patch) and [source_overlay_r2/README.md](source_overlay_r2/README.md). R1 command/binding/delta files remain linked below as immutable audit history. [AMPLITUDE_PARITY_CHECK_R1.json](AMPLITUDE_PARITY_CHECK_R1.json) records the scale equation, default identity and bounded tensor check.
+
+The historical matched F0 control scored `0.6811553603333363` on the repeatedly exposed 468-group/141-component F0 panel. Its fit used FP16 and its fixed CP5 predictions were exported in FP32. The independent seed-4 control scored `0.6812584217032286`; it shares the teacher cohort and is contextual confirmation, not an amplitude result or a fresh fold. Neither result supports a public forecast.
+
+The existing R2 profile is reusable because the target treatment changes only the two cached teacher columns after loading; batch, chunk, model and cache dimensions are unchanged. It measured 4.33 GB worker RAM peak, 15.96 GB parent peak and 2.18 GB observed VRAM peak with zero swap. This profile supplies shape evidence only. R2 replaces the frozen R3 allocator helper with the root-reviewed live-free-VRAM policy and pins its 1 GB dynamic reserve; no explicit per-process byte cap or external device-wide VRAM watchdog is carried. The root-owned controller and shared runtime perform fresh admission with the campaign's 17 GB working target, 18/20 GB high/maximum, no swap, five-CPU ceiling and one-GPU-worker limit.
+
+F0 is the quickest runnable amplitude arm. The seed-3 F3 initializer exists (`c20261003_combo_s3_f3@ep3`, checkpoint SHA `247d0197…`), as do older H382/F3 and propensity artifacts. A matched clean-T3 F3 screen still needs its own seed-3/4/5 epoch-2 teacher cohort, train and full-valid predictions with provenance, homogeneous 0.8125 cache with actual-consumer validation, and a matched scale-0.8125 student control. H382/F3 artifacts cannot replace those dependencies.
+
+The separate R22 Kaggle R7 packet failed before fitting because its worker argv retained a literal `{python}` token; the process exited 2 with zero GPU use. That packet used a different MuonAll-parent treatment, so the infrastructure failure is not scientific evidence about amplitude and will not be rebuilt as this comparator.
+
+## Files
+
+- [Corrected exact fit, export and grade commands](FIT_AND_EXPORT_COMMANDS_R2.json) — current worker vectors plus root-controller invocation templates; awaiting critic verdict, root release and fresh admission.
+- [R2 correction receipt](RECIPE_REVIEW_CORRECTION_R2.md) — documents the two R1 blockers, fixes and immutable hashes.
+- [R1 command packet](FIT_AND_EXPORT_COMMANDS_R1.json) — superseded after review found a restrictive byte cap and invalid relative resume paths; never launch this packet.
+- [R2 source and input bindings](SOURCE_AND_INPUT_BINDINGS_R2.json) — actual teacher, cache, parent, propensity, split, control, profile and both intentional source overrides.
+- [R1 source and input bindings](SOURCE_AND_INPUT_BINDINGS_R1.json) — preserved original review packet; superseded for execution by R2.
+- [Scale parity receipt](AMPLITUDE_PARITY_CHECK_R1.json) — implementation position, default identity and hand-checked FP32 scale/clip/blend values.
+- [R2 R3-derived source overlay](source_overlay_r2/README.md) — two disclosed overrides: target-scale trainer and reviewed dynamic allocator.
+- [R2 source delta](SOURCE_DELTA_R2.patch) — trainer treatment and operational resource-policy changes.
+- [R1 source overlay](source_overlay/README.md) and [R1 source delta](SOURCE_DELTA_R1.patch) — immutable audit history; R1 is not launchable.

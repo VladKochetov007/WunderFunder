@@ -1,0 +1,220 @@
+{
+  "control_source_snapshot_manifest_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/SOURCE_MANIFEST_H390.json",
+  "experiment_id": "E-STRATEGY-AMP-F0-S3-20261013-R1",
+  "fit_authorized": false,
+  "fold3": {
+    "initializer": "c20261003_combo_s3_f3",
+    "initializer_checkpoint_sha256": "247d0197379ecec613c3761a7737441310cd650321480f3ecb89fc2907538595",
+    "initializer_provenance_sha256": "c9cdaf390a370b16008897cf1babfae95102eb3f7a4437f84726386751042c19",
+    "missing": [
+      "clean T3 F3 teachers seeds3/4/5 epoch2 and their train/full-valid predictions",
+      "clean T3 F3 homogeneous cache at scale.8125 plus actual-consumer validation",
+      "matched clean T3 F3 scale-.8125 student control for seed3"
+    ],
+    "older H382/F3 artifacts are a different lineage and cannot substitute": true,
+    "ready": false
+  },
+  "hypothesis_id": "H-268",
+  "matched_control": {
+    "export_precision": "fp32",
+    "fold_exposure": "468 groups/141 components, repeatedly exposed; single student seed",
+    "grade_receipt_sha256": "c518f7cdb5f3e5148f72de152c3aaecd308ff97c83aa74169fdaa95442e085a0",
+    "metric": "global_wp_clip2_v1",
+    "prediction_sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6",
+    "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+    "training_precision": "fp16",
+    "wp": 0.6811553603333363
+  },
+  "membership": {
+    "evaluation_groups_excluded": 468,
+    "fit_valid_groups": 1405,
+    "fit_valid_order_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+    "same_source_overlap": 0,
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "train_groups": 10535,
+    "train_order_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda"
+  },
+  "profile_reuse": {
+    "parent_peak_bytes": 15957172224,
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_resource_profile_r2/PROFILE_TERMINAL_RECEIPT_R2.json",
+    "reuse_basis": "Same model/batch/chunk/cache dimensions; treatment is a scalar operation on loaded teacher columns. Fresh root admission remains mandatory.",
+    "sha256": "8eedb01be05ecee2f0086ab4b01856d6a53cf6c290020ae18ec91de21440d339",
+    "swap_bytes": 0,
+    "vram_peak_bytes": 2178940928,
+    "worker_peak_bytes": 4330741760
+  },
+  "propensity": {
+    "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "train_sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174",
+    "valid_sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c"
+  },
+  "r22_r7_failure": {
+    "cause": "literal {python} in distinct MuonAll-treatment worker argv; exit2 before fit/GPU0",
+    "readme": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/clean_t3_f0_student_treatment_kaggle_r22/README_R7.md",
+    "scientific_result": null,
+    "triage_sha256": "41abef7c1733a5f3da8073df444be4c83994d3c01d0c9a6f456cfe63e7130aae"
+  },
+  "review_correction": {
+    "no_fit_or_export_launched": true,
+    "r1_critic_findings": [
+      "Explicit WNN_GPU_MEMORY_BYTES overrode allocator policy with a 4.3GB per-process ceiling.",
+      "P2/P3 relative resume-state paths resolved under source-overlay cwd, not WNN_PROJECT_ROOT."
+    ],
+    "r2_actions": [
+      "Use exact main dynamic resource policy code in the immutable R2 source overlay and pin its 1GB dynamic free-memory reserve.",
+      "Remove WNN_GPU_MEMORY_BYTES from every worker argv/environment.",
+      "Bind P2/P3 resume-state inputs to absolute main-project artifact paths."
+    ]
+  },
+  "schema": "wnn.strategy-amplitude-f0-s3-source-input-bindings.r2",
+  "seed4_context": {
+    "not_an_amplitude_comparison": true,
+    "receipt_sha256": "430d1e5e574737b134515732ce785131ec13d65b82e2c769bc24d0ef7153ff98",
+    "run": "clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1",
+    "wp": 0.6812584217032286
+  },
+  "source": {
+    "base_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "base_snapshot": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot",
+    "base_trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+    "delta_path": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/SOURCE_DELTA_R2.patch",
+    "delta_sha256": "4e05bdeff2c022dcd00e9ff1b798203094f34c07766e3ae0dcadd182a3eda164",
+    "divergence": "The historical matched control is frozen R3 (`a2b544\u2026`). The runnable R2 overlay derives from that full snapshot and has exactly two disclosed overrides: target-amplitude trainer treatment plus the independently reviewed main dynamic CUDA allocator policy. The latter is an operational execution change, not a model, target, optimizer, schedule, sampling, or checkpoint change.",
+    "intentional_overrides": [
+      {
+        "actual_sha256": "9b3079b9477fb0a1913bc5b2d504831126bff0d4cf02aff2b14f39872f421333",
+        "expected_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+        "path": "scripts/train_rnn.py",
+        "purpose": "Scale homogeneous cached teacher target by 16/13 before the existing training-time clip; default 1 remains identity."
+      },
+      {
+        "actual_sha256": "0b6280130a480f5547552df83cc4a15e7cfe88ad04498ca11c2ab2d54bb428e9",
+        "expected_sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+        "implementation_commit": "ac6a577f3f209ae70b8dd0830c9d90175d3c1b88",
+        "path": "src/wnn/resources.py",
+        "purpose": "Use dynamic free-VRAM allocator fraction and 1,000,000,000-byte safety reserve from main resource policy."
+      }
+    ],
+    "manifest_exact_files": 61,
+    "overlay_delta_path": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/SOURCE_DELTA_R2.patch",
+    "overlay_manifest_path": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2/SOURCE_MANIFEST_R2.json",
+    "overlay_manifest_sha256": "ac086fd55d9833492191507cbfba7f1d978a763011be698097bd582372402818",
+    "overlay_predictor_sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+    "overlay_resources_sha256": "0b6280130a480f5547552df83cc4a15e7cfe88ad04498ca11c2ab2d54bb428e9",
+    "overlay_source_root": "/home/vlad/development/wunder/wnn-agent-worktrees/strategy-cohort-20261013/research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2",
+    "overlay_trainer_sha256": "9b3079b9477fb0a1913bc5b2d504831126bff0d4cf02aff2b14f39872f421333",
+    "overlay_wrapper_sha256": "246586bfd4be3a4e3d95ac026860bb835611f09958193b75798124c9500455ab",
+    "resource_implementation_commit": "ac6a577f3f209ae70b8dd0830c9d90175d3c1b88",
+    "resume_state_path_resolution": "P2/P3 --resume-state is absolute in main artifacts because resource-controller workers execute with source-overlay cwd; other input roots are resolved against WNN_PROJECT_ROOT by the frozen trainer."
+  },
+  "status": "PREPARED_FOR_INDEPENDENT_RECIPE_REVIEW_R2_AND_ROOT_FIT_RELEASE",
+  "student_parent": {
+    "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+    "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "epoch": 3,
+    "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+    "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+    "run": "c20261003_combo_s3_f0"
+  },
+  "target": {
+    "cache_clip": "none during cache construction",
+    "coefficient_rows_are_lineage_not_numeric_mixture": true,
+    "coefficient_sum": 0.30000000000000004,
+    "formula": "float32(0.8125 * float32_mean(three_epoch2_predictions))",
+    "homogeneous_scale": 0.8125,
+    "scale": 1.2307692307692308,
+    "source_coefficients": [
+      {
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "run": "clean_t3_f0_muonall_h384_e3_s3_r5"
+      },
+      {
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "run": "clean_t3_f0_muonall_h384_e3_s4_r5"
+      },
+      {
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "run": "clean_t3_f0_muonall_h384_e3_s5_r5"
+      }
+    ],
+    "stored_targets": [
+      "main_homogeneous"
+    ],
+    "teacher_mean": "unweighted arithmetic mean in float32",
+    "training_clip": "existing clip(-2,2) after scaling"
+  },
+  "teacher_cache": {
+    "consumer_validation_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r2/CACHE_METADATA_COMPATIBILITY_VALIDATION_R2.json",
+    "consumer_validation_sha256": "90528f221fdca114f506871fed06372bb7580a9d2700632abd156aa03830bedf",
+    "consumer_validation_status": "PASS_ACTUAL_FROZEN_CACHE_AND_PROVENANCE_CONSUMER",
+    "large arrays copied or rehashed": false,
+    "metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r2",
+    "train": {
+      "bytes": 1685600128,
+      "dtype": "float32",
+      "path": "main_homogeneous_train.npy",
+      "sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+      "shape": [
+        10535,
+        20000,
+        2
+      ]
+    },
+    "valid": {
+      "bytes": 224800128,
+      "dtype": "float32",
+      "path": "main_homogeneous_valid.npy",
+      "sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2",
+      "shape": [
+        1405,
+        20000,
+        2
+      ]
+    }
+  },
+  "teachers": [
+    {
+      "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt",
+      "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+      "coefficient_annotation": 0.1,
+      "epoch": 2,
+      "fit_train_prediction_sha256": "63153337ec262f8d182283731e409644c1b7b19332e8fef047f0fb1a72504f06",
+      "fit_valid_full_feature_prediction_sha256": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1",
+      "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json",
+      "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+      "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+      "seed": 3
+    },
+    {
+      "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/model_ep2.pt",
+      "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+      "coefficient_annotation": 0.1,
+      "epoch": 2,
+      "fit_train_prediction_sha256": "5aa3ebeea15aad5a12b15ca27d2c4581cdae651d9144e8ab262196bb01f9af95",
+      "fit_valid_full_feature_prediction_sha256": "314172c91053c5581ac73160dc936fb3fa5d8615b8dac5fffeca73f0d7524d1a",
+      "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json",
+      "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+      "run": "clean_t3_f0_muonall_h384_e3_s4_r5",
+      "seed": 4
+    },
+    {
+      "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/model_ep2.pt",
+      "checkpoint_sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+      "coefficient_annotation": 0.1,
+      "epoch": 2,
+      "fit_train_prediction_sha256": "5042bfec2c25d0f80910ed10797b8f9608c97724ea4e87f0f0721aaed9d59c50",
+      "fit_valid_full_feature_prediction_sha256": "13420c11164234ce14a49aaae9c7612c8e54d32fde02acd062991b47deb21e92",
+      "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json",
+      "provenance_sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18",
+      "run": "clean_t3_f0_muonall_h384_e3_s5_r5",
+      "seed": 5
+    }
+  ]
+}
