@@ -1,0 +1,129 @@
+{
+  "checks": {
+    "fixture_python": "3.14.7 (main, Aug 10 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+    "local_mount_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /usr/bin/python3 <packet>/validate_r9_local_mount.py --kernel <packet>/kernel/kernel.py --input-root /tmp/wnn-t3-f0-r9-checkpoint-stage --output <packet>/R9_LOCAL_MOUNT_FIXTURE_R2.json",
+    "local_mount_dataset_manifest_sha256": "05750d5cd9d627bd74ec0aa445c398b9bb3cb97857d4945fea259d472a0b4a16",
+    "local_mount_fixture_path": "R9_LOCAL_MOUNT_FIXTURE_R2.json",
+    "local_mount_fixture_sha256": "798d88def7970a0f615959245f35c8767406300235d40239384da9cfc0c6eab5",
+    "local_mount_fixture_status": "PASS_LOCAL_MOUNT_FIXTURE_ONLY",
+    "local_mount_verified_files": 6,
+    "ruff_check": "passed",
+    "ruff_commands": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/ruff check <three R9 Python files>",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/ruff format --check <three R9 Python files>"
+    ],
+    "ruff_format_check": "passed",
+    "unittest_cases_passed": 1,
+    "unittest_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /usr/bin/python3 /home/vlad/development/wunder/wnn-agent-worktrees/native-q8-controls-r3-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_h390_r9_export_from_owned_checkpoints_20261012_r1/test_r9_transport.py",
+    "unittest_exit_code": 0
+  },
+  "created_utc": "2026-10-12T07:51:34.394035+00:00",
+  "logical_recipe_target_kernel_id": "vladkochetov07/wnn-clean-t3-f0-h384-exp-20261012-r7",
+  "packet_id": "clean_t3_f0_h390_r9_export_from_owned_checkpoints_20261012_r1",
+  "pins": {
+    "build_receipt": {
+      "bytes": 4579,
+      "path": "R9_BUILD_RECEIPT_R1.json",
+      "sha256": "7a91c1e29922bcef57fc3d6c549eca37b8d4212576d026cb73f6b341649c0cd1"
+    },
+    "builder": {
+      "bytes": 20722,
+      "path": "build_r9_transport.py",
+      "sha256": "c85dd8988ee8a9344dce673b9ef163f923f6d5dd28267733adbd19e12b879874"
+    },
+    "embedded_bindings_sha256": "88b664fe720ac990e7a48dab7a43f2bcb7bbaf282b6fec725761e6d0be768f63",
+    "embedded_pending_release_sha256": "be5902635e24e8a4c3c78c9ca553473717b1fa70a2f08590e36d6635b56969dd",
+    "embedded_worker_sha256": "0e7ae25474d376df20f3a6d5226932575d1e520e895d0fa8b38715308b93e9fa",
+    "input_manifest": {
+      "bytes": 2408,
+      "path": "R9_CHECKPOINT_INPUT_MANIFEST_R1.json",
+      "sha256": "05750d5cd9d627bd74ec0aa445c398b9bb3cb97857d4945fea259d472a0b4a16"
+    },
+    "kernel": {
+      "bytes": 123694,
+      "path": "kernel/kernel.py",
+      "sha256": "13ee70184428824adec60bc653f9001c87db85df94bb514ede9d293027d4bf41"
+    },
+    "local_mount_validator": {
+      "bytes": 3830,
+      "path": "validate_r9_local_mount.py",
+      "sha256": "8f4ecfb4defb8c90b7f8977cc402b31f9d81c5a33babd709dd0d92893c105c9e"
+    },
+    "metadata": {
+      "bytes": 610,
+      "path": "kernel/kernel-metadata.json",
+      "sha256": "d048e4ed4cfa8a1afddaceaf7bd38bd369fb0090d3f324e519bf27249d409dbd"
+    },
+    "r8_wrapper_template": {
+      "bytes": 10707,
+      "path": "r8_wrapper_template.py",
+      "sha256": "96d98bbc8fa21aa5211b10f1264634b51c8acb90fde87bbcacb3ce3789ae8bc5"
+    },
+    "test": {
+      "bytes": 5260,
+      "path": "test_r9_transport.py",
+      "sha256": "1d2b00a2cc1b6d0f88c3429f80c21a72f827ec03044733fba849aed5164b04b8"
+    }
+  },
+  "private_checkpoint_dataset_id": "vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9",
+  "r7_source_bindings": {
+    "bindings_sha256": "39127244077e0937934fce1fedc131f7fa440ff18f7bc7fc3508f6f69e318d0f",
+    "kernel_sha256": "f38ac7bd72c762b265e5951096e57b799cf632f43f7f96819a45d38772277cb6",
+    "pending_release_sha256": "7b76769bf34bf1f43b3ff23c9f5c59616cd80188c232b46df667083793b70940"
+  },
+  "schema": "wnn.r9_packet_static_and_local_mount_validation.r1",
+  "scope": {
+    "export_workers_started": 0,
+    "fit_workers": 0,
+    "gpu_profile_verified_for_r9": false,
+    "model_inference": false,
+    "provider_actions": 0,
+    "remote_dataset_readiness_verified": false,
+    "root_admission_included": false,
+    "root_release_status": "pending"
+  },
+  "staging": {
+    "checkpoint_and_provenance_bytes": 26556627,
+    "files": [
+      {
+        "bytes": 2408,
+        "path": "R9_CHECKPOINT_INPUT_MANIFEST_R1.json",
+        "sha256": "05750d5cd9d627bd74ec0aa445c398b9bb3cb97857d4945fea259d472a0b4a16"
+      },
+      {
+        "bytes": 8692775,
+        "path": "experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt",
+        "sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582"
+      },
+      {
+        "bytes": 159434,
+        "path": "experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json",
+        "sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0"
+      },
+      {
+        "bytes": 8692775,
+        "path": "experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/model_ep2.pt",
+        "sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7"
+      },
+      {
+        "bytes": 159434,
+        "path": "experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json",
+        "sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11"
+      },
+      {
+        "bytes": 8692775,
+        "path": "experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/model_ep2.pt",
+        "sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1"
+      },
+      {
+        "bytes": 159434,
+        "path": "experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json",
+        "sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18"
+      }
+    ],
+    "manifest_sha256": "05750d5cd9d627bd74ec0aa445c398b9bb3cb97857d4945fea259d472a0b4a16",
+    "physical_stage_path": "/tmp/wnn-t3-f0-r9-checkpoint-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9"
+  },
+  "status": "PASS_STATIC_AND_LOCAL_MOUNT_ONLY",
+  "transport_target_kernel_id": "vladkochetov07/wnn-clean-t3-f0-h384-exp-20261012-r9"
+}
