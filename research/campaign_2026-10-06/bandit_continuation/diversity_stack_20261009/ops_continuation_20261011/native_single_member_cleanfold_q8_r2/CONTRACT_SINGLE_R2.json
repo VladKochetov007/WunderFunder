@@ -1,0 +1,482 @@
+{
+  "candidate_id": "oldz4_f0_f1_student_only_hft_only_native_q8_r2",
+  "created_utc": "2026-10-12T05:46:44.745631+00:00",
+  "endpoint": {
+    "coefficients": [
+      1.0
+    ],
+    "fast_activations": true,
+    "independent_head_weights": true,
+    "models": [
+      "student_only",
+      "hft_only"
+    ],
+    "one_member_per_predictor": true,
+    "precision_request": "q8vnni",
+    "reference": "completed R2 student/HFT fixed 0.5/0.5 output blend, read only",
+    "required_actual_precision": "q8vnni",
+    "shared_backbone": false
+  },
+  "execution_gate": {
+    "required_bindings": [
+      "contract_sha256",
+      "r2_contract_sha256",
+      "r2_terminal_handoff_sha256",
+      "r2_quality_result_sha256",
+      "r2_callback_fixture_sha256",
+      "preparation_incident_receipt_sha256",
+      "supplementary_callback_fixture_sha256",
+      "python311_dependency_probe_sha256",
+      "standalone_callback_fixture_sha256",
+      "weights_archive_sha256",
+      "weights_receipt_sha256",
+      "native_elf_sha256",
+      "valid_dataset_footer_identity",
+      "fold_membership_sha256s",
+      "checkpoint_provenance_sha256s",
+      "output_root_absent"
+    ],
+    "required_decision": "PASS_FOR_ONE_FROZEN_CROSSFOLD_NATIVE_SINGLE_MEMBER_EVALUATION",
+    "required_root_receipt_schema": "wnn.root.native-single-member-cleanfold-q8-admission.r2"
+  },
+  "expected_output": {
+    "callback_fixture": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r2/CALLBACK_FIXTURE_SINGLE_R2_PY311.json",
+    "output_root": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r2/quality_output_single_r2",
+    "overwrite_policy": "create-only; preexisting output root or prediction is a hard refusal",
+    "prediction_files": {
+      "fold0_hft": {
+        "bytes": 74880128,
+        "dtype": "float32",
+        "shape": [
+          468,
+          20000,
+          2
+        ]
+      },
+      "fold0_student": {
+        "bytes": 74880128,
+        "dtype": "float32",
+        "shape": [
+          468,
+          20000,
+          2
+        ]
+      },
+      "fold1_hft": {
+        "bytes": 73120128,
+        "dtype": "float32",
+        "shape": [
+          457,
+          20000,
+          2
+        ]
+      },
+      "fold1_student": {
+        "bytes": 73120128,
+        "dtype": "float32",
+        "shape": [
+          457,
+          20000,
+          2
+        ]
+      }
+    },
+    "result_file": "SINGLE_MEMBER_RESULT_R2.json",
+    "total_prediction_bytes": 296000512
+  },
+  "folds": {
+    "0": {
+      "evaluation_component_count": 141,
+      "evaluation_group_list_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+      "evaluation_groups": 468,
+      "excluded_train_groups": 71,
+      "fit_evaluation_component_overlap_count": 0,
+      "fixed_half_output_reference": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6772202260721987,
+        "t1": 0.6897686469261759,
+        "wp": 0.6834944364991873
+      },
+      "fixed_half_prediction_bytes": 74880128,
+      "fixed_half_prediction_sha256": "428b5a19eb3ab2ef0eab86443d858f29c036855f7b923f9519b7f045dbc2eb87",
+      "models": {
+        "hft": {
+          "checkpoint": {
+            "bytes": 3944423,
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_hft_f0_s3_r5/model_ep0.pt",
+            "sha256": "2bde556119ededc3693733280444a42f0f64138a2e3759bed6b068cb72f18ec8"
+          },
+          "epoch": 0,
+          "fit_membership_identity": {
+            "dataset_length": 1405,
+            "train": {
+              "count": 0,
+              "ordered_int64_le_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "valid": {
+              "count": 1405,
+              "ordered_int64_le_sha256": "b80550a7b2eb0c0ebef895e42e63af31422a0cadd056adece81fd013f8f1d76c"
+            },
+            "valid_repeat": 1
+          },
+          "fit_source": "valid",
+          "initial_checkpoint_sha256": "f1fac7f6293082fe1dd416e4026cac56fe1bcfb533683837da2192bad69e99a0",
+          "provenance": {
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_hft_f0_s3_r5/provenance.json",
+            "sha256": "bf6105bfb1d137345bf775b09f06f432b5d993c61cf019aa927c2a896ebddac2"
+          },
+          "run": "oldz4_h230_hft_f0_s3_r5"
+        },
+        "student": {
+          "checkpoint": {
+            "bytes": 3986535,
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f0_s3_r3/model_ep1.pt",
+            "sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb"
+          },
+          "epoch": 1,
+          "fit_membership_identity": {
+            "dataset_length": 11940,
+            "train": {
+              "count": 10535,
+              "ordered_int64_le_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9"
+            },
+            "valid": {
+              "count": 1405,
+              "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+            },
+            "valid_repeat": 1
+          },
+          "fit_source": "train+valid",
+          "initial_checkpoint_sha256": "56b6413fdf9c9248961b0dfe6797890f2aae98bc85550b80c6b9524870e92532",
+          "provenance": {
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f0_s3_r3/provenance.json",
+            "sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c"
+          },
+          "run": "oldz4_h230_student_f0_s3_r3"
+        }
+      },
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "1": {
+      "evaluation_component_count": 149,
+      "evaluation_group_list_sha256": "0d871b740f6615861e978fb971838ced26f62e84144870dd464838d99decc819",
+      "evaluation_groups": 457,
+      "excluded_train_groups": 73,
+      "fit_evaluation_component_overlap_count": 0,
+      "fixed_half_output_reference": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 812167,
+        "t0": 0.6640244986941479,
+        "t1": 0.6760247659825832,
+        "wp": 0.6700246323383656
+      },
+      "fixed_half_prediction_bytes": 73120128,
+      "fixed_half_prediction_sha256": "c2bbc9b893f15070cd993033b277ca06e3e2deebd6256de37f09ba3cb2605b14",
+      "models": {
+        "hft": {
+          "checkpoint": {
+            "bytes": 3944423,
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_hft_f1_s3_r2/model_ep0.pt",
+            "sha256": "41e7aa3fb27024f2612f8f6b8f4232ca446ba92022dbf7ba90893ffee2292410"
+          },
+          "epoch": 0,
+          "fit_membership_identity": {
+            "dataset_length": 1416,
+            "train": {
+              "count": 0,
+              "ordered_int64_le_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "valid": {
+              "count": 1416,
+              "ordered_int64_le_sha256": "c20c6c9c86464f7e08fe5f958fc86833c44f33e6355d263dd7370f227c4d0622"
+            },
+            "valid_repeat": 1
+          },
+          "fit_source": "valid",
+          "initial_checkpoint_sha256": "cd96d84835ed9cadda0e09f55ff01b1057cc9296e27b99eb401f0ee3e3fca59e",
+          "provenance": {
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_hft_f1_s3_r2/provenance.json",
+            "sha256": "468ac58e9f59e9f32ea425f8556b26073e61b108eafa468ccf06f1cd0d3d1b9d"
+          },
+          "run": "oldz4_h230_hft_f1_s3_r2"
+        },
+        "student": {
+          "checkpoint": {
+            "bytes": 3986535,
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f1_s3_r4/model_ep1.pt",
+            "sha256": "cd8886589e8664082da1f27aee4f2c4925b61c41da8c740598831ab2f774bbd6"
+          },
+          "epoch": 1,
+          "fit_membership_identity": {
+            "dataset_length": 11949,
+            "train": {
+              "count": 10533,
+              "ordered_int64_le_sha256": "0d0791b38ab83c3afd025fd8423b6f14d2e2f29a1cbec4aa6c80341d1b82af4e"
+            },
+            "valid": {
+              "count": 1416,
+              "ordered_int64_le_sha256": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8"
+            },
+            "valid_repeat": 1
+          },
+          "fit_source": "train+valid",
+          "initial_checkpoint_sha256": "be2273cc96027295c19133504354a262cd1a2066fa5ae3df7d6be64ed0a1ad8e",
+          "provenance": {
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f1_s3_r4/provenance.json",
+            "sha256": "8aa0e2af944a52a34d0c0622705071e7ca60a978ec429dc71269fa67b40354da"
+          },
+          "run": "oldz4_h230_student_f1_s3_r4"
+        }
+      },
+      "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+    }
+  },
+  "metric": {
+    "aggregation": "official pooled weighted Pearson per target, averaged equally across targets",
+    "clip": [
+      -2.0,
+      2.0
+    ],
+    "id": "global_wp_clip2_v1",
+    "implementation_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/gmetric.py",
+    "mask": "need_prediction AND is_scored",
+    "training_target_clipping_changed": false,
+    "weight": "absolute value of clipped target"
+  },
+  "packet_id": "native-q8-single-model-controls-packet-r2",
+  "producer_binding": {
+    "member_array_map": {
+      "0": {
+        "hft": {
+          "gru.bias_hh_l0": "f0_hft_00",
+          "gru.bias_hh_l1": "f0_hft_01",
+          "gru.bias_ih_l0": "f0_hft_02",
+          "gru.bias_ih_l1": "f0_hft_03",
+          "gru.weight_hh_l0": "f0_hft_04",
+          "gru.weight_hh_l1": "f0_hft_05",
+          "gru.weight_ih_l0": "f0_hft_06",
+          "gru.weight_ih_l1": "f0_hft_07",
+          "head.0.bias": "f0_hft_08",
+          "head.0.weight": "f0_hft_09",
+          "head.2.bias": "f0_hft_10",
+          "head.2.weight": "f0_hft_11",
+          "inp.bias": "f0_hft_12",
+          "inp.weight": "f0_hft_13",
+          "mean": "f0_hft_14",
+          "std": "f0_hft_15"
+        },
+        "student": {
+          "gru.bias_hh_l0": "f0_student_00",
+          "gru.bias_hh_l1": "f0_student_01",
+          "gru.bias_ih_l0": "f0_student_02",
+          "gru.bias_ih_l1": "f0_student_03",
+          "gru.weight_hh_l0": "f0_student_04",
+          "gru.weight_hh_l1": "f0_student_05",
+          "gru.weight_ih_l0": "f0_student_06",
+          "gru.weight_ih_l1": "f0_student_07",
+          "head.0.bias": "f0_student_08",
+          "head.0.weight": "f0_student_09",
+          "head.2.bias": "f0_student_10",
+          "head.2.weight": "f0_student_11",
+          "inp.bias": "f0_student_12",
+          "inp.weight": "f0_student_13",
+          "mean": "f0_student_14",
+          "std": "f0_student_15"
+        }
+      },
+      "1": {
+        "hft": {
+          "gru.bias_hh_l0": "f1_hft_00",
+          "gru.bias_hh_l1": "f1_hft_01",
+          "gru.bias_ih_l0": "f1_hft_02",
+          "gru.bias_ih_l1": "f1_hft_03",
+          "gru.weight_hh_l0": "f1_hft_04",
+          "gru.weight_hh_l1": "f1_hft_05",
+          "gru.weight_ih_l0": "f1_hft_06",
+          "gru.weight_ih_l1": "f1_hft_07",
+          "head.0.bias": "f1_hft_08",
+          "head.0.weight": "f1_hft_09",
+          "head.2.bias": "f1_hft_10",
+          "head.2.weight": "f1_hft_11",
+          "inp.bias": "f1_hft_12",
+          "inp.weight": "f1_hft_13",
+          "mean": "f1_hft_14",
+          "std": "f1_hft_15"
+        },
+        "student": {
+          "gru.bias_hh_l0": "f1_student_00",
+          "gru.bias_hh_l1": "f1_student_01",
+          "gru.bias_ih_l0": "f1_student_02",
+          "gru.bias_ih_l1": "f1_student_03",
+          "gru.weight_hh_l0": "f1_student_04",
+          "gru.weight_hh_l1": "f1_student_05",
+          "gru.weight_ih_l0": "f1_student_06",
+          "gru.weight_ih_l1": "f1_student_07",
+          "head.0.bias": "f1_student_08",
+          "head.0.weight": "f1_student_09",
+          "head.2.bias": "f1_student_10",
+          "head.2.weight": "f1_student_11",
+          "inp.bias": "f1_student_12",
+          "inp.weight": "f1_student_13",
+          "mean": "f1_student_14",
+          "std": "f1_student_15"
+        }
+      }
+    },
+    "member_order": [
+      "student",
+      "hft"
+    ],
+    "preparation_incident_receipt": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r2/PREPARATION_INCIDENT_UV_R1.json",
+      "sha256": "aa3fa6dadb96709eaf8ce404caa9920d5b561f226fe24efd136e044281d9faea"
+    },
+    "python311_dependency_probe": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r2/PY311_RUNTIME_DEPENDENCY_PROBE_R1.json",
+      "sha256": "f4d05b35bd2fba3849aeb6c476a2dd5ea5411f2d30bf3dd1f2bcf9bb6610e99f"
+    },
+    "r1_contract": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r1/CONTRACT_R1.json",
+      "sha256": "b1e69c6b8184fec4843c443783492fbdb2d7becb8d4323bfcc7891ba21986897"
+    },
+    "r2_callback_fixture": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/CALLBACK_FIXTURE_R2.json",
+      "sha256": "4c8b1836a8ed3d43185a0ba0aa4419c27bba3336609a0872d7fd1dfbb8d9f7fa"
+    },
+    "r2_contract": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/CONTRACT_R2.json",
+      "sha256": "05411b977934550efc87fc4dc1f38a026140139a319948576bac71f00eb4342f"
+    },
+    "r2_quality_result": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/quality_output_r2/QUALITY_RESULT_R2.json",
+      "sha256": "c9b3327801e74ede9caa77bf8d7bee2c7cd79e0c666012eba7319b4c785e7db5"
+    },
+    "r2_terminal_handoff": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/TERMINAL_HANDOFF_R2.json",
+      "sha256": "c39f946d005c1b4b212efd78a2cd2795c29d734e708cdf840629410f67aac0ee"
+    },
+    "supplementary_callback_fixture": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r2/CALLBACK_FIXTURE_SINGLE_R2_SUPPLEMENTARY_PY313.json",
+      "sha256": "f999012c2685ed8aa9d5df483377feb718da72d0be806d0598b7d98100280ae1"
+    },
+    "supplementary_callback_fixture_contract_sha256": "fe4e3a9795a3b4fd43dae4a4a05d76cfd3f141249d0ada437cb856f174ef1b3c",
+    "weights_archive": {
+      "path": "/tmp/wnn_shared_cleanfold_q8_r3/weights.npz",
+      "sha256": "42f03cce60f6992e52b6ac508d7c551b07c0c7e86b106b0ea44dee34c7c72881"
+    },
+    "weights_receipt": {
+      "path": "/tmp/wnn_shared_cleanfold_q8_r3/WEIGHTS_RECEIPT_R1.json",
+      "sha256": "1bc10724add6d8c40e1b5202b22c2c496349a002d5fa660c7ff81630ed99db07"
+    }
+  },
+  "runtime": {
+    "cpu_quota_percent": 100,
+    "loaded_elf_path": "/tmp/wnn-shared-f0-py311-package-r1/wnn_native/wnn_native.abi3.so",
+    "loaded_elf_sha256": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326",
+    "measured_r2_reference_wall_seconds": 509.8886608989851,
+    "memory_max_bytes": 1500000000,
+    "native_package_dir": "/tmp/wnn-shared-f0-py311-package-r1",
+    "preparation_runtime": {
+      "python_executable": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "python_version": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]",
+      "python_version_prefix": [
+        3,
+        13
+      ],
+      "qualification": "supplementary only; CPython 3.13 does not satisfy the Py3.11 serving-validation gate"
+    },
+    "prospective_wall_note": "1800s is a root-admission ceiling; two standalone passes are not measured by the shared-backbone R2 timing",
+    "python_executable": "/usr/bin/python3.11",
+    "python_requirement": "CPython 3.11 is required for serving validation; the existing system interpreter currently lacks the recorded dependencies, so full scoring remains blocked until those dependencies are available in an approved existing runtime",
+    "python_version_prefix": [
+      3,
+      11
+    ],
+    "thread_count": 1,
+    "validation_dependency_probe": {
+      "command": "importlib.util.find_spec for numpy, pyarrow, torch, ruff",
+      "modules_available": {
+        "numpy": false,
+        "pyarrow": false,
+        "ruff": false,
+        "torch": false
+      },
+      "python_executable": "/usr/bin/python3.11",
+      "python_version": "3.11.16",
+      "qualification": "bounded read-only dependency check; no installation or environment creation attempted",
+      "schema": "wnn.native-single-member-python311-dependency-probe.r1",
+      "status": "blocked_missing_dependencies"
+    },
+    "wall_timeout_seconds": 1800
+  },
+  "schema": "wnn.native.single-member-cleanfold-q8-contract.r2",
+  "scope": {
+    "blend_search": false,
+    "claim": "native Q8 standalone student and HFT scores on the same exposed F0/F1 partitions used by R2",
+    "folds_are_exposed": true,
+    "fresh_holdout": false,
+    "parameter_averaging": false,
+    "public_forecast": false,
+    "training": false
+  },
+  "source_bindings": {
+    "callback_runner": {
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/scripts/benchmark_submission_callbacks.py",
+      "sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53"
+    },
+    "contract_builder": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r2/build_contract_single_r2.py",
+      "sha256": "8c91f6ebe57a2f1eb842c6e494c7c70c985e302456ae7238583f8ce8546261ad"
+    },
+    "native_elf": {
+      "path": "/tmp/wnn-shared-f0-py311-package-r1/wnn_native/wnn_native.abi3.so",
+      "sha256": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326"
+    },
+    "native_package_init": {
+      "path": "/tmp/wnn-shared-f0-py311-package-r1/wnn_native/__init__.py",
+      "sha256": "0cbf62fddaa57ad9aae99f62e03cd21af51050a02ec44f55e1027df320e05eae"
+    },
+    "native_wheel": {
+      "path": "/tmp/wnn-shared-f0-py311-wheel-r1/wnn_native-0.1.0-cp311-abi3-manylinux_2_34_x86_64.whl",
+      "sha256": "b4d71f3e06b51027d46bb74a7b2317405a69221f883e4c9c0efe2c8ea68f979f"
+    },
+    "official_metric": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    },
+    "project_utils": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/utils.py",
+      "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+    },
+    "r1_quality_consumer": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r1/run_quality.py",
+      "sha256": "596877234a66727f3fa61e83b8c53dc94114f41678a534f6447ba2df712645ab"
+    },
+    "r2_consumer": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/run_quality_r2.py",
+      "sha256": "34dde3085302482007bdd88b58e383ae525e561e5fc934a24bacb7fd76c33d4e"
+    },
+    "r2_contract_builder": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/build_contract_r2.py",
+      "sha256": "6ea12429fd8debfd83c8a189fbcf2d0973fc96cf71dbaf394ba6fae2d53a6278"
+    },
+    "single_control_consumer": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r2/run_single_controls_r2.py",
+      "sha256": "97bb37bcb4d3b80b9678a1ab2f52f56093830a6303e09e5c383cbd8d9dcd1d41"
+    },
+    "wrapped_predictor_source": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/cpu_shared_backbone_r1/benchmark_shared_f0.py",
+      "sha256": "0333be5b058298b8dab2227a2581a1540d0748aee5ae1aa50d2a59a9deab09d3"
+    }
+  },
+  "status": "prepared_pending_py311_runtime_validation_and_root_execution_admission",
+  "valid_dataset": {
+    "bytes": 5615509128,
+    "footer_bytes": 10686926,
+    "footer_sha256_including_8_byte_trailer": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+    "row_groups": 1873,
+    "rows": 37460000
+  }
+}
