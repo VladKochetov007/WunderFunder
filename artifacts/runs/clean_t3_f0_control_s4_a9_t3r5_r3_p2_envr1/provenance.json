@@ -12625,7 +12625,8 @@
     1647
   ],
   "checkpoint_sha256": {
-    "model_ep2.pt": "83a995ebc9dbee33d1b49d76b195378e518ee9e3acc42f392ab463fe7a7fa805"
+    "model_ep2.pt": "83a995ebc9dbee33d1b49d76b195378e518ee9e3acc42f392ab463fe7a7fa805",
+    "model_ep3.pt": "31eb5d5358feea9338f8488cd8c4aee6e1fb1a6c5d57c478e192053467037876"
   },
   "distillation_cache": {
     "root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r2",
@@ -12878,6 +12879,64 @@
           "bytes_sha256": "b228595dbbcb774679b4d779bcc188079da504349da481cc5b7b33743034d7ce"
         }
       }
+    },
+    {
+      "epoch_index": 3,
+      "epoch": {
+        "optimizer_attempts": 7460,
+        "amp_skipped_updates": 2,
+        "optimizer_completed_updates": 7458,
+        "ema_updates": 0,
+        "completed_batches": 746
+      },
+      "cumulative": {
+        "optimizer_attempts": 29840,
+        "amp_skipped_updates": 13,
+        "optimizer_completed_updates": 29827,
+        "ema_updates": 0,
+        "completed_batches": 2984
+      },
+      "sample_order_identity": {
+        "sampler_class": "RandomSampler",
+        "batch_size": 16,
+        "drop_last": true,
+        "loader_generator": "global CPU RNG",
+        "loader_rng": {
+          "shape": [
+            5056
+          ],
+          "dtype": "torch.uint8",
+          "bytes_sha256": "e1ca28246b6276f42395cfc9a19ffa85a9df43b646b3e99c28103eda1ab04484"
+        },
+        "sampler_generator": "global CPU RNG",
+        "sampler_rng": {
+          "shape": [
+            5056
+          ],
+          "dtype": "torch.uint8",
+          "bytes_sha256": "e1ca28246b6276f42395cfc9a19ffa85a9df43b646b3e99c28103eda1ab04484"
+        },
+        "num_workers": 0,
+        "persistent_workers": false,
+        "sampler_replacement": false,
+        "sampler_num_samples": 11940
+      },
+      "normalization_identity": {
+        "mean": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "d3517e22c9ca90cd4cc61ae9bc624f27f849285a66f9c3b79b7238168ab92d9b"
+        },
+        "std": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "b228595dbbcb774679b4d779bcc188079da504349da481cc5b7b33743034d7ce"
+        }
+      }
     }
   ],
   "training_clocks": {
@@ -12893,11 +12952,11 @@
     "next_epoch": 2
   },
   "cumulative_updates": {
-    "optimizer_attempts": 22380,
-    "amp_skipped_updates": 11,
-    "optimizer_completed_updates": 22369,
+    "optimizer_attempts": 29840,
+    "amp_skipped_updates": 13,
+    "optimizer_completed_updates": 29827,
     "ema_updates": 0,
-    "completed_batches": 2238
+    "completed_batches": 2984
   },
-  "fitting_seconds": 3009.7
+  "fitting_seconds": 4009.8
 }
