@@ -1,0 +1,18 @@
+{
+  "artifact_effect": "Only byte-identical P3 terminal attempt/log snapshots were copied into the isolated worktree before this check failed; no export command ran and no prediction output was created.",
+  "cause": "The producer stores train.parquet and valid.parquet group IDs in separate source namespaces. Equal integer IDs across different parquet files are not the same source-qualified group.",
+  "corrected_observation": {
+    "evaluation_groups": 468,
+    "fit_valid_groups": 1405,
+    "full_valid_set_equals_fit_valid_union_evaluation": true,
+    "official_full_valid_groups": 1873,
+    "same_valid_source_overlap": 0
+  },
+  "corrected_source_qualified_predicate": "Compare only fit-valid groups (valid.parquet namespace) against evaluation groups (valid.parquet namespace); train.parquet group IDs remain a separate namespace.",
+  "created_utc": "2026-10-12T13:15:27.984151+00:00",
+  "failed_predicate": "Treat unqualified integer row_group IDs from train.parquet and valid.parquet as one global namespace, then compare their union against valid evaluation row groups.",
+  "observed_bare_integer_overlap": 463,
+  "schema": "wnn.clean-t3-control-p3-export-preflight-draft-failure.r1",
+  "scope": "Preflight-only source-membership calculation. No model, source, dataset, or output was modified.",
+  "status": "PRESERVED_VALIDATION_DRAFT_ERROR; NO_EXPORT_LAUNCHED"
+}
