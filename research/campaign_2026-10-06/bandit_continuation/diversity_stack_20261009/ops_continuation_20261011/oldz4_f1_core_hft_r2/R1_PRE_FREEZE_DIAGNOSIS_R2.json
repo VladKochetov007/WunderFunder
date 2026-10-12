@@ -1,0 +1,24 @@
+{
+  "created_utc": "2026-10-12T01:55:55+00:00",
+  "draft_packet": "../oldz4_f1_core_hft_r1",
+  "observations": [
+    {
+      "actual_tree_file_count": 53,
+      "finding": "The bound c337 snapshot tree contains one file omitted from its original 52-entry manifest.",
+      "manifest_entry_count": 52,
+      "path": "src/wnn/csrc/symreg_screen.cpp",
+      "resolution": "R2 requires exact tree closure over the original manifest plus this separately hash-bound extra; it does not widen the allowed source set.",
+      "sha256": "413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7"
+    },
+    {
+      "actual_binding_key": "core_crop.r5_crop_source_sha256",
+      "finding": "The draft runner compared the actual crop producer digest against a nonexistent top-level `f0_crop_source_sha256` key.",
+      "resolution": "R2 compares against the existing nested binding and tests the complete source-binding/import path."
+    }
+  ],
+  "preserved_recipe_and_source": true,
+  "profile_fit_export_admissions": false,
+  "schema": "wnn.oldz4-f1-pre-freeze-r1-diagnosis.r1",
+  "scientific_stage_executed": false,
+  "status": "superseded_before_freeze"
+}
