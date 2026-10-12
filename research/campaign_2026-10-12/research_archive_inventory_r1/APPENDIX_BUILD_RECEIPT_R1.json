@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "status": "PRE_DRAIN_DRAFT_BUILT",
+  "purpose": "Point-in-time record of the complete source-preserving ledger appendix and metadata-only documentation catalog build.",
+  "source_main_commit": "cfea172a0b95ba42450f611ad69a407dc40eeb73",
+  "pre_drain_archive": true,
+  "handoff": {
+    "path": "research/RESEARCH_COMPLETE_HANDOFF_20261012.md",
+    "sha256": "7483987444bd0ca0e67c02ad5756f8b3eeb43f5a6e842d6aa7501b7832928f91",
+    "bytes": 8990100,
+    "local_markdown_links_checked": 29533,
+    "local_markdown_links_missing": 0
+  },
+  "generator": {
+    "path": "research/build_research_complete_handoff_appendix_20261012.py",
+    "sha256": "da4784fb2984bb0fb4547a615d27f0dcd5b523e202256c1cba8b5401a6b2154f",
+    "record_processing": "stream JSONL rows; enforce 8 MiB maximum line; preserve each raw row; no deduplication",
+    "catalog_processing": "stat-only for cataloged documentation files; no cataloged file content opened"
+  },
+  "source_ledgers": [
+    {
+      "path": "research/hypotheses.jsonl",
+      "rows": 479,
+      "distinct_ids": 458,
+      "sha256": "c3e8d1025b3ef5ecac2629ec1a57cb20d1f4a1464e31dda8a4a6f5bec6f62368"
+    },
+    {
+      "path": "research/experiments.jsonl",
+      "rows": 796,
+      "distinct_ids": 736,
+      "sha256": "ee35b1379aa6addd6291deb8ec092dd58876ea31fb91dcaad61edc5e9553e8c4"
+    },
+    {
+      "path": "research/bandit_tree/journal.jsonl",
+      "rows": 134,
+      "distinct_ids": 134,
+      "sha256": "59b18deb21b4099f9fb7e5ce823dcfc7439d038302d1dd8515f5a4ae2bd45d57"
+    }
+  ],
+  "metadata_catalog": {
+    "files": 28012,
+    "excluded_directory_or_file_entries": 609,
+    "suffix_counts": {
+      ".json": 24763,
+      ".jsonl": 888,
+      ".md": 2361
+    },
+    "roots": ["README.md", "AGENTS.md", "research/", "specs/", "writeups/", "submissions/", "artifacts/", "hpo/", "docs/"],
+    "large_json_content_opened": false,
+    "private_path_and_challenge3_filters_applied": true
+  },
+  "root_admission": {
+    "reported_by": "root controller",
+    "at_utc": "2026-10-12T14:24:12Z",
+    "campaign_memory_current_bytes": 13062963200,
+    "active_fit_worker_memory_current_bytes": 4702691328,
+    "active_fit_worker_memory_max_bytes": 5500000000,
+    "unused_fit_reservation_bytes": 797308672,
+    "support_reservation_bytes": 700000000,
+    "projected_total_bytes": 14560271872,
+    "admission_ceiling_bytes": 17000000000,
+    "campaign_cpu_quota_cores": 5,
+    "active_fit_cpu_quota_cores": 1,
+    "support_cpu_quota_cores": 1,
+    "swap_limit_bytes": 0
+  },
+  "post_build_resource_snapshot": {
+    "observed_at_utc": "2026-10-12T14:30:44Z",
+    "campaign_memory_current_bytes": 13091979264,
+    "campaign_memory_high_bytes": 18000000000,
+    "campaign_memory_max_bytes": 20000000000,
+    "active_fit_worker_memory_current_bytes": 4652769280,
+    "active_fit_worker_memory_max_bytes": 5500000000,
+    "unused_fit_reservation_bytes": 847230720,
+    "support_reservation_bytes": 700000000,
+    "projected_total_bytes": 14639209984,
+    "admission_ceiling_bytes": 17000000000,
+    "campaign_cpu_quota_cores": 5,
+    "active_fit_cpu_quota_cores": 1,
+    "swap_limit_bytes": 0
+  },
+  "bounded_invocation": {
+    "support_cpu_quota_cores": 1,
+    "support_memory_max_bytes": 700000000,
+    "support_runtime_max_seconds": 120,
+    "argv": [
+      "scripts/limited",
+      ".venv/bin/python",
+      "research/build_research_complete_handoff_appendix_20261012.py",
+      "--root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "--output",
+      "/home/vlad/development/wunder/wnn-agent-worktrees/research-complete-handoff-20261012/research/RESEARCH_COMPLETE_HANDOFF_20261012.md"
+    ],
+    "completion": "exit 0; all 29,533 local Markdown links resolved; within declared 120 second cap",
+    "exact_process_start_time_captured": false
+  },
+  "scope_limitations": [
+    "This is a pre-drain draft at source Main cfea172a; root must regenerate/update after admitted seed4 and Kaggle R7 terminal evidence lands.",
+    "The metadata catalog is navigational; filename labels do not establish evidentiary authority or independence.",
+    "Ledger records are public project scientific rows; no private agent reasoning, credentials, challenge-3 payloads, or model weights are embedded.",
+    "The build performed documentation parsing and metadata enumeration only; no model inference, fitting, package installation, or provider action occurred."
+  ]
+}

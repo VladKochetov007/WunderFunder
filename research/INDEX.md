@@ -11,6 +11,9 @@ collects methods, source-qualified evidence, submission/runtime results,
 historical ideas and failures, a linked artifact catalog, and the current
 pre-drain STOP. It remains a draft until the already admitted seed4 and Kaggle
 R7 work is terminal and root refreshes the archive inventory/tree.
+The appendix builder and its bounded source/hash receipt are linked in the
+handoff's evidence catalog; every public hypothesis, experiment and tree-journal
+row is reproduced there with source-line anchors.
 
 Latest continuation: [October12 CPU optimization, serving repair and fold/public diagnostics](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md), including independent Sol6.1/xhigh reviews, exact-package timings, unsuccessful PGO, the projection experiment, and Claude-comment reconciliation.
 
