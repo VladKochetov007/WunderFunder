@@ -1,0 +1,100 @@
+{
+  "schema": "wnn.independent_review.clean_t3_f0_kaggle_r4_r5.r1",
+  "verdict": "prepared_only; full_fit_global_timeout_finalization_blocker",
+  "reviewer": "independent critic",
+  "reviewed_packets": [
+    {
+      "revision": "R4",
+      "commit": "187a433d869825169ea9bdc5d3bd8ef75c55d612",
+      "manifest_sha256": "adb14bda7ee49ec450ac811eeef1fb1614c677f2f4e4b8dcec3199ed372c470f",
+      "kernel_sha256": "394126c8c6fd33407eea61f4d062207e56c812f0d35244bdb2d4a69e580e112a",
+      "independent_fixture_exit_code": 0,
+      "fixture_result": "pass"
+    },
+    {
+      "revision": "R5",
+      "commit": "38585335f68c027a1b4bc4f0d50cbb3214a29c6a",
+      "manifest_sha256": "69114de869be48ba376df519656dc82345fbcd727f50874cdf64c92cc182475e",
+      "kernel_sha256": "eee975e22a12939ec0d82465d3c4612491fb8354a00b6e42a176db07928243df",
+      "metadata_sha256": "d7cda84a9a08ded24d7d43b6a236db1dc9701e4683fcde92a2e968b7706fe169",
+      "independent_fixture_exit_code": 0,
+      "fixture_result": "pass",
+      "quota": {
+        "wall_ceiling_seconds": 10000,
+        "provisioned_gpu_count": 2,
+        "cohort_gpu_seconds_upper_bound": 20000,
+        "finalization_reserve_seconds": 300,
+        "test_accepts_declared_tuple": true,
+        "test_rejects_legacy_28800_gpu_seconds": true,
+        "test_rejects_device_count_mismatches": true
+      }
+    }
+  ],
+  "independent_fixtures": {
+    "limits_each": {
+      "cpu_quota": "50%",
+      "threads": 1,
+      "memory_max_bytes": 700000000,
+      "swap_max_bytes": 0,
+      "runtime_max_seconds": 120
+    },
+    "dataset_ids": [
+      "vladkochetov07/wnn-c20261004-fold0-assets",
+      "vladkochetov07/wnn-clean-t3-f0-treatment-assets-20261012-r22",
+      "vladkochetov07/wnn-clean-t3-f0-treatment-source-20261012-r22",
+      "vladkochetov07/wunder-funder"
+    ],
+    "flat_and_nested_layouts": true,
+    "wrong_owner_decoy_ignored": true,
+    "content_identity_disambiguation": true,
+    "identical_duplicate_refused": true,
+    "actual_external_consumer_observations": 18,
+    "nonparquet_sha_verified": 16,
+    "raw_parquet_hashes_deferred": [
+      "datasets/train.parquet",
+      "datasets/valid.parquet"
+    ],
+    "trainer_or_cuda_import": false,
+    "fit_or_score": false,
+    "provider_action": false
+  },
+  "producer_profile_guard_fixture": {
+    "source_summary_sha256": "828972bf04777835ea1cb515e3cceddf9839e984b9002580b17e2030c703edd6",
+    "source_worker_log_sha256": "220ee9cc858203bdc4b97d473132cc284a5a409ea6c2695c6fa681a3e8a87352",
+    "optimizer_attempts": 600,
+    "optimizer_completed_updates": 599,
+    "amp_skipped_updates": 1,
+    "gradient_nonfinite_steps": 1,
+    "completed_batches": 30,
+    "abbreviated_terminal_record_rejected": true,
+    "resource_qualification": false
+  },
+  "r4_quota_block": {
+    "wall_ceiling_seconds": 14400,
+    "provisioned_gpu_count": 2,
+    "cohort_gpu_seconds_upper_bound": 28800,
+    "reported_campaign_headroom_gpu_seconds": 21712,
+    "passes_reported_headroom": false
+  },
+  "r5_full_fit_global_deadline_cleanup": {
+    "status": "blocker",
+    "reason": "kernel outer subprocess timeout and runner worker timeout both reach deadline minus 300 seconds; outer timeout may kill runner before its catch/finally cleanup; worker is a separate session/process group",
+    "partial_pipeline_status_may_remain_running": true,
+    "stage_timeout_ceiling_sum_seconds": 19500,
+    "kernel_wall_ceiling_seconds": 10000
+  },
+  "remaining_runtime_gates": [
+    "root-authored admitted release bytes",
+    "fresh provider quota and aggregate resource admission",
+    "dataset READY readback",
+    "actual R22 T4 profile",
+    "full-fit execution and p3/CP5 FP32 export terminal validation"
+  ],
+  "claims_excluded": [
+    "R22 runtime qualification",
+    "completed R22 treatment fit or p3 export",
+    "full-fold score",
+    "public score or forecast",
+    "dispatch authorization"
+  ]
+}
