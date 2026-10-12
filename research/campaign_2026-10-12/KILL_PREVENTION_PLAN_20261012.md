@@ -1,5 +1,9 @@
 # Why recent processes were killed, and how we prevent repeats
 
+2026-10-12 user reinforcement: OOM is avoidable wasted work. Future admission targets17decimalGB committed working memory, leaving1GB below the existing18GB allowance; hard20GB/no-swap limits are unchanged. Count currentparent+unusedworkerreservation+newtaskbound, and verify host available memory before starting material allocations. Existing healthy jobs drain normally. Size discovery uses bounded metadata/real-writer fixtures or representative profiles, never intentional OOM.
+
+The R25 paired-blend scorer completed without OOM but measured1,402,112KiB peak RSS (about1.436GB), too close to its1.5GB supportcap; hierarchical max events increased7 and cannot alone attribute the boundary. Preserve the successful result and current counter observations. For this same legitimate paired analysis, future support budget should include measured arrays plus margin (approximately1.9GB), admitted only if the aggregate17GB target holds; otherwise use streaming/smaller complete panels or wait. This is not permission to raise limits after a malformed parser/staging failure. Do not rerun a completed score to manufacture a lower peak.
+
 2026-10-12. Scope: support work for the continuing Challenge2 campaign. This is
 not a reason to stop healthy GPU jobs or raise the campaign's resource limits.
 The user requested this reflection while the clean F0 student fit was running.
