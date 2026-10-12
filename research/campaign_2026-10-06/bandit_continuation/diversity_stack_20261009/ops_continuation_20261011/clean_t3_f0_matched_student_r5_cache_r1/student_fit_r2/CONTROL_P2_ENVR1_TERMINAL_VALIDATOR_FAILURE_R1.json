@@ -1,0 +1,29 @@
+{
+  "attempt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-control-s3-a9-r2-p2-envr1-20261012.json",
+  "attempt_sha256": "a4452bc57a966b5c4ccde0ada9a7b2d94dbd22fdeb439041f084d64e2c8f3820",
+  "correction_scope": "Identified R2 changes only receipt projection to update_diagnostics[-1]; repeat complete frozen consumer, contract, progress, membership, provenance, checkpoint, resource checks. Preserve R1 failure and P2 actual fit unchanged.",
+  "failure": {
+    "cause": "Receipt projection treated saved progress.update_diagnostics as a dict; frozen trainer stores it as a list of per-epoch records. This is a validator-only field-shape assumption after the actual frozen training-state load. Correct projection is the last list element; no producer, source, cache, fit, or run files were changed.",
+    "exception": "AttributeError",
+    "message": "'list' object has no attribute 'get'",
+    "traceback_location": "<stdin>, line 111"
+  },
+  "no_output_snapshot_emitted_by_failed_validator": true,
+  "no_scientific_grade": true,
+  "no_validation_receipt_emitted": true,
+  "observed_utc": "2026-10-12T12:25:16.919773+00:00",
+  "producer_status": {
+    "attempt_id": "clean-t3-f0-control-s3-a9-r2-p2-envr1-20261012",
+    "exit_status": 0,
+    "phase": "terminal",
+    "status": "finished",
+    "training_state_bytes": 11825903,
+    "training_state_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p2_envr1/training_state.pt",
+    "training_state_sha256": "80eb6d3e85646248a997c04f20ca3e3ae61eb5d7fdcd7501752cc47359ad25d6"
+  },
+  "schema": "wnn.clean-t3-p2-terminal-validator-attempt-failure.r1",
+  "status": "VALIDATOR_EXECUTION_FAILURE_NO_PRODUCER_FAILURE",
+  "validator_attempt": "CONTROL_P2_ENVR1_TERMINAL_VALIDATION_R1 inline bounded 1 CPU / 1.5 GB / 120 s consumer/provenance check",
+  "worker_log_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/logs/clean-t3-f0-control-s3-a9-r2-p2-envr1-20261012.log",
+  "worker_log_sha256": "394883e3e5a8699602b457e01a156dad030fb329c07740d8fbce5c7abe30669f"
+}
