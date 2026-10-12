@@ -260,3 +260,9 @@ PID52127/run-p52127-i8404822.scope copied1.69GB cache into/tmp under650MB suppor
 
 ### 2026-10-12T11:46Z — P2 omitted project-root environment
 Continuationtemplate scienceargs were correct but executionprefix omittedWNN_PROJECT_ROOT; frozenwrapper defaulted/root/wnn and hitPermissionError readingchain_folds beforeCUDA. Rootreview missedenvprefix. P1exactenvprefix reinstatedundernewattempt/run p2-envr1; actualep2batch20provescorrectresume. Preserveoriginalfailedtemplate andreceipt; allfutureboundlaunchesmustcomparecompleteargv+environment, notjusttrainerargtail. P3resumealias mustfollowcorrectedsuccessfulproducer.
+### 2026-10-12T13:41Z — seed4 template output aliases caught before launch
+
+Copied P1 contract initially changed argv/run identity but retained seed3 stage.outputs and resume_state_output paths. Root caught the inconsistency before admission; actor corrected all aliases and sealed c3ba9281 contract/af9e7c01 launch manifest. No worker failed or valid checkpoint overwritten. Future seed/attempt substitution must cover declared outputs and downstream resume bindings as well as argv. Compare the exact final committed bytes; an intermediate manifest hash changed during schema correction and was explicitly superseded before launch. Actual seed4 first fitting batches now verified.
+
+Observer correction: plain systemctl queried the system manager and falsely suggested the user unit was absent. Root and actor verify systemctl --user against the persisted attempt unit, MainPID423977 active. Read actual controller runtime/logs path for batch progress; an artifact setup log alone can miss live fitting lines. Preserve no-OOM distinctions and avoid repairs to healthy units on an observation-path mistake.
+

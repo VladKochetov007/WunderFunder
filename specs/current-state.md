@@ -608,3 +608,13 @@ Kaggle R7 treatment-only kernel vladkochetov07/wnn-clean-t3-f0-student-20261012-
 
 Continuation repairs exposed receipt-assembly/schema and source-qualification defects, not scientific negatives. Persist actual producer-schema fixtures, full environment/argv, explicit dataset versions and provider title checks; avoid repeated bespoke predicates, bare integer group comparisons, or refitting valid checkpoints. Keep original failure receipts and corrected successor IDs.
 
+### R25 — 2026-10-12T13:41:25Z: seed4 control actually fitting
+
+No new scientific/public score since R24. Exact clean F0 control seed4 starts13:39:49Z, actual epoch0 batch20/746 observed in controller log (finite loss.4840/lr6.07e-6). Own matching initializer c20261003_combo_s4_f0@ep3 checkpoint0203b109…/provenancec9fb2631…, same excluded468 evaluation groups and audited T3 targets. This tests recipe variation across seed-specific initializers and student seeds, not pure RNG variation or independent teachers. Profile/shape/source unchanged; no repeated profile. Independent root and native critic launch-delta review passed. Root conditional release covers bounded P1/P2/P3 continuation after real state hashes and next_epoch2/4, then fixedCP5 feature-only export/officialgrade. Four owned successors are not four generic queue items (genericpending0).
+
+Fresh admission parent~12.05GB+5.5GB reserve=17.55GB<18GB; live workerpeak4.949GB/5.5GB, observedVRAM2.181GB, parentpeak13.790GB, max/OOM/kill deltas0/no swap. Healthy fit/frozen source preserved. Approximate complete6e fit estimate1¾hours from observed seed3 cadence, export/grade separately; no ZIP/publicgain ETA from this confirmation.
+
+Kaggle R7 version1 latest13:33:41Z remains QUEUED, no T4 profile/fit evidence, exact collector/operator ready. Accountused72115.485/108000GPU-s; campaignhead21712.352; controllerhold21600, providerreserved0. No extra cohort admitted against reserved headroom. Vast B latest tick13:33:30Z no ownedinstance rows; remoteaccess/collection unresolved, no current balance claim/new spending. Existing durable timers active; disabled gradebank/bulkpull/HPO unchanged. D/E frozen reviewed human trial ZIPs and plots remain ready.
+
+Target-treatment clarification: stored homogeneous cache T=float32(.8125*mean3), no cache-time clipping; frozen trainer uses .1*clip(y,2)+.9*clip(T,2). Generic provenance teacher coefficient.1 rows are family-lineage metadata, not the actual numerical homogeneous mixture. Nominal preclip per-teacher target coefficient .24375; clipping makes that linear shorthand incomplete. Preserve original receipts; explicit target contract/source control interpretation.
+
