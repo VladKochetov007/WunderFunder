@@ -33,3 +33,8 @@ promote it. Missing references and ambiguous associations remain visible.
 Remote refs have since been refreshed by the user. See the [post-fetch branch review](campaign_2026-10-06/branch_teacher_audit/POST_FETCH_INDEX.md) for the completed teacher result and new child protocols; the earlier cached report is retained.
 
 The standalone [general research methodology](RESEARCH_METHODS.md) describes agent/model diversity, literature ideation, bandit-tree allocation, clean-context reframing, sustained experiments and evidence preservation without competition-specific recipes or metric values.
+
+
+### 2026-10-12 compact Q8 all-data portfolio
+
+[Packages and exact runtime evidence](../submissions/10-12-best-r1/README_R1.md); [root human-upload release](../submissions/10-12-best-r1/ROOT_UPLOAD_RELEASE_R1.json); [independent artifact review](../artifacts/submission_review_10_12_best_r1/SUBMISSION_PACKAGE_REVIEW_R1.json). Three fixed blends, known Q8runtime/FP32storage; Cpaired cost1.438xpublicreference locally, noEPYC/time/publicscore guarantee. Source-strength/CV, publiccalibration and nativeoptimization remain parallel.
