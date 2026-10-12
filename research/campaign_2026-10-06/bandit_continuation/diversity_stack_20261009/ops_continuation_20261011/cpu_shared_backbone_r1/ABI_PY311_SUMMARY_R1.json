@@ -1,0 +1,113 @@
+{
+  "schema": "wnn.shared-f0-python311-abi-correction.r1",
+  "status": "PASS_ABI_AND_ONE_PY311_PARITY_RUNTIME_PAIR_BENCHMARK_ONLY",
+  "promotion": "not_requested; target AMD runtime, full-stream quality, and final package gates remain",
+  "source": {
+    "branch": "codex/shared-hft-backbone-20261012",
+    "base_commit": "759c1450cd4852899ac518c2db1fdbe997af6ba1",
+    "source_commit": "70749a118e1333fd04f1e09596de37b1d9126c80",
+    "source_tree": "9287db9fb059aac4fbfe027c8209f69204c058b2",
+    "frozen_benchmark_sha256": "0333be5b058298b8dab2227a2581a1540d0748aee5ae1aa50d2a59a9deab09d3",
+    "native_python_rs_sha256": "d9673f45b4e411177435f44bdf87447c0bdeec94a844160b8eb799f3b19f363a",
+    "native_rnn_fast_rs_sha256": "6f6d1868a3d2b92b5efc1829013e2b6b9387cede3096a64548343b38727d43ec",
+    "cargo_toml_sha256": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+    "pyproject_toml_sha256": "ce3fef53184a0fecae9a0928196f8a7e5359e64ed699470ae6419cd6c1fc907d",
+    "previous_receipt_source_commit_transcription": "70749a11b6e71209f4874e44e115e8bb78e5bdee",
+    "previous_receipts_preserved": true
+  },
+  "python311_build": {
+    "interpreter": "/tmp/wnn-projection-precompute-r1/py311/bin/python",
+    "version": "3.11.16",
+    "soabi": "cpython-311-x86_64-linux-gnu",
+    "numpy": "2.2.6",
+    "maturin": "1.15.0",
+    "cargo": "1.94.0",
+    "rustc": "1.94.0 (LLVM 21.1.8)",
+    "pyo3": "0.29.2 abi3-py311 extension-module",
+    "wheel": "/tmp/wnn-shared-f0-py311-wheel-r1/wnn_native-0.1.0-cp311-abi3-manylinux_2_34_x86_64.whl",
+    "wheel_sha256": "b4d71f3e06b51027d46bb74a7b2317405a69221f883e4c9c0efe2c8ea68f979f",
+    "extension_path": "wnn_native/wnn_native.abi3.so",
+    "extension_sha256": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326"
+  },
+  "abi": {
+    "checker": "scripts/check_submission_abi.py",
+    "checker_sha256": "a00bfca90d444c338eb7aff5ac4c99d6693aca552475ba1e6a782c94c9d76f13",
+    "passed": true,
+    "needed": ["libgcc_s.so.1", "libm.so.6", "libc.so.6", "ld-linux-x86-64.so.2"],
+    "libpython_needed": false,
+    "maximum_glibc": "2.34",
+    "target_glibc_envelope": "bookworm GLIBC 2.36",
+    "python_ld_library_path_workaround": false
+  },
+  "runtime_elf_binding": {
+    "pair_recorded_module_path": "/tmp/wnn-shared-f0-py311-package-r1/wnn_native/__init__.py",
+    "pair_recorded_module_sha256_is_package_initializer": "0cbf62fddaa57ad9aae99f62e03cd21af51050a02ec44f55e1027df320e05eae",
+    "frozen_loader": "benchmark_shared_f0.py::load_native_module imports wnn_native",
+    "package_relative_import": "from .wnn_native import *",
+    "import_probe_receipt": "ELF_IMPORT_PY311_R1.json",
+    "import_probe_interpreter": "/tmp/wnn-projection-precompute-r1/py311/bin/python",
+    "import_probe_pythonpath": "/tmp/wnn-shared-f0-py311-package-r1",
+    "resolved_extension_path": "/tmp/wnn-shared-f0-py311-package-r1/wnn_native/wnn_native.abi3.so",
+    "resolved_extension_sha256": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326",
+    "resolved_extension_matches_abi_wheel": true,
+    "pair_receipt_directly_recorded_elf_hash": false,
+    "binding_basis": "pair-recorded package path plus frozen relative extension import plus same-interpreter/path import probe; the raw pair receipt did not capture sys.modules"
+  },
+  "same_path_control": {
+    "benchmark_script_sha256": "0333be5b058298b8dab2227a2581a1540d0748aee5ae1aa50d2a59a9deab09d3",
+    "bridge_script_sha256": "12f5305ff74d28a03ff7859a0320937f84d7fb4f34b2fc3a8183f71804ba2d59",
+    "callback_runner_sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53",
+    "callback_runner_utils_sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+    "same_api_and_features": true,
+    "same_constructor_arguments_except_shared_backbone": true,
+    "same_weights": true,
+    "same_fixed_output_weights": [0.5, 0.5],
+    "baseline_shared_backbone": false,
+    "candidate_shared_backbone": true,
+    "precision": "q8vnni",
+    "student_checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "hft_checkpoint_sha256": "2bde556119ededc3693733280444a42f0f64138a2e3759bed6b068cb72f18ec8"
+  },
+  "pair": {
+    "receipt": "PY311_PAIR_R1.json",
+    "receipt_sha256": "1c3b89bb4e2e79d4dc224fe57111f097a557076a83c2478492447fc987a1c249",
+    "order": ["separate", "shared"],
+    "sequences": 10,
+    "rows_per_sequence": 20000,
+    "reset_passes": 2,
+    "callbacks_per_method": 400000,
+    "panel_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "labels_loaded": false,
+    "separate_mean_us_per_row": 58.508385547500005,
+    "shared_mean_us_per_row": 28.72919147,
+    "runtime_gain_fraction": 0.5089730950330834,
+    "prediction_hashes_equal": true,
+    "reset_replay_bitwise_identical": true,
+    "cpu": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz; CPU 0",
+    "cpu_quota": "100%",
+    "threads": 1,
+    "child_memory_max_bytes": 1199996928,
+    "child_memory_peak_bytes": 209920000,
+    "child_memory_events_zero": true
+  },
+  "python311_self_test": {
+    "receipt": "API_SELF_TEST_PY311_R1.json",
+    "default_equals_explicit_disabled": true,
+    "shared_q8_equal": true,
+    "incompatible_trunk_rejected": true
+  },
+  "weight_bridge": {
+    "export_receipt_sha256": "1ece1d9a1891befe95ee9f3be1d6c6e01eb2fadcf9da616f1f0f8589aba13ee0",
+    "weights_archive_sha256": "774a33de04b8ad330fab24d469bd70217f1341dcaa3361f8b195f8d7015f9120",
+    "bridge_changes_only_checkpoint_array_source": true
+  },
+  "resource_envelope": {
+    "campaign_slice": "wnn-campaign.slice",
+    "cpu_quota_percent": 100,
+    "threads": 1,
+    "memory_max_bytes": 1200000000,
+    "runtime_max_seconds_per_command": 120,
+    "cargo_build_jobs": 1,
+    "no_swap": true
+  }
+}

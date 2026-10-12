@@ -1,0 +1,18 @@
+{
+  "schema": "wnn.shared-f0-python311-elf-import-probe.r1",
+  "probe_scope": "post-pair import-path corroboration; no callback benchmark",
+  "interpreter": "/tmp/wnn-projection-precompute-r1/py311/bin/python",
+  "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+  "soabi": "cpython-311-x86_64-linux-gnu",
+  "pythonpath": "/tmp/wnn-shared-f0-py311-package-r1",
+  "package_path": "/tmp/wnn-shared-f0-py311-package-r1/wnn_native/__init__.py",
+  "package_sha256": "0cbf62fddaa57ad9aae99f62e03cd21af51050a02ec44f55e1027df320e05eae",
+  "frozen_loader": "benchmark_shared_f0.py::load_native_module imports wnn_native",
+  "package_import": "from .wnn_native import *",
+  "resolved_extension_path": "/tmp/wnn-shared-f0-py311-package-r1/wnn_native/wnn_native.abi3.so",
+  "resolved_extension_sha256": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326",
+  "matches_extension_from_abi_wheel": true,
+  "pair_runtime_path_matches_package": true,
+  "pair_receipt_directly_recorded_extension_hash": false,
+  "conclusion": "The pair-recorded package path plus frozen relative import resolves to the same ELF bytes validated by the ABI checker; the raw pair receipt did not directly serialize the loaded extension hash."
+}
