@@ -448,7 +448,7 @@
     {
       "id": "arm:supervision-frontier",
       "parent_id": "family:objective",
-      "title": "Distillation alpha \u00d7 bootstrap horizon",
+      "title": "Distillation alpha × bootstrap horizon",
       "kind": "arm",
       "hypothesis_ids": [
         "H-180",
@@ -1004,7 +1004,7 @@
     {
       "id": "arm:transformer-reanchor-interaction",
       "parent_id": "arm:transformer-student",
-      "title": "Attention-teacher transfer \u00d7 origin-label reanchor",
+      "title": "Attention-teacher transfer × origin-label reanchor",
       "kind": "arm",
       "status": "not_tested",
       "hypothesis_ids": [],
@@ -1033,7 +1033,7 @@
     {
       "id": "arm:cadence-denominator-interaction",
       "parent_id": "arm:cadence",
-      "title": "Gradient cadence \u00d7 measured denominator",
+      "title": "Gradient cadence × measured denominator",
       "kind": "arm",
       "status": "not_tested",
       "hypothesis_ids": [],
@@ -2285,7 +2285,7 @@
         "eligible": true,
         "priority": 3,
         "launch_authorized": false,
-        "reason": "Compute time-independent B\u00d7T inputprojection as one dense operation, preserve reset-after hidden recurrence and chunkstate.",
+        "reason": "Compute time-independent B×T inputprojection as one dense operation, preserve reset-after hidden recurrence and chunkstate.",
         "authorization_scope": "Sourcegroundedidea only; preservequeuedE463 andfreezeactualproductionrecipe/resources beforefits."
       }
     },
@@ -2607,7 +2607,7 @@
     {
       "id": "arm:wide-baseline-heterogeneous",
       "parent_id": "family:teacher",
-      "title": "Wide own baseline family \u00d7 heterogeneous student distillation",
+      "title": "Wide own baseline family × heterogeneous student distillation",
       "kind": "arm",
       "hypothesis_ids": [
         "H-230"
@@ -2652,7 +2652,7 @@
     {
       "id": "arm:wide-event-feature-teacher",
       "parent_id": "family:teacher",
-      "title": "Own teacher capacity \u00d7 live causal event features",
+      "title": "Own teacher capacity × live causal event features",
       "kind": "arm",
       "hypothesis_ids": [
         "H-232"
@@ -3154,7 +3154,7 @@
     {
       "id": "arm:feature-context-teacher-interaction",
       "parent_id": "family:ensemble",
-      "title": "Causal feature regime context \u00d7 complementary teacher",
+      "title": "Causal feature regime context × complementary teacher",
       "kind": "arm",
       "hypothesis_ids": [
         "H-252"
@@ -4789,7 +4789,7 @@
     {
       "id": "arm:optimizer-loss-diversity",
       "parent_id": "lineage:diverse-model-combinations",
-      "title": "Optimizer \u00d7 robust-loss interaction and conditional blend value",
+      "title": "Optimizer × robust-loss interaction and conditional blend value",
       "kind": "arm",
       "hypothesis_ids": [
         "H-291"
@@ -4983,18 +4983,29 @@
       "hypothesis_ids": [
         "H-392"
       ],
-      "experiment_ids": [],
+      "experiment_ids": [
+        "E-OLDZ4-F1-PARENT-EXPORT-GRADE-20261012-R3",
+        "E-OLDZ4-F1-STUDENT-CP1-20261012-R4",
+        "E-OLD-NEW-F1-FIXED-HALF-20261012-R1",
+        "E-OLDZ4-F1-CORE-CROP-20261012-R2",
+        "E-OLDZ4-F1-HFT-PROFILE-20261012-R2",
+        "E-OLDZ4-F1-HFT-FIT-RESOURCE-20261012-R3"
+      ],
       "artifacts": [
         "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/STRATEGY_REVIEW_EXECUTION_20261011_R1.md",
         "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/STRATEGY_BRIEF_ADOPTION_R1.json",
-        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/P0_CLEAN_PIPELINE_SUCCESSOR_PREPARATION_R1.json"
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/P0_CLEAN_PIPELINE_SUCCESSOR_PREPARATION_R1.json",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_f1_parent_export_grade_20261012_r1/F1_PARENT_EXPORT_GRADE_R1.json",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/student_export_handoff_20261012/OPERATOR_HANDOFF_R1.json",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_new_f1_fixed_half_20261012_r1/EVIDENCE_R1.json",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/oldz4_f1_hft_resource_fit_r3/ROOT_F1_HFT_RESOURCE_ONLY_FIT_LAUNCH_R3.json"
       ],
-      "status": "preregistered_complete_cleanfold_dependencies_missing",
+      "status": "oldF0_complete_oldF1_fixed_pair_positive_imprecise_HFT_fit_complete_export_repair_owned_clean_newF0_pending",
       "claim_scope": "Quality of matched complete served endpoint, not additive ancestors, singlefold public forecast or prediction disagreement. All-data finals have no heldout score.",
       "related_nodes": [
         "arm:heterogeneous-teacher-compression"
       ],
-      "next_test": "Audit complete HFT, parent and teacher ancestry; prepare missing clean-fold T3, parent and student pipelines, then fixed equal old/old, new/new and old/new pairs on identical excluded panels.",
+      "next_test": "Finish faithful F1 HFT and fixed output mixtures; source-qualified old/new F1 pair, clean strong-T3 F0 Kaggle terminal delivery, exact native full-quality gates. Preserve frozen sources and own ancestry.",
       "allocation": {
         "eligible": true,
         "priority": 6,
@@ -5096,9 +5107,10 @@
         "E-CPU-EXACT-MAX-20261012-R1"
       ],
       "artifacts": [
-        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md"
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/exact_activation_fusion_20261012_r1/ROOT_ACTIVATION_MAX_REVIEW_R1.json"
       ],
-      "status": "pgo_projection_not_promoted_exact_activation_max_isolated_test_in_progress",
+      "status": "pgo_projection_activation_max_not_promoted_other_exact_arms_proposed",
       "numeric_prior": null,
       "allocation": {
         "eligible": true,
@@ -5127,12 +5139,15 @@
         "H-CPU-SHARED-01"
       ],
       "experiment_ids": [
-        "E-OLDZ4-F0-SHARED-HALF-BLEND-20261012-R1"
+        "E-OLDZ4-F0-SHARED-HALF-BLEND-20261012-R1",
+        "E-CPU-SHARED-F0-20261012-R1"
       ],
       "artifacts": [
-        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/RESEARCH_SYNTHESIS_R1.md"
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/RESEARCH_SYNTHESIS_R1.md",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/cpu_shared_backbone_r1/ROOT_SHARED_BACKBONE_REVIEW_R1.json",
+        "research/campaign_2026-10-12/independent_reviews/shared-hft-backbone-20261012/SHARED_HFT_BACKBONE_INDEPENDENT_REVIEW_R1.json"
       ],
-      "status": "conditional_exposed_seed1_positive_imprecise_serving_pending",
+      "status": "defaultoff_experimental_source_integrated_independent_static_PASS_fullfold_native_and_package_gates_pending",
       "numeric_prior": null,
       "allocation": {
         "eligible": true,
@@ -5195,12 +5210,14 @@
         "H-PUBLIC-REG-01"
       ],
       "experiment_ids": [
-        "E-PUBLIC-REG-AUDIT-20261012-R1"
+        "E-PUBLIC-REG-AUDIT-20261012-R1",
+        "E-PUBLIC-REG-MODELS-20261012-R1-R2"
       ],
       "artifacts": [
-        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/public_score_regression_20261012_r1/ROOT_CONTRACT_R1.md"
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/public_score_regression_20261012_r1/ROOT_CONTRACT_R1.md",
+        "research/campaign_2026-10-12/public_score_regression_r1/ROOT_SYNTHESIS_R1.md"
       ],
-      "status": "source_audit_bounded_cpu_analysis_in_progress",
+      "status": "bounded_retrospective_diagnostic_complete_no_current_forecast",
       "numeric_prior": null,
       "allocation": {
         "eligible": true,

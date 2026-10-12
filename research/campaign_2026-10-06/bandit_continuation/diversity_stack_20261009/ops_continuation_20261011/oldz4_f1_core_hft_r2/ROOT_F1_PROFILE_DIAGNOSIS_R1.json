@@ -1,0 +1,56 @@
+{
+  "schema": "wnn.root.f1-hft-profile-diagnosis.r1",
+  "created_utc": "2026-10-12T02:28:42.718156+00:00",
+  "attempt": "oldz4-r2-f1-s3-hft-profile",
+  "attempt_sha256": "b2ce5aad59dc8ad6d13f5aec44dc6cc56f8d0713391b4d9c85b66d8aec8fe9d8",
+  "log_sha256": "13c5af924dc95130ee78eb0b1546a8e0002f515408535367bcd422cf3eb568fb",
+  "finished_utc": "2026-10-12T02:16:20.233586+00:00",
+  "actual_device": "cuda",
+  "update_evidence": {
+    "optimizer_attempts": 270,
+    "optimizer_completed_updates": 268,
+    "amp_skipped_updates": 2,
+    "grad_scaler_enabled": true,
+    "loss_checks": 270,
+    "loss_finite": true,
+    "gradient_finite": false,
+    "gradient_check_basis": "GradScaler found-inf flags after unscale, before optimizer step",
+    "gradient_stats_steps": 270,
+    "gradient_stats_nonfinite_steps": 2,
+    "counts_consistent": true,
+    "valid_for_throughput": false
+  },
+  "peak_resource_fields": {
+    "peak_observed_vram_bytes": 2003828736,
+    "peak_parent_ram_bytes": 12289634304,
+    "peak_ram_bytes": 3610038272
+  },
+  "final_memory_event_deltas": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_event_deltas": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "classification": "Strict numerical-profile guard failure from two AMP-protected skips; actual device/update/resource evidence, no scientific model-quality negative.",
+  "valid_clean_gradient_throughput_profile": false,
+  "original_profile_and_fit_gate_unchanged": true,
+  "planned_identified_successor": "oldz4-r3-f1-s3-hft-fit-resource; same original fit recipe, separately bounded resource-only admission after source/actual evidence checks",
+  "fit_admitted_yet": false,
+  "support_attempt_notes": [
+    "Root crop support first failed before imports because PYTHONHASHSEED was omitted; corrected explicitenv ran once successfully.",
+    "Root support exact20e9 cgroup assertion failed on legitimate page-rounded19999997952; correct read-only bounds retained unchangedcaps.",
+    "Root ledger updater initially used nodes instead of actual curated_nodes; appended records were retained and only frontier mutation resumed, without reappending."
+  ]
+}

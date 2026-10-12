@@ -1,0 +1,136 @@
+{
+  "schema": "wnn.root.parallel-frontier.r2",
+  "created_utc": "2026-10-12T02:44:33.218223+00:00",
+  "latest_scope": "Inference optimization and maximizing submission score stay parallel with requested public calibration",
+  "local": {
+    "last_attempt": "oldz4-r3-f1-s3-hft-fit-resource",
+    "status": "finished",
+    "exit_status": 0,
+    "finished_utc": "2026-10-12T02:34:00.316449+00:00",
+    "next_dependency": "Actual terminal audit + identified export-only consumer repair/root release",
+    "owner": "root admission, Luna submission_packager export/grade",
+    "generic_pending": 0
+  },
+  "quality": {
+    "fixed_F1_old_new_half": 0.67182,
+    "n_old_pipeline_seeds": 1,
+    "groups": 457,
+    "components": 149,
+    "conditional_ci": [
+      -0.00043,
+      0.001915
+    ],
+    "exposed": true,
+    "pre_native": true
+  },
+  "inference": {
+    "shared_backbone_static_review": "PASS_with_deployment_gates",
+    "source_default_off": true,
+    "next": "Frozen fullfold native Q8 F0/F1 quality consumer, root admission",
+    "owner": "Luna batch_packet_builder"
+  },
+  "kaggle": {
+    "cli_package_version": "2.2.4",
+    "observed_at_utc": "2026-10-12T02:39:09+00:00",
+    "quota": {
+      "gpu": {
+        "campaign_baseline_used_seconds": 37047.321,
+        "campaign_cap_seconds": 56780.516,
+        "campaign_headroom_seconds": 21410.280025000007,
+        "campaign_used_seconds": 35370.235974999996,
+        "reserved_seconds": 0.0,
+        "total_allowed_seconds": 108000.0,
+        "used_seconds": 72417.556975
+      },
+      "tpu": {
+        "campaign_baseline_used_seconds": 134.623,
+        "campaign_cap_seconds": 7200.0,
+        "campaign_headroom_seconds": 7334.623,
+        "campaign_used_seconds": -134.623,
+        "reserved_seconds": 0.0,
+        "total_allowed_seconds": 72000.0,
+        "used_seconds": 0.0
+      }
+    },
+    "quota_refresh_utc": "2026-10-17T00:00:00",
+    "session_id": {
+      "reason": "Kaggle status JSON currently omits kernel_session_id; do not substitute versionNumber.",
+      "value": null
+    },
+    "source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel",
+    "status": [
+      {
+        "kernel": "vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "tpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../../../cloud_preflight/E463_TPU_V7_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v2",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "GPU_R2_TERMINAL_OPERATOR_RECEIPT_R1.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-kaggle-crossfold-h382-20261011-r3",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.COMPLETE",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../../ops_continuation_20261011/kaggle_h382_delivery_20261011_r3/R3_TERMINAL_OPERATOR_RECEIPT.json",
+          "terminal_status": "KernelWorkerStatus.COMPLETE"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-h382-export-recovery-20261011-r4",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.COMPLETE",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../ops_continuation_20261011/kaggle_h382_delivery_20261011_r4/R4_TERMINAL_OPERATOR_RECEIPT.json",
+          "terminal_status": "KernelWorkerStatus.COMPLETE"
+        }
+      },
+      {
+        "failure_message": "",
+        "kernel": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5-runner",
+        "monitoring_state": "polling_until_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.RUNNING",
+        "terminal_evidence_receipt": "../ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1/terminal_collection_v2/R6_V2_TERMINAL_OPERATOR_RECEIPT_R1.json"
+      }
+    ]
+  },
+  "vast": {
+    "latest_receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_0138_r1/VAST_B_READ_ONLY_R1.json",
+    "credit": 0,
+    "owned_instance_row_present": false,
+    "new_paid_action": false
+  },
+  "public_regression": {
+    "status": "complete_diagnostic_no_current_forecast",
+    "evidence": "research/campaign_2026-10-12/public_score_regression_r1/ROOT_SYNTHESIS_R1.md"
+  },
+  "new_submission_released": false,
+  "current_canary": 11,
+  "withdrawn": 12,
+  "local_limits": {
+    "cpu_cores": 5,
+    "memory_high_bytes": 18000000000,
+    "memory_max_bytes": 20000000000,
+    "swap_bytes": 0,
+    "observed_vram_bytes": 5000000000
+  }
+}
