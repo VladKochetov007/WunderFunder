@@ -1,0 +1,134 @@
+{
+  "schema": "wnn.independent_submission_technical_review.v1",
+  "status": "pass_with_nonblocking_documentation_items",
+  "reviewed_utc": "2026-10-12T13:22:23Z",
+  "reviewer_scope": "Exact D/E archive, serving ABI/precision, source and exported-weight binding, deterministic callback evidence, package size, and README claims. No quality ranking or score was computed.",
+  "reviewed_main_revision": "f93a91e3afb6c1f0c99232092e10163d4fbf008c",
+  "source_packet": {
+    "manifest": {
+      "path": "submissions/10-12-best-r2/PACKET_MANIFEST_R1.json",
+      "sha256": "c8c834bd5095ba05d226b2bb12e504bcde6f12f1e2f7c3f5af19de5c19ecaed6"
+    },
+    "readme": {
+      "path": "submissions/10-12-best-r2/README_R1.md",
+      "sha256": "6a3414b37ad4612e77daab270f30a36dce451ee484cea1cbdc6142707ff35e49"
+    }
+  },
+  "candidates": [
+    {
+      "id": "D_h390s3_z4_z5_q8_20261012",
+      "zip": {
+        "path": "submissions/10-12-best-r2/D_h390s3_z4_z5_q8_20261012.zip",
+        "sha256": "bf9f48dbb05668181038d28386a076774d41146efb7c4f1680fcd724a303df09",
+        "bytes": 13178260,
+        "under_20000000_bytes": true,
+        "zip_crc": "pass"
+      },
+      "build_receipt": {
+        "path": "submissions/10-12-best-r2/D_h390s3_z4_z5_q8_20261012_BUILD_R1.json",
+        "sha256": "1c723c3c75ec8d05ce72b095b2ed3d49a5d9e06c2c57325559425694764c89dc"
+      },
+      "callback_profile": {
+        "path": "submissions/10-12-best-r2/profiles/D_CALLBACK_10SEQ_R1.json",
+        "sha256": "12e724af9b14b39bf239bdd8efb5725da7a98d3fe2298892396a1aef5d25d8a1",
+        "exact_zip_binding": "pass",
+        "python": "3.11.16",
+        "native_level": "v3",
+        "precision": "q8vnni",
+        "member_count": 3,
+        "complete_sequences": 10,
+        "rows_per_sequence": 20000,
+        "repeats": 2,
+        "callback_calls": 400000,
+        "reset_replay_bitwise_equal": true,
+        "mean_us_per_row": 113.59713253250001,
+        "cgroup_memory_peak_bytes": 216834048,
+        "cgroup_memory_max_bytes": 1499996160,
+        "oom_or_max_events": 0
+      },
+      "fixed_coefficients": [0.25, 0.5, 0.25],
+      "fixed_coefficient_sum": 1.0,
+      "source_checkpoint_and_provenance_files_verified": 5
+    },
+    {
+      "id": "E_c75_plus_z5_q8_20261012",
+      "zip": {
+        "path": "submissions/10-12-best-r2/E_c75_plus_z5_q8_20261012.zip",
+        "sha256": "2aed2137c347344146e3481c83388d64bd5060b1c13bb66554b0bf9cc0027024",
+        "bytes": 16805643,
+        "under_20000000_bytes": true,
+        "zip_crc": "pass"
+      },
+      "build_receipt": {
+        "path": "submissions/10-12-best-r2/E_c75_plus_z5_q8_20261012_BUILD_R1.json",
+        "sha256": "5d760deaacd96f04975e11ff0b8910431363b99e2a97f696f13d953cc0dae774"
+      },
+      "callback_profile": {
+        "path": "submissions/10-12-best-r2/profiles/E_CALLBACK_10SEQ_R1.json",
+        "sha256": "15aaa45f1487532ff5620d6c2ac95a656bd310df17652d31fbea75f2a59841d9",
+        "exact_zip_binding": "pass",
+        "python": "3.11.16",
+        "native_level": "v3",
+        "precision": "q8vnni",
+        "member_count": 4,
+        "complete_sequences": 10,
+        "rows_per_sequence": 20000,
+        "repeats": 2,
+        "callback_calls": 400000,
+        "reset_replay_bitwise_equal": true,
+        "mean_us_per_row": 152.619198245,
+        "cgroup_memory_peak_bytes": 225468416,
+        "cgroup_memory_max_bytes": 1499996160,
+        "oom_or_max_events": 0
+      },
+      "fixed_coefficients": [0.1875, 0.1875, 0.375, 0.25],
+      "fixed_coefficient_sum": 1.0,
+      "source_checkpoint_and_provenance_files_verified": 6
+    }
+  ],
+  "checks": {
+    "zip_member_inventory_and_sha256_equal_build_receipts": "pass",
+    "npz_keys_shapes_dtypes_tensor_sha256_and_finiteness_equal_build_receipts": "pass",
+    "all_referenced_source_checkpoint_and_provenance_hashes_equal_disk": "pass",
+    "solution_py_and_native_library_hashes_equal_source_and_archive": "pass",
+    "members_json_order_source_and_coefficients_equal_fixed_manifest": "pass",
+    "precision_file_and_callback_receipts_select_q8vnni": "pass",
+    "z5_weights_match_i16_and_single_q8_endpoint_payload": {
+      "status": "pass",
+      "weights_bytes": 4435640,
+      "weights_sha256": "b302153aa55701475e6a466ccacbf5d05c5142a2294eafd89675ab7386d4df40",
+      "i16_zip_sha256": "60834d3190b76832f038abbdc505c6ac526d44b8f3a191c2e980e2f14f1ee1cc",
+      "q8_single_zip_sha256": "75a7eb3fed92d32157e5ce8d837c95684178b184d59eda6f55e1fab0e7b95044",
+      "interpretation": "Weight payload identity does not transfer the i16 public score to Q8 or to D/E."
+    },
+    "readme_fixed_blends_sizes_q8_profiles_and_no_quality_claim_match_receipts": "pass"
+  },
+  "nonblocking_findings": [
+    {
+      "id": "stale_precision_docstring",
+      "severity": "nonblocking_documentation",
+      "evidence": "The shared packaged solution.py begins with a 16-bit/i16/f16 description, while each ZIP's precision.txt is q8vnni and the exact-archive callback receipts report native precision q8vnni.",
+      "consequence": "The runtime route is verified, but the shipped source docstring can confuse later readers.",
+      "resolution": "If a follow-up ZIP is built, update the copied serving description and bind new bytes; do not mutate these ZIPs."
+    },
+    {
+      "id": "build_receipt_gate_status_lags_callback_receipt",
+      "severity": "nonblocking_evidence_label",
+      "evidence": "Both immutable BUILD_R1 files retain gate_status 'package_crc_passed; offline_import_and_streaming_gate_pending', while their later exact-ZIP Python 3.11 callback receipts pass import, Q8 selection, finite-output, reset replay, and timing checks.",
+      "consequence": "The build receipt alone is not the final gate; downstream review must bind the later profile receipts.",
+      "resolution": "Keep BUILD_R1 unchanged and use this additive review/profile evidence to describe the completed technical checks."
+    }
+  ],
+  "quality_and_selection": {
+    "official_metric_recomputed": false,
+    "clean_cv_quality_evidence_for_z5": "not located in the packet's targeted search",
+    "all_data_or_exposed_endpoints": true,
+    "public_score_forecast": null,
+    "submission_ranking_or_recommendation": null,
+    "scope_note": "This is a technical artifact review only; capacity profiles and all-data endpoints do not establish held-out quality or a public score."
+  },
+  "independent_audit": {
+    "method": "Bounded read-only ZIP/CRC/member/tensor/source-hash audit; callback and resource records were cross-checked against their exact archive and build-receipt hashes.",
+    "execution": "No new model inference, metric calculation, training, upload, or provider action."
+  }
+}
