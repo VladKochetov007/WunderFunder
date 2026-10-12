@@ -38,6 +38,10 @@ Resume research under the new authority, update GPU guards, prepare and independ
 
 [F0 seed-3 target-amplitude packet](target_amplitude_f0_s3_r1/README.md) now has an R3 command-only path correction after R2 P1 failed before fitting: `load_campaign_split` resolved a relative split path against the source-overlay working directory. R3 makes all fit and export split-manifest paths absolute and assigns fresh attempt/output identities; its actual-overlay loader and exact worker-vector source-manifest preflights passed. Root conditionally authorized execution after fresh shared-resource admission. The failure is infrastructure evidence only; no amplitude score exists. F3 remains dependent on a clean T3 teacher cohort, predictions, cache and matched control.
 
+## S14 gradient-credit packet
+
+[F0 seed-3 detach-horizon pair](gradient_credit_f0_s3_r1/README.md) prepares a new matched 500-row/2000-row gradient-credit comparison. Both conditions use micro500, macro/update2000, identical 0.8125 cached target, teacher/parent lineage, auxiliary losses, schedule, denominators, EMA clock and CP5/FP32 export. Existing controlled-loss code already supports the R3 `aux_struct=.3` and `aux_next=.3` terms, confirmed by 14 bounded tests against the immutable source overlay; no trainer edit is needed. The exact 500-row shape still needs a real device profile, root source-manifest recomputation, fresh admission and explicit fit release. This is preparation only; F3 teacher/cache/control inputs remain missing.
+
 ## Source records
 
 - [Fixed two-seed trajectory averages](trajectory_average_f0_r1/README.md) materialize S37's predeclared epoch-3/4/5 averages from real clean F0 checkpoints. Actual producer checks and three correctness tests pass; independent review, GPU prediction and paired grading remain pending. The new artifacts add no fitting or serving cost, but have no measured quality yet.
