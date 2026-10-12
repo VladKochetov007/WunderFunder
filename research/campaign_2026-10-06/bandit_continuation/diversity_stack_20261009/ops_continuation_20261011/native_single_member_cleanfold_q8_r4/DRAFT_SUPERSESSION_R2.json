@@ -1,0 +1,21 @@
+{
+  "created_utc": "2026-10-12T06:45:46.561937+00:00",
+  "incident_receipt": "R4_STATIC_VALIDATION_FAILURE_R1.json",
+  "inference_performed": false,
+  "reason": "Static validation exposed a file-size accounting mismatch: R3 output byte declarations include the 128-byte NPY header. R4 now validates payload and header bytes separately and pins the corrected consumer source.",
+  "schema": "wnn.native.single-member-cleanfold-q8-r4-draft-supersession.r2",
+  "score_performed": false,
+  "source_change": "run_single_controls_r4.py prediction_plan now requires 128-byte header accounting; focused regression added",
+  "superseded_drafts": {
+    "CONTRACT_SINGLE_R4.json": {
+      "bytes": 23685,
+      "preserved_as": "CONTRACT_SINGLE_R4_DRAFT_BEFORE_NPY_HEADER_FIX.json",
+      "sha256": "830f0977682319f6c86777890bb7885fc50990a918291153347758310615c48e"
+    },
+    "PREPARATION_FREEZE_R4.json": {
+      "bytes": 865,
+      "preserved_as": "PREPARATION_FREEZE_R4_DRAFT_BEFORE_NPY_HEADER_FIX.json",
+      "sha256": "e9f35238312b3bb515785cf78d8800021d2f6e4cba20a844f4777a9df273412e"
+    }
+  }
+}

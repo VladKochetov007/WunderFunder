@@ -1,0 +1,103 @@
+{
+  "callback_fixture_present": false,
+  "created_utc": "2026-10-12T06:46:00.700117+00:00",
+  "fold_plan": {
+    "0": {
+      "component_overlap_count": 0,
+      "evaluation_group_list_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+      "groups": 468
+    },
+    "1": {
+      "component_overlap_count": 0,
+      "evaluation_group_list_sha256": "0d871b740f6615861e978fb971838ced26f62e84144870dd464838d99decc819",
+      "groups": 457
+    }
+  },
+  "inference_performed": false,
+  "main_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "notes": [
+    "This preparation validator checks metadata/path/source bindings only; it does not hash the full Parquet body or read row groups.",
+    "The R4 runner rechecks the live Parquet footer on its open descriptor immediately before row-group access.",
+    "The stdlib tests and any Python 3.13 syntax checks are not serving or inference validation."
+  ],
+  "output_root_already_exists": false,
+  "prediction_plan": {
+    "fold0_hft": {
+      "bytes": 74880128,
+      "dtype": "float32",
+      "npy_header_bytes": 128,
+      "payload_bytes": 74880000,
+      "shape": [
+        468,
+        20000,
+        2
+      ]
+    },
+    "fold0_student": {
+      "bytes": 74880128,
+      "dtype": "float32",
+      "npy_header_bytes": 128,
+      "payload_bytes": 74880000,
+      "shape": [
+        468,
+        20000,
+        2
+      ]
+    },
+    "fold1_hft": {
+      "bytes": 73120128,
+      "dtype": "float32",
+      "npy_header_bytes": 128,
+      "payload_bytes": 73120000,
+      "shape": [
+        457,
+        20000,
+        2
+      ]
+    },
+    "fold1_student": {
+      "bytes": 73120128,
+      "dtype": "float32",
+      "npy_header_bytes": 128,
+      "payload_bytes": 73120000,
+      "shape": [
+        457,
+        20000,
+        2
+      ]
+    }
+  },
+  "provider_action_performed": false,
+  "python311_dependency_probe": {
+    "executable": "/usr/bin/python3.11",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"numpy\": false, \"pyarrow\": false, \"ruff\": false, \"torch\": false}"
+  },
+  "python311_missing_runtime_dependencies": [
+    "numpy",
+    "pyarrow",
+    "torch"
+  ],
+  "r3_contract_sha256": "312b57d7cff1386be2cb727a30ce66133588db1804fb50180ef96768374eea12",
+  "r3_preflight_repo_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r3/INPUT_PREFLIGHT_MAIN_R1.json",
+  "r3_preflight_sha256": "e2b7bab342ee35dc1122f88909f06d9f980188d80a6471341a9ec9104352264c",
+  "r3_producer_receipt_count_rehashed_in_main": 10,
+  "r3_producer_receipts_verified_in_main": 10,
+  "r3_source_binding_count_rehashed": 20,
+  "r4_builder_sha256": "a805ccafc14fe054c87ab36c64cbded68723aef63fca89a30d4105ad7eef1997",
+  "r4_contract_sha256": "cb8a46786010ab60da1a0af82064e6a570143b87c2e10641ec404da52afe0ef4",
+  "r4_runner_sha256": "8a8d8713cae7fe4e1eb785e3bce793750155805d0b075d4ae64d257057e7989a",
+  "root_admission_present": false,
+  "runtime_status": "BLOCKED_PENDING_R3_ROOT_ADMISSION_CALLBACK_FIXTURE_AND_PY311_DEPENDENCIES",
+  "schema": "wnn.native.single-member-cleanfold-q8-preparation-validation.r4",
+  "score_performed": false,
+  "status": "PASS_STATIC_PACKET_BINDINGS_BLOCKED_RUNTIME_GATES",
+  "valid_parquet_footer_rechecked": false,
+  "valid_parquet_stat": {
+    "bytes": 5615509128,
+    "inode": 50919096,
+    "mtime_ns": 1577826000000000000
+  },
+  "worktree_root": "/home/vlad/development/wunder/wnn-agent-worktrees/native-q8-controls-r3-20261012"
+}

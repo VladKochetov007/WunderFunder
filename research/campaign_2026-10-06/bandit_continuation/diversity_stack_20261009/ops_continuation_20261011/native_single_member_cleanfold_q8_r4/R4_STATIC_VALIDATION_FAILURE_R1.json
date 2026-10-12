@@ -1,0 +1,21 @@
+{
+  "command_stage": "metadata-only R4 preparation validation; no runner/inference/model import/provider action",
+  "corrective_change": "derive payload bytes from shape/dtype and require declared file bytes = payload bytes + 128-byte NPY v1 header; expose both counts in the preparation receipt",
+  "created_utc": "2026-10-12T06:45:46.561937+00:00",
+  "failure": "prediction_plan rejected expected NPY file byte count because the R3 declaration includes the 128-byte NPY header while R4 initially compared only float32 payload bytes",
+  "inference_performed": false,
+  "schema": "wnn.native.single-member-cleanfold-q8-r4-static-validation-incident.r1",
+  "score_performed": false,
+  "superseded_contract_drafts": {
+    "CONTRACT_SINGLE_R4.json": {
+      "bytes": 23685,
+      "preserved_as": "CONTRACT_SINGLE_R4_DRAFT_BEFORE_NPY_HEADER_FIX.json",
+      "sha256": "830f0977682319f6c86777890bb7885fc50990a918291153347758310615c48e"
+    },
+    "PREPARATION_FREEZE_R4.json": {
+      "bytes": 865,
+      "preserved_as": "PREPARATION_FREEZE_R4_DRAFT_BEFORE_NPY_HEADER_FIX.json",
+      "sha256": "e9f35238312b3bb515785cf78d8800021d2f6e4cba20a844f4777a9df273412e"
+    }
+  }
+}
