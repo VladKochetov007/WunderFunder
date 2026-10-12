@@ -1,0 +1,14 @@
+{
+  "basis": "Independent inspection of the frozen F0 R5 make_core_checkpoint.py producer and consumer review.",
+  "correction": "The frozen crop producer slices head.2.weight and head.2.bias from 31 output rows to the first 23 rows. The hidden projection head.0 is preserved unchanged.",
+  "finding": "R2 crop contract and README incorrectly named head.0 as the cropped family-output tensor.",
+  "packet_id": "oldz4_f1_core_hft_r2",
+  "production_output_status": "No production crop output exists; the prior actual CP1 fixture was temporary compatibility evidence only.",
+  "schema": "wnn.oldz4-f1-core-crop-contract-erratum.r1",
+  "scope": "Documentation and packet-file manifest only; no crop algorithm, argv, tensor shape, membership, precision, or execution authorization changed.",
+  "status": "documentation_corrected_before_any_production_crop_stage",
+  "supersedes_wording_in": [
+    "CORE_CROP_CONTRACT_R2.json",
+    "README.md"
+  ]
+}

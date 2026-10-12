@@ -8,9 +8,9 @@ matches the frozen contract. No stage in this packet has run.
 
 The parent is `oldz4_h230_student_f1_s3_r4@ep1`, with checkpoint, provenance
 and training-state bytes pinned in `SOURCE_INPUT_BINDINGS_R2.json`. Root's
-actual consumer review is separately identified there. The crop preserves the
-first 23 `head.0` rows and all other tensors and normalization buffers; it is
-not a fit.
+actual consumer review is separately identified there. The crop preserves the first 23 `head.2.weight` and `head.2.bias` output
+rows and all other tensors and normalization buffers; it is not a fit.
+The hidden projection `head.0` is unchanged.
 
 The HFT recipe matches the successful F0 HFT producer: fit only the 1,416
 source-qualified, fold-eligible groups in `valid.parquet` with
