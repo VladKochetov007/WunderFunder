@@ -1,0 +1,212 @@
+{
+  "attempt_id": "clean-t3-f0-control-s3-a9-r2-p3-envr1-20261012",
+  "attempt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-control-s3-a9-r2-p3-envr1-20261012.json",
+  "attempt_sha256": "c55bc2c7512438441b453dce38343cc0308d5c381ff50bb37603267f55941c7f",
+  "attempt_snapshot_path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_P3_ENVR1_ATTEMPT_TERMINAL_SNAPSHOT_R1.json",
+  "attempt_terminal": {
+    "elapsed_seconds": 2076.099595939013,
+    "failure": null,
+    "finished_utc": "2026-10-12T13:08:56.230200+00:00",
+    "memory_event_deltas": {
+      "high": 620272,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "phase": "terminal",
+    "started_utc": "2026-10-12T12:34:20.103835+00:00",
+    "status": "finished"
+  },
+  "bound_stage_manifest_sha256": "393bb328c839f34cf6991672e80d6b5d901480568633ab280103b390f7a01541",
+  "captured_utc": "2026-10-12T13:16:13.399594+00:00",
+  "final_epoch_log": {
+    "epoch": 5,
+    "evaluation": "withheld",
+    "train_seconds": 1008.1,
+    "update_diagnostics": {
+      "cumulative": {
+        "amp_skipped_updates": 19,
+        "completed_batches": 4476,
+        "ema_updates": 0,
+        "optimizer_attempts": 44760,
+        "optimizer_completed_updates": 44741
+      },
+      "epoch": {
+        "amp_skipped_updates": 3,
+        "completed_batches": 746,
+        "ema_updates": 0,
+        "optimizer_attempts": 7460,
+        "optimizer_completed_updates": 7457
+      },
+      "normalization_identity": {
+        "mean": {
+          "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        },
+        "std": {
+          "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        }
+      },
+      "sample_order_identity": {
+        "batch_size": 16,
+        "drop_last": true,
+        "loader_generator": "global CPU RNG",
+        "loader_rng": {
+          "bytes_sha256": "3c43dbf4817fd397b4a3aaa8b9caffb04e0694c97bb12e4b864ef2d934fc3733",
+          "dtype": "torch.uint8",
+          "shape": [
+            5056
+          ]
+        },
+        "num_workers": 0,
+        "persistent_workers": false,
+        "sampler_class": "RandomSampler",
+        "sampler_generator": "global CPU RNG",
+        "sampler_num_samples": 11940,
+        "sampler_replacement": false,
+        "sampler_rng": {
+          "bytes_sha256": "3c43dbf4817fd397b4a3aaa8b9caffb04e0694c97bb12e4b864ef2d934fc3733",
+          "dtype": "torch.uint8",
+          "shape": [
+            5056
+          ]
+        }
+      }
+    }
+  },
+  "preserved_export_preflight_failure": {
+    "cause": "The producer stores train.parquet and valid.parquet group IDs in separate source namespaces. Equal integer IDs across different parquet files are not the same source-qualified group.",
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_P3_EXPORT_PREFLIGHT_DRAFT_FAILURE_R1.json",
+    "sha256": "a691d4af5fff96fc9c32aead968ae0d56293ea2a7a9e4f5712a7c1b5c407a301"
+  },
+  "provenance": {
+    "fit_membership_identity": {
+      "dataset_length": 11940,
+      "train": {
+        "count": 10535,
+        "ordered_int64_le_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9"
+      },
+      "valid": {
+        "count": 1405,
+        "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      },
+      "valid_repeat": 1
+    },
+    "initial_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "membership_counts": {
+      "train_parquet_train": 10535,
+      "valid_parquet_eval_excluded_from_fit": 468,
+      "valid_parquet_fit_valid": 1405
+    },
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/provenance.json",
+    "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "resumed_from": {
+      "next_epoch": 4,
+      "path": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p2_envr1/training_state.pt",
+      "sha256": "80eb6d3e85646248a997c04f20ca3e3ae61eb5d7fdcd7501752cc47359ad25d6"
+    },
+    "selected_epoch": 5,
+    "sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+    "source_qualified_fit_eval_overlap": 0,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "teacher_cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "teacher_sources": [
+      {
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "run": "clean_t3_f0_muonall_h384_e3_s3_r5"
+      },
+      {
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "run": "clean_t3_f0_muonall_h384_e3_s4_r5"
+      },
+      {
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "run": "clean_t3_f0_muonall_h384_e3_s5_r5"
+      }
+    ]
+  },
+  "resource_interpretation": {
+    "allocator_bytes": 4300000000,
+    "high_delta_is_event_count_not_bytes_or_pages": 620272,
+    "max_oom_and_kill_deltas": {
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_high_bytes": 4950000000,
+    "memory_peak_bytes": null,
+    "memory_peak_note": "systemd did not retain MemoryPeak after the transient unit ended; no observed peak is claimed",
+    "observed_vram_guard_bytes": 5000000000,
+    "swap_max_bytes": 0,
+    "vram_peak_bytes": null,
+    "worker_reserved_ram_bytes": 5500000000
+  },
+  "run_artifacts": {
+    "history.json": {
+      "bytes": 9174,
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/history.json",
+      "sha256": "3d424d630f3d342b3dcebe744cf08fbc7094c9b7d10fcd3a9eca7f437ff9d050"
+    },
+    "model.pt": {
+      "bytes": 3982571,
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model.pt",
+      "sha256": "888638bf2e9536248a1ca48d86dfea809726518858a088abe62515147f91d4e1"
+    },
+    "model_ep5.pt": {
+      "bytes": 3983015,
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+      "sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda"
+    },
+    "provenance.json": {
+      "bytes": 166152,
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/provenance.json",
+      "sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961"
+    },
+    "training_state.pt": {
+      "bytes": 11828655,
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/training_state.pt",
+      "sha256": "5a368f94a3f3450df862532a87a9a945f3056bb1625e58b183783b4b5916f8ea"
+    }
+  },
+  "schema": "wnn.clean-t3-control-p3-terminal-observation.r1",
+  "science_scope": "Training continuation reached the fixed epoch-5 endpoint; evaluation was withheld. This records execution/provenance only.",
+  "selected_checkpoint": {
+    "bytes": 3983015,
+    "epoch": 5,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+    "sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda"
+  },
+  "service_unit": "wnn-bandit-clean-t3-f0-control-s3-a9-r2-p3-envr1-20261012.service",
+  "startup_receipt_sha256": "7eaec22f19de1c03bc8a0306e97e612d76382b664065264618f3a9e9782e35d2",
+  "status": "P3_TERMINAL_EXIT_ZERO_CP5_FIXED; NO_SCORE_OR_GRADE",
+  "systemd_terminal_properties": {
+    "ActiveState": "inactive",
+    "ExecMainCode": "0",
+    "ExecMainStatus": "0",
+    "MemoryMax": "infinity",
+    "MemoryPeak": "[not set]",
+    "MemorySwapPeak": "[not set]",
+    "Result": "success",
+    "SubState": "dead"
+  },
+  "worker_log_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/logs/clean-t3-f0-control-s3-a9-r2-p3-envr1-20261012.log",
+  "worker_log_sha256": "3784ac81c06a8d11e11c9583535d1e70dcc24d634b341fb0f9aee17a34cbb202",
+  "worker_log_snapshot_path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_P3_ENVR1_WORKER_LOG_TERMINAL_SNAPSHOT_R1.txt"
+}
