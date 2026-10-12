@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.clean_t3_f0_pair_kaggle_r6_independent_review.r1",
+  "verdict": "pass_preparation_only",
+  "actor_commit": "3b0eca23cfa9198e1d66d302fadb22683e1eb6f6",
+  "packet": {
+    "manifest_sha256": "96470cb410608d6a63bea9a29a35c34d06baa0f271df0d00c22b84dde1177b75",
+    "kernel_sha256": "3196cb6c049f76bdcb76b3037ca91684d9a919f23f63cef2dd70ddc350927199",
+    "metadata_sha256": "d7cda84a9a08ded24d7d43b6a236db1dc9701e4683fcde92a2e968b7706fe169",
+    "fixture_sha256": "3c253071f19f2e3392c8eaa55fd8e211e9676020d79b70f7f95224a53273974d",
+    "fixture_output_sha256": "6a92bfcf7c89a9ee621010adb63cfcc1461d1712a307a7a4b81b5d4cbf97bb12",
+    "parent_r5_manifest_sha256": "69114de869be48ba376df519656dc82345fbcd727f50874cdf64c92cc182475e",
+    "parent_r5_kernel_sha256": "eee975e22a12939ec0d82465d3c4612491fb8354a00b6e42a176db07928243df",
+    "runner_sha256": "4576c460764ec947e9d61867a3f418e1b6a7a4665e1ca4b67a523b5f8c892e8f"
+  },
+  "static_review": {
+    "r5_to_r6_kernel_change_only_outer_timeout": true,
+    "full_remaining_float_passed_to_subprocess": true,
+    "worker_deadline_env_unchanged": true,
+    "runner_finalization_reserve_seconds": 300,
+    "science_source_and_worker_argv_unchanged": true,
+    "wall_ceiling_seconds": 10000,
+    "provisioned_gpu_count": 2,
+    "cohort_gpu_seconds_upper_bound": 20000,
+    "provider_upload_or_dispatch_performed": false
+  },
+  "independent_fixture": {
+    "status": "pass",
+    "exit_code": 0,
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=25% WNN_THREADS=1 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python /tmp/wnn-r6-independent-review-20261012-1529/kernel_r6/deadline_fixture_r6.py",
+    "actual_runner_code_exercised": true,
+    "fake_process_and_device_inventory": true,
+    "outer_timeout_seconds": 999.8,
+    "worker_timeout_seconds": 699,
+    "cleanup_window_seconds": 300.6,
+    "watchdog_stop_group_called": true,
+    "failure_and_summary_written": true,
+    "partial_artifact_sha256": "07123f26ab034dcbb9bc02195016a00b2eb21ef4f60f2e098867d38c661ad52e",
+    "resource_precheck": {
+      "campaign_memory_current_bytes": 12200693760,
+      "campaign_memory_high_bytes": 18000000000,
+      "campaign_cpu_quota": "500%",
+      "active_fit_or_kaggle_units": 0,
+      "test_memory_max_bytes": 700000000,
+      "test_cpu_quota": "25% of one CPU",
+      "test_runtime_max_seconds": 120
+    }
+  },
+  "runtime_conditions_not_verified": [
+    "provider whole-container timeout origin versus kernel main/deadline startup time; preserve actual worker cleanup slack",
+    "actual T4 profile and provider execution",
+    "root release, READY private inputs, and fresh quota/session checks"
+  ],
+  "scope_limit": "Focused timer/cleanup interface validation only; not a Kaggle runtime admission, model fit, score, or inference claim."
+}
