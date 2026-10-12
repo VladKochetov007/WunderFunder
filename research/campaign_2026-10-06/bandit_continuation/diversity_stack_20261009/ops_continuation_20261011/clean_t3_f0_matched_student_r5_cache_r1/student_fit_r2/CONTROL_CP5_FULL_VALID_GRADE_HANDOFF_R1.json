@@ -1,0 +1,220 @@
+{
+  "actual_export": {
+    "all_1873_groups_finite": true,
+    "attempt_id": "clean-t3-f0-control-s3-cp5-full-valid-local-export-r1",
+    "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "dtype": "float32",
+    "elapsed_seconds": 96.08822818798944,
+    "exit_status": 0,
+    "failure": null,
+    "finished_utc": "2026-10-12T13:22:13.321613+00:00",
+    "label_read": false,
+    "metadata_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_cp5_full_valid_r1_valid.json",
+    "metadata_sha256": "ad3ef0a0ad9f9668ab9764f40f916752d450554517859fb6782978ca5e97348e",
+    "npy_bytes": 299680128,
+    "npy_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_cp5_full_valid_r1_valid.npy",
+    "npy_sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6",
+    "ordered_row_groups_count": 1873,
+    "ordered_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+    "output_name": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_cp5_full_valid_r1",
+    "shape": [
+      1873,
+      20000,
+      2
+    ],
+    "source_qualified_membership": {
+      "integer_overlap_note": "463 bare row_group integer collisions occur between train.parquet and valid.parquet namespaces; only valid.parquet fit-valid (1,405) is compared with valid.parquet evaluation (468), with zero overlap.",
+      "same_valid_source_overlap": 0,
+      "train_and_valid_parquet_group_ids_are_distinct_namespaces": true,
+      "train_parquet_train": {
+        "count": 10535,
+        "ordered_int64_le_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9"
+      },
+      "valid_parquet_eval_excluded_from_fit": {
+        "count": 468,
+        "ordered_int64_le_sha256": "6effdddc309b1b0007448f4be34f65cad0f595f3ec088e8d66397d49ef5d2010"
+      },
+      "valid_parquet_fit_valid": {
+        "count": 1405,
+        "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      }
+    },
+    "started_utc": "2026-10-12T13:20:37.202962+00:00",
+    "teacher_alpha": 0.9,
+    "teacher_parents": [
+      {
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "run": "clean_t3_f0_muonall_h384_e3_s3_r5"
+      },
+      {
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "run": "clean_t3_f0_muonall_h384_e3_s4_r5"
+      },
+      {
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "run": "clean_t3_f0_muonall_h384_e3_s5_r5"
+      }
+    ],
+    "unit": "wnn-bandit-clean-t3-f0-control-s3-cp5-full-valid-local-export-r1.service",
+    "worker_argv": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=20s",
+      "1800s",
+      "/usr/bin/env",
+      "MKL_NUM_THREADS=1",
+      "NUMEXPR_NUM_THREADS=1",
+      "OMP_NUM_THREADS=1",
+      "OPENBLAS_NUM_THREADS=1",
+      "PYTHONDONTWRITEBYTECODE=1",
+      "PYTHONHASHSEED=0",
+      "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/src",
+      "WNN_GPU_MEMORY_BYTES=4300000000",
+      "WNN_LOADER_RAM_GB=4",
+      "WNN_LOADER_WORKERS=0",
+      "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "WNN_THREADS=1",
+      "WNN_VRAM_GB=4.3",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/scripts/predict_run.py",
+      "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+      "valid",
+      "--epoch",
+      "5",
+      "--output-name",
+      "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_cp5_full_valid_r1",
+      "--campaign-split-manifest",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--device",
+      "cuda",
+      "--inference-precision",
+      "fp32",
+      "--campaign-full-valid-feature-only"
+    ]
+  },
+  "created_utc": "2026-10-12T13:28:24.090824+00:00",
+  "evaluation_prediction_subset": {
+    "bytes": 74880128,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/f0_grade_r1/eval468_pred_clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_ep5.npy",
+    "sha256": "64715fde3c976ac51f95823a6799d1f1956cd705607432e8c75cbbd3e8ec58b8"
+  },
+  "export_resources": {
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "peak_observed_vram_bytes": 1323302912,
+    "peak_parent_ram_bytes": 13599735808,
+    "peak_worker_ram_bytes": 4950261760,
+    "reservation_bytes": 5500000000,
+    "swap_bytes": 0,
+    "worker_memory_event_deltas": {
+      "high": 1574,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    }
+  },
+  "grader_path_failure": {
+    "cause": "grader hardcodes pred_{run}_valid; first invocation failed before target/label access",
+    "corrected_using_hardlinks": true,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_CP5_OFFICIAL_GRADE_PATH_FAILURE_R1.json",
+    "sha256": "7c1ec5cb583f432aaf93d84f8beb9e168ab0838cb9c47281cf35277a994b78b2",
+    "unique_output_and_conventional_alias_same_inode": true
+  },
+  "manifest": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_P3_CP5_FULL_VALID_EXPORT_PRELAUNCH_R1.json",
+    "sha256": "8777488967c1a8761f4bfa24605e1afeca0e6e408c14acae153e22c392331621"
+  },
+  "no_refit_no_provider_action_no_public_forecast": true,
+  "not_a_cross_fold_confirmation_or_submission_selection": true,
+  "official_grade": {
+    "command": [
+      "scripts/limited",
+      ".venv/bin/python",
+      "scripts/kaggle_warm_cohort/grade_fold0_run.py",
+      "--root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "--run",
+      "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+      "--epoch",
+      "5",
+      "--out-dir",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/f0_grade_r1"
+    ],
+    "epoch": 5,
+    "evaluation_groups": 468,
+    "evaluation_groups_are_exposed": true,
+    "limits": {
+      "cpu_cores": 1,
+      "memory_max_bytes": 1500000000,
+      "parent_current_at_admission_bytes": 11984035840,
+      "parent_plus_reserve_bytes": 13484035840,
+      "reserve_bytes": 1500000000,
+      "runtime_max_seconds": 120,
+      "swap_bytes": 0,
+      "working_ceiling_bytes": 18000000000
+    },
+    "metric_id": "global_wp_clip2_v1",
+    "prediction_sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6",
+    "public_score_forecast": null,
+    "report_path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/f0_grade_r1/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1.grade.json",
+    "report_sha256": "c518f7cdb5f3e5148f72de152c3aaecd308ff97c83aa74169fdaa95442e085a0",
+    "result": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6743770243809764,
+      "t1": 0.6879336962856963,
+      "wp": 0.6811553603333363
+    },
+    "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+    "script": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_warm_cohort/grade_fold0_run.py",
+    "script_sha256": "b6f80ef2d5323bdd9f9941f8bb2b698d61d87ac05fe918d53343a52aee0e6654",
+    "selected_rows": 808863
+  },
+  "root_release": {
+    "authorized": true,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/ROOT_CONTROL_CP5_EXPORT_RELEASE_R1.json",
+    "sha256": "534dd7b3e9cac41b777c67c2cd1d30d56a9d1443dced4871392653995dbf80b9"
+  },
+  "schema": "wnn.control-cp5-full-valid-grade-handoff.r1",
+  "source_bindings": {
+    "predictor_sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+    "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+    "valid_parquet_full_content_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "status": "PASS_OFFICIAL_EXPOSED_F0_SINGLE_ENDPOINT_GRADE",
+  "terminal_validation": {
+    "checks": {
+      "all_1873_groups_finite": true,
+      "expected_bytes": true,
+      "expected_shape_dtype": true,
+      "final_npy_present": true,
+      "metadata_file_hash_matches": true,
+      "metadata_present": true,
+      "metadata_run_epoch_checkpoint_split_precision": true,
+      "ordered_source_valid_rowgroups": true,
+      "worker_terminal_exit0": true
+    },
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_CP5_FULL_VALID_EXPORT_TERMINAL_VALIDATION_R1.json",
+    "sha256": "4029b09616ea8a705c47673a76c698dbda0d92a45a39097374f6b467840dcf19",
+    "status": "PASS"
+  }
+}
