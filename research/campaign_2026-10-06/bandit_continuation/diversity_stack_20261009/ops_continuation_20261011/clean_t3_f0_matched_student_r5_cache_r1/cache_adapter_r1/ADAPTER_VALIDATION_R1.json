@@ -1,0 +1,57 @@
+{
+  "schema": "wnn.clean-t3-f0-cache-adapter-validation.r1",
+  "recorded_at_utc": "2026-10-12T08:09:03Z",
+  "status": "PASS_ADAPTER_STATIC_AND_AVAILABLE_ACTUAL_INPUTS",
+  "contract_path": "CACHE_ADAPTER_CONTRACT_R1.json",
+  "contract_sha256": "2b94f8454009af6a549e555456185d02bd2d2c6d8628def30dc3a3d27fae62c9",
+  "implementation_path": "build_clean_t3_f0_homogeneous_cache_r1.py",
+  "implementation_sha256": "13b20f62a988df90f17da495b2cc7e4e219de0792291412165a10d2cd8b22380",
+  "test_path": "test_clean_t3_f0_homogeneous_cache_r1.py",
+  "test_sha256": "a494b60bb18f0b82c0227843563b09ffe66ac2dff93c0572d545e4dbfc38aff8",
+  "actual_input_validation_path": "ACTUAL_INPUT_VALIDATION_R1.json",
+  "actual_input_validation_sha256": "7dca58e3a0755483f3bbb91f89f981a0ca67bba18aa2a788d7060b04c76a9a14",
+  "checks": {
+    "diff_check": "PASS",
+    "python_compile": "PASS",
+    "unit_tests": {
+      "status": "PASS",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "coverage_summary": [
+        "source-qualified row-group joins and order changes",
+        "exact FIT_VALID projection excluding all evaluation groups",
+        "seed teacher arithmetic in float32 with no clipping",
+        "duplicate, missing and nonfinite data rejection",
+        "cache materialization refuses absent or mismatched root release receipts",
+        "actual producer sidecars, provenance and target row_group indices"
+      ]
+    },
+    "limits": {
+      "cpu_quota": "100%",
+      "threads": 1,
+      "memory_max_bytes": 500000000,
+      "runtime_max": "120s"
+    }
+  },
+  "input_state_at_validation": {
+    "fit_train_exports_ready": [
+      "clean_t3_f0_muonall_h384_e3_s3_r5"
+    ],
+    "fit_train_exports_pending": [
+      "clean_t3_f0_muonall_h384_e3_s4_r5",
+      "clean_t3_f0_muonall_h384_e3_s5_r5"
+    ],
+    "full_valid_teacher_pairs_validated": 3,
+    "fit_valid_count": 1405,
+    "evaluation_valid_count_excluded": 468,
+    "cache_output_root": "cache/clean_t3_f0_h390_t3r5_a9_r1",
+    "cache_output_root_absent": true
+  },
+  "authorization_state": {
+    "cache_materialized": false,
+    "student_fit_launched": false,
+    "root_release_receipt_present": false,
+    "next_action": "Wait for s4/s5 FIT_TRAIN producer exports and an explicit root cache-materialization release; then rehash all inputs before the single build."
+  }
+}
