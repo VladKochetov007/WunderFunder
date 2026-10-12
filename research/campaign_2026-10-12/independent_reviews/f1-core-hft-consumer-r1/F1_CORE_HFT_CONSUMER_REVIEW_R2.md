@@ -1,0 +1,25 @@
+# F1 Core/HFT Consumer Review R2
+
+**Verdict: import preflight passes; crop contract is semantically wrong and must be corrected before crop admission.** The R2 consumer code, source closure, and temporary crop evidence are internally consistent with an output-head crop. The README and crop contract name the hidden head instead. This is a specification defect, not a crop implementation defect or model-quality result.
+
+## Exact snapshot and checks
+
+The implementation snapshot is builder commit `534db6c01e91d8ba545ce83d34d501c23a2ab405`. Builder commit `e7e6fdeb2b51b49952bce712d497200bb19546e9` is a later documentation/manifest-only follow-up; it changed the README, preserved-R1 diagnosis, and packet manifest. The final R2 packet-manifest SHA is `ec014497862540fc94e4e1a531c4306dae7fa9d8c4d393d94bb7338dc01cf691`. The source-input bindings, runner, import receipt, and actual-crop fixture remain pinned at `b9649c6d9d455edc3d61c982907ff1b56ca802d241ca6d65b7d2096a645605a7`, `1313bcb3900c97b8d6d2e69e9e88d325e0797fa000dc6bc5789030e39664bf68`, `7f8060ce55b9fffc9886d13148e5ca1001da0e5954eddc0ebbf795ec258d4932`, and `b9c5ec64c7a9922e3430228dc1253dcef99f7dbf1577c9110d1f5c08c2a93308` respectively.
+
+I reran only `--stage validate-import` against the latest R2 tree under `wnn-campaign.slice` with 25% CPU, one thread, a 1.5 GB memory cap, and 120-second runtime cap. It returned `PASS_IMPORTS_AND_F1_MEMBERSHIP`: the frozen c337 trainer and predictor import from their pinned snapshot, both roots bind to MAIN, the validator reports source-qualified counts of 10,533 train, 1,416 valid-fit, and 457 outer-evaluation groups with zero fit/evaluation overlap, and it reports no device startup or full-parquet rehash. This independently confirms the R1 nested crop-hash lookup fix. R2 separately pins the omitted `src/wnn/csrc/symreg_screen.cpp` at `413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7`; the validator accepted the original 52-file manifest plus that exact supplemental file with closed source-tree membership.
+
+The HFT recipe remains aligned with the actual F0 producer: direct fit uses only the 1,416 valid groups with `--mask-weight`, excludes all 457 outer-evaluation groups, and has no direct train groups. The broader 10,533+1,416 ancestry belongs to the parent/student, not the HFT direct fit. The initializer is `oldz4_h230_core_f1_s3_r2@ep1`, and the HFT run is uniquely named `oldz4_h230_hft_f1_s3_r2` with fixed CP0. Auxiliary CLI flags remain omitted because `.3/.3` are inherited from the exact core CP1 and checked by the exporter.
+
+## Crop implementation passes; contract text fails
+
+The frozen `make_core_checkpoint.py` explicitly validates 31 rows in `state["head.2.weight"]` and slices only `head.2.weight` and `head.2.bias` to the first 23 rows. In the pinned c337 `RNNModel`, `head.0` is `Linear(2*hidden, hidden)` and `head.2` is `Linear(hidden, n_out)`. The actual F1 student provenance gives `hidden=256`; thus `head.0` is the 256-by-512 hidden projection and `head.2` is the 31-by-256 output projection. The transformation is correctly an eight-row output-head crop.
+
+R2 `CORE_CROP_CONTRACT_R2.json` instead says `kept_rows` are the first 23 rows of `head.0.weight/bias`, and README line 12 repeats “first 23 `head.0` rows.” Those statements are incompatible with the actual model geometry and primitive. The temporary fixture records 31→23 output rows, 14 unchanged non-head tensors, and two unchanged normalization buffers. Its source CP1 (`cd8886589e8664082da1f27aee4f2c4925b61c41da8c740598831ab2f774bbd6`), temporary output checkpoint (`cd96d84835ed9cadda0e09f55ff01b1057cc9296e27b99eb401f0ee3e3fca59e`), and output provenance (`4abc9c9778abc0888ce54a40da207bca81ef050438544164092a136af6c05be0`) hashes match the fixture receipt when independently hashed. I did not rerun the crop fixture; that would exceed the requested `validate-import`-only check. The code and fixture support `head.2`; the bound human-readable contract remains wrong.
+
+Before issuing a root crop-admission receipt, publish a newly identified contract/packet revision that names `head.2.weight/bias`, updates the packet manifest, and reruns bounded `validate-import`. Do not change the frozen crop primitive to match the erroneous text.
+
+## Remaining gates
+
+The actual CP1 temporary fixture is not a MAIN crop and uses no root admission. The F1 student terminal gate, MAIN crop receipt/admission, actual-device HFT profile, measured resource admission, HFT fit, CP0 terminal receipt, and export remain unexecuted here. R2 explicitly records that the historical F0 strict clean-gradient profile did not pass; it cannot establish an F1 profile pass. F1 must satisfy its own actual-CUDA finite-update, clean-gradient, OOM, and memory/VRAM criteria. The HFT fit contract also has `fit_authorized=false` while its expected root-gate field says `fit_admission_decision=PASS`; the runner still requires the separate exact root receipt, but that status should be clarified before any stage release.
+
+No F1 quality grade, blend, or submission recommendation follows from this consumer review.
