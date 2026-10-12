@@ -1,3 +1,5 @@
+**Final archive/stop:** All admitted runs and roles finished. [Complete detailed handoff](RESEARCH_COMPLETE_HANDOFF_20261012.md) includes terminal results, every scientific ledger row, all methods/ideas and linked receipts. No further research admission; cron disabled. Historical draft/status text below is superseded by this final archive.
+
 # Research notes and evidence index, 2026-10-06 .. 2026-10-12 (start here)
 
 ## October12 archive and live STOP

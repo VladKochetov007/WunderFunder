@@ -1,33 +1,23 @@
 # Challenge 2 research handoff — 2026-10-12
 
-**Archive state: pre-drain draft.** This handoff is based on Main snapshot
-`cfea172a0b95ba42450f611ad69a407dc40eeb73`, including the latest stop
-and memory-margin instructions and the documentation/evidence cleanup commits.
-Kaggle R7 is terminal and collected; only the admitted local seed4 logical run remains pending. Root
-must add its terminal outcome and artifact inventory, refresh current-state,
-index, and generated-tree snapshots, and mark the archive final only after
-those runs are reconciled. This document does not admit, recommend, or launch
-work.
+**Archive state: FINAL — 2026-10-12T16:12:41.588603+00:00.** Both admitted logical runs are terminal and all three delegated roles are finished. The clean-F0 seed4 control completed its fixed CP5 export and official grade; Kaggle R7 failed before fitting and was completely collected. Source integration HEAD before final appendix regeneration: `2e2df4674c3793e91961372ce9dfce9d17f16f1d`. This archive records completed, failed, uncertain, and untested work; it authorizes no new research. Research admission is closed and the research wakeup cron is disabled.
 
 The governing record is
 [STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json](campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json).
 New research admission is closed. The only work permitted by that record is
 draining (a) the already admitted clean-F0 seed-4 student continuation through
 its fixed CP5 export and official grade and (b) already admitted Kaggle R7
-terminal collection/grading. R7 subsequently ended ERROR at14:38:59Z and was completely collected: 114 files/1,363,683 bytes, all hashes and sizes independently checked. Its profile exited2 in0.291s because the frozen worker argv retained literal `{python}`; no fit, checkpoint, export, prediction or score exists. GPUbytes0. The stale pipeline running/empty-stages receipt is not evidence of a fit. See [terminal triage](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/r7_terminal_triage_r1/TERMINAL_TRIAGE_R1.json). This is infrastructure failure, not a scientific negative. No retry under the user stop. The local seed4 logical run remains pending.
+terminal collection/grading. R7 subsequently ended ERROR at14:38:59Z and was completely collected: 114 files/1,363,683 bytes, all hashes and sizes independently checked. Its profile exited2 in0.291s because the frozen worker argv retained literal `{python}`; no fit, checkpoint, export, prediction or score exists. GPUbytes0. The stale pipeline running/empty-stages receipt is not evidence of a fit. See [terminal triage](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/r7_terminal_triage_r1/TERMINAL_TRIAGE_R1.json). This is infrastructure failure, not a scientific negative. No retry under the user stop. The local seed4 logical run is now complete; its final receipt and grade are recorded below.
 Final drain must distinguish successful, partial, and failed terminal
 outcomes and preserve originals. Do not infer missing scores.
 
-The archive snapshot has 479 hypothesis-ledger rows, 796 experiment-ledger
-rows, 158 configured research-tree nodes across 11 families, and 134 journal
-events. The ledgers are append-only and can contain repeated IDs for revisions,
+The final archive contains 479 hypothesis-ledger rows, 798 experiment-ledger rows, 158 configured research-tree nodes across 11 families, and 135 journal events. The ledgers are append-only and can contain repeated IDs for revisions,
 retries, or additional events; row count is not the number of unique hypotheses
 or experiments. The current experiment ledger includes the preregistered fixed
 half-mixture screen; the journal also includes an archive bookkeeping event,
 which is not a scientific result. Full source rows, source-line links, hashes,
 and a metadata-only document catalog are reproduced in the generated appendix
-at the end of this file. The generated research-tree navigation snapshot is
-older than these source ledgers and must be rebuilt after the final drain. See
+at the end of this file. The research-tree navigation is rebuilt after final appendix generation; its integrity check is a point-in-time snapshot, and mutable read-only monitoring may later change catalog freshness without changing scientific evidence. See
 [the Main status inventory](campaign_2026-10-12/research_archive_inventory_r1/MAIN_STATUS_INVENTORY_R1.json),
 SHA-256 `7395df8a06ff7a53767301d642e7012806516d34d226b953a33e6198e0a820de`.
 It is a point-in-time, metadata-only inventory from the earlier archive
@@ -198,8 +188,7 @@ the existing auxiliary objectives. Alpha 0.9 has a favorable result in the
 tested one-seed ladder; it is an exploitation setting, not a universally
 established optimum. The main-target alpha=1.0 arm did run on exposed F1: 0.67068 versus alpha0.9 0.67103 and alpha0.7 0.66991 (six epochs, same cached targets). That is teacher-only primary-target mixing, but true-label magnitude weights and auxiliary supervision remain; a strict entirely label-free objective was not run. See [deep dive](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/DEEP_DIVE_CURRENT_BEST_20261011.md) and LOOP_LOG passes125/128. These one-seed results do not establish a universal optimum.
 
-The clean-T3 CP5 control is the most recent completed local student grade in
-this snapshot. The independent review reports 0.6811553603333363 for seed 3,
+The clean-T3 CP5 controls are the most recent completed local student grades. The independent review reports 0.6811553603333363 for seed 3,
 fixed epoch 5, on 468 exposed F0 groups / 141 components. The source-qualified
 fit used 10,535 train groups plus 1,405 valid fit groups, excluding 468 F0
 evaluation groups. It starts from own checkpoint
@@ -211,6 +200,8 @@ then uses 0.1*clip(y,−2,2) + 0.9*clip(Tstored,−2,2). Therefore the nominal
 pre-clipping contribution is 0.24375 per teacher; provenance rows labelled
 0.1 are source-parent metadata, not the numeric mixture weights. Clipping
 makes the final operation nonlinear.
+
+The admitted seed4 control is now complete at WP **0.6812584217** (t0 0.6742837474, t1 0.6882330961) on the identical exposed468-group F0 panel. Seed3/4 mean **0.6812068910**, sampleSD **0.0000728754**, n=2 student/seed-matched-initializer fits sharing one teacher cohort. This is not cross-fold confirmation, independent teacher replication, or a measured student ensemble. No public forecast follows. Six epochs used44760attempts/44740completedupdates/20AMPskips; actualCP5 `e6be82ff799f4ea2b62e770e9c340a8cfd8f98780d1c7dec4a76eab5a853d35c`, complete finite FP32 prediction `f0689f9596d5319e7f5f2e54c5598168f17bcfd926e93e7724fc3878103edec8`. See [seed4 final handoff](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/FINAL_HANDOFF_R1.md) and [machine receipt](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/SEED4_CONTROL_FINAL_RECEIPT_R1.json). The generic teacher coefficient rows and shorthand target formula in raw receipts are lineage/nominal metadata: the actual clipping and .8125 mean scale remain as explicitly described above.
 
 The closest old Z4 student score is 0.6831418134, from a different
 teacher/initializer lineage, recipe and FP16 forward inference, versus clean
@@ -432,27 +423,15 @@ packets are execution evidence rather than negative model results. R7 terminal r
 STOP supersedes older open allocations and “keep compute busy” instructions
 for new work; healthy admitted runs drain normally.
 
-## Final drain checklist for root
+## Completed drain and durable preservation
 
-This draft should become final only after:
+Local seed4: terminal fixedCP5/export/officialgrade complete. Kaggle R7: terminal pre-fit ERROR, complete collection, no scientific result or retry. All delegated roles completed; no active bandit units remain. Global admission barrier has an empty drain set, genericqueue STOP remains, and the exact research cron is removed. All historical open allocations are superseded; resume requires explicit user instruction.
 
-1. Seed-4 logical run is terminal through the admitted P1/P2/P3, fixed epoch-5
-   checkpoint export, and official fixed-468 F0 grade. Record actual unit/exit
-   reason, selected epoch, exact source/contract/manifest, fit and score
-   membership, prediction/checkpoint hashes, official score and terminal
-   resources. A partial result is recorded as partial; do not manufacture CP5
-   from an earlier checkpoint.
-2. Kaggle R7 has terminal provider status and complete receipt inventory.
-   Record whether a real worker phase began, session/version, mounted hashes,
-   per-worker results/resources, output coverage and official grade if valid.
-   Preserve incomplete output if it fails; classify infrastructure separately
-   from science. Reconcile campaign and provider quota without treating the
-   initial RUNNING receipt as a completed run.
-3. Root updates current state, durable stop, final archive status, research
-   indexes, final inventory and generated research-tree snapshot. Preserve
-   original ledgers and all raw run receipts.
-4. Root confirms all active delegated roles and admitted jobs are terminal.
-   Only then close the archive and report the final Main commit/hash.
+Export validator R1 expected nonexistent `export.run_name`; R2 derives the run from frozen worker argv and passes on actual artifacts. Valid computation was not repeated. A preliminary NPZ shape probe decompressed the y member without inspecting/using label values; export itself remained feature-only, and official grading intentionally read labels. The validator's translated ru_maxrss reading conflicts with its configured500MB scope and is retained as unresolved measurement evidence, not a trusted peak. P1 parent-hierarchical max increased7 with no OOM/kill and no attributed cause; P2/P3/export max/OOM/kill remained0. High/max counters count events, not bytes. These caveats are preserved in the final handoff.
+
+All useful project temporary artifacts are now on durable `/home` btrfs: 5,569 regular files /1,545,120,715 bytes, including native builds, fixtures, source scripts and logs. Every inventoried file was checksum-verified before its original was replaced by a compatibility symlink. No research payload is retained solely in tmpfs. Unrelated browser/system/auth/session caches remain untouched. Private model/data/binary payloads stay Git-ignored; the safe recovered text, source and preservation inventories are committed. See [temporary inventory](campaign_2026-10-12/research_archive_inventory_r1/TMP_PRESERVATION_INVENTORY_R1.json), [copy receipt](campaign_2026-10-12/research_archive_inventory_r1/TMP_DURABLE_COPY_RECEIPT_R1.json), [migration receipt](campaign_2026-10-12/research_archive_inventory_r1/TMP_DURABLE_MIGRATION_RECEIPT_R1.json), [native blob receipt](campaign_2026-10-12/research_archive_inventory_r1/TMP_NATIVE_BINARY_PRESERVATION_R1.json), and [recovered text manifest](campaign_2026-10-12/recovered_tmp_notes_r1/RECOVERED_NOTES_MANIFEST_R1.json).
+
+The user-reported public best remains0.6671 for C. For planning, approximately0.667 is the incumbent reference; a forecast above0.670 is not established by the two exposed F0 controls. D/E remain frozen, unscored human-upload trials. Metadata ridge did not outperform its chronological recent-five baseline. No new fit, blend search, quantization benchmark, cohort or paid action follows this archive.
 
 ## Evidence catalog
 
@@ -492,7 +471,7 @@ materials and model/data binaries are not embedded or exposed here.
 
 ## Appendix generation record
 
-Generated from source repository HEAD `292ebae30626343faa9d4f2b5922483f9c760f1d`. The generator streams each source JSONL record with an 8 MiB per-line bound, preserves the raw row, and catalogs documentation by filesystem metadata only.
+Generated from source repository HEAD `2e2df4674c3793e91961372ce9dfce9d17f16f1d`. The generator streams each source JSONL record with an 8 MiB per-line bound, preserves the raw row, and catalogs documentation by filesystem metadata only.
 
 ## Complete append-only ledger records
 
@@ -4334,9 +4313,9 @@ Source: [hypotheses.jsonl line 479](hypotheses.jsonl#L479). status="proposed_bou
 {"created_utc": "2026-10-12T10:23:40.537134+00:00", "evidence": ["research/campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md"], "expected_public_score": null, "hypothesis": "Exact own shared-trunk readouts may buy useful conditional score at low incremental recurrent cost", "id": "H-JOINT-SHARED-HEAD-COST-01", "numerical_gain_prior": null, "owner": "root", "paid_spend_authorized": false, "scope": "J6; HFTcurrentconditionalchangesign, newendpointneeded", "selection_basis": "officialsame-group CV servedendpoint; previouslyexposedfolds", "status": "proposed_bounded_joint_endpoint_comparison"}
 ```
 
-### Experiment ledger: 796 rows, 736 distinct IDs
+### Experiment ledger: 798 rows, 738 distinct IDs
 
-Source: [research/experiments.jsonl](experiments.jsonl); SHA-256 `ee35b1379aa6addd6291deb8ec092dd58876ea31fb91dcaad61edc5e9553e8c4`. Distinct-ID values are counted after converting each source ID to text. Repeated IDs: 60; IDs occurring more than once: 28.
+Source: [research/experiments.jsonl](experiments.jsonl); SHA-256 `ded23b729db3128223099a694884c13d9122c7dea378c8902aaf05fb10fc14a8`. Distinct-ID values are counted after converting each source ID to text. Repeated IDs: 60; IDs occurring more than once: 28.
 
 #### 1. E-001
 
@@ -10706,9 +10685,25 @@ Source: [experiments.jsonl line 796](experiments.jsonl#L796). status="completed_
 {"id":"E-CLEAN-T3-F0-CONTROL-S3-OLDZ4-FIXED-HALF-20261012-R1","hypothesis_id":"H-390","status":"completed_exposed_fixed_endpoint_screen","candidate_wp":0.683254949838229,"reference_wp":0.6831418133898598,"paired_delta_wp":0.00011313644836952186,"ci95":[-0.0012870053160526835,0.0015165560705333284],"evaluation_groups":468,"components":141,"distinct_student_seeds_per_recipe":1,"exposure":"repeatedly exposed F0; conditional fixed-prediction component resampling","frozen_policy":"one equal blend new cleanT3 CP5 plus oldZ4 CP1; no weight search","public_forecast":null,"promotion":false,"evidence":"research/campaign_2026-10-12/clean_t3_f0_student_contribution_screen_r1/RESULT_HANDOFF_R1.json","resource_note":"success6.64s/RSS1435762688B under1.5GB but tight; no OOM counter increase, aggregate max events+7 unattributed; future same legitimate task planned1.9GB under17GB aggregate target"}
 ```
 
-### Research-tree journal: 134 rows, 134 distinct IDs
+#### 797. E-CLEAN-T3-F0-MUONALL-TREATMENT-KAGGLE-R7-TERMINAL-20261012-R1
 
-Source: [research/bandit_tree/journal.jsonl](bandit_tree/journal.jsonl); SHA-256 `59b18deb21b4099f9fb7e5ce823dcfc7439d038302d1dd8515f5a4ae2bd45d57`. Distinct-ID values are counted after converting each source ID to text. Repeated IDs: 0; IDs occurring more than once: 0.
+Source: [experiments.jsonl line 797](experiments.jsonl#L797). status="screen_failed_execution_before_fit"; hypothesis_id="H-390".
+
+```json
+{"id":"E-CLEAN-T3-F0-MUONALL-TREATMENT-KAGGLE-R7-TERMINAL-20261012-R1","hypothesis_id":"H-390","created_utc":"2026-10-12T14:50:06.218352+00:00","status":"screen_failed_execution_before_fit","provider_status":"ERROR","kernel":"vladkochetov07/wnn-clean-t3-f0-student-20261012-r24","kernel_version":1,"failure":"Literal {python} remained in worker argv; attempted to open /kaggle/working/experiment/{python}. Profile process exit2 after0.291s, GPUbytes0.","scientific_result":null,"public_forecast":null,"collection_verified_files":114,"collection_verified_bytes":1363683,"receipt":"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/r7_terminal_triage_r1/TERMINAL_TRIAGE_R1.json","receipt_sha256":"41abef7c1733a5f3da8073df444be4c83994d3c01d0c9a6f456cfe63e7130aae","retry_authorized":false,"interpretation":"Pre-fit infrastructure failure, not a negative result for the Muon initializer or distillation objective. Frozen packet validators missed actual argv interpolation; exact mounted bootstrap/worker command must be exercised against producer artifacts before any future authorized dispatch."}
+```
+
+#### 798. E-CLEAN-T3-F0-CONTROL-S4-A9-T3R5-R3-CP5-GRADE-20261012-R1
+
+Source: [experiments.jsonl line 798](experiments.jsonl#L798). status="complete_exposed_f0_fixed_cp5_grade"; hypothesis_id="H-390".
+
+```json
+{"id":"E-CLEAN-T3-F0-CONTROL-S4-A9-T3R5-R3-CP5-GRADE-20261012-R1","hypothesis_id":"H-390","created_utc":"2026-10-12T16:12:41.588603+00:00","status":"complete_exposed_f0_fixed_cp5_grade","run":"clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1","student_seed":4,"checkpoint_epoch":5,"metric":"global_wp_clip2_v1","wp":0.6812584217032286,"t0":0.6742837473503716,"t1":0.6882330960560856,"evaluation_groups":468,"evaluation_components":141,"selected_rows":808863,"checkpoint_sha256":"e6be82ff799f4ea2b62e770e9c340a8cfd8f98780d1c7dec4a76eab5a853d35c","prediction_sha256":"f0689f9596d5319e7f5f2e54c5598168f17bcfd926e93e7724fc3878103edec8","optimizer_attempts":44760,"optimizer_completed_updates":44740,"amp_skipped_updates":20,"source_qualified_fit_membership":{"eval_groups_excluded_from_fit":468,"eval_source":"valid.parquet","fit_valid_groups":1405,"fit_valid_order_sha256":"0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75","fit_valid_source":"valid.parquet","fold0_exposed_not_pristine_holdout":true,"full_valid_feature_groups":1873,"full_valid_order_sha256":"008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7","same_valid_source_overlap":0,"split_manifest_sha256":"09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d","train_groups":10535,"train_order_sha256":"1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49","train_source":"train.parquet"},"receipt":"research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/SEED4_CONTROL_FINAL_RECEIPT_R1.json","receipt_sha256":"430d1e5e574737b134515732ce785131ec13d65b82e2c769bc24d0ef7153ff98","target_treatment":"T=float32(.8125*mean3 own teachers), no cache clipping; primary target=.1*clip(y,2)+.9*clip(T,2); GT magnitude weights/auxiliaries remain. coefficient.1 provenance rows describe family lineage, not numeric mixture.","distinct_student_initializer_seeds":2,"shared_teacher_cohorts":1,"two_seed_mean":0.6812068910182825,"two_seed_sample_sd":7.287539352918035e-05,"exposure":"Repeatedly exposed F0, shared teachers, own seed-matched initializers. No new fold/teacher replication, served ensemble evaluation, or public forecast.","expected_public_score":null,"new_research_admission":"closed by user"}
+```
+
+### Research-tree journal: 135 rows, 135 distinct IDs
+
+Source: [research/bandit_tree/journal.jsonl](bandit_tree/journal.jsonl); SHA-256 `35b5b4ee25e6cf395319958947ec76bde6cbed523e392ec13d30a85ca715a8ff`. Distinct-ID values are counted after converting each source ID to text. Repeated IDs: 0; IDs occurring more than once: 0.
 
 #### 1. TREE-20261006-001
 
@@ -11782,10 +11777,18 @@ Source: [journal.jsonl line 134](bandit_tree/journal.jsonl#L134). no compact sta
 {"created_utc":"2026-10-12T14:08:11Z","decision":"Archive-builder draft recorded at Main snapshot 3b8c5fb2. New research admission remains closed by the user STOP; only the already admitted clean-F0 seed4 logical run and Kaggle R7 drain remain. The handoff is pre-drain and must be reconciled with actual terminal records before it is called final. The generated tree and metadata inventory need a post-cleanup/post-drain refresh.","evidence":["research/RESEARCH_COMPLETE_HANDOFF_20261012.md","research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json","research/campaign_2026-10-12/research_archive_inventory_r1/MAIN_STATUS_INVENTORY_R1.json"],"new_spend_usd":0,"public_score_claim":null,"type":"research_archive_draft_and_stop_snapshot"}
 ```
 
+#### 135. ARCHIVE-FINAL-DRAIN-20261012-R1
+
+Source: [journal.jsonl line 135](bandit_tree/journal.jsonl#L135). no compact status/parent fields.
+
+```json
+{"id":"ARCHIVE-FINAL-DRAIN-20261012-R1","utc":"2026-10-12T16:12:41.588603+00:00","event":"archive_finalization_only","science_completed":["S4 fixedCP5 export/officialgrade","R7 terminal pre-fit failure collection"],"new_research_admission":"closed","active_subordinate_roles":0,"research_wakeup_cron":"disabled","temporary_research_artifacts":"Durable copies verified;165original paths compatibility symlinks; model/data/binaries ignored by Git","archive":"research/RESEARCH_COMPLETE_HANDOFF_20261012.md","public_best_user_reported":0.6671,"public_forecast":null}
+```
+
 
 ## Grouped documentation and receipt catalog
 
-Metadata-only inventory: 28012 Markdown/JSON/JSONL files under README.md, AGENTS.md, research/, specs/, writeups/, submissions/, artifacts/, hpo/, and docs/; 609 directory/file entries were excluded by private-path, challenge-3, symlink, or generated-environment filters. Suffix counts: `.json` 24763, `.jsonl` 888, `.md` 2361. No cataloged file contents are opened by this generator. JSON files larger than 2 MiB are explicitly marked; JSON files of every size remain metadata-only here.
+Metadata-only inventory: 28510 Markdown/JSON/JSONL files under README.md, AGENTS.md, research/, specs/, writeups/, submissions/, artifacts/, hpo/, and docs/; 641 directory/file entries were excluded by private-path, challenge-3, symlink, or generated-environment filters. Suffix counts: `.json` 25226, `.jsonl` 914, `.md` 2370. No cataloged file contents are opened by this generator. JSON files larger than 2 MiB are explicitly marked; JSON files of every size remain metadata-only here.
 
 Filename-based labels are navigational hints only. A claim-bearing result still requires checking its named source, manifest, terminal, and grade tuple. Historical source snapshots and duplicate copies are retained and should not be mistaken for independent evidence.
 
@@ -11817,6 +11820,1077 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 
 - [decomp_ab1A.json](../artifacts/logs/decomp_ab1A.json) — 3,401 bytes; modified 2026-09-14 23:21:27Z; documentation / metadata by filename.
 - [scan_train.json](../artifacts/logs/scan_train.json) — 141 bytes; modified 2026-09-15 00:13:01Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/`
+
+- [h382_current_poll_targets_r1.json](../artifacts/preservation_20261012/tmp/h382_current_poll_targets_r1.json) — 1,529 bytes; modified 2026-10-11 15:48:59Z; documentation / metadata by filename.
+- [h382_r3_dataset_owner_inventory.json](../artifacts/preservation_20261012/tmp/h382_r3_dataset_owner_inventory.json) — 18 bytes; modified 2026-10-11 12:34:05Z; documentation / metadata by filename.
+- [h382_r3_kernel_owner_inventory.json](../artifacts/preservation_20261012/tmp/h382_r3_kernel_owner_inventory.json) — 10 bytes; modified 2026-10-11 12:34:07Z; documentation / metadata by filename.
+- [h390_s3_s4_z4_build_r1.json](../artifacts/preservation_20261012/tmp/h390_s3_s4_z4_build_r1.json) — 33,064 bytes; modified 2026-10-12 09:26:14Z; documentation / metadata by filename.
+- [h390_s3_z4_build_r1.json](../artifacts/preservation_20261012/tmp/h390_s3_z4_build_r1.json) — 24,519 bytes; modified 2026-10-12 09:25:58Z; documentation / metadata by filename.
+- [kaggle_my_kernels_20261011_1231.json](../artifacts/preservation_20261012/tmp/kaggle_my_kernels_20261011_1231.json) — 22,328 bytes; modified 2026-10-11 12:31:26Z; documentation / metadata by filename.
+- [kaggle_my_kernels_date_20261011_1232.json](../artifacts/preservation_20261012/tmp/kaggle_my_kernels_date_20261011_1232.json) — 22,677 bytes; modified 2026-10-11 12:32:18Z; documentation / metadata by filename.
+- [provider_targets_h382_base.json](../artifacts/preservation_20261012/tmp/provider_targets_h382_base.json) — 29,231 bytes; modified 2026-10-11 12:38:27Z; documentation / metadata by filename.
+- [q8_r4_independent_validation_20261012.json](../artifacts/preservation_20261012/tmp/q8_r4_independent_validation_20261012.json) — 3,536 bytes; modified 2026-10-12 06:49:37Z; claim-receipt-like by filename.
+- [R6_CURRENT_STATUS_R1.jsonl](../artifacts/preservation_20261012/tmp/R6_CURRENT_STATUS_R1.jsonl) — 1,123 bytes; modified 2026-10-12 00:09:08Z; source snapshot / plan by filename.
+- [R6_POSTPUSH_QUOTA_STATUS_R1.jsonl](../artifacts/preservation_20261012/tmp/R6_POSTPUSH_QUOTA_STATUS_R1.jsonl) — 1,118 bytes; modified 2026-10-12 00:05:54Z; source snapshot / plan by filename.
+- [R6_PREPUSH_QUOTA_STATUS_R1.jsonl](../artifacts/preservation_20261012/tmp/R6_PREPUSH_QUOTA_STATUS_R1.jsonl) — 1,117 bytes; modified 2026-10-12 00:04:27Z; source snapshot / plan by filename.
+- [review_d_summary.json](../artifacts/preservation_20261012/tmp/review_d_summary.json) — 6,785 bytes; modified 2026-10-12 13:18:36Z; claim-receipt-like by filename.
+- [review_e_summary.json](../artifacts/preservation_20261012/tmp/review_e_summary.json) — 7,915 bytes; modified 2026-10-12 13:18:36Z; claim-receipt-like by filename.
+- [wnn-bandit-status-check.json](../artifacts/preservation_20261012/tmp/wnn-bandit-status-check.json) — 15,028,506 bytes; modified 2026-10-12 06:04:42Z; source snapshot / plan by filename; >2 MiB, content not opened.
+- [wnn-clean-t3-f0-combo-parent-r1-stage.provenance.json](../artifacts/preservation_20261012/tmp/wnn-clean-t3-f0-combo-parent-r1-stage.provenance.json) — 159,653 bytes; modified 2026-10-11 17:37:43Z; documentation / metadata by filename.
+- [wnn-r5-r4-only-quota-r1.jsonl](../artifacts/preservation_20261012/tmp/wnn-r5-r4-only-quota-r1.jsonl) — 1,117 bytes; modified 2026-10-11 22:57:17Z; documentation / metadata by filename.
+- [wnn-r5-r4-only.targets.json](../artifacts/preservation_20261012/tmp/wnn-r5-r4-only.targets.json) — 107 bytes; modified 2026-10-11 22:57:16Z; documentation / metadata by filename.
+- [wnn-r5-readonly-poll-r2.quota.jsonl](../artifacts/preservation_20261012/tmp/wnn-r5-readonly-poll-r2.quota.jsonl) — 3,197 bytes; modified 2026-10-11 22:51:29Z; documentation / metadata by filename.
+- [wnn-r5-readonly-poll.quota.jsonl](../artifacts/preservation_20261012/tmp/wnn-r5-readonly-poll.quota.jsonl) — 3,197 bytes; modified 2026-10-11 22:50:41Z; documentation / metadata by filename.
+- [wnn-r5-readonly-poll.targets.json](../artifacts/preservation_20261012/tmp/wnn-r5-readonly-poll.targets.json) — 200 bytes; modified 2026-10-11 22:50:39Z; documentation / metadata by filename.
+- [wnn_clean_t3_f0_teacher_r3_independent_validation.json](../artifacts/preservation_20261012/tmp/wnn_clean_t3_f0_teacher_r3_independent_validation.json) — 1,074 bytes; modified 2026-10-11 20:59:48Z; claim-receipt-like by filename.
+- [wnn_r5_quota_poll_r1.jsonl](../artifacts/preservation_20261012/tmp/wnn_r5_quota_poll_r1.jsonl) — 1,394 bytes; modified 2026-10-11 23:22:55Z; documentation / metadata by filename.
+- [wnn_r5_quota_targets_r1.json](../artifacts/preservation_20261012/tmp/wnn_r5_quota_targets_r1.json) — 895 bytes; modified 2026-10-11 23:22:49Z; documentation / metadata by filename.
+- [wnn_r6_kernel_v2_exact_status_poll_20261012.jsonl](../artifacts/preservation_20261012/tmp/wnn_r6_kernel_v2_exact_status_poll_20261012.jsonl) — 2,936 bytes; modified 2026-10-12 04:08:06Z; source snapshot / plan by filename.
+- [wnn_r6_kernel_v2_exact_status_targets_20261012.json](../artifacts/preservation_20261012/tmp/wnn_r6_kernel_v2_exact_status_targets_20261012.json) — 105 bytes; modified 2026-10-12 04:08:05Z; source snapshot / plan by filename.
+- [wnn_r6_kernel_v2_status_poll_20261012.jsonl](../artifacts/preservation_20261012/tmp/wnn_r6_kernel_v2_status_poll_20261012.jsonl) — 1,109 bytes; modified 2026-10-12 04:06:15Z; source snapshot / plan by filename.
+- [wnn_r6_kernel_v2_status_targets_20261012.json](../artifacts/preservation_20261012/tmp/wnn_r6_kernel_v2_status_targets_20261012.json) — 103 bytes; modified 2026-10-12 04:06:14Z; source snapshot / plan by filename.
+- [wnn_z1c_z4_legacy_profile_adapter_r1.json](../artifacts/preservation_20261012/tmp/wnn_z1c_z4_legacy_profile_adapter_r1.json) — 2,763 bytes; modified 2026-10-12 09:32:06Z; documentation / metadata by filename.
+- [wnn_z5_z4_legacy_profile_adapter_r1.json](../artifacts/preservation_20261012/tmp/wnn_z5_z4_legacy_profile_adapter_r1.json) — 2,428 bytes; modified 2026-10-12 09:27:57Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/h3-h9g4qydk/`
+
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/h3-h9g4qydk/dataset-metadata.json) — 342 bytes; modified 2026-10-11 11:43:24Z; documentation / metadata by filename.
+- [H382_PROVIDER_POLL_R1.jsonl](../artifacts/preservation_20261012/tmp/h3-h9g4qydk/H382_PROVIDER_POLL_R1.jsonl) — 1,162 bytes; modified 2026-10-11 11:45:49Z; documentation / metadata by filename.
+- [H382_PROVIDER_POLL_R2.jsonl](../artifacts/preservation_20261012/tmp/h3-h9g4qydk/H382_PROVIDER_POLL_R2.jsonl) — 1,112 bytes; modified 2026-10-11 11:45:59Z; documentation / metadata by filename.
+- [H382_PROVIDER_POLL_R3.jsonl](../artifacts/preservation_20261012/tmp/h3-h9g4qydk/H382_PROVIDER_POLL_R3.jsonl) — 1,112 bytes; modified 2026-10-11 11:53:11Z; documentation / metadata by filename.
+- [H382_PROVIDER_TARGET_R1.json](../artifacts/preservation_20261012/tmp/h3-h9g4qydk/H382_PROVIDER_TARGET_R1.json) — 130 bytes; modified 2026-10-11 11:45:55Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/h3-h9g4qydk/dataset/`
+
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/h3-h9g4qydk/dataset/dataset-metadata.json) — 190 bytes; modified 2026-10-11 11:43:03Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/h3-h9g4qydk/kernel/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/h3-h9g4qydk/kernel/kernel-metadata.json) — 525 bytes; modified 2026-10-11 11:43:03Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/h3-h9g4qydk/kernel-readback/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/h3-h9g4qydk/kernel-readback/kernel-metadata.json) — 781 bytes; modified 2026-10-11 11:44:22Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/h3-h9g4qydk/provider-output/out/`
+
+- [input_identity.json](../artifacts/preservation_20261012/tmp/h3-h9g4qydk/provider-output/out/input_identity.json) — 5,571 bytes; modified 2026-10-11 11:46:12Z; source snapshot / plan by filename.
+- [status.json](../artifacts/preservation_20261012/tmp/h3-h9g4qydk/provider-output/out/status.json) — 560 bytes; modified 2026-10-11 11:46:12Z; source snapshot / plan by filename.
+
+### `artifacts/preservation_20261012/tmp/h382r2-terminal-20261011-r1/out/`
+
+- [input_identity.json](../artifacts/preservation_20261012/tmp/h382r2-terminal-20261011-r1/out/input_identity.json) — 7,176 bytes; modified 2026-10-11 12:27:21Z; source snapshot / plan by filename.
+- [status.json](../artifacts/preservation_20261012/tmp/h382r2-terminal-20261011-r1/out/status.json) — 805 bytes; modified 2026-10-11 12:27:21Z; source snapshot / plan by filename.
+
+### `artifacts/preservation_20261012/tmp/h3r2-XHrRB2/`
+
+- [prepush_quota_status.jsonl](../artifacts/preservation_20261012/tmp/h3r2-XHrRB2/prepush_quota_status.jsonl) — 1,112 bytes; modified 2026-10-11 11:54:52Z; source snapshot / plan by filename.
+- [R2_PROVIDER_POLL_1.jsonl](../artifacts/preservation_20261012/tmp/h3r2-XHrRB2/R2_PROVIDER_POLL_1.jsonl) — 1,113 bytes; modified 2026-10-11 11:55:35Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/h3r2-XHrRB2/dataset/`
+
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/h3r2-XHrRB2/dataset/dataset-metadata.json) — 190 bytes; modified 2026-10-11 11:53:32Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/h3r2-XHrRB2/kernel/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/h3r2-XHrRB2/kernel/kernel-metadata.json) — 561 bytes; modified 2026-10-11 11:53:32Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/h3r2-XHrRB2/kernel-readback/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/h3r2-XHrRB2/kernel-readback/kernel-metadata.json) — 676 bytes; modified 2026-10-11 11:55:35Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/h3r3-Oj16Mk/dataset/`
+
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/h3r3-Oj16Mk/dataset/dataset-metadata.json) — 190 bytes; modified 2026-10-11 12:34:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/h3r3-Oj16Mk/kernel/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/h3r3-Oj16Mk/kernel/kernel-metadata.json) — 561 bytes; modified 2026-10-11 12:34:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/h3r3-Oj16Mk/remote_kernel_readback/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/h3r3-Oj16Mk/remote_kernel_readback/kernel-metadata.json) — 676 bytes; modified 2026-10-11 12:37:56Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/reship/`
+
+- [p00x_bl_d_pre1.json](../artifacts/preservation_20261012/tmp/reship/p00x_bl_d_pre1.json) — 1,824 bytes; modified 2026-10-11 00:17:25Z; documentation / metadata by filename.
+- [p00x_bl_d_pre2x.json](../artifacts/preservation_20261012/tmp/reship/p00x_bl_d_pre2x.json) — 1,794 bytes; modified 2026-10-11 00:17:25Z; documentation / metadata by filename.
+- [p00x_bl_d_prop0_pre1.json](../artifacts/preservation_20261012/tmp/reship/p00x_bl_d_prop0_pre1.json) — 1,842 bytes; modified 2026-10-11 00:17:25Z; documentation / metadata by filename.
+- [p00x_bl_d_warp.json](../artifacts/preservation_20261012/tmp/reship/p00x_bl_d_warp.json) — 1,819 bytes; modified 2026-10-11 00:17:25Z; documentation / metadata by filename.
+- [p00x_w13_dsq_prop0.json](../artifacts/preservation_20261012/tmp/reship/p00x_w13_dsq_prop0.json) — 324 bytes; modified 2026-10-11 00:17:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-clean-t3-f0-combo-parent-r1/`
+
+- [combo_s3_f0_provenance.json](../artifacts/preservation_20261012/tmp/wnn-clean-t3-f0-combo-parent-r1/combo_s3_f0_provenance.json) — 159,653 bytes; modified 2026-10-11 17:38:03Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-clean-t3-f0-r5-kernel-v2-stage-dff5cbb4/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/wnn-clean-t3-f0-r5-kernel-v2-stage-dff5cbb4/kernel-metadata.json) — 565 bytes; modified 2026-10-11 23:58:26Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-clean-t3-f0-student-parents-r1/control/`
+
+- [provenance.json](../artifacts/preservation_20261012/tmp/wnn-clean-t3-f0-student-parents-r1/control/provenance.json) — 159,653 bytes; modified 2026-10-11 17:47:16Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-clean-t3-f0-student-parents-r1/treatment/`
+
+- [provenance.json](../artifacts/preservation_20261012/tmp/wnn-clean-t3-f0-student-parents-r1/treatment/provenance.json) — 160,781 bytes; modified 2026-10-11 17:47:16Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-clean-t3-f0-treatment-r22-assets/`
+
+- [pair_r2_cache_metadata.json](../artifacts/preservation_20261012/tmp/wnn-clean-t3-f0-treatment-r22-assets/pair_r2_cache_metadata.json) — 323,404 bytes; modified 2026-10-12 11:19:28Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-h382-export-recovery-private-stage-r4-20261011/`
+
+- [checkpoint_manifest.json](../artifacts/preservation_20261012/tmp/wnn-h382-export-recovery-private-stage-r4-20261011/checkpoint_manifest.json) — 7,010 bytes; modified 2026-10-11 16:09:13Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn-h382-export-recovery-private-stage-r4-20261011/dataset-metadata.json) — 182 bytes; modified 2026-10-11 16:09:13Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-h382-export-recovery-private-stage-r4-final-20261011/`
+
+- [checkpoint_manifest.json](../artifacts/preservation_20261012/tmp/wnn-h382-export-recovery-private-stage-r4-final-20261011/checkpoint_manifest.json) — 7,010 bytes; modified 2026-10-11 16:11:00Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn-h382-export-recovery-private-stage-r4-final-20261011/dataset-metadata.json) — 182 bytes; modified 2026-10-11 16:11:00Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-h382-export-recovery-private-stage-r4-final2-20261011/`
+
+- [checkpoint_manifest.json](../artifacts/preservation_20261012/tmp/wnn-h382-export-recovery-private-stage-r4-final2-20261011/checkpoint_manifest.json) — 7,010 bytes; modified 2026-10-11 16:11:34Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn-h382-export-recovery-private-stage-r4-final2-20261011/dataset-metadata.json) — 182 bytes; modified 2026-10-11 16:11:34Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-h382-rescued-checkpoints-r4-readback-20261011/`
+
+- [checkpoint_manifest.json](../artifacts/preservation_20261012/tmp/wnn-h382-rescued-checkpoints-r4-readback-20261011/checkpoint_manifest.json) — 7,010 bytes; modified 2026-10-11 16:22:32Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/py311/lib/python3.11/site-packages/numpy/random/`
+
+- [LICENSE.md](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/py311/lib/python3.11/site-packages/numpy/random/LICENSE.md) — 3,511 bytes; modified 2026-10-11 23:27:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/py311/lib/python3.11/site-packages/pyarrow/tests/data/orc/`
+
+- [README.md](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/py311/lib/python3.11/site-packages/pyarrow/tests/data/orc/README.md) — 932 bytes; modified 2026-10-11 23:27:31Z; source snapshot / plan by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/`
+
+- [.rustc_info.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/.rustc_info.json) — 2,109 bytes; modified 2026-10-11 23:25:53Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/autocfg-82bf993974dfc5a1/`
+
+- [lib-autocfg.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/autocfg-82bf993974dfc5a1/lib-autocfg.json) — 347 bytes; modified 2026-10-11 23:23:19Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/bit-set-248f2d1f1efbd76b/`
+
+- [lib-bit_set.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/bit-set-248f2d1f1efbd76b/lib-bit_set.json) — 457 bytes; modified 2026-10-11 23:23:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/bit-vec-bcfd2c47e4b75695/`
+
+- [lib-bit_vec.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/bit-vec-bcfd2c47e4b75695/lib-bit_vec.json) — 489 bytes; modified 2026-10-11 23:23:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/bitflags-8252333fb3e2e84e/`
+
+- [lib-bitflags.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/bitflags-8252333fb3e2e84e/lib-bitflags.json) — 444 bytes; modified 2026-10-11 23:23:19Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/bytemuck-918895f1ca336b0e/`
+
+- [lib-bytemuck.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/bytemuck-918895f1ca336b0e/lib-bytemuck.json) — 1,003 bytes; modified 2026-10-11 23:23:31Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/bytemuck_derive-d76b7b2c05367c89/`
+
+- [lib-bytemuck_derive.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/bytemuck_derive-d76b7b2c05367c89/lib-bytemuck_derive.json) — 538 bytes; modified 2026-10-11 23:23:26Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/cfg-if-9d8e838b3d041728/`
+
+- [lib-cfg_if.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/cfg-if-9d8e838b3d041728/lib-cfg_if.json) — 378 bytes; modified 2026-10-11 23:23:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/fastrand-fb8ababd87e80100/`
+
+- [lib-fastrand.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/fastrand-fb8ababd87e80100/lib-fastrand.json) — 434 bytes; modified 2026-10-11 23:23:22Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/fnv-1e77ae8f0484c8fd/`
+
+- [lib-fnv.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/fnv-1e77ae8f0484c8fd/lib-fnv.json) — 382 bytes; modified 2026-10-11 23:23:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-0100bd4b1cfc75e7/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-0100bd4b1cfc75e7/build-script-build-script-build.json) — 396 bytes; modified 2026-10-11 23:23:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-1b804b0c7f180d31/`
+
+- [lib-getrandom.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-1b804b0c7f180d31/lib-getrandom.json) — 564 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-3e19503fee12eb92/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-3e19503fee12eb92/build-script-build-script-build.json) — 404 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-472f1e64b34fda45/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-472f1e64b34fda45/run-build-script-build-script-build.json) — 331 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-6b894b5e8f9b6aec/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-6b894b5e8f9b6aec/run-build-script-build-script-build.json) — 331 bytes; modified 2026-10-11 23:23:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-71021c4db2d0b149/`
+
+- [lib-getrandom.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/getrandom-71021c4db2d0b149/lib-getrandom.json) — 569 bytes; modified 2026-10-11 23:23:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libc-28f0dda205573feb/`
+
+- [lib-libc.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libc-28f0dda205573feb/lib-libc.json) — 565 bytes; modified 2026-10-11 23:23:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libc-9963ff085dab2e1a/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libc-9963ff085dab2e1a/run-build-script-build-script-build.json) — 465 bytes; modified 2026-10-11 23:23:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libc-9c187f6da92bed23/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libc-9c187f6da92bed23/build-script-build-script-build.json) — 519 bytes; modified 2026-10-11 23:23:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libm-886982f9d36ca52d/`
+
+- [lib-libm.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libm-886982f9d36ca52d/lib-libm.json) — 566 bytes; modified 2026-10-11 23:23:32Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libm-a52e3beb24701c60/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libm-a52e3beb24701c60/build-script-build-script-build.json) — 521 bytes; modified 2026-10-11 23:23:24Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libm-a6dfdc4c85a7c085/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/libm-a6dfdc4c85a7c085/run-build-script-build-script-build.json) — 340 bytes; modified 2026-10-11 23:23:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/linux-raw-sys-51bcf80386142fef/`
+
+- [lib-linux_raw_sys.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/linux-raw-sys-51bcf80386142fef/lib-linux_raw_sys.json) — 792 bytes; modified 2026-10-11 23:23:19Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/num-traits-4bfd4e7f95b877c4/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/num-traits-4bfd4e7f95b877c4/build-script-build-script-build.json) — 476 bytes; modified 2026-10-11 23:23:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/num-traits-7fb5b670dd9d3ef5/`
+
+- [lib-num_traits.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/num-traits-7fb5b670dd9d3ef5/lib-num_traits.json) — 471 bytes; modified 2026-10-11 23:23:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/num-traits-fa947a74f010f279/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/num-traits-fa947a74f010f279/run-build-script-build-script-build.json) — 331 bytes; modified 2026-10-11 23:23:24Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/once_cell-c9b472f6d18a3f65/`
+
+- [lib-once_cell.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/once_cell-c9b472f6d18a3f65/lib-once_cell.json) — 518 bytes; modified 2026-10-11 23:23:22Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/ppv-lite86-23c548b579994e01/`
+
+- [lib-ppv_lite86.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/ppv-lite86-23c548b579994e01/lib-ppv_lite86.json) — 465 bytes; modified 2026-10-11 23:23:23Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/proc-macro2-08e40fa803572671/`
+
+- [lib-proc_macro2.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/proc-macro2-08e40fa803572671/lib-proc_macro2.json) — 573 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/proc-macro2-602330aa1fb08b49/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/proc-macro2-602330aa1fb08b49/run-build-script-build-script-build.json) — 488 bytes; modified 2026-10-11 23:23:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/proc-macro2-b78dedb910fad2db/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/proc-macro2-b78dedb910fad2db/build-script-build-script-build.json) — 458 bytes; modified 2026-10-11 23:23:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/proptest-4045aa59b837ac33/`
+
+- [lib-proptest.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/proptest-4045aa59b837ac33/lib-proptest.json) — 1,396 bytes; modified 2026-10-11 23:23:31Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/quick-error-d07b82ff5e154d70/`
+
+- [lib-quick_error.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/quick-error-d07b82ff5e154d70/lib-quick_error.json) — 357 bytes; modified 2026-10-11 23:23:24Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/quote-5224a4a9d8fa4e72/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/quote-5224a4a9d8fa4e72/build-script-build-script-build.json) — 419 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/quote-c2a11681939cf099/`
+
+- [lib-quote.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/quote-c2a11681939cf099/lib-quote.json) — 529 bytes; modified 2026-10-11 23:23:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/quote-eed434171ea0e87d/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/quote-eed434171ea0e87d/run-build-script-build-script-build.json) — 325 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rand-bada8790cd995999/`
+
+- [lib-rand.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rand-bada8790cd995999/lib-rand.json) — 584 bytes; modified 2026-10-11 23:23:26Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rand_chacha-f56763129ac294b8/`
+
+- [lib-rand_chacha.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rand_chacha-f56763129ac294b8/lib-rand_chacha.json) — 523 bytes; modified 2026-10-11 23:23:26Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rand_core-afb963014a405fd4/`
+
+- [lib-rand_core.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rand_core-afb963014a405fd4/lib-rand_core.json) — 461 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rand_xorshift-bb243b7d193a3811/`
+
+- [lib-rand_xorshift.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rand_xorshift-bb243b7d193a3811/lib-rand_xorshift.json) — 429 bytes; modified 2026-10-11 23:23:26Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/regex-syntax-71ff523a2ff45829/`
+
+- [lib-regex_syntax.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/regex-syntax-71ff523a2ff45829/lib-regex_syntax.json) — 702 bytes; modified 2026-10-11 23:23:28Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rustix-5c37337b0dff6dd6/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rustix-5c37337b0dff6dd6/run-build-script-build-script-build.json) — 675 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rustix-99f5db619bef6f65/`
+
+- [lib-rustix.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rustix-99f5db619bef6f65/lib-rustix.json) — 1,056 bytes; modified 2026-10-11 23:23:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rustix-eea36ce8e446ecda/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rustix-eea36ce8e446ecda/build-script-build-script-build.json) — 880 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rusty-fork-3c84fd6308fc801d/`
+
+- [lib-rusty_fork.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/rusty-fork-3c84fd6308fc801d/lib-rusty_fork.json) — 664 bytes; modified 2026-10-11 23:23:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/syn-7d73ceae173e4722/`
+
+- [lib-syn.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/syn-7d73ceae173e4722/lib-syn.json) — 763 bytes; modified 2026-10-11 23:23:24Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/tempfile-f2287df7792459e7/`
+
+- [lib-tempfile.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/tempfile-f2287df7792459e7/lib-tempfile.json) — 652 bytes; modified 2026-10-11 23:23:23Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/unarray-13071c3ccdbc289d/`
+
+- [lib-unarray.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/unarray-13071c3ccdbc289d/lib-unarray.json) — 348 bytes; modified 2026-10-11 23:23:28Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/unicode-ident-2046154b3dc3f7c4/`
+
+- [lib-unicode_ident.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/unicode-ident-2046154b3dc3f7c4/lib-unicode_ident.json) — 361 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/wait-timeout-08c9e3dc5c7d67a3/`
+
+- [lib-wait_timeout.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/wait-timeout-08c9e3dc5c7d67a3/lib-wait_timeout.json) — 414 bytes; modified 2026-10-11 23:23:24Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/wnn_native-9a2bd2a9c51c8ca7/`
+
+- [test-lib-wnn_native.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/wnn_native-9a2bd2a9c51c8ca7/test-lib-wnn_native.json) — 600 bytes; modified 2026-10-11 23:24:02Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/zerocopy-2e233f3410c70a3c/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/zerocopy-2e233f3410c70a3c/build-script-build-script-build.json) — 528 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/zerocopy-ae5703be9b4b524c/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/zerocopy-ae5703be9b4b524c/run-build-script-build-script-build.json) — 342 bytes; modified 2026-10-11 23:23:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/zerocopy-f7a77c80d361520a/`
+
+- [lib-zerocopy.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/debug/.fingerprint/zerocopy-f7a77c80d361520a/lib-zerocopy.json) — 578 bytes; modified 2026-10-11 23:23:22Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/autocfg-4bdbe5399db7af5f/`
+
+- [lib-autocfg.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/autocfg-4bdbe5399db7af5f/lib-autocfg.json) — 350 bytes; modified 2026-10-11 23:25:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/bytemuck_derive-ac99033f68e056fe/`
+
+- [lib-bytemuck_derive.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/bytemuck_derive-ac99033f68e056fe/lib-bytemuck_derive.json) — 542 bytes; modified 2026-10-11 23:25:39Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/heck-b8d703388eeb71ec/`
+
+- [lib-heck.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/heck-b8d703388eeb71ec/lib-heck.json) — 345 bytes; modified 2026-10-11 23:25:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/libc-9b2bcb334050a31b/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/libc-9b2bcb334050a31b/build-script-build-script-build.json) — 522 bytes; modified 2026-10-11 23:25:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/libm-cf28edb24fa5e28a/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/libm-cf28edb24fa5e28a/build-script-build-script-build.json) — 522 bytes; modified 2026-10-11 23:25:33Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/matrixmultiply-50393607f4c28674/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/matrixmultiply-50393607f4c28674/build-script-build-script-build.json) — 573 bytes; modified 2026-10-11 23:25:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/num-traits-8c2b17baeddee5ae/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/num-traits-8c2b17baeddee5ae/build-script-build-script-build.json) — 502 bytes; modified 2026-10-11 23:25:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/numpy-9399d151c641c0b0/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/numpy-9399d151c641c0b0/build-script-build-script-build.json) — 459 bytes; modified 2026-10-11 23:25:33Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/proc-macro2-3b419e35231bee40/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/proc-macro2-3b419e35231bee40/run-build-script-build-script-build.json) — 489 bytes; modified 2026-10-11 23:25:19Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/proc-macro2-5417699f51477817/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/proc-macro2-5417699f51477817/build-script-build-script-build.json) — 461 bytes; modified 2026-10-11 23:25:19Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/proc-macro2-5bf217bf0dd5197c/`
+
+- [lib-proc_macro2.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/proc-macro2-5bf217bf0dd5197c/lib-proc_macro2.json) — 577 bytes; modified 2026-10-11 23:25:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/pyo3-build-config-a03cd04d7c1683e9/`
+
+- [lib-pyo3_build_config.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/pyo3-build-config-a03cd04d7c1683e9/lib-pyo3_build_config.json) — 564 bytes; modified 2026-10-11 23:25:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/pyo3-d2b3135afff09206/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/pyo3-d2b3135afff09206/build-script-build-script-build.json) — 1,313 bytes; modified 2026-10-11 23:25:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/pyo3-ffi-67ae3206d221b9e1/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/pyo3-ffi-67ae3206d221b9e1/build-script-build-script-build.json) — 785 bytes; modified 2026-10-11 23:25:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/pyo3-macros-backend-616642894714c96e/`
+
+- [lib-pyo3_macros_backend.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/pyo3-macros-backend-616642894714c96e/lib-pyo3_macros_backend.json) — 652 bytes; modified 2026-10-11 23:25:28Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/pyo3-macros-efc8c95694a1c0df/`
+
+- [lib-pyo3_macros.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/pyo3-macros-efc8c95694a1c0df/lib-pyo3_macros.json) — 676 bytes; modified 2026-10-11 23:25:31Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/quote-023b3468074e6189/`
+
+- [lib-quote.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/quote-023b3468074e6189/lib-quote.json) — 534 bytes; modified 2026-10-11 23:25:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/quote-541316096221bf3c/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/quote-541316096221bf3c/build-script-build-script-build.json) — 422 bytes; modified 2026-10-11 23:25:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/quote-83478455e2bcd496/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/quote-83478455e2bcd496/run-build-script-build-script-build.json) — 327 bytes; modified 2026-10-11 23:25:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/syn-49a1d68a5a96ca3f/`
+
+- [lib-syn.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/syn-49a1d68a5a96ca3f/lib-syn.json) — 809 bytes; modified 2026-10-11 23:25:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/syn-ae7ee6a3d42d22eb/`
+
+- [lib-syn.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/syn-ae7ee6a3d42d22eb/lib-syn.json) — 766 bytes; modified 2026-10-11 23:25:33Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/target-lexicon-17d0324a236212be/`
+
+- [lib-target_lexicon.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/target-lexicon-17d0324a236212be/lib-target_lexicon.json) — 523 bytes; modified 2026-10-11 23:25:19Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/target-lexicon-32782329d21cfa48/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/target-lexicon-32782329d21cfa48/run-build-script-build-script-build.json) — 257 bytes; modified 2026-10-11 23:25:19Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/target-lexicon-839308b58a86caa9/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/target-lexicon-839308b58a86caa9/build-script-build-script-build.json) — 469 bytes; modified 2026-10-11 23:25:19Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/unicode-ident-992abdb5b7dd12bf/`
+
+- [lib-unicode_ident.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/release/.fingerprint/unicode-ident-992abdb5b7dd12bf/lib-unicode_ident.json) — 364 bytes; modified 2026-10-11 23:25:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/bytemuck-8246b12bc4d44156/`
+
+- [lib-bytemuck.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/bytemuck-8246b12bc4d44156/lib-bytemuck.json) — 1,074 bytes; modified 2026-10-11 23:25:45Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-676d01bb468a88e4/`
+
+- [lib-libc.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-676d01bb468a88e4/lib-libc.json) — 639 bytes; modified 2026-10-11 23:25:29Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-707d5914e45ee8dc/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-707d5914e45ee8dc/run-build-script-build-script-build.json) — 520 bytes; modified 2026-10-11 23:25:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-6581e186e41e8420/`
+
+- [lib-libm.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-6581e186e41e8420/lib-libm.json) — 639 bytes; modified 2026-10-11 23:25:46Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-94c68d62c6ba0d54/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-94c68d62c6ba0d54/run-build-script-build-script-build.json) — 394 bytes; modified 2026-10-11 23:25:38Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-41af42bf9b771ffc/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-41af42bf9b771ffc/run-build-script-build-script-build.json) — 389 bytes; modified 2026-10-11 23:25:28Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-8077b251bd6e57d5/`
+
+- [lib-matrixmultiply.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-8077b251bd6e57d5/lib-matrixmultiply.json) — 704 bytes; modified 2026-10-11 23:25:30Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/ndarray-6d6c2318a1f3b4f8/`
+
+- [lib-ndarray.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/ndarray-6d6c2318a1f3b4f8/lib-ndarray.json) — 890 bytes; modified 2026-10-11 23:25:43Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-complex-ecc15f8128069b5a/`
+
+- [lib-num_complex.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-complex-ecc15f8128069b5a/lib-num_complex.json) — 601 bytes; modified 2026-10-11 23:25:32Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-integer-a10d1811880becb9/`
+
+- [lib-num_integer.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-integer-a10d1811880becb9/lib-num_integer.json) — 541 bytes; modified 2026-10-11 23:25:31Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-129eea8aa1099b2c/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-129eea8aa1099b2c/run-build-script-build-script-build.json) — 385 bytes; modified 2026-10-11 23:25:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-a1a00da6acb053bc/`
+
+- [lib-num_traits.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-a1a00da6acb053bc/lib-num_traits.json) — 567 bytes; modified 2026-10-11 23:25:22Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-120195f9fad9d28f/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-120195f9fad9d28f/run-build-script-build-script-build.json) — 353 bytes; modified 2026-10-11 23:25:38Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-47ed7b8fd0a8f1e7/`
+
+- [lib-numpy.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-47ed7b8fd0a8f1e7/lib-numpy.json) — 927 bytes; modified 2026-10-11 23:25:45Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/once_cell-76fa84ac343670f9/`
+
+- [lib-once_cell.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/once_cell-76fa84ac343670f9/lib-once_cell.json) — 604 bytes; modified 2026-10-11 23:25:33Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-5baef41a3e37e3f6/`
+
+- [lib-pyo3.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-5baef41a3e37e3f6/lib-pyo3.json) — 1,601 bytes; modified 2026-10-11 23:25:38Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-68e5d8f2c5cbb573/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-68e5d8f2c5cbb573/run-build-script-build-script-build.json) — 354 bytes; modified 2026-10-11 23:25:28Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-94624c8fd73f80a6/`
+
+- [lib-pyo3_ffi.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-94624c8fd73f80a6/lib-pyo3_ffi.json) — 896 bytes; modified 2026-10-11 23:25:31Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-a12653eebfbd2834/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-a12653eebfbd2834/run-build-script-build-script-build.json) — 1,184 bytes; modified 2026-10-11 23:25:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rawpointer-a69430a50f98f830/`
+
+- [lib-rawpointer.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rawpointer-a69430a50f98f830/lib-rawpointer.json) — 428 bytes; modified 2026-10-11 23:25:29Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rustc-hash-de78e5c5eda622ae/`
+
+- [lib-rustc_hash.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rustc-hash-de78e5c5eda622ae/lib-rustc_hash.json) — 489 bytes; modified 2026-10-11 23:25:43Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/wnn_native-6f894cf897ce89cf/`
+
+- [lib-wnn_native.json](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/wnn_native-6f894cf897ce89cf/lib-wnn_native.json) — 759 bytes; modified 2026-10-11 23:25:53Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/uv-cache/archive-v0/DbhmsB2NVCiPhO1R/pyarrow/tests/data/orc/`
+
+- [README.md](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/uv-cache/archive-v0/DbhmsB2NVCiPhO1R/pyarrow/tests/data/orc/README.md) — 932 bytes; modified 2026-10-11 23:27:31Z; source snapshot / plan by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/uv-cache/archive-v0/kjFuk63xYIPK8CbN/numpy/random/`
+
+- [LICENSE.md](../artifacts/preservation_20261012/tmp/wnn-projection-precompute-r1/uv-cache/archive-v0/kjFuk63xYIPK8CbN/numpy/random/LICENSE.md) — 3,511 bytes; modified 2026-10-11 23:27:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-r6-independent-review-20261012-1529/kernel_r6/`
+
+- [DEADLINE_FIXTURE_OUTPUT_R6.json](../artifacts/preservation_20261012/tmp/wnn-r6-independent-review-20261012-1529/kernel_r6/DEADLINE_FIXTURE_OUTPUT_R6.json) — 1,023 bytes; modified 2026-10-12 12:32:30Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-r9-admitted-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/`
+
+- [clean_t3_f0_muonall_h384_e3_s3_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-r9-admitted-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/clean_t3_f0_muonall_h384_e3_s3_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 08:00:59Z; documentation / metadata by filename.
+- [clean_t3_f0_muonall_h384_e3_s4_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-r9-admitted-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/clean_t3_f0_muonall_h384_e3_s4_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 08:00:59Z; documentation / metadata by filename.
+- [clean_t3_f0_muonall_h384_e3_s5_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-r9-admitted-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/clean_t3_f0_muonall_h384_e3_s5_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 08:00:59Z; documentation / metadata by filename.
+- [R9_CHECKPOINT_INPUT_MANIFEST_R2.json](../artifacts/preservation_20261012/tmp/wnn-r9-admitted-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/R9_CHECKPOINT_INPUT_MANIFEST_R2.json) — 2,258 bytes; modified 2026-10-12 08:00:59Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-r9-flat-upload/`
+
+- [clean_t3_f0_muonall_h384_e3_s3_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-r9-flat-upload/clean_t3_f0_muonall_h384_e3_s3_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 07:58:17Z; documentation / metadata by filename.
+- [clean_t3_f0_muonall_h384_e3_s4_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-r9-flat-upload/clean_t3_f0_muonall_h384_e3_s4_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 07:58:17Z; documentation / metadata by filename.
+- [clean_t3_f0_muonall_h384_e3_s5_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-r9-flat-upload/clean_t3_f0_muonall_h384_e3_s5_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 07:58:17Z; documentation / metadata by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn-r9-flat-upload/dataset-metadata.json) — 174 bytes; modified 2026-10-12 07:58:17Z; documentation / metadata by filename.
+- [R9_CHECKPOINT_INPUT_MANIFEST_R2.json](../artifacts/preservation_20261012/tmp/wnn-r9-flat-upload/R9_CHECKPOINT_INPUT_MANIFEST_R2.json) — 2,258 bytes; modified 2026-10-12 07:58:17Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-r9-provider-readback/wnn-clean-t3-f0-h384-cp2-20261012-r9/`
+
+- [clean_t3_f0_muonall_h384_e3_s3_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-r9-provider-readback/wnn-clean-t3-f0-h384-cp2-20261012-r9/clean_t3_f0_muonall_h384_e3_s3_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 07:59:28Z; documentation / metadata by filename.
+- [clean_t3_f0_muonall_h384_e3_s4_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-r9-provider-readback/wnn-clean-t3-f0-h384-cp2-20261012-r9/clean_t3_f0_muonall_h384_e3_s4_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 07:59:28Z; documentation / metadata by filename.
+- [clean_t3_f0_muonall_h384_e3_s5_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-r9-provider-readback/wnn-clean-t3-f0-h384-cp2-20261012-r9/clean_t3_f0_muonall_h384_e3_s5_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 07:59:28Z; documentation / metadata by filename.
+- [R9_CHECKPOINT_INPUT_MANIFEST_R2.json](../artifacts/preservation_20261012/tmp/wnn-r9-provider-readback/wnn-clean-t3-f0-h384-cp2-20261012-r9/R9_CHECKPOINT_INPUT_MANIFEST_R2.json) — 2,258 bytes; modified 2026-10-12 07:59:27Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-shared-f0-package-r1/wnn_native-0.1.0.dist-info/sboms/`
+
+- [wnn_native.cyclonedx.json](../artifacts/preservation_20261012/tmp/wnn-shared-f0-package-r1/wnn_native-0.1.0.dist-info/sboms/wnn_native.cyclonedx.json) — 34,040 bytes; modified 1979-12-31 22:00:00Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-shared-f0-py311-package-r1/wnn_native-0.1.0.dist-info/sboms/`
+
+- [wnn_native.cyclonedx.json](../artifacts/preservation_20261012/tmp/wnn-shared-f0-py311-package-r1/wnn_native-0.1.0.dist-info/sboms/wnn_native.cyclonedx.json) — 34,040 bytes; modified 1979-12-31 22:00:00Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage-r2/wnn-clean-t3-f0-h384-cp2-20261012-r9/`
+
+- [clean_t3_f0_muonall_h384_e3_s3_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage-r2/wnn-clean-t3-f0-h384-cp2-20261012-r9/clean_t3_f0_muonall_h384_e3_s3_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 07:54:33Z; documentation / metadata by filename.
+- [clean_t3_f0_muonall_h384_e3_s4_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage-r2/wnn-clean-t3-f0-h384-cp2-20261012-r9/clean_t3_f0_muonall_h384_e3_s4_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 07:54:33Z; documentation / metadata by filename.
+- [clean_t3_f0_muonall_h384_e3_s5_r5__provenance.json](../artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage-r2/wnn-clean-t3-f0-h384-cp2-20261012-r9/clean_t3_f0_muonall_h384_e3_s5_r5__provenance.json) — 159,434 bytes; modified 2026-10-12 07:54:33Z; documentation / metadata by filename.
+- [R9_CHECKPOINT_INPUT_MANIFEST_R2.json](../artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage-r2/wnn-clean-t3-f0-h384-cp2-20261012-r9/R9_CHECKPOINT_INPUT_MANIFEST_R2.json) — 2,258 bytes; modified 2026-10-12 07:54:33Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/`
+
+- [R9_CHECKPOINT_INPUT_MANIFEST_R1.json](../artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/R9_CHECKPOINT_INPUT_MANIFEST_R1.json) — 2,408 bytes; modified 2026-10-12 07:49:01Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/`
+
+- [provenance.json](../artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json) — 159,434 bytes; modified 2026-10-12 07:49:01Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/`
+
+- [provenance.json](../artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json) — 159,434 bytes; modified 2026-10-12 07:49:01Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/`
+
+- [provenance.json](../artifacts/preservation_20261012/tmp/wnn-t3-f0-r9-checkpoint-stage/wnn-clean-t3-f0-h384-cp2-20261012-r9/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json) — 159,434 bytes; modified 2026-10-12 07:49:01Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3f0-r4-u1/dataset/`
+
+- [bundle-manifest.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r4-u1/dataset/bundle-manifest.json) — 29,004 bytes; modified 2026-10-11 21:20:54Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r4-u1/dataset/dataset-metadata.json) — 193 bytes; modified 2026-10-11 21:20:54Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3f0-r4-u1/kernel/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r4-u1/kernel/kernel-metadata.json) — 565 bytes; modified 2026-10-11 21:20:54Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u2/dataset/`
+
+- [bundle-manifest.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u2/dataset/bundle-manifest.json) — 31,114 bytes; modified 2026-10-11 22:52:49Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u2/dataset/dataset-metadata.json) — 193 bytes; modified 2026-10-11 22:52:49Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u2/kernel/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u2/kernel/kernel-metadata.json) — 565 bytes; modified 2026-10-11 22:52:49Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u3/dataset/`
+
+- [bundle-manifest.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u3/dataset/bundle-manifest.json) — 31,114 bytes; modified 2026-10-11 23:11:41Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u3/dataset/dataset-metadata.json) — 193 bytes; modified 2026-10-11 23:11:41Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u3/kernel/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u3/kernel/kernel-metadata.json) — 565 bytes; modified 2026-10-11 23:11:41Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u4/dataset/`
+
+- [bundle-manifest.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u4/dataset/bundle-manifest.json) — 31,114 bytes; modified 2026-10-11 23:16:49Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u4/dataset/dataset-metadata.json) — 193 bytes; modified 2026-10-11 23:16:49Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u4/kernel/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/wnn-t3f0-r5-u4/kernel/kernel-metadata.json) — 565 bytes; modified 2026-10-11 23:16:49Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3prof-r1/`
+
+- [bundle-manifest.json](../artifacts/preservation_20261012/tmp/wnn-t3prof-r1/bundle-manifest.json) — 24,149 bytes; modified 2026-10-11 18:19:10Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn-t3prof-r1/dataset-metadata.json) — 193 bytes; modified 2026-10-11 18:19:10Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-t3prof-r3/`
+
+- [bundle-manifest.json](../artifacts/preservation_20261012/tmp/wnn-t3prof-r3/bundle-manifest.json) — 24,896 bytes; modified 2026-10-11 19:21:40Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn-t3prof-r3/dataset-metadata.json) — 207 bytes; modified 2026-10-11 19:21:40Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/`
+
+- [.rustc_info.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/.rustc_info.json) — 3,180 bytes; modified 2026-10-11 23:01:26Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/autocfg-4bdbe5399db7af5f/`
+
+- [lib-autocfg.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/autocfg-4bdbe5399db7af5f/lib-autocfg.json) — 350 bytes; modified 2026-10-11 22:57:14Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/bytemuck_derive-ac99033f68e056fe/`
+
+- [lib-bytemuck_derive.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/bytemuck_derive-ac99033f68e056fe/lib-bytemuck_derive.json) — 542 bytes; modified 2026-10-11 22:57:29Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/heck-b8d703388eeb71ec/`
+
+- [lib-heck.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/heck-b8d703388eeb71ec/lib-heck.json) — 345 bytes; modified 2026-10-11 22:57:19Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/libc-9b2bcb334050a31b/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/libc-9b2bcb334050a31b/build-script-build-script-build.json) — 522 bytes; modified 2026-10-11 22:57:16Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/libm-cf28edb24fa5e28a/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/libm-cf28edb24fa5e28a/build-script-build-script-build.json) — 522 bytes; modified 2026-10-11 22:57:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/matrixmultiply-50393607f4c28674/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/matrixmultiply-50393607f4c28674/build-script-build-script-build.json) — 573 bytes; modified 2026-10-11 22:57:19Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/num-traits-8c2b17baeddee5ae/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/num-traits-8c2b17baeddee5ae/build-script-build-script-build.json) — 502 bytes; modified 2026-10-11 22:57:15Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/numpy-9399d151c641c0b0/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/numpy-9399d151c641c0b0/build-script-build-script-build.json) — 459 bytes; modified 2026-10-11 22:57:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/proc-macro2-3b419e35231bee40/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/proc-macro2-3b419e35231bee40/run-build-script-build-script-build.json) — 489 bytes; modified 2026-10-11 22:57:14Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/proc-macro2-5417699f51477817/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/proc-macro2-5417699f51477817/build-script-build-script-build.json) — 461 bytes; modified 2026-10-11 22:57:14Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/proc-macro2-5bf217bf0dd5197c/`
+
+- [lib-proc_macro2.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/proc-macro2-5bf217bf0dd5197c/lib-proc_macro2.json) — 577 bytes; modified 2026-10-11 22:57:15Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/pyo3-build-config-a03cd04d7c1683e9/`
+
+- [lib-pyo3_build_config.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/pyo3-build-config-a03cd04d7c1683e9/lib-pyo3_build_config.json) — 564 bytes; modified 2026-10-11 22:57:15Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/pyo3-d2b3135afff09206/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/pyo3-d2b3135afff09206/build-script-build-script-build.json) — 1,313 bytes; modified 2026-10-11 22:57:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/pyo3-ffi-67ae3206d221b9e1/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/pyo3-ffi-67ae3206d221b9e1/build-script-build-script-build.json) — 785 bytes; modified 2026-10-11 22:57:15Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/pyo3-macros-backend-616642894714c96e/`
+
+- [lib-pyo3_macros_backend.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/pyo3-macros-backend-616642894714c96e/lib-pyo3_macros_backend.json) — 652 bytes; modified 2026-10-11 22:57:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/pyo3-macros-efc8c95694a1c0df/`
+
+- [lib-pyo3_macros.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/pyo3-macros-efc8c95694a1c0df/lib-pyo3_macros.json) — 676 bytes; modified 2026-10-11 22:57:23Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/quote-023b3468074e6189/`
+
+- [lib-quote.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/quote-023b3468074e6189/lib-quote.json) — 534 bytes; modified 2026-10-11 22:57:15Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/quote-541316096221bf3c/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/quote-541316096221bf3c/build-script-build-script-build.json) — 422 bytes; modified 2026-10-11 22:57:14Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/quote-83478455e2bcd496/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/quote-83478455e2bcd496/run-build-script-build-script-build.json) — 327 bytes; modified 2026-10-11 22:57:15Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/syn-49a1d68a5a96ca3f/`
+
+- [lib-syn.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/syn-49a1d68a5a96ca3f/lib-syn.json) — 809 bytes; modified 2026-10-11 22:57:18Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/syn-ae7ee6a3d42d22eb/`
+
+- [lib-syn.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/syn-ae7ee6a3d42d22eb/lib-syn.json) — 766 bytes; modified 2026-10-11 22:57:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/target-lexicon-17d0324a236212be/`
+
+- [lib-target_lexicon.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/target-lexicon-17d0324a236212be/lib-target_lexicon.json) — 523 bytes; modified 2026-10-11 22:57:14Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/target-lexicon-32782329d21cfa48/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/target-lexicon-32782329d21cfa48/run-build-script-build-script-build.json) — 257 bytes; modified 2026-10-11 22:57:14Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/target-lexicon-839308b58a86caa9/`
+
+- [build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/target-lexicon-839308b58a86caa9/build-script-build-script-build.json) — 469 bytes; modified 2026-10-11 22:57:14Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/unicode-ident-992abdb5b7dd12bf/`
+
+- [lib-unicode_ident.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/release/.fingerprint/unicode-ident-992abdb5b7dd12bf/lib-unicode_ident.json) — 364 bytes; modified 2026-10-11 22:57:14Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/bytemuck-31d1df1b0864784c/`
+
+- [lib-bytemuck.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/bytemuck-31d1df1b0864784c/lib-bytemuck.json) — 1,184 bytes; modified 2026-10-11 23:01:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/bytemuck-929f72ef7e64e7b1/`
+
+- [lib-bytemuck.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/bytemuck-929f72ef7e64e7b1/lib-bytemuck.json) — 1,137 bytes; modified 2026-10-11 22:57:33Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-0b0a9cce9398c093/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-0b0a9cce9398c093/run-build-script-build-script-build.json) — 630 bytes; modified 2026-10-11 23:01:11Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-27146ef03aee49c3/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-27146ef03aee49c3/run-build-script-build-script-build.json) — 583 bytes; modified 2026-10-11 22:57:16Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-2a1c22209b849df3/`
+
+- [lib-libc.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-2a1c22209b849df3/lib-libc.json) — 748 bytes; modified 2026-10-11 23:01:12Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-3077578bd753e669/`
+
+- [lib-libc.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libc-3077578bd753e669/lib-libc.json) — 701 bytes; modified 2026-10-11 22:57:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-79b74feac6e5a3be/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-79b74feac6e5a3be/run-build-script-build-script-build.json) — 457 bytes; modified 2026-10-11 22:57:28Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-7db8e5b87ceb3f3b/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-7db8e5b87ceb3f3b/run-build-script-build-script-build.json) — 504 bytes; modified 2026-10-11 23:01:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-c881a9429e0031a6/`
+
+- [lib-libm.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-c881a9429e0031a6/lib-libm.json) — 748 bytes; modified 2026-10-11 23:01:22Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-dc12d885a3e9d68e/`
+
+- [lib-libm.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/libm-dc12d885a3e9d68e/lib-libm.json) — 701 bytes; modified 2026-10-11 22:57:34Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-1341a0985b7604b6/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-1341a0985b7604b6/run-build-script-build-script-build.json) — 452 bytes; modified 2026-10-11 22:57:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-889e3e1829690885/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-889e3e1829690885/run-build-script-build-script-build.json) — 499 bytes; modified 2026-10-11 23:01:12Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-aad6a97775c3a13a/`
+
+- [lib-matrixmultiply.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-aad6a97775c3a13a/lib-matrixmultiply.json) — 766 bytes; modified 2026-10-11 22:57:22Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-d08dd719ac2b4ae4/`
+
+- [lib-matrixmultiply.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/matrixmultiply-d08dd719ac2b4ae4/lib-matrixmultiply.json) — 813 bytes; modified 2026-10-11 23:01:13Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/ndarray-176842b09dfb1029/`
+
+- [lib-ndarray.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/ndarray-176842b09dfb1029/lib-ndarray.json) — 999 bytes; modified 2026-10-11 23:01:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/ndarray-32846160c7f09aa1/`
+
+- [lib-ndarray.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/ndarray-32846160c7f09aa1/lib-ndarray.json) — 951 bytes; modified 2026-10-11 22:57:32Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-complex-2aecc2c817ca4db6/`
+
+- [lib-num_complex.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-complex-2aecc2c817ca4db6/lib-num_complex.json) — 663 bytes; modified 2026-10-11 22:57:23Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-complex-a2089dd6c5dcd59b/`
+
+- [lib-num_complex.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-complex-a2089dd6c5dcd59b/lib-num_complex.json) — 711 bytes; modified 2026-10-11 23:01:14Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-integer-aee51eb9d664cb98/`
+
+- [lib-num_integer.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-integer-aee51eb9d664cb98/lib-num_integer.json) — 603 bytes; modified 2026-10-11 22:57:23Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-integer-fe3a4c651002668e/`
+
+- [lib-num_integer.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-integer-fe3a4c651002668e/lib-num_integer.json) — 651 bytes; modified 2026-10-11 23:01:13Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-1bef9b781bdec2ab/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-1bef9b781bdec2ab/run-build-script-build-script-build.json) — 495 bytes; modified 2026-10-11 23:01:11Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-69aaa26b233baa85/`
+
+- [lib-num_traits.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-69aaa26b233baa85/lib-num_traits.json) — 677 bytes; modified 2026-10-11 23:01:11Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-9101399c7e0847e5/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-9101399c7e0847e5/run-build-script-build-script-build.json) — 448 bytes; modified 2026-10-11 22:57:15Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-9a9c205b0b6c3141/`
+
+- [lib-num_traits.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/num-traits-9a9c205b0b6c3141/lib-num_traits.json) — 629 bytes; modified 2026-10-11 22:57:16Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-136f0369707c7d34/`
+
+- [lib-numpy.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-136f0369707c7d34/lib-numpy.json) — 1,037 bytes; modified 2026-10-11 23:01:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-15c7579ff90d4a74/`
+
+- [lib-numpy.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-15c7579ff90d4a74/lib-numpy.json) — 988 bytes; modified 2026-10-11 22:57:33Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-75718ff8c9a6b811/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-75718ff8c9a6b811/run-build-script-build-script-build.json) — 415 bytes; modified 2026-10-11 22:57:28Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-a5fc4cf520af5d7c/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/numpy-a5fc4cf520af5d7c/run-build-script-build-script-build.json) — 463 bytes; modified 2026-10-11 23:01:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/once_cell-4aba0523ee140afd/`
+
+- [lib-once_cell.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/once_cell-4aba0523ee140afd/lib-once_cell.json) — 667 bytes; modified 2026-10-11 22:57:25Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/once_cell-d04b93eeecda1cfd/`
+
+- [lib-once_cell.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/once_cell-d04b93eeecda1cfd/lib-once_cell.json) — 714 bytes; modified 2026-10-11 23:01:14Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-2c0f1bbf622139ec/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-2c0f1bbf622139ec/run-build-script-build-script-build.json) — 417 bytes; modified 2026-10-11 22:57:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-556f054fa283f27d/`
+
+- [lib-pyo3.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-556f054fa283f27d/lib-pyo3.json) — 1,709 bytes; modified 2026-10-11 23:01:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-cb275af7749ca132/`
+
+- [lib-pyo3.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-cb275af7749ca132/lib-pyo3.json) — 1,661 bytes; modified 2026-10-11 22:57:28Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-d5d35dfe0ec7cb2d/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-d5d35dfe0ec7cb2d/run-build-script-build-script-build.json) — 463 bytes; modified 2026-10-11 23:01:12Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-81a4c4190faa1dd3/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-81a4c4190faa1dd3/run-build-script-build-script-build.json) — 1,294 bytes; modified 2026-10-11 23:01:11Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-a8edcf39f32343c0/`
+
+- [lib-pyo3_ffi.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-a8edcf39f32343c0/lib-pyo3_ffi.json) — 1,005 bytes; modified 2026-10-11 23:01:13Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-d01188ad793239b8/`
+
+- [run-build-script-build-script-build.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-d01188ad793239b8/run-build-script-build-script-build.json) — 1,247 bytes; modified 2026-10-11 22:57:15Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-db7a125f4a635d65/`
+
+- [lib-pyo3_ffi.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/pyo3-ffi-db7a125f4a635d65/lib-pyo3_ffi.json) — 958 bytes; modified 2026-10-11 22:57:22Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rawpointer-4b555b6ffa346bd0/`
+
+- [lib-rawpointer.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rawpointer-4b555b6ffa346bd0/lib-rawpointer.json) — 538 bytes; modified 2026-10-11 23:01:12Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rawpointer-d812f5de3124c246/`
+
+- [lib-rawpointer.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rawpointer-d812f5de3124c246/lib-rawpointer.json) — 491 bytes; modified 2026-10-11 22:57:21Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rustc-hash-384ed715e2d34e5f/`
+
+- [lib-rustc_hash.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rustc-hash-384ed715e2d34e5f/lib-rustc_hash.json) — 599 bytes; modified 2026-10-11 23:01:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rustc-hash-ac47149e94580ddd/`
+
+- [lib-rustc_hash.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/rustc-hash-ac47149e94580ddd/lib-rustc_hash.json) — 552 bytes; modified 2026-10-11 22:57:32Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/wnn_native-6f894cf897ce89cf/`
+
+- [lib-wnn_native.json](../artifacts/preservation_20261012/tmp/wnn-zen4-pgo-current11-r1/target/x86_64-unknown-linux-gnu/release/.fingerprint/wnn_native-6f894cf897ce89cf/lib-wnn_native.json) — 866 bytes; modified 2026-10-11 23:01:26Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_f1_r2_actual_cp1_crop_fixture/artifacts/runs/fixture_oldz4_h230_core_f1_s3_r2/`
+
+- [provenance.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2_actual_cp1_crop_fixture/artifacts/runs/fixture_oldz4_h230_core_f1_s3_r2/provenance.json) — 159,266 bytes; modified 2026-10-12 01:54:16Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/artifacts/runs/oldz4_h230_core_f1_s3_r2/`
+
+- [provenance.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/artifacts/runs/oldz4_h230_core_f1_s3_r2/provenance.json) — 159,266 bytes; modified 2026-10-12 02:07:20Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/`
+
+- [ACTUAL_F1_CP1_CROP_FIXTURE_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/ACTUAL_F1_CP1_CROP_FIXTURE_R2.json) — 2,267 bytes; modified 2026-10-12 01:54:16Z; documentation / metadata by filename.
+- [CORE_CROP_CONTRACT_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/CORE_CROP_CONTRACT_R2.json) — 2,489 bytes; modified 2026-10-12 02:06:48Z; source snapshot / plan by filename.
+- [CORE_CROP_PRODUCER_RECEIPT_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/CORE_CROP_PRODUCER_RECEIPT_R2.json) — 2,183 bytes; modified 2026-10-12 02:07:20Z; claim-receipt-like by filename.
+- [CROP_CONTRACT_ERRATUM_R2A.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/CROP_CONTRACT_ERRATUM_R2A.json) — 945 bytes; modified 2026-10-12 02:02:06Z; source snapshot / plan by filename.
+- [F1_STAGE_PLAN_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/F1_STAGE_PLAN_R2.json) — 4,112 bytes; modified 2026-10-12 01:56:22Z; source snapshot / plan by filename.
+- [HFT_EXPORT_CONTRACT_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/HFT_EXPORT_CONTRACT_R2.json) — 3,023 bytes; modified 2026-10-12 02:06:48Z; source snapshot / plan by filename.
+- [HFT_FIT_CONTRACT_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/HFT_FIT_CONTRACT_R2.json) — 5,599 bytes; modified 2026-10-12 02:06:48Z; source snapshot / plan by filename.
+- [HFT_PROFILE_CONTRACT_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/HFT_PROFILE_CONTRACT_R2.json) — 4,107 bytes; modified 2026-10-12 02:06:48Z; source snapshot / plan by filename.
+- [PACKET_FILE_MANIFEST_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/PACKET_FILE_MANIFEST_R2.json) — 2,902 bytes; modified 2026-10-12 02:02:06Z; claim-receipt-like by filename.
+- [R1_PRE_FREEZE_DIAGNOSIS_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/R1_PRE_FREEZE_DIAGNOSIS_R2.json) — 1,276 bytes; modified 2026-10-12 01:58:16Z; documentation / metadata by filename.
+- [R2B_CONSUMER_CONTRACT_ERRATUM.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/R2B_CONSUMER_CONTRACT_ERRATUM.json) — 1,383 bytes; modified 2026-10-12 02:06:48Z; source snapshot / plan by filename.
+- [README.md](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/README.md) — 4,038 bytes; modified 2026-10-12 02:06:48Z; source snapshot / plan by filename.
+- [ROOT_F1_CORE_CROP_ADMISSION_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/ROOT_F1_CORE_CROP_ADMISSION_R2.json) — 486 bytes; modified 2026-10-12 02:07:16Z; claim-receipt-like by filename.
+- [ROOT_F1_STUDENT_CP1_TERMINAL_GATE_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/ROOT_F1_STUDENT_CP1_TERMINAL_GATE_R2.json) — 527 bytes; modified 2026-10-12 02:07:16Z; claim-receipt-like by filename.
+- [SOURCE_INPUT_BINDINGS_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/SOURCE_INPUT_BINDINGS_R2.json) — 15,104 bytes; modified 2026-10-12 01:52:44Z; source snapshot / plan by filename.
+- [VALIDATE_IMPORT_RECEIPT_R2.json](../artifacts/preservation_20261012/tmp/wnn_f1_r2b_full_crop_consumer_20261012/packet/VALIDATE_IMPORT_RECEIPT_R2.json) — 3,519 bytes; modified 2026-10-12 01:55:05Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r1/`
+
+- [checkpoint_manifest.json](../artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r1/checkpoint_manifest.json) — 7,010 bytes; modified 2026-10-11 15:36:05Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r2/`
+
+- [checkpoint_manifest.json](../artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r2/checkpoint_manifest.json) — 7,010 bytes; modified 2026-10-11 15:37:11Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r2/dataset-metadata.json) — 182 bytes; modified 2026-10-11 15:37:11Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r2_20261011/`
+
+- [checkpoint_manifest.json](../artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r2_20261011/checkpoint_manifest.json) — 7,010 bytes; modified 2026-10-11 15:53:16Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r2_20261011/dataset-metadata.json) — 182 bytes; modified 2026-10-11 15:53:16Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r3/`
+
+- [checkpoint_manifest.json](../artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r3/checkpoint_manifest.json) — 7,010 bytes; modified 2026-10-11 15:38:15Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r3/dataset-metadata.json) — 182 bytes; modified 2026-10-11 15:38:15Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r3_20261011/`
+
+- [checkpoint_manifest.json](../artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r3_20261011/checkpoint_manifest.json) — 7,010 bytes; modified 2026-10-11 15:58:49Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r3_20261011/dataset-metadata.json) — 182 bytes; modified 2026-10-11 15:58:49Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r4/`
+
+- [checkpoint_manifest.json](../artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r4/checkpoint_manifest.json) — 7,010 bytes; modified 2026-10-11 15:38:48Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn_h382_export_recovery_asset_r4/dataset-metadata.json) — 182 bytes; modified 2026-10-11 15:38:48Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_h388_fp16_trio_p311_review_r1/`
+
+- [CALLBACK_PANEL_PY311_R1.json](../artifacts/preservation_20261012/tmp/wnn_h388_fp16_trio_p311_review_r1/CALLBACK_PANEL_PY311_R1.json) — 5,918 bytes; modified 2026-10-11 20:57:51Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_h388_independent_review_r1/`
+
+- [CALLBACK_PANEL_R1.json](../artifacts/preservation_20261012/tmp/wnn_h388_independent_review_r1/CALLBACK_PANEL_R1.json) — 5,861 bytes; modified 2026-10-11 20:22:17Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_h390_student_h388_teacher_independent_review_r1/`
+
+- [CALLBACK_PANEL_R1.json](../artifacts/preservation_20261012/tmp/wnn_h390_student_h388_teacher_independent_review_r1/CALLBACK_PANEL_R1.json) — 5,888 bytes; modified 2026-10-11 20:27:06Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/`
+
+- [CONDITIONAL_FIT_ADMISSION_R5.json](../artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/CONDITIONAL_FIT_ADMISSION_R5.json) — 1,419 bytes; modified 2026-10-11 23:08:34Z; claim-receipt-like by filename.
+- [R5_FINALIZATION_RECEIPT_R8.json](../artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/R5_FINALIZATION_RECEIPT_R8.json) — 1,774 bytes; modified 2026-10-11 23:08:34Z; claim-receipt-like by filename.
+- [R5_FINALIZATION_VALIDATION_R8.json](../artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/R5_FINALIZATION_VALIDATION_R8.json) — 1,048 bytes; modified 2026-10-11 23:08:34Z; claim-receipt-like by filename.
+- [R5_PREPARATION_RECEIPT_R1.json](../artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/R5_PREPARATION_RECEIPT_R1.json) — 1,444 bytes; modified 2026-10-11 22:48:59Z; claim-receipt-like by filename.
+- [R5_PRESEAL_BINDINGS_R1.json](../artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/R5_PRESEAL_BINDINGS_R1.json) — 4,551 bytes; modified 2026-10-11 22:48:59Z; documentation / metadata by filename.
+- [R5_RESOURCE_HANDOFF_CONTRACT_R1.json](../artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/R5_RESOURCE_HANDOFF_CONTRACT_R1.json) — 2,294 bytes; modified 2026-10-11 22:48:59Z; claim-receipt-like by filename.
+- [README_R5.md](../artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/README_R5.md) — 1,413 bytes; modified 2026-10-11 22:48:59Z; source snapshot / plan by filename.
+- [ROOT_CONDITIONAL_RELEASE_R5.json](../artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/ROOT_CONDITIONAL_RELEASE_R5.json) — 6,727 bytes; modified 2026-10-11 23:08:34Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/bundle_teacher_cohort_r5/`
+
+- [bundle-manifest.json](../artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/bundle_teacher_cohort_r5/bundle-manifest.json) — 31,114 bytes; modified 2026-10-11 23:08:34Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/bundle_teacher_cohort_r5/dataset-metadata.json) — 193 bytes; modified 2026-10-11 22:48:59Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/bundle_teacher_cohort_r5/kernel/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/wnn_r5_r8_precheck/package_r8/bundle_teacher_cohort_r5/kernel/kernel-metadata.json) — 565 bytes; modified 2026-10-11 22:48:59Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/`
+
+- [CONDITIONAL_FIT_ADMISSION_R5.json](../artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/CONDITIONAL_FIT_ADMISSION_R5.json) — 1,419 bytes; modified 2026-10-11 23:15:54Z; claim-receipt-like by filename.
+- [R5_FINALIZATION_RECEIPT_R9.json](../artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/R5_FINALIZATION_RECEIPT_R9.json) — 1,774 bytes; modified 2026-10-11 23:15:54Z; claim-receipt-like by filename.
+- [R5_FINALIZATION_VALIDATION_R9.json](../artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/R5_FINALIZATION_VALIDATION_R9.json) — 1,282 bytes; modified 2026-10-11 23:15:54Z; claim-receipt-like by filename.
+- [R5_PREPARATION_RECEIPT_R1.json](../artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/R5_PREPARATION_RECEIPT_R1.json) — 1,444 bytes; modified 2026-10-11 22:48:59Z; claim-receipt-like by filename.
+- [R5_PRESEAL_BINDINGS_R1.json](../artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/R5_PRESEAL_BINDINGS_R1.json) — 4,551 bytes; modified 2026-10-11 22:48:59Z; documentation / metadata by filename.
+- [R5_RESOURCE_HANDOFF_CONTRACT_R1.json](../artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/R5_RESOURCE_HANDOFF_CONTRACT_R1.json) — 2,294 bytes; modified 2026-10-11 22:48:59Z; claim-receipt-like by filename.
+- [README_R5.md](../artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/README_R5.md) — 1,413 bytes; modified 2026-10-11 22:48:59Z; source snapshot / plan by filename.
+- [ROOT_CONDITIONAL_RELEASE_R5.json](../artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/ROOT_CONDITIONAL_RELEASE_R5.json) — 7,204 bytes; modified 2026-10-11 23:15:54Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/bundle_teacher_cohort_r5/`
+
+- [bundle-manifest.json](../artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/bundle_teacher_cohort_r5/bundle-manifest.json) — 31,114 bytes; modified 2026-10-11 23:15:54Z; claim-receipt-like by filename.
+- [dataset-metadata.json](../artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/bundle_teacher_cohort_r5/dataset-metadata.json) — 193 bytes; modified 2026-10-11 22:48:59Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/bundle_teacher_cohort_r5/kernel/`
+
+- [kernel-metadata.json](../artifacts/preservation_20261012/tmp/wnn_r5_r9_precheck/package_r9/bundle_teacher_cohort_r5/kernel/kernel-metadata.json) — 565 bytes; modified 2026-10-11 22:48:59Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_shared_cleanfold_q8_r1/`
+
+- [WEIGHTS_RECEIPT_R1.json](../artifacts/preservation_20261012/tmp/wnn_shared_cleanfold_q8_r1/WEIGHTS_RECEIPT_R1.json) — 9,308 bytes; modified 2026-10-12 02:54:32Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_shared_cleanfold_q8_r2/`
+
+- [WEIGHTS_RECEIPT_R1.json](../artifacts/preservation_20261012/tmp/wnn_shared_cleanfold_q8_r2/WEIGHTS_RECEIPT_R1.json) — 9,534 bytes; modified 2026-10-12 02:57:11Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_shared_cleanfold_q8_r3/`
+
+- [WEIGHTS_RECEIPT_R1.json](../artifacts/preservation_20261012/tmp/wnn_shared_cleanfold_q8_r3/WEIGHTS_RECEIPT_R1.json) — 9,534 bytes; modified 2026-10-12 02:57:54Z; claim-receipt-like by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_submission_exploit_runtime_r1/`
+
+- [INPUT_PANEL_R1.json](../artifacts/preservation_20261012/tmp/wnn_submission_exploit_runtime_r1/INPUT_PANEL_R1.json) — 3,464 bytes; modified 2026-10-11 19:43:50Z; source snapshot / plan by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_submission_exploit_runtime_r2/`
+
+- [h390_pair_callback.json](../artifacts/preservation_20261012/tmp/wnn_submission_exploit_runtime_r2/h390_pair_callback.json) — 5,819 bytes; modified 2026-10-11 19:52:48Z; documentation / metadata by filename.
+- [old_pair_plus_h390_callback.json](../artifacts/preservation_20261012/tmp/wnn_submission_exploit_runtime_r2/old_pair_plus_h390_callback.json) — 5,831 bytes; modified 2026-10-11 19:55:48Z; documentation / metadata by filename.
+
+### `artifacts/preservation_20261012/tmp/wnn_t3f0_r5_terminal_readonly_inventory_r1/`
+
+- [session_output_page_001.json](../artifacts/preservation_20261012/tmp/wnn_t3f0_r5_terminal_readonly_inventory_r1/session_output_page_001.json) — 22,145 bytes; modified 2026-10-11 23:37:51Z; documentation / metadata by filename.
 
 ### `artifacts/runs/ab10_h128_pow2_seed4/`
 
@@ -14071,6 +15145,16 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [history.json](../artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1/history.json) — 3,056 bytes; modified 2026-10-12 14:13:30Z; documentation / metadata by filename.
 - [provenance.json](../artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1/provenance.json) — 158,960 bytes; modified 2026-10-12 14:13:30Z; documentation / metadata by filename.
 
+### `artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p2_envr1/`
+
+- [history.json](../artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p2_envr1/history.json) — 6,115 bytes; modified 2026-10-12 14:56:37Z; documentation / metadata by filename.
+- [provenance.json](../artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p2_envr1/provenance.json) — 162,640 bytes; modified 2026-10-12 14:56:37Z; documentation / metadata by filename.
+
+### `artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1/`
+
+- [history.json](../artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1/history.json) — 9,175 bytes; modified 2026-10-12 15:34:30Z; documentation / metadata by filename.
+- [provenance.json](../artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1/provenance.json) — 166,153 bytes; modified 2026-10-12 15:34:30Z; documentation / metadata by filename.
+
 ### `artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/`
 
 - [history.json](../artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/history.json) — 4,586 bytes; modified 2026-10-12 04:22:22Z; documentation / metadata by filename.
@@ -15975,24 +17059,24 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [ELEPHANTS_REVIEW_2026-10-03.md](ELEPHANTS_REVIEW_2026-10-03.md) — 14,479 bytes; modified 2026-10-03 21:32:12Z; claim-receipt-like by filename.
 - [ELEPHANTS_REVIEW_2026-10-04.md](ELEPHANTS_REVIEW_2026-10-04.md) — 15,155 bytes; modified 2026-10-03 21:55:58Z; claim-receipt-like by filename.
 - [ELEPHANTS_REVIEW_2026-10-05.md](ELEPHANTS_REVIEW_2026-10-05.md) — 20,789 bytes; modified 2026-10-05 08:11:40Z; claim-receipt-like by filename.
-- [experiments.jsonl](experiments.jsonl) — 664,032 bytes; modified 2026-10-12 14:12:35Z; documentation / metadata by filename.
+- [experiments.jsonl](experiments.jsonl) — 667,483 bytes; modified 2026-10-12 16:12:41Z; documentation / metadata by filename.
 - [findings-2026-09-15.md](findings-2026-09-15.md) — 2,550 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
 - [findings-2026-09-26.md](findings-2026-09-26.md) — 4,465 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
 - [frontier.md](frontier.md) — 17,406 bytes; modified 2026-10-12 11:50:43Z; source snapshot / plan by filename.
 - [game_changers.md](game_changers.md) — 14,131 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
 - [HANDOFF_PROMPT_NEXT_AGENT_20261011.md](HANDOFF_PROMPT_NEXT_AGENT_20261011.md) — 43,505 bytes; modified 2026-10-11 12:51:22Z; claim-receipt-like by filename.
 - [hypotheses.jsonl](hypotheses.jsonl) — 391,623 bytes; modified 2026-10-12 10:23:40Z; documentation / metadata by filename.
-- [IDEA_LEDGER_20261011.md](IDEA_LEDGER_20261011.md) — 48,594 bytes; modified 2026-10-12 13:43:04Z; documentation / metadata by filename.
-- [INDEX.md](INDEX.md) — 6,192 bytes; modified 2026-10-12 14:16:41Z; source snapshot / plan by filename.
+- [IDEA_LEDGER_20261011.md](IDEA_LEDGER_20261011.md) — 51,459 bytes; modified 2026-10-12 16:12:41Z; documentation / metadata by filename.
+- [INDEX.md](INDEX.md) — 6,741 bytes; modified 2026-10-12 16:12:41Z; source snapshot / plan by filename.
 - [perf-2026-09-27.md](perf-2026-09-27.md) — 3,353 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
 - [plan-2026-09-26.md](plan-2026-09-26.md) — 5,669 bytes; modified 2026-10-03 19:50:38Z; source snapshot / plan by filename.
 - [profiling-2026-09-15.md](profiling-2026-09-15.md) — 3,169 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
 - [README.md](README.md) — 1,257 bytes; modified 2026-10-05 21:04:06Z; source snapshot / plan by filename.
 - [reflection-2026-09-26.md](reflection-2026-09-26.md) — 4,934 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
-- [RESEARCH_COMPLETE_HANDOFF_20261012.md](RESEARCH_COMPLETE_HANDOFF_20261012.md) — 37,739 bytes; modified 2026-10-12 14:16:41Z; claim-receipt-like by filename.
+- [RESEARCH_COMPLETE_HANDOFF_20261012.md](RESEARCH_COMPLETE_HANDOFF_20261012.md) — 8,993,841 bytes; modified 2026-10-12 16:12:41Z; claim-receipt-like by filename.
 - [RESEARCH_METHODS.md](RESEARCH_METHODS.md) — 19,659 bytes; modified 2026-10-07 07:59:42Z; documentation / metadata by filename.
 - [RESEARCH_MONITOR_PROMPT_20261011.md](RESEARCH_MONITOR_PROMPT_20261011.md) — 5,361 bytes; modified 2026-10-11 09:48:03Z; documentation / metadata by filename.
-- [RESEARCH_NOTES_INDEX_20261010.md](RESEARCH_NOTES_INDEX_20261010.md) — 5,563 bytes; modified 2026-10-12 14:16:41Z; source snapshot / plan by filename.
+- [RESEARCH_NOTES_INDEX_20261010.md](RESEARCH_NOTES_INDEX_20261010.md) — 6,178 bytes; modified 2026-10-12 16:12:41Z; source snapshot / plan by filename.
 - [REVIEW_FILE_INDEX.json](REVIEW_FILE_INDEX.json) — 616,244 bytes; modified 2026-10-03 20:53:42Z; claim-receipt-like by filename.
 - [REVIEW_FILE_INDEX.md](REVIEW_FILE_INDEX.md) — 406,556 bytes; modified 2026-10-03 20:53:42Z; claim-receipt-like by filename.
 - [REVIEW_FILE_INDEX_2026-10-05.json](REVIEW_FILE_INDEX_2026-10-05.json) — 2,695,198 bytes; modified 2026-10-05 08:14:24Z; claim-receipt-like by filename; >2 MiB, content not opened.
@@ -16099,10 +17183,10 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 
 - [AGENT_DIVERSITY.md](bandit_tree/AGENT_DIVERSITY.md) — 3,334 bytes; modified 2026-10-06 17:47:56Z; documentation / metadata by filename.
 - [AUDIT.md](bandit_tree/AUDIT.md) — 10,428 bytes; modified 2026-10-06 18:08:42Z; documentation / metadata by filename.
-- [config.json](bandit_tree/config.json) — 242,066 bytes; modified 2026-10-12 05:24:41Z; documentation / metadata by filename.
+- [config.json](bandit_tree/config.json) — 242,205 bytes; modified 2026-10-12 14:51:23Z; documentation / metadata by filename.
 - [config.schema.json](bandit_tree/config.schema.json) — 3,976 bytes; modified 2026-10-06 17:46:10Z; documentation / metadata by filename.
 - [HETEROGENEOUS_AGENT_BRIEF.md](bandit_tree/HETEROGENEOUS_AGENT_BRIEF.md) — 4,744 bytes; modified 2026-10-06 19:03:59Z; documentation / metadata by filename.
-- [journal.jsonl](bandit_tree/journal.jsonl) — 119,626 bytes; modified 2026-10-12 14:16:41Z; documentation / metadata by filename.
+- [journal.jsonl](bandit_tree/journal.jsonl) — 120,190 bytes; modified 2026-10-12 16:12:41Z; documentation / metadata by filename.
 - [ORIGINALS.json](bandit_tree/ORIGINALS.json) — 688 bytes; modified 2026-10-06 17:44:32Z; documentation / metadata by filename.
 - [PRESERVATION.json](bandit_tree/PRESERVATION.json) — 1,483 bytes; modified 2026-10-06 18:07:17Z; documentation / metadata by filename.
 - [README.md](bandit_tree/README.md) — 11,530 bytes; modified 2026-10-07 08:26:16Z; source snapshot / plan by filename.
@@ -18248,8 +19332,8 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [RUNTIME_MIGRATION.md](campaign_2026-10-03/continuation/RUNTIME_MIGRATION.md) — 2,042 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
 - [STATE.json](campaign_2026-10-03/continuation/STATE.json) — 2,910 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
 - [SUBMISSION_ARCHIVES.json](campaign_2026-10-03/continuation/SUBMISSION_ARCHIVES.json) — 3,862 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
-- [watch_memory.json](campaign_2026-10-03/continuation/watch_memory.json) — 102,416 bytes; modified 2026-10-12 14:30:22Z; documentation / metadata by filename.
-- [watch_status.json](campaign_2026-10-03/continuation/watch_status.json) — 243 bytes; modified 2026-10-12 14:30:22Z; source snapshot / plan by filename.
+- [watch_memory.json](campaign_2026-10-03/continuation/watch_memory.json) — 102,416 bytes; modified 2026-10-12 16:12:44Z; documentation / metadata by filename.
+- [watch_status.json](campaign_2026-10-03/continuation/watch_status.json) — 241 bytes; modified 2026-10-12 16:12:44Z; source snapshot / plan by filename.
 - [WRAP_COMPLETED.md](campaign_2026-10-03/continuation/WRAP_COMPLETED.md) — 2,046 bytes; modified 2026-10-03 19:52:12Z; documentation / metadata by filename.
 - [WRAP_VERIFICATION.json](campaign_2026-10-03/continuation/WRAP_VERIFICATION.json) — 881 bytes; modified 2026-10-03 19:51:40Z; documentation / metadata by filename.
 
@@ -18264,7 +19348,7 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 
 - [historical_migration_barrier.json](campaign_2026-10-03/continuation/logs/historical_migration_barrier.json) — 423 bytes; modified 2026-10-03 12:59:42Z; documentation / metadata by filename.
 - [incidents.jsonl](campaign_2026-10-03/continuation/logs/incidents.jsonl) — 1,253,161 bytes; modified 2026-10-12 11:46:21Z; documentation / metadata by filename.
-- [journal_events.jsonl](campaign_2026-10-03/continuation/logs/journal_events.jsonl) — 83,843,546 bytes; modified 2026-10-12 14:30:21Z; documentation / metadata by filename.
+- [journal_events.jsonl](campaign_2026-10-03/continuation/logs/journal_events.jsonl) — 84,856,958 bytes; modified 2026-10-12 16:12:43Z; documentation / metadata by filename.
 - [kernel_events.jsonl](campaign_2026-10-03/continuation/logs/kernel_events.jsonl) — 121,489 bytes; modified 2026-10-12 11:19:44Z; documentation / metadata by filename.
 
 ### `research/campaign_2026-10-03/continuation/reproduction/`
@@ -32620,8 +33704,8 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 
 ### `research/campaign_2026-10-05/checks/monitor_runtime/`
 
-- [ALERT_HISTORY.jsonl](campaign_2026-10-05/checks/monitor_runtime/ALERT_HISTORY.jsonl) — 5,495,057 bytes; modified 2026-10-12 11:53:11Z; documentation / metadata by filename.
-- [STATUS.json](campaign_2026-10-05/checks/monitor_runtime/STATUS.json) — 171,472 bytes; modified 2026-10-12 14:25:48Z; source snapshot / plan by filename.
+- [ALERT_HISTORY.jsonl](campaign_2026-10-05/checks/monitor_runtime/ALERT_HISTORY.jsonl) — 5,529,289 bytes; modified 2026-10-12 14:42:53Z; documentation / metadata by filename.
+- [STATUS.json](campaign_2026-10-05/checks/monitor_runtime/STATUS.json) — 170,623 bytes; modified 2026-10-12 16:10:59Z; source snapshot / plan by filename.
 
 ### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/e482-six-recipe-private-t4-replication-draft/e482-results/`
 
@@ -32756,6 +33840,67 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 ### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-startup-profile-20261011-r3-runner/runtime_specs/`
 
 - [clean_t3_f0_muonall_h384_e3_s3_t4_startup_profile_r3.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-startup-profile-20261011-r3-runner/runtime_specs/clean_t3_f0_muonall_h384_e3_s3_t4_startup_profile_r3.json) — 24,593 bytes; modified 2026-10-11 20:27:11Z; documentation / metadata by filename.
+
+### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/`
+
+- [results_preflight.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/results_preflight.json) — 6,290 bytes; modified 2026-10-12 14:42:50Z; claim-receipt-like by filename.
+
+### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/`
+
+- [clean_t3_f0_muonall_treatment_profile_r22.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/clean_t3_f0_muonall_treatment_profile_r22.json) — 29,688 bytes; modified 2026-10-12 14:42:40Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_train.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_train.json) — 26,520 bytes; modified 2026-10-12 14:42:40Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_valid.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_valid.json) — 26,520 bytes; modified 2026-10-12 14:42:41Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s3_r5_full_valid.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s3_r5_full_valid.json) — 26,566 bytes; modified 2026-10-12 14:42:41Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_train.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_train.json) — 26,520 bytes; modified 2026-10-12 14:42:41Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_valid.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_valid.json) — 26,520 bytes; modified 2026-10-12 14:42:41Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s4_r5_full_valid.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s4_r5_full_valid.json) — 26,566 bytes; modified 2026-10-12 14:42:42Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_train.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_train.json) — 26,520 bytes; modified 2026-10-12 14:42:42Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_valid.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_valid.json) — 26,520 bytes; modified 2026-10-12 14:42:42Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s5_r5_full_valid.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s5_r5_full_valid.json) — 26,566 bytes; modified 2026-10-12 14:42:43Z; documentation / metadata by filename.
+- [fit_clean_t3_f0_muonall_h384_e3_s3_r5.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/fit_clean_t3_f0_muonall_h384_e3_s3_r5.json) — 27,717 bytes; modified 2026-10-12 14:42:43Z; documentation / metadata by filename.
+- [fit_clean_t3_f0_muonall_h384_e3_s4_r5.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/fit_clean_t3_f0_muonall_h384_e3_s4_r5.json) — 27,717 bytes; modified 2026-10-12 14:42:43Z; documentation / metadata by filename.
+- [fit_clean_t3_f0_muonall_h384_e3_s5_r5.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/fit_clean_t3_f0_muonall_h384_e3_s5_r5.json) — 27,717 bytes; modified 2026-10-12 14:42:44Z; documentation / metadata by filename.
+- [profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r5.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r5.json) — 27,512 bytes; modified 2026-10-12 14:42:44Z; documentation / metadata by filename.
+- [profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r5.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/kaggle_specs/profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r5.json) — 27,512 bytes; modified 2026-10-12 14:42:44Z; documentation / metadata by filename.
+
+### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/`
+
+- [ACTUAL_PRODUCER_PREFLIGHT_R2_RECEIPT.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/ACTUAL_PRODUCER_PREFLIGHT_R2_RECEIPT.json) — 3,660 bytes; modified 2026-10-12 14:42:45Z; claim-receipt-like by filename.
+- [CONDITIONAL_FIT_ADMISSION_R3.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/CONDITIONAL_FIT_ADMISSION_R3.json) — 1,435 bytes; modified 2026-10-12 14:42:45Z; claim-receipt-like by filename.
+- [INPUT_BINDING_R3.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/INPUT_BINDING_R3.json) — 4,942 bytes; modified 2026-10-12 14:42:45Z; source snapshot / plan by filename.
+- [PROFILE_GUARD_CONTRACT_R3.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/PROFILE_GUARD_CONTRACT_R3.json) — 1,029 bytes; modified 2026-10-12 14:42:45Z; source snapshot / plan by filename.
+- [PROFILE_REFERENCE_R3.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/PROFILE_REFERENCE_R3.json) — 1,794 bytes; modified 2026-10-12 14:42:45Z; documentation / metadata by filename.
+- [ROOT_CONDITIONAL_RELEASE_R4.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/ROOT_CONDITIONAL_RELEASE_R4.json) — 6,494 bytes; modified 2026-10-12 14:42:46Z; claim-receipt-like by filename.
+- [SOURCE_BINDING_R3.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/SOURCE_BINDING_R3.json) — 1,061 bytes; modified 2026-10-12 14:42:46Z; source snapshot / plan by filename.
+- [SOURCE_DELTA_R3.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/SOURCE_DELTA_R3.json) — 1,788 bytes; modified 2026-10-12 14:42:47Z; source snapshot / plan by filename.
+
+### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/`
+
+- [SOURCE_MANIFEST_H390.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/SOURCE_MANIFEST_H390.json) — 6,895 bytes; modified 2026-10-12 14:42:47Z; claim-receipt-like by filename.
+
+### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/`
+
+- [CONDITIONAL_FIT_ADMISSION_R5.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/CONDITIONAL_FIT_ADMISSION_R5.json) — 1,419 bytes; modified 2026-10-12 14:42:49Z; claim-receipt-like by filename.
+- [R5_PRESEAL_BINDINGS_R1.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/R5_PRESEAL_BINDINGS_R1.json) — 4,551 bytes; modified 2026-10-12 14:42:49Z; documentation / metadata by filename.
+- [R5_RESOURCE_HANDOFF_CONTRACT_R1.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/R5_RESOURCE_HANDOFF_CONTRACT_R1.json) — 2,294 bytes; modified 2026-10-12 14:42:49Z; claim-receipt-like by filename.
+- [ROOT_CONDITIONAL_RELEASE_R5.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/ROOT_CONDITIONAL_RELEASE_R5.json) — 7,204 bytes; modified 2026-10-12 14:42:49Z; claim-receipt-like by filename.
+
+### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/results/`
+
+- [pipeline.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/results/pipeline.json) — 245 bytes; modified 2026-10-12 14:42:50Z; documentation / metadata by filename.
+
+### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/results/profile/`
+
+- [clean_t3_f0_muonall_treatment_profile_r22.input_identity.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/results/profile/clean_t3_f0_muonall_treatment_profile_r22.input_identity.json) — 43,390 bytes; modified 2026-10-12 14:42:50Z; source snapshot / plan by filename.
+- [heartbeat.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/results/profile/heartbeat.json) — 483 bytes; modified 2026-10-12 14:42:52Z; documentation / metadata by filename.
+- [inventory.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/results/profile/inventory.json) — 710 bytes; modified 2026-10-12 14:42:52Z; documentation / metadata by filename.
+- [summary.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/results/profile/summary.json) — 821 bytes; modified 2026-10-12 14:42:52Z; documentation / metadata by filename.
+
+### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/results/profile/clean_t3_f0_muonall_treatment_profile_r22/`
+
+- [result.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/results/profile/clean_t3_f0_muonall_treatment_profile_r22/result.json) — 448 bytes; modified 2026-10-12 14:42:51Z; claim-receipt-like by filename.
+- [spec.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/results/profile/clean_t3_f0_muonall_treatment_profile_r22/spec.json) — 29,688 bytes; modified 2026-10-12 14:42:51Z; documentation / metadata by filename.
+- [timeout_resolution.json](campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-student-20261012-r24/results/profile/clean_t3_f0_muonall_treatment_profile_r22/timeout_resolution.json) — 314 bytes; modified 2026-10-12 14:42:51Z; documentation / metadata by filename.
 
 ### `research/campaign_2026-10-05/checks/monitor_runtime/provider_outputs/wnn-clean-t3-f0-teachers-20261011-r1-runner/experiment/kaggle_specs/`
 
@@ -40682,11 +41827,11 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [COMBINATIONS_AND_SAMPLED_QUEUE_R1.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/COMBINATIONS_AND_SAMPLED_QUEUE_R1.md) — 7,599 bytes; modified 2026-10-09 16:15:45Z; documentation / metadata by filename.
 - [COMPLETED_COLLECTOR_DRAIN_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/COMPLETED_COLLECTOR_DRAIN_R1.json) — 452 bytes; modified 2026-10-09 04:37:24Z; documentation / metadata by filename.
 - [COMPUTE_PLANNING_R1.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/COMPUTE_PLANNING_R1.md) — 5,446 bytes; modified 2026-10-09 01:11:20Z; source snapshot / plan by filename.
-- [CONTINUATION_CONTRACT_20261011.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTINUATION_CONTRACT_20261011.md) — 63,044 bytes; modified 2026-10-12 11:50:43Z; source snapshot / plan by filename.
+- [CONTINUATION_CONTRACT_20261011.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTINUATION_CONTRACT_20261011.md) — 64,770 bytes; modified 2026-10-12 16:12:41Z; source snapshot / plan by filename.
 - [CONTRACT_R1.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTRACT_R1.md) — 4,047 bytes; modified 2026-10-08 21:19:47Z; source snapshot / plan by filename.
 - [CONTRACT_R3_TEACHER_CEILING_20261010.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTRACT_R3_TEACHER_CEILING_20261010.md) — 2,975 bytes; modified 2026-10-10 10:43:07Z; source snapshot / plan by filename.
 - [CONTRACT_R4_REPLAN_20261010.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTRACT_R4_REPLAN_20261010.md) — 6,434 bytes; modified 2026-10-10 18:18:16Z; source snapshot / plan by filename.
-- [CRASH_POSTMORTEM_20261011.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CRASH_POSTMORTEM_20261011.md) — 55,248 bytes; modified 2026-10-12 13:43:32Z; documentation / metadata by filename.
+- [CRASH_POSTMORTEM_20261011.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CRASH_POSTMORTEM_20261011.md) — 56,196 bytes; modified 2026-10-12 14:50:06Z; documentation / metadata by filename.
 - [CREATIVE_RESEARCH_CONTRACT_R2_TOWARD_0700.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CREATIVE_RESEARCH_CONTRACT_R2_TOWARD_0700.md) — 12,778 bytes; modified 2026-10-09 22:28:39Z; source snapshot / plan by filename.
 - [CRITIC_REVIEW_ASSESSMENT_20261010.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CRITIC_REVIEW_ASSESSMENT_20261010.md) — 5,237 bytes; modified 2026-10-10 15:49:05Z; claim-receipt-like by filename.
 - [DEEP_DIVE_CURRENT_BEST_20261011.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/DEEP_DIVE_CURRENT_BEST_20261011.md) — 12,836 bytes; modified 2026-10-11 08:55:04Z; documentation / metadata by filename.
@@ -40703,7 +41848,7 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [INDEX.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/INDEX.md) — 8,870 bytes; modified 2026-10-12 02:42:15Z; source snapshot / plan by filename.
 - [KAGGLE_CPU_CACHE_ROOT_ADMISSION_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/KAGGLE_CPU_CACHE_ROOT_ADMISSION_R1.json) — 2,149 bytes; modified 2026-10-08 22:03:05Z; claim-receipt-like by filename.
 - [LITERATURE_SCHEDULES_DISTILLATION_R1.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LITERATURE_SCHEDULES_DISTILLATION_R1.md) — 6,047 bytes; modified 2026-10-09 11:30:30Z; documentation / metadata by filename.
-- [LOOP_LOG_20261010.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LOOP_LOG_20261010.md) — 284,302 bytes; modified 2026-10-12 13:43:04Z; source snapshot / plan by filename.
+- [LOOP_LOG_20261010.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LOOP_LOG_20261010.md) — 287,196 bytes; modified 2026-10-12 16:12:41Z; source snapshot / plan by filename.
 - [LOSS_PAIR_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LOSS_PAIR_R1.json) — 5,163 bytes; modified 2026-10-08 22:44:27Z; documentation / metadata by filename.
 - [LOSS_PAIR_R1.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LOSS_PAIR_R1.md) — 12,000 bytes; modified 2026-10-08 22:44:27Z; documentation / metadata by filename.
 - [loss_pair_r1_membership_fold0_f03_s20261009.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/loss_pair_r1_membership_fold0_f03_s20261009.json) — 253,578 bytes; modified 2026-10-08 22:44:27Z; documentation / metadata by filename.
@@ -40803,15 +41948,15 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [GPU_R2_READINESS_QUOTA_OBSERVATION_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/GPU_R2_READINESS_QUOTA_OBSERVATION_R1.json) — 5,863 bytes; modified 2026-10-08 23:19:38Z; documentation / metadata by filename.
 - [GPU_R2_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/GPU_R2_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl) — 69,681 bytes; modified 2026-10-09 02:04:33Z; claim-receipt-like by filename.
 - [GPU_R2_TERMINAL_OPERATOR_RECEIPT_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/GPU_R2_TERMINAL_OPERATOR_RECEIPT_R1.json) — 19,999 bytes; modified 2026-10-08 23:49:17Z; claim-receipt-like by filename.
-- [GPU_R5_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/GPU_R5_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl) — 2,465,860 bytes; modified 2026-10-12 14:29:46Z; claim-receipt-like by filename.
+- [GPU_R5_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/GPU_R5_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl) — 2,515,104 bytes; modified 2026-10-12 16:11:02Z; claim-receipt-like by filename.
 - [KAGGLE_CPU_CACHE_PROVIDER_PUSH_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/KAGGLE_CPU_CACHE_PROVIDER_PUSH_R1.json) — 2,164 bytes; modified 2026-10-08 22:27:34Z; documentation / metadata by filename.
 - [KAGGLE_STAGE_OPERATOR_HANDOFF_R1.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/KAGGLE_STAGE_OPERATOR_HANDOFF_R1.md) — 5,802 bytes; modified 2026-10-08 22:06:10Z; claim-receipt-like by filename.
-- [provider_poll_log_active_20261009_r1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r1.jsonl) — 2,020,445 bytes; modified 2026-10-12 14:28:59Z; source snapshot / plan by filename.
+- [provider_poll_log_active_20261009_r1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r1.jsonl) — 2,100,344 bytes; modified 2026-10-12 16:09:34Z; source snapshot / plan by filename.
 - [provider_poll_log_active_20261009_r2.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r2.jsonl) — 5,786 bytes; modified 2026-10-11 15:06:30Z; source snapshot / plan by filename.
 - [provider_poll_log_active_20261009_r3.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r3.jsonl) — 2,860 bytes; modified 2026-10-12 05:51:34Z; source snapshot / plan by filename.
 - [provider_poll_log_active_20261009_r4.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r4.jsonl) — 2,860 bytes; modified 2026-10-12 06:01:38Z; source snapshot / plan by filename.
 - [provider_targets_active_20261009_r1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_targets_active_20261009_r1.json) — 1,457 bytes; modified 2026-10-08 22:27:34Z; documentation / metadata by filename.
-- [provider_targets_active_20261009_r2.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_targets_active_20261009_r2.json) — 6,296 bytes; modified 2026-10-12 13:19:15Z; documentation / metadata by filename.
+- [provider_targets_active_20261009_r2.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_targets_active_20261009_r2.json) — 6,764 bytes; modified 2026-10-12 14:48:22Z; documentation / metadata by filename.
 
 ### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/cpu_source_stage_artifact_observation_r1/`
 
@@ -47710,11 +48855,43 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 
 ### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/`
 
+- [CP5_EXPORT_BOUND_STAGE_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/CP5_EXPORT_BOUND_STAGE_R1.json) — 18,208 bytes; modified 2026-10-12 15:40:40Z; documentation / metadata by filename.
+- [CP5_FULL_VALID_EXPORT_TERMINAL_VALIDATION_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/CP5_FULL_VALID_EXPORT_TERMINAL_VALIDATION_R1.json) — 2,503 bytes; modified 2026-10-12 16:08:18Z; claim-receipt-like by filename.
+- [CP5_FULL_VALID_EXPORT_TERMINAL_VALIDATION_R2.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/CP5_FULL_VALID_EXPORT_TERMINAL_VALIDATION_R2.json) — 10,654 bytes; modified 2026-10-12 16:08:18Z; claim-receipt-like by filename.
+- [FINAL_HANDOFF_R1.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/FINAL_HANDOFF_R1.md) — 6,035 bytes; modified 2026-10-12 16:08:18Z; claim-receipt-like by filename.
 - [FIT_CONTRACT_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/FIT_CONTRACT_R1.json) — 20,703 bytes; modified 2026-10-12 13:37:14Z; source snapshot / plan by filename.
 - [LAUNCH_MANIFEST_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/LAUNCH_MANIFEST_R1.json) — 9,607 bytes; modified 2026-10-12 13:37:14Z; claim-receipt-like by filename.
 - [P1_STARTUP_RECEIPT_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P1_STARTUP_RECEIPT_R1.json) — 19,109 bytes; modified 2026-10-12 13:43:47Z; claim-receipt-like by filename.
+- [P1_TERMINAL_VALIDATION_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P1_TERMINAL_VALIDATION_R1.json) — 1,359 bytes; modified 2026-10-12 14:48:34Z; claim-receipt-like by filename.
+- [P1_TERMINAL_VALIDATION_R2.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P1_TERMINAL_VALIDATION_R2.json) — 13,164 bytes; modified 2026-10-12 14:48:34Z; claim-receipt-like by filename.
+- [P1_TERMINAL_VALIDATION_R3.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P1_TERMINAL_VALIDATION_R3.json) — 13,173 bytes; modified 2026-10-12 14:48:34Z; claim-receipt-like by filename.
+- [P2_BOUND_STAGE_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P2_BOUND_STAGE_R1.json) — 11,116 bytes; modified 2026-10-12 14:48:34Z; documentation / metadata by filename.
+- [P2_STARTUP_RECEIPT_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P2_STARTUP_RECEIPT_R1.json) — 11,938 bytes; modified 2026-10-12 14:48:34Z; claim-receipt-like by filename.
+- [P2_TERMINAL_RECEIPT_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P2_TERMINAL_RECEIPT_R1.json) — 9,472 bytes; modified 2026-10-12 15:01:29Z; claim-receipt-like by filename.
+- [P2_TERMINAL_VALIDATION_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P2_TERMINAL_VALIDATION_R1.json) — 13,207 bytes; modified 2026-10-12 15:01:29Z; claim-receipt-like by filename.
+- [P3_BOUND_STAGE_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P3_BOUND_STAGE_R1.json) — 11,755 bytes; modified 2026-10-12 15:01:29Z; documentation / metadata by filename.
+- [P3_STARTUP_RECEIPT_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P3_STARTUP_RECEIPT_R1.json) — 11,911 bytes; modified 2026-10-12 15:01:29Z; claim-receipt-like by filename.
+- [P3_TERMINAL_VALIDATION_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/P3_TERMINAL_VALIDATION_R1.json) — 13,028 bytes; modified 2026-10-12 15:40:40Z; claim-receipt-like by filename.
 - [ROOT_SEED4_CONDITIONAL_RELEASE_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/ROOT_SEED4_CONDITIONAL_RELEASE_R1.json) — 3,233 bytes; modified 2026-10-12 13:38:20Z; claim-receipt-like by filename.
+- [SEED4_CONTROL_FINAL_RECEIPT_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/SEED4_CONTROL_FINAL_RECEIPT_R1.json) — 34,776 bytes; modified 2026-10-12 16:08:18Z; claim-receipt-like by filename.
 - [SUCCESSOR_TEMPLATES_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/SUCCESSOR_TEMPLATES_R1.json) — 24,804 bytes; modified 2026-10-12 13:43:47Z; documentation / metadata by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/f0_grade_r1/`
+
+- [clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1.grade.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/f0_grade_r1/clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1.grade.json) — 526 bytes; modified 2026-10-12 16:08:18Z; claim-receipt-like by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/preserved_stage_evidence_r1/`
+
+- [p1_clean-t3-f0-control-s4-a9-r3-p1-20261012.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/preserved_stage_evidence_r1/p1_clean-t3-f0-control-s4-a9-r3-p1-20261012.json) — 49,768 bytes; modified 2026-10-12 16:08:18Z; documentation / metadata by filename.
+- [p1_history.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/preserved_stage_evidence_r1/p1_history.json) — 3,056 bytes; modified 2026-10-12 16:08:18Z; documentation / metadata by filename.
+- [p1_provenance.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/preserved_stage_evidence_r1/p1_provenance.json) — 158,960 bytes; modified 2026-10-12 16:08:18Z; documentation / metadata by filename.
+- [p2_clean-t3-f0-control-s4-a9-r3-p2-envr1-20261012.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/preserved_stage_evidence_r1/p2_clean-t3-f0-control-s4-a9-r3-p2-envr1-20261012.json) — 49,823 bytes; modified 2026-10-12 16:08:18Z; documentation / metadata by filename.
+- [p2_history.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/preserved_stage_evidence_r1/p2_history.json) — 6,115 bytes; modified 2026-10-12 16:08:18Z; documentation / metadata by filename.
+- [p2_provenance.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/preserved_stage_evidence_r1/p2_provenance.json) — 162,640 bytes; modified 2026-10-12 16:08:18Z; documentation / metadata by filename.
+- [p3_clean-t3-f0-control-s4-a9-r3-p3-envr1-20261012.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/preserved_stage_evidence_r1/p3_clean-t3-f0-control-s4-a9-r3-p3-envr1-20261012.json) — 49,831 bytes; modified 2026-10-12 16:08:18Z; documentation / metadata by filename.
+- [p3_history.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/preserved_stage_evidence_r1/p3_history.json) — 9,175 bytes; modified 2026-10-12 16:08:18Z; documentation / metadata by filename.
+- [p3_provenance.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/preserved_stage_evidence_r1/p3_provenance.json) — 166,153 bytes; modified 2026-10-12 16:08:18Z; documentation / metadata by filename.
+- [PRESERVED_STAGE_EVIDENCE_MANIFEST_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/seed4_confirmation_r1/preserved_stage_evidence_r1/PRESERVED_STAGE_EVIDENCE_MANIFEST_R1.json) — 9,547 bytes; modified 2026-10-12 16:08:18Z; claim-receipt-like by filename.
 
 ### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/`
 
@@ -49660,9 +50837,11 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [R7_OPERATOR_HANDOFF_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/R7_OPERATOR_HANDOFF_R1.json) — 1,802 bytes; modified 2026-10-12 13:19:15Z; claim-receipt-like by filename.
 - [R7_OPERATOR_PACKET_MANIFEST_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/R7_OPERATOR_PACKET_MANIFEST_R1.json) — 3,628 bytes; modified 2026-10-12 13:19:15Z; claim-receipt-like by filename.
 - [R7_OPERATOR_POLL_HANDOFF_R2.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/R7_OPERATOR_POLL_HANDOFF_R2.json) — 1,343 bytes; modified 2026-10-12 13:27:09Z; claim-receipt-like by filename.
-- [R7_PROVIDER_POLL_LOG_R1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/R7_PROVIDER_POLL_LOG_R1.jsonl) — 1,137 bytes; modified 2026-10-12 13:19:15Z; source snapshot / plan by filename.
+- [R7_PROVIDER_POLL_LOG_R1.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/R7_PROVIDER_POLL_LOG_R1.jsonl) — 2,282 bytes; modified 2026-10-12 14:40:30Z; source snapshot / plan by filename.
 - [R7_PROVIDER_POLL_LOG_R2.jsonl](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/R7_PROVIDER_POLL_LOG_R2.jsonl) — 2,218 bytes; modified 2026-10-12 13:27:09Z; source snapshot / plan by filename.
 - [R7_PROVIDER_STATUS_TARGET_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/R7_PROVIDER_STATUS_TARGET_R1.json) — 325 bytes; modified 2026-10-12 13:19:15Z; source snapshot / plan by filename.
+- [R7_TERMINAL_COLLECTION_EXEC_R1.stdout.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/R7_TERMINAL_COLLECTION_EXEC_R1.stdout.json) — 2,309 bytes; modified 2026-10-12 14:41:08Z; claim-receipt-like by filename.
+- [R7_TERMINAL_OPERATOR_RECEIPT_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/R7_TERMINAL_OPERATOR_RECEIPT_R1.json) — 35,436 bytes; modified 2026-10-12 14:41:08Z; claim-receipt-like by filename.
 - [README_R7_OPERATOR.md](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/README_R7_OPERATOR.md) — 1,344 bytes; modified 2026-10-12 13:19:15Z; source snapshot / plan by filename.
 - [ROOT_R6_DISPATCH_PREFLIGHT_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/ROOT_R6_DISPATCH_PREFLIGHT_R1.json) — 1,584 bytes; modified 2026-10-12 12:42:44Z; documentation / metadata by filename.
 - [SOURCE_VERSION1_FILES_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/SOURCE_VERSION1_FILES_R1.json) — 449 bytes; modified 2026-10-12 12:40:36Z; source snapshot / plan by filename.
@@ -49670,6 +50849,72 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 ### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/asset_version1_readback/`
 
 - [assets-manifest.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/asset_version1_readback/assets-manifest.json) — 949 bytes; modified 2026-10-12 09:15:43Z; claim-receipt-like by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/`
+
+- [attempt_result.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/attempt_result.json) — 362 bytes; modified 2026-10-12 14:41:08Z; claim-receipt-like by filename.
+- [provider_status.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/provider_status.json) — 182 bytes; modified 2026-10-12 14:40:30Z; source snapshot / plan by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/`
+
+- [results_preflight.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/results_preflight.json) — 6,290 bytes; modified 2026-10-12 14:41:03Z; claim-receipt-like by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/`
+
+- [clean_t3_f0_muonall_treatment_profile_r22.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/clean_t3_f0_muonall_treatment_profile_r22.json) — 29,688 bytes; modified 2026-10-12 14:40:35Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_train.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_train.json) — 26,520 bytes; modified 2026-10-12 14:40:35Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_valid.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_valid.json) — 26,520 bytes; modified 2026-10-12 14:40:35Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s3_r5_full_valid.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s3_r5_full_valid.json) — 26,566 bytes; modified 2026-10-12 14:40:36Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_train.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_train.json) — 26,520 bytes; modified 2026-10-12 14:40:36Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_valid.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_valid.json) — 26,520 bytes; modified 2026-10-12 14:40:36Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s4_r5_full_valid.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s4_r5_full_valid.json) — 26,566 bytes; modified 2026-10-12 14:40:36Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_train.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_train.json) — 26,520 bytes; modified 2026-10-12 14:40:37Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_valid.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_valid.json) — 26,520 bytes; modified 2026-10-12 14:40:37Z; documentation / metadata by filename.
+- [export_clean_t3_f0_muonall_h384_e3_s5_r5_full_valid.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/export_clean_t3_f0_muonall_h384_e3_s5_r5_full_valid.json) — 26,566 bytes; modified 2026-10-12 14:40:37Z; documentation / metadata by filename.
+- [fit_clean_t3_f0_muonall_h384_e3_s3_r5.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/fit_clean_t3_f0_muonall_h384_e3_s3_r5.json) — 27,717 bytes; modified 2026-10-12 14:40:38Z; documentation / metadata by filename.
+- [fit_clean_t3_f0_muonall_h384_e3_s4_r5.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/fit_clean_t3_f0_muonall_h384_e3_s4_r5.json) — 27,717 bytes; modified 2026-10-12 14:40:38Z; documentation / metadata by filename.
+- [fit_clean_t3_f0_muonall_h384_e3_s5_r5.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/fit_clean_t3_f0_muonall_h384_e3_s5_r5.json) — 27,717 bytes; modified 2026-10-12 14:40:38Z; documentation / metadata by filename.
+- [profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r5.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/profile_clean_t3_f0_muonall_h384_e3_s3_paired_t4_r5.json) — 27,512 bytes; modified 2026-10-12 14:40:39Z; documentation / metadata by filename.
+- [profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r5.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/kaggle_specs/profile_clean_t3_f0_muonall_h384_e3_s4_paired_t4_r5.json) — 27,512 bytes; modified 2026-10-12 14:40:39Z; documentation / metadata by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/`
+
+- [ACTUAL_PRODUCER_PREFLIGHT_R2_RECEIPT.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/ACTUAL_PRODUCER_PREFLIGHT_R2_RECEIPT.json) — 3,660 bytes; modified 2026-10-12 14:40:39Z; claim-receipt-like by filename.
+- [CONDITIONAL_FIT_ADMISSION_R3.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/CONDITIONAL_FIT_ADMISSION_R3.json) — 1,435 bytes; modified 2026-10-12 14:40:39Z; claim-receipt-like by filename.
+- [INPUT_BINDING_R3.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/INPUT_BINDING_R3.json) — 4,942 bytes; modified 2026-10-12 14:40:40Z; source snapshot / plan by filename.
+- [PROFILE_GUARD_CONTRACT_R3.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/PROFILE_GUARD_CONTRACT_R3.json) — 1,029 bytes; modified 2026-10-12 14:40:40Z; source snapshot / plan by filename.
+- [PROFILE_REFERENCE_R3.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/PROFILE_REFERENCE_R3.json) — 1,794 bytes; modified 2026-10-12 14:40:40Z; documentation / metadata by filename.
+- [ROOT_CONDITIONAL_RELEASE_R4.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/ROOT_CONDITIONAL_RELEASE_R4.json) — 6,494 bytes; modified 2026-10-12 14:40:41Z; claim-receipt-like by filename.
+- [SOURCE_BINDING_R3.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/SOURCE_BINDING_R3.json) — 1,061 bytes; modified 2026-10-12 14:40:41Z; source snapshot / plan by filename.
+- [SOURCE_DELTA_R3.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/SOURCE_DELTA_R3.json) — 1,788 bytes; modified 2026-10-12 14:40:41Z; source snapshot / plan by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/`
+
+- [SOURCE_MANIFEST_H390.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/SOURCE_MANIFEST_H390.json) — 6,895 bytes; modified 2026-10-12 14:40:42Z; claim-receipt-like by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/`
+
+- [CONDITIONAL_FIT_ADMISSION_R5.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/CONDITIONAL_FIT_ADMISSION_R5.json) — 1,419 bytes; modified 2026-10-12 14:41:02Z; claim-receipt-like by filename.
+- [R5_PRESEAL_BINDINGS_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/R5_PRESEAL_BINDINGS_R1.json) — 4,551 bytes; modified 2026-10-12 14:41:02Z; documentation / metadata by filename.
+- [R5_RESOURCE_HANDOFF_CONTRACT_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/R5_RESOURCE_HANDOFF_CONTRACT_R1.json) — 2,294 bytes; modified 2026-10-12 14:41:02Z; claim-receipt-like by filename.
+- [ROOT_CONDITIONAL_RELEASE_R5.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/experiment/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/ROOT_CONDITIONAL_RELEASE_R5.json) — 7,204 bytes; modified 2026-10-12 14:41:03Z; claim-receipt-like by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/results/`
+
+- [pipeline.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/results/pipeline.json) — 245 bytes; modified 2026-10-12 14:41:05Z; documentation / metadata by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/results/profile/`
+
+- [clean_t3_f0_muonall_treatment_profile_r22.input_identity.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/results/profile/clean_t3_f0_muonall_treatment_profile_r22.input_identity.json) — 43,390 bytes; modified 2026-10-12 14:41:05Z; source snapshot / plan by filename.
+- [heartbeat.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/results/profile/heartbeat.json) — 483 bytes; modified 2026-10-12 14:41:07Z; documentation / metadata by filename.
+- [inventory.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/results/profile/inventory.json) — 710 bytes; modified 2026-10-12 14:41:07Z; documentation / metadata by filename.
+- [summary.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/results/profile/summary.json) — 821 bytes; modified 2026-10-12 14:41:07Z; documentation / metadata by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/results/profile/clean_t3_f0_muonall_treatment_profile_r22/`
+
+- [result.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/results/profile/clean_t3_f0_muonall_treatment_profile_r22/result.json) — 448 bytes; modified 2026-10-12 14:41:06Z; claim-receipt-like by filename.
+- [spec.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/results/profile/clean_t3_f0_muonall_treatment_profile_r22/spec.json) — 29,688 bytes; modified 2026-10-12 14:41:06Z; documentation / metadata by filename.
+- [timeout_resolution.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/provider_output_r1/attempt_001/outputs/results/profile/clean_t3_f0_muonall_treatment_profile_r22/timeout_resolution.json) — 314 bytes; modified 2026-10-12 14:41:06Z; documentation / metadata by filename.
 
 ### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1207_r24/source_complete_version1_readback/`
 
@@ -50202,6 +51447,10 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 ### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/monitor_20261012_1408_r7_running_r3/`
 
 - [R7_PROVIDER_RUNNING_R3.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/monitor_20261012_1408_r7_running_r3/R7_PROVIDER_RUNNING_R3.json) — 2,843 bytes; modified 2026-10-12 14:28:15Z; documentation / metadata by filename.
+
+### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/r7_terminal_triage_r1/`
+
+- [TERMINAL_TRIAGE_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/r7_terminal_triage_r1/TERMINAL_TRIAGE_R1.json) — 4,963 bytes; modified 2026-10-12 14:47:14Z; claim-receipt-like by filename.
 
 ### `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/review_public_gap_20261011/`
 
@@ -53351,6 +54600,7 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [sequence_oldz4_f0_parent_r3_20261011_r1.json](campaign_2026-10-06/bandit_continuation/runtime/sequence_oldz4_f0_parent_r3_20261011_r1.json) — 690 bytes; modified 2026-10-11 19:59:32Z; documentation / metadata by filename.
 - [sequence_teacher_exports_v1.json](campaign_2026-10-06/bandit_continuation/runtime/sequence_teacher_exports_v1.json) — 1,520 bytes; modified 2026-10-06 22:36:58Z; documentation / metadata by filename.
 - [sequence_teacher_exports_v2.json](campaign_2026-10-06/bandit_continuation/runtime/sequence_teacher_exports_v2.json) — 531 bytes; modified 2026-10-06 23:07:44Z; documentation / metadata by filename.
+- [STOP_ADMISSION.json](campaign_2026-10-06/bandit_continuation/runtime/STOP_ADMISSION.json) — 359 bytes; modified 2026-10-12 15:54:57Z; claim-receipt-like by filename.
 - [USER_STEERING_20261007_0105Z.json](campaign_2026-10-06/bandit_continuation/runtime/USER_STEERING_20261007_0105Z.json) — 1,115 bytes; modified 2026-10-07 01:07:52Z; documentation / metadata by filename.
 
 ### `research/campaign_2026-10-06/bandit_continuation/runtime/attempts/`
@@ -53365,7 +54615,9 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [clean-t3-f0-control-s3-a9-r2-p3-envr1-20261012.json](campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-control-s3-a9-r2-p3-envr1-20261012.json) — 49,791 bytes; modified 2026-10-12 13:08:56Z; documentation / metadata by filename.
 - [clean-t3-f0-control-s3-cp5-full-valid-local-export-r1.json](campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-control-s3-cp5-full-valid-local-export-r1.json) — 48,987 bytes; modified 2026-10-12 13:22:13Z; documentation / metadata by filename.
 - [clean-t3-f0-control-s4-a9-r3-p1-20261012.json](campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-control-s4-a9-r3-p1-20261012.json) — 49,768 bytes; modified 2026-10-12 14:13:32Z; documentation / metadata by filename.
-- [clean-t3-f0-control-s4-a9-r3-p2-envr1-20261012.json](campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-control-s4-a9-r3-p2-envr1-20261012.json) — 48,958 bytes; modified 2026-10-12 14:30:25Z; documentation / metadata by filename.
+- [clean-t3-f0-control-s4-a9-r3-p2-envr1-20261012.json](campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-control-s4-a9-r3-p2-envr1-20261012.json) — 49,823 bytes; modified 2026-10-12 14:56:39Z; documentation / metadata by filename.
+- [clean-t3-f0-control-s4-a9-r3-p3-envr1-20261012.json](campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-control-s4-a9-r3-p3-envr1-20261012.json) — 49,831 bytes; modified 2026-10-12 15:34:34Z; documentation / metadata by filename.
+- [clean-t3-f0-control-s4-cp5-full-valid-export-r1-20261012.json](campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-control-s4-cp5-full-valid-export-r1-20261012.json) — 48,982 bytes; modified 2026-10-12 15:42:50Z; documentation / metadata by filename.
 - [clean-t3-f0-h256-profile-r1-20261012.json](campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-h256-profile-r1-20261012.json) — 49,740 bytes; modified 2026-10-12 10:19:24Z; documentation / metadata by filename.
 - [clean-t3-f0-h256-profile-r2-20261012.json](campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-h256-profile-r2-20261012.json) — 49,928 bytes; modified 2026-10-12 10:42:26Z; documentation / metadata by filename.
 - [clean-t3-f0-s3-cp2-full-valid-local-export-r1.json](campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-s3-cp2-full-valid-local-export-r1.json) — 48,559 bytes; modified 2026-10-12 04:41:56Z; documentation / metadata by filename.
@@ -54701,7 +55953,7 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 
 ### `research/campaign_2026-10-06/bandit_continuation/watchdog/`
 
-- [ALERTS.jsonl](campaign_2026-10-06/bandit_continuation/watchdog/ALERTS.jsonl) — 43,203 bytes; modified 2026-10-12 11:46:43Z; documentation / metadata by filename.
+- [ALERTS.jsonl](campaign_2026-10-06/bandit_continuation/watchdog/ALERTS.jsonl) — 43,518 bytes; modified 2026-10-12 15:55:44Z; documentation / metadata by filename.
 - [README.md](campaign_2026-10-06/bandit_continuation/watchdog/README.md) — 884 bytes; modified 2026-10-09 18:23:47Z; source snapshot / plan by filename.
 
 ### `research/campaign_2026-10-06/bandit_continuation/weak_cohort_portfolio/`
@@ -55913,6 +57165,7 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 
 - [ADMISSION_MEMORY_MARGIN_20261012_R1.json](campaign_2026-10-12/ADMISSION_MEMORY_MARGIN_20261012_R1.json) — 1,658 bytes; modified 2026-10-12 13:51:47Z; claim-receipt-like by filename.
 - [KILL_PREVENTION_PLAN_20261012.md](campaign_2026-10-12/KILL_PREVENTION_PLAN_20261012.md) — 8,847 bytes; modified 2026-10-12 13:51:47Z; source snapshot / plan by filename.
+- [RESEARCH_COMPLETE_HANDOFF_REVIEW_R1.md](campaign_2026-10-12/RESEARCH_COMPLETE_HANDOFF_REVIEW_R1.md) — 5,284 bytes; modified 2026-10-12 14:54:52Z; claim-receipt-like by filename.
 - [SOTA_SUBMISSION_REFLECTION_20261012_R2.md](campaign_2026-10-12/SOTA_SUBMISSION_REFLECTION_20261012_R2.md) — 8,647 bytes; modified 2026-10-12 14:11:39Z; documentation / metadata by filename.
 - [STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json](campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json) — 2,438 bytes; modified 2026-10-12 13:57:18Z; documentation / metadata by filename.
 
@@ -56011,9 +57264,58 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [PLOT_RECEIPT_R2.json](campaign_2026-10-12/public_validation_plot_r2/PLOT_RECEIPT_R2.json) — 3,611 bytes; modified 2026-10-12 11:03:28Z; claim-receipt-like by filename.
 - [README.md](campaign_2026-10-12/public_validation_plot_r2/README.md) — 2,423 bytes; modified 2026-10-12 11:03:28Z; source snapshot / plan by filename.
 
+### `research/campaign_2026-10-12/recovered_tmp_notes_r1/`
+
+- [h382_current_poll_targets_r1.json](campaign_2026-10-12/recovered_tmp_notes_r1/h382_current_poll_targets_r1.json) — 1,529 bytes; modified 2026-10-11 15:48:59Z; documentation / metadata by filename.
+- [h382_r3_dataset_owner_inventory.json](campaign_2026-10-12/recovered_tmp_notes_r1/h382_r3_dataset_owner_inventory.json) — 18 bytes; modified 2026-10-11 12:34:05Z; documentation / metadata by filename.
+- [h382_r3_kernel_owner_inventory.json](campaign_2026-10-12/recovered_tmp_notes_r1/h382_r3_kernel_owner_inventory.json) — 10 bytes; modified 2026-10-11 12:34:07Z; documentation / metadata by filename.
+- [h390_s3_s4_z4_build_r1.json](campaign_2026-10-12/recovered_tmp_notes_r1/h390_s3_s4_z4_build_r1.json) — 33,064 bytes; modified 2026-10-12 09:26:14Z; documentation / metadata by filename.
+- [h390_s3_z4_build_r1.json](campaign_2026-10-12/recovered_tmp_notes_r1/h390_s3_z4_build_r1.json) — 24,519 bytes; modified 2026-10-12 09:25:58Z; documentation / metadata by filename.
+- [kaggle_my_kernels_20261011_1231.json](campaign_2026-10-12/recovered_tmp_notes_r1/kaggle_my_kernels_20261011_1231.json) — 22,328 bytes; modified 2026-10-11 12:31:26Z; documentation / metadata by filename.
+- [kaggle_my_kernels_date_20261011_1232.json](campaign_2026-10-12/recovered_tmp_notes_r1/kaggle_my_kernels_date_20261011_1232.json) — 22,677 bytes; modified 2026-10-11 12:32:18Z; documentation / metadata by filename.
+- [provider_targets_h382_base.json](campaign_2026-10-12/recovered_tmp_notes_r1/provider_targets_h382_base.json) — 29,231 bytes; modified 2026-10-11 12:38:27Z; documentation / metadata by filename.
+- [q8_r4_independent_validation_20261012.json](campaign_2026-10-12/recovered_tmp_notes_r1/q8_r4_independent_validation_20261012.json) — 3,536 bytes; modified 2026-10-12 06:49:37Z; claim-receipt-like by filename.
+- [R6_CURRENT_STATUS_R1.jsonl](campaign_2026-10-12/recovered_tmp_notes_r1/R6_CURRENT_STATUS_R1.jsonl) — 1,123 bytes; modified 2026-10-12 00:09:08Z; source snapshot / plan by filename.
+- [R6_POSTPUSH_QUOTA_STATUS_R1.jsonl](campaign_2026-10-12/recovered_tmp_notes_r1/R6_POSTPUSH_QUOTA_STATUS_R1.jsonl) — 1,118 bytes; modified 2026-10-12 00:05:54Z; source snapshot / plan by filename.
+- [R6_PREPUSH_QUOTA_STATUS_R1.jsonl](campaign_2026-10-12/recovered_tmp_notes_r1/R6_PREPUSH_QUOTA_STATUS_R1.jsonl) — 1,117 bytes; modified 2026-10-12 00:04:27Z; source snapshot / plan by filename.
+- [RECOVERED_NOTES_MANIFEST_R1.json](campaign_2026-10-12/recovered_tmp_notes_r1/RECOVERED_NOTES_MANIFEST_R1.json) — 23,652 bytes; modified 2026-10-12 16:00:24Z; claim-receipt-like by filename.
+- [review_d_summary.json](campaign_2026-10-12/recovered_tmp_notes_r1/review_d_summary.json) — 6,785 bytes; modified 2026-10-12 13:18:36Z; claim-receipt-like by filename.
+- [review_e_summary.json](campaign_2026-10-12/recovered_tmp_notes_r1/review_e_summary.json) — 7,915 bytes; modified 2026-10-12 13:18:36Z; claim-receipt-like by filename.
+- [wnn-clean-t3-f0-combo-parent-r1-stage.provenance.json](campaign_2026-10-12/recovered_tmp_notes_r1/wnn-clean-t3-f0-combo-parent-r1-stage.provenance.json) — 159,653 bytes; modified 2026-10-11 17:37:43Z; documentation / metadata by filename.
+- [wnn-r5-r4-only-quota-r1.jsonl](campaign_2026-10-12/recovered_tmp_notes_r1/wnn-r5-r4-only-quota-r1.jsonl) — 1,117 bytes; modified 2026-10-11 22:57:17Z; documentation / metadata by filename.
+- [wnn-r5-r4-only.targets.json](campaign_2026-10-12/recovered_tmp_notes_r1/wnn-r5-r4-only.targets.json) — 107 bytes; modified 2026-10-11 22:57:16Z; documentation / metadata by filename.
+- [wnn-r5-readonly-poll-r2.quota.jsonl](campaign_2026-10-12/recovered_tmp_notes_r1/wnn-r5-readonly-poll-r2.quota.jsonl) — 3,197 bytes; modified 2026-10-11 22:51:29Z; documentation / metadata by filename.
+- [wnn-r5-readonly-poll.quota.jsonl](campaign_2026-10-12/recovered_tmp_notes_r1/wnn-r5-readonly-poll.quota.jsonl) — 3,197 bytes; modified 2026-10-11 22:50:41Z; documentation / metadata by filename.
+- [wnn-r5-readonly-poll.targets.json](campaign_2026-10-12/recovered_tmp_notes_r1/wnn-r5-readonly-poll.targets.json) — 200 bytes; modified 2026-10-11 22:50:39Z; documentation / metadata by filename.
+- [wnn_clean_t3_f0_teacher_r3_independent_validation.json](campaign_2026-10-12/recovered_tmp_notes_r1/wnn_clean_t3_f0_teacher_r3_independent_validation.json) — 1,074 bytes; modified 2026-10-11 20:59:48Z; claim-receipt-like by filename.
+- [wnn_r5_quota_poll_r1.jsonl](campaign_2026-10-12/recovered_tmp_notes_r1/wnn_r5_quota_poll_r1.jsonl) — 1,394 bytes; modified 2026-10-11 23:22:55Z; documentation / metadata by filename.
+- [wnn_r5_quota_targets_r1.json](campaign_2026-10-12/recovered_tmp_notes_r1/wnn_r5_quota_targets_r1.json) — 895 bytes; modified 2026-10-11 23:22:49Z; documentation / metadata by filename.
+- [wnn_r6_kernel_v2_exact_status_poll_20261012.jsonl](campaign_2026-10-12/recovered_tmp_notes_r1/wnn_r6_kernel_v2_exact_status_poll_20261012.jsonl) — 2,936 bytes; modified 2026-10-12 04:08:06Z; source snapshot / plan by filename.
+- [wnn_r6_kernel_v2_exact_status_targets_20261012.json](campaign_2026-10-12/recovered_tmp_notes_r1/wnn_r6_kernel_v2_exact_status_targets_20261012.json) — 105 bytes; modified 2026-10-12 04:08:05Z; source snapshot / plan by filename.
+- [wnn_r6_kernel_v2_status_poll_20261012.jsonl](campaign_2026-10-12/recovered_tmp_notes_r1/wnn_r6_kernel_v2_status_poll_20261012.jsonl) — 1,109 bytes; modified 2026-10-12 04:06:15Z; source snapshot / plan by filename.
+- [wnn_r6_kernel_v2_status_targets_20261012.json](campaign_2026-10-12/recovered_tmp_notes_r1/wnn_r6_kernel_v2_status_targets_20261012.json) — 103 bytes; modified 2026-10-12 04:06:14Z; source snapshot / plan by filename.
+- [wnn_z1c_z4_legacy_profile_adapter_r1.json](campaign_2026-10-12/recovered_tmp_notes_r1/wnn_z1c_z4_legacy_profile_adapter_r1.json) — 2,763 bytes; modified 2026-10-12 09:32:06Z; documentation / metadata by filename.
+- [wnn_z5_z4_legacy_profile_adapter_r1.json](campaign_2026-10-12/recovered_tmp_notes_r1/wnn_z5_z4_legacy_profile_adapter_r1.json) — 2,428 bytes; modified 2026-10-12 09:27:57Z; documentation / metadata by filename.
+
 ### `research/campaign_2026-10-12/research_archive_inventory_r1/`
 
+- [APPENDIX_BUILD_RECEIPT_R1.json](campaign_2026-10-12/research_archive_inventory_r1/APPENDIX_BUILD_RECEIPT_R1.json) — 4,437 bytes; modified 2026-10-12 14:32:40Z; claim-receipt-like by filename.
+- [EXPECTED_STOP_ALERT_R1.json](campaign_2026-10-12/research_archive_inventory_r1/EXPECTED_STOP_ALERT_R1.json) — 628 bytes; modified 2026-10-12 16:07:10Z; documentation / metadata by filename.
+- [FINAL_FRONTIER_R1.json](campaign_2026-10-12/research_archive_inventory_r1/FINAL_FRONTIER_R1.json) — 801 bytes; modified 2026-10-12 16:12:41Z; source snapshot / plan by filename.
+- [IGNORED_USEFUL_METADATA_SELECTION_R1.json](campaign_2026-10-12/research_archive_inventory_r1/IGNORED_USEFUL_METADATA_SELECTION_R1.json) — 279,424 bytes; modified 2026-10-12 14:55:22Z; documentation / metadata by filename.
+- [LEDGER_READ_BOUNDS_VALIDATION_R1.json](campaign_2026-10-12/research_archive_inventory_r1/LEDGER_READ_BOUNDS_VALIDATION_R1.json) — 2,449 bytes; modified 2026-10-12 14:43:00Z; claim-receipt-like by filename.
 - [MAIN_STATUS_INVENTORY_R1.json](campaign_2026-10-12/research_archive_inventory_r1/MAIN_STATUS_INVENTORY_R1.json) — 561,796 bytes; modified 2026-10-12 14:16:41Z; source snapshot / plan by filename.
+- [TMP_DURABLE_COPY_RECEIPT_R1.json](campaign_2026-10-12/research_archive_inventory_r1/TMP_DURABLE_COPY_RECEIPT_R1.json) — 2,589,612 bytes; modified 2026-10-12 15:52:18Z; claim-receipt-like by filename; >2 MiB, content not opened.
+- [TMP_DURABLE_MIGRATION_RECEIPT_R1.json](campaign_2026-10-12/research_archive_inventory_r1/TMP_DURABLE_MIGRATION_RECEIPT_R1.json) — 38,058 bytes; modified 2026-10-12 15:57:22Z; claim-receipt-like by filename.
+- [TMP_NATIVE_BINARY_PRESERVATION_R1.json](campaign_2026-10-12/research_archive_inventory_r1/TMP_NATIVE_BINARY_PRESERVATION_R1.json) — 5,085 bytes; modified 2026-10-12 16:04:47Z; documentation / metadata by filename.
+- [TMP_PRESERVATION_INVENTORY_R1.json](campaign_2026-10-12/research_archive_inventory_r1/TMP_PRESERVATION_INVENTORY_R1.json) — 729,178 bytes; modified 2026-10-12 15:48:50Z; documentation / metadata by filename.
+- [WATCHDOG_ALERTS_AT_USER_STOP_R1.jsonl](campaign_2026-10-12/research_archive_inventory_r1/WATCHDOG_ALERTS_AT_USER_STOP_R1.jsonl) — 43,518 bytes; modified 2026-10-12 15:55:44Z; documentation / metadata by filename.
+
+### `research/campaign_2026-10-12/research_archive_inventory_r1/mutable_telemetry_snapshot_r1/`
+
+- [GPU_R5_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl](campaign_2026-10-12/research_archive_inventory_r1/mutable_telemetry_snapshot_r1/GPU_R5_TERMINAL_COLLECTOR_POLL_LOG_R1.jsonl) — 2,485,560 bytes; modified 2026-10-12 15:10:42Z; claim-receipt-like by filename.
+- [provider_poll_log_active_20261009_r1.jsonl](campaign_2026-10-12/research_archive_inventory_r1/mutable_telemetry_snapshot_r1/provider_poll_log_active_20261009_r1.jsonl) — 2,052,332 bytes; modified 2026-10-12 15:10:42Z; source snapshot / plan by filename.
+- [SNAPSHOT_RECEIPT_R1.json](campaign_2026-10-12/research_archive_inventory_r1/mutable_telemetry_snapshot_r1/SNAPSHOT_RECEIPT_R1.json) — 1,312 bytes; modified 2026-10-12 15:10:42Z; claim-receipt-like by filename.
 
 ### `research/campaign_2026-10-12/z5_blend_runtime_pair_r1/`
 
@@ -59448,7 +60750,7 @@ Filename-based labels are navigational hints only. A claim-bearing result still 
 - [current-state-archive-20261008T0507Z.md](../specs/current-state-archive-20261008T0507Z.md) — 74,892 bytes; modified 2026-10-08 05:09:15Z; documentation / metadata by filename.
 - [current-state-archive-20261008T0915Z.md](../specs/current-state-archive-20261008T0915Z.md) — 16,922 bytes; modified 2026-10-08 09:16:56Z; documentation / metadata by filename.
 - [current-state-archive-20261009T0153Z.md](../specs/current-state-archive-20261009T0153Z.md) — 51,300 bytes; modified 2026-10-09 01:53:21Z; documentation / metadata by filename.
-- [current-state.md](../specs/current-state.md) — 157,658 bytes; modified 2026-10-12 14:12:35Z; documentation / metadata by filename.
+- [current-state.md](../specs/current-state.md) — 160,712 bytes; modified 2026-10-12 16:12:41Z; documentation / metadata by filename.
 - [experiment-execution.md](../specs/experiment-execution.md) — 3,026 bytes; modified 2026-10-08 00:21:17Z; documentation / metadata by filename.
 - [idea-generation.md](../specs/idea-generation.md) — 2,665 bytes; modified 2026-10-07 00:17:29Z; documentation / metadata by filename.
 - [README.md](../specs/README.md) — 3,149 bytes; modified 2026-10-07 23:57:47Z; source snapshot / plan by filename.

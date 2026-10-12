@@ -1,3 +1,7 @@
+## Final closure — 2026-10-12T16:12:41.588603+00:00
+
+All admitted local and Kaggle work is terminal; all roles finished. GlobalSTOP_ADMISSION has empty drain set; no new research, retries, fits or spending. The complete handoff is FINAL; older drain/open instructions below are historical. Explicit user resume is required.
+
 ## Superseding user scope — October12 finalization and stop
 
 The latest user instruction is to let current admitted runs/subagents finish, commit all useful research notes/JSON/training logs/plots (no model weights), consolidate the complete evidence and ideas into one detailed linked file, then stop. All new research admission is closed. The exact research-controller cron was removed; generic local queue STOP is set. Only the already-admitted local clean-T3 F0 seed4 logical sixepoch continuation through actual CP5 export/officialgrade may still drain. Kaggle R7 v1 is terminal ERROR, completely collected, and not eligible for retry. Its pre-fit literal `{python}` argv failure is execution evidence, not a model result. No new seeds, profiles, blend searches, cohorts, retries, paid paths, or resume is authorized. Future continuation requires a new explicit user instruction.
