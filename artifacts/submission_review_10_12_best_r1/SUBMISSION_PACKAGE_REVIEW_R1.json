@@ -1,0 +1,417 @@
+{
+  "component_npz_parity": {
+    "h390_s3_same_npz_bytes_in_A_B_C": true,
+    "h390_s3_weights_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6",
+    "h390_s4_same_npz_bytes_in_A_and_C": true,
+    "h390_s4_weights_sha256": "9f019d54a147296037b1bb2c6ad8b15b87070bde0402ff5426ce9c4804f52eaf",
+    "legacy_z4_npz_byte_identical_in_B_C_and_successful_Z1c_Z4_reference": true,
+    "legacy_z4_weights_sha256": "8d1c4a32f58f322427093b564a4b657475e43eb393bc384336abba4fcfad043e"
+  },
+  "created_utc": "2026-10-12T09:38:30Z",
+  "h390_endpoint_scope": [
+    {
+      "evaluation_group_count": 0,
+      "fit_total_groups": 12479,
+      "fit_train_groups": 10606,
+      "fit_valid_groups": 1873,
+      "provenance_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+      "run": "vt_all_h390_ds_homogeneous_s3_r3",
+      "selected_epoch": 5
+    },
+    {
+      "evaluation_group_count": 0,
+      "fit_total_groups": 12479,
+      "fit_train_groups": 10606,
+      "fit_valid_groups": 1873,
+      "provenance_sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb",
+      "run": "vt_all_h390_ds_homogeneous_s4_r3",
+      "selected_epoch": 5
+    }
+  ],
+  "interpretation": {
+    "all_data_note": "H390 endpoints use 10,606 train and 1,873 valid groups (12,479 total), with no evaluation groups. These are final all-data artifacts, not held-out evidence.",
+    "build_receipt_gate_marker": "Each BUILD_R1 remains unchanged and says offline-import/streaming pending; separate exact-ZIP Python 3.11 callback receipts completed callback/import/reset checks.",
+    "build_receipts_unchanged": true,
+    "held_out_claim": null,
+    "public_score_forecast": null,
+    "score_claim": null,
+    "time_basis": "Local one-core Intel i9-11900H exact callback timing only. Two measured passes per profile; no confidence interval, full evaluation runtime or target-hardware transfer estimate. The independent C run was noisy and is recorded separately; actor same-panel receipt is the primary repeat summary."
+  },
+  "packages": [
+    {
+      "actor_callback_profile": {
+        "callbacks": 400000,
+        "cgroup_memory_peak_bytes": 213438464,
+        "mean_callback_us_per_row": 44.96912029,
+        "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/profiles/h390_s3_s4_equal_CALLBACK_10SEQ_R1.json",
+        "repeat_us_per_row": [
+          44.983851300000005,
+          44.95438928
+        ],
+        "sha256": "19b4e6c792c1b0782257a527d2fdb55004ce5d4ff52ca72f1a4a4811586f0019"
+      },
+      "archive_crc_ok": true,
+      "archive_members": [
+        "avx2/wnn_native.abi3.so",
+        "members.json",
+        "precision.txt",
+        "solution.py",
+        "v2/wnn_native.abi3.so",
+        "v3/wnn_native.abi3.so",
+        "weights_0.npz",
+        "weights_1.npz"
+      ],
+      "build_gate_status_preserved": "package_crc_passed; offline_import_and_streaming_gate_pending",
+      "build_receipt_path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/receipts/h390_s3_s4_equal_q8_BUILD_R1.json",
+      "build_receipt_sha256": "2664169b50681284550c0c16b8db50ea426ede689d5f41e8012ec6dca3e3d90a",
+      "candidate": "A",
+      "candidate_id": "h390_s3_s4_equal_q8_20261012",
+      "fixed_members": [
+        {
+          "coefficient": 0.5,
+          "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+        },
+        {
+          "coefficient": 0.5,
+          "run_reference": "vt_all_h390_ds_homogeneous_s4_r3@ep5"
+        }
+      ],
+      "independent_callback_review": {
+        "callbacks": 400000,
+        "cgroup_memory_peak_bytes": 214753280,
+        "matches_actor_feature_and_prediction_hashes": true,
+        "mean_callback_us_per_row": 46.7081240025,
+        "oom_and_limit_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+        "path": "/home/vlad/development/wunder/wnn-agent-worktrees/best-zip-review-20261012/artifacts/submission_review_10_12_best_r1/A_CALLBACK_REVIEW_R1.json",
+        "repeat_us_per_row": [
+          46.98047794,
+          46.435770065
+        ],
+        "sha256": "2aa54ccc8cc9666f0919dd9307f38672707242e5488cee1a765411f22e909c68"
+      },
+      "member_hash_map_matches_build_receipt": true,
+      "native_library_sha256": {
+        "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+        "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+        "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+      },
+      "package_precision": "q8vnni",
+      "packaged_tensor_hashes_match_receipt_and_finite": [
+        {
+          "all_finite": true,
+          "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+          "tensor_count": 16,
+          "tensor_hashes_match_build_receipt": true,
+          "weights_member": "weights_0.npz",
+          "weights_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6"
+        },
+        {
+          "all_finite": true,
+          "run_reference": "vt_all_h390_ds_homogeneous_s4_r3@ep5",
+          "tensor_count": 16,
+          "tensor_hashes_match_build_receipt": true,
+          "weights_member": "weights_1.npz",
+          "weights_sha256": "9f019d54a147296037b1bb2c6ad8b15b87070bde0402ff5426ce9c4804f52eaf"
+        }
+      ],
+      "source_checkpoint_and_provenance_hashes_verified": [
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/model_ep5.pt",
+          "sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/provenance.json",
+          "sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/model_ep5.pt",
+          "sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/provenance.json",
+          "sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb"
+        }
+      ],
+      "zip_bytes": 8556250,
+      "zip_path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/h390_s3_s4_equal_q8_20261012.zip",
+      "zip_sha256": "8834774c58ff31a77547fc8ec59988aef61e1bd1e7198c4c52d1d3835c43e6e5"
+    },
+    {
+      "actor_callback_profile": {
+        "callbacks": 400000,
+        "cgroup_memory_peak_bytes": 225718272,
+        "mean_callback_us_per_row": 49.824690902499995,
+        "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/profiles/h390_s3_z4equal_CALLBACK_10SEQ_R1.json",
+        "repeat_us_per_row": [
+          49.933276854999995,
+          49.71610495
+        ],
+        "sha256": "73f0c3a33ec7913155e3d92f46fe3a4f3a709911e26698ca8a5a01a4cd40a0b2"
+      },
+      "archive_crc_ok": true,
+      "archive_members": [
+        "avx2/wnn_native.abi3.so",
+        "members.json",
+        "precision.txt",
+        "solution.py",
+        "v2/wnn_native.abi3.so",
+        "v3/wnn_native.abi3.so",
+        "weights_0.npz",
+        "weights_1.npz"
+      ],
+      "build_gate_status_preserved": "package_crc_passed; offline_import_and_streaming_gate_pending",
+      "build_receipt_path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/receipts/h390_s3_z4equal_q8_BUILD_R1.json",
+      "build_receipt_sha256": "c34096e1b5d4739e6a908b8cb062bbac3c7f448771bea58d19447a0640e96d44",
+      "candidate": "B",
+      "candidate_id": "h390_s3_z4equal_q8_20261012",
+      "fixed_members": [
+        {
+          "coefficient": 0.5,
+          "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+        },
+        {
+          "coefficient": 0.5,
+          "run_reference": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0"
+        }
+      ],
+      "independent_callback_review": {
+        "callbacks": 400000,
+        "cgroup_memory_peak_bytes": 225529856,
+        "matches_actor_feature_and_prediction_hashes": true,
+        "mean_callback_us_per_row": 56.8335371275,
+        "oom_and_limit_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+        "path": "/home/vlad/development/wunder/wnn-agent-worktrees/best-zip-review-20261012/artifacts/submission_review_10_12_best_r1/B_CALLBACK_REVIEW_R1.json",
+        "repeat_us_per_row": [
+          61.673844100000004,
+          51.993230155
+        ],
+        "sha256": "f3378fc546b1fa4773d0bb6fb4c264642a95d1b2b3a90fc30114c90aa6da167e"
+      },
+      "member_hash_map_matches_build_receipt": true,
+      "native_library_sha256": {
+        "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+        "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+        "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+      },
+      "package_precision": "q8vnni",
+      "packaged_tensor_hashes_match_receipt_and_finite": [
+        {
+          "all_finite": true,
+          "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+          "tensor_count": 16,
+          "tensor_hashes_match_build_receipt": true,
+          "weights_member": "weights_0.npz",
+          "weights_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6"
+        },
+        {
+          "all_finite": true,
+          "run_reference": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0",
+          "tensor_count": 16,
+          "tensor_hashes_match_build_receipt": true,
+          "weights_member": "weights_1.npz",
+          "weights_sha256": "8d1c4a32f58f322427093b564a4b657475e43eb393bc384336abba4fcfad043e"
+        }
+      ],
+      "source_checkpoint_and_provenance_hashes_verified": [
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/model_ep5.pt",
+          "sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/provenance.json",
+          "sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2/model_ep1.pt",
+          "sha256": "a9cb31068d7078742309e63b25e8fb0ec2e71f3587c15410ccde321df1fb6382"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2/provenance.json",
+          "sha256": "9f4af9092e12afd3eb7e247fbd50d881498ddaff477b317ebcfa7b10b9a682b3"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/z4_seed99_student_hft_alldata_v2/model_ep0.pt",
+          "sha256": "9a1e338208d9de65ac9ec9f62c73ebd67c40ae634b5ae05e6c738ec5bf84d1d4"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/z4_seed99_student_hft_alldata_v2/provenance.json",
+          "sha256": "56e0494fa4e507fd800e6c5247f37d2ed975d7acebd67e97a7bd576005d030e7"
+        }
+      ],
+      "zip_bytes": 9053484,
+      "zip_path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/h390_s3_z4equal_q8_20261012.zip",
+      "zip_sha256": "486a34c46989361428aa2e34f1c43dd246e2b7293f6dfcb5dc5031c989420440"
+    },
+    {
+      "actor_callback_profile": {
+        "callbacks": 400000,
+        "cgroup_memory_peak_bytes": 238071808,
+        "mean_callback_us_per_row": 83.33199987,
+        "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/profiles/h390_s3_s4_q8_z4half_CALLBACK_10SEQ_R1.json",
+        "repeat_us_per_row": [
+          81.898419175,
+          84.765580565
+        ],
+        "sha256": "98a5e9d42c148b2f019768bbcf353722ad4b99258575890ec0f05cd09e6011b7"
+      },
+      "archive_crc_ok": true,
+      "archive_members": [
+        "avx2/wnn_native.abi3.so",
+        "members.json",
+        "precision.txt",
+        "solution.py",
+        "v2/wnn_native.abi3.so",
+        "v3/wnn_native.abi3.so",
+        "weights_0.npz",
+        "weights_1.npz",
+        "weights_2.npz"
+      ],
+      "build_gate_status_preserved": "package_crc_passed; offline_import_and_streaming_gate_pending",
+      "build_receipt_path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/receipts/h390_s3_s4_q8_z4half_BUILD_R1.json",
+      "build_receipt_sha256": "a9c710d18ba8665f56e701b05e22fa4cca919f63b46d166fb47fda6cabd35120",
+      "candidate": "C",
+      "candidate_id": "h390_s3_s4_q8_z4half_20261012",
+      "fixed_members": [
+        {
+          "coefficient": 0.25,
+          "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+        },
+        {
+          "coefficient": 0.25,
+          "run_reference": "vt_all_h390_ds_homogeneous_s4_r3@ep5"
+        },
+        {
+          "coefficient": 0.5,
+          "run_reference": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0"
+        }
+      ],
+      "independent_callback_review": {
+        "callbacks": 400000,
+        "cgroup_memory_peak_bytes": 238313472,
+        "matches_actor_feature_and_prediction_hashes": true,
+        "mean_callback_us_per_row": 130.2244556375,
+        "oom_and_limit_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+        "path": "/home/vlad/development/wunder/wnn-agent-worktrees/best-zip-review-20261012/artifacts/submission_review_10_12_best_r1/C_CALLBACK_REVIEW_R1.json",
+        "repeat_us_per_row": [
+          93.18788473999999,
+          167.261026535
+        ],
+        "sha256": "24494d1efb0ffffab369e08a95754fdd641c4a0ce39a9571fe5731f25f71f703"
+      },
+      "member_hash_map_matches_build_receipt": true,
+      "native_library_sha256": {
+        "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+        "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+        "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+      },
+      "package_precision": "q8vnni",
+      "packaged_tensor_hashes_match_receipt_and_finite": [
+        {
+          "all_finite": true,
+          "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+          "tensor_count": 16,
+          "tensor_hashes_match_build_receipt": true,
+          "weights_member": "weights_0.npz",
+          "weights_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6"
+        },
+        {
+          "all_finite": true,
+          "run_reference": "vt_all_h390_ds_homogeneous_s4_r3@ep5",
+          "tensor_count": 16,
+          "tensor_hashes_match_build_receipt": true,
+          "weights_member": "weights_1.npz",
+          "weights_sha256": "9f019d54a147296037b1bb2c6ad8b15b87070bde0402ff5426ce9c4804f52eaf"
+        },
+        {
+          "all_finite": true,
+          "run_reference": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0",
+          "tensor_count": 16,
+          "tensor_hashes_match_build_receipt": true,
+          "weights_member": "weights_2.npz",
+          "weights_sha256": "8d1c4a32f58f322427093b564a4b657475e43eb393bc384336abba4fcfad043e"
+        }
+      ],
+      "source_checkpoint_and_provenance_hashes_verified": [
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/model_ep5.pt",
+          "sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/provenance.json",
+          "sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/model_ep5.pt",
+          "sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/provenance.json",
+          "sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2/model_ep1.pt",
+          "sha256": "a9cb31068d7078742309e63b25e8fb0ec2e71f3587c15410ccde321df1fb6382"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2/provenance.json",
+          "sha256": "9f4af9092e12afd3eb7e247fbd50d881498ddaff477b317ebcfa7b10b9a682b3"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/z4_seed99_student_hft_alldata_v2/model_ep0.pt",
+          "sha256": "9a1e338208d9de65ac9ec9f62c73ebd67c40ae634b5ae05e6c738ec5bf84d1d4"
+        },
+        {
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/z4_seed99_student_hft_alldata_v2/provenance.json",
+          "sha256": "56e0494fa4e507fd800e6c5247f37d2ed975d7acebd67e97a7bd576005d030e7"
+        }
+      ],
+      "zip_bytes": 12680868,
+      "zip_path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/h390_s3_s4_q8_z4half_20261012.zip",
+      "zip_sha256": "6013d20a7ff26ce6ef46821f80ed01da848ef4da565e2cd91656417ddd5186ea"
+    }
+  ],
+  "panel": {
+    "actor_and_baseline_panel_parquet_sha256": "21bef3ff373b238030be700cfe857380c616a58da3975eed81675fdb99998830",
+    "callback_calls_per_package": 400000,
+    "feature_sha256_map_canonical_sha256": "cce3ccd7f58bad44515b5d8e3c81acf4c0a570f4ee8d7ca594ced40b397d4cbe",
+    "independent_compact_panel_parquet_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "passes": 2,
+    "physical_parquet_container_bytes_differ_but_per_sequence_feature_and_prediction_hashes_match": true,
+    "rows_per_pass": 200000,
+    "rows_per_sequence": 20000,
+    "sequence_ids": [
+      256678,
+      751005,
+      1200028,
+      1892371,
+      1990332,
+      2308749,
+      4490992,
+      6746551,
+      8348957,
+      9147005
+    ],
+    "sequences": 10
+  },
+  "reviewer": "batch_packet_builder",
+  "same_panel_legacy_reference": {
+    "bytes": 9544031,
+    "callbacks": 400000,
+    "mean_callback_us_per_row": 102.3707235675,
+    "model_count": 2,
+    "native_level": "v3",
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/upload_2026-10-11/4_z1c_z4_pair_q8vnni.zip",
+    "precision": "q8vnni",
+    "profile_path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/profiles/z1c_z4_public_reference_CALLBACK_10SEQ_R1.json",
+    "profile_sha256": "7deb0d3a8214e539fa794ce9cf1a622f2e2983496b00c5557f69e6c7eb97df1f",
+    "repeat_us_per_row": [
+      113.96502421000001,
+      90.776422925
+    ],
+    "reported_public_runtime_context": "Root reports the exact legacy ZIP previously completed in 27m01; this review verified ZIP identity and local callback behavior, not that historical runtime record.",
+    "same_sequence_ids_and_per_sequence_feature_hashes": true,
+    "sha256": "ff498873027318b5aa20e6ca95517bdb843b4656989a75aae148f1c141705327"
+  },
+  "schema": "wnn.independent_submission_package_review.r1",
+  "scope": "Independent exact-ZIP/source/tensor/causal callback review for three frozen Q8 candidates; no score evaluation, no full-fold inference, no package modifications."
+}
