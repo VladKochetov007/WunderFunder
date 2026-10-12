@@ -1,0 +1,96 @@
+{
+  "schema": "wnn.research-controller-frontier-snapshot.r1",
+  "recorded_utc": "2026-10-12T06:53:48Z",
+  "interval_since_last_completion_utc": "2026-10-12T06:40:16Z",
+  "new_scientific_results": 0,
+  "new_submission_packages": 0,
+  "new_public_scores": 0,
+  "new_unread_alerts": 0,
+  "main_integration": {
+    "r2_frozen_prerequisite_commit": "6be22ef4",
+    "r3_input_gate_commit": "831cd996",
+    "r4_preparation_commit": "29c913fc",
+    "r4_independent_review_commit": "6af0a32d",
+    "r4_scope": "reviewed frozen preparation only; no runtime admission, inference, prediction, scoring, or package claim",
+    "r3_preflight_sha256": "e2b7bab342ee35dc1122f88909f06d9f980188d80a6471341a9ec9104352264c",
+    "r4_runtime_blockers": [
+      "no MAIN R3 root admission",
+      "no actual Python 3.11 callback/reset fixture",
+      "Python 3.11 numpy, pyarrow, and torch dependencies are absent",
+      "runner wall timer begins after predictor construction; the external 1800-second wrapper is not hash-pinned or verified by R4"
+    ],
+    "r4_static_review": "PASS_STATIC_PACKET_BINDINGS_BLOCKED_RUNTIME_GATES; 20 source bindings and 10 producer receipts verified; six focused tests passed"
+  },
+  "local": {
+    "snapshot_utc": "2026-10-12T06:49:18Z",
+    "admission_closed": false,
+    "live_fit_export_processes": 0,
+    "pending_queue_files": 0,
+    "cpu_quota_cores": 5,
+    "memory_current_bytes": 11693342720,
+    "memory_high_bytes": 18000000000,
+    "memory_max_bytes": 20000000000,
+    "memory_swap_max_bytes": 0,
+    "gpu_utilization_percent": 0,
+    "gpu_memory_used_mib": 43,
+    "gpu_memory_total_mib": 6144,
+    "home_disk_free_bytes_approx": 99667697664,
+    "home_disk_used_percent": 93,
+    "assessment": "queue and GPU idle; no useful runtime packet currently clears admission gates"
+  },
+  "kaggle": {
+    "observed_utc": "2026-10-12T06:49:01Z",
+    "poll_log": "cloud_delivery/provider_poll_log_active_20261009_r1.jsonl",
+    "account_gpu_seconds_used": 72098.394,
+    "account_gpu_seconds_remaining": 35901.606,
+    "campaign_gpu_seconds_headroom": 21729.443,
+    "campaign_gpu_seconds_reserved": 0,
+    "active_or_queued_targets": 0,
+    "all_monitored_targets_terminal": 5,
+    "r6": "terminal ERROR; three epoch-2 checkpoints collected, no exported predictions or teacher grade after host-budget admission failed",
+    "r7": "unreleased preparation; exact version-2 readback, mounted hashes, and per-worker host/disk admission still missing"
+  },
+  "vast_b": {
+    "instance_id": 55080658,
+    "latest_tick_utc": "2026-10-12T06:48:53Z",
+    "provider_state": "no_instance_rows; owned instance unavailable",
+    "provider_mutation": false,
+    "remote_access_attempted": false,
+    "collection_required": true,
+    "collection_complete": false,
+    "hours_and_cost": "unverified",
+    "new_spend_usd": 0,
+    "prior_pull_failure": "two-hour SSH/SCP collection timeout at 2026-10-11T11:42:14Z; delivery failure, not science; no retry until owned-instance access is verifiable"
+  },
+  "latest_research_evidence": {
+    "new_since_r12": false,
+    "clean_t3_f0_equal_trio": {
+      "experiment": "E-CLEAN-T3-F0-EQUAL-TRIO-FIXED-CONDITIONAL-20261012-R1",
+      "distinct_teacher_seeds": 3,
+      "teacher_seed_mean_wp": 0.6790181944,
+      "equal_teacher_trio_wp": 0.6809019892,
+      "old_student_wp": 0.6831418134,
+      "fixed_half_student_half_trio_wp": 0.6831674292,
+      "paired_delta": 0.0000256158,
+      "paired_component_ci95": [-0.0013848488, 0.0013983574],
+      "exposure": "one repeatedly inspected F0 fold; three teacher seeds, one student pipeline seed",
+      "status": "already recorded; seed averaging helps the teacher family, but conditional value over the stronger student is negligible and uncertain"
+    }
+  },
+  "parallel_research": {
+    "cross_fold_blending_and_source_quality": "active; no new CV evidence since R12 and no promotion of the exposed F0 mixture",
+    "public_score_regression": "active; recent-five still beats the metadata ridge; no defensible candidate forecast or public-like fold",
+    "cpu_inference_optimization": "active; local callback/bit-parity evidence does not certify 60-minute AMD EPYC full-ZIP runtime",
+    "submissions": "no new package; ZIP11 human-upload-only, ZIP12 timeout is censored runtime evidence"
+  },
+  "timers": {
+    "active": ["watchdog", "local queue", "Kaggle poller", "Kaggle terminal collector", "Vast B tick"],
+    "disabled": ["grade bank", "recurring Vast bulk pull"]
+  },
+  "next_actions": [
+    "keep R4 at preparation-only status until root admission, actual Python 3.11 callback/dependencies, and a process-wide 1800-second cap including predictor startup are verified",
+    "keep R7 unreleased until exact mounted source identity and fresh serialized host/disk admission pass",
+    "keep Vast collection blocked until owned-instance access is verifiable; then use targeted reviewed collection",
+    "continue separate cross-fold quality, expected-public calibration, and CPU inference lines without converting local deltas to public scores"
+  ]
+}
