@@ -222,3 +222,10 @@ This interval produced no new fitted model, validation score, prediction export,
 - Public-score regression still does not beat the recent-five baseline and offers no current-candidate forecast. Shared-backbone local callback savings remain separate from blend-quality evidence. Earlier PGO/projection tests did not establish a repeatable speed improvement.
 
 The compact machine frontier and incident receipts are in `ops_continuation_20261011/monitor_20261012_0608_r4/`. Operational/access failures are not scientific negatives. No new public claim or spend.
+
+
+### 2026-10-12T07:42:42.038040+00:00 — E/F continuation: transport, inference and matched student dependencies
+
+E: Single-file Kaggle transport is necessary but insufficient: failed-kernel source inputs were rejected. R9 checkpoint-dataset recovery preserves original fits. Native Q8 Py311 callback fixture passed4 model/fold cases; fullfold/runtime remains pending. Do not confuse a process-address-bearing schema repr with dataset identity; exact footer and stable schema guards bind the actual producer.
+
+F: Matched clean-F0 alpha.9/e6 two-parent student contract is prepared. Complete10535-group s3 FIT_TRAIN GPU export is running; five remaining caches need R9. Frozen legacy builder cannot consume new teacher IDs/full-valid sidecars or compare seed-specific randomized ordered hashes directly. New adapter must join source-qualified row-group IDs, validate equal membership sets and project1873 full-valid groups onto1405 fitting groups excluding468evaluation groups. No student fit before complete caches and review. Source quality, conditional diversity, quantized quality and public calibration remain parallel.
