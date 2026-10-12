@@ -1,0 +1,35 @@
+{
+  "full_hash_checks_preserved": true,
+  "new_source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+  "parent_source_manifest_sha256": "fb32325fa1010615c12a45e67e81edfd18141e288c620a5c73664d45beb397ea",
+  "qualification": "one actual T4 only; no two-device concurrency claim",
+  "schema": "wnn.kaggle.startup_profile_source_delta.r3",
+  "single_profile_worker": "clean_t3_f0_muonall_h384_e3_s3_t4_startup_profile_r3",
+  "source_changes": [
+    {
+      "meaning": "opt-in byte-count/time telemetry around unchanged full-content SHA-256",
+      "new_sha256": "fda82d3f6462b9e39782f7467708184553329cd5a3776387066f954b2f2942a3",
+      "parent_sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+      "path": "src/wnn/portability.py"
+    },
+    {
+      "meaning": "opt-in load begin/source-count/end telemetry around unchanged membership validation",
+      "new_sha256": "19a31b005710a16b1d3eef7c7a7fa0001b801d8f1faf26c4b4155217b8bd18ea",
+      "parent_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "path": "src/wnn/splits.py"
+    },
+    {
+      "meaning": "profile-only actual attempted/completed optimizer update counters before the existing early return",
+      "new_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+      "parent_sha256": "ef3f161916d6306dce331e21a06eb9b00583cbb2707725e9d2a05aaddb3f7bdd",
+      "path": "scripts/train_rnn.py"
+    },
+    {
+      "meaning": "profile-only 60-second repeating Python stack heartbeat when explicitly enabled",
+      "new_sha256": "5eea14733716f0bd8d401aca3effbd83c4b880673ef91bb54531e3cce8090a2c",
+      "parent_sha256": null,
+      "path": "src/sitecustomize.py"
+    }
+  ],
+  "source_manifest_resealed": true
+}

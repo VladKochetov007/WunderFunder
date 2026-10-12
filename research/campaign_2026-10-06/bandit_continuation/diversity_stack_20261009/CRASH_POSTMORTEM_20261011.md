@@ -237,3 +237,7 @@ Root actual-CLI transport review catches default `kaggle datasets create` dir_mo
 ### 2026-10-12T08:26:00.756565+00:00 — native R6 launch path correction and partial-profile constraint
 
 R6preparation launch metadata gives WTcwd while actual main() requiresMAINcwd and resolvedMAINscript. Root’s first explicit absoluteMAINpath attempt retainedWTcwd and exited before any model/data access. Preservedstdout/admissionR1; identifiedR2 setsMAINcwd and samepinnedabsoluteMAINwrapper/runner, reaches actualfold0scoring. Originalsource/contract and scientific/resource gates preserved; invocation path repair is explicitrootreceipt, not silently changed evidence. Stockstudentprofile rejects partial16-groupcache; profile-onlytargetfixture isnotcompletecache, and no runtimebypass/GPUfit was authorized.
+
+
+### R17 R9 terminal external-map failure / corrected R10
+R9 failed before any worker (1.266s startup): unsafe external mapping artifacts/runs/c20260929_prop_f0/model.pt. Archive/spec-only declared set excluded actual producer external files. Terminal outputs/logs completely collected, no prediction NPY. Corrected R10 validates the exact pinned13-key external map and retains path/content guards. Four actual package_r9/checkpoint startup tests pass with worker intercepted; no scientific negative, no actual export success or cloud release claimed. Root earlier package_r6 fixture-path error was caught by hash mismatch and corrected to package_r9. Local s4/s5 fallback retained to avoid duplicate exports.

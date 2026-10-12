@@ -1,0 +1,11 @@
+
+
+## 2026-10-12T09:18:51.245460+00:00 — R17 terminal evidence and immediate packaging priority
+
+Native singleton Q8 R6 completed exit0 in794.083s under1CPU/1GB/no-swap. Older student F0=.6831839249, HFT=.6824246816; shared equal pair=.6834944365, conditional+.0003105116. F1 older student=.6703718322, HFT=.6680700470; pair=.6700246323, conditional−.0003471998. One fitted pipeline per exposed fold: sign-changing HFT contribution does not support universally adding that head. These are older H230 controls, not the strong alpha.9 student. Cross-run fullfold callbacks suggest33.5%/35.3% savings for sharing versus serial singleton totals, distinct from the49–51% microbenchmark; neither certifies EPYC runtime.
+
+Kaggle R9 is terminalERROR before any export: the original R5 external mapping was compared against archive/spec membership that deliberately excludes external files. Complete terminal collection retains100 providerfiles/106 inventoryfiles, no predictions/workers. This is a producer/consumer startup failure, not a scientific negative. R10 minimal repair passes actual package_r9/checkpoint startup with export intercepted; no new push authorized while local FT fallback supplies missing caches.
+
+Local s4 FIT_TRAIN export is actually healthy/running; s3 complete and validated. S5 serial successor integrated and conditionally released only after s4 terminal validity, fresh sharedGPUlock and current+5.5GB <=18GB. Source/resource limits unchanged. VastB inaccessible/collection incomplete, no new paid spending.
+
+Latest user explicitly requests a few best upload ZIPs now. Root fixes a compact trial portfolio: two all-data H390 s3/s4 students equal; H390s3/older public-tested Z4 equal; H390s3/s4/Z4 quarter/quarter/half. Actual Z4 endpoint contains its merged trained readouts; preserve existing endpoint rather than inventing an untested head interpretation. H390 all-data parent differs from strong fold1 reference; these are operational trials from adjacent local evidence, with no held-out claim for fitted final weights or numerical public forecast. Independent artifact reviewer follows packaging actor; running research is preserved. Exact ZIP tests and sizes remain pending.
