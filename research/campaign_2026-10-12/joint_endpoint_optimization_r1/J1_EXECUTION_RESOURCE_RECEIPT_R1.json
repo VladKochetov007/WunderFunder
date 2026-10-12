@@ -1,0 +1,111 @@
+{
+  "schema": "wnn.j1-execution-resource-receipt.r1",
+  "status": "PASS_BOTH_BOUNDED_PHASES",
+  "packet": {
+    "main_packet_commit": "824326bd",
+    "main_root_admission_commit": "785ed8e6",
+    "manifest_sha256": "9e85baa5f021c514adfb3d53c2aea4c2df51441c16c542a6516ab640949ec9ec",
+    "runner_sha256": "c9fc98caced1a0c639f8df5fda40e297f9becbd1141b66b0ec53f51125b1178f",
+    "root_admission_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-12/joint_endpoint_optimization_r1/ROOT_J1_ADMISSION_R1.json",
+    "root_admission_sha256": "a7c2062346079cb520626026ba6dcde8cc63e5a653fedb3e281dfc7c550e5044"
+  },
+  "aggregate_limits": {
+    "parent_slice": "wnn-campaign.slice",
+    "parent_cpu_quota": "5 cores",
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_swap_max_bytes": 0,
+    "phase_cpu_quota": "100% of one CPU",
+    "phase_memory_max_bytes": 1500000000,
+    "phase_runtime_max_seconds": 120,
+    "phase_swap_max_bytes": 0,
+    "threads": 1
+  },
+  "live_fit_reservation_accounting": {
+    "unit": "wnn-bandit-clean-t3-f0-control-s3-a9-r2-p2-envr1-20261012.service",
+    "pid": 126502,
+    "cgroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-bandit-clean-t3-f0-control-s3-a9-r2-p2-envr1-20261012.service",
+    "ram_reservation_bytes": 5500000000,
+    "accounting_rule": "The active fit worker's current memory is already included in parent memory.current; add only max(0, reservation-current) as unused reservation. The phase cap is then added to parent current.",
+    "before_calibration": {
+      "parent_memory_current_bytes": 15202525184,
+      "fit_worker_memory_current_bytes": 4940447744,
+      "unused_fit_reservation_bytes": 559552256,
+      "phase_cap_bytes": 1500000000,
+      "aggregate_check_bytes": 17262077440,
+      "working_allowance_bytes": 18000000000,
+      "headroom_bytes": 737922560,
+      "ledger_active_cpu_cores": 1.0,
+      "support_cpu_reservations_including_snapshot_scope": {
+        "wnn-slice-filecache-guard.service": 0.05,
+        "run-p161771-i8507119.scope": 1.0,
+        "wnn-codex-research-watch.service": 0.05
+      },
+      "snapshot_scope_replaced_by_phase": true,
+      "projected_aggregate_cpu_cores": 2.1
+    },
+    "before_evaluation": {
+      "parent_memory_current_bytes": 14045171712,
+      "fit_worker_memory_current_bytes": 4644638720,
+      "unused_fit_reservation_bytes": 855361280,
+      "phase_cap_bytes": 1500000000,
+      "aggregate_check_bytes": 16400532992,
+      "working_allowance_bytes": 18000000000,
+      "headroom_bytes": 1599467008,
+      "ledger_active_cpu_cores": 1.0,
+      "support_cpu_reservations_including_snapshot_scope": {
+        "wnn-slice-filecache-guard.service": 0.05,
+        "run-p165027-i8519162.scope": 1.0,
+        "wnn-codex-research-watch.service": 0.05
+      },
+      "snapshot_scope_replaced_by_phase": true,
+      "projected_aggregate_cpu_cores": 2.1
+    }
+  },
+  "phase_records": [
+    {
+      "phase": "calibration",
+      "started_utc": "2026-10-12T12:01:50Z",
+      "ended_utc": "2026-10-12T12:01:56Z",
+      "systemd_scope": "run-p162783-i8542568.scope",
+      "wrapper_exit_code": 0,
+      "systemd_terminal": {
+        "active_state": "inactive",
+        "sub_state": "dead",
+        "result": "success"
+      },
+      "consumed_cpu_seconds": 5.885,
+      "wall_seconds": 6.468,
+      "memory_peak_journal_report": "1G",
+      "memory_peak_precision": "Systemd journal human-readable rounded report; cgroup was removed after completion, so exact byte peak and per-scope event files were not retained.",
+      "result_path": "research/campaign_2026-10-12/joint_endpoint_optimization_r1/J1_CALIBRATION_RESULT_R1.json",
+      "result_sha256": "f8be15ce8fd9c8fa9f2a3a9ce28588898f0a254e73612ad6a144b0342027cf7b",
+      "result_status": "PASS_CALIBRATION_ONLY"
+    },
+    {
+      "phase": "evaluation",
+      "started_utc": "2026-10-12T12:02:54Z",
+      "ended_utc": "2026-10-12T12:02:57Z",
+      "systemd_scope": "wnn-j1-evaluation-r1.scope",
+      "wrapper_exit_code": 0,
+      "systemd_terminal": {
+        "active_state": "inactive",
+        "sub_state": "dead",
+        "result": "success"
+      },
+      "consumed_cpu_seconds": 2.292,
+      "wall_seconds": 2.577,
+      "memory_peak_journal_report": "747M",
+      "memory_peak_precision": "Systemd journal human-readable rounded report; cgroup was removed after completion, so exact byte peak and per-scope event files were not retained.",
+      "result_path": "research/campaign_2026-10-12/joint_endpoint_optimization_r1/J1_EVALUATION_RESULT_R1.json",
+      "result_sha256": "855283b119137a0d4da7b71e7f85b3161fde7d63a72e8a16c131e09418c3083f",
+      "result_status": "PASS_EVALUATION_ONLY",
+      "calibration_receipt_sha256": "f8be15ce8fd9c8fa9f2a3a9ce28588898f0a254e73612ad6a144b0342027cf7b"
+    }
+  ],
+  "scope_notes": [
+    "Both phases used the MAIN-integrated runner and exact admitted manifest/root release; outputs were written create-only in the isolated worktree.",
+    "The parent slice's observed historical MemoryPeak was 18611527680 bytes and is aggregate/campaign-wide, not attributable to either J1 phase.",
+    "No model fit, prediction generation, GPU, provider access, retry, mask change, comparison expansion, or evaluation-based weight retuning occurred."
+  ]
+}
