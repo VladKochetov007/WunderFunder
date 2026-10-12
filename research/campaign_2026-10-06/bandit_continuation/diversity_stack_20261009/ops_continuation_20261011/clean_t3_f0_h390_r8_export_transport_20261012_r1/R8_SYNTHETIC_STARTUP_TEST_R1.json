@@ -1,0 +1,37 @@
+{
+  "schema": "wnn.kaggle.r8_synthetic_startup_test.r1",
+  "status": "pass",
+  "test_date_utc": "2026-10-12",
+  "test_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=25% WNN_THREADS=1 WNN_MEM_MAX=400000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /usr/bin/python3 -m unittest research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.ops_continuation_20261011.clean_t3_f0_h390_r8_export_transport_20261012_r1.test_r8_transport -v",
+  "interpreter": "Python 3.14.7",
+  "resource_caps": {
+    "cpu_quota": "25%",
+    "threads": 1,
+    "memory_max_bytes": 400000000,
+    "runtime_max": "120s"
+  },
+  "tests": {
+    "passed": 3,
+    "failed": 0,
+    "cases": [
+      "pending single-file kernel refuses before creating controls or invoking the R7 body",
+      "synthetic admitted receipt with R7 logical target and R8 transport target materializes exact bytes then intercepts unchanged R7 body execution",
+      "wrong transport target is refused by builder before output creation"
+    ]
+  },
+  "synthetic_admission_only": true,
+  "root_authority_created_or_modified": false,
+  "provider_or_kaggle_access": false,
+  "gpu_or_model_execution": false,
+  "pending_template_sha256": "7b76769bf34bf1f43b3ff23c9f5c59616cd80188c232b46df667083793b70940",
+  "embedded_r7_worker_sha256": "f38ac7bd72c762b265e5951096e57b799cf632f43f7f96819a45d38772277cb6",
+  "embedded_r7_bindings_sha256": "39127244077e0937934fce1fedc131f7fa440ff18f7bc7fc3508f6f69e318d0f",
+  "pending_kernel_sha256": "b10f4c53794eca89f43b200815ac5e3f8aeedb5d308472b4f13b1221153e5102",
+  "pending_kernel_bytes": 119528,
+  "upload_directory_entries": [
+    "kernel.py",
+    "kernel-metadata.json"
+  ],
+  "pending_guard_observation": "The synthetic /kaggle/working control directory remained absent and runpy.run_path was not called; therefore the embedded R7 body did not reach its /kaggle/input access.",
+  "limits": "No actual Kaggle mount, provider status, worker, export, or root admission was exercised."
+}
