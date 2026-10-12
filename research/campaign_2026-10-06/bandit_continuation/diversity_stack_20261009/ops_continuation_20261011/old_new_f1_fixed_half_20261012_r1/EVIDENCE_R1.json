@@ -1,0 +1,137 @@
+{
+  "schema": "wnn.old-new-f1-fixed-half-review.v1",
+  "status": "complete",
+  "purpose": "One fixed, equal output blend of the new own old-Z4 fold-1 student and the existing strongest fold-1 alpha-0.9/e6 student. No weight search, refit, package build, upload, or public-score arithmetic.",
+  "candidate": {
+    "members": [
+      {"run": "oldz4_h230_student_f1_s3_r4", "checkpoint": "model_ep1.pt", "seed": 3, "weight": 0.5, "checkpoint_sha256": "cd8886589e8664082da1f27aee4f2c4925b61c41da8c740598831ab2f774bbd6", "prediction_sha256": "ac02c0d9984819753149e281b4754c82885c876bed2b32eca87fe007457a40ce", "prediction_sidecar_sha256": "f86d09613568dc3dab84fc64f04998d0b116a32ede35632d97ae1dda60932906", "prediction_bytes": 299680128, "prediction_shape": [1873, 20000, 2], "prediction_dtype": "float32", "local_inference_precision": "fp16", "quantization_preset": null},
+      {"run": "vt_f1_dsq_dm_t3_a9_e6", "checkpoint": "model_ep5.pt", "seed": 3, "weight": 0.5, "checkpoint_sha256": "c8e08b33a316f3539d4381429233b90403b76de83bda6dbecc84d7952f8212ad", "prediction_sha256": "bf1d4a52a67ccd530b0fff80976a6759d6a6265b7c699f77a73cfca9e044d0ad", "prediction_sidecar_sha256": "2323e59cde003aec195b6216a6367c1c9e9c3e893605b9575165f930ea48cefc", "prediction_bytes": 299680128, "prediction_shape": [1873, 20000, 2], "prediction_dtype": "float32", "local_inference_precision": "fp16", "quantization_preset": null}
+    ],
+    "fixed_weights": [0.5, 0.5],
+    "notes": ["Both sides are local float predictions, not native Q8 submissions.", "The endpoints share fold-1 exposure and ancestry; the blend is a fixed robustness comparison, not two independent validation folds."]
+  },
+  "scores": {
+    "metric": "global_wp_clip2_v1",
+    "evaluation_split": "fold1",
+    "evaluation_groups": 457,
+    "scored_rows_start": 99,
+    "oldz4_single": {"wp": 0.67038, "t0": 0.66429, "t1": 0.67646},
+    "alpha09_e6_single": {"wp": 0.67103, "t0": 0.66617, "t1": 0.67589},
+    "fixed_half_blend": {"wp": 0.67182, "t0": 0.66640, "t1": 0.67724},
+    "difference_vs_alpha09_e6_wp": 0.00079,
+    "difference_vs_oldz4_wp": 0.00144,
+    "raw_stdout_path": "BLEND_SCORE_STDOUT_R1.txt"
+  },
+  "paired_component_bootstrap": {
+    "utility": "wnn.evaluation.paired_component_moments + paired_component_bootstrap",
+    "utility_source_sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "centered_moments": true,
+    "n_boot": 800,
+    "seed": 271828,
+    "components": 149,
+    "sequences": 457,
+    "candidate_wp": 0.6718186378782718,
+    "reference_wp": 0.6710314729704142,
+    "mean_difference": 0.0007871649078575738,
+    "bootstrap_sd": 0.0006042341259695711,
+    "ci95": [-0.0004298518802254625, 0.0019147843958436824],
+    "p_difference_le_zero": 0.085,
+    "receipt_path": "PAIRED_COMPONENT_BOOTSTRAP_R1.json",
+    "interpretation": "The interval includes zero and summarizes only exposed fold-1 component-resampling uncertainty. It is not a reject rule or a fresh-holdout claim."
+  },
+  "membership_and_alignment": {
+    "split_manifest_path": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "both_students_fit_train_groups": 10533,
+    "both_students_fit_eligible_valid_groups": 1416,
+    "both_students_evaluation_groups": 457,
+    "student_fit_valid_intersection_with_evaluation": 0,
+    "both_provenance_evaluation_lists_equal_split": true,
+    "prediction_sidecar_order_matches_valid_targets_row_group_order": true,
+    "source_prediction_arrays_fully_rehashed_in_this_review": false,
+    "prediction_hashes_are_from_bound_sidecars_and_existing_producer_records": true
+  },
+  "source_ancestry": {
+    "oldz4_student": {
+      "provenance_path": "artifacts/runs/oldz4_h230_student_f1_s3_r4/provenance.json",
+      "provenance_sha256": "8aa0e2af944a52a34d0c0622705071e7ca60a978ec429dc71269fa67b40354da",
+      "initial_checkpoint": "oldz4_h230_parent_f1_s3_r4@ep3",
+      "initial_checkpoint_sha256": "be2273cc96027295c19133504354a262cd1a2066fa5ae3df7d6be64ed0a1ad8e",
+      "propensity_checkpoint_sha256": "1fbf412df8823c703fdf79263830f341269a68e769bc4a7258d93cdf8e40dc5c",
+      "teacher_cache_path": "cache/h230_four_family_fold1_source_20261009_r1/metadata.json",
+      "teacher_cache_metadata_sha256": "8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703",
+      "teacher_cache_membership": "fold 1; clean_fold_fit; exact evaluation_valid_groups match the 457 evaluation IDs; cache metadata SHA equals model provenance.",
+      "teacher_sources": [
+        {"run": "c20261003_combo_s3_f1", "epoch": 3, "coefficient": 0.15, "checkpoint_sha256": "b0dcc761751e3f807dba42d55650f06f392b2565fb51e4ba787d3603c13b3cc4"},
+        {"run": "c20261003_combo_s4_f1", "epoch": 3, "coefficient": 0.15, "checkpoint_sha256": "456114b04d1371b994ed5d7fbfe9b39ee96f3c460286644baf161c8f3fbcd610"},
+        {"run": "c20260929_ft_since_s3_f1", "epoch": 0, "coefficient": 0.1, "checkpoint_sha256": "1a76c748624e7c9a438675791c251ed142b7965879dfed691c210ae1881a1d7d"},
+        {"run": "c20260929_ft_since_s4_f1", "epoch": 0, "coefficient": 0.1, "checkpoint_sha256": "814f6106f5422c962ff175e98bba15995b2cc45dc1fc0d172e88020784842330"},
+        {"run": "c20260929_since_s3_f1", "epoch": 3, "coefficient": 0.125, "checkpoint_sha256": "e1b97dffe5eaf59349b3378e72d7b8e01c6e92bc6d5a7164526106b3c5831df0"},
+        {"run": "c20260929_since_s4_f1", "epoch": 3, "coefficient": 0.125, "checkpoint_sha256": "1667b04000bead6ee5c3a66b0ed552df0f27ef682c18b598d100723c9b8cb8ff"},
+        {"run": "bd26_w384raw_s3_f1_resume_r3", "epoch": 3, "coefficient": 0.03125, "checkpoint_sha256": "027b2a134b91bb9d42ed5e1615594ea77db9cd49cc22cbec1fbe4e9427d9ad23"},
+        {"run": "bd26_w384raw_s4_f1", "epoch": 3, "coefficient": 0.03125, "checkpoint_sha256": "866c3054b30d87f741a1729aa6b902a0da2c3ce2540a7185a42b8a5fda3b6e77"}
+      ],
+      "recursive_source_initializer_resume_and_propensity_runs_checked": 16,
+      "recursive_runs_all_same_fold_split_and_excluded_evaluation_valid_groups": true
+    },
+    "alpha09_e6_student": {
+      "provenance_path": "artifacts/runs/vt_f1_dsq_dm_t3_a9_e6/provenance.json",
+      "provenance_sha256": "327506329a6d958f6b684d04af5e6e10135c7803cd1cafa7a40fe883212a5861",
+      "initial_checkpoint": "c20261003_combo_s3_f1@ep3",
+      "initial_checkpoint_sha256": "b0dcc761751e3f807dba42d55650f06f392b2565fb51e4ba787d3603c13b3cc4",
+      "propensity_checkpoint_sha256": "1fbf412df8823c703fdf79263830f341269a68e769bc4a7258d93cdf8e40dc5c",
+      "teacher_cache_metadata_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/h391_f1_h384_t3_student_r1/actual_producer_receipts_r1/dc_98411230_metadata.json",
+      "teacher_cache_metadata_sha256": "a2f82d8dbc7bbbe2c7cf36e18e3b7be0b41f887aa14a742b43f616b060856779",
+      "teacher_cache_split_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "teacher_cache_eval_groups": 457,
+      "teacher_cache_fit_valid_count": 1416,
+      "teacher_cache_fit_valid_hash": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8",
+      "teacher_target_semantics_from_source_endpoint_map": "The selected homogeneous target is the float32 ordered mean of three H384 strong-T3 teachers, scaled by 0.8125; the six metadata source entries describe the cache source families, with repeated checkpoint hashes among aliases.",
+      "teacher_cache_sources": [
+        {"run": "vt_f1_muonall_h384_e3", "epoch": 2, "coefficient": 0.1, "checkpoint_sha256": "9c7d5e55fde7112dc691c80670fb17b62f24b9d759d2c90312a9ec89334843c6"},
+        {"run": "vt_f1_muonall_h384_e3_s4", "epoch": 2, "coefficient": 0.1, "checkpoint_sha256": "752f462036a8e340db00de98dcb141795f3a0ae54cfffce3e95ce7ceed7f5e9e"},
+        {"run": "vt_f1_muonall_h384_e3_s5", "epoch": 2, "coefficient": 0.1, "checkpoint_sha256": "ee154f035720069ef26bf0fd328c61887cdbb426c49d51fb25172e5bb52b1f80"},
+        {"run": "vt_f1_muonall_h384_e3_a1", "epoch": 2, "coefficient": 0.2, "checkpoint_sha256": "9c7d5e55fde7112dc691c80670fb17b62f24b9d759d2c90312a9ec89334843c6"},
+        {"run": "vt_f1_muonall_h384_e3_s5_a2", "epoch": 2, "coefficient": 0.25, "checkpoint_sha256": "ee154f035720069ef26bf0fd328c61887cdbb426c49d51fb25172e5bb52b1f80"},
+        {"run": "vt_f1_muonall_h384_e3_a3", "epoch": 2, "coefficient": 0.0625, "checkpoint_sha256": "9c7d5e55fde7112dc691c80670fb17b62f24b9d759d2c90312a9ec89334843c6"}
+      ],
+      "missing_run_name_aliases_resolved_by_exact_checkpoint_sha": {
+        "vt_f1_muonall_h384_e3_a1": "vt_f1_muonall_h384_e3",
+        "vt_f1_muonall_h384_e3_s5_a2": "vt_f1_muonall_h384_e3_s5",
+        "vt_f1_muonall_h384_e3_a3": "vt_f1_muonall_h384_e3"
+      },
+      "all_teacher_and_propensity_ancestor_records_bind_clean_fold1_valid_membership": true
+    }
+  },
+  "pinned_sources": {
+    "coverage_csv_sha256": "dbaacdade13daff25ce7a5bd86b8dcbca66849964df1ca483d47fc6cd8882b3b",
+    "public_regression_source_inputs_sha256": "17920b39064b69ae8ece19c6f2122cedd287845c6aedfdcecb798c8d325ae33d",
+    "selector_source_endpoint_map_sha256": "27a497479736f5f2a35f2bd507692caabb7031a9715d5773515ba3c6626166ba",
+    "selector_f1_metrics_sha256": "e030f8914aafa7bb172824577552d059a6e101ea7fc5c1ab97b1c2b9d33ff1f5",
+    "research_pair_scores_sha256": "98377ee83e7e58927b4fbdf99345b87168c19f473f560dd778dfe1dd1fd9e0d7",
+    "coverage_row": "2ebpj2er / 7_dm_t3_a9_e6_fold1_q8vnni: exact local float checkpoint score 0.67103; native Q8 exact score was not measured.",
+    "pair_scores_note": "Existing 0.67329 is vt_f1_muonall_prop0_e4_s4 + vt_f1_dsq_dm_t3_a9_e6, a different pair; it was not substituted for this candidate."
+  },
+  "metric_and_execution": {
+    "blend_scorer_path": "scripts/blend_score_remote.py",
+    "blend_scorer_sha256": "87cb00f8a2d9f4b2c0a9c9dc39dc5f5ffa627b45c0b2c14de950ebbbb259594f",
+    "gmetric_path": "src/wnn/gmetric.py",
+    "gmetric_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "paired_component_utility_path": "src/wnn/evaluation.py",
+    "paired_component_utility_sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "local_cpu_scope": "wnn-campaign.slice; CPUQuota=25%; one thread; MemoryMax=1,500,000,000 bytes; runtime cap 120 seconds per command",
+    "pre_score_parent_memory_current_bytes": 12767780864,
+    "pre_score_parent_memory_high_bytes": 18000000000,
+    "pre_score_parent_memory_max_bytes": 20000000000,
+    "pre_score_gpu0": "43 MiB, 0% at last pre-score check",
+    "no_gpu_fit_or_provider_action": true
+  },
+  "limitations": [
+    "Fold 1 is exposed through prior model selection; this is not a fresh holdout.",
+    "Both endpoints and their ancestry share fold, propensity, and teacher/initializer lineages; do not treat this as an independent-seed cross-validation estimate.",
+    "Source prediction file content was consumed by the scorer but not fully rehashed in this bounded review; recorded prediction digests come from exact sidecars and existing producer records.",
+    "The score uses local fp16 inference outputs, not native Q8VNNI outputs; it does not establish package runtime or quantized score.",
+    "The 95% paired-component bootstrap interval includes zero and covers only the exposed fold-1 component resampling distribution."
+  ]
+}

@@ -1,0 +1,13 @@
+Scoring command (run from /home/vlad/development/wunder/wnn_connectome_starterpack):
+
+WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=25% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python scripts/blend_score_remote.py 1 'oldz4_h230_student_f1_s3_r4:1+vt_f1_dsq_dm_t3_a9_e6:1' 'oldz4_h230_student_f1_s3_r4' 'vt_f1_dsq_dm_t3_a9_e6'
+
+The stdout was redirected to BLEND_SCORE_STDOUT_R1.txt in this evidence directory. The first spec uses equal unit weights, normalized by the existing scorer to 0.5/0.5. The remaining specs are its two matched single endpoints.
+
+Bootstrap procedure (run from the same main checkout, same limited environment):
+
+1. Load fold-1 `evaluation.valid`, order its 457 groups by their positions in `cache/valid_targets.npz` row_group, and build the matching component-ID vector from `split["sequences"]["valid"]`.
+2. Load selected targets/mask and the two float prediction arrays in that same order. Apply `mask &= row_index >= 99`. Form the one fixed candidate as `(oldz4_predictions + alpha09e6_predictions) / float32(2)`; reference is the alpha-0.9/e6 single.
+3. Call `wnn.evaluation.paired_component_moments(targets, candidate, reference, mask)`, then `paired_component_bootstrap(candidate_moments, reference_moments, components, n_boot=800, seed=271828, centered=True)`.
+
+The implementation hashes and returned metrics are recorded in PAIRED_COMPONENT_BOOTSTRAP_R1.json. This resamples the 149 complete fold-1 components; it does not resample rows or create a new holdout.
