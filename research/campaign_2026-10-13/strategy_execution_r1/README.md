@@ -38,4 +38,5 @@ Resume research under the new authority, update GPU guards, prepare and independ
 - [Final archive](../../unified/archive/2026-10-12/README.md), historical artifacts and exposure.
 - [Existing refinement cards](../../unified/ideas/STRATEGY_REFINEMENTS_20261012.json), mechanisms and falsifiers.
 - [Initial Kaggle quota](INITIAL_KAGGLE_QUOTA.json), read-only SDK observation at23:04UTC:35,838.966 GPU seconds and72,000 TPU seconds available, zero reserved; the old campaign sub-ceiling is superseded. Refresh before actual admission.
+- [Independent reviews](reviews/README.md) explain exact code/recipe checks and limitations. Resource R1 confirms GPU-policy behavior and identifies an unused RAM-reservation gap for correction before concurrent admission.
 - [Resource/recipe/execution receipts](./), added with exact identities as work completes; private weights remain ignored.

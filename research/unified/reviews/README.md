@@ -24,3 +24,5 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 ## Resumed strategy execution — 2026-10-13
 
 [Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.
+
+- [Independent resource-policy review R1](../../campaign_2026-10-13/strategy_execution_r1/reviews/resource_r1/README.md) checks the new GPU allowance against actual launch code and historical records. It confirms the GPU-cap change and identifies unused active-worker RAM reservations missing from admission accounting; a narrow successor is required before concurrent admissions. Its 24 tests are engineering evidence, not scientific gains.

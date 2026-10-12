@@ -1,0 +1,141 @@
+{
+  "format": "wnn.independent-resource-review",
+  "version": 1,
+  "created_utc": "2026-10-12T23:08:16Z",
+  "candidate_commit": "b185e7048785e1c6db60303dbd228c8ce803bd3a",
+  "parent_commit": "fda03869747eb1a0938ebf9676c20d8db1dd1310",
+  "scope": [
+    "fresh durable bandit_resources launch",
+    "live CUDA allocator limit",
+    "historical runtime record compatibility",
+    "reserved environment validation",
+    "GPU serialization and admission races",
+    "legacy 5 GB watcher and queue paths"
+  ],
+  "authority": {
+    "adr": "specs/adr/0034-strategy-execution-full-gpu-allowance.md",
+    "contract": "research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json",
+    "resource_constraints_retained": {
+      "cpu_cores": 5,
+      "committed_ram_target_bytes": 17000000000,
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "swap_bytes": 0,
+      "local_gpu_workers": 1,
+      "paid_actions": false
+    }
+  },
+  "findings": [
+    {
+      "id": "R1-01",
+      "severity": "high",
+      "classification": "confirmed conditional blocker",
+      "status": "fail for concurrent admission; does not block the current zero-active solo launch",
+      "location": "scripts/bandit_resources.py:383-398,435-459",
+      "trigger": "At least one active worker has a material unused RAM reservation while another worker/support bound is admitted.",
+      "evidence": {
+        "active_reserved_bytes": 12000000000,
+        "active_current_bytes": 8000000000,
+        "parent_current_bytes": 10000000000,
+        "other_parent_current_bytes": 2000000000,
+        "new_complete_bound_bytes": 4000000000,
+        "required_committed_bytes": 18000000000,
+        "current_active_plus_new_check_bytes": 16000000000,
+        "current_measured_plus_new_check_bytes": 14000000000
+      },
+      "consequence": "Current checks can admit work that can exceed the 17 GB committed target as existing admitted workers grow into their reservations.",
+      "resolution": "Before concurrent admission, add unused active-worker reservation headroom to measured parent use without double-counting each active worker's current cgroup usage; fail closed when that usage cannot be established."
+    },
+    {
+      "id": "R1-02",
+      "severity": "info",
+      "classification": "pass",
+      "status": "pass on the authorized shared runtime",
+      "location": "scripts/bandit_resources.py:33,383-398,1271-1300",
+      "evidence": {
+        "candidate_job_records_parsed": 350,
+        "active_or_unresolved": 0,
+        "historical_stop_admission_present": true,
+        "planned_state": "research/campaign_2026-10-06/bandit_continuation/runtime",
+        "resume_required": true,
+        "gpu_lock": "<state>/gpu.lock"
+      },
+      "consequence": "Resume and reuse of the existing runtime preserves historical evidence and serializes old/new controller callers through the same GPU lock.",
+      "resolution": "After candidate integration, use the existing runtime and the candidate resume command with the ADR/contract review reference."
+    },
+    {
+      "id": "R1-03",
+      "severity": "info",
+      "classification": "pass with profile limitation",
+      "status": "pass",
+      "location": "scripts/bandit_resources.py:559-699,742-820,1000-1150; src/wnn/resources.py:47-110",
+      "evidence": {
+        "fixed_4300000000_allocator_injection_removed": true,
+        "fixed_5000000000_start_monitor_exit_rejection_removed": true,
+        "observed_vram_is_telemetry": true,
+        "reserve_default_bytes": 1000000000,
+        "allocator_basis": "cuda free bytes sampled at configure_torch startup, minus reserve, divided by total bytes",
+        "continuous_rebalancing": false
+      },
+      "consequence": "The selected durable path no longer rejects use above 5 GB and bounds PyTorch allocation against current free memory while preserving configured headroom.",
+      "resolution": "Use the exact candidate path, then profile the declared shape on the device before any long fit."
+    },
+    {
+      "id": "R1-04",
+      "severity": "info",
+      "classification": "pass",
+      "status": "pass",
+      "location": "src/wnn/campaign_spec.py:21-40; scripts/bandit_resources.py:70-77,476-556,559-606; src/wnn/resources.py:94-110",
+      "evidence": {
+        "reserve_environment_is_reserved_in_specs": true,
+        "controller_validates_ascii_decimal_nonnegative": true,
+        "service_overwrites_reserve_explicitly": true,
+        "legacy_allocator_override_passed_to_service": false
+      },
+      "consequence": "A campaign spec cannot widen or falsify the controller's reserve policy using environment injection.",
+      "resolution": null
+    },
+    {
+      "id": "R1-05",
+      "severity": "info",
+      "classification": "pass",
+      "status": "pass for current installed monitor/queue paths",
+      "location": "scripts/watchdog.py:288-314; research/campaign_2026-10-03/continuation/watch.py:32-53,200-250; scripts/local_queue_runner.py:15-16,30,69,180-182",
+      "evidence": {
+        "watchdog_is_alert_only": true,
+        "older_watch_writes_separate_queue_pause_not_bandit_barrier": true,
+        "old_queue_stop_present": true,
+        "old_shared_state_stop_admission_present": true,
+        "old_state_active_attempts": 0,
+        "current_monitoring_threshold_at_5000000000": false
+      },
+      "consequence": "The currently installed watchers do not kill the resumed durable worker on a withdrawn 5 GB threshold; the legacy queue remains stopped.",
+      "resolution": "Keep the queue STOP marker and launch through the resumed shared durable controller."
+    }
+  ],
+  "checks": {
+    "tests": {
+      "command_interpreter": "main checkout .venv/bin/python",
+      "candidate_import": "worktree src on PYTHONPATH",
+      "limit": "1 CPU, 1.2 GB RAM, 120 s",
+      "result": "24 passed, 123 deselected in 0.16s",
+      "files": [
+        "tests/test_bandit_resources.py",
+        "tests/test_campaign_allocator.py",
+        "tests/test_campaign_runner.py"
+      ]
+    },
+    "historical_ledger_read": "candidate job_records() parsed 350 records; 0 active/unresolved",
+    "cgroup_snapshot": {
+      "cpu_quota": "5s",
+      "memory_current_bytes": 1634570240,
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "memory_swap_max_bytes": 0
+    },
+    "gpu_observation": "read-only nvidia-smi reported 75 MiB used of 6144 MiB; no GPU work was started",
+    "provider_or_paid_action": false,
+    "candidate_modified": false
+  },
+  "disposition": "conditional_pass_for_first_single_worker_attempt_after_candidate_integration_and_reviewed_shared-state_resume; correct RAM headroom accounting before concurrent worker/support admission"
+}

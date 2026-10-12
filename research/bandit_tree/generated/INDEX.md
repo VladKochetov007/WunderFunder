@@ -6,9 +6,9 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1388 · raw hypothesis rows 483 · raw experiment rows 798 · legacy arms 18 · catalog files 88919.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1392 · raw hypothesis rows 483 · raw experiment rows 798 · legacy arms 18 · catalog files 88927.
 
-Config snapshot: [research/bandit_tree/generated/snapshots/config-8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff.json](<snapshots/config-8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff.json>).
+Config snapshot: [research/bandit_tree/generated/snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json](<snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json>).
 
 Missing or ambiguous artifact and relationship links are called out below and in `tree.json` warnings. The recursive file inventory is in `catalog.json`; generated output is excluded.
 
@@ -177,6 +177,16 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **claim_scope:** Source-grounded Astra proposal; no fit or public forecast; actual numerical priors null.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl>)
+- **Cross-fitted privileged moment projection** (`arm:strategy-moment-projection`) — not_tested; eligible=True.
+  - **next_test:** Own causal/shortfuture teachers; project numerator denominator with direct controls
+  - **claim_scope:** Exposed cross-fold complete endpoint improvement and domain robustness; no inferred public gain
+  - artifact: [research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json](<../../campaign_2026-10-13/strategy_execution_r1/CONTRACT.json>)
+  - artifact: [research/campaign_2026-10-13/strategy_execution_r1/COVERAGE.json](<../../campaign_2026-10-13/strategy_execution_r1/COVERAGE.json>)
+- **Relational teacher geometry compression** (`arm:strategy-relational-compression`) — not_tested; eligible=True.
+  - **next_test:** Sparse teacher sidecars; output/coordinate/relational student controls
+  - **claim_scope:** Exposed cross-fold complete endpoint improvement and domain robustness; no inferred public gain
+  - artifact: [research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json](<../../campaign_2026-10-13/strategy_execution_r1/CONTRACT.json>)
+  - artifact: [research/campaign_2026-10-13/strategy_execution_r1/COVERAGE.json](<../../campaign_2026-10-13/strategy_execution_r1/COVERAGE.json>)
 
 ### Temporal state and memory (`family:temporal`)
 
@@ -224,6 +234,11 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json>)
+- **Signed path order and learned causal decay** (`arm:strategy-path-clock`) — not_tested; eligible=True.
+  - **next_test:** Order-sensitive fixtures and displacement/fixed/learned clock controls
+  - **claim_scope:** Exposed cross-fold complete endpoint improvement and domain robustness; no inferred public gain
+  - artifact: [research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json](<../../campaign_2026-10-13/strategy_execution_r1/CONTRACT.json>)
+  - artifact: [research/campaign_2026-10-13/strategy_execution_r1/COVERAGE.json](<../../campaign_2026-10-13/strategy_execution_r1/COVERAGE.json>)
 
 ### Targets, losses and supervision (`family:objective`)
 
@@ -347,6 +362,11 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json>)
+- **Raw context plus causal innovations and weighting interaction** (`arm:strategy-causal-innovations`) — not_tested; eligible=True.
+  - **next_test:** Implement moments/innovation train and stream parity; pairedF0/F3 screens
+  - **claim_scope:** Exposed cross-fold complete endpoint improvement and domain robustness; no inferred public gain
+  - artifact: [research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json](<../../campaign_2026-10-13/strategy_execution_r1/CONTRACT.json>)
+  - artifact: [research/campaign_2026-10-13/strategy_execution_r1/COVERAGE.json](<../../campaign_2026-10-13/strategy_execution_r1/COVERAGE.json>)
 
 ### Optimization and training stability (`family:optimization`)
 
@@ -1024,6 +1044,10 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | arm:own-shared-backbone-head-blend | Own shared frozen backbone and fixed head blend | arm · native_R2_fullfold_Q8_complete_quality_mixed_no_deployment_promotion | lineage:diverse-model-combinations | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:public-fold-affinity-diagnostic | Public transfer and matched cross-fold recipe rankings | arm · insufficient_matched_coverage_no_public_like_fold | lineage:diverse-model-combinations | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:public-score-regression-20261012 | Source-qualified public-score calibration and grouped backtests | arm · bounded_retrospective_diagnostic_complete_no_current_forecast | lineage:diverse-model-combinations | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:strategy-causal-innovations | Raw context plus causal innovations and weighting interaction | arm · not_tested | family:representation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:strategy-path-clock | Signed path order and learned causal decay | arm · not_tested | family:temporal | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:strategy-moment-projection | Cross-fitted privileged moment projection | arm · not_tested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:strategy-relational-compression | Relational teacher geometry compression | arm · not_tested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
 | hypothesis:H-001 | Targets change only on rows where i0 bid and ask price columns both update. | hypothesis · supported | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L1>) | experiment:E-001 (linked) |
 | hypothesis:H-002 | Each sequence's targets are integer multiples of one of four quanta {0.12543,0.24133,0.46854,0.65687}, defining market classes with different tick regimes. | hypothesis · supported | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L2>) | experiment:E-001 (linked), experiment:E-002 (linked) |
 | hypothesis:H-003 | Features are rank-Gauss transformed: bounded near +-2.326 (Phi^-1(0.99)) with sentinel -5.19934 = Phi^-1(1e-7) for missing values. | hypothesis · probing | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L3>) | experiment:E-001 (linked) |
@@ -1482,10 +1506,10 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-JOINT-DIVERSITY-COST-01 | H-JOINT-DIVERSITY-COST-01 | hypothesis · proposed_bounded_joint_endpoint_comparison | family:optimization | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L477>) | [research/campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md](<../../campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md>) |
 | hypothesis:H-JOINT-PRECISION-COMPOSITION-01 | H-JOINT-PRECISION-COMPOSITION-01 | hypothesis · proposed_bounded_joint_endpoint_comparison | family:optimization | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L478>) | [research/campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md](<../../campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md>) |
 | hypothesis:H-JOINT-SHARED-HEAD-COST-01 | H-JOINT-SHARED-HEAD-COST-01 | hypothesis · proposed_bounded_joint_endpoint_comparison | family:optimization | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L479>) | [research/campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md](<../../campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md>) |
-| hypothesis:H-STRATEGY-20261012-01 | Raw context plus causal normalized innovations may improve future-regime robustness, with an effect that depends on training mask concentration. | hypothesis · not_tested | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L480>) | — |
-| hypothesis:H-STRATEGY-20261012-02 | A small path-order memory with a learned causal decay clock may retain inter-instrument lead-lag information that equal endpoints and row-clock states obscure. | hypothesis · not_tested | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L481>) | — |
-| hypothesis:H-STRATEGY-20261012-03 | Projecting separately estimated weighted target moments into a causal student may improve on direct output distillation without assuming a universal target law. | hypothesis · not_tested | family:teacher | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L482>) | — |
-| hypothesis:H-STRATEGY-20261012-04 | Matching relationships between selected own-teacher states may compress complementary predictive structure more effectively than direct state-coordinate MSE. | hypothesis · not_tested | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L483>) | — |
+| hypothesis:H-STRATEGY-20261012-01 | Raw context plus causal normalized innovations may improve future-regime robustness, with an effect that depends on training mask concentration. | hypothesis · not_tested | arm:strategy-causal-innovations | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L480>) | — |
+| hypothesis:H-STRATEGY-20261012-02 | A small path-order memory with a learned causal decay clock may retain inter-instrument lead-lag information that equal endpoints and row-clock states obscure. | hypothesis · not_tested | arm:strategy-path-clock | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L481>) | — |
+| hypothesis:H-STRATEGY-20261012-03 | Projecting separately estimated weighted target moments into a causal student may improve on direct output distillation without assuming a universal target law. | hypothesis · not_tested | arm:strategy-moment-projection | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L482>) | — |
+| hypothesis:H-STRATEGY-20261012-04 | Matching relationships between selected own-teacher states may compress complementary predictive structure more effectively than direct state-coordinate MSE. | hypothesis · not_tested | arm:strategy-relational-compression | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L483>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -2381,6 +2405,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L134>) `sha256:83fa45194a0dc4dbf80938ef73f82907855bc850c14a7d24dcaccffaf2f5dc62` — `{"created_utc": "2026-10-12T14:08:11Z", "decision": "Archive-builder draft recorded at Main snapshot 3b8c5fb2. New research admission remains closed by the user STOP; only the already admitted clean-F0 seed4 logical run and Kaggle R7 drain remain. The handoff is pre-drain and must be reconciled with actual terminal records before it is called final. The generated tree and metadata inventory need a post-cleanup/post-drain refresh.", "evidence": ["research/RESEARCH_COMPLETE_HANDOFF_20261012.md", "research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json", "research/campaign_2026-10-12/research_archive_inventory_r1/MAIN_STATUS_INVENTORY_R1.json"], "new_spend_usd": 0, "public_score_claim": null, "type": "research_archive_draft_and_stop_snapshot"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L135>) `sha256:07e6ffd043cfa1e42688a635af5fd08ab3dd435527d223deed7ce23194c081fa` — `{"active_subordinate_roles": 0, "archive": "research/RESEARCH_COMPLETE_HANDOFF_20261012.md", "event": "archive_finalization_only", "id": "ARCHIVE-FINAL-DRAIN-20261012-R1", "new_research_admission": "closed", "public_best_user_reported": 0.6671, "public_forecast": null, "research_wakeup_cron": "disabled", "science_completed": ["S4 fixedCP5 export/officialgrade", "R7 terminal pre-fit failure collection"], "temporary_research_artifacts": "Durable copies verified;165original paths compatibility symlinks; model/data/binaries ignored by Git", "utc": "2026-10-12T16:12:41.588603+00:00"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L136>) `sha256:79caa5d94a6533fb369da415403d3eb9ce3a1bedf48e870105f4c732555d1082` — `{"created_utc": "2026-10-12T19:08:27Z", "decision": "Completed user-requested critical review and literature ideation. Proposed separate public and future-private plans, with four explicit refinements of existing parents. Experimental admission remains closed; no model fit, export, blend search, submission, provider mutation or paid spend.", "evidence": ["research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md", "research/campaign_2026-10-12/strategy_review_r1/CONTRACT.json", "research/campaign_2026-10-12/strategy_review_r1/INDEPENDENT_REVIEW.json", "research/campaign_2026-10-12/strategy_review_r1/LITERATURE_SEARCH.json"], "hypothesis_ids": ["H-STRATEGY-20261012-01", "H-STRATEGY-20261012-02", "H-STRATEGY-20261012-03", "H-STRATEGY-20261012-04"], "new_spend_usd": 0, "public_score_claim": null, "type": "requested_strategy_review_no_experimental_resume"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L137>) `sha256:f5a2c1eaafc4e153b08e4f4a7577467acfe726b55a70df7f2e97e35ef2d5e53a` — `{"created_utc": "2026-10-12T22:59:14Z", "decision": "Implement all actionable review ideas; use all live Kaggle allowance and local GPU without previous time/artificialVRAM limits. Preserve separate CPU/RAM/no-paid-spend;private mean-CV sacrifice<=.001.", "evidence": ["specs/adr/0034-strategy-execution-full-gpu-allowance.md", "research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json", "research/campaign_2026-10-13/strategy_execution_r1/COVERAGE.json"], "id": "STRATEGY-RESUME-20261013-R1", "new_fits": 0, "public_forecast": null, "type": "explicit_user_resume_and_gpu_authorization"}`
 
 ## Link and artifact warnings
 
