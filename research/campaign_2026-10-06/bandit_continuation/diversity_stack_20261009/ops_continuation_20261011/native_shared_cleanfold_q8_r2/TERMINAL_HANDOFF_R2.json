@@ -1,0 +1,276 @@
+{
+  "bindings": {
+    "attempt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/native-shared-cleanfold-q8-r2.json",
+    "attempt_sha256": "b2235fcc916229db42cd120885810d14727f924adb40c3774f33db936664e3c4",
+    "callback_fixture_sha256": "4c8b1836a8ed3d43185a0ba0aa4419c27bba3336609a0872d7fd1dfbb8d9f7fa",
+    "contract_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/CONTRACT_R2.json",
+    "contract_sha256": "05411b977934550efc87fc4dc1f38a026140139a319948576bac71f00eb4342f",
+    "log_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/logs/native-shared-cleanfold-q8-r2.log",
+    "log_sha256": "49dba9681ac1823a9f5892962054309eba821c0b23c8b16a01d948c66ced770f",
+    "native_elf_sha256": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326",
+    "official_metric": {
+      "clip": [
+        -2.0,
+        2.0
+      ],
+      "id": "global_wp_clip2_v1",
+      "implementation_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/gmetric.py",
+      "implementation_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "mask": "need_prediction AND is_scored",
+      "weight": "absolute value of clipped target"
+    },
+    "quality_result_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/quality_output_r2/QUALITY_RESULT_R2.json",
+    "quality_result_sha256": "c9b3327801e74ede9caa77bf8d7bee2c7cd79e0c666012eba7319b4c785e7db5",
+    "r1_contract_sha256": "b1e69c6b8184fec4843c443783492fbdb2d7becb8d4323bfcc7891ba21986897",
+    "r1_native_preflight_sha256": "06abe1a77826a135e49afc1ec14df7e4e182d7bd19277dd49f831cd61049b024",
+    "r1_validation_receipt_sha256": "3f809ba592642f82cd9a7c7eb9926790082882078a76f2074d1a9ea1638bdad8",
+    "root_admission_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/ROOT_ADMISSION_R2.json",
+    "root_admission_sha256": "3b52bcc818b904d24d4a9f4b52d000f968ef4a13e228715de7b51c9a176d29c8",
+    "valid_dataset_footer_identity": {
+      "bytes": 5615509128,
+      "footer_bytes": 10686926,
+      "footer_sha256_including_8_byte_trailer": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+    },
+    "weights_archive_sha256": "42f03cce60f6992e52b6ac508d7c551b07c0c7e86b106b0ea44dee34c7c72881",
+    "weights_receipt_sha256": "1bc10724add6d8c40e1b5202b22c2c496349a002d5fa660c7ff81630ed99db07"
+  },
+  "created_utc": "2026-10-12T04:11:02.094686+00:00",
+  "evaluation": {
+    "elapsed_quality_wall_seconds": 509.8886608989851,
+    "endpoint": {
+      "blend": "fixed arithmetic mean of member output predictions; no parameter averaging",
+      "coefficient_sum": 1.0,
+      "coefficients": [
+        0.5,
+        0.5
+      ],
+      "fast_activations": true,
+      "member_order": [
+        "student",
+        "hft"
+      ],
+      "precision_request": "q8vnni",
+      "required_actual_precision": "q8vnni",
+      "shared_backbone": true
+    },
+    "folds": {
+      "0": {
+        "callback_ns": 201729147969,
+        "callback_rows": 9360000,
+        "callback_seconds": 201.729147969,
+        "evaluation_component_count": 141,
+        "evaluation_group_list_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+        "evaluation_groups": 468,
+        "excluded_train_groups": 71,
+        "fit_component_count": 3148,
+        "fit_evaluation_component_overlap_count": 0,
+        "fit_train_groups": 10535,
+        "fit_valid_groups": 1405,
+        "prediction": {
+          "all_finite": true,
+          "bytes": 74880128,
+          "dtype": "float32",
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/quality_output_r2/predictions_fold0.npy",
+          "sha256": "428b5a19eb3ab2ef0eab86443d858f29c036855f7b923f9519b7f045dbc2eb87",
+          "shape": [
+            468,
+            20000,
+            2
+          ]
+        },
+        "score": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 808863,
+          "t0": 0.6772202260721987,
+          "t1": 0.6897686469261759,
+          "wp": 0.6834944364991873
+        },
+        "source_qualified_models": {
+          "hft": {
+            "checkpoint_sha256": "2bde556119ededc3693733280444a42f0f64138a2e3759bed6b068cb72f18ec8",
+            "epoch": 0,
+            "fit_membership_identity": {
+              "dataset_length": 1405,
+              "train": {
+                "count": 0,
+                "ordered_int64_le_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "valid": {
+                "count": 1405,
+                "ordered_int64_le_sha256": "b80550a7b2eb0c0ebef895e42e63af31422a0cadd056adece81fd013f8f1d76c"
+              },
+              "valid_repeat": 1
+            },
+            "fit_source": "valid",
+            "initial_checkpoint_sha256": "f1fac7f6293082fe1dd416e4026cac56fe1bcfb533683837da2192bad69e99a0",
+            "provenance_sha256": "bf6105bfb1d137345bf775b09f06f432b5d993c61cf019aa927c2a896ebddac2",
+            "run": "oldz4_h230_hft_f0_s3_r5"
+          },
+          "student": {
+            "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+            "epoch": 1,
+            "fit_membership_identity": {
+              "dataset_length": 11940,
+              "train": {
+                "count": 10535,
+                "ordered_int64_le_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9"
+              },
+              "valid": {
+                "count": 1405,
+                "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+              },
+              "valid_repeat": 1
+            },
+            "fit_source": "train+valid",
+            "initial_checkpoint_sha256": "56b6413fdf9c9248961b0dfe6797890f2aae98bc85550b80c6b9524870e92532",
+            "provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+            "run": "oldz4_h230_student_f0_s3_r3"
+          }
+        },
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "1": {
+        "callback_ns": 198041799126,
+        "callback_rows": 9140000,
+        "callback_seconds": 198.041799126,
+        "evaluation_component_count": 149,
+        "evaluation_group_list_sha256": "0d871b740f6615861e978fb971838ced26f62e84144870dd464838d99decc819",
+        "evaluation_groups": 457,
+        "excluded_train_groups": 73,
+        "fit_component_count": 3140,
+        "fit_evaluation_component_overlap_count": 0,
+        "fit_train_groups": 10533,
+        "fit_valid_groups": 1416,
+        "prediction": {
+          "all_finite": true,
+          "bytes": 73120128,
+          "dtype": "float32",
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/quality_output_r2/predictions_fold1.npy",
+          "sha256": "c2bbc9b893f15070cd993033b277ca06e3e2deebd6256de37f09ba3cb2605b14",
+          "shape": [
+            457,
+            20000,
+            2
+          ]
+        },
+        "score": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 812167,
+          "t0": 0.6640244986941479,
+          "t1": 0.6760247659825832,
+          "wp": 0.6700246323383656
+        },
+        "source_qualified_models": {
+          "hft": {
+            "checkpoint_sha256": "41e7aa3fb27024f2612f8f6b8f4232ca446ba92022dbf7ba90893ffee2292410",
+            "epoch": 0,
+            "fit_membership_identity": {
+              "dataset_length": 1416,
+              "train": {
+                "count": 0,
+                "ordered_int64_le_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "valid": {
+                "count": 1416,
+                "ordered_int64_le_sha256": "c20c6c9c86464f7e08fe5f958fc86833c44f33e6355d263dd7370f227c4d0622"
+              },
+              "valid_repeat": 1
+            },
+            "fit_source": "valid",
+            "initial_checkpoint_sha256": "cd96d84835ed9cadda0e09f55ff01b1057cc9296e27b99eb401f0ee3e3fca59e",
+            "provenance_sha256": "468ac58e9f59e9f32ea425f8556b26073e61b108eafa468ccf06f1cd0d3d1b9d",
+            "run": "oldz4_h230_hft_f1_s3_r2"
+          },
+          "student": {
+            "checkpoint_sha256": "cd8886589e8664082da1f27aee4f2c4925b61c41da8c740598831ab2f774bbd6",
+            "epoch": 1,
+            "fit_membership_identity": {
+              "dataset_length": 11949,
+              "train": {
+                "count": 10533,
+                "ordered_int64_le_sha256": "0d0791b38ab83c3afd025fd8423b6f14d2e2f29a1cbec4aa6c80341d1b82af4e"
+              },
+              "valid": {
+                "count": 1416,
+                "ordered_int64_le_sha256": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8"
+              },
+              "valid_repeat": 1
+            },
+            "fit_source": "train+valid",
+            "initial_checkpoint_sha256": "be2273cc96027295c19133504354a262cd1a2066fa5ae3df7d6be64ed0a1ad8e",
+            "provenance_sha256": "8aa0e2af944a52a34d0c0622705071e7ca60a978ec429dc71269fa67b40354da",
+            "run": "oldz4_h230_student_f1_s3_r4"
+          }
+        },
+        "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+      }
+    },
+    "folds_are_exposed": true,
+    "fresh_holdout_claim": false,
+    "full_valid_in_sample_score": false,
+    "metric_aggregation": "official pooled weighted Pearson per target, averaged equally across targets",
+    "metric_id": "global_wp_clip2_v1",
+    "public_forecast": false
+  },
+  "labels_loaded": true,
+  "ownership": {
+    "attempt_id": "native-shared-cleanfold-q8-r2",
+    "isolated_packet_commit": "adbf31292414bd5f2a390f0821200c549b8f9e45",
+    "root_integrated_commit_prefix": "c343ea4f",
+    "unit": "wnn-bandit-native-shared-cleanfold-q8-r2.service"
+  },
+  "schema": "wnn.native.shared-cleanfold-q8-terminal-handoff.r2",
+  "status": "PASS_TERMINAL_CROSSFOLD_Q8_OUTPUTS_VERIFIED",
+  "terminal": {
+    "attempt_memory_event_deltas": {
+      "high": 790,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "attempt_peak_ram_bytes": 900521984,
+    "attempt_status": "finished",
+    "elapsed_wall_seconds": 512.3358021419845,
+    "finished_utc": "2026-10-12T04:09:14.990860+00:00",
+    "memory_high_bytes": 900000000,
+    "memory_high_events_are_not_oom": true,
+    "memory_max_bytes": 1000000000,
+    "memory_swap_max_bytes": 0,
+    "parent_hierarchical_memory_event_deltas": {
+      "high": 790,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_peak_ram_bytes": 13350178816,
+    "phase": "terminal",
+    "started_utc": "2026-10-12T04:00:42.654686+00:00",
+    "systemd_final_properties": {
+      "ActiveState": "inactive",
+      "CPUQuotaPerSecUSec": "infinity",
+      "ExecMainStatus": "0",
+      "MemoryHigh": "infinity",
+      "MemoryMax": "infinity",
+      "MemorySwapMax": "infinity",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "worker_exit_status": 0
+  },
+  "training_performed": false
+}
