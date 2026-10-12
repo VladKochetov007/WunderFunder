@@ -9069,8 +9069,8 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 802,
-      "hypotheses": 483,
+      "experiments": 803,
+      "hypotheses": 484,
       "journal": 137
     }
   },
@@ -41926,6 +41926,77 @@
         }
       ],
       "title": "Matching relationships between selected own-teacher states may compress complementary predictive structure more effectively than direct state-coordinate MSE.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:temporal",
+          "family:objective",
+          "family:optimization"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-STRATEGY-GRADIENT-CREDIT-20261013-01",
+      "latest_recorded_status": "not_tested",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"H-STRATEGY-GRADIENT-CREDIT-20261013-01\",\"parent_ids\":[],\"mechanism_family\":\"gradient_credit\",\"statement\":\"At a fixed 2000-row optimizer update window, cutting hidden-state gradient credit every 500 rows may change the F0 clean-T3 student endpoint relative to retaining credit across 2000 rows, independent of optimizer, LR, EMA and target-denominator clocks.\",\"proposed_change\":\"Compare detach_rows 500 and 2000 with identical chunk 500, update_rows 2000, teacher/cache/parent, seed, schedule, FP16 precision and auxiliary objectives.\",\"expected_mechanism\":\"Shorter recurrent credit may regularize or stabilize optimization while preserving carried state and the same supervised target exposure.\",\"claim_scope\":\"Source-qualified F0/F3 screen at fitting seed 3; family claims require seed 4 and additional folds. Existing evaluation folds are exposed.\",\"assumptions\":[\"The recurrent carried value is unchanged by detachment.\",\"One optimizer, OneCycle and EMA step occurs per 2000-row macrostep.\",\"Original-label main and auxiliary masses use the same update windows in both arms.\"],\"predicted_observable\":\"A paired difference in official global_wp_clip2_v1 on the fixed full-valid F0 panel, accompanied by unchanged update counts and carried-state values but changed gradients.\",\"cheap_test\":\"Use the existing independent controlled-loss oracle and profile the actual 500-row microshape before the two matched F0 seed 3 fits.\",\"falsifier\":\"Both settings fail to produce distinct gradient-credit graphs, the fixed clocks differ, or no useful endpoint difference survives paired seed/fold confirmation.\",\"known_failure_modes\":[\"Microchunk shape changes FP16 kernel rounding.\",\"The 2000-row source profile may not bound 500-row launch overhead.\",\"The single exposed F0 fit is imprecise and cannot support a family conclusion.\"],\"estimated_cost\":{\"relative\":\"two matched six-epoch student fits plus one full-valid export per arm\",\"gpu_hours\":null,\"serving\":\"no inference-time change\"},\"reusable_artifacts\":[\"detach-horizon controlled-loss recipe\",\"per-arm CP5 full-valid predictions\",\"training clock/provenance comparison\"],\"sources\":[\"research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md\",\"src/wnn/training_controls.py\",\"tests/test_training_controls.py\"],\"status\":\"not_tested\",\"admission\":\"none; root owns resource admission\",\"numerical_gain_prior\":null,\"expected_public_score\":null,\"committed_at\":\"2026-10-12T23:52:46Z\",\"proposed_by\":\"strategy_first_cohort after root S14 assignment\",\"source\":\"research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/README.md\"}\n",
+          "record": {
+            "admission": "none; root owns resource admission",
+            "assumptions": [
+              "The recurrent carried value is unchanged by detachment.",
+              "One optimizer, OneCycle and EMA step occurs per 2000-row macrostep.",
+              "Original-label main and auxiliary masses use the same update windows in both arms."
+            ],
+            "cheap_test": "Use the existing independent controlled-loss oracle and profile the actual 500-row microshape before the two matched F0 seed 3 fits.",
+            "claim_scope": "Source-qualified F0/F3 screen at fitting seed 3; family claims require seed 4 and additional folds. Existing evaluation folds are exposed.",
+            "committed_at": "2026-10-12T23:52:46Z",
+            "estimated_cost": {
+              "gpu_hours": null,
+              "relative": "two matched six-epoch student fits plus one full-valid export per arm",
+              "serving": "no inference-time change"
+            },
+            "expected_mechanism": "Shorter recurrent credit may regularize or stabilize optimization while preserving carried state and the same supervised target exposure.",
+            "expected_public_score": null,
+            "falsifier": "Both settings fail to produce distinct gradient-credit graphs, the fixed clocks differ, or no useful endpoint difference survives paired seed/fold confirmation.",
+            "id": "H-STRATEGY-GRADIENT-CREDIT-20261013-01",
+            "known_failure_modes": [
+              "Microchunk shape changes FP16 kernel rounding.",
+              "The 2000-row source profile may not bound 500-row launch overhead.",
+              "The single exposed F0 fit is imprecise and cannot support a family conclusion."
+            ],
+            "mechanism_family": "gradient_credit",
+            "numerical_gain_prior": null,
+            "parent_ids": [],
+            "predicted_observable": "A paired difference in official global_wp_clip2_v1 on the fixed full-valid F0 panel, accompanied by unchanged update counts and carried-state values but changed gradients.",
+            "proposed_by": "strategy_first_cohort after root S14 assignment",
+            "proposed_change": "Compare detach_rows 500 and 2000 with identical chunk 500, update_rows 2000, teacher/cache/parent, seed, schedule, FP16 precision and auxiliary objectives.",
+            "reusable_artifacts": [
+              "detach-horizon controlled-loss recipe",
+              "per-arm CP5 full-valid predictions",
+              "training clock/provenance comparison"
+            ],
+            "source": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/README.md",
+            "sources": [
+              "research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md",
+              "src/wnn/training_controls.py",
+              "tests/test_training_controls.py"
+            ],
+            "statement": "At a fixed 2000-row optimizer update window, cutting hidden-state gradient credit every 500 rows may change the F0 clean-T3 student endpoint relative to retaining credit across 2000 rows, independent of optimizer, LR, EMA and target-denominator clocks.",
+            "status": "not_tested"
+          },
+          "source": {
+            "line": 484,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "0dd33df4a7592e57dd055e3f6cd89aff9c7e939740214982b7218c21f715a283"
+          }
+        }
+      ],
+      "title": "At a fixed 2000-row optimizer update window, cutting hidden-state gradient credit every 500 rows may change the F0 clean-T3 student endpoint relative to retaining credit across 2000 rows, independent of optimizer, LR, EMA and target-denominator clocks.",
       "type": "hypothesis"
     },
     {
@@ -78736,6 +78807,58 @@
         }
       ],
       "title": "target_amplitude_f0_seed3_recipe_path_correction",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-GC-F0-S3-20261013-R1",
+      "latest_recorded_status": "prepared_profile_and_root_release_pending",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-STRATEGY-GC-F0-S3-20261013-R1\",\"hypothesis_id\":\"H-STRATEGY-GRADIENT-CREDIT-20261013-01\",\"date\":\"2026-10-13\",\"kind\":\"controlled_detach_horizon_f0_seed3_recipe_preparation\",\"status\":\"prepared_profile_and_root_release_pending\",\"fit_authorized\":false,\"scientific_fits_completed\":0,\"candidate_wp\":null,\"public_forecast\":null,\"treatment\":\"Paired detach_rows 500 vs 2000 with common chunk 500/update_rows 2000; fixed 0.8125 homogeneous cache amplitude, same parent/teacher/seed/aux losses/FP16 AdamW OneCycle/denominator/EMA clocks.\",\"control\":{\"run\":\"clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1\",\"wp\":0.6811553603333363,\"metric\":\"global_wp_clip2_v1\",\"exposure\":\"repeatedly exposed F0 panel\"},\"packet\":\"research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/README.md\",\"commands\":\"research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/FIT_DETACH500_COMMANDS_R1.json; research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/FIT_DETACH2000_COMMANDS_R1.json\",\"bindings\":\"research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_BINDINGS_R1.json\",\"commands_sha256\":{\"FIT_DETACH2000_COMMANDS_R1.json\":\"6c0c978bb7b019c3a61bc5fd3c5c2f585d83547335057aefd9bd3ec3391cfaae\",\"FIT_DETACH500_COMMANDS_R1.json\":\"a2cdeb6f5960c22720bf77e787312beacdbcc70addd1a82e4bbbe4165cda365c\"},\"bindings_sha256\":\"47254f993c80e6726aa9ac15e2ce9b542defa05a65569c357b8dc297c117d197\",\"source_overlay\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2\",\"source_overlay_manifest_sha256\":\"ac086fd55d9833492191507cbfba7f1d978a763011be698097bd582372402818\",\"source_manifest_recompute_required\":true,\"interpretation\":\"Preparation and bounded controlled-loss audit only; no S14 fit, score or public claim exists. Exact 500-row shape profile, source-manifest recomputation, independent recipe review, root fit release and fresh shared admission remain required. F3 awaits its clean teacher/cache/control lineage.\",\"committed_at\":\"2026-10-12T23:52:46Z\"}\n",
+          "record": {
+            "bindings": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_BINDINGS_R1.json",
+            "bindings_sha256": "47254f993c80e6726aa9ac15e2ce9b542defa05a65569c357b8dc297c117d197",
+            "candidate_wp": null,
+            "commands": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/FIT_DETACH500_COMMANDS_R1.json; research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/FIT_DETACH2000_COMMANDS_R1.json",
+            "commands_sha256": {
+              "FIT_DETACH2000_COMMANDS_R1.json": "6c0c978bb7b019c3a61bc5fd3c5c2f585d83547335057aefd9bd3ec3391cfaae",
+              "FIT_DETACH500_COMMANDS_R1.json": "a2cdeb6f5960c22720bf77e787312beacdbcc70addd1a82e4bbbe4165cda365c"
+            },
+            "committed_at": "2026-10-12T23:52:46Z",
+            "control": {
+              "exposure": "repeatedly exposed F0 panel",
+              "metric": "global_wp_clip2_v1",
+              "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+              "wp": 0.6811553603333363
+            },
+            "date": "2026-10-13",
+            "fit_authorized": false,
+            "hypothesis_id": "H-STRATEGY-GRADIENT-CREDIT-20261013-01",
+            "id": "E-STRATEGY-GC-F0-S3-20261013-R1",
+            "interpretation": "Preparation and bounded controlled-loss audit only; no S14 fit, score or public claim exists. Exact 500-row shape profile, source-manifest recomputation, independent recipe review, root fit release and fresh shared admission remain required. F3 awaits its clean teacher/cache/control lineage.",
+            "kind": "controlled_detach_horizon_f0_seed3_recipe_preparation",
+            "packet": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/README.md",
+            "public_forecast": null,
+            "scientific_fits_completed": 0,
+            "source_manifest_recompute_required": true,
+            "source_overlay": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2",
+            "source_overlay_manifest_sha256": "ac086fd55d9833492191507cbfba7f1d978a763011be698097bd582372402818",
+            "status": "prepared_profile_and_root_release_pending",
+            "treatment": "Paired detach_rows 500 vs 2000 with common chunk 500/update_rows 2000; fixed 0.8125 homogeneous cache amplitude, same parent/teacher/seed/aux losses/FP16 AdamW OneCycle/denominator/EMA clocks."
+          },
+          "source": {
+            "line": 803,
+            "path": "research/experiments.jsonl",
+            "sha256": "a0f4babcea4cb7538423488fa5fec42241a9622844ff95529ed9c4053a20f789"
+          }
+        }
+      ],
+      "title": "controlled_detach_horizon_f0_seed3_recipe_preparation",
       "type": "experiment"
     },
     {

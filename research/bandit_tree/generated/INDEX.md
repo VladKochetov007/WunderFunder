@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1392 · raw hypothesis rows 483 · raw experiment rows 802 · legacy arms 18 · catalog files 37044.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1394 · raw hypothesis rows 484 · raw experiment rows 803 · legacy arms 18 · catalog files 37049.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff.json](<snapshots/config-8cf2c3fe0047479472b78482dd24a6c0575fa0bbef2ab987a61cefa77d93f3ff.json>).
 
@@ -1486,6 +1486,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-STRATEGY-20261012-02 | A small path-order memory with a learned causal decay clock may retain inter-instrument lead-lag information that equal endpoints and row-clock states obscure. | hypothesis · not_tested | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L481>) | — |
 | hypothesis:H-STRATEGY-20261012-03 | Projecting separately estimated weighted target moments into a causal student may improve on direct output distillation without assuming a universal target law. | hypothesis · not_tested | family:teacher | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L482>) | — |
 | hypothesis:H-STRATEGY-20261012-04 | Matching relationships between selected own-teacher states may compress complementary predictive structure more effectively than direct state-coordinate MSE. | hypothesis · not_tested | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L483>) | — |
+| hypothesis:H-STRATEGY-GRADIENT-CREDIT-20261013-01 | At a fixed 2000-row optimizer update window, cutting hidden-state gradient credit every 500 rows may change the F0 clean-T3 student endpoint relative to retaining credit across 2000 rows, independent of optimizer, LR, EMA and target-denominator clocks. | hypothesis · not_tested | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L484>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -2228,6 +2229,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-STRATEGY-AMP-F0-S3-20261013-R2 | target_amplitude_f0_seed3_recipe_correction | experiment · prepared_for_independent_recipe_review_r2 | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L800>) | — |
 | experiment:E-STRATEGY-AMP-F0-S3-20261013-R2-P1-PREFIT-FAILURE | target_amplitude_f0_seed3_execution_failure | experiment · infrastructure_pre_fit_failure | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L801>) | — |
 | experiment:E-STRATEGY-AMP-F0-S3-20261013-R3-PATH-CORRECTION | target_amplitude_f0_seed3_recipe_path_correction | experiment · prepared_conditionally_authorized_after_actual_split_loader_preflight | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L802>) | — |
+| experiment:E-STRATEGY-GC-F0-S3-20261013-R1 | controlled_detach_horizon_f0_seed3_recipe_preparation | experiment · prepared_profile_and_root_release_pending | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L803>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |

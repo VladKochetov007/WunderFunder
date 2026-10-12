@@ -25,3 +25,5 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 ## Resumed strategy execution — 2026-10-13
 
 [Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.
+
+- [S14 F0 detach-horizon packet](../../campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/README.md) — measured question: 500 versus 2000-row hidden-state gradient credit at a common 2000-row optimizer window. Exact paired commands and controlled-aux audit are prepared; no fit is authorized, exact-shape profile and fresh root admission remain pending. F3 inputs are incomplete.
