@@ -1,0 +1,46 @@
+{
+  "schema": "wnn.clean-t3-f0-matched-student-pair-current-status.r1",
+  "observed_utc": "2026-10-12T10:03:26Z",
+  "packet": {
+    "manifest": "PAIR_PREPARATION_R1.json",
+    "manifest_sha256": "77c82a31b8763faecd5988ac1b5ab34d3bfc3efa548857dada5790db3a950574",
+    "preflight_receipt": "ACTUAL_PENDING_PREFLIGHT_R1.json",
+    "preflight_receipt_sha256": "e1890c662151940e9bd69c8dacf605507a85eebbc538b46f884a40290a06f9f3"
+  },
+  "latest_owner_report": {
+    "s5_fit_valid_export": "complete_r2_pass",
+    "target_cache": "built; consumer, finite-value, and hash validation still in progress",
+    "evidence_level": "controller message; terminal/cache-validation receipt not yet bound by this packet"
+  },
+  "observed_cache_files": {
+    "root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r1",
+    "main_homogeneous_train.npy": {
+      "present": true,
+      "bytes": 1685600128,
+      "content_sha256": null,
+      "validation": "not performed by this packet"
+    },
+    "main_homogeneous_valid.npy": {
+      "present": true,
+      "bytes": 224800128,
+      "content_sha256": null,
+      "validation": "not performed by this packet"
+    },
+    "metadata.json": {
+      "present": true,
+      "bytes": 323260,
+      "content_sha256": null,
+      "validation": "producer metadata only; not an independent cache-validation receipt"
+    }
+  },
+  "readiness": {
+    "cache_consumer_validation_bound": false,
+    "cache_finite_and_array_hash_validation_bound": false,
+    "root_profile_admission_bound": false,
+    "root_student_fit_admission_bound": false,
+    "private_source_and_cache_dataset_versions_bound": false,
+    "upload_or_fit_authorized": false,
+    "status": "BLOCKED_PENDING_CACHE_VALIDATION_PROFILE_AND_ROOT_RELEASE"
+  },
+  "note": "The R1 manifest and preflight remain immutable point-in-time records. The cache files are present now, but this status receipt intentionally does not treat file presence or producer metadata as validation."
+}
