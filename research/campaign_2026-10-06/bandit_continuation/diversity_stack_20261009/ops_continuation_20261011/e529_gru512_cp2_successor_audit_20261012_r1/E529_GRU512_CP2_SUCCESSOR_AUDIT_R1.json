@@ -1,0 +1,109 @@
+{
+  "schema": "wnn-e529-gru512-cp2-successor-audit-v1",
+  "review_scope": "bounded read-only identity, fold membership, terminal status, existing score, and prediction-consumer/profile audit; no fit, export, provider action, or admission",
+  "conclusion": "The exact H512 model_ep2 checkpoint is source- and fold-bound and already has an exposed fold-0 snapshot score. Its four-epoch fit timed out during epoch index 3, so this is an intermediate three-epoch prefix, not the requested final fixed checkpoint. The snapshot scorer successfully consumed the actual checkpoint with the source-pinned predictor and measured a bounded local-GPU export/grade pass. No prediction array was retained; root may consider one separately admitted retained-prediction export for a predeclared fixed blend, without repeating the standalone score.",
+  "candidate": {
+    "run_id": "bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009",
+    "checkpoint": "artifacts/runs/bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009/model_ep2.pt",
+    "checkpoint_bytes": 15198055,
+    "checkpoint_sha256": "9cbfa401c3432bc027dfb809be07d2d6ab76c82c5007e1fe99d413af566b684c",
+    "provenance": "artifacts/runs/bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009/provenance.json",
+    "provenance_bytes": 159133,
+    "provenance_sha256": "909c0ff76e742cfd16342f9063364a36986d07aa2754330b59c183cd38bf4f71",
+    "recipe": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru512_768_muon_fit_v5r2_20261009/packet/GRU512_768_MUON_FIT_RECIPE_V5R2.json",
+    "recipe_sha256": "1c3014d03fc3ee8a0c05094ff93978f4e81c16e95491350d8490fd4d08eb3a6f",
+    "source_archive_sha256": "237a9c8fb5c1a9e68cd6518a6684238a40dc92c3fefc2e7582e9d087fa2560c3",
+    "source_manifest_sha256": "2156766d6d721637d640b57ccd9e8b6c4dada59e441e37f0d76ebcc822d29ba1",
+    "source_commit": "ead2eb7ce4108bd1ae4fa1fd04b2d5469cfe656c",
+    "architecture": "2-layer GRU, hidden 512, seed 9; Muon on RNN parameters; B8, chunk 2000, FP16 autocast, OneCycle; fresh default initialization",
+    "ancestry": {
+      "init_checkpoint": "none",
+      "teacher_or_distillation": "none",
+      "propensity_or_propensity_input": "none",
+      "ema_teacher": 0,
+      "independently_initialized_weights": true,
+      "qualification": "Recipe/provenance records no checkpoint initializer, teacher, distillation cache, propensity input, or EMA source. This is a fresh seed-9 model; no teammate weights are involved."
+    }
+  },
+  "fit_and_membership": {
+    "split": "fold0",
+    "split_manifest": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru512_768_muon_fit_v5r2_20261009/packet/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "fit_train_sequences": 10535,
+    "fit_valid_sequences": 1405,
+    "evaluation_valid_sequences": 468,
+    "evaluation_components": 141,
+    "excluded_train_sequences": 71,
+    "provenance_matches_fit_sets": true,
+    "provenance_evaluation_group_set_matches_manifest": true,
+    "provenance_evaluation_order_matches_manifest": false,
+    "scorer_alignment": "snapshot_curve aligns prediction rows by row_group IDs against the frozen fold-0 evaluation order",
+    "fit_evaluation_component_overlap": 0,
+    "exposure": "fold0 evaluation was excluded from this fit, but was used to inspect and compare the epoch 0-2 snapshot curve; it is exposed CV evidence, not a fresh holdout or public estimate"
+  },
+  "fit_terminal": {
+    "fit_terminal_receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru512_768_muon_fit_v5r2_20261009/terminal_collect_r1/outputs/gru_capacity_v5r2_project/capacity_receipts/muon512/fit_terminal.json",
+    "fit_terminal_sha256": "ec066ad090c6e8c83d2acc6736e9438e3ed1ae6300a476935e070b73caac6eb4",
+    "runner_result": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru512_768_muon_fit_v5r2_20261009/terminal_collect_r1/outputs/gru_capacity_v5r2_runner_results/muon512/result.json",
+    "worker_status": "timeout during fit; worker exit -15; runner classified the arm failed",
+    "worker_elapsed_seconds": 15208.547075822,
+    "schedule": "four epochs requested, fixed checkpoint epoch index 3; model_ep2 is the completed epoch-index-2 checkpoint, while epoch index 3 was interrupted at batch 1460 of 1492. model_ep3 and training_state.pt are absent.",
+    "completed_batches": 4476,
+    "optimizer_attempts": 44760,
+    "optimizer_updates": 44740,
+    "amp_skips": 20,
+    "scientific_interpretation": "infrastructure timeout after a substantial partial fit; not evidence that the model direction failed. No optimizer state exists to resume the schedule."
+  },
+  "existing_grade": {
+    "artifact": "artifacts/runs/bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009/snapshot_curve.jsonl",
+    "artifact_sha256": "bc3570d134960147a7de928aa459b920afd321300714d56af98b45966b831574",
+    "metric": "global_wp_clip2_v1 via frozen snapshot_curve/grade_prediction_bank path; clipped-label weighting and row-99 score mask",
+    "checkpoint_ep0": {"wp": 0.6664129092970736, "t0": 0.6588114342810458, "t1": 0.6740143843131016},
+    "checkpoint_ep1": {"wp": 0.6713796401791701, "t0": 0.6653327040120014, "t1": 0.6774265763463387},
+    "checkpoint_ep2": {"wp": 0.6724991437907113, "t0": 0.6626930571584653, "t1": 0.6823052304229574},
+    "interpretation": "The standalone ep2 score already exists. It is one-seed fold0 exposed-CV evidence; it is not a public leaderboard score, an all-fold result, or a final four-epoch checkpoint claim."
+  },
+  "prediction_consumer_and_profile": {
+    "actual_snapshot_attempt": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/snapcurve-capacity-gru512-f0-r1.json",
+    "attempt_sha256": "7db0ac609c7c26a3e665a05349dff8a07307370ea4ffaed0549756c2f85c3427",
+    "snapshot_contract_sha256": "3ee4fa646a854f437507f8ea1e3dfe255c7b0aac908279f6f2151fe03dae51aa",
+    "snapshot_done_receipt_sha256": "4415b19e24f12bbe2387d733c1b9aa5e18bf7e7029fd10058e9aa1e1fc46f952",
+    "command_shape": "snapshot_curve.py --run <run_id> --split <fold0.json>; it invoked the pinned predict_run.py for each existing checkpoint with epoch 0 temporary aliases, then aligned/scored by row_group",
+    "runtime_source_pins": {
+      "snapshot_curve.py": "8fa1f3f4af8529ec05fdd65ea6562ee9bfeeb3d92cac5dc4888ecf6012878987",
+      "predict_run.py": "fee58a359c24208116cbf3b86e7d4dcf90ba285494582ab2f760edd9f8e1d0aa",
+      "train_rnn.py": "5b135ea90480dde8b530c4543e1d587a044efa1f98dc6a3327b9dca6fcd40187",
+      "grade_prediction_bank.py": "fb7a85a5837f61fa6c65cd10a799768006067e87d4c18e92d4b813ba83b9d82e",
+      "gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "predict_run_sha_recovery": "The exact fee58a3... predictor source is recoverable at Git commit ac0c7ffbbd8522aeadc7851deb24acb6d5e110ac and is also pinned by the reviewed C337 snapshot input bindings. Do not substitute the current checkout script or the fit-context predictor version."
+    },
+    "fit_source_versions": {
+      "fit_train_rnn_py": "9b039934e484cc2811a769a80dc899c05be4b46b4b82825e6ad615de03c06529",
+      "fit_predict_run_py": "73f6cb0cbce1566454e1183bdc6a5616e6ee04e16ac7a68f97608fcda649d37b",
+      "qualification": "The training and snapshot-inference source manifests are not byte-identical. Compatibility is demonstrated by the actual successful snapshot export and exact checkpoint-bound source receipts; this audit does not claim whole-source equivalence."
+    },
+    "actual_export_profile": {
+      "task_elapsed_seconds": 404.40001982598915,
+      "task_scope": "three checkpoint snapshot predictions plus fold-0 scoring, not an isolated ep2 export duration",
+      "predictor_batch_size": 16,
+      "predictor_chunk_rows": 4000,
+      "peak_observed_vram_bytes": 1356857344,
+      "observed_vram_cap_bytes": 5000000000,
+      "peak_task_ram_bytes": 6009278464,
+      "memory_event_deltas": {"high": 0, "max": 0, "oom": 0, "oom_group_kill": 0, "oom_kill": 0},
+      "qualification": "Actual local-GPU compatibility and capacity evidence for this model shape; it does not predict Kaggle CPU runtime or establish a full competition callback budget."
+    },
+    "retained_prediction_status": {
+      "full_prediction_artifact_retained": false,
+      "canonical_prediction_npy_sidecar_partial_seqsum_present": false,
+      "reason": "snapshot_curve deletes each temporary prediction NPY and sidecar after scoring",
+      "next_value": "A separately admitted export with a unique output name could retain predictions for a fixed student/teacher blend analysis; do not rerun the standalone score. The existing generic valid-split producer exports all valid row groups, so any fold-only consumer must explicitly align/select the 468 evaluation row_group IDs."
+    }
+  },
+  "actions_taken": ["read-only artifact/source/receipt inspection", "bounded CPU metadata/hash checks"],
+  "actions_not_taken": ["no model fit", "no prediction export", "no grading rerun", "no GPU action", "no provider action", "no output or source mutation"],
+  "review_limitations": [
+    "The packet's original ROOT_FIT_SOURCE_REVIEW was a disclosed root self-review; this audit independently checked the checkpoint/provenance/membership and actual snapshot-consumer evidence but was not a full retraining-source audit.",
+    "This is one seed on one exposed fold and the saved checkpoint is a partial schedule endpoint."
+  ]
+}
