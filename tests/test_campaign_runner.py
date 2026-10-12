@@ -109,6 +109,7 @@ def test_symlink_escape_rejected(workspace: tuple[Path, Path], tmp_path: Path) -
         {"argv": []},
         {"artifacts": ["data.bin"]},
         {"environment": {"WNN_GPU_MEMORY_BYTES": "999999999999"}},
+        {"environment": {"WNN_GPU_MEMORY_RESERVE_BYTES": "0"}},
         {"environment": {"API_TOKEN": "secret"}},
     ],
 )

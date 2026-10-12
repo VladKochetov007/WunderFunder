@@ -228,7 +228,10 @@ def test_active_support_units_are_reserved_from_parent_cgroup(
         resources.verify_capacity(tmp_path / "state", "/test/parent", 3, 1_000_000_000)
 
 
-def test_gpu_service_is_directly_bounded_under_campaign_parent(tmp_path: Path) -> None:
+def test_gpu_service_is_directly_bounded_under_campaign_parent(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.delenv("WNN_GPU_MEMORY_RESERVE_BYTES", raising=False)
     command = resources.service_command(
         tmp_path, tmp_path / "runtime", "fit_s3", "gpu", 5, 12_000_000_000, "python", 900
     )
@@ -241,9 +244,27 @@ def test_gpu_service_is_directly_bounded_under_campaign_parent(tmp_path: Path) -
     assert "OOMPolicy=continue" in command
     assert "KillMode=control-group" in command
     assert "--setenv=CUDA_VISIBLE_DEVICES=0" in command
-    assert "--setenv=WNN_GPU_MEMORY_BYTES=4300000000" in command
-    assert "--setenv=WNN_VRAM_GB=4.3" in command
+    assert "--setenv=WNN_GPU_MEMORY_RESERVE_BYTES=1000000000" in command
+    assert not any(
+        arg.startswith(("--setenv=WNN_GPU_MEMORY_BYTES=", "--setenv=WNN_VRAM_GB="))
+        for arg in command
+    )
     assert "--setenv=WNN_LOADER_WORKERS=0" in command
+
+    monkeypatch.setenv("WNN_GPU_MEMORY_RESERVE_BYTES", "600000000")
+    command = resources.service_command(
+        tmp_path, tmp_path / "runtime", "fit_s4", "gpu", 2, 8_000_000_000, "python", 900
+    )
+    assert "--setenv=WNN_GPU_MEMORY_RESERVE_BYTES=600000000" in command
+
+
+@pytest.mark.parametrize("value", ["-1", "1.5", "NaN", "４"])
+def test_gpu_memory_safety_reserve_requires_nonnegative_decimal_bytes(
+    monkeypatch: pytest.MonkeyPatch, value: str
+) -> None:
+    monkeypatch.setenv("WNN_GPU_MEMORY_RESERVE_BYTES", value)
+    with pytest.raises(ValueError, match="WNN_GPU_MEMORY_RESERVE_BYTES"):
+        resources.gpu_memory_safety_reserve_bytes()
 
 
 @pytest.mark.parametrize(
@@ -452,47 +473,49 @@ def test_worker_rejects_attempt_with_unverified_memory_high(
     assert "MemoryHigh" in str(receipt["failure"])
 
 
-def test_observed_vram_breach_stops_only_that_child_and_closes_admission(
+def test_observed_vram_above_withdrawn_ceiling_is_telemetry_only(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     root, state, group, _ = worker_workspace(tmp_path)
     prepare_worker_observers(
         monkeypatch,
         group,
-        gpu_reads=[100_000_000, 5_100_000_000, 100_000_000],
+        gpu_reads=[5_100_000_000, 5_200_000_000, 5_100_000_000],
     )
-    child_instance: object | None = None
 
     class Child:
         pid = os.getpid()
         returncode: int | None = None
+        polls = 0
 
         def poll(self) -> int | None:
+            self.polls += 1
+            if self.polls > 1:
+                self.returncode = 0
             return self.returncode
 
         def wait(self, timeout: float | None = None) -> int:
-            return -15 if self.returncode is None else self.returncode
+            return 0 if self.returncode is None else self.returncode
 
-    def start_child(*_args: object, **_kwargs: object) -> Child:
-        nonlocal child_instance
-        child_instance = Child()
-        return child_instance
-
-    def stop_only_child(child: Child) -> None:
-        child.returncode = -15
-
-    monkeypatch.setattr(resources.subprocess, "Popen", start_child)
-    monkeypatch.setattr(resources, "stop_child", stop_only_child)
-    monkeypatch.setattr(resources, "memory_peak", lambda _group: 100_000_000)
-    assert resources.worker(root, state, "a1", 2) == 1
-    final = resources.read_json(resources.attempt_path(state, "a1"))
-    assert child_instance is not None
-    assert final["status"] == "failed"
-    assert final["exit_status"] == -15
-    assert "observed VRAM exceeded" in str(final["failure"])
-    assert resources.read_json(state / "STOP_ADMISSION.json")["reason"].startswith(
-        "resource budget breach in a1"
+    monkeypatch.setattr(resources.subprocess, "Popen", lambda *_args, **_kwargs: Child())
+    monkeypatch.setattr(
+        resources,
+        "stop_child",
+        lambda _child: pytest.fail("5 GB observation must not stop the worker"),
     )
+    monkeypatch.setattr(resources, "memory_peak", lambda _group: 100_000_000)
+    monkeypatch.setattr(resources, "POLL_SECONDS", 0)
+    assert resources.worker(root, state, "a1", 2) == 0
+    final = resources.read_json(resources.attempt_path(state, "a1"))
+    assert final["status"] == "finished"
+    assert final["peak_observed_vram_bytes"] == 5_200_000_000
+    assert not (state / "STOP_ADMISSION.json").exists()
+
+
+def test_17gb_committed_ram_target_keeps_parent_limits_unchanged() -> None:
+    assert resources.RAM_WORKING_BYTES == 17_000_000_000
+    assert resources.RAM_HIGH_BYTES == 18_000_000_000
+    assert resources.RAM_PARENT_BYTES == 20_000_000_000
 
 
 @pytest.mark.parametrize("exit_status", [7, -9])
