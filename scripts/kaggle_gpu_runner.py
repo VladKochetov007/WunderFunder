@@ -15,7 +15,10 @@ import psutil
 from kaggle_common import read_spec, relative_path, sha256_file, verify_files, write_json
 
 
-WORKER_TIMEOUT_CEILING_SECONDS = 5_200
+# Provider wall time is the outer bound. A worker's declared timeout remains
+# authoritative, preserving historical specs while allowing new fits to use the
+# current Kaggle session window instead of the withdrawn 5,200-second cap.
+WORKER_TIMEOUT_CEILING_SECONDS = 43_200
 WORKER_TIMEOUT_FINALIZATION_RESERVE_SECONDS = 300
 
 
