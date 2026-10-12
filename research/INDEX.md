@@ -6,6 +6,8 @@ The0.7000 research objective remains active. Local validation scores are not pub
 
 Latest continuation: [October12 CPU optimization, serving repair and fold/public diagnostics](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md), including independent Sol6.1/xhigh reviews, exact-package timings, unsuccessful PGO, the projection experiment, and Claude-comment reconciliation.
 
+Active extension: [public-score regression contract](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/public_score_regression_20261012_r1/ROOT_CONTRACT_R1.md). The user supplies42 visible uploads/38 scores and asks for source-qualified calibration and both regression interpretations. Artifact coverage and bounded retrospective models are in progress; clean-fold quality work and exact native activation fusion continue in parallel. No numerical candidate forecast is yet established.
+
 The maintained navigation layer is the [bandit research tree](bandit_tree/README.md).
 It indexes original research rather than replacing it. [Configuration](bandit_tree/config.json)
 defines current lineages and next decisions; [the generated tree](bandit_tree/generated/INDEX.md)

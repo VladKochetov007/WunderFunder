@@ -5092,12 +5092,13 @@
       "experiment_ids": [
         "E-CPU-PGO-20261012-R1",
         "E-CPU-PROJECTION-20261012-R1",
-        "E-CPU-PREFIX-APPLICABILITY-20261012-R1"
+        "E-CPU-PREFIX-APPLICABILITY-20261012-R1",
+        "E-CPU-EXACT-MAX-20261012-R1"
       ],
       "artifacts": [
         "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md"
       ],
-      "status": "tested_pgo_projection_not_promoted_distinct_exact_arms_proposed",
+      "status": "pgo_projection_not_promoted_exact_activation_max_isolated_test_in_progress",
       "numeric_prior": null,
       "allocation": {
         "eligible": true,
@@ -5183,6 +5184,41 @@
       "cost_h": null,
       "related_nodes": [
         "arm:finished-old-new-student-pair"
+      ]
+    },
+    {
+      "id": "arm:public-score-regression-20261012",
+      "parent_id": "lineage:diverse-model-combinations",
+      "title": "Source-qualified public-score calibration and grouped backtests",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-PUBLIC-REG-01"
+      ],
+      "experiment_ids": [
+        "E-PUBLIC-REG-AUDIT-20261012-R1"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/public_score_regression_20261012_r1/ROOT_CONTRACT_R1.md"
+      ],
+      "status": "source_audit_bounded_cpu_analysis_in_progress",
+      "numeric_prior": null,
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "launch_authorized": false,
+        "analysis_authorized": true,
+        "reason": "Already-authorized bounded CPU analysis; no GPU/provider or primary submission-selection policy change."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "unmeasured",
+        "reviewed": false
+      },
+      "cost_h": null,
+      "related_nodes": [
+        "arm:public-fold-affinity-diagnostic"
       ]
     }
   ],
