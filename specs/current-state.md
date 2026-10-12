@@ -532,3 +532,7 @@ S5 actual exporter terminalsuccess: exit0,1058.49s controller/1056.46s runner; f
 Kaggleidle: matchedcleanF0two-parent successor Luna/maxpreparation overlapslocalcachecompletion; actualtargethash/readinesspending. VastBno ownedinstance row/access/finalcollectionunverified,no newpaidspend. No newCVscores sinceR18. All3frozenZIPsready unchanged.
 
 Regression/diversity usersteering synthesis saved in monitorR19/REGRESSION_DIVERSITY_PRECISION_SYNTHESIS_R1.md. Metadataregressor remainsworse thanrecent-fivechronologicalbaseline; fixedsimpleblends strongerthanlearnedweights in testedpool; n3teacher seedaveraginggains~.0019vsmeanindividual ineachF0/F1. Addingnewfamilies tostrongbase small/null ornegativeconditionalgain; someold/newstudentblendpositiveimprecise. Q8fidelityloss~.000071gate vsQ4roundingextra~.00180,samepanel; Q4notnativeINT4speedtest. No crosspaneldeltaarithmetic/publicforecast.
+
+
+### 2026-10-12T09:59:19.031505+00:00 — R19 dependency landed
+S5terminalvalidationR2PASS: FP32[10535,20000,2],421400000finitevalues,1685600128B,SHA5042bfec2c25d0f80910ed10797b8f9608c97724ea4e87f0f0721aaed9d59c50. Sourcequalifiedmembership/ownCP2/source/order preserved. R1pathfailure retained; no repeatedexport. All3train caches nowcomplete. Freshparent13.549GB+650MB=14.199GB<18,noactiveGPUattempt/swap0; reviewedadapterfullSHA inspection thenconditionalbuild startsCPUonly under1CPU650MB1200s. No studentfit/profileyet; Kagglecohortprepareownerretained.
