@@ -1,0 +1,152 @@
+{
+  "actual_producer_input_validation_sha256": "3e5c09731a1dbf83b34de06f34fdf76c54ec3ceb7ea53376d63d46c798441910",
+  "adapter_builder_sha256": "13b20f62a988df90f17da495b2cc7e4e219de0792291412165a10d2cd8b22380",
+  "adapter_contract_sha256": "2b94f8454009af6a549e555456185d02bd2d2c6d8628def30dc3a3d27fae62c9",
+  "cache_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r1",
+  "frozen_consumer": {
+    "hashes_and_full_array_finite_scans": "PASS",
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/src/wnn/distillation_cache.py",
+    "require_families": false,
+    "sha256": "b0b588605b3134a62c7a0c634219030fbcdd820e572668aff6d33980db180740",
+    "validation_status": "PASS",
+    "variant": "homogeneous"
+  },
+  "metadata_sha256": "9d587f359cf9acf1b3cc8abeefc8e19e38fc2f42212d932409f52f8e933872b3",
+  "output_files": {
+    "main_homogeneous_train": {
+      "bytes": 1685600128,
+      "dtype": "float32",
+      "finite_validation": "PASS_ALL_VALUES_BY_FROZEN_CONSUMER",
+      "finite_value_count": 421400000,
+      "ordered_row_groups_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r1/main_homogeneous_train.npy",
+      "sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+      "shape": [
+        10535,
+        20000,
+        2
+      ]
+    },
+    "main_homogeneous_valid": {
+      "bytes": 224800128,
+      "dtype": "float32",
+      "finite_validation": "PASS_ALL_VALUES_BY_FROZEN_CONSUMER",
+      "finite_value_count": 56200000,
+      "ordered_row_groups_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r1/main_homogeneous_valid.npy",
+      "sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2",
+      "shape": [
+        1405,
+        20000,
+        2
+      ]
+    }
+  },
+  "root_release_sha256": "707c38a9a19c1c87103393ac8dd17fb2cd61af6b9f0f84daafd56820861691a0",
+  "s5_terminal_validation_sha256": "2a8b66682623e8e8f58f2fdd529790dbbbd7a308b3074514877dfe006cd9429e",
+  "schema": "wnn.clean-t3-f0-cache-materialization-validation.r1",
+  "source_qualified_membership": {
+    "evaluation_valid_count": 468,
+    "fit_train_count": 10535,
+    "fit_train_order_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+    "fit_train_source": "datasets/train.parquet",
+    "fit_valid_count": 1405,
+    "fit_valid_evaluation_overlap": 0,
+    "fit_valid_order_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+    "fit_valid_source": "datasets/valid.parquet",
+    "fold": 0,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "target_order_source": "train_targets.npz and valid_targets.npz row_group members only"
+  },
+  "status": "PASS_FROZEN_CONSUMER_AND_ACTUAL_OUTPUT_VALIDATION",
+  "student_fit_or_profile_launched": false,
+  "target_contract": {
+    "clipping": "none during cache construction",
+    "formula": "float32(0.8125 * float32_mean(three_epoch2_predictions))",
+    "homogeneous_scale": 0.8125,
+    "sampled_exact_float32_parity": {
+      "train": {
+        "exact_float32_formula_match": true,
+        "sample_group_order": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "sample_sequence_count": 8,
+        "teacher_seed_order": [
+          3,
+          4,
+          5
+        ]
+      },
+      "valid": {
+        "exact_float32_formula_match": true,
+        "sample_group_order": [
+          0,
+          1,
+          2,
+          3,
+          6,
+          8,
+          10,
+          11
+        ],
+        "sample_sequence_count": 8,
+        "teacher_seed_order": [
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    "teacher_mean": "unweighted arithmetic mean in float32"
+  },
+  "teacher_ancestry": [
+    {
+      "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+      "epoch": 2,
+      "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+      "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+      "seed": 3,
+      "train_prediction_sha256": "63153337ec262f8d182283731e409644c1b7b19332e8fef047f0fb1a72504f06",
+      "valid_prediction_sha256": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1"
+    },
+    {
+      "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+      "epoch": 2,
+      "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+      "run": "clean_t3_f0_muonall_h384_e3_s4_r5",
+      "seed": 4,
+      "train_prediction_sha256": "5aa3ebeea15aad5a12b15ca27d2c4581cdae651d9144e8ab262196bb01f9af95",
+      "valid_prediction_sha256": "314172c91053c5581ac73160dc936fb3fa5d8615b8dac5fffeca73f0d7524d1a"
+    },
+    {
+      "checkpoint_sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+      "epoch": 2,
+      "provenance_sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18",
+      "run": "clean_t3_f0_muonall_h384_e3_s5_r5",
+      "seed": 5,
+      "train_prediction_sha256": "5042bfec2c25d0f80910ed10797b8f9608c97724ea4e87f0f0721aaed9d59c50",
+      "valid_prediction_sha256": "13420c11164234ce14a49aaae9c7612c8e54d32fde02acd062991b47deb21e92"
+    }
+  ],
+  "validated_utc": "2026-10-12T10:05:44Z",
+  "validator_resources": {
+    "elapsed_seconds": 2.5957860829948913,
+    "parent_after": {
+      "memory_current_bytes": 14791553024,
+      "memory_swap_current_bytes": 0
+    },
+    "parent_before": {
+      "memory_current_bytes": 14564995072,
+      "memory_swap_current_bytes": 0
+    },
+    "reserve_bytes": 650000000,
+    "swap_bytes": 0
+  }
+}
