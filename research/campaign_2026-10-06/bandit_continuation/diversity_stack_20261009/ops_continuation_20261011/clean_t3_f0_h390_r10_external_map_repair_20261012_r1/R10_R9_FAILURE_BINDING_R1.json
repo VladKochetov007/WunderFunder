@@ -1,0 +1,46 @@
+{
+  "schema": "wnn.r9_external_mount_startup_failure_binding.r1",
+  "status": "execution_failure_infrastructure_only",
+  "attempt": {
+    "kernel_id": "vladkochetov07/wnn-clean-t3-f0-h384-exp-20261012-r9",
+    "terminal_collection": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_0747_r17/r9_terminal/attempt_001"
+  },
+  "evidence": {
+    "provider_logs": {
+      "path": "r9_terminal/attempt_001/provider_logs.txt",
+      "bytes": 3310,
+      "sha256": "64f9d88881bd88802f08d7fec3b4866fe39ec74c0cb8b3cee440edc27d73ccbf"
+    },
+    "provider_status": {
+      "path": "r9_terminal/attempt_001/provider_status.json",
+      "bytes": 233,
+      "sha256": "e4aa4d20d766ace650f737ac7ff3b1ef9e191fdb32f4361a7182282b508ea70b"
+    },
+    "pipeline": {
+      "path": "r9_terminal/attempt_001/outputs/results/r7_export_recovery/r7_export_pipeline.json",
+      "bytes": 8806,
+      "sha256": "bc368127f390e4c19c161be62359f63d2063654a5cee9e839f6ccb55327c287d",
+      "status": "failed_or_blocked",
+      "error_type": "ValueError",
+      "error": "unsafe R5 external input mapping: artifacts/runs/c20260929_prop_f0/model.pt",
+      "exports_started": 0,
+      "fit_workers_started": 0
+    }
+  },
+  "cause": {
+    "frozen_r7_declared_path_set": "archive manifest files union declared export spec paths",
+    "actual_r5_manifest_external_mount_entries": 13,
+    "actual_r7_binding_external_mount_entries": 13,
+    "actual_manifest_equals_r7_binding_map": true,
+    "failure": "The first hash-bound R5 external path was omitted from declared_paths, so the existing mount_verified_inputs path guard rejected it before an export worker."
+  },
+  "repair_scope": {
+    "preserve_r9_terminal_evidence": true,
+    "authorize_only_exact_r7_bound_external_map": true,
+    "keep_existing_absolute_and_traversal_rejection": true,
+    "science_changed": false,
+    "fit_rerun": false,
+    "provider_action": false
+  }
+}
+
