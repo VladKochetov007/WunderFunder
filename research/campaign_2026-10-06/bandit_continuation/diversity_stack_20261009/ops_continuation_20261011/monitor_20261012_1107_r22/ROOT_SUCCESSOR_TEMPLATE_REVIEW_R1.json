@@ -1,0 +1,46 @@
+{
+  "reviewed_utc": "2026-10-12T11:12:44.972079+00:00",
+  "reviewer": "root, independent of Luna actor",
+  "contract_sha256": "957a49c882e4745404c0ec7ff545f5835249291e089cd0888b23aaefb2923a8e",
+  "launch_templates_sha256": "6f4c7912449a45ed1e5a2baaa2a0f9c9b5fedd727b4d62099543cd47d70a664a",
+  "status": "PASS_FIXED_RECIPE_TEMPLATES_ONLY",
+  "stages": [
+    {
+      "stage_id": "control_p2",
+      "attempt": "clean-t3-f0-control-s3-a9-r2-p2-20261012",
+      "argv_length": 104,
+      "original_recipe_delta": "Only declared run, cache and resume aliases change from R1 to R2. All remaining argv match exactly.",
+      "state_expected_next_epoch": 2
+    },
+    {
+      "stage_id": "control_p3",
+      "attempt": "clean-t3-f0-control-s3-a9-r2-p3-20261012",
+      "argv_length": 104,
+      "original_recipe_delta": "Only declared run, cache and resume aliases change from R1 to R2. All remaining argv match exactly.",
+      "state_expected_next_epoch": 4
+    },
+    {
+      "stage_id": "treatment_p1",
+      "attempt": "clean-t3-f0-treatment-s3-a9-r2-p1-20261012",
+      "argv_length": 102,
+      "original_recipe_delta": "Only declared run, cache and resume aliases change from R1 to R2. All remaining argv match exactly.",
+      "state_expected_next_epoch": null
+    },
+    {
+      "stage_id": "treatment_p2",
+      "attempt": "clean-t3-f0-treatment-s3-a9-r2-p2-20261012",
+      "argv_length": 104,
+      "original_recipe_delta": "Only declared run, cache and resume aliases change from R1 to R2. All remaining argv match exactly.",
+      "state_expected_next_epoch": 2
+    },
+    {
+      "stage_id": "treatment_p3",
+      "attempt": "clean-t3-f0-treatment-s3-a9-r2-p3-20261012",
+      "argv_length": 104,
+      "original_recipe_delta": "Only declared run, cache and resume aliases change from R1 to R2. All remaining argv match exactly.",
+      "state_expected_next_epoch": 4
+    }
+  ],
+  "actual_source": "resume_contract excludes run/resume/save/stop aliases but includes initializer/cache/science. Trainer restore enforces the full contract before epochs. training_state.py format wnn.epoch-training-state/version1 records model, optimizer, scheduler, scaler, loader, RNG, auxiliary dynamics and progress; next_epoch is validated.",
+  "scope": "Actual resume states do not exist yet. No fit/score claim. P1 measured resources support unchanged stage bounds."
+}

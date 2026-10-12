@@ -258,3 +258,6 @@ Publicregressor diagnosticdone, recent-five baselinebetter; no moreexposed-table
 
 ### 2026-10-12T10:51:28.770257+00:00 — R21 delivery and user plot
 CleanF0 profilePASS40updates/noAMPskip, boundedp1fitdelta preparing; J1 numericalproxy/scorer implementationdone, actualcomponentcomparisonpending. H388 literalappend exceedsZIPcap; H390s5absent. TwoanalysisNPYheaderOOMs diagnosedbefore scientificcomparison, repairboundedheaderreader. Userpublic/validationplot requested11pairedrows/protocolstrata, no newpredictor orimputedmetrics. monitorR21/ROOT_PROFILE_R2_TERMINAL_R1.json and NEXT_CANDIDATE_INVENTORY_R1.md.
+
+### 2026-10-12T11:15:54.395706+00:00 — R22 delivery update
+CleanF0controlP1healthy~11.2seq/s, no grade yet. Five exact remainingstages frozen/independentlyrootreviewed/conditionallyreleased, actualresumeproducerbindingpending. Kaggle treatment-only runnablepacketpreparing toavoidduplicatecontrol. J1 smallcomponentpanel setup fromeligibleF0teachertrio; nooptimizedscore. Allparallelquality/inference/precision branches retained. monitorR22 receipts.

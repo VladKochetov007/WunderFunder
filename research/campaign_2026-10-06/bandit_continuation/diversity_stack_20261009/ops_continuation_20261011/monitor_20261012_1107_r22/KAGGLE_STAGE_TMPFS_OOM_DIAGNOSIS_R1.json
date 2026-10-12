@@ -1,0 +1,19 @@
+{
+  "observed_utc": "2026-10-12T11:27:21.564670+00:00",
+  "pid": 52127,
+  "scope": "run-p52127-i8404822.scope",
+  "time_utc": "2026-10-12T11:19:30Z",
+  "exit": "OOM/137",
+  "owner": "batch_packet_builder",
+  "kernel_memory": {
+    "anon_B": 7077888,
+    "file_B": 641294336,
+    "shmem_B": 641294336,
+    "file_dirty_B": 0,
+    "file_writeback_B": 0
+  },
+  "diagnosis": "Large source-cache copy into RAM-backed /tmp consumed unreclaimable shmem under small support cap. This violated the existing no-large-/tmp staging instruction. It is not P1 model-memory failure.",
+  "correction_to_initial_attribution": "Initial dirty-file-cache explanation was too broad; actual kernel shmem counters identify tmpfs, with dirty/writeback0.",
+  "repair": "Private short physical /home stage; hardlink immutable same-filesystem large NPYs without chmod, small metadata copies only; preserve failure and remove only regenerable incomplete /tmp copy with recorded cleanup. No provider action/cap increase.",
+  "worker": "ControlP1 own max/OOM/kill0; healthy kept running."
+}

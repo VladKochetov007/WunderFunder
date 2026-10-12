@@ -254,3 +254,9 @@ Supportscopes run-p4143414-i8325824/run-p4144286-i8333500 reached650MiB; firsthe
 
 ### 2026-10-12T11:03:20.401358+00:00 — P1 prelaunch metadata guards
 GuardR1 incorrectlyexpectedstatusPASS_EXACT_PREPARED_P1 incriticreceiptwhichactuallydeclaresresultPASS_FOR_ROOT_CONSIDERATION; rootsemanticbindinglabel isnotproducerfield. OfflineguardnextmanuallytranscribedSOURCE_DELTA digestmistypedb3d7f6 vsdeclaredb3d2f7. Bothrefusedbeforelock/reclaim. Correctionscompareactualschema andtrustedcontract digest; rootreleasedactualfit nowrunning. Avoidmanualrehashing/transcriptionof pins; useexactactualproducerfieldfixture andstricttrustedhashbinding.
+
+### 2026-10-12T11:19:30Z — Kaggle private asset staging OOM
+PID52127/run-p52127-i8404822.scope copied1.69GB cache into/tmp under650MB support limit; killed at partial~641MB. Kernel anon7.08MB,file/shmem641.29MB,dirty/writeback0 identifies RAM-backed tmpfs, not a model-memory problem or ordinary disk dirtypagecache. Initial broad dirtycache diagnosis corrected. Builder switches to short private physical/home stage and hardlinks unchanged same-filesystem NPYs, no chmod or cap increase; failure/partial identity preserved and regenerable scratch-only cleanup recorded. Actual P1 worker remainshealthy with ownOOM/max/kill0. Existing no-large-/tmp rule applies to everynewpacket, not justmodeldata.
+
+### 2026-10-12T11:46Z — P2 omitted project-root environment
+Continuationtemplate scienceargs were correct but executionprefix omittedWNN_PROJECT_ROOT; frozenwrapper defaulted/root/wnn and hitPermissionError readingchain_folds beforeCUDA. Rootreview missedenvprefix. P1exactenvprefix reinstatedundernewattempt/run p2-envr1; actualep2batch20provescorrectresume. Preserveoriginalfailedtemplate andreceipt; allfutureboundlaunchesmustcomparecompleteargv+environment, notjusttrainerargtail. P3resumealias mustfollowcorrectedsuccessfulproducer.

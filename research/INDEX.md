@@ -45,3 +45,5 @@ The standalone [general research methodology](RESEARCH_METHODS.md) describes age
 [Mathematical plan, literature and six interaction comparisons](campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md): analytical/SOCPinitializer, exactclippedSLSQP, forwardselection, calibration-awaremixedprecision and largercompressedblends. Bounded12endpointcomparison, actualwholeZIPtime/size, sameCVgroups; no measuredgain/globaloptimumclaim.
 
 - [Validation/public plot, protocol separated](campaign_2026-10-12/public_validation_plot_r2/README.md): 11 paired records, model labels, gaps, PNG/SVG/CSV; no pooled predictor and no imputed CV for latestC.
+
+- [Process-kill reflection and prevention plan](campaign_2026-10-12/KILL_PREVENTION_PLAN_20261012.md): actual cgroup attribution, bounded readers, physical staging, active-worker reserve and producer fixtures.

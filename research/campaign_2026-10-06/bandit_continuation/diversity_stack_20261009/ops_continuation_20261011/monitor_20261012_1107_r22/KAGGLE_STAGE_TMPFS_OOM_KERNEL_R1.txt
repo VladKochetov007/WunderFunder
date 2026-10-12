@@ -1,0 +1,130 @@
+Oct 12 14:19:30 nitro kernel: python invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=100
+Oct 12 14:19:30 nitro kernel: CPU: 0 UID: 1000 PID: 52127 Comm: python Tainted: G        W  OE       7.2.7-200.fc44.x86_64 #1 PREEMPT(lazy) 
+Oct 12 14:19:30 nitro kernel: Tainted: [W]=WARN, [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
+Oct 12 14:19:30 nitro kernel: Hardware name: Acer Nitro AN515-57/Scala_TLS, BIOS V1.22 07/15/2026
+Oct 12 14:19:30 nitro kernel: Call Trace:
+Oct 12 14:19:30 nitro kernel:  <TASK>
+Oct 12 14:19:30 nitro kernel:  dump_stack_lvl+0x5d/0x80
+Oct 12 14:19:30 nitro kernel:  dump_header+0x43/0x1b3
+Oct 12 14:19:30 nitro kernel:  oom_kill_process.cold+0xa/0xba
+Oct 12 14:19:30 nitro kernel:  out_of_memory+0xfd/0x2f0
+Oct 12 14:19:30 nitro kernel:  mem_cgroup_out_of_memory+0x117/0x130
+Oct 12 14:19:30 nitro kernel:  ? mem_cgroup_iter+0x13f/0x240
+Oct 12 14:19:30 nitro kernel:  try_charge_memcg+0x409/0x6f0
+Oct 12 14:19:30 nitro kernel:  charge_memcg+0x57/0xc0
+Oct 12 14:19:30 nitro kernel:  __mem_cgroup_charge+0x30/0x90
+Oct 12 14:19:30 nitro kernel:  shmem_alloc_and_add_folio+0x162/0x400
+Oct 12 14:19:30 nitro kernel:  shmem_get_folio_gfp+0x382/0x610
+Oct 12 14:19:30 nitro kernel:  shmem_write_begin+0x70/0x110
+Oct 12 14:19:30 nitro kernel:  generic_perform_write+0x147/0x2c0
+Oct 12 14:19:30 nitro kernel:  shmem_file_write_iter+0x86/0x90
+Oct 12 14:19:30 nitro kernel:  iter_file_splice_write+0x3e4/0x6c0
+Oct 12 14:19:30 nitro kernel:  direct_splice_actor+0x56/0x160
+Oct 12 14:19:30 nitro kernel:  splice_direct_to_actor+0x103/0x2e0
+Oct 12 14:19:30 nitro kernel:  ? __pfx_direct_splice_actor+0x10/0x10
+Oct 12 14:19:30 nitro kernel:  do_splice_direct+0x7a/0xd0
+Oct 12 14:19:30 nitro kernel:  ? __pfx_direct_file_splice_eof+0x10/0x10
+Oct 12 14:19:30 nitro kernel:  do_sendfile+0x3a1/0x480
+Oct 12 14:19:30 nitro kernel:  __x64_sys_sendfile64+0x6c/0xd0
+Oct 12 14:19:30 nitro kernel:  do_syscall_64+0xe2/0x570
+Oct 12 14:19:30 nitro kernel:  ? do_syscall_64+0x11f/0x570
+Oct 12 14:19:30 nitro kernel:  ? __do_sys_newfstat+0x6c/0xa0
+Oct 12 14:19:30 nitro kernel:  ? do_syscall_64+0x11f/0x570
+Oct 12 14:19:30 nitro kernel:  ? __x64_sys_ioctl+0xb9/0x100
+Oct 12 14:19:30 nitro kernel:  ? add_interrupt_randomness+0x53/0xe0
+Oct 12 14:19:30 nitro kernel:  ? do_syscall_64+0x11f/0x570
+Oct 12 14:19:30 nitro kernel:  ? handle_edge_irq+0xc8/0x190
+Oct 12 14:19:30 nitro kernel:  ? irqentry_exit+0x45/0x760
+Oct 12 14:19:30 nitro kernel:  ? do_syscall_64+0x99/0x570
+Oct 12 14:19:30 nitro kernel:  ? clear_bhb_loop+0x60/0xb0
+Oct 12 14:19:30 nitro kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+Oct 12 14:19:30 nitro kernel: RIP: 0033:0x7f9a3f1e74fe
+Oct 12 14:19:30 nitro kernel: Code: 0f 1f 40 00 48 8b 15 f9 58 10 00 f7 d8 64 89 02 b8 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa 49 89 ca b8 28 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 0a c3 66 0f 1f 84 00 00 00 00 00 48 8b 15 c1
+Oct 12 14:19:30 nitro kernel: RSP: 002b:00007ffced3a41e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
+Oct 12 14:19:30 nitro kernel: RAX: ffffffffffffffda RBX: 000000000173f110 RCX: 00007f9a3f1e74fe
+Oct 12 14:19:30 nitro kernel: RDX: 00007ffced3a41f0 RSI: 0000000000000003 RDI: 0000000000000004
+Oct 12 14:19:30 nitro kernel: RBP: 0000000000000003 R08: 0000000000000001 R09: 0000000000000002
+Oct 12 14:19:30 nitro kernel: R10: 0000000064783780 R11: 0000000000000246 R12: 00007ffced3a41f0
+Oct 12 14:19:30 nitro kernel: R13: 00000000000000a7 R14: 0000000064783780 R15: 0000000000000004
+Oct 12 14:19:30 nitro kernel:  </TASK>
+Oct 12 14:19:30 nitro kernel: memory: usage 634764kB, limit 634764kB, failcnt 21
+Oct 12 14:19:30 nitro kernel: swap: usage 0kB, limit 0kB, failcnt 0
+Oct 12 14:19:30 nitro kernel: Memory cgroup stats for /user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p52127-i8404822.scope:
+Oct 12 14:19:30 nitro kernel: anon 7077888
+Oct 12 14:19:30 nitro kernel: file 641294336
+Oct 12 14:19:30 nitro kernel: kernel 1626112
+Oct 12 14:19:30 nitro kernel: kernel_stack 0
+Oct 12 14:19:30 nitro kernel: pagetables 126976
+Oct 12 14:19:30 nitro kernel: sec_pagetables 0
+Oct 12 14:19:30 nitro kernel: percpu 288
+Oct 12 14:19:30 nitro kernel: sock 0
+Oct 12 14:19:30 nitro kernel: vmalloc 0
+Oct 12 14:19:30 nitro kernel: shmem 641294336
+Oct 12 14:19:30 nitro kernel: zswap 0
+Oct 12 14:19:30 nitro kernel: zswapped 0
+Oct 12 14:19:30 nitro kernel: zswap_incomp 0
+Oct 12 14:19:30 nitro kernel: file_mapped 0
+Oct 12 14:19:30 nitro kernel: file_dirty 0
+Oct 12 14:19:30 nitro kernel: file_writeback 0
+Oct 12 14:19:30 nitro kernel: swapcached 0
+Oct 12 14:19:30 nitro kernel: anon_thp 0
+Oct 12 14:19:30 nitro kernel: file_thp 0
+Oct 12 14:19:30 nitro kernel: shmem_thp 0
+Oct 12 14:19:30 nitro kernel: inactive_anon 0
+Oct 12 14:19:30 nitro kernel: active_anon 648372224
+Oct 12 14:19:30 nitro kernel: inactive_file 0
+Oct 12 14:19:30 nitro kernel: active_file 0
+Oct 12 14:19:30 nitro kernel: unevictable 0
+Oct 12 14:19:30 nitro kernel: slab_reclaimable 1474288
+Oct 12 14:19:30 nitro kernel: slab_unreclaimable 23352
+Oct 12 14:19:30 nitro kernel: slab 1497640
+Oct 12 14:19:30 nitro kernel: hugetlb 0
+Oct 12 14:19:30 nitro kernel: workingset_refault_anon 0
+Oct 12 14:19:30 nitro kernel: workingset_refault_file 0
+Oct 12 14:19:30 nitro kernel: workingset_activate_anon 0
+Oct 12 14:19:30 nitro kernel: workingset_activate_file 0
+Oct 12 14:19:30 nitro kernel: workingset_restore_anon 0
+Oct 12 14:19:30 nitro kernel: workingset_restore_file 0
+Oct 12 14:19:30 nitro kernel: workingset_nodereclaim 0
+Oct 12 14:19:30 nitro kernel: pgdemote_kswapd 0
+Oct 12 14:19:30 nitro kernel: pgdemote_direct 0
+Oct 12 14:19:30 nitro kernel: pgdemote_khugepaged 0
+Oct 12 14:19:30 nitro kernel: pgdemote_proactive 0
+Oct 12 14:19:30 nitro kernel: pgsteal_kswapd 0
+Oct 12 14:19:30 nitro kernel: pgsteal_direct 0
+Oct 12 14:19:30 nitro kernel: pgsteal_khugepaged 0
+Oct 12 14:19:30 nitro kernel: pgsteal_proactive 0
+Oct 12 14:19:30 nitro kernel: pgscan_kswapd 0
+Oct 12 14:19:30 nitro kernel: pgscan_direct 0
+Oct 12 14:19:30 nitro kernel: pgscan_khugepaged 0
+Oct 12 14:19:30 nitro kernel: pgscan_proactive 0
+Oct 12 14:19:30 nitro kernel: pgrefill 0
+Oct 12 14:19:30 nitro kernel: pgpromote_success 0
+Oct 12 14:19:30 nitro kernel: pgscan 0
+Oct 12 14:19:30 nitro kernel: pgsteal 0
+Oct 12 14:19:30 nitro kernel: pswpin 0
+Oct 12 14:19:30 nitro kernel: pswpout 0
+Oct 12 14:19:30 nitro kernel: pgfault 6272
+Oct 12 14:19:30 nitro kernel: pgmajfault 0
+Oct 12 14:19:30 nitro kernel: pgactivate 0
+Oct 12 14:19:30 nitro kernel: pgdeactivate 0
+Oct 12 14:19:30 nitro kernel: pglazyfree 0
+Oct 12 14:19:30 nitro kernel: pglazyfreed 0
+Oct 12 14:19:30 nitro kernel: swpin_zero 0
+Oct 12 14:19:30 nitro kernel: swpout_zero 0
+Oct 12 14:19:30 nitro kernel: zswpin 0
+Oct 12 14:19:30 nitro kernel: zswpout 0
+Oct 12 14:19:30 nitro kernel: zswpwb 0
+Oct 12 14:19:30 nitro kernel: thp_fault_alloc 0
+Oct 12 14:19:30 nitro kernel: thp_collapse_alloc 0
+Oct 12 14:19:30 nitro kernel: thp_swpout 0
+Oct 12 14:19:30 nitro kernel: thp_swpout_fallback 0
+Oct 12 14:19:30 nitro kernel: numa_pages_migrated 0
+Oct 12 14:19:30 nitro kernel: numa_pte_updates 0
+Oct 12 14:19:30 nitro kernel: numa_hint_faults 0
+Oct 12 14:19:30 nitro kernel: Memory cgroup min protection 0kB -- low protection 0kB
+Oct 12 14:19:30 nitro kernel: Tasks state (memory values in pages):
+Oct 12 14:19:30 nitro kernel: [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+Oct 12 14:19:30 nitro kernel: [  52127]  1000 52127    66916     4800     1728     3072         0   122880        0           100 python
+Oct 12 14:19:30 nitro kernel: oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=user.slice,mems_allowed=0,oom_memcg=/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p52127-i8404822.scope,task_memcg=/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p52127-i8404822.scope,task=python,pid=52127,uid=1000
+Oct 12 14:19:30 nitro kernel: Memory cgroup out of memory: Killed process 52127 (python) total-vm:267664kB, anon-rss:6912kB, file-rss:12288kB, shmem-rss:0kB, UID:1000 pgtables:120kB oom_score_adj:100
