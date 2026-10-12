@@ -1,3 +1,9 @@
+## 2026-10-12T00:07:11Z — indexed research and corrected useful cloud execution
+
+[October12 index](diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md) is committed/pushed with CPU sources, two independent reviews, measured compiler/projection negatives, blending mathematics, precision/QAT ideas and public-fold diagnostic. No uniquely public-like fold; robust matched recipe/complete-blend evidence selects, public confirms. ZIP11 is the compact canary; timed-out ZIP12 is withdrawn. No numerical expected public score.
+
+Local F1 old parent has entered epoch2/4 after two healthy completed epochs; corrected exports await actual finite fixed checkpoints/provenance/current handoff. Kaggle failed v1 is completely collected and diagnosed; minimal bootstrap-only R6 existing-slug v2 is accepted, immediate QUEUED, actual profiles/fit unknown. Science/archive/data/authority unchanged, eight independently rerun actual-consumer fixtures. Root28800GPU-s hold leaves1750.224s of campaign headroom; actual terminal/quota reconciliation precedes further cohorts. Declared nine arrays total6.630GB raw, with specific bounded collection plan. Paid lane unavailable, no new spending. See current-state/loop-log for receipts and ownership.
+
 ## 2026-10-11T23:41:41Z — complete endpoint quality and serving evidence
 
 Current first compact canary is ZIP11 in READY_TOP_CANDIDATES_R6; ZIP12 is withdrawn after the user's actual TIMEOUT. Both old manifests and ZIPs remain preserved. No supported numerical public forecast or scorer-runtime guarantee. [New research index](diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md) connects all optimization/source/review evidence, prior blending/precision work and a public-fold diagnostic. PGO and exact projection precompute did not establish repeatable speedups; their candidate binaries are not promoted. No uniquely public-like fold has been established.
