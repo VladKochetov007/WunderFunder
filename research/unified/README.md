@@ -2,9 +2,9 @@
 
 This is the maintained, human-facing research map. It joins different result types through shared topic pages while preserving the original campaign records and evidence paths.
 
-Latest requested review: [critical assessment and separate public and future private leaderboard strategies](reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md). It audits the previous approach and sets out ranked experiments, model and representation scaling, and selection for the public leaderboard versus two to four weeks of future private data. The refinements are proposals; this review does not resume experimental admission.
+The [critical assessment and separate public and future private leaderboard strategies](reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md) audits the previous approach and sets out ranked experiments, model and representation scaling, and selection for the public leaderboard versus the user's two-to-four-week future-data scenario. Its proposals are now being implemented under the [subsequent explicit user resume](../campaign_2026-10-13/strategy_execution_r1/README.md).
 
-Independent second review: [first-principles verdict and plan](reviews/FIRST_PRINCIPLES_REVIEW_PLAN_20261012.md). It disputes the framing of the review above, quantifies how little the late campaign moved the public score, and sets a deadline-bound plan. Proposal only; experimental admission is unchanged.
+Independent second review: [first-principles verdict and plan](reviews/FIRST_PRINCIPLES_REVIEW_PLAN_20261012.md), merged from `claude/stoic-euler-70wff3`. This static critique proposes different priorities; it contains no new fit or recomputed score. The [evidence assessment and experiment cards](ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md) distinguish useful compact-model, averaging, symmetry and cross-fitting experiments from unsupported capacity ceilings and policy proposals. The user's existing objective and authorization remain active.
 
 ## Start by topic
 
@@ -30,7 +30,7 @@ Use the shared template for new narrative notes. Set its `kind` and `status`, li
 
 Every useful research item must be linked and described in its corresponding folder's README: reviews, plans, ideas, data and literature sources, evidence, results, analyses, plots, artifacts and operational findings. Explain its contents, relevance, finding or status, provenance and material limitations. Add this entry as part of the same change or handoff, including older unindexed sources when they are used. Each new subfolder needs a README linked from its parent. The full rule is in [AGENTS.md](../../AGENTS.md#research-note-organization).
 
-Frozen campaign artifacts stay in their original locations and are linked here. For large or private data and weights, link their provenance manifest and approved access location rather than copying payloads. If research is explicitly resumed, update current state and allocation records before admitting work; the existing stop receipt remains in force until then.
+Frozen campaign artifacts stay in their original locations and are linked here. For large or private data and weights, link their provenance manifest and approved access location rather than copying payloads. The October 12 stop is preserved as history; the subsequent strategy campaign records the current user authorization, allocation and admission checks.
 
 ## Reading order
 

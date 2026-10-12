@@ -68,14 +68,16 @@
       "id": "S05",
       "mechanism_family": "weighting",
       "title": "Propensity concentration",
-      "comparison": "Current propensity power versus1, same floor and fit-only propensity",
+      "comparison": "Propensity powers0/1/current2, same other weights and fit-only propensity; power0 disables this factor explicitly",
       "dependencies": [],
       "hypothesis_ids": [],
       "owner": "root",
       "implementation_status": "pending",
       "scientific_status": "not_tested",
       "experiment_ids": [],
-      "evidence_paths": [],
+      "evidence_paths": [
+        "research/unified/ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md"
+      ],
       "blocking_condition": null
     },
     {
@@ -580,6 +582,87 @@
       "experiment_ids": [],
       "evidence_paths": [],
       "blocking_condition": null
+    },
+    {
+      "id": "S36",
+      "mechanism_family": "compact_ensemble",
+      "title": "Compact members at measured CPU cost",
+      "comparison": "H256x1 and H192x2 versus H256x2; actual fixed Q8 ensemble quality/runtime; compatible own ancestry",
+      "dependencies": [
+        "S27",
+        "S29"
+      ],
+      "hypothesis_ids": [
+        "H-STRATEGY-COMPACT-20261013"
+      ],
+      "owner": "root",
+      "implementation_status": "proposed_preparation",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [
+        "research/unified/ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md"
+      ],
+      "blocking_condition": null
+    },
+    {
+      "id": "S37",
+      "mechanism_family": "weight_averaging",
+      "title": "Matched-duration EMA and fixed SWA",
+      "comparison": "Raw versus EMA-only at same successful-update clock; separate fixed epoch3/4/5 SWA and consistency arms",
+      "dependencies": [
+        "S07"
+      ],
+      "hypothesis_ids": [
+        "H-STRATEGY-AVERAGING-20261013"
+      ],
+      "owner": "root",
+      "implementation_status": "proposed_preparation",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [
+        "research/unified/ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md"
+      ],
+      "blocking_condition": null
+    },
+    {
+      "id": "S38",
+      "mechanism_family": "symmetry",
+      "title": "Bid/ask mirror diagnostic before augmentation",
+      "comparison": "Fit-only involution/schema/support check; target map justified before augmented fitting",
+      "dependencies": [],
+      "hypothesis_ids": [
+        "H-317"
+      ],
+      "owner": "root",
+      "implementation_status": "proposed_preparation",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [
+        "research/unified/ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md"
+      ],
+      "blocking_condition": null
+    },
+    {
+      "id": "S39",
+      "mechanism_family": "crossfit_teacher",
+      "title": "Cross-fitted causal teacher targets",
+      "comparison": "Same two half-fit causal teachers; in-sample versus crossed caches; clean inner ancestry and fixed student",
+      "dependencies": [
+        "S20"
+      ],
+      "hypothesis_ids": [
+        "H-096",
+        "H-STRATEGY-CROSSFIT-20261013"
+      ],
+      "owner": "root",
+      "implementation_status": "proposed_preparation",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [
+        "research/unified/ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md"
+      ],
+      "blocking_condition": null
     }
-  ]
+  ],
+  "additional_review": "research/unified/reviews/FIRST_PRINCIPLES_REVIEW_PLAN_20261012.md"
 }

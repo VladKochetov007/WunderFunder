@@ -9,6 +9,7 @@ This domain collects the reusable research protocol: data membership, causal seq
 - [Research objective](../../../specs/research-objective.md), [pipeline](../../../specs/research-pipeline.md), and [ADR index](../../../specs/adr/README.md)
 - [Data, metric, and validation archive](../archive/2026-10-12/pages/01-data-and-validation.md)
 - [Model and training archive](../archive/2026-10-12/pages/02-models-and-training.md)
+- [Historical validation protocol](../../../hpo/VALIDATION_PROTOCOL.md) records the October 10 scratch-bank variance estimates, 28-recipe fold comparison and five-comparison composite-domain observation. These are useful calibration evidence, with stale F1 counts and reserved-fold claims: all four folds are now exposed. Its minimum detectable effects are recipe-specific power estimates, not universal allocation thresholds. [The first-principles assessment](../ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md) explains these limits and the planned paired comparisons.
 
 The official metric and fold membership are part of every scored claim. Training-target clipping, teacher targets, initializer ancestry, and fitting membership are separate method details; preserve them in the recipe and experiment record.
 

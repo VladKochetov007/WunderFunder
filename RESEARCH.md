@@ -6,7 +6,9 @@ The [public and future private leaderboard strategy](research/unified/reviews/CH
 
 For a single-file overview, open the [interactive results dashboard](research/unified/validation/RESULTS_DASHBOARD_20261012.html). It includes the public-score climb, protocol-separated local/public plots, recorded local confidence intervals, 45 preserved public records with three missing historic portal events called out, and searchable experiment and idea ledgers.
 
-The current competition status remains in [specs/current-state.md](specs/current-state.md). Research admission is closed under the [stop receipt](research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json); this library refactor changes documentation only.
+The [first-principles review proposal](research/unified/reviews/FIRST_PRINCIPLES_REVIEW_PLAN_20261012.md), merged from `claude/stoic-euler-70wff3`, challenges the campaign's allocation and proposes compact ensembles, averaging and cross-fitted teachers. The [experiment assessment](research/unified/ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md) checks its evidence, identifies useful comparisons and explains which proposed policy changes are not adopted.
+
+The current competition status remains in [specs/current-state.md](specs/current-state.md). The user explicitly resumed experiments in the [October 13 strategy campaign](research/campaign_2026-10-13/strategy_execution_r1/README.md), superseding the historical [October 12 stop](research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json). CPU/RAM protections and the prohibition on new paid capacity remain in force.
 
 ## Find source evidence
 
