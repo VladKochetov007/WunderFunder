@@ -1,0 +1,17 @@
+{
+  "created_utc": "2026-10-12T23:12:24.352767+00:00",
+  "stage": "evaluator_correctness_before_new_outcomes",
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q tests/test_gmetric.py tests/test_evaluation.py tests/test_submission_metric.py tests/test_privileged_crossfit.py",
+  "result": "43 passed in 5.03s",
+  "exit_code": 0,
+  "source_sha256": {
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "tests/test_gmetric.py": "6a4635c68b2982b7894285340458840f5c10abbd4764b66d3b9cc347f8d81314",
+    "tests/test_evaluation.py": "8f59402e2e9473a809ac1974da6c06c786f213681220c6d477c6601e616466a6",
+    "tests/test_submission_metric.py": "00e1abcdf170b6668876d56ba5d1a37eb10508a61a15bae18644fc7f22af7d5a",
+    "tests/test_privileged_crossfit.py": "a4c6bc985c034c17a31903a222f76451e95e05185e31937a8d80a3484ed976ac"
+  },
+  "model_runs": 0,
+  "claim_scope": "Known scorer, pooling/bootstrap, submission mask and component-crossfit correctness tests; no empirical gain or transfer evidence"
+}

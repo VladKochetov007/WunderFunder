@@ -1,0 +1,19 @@
+{
+  "created_utc": "2026-10-12T23:12:24.353052+00:00",
+  "source": "bounded actual Parquet metadata read; no payload read",
+  "files": [
+    {
+      "path": "cache/seqstats_train.parquet",
+      "bytes": 6630400,
+      "rows": 2000
+    },
+    {
+      "path": "cache/seqstats_valid.parquet",
+      "bytes": 6309254,
+      "rows": 1873
+    }
+  ],
+  "finding": "Existing train seqstats only cover2000 sequences, valid covers1873; schema mixes allowed observable feature summaries with label/scoring-derived fields. A stress builder must whitelist input-only columns, establish actual source/group coverage and fit cutpoints only on outer fitting groups. Do not treat this cache as complete train coverage.",
+  "producer_source": "scripts/eda_seqstats.py",
+  "used_for_candidate_selection": false
+}
