@@ -2,6 +2,8 @@
 
 Start with the [unified research library](research/unified/README.md) for a topic-based guide, shared note format, and links to the dated archive. The [October 12, 2026 archive](research/unified/archive/2026-10-12/README.md) contains the split final handoff.
 
+For a single-file overview, open the [interactive results dashboard](research/unified/validation/RESULTS_DASHBOARD_20261012.html). It includes the public-score climb, protocol-separated local/public plots, recorded local confidence intervals, 45 preserved public records with three missing historic portal events called out, and searchable experiment and idea ledgers.
+
 The current competition status remains in [specs/current-state.md](specs/current-state.md). Research admission is closed under the [stop receipt](research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json); this library refactor changes documentation only.
 
 ## Find source evidence

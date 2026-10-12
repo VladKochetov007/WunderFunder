@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Searchable record of tested Challenge 2 research, local confidence intervals, public scores and validation exposure.">
+<title>Challenge 2 research results</title>
+<style>
+:root{color-scheme:light;--ink:#182536;--muted:#5d6c7e;--line:#dbe3eb;--paper:#fff;--wash:#f3f6f8;--blue:#285f91;--teal:#087f70;--gold:#b87616;--red:#a63c46;--green:#176b4d;--shadow:0 8px 26px #132f4812}
+*{box-sizing:border-box}body{margin:0;background:var(--wash);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:#175b8f}a:hover{color:#07395e}header{background:linear-gradient(120deg,#173b59,#246b75);color:white;padding:38px max(22px,calc((100vw - 1200px)/2)) 34px}header h1{font-size:clamp(2rem,4vw,3.1rem);line-height:1.1;margin:8px 0 12px;max-width:900px}header p{max-width:900px;color:#e4eff5;margin:8px 0}.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:.76rem;font-weight:700;color:#b9d9dc}.layout{max-width:1240px;margin:0 auto;padding:22px}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}.nav a{padding:7px 11px;background:white;border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:.88rem}.notice{padding:14px 16px;border-left:4px solid var(--gold);background:#fff7e7;border-radius:8px;margin:14px 0 22px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.card,section.panel{background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}.card{padding:16px}.card b.big{display:block;font-size:1.75rem;line-height:1.15;color:var(--blue);font-variant-numeric:tabular-nums}.card span{display:block;color:var(--muted);font-size:.89rem;margin-top:5px}.panel{padding:20px;margin:18px 0;scroll-margin-top:14px}.panel h2{font-size:1.45rem;margin:0 0 5px}.panel h3{font-size:1.1rem;margin:21px 0 8px}.lede{color:var(--muted);margin:0 0 15px}.small{font-size:.85rem;color:var(--muted)}.chart-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;background:#fff;padding:6px}.chart-wrap svg{display:block;width:100%;min-width:780px;height:auto}.legend{display:flex;flex-wrap:wrap;gap:13px;color:var(--muted);font-size:.86rem;margin:10px 0}.swatch{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;background:var(--blue);vertical-align:-1px}.swatch.step{width:20px;height:3px;border-radius:0;background:var(--teal)}.swatch.miss{background:var(--red);border-radius:0;transform:rotate(45deg)}.two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,470px),1fr));gap:18px}.figure{overflow:auto;border:1px solid var(--line);border-radius:9px;background:#fff;padding:8px}.figure svg{max-width:100%;height:auto}.finding{border:1px solid var(--line);border-radius:9px;margin:10px 0;padding:13px 15px;background:#fff}.finding h3{margin:0 0 5px}.tag{display:inline-block;border-radius:999px;padding:2px 8px;font-size:.75rem;font-weight:700;background:#edf3f7;color:#42596c;margin-right:5px}.tag.pos{background:#e5f4ec;color:var(--green)}.tag.neg{background:#f9e9ea;color:var(--red)}.tag.uncertain{background:#fff1d5;color:#885c11}.tag.public{background:#e4eff9;color:#1c598a}.finding p{margin:5px 0}.controls{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.controls input,.controls select,.controls button{font:inherit;padding:8px 10px;border:1px solid #bcc9d5;border-radius:7px;background:white;color:var(--ink)}.controls input{flex:1;min-width:230px}.controls button{cursor:pointer;background:#edf4f8}.table-wrap{overflow:auto;max-height:680px;border:1px solid var(--line);border-radius:8px}table{border-collapse:collapse;width:100%;font-size:.88rem;background:white}th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid #e5ebf0}th{position:sticky;top:0;background:#eef3f6;z-index:1;color:#34485b}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.82rem}.result{max-width:660px;white-space:pre-wrap;overflow-wrap:anywhere;color:#263a4d}.row-title{font-weight:700}.muted{color:var(--muted)}details{margin-top:5px}summary{cursor:pointer;color:#285f91}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f5f7f9;padding:10px;border-radius:6px;font-size:.8rem;max-height:360px;overflow:auto}.status{white-space:nowrap}.bar{height:7px;border-radius:99px;background:#e3e9ed;overflow:hidden}.bar i{display:block;height:100%;background:var(--teal)}footer{color:var(--muted);font-size:.85rem;padding:10px 0 28px}code{background:#eef1f4;padding:1px 4px;border-radius:4px}@media(max-width:650px){.layout{padding:13px}.panel{padding:14px}header{padding:28px 18px}.table-wrap{max-height:570px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Wunder Connectome Challenge 2 · evidence dashboard · 12 October 2026</div>
+  <h1>What improved the score, and what did not?</h1>
+  <p>A searchable view of the experiment and hypothesis ledgers, confidence intervals recorded in local evaluations, and public submission outcomes. It keeps validation protocols and evidence limits visible.</p>
+  <p><strong>Latest team public result: 0.6671</strong> for the C blend. This is an observed portal score, not a forecast or a confidence interval.</p>
+</header>
+<main class="layout">
+<nav class="nav"><a href="#climb">Public climb</a><a href="#transfer">Local ↔ public</a><a href="#findings">What helped</a><a href="#public-record">Public submissions</a><a href="#experiments">Experiments</a><a href="#hypotheses">Ideas</a></nav>
+<div class="notice"><strong>How to read this page.</strong> Public leaderboard entries are one observed outcome per uploaded package; they have no sampling CI here. CIs below come from local paired component/group resampling and do not quantify training-seed or public-transfer uncertainty. The ledger search contains proposals and operational attempts as well as completed science. A missing CI means the source did not record one; it does not mean zero uncertainty. The table has details for 45 of 48 known portal attempts; three earlier events are missing from the preserved roster and are not plotted. The campaign is archived and new research admission is closed.</div>
+<div class="grid" id="summary-cards"></div>
+
+<section class="panel" id="climb">
+  <h2>The public leaderboard climb</h2>
+  <p class="lede">Every preserved scored upload is a dot; the teal staircase is our best score observed up to that point. Red crosses are timeouts or check errors with no score. The three October 12 uploads are labeled A, B and C; three older portal attempts lack preserved detail and cannot be plotted.</p>
+  <div class="chart-wrap"><svg id="climb-chart" viewBox="0 0 1120 450" role="img" aria-label="Chronological public score climb"></svg></div>
+  <div class="legend"><span><i class="swatch"></i>Scored public submission</span><span><i class="swatch step"></i>Running best</span><span><i class="swatch miss"></i>Timeout or check error</span></div>
+  <p id="climb-note" class="small"></p>
+</section>
+
+<section class="panel" id="transfer">
+  <h2>Local validation and public results</h2>
+  <p class="lede">The left figure keeps incompatible validation protocols in separate panels. The right figure shows the three actual A/B/C public points against package runtime; blend membership changes between points, so the relationship is descriptive only.</p>
+  <div class="two-col"><div><h3>Paired local/public rows by protocol</h3><div class="figure">__LOCAL_PUBLIC_SVG__</div><p class="small">C (0.6671) has no matched local CV metric and is intentionally not plotted as a paired point. The input contains 11 paired rows; they share ancestry and validation exposure.</p></div><div><h3>Runtime and public score for A, B, C</h3><div class="figure">__RUNTIME_SVG__</div><p class="small">Only three different blends are shown. A→B was +0.0012 in 85 seconds; B→C was +0.0003 in 640 seconds. This is not a runtime-quality law or a causal model-count test.</p></div></div>
+</section>
+
+<section class="panel" id="findings">
+  <h2>Measured findings: what helped, what did not</h2>
+  <p class="lede">These are the decision-relevant results from the final review. Expand each row in the experiment ledger for its complete structured result and every recorded CI.</p>
+  <div id="finding-list"></div>
+</section>
+
+<section class="panel" id="public-record">
+  <h2>Public submission record</h2>
+  <p class="lede" id="public-summary"></p>
+  <div class="controls"><input id="public-search" type="search" placeholder="Filter by filename, ID, model or result"><select id="public-filter"><option value="all">All visible events</option><option value="scored">Scored only</option><option value="censored">No-score events</option></select><button id="public-csv">Download visible ledger CSV</button></div>
+  <div class="table-wrap"><table><thead><tr><th>Portal time</th><th>Candidate / ID</th><th class="num">Public</th><th class="num">Δ previous score</th><th class="num">Local metric*</th><th>Outcome and package</th></tr></thead><tbody id="public-body"></tbody></table></div>
+  <p class="small">* Local values are shown only when present in the frozen endpoint map and remain protocol-qualified. Older local/public rows use different folds, precision, package membership and exposure; do not read them as a single calibration dataset. The source roster preserves 42 of the 45 events visible before October 12; this page adds the three October 12 uploads. Three of the 48 total known portal attempts therefore remain without package, time or score details.</p>
+</section>
+
+<section class="panel" id="experiments">
+  <h2>Experiment ledger — all 798 records</h2>
+  <p class="lede">Search the append-only experiment ledger by ID, mechanism, hypothesis, result or verdict. The CI column lists fields present in the recorded result JSON. Open a record for the full result and linked receipt paths.</p>
+  <div class="controls"><input id="exp-search" type="search" placeholder="Try distillation, Muon, H-381, Q4, blend, runtime…"><select id="exp-filter"><option value="all">All records</option><option value="result">Has recorded result</option><option value="no-result">No result recorded</option><option value="ci">Has a recorded CI</option><option value="positive">Status/verdict says supported or positive</option><option value="negative">Status/verdict says refuted, rejected or negative</option></select><button id="exp-more">Show 100 more</button></div>
+  <div class="table-wrap"><table><thead><tr><th>ID / date</th><th>Experiment / status</th><th>Result and confidence intervals</th><th>Linked hypotheses</th></tr></thead><tbody id="exp-body"></tbody></table></div><p id="exp-count" class="small"></p>
+</section>
+
+<section class="panel" id="hypotheses">
+  <h2>Hypothesis and idea ledger — all 483 records</h2>
+  <p class="lede">This includes tested, open, proposed and untested ideas. “Evidence IDs” are the explicit references in the source ledger; an idea with no evidence link is not presented as tested.</p>
+  <div class="controls"><input id="hyp-search" type="search" placeholder="Filter by H-ID, mechanism family or statement"><select id="hyp-filter"><option value="all">All ideas</option><option value="tested">Has explicit experiment link</option><option value="untested">No explicit experiment link</option><option value="supported">Source status: supported</option><option value="refuted">Source status: refuted</option></select></div>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th>Mechanism / status</th><th>Idea</th><th>Evidence links</th></tr></thead><tbody id="hyp-body"></tbody></table></div><p id="hyp-count" class="small"></p>
+</section>
+
+<section class="panel" id="method">
+  <h2>Sources and limits</h2>
+  <ul>
+    <li><a href="../../experiments.jsonl">Append-only experiment ledger</a> and <a href="../../hypotheses.jsonl">hypothesis ledger</a>; the dashboard embeds their relevant fields so the HTML opens offline.</li>
+    <li><a href="../../campaign_2026-10-12/public_score_regression_r1/ROOT_SYNTHESIS_R1.md">Public regression diagnostic</a>: 38 earlier scored rows, 11 with a local metric, and a corrected purged-ridge chronological MAE of 0.00097353 versus 0.00078941 for the recent-five baseline. It does not support a public-score forecast.</li>
+    <li><a href="../archive/2026-10-12/pages/03-submissions.md">Submission and package review</a>, <a href="../archive/2026-10-12/pages/07-ideas.md">ideas tested/deferred/closed</a>, and <a href="../archive/2026-10-12/README.md">complete split research archive</a>.</li>
+    <li><a href="../../campaign_2026-10-12/public_validation_plot_r2/PLOT_RECEIPT_R2.json">Local/public plot receipt</a> and <a href="../../campaign_2026-10-12/public_runtime_quality_r1/PLOT_RECEIPT_R1.json">runtime/score receipt</a> describe source protocols and their limitations.</li>
+  </ul>
+  <p class="small">Portal outcomes in the supplied roster and latest A/B/C scores are user-transcribed records retained by the project. The HTML does not connect a local score to a public score unless the frozen endpoint map contains both, and it does not calculate public confidence intervals from leaderboard submissions.</p>
+</section>
+<footer>Generated from repository records. Rebuild with <code>python research/unified/validation/build_results_dashboard.py</code>. Source paths and CI values are preserved; interpretations are deliberately narrower than the full research tree.</footer>
+</main>
+<script id="dashboard-data" type="application/json">__DASHBOARD_JSON__</script>
+<script>
+const D=JSON.parse(document.getElementById('dashboard-data').textContent);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+const pretty=x=>JSON.stringify(x,null,2);
+const number=x=>x==null?'—':Number(x).toFixed(5);
+const score=x=>x==null?'—':Number(x).toFixed(4);
+const toDate=s=>new Date(s.replace(' ','T')+':00+03:00').getTime();
+function drawClimb(){
+ const svg=$('climb-chart'),ns='http://www.w3.org/2000/svg',W=1120,H=450,M={l:68,r:30,t:24,b:70},events=D.publicEvents;
+ const scored=events.filter(e=>e.score!==null),times=events.map(e=>toDate(e.time)),t0=Math.min(...times),t1=Math.max(...times),lo=Math.min(...scored.map(e=>e.score))-.001,hi=Math.max(...scored.map(e=>e.score))+.001;
+ const x=e=>M.l+(toDate(e.time)-t0)/Math.max(1,t1-t0)*(W-M.l-M.r),y=v=>M.t+(hi-v)/(hi-lo)*(H-M.t-M.b-32);
+ function add(tag,attrs,text=''){const n=document.createElementNS(ns,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);if(text)n.textContent=text;svg.appendChild(n);return n;}
+ svg.replaceChildren();
+ for(let v=Math.ceil(lo/.002)*.002;v<=hi+1e-7;v+=.002){add('line',{x1:M.l,x2:W-M.r,y1:y(v),y2:y(v),stroke:'#e4eaf0'});add('text',{x:M.l-10,y:y(v)+4,'text-anchor':'end',fill:'#52667a','font-size':12},v.toFixed(3));}
+ add('line',{x1:M.l,x2:W-M.r,y1:y(D.bestPublic),y2:y(D.bestPublic),stroke:'#b87616','stroke-dasharray':'5 5','stroke-width':1.4});
+ add('text',{x:W-M.r-4,y:y(D.bestPublic)-7,'text-anchor':'end',fill:'#8a5b12','font-size':12},`Current best ${D.bestPublic.toFixed(4)}`);
+ const tickEvents=events.filter((e,i)=>i===0||i===events.length-1||e.time.slice(0,10)!==events[i-1].time.slice(0,10));
+ const stride=Math.max(1,Math.ceil(tickEvents.length/9));tickEvents.filter((_,i)=>i%stride===0||i===tickEvents.length-1).forEach(e=>add('text',{x:x(e),y:H-16,'text-anchor':'middle',fill:'#52667a','font-size':11},e.time.slice(5,10)));
+ add('text',{x:M.l,y:14,fill:'#52667a','font-size':12},'Public score · higher is better');
+ const groups=[];for(const e of scored){let g=groups.at(-1);if(!g||g.time!==e.time){g={time:e.time,score:e.score,event:e};groups.push(g);}else g.score=Math.max(g.score,e.score);}
+ let best=-Infinity,path='';for(const g of groups){const xx=x(g.event);if(best===-Infinity){best=g.score;path=`M ${xx} ${y(best)}`;}else{path+=` H ${xx} V ${y(Math.max(best,g.score))}`;best=Math.max(best,g.score);} }
+ add('path',{d:path,fill:'none',stroke:'#087f70','stroke-width':2.4,'pointer-events':'none'});
+ for(const e of events){const xx=x(e)+(e.jitter||0);if(e.score!==null){const circle=add('circle',{cx:xx,cy:y(e.score),r:e.isLatest?5:4,fill:e.isLatest?'#b87616':'#285f91',stroke:'#fff','stroke-width':1.5});const title=document.createElementNS(ns,'title');title.textContent=`${e.time} · ${e.id} · ${e.name} · ${e.score.toFixed(4)}${e.runtime?` · ${e.runtime}`:''}`;circle.appendChild(title);if(e.label)add('text',{x:xx,y:y(e.score)-11,'text-anchor':'middle',fill:'#754b12','font-size':12,'font-weight':700},e.label);}else{const yy=H-M.b-2;add('path',{d:`M ${xx-5} ${yy-5} L ${xx+5} ${yy+5} M ${xx+5} ${yy-5} L ${xx-5} ${yy+5}`,stroke:'#a63c46','stroke-width':2});}}
+ add('line',{x1:M.l,x2:W-M.r,y1:H-M.b,y2:H-M.b,stroke:'#8999a8'});
+ const tiedEvents=events.filter(e=>e.ambiguousTime).length;
+ $('climb-note').textContent=`${scored.length} visible scored uploads; ${events.length-scored.length} visible timeout/check-error events; 3 of 48 known portal attempts lack preserved detail and are not plotted. Portal timestamps are rounded to minutes, so exact ordering is unknown within tied timestamps (${tiedEvents} events, including A/B).`;
+}
+function findingHtml(f){return `<article class="finding"><div><span class="tag ${esc(f.kind)}">${esc(f.label)}</span><span class="tag">${esc(f.scope)}</span></div><h3>${esc(f.title)}</h3><p>${esc(f.result)}</p><p><strong>Interpretation:</strong> ${esc(f.interpretation)}</p><p><strong>Uncertainty:</strong> ${esc(f.uncertainty)}</p><p class="small">Evidence: ${f.links.map(l=>`<a href="${esc(l.href)}">${esc(l.text)}</a>`).join(' · ')}</p></article>`;}
+function renderFindings(){$('finding-list').innerHTML=D.findings.map(findingHtml).join('');}
+function renderPublic(){
+ const q=$('public-search').value.toLowerCase(),f=$('public-filter').value;
+ const rows=D.publicEvents.filter(e=>(f==='all'||(f==='scored'?e.score!==null:e.score===null))&&(e.name+' '+e.id+' '+e.status+' '+e.localMetric+' '+e.package).toLowerCase().includes(q));
+ const byTime=[...D.publicEvents].filter(e=>e.score!==null).sort((a,b)=>toDate(a.time)-toDate(b.time));let best=-Infinity,prev=null;
+ const deltas=new Map();for(const e of byTime){deltas.set(e.id,prev===null?null:e.score-prev);best=Math.max(best,e.score);prev=e.score;}
+ $('public-body').innerHTML=rows.map(e=>{
+  const d=deltas.get(e.id),delta=e.ambiguousTime?'same-minute order unknown':(d==null?'—':(d>=0?'+':'')+Number(d).toFixed(4)),local=e.localMetric==null?'—':`${Number(e.localMetric).toFixed(5)}<br><small>${esc(e.protocol||'protocol not stated')}</small>`;
+  const pkg=e.packagePath?`<a href="${esc(e.packagePath)}">${esc(e.package||e.name)}</a>`:esc(e.package||e.name);
+  return `<tr><td class="mono">${esc(e.time)}</td><td><span class="row-title">${esc(e.name)}</span><div class="mono">${esc(e.id)}</div></td><td class="num">${score(e.score)}</td><td class="num">${esc(delta)}</td><td class="num">${local}</td><td>${esc(e.status)} · ${esc(e.runtime||'duration n/a')}<br>${pkg}</td></tr>`;
+ }).join('');
+ $('public-summary').textContent=`${rows.length} of ${D.publicEvents.length} detailed portal events shown (${D.counts.knownPortalSubmissions} known attempts total; 3 older events are missing). There are ${D.counts.scoredPublic} visible scored outcomes, including the 3 October 12 A/B/C observations; one score per package, no public CI.`;
+}
+function matchesFilter(e,f){if(f==='result')return e.hasResult;if(f==='no-result')return !e.hasResult;if(f==='ci')return e.ciFields.length>0;const s=(e.status+' '+e.verdict+' '+e.claim).toLowerCase();if(f==='positive')return /support|positive|promot|gain|adopt|confirm/.test(s);if(f==='negative')return /refut|reject|negative|fail|hurt|degrad|no benefit|no gain/.test(s);return true;}
+let expLimit=100;
+function renderExperiments(){
+ const q=$('exp-search').value.toLowerCase(),f=$('exp-filter').value;
+ const rows=D.experiments.filter(e=>matchesFilter(e,f)&&(e.searchText.toLowerCase().includes(q)));
+ $('exp-body').innerHTML=rows.slice(0,expLimit).map(e=>`<tr id="exp-${esc(e.id)}"><td class="mono">${esc(e.id||'—')}<br>${esc(e.date||'')}</td><td><span class="row-title">${esc(e.kind||'Experiment record')}</span><br><span class="tag status">${esc(e.status||'legacy status not recorded')}</span>${e.verdict?`<details><summary>Verdict</summary><div class="result">${esc(e.verdict)}</div></details>`:''}${e.claim?`<details><summary>Claim in source</summary><div class="result">${esc(e.claim)}</div></details>`:''}</td><td><div class="result">${e.resultSummary?esc(e.resultSummary):'<span class="muted">No result field recorded.</span>'}</div>${e.ciFields.length?`<details open><summary>Recorded CI fields (${e.ciFields.length})</summary><pre>${esc(pretty(e.ciFields))}</pre></details>`:'<span class="small">No structured CI field recorded.</span>'}<details><summary>Full selected record fields</summary><pre>${esc(pretty(e.details))}</pre></details></td><td>${e.hypothesisIds.length?e.hypothesisIds.map(id=>`<a class="mono" href="#hyp-${esc(id)}">${esc(id)}</a>`).join('<br>'):'<span class="muted">No explicit H-ID link</span>'}${e.fileLinks.length?`<details><summary>Open linked receipts and reports (${e.fileLinks.length})</summary>${e.fileLinks.map(l=>`<div><a class="mono" href="${esc(l.href)}">${esc(l.text)}</a></div>`).join('')}</details>`:''}${Object.keys(e.sources).length?`<details><summary>Other evidence path fields</summary><pre>${esc(pretty(e.sources))}</pre></details>`:''}</td></tr>`).join('');
+ $('exp-count').textContent=`Showing ${Math.min(expLimit,rows.length)} of ${rows.length} matching experiments (${D.experiments.length} total). ${D.counts.experimentsWithResult} have a non-empty result field; ${D.counts.experimentsWithCI} contain one or more structured CI/interval fields.`;
+ $('exp-more').textContent=expLimit>=rows.length?'All matching rows shown':'Show 100 more';
+}
+function renderHypotheses(){
+ const q=$('hyp-search').value.toLowerCase(),f=$('hyp-filter').value;
+ const rows=D.hypotheses.filter(h=>{const tested=h.evidenceIds.length>0;if(f==='tested'&&!tested)return false;if(f==='untested'&&tested)return false;if(f==='supported'&&h.status!=='supported')return false;if(f==='refuted'&&h.status!=='refuted')return false;return (h.id+' '+h.family+' '+h.status+' '+h.statement).toLowerCase().includes(q);});
+ $('hyp-body').innerHTML=rows.map(h=>`<tr id="hyp-${esc(h.id)}"><td class="mono">${esc(h.id)}</td><td>${esc(h.family||'—')}<br><span class="tag">${esc(h.status||'status not recorded')}</span></td><td>${esc(h.statement||'No statement in source row.')}${h.parents.length?`<div class="small">Parents: ${esc(h.parents.join(', '))}</div>`:''}</td><td>${h.evidenceIds.length?h.evidenceIds.map(id=>`<a class="mono" href="#exp-${esc(id)}">${esc(id)}</a>`).join(', '):'<span class="muted">No explicit E-ID in source row</span>'}</td></tr>`).join('');
+ $('hyp-count').textContent=`Showing ${rows.length} of ${D.hypotheses.length} matching hypotheses; ${D.counts.hypothesesWithEvidence} have at least one explicit experiment evidence reference.`;
+}
+function download(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+function csv(rows,keys){const q=v=>'"'+String(v??'').replaceAll('"','""')+'"';return [keys.join(','),...rows.map(r=>keys.map(k=>q(typeof r[k]==='object'?JSON.stringify(r[k]):r[k])).join(','))].join('\n');}
+function init(){
+ $('summary-cards').innerHTML=[
+  [D.bestPublic.toFixed(4),'latest observed team public score'],[D.counts.scoredPublic,'visible public scores'],[D.counts.knownPortalSubmissions,'known portal attempts · 3 older events missing'],[D.experiments.length,'experiment ledger records'],[D.hypotheses.length,'hypothesis ledger records'],[D.counts.experimentsWithCI,'experiments with stored CI fields']
+ ].map(([n,l])=>`<div class="card"><b class="big">${esc(n)}</b><span>${esc(l)}</span></div>`).join('');
+ drawClimb();renderFindings();renderPublic();renderExperiments();renderHypotheses();
+ $('public-search').addEventListener('input',renderPublic);$('public-filter').addEventListener('change',renderPublic);$('public-csv').addEventListener('click',()=>download('public_submission_results.csv',csv(D.publicEvents,['time','id','name','status','score','runtime','localMetric','protocol','package','packagePath']),'text/csv'));
+ $('exp-search').addEventListener('input',()=>{expLimit=100;renderExperiments();});$('exp-filter').addEventListener('change',()=>{expLimit=100;renderExperiments();});$('exp-more').addEventListener('click',()=>{expLimit+=100;renderExperiments();});
+ $('hyp-search').addEventListener('input',renderHypotheses);$('hyp-filter').addEventListener('change',renderHypotheses);
+ window.addEventListener('hashchange',()=>{if(!location.hash.startsWith('#exp-'))return;const id=decodeURIComponent(location.hash.slice(5)),index=D.experiments.findIndex(e=>e.id===id);if(index<0)return;$('exp-search').value='';$('exp-filter').value='all';if(index>=expLimit)expLimit=Math.ceil((index+1)/100)*100;renderExperiments();requestAnimationFrame(()=>document.getElementById(`exp-${id}`)?.scrollIntoView());});
+}
+init();
+</script>
+</body>
+</html>

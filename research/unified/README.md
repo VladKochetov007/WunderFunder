@@ -12,6 +12,7 @@ Latest requested review: [critical assessment and separate public and future pri
 - [Imported source writeups](sources/README.md)
 - [Model families and training](models/README.md)
 - [Validation and public transfer](validation/README.md)
+- [Interactive results dashboard](validation/RESULTS_DASHBOARD_20261012.html)
 - [Submission choices and scores](submissions/README.md)
 - [Inference, quantization, and runtime](inference/README.md)
 - [Execution, incidents, and preservation](operations/README.md)
