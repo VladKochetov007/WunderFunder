@@ -53,7 +53,8 @@ mechanism; this packet does not define a blend.
 The unsealed R1 draft is not part of this release; its two pre-freeze findings
 are preserved in `R1_PRE_FREEZE_DIAGNOSIS_R2.json`. R2 corrects the source
 snapshot's separately pinned extra file and the crop digest lookup at the
-actual nested source-binding key. R2 ran only the separate temporary crop
+actual nested source-binding key. R2B adds the missing bounded crop-checkpoint
+size and aligns documented HFT gate schemas with the frozen runner consumer. R2 ran only the separate temporary crop
 fixture described above; no admitted crop, device profile, fit or export stage ran.
 
 `tests/run_actual_cp1_crop_fixture_r2.py` runs the exact frozen F0 crop
