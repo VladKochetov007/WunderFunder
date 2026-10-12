@@ -1,0 +1,235 @@
+{
+  "benchmark_runner": {
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/scripts/benchmark_submission_callbacks.py",
+    "sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53"
+  },
+  "build_members": [
+    {
+      "coefficient": 0.5,
+      "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+    },
+    {
+      "coefficient": 0.5,
+      "run_reference": "vt_all_h390_ds_homogeneous_s4_r3@ep5"
+    }
+  ],
+  "build_receipt": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/receipts/h390_s3_s4_equal_q8_BUILD_R1.json",
+  "build_receipt_sha256": "2664169b50681284550c0c16b8db50ea426ede689d5f41e8012ec6dca3e3d90a",
+  "candidate": "h390_s3_s4_equal_q8_20261012",
+  "checkpoint_sources": [
+    {
+      "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/model_ep5.pt",
+      "checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+      "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/provenance.json",
+      "provenance_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+      "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+    },
+    {
+      "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/model_ep5.pt",
+      "checkpoint_sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+      "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/provenance.json",
+      "provenance_sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb",
+      "run_reference": "vt_all_h390_ds_homogeneous_s4_r3@ep5"
+    }
+  ],
+  "native_runtime": {
+    "libraries": {
+      "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+      "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+      "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+    },
+    "source_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/upload_2026-10-11/z5_z4_pair_q8vnni/pkg"
+  },
+  "runtime": {
+    "affinity_before": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "affinity_used": [
+      0
+    ],
+    "cgroup_after_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 20591558\nuser_usec 20479654\nsystem_usec 111904\nnice_usec 20478449\ncore_sched.force_idle_usec 0\nnr_periods 209\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "211394560",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "999997440",
+      "memory.peak": "213438464",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p3943408-i8159508.scope"
+    },
+    "cgroup_before_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 559436\nuser_usec 458161\nsystem_usec 101274\nnice_usec 452536\ncore_sched.force_idle_usec 0\nnr_periods 6\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "211599360",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "999997440",
+      "memory.peak": "211599360",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p3943408-i8159508.scope"
+    },
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "loadavg_end": "1.37 1.63 1.89 5/3797 3944243",
+    "loadavg_start": "1.13 1.60 1.88 3/3810 3943428",
+    "max_rss_kib": 242296,
+    "member_storage_bytes": [
+      {
+        "factor_weights": 0,
+        "import_only_dense_recurrent": 0,
+        "recurrent_state": 2048,
+        "scratch": 11864,
+        "total_streamed_weights": 1071552
+      },
+      {
+        "factor_weights": 0,
+        "import_only_dense_recurrent": 0,
+        "recurrent_state": 2048,
+        "scratch": 11864,
+        "total_streamed_weights": 1071552
+      }
+    ],
+    "model_count": 2,
+    "native_level": "v3",
+    "numpy": "2.2.6",
+    "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "precision": "q8vnni",
+    "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]"
+  },
+  "schema": "wnn.native-callback-profile.v1",
+  "scope": "Runtime-capacity profile only. The fixed package is replayed over complete causal sequences; no metric is computed and no local/public score is claimed. Each sequence is reset before every pass, and predictions must be bitwise identical across resets.",
+  "submission": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/h390_s3_s4_equal_q8_20261012.zip",
+  "submission_bytes": 8556250,
+  "submission_sha256": "8834774c58ff31a77547fc8ec59988aef61e1bd1e7198c4c52d1d3835c43e6e5",
+  "timing": {
+    "elapsed_callback_ns": 17987648116,
+    "elapsed_wall_seconds_after_sequence_decode": 20.44438034997438,
+    "mean_callback_us_per_row": 44.96912029,
+    "measurement": "perf_counter_ns around each exact model.predict(DataPoint) callback",
+    "median_repeat_us_per_row": 44.969120290000006,
+    "per_sequence_mean_us_per_row": {
+      "1200028": 44.6675289,
+      "1892371": 44.540233699999995,
+      "1990332": 46.494857575000005,
+      "2308749": 45.485820724999996,
+      "256678": 45.0552159,
+      "4490992": 44.29103615,
+      "6746551": 44.6306704,
+      "751005": 44.504753449999995,
+      "8348957": 45.2617212,
+      "9147005": 44.7593649
+    },
+    "reset_and_parquet_decode_excluded": true,
+    "rows_per_repeat": 200000,
+    "total_callback_calls": 400000,
+    "trials": [
+      {
+        "callback_ns": 8996770260,
+        "callback_us_per_row": 44.983851300000005,
+        "repeat": 0,
+        "rows": 200000
+      },
+      {
+        "callback_ns": 8990877856,
+        "callback_us_per_row": 44.95438928,
+        "repeat": 1,
+        "rows": 200000
+      }
+    ]
+  },
+  "utils_source": {
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/utils.py",
+    "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+  },
+  "workload": {
+    "data": "/tmp/wnn_valid_rowgroups0_9_native_q8_profile.parquet",
+    "data_sha256": "21bef3ff373b238030be700cfe857380c616a58da3975eed81675fdb99998830",
+    "features_sha256_by_sequence": {
+      "1200028": "016afe4a6d9bcf3af2ec7961295bd3106530f29a760d297d5a6fbb1390063c58",
+      "1892371": "4558b05652d6f9054170613d556ecd8e12fdb35b10d9027a9456e5b11b161c26",
+      "1990332": "05dbac3d81d7241a5761e009d0c5a11b4b152f1cf7890df75a6eac6776051f4b",
+      "2308749": "09e108511c35a5266f967bad67151321d7e8f16d2cee5cece69886392fd3216e",
+      "256678": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e",
+      "4490992": "a42ccf8b2e8ead95c55b6d8f785d5e25285ec2b65f56571021eca0f2ff9e3e63",
+      "6746551": "5b587d321a28146b43a5400cdc2450372af08041c21c7763086168b7c9966b21",
+      "751005": "da1552d094eee4cb347ee88c14613885802e54c3f7052e758834b36f7ad03a5f",
+      "8348957": "20947296e63f58d5210c4c6ae88442f04688bf79d66ff7bc624c283493f41175",
+      "9147005": "466d7cc953803912710c0e731aedd9de12446ea3f5e455502393461e242e9419"
+    },
+    "need_prediction_rows_each": [
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901
+    ],
+    "predictions_bitwise_identical_across_replays": true,
+    "predictions_sha256_by_sequence": {
+      "1200028": "4a489f8a9dfa7c71395b732810147763c6f4ca3f3296c137ef770f74c2447cd9",
+      "1892371": "7888e1e710a9e62faa828c196cb776c5c3a2ddc7a603e8c7f914157c82f51b40",
+      "1990332": "ebdcc5aaaf16ed5d9742783b6c52a4ce3d4b31c2b90162ca6805d2a77162ec6d",
+      "2308749": "f0a2b7e8bd4cee169af254eb59581bcaf3fdb3ff80aaf09c46c443535faa9206",
+      "256678": "5402686861835bf1a328db79addcd145f5e6d997a986e29ade82dcbf6be53c6d",
+      "4490992": "1b6f746860e3acab61a7c61e83638461a7788c1b78299cd414c0b2da2490befb",
+      "6746551": "57878d320bfae32f961f7fc811fb1b065370bdb3ac21acf6299cf1b5c7f1a2cd",
+      "751005": "cc64e657b227e3a8ac1e1bc7183975ecb6b348dbafb34459567873af27335954",
+      "8348957": "75edf178ccf1d91e49caa1b2e91d8e3931c034f6b873a7a282c3ad8e03ae4364",
+      "9147005": "26fac17f0eac4264e3054298554048ffa0b043d04fce93455f815100153a050d"
+    },
+    "raw_feature_columns": 112,
+    "repeats": 2,
+    "reset_before_each_sequence_and_pass": true,
+    "row_groups": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "sequence_ids": [
+      256678,
+      751005,
+      1200028,
+      1892371,
+      1990332,
+      2308749,
+      4490992,
+      6746551,
+      8348957,
+      9147005
+    ],
+    "sequence_lengths": [
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000
+    ]
+  }
+}
