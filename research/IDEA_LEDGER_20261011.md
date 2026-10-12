@@ -229,3 +229,13 @@ The compact machine frontier and incident receipts are in `ops_continuation_2026
 E: Single-file Kaggle transport is necessary but insufficient: failed-kernel source inputs were rejected. R9 checkpoint-dataset recovery preserves original fits. Native Q8 Py311 callback fixture passed4 model/fold cases; fullfold/runtime remains pending. Do not confuse a process-address-bearing schema repr with dataset identity; exact footer and stable schema guards bind the actual producer.
 
 F: Matched clean-F0 alpha.9/e6 two-parent student contract is prepared. Complete10535-group s3 FIT_TRAIN GPU export is running; five remaining caches need R9. Frozen legacy builder cannot consume new teacher IDs/full-valid sidecars or compare seed-specific randomized ordered hashes directly. New adapter must join source-qualified row-group IDs, validate equal membership sets and project1873 full-valid groups onto1405 fitting groups excluding468evaluation groups. No student fit before complete caches and review. Source quality, conditional diversity, quantized quality and public calibration remain parallel.
+
+
+### 2026-10-12T07:50:28.711006+00:00 — R17 active successors
+
+No new result. Cache/export owner now prepares row-group-aligned T3 cache adapter while healthy GPU export continues; matched student cannot start until completecache. Native R6 minimal adapter fixes process-wide limit/cgroup point-of-use gates, reusing actual reviewed R4/R5 sources; no score or serving claim. R9 uses private owned CP2/provenance input after R8 invalidfailed-kernel mount, no refits. Source quality, conditional diversity, precision/runtime and public-calibration remain parallel.
+
+
+### 2026-10-12T08:13:36.470371+00:00 — R17 actual landed dependency and resource preparation
+
+S3 FIT_TRAIN cache is completehash/shape/421.4Mfinite validated, not a heldout result. R9R2 private flat checkpointdatasetREADYv1, actualproviderreadbackbytes match, acceptedkernelv1 RUNNINGactualexportphaseunobserved. Fivecacheexportsqueued/excludeslocals3, no refits. Cacheadapter369d912d passes9checks andgetsindependentreview. ActualmatchedH256student16FIT_VALIDfittingsequence backward/resourceprofile ispreparing usingall3ownteacherfull-valid outputs, excluded468eval, exactalpha.9/B16/C2000/FP16/ownparent; profile-only targets must notbecompletefitcache/score. Native R6 fullfold adaptersealing, separateadmissionneeded.

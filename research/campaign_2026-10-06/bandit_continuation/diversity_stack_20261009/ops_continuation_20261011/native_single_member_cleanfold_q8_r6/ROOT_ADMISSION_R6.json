@@ -1,0 +1,118 @@
+{
+  "schema": "wnn.root.native-single-member-cleanfold-q8-admission.r6",
+  "status": "admitted",
+  "authorized": true,
+  "decision": "PASS_FOR_ONE_FROZEN_EXPOSED_CROSSFOLD_SINGLE_MEMBER_Q8_R6_RUN",
+  "budget": {
+    "cpu_cores": 1,
+    "gpu": false,
+    "new_spend_usd": 0,
+    "provider_actions": false,
+    "ram_max_bytes": 1000000000,
+    "thread_count": 1,
+    "wall_seconds": 1800
+  },
+  "bindings": {
+    "r3_contract_sha256": "312b57d7cff1386be2cb727a30ce66133588db1804fb50180ef96768374eea12",
+    "r6_contract_sha256": "c118962519fecddfe0934d9142e49105ca266f71af6392f3fa7aa770573dbba7",
+    "r6_runner_sha256": "436fa95adfe2e46a696a80a85a8f6c1a6a942142d30337a72d4d4a08a838b691",
+    "input_preflight_sha256": "e2b7bab342ee35dc1122f88909f06d9f980188d80a6471341a9ec9104352264c",
+    "valid_dataset_footer_identity": {
+      "bytes": 5615509128,
+      "footer_bytes": 10686926,
+      "footer_sha256_including_8_byte_trailer": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+    },
+    "fold_membership_sha256s": {
+      "0": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+      "1": "0d871b740f6615861e978fb971838ced26f62e84144870dd464838d99decc819"
+    },
+    "checkpoint_provenance_sha256s": {
+      "0": {
+        "student": {
+          "checkpoint": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+          "provenance": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c"
+        },
+        "hft": {
+          "checkpoint": "2bde556119ededc3693733280444a42f0f64138a2e3759bed6b068cb72f18ec8",
+          "provenance": "bf6105bfb1d137345bf775b09f06f432b5d993c61cf019aa927c2a896ebddac2"
+        }
+      },
+      "1": {
+        "student": {
+          "checkpoint": "cd8886589e8664082da1f27aee4f2c4925b61c41da8c740598831ab2f774bbd6",
+          "provenance": "8aa0e2af944a52a34d0c0622705071e7ca60a978ec429dc71269fa67b40354da"
+        },
+        "hft": {
+          "checkpoint": "41e7aa3fb27024f2612f8f6b8f4232ca446ba92022dbf7ba90893ffee2292410",
+          "provenance": "468ac58e9f59e9f32ea425f8556b26073e61b108eafa468ccf06f1cd0d3d1b9d"
+        }
+      }
+    },
+    "weights_archive_sha256": "42f03cce60f6992e52b6ac508d7c551b07c0c7e86b106b0ea44dee34c7c72881",
+    "weights_receipt_sha256": "1bc10724add6d8c40e1b5202b22c2c496349a002d5fa660c7ff81630ed99db07",
+    "native_elf_sha256": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326",
+    "model_selection": {
+      "folds": [
+        "0",
+        "1"
+      ],
+      "roles": [
+        "student",
+        "hft"
+      ],
+      "member_count_per_prediction": 1,
+      "precision": "q8vnni",
+      "blend_search": false,
+      "parameter_averaging": false
+    },
+    "output_root_repo_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r6/quality_output_single_r6",
+    "output_root_absent": true,
+    "callback_fixture_sha256": "58a641c91ffd651748f48e688d400a26701fc87652d74a66dac9a6de9187ea42",
+    "launch_command": {
+      "argv": [
+        "scripts/limited",
+        "/tmp/wnn-projection-precompute-r1/py311/bin/python",
+        "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r6/run_single_controls_r6.py"
+      ],
+      "environment": {
+        "ARROW_NUM_THREADS": "1",
+        "CUDA_VISIBLE_DEVICES": "",
+        "MKL_NUM_THREADS": "1",
+        "NUMBA_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "POLARS_MAX_THREADS": "1",
+        "PYTHONUNBUFFERED": "1",
+        "WNN_CPU_QUOTA": "100%",
+        "WNN_MEM_MAX": "1000000000",
+        "WNN_RUNTIME_MAX": "1800s",
+        "WNN_SCOPE_UNIT": "wnn-native-q8-single-controls-r6.scope",
+        "WNN_SLICE": "wnn-campaign.slice",
+        "WNN_THREADS": "1"
+      },
+      "hard_wall_seconds_including_python_startup": 1800,
+      "script_repo_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r6/run_single_controls_r6.py",
+      "systemd_runtime_property": "RuntimeMaxSec=1800s",
+      "systemd_scope_unit": "wnn-native-q8-single-controls-r6.scope",
+      "working_directory": "/home/vlad/development/wunder/wnn-agent-worktrees/native-q8-r6-adapter-20261012",
+      "wrapper_repo_path": "scripts/limited",
+      "wrapper_sha256": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76"
+    }
+  },
+  "admitted_utc": "2026-10-12T08:24:02.632716+00:00",
+  "root_review": "Independent actual R6 source/officialmetric loop/physicalfooter/cgroup gates and MAIN static validator inspected; R5 actual311fourcase fixture +independentreview retained. No new score claimed.",
+  "parent_current_bytes": 13519294464,
+  "execution_path_correction": {
+    "id": "R6-ROOT-ABSOLUTE-MAIN-PATH-R2",
+    "original_contract_preserved": true,
+    "reason": "Frozen preparation contract has WT cwd but consumer requires MAIN cwd and MAIN resolvedscript. Identified root executionR2 uses MAIN cwd plus identical absoluteMAIN wrapper/script paths, no code/recipe/resource change. R1 failed before model/data access and is preserved.",
+    "working_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "argv": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+      "/tmp/wnn-projection-precompute-r1/py311/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r6/run_single_controls_r6.py"
+    ]
+  },
+  "startup_boundary": "Systemd RuntimeMax covers scopeactivation, Pythonstartup/modules/construct+fullfold; setup beforeactivation outside deadline. Timer2s smoke passed; no60minAMDclaim."
+}

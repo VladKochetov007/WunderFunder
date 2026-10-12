@@ -227,3 +227,13 @@ The fixed H512 official scorer completed, but subsequent component bootstrap was
 ### 2026-10-12T07:42:42.038040+00:00 — R16 delivery failures and corrected successors
 
 R7 sidecar transport was unsafe: Kaggle sends only code_file. Reviewed self-contained R8 fixes this, but provider refuses failed-R6 kernel outputs as kernel_sources; collected worker error confirms missing mount before fitting/prediction. Corrected R9 uses independently trained saved CP2/provenance through a private dataset. R8 raw push warning, terminal logs and100 provider files are preserved in monitor R16. Collector direct-call adapter initially omitted import path/repository-relative paths/admission metadata; downloads succeeded once import/path corrected, and receipt was finalized from original successful commands without redownload. These are execution failures. Local profile R1 path typo has corrected R2; full export running. Runtime admission caught file-cache drift and refused until bounded reclaim; no cap increase. Native fixture preserves import/signature failures and nondeterministic schema-repr diagnosis; physical footer and deterministic schema guards remain.
+
+
+### 2026-10-12T07:53:16.491411+00:00 — R9 nested dataset stage rejected before upload
+
+Root actual-CLI transport review catches default `kaggle datasets create` dir_mode=skip: R9R1 nested experiment checkpoint files would be omitted. Its original directory mount fixture does not reproduce uploaded file closure. R1 remains preserved, no provider action. Corrected R9R2 uses seven flat top-level payload files with seed-qualified filenames and exact manifest/consumer path binding; worker/checkpoint/inference/membership hashes and scientific scope unchanged. This is consumer/delivery failure, not model evidence.
+
+
+### 2026-10-12T08:26:00.756565+00:00 — native R6 launch path correction and partial-profile constraint
+
+R6preparation launch metadata gives WTcwd while actual main() requiresMAINcwd and resolvedMAINscript. Root’s first explicit absoluteMAINpath attempt retainedWTcwd and exited before any model/data access. Preservedstdout/admissionR1; identifiedR2 setsMAINcwd and samepinnedabsoluteMAINwrapper/runner, reaches actualfold0scoring. Originalsource/contract and scientific/resource gates preserved; invocation path repair is explicitrootreceipt, not silently changed evidence. Stockstudentprofile rejects partial16-groupcache; profile-onlytargetfixture isnotcompletecache, and no runtimebypass/GPUfit was authorized.
