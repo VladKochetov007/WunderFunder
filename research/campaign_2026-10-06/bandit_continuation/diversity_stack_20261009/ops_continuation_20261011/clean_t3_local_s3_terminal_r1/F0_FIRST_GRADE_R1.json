@@ -1,0 +1,149 @@
+{
+  "claim": "One clean F0 teacher seed and one fixed 50/50 old-student/new-teacher output blend on the repeatedly exposed 468-group/141-component fold-0 development panel. This is not a fresh holdout, cross-seed estimate, native-precision grade, final all-data score, or public forecast.",
+  "created_utc": "2026-10-12T04:50:24.164356+00:00",
+  "execution": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=600s scripts/limited .venv/bin/python scripts/blend_score_remote.py 0 <teacher> <fixed-50-50> <old-student>",
+    "grade_driver": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_local_s3_terminal_r1/grade_clean_t3_f0_r1.py",
+    "grade_driver_sha256": "67f88922f790b1cd99c7f1fd7aa5e8932b0126a20d2f9971e20aad615c5252a5",
+    "new_spend_usd": 0,
+    "no_gpu_or_fit": true
+  },
+  "limitations": [
+    "Fold 0 is an exposed development panel used repeatedly; uncertainty is conditional on this panel and these fitted endpoints.",
+    "Only one seed is available for the new teacher and control recipe.",
+    "The full-valid prediction artifact contains fit-valid as well as evaluation-valid inputs; only the split-selected 468 evaluation groups are scored here.",
+    "New teacher inference is FP32 while the old student control predictions came from FP16 inference; this fixed blend is not a precision-matched comparison."
+  ],
+  "metric": {
+    "clipping": [
+      -2,
+      2
+    ],
+    "components": 141,
+    "evaluation_group_sorted_int64_le_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "fold0_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "id": "global_wp_clip2_v1",
+    "mask": "is_scored AND row >= 99",
+    "official_scorer_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/blend_score_remote.py",
+    "official_scorer_sha256": "87cb00f8a2d9f4b2c0a9c9dc39dc5f5ffa627b45c0b2c14de950ebbbb259594f",
+    "scorer_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scorer_stdout_sha256": "67c5cd486cb289e4e772e0ad73063398373d6362459bcd54478e7d91129fdd7b",
+    "selected_groups": 468,
+    "source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "warmup_row": 99,
+    "weights": "original clipped-label magnitude weights"
+  },
+  "official_scorer_stdout_parsed": {
+    "clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1": {
+      "t0": 0.67121,
+      "t1": 0.68677,
+      "wp": 0.67899
+    },
+    "oldz4_h230_student_f0_s3_r3": {
+      "t0": 0.67717,
+      "t1": 0.68911,
+      "wp": 0.68314
+    },
+    "oldz4_h230_student_f0_s3_r3:1+clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1:1": {
+      "t0": 0.67568,
+      "t1": 0.68944,
+      "wp": 0.68256
+    }
+  },
+  "official_scores": {
+    "fixed_half_old_student_teacher": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.675675296088618,
+      "t1": 0.6894421296654267,
+      "wp": 0.6825587128770223
+    },
+    "old_student_control": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6771694851480796,
+      "t1": 0.6891141416316392,
+      "wp": 0.6831418133898595
+    },
+    "teacher": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6712096991741853,
+      "t1": 0.6867686663109596,
+      "wp": 0.6789891827425725
+    }
+  },
+  "old_control_prior_grade_sha256": "ae9142593336abb1a4ee727b90c593e6334aa637b0e9851f88ea75c5ebe57ba4",
+  "paired_fixed_blend_vs_old_student": {
+    "bootstrap_sd": 0.000988744330662581,
+    "bootstrap_unit": "complete source-qualified validation component",
+    "candidate_wp": 0.6825587128770221,
+    "centered_moments": true,
+    "ci95": [
+      -0.0025798100111349004,
+      0.0013835230986707413
+    ],
+    "helper_imported_torch": false,
+    "helper_source_sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "mean_diff": -0.0005831005128377198,
+    "metric_id": "global_wp_clip2_v1",
+    "n_boot": 800,
+    "n_components": 141,
+    "n_sequences": 468,
+    "p_le_0": 0.71125,
+    "reference_wp": 0.6831418133898598,
+    "seed": 271828,
+    "weights_predeclared": [
+      0.5,
+      0.5
+    ]
+  },
+  "recipes": {
+    "fixed_blend": {
+      "blend_precision": "float32 arithmetic over stored float32 predictions; old member inference was fp16, teacher fp32",
+      "old_student_weight": 0.5,
+      "teacher_weight": 0.5,
+      "weight_search": false
+    },
+    "old_student_control": {
+      "checkpoint_epoch": 1,
+      "inference_precision": "fp16",
+      "prediction_sha256": "1e8259b829dcde4e3e395ac6e56e2d187b5b0c3e0ba343a98f9cbf530893712f",
+      "run": "oldz4_h230_student_f0_s3_r3",
+      "seed": 3
+    },
+    "source_qualified_membership": {
+      "ancestry_exclusion_gate": "Root-admitted source-qualified fit/propensity/teacher/initializer exclusion receipt; this grade only independently checked direct fit-list membership and artifact bindings.",
+      "both_member_valid_fit_lists_match_fold_manifest": true,
+      "excluded_train_groups_by_fold_manifest": 71,
+      "train_fit_groups": 10535,
+      "valid_evaluation_groups": 468,
+      "valid_fit_evaluation_overlap": 0,
+      "valid_fit_groups": 1405
+    },
+    "teacher": {
+      "checkpoint_epoch": 2,
+      "inference_precision": "fp32",
+      "prediction_sha256": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1",
+      "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+      "seed": 3
+    }
+  },
+  "root_admission_sha256": "34ef2b8276f873753eb15dee8236529a29df5bf56607d8089fbc6d843734c3db",
+  "schema": "wnn.clean-t3-local-f0-first-source-and-fixed-half-grade.r1",
+  "source_and_artifact_hashes": {
+    "fold0_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "old_checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "old_prediction_sha256": "1e8259b829dcde4e3e395ac6e56e2d187b5b0c3e0ba343a98f9cbf530893712f",
+    "old_provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+    "old_sidecar_sha256": "5310ee451377522b43eb0f217933ad73ad162b944093515107806a7ee1984f7a",
+    "teacher_checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+    "teacher_prediction_sha256": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1",
+    "teacher_provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+    "teacher_sidecar_sha256": "8414274a245708e57b8fea28ebc7a71e4393e879eff9ff993229248e135051a7",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "status": "PASS_OFFICIAL_EXPOSED_FOLD0_SOURCE_AND_FIXED_BLEND_GRADE",
+  "terminal_handoff_sha256": "0eabad07a2bea44f0d4691575ccc7105526c39049c56dbf32ba948d7efb717c8"
+}
