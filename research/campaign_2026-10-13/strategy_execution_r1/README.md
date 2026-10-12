@@ -36,7 +36,7 @@ Resume research under the new authority, update GPU guards, prepare and independ
 
 ## First amplitude packet
 
-[F0 seed-3 target-amplitude packet](target_amplitude_f0_s3_r1/README.md) has independent review receipts for R1/R2. R2 fixes the allocator policy and P2/P3 resume paths, but its actual P1 attempt failed before fitting because the relative split-manifest path resolved inside the overlay; the export command has the same issue. Preserve this as an execution-path failure, not negative scientific evidence. A successor needs absolute MAIN split paths and a fresh attempt ID. No treatment score is claimed. F3 remains dependent on a clean T3 teacher cohort, predictions, cache and matched control.
+[F0 seed-3 target-amplitude packet](target_amplitude_f0_s3_r1/README.md) now has an R3 command-only path correction after R2 P1 failed before fitting: `load_campaign_split` resolved a relative split path against the source-overlay working directory. R3 makes all fit and export split-manifest paths absolute and assigns fresh attempt/output identities; its actual-overlay loader and exact worker-vector source-manifest preflights passed. Root conditionally authorized execution after fresh shared-resource admission. The failure is infrastructure evidence only; no amplitude score exists. F3 remains dependent on a clean T3 teacher cohort, predictions, cache and matched control.
 
 ## Source records
 
