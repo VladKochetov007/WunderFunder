@@ -1,0 +1,30 @@
+{
+  "checks": {
+    "bounded_npy_header_and_file_size_checks": "PASS",
+    "candidate_checkpoint_sidecar_source_bindings": "PASS",
+    "candidate_fit_eval_group_and_component_disjointness": "PASS",
+    "fold0_group_membership": "PASS",
+    "manifest_graph_component_partition": "PASS",
+    "propensity_fit_eval_group_and_component_disjointness": "PASS",
+    "small_component_cache_hashes": "PASS",
+    "split_manifest_hash_and_source_stats": "PASS"
+  },
+  "historical_oom_context": {
+    "journal": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1044_r21/NPY_HEADER_OOM_JOURNAL_R1.txt",
+    "reader": "This builder checks the six-byte NPY magic, supported version, and a 65,536-byte header ceiling before reading the declared header; it never reads array payloads.",
+    "receipt": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_1044_r21/NPY_HEADER_OOM_DIAGNOSIS_R1.json",
+    "retries": 0
+  },
+  "manifest_bytes": 44962,
+  "manifest_sha256": "7f4f5716f5b40cc701dfd1aa6c18b840c6536cae0ce914a41fffb64c0c5ef1b8",
+  "npy_header_max_bytes": 65536,
+  "payload_access": {
+    "blend_fit_or_scoring_run": false,
+    "model_checkpoint_loaded": false,
+    "prediction_payload_read": false,
+    "target_payload_read": false,
+    "valid_parquet_data_page_read": false
+  },
+  "schema": "wnn.j1-static-preparation-validation.v1",
+  "status": "PASS_STATIC_METADATA_ONLY"
+}

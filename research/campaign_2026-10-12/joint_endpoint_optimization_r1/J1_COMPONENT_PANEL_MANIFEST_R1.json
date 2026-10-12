@@ -1,0 +1,1493 @@
+{
+  "experiment": {
+    "claim_scope": "bounded exposed F0 fixed-prediction blend screen only",
+    "id": "J1-clean-t3-f0-three-seed-blend-panel-r1",
+    "no_model_fit_or_prediction_generation": true,
+    "not_claimed": [
+      "fresh holdout confirmation",
+      "training-seed uncertainty",
+      "public transfer or public score forecast",
+      "global optimality or exact official-score gradient",
+      "serving or quantized endpoint performance"
+    ]
+  },
+  "frozen_comparisons": {
+    "bounded_solver_policy": {
+      "candidate_ranking": "calibration global_wp_clip2_v1 official float32 path",
+      "global_optimality_claim": false,
+      "gradient": "continuous float64 clip2 surrogate; not the derivative of official float32 quantization",
+      "max_iterations_per_start": 50,
+      "name": "shared_two_target_clip2_local_slsqp",
+      "optimize_on": "calibration components only",
+      "reported_on_evaluation": "only the calibration-selected policy, with weights frozen before evaluation read",
+      "ridge": 0.1,
+      "shrink_to_equal": 0.0,
+      "simplex_constraints": "nonnegative weights summing to one",
+      "start_count": 3,
+      "starts": [
+        "equal",
+        "seed3_seed4_equal",
+        "regularized_analytic_initializer"
+      ]
+    },
+    "evaluation_rule": "Report all seven fixed policies plus the calibration-selected solver policy; do not retune, select, or change weights from evaluation results.",
+    "fixed_policies": [
+      {
+        "name": "seed3_single",
+        "weights": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "seed4_single",
+        "weights": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "name": "seed5_single",
+        "weights": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "name": "seed3_seed4_equal",
+        "weights": [
+          0.5,
+          0.5,
+          0.0
+        ]
+      },
+      {
+        "name": "seed3_seed5_equal",
+        "weights": [
+          0.5,
+          0.0,
+          0.5
+        ]
+      },
+      {
+        "name": "seed4_seed5_equal",
+        "weights": [
+          0.0,
+          0.5,
+          0.5
+        ]
+      },
+      {
+        "name": "all_three_equal",
+        "weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      }
+    ],
+    "max_policy_comparisons": 8
+  },
+  "future_execution_contract": {
+    "calibration_mask_stage_bytes": 2200000,
+    "calibration_prediction_stage_bytes": 52800000,
+    "calibration_rows": 2200000,
+    "calibration_target_stage_bytes": 17600000,
+    "conditional_future_resource_profile": {
+      "admission": "pending root review, fresh aggregate-memory check, and explicit root release",
+      "cpu_quota": "100% of one CPU",
+      "memory_max_bytes": 1500000000,
+      "runtime_max_seconds": 120,
+      "swap_bytes": 0
+    },
+    "cpu_quota": "100% of one CPU",
+    "data_pages_read_in_preparation": 0,
+    "evaluation_mask_stage_bytes": 1040000,
+    "evaluation_prediction_stage_bytes": 24960000,
+    "evaluation_rows": 1040000,
+    "evaluation_target_stage_bytes": 8320000,
+    "max_runtime_seconds_per_limited_invocation": 120,
+    "memory_strategy": "mmap each prediction member and stage only complete calibration groups; release arrays before separately staging evaluation groups",
+    "no_gpu_or_provider": true,
+    "not_executed_in_preparation": true,
+    "prediction_payload_bytes_loaded_in_preparation": 0,
+    "root_admission_required": true,
+    "static_preparation_memory_max_bytes": 681574400,
+    "swap_bytes": 0,
+    "target_and_mask_columns": [
+      "seq_ix",
+      "t0",
+      "t1",
+      "need_prediction",
+      "is_scored"
+    ],
+    "target_payload_bytes_loaded_in_preparation": 0
+  },
+  "members": [
+    {
+      "checkpoint": {
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1/terminal_collection_v2/provider_outputs/attempt_001/outputs/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt",
+        "sha256_from_provenance": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582"
+      },
+      "fit_membership": {
+        "evaluation_groups": 468,
+        "evaluation_groups_sha256_sorted_int64le": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+        "fit_eval_component_overlap": 0,
+        "fit_eval_group_overlap": 0,
+        "train_groups": 10535,
+        "train_groups_sha256_sorted_int64le": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+        "valid_groups": 1405,
+        "valid_groups_sha256_sorted_int64le": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      },
+      "prediction": {
+        "hash_status": "producer metadata bound; prediction payload not rehashed in prep",
+        "npy_header_only": {
+          "dtype": "<f4",
+          "file_bytes": 299680128,
+          "fortran_order": false,
+          "header_length_bytes": 118,
+          "header_offset_bytes": 128,
+          "payload_bytes": 299680000,
+          "shape": [
+            1873,
+            20000,
+            2
+          ],
+          "version": "1.0"
+        },
+        "path": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1_valid.npy",
+        "producer_prediction_sha256": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1",
+        "producer_sidecar_path": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1_valid.json",
+        "producer_sidecar_sha256": "8414274a245708e57b8fea28ebc7a71e4393e879eff9ff993229248e135051a7",
+        "provenance_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1/terminal_collection_v2/provider_outputs/attempt_001/outputs/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json",
+        "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0"
+      },
+      "run_name": "clean_t3_f0_muonall_h384_e3_s3_r5",
+      "seed": 3,
+      "training_recipe": {
+        "architecture": "gru",
+        "distillation_source": "",
+        "epochs": 3,
+        "hidden": 384,
+        "initializer": "",
+        "layers": 2,
+        "optimizer": "muon",
+        "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "propensity_source": "c20260929_prop_f0",
+        "run_identity_source_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+        "selected_epoch": 2,
+        "training_precision": "fp16"
+      }
+    },
+    {
+      "checkpoint": {
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1/terminal_collection_v2/provider_outputs/attempt_001/outputs/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/model_ep2.pt",
+        "sha256_from_provenance": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7"
+      },
+      "fit_membership": {
+        "evaluation_groups": 468,
+        "evaluation_groups_sha256_sorted_int64le": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+        "fit_eval_component_overlap": 0,
+        "fit_eval_group_overlap": 0,
+        "train_groups": 10535,
+        "train_groups_sha256_sorted_int64le": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+        "valid_groups": 1405,
+        "valid_groups_sha256_sorted_int64le": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      },
+      "prediction": {
+        "hash_status": "producer metadata bound; prediction payload not rehashed in prep",
+        "npy_header_only": {
+          "dtype": "<f4",
+          "file_bytes": 299680128,
+          "fortran_order": false,
+          "header_length_bytes": 118,
+          "header_offset_bytes": 128,
+          "payload_bytes": 299680000,
+          "shape": [
+            1873,
+            20000,
+            2
+          ],
+          "version": "1.0"
+        },
+        "path": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_local_full_valid_r1_valid.npy",
+        "producer_prediction_sha256": "314172c91053c5581ac73160dc936fb3fa5d8615b8dac5fffeca73f0d7524d1a",
+        "producer_sidecar_path": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_local_full_valid_r1_valid.json",
+        "producer_sidecar_sha256": "1aeba1c1f41d799e15d7da443c0151f9f94a3771927edcaaf62f365220616970",
+        "provenance_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1/terminal_collection_v2/provider_outputs/attempt_001/outputs/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json",
+        "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11"
+      },
+      "run_name": "clean_t3_f0_muonall_h384_e3_s4_r5",
+      "seed": 4,
+      "training_recipe": {
+        "architecture": "gru",
+        "distillation_source": "",
+        "epochs": 3,
+        "hidden": 384,
+        "initializer": "",
+        "layers": 2,
+        "optimizer": "muon",
+        "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "propensity_source": "c20260929_prop_f0",
+        "run_identity_source_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+        "selected_epoch": 2,
+        "training_precision": "fp16"
+      }
+    },
+    {
+      "checkpoint": {
+        "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1/terminal_collection_v2/provider_outputs/attempt_001/outputs/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/model_ep2.pt",
+        "sha256_from_provenance": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1"
+      },
+      "fit_membership": {
+        "evaluation_groups": 468,
+        "evaluation_groups_sha256_sorted_int64le": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+        "fit_eval_component_overlap": 0,
+        "fit_eval_group_overlap": 0,
+        "train_groups": 10535,
+        "train_groups_sha256_sorted_int64le": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+        "valid_groups": 1405,
+        "valid_groups_sha256_sorted_int64le": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      },
+      "prediction": {
+        "hash_status": "producer metadata bound; prediction payload not rehashed in prep",
+        "npy_header_only": {
+          "dtype": "<f4",
+          "file_bytes": 299680128,
+          "fortran_order": false,
+          "header_length_bytes": 118,
+          "header_offset_bytes": 128,
+          "payload_bytes": 299680000,
+          "shape": [
+            1873,
+            20000,
+            2
+          ],
+          "version": "1.0"
+        },
+        "path": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_local_full_valid_r1_valid.npy",
+        "producer_prediction_sha256": "13420c11164234ce14a49aaae9c7612c8e54d32fde02acd062991b47deb21e92",
+        "producer_sidecar_path": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_local_full_valid_r1_valid.json",
+        "producer_sidecar_sha256": "20040bdfb2f0e9cd39f42338656e33ac8d8a008664f2b39813eb1e14b3214beb",
+        "provenance_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1/terminal_collection_v2/provider_outputs/attempt_001/outputs/experiment/artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json",
+        "provenance_sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18"
+      },
+      "run_name": "clean_t3_f0_muonall_h384_e3_s5_r5",
+      "seed": 5,
+      "training_recipe": {
+        "architecture": "gru",
+        "distillation_source": "",
+        "epochs": 3,
+        "hidden": 384,
+        "initializer": "",
+        "layers": 2,
+        "optimizer": "muon",
+        "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "propensity_source": "c20260929_prop_f0",
+        "run_identity_source_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+        "selected_epoch": 2,
+        "training_precision": "fp16"
+      }
+    }
+  ],
+  "panel": {
+    "component_method": "undirected connected components of feature-only successor graph",
+    "evaluation_universe": {
+      "all_three_member_eval_membership_identical": true,
+      "components": 141,
+      "groups_sha256_sorted_int64le": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+      "valid_row_groups": 468
+    },
+    "exposure": "F0 validation was already exposed to model development; this component split is a bounded internal blend screen, not a pristine holdout.",
+    "selection": {
+      "calibration_component_ids": [
+        1702,
+        3038,
+        2996,
+        3028,
+        2831,
+        2799,
+        3000,
+        3105,
+        3140,
+        3158,
+        2850,
+        421,
+        3011,
+        2812,
+        2951,
+        3196,
+        943,
+        2898,
+        3083,
+        3108,
+        3060,
+        3027,
+        3254,
+        15,
+        2947,
+        3257,
+        783,
+        3041,
+        2927,
+        2832,
+        2895,
+        3088
+      ],
+      "calibration_component_ids_sha256_sorted_int64le": "fddbb1947422353cb78d6dd0d630f3d74f0fa921a84810061a4d31cd8fa03114",
+      "calibration_evaluation_component_overlap": 0,
+      "calibration_evaluation_group_overlap": 0,
+      "calibration_groups": [
+        {
+          "component": 2799,
+          "row_group": 4,
+          "seq_ix": 1990332,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 12,
+          "seq_ix": 11423352,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2812,
+          "row_group": 18,
+          "seq_ix": 24654613,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2831,
+          "row_group": 41,
+          "seq_ix": 47001707,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2832,
+          "row_group": 42,
+          "seq_ix": 48100848,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2850,
+          "row_group": 65,
+          "seq_ix": 64285004,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 1702,
+          "row_group": 72,
+          "seq_ix": 68650176,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2895,
+          "row_group": 128,
+          "seq_ix": 131688633,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 134,
+          "seq_ix": 136167861,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2895,
+          "row_group": 139,
+          "seq_ix": 142597386,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 157,
+          "seq_ix": 162054650,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 167,
+          "seq_ix": 171115003,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2927,
+          "row_group": 174,
+          "seq_ix": 175014415,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2895,
+          "row_group": 178,
+          "seq_ix": 178314030,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2947,
+          "row_group": 213,
+          "seq_ix": 215406350,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2951,
+          "row_group": 218,
+          "seq_ix": 220729429,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 227,
+          "seq_ix": 231324553,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 257,
+          "seq_ix": 269744384,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2832,
+          "row_group": 285,
+          "seq_ix": 295452637,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2996,
+          "row_group": 310,
+          "seq_ix": 329188216,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3000,
+          "row_group": 318,
+          "seq_ix": 343347246,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 332,
+          "seq_ix": 362626624,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3011,
+          "row_group": 354,
+          "seq_ix": 384964812,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2947,
+          "row_group": 359,
+          "seq_ix": 391926712,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3027,
+          "row_group": 396,
+          "seq_ix": 432892489,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3028,
+          "row_group": 400,
+          "seq_ix": 435502499,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2947,
+          "row_group": 402,
+          "seq_ix": 440334891,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2947,
+          "row_group": 413,
+          "seq_ix": 453079018,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3038,
+          "row_group": 428,
+          "seq_ix": 473682093,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 430,
+          "seq_ix": 481864085,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3041,
+          "row_group": 434,
+          "seq_ix": 484140611,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 15,
+          "row_group": 482,
+          "seq_ix": 547437757,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3060,
+          "row_group": 506,
+          "seq_ix": 571145238,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 519,
+          "seq_ix": 589298681,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3038,
+          "row_group": 525,
+          "seq_ix": 594358057,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3041,
+          "row_group": 529,
+          "seq_ix": 597286989,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 1702,
+          "row_group": 535,
+          "seq_ix": 603711203,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2951,
+          "row_group": 552,
+          "seq_ix": 624921709,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 943,
+          "row_group": 571,
+          "seq_ix": 648503247,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3083,
+          "row_group": 575,
+          "seq_ix": 655997654,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3027,
+          "row_group": 579,
+          "seq_ix": 659688824,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2927,
+          "row_group": 580,
+          "seq_ix": 662489626,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 592,
+          "seq_ix": 682672603,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2947,
+          "row_group": 595,
+          "seq_ix": 684493166,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3088,
+          "row_group": 600,
+          "seq_ix": 690573602,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2927,
+          "row_group": 609,
+          "seq_ix": 699206474,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 613,
+          "seq_ix": 700874690,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 630,
+          "seq_ix": 715111876,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 943,
+          "row_group": 646,
+          "seq_ix": 733950341,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 943,
+          "row_group": 654,
+          "seq_ix": 745849670,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3105,
+          "row_group": 660,
+          "seq_ix": 751115621,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3108,
+          "row_group": 674,
+          "seq_ix": 767346819,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 694,
+          "seq_ix": 796994815,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2947,
+          "row_group": 709,
+          "seq_ix": 811755782,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2812,
+          "row_group": 750,
+          "seq_ix": 862694575,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 764,
+          "seq_ix": 889489101,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3000,
+          "row_group": 794,
+          "seq_ix": 924621442,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 803,
+          "seq_ix": 937349194,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 815,
+          "seq_ix": 947945159,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3140,
+          "row_group": 829,
+          "seq_ix": 959190818,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3108,
+          "row_group": 851,
+          "seq_ix": 983851613,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 783,
+          "row_group": 885,
+          "seq_ix": 1017078556,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 887,
+          "seq_ix": 1021563907,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3158,
+          "row_group": 912,
+          "seq_ix": 1047612114,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3038,
+          "row_group": 932,
+          "seq_ix": 1065490058,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3027,
+          "row_group": 961,
+          "seq_ix": 1099038394,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 1004,
+          "seq_ix": 1154234698,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2947,
+          "row_group": 1054,
+          "seq_ix": 1219267250,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 1074,
+          "seq_ix": 1241460197,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3196,
+          "row_group": 1119,
+          "seq_ix": 1287403796,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3000,
+          "row_group": 1144,
+          "seq_ix": 1321508997,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3108,
+          "row_group": 1149,
+          "seq_ix": 1324213250,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 943,
+          "row_group": 1165,
+          "seq_ix": 1345992959,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2832,
+          "row_group": 1189,
+          "seq_ix": 1374422858,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3028,
+          "row_group": 1201,
+          "seq_ix": 1390234675,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3140,
+          "row_group": 1210,
+          "seq_ix": 1407387473,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3000,
+          "row_group": 1235,
+          "seq_ix": 1430279113,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2927,
+          "row_group": 1243,
+          "seq_ix": 1438758272,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3088,
+          "row_group": 1253,
+          "seq_ix": 1455337377,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3083,
+          "row_group": 1254,
+          "seq_ix": 1456955860,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 1282,
+          "seq_ix": 1491277131,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2812,
+          "row_group": 1290,
+          "seq_ix": 1497597321,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2947,
+          "row_group": 1331,
+          "seq_ix": 1532912743,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3041,
+          "row_group": 1340,
+          "seq_ix": 1541172178,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3027,
+          "row_group": 1345,
+          "seq_ix": 1543516305,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 1374,
+          "seq_ix": 1577108879,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3027,
+          "row_group": 1423,
+          "seq_ix": 1632511499,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 1459,
+          "seq_ix": 1671146968,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3041,
+          "row_group": 1505,
+          "seq_ix": 1726185721,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3254,
+          "row_group": 1538,
+          "seq_ix": 1762083046,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2831,
+          "row_group": 1542,
+          "seq_ix": 1765936678,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3257,
+          "row_group": 1573,
+          "seq_ix": 1803202559,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2947,
+          "row_group": 1580,
+          "seq_ix": 1809491074,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3083,
+          "row_group": 1600,
+          "seq_ix": 1834274172,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2832,
+          "row_group": 1602,
+          "seq_ix": 1839152904,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2812,
+          "row_group": 1603,
+          "seq_ix": 1840029040,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 1628,
+          "seq_ix": 1864720487,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 1640,
+          "seq_ix": 1885276955,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 1647,
+          "seq_ix": 1890641661,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2898,
+          "row_group": 1648,
+          "seq_ix": 1891432863,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3027,
+          "row_group": 1670,
+          "seq_ix": 1922235990,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 421,
+          "row_group": 1683,
+          "seq_ix": 1937735927,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 1704,
+          "seq_ix": 1960661668,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3041,
+          "row_group": 1712,
+          "seq_ix": 1969912793,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3083,
+          "row_group": 1727,
+          "seq_ix": 1981086420,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2812,
+          "row_group": 1731,
+          "seq_ix": 1986753136,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2799,
+          "row_group": 1757,
+          "seq_ix": 2013730709,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3108,
+          "row_group": 1784,
+          "seq_ix": 2043791233,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3041,
+          "row_group": 1795,
+          "seq_ix": 2056174433,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3158,
+          "row_group": 1825,
+          "seq_ix": 2101656566,
+          "source": "datasets/valid.parquet"
+        }
+      ],
+      "calibration_groups_sha256_sorted_int64le": "94480bb68213f919ff2f83af2795574bb8b4524f486bcdbf0ce90f3a3e0ac327",
+      "evaluation_component_ids": [
+        3094,
+        2852,
+        3112,
+        2802,
+        3151,
+        2934,
+        3267,
+        2922,
+        3006,
+        3181,
+        2813,
+        3148,
+        3260,
+        2884,
+        2940,
+        2804
+      ],
+      "evaluation_component_ids_sha256_sorted_int64le": "cab2be2d8068f712785806c6c63c44f2b3a506fda2f72bcd186e14aeecf2edb7",
+      "evaluation_groups": [
+        {
+          "component": 2802,
+          "row_group": 7,
+          "seq_ix": 6746551,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 9,
+          "seq_ix": 9147005,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2813,
+          "row_group": 19,
+          "seq_ix": 25927382,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2852,
+          "row_group": 69,
+          "seq_ix": 66820630,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2813,
+          "row_group": 79,
+          "seq_ix": 73988913,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2884,
+          "row_group": 109,
+          "seq_ix": 112111991,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2922,
+          "row_group": 166,
+          "seq_ix": 171029325,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2934,
+          "row_group": 186,
+          "seq_ix": 184483079,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2940,
+          "row_group": 203,
+          "seq_ix": 199233023,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2802,
+          "row_group": 232,
+          "seq_ix": 233630440,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2813,
+          "row_group": 273,
+          "seq_ix": 286980280,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 274,
+          "seq_ix": 287021723,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2813,
+          "row_group": 316,
+          "seq_ix": 339548242,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3006,
+          "row_group": 340,
+          "seq_ix": 370439997,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 383,
+          "seq_ix": 414522659,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2940,
+          "row_group": 414,
+          "seq_ix": 453091644,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3006,
+          "row_group": 421,
+          "seq_ix": 464900197,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 565,
+          "seq_ix": 641081421,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 589,
+          "seq_ix": 679871904,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3094,
+          "row_group": 618,
+          "seq_ix": 706960735,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2940,
+          "row_group": 636,
+          "seq_ix": 725335601,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3112,
+          "row_group": 686,
+          "seq_ix": 786235886,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2802,
+          "row_group": 730,
+          "seq_ix": 832694614,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 741,
+          "seq_ix": 850629692,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2852,
+          "row_group": 752,
+          "seq_ix": 863637901,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3148,
+          "row_group": 859,
+          "seq_ix": 988735507,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3151,
+          "row_group": 873,
+          "seq_ix": 1000490588,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 892,
+          "seq_ix": 1030340711,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2852,
+          "row_group": 959,
+          "seq_ix": 1095893265,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2922,
+          "row_group": 974,
+          "seq_ix": 1115887158,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3181,
+          "row_group": 1029,
+          "seq_ix": 1188821296,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 1102,
+          "seq_ix": 1273147250,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3006,
+          "row_group": 1184,
+          "seq_ix": 1367228973,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3148,
+          "row_group": 1266,
+          "seq_ix": 1472295788,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3006,
+          "row_group": 1317,
+          "seq_ix": 1517089776,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3181,
+          "row_group": 1341,
+          "seq_ix": 1541851586,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 1426,
+          "seq_ix": 1635272990,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 1440,
+          "seq_ix": 1646688268,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3151,
+          "row_group": 1535,
+          "seq_ix": 1759300720,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 1557,
+          "seq_ix": 1782034515,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3260,
+          "row_group": 1595,
+          "seq_ix": 1829238347,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3148,
+          "row_group": 1623,
+          "seq_ix": 1856424629,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3267,
+          "row_group": 1643,
+          "seq_ix": 1886816286,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 1658,
+          "seq_ix": 1901962959,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2940,
+          "row_group": 1666,
+          "seq_ix": 1917373469,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2852,
+          "row_group": 1743,
+          "seq_ix": 1996505141,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3151,
+          "row_group": 1770,
+          "seq_ix": 2026179482,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2852,
+          "row_group": 1800,
+          "seq_ix": 2065552503,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3006,
+          "row_group": 1824,
+          "seq_ix": 2100531969,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3148,
+          "row_group": 1847,
+          "seq_ix": 2125200973,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 3260,
+          "row_group": 1850,
+          "seq_ix": 2128120056,
+          "source": "datasets/valid.parquet"
+        },
+        {
+          "component": 2804,
+          "row_group": 1854,
+          "seq_ix": 2130844766,
+          "source": "datasets/valid.parquet"
+        }
+      ],
+      "evaluation_groups_sha256_sorted_int64le": "2713ec12d90d707425abbbc88a9cdbf13d4d56083fd588f47019594c837c7f7f",
+      "linked_train_groups_excluded_by_campaign_split": [
+        15,
+        469,
+        989,
+        1007,
+        1281,
+        3002,
+        3207,
+        3215,
+        3831,
+        4256,
+        4491,
+        5048,
+        5286,
+        6446,
+        6776,
+        7630,
+        7733,
+        8232,
+        9120,
+        9763
+      ],
+      "linked_train_groups_excluded_count": 20,
+      "order": "ascending SHA256(salt|valid|fold=0|component_id), tie by integer component id",
+      "salt": "j1-clean-t3-f0-component-panel-r1",
+      "selected_components": [
+        1702,
+        3038,
+        2996,
+        3028,
+        2831,
+        2799,
+        3000,
+        3105,
+        3140,
+        3158,
+        2850,
+        421,
+        3011,
+        2812,
+        2951,
+        3196,
+        943,
+        2898,
+        3083,
+        3108,
+        3060,
+        3027,
+        3254,
+        15,
+        2947,
+        3257,
+        783,
+        3041,
+        2927,
+        2832,
+        2895,
+        3088,
+        3094,
+        2852,
+        3112,
+        2802,
+        3151,
+        2934,
+        3267,
+        2922,
+        3006,
+        3181,
+        2813,
+        3148,
+        3260,
+        2884,
+        2940,
+        2804
+      ],
+      "selected_components_sha256_sorted_int64le": "ace3715a9ee61576e1c0e5854d9a3810fafd9f0f087f529f78f2d01c169befd3"
+    },
+    "source_qualified_id": [
+      "datasets/valid.parquet",
+      "row_group",
+      "seq_ix",
+      "component"
+    ],
+    "unit": "source-qualified connected component within fold0 evaluation valid row groups"
+  },
+  "prepared_date": "2026-10-12",
+  "schema": "wnn.j1-component-panel-manifest.v1",
+  "shared_propensity_ancestry": {
+    "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "evaluation_groups": 468,
+    "evaluation_groups_sha256_sorted_int64le": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "fit_evaluation_component_overlap": 0,
+    "fit_evaluation_group_overlap": 0,
+    "fit_valid_groups": 1405,
+    "fit_valid_groups_sha256_sorted_int64le": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+    "note": "Shared mask-propensity ancestor; not a model teacher or blend member.",
+    "provenance_path": "artifacts/runs/c20260929_prop_f0/provenance.json",
+    "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+    "run_name": "c20260929_prop_f0"
+  },
+  "source_identity": {
+    "component_graph_sources": {
+      "cache/chain_folds.npz": {
+        "bytes": 550072,
+        "component_partition_matches_split_manifest": true,
+        "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+      },
+      "cache/chains.npz": {
+        "bytes": 650142,
+        "component_partition_matches_split_manifest": true,
+        "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+      }
+    },
+    "scoring_sources": {
+      "blend_primitive": "src/wnn/blend_optimization.py",
+      "blend_primitive_sha256": "5b24cff7cf05feb7dafb6b167dd64ca32ca72a7ab0f852e0ef5ef0ba3903e8f5",
+      "fixed_mask_clip": 2.0,
+      "fixed_mask_rule": "need_prediction AND is_scored",
+      "fixed_mask_source": "scripts/evaluate_bandit_continuation.py",
+      "fixed_mask_source_sha256": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+      "metric_id": "global_wp_clip2_v1",
+      "metric_source": "src/wnn/gmetric.py",
+      "metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "need_prediction_column": "need_prediction",
+      "need_prediction_rule": "step_in_seq >= 99",
+      "official_mask_column": "is_scored",
+      "target_columns": [
+        "t0",
+        "t1"
+      ],
+      "warmup_rows": 99,
+      "weight": "abs(clip(target, -2, 2))"
+    },
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "terminal_collection_receipt": {
+      "collection_complete": true,
+      "output_exit_code": 0,
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1/terminal_collection_v2/COMPLETE_COLLECTOR_RECEIPT_R1.json",
+      "provider_status_note": "Recorded provider terminal status KernelWorkerStatus.ERROR coexists with collector output exit code 0 and collection_complete=True; this prep does not infer fit or score success from provider status.",
+      "sha256": "0ca0e06a8c27914388d3c32764f6b548ae68a6dd2b78728100fc33e55a6df290",
+      "terminal_status": "KernelWorkerStatus.ERROR"
+    },
+    "valid_parquet": {
+      "bytes": 5615509128,
+      "footer_bytes": 10686926,
+      "footer_rehashed_in_prep": false,
+      "footer_sha256_from_split_manifest": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+      "mtime_ns": 1577826000000000000,
+      "path": "datasets/valid.parquet"
+    }
+  },
+  "status": "prepared_pending_root_review_and_admission"
+}
