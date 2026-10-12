@@ -1,0 +1,32 @@
+{
+  "schema": "wnn.native.single-member-cleanfold-q8-runtime-limit-smoke.r6",
+  "status": "PASS_SYSTEMD_SCOPE_RUNTIME_LIMIT_SMOKE",
+  "created_utc": "2026-10-12T08:07:55Z",
+  "scope_unit": "wnn-native-q8-r6-timer-smoke.scope",
+  "systemd_properties": {
+    "RuntimeMaxSec": "2s",
+    "TimeoutStopSec": "2s",
+    "CPUQuota": "100%",
+    "MemoryMax": "650000000",
+    "MemorySwapMax": "0"
+  },
+  "command_argv_inside_limited": [
+    "/usr/bin/sleep",
+    "10"
+  ],
+  "observed_wall_seconds": 2.193666,
+  "observed_exit_code": 143,
+  "outer_timeout_safety_seconds": 8,
+  "startup_timer_boundaries": {
+    "timer_begins": "transient systemd scope activation",
+    "python_interpreter_and_module_startup_inside_scope_bounded": true,
+    "scripts_limited_and_systemd_run_setup_before_scope_activation_bounded": false,
+    "cooperative_python_timer_begins": "main() after interpreter/module initialization",
+    "startup_latency_measured": false
+  },
+  "model_loaded": false,
+  "data_pages_read": false,
+  "full_fold_rows_scored": 0,
+  "provider_action": false,
+  "score_claim": false
+}
