@@ -43,3 +43,5 @@ The standalone [general research methodology](RESEARCH_METHODS.md) describes age
 ### 2026-10-12 joint quality/runtime endpoint optimization
 
 [Mathematical plan, literature and six interaction comparisons](campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md): analytical/SOCPinitializer, exactclippedSLSQP, forwardselection, calibration-awaremixedprecision and largercompressedblends. Bounded12endpointcomparison, actualwholeZIPtime/size, sameCVgroups; no measuredgain/globaloptimumclaim.
+
+- [Validation/public plot, protocol separated](campaign_2026-10-12/public_validation_plot_r2/README.md): 11 paired records, model labels, gaps, PNG/SVG/CSV; no pooled predictor and no imputed CV for latestC.

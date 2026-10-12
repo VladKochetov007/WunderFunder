@@ -251,3 +251,6 @@ R1 failed before CUDA: missing epoch_convention in cache metadata despite generi
 
 ### 2026-10-12T10:51:28.770257+00:00 — NPY metadata inspection OOM
 Supportscopes run-p4143414-i8325824/run-p4144286-i8333500 reached650MiB; firstheaderparserstartedatmagicbytes and decodedbogusheaderlength beforeunboundedread. Actualjournal preservedR21/NPY_HEADER_OOM_JOURNAL_R1.txt. Requiremagic/versionand<=64KiBheaderbound/actualproducerfixture, neverincreasecap tofixparser. Full3arraystack899MBalsoexceeds650MB beforelabels; J1panel mustusesmallercompletecomponents orstream. No training/modelnegative.
+
+### 2026-10-12T11:03:20.401358+00:00 — P1 prelaunch metadata guards
+GuardR1 incorrectlyexpectedstatusPASS_EXACT_PREPARED_P1 incriticreceiptwhichactuallydeclaresresultPASS_FOR_ROOT_CONSIDERATION; rootsemanticbindinglabel isnotproducerfield. OfflineguardnextmanuallytranscribedSOURCE_DELTA digestmistypedb3d7f6 vsdeclaredb3d2f7. Bothrefusedbeforelock/reclaim. Correctionscompareactualschema andtrustedcontract digest; rootreleasedactualfit nowrunning. Avoidmanualrehashing/transcriptionof pins; useexactactualproducerfieldfixture andstricttrustedhashbinding.
