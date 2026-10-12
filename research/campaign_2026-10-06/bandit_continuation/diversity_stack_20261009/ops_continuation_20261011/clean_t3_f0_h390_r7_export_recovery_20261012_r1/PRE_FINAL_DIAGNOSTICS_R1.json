@@ -1,0 +1,22 @@
+{
+  "schema": "wnn.kaggle.clean_t3_f0_export_only_r7_pre_final_diagnostics.r1",
+  "preserved_attempts": [
+    {
+      "attempt": 1,
+      "status": "offline_consumer_preflight_failed_before_any_worker",
+      "finding": "The first generated R7 active spec binding derived output filenames from the export-spec name. The exact archived R5 producer specs instead derive cache filenames from the checkpoint run name plus export kind and split.",
+      "correction": "The packet builder now binds artifact paths as `cache/pred_<run_name>_<kind>_<split>.npy` and `.json`; the actual R5 consumer verified all six corrected active specs.",
+      "provider_calls": 0,
+      "workers_started": 0
+    },
+    {
+      "attempt": 2,
+      "status": "offline_validator_assertion_incorrected_before_worker",
+      "finding": "The first checkpoint-consumer validator incorrectly assumed the H384 checkpoint head had only two outputs. Actual checkpoint tensors have 23 head rows; the pinned R5 predictor writes only `p[..., :2]` into the official two-column output array.",
+      "correction": "The validator now loads each exact checkpoint with the unchanged R5 predictor, checks the 23-output head and the source-pinned two-column output slice, and reports the official two prediction columns separately.",
+      "provider_calls": 0,
+      "workers_started": 0
+    }
+  ],
+  "scope": "Local packet preflight only; no fits, exports, provider actions, or prediction writes."
+}
