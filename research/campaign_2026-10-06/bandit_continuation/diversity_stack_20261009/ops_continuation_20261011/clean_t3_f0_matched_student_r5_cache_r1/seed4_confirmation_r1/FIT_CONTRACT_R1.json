@@ -1,0 +1,428 @@
+{
+  "base_recipe_reference": {
+    "all_recipe_hyperparameters_cache_sources_target_coefficients_split_membership_and_schedule_unchanged": true,
+    "only_science_identity_changes": [
+      "student seed 3 -> 4",
+      "initializer c20261003_combo_s3_f0@ep3 -> c20261003_combo_s4_f0@ep3",
+      "unique run/attempt/output identity"
+    ],
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_P1_FIT_CONTRACT_R1.json",
+    "sha256": "17350c0616debacd3507ad25bc627ba2f7087ddb17e0398cedf7674d696aaf79"
+  },
+  "consumer_binding": {
+    "no_s3_run_output_or_resume_paths": true,
+    "p1_history_output": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1/history.json",
+    "p1_output_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1",
+    "p1_provenance_output": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1/provenance.json",
+    "p1_training_state_output": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1/training_state.pt",
+    "p2_expected_next_epoch": 2,
+    "p2_must_bind_actual_p1_training_state_sha256_after_terminal": true,
+    "producer": "frozen train_rnn.py P1 stage; terminal output is consumed by same frozen loader in P2"
+  },
+  "continuation": {
+    "fit_time_evaluation": false,
+    "fixed_checkpoint_epoch": 5,
+    "full_schedule_epochs": 6,
+    "no_max_batches_shortening": true,
+    "onecycle_total_optimizer_updates": 44760,
+    "restore_validation": "Use the existing frozen trainer state loader and actual producer receipts at each boundary; record actual counters, membership, next_epoch, and state SHA.",
+    "stages": [
+      {
+        "expected_next_epoch": 2,
+        "inclusive_stop_after_epoch": 1,
+        "part": "p1",
+        "resume_state": null
+      },
+      {
+        "expected_next_epoch": 4,
+        "inclusive_stop_after_epoch": 3,
+        "part": "p2",
+        "resume_state": "bind actual p1 training_state.pt path and SHA only after p1 terminal validation"
+      },
+      {
+        "expected_next_epoch": 6,
+        "inclusive_stop_after_epoch": 5,
+        "part": "p3",
+        "resume_state": "bind actual p2 training_state.pt path and SHA only after p2 terminal validation"
+      }
+    ]
+  },
+  "created_utc": "2026-10-12T13:35:05.219029+00:00",
+  "inputs": {
+    "cache_actual_consumer_validation_sha256": "90528f221fdca114f506871fed06372bb7580a9d2700632abd156aa03830bedf",
+    "cache_consumer_binding": {
+      "actual_consumer_validation_sha256": "90528f221fdca114f506871fed06372bb7580a9d2700632abd156aa03830bedf",
+      "cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+      "eval_group_count_excluded": 468,
+      "fit_valid_source_qualified_order_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "same_valid_source_fit_eval_overlap": 0,
+      "target_fit_valid_sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2",
+      "target_train_sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3"
+    },
+    "cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "cache_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r2",
+    "consumer_validation": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r2/CACHE_METADATA_COMPATIBILITY_VALIDATION_R2.json",
+      "sha256": "90528f221fdca114f506871fed06372bb7580a9d2700632abd156aa03830bedf",
+      "status": "PASS_ACTUAL_FROZEN_CACHE_AND_PROVENANCE_CONSUMER"
+    },
+    "metadata_compatibility_contract": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r2/CACHE_METADATA_COMPATIBILITY_ADAPTER_R2.json",
+      "sha256": "c04fc22b78be9869c4e447316a5bd84a100bd4ef469bb244ce6f591974d9c033"
+    },
+    "parent_checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20261003_combo_s4_f0/model_ep3.pt",
+    "parent_checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+    "parent_provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20261003_combo_s4_f0/provenance.json",
+    "parent_provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332",
+    "pending_recipe_sha256": "8514e8a88bfecbc2cae9b8950cc88f2a1354f21b36a49dc9a3cd16b634598b32",
+    "profile_actual_matched_shape_sha256": "8eedb01be05ecee2f0086ab4b01856d6a53cf6c290020ae18ec91de21440d339",
+    "profile_contract": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_resource_profile_r2/PROFILE_CONTRACT_R2.json",
+      "sha256": "cae424ce880651db4b618a757ae9f2979fca40a45b28273e3d2b413b32ed2e76"
+    },
+    "profile_launch_manifest": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_resource_profile_r2/PROFILE_LAUNCH_MANIFEST_R2.json",
+      "sha256": "02481fe96b3b968f8e145e6f26a94d3ad63ab02cedd929a83f9b013366f22132"
+    },
+    "profile_terminal": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_resource_profile_r2/PROFILE_TERMINAL_RECEIPT_R2.json",
+      "sha256": "8eedb01be05ecee2f0086ab4b01856d6a53cf6c290020ae18ec91de21440d339",
+      "status": "PASS_ACTUAL_BOUNDED_RESOURCE_PROFILE_ONLY"
+    },
+    "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "propensity_train_cache_sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174",
+    "propensity_valid_cache_sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c",
+    "train_cache": {
+      "bytes": 1685600128,
+      "dtype": "float32",
+      "sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+      "shape": [
+        10535,
+        20000,
+        2
+      ]
+    },
+    "train_parquet_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+    "valid_cache": {
+      "bytes": 224800128,
+      "dtype": "float32",
+      "sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2",
+      "shape": [
+        1405,
+        20000,
+        2
+      ]
+    },
+    "valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  },
+  "launch_gate": {
+    "fit_authorized": false,
+    "fit_release_must_bind_new_seed4_contract_and_launch_manifest": true,
+    "fresh_shared_gpu_lock_and_resource_admission_required": true,
+    "independent_review_required": true,
+    "output_absence_recheck_required": true,
+    "proposal_only": true,
+    "root_fit_release_required": true
+  },
+  "lineage_relationship": {
+    "compared_reference": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1, fixed epoch 5, exposed-F0 WP 0.6811553603333363, one fit seed",
+    "hypothesis_id": "H-390",
+    "new_seed": 4,
+    "not_a_fresh_holdout": true,
+    "not_duplicate_of_known_cloud_treatment": {
+      "known_cloud_treatment_run_family": "clean_t3_f0_treatment_s3_a9_t3r5_r2",
+      "known_treatment_parent": "kg_h382r3_f0_muonall_prop0_e4_s3",
+      "this_is_control_seed4_parent": "c20261003_combo_s4_f0@ep3"
+    },
+    "parent_is_seed_matched_own_checkpoint": true,
+    "teacher_targets_unchanged": true
+  },
+  "output_absence_at_proposal": {
+    "absent": true,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1"
+  },
+  "profile_resource_basis": {
+    "allocator_cap_bytes": 4300000000,
+    "estimated_2_epoch_runtime_seconds": 1681,
+    "measured_sequences_per_second": 14.2,
+    "observed_vram_cap_bytes": 5000000000,
+    "observed_vram_peak_bytes": 2178940928,
+    "oom_max_kill_deltas": 0,
+    "parent_peak_bytes": 15957172224,
+    "profile_terminal_sha256": "8eedb01be05ecee2f0086ab4b01856d6a53cf6c290020ae18ec91de21440d339",
+    "stage_timeout_seconds": 3600,
+    "swap_bytes": 0,
+    "timeout_basis": "Two epochs at 11,936 sequence rows/epoch and measured 14.2 seq/s is ~1,681 s; 3,600 s allows initialization, I/O and training-state serialization without shortening the six-epoch schedule.",
+    "worker_max_bytes": 5500000000,
+    "worker_peak_bytes": 4330741760
+  },
+  "resource_basis": {
+    "aggregate_admission": {
+      "aggregate_cpu_max": 5,
+      "caps_change_allowed": false,
+      "fresh_check_required_before_each_stage": true,
+      "gpu_idle": true,
+      "parent_current_plus_reserve_max_bytes": 18000000000,
+      "shared_gpu_lock": true
+    },
+    "completed_full_fit_stage_reference": {
+      "max_oom_kill_deltas": 0,
+      "receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_P1_TERMINAL_VALIDATION_R1.json",
+      "sha256": "75684ec7b35a0d2f066405f9438ee074a8baf53b64d7af4892018de10cb4dd65",
+      "two_epoch_wall_seconds": 2142.4821718859894,
+      "worker_peak_observed_vram_bytes": 2638217216,
+      "worker_peak_ram_bytes": 4952358912
+    },
+    "matched_actual_profile": {
+      "measured_sequences_per_second": 14.2,
+      "peak_observed_vram_bytes": 2178940928,
+      "peak_worker_ram_bytes": 4330741760,
+      "profile_only_not_quality_evidence": true,
+      "receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_resource_profile_r2/PROFILE_TERMINAL_RECEIPT_R2.json",
+      "sha256": "8eedb01be05ecee2f0086ab4b01856d6a53cf6c290020ae18ec91de21440d339"
+    },
+    "worker": {
+      "allocator_bytes": 4300000000,
+      "cpu_cores": 1,
+      "gpu_workers": 1,
+      "loader_workers": 0,
+      "observed_vram_ceiling_bytes": 5000000000,
+      "per_stage_timeout_seconds": 3600,
+      "ram_reserve_bytes": 5500000000,
+      "swap_bytes": 0
+    }
+  },
+  "resources": {
+    "admission": {
+      "aggregate_cpu_max": 5,
+      "caps_change_allowed": false,
+      "fresh_observation_required": true,
+      "parent_current_plus_reserve_max_bytes": 18000000000,
+      "require_gpu_idle": true,
+      "reserve_bytes": 5500000000,
+      "shared_gpu_lock": true
+    },
+    "outer_controller": {
+      "cpu_cores": 1,
+      "ram_max_bytes": 500000000,
+      "runtime_max_seconds": 380
+    },
+    "worker": {
+      "allocator_bytes": 4300000000,
+      "cpu_cores": 1,
+      "gpu_workers": 1,
+      "loader_workers": 0,
+      "observed_vram_ceiling_bytes": 5000000000,
+      "ram_max_bytes": 5500000000,
+      "swap_bytes": 0,
+      "timeout_seconds": 3600
+    }
+  },
+  "schema": "wnn.clean-t3-f0-student-control-seed4-fit-contract.r1",
+  "science": {
+    "arm": "control",
+    "exposure": "F0 is repeatedly exposed for local development; not a pristine holdout.",
+    "fold": 0,
+    "initializer": "c20261003_combo_s4_f0@ep3",
+    "initializer_checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+    "initializer_parent_fit_eval_overlap": 0,
+    "initializer_parent_provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332",
+    "initializer_parent_teacher_ancestry": [
+      {
+        "checkpoint_epoch": 3,
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "evaluation_groups_excluded": 468,
+        "fit_valid_groups": 1405,
+        "full_valid_feature_prediction_is_not_fit_membership": true,
+        "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "run": "c20260929_since_s3_f0",
+        "same_valid_source_fit_eval_overlap": 0,
+        "seed": 3,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      {
+        "checkpoint_epoch": 3,
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "evaluation_groups_excluded": 468,
+        "fit_valid_groups": 1405,
+        "full_valid_feature_prediction_is_not_fit_membership": true,
+        "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "run": "c20260929_since_s4_f0",
+        "same_valid_source_fit_eval_overlap": 0,
+        "seed": 4,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      }
+    ],
+    "initializer_provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332",
+    "question": "Does the already graded clean F0 homogeneous-T3 student recipe reproduce across an independent student fit seed when paired with its own seed4 F0 initializer and unchanged fit membership/targets?",
+    "recipe": "GRU256x2, AdamW, fp16, B16/C2000, lr=1e-4, wd=.01, six-epoch OneCycle, fixed epoch5, alpha=.9 homogeneous T3, WMSE/chunk + MSE/chunk KD, propensity c20260929_prop_f0, no eval during fit",
+    "run_name": "clean_t3_f0_control_s4_a9_t3r5_r3_p1",
+    "seed": 4,
+    "target": "T=float32(.8125*float32_mean(own F0 teacher seeds3/4/5 epoch2)); no cache clipping; student target=.1*y+.9*T",
+    "train_membership": {
+      "evaluation_groups_excluded": 468,
+      "fit_evaluation_overlap": 0,
+      "fit_train_canonical_order_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+      "fit_train_groups": 10535,
+      "fit_valid_groups": 1405,
+      "fit_valid_order_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "seed4_parent_fit_train_order_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    }
+  },
+  "source": {
+    "manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "mutated": false,
+    "parent_source": {
+      "checkpoint_epoch": 3,
+      "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+      "evaluation_row_groups_excluded_count": 468,
+      "fit_train_groups": 10535,
+      "fit_train_order_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49",
+      "fit_valid_groups": 1405,
+      "fit_valid_order_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "own_run": "c20261003_combo_s4_f0",
+      "provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332",
+      "seed": 4,
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "snapshot_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot",
+    "source_delta_sha256": "912205eba101c8539c372206e5ae0e56f2d0a39f8997b271189b3d2f7d601406",
+    "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "source_snapshot_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot",
+    "trainer_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/scripts/train_rnn.py",
+    "trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+    "wrapper_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/scripts/cleanfold_exec.py",
+    "wrapper_sha256": "246586bfd4be3a4e3d95ac026860bb835611f09958193b75798124c9500455ab"
+  },
+  "stage": {
+    "attempt_id": "clean-t3-f0-control-s4-a9-r3-p1-20261012",
+    "batches_per_epoch": 746,
+    "chunks_per_sequence": 10,
+    "command_argv": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/scripts/cleanfold_exec.py",
+      "scripts/train_rnn.py",
+      "--name",
+      "clean_t3_f0_control_s4_a9_t3r5_r3_p1",
+      "--seed",
+      "4",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--hidden",
+      "256",
+      "--layers",
+      "2",
+      "--dropout",
+      "0",
+      "--train-source",
+      "train+valid",
+      "--train-seqs",
+      "10607",
+      "--valid-seqs",
+      "600",
+      "--valid-fold",
+      "0",
+      "--no-eval-during-fit",
+      "--split-manifest",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--epochs",
+      "6",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "5",
+      "--save-training-state",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--lr",
+      "0.0001",
+      "--wd",
+      "0.01",
+      "--optim",
+      "adamw",
+      "--sched",
+      "onecycle",
+      "--precision",
+      "fp16",
+      "--propensity",
+      "c20260929_prop_f0",
+      "--prop-power",
+      "2",
+      "--prop-eps",
+      "0.03",
+      "--prop-cache",
+      "--valid-true-mask",
+      "0.03",
+      "--aux-struct",
+      "0.3",
+      "--aux-next",
+      "0.3",
+      "--since-weight",
+      "0",
+      "--since-floor",
+      "0.25",
+      "--distill-cache-root",
+      "cache/clean_t3_f0_h390_t3r5_a9_r2",
+      "--distill-cache-variant",
+      "homogeneous",
+      "--distill-alpha",
+      "0.9",
+      "--fast",
+      "--sync-free",
+      "--fused-adam",
+      "--pin-memory",
+      "--init",
+      "c20261003_combo_s4_f0@ep3",
+      "--stop-after-epoch",
+      "1",
+      "--distill-loss",
+      "mse",
+      "--distill-channel-weights",
+      "1,1",
+      "--distill-denominator",
+      "chunk",
+      "--distill-alpha-tau",
+      "32",
+      "--distill-boot-h",
+      "0",
+      "--distill-reanchor",
+      "0",
+      "--distill-family-weight",
+      "0",
+      "--label-weight-power",
+      "1",
+      "--label-weight-floor",
+      "0"
+    ],
+    "epochs_executed": 2,
+    "expected_p1_optimizer_updates": 14920,
+    "full_schedule_optimizer_updates": 44760,
+    "initializer": "c20261003_combo_s4_f0@ep3",
+    "output_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1",
+    "outputs": [
+      "artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1/training_state.pt",
+      "artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1/provenance.json",
+      "artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1/history.json"
+    ],
+    "part": 1,
+    "resume_state": null,
+    "resume_state_output": "artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p1/training_state.pt",
+    "run_name": "clean_t3_f0_control_s4_a9_t3r5_r3_p1",
+    "save_training_state": true,
+    "seed": 4,
+    "semantics": "Epoch indices 0 and 1 execute. Preserve six-epoch OneCycle horizon; no profile flags or --max-batches. This is a training stage only, not a final student or score.",
+    "stop_after_epoch_inclusive": 1
+  },
+  "status": "PROPOSAL_ONLY_AWAITING_INDEPENDENT_REVIEW_AND_ROOT_FIT_RELEASE"
+}
