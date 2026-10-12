@@ -5,7 +5,7 @@
     "title": "Wunder Connectome Challenge2 research",
     "objective_mode": "competition",
     "metric_id": "global_wp_clip2_v1",
-    "public_best": 0.6668,
+    "public_best": 0.6671,
     "public_milestone": 0.7,
     "public_milestone_status": "unmet",
     "evaluation_exposure": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
@@ -16,10 +16,10 @@
       "memory_high_bytes": 18000000000,
       "local_allocator_initial_bytes": 4300000000,
       "local_gpu_workers_max": 1,
-      "local_admission_cutoff": "None: latest explicit user instruction on2026-10-08 continues research until explicit stop; only local CPU quota changes at10:00Kyiv.",
+      "local_admission_cutoff": "Explicit user stop October12: no new research admission; only already-admitted S4 sixepoch continuation/export/grade and R7 terminal collection may drain, then archive and stop.",
       "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs",
       "first_review_after_hours": 24,
-      "new_experiment_compute": "Latest October11 authority: local and Kaggle, plus existing campaign-owned VastB55080658 within user-approved70USD cap. No new rentals, top-up or billing changes; useful reviewed queues continue. Current continuation contract overrides historical off snapshots.",
+      "new_experiment_compute": "No new experiments, cohorts, retries, rentals, top-ups or spending. Finalization-only latest authority: research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json.",
       "authority": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTINUATION_CONTRACT_20261011.md",
       "paid_compute_authority": "specs/adr/0015-flexible-credit-bounded-parallel-compute.md",
       "temporary_cpu_window": {
@@ -31,7 +31,9 @@
       "cpu_purpose": "Analysis/EDA/support; no large CPU model fitting.",
       "vast_existing_instance_id": 55080658,
       "vast_cap_usd": 70,
-      "vast_prepaid_admission": "Auto-topup OFF per latest user instruction; fresh remaining credit must cover fitting, export, collection and margin before depletion. This is stricter than the $70 ceiling. Existing instance 55080658 only; no top-up, rental or billing change."
+      "vast_prepaid_admission": "Auto-topup OFF per latest user instruction; fresh remaining credit must cover fitting, export, collection and margin before depletion. This is stricter than the $70 ceiling. Existing instance 55080658 only; no top-up, rental or billing change.",
+      "support_admission_target_bytes": 17000000000,
+      "latest_scope_authority": "research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json"
     },
     "external_reported_public_result": {
       "score": 0.6674,
@@ -44,7 +46,7 @@
       "changes_root_public_best": false
     },
     "active_campaign": "research/campaign_2026-10-06/bandit_continuation",
-    "public_best_status": "user-reported October11 exact Z1c/Z4 pair; not independently browser refreshed",
+    "public_best_status": "User-reported October12 H390s3/s4/Z4 half Q8 candidateC 1ya21vpd, 36m36s; not independently browser refreshed.",
     "interim_public_milestone": 0.672
   },
   "families": [
@@ -448,7 +450,7 @@
     {
       "id": "arm:supervision-frontier",
       "parent_id": "family:objective",
-      "title": "Distillation alpha \u00d7 bootstrap horizon",
+      "title": "Distillation alpha × bootstrap horizon",
       "kind": "arm",
       "hypothesis_ids": [
         "H-180",
@@ -1004,7 +1006,7 @@
     {
       "id": "arm:transformer-reanchor-interaction",
       "parent_id": "arm:transformer-student",
-      "title": "Attention-teacher transfer \u00d7 origin-label reanchor",
+      "title": "Attention-teacher transfer × origin-label reanchor",
       "kind": "arm",
       "status": "not_tested",
       "hypothesis_ids": [],
@@ -1033,7 +1035,7 @@
     {
       "id": "arm:cadence-denominator-interaction",
       "parent_id": "arm:cadence",
-      "title": "Gradient cadence \u00d7 measured denominator",
+      "title": "Gradient cadence × measured denominator",
       "kind": "arm",
       "status": "not_tested",
       "hypothesis_ids": [],
@@ -2285,7 +2287,7 @@
         "eligible": true,
         "priority": 3,
         "launch_authorized": false,
-        "reason": "Compute time-independent B\u00d7T inputprojection as one dense operation, preserve reset-after hidden recurrence and chunkstate.",
+        "reason": "Compute time-independent B×T inputprojection as one dense operation, preserve reset-after hidden recurrence and chunkstate.",
         "authorization_scope": "Sourcegroundedidea only; preservequeuedE463 andfreezeactualproductionrecipe/resources beforefits."
       }
     },
@@ -2607,7 +2609,7 @@
     {
       "id": "arm:wide-baseline-heterogeneous",
       "parent_id": "family:teacher",
-      "title": "Wide own baseline family \u00d7 heterogeneous student distillation",
+      "title": "Wide own baseline family × heterogeneous student distillation",
       "kind": "arm",
       "hypothesis_ids": [
         "H-230"
@@ -2652,7 +2654,7 @@
     {
       "id": "arm:wide-event-feature-teacher",
       "parent_id": "family:teacher",
-      "title": "Own teacher capacity \u00d7 live causal event features",
+      "title": "Own teacher capacity × live causal event features",
       "kind": "arm",
       "hypothesis_ids": [
         "H-232"
@@ -3154,7 +3156,7 @@
     {
       "id": "arm:feature-context-teacher-interaction",
       "parent_id": "family:ensemble",
-      "title": "Causal feature regime context \u00d7 complementary teacher",
+      "title": "Causal feature regime context × complementary teacher",
       "kind": "arm",
       "hypothesis_ids": [
         "H-252"
@@ -4789,7 +4791,7 @@
     {
       "id": "arm:optimizer-loss-diversity",
       "parent_id": "lineage:diverse-model-combinations",
-      "title": "Optimizer \u00d7 robust-loss interaction and conditional blend value",
+      "title": "Optimizer × robust-loss interaction and conditional blend value",
       "kind": "arm",
       "hypothesis_ids": [
         "H-291"
