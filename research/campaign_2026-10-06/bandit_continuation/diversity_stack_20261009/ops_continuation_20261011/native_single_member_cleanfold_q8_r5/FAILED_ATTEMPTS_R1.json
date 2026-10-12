@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.native.single-member-cleanfold-q8-r5-failed-attempts.r1",
+  "status": "PRESERVED_DIAGNOSTIC_FAILURES_NO_CALLBACKS",
+  "attempts": [
+    {
+      "attempt_id": "native-q8-single-model-controls-r5-fixture-import-failure-r1",
+      "interpreter": "/tmp/wnn-projection-precompute-r1/py311/bin/python",
+      "phase": "native_package_import",
+      "error": "ModuleNotFoundError: No module named 'wnn_native.wnn_native'; 'wnn_native' is not a package",
+      "effects": {
+        "predictors_constructed": false,
+        "parquet_opened": false,
+        "row_data_pages_read": false,
+        "callbacks_run": 0,
+        "output_receipt_created": false
+      },
+      "repair": "R5 callback_runtime_r5.import_bound_native_package loads the exact pinned package initializer with its package directory as submodule_search_locations; frozen R4 is unchanged"
+    },
+    {
+      "attempt_id": "native-q8-single-model-controls-r5-fixture-schema-gate-failure-r1",
+      "interpreter": "/tmp/wnn-projection-precompute-r1/py311/bin/python",
+      "phase": "footer_metadata_preflight",
+      "error": "R4 check_metadata rejected schema_sha256",
+      "effects": {
+        "predictors_constructed": true,
+        "exact_r3_footer_identity_passed": true,
+        "rows_and_row_groups_matched": true,
+        "deterministic_schema_name_hash_matched": true,
+        "row_data_pages_read": false,
+        "callbacks_run": 0,
+        "output_receipt_created": false
+      },
+      "cause_evidence": {
+        "python_environments": ["MAIN CPython 3.13", "pinned CPython 3.11.16"],
+        "pyarrow_versions": ["19.0.1", "19.0.1"],
+        "frozen_r3_schema_repr_sha256": "c37c1411c672761035669cd219fe211b8e3f49a45a3742a4383a8e5ec5856453",
+        "main_process_schema_repr_sha256": "8f3d02a126ab934b6441f0e220bbb5d9428c7060cc0b0964d34811959e85c050",
+        "py311_process_schema_repr_sha256": "aeebc199ad02af93ba18172515a95c38645c3694a4c851d5020b810f747d3bd1",
+        "main_and_py311_normalized_schema_sha256": "d67c226b887afa79b766439219836d3bb1e649b15c117210774e3625ef9b4283",
+        "main_and_py311_schema_body_sha256": "859338b5a754a74ee444c72a257986d4feca0ffba6220a576fa8ffbf2ea7125e",
+        "main_and_py311_schema_names_sha256": "ebe06eb2f2e0006e7c9770011665870a3dae2930ea230940dc4e94b851c6385c",
+        "explanation": "str(ParquetSchema) includes a process-specific object address in its first line. Removing only that address produces identical hashes across both interpreters; exact footer identity and deterministic schema-name hash also match. R5 keeps these strict bindings and records the unstable R3 repr hash as a diagnostic."
+      }
+    }
+  ],
+  "r3_contract_repo_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r3/CONTRACT_SINGLE_R3.json",
+  "r3_contract_sha256": "312b57d7cff1386be2cb727a30ce66133588db1804fb50180ef96768374eea12",
+  "r3_preflight_repo_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r3/INPUT_PREFLIGHT_MAIN_R1.json",
+  "r3_preflight_sha256": "e2b7bab342ee35dc1122f88909f06d9f980188d80a6471341a9ec9104352264c",
+  "r4_contract_repo_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r4/CONTRACT_SINGLE_R4.json",
+  "r4_contract_sha256": "e1427a37c629c2b7d1270237db58e63e56f8ddce45c7ae52565731b646584e3b",
+  "r4_consumer_repo_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r4/run_single_controls_r4.py",
+  "r4_consumer_sha256": "bf74181882c2e8c1f09ef5b435043696b38d0ceb9572c05f9a46895e7c4b1f9a"
+}

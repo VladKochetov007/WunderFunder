@@ -1,0 +1,19 @@
+{
+  "schema": "wnn.native.single-member-cleanfold-q8-r5-failed-attempts.r2",
+  "status": "PRESERVED_ADAPTER_SIGNATURE_FAILURE_NO_CALLBACKS",
+  "attempt_id": "native-q8-single-model-controls-r5-py311-callback-fixture-r2",
+  "interpreter": "/tmp/wnn-projection-precompute-r1/py311/bin/python",
+  "phase": "R4_build_predictors_call",
+  "error": "TypeError: build_predictors() takes 2 positional arguments but 3 were given",
+  "checks_before_failure": {
+    "r3_contract_and_preflight_verified": true,
+    "r4_source_bindings_verified": true,
+    "native_package_sha_bindings_verified": true,
+    "native_package_imported_from_bound_init": true,
+    "valid_parquet_opened": false,
+    "row_data_pages_read": false,
+    "model_predictors_constructed": false,
+    "callbacks_run": 0
+  },
+  "correction": "Call the frozen R4 consumer's actual two-argument build_predictors(contract, repo_root) API. No R4 source change."
+}
