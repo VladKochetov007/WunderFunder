@@ -1,0 +1,93 @@
+{
+  "finished_record": {
+    "artifacts": {
+      "files": [],
+      "missing": []
+    },
+    "device": {
+      "index": 0,
+      "name": "Tesla T4",
+      "total_bytes": 16106127360,
+      "used_bytes": 0,
+      "uuid": "GPU-fixture-redacted"
+    },
+    "name": "clean_t3_f0_muonall_h384_e3_s3_t4_startup_profile_r3",
+    "peak_gpu_bytes": 3499098112,
+    "peak_ram_bytes": 4802109440,
+    "returncode": 0,
+    "status": "complete",
+    "wall_seconds": 397.85713796599975,
+    "worker_timeout_seconds": 1800
+  },
+  "fixture_only": true,
+  "markers": {
+    "GRAD_STATS ": {
+      "clip": 1.0,
+      "clip_rate": 0.8447,
+      "epoch": 0,
+      "family_median": {
+        "bias": 0.41396,
+        "head": 1.11379,
+        "inp": 0.42194,
+        "rnn_hh": 0.10613,
+        "rnn_ih": 0.28411
+      },
+      "family_sq_share_mean": {
+        "bias": 0.1277,
+        "head": 0.7005,
+        "inp": 0.1047,
+        "rnn_hh": 0.0136,
+        "rnn_ih": 0.0535
+      },
+      "mean_clip_factor": 0.7175,
+      "nonfinite_steps": 1,
+      "steps": 600,
+      "total_q05_q50_q95": [
+        0.88345,
+        1.3346,
+        3.58868
+      ]
+    },
+    "PROFILE ": {
+      "backward": 853.6,
+      "forward": 483.31,
+      "gpu_total": 1657.19,
+      "h2d": 0.07,
+      "inputs": 32.79,
+      "labels": 3.25,
+      "loader_wait": 1681.86,
+      "loss": 7.19,
+      "optimizer": 276.22,
+      "seq_per_s": 9.54,
+      "step_wall": 3355.74,
+      "syncs_per_step": 20.16,
+      "weights": 0.76
+    },
+    "PROFILE_UPDATE_COUNTS ": {
+      "cumulative": {
+        "amp_skipped_updates": 1,
+        "completed_batches": 30,
+        "ema_updates": 0,
+        "optimizer_attempts": 600,
+        "optimizer_completed_updates": 599
+      },
+      "epoch": {
+        "amp_skipped_updates": 1,
+        "completed_batches": 30,
+        "ema_updates": 0,
+        "optimizer_attempts": 600,
+        "optimizer_completed_updates": 599
+      }
+    }
+  },
+  "resource_qualification": false,
+  "schema": "wnn.kaggle_actual_producer_profile_guard_fixture.r1",
+  "source": {
+    "producer": "actual kaggle_gpu_runner terminal summary and train_rnn.py profile markers",
+    "redaction": "provider GPU UUID replaced by nonempty fixture sentinel; other record fields retained",
+    "summary_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_startup_profile_r3/terminal_collection_root_r1/attempts/attempt_001/outputs/results/summary.json",
+    "summary_sha256": "828972bf04777835ea1cb515e3cceddf9839e984b9002580b17e2030c703edd6",
+    "worker_log_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_startup_profile_r3/terminal_collection_root_r1/attempts/attempt_001/outputs/results/clean_t3_f0_muonall_h384_e3_s3_t4_startup_profile_r3/worker.log",
+    "worker_log_sha256": "220ee9cc858203bdc4b97d473132cc284a5a409ea6c2695c6fa681a3e8a87352"
+  }
+}

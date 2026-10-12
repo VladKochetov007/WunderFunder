@@ -1,0 +1,126 @@
+{
+  "created_utc": "2026-10-12T12:12:55Z",
+  "execution": {
+    "ast_syntax": "pass",
+    "cuda_or_trainer_import": false,
+    "fit_or_score": false,
+    "limits": {
+      "cpu_quota": "50%",
+      "memory_max_bytes": 700000000,
+      "runtime_max_seconds": 120,
+      "threads": 1
+    },
+    "offline_fixture_command": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /usr/bin/python3 offline_fixture_r5.py",
+    "offline_fixture_output_sha256": "82e04770e566132af652046b94f1b346f0a744a262dbec3f5a6a2916667ce18b",
+    "profile_is_resource_qualification": false,
+    "provider_action": false,
+    "ruff": "pass (Ruff 0.16.7; --no-cache)"
+  },
+  "files": [
+    {
+      "bytes": 28212,
+      "path": "kernel_r5/kernel.py",
+      "sha256": "eee975e22a12939ec0d82465d3c4612491fb8354a00b6e42a176db07928243df"
+    },
+    {
+      "bytes": 658,
+      "path": "kernel_r5/kernel-metadata.json",
+      "sha256": "d7cda84a9a08ded24d7d43b6a236db1dc9701e4683fcde92a2e968b7706fe169"
+    },
+    {
+      "bytes": 3064,
+      "path": "kernel_r5/actual_t4_profile_guard_fixture_r1.json",
+      "sha256": "831b7be436a736b3ff65c0648b8edd163f864cab58accce9506320914dcbe093"
+    },
+    {
+      "bytes": 14949,
+      "path": "offline_fixture_r5.py",
+      "sha256": "afd06ca3454aa6a8a58ca769771308cee6e0a5593a05cb9103a55984d7908548"
+    },
+    {
+      "bytes": 2048,
+      "path": "OFFLINE_FIXTURE_OUTPUT_R5.json",
+      "sha256": "82e04770e566132af652046b94f1b346f0a744a262dbec3f5a6a2916667ce18b"
+    },
+    {
+      "bytes": 2444,
+      "path": "README_R5.md",
+      "sha256": "4bd970cbf9209248a538153f6b7e10a66d462931ec6f79d2af4ae876b6971568"
+    }
+  ],
+  "fixture": {
+    "actual_producer_profile_fixture": {
+      "amp_skipped_updates": 1,
+      "completed_batches": 30,
+      "gradient_nonfinite_steps": 1,
+      "heartbeat_abbreviation_rejected": true,
+      "optimizer_attempts": 600,
+      "origin_summary_sha256": "828972bf04777835ea1cb515e3cceddf9839e984b9002580b17e2030c703edd6",
+      "origin_worker_log_sha256": "220ee9cc858203bdc4b97d473132cc284a5a409ea6c2695c6fa681a3e8a87352",
+      "resource_qualification": false
+    },
+    "cohort_gpu_seconds_upper_bound": 20000,
+    "duplicate_content_identity_disambiguation": true,
+    "finalization_reserve_seconds": 300,
+    "fit_or_score": false,
+    "flat_dataset_ids": [
+      "vladkochetov07/wnn-c20261004-fold0-assets",
+      "vladkochetov07/wnn-clean-t3-f0-treatment-assets-20261012-r22",
+      "vladkochetov07/wnn-clean-t3-f0-treatment-source-20261012-r22",
+      "vladkochetov07/wunder-funder"
+    ],
+    "identical_duplicate_payload_refused": true,
+    "kernel_wall_ceiling_seconds": 10000,
+    "nested_actual_external_consumer": {
+      "observation_count": 18,
+      "raw_parquet_paths_deferred": [
+        "datasets/train.parquet",
+        "datasets/valid.parquet"
+      ],
+      "status": "pass",
+      "verified_nonparquet_count": 16
+    },
+    "nested_dataset_ids": [
+      "vladkochetov07/wnn-c20261004-fold0-assets",
+      "vladkochetov07/wnn-clean-t3-f0-treatment-assets-20261012-r22",
+      "vladkochetov07/wnn-clean-t3-f0-treatment-source-20261012-r22",
+      "vladkochetov07/wunder-funder"
+    ],
+    "provider_mutation": false,
+    "provisioned_gpu_count": 2,
+    "quota_guard": {
+      "accepted_cohort_gpu_seconds_upper_bound": 20000,
+      "accepted_wall_seconds": 10000,
+      "provisioned_gpu_count": 2,
+      "rejected_28800_gpu_seconds": true,
+      "rejected_legacy_wall": true,
+      "rejected_single_gpu_hold": true,
+      "rejected_three_t4_hold": true
+    },
+    "raw_parquet_hashing": "not performed; the frozen trainer remains the full-byte verifier",
+    "schema": "wnn.clean_t3_f0_treatment_mount_profile_fixture.r5",
+    "status": "pass",
+    "trainer_import_or_cuda": false,
+    "wrong_owner_same_leaf_decoy_ignored": true
+  },
+  "open_gates": [
+    "independent R5 review",
+    "root-authored R5 release",
+    "fresh quota/resource admission",
+    "dataset READY readback",
+    "actual treatment-device profile",
+    "provider dispatch"
+  ],
+  "parent_r4_commit": "187a433d869825169ea9bdc5d3bd8ef75c55d612",
+  "parent_r4_manifest_sha256": "adb14bda7ee49ec450ac811eeef1fb1614c677f2f4e4b8dcec3199ed372c470f",
+  "quota_contract": {
+    "cohort_gpu_seconds_upper_bound": 20000,
+    "finalization_reserve_seconds": 300,
+    "per_device_gpu_seconds_upper_bound": 10000,
+    "provisioned_gpu_count": 2,
+    "root_release_guard_test": "pass; accepts exact tuple and rejects 14400-second legacy wall, one-device/three-device mismatch, and 28800 GPU-second hold",
+    "wall_ceiling_seconds": 10000
+  },
+  "schema": "wnn.clean_t3_f0_student_treatment_kaggle_quota_successor_validation.r5",
+  "status": "pass"
+}
