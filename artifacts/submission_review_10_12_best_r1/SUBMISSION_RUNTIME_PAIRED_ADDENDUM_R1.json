@@ -1,0 +1,99 @@
+{
+  "candidate": {
+    "models": 3,
+    "native_level": "v3",
+    "precision": "q8vnni",
+    "zip": "h390_s3_s4_q8_z4half_20261012.zip",
+    "zip_sha256": "6013d20a7ff26ce6ef46821f80ed01da848ef4da565e2cd91656417ddd5186ea"
+  },
+  "claims": {
+    "absolute_competition_runtime_estimate": null,
+    "public_score_forecast": null,
+    "score": null
+  },
+  "created_utc": "2026-10-12T09:40:36Z",
+  "interpretation": "This counterbalanced local paired probe is the more relevant C-vs-legacy comparison than the earlier unpaired profiles. C took about 1.44x the callback time of the legacy two-member package in these two matched pairs. The earlier unpaired C mean (83.33 us/row vs 102.37 for reference) had the opposite ordering; retain it as an unpaired, noisy observation, not the causal contrast. The paired probe contains only two passes per package on one Intel i9-11900H CPU core; it does not establish an EPYC/competition runtime or full-run deadline guarantee.",
+  "paired_profile": {
+    "affinity": [
+      2
+    ],
+    "cgroup_memory_peak_bytes": 226344960,
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "cross_replay_bitwise_identical": true,
+    "feature_sha256_by_sequence_matches_across_models": true,
+    "input_sha256": "21bef3ff373b238030be700cfe857380c616a58da3975eed81675fdb99998830",
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "order": [
+      "reference",
+      "candidate",
+      "reference",
+      "candidate"
+    ],
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/submissions/10-12-best-r1/profiles/PAIRED_Z1C_Z4_VS_C_CALLBACK_R1.json",
+    "schema": "wnn.paired-native-callback-probe.v1",
+    "sequence_ids": [
+      256678,
+      751005,
+      1200028,
+      1892371,
+      1990332,
+      2308749,
+      4490992,
+      6746551,
+      8348957,
+      9147005
+    ],
+    "sha256": "979b269ce49519a89fad6d2847a2666f6a362662b1647274ff31022f685127d9"
+  },
+  "paired_summary": {
+    "candidate_callback_time_percent_above_reference": 43.805969442469774,
+    "candidate_mean_us_per_row": 102.47397752250001,
+    "candidate_to_reference_callback_time_ratio": 1.4380596944246977,
+    "per_pair_candidate_to_reference_ratios": [
+      1.3223655742317455,
+      1.5658943085238455
+    ],
+    "reference_mean_us_per_row": 71.2585005475,
+    "same_exact_feature_hashes_and_output_parity": true
+  },
+  "reference": {
+    "models": 2,
+    "native_level": "v3",
+    "precision": "q8vnni",
+    "zip": "4_z1c_z4_pair_q8vnni.zip",
+    "zip_sha256": "ff498873027318b5aa20e6ca95517bdb843b4656989a75aae148f1c141705327"
+  },
+  "schema": "wnn.independent_submission_paired_runtime_addendum.r1",
+  "supplements_review_commit": "88faf7eabb55f19385d3ddc1796d76dd53b259c3",
+  "supplements_review_receipt_sha256": "e783a957d98a41b27f92497675a57f0ad521fd5cb98687a5c67a9b8f483939d0",
+  "trials": [
+    {
+      "label": "reference",
+      "matches_other_replay_prediction_hashes": true,
+      "mean_callback_us_per_row": 74.810908415,
+      "rows": 200000,
+      "trial": 0
+    },
+    {
+      "label": "candidate",
+      "matches_other_replay_prediction_hashes": true,
+      "mean_callback_us_per_row": 98.927369865,
+      "rows": 200000,
+      "trial": 1
+    },
+    {
+      "label": "reference",
+      "matches_other_replay_prediction_hashes": true,
+      "mean_callback_us_per_row": 67.70609268,
+      "rows": 200000,
+      "trial": 2
+    },
+    {
+      "label": "candidate",
+      "matches_other_replay_prediction_hashes": true,
+      "mean_callback_us_per_row": 106.02058518,
+      "rows": 200000,
+      "trial": 3
+    }
+  ]
+}
