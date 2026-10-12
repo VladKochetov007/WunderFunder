@@ -9,7 +9,13 @@ import torch
 
 from wnn.features import StreamingEventFeatures, event_features_torch
 from wnn.nn import RNNModel
-from wnn.research_features import StreamingResearchFeatures, research_features_torch
+from wnn.research_features import (
+    MOMENT_FEATURE_MODES,
+    StreamingResearchFeatures,
+    research_feature_control_width,
+    research_features_torch,
+    validate_causal_moment_prior,
+)
 from wnn.resources import configure_torch
 
 
@@ -23,6 +29,13 @@ def predict(checkpoint: Path, raw: np.ndarray, device: str) -> tuple[np.ndarray,
     if any(config.get(key) for key in ("online_norm", "heuristics", "prop_input", "raw_only")):
         raise ValueError("Reference does not support extra non-volume input transforms")
     mode = config.get("research_features", "none")
+    control = config.get("research_feature_control", "none")
+    research_feature_control_width(mode, control)
+    prior = payload.get("research_feature_prior")
+    if mode in MOMENT_FEATURE_MODES:
+        if not isinstance(prior, dict):
+            raise ValueError("causal moment checkpoint lacks its fitting-only feature prior")
+        prior = validate_causal_moment_prior(prior)
     model = RNNModel(
         payload["n_in"],
         hidden=config["hidden"],
@@ -33,10 +46,15 @@ def predict(checkpoint: Path, raw: np.ndarray, device: str) -> tuple[np.ndarray,
     model.eval()
     tensor = torch.as_tensor(raw[None], dtype=torch.float32, device=device)
     inputs = torch.cat(
-        (tensor, event_features_torch(tensor), research_features_torch(tensor, mode)), -1
+        (
+            tensor,
+            event_features_torch(tensor),
+            research_features_torch(tensor, mode, prior, control=control),
+        ),
+        -1,
     )
     state = None
-    event, volume = StreamingEventFeatures(), StreamingResearchFeatures(mode)
+    event, volume = StreamingEventFeatures(), StreamingResearchFeatures(mode, prior, control)
     rows = []
     with torch.no_grad():
         batch, _ = model(inputs)
@@ -49,6 +67,7 @@ def predict(checkpoint: Path, raw: np.ndarray, device: str) -> tuple[np.ndarray,
     np.testing.assert_allclose(result, expected, rtol=2e-5, atol=2e-6)
     return result, {
         "mode": mode,
+        "control": control,
         "rows": len(raw),
         "max_abs": float(np.abs(result - expected).max()),
         "scope": "Python float32 parity; native feature implementation still required",

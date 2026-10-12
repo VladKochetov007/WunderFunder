@@ -70,8 +70,10 @@ from wnn.privileged import (PRIVILEGED_MODES, load_inner_manifest, privileged_in
 from wnn.structured_state import StructuredStateModel
 from wnn.event_content import EventContentModel
 from wnn.resources import configure_torch, cpu_threads, dataloader_budget
-from wnn.research_features import (RESEARCH_FEATURE_MODES, research_feature_names,
-                                   research_features_torch)
+from wnn.research_features import (MOMENT_FEATURE_MODES, RESEARCH_FEATURE_MODES,
+                                   fit_causal_moment_prior, research_feature_control_width,
+                                   research_feature_names,
+                                   research_features_torch, validate_causal_moment_prior)
 from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_identity,
                               sample_order_identity, scaler_source_identity)
 from wnn.splits import CampaignSplit, dev_halves, file_sha256, load_campaign_split, valid_row_groups
@@ -540,6 +542,8 @@ READOUT_TILTED = False
 HEURISTICS = False  # append wnn.heuristics features (computed in loader workers)
 RAW_ONLY = False  # zero the event-feature block (organizer-style raw view; keeps n_in for native export)
 RESEARCH_FEATURES = "none"  # causal full-sequence features, before TBPTT slicing
+RESEARCH_FEATURE_PRIOR = None  # fitting-only projected moment state used by causal moment modes
+RESEARCH_FEATURE_CONTROL = "none"  # matched-width zero-suffix control for moment features
 PRIVILEGED_MODE = "none"  # teacher-only current/future controls, never a deployed input
 PRIVILEGED_HORIZON = 8
 SENTINEL_PREPROCESSOR = None  # frozen, input-only raw-level intervention
@@ -550,12 +554,27 @@ def build_inputs(x):
     ev = event_features_torch(raw)
     if RAW_ONLY:
         ev = torch.zeros_like(ev)
+    if (RESEARCH_FEATURES in MOMENT_FEATURE_MODES and not ONLINE_NORM and not HEURISTICS
+            and PRIVILEGED_MODE == "none" and INPUT_PROPENSITY is None
+            and SENTINEL_PREPROCESSOR is None and extra.shape[-1] == 0):
+        base_width = N_FEATURES + ev.shape[-1]
+        feature_width = len(research_feature_names(RESEARCH_FEATURES))
+        inputs = raw.new_empty((*raw.shape[:2], base_width + feature_width))
+        inputs[..., :N_FEATURES].copy_(raw)
+        inputs[..., N_FEATURES:base_width].copy_(ev)
+        del ev
+        research_features_torch(raw, RESEARCH_FEATURES, RESEARCH_FEATURE_PRIOR,
+                                output=inputs[..., base_width:],
+                                control=RESEARCH_FEATURE_CONTROL)
+        return inputs
     inputs = torch.cat([raw, ev], dim=-1)
     if ONLINE_NORM:
         inputs = torch.cat([inputs, online_zscore_torch(raw)], dim=-1)
     prop_inputs = inputs
     if RESEARCH_FEATURES != "none":
-        inputs = torch.cat([inputs, research_features_torch(raw, RESEARCH_FEATURES)], dim=-1)
+        inputs = torch.cat([inputs, research_features_torch(
+            raw, RESEARCH_FEATURES, RESEARCH_FEATURE_PRIOR,
+            control=RESEARCH_FEATURE_CONTROL)], dim=-1)
     if PRIVILEGED_MODE != "none":
         inputs = torch.cat([inputs, privileged_inputs(raw, PRIVILEGED_MODE, PRIVILEGED_HORIZON)], dim=-1)
     if extra.shape[-1]:
@@ -567,6 +586,39 @@ def build_inputs(x):
     if SENTINEL_PREPROCESSOR is not None:
         inputs = SENTINEL_PREPROCESSOR.torch(inputs)
     return inputs
+
+
+def fit_research_feature_prior(train_split: str, train_groups: np.ndarray,
+                               valid_groups: np.ndarray | None, seed: int) -> dict[str, object]:
+    """Fit the causal prior from a deterministic sample of fitting groups only."""
+    members = [(train_split, int(group)) for group in train_groups]
+    if valid_groups is not None:
+        members.extend(("valid", int(group)) for group in valid_groups)
+    members = sorted(set(members))
+    if not members:
+        raise ValueError("causal feature prior needs at least one fitting group")
+    rng = np.random.default_rng(seed + 20261012)
+    if len(members) > 32:
+        selected_indices = np.sort(rng.choice(len(members), size=32, replace=False))
+        selected = [members[int(index)] for index in selected_indices]
+    else:
+        selected = members
+    files: dict[str, SequenceFile] = {}
+
+    def fitting_sequences() -> Iterable[np.ndarray]:
+        for split, group in selected:
+            if split not in files:
+                files[split] = SequenceFile(ROOT / "datasets" / f"{split}.parquet")
+            yield files[split].read(group, targets=False, mask=False).features
+
+    prior = fit_causal_moment_prior(fitting_sequences())
+    encoded_members = [{"split": split, "row_group": group} for split, group in selected]
+    member_text = json.dumps(encoded_members, sort_keys=True, separators=(",", ":"))
+    prior["fit_members"] = encoded_members
+    prior["fit_members_sha256"] = hashlib.sha256(member_text.encode("ascii")).hexdigest()
+    prior["sample_policy"] = "uniform_seeded_source_qualified_32_groups_v1"
+    prior["sample_seed"] = seed + 20261012
+    return validate_causal_moment_prior(prior)
 
 
 def next_change_labels(y, valid):
@@ -892,11 +944,16 @@ def inference_checkpoint_fields(model: torch.nn.Module, source: str) -> dict:
     """Export effective weights and representation metadata without changing raw resume state."""
     if getattr(model, "_recurrent_rank", 0):
         exported, metadata = factorized_inference_state(model, source)
-        return {"model": exported, "factorization": metadata}
-    exported, metadata = inference_state(model, source)
-    result = {"model": exported, **({"quantization": metadata} if metadata is not None else {})}
+        result = {"model": exported, "factorization": metadata}
+    else:
+        exported, metadata = inference_state(model, source)
+        result = {"model": exported, **({"quantization": metadata} if metadata is not None else {})}
     if hasattr(model, "_sentinel_preprocessing"):
         result["sentinel_preprocessing"] = model._sentinel_preprocessing
+    if RESEARCH_FEATURES in MOMENT_FEATURE_MODES:
+        if RESEARCH_FEATURE_PRIOR is None:
+            raise ValueError("causal moment checkpoint is missing its fitting-only prior")
+        result["research_feature_prior"] = validate_causal_moment_prior(RESEARCH_FEATURE_PRIOR)
     return result
 
 
@@ -1240,6 +1297,7 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "raw_only",
         "heuristics",
         "research_features",
+        "research_feature_control",
         "privileged_mode",
         "privileged_horizon",
         "sentinel_values",
@@ -1260,12 +1318,63 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
     for field in fields:
         if field in source:
             option = "--" + field.replace("_", "-")
-            if (
-                any(value == option or value.startswith(option + "=") for value in options)
-                and getattr(args, field) != source[field]
-            ):
+            explicit = any(value == option or value.startswith(option + "=") for value in options)
+            if explicit and getattr(args, field) != source[field]:
+                if field == "research_features" and can_extend_research_features(
+                    source[field], getattr(args, field)
+                ):
+                    continue
+                if field == "research_feature_control" and can_extend_research_features(
+                    source.get("research_features", "none"), args.research_features
+                ):
+                    continue
                 raise ValueError(f"{option} disagrees with the parent checkpoint")
             setattr(args, field, source[field])
+
+
+def can_extend_research_features(parent_mode: str, child_mode: str) -> bool:
+    """Allow a causal moment representation to append features to its parent."""
+    if child_mode not in MOMENT_FEATURE_MODES or parent_mode not in ("none", *MOMENT_FEATURE_MODES):
+        return False
+    parent_names = research_feature_names(parent_mode)
+    child_names = research_feature_names(child_mode)
+    return len(parent_names) < len(child_names) and child_names[:len(parent_names)] == parent_names
+
+
+def expand_research_feature_state(source_state: dict[str, torch.Tensor],
+                                  target_state: dict[str, torch.Tensor],
+                                  parent_mode: str, child_mode: str,
+                                  insert_at: int) -> dict[str, torch.Tensor]:
+    """Zero-extend causal input columns while preserving the parent function."""
+    if not can_extend_research_features(parent_mode, child_mode):
+        raise ValueError("initializer research features are not a causal prefix of the child")
+    added = len(research_feature_names(child_mode)) - len(research_feature_names(parent_mode))
+    expanded = {}
+    for name, target in target_state.items():
+        source = source_state.get(name)
+        if source is None:
+            raise ValueError(f"initializer lacks model state {name!r}")
+        if source.shape == target.shape:
+            expanded[name] = source
+        elif name in ("mean", "std") and source.ndim == target.ndim == 1:
+            if source.shape[0] + added != target.shape[0]:
+                raise ValueError("initializer normalization width does not match causal features")
+            value = target.clone()
+            value[:insert_at] = source[:insert_at].to(value)
+            value[insert_at + added:] = source[insert_at:].to(value)
+            value[insert_at:insert_at + added] = 0.0 if name == "mean" else 1.0
+            expanded[name] = value
+        elif name == "inp.weight" and source.ndim == target.ndim == 2:
+            if source.shape[0] != target.shape[0] or source.shape[1] + added != target.shape[1]:
+                raise ValueError("initializer input projection width does not match causal features")
+            value = target.clone()
+            value[:, :insert_at] = source[:, :insert_at].to(value)
+            value[:, insert_at + added:] = source[:, insert_at:].to(value)
+            value[:, insert_at:insert_at + added] = 0.0
+            expanded[name] = value
+        else:
+            raise ValueError(f"initializer state shape changed outside causal input columns: {name}")
+    return expanded
 
 
 def validate_campaign_checkpoint(checkpoint: dict, args: argparse.Namespace) -> None:
@@ -1568,7 +1677,9 @@ def main():
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--research-features", choices=RESEARCH_FEATURE_MODES, default="none",
-                    help="append causal volume features computed on full float32 sequences")
+                    help="append causal volume or fitting-prior moments before TBPTT slicing")
+    ap.add_argument("--research-feature-control", choices=("none", "newest"), default="none",
+                    help="newest zeros the newest moment-feature block while keeping input width fixed")
     ap.add_argument("--privileged-mode", choices=PRIVILEGED_MODES, default="none",
                     help="teacher-only equal-width current/future raw inputs; requires inner component crossfit")
     ap.add_argument("--privileged-horizon", type=int, default=8)
@@ -1697,6 +1808,10 @@ def main():
         init_checkpoint = torch.load(ROOT / "artifacts" / "runs" / parent_run / parent_file,
                                      map_location="cpu", weights_only=False)
         inherit_init_arguments(args, init_checkpoint, sys.argv[1:])
+    try:
+        research_feature_control_width(args.research_features, args.research_feature_control)
+    except ValueError as exc:
+        ap.error(str(exc))
     if args.readout_activation != "gelu" and (
         args.arch != "gru" or args.cell != "gru" or args.enc != "linear"
         or args.qat != "none" or args.recurrent_rank
@@ -2143,8 +2258,10 @@ def main():
             validate_campaign_checkpoint(torch.load(propensity_path, map_location="cpu", weights_only=False), args)
         provenance["propensity_checkpoint_sha256"] = file_sha256(propensity_path)
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
-    global RESEARCH_FEATURES
+    global RESEARCH_FEATURES, RESEARCH_FEATURE_PRIOR, RESEARCH_FEATURE_CONTROL
     RESEARCH_FEATURES = args.research_features
+    RESEARCH_FEATURE_PRIOR = None
+    RESEARCH_FEATURE_CONTROL = args.research_feature_control
     global PRIVILEGED_MODE, PRIVILEGED_HORIZON
     PRIVILEGED_MODE, PRIVILEGED_HORIZON = args.privileged_mode, args.privileged_horizon
     global SENTINEL_PREPROCESSOR
@@ -2208,6 +2325,7 @@ def main():
     if args.rnn_init != "default" and not args.init:
         rnn_init_(model, args.rnn_init, args.chrono_tmax, args.seed)
     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
+    init = None
     if args.init:
         init_run, _, init_epoch = args.init.partition("@ep")
         init_file = f"model_ep{int(init_epoch)}.pt" if init_epoch else "model.pt"
@@ -2223,10 +2341,39 @@ def main():
         if args.spread_aux_mode != "original":
             validate_spread_parent(init, campaign_split.sha256, provenance["fit_row_groups"])
         provenance["initial_checkpoint_sha256"] = file_sha256(init_path)
+        parent_mode = init.get("args", {}).get("research_features", "none")
+        parent_state = init["model"]
+        if parent_mode != RESEARCH_FEATURES:
+            if not args.inherit_init_preprocessing or not can_extend_research_features(
+                parent_mode, RESEARCH_FEATURES
+            ):
+                ap.error("initializer research features require a supported causal extension")
+            if args.numeric_map != "none" or args.sentinel_base_width:
+                ap.error("causal feature expansion does not support mapped or sentinel projections")
+            target_state = model.state_dict()
+            expansion_target = dict(target_state)
+            for name in ("head.2.weight", "head.2.bias"):
+                if name in parent_state:
+                    expansion_target[name] = parent_state[name]
+            parent_state = expand_research_feature_state(
+                parent_state,
+                expansion_target,
+                parent_mode,
+                RESEARCH_FEATURES,
+                N_FEATURES + N_EVENT_FEATURES + (N_FEATURES if args.online_norm else 0),
+            )
+            provenance["research_feature_extension"] = {
+                "parent_mode": parent_mode,
+                "child_mode": RESEARCH_FEATURES,
+                "added_columns": len(research_feature_names(RESEARCH_FEATURES))
+                - len(research_feature_names(parent_mode)),
+                "input_weights": "zero_initialized",
+                "normalization": "mean_zero_std_one",
+            }
         if args.distill_family_weight > 0:
-            model.load_state_dict(extend_family_output_head(init["model"], model.state_dict()))
+            model.load_state_dict(extend_family_output_head(parent_state, model.state_dict()))
         else:
-            model.load_state_dict(init["model"])
+            model.load_state_dict(parent_state)
         sentinel_metadata = init.get("sentinel_preprocessing")
         if bool(sentinel_metadata) != bool(args.sentinel_base_width):
             ap.error("sentinel metadata requires matching inherited preprocessing options")
@@ -2240,7 +2387,30 @@ def main():
                                   provenance["fit_row_groups"], provenance["split_manifest_sha256"])
             model._sentinel_preprocessing = sentinel_metadata
             provenance["sentinel_preprocessing"] = sentinel_metadata
-    elif saved_training is None:
+    if RESEARCH_FEATURES in MOMENT_FEATURE_MODES:
+        if init is not None and init.get("args", {}).get("research_features", "none") in MOMENT_FEATURE_MODES:
+            parent_prior = init.get("research_feature_prior")
+            if not isinstance(parent_prior, dict):
+                ap.error("causal moment initializer lacks its fitting-only feature prior")
+            RESEARCH_FEATURE_PRIOR = validate_causal_moment_prior(parent_prior)
+        else:
+            RESEARCH_FEATURE_PRIOR = fit_research_feature_prior(
+                train_split, np.asarray(train_idx),
+                None if extra_valid is None else np.asarray(extra_valid), args.seed
+            )
+        provenance["causal_feature_prior"] = RESEARCH_FEATURE_PRIOR
+        provenance["causal_feature_prior_source_sha256"] = file_sha256(
+            ROOT / "src/wnn/research_features.py"
+        )
+        zero_width = research_feature_control_width(
+            RESEARCH_FEATURES, RESEARCH_FEATURE_CONTROL
+        )
+        provenance["causal_feature_control"] = {
+            "kind": RESEARCH_FEATURE_CONTROL,
+            "zeroed_suffix_width": zero_width,
+            "effective_capacity": "reduced" if zero_width else "full",
+        }
+    if not args.init and saved_training is None:
         fit_normalization(model, train_loader, device)
     if args.numeric_map != "none":
         fit_groups_train = train_idx.tolist() if train_split == "train" else []

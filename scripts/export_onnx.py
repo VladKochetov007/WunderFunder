@@ -22,7 +22,11 @@ else:
     import train_rnn
 
 from wnn.data import SequenceFile
-from wnn.features import event_features
+from wnn.research_features import (
+    MOMENT_FEATURE_MODES,
+    research_feature_control_width,
+    validate_causal_moment_prior,
+)
 from wnn.streaming import StreamingGraph, initial_state
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -69,22 +73,59 @@ def main():
     ap.add_argument("--parity-split", choices=("train", "valid"), default="valid")
     ap.add_argument("--parity-group", type=int, default=0)
     args = ap.parse_args()
-    ck = torch.load(ROOT / "artifacts" / "runs" / args.run / "model.pt", map_location="cpu", weights_only=False)
+    ck = torch.load(
+        ROOT / "artifacts" / "runs" / args.run / "model.pt", map_location="cpu", weights_only=False
+    )
     validate_parity_membership(ck, args.parity_split, args.parity_group)
     a = ck["args"]
     if a.get("readout_activation", "gelu") != "gelu":
         raise SystemExit("non-GELU readout requires an explicitly supported streaming exporter")
-    if a.get("arch", "gru") != "gru" or a.get("prop_input"):
-        raise SystemExit("only plain RNNModel runs are exportable here")
+    if (
+        a.get("arch", "gru") != "gru"
+        or a.get("cell", "gru") != "gru"
+        or a.get("prop_input")
+        or a.get("raw_only")
+        or a.get("online_norm")
+        or a.get("heuristics")
+        or a.get("privileged_mode", "none") != "none"
+        or a.get("sentinel_base_width")
+        or a.get("sentinel_indicators", "none") != "none"
+        or a.get("numeric_map", "none") != "none"
+    ):
+        raise SystemExit("only plain causal-input GRU runs are exportable here")
+    research_features = a.get("research_features", "none")
+    research_feature_control = a.get("research_feature_control", "none")
+    research_feature_control_width(research_features, research_feature_control)
+    if research_features in MOMENT_FEATURE_MODES:
+        prior = ck.get("research_feature_prior")
+        if not isinstance(prior, dict):
+            raise SystemExit("causal moment checkpoint lacks its fitting-only feature prior")
+        prior = validate_causal_moment_prior(prior)
+    elif research_features == "none":
+        prior = None
+    else:
+        raise SystemExit(f"streaming export does not support {research_features!r}")
     n_out = 2 + 2 * len([v for v in a.get("aux", "").split(",") if v])
     model = train_rnn.make_model(a, ck["n_in"], n_out).eval()
     model.load_state_dict(ck["model"])
-    graph = StreamingGraph(model).eval()
+    graph = StreamingGraph(model, research_features, prior, research_feature_control).eval()
     out = Path(args.out) if args.out else ROOT / "submissions" / args.run / "model.onnx"
     out.parent.mkdir(parents=True, exist_ok=True)
-    state = initial_state(model)
-    torch.onnx.export(graph, (torch.zeros(1, 112), *state), str(out), input_names=NAMES_IN,
-                      output_names=NAMES_OUT, opset_version=17, dynamo=False)
+    state = initial_state(model, research_features, prior, research_feature_control)
+    input_names = list(NAMES_IN)
+    output_names = list(NAMES_OUT)
+    if research_features in MOMENT_FEATURE_MODES:
+        input_names.append("moment_state")
+        output_names.append("moment_state_out")
+    torch.onnx.export(
+        graph,
+        (torch.zeros(1, 112), *state),
+        str(out),
+        input_names=input_names,
+        output_names=output_names,
+        opset_version=17,
+        dynamo=False,
+    )
 
     if args.parity_group < 0:
         ap.error("--parity-group must be nonnegative")
@@ -92,18 +133,21 @@ def main():
         args.parity_group, targets=False, mask=False
     )
     x = seq.features[: args.rows]
+    train_rnn.RESEARCH_FEATURES = research_features
+    train_rnn.RESEARCH_FEATURE_PRIOR = prior
+    train_rnn.RESEARCH_FEATURE_CONTROL = research_feature_control
     with torch.no_grad():
-        want, _ = model(torch.cat([torch.from_numpy(x), torch.from_numpy(event_features(x))], -1)[None])
+        want, _ = model(train_rnn.build_inputs(torch.from_numpy(x)[None]))
     want = want[0, :, :2].numpy()
 
     sess = session(out)
-    feeds = {k: v.numpy() for k, v in zip(NAMES_IN[1:], state, strict=True)}
+    feeds = {k: v.numpy() for k, v in zip(input_names[1:], state, strict=True)}
     got = np.empty((len(x), 2), np.float32)
     t0 = time.perf_counter()
     for i, row in enumerate(x):
         res = sess.run(None, {"row": row[None], **feeds})
         got[i] = res[0][0]
-        feeds = dict(zip(NAMES_IN[1:], res[1:], strict=True))
+        feeds = dict(zip(input_names[1:], res[1:], strict=True))
     us = (time.perf_counter() - t0) / len(x) * 1e6
     err = float(np.abs(got - want).max())
     print(
