@@ -1,0 +1,20 @@
+{
+  "schema": "wnn.native-q8-single-r3-independent-review.v1",
+  "recorded_utc": "2026-10-12T06:15:12+00:00",
+  "reviewer_commit": "3f84d98dd788e8b5bfb068d61b4b9f6ed4b80f0f",
+  "review_verdict": "PASS_as_frozen_metadata_only_preparation; not runnable evaluation",
+  "contract_sha256": "312b57d7cff1386be2cb727a30ce66133588db1804fb50180ef96768374eea12",
+  "input_preflight_sha256": "681d8ba18ebdde8a703b96d3dbe5fd2b1380aba8f12e2977bd5978a0ac86c40a",
+  "pinned_files_verified": 38,
+  "valid_parquet_identity": "byte count and footer-plus-trailer hash pass; metadata-only, no row data/model outputs read",
+  "closed_gaps": ["repository-relative artifact paths", "declared-main-root check", "frozen R2 preservation", "R3 contract and preflight hashes agree"],
+  "blocking_gaps": [
+    "no R3-aware scoring consumer; inherited R2 consumer reads R2 contract/admission schema and old paths",
+    "no R3 admission receipt is consumed by a runnable worker",
+    "preflight and later data open are separate; the consumer does not recheck the input footer identity at point of use",
+    "the 1-core/1.5-GB/1800-second values are proposed but are not enforced by an R3 root admission/wrapper",
+    "Python 3.11.16 lacks numpy, pyarrow, torch and ruff; the required standalone Python 3.11 callback fixture is absent"
+  ],
+  "runtime_or_score_claim": null,
+  "root_action": "hold integration/admission pending a successor consumer and explicit runtime gates"
+}

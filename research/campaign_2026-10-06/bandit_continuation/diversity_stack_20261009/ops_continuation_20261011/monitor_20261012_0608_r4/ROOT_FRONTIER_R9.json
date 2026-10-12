@@ -1,0 +1,79 @@
+{
+  "schema": "wnn.scheduled-controller-frontier.v9",
+  "observed_utc": "2026-10-12T06:15:12+00:00",
+  "decision": "No new model result landed. Keep local admission open but do not admit work without a reviewed runnable recipe; hold Kaggle R7 and paid Vast work at explicit access/resource gates. Preserve quality/blending and CPU-inference work as parallel directions.",
+  "local": {
+    "active_fit_or_export_attempts": 0,
+    "pending_queue_files": 0,
+    "admission_closed": false,
+    "attempt_ledger_counts": {"finished": 257, "failed": 30, "lost": 1, "not_started": 46},
+    "slice": {"cpu_cores": 5, "memory_high_bytes": 18000000000, "memory_max_bytes": 20000000000, "memory_current_bytes": 11729182720, "memory_peak_bytes": 18611527680, "swap_max_bytes": 0},
+    "gpu": {"utilization_percent": 0, "memory_used_mib": 43, "memory_total_mib": 6144},
+    "home_disk": {"free_bytes": 99688558592, "used_percent": 93},
+    "new_attempts_or_grades_since_prior_check": 0,
+    "historical_lost_attempt": {
+      "id": "h230-f1-s3-ep3-boot8-fit-r1",
+      "cause": "service ended without trusted terminal attempt record after a deliberately stopped slow-loader attempt; prior job log reports approximately 6 sequences/sec",
+      "corrected_fit_id": "h230-f1-s3-ep3-boot8-fit-r2",
+      "corrected_fit_status": "finished",
+      "corrected_fit_exit_status": 0,
+      "corrected_fit_finished_utc": "2026-10-10T10:51:09.850297+00:00",
+      "corrected_export_id": "h230-f1-s3-ep3-boot8-export-r2",
+      "corrected_export_status": "finished",
+      "corrected_export_exit_status": 0,
+      "corrected_export_finished_utc": "2026-10-10T10:54:12.327508+00:00",
+      "current_blockage": false
+    }
+  },
+  "kaggle": {
+    "snapshot_utc": "2026-10-12T06:12:50+00:00",
+    "account_gpu_seconds": {"used": 72098.394, "allowed": 108000.0, "remaining": 35901.606},
+    "campaign_gpu_seconds": {"used": 35051.073, "cap": 56780.516, "headroom": 21729.443000000007, "reserved": 0.0},
+    "quota_refresh_utc": "2026-10-17T00:00:00",
+    "targets_terminal": 5,
+    "active_or_queued_targets": 0,
+    "r6": {"status": "terminal_error", "fit_checkpoints_collected": 3, "selected_epoch": 2, "prediction_arrays": 0, "teacher_metrics": 0, "diagnosis": "export reservation exceeded the runner host operational budget; execution/resource failure, not a scientific negative"},
+    "r7": {"offline_independent_review": "PASS_preparation_only", "provider_dispatch": false, "root_release": false, "gates": ["read exact version-2 payload", "verify mounted content against source/checkpoint/provenance pins", "fresh per-worker host and disk admission", "use serial exports with preserved reserve"]},
+    "fresh_poll_receipt": "KAGGLE_POLL_R5.jsonl"
+  },
+  "vast_b": {
+    "instance_id": 55080658,
+    "latest_tick_utc": "2026-10-12T06:08:22+00:00",
+    "status": "owned_instance_unavailable_provider_returned_no_instance_rows",
+    "remote_access_attempted": false,
+    "provider_mutation": false,
+    "current_balance_or_collection": "unverified",
+    "new_spend_usd": 0.0,
+    "authority": "existing instance only; no rental, billing change, or top-up"
+  },
+  "submission_canary": {
+    "user_reported_upload_count_at_last_portal_snapshot": "4/5 today; #11 not submitted",
+    "timed_out_zip": "submissions/10-11-67/12_h388_teacher_trio_all_fp16store_q8vnni.zip",
+    "timeout": "SCORE:TIMEOUT at 61m56s; do not reupload unchanged",
+    "ready_not_uploaded_candidate": "submissions/10-11-67/11_h390_student_s3_h388_teacher_s5_all_q8vnni.zip",
+    "sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+    "zip_integrity": "pass",
+    "members": 2,
+    "blend_coefficients": [0.5, 0.5],
+    "precision": "Q8VNNI",
+    "expected_public_score": null,
+    "actual_amd_epyc_9224_runtime": null,
+    "upload_performed": false
+  },
+  "parallel_science": {
+    "new_fit_or_validation_result": false,
+    "cross_fold_blend_quality": "continue; no new matched-fold grade this interval",
+    "public_score_regression": "chronological ridge remains weaker than recent-five baseline; no current-candidate forecast",
+    "inference_optimization": "continue; native singleton R3 review found concrete execution gates; exact shared-backbone speed remains local only",
+    "new_spend_usd": 0.0,
+    "public_score_claim": null
+  },
+  "evidence": [
+    "KAGGLE_POLL_R5.jsonl",
+    "R6_EXPORT_HOST_BUDGET_INCIDENT_R1.json",
+    "KAGGLE_R6_VERSION2_READBACK_INCIDENT_R1.json",
+    "LOCAL_LOST_R1_SUCCESSOR_STATUS_R1.json",
+    "SUBMISSION_TIMEOUT_AND_CANARY_STATUS_R1.json",
+    "R3_INDEPENDENT_REVIEW_R1.json"
+  ]
+}
