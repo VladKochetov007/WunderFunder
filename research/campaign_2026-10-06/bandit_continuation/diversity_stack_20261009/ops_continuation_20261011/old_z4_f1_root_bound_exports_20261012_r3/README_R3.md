@@ -1,0 +1,9 @@
+# F1 Old Z4 export ROOT-binding successor R3
+
+This export-only successor fixes the frozen predictor's imported HFT c337 trainer root. The current predictor derives its own data root from MAIN, but Sequences is imported from the c337 train_rnn.py, whose module-level ROOT resolves inside the frozen source snapshot. The bounded helper verifies trainer and predictor bytes, source and input binding files, the actual valid.parquet footer, and an empty-membership Sequences(valid, []) path after setting only the imported frozen trainer ROOT to MAIN. It then invokes the unchanged predictor.
+
+Both contracts preserve each F1 run, exact fit predecessor, fold, seed, checkpoint epoch, predictor arguments, output name, metric, recipe, data membership, and precision. They use new export-only attempt IDs and the same canonical output paths as the R2 predecessors. The pending checkpoint SHA literal is intentionally invalid; root must replace it with the terminal producer-bound digest after exact CP3/CP1 and provenance/state checks. Both prediction NPY and sidecar must remain absent at live admission. This packet is not launch authority and makes no checkpoint or export claim.
+
+The preflight mode tests actual source and path bindings without loading a checkpoint or invoking the predictor. It verifies parquet metadata only and does not read the full payload. No fit, export, provider action, or output mutation is part of preparation. Fold 1 is previously inspected robustness evidence, not a fresh holdout.
+
+Reproduce the two preflights and the pending-checkpoint fail-closed check with verify_root_bound_export_preflight_r3.py under the explicit 50%-CPU, 700 MB, 120-second support boundary. Its JSON receipt records each actual imported module path and output absence; it does not authorize either export.

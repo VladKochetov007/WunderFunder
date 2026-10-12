@@ -1,0 +1,90 @@
+{
+  "base_main_commit": "c1c891bff06a31834eb9fc2e93fda8770a9d654a",
+  "execution": {
+    "fit": false,
+    "full_parquet_content_read": false,
+    "prediction_export": false,
+    "provider_action": false
+  },
+  "exports": [
+    {
+      "argv_sha256_nul_terminated": "2b2d7f0530874dfc7ef3e9bda522419790ea320cc32afa21e718201d0ede15cb",
+      "attempt": "oldz4-r4-f1-s3-parent-export-rootbind-r3",
+      "checkpoint_epoch": 3,
+      "checkpoint_sha256": null,
+      "contract_path": "contracts/oldz4-r4-f1-s3-parent-export-rootbind-r3.json",
+      "contract_sha256": "d1b22586ebdfee4b852a0c57d5d8c4d7c960c364fdbac2ff8f8c661abc8da107",
+      "expected_output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_oldz4_h230_parent_f1_s3_r4_valid.npy",
+      "run": "oldz4_h230_parent_f1_s3_r4",
+      "stage": "parent"
+    },
+    {
+      "argv_sha256_nul_terminated": "bf5dd5d30f27f2fa7813a1cd31f93e01e946f30992c0fb1051d57ce6749f2132",
+      "attempt": "oldz4-r4-f1-s3-student-export-rootbind-r3",
+      "checkpoint_epoch": 1,
+      "checkpoint_sha256": null,
+      "contract_path": "contracts/oldz4-r4-f1-s3-student-export-rootbind-r3.json",
+      "contract_sha256": "d73e6c095f1ca62da8711a7ce8652c2a8f61349bbab911de5cc758fd297b5cb5",
+      "expected_output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_oldz4_h230_student_f1_s3_r4_valid.npy",
+      "run": "oldz4_h230_student_f1_s3_r4",
+      "stage": "student"
+    }
+  ],
+  "input": {
+    "evaluation_groups": 457,
+    "exposure": "Previously inspected fold; robustness evidence, not a fresh holdout.",
+    "full_valid_content_sha256_recomputed": false,
+    "input_bindings_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_f1_pipeline_successor_20261012_r4/INPUT_BINDINGS_R4.json",
+    "input_bindings_sha256": "6ac8af93bfd8d7e147291b2a9d9e93e34a397a22530645f5d0ed2ea9ccabf875",
+    "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "valid_parquet_expected_bytes": 5615509128,
+    "valid_parquet_expected_row_groups": 1873,
+    "valid_parquet_expected_rows": 37460000
+  },
+  "packet_id": "old_z4_f1_root_bound_exports_20261012_r3",
+  "prepared_utc": "2026-10-12T00:45:16.382202+00:00",
+  "schema": "wnn.oldz4-f1-root-bound-export-successor.r3",
+  "science_preservation": {
+    "fit_recipe_sha256": "bc7bb99844804def1dacd0c6c2f1afe6f56d008cb1a0fb9d550c4f1a313e58c2",
+    "fold": 1,
+    "inference_precision": "checkpoint default; unchanged from R2",
+    "parent_epoch": 3,
+    "predictor_arguments_unchanged": [
+      "run",
+      "valid",
+      "--epoch",
+      "N",
+      "--output-name",
+      "run"
+    ],
+    "run_ids_unchanged": true,
+    "runtime_delta": "Bind the exact imported frozen trainer module ROOT to MAIN before invoking the unchanged predictor.",
+    "seed": 3,
+    "split_and_membership_unchanged": true,
+    "student_epoch": 1
+  },
+  "sources": {
+    "helper_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_f1_root_bound_exports_20261012_r3/run_predict_root_bound_r3.py",
+    "helper_sha256": "1ae6ae98e942eeefec3a35a9442a57fdcb361e3799bece714f5f39b9001e8e04",
+    "predictor_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+    "predictor_sha256": "afc5aaaef7edd78f4b719a6be450b10d82aefcbf497b4515f684f51930e229f9",
+    "source_bindings_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_f1_pipeline_successor_20261012_r4/SOURCE_BINDINGS_R4.json",
+    "source_bindings_sha256": "f0bca133215663ed2cf780a66af43f8461f7590df8a8595eea2aa01e9940a64c",
+    "trainer_path": "/home/vlad/development/wunder/wnn_old_pipeline_reconstruct_20261011_r1/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_cleanfold_successor_20261011_r3/source_snapshots/hft_c337/scripts/train_rnn.py",
+    "trainer_sha256": "5b135ea90480dde8b530c4543e1d587a044efa1f98dc6a3327b9dca6fcd40187"
+  },
+  "status": "prepared_code_only_pending_actual_root_binding_preflight_and_checkpoint_terminal_gates",
+  "terminal_checkpoint_gate": {
+    "export_launch_authorized": false,
+    "owner": "root after successful exact fit terminal receipts and finite consistent checkpoint/provenance/training-state validation",
+    "parent_epoch3_sha256": null,
+    "student_epoch1_sha256": null
+  },
+  "validation": {
+    "readme_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_f1_root_bound_exports_20261012_r3/README_R3.md",
+    "readme_sha256": "ac8a9b48d800c624f42209d9948be8999e76fca5bf51e96512d3a2b518ca6543",
+    "script_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/old_z4_f1_root_bound_exports_20261012_r3/verify_root_bound_export_preflight_r3.py",
+    "script_sha256": "58015a19c2922d8757c5493a128d36531646839ddab9dcb2b3f8e7ee395d6fca"
+  }
+}
