@@ -1,0 +1,73 @@
+{
+  "checks": [
+    {
+      "name": "bounded_support_admission",
+      "observed": {
+        "parent_memory_current_before_bytes": 12785860608,
+        "parent_swap_current_bytes": 0,
+        "sum_bytes": 13285860608,
+        "support_cpu_cores": 1,
+        "support_memory_bound_bytes": 500000000,
+        "support_runtime_limit_seconds": 120,
+        "within_target": true,
+        "working_target_bytes": 17000000000
+      },
+      "passed": true
+    },
+    {
+      "name": "attempt_finished_exit0_bound_contract",
+      "observed": {
+        "attempt_contract_sha256": "8a68176fef4dc259c1654964549dce010e93deb2e0e8109771a0939f1e29bcf1",
+        "bound_contract_sha256": "8a68176fef4dc259c1654964549dce010e93deb2e0e8109771a0939f1e29bcf1",
+        "exit_status": 0,
+        "phase": "terminal",
+        "status": "finished"
+      },
+      "passed": true
+    },
+    {
+      "name": "p3_terminal_validation_and_actual_cp5_hash",
+      "observed": {
+        "checkpoint_sha256": "e6be82ff799f4ea2b62e770e9c340a8cfd8f98780d1c7dec4a76eab5a853d35c",
+        "p3_validation_sha256": "00b5cf1d9dd8b080b7b861ec10e67642abdd2c230523c7251c3a123a0083de95",
+        "p3_validation_status": "PASS",
+        "provenance_sha256": "bdd531eb4e1e8ce031fda1b03ecf1c33c133c892768b7d404da30ec69679dd49"
+      },
+      "passed": true
+    },
+    {
+      "name": "frozen_predictor_and_split_source_pins",
+      "observed": {
+        "predictor_sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+        "split_counts": {
+          "evaluation_components": 141,
+          "evaluation_valid": 468,
+          "excluded_train": 71,
+          "fit_train": 10535,
+          "fit_valid": 1405,
+          "total_components": 3289
+        },
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "passed": true
+    }
+  ],
+  "failure": {
+    "message": "'run_name'",
+    "type": "KeyError"
+  },
+  "recorded_utc": "2026-10-12T15:50:51+00:00",
+  "schema": "wnn.control-seed4-cp5-full-valid-export-terminal-validation.r1",
+  "scope": "Terminal export artifact validation only; no metric computed.",
+  "status": "FAIL",
+  "support_admission": {
+    "parent_memory_current_before_bytes": 12785860608,
+    "parent_swap_current_bytes": 0,
+    "sum_bytes": 13285860608,
+    "support_cpu_cores": 1,
+    "support_memory_bound_bytes": 500000000,
+    "support_runtime_limit_seconds": 120,
+    "within_target": true,
+    "working_target_bytes": 17000000000
+  }
+}
