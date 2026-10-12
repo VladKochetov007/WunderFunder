@@ -1,0 +1,95 @@
+{
+  "schema": "wnn.clean-t3-local-s4-fit-train-root-launch-admission.r1",
+  "status": "PASS_ROOT_ADMITTED_POINT_OF_USE_RECHECK",
+  "attempt": "clean-t3-f0-s4-fit-train-export-r1-20261012",
+  "root_admission": {
+    "authorized": true,
+    "root_reference": "a5a52d04",
+    "prepared_commit": "59c23fcbb4b66a8c40a77a95564b8c27bae73c44",
+    "manifest_sha256": "887a7c949796ea3124b4e5847530aadebd562208064655b64135b63127090b0f",
+    "contract_sha256": "f1e16928d06ffaed9f95678bf22b26bb380102acec91eb539132daf770817e20",
+    "root_live_measurement_bytes": 11812974592,
+    "reserve_bytes": 5500000000,
+    "admission_sum_bytes": 17312974592,
+    "working_limit_bytes": 18000000000,
+    "admission_margin_bytes": 687025408,
+    "root_reclaim": "Root reclaimed 2.5 GB file cache under the idle GPU lock before admission; no additional reclaim performed by this operator."
+  },
+  "operator_point_of_use_recheck": {
+    "observed_utc": "2026-10-12T09:04:51+00:00",
+    "parent_slice": "wnn-campaign.slice",
+    "parent_memory_current_bytes": 11813486592,
+    "worker_reserve_bytes": 5500000000,
+    "parent_plus_reserve_bytes": 17313486592,
+    "memory_high_bytes": 18000000000,
+    "memory_max_bytes": 20000000000,
+    "margin_to_memory_high_bytes": 686513408,
+    "cpu_quota_cores": 5,
+    "memory_swap_current_bytes": 0,
+    "memory_swap_max_bytes": 0,
+    "parent_memory_event_counters": {
+      "low_events_count": 0,
+      "high_events_count": 353705,
+      "max_events_count": 0,
+      "oom_events_count": 0,
+      "oom_kill_events_count": 0,
+      "oom_group_kill_events_count": 0,
+      "sock_throttled_events_count": 0,
+      "units_note": "cgroup event counts, not bytes or pages"
+    },
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+      "memory_used_mib": 75,
+      "memory_total_mib": 6144,
+      "compute_process_list_empty": true,
+      "running_wnn_bandit_services_empty": true
+    },
+    "host_memory_available_bytes": 37740146688,
+    "host_swap": {
+      "device": "/dev/zram0",
+      "total_bytes": 8589930496,
+      "used_bytes": 8584118272,
+      "free_bytes": 5812224,
+      "campaign_slice_swap_current_bytes": 0,
+      "campaign_slice_swap_max_bytes": 0,
+      "interpretation": "Host zram is nearly full outside this slice; the admitted worker remains on a cgroup with zero swap allowance."
+    },
+    "cache_filesystem_available_bytes": 93124382720,
+    "output_collision_check": {
+      "prediction_absent": true,
+      "sidecar_absent": true,
+      "partial_absent": true,
+      "required_free_bytes": 2185600128
+    }
+  },
+  "source_recheck": {
+    "contract_sha256": "f1e16928d06ffaed9f95678bf22b26bb380102acec91eb539132daf770817e20",
+    "manifest_sha256": "887a7c949796ea3124b4e5847530aadebd562208064655b64135b63127090b0f",
+    "frozen_runner_sha256": "6c005b7a0d7718b500222490af479bf0d8afaba021123ca64be9f672872f14bb",
+    "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "predictor_sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+    "trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+    "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+    "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+    "selector_preflight_sha256": "701642f796a5d4fc19ccebc9c0f71d126308d74f347c784dc083fc713f6f5c7a",
+    "train_content_binding_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+    "train_footer_plus_length_PAR1_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+    "runtime_behavior": "Controller rehashes its complete frozen source manifest before service start; exporter verifies source-snapshot files, checkpoint, selector, and input stat bindings before CUDA."
+  },
+  "launch": {
+    "uses_exact_controller_argv_from_manifest": true,
+    "outer_limited_cpu_quota": "100%",
+    "outer_limited_threads": 1,
+    "outer_limited_ram_bytes": 500000000,
+    "outer_limited_runtime_seconds": 3620,
+    "worker_cpu_cores": 1,
+    "worker_ram_reserve_bytes": 5500000000,
+    "cuda_allocator_cap_bytes": 4300000000,
+    "observed_vram_cap_bytes": 5000000000,
+    "worker_swap_bytes": 0,
+    "loader_workers": 0,
+    "timeout_seconds": 3600,
+    "shared_gpu_lock": "bandit_resources runtime state",
+    "launch_started_at_receipt": false
+  }
+}
