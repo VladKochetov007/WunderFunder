@@ -1,0 +1,174 @@
+{
+  "schema": "wnn.native-single-member-cleanfold-q8-terminal-monitor.r1",
+  "reviewed_at_utc": "2026-10-12T08:40:58Z",
+  "reviewer_role": "read-only terminal monitor",
+  "scope": "one root-admitted R6 exposed crossfold Q8 single-member control run",
+  "decision": "PASS_RUN_COMPLETED; no promotion or public forecast",
+  "execution": {
+    "launch_attempt": "R6-ROOT-ABSOLUTE-MAIN-PATH-R2",
+    "prior_attempt": "R1 launch-path correction failed before model/data access; preserved by root admission",
+    "unit": "wnn-native-q8-single-controls-r6.scope",
+    "terminal_state": {
+      "active_state": "inactive",
+      "sub_state": "dead",
+      "systemd_result": "success",
+      "exec_main_status": "not retained after transient scope unload",
+      "journal_events_local": [
+        "2026-10-12 11:23:22 Started scope (prior R1 launch attempt)",
+        "2026-10-12 11:24:02 Started scope (root-admitted R2 invocation)",
+        "2026-10-12 11:37:16 Consumed 13min 5.217s CPU over 13min 14.156s wall, 953.6M memory peak"
+      ],
+      "journal": "Final R2 scope completed successfully; ExecMainStatus was not retained after transient scope unload."
+    },
+    "runner_result": "PASS_EXPOSED_CROSSFOLD_SINGLE_MEMBER_Q8_CONTROLS",
+    "created_utc": "2026-10-12T08:37:16.780452Z",
+    "elapsed_wall_seconds": 794.0829824730172,
+    "training_performed": false
+  },
+  "resource_limits_and_observation": {
+    "admitted_cpu_cores": 1,
+    "observed_cpu_quota": "100% (period 100000, quota 100000)",
+    "admitted_ram_max_bytes": 1000000000,
+    "observed_memory_max_bytes": 1000000000,
+    "swap_max_bytes": 0,
+    "runtime_max_seconds": 1800,
+    "peak_memory_from_systemd_journal": "953.6M",
+    "resource_gate_check_count": 938,
+    "resource_gate_last_check": {
+      "memory_current_bytes": 999821312,
+      "memory_max_bytes": 999997440,
+      "memory_swap_max_bytes": 0
+    },
+    "oom": "No OOM was reported by root's live cgroup polls; the transient cgroup was removed after successful completion.",
+    "python": "3.11.16",
+    "dependencies": {
+      "required": ["numpy", "pyarrow"],
+      "missing": []
+    }
+  },
+  "bindings": {
+    "r6_contract_sha256": "c118962519fecddfe0934d9142e49105ca266f71af6392f3fa7aa770573dbba7",
+    "root_admission_sha256": "c928e8bfcb4099220fa2e47571d81856ddc729d95624f546f4d2a2b80b621f81",
+    "r6_runner_sha256": "436fa95adfe2e46a696a80a85a8f6c1a6a942142d30337a72d4d4a08a838b691",
+    "native_elf_sha256": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326",
+    "input_preflight_sha256": "e2b7bab342ee35dc1122f88909f06d9f980188d80a6471341a9ec9104352264c",
+    "callback_fixture_sha256": "58a641c91ffd651748f48e688d400a26701fc87652d74a66dac9a6de9187ea42",
+    "weights_archive_sha256": "42f03cce60f6992e52b6ac508d7c551b07c0c7e86b106b0ea44dee34c7c72881",
+    "official_metric": "global_wp_clip2_v1",
+    "inference_precision": "q8vnni"
+  },
+  "members": {
+    "fold0": {
+      "evaluation_groups": 468,
+      "student": {
+        "run": "oldz4_h230_student_f0_s3_r3",
+        "selected_checkpoint_epoch": 1,
+        "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb"
+      },
+      "hft": {
+        "run": "oldz4_h230_hft_f0_s3_r5",
+        "selected_checkpoint_epoch": 0,
+        "checkpoint_sha256": "2bde556119ededc3693733280444a42f0f64138a2e3759bed6b068cb72f18ec8"
+      }
+    },
+    "fold1": {
+      "evaluation_groups": 457,
+      "student": {
+        "run": "oldz4_h230_student_f1_s3_r4",
+        "selected_checkpoint_epoch": 1,
+        "checkpoint_sha256": "cd8886589e8664082da1f27aee4f2c4925b61c41da8c740598831ab2f774bbd6"
+      },
+      "hft": {
+        "run": "oldz4_h230_hft_f1_s3_r2",
+        "selected_checkpoint_epoch": 0,
+        "checkpoint_sha256": "41e7aa3fb27024f2612f8f6b8f4232ca446ba92022dbf7ba90893ffee2292410"
+      }
+    },
+    "precision_note": "Result records q8vnni inference precision. Training precision is not asserted by this run; no fitting occurred."
+  },
+  "scores": {
+    "exposure": "Historically exposed source-qualified outer folds; not a fresh holdout.",
+    "fresh_holdout_claim": false,
+    "public_forecast": false,
+    "blend_search": false,
+    "parameter_averaging": false,
+    "selected_rows_by_fold": {
+      "fold0": 808863,
+      "fold1": 812167
+    },
+    "fold0": {
+      "hft": {
+        "wp": 0.6824246815532932,
+        "t0": 0.6759528027441969,
+        "t1": 0.6888965603623894,
+        "delta_wp_vs_fixed_half": -0.0010697549458941191,
+        "callback_rows": 9360000
+      },
+      "student": {
+        "wp": 0.6831839249074921,
+        "t0": 0.6772767885081765,
+        "t1": 0.6890910613068078,
+        "delta_wp_vs_fixed_half": -0.00031051159169515063,
+        "callback_rows": 9360000
+      }
+    },
+    "fold1": {
+      "hft": {
+        "wp": 0.6680700470040876,
+        "t0": 0.6622788893186008,
+        "t1": 0.6738612046895743,
+        "delta_wp_vs_fixed_half": -0.0019545853342780584,
+        "callback_rows": 9140000
+      },
+      "student": {
+        "wp": 0.6703718321687513,
+        "t0": 0.6643444825267458,
+        "t1": 0.6763991818107568,
+        "delta_wp_vs_fixed_half": 0.00034719983038566937,
+        "callback_rows": 9140000
+      }
+    }
+  },
+  "artifacts": {
+    "result_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_single_member_cleanfold_q8_r6/quality_output_single_r6/SINGLE_MEMBER_RESULT_R6.json",
+    "result_sha256": "e19cb0061c39191231b5534cd6cd6b6269f615abe30bfdc679b420945328e6e2",
+    "worker_stdout_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_0747_r17/NATIVE_R6_WORKER_STDOUT_R2.txt",
+    "worker_stdout_sha256": "07304be7b3f98924a42473d14ab762c3eed49263a73c0388e33ac7d98518fd31",
+    "prediction_inventory": {
+      "predictions_fold0_hft.npy": {
+        "bytes": 74880128,
+        "shape": [468, 20000, 2],
+        "dtype": "float32",
+        "all_finite": true,
+        "sha256_from_runner_result": "aa1257fa1341dc0b817fb92076430378e303a69e9b2a94717306d5256cc4bbe8"
+      },
+      "predictions_fold0_student.npy": {
+        "bytes": 74880128,
+        "shape": [468, 20000, 2],
+        "dtype": "float32",
+        "all_finite": true,
+        "sha256_from_runner_result": "c7271b36354696b68470f942cf678cc2c725c9b50f51de7ecf97566ff0743be8"
+      },
+      "predictions_fold1_hft.npy": {
+        "bytes": 73120128,
+        "shape": [457, 20000, 2],
+        "dtype": "float32",
+        "all_finite": true,
+        "sha256_from_runner_result": "8d00dd8d57210eca44b7d75030a4de4780bcff0d2b1517299d35a72da419518c"
+      },
+      "predictions_fold1_student.npy": {
+        "bytes": 73120128,
+        "shape": [457, 20000, 2],
+        "dtype": "float32",
+        "all_finite": true,
+        "sha256_from_runner_result": "86c200615d77e57ed9a9558fa77186fa1e9746949133a9bf7b11dcaacbd9ac4b"
+      }
+    },
+    "monitor_method": "Prediction bytes/hash/finiteness were taken from the frozen runner's result JSON; this monitor checked file names/sizes with stat and did not reread NPY payloads."
+  },
+  "limitations": [
+    "This receipt verifies terminal execution and metadata only; it is not an independent score recomputation.",
+    "Scores are exposed crossfold controls and make no fresh-holdout, public-transfer, or promotion claim.",
+    "The transient systemd scope was unloaded before final polling, so systemd retained Result=success and journal resource totals but not ExecMainStatus."
+  ]
+}
