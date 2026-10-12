@@ -1,0 +1,161 @@
+{
+  "schema": "wnn.clean-t3-f0-cache-profile-independent-review.r1",
+  "review": {
+    "reviewer_role": "independent static/cache-spot-check critic",
+    "review_branch": "review/r20-clean-t3-cache-20261012",
+    "review_base_commit": "68b726358705d69052d9a7b83c161b58cc6ab83c",
+    "verdict": "PASS_PACKET_REVIEW_PENDING_ROOT_GPU_PROFILE_ADMISSION",
+    "scope_limit": "No GPU launch, fit, inference, evaluation, score, provider action, or repeated full-array hash/finite scan."
+  },
+  "materialized_cache": {
+    "cache_root": "cache/clean_t3_f0_h390_t3r5_a9_r1",
+    "adapter_contract_sha256": "2b94f8454009af6a549e555456185d02bd2d2c6d8628def30dc3a3d27fae62c9",
+    "builder_sha256": "13b20f62a988df90f17da495b2cc7e4e219de0792291412165a10d2cd8b22380",
+    "root_materialization_release_sha256": "707c38a9a19c1c87103393ac8dd17fb2cd61af6b9f0f84daafd56820861691a0",
+    "actual_input_validation_sha256": "3e5c09731a1dbf83b34de06f34fdf76c54ec3ceb7ea53376d63d46c798441910",
+    "s5_terminal_validation_sha256": "2a8b66682623e8e8f58f2fdd529790dbbbd7a308b3074514877dfe006cd9429e",
+    "actor_validation_commit": "f1b05fba66efa477977f438db28352b238c25c31",
+    "actor_validation_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r1/CACHE_MATERIALIZATION_VALIDATION_R1.json",
+      "sha256": "f3213306dd4ec17137286721cbdf21a6f50a62a1527763cb8cf63105398b50c8",
+      "status": "PASS_FROZEN_CONSUMER_AND_ACTUAL_OUTPUT_VALIDATION",
+      "frozen_consumer_sha256": "b0b588605b3134a62c7a0c634219030fbcdd820e572668aff6d33980db180740",
+      "full_array_hash_and_finite_scan": "PASS_REPORTED_BY_ACTOR_VALIDATION_RECEIPT_NOT_RERUN_BY_REVIEWER",
+      "metadata_sha256": "9d587f359cf9acf1b3cc8abeefc8e19e38fc2f42212d932409f52f8e933872b3"
+    },
+    "outputs": {
+      "train": {
+        "source": "datasets/train.parquet",
+        "count": 10535,
+        "shape": [10535, 20000, 2],
+        "dtype": "float32",
+        "finite_value_count": 421400000,
+        "ordered_row_groups_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+        "array_sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3"
+      },
+      "valid": {
+        "source": "datasets/valid.parquet",
+        "count": 1405,
+        "shape": [1405, 20000, 2],
+        "dtype": "float32",
+        "finite_value_count": 56200000,
+        "ordered_row_groups_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+        "array_sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+      },
+      "evaluation_valid_groups_excluded": 468,
+      "evaluation_overlap": 0,
+      "cache_target_formula": "float32((float32(s3_epoch2 + s4_epoch2 + s5_epoch2) / 3) * 0.8125); no clipping"
+    },
+    "teacher_bindings": [
+      {
+        "seed": 3,
+        "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+        "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+        "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+        "epoch": 2,
+        "train_prediction_sha256": "63153337ec262f8d182283731e409644c1b7b19332e8fef047f0fb1a72504f06",
+        "valid_prediction_sha256": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1"
+      },
+      {
+        "seed": 4,
+        "run": "clean_t3_f0_muonall_h384_e3_s4_r5",
+        "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+        "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+        "epoch": 2,
+        "train_prediction_sha256": "5aa3ebeea15aad5a12b15ca27d2c4581cdae651d9144e8ab262196bb01f9af95",
+        "valid_prediction_sha256": "314172c91053c5581ac73160dc936fb3fa5d8615b8dac5fffeca73f0d7524d1a"
+      },
+      {
+        "seed": 5,
+        "run": "clean_t3_f0_muonall_h384_e3_s5_r5",
+        "checkpoint_sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+        "provenance_sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18",
+        "epoch": 2,
+        "train_prediction_sha256": "5042bfec2c25d0f80910ed10797b8f9608c97724ea4e87f0f0721aaed9d59c50",
+        "valid_prediction_sha256": "13420c11164234ce14a49aaae9c7612c8e54d32fde02acd062991b47deb21e92"
+      }
+    ],
+    "independent_spot_checks": [
+      {
+        "split": "train",
+        "source_qualified_group": 5306,
+        "output_row": 5267,
+        "teacher_rows": [5267, 5267, 5267],
+        "formula_match": "BITWISE_FLOAT32"
+      },
+      {
+        "split": "valid",
+        "source_qualified_group": 948,
+        "output_row": 702,
+        "teacher_rows": [948, 948, 948],
+        "formula_match": "BITWISE_FLOAT32"
+      }
+    ]
+  },
+  "profile_packet": {
+    "actor_commit": "3cf84bf70837fea1a7422cf35be8410dd944a853",
+    "contract_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_resource_profile_r2/PROFILE_CONTRACT_R1.json",
+    "contract_sha256": "a72c86609903fcccf76e565a97b94f00edcdd593f804a89297598aeb9640d9bc",
+    "contract_status": "AWAITING_ROOT_GPU_PROFILE_ADMISSION",
+    "launch_authorized": false,
+    "student_fit_authorized": false,
+    "profile_only": true,
+    "derivation": {
+      "predeclared_stage": "clean_t3_f0_control_s3_a9_t3r5_r1_p1",
+      "initializer": "c20261003_combo_s3_f0@ep3",
+      "initializer_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "architecture": "GRU(256,2)",
+      "epochs": 6,
+      "optimizer": "AdamW",
+      "schedule": "OneCycle",
+      "lr": 0.0001,
+      "weight_decay": 0.01,
+      "precision": "fp16",
+      "batch_sequences": 16,
+      "chunk_rows": 2000,
+      "distill_alpha": 0.9,
+      "cache_root": "cache/clean_t3_f0_h390_t3r5_a9_r1",
+      "profile_warmup_batches": 1,
+      "profile_measured_batches": 3,
+      "profile_execution_batches_total": 4,
+      "full_schedule_total_optimizer_steps": 44760,
+      "onecycle_horizon_retained": true,
+      "max_batches_cli_override": false,
+      "evaluation": false,
+      "save_training_state": false,
+      "stop_after_epoch_override": false,
+      "unique_profile_output_name": "clean_t3_f0_control_s3_a9_t3r5_resource_profile_r1",
+      "profile_output_absent_at_review": true
+    },
+    "source_pins": {
+      "trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+      "wrapper_sha256": "246586bfd4be3a4e3d95ac026860bb835611f09958193b75798124c9500455ab",
+      "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+      "source_delta_sha256": "912205eba101c8539c372206e5ae0e56f2d0a39f8997b271189b3d2f7d601406",
+      "predeclared_recipe_sha256": "8514e8a88bfecbc2cae9b8950cc88f2a1354f21b36a49dc9a3cd16b634598b32",
+      "cache_metadata_sha256": "9d587f359cf9acf1b3cc8abeefc8e19e38fc2f42212d932409f52f8e933872b3",
+      "cache_validation_receipt_sha256": "f3213306dd4ec17137286721cbdf21a6f50a62a1527763cb8cf63105398b50c8"
+    },
+    "requested_resource_envelope": {
+      "cpu_cores": 1,
+      "process_ram_max_bytes": 5500000000,
+      "gpu_allocator_limit_bytes": 4300000000,
+      "observed_vram_limit_bytes": 5000000000,
+      "runtime_hard_limit_seconds": 360,
+      "swap_bytes": 0,
+      "loader_workers": 0
+    },
+    "pending_root_gates": [
+      "fresh shared lock, idle-GPU, aggregate CPU and parent-current-plus-5.5GB <= 18GB admission",
+      "rehash pinned source, cache, initializer/propensity and data identities at point of use",
+      "reconfirm unique profile output path absent",
+      "root GPU-profile release receipt"
+    ]
+  },
+  "claims_not_supported": [
+    "GPU profile ran",
+    "full six-epoch student fit completed",
+    "any student quality/score improvement",
+    "pristine holdout or public-score forecast"
+  ]
+}
