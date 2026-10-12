@@ -1,0 +1,24 @@
+{
+  "schema": "wnn.j1-root-admission.v1",
+  "status": "admitted_j1_exposed_f0_component_blend",
+  "manifest_sha256": "9e85baa5f021c514adfb3d53c2aea4c2df51441c16c542a6516ab640949ec9ec",
+  "runner_sha256": "c9fc98caced1a0c639f8df5fda40e297f9becbd1141b66b0ec53f51125b1178f",
+  "allow_blend_weight_optimization": true,
+  "allow_model_fit_or_prediction_generation": false,
+  "allow_provider_or_gpu": false,
+  "phases": [
+    "calibration",
+    "evaluation"
+  ],
+  "max_unique_weight_vectors": 11,
+  "resource_limits": {
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 120,
+    "cpu_quota": "100% of one CPU",
+    "swap_bytes": 0,
+    "threads": 1
+  },
+  "admitted_utc": "2026-10-12T11:58:31.615581+00:00",
+  "root_review": "Fixed 48 exposed complete F0 components, 32 calibration/16 evaluation; three own independently seeded CP2 teachers, frozen official mask/clip2, disjoint qualified membership. Evaluation cannot select weights. One CPU bounded array-weight analysis only; no public forecast. Fresh aggregate current + support 1.5GB + unused active fit reservation must remain <=18GB before EACH phase. Preserve first failure; no blind retries/cap raise.",
+  "operator": "native_q8_packet_review"
+}
