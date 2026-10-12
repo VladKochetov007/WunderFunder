@@ -1,0 +1,21 @@
+# Independent review: clean T3 F0 CP5 grade and seed4 launch proposal
+
+**Verdict:** The recorded CP5 grade is internally supported as one official `global_wp_clip2_v1` result on the repeatedly exposed F0 development evaluation subset. It is not a fresh holdout, cross-fold confirmation, public score, or submission claim. This was a static receipt and source-equation review; no model, prediction, grader, or provider execution was performed here.
+
+The scored endpoint is `clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1`, fixed epoch 5: WP **0.6811553603333363** (t0 0.6743770243809764, t1 0.6879336962856963), 808,863 selected rows across 468 groups. The separate FP32 full-valid export covers all 1,873 valid-source groups, is finite, and is bound by prediction SHA `f933297d…cbd37d6`; the grader scores only the fixed 468-group F0 evaluation subset. The official metric implementation casts inputs to float32, applies clip ±2, and weights by absolute clipped labels.
+
+Fit membership is source-qualified: 10,535 `train.parquet` training groups plus 1,405 `valid.parquet` fit-valid groups, with 468 valid-source evaluation groups excluded and zero fit/evaluation overlap. The seed-3 student starts from `c20261003_combo_s3_f0@ep3` checkpoint SHA `d4a1e50b…e023371e`; its fixed epoch-5 checkpoint is `e30577ff…0b776eda`. Teacher-cache receipts bind the three own clean-F0 H384 Muon teacher seeds 3/4/5 at epoch 2, their source/provenance and prediction hashes, and passed full finite/SHA plus frozen-consumer validation.
+
+**Target-coefficient clarification:** The stored homogeneous target is `float32(0.8125 * float32_mean(three epoch-2 teacher predictions))`, without cache clipping. The trainer then clips both label and cached target at ±2 and mixes `.1 * clip(y) + .9 * clip(T)`. Thus the nominal pre-clipping contribution per source teacher is `.9 × .8125 / 3 = .24375`, subject to the subsequent clipping. The `teacher_parents`/`source_coefficients` `.1` rows and `.3` sum are lineage metadata, not the numeric mixing weights for this homogeneous target.
+
+No matched prior clean-F0 student grade was found in the reviewed campaign grade inventory. The nearest old student report is `oldz4_h230_student_f0_s3_r3` at 0.6831418133898595 (FP16); its model/target lineage and recipe differ, so the score gap does not identify the effect of T3. The separate clean-T3 teacher-trio result is teacher-only, not a matched student control. Do not infer degradation or improvement from either comparison.
+
+The initial grade attempt’s missing legacy sidecar filename failed before opening targets or reading labels; that failure and unchanged prediction are preserved. The subsequent official grade report binds the same prediction SHA and passes. P2’s R2 validator had a failed composite root-pin check, but the separate additive R3 pin audit passed the actual pins and its non-pin checks; the later P3 terminal and output receipts bind the audited state.
+
+## Seed4 launch delta
+
+The final seed4 proposal contract (`c3ba9281…04d33c90`) and launch manifest (`af9e7c01…3ddebec2c`) pass a narrow static delta check against the completed seed3 P1 template. After expected identity substitutions, the worker argv is identical except for run/output identity, seed `3 → 4`, and the paired initializer `c20261003_combo_s3_f0@ep3 → c20261003_combo_s4_f0@ep3`. It retains the same recipe, P1 epochs 0–1, and full six-epoch/44,760-update schedule. The actual seed4 parent provenance hash matches the contract and pins its fixed epoch-3 checkpoint; the contract records the same source-qualified F0 membership and zero evaluation overlap. Its unique output directory was absent when checked.
+
+This is a reasonable predeclared recipe replication across paired seed-specific initializer/student seeds, not a pure student-RNG isolation. The manifest remains proposal-only with fit authorization false and requires root release plus fresh GPU/resource and output-absence gates. This review does not admit or launch it.
+
+See `INDEPENDENT_REVIEW_R1.json` for receipt and source hashes. The grade handoff, terminal export, cache/teacher validation, P2 root-pin audit, grade report, and seed4 contract/manifest hashes are recorded there.
