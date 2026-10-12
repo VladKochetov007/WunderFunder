@@ -1,0 +1,13 @@
+# E529 H512 checkpoint audit
+
+The seed-9 H512 checkpoint is a viable, independently initialized research model, but `model_ep2.pt` is an intermediate checkpoint from a timed-out four-epoch fit. The run completed three indexed epochs and was interrupted at epoch index 3, batch 1460/1492; the requested fixed `model_ep3.pt` and optimizer state were never produced. The timeout is execution evidence, not a negative model result.
+
+The actual checkpoint is 15,198,055 bytes with SHA-256 `9cbfa401c3432bc027dfb809be07d2d6ab76c82c5007e1fe99d413af566b684c`. Its provenance SHA is `909c0ff76e742cfd16342f9063364a36986d07aa2754330b59c183cd38bf4f71`. Provenance matches the frozen fold-0 fit sets (10,535 train, 1,405 fit-valid); its 468 evaluation sequences span 141 components, with no group or component overlap. The fit used fresh default initialization, no teacher/distillation, no propensity input, and no EMA source.
+
+This exact checkpoint already has an official `global_wp_clip2_v1` fold-0 snapshot score of **0.67249914** (`T0=0.66269306`, `T1=0.68230523`). The ep0–ep2 curve is in `artifacts/runs/<run_id>/snapshot_curve.jsonl`. Since the same 468-sequence fold was used to inspect the snapshot curve, treat this as exposed CV evidence, not a new holdout, public forecast, or completed four-epoch result.
+
+The actual snapshot task consumed the checkpoint through its source-pinned prediction path (predictor SHA `fee58a359c24208116cbf3b86e7d4dcf90ba285494582ab2f760edd9f8e1d0aa`). It processed three checkpoints in 404.4 seconds with batch 16/chunk 4000, peaking at 1,356,857,344 observed VRAM bytes under a 5,000,000,000-byte cap; task RAM peaked at 6,009,278,464 bytes. This is a multi-checkpoint local-GPU profile, not an isolated ep2 duration or a Kaggle runtime estimate. Training and snapshot inference source manifests differ; the exact actual predictor was recovered and is also pinned by the reviewed C337 source bindings, and the actual checkpoint load/export succeeded.
+
+`snapshot_curve.py` deletes each temporary prediction and sidecar after scoring, so no blend-ready prediction artifact remains. The useful follow-up is one root-admitted, uniquely named retained prediction export for the predeclared fixed blend analysis—not another standalone score. The generic valid-split producer emits the full valid row-group order; a fold-only consumer must explicitly align/select the 468 frozen fold-0 `row_group` IDs. This audit did not launch that export or alter any model/source/artifact.
+
+Exact hashes, receipt paths, source qualification, and limitations are in [E529_GRU512_CP2_SUCCESSOR_AUDIT_R1.json](E529_GRU512_CP2_SUCCESSOR_AUDIT_R1.json).
