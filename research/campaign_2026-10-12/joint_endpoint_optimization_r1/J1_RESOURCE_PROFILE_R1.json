@@ -1,0 +1,36 @@
+{
+  "command_templates": {
+    "calibration": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python research/campaign_2026-10-12/joint_endpoint_optimization_r1/j1_panel_runner_r1.py --phase calibration --manifest research/campaign-2026-10-12/joint_endpoint_optimization_r1/J1_COMPONENT_PANEL_MANIFEST_R2.json --root-admission <ROOT_RELEASE> --output <NEW_CALIBRATION_RECEIPT>",
+    "evaluation": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python research/campaign_2026-10-12/joint_endpoint_optimization_r1/j1_panel_runner_r1.py --phase evaluation --manifest research/campaign-2026-10-12/joint_endpoint_optimization_r1/J1_COMPONENT_PANEL_MANIFEST_R2.json --root-admission <ROOT_RELEASE> --calibration-receipt <FROZEN_CALIBRATION_RECEIPT> --output <NEW_EVALUATION_RECEIPT>"
+  },
+  "manifest_sha256": "9e85baa5f021c514adfb3d53c2aea4c2df51441c16c542a6516ab640949ec9ec",
+  "per_phase_full_hash_read_bytes": 1236226582,
+  "phase_memory_estimates": {
+    "calibration_components": 32,
+    "calibration_groups": 110,
+    "calibration_known_stage_plus_prepared_problem_bytes": 213400000,
+    "calibration_stage_bytes": 72600000,
+    "evaluation_components": 16,
+    "evaluation_groups": 52,
+    "evaluation_stage_bytes": 34320000,
+    "optimizer_workspace_bytes": "unmeasured; requires root-admitted run"
+  },
+  "resource_ceiling": {
+    "cpu_quota": "100%",
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 120,
+    "swap_bytes": 0,
+    "threads": 1
+  },
+  "runner_path": "research/campaign_2026-10-12/joint_endpoint_optimization_r1/j1_panel_runner_r1.py",
+  "runner_sha256": "c9fc98caced1a0c639f8df5fda40e297f9becbd1141b66b0ec53f51125b1178f",
+  "schema": "wnn.j1-resource-profile.v1",
+  "status": "PREPARED_STATIC_ESTIMATE_PENDING_ROOT_EXECUTION_PROFILE",
+  "validation_scope": {
+    "actual_optimizer_profile_run": false,
+    "model_inference_or_fit": false,
+    "provider_or_gpu": false,
+    "real_prediction_or_target_payload_read": false,
+    "static_source_and_membership_checks": true
+  }
+}
