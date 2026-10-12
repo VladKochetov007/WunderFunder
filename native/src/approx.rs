@@ -134,15 +134,50 @@ pub mod avx2 {
     #[target_feature(enable = "avx2,fma")]
     #[inline]
     pub fn gelu_slice(v: &mut [f32], ahead: &mut crate::half::Ahead) {
+        let _ = unsafe { gelu_slice_inner::<false>(v, ahead) };
+    }
+
+    /// Apply the existing GELU arithmetic and return its exact whole-vector absmax.
+    #[target_feature(enable = "avx2,fma")]
+    #[inline]
+    pub fn gelu_slice_with_absmax(v: &mut [f32], ahead: &mut crate::half::Ahead) -> f32 {
+        unsafe { gelu_slice_inner::<true>(v, ahead) }
+    }
+
+    #[target_feature(enable = "avx2,fma")]
+    #[inline]
+    unsafe fn gelu_slice_inner<const TRACK_MAX: bool>(
+        v: &mut [f32],
+        ahead: &mut crate::half::Ahead,
+    ) -> f32 {
+        let mut vector_max = _mm256_setzero_ps();
+        let sign = _mm256_set1_ps(-0.0);
         let mut chunks = v.chunks_exact_mut(8);
         for c in &mut chunks {
             ahead.issue(crate::half::AHEAD_LINES);
             // SAFETY: `c` holds eight floats.
-            unsafe { _mm256_storeu_ps(c.as_mut_ptr(), gelu8(_mm256_loadu_ps(c.as_ptr()))) };
+            unsafe {
+                let y = gelu8(_mm256_loadu_ps(c.as_ptr()));
+                if TRACK_MAX {
+                    vector_max = _mm256_max_ps(_mm256_andnot_ps(sign, y), vector_max);
+                }
+                _mm256_storeu_ps(c.as_mut_ptr(), y);
+            }
+        }
+        let mut maximum = 0.0f32;
+        if TRACK_MAX {
+            let mut lanes = [0.0f32; 8];
+            unsafe { _mm256_storeu_ps(lanes.as_mut_ptr(), vector_max) };
+            maximum = lanes.iter().fold(0.0f32, |m, value| m.max(*value));
         }
         for x in chunks.into_remainder() {
-            *x = super::gelu_fast(*x);
+            let y = super::gelu_fast(*x);
+            *x = y;
+            if TRACK_MAX {
+                maximum = maximum.max(y.abs());
+            }
         }
+        maximum
     }
 }
 
@@ -240,15 +275,50 @@ pub mod avx512 {
     #[target_feature(enable = "avx512f")]
     #[inline]
     pub fn gelu_slice(v: &mut [f32], ahead: &mut crate::half::Ahead) {
+        let _ = unsafe { gelu_slice_inner::<false>(v, ahead) };
+    }
+
+    /// Apply the existing GELU arithmetic and return its exact whole-vector absmax.
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    pub fn gelu_slice_with_absmax(v: &mut [f32], ahead: &mut crate::half::Ahead) -> f32 {
+        unsafe { gelu_slice_inner::<true>(v, ahead) }
+    }
+
+    #[target_feature(enable = "avx512f")]
+    #[inline]
+    unsafe fn gelu_slice_inner<const TRACK_MAX: bool>(
+        v: &mut [f32],
+        ahead: &mut crate::half::Ahead,
+    ) -> f32 {
+        let mut vector_max = _mm512_setzero_ps();
+        let sign = _mm512_set1_ps(-0.0);
         let mut chunks = v.chunks_exact_mut(16);
         for c in &mut chunks {
             ahead.issue(2 * crate::half::AHEAD_LINES);
             // SAFETY: `c` holds sixteen floats.
-            unsafe { _mm512_storeu_ps(c.as_mut_ptr(), gelu16(_mm512_loadu_ps(c.as_ptr()))) };
+            unsafe {
+                let y = gelu16(_mm512_loadu_ps(c.as_ptr()));
+                if TRACK_MAX {
+                    vector_max = _mm512_max_ps(andnot(sign, y), vector_max);
+                }
+                _mm512_storeu_ps(c.as_mut_ptr(), y);
+            }
+        }
+        let mut maximum = 0.0f32;
+        if TRACK_MAX {
+            let mut lanes = [0.0f32; 16];
+            unsafe { _mm512_storeu_ps(lanes.as_mut_ptr(), vector_max) };
+            maximum = lanes.iter().fold(0.0f32, |m, value| m.max(*value));
         }
         for x in chunks.into_remainder() {
-            *x = super::gelu_fast(*x);
+            let y = super::gelu_fast(*x);
+            *x = y;
+            if TRACK_MAX {
+                maximum = maximum.max(y.abs());
+            }
         }
+        maximum
     }
 }
 
@@ -296,6 +366,47 @@ mod tests {
         }
     }
 
+
+    #[cfg(target_arch = "x86_64")]
+    #[test]
+    fn fused_gelu_absmax_matches_activation_then_scan() {
+        let mut cases = vec![
+            vec![],
+            vec![-0.0],
+            vec![0.0; 7],
+            vec![f32::NAN, f32::INFINITY, f32::NEG_INFINITY, -0.0, 1.0, -3.0, 0.25],
+        ];
+        cases.push((0..37).map(|i| (i as f32 - 18.0) * 0.125).collect());
+
+        for input in cases {
+            let expected: Vec<f32> = input.iter().map(|x| gelu_fast(*x)).collect();
+            let expected_max = expected
+                .iter()
+                .fold(0.0f32, |m, value| m.max(value.abs()));
+
+            if std::arch::is_x86_feature_detected!("avx2")
+                && std::arch::is_x86_feature_detected!("fma")
+            {
+                let mut actual = input.clone();
+                let mut ahead = crate::half::Ahead::NONE;
+                let maximum = unsafe { avx2::gelu_slice_with_absmax(&mut actual, &mut ahead) };
+                assert_eq!(maximum.to_bits(), expected_max.to_bits());
+                for (got, want) in actual.iter().zip(&expected) {
+                    assert!(got.to_bits() == want.to_bits() || (got.is_nan() && want.is_nan()));
+                }
+            }
+
+            if std::arch::is_x86_feature_detected!("avx512f") {
+                let mut actual = input.clone();
+                let mut ahead = crate::half::Ahead::NONE;
+                let maximum = unsafe { avx512::gelu_slice_with_absmax(&mut actual, &mut ahead) };
+                assert_eq!(maximum.to_bits(), expected_max.to_bits());
+                for (got, want) in actual.iter().zip(&expected) {
+                    assert!(got.to_bits() == want.to_bits() || (got.is_nan() && want.is_nan()));
+                }
+            }
+        }
+    }
 
     fn grid() -> impl Iterator<Item = f32> {
         (-12_000..=12_000).map(|i| i as f32 * 1e-3)

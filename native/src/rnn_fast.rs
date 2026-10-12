@@ -488,8 +488,9 @@ unsafe fn gemv_avx2(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
 
 /// PyTorch GRU update from the two gate preactivation blocks [r | u | n].
 #[inline(always)]
-fn gru_update(h: &mut [f32], gi: &[f32], gh: &[f32], fast: bool) {
+fn gru_update<const TRACK_MAX: bool>(h: &mut [f32], gi: &[f32], gh: &[f32], fast: bool) -> f32 {
     let n = h.len();
+    let mut maximum = 0.0f32;
     let (gi_r, gi_rest) = gi.split_at(n);
     let (gi_u, gi_c) = gi_rest.split_at(n);
     let (gh_r, gh_rest) = gh.split_at(n);
@@ -504,16 +505,25 @@ fn gru_update(h: &mut [f32], gi: &[f32], gh: &[f32], fast: bool) {
             let r = sigmoid_fast(ir + hr);
             let u = sigmoid_fast(iu + hu);
             let c = tanh_fast(ic + r * hc);
-            *hj = (1.0 - u) * c + u * *hj;
+            let y = (1.0 - u) * c + u * *hj;
+            *hj = y;
+            if TRACK_MAX {
+                maximum = maximum.max(y.abs());
+            }
         }
     } else {
         for (hj, (((ir, hr), (iu, hu)), (ic, hc))) in h.iter_mut().zip(gates) {
             let r = sigmoid(ir + hr);
             let u = sigmoid(iu + hu);
             let c = (ic + r * hc).tanh();
-            *hj = (1.0 - u) * c + u * *hj;
+            let y = (1.0 - u) * c + u * *hj;
+            *hj = y;
+            if TRACK_MAX {
+                maximum = maximum.max(y.abs());
+            }
         }
     }
+    maximum
 }
 
 /// `gru_update` with fast activations on eight lanes at a time (`approx::avx2`), the same bits,
@@ -524,12 +534,19 @@ fn gru_update(h: &mut [f32], gi: &[f32], gh: &[f32], fast: bool) {
 #[cfg(target_arch = "x86_64")]
 #[target_feature(enable = "avx2,fma")]
 #[inline]
-unsafe fn gru_update_avx2(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahead) {
+unsafe fn gru_update_avx2<const TRACK_MAX: bool>(
+    h: &mut [f32],
+    gi: &[f32],
+    gh: &[f32],
+    ahead: &mut Ahead,
+) -> f32 {
     use crate::approx::avx2::{sigmoid8, tanh8};
     use std::arch::x86_64::*;
     let n = h.len();
     assert!(gi.len() >= 3 * n && gh.len() >= 3 * n);
     let main = n / 8 * 8;
+    let mut vector_max = _mm256_setzero_ps();
+    let sign = _mm256_set1_ps(-0.0);
     unsafe {
         let (i, g, hp) = (gi.as_ptr(), gh.as_ptr(), h.as_mut_ptr());
         let ld = |p: *const f32, k: usize| _mm256_loadu_ps(p.add(k));
@@ -546,15 +563,29 @@ unsafe fn gru_update_avx2(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahe
                 _mm256_mul_ps(_mm256_sub_ps(_mm256_set1_ps(1.0), u), c),
                 keep,
             );
+            if TRACK_MAX {
+                vector_max = _mm256_max_ps(_mm256_andnot_ps(sign, y), vector_max);
+            }
             _mm256_storeu_ps(hp.add(j), y);
         }
+    }
+    let mut maximum = 0.0f32;
+    if TRACK_MAX {
+        let mut lanes = [0.0f32; 8];
+        unsafe { _mm256_storeu_ps(lanes.as_mut_ptr(), vector_max) };
+        maximum = lanes.iter().fold(0.0f32, |m, value| m.max(*value));
     }
     for j in main..n {
         let r = sigmoid_fast(gi[j] + gh[j]);
         let u = sigmoid_fast(gi[n + j] + gh[n + j]);
         let c = tanh_fast(gi[2 * n + j] + r * gh[2 * n + j]);
-        h[j] = (1.0 - u) * c + u * h[j];
+        let y = (1.0 - u) * c + u * h[j];
+        h[j] = y;
+        if TRACK_MAX {
+            maximum = maximum.max(y.abs());
+        }
     }
+    maximum
 }
 
 /// `gru_update_avx2` on sixteen lanes (`approx::avx512`); the same bits.
@@ -564,12 +595,19 @@ unsafe fn gru_update_avx2(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahe
 #[cfg(target_arch = "x86_64")]
 #[target_feature(enable = "avx512f")]
 #[inline]
-unsafe fn gru_update_avx512(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahead) {
+unsafe fn gru_update_avx512<const TRACK_MAX: bool>(
+    h: &mut [f32],
+    gi: &[f32],
+    gh: &[f32],
+    ahead: &mut Ahead,
+) -> f32 {
     use crate::approx::avx512::{sigmoid16, tanh16};
     use std::arch::x86_64::*;
     let n = h.len();
     assert!(gi.len() >= 3 * n && gh.len() >= 3 * n);
     let main = n / 16 * 16;
+    let mut vector_max = _mm512_setzero_ps();
+    let sign = _mm512_set1_ps(-0.0);
     unsafe {
         let (i, g, hp) = (gi.as_ptr(), gh.as_ptr(), h.as_mut_ptr());
         let ld = |p: *const f32, k: usize| _mm512_loadu_ps(p.add(k));
@@ -586,15 +624,29 @@ unsafe fn gru_update_avx512(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut A
                 _mm512_mul_ps(_mm512_sub_ps(_mm512_set1_ps(1.0), u), c),
                 keep,
             );
+            if TRACK_MAX {
+                vector_max = _mm512_max_ps(_mm512_andnot_ps(sign, y), vector_max);
+            }
             _mm512_storeu_ps(hp.add(j), y);
         }
+    }
+    let mut maximum = 0.0f32;
+    if TRACK_MAX {
+        let mut lanes = [0.0f32; 16];
+        unsafe { _mm512_storeu_ps(lanes.as_mut_ptr(), vector_max) };
+        maximum = lanes.iter().fold(0.0f32, |m, value| m.max(*value));
     }
     for j in main..n {
         let r = sigmoid_fast(gi[j] + gh[j]);
         let u = sigmoid_fast(gi[n + j] + gh[n + j]);
         let c = tanh_fast(gi[2 * n + j] + r * gh[2 * n + j]);
-        h[j] = (1.0 - u) * c + u * h[j];
+        let y = (1.0 - u) * c + u * h[j];
+        h[j] = y;
+        if TRACK_MAX {
+            maximum = maximum.max(y.abs());
+        }
     }
+    maximum
 }
 
 /// out = W x + b with eight fp32 lanes per row (multiply, then add) reduced in a fixed order.
@@ -1238,7 +1290,7 @@ impl FastRnn {
                 gh,
                 portable,
             );
-            gru_update(hidden, gi, gh, fast);
+            gru_update::<false>(hidden, gi, gh, fast);
         }
         let (low, head) = state.split_at_mut(self.cat.start);
         let (cat, rest) = head.split_at_mut(2 * n);
@@ -1306,7 +1358,7 @@ impl FastRnn {
         mut after: Ahead,
         isa: crate::vnni::Isa,
     ) {
-        use crate::vnni::{padded_cols, quantize};
+        use crate::vnni::{padded_cols, quantize, quantize_with_max};
         let n = self.hidden;
         let fast = self.act == Activations::Fast;
         let wts = self.weights.as_ref();
@@ -1322,6 +1374,14 @@ impl FastRnn {
                 return unsafe { crate::vnni::quantize_avx2(v, q) };
             }
             quantize(v, q)
+        };
+        let quant_with_max = |v: &[f32], maximum: f32, q: &mut [u8]| -> f32 {
+            // SAFETY: SIMD is instantiated only from AVX2-enabled wrappers.
+            #[cfg(target_arch = "x86_64")]
+            if SIMD {
+                return unsafe { crate::vnni::quantize_avx2_with_max(v, maximum, q) };
+            }
+            quantize_with_max(v, maximum, q)
         };
         let gelu_all = |v: &mut [f32], ahead: &mut Ahead| {
             // SAFETY: as for `quant`; ZMM only from the AVX-512 wrapper.
@@ -1340,12 +1400,37 @@ impl FastRnn {
                 v.iter_mut().for_each(|v| *v = gelu(*v));
             }
         };
+        let gelu_all_with_absmax = |v: &mut [f32], ahead: &mut Ahead| -> f32 {
+            // SAFETY: as for `quant`; ZMM only from the AVX-512 wrapper.
+            #[cfg(target_arch = "x86_64")]
+            if ZMM && fast {
+                return unsafe { crate::approx::avx512::gelu_slice_with_absmax(v, ahead) };
+            }
+            #[cfg(target_arch = "x86_64")]
+            if SIMD && fast {
+                return unsafe { crate::approx::avx2::gelu_slice_with_absmax(v, ahead) };
+            }
+            let _ = ahead;
+            let mut maximum = 0.0f32;
+            if fast {
+                for value in v {
+                    *value = gelu_fast(*value);
+                    maximum = maximum.max(value.abs());
+                }
+            } else {
+                for value in v {
+                    *value = gelu(*value);
+                    maximum = maximum.max(value.abs());
+                }
+            }
+            maximum
+        };
         let matrix_ahead = |m: &Mat| match m.q8 {
             Some(index) => Ahead::bytes(self.dq[index].bytes()),
             None => Ahead::NONE,
         };
 
-        {
+        let z_max = {
             let b = &wts[self.b_in.clone()];
             let padded = &mut st[self.z.start..self.z.start + b.len()];
             let cols = &half[self.w_in_cols.w.clone()];
@@ -1364,12 +1449,15 @@ impl FastRnn {
             } else {
                 crate::half::project_q16_portable(cols, scales, b, x, padded);
             }
-            gelu_all(&mut st[self.z.clone()], &mut matrix_ahead(&self.layers[0].w_ih));
-        }
+            gelu_all_with_absmax(
+                &mut st[self.z.clone()],
+                &mut matrix_ahead(&self.layers[0].w_ih),
+            )
+        };
         crate::vnni::prof::lap(0, &mut clock);
         let (hq, zq) = self.dcodes.split_at_mut(n_layers * kp);
         let (hs, zs) = self.dscales.split_at_mut(n_layers);
-        zs[0] = quant(&st[self.z.clone()], zq);
+        zs[0] = quant_with_max(&st[self.z.clone()], z_max, zq);
         let zs = zs[0];
         crate::vnni::prof::lap(1, &mut clock);
 
@@ -1392,21 +1480,27 @@ impl FastRnn {
             self.dq[li.w_hh.q8.unwrap()].gemv(isa, &cur[..kp], hs[k], Some(&wts[li.b_hh.clone()]), gh);
             crate::vnni::prof::lap(3 + 4 * k, &mut clock);
             let next = self.layers.get(k + 1).map_or(&self.w1, |l| &l.w_ih);
-            match self.cell {
+            let hidden_max = match self.cell {
                 // SAFETY: as for `quant`; ZMM only from the AVX-512 wrapper.
                 #[cfg(target_arch = "x86_64")]
-                Cell::Gru if ZMM && fast => unsafe {
-                    gru_update_avx512(h, gi, gh, &mut matrix_ahead(next))
-                },
+                Cell::Gru if ZMM && fast => {
+                    Some(unsafe { gru_update_avx512::<true>(h, gi, gh, &mut matrix_ahead(next)) })
+                }
                 #[cfg(target_arch = "x86_64")]
-                Cell::Gru if SIMD && fast => unsafe {
-                    gru_update_avx2(h, gi, gh, &mut matrix_ahead(next))
-                },
-                Cell::Gru => gru_update(h, gi, gh, fast),
-                Cell::Lstm => lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast),
-            }
+                Cell::Gru if SIMD && fast => {
+                    Some(unsafe { gru_update_avx2::<true>(h, gi, gh, &mut matrix_ahead(next)) })
+                }
+                Cell::Gru => Some(gru_update::<true>(h, gi, gh, fast)),
+                Cell::Lstm => {
+                    lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast);
+                    None
+                }
+            };
             crate::vnni::prof::lap(4 + 4 * k, &mut clock);
-            hs[k] = quant(h, &mut cur[..kp]);
+            hs[k] = match hidden_max {
+                Some(maximum) => quant_with_max(h, maximum, &mut cur[..kp]),
+                None => quant(h, &mut cur[..kp]),
+            };
             crate::vnni::prof::lap(5 + 4 * k, &mut clock);
         }
 
@@ -1545,9 +1639,11 @@ impl FastRnn {
                 // SAFETY: as for `matvec`.
                 #[cfg(target_arch = "x86_64")]
                 Cell::Gru if SIMD && fast => unsafe {
-                    gru_update_avx2(h, gi, gh, &mut matrix_ahead(next))
+                    gru_update_avx2::<false>(h, gi, gh, &mut matrix_ahead(next));
                 },
-                Cell::Gru => gru_update(h, gi, gh, fast),
+                Cell::Gru => {
+                    gru_update::<false>(h, gi, gh, fast);
+                }
                 Cell::Lstm => lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast),
             }
             quantize(h, Some(1.0), cur);
@@ -1651,7 +1747,7 @@ impl FastRnn {
                 lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast);
                 continue;
             }
-            gru_update(h, gi, gh, fast);
+            gru_update::<false>(h, gi, gh, fast);
         }
 
         let last = self.h.start + (self.layers.len() - 1) * n;
@@ -1838,6 +1934,100 @@ mod tests {
     fn fast_activations_stay_close_over_300_steps() {
         let err = run_both(Activations::Fast, 40, 33, 2);
         assert!(err < 1e-4, "{err}");
+    }
+
+    fn assert_hidden_and_q8_match(expected: &[f32], actual: &[f32], maximum: f32, simd: bool) {
+        let expected_bits: Vec<_> = expected.iter().map(|value| value.to_bits()).collect();
+        let actual_bits: Vec<_> = actual.iter().map(|value| value.to_bits()).collect();
+        assert_eq!(actual_bits, expected_bits);
+
+        let mut expected_codes = vec![0u8; crate::vnni::padded_cols(expected.len())];
+        let expected_scale = if simd {
+            // SAFETY: callers only set `simd` after checking AVX2 support.
+            unsafe { crate::vnni::quantize_avx2(expected, &mut expected_codes) }
+        } else {
+            crate::vnni::quantize(expected, &mut expected_codes)
+        };
+        let mut actual_codes = vec![0u8; crate::vnni::padded_cols(actual.len())];
+        let actual_scale = if simd {
+            // SAFETY: callers only set `simd` after checking AVX2 support.
+            unsafe { crate::vnni::quantize_avx2_with_max(actual, maximum, &mut actual_codes) }
+        } else {
+            crate::vnni::quantize_with_max(actual, maximum, &mut actual_codes)
+        };
+        assert_eq!(actual_codes, expected_codes);
+        assert_eq!(actual_scale.to_bits(), expected_scale.to_bits());
+    }
+
+    fn gru_fixture(n: usize) -> (Vec<f32>, Vec<f32>, Vec<f32>) {
+        let values = |length: usize, offset: usize| {
+            (0..length)
+                .map(|i| (((i * 37 + offset * 19) % 211) as f32 - 105.0) / 97.0)
+                .collect::<Vec<_>>()
+        };
+        (values(n, 1), values(3 * n, 2), values(3 * n, 3))
+    }
+
+    #[test]
+    fn fused_gru_update_absmax_preserves_state_codes_and_scales() {
+        for n in [1, 7, 8, 9, 15, 16, 17, 31, 32, 33, 384] {
+            for fast in [false, true] {
+                let (initial, gi, gh) = gru_fixture(n);
+                let mut expected = initial.clone();
+                let mut actual = initial.clone();
+                let full_scan_max = gru_update::<false>(&mut expected, &gi, &gh, fast);
+                let fused_max = gru_update::<true>(&mut actual, &gi, &gh, fast);
+                assert_eq!(full_scan_max.to_bits(), 0.0f32.to_bits());
+                assert_hidden_and_q8_match(&expected, &actual, fused_max, false);
+            }
+        }
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[test]
+    fn fused_avx2_gru_update_absmax_preserves_state_codes_and_scales() {
+        if !(std::arch::is_x86_feature_detected!("avx2")
+            && std::arch::is_x86_feature_detected!("fma"))
+        {
+            return;
+        }
+        for n in [1, 7, 8, 9, 15, 16, 17, 31, 32, 33, 384] {
+            let (initial, gi, gh) = gru_fixture(n);
+            let mut expected = initial.clone();
+            let mut actual = initial;
+            let mut expected_ahead = Ahead::NONE;
+            let mut actual_ahead = Ahead::NONE;
+            let full_scan_max =
+                unsafe { gru_update_avx2::<false>(&mut expected, &gi, &gh, &mut expected_ahead) };
+            let fused_max =
+                unsafe { gru_update_avx2::<true>(&mut actual, &gi, &gh, &mut actual_ahead) };
+            assert_eq!(full_scan_max.to_bits(), 0.0f32.to_bits());
+            assert_hidden_and_q8_match(&expected, &actual, fused_max, true);
+        }
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[test]
+    fn fused_avx512_gru_update_absmax_preserves_state_codes_and_scales() {
+        if !std::arch::is_x86_feature_detected!("avx512f") {
+            return;
+        }
+        for n in [1, 7, 8, 9, 15, 16, 17, 31, 32, 33, 384] {
+            let (initial, gi, gh) = gru_fixture(n);
+            let mut expected = initial.clone();
+            let mut actual = initial;
+            let mut expected_ahead = Ahead::NONE;
+            let mut actual_ahead = Ahead::NONE;
+            let full_scan_max = unsafe {
+                gru_update_avx512::<false>(&mut expected, &gi, &gh, &mut expected_ahead)
+            };
+            let fused_max = unsafe {
+                gru_update_avx512::<true>(&mut actual, &gi, &gh, &mut actual_ahead)
+            };
+            assert_eq!(full_scan_max.to_bits(), 0.0f32.to_bits());
+            // The AVX-512 GRU is followed by the same AVX2 Q8 encoding used in the step path.
+            assert_hidden_and_q8_match(&expected, &actual, fused_max, true);
+        }
     }
 
     #[test]

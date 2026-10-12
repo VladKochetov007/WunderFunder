@@ -388,6 +388,15 @@ impl DynQ8 {
 #[inline(always)]
 pub fn quantize(x: &[f32], q: &mut [u8]) -> f32 {
     let m = x.iter().fold(0.0f32, |m, v| m.max(v.abs()));
+    quantize_with_max(x, m, q)
+}
+
+/// Quantize a whole vector using an absolute maximum computed while producing `x`.
+///
+/// This retains the same encoding pass as [`quantize`]; callers must supply the exact
+/// result of the existing max operation over the complete vector.
+#[inline(always)]
+pub(crate) fn quantize_with_max(x: &[f32], m: f32, q: &mut [u8]) -> f32 {
     finish_quantize(x, m, q)
 }
 
@@ -427,6 +436,18 @@ pub unsafe fn quantize_avx2(x: &[f32], q: &mut [u8]) -> f32 {
         let m = lanes.iter().fold(0.0f32, |m, v| m.max(*v));
         x[x.len() / 8 * 8..].iter().fold(m, |m, v| m.max(v.abs()))
     };
+    unsafe { quantize_avx2_with_max(x, m, q) }
+}
+
+/// AVX2 Q8 encoding using an exact whole-vector maximum supplied by a fused producer.
+///
+/// # Safety
+/// The CPU must support AVX2 and FMA. `m` must equal the maximum used by [`quantize_avx2`].
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx2,fma")]
+#[inline]
+pub(crate) unsafe fn quantize_avx2_with_max(x: &[f32], m: f32, q: &mut [u8]) -> f32 {
+    use std::arch::x86_64::*;
     let padded = padded_cols(x.len());
     let q = &mut q[..padded];
     if !(m > 0.0 && m.is_finite()) {
@@ -597,6 +618,44 @@ mod tests {
         assert_eq!(q[1], 1);
         for (c, v) in q.iter().zip(x) {
             assert!((f32::from(*c) - 128.0) * s - v <= s / 2.0 + 1e-7);
+        }
+    }
+
+    #[test]
+    fn fused_precomputed_max_q8_encoder_matches_full_scan_including_edges() {
+        let cases = [
+            vec![],
+            vec![0.0, -0.0],
+            vec![
+                f32::NAN,
+                f32::INFINITY,
+                f32::NEG_INFINITY,
+                -0.0,
+                1.0,
+                -3.0,
+                0.25,
+            ],
+            vec![f32::NAN; 33],
+            (0..37).map(|i| (i as f32 - 18.0) * 0.125).collect(),
+        ];
+
+        for x in cases {
+            let maximum = x.iter().fold(0.0f32, |m, value| m.max(value.abs()));
+            let mut expected = vec![0u8; padded_cols(x.len())];
+            let expected_scale = quantize(&x, &mut expected);
+            let mut actual = vec![0u8; padded_cols(x.len())];
+            let actual_scale = quantize_with_max(&x, maximum, &mut actual);
+            assert_eq!(actual, expected);
+            assert_eq!(actual_scale.to_bits(), expected_scale.to_bits());
+
+            if supported(Isa::Avx2) {
+                let mut expected = vec![0u8; padded_cols(x.len())];
+                let expected_scale = unsafe { quantize_avx2(&x, &mut expected) };
+                let mut actual = vec![0u8; padded_cols(x.len())];
+                let actual_scale = unsafe { quantize_avx2_with_max(&x, maximum, &mut actual) };
+                assert_eq!(actual, expected);
+                assert_eq!(actual_scale.to_bits(), expected_scale.to_bits());
+            }
         }
     }
 
