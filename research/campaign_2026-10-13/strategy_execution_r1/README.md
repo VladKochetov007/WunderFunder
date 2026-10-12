@@ -40,6 +40,7 @@ Resume research under the new authority, update GPU guards, prepare and independ
 
 ## Source records
 
+- [Historical auxiliary/loss audit](HISTORICAL_AUXILIARY_AUDIT_R1.md) and [terminal-history receipt](HISTORICAL_AUXILIARY_AUDIT_R1.json) complete S25's evidence-location task. Seven completed histories and scoped historical negatives are preserved; no new quality computation or broad family rejection.
 - [Original stop](../../campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json), preserved as historical authority.
 - [Final archive](../../unified/archive/2026-10-12/README.md), historical artifacts and exposure.
 - [Existing refinement cards](../../unified/ideas/STRATEGY_REFINEMENTS_20261012.json), mechanisms and falsifiers.
