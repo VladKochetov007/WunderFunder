@@ -1,0 +1,36 @@
+{
+  "schema": "wnn.root.exact-activation-max-review.r1",
+  "created_utc": "2026-10-12T01:36:08.004402+00:00",
+  "reviewer": "root independent of native actor",
+  "raw_hashes": {
+    "baseline_pair1": "ea6d1a83061470d7fccd766622938d673207e7af80d09c1619a68794a8441f2e",
+    "candidate_pair1": "e06b13c33695cf4ea06ec3cd53ef2dd116e039473d6b0bff7406cd6fb3774c37",
+    "candidate_pair2": "b3fc0cc0800e2056e099882325ecf44994f4e14672eaa3cb58eadc76b4207dd1",
+    "baseline_pair2": "6eb88f5a03ef787441382b7b9dbe7780b0bb8df1cd776821fb0c8abb4841f88b"
+  },
+  "pairs": [
+    {
+      "pair": 1,
+      "baseline_us": 100.61349951,
+      "candidate_us": 99.37437774,
+      "time_reduction_percent": 1.2315661179013462
+    },
+    {
+      "pair": 2,
+      "baseline_us": 99.4075160325,
+      "candidate_us": 100.60219248,
+      "time_reduction_percent": -1.2017969014630814
+    }
+  ],
+  "callback_calls_per_panel": 400000,
+  "exact_prediction_hashes_all_panels": true,
+  "only_changed_zip_member": [
+    "v3/wnn_native.abi3.so"
+  ],
+  "frozen_zip_hashes_verified": true,
+  "verdict": "No repeatable timing benefit; retain exact treatment as unpromoted benchmark-only evidence.",
+  "limitations": [
+    "Intel timing; no EPYC9224 claim",
+    "Ten complete feature-only sequences; no new metric/public-score estimate"
+  ]
+}
