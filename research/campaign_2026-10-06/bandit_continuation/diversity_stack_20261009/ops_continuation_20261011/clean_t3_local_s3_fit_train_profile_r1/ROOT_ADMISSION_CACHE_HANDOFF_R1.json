@@ -1,0 +1,52 @@
+{
+  "after_handoff": {
+    "anon_bytes": 112693248,
+    "current_bytes": 11757301760,
+    "file_bytes": 11366600704,
+    "swap_current_bytes": 0
+  },
+  "before_handoff": {
+    "anon_bytes": 41103360,
+    "current_bytes": 11790434304,
+    "file_bytes": 11476238336,
+    "swap_current_bytes": 0
+  },
+  "contract_sha256": "2f73150c825d1ede5c401051fdb5cfaa2896abb5060ac31006ab6fff87856d37",
+  "frozen_input": {
+    "contract_footer_binding_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+    "device": 53,
+    "inode": 50918586,
+    "mtime_ns": 1577826000000000000,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/train.parquet",
+    "size_bytes": 29240219011
+  },
+  "handoff": {
+    "action": "POSIX_FADV_DONTNEED on exact frozen datasets/train.parquet; advisory cache eviction only",
+    "file_contents_or_metadata_changed": false,
+    "gpu_lock_held": true,
+    "limits_changed": false,
+    "reader_preflight": "fuser -s exited 1; no open reader",
+    "return_value": null
+  },
+  "observed_utc": "2026-10-12T07:39:57.033521+00:00",
+  "parent_properties": {
+    "CPUQuotaPerSecUSec": "5s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "MemoryCurrent": "11791663104",
+    "MemoryHigh": "18000000000",
+    "MemoryMax": "20000000000",
+    "MemorySwapMax": "0"
+  },
+  "reserve_admission_sum_bytes": 17257301760,
+  "root_authorization": "Root explicitly admitted exactly one s3 FIT_TRAIN full export after measuring parent MemoryCurrent=12300746752 bytes; +5500000000 reserve =17800746752 <18000000000. Root reported R8 cloud attempt immediately ERROR (provider rejected failed-R6 kernel source), so no duplicate export is running.",
+  "root_authorized_worker": {
+    "attempt": "clean-t3-f0-s3-fit-train-export-r1-20261012",
+    "cpus": 1,
+    "kind": "gpu",
+    "reserve_bytes": 5500000000,
+    "timeout_seconds": 3600
+  },
+  "schema": "clean-t3-full-export-root-admission-and-cache-handoff.r1",
+  "status": "ready_for_controller_recheck",
+  "working_limit_bytes": 18000000000
+}
