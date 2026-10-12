@@ -18,6 +18,10 @@ Latest submission instruction (2026-10-11): **Do not select from fold 1 alone. D
 
 Latest Vast instruction (2026-10-11): auto top-up is disabled. Remaining prepaid credit and provider expiry can be stricter than the $70 campaign ceiling. Reserve time for targeted collection before depletion, collect useful checkpoints/provenance/logs and evaluation predictions while work lands, and do not authorize a top-up, new rental or billing change. Jobs admitted under an older credit assumption need a recorded deadline/collection reassessment; no blind retry or late queued start.
 
+## Research note organization
+
+Start at the repository [research index](RESEARCH.md), then follow the topic READMEs under `research/unified/`. Put new ideas in `research/unified/ideas/`, methods and metric references in `methods/`, independent reviews and audit receipts in `reviews/`, imported external writeups in `sources/`, and operational logs or incidents in `operations/`. Use the shared `templates/NOTE_TEMPLATE.md` for new narrative research notes and link them from the relevant topic README; record scientific hypotheses and experiments in the append-only JSONL ledgers as well. Keep frozen campaign recipes, run receipts, logs, and artifacts in their originating campaign folders. Root `METRIC.md`, `oct5_ideas.md`, `review_2.txt`, and individual paths in `writeups/` and `reviews/` are compatibility symlinks; do not add new content there.
+
 ## Crucial specifications and decisions
 
 | Subject | Read |

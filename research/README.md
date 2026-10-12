@@ -1,19 +1,5 @@
-# Research ledger
+# Research records
 
-Every idea gets a hypothesis row before or while it is tested, and every run
-that informs a claim gets an experiment row. Refuted and inconclusive results
-stay in the ledger; they are not deleted or rewritten.
+Start at the repository [research library index](../RESEARCH.md), then use the [unified topic tree](unified/README.md) to find methods, ideas, model results, validation, submissions, inference, and operations notes.
 
-| file | content |
-|---|---|
-| `hypotheses.jsonl` | `H-###`: statement, mechanism, falsifier, status (`open`, `probing`, `supported`, `refuted`, `inconclusive`), evidence ids |
-| `experiments.jsonl` | `E-###`: command, commit, data split, result, claim, reproducibility |
-| `frontier.md` | current best score, supported claims, live mechanisms, debunked list, TODO |
-| `findings-*.md`, `profiling-*.md` | dated narrative notes |
-| `artifacts/` | small tracked JSON results; large run outputs live in the ignored top-level `artifacts/` |
-
-Rules: validation numbers name the split (`valid600` = 600 sequences from
-`permutation(1873, seed=12345)`, `full` = all 1873). Probes fitted on validation
-sequences say so. A claim from one run is provisional.
-
-October 5–6 continuation: [research index](campaign_2026-10-05/continuation_night/INDEX.md), [prepared experiment code](campaign_2026-10-05/continuation_night/FURTHER_EXPERIMENTS.md), and [background compute monitor](campaign_2026-10-05/continuation_night/kaggle/MONITOR.md).
+The append-only [hypothesis](hypotheses.jsonl) and [experiment](experiments.jsonl) ledgers preserve stable research IDs. Campaign folders hold recipes, raw logs, predictions, scores, and reviews. The dated [October 12 archive](unified/archive/2026-10-12/README.md) organizes the final handoff. Legacy methods, ideas, reviews, and imported writeups now have canonical locations in `research/unified/`; their old file paths remain as compatibility symlinks.

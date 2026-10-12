@@ -1,0 +1,93 @@
+# Evidence catalog: `research/artifacts` (part 1/1)
+
+> Point-in-time metadata catalog from the October 12 handoff. Descriptions classify filenames and filesystem metadata; they are not content reviews.
+
+### `research/artifacts/`
+
+- [adversarial_validation.json](../../../../../artifacts/adversarial_validation.json) — 2,047 bytes; modified 2026-10-03 19:50:38Z; claim-receipt-like by filename.
+- [brainteaser_age_error_budget.json](../../../../../artifacts/brainteaser_age_error_budget.json) — 4,924 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_arma_garch_residual.json](../../../../../artifacts/brainteaser_arma_garch_residual.json) — 1,460 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_arma_innovation_spectrum.json](../../../../../artifacts/brainteaser_arma_innovation_spectrum.json) — 944 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_aux_sign_readout.json](../../../../../artifacts/brainteaser_aux_sign_readout.json) — 1,802 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_book_return_acf.json](../../../../../artifacts/brainteaser_book_return_acf.json) — 311 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_causal_volatility.json](../../../../../artifacts/brainteaser_causal_volatility.json) — 1,342 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_class_oracle_allocation.json](../../../../../artifacts/brainteaser_class_oracle_allocation.json) — 2,983 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_confidence_error.json](../../../../../artifacts/brainteaser_confidence_error.json) — 3,033 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_cycle_break_signal.json](../../../../../artifacts/brainteaser_cycle_break_signal.json) — 1,730 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_direction_vs_size.json](../../../../../artifacts/brainteaser_direction_vs_size.json) — 4,868 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_duration_seasonal_ar.json](../../../../../artifacts/brainteaser_duration_seasonal_ar.json) — 1,857 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_episode_concentration.json](../../../../../artifacts/brainteaser_episode_concentration.json) — 1,202 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_error_budget.json](../../../../../artifacts/brainteaser_error_budget.json) — 1,186 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_event_duration_ar.json](../../../../../artifacts/brainteaser_event_duration_ar.json) — 374 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_event_prediction_lag.json](../../../../../artifacts/brainteaser_event_prediction_lag.json) — 1,328 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_example_traces.json](../../../../../artifacts/brainteaser_example_traces.json) — 284 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_focused_screen.json](../../../../../artifacts/brainteaser_focused_screen.json) — 656 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_garch11_residual.json](../../../../../artifacts/brainteaser_garch11_residual.json) — 524 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_history_residual.json](../../../../../artifacts/brainteaser_history_residual.json) — 1,237 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_history_residual_3feat_full.json](../../../../../artifacts/brainteaser_history_residual_3feat_full.json) — 1,245 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_history_residual_drift_full.json](../../../../../artifacts/brainteaser_history_residual_drift_full.json) — 739 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_history_residual_full.json](../../../../../artifacts/brainteaser_history_residual_full.json) — 1,245 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_history_residual_sample.json](../../../../../artifacts/brainteaser_history_residual_sample.json) — 1,237 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_mask_tier.json](../../../../../artifacts/brainteaser_mask_tier.json) — 6,626 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_metrics.json](../../../../../artifacts/brainteaser_metrics.json) — 29,310 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_next_event_hgb.json](../../../../../artifacts/brainteaser_next_event_hgb.json) — 789 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_next_event_target_link.json](../../../../../artifacts/brainteaser_next_event_target_link.json) — 435 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_oracle_headroom.json](../../../../../artifacts/brainteaser_oracle_headroom.json) — 1,480 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_peak_length_scored.json](../../../../../artifacts/brainteaser_peak_length_scored.json) — 1,214 bytes; modified 2026-10-03 19:50:38Z; claim-receipt-like by filename.
+- [brainteaser_phase6_gate.json](../../../../../artifacts/brainteaser_phase6_gate.json) — 1,886 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_propensity_gap.json](../../../../../artifacts/brainteaser_propensity_gap.json) — 1,932 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_quote_path_label_quality.json](../../../../../artifacts/brainteaser_quote_path_label_quality.json) — 768 bytes; modified 2026-10-03 19:50:38Z; claim-receipt-like by filename.
+- [brainteaser_raw_code_recurrence.json](../../../../../artifacts/brainteaser_raw_code_recurrence.json) — 81,769 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_raw_cycle_break.json](../../../../../artifacts/brainteaser_raw_cycle_break.json) — 5,185 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_residual_timescale.json](../../../../../artifacts/brainteaser_residual_timescale.json) — 821 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_scored_next_event_oracle.json](../../../../../artifacts/brainteaser_scored_next_event_oracle.json) — 3,059 bytes; modified 2026-10-03 19:50:38Z; claim-receipt-like by filename.
+- [brainteaser_scored_timing_forecast.json](../../../../../artifacts/brainteaser_scored_timing_forecast.json) — 413 bytes; modified 2026-10-03 19:50:38Z; claim-receipt-like by filename.
+- [brainteaser_seasonal_lag_readout.json](../../../../../artifacts/brainteaser_seasonal_lag_readout.json) — 2,060 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_sequence_concentration.json](../../../../../artifacts/brainteaser_sequence_concentration.json) — 192 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_spectral_phase.json](../../../../../artifacts/brainteaser_spectral_phase.json) — 24,180 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_spread_projection_sample.json](../../../../../artifacts/brainteaser_spread_projection_sample.json) — 1,130 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_timing_pair_global.json](../../../../../artifacts/brainteaser_timing_pair_global.json) — 1,013 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_timing_residual_gate.json](../../../../../artifacts/brainteaser_timing_residual_gate.json) — 1,030 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [brainteaser_vecm_diagnostic.json](../../../../../artifacts/brainteaser_vecm_diagnostic.json) — 676 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [class3_law_audit.json](../../../../../artifacts/class3_law_audit.json) — 4,750 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [class3_law_audit_dev.json](../../../../../artifacts/class3_law_audit_dev.json) — 4,770 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [cpu_fallback_audit.json](../../../../../artifacts/cpu_fallback_audit.json) — 575 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [domain_geometry.json](../../../../../artifacts/domain_geometry.json) — 1,592 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [E-007-full_e2-history.json](../../../../../artifacts/E-007-full_e2-history.json) — 637 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [E-028-ab2_E_mix_h384-history.json](../../../../../artifacts/E-028-ab2_E_mix_h384-history.json) — 581 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [E-029-decomposition-ab1_A_mix.json](../../../../../artifacts/E-029-decomposition-ab1_A_mix.json) — 3,401 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [E-031-prop_v1-history.json](../../../../../artifacts/E-031-prop_v1-history.json) — 342 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [E-035-scan-train.json](../../../../../artifacts/E-035-scan-train.json) — 141 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [ensemble_scan_e6b.json](../../../../../artifacts/ensemble_scan_e6b.json) — 3,402 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [ensemble_scan_ft.json](../../../../../artifacts/ensemble_scan_ft.json) — 15,989 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [ensemble_scan_h192_f0.json](../../../../../artifacts/ensemble_scan_h192_f0.json) — 1,079 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [ensemble_scan_keep.json](../../../../../artifacts/ensemble_scan_keep.json) — 3,527 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [ensemble_scan_mlp_f0.json](../../../../../artifacts/ensemble_scan_mlp_f0.json) — 1,079 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [ensemble_scan_onorm.json](../../../../../artifacts/ensemble_scan_onorm.json) — 4,687 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [ensemble_scan_phase1.json](../../../../../artifacts/ensemble_scan_phase1.json) — 12,504 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [fallback_runtime_audit.json](../../../../../artifacts/fallback_runtime_audit.json) — 1,236 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [fallback_score_delta.json](../../../../../artifacts/fallback_score_delta.json) — 507 bytes; modified 2026-10-03 19:50:38Z; claim-receipt-like by filename.
+- [final_pair_audit.json](../../../../../artifacts/final_pair_audit.json) — 15,615 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [lb_calibration.json](../../../../../artifacts/lb_calibration.json) — 18,303 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [lb_calibration_grid.json](../../../../../artifacts/lb_calibration_grid.json) — 28,308 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [lb_calibration_headonly.json](../../../../../artifacts/lb_calibration_headonly.json) — 18,303 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [lb_calibration_k4grid.json](../../../../../artifacts/lb_calibration_k4grid.json) — 21,620 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [leaderboard_snapshot_2026-09-29.json](../../../../../artifacts/leaderboard_snapshot_2026-09-29.json) — 662 bytes; modified 2026-10-03 19:50:38Z; source snapshot / plan by filename.
+- [lift_probe.jsonl](../../../../../artifacts/lift_probe.jsonl) — 3,856 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [plots_manifest.md](../../../../../artifacts/plots_manifest.md) — 10,473 bytes; modified 2026-10-03 19:50:38Z; claim-receipt-like by filename.
+- [rb_class3_screen.json](../../../../../artifacts/rb_class3_screen.json) — 1,682 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+
+### `research/artifacts/symreg/`
+
+- [direction_c0.json](../../../../../artifacts/symreg/direction_c0.json) — 706 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [direction_c1.json](../../../../../artifacts/symreg/direction_c1.json) — 725 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [direction_c2.json](../../../../../artifacts/symreg/direction_c2.json) — 708 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [direction_c3.json](../../../../../artifacts/symreg/direction_c3.json) — 720 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [level_c0.json](../../../../../artifacts/symreg/level_c0.json) — 722 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [level_c1.json](../../../../../artifacts/symreg/level_c1.json) — 733 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [mask.json](../../../../../artifacts/symreg/mask.json) — 968 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [mask_c2.json](../../../../../artifacts/symreg/mask_c2.json) — 712 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [mask_c3.json](../../../../../artifacts/symreg/mask_c3.json) — 714 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [residual_c0_ab20_gru128_e2.json](../../../../../artifacts/symreg/residual_c0_ab20_gru128_e2.json) — 589 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [residual_c1_ab20_gru128_e2.json](../../../../../artifacts/symreg/residual_c1_ab20_gru128_e2.json) — 607 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.
+- [residual_c2_ab20_gru128_e2.json](../../../../../artifacts/symreg/residual_c2_ab20_gru128_e2.json) — 598 bytes; modified 2026-10-03 19:50:38Z; documentation / metadata by filename.

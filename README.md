@@ -5,6 +5,8 @@ Predict `t0` and `t1`, two indicators of future price movements of instrument
 
 For ongoing research and agent handoffs, start with the
 [research specifications and decision records](specs/README.md).
+Use the repository [research index](RESEARCH.md) to navigate ideas, methods,
+reviews, source writeups, experiments, and the dated research archive.
 
 ## Data
 
