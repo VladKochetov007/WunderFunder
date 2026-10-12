@@ -1,0 +1,365 @@
+{
+  "comparison": {
+    "C_actual_elapsed_seconds_controller_reported": 2196,
+    "C_after_mean_callback_us_per_row": 79.9128162225,
+    "C_before_mean_callback_us_per_row": 80.089691375,
+    "E_mean_callback_us_per_row": 111.29271501,
+    "E_runtime_heuristic_minutes": 50.91561914282954,
+    "E_runtime_heuristic_seconds": 3054.9371485697725,
+    "E_to_C_callback_cost_ratio": 1.3911371350499875,
+    "caution_threshold_minutes": 55,
+    "interpretation": "The measured E/C callback-cost ratio applied to controller-reported C elapsed time gives about 50.92 minutes, roughly 4.08 minutes under the 55-minute caution threshold. This is a local capacity heuristic only. It excludes per-run startup and data decode, uses an Intel i9-11900H, and does not guarantee Kaggle/EPYC completion time. Root retains release authority.",
+    "paired_C_mean_callback_us_per_row": 80.00125379875
+  },
+  "created_utc": "2026-10-12T13:14:36.815952+00:00",
+  "fixed_workload": {
+    "all_sequence_prediction_hashes_identical_between_C_before_and_C_after": true,
+    "callbacks_per_profile": 400000,
+    "data_path": "/tmp/wnn_valid_rowgroups0_9_native_q8_profile.parquet",
+    "data_sha256": "21bef3ff373b238030be700cfe857380c616a58da3975eed81675fdb99998830",
+    "official_metric_computed": false,
+    "passes_per_profile": 2,
+    "profile_reset_and_prediction_determinism_required": true,
+    "row_groups": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "sequence_count": 10,
+    "sequence_ids": [
+      256678,
+      751005,
+      1200028,
+      1892371,
+      1990332,
+      2308749,
+      4490992,
+      6746551,
+      8348957,
+      9147005
+    ],
+    "sequence_length_rows": 20000
+  },
+  "packages": {
+    "C": {
+      "bytes": 12680868,
+      "model_count": 3,
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-12-best-r1/h390_s3_s4_q8_z4half_20261012.zip",
+      "sha256": "6013d20a7ff26ce6ef46821f80ed01da848ef4da565e2cd91656417ddd5186ea"
+    },
+    "E": {
+      "bytes": 16805643,
+      "model_count": 4,
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-12-best-r2/E_c75_plus_z5_q8_20261012.zip",
+      "sha256": "2aed2137c347344146e3481c83388d64bd5060b1c13bb66554b0bf9cc0027024"
+    }
+  },
+  "purpose": "Paired local callback-cost capacity comparison only; no metric, quality ranking, public-score forecast, or target-hardware runtime certification.",
+  "runs": [
+    {
+      "build_receipt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-12-best-r1/receipts/h390_s3_s4_q8_z4half_BUILD_R1.json",
+      "build_receipt_sha256": "a9c710d18ba8665f56e701b05e22fa4cca919f63b46d166fb47fda6cabd35120",
+      "cgroup_cpu_max": "100000 100000",
+      "cgroup_cpu_stat_after": "usage_usec 34690152\nuser_usec 34593997\nsystem_usec 96154\nnice_usec 34599178\ncore_sched.force_idle_usec 0\nnr_periods 351\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "cgroup_memory_current_bytes_after": 223342592,
+      "cgroup_memory_events_after": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "cgroup_memory_max_bytes": 1499996160,
+      "cgroup_memory_peak_bytes": 225439744,
+      "cpu_affinity_used": [
+        0
+      ],
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "elapsed_callback_ns": 32035876550,
+      "elapsed_wall_seconds_after_sequence_decode": 34.64648060200852,
+      "label": "C_before",
+      "loadavg_end": "2.14 2.17 2.64 2/4060 348465",
+      "loadavg_start": "1.70 2.10 2.63 1/4058 347046",
+      "max_rss_kib_diagnostic": 249416,
+      "mean_callback_us_per_row": 80.089691375,
+      "model_count": 3,
+      "native_level": "v3",
+      "native_library_sha256": {
+        "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+        "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+        "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+      },
+      "numpy": "2.2.6",
+      "precision": "q8vnni",
+      "predictions_sha256_by_sequence": {
+        "1200028": "27f11881686b774d458314dbc212b4798cfa7ec9458e2ed6a6103fff3126816d",
+        "1892371": "56c2db783721e63b6f89e9fdebf9940524b58867b8079646e5843b91dbc99832",
+        "1990332": "3dc7b8f68390cfb4c980f45cdec114f2b7d074b24aac33ff9a1006e720bb215f",
+        "2308749": "4521e8ea5859598f70f0275ba7646c7b87b98ea9ea470ca0e1735781ef982ca1",
+        "256678": "992691f10985eeabd59a9f0ee21ab9443547ee82ec11b09505fa6deff245ca9f",
+        "4490992": "3e9258f415bcab53d8b135e379dc35ab313001f260b0d9bd94ee991f8b556649",
+        "6746551": "1b56894d1f95d768c3a6944f448e3b5c7639b6dd9c2bf6e87cf999a01145d37b",
+        "751005": "0078e5a31757064c74db3e2c56376acbd8ff4a83c508dd7e2a875fd406622abf",
+        "8348957": "a7dcba2186c0e790c24a13f7952100017012348cd8f423b9344e0c95ff60f261",
+        "9147005": "45c27148a410826891e27228b0f8a583f9b51e96d64c2a10458059fcae69781c"
+      },
+      "profile_data_sha256": "21bef3ff373b238030be700cfe857380c616a58da3975eed81675fdb99998830",
+      "profile_path": "research/campaign_2026-10-12/z5_blend_runtime_pair_r1/profiles/PAIRED_C_BEFORE_R1.json",
+      "profile_sha256": "7cb1b1e977e592ebf84d6ab09443a028d0ae5d8b38757a629a13ae8cdb0e158d",
+      "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+      "reset_replay_bitwise_deterministic": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "rows_per_repeat": 200000,
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "submission_bytes": 12680868,
+      "submission_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-12-best-r1/h390_s3_s4_q8_z4half_20261012.zip",
+      "submission_sha256": "6013d20a7ff26ce6ef46821f80ed01da848ef4da565e2cd91656417ddd5186ea",
+      "total_callback_calls": 400000
+    },
+    {
+      "build_receipt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-12-best-r2/E_c75_plus_z5_q8_20261012_BUILD_R1.json",
+      "build_receipt_sha256": "5d760deaacd96f04975e11ff0b8910431363b99e2a97f696f13d953cc0dae774",
+      "cgroup_cpu_max": "100000 100000",
+      "cgroup_cpu_stat_after": "usage_usec 47202128\nuser_usec 47089854\nsystem_usec 112273\nnice_usec 47095827\ncore_sched.force_idle_usec 0\nnr_periods 477\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "cgroup_memory_current_bytes_after": 233533440,
+      "cgroup_memory_events_after": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "cgroup_memory_max_bytes": 1499996160,
+      "cgroup_memory_peak_bytes": 235888640,
+      "cpu_affinity_used": [
+        0
+      ],
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "elapsed_callback_ns": 44517086004,
+      "elapsed_wall_seconds_after_sequence_decode": 47.198915802000556,
+      "label": "E",
+      "loadavg_end": "1.65 2.01 2.55 3/4054 350974",
+      "loadavg_start": "1.97 2.13 2.62 3/4061 349068",
+      "max_rss_kib_diagnostic": 254936,
+      "mean_callback_us_per_row": 111.29271501,
+      "model_count": 4,
+      "native_level": "v3",
+      "native_library_sha256": {
+        "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+        "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+        "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+      },
+      "numpy": "2.2.6",
+      "precision": "q8vnni",
+      "predictions_sha256_by_sequence": {
+        "1200028": "d5bb57e1ba77117405131e2ce317598e363c87a753c1e13d66d032042fdd3762",
+        "1892371": "b8b2d4ef9134497db9570bc59c2a19f0ef1cd5c9ad7db62f8b7ba85a05a16db3",
+        "1990332": "fb13dc1bf1ac32a6a7b7c7286ee0c70b567091c4757db76f83fb381f60625c4d",
+        "2308749": "3e52deafd876c28743644b9480c1bcdc58426c3c85c358cf3a396fb9992add06",
+        "256678": "0ebd33837cf9a4f8c10b9749d374c1bc05bdf4f9ae1755cb45dff67666a89b3a",
+        "4490992": "5f5bb2d43e4d892862261d96f87d8c8a773e167ea509b888c874cd343af1bbcd",
+        "6746551": "acd3cce015296ff72307a66a33f7d0fe81936d34f66dcff6619dc25b5d45dcc0",
+        "751005": "eb900357f5d3963570b23abf9c1150bbe1bca53a65b5172487c4cefdba25ed24",
+        "8348957": "778e78c77dc657ac1d18a40b12bdf1b68e23d1836a8100a7945ac28f90640275",
+        "9147005": "6f61aae5b40e26ef542e21fb09120e382853ac7a24a1b695906466978162d691"
+      },
+      "profile_data_sha256": "21bef3ff373b238030be700cfe857380c616a58da3975eed81675fdb99998830",
+      "profile_path": "research/campaign_2026-10-12/z5_blend_runtime_pair_r1/profiles/PAIRED_E_R1.json",
+      "profile_sha256": "0d9e55e4aadeffe8466fc21ce42e0028f68fb415aa245301581030d9c7a614fe",
+      "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+      "reset_replay_bitwise_deterministic": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "rows_per_repeat": 200000,
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "submission_bytes": 16805643,
+      "submission_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-12-best-r2/E_c75_plus_z5_q8_20261012.zip",
+      "submission_sha256": "2aed2137c347344146e3481c83388d64bd5060b1c13bb66554b0bf9cc0027024",
+      "total_callback_calls": 400000
+    },
+    {
+      "build_receipt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-12-best-r1/receipts/h390_s3_s4_q8_z4half_BUILD_R1.json",
+      "build_receipt_sha256": "a9c710d18ba8665f56e701b05e22fa4cca919f63b46d166fb47fda6cabd35120",
+      "cgroup_cpu_max": "100000 100000",
+      "cgroup_cpu_stat_after": "usage_usec 34566862\nuser_usec 34472168\nsystem_usec 94694\nnice_usec 34475944\ncore_sched.force_idle_usec 0\nnr_periods 350\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "cgroup_memory_current_bytes_after": 223625216,
+      "cgroup_memory_events_after": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "cgroup_memory_max_bytes": 1499996160,
+      "cgroup_memory_peak_bytes": 225660928,
+      "cpu_affinity_used": [
+        0
+      ],
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "elapsed_callback_ns": 31965126489,
+      "elapsed_wall_seconds_after_sequence_decode": 34.533409114024835,
+      "label": "C_after",
+      "loadavg_end": "2.06 2.03 2.53 1/4064 352974",
+      "loadavg_start": "1.65 2.00 2.54 1/4065 351562",
+      "max_rss_kib_diagnostic": 249764,
+      "mean_callback_us_per_row": 79.9128162225,
+      "model_count": 3,
+      "native_level": "v3",
+      "native_library_sha256": {
+        "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+        "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+        "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+      },
+      "numpy": "2.2.6",
+      "precision": "q8vnni",
+      "predictions_sha256_by_sequence": {
+        "1200028": "27f11881686b774d458314dbc212b4798cfa7ec9458e2ed6a6103fff3126816d",
+        "1892371": "56c2db783721e63b6f89e9fdebf9940524b58867b8079646e5843b91dbc99832",
+        "1990332": "3dc7b8f68390cfb4c980f45cdec114f2b7d074b24aac33ff9a1006e720bb215f",
+        "2308749": "4521e8ea5859598f70f0275ba7646c7b87b98ea9ea470ca0e1735781ef982ca1",
+        "256678": "992691f10985eeabd59a9f0ee21ab9443547ee82ec11b09505fa6deff245ca9f",
+        "4490992": "3e9258f415bcab53d8b135e379dc35ab313001f260b0d9bd94ee991f8b556649",
+        "6746551": "1b56894d1f95d768c3a6944f448e3b5c7639b6dd9c2bf6e87cf999a01145d37b",
+        "751005": "0078e5a31757064c74db3e2c56376acbd8ff4a83c508dd7e2a875fd406622abf",
+        "8348957": "a7dcba2186c0e790c24a13f7952100017012348cd8f423b9344e0c95ff60f261",
+        "9147005": "45c27148a410826891e27228b0f8a583f9b51e96d64c2a10458059fcae69781c"
+      },
+      "profile_data_sha256": "21bef3ff373b238030be700cfe857380c616a58da3975eed81675fdb99998830",
+      "profile_path": "research/campaign_2026-10-12/z5_blend_runtime_pair_r1/profiles/PAIRED_C_AFTER_R1.json",
+      "profile_sha256": "820e30e5e1ba03e986e0c5d71efa627bcfceeab21a94fece1a86c937d6e57565",
+      "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+      "reset_replay_bitwise_deterministic": true,
+      "row_groups": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "rows_per_repeat": 200000,
+      "sequence_ids": [
+        256678,
+        751005,
+        1200028,
+        1892371,
+        1990332,
+        2308749,
+        4490992,
+        6746551,
+        8348957,
+        9147005
+      ],
+      "submission_bytes": 12680868,
+      "submission_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-12-best-r1/h390_s3_s4_q8_z4half_20261012.zip",
+      "submission_sha256": "6013d20a7ff26ce6ef46821f80ed01da848ef4da565e2cd91656417ddd5186ea",
+      "total_callback_calls": 400000
+    }
+  ],
+  "runtime_environment": {
+    "active_fit_observation": "No running service/scope matching bandit, fit, p[0-9], or clean-t3 was observed immediately before each run; named P3 control service was absent. Therefore unused active-fit memory reservation was 0 for these gates.",
+    "cpu_affinity": [
+      0
+    ],
+    "cpu_frequency_samples_khz": {
+      "after_C_before": 4211236,
+      "after_E": 4442574,
+      "pre_C_after": 3281398
+    },
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "frequency_sample_caveat": "Instantaneous ambient samples, not per-run locked or sustained clock measurements; no thermal telemetry was captured.",
+    "native_level": "v3",
+    "native_libraries": {
+      "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+      "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+      "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+    },
+    "numpy": "2.2.6",
+    "parent_slice": {
+      "cpu_quota": "5 CPUs",
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000
+    },
+    "precision": "q8vnni",
+    "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+    "resource_gate_before_each_run": [
+      {
+        "fit_memory_current_bytes": 0,
+        "projected_slice_bytes": 10345799424,
+        "run": "C_before",
+        "slice_memory_current_bytes": 8845799424,
+        "support_cap_bytes": 1500000000,
+        "unused_fit_reservation_bytes": 0
+      },
+      {
+        "fit_memory_current_bytes": 0,
+        "projected_slice_bytes": 10345864960,
+        "run": "E",
+        "slice_memory_current_bytes": 8845864960,
+        "support_cap_bytes": 1500000000,
+        "unused_fit_reservation_bytes": 0
+      },
+      {
+        "fit_memory_current_bytes": 0,
+        "projected_slice_bytes": 10345889536,
+        "run": "C_after",
+        "slice_memory_current_bytes": 8845889536,
+        "support_cap_bytes": 1500000000,
+        "unused_fit_reservation_bytes": 0
+      }
+    ],
+    "runner_path": "scripts/benchmark_submission_callbacks.py",
+    "runner_sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53",
+    "slice_loadavg_after_all_runs": "1.25 1.81 2.42 2/4105 355404",
+    "slice_memory_after_all_runs_bytes": 8845983744,
+    "support_limits": {
+      "cpu_quota": "100% of one CPU",
+      "memory_max_bytes": 1500000000,
+      "runtime_max_seconds": 120,
+      "swap": "not allocated by scripts/limited"
+    },
+    "utils_sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+  },
+  "schema": "wnn.z5-blend-paired-runtime-review.v1",
+  "sequence": [
+    "C_before",
+    "E",
+    "C_after"
+  ]
+}
