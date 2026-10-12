@@ -1,5 +1,10 @@
 # Bounded blend optimization primitive (R1)
 
+> Superseded by [R2](NUMERICAL_PRIMITIVE_R2.md): R1 described the continuous
+> float64 clip-2 surrogate as the official computation. R2 corrects that
+> precision qualification and scores candidates through the official float32
+> metric path. This R1 note is retained as historical context.
+
 This code-only addition provides small-array numerical functions for a later,
 separately admitted endpoint comparison. It does not read model banks, bind
 evaluation data, choose checkpoints, fit models, or establish an improved blend.

@@ -9,8 +9,9 @@ import pytest
 
 from wnn.blend_optimization import (
     analytic_shared_initializer,
-    exact_clip2_wp_and_gradient,
+    clip2_wp_surrogate_and_gradient,
     fit_shared_clip2_weights,
+    official_clip2_wp,
     ridge_simplex_initializer,
     unclipped_correlation_and_gradient,
     weighted_prediction_moments,
@@ -52,7 +53,7 @@ def test_unclipped_moments_gradient_matches_finite_difference() -> None:
     assert value == pytest.approx(expected, abs=2e-7)
 
 
-def test_exact_clip2_value_matches_official_scorer_and_gradient() -> None:
+def test_clip2_surrogate_gradient_and_official_candidate_score() -> None:
     rng = np.random.default_rng(1204)
     rows = 64
     targets = rng.normal(0.0, 1.5, (rows, 2)).astype(np.float32)
@@ -69,17 +70,52 @@ def test_exact_clip2_value_matches_official_scorer_and_gradient() -> None:
     predictions[~mask] = np.inf
     coefficients = np.array([0.35, 0.5, 0.15], dtype=np.float64)
 
-    score, gradient = exact_clip2_wp_and_gradient(targets, predictions, mask, coefficients)
+    _, gradient = clip2_wp_surrogate_and_gradient(targets, predictions, mask, coefficients)
     raw_mixture = np.einsum("nmk,m->nk", predictions, coefficients, dtype=np.float64)
     reference_prediction = raw_mixture.astype(np.float32)
     reference = global_wp(targets, reference_prediction, mask)
-    assert score == pytest.approx(float(reference["wp"]), abs=3e-7)
+    assert official_clip2_wp(targets, predictions, mask, coefficients) == pytest.approx(
+        float(reference["wp"]), abs=0.0
+    )
 
     numerical = _central_difference(
-        lambda value: exact_clip2_wp_and_gradient(targets, predictions, mask, value)[0],
+        lambda value: clip2_wp_surrogate_and_gradient(targets, predictions, mask, value)[0],
         coefficients,
     )
     np.testing.assert_allclose(gradient, numerical, atol=2e-6, rtol=2e-5)
+
+
+def test_float32_ulp_rounding_can_change_the_official_candidate_score() -> None:
+    unit = float(np.spacing(np.float32(1.0)))
+    targets = np.repeat(np.array([[0.5], [1.0]], dtype=np.float32), 2, axis=1)
+    predictions = np.empty((2, 2, 2), dtype=np.float32)
+    predictions[:, 0, :] = np.float32(1.0)
+    predictions[:, 1, 0] = np.array([1.0 + unit, 1.0 + 2.0 * unit], dtype=np.float32)
+    predictions[:, 1, 1] = predictions[:, 1, 0]
+    mask = np.ones(2, dtype=bool)
+    coefficients = np.array([0.75, 0.25], dtype=np.float64)
+
+    surrogate, _ = clip2_wp_surrogate_and_gradient(targets, predictions, mask, coefficients)
+    official = official_clip2_wp(targets, predictions, mask, coefficients)
+    assert surrogate == pytest.approx(1.0, abs=1e-12)
+    assert official == 0.0
+
+
+def test_official_score_uses_selected_rows_and_rejects_selected_nonfinite() -> None:
+    targets = np.array([[0.0, 0.0], [0.5, -0.5], [1.0, 1.0]], dtype=np.float32)
+    predictions = np.array([[[1.0, -1.0]], [[0.2, -0.2]], [[0.8, 0.8]]], dtype=np.float32)
+    mask = np.array([True, True, False])
+    targets[2] = np.nan
+    predictions[2] = np.inf
+    coefficients = np.array([1.0], dtype=np.float64)
+    expected = global_wp(targets, predictions[:, 0, :], mask)
+    assert official_clip2_wp(targets, predictions, mask, coefficients) == float(expected["wp"])
+    with pytest.raises(ValueError, match="no selected rows"):
+        official_clip2_wp(targets, predictions, np.zeros_like(mask), coefficients)
+
+    targets[0, 0] = np.nan
+    with pytest.raises(ValueError, match="nonfinite selected"):
+        official_clip2_wp(targets, predictions, mask, coefficients)
 
 
 def test_clipping_can_reverse_an_unclipped_initializer_preference() -> None:
@@ -99,8 +135,8 @@ def test_clipping_can_reverse_an_unclipped_initializer_preference() -> None:
     initializer = ridge_simplex_initializer(moments, ridge=1e-10)
     assert initializer[0] > 1.0 - 1e-5
 
-    model_zero = exact_clip2_wp_and_gradient(target, predictions, mask, np.array([1.0, 0.0]))[0]
-    model_one = exact_clip2_wp_and_gradient(target, predictions, mask, np.array([0.0, 1.0]))[0]
+    model_zero = clip2_wp_surrogate_and_gradient(target, predictions, mask, np.array([1.0, 0.0]))[0]
+    model_one = clip2_wp_surrogate_and_gradient(target, predictions, mask, np.array([0.0, 1.0]))[0]
     assert model_one > model_zero + 0.01
 
 
@@ -149,7 +185,33 @@ def test_bounded_slsqp_starts_constraints_determinism_and_fixed_shrinkage() -> N
     equal = np.full(3, 1.0 / 3.0)
     expected = 0.75 * first.unshrunk_weights + 0.25 * equal
     np.testing.assert_allclose(first.weights, expected, atol=1e-14, rtol=0.0)
-    assert np.isfinite(first.score)
+    assert np.isfinite(first.official_score)
+    assert np.isfinite(first.surrogate_score)
+
+    analytic = analytic_shared_initializer(targets, predictions, mask, ridge=1e-5)
+    solver_by_name = {attempt.start_name: attempt for attempt in first.attempts}
+    ranked: list[tuple[str, float]] = []
+    for name, start in (("equal", equal), ("current", current), ("analytic", analytic)):
+        attempt = solver_by_name[name]
+        np.testing.assert_allclose(attempt.start_weights, start, atol=1e-15, rtol=0.0)
+        start_score = official_clip2_wp(targets, predictions, mask, attempt.start_weights)
+        assert attempt.start_official_score == start_score
+        assert (
+            attempt.start_surrogate_score
+            == clip2_wp_surrogate_and_gradient(targets, predictions, mask, attempt.start_weights)[0]
+        )
+        ranked.append((f"{name}:start", start_score))
+        attempt_score = official_clip2_wp(targets, predictions, mask, attempt.weights)
+        assert attempt.official_score == attempt_score
+        ranked.append((f"{name}:slsqp", attempt_score))
+    selected_name, selected_score = max(ranked, key=lambda item: item[1])
+    assert first.selected_candidate == selected_name
+    assert first.unshrunk_official_score == selected_score
+    assert first.official_score == official_clip2_wp(targets, predictions, mask, first.weights)
+    assert (
+        first.surrogate_score
+        == clip2_wp_surrogate_and_gradient(targets, predictions, mask, first.weights)[0]
+    )
 
 
 def test_shared_analytic_initializer_is_feasible_and_nonnegative() -> None:
