@@ -1,0 +1,88 @@
+{
+  "schema": "wnn.control-cp5-full-valid-export-startup.r1",
+  "scope": "actual startup observation for the one conditionally released local CP5 feature-only full-valid export; no grade",
+  "root_release": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/ROOT_CONTROL_CP5_EXPORT_RELEASE_R1.json",
+    "sha256": "534dd7b3e9cac41b777c67c2cd1d30d56a9d1443dced4871392653995dbf80b9",
+    "authorized": true
+  },
+  "manifest": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack-clean-t3-profile/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/CONTROL_P3_CP5_FULL_VALID_EXPORT_PRELAUNCH_R1.json",
+    "sha256": "8777488967c1a8761f4bfa24605e1afeca0e6e408c14acae153e22c392331621",
+    "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda"
+  },
+  "attempt": {
+    "id": "clean-t3-f0-control-s3-cp5-full-valid-local-export-r1",
+    "unit": "wnn-bandit-clean-t3-f0-control-s3-cp5-full-valid-local-export-r1.service",
+    "controller_pid": 372355,
+    "timeout_pid": 372360,
+    "predictor_pid": 372362,
+    "started_utc": "2026-10-12T13:20:37.202962+00:00",
+    "phase_at_observation": "running; frozen predictor process active; full-size partial output created; stdout log not yet flushed",
+    "worker_argv": [
+      "/usr/bin/timeout", "--signal=TERM", "--kill-after=20s", "1800s",
+      "/usr/bin/env", "MKL_NUM_THREADS=1", "NUMEXPR_NUM_THREADS=1",
+      "OMP_NUM_THREADS=1", "OPENBLAS_NUM_THREADS=1", "PYTHONDONTWRITEBYTECODE=1",
+      "PYTHONHASHSEED=0",
+      "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/src",
+      "WNN_GPU_MEMORY_BYTES=4300000000", "WNN_LOADER_RAM_GB=4", "WNN_LOADER_WORKERS=0",
+      "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "WNN_THREADS=1", "WNN_VRAM_GB=4.3",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot/scripts/predict_run.py",
+      "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1", "valid", "--epoch", "5",
+      "--output-name", "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_cp5_full_valid_r1",
+      "--campaign-split-manifest", "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--device", "cuda", "--inference-precision", "fp32", "--campaign-full-valid-feature-only"
+    ]
+  },
+  "admission_observation": {
+    "parent_current_at_controller_admission_bytes": 8912433152,
+    "reserved_worker_bytes": 5500000000,
+    "parent_plus_reserve_bytes": 14412433152,
+    "ceiling_bytes": 18000000000,
+    "parent_swap_at_prelaunch_bytes": 0,
+    "effective_cpu_quota": "5 cores",
+    "gpu_before_launch": "NVIDIA GeForce RTX 3060 Laptop GPU; 75 MiB; 0% utilization",
+    "shared_controller_reserved_and_unit_started": true
+  },
+  "first_worker_observation": {
+    "sample_utc": "2026-10-12T13:21:07.542389+00:00",
+    "attempt_status": "running",
+    "attempt_heartbeat_utc": "2026-10-12T13:21:07.542389+00:00",
+    "attempt_peak_ram_bytes": 3043045376,
+    "attempt_peak_observed_vram_bytes": 1323302912,
+    "attempt_peak_parent_ram_bytes": 11944144896,
+    "systemd_unit_current_ram_bytes": 3227602944,
+    "systemd_unit_peak_ram_bytes": 3432198144,
+    "gpu_sample": "NVIDIA GeForce RTX 3060 Laptop GPU; 1261 MiB; 28% utilization",
+    "parent_memory_event_counters": {
+      "low": 0,
+      "high": 13370344,
+      "max": 74857789,
+      "oom": 9,
+      "oom_kill": 9,
+      "oom_group_kill": 0,
+      "sock_throttled": 48
+    },
+    "parent_memory_event_delta_from_prelaunch_sample": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0,
+      "sock_throttled": 0
+    }
+  },
+  "prediction_output_at_2026_10_12T13_21Z": {
+    "partial_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_cp5_full_valid_r1_valid.npy.partial",
+    "partial_bytes": 299680128,
+    "expected_final_npy_bytes": 299680128,
+    "final_npy_present": false,
+    "metadata_present": false,
+    "note": "Full-size .npy.partial existence proves allocation/materialization only; completion and finite contents remain unvalidated until terminal."
+  },
+  "log_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/logs/clean-t3-f0-control-s3-cp5-full-valid-local-export-r1.log",
+  "no_refit_no_grade_no_provider_action": true
+}
