@@ -1,0 +1,140 @@
+{
+  "schema": "wnn.clean_t3_local_full_valid_export_terminal_handoff.r1",
+  "created_utc": "2026-10-12T04:45:06Z",
+  "status": "terminal_export_validated_grade_pending_root",
+  "attempt": {
+    "id": "clean-t3-f0-s3-cp2-full-valid-local-export-r1",
+    "unit": "wnn-bandit-clean-t3-f0-s3-cp2-full-valid-local-export-r1.service",
+    "invocation_id_observed_while_active": "9957d4ba32c8412195cd1034ae6fb7a8",
+    "started_utc": "2026-10-12T04:40:05.163301+00:00",
+    "finished_utc": "2026-10-12T04:41:56.223540+00:00",
+    "elapsed_seconds": 111.0418303689803,
+    "terminal_phase": "terminal",
+    "exit_status": 0,
+    "failure": null,
+    "attempt_receipt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-s3-cp2-full-valid-local-export-r1.json",
+    "attempt_receipt_sha256": "a4920964d0c364ee1beaaf5ba1e7337cabe2ef4f6c834cab1a8d0bba397a1199",
+    "runtime_log_path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/clean-t3-f0-s3-cp2-full-valid-local-export-r1.log",
+    "runtime_log_bytes": 0,
+    "unit_terminal_observation": {
+      "active_state": "inactive",
+      "sub_state": "dead",
+      "result": "success",
+      "exec_main_status": 0,
+      "observed_utc": "2026-10-12T04:41:56Z"
+    }
+  },
+  "authorization_and_preflight": {
+    "admission_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_local_s3_export_r1/ROOT_EXPORT_ADMISSION_R1.json",
+    "admission_sha256": "7d27baea9d0a371c72dee1645d5b8ed0a66bfaad831da0077641e8f11db64f8b",
+    "preflight_sha256": "27dd6502f9378b8676e5428df882d85c7a0d256c4da1f99643851be1463dd06e",
+    "actual_consumer_review_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_local_s3_export_r1/ROOT_ACTUAL_CONSUMER_REVIEW_R1.json",
+    "actual_consumer_review_sha256": "5f5ea45496db354ab47839250528930d525e4734059fe25b7e61029af637d8d9",
+    "raw_valid_review_sha256": "5b9a346d10c19eacce6ef7c7db313315986d4c47e0b20a480ac8f31c65039862",
+    "raw_valid_parquet_bytes": 5615509128,
+    "raw_valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "raw_valid_hash_reconciled_by_root_before_launch": true
+  },
+  "source_and_model": {
+    "source_manifest_sha256_from_attempt": "0fc4604faeb1695ca2fb6c2433f057f042c5c9a9b006e5ffce501ae140ee463a",
+    "frozen_source_snapshot": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot",
+    "predictor_sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+    "trainer_sha256_from_root_actual_consumer_review": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+    "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+    "seed": 3,
+    "selected_epoch": 2,
+    "checkpoint_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt",
+    "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+    "provenance_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json",
+    "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+    "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "split_manifest_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "source_qualified_fit_and_eval_membership": {
+      "train_fit_groups": 10535,
+      "train_fit_ordered_int64_le_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+      "valid_fit_groups": 1405,
+      "valid_fit_ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "valid_eval_groups": 468,
+      "valid_eval_sorted_int64_le_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+      "excluded_train_groups_by_fold_manifest": 71,
+      "provenance_fit_lists_match_frozen_split": true,
+      "valid_source_fit_eval_disjoint": true,
+      "source_qualification_note": "Train and valid Parquet row-group integers are separate namespaces; raw integer overlap across those sources is not itself an overlap. The fold manifest and root actual-consumer review bind the source-qualified membership and component exclusions."
+    }
+  },
+  "output_validation": {
+    "npy_path": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1_valid.npy",
+    "npy_bytes": 299680128,
+    "npy_sha256": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1",
+    "dtype": "float32",
+    "shape": [1873, 20000, 2],
+    "all_values_finite": true,
+    "sidecar_path": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1_valid.json",
+    "sidecar_bytes": 18487,
+    "sidecar_sha256": "8414274a245708e57b8fea28ebc7a71e4393e879eff9ff993229248e135051a7",
+    "sidecar_prediction_sha256_matches_file": true,
+    "sidecar_epoch": 2,
+    "sidecar_checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+    "sidecar_split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "sidecar_inference_precision": "fp32",
+    "sidecar_campaign_fit_scope": "full-valid-feature-only",
+    "sidecar_row_groups": {
+      "count": 1873,
+      "first": 0,
+      "last": 1872,
+      "exactly_full_integer_range": true,
+      "matches_valid_targets_npz_row_group_member": true
+    },
+    "partial_file_absent": true
+  },
+  "resources": {
+    "admitted_cpu_cores": 1,
+    "attempt_memory_max_bytes": 6800000000,
+    "attempt_allocator_admission_bytes": 4300000000,
+    "attempt_observed_vram_cap_bytes": 5000000000,
+    "loader_workers": 0,
+    "threads": 1,
+    "timeout_seconds": 1800,
+    "actual_peak_attempt_ram_bytes": 4347756544,
+    "actual_peak_parent_ram_bytes": 12733706240,
+    "actual_peak_observed_vram_bytes": 1364197376,
+    "attempt_memory_event_deltas": {
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "observed_gpu_sample_utc": "2026-10-12T04:41:31Z",
+    "observed_gpu_sample": "GPU0 99% utilization, 1300 MiB used",
+    "terminal_gpu_sample_utc": "2026-10-12T04:41:56Z",
+    "terminal_gpu_sample": "GPU0 0% utilization, 43 MiB used"
+  },
+  "interpretation_and_next_step": {
+    "prediction_scope": "All 1873 valid-Parquet sequences. It includes the 1405 fold0 fit-valid groups and 468 exposed fold0 evaluation groups. This artifact is a feature-only full-valid prediction export, not a held-out score.",
+    "grade_status": "not_run_by_export_operator; root owns metric run and interpretation",
+    "existing_official_grade_argv_after_root_admission": [
+      "scripts/limited",
+      "WNN_SLICE=wnn-campaign.slice",
+      "WNN_CPU_QUOTA=25%",
+      "WNN_THREADS=1",
+      "WNN_MEM_MAX=1500000000",
+      "WNN_RUNTIME_MAX=120s",
+      ".venv/bin/python",
+      "scripts/score_prediction_remote.py",
+      "0",
+      "clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1"
+    ],
+    "grade_membership": "The existing scorer selects only the 468 fold0 evaluation valid groups; it does not score the fit-valid groups as held out.",
+    "metric": "global_wp_clip2_v1",
+    "evaluation_exposure": "Fold0 development evaluation is exposed; no public-score inference follows."
+  }
+}
