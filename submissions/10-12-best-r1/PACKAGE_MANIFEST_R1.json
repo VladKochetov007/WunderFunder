@@ -1,0 +1,338 @@
+{
+  "builder_base_commit": "664a0738e1c798bfae8e610c68b3f579c6501c7a",
+  "callback_panel": {
+    "callback_calls_per_two_pass_profile": 400000,
+    "input_receipt": "profiles/CALLBACK_INPUT_R1.json",
+    "input_receipt_sha256": "0d8e68d44f16f90547357cd3e284c3c613934a9890010799655046a5c41a38e3",
+    "paired_c_to_reference_mean_ratio": 1.4380596944246977,
+    "paired_c_us_per_row": [
+      98.927369865,
+      106.02058518
+    ],
+    "paired_cgroup_memory_max": "649998336",
+    "paired_cgroup_memory_peak": "226344960",
+    "paired_cpu_affinity": [
+      2
+    ],
+    "paired_order": [
+      "reference",
+      "candidate",
+      "reference",
+      "candidate"
+    ],
+    "paired_reference_us_per_row": [
+      74.810908415,
+      67.70609268
+    ],
+    "reference_model_count": 2,
+    "reference_precision": "q8vnni",
+    "reference_zip": "submissions/upload_2026-10-11/4_z1c_z4_pair_q8vnni.zip",
+    "reference_zip_sha256": "ff498873027318b5aa20e6ca95517bdb843b4656989a75aae148f1c141705327",
+    "reset_replay_bitwise_deterministic": true,
+    "rows_per_sequence": 20000,
+    "runtime_projection_to_public_27m_reference": null,
+    "sequences": 10,
+    "source": "datasets/valid.parquet row groups 0..9; runtime capacity only; no metric",
+    "target_epyc_runtime_measured": false,
+    "timing_interpretation": "Noisy local CPU capacity samples only; see README and raw per-pass receipts. Do not convert to target-platform minutes.",
+    "unpaired_reference_mean_us_per_row": 102.3707235675,
+    "unpaired_reference_trials_us_per_row": [
+      113.96502421000001,
+      90.776422925
+    ]
+  },
+  "h390_provenance_summary": {
+    "args": {
+      "seed3": 3,
+      "seed4": 4,
+      "selected_epoch": 5,
+      "since_floor": 0.25,
+      "since_weight": 32.0,
+      "train_source": "train+valid"
+    },
+    "fit_membership_each": {
+      "dataset_length": 12479,
+      "evaluation_row_groups": 0,
+      "train": 10606,
+      "valid": 1873
+    },
+    "heldout_claim": false,
+    "seed3_checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+    "seed3_provenance_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+    "seed4_checkpoint_sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+    "seed4_provenance_sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb"
+  },
+  "independent_review": {
+    "commit": "88faf7eabb55f19385d3ddc1796d76dd53b259c3",
+    "receipt_sha256": "e783a957d98a41b27f92497675a57f0ad521fd5cb98687a5c67a9b8f483939d0",
+    "scope": "exact-package byte/source/export/Q8/reset parity review; not a quality or provider release"
+  },
+  "integrity_receipt": {
+    "path": "ZIP_INTEGRITY_R1.json",
+    "sha256": "657ac0cbf5f8eafd243e85c025b147128be991474e9c270129f56193d4e1eaac"
+  },
+  "native_runtime": {
+    "abi3_tiered_libraries": {
+      "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+      "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+      "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+    },
+    "loaded_native_level": "v3",
+    "precision_file": "q8vnni",
+    "py311_runtime_tested": "3.11.16",
+    "separate_f8_library_adopted": false,
+    "static_abi_receipts_passed": true
+  },
+  "packages": [
+    {
+      "abi_receipt": "h390_s3_z4equal_ABI_R1.json",
+      "abi_receipt_sha256": "ecd1272fc0fd46a551631802d4fd15ed10a23f4eb43bf46f264beb8c643bc96a",
+      "build_receipt": "h390_s3_z4equal_q8_BUILD_R1.json",
+      "build_receipt_sha256": "c34096e1b5d4739e6a908b8cb062bbac3c7f448771bea58d19447a0640e96d44",
+      "bytes": 9053484,
+      "callback_profile": "h390_s3_z4equal_CALLBACK_10SEQ_R1.json",
+      "callback_profile_sha256": "73f0c3a33ec7913155e3d92f46fe3a4f3a709911e26698ca8a5a01a4cd40a0b2",
+      "crc_passed": true,
+      "fixed_members": [
+        {
+          "coefficient": 0.5,
+          "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+        },
+        {
+          "coefficient": 0.5,
+          "run_reference": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0"
+        }
+      ],
+      "portfolio_id": "B",
+      "precision": "q8vnni",
+      "root_solution_py": true,
+      "runtime_cgroup_memory_max": "999997440",
+      "runtime_cgroup_memory_peak": "225718272",
+      "runtime_cpu": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "runtime_mean_callback_us_per_row": 49.824690902499995,
+      "runtime_model_count": 2,
+      "runtime_native_level": "v3",
+      "runtime_precision": "q8vnni",
+      "runtime_python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+      "runtime_replay_bitwise_identical": true,
+      "runtime_rows_per_sequence": 20000,
+      "runtime_sequence_count": 10,
+      "runtime_trials_us_per_row": [
+        49.933276854999995,
+        49.71610495
+      ],
+      "sha256": "486a34c46989361428aa2e34f1c43dd246e2b7293f6dfcb5dc5031c989420440",
+      "size_below_20mb": true,
+      "source_bindings": [
+        {
+          "member": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+          "sources": [
+            {
+              "checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+              "provenance_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+              "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+            }
+          ]
+        },
+        {
+          "member": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0",
+          "sources": [
+            {
+              "checkpoint_sha256": "a9cb31068d7078742309e63b25e8fb0ec2e71f3587c15410ccde321df1fb6382",
+              "provenance_sha256": "9f4af9092e12afd3eb7e247fbd50d881498ddaff477b317ebcfa7b10b9a682b3",
+              "run_reference": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1"
+            },
+            {
+              "checkpoint_sha256": "9a1e338208d9de65ac9ec9f62c73ebd67c40ae634b5ae05e6c738ec5bf84d1d4",
+              "provenance_sha256": "56e0494fa4e507fd800e6c5247f37d2ed975d7acebd67e97a7bd576005d030e7",
+              "run_reference": "z4_seed99_student_hft_alldata_v2@ep0"
+            }
+          ]
+        }
+      ],
+      "z4_exact_prior_export_match": true,
+      "z4_member_sha256": "8d1c4a32f58f322427093b564a4b657475e43eb393bc384336abba4fcfad043e",
+      "zip": "h390_s3_z4equal_q8_20261012.zip",
+      "zip_members_match_build_receipt": true
+    },
+    {
+      "abi_receipt": "h390_s3_s4_equal_ABI_R1.json",
+      "abi_receipt_sha256": "43f9dfdb72395fc47cd0589789a20c445f5022e21827d2c9ad494e40b6cc844f",
+      "build_receipt": "h390_s3_s4_equal_q8_BUILD_R1.json",
+      "build_receipt_sha256": "2664169b50681284550c0c16b8db50ea426ede689d5f41e8012ec6dca3e3d90a",
+      "bytes": 8556250,
+      "callback_profile": "h390_s3_s4_equal_CALLBACK_10SEQ_R1.json",
+      "callback_profile_sha256": "19b4e6c792c1b0782257a527d2fdb55004ce5d4ff52ca72f1a4a4811586f0019",
+      "crc_passed": true,
+      "fixed_members": [
+        {
+          "coefficient": 0.5,
+          "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+        },
+        {
+          "coefficient": 0.5,
+          "run_reference": "vt_all_h390_ds_homogeneous_s4_r3@ep5"
+        }
+      ],
+      "portfolio_id": "A",
+      "precision": "q8vnni",
+      "root_solution_py": true,
+      "runtime_cgroup_memory_max": "999997440",
+      "runtime_cgroup_memory_peak": "213438464",
+      "runtime_cpu": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "runtime_mean_callback_us_per_row": 44.96912029,
+      "runtime_model_count": 2,
+      "runtime_native_level": "v3",
+      "runtime_precision": "q8vnni",
+      "runtime_python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+      "runtime_replay_bitwise_identical": true,
+      "runtime_rows_per_sequence": 20000,
+      "runtime_sequence_count": 10,
+      "runtime_trials_us_per_row": [
+        44.983851300000005,
+        44.95438928
+      ],
+      "sha256": "8834774c58ff31a77547fc8ec59988aef61e1bd1e7198c4c52d1d3835c43e6e5",
+      "size_below_20mb": true,
+      "source_bindings": [
+        {
+          "member": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+          "sources": [
+            {
+              "checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+              "provenance_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+              "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+            }
+          ]
+        },
+        {
+          "member": "vt_all_h390_ds_homogeneous_s4_r3@ep5",
+          "sources": [
+            {
+              "checkpoint_sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+              "provenance_sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb",
+              "run_reference": "vt_all_h390_ds_homogeneous_s4_r3@ep5"
+            }
+          ]
+        }
+      ],
+      "z4_exact_prior_export_match": null,
+      "z4_member_sha256": null,
+      "zip": "h390_s3_s4_equal_q8_20261012.zip",
+      "zip_members_match_build_receipt": true
+    },
+    {
+      "abi_receipt": "h390_s3_s4_z4half_ABI_R1.json",
+      "abi_receipt_sha256": "0b245c35292db93b6d775b759565397e5b97f454a3b016ffc9f0ef536705b1dd",
+      "build_receipt": "h390_s3_s4_q8_z4half_BUILD_R1.json",
+      "build_receipt_sha256": "a9c710d18ba8665f56e701b05e22fa4cca919f63b46d166fb47fda6cabd35120",
+      "bytes": 12680868,
+      "callback_profile": "h390_s3_s4_q8_z4half_CALLBACK_10SEQ_R1.json",
+      "callback_profile_sha256": "98a5e9d42c148b2f019768bbcf353722ad4b99258575890ec0f05cd09e6011b7",
+      "crc_passed": true,
+      "fixed_members": [
+        {
+          "coefficient": 0.25,
+          "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+        },
+        {
+          "coefficient": 0.25,
+          "run_reference": "vt_all_h390_ds_homogeneous_s4_r3@ep5"
+        },
+        {
+          "coefficient": 0.5,
+          "run_reference": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0"
+        }
+      ],
+      "portfolio_id": "C",
+      "precision": "q8vnni",
+      "root_solution_py": true,
+      "runtime_cgroup_memory_max": "999997440",
+      "runtime_cgroup_memory_peak": "238071808",
+      "runtime_cpu": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "runtime_mean_callback_us_per_row": 83.33199987,
+      "runtime_model_count": 3,
+      "runtime_native_level": "v3",
+      "runtime_precision": "q8vnni",
+      "runtime_python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+      "runtime_replay_bitwise_identical": true,
+      "runtime_rows_per_sequence": 20000,
+      "runtime_sequence_count": 10,
+      "runtime_trials_us_per_row": [
+        81.898419175,
+        84.765580565
+      ],
+      "sha256": "6013d20a7ff26ce6ef46821f80ed01da848ef4da565e2cd91656417ddd5186ea",
+      "size_below_20mb": true,
+      "source_bindings": [
+        {
+          "member": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+          "sources": [
+            {
+              "checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+              "provenance_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+              "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5"
+            }
+          ]
+        },
+        {
+          "member": "vt_all_h390_ds_homogeneous_s4_r3@ep5",
+          "sources": [
+            {
+              "checkpoint_sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+              "provenance_sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb",
+              "run_reference": "vt_all_h390_ds_homogeneous_s4_r3@ep5"
+            }
+          ]
+        },
+        {
+          "member": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0",
+          "sources": [
+            {
+              "checkpoint_sha256": "a9cb31068d7078742309e63b25e8fb0ec2e71f3587c15410ccde321df1fb6382",
+              "provenance_sha256": "9f4af9092e12afd3eb7e247fbd50d881498ddaff477b317ebcfa7b10b9a682b3",
+              "run_reference": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1"
+            },
+            {
+              "checkpoint_sha256": "9a1e338208d9de65ac9ec9f62c73ebd67c40ae634b5ae05e6c738ec5bf84d1d4",
+              "provenance_sha256": "56e0494fa4e507fd800e6c5247f37d2ed975d7acebd67e97a7bd576005d030e7",
+              "run_reference": "z4_seed99_student_hft_alldata_v2@ep0"
+            }
+          ]
+        }
+      ],
+      "z4_exact_prior_export_match": true,
+      "z4_member_sha256": "8d1c4a32f58f322427093b564a4b657475e43eb393bc384336abba4fcfad043e",
+      "zip": "h390_s3_s4_q8_z4half_20261012.zip",
+      "zip_members_match_build_receipt": true
+    }
+  ],
+  "profile_evidence_sha256": {
+    "CALLBACK_INPUT_R1.json": "0d8e68d44f16f90547357cd3e284c3c613934a9890010799655046a5c41a38e3",
+    "PAIRED_Z1C_Z4_VS_C_CALLBACK_R1.json": "c826e6add79bc04079c093a3e4750ced58d0efa4b4e7207eadec4889b9237f70",
+    "Z1C_Z4_LEGACY_PROFILE_ADAPTER_R1.json": "06768c5eccf37d476ba6a4966552ccc61489e0dacd4cf3c46f66890714aaaf65",
+    "h390_s3_s4_equal_ABI_R1.json": "43f9dfdb72395fc47cd0589789a20c445f5022e21827d2c9ad494e40b6cc844f",
+    "h390_s3_s4_equal_CALLBACK_10SEQ_R1.json": "19b4e6c792c1b0782257a527d2fdb55004ce5d4ff52ca72f1a4a4811586f0019",
+    "h390_s3_s4_q8_z4half_CALLBACK_10SEQ_R1.json": "98a5e9d42c148b2f019768bbcf353722ad4b99258575890ec0f05cd09e6011b7",
+    "h390_s3_s4_z4half_ABI_R1.json": "0b245c35292db93b6d775b759565397e5b97f454a3b016ffc9f0ef536705b1dd",
+    "h390_s3_z4equal_ABI_R1.json": "ecd1272fc0fd46a551631802d4fd15ed10a23f4eb43bf46f264beb8c643bc96a",
+    "h390_s3_z4equal_CALLBACK_10SEQ_R1.json": "73f0c3a33ec7913155e3d92f46fe3a4f3a709911e26698ca8a5a01a4cd40a0b2",
+    "paired_reference_c_probe_R1.py": "ab353e75dd119dd60dd2f0877713828a95727a96988a9123e5a5eaa6c9e8fdb7",
+    "z1c_z4_public_reference_CALLBACK_10SEQ_R1.json": "7deb0d3a8214e539fa794ce9cf1a622f2e2983496b00c5557f69e6c7eb97df1f"
+  },
+  "quality_status": "all-data operational trials; no fresh held-out local estimate and no score/public forecast.",
+  "readme_sha256": "bb1ea280b69bcab6c9d78121bed8a43ac02f871cb473b09e4e68c7eb84b7ad5c",
+  "release_order": [
+    "B",
+    "A",
+    "C"
+  ],
+  "schema": "wnn.native-q8-three-package-manifest.v1",
+  "selection_semantics": "Controller-provided delivery order; not a scientific quality ranking.",
+  "z4_component": {
+    "exported_npz_bytes_reused_exactly": true,
+    "run_reference": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0",
+    "source_existing_package": "submissions/upload_2026-10-11/z5_z4_pair_q8vnni/pkg/weights_1.npz",
+    "weights_sha256": "8d1c4a32f58f322427093b564a4b657475e43eb393bc384336abba4fcfad043e"
+  }
+}

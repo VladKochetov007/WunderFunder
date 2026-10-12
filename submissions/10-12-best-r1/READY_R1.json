@@ -1,0 +1,68 @@
+{
+  "checks": {
+    "ELF_static_ABI_checks": true,
+    "Python311_exact_ZIP_import_and_noarg_constructor": true,
+    "ZIP_CRC_and_member_hashes": true,
+    "all_under_20mb": true,
+    "complete_required_rows_finite_two_scores": true,
+    "exact_z4_prior_NPZ_bytes_B_and_C": true,
+    "fullfold_score": false,
+    "native_q8vnni_loaded": true,
+    "public_score_forecast": false,
+    "reset_replay_bitwise_identical": true,
+    "root_solution_and_precision_metadata": true,
+    "source_and_provenance_pins": true,
+    "target_EPYC_runtime": false,
+    "warmup_returns_none": true
+  },
+  "files": {
+    "independent_review_commit": "88faf7eabb55f19385d3ddc1796d76dd53b259c3",
+    "manifest": "PACKAGE_MANIFEST_R1.json",
+    "manifest_sha256": "5bbef183efb5922dd4f8d964777aac2e321bb9540e8672ab8a40109e2236ccda",
+    "readme": "README_R1.md",
+    "readme_sha256": "bb1ea280b69bcab6c9d78121bed8a43ac02f871cb473b09e4e68c7eb84b7ad5c",
+    "static_integrity": "ZIP_INTEGRITY_R1.json",
+    "static_integrity_sha256": "657ac0cbf5f8eafd243e85c025b147128be991474e9c270129f56193d4e1eaac"
+  },
+  "main_copy_note": "Controller separately copied only the three ZIPs into MAIN with create-only SHA256 matching; this isolated commit includes the complete receipts and profiles.",
+  "packages": [
+    {
+      "bytes": 9053484,
+      "path": "h390_s3_z4equal_q8_20261012.zip",
+      "portfolio_id": "B",
+      "sha256": "486a34c46989361428aa2e34f1c43dd246e2b7293f6dfcb5dc5031c989420440"
+    },
+    {
+      "bytes": 8556250,
+      "path": "h390_s3_s4_equal_q8_20261012.zip",
+      "portfolio_id": "A",
+      "sha256": "8834774c58ff31a77547fc8ec59988aef61e1bd1e7198c4c52d1d3835c43e6e5"
+    },
+    {
+      "bytes": 12680868,
+      "path": "h390_s3_s4_q8_z4half_20261012.zip",
+      "portfolio_id": "C",
+      "sha256": "6013d20a7ff26ce6ef46821f80ed01da848ef4da565e2cd91656417ddd5186ea"
+    }
+  ],
+  "runtime_capacity_only": {
+    "candidate_mean_us_per_row": {
+      "A": 44.96912029,
+      "B": 49.824690902499995,
+      "C": 83.33199987
+    },
+    "interpretation": "Cross-run timing varied substantially. No full-fold or Kaggle EPYC time claim; no score metric computed.",
+    "local_machine": "Intel i9-11900H; CPython 3.11.16; one CPU",
+    "paired_C_to_reference_ratio": 1.4380596944246977,
+    "paired_reference_then_C_trial_us_per_row": [
+      74.810908415,
+      98.927369865,
+      67.70609268,
+      106.02058518
+    ],
+    "primary_panel": "10 sequences x 20000 rows x 2 passes per candidate and reference"
+  },
+  "schema": "wnn.native-q8-package-ready.v1",
+  "scope": "Three frozen submission ZIPs plus static and focused Py311 callback evidence. This is not admission to score, upload, or claim a public result.",
+  "status": "READY_FOR_CONTROLLER_INTEGRATION_ONLY"
+}

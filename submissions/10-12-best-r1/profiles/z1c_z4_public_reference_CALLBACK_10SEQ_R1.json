@@ -1,0 +1,219 @@
+{
+  "benchmark_runner": {
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/scripts/benchmark_submission_callbacks.py",
+    "sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53"
+  },
+  "build_members": [
+    {
+      "coefficient": 0.5,
+      "run_reference": "bd26_h230_all_data_student_gru256_seed4_retry1_v1_core@ep1|z1c_h230s4_student_hft_alldata_v3@ep0"
+    },
+    {
+      "coefficient": 0.5,
+      "run_reference": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0"
+    }
+  ],
+  "build_receipt": "/tmp/wnn_z1c_z4_legacy_profile_adapter_r1.json",
+  "build_receipt_sha256": "06768c5eccf37d476ba6a4966552ccc61489e0dacd4cf3c46f66890714aaaf65",
+  "candidate": "public_z1c_z4_q8_reference",
+  "checkpoint_sources": [],
+  "native_runtime": {
+    "libraries": {
+      "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+      "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+      "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+    }
+  },
+  "runtime": {
+    "affinity_before": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "affinity_used": [
+      0
+    ],
+    "cgroup_after_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 25445631\nuser_usec 25280683\nsystem_usec 164948\nnice_usec 25436070\ncore_sched.force_idle_usec 0\nnr_periods 468\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "202997760",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "999997440",
+      "memory.peak": "204832768",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p3951400-i8121527.scope"
+    },
+    "cgroup_before_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 662309\nuser_usec 531680\nsystem_usec 130629\nnice_usec 531898\ncore_sched.force_idle_usec 0\nnr_periods 12\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "203051008",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "999997440",
+      "memory.peak": "203051008",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p3951400-i8121527.scope"
+    },
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "loadavg_end": "2.88 2.23 2.07 2/3844 3953578",
+    "loadavg_start": "2.89 2.10 2.02 3/3850 3951473",
+    "max_rss_kib": 233052,
+    "member_storage_bytes": [
+      {
+        "factor_weights": 0,
+        "import_only_dense_recurrent": 0,
+        "recurrent_state": 2048,
+        "scratch": 12888,
+        "total_streamed_weights": 1209792
+      },
+      {
+        "factor_weights": 0,
+        "import_only_dense_recurrent": 0,
+        "recurrent_state": 2048,
+        "scratch": 12888,
+        "total_streamed_weights": 1209792
+      }
+    ],
+    "model_count": 2,
+    "native_level": "v3",
+    "numpy": "2.2.6",
+    "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "precision": "q8vnni",
+    "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]"
+  },
+  "schema": "wnn.native-callback-profile.v1",
+  "scope": "Runtime-capacity profile only. The fixed package is replayed over complete causal sequences; no metric is computed and no local/public score is claimed. Each sequence is reset before every pass, and predictions must be bitwise identical across resets.",
+  "submission": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/upload_2026-10-11/4_z1c_z4_pair_q8vnni.zip",
+  "submission_bytes": 9544031,
+  "submission_sha256": "ff498873027318b5aa20e6ca95517bdb843b4656989a75aae148f1c141705327",
+  "timing": {
+    "elapsed_callback_ns": 40948289427,
+    "elapsed_wall_seconds_after_sequence_decode": 45.87025148898829,
+    "mean_callback_us_per_row": 102.3707235675,
+    "measurement": "perf_counter_ns around each exact model.predict(DataPoint) callback",
+    "median_repeat_us_per_row": 102.37072356750001,
+    "per_sequence_mean_us_per_row": {
+      "1200028": 115.5137879,
+      "1892371": 113.19004455000001,
+      "1990332": 114.29297787499999,
+      "2308749": 110.4536918,
+      "256678": 117.313878825,
+      "4490992": 83.330327025,
+      "6746551": 82.83636845,
+      "751005": 114.937590525,
+      "8348957": 84.12257952499999,
+      "9147005": 87.7159892
+    },
+    "reset_and_parquet_decode_excluded": true,
+    "rows_per_repeat": 200000,
+    "total_callback_calls": 400000,
+    "trials": [
+      {
+        "callback_ns": 22793004842,
+        "callback_us_per_row": 113.96502421000001,
+        "repeat": 0,
+        "rows": 200000
+      },
+      {
+        "callback_ns": 18155284585,
+        "callback_us_per_row": 90.776422925,
+        "repeat": 1,
+        "rows": 200000
+      }
+    ]
+  },
+  "utils_source": {
+    "path": "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-best-r1-20261012/utils.py",
+    "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+  },
+  "workload": {
+    "data": "/tmp/wnn_valid_rowgroups0_9_native_q8_profile.parquet",
+    "data_sha256": "21bef3ff373b238030be700cfe857380c616a58da3975eed81675fdb99998830",
+    "features_sha256_by_sequence": {
+      "1200028": "016afe4a6d9bcf3af2ec7961295bd3106530f29a760d297d5a6fbb1390063c58",
+      "1892371": "4558b05652d6f9054170613d556ecd8e12fdb35b10d9027a9456e5b11b161c26",
+      "1990332": "05dbac3d81d7241a5761e009d0c5a11b4b152f1cf7890df75a6eac6776051f4b",
+      "2308749": "09e108511c35a5266f967bad67151321d7e8f16d2cee5cece69886392fd3216e",
+      "256678": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e",
+      "4490992": "a42ccf8b2e8ead95c55b6d8f785d5e25285ec2b65f56571021eca0f2ff9e3e63",
+      "6746551": "5b587d321a28146b43a5400cdc2450372af08041c21c7763086168b7c9966b21",
+      "751005": "da1552d094eee4cb347ee88c14613885802e54c3f7052e758834b36f7ad03a5f",
+      "8348957": "20947296e63f58d5210c4c6ae88442f04688bf79d66ff7bc624c283493f41175",
+      "9147005": "466d7cc953803912710c0e731aedd9de12446ea3f5e455502393461e242e9419"
+    },
+    "need_prediction_rows_each": [
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901,
+      19901
+    ],
+    "predictions_bitwise_identical_across_replays": true,
+    "predictions_sha256_by_sequence": {
+      "1200028": "09504d1072ec973d7a73036f5b32caa886ab55e9b1a42d9d9a16e8f658b647a7",
+      "1892371": "0e2562eda4ca3b44f20c231221aafeea93c35b1fada15e48ba08752ea96932c2",
+      "1990332": "3524d5634c4fb8dfcb3bedf2bc25a1cc9f5fa07a42bf095c28439f42cb6c1fe1",
+      "2308749": "9f13b6aea26e299cb6ce132b5a9bd7c04ea31d629cc99f25bca1f679228ca42c",
+      "256678": "9db8f95ca0e78fed10d61805b4ec58405ec2eb05ce2aeeb0c311c894ff66193b",
+      "4490992": "39d982d61bcdf77cb0635b9bbbc133f1ef866fbc0f30c60fa61693d91c3a1e2f",
+      "6746551": "7bec497cb7ff018f723fdaac552f81dc31d7e0b94e8e7caa581c350b43edbde6",
+      "751005": "96c986ff04fa2f01afe50bb4bc1e0ee3f11dabfc92596ba3f2e1b2a9b623f904",
+      "8348957": "99baa4e8831a6220f00e4010652f0e6ddb4c525d4eb40911a7a36216b473a28c",
+      "9147005": "54f84b0cd5481d0837359504795264f1dcccc4121098325d7fee4e325be09a41"
+    },
+    "raw_feature_columns": 112,
+    "repeats": 2,
+    "reset_before_each_sequence_and_pass": true,
+    "row_groups": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "sequence_ids": [
+      256678,
+      751005,
+      1200028,
+      1892371,
+      1990332,
+      2308749,
+      4490992,
+      6746551,
+      8348957,
+      9147005
+    ],
+    "sequence_lengths": [
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000,
+      20000
+    ]
+  }
+}
