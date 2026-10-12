@@ -1,0 +1,182 @@
+{
+  "callback_contract": {
+    "feature_columns": 112,
+    "fixture": "one complete feature-only sequence per fold, run twice with reset; labels are not loaded",
+    "output": "fixed two-member arithmetic mean; predictions only on need_prediction rows",
+    "progress": "emit flushed fold/sequence-count/UTC heartbeat every 10 completed sequences",
+    "rows_advanced": "all rows including warmup; warmup calls must return None",
+    "sequence_rows": 20000,
+    "state_reset": "native EnsemblePredictor reset before every complete sequence through the pinned callback runner"
+  },
+  "candidate_id": "oldz4_f0_f1_student_hft_native_q8_shared_half_r2_callback_fixed",
+  "created_utc": "2026-10-12T03:49:58.208250+00:00",
+  "endpoint": {
+    "blend": "fixed arithmetic mean of member output predictions; no parameter averaging",
+    "coefficient_sum": 1.0,
+    "coefficients": [
+      0.5,
+      0.5
+    ],
+    "fast_activations": true,
+    "member_order": [
+      "student",
+      "hft"
+    ],
+    "precision_request": "q8vnni",
+    "required_actual_precision": "q8vnni",
+    "shared_backbone": true
+  },
+  "execution_gate": {
+    "full_evaluation_performed": false,
+    "required_decision": "PASS_FOR_ONE_FROZEN_FULL_CLEANFOLD_Q8_EVALUATION",
+    "required_receipt_bindings": [
+      "contract_sha256",
+      "weights_archive_sha256",
+      "weights_receipt_sha256",
+      "native_elf_sha256",
+      "valid_dataset_footer_identity"
+    ],
+    "required_root_receipt_schema": "wnn.root.native-shared-cleanfold-quality-admission.r1"
+  },
+  "folds": {
+    "0": {
+      "evaluation_groups": 468,
+      "evaluation_groups_sorted_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+      "exposure": "historically exposed source-qualified outer-fold evaluation; not a fresh holdout",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "1": {
+      "evaluation_groups": 457,
+      "evaluation_groups_sorted_sha256": "0d871b740f6615861e978fb971838ced26f62e84144870dd464838d99decc819",
+      "exposure": "historically exposed source-qualified outer-fold evaluation; not a fresh holdout",
+      "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+    }
+  },
+  "metric": {
+    "aggregation": "official pooled weighted Pearson per target, averaged equally across targets",
+    "clip": [
+      -2.0,
+      2.0
+    ],
+    "id": "global_wp_clip2_v1",
+    "implementation_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/gmetric.py",
+    "mask": "need_prediction AND is_scored",
+    "training_target_clipping_changed": false,
+    "weight": "absolute value of clipped target"
+  },
+  "producer_binding": {
+    "r1_contract": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r1/CONTRACT_R1.json",
+      "sha256": "b1e69c6b8184fec4843c443783492fbdb2d7becb8d4323bfcc7891ba21986897"
+    },
+    "r1_native_preflight_receipt": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r1/NATIVE_CONSUMER_PREFLIGHT_R1.json",
+      "sha256": "06abe1a77826a135e49afc1ec14df7e4e182d7bd19277dd49f831cd61049b024"
+    },
+    "r1_validation_receipt": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r1/VALIDATE_PACKET_R1.json",
+      "sha256": "3f809ba592642f82cd9a7c7eb9926790082882078a76f2074d1a9ea1638bdad8"
+    },
+    "r1_weights_archive": {
+      "path": "/tmp/wnn_shared_cleanfold_q8_r3/weights.npz",
+      "sha256": "42f03cce60f6992e52b6ac508d7c551b07c0c7e86b106b0ea44dee34c7c72881"
+    },
+    "r1_weights_contract_sha256": "b1e69c6b8184fec4843c443783492fbdb2d7becb8d4323bfcc7891ba21986897",
+    "r1_weights_receipt": {
+      "path": "/tmp/wnn_shared_cleanfold_q8_r3/WEIGHTS_RECEIPT_R1.json",
+      "sha256": "1bc10724add6d8c40e1b5202b22c2c496349a002d5fa660c7ff81630ed99db07"
+    }
+  },
+  "provenance": {
+    "r1_packet_validation_sha256": "3f809ba592642f82cd9a7c7eb9926790082882078a76f2074d1a9ea1638bdad8",
+    "r1_preflight_sha256": "06abe1a77826a135e49afc1ec14df7e4e182d7bd19277dd49f831cd61049b024",
+    "weights_receipt_schema": "wnn.native.shared-cleanfold-q8-weights.r1",
+    "weights_receipt_sha256": "1bc10724add6d8c40e1b5202b22c2c496349a002d5fa660c7ff81630ed99db07",
+    "weights_sha256": "42f03cce60f6992e52b6ac508d7c551b07c0c7e86b106b0ea44dee34c7c72881"
+  },
+  "runtime": {
+    "callback_only_projection": {
+      "full_fold_callback_rows": 18500000,
+      "observed_microseconds_per_row": [
+        28.4798432225,
+        29.9806670075
+      ],
+      "one_core_callback_seconds_at_30us_per_row": 555.0,
+      "status": "projection only; not an AMD runtime guarantee; excludes decoding and metric accumulation"
+    },
+    "cpu_quota_percent": 100,
+    "loaded_elf_path": "/tmp/wnn-shared-f0-py311-package-r1/wnn_native/wnn_native.abi3.so",
+    "loaded_elf_sha256": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326",
+    "memory_max_bytes": 1000000000,
+    "native_package_dir": "/tmp/wnn-shared-f0-py311-package-r1",
+    "package_init_path": "/tmp/wnn-shared-f0-py311-package-r1/wnn_native/__init__.py",
+    "package_init_sha256": "0cbf62fddaa57ad9aae99f62e03cd21af51050a02ec44f55e1027df320e05eae",
+    "python_executable": "/tmp/wnn-projection-precompute-r1/py311/bin/python",
+    "python_requirement": "CPython 3.11 ABI3 wheel; exact actual interpreter checked at load",
+    "thread_count": 1,
+    "wall_timeout_seconds": 1800,
+    "wheel_path": "/tmp/wnn-shared-f0-py311-wheel-r1/wnn_native-0.1.0-cp311-abi3-manylinux_2_34_x86_64.whl",
+    "wheel_sha256": "b4d71f3e06b51027d46bb74a7b2317405a69221f883e4c9c0efe2c8ea68f979f"
+  },
+  "schema": "wnn.native.shared-cleanfold-q8-quality-contract.r2",
+  "scope": {
+    "claim": "native Q8 fixed-output blend quality on complete source-qualified fold-0 and fold-1 outer evaluation partitions",
+    "folds_are_exposed": true,
+    "fresh_holdout": false,
+    "full_valid_in_sample_score": false,
+    "public_forecast": false,
+    "submission_recommendation": false,
+    "training": false
+  },
+  "source_bindings": {
+    "callback_runner": {
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/scripts/benchmark_submission_callbacks.py",
+      "sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53"
+    },
+    "native_elf": {
+      "path": "/tmp/wnn-shared-f0-py311-package-r1/wnn_native/wnn_native.abi3.so",
+      "sha256": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326"
+    },
+    "native_package_init": {
+      "path": "/tmp/wnn-shared-f0-py311-package-r1/wnn_native/__init__.py",
+      "sha256": "0cbf62fddaa57ad9aae99f62e03cd21af51050a02ec44f55e1027df320e05eae"
+    },
+    "native_wheel": {
+      "path": "/tmp/wnn-shared-f0-py311-wheel-r1/wnn_native-0.1.0-cp311-abi3-manylinux_2_34_x86_64.whl",
+      "sha256": "b4d71f3e06b51027d46bb74a7b2317405a69221f883e4c9c0efe2c8ea68f979f"
+    },
+    "official_metric": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    },
+    "project_utils": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/utils.py",
+      "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+    },
+    "r1_quality_consumer": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r1/run_quality.py",
+      "sha256": "596877234a66727f3fa61e83b8c53dc94114f41678a534f6447ba2df712645ab"
+    },
+    "r2_consumer": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/run_quality_r2.py",
+      "sha256": "34dde3085302482007bdd88b58e383ae525e561e5fc934a24bacb7fd76c33d4e"
+    },
+    "r2_contract_builder": {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/native_shared_cleanfold_q8_r2/build_contract_r2.py",
+      "sha256": "6ea12429fd8debfd83c8a189fbcf2d0973fc96cf71dbaf394ba6fae2d53a6278"
+    },
+    "wrapped_predictor_source": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/cpu_shared_backbone_r1/benchmark_shared_f0.py",
+      "sha256": "0333be5b058298b8dab2227a2581a1540d0748aee5ae1aa50d2a59a9deab09d3"
+    }
+  },
+  "status": "prepared_pending_root_execution_admission",
+  "valid_dataset": {
+    "bytes": 5615509128,
+    "footer_bytes": 10686926,
+    "footer_sha256_including_8_byte_trailer": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+    "row_groups": 1873,
+    "rows": 37460000
+  }
+}
