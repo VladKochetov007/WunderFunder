@@ -1,0 +1,128 @@
+{
+  "elapsed_seconds": 2.095,
+  "limitations": [
+    "No Kaggle/provider calls, GPU use, exports, fits, or score calculation were performed.",
+    "The private source-kernel version-2 readback and mounted payload hashes must be checked at root admission; kernel metadata addresses its slug, not an immutable version.",
+    "The actual Kaggle host/device resource gate is evaluated separately before every single-export worker by the unchanged R5 runner.",
+    "The three local full-valid arrays are logically equivalent under the exact R5 export specs and source/checkpoint/split/FP32 identities; they are not claimed byte-identical to unrun Kaggle output arrays."
+  ],
+  "local_full_valid_counterparts": {
+    "export_clean_t3_f0_muonall_h384_e3_s3_r5_full_valid": {
+      "bytes": 299680128,
+      "logical_equivalence": "same frozen R5 export spec and exact model_ep2/predictor/split/FP32/full-valid scope; produced by the reviewed local consumer, not byte-identical to an unrun Kaggle output",
+      "npy_sha256": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1",
+      "receipt_sha256": "0eabad07a2bea44f0d4691575ccc7105526c39049c56dbf32ba948d7efb717c8",
+      "sidecar_sha256": "8414274a245708e57b8fea28ebc7a71e4393e879eff9ff993229248e135051a7"
+    },
+    "export_clean_t3_f0_muonall_h384_e3_s4_r5_full_valid": {
+      "bytes": 299680128,
+      "logical_equivalence": "same frozen R5 export spec and exact model_ep2/predictor/split/FP32/full-valid scope; produced by the reviewed local consumer, not byte-identical to an unrun Kaggle output",
+      "npy_sha256": "314172c91053c5581ac73160dc936fb3fa5d8615b8dac5fffeca73f0d7524d1a",
+      "receipt_sha256": "6f11b22d113cb363351a5dd3dbe6da29271a350bfe17bc6cd39d6def36e4b195",
+      "sidecar_sha256": "1aeba1c1f41d799e15d7da443c0151f9f94a3771927edcaaf62f365220616970"
+    },
+    "export_clean_t3_f0_muonall_h384_e3_s5_r5_full_valid": {
+      "bytes": 299680128,
+      "logical_equivalence": "same frozen R5 export spec and exact model_ep2/predictor/split/FP32/full-valid scope; produced by the reviewed local consumer, not byte-identical to an unrun Kaggle output",
+      "npy_sha256": "13420c11164234ce14a49aaae9c7612c8e54d32fde02acd062991b47deb21e92",
+      "receipt_sha256": "6f11b22d113cb363351a5dd3dbe6da29271a350bfe17bc6cd39d6def36e4b195",
+      "sidecar_sha256": "20040bdfb2f0e9cd39f42338656e33ac8d8a008664f2b39813eb1e14b3214beb"
+    }
+  },
+  "offline_consumer_checks": {
+    "active_specs_validated_by_actual_r5_consumer": 6,
+    "actual_predictor_sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+    "actual_r5_archive_members_extracted_and_hash_checked": true,
+    "actual_r5_driver_imported": true,
+    "actual_r5_predictor_loaded_all_three_checkpoints": [
+      {
+        "all_loaded_model_tensors_finite": true,
+        "checkpoint_head_outputs": 23,
+        "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+        "hidden": 384,
+        "layers": 2,
+        "loaded_by": "unchanged R5 predict_run.load_model on CPU; no inference or data loading",
+        "n_in": 211,
+        "prediction_output_columns": 2,
+        "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+        "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+        "seed": 3,
+        "selected_epoch": 2
+      },
+      {
+        "all_loaded_model_tensors_finite": true,
+        "checkpoint_head_outputs": 23,
+        "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+        "hidden": 384,
+        "layers": 2,
+        "loaded_by": "unchanged R5 predict_run.load_model on CPU; no inference or data loading",
+        "n_in": 211,
+        "prediction_output_columns": 2,
+        "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+        "run": "clean_t3_f0_muonall_h384_e3_s4_r5",
+        "seed": 4,
+        "selected_epoch": 2
+      },
+      {
+        "all_loaded_model_tensors_finite": true,
+        "checkpoint_head_outputs": 23,
+        "checkpoint_sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+        "hidden": 384,
+        "layers": 2,
+        "loaded_by": "unchanged R5 predict_run.load_model on CPU; no inference or data loading",
+        "n_in": 211,
+        "prediction_output_columns": 2,
+        "provenance_sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18",
+        "run": "clean_t3_f0_muonall_h384_e3_s5_r5",
+        "seed": 5,
+        "selected_epoch": 2
+      }
+    ],
+    "actual_r5_source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "actual_r6_checkpoint_mounts_verified": 3,
+    "actual_trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+    "export_workers_started": 0,
+    "fit_workers_started": 0,
+    "pending_root_release_refused_before_worker_start": true,
+    "prediction_npy_finite_scanner_fixture": {
+      "finite_fixture_sha256": "68e5ef2d11c42f429c6b6b0f0441608abe26e80480b570bb0752dd01a5f0de14",
+      "nonfinite_rejected": true
+    },
+    "profile_workers_started": 0,
+    "r5_export_names_preserved": 9,
+    "r7_export_names": [
+      "export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_train",
+      "export_clean_t3_f0_muonall_h384_e3_s3_r5_fit_valid",
+      "export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_train",
+      "export_clean_t3_f0_muonall_h384_e3_s4_r5_fit_valid",
+      "export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_train",
+      "export_clean_t3_f0_muonall_h384_e3_s5_r5_fit_valid"
+    ]
+  },
+  "packet_path": "/home/vlad/development/wunder/wnn-agent-worktrees/submission-candidates/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_h390_r7_export_recovery_20261012_r1",
+  "packet_pins": {
+    "bindings_sha256": "39127244077e0937934fce1fedc131f7fa440ff18f7bc7fc3508f6f69e318d0f",
+    "kernel_sha256": "f38ac7bd72c762b265e5951096e57b799cf632f43f7f96819a45d38772277cb6",
+    "metadata_sha256": "7e27b1b4ec8a29e9635bd3e30f3c66404356cbcaea9332d22b608b1d0bf7be6e",
+    "offline_validator_sha256": "7df9434c8b1074b8a765c6536198c164e7dc8351508dc5b3733c5a3fb49c68eb",
+    "packet_builder_sha256": "ce83c4106f2c9c5fd1e813e78315ebf5fb00799ae7a9eca776db9a64fec6a53c",
+    "pending_release_sha256": "7b76769bf34bf1f43b3ff23c9f5c59616cd80188c232b46df667083793b70940",
+    "pre_final_diagnostics_sha256": "516a027e727e73bcb4b316425915dd4922b96408cc4f3fe86bb1173d00f5d5ac",
+    "r5_archive_sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549",
+    "r5_manifest_sha256": "5fc7423ebb8f8ef3c5c5bb0ec8be35352f3470dd75d99d47cad4180ac663c689",
+    "r6_collector_receipt_sha256": "0ca0e06a8c27914388d3c32764f6b548ae68a6dd2b78728100fc33e55a6df290",
+    "r6_operator_receipt_sha256": "4573b36e7493f038f0e92264627fc682bb0041d74c050120323632bd84b43b17",
+    "r6_stage_receipt_sha256": "b77fda744f2e81a4218bd689681d4586f339a7674122fba6b4aa861758951a12",
+    "readme_sha256": "f5c54224385be3e44b4de92db4db392cd6f553067f2f329307d1923cec7262b1"
+  },
+  "schema": "wnn.kaggle.clean_t3_f0_export_only_r7_offline_validation.r1",
+  "status": "PASS_OFFLINE_ACTUAL_PRODUCER_CONSUMER_PREFLIGHT",
+  "support_envelope": {
+    "cpu_quota": "50%",
+    "launcher": "MAIN scripts/limited",
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 120,
+    "slice": "wnn-campaign.slice",
+    "threads": 1
+  }
+}
