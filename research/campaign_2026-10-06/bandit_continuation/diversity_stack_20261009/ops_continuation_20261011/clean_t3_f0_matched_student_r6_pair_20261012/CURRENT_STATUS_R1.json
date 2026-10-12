@@ -8,7 +8,7 @@
     "preflight_receipt_sha256": "e1890c662151940e9bd69c8dacf605507a85eebbc538b46f884a40290a06f9f3"
   },
   "latest_owner_report": {
-    "s5_fit_valid_export": "complete_r2_pass",
+    "s5_teacher_pipeline": "complete_r2_pass",
     "target_cache": "built; consumer, finite-value, and hash validation still in progress",
     "evidence_level": "controller message; terminal/cache-validation receipt not yet bound by this packet"
   },
@@ -34,6 +34,12 @@
     }
   },
   "readiness": {
+    "cache_materialization_authorization_bound": true,
+    "cache_materialization_authorization": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/monitor_20261012_0950_r19/ROOT_CONDITIONAL_CACHE_MATERIALIZATION_RELEASE_R1.json",
+      "sha256": "707c38a9a19c1c87103393ac8dd17fb2cd61af6b9f0f84daafd56820861691a0",
+      "scope": "conditional permission to materialize cache only; not approval to use the cache for student profile or fits"
+    },
     "cache_consumer_validation_bound": false,
     "cache_finite_and_array_hash_validation_bound": false,
     "root_profile_admission_bound": false,
@@ -42,5 +48,5 @@
     "upload_or_fit_authorized": false,
     "status": "BLOCKED_PENDING_CACHE_VALIDATION_PROFILE_AND_ROOT_RELEASE"
   },
-  "note": "The R1 manifest and preflight remain immutable point-in-time records. The cache files are present now, but this status receipt intentionally does not treat file presence or producer metadata as validation."
+  "note": "The R1 manifest and preflight remain immutable point-in-time records. Root authorized conditional cache materialization, but the cache consumer/finite/hash validation is still in progress. This receipt intentionally does not treat file presence or producer metadata as validation, and does not authorize a student profile or fit."
 }
