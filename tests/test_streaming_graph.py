@@ -7,6 +7,10 @@ torch = pytest.importorskip("torch")
 
 from wnn.features import event_features  # noqa: E402
 from wnn.nn import RNNModel  # noqa: E402
+from wnn.research_features import (  # noqa: E402
+    fit_causal_moment_prior,
+    research_features_torch,
+)
 from wnn.streaming import StreamingGraph, initial_state  # noqa: E402
 
 
@@ -58,3 +62,74 @@ def test_reset_state_reproduces_first_output():
             _, *state = graph(torch.from_numpy(row)[None], *state)
         again, *_ = graph(torch.from_numpy(x[0])[None], *initial_state(graph.model))
     torch.testing.assert_close(first, again)
+
+
+@pytest.mark.parametrize("control", ["none", "newest"])
+def test_causal_innovation_graph_matches_batch_and_reset(control):
+    x = _rows(140, seed=11)
+    prior = fit_causal_moment_prior([_rows(256, seed=12)])
+    model = RNNModel(112 + 99 + 80, hidden=12, layers=1).eval()
+    graph = StreamingGraph(model, "causal_innovations", prior, control).eval()
+    with torch.no_grad():
+        expected_inputs = torch.cat(
+            (
+                torch.from_numpy(x),
+                torch.from_numpy(event_features(x)),
+                research_features_torch(
+                    torch.from_numpy(x)[None], "causal_innovations", prior, control=control
+                )[0],
+            ),
+            dim=-1,
+        )
+        want, _ = model(expected_inputs[None])
+        state = initial_state(model, "causal_innovations", prior, control)
+        got = []
+        for row in x:
+            output, *state = graph(torch.from_numpy(row)[None], *state)
+            got.append(output[0])
+        torch.testing.assert_close(torch.stack(got), want[0, :, :2], rtol=3e-4, atol=5e-5)
+
+        first, *_ = graph(
+            torch.from_numpy(x[0])[None],
+            *initial_state(model, "causal_innovations", prior, control),
+        )
+        torch.testing.assert_close(first[0], want[0, 0, :2], rtol=3e-4, atol=5e-5)
+
+
+def test_causal_innovation_onnx_state_inputs_round_trip(tmp_path):
+    ort = pytest.importorskip("onnxruntime")
+    x = _rows(12, seed=23)
+    prior = fit_causal_moment_prior([_rows(256, seed=24)])
+    model = RNNModel(112 + 99 + 80, hidden=8, layers=1).eval()
+    control = "newest"
+    graph = StreamingGraph(model, "causal_innovations", prior, control).eval()
+    state = initial_state(model, "causal_innovations", prior, control)
+    input_names = ["row", "prev", "step", "last", "held", "h", "first", "moment_state"]
+    output_names = [
+        "pred",
+        "prev_out",
+        "step_out",
+        "last_out",
+        "held_out",
+        "h_out",
+        "first_out",
+        "moment_state_out",
+    ]
+    path = tmp_path / "causal-stream.onnx"
+    torch.onnx.export(
+        graph,
+        (torch.zeros(1, 112), *state),
+        path,
+        input_names=input_names,
+        output_names=output_names,
+        opset_version=17,
+        dynamo=False,
+    )
+    session = ort.InferenceSession(str(path), providers=["CPUExecutionProvider"])
+    feeds = {name: value.numpy() for name, value in zip(input_names[1:], state, strict=True)}
+    with torch.no_grad():
+        for row in x:
+            expected, *state = graph(torch.from_numpy(row)[None], *state)
+            result = session.run(None, {"row": row[None], **feeds})
+            np.testing.assert_allclose(result[0][0], expected[0].numpy(), rtol=1e-5, atol=1e-6)
+            feeds = dict(zip(input_names[1:], result[1:], strict=True))

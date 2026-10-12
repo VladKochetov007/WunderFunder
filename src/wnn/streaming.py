@@ -8,33 +8,90 @@ Must equal ``wnn.features.event_features`` + ``wnn.nn.RNNModel`` on a sequence.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
+
 import torch
 from torch import nn
 
 from wnn.data import I0, I1
+from wnn.research_features import (
+    MOMENT_FEATURE_MODES,
+    causal_moment_features_torch_step,
+    initial_causal_moment_state_torch,
+    research_feature_control_width,
+    validate_causal_moment_prior,
+)
 
 _CAP = 10_000.0
 
 
-def initial_state(model):
+def initial_state(
+    model: nn.Module,
+    research_features: str = "none",
+    prior: Mapping[str, object] | None = None,
+    control: str = "none",
+) -> list[torch.Tensor]:
+    """Create reset state for the event graph and optional causal moment branch."""
+    research_feature_control_width(research_features, control)
     layers = model.gru.num_layers
     hidden = model.gru.hidden_size
-    return [
-        torch.zeros(1, 112),  # prev row
-        torch.zeros(1),  # step
-        torch.zeros(1, 3),  # last event step: i0 px, i0 trade, i1 px
-        torch.zeros(1, 22),  # held i0 price deltas at last price event
-        torch.zeros(layers, 1, hidden),  # GRU hidden
-        torch.ones(1),  # first row flag
+    device, dtype = model.mean.device, model.mean.dtype
+    state = [
+        torch.zeros(1, 112, device=device, dtype=dtype),  # prev row
+        torch.zeros(1, device=device, dtype=dtype),  # step
+        torch.zeros(1, 3, device=device, dtype=dtype),  # last event step: i0 px, i0 trade, i1 px
+        torch.zeros(1, 22, device=device, dtype=dtype),  # held i0 price deltas at last price event
+        torch.zeros(layers, 1, hidden, device=device, dtype=dtype),  # GRU hidden
+        torch.ones(1, device=device, dtype=dtype),  # first row flag
     ]
+    if research_features in MOMENT_FEATURE_MODES:
+        if prior is None:
+            raise ValueError("causal moment streaming requires a fitting-only prior")
+        state.append(initial_causal_moment_state_torch(prior, device=device))
+    elif research_features != "none":
+        raise ValueError(
+            f"streaming graph does not support research features {research_features!r}"
+        )
+    return state
 
 
 class StreamingGraph(nn.Module):
-    def __init__(self, model):
+    def __init__(
+        self,
+        model: nn.Module,
+        research_features: str = "none",
+        prior: Mapping[str, object] | None = None,
+        control: str = "none",
+    ) -> None:
         super().__init__()
         self.model = model
+        self.research_features = research_features
+        self.research_feature_control = control
+        research_feature_control_width(research_features, control)
+        self.prior = None
+        if research_features in MOMENT_FEATURE_MODES:
+            if prior is None:
+                raise ValueError("causal moment streaming requires a fitting-only prior")
+            self.prior = validate_causal_moment_prior(prior)
+            self.register_buffer(
+                "moment_initial_state", initial_causal_moment_state_torch(self.prior)
+            )
+        elif research_features != "none":
+            raise ValueError(
+                f"streaming graph does not support research features {research_features!r}"
+            )
 
-    def forward(self, row, prev, step, last, held, h, first):
+    def forward(
+        self,
+        row: torch.Tensor,
+        prev: torch.Tensor,
+        step: torch.Tensor,
+        last: torch.Tensor,
+        held: torch.Tensor,
+        h: torch.Tensor,
+        first: torch.Tensor,
+        moment_state: torch.Tensor | None = None,
+    ) -> tuple[torch.Tensor, ...]:
         prev = torch.where(first[:, None] > 0.5, row, prev)
         d = row - prev
         ne = (prev != row).to(row.dtype)
@@ -53,9 +110,29 @@ class StreamingGraph(nn.Module):
         px = slice(I0.bid_px.start, I0.ask_px.stop)
         held = torch.where(f_px[:, None] > 0.5, d[:, px], held)
         feats = torch.cat(
-            [d[:, px], d[:, I0.bid_vol.start : I0.ask_vol.stop], d[:, I1.bid_px.start : I1.ask_px.stop], flags, since, held],
+            [
+                d[:, px],
+                d[:, I0.bid_vol.start : I0.ask_vol.stop],
+                d[:, I1.bid_px.start : I1.ask_px.stop],
+                flags,
+                since,
+                held,
+            ],
             -1,
         )
         x = torch.cat([row, feats], -1)[:, None, :]
+        if self.research_features in MOMENT_FEATURE_MODES:
+            if moment_state is None:
+                raise ValueError("causal moment streaming state is missing")
+            initial = self.moment_initial_state.expand(moment_state.shape[0], -1)
+            moment_state = torch.where(first[:, None] > 0.5, initial, moment_state)
+            moment_features, moment_state = causal_moment_features_torch_step(
+                row, moment_state, self.research_features, self.prior,
+                self.research_feature_control,
+            )
+            x = torch.cat([x, moment_features[:, None, :]], dim=-1)
         y, h = self.model(x, h)
-        return y[:, 0, :2], row, step + 1, last, held, h, torch.zeros_like(first)
+        result = (y[:, 0, :2], row, step + 1, last, held, h, torch.zeros_like(first))
+        if self.research_features in MOMENT_FEATURE_MODES:
+            return (*result, moment_state)
+        return result

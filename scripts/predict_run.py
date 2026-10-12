@@ -24,6 +24,11 @@ else:
 
 from wnn.data import N_FEATURES, SEQUENCE_LENGTH, SequenceFile
 from wnn.propensity import load_propensity
+from wnn.research_features import (
+    MOMENT_FEATURE_MODES,
+    research_feature_control_width,
+    validate_causal_moment_prior,
+)
 from wnn.resources import configure_torch, dataloader_budget
 from wnn.sentinel import SentinelPreprocessor
 from wnn.splits import file_sha256
@@ -161,6 +166,17 @@ def main():
         _book = _np.load(ck["args"]["snap_codebook"])
         train_rnn.SNAP_CODEBOOK = {int(k[1:]): (torch.tensor((v[1:] + v[:-1]) / 2), torch.tensor(v)) for k, v in _book.items()}
     train_rnn.RESEARCH_FEATURES = ck["args"].get("research_features", "none")
+    train_rnn.RESEARCH_FEATURE_CONTROL = ck["args"].get("research_feature_control", "none")
+    research_feature_control_width(
+        train_rnn.RESEARCH_FEATURES, train_rnn.RESEARCH_FEATURE_CONTROL
+    )
+    if train_rnn.RESEARCH_FEATURES in MOMENT_FEATURE_MODES:
+        prior = ck.get("research_feature_prior")
+        if not isinstance(prior, dict):
+            raise ValueError("causal moment checkpoint lacks its fitting-only feature prior")
+        train_rnn.RESEARCH_FEATURE_PRIOR = validate_causal_moment_prior(prior)
+    else:
+        train_rnn.RESEARCH_FEATURE_PRIOR = None
     input_propensity = ck["args"].get("prop_input")
     train_rnn.INPUT_PROPENSITY = (
         load_propensity(ROOT / "artifacts" / "runs" / input_propensity / "model.pt", device)
