@@ -253,7 +253,9 @@ def test_runner_recomputes_timeout_at_actual_launch_after_preflight_delay() -> N
 
 def test_runner_keeps_legacy_timeout_without_deadline_and_rejects_invalid_deadlines() -> None:
     assert resolve_worker_timeout_seconds(7_000, None, now_monotonic=700.0) == 7_000
-    assert resolve_worker_timeout_seconds(7_000, "10000.0", now_monotonic=700.0) == 5_200
+    assert resolve_worker_timeout_seconds(7_000, "10000.0", now_monotonic=700.0) == 7_000
+    assert resolve_worker_timeout_seconds(30_000, None, now_monotonic=700.0) == 30_000
+    assert resolve_worker_timeout_seconds(50_000, "100000.0", now_monotonic=700.0) == 43_200
     assert resolve_worker_timeout_seconds(1_000, "10000.0", now_monotonic=700.0) == 1_000
     with pytest.raises(ValueError, match="must be finite"):
         resolve_worker_timeout_seconds(5_200, "NaN", now_monotonic=700.0)

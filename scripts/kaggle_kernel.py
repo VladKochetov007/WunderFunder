@@ -14,7 +14,9 @@ from pathlib import Path, PurePosixPath
 BUNDLE_SLUG = ""
 EXPECTED_ARCHIVE_SHA256 = ""
 EXPECTED_EXTERNAL_MOUNTS = None
-KERNEL_PROCESS_WALL_SECONDS_MAX = 6_000
+# Kaggle's current maximum kernel session window; each sealed worker spec still
+# carries its own timeout and the runner leaves its finalization reserve.
+KERNEL_PROCESS_WALL_SECONDS_MAX = 43_200
 RUNNER_FINALIZATION_RESERVE_SECONDS = 300
 BOOTSTRAP_STARTED_MONOTONIC = time.monotonic()
 
@@ -201,7 +203,7 @@ def main() -> None:
         require_remaining(kernel_deadline, "runner launch")
         remaining = remaining_seconds(kernel_deadline)
         if remaining <= 0:
-            raise TimeoutError("kernel bootstrap exhausted its 6,000-second process budget")
+            raise TimeoutError("kernel bootstrap exhausted its provider session budget")
         process = subprocess.Popen(
             command,
             cwd=root,
@@ -213,7 +215,7 @@ def main() -> None:
         except subprocess.TimeoutExpired as error:
             terminate_process_tree(process)
             raise TimeoutError(
-                "runner exceeded the 6,000-second kernel-process budget; its process tree was stopped"
+                "runner exceeded the provider kernel-process budget; its process tree was stopped"
             ) from error
         if returncode != 0:
             raise subprocess.CalledProcessError(returncode, command)

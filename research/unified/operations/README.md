@@ -10,5 +10,6 @@ This domain preserves run delivery, resource safety, incident diagnosis, and the
 - [Stop authority](../../campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json) and [global admission barrier](../../campaign_2026-10-06/bandit_continuation/runtime/STOP_ADMISSION.json)
 - [Kill prevention plan](../../campaign_2026-10-12/KILL_PREVENTION_PLAN_20261012.md)
 - [Temporary artifact preservation receipts](../../campaign_2026-10-12/research_archive_inventory_r1/)
+- [Approved October 13 strategy execution](../../campaign_2026-10-13/strategy_execution_r1/PLAN.md) and [first-cohort F3 clean-T3 teacher audit/staging](../../campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r1/README.md) — identifies the missing exact F3 H384/Muon-all teachers, binds the canonical split and F3 propensity inputs, stages a private asset manifest without uploading it, and records the live Kaggle quota. The predecessor October 12 stop was explicitly superseded by this newer user authorization; this F3 handoff has not yet sealed or launched a Kaggle packet.
 
-The archive records all admitted work as terminal and closes new research admission. This documentation tree does not change that state; resumption requires an explicit user instruction.
+The October 12 archive remains historical evidence. The later October 13 strategy-execution contract supersedes that stop for the admitted campaign scope; it does not authorize paid capacity or change the local CPU/RAM/no-swap bounds.

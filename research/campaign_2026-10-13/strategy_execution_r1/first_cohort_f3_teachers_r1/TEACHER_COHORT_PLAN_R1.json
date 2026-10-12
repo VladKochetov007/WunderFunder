@@ -1,0 +1,53 @@
+{
+  "schema": "wnn.strategy.clean-t3-f3-teacher-cohort.r1",
+  "status": "preparation_audit_complete_packet_sealing_pending_root_review",
+  "source_review": "research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md",
+  "approved_contract": "research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json",
+  "reference_clean_f0_lineage": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1",
+  "recipe": {
+    "architecture": "GRU",
+    "hidden": 384,
+    "layers": 2,
+    "dropout": 0.0,
+    "optimizer": "muon",
+    "muon_scope": "all",
+    "epochs": 3,
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch": 2,
+    "batch": 32,
+    "chunk": 1000,
+    "precision": "fp16",
+    "loss": "wmse",
+    "loss_norm": "chunk",
+    "lr": 0.001,
+    "wd": 0.01,
+    "schedule": "onecycle",
+    "initializer": null,
+    "propensity": "c20260929_prop_f3",
+    "propensity_power": 2.0,
+    "propensity_epsilon": 0.03,
+    "aux_struct": 0.3,
+    "aux_next": 0.3,
+    "since_weight": 32,
+    "since_floor": 0.25
+  },
+  "fit_membership": {
+    "train": 10539,
+    "valid": 1368,
+    "excluded_valid_evaluation": 505
+  },
+  "seeds": [3, 4, 5],
+  "required_outputs_per_seed": ["fit_train_fp32", "fit_valid_fp32", "full_valid_feature_only_fp32"],
+  "output_geometry": {
+    "dtype": "float32",
+    "channels": 2,
+    "timesteps": 20000,
+    "rows_per_seed": {"fit_train": 10539, "fit_valid": 1368, "full_valid": 1873},
+    "total_raw_npy_bytes_all_seeds": 6614400000
+  },
+  "existing_exact_f3_endpoints": 0,
+  "root_parent_rule": "The H384 teachers are scratch initialized. The existing H256 c20261003_combo_s3_f3 endpoint is not a teacher initializer.",
+  "profile_and_fit_policy": "Measure on the actual Kaggle device allocation first; adapt stage concurrency to inventory; use measured free-memory margin and worker/kernel lifetime; fit only after the profile guard passes.",
+  "quota_receipt": "KAGGLE_QUOTA_AUDIT_R1.json",
+  "no_paid_capacity": true
+}
