@@ -380,11 +380,24 @@ def source_manifest(root: Path, command: list[str], contract: Path) -> dict[str,
     return result
 
 
-def active_reservations(state: Path, *, exclude: str | None = None) -> tuple[float, int]:
-    """Sum CPU and RAM reservations for admitted jobs in the ledger."""
-    cpus = 0.0
-    ram = 0
-    for item in job_records(state):
+def active_attempt_records(
+    records: list[dict[str, object]], *, exclude: str | None = None
+) -> list[dict[str, object]]:
+    """Validate and return active attempts, rejecting unresolved ledger entries.
+
+    Args:
+        records: Attempt ledger records to inspect.
+        exclude: Attempt ID currently being admitted, if any.
+
+    Returns:
+        Validated attempts that retain active reservations.
+
+    Raises:
+        RuntimeError: An attempt has an unresolved launch state.
+        ValueError: An active attempt has an invalid reservation.
+    """
+    active: list[dict[str, object]] = []
+    for item in records:
         if exclude is not None and item.get("id") == exclude:
             continue
         if item.get("status") in UNRESOLVED:
@@ -393,9 +406,84 @@ def active_reservations(state: Path, *, exclude: str | None = None) -> tuple[flo
             limits = item.get("reservation")
             if not isinstance(limits, dict):
                 raise ValueError(f"attempt has no reservation: {item.get('id')}")
-            cpus += int(limits["cpus"])
-            ram += int(limits["ram_bytes"])
+            try:
+                reserved_cpus = int(limits["cpus"])
+                reserved_ram = int(limits["ram_bytes"])
+            except (KeyError, TypeError, ValueError) as error:
+                raise ValueError(f"attempt has an invalid reservation: {item.get('id')}") from error
+            if reserved_cpus < 0 or reserved_ram < 0:
+                raise ValueError(f"attempt has a negative reservation: {item.get('id')}")
+            active.append(item)
+    return active
+
+
+def active_reservations(state: Path, *, exclude: str | None = None) -> tuple[float, int]:
+    """Sum CPU and RAM reservations for admitted jobs in the ledger."""
+    active = active_attempt_records(job_records(state), exclude=exclude)
+    cpus = sum(int(item["reservation"]["cpus"]) for item in active)
+    ram = sum(int(item["reservation"]["ram_bytes"]) for item in active)
     return cpus, ram
+
+
+def active_ram_headroom(
+    active: list[dict[str, object]], parent_group: str
+) -> tuple[int, list[dict[str, object]]]:
+    """Measure unused active RAM reservations without counting worker use twice.
+
+    Missing units, unavailable systemd state, and vanished or invalid cgroups retain
+    the full reservation as headroom so uncertain usage cannot create an admission.
+
+    Args:
+        active: Validated active attempt records.
+        parent_group: Campaign parent cgroup used to validate worker membership.
+
+    Returns:
+        The summed unused reservation and per-attempt measurement diagnostics.
+
+    Raises:
+        ValueError: An active attempt has no valid RAM reservation.
+    """
+    headroom_bytes = 0
+    measurements: list[dict[str, object]] = []
+    parent_prefix = parent_group.rstrip("/") + "/"
+    for item in active:
+        attempt = str(item.get("id", "unknown"))
+        limits = item.get("reservation")
+        if not isinstance(limits, dict):
+            raise ValueError(f"attempt has no reservation: {attempt}")
+        reserved_bytes = int(limits["ram_bytes"])
+        measured_bytes: int | None = None
+        failure: str | None = None
+        unit = item.get("unit")
+        if isinstance(unit, str) and unit:
+            try:
+                group = systemd_properties(unit).get("ControlGroup")
+                if not isinstance(group, str) or not group.startswith(parent_prefix):
+                    failure = "attempt cgroup is missing or outside the campaign parent"
+                else:
+                    measured = memory_current(group)
+                    if measured < 0:
+                        failure = "attempt cgroup memory is negative"
+                    else:
+                        measured_bytes = measured
+            except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+                failure = f"{type(error).__name__}: {error}"
+        else:
+            failure = "attempt has no systemd unit"
+        remaining_bytes = (
+            reserved_bytes if measured_bytes is None else max(0, reserved_bytes - measured_bytes)
+        )
+        headroom_bytes += remaining_bytes
+        measurements.append(
+            {
+                "attempt": attempt,
+                "reserved_bytes": reserved_bytes,
+                "measured_cgroup_bytes": measured_bytes,
+                "remaining_reserved_bytes": remaining_bytes,
+                "measurement_error": failure,
+            }
+        )
+    return headroom_bytes, measurements
 
 
 def support_cpu_reservations(state: Path, parent_group: str) -> dict[str, float]:
@@ -441,24 +529,40 @@ def verify_capacity(
     exclude: str | None = None,
     current_memory_bytes: int | None = None,
 ) -> dict[str, object]:
-    """Check both committed reservations and measured parent use before admission."""
-    active_cpus, active_ram = active_reservations(state, exclude=exclude)
+    """Check RAM headroom and CPU reservations before admitting a new attempt.
+
+    The parent cgroup is sampled after active worker cgroups to reduce inconsistent
+    snapshots. A caller's earlier sample is retained when it is larger.
+    """
+    active = active_attempt_records(job_records(state), exclude=exclude)
+    active_cpus = sum(int(item["reservation"]["cpus"]) for item in active)
+    active_ram = sum(int(item["reservation"]["ram_bytes"]) for item in active)
     support = support_cpu_reservations(state, parent_group)
     support_cpus = sum(support.values())
     cpu_cap = authorized_cpu_cap()
     if active_cpus + support_cpus + cpus > cpu_cap:
         raise RuntimeError(f"CPU reservation would exceed {cpu_cap} aggregate cores")
-    if active_ram + ram_bytes > RAM_WORKING_BYTES:
-        raise RuntimeError("profiled RAM reservations would exceed the 17 GB working allowance")
-    measured = (
-        memory_current(parent_group) if current_memory_bytes is None else current_memory_bytes
-    )
-    if measured + ram_bytes > RAM_WORKING_BYTES:
+    active_headroom, active_measurements = active_ram_headroom(active, parent_group)
+    try:
+        measured = memory_current(parent_group)
+    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+        raise RuntimeError("parent RAM is unknown after active worker measurements") from error
+    if current_memory_bytes is not None:
+        measured = max(measured, current_memory_bytes)
+    projected = measured + active_headroom + ram_bytes
+    if projected > RAM_WORKING_BYTES:
         raise RuntimeError(
-            f"measured parent RAM plus profile reserve exceeds 17 GB: {measured}+{ram_bytes}"
+            "projected committed RAM exceeds the 17 GB working allowance: "
+            f"parent={measured}, active_unused_reservations={active_headroom}, "
+            f"new_bound={ram_bytes}, projected={projected}"
         )
     return {
         "parent_memory_current_bytes": measured,
+        "active_reserved_ram_bytes": active_ram,
+        "active_measured_ram_headroom_bytes": active_headroom,
+        "projected_committed_ram_bytes": projected,
+        "committed_ram_target_bytes": RAM_WORKING_BYTES,
+        "active_ram_measurements": active_measurements,
         "profile_ram_reserve_bytes": ram_bytes,
         "committed_cpu_cores": active_cpus,
         "support_cpu_reserve_cores": support_cpus,
