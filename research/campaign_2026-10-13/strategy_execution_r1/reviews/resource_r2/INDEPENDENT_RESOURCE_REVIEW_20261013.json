@@ -1,0 +1,113 @@
+{
+  "format": "wnn.independent-resource-review",
+  "version": 2,
+  "created_utc": "2026-10-12T23:19:10Z",
+  "candidate_commit": "f6550d6c1fd7318d48c9381db781fb341db28912",
+  "parent_commit": "b185e7048785e1c6db60303dbd228c8ce803bd3a",
+  "scope": [
+    "concurrent RAM headroom correction",
+    "current-attempt exclusion",
+    "unknown/vanished/queued cgroup handling",
+    "parent-worker measurement race",
+    "inherited GPU and aggregate resource policy"
+  ],
+  "authority": {
+    "adr": "specs/adr/0034-strategy-execution-full-gpu-allowance.md",
+    "contract": "research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json",
+    "resource_constraints_retained": {
+      "cpu_cores": 5,
+      "committed_ram_target_bytes": 17000000000,
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "swap_bytes": 0,
+      "local_gpu_workers": 1,
+      "paid_actions": false
+    }
+  },
+  "findings": [
+    {
+      "id": "R2-01",
+      "severity": "pass",
+      "classification": "confirmed correction",
+      "status": "pass for coherent sampled values",
+      "location": "scripts/bandit_resources.py:383-573; tests/test_bandit_resources.py:149-197",
+      "evidence": {
+        "parent_current_bytes": 10000000000,
+        "active_worker_reservation_bytes": 12000000000,
+        "active_worker_current_bytes": 8000000000,
+        "new_bound_bytes_rejected": 4000000000,
+        "projected_bytes_rejected": 18000000000,
+        "new_bound_bytes_at_boundary": 3000000000,
+        "projected_bytes_at_boundary": 17000000000,
+        "worker_usage_double_counted": false
+      },
+      "resolution": null
+    },
+    {
+      "id": "R2-02",
+      "severity": "pass",
+      "classification": "fail-closed record handling",
+      "status": "pass",
+      "location": "scripts/bandit_resources.py:383-491,663-758; tests/test_bandit_resources.py:200-254,283-354",
+      "evidence": {
+        "current_attempt_excluded_after_preflight_record": true,
+        "other_unresolved_records_still_block": true,
+        "waiting_worker_without_cgroup_keeps_full_reservation": true,
+        "vanished_worker_cgroup_keeps_full_reservation": true,
+        "parent_sample_follows_worker_sample": true
+      },
+      "resolution": null
+    },
+    {
+      "id": "R2-03",
+      "severity": "medium",
+      "classification": "residual concurrency limitation",
+      "status": "manual conservative admission required for overlap",
+      "location": "scripts/bandit_resources.py:428-573",
+      "trigger": "An active worker's memory falls after its cgroup sample while non-worker parent usage grows before the later parent sample.",
+      "consequence": "Non-atomic samples can overstate worker current use and understate unused reservation headroom, so the computed committed projection can be below a coherent contemporaneous projection.",
+      "first_fit_impact": "None when the active ledger is empty; the first single GPU attempt remains conditionally admissible.",
+      "resolution": "Until addressed, overlap only after a conservative parent-current plus full-active-reservations plus complete-new-bound check, or wait for active workers to finish."
+    },
+    {
+      "id": "R2-04",
+      "severity": "pass with inherited limitation",
+      "classification": "GPU policy and launch path",
+      "status": "pass on selected durable path; actual device profile still required",
+      "location": "scripts/bandit_resources.py:54-77,151-165,523-619; src/wnn/resources.py:47-110",
+      "evidence": {
+        "fixed_allocator_4300000000_removed_from_service": true,
+        "observed_5000000000_hard_rejection_removed": true,
+        "allocator_basis": "CUDA free/total bytes sampled at configure_torch startup minus configurable reserve",
+        "continuous_rebalancing": false,
+        "shared_state_gpu_lock": true,
+        "legacy_queue_stop_left_intact": true
+      },
+      "resolution": "Use the exact durable path and perform the declared bounded hardware profile before a long fit."
+    }
+  ],
+  "checks": {
+    "tests": {
+      "interpreter": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "candidate_import_path": "worktree root and src on PYTHONPATH",
+      "limits": "1 CPU, 1 GB memory maximum, 120 s",
+      "result": "55 passed in 0.19s",
+      "files": [
+        "tests/test_bandit_resources.py",
+        "tests/test_campaign_allocator.py"
+      ]
+    },
+    "diff_check": "passed",
+    "shared_runtime_read": {
+      "records": 350,
+      "active": 0,
+      "unresolved": 0,
+      "stop_admission_present": true,
+      "mutation": false
+    },
+    "candidate_modified": false,
+    "gpu_or_provider_action": false,
+    "paid_action": false
+  },
+  "disposition": "conditional_pass_for_one_fresh_zero-active_local_GPU_attempt_after_integration_and_supported_shared-runtime_resume; require conservative_full-active-reservation_check_for_overlapping_support_admission"
+}

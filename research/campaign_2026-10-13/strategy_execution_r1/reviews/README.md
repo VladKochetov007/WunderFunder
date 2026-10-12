@@ -1,3 +1,4 @@
 # Independent strategy reviews
 
 - [Resource policy R1](resource_r1/README.md) independently checks commit b185e704. GPU-cap removal and the fresh durable path passed 24 focused checks. The review found an existing unused-reservation accounting gap that blocks concurrent admissions against the 17 GB target. The first zero-active worker is conditionally safe, but root requested a narrow correction before launch. No model-quality evidence is produced by this review.
+- [Resource policy R2](resource_r2/README.md) independently checks the headroom correction in f6550d6c. The requested 18 GB counterexample now rejects, exact-bound admission passes, and 55 focused tests pass. A non-atomic worker/parent memory snapshot remains a narrow concurrency caveat; the reviewed zero-active first GPU launch remains conditionally admissible after the supported shared-state resume. No model-quality evidence is produced by this review.
