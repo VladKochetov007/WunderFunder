@@ -1,0 +1,64 @@
+{
+  "checks": {
+    "ast_parse": "PASS",
+    "contract_and_all_source_bindings": "PASS",
+    "contract_runtime_pin": "/usr/bin/python3.11 (3, 11)",
+    "output_root_exists": false,
+    "python311_dependency_probe": {
+      "command": "importlib.util.find_spec for numpy, pyarrow, torch, ruff",
+      "modules_available": {
+        "numpy": false,
+        "pyarrow": false,
+        "ruff": false,
+        "torch": false
+      },
+      "python_executable": "/usr/bin/python3.11",
+      "python_version": "3.11.16",
+      "qualification": "bounded read-only dependency check; no installation or environment creation attempted",
+      "schema": "wnn.native-single-member-python311-dependency-probe.r1",
+      "status": "blocked_missing_dependencies"
+    },
+    "python313_full_quality_callback_attempt": {
+      "exception": "RuntimeError",
+      "exit_code": 1,
+      "message": "use the exact MAIN interpreter bound by this contract",
+      "result": "REFUSED_AS_REQUIRED_BEFORE_MODEL_CONSTRUCTION_OR_OUTPUT"
+    },
+    "required_python311_callback_fixture_exists": false,
+    "ruff_check": "PASS",
+    "ruff_format_check": "PASS"
+  },
+  "contract_sha256": "801f54610f6cd7c39490b68b316fd2815ee312a383434a2c216bec2ad9d96f21",
+  "created_utc": "2026-10-12T05:47:58.021044+00:00",
+  "packet_id": "native-q8-single-model-controls-packet-r2",
+  "python311_dependency_probe_sha256": "f4d05b35bd2fba3849aeb6c476a2dd5ea5411f2d30bf3dd1f2bcf9bb6610e99f",
+  "schema": "wnn.native-single-member-packet-preparation-validation.r2",
+  "scope": {
+    "full_quality_evaluation_performed": false,
+    "gpu_or_provider_action": false,
+    "labels_loaded_by_this_preparation": false,
+    "training_performed": false
+  },
+  "source_sha256s": {
+    "callback_runner": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53",
+    "contract_builder": "8c91f6ebe57a2f1eb842c6e494c7c70c985e302456ae7238583f8ce8546261ad",
+    "native_elf": "f8aceef7322ee4deb3bf49992afcd0fec01ce5934a27d5269112a2052b2f5326",
+    "native_package_init": "0cbf62fddaa57ad9aae99f62e03cd21af51050a02ec44f55e1027df320e05eae",
+    "native_wheel": "b4d71f3e06b51027d46bb74a7b2317405a69221f883e4c9c0efe2c8ea68f979f",
+    "official_metric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "project_utils": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+    "r1_quality_consumer": "596877234a66727f3fa61e83b8c53dc94114f41678a534f6447ba2df712645ab",
+    "r2_consumer": "34dde3085302482007bdd88b58e383ae525e561e5fc934a24bacb7fd76c33d4e",
+    "r2_contract_builder": "6ea12429fd8debfd83c8a189fbcf2d0973fc96cf71dbaf394ba6fae2d53a6278",
+    "single_control_consumer": "97bb37bcb4d3b80b9678a1ab2f52f56093830a6303e09e5c383cbd8d9dcd1d41",
+    "wrapped_predictor_source": "0333be5b058298b8dab2227a2581a1540d0748aee5ae1aa50d2a59a9deab09d3"
+  },
+  "status": "PASS_STATIC_PENDING_PY311_RUNTIME_VALIDATION_AND_ROOT_ADMISSION",
+  "supplementary_callback_fixture_sha256": "f999012c2685ed8aa9d5df483377feb718da72d0be806d0598b7d98100280ae1",
+  "support_limits": {
+    "cpu_quota_percent": 50,
+    "memory_max_bytes": 1500000000,
+    "per_command_timeout_seconds": 120,
+    "threads": 1
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "wnn.native.single-member-cleanfold-q8-preseal-erratum.r2",
+  "packet_id": "native-q8-single-model-controls-packet-r2",
+  "superseded_contract": {
+    "preserved_path": "CONTRACT_SINGLE_R2_PRE_PY311_FIX.json",
+    "sha256": "fe4e3a9795a3b4fd43dae4a4a05d76cfd3f141249d0ada437cb856f174ef1b3c",
+    "reason": "The prior contract pinned CPython 3.13 as the full-quality runtime, although the requested final-serving validation requires CPython 3.11."
+  },
+  "supplementary_callback_fixture": {
+    "preserved_path": "CALLBACK_FIXTURE_SINGLE_R2_SUPPLEMENTARY_PY313.json",
+    "sha256": "f999012c2685ed8aa9d5df483377feb718da72d0be806d0598b7d98100280ae1",
+    "source_contract_sha256": "fe4e3a9795a3b4fd43dae4a4a05d76cfd3f141249d0ada437cb856f174ef1b3c",
+    "qualification": "Actual complete-sequence Q8 callback and reset-replay evidence under CPython 3.13 only; not a Py3.11 serving-validation fixture and not sufficient for full-quality admission."
+  },
+  "corrected_contract": {
+    "required_runtime": "/usr/bin/python3.11 (CPython 3.11)",
+    "standalone_callback_fixture_path": "CALLBACK_FIXTURE_SINGLE_R2_PY311.json",
+    "standalone_callback_fixture_status": "not_generated; Py3.11 runtime dependencies are absent"
+  },
+  "dependency_probe_path": "PY311_RUNTIME_DEPENDENCY_PROBE_R1.json",
+  "full_quality_evaluation_performed": false,
+  "preservation": "The earlier R1 output-path erratum and its superseded files remain unchanged."
+}
