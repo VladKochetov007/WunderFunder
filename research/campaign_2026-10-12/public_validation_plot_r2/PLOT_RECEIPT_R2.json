@@ -1,0 +1,85 @@
+{
+  "schema": "wnn.public-validation-plot-receipt.r2",
+  "created_utc": "2026-10-12T11:02:41.694182+00:00",
+  "inputs": {
+    "candidate_features": {
+      "path": "research/campaign_2026-10-12/public_score_regression_r1/candidate_features_r1.csv",
+      "sha256": "115588f871b0c310b8c7129cb12064a1cd820b5f1f98b03b58467e545f2cce27"
+    },
+    "endpoint_coverage": {
+      "path": "research/campaign_2026-10-12/public_score_regression_r1/endpoint_coverage_r1.csv",
+      "sha256": "dbaacdade13daff25ce7a5bd86b8dcbca66849964df1ca483d47fc6cd8882b3b"
+    }
+  },
+  "included_rows": 11,
+  "protocol_counts": {
+    "exact_f1_receipt": 3,
+    "package_reported_f1": 1,
+    "legacy_source_reported_368": 5,
+    "legacy_conditional_reconstruction_368": 2
+  },
+  "protocol_gap_ranges": {
+    "exact_f1_receipt": {
+      "count": 3,
+      "gap_min_public_minus_local": -0.010350000000000081,
+      "gap_max_public_minus_local": -0.005830000000000002
+    },
+    "package_reported_f1": {
+      "count": 1,
+      "gap_min_public_minus_local": -0.005479999999999929,
+      "gap_max_public_minus_local": -0.005479999999999929
+    },
+    "legacy_source_reported_368": {
+      "count": 5,
+      "gap_min_public_minus_local": -0.03437730205257361,
+      "gap_max_public_minus_local": -0.03224685730719523
+    },
+    "legacy_conditional_reconstruction_368": {
+      "count": 2,
+      "gap_min_public_minus_local": -0.03507691683038794,
+      "gap_max_public_minus_local": -0.034959503153087934
+    }
+  },
+  "latest_c": {
+    "public_score": 0.6671,
+    "local_metric": null,
+    "plot_treatment": "annotated public-only outcome; omitted from paired scatter and gap panel",
+    "source_status": "user-transcribed report; not present as a matched row in these CSVs"
+  },
+  "method": {
+    "comparison": "paired local metric versus public score for rows with both numeric values",
+    "facets": [
+      "exact_f1_receipt",
+      "package_reported_f1",
+      "legacy_source_reported_368",
+      "legacy_conditional_reconstruction_368"
+    ],
+    "pooled_regression_line": false,
+    "equality_diagonal": true,
+    "public_minus_local_gap": "public_score - local_metric",
+    "scatter_label_leader_lines": "thin neutral-gray segments to each target point"
+  },
+  "limitations": [
+    "All included validation protocols are retrospective and exposed.",
+    "The three exact F1 receipts bind float checkpoint/pair predictions; exact native Q8 scores were not measured.",
+    "The package-reported F1 row lacks established checkpoint digest and precision conversion.",
+    "The two conditional v2-CPU rows reconstruct EMA6 member0 rather than the exact served ensemble.",
+    "The five source-reported 368-group rows lack receipt-verified ancestry and native/package equivalence.",
+    "Submission rows share ancestry and validation exposure; individual dots are not independent replications.",
+    "No regression, calibration, or public-score forecast was fitted."
+  ],
+  "outputs": {
+    "plot_data_csv": {
+      "path": "research/campaign_2026-10-12/public_validation_plot_r2/PUBLIC_LOCAL_PLOT_DATA_R2.csv",
+      "sha256": "1031e7365d822f44144ccfd4a994e950147da86fa03b70b04db2cfc4b681ba07"
+    },
+    "figure_png": {
+      "path": "research/campaign_2026-10-12/public_validation_plot_r2/PUBLIC_VS_LOCAL_BY_PROTOCOL_R2.png",
+      "sha256": "efed7c797aa05883d054507efbd49e156275552439128928715b954df9fa79db"
+    },
+    "figure_svg": {
+      "path": "research/campaign_2026-10-12/public_validation_plot_r2/PUBLIC_VS_LOCAL_BY_PROTOCOL_R2.svg",
+      "sha256": "7706fdffb0fca83f80dcdc39c85b6d93d568357e8a59a45452a106a57e7e21f1"
+    }
+  }
+}
