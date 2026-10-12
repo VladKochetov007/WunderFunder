@@ -11,6 +11,8 @@ from dataclasses import dataclass
 import numpy as np
 from numpy.typing import NDArray
 
+from wnn.gmetric import global_wp
+
 FloatArray = NDArray[np.float64]
 _EPS = 1e-8
 _CLIP = 2.0
@@ -29,25 +31,31 @@ class WeightedPredictionMoments:
 
 @dataclass(frozen=True)
 class SolverAttempt:
-    """One deterministic SLSQP start and its bounded result."""
+    """One smooth-proxy SLSQP trajectory and official-scored endpoint."""
 
     start_name: str
     success: bool
     status: int
     iterations: int
-    score: float
+    start_weights: FloatArray
+    start_surrogate_score: float
+    start_official_score: float
+    surrogate_score: float
+    official_score: float
     weights: FloatArray
     message: str
 
 
 @dataclass(frozen=True)
 class SharedBlendFit:
-    """Best feasible shared weights across the three fixed solver starts."""
+    """Best officially scored feasible weights from three proxy solver starts."""
 
     weights: FloatArray
     unshrunk_weights: FloatArray
-    score: float
-    unshrunk_score: float
+    official_score: float
+    unshrunk_official_score: float
+    surrogate_score: float
+    unshrunk_surrogate_score: float
     selected_candidate: str
     shrinkage: float
     attempts: tuple[SolverAttempt, ...]
@@ -56,6 +64,7 @@ class SharedBlendFit:
 @dataclass(frozen=True)
 class _PreparedProblem:
     targets: FloatArray
+    scorer_targets: NDArray[np.float32]
     predictions: NDArray[np.float32]
     weights: FloatArray
 
@@ -166,22 +175,42 @@ def ridge_simplex_initializer(moments: WeightedPredictionMoments, ridge: float) 
     return _project_simplex(direction)
 
 
-def exact_clip2_wp_and_gradient(
+def clip2_wp_surrogate_and_gradient(
     targets: np.ndarray,
     predictions: np.ndarray,
     mask: np.ndarray,
     coefficients: np.ndarray,
 ) -> tuple[float, FloatArray]:
-    """Evaluate official two-target clip-2 weighted Pearson and its Jacobian.
+    """Evaluate the continuous clip-2 WP surrogate and its analytic Jacobian.
 
-    The convex mixture is formed from raw candidate predictions, then clipped
-    once to ``[-2, 2]``. Target weights are ``abs(clip(target, -2, 2))``. The
-    reported value is the mean of the two pooled correlations. The Jacobian uses
-    the exact piecewise derivative away from clip boundaries and chooses zero
-    derivative at the nondifferentiable boundaries.
+    Candidate arrays are float32, but the coefficient mixture and clipping are
+    evaluated in float64 to provide a useful real-valued optimization surrogate.
+    Targets use the official ``abs(clip(target, -2, 2))`` weights, the selected
+    mask is fixed, and the value is the mean of pooled target correlations. The
+    analytic Jacobian is for this continuous surrogate; it is not a derivative of
+    the official scorer's float32 quantization. At exact clip boundaries the
+    chosen surrogate derivative is zero.
     """
     problem = _prepare_problem(targets, predictions, mask)
-    return _objective_and_gradient(problem, coefficients)
+    return _surrogate_and_gradient(problem, coefficients)
+
+
+def official_clip2_wp(
+    targets: np.ndarray,
+    predictions: np.ndarray,
+    mask: np.ndarray,
+    coefficients: np.ndarray,
+) -> float:
+    """Score a float32-cast candidate mixture through the unchanged official metric.
+
+    Mixture accumulation is float64 and then cast once to float32, matching the
+    canonical candidate synthesis used by this module. The unchanged
+    ``wnn.gmetric.global_wp`` applies its float32 conversion, clipping, fixed mask,
+    magnitude weights, and pooled two-target score. Re-score a delivered package
+    using its exact serving arithmetic before making endpoint claims.
+    """
+    problem = _prepare_problem(targets, predictions, mask)
+    return _official_score(problem, coefficients)
 
 
 def analytic_shared_initializer(
@@ -217,9 +246,12 @@ def fit_shared_clip2_weights(
     ridge: float,
     shrink_to_equal: float = 0.0,
 ) -> SharedBlendFit:
-    """Fit bounded shared weights from equal/current/analytic starts using SLSQP.
+    """Fit proxy gradients, then rank feasible candidates by official float32 WP.
 
-    This bounded local optimization does not claim a global optimum. The fixed
+    SLSQP follows the continuous float64 clip-2 surrogate with analytic Jacobian.
+    The three starts and returned SLSQP endpoints are ranked by
+    ``wnn.gmetric.global_wp`` after canonical float32 mixture synthesis. This
+    bounded local optimization does not claim a global optimum. The fixed
     optional shrinkage is applied after solver selection and is not searched.
 
     Args:
@@ -231,8 +263,8 @@ def fit_shared_clip2_weights(
         shrink_to_equal: Predeclared shrink amount in ``[0, 1]``.
 
     Returns:
-        Best feasible result across the three SLSQP trajectories and their starts,
-        with all solver diagnostics and the optional fixed shrinkage recorded.
+        Best officially scored feasible result across the three starts and their
+        SLSQP endpoints, with surrogate/official diagnostics and fixed shrinkage.
 
     Raises:
         ValueError: Inputs, current weights, ridge, or shrinkage are invalid.
@@ -249,7 +281,7 @@ def fit_shared_clip2_weights(
     # SciPy is a research-only dependency; importing this module does not require it.
     from scipy.optimize import minimize
 
-    candidates: list[tuple[str, FloatArray, float]] = []
+    candidates: list[tuple[str, FloatArray, float, float]] = []
     attempts: list[SolverAttempt] = []
     constraint = {
         "type": "eq",
@@ -257,11 +289,14 @@ def fit_shared_clip2_weights(
         "jac": lambda value: np.ones_like(value, dtype=np.float64),
     }
     for name, start in starts:
-        initial_score, _ = _objective_and_gradient(problem, start)
-        candidates.append((f"{name}:start", start.copy(), initial_score))
+        initial_surrogate_score, _ = _surrogate_and_gradient(problem, start)
+        initial_official_score = _official_score(problem, start)
+        candidates.append(
+            (f"{name}:start", start.copy(), initial_official_score, initial_surrogate_score)
+        )
 
         def objective(value: np.ndarray) -> tuple[float, FloatArray]:
-            score, gradient = _objective_and_gradient(problem, value)
+            score, gradient = _surrogate_and_gradient(problem, value)
             return -score, -gradient
 
         result = minimize(
@@ -274,29 +309,41 @@ def fit_shared_clip2_weights(
             options={"maxiter": _SLSQP_MAX_ITERATIONS, "ftol": 1e-12},
         )
         result_weights = _project_simplex(np.asarray(result.x, dtype=np.float64))
-        result_score, _ = _objective_and_gradient(problem, result_weights)
+        result_surrogate_score, _ = _surrogate_and_gradient(problem, result_weights)
+        result_official_score = _official_score(problem, result_weights)
         attempts.append(
             SolverAttempt(
                 name,
                 bool(result.success),
                 int(result.status),
                 int(result.nit),
-                result_score,
+                start.copy(),
+                initial_surrogate_score,
+                initial_official_score,
+                result_surrogate_score,
+                result_official_score,
                 result_weights.copy(),
                 str(result.message),
             )
         )
-        candidates.append((f"{name}:slsqp", result_weights, result_score))
+        candidates.append(
+            (f"{name}:slsqp", result_weights, result_official_score, result_surrogate_score)
+        )
 
-    selected_name, unshrunk, unshrunk_score = max(candidates, key=lambda item: item[2])
+    selected_name, unshrunk, unshrunk_official_score, unshrunk_surrogate_score = max(
+        candidates, key=lambda item: item[2]
+    )
     final = (1.0 - shrink_to_equal) * unshrunk + shrink_to_equal * equal
     final = _project_simplex(final)
-    score, _ = _objective_and_gradient(problem, final)
+    final_surrogate_score, _ = _surrogate_and_gradient(problem, final)
+    final_official_score = _official_score(problem, final)
     return SharedBlendFit(
         final,
         unshrunk.copy(),
-        score,
-        unshrunk_score,
+        final_official_score,
+        unshrunk_official_score,
+        final_surrogate_score,
+        unshrunk_surrogate_score,
         selected_name,
         float(shrink_to_equal),
         tuple(attempts),
@@ -321,6 +368,7 @@ def _prepare_problem(
     clipped_targets = np.clip(y_selected, -_CLIP, _CLIP).astype(np.float64)
     return _PreparedProblem(
         clipped_targets,
+        np.ascontiguousarray(y_selected),
         np.ascontiguousarray(p_selected),
         np.abs(clipped_targets),
     )
@@ -338,7 +386,7 @@ def _analytic_shared_initializer(problem: _PreparedProblem, ridge: float) -> Flo
     return _project_simplex(np.mean(np.stack(starts), axis=0))
 
 
-def _objective_and_gradient(
+def _surrogate_and_gradient(
     problem: _PreparedProblem, coefficients: np.ndarray
 ) -> tuple[float, FloatArray]:
     a = np.asarray(coefficients, dtype=np.float64)
@@ -362,6 +410,18 @@ def _objective_and_gradient(
         target_scores.append(score)
         target_gradients.append(gradient)
     return float(np.mean(target_scores)), np.mean(target_gradients, axis=0)
+
+
+def _official_score(problem: _PreparedProblem, coefficients: np.ndarray) -> float:
+    a = np.asarray(coefficients, dtype=np.float64)
+    model_count = problem.predictions.shape[1]
+    if a.shape != (model_count,) or not np.isfinite(a).all():
+        raise ValueError("coefficients must be a finite vector matching the prediction pool")
+    raw_mixture = np.einsum("nmk,m->nk", problem.predictions, a, dtype=np.float64, optimize=False)
+    candidate_predictions = raw_mixture.astype(np.float32)
+    selected_mask = np.ones(problem.scorer_targets.shape[0], dtype=bool)
+    result = global_wp(problem.scorer_targets, candidate_predictions, selected_mask)
+    return float(result["wp"])
 
 
 def _weighted_correlation_gradient(
