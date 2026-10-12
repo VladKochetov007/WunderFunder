@@ -1,0 +1,55 @@
+{
+  "schema": "wnn.f1-core-hft-consumer-review-receipt.r2",
+  "review_id": "F1_CORE_HFT_CONSUMER_REVIEW_R2",
+  "status": "PASS_IMPORT_PREFLIGHT_CROP_CONTRACT_FAIL",
+  "reviewer_branch": "codex/f1-core-hft-review-20261012",
+  "implementation_commit": "534db6c01e91d8ba545ce83d34d501c23a2ab405",
+  "latest_documentation_commit": "e7e6fdeb2b51b49952bce712d497200bb19546e9",
+  "packet_manifest_sha256": "ec014497862540fc94e4e1a531c4306dae7fa9d8c4d393d94bb7338dc01cf691",
+  "source_input_bindings_sha256": "b9649c6d9d455edc3d61c982907ff1b56ca802d241ca6d65b7d2096a645605a7",
+  "runner_sha256": "1313bcb3900c97b8d6d2e69e9e88d325e0797fa000dc6bc5789030e39664bf68",
+  "validate_import": {
+    "command": "run_f1_core_hft_stage_r2.py --stage validate-import --project-root MAIN",
+    "exit_code": 0,
+    "result": "PASS_IMPORTS_AND_F1_MEMBERSHIP",
+    "cpu_quota": "25%",
+    "threads": 1,
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 120,
+    "device_started": false,
+    "full_parquet_rehashed": false,
+    "source_qualified": true,
+    "membership": {
+      "train_ancestry": 10533,
+      "valid_hft_fit": 1416,
+      "outer_eval": 457,
+      "fit_eval_overlap": 0
+    }
+  },
+  "source_closure": {
+    "base_manifest_file_count": 52,
+    "supplemental_file": "src/wnn/csrc/symreg_screen.cpp",
+    "supplemental_sha256": "413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7",
+    "validator_status": "PASS_EXACT_TREE_CLOSURE"
+  },
+  "crop_fixture": {
+    "receipt_sha256": "b9c5ec64c7a9922e3430228dc1253dcef99f7dbf1577c9110d1f5c08c2a93308",
+    "source_checkpoint_sha256": "cd8886589e8664082da1f27aee4f2c4925b61c41da8c740598831ab2f774bbd6",
+    "temp_output_checkpoint_sha256": "cd96d84835ed9cadda0e09f55ff01b1057cc9296e27b99eb401f0ee3e3fca59e",
+    "temp_output_provenance_sha256": "4abc9c9778abc0888ce54a40da207bca81ef050438544164092a136af6c05be0",
+    "receipt_and_temp_bytes_independently_hash_matched": true,
+    "fixture_reexecuted_by_reviewer": false
+  },
+  "crop_semantics": {
+    "primitive": "PASS_HEAD_2_OUTPUT_CROP",
+    "r2_readme_and_contract": "FAIL_CLAIM_HEAD_0_CROP",
+    "required_correction": "New contract/packet revision must state first 23 head.2.weight/bias rows and update manifest before root crop admission."
+  },
+  "not_executed": [
+    "MAIN crop/admission",
+    "actual-device profile/resource admission",
+    "HFT fit",
+    "CP0 terminal/export",
+    "quality grading"
+  ]
+}
