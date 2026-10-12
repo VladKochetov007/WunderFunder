@@ -1,0 +1,20 @@
+{
+  "schema": "wnn.clean_f0_student_treatment_stage_failure.r1",
+  "attempt_id": "clean-t3-f0-treatment-stage-copy-r21",
+  "status": "failed_preserved_then_exact_partial_removed",
+  "observed_at_utc": "2026-10-12T11:25:02Z",
+  "exit_code": 137,
+  "stage_path": "/tmp/wnn-clean-t3-f0-treatment-r22-assets",
+  "filesystem_type": "tmpfs",
+  "partial_file": "pair_r2_main_homogeneous_train.npy",
+  "partial_bytes_before_cleanup": 640970752,
+  "expected_source": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r2/main_homogeneous_train.npy",
+  "expected_source_bytes": 1685600128,
+  "expected_source_sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+  "diagnosis": "The bounded staging command exited 137 while copying a large cache array into tmpfs. The partial byte count and filesystem type are observed; the exit alone does not establish the exact OOM mechanism.",
+  "cleanup": "Only the exact known partial cache copy above was removed after this receipt was written. The immutable MAIN source, other /tmp files, and the empty failed source-stage directory were not removed.",
+  "provider_mutation": false,
+  "dataset_uploaded": false,
+  "kernel_pushed": false,
+  "profile_or_fit_started": false
+}
