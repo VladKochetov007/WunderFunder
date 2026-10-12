@@ -71,6 +71,7 @@ FORBIDDEN_LEDGER_KEYS = {
     "cot_transcript",
 }
 MAX_LEDGER_LINE_BYTES = 8 * 1024 * 1024
+MAX_HANDOFF_BYTES = 32 * 1024 * 1024
 BEGIN_MARKER = "<!-- BEGIN GENERATED LEDGER AND FILE APPENDICES -->"
 END_MARKER = "<!-- END GENERATED LEDGER AND FILE APPENDICES -->"
 
@@ -107,7 +108,12 @@ def _forbidden_key(value: Any) -> str | None:
 
 def _iter_ledger(path: Path) -> Iterator[tuple[int, bytes, dict[str, Any]]]:
     with path.open("rb") as stream:
-        for line_number, raw in enumerate(stream, start=1):
+        line_number = 0
+        while True:
+            raw = stream.readline(MAX_LEDGER_LINE_BYTES + 1)
+            if not raw:
+                break
+            line_number += 1
             if len(raw) > MAX_LEDGER_LINE_BYTES:
                 raise ArchiveError(f"ledger line exceeds fixed bound: {path}:{line_number}")
             if not raw.strip():
@@ -124,6 +130,32 @@ def _iter_ledger(path: Path) -> Iterator[tuple[int, bytes, dict[str, Any]]]:
                     f"sensitive/private-reasoning key {sensitive!r} found in {path}:{line_number}; values withheld"
                 )
             yield line_number, raw.rstrip(b"\r\n"), record
+
+
+def _read_handoff(path: Path) -> str:
+    """Read a pre-existing handoff only after checking a fixed size ceiling."""
+    try:
+        initial_stat = path.stat()
+    except OSError as exc:
+        raise ArchiveError(f"cannot stat handoff input: {path}") from exc
+    if initial_stat.st_size > MAX_HANDOFF_BYTES:
+        raise ArchiveError(f"handoff exceeds fixed {MAX_HANDOFF_BYTES}-byte input bound: {path}")
+    try:
+        with path.open("rb") as stream:
+            opened_stat = os.fstat(stream.fileno())
+            if opened_stat.st_size > MAX_HANDOFF_BYTES:
+                raise ArchiveError(f"opened handoff exceeds fixed {MAX_HANDOFF_BYTES}-byte input bound: {path}")
+            raw = stream.read(MAX_HANDOFF_BYTES + 1)
+    except OSError as exc:
+        raise ArchiveError(f"cannot read handoff input: {path}") from exc
+    if len(raw) > MAX_HANDOFF_BYTES:
+        raise ArchiveError(f"handoff grew beyond fixed {MAX_HANDOFF_BYTES}-byte input bound: {path}")
+    if len(raw) != opened_stat.st_size:
+        raise ArchiveError(f"handoff changed size during bounded read: {path}")
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ArchiveError(f"handoff is not valid UTF-8: {path}") from exc
 
 
 def _record_id(record: dict[str, Any], line_number: int) -> str:
@@ -403,7 +435,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         raise ArchiveError("source root has no research directory")
     if not output.is_file():
         raise ArchiveError("handoff output file does not exist")
-    original = output.read_text(encoding="utf-8")
+    original = _read_handoff(output)
     block = _generated_block(root, research_dir)
     updated = _replace_generated_block(original, block)
     checked_links = _validate_local_links(updated, research_dir, output.parent)
