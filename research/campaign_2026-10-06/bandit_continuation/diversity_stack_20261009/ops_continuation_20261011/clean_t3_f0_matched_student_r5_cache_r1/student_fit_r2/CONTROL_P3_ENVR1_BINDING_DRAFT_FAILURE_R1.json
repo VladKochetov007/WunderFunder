@@ -1,0 +1,21 @@
+{
+  "created_utc": "2026-10-12T12:36:02.414057+00:00",
+  "errors": [
+    {
+      "cause": "Attempted to read terminal summary counter from top-level progress when authoritative terminal receipt nests it at progress.cumulative_updates.",
+      "draft": "counter_projection_r1",
+      "effect": "No bound manifest written; no model, cache, state, or runtime producer modified.",
+      "error": "KeyError: 'optimizer_attempts'"
+    },
+    {
+      "cause": "Compared raw training_state progress as a flat counter map. Frozen producer stores step_count/history; authoritative last cumulative values are history[-1].update_diagnostics.cumulative. R2 receipt stores separate progress.cumulative_updates.",
+      "draft": "counter_projection_r2",
+      "effect": "No bound manifest written; no model, cache, state, or runtime producer modified.",
+      "error": "binding checks failed: p2_progress_counters_match_terminal_validation"
+    }
+  ],
+  "schema": "wnn.clean-t3-control-p3-binding-draft-failure.r1",
+  "scope": "Manifest-only draft errors before successful bound-stage contract; no training state/output was mutated by these scripts. Preserve separately; they did not alter the admitted P3 argv.",
+  "status": "PRESERVED_DRAFT_ERRORS",
+  "successful_correction": "Bound manifest R1 preserves raw state.progress and exact loaded training_contract; it compared the cumulative counters only through the frozen loader\u2019s last history update_diagnostics.cumulative against R2 cumulative_updates. No scientific or worker argv changes."
+}
