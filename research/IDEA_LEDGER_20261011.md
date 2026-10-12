@@ -251,3 +251,7 @@ MatchedcleanF0 alpha.9/e6 two-parent student cohort now has a Luna/max packet pr
 
 ### 2026-10-12T09:56:57.397062+00:00 — R19 sourcequality/diversity/quantization priority
 Publicregressor diagnosticdone, recent-five baselinebetter; no moreexposed-table tuning. Fixedblends remaincontrol. Seedaveragingn3 +~.0019vsmeanindividual/F0andF1, modeldiversityconditionalnotuniversallypositive. Q8tinygatefidelityloss vsQ4extra.00180notnativeINT4speedup. SameCVservedendpoint mustdecide lowbitlargerblends; current<20MBQ8 no pressure. S5exportcomplete, validatorpathrepairR2, conditionaltargetmaterializationrelease. MatchedF0students/sourcequality isnextinformativecomparison.
+
+
+### 2026-10-12T10:23:40.537134+00:00 — User: joint precision/diversity/constrained stacking
+[Root plan](campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md) registers H-JOINT-EXACT-STACK-01/DIVERSITY-COST-01/PRECISION-COMPOSITION-01/SHARED-HEAD-COST-01. LiteratureBoydSOCP,Caruanaensemble selection,SciPySLSQP,GPTQ,HAWQ,HAQ openedprimarysources. ExactweightedPearsonanalyticinitializer is single-targetunclipped; actualclip2two-targetobjective requiresboundedconstrainednumericalrefinement, no globaloptimumclaim. Joint12-endpointbudget models/seeds/precision/fixedweights/cost; lowerbitlargerblendmustbeatQ8sameCVcontrol. EqualQ8control preserved; HPOoff/no spending. Luna/maxpuremathactor implementingJ1, no realdataweightssearch/fityet.

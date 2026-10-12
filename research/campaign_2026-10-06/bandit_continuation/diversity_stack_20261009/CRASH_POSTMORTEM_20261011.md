@@ -245,3 +245,6 @@ R9 failed before any worker (1.266s startup): unsafe external mapping artifacts/
 
 ### R19 S5 validator-path typo
 Validexportcompleted1058.49s/exit0. NewterminalvalidatorR1 expected nonexistentS5_S5_EXPORT_PREFLIGHT_R1.json; stoppedbeforearray scan. PreserveR1failure; R2samebounded500MB1CPU120s validatorcorrectsactualreadinesspath/sourcehash. This is downstreamconsumerfailure, no model/science negative and no export rerun.
+
+### 2026-10-12T10:39:53.824662+00:00 — Clean student profile R1 metadata interface failure
+R1 failed before CUDA: missing epoch_convention in cache metadata despite generic format validation. R2 adds exact producer object student_epochs6/checkpoint_policyfixed/checkpoint_epoch5, preserves target NPY inode/hash and R1. Independent actual-consumer AST review reproduces failure/pass; next profiles must exercise actual trainer metadata accesses. Root R2 resource-only release retained existing limits. This is execution evidence, not a scientific negative.

@@ -38,3 +38,8 @@ The standalone [general research methodology](RESEARCH_METHODS.md) describes age
 ### 2026-10-12 compact Q8 all-data portfolio
 
 [Packages and exact runtime evidence](../submissions/10-12-best-r1/README_R1.md); [root human-upload release](../submissions/10-12-best-r1/ROOT_UPLOAD_RELEASE_R1.json); [independent artifact review](../artifacts/submission_review_10_12_best_r1/SUBMISSION_PACKAGE_REVIEW_R1.json). Three fixed blends, known Q8runtime/FP32storage; Cpaired cost1.438xpublicreference locally, noEPYC/time/publicscore guarantee. Source-strength/CV, publiccalibration and nativeoptimization remain parallel.
+
+
+### 2026-10-12 joint quality/runtime endpoint optimization
+
+[Mathematical plan, literature and six interaction comparisons](campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md): analytical/SOCPinitializer, exactclippedSLSQP, forwardselection, calibration-awaremixedprecision and largercompressedblends. Bounded12endpointcomparison, actualwholeZIPtime/size, sameCVgroups; no measuredgain/globaloptimumclaim.

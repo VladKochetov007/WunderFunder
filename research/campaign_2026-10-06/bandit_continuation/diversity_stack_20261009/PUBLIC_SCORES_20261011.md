@@ -15,3 +15,7 @@
 1. Build 3-model Q8Vnni ensemble (z1c + z4 + muonall-h384/z5 diverse member) est ~40 min portal; check tail risk with 2x variance.
 2. q8 loss is ~0 (resolved). Upload 2_z5_z4_pair_q8vnni.zip next (27m-class, safe).
 3. Submissions slots: user reports 0/5 today.
+
+## User-reported 2026-10-12 result
+
+`1ya21vpd`, `h390_s3_s4_q8_z4half_20261012.zip`: **0.6671**,36m36s,642MB. Exact frozen C SHA6013d20a7ff26ce6ef46821f80ed01da848ef4da565e2cd91656417ddd5186ea. User portal transcription, not browser verified. Other two 10-12-best-r1 packages remain unsubmitted. Single result; no component contribution or new candidate forecast established.
