@@ -1,0 +1,85 @@
+{
+  "schema": "wnn.clean_t3_f0_student_treatment_kernel_identity_successor.r7",
+  "packet_id": "clean_t3_f0_student_treatment_kaggle_r22_kernel_r7",
+  "status": "prepared_unuploaded",
+  "kernel_id": "vladkochetov07/wnn-clean-t3-f0-student-20261012-r24",
+  "title": "wnn-clean-t3-f0-student-20261012-r24",
+  "title_characters": 36,
+  "parent": {
+    "r6_commit": "3b0eca23cfa9198e1d66d302fadb22683e1eb6f6",
+    "r6_manifest_sha256": "96470cb410608d6a63bea9a29a35c34d06baa0f271df0d00c22b84dde1177b75",
+    "r6_kernel_sha256": "3196cb6c049f76bdcb76b3037ca91684d9a919f23f63cef2dd70ddc350927199",
+    "r6_metadata_sha256": "d7cda84a9a08ded24d7d43b6a236db1dc9701e4683fcde92a2e968b7706fe169"
+  },
+  "change_scope": [
+    "runtime KERNEL_ID changed to the short title-derived R7 target",
+    "metadata id and title changed to the same short target",
+    "science, source, cache, worker arguments, profile, timeout, and quota are byte-preserved from R6"
+  ],
+  "target_inputs": {
+    "source_dataset": "vladkochetov07/wnn-clean-t3-f0-treatment-source-20261012-r22",
+    "source_dataset_version": 2,
+    "asset_dataset": "vladkochetov07/wnn-clean-t3-f0-treatment-assets-20261012-r22",
+    "asset_dataset_version": 1
+  },
+  "budgets": {
+    "wall_ceiling_seconds": 10000,
+    "provisioned_gpu_count": 2,
+    "cohort_gpu_seconds_upper_bound": 20000,
+    "finalization_seconds": 300
+  },
+  "files": [
+    {
+      "path": "kernel_r7/kernel.py",
+      "bytes": 28552,
+      "sha256": "31206a824b03ec9e8f182f74bef79fad378456c51ddfa7383ea8485b3b3f269a"
+    },
+    {
+      "path": "kernel_r7/kernel-metadata.json",
+      "bytes": 628,
+      "sha256": "2bd7efbd1dc1197aae53f159766a39b62f74f4f64e4d03289c86cdcd5f1d5eb0"
+    },
+    {
+      "path": "kernel_r7/identity_preflight_r7.py",
+      "bytes": 6936,
+      "sha256": "b9a2e4ee72012f98e0b1b750a340cc286f623345c3865e38ac36574e40157b28"
+    },
+    {
+      "path": "kernel_r7/IDENTITY_PREFLIGHT_R7_R3.json",
+      "bytes": 894,
+      "sha256": "94a7027b470cd94cecaf6e37ed7cd98424e20cefc1bc48e18c534adb03e926bc"
+    },
+    {
+      "path": "kernel_r7/IDENTITY_PREFLIGHT_R7_R2.json",
+      "bytes": 894,
+      "sha256": "b7c688770a835967535d959dcdcce5b3b8766c337755d276b4f4ec973361a6b2"
+    },
+    {
+      "path": "kernel_r7/IDENTITY_PREFLIGHT_R7.json",
+      "bytes": 797,
+      "sha256": "29969755aed347401dc5d12b88754ddefd38daee800a30dfbff104697cb57d2b"
+    },
+    {
+      "path": "README_R7.md",
+      "bytes": 1434,
+      "sha256": "36ad53a8a423bb8d1f4f59ce93eee8548957e7e8b855a776aefc6641059fc5a4"
+    }
+  ],
+  "validation": {
+    "result": "pass",
+    "command": "scripts/limited .venv/bin/python kernel_r7/identity_preflight_r7.py --output kernel_r7/IDENTITY_PREFLIGHT_R7_R3.json",
+    "cpu_quota": "25%",
+    "threads": 1,
+    "memory_max_bytes": 700000000,
+    "runtime_max_seconds": 120,
+    "fixture_only": true,
+    "provider_or_data_action": false
+  },
+  "gates": {
+    "independent_r7_identity_review": "pending",
+    "root_r7_release_for_kernel_id": "pending",
+    "source_dataset_v2_ready_readback": "pending",
+    "fresh_quota_and_session_check": "pending",
+    "provider_dispatch": "not_performed"
+  }
+}
