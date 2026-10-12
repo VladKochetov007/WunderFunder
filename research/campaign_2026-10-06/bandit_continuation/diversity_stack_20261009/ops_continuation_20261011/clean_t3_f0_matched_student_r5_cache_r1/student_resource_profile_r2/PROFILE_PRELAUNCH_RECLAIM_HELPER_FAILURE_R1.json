@@ -1,0 +1,13 @@
+{
+  "attempted_action": "bounded helper asserted raw cgroup memory.high equals exact decimal systemd MemoryHigh; stopped before GPU lock acquisition and before writing memory.reclaim",
+  "corrected_actual_operation_receipt": "PROFILE_PRELAUNCH_RECLAIM_EXECUTION_RAW_R1.json",
+  "corrected_actual_operation_receipt_sha256": "2a71e70c16493fdbea5e78d3458a9ce14bce1f0542b0acca47c67ed5f28437c6",
+  "corrective_rule": "compare cgroup memory.high/max against floor(systemd decimal limit / os.sysconf(SC_PAGE_SIZE)) * page_size; independently verify swap and cpu.max exactly",
+  "error": "AssertionError: raw memory.high was 17999998976, not literal 18000000000; this is the expected page-rounded cgroup representation, not a limit change",
+  "memory_reclaim_written": false,
+  "observed_utc": "2026-10-12T10:15:00Z",
+  "resource_limit_changed": false,
+  "schema": "wnn.clean-t3-f0-profile-prelaunch-reclaim-helper-failure.r1",
+  "source_or_cache_mutated": false,
+  "status": "FAILED_PREFLIGHT_NO_RECLAIM"
+}
