@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "correction": "Set a 4,500,000-byte output ceiling. The bound is above the actual bound CP1 source checkpoint size of 3,986,535 bytes and constrains the derived crop artifact.",
+      "issue": "CORE_CROP_CONTRACT_R2 omitted maximum_checkpoint_bytes although _run_crop reads it after producing/verifying the temporary crop, causing a KeyError before receipt creation.",
+      "scope": "contract bound only; crop producer and algorithm unchanged"
+    },
+    {
+      "correction": "Set profile launch and profile admission declarations to exact .v1 values; add the exact .v1 fit/profile schema declarations to the fit contract and terminal schema to export contract.",
+      "issue": "HFT profile contract declared launch/admission gate schema identifiers with .r1 while the frozen runner requires .v1.",
+      "scope": "contract metadata only; no root authority or runner checks changed"
+    }
+  ],
+  "fit_or_profile_authorized": false,
+  "packet_id": "oldz4_f1_core_hft_r2b",
+  "production_crop_output_exists": false,
+  "schema": "wnn.oldz4-f1-core-hft-consumer-erratum.r2b",
+  "status": "pre_execution_contract_correction",
+  "validation_plan": "Completed the exact frozen _run_crop consumer against the actual F1 CP1 in an isolated temporary project. Fixture root gates and crop outputs were confined to /tmp.",
+  "validation_result": {
+    "device_started": false,
+    "main_artifacts_written": false,
+    "output_checkpoint_bytes": 3978471,
+    "output_checkpoint_sha256": "cd96d84835ed9cadda0e09f55ff01b1057cc9296e27b99eb401f0ee3e3fca59e",
+    "output_provenance_sha256": "4abc9c9778abc0888ce54a40da207bca81ef050438544164092a136af6c05be0",
+    "receipt_path": "FULL_CROP_CONSUMER_FIXTURE_R2B.json",
+    "receipt_sha256": "891b4ffda6678887e1f3f0b9ce36c2ea54a25ca1aa179e43231c5ab704cf06e6",
+    "root_authorization_used": false,
+    "status": "PASS_FULL_CROP_CONSUMER_TEMPORARY_PROJECT"
+  }
+}
