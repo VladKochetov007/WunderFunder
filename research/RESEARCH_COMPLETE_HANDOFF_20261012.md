@@ -14,11 +14,7 @@ The governing record is
 New research admission is closed. The only work permitted by that record is
 draining (a) the already admitted clean-F0 seed-4 student continuation through
 its fixed CP5 export and official grade and (b) already admitted Kaggle R7
-terminal collection/grading. A scheduled status receipt says R7 is provider
-RUNNING, but its worker phase, heartbeat, fitting, export, and outputs had not
-been observed at this snapshot. Provider status is not evidence that training
-started. See
-[R7_PROVIDER_RUNNING_R1.json](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/monitor_20261012_1358_r7_running_r1/R7_PROVIDER_RUNNING_R1.json).
+terminal collection/grading. R7 subsequently ended ERROR at14:38:59Z and was completely collected: 114 files/1,363,683 bytes, all hashes and sizes independently checked. Its profile exited2 in0.291s because the frozen worker argv retained literal `{python}`; no fit, checkpoint, export, prediction or score exists. GPUbytes0. The stale pipeline running/empty-stages receipt is not evidence of a fit. See [terminal triage](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/r7_terminal_triage_r1/TERMINAL_TRIAGE_R1.json). This is infrastructure failure, not a scientific negative. No retry under the user stop. The local seed4 logical run remains pending.
 Final drain must distinguish successful, partial, and failed terminal
 outcomes and preserve originals. Do not infer missing scores.
 
@@ -200,7 +196,7 @@ targets use the declared clipped mixture
 while primary MSE continues to use clipped true-label magnitude weights and
 the existing auxiliary objectives. Alpha 0.9 has a favorable result in the
 tested one-seed ladder; it is an exploitation setting, not a universally
-established optimum. A strict label-free objective was not run.
+established optimum. The main-target alpha=1.0 arm did run on exposed F1: 0.67068 versus alpha0.9 0.67103 and alpha0.7 0.66991 (six epochs, same cached targets). That is teacher-only primary-target mixing, but true-label magnitude weights and auxiliary supervision remain; a strict entirely label-free objective was not run. See [deep dive](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/DEEP_DIVE_CURRENT_BEST_20261011.md) and LOOP_LOG passes120/125. These one-seed results do not establish a universal optimum.
 
 The clean-T3 CP5 control is the most recent completed local student grade in
 this snapshot. The independent review reports 0.6811553603333363 for seed 3,
@@ -432,9 +428,7 @@ panel design and fresh aggregate admission.
 
 Kaggle R4/R5/R6 export repairs failed before valid worker scoring due to mount,
 host-admission, timeout-boundary, or source-identity issues. Their preserved
-packets are execution evidence rather than negative model results. The R7 run
-at this archive snapshot is still only known as provider RUNNING. Root must
-classify its worker and outputs from actual terminal receipts. The user-issued
+packets are execution evidence rather than negative model results. R7 terminal receipts classify a pre-fit literal-placeholder argv failure, not OOM or a model result. Earlier validators failed to exercise that exact mounted worker command. Future separately authorized preflight must materialize and smoke-check final argv and reject unresolved placeholders. The complete terminal collection is preserved; no retry is authorized. The user-issued
 STOP supersedes older open allocations and “keep compute busy” instructions
 for new work; healthy admitted runs drain normally.
 

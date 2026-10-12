@@ -266,3 +266,7 @@ Copied P1 contract initially changed argv/run identity but retained seed3 stage.
 
 Observer correction: plain systemctl queried the system manager and falsely suggested the user unit was absent. Root and actor verify systemctl --user against the persisted attempt unit, MainPID423977 active. Read actual controller runtime/logs path for batch progress; an artifact setup log alone can miss live fitting lines. Preserve no-OOM distinctions and avoid repairs to healthy units on an observation-path mistake.
 
+
+## R7 terminal pre-fit command interpolation gap — 2026-10-12T14:50:06.218352+00:00
+
+The mounted frozen worker command contained literal `{python}` and Python tried to open it as a filename. Profile exit2/0.291s/GPUbytes0. This is a missed actual-argv execution check, not OOM, quota exhaustion or a model result. The pipeline receipt remained running with empty stages; use terminal process/provider evidence over stale phase labels. Raw complete114-file collection and triage are linked at `research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/r7_terminal_triage_r1/TERMINAL_TRIAGE_R1.json`. Future dispatch, if separately authorized, must materialize and smoke-check the final mounted argv, assert no unresolved placeholders, and exercise real entrypoint import/CLI before GPU training. Do not suppress checks or refit successful predecessors. No repair/retry is authorized during finalization.

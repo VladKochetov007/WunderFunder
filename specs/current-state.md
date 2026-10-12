@@ -626,3 +626,7 @@ R25 fixed old/new half screen completed .6832549498 vsoldstudent.6831418134 (+.0
 
 Useful Gitcleanup b607ca0e+3b8c5fb2 committed1809files plusremaininggraderstdout/workerlogs/skilllinks; originalmodels/ZIPs remainondisk.14weight-bearingZIPs removedfromindex tohonorignoredweights, existingGithistorynotrewritten. Secretpatternchecksnewtextpaths hadnohits; rawevidence/vendorformatting preserved. Only activejob/log/providertelemetry changes remain untilfinalsnapshot. All late terminalreceipts/grades/indexcatalogues mustjoin finalarchivecommit. Current R7 providerRUNNING at13:58:50Z, no actualworkerphase exposed; S4healthyepoch1. No falsecompletion claim.
 
+
+### 2026-10-12T14:50:06.218352+00:00 — finalization: Kaggle R7 terminal failure collected
+
+R7 v1 ended providerERROR14:38:59Z. Actual profile exited2 after0.291s because the argv contained literal `{python}`, opening `/kaggle/working/experiment/{python}`. No fit/checkpoint/export/prediction/grade, GPUbytes0: infrastructure failure, no scientific negative. Complete collector verified114files/1,363,683bytes (108provider outputs). Logical21600GPU-s hold released; latest14:40:30Z quota accountused72161.034s/campaignhead21666.803s/providerreserved0, no attributable charge claim. research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261012/r7_terminal_triage_r1/TERMINAL_TRIAGE_R1.json binds raw evidence. No retry under userstop. Local admitted seed4 P2/P3/CP5export/grade alone continues to drain; archive remains pre-drain.
