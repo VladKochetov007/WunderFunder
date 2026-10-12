@@ -1,0 +1,58 @@
+{
+  "schema": "wnn.e529-fixed-blend-grade-partial-attempt.r1",
+  "attempt": 3,
+  "status": "official_scores_written_then_support_oom_before_bootstrap_receipt",
+  "receipt_created_utc": "2026-10-12T04:26:13Z",
+  "scope": {
+    "systemd_unit": "run-p3124073-i7344210.scope",
+    "invocation_id": "a6fa083153ca4661a698bd71c0d9663a",
+    "systemd_result": "oom-kill",
+    "exit_status": 137,
+    "memory_peak_bytes": 699998208,
+    "cpu_usage_nanoseconds": 3598482000,
+    "memory_events_file_available_at_inspection": false,
+    "memory_events_note": "The specific scope cgroup had been removed by the time of inspection; systemd retained Result and MemoryPeak.",
+    "limits": {
+      "cpu_quota_percent": 50,
+      "threads": 1,
+      "memory_max_bytes": 700000000,
+      "wall_seconds": 600,
+      "gpu_count": 0,
+      "swap_bytes": 0
+    }
+  },
+  "last_completed_stage": "The exact official blend scorer returned both candidate and control rows; its stdout was preserved and SHA-bound below.",
+  "failure_stage": "Post-score target/prediction metric preparation or component bootstrap; the exact substep is unknown because no traceback or bootstrap result was persisted.",
+  "scientific_result": null,
+  "official_score_output": {
+    "stdout_path": "OFFICIAL_SCORE_STDOUT_R1.txt",
+    "stdout_sha256": "ef2326a29b5afd266b7e964879ae747d7810cbe27ca8328a8b8815e43a776443",
+    "stderr_path": "OFFICIAL_SCORE_STDERR_R1.txt",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "rows": [
+      {
+        "spec": "oldz4_h230_student_f0_s3_r3:3+e529_muon512_f0_cp2_prefix4_retained_r1:1",
+        "wp": 0.68231,
+        "t0": 0.67554,
+        "t1": 0.68908
+      },
+      {
+        "spec": "oldz4_h230_student_f0_s3_r3",
+        "wp": 0.68314,
+        "t0": 0.67717,
+        "t1": 0.68911
+      }
+    ],
+    "format_precision": "Rounded values as emitted by the existing official scorer; not a new independent grade or bootstrap result."
+  },
+  "source_bindings": {
+    "r1_grader_sha256": "b041d2501c39328ac037186709e60629fef8e999c09288f054f1dd519cbd6e32",
+    "precheck_attempt1_sha256": "eda15797652ae7ad36a685ebccdfb5737cfd93bacf9f54ec2f69a834d44f81aa",
+    "precheck_attempt2_sha256": "82d569ae28b5fe777b5be1887bd0c40beff302d585637aad2a2421c779ad772f"
+  },
+  "limitations": [
+    "No paired component moments or bootstrap interval were produced.",
+    "This is a support-resource failure, not a scientific negative.",
+    "The first two pre-score failures remain separately preserved in their original receipts."
+  ]
+}

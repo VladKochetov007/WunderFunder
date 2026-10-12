@@ -1,0 +1,21 @@
+{
+  "schema": "wnn.e529-fixed-blend-grade-precheck-attempt.r1",
+  "status": "blocked_before_scoring_operator_script_binding_lookup_error",
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=700000000 WNN_RUNTIME_MAX=600s scripts/limited /usr/bin/env WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack WNN_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python /home/vlad/development/wunder/wnn-agent-worktrees/submission-candidates/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/e529_cp2_fixed_blend_grade_20261012_r1/grade_e529_fixed_blend_r1.py",
+  "support_limits": {
+    "cpu_quota_percent": 50,
+    "threads": 1,
+    "memory_max_bytes": 700000000,
+    "wall_seconds": 600,
+    "gpu_count": 0,
+    "swap_bytes": 0
+  },
+  "failure": {
+    "exception": "ValueError",
+    "message": "E529 input binding does not pin valid_targets.npz to the expected SHA",
+    "cause": "grader assumed top-level `files`; actual frozen E529 fit_input_binding.json stores path records under top-level `sources`",
+    "failure_stage": "pre-score pin validation; official scorer and bootstrap were not invoked"
+  },
+  "scientific_result": null,
+  "corrective_delta": "Use the existing source-map field from the frozen producer binding; no score, data, model, metric, or recipe change."
+}
