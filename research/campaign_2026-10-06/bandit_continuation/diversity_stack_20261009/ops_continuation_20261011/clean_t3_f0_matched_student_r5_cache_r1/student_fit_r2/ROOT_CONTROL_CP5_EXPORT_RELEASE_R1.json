@@ -1,0 +1,28 @@
+{
+  "schema": "wnn.control-cp5-export-root-release.r1",
+  "released_utc": "2026-10-12T13:19:58.948345+00:00",
+  "authorized": true,
+  "manifest_sha256": "8777488967c1a8761f4bfa24605e1afeca0e6e408c14acae153e22c392331621",
+  "review": "Exactfrozenpredictor/fullvalidconsumer previouslytested; ownCP5 fromfinished6e control; fullworkerargv+ROOT/PYTHONPATH/loaderenvironment inspected; unchangedofficialF0evaluation membership and featureonlyfullvalidexport.",
+  "scope": "one boundedGPUexport only; no fit/provider/CPU NN",
+  "limits": {
+    "allocator_bytes": 4300000000,
+    "cpu_cores": 1,
+    "fresh_parent_current_plus_reserve_max_bytes": 18000000000,
+    "gpu_worker_count": 1,
+    "loader_workers": 0,
+    "observed_vram_guard_bytes": 5000000000,
+    "outer_controller_memory_max_bytes": 500000000,
+    "outer_controller_runtime_max_seconds": 120,
+    "shared_gpu_lock_required": true,
+    "swap_bytes": 0,
+    "timeout_seconds": 1800,
+    "worker_ram_reserve_bytes": 5500000000
+  },
+  "conditions": [
+    "fresh sharedGPUlock and parentcurrent+5.5GB<=18GB,CPU<=5,no swap",
+    "verify actualCP/model/provenance/source/split hashes fromtrustedmanifest beforestart",
+    "outputNPY/JSON/partial absent; uniqueattempt; preservefailures; completedfitnotrerun"
+  ],
+  "owner": "clean_t3_fit_cache_delivery"
+}
