@@ -1,0 +1,103 @@
+{
+  "checkpoint_loader_source_sha256": "0333be5b058298b8dab2227a2581a1540d0748aee5ae1aa50d2a59a9deab09d3",
+  "export_executable": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+  "export_python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]",
+  "member_tensor_names": [
+    [
+      "gru.bias_hh_l0",
+      "gru.bias_hh_l1",
+      "gru.bias_ih_l0",
+      "gru.bias_ih_l1",
+      "gru.weight_hh_l0",
+      "gru.weight_hh_l1",
+      "gru.weight_ih_l0",
+      "gru.weight_ih_l1",
+      "head.0.bias",
+      "head.0.weight",
+      "head.2.bias",
+      "head.2.weight",
+      "inp.bias",
+      "inp.weight",
+      "mean",
+      "std"
+    ],
+    [
+      "gru.bias_hh_l0",
+      "gru.bias_hh_l1",
+      "gru.bias_ih_l0",
+      "gru.bias_ih_l1",
+      "gru.weight_hh_l0",
+      "gru.weight_hh_l1",
+      "gru.weight_ih_l0",
+      "gru.weight_ih_l1",
+      "head.0.bias",
+      "head.0.weight",
+      "head.2.bias",
+      "head.2.weight",
+      "inp.bias",
+      "inp.weight",
+      "mean",
+      "std"
+    ]
+  ],
+  "producer": {
+    "benchmark_precision_requested": "q8vnni",
+    "canonical_inference_config": {
+      "arch": "gru",
+      "cell": "gru",
+      "enc": "linear",
+      "heuristics": false,
+      "n_in": 211,
+      "numeric_map": "none",
+      "online_norm": false,
+      "privileged_horizon": 8,
+      "privileged_mode": "none",
+      "prop_input": "",
+      "raw_only": false,
+      "readout_present": false,
+      "readout_tilted": false,
+      "research_features": "none",
+      "sentinel_base_width": 0,
+      "sentinel_indicators": "none",
+      "sentinel_values": "unchanged"
+    },
+    "grade_precision": "fp16",
+    "grade_receipt_sha256": {
+      "fixed_half_blend": "953cfb19c2fd15cec68569fd5c29a29520261706e33f2a142417fccd30040e1b",
+      "hft": "61bbb255420dd2fece5e97563dcd973cd576c5bc3f5d9d8b8637b932a767bc63",
+      "student": "4f52c928e4da829876cb9f31f6292e5b7859478e84274800b42cfae630dc27cc"
+    },
+    "hft_checkpoint_sha256": "2bde556119ededc3693733280444a42f0f64138a2e3759bed6b068cb72f18ec8",
+    "hft_epoch": 0,
+    "hft_raw_output_shape": [
+      23,
+      256
+    ],
+    "hidden_width": 256,
+    "layers": 2,
+    "normalization_sha256": {
+      "mean": "b5c74bd5507b06fed49228172cbe7f60374c5ec98b6024885d317128adb71874",
+      "std": "281f23f5f7b071a8fa275ebaed4881b46d627eba532bb187250305c8c1c91218"
+    },
+    "raw_changed_tensors": [
+      "head.0.bias",
+      "head.0.weight",
+      "head.2.bias",
+      "head.2.weight"
+    ],
+    "served_output_crop": "first two rows, matching frozen predict_run.py p[..., :2]",
+    "served_output_shape_each": [
+      2,
+      256
+    ],
+    "student_checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "student_epoch": 1,
+    "student_raw_output_shape": [
+      31,
+      256
+    ]
+  },
+  "schema": "wnn.shared-f0-py311-weight-bridge.r1",
+  "weights_archive": "/tmp/wnn-shared-f0-py311-weights-r1.npz",
+  "weights_archive_sha256": "774a33de04b8ad330fab24d469bd70217f1341dcaa3361f8b195f8d7015f9120"
+}
