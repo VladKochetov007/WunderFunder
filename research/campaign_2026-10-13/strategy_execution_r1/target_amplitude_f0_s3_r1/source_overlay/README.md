@@ -1,0 +1,7 @@
+# Frozen R3 source overlay
+
+This directory starts from the complete `clean_t3_fold0_h390_r3_teacher_cohort/source_snapshot` tree, whose `SOURCE_MANIFEST_H390.json` is preserved unchanged. The manifest's 63 entries were checked: 62 files match byte-for-byte, and the only override is `scripts/train_rnn.py` (base SHA `a2b5440f…`, overlay SHA `9b3079b9…`). The exact four-hunk change is indexed at [SOURCE_DELTA_R1.patch](../SOURCE_DELTA_R1.patch).
+
+The override adds a finite-positive `--distill-cache-scale` option defaulting to `1.0`, records the setting in cache provenance, rejects incompatible family-target combinations, and multiplies only the cached main teacher channels before the pre-existing training-time clip. It leaves the historical R3 model, optimizer, schedule, target mix, auxiliary objectives, normalization, sampler and export code untouched. At the default value the new branch is skipped, preserving the old teacher tensor exactly.
+
+The runnable packet uses this overlay's frozen `scripts/cleanfold_exec.py` wrapper and scripts, with `WNN_PROJECT_ROOT` bound to the main project so it reads the existing data, checkpoints and cache and writes run outputs in the canonical project. The root-owned `scripts/bandit_resources.py` remains in the main project and is invoked separately with this directory as the scientific source root. Do not edit this tree or its source manifest during an admitted run.
