@@ -2,6 +2,8 @@
 
 Start with the [unified research library](research/unified/README.md) for a topic-based guide, shared note format, and links to the dated archive. The [October 12, 2026 archive](research/unified/archive/2026-10-12/README.md) contains the split final handoff.
 
+The [public and future private leaderboard strategy](research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md) reviews the previous approach and gives separate selection plans for the public leaderboard and two to four weeks of future private data, ranked experiments, scaling directions and decision criteria. It is a proposed research plan; its new mechanisms have not been tested.
+
 For a single-file overview, open the [interactive results dashboard](research/unified/validation/RESULTS_DASHBOARD_20261012.html). It includes the public-score climb, protocol-separated local/public plots, recorded local confidence intervals, 45 preserved public records with three missing historic portal events called out, and searchable experiment and idea ledgers.
 
 The current competition status remains in [specs/current-state.md](specs/current-state.md). Research admission is closed under the [stop receipt](research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json); this library refactor changes documentation only.
@@ -10,6 +12,7 @@ The current competition status remains in [specs/current-state.md](specs/current
 
 - Search hypothesis IDs in [hypotheses.jsonl](research/hypotheses.jsonl), experiment IDs in [experiments.jsonl](research/experiments.jsonl), and decisions in the [bandit tree](research/bandit_tree/generated/INDEX.md).
 - Open a domain README under `research/unified/` for a curated route to the relevant synthesis and receipts.
+- Every useful research item must have a link and explanatory entry in its corresponding unified folder's README, including sources and artifacts stored outside the library; see [the indexing requirements](AGENTS.md#research-note-organization).
 - Treat append-only ledgers, frozen experiment receipts, and official grade artifacts as evidence. Domain pages summarize and link to them; they do not replace them.
 - Use `research/unified/reviews/` for critical reviews and audit receipts, `research/unified/sources/` for imported competition writeups, and the ideas domain for generated proposals.
 - The dated archive is a point-in-time record. The unified domain pages are the maintained navigation and synthesis layer if research is explicitly resumed.

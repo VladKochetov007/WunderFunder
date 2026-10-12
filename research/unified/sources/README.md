@@ -2,6 +2,10 @@
 
 This domain holds external writeups and source material that informed research. These files report methods from other competitions or conversations; they are not results from our own fits and must not be presented as evidence that a method transfers to this task.
 
+## Literature searches and source provenance
+
+- [October 12 arXiv search receipt](../../campaign_2026-10-12/strategy_review_r1/LITERATURE_SEARCH.json) — records queries, primary paper links and the seeded passage selection behind the [public and future private strategy](../reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md). Sources motivate causal representations, memory, distillation and robustness experiments; none establishes a measured improvement in this competition.
+
 ## Competition writeups and transcripts
 
 - [Rogii first-place writeup](competition-writeups/rogii_top1.txt)

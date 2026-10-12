@@ -20,7 +20,16 @@ Latest Vast instruction (2026-10-11): auto top-up is disabled. Remaining prepaid
 
 ## Research note organization
 
-Start at the repository [research index](RESEARCH.md), then follow the topic READMEs under `research/unified/`. Put new ideas in `research/unified/ideas/`, methods and metric references in `methods/`, independent reviews and audit receipts in `reviews/`, imported external writeups in `sources/`, and operational logs or incidents in `operations/`. Use the shared `templates/NOTE_TEMPLATE.md` for new narrative research notes and link them from the relevant topic README; record scientific hypotheses and experiments in the append-only JSONL ledgers as well. Keep frozen campaign recipes, run receipts, logs, and artifacts in their originating campaign folders. Root compatibility aliases have been removed; link directly to canonical files under `research/unified/`.
+Start at the repository [research index](RESEARCH.md), then follow the topic READMEs under `research/unified/`. Put new ideas in `research/unified/ideas/`, methods and metric references in `methods/`, independent reviews and audit receipts in `reviews/`, useful data sources, papers and imported external writeups in `sources/`, and operational logs or incidents in `operations/`. Use the shared `templates/NOTE_TEMPLATE.md` for new narrative research notes; record scientific hypotheses and experiments in the append-only JSONL ledgers as well.
+
+**Every useful research item must be linked and described in the README of its corresponding folder under `research/unified/`.** This includes every review, plan, idea, useful data or literature source, evidence receipt, positive or negative result, analysis, plot, model or submission artifact, and operational finding that is created, discovered, imported or used. A chat message, ledger row, generated catalog entry or bare link alone does not satisfy this requirement.
+
+- Each README entry must explain what the item contains, why it matters, and its finding or current status. Include source/provenance, related hypothesis or experiment IDs, and material evidence limitations where applicable; distinguish proposals, external claims and measured results.
+- Add the link and description in the same change or handoff as the item. When using an older unindexed item, add its entry then. A task is not complete while its useful outputs or sources are absent from this navigation.
+- Give each new research subfolder a README and link that README from its parent, so every item is reachable from the unified index. Choose one canonical description and cross-link other relevant topics when an item spans domains.
+- Keep frozen campaign recipes, run receipts, logs and artifacts in their originating folders; link directly to them from the corresponding unified README. Keep large or private data and weights in their approved storage and index their provenance manifest and access location instead of copying payloads or exposing credentials. Preserve frozen archives and append-only history.
+
+Root compatibility aliases have been removed; link directly to canonical files. The unified directory is the mandatory navigation and explanation layer even when the source artifact lives elsewhere.
 
 ## Crucial specifications and decisions
 
