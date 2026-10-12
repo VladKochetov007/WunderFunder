@@ -10,6 +10,7 @@ The current competition status remains in [specs/current-state.md](specs/current
 
 ## Find source evidence
 
+- Find uploaded models in the [private Hugging Face archive guide](research/unified/models/huggingface/README.md), including short run descriptions, source checkpoint paths, research IDs and verified upload receipts.
 - Search hypothesis IDs in [hypotheses.jsonl](research/hypotheses.jsonl), experiment IDs in [experiments.jsonl](research/experiments.jsonl), and decisions in the [bandit tree](research/bandit_tree/generated/INDEX.md).
 - Open a domain README under `research/unified/` for a curated route to the relevant synthesis and receipts.
 - Every useful research item must have a link and explanatory entry in its corresponding unified folder's README, including sources and artifacts stored outside the library; see [the indexing requirements](AGENTS.md#research-note-organization).

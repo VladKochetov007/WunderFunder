@@ -4,6 +4,7 @@ Use this page to navigate proposals, mechanism families, and their evidence. An 
 
 ## Core records
 
+- [Model artifacts for ideas and runs: private Hugging Face archive](../models/huggingface/README.md) — use its JSON inventory to find each run's description, local checkpoint, Hub path and H/E ledger references. Uploaded historical artifacts retain their original evidence limits; availability does not imply a winning result.
 - [October 12 strategy refinements and falsifiers](STRATEGY_REFINEMENTS_20261012.json), with [ranked public and private plans](../reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md); proposed only, experimental admission remains closed.
 - [Append-only hypothesis ledger](../../hypotheses.jsonl) and [experiment ledger](../../experiments.jsonl)
 - [Generated research tree](../../bandit_tree/generated/INDEX.md), [tree configuration](../../bandit_tree/config.json), and [decision journal](../../bandit_tree/journal.jsonl)

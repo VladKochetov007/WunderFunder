@@ -11,6 +11,7 @@ Latest requested review: [critical assessment and separate public and future pri
 - [Reviews and audit receipts](reviews/README.md)
 - [Imported source writeups](sources/README.md)
 - [Model families and training](models/README.md)
+- [Private HF model archive](models/huggingface/README.md) — checkpoint/run lookup, descriptions, exact local-to-Hub paths and private transfer evidence.
 - [Validation and public transfer](validation/README.md)
 - [Interactive results dashboard](validation/RESULTS_DASHBOARD_20261012.html)
 - [Submission choices and scores](submissions/README.md)

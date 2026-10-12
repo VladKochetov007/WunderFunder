@@ -4,6 +4,7 @@ This domain holds external writeups and source material that informed research. 
 
 ## Literature searches and source provenance
 
+- [Hugging Face archive source/API references](../models/huggingface/README.md) — links the official HF upload and CLI documentation used to implement authenticated private-model transfers and checkpoint lookup; operational reference rather than model-quality evidence.
 - [October 12 arXiv search receipt](../../campaign_2026-10-12/strategy_review_r1/LITERATURE_SEARCH.json) — records queries, primary paper links and the seeded passage selection behind the [public and future private strategy](../reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md). Sources motivate causal representations, memory, distillation and robustness experiments; none establishes a measured improvement in this competition.
 
 ## Competition writeups and transcripts
