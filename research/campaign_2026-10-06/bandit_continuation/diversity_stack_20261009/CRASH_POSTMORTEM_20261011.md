@@ -248,3 +248,6 @@ Validexportcompleted1058.49s/exit0. NewterminalvalidatorR1 expected nonexistentS
 
 ### 2026-10-12T10:39:53.824662+00:00 — Clean student profile R1 metadata interface failure
 R1 failed before CUDA: missing epoch_convention in cache metadata despite generic format validation. R2 adds exact producer object student_epochs6/checkpoint_policyfixed/checkpoint_epoch5, preserves target NPY inode/hash and R1. Independent actual-consumer AST review reproduces failure/pass; next profiles must exercise actual trainer metadata accesses. Root R2 resource-only release retained existing limits. This is execution evidence, not a scientific negative.
+
+### 2026-10-12T10:51:28.770257+00:00 — NPY metadata inspection OOM
+Supportscopes run-p4143414-i8325824/run-p4144286-i8333500 reached650MiB; firstheaderparserstartedatmagicbytes and decodedbogusheaderlength beforeunboundedread. Actualjournal preservedR21/NPY_HEADER_OOM_JOURNAL_R1.txt. Requiremagic/versionand<=64KiBheaderbound/actualproducerfixture, neverincreasecap tofixparser. Full3arraystack899MBalsoexceeds650MB beforelabels; J1panel mustusesmallercompletecomponents orstream. No training/modelnegative.

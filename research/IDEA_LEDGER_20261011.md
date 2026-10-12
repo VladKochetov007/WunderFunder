@@ -255,3 +255,6 @@ Publicregressor diagnosticdone, recent-five baselinebetter; no moreexposed-table
 
 ### 2026-10-12T10:23:40.537134+00:00 — User: joint precision/diversity/constrained stacking
 [Root plan](campaign_2026-10-12/joint_endpoint_optimization_r1/PLAN_R1.md) registers H-JOINT-EXACT-STACK-01/DIVERSITY-COST-01/PRECISION-COMPOSITION-01/SHARED-HEAD-COST-01. LiteratureBoydSOCP,Caruanaensemble selection,SciPySLSQP,GPTQ,HAWQ,HAQ openedprimarysources. ExactweightedPearsonanalyticinitializer is single-targetunclipped; actualclip2two-targetobjective requiresboundedconstrainednumericalrefinement, no globaloptimumclaim. Joint12-endpointbudget models/seeds/precision/fixedweights/cost; lowerbitlargerblendmustbeatQ8sameCVcontrol. EqualQ8control preserved; HPOoff/no spending. Luna/maxpuremathactor implementingJ1, no realdataweightssearch/fityet.
+
+### 2026-10-12T10:51:28.770257+00:00 — R21 delivery and user plot
+CleanF0 profilePASS40updates/noAMPskip, boundedp1fitdelta preparing; J1 numericalproxy/scorer implementationdone, actualcomponentcomparisonpending. H388 literalappend exceedsZIPcap; H390s5absent. TwoanalysisNPYheaderOOMs diagnosedbefore scientificcomparison, repairboundedheaderreader. Userpublic/validationplot requested11pairedrows/protocolstrata, no newpredictor orimputedmetrics. monitorR21/ROOT_PROFILE_R2_TERMINAL_R1.json and NEXT_CANDIDATE_INVENTORY_R1.md.
