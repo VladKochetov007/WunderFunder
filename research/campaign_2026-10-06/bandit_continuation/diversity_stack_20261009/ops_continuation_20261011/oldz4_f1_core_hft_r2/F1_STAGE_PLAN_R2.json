@@ -1,0 +1,82 @@
+{
+  "exposure": "Previously inspected F1; robustness confirmation, not fresh holdout.",
+  "fixture_evidence": {
+    "path": "ACTUAL_F1_CP1_CROP_FIXTURE_R2.json",
+    "scope": "fixture-only temporary crop; no root admission, no MAIN artifact writes, no device, no fit",
+    "sha256": "b9c5ec64c7a9922e3430228dc1253dcef99f7dbf1577c9110d1f5c08c2a93308",
+    "status": "PASS_ACTUAL_SOURCE_AND_DOWNSTREAM_CONSUMER"
+  },
+  "not_claimed": [
+    "no F1 HFT profile/fit/export run by this packet",
+    "no fit/prediction exists here",
+    "no public forecast",
+    "F1 is exposed, not a fresh holdout"
+  ],
+  "offline_validation": {
+    "device_started": false,
+    "path": "VALIDATE_IMPORT_RECEIPT_R2.json",
+    "sha256": "7f8060ce55b9fffc9886d13148e5ca1001da0e5954eddc0ebbf795ec258d4932",
+    "status": "PASS_IMPORTS_AND_F1_MEMBERSHIP"
+  },
+  "prepared_utc": "2026-10-12T01:55:55+00:00",
+  "production_stages_launched": false,
+  "profile_caveat": "F0 R5 profile failed CLI validation because it included save-training-state; the R6 profile removes that flag. F0 R6 strict clean-gradient gate did not pass (269 completed optimizer updates, 1 AMP skip); its separate resource-only release was not numerical-clean profile evidence. F1 requires its own actual profile.",
+  "root_reviewed_student_cp1": {
+    "checkpoint_sha256": "cd8886589e8664082da1f27aee4f2c4925b61c41da8c740598831ab2f774bbd6",
+    "consumer_review_sha256": "4c84b8bd3d49420e29284e1b2349e669e2354b0c13fd55104a831dbeae7b5cc4",
+    "epoch": 1,
+    "provenance_sha256": "8aa0e2af944a52a34d0c0622705071e7ca60a978ec429dc71269fa67b40354da",
+    "run": "oldz4_h230_student_f1_s3_r4",
+    "training_state_sha256": "400f33578c4288145c977d0507d0d593ef73dd54de850e44c2141c173e4768a2"
+  },
+  "schema": "wnn.oldz4-f1-core-hft-stage-plan.r2",
+  "scientific_differences_from_f0": [
+    "F1 uses same HFT direct fit source/mask as completed F0: valid-only with --mask-weight, 1,416 fold-eligible valid groups; the 457 outer evaluation groups are excluded.",
+    "The student/core ancestor was trained on 10,533 train plus 1,416 inner valid groups; that broader ancestor membership is not the HFT stage fit set.",
+    "Fold/run/initializer identity changes to F1; remaining HFT fit argv matches the successful F0 HFT, with aux flags omitted and .3/.3 inherited from core CP1."
+  ],
+  "serving_note": "A future output-level fixed student/HFT blend is not the older parameter-averaged PARENT|HEAD mechanism; this packet sets no blend.",
+  "source_input_bindings_sha256": "b9649c6d9d455edc3d61c982907ff1b56ca802d241ca6d65b7d2096a645605a7",
+  "stages": [
+    {
+      "id": "student_cp1",
+      "producer": "oldz4_h230_student_f1_s3_r4@ep1",
+      "root_consumer_review_sha256": "4c84b8bd3d49420e29284e1b2349e669e2354b0c13fd55104a831dbeae7b5cc4",
+      "status": "actual_cp1_hash_bound_root_consumer_review_pass"
+    },
+    {
+      "after": "student_cp1",
+      "contract": "CORE_CROP_CONTRACT_R2.json",
+      "id": "core_crop",
+      "status": "pending_root_crop_admission"
+    },
+    {
+      "after": "crop; root actual-device profile launch gate",
+      "contract": "HFT_PROFILE_CONTRACT_R2.json",
+      "id": "profile",
+      "status": "pending"
+    },
+    {
+      "after": "root profile interpretation + fit admission",
+      "contract": "HFT_FIT_CONTRACT_R2.json",
+      "id": "fit",
+      "status": "pending_not_authorized"
+    },
+    {
+      "after": "fit terminal + root export admission",
+      "contract": "HFT_EXPORT_CONTRACT_R2.json",
+      "id": "export",
+      "status": "pending_not_authorized"
+    }
+  ],
+  "status": "prepared_code_only_no_stage_admitted",
+  "supersedes": {
+    "diagnosis_receipt": "R1_PRE_FREEZE_DIAGNOSIS_R2.json",
+    "packet": "oldz4_f1_core_hft_r1",
+    "pre_freeze_findings": [
+      "The c337 snapshot has one actual file omitted by its own manifest; R2 pins its exact path and SHA separately while still requiring exact tree closure.",
+      "R1 compared the crop source digest to an absent top-level binding key; R2 reads the existing nested core_crop.r5_crop_source_sha256 pin."
+    ],
+    "scientific_stage_executed": false
+  }
+}

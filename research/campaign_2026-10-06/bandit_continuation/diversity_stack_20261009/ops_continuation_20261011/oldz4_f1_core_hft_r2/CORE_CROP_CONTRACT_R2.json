@@ -1,0 +1,56 @@
+{
+  "attempt": "oldz4-r2-f1-s3-core-crop",
+  "crop": {
+    "head_rows_after": 23,
+    "head_rows_before": 31,
+    "kept_rows": "first 23 rows of head.0.weight/bias bitwise exact",
+    "primitive": "frozen F0 R5 make_core_checkpoint.py with corrected R6 manifest lookup convention",
+    "removed_family_rows": 8,
+    "unchanged": "all remaining tensors and normalization buffers bitwise exact; crop itself performs no fit"
+  },
+  "destination_checkpoint_epoch": 1,
+  "destination_must_not_exist": true,
+  "destination_run": "oldz4_h230_core_f1_s3_r2",
+  "fit_authorized": false,
+  "fold": 1,
+  "gpu": false,
+  "membership": {
+    "exposure": "Previously inspected F1; robustness evidence, not a fresh holdout.",
+    "fit_eval_overlap": 0,
+    "inner_valid_fit_groups": 1416,
+    "outer_valid_eval_groups_excluded": 457,
+    "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "total_fit_groups": 11949,
+    "train_groups": 10533
+  },
+  "output_relative_paths": {
+    "checkpoint": "artifacts/runs/oldz4_h230_core_f1_s3_r2/model_ep1.pt",
+    "provenance": "artifacts/runs/oldz4_h230_core_f1_s3_r2/provenance.json"
+  },
+  "prepared_utc": "2026-10-12T01:51:08+00:00",
+  "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "receipt": "CORE_CROP_PRODUCER_RECEIPT_R2.json; write-once",
+  "root_gates": {
+    "binds": [
+      "student fit contract SHA",
+      "student CP1/provenance/training-state SHA",
+      "crop contract SHA",
+      "destination absent"
+    ],
+    "crop_admission": "ROOT_F1_CORE_CROP_ADMISSION_R2.json",
+    "crop_admission_schema": "wnn.f1-core-crop-admission.r1",
+    "decision": "PASS",
+    "student_terminal": "ROOT_F1_STUDENT_CP1_TERMINAL_GATE_R2.json"
+  },
+  "schema": "wnn.oldz4-core-crop-contract.r2",
+  "seed": 3,
+  "source_checkpoint_relative_path": "artifacts/runs/oldz4_h230_student_f1_s3_r4/model_ep1.pt",
+  "source_epoch": 1,
+  "source_input_bindings_sha256": "b9649c6d9d455edc3d61c982907ff1b56ca802d241ca6d65b7d2096a645605a7",
+  "source_provenance_relative_path": "artifacts/runs/oldz4_h230_student_f1_s3_r4/provenance.json",
+  "source_run": "oldz4_h230_student_f1_s3_r4",
+  "source_training_state_relative_path": "artifacts/runs/oldz4_h230_student_f1_s3_r4/training_state.pt",
+  "status": "prepared_waiting_for_root_student_terminal_and_crop_admission",
+  "student_parent_artifact_hashes_recorded": true,
+  "student_terminal_gate_required": true
+}
