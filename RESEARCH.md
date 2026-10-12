@@ -34,3 +34,7 @@ rg -n -i '0\.6671|Q8|fold|validation' research/unified/{validation,submissions,i
 ## Canonical locations
 
 The repository root contains no research compatibility aliases. Use the canonical [competition metric](research/unified/methods/COMPETITION_METRIC.md), [October 5 idea memo](research/unified/ideas/legacy/oct5_ideas.md), and [literature review](research/unified/reviews/legacy/review_2.txt). The old root writeups were sorted by type: imported reports are under `research/unified/sources/competition-writeups/`, generated ideas under `research/unified/ideas/legacy/`, internal reviews under `research/unified/reviews/legacy/`, and controller commentary under `research/unified/operations/legacy/`. The [WunderFunder source audit](research/unified/reviews/legacy/WunderFunder_audit_evidence.md) is filed with the historical reviews.
+
+## Latest authority: strategy research resumed
+
+[October13 execution campaign](research/campaign_2026-10-13/strategy_execution_r1/README.md) supersedes the historical experimental stop following the user's approval to implement the review and use all Kaggle allowance/local GPU capacity. It contains the plan, coverage and frontier; existing CPU/RAM and no-paid-spend constraints remain.

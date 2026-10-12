@@ -10,3 +10,7 @@ Use this domain for architecture, optimization, distillation, target constructio
 - [Research methods](../../RESEARCH_METHODS.md) and the [model/experiment records](../../experiments.jsonl)
 
 Every comparison should name independent weights, teacher and initializer ancestry, fitting groups, target treatment, optimizer, schedule, and actual completed epoch. Local score deltas do not directly forecast public score.
+
+## Resumed strategy execution — 2026-10-13
+
+[Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.

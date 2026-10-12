@@ -1,0 +1,572 @@
+{
+  "format": "wnn.strategy-coverage",
+  "version": 1,
+  "review": "research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md",
+  "campaign_id": "strategy-execution-20261013-r1",
+  "items": [
+    {
+      "id": "S01",
+      "mechanism_family": "complete_reference",
+      "title": "Clean complete C bridge",
+      "comparison": "Full H390s3/H390s4/mergedZ4s99, .25/.25/.5; all ancestry excluded per outer fold",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S02",
+      "mechanism_family": "distillation_source",
+      "title": "Heterogeneous versus homogeneous teachers",
+      "comparison": "Fixed parent, student, schedule, precision and target amplitude",
+      "dependencies": [
+        "S01"
+      ],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S03",
+      "mechanism_family": "target_amplitude",
+      "title": "Teacher amplitude .8125 versus1",
+      "comparison": "Same stored teacher cache, rescale before clipping; alpha.9 and original-label mass fixed",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "strategy_first_cohort",
+      "implementation_status": "preparing",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S04",
+      "mechanism_family": "target_clipping",
+      "title": "Target clipping order",
+      "comparison": "Separate per-teacher, aggregate and final-mix clipping changes from amplitude",
+      "dependencies": [
+        "S03"
+      ],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S05",
+      "mechanism_family": "weighting",
+      "title": "Propensity concentration",
+      "comparison": "Current propensity power versus1, same floor and fit-only propensity",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S06",
+      "mechanism_family": "weighting",
+      "title": "Since and episode weighting",
+      "comparison": "Remove each treatment separately; evaluate quiet/transition panels",
+      "dependencies": [
+        "S05"
+      ],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S07",
+      "mechanism_family": "optimization",
+      "title": "Duration, layer LR, optimizer and schedule",
+      "comparison": "Matched-prefix duration, separate layerLR/optimizer/bounded schedule contrasts",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S08",
+      "mechanism_family": "causal_representation",
+      "title": "Raw versus raw plus moments",
+      "comparison": "Fast32/slow512 row half-lives, fitting priors, equal capacity",
+      "dependencies": [],
+      "hypothesis_ids": [
+        "H-STRATEGY-20261012-01",
+        "H-238"
+      ],
+      "owner": "strategy_innovations",
+      "implementation_status": "preparing",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S09",
+      "mechanism_family": "causal_representation",
+      "title": "Normalized innovations",
+      "comparison": "Raw+moments+innovations versus raw+moments; streaming/training parity",
+      "dependencies": [
+        "S08"
+      ],
+      "hypothesis_ids": [
+        "H-STRATEGY-20261012-01",
+        "H-238"
+      ],
+      "owner": "strategy_innovations",
+      "implementation_status": "preparing",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S10",
+      "mechanism_family": "interaction",
+      "title": "Representation by mask concentration",
+      "comparison": "Useful causal representation crossed with predeclared less concentrated weighting",
+      "dependencies": [
+        "S05",
+        "S09"
+      ],
+      "hypothesis_ids": [
+        "H-STRATEGY-20261012-01",
+        "H-238"
+      ],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S11",
+      "mechanism_family": "input_view",
+      "title": "Instrument1 masked fitting view",
+      "comparison": "Whole instrument block treatment preserving feature identities",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S12",
+      "mechanism_family": "input_view",
+      "title": "Documented group-aware encoder",
+      "comparison": "Group-aware versus matched generic encoder; no physical-depth assumption",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S13",
+      "mechanism_family": "domain_training",
+      "title": "Balanced domains and Group-DRO",
+      "comparison": "Regularized ordinary versus balanced versus regularized Group-DRO",
+      "dependencies": [
+        "S30"
+      ],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S14",
+      "mechanism_family": "gradient_credit",
+      "title": "Detach500 versus2000",
+      "comparison": "Common macrostep2000, same update/LR/EMA/denominator clocks",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "strategy_first_cohort",
+      "implementation_status": "preparing",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S15",
+      "mechanism_family": "memory_clock",
+      "title": "Row/event and target-specific memory",
+      "comparison": "Equal capacity controls, include elapsed rows and process every row",
+      "dependencies": [
+        "S14"
+      ],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S16",
+      "mechanism_family": "path_memory",
+      "title": "Signed path areas",
+      "comparison": "Displacement-only versus fixed-area, equal-endpoint/different-order fixture",
+      "dependencies": [],
+      "hypothesis_ids": [
+        "H-STRATEGY-20261012-02",
+        "H-227",
+        "H-E537-E"
+      ],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S17",
+      "mechanism_family": "path_memory",
+      "title": "Learned activity clock",
+      "comparison": "Fixed decay versus bounded learned decay/timechannel; exclude vacuous reparameterization",
+      "dependencies": [
+        "S16"
+      ],
+      "hypothesis_ids": [
+        "H-STRATEGY-20261012-02",
+        "H-227",
+        "H-E537-E"
+      ],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S18",
+      "mechanism_family": "teacher_scale",
+      "title": "GRU256/384/512/conditional768",
+      "comparison": "Matched-data/update plus bounded compute-matched, same student handoff",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S19",
+      "mechanism_family": "teacher_memory",
+      "title": "Linear and selective state teachers",
+      "comparison": "Linear recurrent first; selective-state conditional on discriminating memory signal; same student",
+      "dependencies": [
+        "S14",
+        "S18"
+      ],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S20",
+      "mechanism_family": "privileged_teacher",
+      "title": "Cross-fitted short-lookahead output teacher",
+      "comparison": "Two inner component folds, horizons0/2/8, original-time labels and causal students",
+      "dependencies": [],
+      "hypothesis_ids": [
+        "H-STRATEGY-20261012-03",
+        "H-371"
+      ],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S21",
+      "mechanism_family": "moment_projection",
+      "title": "Metric-aware numerator and denominator",
+      "comparison": "DirectWMSE/outputKD controls, mask approximation and unweighted-moment control, no reweighting projection",
+      "dependencies": [
+        "S20"
+      ],
+      "hypothesis_ids": [
+        "H-STRATEGY-20261012-03",
+        "H-371"
+      ],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S22",
+      "mechanism_family": "relational_distillation",
+      "title": "Coordinate versus relational hints",
+      "comparison": "Output-only/coordinate/distance-angle, bounded sparse withincomponent pairs and triples",
+      "dependencies": [
+        "S18"
+      ],
+      "hypothesis_ids": [
+        "H-STRATEGY-20261012-04",
+        "H-195",
+        "H-230"
+      ],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S23",
+      "mechanism_family": "conditional_residual",
+      "title": "Low-rank conditional residual",
+      "comparison": "Parent-only and equal-capacity head controls, fixed endpoint contribution",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S24",
+      "mechanism_family": "causal_adaptation",
+      "title": "Within-sequence unsupervised adapter",
+      "comparison": "Fixed statistics/causal statistics/adapter, already-observed feature objective, reset weights",
+      "dependencies": [
+        "S09"
+      ],
+      "hypothesis_ids": [
+        "H-STRATEGY-20261012-01",
+        "H-238"
+      ],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S25",
+      "mechanism_family": "historical_mechanisms",
+      "title": "Next-feature and chunk-correlation audit",
+      "comparison": "Locate exact terminal negatives; only distinguishable new treatment can be registered",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S26",
+      "mechanism_family": "coverage_scale",
+      "title": "25/50/100 percent component coverage",
+      "comparison": "Nested complete components, fixed evaluation, unique groups/rows/update counts",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S27",
+      "mechanism_family": "fitting_diversity",
+      "title": "Two then four members",
+      "comparison": "Grade actual ensembles, distinguish independent pipeline from shared teachers",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S28",
+      "mechanism_family": "blend",
+      "title": "Equal/shrunk/target-specific mixtures",
+      "comparison": "Inner-fit combiner only; evaluate complete held-out fixed mixtures",
+      "dependencies": [
+        "S01"
+      ],
+      "hypothesis_ids": [
+        "H-393"
+      ],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S29",
+      "mechanism_family": "compression",
+      "title": "Q8/mixed/Q4QAT/low-rank and shared heads",
+      "comparison": "Full trajectories, actual CPU and ZIP cost; compete with width/seeds/families",
+      "dependencies": [
+        "S28"
+      ],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S30",
+      "mechanism_family": "evaluation",
+      "title": "Fixed domain stress panels",
+      "comparison": "Fit cutpoints inside outerfit;25/75,75/25;minimum20components; official-mask primary",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S31",
+      "mechanism_family": "evaluation",
+      "title": "Domain holdouts and chronology",
+      "comparison": "Matched component-disjoint domains; true rolling-origin only if permitted actual chronology exists",
+      "dependencies": [
+        "S30"
+      ],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S32",
+      "mechanism_family": "interaction",
+      "title": "Memory capacity and teacher compression",
+      "comparison": "Explicit nonadditive complete-endpoint comparisons; fitting-only residual nomination",
+      "dependencies": [
+        "S18",
+        "S22",
+        "S29"
+      ],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S33",
+      "mechanism_family": "delivery",
+      "title": "Final sealed packet and real producer smoke",
+      "comparison": "Resolved interpreter/mounts; profile/fit/checkpoint/export/grade once; reuse successful fits",
+      "dependencies": [],
+      "hypothesis_ids": [],
+      "owner": "strategy_first_cohort",
+      "implementation_status": "preparing",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S34",
+      "mechanism_family": "validation",
+      "title": "Cross-fold/seed complete endpoint validation",
+      "comparison": "F0/F3s3 then s4;finalistsF0-3 two repeats; teacher variation separately",
+      "dependencies": [
+        "S01"
+      ],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    },
+    {
+      "id": "S35",
+      "mechanism_family": "release",
+      "title": "High-mean and compact robust final ZIPs",
+      "comparison": "Private within.001 of highestmean;maximin paired stress;Python3.11offline/size/runtime",
+      "dependencies": [
+        "S29",
+        "S30",
+        "S34"
+      ],
+      "hypothesis_ids": [],
+      "owner": "root",
+      "implementation_status": "pending",
+      "scientific_status": "not_tested",
+      "experiment_ids": [],
+      "evidence_paths": [],
+      "blocking_condition": null
+    }
+  ]
+}

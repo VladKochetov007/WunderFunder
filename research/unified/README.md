@@ -38,3 +38,7 @@ Frozen campaign artifacts stay in their original locations and are linked here. 
 4. Check the linked H/E record and validation exposure before repeating a claim.
 
 The dated archive preserves the October 12 handoff as it stood when all admitted work finished, including its historical path inventory. Domain pages provide maintained links to current locations. Reviews, idea artifacts, methods references, and imported source writeups have canonical homes under this tree; use those paths directly.
+
+## Current execution
+
+[October13 strategy implementation and experiments](../campaign_2026-10-13/strategy_execution_r1/README.md) records the subsequent explicit user resume, every actionable review item, full Kaggle/local GPU authority, accepted private-risk preference, owners and evidence. The earlier stop/archive paragraphs describe historical scope; ADR0034 now governs new research. No new model result at admission.

@@ -20,3 +20,7 @@ This domain stores independent critiques, strategy reviews, and structured audit
 - [F1 recipe audit receipt](receipts/F1_RECIPE_AUDIT_R4.json)
 
 The former root `reviews/` and `writeups/` aliases have been removed. New reviews should be saved here and linked from the relevant domain README and source experiment record.
+
+## Resumed strategy execution — 2026-10-13
+
+[Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.

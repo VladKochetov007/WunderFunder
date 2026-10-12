@@ -52,3 +52,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0032: package available full-data blends now](0032-package-available-full-data-blends-now.md): latest user supersedes ADR0031's waiting requirement; deliver a small reviewed set now, retain honest cross-validation/provenance, and measure Q4/Q8 endpoint value.
 
 - [ADR0033: complete endpoint compression and Sol analysis](0033-complete-endpoint-compression-and-sol-analysis.md): optimize the actual served blend under size/runtime constraints; the user's explicit Sol6.1/xhigh exception covers analysis roles, while implementations and artifact reviews remain Luna/max.
+
+- [ADR0034: resumed strategy execution and full GPU allowance](0034-strategy-execution-full-gpu-allowance.md): implement every actionable strategy-review idea, use all Kaggle allowance and actual local GPU capacity, preserve CPU/RAM/no-paid-spend constraints, and allow at most.001 mean-CV sacrifice for private robustness.

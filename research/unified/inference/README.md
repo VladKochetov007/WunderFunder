@@ -10,3 +10,7 @@ This domain covers competition CPU execution, native kernels, quantization, pack
 - [A/B/C package review](../../../artifacts/submission_review_10_12_best_r1/SUBMISSION_PACKAGE_REVIEW_R1.json)
 
 Runtime claims must name the hardware, exact ZIP, callback protocol, complete-test scaling method, and uncertainty. Local callback timings are not an AMD EPYC full-submission guarantee. The tested Q4 conversion lost quality on its screen; Q8 is the demonstrated package path in this archive.
+
+## Resumed strategy execution — 2026-10-13
+
+[Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.
