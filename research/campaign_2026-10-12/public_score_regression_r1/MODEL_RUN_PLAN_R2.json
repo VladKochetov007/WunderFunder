@@ -1,0 +1,30 @@
+{
+  "status": "frozen_before_run",
+  "purpose": "single post-hoc mapping correction to the frozen R1 diagnostic; not confirmatory",
+  "correction_note": "MODEL_MAPPING_CORRECTION_R2.md",
+  "contract": "MODEL_CONTRACT_R2.md",
+  "contract_sha256": "704b8bf553218dc446ec2049805ec704385ee7223db5b693520d6b6ad4383313",
+  "script": "fit_public_models_r2.py",
+  "script_sha256": "6e567167131fa19c6a487bdda1611cfb927c22365819cf0dd3459fa1a8c1d28c",
+  "input": "endpoint_coverage_r1.csv",
+  "input_sha256": "dbaacdade13daff25ce7a5bd86b8dcbca66849964df1ca483d47fc6cd8882b3b",
+  "preserved_initial_r1_result": "MODEL_RESULTS_R1_PRECORRECTION.json",
+  "preserved_initial_r1_result_sha256": "69f3efc3cfbb4ed445ea26ebfe3747b6d7d76c885baa0a83b4d8c16a7f3a229f",
+  "fixed_model": {
+    "alpha": 10.0,
+    "feature_set": "contract-defined broad metadata and separately reported local-score subsets",
+    "baseline_set": ["training-row mean", "recent five distinct artifacts"],
+    "model_variants": 1,
+    "sweeps": 0
+  },
+  "execution": {
+    "command": "env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=25% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=public-score-regression-r2 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn-agent-worktrees/public-score-regression-20261012/research/campaign_2026-10-12/public_score_regression_r1/fit_public_models_r2.py",
+    "max_cpu_quota": "25%",
+    "threads": 1,
+    "memory_max_bytes": 500000000,
+    "runtime_max_seconds": 120,
+    "runs": 1
+  },
+  "output": "MODEL_RESULTS_R2.json",
+  "interpretation_limit": "retrospective diagnostic only; no current-candidate score forecast"
+}
