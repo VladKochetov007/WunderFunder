@@ -11,6 +11,8 @@ R2 fixes both without changing the scientific treatment. Its immutable R3-derive
 
 P2/P3 now pass absolute resume-state paths under the main project. Other input roots in the trainer are resolved against `WNN_PROJECT_ROOT`; the exact wrapper and root bindings are in the R2 command packet. Model, target equation except scale, losses, label weighting, optimizer, schedule, sample order, checkpoint policy and export precision stay matched to the frozen R3 control.
 
+Run each `outer_limited_argv` from `/home/vlad/development/wunder/wnn-agent-worktrees/strategy-cohort-20261013`. Its `--contract` path is relative to this recipe worktree; the root controller and shared runtime paths remain absolute and unchanged. Do not use the main-project or source-overlay directory as the launcher cwd.
+
 ## R2 hashes
 
 - [Exact fit, export and grade argv](FIT_AND_EXPORT_COMMANDS_R2.json) — SHA256 `318dff806c73799c84b8c0a140824f427f0acb8b1b07c77d4098dc58725bbc06`.
