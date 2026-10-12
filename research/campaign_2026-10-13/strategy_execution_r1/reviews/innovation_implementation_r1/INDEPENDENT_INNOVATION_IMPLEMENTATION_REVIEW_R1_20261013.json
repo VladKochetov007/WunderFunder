@@ -1,0 +1,57 @@
+{
+  "review_id": "independent-innovation-implementation-review-r1-20261013",
+  "created_utc_date": "2026-10-13",
+  "reviewer_role": "independent_critic",
+  "verdict": "pass_implementation_parity_no_model_quality_claim",
+  "implementation_commit": "bae0e2ee40b532e3588653919753c86918f22fa4",
+  "numerical_fix_commit": "ab97a9c30d17cd2519f9a392dfc5975ecf491dad",
+  "source_hashes": {
+    "src/wnn/research_features.py": "bd7ad95ffcd8201030292dd404d2ff84695f28a9517308c789daf702902b8449",
+    "scripts/train_rnn.py": "6e12e9acb980d8cc3e05f804a4c40669e08b3eeb946a48cf92d0e31fbf79b60b",
+    "src/wnn/streaming.py": "b93c6dbfa35daa1bc01d5daefc4cc6f7ea3da1f0e0b8d102b2c60abae5e65823",
+    "scripts/export_onnx.py": "513f5d1ab596519d7179d61ba5a3050e000bb1d09c9fa6879bf0cfca7bab8534",
+    "scripts/predict_run.py": "bae96b8135edf03e6cc9cc0e6c4e628bb7293bcafcfc2b19dde5119fe9624a5f",
+    "tests/test_causal_moment_features.py": "1895ffffa33f155290e4f547ff1372948fb6e4bf7867a7307217e8a6040d0a0d",
+    "tests/test_streaming_graph.py": "3dfdaad50fc0638fe6318e187a2e53c8ba88454a20315bcb78110ea0b69c3f78"
+  },
+  "verification": {
+    "command": ".venv/bin/python -m pytest -q tests/test_causal_moment_features.py tests/test_streaming_graph.py",
+    "wrapper": "scripts/limited",
+    "cpu_quota": "100%",
+    "threads": 1,
+    "memory_max_bytes": 2000000000,
+    "runtime_max": "120s",
+    "result": "14 passed in 4.73s",
+    "real_sequence": {
+      "source": "datasets/train.parquet",
+      "prior_fixture_group": 0,
+      "sequence_fixture_group": 1,
+      "rows": 20000,
+      "targets_read": false,
+      "gpu_used": false
+    },
+    "torch_stream_against_numpy": {
+      "max_abs": 0.000025510787963867188,
+      "max_scaled_atol_5e-5_rtol_3e-4": 0.14945973455905914,
+      "passes": true
+    },
+    "covered_paths": [
+      "future-perturbation causality",
+      "batch scan vs NumPy reference",
+      "NumPy streaming/reset",
+      "Torch streaming/reset",
+      "ONNX state-input round-trip",
+      "matched control width",
+      "zero-extended parent function",
+      "trainer input construction",
+      "real 20,000-row sequence parity"
+    ]
+  },
+  "findings": [],
+  "limitations": [
+    "One real sequence and one engineering-only prior fixture; no component-wide generalization claim.",
+    "No GPU arithmetic or actual training-shape memory profile.",
+    "No fit, candidate export, model grade, serving package, or provider action.",
+    "No model-quality claim; the feature family remains an untested treatment."
+  ]
+}

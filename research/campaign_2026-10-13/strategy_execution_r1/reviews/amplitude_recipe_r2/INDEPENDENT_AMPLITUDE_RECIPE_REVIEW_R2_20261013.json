@@ -1,0 +1,118 @@
+{
+  "format": "wnn.independent-amplitude-recipe-review",
+  "version": 1,
+  "created_utc": "2026-10-12T23:34:49Z",
+  "experiment_id": "E-STRATEGY-AMP-F0-S3-20261013-R1",
+  "candidate": {
+    "main_packet_path": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R2.json",
+    "worktree_packet_path": "/home/vlad/development/wunder/wnn-agent-worktrees/strategy-cohort-20261013/research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R2.json",
+    "commands_sha256": "318dff806c73799c84b8c0a140824f427f0acb8b1b07c77d4098dc58725bbc06",
+    "bindings_sha256": "e4240b0d041072c97eefe03cfe1a281ad32bcbe7279f28dc8691d1c4a999ccb2",
+    "delta_sha256": "4e05bdeff2c022dcd00e9ff1b798203094f34c07766e3ae0dcadd182a3eda164",
+    "source_manifest_sha256": "ac086fd55d9833492191507cbfba7f1d978a763011be698097bd582372402818",
+    "fit_authorized_in_packet": false
+  },
+  "source_review": {
+    "base_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "overlay_root": "/home/vlad/development/wunder/wnn-agent-worktrees/strategy-cohort-20261013/research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2",
+    "source_files_hash_checked": 63,
+    "source_files_hash_mismatches": 0,
+    "declared_overrides": [
+      {
+        "path": "scripts/train_rnn.py",
+        "sha256": "9b3079b9477fb0a1913bc5b2d504831126bff0d4cf02aff2b14f39872f421333",
+        "role": "target amplitude scale before training clip"
+      },
+      {
+        "path": "src/wnn/resources.py",
+        "sha256": "0b6280130a480f5547552df83cc4a15e7cfe88ad04498ca11c2ab2d54bb428e9",
+        "role": "dynamic free-VRAM allocator policy"
+      }
+    ]
+  },
+  "controller_helper_fix": {
+    "controller_path": "scripts/bandit_resources.py",
+    "controller_sha256": "a7b0260eada659f5f067f95d7f83ab89c635d23a72b2c7320a6617c7f68ed2d6",
+    "helper_path": "scripts/limited",
+    "helper_sha256": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76",
+    "test_path": "tests/test_bandit_resources.py",
+    "test_sha256": "2a77e6a431d1a105c6f1a78a4049d54999e08a8bef59222bf194a45a2541a12a",
+    "test_result": "40 passed in 0.15s",
+    "test_limits": "1 CPU, 1.2 GB memory max, 120 seconds",
+    "exact_launch_source_manifest_entries": 65,
+    "exact_launch_source_manifest_sha256": "631b72f8b3af8c014ff1470db416ac29c239b52b03339a6f83e30b47161c3e35",
+    "manifest_binds_actual_main_helper": true,
+    "manifest_binds_exact_contract": true,
+    "manifest_preflight_limits": "1 CPU, 1 GB memory max, 120 seconds",
+    "result": "PASS"
+  },
+  "resource_policy": {
+    "dynamic_allocator_source_sha256": "0b6280130a480f5547552df83cc4a15e7cfe88ad04498ca11c2ab2d54bb428e9",
+    "allocator_fraction_environment": "1.0",
+    "safety_reserve_bytes": 1000000000,
+    "worker_cpu_threads": 1,
+    "explicit_gpu_memory_byte_cap_in_worker_argv": false,
+    "legacy_5gb_vram_watchdog_on_selected_path": false,
+    "worker_wall_timeout_on_selected_path": false,
+    "fresh_shared_admission_required": true,
+    "shared_gpu_lock": true,
+    "aggregate_limits": {
+      "cpu_cores": 5,
+      "ram_target_bytes": 17000000000,
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "swap_bytes": 0,
+      "gpu_workers": 1,
+      "paid_actions": false
+    }
+  },
+  "runtime_failure": {
+    "attempt_id": "clean-t3-f0-amplitude1-s3-a9-r1-p1-20261013",
+    "record_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-amplitude1-s3-a9-r1-p1-20261013.json",
+    "status": "failed",
+    "exit_status": 1,
+    "started_utc": "2026-10-12T23:34:31.805937+00:00",
+    "finished_utc": "2026-10-12T23:34:36.882558+00:00",
+    "failure": "FileNotFoundError for overlay-relative campaign split manifest before configure_torch and before output directory creation",
+    "failed_path": "/home/vlad/development/wunder/wnn-agent-worktrees/strategy-cohort-20261013/research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "peak_observed_vram_bytes": 79691776,
+    "peak_worker_ram_bytes": 363032576,
+    "peak_parent_ram_bytes": 3833094144,
+    "oom_or_max_event_deltas": 0,
+    "scientific_fit_completed": false,
+    "outcome_classification": "execution-path failure, not negative scientific evidence"
+  },
+  "blocking_path_fixes": [
+    {
+      "command": "fit --split-manifest",
+      "cause": "load_campaign_split resolves relative to cwd rather than joining WNN_PROJECT_ROOT",
+      "resolution": "pass absolute MAIN split-manifest path"
+    },
+    {
+      "command": "export --campaign-split-manifest",
+      "cause": "predict_run calls the same loader from the overlay cwd",
+      "resolution": "pass absolute MAIN split-manifest path"
+    },
+    {
+      "command": "P1 attempt ID",
+      "cause": "R2 P1 ID is already present as terminal failed record",
+      "resolution": "assign a fresh unique attempt ID in successor packet"
+    }
+  ],
+  "evidence_bindings": {
+    "cache_consumer_receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r2/CACHE_METADATA_COMPATIBILITY_VALIDATION_R2.json",
+    "cache_consumer_receipt_sha256": "90528f221fdca114f506871fed06372bb7580a9d2700632abd156aa03830bedf",
+    "cache_consumer_status": "PASS_ACTUAL_FROZEN_CACHE_AND_PROVENANCE_CONSUMER",
+    "control_grade_receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/f0_grade_r1/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1.grade.json",
+    "control_grade_receipt_sha256": "c518f7cdb5f3e5148f72de152c3aaecd308ff97c83aa74169fdaa95442e085a0",
+    "control_metric": "global_wp_clip2_v1",
+    "control_wp": 0.6811553603333363,
+    "control_exposure": "468 repeatedly exposed F0 evaluation groups, 141 components, one student seed"
+  },
+  "reviewer_actions": {
+    "candidate_code_or_packet_modified": false,
+    "gpu_fit_or_export_run": false,
+    "provider_or_paid_action": false
+  },
+  "disposition": "R2 helper/source-manifest fix passes; R2 packet is not launchable because fit and export use a relative campaign split path from overlay cwd. Preserve the no-fit attempt record, correct both paths to absolute MAIN, assign a fresh attempt ID, then obtain root release and fresh shared-resource admission."
+}
