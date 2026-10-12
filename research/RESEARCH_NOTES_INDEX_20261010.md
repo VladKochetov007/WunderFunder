@@ -5,8 +5,11 @@
 Start with the [complete research handoff](RESEARCH_COMPLETE_HANDOFF_20261012.md)
 for the source-qualified method/evidence summary, strongest Q8 submissions,
 local and public validation limits, serving work, failed attempts, and linked
-artifact catalog. It is explicitly a pre-drain draft at Main snapshot
-3b8c5fb2: root must add terminal evidence for the already admitted clean-F0
+artifact catalog and complete source-preserving ledger appendices. The appendices
+are built by [this bounded generator](build_research_complete_handoff_appendix_20261012.py);
+see its [point-in-time receipt](campaign_2026-10-12/research_archive_inventory_r1/APPENDIX_BUILD_RECEIPT_R1.json).
+It is explicitly a pre-drain draft at Main snapshot
+cfea172a: root must add terminal evidence for the already admitted clean-F0
 seed4 continuation and Kaggle R7 before marking it final. The user STOP closes
 new experiment admission; this draft does not reopen research. The point-in-time
 metadata inventory is in
@@ -15,7 +18,7 @@ and predates the latest Main cleanup.
 
 October12 continuation: [all CPU optimization, serving repair, native measurements and public-fold diagnostics](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/INDEX.md). This includes unrun ideas and negative results. The historical policies/headlines below retain their dated scope; current ADR0030 uses local/CV evidence for selection and public scoring for transfer confirmation.
 
-Unified ledgers (append-only): [hypotheses.jsonl](hypotheses.jsonl) currently has 479 rows / 458 distinct IDs; [experiments.jsonl](experiments.jsonl) has 795 rows / 735 distinct IDs. Repeated IDs record revisions, retries, or additional events. The configured tree has 158 nodes across 11 families, and its journal has 133 events at the handoff snapshot. See [tree configuration](bandit_tree/config.json), [journal](bandit_tree/journal.jsonl), and [generated tree/index](bandit_tree/generated/INDEX.md). The generated integrity snapshot is stale against these source ledgers and should be rebuilt after the admitted drain. Live state: [specs/current-state.md](../specs/current-state.md).
+Unified ledgers (append-only): [hypotheses.jsonl](hypotheses.jsonl) currently has 479 rows / 458 distinct IDs; [experiments.jsonl](experiments.jsonl) has 796 rows / 736 distinct IDs. Repeated IDs record revisions, retries, or additional events. The configured tree has 158 nodes across 11 families, and its journal has 134 events at the handoff snapshot. See [tree configuration](bandit_tree/config.json), [journal](bandit_tree/journal.jsonl), and [generated tree/index](bandit_tree/generated/INDEX.md). The generated integrity snapshot is stale against these source ledgers and should be rebuilt after the admitted drain. Live state: [specs/current-state.md](../specs/current-state.md).
 
 ## Read in this order
 1. **Current best solution explained** (architecture, training, distillation, HPO, validation, plots, CIs): [`diversity_stack_20261009/solution_report/CURRENT_BEST_SOLUTION_EXPLAINED.md`](campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/solution_report/CURRENT_BEST_SOLUTION_EXPLAINED.md)
