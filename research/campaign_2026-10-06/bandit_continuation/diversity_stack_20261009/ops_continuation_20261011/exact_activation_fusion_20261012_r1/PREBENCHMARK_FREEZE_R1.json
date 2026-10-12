@@ -1,0 +1,84 @@
+{
+  "schema": "wnn-native-callback-comparison-freeze/v1",
+  "status": "frozen_before_benchmark",
+  "source": {
+    "base_commit": "1f78b7b54a443359a5a9dde08dfff9535da0d622",
+    "implementation_commit": "4fbfcbb9d53b29f8930546e3cea550a35e241b8e",
+    "patch_sha256": "ffc6cb19c9440c59431b9219f292ee0b6b0b594b707f214f42e1a3e9f2f835ef",
+    "native_cargo_toml_sha256": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+    "native_cargo_lock_sha256": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb"
+  },
+  "baseline": {
+    "zip": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-67/11_h390_student_s3_h388_teacher_s5_all_q8vnni.zip",
+    "zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+    "build_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-exploit-now_r2/h390_student_h388_teacher_pair_q8/BUILD_RECEIPT_R1.json",
+    "build_receipt_sha256": "938fb0d85666c0400ffce939c55bfb6bb517786bd17fdfbf12ad913fcb53d73a",
+    "v3_native_library_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+  },
+  "candidate": {
+    "status": "benchmark_only; not promoted",
+    "zip": "/home/vlad/development/wunder/wnn-agent-worktrees/exact-activation-max-fusion-20261012/submissions/10-12-exact-activation-fusion-r1/h390_student_h388_pair_exact_activation_max_fusion_benchmark_only.zip",
+    "zip_sha256": "f11b23cc0699e71a8db17ce9520b99e32bee75f216237a92442cf3b573d7d8bc",
+    "bytes": 12953717,
+    "build_receipt": "/home/vlad/development/wunder/wnn-agent-worktrees/exact-activation-max-fusion-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/exact_activation_fusion_20261012_r1/CANDIDATE_BUILD_RECEIPT_R1.json",
+    "build_receipt_sha256": "b52155abc7e01d645f1031b08c1794bfd23dcdb04358cbdc03af5647e66fdc17",
+    "v3_native_library_sha256": "7237a7c3e1610c84cb927e8dbb1b48b0438f40ca5f6221cad6698cf4b38520e0",
+    "only_changed_member": "v3/wnn_native.abi3.so",
+    "gate_status": "package_crc_passed; offline_import_and_streaming_gate_pending"
+  },
+  "build": {
+    "target": "x86_64-unknown-linux-gnu",
+    "rustc": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+    "cargo": "cargo 1.94.0 (85eff7c80 2026-01-15)",
+    "features": ["python", "extension-module"],
+    "rustflags": ["-C target-cpu=x86-64-v3"],
+    "cargo_build_jobs": 1,
+    "pgo": false,
+    "release_profile": "opt-level=3, lto=fat, codegen-units=1, panic=abort",
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1200000000 WNN_RUNTIME_MAX=120s CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR=native/target RUSTFLAGS='-C target-cpu=x86-64-v3' scripts/limited cargo build --manifest-path native/Cargo.toml --release --features extension-module --lib"
+  },
+  "workload": {
+    "feature_panel": "/tmp/wnn_submission_exploit_runtime_r1/valid_first10_complete_groups.parquet",
+    "feature_panel_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "feature_only": true,
+    "row_groups": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "sequences": 10,
+    "sequence_length": 20000,
+    "passes_per_panel": 2,
+    "callback_calls_per_panel": 400000,
+    "cpu_affinity": 3,
+    "runner": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/scripts/benchmark_submission_callbacks.py",
+    "runner_sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53",
+    "runner_utils": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/utils.py",
+    "runner_utils_sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+    "python_executable": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python",
+    "candidate_packager_sha256": "3ff03a1d09e5a5b306df7e826095c9589520ad949eee9a39a5854ba9fe23f2e4",
+    "repeats": 2,
+    "order": [
+      {"pair": 1, "panel": "baseline", "output": "baseline_pair1.json"},
+      {"pair": 1, "panel": "candidate", "output": "candidate_pair1.json"},
+      {"pair": 2, "panel": "candidate", "output": "candidate_pair2.json"},
+      {"pair": 2, "panel": "baseline", "output": "baseline_pair2.json"}
+    ],
+    "command_template": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1200000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=<unique-unit>.scope /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python /home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/scripts/benchmark_submission_callbacks.py --submission <frozen-zip> --receipt <frozen-receipt> --data /tmp/wnn_submission_exploit_runtime_r1/valid_first10_complete_groups.parquet --output <frozen-output> --first-row-group 0 --sequences 10 --repeats 2 --cpu 3"
+  },
+  "gates": {
+    "parity": "Every candidate per-sequence predictions_sha256_by_sequence must match the baseline hash for that sequence; each panel must pass the runner's two reset-replay check and finite-output validation.",
+    "repeatable_runtime_benefit": "Within each alternating pair, candidate mean_callback_us_per_row must be lower than the adjacent baseline. If either pair is not faster, preserve the results as no repeatable gain and stop this treatment.",
+    "scope": "No metric calculation, local score claim, public score forecast, model selection, or EPYC 9224 runtime claim. Intel Core i9-11900H evidence is local only.",
+    "resources": "Before each panel, re-read campaign cgroup CPU and memory. Run only through scripts/limited with 100% CPUQuota, one thread, 1,200,000,000-byte MemoryMax, no swap, and RuntimeMaxSec=120s. Do not change aggregate resources."
+  },
+  "result_files": {
+    "baseline_pair1": "baseline_pair1.json",
+    "candidate_pair1": "candidate_pair1.json",
+    "candidate_pair2": "candidate_pair2.json",
+    "baseline_pair2": "baseline_pair2.json",
+    "summary": "RESULTS_R1.json",
+    "report": "BENCHMARK_REPORT_R1.md"
+  },
+  "external_references": {
+    "hypothesis_id": "H-CPU-MAX-01",
+    "independent_review": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/reviews/ALG_REVIEW_B_20261012_R1.md",
+    "prior_actual_benchmarks": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1 and native_projection_precompute_r1"
+  }
+}

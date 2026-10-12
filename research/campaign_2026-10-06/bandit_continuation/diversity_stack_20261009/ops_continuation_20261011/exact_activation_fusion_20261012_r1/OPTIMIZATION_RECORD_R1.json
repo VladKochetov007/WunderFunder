@@ -1,0 +1,91 @@
+{
+  "schema": "wnn-native-activation-max-fusion/v1",
+  "status": "implementation_committed; candidate_build_and_performance_gate_pending",
+  "hypothesis": "For the shipped Q8VNNI GRU path, obtain the exact maximum absolute value while each newly produced GRU state or projection-GELU vector is already being written. Passing that maximum into the unchanged Q8 encoder removes its separate max scan while preserving one whole-vector dynamic scale.",
+  "treatment": "Fuse absmax tracking into scalar, AVX2, and AVX512 GRU hidden-state updates, and into AVX2/AVX512 GELU projection output. Reuse the existing Q8 encoder's code-writing arithmetic with the precomputed absmax.",
+  "invariants": [
+    "Activation and GRU output arithmetic remain unchanged.",
+    "The GRU reads the same old recurrent state and writes the same new-state ordering.",
+    "Q8 scale is derived from the maximum absolute value of the complete output vector, with the existing exceptional-value behavior.",
+    "The existing quantization byte encoder, rounding, scales, and code order remain unchanged.",
+    "Sequence causality, per-sequence reset behavior, output masks, and model weights remain unchanged."
+  ],
+  "explicit_exclusions": [
+    "No gate-tile or YMM changes.",
+    "No projection precompute or projection accumulation changes.",
+    "No PGO, loop reordering, fast-math, FMA reassociation, or quantization changes.",
+    "No source-model, weights, target, training, or submission-selection changes."
+  ],
+  "source": {
+    "base_commit": "1f78b7b54a443359a5a9dde08dfff9535da0d622",
+    "implementation_commit": "4fbfcbb9d53b29f8930546e3cea550a35e241b8e",
+    "worktree": "/home/vlad/development/wunder/wnn-agent-worktrees/exact-activation-max-fusion-20261012",
+    "branch": "codex/exact-activation-max-fusion-20261012",
+    "patch_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/exact_activation_fusion_20261012_r1/IMPLEMENTATION_DIFF_R1.patch",
+    "patch_sha256": "ffc6cb19c9440c59431b9219f292ee0b6b0b594b707f214f42e1a3e9f2f835ef",
+    "files_changed": [
+      "native/src/approx.rs",
+      "native/src/rnn_fast.rs",
+      "native/src/vnni.rs"
+    ],
+    "hypothesis_id": "H-CPU-MAX-01",
+    "independent_review": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_cpu_research_20261012_r1/reviews/ALG_REVIEW_B_20261012_R1.md"
+  },
+  "correctness_checks": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1200000000 WNN_RUNTIME_MAX=120s CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR=native/target RUSTFLAGS='-C target-cpu=x86-64-v3' scripts/limited cargo test --manifest-path native/Cargo.toml --lib fused_ -- --nocapture",
+    "result": "5 passed, 0 failed, 0 ignored, 55 filtered",
+    "coverage": [
+      "GELU output versus separate whole-vector absmax",
+      "scalar and AVX2/AVX512 GRU output and Q8 state-code/scale parity",
+      "Q8 encoder parity for ragged vectors, NaNs, infinities, and signed zero"
+    ],
+    "prior_compile_attempt": "Initial focused compile exposed target_feature/inline(always) incompatibility, a Q16 caller return-type mismatch, and unnecessary unsafe wrappers. These were repaired before the passing focused test run."
+  },
+  "build": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1200000000 WNN_RUNTIME_MAX=120s CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR=native/target RUSTFLAGS='-C target-cpu=x86-64-v3' scripts/limited cargo build --manifest-path native/Cargo.toml --release --features extension-module --lib",
+    "toolchain": "rustc 1.94.0 / cargo 1.94.0",
+    "target": "x86_64-unknown-linux-gnu",
+    "features": ["python", "extension-module"],
+    "rustflags": ["-C target-cpu=x86-64-v3"],
+    "cargo_build_jobs": 1,
+    "release_profile": "opt-level=3, lto=fat, codegen-units=1, panic=abort",
+    "pgo": false,
+    "result": "release build succeeded in 34.94 seconds",
+    "library_path": "native/target/release/libwnn_native.so",
+    "package_member": "v3/wnn_native.abi3.so"
+  },
+  "frozen_comparison": {
+    "purpose": "Exact-package CPU serving runtime and deterministic-output check only. This does not compute a model score or provide submission-selection evidence.",
+    "baseline_zip": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-67/11_h390_student_s3_h388_teacher_s5_all_q8vnni.zip",
+    "baseline_zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+    "baseline_build_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-11-exploit-now_r2/h390_student_h388_teacher_pair_q8/BUILD_RECEIPT_R1.json",
+    "baseline_build_receipt_sha256": "938fb0d85666c0400ffce939c55bfb6bb517786bd17fdfbf12ad913fcb53d73a",
+    "feature_panel": "/tmp/wnn_submission_exploit_runtime_r1/valid_first10_complete_groups.parquet",
+    "feature_panel_sha256": "e5e6472cedfcb20ecf01195777ab986b3560379c5e81caea71973632dde0d6a3",
+    "row_groups": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "sequence_length": 20000,
+    "sequences_per_panel": 10,
+    "reset_passes_per_panel": 2,
+    "callback_calls_per_panel": 400000,
+    "panel_order": ["baseline_pair1", "candidate_pair1", "candidate_pair2", "baseline_pair2"],
+    "runner": {
+      "path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/scripts/benchmark_submission_callbacks.py",
+      "sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53",
+      "utils_path": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/utils.py",
+      "utils_sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+      "candidate_packager": "/home/vlad/development/wunder/wnn-agent-worktrees/zen4-native-cpu-optimization-20261012/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/zen4_submission_fix_r1/replace_submission_v3_library.py",
+      "candidate_packager_sha256": "3ff03a1d09e5a5b306df7e826095c9589520ad949eee9a39a5854ba9fe23f2e4"
+    },
+    "cpu_affinity": 3,
+    "bitwise_gate": "Each candidate panel must match all baseline per-sequence prediction hashes and its own two reset replays.",
+    "performance_gate": "Require a repeatable runtime improvement in both alternating paired comparisons; otherwise retain as a negative/no-promotion result and stop this treatment.",
+    "hardware_limit": "Local result is on Intel Core i9-11900H and cannot certify AMD EPYC 9224 portal runtime."
+  },
+  "candidate": {
+    "status": "benchmark_only; not promoted",
+    "zip_path": "/home/vlad/development/wunder/wnn-agent-worktrees/exact-activation-max-fusion-20261012/submissions/10-12-exact-activation-fusion-r1/h390_student_h388_pair_exact_activation_max_fusion_benchmark_only.zip",
+    "build_receipt_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/exact_activation_fusion_20261012_r1/CANDIDATE_BUILD_RECEIPT_R1.json",
+    "library_sha256": "pending",
+    "zip_sha256": "pending"
+  }
+}
