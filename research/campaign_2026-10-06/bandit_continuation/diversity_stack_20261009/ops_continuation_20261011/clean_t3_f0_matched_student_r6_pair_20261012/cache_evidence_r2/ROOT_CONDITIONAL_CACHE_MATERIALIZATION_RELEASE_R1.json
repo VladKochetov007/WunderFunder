@@ -1,0 +1,24 @@
+{
+  "schema": "wnn.clean-t3-f0-cache-adapter-release.r1",
+  "created_utc": "2026-10-12T09:51:57.366651+00:00",
+  "cache_materialization_authorized": true,
+  "cache_adapter_contract_sha256": "2b94f8454009af6a549e555456185d02bd2d2c6d8628def30dc3a3d27fae62c9",
+  "builder_sha256": "13b20f62a988df90f17da495b2cc7e4e219de0792291412165a10d2cd8b22380",
+  "output_cache_root": "cache/clean_t3_f0_h390_t3r5_a9_r1",
+  "status": "conditional_serial_after_s5_terminal_validity",
+  "conditions": [
+    "S5 actual terminal exit0 and complete independent finite/header/hash/sidecar/source-qualified membership validation",
+    "S3/S4/S5 own CP2 and all train/fullvalid prediction source hashes preserved; actual adapter inspect_inputs(require_train=True,hash_arrays=True) must PASS",
+    "Fresh aggregate current+650000000B <=18000000000B, total CPU<=5; all inputs read-only, unique output absent",
+    "No --skip-array-hash; block_sequences=8; scripts/limited1CPU650MB/no swap/1200s; preserve failed attempt if consumer rejects",
+    "No student fit/GPUprofile/clouddispatch authorized by this cache release"
+  ],
+  "resource_limits": {
+    "cpu_cores": 1,
+    "memory_max_bytes": 650000000,
+    "runtime_max_seconds": 1200,
+    "gpu": false
+  },
+  "review": "clean_t3_f0_cache_adapter_independent_review_r1/INDEPENDENT_REVIEW_R1.json;454fbff4",
+  "owner": "clean_t3_fit_cache_delivery"
+}
