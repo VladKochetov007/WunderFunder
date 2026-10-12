@@ -5,7 +5,8 @@ Use this page to navigate proposals, mechanism families, and their evidence. An 
 ## Core records
 
 - [Model artifacts for ideas and runs: private Hugging Face archive](../models/huggingface/README.md) — use its JSON inventory to find each run's description, local checkpoint, Hub path and H/E ledger references. Uploaded historical artifacts retain their original evidence limits; availability does not imply a winning result.
-- [October 12 strategy refinements and falsifiers](STRATEGY_REFINEMENTS_20261012.json), with [ranked public and private plans](../reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md); proposed only, experimental admission remains closed.
+- [October 12 strategy refinements and falsifiers](STRATEGY_REFINEMENTS_20261012.json), with [ranked public and private plans](../reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md); proposed during the historical stop. The subsequent [October 13 campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) resumes their implementation and experiments under explicit user authority.
+- [Causal innovation implementation and long-sequence correction](../../campaign_2026-10-13/strategy_execution_r1/INNOVATION_IMPLEMENTATION_R1.md) implements H-STRATEGY-20261012-01/H-238 with fitting-only priors, function-preserving initialization, matched-width controls and streaming/ONNX integration. A real 20,000-row input exposed a batch/stream rounding mismatch; the corrected recurrence passes the unchanged tolerance. This is engineering evidence only: independent review, GPU profiles and matched fits remain pending.
 - [Append-only hypothesis ledger](../../hypotheses.jsonl) and [experiment ledger](../../experiments.jsonl)
 - [Generated research tree](../../bandit_tree/generated/INDEX.md), [tree configuration](../../bandit_tree/config.json), and [decision journal](../../bandit_tree/journal.jsonl)
 - [October 11 idea ledger](../../IDEA_LEDGER_20261011.md)

@@ -11,6 +11,7 @@ torch = pytest.importorskip("torch")
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import train_rnn  # noqa: E402
 
+from wnn.data import SequenceFile  # noqa: E402
 from wnn.features import event_features_torch  # noqa: E402
 from wnn.nn import RNNModel  # noqa: E402
 from wnn.research_features import (  # noqa: E402
@@ -152,3 +153,23 @@ def test_trainer_input_builder_applies_newest_matched_control(monkeypatch) -> No
     assert inputs.shape[-1] == 112 + 99 + 80
     torch.testing.assert_close(inputs[..., -16:], torch.zeros_like(inputs[..., -16:]))
     torch.testing.assert_close(inputs[..., -80:], expected_features, rtol=0, atol=0)
+
+
+@pytest.mark.data
+def test_full_real_sequence_scan_matches_streaming() -> None:
+    """Exercise forty scan blocks and real nearly constant encoded inputs."""
+    source = Path(__file__).resolve().parents[1] / "datasets/train.parquet"
+    if not source.exists():
+        pytest.skip("requires the supplied training data")
+    reader = SequenceFile(source)
+    prior = fit_causal_moment_prior([reader.read(0, targets=False, mask=False).features])
+    raw = reader.read(1, targets=False, mask=False).features
+    assert len(raw) == 20_000
+    expected = research_features_numpy(raw, "causal_innovations", prior)
+    actual = research_features_torch(torch.from_numpy(raw[None]), "causal_innovations", prior)[
+        0
+    ].numpy()
+    stream = StreamingResearchFeatures("causal_innovations", prior)
+    streamed = np.stack([stream.update(row) for row in raw])
+    np.testing.assert_allclose(actual, expected, rtol=3e-4, atol=5e-5)
+    np.testing.assert_allclose(actual, streamed, rtol=3e-4, atol=5e-5)

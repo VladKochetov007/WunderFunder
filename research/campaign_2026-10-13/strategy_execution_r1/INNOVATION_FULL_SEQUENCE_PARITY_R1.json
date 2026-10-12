@@ -1,0 +1,35 @@
+{
+  "created_utc": "2026-10-12T23:24:09.227761+00:00",
+  "status": "failed_numerical_parity",
+  "source": "datasets/train.parquet",
+  "prior_fixture_group": 0,
+  "sequence_fixture_group": 1,
+  "rows": 20000,
+  "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "feature_source_sha256": "4e624e48456e15cb1eb2b9bc23f7fcada257b5cf8149bb69db05bd405f69aac3",
+  "checks": {
+    "batch_numpy": {
+      "finite": true,
+      "max_abs": 0.0018362998962402344,
+      "max_scaled": 2.2179157733917236,
+      "passes_existing_tolerance": false
+    },
+    "stream_numpy": {
+      "finite": true,
+      "max_abs": 9.5367431640625e-05,
+      "max_scaled": 0.14945515990257263,
+      "passes_existing_tolerance": true
+    },
+    "batch_stream": {
+      "finite": true,
+      "max_abs": 0.0018362998962402344,
+      "max_scaled": 2.2179157733917236,
+      "passes_existing_tolerance": false
+    }
+  },
+  "elapsed_seconds": 1.7585211450000315,
+  "peak_rss_bytes": 1660440576,
+  "research_prior": false,
+  "model_fit": false,
+  "gpu_used": false
+}

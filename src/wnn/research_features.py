@@ -245,7 +245,9 @@ def _ew_block_torch(
     """Evaluate an EW scan in bounded blocks, without rowwise device launches."""
     import torch
 
-    alpha = math.exp2(-1.0 / half_life)
+    # Match the float32 streaming recurrence, including its complementary weight.
+    # Mixing a rounded scan base with an unrounded (1-alpha) drifts on long paths.
+    alpha = float(np.float32(math.exp2(-1.0 / half_life)))
     row = torch.arange(values.shape[1], device=values.device, dtype=values.dtype)
     base = values.new_tensor(alpha)
     forward = torch.pow(base, row)
@@ -383,8 +385,8 @@ def causal_moment_features_torch_step(
         previous_slow_second - previous_slow_mean.square(), scale_floor.square()
     )
     innovation = (value - previous_slow_mean) / torch.sqrt(previous_variance)
-    alpha_slow = math.exp2(-1.0 / MOMENT_SLOW_HALF_LIFE)
-    alpha_fast = math.exp2(-1.0 / MOMENT_FAST_HALF_LIFE)
+    alpha_slow = float(np.float32(math.exp2(-1.0 / MOMENT_SLOW_HALF_LIFE)))
+    alpha_fast = float(np.float32(math.exp2(-1.0 / MOMENT_FAST_HALF_LIFE)))
     slow_mean = alpha_slow * slow_mean + (1.0 - alpha_slow) * value
     slow_second = alpha_slow * slow_second + (1.0 - alpha_slow) * value.square()
     fast_mean = alpha_fast * fast_mean + (1.0 - alpha_fast) * value
@@ -412,7 +414,9 @@ def causal_moment_features_torch_step(
     features = torch.cat(parts, dim=-1)
     zero_width = research_feature_control_width(mode, control)
     if zero_width:
-        features = torch.cat((features[:, :-zero_width], torch.zeros_like(features[:, -zero_width:])), dim=-1)
+        features = torch.cat(
+            (features[:, :-zero_width], torch.zeros_like(features[:, -zero_width:])), dim=-1
+        )
     next_state = torch.cat((slow_mean, slow_second, fast_mean, fast_second, age[:, None]), dim=-1)
     return features, next_state
 
@@ -498,9 +502,7 @@ def research_features_torch(
 class StreamingCausalMoments:
     """O(1)-state causal projected moments and standardized innovations."""
 
-    def __init__(
-        self, mode: str, prior: Mapping[str, object], control: str = "none"
-    ) -> None:
+    def __init__(self, mode: str, prior: Mapping[str, object], control: str = "none") -> None:
         if mode not in MOMENT_FEATURE_MODES:
             raise ValueError(f"Unknown causal moment feature mode: {mode}")
         self.mode = mode
