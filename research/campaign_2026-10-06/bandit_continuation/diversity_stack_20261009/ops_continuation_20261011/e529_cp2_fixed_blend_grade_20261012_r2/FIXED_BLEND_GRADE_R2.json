@@ -1,0 +1,159 @@
+{
+  "baseline": {
+    "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+    "epoch": 1,
+    "evaluation_group_count": 468,
+    "fit_valid_evaluation_overlap": 0,
+    "fit_valid_group_count": 1405,
+    "prediction_dtype": "float32",
+    "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_oldz4_h230_student_f0_s3_r3_valid.npy",
+    "prediction_sha256": "1e8259b829dcde4e3e395ac6e56e2d187b5b0c3e0ba343a98f9cbf530893712f",
+    "prediction_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "prediction_sidecar_sha256": "5310ee451377522b43eb0f217933ad73ad162b944093515107806a7ee1984f7a",
+    "provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+    "run_id": "oldz4_h230_student_f0_s3_r3",
+    "source_membership_status": "direct provenance confirms evaluation groups excluded from fit-valid groups"
+  },
+  "candidate_member": {
+    "checkpoint_sha256": "9cbfa401c3432bc027dfb809be07d2d6ab76c82c5007e1fe99d413af566b684c",
+    "epoch": 2,
+    "evaluation_group_count": 468,
+    "fit_valid_evaluation_overlap": 0,
+    "fit_valid_group_count": 1405,
+    "prediction_dtype": "float32",
+    "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_e529_muon512_f0_cp2_prefix4_retained_r1_valid.npy",
+    "prediction_sha256": "f60b535ec82b04a91388ffea5c078ea888dece07e42ace73af473b1f8ec3ebef",
+    "prediction_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "prediction_sidecar_sha256": "e682f51c0050119a949ee052096adc20b7e187083772cd16951a626e8944f0f9",
+    "provenance_sha256": "909c0ff76e742cfd16342f9063364a36986d07aa2754330b59c183cd38bf4f71",
+    "run_id": "bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009",
+    "source_membership_status": "direct provenance confirms evaluation groups excluded from fit-valid groups"
+  },
+  "claim": "One predeclared fixed blend versus its old-student control on the 468-group/141-component exposed fold-0 development panel; not a fresh holdout, final four-epoch H512 endpoint, public score, or forecast.",
+  "comparison": {
+    "bootstrap_resamples": 800,
+    "bootstrap_seed": 271828,
+    "bootstrap_unit": "complete component",
+    "candidate": "oldz4_h230_student_f0_s3_r3:3+e529_muon512_f0_cp2_prefix4_retained_r1:1",
+    "candidate_official_score": {
+      "spec": "oldz4_h230_student_f0_s3_r3:3+e529_muon512_f0_cp2_prefix4_retained_r1:1",
+      "t0": 0.67554,
+      "t1": 0.68908,
+      "wp": 0.68231
+    },
+    "candidate_weights": {
+      "bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv5r2_fit_20261009@ep2": 0.25,
+      "oldz4_h230_student_f0_s3_r3": 0.75
+    },
+    "control": "oldz4_h230_student_f0_s3_r3",
+    "control_official_score": {
+      "spec": "oldz4_h230_student_f0_s3_r3",
+      "t0": 0.67717,
+      "t1": 0.68911,
+      "wp": 0.68314
+    },
+    "evaluation_components": 141,
+    "evaluation_group_id_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "evaluation_groups": 468,
+    "exposure": "previously inspected fold-0 development panel; one source-qualified seed per member",
+    "mask": "is_scored AND need_prediction (row >= 99)",
+    "metric_clip": [
+      -2,
+      2
+    ],
+    "metric_id": "global_wp_clip2_v1",
+    "paired_component_bootstrap": {
+      "bootstrap_sd": 0.0007039450406130295,
+      "candidate_wp": 0.6823081098318594,
+      "centered_moments": true,
+      "ci95": [
+        -0.0022822474953273163,
+        0.0003851460371234735
+      ],
+      "mean_diff": -0.0008337035580003871,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 800,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 0.875,
+      "reference_wp": 0.6831418133898598,
+      "seed": 271828
+    },
+    "weighting": "original clipped-label magnitude weights in official metric"
+  },
+  "created_utc": "2026-10-12T04:28:51.974658+00:00",
+  "data_and_source_bindings": {
+    "component_bootstrap_source_sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "evaluation_ids_exactly_equal": true,
+    "export_contract_sha256": "c4e56bd0d0054f8a13838e744d662b8dfbe3966612aa6f70d45484284a45b050",
+    "grade_admission_sha256": "1810f681434db4c2aa7b8f27b98cc9a4f4386fb3db03295239d67332d8c933d3",
+    "legacy_scorer_fold0_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "official_mask_source_sha256": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+    "official_metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "official_scorer_source_sha256": "87cb00f8a2d9f4b2c0a9c9dc39dc5f5ffa627b45c0b2c14de950ebbbb259594f",
+    "official_scores_reused_from_r1": {
+      "scorer_rerun": false,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/e529_cp2_fixed_blend_grade_20261012_r1/OFFICIAL_SCORE_STDOUT_R1.txt",
+      "stdout_sha256": "ef2326a29b5afd266b7e964879ae747d7810cbe27ca8328a8b8815e43a776443"
+    },
+    "source_qualified_fold0_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "export": {
+    "attempt_id": "e529-muon512-f0-cp2-prefix4-retained-export-r1",
+    "attempt_status": "finished",
+    "checkpoint_epoch": 2,
+    "durable_launch_receipt_sha256": "04625e0da0ca4608402b396d161e099df167f30c962ba522213e2dc139923e61",
+    "exit_status": 0,
+    "finished_utc": "2026-10-12T04:08:56.759179+00:00",
+    "prediction_sha256": "f60b535ec82b04a91388ffea5c078ea888dece07e42ace73af473b1f8ec3ebef",
+    "prediction_sidecar_sha256": "e682f51c0050119a949ee052096adc20b7e187083772cd16951a626e8944f0f9",
+    "producer_review_sha256": "9cbcc0ee87282cdc676c026c672844aaad1eccfbee66d47205fa91c37fcb53dd",
+    "root_export_release_sha256": "124a2a25f537df6b76ad07a85bf13306fd6c33b1c341654439b6e88cf6e63a08",
+    "source_checkpoint_is_prefix_of_interrupted_four_epoch_run": true,
+    "started_utc": "2026-10-12T04:07:15.732703+00:00"
+  },
+  "not_claimed": [
+    "public-score forecast",
+    "fresh holdout",
+    "H512 standalone score",
+    "completed four-epoch H512 run",
+    "weight search"
+  ],
+  "official_scorer_stderr": "",
+  "official_scorer_stdout": "0.68231 t0 0.67554 t1 0.68908  oldz4_h230_student_f0_s3_r3:3+e529_muon512_f0_cp2_prefix4_retained_r1:1\n0.68314 t0 0.67717 t1 0.68911  oldz4_h230_student_f0_s3_r3\n",
+  "prior_r1_attempt": {
+    "cpu_usage_nanoseconds": 3598482000,
+    "exit_status": 137,
+    "failure_stage": "post-scorer metric/bootstrap path; official score stdout was produced, bootstrap result was not",
+    "grader_sha256": "b041d2501c39328ac037186709e60629fef8e999c09288f054f1dd519cbd6e32",
+    "memory_events_available": false,
+    "memory_peak_bytes": 699998208,
+    "official_scorer_stdout_sha256": "ef2326a29b5afd266b7e964879ae747d7810cbe27ca8328a8b8815e43a776443",
+    "precheck_attempt1_sha256": "eda15797652ae7ad36a685ebccdfb5737cfd93bacf9f54ec2f69a834d44f81aa",
+    "precheck_attempt2_sha256": "82d569ae28b5fe777b5be1887bd0c40beff302d585637aad2a2421c779ad772f",
+    "support_scope": "run-p3124073-i7344210.scope",
+    "support_scope_invocation_id": "a6fa083153ca4661a698bd71c0d9663a",
+    "systemd_result": "oom-kill"
+  },
+  "resources": {
+    "cpu_quota_percent": 50,
+    "gpu_count": 0,
+    "memory_max_bytes": 1500000000,
+    "parent_current_bytes": 12689784832,
+    "swap_bytes": 0,
+    "threads": 1,
+    "wall_seconds": 600
+  },
+  "schema": "wnn.e529-h512-cp2-fixed-conditional-blend-grade.r2",
+  "status": "PASS_FIXED_EXPOSED_FOLD0_COMPARISON"
+}

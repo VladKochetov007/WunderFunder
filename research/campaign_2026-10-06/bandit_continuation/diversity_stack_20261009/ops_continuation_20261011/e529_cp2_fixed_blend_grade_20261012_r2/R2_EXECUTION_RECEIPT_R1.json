@@ -1,0 +1,53 @@
+{
+  "schema": "wnn.e529-fixed-blend-grade-execution.r1",
+  "status": "completed",
+  "created_utc": "2026-10-12T04:29:33Z",
+  "operator": "submission_packager",
+  "grader": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/e529_cp2_fixed_blend_grade_20261012_r2/grade_e529_fixed_blend_r2.py",
+    "sha256": "329d834bf17f855f8d705fa4df4883c86179f16cd032e21b4a7ca9b680175254"
+  },
+  "admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/e529_muon512_f0_cp2_export_r1/ROOT_FIXED_BLEND_GRADE_ADMISSION_R2.json",
+    "sha256": "1810f681434db4c2aa7b8f27b98cc9a4f4386fb3db03295239d67332d8c933d3",
+    "resources": {
+      "cpu_quota_percent": 50,
+      "threads": 1,
+      "memory_max_bytes": 1500000000,
+      "wall_seconds": 600,
+      "gpu_count": 0,
+      "swap_bytes": 0,
+      "parent_current_bytes": 12689784832
+    }
+  },
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=600s WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /usr/bin/env WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack WNN_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/e529_cp2_fixed_blend_grade_20261012_r2/grade_e529_fixed_blend_r2.py",
+  "execution": {
+    "exit_status": 0,
+    "wrapper_wall_seconds": 2.491977337,
+    "scope_unit": "scripts/limited generated an unnamed transient scope; no WNN_SCOPE_UNIT was provided",
+    "scope_peak_bytes": null,
+    "scope_memory_events_available": null,
+    "scope_note": "The successful transient scope was no longer listed at post-run inspection; no peak or memory.events counters are claimed."
+  },
+  "result": {
+    "path": "FIXED_BLEND_GRADE_R2.json",
+    "sha256": "ae9142593336abb1a4ee727b90c593e6334aa637b0e9851f88ea75c5ebe57ba4",
+    "candidate_wp": 0.6823081098318594,
+    "control_wp": 0.6831418133898598,
+    "delta": -0.0008337035580003871,
+    "ci95": [-0.0022822474953273163, 0.0003851460371234735],
+    "paired_components": 141,
+    "bootstrap_resamples": 800,
+    "bootstrap_seed": 271828
+  },
+  "scoring": {
+    "official_scorer_rerun": false,
+    "reused_r1_stdout_sha256": "ef2326a29b5afd266b7e964879ae747d7810cbe27ca8328a8b8815e43a776443",
+    "result_is_previously_exposed_f0_panel": true,
+    "public_score_forecast": false
+  },
+  "previous_failed_attempt_preserved": {
+    "path": "../e529_cp2_fixed_blend_grade_20261012_r1/OOM_ATTEMPT3_R1.json",
+    "sha256": "88421fa77d0726009354b78098023243e5722cc24fac1880231d5b22c5a561dd"
+  }
+}
