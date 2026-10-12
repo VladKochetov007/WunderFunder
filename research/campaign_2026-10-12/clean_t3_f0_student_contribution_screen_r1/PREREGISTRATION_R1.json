@@ -1,0 +1,109 @@
+{
+  "created_utc": "2026-10-12T13:47:42Z",
+  "decision_rule": "No weight search. Report the fixed 50:50 blend score and paired whole-component contrast versus the exact old endpoint. Interpret as conditional contribution on exposed F0 only; no recipe winner, public forecast, or promotion claim.",
+  "evaluation": {
+    "connected_components": 141,
+    "endpoint_membership": "Both reviewed endpoints record seed 3 and source-qualified train+fit-valid membership of 10,535 train.parquet groups and 1,405 valid.parquet fit-valid groups, excluding the fixed 468 valid-source evaluation groups. Teacher/initializer ancestry and recipes differ; inference precision differs.",
+    "evaluation_groups": 468,
+    "metric_id": "global_wp_clip2_v1",
+    "prediction_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "prediction_storage_dtype": "float32",
+    "row_group_order": "canonical valid-source row groups 0..1872; matching sidecars must validate exact order and full prediction SHA.",
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "warmup_rows_excluded": 99
+  },
+  "fixed_candidate": {
+    "formula": "float32((float64(pred_cleanT3_CP5_epoch5) + float64(pred_oldZ4_student_epoch1)) / 2)",
+    "members": [
+      {
+        "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+        "epoch": 5,
+        "inference_precision": "fp32",
+        "prediction_sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6",
+        "prior_official_wp": 0.6811553603333363,
+        "provenance_sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+        "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+        "sidecar_sha256": "ad3ef0a0ad9f9668ab9764f40f916752d450554517859fb6782978ca5e97348e",
+        "weight": 0.5
+      },
+      {
+        "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+        "epoch": 1,
+        "inference_precision": "fp16",
+        "prediction_sha256": "1e8259b829dcde4e3e395ac6e56e2d187b5b0c3e0ba343a98f9cbf530893712f",
+        "prior_official_wp": 0.6831418133898595,
+        "provenance_sha256": "5af59cf6dd5ed263e45560d164f99c6103301076908c297f1dab3c645e3df13c",
+        "run": "oldz4_h230_student_f0_s3_r3",
+        "sidecar_sha256": "5310ee451377522b43eb0f217933ad73ad162b944093515107806a7ee1984f7a",
+        "weight": 0.5
+      }
+    ],
+    "name": "cleanT3_CP5_50pct_plus_oldZ4_student_CP1_50pct"
+  },
+  "fixed_reference": {
+    "epoch": 1,
+    "prior_official_wp": 0.6831418133898595,
+    "run": "oldz4_h230_student_f0_s3_r3",
+    "weight": 1.0
+  },
+  "input_receipts": {
+    "new_endpoint_grade_handoff_sha256": "ef7e3a4638229f99f9ca4f0aefbcaa4bb330d48d3a567138a68cfd0a3caafb31",
+    "new_endpoint_terminal_validation_sha256": "4029b09616ea8a705c47673a76c698dbda0d92a45a39097374f6b467840dcf19",
+    "old_endpoint_exact_component_grade_sha256": "2215ff7619767d6feb861264c2258be1d919c6a077fc4afc269b2b3ba7954470",
+    "old_endpoint_grade_sha256": "f6fb615b329d1d3acb513a8ac87693eeb87987af799ddd683329c1d9fa36fbae"
+  },
+  "question": "Does the weaker single clean-T3 CP5 endpoint add conditional value to the exact old Z4 student endpoint under the root-frozen equal-weight blend?",
+  "runner": {
+    "argv": [
+      "scripts/score_fold0_panel.py",
+      "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5*0.5,oldz4_h230_student_f0_s3_r3@ep1*0.5",
+      "--reference",
+      "oldz4_h230_student_f0_s3_r3@ep1",
+      "--n-boot",
+      "800",
+      "--out",
+      "/home/vlad/development/wunder/wnn-agent-worktrees/submissions-10-12-z5-conditional-r1-20261012/research/campaign_2026-10-12/clean_t3_f0_student_contribution_screen_r1/GRADE_FIXED_HALF_R1.json"
+    ],
+    "bounded_environment": {
+      "cpu_quota": "100%",
+      "memory_max_bytes": 1500000000,
+      "memory_swap_max_bytes": 0,
+      "runtime_max_seconds": 120,
+      "scope_unit": "wnn-clean-t3-f0-oldz4-halfblend-r1-20261012.scope",
+      "slice": "wnn-campaign.slice",
+      "threads": 1,
+      "wrapper": "scripts/limited"
+    },
+    "comparison_module_sha256": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+    "official_metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "raw_stderr_and_time": "research/campaign_2026-10-12/clean_t3_f0_student_contribution_screen_r1/RUN_STDERR_TIME_R1.txt",
+    "raw_stdout": "research/campaign_2026-10-12/clean_t3_f0_student_contribution_screen_r1/RUN_STDOUT_R1.txt",
+    "script": "scripts/score_fold0_panel.py",
+    "script_sha256": "0f67ac06cd769a582901b854737528c89e9a7738c3057acf68d7f99eddbfa2d0",
+    "split_loader_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+  },
+  "schema": "wnn.clean-t3-f0-cp5-oldz4-fixed-halfblend-preregistration.r1",
+  "scope_exclusions": [
+    "No fits or model inference",
+    "No precision conversion or package build",
+    "No weight/HPO/seed search",
+    "No public forecast or promotion decision",
+    "No provider action",
+    "No full prediction-bank copy"
+  ],
+  "status": "PREREGISTERED_NOT_RUN",
+  "uncertainty": {
+    "components": 141,
+    "interpretation_limit": "Conditional uncertainty over the fixed exposed F0 components only; excludes training-seed, recipe, precision and public-transfer uncertainty.",
+    "method": "existing scripts/score_fold0_panel.py paired component comparison",
+    "replicates": 800,
+    "resampling_unit": "whole connected valid-source component",
+    "seed": 271828
+  }
+}
