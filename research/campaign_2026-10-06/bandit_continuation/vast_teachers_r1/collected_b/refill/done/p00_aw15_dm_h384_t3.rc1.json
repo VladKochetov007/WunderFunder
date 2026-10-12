@@ -1,0 +1,25 @@
+{
+ "name": "w15_dm_h384_t3",
+ "steps": [
+  {
+   "label": "pipeline",
+   "timeout": 28800,
+   "argv": [
+    "python",
+    "/root/wnn/scripts/distill_pipeline.py",
+    "--arm",
+    "h384_t3",
+    "--fold",
+    "1",
+    "--teachers",
+    "vt_f1_muonall_h384_e3,vt_f1_muonall_h384_e3_s4,vt_f1_muonall_h384_e3_s5",
+    "--parent",
+    "vt_f1_muonall_h384_e3_s4@ep3",
+    "--teacher-epoch",
+    "2",
+    "--hidden",
+    "384"
+   ]
+  }
+ ]
+}

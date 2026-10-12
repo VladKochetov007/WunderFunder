@@ -1,0 +1,12 @@
+RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_dm_t3_e6/ckpt --teacher-cache-root /root/run/alias_dm_t3_e6/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_dm_t3_e6 --homogeneous-fa
+Traceback (most recent call last):
+  File "/root/wnn/scripts/distill_pipeline.py", line 153, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/wnn/scripts/distill_pipeline.py", line 131, in main
+    run(build, log)
+  File "/root/wnn/scripts/distill_pipeline.py", line 33, in run
+    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)
+  File "/opt/conda/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/build_distill_cache.py', '--checkpoint-root', '/root/run/alias_dm_t3_e6/ckpt', '--teacher-cache-root', '/root/run/alias_dm_t3_e6/cache', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--output', '/root/wnn/cache/dc_dm_t3_e6', '--homogeneous-family', 'strong', '--chunk-sequences', '4', '--output-budget-gb', '16', '--min-free-gb', '20', '--expected-coefficient-sum', '0.8125', '--teacher', 'strong=vt_f1_muonall_h384_e3@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s4@ep2*0.100000', '--teacher', 'strong=vt_f1_muonall_h384_e3_s5@ep2*0.100000', '--teacher', 'full_finetuned=vt_f1_muonall_h384_e3_a1@ep2*0.2', '--teacher', 'raw_wmse=vt_f1_muonall_h384_e3_s5_a2@ep2*0.25', '--teacher', 'samefold_baseline=vt_f1_muonall_h384_e3_a3@ep2*0.0625']' returned non-zero exit status 1.

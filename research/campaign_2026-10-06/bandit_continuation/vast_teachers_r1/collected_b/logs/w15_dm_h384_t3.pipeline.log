@@ -1,0 +1,16 @@
+RUN /opt/conda/bin/python -c import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__') /root/wnn/scripts/predict_run.py /root/wnn/scr
+RUN /opt/conda/bin/python -c import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__') /root/wnn/scripts/predict_run.py /root/wnn/scr
+RUN /opt/conda/bin/python -c import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__') /root/wnn/scripts/predict_run.py /root/wnn/scr
+RUN /opt/conda/bin/python /root/wnn/scripts/build_distill_cache.py --checkpoint-root /root/run/alias_h384_t3/ckpt --teacher-cache-root /root/run/alias_h384_t3/cache --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --output /root/wnn/cache/dc_h384_t3 --homogeneous-famil
+RUN /opt/conda/bin/python /root/wnn/scripts/train_rnn.py --name vt_f1_dsq_h384_t3 --device cuda --arch gru --cell gru --hidden 384 --layers 2 --dropout 0 --seed 3 --split-manifest /root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json --valid-fold 1 --eval-source vfold --train-source train+v
+Traceback (most recent call last):
+  File "/root/wnn/scripts/distill_pipeline.py", line 153, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/wnn/scripts/distill_pipeline.py", line 143, in main
+    run(fit, log)
+  File "/root/wnn/scripts/distill_pipeline.py", line 33, in run
+    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)
+  File "/opt/conda/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/root/wnn/scripts/train_rnn.py', '--name', 'vt_f1_dsq_h384_t3', '--device', 'cuda', '--arch', 'gru', '--cell', 'gru', '--hidden', '384', '--layers', '2', '--dropout', '0', '--seed', '3', '--split-manifest', '/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json', '--valid-fold', '1', '--eval-source', 'vfold', '--train-source', 'train+valid', '--train-seqs', '10607', '--init', 'vt_f1_muonall_h384_e3_s4@ep3', '--epochs', '2', '--checkpoint-policy', 'fixed', '--checkpoint-epoch', '1', '--no-eval-during-fit', '--batch', '16', '--chunk', '2000', '--loss', 'wmse', '--loss-norm', 'chunk', '--lr', '0.0001', '--wd', '0.01', '--optim', 'adamw', '--sched', 'onecycle', '--precision', 'fp16', '--propensity', 'c20260929_prop_f1', '--prop-power', '2', '--prop-eps', '0.03', '--valid-true-mask', '0.03', '--aux-struct', '0.3', '--aux-next', '0.3', '--distill-cache-root', '/root/wnn/cache/dc_h384_t3', '--distill-cache-variant', 'homogeneous', '--distill-alpha', '0.7', '--distill-boot-h', '0', '--fast', '--save-training-state']' returned non-zero exit status 1.

@@ -1,0 +1,94 @@
+{
+  "schema": "wnn.research-controller-frontier-snapshot.r1",
+  "recorded_utc": "2026-10-12T06:40:16Z",
+  "interval_since_last_completion_utc": "2026-10-12T06:28:23Z",
+  "new_scientific_results": 0,
+  "new_submission_packages": 0,
+  "main_integration": {
+    "r3_packet_commit": "831cd9969217dd12886dd1461c508c08926a7fa3",
+    "r2_frozen_prerequisite_commit": "6be22ef4",
+    "r2_source_commit": "38727e111d1354596ce7125b8943fc46b4a1709b",
+    "scope": "exact reviewed R2/R3 packet and producer receipt files; no edits to frozen source content",
+    "r3_preflight": {
+      "path": "native_single_member_cleanfold_q8_r3/INPUT_PREFLIGHT_MAIN_R1.json",
+      "sha256": "e2b7bab342ee35dc1122f88909f06d9f980188d80a6471341a9ec9104352264c",
+      "created_utc": "2026-10-12T06:37:56.616879+00:00",
+      "status": "PASS_FROZEN_FOOTER_AND_METADATA_ONLY",
+      "dataset_bytes": 5615509128,
+      "dataset_footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+      "rows": 37460000,
+      "row_groups": 1873,
+      "row_data_pages_read": false,
+      "model_imported_or_constructed": false,
+      "full_fold_score_performed": false,
+      "serving_execution_status": "BLOCKED_PENDING_PY311_DEPENDENCIES_AND_ROOT_ADMISSION"
+    },
+    "r4_status": "code-only builder; must bind this preflight and retain cgroup-slice membership plus point-of-use identity checks; independent review and root runtime gates still pending"
+  },
+  "local": {
+    "snapshot_utc": "2026-10-12T06:38:00Z",
+    "admission_closed": false,
+    "live_fit_export_attempts": 0,
+    "pending_queue_files": 0,
+    "cpu_quota_cores": 5,
+    "memory_high_bytes": 18000000000,
+    "memory_max_bytes": 20000000000,
+    "memory_swap_max_bytes": 0,
+    "memory_current_bytes": 11697745920,
+    "gpu_utilization_percent": 0,
+    "gpu_memory_used_mib": 43,
+    "gpu_memory_total_mib": 6144,
+    "home_disk_free_bytes_approx": 99667697664,
+    "home_disk_used_percent": 93,
+    "stale_attempt_metadata_check": "terminal attempts retain attempt_active_state=active; their units are not found and no matching fit process exists, so they are not active jobs"
+  },
+  "kaggle": {
+    "poll_log": "cloud_delivery/provider_poll_log_active_20261009_r1.jsonl",
+    "observed_utc": "2026-10-12T06:33:51Z",
+    "account_gpu_seconds_used": 72098.394,
+    "account_gpu_seconds_remaining": 35901.606,
+    "campaign_gpu_seconds_headroom": 21729.443,
+    "campaign_gpu_seconds_reserved": 0,
+    "quota_refresh_utc": "2026-10-17T00:00:00",
+    "active_or_queued_targets": 0,
+    "r6": "terminal ERROR collected: three epoch-2 fit checkpoints, no prediction arrays/teacher grade after export host-budget admission failure",
+    "r7": "preparation review PASS only; release false pending exact v2 readback, mounted hashes and fresh host/disk serial-export admission"
+  },
+  "vast_b": {
+    "instance_id": 55080658,
+    "latest_tick_utc": "2026-10-12T06:38:47Z",
+    "latest_provider_state": "no_instance_rows; remote access and mutation false",
+    "pull_service_failure": {
+      "service": "wnn-vast-pull-lane-b.service",
+      "failed_utc": "2026-10-11T11:42:14Z",
+      "result": "two-hour timeout/SIGTERM during result collection",
+      "incident_receipt": "VAST_PULL_TIMEOUT_R1.json",
+      "classification": "delivery/SSH-SCP path failure, not science; no completed pull receipt"
+    },
+    "pull_timer": "disabled",
+    "new_spend_usd": 0,
+    "balance_and_collection_state": "unverified"
+  },
+  "e529_blend_grader": {
+    "r1_failure": "700MB support cap exhausted after official score rows were emitted",
+    "r2_repair": "1.5GB bounded support run completed without retraining",
+    "already_recorded_outcome": "fixed 75/25 candidate delta -0.0008337036, paired component interval [-0.00228225,0.00038515], one seed on exposed F0; not promoted/public forecast"
+  },
+  "parallel_research": {
+    "cross_fold_blending": "active; R10 blend evidence is exposed F0 n=1 and does not justify the candidate mix",
+    "public_score_regression": "recent-five baseline beats the metadata ridge; no public-like fold or candidate forecast",
+    "cpu_inference_optimization": "active; callback/bit-parity savings are not EPYC full-ZIP runtime evidence",
+    "submission": "ZIP11 remains human-upload-only; ZIP12 timeout is censored; no new package"
+  },
+  "timers": {
+    "watchdog_localqueue_kaggle_poller_vast_tick": "active",
+    "vast_pull_and_grade_bank": "disabled"
+  },
+  "next_actions": [
+    "finish/seal R4 with the MAIN-bound R3 preflight hash and strict cgroup/point-of-use input checks, then obtain independent review",
+    "do not start inference before Python 3.11 fixture/dependency, fresh resource admission and create-only output checks",
+    "keep Kaggle R7 unreleased until its exact payload/readback and host/disk gates pass",
+    "keep local GPU admission open but idle until a useful frozen packet and memory-safe preflight exist",
+    "resume Vast collection only after the owned instance/access state becomes verifiable; no recurring bulk pull"
+  ]
+}

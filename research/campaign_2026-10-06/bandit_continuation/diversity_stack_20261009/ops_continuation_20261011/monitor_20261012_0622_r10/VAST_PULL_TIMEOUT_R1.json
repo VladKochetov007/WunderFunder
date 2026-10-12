@@ -1,0 +1,31 @@
+{
+  "schema": "wnn.vast-result-pull-timeout-incident.r1",
+  "detected_utc": "2026-10-12T06:40:16Z",
+  "failed_utc": "2026-10-11T11:42:14Z",
+  "service": "wnn-vast-pull-lane-b.service",
+  "task": "research/campaign_2026-10-06/bandit_continuation/vast_teachers_r1/controller.py pull",
+  "timer_state": "disabled; no automatic retry",
+  "systemd_result": "timeout",
+  "timeout_seconds": 7200,
+  "exit_status": "SIGTERM 15",
+  "observed_cpu_time_seconds": 110.046,
+  "observed_peak_memory_bytes": 1000433664,
+  "diagnosis": "result-collection/SSH-SCP path stalled for the full two-hour service limit; system journal has no collector success receipt or model-level failure. This is delivery/access evidence, not a scientific negative.",
+  "status_correction": "The 2026-10-11 09:43Z service reconciliation said one bounded pull was draining; the subsequent terminal systemd record shows that pull did not finish.",
+  "latest_lane_check": {
+    "observed_utc": "2026-10-12T06:38:47Z",
+    "instance_id": 55080658,
+    "status": "owned_instance_unavailable/provider_returned_no_instance_rows",
+    "collection_required": true,
+    "collection_complete": false,
+    "remote_access_attempted": false,
+    "provider_mutation": false
+  },
+  "repair_policy": "Keep recurring pull timer disabled. Do not retry while the owned instance has no provider row/valid read-only access; use the targeted, independently reviewed terminal collector for identified outputs after access returns.",
+  "new_spend_usd": 0,
+  "references": {
+    "prior_service_reconciliation": "ops_continuation_20261011/SERVICE_RECONCILIATION_R1.json",
+    "systemd_journal_unit": "wnn-vast-pull-lane-b.service",
+    "current_vast_tick_service": "wnn-vast-tick-lane-b.service"
+  }
+}

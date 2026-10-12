@@ -1,0 +1,11 @@
+{
+  "closed_utc": "2026-10-11T02:04:51.732758+00:00",
+  "drain_attempts": [
+    "r3-muonall384prop0-s7-fit-r1-a2"
+  ],
+  "id": "a62601226c284661a48ad38f33350681",
+  "reason": "resource budget breach in r3-muonall384prop0-s7-fit-r1-a2: attempt memory use exceeded its 9000000000 byte profile reserve",
+  "reopened_utc": "2026-10-11T02:21:39.351431+00:00",
+  "review": "Reviewed 2026-10-11 05:25 EEST. Per-attempt breach only (peak_ram 9.0002 GB of 9 GB reserve; oom_kill 0, aggregate fine): h384 muon-all fit needs ~9 GB incl page cache vs template reserve for h256. Drain complete, no active attempts. Fix: pending h384 fits reserve_bytes 10.5 GB (attempt -a3); queue_local_experiment sets it automatically. Admission reopened.",
+  "unreadable_attempt_records": []
+}

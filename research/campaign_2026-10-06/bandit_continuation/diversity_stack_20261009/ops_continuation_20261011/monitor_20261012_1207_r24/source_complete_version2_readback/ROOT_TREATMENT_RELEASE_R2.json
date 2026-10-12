@@ -1,0 +1,59 @@
+{
+  "admitted_utc": "2026-10-12T12:58:04.268595+00:00",
+  "authorized": true,
+  "binding": {
+    "asset_manifest_sha256": "838870cea717a803866c4022cd6bc902113e448b4dcd32683ec7acd52aea3a21",
+    "bundle_manifest_sha256": "eac3be063ee0b3fd589191a45bf118b13277e313292ec36986c7bddfc7b810cc",
+    "bundle_sha256": "88641b3c9fc629a7a2ce8b11cfd98ecf8b53fe943ffb2d7f632e1dfb997fa549",
+    "cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "cache_train_sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+    "cache_valid_sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2",
+    "pair_plan_sha256": "b7ff3c92a50e70e22328ba569ad14c88138c72c863ec3b4c2d0bda08edf8269f",
+    "parent_checkpoint_sha256": {
+      "treatment": "359d337db09f0f8e306a225b050884741f006190523b2e940d36ef87d35a25be"
+    },
+    "parent_provenance_sha256": {
+      "treatment": "b220b6e822c9e4779d508655c56ecacb4c42399a001a817d30de8fd3bd2610b7"
+    },
+    "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa"
+  },
+  "fit_authorized": true,
+  "identity_successor": {
+    "R6_push": "rejectedHTTP400title51characters",
+    "R7_alias_only_independent_review": "native_q8_packet_review frozen47d8599 identityPASS; coreR6review retained",
+    "R7_title_chars": 36,
+    "source_dataset_version": 2,
+    "transferred_same_cohort_hold": true
+  },
+  "independent_review_sha256": "df985aeab96d284111bc4f10bfc1513dd117b70b89a7893917e66639ebe762ba",
+  "kernel_sha256": "31206a824b03ec9e8f182f74bef79fad378456c51ddfa7383ea8485b3b3f269a",
+  "profile_authorized": true,
+  "quota_budget": {
+    "campaign_headroom_seconds_before_hold": 21712.352000000006,
+    "cohort_gpu_seconds_upper_bound": 20000,
+    "controller_hold_gpu_seconds": 21600,
+    "no_other_gpu_cohort_admission_until_terminal_reconciliation": true,
+    "paid_spending_authorized": false,
+    "provider_allocation_gpu_seconds_upper_bound": 21600,
+    "provider_startup_finalization_slack_seconds": 800,
+    "provider_timeout_seconds": 10800,
+    "provisioned_gpu_count": 2,
+    "quota_observed_utc": "2026-10-12T12:32:25+00:00",
+    "single_device_gpu_seconds_upper_bound": 10000,
+    "wall_ceiling_seconds": 10000
+  },
+  "runtime_conditions": [
+    "exact mounted source/cache/checkpoint/data identities before CUDA",
+    "actual 30-complete-batch one-T4 resource/update/gradient profile must pass before fits",
+    "one admitted treatment worker at a time, no duplicate local control",
+    "partial checkpoints/state are valid execution artifacts; CP5/full predictions only after actual terminal proof",
+    "provider timer origin remains unverified; explicit 800-second slack and provider hardtimeout keep spending bounded; no finish guarantee"
+  ],
+  "schema": "wnn.clean_f0_student_treatment_root_release.r2",
+  "status": "admitted",
+  "target": {
+    "asset_dataset": "vladkochetov07/wnn-clean-t3-f0-treatment-assets-20261012-r22",
+    "kernel_id": "vladkochetov07/wnn-clean-t3-f0-student-20261012-r24",
+    "source_dataset": "vladkochetov07/wnn-clean-t3-f0-treatment-source-20261012-r22"
+  }
+}

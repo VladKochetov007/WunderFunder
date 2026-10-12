@@ -1,0 +1,137 @@
+# Rogii transfer hypothesis cards
+
+**Session ID:** ses_ee7983327ffesWwOsogGifEaRP
+**Created:** 10/8/2026, 1:06:58 AM
+**Updated:** 10/8/2026, 1:08:58 AM
+
+---
+
+## User
+
+Read `writeups/rogii_top1.txt` in full. Use `.agents/skills/research-reframe/SKILL.md` and `.agents/skills/conduct-creative-research/SKILL.md` for an ideation-only task. Work independently and do not read other ideators' outputs.
+
+Our task is Wunder Connectome Challenge2: supplied sequences of 112 anonymous numerical input channels, two regression targets, deterministic causal row-by-row inference with sequence reset. Evaluation is the fixed official weighted Pearson metric with +/-2 clipping and original label-magnitude weights. Training clipping is a separate variable. Train our own weights and independently implement methods; no teammate code or weights may be copied. Only permitted supplied data/public pretrained sources. Large research teachers are allowed with a compression/serving path. Do not assume geological semantics or invariants exist in our anonymous channels.
+
+Generate at least six distinct, implementable research hypothesis cards inspired by the writeup, including at least one unconventional small-component transfer. A headline can be irrelevant while its aggregation, calibration, augmentation, rare-jump belief state, geometry, auxiliary loss or conditional-diversity detail transfers. Make a serious effort to extract something useful, without inventing applicability. Causally unsafe bidirectional smoothing/symmetric U-Nets need a causal substitute or a separately justified training-only teacher; no future inputs at inference.
+
+For each card provide: local ID; source section/component; structural analogy; intervention; assumptions; leakage/causality risks; predicted observable; cheapest bounded test and matched control; exact-recipe falsifier; approximate cost tier (no invented timings); parent/interaction links; and level-2 follow-ups. Include weak standalone models as possible useful teachers/residuals/ensemble members and evaluate the complete combined endpoint. Keep numerical priors/public forecasts null until measured; a confidence interval crossing zero is not an automatic rejection.
+
+Existing directions include heterogeneous recurrent-teacher distillation, causal TCN, wider event-feature GRU, block memory, online feature dynamics and causal rolling heuristic features. Go beyond merely paraphrasing these. Rank a diverse top three by long-term usefulness and information gain. Return standalone markdown proposals and a compact integration table. Report the actual tool/provider/model. Do not run fits, change budgets/evaluators, access credentials or read other proposals. Save final public ideas to a new `research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/manual_<actual-model>_PROPOSALS.md`; no private reasoning transcript. 
+
+---
+## Assistant (Build · Muse Spark 1.3 Free · 13.8s)
+
+_Thinking:_
+
+
+
+Reported tool/provider/model: OpenCode harness, `opencode/muse-spark-1.3-contributor-free` (Muse Spark). Skills: `research-reframe`, `conduct-creative-research`. Source read in full: `writeups/rogii_top1.txt`. No fits, no budget/evaluator changes, no credentials, no other proposals read. Saved to `research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/manual_muse-spark-1.3-contributor-free_PROPOSALS.md`. All numerical priors/public forecasts NULL; CI crossing zero is not auto-reject.
+
+Causal constraint: no future rows at inference, per-sequence reset. Bidirectional FFBSi / symmetric U-Net are training-only teachers or replaced by causal substitutes.
+
+# Standalone proposals
+
+## M01 — Smoothed ordinal-distribution head with expectation readout
+- Source: alignment-grid smoothed CE + Huber on expected path + `mean(prob×gap)` (lines 6–23).
+- Analogy: 1D distribution over ordered outcome axis, serve expectation. No grid/geology.
+- Intervention: per-row causal K-bin head over [-2,2] per target; smoothed one-hot target; loss CE + Huber on expectation + optional magnitude-aware penalty with training-declared weights only. Training clip separate variable; eval frozen. Keep point head as control/residual. Weak standalone retained as teacher/ensemble member.
+- Assumptions: ordinal clipped range informative; K/kernel interact with noise; backbone fixed.
+- Leakage: fit bin edges/kernel/weights on fitting split only; no future rows.
+- Observable: lower seed variance, gains on jump/magnitude-heavy rows, width ~ error.
+- Test/control: same backbone/seeds/splits; control point-head only; candidate distribution head. Score standalone + complete fixed-weight blend.
+- Falsifier: no standalone, robustness, teacher-distillation, or blend-residual gain on frozen recipe → that recipe falsified, not all ordinal heads.
+- Cost: S. Parents: sibling to heterogeneous distillation (new teacher family); interacts M05, M06, M07.
+- L2: distill to student; width-gated blend; two-scale fine+coarse head.
+
+## M02 — Causal per-sequence reference calibration with blend
+- Source: visible-region (TVT,GR) binning + interpolation + blending (lines 35–41).
+- Analogy: per-sequence reference from trusted prefix, blend raw + calibrated.
+- Intervention: causal running mean/var/quantiles per channel/group, rows ≤t only, reset per sequence, warmup fallback; emit raw + calibrated + residual with fixed α or tiny causal gate. Channel-agnostic.
+- Assumptions: level/scale drift estimable from prefix.
+- Leakage: no full-sequence stats, no cross-sequence state, constants from fitting split.
+- Observable: late-row stability, cross-sequence variance reduction.
+- Test/control: global-norm control vs causal-calibration vs blended.
+- Falsifier: no standalone/teacher/residual/variance gain → recipe falsified.
+- Cost: XS–S. Interacts: rolling heuristics, online dynamics, M04 affine, M05 gating.
+- L2: learn causal α; group-wise calibration; teacher-side only variant.
+
+## M03 — Heavy-tail jump belief, block-binned, smoother-distilled
+- Source: PF large jumps, 64-sample bins, FFBSi, cfg blend, PF heatmap inputs, accumulated-level note (lines 64–88).
+- Analogy: causal jump/regime belief; coarse updates; backward smoother only for training labels; diverse dynamics blended.
+- Intervention: mixture small-drift + rare-large-jump; served forward filter causal/deterministic/reset; update every B rows; offline smoother → soft jump labels → distill causal head; feed level + jump-prob as inputs; test level vs difference encoding; 2–3 configs blended, weak kept.
+- Assumptions: rare shifts exist; B denoises; smoother informs; determinism preservable.
+- Leakage: smoother labels fitting-split only, never served; reset + future-mask + ancestry checks.
+- Observable: transition-row gains, reduced ringing; block beats per-row on noise.
+- Test/control: no-belief control vs belief + distillation; predeclared transition slice + full metric + blend.
+- Falsifier: no standalone/slice/teacher/blend gain across seeds → dynamics recipe falsified.
+- Cost: M. Parents: child of distillation + block memory alternative; feeds M05/M01; consumes M06.
+- L2: B×jump-prob interaction; stateless jump head; weakest config as transition specialist.
+
+## M04 — Shape-forcing affine + block-bootstrap + anti-shortcut augments
+- Source: Z-shift/block-bootstrap + noise regeneration + fault jumps; `a·GR+b`; masking, residual shift, tail crop, jitter, PF rotate/shift (lines 123–156).
+- Analogy: force shape over level; plausible path variability; corrupt helpers to block shortcuts. No geological path semantics.
+- Intervention: per-channel within-sequence affine; block-bootstrap difference resampling + rare offsets + residual reattachment; residual circular shift; channel/time masking, tail crop, helper-channel corruption; causal time-warp; reverse-path only as separate high-risk arm.
+- Assumptions: approximate invariance to level/scale/timing/helper presence; synthetic stays in support; joint with real.
+- Leakage: pools/ranges from fitting split; inputs+targets transformed identically; inference unaugmented/causal.
+- Observable: robustness to shift and helper dropout; transition gains; teacher value even when full-average flat.
+- Test/control: baseline vs one operator at a time then minimal bundle; report standalone + corruption slice + blend.
+- Falsifier: no standalone/robustness/teacher/blend value → bundle falsified; operators falsified individually first.
+- Cost: S–M. Interacts M07 joint rule, M03 jumps, M01/M02.
+- L2: corrupted-teacher default; transition specialist; gate strength by reliability.
+
+## M05 — Reliability-gated conditional blend, frozen weights
+- Source: no-XY fallback for ~10%, fixed general/no-XY weights, five quality stats reused, weak singles kept (lines 105–170).
+- Analogy: route/reweight 2–4 diverse members by causal reliability diagnostics with frozen weights; fallback excludes unreliable inputs.
+- Intervention: predeclare members (generalist, fallback without unreliable helpers, optional transition specialist); causal stats only (position, prefix length, NaN rate, novelty, jump rate, warmup); frozen weight table by regime; scored object always full endpoint.
+- Assumptions: unreliability causally detectable; fallback covers it; frozen weights prevent overfit.
+- Leakage: no future/eval stats, no weight tuning on comparison slice, member freeze + reset/determinism checks.
+- Observable: blend beats every member and equal average; weakest member removal hurts blend.
+- Test/control: members standalone + equal average vs gated frozen blend; regime slices.
+- Falsifier: gated blend fails vs best single and equal average with no member contribution → recipe falsified.
+- Cost: M (reuse ancestry-matched members only). Integration node for M01–M04/M06–M07.
+- L2: learn then refreeze tiny gate; position micro-blend; split served endpoints by regime.
+
+## M06 — Quadratic-regime summaries + residual-RMSE detector + aux loss
+- Source: per-bin quadratic coeffs + residual RMSE + slope vs last-first (lines 42–54).
+- Analogy: quadratic misfit as regime/novelty signal; slope/endpoint disagreement as jump flag.
+- Intervention: causal trailing-W least-squares quadratic + slope + last-first + RMSE + std/NaN; feed pooled subset; aux head predicts RMSE/transition flag from fitting data only; test pooled vs per-channel.
+- Assumptions: local misfit flags change without channel semantics.
+- Leakage: causal windows, per-sequence, flags from fitting splits, window unit test.
+- Observable: transition-slice gains; aux head improves M03; pooled captures most gain cheaply.
+- Test/control: existing rolling feats without quadratic/aux vs with pooled summaries + aux; full + slice + teacher.
+- Falsifier: no standalone/slice/teacher/blend gain → (W, subset, weight) falsified.
+- Cost: XS–S. Refines rolling heuristics/dynamics; feeds M03/M01/M05.
+- L2: minimal novelty bus; distill aux head; two-scale W pair.
+
+## M07 — Parameter-free pooling + joint-training/anti-shortcut protocol [unconventional small-component]
+- Source: avgpool+interp > learned; BN > LN + BF16; joint > staged; PF helps weak not best, kept; micro-penalty (lines 24–33, 171–195).
+- Analogy: boring components win: parameter-free resampling, norm placement + guard, joint synthetic use, weak-signal retention, tiny penalty. No 2D U-Net/scale-up.
+- Intervention: causal dyadic average-pool pyramid + repeat/interp vs learned resampling control; norm-placement check + precision/NaN log; joint synth+real at declared ratio vs staged control; `mean(mass×distance)` micro-penalty with training weights; retention rule for weak-but-diverse signals via M05.
+- Assumptions: averaging denoises; norm/precision interacts; joint avoids lock-in.
+- Leakage: causal pooling + reset; norm stats not pooled over eval; ratios declared; no eval-weight repurposing.
+- Observable: pyramid matches/beats learned cheaper; joint beats staged; fewer spikes; small robust penalty gain.
+- Test/control: flip one protocol element at a time; standalone + spike rate + blend.
+- Falsifier: each element falsified individually on frozen scales/ratios/weights/seeds.
+- Cost: XS–S. Governs M04; pairs M06 bus; stabilizes M01/M03.
+- L2: pyramid + RMSE bus; ratio sweep; penalty as distillation regularizer.
+
+# Top three by long-term usefulness × information gain
+1. M01 — every future model inherits target representation; cheapest falsifier; teacher + uncertainty factory.
+2. M03 — only mechanism isolating rare jumps with causal/smoother separation; informs M01 width, M05 gating.
+3. M05 — converts components into served endpoint; makes weak-model value measurable with frozen discipline.
+
+# Integration table
+| ID | Family | One-line intervention | Control | Endpoint scored | Cost | Combines with |
+|---|---|---|---|---|---|---|
+| M01 | target/loss | smoothed ordinal head, serve expectation | point head only | standalone+teacher+blend | S | M05, M07, M06 |
+| M02 | normalization | causal prefix calibration + raw blend | global norm | standalone+teacher+variance | XS–S | M04, M05 |
+| M03 | belief/state | jump belief, block-B, smoother distills | no belief | full+transition+blend | M | M06, M01, M05 |
+| M04 | augmentation | affine+bootstrap+residual shift+helper corruption | no-aug, one-at-a-time | standalone+robustness+teacher | S–M | M07, M03 |
+| M05 | system | frozen reliability-gated blend + fallback | best single + equal avg | complete endpoint only | M | all |
+| M06 | geometry | quadratic summaries + RMSE aux | rolling w/o quadratic | full+transition+teacher | XS–S | M03, M01 |
+| M07 | protocol | causal pool pyramid + joint + guard + penalty | learned/staged/none | standalone+spikes+blend | XS–S | M04, M06, M01 |
+
+Guardrails: freeze backbone/splits/seeds/declarations before terminal comparison; report standalone + slices + teacher + full blend; reset/future-mask/determinism/ancestry checks; preserve negatives and exposure history; every teacher names its student/compression route.
+
+---
+

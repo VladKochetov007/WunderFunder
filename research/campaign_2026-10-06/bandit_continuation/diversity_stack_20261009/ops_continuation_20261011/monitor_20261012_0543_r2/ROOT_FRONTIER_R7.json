@@ -1,0 +1,88 @@
+{
+  "schema": "wnn.controller.frontier_snapshot.r7",
+  "observed_utc": "2026-10-12T05:43:01+00:00",
+  "alerts_unread": 0,
+  "local": {
+    "active_campaign_attempts": 0,
+    "pending_queue_items": 0,
+    "gpu_utilization_percent": 0,
+    "gpu_memory_used_mib": 43,
+    "gpu_memory_total_mib": 6144,
+    "campaign_cgroup_memory_current_bytes": 11667722240,
+    "campaign_cgroup_cpu_quota": "5 CPU cores",
+    "campaign_cgroup_memory_high_bytes": 18000000000,
+    "campaign_cgroup_memory_max_bytes": 20000000000,
+    "campaign_cgroup_swap_max_bytes": 0,
+    "memory_events_oom_kill_cumulative": 6,
+    "new_killed_model_process_observed": false,
+    "resource_basis": "systemd --user wnn-campaign.slice actual properties"
+  },
+  "kaggle": {
+    "provider_quota_observed_utc": "2026-10-12T05:43:01+00:00",
+    "gpu_seconds_used": 72098.394,
+    "gpu_seconds_remaining": 35901.606,
+    "campaign_gpu_headroom_seconds": 21729.443,
+    "reserved_seconds": 0,
+    "refresh_utc": "2026-10-17T00:00:00",
+    "known_target_kernel_count": 5,
+    "known_target_running_or_queued": 0,
+    "session_id": null,
+    "session_id_note": "Kaggle status JSON does not expose kernel_session_id; no version number was substituted.",
+    "r6_source_kernel_v2": {
+      "kernel": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5-runner/2",
+      "readback_status": "KernelWorkerStatus.ERROR",
+      "terminal_outputs_collected": true
+    },
+    "r7_packet": {
+      "review": "PASS_OFFLINE_ACTUAL_PRODUCER_CONSUMER_PREFLIGHT",
+      "worker_launches": 0,
+      "fit_workers": 0,
+      "exports": 6,
+      "expected_output_bytes": 5731200768,
+      "worst_case_serial_worker_seconds": 10800,
+      "prior_observed_free_host_bytes": 3868000000,
+      "prior_required_host_reserve_bytes": 6442000000,
+      "release_authorized": false,
+      "blockers": [
+        "verify exact version-2 mounted source/checkpoint/provenance hashes at runtime",
+        "fresh per-worker host-memory and disk admission while preserving 8-GB worker RAM and 20-percent host reserve",
+        "root release receipt bound to those checks"
+      ],
+      "review_commit": "85128e4a13dcd4ff76e86f8e711b114d0c2fb88c"
+    },
+    "new_provider_dispatch": false
+  },
+  "vast_b": {
+    "owned_instance_id": 55080658,
+    "owned_instance_rows": 0,
+    "credit_usd": 0,
+    "balance_usd": -0.07190433,
+    "provider_mutation": false,
+    "new_spend_usd": 0
+  },
+  "timers": {
+    "watchdog": "active",
+    "local_queue": "active",
+    "research_monitor": "active",
+    "kaggle_poller": "active",
+    "kaggle_terminal_collector": "active",
+    "vast_b_tick": "active",
+    "filecache_guard": "active",
+    "grade_bank": "disabled",
+    "vast_bulk_pull": "disabled"
+  },
+  "science": {
+    "new_results_since_previous_grade": 0,
+    "distinct_new_model_seeds": 0,
+    "new_submission_packages": 0,
+    "new_public_score_claim": null,
+    "public_regression": "bounded R2 retrospective calibration loses to the recent-five baseline; no candidate forecast",
+    "inference_optimization": "exact shared-body Q8 callback improvement remains measured locally; AMD EPYC and final ZIP runtime are unverified"
+  },
+  "active_owners": {
+    "root": "controller, runtime admission and integration",
+    "batch_packet_builder": "code-only native-single-control R2; Python 3.11 validation dependency being recorded",
+    "exact_activation_fusion": "completed independent R7 review"
+  },
+  "new_spend_usd": 0
+}

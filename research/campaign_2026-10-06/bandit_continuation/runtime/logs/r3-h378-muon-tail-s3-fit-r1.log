@@ -1,0 +1,64 @@
+{"name": "r3_muonall256prop0_f1_s3_h378_e6", "device": "cuda", "train_seqs": 10607, "valid_seqs": 600, "full_valid": false, "hidden": 256, "layers": 2, "dropout": 0.0, "chunk": 1000, "update_rows": 0, "detach_rows": 0, "detach_boundary_jitter": false, "detach_jitter_seed": 271828, "origin_view": "off", "origin_seed": 79079, "credit_mode": "deterministic", "credit_keep_probability": 0.8, "credit_seed": 100100, "qat": "none", "recurrent_rank": 0, "sentinel_values": "unchanged", "sentinel_indicators": "none", "sentinel_base_width": 0, "batch": 32, "epochs": 6, "stop_after_epoch": null, "checkpoint_policy": "fixed", "checkpoint_epoch": 5, "no_eval_during_fit": true, "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json", "save_training_state": true, "resume_state": null, "branch_state": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/r3_muonall256prop0_f1_s3_e3/training_state.pt", "parent_source_binding": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-11/muon_tail/h378_h380_source_v1/PARENT_SOURCE_BINDING_V1.json", "tail_epochs": 3, "tail_schedule": "cosine", "tail_peak_lr": 3e-05, "tail_final_lr": 3e-07, "tail_aux_schedule": "none", "lr": 0.001, "wd": 0.01, "optim": "muon", "muon_scope": "all", "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "wsd_shape": "sqrt", "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "trace_every": 0, "trace_state_every": 0, "intra_epoch_points": 0, "intra_snapshots": false, "grad_stats": false, "loss": "wmse", "thin_prob": 0.0, "thin_range": "0.1,0.4", "thin_mode": "compress", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_cache_root": "", "distill_cache_variant": "source", "distill_family_weight": 0.0, "distill_family_head": false, "distill_family_target_mode": "clip2", "distill_alpha": 0.5, "label_weight_power": 1.0, "label_weight_floor": 0.0, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 0, "distill_reanchor": 0.0, "readout_activation": "gelu", "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "expert_hidden": 32, "num_experts": 4, "specialist_route": "learned", "hash_seed": 1729, "adapter_rank": 8, "adapter_mode": "conditional", "prefix_rows": 99, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 1, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "inherit_init_preprocessing": false, "freeze": "", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "ema_reference_rows": 0, "eval_ema": false, "mask_weight": false, "propensity": "c20260929_prop_f1", "prop_power": 0.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "research_features": "none", "privileged_mode": "none", "privileged_horizon": 8, "input_lead": 0, "aux_fcast": 0.0, "aux_fcast_k": "2,8", "snap_codebook": "", "fit_groups_manifest": null, "seed": 3, "loss_norm": "chunk", "distill_denominator": "chunk", "distill_reference_mass": 0.0, "calibrate_distill_reference": "", "calibration_epochs": 1, "denominator_shuffle_seed": 314159, "since_weight": 32.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "optim_switch": "", "warmup_frac": null, "restarts": 1, "head_lr_mult": 1.0, "muon_lr_mult": 1.0, "clip_per_module": "", "grad_noise": 0.0, "zoneout": 0.0, "init_qmc": false, "batch_order": "random", "antithetic": false, "momentum": 0.0, "no_gradient_clip": false, "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"}
+{"source_train_sequences": 10533, "eligible_valid_train_sequences": 1416, "used_valid_train_sequences": 1416, "eval_sequences": 457}
+loader workers 1 prefetch 2; params 0.98M; steps 44760
+ep 3 batch 0/373 loss 1.6736 lr 3.00e-05 seq/s 0.7
+ep 3 batch 20/373 loss 1.6592 lr 3.00e-05 seq/s 8.6
+ep 3 batch 40/373 loss 1.3108 lr 2.99e-05 seq/s 12.3
+ep 3 batch 60/373 loss 1.5011 lr 2.98e-05 seq/s 14.4
+ep 3 batch 80/373 loss 1.7036 lr 2.96e-05 seq/s 15.8
+ep 3 batch 100/373 loss 1.7728 lr 2.94e-05 seq/s 16.7
+ep 3 batch 120/373 loss 1.8382 lr 2.92e-05 seq/s 17.2
+ep 3 batch 140/373 loss 1.6501 lr 2.89e-05 seq/s 17.7
+ep 3 batch 160/373 loss 1.7907 lr 2.85e-05 seq/s 18.0
+ep 3 batch 180/373 loss 1.8104 lr 2.81e-05 seq/s 18.4
+ep 3 batch 200/373 loss 1.4358 lr 2.77e-05 seq/s 18.6
+ep 3 batch 220/373 loss 1.8236 lr 2.72e-05 seq/s 18.5
+ep 3 batch 240/373 loss 1.5273 lr 2.67e-05 seq/s 18.3
+ep 3 batch 260/373 loss 1.5948 lr 2.62e-05 seq/s 18.3
+ep 3 batch 280/373 loss 1.7167 lr 2.56e-05 seq/s 18.3
+ep 3 batch 300/373 loss 1.7413 lr 2.50e-05 seq/s 18.4
+ep 3 batch 320/373 loss 1.8711 lr 2.44e-05 seq/s 18.5
+ep 3 batch 340/373 loss 1.7679 lr 2.37e-05 seq/s 18.6
+ep 3 batch 360/373 loss 1.7987 lr 2.30e-05 seq/s 18.7
+FIT {"epoch": 3, "train_seconds": 640.5, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 7460, "amp_skipped_updates": 2, "optimizer_completed_updates": 7458, "ema_updates": 0, "completed_batches": 373}, "cumulative": {"optimizer_attempts": 29840, "amp_skipped_updates": 12, "optimizer_completed_updates": 29828, "ema_updates": 0, "completed_batches": 1492}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 32, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "26a197e393364cf7ee5653936a00061afe79f06955a7bc47a77467b833dfecbd"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "26a197e393364cf7ee5653936a00061afe79f06955a7bc47a77467b833dfecbd"}, "num_workers": 1, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11949}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "c2735f3c99d6bb9db3d3cbc9fdacb581e439f959322fabd50f82d2c85821235a"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "d3d87f517dd8dbe3aae67346cc11710bf49e1423fc3f65f2ba5ec5aaddfb8f40"}}}}
+ep 4 batch 0/373 loss 1.5131 lr 2.25e-05 seq/s 5.6
+ep 4 batch 20/373 loss 1.5141 lr 2.18e-05 seq/s 17.9
+ep 4 batch 40/373 loss 1.5610 lr 2.10e-05 seq/s 19.6
+ep 4 batch 60/373 loss 1.7757 lr 2.03e-05 seq/s 20.3
+ep 4 batch 80/373 loss 1.7636 lr 1.95e-05 seq/s 20.3
+ep 4 batch 100/373 loss 1.6935 lr 1.87e-05 seq/s 20.3
+ep 4 batch 120/373 loss 1.7955 lr 1.79e-05 seq/s 20.1
+ep 4 batch 140/373 loss 1.7399 lr 1.70e-05 seq/s 19.9
+ep 4 batch 160/373 loss 1.3531 lr 1.62e-05 seq/s 19.7
+ep 4 batch 180/373 loss 1.7815 lr 1.54e-05 seq/s 19.6
+ep 4 batch 200/373 loss 1.4906 lr 1.45e-05 seq/s 19.7
+ep 4 batch 220/373 loss 1.9003 lr 1.37e-05 seq/s 19.8
+ep 4 batch 240/373 loss 1.3340 lr 1.29e-05 seq/s 19.8
+ep 4 batch 260/373 loss 1.5438 lr 1.21e-05 seq/s 19.7
+ep 4 batch 280/373 loss 1.4723 lr 1.13e-05 seq/s 19.8
+ep 4 batch 300/373 loss 1.4485 lr 1.05e-05 seq/s 19.8
+ep 4 batch 320/373 loss 1.3057 lr 9.67e-06 seq/s 19.8
+ep 4 batch 340/373 loss 1.7970 lr 8.91e-06 seq/s 19.8
+ep 4 batch 360/373 loss 1.5256 lr 8.16e-06 seq/s 19.8
+FIT {"epoch": 4, "train_seconds": 602.9, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 7460, "amp_skipped_updates": 4, "optimizer_completed_updates": 7456, "ema_updates": 0, "completed_batches": 373}, "cumulative": {"optimizer_attempts": 37300, "amp_skipped_updates": 16, "optimizer_completed_updates": 37284, "ema_updates": 0, "completed_batches": 1865}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 32, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "3c43dbf4817fd397b4a3aaa8b9caffb04e0694c97bb12e4b864ef2d934fc3733"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "3c43dbf4817fd397b4a3aaa8b9caffb04e0694c97bb12e4b864ef2d934fc3733"}, "num_workers": 1, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11949}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "c2735f3c99d6bb9db3d3cbc9fdacb581e439f959322fabd50f82d2c85821235a"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "d3d87f517dd8dbe3aae67346cc11710bf49e1423fc3f65f2ba5ec5aaddfb8f40"}}}}
+ep 5 batch 0/373 loss 1.6873 lr 7.69e-06 seq/s 7.0
+ep 5 batch 20/373 loss 1.3134 lr 6.98e-06 seq/s 18.7
+ep 5 batch 40/373 loss 1.3665 lr 6.30e-06 seq/s 18.8
+ep 5 batch 60/373 loss 1.3703 lr 5.64e-06 seq/s 19.5
+ep 5 batch 80/373 loss 1.3934 lr 5.02e-06 seq/s 20.1
+ep 5 batch 100/373 loss 1.5854 lr 4.42e-06 seq/s 20.3
+ep 5 batch 120/373 loss 1.6645 lr 3.86e-06 seq/s 20.8
+ep 5 batch 140/373 loss 1.5940 lr 3.34e-06 seq/s 20.8
+ep 5 batch 160/373 loss 1.1976 lr 2.85e-06 seq/s 20.7
+ep 5 batch 180/373 loss 1.4388 lr 2.40e-06 seq/s 20.6
+ep 5 batch 200/373 loss 1.9859 lr 2.00e-06 seq/s 20.5
+ep 5 batch 220/373 loss 1.5623 lr 1.63e-06 seq/s 20.3
+ep 5 batch 240/373 loss 1.6622 lr 1.31e-06 seq/s 20.1
+ep 5 batch 260/373 loss 1.5545 lr 1.03e-06 seq/s 20.0
+ep 5 batch 280/373 loss 1.5239 lr 7.92e-07 seq/s 19.9
+ep 5 batch 300/373 loss 1.5097 lr 6.02e-07 seq/s 19.7
+ep 5 batch 320/373 loss 1.4065 lr 4.58e-07 seq/s 19.7
+ep 5 batch 340/373 loss 1.4841 lr 3.60e-07 seq/s 19.6
+ep 5 batch 360/373 loss 1.4827 lr 3.08e-07 seq/s 19.6
+FIT {"epoch": 5, "train_seconds": 606.3, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 7460, "amp_skipped_updates": 3, "optimizer_completed_updates": 7457, "ema_updates": 0, "completed_batches": 373}, "cumulative": {"optimizer_attempts": 44760, "amp_skipped_updates": 19, "optimizer_completed_updates": 44741, "ema_updates": 0, "completed_batches": 2238}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 32, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "ffe620724d4c86bb8e7359f29fe21a065241f6d227e8ba551a4efbf84f2428c9"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "ffe620724d4c86bb8e7359f29fe21a065241f6d227e8ba551a4efbf84f2428c9"}, "num_workers": 1, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11949}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "c2735f3c99d6bb9db3d3cbc9fdacb581e439f959322fabd50f82d2c85821235a"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "d3d87f517dd8dbe3aae67346cc11710bf49e1423fc3f65f2ba5ec5aaddfb8f40"}}}}
+SELECTED_FIXED 5

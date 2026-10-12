@@ -1,0 +1,196 @@
+usage: train_rnn.py [-h] --name NAME [--device {cuda,cpu}]
+                    [--train-seqs TRAIN_SEQS] [--valid-seqs VALID_SEQS]
+                    [--full-valid] [--hidden HIDDEN] [--layers LAYERS]
+                    [--dropout DROPOUT] [--chunk CHUNK]
+                    [--update-rows UPDATE_ROWS] [--detach-rows DETACH_ROWS]
+                    [--detach-boundary-jitter]
+                    [--detach-jitter-seed DETACH_JITTER_SEED]
+                    [--origin-view {off,prefix-fixed,prefix-random,prefix-discard}]
+                    [--origin-seed ORIGIN_SEED]
+                    [--credit-mode {deterministic,random-uncompensated,artbp}]
+                    [--credit-keep-probability CREDIT_KEEP_PROBABILITY]
+                    [--credit-seed CREDIT_SEED]
+                    [--qat {none,recurrent,recurrent_head}]
+                    [--recurrent-rank RECURRENT_RANK]
+                    [--sentinel-values {unchanged,neutral,safe}]
+                    [--sentinel-indicators {none,missing,current}]
+                    [--sentinel-base-width SENTINEL_BASE_WIDTH]
+                    [--batch BATCH] [--epochs EPOCHS]
+                    [--stop-after-epoch STOP_AFTER_EPOCH]
+                    [--checkpoint-policy {best,fixed}]
+                    [--checkpoint-epoch CHECKPOINT_EPOCH]
+                    [--no-eval-during-fit] [--split-manifest SPLIT_MANIFEST]
+                    [--save-training-state] [--resume-state RESUME_STATE]
+                    [--lr LR] [--wd WD] [--optim {adamw,muon,sgd}]
+                    [--muon-scope {rnn,hidden,all}] [--beta2 BETA2]
+                    [--sched {onecycle,wsd,sgdr}] [--wsd-decay WSD_DECAY]
+                    [--wsd-final WSD_FINAL] [--wsd-shape {sqrt,linear}]
+                    [--rnn-init {default,chrono,orth,chrono_orth}]
+                    [--chrono-tmax CHRONO_TMAX] [--clip CLIP]
+                    [--trace-every TRACE_EVERY]
+                    [--trace-state-every TRACE_STATE_EVERY]
+                    [--intra-epoch-points INTRA_EPOCH_POINTS]
+                    [--intra-snapshots] [--grad-stats]
+                    [--loss {corr,wmse,mix,huber,ce_joint,mse,gcorr,wmse_gcorr,gcorr_pool}]
+                    [--thin-prob THIN_PROB] [--thin-range THIN_RANGE]
+                    [--thin-mode {compress,retained-mass}]
+                    [--pool-decay POOL_DECAY] [--huber-delta HUBER_DELTA]
+                    [--ce-tilt] [--ce-mse CE_MSE] [--distill DISTILL]
+                    [--distill-cache-root DISTILL_CACHE_ROOT]
+                    [--distill-cache-variant {source,normalized,homogeneous}]
+                    [--distill-family-weight DISTILL_FAMILY_WEIGHT]
+                    [--distill-family-head]
+                    [--distill-family-target-mode {clip2,raw}]
+                    [--distill-alpha DISTILL_ALPHA]
+                    [--label-weight-power LABEL_WEIGHT_POWER]
+                    [--label-weight-floor LABEL_WEIGHT_FLOOR]
+                    [--distill-alpha-far DISTILL_ALPHA_FAR]
+                    [--distill-alpha-tau DISTILL_ALPHA_TAU]
+                    [--distill-boot-h DISTILL_BOOT_H]
+                    [--distill-reanchor DISTILL_REANCHOR]
+                    [--readout-activation {gelu,fixed_mix}]
+                    [--aux-next AUX_NEXT] [--aux-tier AUX_TIER]
+                    [--aux-mask AUX_MASK] [--aux-sign AUX_SIGN]
+                    [--aux-quote AUX_QUOTE]
+                    [--quote-cache-root QUOTE_CACHE_ROOT]
+                    [--aux-next-k AUX_NEXT_K]
+                    [--spread-aux-mode {original,proxy_known,current_known}]
+                    [--spread-cache-root SPREAD_CACHE_ROOT]
+                    [--aux-struct AUX_STRUCT] [--aux AUX]
+                    [--aux-weight AUX_WEIGHT]
+                    [--arch {gru,dual,gated,structured,event-content,tcn,twoclock,specialist,prefix-adapter}]
+                    [--tcn-mix TCN_MIX] [--decay-init {multi,single}]
+                    [--memory-arm {endpoint-content,endpoint-position,raw-code-content}]
+                    [--expert-hidden EXPERT_HIDDEN]
+                    [--num-experts NUM_EXPERTS]
+                    [--specialist-route {learned,hash,universal}]
+                    [--hash-seed HASH_SEED] [--adapter-rank ADAPTER_RANK]
+                    [--adapter-mode {conditional,unconditional,diagonal}]
+                    [--prefix-rows PREFIX_ROWS] [--gate-ce GATE_CE]
+                    [--cell {gru,lstm}] [--enc {linear,mlp,tokens,conv}]
+                    [--tok-dim TOK_DIM] [--att-layers ATT_LAYERS]
+                    [--conv-k CONV_K] [--event-hidden EVENT_HIDDEN]
+                    [--class-balance]
+                    [--train-source {train,valid_devA,train+valid,valid}]
+                    [--include-heldout-valid]
+                    [--valid-train-fraction VALID_TRAIN_FRACTION]
+                    [--epoch-samples EPOCH_SAMPLES]
+                    [--eval-source {dev,devB,holdout,vfold}]
+                    [--valid-fold VALID_FOLD] [--n-valid-folds N_VALID_FOLDS]
+                    [--valid-repeat VALID_REPEAT] [--init INIT]
+                    [--inherit-init-preprocessing] [--freeze FREEZE]
+                    [--ema-teacher EMA_TEACHER] [--ema-metric-weight]
+                    [--ema-decay EMA_DECAY]
+                    [--ema-reference-rows EMA_REFERENCE_ROWS] [--eval-ema]
+                    [--mask-weight] [--propensity PROPENSITY]
+                    [--prop-power PROP_POWER] [--prop-eps PROP_EPS]
+                    [--class-weight CLASS_WEIGHT]
+                    [--valid-true-mask VALID_TRUE_MASK]
+                    [--prop-input PROP_INPUT] [--swa-frac SWA_FRAC]
+                    [--train-classes TRAIN_CLASSES] [--online-norm]
+                    [--heuristics] [--raw-only]
+                    [--research-features {none,volume28,volume28_current,flow_v2}]
+                    [--privileged-mode {none,current,future}]
+                    [--privileged-horizon PRIVILEGED_HORIZON]
+                    [--input-lead INPUT_LEAD] [--aux-fcast AUX_FCAST]
+                    [--aux-fcast-k AUX_FCAST_K] [--head {mlp,highway}]
+                    [--pretrain-next-epochs PRETRAIN_NEXT_EPOCHS]
+                    [--pretrain-next-frac PRETRAIN_NEXT_FRAC]
+                    [--pretrain-next-lr PRETRAIN_NEXT_LR]
+                    [--pretrain-next-in-budget]
+                    [--frozen-extractor FROZEN_EXTRACTOR]
+                    [--aug-warp AUG_WARP] [--curriculum {none,anti}]
+                    [--curriculum-difficulty CURRICULUM_DIFFICULTY]
+                    [--curriculum-strength CURRICULUM_STRENGTH]
+                    [--input-act {none,sigmoid,tanh,silu,gelu}]
+                    [--input-act-table INPUT_ACT_TABLE]
+                    [--snap-codebook SNAP_CODEBOOK]
+                    [--fit-groups-manifest FIT_GROUPS_MANIFEST] [--seed SEED]
+                    [--loss-norm {chunk,running}]
+                    [--distill-denominator {chunk,fixed,shuffled}]
+                    [--distill-reference-mass DISTILL_REFERENCE_MASS]
+                    [--calibrate-distill-reference CALIBRATE_DISTILL_REFERENCE]
+                    [--calibration-epochs CALIBRATION_EPOCHS]
+                    [--denominator-shuffle-seed DENOMINATOR_SHUFFLE_SEED]
+                    [--since-weight SINCE_WEIGHT] [--since-floor SINCE_FLOOR]
+                    [--episode-weight EPISODE_WEIGHT]
+                    [--episode-floor EPISODE_FLOOR] [--td-alpha TD_ALPHA]
+                    [--td-ramp TD_RAMP] [--gcorr-weight GCORR_WEIGHT] [--fast]
+                    [--sync-free] [--fused-adam] [--pin-memory] [--prop-cache]
+                    [--precision {fp16,bf16,fp32}] [--max-batches MAX_BATCHES]
+                    [--profile-steps PROFILE_STEPS]
+                    [--profile-warmup PROFILE_WARMUP]
+                    [--parity-dump PARITY_DUMP] [--deterministic]
+                    [--optim-switch OPTIM_SWITCH] [--warmup-frac WARMUP_FRAC]
+                    [--restarts RESTARTS] [--head-lr-mult HEAD_LR_MULT]
+                    [--muon-lr-mult MUON_LR_MULT]
+                    [--clip-per-module CLIP_PER_MODULE]
+                    [--grad-noise GRAD_NOISE] [--zoneout ZONEOUT] [--init-qmc]
+                    [--batch-order {random,seeded,qmc}] [--antithetic]
+                    [--momentum MOMENTUM] [--no-gradient-clip]
+train_rnn.py: error: --pretrain-next-epochs needs a fresh plain GRU fit (no --init, resume, QAT or factorization)
+PRETRAIN {"epochs": 2, "batch_share": 1.0, "loss_per_epoch": [0.20334385364708407, 0.18476975421763298], "inputs_only": true, "kept": "encoder + GRU; head re-initialised", "counted_in_epochs": false}
+{"name": "vt_f1_d_pre2x", "device": "cuda", "train_seqs": 10607, "valid_seqs": 600, "full_valid": false, "hidden": 256, "layers": 2, "dropout": 0.0, "chunk": 1000, "update_rows": 0, "detach_rows": 0, "detach_boundary_jitter": false, "detach_jitter_seed": 271828, "origin_view": "off", "origin_seed": 79079, "credit_mode": "deterministic", "credit_keep_probability": 0.8, "credit_seed": 100100, "qat": "none", "recurrent_rank": 0, "sentinel_values": "unchanged", "sentinel_indicators": "none", "sentinel_base_width": 0, "batch": 32, "epochs": 3, "stop_after_epoch": null, "checkpoint_policy": "fixed", "checkpoint_epoch": 2, "no_eval_during_fit": true, "split_manifest": "/root/wnn/research/campaign_2026-09-29/artifacts/splits/fold1.json", "save_training_state": false, "resume_state": null, "lr": 0.001, "wd": 0.01, "optim": "muon", "muon_scope": "rnn", "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "wsd_shape": "sqrt", "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "trace_every": 0, "trace_state_every": 0, "intra_epoch_points": 0, "intra_snapshots": false, "grad_stats": false, "loss": "wmse", "thin_prob": 0.0, "thin_range": "0.1,0.4", "thin_mode": "compress", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_cache_root": "", "distill_cache_variant": "source", "distill_family_weight": 0.0, "distill_family_head": false, "distill_family_target_mode": "clip2", "distill_alpha": 0.5, "label_weight_power": 1.0, "label_weight_floor": 0.0, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 0, "distill_reanchor": 0.0, "readout_activation": "gelu", "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "cb_layout": "semantic", "dssm_tmax": 512.0, "tower_skip": 128, "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "expert_hidden": 32, "num_experts": 4, "specialist_route": "learned", "hash_seed": 1729, "adapter_rank": 8, "adapter_mode": "conditional", "prefix_rows": 99, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 1, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "inherit_init_preprocessing": false, "freeze": "", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "ema_reference_rows": 0, "eval_ema": false, "mask_weight": false, "propensity": "c20260929_prop_f1", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "research_features": "none", "privileged_mode": "none", "privileged_horizon": 8, "input_lead": 0, "aux_fcast": 0.0, "aux_fcast_k": "2,8", "head": "mlp", "pretrain_next_epochs": 2, "pretrain_next_frac": 1.0, "pretrain_next_lr": 0.001, "pretrain_next_in_budget": false, "frozen_extractor": "", "aug_warp": "", "curriculum": "none", "curriculum_difficulty": "running", "curriculum_strength": 1.0, "input_act": "none", "input_act_table": "", "snap_codebook": "", "fit_groups_manifest": null, "seed": 3, "loss_norm": "chunk", "distill_denominator": "chunk", "distill_reference_mass": 0.0, "calibrate_distill_reference": "", "calibration_epochs": 1, "denominator_shuffle_seed": 314159, "since_weight": 32.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "ood_teachers": "", "ood_mode": "mix", "ood_frac": 0.5, "ood_aug": "splice", "ood_sources": 24, "ood_weight": "teacher", "ood_scale": 1.0, "ood_quantile_table": "", "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "optim_switch": "", "warmup_frac": null, "restarts": 1, "head_lr_mult": 1.0, "muon_lr_mult": 1.0, "clip_per_module": "", "grad_noise": 0.0, "zoneout": 0.0, "init_qmc": false, "batch_order": "random", "antithetic": false, "momentum": 0.0, "no_gradient_clip": false, "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"}
+{"source_train_sequences": 10533, "eligible_valid_train_sequences": 1416, "used_valid_train_sequences": 1416, "eval_sequences": 457}
+loader workers 4 prefetch 2; params 0.98M; steps 22380
+ep 0 batch 0/373 loss 3.8249 lr 4.08e-05 seq/s 4.5
+ep 0 batch 20/373 loss 1.9744 lr 3.37e-04 seq/s 7.4
+ep 0 batch 40/373 loss 1.6348 lr 8.41e-04 seq/s 7.5
+ep 0 batch 60/373 loss 1.6919 lr 1.00e-03 seq/s 7.6
+ep 0 batch 80/373 loss 2.1089 lr 9.99e-04 seq/s 7.6
+ep 0 batch 100/373 loss 1.6679 lr 9.96e-04 seq/s 7.6
+ep 0 batch 120/373 loss 2.1422 lr 9.91e-04 seq/s 7.6
+ep 0 batch 140/373 loss 1.9774 lr 9.84e-04 seq/s 7.6
+ep 0 batch 160/373 loss 2.0242 lr 9.76e-04 seq/s 7.6
+ep 0 batch 180/373 loss 1.5293 lr 9.66e-04 seq/s 7.6
+ep 0 batch 200/373 loss 1.9013 lr 9.55e-04 seq/s 7.6
+ep 0 batch 220/373 loss 1.6792 lr 9.42e-04 seq/s 7.6
+ep 0 batch 240/373 loss 1.5726 lr 9.27e-04 seq/s 7.6
+ep 0 batch 260/373 loss 1.6429 lr 9.11e-04 seq/s 7.6
+ep 0 batch 280/373 loss 1.4945 lr 8.93e-04 seq/s 7.6
+ep 0 batch 300/373 loss 1.5662 lr 8.75e-04 seq/s 7.6
+ep 0 batch 320/373 loss 1.8302 lr 8.54e-04 seq/s 7.6
+ep 0 batch 340/373 loss 1.5881 lr 8.33e-04 seq/s 7.6
+ep 0 batch 360/373 loss 1.7096 lr 8.10e-04 seq/s 7.6
+FIT {"epoch": 0, "train_seconds": 1561.0, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 7460, "amp_skipped_updates": 4, "optimizer_completed_updates": 7456, "ema_updates": 0, "completed_batches": 373}, "cumulative": {"optimizer_attempts": 7460, "amp_skipped_updates": 4, "optimizer_completed_updates": 7456, "ema_updates": 0, "completed_batches": 373}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 32, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "a1fc99ae778d2b528bd53f7f024e7dc3bda01836cff9875c508336d73e158301"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "a1fc99ae778d2b528bd53f7f024e7dc3bda01836cff9875c508336d73e158301"}, "num_workers": 4, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11949}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "d027c41ec00fb13e8faddfd1622b4cd9a6ccc7cac5ee8af97675428cb3c7d0ea"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "c35df59abe84f4c5cac34a5cc461aa26ecb006fc55faa4fffb44cd3c3347c2f9"}}}}
+ep 1 batch 0/373 loss 1.6122 lr 7.95e-04 seq/s 4.7
+ep 1 batch 20/373 loss 1.5764 lr 7.71e-04 seq/s 7.4
+ep 1 batch 40/373 loss 1.9246 lr 7.45e-04 seq/s 7.5
+ep 1 batch 60/373 loss 1.4304 lr 7.19e-04 seq/s 7.6
+ep 1 batch 80/373 loss 2.2280 lr 6.92e-04 seq/s 7.6
+ep 1 batch 100/373 loss 1.5121 lr 6.65e-04 seq/s 7.7
+ep 1 batch 120/373 loss 1.3283 lr 6.36e-04 seq/s 8.0
+ep 1 batch 140/373 loss 2.0055 lr 6.08e-04 seq/s 8.2
+ep 1 batch 160/373 loss 1.7347 lr 5.79e-04 seq/s 8.3
+ep 1 batch 180/373 loss 1.7978 lr 5.49e-04 seq/s 8.5
+ep 1 batch 200/373 loss 1.5160 lr 5.20e-04 seq/s 8.6
+ep 1 batch 220/373 loss 1.8089 lr 4.90e-04 seq/s 8.7
+ep 1 batch 240/373 loss 1.5650 lr 4.61e-04 seq/s 8.8
+ep 1 batch 260/373 loss 1.5562 lr 4.32e-04 seq/s 8.9
+ep 1 batch 280/373 loss 1.4572 lr 4.02e-04 seq/s 9.1
+ep 1 batch 300/373 loss 1.4521 lr 3.74e-04 seq/s 9.3
+ep 1 batch 320/373 loss 1.8368 lr 3.45e-04 seq/s 9.4
+ep 1 batch 340/373 loss 1.6465 lr 3.18e-04 seq/s 9.6
+ep 1 batch 360/373 loss 1.7758 lr 2.90e-04 seq/s 9.7
+FIT {"epoch": 1, "train_seconds": 1216.0, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 7460, "amp_skipped_updates": 4, "optimizer_completed_updates": 7456, "ema_updates": 0, "completed_batches": 373}, "cumulative": {"optimizer_attempts": 14920, "amp_skipped_updates": 8, "optimizer_completed_updates": 14912, "ema_updates": 0, "completed_batches": 746}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 32, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "78a8b7a6fe927d0d245dde2b5568a0913ae75f190460d0897577032faa9789fa"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "78a8b7a6fe927d0d245dde2b5568a0913ae75f190460d0897577032faa9789fa"}, "num_workers": 4, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11949}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "d027c41ec00fb13e8faddfd1622b4cd9a6ccc7cac5ee8af97675428cb3c7d0ea"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "c35df59abe84f4c5cac34a5cc461aa26ecb006fc55faa4fffb44cd3c3347c2f9"}}}}
+ep 2 batch 0/373 loss 1.7679 lr 2.73e-04 seq/s 6.6
+ep 2 batch 20/373 loss 1.5749 lr 2.47e-04 seq/s 16.6
+ep 2 batch 40/373 loss 1.2127 lr 2.22e-04 seq/s 18.0
+ep 2 batch 60/373 loss 1.5386 lr 1.98e-04 seq/s 16.3
+ep 2 batch 80/373 loss 1.6125 lr 1.75e-04 seq/s 15.3
+ep 2 batch 100/373 loss 1.4926 lr 1.53e-04 seq/s 14.7
+ep 2 batch 120/373 loss 1.7991 lr 1.33e-04 seq/s 14.4
+ep 2 batch 140/373 loss 2.0027 lr 1.13e-04 seq/s 14.1
+ep 2 batch 160/373 loss 1.2864 lr 9.53e-05 seq/s 14.0
+ep 2 batch 180/373 loss 1.6592 lr 7.87e-05 seq/s 13.8
+ep 2 batch 200/373 loss 1.8216 lr 6.36e-05 seq/s 13.8
+ep 2 batch 220/373 loss 1.4729 lr 5.00e-05 seq/s 13.7
+ep 2 batch 240/373 loss 1.5836 lr 3.79e-05 seq/s 13.6
+ep 2 batch 260/373 loss 1.3104 lr 2.75e-05 seq/s 13.6
+ep 2 batch 280/373 loss 1.8287 lr 1.87e-05 seq/s 13.5
+ep 2 batch 300/373 loss 1.3753 lr 1.17e-05 seq/s 13.5
+ep 2 batch 320/373 loss 1.6541 lr 6.28e-06 seq/s 13.4
+ep 2 batch 340/373 loss 1.4104 lr 2.63e-06 seq/s 13.4
+ep 2 batch 360/373 loss 1.5310 lr 7.12e-07 seq/s 13.4
+FIT {"epoch": 2, "train_seconds": 893.4, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 7460, "amp_skipped_updates": 3, "optimizer_completed_updates": 7457, "ema_updates": 0, "completed_batches": 373}, "cumulative": {"optimizer_attempts": 22380, "amp_skipped_updates": 11, "optimizer_completed_updates": 22369, "ema_updates": 0, "completed_batches": 1119}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 32, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "9ffebc9f5d0284181a021a58d0b9a787812c6c030a927848fd27ca3c05862c96"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "9ffebc9f5d0284181a021a58d0b9a787812c6c030a927848fd27ca3c05862c96"}, "num_workers": 4, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11949}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "d027c41ec00fb13e8faddfd1622b4cd9a6ccc7cac5ee8af97675428cb3c7d0ea"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "c35df59abe84f4c5cac34a5cc461aa26ecb006fc55faa4fffb44cd3c3347c2f9"}}}}
+SELECTED_FIXED 2

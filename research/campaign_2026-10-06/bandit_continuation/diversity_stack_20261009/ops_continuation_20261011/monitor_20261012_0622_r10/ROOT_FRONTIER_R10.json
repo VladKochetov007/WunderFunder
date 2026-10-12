@@ -1,0 +1,90 @@
+{
+  "schema": "wnn.research-controller-frontier-snapshot.r1",
+  "recorded_utc": "2026-10-12T06:28:23Z",
+  "interval_since_last_completion_utc": "2026-10-12T06:19:26Z",
+  "new_scientific_results": 0,
+  "new_submission_packages": 0,
+  "local": {
+    "admission_closed": false,
+    "active_fit_export_attempts": 0,
+    "pending_queue_files": 0,
+    "cpu_quota_cores": 5,
+    "memory_high_bytes": 18000000000,
+    "memory_max_bytes": 20000000000,
+    "memory_swap_max_bytes": 0,
+    "memory_current_bytes": 11684286464,
+    "memory_peak_bytes": 18611527680,
+    "gpu_utilization_percent": 0,
+    "gpu_memory_used_mib": 43,
+    "gpu_memory_total_mib": 6144,
+    "home_disk_free_bytes_approx": 99688558592,
+    "home_disk_used_percent": 93
+  },
+  "kaggle": {
+    "poll_receipt": "KAGGLE_POLL_R1.jsonl",
+    "observed_utc": "2026-10-12T06:21:36Z",
+    "account_gpu_seconds_used": 72098.394,
+    "account_gpu_seconds_remaining": 35901.606,
+    "campaign_gpu_seconds_headroom": 21729.443,
+    "campaign_gpu_seconds_reserved": 0,
+    "quota_refresh_utc": "2026-10-17T00:00:00Z",
+    "active_or_queued_targets": 0,
+    "r6": {
+      "status": "ERROR_terminal_collected",
+      "complete_collection_receipt": "../clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1/terminal_collection_v2/COMPLETE_COLLECTOR_RECEIPT_R1.json",
+      "collected_fit_checkpoints": 3,
+      "selected_epoch": 2,
+      "prediction_arrays": 0,
+      "quality_grade": false,
+      "diagnosis": "export reservation failed host operational budget; execution/resource evidence, not a scientific negative"
+    },
+    "r7": {
+      "offline_review": "PASS_preparation_only",
+      "provider_dispatch": false,
+      "root_release": false,
+      "blocking_gates": [
+        "exact version-2 readback currently returns HTTP 403",
+        "verify mounted payload and checkpoint/provenance hashes",
+        "fresh worker host and disk admission with serial exports"
+      ]
+    }
+  },
+  "vast_b": {
+    "instance_id": 55080658,
+    "latest_timer_tick_utc": "2026-10-12T06:23:32Z",
+    "provider_state": "owned_instance_unavailable_provider_returned_no_instance_rows",
+    "direct_read_only_cli": "HTTP 401 Invalid user key",
+    "remote_access_attempted": false,
+    "provider_mutation": false,
+    "new_spend_usd": 0,
+    "balance_and_collection_state": "unverified"
+  },
+  "diagnosed_local_oom": {
+    "scope": "run-p3124073-i7344210.scope",
+    "job": "e529 fixed exposed-fold blend grader R1",
+    "cause": "700000000-byte support-process cap exhausted during post-score bootstrap/metric preparation after official scorer output was written",
+    "repair": "R2 used a 1500000000-byte cap and completed the paired component grade; no training repeated",
+    "scientific_outcome": "already recorded: fixed 75/25 candidate delta -0.0008337036, 95% component interval [-0.00228225, 0.00038515], one seed on exposed F0; not promoted"
+  },
+  "active_code_work": {
+    "owner": "batch_packet_builder (Luna/max)",
+    "item": "native Q8 singleton R4 consumer implementation",
+    "state": "isolated code-only work in progress",
+    "next_reviewer": "native_q8_packet_review after builder reports frozen deliverable",
+    "inference_or_score_run": false
+  },
+  "submission_canary": {
+    "zip11": "human-upload-only; verified hash/CRC; not uploaded per user",
+    "zip12": "user-reported 61m56 timeout; censored runtime evidence, no score; unchanged reupload not recommended"
+  },
+  "timers": {
+    "watchdog_localqueue_kaggle_poller_vast_tick": "active",
+    "grade_bank_and_recurring_vast_pull": "disabled as directed"
+  },
+  "next_actions": [
+    "finish and independently review R4; do not install or infer until runtime gates are met",
+    "keep R7 held until exact payload and fresh resource gates pass",
+    "continue read-only Vast B monitoring; no row/auth means collection and spend remain unverified",
+    "admit local GPU work only after a useful frozen packet and memory-safe aggregate preflight exist"
+  ]
+}

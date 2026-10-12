@@ -1,0 +1,30 @@
+{
+  "schema": "wnn.vast-lane-b-readonly-access-status.r1",
+  "observed_utc": "2026-10-12T05:54:55+00:00",
+  "lane": "B",
+  "owned_instance_id": 55080658,
+  "vastai_cli_version": "1.8.3",
+  "read_only_calls": ["vastai show instances --raw", "vastai show user --raw"],
+  "latest_cli_result": {
+    "exit_code": 0,
+    "http_status": 401,
+    "message": "Invalid user key"
+  },
+  "durable_tick_result": {
+    "status": "owned_instance_unavailable",
+    "reason": "provider_returned_no_instance_rows",
+    "provider_mutation": false,
+    "remote_access_attempted": false,
+    "collection_status": "not_verified_provider_instance_unavailable"
+  },
+  "last_successful_account_snapshot": {
+    "observed_utc": "2026-10-12T05:34:56+00:00",
+    "instance_row_present": false,
+    "credit_usd": 0.0,
+    "balance_usd": -0.071904
+  },
+  "current_instance_balance_and_collection_state": "unverified_due_to_authentication_failure",
+  "new_rental_or_billing_mutation": false,
+  "new_spend_usd": 0.0,
+  "next_action": "Restore a valid read-only provider credential through the existing authorized account path; do not rent, top up, or change billing."
+}

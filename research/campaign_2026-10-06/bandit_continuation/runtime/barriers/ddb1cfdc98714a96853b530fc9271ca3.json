@@ -1,0 +1,11 @@
+{
+  "closed_utc": "2026-10-11T02:37:23.120402+00:00",
+  "drain_attempts": [
+    "r3-muonall384prop0-s7-fit-r1-a3"
+  ],
+  "id": "ddb1cfdc98714a96853b530fc9271ca3",
+  "reason": "resource budget breach in r3-muonall384prop0-s7-fit-r1-a3: aggregate working RAM exceeded 18000000000 bytes",
+  "reopened_utc": "2026-10-11T02:51:04.494179+00:00",
+  "review": "Reviewed 2026-10-11 06:10 EEST. Aggregate breach caused by wnn-grade-bank.service (grade_prediction_bank.py, 5.9 GB RSS for >20 min, grading ~240 banked preds after the pull timer delivered files) running inside wnn-campaign.slice next to the 10.5 GB h384 fit. Not a trainer fault. Mitigation: grade-bank timer disabled (host-side score_prediction_remote.py/blend_score_remote.py cover scoring), service stopped, h384 local items retired (local lane hosts h256 only), h256 replicates queued. Drain complete, admission reopened.",
+  "unreadable_attempt_records": []
+}

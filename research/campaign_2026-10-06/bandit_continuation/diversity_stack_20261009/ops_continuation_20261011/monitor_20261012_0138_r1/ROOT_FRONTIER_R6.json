@@ -1,0 +1,124 @@
+{
+  "schema": "wnn.controller.monitor.snapshot.r6",
+  "observed_utc": "2026-10-12T05:34:56.005469+00:00",
+  "git_head": "0b763e00",
+  "alerts_unread": 0,
+  "local": {
+    "parent_cpu_quota": "5 cores",
+    "memory_high_bytes": 18000000000,
+    "memory_max_bytes": 20000000000,
+    "swap_bytes": 0,
+    "parent_memory_current_bytes": 11667255296,
+    "live_campaign_attempts": 0,
+    "queue_pending_items": 0,
+    "gpu_utilization_percent": 0,
+    "gpu_memory_mib": 43,
+    "gpu_memory_total_mib": 6144,
+    "recent_teacher_exports": [
+      "s3 finished 2026-10-12T04:41:56Z",
+      "s4 finished 2026-10-12T04:58:25Z",
+      "s5 finished 2026-10-12T05:00:41Z"
+    ],
+    "new_fits_or_scores_since_last_check": 0
+  },
+  "kaggle": {
+    "provider_quota_observed_utc": "2026-10-12T05:33:33+00:00",
+    "kernel_targets": [
+      {
+        "kernel": "vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "tpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../../../cloud_preflight/E463_TPU_V7_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v2",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "GPU_R2_TERMINAL_OPERATOR_RECEIPT_R1.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-kaggle-crossfold-h382-20261011-r3",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.COMPLETE",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../../ops_continuation_20261011/kaggle_h382_delivery_20261011_r3/R3_TERMINAL_OPERATOR_RECEIPT.json",
+          "terminal_status": "KernelWorkerStatus.COMPLETE"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-h382-export-recovery-20261011-r4",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.COMPLETE",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../ops_continuation_20261011/kaggle_h382_delivery_20261011_r4/R4_TERMINAL_OPERATOR_RECEIPT.json",
+          "terminal_status": "KernelWorkerStatus.COMPLETE"
+        }
+      },
+      {
+        "kernel": "vladkochetov07/wnn-clean-t3-f0-teachers-20261011-r5-runner",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR",
+        "terminal_evidence": {
+          "outputs_downloaded": true,
+          "receipt": "../ops_continuation_20261011/clean_t3_fold0_h390_r5_teacher_cohort/r6_bootstrap_guard_successor_20261012_r1/terminal_collection_v2/COMPLETE_COLLECTOR_RECEIPT_R1.json",
+          "terminal_status": "KernelWorkerStatus.ERROR"
+        }
+      }
+    ],
+    "gpu_quota_used_seconds": 72098.394,
+    "gpu_quota_remaining_seconds": 35901.606,
+    "campaign_gpu_headroom_seconds": 21729.443000000007,
+    "reserved_seconds": 0.0,
+    "R7": "sealed, six export-only jobs; independent review pending; no dispatch",
+    "r7_fresh_release_gates": [
+      "independent packet review",
+      "source kernel v2 readback and exact mounted checkpoint/provenance hashes",
+      "fresh bounded campaign/device admission",
+      "new root release receipt"
+    ]
+  },
+  "vast_b": {
+    "observed_utc": "2026-10-12T05:34:56.005469+00:00",
+    "owned_instance_id": 55080658,
+    "owned_instance_rows": 0,
+    "credit_usd": 0,
+    "balance_usd": -0.07190432999998819,
+    "provider_mutation": false,
+    "new_spend_usd": 0
+  },
+  "timers": {
+    "watchdog": "active",
+    "local_queue": "active",
+    "kaggle_poller": "active",
+    "vast_b_tick": "active",
+    "grade_bank": "disabled",
+    "vast_bulk_pull": "disabled"
+  },
+  "active_owners": {
+    "R7_independent_review": "exact_activation_fusion",
+    "native_single_controls": "batch_packet_builder; preparation restarted after setup incident",
+    "root": "admission and execution"
+  },
+  "source": {
+    "kaggle_snapshot_sha256": "55ee75b223e71a75f5f9faaafe11f4518b7e1790ec109ed650d2b7ee7156932e",
+    "vast_status_method": "lane-B scoped read-only GET for instance 55080658 and account user record"
+  },
+  "corrected_successor_id": "native-q8-single-model-controls-packet-r2",
+  "native_controls_experiment_id": "E-NATIVE-SHARED-CLEANFOLD-Q8-MEMBER-CONTROLS-20261012-R1",
+  "Vast_B_new_spend_usd": 0
+}

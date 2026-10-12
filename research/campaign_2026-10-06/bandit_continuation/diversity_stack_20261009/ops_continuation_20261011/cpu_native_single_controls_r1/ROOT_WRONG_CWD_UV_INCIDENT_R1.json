@@ -1,0 +1,46 @@
+{
+  "schema": "wnn.research-support-environment-resolution-incident.r1",
+  "observed_utc": "2026-10-12T05:34:56.005469+00:00",
+  "owner": "batch_packet_builder",
+  "classification": "bounded code-preparation environment-resolution error; no model fit, evaluation, GPU initialization, or provider call",
+  "attempted_command": "uv run from older isolated worktree; environment resolver began downloading torch/CUDA dependencies",
+  "pids": {
+    "uv": 3309999,
+    "child": 3311080,
+    "current_state": "both absent / exited"
+  },
+  "generated_paths_preserved": [
+    {
+      "path": "/home/vlad/development/wunder/wnn_oldz4_f1_core_hft_20261012/.venv/",
+      "python": "3.13",
+      "file_count": 51954,
+      "logical_bytes": 7150610770,
+      "git_status": "ignored"
+    },
+    {
+      "path": "/home/vlad/.cache/uv/",
+      "file_count": 53153,
+      "logical_bytes": 8750078437,
+      "recent_mtime_local": "2026-10-12T08:29:14+03:00"
+    }
+  ],
+  "repair": "Use MAIN root and scripts/limited; no uv, pip, environment creation or deletion. MAIN .venv is Python 3.13.9 and can run the bounded code-only sequence fixture. System /usr/bin/python3.11 is Python 3.11.16 but lacks numpy, pyarrow, torch, and ruff; competition-runtime validation is therefore unresolved and must not be claimed. Keep the final control contract pinned to Python 3.11 and report the missing existing dependency environment rather than changing the version gate.",
+  "python_runtime_check": {
+    "main_venv": "3.13.9",
+    "system_python": "/usr/bin/python3.11 3.11.16",
+    "system_python_modules_available": {
+      "numpy": false,
+      "pyarrow": false,
+      "torch": false,
+      "ruff": false
+    },
+    "package_install_or_environment_creation": false,
+    "competition_runtime_validation": "blocked_by_missing_existing_python_3_11_dependencies"
+  },
+  "scientific_effect": "none",
+  "files_deleted": 0,
+  "provider_mutations": 0,
+  "incident_id": "native-q8-controls-builder-env-setup-r1",
+  "corrected_successor_id": "native-q8-single-model-controls-packet-r2",
+  "scientific_experiment_id": "E-NATIVE-SHARED-CLEANFOLD-Q8-MEMBER-CONTROLS-20261012-R1"
+}

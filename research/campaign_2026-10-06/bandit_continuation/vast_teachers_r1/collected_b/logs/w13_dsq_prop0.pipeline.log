@@ -1,0 +1,17 @@
+python: can't open file '/root/wnn/scripts/distill_pipeline.py': [Errno 2] No such file or directory
+RUN /opt/conda/bin/python -c import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__') /root/wnn/scripts/predict_run.py /root/wnn/scr
+Traceback (most recent call last):
+  File "/root/wnn/scripts/distill_pipeline.py", line 147, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/wnn/scripts/distill_pipeline.py", line 116, in main
+    ensure_train_predictions(name, args.teacher_epoch, log)
+  File "/root/wnn/scripts/distill_pipeline.py", line 51, in ensure_train_predictions
+    predict(name, split, epoch, None, log)
+  File "/root/wnn/scripts/distill_pipeline.py", line 41, in predict
+    run(argv, log)
+  File "/root/wnn/scripts/distill_pipeline.py", line 33, in run
+    subprocess.run(argv, check=True, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT)
+  File "/opt/conda/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/conda/bin/python', '-c', "import runpy,sys; from pathlib import Path; run_script=sys.argv[1]; trainer=sys.argv[2]; sys.path.insert(0,str(Path(trainer).resolve().parent)); sys.argv=[run_script,*sys.argv[3:]]; runpy.run_path(run_script,run_name='__main__')", '/root/wnn/scripts/predict_run.py', '/root/wnn/scripts/train_rnn.py', 'vt_f1_prop0_e3_s4', 'train', '--epoch', '3']' returned non-zero exit status 1.

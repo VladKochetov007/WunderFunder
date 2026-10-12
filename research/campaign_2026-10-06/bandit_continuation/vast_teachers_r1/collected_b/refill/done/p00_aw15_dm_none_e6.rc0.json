@@ -1,0 +1,26 @@
+{
+ "name": "w15_dm_none_e6",
+ "steps": [
+  {
+   "label": "pipeline",
+   "timeout": 28800,
+   "argv": [
+    "python",
+    "/root/wnn/scripts/distill_pipeline.py",
+    "--arm",
+    "dm_none_e6",
+    "--fold",
+    "1",
+    "--teachers",
+    "",
+    "--parent",
+    "c20261003_combo_s3_f1@ep3",
+    "--teacher-epoch",
+    "2",
+    "--epochs",
+    "6",
+    "--no-teacher"
+   ]
+  }
+ ]
+}

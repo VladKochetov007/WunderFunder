@@ -1,0 +1,13 @@
+{
+  "attempt": "h382-local-clean-f2-s3-e4-fit-r2",
+  "error": "RuntimeError: guard refused h382-local-clean-f2-s3-e4-fit-r2; inspect its retained record",
+  "heartbeat_utc": "2026-10-11T14:37:33.679203+00:00",
+  "index": 2,
+  "launch_returncode": 1,
+  "launch_stderr": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 1359, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 1337, in main\n    print(json.dumps(launch(args), indent=2))\n                     ~~~~~~^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 636, in launch\n    resources = verify_capacity(\n        state,\n    ...<4 lines>...\n        current_memory_bytes=measured,\n    )\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 441, in verify_capacity\n    raise RuntimeError(f\"CPU reservation would exceed {cpu_cap} aggregate cores\")\nRuntimeError: CPU reservation would exceed 5 aggregate cores\n",
+  "plan": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r2/SEQUENCE_PLAN_R2.json",
+  "plan_sha256": "4d3660e93a1d56ad69a79320e53a8173e6483391edea45088136be439af23af7",
+  "status": "needs_review",
+  "worker_heartbeat": "2026-10-11T14:37:29.274612+00:00",
+  "worker_status": "finished"
+}
