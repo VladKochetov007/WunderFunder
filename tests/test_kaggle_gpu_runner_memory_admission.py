@@ -87,7 +87,7 @@ def test_physical_capacity_fraction_remains_a_hard_runner_bound() -> None:
         admit_specs([worker], host, [_device()])
 
 
-def test_memory_snapshot_counts_inactive_file_as_reclaimable_but_reports_it() -> None:
+def test_memory_snapshot_logs_inactive_file_without_crediting_it_to_headroom() -> None:
     snapshot = _memory_capacity_snapshot(
         physical_capacity_bytes=32 * GIB,
         mem_available_bytes=24 * GIB,
@@ -103,20 +103,35 @@ def test_memory_snapshot_counts_inactive_file_as_reclaimable_but_reports_it() ->
     )
 
     assert snapshot["cgroup_free_bytes"] == 2 * GIB
-    assert snapshot["cgroup_reclaimable_available_bytes"] == 22 * GIB
     assert snapshot["cgroup_inactive_file_bytes"] == 20 * GIB
     assert snapshot["cgroup_anon_bytes"] == 8 * GIB
-    assert snapshot["available_bytes"] == 22 * GIB
+    assert snapshot["cgroup_headroom_known"] is True
+    assert snapshot["available_bytes"] == 2 * GIB
 
 
-def test_missing_cgroup_cache_measurement_gets_no_reclaimable_credit() -> None:
+def test_finite_cgroup_without_readable_current_fails_closed() -> None:
     snapshot = _memory_capacity_snapshot(
         physical_capacity_bytes=32 * GIB,
         mem_available_bytes=24 * GIB,
         cgroup_limit_bytes=32 * GIB,
-        cgroup_current_bytes=30 * GIB,
+        cgroup_current_bytes=None,
         cgroup_memory_stat={},
     )
 
-    assert snapshot["cgroup_reclaimable_available_bytes"] == 2 * GIB
-    assert snapshot["available_bytes"] == 2 * GIB
+    assert snapshot["cgroup_free_bytes"] is None
+    assert snapshot["cgroup_headroom_known"] is False
+    assert snapshot["available_bytes"] == 0
+
+
+def test_unbounded_cgroup_uses_memavailable_and_keeps_cache_diagnostic() -> None:
+    snapshot = _memory_capacity_snapshot(
+        physical_capacity_bytes=32 * GIB,
+        mem_available_bytes=24 * GIB,
+        cgroup_limit_bytes=None,
+        cgroup_current_bytes=None,
+        cgroup_memory_stat={"inactive_file": 20 * GIB},
+    )
+
+    assert snapshot["cgroup_headroom_known"] is True
+    assert snapshot["cgroup_inactive_file_bytes"] == 20 * GIB
+    assert snapshot["available_bytes"] == 24 * GIB

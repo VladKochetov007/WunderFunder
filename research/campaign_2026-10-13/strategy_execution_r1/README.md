@@ -76,3 +76,5 @@ The first [S14 profile-only packet R1](gradient_credit_f0_s3_r1/S14_PROFILE_ONLY
 
 - [Domain-grade consumer](../../../scripts/grade_strategy_domains.py) and [focused tests](../../../tests/test_strategy_domain_grade.py) prepare bounded actual-array scoring on the frozen panels. Two correctness tests pass; no private endpoint result or independent consumer review yet.
 - [Fresh Kaggle quota](KAGGLE_QUOTA_RESUME_20261013_0811_R1.json) records34,439.317GPU-seconds and72,000TPU-seconds remaining; duration parsing uses total_seconds includingdays. [Recent owner inventory](KAGGLE_RECENT_OWNED_INVENTORY_R1.json) narrows further status reads after an earlier unnecessary100-kernel status scan hit429; no provider mutation occurred.
+
+- [F3 R4 conservative recovery packet](first_cohort_f3_teachers_r4/README.md) preserves R3, removes cache credit from memory admission, reuses the measured R2profile and passes12tests plussealed-source preflight. Rootowns delivery. No R4provideractionyet; quota and relevant owner status must be freshly checked before dispatch.
