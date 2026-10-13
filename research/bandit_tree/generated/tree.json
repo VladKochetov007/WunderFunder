@@ -9232,8 +9232,8 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 806,
-      "hypotheses": 486,
+      "experiments": 814,
+      "hypotheses": 488,
       "journal": 138
     }
   },
@@ -42501,6 +42501,114 @@
         }
       ],
       "title": "Component-excluded causal teacher targets may transfer better to a fixed student than in-sample predictions.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:temporal",
+          "family:objective",
+          "family:optimization"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-STRATEGY-GRADIENT-CREDIT-20261013-01",
+      "latest_recorded_status": "not_tested",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"H-STRATEGY-GRADIENT-CREDIT-20261013-01\",\"parent_ids\":[],\"mechanism_family\":\"gradient_credit\",\"statement\":\"At a fixed 2000-row optimizer update window, cutting hidden-state gradient credit every 500 rows may change the F0 clean-T3 student endpoint relative to retaining credit across 2000 rows, independent of optimizer, LR, EMA and target-denominator clocks.\",\"proposed_change\":\"Compare detach_rows 500 and 2000 with identical chunk 500, update_rows 2000, teacher/cache/parent, seed, schedule, FP16 precision and auxiliary objectives.\",\"expected_mechanism\":\"Shorter recurrent credit may regularize or stabilize optimization while preserving carried state and the same supervised target exposure.\",\"claim_scope\":\"Source-qualified F0/F3 screen at fitting seed 3; family claims require seed 4 and additional folds. Existing evaluation folds are exposed.\",\"assumptions\":[\"The recurrent carried value is unchanged by detachment.\",\"One optimizer, OneCycle and EMA step occurs per 2000-row macrostep.\",\"Original-label main and auxiliary masses use the same update windows in both arms.\"],\"predicted_observable\":\"A paired difference in official global_wp_clip2_v1 on the fixed full-valid F0 panel, accompanied by unchanged update counts and carried-state values but changed gradients.\",\"cheap_test\":\"Use the existing independent controlled-loss oracle and profile the actual 500-row microshape before the two matched F0 seed 3 fits.\",\"falsifier\":\"Both settings fail to produce distinct gradient-credit graphs, the fixed clocks differ, or no useful endpoint difference survives paired seed/fold confirmation.\",\"known_failure_modes\":[\"Microchunk shape changes FP16 kernel rounding.\",\"The 2000-row source profile may not bound 500-row launch overhead.\",\"The single exposed F0 fit is imprecise and cannot support a family conclusion.\"],\"estimated_cost\":{\"relative\":\"two matched six-epoch student fits plus one full-valid export per arm\",\"gpu_hours\":null,\"serving\":\"no inference-time change\"},\"reusable_artifacts\":[\"detach-horizon controlled-loss recipe\",\"per-arm CP5 full-valid predictions\",\"training clock/provenance comparison\"],\"sources\":[\"research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md\",\"src/wnn/training_controls.py\",\"tests/test_training_controls.py\"],\"status\":\"not_tested\",\"admission\":\"none; root owns resource admission\",\"numerical_gain_prior\":null,\"expected_public_score\":null,\"committed_at\":\"2026-10-12T23:52:46Z\",\"proposed_by\":\"strategy_first_cohort after root S14 assignment\",\"source\":\"research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/README.md\"}\n",
+          "record": {
+            "admission": "none; root owns resource admission",
+            "assumptions": [
+              "The recurrent carried value is unchanged by detachment.",
+              "One optimizer, OneCycle and EMA step occurs per 2000-row macrostep.",
+              "Original-label main and auxiliary masses use the same update windows in both arms."
+            ],
+            "cheap_test": "Use the existing independent controlled-loss oracle and profile the actual 500-row microshape before the two matched F0 seed 3 fits.",
+            "claim_scope": "Source-qualified F0/F3 screen at fitting seed 3; family claims require seed 4 and additional folds. Existing evaluation folds are exposed.",
+            "committed_at": "2026-10-12T23:52:46Z",
+            "estimated_cost": {
+              "gpu_hours": null,
+              "relative": "two matched six-epoch student fits plus one full-valid export per arm",
+              "serving": "no inference-time change"
+            },
+            "expected_mechanism": "Shorter recurrent credit may regularize or stabilize optimization while preserving carried state and the same supervised target exposure.",
+            "expected_public_score": null,
+            "falsifier": "Both settings fail to produce distinct gradient-credit graphs, the fixed clocks differ, or no useful endpoint difference survives paired seed/fold confirmation.",
+            "id": "H-STRATEGY-GRADIENT-CREDIT-20261013-01",
+            "known_failure_modes": [
+              "Microchunk shape changes FP16 kernel rounding.",
+              "The 2000-row source profile may not bound 500-row launch overhead.",
+              "The single exposed F0 fit is imprecise and cannot support a family conclusion."
+            ],
+            "mechanism_family": "gradient_credit",
+            "numerical_gain_prior": null,
+            "parent_ids": [],
+            "predicted_observable": "A paired difference in official global_wp_clip2_v1 on the fixed full-valid F0 panel, accompanied by unchanged update counts and carried-state values but changed gradients.",
+            "proposed_by": "strategy_first_cohort after root S14 assignment",
+            "proposed_change": "Compare detach_rows 500 and 2000 with identical chunk 500, update_rows 2000, teacher/cache/parent, seed, schedule, FP16 precision and auxiliary objectives.",
+            "reusable_artifacts": [
+              "detach-horizon controlled-loss recipe",
+              "per-arm CP5 full-valid predictions",
+              "training clock/provenance comparison"
+            ],
+            "source": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/README.md",
+            "sources": [
+              "research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md",
+              "src/wnn/training_controls.py",
+              "tests/test_training_controls.py"
+            ],
+            "statement": "At a fixed 2000-row optimizer update window, cutting hidden-state gradient credit every 500 rows may change the F0 clean-T3 student endpoint relative to retaining credit across 2000 rows, independent of optimizer, LR, EMA and target-denominator clocks.",
+            "status": "not_tested"
+          },
+          "source": {
+            "line": 487,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "0dd33df4a7592e57dd055e3f6cd89aff9c7e939740214982b7218c21f715a283"
+          }
+        }
+      ],
+      "title": "At a fixed 2000-row optimizer update window, cutting hidden-state gradient credit every 500 rows may change the F0 clean-T3 student endpoint relative to retaining credit across 2000 rows, independent of optimizer, LR, EMA and target-denominator clocks.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:representation",
+        "matches": [
+          "family:representation"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-STRATEGY-MIRROR-20261013",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:representation",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"H-STRATEGY-MIRROR-20261013\",\"statement\":\"At least one schema-anchored involutive bid/ask side permutation or conditional price-axis reflection preserves the marginal feature support/distribution of source-qualified fitting sequences closely enough to merit a dedicated symmetry follow-up; this is a necessary input screen only, and the target transformation remains unknown.\",\"parents\":[\"H-317\"],\"mechanism_family\":\"augmentation\",\"direction\":\"mirror_symmetry_diagnostic\",\"cheapest_test\":\"Deterministic complete fitting-sequence feature-only diagnostic over 32 source-qualified components; test involution, finite values, empirical support and per-feature distribution shifts.\",\"source\":\"FIRST_PRINCIPLES_EXPERIMENTS_20261013.md section 3 plus docs/data_overview.md feature schema; original lineage H-317\",\"status\":\"proposed\"}\n",
+          "record": {
+            "cheapest_test": "Deterministic complete fitting-sequence feature-only diagnostic over 32 source-qualified components; test involution, finite values, empirical support and per-feature distribution shifts.",
+            "direction": "mirror_symmetry_diagnostic",
+            "id": "H-STRATEGY-MIRROR-20261013",
+            "mechanism_family": "augmentation",
+            "parents": [
+              "H-317"
+            ],
+            "source": "FIRST_PRINCIPLES_EXPERIMENTS_20261013.md section 3 plus docs/data_overview.md feature schema; original lineage H-317",
+            "statement": "At least one schema-anchored involutive bid/ask side permutation or conditional price-axis reflection preserves the marginal feature support/distribution of source-qualified fitting sequences closely enough to merit a dedicated symmetry follow-up; this is a necessary input screen only, and the target transformation remains unknown.",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 488,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "5a175b8fcb4bb9d46d325f3eaff87d0f0bb01eed7bffa41c1bf394108bf7ab94"
+          }
+        }
+      ],
+      "title": "At least one schema-anchored involutive bid/ask side permutation or conditional price-axis reflection preserves the marginal feature support/distribution of source-qualified fitting sequences closely enough to merit a dedicated symmetry follow-up; this is a necessary input screen only, and the target transformation remains unknown.",
       "type": "hypothesis"
     },
     {
@@ -79458,6 +79566,497 @@
         }
       ],
       "title": "E-STRATEGY-HISTORICAL-AUX-AUDIT-20261013-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-SWA-F0-20261013-R1",
+      "latest_recorded_status": "derived_two_seed_artifacts_quality_pending",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STRATEGY-SWA-F0-20261013-R1\", \"created_utc\": \"2026-10-13T00:07:29.344612+00:00\", \"hypothesis_id\": \"H-STRATEGY-AVERAGING-20261013\", \"status\": \"derived_two_seed_artifacts_quality_pending\", \"receipt\": \"research/campaign_2026-10-13/strategy_execution_r1/trajectory_average_f0_r1/CONSTRUCTION_RECEIPT_R1.json\", \"new_fits\": 0, \"seeds\": [3, 4], \"fold\": 0, \"selection\": \"fixed equal epoch3/4/5 mean chosen before outcomes\", \"independent_teacher_repetitions\": 1, \"quality_evaluated\": false, \"public_forecast\": null}\n",
+          "record": {
+            "created_utc": "2026-10-13T00:07:29.344612+00:00",
+            "fold": 0,
+            "hypothesis_id": "H-STRATEGY-AVERAGING-20261013",
+            "id": "E-STRATEGY-SWA-F0-20261013-R1",
+            "independent_teacher_repetitions": 1,
+            "new_fits": 0,
+            "public_forecast": null,
+            "quality_evaluated": false,
+            "receipt": "research/campaign_2026-10-13/strategy_execution_r1/trajectory_average_f0_r1/CONSTRUCTION_RECEIPT_R1.json",
+            "seeds": [
+              3,
+              4
+            ],
+            "selection": "fixed equal epoch3/4/5 mean chosen before outcomes",
+            "status": "derived_two_seed_artifacts_quality_pending"
+          },
+          "source": {
+            "line": 807,
+            "path": "research/experiments.jsonl",
+            "sha256": "62952ae126efbd0bc74a54f77bcc001e56f277a4f82908814ac08677ca455ca0"
+          }
+        }
+      ],
+      "title": "E-STRATEGY-SWA-F0-20261013-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-GC-F0-S3-20261013-R1",
+      "latest_recorded_status": "prepared_profile_and_root_release_pending",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-STRATEGY-GC-F0-S3-20261013-R1\",\"hypothesis_id\":\"H-STRATEGY-GRADIENT-CREDIT-20261013-01\",\"date\":\"2026-10-13\",\"kind\":\"controlled_detach_horizon_f0_seed3_recipe_preparation\",\"status\":\"prepared_profile_and_root_release_pending\",\"fit_authorized\":false,\"scientific_fits_completed\":0,\"candidate_wp\":null,\"public_forecast\":null,\"treatment\":\"Paired detach_rows 500 vs 2000 with common chunk 500/update_rows 2000; fixed 0.8125 homogeneous cache amplitude, same parent/teacher/seed/aux losses/FP16 AdamW OneCycle/denominator/EMA clocks.\",\"control\":{\"run\":\"clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1\",\"wp\":0.6811553603333363,\"metric\":\"global_wp_clip2_v1\",\"exposure\":\"repeatedly exposed F0 panel\"},\"packet\":\"research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/README.md\",\"commands\":\"research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/FIT_DETACH500_COMMANDS_R1.json; research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/FIT_DETACH2000_COMMANDS_R1.json\",\"bindings\":\"research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_BINDINGS_R1.json\",\"commands_sha256\":{\"FIT_DETACH2000_COMMANDS_R1.json\":\"6c0c978bb7b019c3a61bc5fd3c5c2f585d83547335057aefd9bd3ec3391cfaae\",\"FIT_DETACH500_COMMANDS_R1.json\":\"a2cdeb6f5960c22720bf77e787312beacdbcc70addd1a82e4bbbe4165cda365c\"},\"bindings_sha256\":\"47254f993c80e6726aa9ac15e2ce9b542defa05a65569c357b8dc297c117d197\",\"source_overlay\":\"research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2\",\"source_overlay_manifest_sha256\":\"ac086fd55d9833492191507cbfba7f1d978a763011be698097bd582372402818\",\"source_manifest_recompute_required\":true,\"interpretation\":\"Preparation and bounded controlled-loss audit only; no S14 fit, score or public claim exists. Exact 500-row shape profile, source-manifest recomputation, independent recipe review, root fit release and fresh shared admission remain required. F3 awaits its clean teacher/cache/control lineage.\",\"committed_at\":\"2026-10-12T23:52:46Z\"}\n",
+          "record": {
+            "bindings": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_BINDINGS_R1.json",
+            "bindings_sha256": "47254f993c80e6726aa9ac15e2ce9b542defa05a65569c357b8dc297c117d197",
+            "candidate_wp": null,
+            "commands": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/FIT_DETACH500_COMMANDS_R1.json; research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/FIT_DETACH2000_COMMANDS_R1.json",
+            "commands_sha256": {
+              "FIT_DETACH2000_COMMANDS_R1.json": "6c0c978bb7b019c3a61bc5fd3c5c2f585d83547335057aefd9bd3ec3391cfaae",
+              "FIT_DETACH500_COMMANDS_R1.json": "a2cdeb6f5960c22720bf77e787312beacdbcc70addd1a82e4bbbe4165cda365c"
+            },
+            "committed_at": "2026-10-12T23:52:46Z",
+            "control": {
+              "exposure": "repeatedly exposed F0 panel",
+              "metric": "global_wp_clip2_v1",
+              "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+              "wp": 0.6811553603333363
+            },
+            "date": "2026-10-13",
+            "fit_authorized": false,
+            "hypothesis_id": "H-STRATEGY-GRADIENT-CREDIT-20261013-01",
+            "id": "E-STRATEGY-GC-F0-S3-20261013-R1",
+            "interpretation": "Preparation and bounded controlled-loss audit only; no S14 fit, score or public claim exists. Exact 500-row shape profile, source-manifest recomputation, independent recipe review, root fit release and fresh shared admission remain required. F3 awaits its clean teacher/cache/control lineage.",
+            "kind": "controlled_detach_horizon_f0_seed3_recipe_preparation",
+            "packet": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/README.md",
+            "public_forecast": null,
+            "scientific_fits_completed": 0,
+            "source_manifest_recompute_required": true,
+            "source_overlay": "research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2",
+            "source_overlay_manifest_sha256": "ac086fd55d9833492191507cbfba7f1d978a763011be698097bd582372402818",
+            "status": "prepared_profile_and_root_release_pending",
+            "treatment": "Paired detach_rows 500 vs 2000 with common chunk 500/update_rows 2000; fixed 0.8125 homogeneous cache amplitude, same parent/teacher/seed/aux losses/FP16 AdamW OneCycle/denominator/EMA clocks."
+          },
+          "source": {
+            "line": 808,
+            "path": "research/experiments.jsonl",
+            "sha256": "a0f4babcea4cb7538423488fa5fec42241a9622844ff95529ed9c4053a20f789"
+          }
+        }
+      ],
+      "title": "controlled_detach_horizon_f0_seed3_recipe_preparation",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-S38-H317-INPUT-SYMMETRY-DIAGNOSTIC-R1",
+      "latest_recorded_status": "complete_input_screen_inconclusive_target_map_unknown",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"augmentation_authorized\": false, \"created_utc\": \"2026-10-13T00:00:21.909746+00:00\", \"execution_receipt\": \"research/campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/EXECUTION_RECEIPT_R1.json\", \"fit_scope\": {\"complete_rows_per_sequence\": 20000, \"dataset\": \"train.parquet\", \"distinct_components\": 32, \"fit_train_groups\": 10535, \"sample\": [{\"component\": 533, \"row_group\": 626, \"seq_ix\": 135616232}, {\"component\": 644, \"row_group\": 2092, \"seq_ix\": 437467811}, {\"component\": 512, \"row_group\": 4036, \"seq_ix\": 826651540}, {\"component\": 2662, \"row_group\": 8964, \"seq_ix\": 1833960109}, {\"component\": 1472, \"row_group\": 9485, \"seq_ix\": 1932077520}, {\"component\": 2169, \"row_group\": 5262, \"seq_ix\": 1079388792}, {\"component\": 176, \"row_group\": 8223, \"seq_ix\": 1679595383}, {\"component\": 2132, \"row_group\": 5067, \"seq_ix\": 1041674319}, {\"component\": 672, \"row_group\": 8248, \"seq_ix\": 1684787583}, {\"component\": 212, \"row_group\": 225, \"seq_ix\": 48622656}, {\"component\": 457, \"row_group\": 8637, \"seq_ix\": 1764083304}, {\"component\": 892, \"row_group\": 4421, \"seq_ix\": 906950605}, {\"component\": 2285, \"row_group\": 6059, \"seq_ix\": 1247393043}, {\"component\": 348, \"row_group\": 1685, \"seq_ix\": 350809649}, {\"component\": 1804, \"row_group\": 9158, \"seq_ix\": 1869366226}, {\"component\": 1892, \"row_group\": 7840, \"seq_ix\": 1604034837}, {\"component\": 1146, \"row_group\": 10174, \"seq_ix\": 2066816855}, {\"component\": 2490, \"row_group\": 8416, \"seq_ix\": 1722398314}, {\"component\": 2312, \"row_group\": 7375, \"seq_ix\": 1513138566}, {\"component\": 2630, \"row_group\": 8682, \"seq_ix\": 1774562796}, {\"component\": 407, \"row_group\": 454, \"seq_ix\": 96668441}, {\"component\": 570, \"row_group\": 1526, \"seq_ix\": 320423251}, {\"component\": 337, \"row_group\": 1417, \"seq_ix\": 297458033}, {\"component\": 2022, \"row_group\": 4516, \"seq_ix\": 920752829}, {\"component\": 1924, \"row_group\": 4052, \"seq_ix\": 829547359}, {\"component\": 1771, \"row_group\": 8674, \"seq_ix\": 1772008143}, {\"component\": 2214, \"row_group\": 8671, \"seq_ix\": 1771359555}, {\"component\": 8, \"row_group\": 8, \"seq_ix\": 2324140}, {\"component\": 190, \"row_group\": 4322, \"seq_ix\": 886123433}, {\"component\": 1766, \"row_group\": 3419, \"seq_ix\": 700965593}, {\"component\": 620, \"row_group\": 5150, \"seq_ix\": 1060145800}, {\"component\": 1063, \"row_group\": 1485, \"seq_ix\": 312789915}], \"sample_seed\": 2026101338, \"split_manifest_sha256\": \"09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d\", \"targets_or_masks_read\": false, \"validation_or_evaluation_read\": false}, \"hypothesis_id\": \"H-STRATEGY-MIRROR-20261013\", \"id\": \"E-STRATEGY-S38-H317-INPUT-SYMMETRY-DIAGNOSTIC-R1\", \"interpretation\": \"The same-index side swap crossed the predeclared marginal mismatch rule. Price-axis reflection and sign-only control did not cross it, but each still has broad marginal differences; a non-crossing is not preservation evidence. This limited univariate input screen does not establish joint, temporal, or target symmetry and does not reject all H-317 transforms.\", \"kind\": \"feature_only_input_marginal_symmetry_screen\", \"next_step\": \"Obtain authoritative meanings for anonymous coordinates and target labels; only then derive and freeze a complete feature/target involution before any paired sequence or endpoint test.\", \"parent_hypothesis_id\": \"H-317\", \"proposal\": \"research/campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/PROPOSALS_R1.json\", \"proposal_sha256\": \"2a9b9009f6671bb62a139b1528cc58b9ff864fbe76f91d39143f1bd145023c35\", \"result\": \"research/campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/SYMMETRY_DIAGNOSTIC_R1.json\", \"result_sha256\": \"80262d8ea090a843f5e2123f693424fcaf41ab07762b0a9580fd93e59b68b5d1\", \"results\": {\"price_axis_reflection\": {\"components_crossing_predeclared_strong_mismatch_rule\": 14, \"median_features_with_normalized_displacement_gt_1\": 54.0, \"median_outside_empirical_interval_fraction\": 0.4831997767857143, \"median_outside_observed_minmax_fraction\": 0.4555252232142857, \"non_crossing_is_not_preservation_pass\": true, \"predeclared_strong_marginal_mismatch\": false}, \"price_sign_only_negative_control\": {\"components_crossing_predeclared_strong_mismatch_rule\": 0, \"median_features_with_normalized_displacement_gt_1\": 44.0, \"median_outside_empirical_interval_fraction\": 0.3959310267857143, \"median_outside_observed_minmax_fraction\": 0.38102946428571427, \"non_crossing_is_not_preservation_pass\": true, \"predeclared_strong_marginal_mismatch\": false}, \"side_swap\": {\"components_crossing_predeclared_strong_mismatch_rule\": 18, \"median_features_with_normalized_displacement_gt_1\": 58.0, \"median_outside_empirical_interval_fraction\": 0.5037812500000001, \"median_outside_observed_minmax_fraction\": 0.45060848214285715, \"non_crossing_is_not_preservation_pass\": false, \"predeclared_strong_marginal_mismatch\": true}}, \"scientific_fits_completed\": 0, \"source_code_sha256\": \"5177132c8eb2a55edff56996fa6374d8a146ac7e61fa1af8c9238470a27b0ef0\", \"status\": \"complete_input_screen_inconclusive_target_map_unknown\", \"target_transform_established\": false}\n",
+          "record": {
+            "augmentation_authorized": false,
+            "created_utc": "2026-10-13T00:00:21.909746+00:00",
+            "execution_receipt": "research/campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/EXECUTION_RECEIPT_R1.json",
+            "fit_scope": {
+              "complete_rows_per_sequence": 20000,
+              "dataset": "train.parquet",
+              "distinct_components": 32,
+              "fit_train_groups": 10535,
+              "sample": [
+                {
+                  "component": 533,
+                  "row_group": 626,
+                  "seq_ix": 135616232
+                },
+                {
+                  "component": 644,
+                  "row_group": 2092,
+                  "seq_ix": 437467811
+                },
+                {
+                  "component": 512,
+                  "row_group": 4036,
+                  "seq_ix": 826651540
+                },
+                {
+                  "component": 2662,
+                  "row_group": 8964,
+                  "seq_ix": 1833960109
+                },
+                {
+                  "component": 1472,
+                  "row_group": 9485,
+                  "seq_ix": 1932077520
+                },
+                {
+                  "component": 2169,
+                  "row_group": 5262,
+                  "seq_ix": 1079388792
+                },
+                {
+                  "component": 176,
+                  "row_group": 8223,
+                  "seq_ix": 1679595383
+                },
+                {
+                  "component": 2132,
+                  "row_group": 5067,
+                  "seq_ix": 1041674319
+                },
+                {
+                  "component": 672,
+                  "row_group": 8248,
+                  "seq_ix": 1684787583
+                },
+                {
+                  "component": 212,
+                  "row_group": 225,
+                  "seq_ix": 48622656
+                },
+                {
+                  "component": 457,
+                  "row_group": 8637,
+                  "seq_ix": 1764083304
+                },
+                {
+                  "component": 892,
+                  "row_group": 4421,
+                  "seq_ix": 906950605
+                },
+                {
+                  "component": 2285,
+                  "row_group": 6059,
+                  "seq_ix": 1247393043
+                },
+                {
+                  "component": 348,
+                  "row_group": 1685,
+                  "seq_ix": 350809649
+                },
+                {
+                  "component": 1804,
+                  "row_group": 9158,
+                  "seq_ix": 1869366226
+                },
+                {
+                  "component": 1892,
+                  "row_group": 7840,
+                  "seq_ix": 1604034837
+                },
+                {
+                  "component": 1146,
+                  "row_group": 10174,
+                  "seq_ix": 2066816855
+                },
+                {
+                  "component": 2490,
+                  "row_group": 8416,
+                  "seq_ix": 1722398314
+                },
+                {
+                  "component": 2312,
+                  "row_group": 7375,
+                  "seq_ix": 1513138566
+                },
+                {
+                  "component": 2630,
+                  "row_group": 8682,
+                  "seq_ix": 1774562796
+                },
+                {
+                  "component": 407,
+                  "row_group": 454,
+                  "seq_ix": 96668441
+                },
+                {
+                  "component": 570,
+                  "row_group": 1526,
+                  "seq_ix": 320423251
+                },
+                {
+                  "component": 337,
+                  "row_group": 1417,
+                  "seq_ix": 297458033
+                },
+                {
+                  "component": 2022,
+                  "row_group": 4516,
+                  "seq_ix": 920752829
+                },
+                {
+                  "component": 1924,
+                  "row_group": 4052,
+                  "seq_ix": 829547359
+                },
+                {
+                  "component": 1771,
+                  "row_group": 8674,
+                  "seq_ix": 1772008143
+                },
+                {
+                  "component": 2214,
+                  "row_group": 8671,
+                  "seq_ix": 1771359555
+                },
+                {
+                  "component": 8,
+                  "row_group": 8,
+                  "seq_ix": 2324140
+                },
+                {
+                  "component": 190,
+                  "row_group": 4322,
+                  "seq_ix": 886123433
+                },
+                {
+                  "component": 1766,
+                  "row_group": 3419,
+                  "seq_ix": 700965593
+                },
+                {
+                  "component": 620,
+                  "row_group": 5150,
+                  "seq_ix": 1060145800
+                },
+                {
+                  "component": 1063,
+                  "row_group": 1485,
+                  "seq_ix": 312789915
+                }
+              ],
+              "sample_seed": 2026101338,
+              "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+              "targets_or_masks_read": false,
+              "validation_or_evaluation_read": false
+            },
+            "hypothesis_id": "H-STRATEGY-MIRROR-20261013",
+            "id": "E-STRATEGY-S38-H317-INPUT-SYMMETRY-DIAGNOSTIC-R1",
+            "interpretation": "The same-index side swap crossed the predeclared marginal mismatch rule. Price-axis reflection and sign-only control did not cross it, but each still has broad marginal differences; a non-crossing is not preservation evidence. This limited univariate input screen does not establish joint, temporal, or target symmetry and does not reject all H-317 transforms.",
+            "kind": "feature_only_input_marginal_symmetry_screen",
+            "next_step": "Obtain authoritative meanings for anonymous coordinates and target labels; only then derive and freeze a complete feature/target involution before any paired sequence or endpoint test.",
+            "parent_hypothesis_id": "H-317",
+            "proposal": "research/campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/PROPOSALS_R1.json",
+            "proposal_sha256": "2a9b9009f6671bb62a139b1528cc58b9ff864fbe76f91d39143f1bd145023c35",
+            "result": "research/campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/SYMMETRY_DIAGNOSTIC_R1.json",
+            "result_sha256": "80262d8ea090a843f5e2123f693424fcaf41ab07762b0a9580fd93e59b68b5d1",
+            "results": {
+              "price_axis_reflection": {
+                "components_crossing_predeclared_strong_mismatch_rule": 14,
+                "median_features_with_normalized_displacement_gt_1": 54.0,
+                "median_outside_empirical_interval_fraction": 0.4831997767857143,
+                "median_outside_observed_minmax_fraction": 0.4555252232142857,
+                "non_crossing_is_not_preservation_pass": true,
+                "predeclared_strong_marginal_mismatch": false
+              },
+              "price_sign_only_negative_control": {
+                "components_crossing_predeclared_strong_mismatch_rule": 0,
+                "median_features_with_normalized_displacement_gt_1": 44.0,
+                "median_outside_empirical_interval_fraction": 0.3959310267857143,
+                "median_outside_observed_minmax_fraction": 0.38102946428571427,
+                "non_crossing_is_not_preservation_pass": true,
+                "predeclared_strong_marginal_mismatch": false
+              },
+              "side_swap": {
+                "components_crossing_predeclared_strong_mismatch_rule": 18,
+                "median_features_with_normalized_displacement_gt_1": 58.0,
+                "median_outside_empirical_interval_fraction": 0.5037812500000001,
+                "median_outside_observed_minmax_fraction": 0.45060848214285715,
+                "non_crossing_is_not_preservation_pass": false,
+                "predeclared_strong_marginal_mismatch": true
+              }
+            },
+            "scientific_fits_completed": 0,
+            "source_code_sha256": "5177132c8eb2a55edff56996fa6374d8a146ac7e61fa1af8c9238470a27b0ef0",
+            "status": "complete_input_screen_inconclusive_target_map_unknown",
+            "target_transform_established": false
+          },
+          "source": {
+            "line": 809,
+            "path": "research/experiments.jsonl",
+            "sha256": "d985ab9ef087e86e5dae836ff1f7c62153653e3f388c600b6cd50ebb60ec9a77"
+          }
+        }
+      ],
+      "title": "feature_only_input_marginal_symmetry_screen",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-S38-INDEPENDENT-INTERPRETATION-20261013-R1",
+      "latest_recorded_status": "input_measurements_usable_with_qualification_no_augmentation_or_family_rejection",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STRATEGY-S38-INDEPENDENT-INTERPRETATION-20261013-R1\", \"created_utc\": \"2026-10-13T00:13:03.955534+00:00\", \"hypothesis_id\": \"H-STRATEGY-MIRROR-20261013\", \"status\": \"input_measurements_usable_with_qualification_no_augmentation_or_family_rejection\", \"receipt\": \"research/campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/INDEPENDENT_INTERPRETATION_REVIEW_R1.json\", \"new_fits\": 0, \"finding\": \"The negative-control gate is structurally unattainable, and per-sequence marginal preservation is not necessary for population symmetry. Stored input measurements remain usable at their narrow scope.\"}\n",
+          "record": {
+            "created_utc": "2026-10-13T00:13:03.955534+00:00",
+            "finding": "The negative-control gate is structurally unattainable, and per-sequence marginal preservation is not necessary for population symmetry. Stored input measurements remain usable at their narrow scope.",
+            "hypothesis_id": "H-STRATEGY-MIRROR-20261013",
+            "id": "E-STRATEGY-S38-INDEPENDENT-INTERPRETATION-20261013-R1",
+            "new_fits": 0,
+            "receipt": "research/campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/INDEPENDENT_INTERPRETATION_REVIEW_R1.json",
+            "status": "input_measurements_usable_with_qualification_no_augmentation_or_family_rejection"
+          },
+          "source": {
+            "line": 810,
+            "path": "research/experiments.jsonl",
+            "sha256": "7c91641f29eac97ec0ccd566ce6e5133901ea62b0ee52d50f60d89afe63a4c8d"
+          }
+        }
+      ],
+      "title": "E-STRATEGY-S38-INDEPENDENT-INTERPRETATION-20261013-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-INNOVATION-F0-S3-20261013-R1",
+      "latest_recorded_status": "new_matched_pair_prepared_actual_device_profile_pending",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STRATEGY-INNOVATION-F0-S3-20261013-R1\", \"created_utc\": \"2026-10-13T00:25:50.172664+00:00\", \"hypothesis_id\": \"H-STRATEGY-20261012-01\", \"related_hypotheses\": [\"H-238\"], \"status\": \"new_matched_pair_prepared_actual_device_profile_pending\", \"recipe\": \"research/campaign_2026-10-13/strategy_execution_r1/innovation_f0_s3_r1/RECIPE_R1.json\", \"preflight\": \"research/campaign_2026-10-13/strategy_execution_r1/innovation_f0_s3_r1/PREFLIGHT_R1.json\", \"new_fits\": 0, \"fold\": 0, \"seed\": 3, \"n_in\": 291, \"quality_evaluated\": false, \"public_forecast\": null}\n",
+          "record": {
+            "created_utc": "2026-10-13T00:25:50.172664+00:00",
+            "fold": 0,
+            "hypothesis_id": "H-STRATEGY-20261012-01",
+            "id": "E-STRATEGY-INNOVATION-F0-S3-20261013-R1",
+            "n_in": 291,
+            "new_fits": 0,
+            "preflight": "research/campaign_2026-10-13/strategy_execution_r1/innovation_f0_s3_r1/PREFLIGHT_R1.json",
+            "public_forecast": null,
+            "quality_evaluated": false,
+            "recipe": "research/campaign_2026-10-13/strategy_execution_r1/innovation_f0_s3_r1/RECIPE_R1.json",
+            "related_hypotheses": [
+              "H-238"
+            ],
+            "seed": 3,
+            "status": "new_matched_pair_prepared_actual_device_profile_pending"
+          },
+          "source": {
+            "line": 811,
+            "path": "research/experiments.jsonl",
+            "sha256": "cb016b956c6bfa2b07927f68d278debbb0d2a043f4041f783dcdb37caca12e00"
+          }
+        }
+      ],
+      "title": "E-STRATEGY-INNOVATION-F0-S3-20261013-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-INNOVATION-F0-S3-20261013-R2",
+      "latest_recorded_status": "prepared_pending_independent_delta_review_and_device_profiles",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STRATEGY-INNOVATION-F0-S3-20261013-R2\", \"hypothesis_id\": \"H-238\", \"created_utc\": \"2026-10-13T00:58:38.594026+00:00\", \"status\": \"prepared_pending_independent_delta_review_and_device_profiles\", \"supersedes\": \"E-STRATEGY-INNOVATION-F0-S3-20261013-R1\", \"source\": \"research/campaign_2026-10-13/strategy_execution_r1/innovation_f0_s3_r2/README.md\", \"finding\": \"Actual T3 cache metadata and consumer mapping now pass with our executed narrow validator; no new scientific result.\"}\n",
+          "record": {
+            "created_utc": "2026-10-13T00:58:38.594026+00:00",
+            "finding": "Actual T3 cache metadata and consumer mapping now pass with our executed narrow validator; no new scientific result.",
+            "hypothesis_id": "H-238",
+            "id": "E-STRATEGY-INNOVATION-F0-S3-20261013-R2",
+            "source": "research/campaign_2026-10-13/strategy_execution_r1/innovation_f0_s3_r2/README.md",
+            "status": "prepared_pending_independent_delta_review_and_device_profiles",
+            "supersedes": "E-STRATEGY-INNOVATION-F0-S3-20261013-R1"
+          },
+          "source": {
+            "line": 812,
+            "path": "research/experiments.jsonl",
+            "sha256": "68a95eb1daa31ce06c2be662414607986082cb0fa1daef27cdfbb833169a9d75"
+          }
+        }
+      ],
+      "title": "E-STRATEGY-INNOVATION-F0-S3-20261013-R2",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-AMPLITUDE-F0-GRADE-20261013-R1",
+      "latest_recorded_status": "complete_inconclusive",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STRATEGY-AMPLITUDE-F0-GRADE-20261013-R1\", \"hypothesis_id\": \"H-STRATEGY-20261012-01\", \"status\": \"complete_inconclusive\", \"score\": 0.6811949693747386, \"delta\": 3.9609041402209e-05, \"evidence_paths\": [\"research/campaign_2026-10-13/strategy_execution_r1/first_results_analysis_r1/RESULTS_R1.json\"], \"created_utc\": \"2026-10-13T08:36:46.699119+00:00\", \"exposure\": \"F0exposed; fixed-prediction component intervals exclude fitting/teacher/public uncertainty\"}\n",
+          "record": {
+            "created_utc": "2026-10-13T08:36:46.699119+00:00",
+            "delta": 3.9609041402209e-05,
+            "evidence_paths": [
+              "research/campaign_2026-10-13/strategy_execution_r1/first_results_analysis_r1/RESULTS_R1.json"
+            ],
+            "exposure": "F0exposed; fixed-prediction component intervals exclude fitting/teacher/public uncertainty",
+            "hypothesis_id": "H-STRATEGY-20261012-01",
+            "id": "E-STRATEGY-AMPLITUDE-F0-GRADE-20261013-R1",
+            "score": 0.6811949693747386,
+            "status": "complete_inconclusive"
+          },
+          "source": {
+            "line": 813,
+            "path": "research/experiments.jsonl",
+            "sha256": "62712508cebe6a2192de91f41a8c2ae4af1b4d186b9367096b9e6537a0889d1e"
+          }
+        }
+      ],
+      "title": "E-STRATEGY-AMPLITUDE-F0-GRADE-20261013-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STRATEGY-SWA-F0-GRADE-20261013-R1",
+      "latest_recorded_status": "complete_inconclusive",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STRATEGY-SWA-F0-GRADE-20261013-R1\", \"hypothesis_id\": \"H-STRATEGY-AVERAGING-20261013\", \"status\": \"complete_inconclusive\", \"mean_paired_delta\": 5.0482723414235764e-05, \"evidence_paths\": [\"research/campaign_2026-10-13/strategy_execution_r1/FIRST_WAVE_COST_AND_EFFECT_R1.json\"], \"created_utc\": \"2026-10-13T08:36:46.699119+00:00\", \"exposure\": \"F0exposed; fixed-prediction component intervals exclude fitting/teacher/public uncertainty\"}\n",
+          "record": {
+            "created_utc": "2026-10-13T08:36:46.699119+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/strategy_execution_r1/FIRST_WAVE_COST_AND_EFFECT_R1.json"
+            ],
+            "exposure": "F0exposed; fixed-prediction component intervals exclude fitting/teacher/public uncertainty",
+            "hypothesis_id": "H-STRATEGY-AVERAGING-20261013",
+            "id": "E-STRATEGY-SWA-F0-GRADE-20261013-R1",
+            "mean_paired_delta": 5.0482723414235764e-05,
+            "status": "complete_inconclusive"
+          },
+          "source": {
+            "line": 814,
+            "path": "research/experiments.jsonl",
+            "sha256": "9874aa5de5807cda6e6adbc08ac4767c0395b6e72e357408ec9cd8864b715cf4"
+          }
+        }
+      ],
+      "title": "E-STRATEGY-SWA-F0-GRADE-20261013-R1",
       "type": "experiment"
     },
     {

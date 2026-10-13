@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1403 · raw hypothesis rows 486 · raw experiment rows 806 · legacy arms 18 · catalog files 89187.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1413 · raw hypothesis rows 488 · raw experiment rows 814 · legacy arms 18 · catalog files 89411.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json](<snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json>).
 
@@ -1513,6 +1513,8 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-STRATEGY-COMPACT-20261013 | Lower-cost recurrent members may improve complete fixed ensembles at measured equal CPU serving cost. | hypothesis · not_tested | family:ensemble | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L484>) | — |
 | hypothesis:H-STRATEGY-AVERAGING-20261013 | Averaging a fixed student trajectory may improve expected quality or training stability at unchanged serving cost. | hypothesis · not_tested | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L485>) | — |
 | hypothesis:H-STRATEGY-CROSSFIT-20261013 | Component-excluded causal teacher targets may transfer better to a fixed student than in-sample predictions. | hypothesis · not_tested | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L486>) | — |
+| hypothesis:H-STRATEGY-GRADIENT-CREDIT-20261013-01 | At a fixed 2000-row optimizer update window, cutting hidden-state gradient credit every 500 rows may change the F0 clean-T3 student endpoint relative to retaining credit across 2000 rows, independent of optimizer, LR, EMA and target-denominator clocks. | hypothesis · not_tested | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L487>) | — |
+| hypothesis:H-STRATEGY-MIRROR-20261013 | At least one schema-anchored involutive bid/ask side permutation or conditional price-axis reflection preserves the marginal feature support/distribution of source-qualified fitting sequences closely enough to merit a dedicated symmetry follow-up; this is a necessary input screen only, and the target transformation remains unknown. | hypothesis · proposed | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L488>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -2259,6 +2261,14 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-STRATEGY-AMP-F0-S3-20261013-R2-P1-PREFIT-FAILURE | target_amplitude_f0_seed3_execution_failure | experiment · infrastructure_pre_fit_failure | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L804>) | — |
 | experiment:E-STRATEGY-AMP-F0-S3-20261013-R3-PATH-CORRECTION | target_amplitude_f0_seed3_recipe_path_correction | experiment · prepared_conditionally_authorized_after_actual_split_loader_preflight | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L805>) | — |
 | experiment:E-STRATEGY-HISTORICAL-AUX-AUDIT-20261013-R1 | E-STRATEGY-HISTORICAL-AUX-AUDIT-20261013-R1 | experiment · historical_source_audit_complete | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L806>) | — |
+| experiment:E-STRATEGY-SWA-F0-20261013-R1 | E-STRATEGY-SWA-F0-20261013-R1 | experiment · derived_two_seed_artifacts_quality_pending | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L807>) | — |
+| experiment:E-STRATEGY-GC-F0-S3-20261013-R1 | controlled_detach_horizon_f0_seed3_recipe_preparation | experiment · prepared_profile_and_root_release_pending | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L808>) | — |
+| experiment:E-STRATEGY-S38-H317-INPUT-SYMMETRY-DIAGNOSTIC-R1 | feature_only_input_marginal_symmetry_screen | experiment · complete_input_screen_inconclusive_target_map_unknown | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L809>) | — |
+| experiment:E-STRATEGY-S38-INDEPENDENT-INTERPRETATION-20261013-R1 | E-STRATEGY-S38-INDEPENDENT-INTERPRETATION-20261013-R1 | experiment · input_measurements_usable_with_qualification_no_augmentation_or_family_rejection | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L810>) | — |
+| experiment:E-STRATEGY-INNOVATION-F0-S3-20261013-R1 | E-STRATEGY-INNOVATION-F0-S3-20261013-R1 | experiment · new_matched_pair_prepared_actual_device_profile_pending | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L811>) | — |
+| experiment:E-STRATEGY-INNOVATION-F0-S3-20261013-R2 | E-STRATEGY-INNOVATION-F0-S3-20261013-R2 | experiment · prepared_pending_independent_delta_review_and_device_profiles | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L812>) | — |
+| experiment:E-STRATEGY-AMPLITUDE-F0-GRADE-20261013-R1 | E-STRATEGY-AMPLITUDE-F0-GRADE-20261013-R1 | experiment · complete_inconclusive | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L813>) | — |
+| experiment:E-STRATEGY-SWA-F0-GRADE-20261013-R1 | E-STRATEGY-SWA-F0-GRADE-20261013-R1 | experiment · complete_inconclusive | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L814>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
