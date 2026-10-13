@@ -1,0 +1,59 @@
+{
+  "schema": "qat-cloud-operator-handoff-r1",
+  "status": "nonterminal_handoff",
+  "as_of_utc": "2026-10-13T18:17:38Z",
+  "source": "bounded read-only Kaggle CLI status and authenticated typed quota statistics",
+  "profile": {
+    "kernel": "vladkochetov07/wnn-qat-f0-s4-profile-r1-runner",
+    "version": 1,
+    "pushed_utc": "2026-10-13T17:44:30.905059Z",
+    "provider_timeout_seconds": 1800,
+    "status": "KernelWorkerStatus.RUNNING",
+    "last_observed_utc": "2026-10-13T18:17:37Z",
+    "admission_path": "research/campaign_2026-10-13/qat_renewable_r1/KAGGLE_S4_PROFILE_ADMISSION_R1.json",
+    "expected_collection_path": "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/collected/profile_attempt_001",
+    "collection_limit_bytes": 100000000,
+    "fit_admitted": false
+  },
+  "tpu_v8": {
+    "kernel": "vladkochetov07/e463-tpu-realdata-reload-v8-20261013",
+    "version": 1,
+    "pushed_utc": "2026-10-13T16:32:16.999790Z",
+    "provider_timeout_seconds": 1800,
+    "worker_deadline_seconds": 1500,
+    "parent_deadline_seconds": 1650,
+    "status": "KernelWorkerStatus.QUEUED",
+    "last_observed_utc": "2026-10-13T18:17:38Z",
+    "admission_path": "research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/ADMISSION_R1.json",
+    "expected_collection_path": "research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/collected/attempt_001",
+    "collection_limit_bytes": 100000000
+  },
+  "quota": {
+    "observed_utc": "2026-10-13T17:48:04Z",
+    "refresh_utc": "2026-10-17T00:00:00Z",
+    "gpu_used_seconds": 73773.640507,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_total_allowed_seconds": 108000.0,
+    "gpu_remaining_seconds": 34226.359493,
+    "tpu_used_seconds": 0.0,
+    "tpu_reserved_seconds": 0.0,
+    "tpu_total_allowed_seconds": 72000.0,
+    "tpu_remaining_seconds": 72000.0
+  },
+  "collection": {
+    "terminal_only": true,
+    "max_bytes_per_kernel": 100000000,
+    "status": "not_started_both_jobs_nonterminal",
+    "artifact_hashes": null
+  },
+  "scientific_status": {
+    "profile_acceptance": "pending actual per-job profile evidence and complete GradStats",
+    "tpu_bridge": "pending actual-data update/reload/export receipts",
+    "failure_claim": false
+  },
+  "monitoring": {
+    "shared_target_registry": "research/campaign_2026-10-06/cloud_preflight/provider_targets.json",
+    "target_entries_present": true,
+    "next_poll": "root-owned bounded read-only polling; profile status remained RUNNING about 33 minutes after push, but execution-clock start is unknown; TPU remains QUEUED; collect only after terminal status; do not push or retry"
+  }
+}
