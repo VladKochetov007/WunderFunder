@@ -29,6 +29,7 @@ import pyarrow.parquet as pq
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
 
 if __package__:
     from .validate_submission_callback_panel import safe_extract, sha256_file
