@@ -11,6 +11,7 @@ from pathlib import Path
 import numpy as np
 
 from wnn.gmetric import GlobalAccumulator
+from wnn.quantization import represented_rows
 from wnn.quantization_export import (
     read_packed_quantized_export,
     write_packed_quantized_export,
@@ -58,7 +59,23 @@ def prepare(args: argparse.Namespace) -> None:
     args.output.mkdir(parents=True, exist_ok=False)
     with (args.output / "parent.npz").open("xb") as output:
         np.savez_compressed(output, **weights)
-    write_packed_quantized_export(args.output / "packed_q8.npz", weights, "recurrent_head", codes)
+    effective = dict(weights)
+    selected = [
+        name for name in weights if name.startswith(("gru.weight_ih_", "gru.weight_hh_"))
+    ] + ["head.0.weight"]
+    for name in selected:
+        effective[name] = np.ascontiguousarray(
+            np.concatenate(
+                [
+                    represented_rows(
+                        codes[f"{name}.{index}.codes"], codes[f"{name}.{index}.scales"]
+                    )
+                    for index in range(2 if name == "head.0.weight" else 1)
+                ],
+                axis=1,
+            )
+        )
+    write_packed_quantized_export(args.output / "packed_q8.npz", effective, "recurrent_head", codes)
     for case in CASES[3:]:
         write_packed_quantized_export(args.output / f"{case}.npz", weights, case)
     components = {
