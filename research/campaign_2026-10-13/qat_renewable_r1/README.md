@@ -51,3 +51,8 @@ Canonical navigation: [inference research](../../unified/inference/README.md); r
 - [NATIVE_30PCT_MIXED_R1.json](NATIVE_30PCT_MIXED_R1.json): Pins the selected mixed epoch-0 checkpoint deployment manifest and full-F0 native worker with a measured 1GB host reservation.
 - [ALLOCATION_100PCT_FLOAT_R1.json](ALLOCATION_100PCT_FLOAT_R1.json): Admits the full-data floating control after the uncertain positive 30% W4 effect, to support matched full-data fixed/learned-scale comparisons.
 - [INDEX_VERIFICATION_R2.json](INDEX_VERIFICATION_R2.json): Records successful tree generation and local Markdown link checks, plus catalog-only freshness failures caused by changing live operational records; not a full integrity-check pass.
+
+[First matched adaptation wave](MATCHED_ADAPTATION_WAVE_R1.md) compares all six completed local fits and four independently graded native pairs, with target/mask/ancestry checks and exposed-fold limitations. Both 30% QAT deltas are positive but uncertain, while absolute scores fall; subset coverage and update count changed together. [Additional native-Q8 controls](NATIVE_FLOAT_Q8_SEQUENCE_R1.json) ensure endpoint ranking includes the original serving precision.
+
+- [KAGGLE_QUOTA_PRE_PROFILE_R1.json](KAGGLE_QUOTA_PRE_PROFILE_R1.json): Typed fresh quota confirms 34,439.317 GPU seconds and 72,000 TPU seconds remaining before the seed4 profile; no capacity used by a new GPU job yet.
+- [KAGGLE_S4_ASSET_STAGE_R1.json](KAGGLE_S4_ASSET_STAGE_R1.json): Root verifies 22 private seed4 checkpoint/ancestry/teacher-cache payloads totaling1.972GB in a short physical directory, preserving hardlinked source inodes and exact hashes before upload.
