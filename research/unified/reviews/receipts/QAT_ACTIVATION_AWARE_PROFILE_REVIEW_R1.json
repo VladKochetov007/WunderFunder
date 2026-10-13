@@ -1,0 +1,69 @@
+{
+  "schema": "independent_activation_qat_profile_review_v1",
+  "review_id": "QAT-ACTIVATION-AWARE-PROFILE-REVIEW-R1",
+  "reviewed_actor_revision": "2a5c9c89b040b7a2e52a97ae1d286dc056aa07fc",
+  "implementation_revision": "7939e64c0a14cba9e0c1eaaf5822787c89dd54bf",
+  "implementation_base": "af49c2fc1fa4f02cf4bdfa64f4268236b0478fd4",
+  "verdict": {
+    "synthetic_compile_smoke": "conditional_go_with_root_resource_admission_and_actual_211_feature_shape",
+    "actual_data_optimizer_profile": "no_go_on_reviewed_source",
+    "fit_admission": "not_cleared",
+    "quality": "not_evaluated"
+  },
+  "reviewer_checks": {
+    "gru_gate_equations_and_order": "static_pass_for_finite_plain_gru_linear_encoder; reset_update_new and candidate reset multiplication match native source",
+    "native_a8_finite_nonzero_rounding": "static_pass_nearest_even_signed_symmetric_per_vector",
+    "all_zero_vector": "static_pass_zero_codes_and_scale",
+    "nonfinite_vector_semantics": "fail_native_equivalence; torch amax/fmax path differs from native invalid-scale behavior and forward has no finite guard",
+    "fp32_recurrent_state": "static_pass; fake quant only supplies the recurrent matvec operand; original previous state is mixed into the update",
+    "scan_autograd": "actor_receipt_reports_unquantized fused-GRU output/state/gradient parity; reviewer did not rerun tests",
+    "fixed_weight_qat_replacements": "static_pass_structural_reuse_of_existing_replacement_helper",
+    "learned_scale_compile_interaction": "not_tested_by_profile",
+    "profile_actual_data": "fail_random inputs, random model initialization, square loss, no data/checkpoint/cache/recipe binding",
+    "profile_optimizer_and_cache_refresh": "fail_no optimizer.step or invalidate_qat_cache",
+    "trainer_integration": "not_present_in_reviewed_revision",
+    "experiment_lineage": "fail_new H-QAT-A8 row reuses deployment experiment ID already associated with H-QAT-W4"
+  },
+  "shape_binding": {
+    "profile_default_features": 112,
+    "frozen_parent_input_features": 211,
+    "frozen_parent_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "frozen_parent_manifest_sha256": "8894af708dcba1500fc8c1b431d30468a29a9999531dd7133ec982c3b1d19556",
+    "manifest_tensor_evidence": {
+      "inp.weight": [256, 211],
+      "mean": [211],
+      "std": [211]
+    }
+  },
+  "reviewed_file_sha256": {
+    "src/wnn/activation_qat.py": "a76efa16c9d74117b2fccea1f7e15d75dcb32af6abdbea7826aa2aba5fef926f",
+    "src/wnn/training_qat.py": "65d770f1ee5bc4cb5b88d7e1b42d63eb77fae4704010f0b263966e0de58578e2",
+    "scripts/profile_activation_qat.py": "46a8388d7239b266a3217cd85f305328b3c91368acbff61cffd8d239aab91841",
+    "tests/test_activation_qat.py": "9b53bde2d933ed23d3fe4b4094d8c6829e98a4f3fcddb0dfa177629dd0ceb591",
+    "ACTIVATION_AWARE_BACKEND_R1.md": "496358d268c66ac4563f8c1046b4a810ba0971a45055b77c3f97ab4d1fecf45a",
+    "ACTIVATION_AWARE_CPU_NATIVE_RECEIPT_R1.json": "38f45e156b0eb4f1bdb3e09f9f0e618464805ea232fea268c4d4bdf75344b78d"
+  },
+  "actor_cpu_native_receipt_claims": {
+    "focused_tests_passed": 4,
+    "focused_tests_failed": 0,
+    "wall_seconds": 4.76,
+    "controlled_native_final_state_max_abs_error": 5.96046448e-08,
+    "no_a8_state_effect": 0.000689923763,
+    "reviewer_rerun": false
+  },
+  "review_limits": [
+    "No Torch import/test, GPU profile, fit, model tensor, prediction array, or native rebuild was run by reviewer.",
+    "Static inspection cannot establish actual compile/runtime resource fit or model quality.",
+    "Native state diagnostic is a controlled zero-input-projection fixture, not trained-model parity."
+  ],
+  "required_before_fit_profile_admission": [
+    "Bind exact CP5 checkpoint/model configuration and 211-feature normalization.",
+    "Use one bounded actual B16x1000 fitting batch from the frozen loader/cache.",
+    "Use the frozen distillation and auxiliary loss.",
+    "Perform one disposable optimizer update and invalidate represented-weight cache; verify finite gradients and parameter change.",
+    "Bind code, checkpoint, cache/data and recipe hashes in receipt.",
+    "Explicitly reject nonfinite inputs/states or test a native-equivalent policy.",
+    "Integrate the activation-aware forward path into the real trainer before any fit.",
+    "Append a distinct activation-aware experiment ID without changing historical rows."
+  ]
+}
