@@ -15,7 +15,7 @@ evidence_paths:
 
 ## Question or claim
 
-Do simple schema-anchored bid/ask side exchange or price-axis reflection maps preserve the marginal feature distributions of source-qualified fitting sequences closely enough to justify a symmetry follow-up? Such a screen is necessary evidence only: it cannot establish a joint data symmetry or a lawful target transform.
+Do simple schema-anchored bid/ask side exchange or price-axis reflection maps preserve the marginal feature distributions of source-qualified fitting sequences closely enough to justify a symmetry follow-up? This probes conditional marginal support; it cannot establish a joint data symmetry or a lawful target transform, and within-sequence preservation is not necessary for population symmetry.
 
 ## Mechanism and method
 
@@ -40,6 +40,8 @@ The same-index side swap crosses the predeclared mismatch cutoff, which is negat
 This is a limited input-marginal screen, not a model-quality result. It does not establish that all H-317 symmetry ideas are false, because it tests only three frozen maps. It also does not establish that any map is a symmetry: univariate distributions can match while joint or temporal structure changes.
 
 ## Limits and validity
+
+The [independent interpretation review](../../campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/INDEPENDENT_INTERPRETATION_REVIEW_R1.json) qualifies two points in the original screen. The sign-only control changes at most 52 coordinates, so it cannot cross a gate requiring more than 56 displaced coordinates, regardless of the input. Its 0/32 count therefore cannot validate that gate. Also, within-sequence marginal preservation is not a necessary condition for population symmetry: a valid transform can map one sequence or latent regime into another. The measurements support a conditional marginal-mismatch finding; they do not falsify population symmetry. The frozen cutoff and raw results remain unchanged. Unknown input correspondence and target action remain the material obstacle to a justified augmentation.
 
 The sample is small and comes from an already exposed F0 fitting partition; it is not a fresh holdout. No target, scoring mask, validation or evaluation feature was read. There was no model inference, training, GPU use, augmentation, or score measurement.
 

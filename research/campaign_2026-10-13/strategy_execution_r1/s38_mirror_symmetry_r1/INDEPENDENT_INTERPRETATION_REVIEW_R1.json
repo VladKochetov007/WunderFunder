@@ -1,0 +1,35 @@
+{
+  "schema": "wnn.strategy.s38.independent-interpretation-review.v1",
+  "created_utc": "2026-10-13T00:13:03.955534+00:00",
+  "reviewer": "root",
+  "actor_commit": "ae5400fd",
+  "result_sha256": "80262d8ea090a843f5e2123f693424fcaf41ab07762b0a9580fd93e59b68b5d1",
+  "actual_data_reread": false,
+  "checks": [
+    "32 distinct components and groups all in frozen fit.train",
+    "per-component counts and median summary agree with stored rows",
+    "static signed-coordinate map matches frozen proposal",
+    "input-only SequenceFile read and complete20000-row guard"
+  ],
+  "findings": [
+    {
+      "id": "S38-R1",
+      "severity": "interpretation",
+      "finding": "The sign-only negative control modifies at most52 coordinates (44p+8dp). The frozen gate requires more than56 changed coordinates, so this control cannot cross that gate for any finite input. Its0/32 crossing rate provides no test-specific reassurance.",
+      "correction": "Retain frozen measurements; use continuous displacements, explicitly state the structural limitation, and do not alter cutoff after outcomes."
+    },
+    {
+      "id": "S38-R2",
+      "severity": "interpretation",
+      "finding": "A within-sequence marginal match is not a necessary condition for a symmetry of the full population: a symmetry may map a sequence or latent regime into another supported regime. These marginal displacements measure this conditional heuristic, not global augmentation validity.",
+      "correction": "Describe side-swap failure as a local marginal mismatch only. Unknown anonymous coordinates and target action are the stronger reason no end-to-end augmentation is currently established."
+    }
+  ],
+  "coordinate_change_upper_bounds": {
+    "side_swap": 88,
+    "price_axis_reflection": 96,
+    "price_sign_only_negative_control": 52
+  },
+  "disposition": "input_measurements_usable_with_qualification_no_augmentation_or_family_rejection",
+  "new_scientific_fits": 0
+}
