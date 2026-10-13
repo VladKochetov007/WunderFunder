@@ -1,32 +1,42 @@
 # Active strategy frontier
 
-Updated 2026-10-12T23:47:32Z. Research resumed by explicit user instruction. The first amplitude candidate is fitting locally; no new model score yet.
+Updated 2026-10-13T00:39:37.442760+00:00. Research remains authorized. The amplitude candidate is fitting locally; no new model quality score yet.
 
 ## Target and supported references
 
-Top-1/public>.700 remain active objectives. Public C=.6671 is user-reported. Clean T3 F0 CP5 s3=.68115536/s4=.68125842 share teachers; Z4 F0=.68314181 is not a matched treatment. Future transfer remains unconfirmed.
+Top-1/public>.700 remain active objectives. Public C=.6671 is user-reported. Clean T3 F0 CP5 s3=.68115536/s4=.68125842 share teachers; Z4 F0=.68314181 is not a matched treatment. Robustness preference allows at most.001 ordinary CV loss against the strongest complete endpoint. Future transfer remains unconfirmed.
 
 ## Current owners and next actions
 
 | Owner | Work | Next delivered artifact |
 |---|---|---|
-| root | Integration, independent admission, coverage and evidence | Review F3 Kaggle packet; preserve full original strategy plus new review extensions |
-| resume_gpu_limits | Clean F3 H384 Muon-all teacher delivery | Seed-3 profile/fit/export tranche; correct quota accounting and output-byte estimate before dispatch |
-| strategy_first_cohort | Live cached-target amplitude and next gradient-credit pair | R3 P1→P2→P3 state validation, CP5 predictions; prepare detach500/2000 pair while fitting |
-| strategy_independent_critic | Completed innovation review; now isolated symmetry diagnostic actor | Fitting-data candidate-map receipts for H-317/S38; no augmentation adoption from a marginal test |
+| root | Integration, trajectory-mean exports, innovation recipe, allocation | Fresh admission for two reviewed S37 exports after amplitude; independent S09 review and profiles |
+| resume_gpu_limits | Clean F3 H384 Muon-all teacher delivery | R3 operational repair after R2 successful profile and pre-fit reservation rejection; fresh quota release |
+| strategy_first_cohort | Live amplitude and next gradient-credit pair | P2→P3 full-state gates, fixed CP5 predictions/grade; corrected coherent S14 profile vectors |
+| strategy_independent_critic | Completed symmetry diagnostic and S37 review; S09 recipe critic | Independent exact recipe/export/source audit in an isolated worktree |
 
-## Live uncertainties
+## Actual evidence and uncertainties
 
-R3 amplitude P1 reached actual epoch0 after its R2 predecessor failed before fitting on a relative split path. Actual membership is 10,535 train / 1,405 fit-valid / 468 evaluation groups. Worker peak RAM 4.95GB and observed VRAM about2.18GB; all stage continuations require actual full-state checks and fresh shared admission. Commands and immutable failure receipts are in [the packet](target_amplitude_f0_s3_r1/README.md).
+[Amplitude R3](target_amplitude_f0_s3_r1/README.md): P1 completed epochs0/1 and its full-state gate passed. P2 completed epoch2 and reached epoch3 batch220/746 at00:37:46UTC. Worker peak4.95GB, observed VRAM2.64GB, parent11.24GB. P3 and export remain conditionally authorized after successful full-state checks and fresh admission. No candidate score exists. The bounded NPY prediction-alias helper R2 was repaired and tested before use.
 
-Innovation CPU batch/stream/ONNX implementation independently passes; matched GPU profile and fits remain. Gradient-credit mode supports the current structural and next-change auxiliaries; the actor is checking exact paired semantics rather than assuming all auxiliaries are forbidden. Missing clean F3 teacher seeds3/4/5 remain a real prerequisite; the available H384 Muon-rnn endpoint is not a substitute. Complete C bridge and remaining three stress-panel families are pending. The train source lacks the exact scoring mask.
+[F3 R2](first_cohort_f3_teachers_r2/TERMINAL_RECEIPT_R2.json): providerERROR at00:30:57UTC. Actual profile passed200/200 updates on T4, peakRSS4.491GB, peak allocatedVRAM3.497GB, stagewall1206.54s including large input hashes. The next fit reservation was rejected before worker launch. All output evidence was collected once; no weights or predictions exist. R3 must preserve science, diagnose available-memory accounting, and reuse relevant profile evidence without blind replay. Missing seeds3/4/5 and clean cache still block F3 comparisons.
+
+[S37](trajectory_average_f0_r1/README.md): fixed epoch3/4/5 means for two clean F0 trajectories are built and independently match all tensors and provenance; exact staged predictor CPU loading passes. GPU export and paired grading remain. These are two student/initializer seeds sharing teachers, not six independent models.
+
+[S09](innovation_f0_s3_r1/README.md): new matched moments-only versus innovations vectors are frozen. Both extend own211-input parent to291 with zero added weights and inherited preprocessing, train on identical fitting membership/cache and use fixedCP5. Prior CPU/stream/ONNX feature parity passed; no GPU profile or quality fit yet. The new source differs from historical R3, so it needs its own matched control.
+
+[S14](gradient_credit_f0_s3_r1/README.md): micro500/update2000 with detach500 versus2000. Equation tests passed, but root found the R2 standalone worker vector retained the old malformed R1 copy while launcher vectors were corrected. No profile launched; actor owns a coherent R3 before release. [S38](s38_mirror_symmetry_r1/README.md) completed the fit-only input diagnostic; independent interpretation identified a structurally unattainable negative-control threshold. Marginal shifts do not establish or reject population symmetry, and no target transform is justified.
+
+Three frozen stress-panel families and S25 historical auxiliary audit are available. Complete C bridge, remaining stress panels, cross-fold endpoints, EMA-only and causal cross-fit teachers remain pending. The train source lacks the exact scoring mask. All inspected folds remain exposed.
 
 ## Allocation and resources
 
-All live Kaggle allowance and local GPU time/available memory authorized; no paid changes. 5CPU;17GB committed target;18/20GB RAM/no swap; one local fit worker. Support commands have explicit per-task bounds and must include the full active5.5GB worker reservation in conservative overlapping admission. CPU performs support/analysis, no large model fits. Exact Kaggle quota at23:42UTC was35,838.966 GPU seconds /72,000 TPU seconds, reserved0; refresh before dispatch.
+All live Kaggle allowance and local GPU time/available memory authorized; no paid changes. 5CPU;17GB committed target;18/20GB RAM/no swap; one local GPU worker. CPU performs support/analysis. Account live parent cgroup memory plus unused admitted reservation and complete support bounds; use full reservation if worker identity/coherent observation is unavailable. The [one-task bracket](SUPPORT_ADMISSION_BRACKET_R1.json) records a completed verifier, not automatic future admission.
 
-The requested first-principles branch is merged and pushed to Main. [Its assessed experiments](../../unified/ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md) add compact ensembles, averaging, symmetry and causal cross-fitting as S36–S39, with propensity power0 added to S05. The initial amplitude/innovation/credit cohort and original35 mechanisms remain active; proposals are not completed experiments.
+Latest quota around00:37UTC:34,439.317 GPU seconds and72,000 TPU seconds remaining, reserved0. Refresh before R3 dispatch. Current amplitude chain retains priority; two inexpensive S37 exports follow, then reviewed S14/S09 device profiles and allocated matched fits. Preserve frozen source worktrees.
+
+The requested first-principles branch was merged as20c904da and pushed. [Assessed extensions](../../unified/ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md) add S36–S39 and propensity0 to S05. All39 mechanisms remain tracked; proposals and engineering tests are not completed quality experiments.
 
 ## Navigation
 
-[Contract](CONTRACT.json), [plan](PLAN.md), [coverage](COVERAGE.json), [entry point](README.md). Every useful result/incident needs an explained unified README entry in the same handoff.
+[Contract](CONTRACT.json), [plan](PLAN.md), [coverage](COVERAGE.json), [entry point](README.md). Every useful result and operational incident needs an explained unified README entry.

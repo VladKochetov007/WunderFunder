@@ -1,0 +1,70 @@
+{
+  "schema": "wnn.strategy.manual-support-admission-bracket.v1",
+  "created_utc": "2026-10-13T00:24:03.530446+00:00",
+  "owner": "root",
+  "scope": "one upcoming S37 critic verification, <=1.2GB; no change to controller or active source",
+  "basis": "Latest user instruction counts parent memory including file/shmem plus unused admitted reservation, without counting live worker twice. Earlier full-reservation fallback was conservative while coherent sampling was absent.",
+  "worker_unit": "wnn-bandit-clean-t3-f0-amplitude1-s3-a9-r3-p2-20261013.service",
+  "worker_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-bandit-clean-t3-f0-amplitude1-s3-a9-r3-p2-20261013.service",
+  "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+  "samples": [
+    {
+      "parent_before": 10820997120,
+      "parent_after": 10820997120,
+      "worker_before": 4645568512,
+      "worker_after": 4645568512,
+      "elapsed_ns": 151090
+    },
+    {
+      "parent_before": 10820997120,
+      "parent_after": 10820997120,
+      "worker_before": 4645568512,
+      "worker_after": 4645568512,
+      "elapsed_ns": 73276
+    },
+    {
+      "parent_before": 10820788224,
+      "parent_after": 10820788224,
+      "worker_before": 4645568512,
+      "worker_after": 4645568512,
+      "elapsed_ns": 71677
+    },
+    {
+      "parent_before": 10820788224,
+      "parent_after": 10821312512,
+      "worker_before": 4645568512,
+      "worker_after": 4645830656,
+      "elapsed_ns": 73295
+    },
+    {
+      "parent_before": 10821312512,
+      "parent_after": 10821312512,
+      "worker_before": 4645830656,
+      "worker_after": 4645830656,
+      "elapsed_ns": 72208
+    }
+  ],
+  "parent_upper_observed": 10821312512,
+  "worker_lower_observed": 4645568512,
+  "reserved_worker_bytes": 5500000000,
+  "unused_worker_reservation": 854431488,
+  "new_critic_bound": 1200000000,
+  "other_support_bounds": {
+    "cloud_operator": 700000000,
+    "root_small_support": 400000000
+  },
+  "extra_sampling_and_support_margin_bytes": 1000000000,
+  "projected_upper_with_margin": 14975744000,
+  "working_target_bytes": 17000000000,
+  "hard_limit_bytes": 20000000000,
+  "high_bytes": 18000000000,
+  "swap_bytes": 0,
+  "cpu_cores": 5,
+  "status": "pass_scoped_manual_support_admission",
+  "conditions": [
+    "Execute promptly; if current parent rises materially or worker changes, repeat bracket or wait.",
+    "At most this one1.2GB verifier plus listed700MB/400MB support bounds; root cannot overlap another1.2GBcheck.",
+    "Fallback to parent+fullreservation if worker identity or coherent observations unavailable.",
+    "No device job, fit, quota or automated guard changes."
+  ]
+}
