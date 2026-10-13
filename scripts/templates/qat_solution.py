@@ -9,9 +9,11 @@ for _var in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUME
     os.environ.setdefault(_var, "1")
 
 import numpy as np  # noqa: E402
-from qat_archive import read_qat_archive  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from qat_archive import read_qat_archive  # noqa: E402
+
 PRECISION = "q8vnni"
 _V3_FLAGS = {"avx", "avx2", "bmi1", "bmi2", "f16c", "fma", "abm", "movbe", "xsave"}
 _AVX2_FLAGS = {"avx", "avx2", "fma"}

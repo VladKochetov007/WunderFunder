@@ -165,3 +165,5 @@ Terminal raw execution evidence pinned by the snapshot above:
 [Full-data mixed W4/W8 result](full_mixed_results_r1/README.md) records the completed14,920-update fit and native WP0.681420269 versus matched mixed PTQ0.680660270. Checkpoint/export/prediction receipts are indexed; paired independent uncertainty is pending, with only exposed-F0 seed3 evidence. H-QAT-W4-20261013; E-QAT-WEIGHT-100PCT-F0S3-20261013-R1.
 
 - [Stationary final-parent target repair R2](final_self_distill_r2/README.md): explicit successor to the negative final blend R1 diagnostics; matched FP32/W4 target repair, profile/fit recipes frozen before outcomes. Fitted diagnostics only.
+
+- [QAT package sibling import repair](QAT_PACKAGE_SIBLING_IMPORT_REPAIR_R2.md): static packaging defect repaired before final dispatch; independently reviewed, all17 actual-fixture/generic tests pass, serving numerical outputs unchanged.

@@ -81,3 +81,5 @@ Runtime claims must name the hardware, exact ZIP, callback protocol, complete-te
 [Full-data mixed W4/W8 result](../../campaign_2026-10-13/qat_renewable_r1/full_mixed_results_r1/README.md) records the completed14,920-update fit and native WP0.681420269 versus matched mixed PTQ0.680660270. Checkpoint/export/prediction receipts are indexed; paired independent uncertainty is pending, with only exposed-F0 seed3 evidence. H-QAT-W4-20261013; E-QAT-WEIGHT-100PCT-F0S3-20261013-R1.
 
 - [Stationary final-parent QAT target repair R2](../../campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/README.md): original final initializer supplies fixed causal FP32 targets after R1 target-transfer degradation; matched S3 FP32/learned-scale W4, pending profile/fit results, no held-out or public claim.
+
+- [QAT package sibling import repair R2](../../campaign_2026-10-13/qat_renewable_r1/QAT_PACKAGE_SIBLING_IMPORT_REPAIR_R2.md): solution establishes its shipped helper directory before import, allowing offline spec-based loaders; independent static GO and17 passing actual-fixture tests, no quality claim.
