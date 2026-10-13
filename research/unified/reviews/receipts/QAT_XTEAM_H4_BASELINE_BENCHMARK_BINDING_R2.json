@@ -1,0 +1,50 @@
+{
+  "schema": "wnn.native-callback-benchmark-binding-review.v1",
+  "candidate": "xteam_h4",
+  "decision": "BINDING_READY_BENCHMARK_NOT_RUN",
+  "binding": {
+    "path": "research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/BASELINE_BENCHMARK_BINDING_R2.json",
+    "sha256": "836d4686f8130aa406f36d2737f0a7fd30e52f0fff234e8c8068a37ca23b606c"
+  },
+  "preserved_r1": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/BASELINE_BENCHMARK_BINDING_R1.json",
+    "sha256": "a782e9d39115af7381e777310698f575c1a5c8f6d068242aa9cdeba61dde0aa3",
+    "missing_consumer_fields": ["candidate", "native_runtime", "members"],
+    "runtime_log_bytes": 0,
+    "failure_detail": "Root reports the R1 callback replay completed before receipt construction failed; reviewer independently verified that the result builder indexes these absent fields."
+  },
+  "submission": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4.zip",
+    "sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+    "bytes": 16308160,
+    "zip_member_hash_map_matches_binding": true,
+    "solution_sha256_matches_member": true,
+    "bundled_native_library_hashes_match": true,
+    "fixed_members_match_archive_order_and_coefficients": true,
+    "member_count": 4,
+    "coefficient_sum": 1.0,
+    "checkpoint_provenance_available": false
+  },
+  "runner": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/benchmark_submission_callbacks.py",
+    "sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53",
+    "consumer_fields_supplied_by_r2": ["candidate", "native_runtime", "members"],
+    "expected_gate_status": "package_crc_passed; offline_import_and_streaming_gate_pending"
+  },
+  "planned_workload": {
+    "data_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+    "data_size_bytes": 5615509128,
+    "first_row_group": 4,
+    "sequences": 2,
+    "repeats": 2,
+    "tmpdir": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_release_r1/check_tmp",
+    "scope": "callback capacity and reset determinism only; no scoring or quality claim",
+    "runner_hashes_full_parquet_before_and_after": true,
+    "benchmark_executed": false
+  },
+  "limits": [
+    "Only static receipt/artifact/consumer checks were performed; callback replay remains pending.",
+    "The supplied archive labels model sources but lacks original checkpoint paths/hashes; no checkpoint provenance is reconstructed.",
+    "Root owns post-fit resource admission, the cache handoff, and execution."
+  ]
+}
