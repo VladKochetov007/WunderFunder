@@ -1,0 +1,68 @@
+{
+  "schema": "wnn.qat-100pct-uniform-w4-matched-grade-audit.v1",
+  "status": "passed",
+  "scope": "bounded independent metadata, checkpoint-hash and native-export audit; no Torch checkpoint loading or prediction-array loading",
+  "experiment": "E-QAT-DEPLOYMENT-20261013-R1",
+  "fit_runs": {
+    "reference": "qat_deploy_f0_s3_100pct_fp32_r1",
+    "candidate": "qat_deploy_f0_s3_100pct_uniform_w4_r1",
+    "seed": 3,
+    "shared_cp5_initializer_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "shared_f0_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "shared_full_cohort_manifest_sha256": "c8418fce5ddcfca1fab281754afdb6995e995247bddfb058a44d1d62be1ab377",
+    "shared_fit_members_sha256": "e8cdbba0d5ee2d2681c84cf4109b275903567c5c13ee769260ba0af85f25184a",
+    "shared_propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "shared_distillation_cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "shared_normalization_mean_bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+    "shared_normalization_std_bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+    "trainer_argument_differences": {
+      "name": [
+        "qat_deploy_f0_s3_100pct_fp32_r1",
+        "qat_deploy_f0_s3_100pct_uniform_w4_r1"
+      ],
+      "qat": [
+        "none",
+        "recurrent_w4"
+      ]
+    },
+    "sample_order_identity_equal": true,
+    "sample_order": {
+      "batch_size": 16,
+      "sampler_class": "RandomSampler",
+      "sampler_num_samples": 11940,
+      "sampler_replacement": false,
+      "sample_order_rng_state_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9"
+    },
+    "updates": {
+      "optimizer_attempts_each": 14920,
+      "optimizer_completed_updates_each": 14920,
+      "completed_batches_each": 746,
+      "amp_skipped_updates_each": 0,
+      "ema_updates_each": 0,
+      "selected_epoch_each": 0
+    },
+    "checkpoint_files": {
+      "reference_model_ep0_pt_sha256": "ae73f7a364c7918627844e8a27de15ce00c2085d8bb528ba327483a66735acc9",
+      "candidate_model_ep0_pt_sha256": "4de6940e7c827d3f9a2bde717d38ee48dc042ddb9be871efa2166ce55b5ccef1",
+      "both_provenance_and_deployment_manifest_hashes_verified": true
+    }
+  },
+  "native_export": {
+    "candidate_case_semantics": "exact_checkpoint_codes_scales",
+    "candidate_recurrent_w4_archive_sha256": "c32fc576c9c06e1fc0417fc384da13c585a7278eabe95d5fe3ba0b91635e9151",
+    "archive_bytes": 678713,
+    "encoded_code_and_scale_fields": 12,
+    "all_encoded_fields_match_checkpoint_quantization_hashes": true,
+    "reconstructed_effective_tensor_count": 16,
+    "all_effective_tensor_hashes_match_manifest": true,
+    "verification_reader": "wnn.quantization_export.read_packed_quantized_export; NumPy only"
+  },
+  "paired_grade_receipt": "QAT_100PCT_UNIFORM_W4_PAIRED_GRADE_R1.json",
+  "interpretation_limits": [
+    "one fitting seed on previously exposed F0",
+    "bootstrap is conditional on fixed endpoint predictions",
+    "raw-six-sum component bootstrap approximates centered-moment scoring",
+    "component target/mask sufficient statistics do not provide row-level mask hashes",
+    "no public-transfer or submission-ranking claim"
+  ]
+}
