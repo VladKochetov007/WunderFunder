@@ -1,0 +1,73 @@
+{
+  "data_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "entrypoint_binding_path": "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/ENTRYPOINT_BINDING_R1.json",
+  "fit_bundle": "vladkochetov07/wnn-qat-f0-s4-fit-r1",
+  "large_target_arrays_hashed_locally": true,
+  "private_asset_dataset": "vladkochetov07/wnn-qat-f0-s4-assets-r1",
+  "profile_bundle": "vladkochetov07/wnn-qat-f0-s4-profile-r1",
+  "profile_gate_before_fit": true,
+  "provider_timeout_alignment": {
+    "fit": {
+      "bootstrap_deadline_matches": true,
+      "push_command": "kaggle kernels push --path /home/vlad/development/wunder/qatk4a/qat-f0-s4-kaggle-r1/fit_upload/kernel --timeout 10800",
+      "runner_finalization_reserve_seconds": 300,
+      "seconds": 10800
+    },
+    "profile": {
+      "bootstrap_deadline_matches": true,
+      "push_command": "kaggle kernels push --path /home/vlad/development/wunder/qatk4a/qat-f0-s4-kaggle-r1/profile_upload/kernel --timeout 1800",
+      "runner_finalization_reserve_seconds": 300,
+      "seconds": 1800
+    }
+  },
+  "schema": "qat-kaggle-f0-s4-packet-r1",
+  "staged_asset_hash_verification": {
+    "block_bytes": 8388608,
+    "bytes_verified": 1972041441,
+    "files_verified": 22,
+    "hardlinks_preserved": true,
+    "receipt_path": "/home/vlad/development/wunder/qatk4a/qat-f0-s4-kaggle-r1/STAGED_ASSET_HASH_VERIFICATION_R1.json",
+    "status": "pass",
+    "upload_directory_file_count": 24
+  },
+  "staging_root": "/home/vlad/development/wunder/qatk4a/qat-f0-s4-kaggle-r1",
+  "status": "offline_packet_prepared_staged_hashes_verified_provider_review_pending",
+  "training_source_revision": "173cce08e9c7f13caccd1c3090419dd044aa702d",
+  "upload_metadata": {
+    "fit": {
+      "archive_sha256": "218fafd9fd3a1bd56322e815eaba34d0aa701bab0a9a0f4e8c11c40fa80224c5",
+      "bootstrap_bytes": 21894,
+      "bootstrap_sha256": "10a10881276187b6040c4b6630fc1724ef896675294428df9c0a5d92bc1ff7e6",
+      "dataset_id": "vladkochetov07/wnn-qat-f0-s4-fit-r1",
+      "dataset_title": "wnn-qat-f0-s4-fit-r1",
+      "execution_barrier": "run the sole preflight spec in its own runner invocation; require its complete terminal result and input_preflight.json pass receipt before one second invocation admits the three candidate jobs",
+      "kernel_id": "vladkochetov07/wnn-qat-f0-s4-fit-r1-runner",
+      "provider_timeout_seconds": 10800,
+      "runner_finalization_reserve_seconds": 300,
+      "specs": [
+        "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/specs/preflight.spec.json",
+        "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/specs/qat_deploy_f0_s4_100pct_fp32_r1.spec.json",
+        "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/specs/qat_deploy_f0_s4_100pct_uniform_w4_r1.spec.json",
+        "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/specs/qat_deploy_f0_s4_100pct_mixed_w4w8_r1.spec.json"
+      ]
+    },
+    "profile": {
+      "archive_sha256": "ad903b18b217a1440f4279fc0b9112d2d069e05b90114b46b6dd41fe0b55d4e6",
+      "bootstrap_bytes": 21897,
+      "bootstrap_sha256": "c21e89d67829dc24407d4809edd64d60e3d262f9bba29ed862e58a9f8d459ae4",
+      "dataset_id": "vladkochetov07/wnn-qat-f0-s4-profile-r1",
+      "dataset_title": "wnn-qat-f0-s4-profile-r1",
+      "execution_barrier": "run the sole preflight spec in its own runner invocation; require its complete terminal result and input_preflight.json pass receipt before one second invocation admits the three candidate jobs",
+      "kernel_id": "vladkochetov07/wnn-qat-f0-s4-profile-r1-runner",
+      "provider_timeout_seconds": 1800,
+      "runner_finalization_reserve_seconds": 300,
+      "specs": [
+        "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/specs/preflight.spec.json",
+        "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/specs/qat_deploy_f0_s4_100pct_fp32_profile_r1.spec.json",
+        "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/specs/qat_deploy_f0_s4_100pct_uniform_w4_profile_r1.spec.json",
+        "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/specs/qat_deploy_f0_s4_100pct_mixed_w4w8_profile_r1.spec.json"
+      ]
+    }
+  },
+  "uploads_or_provider_mutations_performed": false
+}
