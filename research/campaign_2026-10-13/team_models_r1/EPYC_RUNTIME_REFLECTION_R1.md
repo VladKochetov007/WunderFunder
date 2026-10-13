@@ -35,12 +35,17 @@ User-transcribed completed portal durations:
 | Older distilled pair | Two H256 students | 24:57 | Historical compact endpoint completed |
 | H390 s3/s4 pair | Two H256 members, own Q8 | 24:31 | Compact endpoint completed |
 | C | Three members, own Q8 | 36:36 | Three-model endpoint completed |
+| e6a | Six heterogeneous H128/H256, one/two-layer members | 36:31 | Count alone does not determine cost |
 | pair_ftt2 | Four distinct H256×2 trunks, C++ dynamic int8 | 44:42 | Named endpoint completed |
 | E | Four members, own Q8; wider merged heads | 49:16 | Named endpoint completed |
 | xteam_h4 | Four H256×2 trunks, own Q8; merged Z4 head | 50:16 | Completed using our runtime |
 | H388 teacher trio | Different, larger models | TIMEOUT at 61:56 | Right-censored failure, not completed runtime |
 
 Model count broadly tracks cost, but weights, head dimensions, shapes and host conditions differ. Pair's shorter time cannot isolate a C++ advantage. The pending E upload is excluded. Portal names are associated with local archives without portal-verified hashes.
+
+The [shape-derived matrix accounting](LOGICAL_Q8_WEIGHT_TRAFFIC_R1.json) explains one concrete confound. A regular H256×2 member has1,027,584 logical active matrix bytes under our Q8 scheme, already near1 MiB **before** scales, packing, biases and scratch. A merged512-wide head raises this to1,160,704 bytes. Xteam has one such wider head and E has two; pair has none. This is derived own-engine matrix payload, not measured cache traffic or a complete working set, and it does not establish the C++ layout. On a1 MB-L2 core, head width and cache reuse deserve direct measurement alongside model count.
+
+The six mixed-width/layer e6a members total3,149,568 logical matrix bytes under the same own-engine accounting, versus4,110,336 for the four-member pair. Serving cost follows actual recurrent shapes, precision and memory access, not just the number of GRUs or the ZIP size. e6a's observed36:31 is consistent with this being a cheaper endpoint, but different engines and weights prevent a causal timing decomposition.
 
 The local Intel i9-11900H short profile used the **same pair_ftt2 weights and coefficients** through both engines: approximately119.32 µs/row for original C++ and106.73 for the Rust wrapper over two complete sequences. This unpaired, unpinned screen is not an11% EPYC speedup claim. Predictions are not bitwise identical: two-sequence WP changes from0.72556209 to0.72557066. The difference establishes a numerical treatment requiring complete checks, not a quality gain.
 
@@ -60,6 +65,8 @@ Admitted complete replays evaluate all1,873 supplied-valid sequences with the of
 2. Run repeated paired **A→B→B→A** one-core callback timing on identical complete sequences, warmup/reset, weights and coefficients. Record wall/CPU time, affinity, loaded ELF and selected ISA under controlled load. This establishes local performance; target-device confirmation is needed for a host-speed claim.
 3. Prioritize exact duplicate-work removal where tensors match and distillation of the complete team ensemble into one or two students. Select endpoints with source-qualified CV and native quantized quality.
 4. Treat genuine256-bit VNNI, register blocking and cache layout as bounded target-specific experiments. Existing Q4 rounding lost quality without demonstrating INT4 speed. Lower-bit arithmetic needs both quality and callback measurements.
+
+A useful compression ladder is two same-teacher students atH192/H224/H256, using matched data, teacher ancestry, seeds and optimization budgets. The smaller widths reduce matrix traffic; H192 is naturally aligned to64-row Q8 tiles, while H224 incurs some padding. Compare the complete two-student native endpoint and preserve the H256 control. This is a proposal motivated by the cache boundary, not evidence that a smaller student retains quality. Clean teacher/fold reconstruction is required before ranking it as a submission.
 
 ## Source records
 

@@ -1,9 +1,11 @@
 # Team model comparison — October 13
 
-Root owns the user-authorized complete comparison before new ZIP preparation. [ADR0035](../../../specs/adr/0035-official-team-code-and-weight-sharing.md) permits direct team code/weight reuse; all training and evaluation ancestry remains explicit.
+Root owns the complete model comparison. The user's subsequent [exploratory release instruction](EXPLORATORY_SUBMISSION_AUTHORITY_R1.json) permits one new cross-team ZIP now, even without a local-best claim; comparison jobs continue. [ADR0035](../../../specs/adr/0035-official-team-code-and-weight-sharing.md) permits direct team code/weight reuse; all training and evaluation ancestry remains explicit.
 
 ## Artifacts
 
+- [Exploratory submission authority and recipe](EXPLORATORY_SUBMISSION_AUTHORITY_R1.json) fixes an equal four-member blend of teammate distilled/FTT seed6 and our Z4/H390 seed3. It changes the release timing for this public probe, not the interpretation of diagnostic validation scores. Package checks are pending.
+- [Member-bank grader](../../../scripts/grade_team_member_bank.py) validates actual terminal exporter metadata and hashes, then streams the official metric for fourteen members and nine predeclared mixtures, plus prediction/residual correlations. Independent implementation has five focused tests; execution awaits the complete bank.
 - `CONTRACT.json` fixes the compared original endpoints, official metric, diagnostic scope, resource bounds and promotion limits before scoring.
 - `intake.py` creates the bounded source/weight inventory and preserves exact archives in ignored physical storage. `INVENTORY.json` identifies duplicate tensors, architectures, runtime libraries and the five supplied ZIPs plus own C/E.
 - `score_archive.py` replays the exact package callback, streams one complete sequence at a time, exports disk-backed FP32 predictions and pooled/per-sequence official moments. It is diagnostic scoring, not training or weight search.
@@ -21,6 +23,7 @@ Current stage: eight short profiles complete; four complete original-callback re
 - File-cache-only handoffs [R2](CACHE_HANDOFF_R2.json), [R3](CACHE_HANDOFF_R3.json) and [R4](CACHE_HANDOFF_R4.json) restore measured admission margin under the existing GPU lock without changing limits or terminating healthy jobs. [B1 admission](GPU_PROFILE_ADMISSION_R1.json) records CPU redistribution within five cores, and [B16 admission](GPU_PROFILE_ADMISSION_R2.json) uses the measured smaller profile.
 
 - [EPYC runtime reflection](EPYC_RUNTIME_REFLECTION_R1.md) separates actual portal observations, local Intel profiles and target-specific hypotheses. [Independent binary audit](INDEPENDENT_RUNTIME_REVIEW_R1.md) confirms both engines contain VNNI paths without establishing an EPYC winner.
+- [Logical Q8 matrix accounting](LOGICAL_Q8_WEIGHT_TRAFFIC_R1.json) derives active unpadded matrix payload from actual member shapes: a regular H256×2 is near the1 MiB L2 boundary before metadata; merged heads exceed it. This is not a measured cache footprint or a C++ runtime claim. It motivates a matched H192/H224/H256 student compression ladder.
 - [Teammate methods and evidence](TEAM_METHODS_AND_EVIDENCE_R1.md) pins the accessible branch and distinguishes source-report findings from current missing CV/FTT lineage.
 - [Independent source and metric review](INDEPENDENT_REVIEW_R1.md) reproduces actual group hashes and official short-profile scores, and records the full-file identity correction.
 - [Profile index](profiles/README.md) and [full replay index](scores/README.md) explain every original/conversion receipt and its diagnostic scope.

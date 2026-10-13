@@ -18,6 +18,8 @@ Latest submission instruction (2026-10-11): **Do not select from fold 1 alone. D
 
 Latest Vast instruction (2026-10-11): auto top-up is disabled. Remaining prepaid credit and provider expiry can be stricter than the $70 campaign ceiling. Reserve time for targeted collection before depletion, collect useful checkpoints/provenance/logs and evaluation predictions while work lands, and do not authorize a top-up, new rental or billing change. Jobs admitted under an older credit assumption need a recorded deadline/collection reassessment; no blind retry or late queued start.
 
+Latest submission exception (2026-10-13): the user explicitly requests one exploratory cross-team blend submission even if it is not best locally, to test public transfer. Prepare and check that package now; the earlier complete-comparison/local-ranking timing gate does not block this release. Keep fixed coefficients, ancestry, deterministic serving, size/ABI checks and honest evidence labels. This does not turn fitted-data diagnostics into clean CV or authorize an external upload. See [release authority](research/campaign_2026-10-13/team_models_r1/EXPLORATORY_SUBMISSION_AUTHORITY_R1.json).
+
 ## Research note organization
 
 Start at the repository [research index](RESEARCH.md), then follow the topic READMEs under `research/unified/`. Put new ideas in `research/unified/ideas/`, methods and metric references in `methods/`, independent reviews and audit receipts in `reviews/`, useful data sources, papers and imported external writeups in `sources/`, and operational logs or incidents in `operations/`. Use the shared `templates/NOTE_TEMPLATE.md` for new narrative research notes; record scientific hypotheses and experiments in the append-only JSONL ledgers as well.

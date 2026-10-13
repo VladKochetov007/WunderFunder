@@ -21,6 +21,8 @@ Use this page to navigate proposals, mechanism families, and their evidence. An 
 
 ## Final archive
 
+- [Cache-aware two-student compression proposal](../../campaign_2026-10-13/team_models_r1/EPYC_RUNTIME_REFLECTION_R1.md) and [actual-shape byte accounting](../../campaign_2026-10-13/team_models_r1/LOGICAL_Q8_WEIGHT_TRAFFIC_R1.json) motivate H-TEAM-CACHE-STUDENT-20261013: compare matched H192/H224/H256 student pairs because a standard H256 recurrent member approaches Zen4's per-core L2 capacity before metadata. Proposed only; logical matrix bytes are not measured cache traffic, and no quality or EPYC speed gain is established.
+
 [Ideas tested, deferred, and closed at their exact scope](../archive/2026-10-12/pages/07-ideas.md) preserves the final campaign synthesis. The [dated ledger snapshots](../archive/2026-10-12/ledger-snapshot/README.md) retain the rows as they stood when the archive closed.
 
 ## Search

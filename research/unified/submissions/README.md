@@ -4,6 +4,7 @@ This domain links the exact submission packages, their source membership and run
 
 ## October13 official team update
 
+- [Exploratory cross-team release](../../campaign_2026-10-13/team_models_r1/EXPLORATORY_SUBMISSION_AUTHORITY_R1.json): the user now requests a package despite lack of a local-best claim. Fixed default composition is teammate distilled/FTT seed6 plus our Z4/H390 seed3 at25% each, using the established Q8 runtime. This one release supersedes the earlier wait-for-complete-comparison instruction. Package validation is pending; no new public score is claimed.
 - [Team comparison and portal history](../../campaign_2026-10-13/team_models_r1/README.md) and [64 transcribed portal rows](../../campaign_2026-10-13/team_models_r1/public_results.json): user reports pair_ftt2 **0.6682**, xteam_h4 **0.6681**, and E **0.6675**. This supersedes the earlier E-unscored/C-best status below. A second E upload is pending and distinct. Archive names are associated with the transcript; portal payload hashes have not been independently verified. Exact serving/diagnostic comparisons run before new ZIP preparation.
 
 ## Read these sources
