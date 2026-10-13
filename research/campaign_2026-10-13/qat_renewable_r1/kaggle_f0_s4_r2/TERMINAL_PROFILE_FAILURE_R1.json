@@ -1,0 +1,116 @@
+{
+  "collection": {
+    "downloaded_bytes": 182355,
+    "files": {
+      "results/candidates/inventory.json": {
+        "bytes": 1092,
+        "sha256": "223997ee6e4678fc630772a0cb23017ce19365af523884449679d363e551109e"
+      },
+      "results/preflight/heartbeat.json": {
+        "bytes": 484,
+        "sha256": "30e80651b9740d3318427c39b50308d49c384ba75b06f58d9ef48b5efe1c6ef7"
+      },
+      "results/preflight/inventory.json": {
+        "bytes": 1085,
+        "sha256": "f29f2b30b171f50219cea41ca63e541fd1f74950eb4c1ec94a0a78739a96b63f"
+      },
+      "results/preflight/qat_f0_s4_actual_input_preflight_r1.input_identity.json": {
+        "bytes": 35599,
+        "sha256": "14ea74ed1c32fad3de827cb1ddee80ee2281e9f2dd31df86f733c84032429a01"
+      },
+      "results/preflight/qat_f0_s4_actual_input_preflight_r1/artifacts/artifacts/qat_kaggle_f0_s4_r1/input_preflight.json": {
+        "bytes": 23569,
+        "sha256": "2788f44a1b687eeb4bd3cc441ce1502a93c23206f295b6f6032140ebafffd9fb"
+      },
+      "results/preflight/qat_f0_s4_actual_input_preflight_r1/result.json": {
+        "bytes": 644,
+        "sha256": "8d1809b77cd61828446537cc568bbb364f94670a9e31e6d890142cfef08cd2e9"
+      },
+      "results/preflight/qat_f0_s4_actual_input_preflight_r1/spec.json": {
+        "bytes": 20219,
+        "sha256": "4d73fa4ec12b7256a9b5ee5d7095d108e28b74b4e3980c961a9e071d6810d666"
+      },
+      "results/preflight/qat_f0_s4_actual_input_preflight_r1/timeout_resolution.json": {
+        "bytes": 311,
+        "sha256": "4d397c9dcd8f58da563f0eb101ed9e3c62e6b9e8ee82d308a59e9fffb5c76445"
+      },
+      "results/preflight/qat_f0_s4_actual_input_preflight_r1/worker.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "results/preflight/summary.json": {
+        "bytes": 973,
+        "sha256": "dee123fb9a56944f462e85340a8c4c90564b5b5bf55cbad438eb079496fed9e6"
+      },
+      "runtime_specs/qat_deploy_f0_s4_100pct_fp32_profile_r1.json": {
+        "bytes": 21758,
+        "sha256": "ca5cc5a86b76c6ba43b9229c050fc01262dd86c370939602cec93f24535b1695"
+      },
+      "runtime_specs/qat_deploy_f0_s4_100pct_mixed_w4w8_profile_r1.json": {
+        "bytes": 21787,
+        "sha256": "7c5180cd66e02777507b1a3a9f31e5909e55ba4d3cb6ce7744b93c7f58e57388"
+      },
+      "runtime_specs/qat_deploy_f0_s4_100pct_uniform_w4_profile_r1.json": {
+        "bytes": 21778,
+        "sha256": "0051975b9c98f24ae905ef754c74c4b0baa6e88f986be2bd8590ad74cf3bf6e0"
+      },
+      "runtime_specs/qat_f0_s4_actual_input_preflight_r1.json": {
+        "bytes": 20219,
+        "sha256": "4d73fa4ec12b7256a9b5ee5d7095d108e28b74b4e3980c961a9e071d6810d666"
+      },
+      "wnn-qat-f0-s4-profile-r1-runner.log": {
+        "bytes": 12837,
+        "sha256": "8fe2fd381677df204ac6fd9d93438e342336fcf14ed1ecc6e7067d827d259457"
+      }
+    },
+    "max_bytes": 104857600,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/collected/profile_attempt_001",
+    "provider_download_returncode": 0
+  },
+  "failure_message": null,
+  "first_failure": {
+    "cause": "each unchanged worker asks for 8,589,934,592 bytes RAM; candidate inventory had only 4,468,477,952 bytes available, so available minus unchanged 1,000,000,000-byte operational headroom is 3,468,477,952 bytes. The existing individual reservation check rejected before dispatch.",
+    "exception": "ValueError: Worker reservation exceeds host operational budget",
+    "kernel_log_timestamp_seconds": 497.672258253,
+    "phase": "second runner invocation candidate inventory/admission, before any profile worker start",
+    "runner_line": 205,
+    "scientific_result": "none; no FP32, uniform-W4 or mixed-W4/W8 profile started",
+    "worker": "scripts/kaggle_gpu_runner.py:admit_specs"
+  },
+  "frozen_training_source_revision": "173cce08e9c7f13caccd1c3090419dd044aa702d",
+  "kernel": "vladkochetov07/wnn-qat-f0-s4-profile-r1-runner",
+  "kernel_version": 1,
+  "preflight": {
+    "both_devices_used_bytes": 0,
+    "bytes_hashed": 40075446871,
+    "candidate_cgroup_current_bytes": 27743776768,
+    "candidate_cgroup_file_bytes": 27682074624,
+    "candidate_cgroup_inactive_file_bytes": 27626119168,
+    "candidate_host_available_bytes": 4468477952,
+    "distinct_inputs": 34,
+    "input_receipt_sha256": "2788f44a1b687eeb4bd3cc441ce1502a93c23206f295b6f6032140ebafffd9fb",
+    "peak_gpu_bytes": 0,
+    "peak_ram_bytes": 619118592,
+    "preflight_host_available_bytes": 32138051584,
+    "status": "complete",
+    "tesla_t4_devices": 2,
+    "wall_seconds": 495.31824788
+  },
+  "provider_terminal_status": "ERROR",
+  "quota_typed_seconds": {
+    "gpu_allowed": 108000,
+    "gpu_remaining": 33935.72,
+    "gpu_reserved": 0,
+    "gpu_used": 74064.28,
+    "method": "KaggleApi.quota_view() typed timedelta.total_seconds(); do not use display string .seconds",
+    "observed_at_utc": "2026-10-13T18:28:14Z",
+    "tpu_allowed": 72000,
+    "tpu_remaining": 72000,
+    "tpu_reserved": 0,
+    "tpu_used": 0
+  },
+  "retry_policy": "No retry or provider mutation authorized here. The new packet must pass independent review and fresh root admission before any push.",
+  "schema": "qat-kaggle-f0-s4-profile-terminal-r1",
+  "source_bundle": "vladkochetov07/wnn-qat-f0-s4-profile-r1/version1",
+  "status": "terminal_error_before_candidate_workers"
+}

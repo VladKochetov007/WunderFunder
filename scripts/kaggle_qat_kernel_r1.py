@@ -3,8 +3,9 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-import signal
 import shutil
+import signal
+import stat
 import subprocess
 import sys
 import tarfile
@@ -176,6 +177,104 @@ def verify_preflight_result(root: Path, output: Path, spec: Path) -> dict[str, A
     return receipt
 
 
+def _cgroup_cache_snapshot() -> dict[str, int | None]:
+    """Read bounded cgroup-v2 counters around targeted cache advice."""
+    cgroup = Path("/sys/fs/cgroup")
+    values: dict[str, int | None] = {}
+    for name in ("memory.current", "memory.max"):
+        try:
+            raw = (cgroup / name).read_text(encoding="ascii").strip()
+            values[name] = None if raw == "max" else int(raw)
+        except (OSError, ValueError):
+            values[name] = None
+    try:
+        for line in (cgroup / "memory.stat").read_text(encoding="ascii").splitlines():
+            key, separator, raw = line.partition(" ")
+            if separator and key in {"file", "inactive_file", "active_file", "shmem"}:
+                values[f"memory.stat.{key}"] = int(raw)
+    except (OSError, ValueError):
+        pass
+    return values
+
+
+def advise_hashed_inputs_dontneed(
+    receipt: dict[str, Any],
+    output: Path,
+    *,
+    allowed_root: Path = Path("/kaggle/input/datasets"),
+) -> dict[str, Any]:
+    """Drop cache for only the immutable files successfully hashed by preflight.
+
+    Paths, observed byte counts, and digests are taken from the actual-input
+    preflight receipt. No payload is read or modified in this handoff.
+    """
+    if receipt.get("status") != "pass" or not isinstance(receipt.get("inputs"), list):
+        raise ValueError("cache handoff requires a passing actual-input receipt")
+    if not callable(getattr(os, "posix_fadvise", None)) or not hasattr(os, "POSIX_FADV_DONTNEED"):
+        raise RuntimeError("POSIX_FADV_DONTNEED is unavailable; refusing candidate admission")
+
+    root = allowed_root.resolve(strict=True)
+    files: dict[Path, dict[str, Any]] = {}
+    for item in receipt["inputs"]:
+        if not isinstance(item, dict):
+            raise ValueError("preflight input identity is malformed")
+        expected_size, observed_size = item.get("expected_size"), item.get("size")
+        expected_hash, observed_hash = item.get("expected_sha256"), item.get("sha256")
+        if (
+            not isinstance(expected_size, int)
+            or expected_size <= 0
+            or observed_size != expected_size
+            or not isinstance(expected_hash, str)
+            or len(expected_hash) != 64
+            or observed_hash != expected_hash
+        ):
+            raise ValueError("preflight input identity is not hash- and size-verified")
+        resolved = Path(item.get("resolved_path", "")).resolve(strict=True)
+        if not resolved.is_relative_to(root) or not stat.S_ISREG(resolved.stat().st_mode):
+            raise ValueError("preflight input resolves outside the authorized dataset mount")
+        if resolved.stat().st_size != expected_size:
+            raise ValueError("preflight input length changed before cache handoff")
+        previous = files.get(resolved)
+        identity = {
+            "dataset": item.get("dataset"),
+            "path": item.get("path"),
+            "size": expected_size,
+            "sha256": expected_hash,
+        }
+        if previous is not None and previous != identity:
+            raise ValueError("conflicting preflight identities resolve to one file")
+        files[resolved] = identity
+    if not files or sum(item["size"] for item in files.values()) != receipt.get("bytes_hashed"):
+        raise ValueError("preflight hashed-byte total does not match its unique inputs")
+
+    record: dict[str, Any] = {
+        "schema": "qat-kaggle-targeted-cache-handoff-r2",
+        "status": "started",
+        "advice": "POSIX_FADV_DONTNEED",
+        "files_expected": len(files),
+        "bytes_expected": sum(item["size"] for item in files.values()),
+        "preflight_identity_manifest_sha256": receipt.get("identity_manifest_sha256"),
+        "before": _cgroup_cache_snapshot(),
+        "files": [],
+    }
+    try:
+        for path, identity in files.items():
+            with path.open("rb") as source:
+                opened = os.fstat(source.fileno())
+                if not stat.S_ISREG(opened.st_mode) or opened.st_size != identity["size"]:
+                    raise ValueError("preflight input changed while opening for cache advice")
+                os.posix_fadvise(source.fileno(), 0, 0, os.POSIX_FADV_DONTNEED)
+            record["files"].append({**identity, "advice_returned": "success"})
+    except (OSError, ValueError) as error:
+        record.update({"status": "failed", "error": f"{type(error).__name__}: {error}"})
+        record["after"] = _cgroup_cache_snapshot()
+        write_phase_receipt(output, record)
+        raise RuntimeError("targeted cache handoff failed; candidate admission blocked") from error
+    record.update({"status": "pass", "after": _cgroup_cache_snapshot()})
+    write_phase_receipt(output, record)
+    return record
+
+
 def write_phase_receipt(path: Path, value: dict) -> None:
     """Persist the preflight barrier and candidate phase handoff for collection."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -285,10 +384,14 @@ def main() -> None:
             return run_runner(root, output, runtime_specs[1:], deadline)
 
         preflight_receipt: dict[str, Any] = {}
+        cache_handoff_receipt: dict[str, Any] = {}
 
         def capture_preflight(summary: dict[str, Any]) -> None:
-            nonlocal preflight_receipt
+            nonlocal preflight_receipt, cache_handoff_receipt
             preflight_receipt = verify_preflight(summary)
+            cache_handoff_receipt = advise_hashed_inputs_dontneed(
+                preflight_receipt, Path("/kaggle/working/results/preflight/cache_handoff.json")
+            )
 
         # Keep the guard and invocation visibly sequential: phase two is unreachable
         # until the isolated runner's terminal record and receipt both pass.
@@ -304,6 +407,14 @@ def main() -> None:
                 "bytes_hashed": preflight_receipt["bytes_hashed"],
                 "identity_manifest_sha256": preflight_receipt["identity_manifest_sha256"],
                 "isolated_runner_output": "/kaggle/working/results/preflight",
+            },
+            "cache_handoff": {
+                "status": cache_handoff_receipt["status"],
+                "files_advised": cache_handoff_receipt["files_expected"],
+                "bytes_advised": cache_handoff_receipt["bytes_expected"],
+                "before": cache_handoff_receipt["before"],
+                "after": cache_handoff_receipt["after"],
+                "receipt": "/kaggle/working/results/preflight/cache_handoff.json",
             },
             "candidate_phase": {
                 "status": "complete",
