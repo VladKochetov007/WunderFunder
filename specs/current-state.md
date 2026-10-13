@@ -1,3 +1,7 @@
+## 2026-10-13T18:31:25.987244+00:00 — full-data W4 and learned-scale results; mixed fit active
+
+The [QAT frontier](../research/campaign_2026-10-13/qat_renewable_r1/FRONTIER.md) records full-data W4 QAT WP 0.681362789 against matched W4 PTQ 0.680741171, with independent paired interval spanning zero. The 10% learned-scale pair also completed and has a small positive uncertain delta. Both remain exposed-F0 seed3 evidence. Your local GPU runs the full-data mixed W4/W8 fit. Seed4 LSQ confirmation is frozen for review, and the activation-aware compiler profile is being prepared under the single-worker limit. Kaggle seed4 profile is ERROR with collection/diagnosis active; TPU remains QUEUED. No new serving winner or public forecast is established.
+
 ## 2026-10-13T17:04:15.769478+00:00 — matched 10% QAT grades and active 30% GPU wave
 
 ### 2026-10-13 17:55 UTC — QAT execution continues
