@@ -773,17 +773,22 @@
         "--qat",
         "none",
         "--profile-warmup",
-        "5",
+        "2",
         "--profile-steps",
-        "100",
+        "3",
         "--grad-stats"
       ],
       "condition": "fp32",
+      "measured_batches": 3,
       "name": "qat_deploy_f0_s4_100pct_fp32_profile_r1",
-      "profile_acceptance": "PROFILE_UPDATE_EVIDENCE valid_for_throughput=true; 100 completed finite FP32 updates; GradStats has 100 steps and zero nonfinite steps",
+      "profile_acceptance": "PROFILE_UPDATE_EVIDENCE valid_for_throughput=true; 60 timed finite FP32 optimizer updates; GradStats has 100 total optimizer steps and zero nonfinite steps",
       "qat": "none",
-      "timed_updates": 100,
-      "warmup_updates": 5
+      "timed_optimizer_updates": 60,
+      "total_batches": 5,
+      "total_optimizer_updates": 100,
+      "updates_per_batch": 20,
+      "warmup_batches": 2,
+      "warmup_optimizer_updates": 40
     },
     {
       "argv": [
@@ -890,17 +895,22 @@
         "--qat",
         "recurrent_w4",
         "--profile-warmup",
-        "5",
+        "2",
         "--profile-steps",
-        "100",
+        "3",
         "--grad-stats"
       ],
       "condition": "uniform_w4",
+      "measured_batches": 3,
       "name": "qat_deploy_f0_s4_100pct_uniform_w4_profile_r1",
-      "profile_acceptance": "PROFILE_UPDATE_EVIDENCE valid_for_throughput=true; 100 completed finite FP32 updates; GradStats has 100 steps and zero nonfinite steps",
+      "profile_acceptance": "PROFILE_UPDATE_EVIDENCE valid_for_throughput=true; 60 timed finite FP32 optimizer updates; GradStats has 100 total optimizer steps and zero nonfinite steps",
       "qat": "recurrent_w4",
-      "timed_updates": 100,
-      "warmup_updates": 5
+      "timed_optimizer_updates": 60,
+      "total_batches": 5,
+      "total_optimizer_updates": 100,
+      "updates_per_batch": 20,
+      "warmup_batches": 2,
+      "warmup_optimizer_updates": 40
     },
     {
       "argv": [
@@ -1007,17 +1017,22 @@
         "--qat",
         "input_w4_recurrent_w8",
         "--profile-warmup",
-        "5",
+        "2",
         "--profile-steps",
-        "100",
+        "3",
         "--grad-stats"
       ],
       "condition": "mixed_w4w8",
+      "measured_batches": 3,
       "name": "qat_deploy_f0_s4_100pct_mixed_w4w8_profile_r1",
-      "profile_acceptance": "PROFILE_UPDATE_EVIDENCE valid_for_throughput=true; 100 completed finite FP32 updates; GradStats has 100 steps and zero nonfinite steps",
+      "profile_acceptance": "PROFILE_UPDATE_EVIDENCE valid_for_throughput=true; 60 timed finite FP32 optimizer updates; GradStats has 100 total optimizer steps and zero nonfinite steps",
       "qat": "input_w4_recurrent_w8",
-      "timed_updates": 100,
-      "warmup_updates": 5
+      "timed_optimizer_updates": 60,
+      "total_batches": 5,
+      "total_optimizer_updates": 100,
+      "updates_per_batch": 20,
+      "warmup_batches": 2,
+      "warmup_optimizer_updates": 40
     }
   ],
   "quantization": {
@@ -1029,6 +1044,6 @@
   "schema": "qat-kaggle-full-f0-seed4-recipe-r1",
   "source_recipe": "research/campaign_2026-10-13/qat_renewable_r1/delivery_r1/RUN_RECIPE_R1.json",
   "source_recipe_sha256": "c08c6a7c46d1d117521153b0cd233410695cf738d7784d32d26de80f7a92e585",
-  "training_source_revision": "173cce08e9c7f13caccd1c3090419dd044aa702d",
-  "status": "frozen_preparation_no_fit_or_profile_run"
+  "status": "frozen_preparation_no_fit_or_profile_run",
+  "training_source_revision": "173cce08e9c7f13caccd1c3090419dd044aa702d"
 }

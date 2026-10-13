@@ -283,8 +283,8 @@ def make_recipes(data_root: Path, ancestry: dict[str, Any], cache: dict[str, Any
             index = result.index(option)
             result[index + 1] = value
         if profile:
-            result[result.index("--profile-warmup") + 1] = "5"
-            result[result.index("--profile-steps") + 1] = "100"
+            result[result.index("--profile-warmup") + 1] = "2"
+            result[result.index("--profile-steps") + 1] = "3"
             if "--grad-stats" not in result:
                 result.append("--grad-stats")
         return result
@@ -299,9 +299,14 @@ def make_recipes(data_root: Path, ancestry: dict[str, Any], cache: dict[str, Any
             "condition": label,
             "qat": qat,
             "argv": rewrite(profile_base, profile_name, qat, profile=True),
-            "timed_updates": 100,
-            "warmup_updates": 5,
-            "profile_acceptance": "PROFILE_UPDATE_EVIDENCE valid_for_throughput=true; 100 completed finite FP32 updates; GradStats has 100 steps and zero nonfinite steps",
+            "warmup_batches": 2,
+            "measured_batches": 3,
+            "updates_per_batch": 20,
+            "warmup_optimizer_updates": 40,
+            "timed_optimizer_updates": 60,
+            "total_batches": 5,
+            "total_optimizer_updates": 100,
+            "profile_acceptance": "PROFILE_UPDATE_EVIDENCE valid_for_throughput=true; 60 timed finite FP32 optimizer updates; GradStats has 100 total optimizer steps and zero nonfinite steps",
         })
         fits.append({
             "name": fit_name,
