@@ -1,0 +1,73 @@
+{
+  "schema": "wnn.qat-kaggle-profile-r2-cache-handoff-review.v1",
+  "status": "profile_packet_pass_root_fresh_admission_required",
+  "decision": "GO for at most one root-admitted profile-R2 provider attempt after fresh quota and worker-resource admission; no fit clearance",
+  "reviewed_actor_commit": "5a0112deb8eea2982ccc898cd9266db90671bdc4",
+  "packet": {
+    "path": "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/PACKET_R2.json",
+    "sha256": "61bbf4afb69214e966200ede1e2c9c2faa748e40afaefceb97e154926c0665af",
+    "attempt_limit": 1,
+    "automatic_retries": 0,
+    "root_fresh_admission_required": true,
+    "provider_actions_performed_by_packet_builder": false
+  },
+  "entrypoint_binding": {
+    "path": "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/BUNDLE_BINDING_R2.json",
+    "sha256": "0a9d9e80cda8f719c7745224e4a160de9cfb85f3951acfbc1f58bad94f43309a",
+    "source_template_sha256": "a2e5d9343431e7fc018ffa8231c9432463691a49b7e5f0b6d23c9a88a740303a",
+    "generated_bootstrap_path": "/home/vlad/development/wunder/qatk4a/qat-f0-s4-kaggle-r2-sealed/profile_upload/kernel/kernel.py",
+    "generated_bootstrap_bytes": 27410,
+    "generated_bootstrap_sha256": "ae5806e09548673a317af4440710fd15fd82aa680a6ec897027fccd74571192e",
+    "bundle_path": "/home/vlad/development/wunder/qatk4a/qat-f0-s4-kaggle-r2-sealed/profile_upload/bundle.wnn",
+    "bundle_bytes": 260008,
+    "bundle_sha256": "06e6a9cca4eb3533f6003290a773be1c8f75b3538f344ba2a9ec83ad771b5719",
+    "bundle_manifest_archive_sha_matches": true,
+    "bootstrap_sha_matches": true,
+    "private_gpu_kernel_no_internet": true
+  },
+  "input_scope": {
+    "predecessor_terminal_receipt": "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/TERMINAL_PROFILE_FAILURE_R1.json",
+    "predecessor_status": "terminal_error_before_candidate_workers",
+    "preflight_input_count": 34,
+    "preflight_bytes_hashed": 40075446871,
+    "captured_preflight_receipt_sha256": "2788f44a1b687eeb4bd3cc441ce1502a93c23206f295b6f6032140ebafffd9fb",
+    "test_fixture_sha256": "683a742d705c9bd395b6d367db2a8129657bd93db143509826c1a0e095581a92",
+    "fixture_is_reduced_identity_projection": true,
+    "all_external_mounts_identical_to_r1": true,
+    "external_mount_count": 34,
+    "private_asset_version_reused": "vladkochetov07/wnn-qat-f0-s4-assets-r1/version1",
+    "raw_dataset_rehashed_by_reviewer": false
+  },
+  "admission_invariants": {
+    "cache_advice": "POSIX_FADV_DONTNEED",
+    "advice_scope": "only passing preflight receipt files resolving below /kaggle/input/datasets",
+    "files_opened_read_only": true,
+    "input_payload_read_or_modified_by_handoff": false,
+    "handoff_failure_blocks_candidate_callback": true,
+    "before_after_cgroup_counters_recorded": true,
+    "advice_treated_as_best_effort": true,
+    "candidate_runner_fresh_inventory_after_handoff": true,
+    "candidate_runner_sha256": "ff95040cf4f964f3a7c86067a4603660bf80a5468ab71445ce7fcd36482fa9da",
+    "worker_ram_reservation_bytes_each": 8589934592,
+    "host_operational_headroom_bytes": 1000000000,
+    "candidate_admission_gate_changed": false,
+    "candidate_specs_semantics_unchanged_except_bootstrap_digest": true,
+    "candidate_count": 3,
+    "candidate_workers_started_in_r1": 0
+  },
+  "validation": {
+    "focused_test_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s PYTHONDONTWRITEBYTECODE=1 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m pytest -q -p no:cacheprovider --basetemp=/tmp/qat-r2-review-test-2 tests/test_qat_kaggle_preflight_barrier.py",
+    "focused_tests_passed": 6,
+    "test_wall_seconds": 0.88,
+    "profile_or_fit_executed": false,
+    "provider_mutation_performed_by_reviewer": false,
+    "no_raw_payload_read_or_rehash": true
+  },
+  "limitations": [
+    "POSIX_FADV_DONTNEED is advisory; fixture success does not prove Kaggle cache eviction.",
+    "A fresh unchanged runner inventory/admission must still reject insufficient headroom before any worker starts.",
+    "No profile result, fit, quality, public-transfer or submission claim is supported.",
+    "Fresh root-owned provider/quota/resource admission is required; this independent review does not itself authorize a push."
+  ],
+  "narrative_review": "QAT_KAGGLE_PROFILE_R2_CACHE_HANDOFF_REVIEW_R1.md"
+}
