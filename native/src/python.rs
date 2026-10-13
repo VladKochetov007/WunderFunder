@@ -110,6 +110,49 @@ fn storage_bytes(model: &FastRnn) -> HashMap<String, usize> {
 }
 
 fn import_q8(py: Python<'_>, model: &mut FastRnn, mut codes: Q8Codes) -> PyResult<()> {
+    if model.is_dynamic_int8() {
+        let expected: Vec<_> = model.dyn8_matrices().collect();
+        if expected.is_empty() || codes.len() != 2 * expected.len() {
+            return Err(PyValueError::new_err(
+                "q8 codes/scales do not match dynamic precision preset",
+            ));
+        }
+        let mut matrices = Vec::with_capacity(expected.len());
+        for (name, expected_matrix) in expected {
+            let raw = codes
+                .remove(&format!("{name}.codes"))
+                .ok_or_else(|| PyValueError::new_err(format!("missing q8 codes: {name}")))?;
+            let scale = codes
+                .remove(&format!("{name}.scales"))
+                .ok_or_else(|| PyValueError::new_err(format!("missing q8 scales: {name}")))?;
+            let raw = raw.bind(py).extract::<numpy::PyReadonlyArray2<'_, i8>>()?;
+            let scale = scale.bind(py).extract::<PyReadonlyArray1<'_, f32>>()?;
+            let shape = raw.shape();
+            if shape != [expected_matrix.rows(), expected_matrix.cols()]
+                || scale.shape() != [expected_matrix.rows()]
+            {
+                return Err(PyValueError::new_err(format!(
+                    "q8 tensor identity or shape mismatch: {name}"
+                )));
+            }
+            let matrix = crate::vnni::DynQ8::from_rows(
+                raw.as_slice()?,
+                scale.as_slice()?,
+                shape[0],
+                shape[1],
+            )
+            .map_err(PyValueError::new_err)?;
+            matrices.push((name.to_owned(), matrix));
+        }
+        model
+            .load_dyn8_matrices(matrices)
+            .map_err(|e| PyValueError::new_err(e.0))?;
+        if !codes.is_empty() {
+            return Err(PyValueError::new_err("unexpected q8 code/scale keys"));
+        }
+        return Ok(());
+    }
+
     if codes.len() != 2 * model.q8_matrices().len() || codes.is_empty() {
         return Err(PyValueError::new_err(
             "q8 codes/scales do not match precision preset",
@@ -142,6 +185,23 @@ fn import_q8(py: Python<'_>, model: &mut FastRnn, mut codes: Q8Codes) -> PyResul
 
 fn export_q8(py: Python<'_>, model: &FastRnn) -> PyResult<Q8Codes> {
     let mut result = HashMap::new();
+    if model.is_dynamic_int8() {
+        for (name, matrix) in model.dyn8_matrices() {
+            let (codes, scales) = matrix.to_rows();
+            result.insert(
+                format!("{name}.codes"),
+                PyArray1::from_vec(py, codes)
+                    .reshape([matrix.rows(), matrix.cols()])?
+                    .into_any()
+                    .unbind(),
+            );
+            result.insert(
+                format!("{name}.scales"),
+                PyArray1::from_vec(py, scales).into_any().unbind(),
+            );
+        }
+        return Ok(result);
+    }
     for (name, matrix) in model.q8_matrices() {
         let (codes, scales) = matrix.to_rows();
         result.insert(
@@ -157,6 +217,17 @@ fn export_q8(py: Python<'_>, model: &FastRnn) -> PyResult<Q8Codes> {
         );
     }
     Ok(result)
+}
+
+fn export_hidden_state<'py>(
+    py: Python<'py>,
+    model: &FastRnn,
+) -> PyResult<Bound<'py, numpy::PyArray2<f32>>> {
+    let (layers, hidden) = model.hidden_state_shape();
+    let state = PyArray1::from_vec(py, model.hidden_state().to_vec()).reshape([layers, hidden])?;
+    // The returned array is a detached snapshot and is also marked read-only for callers.
+    state.call_method1(intern!(py, "setflags"), (false,))?;
+    Ok(state)
 }
 
 fn parse_precision(name: &str) -> PyResult<Precision> {
@@ -430,6 +501,11 @@ impl PyModelStepper {
     #[getter]
     fn storage_bytes(&self) -> HashMap<String, usize> {
         storage_bytes(&self.model)
+    }
+
+    #[getter]
+    fn hidden_state<'py>(&self, py: Python<'py>) -> PyResult<Bound<'py, numpy::PyArray2<f32>>> {
+        export_hidden_state(py, &self.model)
     }
 
     #[getter]
@@ -970,6 +1046,11 @@ impl PyPredictor {
         self.model.reset();
     }
 
+    #[getter]
+    fn hidden_state<'py>(&self, py: Python<'py>) -> PyResult<Bound<'py, numpy::PyArray2<f32>>> {
+        export_hidden_state(py, &self.model)
+    }
+
     fn quantization_codes(&self, py: Python<'_>) -> PyResult<Q8Codes> {
         export_q8(py, &self.model)
     }
@@ -1135,5 +1216,205 @@ mod shared_backbone_tests {
             .is_err(),
             "a head without exactly two outputs must reject sharing"
         );
+    }
+}
+
+#[cfg(test)]
+mod dyn_q8_python_tests {
+    use super::*;
+
+    type Expected = Vec<(String, usize, usize, Vec<i8>, Vec<f32>)>;
+
+    fn fixture_weights(seed: usize) -> RnnWeights {
+        let values = |count: usize, offset: usize| {
+            (0..count)
+                .map(|index| ((index + offset + seed) % 29) as f32 / 29.0 - 0.5)
+                .collect::<Vec<_>>()
+        };
+        let hidden = 4;
+        let input = 3;
+        RnnWeights {
+            mean: values(input, 0),
+            std: vec![1.0; input],
+            w_in: values(hidden * input, 1),
+            b_in: values(hidden, 2),
+            layers: (0..2)
+                .map(|layer| GruLayer {
+                    w_ih: values(3 * hidden * hidden, 3 + layer),
+                    w_hh: values(3 * hidden * hidden, 5 + layer),
+                    b_ih: values(3 * hidden, 7 + layer),
+                    b_hh: values(3 * hidden, 9 + layer),
+                })
+                .collect(),
+            w1: values(2 * hidden * hidden, 11),
+            b1: values(hidden, 12),
+            w2: values(2 * hidden, 13),
+            b2: values(2, 14),
+        }
+    }
+
+    fn q4_payload(py: Python<'_>, model: &FastRnn) -> PyResult<(Q8Codes, Expected)> {
+        let mut payload = HashMap::new();
+        let mut expected = Vec::new();
+        for (matrix_index, (name, matrix)) in model.dyn8_matrices().enumerate() {
+            let (rows, cols) = (matrix.rows(), matrix.cols());
+            let mut codes = vec![0i8; rows * cols];
+            let mut scales = vec![0.0f32; rows];
+            for row in 0..rows {
+                if row % 5 == 0 {
+                    continue;
+                }
+                scales[row] = (row + matrix_index + 1) as f32 * 0.00390625;
+                for col in 0..cols {
+                    codes[row * cols + col] = ((row * 7 + col * 3 + matrix_index) % 15) as i8 - 7;
+                }
+            }
+            let code_key = format!("{name}.codes");
+            let scale_key = format!("{name}.scales");
+            payload.insert(
+                code_key,
+                PyArray1::from_vec(py, codes.clone())
+                    .reshape([rows, cols])?
+                    .into_any()
+                    .unbind(),
+            );
+            payload.insert(
+                scale_key,
+                PyArray1::from_vec(py, scales.clone()).into_any().unbind(),
+            );
+            expected.push((name.to_owned(), rows, cols, codes, scales));
+        }
+        Ok((payload, expected))
+    }
+
+    fn q8_model() -> PyResult<FastRnn> {
+        FastRnn::with_precision(
+            fixture_weights(17),
+            Activations::Fast,
+            Precision::Q8VnniPortable,
+        )
+        .map_err(|error| PyValueError::new_err(error.0))
+    }
+
+    fn with_python<T>(
+        f: impl for<'py> FnOnce(Python<'py>) -> PyResult<T>,
+    ) -> PyResult<T> {
+        Python::initialize();
+        Python::attach(f)
+    }
+
+    #[test]
+    fn dynamic_q8_import_export_is_exact_and_hidden_getters_are_copied() {
+        with_python(|py| -> PyResult<()> {
+            let mut model = q8_model()?;
+            let (payload, expected) = q4_payload(py, &model)?;
+            import_q8(py, &mut model, payload)?;
+            let exported = export_q8(py, &model)?;
+            assert_eq!(exported.len(), expected.len() * 2);
+            for (name, rows, cols, codes, scales) in expected {
+                let code_key = format!("{name}.codes");
+                let scale_key = format!("{name}.scales");
+                let actual_codes = exported[&code_key]
+                    .bind(py)
+                    .extract::<numpy::PyReadonlyArray2<'_, i8>>()?;
+                assert_eq!(actual_codes.shape(), [rows, cols]);
+                assert_eq!(actual_codes.as_slice()?, codes);
+                let actual_scales = exported[&scale_key]
+                    .bind(py)
+                    .extract::<PyReadonlyArray1<'_, f32>>()?;
+                assert_eq!(
+                    actual_scales
+                        .as_slice()?
+                        .iter()
+                        .map(|value| value.to_bits())
+                        .collect::<Vec<_>>(),
+                    scales.iter().map(|value| value.to_bits()).collect::<Vec<_>>(),
+                );
+            }
+
+            let mut output = [0.0f32; 2];
+            model.step(&[0.2, -0.4, 1.0], &mut output);
+            let before = model.hidden_state().to_vec();
+            let stepper = PyModelStepper { model };
+            let snapshot = stepper.hidden_state(py)?;
+            assert_eq!(snapshot.shape(), [2, 4]);
+            assert!(!snapshot
+                .getattr("flags")?
+                .getattr("writeable")?
+                .extract::<bool>()?);
+            snapshot.call_method1(intern!(py, "setflags"), (true,))?;
+            snapshot.call_method1(intern!(py, "fill"), (f32::NAN,))?;
+            assert_eq!(stepper.model.hidden_state(), before);
+
+            let mut predictor = PyPredictor {
+                features: Default::default(),
+                model: q8_model()?,
+                input: vec![0.0; 3],
+                out: [0.0; 2],
+            };
+            predictor.model.step(&[0.2, -0.4, 1.0], &mut output);
+            let predictor_snapshot = predictor.hidden_state(py)?;
+            assert_eq!(predictor_snapshot.shape(), [2, 4]);
+            assert!(!predictor_snapshot
+                .getattr("flags")?
+                .getattr("writeable")?
+                .extract::<bool>()?);
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[test]
+    fn dynamic_q8_import_rejects_missing_excess_bad_codes_and_wrong_shapes() {
+        with_python(|py| -> PyResult<()> {
+            let mut model = q8_model()?;
+            let (payload, _expected) = q4_payload(py, &model)?;
+
+            let mut missing = payload;
+            missing.remove("head.0.weight.1.codes");
+            missing.insert(
+                "unexpected.codes".into(),
+                PyArray1::from_vec(py, vec![1i8]).into_any().unbind(),
+            );
+            assert!(import_q8(py, &mut model, missing).is_err());
+
+            let (mut excess, _expected) = q4_payload(py, &model)?;
+            excess.insert(
+                "unexpected.codes".into(),
+                PyArray1::from_vec(py, vec![1i8]).into_any().unbind(),
+            );
+            assert!(import_q8(py, &mut model, excess).is_err());
+
+            let (mut bad_codes, expected) = q4_payload(py, &model)?;
+            let (name, rows, cols, _, _) = &expected[0];
+            bad_codes.insert(
+                format!("{name}.codes"),
+                PyArray1::from_vec(py, vec![-128i8; *rows * *cols])
+                    .reshape([*rows, *cols])?
+                    .into_any()
+                    .unbind(),
+            );
+            assert!(import_q8(py, &mut model, bad_codes).is_err());
+
+            let (mut bad_shape, expected) = q4_payload(py, &model)?;
+            let (name, rows, cols, codes, _) = &expected[0];
+            assert_eq!(*cols % 2, 0);
+            bad_shape.insert(
+                format!("{name}.codes"),
+                PyArray1::from_vec(py, codes.clone())
+                    .reshape([*rows * 2, *cols / 2])?
+                    .into_any()
+                    .unbind(),
+            );
+            bad_shape.insert(
+                format!("{name}.scales"),
+                PyArray1::from_vec(py, vec![0.5f32; *rows * 2])
+                    .into_any()
+                    .unbind(),
+            );
+            assert!(import_q8(py, &mut model, bad_shape).is_err());
+            Ok(())
+        })
+        .unwrap();
     }
 }

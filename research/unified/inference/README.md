@@ -20,3 +20,7 @@ Runtime claims must name the hardware, exact ZIP, callback protocol, complete-te
 ## Resumed strategy execution — 2026-10-13
 
 [Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.
+
+## QAT native transport — 2026-10-13
+
+[Native dynamic Q8 transport and state diagnostics](QAT_NATIVE_TRANSPORT_R1.md) records exact row-code/scale import/export for `q8vnni*` and copied recurrent-state access for the QAT deployment plan. Rust tests and a Python 3.13 synthetic integration smoke pass, including exact transport and reset/replay. This is implementation evidence only: no actual-data quality, archive-size, runtime, or INT4-speed result is claimed. Related: H-QAT-W4-20261013, H-QAT-A8-20261013, H-QAT-LSQ-20261013, E-QAT-DEPLOYMENT-20261013-R1.

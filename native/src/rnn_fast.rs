@@ -249,6 +249,8 @@ pub struct FastRnn {
     q8: Vec<(String, crate::quant8::PackedQ8)>,
     /// Dynamic-int8 matrices; `Mat::q8` indexes this vector when `precision.dyn8()` is set.
     dq: Vec<crate::vnni::DynQ8>,
+    /// Names parallel to `dq`; exact import/export retains the Python checkpoint identity.
+    dq_names: Vec<String>,
     /// Dynamic-int8 activation bytes (offset codes), `padded_cols(hidden)` per block:
     /// [h per layer | z]; the hidden blocks persist across steps. `dscales` holds each block's
     /// dequantization scale.
@@ -790,6 +792,7 @@ impl FastRnn {
         let mut half = HalfArena::new();
         let mut q8 = Vec::new();
         let mut dq = Vec::new();
+        let mut dq_names = Vec::new();
         // The 16-bit projection writes whole COL_TILE row tiles; z and b_in are padded to match.
         let z_len = if precision.encoding().is_none() {
             hidden
@@ -855,6 +858,7 @@ impl FastRnn {
                 dq.push(
                     crate::vnni::DynQ8::pack(m, rows, cols).map_err(|e| ShapeError(e.into()))?,
                 );
+                dq_names.push(name.clone());
                 return Ok(Mat {
                     w: 0..0,
                     s: 0..0,
@@ -1007,6 +1011,7 @@ impl FastRnn {
             half,
             q8,
             dq,
+            dq_names,
             dcodes,
             dscales,
             factors,
@@ -1045,6 +1050,16 @@ impl FastRnn {
         self.hidden
     }
 
+    /// Shape of the persistent hidden state, ordered as `(layers, hidden)`.
+    pub fn hidden_state_shape(&self) -> (usize, usize) {
+        (self.layers.len(), self.hidden)
+    }
+
+    /// Read-only flattened hidden vectors, one contiguous `hidden`-wide row per layer.
+    pub fn hidden_state(&self) -> &[f32] {
+        &self.state.as_ref()[self.h.clone()]
+    }
+
     /// Whether the step runs on the dynamic-int8 kernels (`Q8Vnni` and its fallbacks).
     pub fn is_dynamic_int8(&self) -> bool {
         self.precision.dyn8().is_some()
@@ -1057,6 +1072,11 @@ impl FastRnn {
     /// Exact byte tensors, named using the portable quantization checkpoint schema.
     pub fn q8_matrices(&self) -> &[(String, crate::quant8::PackedQ8)] {
         &self.q8
+    }
+
+    /// Exact row-wise byte matrices used by `q8vnni*`, paired with checkpoint tensor names.
+    pub fn dyn8_matrices(&self) -> impl Iterator<Item = (&str, &crate::vnni::DynQ8)> {
+        self.dq_names.iter().map(String::as_str).zip(self.dq.iter())
     }
 
     pub fn factor_matrices(&self) -> &[(String, crate::factorized::FloatFactors)] {
@@ -1101,6 +1121,32 @@ impl FastRnn {
             }
         }
         self.q8 = matrices;
+        Ok(())
+    }
+
+    /// Replace constructor quantization with exact dynamic-int8 codes/scales.
+    pub fn load_dyn8_matrices(
+        &mut self,
+        matrices: Vec<(String, crate::vnni::DynQ8)>,
+    ) -> Result<(), ShapeError> {
+        if !self.is_dynamic_int8() || matrices.len() != self.dq.len() || self.dq.is_empty() {
+            return Err(ShapeError(
+                "dynamic q8 tensor count disagrees with precision preset".into(),
+            ));
+        }
+        for ((expected, old), (name, matrix)) in self
+            .dq_names
+            .iter()
+            .zip(&self.dq)
+            .zip(&matrices)
+        {
+            if name != expected || old.rows() != matrix.rows() || old.cols() != matrix.cols() {
+                return Err(ShapeError(format!(
+                    "dynamic q8 tensor identity or shape mismatch: {name}"
+                )));
+            }
+        }
+        self.dq = matrices.into_iter().map(|(_, matrix)| matrix).collect();
         Ok(())
     }
 
@@ -2297,6 +2343,162 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[test]
+    fn imported_dynamic_q8_codes_round_trip_and_match_every_isa() {
+        let weights = weights(37, 20, 2, 41);
+        let source = FastRnn::with_precision(
+            weights_like(&weights),
+            Activations::Fast,
+            Precision::Q8VnniPortable,
+        )
+        .unwrap();
+        let exported: Vec<_> = source
+            .dyn8_matrices()
+            .map(|(name, matrix)| {
+                let (codes, scales) = matrix.to_rows();
+                (name.to_owned(), matrix.rows(), matrix.cols(), codes, scales)
+            })
+            .collect();
+        assert_eq!(exported.len(), 6);
+        assert!(exported.iter().any(|(name, ..)| name == "gru.weight_ih_l0.0"));
+        assert!(exported.iter().any(|(name, ..)| name == "gru.weight_hh_l1.0"));
+        assert!(exported.iter().any(|(name, ..)| name == "head.0.weight.0"));
+        assert!(exported.iter().any(|(name, ..)| name == "head.0.weight.1"));
+
+        let sequence = inputs(37, 96);
+        let mut reference = FastRnn::with_precision(
+            weights_like(&weights),
+            Activations::Fast,
+            Precision::Q8VnniPortable,
+        )
+        .unwrap();
+        assert_eq!(reference.hidden_state_shape(), (2, 20));
+        assert!(reference.hidden_state().iter().all(|value| *value == 0.0));
+        let mut output = [0.0f32; 2];
+        let mut expected = Vec::with_capacity(sequence.len());
+        let mut expected_hidden = Vec::with_capacity(sequence.len());
+        for input in &sequence {
+            reference.step(input, &mut output);
+            expected.push(output.map(f32::to_bits));
+            expected_hidden.push(
+                reference
+                    .hidden_state()
+                    .iter()
+                    .map(|value| value.to_bits())
+                    .collect::<Vec<_>>(),
+            );
+        }
+
+        for precision in [
+            Precision::Q8VnniPortable,
+            Precision::Q8VnniAvx2,
+            Precision::Q8Vnni,
+        ] {
+            let mut imported = FastRnn::with_precision(
+                weights_like(&weights),
+                Activations::Fast,
+                precision,
+            )
+            .unwrap();
+            let payload = exported
+                .iter()
+                .map(|(name, rows, cols, codes, scales)| {
+                    (
+                        name.clone(),
+                        crate::vnni::DynQ8::from_rows(codes, scales, *rows, *cols).unwrap(),
+                    )
+                })
+                .collect();
+            imported.load_dyn8_matrices(payload).unwrap();
+            let round_trip: Vec<_> = imported
+                .dyn8_matrices()
+                .map(|(name, matrix)| {
+                    let (codes, scales) = matrix.to_rows();
+                    (
+                        name.to_owned(),
+                        matrix.rows(),
+                        matrix.cols(),
+                        codes,
+                        scales.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+                    )
+                })
+                .collect();
+            let exact: Vec<_> = exported
+                .iter()
+                .map(|(name, rows, cols, codes, scales)| {
+                    (
+                        name.clone(),
+                        *rows,
+                        *cols,
+                        codes.clone(),
+                        scales.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+                    )
+                })
+                .collect();
+            assert_eq!(round_trip, exact, "{precision:?}");
+
+            for (step, (input, expected)) in sequence.iter().zip(&expected).enumerate() {
+                imported.step(input, &mut output);
+                assert_eq!(output.map(f32::to_bits), *expected, "{precision:?}");
+                assert_eq!(
+                    imported
+                        .hidden_state()
+                        .iter()
+                        .map(|value| value.to_bits())
+                        .collect::<Vec<_>>(),
+                    expected_hidden[step],
+                    "{precision:?} hidden state",
+                );
+            }
+            imported.reset();
+            assert!(imported.hidden_state().iter().all(|value| *value == 0.0));
+            imported.step(&sequence[0], &mut output);
+            assert_eq!(output.map(f32::to_bits), expected[0], "{precision:?} reset");
+            assert_eq!(
+                imported
+                    .hidden_state()
+                    .iter()
+                    .map(|value| value.to_bits())
+                    .collect::<Vec<_>>(),
+                expected_hidden[0],
+                "{precision:?} reset hidden state",
+            );
+        }
+
+        let mut target = FastRnn::with_precision(
+            weights_like(&weights),
+            Activations::Fast,
+            Precision::Q8VnniPortable,
+        )
+        .unwrap();
+        let payload = || {
+            exported
+                .iter()
+                .map(|(name, rows, cols, codes, scales)| {
+                    (
+                        name.clone(),
+                        crate::vnni::DynQ8::from_rows(codes, scales, *rows, *cols).unwrap(),
+                    )
+                })
+                .collect::<Vec<_>>()
+        };
+        let mut wrong_name = payload();
+        wrong_name[0].0.push_str(".unexpected");
+        assert!(target.load_dyn8_matrices(wrong_name).is_err());
+        assert!(target.load_dyn8_matrices(Vec::new()).is_err());
+        let mut wrong_shape = payload();
+        let name = wrong_shape[0].0.clone();
+        let matrix = &wrong_shape[0].1;
+        let (codes, _scales) = matrix.to_rows();
+        let (rows, cols) = (matrix.rows() * 2, matrix.cols() / 2);
+        let scales = vec![0.25; rows];
+        wrong_shape[0] = (
+            name,
+            crate::vnni::DynQ8::from_rows(&codes, &scales, rows, cols).unwrap(),
+        );
+        assert!(target.load_dyn8_matrices(wrong_shape).is_err());
     }
 
     #[test]
