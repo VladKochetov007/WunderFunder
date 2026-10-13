@@ -1,0 +1,74 @@
+{
+  "created_utc": "2026-10-13T19:55:14.300067+00:00",
+  "owner": "root",
+  "scope": "ExactnativeQ8 original fixedmembers on full468-groupF0 finalfitteddiagnostic panel, rawNPZ source hashes/native/data/split pinned. NoCVclaim.",
+  "ordered_panel_count": 468,
+  "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "source_sha256": "1e6550d6af562ac462cfca0c984d7c24f7d6c29ec14759d339a92c49f49b16ee",
+  "resource_bound": {
+    "cpus_per_worker": 1,
+    "host_reserve_per_worker_bytes": 1100000000,
+    "max_parallel_workers": 2,
+    "committed_target_bytes": 17000000000,
+    "basis": "Prior same native callback worker peak930MB under1.1GB; streaminghash/pagecache remains inside measuredallocation, no datasetcopy; monitor cgroupcurrent plus unusedGPUreservation.",
+    "collection_bytes_per_worker": 80000000
+  },
+  "jobs": [
+    {
+      "attempt": "qat-release-common-0-native-r1",
+      "command": [
+        "env",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/export_native_qat_member_panel.py",
+        "--weights",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4/weights_0.npz",
+        "--weights-sha256",
+        "45ac50f7324b8e26f37eee97b975e2643134e54ab2399077de8778f931abc2bf",
+        "--native",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_release_r1/wnn_native.abi3.so",
+        "--native-sha256",
+        "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+        "--split",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--split-sha256",
+        "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "--data",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+        "--data-sha256",
+        "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "--output",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_common_0_r1"
+      ],
+      "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_common_0_r1"
+    },
+    {
+      "attempt": "qat-release-common-1-native-r1",
+      "command": [
+        "env",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/export_native_qat_member_panel.py",
+        "--weights",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4/weights_1.npz",
+        "--weights-sha256",
+        "65176bef6f8ab63931bc34e2da3118328e7922e2bea233e6e1cf4a33e9da8945",
+        "--native",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_release_r1/wnn_native.abi3.so",
+        "--native-sha256",
+        "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+        "--split",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--split-sha256",
+        "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "--data",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+        "--data-sha256",
+        "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "--output",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_common_1_r1"
+      ],
+      "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_common_1_r1"
+    }
+  ]
+}

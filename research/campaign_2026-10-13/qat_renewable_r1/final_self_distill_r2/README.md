@@ -6,3 +6,5 @@ The first final-parent QAT adaptations changed targets to the available F0 teach
 - [Component subset](fit_components_10pct.json): the same315 complete fitting components/1152 sequences, with successor experiment identity.
 - [Profile sequence](PROFILE_SEQUENCE_R2.json): two sequential100-update actual-shape profiles with cache handoff and single-GPU admission.
 - [Fit sequence](FIT_SEQUENCE_R2.json): two matched oneepoch fits, pending independent profile acceptance.
+
+- [Profile sequence receipt](PROFILE_SEQUENCE_RECEIPT_R2.json) and [fit admission](PROFILE_ACCEPTANCE_FIT_ALLOCATION_R2.json): both100-updateprofiles finite, host<4GB andVRAM<2.18GB; root admits matched1440updatefits afterindependent sourceGO.

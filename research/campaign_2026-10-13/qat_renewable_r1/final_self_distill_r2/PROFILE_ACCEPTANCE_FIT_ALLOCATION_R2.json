@@ -1,0 +1,80 @@
+{
+  "created_utc": "2026-10-13T20:37:22.717130+00:00",
+  "owner": "root",
+  "decision": "Both independently source-reviewed actual100updateprofiles pass finite losses/gradients and measured bounds; admit two matched1440update oneepochfits sequentially throughsingleGPUguard.",
+  "source_revision": "abf1efd3dafd8298140460f5d4413e732fcf6d07",
+  "independent_static_go": "research/unified/reviews/QAT_FINAL_SELF_DISTILL_PROFILE_REVIEW_R2.md",
+  "recipe_sha256": "b635202f5d6d8f1478f5f4ff1faf6332972e3eeab91176fd0ce05ec577a649ef",
+  "profiles": [
+    {
+      "attempt": "qat-self-s3-fp32-profile-r2",
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "profile": {
+        "backward": 590.74,
+        "forward": 653.97,
+        "gpu_total": 1265.64,
+        "h2d": 0.01,
+        "inputs": 9.28,
+        "labels": 1.86,
+        "loss": 4.37,
+        "optimizer": 6.02,
+        "weights": 0.33,
+        "loader_wait": 315.96,
+        "step_wall": 1568.14,
+        "seq_per_s": 10.2,
+        "syncs_per_step": 0.67
+      },
+      "peak_ram_bytes": 3982983168,
+      "peak_observed_vram_bytes": 2173698048,
+      "log_sha256": "1949b881d25d13a8be52d55f772d8732d8f513a8b7720d20471ef74bea0bb86e"
+    },
+    {
+      "attempt": "qat-self-s3-lsq_w4-profile-r2",
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "profile": {
+        "backward": 596.04,
+        "forward": 725.98,
+        "gpu_total": 1358.89,
+        "h2d": 0.03,
+        "inputs": 9.43,
+        "labels": 1.96,
+        "loss": 4.54,
+        "optimizer": 18.84,
+        "weights": 0.32,
+        "loader_wait": 308.08,
+        "step_wall": 1671.25,
+        "seq_per_s": 9.57,
+        "syncs_per_step": 844.0
+      },
+      "peak_ram_bytes": 3971940352,
+      "peak_observed_vram_bytes": 2179989504,
+      "log_sha256": "a254860b4ca3bdae03e884452836b612f1eea589697762e0427505b4ab7bdae9"
+    }
+  ]
+}
