@@ -11,7 +11,13 @@ from pathlib import Path
 import numpy as np
 
 from wnn.gmetric import GlobalAccumulator
-from wnn.quantization import represented_rows
+from wnn.quantization import (
+    PRESETS,
+    policy_metadata,
+    quantize_model,
+    represented_rows,
+    represented_rows_q4,
+)
 from wnn.quantization_export import (
     read_packed_quantized_export,
     write_packed_quantized_export,
@@ -22,6 +28,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 CASES = ("fp32", "native_q8", "packed_q8", "recurrent_w4", "input_w4_recurrent_w8")
+CASE_PRESETS = {
+    "packed_q8": "recurrent_head",
+    "recurrent_w4": "recurrent_w4",
+    "input_w4_recurrent_w8": "input_w4_recurrent_w8",
+}
 
 
 def write_json(path: Path, value: object) -> None:
@@ -42,6 +53,197 @@ def native_module(library: Path) -> object:
     return native
 
 
+def checkpoint_quantization(checkpoint: dict, weights: dict[str, np.ndarray]) -> dict[str, object]:
+    """Validate and normalize the exact representation stored by an inference checkpoint."""
+    from collections.abc import Mapping
+
+    import torch
+
+    arguments = checkpoint.get("args", {})
+    if not isinstance(arguments, dict):
+        raise ValueError("checkpoint args must be a mapping")
+    qat_mode = arguments.get("qat", "none")
+    if qat_mode != "none" and qat_mode not in PRESETS:
+        raise ValueError(f"unsupported checkpoint QAT mode: {qat_mode!r}")
+    metadata = checkpoint.get("quantization")
+    if metadata is None:
+        if qat_mode != "none":
+            raise ValueError("QAT checkpoint is missing its quantization metadata")
+        return {
+            "kind": "float_checkpoint",
+            "qat_mode": "none",
+            "preset": None,
+            "metadata": None,
+            "encoded": None,
+        }
+    if not isinstance(metadata, dict):
+        raise ValueError("checkpoint quantization metadata must be a mapping")
+    preset = metadata.get("preset")
+    if preset not in PRESETS:
+        raise ValueError("checkpoint quantization metadata has an unsupported preset")
+    if qat_mode != "none" and qat_mode != preset:
+        raise ValueError("checkpoint QAT args disagree with quantization metadata preset")
+    expected_policy = policy_metadata(preset)
+    for field in ("version", "preset", "scheme"):
+        if metadata.get(field) != expected_policy[field]:
+            raise ValueError(f"checkpoint quantization {field} disagrees with the versioned policy")
+    if metadata.get("representation") != "effective_reconstructed_float32":
+        raise ValueError("checkpoint quantization representation is not effective float32")
+    snapshot_source = metadata.get("snapshot_source")
+    if not isinstance(snapshot_source, str) or not snapshot_source:
+        raise ValueError("checkpoint quantization snapshot source is missing")
+    provenance = checkpoint.get("provenance", {})
+    control = provenance.get("quantization_control") if isinstance(provenance, dict) else None
+    training_rule = metadata.get("training_rule")
+    if qat_mode == "none":
+        if (
+            not isinstance(control, dict)
+            or control.get("preset") != preset
+            or control.get("source_sha256") != metadata.get("source_checkpoint_sha256")
+            or metadata.get("training_updates") != 0
+            or training_rule != "none; post-training quantization without updates"
+        ):
+            raise ValueError(
+                "quantization metadata without QAT args lacks no-finetune control provenance"
+            )
+        kind = "post_training_quantization_control"
+    else:
+        if control is not None or training_rule != (
+            "identity STE; detached row scales; no scale, rounding or clipping derivative"
+        ):
+            raise ValueError("fitted QAT args disagree with checkpoint quantization semantics")
+        kind = "fitted_qat"
+
+    _, expected_encoded, report = quantize_model(weights, preset)
+    selected = metadata.get("selected")
+    if not isinstance(selected, dict) or set(selected) != set(report["selected"]):
+        raise ValueError("checkpoint quantization selected matrices disagree with the preset")
+    for name, details in report["selected"].items():
+        recorded = selected[name]
+        if (
+            not isinstance(recorded, dict)
+            or recorded.get("shape") != details["shape"]
+            or recorded.get("block_bits") != details["block_bits"]
+        ):
+            raise ValueError(
+                f"checkpoint quantization matrix metadata disagrees for {name}"
+            )
+
+    raw_encoded = metadata.get("encoded")
+    if not isinstance(raw_encoded, Mapping) or set(raw_encoded) != set(expected_encoded):
+        raise ValueError("checkpoint quantization exact codes/scales are missing or unexpected")
+    encoded: dict[str, np.ndarray] = {}
+    for name, value in raw_encoded.items():
+        if not isinstance(value, torch.Tensor):
+            raise ValueError(f"checkpoint encoded field is not a tensor: {name}")
+        array = np.ascontiguousarray(value.detach().cpu().numpy())
+        expected = expected_encoded[name]
+        if array.dtype != expected.dtype or array.shape != expected.shape:
+            raise ValueError(f"checkpoint encoded field has the wrong dtype or shape: {name}")
+        encoded[name] = array
+
+    for name, details in report["selected"].items():
+        blocks = []
+        block_count = 2 if name == "head.0.weight" else 1
+        for index, bits in enumerate(details["block_bits"]):
+            codes = encoded[f"{name}.{index}.codes"]
+            scales = encoded[f"{name}.{index}.scales"]
+            represented = represented_rows_q4 if bits == 4 else represented_rows
+            blocks.append(represented(codes, scales))
+        actual = np.concatenate(blocks, axis=1) if block_count == 2 else blocks[0]
+        if not np.array_equal(actual, np.asarray(weights[name], dtype=np.float32)):
+            raise ValueError(
+                f"checkpoint effective model disagrees with exact codes/scales for {name}"
+            )
+    summary = {
+        "kind": kind,
+        "qat_mode": qat_mode,
+        "preset": preset,
+        "version": metadata["version"],
+        "representation": metadata["representation"],
+        "snapshot_source": snapshot_source,
+        "training_rule": training_rule,
+        "encoded_sha256": {
+            name: hashlib.sha256(value.tobytes(order="C")).hexdigest()
+            for name, value in encoded.items()
+        },
+    }
+    return {
+        "kind": kind,
+        "qat_mode": qat_mode,
+        "preset": preset,
+        "metadata": summary,
+        "encoded": encoded,
+    }
+
+
+def export_case_archives(
+    output: Path,
+    weights: dict[str, np.ndarray],
+    native_codes: dict[str, np.ndarray],
+    quantization: dict[str, object],
+) -> dict[str, str]:
+    """Write transports, preserving checkpoint codes only for their matching preset."""
+    exact = quantization["encoded"]
+    checkpoint_preset = quantization["preset"]
+    semantics: dict[str, str] = {}
+
+    q8_encoded = exact if checkpoint_preset == "recurrent_head" else native_codes
+    if checkpoint_preset == "recurrent_head":
+        q8_effective = dict(weights)
+        semantics["packed_q8"] = "exact_checkpoint_codes_scales"
+    else:
+        q8_effective = dict(weights)
+        selected = [
+            name for name in weights if name.startswith(("gru.weight_ih_", "gru.weight_hh_"))
+        ] + ["head.0.weight"]
+        for name in selected:
+            q8_effective[name] = np.ascontiguousarray(
+                np.concatenate(
+                    [
+                        represented_rows(
+                            native_codes[f"{name}.{index}.codes"],
+                            native_codes[f"{name}.{index}.scales"],
+                        )
+                        for index in range(2 if name == "head.0.weight" else 1)
+                    ],
+                    axis=1,
+                )
+            )
+        semantics["packed_q8"] = "exact_native_q8_transport_from_effective_checkpoint"
+    write_packed_quantized_export(
+        output / "packed_q8.npz", q8_effective, "recurrent_head", q8_encoded
+    )
+
+    for case in CASES[3:]:
+        use_exact = checkpoint_preset == CASE_PRESETS[case]
+        write_packed_quantized_export(
+            output / f"{case}.npz",
+            weights,
+            case,
+            exact if use_exact else None,
+        )
+        semantics[case] = (
+            "exact_checkpoint_codes_scales" if use_exact else "ptq_from_effective_checkpoint"
+        )
+    return semantics
+
+
+def endpoint_semantics(
+    quantization: dict[str, object], case_semantics: dict[str, str]
+) -> dict[str, str]:
+    """Name the actual source of each comparison endpoint in the frozen manifest."""
+    return {
+        "fp32": (
+            "effective_reconstructed_diagnostic_not_latent_weights"
+            if quantization["metadata"] is not None
+            else "stored_float_checkpoint_weights"
+        ),
+        "native_q8": "dynamic_q8_from_effective_checkpoint",
+        **case_semantics,
+    }
+
+
 def prepare(args: argparse.Namespace) -> None:
     """Freeze parent weights, exact transports, full evaluation and fit-only profiling."""
     from package_submission import load_checkpoint_member
@@ -49,6 +251,13 @@ def prepare(args: argparse.Namespace) -> None:
     split = load_campaign_split(args.split, args.root)
     raw_split = json.loads(args.split.read_text())
     weights, parent = load_checkpoint_member(args.run, args.root / "artifacts/runs", True)
+    import torch
+
+    checkpoint_path = Path(parent["checkpoint_path"])
+    if file_sha256(checkpoint_path) != parent["checkpoint_sha256"]:
+        raise ValueError("checkpoint changed while preparing deployment artifacts")
+    checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    quantization = checkpoint_quantization(checkpoint, weights)
     if weights["mean"].size != 211 or weights["inp.bias"].size != 256:
         raise ValueError("initial deployment recipe requires the 211-input H256 student")
     native = native_module(args.library)
@@ -59,25 +268,7 @@ def prepare(args: argparse.Namespace) -> None:
     args.output.mkdir(parents=True, exist_ok=False)
     with (args.output / "parent.npz").open("xb") as output:
         np.savez_compressed(output, **weights)
-    effective = dict(weights)
-    selected = [
-        name for name in weights if name.startswith(("gru.weight_ih_", "gru.weight_hh_"))
-    ] + ["head.0.weight"]
-    for name in selected:
-        effective[name] = np.ascontiguousarray(
-            np.concatenate(
-                [
-                    represented_rows(
-                        codes[f"{name}.{index}.codes"], codes[f"{name}.{index}.scales"]
-                    )
-                    for index in range(2 if name == "head.0.weight" else 1)
-                ],
-                axis=1,
-            )
-        )
-    write_packed_quantized_export(args.output / "packed_q8.npz", effective, "recurrent_head", codes)
-    for case in CASES[3:]:
-        write_packed_quantized_export(args.output / f"{case}.npz", weights, case)
+    case_semantics = export_case_archives(args.output, weights, codes, quantization)
     components = {
         group: component for source, group, component in split.components if source == "valid"
     }
@@ -108,6 +299,9 @@ def prepare(args: argparse.Namespace) -> None:
         ROOT / "scripts/package_submission.py",
         ROOT / "src/wnn/quantization.py",
         ROOT / "src/wnn/quantization_export.py",
+        ROOT / "src/wnn/training_qat.py",
+        ROOT / "scripts/train_rnn.py",
+        ROOT / "scripts/export_qat_control.py",
         ROOT / "src/wnn/gmetric.py",
         ROOT / "src/wnn/splits.py",
         ROOT / "utils.py",
@@ -119,6 +313,8 @@ def prepare(args: argparse.Namespace) -> None:
             "experiment": "E-QAT-DEPLOYMENT-20261013-R1",
             "root": str(args.root.resolve()),
             "parent": parent,
+            "checkpoint_quantization": quantization["metadata"],
+            "case_semantics": endpoint_semantics(quantization, case_semantics),
             "split": str(args.split.resolve()),
             "split_sha256": split.sha256,
             "fold": split.fold,

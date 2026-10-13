@@ -31,6 +31,8 @@ Runtime claims must name the hardware, exact ZIP, callback protocol, complete-te
 
 [QAT plan and campaign](../../campaign_2026-10-13/qat_renewable_r1/README.md) records the authorized uniform recurrent W4/mixed W4-W8, exact native transport, activation-aware and learned-scale comparisons, using renewable Kaggle/local capacity. [Plan](../../campaign_2026-10-13/qat_renewable_r1/PLAN.md), [contract](../../campaign_2026-10-13/qat_renewable_r1/CONTRACT.json) and [frontier](../../campaign_2026-10-13/qat_renewable_r1/FRONTIER.md) bind clean-T3 parent ancestry, matched controls and exposed multi-fold/seed validation (H-QAT-W4/A8/LSQ-20261013; E-QAT-DEPLOYMENT-20261013-R1). Initial status is implementation; archive savings are distinct from CPU speed and no quality gain is established.
 
+[Post-fit QAT exact-export receipt](../../campaign_2026-10-13/qat_renewable_r1/POSTFIT_QAT_EXACT_EXPORT_R1.md) documents the evaluator's checkpoint-schema guards and preservation of matching trained code/scale tensors, verified on the completed recurrent-W4 checkpoint. This closes an archive integration gap; native full-fold quality/runtime evaluation remains pending.
+
 ## QAT native transport — 2026-10-13
 
 [Native dynamic Q8 transport and state diagnostics](QAT_NATIVE_TRANSPORT_R1.md) records exact row-code/scale import/export for `q8vnni*` and copied recurrent-state access for the QAT deployment plan. Rust tests and a Python 3.13 synthetic integration smoke pass, including exact transport and reset/replay. This is implementation evidence only: no actual-data quality, archive-size, runtime, or INT4-speed result is claimed. Related: H-QAT-W4-20261013, H-QAT-A8-20261013, H-QAT-LSQ-20261013, E-QAT-DEPLOYMENT-20261013-R1.
