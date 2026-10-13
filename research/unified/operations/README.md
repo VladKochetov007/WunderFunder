@@ -43,3 +43,4 @@ The October12 stop and its terminal-state archive remain preserved as historical
 
 [QAT entry resource and quota checks](../../campaign_2026-10-13/qat_renewable_r1/README.md) include an open shared runtime with no active attempts and [corrected Kaggle quota](../../campaign_2026-10-13/qat_renewable_r1/KAGGLE_QUOTA_ENTRY_R2.json):9.57GPU/20TPU hours available. The SDK string drops timedelta days; typed `total_seconds()` corrects the initial decision before admission. No new provider job or paid action at this checkpoint.
 
+[QAT cache handoff](../../campaign_2026-10-13/qat_renewable_r1/COMPLETED_EXPORT_CACHE_HANDOFF_R1.json) reclaimed3.77GB of completed-export file cache using the existing GPU-lock helper, reducing parent memory from12.27GB to8.48GB before profile admission. CPU/RAM/no-swap limits and healthy processes were unchanged; this is execution headroom, not scientific evidence.
