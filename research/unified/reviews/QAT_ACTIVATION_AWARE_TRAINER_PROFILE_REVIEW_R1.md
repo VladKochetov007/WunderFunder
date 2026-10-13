@@ -20,7 +20,9 @@ profile acceptance predicate. The wrapper now also rejects a paired run when
 the two mode receipts disagree on the checkpoint, split/subset membership,
 normalization or sampler RNG identity. It declares that pin-memory is removed
 for batch-object reuse while preserving explicit fused-Adam, sync-free and
-propensity-cache flags.
+propensity-cache flags. Follow-up `60daafba7b6bb9fc55b62ecf3f656b48eb90726e`
+strengthens the wrapper to require finite final parameters and to compare
+distillation/propensity-cache and source identities across modes.
 
 The compiled implementation matches the stated recurrent scope: PyTorch GRU
 gate order `[reset, update, new]`; reset multiplies the recurrent candidate
@@ -62,32 +64,44 @@ model parameters and normalization before recurrence. Full-profile receipts
 should be reviewed for finite final parameters and compiler counters in
 addition to the wrapper's current acceptance checks.
 
-The backend flag is included in `resume_contract` options, and the continuation
-contract hashes the trainer and all `src/wnn/*.py` files. A same-mode resume
+The backend flag is included in `resume_contract` options: that record copies
+all parsed arguments except the run name, resume-state path, save-state switch,
+stop-after-epoch and two manifest-path fields. The continuation contract also
+hashes all `src/wnn/*.py` files and the trainer. Before `restore_training_state`,
+the trainer rejects a saved contract that differs. A same-mode resume
 reconstructs the opt-in backend before restoring state; changing backend mode
 or source cannot silently reuse a different continuation contract. The frozen
 profile has no EMA, SWA or EMA-evaluation mode. Those secondary modules are not
 validated as activation-A8 teachers here, and any later fit that enables them
-must either propagate the backend deliberately or reject that combination.
+must either propagate the backend deliberately or reject that combination. No
+same-mode or cross-mode resume was executed in this review. Because the
+contract also hashes the trainer source and full package source set, legacy
+training-state files from an earlier source revision will be refused under
+the existing strict contract policy; that is distinct from loading an older
+model-only initializer into the unchanged default fused-GRU path.
 
 ## Scope and checks
 
 Reviewed the exact source diff from parent `2a5c9c89` through the initial
-revision above and the committed successor. Source hashes at successor
-`5f6812b098fdf4c88e6ccb496a0343e159781eef`:
+revision above, successor `5f6812b098fdf4c88e6ccb496a0343e159781eef`, and
+receipt-hardening successor `60daafba7b6bb9fc55b62ecf3f656b48eb90726e`.
+Trainer and A8 backend files are unchanged between the two successors. Final
+profile wrapper/source hashes:
 
 - `scripts/train_rnn.py`: `7f69848bb460914af41f5f06bf6b76cb9c84f9aeed57bfdc7abf78dbb2cd3008`
 - `src/wnn/activation_qat.py`: `9ccdfb864222ef77c139cd64ca1adf420e6939dea652fd37e59a93c484a397b7`
-- `scripts/profile_activation_qat.py`: `9d5680059f6d6104e0f2ca82a2ab93941cc44ad45c77b77de951c74b6944c901`
+- `scripts/profile_activation_qat.py` at `60daafba`: `9d5680059f6d6104e0f2ca82a2ab93941cc44ad45c77b77de951c74b6944c901`
 - Frozen recipe `RUN_RECIPE_R1.json`: `c08c6a7c46d1d117521153b0cd233410695cf738d7784d32d26de80f7a92e585`
 - Profile plan `ACTIVATION_AWARE_ACTUAL_PROFILE_PLAN_R1.json`: `78358d3b4a31ffb0d791280fad4b6e447172ec2dfd54e75bd6d3fd7175ce13c5`
 
 The bounded check in this review parsed the trainer, profile wrapper and A8
 module with Python's standard-library AST parser under the campaign wrapper;
-all three parsed successfully. No Torch test/import, compiler, GPU run, model
-load, native rebuild, fit or prediction evaluation was performed. Earlier
-focused CPU/native tests recorded by the actor were against the pre-wrapper
-backend and are not independent evidence for this successor. The exact actual
-profile recipe/command and root-owned execution boundary are in the linked
-profile plan; any compiler, memory or runtime failure is backend-execution
-evidence, not a negative model-quality result.
+all three parsed successfully. The actor's indexed [CPU/native receipt](../../campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_CPU_NATIVE_RECEIPT_R2.json)
+records four focused tests passing against the same unchanged A8 backend and
+test file; it covers numerical A8 rules, multi-layer/chunk/state/gradient
+parity, FP32 state and one native portable-Q8 fixture. It does not exercise the
+trainer hook or Inductor compile path. This reviewer performed no Torch
+import/test, compiler, GPU run, model load, native rebuild, fit or prediction
+evaluation. The exact actual profile recipe/command and root-owned execution
+boundary are in the linked profile plan; any compiler, memory or runtime
+failure is backend-execution evidence, not a negative model-quality result.
