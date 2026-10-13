@@ -1,0 +1,111 @@
+{
+  "schema": "wnn.strategy.fixed-trajectory-mean.independent-review.v1",
+  "created_utc": "2026-10-13T00:27:00Z",
+  "status": "pass_artifacts_and_cpu_consumer_preflight_quality_pending",
+  "reviewer": "independent_critic",
+  "candidate": {
+    "commit": "f5c3c6bb06d819b8ab2cf0cef2abdc1e5b81a73d",
+    "parent": "5836dbc83e13031ff398ab3c883f2469df84bfd9",
+    "constructor": "scripts/average_trajectory_checkpoints.py",
+    "constructor_sha256": "8646ccc12b537a1bf2f2544dffd85d10287076451e5bab86a4b2d6379e39bbb3",
+    "test_file_sha256": "4bd2520f71917896720c36a65f32013b9cd587ac419a290a426605755c03f399"
+  },
+  "experiment": {
+    "hypothesis_id": "H-STRATEGY-AVERAGING-20261013",
+    "experiment_id": "E-STRATEGY-SWA-F0-20261013-R1",
+    "recipe": "seed-local equal FP64 parameter mean of epochs 3, 4 and 5, cast to source dtype; identical mean/std buffers and integer state retained",
+    "training_or_gpu_used_by_review": false,
+    "quality_evaluated": false
+  },
+  "checks": {
+    "actual_producer_checkpoint_hashes": "pass",
+    "scientific_args_and_ancestry": "pass",
+    "epoch3_continuation_state_hash_contract_and_model": "pass",
+    "independent_full_state_mean_matches_outputs_exactly": "pass",
+    "output_and_external_provenance_receipt_hashes": "pass",
+    "staged_predictor_cpu_model_construction_and_strict_load": "pass",
+    "run_prediction_sidecar_and_grade_filename_matching": "pass_static",
+    "feature_only_export_path_and_fixed_grade_panel": "pass_static",
+    "predictions_and_scores": "pending"
+  },
+  "source_hashes": {
+    "commands_packet_sha256": "6f4da732aaf43db42111e2d01e4c2b098097c034b4bec2c871740625a9579ece",
+    "overlay_cleanfold_exec_sha256": "246586bfd4be3a4e3d95ac026860bb835611f09958193b75798124c9500455ab",
+    "overlay_predict_run_sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+    "main_grade_fold0_run_sha256": "b6f80ef2d5323bdd9f9941f8bb2b698d61d87ac05fe918d53343a52aee0e6654"
+  },
+  "outputs": [
+    {
+      "seed": 3,
+      "manifest_sha256": "d062d21a0e7f3608877e5fa655713b1ea502eba69140e496d5f1e64d208113bb",
+      "producer_checkpoint_sha256": [
+        "def9c26e7d3d2ebde684a8e80083c88fbe08aaae6d4aa548f6e38f4461270c8c",
+        "1f25f8d6a591f89fd0161dde7617a77ca0d9441b8821514f68285912ae787d55",
+        "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda"
+      ],
+      "continuation_state_sha256": "80eb6d3e85646248a997c04f20ca3e3ae61eb5d7fdcd7501752cc47359ad25d6",
+      "derived_checkpoint_sha256": "7acddda87cf72457d34c4ee2e35d25642976a21cd7858e8f4c2f287a307286ec",
+      "external_provenance_sha256": "54ead85cffd18e698d732b7adcfecb4175e391f240ae0f53a92632cd8488436a",
+      "predictor_load_state_dict": "pass",
+      "serving_and_grade_names": {
+        "run": "clean_t3_f0_control_s3_swa345_strategy_r1",
+        "checkpoint": "artifacts/runs/clean_t3_f0_control_s3_swa345_strategy_r1/model_ep5.pt",
+        "prediction": "cache/pred_clean_t3_f0_control_s3_swa345_strategy_r1_valid.npy",
+        "prediction_sidecar": "cache/pred_clean_t3_f0_control_s3_swa345_strategy_r1_valid.json",
+        "grade_prediction": "research/campaign_2026-10-13/strategy_execution_r1/trajectory_average_f0_r1/grade_s3_r1/eval468_pred_clean_t3_f0_control_s3_swa345_strategy_r1_ep5.npy",
+        "grade_record": "research/campaign_2026-10-13/strategy_execution_r1/trajectory_average_f0_r1/grade_s3_r1/clean_t3_f0_control_s3_swa345_strategy_r1.grade.json",
+        "matched_control_score": 0.6811553603333363,
+        "matched_control_receipt_sha256": "c518f7cdb5f3e5148f72de152c3aaecd308ff97c83aa74169fdaa95442e085a0"
+      }
+    },
+    {
+      "seed": 4,
+      "manifest_sha256": "912492010a5fe51d5d44c064401a3cc1097cd786b8628919cb56b97c95ae981d",
+      "producer_checkpoint_sha256": [
+        "31eb5d5358feea9338f8488cd8c4aee6e1fb1a6c5d57c478e192053467037876",
+        "57cc0d935c412ec2ec0139cbb99a6237eeec181d9d8498504ec46388fbe4afcb",
+        "e6be82ff799f4ea2b62e770e9c340a8cfd8f98780d1c7dec4a76eab5a853d35c"
+      ],
+      "continuation_state_sha256": "1bddae29e23d5ed636191f8f614480aa9c6e66d7656df0302165cfc7a9dffb5b",
+      "derived_checkpoint_sha256": "889afefc7123dc983b4ace68306627d5ad919abc2db6df85131d2b805b88142e",
+      "external_provenance_sha256": "dec9b65fef6babc3056abed55a1d9247b1fa4506961b8f783a2ccbb8a6893e7c",
+      "predictor_load_state_dict": "pass",
+      "serving_and_grade_names": {
+        "run": "clean_t3_f0_control_s4_swa345_strategy_r1",
+        "checkpoint": "artifacts/runs/clean_t3_f0_control_s4_swa345_strategy_r1/model_ep5.pt",
+        "prediction": "cache/pred_clean_t3_f0_control_s4_swa345_strategy_r1_valid.npy",
+        "prediction_sidecar": "cache/pred_clean_t3_f0_control_s4_swa345_strategy_r1_valid.json",
+        "grade_prediction": "research/campaign_2026-10-13/strategy_execution_r1/trajectory_average_f0_r1/grade_s4_r1/eval468_pred_clean_t3_f0_control_s4_swa345_strategy_r1_ep5.npy",
+        "grade_record": "research/campaign_2026-10-13/strategy_execution_r1/trajectory_average_f0_r1/grade_s4_r1/clean_t3_f0_control_s4_swa345_strategy_r1.grade.json",
+        "matched_control_score": 0.6812584217032286,
+        "matched_control_receipt_sha256": "b9b189772581f35df1d3b3187b41d40e0410194161b266cba22033b90781c3fc"
+      }
+    }
+  ],
+  "bounded_command_receipt": {
+    "wrapper": "scripts/limited",
+    "argv_tail": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "-"
+    ],
+    "cpu_quota": "100%",
+    "memory_max_bytes": 1200000000,
+    "runtime_max": "120s",
+    "gpu_or_forward_pass": false,
+    "exit_code": 0,
+    "systemd_scope": "run-p293543-i312697.scope",
+    "start_local": "2026-10-13T03:26:32+03:00",
+    "wall_seconds": 1.645,
+    "cpu_seconds": 1.621,
+    "memory_peak_reported": "288.9M (systemd rounded display)",
+    "admission_bracket_bytes": 14975744000,
+    "admission_target_bytes": 17000000000
+  },
+  "launch_verdict": "artifact_and_cpu_consumer_preflight_pass; prediction_and_grading_pending_fresh_shared_controller_admission_and_single_gpu_lane",
+  "limits": [
+    "No predictions or candidate scores were available at review time.",
+    "F0 evaluation groups are repeatedly exposed; the two student seeds share one teacher cohort.",
+    "The review did not run a forward pass, local GPU export, model fit or parquet scan.",
+    "Confirm current physical cache storage and live admission state immediately before launch."
+  ]
+}
