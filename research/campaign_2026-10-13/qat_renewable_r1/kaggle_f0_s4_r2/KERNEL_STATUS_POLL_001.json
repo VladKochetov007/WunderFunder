@@ -1,0 +1,47 @@
+{
+  "schema": "qat-kaggle-f0-s4-profile-r2-status-poll",
+  "poll_sequence": 1,
+  "observed_utc_snapshot_before_status_calls": "2026-10-13T19:13:31Z",
+  "status_commands": [
+    {
+      "command": "kaggle kernels status vladkochetov07/wnn-qat-f0-s4-profile-r2-runner",
+      "returncode": 0,
+      "stdout": "vladkochetov07/wnn-qat-f0-s4-profile-r2-runner has status \"KernelWorkerStatus.RUNNING\"",
+      "status": "RUNNING",
+      "worker_phase_proven": false
+    },
+    {
+      "command": "kaggle kernels status vladkochetov07/e463-tpu-realdata-reload-v8-20261013",
+      "returncode": 0,
+      "stdout": "vladkochetov07/e463-tpu-realdata-reload-v8-20261013 has status \"KernelWorkerStatus.QUEUED\"",
+      "status": "QUEUED",
+      "worker_phase_proven": false
+    }
+  ],
+  "execution": {
+    "read_only": true,
+    "support_scope_memory_max_bytes": 300000000,
+    "support_scope_cpu_quota": "25%",
+    "support_scope_runtime_max_seconds": 45,
+    "both_commands_completed_in_seconds": 3.2,
+    "collection_performed": false,
+    "quota_refreshed": false,
+    "provider_mutation": false,
+    "retry_or_new_version": false
+  },
+  "local_resource_context": {
+    "campaign_slice_memory_current_bytes_before_poll": 11967221760,
+    "campaign_slice_memory_high_bytes": 18000000000,
+    "campaign_slice_memory_max_bytes": 20000000000,
+    "local_gpu_memory_used_mib": 75,
+    "local_gpu_memory_total_mib": 6144,
+    "local_gpu_utilization_percent": 25,
+    "visible_managed_workers": [
+      "qat-lsq-f0-s4-native-fixed-r1",
+      "qat-lsq-f0-s4-native-learned-r1"
+    ],
+    "no_train_rnn_process_visible_at_snapshot": true
+  },
+  "interpretation": "The R2 provider status RUNNING does not prove that a worker started, passed preflight, entered profile, or produced measurements. TPU V8 remains queued. Preserve both jobs and poll read-only; collect only after terminal status.",
+  "next_action": "Poll these exact kernel IDs after a meaningful interval; at terminal, collect no more than 100000000 bytes to the approved collection directory and reconcile typed quota. Do not retry or push another version."
+}
