@@ -46,10 +46,11 @@ for this bounded activation profile, preserving compatibility with existing
 fit runs and caches that predate those sidecars. For same-batch host reuse the
 profile removes `--fast` and `--pin-memory` only; explicit `--fused-adam`,
 `--sync-free` and `--prop-cache` flags remain. The wrapper requires matching
-checkpoint, split/subset membership, normalization and sample-order identities
-across both modes, as well as valid pre-update cache identity, post-update
-invalidation and changed represented-weight fingerprints. The `synthetic_smoke`
-mode remains explicit and has no fit admission value. Backend errors are separate from quality
+checkpoint, split/subset membership, normalization, distillation/propensity
+cache, source and sample-order identities across both modes, as well as finite
+parameters, valid pre-update cache identity, post-update invalidation and
+changed represented-weight fingerprints. The `synthetic_smoke` mode remains
+explicit and has no fit admission value. Backend errors are separate from quality
 (`quality_status: not_evaluated`).
 
 ## Recipe audit and limits
@@ -104,6 +105,7 @@ two-update-per-mode cap are in the [profile plan](ACTIVATION_AWARE_ACTUAL_PROFIL
 - [Plan](PLAN.md), [frontier](FRONTIER.md) and [campaign contract](CONTRACT.json)
   — active experiment scope and execution ownership.
 - Tests: `tests/test_activation_qat.py`.
+- [Focused CPU/native receipt R2](ACTIVATION_AWARE_CPU_NATIVE_RECEIPT_R2.json) records four passing tests against successor `5f6812b0` and the supplied pinned native library; compiled trainer profiling remains untested.
 - Focused CPU/native command previously passed on the pre-wrapper backend: `PYTHONPATH=src PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
   WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1
   WNN_Q8_TEST_LIBRARY=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_r1
