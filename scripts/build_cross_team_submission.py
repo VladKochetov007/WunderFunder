@@ -1,8 +1,9 @@
-"""Build a deterministic, inventory-bound cross-team submission package.
+"""Build deterministic inventory-bound cross-team packages.
 
-The bundle reuses the xteam_h4 callback, precision setting, and native libraries
-byte-for-byte. It does not run the scorer or establish numerical parity with the
-source packages' callbacks.
+The legacy path reuses the xteam_h4 callback and libraries. An optional QAT path
+replaces the fixed fourth member with exact versioned codes/scales and a
+hash-bound portable native runtime. Neither path runs the scorer or establishes
+numerical equivalence to source callbacks.
 """
 
 from __future__ import annotations
@@ -27,6 +28,14 @@ BASE_FILES = (
     "v3/wnn_native.abi3.so",
 )
 NATIVE_PRECISION = "q8vnni\n"
+QAT_TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"
+QAT_ARCHIVE_MEMBER = "qat_archive.py"
+QAT_CODE_CONTRACT = "exact_q8_codes_scales_v1"
+NATIVE_VARIANTS = (
+    "v2/wnn_native.abi3.so",
+    "avx2/wnn_native.abi3.so",
+    "v3/wnn_native.abi3.so",
+)
 
 
 def sha256_file(path: Path) -> str:
@@ -190,6 +199,138 @@ def _verify_base_package(inventory: dict[str, object]) -> tuple[dict[str, str], 
     }
 
 
+def _sha256_value(value: object, label: str) -> str:
+    if not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None:
+        raise ValueError(f"{label} must be a lowercase SHA-256")
+    return value
+
+
+def _hash_bound_file(record: object, label: str) -> tuple[Path, dict[str, object]]:
+    item = _object(record, label)
+    source_name = item.get("path")
+    expected = _sha256_value(item.get("sha256"), f"{label} sha256")
+    if not isinstance(source_name, str):
+        raise ValueError(f"{label} needs a file path")
+    source = Path(source_name).expanduser().resolve(strict=True)
+    if not source.is_file():
+        raise ValueError(f"{label} is not a regular file")
+    actual = sha256_file(source)
+    if actual != expected:
+        raise ValueError(f"{label} SHA-256 mismatch")
+    expected_bytes = item.get("bytes")
+    if expected_bytes is not None and expected_bytes != source.stat().st_size:
+        raise ValueError(f"{label} byte count mismatch")
+    return source, {
+        **item,
+        "path": str(source),
+        "sha256": actual,
+        "bytes": source.stat().st_size,
+    }
+
+
+def _read_qat_release_spec(path: Path) -> tuple[dict[str, object], dict[str, object]]:
+    spec = _object(json.loads(path.read_text(encoding="utf-8")), "QAT release spec")
+    if spec.get("version") != 1:
+        raise ValueError("unsupported QAT release spec version")
+    replacement = _object(spec.get("replacement"), "QAT replacement")
+    index = replacement.get("index")
+    if isinstance(index, bool) or not isinstance(index, int) or index < 0:
+        raise ValueError("QAT replacement index must be a non-negative integer")
+    if not isinstance(replacement.get("candidate"), str) or not isinstance(
+        replacement.get("weights"), str
+    ):
+        raise ValueError("QAT replacement must bind an original candidate and member")
+    _sha256_value(replacement.get("source_member_sha256"), "replaced source member sha256")
+    coefficient = replacement.get("coef")
+    if isinstance(coefficient, bool) or not isinstance(coefficient, (int, float)):
+        raise ValueError("QAT replacement coefficient must be numeric")
+    if not math.isfinite(float(coefficient)) or float(coefficient) < 0:
+        raise ValueError("QAT replacement coefficient must be finite and non-negative")
+
+    archive_path, archive = _hash_bound_file(spec.get("archive"), "QAT archive")
+    archive_item = _object(spec["archive"], "QAT archive")
+    preset = archive_item.get("preset")
+    if preset not in ("recurrent_w4", "input_w4_recurrent_w8"):
+        raise ValueError("QAT archive preset must be a versioned recurrent W4 policy")
+    from scripts.templates.qat_archive import read_qat_archive
+
+    archive_weights, _, archive_metadata = read_qat_archive(
+        archive_path, expected_preset=cast(str, preset)
+    )
+    weight_schema = {
+        name: {"shape": list(value.shape), "dtype": value.dtype.str}
+        for name, value in archive_weights.items()
+    }
+    del archive_weights
+
+    checkpoint_path, checkpoint = _hash_bound_file(
+        spec.get("checkpoint"), "QAT training checkpoint"
+    )
+    checkpoint_item = _object(spec["checkpoint"], "QAT training checkpoint")
+    for field in ("run_reference", "training_rule", "data_membership"):
+        if not isinstance(checkpoint_item.get(field), str) or not checkpoint_item[field]:
+            raise ValueError(f"QAT checkpoint provenance needs {field}")
+    seed = checkpoint_item.get("seed")
+    updates = checkpoint_item.get("updates")
+    if isinstance(seed, bool) or not isinstance(seed, int) or seed < 0:
+        raise ValueError("QAT checkpoint seed must be a non-negative integer")
+    if isinstance(updates, bool) or not isinstance(updates, int) or updates <= 0:
+        raise ValueError("QAT checkpoint update count must be positive")
+    _sha256_value(checkpoint_item.get("parent_checkpoint_sha256"), "QAT parent checkpoint sha256")
+    scale_semantics = checkpoint_item.get("scale_learning")
+    if scale_semantics is not None and not isinstance(scale_semantics, dict):
+        raise ValueError("QAT scale-learning provenance must be an object or null")
+    if (
+        any(
+            token in cast(str, checkpoint_item["training_rule"]).lower()
+            for token in ("learned", "lsq")
+        )
+        and not isinstance(scale_semantics, dict)
+    ):
+        raise ValueError("learned-scale QAT must include its exact scale-learning semantics")
+    return spec, {
+        "spec": {"path": str(path.resolve(strict=True)), "sha256": sha256_file(path)},
+        "archive": {
+            **archive,
+            "preset": preset,
+            "metadata": archive_metadata,
+            "weight_schema": weight_schema,
+        },
+        "checkpoint": checkpoint,
+    }
+
+
+def _read_native_manifest(path: Path) -> tuple[dict[str, object], dict[str, object]]:
+    resolved = path.resolve(strict=True)
+    manifest_hash = sha256_file(resolved)
+    manifest = _object(json.loads(resolved.read_text(encoding="utf-8")), "native manifest")
+    if (
+        manifest.get("native_api") != QAT_CODE_CONTRACT
+        or manifest.get("abi") != "abi3-py311"
+        or manifest.get("target_cpu") != "x86-64-v2"
+        or manifest.get("runtime_dispatch") is not True
+    ):
+        raise ValueError("native manifest does not bind the required portable exact-Q8 ABI")
+    raw_files = _object(manifest.get("files"), "native manifest files")
+    if set(raw_files) != set(NATIVE_VARIANTS):
+        raise ValueError("native manifest must provide v2, avx2, and v3 library paths")
+    files: dict[str, dict[str, object]] = {}
+    for relative_name in NATIVE_VARIANTS:
+        source, record = _hash_bound_file(raw_files[relative_name], f"native {relative_name}")
+        if record["bytes"] < 1:
+            raise ValueError(f"native library is empty: {relative_name}")
+        files[relative_name] = {**record, "source_path": str(source)}
+    return manifest, {
+        "path": str(resolved),
+        "sha256": manifest_hash,
+        "native_api": manifest["native_api"],
+        "abi": manifest["abi"],
+        "target_cpu": manifest["target_cpu"],
+        "runtime_dispatch": True,
+        "files": files,
+    }
+
+
 def _physical_output_parent(out_dir: Path) -> Path:
     requested = out_dir.expanduser()
     if requested.exists() or requested.is_symlink():
@@ -270,16 +411,55 @@ def _write_deterministic_zip(
 
 
 def build_package(
-    inventory_path: Path, recipe_path: Path, out_dir: Path, max_zip_bytes: int
+    inventory_path: Path,
+    recipe_path: Path,
+    out_dir: Path,
+    max_zip_bytes: int,
+    qat_release_spec_path: Path | None = None,
+    native_manifest_path: Path | None = None,
 ) -> dict[str, object]:
-    """Build a new Q8 package and provenance manifest in a durable directory."""
+    """Build a deterministic cross-team package, optionally with exact QAT import."""
     if max_zip_bytes < 1 or max_zip_bytes > MAX_ZIP_BYTES:
         raise ValueError(f"max ZIP size must be between 1 and {MAX_ZIP_BYTES} bytes")
+    if (qat_release_spec_path is None) != (native_manifest_path is None):
+        raise ValueError("QAT release spec and exact-import native manifest must be supplied together")
     inventory_path = inventory_path.resolve(strict=True)
     recipe_path = recipe_path.resolve(strict=True)
     inventory_hash = sha256_file(inventory_path)
+    recipe_hash = sha256_file(recipe_path)
     inventory = _object(json.loads(inventory_path.read_text(encoding="utf-8")), "inventory")
     name, members = parse_recipe(recipe_path)
+
+    qat_spec: dict[str, object] | None = None
+    qat_binding: dict[str, object] | None = None
+    native_binding: dict[str, object] | None = None
+    if qat_release_spec_path is not None and native_manifest_path is not None:
+        qat_spec, qat_binding = _read_qat_release_spec(qat_release_spec_path.resolve(strict=True))
+        _, native_binding = _read_native_manifest(native_manifest_path.resolve(strict=True))
+        replacement = _object(qat_spec["replacement"], "QAT replacement")
+        replace_index = cast(int, replacement["index"])
+        if replace_index >= len(members):
+            raise ValueError("QAT replacement index is outside the recipe")
+        if (
+            len(members) != 4
+            or replace_index != 3
+            or replacement["candidate"] != "E"
+            or replacement["weights"] != "weights_0.npz"
+            or not math.isclose(float(replacement["coef"]), 0.25, rel_tol=0.0, abs_tol=1e-8)
+        ):
+            raise ValueError("QAT replacement must be the fixed fourth E/weights_0 blend member")
+        original_item = members[replace_index]
+        if (
+            original_item["candidate"] != replacement["candidate"]
+            or original_item["weights"] != replacement["weights"]
+            or not math.isclose(
+                cast(float, original_item["coef"]),
+                float(replacement["coef"]),
+                rel_tol=0.0,
+                abs_tol=1e-8,
+            )
+        ):
+            raise ValueError("QAT release spec does not match the selected recipe member")
 
     base_sources, base_records = _verify_base_package(inventory)
     source_archives: dict[str, dict[str, object]] = {BASE_CANDIDATE: base_records["archive"]}
@@ -299,12 +479,36 @@ def build_package(
         seen_hashes.add(digest)
         resolved_members.append((source, file_record, ancestry, item))
 
+    if qat_spec is not None and qat_binding is not None:
+        replacement = _object(qat_spec["replacement"], "QAT replacement")
+        replace_index = cast(int, replacement["index"])
+        replaced_hash = cast(str, resolved_members[replace_index][1]["sha256"])
+        if replaced_hash != replacement["source_member_sha256"]:
+            raise ValueError("QAT replacement source hash differs from inventory-bound member")
+        import numpy as np
+
+        original_source = resolved_members[replace_index][0]
+        with np.load(original_source, allow_pickle=False) as original:
+            original_schema = {
+                name: {"shape": list(original[name].shape), "dtype": original[name].dtype.str}
+                for name in original.files
+            }
+        archive_binding = _object(qat_binding["archive"], "QAT archive binding")
+        if original_schema != archive_binding["weight_schema"]:
+            raise ValueError("QAT archive tensor names, shapes, or dtypes differ from replaced member")
+
     output_root = _physical_output_parent(out_dir)
     output_root.mkdir()
     package_root = output_root / "pkg"
     package_root.mkdir()
     file_records: dict[str, dict[str, object]] = {}
-    for relative_name, source_name in base_sources.items():
+    if qat_spec is None:
+        package_base_sources = base_sources
+    else:
+        # The QAT callback requires the exact-import native API and a dedicated
+        # versioned archive reader; legacy base libraries are not reused.
+        package_base_sources = {"precision.txt": base_sources["precision.txt"]}
+    for relative_name, source_name in package_base_sources.items():
         source = Path(source_name)
         destination = package_root / relative_name
         destination.parent.mkdir(parents=True, exist_ok=True)
@@ -317,41 +521,153 @@ def build_package(
             "source_candidate": BASE_CANDIDATE,
         }
 
+    if qat_spec is not None and qat_binding is not None and native_binding is not None:
+        template_solution = QAT_TEMPLATE_DIR / "qat_solution.py"
+        template_reader = QAT_TEMPLATE_DIR / "qat_archive.py"
+        for source, relative_name in (
+            (template_solution, "solution.py"),
+            (template_reader, QAT_ARCHIVE_MEMBER),
+        ):
+            destination = package_root / relative_name
+            shutil.copyfile(source, destination)
+            file_records[relative_name] = {
+                "sha256": sha256_file(destination),
+                "bytes": destination.stat().st_size,
+                "source_template": str(source.resolve(strict=True)),
+            }
+        for relative_name in NATIVE_VARIANTS:
+            native_record = _object(
+                _object(native_binding["files"], "native binding files")[relative_name],
+                f"native binding {relative_name}",
+            )
+            source = Path(cast(str, native_record["source_path"]))
+            destination = package_root / relative_name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, destination)
+            if sha256_file(destination) != native_record["sha256"]:
+                raise ValueError(f"copied native library changed: {relative_name}")
+            file_records[relative_name] = {
+                "sha256": native_record["sha256"],
+                "bytes": native_record["bytes"],
+                "source_native_manifest": native_binding["path"],
+            }
+        release_replacement = _object(qat_spec["replacement"], "QAT replacement")
+        archive_record = _object(qat_binding["archive"], "QAT archive binding")
+        checkpoint_record = _object(qat_binding["checkpoint"], "QAT checkpoint binding")
+        provenance_path = package_root / "qat_provenance.json"
+        provenance_path.write_text(
+            json.dumps(
+                {
+                    "version": 1,
+                    "replacement": release_replacement,
+                    "archive": {
+                        "sha256": archive_record["sha256"],
+                        "preset": archive_record["preset"],
+                        "format": archive_record["metadata"]["format"],
+                        "version": archive_record["metadata"]["version"],
+                    },
+                    "checkpoint": {
+                        key: value for key, value in checkpoint_record.items() if key != "path"
+                    },
+                    "native_api": native_binding["native_api"],
+                    "native_manifest_sha256": native_binding["sha256"],
+                    "note": (
+                        "Training membership and rule are provenance labels from the bound release "
+                        "spec; this package build makes no quality or serving-speed claim."
+                    ),
+                },
+                indent=2,
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        file_records["qat_provenance.json"] = {
+            "sha256": sha256_file(provenance_path),
+            "bytes": provenance_path.stat().st_size,
+            "generated_from_release_spec": qat_binding["spec"],
+        }
+
     package_members: list[dict[str, object]] = []
     source_member_records: list[dict[str, object]] = []
     for index, (source, source_record, ancestry, item) in enumerate(resolved_members):
-        filename = f"weights_{index}.npz"
-        destination = package_root / filename
-        shutil.copyfile(source, destination)
-        copied_hash = sha256_file(destination)
-        if copied_hash != source_record["sha256"]:
-            raise ValueError(f"copied team weight differs from inventory: {source}")
         candidate = cast(str, item["candidate"])
         source_weights = cast(str, item["weights"])
         coefficient = cast(float, item["coef"])
-        package_members.append(
-            {
-                "weights": filename,
+        if qat_spec is not None and qat_binding is not None and index == cast(
+            int, _object(qat_spec["replacement"], "QAT replacement")["index"]
+        ):
+            archive_binding = _object(qat_binding["archive"], "QAT archive binding")
+            archive_source = Path(cast(str, archive_binding["path"]))
+            archive_name = f"qat_weights_{index}.npz"
+            destination = package_root / archive_name
+            shutil.copyfile(archive_source, destination)
+            copied_hash = sha256_file(destination)
+            if copied_hash != archive_binding["sha256"]:
+                raise ValueError("copied QAT archive differs from its release spec")
+            checkpoint = _object(qat_binding["checkpoint"], "QAT checkpoint binding")
+            package_member = {
+                "qat_archive": archive_name,
+                "qat_preset": archive_binding["preset"],
                 "coef": coefficient,
-                "source": f"{candidate}/{source_weights}",
+                "source": f"{candidate}/{source_weights} (replaced by exact QAT transport)",
+                "provenance": "qat_provenance.json",
+                "training_checkpoint_sha256": checkpoint["sha256"],
+                "training_rule": _object(qat_spec["checkpoint"], "QAT checkpoint")[
+                    "training_rule"
+                ],
             }
-        )
-        source_member_records.append(
-            {
-                "candidate": candidate,
-                "weights": source_weights,
-                "coef": coefficient,
-                "source_sha256": copied_hash,
-                "source_bytes": destination.stat().st_size,
-                "inventory_member_record": ancestry,
+            package_members.append(package_member)
+            source_member_records.append(
+                {
+                    "candidate": candidate,
+                    "weights": source_weights,
+                    "coef": coefficient,
+                    "source_sha256": source_record["sha256"],
+                    "source_bytes": source.stat().st_size,
+                    "inventory_member_record": ancestry,
+                    "qat_archive_sha256": copied_hash,
+                    "qat_archive_bytes": destination.stat().st_size,
+                    "training_checkpoint_sha256": checkpoint["sha256"],
+                    "training_rule": package_member["training_rule"],
+                }
+            )
+            file_records[archive_name] = {
+                "sha256": copied_hash,
+                "bytes": destination.stat().st_size,
+                "source_path": str(archive_source),
+                "source_preset": archive_binding["preset"],
             }
-        )
-        file_records[filename] = {
-            "sha256": copied_hash,
-            "bytes": destination.stat().st_size,
-            "source_candidate": candidate,
-            "source_member": source_weights,
-        }
+        else:
+            filename = f"weights_{index}.npz"
+            destination = package_root / filename
+            shutil.copyfile(source, destination)
+            copied_hash = sha256_file(destination)
+            if copied_hash != source_record["sha256"]:
+                raise ValueError(f"copied team weight differs from inventory: {source}")
+            package_members.append(
+                {
+                    "weights": filename,
+                    "coef": coefficient,
+                    "source": f"{candidate}/{source_weights}",
+                }
+            )
+            source_member_records.append(
+                {
+                    "candidate": candidate,
+                    "weights": source_weights,
+                    "coef": coefficient,
+                    "source_sha256": copied_hash,
+                    "source_bytes": destination.stat().st_size,
+                    "inventory_member_record": ancestry,
+                }
+            )
+            file_records[filename] = {
+                "sha256": copied_hash,
+                "bytes": destination.stat().st_size,
+                "source_candidate": candidate,
+                "source_member": source_weights,
+            }
 
     members_path = package_root / "members.json"
     members_path.write_text(json.dumps(package_members, indent=1) + "\n", encoding="utf-8")
@@ -360,7 +676,7 @@ def build_package(
         "bytes": members_path.stat().st_size,
         "generated_from_recipe": str(recipe_path),
     }
-    for relative_name, source_name in base_sources.items():
+    for relative_name, source_name in package_base_sources.items():
         source = Path(source_name)
         if sha256_file(source) != base_records["files"][relative_name]["sha256"]:
             raise ValueError(f"inherited xteam_h4 source changed during build: {relative_name}")
@@ -369,21 +685,49 @@ def build_package(
     zip_record = _write_deterministic_zip(package_root, archive_path, max_zip_bytes)
     if sha256_file(inventory_path) != inventory_hash:
         raise ValueError("inventory changed during package construction")
+    if sha256_file(recipe_path) != recipe_hash:
+        raise ValueError("recipe changed during package construction")
+    if qat_binding is not None:
+        qat_spec_binding = _object(qat_binding["spec"], "QAT release spec binding")
+        if sha256_file(Path(cast(str, qat_spec_binding["path"]))) != qat_spec_binding["sha256"]:
+            raise ValueError("QAT release spec changed during package construction")
+        for key in ("archive", "checkpoint"):
+            file_binding = _object(qat_binding[key], f"QAT {key} binding")
+            if sha256_file(Path(cast(str, file_binding["path"]))) != file_binding["sha256"]:
+                raise ValueError(f"QAT {key} changed during package construction")
+    if native_binding is not None and sha256_file(
+        Path(cast(str, native_binding["path"]))
+    ) != native_binding["sha256"]:
+        raise ValueError("native manifest changed during package construction")
     manifest: dict[str, object] = {
         "status": "built",
         "name": name,
         "intent": "exploratory cross-team submission package; no performance claim",
         "inventory_path": str(inventory_path),
         "inventory_sha256": inventory_hash,
+        "recipe_path": str(recipe_path),
+        "recipe_sha256": recipe_hash,
         "source_archives": source_archives,
         "base_package": BASE_CANDIDATE,
-        "base_package_files": base_records["files"],
+        "base_package_files": {
+            relative_name: base_records["files"][relative_name]
+            for relative_name in package_base_sources
+        },
         "precision": NATIVE_PRECISION.strip(),
-        "precision_note": "Inherited q8vnni runtime; source-to-target output parity was not measured.",
+        "precision_note": (
+            "Exact QAT codes/scales import through the portable q8vnni runtime; the callback-level "
+            "prediction path is deterministic with budget_s=None. No package-level parity or "
+            "runtime measurement is claimed."
+            if qat_spec is not None
+            else "Inherited q8vnni runtime; source-to-target output parity was not measured."
+        ),
         "numerical_comparison": {
             "measured": False,
             "note": (
-                "The package keeps the original xteam_h4 Q8 VNNI callback and native libraries. "
+                "The package retains the cross-team members and coefficients but replaces one "
+                "member with exact QAT row codes/scales. No score or prediction parity is claimed."
+                if qat_spec is not None
+                else "The package keeps the original xteam_h4 Q8 VNNI callback and native libraries. "
                 "The selected source packages may use different callback arithmetic; this build "
                 "does not assert numerical equivalence to their scores or predictions."
             ),
@@ -410,15 +754,37 @@ def build_package(
             "path_in_zip": "solution.py",
             "sha256": file_records["solution.py"]["sha256"],
         },
-        "native_runtime": {
-            "callback_source": BASE_CANDIDATE,
-            "precision": NATIVE_PRECISION.strip(),
-            "library_sha256": {
-                relative_name: file_records[relative_name]["sha256"]
-                for relative_name in BASE_FILES
-                if relative_name.endswith(".so")
-            },
-        },
+        "native_runtime": (
+            {
+                "callback_source": "QAT fixed-four callback template",
+                "precision": NATIVE_PRECISION.strip(),
+                "native_manifest": native_binding,
+                "library_sha256": {
+                    relative_name: file_records[relative_name]["sha256"]
+                    for relative_name in NATIVE_VARIANTS
+                },
+            }
+            if native_binding is not None
+            else {
+                "callback_source": BASE_CANDIDATE,
+                "precision": NATIVE_PRECISION.strip(),
+                "library_sha256": {
+                    relative_name: file_records[relative_name]["sha256"]
+                    for relative_name in BASE_FILES
+                    if relative_name.endswith(".so")
+                },
+            }
+        ),
+        "qat_release": (
+            {
+                "release_spec": qat_binding["spec"],
+                "archive": qat_binding["archive"],
+                "checkpoint": qat_binding["checkpoint"],
+                "replacement": qat_spec["replacement"],
+            }
+            if qat_spec is not None and qat_binding is not None
+            else None
+        ),
         "gate_status": "package_crc_passed; offline_import_and_streaming_gate_pending",
         "max_zip_bytes": max_zip_bytes,
         "builder_path": str(Path(__file__).resolve()),
@@ -439,8 +805,25 @@ def main() -> None:
         "--out-dir", type=Path, required=True, help="new durable physical directory"
     )
     parser.add_argument("--max-zip-bytes", type=int, default=MAX_ZIP_BYTES)
+    parser.add_argument(
+        "--qat-release-spec",
+        type=Path,
+        help="hash-bound archive/checkpoint semantics for one exact-code QAT replacement",
+    )
+    parser.add_argument(
+        "--native-manifest",
+        type=Path,
+        help="hash-bound portable abi3 native libraries implementing exact Q8 code import",
+    )
     args = parser.parse_args()
-    manifest = build_package(args.inventory, args.recipe, args.out_dir, args.max_zip_bytes)
+    manifest = build_package(
+        args.inventory,
+        args.recipe,
+        args.out_dir,
+        args.max_zip_bytes,
+        qat_release_spec_path=args.qat_release_spec,
+        native_manifest_path=args.native_manifest,
+    )
     print(
         json.dumps(
             {
