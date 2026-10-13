@@ -1,0 +1,31 @@
+{
+  "schema": "qat-kaggle-f0-s4-r2-collection-attempt-failure",
+  "recorded_utc": "2026-10-13T20:21:00+00:00",
+  "attempt": 1,
+  "operation": "bounded read-only terminal artifact collection",
+  "provider_mutation": false,
+  "provider_reads_completed_before_local_failure": [
+    "authenticate Kaggle API",
+    "check terminal status for the exact R2 profile kernel",
+    "take a typed quota snapshot",
+    "list paginated kernel session output metadata"
+  ],
+  "payload_download_started": false,
+  "failure": {
+    "exception": "FileExistsError",
+    "message": "[Errno 17] File exists: approved profile_attempt_001 collection directory",
+    "stage": "local collection directory initialization, before log or result downloads",
+    "collector_exit_code": 1,
+    "collector_source_line_before_fix": 225
+  },
+  "approved_directory_observation": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/collected/profile_attempt_001",
+    "observed_empty": true,
+    "mode": "0755",
+    "inode": 62690612,
+    "created_local": "2026-10-13T22:06:52+03:00",
+    "ownership_or_creator": "not established"
+  },
+  "terminal_receipt_written": false,
+  "preservation": "This is an operator-side collection failure, not a provider profile result. The approved directory remained empty on inspection. A follow-up read-only collection may reuse it only after verifying it remains empty; no kernel retry or new version is authorized."
+}
