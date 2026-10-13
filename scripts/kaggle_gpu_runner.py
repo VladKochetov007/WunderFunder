@@ -125,29 +125,28 @@ def _memory_capacity_snapshot(
     cgroup_limit_bytes: int | None,
     cgroup_current_bytes: int | None,
     cgroup_memory_stat: dict[str, int],
-) -> dict[str, int | None]:
-    """Combine Linux available RAM with cgroup headroom after inactive-file reclaim."""
+) -> dict[str, int | bool | None]:
+    """Use the lower of MemAvailable and finite cgroup headroom; log cache counters only."""
     capacity = physical_capacity_bytes
     cgroup_free: int | None = None
-    cgroup_reclaimable_available: int | None = None
+    cgroup_headroom_known = True
     if cgroup_limit_bytes is not None:
         capacity = min(capacity, cgroup_limit_bytes)
-        if cgroup_current_bytes is not None:
-            used = min(cgroup_current_bytes, capacity)
-            cgroup_free = max(0, capacity - used)
-            reclaimable_file = min(used, cgroup_memory_stat.get("inactive_file", 0))
-            cgroup_reclaimable_available = min(capacity, cgroup_free + reclaimable_file)
+        if cgroup_current_bytes is None:
+            cgroup_headroom_known = False
+        else:
+            cgroup_free = max(0, capacity - cgroup_current_bytes)
 
     available = min(mem_available_bytes, capacity)
-    if cgroup_reclaimable_available is not None:
-        available = min(available, cgroup_reclaimable_available)
+    if cgroup_limit_bytes is not None:
+        available = min(available, cgroup_free) if cgroup_free is not None else 0
     return {
         "capacity_bytes": capacity,
         "mem_available_bytes": mem_available_bytes,
         "cgroup_limit_bytes": cgroup_limit_bytes,
         "cgroup_current_bytes": cgroup_current_bytes,
         "cgroup_free_bytes": cgroup_free,
-        "cgroup_reclaimable_available_bytes": cgroup_reclaimable_available,
+        "cgroup_headroom_known": cgroup_headroom_known,
         "cgroup_anon_bytes": cgroup_memory_stat.get("anon"),
         "cgroup_file_bytes": cgroup_memory_stat.get("file"),
         "cgroup_shmem_bytes": cgroup_memory_stat.get("shmem"),
@@ -158,7 +157,7 @@ def _memory_capacity_snapshot(
 
 
 def host_inventory() -> dict:
-    """Measure MemAvailable and cgroup usage, separating reclaimable file cache."""
+    """Measure MemAvailable and cgroup usage; retain cache counters as diagnostics."""
     memory = psutil.virtual_memory()
     cgroup = Path("/sys/fs/cgroup")
     cgroup_limit = _read_cgroup_integer(cgroup / "memory.max")

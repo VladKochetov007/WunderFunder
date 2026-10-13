@@ -1,0 +1,35 @@
+{
+  "created_utc": "2026-10-13T08:18:08.582287+00:00",
+  "reviewer": "root",
+  "status": "pass_sealed_packet_pending_inventory_release",
+  "archive_sha256": "4a2597eb331555498f2b8c1b58572b86970be477b178c12bd4131e630782a7ff",
+  "kernel_sha256": "abd5cb234c438632cbe6da5d43c292e7a9add9ad64bb7e3802bb52ed0e700a08",
+  "source_binding_sha256": "3f94e2302b7e55da093f68a36c57c12ab2a6b5cac1e4c320ee5c22d27165b8b6",
+  "profile_reuse_binding_sha256": "fbdd8e764d59f877759ba54af1e61f45f9675f05901a5b69bcfb4916bc749b79",
+  "quota_guard_sha256": "21a002649fcfeb550f28f83d98411bcfbeb48c60ffc5fa642403f261c540d1cc",
+  "archive_files": 84,
+  "external_mounts": 13,
+  "job_checks": [
+    {
+      "name": "export_clean_t3_f3_muonall_h384_e3_s3_r4_fit_train",
+      "code_entries": 82,
+      "timeout": 6500
+    },
+    {
+      "name": "fit_clean_t3_f3_muonall_h384_e3_s3_r4",
+      "code_entries": 82,
+      "timeout": 8500
+    }
+  ],
+  "tests": "12 focused checks passed; actual sealed bootstrap and conservative memory guard",
+  "argv_consumer": "kaggle_common.read_spec requires first token {python}; actual runner replaces it with sys.executable before Popen, as in successful R2 profile. No other literal token survives.",
+  "guard": "MemAvailable intersect finite cgroup headroom, minus1GB; no inactive-file credit; unknown finite current fails closed",
+  "scientific_change": false,
+  "profile_repeated": false,
+  "limitations": "Actual host admission repeats on worker; fit-train exportcap6500 is quota ceiling, not measured ETA. Fit-valid/full-valid deferred until checkpoint collection.",
+  "preflight_draft_failures": [
+    "Stale uncommitted profile-reuse binding detected and preserved before complete reseal.",
+    "Copied R3 bootstrap-test ID expectation corrected to R4; actual bootstrap thenpassed.",
+    "Root initially rejected valid first-token {python} template; actual runner consumer verified before correcting check."
+  ]
+}

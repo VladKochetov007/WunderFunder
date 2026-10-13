@@ -1,0 +1,127 @@
+{
+  "collection_bounds": {
+    "command": "kaggle kernels output vladkochetov07/wnn-strategy-f3-t3-seed3-20261013-r4-runner -p /home/vlad/development/wunder/wnn-agent-worktrees/strategy-resources-20261013/artifacts/kgo/f3t3s3r4",
+    "download_path": "/home/vlad/development/wunder/wnn-agent-worktrees/strategy-resources-20261013/artifacts/kgo/f3t3s3r4",
+    "download_timeout_seconds": 3600,
+    "maximum_remote_inventory_bytes": 8589934592,
+    "minimum_free_physical_disk_before_download_bytes": 12884901888,
+    "no_overwrite": true,
+    "single_download_attempt": true
+  },
+  "deferred_prediction_artifacts": [
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r4_fit_valid_valid.npy",
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r4_fit_valid_valid.json",
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r4_full_valid_valid.npy",
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r4_full_valid_valid.json"
+  ],
+  "kernel_id": "vladkochetov07/wnn-strategy-f3-t3-seed3-20261013-r4-runner",
+  "maximum_planned_wall_seconds_including_reserve": 15900,
+  "output_directory": "results",
+  "prediction_geometry": {
+    "artifacts": {
+      "fit_train": {
+        "maximum_npy_file_bytes": 1686244096,
+        "raw_npy_payload_bytes": 1686240000,
+        "rows": 10539,
+        "shape": [
+          10539,
+          20000,
+          2
+        ]
+      },
+      "fit_valid": {
+        "maximum_npy_file_bytes": 218884096,
+        "raw_npy_payload_bytes": 218880000,
+        "rows": 1368,
+        "shape": [
+          1368,
+          20000,
+          2
+        ]
+      },
+      "full_valid": {
+        "maximum_npy_file_bytes": 299684096,
+        "raw_npy_payload_bytes": 299680000,
+        "rows": 1873,
+        "shape": [
+          1873,
+          20000,
+          2
+        ]
+      }
+    },
+    "channels": 2,
+    "dtype": "float32",
+    "npy_header_max_bytes": 4096,
+    "raw_payload_bytes_for_three_seeds": 6614400000,
+    "raw_payload_bytes_per_seed": 2204800000,
+    "timesteps": 20000
+  },
+  "profile_reuse": {
+    "evidence_binding": "PROFILE_REUSE_BINDING_R4.json",
+    "kernel_id": "vladkochetov07/wnn-strategy-f3-t3-seed3-20261013-r2-runner",
+    "kernel_version": 1,
+    "reuse_only_if_exact_recipe_source_and_terminal_profile_evidence_validate": true
+  },
+  "provider_action_performed": false,
+  "quota_window_margin_wall_seconds": 419,
+  "remote_inventory_required_before_download": true,
+  "required_fit_artifacts": [
+    "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r4/model_ep2.pt",
+    "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r4/model.pt",
+    "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r4/provenance.json",
+    "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r4/history.json",
+    "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r4/training_state.pt"
+  ],
+  "required_prediction_artifacts": [
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r4_fit_train_train.npy",
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r4_fit_train_train.json"
+  ],
+  "required_stage_receipts": [
+    "f3_teacher_pipeline.json",
+    "quota_admission.json",
+    "profile_reuse_receipt.json",
+    "fit/summary.json",
+    "fit/fit_clean_t3_f3_muonall_h384_e3_s3_r4/result.json",
+    "exports/summary.json",
+    "exports/export_clean_t3_f3_muonall_h384_e3_s3_r4_fit_train/result.json"
+  ],
+  "resource_bounds": {
+    "basis": "R2 exact-source T4 profile measured 4,490,899,456 bytes peak RSS; 6 GB reserves 1,509,100,544 bytes for fit/checkpoint state and is below the post-hash host budget only when at least 7 GB is available",
+    "fit_train_export_worker_cap_seconds": 6500,
+    "fit_worker_ram_reservation_bytes": 6000000000,
+    "memory_admission": "measured MemAvailable and cgroup headroom after inactive-file reclaim; retain 1,000,000,000 bytes free and at most 80% of physical/cgroup capacity",
+    "portable_hash_scan_evidence": {
+      "r2_profile_train_parquet_seconds": 1018.76,
+      "r2_profile_valid_parquet_seconds": 106.481,
+      "r2_split_load_total_seconds": 1132.214,
+      "r4_fit_and_fit_train_export": "each is a new process and repeats the portable SHA scan; no cache is assumed across workers",
+      "remaining_exports": "deferred so no historical timings are invented"
+    },
+    "prediction_worker_ram_reservation_bytes": 6000000000,
+    "worker_stages_are_serialized": true
+  },
+  "schema": "wnn.strategy.f3-teacher-output-collection.r4",
+  "status": "fit_and_fit_train_packet_pending_root_review",
+  "validation": {
+    "check_exact_kernel_version_and_terminal_status": true,
+    "consumer_compatibility": {
+      "f3_membership_and_order_preflight": "../first_cohort_f3_teachers_r2/PREDICTION_CONSUMER_PREFLIGHT_R1.json",
+      "cleanfold_cache_adapter_reference": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r1/build_clean_t3_f0_homogeneous_cache_r1.py",
+      "adapter_source_sha256": "13b20f62a988df90f17da495b2cc7e4e219de0792291412165a10d2cd8b22380",
+      "require_actual_fit_train_and_fit_valid_arrays_and_sidecars_before_cache_aliasing": true,
+      "fit_train_rows": 10539,
+      "fit_valid_rows": 1368,
+      "full_valid_is_not_a_fit_valid_substitute": true,
+      "prediction_arrays_not_yet_available": true
+    },
+    "finite_scan_rows_per_chunk": 8,
+    "hash_every_downloaded_file": true,
+    "index_outputs_and_provenance_before_seed_4_or_5_admission": true,
+    "inventory_must_contain_every_required_artifact": true,
+    "preserve_worker_logs_quota_receipt_profile_guard_and_pipeline_receipt": true,
+    "verify_checkpoint_provenance_seed_fold_split_checkpoint_epoch_and_propensity": true,
+    "verify_npy_headers_shapes_dtype_and_finiteness": true,
+    "verify_prediction_sidecars_against_checkpoint_and_split": true
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "billing_assumption": {
+    "basis": "Kaggle T4 machine shape is listed as T4 x2; quota billing multiplier is unverified, so budget conservatively for two GPU-seconds per wall-second.",
+    "billable_gpu_count": 2,
+    "quota_safety_reserve_gpu_seconds": 1800
+  },
+  "checkpoint_preservation": "Fit writes model_ep2.pt, model.pt, provenance, history, and training_state as declared artifacts. The bootstrap persists pipeline status after every completed stage; on timeout/error it leaves current and prior stage outputs in Kaggle working output for terminal collection. A partial run is not marked complete.",
+  "concurrent_job_precondition": "must be freshly checked by root immediately before release/dispatch",
+  "dispatch_policy": "Require a fresh root release, zero reserved quota, and no concurrent owned Kaggle jobs. R4 reuses only the verified R2 profile, then runs the unchanged fit and fit-train FP32 export. The fit and export workers each perform their own portable input verification; each must fit its cap. The two remaining predictions are deferred to a saved-checkpoint successor after terminal collection and a fresh quota review. Before each worker, reserve its cap plus finalization against quota-derived and provider deadlines; fail closed on memory admission.",
+  "extra_quota_window_margin_wall_seconds": 419,
+  "maximum_planned_wall_seconds_including_reserve": 15900,
+  "no_paid_capacity": true,
+  "profile_reuse": {
+    "origin_kernel_id": "vladkochetov07/wnn-strategy-f3-t3-seed3-20261013-r2-runner",
+    "origin_kernel_version": 1,
+    "origin_profile_status": "complete",
+    "validation_required": "exact trainer argv/environment/input hashes plus matching source_snapshot hashes and successful profile result/guard"
+  },
+  "provider_session_cap_seconds": 43200,
+  "quota_bound_wall_window_seconds": 16319,
+  "quota_snapshot": {
+    "checked_utc": "2026-10-13T08:09:50.080380+00:00",
+    "gpu_frozen": true,
+    "gpu_remaining_seconds": 34439.316999999995,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_total_seconds": 108000.0,
+    "gpu_used_seconds": 73560.683,
+    "pay_to_scale_enabled": false,
+    "refresh_utc": "2026-10-17T00:00:00",
+    "source_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/strategy_execution_r1/KAGGLE_QUOTA_RESUME_20261013_0811_R1.json",
+    "tpu_remaining_seconds": 72000.0,
+    "tpu_reserved_seconds": 0.0,
+    "tpu_used_seconds": 0.0,
+    "duration_semantics": "datetime.timedelta.total_seconds, including day component; .seconds excludes days"
+  },
+  "schema": "wnn.strategy.f3-teacher-quota-guard.r4",
+  "snapshot_freshness_max_seconds_at_launch": 3600,
+  "stage_budgets_seconds": {
+    "fit_cap": 8500,
+    "fit_train_export_cap": 6500,
+    "fit_valid_and_full_valid": "deferred_to_checkpoint_successor_after_terminal_collection",
+    "profile_reused_from_r2": 0,
+    "runner_and_session_finalization_reserve": 900
+  },
+  "status": "fresh_snapshot_pending_root_release_review"
+}

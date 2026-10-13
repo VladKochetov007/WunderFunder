@@ -17,3 +17,5 @@ a checkpoint successor after terminal collection and a fresh quota review.
   — repairs host RAM measurement/admission, verifies the reusable profile
   against terminal output hashes and the R1 recipe, and defers unmeasured
   prediction stages to a checkpoint successor.
+
+- [F3 R4 conservative successor](first_cohort_f3_teachers_r4/README.md) preserves R3, binds the completedR2profile andfreshquota, and passesrootarchive/bootstrap/admission checks. Rootnowowns delivery; no newscience/provideractionyet.
