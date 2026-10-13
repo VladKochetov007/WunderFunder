@@ -1,0 +1,93 @@
+{
+  "created_utc": "2026-10-13T18:45:11.083242+00:00",
+  "owner": "root",
+  "profiles": [
+    {
+      "condition": "fixed",
+      "attempt": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-lsq-f0-s4-profile-fixed-r1.json",
+      "log_sha256": "7b9d8656c8aba51d3011cf19f23eb6a7a450b8628d6f62fe3a455f1b1b31d761",
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "peak_ram_bytes": 4096950272,
+      "peak_observed_vram_bytes": 2173698048,
+      "profile": {
+        "backward": 598.29,
+        "forward": 380.9,
+        "gpu_total": 1010.07,
+        "h2d": 0.01,
+        "inputs": 9.18,
+        "labels": 1.38,
+        "loss": 5.33,
+        "optimizer": 5.21,
+        "weights": 0.18,
+        "loader_wait": 337.04,
+        "step_wall": 1329.98,
+        "seq_per_s": 12.03,
+        "syncs_per_step": 200.67
+      }
+    },
+    {
+      "condition": "learned",
+      "attempt": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-lsq-f0-s4-profile-learned-r2.json",
+      "log_sha256": "963f983172c136904426f0846dab2537f144cd8249e2a24e3a347cbd4da0ab46",
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "peak_ram_bytes": 4042317824,
+      "peak_observed_vram_bytes": 2175795200,
+      "profile": {
+        "backward": 614.88,
+        "forward": 457.98,
+        "gpu_total": 1121.43,
+        "h2d": 0.04,
+        "inputs": 9.28,
+        "labels": 1.35,
+        "loss": 14.24,
+        "optimizer": 21.12,
+        "weights": 0.18,
+        "loader_wait": 392.03,
+        "step_wall": 1503.47,
+        "seq_per_s": 10.64,
+        "syncs_per_step": 844.0
+      }
+    }
+  ],
+  "decision": "Both actual-shape profiles pass; admit the frozen matched one-epoch pair sequentially through fresh resource guards. Independent recipe audit remains binding.",
+  "limits": {
+    "cpus_each": 1,
+    "host_reserve_bytes_each": 6000000000,
+    "aggregate_committed_ram_target": 17000000000,
+    "single_gpu_worker": true,
+    "estimated_fit_seconds_each": 220,
+    "collection_allowance_seconds": 120
+  },
+  "fits": {
+    "updates_each": 1440,
+    "checkpoint": "raw model_ep0.pt",
+    "recovery": "training_state.pt with latent weights/scales, optimizer, scheduler and RNG"
+  },
+  "quality_claim": null
+}
