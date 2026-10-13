@@ -1,5 +1,7 @@
 # Individual model FP32 diagnostic bank
 
+All fourteen exports completed successfully: [terminal receipt](../MEMBER_BANK_TERMINAL_R1.json). The [independent complete grade](../scores/member_bank_fp32_r1/README.md) compares those members and nine fixed mixtures, following [streaming admission](../MEMBER_GRADE_ADMISSION_R1.json). Individual model folders retain their exact source/version/hash metadata and complete-group provenance.
+
 [Plan](../MEMBER_BANK_PLAN_R1.json) deduplicates fourteen predictive NPZs by exact SHA and declares nine fixed diagnostic mixtures before full export. Detector-only weights are excluded. [Runner](../run_member_bank.py) serializes exports under one admitted GPU worker, preserving separate source, terminal and attempt receipts. Each completed member directory has its own README and `RESULT.json`; large predictions remain ignored on physical disk. Member IDs and archive/weight hashes in the plan are authoritative.
 
 [B1/B16 comparison](../GPU_BATCH_PROFILE_COMPARISON_R1.json) checks the first two complete sequences for the largest head and records batching roundoff below1e-6. B16 measured about0.115seconds/sequence in a short profile, with about1.17GB observed VRAM. This supports bounded export admission, not a final runtime forecast. These FP32 outputs differ from original native quantized callbacks and carry final-fit/unknown validation overlap. They support diagnostics and reproducible fixed-mixture analysis, not clean CV or submission selection.

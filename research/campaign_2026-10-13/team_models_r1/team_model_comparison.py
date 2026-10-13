@@ -54,6 +54,14 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(campaign, json, mo, pd):
+    traffic = json.loads((campaign / "LOGICAL_Q8_WEIGHT_TRAFFIC_R1.json").read_text())
+    traffic_table = pd.DataFrame([{key: value for key, value in row.items() if key != "matrix_bytes"} for row in traffic["rows"]])
+    mo.vstack([mo.md("## Matrix payload and cache pressure\nDerived own-Q8 unpadded weight bytes. This excludes scales, padding, scratch and retained copies; it is not measured cache traffic or the C++ layout."), mo.ui.table(traffic_table, selection=None)])
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign, json, mo, pd):
     inventory = json.loads((campaign / "INVENTORY.json").read_text())
     archive_rows = [{"package": _name, "MB": _p["bytes"]/1e6, "members": len(_p["members"]), "sha256": _p["sha256"], "scope": _p["scope"]} for _name, _p in inventory["packages"].items()]
     mo.ui.table(pd.DataFrame(archive_rows), selection=None)
@@ -95,11 +103,51 @@ def _(campaign, json, mo, pd, refresh):
 @app.cell(hide_code=True)
 def _(campaign, json, mo, pd, refresh):
     refresh
+    bank_rows = []
+    for _path in sorted((campaign / "member_bank").glob("*/progress.jsonl")):
+        _lines = _path.read_text().splitlines()
+        if _lines:
+            _last = json.loads(_lines[-1])
+            bank_rows.append({"member": _path.parent.name, "completed sequences": _last["completed"], "total": _last["total"], "wall seconds": _last["wall_seconds"], "terminal receipt": (_path.parent / "RESULT.json").exists()})
+    mo.vstack([mo.md("## Individual FP32 members\nDiagnostic exports; native serving precision is evaluated separately."), mo.ui.table(pd.DataFrame(bank_rows), selection=None)]) if bank_rows else mo.md("Member exports have not started.")
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign, json, mo, pd, refresh):
+    refresh
     result_rows = []
     for _path in sorted((campaign / "scores").glob("*/RESULT.json")):
         _r = json.loads(_path.read_text())
         result_rows.append({"package": _r["candidate"], "mode": _r["mode"], "groups": len(_r["groups"]), "WP diagnostic": _r["score"]["wp"], "t0": _r["score"]["t0"], "t1": _r["score"]["t1"], "seconds": _r["wall_seconds"]})
     mo.ui.table(pd.DataFrame(result_rows), selection=None) if result_rows else mo.md("Full scoring has not completed. Short profiles are serving checks, not leaderboard forecasts.")
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign, json, mo, pd):
+    member_grade = json.loads((campaign / "scores/member_bank_fp32_r1/RESULT.json").read_text())
+    member_grade_table = pd.DataFrame([
+        {"endpoint": name, "diagnostic_wp": result["wp"], "t0": result["t0"], "t1": result["t1"]}
+        for name, result in member_grade["grades"].items()
+    ]).sort_values("diagnostic_wp", ascending=False)
+    mo.vstack([
+        mo.md("## Complete FP32 comparison\n14 members and 9 fixed mixtures; 1,873 sequences. **Final-fit/unknown validation overlap: diagnostic scores, not clean CV or public forecasts.** The new seed-6 submission is not among these nine mixtures."),
+        mo.ui.table(member_grade_table),
+    ])
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign, json, mo):
+    team_release = json.loads((campaign.parents[2] / "submissions/10-13-team-r1/RELEASE_R1.json").read_text())
+    mo.md(f"""## New cross-team submission ready
+    `{team_release['downloads_path']}`
+
+    Equal weights: teammate distilled seed6, teammate FTT seed6, our Z4, our H390 seed3. Uses our optimized Rust Q8/VNNI runtime, byte-identical to E.
+
+    ZIP: {team_release['zip_bytes']:,} bytes. ABI, isolated Python3.11 import, and complete-sequence V2/V3 reset checks passed. This is an exploratory public probe; no new public score is available.
+    """)
     return
 
 

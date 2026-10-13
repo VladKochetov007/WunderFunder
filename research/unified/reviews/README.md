@@ -10,6 +10,7 @@ This domain stores independent critiques, strategy reviews, and structured audit
 
 ## Review files
 
+- [Independent four-model submission review](../../../submissions/10-13-team-r1/INDEPENDENT_REVIEW_R1.md) independently streams the delivered16.32MB ZIP and original source-archive entries, verifies intended equal-weight seed6/Z4/H390 membership, and confirms fixed optimized runtime bytes. The [release receipts](../../../submissions/10-13-team-r1/README.md) add successful root-owned ABI, isolated Python3.11 and complete-sequence V2/V3 reset checks. This supports artifact correctness, not predictive improvement. E-TEAM-XTEAM-S6-RELEASE-20261013-R1.
 - [Team FP32 member-export review and profiles](../../campaign_2026-10-13/team_models_r1/GPU_MEMBER_REVIEW_R1.md) checks actual merged-head weights, causal features/state, strict loading and recorded code dependencies. B1/B16 actual profiles pass with matched-input rounding below1e-6; root admits fourteen serial diagnostics within measured resource bounds. No native parity or clean-CV quality claim. E-TEAM-MEMBER-BANK-20261013-R1.
 
 - [Packaged-runtime independent audit](../../campaign_2026-10-13/team_models_r1/INDEPENDENT_RUNTIME_REVIEW_R1.md) checks actual team C++ and Rust ELFs, wrappers and local dispatch. Both contain VNNI and AVX2; xteam/E binaries are identical. Missing host dispatch and matched target timing prevent an EPYC winner claim. It separates binary observations from incompletely bound source/quantizer details; no model inference was run.

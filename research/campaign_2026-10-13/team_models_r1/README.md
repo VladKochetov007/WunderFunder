@@ -4,8 +4,10 @@ Root owns the complete model comparison. The user's subsequent [exploratory rele
 
 ## Artifacts
 
-- [Exploratory submission authority and recipe](EXPLORATORY_SUBMISSION_AUTHORITY_R1.json) fixes an equal four-member blend of teammate distilled/FTT seed6 and our Z4/H390 seed3. It changes the release timing for this public probe, not the interpretation of diagnostic validation scores. Package checks are pending.
-- [Member-bank grader](../../../scripts/grade_team_member_bank.py) validates actual terminal exporter metadata and hashes, then streams the official metric for fourteen members and nine predeclared mixtures, plus prediction/residual correlations. Independent implementation has five focused tests; execution awaits the complete bank.
+- [Exploratory package and check receipts](../../../submissions/10-13-team-r1/README.md) bind the new four-member seed6 ZIP to the intended recipe and source archives. The16.32MB artifact is ready in Downloads after independent byte/recipe audit, ELF ABI, isolated Python3.11 import and full-sequence reset checks on V2/V3. Runtime files exactly match our optimized E submission; no quality gain is claimed.
+- [Exploratory submission authority and recipe](EXPLORATORY_SUBMISSION_AUTHORITY_R1.json) fixes an equal four-member blend of teammate distilled/FTT seed6 and our Z4/H390 seed3. It changes the release timing for this public probe, not the interpretation of diagnostic validation scores. The [builder recipe](SUBMISSION_RECIPE_R1.json) contains the exact imported member order and coefficients.
+- [Exploratory release rationale](EXPLORATORY_SUBMISSION_R1.md) records E-TEAM-XTEAM-S6-RELEASE-20261013-R1, the seed substitution, reported public references, missing CV ancestry and exact-artifact checks. This is a user-requested public probe, not a locally selected champion.
+- [Member-bank grader](../../../scripts/grade_team_member_bank.py) validates actual terminal exporter metadata and hashes, then streams the official metric for fourteen members and nine predeclared mixtures, plus prediction/residual correlations. All fourteen exports and the [admitted grade](MEMBER_GRADE_ADMISSION_R1.json) completed, with [terminal progress log](MEMBER_GRADE_R1.log). Six focused metric/header tests pass after correcting pre-read NPY bounds and excluding atime from file-version checks. Root owns terminal collection.
 - `CONTRACT.json` fixes the compared original endpoints, official metric, diagnostic scope, resource bounds and promotion limits before scoring.
 - `intake.py` creates the bounded source/weight inventory and preserves exact archives in ignored physical storage. `INVENTORY.json` identifies duplicate tensors, architectures, runtime libraries and the five supplied ZIPs plus own C/E.
 - `score_archive.py` replays the exact package callback, streams one complete sequence at a time, exports disk-backed FP32 predictions and pooled/per-sequence official moments. It is diagnostic scoring, not training or weight search.
@@ -13,9 +15,13 @@ Root owns the complete model comparison. The user's subsequent [exploratory rele
 - `profiles/` and `scores/` retain exact-command callback checks and evaluated terminal receipts as they land; large predictions remain ignored.
 - `team_model_comparison.py` is the live marimo notebook. Its cells read saved evidence and never launch inference or fitting.
 
-Current stage: eight short profiles complete; four complete original-callback replays are running, four further endpoints queued. Root owns terminal collection and comparative analysis. No joint clean-CV result or new ZIP is claimed. The remote source search still sees teammate research commit833aaf54 (October6), without the later fttall training code or clean CV counterparts.
+Current stage: eight short profiles and all fourteen member exports are complete; [full FP32 diagnostic grading](scores/member_bank_fp32_r1/README.md) also completed. Original native callbacks continue under the admitted controller. The user's exploratory four-member ZIP is checked and ready; no joint clean-CV result is claimed. The remote source search still sees teammate research commit833aaf54 (October6), without the later fttall training code or clean CV counterparts.
 
 ## Interpretation and operational evidence
+
+- [Navigation refresh receipt](NAVIGATION_CHECK_R1.json) records a successful generated-tree build followed by a stale-catalog check while native replay logs were still changing. Unified links are updated directly; this snapshot freshness issue does not invalidate package or metric receipts.
+
+- [Complete FP32 diagnostics](scores/member_bank_fp32_r1/README.md) score fourteen members and nine predeclared mixtures on all1,873 groups. Original xteam_h4 exceeds E and pair_ftt2 in this final-weight comparison; own H390 seed3 alone is stronger still. These are fitted/unknown-overlap observations, not clean-CV selection or public forecasts. The new seed6 ZIP is not one of the original nine mixtures and has no score in this table.
 
 - [Paired runtime benchmark](../../../scripts/benchmark_team_runtimes.py) implements repeated same-weight C++/Rust A-B-B-A callbacks with actual backend/ELF identity, reset reproducibility and separate wall/CPU clocks. Four focused tests pass; actual controlled timing is pending. It requires `.venv-py311-profile/bin/python` for the supplied CPython3.11 C++ extension. The builder's earlier `.venv/bin/python` sample command is invalid on this machine's Python3.13 project environment.
 
