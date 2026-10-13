@@ -1,0 +1,66 @@
+{
+  "actual_worker_timeout": {
+    "argv": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "900s"
+    ],
+    "kill_after_seconds": 10,
+    "path": "/usr/bin/timeout",
+    "seconds": 900,
+    "sha256": "b38f5f0cf308efd4f3861db2b917ffcb284d0e51a86f76235819356f075c7498"
+  },
+  "cause": "The frozen R2 packet controller and outer vectors use corrected R2 commands, but standalone worker_argv stayed at the R1 vector. It retained the R1 profile name and omitted --batch 16, so the controller suffix and standalone source hash did not represent the same argv.",
+  "checks": [
+    {
+      "detach_rows": 500,
+      "r2_attempt_id": "clean-t3-f0-gc-detach500-profile-s14-r2-20261013",
+      "r2_controller_suffix_sha256": "deb12563eb8b47091e9d20f06af9f473c8e2c4fbf43b33a80573a7254f67a364",
+      "r2_standalone_worker_sha256": "c38626cb3f5849a0d0548670ae24ab9ef8c3f7fc3b4989380d2631d52e6eac6c",
+      "r2_worker_equals_controller_suffix": false,
+      "r3_attempt_id": "clean-t3-f0-gc-detach500-profile-s14-r3-20261013",
+      "r3_worker_equals_controller_suffix": true
+    },
+    {
+      "detach_rows": 2000,
+      "r2_attempt_id": "clean-t3-f0-gc-detach2000-profile-s14-r2-20261013",
+      "r2_controller_suffix_sha256": "4a880454422db3f0a4140df247f87aa0166e7c319e3ff17f7f08e81fa331ee0a",
+      "r2_standalone_worker_sha256": "caa72fb48ab9e45e39a33fc81e80be85f92fb87f7b1ecbc5463ab938135b60df",
+      "r2_worker_equals_controller_suffix": false,
+      "r3_attempt_id": "clean-t3-f0-gc-detach2000-profile-s14-r3-20261013",
+      "r3_worker_equals_controller_suffix": true
+    }
+  ],
+  "created_utc": "2026-10-13T00:41:45+00:00",
+  "fit_authorized": false,
+  "no_profile_or_fit_launched": true,
+  "profile_authorized": false,
+  "r2_attempt_ids_absent_from_shared_runtime_at_recheck": true,
+  "r2_attempt_state_recheck": [
+    {
+      "attempt_id": "clean-t3-f0-gc-detach500-profile-s14-r2-20261013",
+      "record_present": false
+    },
+    {
+      "attempt_id": "clean-t3-f0-gc-detach2000-profile-s14-r2-20261013",
+      "record_present": false
+    }
+  ],
+  "r2_attempt_state_recheck_utc": "2026-10-13T00:40:53+00:00",
+  "r2_attempts_launched": false,
+  "r2_packet_path": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_PROFILE_ONLY_COMMANDS_R2.json",
+  "r2_packet_sha256": "14857354b9a91d973ad67270da79f9308ca34c083aa18a406d513bc7090df4ca",
+  "r2_preserved_unchanged": true,
+  "r2_profile_authorized": false,
+  "r2_profile_worker_copy_mismatch": true,
+  "r2_source_preflight_path": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_PROFILE_SOURCE_PREFLIGHT_R2.json",
+  "r3_packet_path": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_PROFILE_ONLY_COMMANDS_R3.json",
+  "r3_packet_sha256": "a3af53c583f936567b68cc7d353885fd3af6c1ef748db77baebc3dfe1270026c",
+  "r3_parser_preflight_path": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_TRAINER_ARGPARSE_PREFLIGHT_R3.json",
+  "r3_parser_preflight_sha256": "d069b4df638a4f665032af449b286317b06f0d56d9c1947f267090f4ce3ab1d7",
+  "r3_source_preflight_path": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_PROFILE_SOURCE_PREFLIGHT_R3.json",
+  "r3_source_preflight_sha256": "de5c138eb40f623f6dfd294171b7bdfabeee5957b3b124d99b77357954a05424",
+  "root_owns_independent_packet_review_and_fresh_shared_admission": true,
+  "schema": "wnn.strategy-s14-profile-correction.r2-to-r3"
+}
