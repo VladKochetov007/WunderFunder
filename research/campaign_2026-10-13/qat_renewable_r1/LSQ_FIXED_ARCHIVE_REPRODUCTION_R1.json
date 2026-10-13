@@ -1,0 +1,19 @@
+{
+  "archives": {
+    "original_fixed": {
+      "path": "artifacts/qat_renewable_r1/10pct_uniform_w4_deployment_r3/recurrent_w4.npz",
+      "sha256": "0122e105a42616a6cd8ee7192d7ad31ba33744c17f80f1523ebc3dc7ce42959d"
+    },
+    "fresh_same_source_fixed": {
+      "path": "artifacts/qat_renewable_r1/lsq_10pct_fixed_deployment_r2/recurrent_w4.npz",
+      "sha256": "0122e105a42616a6cd8ee7192d7ad31ba33744c17f80f1523ebc3dc7ce42959d"
+    },
+    "learned": {
+      "path": "artifacts/qat_renewable_r1/lsq_10pct_learned_deployment_r2/recurrent_w4.npz",
+      "sha256": "2d2678c7afd27e1cbaac15a3bbaadb08e334dc01d3c68a5b176807f79d561f2f"
+    }
+  },
+  "finding": "freshfixedcontrol exactsamearchive as original weight-onlyuniformW4; learnedarchive differs",
+  "limitation": "sameancestryseed/sampler; exact repeat is engineering reproducibility, not independenttraining replication",
+  "evaluation": "preserve healthyfullfold replays; grade learned-vs-freshfixed aftercomplete"
+}

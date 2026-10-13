@@ -100,3 +100,7 @@ Terminal raw execution evidence pinned by the snapshot above:
 - [EXPORT_IMPORT_IDENTITY_VERIFICATION_R2.json](EXPORT_IMPORT_IDENTITY_VERIFICATION_R2.json): Repreparesfull-datafloat with explicitly frozenimports; fullmanifest andallfourarchives exactlymatch priorpreparation, validating currentnativeevaluations.
 - [LSQ_PAIRED_FIT_COMPLETION_R1.json](LSQ_PAIRED_FIT_COMPLETION_R1.json): Records both1440-update fixed/learnedfits completed in152.9/164.9seconds, identical sampler/normalization andmeasuredpeaks; nativequalitypending.
 - [NATIVE_LSQ_10PCT_SEQUENCE_R1.json](NATIVE_LSQ_10PCT_SEQUENCE_R1.json): Binds exactselectedepoch0 codes/scales tofull-F0 nativeW4 comparison usingcompleteimmutableLSQ exports; no latentfloatingevaluation.
+
+[Full-data GPU handoff sequence](FULL_QAT_GPU_SEQUENCE_R1.json) waits for the healthy uniformW4 fit, uses the existing bounded cache helper and then freshly admits the allocated mixedW4/W8 fit. Commands are frozen, stop markers and failed receipts block new admission, and no failed job is retried. Root retains checkpoint/evaluation ownership.
+
+[Fixed-control archive reproduction](LSQ_FIXED_ARCHIVE_REPRODUCTION_R1.json) verifies byte-identical packed W4 output between the original and fresh same-source 10% control. The learned-scale archive differs. This supports implementation continuity; shared ancestry and sampling do not create an independent replication.
