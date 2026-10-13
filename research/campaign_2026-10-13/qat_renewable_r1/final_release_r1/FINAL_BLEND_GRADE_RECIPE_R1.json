@@ -1,0 +1,116 @@
+{
+  "schema": "wnn.qat-final-blend-grade-recipe.v1",
+  "experiment_id": "E-QAT-FINAL-ADAPTATION-20261013-R1",
+  "status": "frozen_before_member_result_inspection",
+  "repo_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "grader_source_path": "scripts/grade_qat_final_blends.py",
+  "grader_source_sha256": "70db5c008e63e8069604de8f221613f5f7fff0f56df2c9554af19201e50635c0",
+  "admissions": {
+    "common_r2": {
+      "path": "research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/COMMON_MEMBER_EXPORT_ADMISSION_R2.json",
+      "sha256": "a80bf7b43bde7be22777f6704a6fecaf7e259d85b7ba002e05a2ba82e4f9dfad"
+    },
+    "final_r1": {
+      "path": "research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/FINAL_NATIVE_EXPORT_ADMISSION_R1.json",
+      "sha256": "23bc31f51287e3eca2ce7ea828bef5244dd7fdea8aa7b2a1cf8ad87dadadb59b"
+    }
+  },
+  "exporter_sha256": "1e6550d6af562ac462cfca0c984d7c24f7d6c29ec14759d339a92c49f49b16ee",
+  "metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+  "native_blend_source_sha256": "b336ceee2e170c9b6176c5008183a4194c5b05e0ab933d893aec0b01a8be54a5",
+  "native": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_release_r1/wnn_native.abi3.so",
+    "sha256": "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052"
+  },
+  "panel": {
+    "split_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "data_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+    "data_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "fold": 0,
+    "group_count": 468,
+    "selected_rows": 808863,
+    "scope": "final fitted-data diagnostic; no held-out or public-score claim"
+  },
+  "members": {
+    "common0": {
+      "attempt": "qat-release-common-0-native-r1",
+      "admission": "common_r2",
+      "prediction_dir": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_common_0_r1",
+      "weights_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4/weights_0.npz",
+      "weights_sha256": "45ac50f7324b8e26f37eee97b975e2643134e54ab2399077de8778f931abc2bf",
+      "packed": false
+    },
+    "common1": {
+      "attempt": "qat-release-common-1-native-r1",
+      "admission": "common_r2",
+      "prediction_dir": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_common_1_r1",
+      "weights_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4/weights_1.npz",
+      "weights_sha256": "65176bef6f8ab63931bc34e2da3118328e7922e2bea233e6e1cf4a33e9da8945",
+      "packed": false
+    },
+    "common2": {
+      "attempt": "qat-release-common-2-native-r2",
+      "admission": "final_r1",
+      "prediction_dir": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_common_2_r1",
+      "weights_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4/weights_2.npz",
+      "weights_sha256": "8d1c4a32f58f322427093b564a4b657475e43eb393bc384336abba4fcfad043e",
+      "packed": false
+    },
+    "common3": {
+      "attempt": "qat-release-common-3-native-r1",
+      "admission": "final_r1",
+      "prediction_dir": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_common_3_r1",
+      "weights_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4/weights_3.npz",
+      "weights_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6",
+      "packed": false
+    },
+    "lsq_s3": {
+      "attempt": "qat-release-lsq-s3-native-r1",
+      "admission": "final_r1",
+      "prediction_dir": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_lsq_s3_r1",
+      "weights_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_s3_lsq_w4_deployment_r1/recurrent_w4.npz",
+      "weights_sha256": "4a3ef323a3523778b9d56fb39970da73b07e112c4ee97da5745e40c4038d27fb",
+      "packed": true
+    },
+    "lsq_s4": {
+      "attempt": "qat-release-lsq-s4-native-r1",
+      "admission": "final_r1",
+      "prediction_dir": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_lsq_s4_r1",
+      "weights_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_s4_lsq_w4_deployment_r1/recurrent_w4.npz",
+      "weights_sha256": "2017cc8ae4e30a20729b9a0099bac44819f81621a8b056afe3bd251152bef4cd",
+      "packed": true
+    }
+  },
+  "blends": {
+    "baseline": {
+      "members": ["common0", "common1", "common2", "common3"],
+      "coefficients_f32": [0.25, 0.25, 0.25, 0.25],
+      "prediction_file": "blend_baseline.npy"
+    },
+    "qat_s3": {
+      "members": ["common0", "common1", "common2", "lsq_s3"],
+      "coefficients_f32": [0.25, 0.25, 0.25, 0.25],
+      "prediction_file": "blend_qat_s3.npy"
+    },
+    "qat_s4": {
+      "members": ["common0", "common1", "common2", "lsq_s4"],
+      "coefficients_f32": [0.25, 0.25, 0.25, 0.25],
+      "prediction_file": "blend_qat_s4.npy"
+    }
+  },
+  "output_dir": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_blend_grade_r1",
+  "grading": {
+    "prediction_sum": "index-order float32 multiply by 0.25 then float32 add, matching native/src/python.rs; sanitize nonfinite total to zero",
+    "metric": "wnn.gmetric.GlobalAccumulator / global_wp_clip2_v1; clipping is applied after each blended prediction is formed",
+    "mask": "need_prediction & is_scored",
+    "label_read_scope": "only fixed 468 selected validation row groups, columns seq_ix/step_in_seq/need_prediction/is_scored/t0/t1",
+    "result_contract": "recompute all six member scores and all three blend scores; compare each member score to producer receipt; report QAT-minus-baseline t0/t1/wp",
+    "bootstrap": "not part of this predeclared point-score grade; no confidence interval is a selection gate"
+  },
+  "interpretation": {
+    "validation_exposure": "F0 is exposed to fitting/adaptation and prior research; these are fitted-data diagnostics, not clean CV",
+    "selection_scope": "compare only these three fixed mixtures; root retains final package selection and callback-parity approval",
+    "public_test": "one selected QAT blend may proceed to the user-authorized public test after root verifies exact ZIP callback parity; no public score or forecast is implied here"
+  }
+}
