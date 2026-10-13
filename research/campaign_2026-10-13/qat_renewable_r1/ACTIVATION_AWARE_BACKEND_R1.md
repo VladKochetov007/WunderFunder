@@ -67,6 +67,7 @@ integration remain pending root-owned admission.
 
 ## Source records
 
+- Implementation revision: `7939e64c0a14cba9e0c1eaaf5822787c89dd54bf`.
 - [Versioned quantization specification](QUANTIZATION_SPEC_R1.md) — fixed
   weight and native A8 semantics.
 - [Historical E419 QAT report](../../campaign_2026-10-04/E419_RECOVERED_QAT_REPORT.md)
