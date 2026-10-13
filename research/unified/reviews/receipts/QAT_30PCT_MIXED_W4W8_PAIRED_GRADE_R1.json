@@ -1,0 +1,133 @@
+{
+  "baseline_case": "native_q8",
+  "baseline_component_sums_sha256": "2e1f28de06ff5976b46cb24ac27e4516bc98e306e5e4c61b3bdb1c71c6ed3e05",
+  "baseline_result_sha256": "b00c2562ed3d0b2a2bcf08929b93984e85c8a4f7fd13623d5f8aae07286523e7",
+  "baseline_score_recomputed_from_component_sums": {
+    "t0": 0.6743657309275853,
+    "t1": 0.6879050676414187,
+    "wp": 0.681135399284502
+  },
+  "baseline_score_stored": {
+    "t0": 0.6743657309275849,
+    "t1": 0.6879050676414178,
+    "wp": 0.6811353992845013
+  },
+  "bootstrap": {
+    "batch_size": 128,
+    "interval_interpretation": "descriptive raw-six-sum uncertainty; not an automatic stop or kill rule",
+    "paired": true,
+    "quantile_method": "linear",
+    "quantiles": [
+      0.025,
+      0.5,
+      0.975
+    ],
+    "replicates": 10000,
+    "seed": 20261013,
+    "sum_scoring_function": "wnn.gmetric.wp_from_sums",
+    "unit": "source-qualified connected component, equal component sampling"
+  },
+  "components": 141,
+  "deployment_manifest_sha256": "8894af708dcba1500fc8c1b431d30468a29a9999531dd7133ec982c3b1d19556",
+  "fold": 0,
+  "grader_script_sha256": "19ae775c4e4402a9185a21e24ccf7fc5577f0ecfdf3b8b4a2fdd772d4c79e95d",
+  "groups": 468,
+  "limitations": [
+    "component_sums.npz stores six legacy raw sums, not the centered moments used by GlobalAccumulator.result; bootstrap intervals therefore apply wp_from_sums to resampled raw sums and are an approximation to the exact centered-moment bootstrap",
+    "F0 is an exposed development fold, not a pristine holdout.",
+    "All endpoints use one fitting seed; this is not cross-seed confirmation.",
+    "No public score or transfer forecast is implied.",
+    "Component sums preserve mask/target fingerprints but not row-level mask hashes."
+  ],
+  "manifest_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/deployment_frozen_r2/manifest.json",
+  "mask_validation": "full ordered groups and components plus exact per-component target-only sums and total selected rows",
+  "metric_id": "global_wp_clip2_v1",
+  "metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+  "pairs": [
+    {
+      "candidate_case": "input_w4_recurrent_w8",
+      "candidate_component_sums_sha256": "439c5c843ba871a2458cd6a102f122ffd85d91e240139365dbb9bb3e0cf330f7",
+      "candidate_endpoint": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/30pct_mixed_w4w8_deployment_r3/input_w4_recurrent_w8",
+      "candidate_manifest_sha256": "09f542ed5fb1f46c76b49fffb89e37bd508c458017ba91118c297c8678122476",
+      "candidate_result_sha256": "fec8873710fd4087038298ce7d799084536e12e44ef53ab5db6b84a4e7fcbe2b",
+      "name": "qat30_mixed_w4w8_vs_float_ptq",
+      "paired_metrics": {
+        "t0": {
+          "bootstrap_median": 0.0003259651182339063,
+          "bootstrap_q025": -0.00027592995400822773,
+          "bootstrap_q975": 0.0010501730639779013,
+          "candidate": 0.6740636922854281,
+          "candidate_minus_reference": 0.0003325480229434685,
+          "reference": 0.6737311442624846
+        },
+        "t1": {
+          "bootstrap_median": 0.0002224328665755282,
+          "bootstrap_q025": -0.0004264055304023739,
+          "bootstrap_q975": 0.0008368095456644353,
+          "candidate": 0.6876043643177132,
+          "candidate_minus_reference": 0.00020966109945064204,
+          "reference": 0.6873947032182626
+        },
+        "wp": {
+          "bootstrap_median": 0.0002772855450323686,
+          "bootstrap_q025": -0.0002896932203375613,
+          "bootstrap_q975": 0.0008544838923486033,
+          "candidate": 0.6808340283015706,
+          "candidate_minus_reference": 0.00027110456119694426,
+          "reference": 0.6805629237403736
+        }
+      },
+      "reference_case": "input_w4_recurrent_w8",
+      "reference_component_sums_sha256": "eccc274e6edf88393001e98ef9b372f79d9e1df0829219f286494544db87bc4a",
+      "reference_endpoint": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/30pct_fp32_deployment_r3/input_w4_recurrent_w8",
+      "reference_manifest_sha256": "ebfbe18ce78cfdac0360c8cd8caaacd1d982051cc4451d81cc87604570854e2c",
+      "reference_result_sha256": "72bbea42d2f32ad0d060bb784ed5f6da2932656fdf003601861f05b008f5af55"
+    },
+    {
+      "candidate_case": "input_w4_recurrent_w8",
+      "candidate_component_sums_sha256": "eccc274e6edf88393001e98ef9b372f79d9e1df0829219f286494544db87bc4a",
+      "candidate_endpoint": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/30pct_fp32_deployment_r3/input_w4_recurrent_w8",
+      "candidate_manifest_sha256": "ebfbe18ce78cfdac0360c8cd8caaacd1d982051cc4451d81cc87604570854e2c",
+      "candidate_result_sha256": "72bbea42d2f32ad0d060bb784ed5f6da2932656fdf003601861f05b008f5af55",
+      "name": "float30_mixed_ptq_vs_r2_native_q8",
+      "paired_metrics": {
+        "t0": {
+          "bootstrap_median": -0.0006416135182486515,
+          "bootstrap_q025": -0.0023738032822532423,
+          "bootstrap_q975": 0.001079528211229707,
+          "candidate": 0.6737311442624846,
+          "candidate_minus_reference": -0.0006345866651007448,
+          "reference": 0.6743657309275853
+        },
+        "t1": {
+          "bootstrap_median": -0.0005344978488585062,
+          "bootstrap_q025": -0.0019128130909716544,
+          "bootstrap_q975": 0.0009105349131812641,
+          "candidate": 0.6873947032182626,
+          "candidate_minus_reference": -0.0005103644231561066,
+          "reference": 0.6879050676414187
+        },
+        "wp": {
+          "bootstrap_median": -0.0005925200869908998,
+          "bootstrap_q025": -0.0019463521436475701,
+          "bootstrap_q975": 0.0007973060228303656,
+          "candidate": 0.6805629237403736,
+          "candidate_minus_reference": -0.0005724755441283147,
+          "reference": 0.681135399284502
+        }
+      },
+      "reference_case": "native_q8",
+      "reference_component_sums_sha256": "2e1f28de06ff5976b46cb24ac27e4516bc98e306e5e4c61b3bdb1c71c6ed3e05",
+      "reference_endpoint": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/deployment_frozen_r2/native_q8",
+      "reference_manifest_sha256": "8894af708dcba1500fc8c1b431d30468a29a9999531dd7133ec982c3b1d19556",
+      "reference_result_sha256": "b00c2562ed3d0b2a2bcf08929b93984e85c8a4f7fd13623d5f8aae07286523e7"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.2.6",
+    "python": "3.13.9"
+  },
+  "schema": "wnn.qat-component-bootstrap-grade.v1",
+  "selected_rows": 808863,
+  "status": "graded"
+}
