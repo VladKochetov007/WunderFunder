@@ -1,0 +1,64 @@
+{
+  "schema": "wnn.independent-recipe-profile-review.v1",
+  "experiment_id": "E-QAT-FINAL-SELF-DISTILL-20261013-R2",
+  "decision": "GO_FOR_TWO_BOUNDED_PROFILES_ONLY",
+  "review_scope": "Static source/recipe/provenance audit; no fit or profile executed by reviewer",
+  "actor_source": {
+    "revision": "abf1efd3dafd8298140460f5d4413e732fcf6d07",
+    "parent": "e1ab711ccb1fafc7dae6c0bdce246f92a1f50052",
+    "worktree": "/home/vlad/development/wunder/wnn-agent-worktrees/qat-final-distill-initializer-r2",
+    "trainer_sha256": "d80aa6b1fabf491907a6c88904496c90abfc1d07d23532931d1edb674ab44315",
+    "qat_backend_sha256": "d4ecfddb9027e7402b91d980b79ed8ebf67cef0b825006cdfd09571715c016e6"
+  },
+  "frozen_recipe": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/RECIPE_R2.json",
+    "sha256": "b635202f5d6d8f1478f5f4ff1faf6332972e3eeab91176fd0ce05ec577a649ef",
+    "profile_sequence_sha256": "1376361637d9dc921ecb7cac8a89cbcc749280d28f47f2e6c4d86ae9fca64cde",
+    "fit_sequence_sha256": "3a705ff8de14fb899dfc06bf2081cc835500a6ecce049894f6c8070fc9bb017d",
+    "fit_subset_sha256": "fb9bd3da588e25dbdb5466598dc776fabf3fbe0bb85c55af37bbf65c5cfe96b1"
+  },
+  "profile_attempts": [
+    "qat-self-s3-fp32-profile-r2",
+    "qat-self-s3-lsq_w4-profile-r2"
+  ],
+  "matched_fields": [
+    "seed 3 and initializer vt_all_h390_ds_homogeneous_s3_r3@ep5",
+    "inherited preprocessing and F0 split",
+    "same 315-component subset, subset experiment identity, and data/cache mapping",
+    "same propensity, target/loss weights, AdamW schedule and clipping",
+    "same B16/C1000 shape, fixed epoch-zero checkpoint, and no fit-time evaluation"
+  ],
+  "declared_treatment_delta": "qat none vs recurrent_w4 with learned row scales",
+  "profile_accounting": {
+    "warmup_batches": 2,
+    "timed_batches": 3,
+    "rows_per_batch": 20000,
+    "windows_per_batch": 20,
+    "total_optimizer_attempts": 100,
+    "timed_optimizer_attempts": 60
+  },
+  "fit_subset": {
+    "selected_components": 315,
+    "selected_group_counts": {"train": 1048, "valid": 104},
+    "selected_members_sha256": "254723b332b28eafa1e8b22dc283e8f886dbc6fa954894fdf46b769e5ebb1c30",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "evaluation_membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1"
+  },
+  "checks": {
+    "trainer_and_backend_hashes_match_recipe": true,
+    "seed3_parent_checkpoint_matches_recipe": true,
+    "split_hash_matches_on_disk": true,
+    "initializer_teacher_created_pre_qat_and_frozen": true,
+    "teacher_state_reset_per_batch_and_causal_chunk_carry": true,
+    "cached_main_targets_private_copy_overwritten_before_loss": true,
+    "label_formula_mask_and_auxiliary_losses_reviewed": true,
+    "fit_commands_match_except_declared_qat_treatment": true,
+    "reported_focused_tests_independently_rerun": false,
+    "profile_or_fit_executed_by_reviewer": false
+  },
+  "limits": [
+    "The CP5 initializer was trained on the full train-plus-valid pool including F0 evaluation membership; this is final-model adaptation, not held-out CV.",
+    "No independent Torch test or actual profile result is included.",
+    "GO is for root-controlled profiles only; fit admission remains conditional on actual profile evidence and root resource review."
+  ]
+}
