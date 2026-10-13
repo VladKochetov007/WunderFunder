@@ -1,0 +1,86 @@
+{
+  "schema": "wnn.qat-lsq-f0s4-profile-recipe-review.v1",
+  "status": "profile_recipe_pass_fit_not_cleared",
+  "decision": "go for two root-controlled actual-shape S4 profile runs after fresh resource admission; do not use this review as fit authorization",
+  "reviewed_recipe_commit": "74884b66f40e5eac9c57380f6840edf70206000",
+  "reviewed_current_main_head_at_start": "34879ee35f94a653b0a04fcfad8fae9d325cae10",
+  "execution_recipe": {
+    "path": "research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/EXECUTION_R1.json",
+    "sha256": "6469c39f95800ca24711365063b1baf14dc2e4c8cd6d0ac19de03ef8e04e93f9"
+  },
+  "subset_manifest": {
+    "path": "research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/fit_components_10pct.json",
+    "sha256": "bfa06787fc114c2de6f429827affff550e374c10e4d7a5fa3fe5c8aad7a1d40a",
+    "experiment_id": "E-QAT-LSQ-10PCT-F0S4-20261013-R1",
+    "selected_component_count": 315,
+    "train_groups": 1048,
+    "fit_valid_groups": 104,
+    "selected_members_sha256": "254723b332b28eafa1e8b22dc283e8f886dbc6fa954894fdf46b769e5ebb1c30",
+    "same_selected_components_groups_members_and_evaluation_as_seed3": true,
+    "selection_seed": 20261013,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "source": {
+    "revision": "6dde7d9d268475102849fda43b31b8e42162b3c8",
+    "source_root": "artifacts/qat_renewable_r1/lsq_source_r1",
+    "source_hashes_match_recipe": true,
+    "files": {
+      "scripts/train_rnn.py": "ea12e6b1016906c68580894a6b8b3362c4b1893b6e22b3818ba4dce0e41f4778",
+      "src/wnn/training_qat.py": "d4ecfddb9027e7402b91d980b79ed8ebf67cef0b825006cdfd09571715c016e6",
+      "scripts/evaluate_qat_deployment.py": "a8bb0f15d49f0a6a36ea9f37995ea5a1906814e56bed566a829fb4ff396a80ce"
+    }
+  },
+  "input_identity": {
+    "path": "research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/INPUT_IDENTITIES_R1.json",
+    "sha256": "167590afe8036fe3fd8175d3cd2341fd5e324c3132825dd734d05545aadac908",
+    "parent_run": "clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1",
+    "parent_checkpoint_path": "artifacts/runs/clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1/model_ep5.pt",
+    "parent_checkpoint_bytes": 3983015,
+    "parent_checkpoint_sha256": "e6be82ff799f4ea2b62e770e9c340a8cfd8f98780d1c7dec4a76eab5a853d35c",
+    "parent_provenance_sha256": "bdd531eb4e1e8ce031fda1b03ecf1c33c133c892768b7d404da30ec69679dd49",
+    "actual_checkpoint_and_provenance_match_packet": true,
+    "initializer_run": "c20261003_combo_s4_f0@ep3",
+    "initializer_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+    "propensity_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "normalization_mean_sha256": "d3517e22c9ca90cd4cc61ae9bc624f27f849285a66f9c3b79b7238168ab92d9b",
+    "normalization_std_sha256": "b228595dbbcb774679b4d779bcc188079da504349da481cc5b7b33743034d7ce",
+    "teacher_cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "teacher_count": 3,
+    "teacher_epoch": 2,
+    "teacher_coefficient_each": 0.1,
+    "parent_input_width": 211
+  },
+  "command_checks": {
+    "job_count": 4,
+    "jobs": [
+      "qat_lsq_f0_s4_profile_fixed_r1",
+      "qat_lsq_f0_s4_profile_learned_r1",
+      "qat_lsq_f0_s4_10pct_fixed_r1",
+      "qat_lsq_f0_s4_10pct_learned_r1"
+    ],
+    "attempts_all_s4_unique": true,
+    "forwarded_commands_exact": true,
+    "all_fit_and_profile_ids_use_new_s4_experiment_id": true,
+    "all_use_pinned_seed4_cp5_and_subset_manifest": true,
+    "fixed_and_learned_argv_equal_except_run_name_and_scale_learning_flag": true,
+    "profiles_warmup_batches": 2,
+    "profiles_measured_batches": 3,
+    "optimizer_updates_per_profile_batch": 20,
+    "required_optimizer_updates_per_profile": 100,
+    "fit_sequences": 1152,
+    "fit_batches": 72,
+    "fit_optimizer_updates": 1440,
+    "checkpoint": "fixed raw epoch 0",
+    "ema": false,
+    "swa": false,
+    "fit_time_validation": false,
+    "activation_quantization": false
+  },
+  "recipe_source_limits": [
+    "This is LSQ-inspired learned row-step training, not canonical LSQ; the fixed arm recomputes detached absmax row steps after each latent-weight update.",
+    "Existing seed-3 profiles use the same source/shape but do not substitute for actual seed-4 profiles.",
+    "F0 and the teacher/cache/CP5 ancestry have prior membership exposure; no pristine CV claim is supported.",
+    "No actual seed-4 profile result was reviewed here; root must separately require both finite 100-update profile receipts and fresh live resource admission before fits."
+  ],
+  "execution_scope": "metadata, source and 3.98 MB checkpoint hash verification only; no Torch import, model deserialization, profile launch, fit, provider action or prediction payload read"
+}

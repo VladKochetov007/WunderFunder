@@ -48,3 +48,17 @@ The decision needs no F3 teacher preparation before the F0 seed-4 pair. It
 still requires root to freeze the exact seed-4 subset/commands, verify all
 ancestry and data identities, and make a fresh resource admission. Do not
 interpret the allocation proposal itself as permission to start either fit.
+
+## Implementation clarification — 2026-10-13
+
+The successor recipe now freezes the S4 subset manifest and uses the same 315
+selected components and ordered group membership as the seed-3 10% LSQ pair,
+while assigning the new experiment ID
+`E-QAT-LSQ-10PCT-F0S4-20261013-R1`. This exact membership choice makes the
+1,440-update budget above valid: 1,048 train groups plus 104 fit-valid groups
+give 72 batches of 16 for one epoch. A different seed-4 sample would change
+that count; do not force it to 1,440 by dropping groups or splitting
+components. The prepared recipe remains unadmitted, and two actual S4
+100-update profile receipts plus a fresh root resource decision are required
+before fitting. The [independent S4 recipe review](QAT_LSQ_F0S4_PROFILE_RECIPE_REVIEW_R1.md)
+records the exact paths, hashes, parent identity and command checks.
