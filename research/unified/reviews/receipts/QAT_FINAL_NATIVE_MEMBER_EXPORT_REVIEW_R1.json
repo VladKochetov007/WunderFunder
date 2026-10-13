@@ -1,0 +1,43 @@
+{
+  "schema": "wnn.qat-final-native-member-export-review.v1",
+  "status": "go_conditioned_on_frozen_f0_invocation_and_root_resource_admission",
+  "decision": "GO for bounded native member exports only when the run binds the exact F0 split SHA, checks the ordered 468-group result, and root verifies memory/file-cache headroom",
+  "experiment_id": "E-QAT-FINAL-ADAPTATION-20261013-R1",
+  "source": {
+    "repository": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "revision": "3d8b1088552fab1806a180fc54412bebc0466428",
+    "path": "scripts/export_native_qat_member_panel.py",
+    "sha256": "1e6550d6af562ac462cfca0c984d7c24f7d6c29ec14759d339a92c49f49b16ee"
+  },
+  "checks": {
+    "caller_pins_hashes_for_weights_native_split_data": true,
+    "packed_path_uses_exact_decoded_codes_and_scales": true,
+    "raw_npz_path_uses_float32_effective_weights_with_native_dynamic_q8": true,
+    "native_step_uses_callback_advance_path": true,
+    "all_20000_rows_processed_in_order_per_group": true,
+    "model_reset_before_each_group": true,
+    "official_score_mask_need_prediction_and_is_scored": true,
+    "uses_standalone_official_global_accumulator": true,
+    "full_first_sequence_aba_replay_exact": true,
+    "float32_memmap_and_periodic_output_cache_eviction": true,
+    "result_records_group_order_hashes_scope_and_score": true,
+    "explicit_no_heldout_or_public_claim": true
+  },
+  "invocation_conditions": [
+    "Pin the known frozen F0 split manifest SHA; source only checks equality with the caller-supplied expected SHA.",
+    "Before comparison, require result groups to equal the exact ordered 468-group F0 evaluation list; the exporter has no internal fold-0 or group-count assertion.",
+    "Root resource admission must include current file-cache/headroom because full-parquet hashing can warm page cache and final prediction hashing can repopulate about 75 MB per full panel."
+  ],
+  "resource_and_execution_scope": {
+    "review_budget": "static source/API inspection only; no Torch, native inference, parquet scan, GPU, fit, or full prediction read",
+    "outputs": "float32 memmap (groups, 20000, 2), evicted every eight groups; final output hash read may warm cache",
+    "actual_runtime_verified": false,
+    "actual_peak_memory_verified": false
+  },
+  "limitations": [
+    "The run command and its concrete input hashes were not part of this source-only inspection; root must verify the frozen invocation and result receipt.",
+    "F0 is exposed fitting/adaptation evidence and does not support clean cross-validation or public-transfer claims.",
+    "GO concerns export engineering only, not ensemble quality, member selection, or package promotion."
+  ],
+  "narrative_review": "QAT_FINAL_NATIVE_MEMBER_EXPORT_REVIEW_R1.md"
+}
