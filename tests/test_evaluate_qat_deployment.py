@@ -13,7 +13,12 @@ from scripts.export_qat_control import export_control
 from wnn.nn import RNNModel
 from wnn.quantization import quantize_model
 from wnn.quantization_export import read_packed_quantized_export
-from wnn.training_qat import effective_qat_state
+from wnn.training_qat import (
+    configure_qat,
+    effective_qat_state,
+    inference_state,
+    scale_learning_metadata,
+)
 
 
 @pytest.mark.parametrize(
@@ -107,4 +112,57 @@ def test_rejects_qat_checkpoint_with_missing_or_incompatible_metadata() -> None:
     checkpoint["args"] = {"qat": "none"}
     with pytest.raises(ValueError, match="no-finetune control provenance"):
         checkpoint_quantization(checkpoint, weights)
+
+
+def test_learned_scale_checkpoint_roundtrips_exact_archive_and_validates_rule(tmp_path) -> None:
+    torch.manual_seed(20261014)
+    model = RNNModel(3, hidden=4, layers=1)
+    configure_qat(model, "recurrent_w4", learn_scales=True)
+    with torch.no_grad():
+        model._qat_scale_params[0].mul_(1.125)
+    effective, metadata = inference_state(model, "raw")
+    checkpoint = {
+        "args": {
+            "qat": "recurrent_w4",
+            "qat_learn_scales": True,
+            "optim": "muon",
+            "wd": 0.015,
+        },
+        "model": effective,
+        "quantization": metadata,
+        "n_in": 3,
+        "provenance": {
+            "qat": {"scale_learning": scale_learning_metadata("muon", 0.015)}
+        },
+    }
+    weights = {name: value.detach().cpu().numpy().copy() for name, value in effective.items()}
+
+    validated = checkpoint_quantization(checkpoint, weights)
+    _, native_codes, _ = quantize_model(weights, "recurrent_head")
+    semantics = export_case_archives(tmp_path, weights, native_codes, validated)
+    archive, codes, _ = read_packed_quantized_export(tmp_path / "recurrent_w4.npz")
+    assert semantics["recurrent_w4"] == "exact_checkpoint_codes_scales"
+    assert validated["metadata"]["scale_learning"] == metadata["scale_learning"]
+    for name, value in metadata["encoded"].items():
+        np.testing.assert_array_equal(codes[name].view(np.uint8), value.numpy().view(np.uint8))
+    for name, value in weights.items():
+        np.testing.assert_array_equal(archive[name], value)
+
+    bad = dict(checkpoint)
+    bad_metadata = dict(metadata)
+    bad_metadata["scale_learning"] = {**metadata["scale_learning"], "version": 999}
+    bad["quantization"] = bad_metadata
+    with pytest.raises(ValueError, match="incompatible learned-scale semantics"):
+        checkpoint_quantization(bad, weights)
+
+    mismatched_args = {**checkpoint, "args": {"qat": "recurrent_w4", "qat_learn_scales": False}}
+    with pytest.raises(ValueError, match="disagree with checkpoint quantization semantics"):
+        checkpoint_quantization(mismatched_args, weights)
+
+    mismatched_decay = dict(checkpoint)
+    mismatched_decay["provenance"] = {
+        "qat": {"scale_learning": scale_learning_metadata("muon", 0.0)}
+    }
+    with pytest.raises(ValueError, match="optimizer-group provenance"):
+        checkpoint_quantization(mismatched_decay, weights)
 

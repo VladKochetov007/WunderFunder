@@ -65,6 +65,13 @@ def checkpoint_quantization(checkpoint: dict, weights: dict[str, np.ndarray]) ->
     qat_mode = arguments.get("qat", "none")
     if qat_mode != "none" and qat_mode not in PRESETS:
         raise ValueError(f"unsupported checkpoint QAT mode: {qat_mode!r}")
+    learn_scales = arguments.get("qat_learn_scales", False)
+    if not isinstance(learn_scales, bool):
+        raise ValueError("checkpoint learned-scale flag must be boolean")
+    from wnn.training_qat import QAT_LEARN_SCALE_MODES, scale_learning_metadata
+
+    if learn_scales and qat_mode not in QAT_LEARN_SCALE_MODES:
+        raise ValueError("checkpoint learned scales require a versioned Q4 QAT preset")
     metadata = checkpoint.get("quantization")
     if metadata is None:
         if qat_mode != "none":
@@ -106,12 +113,31 @@ def checkpoint_quantization(checkpoint: dict, weights: dict[str, np.ndarray]) ->
             raise ValueError(
                 "quantization metadata without QAT args lacks no-finetune control provenance"
             )
+        if learn_scales or "scale_learning" in metadata:
+            raise ValueError("post-training quantization control cannot declare learned scales")
         kind = "post_training_quantization_control"
     else:
-        if control is not None or training_rule != (
-            "identity STE; detached row scales; no scale, rounding or clipping derivative"
-        ):
+        expected_training_rule = (
+            "identity weight STE; learned row scales with LSQ-inspired clipped scale derivative"
+            if learn_scales
+            else "identity STE; detached row scales; no scale, rounding or clipping derivative"
+        )
+        if control is not None or training_rule != expected_training_rule:
             raise ValueError("fitted QAT args disagree with checkpoint quantization semantics")
+        if learn_scales:
+            if metadata.get("scale_learning") != scale_learning_metadata():
+                raise ValueError("fitted QAT checkpoint has missing or incompatible learned-scale semantics")
+            expected_optimizer_semantics = scale_learning_metadata(
+                arguments.get("optim"), arguments.get("wd")
+            )
+            qat_provenance = provenance.get("qat") if isinstance(provenance, dict) else None
+            if (
+                not isinstance(qat_provenance, dict)
+                or qat_provenance.get("scale_learning") != expected_optimizer_semantics
+            ):
+                raise ValueError("learned-scale QAT optimizer-group provenance is missing or incompatible")
+        elif "scale_learning" in metadata:
+            raise ValueError("fixed-scale QAT checkpoint unexpectedly declares learned-scale semantics")
         kind = "fitted_qat"
 
     _, expected_encoded, report = quantize_model(weights, preset)
@@ -163,6 +189,7 @@ def checkpoint_quantization(checkpoint: dict, weights: dict[str, np.ndarray]) ->
         "representation": metadata["representation"],
         "snapshot_source": snapshot_source,
         "training_rule": training_rule,
+        "scale_learning": metadata.get("scale_learning"),
         "encoded_sha256": {
             name: hashlib.sha256(value.tobytes(order="C")).hexdigest()
             for name, value in encoded.items()

@@ -92,8 +92,9 @@ from wnn.sentinel import (INDICATOR_MODES, VALUE_MODES, SentinelInputProjection,
                           SentinelPreprocessor)
 from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
 from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
-from wnn.training_qat import (QAT_MODES, configure_qat, inference_state,
-                              invalidate_qat_cache, qat_forward)
+from wnn.training_qat import (QAT_LEARN_SCALE_MODES, QAT_MODES, configure_qat,
+                              inference_state, invalidate_qat_cache, qat_forward,
+                              project_qat_scales_, scale_learning_metadata)
 from wnn.training_state import (atomic_save_training_state, capture_training_state,
                                 load_training_state, loader_state, restore_rng,
                                 restore_training_state)
@@ -1507,6 +1508,8 @@ def main():
     ap.add_argument("--credit-seed", type=int, default=100100)
     ap.add_argument("--qat", choices=QAT_MODES, default="none",
                     help="versioned per-row q4/q8 weight-only QAT; activations/state remain fp32")
+    ap.add_argument("--qat-learn-scales", action="store_true",
+                    help="learn row steps with the versioned LSQ-inspired rule; requires a Q4 QAT preset")
     ap.add_argument("--recurrent-rank", type=int, default=0,
                     help="SVD-initialized rank per stacked GRU matrix; 0 preserves dense recurrence")
     ap.add_argument("--sentinel-values", choices=VALUE_MODES, default="unchanged")
@@ -1825,6 +1828,10 @@ def main():
     if args.qat != "none" and (args.precision != "fp32" or args.arch != "gru"
                                or args.cell != "gru" or args.enc != "linear"):
         ap.error("QAT requires explicit --precision fp32 with plain GRU and linear input encoder")
+    if args.qat_learn_scales and args.qat not in QAT_LEARN_SCALE_MODES:
+        ap.error("--qat-learn-scales requires --qat recurrent_w4 or input_w4_recurrent_w8")
+    if args.qat_learn_scales and (not math.isfinite(args.wd) or args.wd < 0):
+        ap.error("learned QAT scales require finite nonnegative --wd")
     if args.calibrate_distill_reference:
         if (args.device != "cpu" or args.resume_state or args.thin_prob or args.spread_aux_mode != "original"
                 or args.calibration_epochs < 1 or args.profile_steps or args.max_batches
@@ -2472,16 +2479,22 @@ def main():
         provenance["trainer_source_sha256"] = file_sha256(SOURCE_ROOT / "scripts/train_rnn.py")
         provenance["model_source_sha256"] = file_sha256(SOURCE_ROOT / "src/wnn/nn.py")
     configure_factorized(model, args.recurrent_rank)
-    if saved_training is not None:
-        model.load_state_dict(saved_training["model"])
     if args.precision == "fp32":
         model._inference_fp32 = True
-    configure_qat(model, args.qat)
+    configure_qat(model, args.qat, args.qat_learn_scales)
+    if saved_training is not None:
+        # Register learned scale parameters before strict state restoration.
+        model.load_state_dict(saved_training["model"])
     if args.qat != "none":
         provenance["qat"] = {**policy_metadata(args.qat),
-                             "gradient": "identity STE; scales detached; no scale/round/clamp derivative",
+                             "gradient": ("identity weight STE; learned row scale derivative" if args.qat_learn_scales
+                                          else "identity STE; scales detached; no scale/round/clamp derivative"),
                              "averaging": "latent float parameters, quantized for each effective forward/export",
                              "training_state": "raw latent float weights; derived quantization cache not serialized"}
+        if args.qat_learn_scales:
+            provenance["qat"]["scale_learning"] = scale_learning_metadata(
+                args.optim, args.wd
+            )
     if args.recurrent_rank:
         provenance["factorization"] = {
             "rank": args.recurrent_rank, "initialization": model._factorization_initialization,
@@ -2499,6 +2512,10 @@ def main():
     for pname, prm in model.named_parameters():
         if frozen and pname.startswith(frozen):
             prm.requires_grad_(False)
+    if args.qat_learn_scales:
+        parameters = dict(model.named_parameters())
+        for position, (name, _, _) in enumerate(model._qat_scale_keys):
+            model._qat_scale_params[position].requires_grad_(parameters[name].requires_grad)
     total = len(train_loader) * math.ceil(SEQUENCE_LENGTH / update_rows) * args.epochs
     if args.calibrate_distill_reference:
         calibrate_distill_reference(args, train_loader, prop_model, provenance, device, total)
@@ -2920,6 +2937,7 @@ def main():
                     grad_stats.observe()
                 dynamics.perturb_and_clip(step_count)
                 scaler.step(opt)
+                project_qat_scales_(model)
                 invalidate_qat_cache(model)
                 scaler.update()
                 sched.step()

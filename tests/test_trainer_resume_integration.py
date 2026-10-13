@@ -64,6 +64,7 @@ def test_real_main_epoch_resume_and_completed_export(
     credit_mode: str = "deterministic",
     keep_probability: float = 0.5,
     qat: str = "none",
+    qat_learn_scales: bool = False,
     recurrent_rank: int = 0,
     sentinel_arm: tuple[str, str] | None = None,
     thin_mode: str | None = None,
@@ -210,7 +211,12 @@ def test_real_main_epoch_resume_and_completed_export(
     def run(name: str, extra: list[str]) -> Path:
         nonlocal active_run
         active_run = name
-        monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+        argv = [*base]
+        if qat_learn_scales and name in {
+            "reference", "without_state", "interrupted", "resumed", "recovered"
+        }:
+            argv.append("--qat-learn-scales")
+        monkeypatch.setattr(sys, "argv", [*argv, "--name", name, *extra])
         training.main()
         return tmp_path / "artifacts/runs" / name
 
@@ -274,6 +280,8 @@ def test_real_main_epoch_resume_and_completed_export(
         assert forward_rows["reference"] > forward_rows["carry"]
         active_run = "without_state"
     no_state_args = [argument for argument in base if argument != "--save-training-state"]
+    if qat_learn_scales:
+        no_state_args.append("--qat-learn-scales")
     monkeypatch.setattr(sys, "argv", [*no_state_args, "--name", "without_state"])
     training.main()
     without_state = torch.load(
@@ -305,7 +313,19 @@ def test_real_main_epoch_resume_and_completed_export(
         assert float_state["contract"]["options"]["init"] == "parent"
         assert reference["contract"]["options"]["init"] == "parent"
         ema_weights = reference["ema"]["state"]
-        effective, metadata = effective_qat_state(ema_weights, qat, "ema")
+        if qat_learn_scales:
+            from wnn.training_qat import configure_qat, inference_state
+
+            reconstructed_model = training.make_model(
+                reference_model["args"],
+                reference_model["n_in"],
+                reference_model["model"]["head.2.bias"].numel(),
+            )
+            configure_qat(reconstructed_model, qat, learn_scales=True)
+            reconstructed_model.load_state_dict(ema_weights)
+            effective, metadata = inference_state(reconstructed_model, "ema")
+        else:
+            effective, metadata = effective_qat_state(ema_weights, qat, "ema")
         _assert_equal(effective, reference_model["model"])
         _assert_equal(metadata, reference_model["quantization"])
         assert any(
@@ -474,6 +494,19 @@ def test_main_qat_finetune_resume(
 ) -> None:
     """Actual FP32 QAT fine-tuning preserves raw continuation and effective EMA export."""
     test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, controlled, qat=qat)
+
+
+def test_main_learned_scale_qat_resume_and_ema_export(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Actual trainer continuation reconstructs learned parameters before strict restore."""
+    test_real_main_epoch_resume_and_completed_export(
+        tmp_path,
+        monkeypatch,
+        False,
+        qat="recurrent_w4",
+        qat_learn_scales=True,
+    )
 
 
 @pytest.mark.parametrize("controlled", [False, True])
