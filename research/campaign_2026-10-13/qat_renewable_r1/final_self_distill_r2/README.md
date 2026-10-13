@@ -25,3 +25,5 @@ The first final-parent QAT adaptations changed targets to the available F0 teach
 - [Independent selected-ZIP audit](../../../unified/reviews/QAT_FINAL_SELECTED_ZIP_RELEASE_AUDIT_R1.md): confirms publicfile/internalbuild hardlink and exactSHA/12safeCRC/hashmembers, source/ABI and selectedS3parity scope; GO for byteintegrity/offline checks only, no publicqualityclaim.
 
 - [Navigation check](NAVIGATION_CHECK_R2.json):638local links acrossrootindex,topicREADMEs,QATreviews andrelease/deliverynotes resolve; review-path typos corrected beforedelivery. This is localnavigation evidence, not scientific/catalog freshness.
+
+- [Generated catalog freshness](CATALOG_FRESHNESS_R2.json): treebuild succeeded and scientificstructure/ledger checks reachedthefreshnessgate, butcatalog/integrity snapshots became stale as nine existingbackgroundmonitorfiles changed. This is an operationalsnapshot limit; noclaimof fullresearch_treecheckpass.

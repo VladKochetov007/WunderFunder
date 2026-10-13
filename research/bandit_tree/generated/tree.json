@@ -3480,6 +3480,24 @@
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "b1a56761e487d2a18dd01890f7568c4ac0a3c29ff41c7199723f799c9f37ff51"
         }
+      },
+      {
+        "raw_record": "{\"kind\": \"allocation\", \"created_utc\": \"2026-10-13T18:40:30.334310+00:00\", \"hypothesis_id\": \"H-QAT-LSQ-20261013\", \"decision\": \"admit the two frozen100-update actual-shape local profiles sequentially after current healthy work; fits remain conditional on both profiles finite and measured resource envelope\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/PROFILE_ALLOCATION_R1.json\", \"research/unified/reviews/QAT_LSQ_F0S4_PROFILE_RECIPE_REVIEW_R1.md\"]}\n",
+        "record": {
+          "created_utc": "2026-10-13T18:40:30.334310+00:00",
+          "decision": "admit the two frozen100-update actual-shape local profiles sequentially after current healthy work; fits remain conditional on both profiles finite and measured resource envelope",
+          "evidence_paths": [
+            "research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/PROFILE_ALLOCATION_R1.json",
+            "research/unified/reviews/QAT_LSQ_F0S4_PROFILE_RECIPE_REVIEW_R1.md"
+          ],
+          "hypothesis_id": "H-QAT-LSQ-20261013",
+          "kind": "allocation"
+        },
+        "source": {
+          "line": 142,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "06cd4e2b4673c163f04aa3cc831ae2d8e5450de7b81618aec4ee22e9de719fa0"
+        }
       }
     ],
     "legacy_archive": {
@@ -9291,9 +9309,9 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 840,
+      "experiments": 844,
       "hypotheses": 493,
-      "journal": 141
+      "journal": 142
     }
   },
   "nodes": [
@@ -81128,7 +81146,7 @@
         "rule": "multiple_or_missing_linked_hypotheses"
       },
       "id": "experiment:E-QAT-LSQ-10PCT-F0S4-20261013-R1",
-      "latest_recorded_status": "prepared",
+      "latest_recorded_status": "profile_passed_fit_pair_admitted",
       "parent_id": "family:unclassified",
       "raw_rows": [
         {
@@ -81153,9 +81171,136 @@
             "path": "research/experiments.jsonl",
             "sha256": "e1a52b9848820680702c54eff799ca216ba1318bb96d69a813f7c0e42010b952"
           }
+        },
+        {
+          "raw_record": "{\"id\": \"E-QAT-LSQ-10PCT-F0S4-20261013-R1\", \"hypothesis_id\": \"H-QAT-LSQ-20261013\", \"status\": \"profile_passed_fit_pair_admitted\", \"created_utc\": \"2026-10-13T18:45:11.083242+00:00\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/PROFILE_ACCEPTANCE_AND_FIT_ALLOCATION_R1.json\", \"research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/FIT_SEQUENCE_R1.json\"], \"quality_result\": null}\n",
+          "record": {
+            "created_utc": "2026-10-13T18:45:11.083242+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/PROFILE_ACCEPTANCE_AND_FIT_ALLOCATION_R1.json",
+              "research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/FIT_SEQUENCE_R1.json"
+            ],
+            "hypothesis_id": "H-QAT-LSQ-20261013",
+            "id": "E-QAT-LSQ-10PCT-F0S4-20261013-R1",
+            "quality_result": null,
+            "status": "profile_passed_fit_pair_admitted"
+          },
+          "source": {
+            "line": 841,
+            "path": "research/experiments.jsonl",
+            "sha256": "817feb3847a49821924564b779e933da1852a2f6b7bf94aef9e05f1d78b2b123"
+          }
         }
       ],
       "title": "E-QAT-LSQ-10PCT-F0S4-20261013-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-QAT-FINAL-SELF-DISTILL-20261013-R2",
+      "latest_recorded_status": "packaged_public_transfer_test_pending",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-QAT-FINAL-SELF-DISTILL-20261013-R2\", \"hypothesis_id\": \"H-QAT-LSQ-20261013\", \"parent_experiment_id\": \"E-QAT-FINAL-ADAPTATION-20261013-R1\", \"status\": \"frozen_pending_independent_profile_review\", \"created_utc\": \"2026-10-13T20:33:05.720011+00:00\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/RECIPE_R2.json\"], \"mechanism\": \"stationary FP32 final initializer as causal distillation teacher; matched FP32 and learned-scaleW4 on same S3 parent\", \"quality_result\": null, \"evidence_scope\": \"fitted-data diagnostic only; original parent fitsallvalidgroups\"}\n",
+          "record": {
+            "created_utc": "2026-10-13T20:33:05.720011+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/RECIPE_R2.json"
+            ],
+            "evidence_scope": "fitted-data diagnostic only; original parent fitsallvalidgroups",
+            "hypothesis_id": "H-QAT-LSQ-20261013",
+            "id": "E-QAT-FINAL-SELF-DISTILL-20261013-R2",
+            "mechanism": "stationary FP32 final initializer as causal distillation teacher; matched FP32 and learned-scaleW4 on same S3 parent",
+            "parent_experiment_id": "E-QAT-FINAL-ADAPTATION-20261013-R1",
+            "quality_result": null,
+            "status": "frozen_pending_independent_profile_review"
+          },
+          "source": {
+            "line": 842,
+            "path": "research/experiments.jsonl",
+            "sha256": "b632c58c2cf007211a3b2b36e640128bdb6994532313fbcbb62cf22fece0446d"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-QAT-FINAL-SELF-DISTILL-20261013-R2\", \"hypothesis_id\": \"H-QAT-LSQ-20261013\", \"status\": \"packaged_public_transfer_test_pending\", \"created_utc\": \"2026-10-13T21:14:40.416283+00:00\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/RESULT_AND_RELEASE_R2.md\", \"research/unified/reviews/QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R4.md\"], \"quality_result\": {\"metric\": \"global_wp_clip2_v1\", \"groups\": 468, \"selected_rows\": 808863, \"scope\": \"Original final parent fits all supplied validation; exposed fitted-data diagnostic, no held-out claim\", \"baseline\": 0.7022662376918923, \"qat\": 0.7022161445, \"float_native_q8\": 0.70237453, \"matched_float_w4_ptq\": 0.7021328288, \"delta_qat_minus_baseline\": -5.00931e-05, \"delta_qat_minus_w4_ptq\": 8.33157e-05, \"delta_qat_minus_float_q8\": -0.0001583854}, \"artifact\": {\"path\": \"/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-14-qat-r1/kotiki_qat_lsq_20261014.zip\", \"sha256\": \"e2f78e09b0147b37c74b5809b9aa38f48d1ee6b83d656483b14eeb609aac22b3\", \"bytes\": 13461304}, \"public_upload_performed\": false}\n",
+          "record": {
+            "artifact": {
+              "bytes": 13461304,
+              "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-14-qat-r1/kotiki_qat_lsq_20261014.zip",
+              "sha256": "e2f78e09b0147b37c74b5809b9aa38f48d1ee6b83d656483b14eeb609aac22b3"
+            },
+            "created_utc": "2026-10-13T21:14:40.416283+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/RESULT_AND_RELEASE_R2.md",
+              "research/unified/reviews/QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R4.md"
+            ],
+            "hypothesis_id": "H-QAT-LSQ-20261013",
+            "id": "E-QAT-FINAL-SELF-DISTILL-20261013-R2",
+            "public_upload_performed": false,
+            "quality_result": {
+              "baseline": 0.7022662376918923,
+              "delta_qat_minus_baseline": -5.00931e-05,
+              "delta_qat_minus_float_q8": -0.0001583854,
+              "delta_qat_minus_w4_ptq": 8.33157e-05,
+              "float_native_q8": 0.70237453,
+              "groups": 468,
+              "matched_float_w4_ptq": 0.7021328288,
+              "metric": "global_wp_clip2_v1",
+              "qat": 0.7022161445,
+              "scope": "Original final parent fits all supplied validation; exposed fitted-data diagnostic, no held-out claim",
+              "selected_rows": 808863
+            },
+            "status": "packaged_public_transfer_test_pending"
+          },
+          "source": {
+            "line": 844,
+            "path": "research/experiments.jsonl",
+            "sha256": "9c4e30cb84183860ba2e6ede000d0d0670bcdf5b50c35f76de898fec99248f96"
+          }
+        }
+      ],
+      "title": "E-QAT-FINAL-SELF-DISTILL-20261013-R2",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-QAT-FINAL-ADAPTATION-20261013-R1",
+      "latest_recorded_status": "completed_final_fitted_diagnostic",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-QAT-FINAL-ADAPTATION-20261013-R1\", \"hypothesis_id\": \"H-QAT-LSQ-20261013\", \"status\": \"completed_final_fitted_diagnostic\", \"created_utc\": \"2026-10-13T20:38:29.691678+00:00\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/RECIPE_R1.json\", \"research/unified/reviews/QAT_FINAL_BLEND_GRADE_R2.md\"], \"quality_result\": {\"baseline\": 0.7022662376918923, \"qat_s3\": 0.7017641893141148, \"qat_s4\": 0.7012271070361042}, \"scope\": \"Retrospectiveledgerindexofpre-frozenR1recipes; finalparentsfitallvalidgroups; samefixedblend0.25members; targettransfernegative; noheldout/publicclaim\"}\n",
+          "record": {
+            "created_utc": "2026-10-13T20:38:29.691678+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/RECIPE_R1.json",
+              "research/unified/reviews/QAT_FINAL_BLEND_GRADE_R2.md"
+            ],
+            "hypothesis_id": "H-QAT-LSQ-20261013",
+            "id": "E-QAT-FINAL-ADAPTATION-20261013-R1",
+            "quality_result": {
+              "baseline": 0.7022662376918923,
+              "qat_s3": 0.7017641893141148,
+              "qat_s4": 0.7012271070361042
+            },
+            "scope": "Retrospectiveledgerindexofpre-frozenR1recipes; finalparentsfitallvalidgroups; samefixedblend0.25members; targettransfernegative; noheldout/publicclaim",
+            "status": "completed_final_fitted_diagnostic"
+          },
+          "source": {
+            "line": 843,
+            "path": "research/experiments.jsonl",
+            "sha256": "9e0f726202f3ffa40c3e2fbb0009c806a47d761142268322a7709f3868b7c64c"
+          }
+        }
+      ],
+      "title": "E-QAT-FINAL-ADAPTATION-20261013-R1",
       "type": "experiment"
     },
     {
