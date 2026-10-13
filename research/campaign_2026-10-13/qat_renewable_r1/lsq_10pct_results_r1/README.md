@@ -7,7 +7,7 @@ The same-source fixed and learned row-scale uniform-W4 fits each completed1,440 
 | Fixed row-scale QAT |0.681298282|0.674579514|0.688017050|
 | Learned row-scale QAT |0.681492421|0.675033309|0.687951533|
 
-The preliminary paired point difference is +0.000194139. Independent component-bootstrap grading is pending. These are full468-group exposed-F0 trajectories with141 components and808,863 official scored rows, one fitting seed, and full fitting-set parent/teacher ancestry. This does not establish a best package or public-transfer gain. The10% floating continuation's native-Q8 score remains higher at0.681818498.
+The preliminary paired point difference is +0.000194139. [Independent component-bootstrap grading](../../../unified/reviews/QAT_LSQ_10PCT_PAIRED_GRADE_R1.md) gives a descriptive interval of[-0.00015310,+0.00053581]. The exact fit/ancestry/code-scale comparison passed review. These are full468-group exposed-F0 trajectories with141 components and808,863 official scored rows, one fitting seed, and full fitting-set parent/teacher ancestry. This does not establish a best package or public-transfer gain. The10% floating continuation's native-Q8 score remains higher at0.681818498.
 
 - [Fixed result](fixed_result.json) and [learned result](learned_result.json) preserve native scores, callback/reset information and complete prediction hashes.
 - [Fixed manifest](fixed_manifest.json) and [learned manifest](learned_manifest.json) bind separate checkpoint, exact archive and source identities. [Result index](RESULT_INDEX_R1.json) names approved physical prediction storage; no large arrays are copied into research notes.
