@@ -1,0 +1,101 @@
+{
+  "schema": "wnn.s09.independent_recipe_review.r1",
+  "review_id": "S09-INNOVATION-F0-S3-R1-INDEPENDENT-RECIPE-20261013",
+  "verdict": "FAIL_R1_NO_LAUNCH",
+  "scientific_result": "none",
+  "candidate": {
+    "source_commit": "c6e774edc8d5e0c63715a83287cf36fd3969a779",
+    "worktree_clean": true,
+    "recipe_sha256": "11d21c1a7ebfefe9a155e8ac6b5176fd461e8ff4812f9f53445630f1fbb96952",
+    "source_files_expected": 391,
+    "source_hash_mismatches": 0,
+    "parent_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+  },
+  "commands": {
+    "moments_control_sha256": "8ad0afdd451578cd65514fc18a0084226300280ec466f0f57c8d222b187e0a95",
+    "innovations_sha256": "38c2d8b2306a451dc892bfa455aac0f6ee77e34a8e9c573c3354ad79abe0765a",
+    "actor_cli_preflight_sha256": "6af36891c0fbbd7d02db17eba56804f16cd5b66e26110f19e40166ed2aa1ba0b",
+    "pair_normalized_argv_match": true,
+    "actor_parser_checks_passed": 10,
+    "actor_parser_postparse_work_executed": false,
+    "fit_authorized": false,
+    "profile_authorized": false,
+    "export_authorized": false,
+    "grade_authorized": false
+  },
+  "actual_cache": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r2",
+    "metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "metadata_bytes": 323404,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "fit_groups_match_manifest_order": true,
+    "evaluation_groups_match_manifest_order": true,
+    "evaluation_group_count": 468,
+    "family_order": ["strong"],
+    "source_teacher_count": 3,
+    "source_coefficients": [0.1, 0.1, 0.1],
+    "coefficient_sum": 0.30000000000000004,
+    "homogeneous_family": "strong",
+    "stored_target_scale": 0.8125,
+    "student_epochs": 6,
+    "fixed_checkpoint_epoch": 5,
+    "declared_arrays": {
+      "main_homogeneous_train": {
+        "path": "main_homogeneous_train.npy",
+        "shape": [10535, 20000, 2],
+        "dtype": "float32",
+        "bytes": 1685600128,
+        "declared_sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+        "row_groups_sha256_i64le": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda"
+      },
+      "main_homogeneous_valid": {
+        "path": "main_homogeneous_valid.npy",
+        "shape": [1405, 20000, 2],
+        "dtype": "float32",
+        "bytes": 224800128,
+        "declared_sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2",
+        "row_groups_sha256_i64le": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      }
+    }
+  },
+  "consumer_result": {
+    "validator_source_file": "src/wnn/distillation_cache.py",
+    "validator_source_sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19",
+    "first_rejection": "distillation family-head order is not the declared four-family order",
+    "array_reads_attempted": 0,
+    "target_index_row_order_validation_reached": false,
+    "cache_shape_dtype_payload_hash_and_finite_checks_reached": false,
+    "command_cache_scale": 1.0,
+    "effective_stored_target_multiplier": 0.8125,
+    "metadata_schedule_scale": 1.2307692307692308,
+    "metadata_target_scale": 1.0,
+    "metadata_scale_note": "The summary scale is ambiguous/stale relative to actual CLI; it does not change R1 runtime scalar."
+  },
+  "resource_check": {
+    "bounded_command": "scripts/limited /usr/bin/time -v env PYTHONPATH=<candidate>/src <Main .venv>/bin/python inspect_cache_metadata_r1.py",
+    "cpu_quota": "100%",
+    "memory_cap_bytes": 400000000,
+    "runtime_cap_seconds": 120,
+    "elapsed_seconds": 0.17,
+    "max_rss_kib": 78636,
+    "swaps": 0,
+    "fresh_admission_bracket_bytes": {
+      "parent_current": 10841759744,
+      "active_worker_current": 4671320064,
+      "active_worker_reservation": 5500000000,
+      "unused_active_reservation": 828679936,
+      "1_2gb_verifier_bound": 1200000000,
+      "operator_support": 700000000,
+      "root_support": 400000000,
+      "uncertainty_margin": 1000000000,
+      "committed_total": 14970439680,
+      "target_limit": 17000000000
+    }
+  },
+  "limitations": [
+    "No cache NPY payload was opened or rehashed; the metadata-declared hashes, shapes and byte counts are not payload verification.",
+    "The candidate validator rejected before checking target-index order, cache array row alignment, or finite target values.",
+    "No GPU profile, fit, export, grade, or model-quality measurement was performed.",
+    "Teacher prediction payloads were not reread; actual teacher checkpoints and parent provenance hashes were checked."
+  ]
+}
