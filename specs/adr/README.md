@@ -56,3 +56,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0034: resumed strategy execution and full GPU allowance](0034-strategy-execution-full-gpu-allowance.md): implement every actionable strategy-review idea, use all Kaggle allowance and actual local GPU capacity, preserve CPU/RAM/no-paid-spend constraints, and allow at most.001 mean-CV sacrifice for private robustness.
 
 - [ADR0035: official team code and weight sharing](0035-official-team-code-and-weight-sharing.md): direct reuse of official teammates' code, native libraries, weights, teachers and initializers is authorized; source/fit ancestry, independent criticism and valid evaluation remain required. Complete joint-model research before new ZIPs.
+- [ADR0036: QAT research with renewable capacity](0036-qat-renewable-capacity.md): implement the indexed W4/W8, activation-aware and learned-scale plan with no campaign GPU-hour ceiling; retain actual provider/physical limits, clean ancestry and complete-endpoint validation.
+

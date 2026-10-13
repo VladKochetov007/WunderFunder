@@ -1,3 +1,8 @@
+## 2026-10-13T15:44:27Z — QAT plan implementation authorized
+
+[Indexed QAT plan](../research/campaign_2026-10-13/qat_renewable_r1/PLAN.md) and [ADR0036](adr/0036-qat-renewable-capacity.md) record the user's current instruction: implement exact W4/W8 deployment/QAT comparisons, activation-aware/learned-scale extensions and broader endpoint validation using local GPU plus all renewable Kaggle allowance, with no campaign-wide GPU-hour cap. Proposed4/2/2-hour allocations are removed; CPU/RAM/no-swap/single-worker and no-paid-action rules remain. Root owns implementation through actual evaluated artifacts. No new QAT fit/score/package at entry; prior healthy work is preserved.
+
+
 ## 2026-10-13 — public seed6 blend scored 0.6679
 
 [User-reported public leaderboard update](../research/campaign_2026-10-13/team_models_r1/PUBLIC_LB_UPDATE_20261013_R2.md): new cross-team seed6 ZIP 0.6679, portal 0mbzevhv,46m51s/650MB. This is +0.0004 over E, −0.0002 versus original xteam_h4, and −0.0003 versus reported team best pair_ftt2=0.6682. The formerly pending E upload 0j1f5ipt scored 0.6675 in 51m22s/651MB, confirming the earlier E score. Reported quota is 2/5 today, 90 total; three daily slots remain at this snapshot. The transcript was supplied by the user, without independent portal/hash verification. No new upload is authorized or performed by the agent.

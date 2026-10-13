@@ -20,3 +20,7 @@ Runtime claims must name the hardware, exact ZIP, callback protocol, complete-te
 ## Resumed strategy execution — 2026-10-13
 
 [Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.
+## Current QAT implementation
+
+[QAT plan and campaign](../../campaign_2026-10-13/qat_renewable_r1/README.md) records the authorized uniform recurrent W4/mixed W4-W8, exact native transport, activation-aware and learned-scale comparisons, using renewable Kaggle/local capacity. [Plan](../../campaign_2026-10-13/qat_renewable_r1/PLAN.md), [contract](../../campaign_2026-10-13/qat_renewable_r1/CONTRACT.json) and [frontier](../../campaign_2026-10-13/qat_renewable_r1/FRONTIER.md) bind clean-T3 parent ancestry, matched controls and exposed multi-fold/seed validation (H-QAT-W4/A8/LSQ-20261013; E-QAT-DEPLOYMENT-20261013-R1). Initial status is implementation; archive savings are distinct from CPU speed and no quality gain is established.
+

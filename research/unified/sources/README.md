@@ -21,3 +21,5 @@ This domain holds external writeups and source material that informed research. 
 - [Discord feature and ensemble notes](competition-writeups/discord_tricks.txt)
 
 Keep provenance and source links with each imported item. Generated idea cards derived from these sources belong in [ideas](../ideas/README.md); critical reviews belong in [reviews](../reviews/README.md). Imported writeups live in this canonical source tree.
+[QAT primary-source components](../../campaign_2026-10-13/qat_renewable_r1/SOURCES.md) records He et al. recurrent gate/interlink quantization, Fasoli et al. end-to-end four-bit RNN-T QAT and Esser et al. learned step sizes, verified against primary arXiv records on2026-10-13. These motivate H-QAT-W4/A8/LSQ-20261013; published task/hardware results are not local CPU or model-quality evidence.
+

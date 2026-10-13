@@ -1,0 +1,20 @@
+{
+  "format": "wnn.qat-renewable-contract", "version": 1,
+  "created_utc": "2026-10-13T15:44:27Z", "owner": "root",
+  "objective_mode": "competition",
+  "objective": "Strongest deterministic served predictor from QAT, compression and measured complete-ensemble improvements",
+  "authority": "Implement supplied QAT plan; no campaign-wide GPU-hour cap; all local and renewable Kaggle allowance; preserve healthy jobs; no paid capacity",
+  "plan": "research/campaign_2026-10-13/qat_renewable_r1/PLAN.md",
+  "initial_parent": "clean-T3 H256 CP5 F0 seed3; bind actual bytes and complete ancestry before evaluation",
+  "initial_policies": ["uniform recurrent W4 with first head Q8", "input W4/recurrent W8 with first head Q8"],
+  "initial_recipe": {"optimizer": "AdamW", "precision": "fp32", "max_lr": 0.0001, "schedule": "existing one-cycle", "epochs": 1, "checkpoint": "fixed final", "batch": 16, "chunk": 1000, "fit_component_fractions": [0.1, 0.3, 1.0], "profile_required": true, "training_semantics": "weight-only QAT; activations remain FP32"},
+  "comparison": "QAT endpoint versus same-format PTQ of matched floating continuation; unchanged parent deployment baselines first",
+  "metric": "global_wp_clip2_v1", "evaluation_unit": "source-qualified connected component",
+  "exposure": "All existing folds exposed; no pristine confirmation or public numerical forecast",
+  "confirmation": {"screen_folds": [0, 3], "fitting_seeds": [3, 4], "finalist_folds": [0, 1, 2, 3], "clean_ancestry_required": true},
+  "compute": {"campaign_gpu_hours_cap": null, "local_gpu_workers": 1, "local_gpu_memory": "actual physical availability with measured headroom", "kaggle": "all actual GPU/TPU allowance including renewals", "cpu_cores": 5, "committed_memory_target_bytes": 17000000000, "memory_high_bytes": 18000000000, "memory_max_bytes": 20000000000, "swap_bytes": 0, "paid_spend_usd": 0, "new_rentals_topups_billing_changes": false},
+  "roles": {"controller_and_delivery": "root", "actors": "scoped Luna/max isolated worktrees subject to verified access", "critic_and_grader": "independent role; actor may not approve itself"},
+  "stop": {"user": "close new admission and drain healthy jobs", "quota": "collect and continue locally; resume after renewal", "execution_failure": "preserve first failure and diagnose before new attempt", "science": "reallocate by information value; zero-crossing CI is not a universal kill gate"},
+  "public_upload_authorized": false, "public_score_forecast": null,
+  "deliverables": ["versioned exact quantization and native transport", "actual deployment baselines", "matched QAT/control comparisons", "independent criticism and grading", "broader fold/seed evidence", "strongest supported deterministic package"]
+}
