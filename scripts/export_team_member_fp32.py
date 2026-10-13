@@ -98,9 +98,9 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--batch-sequences",
         type=int,
-        choices=(1, 2),
+        choices=(1, 2, 4, 8, 16),
         default=1,
-        help="complete sequences in each GPU batch (profile 1 or 2)",
+        help="complete sequences per GPU batch; profile the selected size before a full export",
     )
     parser.add_argument(
         "--chunk-rows",

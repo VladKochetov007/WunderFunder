@@ -1,0 +1,7 @@
+# Original archive and conversion profiles
+
+[B1 merged-head GPU profile](E_weights_2_fp32_b1_profile_r1/RESULT.json) and [B16 successor](E_weights_2_fp32_b16_profile_r2/RESULT.json) separately check the per-member FP32 exporter. [Review](../GPU_MEMBER_REVIEW_R1.md) gives actual resources, source binding and batching roundoff. These do not replace original native callback profiles below.
+
+Eight first-two-complete-sequence Python3.11 profiles exercised callbacks and bitwise reset replay: [pair original](pair_ftt2_original_r1/RESULT.json), [pair Rust](pair_ftt2_rust_r1/RESULT.json), [xteam](xteam_h4_original_r1/RESULT.json), [C](C_original_r1/RESULT.json), [E](E_original_r1/RESULT.json), [e6a](e6a_original_r1/RESULT.json), [class3 zero](p_c3zero_original_r1/RESULT.json) and [class3 only](p_c3only_original_r1/RESULT.json). Receipts contain archive/source labels, sequence IDs, content hashes, official moments, callback time and peak RSS; accompanying progress logs are operational evidence. Ignored predictions remain in each directory.
+
+These are local Intel serving/resource checks. [Independent review](../INDEPENDENT_REVIEW_R1.md) reproduced the pair's scores and actual group hashes. The original profile checked data size and group hashes without recomputing whole-file SHA; the full successor fixes that limitation. [Preserved profile source](../score_archive_profile_r1.py) reproduces the original digest. [Runtime interpretation](../EPYC_RUNTIME_REFLECTION_R1.md) separates measurements from host inference.

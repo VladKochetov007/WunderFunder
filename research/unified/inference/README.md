@@ -2,6 +2,12 @@
 
 This domain covers competition CPU execution, native kernels, quantization, packaging, and measured runtime.
 
+- [Same-weight paired runtime harness](../../../scripts/benchmark_team_runtimes.py), described in the [team comparison](../../campaign_2026-10-13/team_models_r1/README.md), uses the frozen exact callback loader, repeated A-B-B-A, source/ELF/ISA receipts and reset checks. Four unit checks pass; no controlled engine timing or target-host winner is claimed from implementation alone. Python3.11 is required for imported C++.
+
+- [EPYC9224 runtime reflection](../../campaign_2026-10-13/team_models_r1/EPYC_RUNTIME_REFLECTION_R1.md) reconciles portal durations, library/member hashes, Intel profiles and AMD Zen4 documentation. Q8 VNNI remains the baseline; no EPYC engine winner is established. It prioritizes paired same-weight timing, exact reuse and ensemble distillation; quantization and size limits remain explicit. H-TEAM-NATIVE-20261013 / E-TEAM-ARCHIVE-REPLAY-20261013-R1.
+
+- [Joint team inference comparison](../../campaign_2026-10-13/team_models_r1/README.md): xteam_h4 already uses byte-identical own native Q8 binaries; pair_ftt2 uses teammate C++ dynamic-int8. Eight short original/conversion profiles passed reset replay, and full diagnostic replays are admitted. Conversion is a numerical treatment until exact prediction/quality comparison; no speedup or new winner is claimed from the short panel.
+
 ## Read these sources
 
 - [Inference and quantization archive](../archive/2026-10-12/pages/06-inference-and-quantization.md)

@@ -1,5 +1,9 @@
 # Validation and public transfer
 
+- [Individual team prediction bank](../../campaign_2026-10-13/team_models_r1/member_bank/README.md) deduplicates fourteen predictive weights and fixes nine mixtures before full FP32 export. Source/hash/sequence-aware grading will compare individual and complete endpoints diagnostically; fitted/unknown overlap and GPU/native numerical differences remain explicit. Actual profile and independent implementation review support admission, not candidate selection.
+
+- [Official-team diagnostic comparison](../../campaign_2026-10-13/team_models_r1/README.md) binds seven original ZIPs and the same-weight Rust conversion to the pooled official metric over1,873 complete supplied-valid sequences. [Live marimo artifact](../../campaign_2026-10-13/team_models_r1/team_model_comparison.py) reads saved evidence; final-fit overlap prevents clean-CV claims. Source-qualified teammate fold counterparts remain missing. E-TEAM-ARCHIVE-REPLAY-20261013-R1.
+
 This domain distinguishes clean held-out evidence, exposed validation, all-data fitting, and public leaderboard observations.
 
 ## Interactive results dashboard

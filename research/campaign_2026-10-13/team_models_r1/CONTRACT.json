@@ -1,0 +1,17 @@
+{
+  "created_utc": "2026-10-13T11:25:52Z",
+  "owner": "root",
+  "authority": "User approved complete team comparison before new ZIPs; ADR0035 permits team code and weights",
+  "endpoints": ["pair_ftt2", "xteam_h4", "e6a", "p_c3zero", "p_c3only", "C", "E"],
+  "metric": "global_wp_clip2_v1",
+  "mask": "need_prediction AND is_scored; original clipped-label magnitude weights",
+  "data": "datasets/valid.parquet; 1873 complete sequences of 20000 rows",
+  "comparison_scope": "Original final archives, individual members, native conversion and fixed conditional mixtures. Final archive scores on supplied valid are diagnostic fitted/unknown-overlap scores, never held-out quality rankings.",
+  "profile": "First two complete sequences, reset replay; then complete validation after actual measured admission",
+  "full_replay": "Exact original package callbacks; FP32 disk-backed predictions; source-qualified row order and per-sequence official moments",
+  "cv_admission": "Only source-qualified checkpoints/predictions with clean fitting/teacher/initializer ancestry on common evaluation groups; missing artifacts leave CV explicitly unresolved",
+  "blend_selection": "Shared nonnegative coefficients from calibration folds only; official final-mixture clipping; other folds evaluate without retuning. Diagnostic mixtures do not select submissions.",
+  "resource_limits": {"aggregate_cpu": 5, "committed_memory_target": 17000000000, "memory_high": 18000000000, "memory_max": 20000000000, "swap": 0, "initial_profile_cpu": 1, "initial_profile_memory": 900000000, "max_parallel_replay_workers": 4},
+  "training": "none in archive comparison; no new paid resources",
+  "submission_action": "none until comparison completed and supported endpoints reviewed; human upload"
+}

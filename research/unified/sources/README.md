@@ -4,6 +4,12 @@ This domain holds external writeups and source material that informed research. 
 
 ## Literature searches and source provenance
 
+- [Audited teammate methods and evidence](../../campaign_2026-10-13/team_models_r1/TEAM_METHODS_AND_EVIDENCE_R1.md) pins October6 branch833aaf54 and separates family distillation, unnormalized0.8125 teacher scale, head-FT and causal regime probes. Historical reports support bounded recipe follow-ups, but current final-model CV arrays/FTT ancestry are missing; supplied probe weights make inference replayable despite source-branch payload gaps.
+
+- [AMD EPYC9224 architecture sources and runtime application](../../campaign_2026-10-13/team_models_r1/EPYC_RUNTIME_REFLECTION_R1.md#source-records) records primary AMD product and Zen4 white-paper references checked October13,2026. They establish VNNI support, 256-bit internal paths and cache structure; they do not establish our hosted runtime or a kernel winner. Related independent ELF audit and H-TEAM-NATIVE-20261013 are linked there.
+
+- [Official team ZIP/source comparison](../../campaign_2026-10-13/team_models_r1/README.md) — October13 user-authorized reuse of teammate code and weights under ADR0035. Exact inventories cover pair_ftt2, xteam_h4, e6a and class probes, with source/weight deduplication and independent ancestry review. The later FTT source/CV remains unlocated; archive labels alone do not establish held-out evidence. Original weight-bearing files stay in ignored physical storage.
+
 - [Hugging Face archive source/API references](../models/huggingface/README.md) — links the official HF upload and CLI documentation used to implement authenticated private-model transfers and checkpoint lookup; operational reference rather than model-quality evidence.
 - [October 12 arXiv search receipt](../../campaign_2026-10-12/strategy_review_r1/LITERATURE_SEARCH.json) — records queries, primary paper links and the seeded passage selection behind the [public and future private strategy](../reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md). Sources motivate causal representations, memory, distillation and robustness experiments; none establishes a measured improvement in this competition.
 

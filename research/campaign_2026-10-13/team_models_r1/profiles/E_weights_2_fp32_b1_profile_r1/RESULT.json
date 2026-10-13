@@ -1,0 +1,126 @@
+{
+  "status": "complete",
+  "candidate": "E",
+  "member": "weights_2.npz",
+  "member_source": {
+    "weights": "weights_2.npz",
+    "coef": 0.375,
+    "source": "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1|z4_seed99_student_hft_alldata_v2@ep0"
+  },
+  "command": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/export_team_member_fp32.py",
+    "--inventory",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/team_models_r1/INVENTORY.json",
+    "--candidate",
+    "E",
+    "--member",
+    "weights_2.npz",
+    "--data",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+    "--first-group",
+    "0",
+    "--group-count",
+    "2",
+    "--batch-sequences",
+    "1",
+    "--chunk-rows",
+    "500",
+    "--out",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/team_models_r1/profiles/E_weights_2_fp32_b1_profile_r1"
+  ],
+  "created_utc": "2026-10-13T12:05:40.910665+00:00",
+  "inventory_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/team_models_r1/INVENTORY.json",
+  "inventory_sha256": "997b9eaef64da0d8f4d087ab9fcb7acbefbfb5382d394d0b218a36e3d7497a15",
+  "archive_sha256": "2aed2137c347344146e3481c83388d64bd5060b1c13bb66554b0bf9cc0027024",
+  "archive_hash_verified_by_this_run": true,
+  "archive_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/E.zip",
+  "weight_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/E/weights_2.npz",
+  "weight_sha256": "8d1c4a32f58f322427093b564a4b657475e43eb393bc384336abba4fcfad043e",
+  "data_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+  "data_bytes": 5615509128,
+  "data_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "data_hash_verified_by_this_run": true,
+  "exporter_sha256": "bba88d31dea6c1c3a7d035ebc3cfcb354ca23f66c665a8926528644d888d024f",
+  "source_dependencies": {
+    "exporter": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/export_team_member_fp32.py",
+      "sha256": "bba88d31dea6c1c3a7d035ebc3cfcb354ca23f66c665a8926528644d888d024f"
+    },
+    "exporter_helper": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/team_member_export_lib.py",
+      "sha256": "d7d27a1debe2ec5354c60d0adf7a119b0d6321c334b55a74f7222de4b3252775"
+    },
+    "wnn.data": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/data.py",
+      "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+    },
+    "wnn.features": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/features.py",
+      "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee"
+    },
+    "wnn.nn": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/nn.py",
+      "sha256": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181"
+    }
+  },
+  "environment": {
+    "python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]",
+    "numpy": "2.2.6",
+    "pyarrow": "19.0.1",
+    "torch": "2.14.0+cu130"
+  },
+  "row_groups": [
+    0,
+    1
+  ],
+  "group_results": [
+    {
+      "row_group": 0,
+      "seq_ix": 256678,
+      "feature_sha256": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e",
+      "prediction_sha256": "8eaf164ccdd4a93a45a44a734eda3cc71f070cab4626e1073129cfd9a43e7e0e",
+      "warmup_zeroed": 99,
+      "elapsed_seconds": 0.9955023619986605
+    },
+    {
+      "row_group": 1,
+      "seq_ix": 751005,
+      "feature_sha256": "da1552d094eee4cb347ee88c14613885802e54c3f7052e758834b36f7ad03a5f",
+      "prediction_sha256": "1a3a3b17fea1909137a814ac85e71f0c3f4ecadf480b05a2af6352bf4ed334f4",
+      "warmup_zeroed": 99,
+      "elapsed_seconds": 0.4270136740015005
+    }
+  ],
+  "architecture": {
+    "input_features": 211,
+    "hidden": 256,
+    "layers": 2,
+    "head_width": 512,
+    "outputs": 2
+  },
+  "normalization": "member NPZ mean/std over raw112 + causal event99",
+  "feature_path": "wnn.features.event_features_torch; row zero resets event state per sequence",
+  "model_path": "wnn.nn.RNNModel with archived linear-head width; strict FP32 state load",
+  "precision": "FP32 CUDA; TF32 disabled; no autocast; stateful recurrent chunks; causal event features computed on each complete sequence",
+  "batch_sequences": 1,
+  "chunk_rows": 500,
+  "chunk_count_per_sequence": 40,
+  "recurrent_chunking_note": "GRU hidden state is carried across adjacent chunks; CUDA kernels may still produce small FP32 rounding differences from one unchunked full-sequence forward.",
+  "native_difference": "Per-member unweighted PyTorch FP32 output; original callback uses precision=q8vnni (8-bit Q8VNNI), fast_activations=True with fixed ensemble coefficients. FP32 weights/activations, the omitted ensemble weighting, and GPU PyTorch GRU/GELU arithmetic mean outputs are not expected to be numerically identical to the quantized native callback. No FP32-versus-native numerical delta is measured by this exporter; this is a diagnostic endpoint, not native callback parity.",
+  "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/team_models_r1/profiles/E_weights_2_fp32_b1_profile_r1/predictions.npy",
+  "prediction_shape": [
+    2,
+    20000,
+    2
+  ],
+  "prediction_dtype": "float32",
+  "prediction_sha256": "d4002896afc6a0fb64a770e7259fb045ba61444bf3053bb1c23c61925f70e972",
+  "cuda_device": "NVIDIA GeForce RTX 3060 Laptop GPU",
+  "torch_version": "2.14.0+cu130",
+  "cuda_version": "13.0",
+  "peak_cuda_allocated_bytes": 77322240,
+  "peak_cuda_reserved_bytes": 81788928,
+  "max_rss_kib": 1358500,
+  "wall_seconds": 1.4273434930000803,
+  "scope": "diagnostic FP32 member predictions on supplied validation; no grade or selection claim"
+}

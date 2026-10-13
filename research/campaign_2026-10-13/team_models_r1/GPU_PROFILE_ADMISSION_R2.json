@@ -1,0 +1,71 @@
+{
+  "created_utc": "2026-10-13T12:08:28.515031+00:00",
+  "scope": "B16 actual-profile,16 complete sequences,500-row chunks,merged512 head; no full export yet",
+  "review": "Independent team_score_critic static review passes; dependency hashes added by2916a834; no nativeparityclaim",
+  "source_files": {
+    "scripts/export_team_member_fp32.py": "f17ef4b906143ff0be4197a1f700996b606c564dfce3a565b1a0adde78f9f66a",
+    "scripts/team_member_export_lib.py": "d7d27a1debe2ec5354c60d0adf7a119b0d6321c334b55a74f7222de4b3252775",
+    "src/wnn/nn.py": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+  },
+  "source_commit": "202c659a plus CLI batch choices broadened; source SHA below",
+  "current_parent": 8481120256,
+  "active_cgroup_reservations": [
+    {
+      "unit": "wnn-team-xteam-h4-original-r1.scope",
+      "current": 1042980864,
+      "maximum": 1099997184
+    },
+    {
+      "unit": "wnn-slice-filecache-guard.service",
+      "current": 2732032,
+      "maximum": 99999744
+    },
+    {
+      "unit": "run-p1532007-i1549068.scope",
+      "current": 13012992,
+      "maximum": 179998720
+    },
+    {
+      "unit": "run-p1597886-i1630210.scope",
+      "current": 6795264,
+      "maximum": 199999488
+    },
+    {
+      "unit": "wnn-team-e-original-r1.scope",
+      "current": 449847296,
+      "maximum": 1099997184
+    },
+    {
+      "unit": "wnn-team-pair-ftt2-original-r1.scope",
+      "current": 597499904,
+      "maximum": 1099997184
+    },
+    {
+      "unit": "wnn-codex-research-watch.service",
+      "current": 37007360,
+      "maximum": 134217728
+    },
+    {
+      "unit": "wnn-team-c-original-r1.scope",
+      "current": 815661056,
+      "maximum": 1099997184
+    },
+    {
+      "unit": "run-p1520196-i1540675.scope",
+      "current": 175464448,
+      "maximum": 999997440
+    }
+  ],
+  "unused_reservations": 2873200640,
+  "new_reservation": 3300000000,
+  "operating_margin": 1000000000,
+  "bound": 15654320896,
+  "limit": 17000000000,
+  "cpu_reallocation": "Four exact CPU replays capped85% each; marimo10%,controller5%, existing monitoring10%; newGPUworker1core. Parentremains500%. Scientificrecipesandrunningcodeunchanged; timingsareconcurrentthroughputdiagnostics.",
+  "working_set_basis": "Actual one/two sequences only: host raw35.8MB atB2, featureGPU<110MB plus500-rowchunks, oneH256twoGRUmergedhead~fewMB; 3GBcontainsTorch/CUDAcontext,decode and margin. Profilemeasuresactualproducerbeforefulladmission.",
+  "timeout_seconds": 300,
+  "status": "admitted",
+  "profile_basis": "B1 passed: cgroup peak2702000128B,RSS1358500KiB,CUDAallocated77322240B,observed338690048B; B16 adds bounded~270MB transient host raw batches and~1.3GB estimated GPU arrays/workspace.3.3GBprofile reservation includes host margin."
+}
