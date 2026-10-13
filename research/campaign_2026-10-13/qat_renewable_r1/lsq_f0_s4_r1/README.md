@@ -1,6 +1,6 @@
 ---
 kind: experiment
-status: proposed
+status: running
 created_utc: 2026-10-13T18:31:46.281621+00:00
 hypothesis_ids: [H-QAT-LSQ-20261013]
 experiment_ids: [E-QAT-LSQ-10PCT-F0S4-20261013-R1]
@@ -21,3 +21,5 @@ The seed4 parent/cache identities come from the [Kaggle seed4 ancestry packet](.
 [Profile acceptance and fit allocation](PROFILE_ACCEPTANCE_AND_FIT_ALLOCATION_R1.json) records both 100-update finite passes (4.10/4.04GB host, 2.17/2.18GB observed VRAM) and admits the frozen matched pair through the [guarded fit sequence](FIT_SEQUENCE_R1.json). The first learned-profile admission was refused before startup at17.024GB projected memory; the [cache handoff](CACHE_HANDOFF_AFTER_FIXED_PROFILE_R1.json) and [R2 recovery](LEARNED_PROFILE_RECOVERY_R2.json) preserved the same source/command/reservation and restored headroom. No profile model is selected as a result.
 
 Runtime profile records: [fixed success](../../../campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-lsq-f0-s4-profile-fixed-r1.json), [learned R1 pre-start refusal](../../../campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-lsq-f0-s4-profile-learned-r1.json), and [learned R2 success](../../../campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-lsq-f0-s4-profile-learned-r2.json); [fixed log](../../../campaign_2026-10-06/bandit_continuation/runtime/logs/qat-lsq-f0-s4-profile-fixed-r1.log) and [learned log](../../../campaign_2026-10-06/bandit_continuation/runtime/logs/qat-lsq-f0-s4-profile-learned-r2.log) retain complete finite-update evidence.
+
+Both fits finished successfully with 1,440 updates and 72 batches, zero skipped updates, and identical sampling/normalization between arms. [Sequence receipt](FIT_SEQUENCE_RECEIPT_R1.json) records terminal completion. The [fixed native attempt](../../../campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-lsq-f0-s4-native-fixed-r1.json) and [learned native attempt](../../../campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-lsq-f0-s4-native-learned-r1.json) now replay full F0 from exact epoch-0 archives. Independent grading is pending; no seed4 quality delta is claimed.

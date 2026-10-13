@@ -1,0 +1,63 @@
+{
+  "created_utc": "2026-10-13T19:01:58.876815+00:00",
+  "owner": "root",
+  "experiment_id": "E-QAT-A8-BACKEND-20261013-R1",
+  "decision": "Admit the planned four-update actual-data B16/C1000 paired engineering profile after cloud support scope closes and live committed-memory check passes. No fit admission.",
+  "source_revision": "a0e3a4f699cef424027ee9a2360bbe682e313aea",
+  "source_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/activation_source_r2",
+  "source_sha256": {
+    "scripts/train_rnn.py": "cfdbc0a6206c86abc03322ce19d5a639bb7585fe2452cb58671cdeaa0f733ecb",
+    "scripts/profile_activation_qat.py": "5a85d0401d7051c4db611318b07096d37fc13345554b29c48ca85cb779c309e9",
+    "src/wnn/activation_qat.py": "db9bdff3e6bdc132fb039f051e61f74208e10ba698c3dd2969e48b110eb418b6"
+  },
+  "recipe": "ACTIVATION_AWARE_ACTUAL_PROFILE_PLAN_R1.json; same actual CP5/cache/objective and two repeated first-prefix updates per mode, repaired compilation boundary only",
+  "engineering_basis": {
+    "small_probe": "ACTIVATION_SYNTHETIC_GPU_R2.json",
+    "small_probe_peak_host_bytes": 2026123264,
+    "small_probe_peak_observed_vram_bytes": 380633088,
+    "small_probe_elapsed_seconds": 35.29628530899936,
+    "real_data_fused_profile_peak_host_bytes": 4952346624,
+    "resource_estimate": "8GB host reserve exceeds the sum of measured tiny-compiler peak2.027GB and actual-data reader/trainer peak4.953GB by1.02GB; summing retains common framework memory twice. Scan compiler graph uses a loop and parameter gradients accumulate in carry, not T-sized parameter-gradient stacks. Retained activation/intermediate storage still requires actual measurement.",
+    "reviews": [
+      "research/unified/reviews/QAT_ACTIVATION_AWARE_TRAINER_PROFILE_REVIEW_R1.md",
+      "research/unified/inference/activation_compile_repair_review_r1/REVIEW_R1.md"
+    ],
+    "tests": "ACTIVATION_REPAIR_CPU_NATIVE_RECEIPT_R1.json"
+  },
+  "resource_bound": {
+    "cpus": 1,
+    "host_reserve_bytes": 8000000000,
+    "aggregate_committed_target_bytes": 17000000000,
+    "timeout_seconds": 900,
+    "collection_seconds": 120,
+    "single_local_gpu_worker": true,
+    "operational_gpu_headroom_bytes": 1000000000
+  },
+  "scope": "Four engineering updates only, same16 fitting sequences and first1000 causal rows repeated; no full-causal, checkpoint-reload, serving or quality claim. A separate carried-state100-update profile remains necessary before any fit.",
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "900s",
+    "env",
+    "TORCHINDUCTOR_COMPILE_THREADS=1",
+    "TORCHINDUCTOR_CACHE_DIR=/home/vlad/.cache/torch/inductor-qat-activation-aware-r1",
+    "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/activation_source_r2/src",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/activation_source_r2/scripts/profile_activation_qat.py",
+    "--profile-kind",
+    "actual_recipe",
+    "--project-root",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "--worktree-root",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/activation_source_r2",
+    "--mode",
+    "both",
+    "--device",
+    "cuda",
+    "--receipt",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_ACTUAL_GPU_R2.json"
+  ],
+  "recovery": "Preserve partial receipt/log on timeout or backend failure. Diagnose before any new identified attempt; no automatic retry or increase of limits."
+}

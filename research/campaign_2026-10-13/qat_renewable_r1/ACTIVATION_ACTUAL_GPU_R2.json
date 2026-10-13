@@ -1,0 +1,854 @@
+{
+  "activation_scope": "post-encoder/layer-input and previous-hidden recurrent matvec A8; fp32 state",
+  "backend_status": "backend_failure",
+  "excluded": [
+    "head activation A8 blocks",
+    "raw projection and native I16 effects"
+  ],
+  "experiment_id": "E-QAT-A8-BACKEND-20261013-R1",
+  "finished_utc": "2026-10-13T19:08:55.658783+00:00",
+  "inductor_cache_dir": "/home/vlad/.cache/torch/inductor-qat-activation-aware-r1",
+  "inductor_cache_filesystem": "btrfs",
+  "modes": {
+    "a8": {
+      "activation_backend_evidence": {
+        "backend": "scan_a8",
+        "compiler_stats": {
+          "calls_captured": 81,
+          "unique_graphs": 1
+        },
+        "cuda_peak_allocated_bytes": 3255796224,
+        "cuda_peak_reserved_bytes": 4131389440,
+        "finite_parameters_after_updates": true,
+        "first_backward_compile_seconds": 2.951367650006432,
+        "first_batch_end_to_end_seconds": 12.607286448997911,
+        "first_forward_compile_seconds": 9.437056371985818,
+        "fullgraph_compile": true,
+        "optimizer_updates": 2,
+        "process_current_rss_bytes": 3051823104,
+        "process_peak_rss_bytes": 3050758144,
+        "represented_weight_fingerprints": [
+          {
+            "gru.weight_hh_l0": "0668e9ee908afb8ed2eae902fdbb84e78c7ee5894497108fd35f5e3625daba59",
+            "gru.weight_hh_l1": "ba446ce72b2519414ca905f98b29cb3254a39bbd6c7f9de67bece5a2fe80a999",
+            "gru.weight_ih_l0": "7f449d05c16697fee9e3cb40514fce014f1336e307861615a6632ef2031b772e",
+            "gru.weight_ih_l1": "04bac073b544605414087b00014d6f1ad0a3dc4f6db1bb688364e515eac59a98",
+            "head.0.weight": "f7ed73fa9073cf33a4f552beaa1477801816926dc136a249134acb1d5368738d"
+          },
+          {
+            "gru.weight_hh_l0": "b454b403c2b3f7b4748466ea97ecd14cf32f63cad81399b6e18cd9f5b40d75fb",
+            "gru.weight_hh_l1": "63c56622d799da5543a5a4fc31e82c445bc6a8800f1941cc2a38376aeeedbe90",
+            "gru.weight_ih_l0": "4c86489b9600288cbc789fadf35cf78d25abcf1ae94ab11cc68c51516f35fd08",
+            "gru.weight_ih_l1": "62f94ec2f0eac5d713120992c59e9c9c7770d33109854940d1754867833416e0",
+            "head.0.weight": "60c4d570fb85a46b347dda4cb068b75f5e4eabced526c4e8e43423e3e34a4972"
+          }
+        ],
+        "represented_weights_changed_between_first_two_forwards": true,
+        "scope": "compiled recurrence; no quality evaluation",
+        "weight_qat_update_evidence": [
+          {
+            "cache_identity_valid_before_update": true,
+            "latent_parameter_versions_after": {
+              "gru.weight_hh_l0": 2,
+              "gru.weight_hh_l1": 2,
+              "gru.weight_ih_l0": 2,
+              "gru.weight_ih_l1": 2,
+              "head.0.weight": 2
+            },
+            "latent_parameter_versions_before": {
+              "gru.weight_hh_l0": 2,
+              "gru.weight_hh_l1": 2,
+              "gru.weight_ih_l0": 2,
+              "gru.weight_ih_l1": 2,
+              "head.0.weight": 2
+            },
+            "latent_versions_advanced": false,
+            "weight_cache_cleared_after_optimizer_step": true
+          },
+          {
+            "cache_identity_valid_before_update": true,
+            "latent_parameter_versions_after": {
+              "gru.weight_hh_l0": 2,
+              "gru.weight_hh_l1": 2,
+              "gru.weight_ih_l0": 2,
+              "gru.weight_ih_l1": 2,
+              "head.0.weight": 2
+            },
+            "latent_parameter_versions_before": {
+              "gru.weight_hh_l0": 2,
+              "gru.weight_hh_l1": 2,
+              "gru.weight_ih_l0": 2,
+              "gru.weight_ih_l1": 2,
+              "head.0.weight": 2
+            },
+            "latent_versions_advanced": false,
+            "weight_cache_cleared_after_optimizer_step": true
+          }
+        ]
+      },
+      "activation_mode": "a8",
+      "backend_status": "backend_failure",
+      "batch_provenance": {
+        "batch_size": 16,
+        "first_batch_index": 0,
+        "fit_subset_members_sha256": "254723b332b28eafa1e8b22dc283e8f886dbc6fa954894fdf46b769e5ebb1c30",
+        "forward_rows": [
+          0,
+          1000
+        ],
+        "initial_state": "zero for each update; first rows from sequence origin",
+        "same_batch_reused_for_warmup_and_measured_update": true,
+        "sample_order_identity": {
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9",
+            "dtype": "torch.uint8",
+            "shape": [
+              5056
+            ]
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_class": "RandomSampler",
+          "sampler_generator": "global CPU RNG",
+          "sampler_num_samples": 1152,
+          "sampler_replacement": false,
+          "sampler_rng": {
+            "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9",
+            "dtype": "torch.uint8",
+            "shape": [
+              5056
+            ]
+          }
+        }
+      },
+      "failure_message": "trainer failed or omitted valid bounded update/profile/resource evidence; inspect the recorded mode log",
+      "failure_stage": "trainer_profile_a8",
+      "finished_utc": "2026-10-13T19:08:41.800609+00:00",
+      "log_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_ACTUAL_GPU_R2_a8.log",
+      "profile": {
+        "backward": 117.84,
+        "forward": 212.04,
+        "gpu_total": 355.04,
+        "h2d": 13.4,
+        "inputs": 9.22,
+        "labels": 1.26,
+        "loader_wait": 0.0,
+        "loss": 0.9,
+        "optimizer": 0.25,
+        "seq_per_s": NaN,
+        "step_wall": NaN,
+        "syncs_per_step": 18.0,
+        "weights": 0.14
+      },
+      "return_code": 0,
+      "run_provenance": {
+        "activation_backend": {
+          "activation_scope": "post-encoder/per-layer input-to-hidden and previous-hidden recurrent matvec vectors",
+          "excluded": [
+            "raw input projection/I16 export",
+            "head hidden/projection A8 blocks"
+          ],
+          "implementation": "compiled torch higher-order scan",
+          "kind": "scan_a8",
+          "state": "fp32 recurrent state",
+          "weight_qat": "recurrent_w4"
+        },
+        "distillation_cache": {
+          "coefficient_sum": 0.30000000000000004,
+          "epoch_convention": {
+            "student_checkpoint_epoch": 5,
+            "student_checkpoint_policy": "fixed",
+            "student_epochs": 6
+          },
+          "family_order": [
+            "strong"
+          ],
+          "homogeneous_family": "strong",
+          "main_target_scale": 1.0,
+          "main_target_scale_applied_before_training_clip": true,
+          "metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+          "root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r2",
+          "source_coefficients": [
+            {
+              "coefficient": 0.1,
+              "epoch": 2,
+              "family": "strong",
+              "run": "clean_t3_f0_muonall_h384_e3_s3_r5"
+            },
+            {
+              "coefficient": 0.1,
+              "epoch": 2,
+              "family": "strong",
+              "run": "clean_t3_f0_muonall_h384_e3_s4_r5"
+            },
+            {
+              "coefficient": 0.1,
+              "epoch": 2,
+              "family": "strong",
+              "run": "clean_t3_f0_muonall_h384_e3_s5_r5"
+            }
+          ],
+          "variant": "homogeneous",
+          "verified_files": {
+            "main_homogeneous_train": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+            "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+          }
+        },
+        "fit_membership_identity": {
+          "dataset_length": 1152,
+          "train": {
+            "count": 1048,
+            "ordered_int64_le_sha256": "5b38ba68bbc8c3dc20f964548fb6aabccb945273ea8f4bca269db970912af643"
+          },
+          "valid": {
+            "count": 104,
+            "ordered_int64_le_sha256": "3a0825e095d385de29a5aebfbf87b134930947a84ce7983b0edc4f361155eeee"
+          },
+          "valid_repeat": 1
+        },
+        "fit_subset_manifest_sha256": "1b077e7f599508c88807b120301174db8a5c3421f9e7ba7f10cf11c0104b0e3e",
+        "fit_subset_members_sha256": "254723b332b28eafa1e8b22dc283e8f886dbc6fa954894fdf46b769e5ebb1c30",
+        "initial_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+        "normalization_identity": {
+          "mean": {
+            "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+            "dtype": "torch.float32",
+            "shape": [
+              211
+            ]
+          },
+          "std": {
+            "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+            "dtype": "torch.float32",
+            "shape": [
+              211
+            ]
+          }
+        },
+        "propensity_cache": {
+          "train": {
+            "bytes": 848560128,
+            "metadata": {
+              "model": "c20260929_prop_f0",
+              "model_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+              "n_filled": 10606,
+              "rows": 10607,
+              "seconds": 86.9,
+              "split": "train"
+            },
+            "metadata_sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9",
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_train.npy"
+          },
+          "valid": {
+            "bytes": 149840128,
+            "metadata": {
+              "model": "c20260929_prop_f0",
+              "model_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+              "n_filled": 1873,
+              "rows": 1873,
+              "seconds": 15.0,
+              "split": "valid"
+            },
+            "metadata_sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a",
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_valid.npy"
+          }
+        },
+        "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "source_sha256": {
+          "activation_backend": "db9bdff3e6bdc132fb039f051e61f74208e10ba698c3dd2969e48b110eb418b6",
+          "gru_model": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+          "trainer": "cfdbc0a6206c86abc03322ce19d5a639bb7585fe2452cb58671cdeaa0f733ecb",
+          "weight_qat": "65d770f1ee5bc4cb5b88d7e1b42d63eb77fae4704010f0b263966e0de58578e2"
+        },
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "weight_qat": {
+          "averaging": "latent float parameters, quantized for each effective forward/export",
+          "gradient": "identity STE; scales detached; no scale/round/clamp derivative",
+          "head_split": "hidden_then_projection_q8",
+          "preset": "recurrent_w4",
+          "q4_codes": [
+            -7,
+            7
+          ],
+          "q4_invalid_code": -8,
+          "scheme": "symmetric_per_row_signed_q4_q8_nearest_even_v2",
+          "training_state": "raw latent float weights; derived quantization cache not serialized",
+          "version": 2
+        }
+      },
+      "started_utc": "2026-10-13T19:08:22.587603+00:00",
+      "trainer_recipe": {
+        "argv": [
+          "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+          "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/activation_source_r2/scripts/train_rnn.py",
+          "--name",
+          "qat_activation_profile_r1_a8",
+          "--device",
+          "cuda",
+          "--seed",
+          "3",
+          "--arch",
+          "gru",
+          "--cell",
+          "gru",
+          "--hidden",
+          "256",
+          "--layers",
+          "2",
+          "--dropout",
+          "0",
+          "--readout-activation",
+          "gelu",
+          "--init",
+          "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5",
+          "--train-source",
+          "train+valid",
+          "--train-seqs",
+          "10607",
+          "--valid-seqs",
+          "600",
+          "--valid-fold",
+          "0",
+          "--n-valid-folds",
+          "4",
+          "--valid-train-fraction",
+          "1",
+          "--valid-repeat",
+          "1",
+          "--split-manifest",
+          "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+          "--batch",
+          "16",
+          "--chunk",
+          "1000",
+          "--batch-order",
+          "random",
+          "--loss",
+          "wmse",
+          "--loss-norm",
+          "chunk",
+          "--optim",
+          "adamw",
+          "--lr",
+          "0.0001",
+          "--wd",
+          "0.01",
+          "--sched",
+          "onecycle",
+          "--epochs",
+          "1",
+          "--checkpoint-policy",
+          "fixed",
+          "--checkpoint-epoch",
+          "0",
+          "--no-eval-during-fit",
+          "--precision",
+          "fp32",
+          "--fused-adam",
+          "--sync-free",
+          "--clip",
+          "1",
+          "--propensity",
+          "c20260929_prop_f0",
+          "--prop-power",
+          "2",
+          "--prop-eps",
+          "0.03",
+          "--prop-cache",
+          "--valid-true-mask",
+          "0.03",
+          "--distill-cache-root",
+          "cache/clean_t3_f0_h390_t3r5_a9_r2",
+          "--distill-cache-variant",
+          "homogeneous",
+          "--distill-cache-scale",
+          "1",
+          "--distill-alpha",
+          "0.9",
+          "--aux-struct",
+          "0.3",
+          "--aux-next",
+          "0.3",
+          "--ema-teacher",
+          "0",
+          "--swa-frac",
+          "0",
+          "--fit-subset-experiment-id",
+          "E-QAT-DEPLOYMENT-20261013-R1",
+          "--fit-subset-manifest",
+          "research/campaign_2026-10-13/qat_renewable_r1/delivery_r1/subsets/f0_s3/fit_components_10pct.json",
+          "--qat",
+          "recurrent_w4",
+          "--activation-backend",
+          "scan_a8",
+          "--activation-profile-first-chunk",
+          "--profile-warmup",
+          "1",
+          "--profile-steps",
+          "1",
+          "--grad-stats"
+        ],
+        "condition": "uniform_w4",
+        "forward_scope": "first 1000 rows from each actual fitting sequence, from sequence origin",
+        "objective": "existing train_rnn WMSE distillation, structural and next-change losses",
+        "optimizer": "fresh AdamW from frozen recipe; two bounded first-chunk updates only",
+        "parent_checkpoint": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5",
+        "parent_checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+        "parent_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+        "profile_loader_deviation": "only --fast and --pin-memory are removed for same-batch host reuse; explicit --fused-adam, --sync-free and --prop-cache flags remain",
+        "recipe_sha256": "c08c6a7c46d1d117521153b0cd233410695cf738d7784d32d26de80f7a92e585",
+        "source_name": "qat_deploy_f0_s3_10pct_uniform_w4_r1",
+        "subset": "10pct",
+        "weight_qat": "recurrent_w4"
+      },
+      "update_evidence": {
+        "amp_skipped_updates": 0,
+        "counts_consistent": true,
+        "grad_scaler_enabled": false,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_finite": true,
+        "gradient_stats_nonfinite_steps": 0,
+        "gradient_stats_steps": 2,
+        "loss_checks": 2,
+        "loss_finite": true,
+        "optimizer_attempts": 2,
+        "optimizer_completed_updates": 2,
+        "valid_for_throughput": true
+      },
+      "wall_seconds": 19.21264172300289
+    },
+    "no_a8": {
+      "activation_backend_evidence": {
+        "backend": "scan_fp32",
+        "compiler_stats": {
+          "calls_captured": 29,
+          "unique_graphs": 1
+        },
+        "cuda_peak_allocated_bytes": 3206251008,
+        "cuda_peak_reserved_bytes": 4081057792,
+        "finite_parameters_after_updates": true,
+        "first_backward_compile_seconds": 1.397130332989036,
+        "first_batch_end_to_end_seconds": 7.462733736989321,
+        "first_forward_compile_seconds": 5.854809903001296,
+        "fullgraph_compile": true,
+        "optimizer_updates": 2,
+        "process_current_rss_bytes": 3012984832,
+        "process_peak_rss_bytes": 3012218880,
+        "represented_weight_fingerprints": [
+          {
+            "gru.weight_hh_l0": "0668e9ee908afb8ed2eae902fdbb84e78c7ee5894497108fd35f5e3625daba59",
+            "gru.weight_hh_l1": "ba446ce72b2519414ca905f98b29cb3254a39bbd6c7f9de67bece5a2fe80a999",
+            "gru.weight_ih_l0": "7f449d05c16697fee9e3cb40514fce014f1336e307861615a6632ef2031b772e",
+            "gru.weight_ih_l1": "04bac073b544605414087b00014d6f1ad0a3dc4f6db1bb688364e515eac59a98",
+            "head.0.weight": "f7ed73fa9073cf33a4f552beaa1477801816926dc136a249134acb1d5368738d"
+          },
+          {
+            "gru.weight_hh_l0": "4e330108ec4da58797c77303fbdb19932ddcbc6220dc4295d8025cdaadec718a",
+            "gru.weight_hh_l1": "732f85422788e6d71e797a8a4e1089b086f4b1f8c0b953e67d3b24b9acb1cfae",
+            "gru.weight_ih_l0": "0e382bb67e5c5b5f76af2d5576f17d8bac2200e1fb76713b2bf849e9003efa2f",
+            "gru.weight_ih_l1": "1755534701f576f070dfec7313ded9e53205190e6ba5ed76db9806d5866c24aa",
+            "head.0.weight": "614a5036a5261b46f9c3e5fd58111b43a7f73a953b90a3135edb61e01ca4c305"
+          }
+        ],
+        "represented_weights_changed_between_first_two_forwards": true,
+        "scope": "compiled recurrence; no quality evaluation",
+        "weight_qat_update_evidence": [
+          {
+            "cache_identity_valid_before_update": true,
+            "latent_parameter_versions_after": {
+              "gru.weight_hh_l0": 2,
+              "gru.weight_hh_l1": 2,
+              "gru.weight_ih_l0": 2,
+              "gru.weight_ih_l1": 2,
+              "head.0.weight": 2
+            },
+            "latent_parameter_versions_before": {
+              "gru.weight_hh_l0": 2,
+              "gru.weight_hh_l1": 2,
+              "gru.weight_ih_l0": 2,
+              "gru.weight_ih_l1": 2,
+              "head.0.weight": 2
+            },
+            "latent_versions_advanced": false,
+            "weight_cache_cleared_after_optimizer_step": true
+          },
+          {
+            "cache_identity_valid_before_update": true,
+            "latent_parameter_versions_after": {
+              "gru.weight_hh_l0": 2,
+              "gru.weight_hh_l1": 2,
+              "gru.weight_ih_l0": 2,
+              "gru.weight_ih_l1": 2,
+              "head.0.weight": 2
+            },
+            "latent_parameter_versions_before": {
+              "gru.weight_hh_l0": 2,
+              "gru.weight_hh_l1": 2,
+              "gru.weight_ih_l0": 2,
+              "gru.weight_ih_l1": 2,
+              "head.0.weight": 2
+            },
+            "latent_versions_advanced": false,
+            "weight_cache_cleared_after_optimizer_step": true
+          }
+        ]
+      },
+      "activation_mode": "no_a8",
+      "backend_status": "backend_failure",
+      "batch_provenance": {
+        "batch_size": 16,
+        "first_batch_index": 0,
+        "fit_subset_members_sha256": "254723b332b28eafa1e8b22dc283e8f886dbc6fa954894fdf46b769e5ebb1c30",
+        "forward_rows": [
+          0,
+          1000
+        ],
+        "initial_state": "zero for each update; first rows from sequence origin",
+        "same_batch_reused_for_warmup_and_measured_update": true,
+        "sample_order_identity": {
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9",
+            "dtype": "torch.uint8",
+            "shape": [
+              5056
+            ]
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_class": "RandomSampler",
+          "sampler_generator": "global CPU RNG",
+          "sampler_num_samples": 1152,
+          "sampler_replacement": false,
+          "sampler_rng": {
+            "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9",
+            "dtype": "torch.uint8",
+            "shape": [
+              5056
+            ]
+          }
+        }
+      },
+      "failure_message": "trainer failed or omitted valid bounded update/profile/resource evidence; inspect the recorded mode log",
+      "failure_stage": "trainer_profile_no_a8",
+      "finished_utc": "2026-10-13T19:08:55.658010+00:00",
+      "log_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_ACTUAL_GPU_R2_no_a8.log",
+      "profile": {
+        "backward": 122.74,
+        "forward": 182.43,
+        "gpu_total": 330.71,
+        "h2d": 13.86,
+        "inputs": 9.15,
+        "labels": 1.25,
+        "loader_wait": 0.0,
+        "loss": 0.9,
+        "optimizer": 0.25,
+        "seq_per_s": NaN,
+        "step_wall": NaN,
+        "syncs_per_step": 18.0,
+        "weights": 0.14
+      },
+      "return_code": 0,
+      "run_provenance": {
+        "activation_backend": {
+          "activation_scope": "same scan recurrence without activation quantization",
+          "excluded": [
+            "raw input projection/I16 export",
+            "head hidden/projection A8 blocks"
+          ],
+          "implementation": "compiled torch higher-order scan",
+          "kind": "scan_fp32",
+          "state": "fp32 recurrent state",
+          "weight_qat": "recurrent_w4"
+        },
+        "distillation_cache": {
+          "coefficient_sum": 0.30000000000000004,
+          "epoch_convention": {
+            "student_checkpoint_epoch": 5,
+            "student_checkpoint_policy": "fixed",
+            "student_epochs": 6
+          },
+          "family_order": [
+            "strong"
+          ],
+          "homogeneous_family": "strong",
+          "main_target_scale": 1.0,
+          "main_target_scale_applied_before_training_clip": true,
+          "metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+          "root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r2",
+          "source_coefficients": [
+            {
+              "coefficient": 0.1,
+              "epoch": 2,
+              "family": "strong",
+              "run": "clean_t3_f0_muonall_h384_e3_s3_r5"
+            },
+            {
+              "coefficient": 0.1,
+              "epoch": 2,
+              "family": "strong",
+              "run": "clean_t3_f0_muonall_h384_e3_s4_r5"
+            },
+            {
+              "coefficient": 0.1,
+              "epoch": 2,
+              "family": "strong",
+              "run": "clean_t3_f0_muonall_h384_e3_s5_r5"
+            }
+          ],
+          "variant": "homogeneous",
+          "verified_files": {
+            "main_homogeneous_train": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+            "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+          }
+        },
+        "fit_membership_identity": {
+          "dataset_length": 1152,
+          "train": {
+            "count": 1048,
+            "ordered_int64_le_sha256": "5b38ba68bbc8c3dc20f964548fb6aabccb945273ea8f4bca269db970912af643"
+          },
+          "valid": {
+            "count": 104,
+            "ordered_int64_le_sha256": "3a0825e095d385de29a5aebfbf87b134930947a84ce7983b0edc4f361155eeee"
+          },
+          "valid_repeat": 1
+        },
+        "fit_subset_manifest_sha256": "1b077e7f599508c88807b120301174db8a5c3421f9e7ba7f10cf11c0104b0e3e",
+        "fit_subset_members_sha256": "254723b332b28eafa1e8b22dc283e8f886dbc6fa954894fdf46b769e5ebb1c30",
+        "initial_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+        "normalization_identity": {
+          "mean": {
+            "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+            "dtype": "torch.float32",
+            "shape": [
+              211
+            ]
+          },
+          "std": {
+            "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+            "dtype": "torch.float32",
+            "shape": [
+              211
+            ]
+          }
+        },
+        "propensity_cache": {
+          "train": {
+            "bytes": 848560128,
+            "metadata": {
+              "model": "c20260929_prop_f0",
+              "model_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+              "n_filled": 10606,
+              "rows": 10607,
+              "seconds": 86.9,
+              "split": "train"
+            },
+            "metadata_sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9",
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_train.npy"
+          },
+          "valid": {
+            "bytes": 149840128,
+            "metadata": {
+              "model": "c20260929_prop_f0",
+              "model_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+              "n_filled": 1873,
+              "rows": 1873,
+              "seconds": 15.0,
+              "split": "valid"
+            },
+            "metadata_sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a",
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/propcache_c20260929_prop_f0_valid.npy"
+          }
+        },
+        "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "source_sha256": {
+          "activation_backend": "db9bdff3e6bdc132fb039f051e61f74208e10ba698c3dd2969e48b110eb418b6",
+          "gru_model": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+          "trainer": "cfdbc0a6206c86abc03322ce19d5a639bb7585fe2452cb58671cdeaa0f733ecb",
+          "weight_qat": "65d770f1ee5bc4cb5b88d7e1b42d63eb77fae4704010f0b263966e0de58578e2"
+        },
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "weight_qat": {
+          "averaging": "latent float parameters, quantized for each effective forward/export",
+          "gradient": "identity STE; scales detached; no scale/round/clamp derivative",
+          "head_split": "hidden_then_projection_q8",
+          "preset": "recurrent_w4",
+          "q4_codes": [
+            -7,
+            7
+          ],
+          "q4_invalid_code": -8,
+          "scheme": "symmetric_per_row_signed_q4_q8_nearest_even_v2",
+          "training_state": "raw latent float weights; derived quantization cache not serialized",
+          "version": 2
+        }
+      },
+      "started_utc": "2026-10-13T19:08:41.804520+00:00",
+      "trainer_recipe": {
+        "argv": [
+          "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+          "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/activation_source_r2/scripts/train_rnn.py",
+          "--name",
+          "qat_activation_profile_r1_no_a8",
+          "--device",
+          "cuda",
+          "--seed",
+          "3",
+          "--arch",
+          "gru",
+          "--cell",
+          "gru",
+          "--hidden",
+          "256",
+          "--layers",
+          "2",
+          "--dropout",
+          "0",
+          "--readout-activation",
+          "gelu",
+          "--init",
+          "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5",
+          "--train-source",
+          "train+valid",
+          "--train-seqs",
+          "10607",
+          "--valid-seqs",
+          "600",
+          "--valid-fold",
+          "0",
+          "--n-valid-folds",
+          "4",
+          "--valid-train-fraction",
+          "1",
+          "--valid-repeat",
+          "1",
+          "--split-manifest",
+          "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+          "--batch",
+          "16",
+          "--chunk",
+          "1000",
+          "--batch-order",
+          "random",
+          "--loss",
+          "wmse",
+          "--loss-norm",
+          "chunk",
+          "--optim",
+          "adamw",
+          "--lr",
+          "0.0001",
+          "--wd",
+          "0.01",
+          "--sched",
+          "onecycle",
+          "--epochs",
+          "1",
+          "--checkpoint-policy",
+          "fixed",
+          "--checkpoint-epoch",
+          "0",
+          "--no-eval-during-fit",
+          "--precision",
+          "fp32",
+          "--fused-adam",
+          "--sync-free",
+          "--clip",
+          "1",
+          "--propensity",
+          "c20260929_prop_f0",
+          "--prop-power",
+          "2",
+          "--prop-eps",
+          "0.03",
+          "--prop-cache",
+          "--valid-true-mask",
+          "0.03",
+          "--distill-cache-root",
+          "cache/clean_t3_f0_h390_t3r5_a9_r2",
+          "--distill-cache-variant",
+          "homogeneous",
+          "--distill-cache-scale",
+          "1",
+          "--distill-alpha",
+          "0.9",
+          "--aux-struct",
+          "0.3",
+          "--aux-next",
+          "0.3",
+          "--ema-teacher",
+          "0",
+          "--swa-frac",
+          "0",
+          "--fit-subset-experiment-id",
+          "E-QAT-DEPLOYMENT-20261013-R1",
+          "--fit-subset-manifest",
+          "research/campaign_2026-10-13/qat_renewable_r1/delivery_r1/subsets/f0_s3/fit_components_10pct.json",
+          "--qat",
+          "recurrent_w4",
+          "--activation-backend",
+          "scan_fp32",
+          "--activation-profile-first-chunk",
+          "--profile-warmup",
+          "1",
+          "--profile-steps",
+          "1",
+          "--grad-stats"
+        ],
+        "condition": "uniform_w4",
+        "forward_scope": "first 1000 rows from each actual fitting sequence, from sequence origin",
+        "objective": "existing train_rnn WMSE distillation, structural and next-change losses",
+        "optimizer": "fresh AdamW from frozen recipe; two bounded first-chunk updates only",
+        "parent_checkpoint": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5",
+        "parent_checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+        "parent_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+        "profile_loader_deviation": "only --fast and --pin-memory are removed for same-batch host reuse; explicit --fused-adam, --sync-free and --prop-cache flags remain",
+        "recipe_sha256": "c08c6a7c46d1d117521153b0cd233410695cf738d7784d32d26de80f7a92e585",
+        "source_name": "qat_deploy_f0_s3_10pct_uniform_w4_r1",
+        "subset": "10pct",
+        "weight_qat": "recurrent_w4"
+      },
+      "update_evidence": {
+        "amp_skipped_updates": 0,
+        "counts_consistent": true,
+        "grad_scaler_enabled": false,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_finite": true,
+        "gradient_stats_nonfinite_steps": 0,
+        "gradient_stats_steps": 2,
+        "loss_checks": 2,
+        "loss_finite": true,
+        "optimizer_attempts": 2,
+        "optimizer_completed_updates": 2,
+        "valid_for_throughput": true
+      },
+      "wall_seconds": 13.852930965993437
+    }
+  },
+  "profile_kind": "actual_recipe_first_chunk",
+  "python": "3.13.9",
+  "quality_status": "not_evaluated",
+  "recipe_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/delivery_r1/RUN_RECIPE_R1.json",
+  "recipe_sha256": "c08c6a7c46d1d117521153b0cd233410695cf738d7784d32d26de80f7a92e585",
+  "schema": "activation_aware_qat_profile_v3",
+  "source_revision": "a0e3a4f699cef424027ee9a2360bbe682e313aea",
+  "started_utc": "2026-10-13T19:08:22.580739+00:00",
+  "step_cost_bound": {
+    "causal_rows_per_update": 1000,
+    "maximum_optimizer_updates": 4,
+    "measured_updates_per_mode": 1,
+    "modes": [
+      "a8",
+      "no_a8"
+    ],
+    "optimizer_updates_per_mode": 2,
+    "warmup_updates_per_mode": 1
+  },
+  "worktree_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/activation_source_r2"
+}

@@ -1,5 +1,7 @@
 # QAT with renewable local and Kaggle capacity
 
+[Current progress and applicability review](../../unified/inference/QAT_PROGRESS_REVIEW_20261013.md) summarizes the completed full-data QAT grades, compression tradeoffs, uncertainty and remaining seed/fold/blend validation. It explains why recovered W4 quality does not yet establish a public-score increase.
+
 [Current implementation plan](PLAN.md) records the user's complete QAT/compression experiment sequence, unlimited campaign GPU hours within actual local/provider capacity, matched controls, exposed cross-fold validation and strongest-endpoint delivery. It is an authorized research plan, not a measured quality result.
 
 - [Contract](CONTRACT.json) binds objective, data/metric invariants, resource limits, owners and confirmation requirements.

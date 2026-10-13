@@ -15,6 +15,6 @@ WP is **0.681362789**, versus **0.680741171** for the matched floating continuat
 - [Result](recurrent_w4.json) retains scores, callback timings, state replay and prediction hash. Concurrent local callback timings do not establish a CPU speedup.
 - [Deployment manifest](MANIFEST_R1.json) binds exact selected checkpoint, archives, native library and evaluation membership; [inventory](RESULT_INDEX_R1.json) identifies original prediction storage.
 - [Fit completion](../FULL_UNIFORM_FIT_COMPLETION_R1.json) binds history, checkpoint hash and measured resource peaks; [native execution](../NATIVE_100PCT_UNIFORM_QAT_R1.json) retains its command and admission vector.
-- [Matched full-data PTQ controls](../full_float_results_r1/README.md) and [allocation](../ALLOCATION_100PCT_QAT_R1.json) define the comparison. The mixed-precision arm remains in progress.
+- [Matched full-data PTQ controls](../full_float_results_r1/README.md) and [allocation](../ALLOCATION_100PCT_QAT_R1.json) define the comparison. The [mixed-precision arm](../full_mixed_results_r1/README.md) is also complete and independently graded.
 
 [Independent grade](../../../unified/reviews/QAT_100PCT_UNIFORM_W4_MATCHED_GRADE_R1.md) and its linked audit validate matched sampling, normalization, 14,920 updates and all exact quantized payload hashes. The interval describes component resampling, not fitting-seed variation.

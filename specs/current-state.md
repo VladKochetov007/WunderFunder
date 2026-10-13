@@ -1,3 +1,7 @@
+## 2026-10-13T19:12:07.684535+00:00 — QAT full-data comparisons complete
+
+[Current QAT review](../research/unified/inference/QAT_PROGRESS_REVIEW_20261013.md): full-data W4/mixed QAT improve their matched PTQ endpoints by+0.000622/+0.000760; approximate component intervals span zero, and matched Q8 remains higher. Thirteen training runs completed including one exact control reproduction; seed4 LSQ native grading is active. Actual activation-aware four-update probe failed its validation gate after compiling and reporting finite updates; diagnosis is active, no quality claim. Kaggle corrected profile R2 is RUNNING, TPU bridge QUEUED at19:10UTC. No new public-score or package winner established.
+
 ## 2026-10-13T18:31:25.987244+00:00 — full-data W4 and learned-scale results; mixed fit active
 
 The [QAT frontier](../research/campaign_2026-10-13/qat_renewable_r1/FRONTIER.md) records full-data W4 QAT WP 0.681362789 against matched W4 PTQ 0.680741171, with independent paired interval spanning zero. The 10% learned-scale pair also completed and has a small positive uncertain delta. Both remain exposed-F0 seed3 evidence. Your local GPU runs the full-data mixed W4/W8 fit. Seed4 LSQ confirmation is frozen for review, and the activation-aware compiler profile is being prepared under the single-worker limit. Kaggle seed4 profile is ERROR with collection/diagnosis active; TPU remains QUEUED. No new serving winner or public forecast is established.
