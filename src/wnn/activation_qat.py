@@ -13,6 +13,7 @@ from wnn.nn import RNNModel
 from wnn.training_qat import qat_weight_replacements
 
 A8_POSITIVE_LIMIT = 127
+_ActivationGRUMetadata = tuple[bool, bool, int, int, float, bool]
 
 
 def _gru_scan_step(
@@ -104,6 +105,8 @@ def activation_qat_forward(
     quantize_activations: bool = True,
     weight_replacements: Mapping[str, torch.Tensor] | None = None,
     validate_finite: bool = True,
+    parameter_map_is_complete: bool = False,
+    gru_metadata: _ActivationGRUMetadata | None = None,
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """Run the model with a scan-based GRU and optional recurrent-boundary A8.
 
@@ -115,6 +118,9 @@ def activation_qat_forward(
     first GRU ``weight_ih`` matvec and each later layer's input matvec. It does
     not quantize raw model inputs, input-projection weights/native I16 math, or
     the head's hidden/projection activation blocks.
+    Compiled callers pass complete model parameters with QAT replacements
+    applied and static GRU metadata from the wrapper, keeping module traversal
+    and GRU inspection outside Dynamo's traced body.
     """
     if inputs.dtype != torch.float32 or (state is not None and state.dtype != torch.float32):
         raise ValueError("activation-aware QAT inputs and state must remain float32")
@@ -128,30 +134,48 @@ def activation_qat_forward(
         ).all()
         if not bool(finite_parameters.item()):
             raise ValueError("A8 model parameters and normalization tensors must be finite")
-    if not isinstance(model.gru, nn.GRU) or model.enc != "linear":
+    if gru_metadata is None:
+        gru = model.gru
+        gru_metadata = (
+            isinstance(gru, nn.GRU),
+            model.enc == "linear",
+            gru.num_layers,
+            gru.hidden_size,
+            float(gru.dropout),
+            gru.bidirectional,
+        )
+    is_plain_gru, is_linear_encoder, num_layers, hidden_size, dropout, bidirectional = gru_metadata
+    if not is_plain_gru or not is_linear_encoder:
         raise ValueError("activation-aware QAT supports the plain GRU with linear input encoder")
     if inputs.ndim != 3 or inputs.shape[-1] != model.mean.numel() or inputs.shape[1] == 0:
         raise ValueError("activation-aware QAT expects nonempty (batch, time, features) inputs")
-    if model.gru.bidirectional:
+    if bidirectional:
         raise ValueError("activation-aware QAT does not support bidirectional GRUs")
     if state is not None and state.shape != (
-        model.gru.num_layers,
+        num_layers,
         inputs.shape[0],
-        model.gru.hidden_size,
+        hidden_size,
     ):
         raise ValueError("activation-aware QAT initial state has the wrong shape")
 
     with torch.autocast(inputs.device.type, enabled=False):
         normalized = (inputs - model.mean) / model.std
         projection = model.encode(normalized)
-        parameters = dict(model.named_parameters())
-        parameters.update(
-            qat_weight_replacements(model) if weight_replacements is None else weight_replacements
-        )
+        if parameter_map_is_complete:
+            if weight_replacements is None:
+                raise ValueError("a complete activation-QAT parameter map is required")
+            parameters = weight_replacements
+        else:
+            parameters = dict(model.named_parameters())
+            parameters.update(
+                qat_weight_replacements(model)
+                if weight_replacements is None
+                else weight_replacements
+            )
         layer_input = projection
         final_states: list[torch.Tensor] = []
 
-        for layer in range(model.gru.num_layers):
+        for layer in range(num_layers):
             weight_ih = parameters[f"gru.weight_ih_l{layer}"]
             weight_hh = parameters[f"gru.weight_hh_l{layer}"]
             bias_ih = parameters[f"gru.bias_ih_l{layer}"]
@@ -163,9 +187,7 @@ def activation_qat_forward(
             )
             input_gates = F.linear(layer_input_for_matvec, weight_ih, bias_ih)
             initial = (
-                inputs.new_zeros((inputs.shape[0], model.gru.hidden_size))
-                if state is None
-                else state[layer]
+                inputs.new_zeros((inputs.shape[0], hidden_size)) if state is None else state[layer]
             )
 
             final, sequence = scan(
@@ -175,15 +197,15 @@ def activation_qat_forward(
             )
             layer_input = sequence.transpose(0, 1).contiguous()
             final_states.append(final)
-            if layer + 1 < model.gru.num_layers and model.training and model.gru.dropout > 0:
-                layer_input = F.dropout(layer_input, p=model.gru.dropout, training=True)
+            if layer + 1 < num_layers and model.training and dropout > 0:
+                layer_input = F.dropout(layer_input, p=dropout, training=True)
 
         recurrent = layer_input
         final_state = torch.stack(final_states, dim=0)
         head_input = torch.cat([recurrent, projection], dim=-1)
-        first = F.linear(head_input, parameters["head.0.weight"], model.head[0].bias)
+        first = F.linear(head_input, parameters["head.0.weight"], parameters["head.0.bias"])
         activated = model.head[1](first)
-        prediction = F.linear(activated, model.head[2].weight, model.head[2].bias)
+        prediction = F.linear(activated, parameters["head.2.weight"], parameters["head.2.bias"])
         return prediction, final_state
 
 
@@ -192,8 +214,21 @@ class ActivationQATModel(nn.Module):
 
     def __init__(self, model: RNNModel, quantize_activations: bool = True) -> None:
         super().__init__()
+        gru = model.gru
+        if not isinstance(gru, nn.GRU) or model.enc != "linear":
+            raise ValueError(
+                "activation-aware QAT supports the plain GRU with linear input encoder"
+            )
         self.model = model
         self.quantize_activations = quantize_activations
+        self._gru_metadata: _ActivationGRUMetadata = (
+            True,
+            True,
+            gru.num_layers,
+            gru.hidden_size,
+            float(gru.dropout),
+            gru.bidirectional,
+        )
 
     def forward(
         self,
@@ -201,6 +236,7 @@ class ActivationQATModel(nn.Module):
         weight_replacements: Mapping[str, torch.Tensor] | None = None,
         validate_finite: bool = True,
         state: torch.Tensor | None = None,
+        parameter_map_is_complete: bool = False,
     ) -> tuple[torch.Tensor, torch.Tensor]:
         """Run a chunk from the supplied causal state, or initialize from zero."""
         return activation_qat_forward(
@@ -210,4 +246,6 @@ class ActivationQATModel(nn.Module):
             quantize_activations=self.quantize_activations,
             weight_replacements=weight_replacements,
             validate_finite=validate_finite,
+            parameter_map_is_complete=parameter_map_is_complete,
+            gru_metadata=self._gru_metadata,
         )

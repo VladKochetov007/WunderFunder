@@ -958,10 +958,11 @@ def forward_chunk(model, inputs, sl, state):
         require_finite_activation_a8(chunk, "input chunk")
         if state is not None:
             require_finite_activation_a8(state, "recurrent state")
-        replacements = qat_weight_replacements(model)
+        parameters = dict(model.named_parameters())
+        parameters.update(qat_weight_replacements(model))
         compile_timings = getattr(model, "_activation_profile_compile_timings", None)
         compile_started = time.perf_counter() if compile_timings is not None and compile_timings["forward"] is None else None
-        result = activation_backend(chunk, replacements, False, state)
+        result = activation_backend(chunk, parameters, False, state, True)
         if compile_started is not None:
             if inputs.device.type == "cuda":
                 torch.cuda.synchronize(inputs.device)
