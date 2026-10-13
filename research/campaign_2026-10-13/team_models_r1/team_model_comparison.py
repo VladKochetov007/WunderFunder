@@ -20,7 +20,7 @@ def _():
 def _(mo):
     mo.md("""
     # Team kotiki — model and inference comparison
-    Shared code and weights are authorized. Final-model supplied-validation scores are **diagnostic**, not clean CV. Reported public: pair_ftt2 **0.6682**, xteam_h4 **0.6681**, E **0.6675**. The new E upload is still pending in the supplied transcript.
+    Shared code and weights are authorized. Final-model supplied-validation scores are **diagnostic**, not clean CV. Reported public: pair_ftt2 **0.6682**, xteam_h4 **0.6681**, E **0.6675**. Latest user report: the new seed6 cross-team blend scored **0.6679** (46m51s/650MB); the later E upload is confirmed at **0.6675**.
     """)
     return
 
@@ -28,6 +28,10 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(campaign, json, mo, pd):
     portal = json.loads((campaign / "public_results.json").read_text())
+    _latest_portal = json.loads((campaign / "PUBLIC_RESULTS_20261013_R2.json").read_text())
+    _portal_by_id = {row["portal_id"]: row for row in portal["records"]}
+    _portal_by_id.update({row["portal_id"]: row for row in _latest_portal["records"]})
+    portal["records"] = list(_portal_by_id.values())
     portal_table = pd.DataFrame(portal["records"])
     portal_table["minutes"] = portal_table["duration_seconds"] / 60
     mo.md("## Reported public outcomes\nUser-transcribed portal evidence; filenames are not portal-verified hashes. Pending durations are elapsed time and timeouts are censored.")
@@ -146,7 +150,7 @@ def _(campaign, json, mo):
 
     Equal weights: teammate distilled seed6, teammate FTT seed6, our Z4, our H390 seed3. Uses our optimized Rust Q8/VNNI runtime, byte-identical to E.
 
-    ZIP: {team_release['zip_bytes']:,} bytes. ABI, isolated Python3.11 import, and complete-sequence V2/V3 reset checks passed. This is an exploratory public probe; no new public score is available.
+    ZIP: {team_release['zip_bytes']:,} bytes. ABI, isolated Python3.11 import, and complete-sequence V2/V3 reset checks passed. This is an exploratory public probe; user-reported public score is **0.6679**,46m51s/650MB (portal0mbzevhv).
     """)
     return
 

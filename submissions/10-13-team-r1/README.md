@@ -4,7 +4,7 @@ The user explicitly requests this exploratory public probe even without a local-
 
 The package is `kotiki_xteam_s6_z4_h390s3_q8_20261013.zip`, 16,320,815 bytes. SHA256: `4315eaa9bfe985fdaaca4258b3e8da3c4861264115f048bd8419b1cd6375f21a`.
 
-**Ready for human upload:** the ZIP is stored in the repository at `artifacts/team_models_20261013/kotiki_xteam_s6_z4_h390s3_q8_20261013/kotiki_xteam_s6_z4_h390s3_q8_20261013.zip`. [Current location receipt](RELEASE_LOCATION_R2.json) records its verified hash and repository-relative path. [Validation release receipt](RELEASE_R1.json) binds the fixed recipe, all checks and byte-identical optimized runtime; its earlier delivery paths are historical. No external upload was made.
+**Publicly scored at 0.6679:** the ZIP is stored in the repository at `artifacts/team_models_20261013/kotiki_xteam_s6_z4_h390s3_q8_20261013/kotiki_xteam_s6_z4_h390s3_q8_20261013.zip`. [Current location receipt](RELEASE_LOCATION_R2.json) records its verified hash and repository-relative path. [Validation release receipt](RELEASE_R1.json) binds the fixed recipe, all checks and byte-identical optimized runtime; its earlier delivery paths are historical. No external upload was made.
 
 | Weight | Model | Coefficient |
 |---|---|---:|
@@ -13,7 +13,7 @@ The package is `kotiki_xteam_s6_z4_h390s3_q8_20261013.zip`, 16,320,815 bytes. SH
 | weights_2.npz | Our Z4 seed99 merged core/HFT | 0.25 |
 | weights_3.npz | Our H390 homogeneous seed3@ep5 | 0.25 |
 
-This changes the teammate pair in original xteam_h4 from seed5 to seed6, preserving our two members and the Q8 native serving engine. It is a fixed four-trunk ensemble with no wall-clock governor. Current FTT training ancestry and clean CV counterparts are missing; supplied-validation model diagnostics are not held-out selection evidence. No public result exists for this new endpoint.
+This changes the teammate pair in original xteam_h4 from seed5 to seed6, preserving our two members and the Q8 native serving engine. It is a fixed four-trunk ensemble with no wall-clock governor. Current FTT training ancestry and clean CV counterparts are missing; supplied-validation model diagnostics are not held-out selection evidence. The user reports public score **0.6679**, portal `0mbzevhv`, duration 46m51s and 650MB. [Leaderboard update](../../research/campaign_2026-10-13/team_models_r1/PUBLIC_LB_UPDATE_20261013_R2.md) records the exact rows and interpretation. This is +0.0004 over E, −0.0002 versus original xteam_h4 and −0.0003 versus the reported team best pair_ftt2.
 
 ## Checks
 

@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1418 · raw hypothesis rows 490 · raw experiment rows 820 · legacy arms 18 · catalog files 89652.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1418 · raw hypothesis rows 490 · raw experiment rows 821 · legacy arms 18 · catalog files 89654.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json](<snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json>).
 
@@ -2273,7 +2273,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-STRATEGY-SWA-F0-GRADE-20261013-R1 | E-STRATEGY-SWA-F0-GRADE-20261013-R1 | experiment · complete_inconclusive | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L814>) | — |
 | experiment:E-TEAM-ARCHIVE-REPLAY-20261013-R1 | E-TEAM-ARCHIVE-REPLAY-20261013-R1 | experiment · running | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L815>), [research/experiments.jsonl](<../../experiments.jsonl#L820>) | — |
 | experiment:E-TEAM-MEMBER-BANK-20261013-R1 | E-TEAM-MEMBER-BANK-20261013-R1 | experiment · complete | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L816>), [research/experiments.jsonl](<../../experiments.jsonl#L819>) | — |
-| experiment:E-TEAM-XTEAM-S6-RELEASE-20261013-R1 | E-TEAM-XTEAM-S6-RELEASE-20261013-R1 | experiment · complete | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L817>), [research/experiments.jsonl](<../../experiments.jsonl#L818>) | — |
+| experiment:E-TEAM-XTEAM-S6-RELEASE-20261013-R1 | E-TEAM-XTEAM-S6-RELEASE-20261013-R1 | experiment · public_scored | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L817>), [research/experiments.jsonl](<../../experiments.jsonl#L818>), [research/experiments.jsonl](<../../experiments.jsonl#L821>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |

@@ -34,6 +34,8 @@ The [16.32MB ZIP and release receipt](../../../submissions/10-13-team-r1/README.
 
 ## Source records
 
+Subsequent public feedback: the user reports **0.6679**,46m51s/650MB, portal 0mbzevhv. This is +0.0004 over E and below the original xteam_h4 and pair_ftt2. The [latest exact portal receipt and interpretation](PUBLIC_LB_UPDATE_20261013_R2.md) preserve all five supplied rows; the initial release recipe and validation receipts remain unchanged.
+
 - [Explicit release authority and fixed member hashes](EXPLORATORY_SUBMISSION_AUTHORITY_R1.json)
 - [Archive and tensor inventory](INVENTORY.json)
 - [User-transcribed portal observations](public_results.json)
