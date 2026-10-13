@@ -105,6 +105,7 @@ def prepare(args: argparse.Namespace) -> None:
     sources = [
         Path(__file__),
         ROOT / "scripts/engine_fp16_check.py",
+        ROOT / "scripts/package_submission.py",
         ROOT / "src/wnn/quantization.py",
         ROOT / "src/wnn/quantization_export.py",
         ROOT / "src/wnn/gmetric.py",
@@ -147,7 +148,10 @@ def case_weights(directory: Path, case: str) -> tuple[dict, dict | None]:
             weights = {name: archive[name] for name in archive.files}
         codes = None
     else:
-        weights, codes, _ = read_packed_quantized_export(directory / f"{case}.npz")
+        weights, codes, metadata = read_packed_quantized_export(directory / f"{case}.npz")
+        expected = "recurrent_head" if case == "packed_q8" else case
+        if metadata["preset"] != expected:
+            raise ValueError(f"archive preset disagrees with requested case: {case}")
     return weights, codes
 
 
@@ -164,8 +168,10 @@ def load_case(native: object, directory: Path, case: str) -> object:
     )
 
 
-def checked_manifest(directory: Path) -> tuple[dict, object]:
+def checked_manifest(directory: Path, expected_sha256: str) -> tuple[dict, object]:
     """Check the frozen source, split and transport bytes before any callback."""
+    if file_sha256(directory / "manifest.json") != expected_sha256:
+        raise ValueError("deployment manifest differs from the admitted hash")
     manifest = json.loads((directory / "manifest.json").read_text())
     if file_sha256(Path(__file__)) != manifest["source_sha256"]:
         raise ValueError("deployment evaluator changed after preparation")
@@ -175,6 +181,10 @@ def checked_manifest(directory: Path) -> tuple[dict, object]:
     split = load_campaign_split(Path(manifest["split"]), Path(manifest["root"]))
     if split.sha256 != manifest["split_sha256"]:
         raise ValueError("split changed")
+    if manifest["evaluation_groups"] != list(split.evaluation_groups):
+        raise ValueError("evaluation membership/order differs from the frozen full fold")
+    if not set(manifest["profile_groups"]).issubset(split.valid_groups):
+        raise ValueError("runtime profile includes a group outside fitting membership")
     for name, identity in manifest["artifacts"].items():
         if file_sha256(directory / name) != identity["sha256"]:
             raise ValueError(f"transport changed: {name}")
@@ -188,7 +198,7 @@ def state_diagnostic(args: argparse.Namespace) -> None:
     """Measure recurrent error through full fitting trajectories with fixed sample times."""
     from engine_fp16_check import read_sequences
 
-    manifest, native = checked_manifest(args.output)
+    manifest, native = checked_manifest(args.output, args.manifest_sha256)
     destination = args.output / "state_diagnostic"
     destination.mkdir(exist_ok=False)
     models = {}
@@ -203,7 +213,13 @@ def state_diagnostic(args: argparse.Namespace) -> None:
     sample_steps = np.arange(999, 20_000, 1000)
     all_states = {case: [] for case in CASES}
     data = Path(manifest["root"]) / "datasets/valid.parquet"
-    for _, features, _, _, _ in read_sequences(data, manifest["profile_groups"]):
+    for group, (seq, features, _, _, _) in zip(
+        manifest["profile_groups"],
+        read_sequences(data, manifest["profile_groups"]),
+        strict=True,
+    ):
+        if seq != manifest["sequence_ids"][str(group)] or features.shape != (20_000, 112):
+            raise ValueError("profile sequence disagrees with frozen group identity/shape")
         for case, model in models.items():
             model.reset()
             if np.any(model.hidden_state):
@@ -243,7 +259,7 @@ def run(args: argparse.Namespace) -> None:
     """Export and score complete trajectories in frozen full-fold order, one at a time."""
     from engine_fp16_check import harness, read_sequences
 
-    manifest, native = checked_manifest(args.output)
+    manifest, native = checked_manifest(args.output, args.manifest_sha256)
     groups = manifest["profile_groups"] if args.profile else manifest["evaluation_groups"]
     destination = args.output / (f"profile_{args.case}" if args.profile else args.case)
     destination.mkdir(exist_ok=False)
@@ -315,8 +331,11 @@ def main() -> None:
     parser.add_argument("--split", type=Path)
     parser.add_argument("--run")
     parser.add_argument("--case", choices=CASES)
+    parser.add_argument("--manifest-sha256")
     parser.add_argument("--profile", action="store_true")
     args = parser.parse_args()
+    if args.phase != "prepare" and args.manifest_sha256 is None:
+        parser.error("run/states requires --manifest-sha256 frozen at admission")
     if args.phase == "prepare":
         if not all((args.run, args.library, args.split)):
             parser.error("prepare requires --run, --library and --split")
