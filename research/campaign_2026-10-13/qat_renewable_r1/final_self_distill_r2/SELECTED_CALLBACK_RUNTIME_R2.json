@@ -1,0 +1,231 @@
+{
+  "benchmark_runner": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/benchmark_submission_callbacks.py",
+    "sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53"
+  },
+  "build_members": [
+    {
+      "coef": 0.25,
+      "source": "xteam_h4/weights_0.npz",
+      "weights": "weights_0.npz"
+    },
+    {
+      "coef": 0.25,
+      "source": "xteam_h4/weights_1.npz",
+      "weights": "weights_1.npz"
+    },
+    {
+      "coef": 0.25,
+      "source": "E/weights_2.npz",
+      "weights": "weights_2.npz"
+    },
+    {
+      "coef": 0.25,
+      "provenance": "qat_provenance.json",
+      "qat_archive": "qat_weights_3.npz",
+      "qat_preset": "recurrent_w4",
+      "source": "E/weights_0.npz (replaced by exact QAT transport)",
+      "training_checkpoint_sha256": "17199af8c9e01de1aab2f5b1d7b1354d6c3c7f57a3d5f9a0fef75efefdf259f8",
+      "training_rule": "identity weight STE; learned row scales with LSQ-inspired clipped scale derivative"
+    }
+  ],
+  "build_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/submission_candidates_r2/self_s3/kotiki_qat_selfdistill_lsq_20261013_r2.manifest.json",
+  "build_receipt_sha256": "c4d0b1fdd1333905b02799dc971631a76ea39ffe0ae5db9f569ab8370acf87f2",
+  "candidate": "kotiki_qat_selfdistill_lsq_20261013_r2",
+  "checkpoint_sources": [],
+  "native_runtime": {
+    "callback_source": "QAT fixed-four callback template",
+    "library_sha256": {
+      "avx2/wnn_native.abi3.so": "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+      "v2/wnn_native.abi3.so": "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+      "v3/wnn_native.abi3.so": "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052"
+    },
+    "native_manifest": {
+      "abi": "abi3-py311",
+      "files": {
+        "avx2/wnn_native.abi3.so": {
+          "bytes": 1073184,
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_release_r1/wnn_native.abi3.so",
+          "sha256": "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+          "source_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_release_r1/wnn_native.abi3.so"
+        },
+        "v2/wnn_native.abi3.so": {
+          "bytes": 1073184,
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_release_r1/wnn_native.abi3.so",
+          "sha256": "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+          "source_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_release_r1/wnn_native.abi3.so"
+        },
+        "v3/wnn_native.abi3.so": {
+          "bytes": 1073184,
+          "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_release_r1/wnn_native.abi3.so",
+          "sha256": "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+          "source_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_release_r1/wnn_native.abi3.so"
+        }
+      },
+      "native_api": "exact_q8_codes_scales_v1",
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/NATIVE_SET_R1.json",
+      "runtime_dispatch": true,
+      "sha256": "9d2392da6ca3149a94cd5e1b42b60d2b5381a116cf3e10f08ac3d0888bffadba",
+      "target_cpu": "x86-64-v2"
+    },
+    "precision": "q8vnni"
+  },
+  "runtime": {
+    "affinity_before": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "affinity_used": [
+      0
+    ],
+    "cgroup_after_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 15483272\nuser_usec 14056143\nsystem_usec 1427128\nnice_usec 14002866\ncore_sched.force_idle_usec 0\nnr_periods 158\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "999841792",
+      "memory.events": "low 0\nhigh 0\nmax 29094\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "999997440",
+      "memory.peak": "999997440",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p2789965-i2799006.scope"
+    },
+    "cgroup_before_measure": {
+      "cpu.max": "100000 100000",
+      "cpu.stat": "usage_usec 4298864\nuser_usec 3551532\nsystem_usec 747332\nnice_usec 3559483\ncore_sched.force_idle_usec 0\nnr_periods 45\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "999907328",
+      "memory.events": "low 0\nhigh 0\nmax 13199\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "999997440",
+      "memory.peak": "999997440",
+      "path": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p2789965-i2799006.scope"
+    },
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "loadavg_end": "0.91 0.94 1.15 1/3710 2790531",
+    "loadavg_start": "0.72 0.90 1.14 2/3674 2790125",
+    "max_rss_kib": 606916,
+    "member_storage_bytes": [
+      {
+        "factor_weights": 0,
+        "import_only_dense_recurrent": 0,
+        "independent_head_step_payload": 138248,
+        "recurrent_state": 2048,
+        "scratch": 11864,
+        "shared_backbone_step_payload": 933196,
+        "total_streamed_weights": 1071552
+      },
+      {
+        "factor_weights": 0,
+        "import_only_dense_recurrent": 0,
+        "independent_head_step_payload": 138248,
+        "recurrent_state": 2048,
+        "scratch": 11864,
+        "shared_backbone_step_payload": 933196,
+        "total_streamed_weights": 1071552
+      },
+      {
+        "factor_weights": 0,
+        "import_only_dense_recurrent": 0,
+        "independent_head_step_payload": 276488,
+        "recurrent_state": 2048,
+        "scratch": 12888,
+        "shared_backbone_step_payload": 933196,
+        "total_streamed_weights": 1209792
+      },
+      {
+        "factor_weights": 0,
+        "import_only_dense_recurrent": 0,
+        "independent_head_step_payload": 138248,
+        "recurrent_state": 2048,
+        "scratch": 11864,
+        "shared_backbone_step_payload": 933196,
+        "total_streamed_weights": 1071552
+      }
+    ],
+    "model_count": 4,
+    "native_level": "v3",
+    "numpy": "2.2.6",
+    "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "precision": "q8vnni",
+    "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]"
+  },
+  "schema": "wnn.native-callback-profile.v1",
+  "scope": "Runtime-capacity profile only. The fixed package is replayed over complete causal sequences; no metric is computed and no local/public score is claimed. Each sequence is reset before every pass, and predictions must be bitwise identical across resets.",
+  "submission": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/10-14-qat-r1/kotiki_qat_lsq_20261014.zip",
+  "submission_bytes": 13461304,
+  "submission_sha256": "e2f78e09b0147b37c74b5809b9aa38f48d1ee6b83d656483b14eeb609aac22b3",
+  "timing": {
+    "elapsed_callback_ns": 7005107422,
+    "elapsed_wall_seconds_after_sequence_decode": 11.509920463009621,
+    "mean_callback_us_per_row": 87.563842775,
+    "measurement": "perf_counter_ns around each exact model.predict(DataPoint) callback",
+    "median_repeat_us_per_row": 87.56384277500001,
+    "per_sequence_mean_us_per_row": {
+      "1990332": 88.35979730000001,
+      "2308749": 86.76788825
+    },
+    "reset_and_parquet_decode_excluded": true,
+    "rows_per_repeat": 40000,
+    "total_callback_calls": 80000,
+    "trials": [
+      {
+        "callback_ns": 3470840566,
+        "callback_us_per_row": 86.77101415,
+        "repeat": 0,
+        "rows": 40000
+      },
+      {
+        "callback_ns": 3534266856,
+        "callback_us_per_row": 88.35667140000001,
+        "repeat": 1,
+        "rows": 40000
+      }
+    ]
+  },
+  "utils_source": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/utils.py",
+    "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+  },
+  "workload": {
+    "data": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+    "data_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "features_sha256_by_sequence": {
+      "1990332": "05dbac3d81d7241a5761e009d0c5a11b4b152f1cf7890df75a6eac6776051f4b",
+      "2308749": "09e108511c35a5266f967bad67151321d7e8f16d2cee5cece69886392fd3216e"
+    },
+    "need_prediction_rows_each": [
+      19901,
+      19901
+    ],
+    "predictions_bitwise_identical_across_replays": true,
+    "predictions_sha256_by_sequence": {
+      "1990332": "05f4496da553aa7b19d33c23cec62b81b90f42f81e41d00999210152b0f0e6f9",
+      "2308749": "2ddc3d536c96be4d54326e7337c9f3fcb87f5d980262cf66190df5917d00fec6"
+    },
+    "raw_feature_columns": 112,
+    "repeats": 2,
+    "reset_before_each_sequence_and_pass": true,
+    "row_groups": [
+      4,
+      5
+    ],
+    "sequence_ids": [
+      1990332,
+      2308749
+    ],
+    "sequence_lengths": [
+      20000,
+      20000
+    ]
+  }
+}

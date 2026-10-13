@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "replacement": {
+    "index": 3,
+    "candidate": "E",
+    "weights": "weights_0.npz",
+    "coef": 0.25,
+    "source_member_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6"
+  },
+  "archive": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_lsq_w4_deployment_r2/recurrent_w4.npz",
+    "sha256": "11bdaec0734234e8e9550c799f8d8390cc2d710325b21b42d143091b9ba65bdd",
+    "preset": "recurrent_w4"
+  },
+  "checkpoint": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/qat_self_s3_lsq_w4_fit_r2/model_ep0.pt",
+    "sha256": "17199af8c9e01de1aab2f5b1d7b1354d6c3c7f57a3d5f9a0fef75efefdf259f8",
+    "run_reference": "qat_self_s3_lsq_w4_fit_r2@ep0",
+    "training_rule": "identity weight STE; learned row scales with LSQ-inspired clipped scale derivative",
+    "data_membership": "All-data H390CP5S3 parent includesallvalidgroups;315completefittingcomponents/1152seq adaptation withconstantFP32originalinitializer causalteacher. ExplicitR2recipe; noheldoutclaim.",
+    "seed": 3,
+    "updates": 1440,
+    "parent_checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+    "scale_learning": {
+      "version": 1,
+      "algorithm": "lsq_inspired_per_output_row_step_sizes_v1",
+      "initialization": "fixed_absmax_row_scale_same_initial_codes_and_representation_v1",
+      "scale_gradient": "clipped LSQ derivative; per-row g=1/sqrt(input_columns*QP)",
+      "weight_gradient": "identity STE, unchanged from fixed-scale QAT; not canonical LSQ clipped STE",
+      "scale_parameter": "direct float32 row step; base-LR non-Muon vector group; configured --wd applies",
+      "scale_projection": "reject nonfinite; negative step resets to current absmax/QP using min-subnormal floor; zero defers initialization",
+      "zero_rows": "scale=0 while latent row is zero; initialize absmax/QP on first nonzero forward",
+      "quantizer": "existing nearest-even symmetric Q4/Q8 row quantizer; QP is 7 or 127",
+      "paper": "Esser et al., Learned Step Size Quantization, arXiv:1902.08153",
+      "reproduction_status": "LSQ-inspired scale-gradient component, not a full LSQ reproduction"
+    }
+  },
+  "authority": "User requests immediate best possible QAT public test; release provisional; no public improvement established.",
+  "deployment_manifest_sha256": "2b442d147bef9898a8a20ddac98e561454b8a33dd2a76091e565a403684382da"
+}

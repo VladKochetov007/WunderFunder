@@ -1,0 +1,25 @@
+{
+  "created_utc": "2026-10-13T21:12:06.491310+00:00",
+  "scope": "Two sequential short local CPU0 Py3.11 timings only; no INT4 runtime or competition-host speedup claim.",
+  "baseline": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_release_r1/BASELINE_CALLBACK_RUNTIME_R3.json",
+    "sha256": "a71515f86f01ce8caaabef29e777aece4ba344a34a421cb7444ac6b22482b476",
+    "median_us": 89.67824917499999
+  },
+  "candidate": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/SELECTED_CALLBACK_RUNTIME_R2.json",
+    "sha256": "9d1027894c72856021a6326193e881132e043ac73f5a06a4cb71abd3734f4ee8",
+    "median_us": 87.56384277500001
+  },
+  "candidate_over_baseline": 0.9764223050800882,
+  "controls_matched": true,
+  "archive_bytes_baseline": 16308160,
+  "archive_bytes_candidate": 13461304,
+  "archive_savings_fraction": 0.17456635205933713,
+  "limitations": [
+    "Two repetitions, sequential not interleaved; local Intel i9-11900H not official AMD host.",
+    "Both hash full parquet and hit the1GB filecache leaf cap; zero OOM/kill and zero CPU throttle.",
+    "Q4 unpacked to existing bytekernels; resident streamedweights unchanged.",
+    "Archive savings include portable nativebinary changes, not only Q4 weightpacking."
+  ]
+}
