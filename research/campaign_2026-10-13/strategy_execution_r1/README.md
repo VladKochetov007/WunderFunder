@@ -69,3 +69,5 @@ The first [S14 profile-only packet R1](gradient_credit_f0_s3_r1/S14_PROFILE_ONLY
 - [Scoped support-admission bracket](SUPPORT_ADMISSION_BRACKET_R1.json) records parent/active-worker cgroup samples and unused reservation accounting for the completed S37 CPU verifier. The 14.976GB bound included its 1.2GB allowance, other support and 1GB extra margin. It is a historical one-task receipt, not standing admission or a controller change.
 
 - [Innovation pair R2](innovation_f0_s3_r2/README.md) repairs the independently caught legacy cache-schema mismatch by reusing our exact executed T3 validator. Actual metadata/header/row-index/Sequences and all ten CLI vectors pass; numerical cache bytes and scientific comparison are unchanged. Independent delta review and device profiles precede fitting.
+
+- [Preserved F3 R3 fit recovery packet](first_cohort_f3_teachers_r3/README.md) reuses the actual R2 resource profile and stages only fit plus fit-train export. Root withheld dispatch because its admission guard credited inactive-file pages; R4 narrows that guard. R3 remains an unlaunched operational proposal, without a scientific result.

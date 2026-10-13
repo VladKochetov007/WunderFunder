@@ -14,12 +14,12 @@ from pathlib import Path
 import psutil
 from kaggle_common import read_spec, relative_path, sha256_file, verify_files, write_json
 
-
 # Provider wall time is the outer bound. A worker's declared timeout remains
 # authoritative, preserving historical specs while allowing new fits to use the
 # current Kaggle session window instead of the withdrawn 5,200-second cap.
 WORKER_TIMEOUT_CEILING_SECONDS = 43_200
 WORKER_TIMEOUT_FINALIZATION_RESERVE_SECONDS = 300
+HOST_OPERATIONAL_HEADROOM_BYTES = 1_000_000_000
 
 
 def resolve_worker_timeout_seconds(
@@ -50,9 +50,7 @@ def resolve_worker_timeout_seconds(
         or now < 0
     ):
         raise ValueError("kernel deadline and current monotonic time must be finite")
-    available = math.floor(
-        deadline - now - WORKER_TIMEOUT_FINALIZATION_RESERVE_SECONDS
-    )
+    available = math.floor(deadline - now - WORKER_TIMEOUT_FINALIZATION_RESERVE_SECONDS)
     resolved = min(declared_seconds, WORKER_TIMEOUT_CEILING_SECONDS, available)
     if resolved < 1:
         raise TimeoutError("kernel deadline leaves no worker time after finalization reserve")
@@ -85,17 +83,94 @@ def gpu_inventory() -> list[dict]:
     return records
 
 
+def _read_cgroup_integer(path: Path) -> int | None:
+    """Read a finite cgroup-v2 memory value, returning None when unavailable."""
+    try:
+        value = path.read_text(encoding="ascii").strip()
+    except OSError:
+        return None
+    if value == "max":
+        return None
+    try:
+        parsed = int(value)
+    except ValueError:
+        return None
+    return parsed if parsed >= 0 else None
+
+
+def _read_cgroup_memory_stat(path: Path) -> dict[str, int]:
+    """Read only bounded memory.stat counters needed to identify reclaimable cache."""
+    wanted = {"anon", "file", "shmem", "active_file", "inactive_file"}
+    try:
+        lines = path.read_text(encoding="ascii").splitlines()
+    except OSError:
+        return {}
+    stats: dict[str, int] = {}
+    for line in lines:
+        parts = line.split()
+        if len(parts) != 2 or parts[0] not in wanted:
+            continue
+        try:
+            value = int(parts[1])
+        except ValueError:
+            continue
+        if value >= 0:
+            stats[parts[0]] = value
+    return stats
+
+
+def _memory_capacity_snapshot(
+    physical_capacity_bytes: int,
+    mem_available_bytes: int,
+    cgroup_limit_bytes: int | None,
+    cgroup_current_bytes: int | None,
+    cgroup_memory_stat: dict[str, int],
+) -> dict[str, int | None]:
+    """Combine Linux available RAM with cgroup headroom after inactive-file reclaim."""
+    capacity = physical_capacity_bytes
+    cgroup_free: int | None = None
+    cgroup_reclaimable_available: int | None = None
+    if cgroup_limit_bytes is not None:
+        capacity = min(capacity, cgroup_limit_bytes)
+        if cgroup_current_bytes is not None:
+            used = min(cgroup_current_bytes, capacity)
+            cgroup_free = max(0, capacity - used)
+            reclaimable_file = min(used, cgroup_memory_stat.get("inactive_file", 0))
+            cgroup_reclaimable_available = min(capacity, cgroup_free + reclaimable_file)
+
+    available = min(mem_available_bytes, capacity)
+    if cgroup_reclaimable_available is not None:
+        available = min(available, cgroup_reclaimable_available)
+    return {
+        "capacity_bytes": capacity,
+        "mem_available_bytes": mem_available_bytes,
+        "cgroup_limit_bytes": cgroup_limit_bytes,
+        "cgroup_current_bytes": cgroup_current_bytes,
+        "cgroup_free_bytes": cgroup_free,
+        "cgroup_reclaimable_available_bytes": cgroup_reclaimable_available,
+        "cgroup_anon_bytes": cgroup_memory_stat.get("anon"),
+        "cgroup_file_bytes": cgroup_memory_stat.get("file"),
+        "cgroup_shmem_bytes": cgroup_memory_stat.get("shmem"),
+        "cgroup_active_file_bytes": cgroup_memory_stat.get("active_file"),
+        "cgroup_inactive_file_bytes": cgroup_memory_stat.get("inactive_file"),
+        "available_bytes": available,
+    }
+
+
 def host_inventory() -> dict:
-    """Respect container memory limits as well as visible physical host capacity."""
+    """Measure MemAvailable and cgroup usage, separating reclaimable file cache."""
     memory = psutil.virtual_memory()
-    capacity = memory.total
-    available = memory.available
-    path = Path("/sys/fs/cgroup/memory.max")
-    if path.exists() and path.read_text().strip() != "max":
-        capacity = min(capacity, int(path.read_text().strip()))
-        current = Path("/sys/fs/cgroup/memory.current")
-        if current.exists():
-            available = min(available, capacity - int(current.read_text().strip()))
+    cgroup = Path("/sys/fs/cgroup")
+    cgroup_limit = _read_cgroup_integer(cgroup / "memory.max")
+    cgroup_current = _read_cgroup_integer(cgroup / "memory.current")
+    cgroup_stat = _read_cgroup_memory_stat(cgroup / "memory.stat")
+    memory_snapshot = _memory_capacity_snapshot(
+        memory.total,
+        memory.available,
+        cgroup_limit,
+        cgroup_current,
+        cgroup_stat,
+    )
     versions = {}
     for name in ("torch", "numpy", "pyarrow", "psutil"):
         try:
@@ -103,8 +178,7 @@ def host_inventory() -> dict:
         except importlib.metadata.PackageNotFoundError:
             versions[name] = "absent"
     return {
-        "capacity_bytes": capacity,
-        "available_bytes": min(available, capacity),
+        **memory_snapshot,
         "affinity": sorted(os.sched_getaffinity(0)),
         "versions": versions,
         "python": sys.version,
@@ -112,7 +186,7 @@ def host_inventory() -> dict:
 
 
 def admit_specs(specs: list[dict], host: dict, devices: list[dict]) -> int:
-    """Reserve host capacity for at most two concurrent workers before launch."""
+    """Reserve measured host RAM, one GB headroom, and at most two T4 workers."""
     if not devices or len(devices) > 2 or any("T4" not in d["name"] for d in devices):
         raise ValueError("This runner admits only one or two measured T4 devices")
     for spec in specs:
@@ -126,7 +200,7 @@ def admit_specs(specs: list[dict], host: dict, devices: list[dict]) -> int:
             raise ValueError("GPU has unexplained preexisting memory use")
     host_budget = min(
         int(host["capacity_bytes"] * 0.8),
-        host["available_bytes"] - int(host["capacity_bytes"] * 0.2),
+        host["available_bytes"] - HOST_OPERATIONAL_HEADROOM_BYTES,
     )
     if host_budget <= 0 or any(s["limits"]["ram_bytes"] > host_budget for s in specs):
         raise ValueError("Worker reservation exceeds host operational budget")
@@ -220,11 +294,7 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
     # streaming portable-registry check in the recipe worker before Torch loads.
     for spec in specs:
         raw_deferred = spec["environment"].get("WNN_DEFERRED_IDENTITY_PATHS", "")
-        deferred_paths = {
-            relative_path(value)
-            for value in raw_deferred.split(",")
-            if value
-        }
+        deferred_paths = {relative_path(value) for value in raw_deferred.split(",") if value}
         input_paths = {item["path"] for item in spec["inputs"]}
         code_paths = {item["path"] for item in spec["code"]}
         if deferred_paths & code_paths or not deferred_paths.issubset(input_paths):
