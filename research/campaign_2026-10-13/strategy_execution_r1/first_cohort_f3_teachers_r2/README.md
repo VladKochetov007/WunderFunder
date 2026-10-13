@@ -1,6 +1,8 @@
 # Seed-3 F3 teacher packet successor
 
-Status: source and output identities are frozen in this successor packet; root review is pending. No Kaggle asset upload, kernel push, or worker launch has occurred. R2 preserves the sealed but unlaunched R1 record and fixes its quota admission and byte accounting before any provider action.
+Status: the sealed R2 seed-3 packet was released by root and dispatched to Kaggle. The private bundle and F3 assets are READY at version 1; the shared fold-assets and raw-data inputs are also version 1. Kernel version 1 was pushed at 2026-10-13 00:06:02 UTC and reported RUNNING at 00:06:07 UTC (five-second submission-to-start lag). This is provider state only: no actual profile, fit, export, or teacher-quality result is available yet. R2 preserves the sealed but unlaunched R1 record and fixes its quota admission and byte accounting before provider action.
+
+Root's follow-up arithmetic correction is recorded in [ROOT_RELEASE_QUOTA_ARITHMETIC_ADDENDUM_20261013.json](ROOT_RELEASE_QUOTA_ARITHMETIC_ADDENDUM_20261013.json). It changes the exact minimum quota predicate to 35,838 GPU-seconds (`2 × 17,019 + 1,800`), leaving the sealed 17,019-second window unchanged. Fresh readings of 35,838.660 and 35,838.966 seconds both passed with zero reserved quota and no other owned Kaggle jobs. The original root release receipt and R2 guard remain preserved.
 
 The endpoint remains a scratch-initialized H384, two-layer GRU with Muon-all, fold 3, seed 3, three epochs, fixed epoch-2 checkpoint, and FP32 predictions on fit-train, fit-valid, and full-valid features. The exact source manifest and data bindings are inherited from [the frozen R1 audit](../first_cohort_f3_teachers_r1/README.md); source is not copied or rewritten. The R2 bundle has its own dataset slug, kernel bootstrap, run IDs, quota guard, and output collection plan.
 
