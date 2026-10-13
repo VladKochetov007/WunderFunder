@@ -282,3 +282,5 @@ Each entry is an original bounded text artifact, not a new run. Source hashes ar
 - [PROFILE_TERMINAL_R2.preintegration.json](kaggle_f0_s4_r2/PROFILE_TERMINAL_R2.preintegration.json): Byte-preserved integration backup of the canonical R2 terminal receipt; not a second provider attempt.
 - [CACHE_HANDOFF_BEFORE_FIXED_FIT_R1.json](lsq_f0_s4_r1/CACHE_HANDOFF_BEFORE_FIXED_FIT_R1.json): Original command/resource/terminal or cache/profile receipt, preserved for reproduction and failure diagnosis.
 - [CACHE_HANDOFF_BEFORE_LEARNED_FIT_R1.json](lsq_f0_s4_r1/CACHE_HANDOFF_BEFORE_LEARNED_FIT_R1.json): Original command/resource/terminal or cache/profile receipt, preserved for reproduction and failure diagnosis.
+
+- [Public-result navigation/archive verification](PUBLIC_RESULT_NAVIGATION_REFRESH_20261014_R1.json):1,206 local links resolve and164text paths contain no detected credential assignments or model/data arrays. Research tree rebuilt with public result; live monitor changes keep catalog/integrity freshness from passing, separately from rawledger/structure checks.

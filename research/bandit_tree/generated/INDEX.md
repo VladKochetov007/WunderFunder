@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1431 · raw hypothesis rows 493 · raw experiment rows 844 · legacy arms 18 · catalog files 90304.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1431 · raw hypothesis rows 493 · raw experiment rows 845 · legacy arms 18 · catalog files 90311.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json](<snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json>).
 
@@ -2285,7 +2285,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-QAT-LSQ-10PCT-F0S3-20261013-R1 | E-QAT-LSQ-10PCT-F0S3-20261013-R1 | experiment · complete | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L831>), [research/experiments.jsonl](<../../experiments.jsonl#L833>) | — |
 | experiment:E-QAT-A8-BACKEND-20261013-R1 | E-QAT-A8-BACKEND-20261013-R1 | experiment · bounded_compiler_probe_allocated | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L835>), [research/experiments.jsonl](<../../experiments.jsonl#L836>), [research/experiments.jsonl](<../../experiments.jsonl#L837>), [research/experiments.jsonl](<../../experiments.jsonl#L840>) | — |
 | experiment:E-QAT-LSQ-10PCT-F0S4-20261013-R1 | E-QAT-LSQ-10PCT-F0S4-20261013-R1 | experiment · profile_passed_fit_pair_admitted | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L838>), [research/experiments.jsonl](<../../experiments.jsonl#L841>) | — |
-| experiment:E-QAT-FINAL-SELF-DISTILL-20261013-R2 | E-QAT-FINAL-SELF-DISTILL-20261013-R2 | experiment · packaged_public_transfer_test_pending | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L842>), [research/experiments.jsonl](<../../experiments.jsonl#L844>) | — |
+| experiment:E-QAT-FINAL-SELF-DISTILL-20261013-R2 | E-QAT-FINAL-SELF-DISTILL-20261013-R2 | experiment · public_probe_completed_not_promoted | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L842>), [research/experiments.jsonl](<../../experiments.jsonl#L844>), [research/experiments.jsonl](<../../experiments.jsonl#L845>) | — |
 | experiment:E-QAT-FINAL-ADAPTATION-20261013-R1 | E-QAT-FINAL-ADAPTATION-20261013-R1 | experiment · completed_final_fitted_diagnostic | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L843>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
