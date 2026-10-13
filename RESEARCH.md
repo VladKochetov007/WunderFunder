@@ -44,3 +44,7 @@ The repository root contains no research compatibility aliases. Use the canonica
 [October13 execution campaign](research/campaign_2026-10-13/strategy_execution_r1/README.md) supersedes the historical experimental stop following the user's approval to implement the review and use all Kaggle allowance/local GPU capacity. It contains the plan, coverage and frontier; existing CPU/RAM and no-paid-spend constraints remain.
 
 [Selected QAT public-test package](research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/RESULT_AND_RELEASE_R2.md) completes the immediate file preparation: exact learned-scale W4, near-original fitteddiagnostic, one13.46MB checked ZIP. StrongesttestedQAT, floatingcontrolhigher; publicupload/score pendingauthenticatedportalaccess.
+
+### QAT public result — 2026-10-13T22:55:30.861028+00:00
+
+[User-reported QAT public test](research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/PUBLIC_TRANSFER_REVIEW_20261014_R1.md): portal00fpe72k,0.6680/54m26s/655MB. Original0.6681/50m16s/650MB remains higher and faster in these observations; priorreportedpairbest0.6682 unchanged. Exactprobecompleted/notpromoted;17.46% smallerZIP, no observed runtime/RAM or newbest benefit,5m34s deadline headroom. One rounded publicpoint, not a family refutation; source-qualified controls/activation-aware and broader validation remain open. Timestamp chronology is unresolved and payloadhash not independently verified.

@@ -27,3 +27,5 @@ The first final-parent QAT adaptations changed targets to the available F0 teach
 - [Navigation check](NAVIGATION_CHECK_R2.json):638local links acrossrootindex,topicREADMEs,QATreviews andrelease/deliverynotes resolve; review-path typos corrected beforedelivery. This is localnavigation evidence, not scientific/catalog freshness.
 
 - [Generated catalog freshness](CATALOG_FRESHNESS_R2.json): treebuild succeeded and scientificstructure/ledger checks reachedthefreshnessgate, butcatalog/integrity snapshots became stale as nine existingbackgroundmonitorfiles changed. This is an operationalsnapshot limit; noclaimof fullresearch_treecheckpass.
+
+- [Public transfer review](PUBLIC_TRANSFER_REVIEW_20261014_R1.md) and [exact user-reported receipt](PUBLIC_RESULT_20261014_R1.json): portal00fpe72k scored0.6680,54m26s/655MB;−0.0001 versus original,4m10s longer,5m34s deadline headroom. Archive17.46% smaller, no demonstrated public quality/runtime/RAM gain; exactprobecompleted, notpromoted. Portal timestamps/payloadidentity remain qualified.

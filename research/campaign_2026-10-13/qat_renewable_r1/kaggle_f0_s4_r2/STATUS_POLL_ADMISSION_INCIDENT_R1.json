@@ -1,0 +1,75 @@
+{
+  "schema": "qat-kaggle-r2-status-poll-admission-incident",
+  "incident": "brief-support-scope-committed-memory-above-17gb-target",
+  "observed_utc": "2026-10-13T19:56:25Z",
+  "scope": {
+    "purpose": "Read-only Kaggle status for the already-dispatched R2 profile and TPU V8 kernel",
+    "command": "scripts/limited kaggle kernels status <exact-kernel-id> (serial, twice)",
+    "cpu_quota": "25%",
+    "memory_max_bytes": 250000000,
+    "runtime_max_seconds": 45,
+    "observed_command_elapsed_seconds": 4.6,
+    "provider_mutation": false,
+    "fit_or_retry": false,
+    "returned_statuses": {
+      "vladkochetov07/wnn-qat-f0-s4-profile-r2-runner": "RUNNING",
+      "vladkochetov07/e463-tpu-realdata-reload-v8-20261013": "QUEUED"
+    }
+  },
+  "resource_snapshot": {
+    "campaign_parent_memory_current_bytes_before_scope_bytes": 15629680640,
+    "campaign_parent_memory_high_bytes": 18000000000,
+    "campaign_parent_memory_max_bytes": 20000000000,
+    "direct_child_cgroups": [
+      {
+        "name": "wnn-bandit-qat-final-s4-lsq_w4-fit-r1.service",
+        "memory_current_bytes": 4343984128,
+        "memory_max_bytes": 5999996928,
+        "unused_limit_bytes": 1656012800
+      },
+      {
+        "name": "wnn-bandit-qat-release-common-0-native-r1.service",
+        "memory_current_bytes": 910704640,
+        "memory_max_bytes": 1099997184,
+        "unused_limit_bytes": 189292544
+      },
+      {
+        "name": "wnn-bandit-qat-release-common-1-native-r1.service",
+        "memory_current_bytes": 815562752,
+        "memory_max_bytes": 1099997184,
+        "unused_limit_bytes": 284434432
+      },
+      {
+        "name": "run-p2602886-i2575813.scope",
+        "memory_current_bytes": 11816960,
+        "memory_max_bytes": 199999488,
+        "unused_limit_bytes": 188182528
+      },
+      {
+        "name": "wnn-codex-research-watch.service",
+        "memory_current_bytes": 32673792,
+        "memory_max_bytes": 134217728,
+        "unused_limit_bytes": 101543936
+      },
+      {
+        "name": "wnn-slice-filecache-guard.service",
+        "memory_current_bytes": 1863680,
+        "memory_max_bytes": 99999744,
+        "unused_limit_bytes": 98136064
+      }
+    ],
+    "direct_child_snapshot_relation": "Exact child current/max values were read immediately after the status command returned; a separate timestamp was not captured.",
+    "sum_unused_direct_child_limits_bytes": 2517602304,
+    "status_scope_max_bytes": 250000000,
+    "mixed_snapshot_committed_bound_estimate_bytes": 18397282944,
+    "target_bytes": 17000000000,
+    "hard_limit_bytes": 20000000000,
+    "target_exceeded_by_estimate": true,
+    "hard_limit_exceeded": false,
+    "parent_sample_preceded_scope": true,
+    "child_values_read_immediately_after_scope": true
+  },
+  "cause": "The operator used the parent current reading but failed to recalculate all active direct-child unused memory limits before starting the bounded status scope.",
+  "impact": "A short read-only poll ran while root's LSQ fit and two native evaluations were active. The bound estimated from the parent pre-scope current, immediate post-scope child unused limits, and the scope cap exceeded the 17 GB target but remained below the 20 GB hard cgroup limit. It is an incident estimate, not a simultaneous sample. No fit was launched or killed, no provider mutation occurred, and no OOM or limit change was observed.",
+  "containment": "No more status support scopes until a fresh parent-current plus all active direct-child unused-reservation calculation, including the proposed scope, is at or below 17000000000 bytes. Preserve healthy workers and existing provider attempts."
+}

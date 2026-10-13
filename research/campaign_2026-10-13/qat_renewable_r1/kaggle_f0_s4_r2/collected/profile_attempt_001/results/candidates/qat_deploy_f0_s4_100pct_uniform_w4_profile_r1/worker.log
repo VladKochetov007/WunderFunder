@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/kaggle/working/experiment/src/wnn/distillation_cache.py", line 239, in validate_distillation_cache
+    path.relative_to(cache_root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.13/pathlib/_local.py", line 385, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: '/kaggle/input/datasets/vladkochetov07/wnn-qat-f0-s4-assets-r1/6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3.wnn' is not in the subpath of '/kaggle/working/experiment/cache/clean_t3_f0_h390_t3r5_a9_r2'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/kaggle/working/experiment/scripts/train_rnn.py", line 3075, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/experiment/scripts/train_rnn.py", line 2203, in main
+    distill_cache_validation = validate_distillation_cache(
+        cache_root, ROOT, campaign_split, args.distill_cache_variant,
+        require_families=args.distill_family_weight > 0)
+  File "/kaggle/working/experiment/src/wnn/distillation_cache.py", line 241, in validate_distillation_cache
+    raise ValueError(f"cache file escapes the registered cache root: {key}") from error
+ValueError: cache file escapes the registered cache root: main_homogeneous_train

@@ -44,3 +44,5 @@ Current stage: eight short profiles and all fourteen member exports are complete
 ## Public leaderboard feedback
 
 [October13 public update](PUBLIC_LB_UPDATE_20261013_R2.md) and [exact five-row receipt](PUBLIC_RESULTS_20261013_R2.json) record new seed6 blend 0.6679, confirmed E 0.6675, original xteam_h4 0.6681, and quota 2/5 with 90 total. Public runtime for the new optimized four-model endpoint is 46m51s/650MB. It improves on E but remains below the original cross-team blend and pair_ftt2 team best. Portal durations do not isolate an engine speed gain.
+
+- [QAT public test result](../qat_renewable_r1/final_self_distill_r2/PUBLIC_TRANSFER_REVIEW_20261014_R1.md): user reports0.6680,54m26s/655MB for the learned-W4 replacement, below originalxteam0.6681 and priorpairbest0.6682. Newreceipt repeatsseed6/E/original references without changing priortranscripts; no leaderboardgain or causalruntimeclaim.

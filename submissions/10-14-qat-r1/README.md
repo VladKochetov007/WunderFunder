@@ -9,3 +9,7 @@ SelectedZIP Python3.11 V2/V3 import,8fullsequence nativeparity/179109requiredrow
 [Reproducible result/release](../../research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/RESULT_AND_RELEASE_R2.md), [frozen release receipt](../../research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/RELEASE_R2.json), [independent grade](../../research/unified/reviews/QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R4.md).
 
 Publicupload is authorized but has not occurred: the available browser session has no login/upload form. Use [the official submission portal](https://wundernn.io/connectome/submit) in an authenticated session. Publicscore remains unknown.
+
+## User-reported public result
+
+Portal `00fpe72k`: **0.6680**,54m26s,655MB. The user reports upload/scoring; the assistant did not upload it. Original xteam_h4 is0.6681/50m16s/650MB, so this compressed test did not improve the displayed score or runtime. [Public review and limits](../../research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/PUBLIC_TRANSFER_REVIEW_20261014_R1.md) supersedes the pending-public status above; frozen release/checks remain unchanged.
