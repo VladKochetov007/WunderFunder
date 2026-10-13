@@ -1,0 +1,347 @@
+{
+  "arms": {
+    "fp32": {
+      "args_relevant": {
+        "arch": "gru",
+        "batch": 16,
+        "cell": "gru",
+        "checkpoint_epoch": 0,
+        "checkpoint_policy": "fixed",
+        "chunk": 1000,
+        "distill": "",
+        "distill_alpha": 0.9,
+        "distill_cache_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r2",
+        "distill_cache_variant": "homogeneous",
+        "dropout": 0.0,
+        "epochs": 1,
+        "fit_subset_experiment_id": "E-QAT-FINAL-SELF-DISTILL-20261013-R2",
+        "fit_subset_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/fit_components_10pct.json",
+        "hidden": 256,
+        "init": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+        "layers": 2,
+        "lr": 0.0001,
+        "no_eval_during_fit": true,
+        "optim": "adamw",
+        "prop_cache": true,
+        "prop_power": 2.0,
+        "propensity": "c20260929_prop_f0",
+        "sched": "onecycle",
+        "seed": 3,
+        "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "stop_after_epoch": null,
+        "train_seqs": 10607,
+        "train_source": "train+valid",
+        "wd": 0.01
+      },
+      "cache_main_values": "validated cache values are loaded into each batch, copied to a private device tensor, then fully overwritten chunk-by-chunk before the main loss; cache files remain unchanged and cached main values are not used as targets",
+      "cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+      "cache_verified_file_sha256": {
+        "main_homogeneous_train": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+        "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+      },
+      "checkpoint_hashes_actual": {
+        "model.pt": "242b154e01e6d807a1d7361bab27a51bbf0e761287907281fc2c9aec50682df7",
+        "model_ep0.pt": "1d381a67c09e8fbf56d750e1307375b2c900696cee67e212973245aaed62fddf"
+      },
+      "checkpoint_hashes_provenance": {
+        "model.pt": "242b154e01e6d807a1d7361bab27a51bbf0e761287907281fc2c9aec50682df7",
+        "model_ep0.pt": "1d381a67c09e8fbf56d750e1307375b2c900696cee67e212973245aaed62fddf"
+      },
+      "evaluation_group_count": 468,
+      "fit_group_counts": {
+        "train": 1048,
+        "valid": 104
+      },
+      "fit_membership_identity": {
+        "dataset_length": 1152,
+        "train": {
+          "count": 1048,
+          "ordered_int64_le_sha256": "5b38ba68bbc8c3dc20f964548fb6aabccb945273ea8f4bca269db970912af643"
+        },
+        "valid": {
+          "count": 104,
+          "ordered_int64_le_sha256": "3a0825e095d385de29a5aebfbf87b134930947a84ce7983b0edc4f361155eeee"
+        },
+        "valid_repeat": 1
+      },
+      "history_sha256": "3a28ff1ad5c206d03a448b85a108287500daa3861acb4ec96ef0884027d33e99",
+      "initializer_checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+      "initializer_fp32_state_sha256": "a4bb842c506c92fcd7876da73eb5edeb211a530f677063f0dce1a45750c08137",
+      "initializer_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+      "main_loss_weights": "abs(clamp(label,-2,2))*main_valid; configured auxiliary terms are unchanged",
+      "normalization": {
+        "mean": {
+          "bytes_sha256": "9843eaf6cf41563b654f133d7e8164cd6985419eebb2d00f51fd4d78f6fb4813",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        },
+        "std": {
+          "bytes_sha256": "b0ceb5e939d7961e035be504a9e0d74ef09e1c8997937ca061ccc85cef1e893c",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        }
+      },
+      "prop_cache_argument": true,
+      "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+      "provenance_sha256": "0c305a485e892b2a7d107354b4d59befa17724f4bdcee65340bb9435777ee5df",
+      "qat": null,
+      "run": "artifacts/runs/qat_self_s3_fp32_fit_r2",
+      "sample_order_identity": {
+        "batch_size": 16,
+        "drop_last": true,
+        "loader_generator": "global CPU RNG",
+        "loader_rng": {
+          "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9",
+          "dtype": "torch.uint8",
+          "shape": [
+            5056
+          ]
+        },
+        "num_workers": 0,
+        "persistent_workers": false,
+        "sampler_class": "RandomSampler",
+        "sampler_generator": "global CPU RNG",
+        "sampler_num_samples": 1152,
+        "sampler_replacement": false,
+        "sampler_rng": {
+          "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9",
+          "dtype": "torch.uint8",
+          "shape": [
+            5056
+          ]
+        }
+      },
+      "source_hashes": {
+        "features": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "model": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+        "qat": "d4ecfddb9027e7402b91d980b79ed8ebf67cef0b825006cdfd09571715c016e6",
+        "quantization": "fbca8fff8af5ae488eea2c2b53e304fd3620fdaf32f1f213ac499378b0261298",
+        "trainer": "d80aa6b1fabf491907a6c88904496c90abfc1d07d23532931d1edb674ab44315"
+      },
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "subset_manifest_sha256": "fb9bd3da588e25dbbd5466598dc776fabf3fbe0bb85c55af37bbf65c5cfe96b1",
+      "subset_members_sha256": "254723b332b28eafa1e8b22dc283e8f886dbc6fa954894fdf46b769e5ebb1c30",
+      "target_formula": "0.1*clamp(label,-2,2) + 0.9*clamp(initializer_prediction[...,0:2],-2,2)",
+      "teacher_creation": "deepcopy after initializer and preprocessing load with _inference_fp32=true, before student QAT configuration",
+      "teacher_execution": "independent FP32 model, eval, requires_grad=false, no_grad forward; held fixed for the full fit",
+      "update_diagnostics": {
+        "amp_skipped_updates": 0,
+        "completed_batches": 72,
+        "ema_updates": 0,
+        "optimizer_attempts": 1440,
+        "optimizer_completed_updates": 1440
+      },
+      "valid_fit_eval_intersection": []
+    },
+    "lsq_w4": {
+      "args_relevant": {
+        "arch": "gru",
+        "batch": 16,
+        "cell": "gru",
+        "checkpoint_epoch": 0,
+        "checkpoint_policy": "fixed",
+        "chunk": 1000,
+        "distill": "",
+        "distill_alpha": 0.9,
+        "distill_cache_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r2",
+        "distill_cache_variant": "homogeneous",
+        "dropout": 0.0,
+        "epochs": 1,
+        "fit_subset_experiment_id": "E-QAT-FINAL-SELF-DISTILL-20261013-R2",
+        "fit_subset_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/fit_components_10pct.json",
+        "hidden": 256,
+        "init": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+        "layers": 2,
+        "lr": 0.0001,
+        "no_eval_during_fit": true,
+        "optim": "adamw",
+        "prop_cache": true,
+        "prop_power": 2.0,
+        "propensity": "c20260929_prop_f0",
+        "sched": "onecycle",
+        "seed": 3,
+        "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "stop_after_epoch": null,
+        "train_seqs": 10607,
+        "train_source": "train+valid",
+        "wd": 0.01
+      },
+      "cache_main_values": "validated cache values are loaded into each batch, copied to a private device tensor, then fully overwritten chunk-by-chunk before the main loss; cache files remain unchanged and cached main values are not used as targets",
+      "cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+      "cache_verified_file_sha256": {
+        "main_homogeneous_train": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+        "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+      },
+      "checkpoint_hashes_actual": {
+        "model.pt": "19668bb530c23268fd17627d4e40953d35ef2dbcb43617da904a7e8c94a30c3e",
+        "model_ep0.pt": "17199af8c9e01de1aab2f5b1d7b1354d6c3c7f57a3d5f9a0fef75efefdf259f8"
+      },
+      "checkpoint_hashes_provenance": {
+        "model.pt": "19668bb530c23268fd17627d4e40953d35ef2dbcb43617da904a7e8c94a30c3e",
+        "model_ep0.pt": "17199af8c9e01de1aab2f5b1d7b1354d6c3c7f57a3d5f9a0fef75efefdf259f8"
+      },
+      "evaluation_group_count": 468,
+      "fit_group_counts": {
+        "train": 1048,
+        "valid": 104
+      },
+      "fit_membership_identity": {
+        "dataset_length": 1152,
+        "train": {
+          "count": 1048,
+          "ordered_int64_le_sha256": "5b38ba68bbc8c3dc20f964548fb6aabccb945273ea8f4bca269db970912af643"
+        },
+        "valid": {
+          "count": 104,
+          "ordered_int64_le_sha256": "3a0825e095d385de29a5aebfbf87b134930947a84ce7983b0edc4f361155eeee"
+        },
+        "valid_repeat": 1
+      },
+      "history_sha256": "a89b78b054c682df7c68d123674a82a352302a0d83c10373528ed33a622efe94",
+      "initializer_checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+      "initializer_fp32_state_sha256": "a4bb842c506c92fcd7876da73eb5edeb211a530f677063f0dce1a45750c08137",
+      "initializer_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+      "main_loss_weights": "abs(clamp(label,-2,2))*main_valid; configured auxiliary terms are unchanged",
+      "normalization": {
+        "mean": {
+          "bytes_sha256": "9843eaf6cf41563b654f133d7e8164cd6985419eebb2d00f51fd4d78f6fb4813",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        },
+        "std": {
+          "bytes_sha256": "b0ceb5e939d7961e035be504a9e0d74ef09e1c8997937ca061ccc85cef1e893c",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        }
+      },
+      "prop_cache_argument": true,
+      "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+      "provenance_sha256": "acdeb04e6de0926b9eb6884107a593dc95628ffe5c7c2c54b02cd6bc7f01fa67",
+      "qat": {
+        "preset": "recurrent_w4",
+        "scale_learning": {
+          "algorithm": "lsq_inspired_per_output_row_step_sizes_v1",
+          "initialization": "fixed_absmax_row_scale_same_initial_codes_and_representation_v1",
+          "optimizer_group": {
+            "learning_rate_group": "base_lr",
+            "muon_rule": null,
+            "optimizer": "adamw",
+            "weight_decay": 0.01,
+            "weight_decay_semantics": "decoupled_adamw"
+          },
+          "paper": "Esser et al., Learned Step Size Quantization, arXiv:1902.08153",
+          "quantizer": "existing nearest-even symmetric Q4/Q8 row quantizer; QP is 7 or 127",
+          "reproduction_status": "LSQ-inspired scale-gradient component, not a full LSQ reproduction",
+          "scale_gradient": "clipped LSQ derivative; per-row g=1/sqrt(input_columns*QP)",
+          "scale_parameter": "direct float32 row step; base-LR non-Muon vector group; configured --wd applies",
+          "scale_projection": "reject nonfinite; negative step resets to current absmax/QP using min-subnormal floor; zero defers initialization",
+          "version": 1,
+          "weight_gradient": "identity STE, unchanged from fixed-scale QAT; not canonical LSQ clipped STE",
+          "zero_rows": "scale=0 while latent row is zero; initialize absmax/QP on first nonzero forward"
+        },
+        "scheme": "symmetric_per_row_signed_q4_q8_nearest_even_v2",
+        "version": 2
+      },
+      "run": "artifacts/runs/qat_self_s3_lsq_w4_fit_r2",
+      "sample_order_identity": {
+        "batch_size": 16,
+        "drop_last": true,
+        "loader_generator": "global CPU RNG",
+        "loader_rng": {
+          "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9",
+          "dtype": "torch.uint8",
+          "shape": [
+            5056
+          ]
+        },
+        "num_workers": 0,
+        "persistent_workers": false,
+        "sampler_class": "RandomSampler",
+        "sampler_generator": "global CPU RNG",
+        "sampler_num_samples": 1152,
+        "sampler_replacement": false,
+        "sampler_rng": {
+          "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9",
+          "dtype": "torch.uint8",
+          "shape": [
+            5056
+          ]
+        }
+      },
+      "source_hashes": {
+        "features": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "model": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+        "qat": "d4ecfddb9027e7402b91d980b79ed8ebf67cef0b825006cdfd09571715c016e6",
+        "quantization": "fbca8fff8af5ae488eea2c2b53e304fd3620fdaf32f1f213ac499378b0261298",
+        "trainer": "d80aa6b1fabf491907a6c88904496c90abfc1d07d23532931d1edb674ab44315"
+      },
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "subset_manifest_sha256": "fb9bd3da588e25dbbd5466598dc776fabf3fbe0bb85c55af37bbf65c5cfe96b1",
+      "subset_members_sha256": "254723b332b28eafa1e8b22dc283e8f886dbc6fa954894fdf46b769e5ebb1c30",
+      "target_formula": "0.1*clamp(label,-2,2) + 0.9*clamp(initializer_prediction[...,0:2],-2,2)",
+      "teacher_creation": "deepcopy after initializer and preprocessing load with _inference_fp32=true, before student QAT configuration",
+      "teacher_execution": "independent FP32 model, eval, requires_grad=false, no_grad forward; held fixed for the full fit",
+      "update_diagnostics": {
+        "amp_skipped_updates": 0,
+        "completed_batches": 72,
+        "ema_updates": 0,
+        "optimizer_attempts": 1440,
+        "optimizer_completed_updates": 1440
+      },
+      "valid_fit_eval_intersection": []
+    }
+  },
+  "experiment_id": "E-QAT-FINAL-SELF-DISTILL-20261013-R2",
+  "fit_completion_sha256": "dd315114c4b3b33c77e02d5e8086ff121e44f424969f9076bc1bb2ef35f9e39f",
+  "fit_sequence_plan_sha256": "3a705ff8de14fb899dfc06bf2081cc835500a6ecce049894f6c8070fc9bb017d",
+  "frozen_source_hashes": {
+    "scripts/train_rnn.py": "d80aa6b1fabf491907a6c88904496c90abfc1d07d23532931d1edb674ab44315",
+    "src/wnn/training_qat.py": "d4ecfddb9027e7402b91d980b79ed8ebf67cef0b825006cdfd09571715c016e6"
+  },
+  "interpretation": {
+    "arm_difference": [
+      "qat preset recurrent_w4 versus none",
+      "qat_learn_scales true versus false",
+      "run name"
+    ],
+    "evaluation_exposure": "All-data final parent includes the F0 evaluation rows; 104 fit-valid source groups are disjoint from the 468 F0 evaluation groups. This is exposed adaptation/fit-diagnostic evidence, not clean CV or public forecast.",
+    "pending": "Native exports, complete fixed-blend grade, package/runtime verification, and root selection remain pending.",
+    "propensity_payload_limit": "Fit provenance pins propensity model SHA and the shared cache path, but does not record payload SHA for the large propensity-cache NPY arrays; no full payload reread/hash was performed in this audit.",
+    "row_group_namespace": "Train-parquet and valid-parquet row-group integers have separate namespaces; only valid-parquet fit groups are compared with the valid-parquet evaluation groups.",
+    "verdict": "PASS for matched fit ancestry and treatment isolation; not a quality or submission-selection decision"
+  },
+  "pair_equalities": {
+    "args_except_treatment_and_run_name": true,
+    "fit_membership_identity": true,
+    "initializer_teacher": true,
+    "normalization": true,
+    "propensity_checkpoint_and_cache_argument": true,
+    "sample_order": true,
+    "source": true,
+    "source_qualified_groups": true,
+    "split": true,
+    "subset_manifest": true,
+    "subset_members": true,
+    "updates": true
+  },
+  "parent": {
+    "model_ep5_actual_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+    "model_ep5_expected_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+    "provenance_actual_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+    "provenance_expected_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+    "run": "artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3"
+  },
+  "profile_acceptance_sha256": "4dbae7a9e2d7a4fad21541183f2b1911684303911ab0436ee56b2265c95200b2",
+  "recipe": "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/RECIPE_R2.json",
+  "recipe_sha256": "b635202f5d6d8f1478f5f4ff1faf6332972e3eeab91176fd0ce05ec577a649ef",
+  "review_id": "QAT-FINAL-SELF-DISTILL-FIT-AUDIT-R2",
+  "source_revision": "abf1efd3dafd8298140460f5d4413e732fcf6d07"
+}
