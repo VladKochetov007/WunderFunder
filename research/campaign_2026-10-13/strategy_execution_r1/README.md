@@ -40,6 +40,8 @@ Resume research under the new authority, update GPU guards, prepare and independ
 
 ## Source records
 
+- [Fixed two-seed trajectory averages](trajectory_average_f0_r1/README.md) materialize S37's predeclared epoch-3/4/5 averages from real clean F0 checkpoints. Actual producer checks and three correctness tests pass; independent review, GPU prediction and paired grading remain pending. The new artifacts add no fitting or serving cost, but have no measured quality yet.
+- [F3 seed-3 root release](first_cohort_f3_teachers_r2/ROOT_RELEASE_R2.json) independently checks the sealed R2 source, nested mounts, exact bootstrap, quota window and output accounting before provider dispatch. Three packet tests pass; this authorizes one conditional profile/fit/export/collection tranche, not a model-quality claim. The original fractional-second quota threshold is corrected by the delivery addendum to 35,838 seconds, preserving the same 17,019-second two-device window.
 - [Historical auxiliary/loss audit](HISTORICAL_AUXILIARY_AUDIT_R1.md) and [terminal-history receipt](HISTORICAL_AUXILIARY_AUDIT_R1.json) complete S25's evidence-location task. Seven completed histories and scoped historical negatives are preserved; no new quality computation or broad family rejection.
 - [Original stop](../../campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json), preserved as historical authority.
 - [Final archive](../../unified/archive/2026-10-12/README.md), historical artifacts and exposure.
