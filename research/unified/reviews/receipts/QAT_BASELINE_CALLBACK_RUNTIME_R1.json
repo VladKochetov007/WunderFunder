@@ -1,0 +1,94 @@
+{
+  "schema": "wnn.baseline-callback-runtime-review.v1",
+  "review_id": "QAT-BASELINE-XTEAM-H4-CALLBACK-RUNTIME-R1",
+  "candidate": "xteam_h4",
+  "scope": "serving callback runtime only; no score or public-transfer claim",
+  "canonical_measurement": {
+    "binding_path": "research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/BASELINE_BENCHMARK_BINDING_R3.json",
+    "binding_sha256": "5ee6541eec21e17934639db2e1fe0bbfb7b7cae5897330227a5070268451114f",
+    "result_path": "artifacts/qat_renewable_r1/final_release_r1/BASELINE_CALLBACK_RUNTIME_R3.json",
+    "result_sha256": "a71515f86f01ce8caaabef29e777aece4ba344a34a421cb7444ac6b22482b476",
+    "zip_path": "artifacts/team_models_20261013/xteam_h4.zip",
+    "zip_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+    "zip_bytes": 16308160,
+    "build_receipt_sha256": "5ee6541eec21e17934639db2e1fe0bbfb7b7cae5897330227a5070268451114f",
+    "runner_sha256": "8bc57f520b9b284ca863fb8a798be3a0e923ad9242c0fb7ffa58abc2e2a0af53",
+    "source_code_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+    "runtime": {
+      "python": "3.11.16",
+      "numpy": "2.2.6",
+      "native_level": "v3",
+      "precision": "q8vnni",
+      "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+      "affinity_used": [0]
+    },
+    "workload": {
+      "data_path": "datasets/valid.parquet",
+      "data_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "first_row_group": 4,
+      "row_groups": [4, 5],
+      "sequence_ids": [1990332, 2308749],
+      "sequence_length_each": 20000,
+      "repeats": 2,
+      "callback_calls": 80000,
+      "predictions_bitwise_identical_across_resets": true
+    },
+    "timing": {
+      "mean_callback_us_per_row": 89.678249175,
+      "median_repeat_us_per_row": 89.67824917499999,
+      "repeat_us_per_row": [89.564056375, 89.792441975],
+      "elapsed_callback_ns": 7174259934,
+      "elapsed_wall_seconds_after_sequence_decode": 11.75428602899774,
+      "parquet_decode_and_state_reset_included_in_callback_timing": false
+    },
+    "resources": {
+      "worker_ram_limit_bytes": 1000000000,
+      "worker_memory_peak_bytes": 999997440,
+      "worker_max_events_before": 16002,
+      "worker_max_events_after": 34688,
+      "worker_max_event_delta": 18686,
+      "worker_oom_events": 0,
+      "worker_oom_kill_events": 0,
+      "worker_kill_events": 0,
+      "max_rss_kib": 606916,
+      "parent_memory_before_bytes": 7483682816,
+      "parent_memory_high_bytes": 17999998976,
+      "parent_memory_max_bytes": 19999997952,
+      "active_campaign_attempts_before_launch": 0,
+      "historical_lost_record_unit_before_launch": "inactive/dead"
+    },
+    "temporary_directory": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_release_r1/check_tmp",
+      "mount_target": "/home",
+      "filesystem": "btrfs",
+      "device": "/dev/nvme0n1p7"
+    },
+    "verification": {
+      "archive_crc_checked": true,
+      "all_archive_member_hashes_checked_against_binding": true,
+      "full_data_sha256_checked_before_and_after": true,
+      "sequence_reset_replay_checked": true,
+      "official_metric_computed": false
+    }
+  },
+  "preserved_interpreter_mismatch": {
+    "binding_path": "research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/BASELINE_BENCHMARK_BINDING_R2.json",
+    "binding_sha256": "836d4686f8130aa406f36d2737f0a7fd30e52f0fff234e8c8068a37ca23b606c",
+    "result_path": "artifacts/qat_renewable_r1/final_release_r1/BASELINE_CALLBACK_RUNTIME_R2.json",
+    "result_sha256": "7b56736d6bdba152e5921725f44938220b7a70d9b818c018013e71c9cc154c54",
+    "observed_python": "3.13.9",
+    "mean_callback_us_per_row": 87.2986222,
+    "status": "preserved measured run; excluded from Python 3.11 matched-runtime comparison"
+  },
+  "interpretation": {
+    "result": "The canonical xteam_h4 reference measured 89.678 microseconds per callback-row in this two-sequence, two-repeat Python 3.11.16 profile.",
+    "comparison_rule": "Use only a candidate run with the same Python 3.11.16 environment, CPU affinity, native dispatch, input row groups, repeats, worker limits and benchmark source for a direct runtime contrast.",
+    "resource_limit": "The worker reached its 1 GB memory ceiling while the benchmark hashed the full parquet, but exited successfully with zero OOM or kill events. Treat the point as completed under a saturated worker cap; do not interpret it as a memory-headroom measurement.",
+    "limitations": [
+      "Only row groups 4 and 5 were timed; this is not a full-panel runtime estimate.",
+      "Two repeats provide a small engineering sample, not a latency distribution or confidence interval.",
+      "Callback timing excludes parquet decoding and state reset; wall time after decode also includes package extraction and import.",
+      "No metric or quality score was computed; root owns candidate ZIP parity, matched candidate timing, and package selection."
+    ]
+  }
+}
