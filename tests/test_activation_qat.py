@@ -8,7 +8,11 @@ import numpy as np
 import pytest
 import torch
 
-from wnn.activation_qat import activation_qat_forward, quantize_activation_a8
+from wnn.activation_qat import (
+    ActivationQATModel,
+    activation_qat_forward,
+    quantize_activation_a8,
+)
 from wnn.nn import RNNModel
 from wnn.quantization import quantize_model
 from wnn.training_qat import configure_qat
@@ -34,6 +38,12 @@ def test_a8_codes_and_scales_match_native_scalar_rule() -> None:
             expected_scales[row] = maximum / np.float32(127)
     np.testing.assert_array_equal(codes.numpy(), expected_codes)
     np.testing.assert_array_equal(scales.numpy(), expected_scales)
+
+
+@pytest.mark.parametrize("invalid", [float("nan"), float("inf"), -float("inf")])
+def test_a8_quantizer_rejects_nonfinite_boundary_inputs(invalid: float) -> None:
+    with pytest.raises(ValueError, match="finite float32"):
+        quantize_activation_a8(torch.tensor([[0.5, invalid]], dtype=torch.float32))
 
 
 def _chunked_forward(
@@ -92,6 +102,19 @@ def test_activation_quantization_keeps_recurrent_state_float32() -> None:
     assert state.dtype == torch.float32
     assert torch.isfinite(predictions).all()
     assert torch.isfinite(state).all()
+
+
+def test_activation_qat_model_wrapper_preserves_chunk_initial_state() -> None:
+    torch.manual_seed(67016)
+    model = RNNModel(4, hidden=5, layers=2).eval()
+    inputs = torch.randn(2, 7, 4)
+    initial = torch.randn(2, 2, 5)
+    expected, expected_state = model(inputs, initial)
+    actual, actual_state = ActivationQATModel(model, quantize_activations=False)(
+        inputs, {}, False, initial
+    )
+    torch.testing.assert_close(actual, expected, rtol=2e-5, atol=2e-6)
+    torch.testing.assert_close(actual_state, expected_state, rtol=2e-5, atol=2e-6)
 
 
 def test_native_q8vnni_hidden_state_tracks_recurrent_a8_backend() -> None:

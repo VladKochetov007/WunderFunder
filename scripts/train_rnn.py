@@ -12,6 +12,7 @@ import json
 import math
 import os
 import platform
+import resource
 import sys
 import time
 from collections.abc import Iterable
@@ -23,6 +24,7 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
+from wnn.activation_qat import ActivationQATModel, require_finite_activation_a8
 from wnn.block_memory_attention import BlockMemoryAttention
 from wnn.data import (
     CORRUPT_TRAIN_ROW_GROUPS,
@@ -39,6 +41,7 @@ from wnn.distillation import (
     four_family_weighted_mse,
 )
 from wnn.distillation_cache import validate_distillation_cache
+from wnn.event_content import EventContentModel
 from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch, online_zscore_torch
 from wnn.metric import block_aggregate_score, block_scores, score
 from wnn.nn import (
@@ -64,40 +67,78 @@ from wnn.outcomes import (
     sequence_class,
     structure_labels,
 )
+from wnn.privileged import (
+    PRIVILEGED_MODES,
+    load_inner_manifest,
+    privileged_inputs,
+    validate_crossfit_cache,
+)
 from wnn.propensity import load_propensity, propensity
-from wnn.privileged import (PRIVILEGED_MODES, load_inner_manifest, privileged_inputs,
-                            validate_crossfit_cache)
 from wnn.quantization import policy_metadata
-from wnn.structured_state import StructuredStateModel
-from wnn.event_content import EventContentModel
+from wnn.research_features import (
+    MOMENT_FEATURE_MODES,
+    RESEARCH_FEATURE_MODES,
+    fit_causal_moment_prior,
+    research_feature_control_width,
+    research_feature_names,
+    research_features_torch,
+    validate_causal_moment_prior,
+)
 from wnn.resources import configure_torch, cpu_threads, dataloader_budget
-from wnn.research_features import (MOMENT_FEATURE_MODES, RESEARCH_FEATURE_MODES,
-                                   fit_causal_moment_prior, research_feature_control_width,
-                                   research_feature_names,
-                                   research_features_torch, validate_causal_moment_prior)
-from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_identity,
-                              sample_order_identity, scaler_source_identity)
-from wnn.splits import CampaignSplit, dev_halves, file_sha256, load_campaign_split, valid_row_groups
-from wnn.spread_aux import (PackedSpreadCache, structural_loss, validate_spread_cache,
-                            validate_spread_parent)
-from wnn.training_controls import (DistilledLoss, blended_target, distilled_macro_losses,
-                                   detach_boundary_offset, ema_decay_per_update, shuffled_masses)
-from wnn.training_credit import credit_edge_scales
-from wnn.training_dynamics import (Dynamics, add_arguments as add_dynamics_arguments,
-                                   build_optimizer, build_scheduler, switch_optimizer)
-from wnn.training_sampling import EpochOrderSampler, init_qmc_
-from wnn.training_factorized import (configure_factorized, factorized_forward,
-                                      factorized_inference_state)
-from wnn.sentinel import (INDICATOR_MODES, VALUE_MODES, SentinelInputProjection,
-                          SentinelPreprocessor)
+from wnn.run_identity import (
+    EpochUpdateCounter,
+    group_identity,
+    normalization_identity,
+    sample_order_identity,
+    scaler_source_identity,
+)
+from wnn.sentinel import INDICATOR_MODES, VALUE_MODES, SentinelInputProjection, SentinelPreprocessor
 from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
 from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
-from wnn.training_qat import (QAT_LEARN_SCALE_MODES, QAT_MODES, configure_qat,
-                              inference_state, invalidate_qat_cache, qat_forward,
-                              project_qat_scales_, scale_learning_metadata)
-from wnn.training_state import (atomic_save_training_state, capture_training_state,
-                                load_training_state, loader_state, restore_rng,
-                                restore_training_state)
+from wnn.splits import CampaignSplit, dev_halves, file_sha256, load_campaign_split, valid_row_groups
+from wnn.spread_aux import (
+    PackedSpreadCache,
+    structural_loss,
+    validate_spread_cache,
+    validate_spread_parent,
+)
+from wnn.structured_state import StructuredStateModel
+from wnn.training_controls import (
+    DistilledLoss,
+    blended_target,
+    detach_boundary_offset,
+    distilled_macro_losses,
+    ema_decay_per_update,
+    shuffled_masses,
+)
+from wnn.training_credit import credit_edge_scales
+from wnn.training_dynamics import Dynamics, build_optimizer, build_scheduler, switch_optimizer
+from wnn.training_dynamics import add_arguments as add_dynamics_arguments
+from wnn.training_factorized import (
+    configure_factorized,
+    factorized_forward,
+    factorized_inference_state,
+)
+from wnn.training_qat import (
+    QAT_LEARN_SCALE_MODES,
+    QAT_MODES,
+    configure_qat,
+    inference_state,
+    invalidate_qat_cache,
+    project_qat_scales_,
+    qat_forward,
+    qat_weight_replacements,
+    scale_learning_metadata,
+)
+from wnn.training_sampling import EpochOrderSampler, init_qmc_
+from wnn.training_state import (
+    atomic_save_training_state,
+    capture_training_state,
+    load_training_state,
+    loader_state,
+    restore_rng,
+    restore_training_state,
+)
 from wnn.training_views import origin_windows, update_ema_for_rows
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
@@ -949,6 +990,29 @@ def fit_e540_numeric_preprocessing(
 
 
 def forward_chunk(model, inputs, sl, state):
+    activation_backend = getattr(model, "_activation_qat_backend", None)
+    if activation_backend is not None:
+        chunk = inputs[:, sl]
+        require_finite_activation_a8(chunk, "input chunk")
+        if state is not None:
+            require_finite_activation_a8(state, "recurrent state")
+        replacements = qat_weight_replacements(model)
+        compile_timings = getattr(model, "_activation_profile_compile_timings", None)
+        compile_started = time.perf_counter() if compile_timings is not None and compile_timings["forward"] is None else None
+        result = activation_backend(chunk, replacements, False, state)
+        if compile_started is not None:
+            if inputs.device.type == "cuda":
+                torch.cuda.synchronize(inputs.device)
+            compile_timings["forward"] = time.perf_counter() - compile_started
+        fingerprints = getattr(model, "_activation_profile_cache_fingerprints", None)
+        if fingerprints is not None and len(fingerprints) < 2 and getattr(model, "_qat_names", ()):
+            fingerprints.append({
+                name: hashlib.sha256(
+                    model._qat_cache[name][1].detach().cpu().contiguous().numpy().tobytes()
+                ).hexdigest()
+                for name in model._qat_names
+            })
+        return result
     if getattr(model, "_recurrent_rank", 0):
         return factorized_forward(model, inputs[:, sl], state)
     if getattr(model, "_qat_preset", "none") != "none":
@@ -1508,6 +1572,10 @@ def main():
     ap.add_argument("--credit-seed", type=int, default=100100)
     ap.add_argument("--qat", choices=QAT_MODES, default="none",
                     help="versioned per-row q4/q8 weight-only QAT; activations/state remain fp32")
+    ap.add_argument("--activation-backend", choices=("none", "scan_fp32", "scan_a8"), default="none",
+                    help="experimental compiled scan; scan_a8 adds recurrent-boundary activation quantization")
+    ap.add_argument("--activation-profile-first-chunk", action="store_true",
+                    help="profile only the first causal chunk; requires an activation backend and profile mode")
     ap.add_argument("--qat-learn-scales", action="store_true",
                     help="learn row steps with the versioned LSQ-inspired rule; requires a Q4 QAT preset")
     ap.add_argument("--recurrent-rank", type=int, default=0,
@@ -1828,6 +1896,16 @@ def main():
     if args.qat != "none" and (args.precision != "fp32" or args.arch != "gru"
                                or args.cell != "gru" or args.enc != "linear"):
         ap.error("QAT requires explicit --precision fp32 with plain GRU and linear input encoder")
+    if args.activation_backend != "none":
+        if (args.precision != "fp32" or args.arch != "gru" or args.cell != "gru"
+                or args.enc != "linear" or args.recurrent_rank):
+            ap.error("activation scan backend supports only fp32 dense GRU with linear encoder")
+        if args.activation_backend == "scan_a8" and args.dropout != 0:
+            ap.error("the activation scan backend currently requires zero inter-layer dropout")
+    if args.activation_profile_first_chunk and (
+        args.activation_backend == "none" or args.profile_steps <= 0
+    ):
+        ap.error("--activation-profile-first-chunk requires activation backend profile mode")
     if args.qat_learn_scales and args.qat not in QAT_LEARN_SCALE_MODES:
         ap.error("--qat-learn-scales requires --qat recurrent_w4 or input_w4_recurrent_w8")
     if args.qat_learn_scales and (not math.isfinite(args.wd) or args.wd < 0):
@@ -1950,6 +2028,8 @@ def main():
         ap.error("--quote-cache-root requires --aux-quote")
     if args.fast:
         args.sync_free = args.fused_adam = args.pin_memory = args.prop_cache = True
+    if args.activation_profile_first_chunk and args.pin_memory:
+        ap.error("first-chunk profile batch reuse requires a non-pinned DataLoader")
     if args.profile_steps:
         args.max_batches = args.profile_warmup + args.profile_steps
     if args.mask_weight and args.train_source == "train":
@@ -2312,6 +2392,16 @@ def main():
         if campaign_split is not None:
             validate_campaign_checkpoint(torch.load(propensity_path, map_location="cpu", weights_only=False), args)
         provenance["propensity_checkpoint_sha256"] = file_sha256(propensity_path)
+        if args.prop_cache:
+            provenance["propensity_cache"] = {
+                split: {
+                    "path": str(path),
+                    "bytes": path.stat().st_size,
+                    "metadata_sha256": file_sha256(path.with_suffix(".json")),
+                    "metadata": json.loads(path.with_suffix(".json").read_text()),
+                }
+                for split, path in prop_cache.items()
+            }
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
     global RESEARCH_FEATURES, RESEARCH_FEATURE_PRIOR, RESEARCH_FEATURE_CONTROL
     RESEARCH_FEATURES = args.research_features
@@ -2482,6 +2572,42 @@ def main():
     if args.precision == "fp32":
         model._inference_fp32 = True
     configure_qat(model, args.qat, args.qat_learn_scales)
+    if args.activation_backend != "none":
+        if args.qat_learn_scales:
+            ap.error("activation scan currently profiles fixed-scale weight QAT only")
+        if not os.environ.get("TORCHINDUCTOR_CACHE_DIR"):
+            ap.error("activation scan backend requires TORCHINDUCTOR_CACHE_DIR on physical storage")
+        if device.type == "cuda":
+            import torch._inductor.config as inductor_config
+
+            inductor_config.compile_threads = 1
+        finite_model_tensors = [
+            torch.isfinite(value).all()
+            for value in model.parameters()
+        ] + [torch.isfinite(model.mean).all(), torch.isfinite(model.std).all()]
+        if not bool(torch.stack(finite_model_tensors).all().item()):
+            raise ValueError("activation scan requires finite model parameters and normalization")
+        activation_model = ActivationQATModel(
+            model, quantize_activations=args.activation_backend == "scan_a8"
+        )
+        object.__setattr__(
+            model, "_activation_qat_backend", torch.compile(activation_model, fullgraph=True)
+        )
+        if args.activation_profile_first_chunk:
+            object.__setattr__(model, "_activation_profile_cache_fingerprints", [])
+            object.__setattr__(model, "_activation_profile_compile_timings", {"forward": None, "backward": None})
+        provenance["activation_backend"] = {
+            "kind": args.activation_backend,
+            "implementation": "compiled torch higher-order scan",
+            "activation_scope": (
+                "post-encoder/per-layer input-to-hidden and previous-hidden recurrent matvec vectors"
+                if args.activation_backend == "scan_a8"
+                else "same scan recurrence without activation quantization"
+            ),
+            "state": "fp32 recurrent state",
+            "excluded": ["raw input projection/I16 export", "head hidden/projection A8 blocks"],
+            "weight_qat": args.qat,
+        }
     if saved_training is not None:
         # Register learned scale parameters before strict state restoration.
         model.load_state_dict(saved_training["model"])
@@ -2508,6 +2634,27 @@ def main():
         "valid": group_identity(provenance["fit_row_groups"]["valid"]),
         "valid_repeat": args.valid_repeat, "dataset_length": len(train_ds),
     }
+    if args.profile_steps and args.activation_backend != "none":
+        provenance["profile_source_hashes"] = {
+            "trainer": file_sha256(SOURCE_ROOT / "scripts/train_rnn.py"),
+            "activation_backend": file_sha256(SOURCE_ROOT / "src/wnn/activation_qat.py"),
+            "weight_qat": file_sha256(SOURCE_ROOT / "src/wnn/training_qat.py"),
+            "gru_model": file_sha256(SOURCE_ROOT / "src/wnn/nn.py"),
+        }
+        print("PROFILE_RUN_PROVENANCE", json.dumps({
+            "initial_checkpoint_sha256": provenance.get("initial_checkpoint_sha256"),
+            "split_manifest_sha256": provenance.get("split_manifest_sha256"),
+            "fit_subset_manifest_sha256": provenance.get("fit_subset_manifest_sha256"),
+            "fit_subset_members_sha256": provenance.get("fit_subset_members_sha256"),
+            "fit_membership_identity": provenance["fit_membership_identity"],
+            "normalization_identity": provenance["normalization_identity"],
+            "distillation_cache": provenance.get("distillation_cache"),
+            "propensity_checkpoint_sha256": provenance.get("propensity_checkpoint_sha256"),
+            "propensity_cache": provenance.get("propensity_cache"),
+            "source_sha256": provenance["profile_source_hashes"],
+            "activation_backend": provenance.get("activation_backend"),
+            "weight_qat": provenance.get("qat"),
+        }), flush=True)
     frozen = tuple(v for v in args.freeze.split(",") if v)
     for pname, prm in model.named_parameters():
         if frozen and pname.startswith(frozen):
@@ -2575,6 +2722,8 @@ def main():
           f"{sum(p.numel() for p in model.parameters()) / 1e6:.2f}M; steps {total}", flush=True)
 
     timer = StageTimer(args.profile_steps > 0, args.profile_warmup)
+    if args.profile_steps and device.type == "cuda":
+        torch.cuda.reset_peak_memory_stats(device)
     norm_ema = None  # running weight-sum normalizer for --loss-norm running
     losses_trace = []
     profile_losses: list[torch.Tensor] | None = [] if args.profile_steps else None
@@ -2607,6 +2756,8 @@ def main():
             "variable_update_width": args.origin_view == "prefix-random",
             "uses_replayed_state": args.origin_view != "prefix-discard",
             "ema_clock": "actual update rows" if args.ema_reference_rows else "attempted updates including AMP skips"})
+    activation_profile_first_batch_seconds = None
+    activation_profile_updates = []
     # Bind the runtime only after lazy loaders/optimizers have initialized, and
     # use that same explicit thread budget for uninterrupted and resumed fits.
     torch.set_num_threads(cpu_threads())
@@ -2654,10 +2805,30 @@ def main():
         if isinstance(train_loader.sampler, EpochOrderSampler):
             epoch_order_identity["seeded_order"] = {"seed": args.seed, "epoch": epoch,
                                                     "antithetic": args.antithetic, "shared_dropped_tail": True}
+        if args.activation_profile_first_chunk:
+            print("PROFILE_BATCH_PROVENANCE", json.dumps({
+                "batch_size": args.batch,
+                "first_batch_index": 0,
+                "sample_order_identity": epoch_order_identity,
+                "same_batch_reused_for_warmup_and_measured_update": True,
+                "forward_rows": [0, args.chunk],
+                "initial_state": "zero for each update; first rows from sequence origin",
+                "fit_subset_members_sha256": provenance.get("fit_subset_members_sha256"),
+            }), flush=True)
         batches = CudaPrefetcher(train_loader, device, timer) if args.pin_memory else train_loader
-        for b, batch in enumerate(batches):
+        if args.activation_profile_first_chunk:
+            first_batch = next(iter(batches))
+            profile_batches = iter((first_batch, first_batch))
+        else:
+            profile_batches = iter(batches)
+        for b, batch in enumerate(profile_batches):
             if args.max_batches and b >= args.max_batches:
                 break
+            profile_batch_started = (
+                time.perf_counter()
+                if args.profile_steps and args.activation_backend != "none" and b == 0
+                else None
+            )
             timer.start()
             prop_cached = spread_encoded = kept_len = None
             if args.pin_memory:
@@ -2732,6 +2903,8 @@ def main():
             donor_masses = None
             windows = origin_windows(inputs.shape[1], update_rows, args.chunk, args.origin_view,
                                      args.origin_seed, epoch, b)
+            if args.activation_profile_first_chunk:
+                windows = windows[:1]
             if args.distill_denominator == "shuffled":
                 if args.origin_view == "off":
                     donor_masses = shuffled_masses(
@@ -2744,6 +2917,7 @@ def main():
                     donor_masses = masses[torch.as_tensor(order, device=device)]
             for window_index, sl in enumerate(windows):
                 s = sl.start
+                qat_cache_identity = None
                 opt = dynamics.maybe_switch(step_count, opt, sched)
                 if controlled_loss:
                     def raw_forward(window, state):
@@ -2796,6 +2970,12 @@ def main():
                 else:
                     with torch.autocast(device.type, dtype=amp_dtype, enabled=use_autocast):
                         out, h = forward_chunk(model, inputs, sl, h)
+                    if args.profile_steps and args.activation_backend != "none" and args.qat != "none":
+                        qat_cache_identity = {
+                            name: model._qat_cache[name][0]
+                            for name in model._qat_names
+                            if name in model._qat_cache
+                        }
                     h = detach_state(h)
                     timer.mark("forward")
                     if args.ema_teacher > 0 or args.td_alpha > 0:
@@ -2929,7 +3109,17 @@ def main():
                         profile_losses.append(loss.detach())
                     timer.mark("loss")
                     opt.zero_grad(set_to_none=True)
+                    compile_timings = getattr(model, "_activation_profile_compile_timings", None)
+                    backward_started = (
+                        time.perf_counter()
+                        if compile_timings is not None and compile_timings["backward"] is None
+                        else None
+                    )
                     scaler.scale(loss).backward()
+                    if backward_started is not None:
+                        if device.type == "cuda":
+                            torch.cuda.synchronize(device)
+                        compile_timings["backward"] = time.perf_counter() - backward_started
                 timer.mark("backward")
                 scaler.unscale_(opt)
                 epoch_counter.observe_unscaled(scaler, opt)
@@ -2939,6 +3129,25 @@ def main():
                 scaler.step(opt)
                 project_qat_scales_(model)
                 invalidate_qat_cache(model)
+                if qat_cache_identity is not None:
+                    parameters = dict(model.named_parameters())
+                    versions_after = {name: parameters[name]._version for name in model._qat_names}
+                    activation_profile_updates.append({
+                        "cache_identity_valid_before_update": all(
+                            qat_cache_identity.get(name)
+                            == (id(parameters[name]), parameters[name]._version, parameters[name].data_ptr())
+                            for name in model._qat_names
+                        ),
+                        "latent_parameter_versions_before": {
+                            name: int(qat_cache_identity[name][1]) for name in model._qat_names
+                        },
+                        "latent_parameter_versions_after": versions_after,
+                        "latent_versions_advanced": any(
+                            versions_after[name] != qat_cache_identity[name][1]
+                            for name in model._qat_names
+                        ),
+                        "weight_cache_cleared_after_optimizer_step": not model._qat_cache,
+                    })
                 scaler.update()
                 sched.step()
                 timer.mark("optimizer")
@@ -2963,6 +3172,10 @@ def main():
                 elif not args.sync_free and device.type == "cuda":
                     torch.cuda.synchronize()
             timer.stop()
+            if profile_batch_started is not None and activation_profile_first_batch_seconds is None:
+                if device.type == "cuda":
+                    torch.cuda.synchronize(device)
+                activation_profile_first_batch_seconds = time.perf_counter() - profile_batch_started
             epoch_counter.completed_batches += 1
             if args.profile_steps and b + 1 == args.max_batches:
                 break
@@ -2993,6 +3206,57 @@ def main():
                 None if epoch_grad_stats is None else epoch_grad_stats.get("nonfinite_steps"),
             )
             print("PROFILE_UPDATE_EVIDENCE", json.dumps(evidence), flush=True)
+            if args.activation_backend != "none":
+                import torch._dynamo.utils as dynamo_utils
+
+                compiler_stats = {
+                    key: int(value)
+                    for key, value in dynamo_utils.counters.get("stats", {}).items()
+                    if key in {"unique_graphs", "calls_captured", "calls_recompiles"}
+                }
+                process_peak_rss = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024)
+                finite_parameters = bool(
+                    torch.stack([torch.isfinite(value).all() for value in model.parameters()]).all().item()
+                )
+                try:
+                    process_current_rss = next(
+                        int(line.split()[1]) * 1024
+                        for line in Path("/proc/self/status").read_text().splitlines()
+                        if line.startswith("VmRSS:")
+                    )
+                except (OSError, StopIteration, ValueError):
+                    process_current_rss = None
+                print("PROFILE_ACTIVATION_BACKEND_EVIDENCE", json.dumps({
+                    "backend": args.activation_backend,
+                    "fullgraph_compile": True,
+                    "first_batch_end_to_end_seconds": activation_profile_first_batch_seconds,
+                    "first_forward_compile_seconds": getattr(
+                        model, "_activation_profile_compile_timings", {}
+                    ).get("forward"),
+                    "first_backward_compile_seconds": getattr(
+                        model, "_activation_profile_compile_timings", {}
+                    ).get("backward"),
+                    "compiler_stats": compiler_stats,
+                    "optimizer_updates": len(activation_profile_updates),
+                    "weight_qat_update_evidence": activation_profile_updates,
+                    "represented_weight_fingerprints": getattr(
+                        model, "_activation_profile_cache_fingerprints", []
+                    ),
+                    "represented_weights_changed_between_first_two_forwards": (
+                        getattr(model, "_activation_profile_cache_fingerprints", [])[0]
+                        != getattr(model, "_activation_profile_cache_fingerprints", [])[1]
+                        if len(getattr(model, "_activation_profile_cache_fingerprints", [])) >= 2
+                        else None
+                    ),
+                    "finite_parameters_after_updates": finite_parameters,
+                    "cuda_peak_allocated_bytes": torch.cuda.max_memory_allocated(device)
+                    if device.type == "cuda" else None,
+                    "cuda_peak_reserved_bytes": torch.cuda.max_memory_reserved(device)
+                    if device.type == "cuda" else None,
+                    "process_peak_rss_bytes": process_peak_rss,
+                    "process_current_rss_bytes": process_current_rss,
+                    "scope": "compiled recurrence; no quality evaluation",
+                }), flush=True)
             if not evidence["valid_for_throughput"]:
                 raise RuntimeError("profile update evidence is incomplete or nonfinite")
             return

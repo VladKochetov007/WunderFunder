@@ -11,3 +11,5 @@ Updated 2026-10-13T17:47:00+00:00. Root owns delivery under the [plan](PLAN.md) 
 - Local profiles measured approximately 4.95GB host and 2.17GB VRAM. Admission refusals and bounded cache handoffs are retained. No caps were raised and no healthy jobs killed. Renewed Kaggle quota remains subject to a fresh provider check at each admission.
 
 No strongest QAT package is selected yet. Next: evaluate the full-data and learned-scale controls, complete actual-data TPU validation and clean seed/fold repetitions. F3 matching CP5 ancestry is not yet available. All folds remain exposed, and public upload is a separate action.
+
+The [actual activation-profile successor](ACTIVATION_AWARE_ACTUAL_PROFILE_PLAN_R1.json) reuses the existing trainer objective and AdamW path for two updates each on the same real B16 first C1000 chunk, comparing compiled FP32 recurrence with recurrent-boundary A8. CPU/native checks pass on the compatibility successor; full-shape compilation and carried-state/full-sequence training remain unrun. Independent profile review and source binding are separate from any fit admission.
