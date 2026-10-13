@@ -783,12 +783,22 @@ def fit_normalization(model, loader, device, batches=2):
     model.std.copy_(f.std(0).clamp_min(1e-3))
 
 
-def load_e540_fit_subset(path: Path, campaign_split: CampaignSplit) -> dict[str, object]:
-    """Validate the exact component-complete E540 fitting and evaluation members."""
+def load_component_fit_subset(
+    path: Path,
+    campaign_split: CampaignSplit,
+    *,
+    expected_experiment_id: str | None = None,
+) -> dict[str, object]:
+    """Validate component-complete fitting members against a frozen campaign split."""
+    if path.stat().st_size > 5_000_000:
+        raise ValueError("fit subset metadata exceeds the 5 MB bound")
     manifest = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(manifest, dict) or manifest.get("version") != 1:
-        raise ValueError("E540 subset manifest must be a version-1 JSON object")
-    if manifest.get("experiment_id") != "E540":
+        raise ValueError("fit subset manifest must be a version-1 JSON object")
+    experiment_id = manifest.get("experiment_id")
+    if not isinstance(experiment_id, str) or not experiment_id.strip():
+        raise ValueError("fit subset must name its experiment")
+    if expected_experiment_id is not None and experiment_id != expected_experiment_id:
         raise ValueError("fit subset belongs to a different experiment")
     if manifest.get("split_manifest_sha256") != campaign_split.sha256:
         raise ValueError("fit subset was built from a different campaign split")
@@ -803,7 +813,7 @@ def load_e540_fit_subset(path: Path, campaign_split: CampaignSplit) -> dict[str,
     for split in ("train", "valid"):
         raw_groups = groups_by_split.get(split)
         if not isinstance(raw_groups, list) or not raw_groups:
-            raise ValueError(f"E540 subset must include selected {split} groups")
+            raise ValueError(f"fit subset must include selected {split} groups")
         if any(type(group) is not int or group < 0 for group in raw_groups):
             raise ValueError(f"selected {split} groups must be nonnegative integers")
         groups = [int(group) for group in raw_groups]
@@ -837,7 +847,7 @@ def load_e540_fit_subset(path: Path, campaign_split: CampaignSplit) -> dict[str,
         component_of[("valid", group)] for group in campaign_split.evaluation_groups
     }
     if selected_components.intersection(evaluation_components):
-        raise ValueError("E540 fit subset overlaps an evaluated component")
+        raise ValueError("fit subset overlaps an evaluated component")
     evaluation_bytes = np.asarray(sorted(campaign_split.evaluation_groups), dtype="<i8").tobytes()
     evaluation_groups = manifest.get("evaluation_groups")
     if (
@@ -848,7 +858,7 @@ def load_e540_fit_subset(path: Path, campaign_split: CampaignSplit) -> dict[str,
         or type(manifest.get("evaluation_group_count")) is not int
         or manifest.get("evaluation_group_count") != len(evaluation_groups)
     ):
-        raise ValueError("E540 exact evaluation groups differ from the campaign split")
+        raise ValueError("fit subset exact evaluation groups differ from the campaign split")
     if hashlib.sha256(evaluation_bytes).hexdigest() != manifest.get(
         "evaluation_membership_sha256"
     ):
@@ -859,13 +869,18 @@ def load_e540_fit_subset(path: Path, campaign_split: CampaignSplit) -> dict[str,
         if group in allowed[split] and component in selected_components
     }
     if set(members) != expected_members:
-        raise ValueError("E540 subset splits an eligible fitting component")
+        raise ValueError("fit subset splits an eligible fitting component")
     campaign_split.assert_fit_groups(selected["train"], selected["valid"])
     return {
         "manifest": manifest,
         "train_groups": selected["train"],
         "valid_groups": selected["valid"],
     }
+
+
+def load_e540_fit_subset(path: Path, campaign_split: CampaignSplit) -> dict[str, object]:
+    """Keep the legacy E540 loader bound to its original experiment identity."""
+    return load_component_fit_subset(path, campaign_split, expected_experiment_id="E540")
 
 
 def iter_e540_fit_features(
@@ -1503,7 +1518,9 @@ def main():
     ap.add_argument("--ple-intervals", type=int, default=8,
                     help="E540 PLE interval count; both arms allocate K+1 slots per raw feature")
     ap.add_argument("--fit-subset-manifest", type=Path, default=None,
-                    help="frozen component-complete E540 fitting subset bound to --split-manifest")
+                    help="frozen component-complete fitting subset bound to --split-manifest")
+    ap.add_argument("--fit-subset-experiment-id", default=None,
+                    help="required experiment identity for non-E540 component subsets")
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--stop-after-epoch", type=int, default=None,
                     help="end training after this epoch while the lr schedule still spans --epochs (cheap screens)")
@@ -1763,7 +1780,19 @@ def main():
         if args.ple_intervals != 8:
             ap.error("E540 has a fixed n_intervals=8 comparison")
     elif args.fit_subset_manifest is not None:
-        ap.error("--fit-subset-manifest is reserved for the E540 numeric-map screen")
+        if (args.split_manifest is None or args.train_source != "train+valid"
+                or args.include_heldout_valid or args.train_seqs != 10607
+                or args.train_classes or args.class_balance
+                or args.valid_train_fraction != 1.0 or args.valid_repeat != 1
+                or args.epoch_samples or args.fit_groups_manifest
+                or not args.no_eval_during_fit
+                or args.checkpoint_policy != "fixed" or args.checkpoint_epoch is None):
+            ap.error("component fit subsets require full train+valid source membership, no "
+                     "sampler filters or fit-time evaluation, and a fixed checkpoint")
+        if not args.fit_subset_experiment_id:
+            ap.error("non-E540 component subsets require --fit-subset-experiment-id")
+    elif args.fit_subset_experiment_id is not None:
+        ap.error("--fit-subset-experiment-id requires --fit-subset-manifest")
     distillation_requested = bool(args.distill or args.distill_cache_root)
     if args.distill and args.distill_cache_root:
         ap.error("--distill and --distill-cache-root are mutually exclusive")
@@ -1859,7 +1888,14 @@ def main():
         if not subset_path.is_absolute():
             subset_path = ROOT / subset_path
         subset_path = subset_path.resolve()
-        fit_subset = load_e540_fit_subset(subset_path, campaign_split)
+        expected_experiment_id = (
+            "E540" if args.numeric_map != "none" else args.fit_subset_experiment_id
+        )
+        if args.numeric_map != "none" and args.fit_subset_experiment_id not in (None, "E540"):
+            ap.error("E540 numeric-map subsets require experiment identity E540")
+        fit_subset = load_component_fit_subset(
+            subset_path, campaign_split, expected_experiment_id=expected_experiment_id
+        )
         args.fit_subset_manifest = str(subset_path)
         args.fit_subset_manifest_sha256 = file_sha256(subset_path)
     inner_crossfit = None

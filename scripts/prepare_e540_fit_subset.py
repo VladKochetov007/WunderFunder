@@ -23,14 +23,19 @@ def build_manifest(
     root: Path,
     *,
     component_count: int | None = None,
+    experiment_id: str = "E540",
 ) -> dict[str, object]:
-    """Select whole eligible components without reading targets or evaluation labels."""
+    """Select nested whole components without reading targets or evaluation labels."""
     if (fraction is None) == (component_count is None):
         raise ValueError("supply exactly one of fraction or component_count")
+    if not experiment_id or experiment_id.strip() != experiment_id:
+        raise ValueError("experiment_id must be a non-empty, trimmed string")
     if fraction is not None and (not math.isfinite(fraction) or not 0 < fraction <= 1):
         raise ValueError("fraction must be finite and in (0,1]")
     if component_count is not None and (
-        isinstance(component_count, bool) or not isinstance(component_count, int) or component_count <= 0
+        isinstance(component_count, bool)
+        or not isinstance(component_count, int)
+        or component_count <= 0
     ):
         raise ValueError("component_count must be a positive integer")
     campaign = load_campaign_split(split_manifest, root)
@@ -83,7 +88,7 @@ def build_manifest(
         raise ValueError("component selection produced no fitting groups")
     return {
         "version": 1,
-        "experiment_id": "E540",
+        "experiment_id": experiment_id,
         "split_manifest_sha256": campaign.sha256,
         "selection_seed": seed,
         "target_component_fraction": count / len(eligible_components),
@@ -120,6 +125,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=540)
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--experiment-id", default="E540")
     args = parser.parse_args()
     result = build_manifest(
         args.split_manifest,
@@ -127,6 +133,7 @@ def main() -> None:
         args.seed,
         args.root,
         component_count=args.components,
+        experiment_id=args.experiment_id,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temporary = args.output.with_name(args.output.name + ".tmp")

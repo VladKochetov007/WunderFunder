@@ -1,0 +1,66 @@
+{
+  "schema": "wnn.tpu-v7-registry-schema-diagnosis.v1",
+  "status": "failed_before_actual_data_hash_or_update",
+  "packet": {
+    "kernel": "vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
+    "probe_path": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v7_inventory_repair_20261008/packet/probe.py",
+    "probe_bytes": 340037,
+    "probe_sha256": "d22947623bbe638280183ab019d4159ea37038b73840f3058e0137379bb4dad7"
+  },
+  "failure": {
+    "phase": "host_admission",
+    "error_type": "ValueError",
+    "message": "portable registry differs for datasets/train.parquet",
+    "check_path": "packet/probe.py:3657-3661",
+    "terminal_receipt": "research/campaign_2026-10-06/cloud_preflight/tpu_v7_terminal_20261008_r1/attempt_001/outputs/cloud_preflight_tpu_v7/terminal.json",
+    "terminal_bytes": 1373,
+    "terminal_sha256": "5f7731f90d9d5d6dfd9e1b95a58d5bd3024546f73868fb5adca12942d8bc4c01",
+    "consequence": "No raw parquet hash, model forward/backward, optimizer update, checkpoint reload, or prediction export was reached."
+  },
+  "portable_input_pin": {
+    "path": "research/campaign_2026-10-04/portable_inputs.json",
+    "bytes": 2104,
+    "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "version": 1,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "data_sources": {
+      "datasets/train.parquet": {
+        "registry_keys": ["sha256", "original_identity"],
+        "dataset_ref_present": false,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "bytes": 29240219011,
+        "footer_bytes": 60437285,
+        "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb"
+      },
+      "datasets/valid.parquet": {
+        "registry_keys": ["sha256", "original_identity"],
+        "dataset_ref_present": false,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "bytes": 5615509128,
+        "footer_bytes": 10686926,
+        "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+      }
+    }
+  },
+  "actual_mount_evidence": {
+    "receipt": "research/campaign_2026-10-06/cloud_preflight/tpu_v7_terminal_20261008_r1/attempt_001/outputs/cloud_preflight_tpu_v7/input_mounts.json",
+    "expected_registry_value_rejected_by_v7": "vladkochetov07/wunder-funder",
+    "owner": "vladkochetov07",
+    "mounted_dataset_slug": "wunder-funder",
+    "mounted_path": "/kaggle/input/datasets/vladkochetov07/wunder-funder",
+    "children": ["train.parquet", "valid.parquet", "valid_mask.parquet"]
+  },
+  "narrow_v8_repair": {
+    "preserve_v7": true,
+    "fork_new_packet_identity": true,
+    "remove_only": "The registry check requiring registry.dataset_ref == vladkochetov07/wunder-funder.",
+    "keep": [
+      "Pinned portable_inputs.json SHA-256, byte length, version, and split-manifest identity.",
+      "Independent mounted dataset owner/slug discovery; require the observed slug wunder-funder.",
+      "Registry train/valid SHA-256 and original byte-length identity checks.",
+      "Actual mounted train.parquet and valid.parquet byte-length and full SHA-256 checks before any model update.",
+      "Actual-data forward/backward, optimizer update, checkpoint reload, and full-valid prediction export."
+    ],
+    "fixture_test": "Use the exact pinned portable_inputs.json registry records and the recorded actual mount tuple. Assert absent dataset_ref is accepted only with all exact SHA/byte/split pins intact; mutations to those pins or mounted slug must fail. Do not introduce generic dataset fallback."
+  }
+}
