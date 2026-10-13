@@ -54,6 +54,8 @@ Canonical navigation: [inference research](../../unified/inference/README.md); r
 
 - [Full-fold unchanged-parent baseline results](baseline_results_r2/README.md) retain the corrected frozen manifest and nativeQ8 WP=.681135399 on all468 F0 groups/141 components; other formats and independent paired grades remain pending. [Terminal runtime receipts](RUNTIME_RECEIPTS_R1.md) index original completed GPU profiles/fits, native replay and pre-start admission refusals. [Post-W4 fit cache handoff](CACHE_HANDOFF_AFTER_W4_FIT_R1.json) restores headroom before mixedQAT; no memory limit or healthy job was changed.
 
+- [Final-initializer target distillation R2](FINAL_INITIALIZER_DISTILLATION_R2.md) adds a narrow opt-in target-source arm that replays the fixed FP32 initializer causally over chunks while leaving cached dataset validation/layout intact. It records initializer/cache/source fingerprints and checks teacher immutability; 13 bounded CPU tests pass. This is implementation evidence only; no profile, fit, quality gain, or public result is claimed.
+
 ## Matched adaptation wave and scale follow-up
 
 - [LOCAL_30PCT_EXECUTION_R1.json](LOCAL_30PCT_EXECUTION_R1.json): Frozen matched 30% fit vectors transfer measured B16/C1000 profiles; 219 batches and 4,380 updates per arm, with full sequences and the unchanged final-partial-batch omission.
