@@ -1,0 +1,3 @@
+# S37 fixed-trajectory-average review
+
+This folder contains the independent review of hypothesis `H-STRATEGY-AVERAGING-20261013` and experiment `E-STRATEGY-SWA-F0-20261013-R1`. The [review](INDEPENDENT_REVIEW_R1.md) validates both seed-local epoch-3/4/5 artifacts against their real producer checkpoints, continuation states and the exact staged CPU model consumer. It finds no artifact or consumer blocker; export and grading remain pending fresh shared-controller admission and available GPU capacity. This is implementation and execution-preflight evidence, not a quality result. The source experiment, manifests and commands remain in the [trajectory-average packet](../../trajectory_average_f0_r1/README.md).
