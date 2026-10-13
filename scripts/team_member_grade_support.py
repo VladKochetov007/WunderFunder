@@ -12,9 +12,10 @@ from typing import Protocol, cast
 
 import numpy as np
 
+from scripts.alias_grade_prediction import MAX_NPY_HEADER_BYTES, _npy_header
+
 EXPECTED_ROW_GROUPS = 1873
 N_OUTPUTS = 2
-MAX_NPY_HEADER_BYTES = 1_048_576
 MAX_JSON_BYTES = 16 * 1_048_576
 REQUIRED_DEPENDENCIES = frozenset(
     {"exporter", "exporter_helper", "wnn.data", "wnn.features", "wnn.nn"}
@@ -134,6 +135,16 @@ def digest_file(path: Path) -> str:
     return value
 
 
+def stable_file_identity(stat_result: os.stat_result) -> tuple[int, int, int, int]:
+    """Compare file identity and content-version metadata without atime."""
+    return (
+        stat_result.st_dev,
+        stat_result.st_ino,
+        stat_result.st_size,
+        stat_result.st_mtime_ns,
+    )
+
+
 def read_bounded_bytes(path: Path, max_bytes: int = MAX_JSON_BYTES) -> tuple[bytes, os.stat_result]:
     """Read a bounded metadata file and reject changes during the read."""
     with path.open("rb") as stream:
@@ -143,7 +154,7 @@ def read_bounded_bytes(path: Path, max_bytes: int = MAX_JSON_BYTES) -> tuple[byt
         data = stream.read(max_bytes + 1)
         if len(data) > max_bytes or len(data) != opened_stat.st_size:
             raise ValueError(f"input changed size or exceeds the {max_bytes}-byte limit: {path}")
-    if path.stat() != opened_stat:
+    if stable_file_identity(path.stat()) != stable_file_identity(opened_stat):
         raise ValueError(f"input changed while it was read: {path}")
     return data, opened_stat
 
@@ -196,30 +207,46 @@ def _plan_records(
 
 
 def _load_prediction_map(path: Path, shape: tuple[int, int, int]) -> tuple[np.memmap, HashState]:
-    """Open a bounded-header C-order NPY map and seed its streaming file hash."""
-    value = np.load(
-        path,
-        mmap_mode="r",
-        allow_pickle=False,
-        max_header_size=MAX_NPY_HEADER_BYTES,
-    )
-    if not isinstance(value, np.memmap):
-        raise ValueError(f"prediction file is not a memory-mapped NPY: {path}")
-    if value.shape != shape or value.dtype != np.dtype(np.float32):
+    """Bound and validate the NPY prefix before mapping its prediction payload."""
+    source_identity = stable_file_identity(path.stat())
+    header_shape, header_dtype, fortran_order, offset = _npy_header(path)
+    if stable_file_identity(path.stat()) != source_identity:
+        raise ValueError(f"prediction file changed while its header was read: {path}")
+    if header_shape != shape or header_dtype != np.dtype(np.float32):
         raise ValueError(f"prediction NPY shape/dtype mismatch: {path}")
-    if not value.flags.c_contiguous or value.flags.writeable:
-        raise ValueError(f"prediction NPY must be read-only C-order: {path}")
-    offset = int(value.offset)
+    if fortran_order:
+        raise ValueError(f"prediction NPY must use C order: {path}")
     if offset < 1 or offset > MAX_NPY_HEADER_BYTES + 16:
         raise ValueError(f"prediction NPY header offset is outside the bound: {path}")
+    payload_nbytes = math.prod(shape) * np.dtype(np.float32).itemsize
     stat = path.stat()
-    if stat.st_size != offset + value.nbytes:
+    if stable_file_identity(stat) != source_identity:
+        raise ValueError(f"prediction file changed before mapping: {path}")
+    if stat.st_size != offset + payload_nbytes:
         raise ValueError(f"prediction NPY has truncation or trailing bytes: {path}")
+    value = np.memmap(path, dtype=np.float32, mode="r", offset=offset, shape=shape, order="C")
+    if not value.flags.c_contiguous or value.flags.writeable:
+        _close_prediction_map(value)
+        raise ValueError(f"prediction NPY must be read-only C-order: {path}")
+    if stable_file_identity(path.stat()) != source_identity:
+        _close_prediction_map(value)
+        raise ValueError(f"prediction file changed while it was mapped: {path}")
     with path.open("rb") as stream:
         header = stream.read(offset)
     if len(header) != offset:
+        _close_prediction_map(value)
         raise ValueError(f"prediction NPY header is truncated: {path}")
+    if stable_file_identity(path.stat()) != source_identity:
+        _close_prediction_map(value)
+        raise ValueError(f"prediction file changed while its header digest was read: {path}")
     return value, hashlib.sha256(header)
+
+
+def _close_prediction_map(value: np.memmap) -> None:
+    """Close a newly opened mapping when its bounded header fails validation."""
+    mapped = getattr(value, "_mmap", None)
+    if mapped is not None:
+        mapped.close()
 
 
 def _validate_dependencies(result: dict[str, object]) -> tuple[dict[str, str], dict[str, str]]:

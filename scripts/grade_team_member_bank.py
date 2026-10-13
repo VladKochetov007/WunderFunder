@@ -38,6 +38,7 @@ from scripts.team_member_grade_support import (  # noqa: E402
     _read_json,
     blend_predictions,
     digest_file,
+    stable_file_identity,
 )
 from wnn.data import SEQUENCE_LENGTH, WARMUP  # noqa: E402
 from wnn.gmetric import METRIC_CLIP, METRIC_ID, GlobalAccumulator  # noqa: E402
@@ -65,6 +66,7 @@ def _grader_source_records() -> dict[str, dict[str, str]]:
         "entrypoint": Path(__file__).resolve(),
         "input_validation": Path(__file__).with_name("team_member_grade_inputs.py").resolve(),
         "scoring_support": Path(__file__).with_name("team_member_grade_support.py").resolve(),
+        "npy_header_helper": Path(__file__).with_name("alias_grade_prediction.py").resolve(),
         "official_metric": Path(gmetric_module.__file__).resolve(),
     }
     return {
@@ -107,7 +109,7 @@ def main() -> None:
         raise ValueError("requested group range is outside the complete validation set")
     group_ids = tuple(range(args.first_group, args.first_group + group_count))
     grader_sources = _grader_source_records()
-    if len(grader_sources) != 4:
+    if len(grader_sources) != 5:
         raise ValueError("one or more grader source files are missing")
 
     plan_sha256 = digest_file(args.plan)
@@ -271,18 +273,24 @@ def main() -> None:
 
         prediction_file_records: list[dict[str, object]] = []
         for item in members:
-            if item.result_path.stat() != item.result_stat:
+            if stable_file_identity(item.result_path.stat()) != stable_file_identity(
+                item.result_stat
+            ):
                 raise ValueError(f"member RESULT changed during grading: {item.result_path}")
             if digest_file(item.result_path) != item.result_sha256:
                 raise ValueError(f"member RESULT bytes changed during grading: {item.result_path}")
-            if item.weight_path.stat() != item.weight_stat:
+            if stable_file_identity(item.weight_path.stat()) != stable_file_identity(
+                item.weight_stat
+            ):
                 raise ValueError(f"original weight file changed during grading: {item.weight_path}")
             expected_prediction_hash = _as_sha256(
                 item.result.get("prediction_sha256"), "result.prediction_sha256"
             )
             if item.prediction_hasher.hexdigest() != expected_prediction_hash:
                 raise ValueError(f"NPY bytes differ from terminal hash: {item.prediction_path}")
-            if item.prediction_path.stat() != item.prediction_stat:
+            if stable_file_identity(item.prediction_path.stat()) != stable_file_identity(
+                item.prediction_stat
+            ):
                 raise ValueError(f"prediction file changed during grading: {item.prediction_path}")
             prediction_file_records.append(
                 {

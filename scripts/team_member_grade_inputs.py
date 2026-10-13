@@ -25,6 +25,7 @@ from scripts.team_member_grade_support import (
     _validate_dependencies,
     digest_file,
     read_bounded_bytes,
+    stable_file_identity,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -103,7 +104,7 @@ def _validate_member_result(
     except (json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise ValueError(f"cannot read member result {result_path}: {exc}") from exc
     result_sha256 = hashlib.sha256(result_bytes).hexdigest()
-    if result_path.stat() != result_stat:
+    if stable_file_identity(result_path.stat()) != stable_file_identity(result_stat):
         raise ValueError(f"member RESULT changed while it was read: {member_id}")
     if result.get("status") != "complete":
         raise ValueError(f"member export is not terminal-complete: {member_id}")
