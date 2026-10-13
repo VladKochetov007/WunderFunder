@@ -1,0 +1,8 @@
+{
+  "exit_code": 1,
+  "scope": "isolated-import checker path comparison; constructor already succeeded",
+  "exception": "ValueError: native import resolved outside the extracted package",
+  "cause": "temporary_root was relative, making package relative; native.__file__.resolve() was absolute. Comparing their parents falsely rejected the correct loaded library.",
+  "correction": "Resolve temporary_root before creating TemporaryDirectory; preserve identical ZIP and all existing passes.",
+  "failed_checker_sha256": "6d9b8942335f282d251fa743310c4be2b8a430c2ead62b8d0fd8e8c67c2aa89e"
+}
