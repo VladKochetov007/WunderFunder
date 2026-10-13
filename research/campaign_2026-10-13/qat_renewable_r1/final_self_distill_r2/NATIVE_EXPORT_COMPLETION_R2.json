@@ -1,0 +1,281 @@
+{
+  "format": "wnn.qat-native-export-completion",
+  "version": 2,
+  "created_utc": "2026-10-13T20:58:48.011887+00:00",
+  "admission": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/NATIVE_EXPORT_ADMISSION_R2.json",
+    "sha256": "5aaa036b406f79cc3767c7165d817c3959fa765cda50c77d5fb9af5f93704bcb",
+    "cpu_repair_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/NATIVE_EXPORT_ADMISSION_R2_CPU_REPAIR.json",
+    "cpu_repair_sha256": "8b4559ed6df78629ae8479a9a8435ae507f5be9efa69b110ad2c238b3878ef30"
+  },
+  "execution_summary": "All three authorized native member exports completed successfully. The third vector had one preserved prelaunch CPU admission denial and then completed under a unique corrected worker attempt; no model worker ran under the denied attempt.",
+  "scope": "F0 panel, 468 complete 20,000-row sequences, 808,863 selected/effective rows. Original initializer/parent exposure covers supplied fitting membership; every score is a fitted-data diagnostic, not clean CV, held-out, or public evidence.",
+  "inputs": {
+    "native_sha256": "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "data_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "exporter_sha256": "1e6550d6af562ac462cfca0c984d7c24f7d6c29ec14759d339a92c49f49b16ee",
+    "metric": "global_wp_clip2_v1"
+  },
+  "panel_group_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+  "successful_vectors": [
+    {
+      "attempt": "qat-self-s3-learned-w4-native-export-r2",
+      "original_vector_attempt": "qat-self-s3-learned-w4-native-export-r2",
+      "runtime_attempt_receipt": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-self-s3-learned-w4-native-export-r2.json",
+        "sha256": "35038fd77156c39bc2a13cf88931feb212d4a46c41ceda5a479913c09da7ac52",
+        "log_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/logs/qat-self-s3-learned-w4-native-export-r2.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "terminal": {
+        "status": "finished",
+        "phase": "terminal",
+        "exit_status": 0,
+        "elapsed_seconds": 170.72036240999296,
+        "started_utc": "2026-10-13T20:52:15.463262+00:00",
+        "finished_utc": "2026-10-13T20:55:06.184762+00:00",
+        "peak_worker_memory_bytes": 992088064,
+        "peak_parent_memory_bytes": 13084098560,
+        "memory_event_deltas": {
+          "high": 5298,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0,
+          "sock_throttled": 0
+        },
+        "final_memory_event_deltas": {
+          "high": 5298,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0,
+          "sock_throttled": 0
+        }
+      },
+      "result_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_self_s3_r2/learned_w4_qat/result.json",
+      "result_json_sha256": "e6393f1175be10046cd15d2fe0daa8e060f4b0bc3102167a8738e3ca4d0d7d00",
+      "progress_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_self_s3_r2/learned_w4_qat/progress.jsonl",
+      "progress_sha256": "c8dc8dde8d17ec9426cb646f834b5f99cafa99eafe79f57a73437e006ea12673",
+      "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_self_s3_r2/learned_w4_qat/predictions.npy",
+      "prediction_bytes": 74880128,
+      "prediction_sha256_reported_by_exporter": "55afc7c39313f8ce1e6d201566bf6eecfa0eb32f97dda87bcc8feb8e918dcab8",
+      "vector": {
+        "role": "learned recurrent W4 QAT",
+        "weights": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_lsq_w4_deployment_r2/recurrent_w4.npz",
+        "weights_sha256": "11bdaec0734234e8e9550c799f8d8390cc2d710325b21b42d143091b9ba65bdd",
+        "packed": true,
+        "checkpoint": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/qat_self_s3_lsq_w4_fit_r2/model_ep0.pt",
+        "checkpoint_sha256": "17199af8c9e01de1aab2f5b1d7b1354d6c3c7f57a3d5f9a0fef75efefdf259f8",
+        "archive_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_lsq_w4_deployment_r2/manifest.json",
+        "archive_manifest_sha256": "2b442d147bef9898a8a20ddac98e561454b8a33dd2a76091e565a403684382da"
+      },
+      "evaluation": {
+        "group_count": 468,
+        "first_group": 4,
+        "last_group": 1869,
+        "selected_rows": 808863,
+        "effective_scored_rows": 808863,
+        "score": {
+          "t0": 0.698185318270018,
+          "t1": 0.709265059019161,
+          "weighted_pearson": 0.7037251886445894,
+          "wp": 0.7037251886445894,
+          "blocks": 468,
+          "selected_rows": 808863,
+          "effective_scored_rows": 808863,
+          "metric_clip": [
+            -2.0,
+            2.0
+          ],
+          "metric_id": "global_wp_clip2_v1",
+          "aggregation": "pool all selected rows per target, then mean t0/t1"
+        },
+        "callback_seconds": 151.62945668085013,
+        "reset_replay_bitwise": true,
+        "interpretation": "raw fitted-data diagnostic only; callback_seconds came from concurrent single-CPU exports and is not a controlled speed comparison"
+      }
+    },
+    {
+      "attempt": "qat-self-s3-fp32-q8-native-export-r2",
+      "original_vector_attempt": "qat-self-s3-fp32-q8-native-export-r2",
+      "runtime_attempt_receipt": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-self-s3-fp32-q8-native-export-r2.json",
+        "sha256": "b863dc5713f61bd94e0ee537b76230a6cacab624699eb388432693eae56db1d6",
+        "log_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/logs/qat-self-s3-fp32-q8-native-export-r2.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "terminal": {
+        "status": "finished",
+        "phase": "terminal",
+        "exit_status": 0,
+        "elapsed_seconds": 185.82347839599242,
+        "started_utc": "2026-10-13T20:52:21.331955+00:00",
+        "finished_utc": "2026-10-13T20:55:27.155958+00:00",
+        "peak_worker_memory_bytes": 992092160,
+        "peak_parent_memory_bytes": 13082824704,
+        "memory_event_deltas": {
+          "high": 3983,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0,
+          "sock_throttled": 0
+        },
+        "final_memory_event_deltas": {
+          "high": 3983,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0,
+          "sock_throttled": 0
+        }
+      },
+      "result_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_self_s3_r2/fp32_native_q8/result.json",
+      "result_json_sha256": "93a453f809169cb792d7788b380aeec401b4b965c4c9ce819cfc28e31cc01476",
+      "progress_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_self_s3_r2/fp32_native_q8/progress.jsonl",
+      "progress_sha256": "c8dc8dde8d17ec9426cb646f834b5f99cafa99eafe79f57a73437e006ea12673",
+      "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_self_s3_r2/fp32_native_q8/predictions.npy",
+      "prediction_bytes": 74880128,
+      "prediction_sha256_reported_by_exporter": "0f854b5643404b5e9375086ecb0508bc180d25dfc9acad6f697965411789cb27",
+      "vector": {
+        "role": "matched FP32 continuation, native Q8 deployment",
+        "weights": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_fp32_deployment_r2/parent.npz",
+        "weights_sha256": "1cc5d34002acf1c17f80003ea45713133e07e471da373a1e869052df1361217a",
+        "packed": false,
+        "checkpoint": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/qat_self_s3_fp32_fit_r2/model_ep0.pt",
+        "checkpoint_sha256": "1d381a67c09e8fbf56d750e1307375b2c900696cee67e212973245aaed62fddf",
+        "archive_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_fp32_deployment_r2/manifest.json",
+        "archive_manifest_sha256": "acfa73535751208967718e05ba9921b58c16a68a4caafba988a327676bed33af"
+      },
+      "evaluation": {
+        "group_count": 468,
+        "first_group": 4,
+        "last_group": 1869,
+        "selected_rows": 808863,
+        "effective_scored_rows": 808863,
+        "score": {
+          "t0": 0.6988294412702976,
+          "t1": 0.7100721613268697,
+          "weighted_pearson": 0.7044508012985836,
+          "wp": 0.7044508012985836,
+          "blocks": 468,
+          "selected_rows": 808863,
+          "effective_scored_rows": 808863,
+          "metric_clip": [
+            -2.0,
+            2.0
+          ],
+          "metric_id": "global_wp_clip2_v1",
+          "aggregation": "pool all selected rows per target, then mean t0/t1"
+        },
+        "callback_seconds": 167.85062047601969,
+        "reset_replay_bitwise": true,
+        "interpretation": "raw fitted-data diagnostic only; callback_seconds came from concurrent single-CPU exports and is not a controlled speed comparison"
+      }
+    },
+    {
+      "attempt": "qat-self-s3-fp32-ptq-w4-native-export-r2b",
+      "original_vector_attempt": "qat-self-s3-fp32-ptq-w4-native-export-r2",
+      "runtime_attempt_receipt": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-self-s3-fp32-ptq-w4-native-export-r2b.json",
+        "sha256": "414d455fae46a2164096551b8f51656d0d06de0cf2f0aee28ff103e169114a52",
+        "log_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/logs/qat-self-s3-fp32-ptq-w4-native-export-r2b.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "terminal": {
+        "status": "finished",
+        "phase": "terminal",
+        "exit_status": 0,
+        "elapsed_seconds": 180.92882149899378,
+        "started_utc": "2026-10-13T20:53:44.041386+00:00",
+        "finished_utc": "2026-10-13T20:56:44.970797+00:00",
+        "peak_worker_memory_bytes": 992088064,
+        "peak_parent_memory_bytes": 13077544960,
+        "memory_event_deltas": {
+          "high": 4248,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0,
+          "sock_throttled": 0
+        },
+        "final_memory_event_deltas": {
+          "high": 4339,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0,
+          "sock_throttled": 0
+        }
+      },
+      "result_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_self_s3_r2/fp32_ptq_w4/result.json",
+      "result_json_sha256": "5319972e30351a279d8fc09513dd67f1c0be60aa827cba462233d3afa435b5c5",
+      "progress_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_self_s3_r2/fp32_ptq_w4/progress.jsonl",
+      "progress_sha256": "c8dc8dde8d17ec9426cb646f834b5f99cafa99eafe79f57a73437e006ea12673",
+      "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_self_s3_r2/fp32_ptq_w4/predictions.npy",
+      "prediction_bytes": 74880128,
+      "prediction_sha256_reported_by_exporter": "fa4a51d70a321b47644cc5be6003e2645297271606024b53ad1601f87449e604",
+      "vector": {
+        "role": "matched FP32 continuation, recurrent W4 post-training quantization",
+        "weights": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_fp32_deployment_r2/recurrent_w4.npz",
+        "weights_sha256": "1c89730e934dba329ceaa825968ff2130919adbf10f4efd01c4b3c6dd2806496",
+        "packed": true,
+        "checkpoint": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/qat_self_s3_fp32_fit_r2/model_ep0.pt",
+        "checkpoint_sha256": "1d381a67c09e8fbf56d750e1307375b2c900696cee67e212973245aaed62fddf",
+        "archive_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_fp32_deployment_r2/manifest.json",
+        "archive_manifest_sha256": "acfa73535751208967718e05ba9921b58c16a68a4caafba988a327676bed33af"
+      },
+      "evaluation": {
+        "group_count": 468,
+        "first_group": 4,
+        "last_group": 1869,
+        "selected_rows": 808863,
+        "effective_scored_rows": 808863,
+        "score": {
+          "t0": 0.6975695424586523,
+          "t1": 0.7091073923819688,
+          "weighted_pearson": 0.7033384674203106,
+          "wp": 0.7033384674203106,
+          "blocks": 468,
+          "selected_rows": 808863,
+          "effective_scored_rows": 808863,
+          "metric_clip": [
+            -2.0,
+            2.0
+          ],
+          "metric_id": "global_wp_clip2_v1",
+          "aggregation": "pool all selected rows per target, then mean t0/t1"
+        },
+        "callback_seconds": 159.99052704390488,
+        "reset_replay_bitwise": true,
+        "interpretation": "raw fitted-data diagnostic only; callback_seconds came from concurrent single-CPU exports and is not a controlled speed comparison"
+      }
+    }
+  ],
+  "prelaunch_admission_failure": {
+    "attempt": "qat-self-s3-fp32-ptq-w4-native-export-r2",
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-self-s3-fp32-ptq-w4-native-export-r2.json",
+    "sha256": "1ce7bf0bded508bff7f556790a8ee8be06a773932529791a66325311b0c5fa1a",
+    "status": "not_started",
+    "phase": "admission_failed",
+    "failure": "RuntimeError: CPU reservation would exceed 5 aggregate cores",
+    "worker_started": false,
+    "retry_correction": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/NATIVE_EXPORT_ADMISSION_R2_CPU_REPAIR.json"
+  },
+  "aggregate_resource_observation": {
+    "maximum_worker_bytes": 992092160,
+    "maximum_parent_bytes": 13084098560,
+    "worker_ram_reservation_bytes": 1100000000,
+    "worker_cpu_cores": 1,
+    "oom_or_kill_event_deltas_zero": false
+  },
+  "grading": "Root/independent critic own matched blend/native grading and compatibility binding. This receipt reports producer output identities and diagnostics only; no selection or QAT superiority claim."
+}

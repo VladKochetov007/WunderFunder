@@ -1,0 +1,101 @@
+{
+  "format": "wnn.qat-native-export-admission-correction",
+  "version": 1,
+  "created_utc": "2026-10-13T20:53:37.562486+00:00",
+  "supersedes_no_files": false,
+  "binds_original_admission": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/NATIVE_EXPORT_ADMISSION_R2.json",
+    "sha256": "5aaa036b406f79cc3767c7165d817c3959fa765cda50c77d5fb9af5f93704bcb"
+  },
+  "preserves_prelaunch_failure": {
+    "attempt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-self-s3-fp32-ptq-w4-native-export-r2.json",
+    "sha256": "1ce7bf0bded508bff7f556790a8ee8be06a773932529791a66325311b0c5fa1a",
+    "status": "not_started",
+    "failure": "RuntimeError: CPU reservation would exceed 5 aggregate cores",
+    "worker_created": false,
+    "output_absent": true
+  },
+  "authorization": "Root authorized one corrected unique controller admission using 25% CPU / 200MB launcher if aggregate CPU reservation fits; no cap increase. Original export worker remains 1 CPU / 1.1GB.",
+  "correction": "Use a 25%-CPU bounded scripts/limited wrapper to avoid adding a transient 1-core reservation while bandit_resources counts active workers; preserve the unchanged worker reservation.",
+  "resource_snapshot": {
+    "parent_cgroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "parent_memory_current_bytes": 11002384384,
+    "parent_memory_max_bytes": 20000000000,
+    "working_commit_target_bytes": 17000000000,
+    "parent_cpu_quota_cores": 5,
+    "active_native_export_workers": [
+      "qat-self-s3-learned-w4-native-export-r2",
+      "qat-self-s3-fp32-q8-native-export-r2"
+    ],
+    "active_support_services": {
+      "wnn-codex-research-watch.service": {
+        "cpu_cores": 0.05,
+        "memory_current_bytes": 33648640
+      },
+      "wnn-slice-filecache-guard.service": {
+        "cpu_cores": 0.05,
+        "memory_current_bytes": 2138112
+      },
+      "wnn-research-monitor.service": {
+        "state": "inactive",
+        "cpu_cores": 0
+      }
+    },
+    "launcher_scope": {
+      "cpu_cores": 0.25,
+      "memory_max_bytes": 200000000,
+      "runtime": "120s"
+    },
+    "new_worker": {
+      "cpu_cores": 1,
+      "reservation_bytes": 1100000000
+    },
+    "cpu_projection_cores": 3.35,
+    "memory_projection_formula": "parent current + unused reservations of existing workers + new 1.1GB worker; controller rechecks at launch",
+    "memory_projection_upper_bound_bytes": 12400000000
+  },
+  "attempt": {
+    "id": "qat-self-s3-fp32-ptq-w4-native-export-r2b",
+    "role": "matched FP32 continuation, recurrent W4 post-training quantization",
+    "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_self_s3_r2/fp32_ptq_w4",
+    "weights": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_fp32_deployment_r2/recurrent_w4.npz",
+    "weights_sha256": "1c89730e934dba329ceaa825968ff2130919adbf10f4efd01c4b3c6dd2806496",
+    "packed": true,
+    "argv": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/export_native_qat_member_panel.py",
+      "--weights",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_fp32_deployment_r2/recurrent_w4.npz",
+      "--weights-sha256",
+      "1c89730e934dba329ceaa825968ff2130919adbf10f4efd01c4b3c6dd2806496",
+      "--native",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_release_r1/wnn_native.abi3.so",
+      "--native-sha256",
+      "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+      "--split",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--split-sha256",
+      "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "--data",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+      "--data-sha256",
+      "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "--output",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_native_self_s3_r2/fp32_ptq_w4",
+      "--packed"
+    ],
+    "env": {
+      "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src"
+    }
+  },
+  "policy": {
+    "one_re_admission_only_for_prior_not_started_cpu_refusal": true,
+    "retry_after_worker_start_or_failure": false,
+    "automatic_retries": false
+  },
+  "artifacts": {
+    "native_sha256": "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "data_expected_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  }
+}
