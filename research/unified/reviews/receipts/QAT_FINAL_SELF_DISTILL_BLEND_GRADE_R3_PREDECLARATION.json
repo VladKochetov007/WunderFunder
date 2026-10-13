@@ -1,0 +1,90 @@
+{
+  "schema": "wnn.predeclared-fixed-blend-grade.v1",
+  "experiment_id": "E-QAT-FINAL-SELF-DISTILL-20261013-R3-GRADE",
+  "status": "FIVE_BLEND_MEMBERSHIP_FROZEN_NEW_EXPORT_PINS_PENDING",
+  "recipe_path": "research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/FINAL_BLEND_GRADE_PREDECLARATION_R3.json",
+  "recipe_sha256": "d4f33c7aeb336cd0d4304e08f939752f40348eb99e72037b8569060076f18db1",
+  "grader_path": "scripts/grade_qat_final_blends_r3.py",
+  "grader_sha256": "f274da71b5711b753b3127b042f9481ae8cf5cb21ca84295a62c0cc89b56c7b4",
+  "predeclared_blends": {
+    "baseline": [
+      "common0",
+      "common1",
+      "common2",
+      "common3"
+    ],
+    "r1_s3_qat": [
+      "common0",
+      "common1",
+      "common2",
+      "r1_lsq_s3"
+    ],
+    "r2_fp32": [
+      "common0",
+      "common1",
+      "common2",
+      "r2_fp32_q8"
+    ],
+    "r2_w4_ptq": [
+      "common0",
+      "common1",
+      "common2",
+      "r2_w4_ptq"
+    ],
+    "r2_qat_w4": [
+      "common0",
+      "common1",
+      "common2",
+      "r2_lsq_w4"
+    ]
+  },
+  "coefficients_f32": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+  ],
+  "score_contrasts": [
+    "each R2 blend versus original xteam baseline",
+    "each R2 blend versus the prior R1 seed-3 QAT blend",
+    "R2 learned-W4 QAT versus matched R2 W4 PTQ and FP32/native-Q8 blends"
+  ],
+  "metric": "global_wp_clip2_v1",
+  "mask": "need_prediction & is_scored",
+  "panel": {
+    "groups": 468,
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "data_sha256_receipt": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "fitted_data_exposure": "F0 exposed to initializer/teacher fitting and adaptation"
+  },
+  "pending_before_execution": [
+    "root-frozen native export admission path and SHA for stationary-teacher R2",
+    "R2 FP32/Q8, W4 PTQ, and learned-W4 QAT weight paths and archive SHA values",
+    "all eight member result and prediction file SHA values",
+    "independent R2 fit/checkpoint/sample-order/normalization provenance audit"
+  ],
+  "validation": {
+    "grader_python_compile": "passed under 1-CPU/500MB/60s wrapper",
+    "blend_definitions_reviewed_before_new_R2_scores": true,
+    "prediction_or_score_arrays_read": false,
+    "metric_or_producer_modified": false,
+    "external_submission_authorized_or_performed": false
+  },
+  "expected_stationary_r2_weight_sources": {
+    "r2_fp32_q8": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_fp32_deployment_r2/parent.npz",
+      "packed": false,
+      "precision": "native Q8"
+    },
+    "r2_w4_ptq": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_fp32_deployment_r2/recurrent_w4.npz",
+      "packed": true,
+      "precision": "same-checkpoint W4 PTQ"
+    },
+    "r2_lsq_w4": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/self_s3_lsq_w4_deployment_r2/recurrent_w4.npz",
+      "packed": true,
+      "precision": "learned-W4 QAT"
+    }
+  }
+}
