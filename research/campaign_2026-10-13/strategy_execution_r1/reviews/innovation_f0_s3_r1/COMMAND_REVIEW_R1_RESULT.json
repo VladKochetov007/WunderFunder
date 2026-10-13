@@ -1,0 +1,168 @@
+{
+  "actual_parser_receipt": {
+    "all_pass": true,
+    "checks": 10,
+    "cuda_initialized": false,
+    "post_parse_work_executed": false
+  },
+  "mismatches": [],
+  "normalized_argv_pair_matches": true,
+  "packet_sha256": {
+    "CLI_PREFLIGHT_R1.json": "6af36891c0fbbd7d02db17eba56804f16cd5b66e26110f19e40166ed2aa1ba0b",
+    "INNOVATIONS_COMMANDS_R1.json": "38c2d8b2306a451dc892bfa455aac0f6ee77e34a8e9c573c3354ad79abe0765a",
+    "MOMENTS_CONTROL_COMMANDS_R1.json": "8ad0afdd451578cd65514fc18a0084226300280ec466f0f57c8d222b187e0a95",
+    "PREFLIGHT_R1.json": "3d4cb506063102054ca5a607c4c2cbed18047e1a4687c689be7cf0074a77c468",
+    "RECIPE_R1.json": "11d21c1a7ebfefe9a155e8ac6b5176fd461e8ff4812f9f53445630f1fbb96952"
+  },
+  "profiles": {
+    "INNOVATIONS": {
+      "cpus": "1",
+      "max_wall_seconds": 1200,
+      "measured_steps": "5",
+      "memory_bound_bytes": 6000000000,
+      "profile_only": true,
+      "reserve_bytes": "6000000000",
+      "shape": {
+        "batch": 16,
+        "micro_rows": 2000,
+        "n_in": 291,
+        "sequence_rows": 20000
+      },
+      "training_state_saved": false,
+      "warmup": "5"
+    },
+    "MOMENTS_CONTROL": {
+      "cpus": "1",
+      "max_wall_seconds": 1200,
+      "measured_steps": "5",
+      "memory_bound_bytes": 6000000000,
+      "profile_only": true,
+      "reserve_bytes": "6000000000",
+      "shape": {
+        "batch": 16,
+        "micro_rows": 2000,
+        "n_in": 291,
+        "sequence_rows": 20000
+      },
+      "training_state_saved": false,
+      "warmup": "5"
+    }
+  },
+  "schedule_scale_fields": {
+    "INNOVATIONS": {
+      "alpha": 0.9,
+      "epochs": 6,
+      "export_precision": "fp32",
+      "fixed_checkpoint_epoch": 5,
+      "onecycle_attempt_updates": 44760,
+      "profile_only_flags_absent": true,
+      "representation": "causal_innovations",
+      "research_feature_control": "none",
+      "scale": 1.2307692307692308,
+      "stored_teacher_amplitude": 0.8125,
+      "target_scale": 1.0,
+      "training_precision": "fp16"
+    },
+    "MOMENTS_CONTROL": {
+      "alpha": 0.9,
+      "epochs": 6,
+      "export_precision": "fp32",
+      "fixed_checkpoint_epoch": 5,
+      "onecycle_attempt_updates": 44760,
+      "profile_only_flags_absent": true,
+      "representation": "causal_innovations",
+      "research_feature_control": "newest",
+      "scale": 1.2307692307692308,
+      "stored_teacher_amplitude": 0.8125,
+      "target_scale": 1.0,
+      "training_precision": "fp16"
+    }
+  },
+  "schema": "wnn.s09.independent-command-review.r1",
+  "source_commit": "c6e774edc8d5e0c63715a83287cf36fd3969a779",
+  "stage_vectors": {
+    "INNOVATIONS": [
+      {
+        "attempt_id": "strategy-innovations-f0-s3-p1-20261013",
+        "authorized": false,
+        "feature_control": "none",
+        "feature_mode": "causal_innovations",
+        "parent": "c20261003_combo_s3_f0@ep3",
+        "part": "p1",
+        "resume_state": null,
+        "run_name": "clean_t3_f0_innovations_s3_a9_strategy_r1_p1",
+        "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "stop_after_epoch": "1",
+        "target_cache_scale": "1.0"
+      },
+      {
+        "attempt_id": "strategy-innovations-f0-s3-p2-20261013",
+        "authorized": false,
+        "feature_control": "none",
+        "feature_mode": "causal_innovations",
+        "parent": "c20261003_combo_s3_f0@ep3",
+        "part": "p2",
+        "resume_state": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_innovations_s3_a9_strategy_r1_p1/training_state.pt",
+        "run_name": "clean_t3_f0_innovations_s3_a9_strategy_r1_p2",
+        "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "stop_after_epoch": "3",
+        "target_cache_scale": "1.0"
+      },
+      {
+        "attempt_id": "strategy-innovations-f0-s3-p3-20261013",
+        "authorized": false,
+        "feature_control": "none",
+        "feature_mode": "causal_innovations",
+        "parent": "c20261003_combo_s3_f0@ep3",
+        "part": "p3",
+        "resume_state": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_innovations_s3_a9_strategy_r1_p2/training_state.pt",
+        "run_name": "clean_t3_f0_innovations_s3_a9_strategy_r1_p3",
+        "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "stop_after_epoch": "5",
+        "target_cache_scale": "1.0"
+      }
+    ],
+    "MOMENTS_CONTROL": [
+      {
+        "attempt_id": "strategy-moments-control-f0-s3-p1-20261013",
+        "authorized": false,
+        "feature_control": "newest",
+        "feature_mode": "causal_innovations",
+        "parent": "c20261003_combo_s3_f0@ep3",
+        "part": "p1",
+        "resume_state": null,
+        "run_name": "clean_t3_f0_moments_control_s3_a9_strategy_r1_p1",
+        "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "stop_after_epoch": "1",
+        "target_cache_scale": "1.0"
+      },
+      {
+        "attempt_id": "strategy-moments-control-f0-s3-p2-20261013",
+        "authorized": false,
+        "feature_control": "newest",
+        "feature_mode": "causal_innovations",
+        "parent": "c20261003_combo_s3_f0@ep3",
+        "part": "p2",
+        "resume_state": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_moments_control_s3_a9_strategy_r1_p1/training_state.pt",
+        "run_name": "clean_t3_f0_moments_control_s3_a9_strategy_r1_p2",
+        "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "stop_after_epoch": "3",
+        "target_cache_scale": "1.0"
+      },
+      {
+        "attempt_id": "strategy-moments-control-f0-s3-p3-20261013",
+        "authorized": false,
+        "feature_control": "newest",
+        "feature_mode": "causal_innovations",
+        "parent": "c20261003_combo_s3_f0@ep3",
+        "part": "p3",
+        "resume_state": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_moments_control_s3_a9_strategy_r1_p2/training_state.pt",
+        "run_name": "clean_t3_f0_moments_control_s3_a9_strategy_r1_p3",
+        "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "stop_after_epoch": "5",
+        "target_cache_scale": "1.0"
+      }
+    ]
+  },
+  "status": "pass"
+}

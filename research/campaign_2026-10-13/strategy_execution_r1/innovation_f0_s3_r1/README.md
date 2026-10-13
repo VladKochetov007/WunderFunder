@@ -22,6 +22,8 @@ The new feature-aware prediction script now supports campaign fit, evaluation-on
 
 The [draft CLI failure](CLI_DRAFT_FAILURE_R0.json) preserves four unsupported identity-valued options inherited from R3. Main's cached-distillation branch fixes those settings in its equations; the draft options were removed after inspecting its clipped-original-label weights, MSE numerator and chunk denominator. The [actual-parser check](check_cli.py) and [receipt](CLI_PREFLIGHT_R1.json) parse all six staged fit commands, two profile commands and two exports, stopping before any data/device work. This checks the actual consumer API rather than assuming similar source versions share flags. No failed draft reached fitting.
 
+The [independent R1 recipe review](../reviews/innovation_f0_s3_r1/README.md) found that parser checks do not establish post-parse cache compatibility: the actual homogeneous cache is rejected by this source's four-family validator before target arrays are opened. Neither profile nor fit is launchable from frozen R1. This is an operational incompatibility, not a scientific negative; the review records exact cache metadata, actual scalar/path behavior, and unverified row/payload limits.
+
 ## Delivery and limits
 
 Root owns the pair from preparation through admitted profiles, fitting, predictions and paired grading. Source worktree: `/home/vlad/development/wunder/wnn-agent-worktrees/strategy-innovation-fit-20261013`. Keep it intact until all workers finish. The recipe binds every production Python source there; any source correction requires a new reviewed binding before admission. No existing running source or controller was changed.
