@@ -1,0 +1,120 @@
+{
+  "created_utc": "2026-10-13T08:24:01.282319+00:00",
+  "results": [
+    {
+      "comparison": "amplitude_s3",
+      "candidate_wp": 0.6811949693747384,
+      "control_wp": 0.6811553603333365,
+      "delta": 3.9609041401988954e-05,
+      "paired_component_bootstrap": {
+        "candidate_wp": 0.6811949693747386,
+        "reference_wp": 0.6811553603333365,
+        "mean_diff": 3.9609041402099976e-05,
+        "bootstrap_sd": 0.00013520457450105604,
+        "ci95": [
+          -0.00022471586836045332,
+          0.0003014323920563496
+        ],
+        "p_le_0": 0.375,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 20261013,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      },
+      "bindings": [
+        {
+          "run": "clean_t3_f0_amplitude1_s3_a9_t3r5_r3_p3",
+          "sha256": "6c067d926da39866bf2548bed2fdb67d16bfd0e391d6fd30040bc4a24309af6d",
+          "checkpoint_sha256": "5d29900110e9b8ca949d5075dabad80f0be1ec7e69391e55f882eed72fe1767d"
+        },
+        {
+          "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+          "sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6",
+          "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda"
+        }
+      ]
+    },
+    {
+      "comparison": "trajectory_mean_s3",
+      "candidate_wp": 0.6811988703460603,
+      "control_wp": 0.6811553603333365,
+      "delta": 4.351001272384636e-05,
+      "paired_component_bootstrap": {
+        "candidate_wp": 0.6811988703460603,
+        "reference_wp": 0.6811553603333365,
+        "mean_diff": 4.351001272384636e-05,
+        "bootstrap_sd": 0.0002513489835226901,
+        "ci95": [
+          -0.0005018104787531758,
+          0.00048096358932828674
+        ],
+        "p_le_0": 0.402,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 20261013,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      },
+      "bindings": [
+        {
+          "run": "clean_t3_f0_control_s3_swa345_strategy_r1",
+          "sha256": "ea47e770992e4d646a2a1ac70f1b10c18895963e082b62829a26906d663d4c68",
+          "checkpoint_sha256": "7acddda87cf72457d34c4ee2e35d25642976a21cd7858e8f4c2f287a307286ec"
+        },
+        {
+          "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+          "sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6",
+          "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda"
+        }
+      ]
+    },
+    {
+      "comparison": "trajectory_mean_s4",
+      "candidate_wp": 0.6813158771373329,
+      "control_wp": 0.6812584217032286,
+      "delta": 5.74554341042921e-05,
+      "paired_component_bootstrap": {
+        "candidate_wp": 0.6813158771373329,
+        "reference_wp": 0.6812584217032286,
+        "mean_diff": 5.74554341042921e-05,
+        "bootstrap_sd": 0.00031415849380768814,
+        "ci95": [
+          -0.0005970210574087864,
+          0.0006654790495453416
+        ],
+        "p_le_0": 0.4325,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 20261013,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      },
+      "bindings": [
+        {
+          "run": "clean_t3_f0_control_s4_swa345_strategy_r1",
+          "sha256": "4299c2647804f67c6e3d3191eabe24c7d4b15e3df978b51bab78890345742901",
+          "checkpoint_sha256": "889afefc7123dc983b4ace68306627d5ad919abc2db6df85131d2b805b88142e"
+        },
+        {
+          "run": "clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1",
+          "sha256": "f0689f9596d5319e7f5f2e54c5598168f17bcfd926e93e7724fc3878103edec8",
+          "checkpoint_sha256": "e6be82ff799f4ea2b62e770e9c340a8cfd8f98780d1c7dec4a76eab5a853d35c"
+        }
+      ]
+    }
+  ],
+  "evaluation_groups": 468,
+  "components": 141,
+  "selected_rows": 808863,
+  "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "source_sha256": {
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "analysis_source_sha256": "eea02167667dd4c569f92dbb1e0850566e2ed3721b2ffa6eebc91cb5036476dd",
+  "exposure": "Repeatedly inspected F0; conditional fixed-prediction uncertainty only. This does not estimate fitting, teacher, selection or public-transfer uncertainty."
+}

@@ -40,3 +40,7 @@ The requested first-principles branch was merged as20c904da and pushed. [Assesse
 ## Navigation
 
 [Contract](CONTRACT.json), [plan](PLAN.md), [coverage](COVERAGE.json), [entry point](README.md). Every useful result and operational incident needs an explained unified README entry.
+
+## 2026-10-13T08:48:43.645110+00:00 — first grades and user-requested reallocation
+
+Amplitude six-epochCP5 and both fixed averages completed exports/grades; [paired analysis](first_results_analysis_r1/README.md) reproduces the official scorer and all three conditional intervals crosszero. Averaging meanpaired+.00005048 costs3.20minutes of newexports versus amplitude+.00003961 at89.96minutes. BothS14profiles pass40/40updates; fullfitsunrun. Native Luna roles exhausted current usage; rootowns all work and verified free Nemotron R2criticpassed. [New allocation](ALLOCATION_AFTER_FIRST_WAVE_20261013_R1.json) prioritizes reuse/serving, S09pair, S14pair, boundedF3delivery, compactensembles and a small explorationreserve. All39ideas remaintracked. No newcompleteendpoint/publicgain.

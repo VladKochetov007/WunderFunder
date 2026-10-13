@@ -40,3 +40,7 @@ The frozen R3 exporter sets `--output-name` to a CP5-specific name, so the actua
 - [Alias validation helper](../../../../scripts/alias_grade_prediction.py) and [bounded-header regression test](../../../../tests/test_alias_grade_prediction.py) — precheck NPY header length before reading the declared body, then validate metadata and create no-overwrite hardlinks.
 - [R2 source delta](SOURCE_DELTA_R2.patch) — trainer treatment and operational resource-policy changes.
 - [R1 source overlay](source_overlay/README.md) and [R1 source delta](SOURCE_DELTA_R1.patch) — immutable audit history; R1 is not launchable.
+
+Completed6epochs and fixedCP5 export; officialF0 score .6811949694 versusmatcheds3 .6811553603, delta+.000039609. TerminalgateR2 corrects R1helper's nonexistent schedule field; originalfailurepreserved. [Terminal gate](P3_CP5_TERMINAL_GATE_R2.json), [helper](inspect_amplitude_cp5_boundary_r2.py), [failure](P3_CP5_VALIDATOR_FAILURE_R1.json), [export release](EXPORT_CONTROLLER_RELEASE_R1.json), [alias creation](ALIAS_CREATION_R1.json), [grade](grade_r1/clean_t3_f0_amplitude1_s3_a9_t3r5_r3_p3.grade.json), and [paired analysis](../first_results_analysis_r1/README.md) bind the result. Oneexposedfold/seed/sharedteachercohort; no recipepromotion.
+
+[Grade folder and provenance](grade_r1/README.md).

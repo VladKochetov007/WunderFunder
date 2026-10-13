@@ -1,0 +1,3 @@
+# First-wave paired component analysis
+
+[Results](RESULTS_R1.json) and [reproduction source](analyze.py) recompute all three ordinary F0 effects from hash-bound full-valid predictions using the frozen official metric and one shared scored/warmup mask. They reproduce the independent fixed grader to1e-12, then resample141 complete components2,000times. All conditional intervals crosszero; they exclude fitting/teacher/selection/transfer uncertainty. This supports allocation choices, not endpoint promotion. [Cost/effect synthesis](../FIRST_WAVE_COST_AND_EFFECT_R1.json) binds occupied-worker times to actual receipts.

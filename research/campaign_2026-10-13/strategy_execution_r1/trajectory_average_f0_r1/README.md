@@ -28,3 +28,9 @@ Root owns this arm through prediction and grading. [Exact export and grade vecto
 See the [campaign](../README.md), [coverage register](../COVERAGE.json), and append-only [experiment ledger](../../../experiments.jsonl).
 
 [Controller vectors](EXPORT_CONTROLLER_COMMANDS_R1.json) wrap the independently reviewed exports with a ten-minute timeout, the existing5.5GB export reservation, exact absolute contract and shared GPU admission. The [binding preflight](EXPORT_CONTROLLER_PREFLIGHT_R1.json) recomputes the immutable source manifest and verifies the actual model/consumer hashes. Root owns two sequential exports after the amplitude chain; no fit is admitted. Each launch still needs current memory and physical-storage checks.
+
+Both reviewedmeans exported and graded: [s3](grade_s3_r1/clean_t3_f0_control_s3_swa345_strategy_r1.grade.json) .6811988703, delta+.000043510; [s4](grade_s4_r1/clean_t3_f0_control_s4_swa345_strategy_r1.grade.json) .6813158771, delta+.000057455. Meanpairedchange+.000050483 onthe same exposedF0. [Paired uncertainty/cost](../first_results_analysis_r1/README.md) supportscheapfollow-up, not completeendpointpromotion.
+
+[Grade folder and provenance](grade_s3_r1/README.md).
+
+[Grade folder and provenance](grade_s4_r1/README.md).
