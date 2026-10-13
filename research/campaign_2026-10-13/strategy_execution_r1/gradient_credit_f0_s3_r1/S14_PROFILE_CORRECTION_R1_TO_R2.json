@@ -1,0 +1,50 @@
+{
+  "created_utc": "2026-10-13T00:25:30+00:00",
+  "fit_authorized": false,
+  "method": {
+    "hook": "Monkeypatch the actual trainer ArgumentParser.parse_args to raise immediately after a successful parse; imports the trainer from source_overlay_r2 and exits before any data/device/training setup.",
+    "preflight_script_path": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_TRAINER_ARGPARSE_PREFLIGHT.py",
+    "preflight_script_sha256": "ecfbf58cc5e7e3593a3d344980413cb2375cadb3186507edf58169a4578e9c6a"
+  },
+  "next_gate": "Root independently verifies the immutable Main controller/source manifests and performs fresh shared admission before either actual-device profile. This packet does not authorize a profile or fit.",
+  "profile_authorized": false,
+  "r1": {
+    "actual_frozen_trainer_argparse": {
+      "both_detach_profiles": "rejected",
+      "cause": "bare positional 16 immediately followed --checkpoint-epoch 5 because --batch was omitted",
+      "cuda_initialized": false,
+      "post_parse_training_code_reached": false,
+      "stderr": "train_rnn.py: error: unrecognized arguments: 16"
+    },
+    "attempt_lookup": {
+      "exit_code": 1,
+      "ids": [
+        "clean-t3-f0-gc-detach500-profile-s14-r1-20261013",
+        "clean-t3-f0-gc-detach2000-profile-s14-r1-20261013"
+      ],
+      "interpretation": "No admission/attempt record was found; these malformed R1 vectors were never launched.",
+      "matches": 0,
+      "search": "rg -n -F with both exact attempt IDs over the shared runtime",
+      "shared_runtime": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime"
+    },
+    "defect_receipt_path": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_PROFILE_COMMAND_DEFECT_R1.json",
+    "defect_receipt_sha256": "691b1e685cab5271332ce395c06a7ca6e41a14dbb0c268e126906920037e33cb",
+    "frozen_unchanged": true,
+    "packet_path": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_PROFILE_ONLY_COMMANDS_R1.json",
+    "packet_sha256": "2e95c4d8cdf84801d90880238116eed12b23e75ae3ac9de237a6ae8425b2cdbd"
+  },
+  "r2": {
+    "correction": "Add --batch 16 before --epochs; assign fresh attempt/profile identities; align controller and outer RAM reservations at 6500000000 bytes.",
+    "packet_path": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_PROFILE_ONLY_COMMANDS_R2.json",
+    "packet_sha256": "14857354b9a91d973ad67270da79f9308ca34c083aa18a406d513bc7090df4ca",
+    "parser_receipt_path": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_TRAINER_ARGPARSE_PREFLIGHT_R2.json",
+    "parser_receipt_sha256": "8f98841e999d062c8918d025768f8043776b58f6e31732c94057dbdc29191bab",
+    "source_file_count": 66,
+    "source_manifest_sha256": "587d9910e604c9419942d0c8ee0847ac09a5cfac19f765fe54aec073f8f3d84d",
+    "source_preflight_path": "research/campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_PROFILE_SOURCE_PREFLIGHT_R2.json",
+    "source_preflight_sha256": "373e3a3a279bcc8504c53d6ded4604390c3ca682f84f9057189f352e03ad1e8e",
+    "trainer_argparse_result": "Both vectors accepted by the exact frozen source-overlay trainer parser; CUDA remained uninitialized and no post-parse training code ran."
+  },
+  "schema": "wnn.s14-profile-command-correction.r1",
+  "status": "CORRECTED_PREPARATION_ONLY"
+}
