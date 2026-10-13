@@ -1,6 +1,6 @@
 # Component-paired bootstrap for QAT deployment comparisons — 2026-10-13
 
-**Status:** the bounded grader is implemented and its native-Q8 anchor has been checked against the actual frozen R2 full-fold artifact. It grades the unchanged-parent native-Q8 versus recurrent-W4 baseline and five trained pairs: uniform-W4 and mixed-W4/W8 QAT versus matched float-PTQ at both the 10% and 30% fit-subset scales, plus the 100% uniform-W4 pair. The [baseline receipt](receipts/QAT_NATIVE_Q8_BASELINE_VALIDATION_R1.json) and [trained-pair receipts](receipts/README.md) record the actual artifact/source hashes; [the grader](../../../scripts/grade_qat_component_bootstrap.py) can consume additional matched endpoint directories.
+**Status:** the bounded grader is implemented and its native-Q8 anchor has been checked against the actual frozen R2 full-fold artifact. It grades the unchanged-parent native-Q8 versus recurrent-W4 baseline and six trained pairs: uniform-W4 and mixed-W4/W8 QAT versus matched float-PTQ at both the 10% and 30% fit-subset scales, plus full-cohort uniform-W4 and mixed-W4/W8 pairs. The [baseline receipt](receipts/QAT_NATIVE_Q8_BASELINE_VALIDATION_R1.json) and [trained-pair receipts](receipts/README.md) record the actual artifact/source hashes; [the grader](../../../scripts/grade_qat_component_bootstrap.py) can consume additional matched endpoint directories.
 
 ## Estimand and resampling unit
 
