@@ -1,0 +1,21 @@
+# QAT renewable R1 10% fit recipe admission — 2026-10-13
+
+**Independent recipe/ancestry verdict: PASS for the matched 10% F0 seed-3 trio, subject to the controller's per-job live resource admission.** This authorizes interpretation of the frozen recipe, not resource admission, execution, or a quality claim. The root controller owns launches, endpoint export and scoring.
+
+## Frozen recipe and source
+
+The integrated recipe at `research/campaign_2026-10-13/qat_renewable_r1/delivery_r1/RUN_RECIPE_R1.json` has SHA-256 `c08c6a7c46d1d117521153b0cd233410695cf738d7784d32d26de80f7a92e585`. The ancestry/integration receipt is `DELIVERY_INTEGRATION_CHECK_R1.json`, SHA-256 `386504aa81b5cb1895c7919ada9fdc223ec8141a1deb0f15d86d4652cd2ceea7`. Root's frozen fit source is `artifacts/qat_renewable_r1/fit_source_r1`, recorded at revision `025ae1d5` plus profile-argument fix `173cce08`. I independently hashed the key fit files in that snapshot: `scripts/train_rnn.py` `4935c9faac8f98846f417759d4e620109f18ae6ecc75580964fe716848e1ba84`; `src/wnn/training_qat.py` `a4339f5a08040afc7252d255497f96b4685a10a6770c72a9b1561171de1e4b74`; `src/wnn/quantization.py` `fbca8fff8af5ae488eea2c2b53e304fd3620fdaf32f1f213ac499378b0261298`.
+
+The admitted 10% conditions are `qat_deploy_f0_s3_10pct_fp32_r1` (`--qat none`), `qat_deploy_f0_s3_10pct_uniform_w4_r1` (`--qat recurrent_w4`) and `qat_deploy_f0_s3_10pct_mixed_w4w8_r1` (`--qat input_w4_recurrent_w8`). Their trainer options match except for run identity and the declared QAT policy. They use the same seed-3 CP5 initializer `clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5`, FP32, fresh AdamW (no resume state), one-cycle schedule, max LR `1e-4`, weight decay `.01`, batch 16, chunk 1,000, epoch 0 as the fixed raw `model_ep0.pt`, and `ema_teacher=0`, `swa_frac=0`. Propensity, distillation targets, auxiliary losses, sampling, preprocessing parent and evaluation panel are shared.
+
+## Membership and interpretation
+
+The 10% subset manifest SHA-256 is `1b077e7f599508c88807b120301174db8a5c3421f9e7ba7f10cf11c0104b0e3e`; it selects 315 complete fitting components (1,048 train groups and 104 fit-valid groups). It is nested in the 30% and 100% subsets and disjoint from the fixed 468-group F0 evaluation panel under split SHA-256 `09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d`. The previously reviewed initializer, clean-T3 teacher/cache metadata and propensity membership exclude those evaluation components. Since the CP5 initializer and teacher targets were trained on the full F0 fitting pool, this is a 10% **adaptation screen**, not a small-data-from-scratch or clean-CV result. It is one fitting seed on an exposed fold. One epoch also means the 10%, 30%, and 100% arms receive different optimizer-update budgets; the three conditions within this 10% trio remain matched.
+
+The actor's bounded ancestry check pinned cache metadata, teacher and target-file hashes/sizes without rereading the large target arrays. My independent audit likewise did not rehash those payload bytes; preserve trainer-recorded consumed-cache hashes with the run receipts. This is a provenance limitation, not a reason to alter the matched command matrix.
+
+## Launch binding
+
+The recipe's human-readable vectors use the main checkout as `cwd` and contain relative split, subset and cache paths. The frozen fit script is copied under `fit_source_r1`, where those project inputs do not live. The reviewed training script resolves data/output roots from `WNN_PROJECT_ROOT` and resolves relative subset paths under that root. Therefore the controller's admitted commands must explicitly set `WNN_PROJECT_ROOT` to the main checkout, import `PYTHONPATH` from `fit_source_r1/src`, execute the absolute `fit_source_r1/scripts/train_rnn.py`, and preferably bind split, subset and cache arguments to absolute main-checkout paths. I verified that the recipe's current relative paths resolve to the intended existing main-checkout files under its declared `cwd`; the frozen-command rebind is needed to keep the source snapshot and data roots distinct and unambiguous.
+
+Related IDs: `H-QAT-W4-20261013`, `H-QAT-A8-20261013`, `H-QAT-LSQ-20261013`, `E-QAT-DEPLOYMENT-20261013-R1`.
