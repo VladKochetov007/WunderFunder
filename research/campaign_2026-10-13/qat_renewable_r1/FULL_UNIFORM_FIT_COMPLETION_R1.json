@@ -1,0 +1,84 @@
+{
+  "run": "artifacts/runs/qat_deploy_f0_s3_100pct_uniform_w4_r1",
+  "history": [
+    {
+      "epoch": 0,
+      "train_seconds": 1439.7,
+      "evaluation": "withheld",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 14920,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 14920,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "cumulative": {
+          "optimizer_attempts": 14920,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 14920,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "sample_order_identity": {
+          "sampler_class": "RandomSampler",
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": false,
+          "sampler_num_samples": 11940
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+          }
+        }
+      }
+    }
+  ],
+  "model_ep0_sha256": "4de6940e7c827d3f9a2bde717d38ee48dc042ddb9be871efa2166ce55b5ccef1",
+  "attempt": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-deploy-f0-s3-100pct-uniform-w4-r1.json",
+  "status": "finished",
+  "exit_status": 0,
+  "train_seconds": 1439.7,
+  "peak_ram_bytes": 4952346624,
+  "peak_observed_vram_bytes": 2173698048,
+  "oom_deltas": {
+    "high": 337477,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "evaluation": "full468-group native evaluation complete; independent grade pending"
+}

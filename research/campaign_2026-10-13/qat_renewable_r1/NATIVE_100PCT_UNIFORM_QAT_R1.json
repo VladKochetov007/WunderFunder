@@ -1,0 +1,59 @@
+{
+  "owner": "root",
+  "checkpoint": "qat_deploy_f0_s3_100pct_uniform_w4_r1@ep0",
+  "manifest_sha256": "2627b6a64f1d5ba101e611037361b4d14a505792a000547a4f7ab96e9b4e231b",
+  "scope": "full468-groupF0 exactW4QATcheckpoint vs full100floatPTQcontrol",
+  "worker": {
+    "attempt": "qat-100pct-f0-s3-w4-native-r1",
+    "expected_command": [
+      "env",
+      "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/deployment_source_r3/src",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/deployment_source_r3/scripts/evaluate_qat_deployment.py",
+      "run",
+      "--output",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/100pct_uniform_w4_deployment_r3",
+      "--case",
+      "recurrent_w4",
+      "--manifest-sha256",
+      "2627b6a64f1d5ba101e611037361b4d14a505792a000547a4f7ab96e9b4e231b"
+    ],
+    "launch_command": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py",
+      "--root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/deployment_source_r3",
+      "--state",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime",
+      "launch",
+      "--attempt",
+      "qat-100pct-f0-s3-w4-native-r1",
+      "--kind",
+      "cpu",
+      "--cpus",
+      "1",
+      "--reserve-bytes",
+      "1000000000",
+      "--profile",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/deployment_checks_r1/PROFILE_SUMMARY_R1.json",
+      "--contract",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/CONTRACT.json",
+      "--",
+      "env",
+      "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/deployment_source_r3/src",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/deployment_source_r3/scripts/evaluate_qat_deployment.py",
+      "run",
+      "--output",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/100pct_uniform_w4_deployment_r3",
+      "--case",
+      "recurrent_w4",
+      "--manifest-sha256",
+      "2627b6a64f1d5ba101e611037361b4d14a505792a000547a4f7ab96e9b4e231b"
+    ],
+    "output_bytes": 80000000,
+    "must_not_exist": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/100pct_uniform_w4_deployment_r3/recurrent_w4"
+    ]
+  }
+}
