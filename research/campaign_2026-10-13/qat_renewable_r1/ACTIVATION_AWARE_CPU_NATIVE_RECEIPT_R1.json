@@ -1,0 +1,83 @@
+{
+  "schema": "activation_aware_cpu_native_validation_v1",
+  "recorded_utc": "2026-10-13T17:40:25Z",
+  "experiment_id": "E-QAT-DEPLOYMENT-20261013-R1",
+  "hypothesis_id": "H-QAT-A8-20261013",
+  "test_source": "tests/test_activation_qat.py",
+  "test_command": "PYTHONPATH=src PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 WNN_Q8_TEST_LIBRARY=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_r1 WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=180s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/pytest -q -s tests/test_activation_qat.py",
+  "resource_authorization": {
+    "owner": "root",
+    "cpu_cores": 1,
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 180,
+    "native_build_authorized": false,
+    "gpu_profile_authorized": false
+  },
+  "test_attempts": [
+    {
+      "attempt": 1,
+      "status": "superseded_initial_smoke",
+      "tests_passed": 4,
+      "tests_failed": 0,
+      "wall_seconds": 5.49,
+      "limitation": "initial native comparison used broad tolerances and a nonzero input projection; root requested a controlled exact-projection fixture and explicit no-A8 sensitivity",
+      "warnings": "minimum-subnormal scalar reference emitted overflow/invalid warnings",
+      "quality_evaluation": "not_evaluated"
+    },
+    {
+      "attempt": 2,
+      "status": "implementation_error",
+      "failure": "torch.fmax requires tensor bounds; the first edited call passed a Python float",
+      "tests_passed": 1,
+      "tests_failed": 3,
+      "scientific_result": false,
+      "action": "replaced scalar bounds with float32-compatible full_like tensors"
+    },
+    {
+      "attempt": 3,
+      "status": "passed",
+      "tests_passed": 4,
+      "tests_failed": 0,
+      "wall_seconds": 4.76,
+      "quality_evaluation": "not_evaluated"
+    }
+  ],
+  "native_comparison": {
+    "library_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_r1",
+    "library_sha256": "a4390ecf7bcd54bb6826b43f5dcf6d7a40064c64ed1450bdc1780c34c2a6e108",
+    "precision": "q8vnni_portable",
+    "fast_activations": false,
+    "imported_weight_codes": "exact recurrent_head Q8 codes and scales from quantize_model",
+    "fixture": {
+      "input_projection_weight": "all zero",
+      "input_projection_bias": "all zero",
+      "encoded_projection": "exact zero",
+      "hidden_width": 8,
+      "layers": 2,
+      "rows": 96,
+      "recurrent_candidate_input_bias": 0.25,
+      "purpose": "isolate recurrent previous-hidden A8 behavior from native I16 projection"
+    },
+    "maximum_absolute_final_hidden_state_error_vs_a8_scan": 5.96046448e-08,
+    "maximum_absolute_native_error_vs_no_a8_scan": 0.000689938664,
+    "maximum_absolute_a8_vs_no_a8_state_effect": 0.000689923763,
+    "sensitivity_check": "passed; disabling A8 changed the fixture state by more than 1e-5",
+    "interpretation": "close hidden-state agreement on this controlled fixture; not bitwise gate equivalence and not a model-quality result"
+  },
+  "validation_scope": {
+    "scan_vs_fused_gru_outputs_final_state_and_gradients": "passed; two layers, nonzero initial state, two chunks",
+    "a8_codes_and_scales_scalar_rule": "passed, including zero and minimum-subnormal vectors",
+    "float32_state_and_finite_output": "passed",
+    "actual_native_hidden_state": "passed on the controlled zero-projection fixture",
+    "compiled_b16_c1000_profile": "pending root-owned single-GPU admission",
+    "long_scan": "not_run",
+    "training": "not_run",
+    "quality_result": null
+  },
+  "limitations": [
+    "Native integer accumulation and floating epilogue differ from torch floating matvec arithmetic.",
+    "The native fixture uses a zero projection, so it isolates previous-hidden A8; per-vector A8 code behavior is checked separately.",
+    "Projection-to-first-layer and head activation quantization remain outside this implementation.",
+    "No GPU profile, Rust build, model fit, validation score, or public transfer result was produced."
+  ]
+}
