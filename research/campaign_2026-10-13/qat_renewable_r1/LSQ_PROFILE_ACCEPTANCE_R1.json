@@ -1,0 +1,85 @@
+{
+  "utc": "2026-10-13T17:44:27.304474+00:00",
+  "profiles": [
+    {
+      "condition": "fixed",
+      "attempt": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-lsq-f0-s3-profile-fixed-r1.json",
+      "log": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/qat-lsq-f0-s3-profile-fixed-r1.log",
+      "log_sha256": "d1909b3c95610375e714f057bbe118655f9b3064c66f40286c9a6e8cb93f2c3a",
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "profile": {
+        "backward": 592.5,
+        "forward": 394.02,
+        "gpu_total": 1006.48,
+        "h2d": 0.01,
+        "inputs": 9.07,
+        "labels": 1.34,
+        "loss": 3.93,
+        "optimizer": 5.17,
+        "weights": 0.17,
+        "loader_wait": 329.39,
+        "step_wall": 1334.24,
+        "seq_per_s": 11.99,
+        "syncs_per_step": 200.67
+      },
+      "peak_ram_bytes": 3952402432,
+      "peak_observed_vram_bytes": 2173698048
+    },
+    {
+      "condition": "learned",
+      "attempt": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-lsq-f0-s3-profile-learned-r1.json",
+      "log": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/qat-lsq-f0-s3-profile-learned-r1.log",
+      "log_sha256": "42d0f2c56cad0dee93fba6ba302d656e286b94af9d72967cd887224871817fec",
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "profile": {
+        "backward": 596.18,
+        "forward": 399.0,
+        "gpu_total": 1030.02,
+        "h2d": 0.03,
+        "inputs": 9.46,
+        "labels": 1.35,
+        "loss": 4.16,
+        "optimizer": 15.95,
+        "weights": 0.18,
+        "loader_wait": 292.16,
+        "step_wall": 1315.6,
+        "seq_per_s": 12.16,
+        "syncs_per_step": 844.67
+      },
+      "peak_ram_bytes": 2938068992,
+      "peak_observed_vram_bytes": 2175795200
+    }
+  ],
+  "decision": "admit sequential matched10percent fixed and learned fits via fresh controller gate",
+  "host_reserve_bytes": 6000000000,
+  "fit_estimate_seconds_each": 220,
+  "collection_allowance_seconds": 60,
+  "basis": "profile peaks plus prior complete1440update same-shape4.95GB host fits; source/recipe independent review passed",
+  "scope": "all selected recurrent_w4 matrix row steps inclQ8head; fixed control per-update absmax; one seed exposedF0"
+}

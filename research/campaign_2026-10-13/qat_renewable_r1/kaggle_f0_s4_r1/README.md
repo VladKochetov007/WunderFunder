@@ -19,7 +19,7 @@ The immutable raw datasets remain mounted from private `vladkochetov07/wunder-fu
 ## Navigation
 
 - [Input identity manifest](INPUT_IDENTITIES_R1.json) and [full-data recipe](RUN_RECIPE_S4_R1.json) bind source and run arguments.
-- [Actual mounted-input preflight](../../../../../scripts/qat_kaggle_preflight_r1.py) emits the required per-kernel input verification receipt.
+- [Actual mounted-input preflight](../../../../scripts/qat_kaggle_preflight_r1.py) emits the required per-kernel input verification receipt.
 - [Packet builder](build_packet_r1.py) generates hardlink staging, exact runner specs and both offline bundles without contacting Kaggle.
 - [Packet summary](PACKET_R1.json), [generated entrypoint binding](ENTRYPOINT_BINDING_R1.json), and `specs/` preserve the prepared artifacts. The hash receipt and pending inventory remain in the private local staging directory named above and are not copied into Git.
 - From MAIN, after the bounded asset streaming check, refresh only the receipt binding and bundle metadata without rereading arrays with: `WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=180s scripts/limited .venv/bin/python research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/build_packet_r1.py --stage-root /home/vlad/development/wunder/qatk4a/qat-f0-s4-kaggle-r1 --refresh-staged-hash-receipt`.

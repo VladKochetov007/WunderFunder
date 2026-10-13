@@ -1,0 +1,11 @@
+{
+  "utc": "2026-10-13T17:49:20.525439+00:00",
+  "failed_output": "artifacts/qat_renewable_r1/lsq_10pct_fixed_deployment_r1",
+  "failure": "FileNotFoundError lsq_source_r1/utils.py during manifest hashing; prior arrays retained, no manifest or valid evaluator input produced",
+  "cause": "root froze trainer source but omitted evaluator root-level utils.py dependency",
+  "recovery": "separate complete lsq_export_source_r2 from same6dde7d9d revision; runningtrainer source unchanged; reprepare distinctoutput with explicitPYTHONPATH pinned to new snapshot",
+  "source_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/lsq_export_source_r2",
+  "source_revision": "6dde7d9d268475102849fda43b31b8e42162b3c8",
+  "utils_sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+  "other_prepare_audit": "100pctfloat prepare lacked explicitPYTHONPATH; native run uses frozenR3. Plan reprepare underexplicitfrozen modules, verify completearchive bytes before interpreting currentevaluation."
+}
