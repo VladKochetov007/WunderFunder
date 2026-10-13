@@ -103,3 +103,10 @@ The October12 stop and its terminal-state archive remain preserved as historical
 - [TERMINAL_EXECUTION_SNAPSHOT_R2.json](../../campaign_2026-10-13/qat_renewable_r1/TERMINAL_EXECUTION_SNAPSHOT_R2.json): Pins terminal attempts and logs for completed first-wave native evaluation, full-data floating fit and LSQ profile/control execution, including measured resources. Raw files remain in the shared runtime.
 
 [Terminal raw attempt/log navigation](../../campaign_2026-10-13/qat_renewable_r1/README.md) describes the source runtime files pinned by the execution snapshot, preserving finite-update, sampling and complete-evaluation evidence separately from scientific grading.
+
+[Full-data W4/mixed allocation](../../campaign_2026-10-13/qat_renewable_r1/ALLOCATION_100PCT_QAT_R1.json) admits one complete matched weight-only cohort after the LSQ pair, based on uncertain positive30% effects and scale-dependent information value. It preserves14920 updates, the frozen control, one GPU and fresh resource admission; no benefit or package promotion is claimed.
+
+- [CACHE_HANDOFF_AFTER_LSQ_LEARNED_R1.json](../../campaign_2026-10-13/qat_renewable_r1/CACHE_HANDOFF_AFTER_LSQ_LEARNED_R1.json): Restoresheadroom after successfullearnedfit before boundedexports andfull-dataW4admission, withoutchanginglimits.
+- [EXPORT_IMPORT_IDENTITY_VERIFICATION_R2.json](../../campaign_2026-10-13/qat_renewable_r1/EXPORT_IMPORT_IDENTITY_VERIFICATION_R2.json): Repreparesfull-datafloat with explicitly frozenimports; fullmanifest andallfourarchives exactlymatch priorpreparation, validating currentnativeevaluations.
+- [LSQ_PAIRED_FIT_COMPLETION_R1.json](../../campaign_2026-10-13/qat_renewable_r1/LSQ_PAIRED_FIT_COMPLETION_R1.json): Records both1440-update fixed/learnedfits completed in152.9/164.9seconds, identical sampler/normalization andmeasuredpeaks; nativequalitypending.
+- [NATIVE_LSQ_10PCT_SEQUENCE_R1.json](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_LSQ_10PCT_SEQUENCE_R1.json): Binds exactselectedepoch0 codes/scales tofull-F0 nativeW4 comparison usingcompleteimmutableLSQ exports; no latentfloatingevaluation.
