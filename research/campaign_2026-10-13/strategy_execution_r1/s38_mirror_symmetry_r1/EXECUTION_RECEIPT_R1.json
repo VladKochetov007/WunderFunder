@@ -1,0 +1,110 @@
+{
+  "receipt_id": "S38-H317-input-symmetry-execution-r1",
+  "created_utc": "2026-10-13T00:00:21Z",
+  "experiment_ledger_id": "E-STRATEGY-S38-H317-INPUT-SYMMETRY-DIAGNOSTIC-R1",
+  "canonical_note": "research/unified/ideas/S38_MIRROR_SYMMETRY_DIAGNOSTIC_R1.md",
+  "proposal": {
+    "path": "research/campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/PROPOSALS_R1.json",
+    "sha256": "2a9b9009f6671bb62a139b1528cc58b9ff864fbe76f91d39143f1bd145023c35",
+    "frozen_before_feature_inspection_commit": "255dc43684e450feb69589a5024071bc268322d0"
+  },
+  "actual_run": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s PYTHONPATH=/home/vlad/development/wunder/wnn-agent-worktrees/strategy-symmetry-20261013/src scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python scripts/s38_mirror_symmetry_diagnostic.py --data-root /home/vlad/development/wunder/wnn_connectome_starterpack --split-manifest /home/vlad/development/wunder/wnn-agent-worktrees/strategy-symmetry-20261013/research/campaign_2026-09-29/artifacts/splits/fold0.json --proposal /home/vlad/development/wunder/wnn-agent-worktrees/strategy-symmetry-20261013/research/campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/PROPOSALS_R1.json --output /home/vlad/development/wunder/wnn-agent-worktrees/strategy-symmetry-20261013/research/campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/SYMMETRY_DIAGNOSTIC_R1.json",
+    "cwd": "/home/vlad/development/wunder/wnn-agent-worktrees/strategy-symmetry-20261013",
+    "systemd_scope": "run-p234333-i255938.scope",
+    "started_utc": "2026-10-13T00:00:05Z",
+    "finished_utc": "2026-10-13T00:00:22Z",
+    "exit_status": 0,
+    "systemd_journal": "Consumed 16.242s CPU time over 16.532s wall clock time, 1.2G memory peak.",
+    "limits": {
+      "cpu_quota": "100% (one core)",
+      "threads": 1,
+      "memory_max_bytes": 1500000000,
+      "swap_max_bytes": 0,
+      "runtime_max": "120s",
+      "gpu": false,
+      "training": false,
+      "model_inference": false
+    },
+    "prelaunch_gate": {
+      "parent_memory_current_bytes": 8448745472,
+      "active_gpu_worker_reservation_bytes": 5500000000,
+      "other_support_task_full_bound_bytes": 400000000,
+      "new_task_full_bound_bytes": 1500000000,
+      "conservative_committed_upper_bound_bytes": 15848745472,
+      "working_target_bytes": 17000000000,
+      "parent_memory_high_bytes": 18000000000,
+      "parent_memory_max_bytes": 20000000000,
+      "parent_swap_max_bytes": 0,
+      "parent_cpu_quota": "5 cores",
+      "active_gpu_attempt": "clean-t3-f0-amplitude1-s3-a9-r3-p1-20261013",
+      "active_gpu_attempt_status": "running; systemd unit active"
+    },
+    "bindings": {
+      "proposal_sha256": "2a9b9009f6671bb62a139b1528cc58b9ff864fbe76f91d39143f1bd145023c35",
+      "result_sha256": "80262d8ea090a843f5e2123f693424fcaf41ab07762b0a9580fd93e59b68b5d1",
+      "diagnostic_code_sha256": "5177132c8eb2a55edff56996fa6374d8a146ac7e61fa1af8c9238470a27b0ef0",
+      "test_code_sha256": "ebbac98c1117eb87fd4822edb24b27c735156046e44428b08964f210bf1112a4",
+      "sequence_reader_sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "limited_wrapper_sha256": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76",
+      "split_builder_sha256": "f3545de3e6da18db8c0137a47762a523e1983dd20ab36ee0e764a4ac0c6b46b5",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "train_parquet_bytes": 29240219011,
+      "train_parquet_mtime_ns": 1577826000000000000,
+      "train_parquet_footer_bytes": 60437285,
+      "train_parquet_footer_and_trailer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb"
+    }
+  },
+  "checks": {
+    "ruff_format": "pass",
+    "ruff_check": "pass",
+    "unit_tests": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s PYTHONPATH=/home/vlad/development/wunder/wnn-agent-worktrees/strategy-symmetry-20261013/src:/home/vlad/development/wunder/wnn-agent-worktrees/strategy-symmetry-20261013 scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m unittest tests/test_s38_mirror_symmetry.py",
+      "passed": 6,
+      "failed": 0
+    },
+    "input_scope": {
+      "source": "train.parquet only",
+      "fitting_membership": "fold0 fit.train only",
+      "sample": "32 distinct components; one complete 20000-row sequence per component",
+      "targets_read": false,
+      "scoring_masks_read": false,
+      "validation_or_evaluation_read": false
+    }
+  },
+  "preflight_incidents": [
+    {
+      "outcome": "corrected_before_feature_read",
+      "issue": "The first footer identity check hashed the declared footer bytes but omitted the 8-byte length/magic trailer included by the split-manifest producer.",
+      "correction": "Stream-hash footer_bytes + 8, matching scripts/build_campaign_splits.py.",
+      "feature_values_read": false
+    },
+    {
+      "outcome": "corrected_before_feature_read",
+      "issue": "A preflight compared the number of parquet row groups directly with split-manifest train records. The manifest omits known corrupt row group 528 (src/wnn/data.py:CORRUPT_TRAIN_ROW_GROUPS), so those counts need not match.",
+      "correction": "Use SequenceFile, check manifest group IDs are unique and in parquet bounds, and verify fit.train membership is a subset of train records.",
+      "manifest_train_records": 10606,
+      "fit_train_groups": 10535,
+      "missing_manifest_group_id": 528,
+      "feature_values_read": false
+    },
+    {
+      "outcome": "oom_kill_on_undersized_metadata_only_support_bound",
+      "started_utc": "2026-10-12T23:56:40Z",
+      "systemd_scope": "run-p226850-i223098.scope",
+      "control_group_id": 44892,
+      "parent_slice": "wnn-campaign.slice",
+      "control_group_path": "reclaimed with transient scope; systemctl retained ControlGroupId but returned ControlGroup unset",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=400000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nimport pyarrow.parquet as pq\nmanifest_path = Path('research/campaign_2026-09-29/artifacts/splits/fold0.json')\nmanifest = json.loads(manifest_path.read_text())\nparquet = pq.ParquetFile('/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/train.parquet')\nprint('train_row_groups_in_parquet', parquet.num_row_groups)\nfor key, value in manifest['sequences'].items():\n    print('manifest_sequences', key, len(value), 'first', value[0] if value else None, 'last', value[-1] if value else None)\nprint('fit_keys', list(manifest['fit']))\nprint('fit_train_count', len(manifest['fit']['train']))\nprint('fit_train_minmax', min(manifest['fit']['train']), max(manifest['fit']['train']))\nPY",
+      "exit_status": 137,
+      "systemd_result": "oom-kill",
+      "effective_memory_max_bytes": 400000000,
+      "memory_peak_bytes": 399998976,
+      "oom_kills": 1,
+      "swap_peak_bytes": 0,
+      "journal_evidence": "The kernel OOM killer killed some processes in this unit; the scope failed with result oom-kill.",
+      "feature_values_read": false
+    }
+  ],
+  "interpretation_limit": "The 400MB metadata scope failure is an execution/resource incident, not a scientific result. The successful diagnostic read only feature columns from the deterministic fit-train sample; it does not establish joint data symmetry, target symmetry, or augmentation validity."
+}
