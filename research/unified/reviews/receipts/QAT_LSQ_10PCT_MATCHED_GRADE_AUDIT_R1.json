@@ -1,0 +1,142 @@
+{
+  "schema": "independent_qat_lsq_10pct_grade_audit_v1",
+  "experiment_id": "E-QAT-LSQ-10PCT-F0S3-20261013-R1",
+  "hypothesis_id": "H-QAT-LSQ-20261013",
+  "fit_source_revision": "6dde7d9d268475102849fda43b31b8e42162b3c8",
+  "fit_source_identity_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+  "grader": {
+    "path": "scripts/grade_qat_component_bootstrap.py",
+    "sha256": "19ae775c4e4402a9185a21e24ccf7fc5577f0ecfdf3b8b4a2fdd772d4c79e95d",
+    "receipt": "research/unified/reviews/receipts/QAT_LSQ_10PCT_PAIRED_GRADE_R1.json",
+    "receipt_sha256": "0c2d83a8536e3d450f68b6aa7063e4b510b3c51f1ff151eadf58b47e2b73a6ba",
+    "execution": "MAIN scripts/limited, 50% CPU quota, one thread, 500000000-byte memory maximum; no Torch or prediction arrays"
+  },
+  "fit_match": {
+    "verdict": "pass",
+    "shared_initial_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "fixed_model_ep0_sha256": "5467ab5caff461b41b109a9e9cad8448576cb47507df29104a1ab0ea5f1ea410",
+    "learned_model_ep0_sha256": "cfa6a206f3b1d03238696dde3444d393d1bed39d355abff59b30a6c5f900f0f4",
+    "common_cli_args_except_name_and_qat_learn_scales": true,
+    "treatment_flags": {
+      "fixed": false,
+      "learned": true
+    },
+    "seed": 3,
+    "selected_checkpoint": "raw fixed epoch 0",
+    "updates": {
+      "attempted": 1440,
+      "completed": 1440,
+      "skipped": 0,
+      "batches": 72
+    },
+    "sample_order_rng_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9",
+    "fit_pool": {
+      "dataset_length": 1152,
+      "train_sequences": 1048,
+      "validation_sequences": 104,
+      "subset_manifest_sha256": "1b077e7f599508c88807b120301174db8a5c3421f9e7ba7f10cf11c0104b0e3e",
+      "subset_members_sha256": "254723b332b28eafa1e8b22dc283e8f886dbc6fa954894fdf46b769e5ebb1c30"
+    },
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "normalization_sha256": {
+      "mean": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+      "std": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+    },
+    "distillation_cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "distillation_cache_file_sha256": {
+      "main_homogeneous_train": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+      "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+    },
+    "teacher_coefficients": [
+      {"family": "strong", "run": "clean_t3_f0_muonall_h384_e3_s3_r5", "epoch": 2, "coefficient": 0.1},
+      {"family": "strong", "run": "clean_t3_f0_muonall_h384_e3_s4_r5", "epoch": 2, "coefficient": 0.1},
+      {"family": "strong", "run": "clean_t3_f0_muonall_h384_e3_s5_r5", "epoch": 2, "coefficient": 0.1}
+    ],
+    "propensity": {
+      "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+      "model": "c20260929_prop_f0",
+      "power": 2.0,
+      "epsilon": 0.03
+    },
+    "provenance_sha256": {
+      "fixed": "7d95c715715d1c2e81de1736d0e0f0a4dc54629957332e6d4afbc9836499844f",
+      "learned": "544b0dc236662c3cccc2bd1aa575341c5ac7cb6545b967c01992973cfe400c79"
+    }
+  },
+  "representation_audit": {
+    "fixed_manifest_sha256": "65754aa7b82ed2dcf7e54aeff1fc66023ae15fe1160ebc2466d67b35fc5e01f4",
+    "learned_manifest_sha256": "d3790b8d2cfa7ed5d9794694e15637d7372a39480ff3c54811867fe8e158ddfb",
+    "float_ptq_manifest_sha256": "a2c01d7296cc6627563c2e1c4c75c9d0e3fa625de86f39a032980586c24cf7a2",
+    "fixed_archive_sha256": "0122e105a42616a6cd8ee7192d7ad31ba33744c17f80f1523ebc3dc7ce42959d",
+    "learned_archive_sha256": "2d2678c7afd27e1cbaac15a3bbaadb08e334dc01d3c68a5b176807f79d561f2f",
+    "all_encoded_code_and_scale_payloads_match_each_manifest": true,
+    "encoded_fields_per_endpoint": 12,
+    "selected_matrix_blocks": {
+      "gru.weight_ih_l0": [4],
+      "gru.weight_hh_l0": [4],
+      "gru.weight_ih_l1": [4],
+      "gru.weight_hh_l1": [4],
+      "head.0.weight": [8, 8]
+    },
+    "all_six_learned_row_step_arrays_differ_from_matched_control_at_every_row": true,
+    "learned_scale_algorithm_label": "lsq_inspired_per_output_row_step_sizes_v1",
+    "canonical_lsq_claim": false,
+    "fixed_control": "nonlearned per-update absmax row scales",
+    "fixed_archive_matches_original_uniform_w4_archive_sha256": "0122e105a42616a6cd8ee7192d7ad31ba33744c17f80f1523ebc3dc7ce42959d"
+  },
+  "fullfold_validation": {
+    "manifest_anchor_sha256": "8894af708dcba1500fc8c1b431d30468a29a9999531dd7133ec982c3b1d19556",
+    "metric_id": "global_wp_clip2_v1",
+    "metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "ordered_groups": 468,
+    "components": 141,
+    "selected_rows": 808863,
+    "common_fold": "exposed F0 development panel",
+    "all_endpoint_scores_recomputed_from_component_sums": true,
+    "target_and_mask_signatures_match": true
+  },
+  "primary_pair": {
+    "direction": "learned candidate minus same-source fixed control",
+    "fixed_wp": 0.6812982820329953,
+    "learned_wp": 0.6814924206498743,
+    "delta_wp": 0.0001941386168791137,
+    "delta_t0": 0.0004537945117052411,
+    "delta_t1": -0.00006551727794690265,
+    "bootstrap_interval_wp": [-0.00015309668657997877, 0.0005358088343534017]
+  },
+  "context_pairs": [
+    {
+      "name": "learned minus 10pct FP32 continuation/PTQ-W4",
+      "delta_wp": 0.00007921045058030325,
+      "bootstrap_interval_wp": [-0.000723168462785162, 0.0008453611143553528],
+      "causal_lsq_control": false
+    },
+    {
+      "name": "learned minus original 10pct FP32 continuation/native-Q8",
+      "delta_wp": -0.00032607697541320313,
+      "bootstrap_interval_wp": [-0.0007159097846585915, 0.000044319596416426],
+      "causal_lsq_control": false
+    }
+  ],
+  "bootstrap": {
+    "unit": "paired source-connected component",
+    "components": 141,
+    "replicates": 10000,
+    "seed": 20261013,
+    "intervals": "descriptive; approximate because raw six sums omit centered moments"
+  },
+  "source_receipts": {
+    "LSQ_LOCAL_EXECUTION_R1.json": "eb1cc078c063987c639e8814373c26bb845be76d78bc21ca7b2bd87f12c995d0",
+    "LSQ_PAIRED_FIT_COMPLETION_R1.json": "b26e62dfbd5d4d348322dc65a73b675ff25e133b6c6416eb19ad0fee021ed4de",
+    "LSQ_PROFILE_ACCEPTANCE_R1.json": "961a3f343477b93e7b6b457d87186172521caa74567088d5ff4fd03bb1200999",
+    "LSQ_FIXED_ARCHIVE_REPRODUCTION_R1.json": "2bb5c6f31bd51aa6b14ee9396b759fc946d7b597eaafa9fbce0e3cad0ab13e2a",
+    "LSQ_EXPORT_RECOVERY_R2.json": "fc39e18e70563fa622e9aac7e391cc1e1288fc0c997aadf0a476b62afc024777",
+    "NATIVE_LSQ_LEARNED_RECOVERY_RECEIPT_R2.json": "79aac764b37dd5b987d032b2abdbe5f89ae9efe7cd077f2ceef66b37be404f52"
+  },
+  "limitations": [
+    "One seed and a 10% fitting subset; no cross-seed/fold confirmation.",
+    "F0 is an exposed development fold and cannot support pristine-CV or public-transfer claims.",
+    "The component bootstrap uses raw six sums and is approximate, not the exact centered-moment bootstrap.",
+    "The result is not a submission/package ranking or a kill rule."
+  ]
+}
