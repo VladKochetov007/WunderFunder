@@ -30,7 +30,7 @@ The final archive weights have fitted or unknown overlap with supplied validatio
 
 ## Decision and next step
 
-The [16.32MB ZIP and release receipt](../../../submissions/10-13-team-r1/README.md) are ready in Downloads. Independent recipe/byte review, ELF ABI, isolated Python3.11 import and two complete sequences repeated twice under both native V2 and V3 pass. V2/V3 outputs are bitwise equal on that panel. All runtime files match our optimized E submission exactly. This completes packaging, not public evaluation; the user uploads the artifact. The already admitted comparison jobs continue.
+The [16.32MB ZIP and release receipt](../../../submissions/10-13-team-r1/README.md) are ready in repository artifact storage. Independent recipe/byte review, ELF ABI, isolated Python3.11 import and two complete sequences repeated twice under both native V2 and V3 pass. V2/V3 outputs are bitwise equal on that panel. All runtime files match our optimized E submission exactly. This completes packaging, not public evaluation; the user uploads the artifact. The already admitted comparison jobs continue.
 
 ## Source records
 

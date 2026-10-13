@@ -4,7 +4,7 @@ The user explicitly requests this exploratory public probe even without a local-
 
 The package is `kotiki_xteam_s6_z4_h390s3_q8_20261013.zip`, 16,320,815 bytes. SHA256: `4315eaa9bfe985fdaaca4258b3e8da3c4861264115f048bd8419b1cd6375f21a`.
 
-**Ready for human upload:** [Downloads ZIP](/home/vlad/Downloads/kotiki_xteam_s6_z4_h390s3_q8_20261013.zip). [Final release receipt](RELEASE_R1.json) binds the delivered copy, fixed recipe, all checks and byte-identical optimized runtime. No external upload was made.
+**Ready for human upload:** the ZIP is stored in the repository at `artifacts/team_models_20261013/kotiki_xteam_s6_z4_h390s3_q8_20261013/kotiki_xteam_s6_z4_h390s3_q8_20261013.zip`. [Current location receipt](RELEASE_LOCATION_R2.json) records its verified hash and repository-relative path. [Validation release receipt](RELEASE_R1.json) binds the fixed recipe, all checks and byte-identical optimized runtime; its earlier delivery paths are historical. No external upload was made.
 
 | Weight | Model | Coefficient |
 |---|---|---:|

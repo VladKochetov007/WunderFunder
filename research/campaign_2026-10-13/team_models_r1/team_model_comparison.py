@@ -140,9 +140,9 @@ def _(campaign, json, mo, pd):
 
 @app.cell(hide_code=True)
 def _(campaign, json, mo):
-    team_release = json.loads((campaign.parents[2] / "submissions/10-13-team-r1/RELEASE_R1.json").read_text())
+    team_release = json.loads((campaign.parents[2] / "submissions/10-13-team-r1/RELEASE_LOCATION_R2.json").read_text())
     mo.md(f"""## New cross-team submission ready
-    `{team_release['downloads_path']}`
+    `{team_release['zip_path']}`
 
     Equal weights: teammate distilled seed6, teammate FTT seed6, our Z4, our H390 seed3. Uses our optimized Rust Q8/VNNI runtime, byte-identical to E.
 
