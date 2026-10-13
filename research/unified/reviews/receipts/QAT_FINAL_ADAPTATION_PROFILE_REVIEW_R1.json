@@ -1,0 +1,131 @@
+{
+  "schema": "wnn.qat-final-adaptation-profile-review.v1",
+  "status": "profile_recipe_pass_fit_not_cleared",
+  "decision": "go for the four root-controlled 100-update actual-shape profiles after fresh resource admission; no fit authorization",
+  "experiment_id": "E-QAT-FINAL-ADAPTATION-20261013-R1",
+  "recipe": {
+    "path": "research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/RECIPE_R1.json",
+    "sha256": "b4fda57f4ca8680289fd0252d8c4a4077f0871d1fe0b4c94e34ea43c28c29eed",
+    "source_revision": "e1ab711c",
+    "source_root": "artifacts/qat_renewable_r1/final_adaptation_source_r1",
+    "source_hashes": {
+      "scripts/train_rnn.py": "1e4e0339e0a5e7a5ade7ac3af616a74b1367ff677b59be06f14591141f52017c",
+      "src/wnn/training_qat.py": "d4ecfddb9027e7402b91d980b79ed8ebf67cef0b825006cdfd09571715c016e6"
+    },
+    "base_lsq_source_revision": "6dde7d9d268475102849fda43b31b8e42162b3c8",
+    "source_diff_scope": [
+      "add optional --final-model-adaptation store_true argument (default false)",
+      "add final all-data initializer validation branch and pass it only at initializer validation",
+      "leave clean-fold validation branch and propensity validation call on strict default path"
+    ]
+  },
+  "source_guard": {
+    "cli_default_off": true,
+    "final_mode_requires_init": true,
+    "final_mode_requires_inherited_preprocessing": true,
+    "final_mode_requires_split_and_component_subset": true,
+    "final_mode_requires_no_fit_evaluation": true,
+    "final_mode_requires_fixed_checkpoint": true,
+    "final_mode_rejects_resume_or_training_state_save": true,
+    "strict_default_fold_validation_preserved": true,
+    "propensity_validation_uses_strict_default": true
+  },
+  "parents": {
+    "seed3": {
+      "run": "vt_all_h390_ds_homogeneous_s3_r3",
+      "checkpoint": "artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/model_ep5.pt",
+      "checkpoint_bytes": 4024406,
+      "checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+      "provenance_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+      "args_verified_from_provenance": {
+        "train_source": "train+valid",
+        "include_heldout_valid": true,
+        "split_manifest": null,
+        "no_eval_during_fit": true,
+        "checkpoint_policy": "fixed",
+        "checkpoint_epoch": 5,
+        "selected_epoch": 5
+      },
+      "normalization_sha256": {
+        "mean": "9843eaf6cf41563b654f133d7e8164cd6985419eebb2d00f51fd4d78f6fb4813",
+        "std": "b0ceb5e939d7961e035be504a9e0d74ef09e1c8997937ca061ccc85cef1e893c"
+      }
+    },
+    "seed4": {
+      "run": "vt_all_h390_ds_homogeneous_s4_r3",
+      "checkpoint": "artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/model_ep5.pt",
+      "checkpoint_bytes": 4024406,
+      "checkpoint_sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+      "provenance_sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb",
+      "args_verified_from_provenance": {
+        "train_source": "train+valid",
+        "include_heldout_valid": true,
+        "split_manifest": null,
+        "no_eval_during_fit": true,
+        "checkpoint_policy": "fixed",
+        "checkpoint_epoch": 5,
+        "selected_epoch": 5
+      },
+      "normalization_sha256": {
+        "mean": "82b0951cb3e1bb43ab58134c0d4f12a6936a94fc892d8976f99842cc6ddaf6ae",
+        "std": "ae266b3847f7ae84ea88e870326063e417f741fab6af1023bd311c9152e06687"
+      }
+    },
+    "binary_checkpoint_deserialization": "not performed; byte hashes and sidecar provenance checked without Torch"
+  },
+  "inputs": {
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "subset_manifest_sha256": "8aab0e18cef6bca99a8c0b6e7c7260fcb4eceb9d6cd67efd1f7437755b98cdf4",
+    "subset_experiment_id": "E-QAT-FINAL-ADAPTATION-20261013-R1",
+    "selected_component_count": 315,
+    "selected_component_members_sha256": "254723b332b28eafa1e8b22dc283e8f886dbc6fa954894fdf46b769e5ebb1c30",
+    "eligible_component_count": 3148,
+    "selected_sequences": 1152,
+    "selected_train_sequences": 1048,
+    "selected_fit_valid_sequences": 104,
+    "teacher_cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "input_hashes_verified_from_local_metadata_or_bytes": true
+  },
+  "command_checks": {
+    "job_count": 8,
+    "profile_count": 4,
+    "fit_count": 4,
+    "job_array_interleaves_profile_and_fit_per_arm": true,
+    "same_seed_fp32_vs_lsq_fit_argv_equal_except_name_and_expected_qat_flags": true,
+    "profile_argv_matches_fit_except_name_and_profile_instrumentation": true,
+    "absolute_source_split_subset_and_cache_paths": true,
+    "all_child_commands_enable_final_mode_and_inherit_preprocessing": true,
+    "all_child_commands_disable_fit_evaluation": true,
+    "all_child_commands_use_fixed_raw_epoch0": true,
+    "all_child_commands_use_full_train_valid_subset_contract": true,
+    "treatment": "qat=recurrent_w4 plus qat-learn-scales; all other recipe flags match same-seed FP32 control",
+    "optimizer": "AdamW lr=1e-4 wd=0.01 with OneCycle",
+    "objective": "wMSE chunk normalization; cached target alpha=0.9, cache scale=1, aux_struct=0.3, aux_next=0.3",
+    "weighting": "F0 propensity power=2 epsilon=0.03, prop-cache, valid_true_mask=0.03",
+    "batch_chunk": "batch=16, chunk=1000, random order, FP32",
+    "profile_updates": 100,
+    "profile_warmup_updates": 40,
+    "profile_measured_updates": 60,
+    "fit_updates_per_arm": 1440,
+    "fit_batches_per_arm": 72,
+    "checkpoint": "fixed raw epoch 0; no EMA/SWA/resume"
+  },
+  "explicit_target_transfer": "Original all-data final teacher-cache is unavailable. Recipe explicitly retains clean-T3 F0 teacher targets for this adaptation subset; this is provisional transfer, not an exact original-final recipe repeat.",
+  "limits": [
+    "All-data initializer parents include validation membership; no local held-out claim or public forecast is supported.",
+    "F0 teacher/cache, propensity and selected fit subset have prior exposure; the same panel cannot serve as clean evaluation.",
+    "The source and command comparison is static; no profile, fit, Torch import, model deserialization, GPU work or prediction read was performed.",
+    "Fresh root resource admission and four finite profile receipts are required before a separate fit decision.",
+    "The recipe job array is armwise-interleaved; root must dispatch only phase=profile entries until it admits fits."
+  ],
+  "checks": {
+    "recipe_json_parse": "passed",
+    "source_sha256_comparison": "passed",
+    "parent_checkpoint_and_provenance_hashes": "passed",
+    "parent_provenance_all_data_guard_fields": "passed",
+    "within_seed_command_and_profile_fit_parity_assertions": "passed",
+    "subset_split_cache_propensity_identity_hashes": "passed",
+    "git_diff_against_6dde7d9d": "only declared final-adaptation gate and initializer validator changes"
+  }
+}
