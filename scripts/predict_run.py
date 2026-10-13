@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -31,9 +32,39 @@ from wnn.research_features import (
 )
 from wnn.resources import configure_torch, dataloader_budget
 from wnn.sentinel import SentinelPreprocessor
-from wnn.splits import file_sha256
+from wnn.splits import file_sha256, load_campaign_split
 
-ROOT = Path(__file__).resolve().parents[1]
+SOURCE_ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
+
+
+def campaign_prediction_groups(
+    manifest_path: Path, checkpoint: dict, split: str, *,
+    evaluation_only: bool = False, full_valid: bool = False,
+) -> np.ndarray:
+    """Bind feature-only campaign exports to checkpoint ancestry and row order."""
+    if split not in ("train", "valid"):
+        raise ValueError("campaign exports require train or valid source")
+    if evaluation_only and full_valid:
+        raise ValueError("evaluation-only and full-valid selectors are mutually exclusive")
+    if (evaluation_only or full_valid) and split != "valid":
+        raise ValueError("evaluation/full-valid selectors require the valid source")
+    manifest = load_campaign_split(manifest_path, ROOT)
+    if manifest.sha256 != checkpoint.get("args", {}).get("split_manifest_sha256"):
+        raise ValueError("campaign manifest differs from the fitted checkpoint")
+    if full_valid:
+        with np.load(ROOT / "cache/valid_targets.npz", allow_pickle=False) as targets:
+            groups = np.asarray(targets["row_group"], dtype=np.int64)
+    elif evaluation_only:
+        groups = np.asarray(manifest.evaluation_groups, dtype=np.int64)
+    else:
+        groups = np.asarray(
+            manifest.train_groups if split == "train" else manifest.valid_groups,
+            dtype=np.int64,
+        )
+    if groups.ndim != 1 or groups.size == 0 or len(set(groups.tolist())) != groups.size:
+        raise ValueError("campaign export row groups must be nonempty and unique")
+    return groups
 
 
 class FeatureOnlySequences(Dataset[torch.Tensor]):
@@ -98,6 +129,10 @@ def main():
     parser.add_argument("split", nargs="?", default="valid")
     parser.add_argument("--epoch", type=int, default=None)
     parser.add_argument("--output-name", default=None)
+    parser.add_argument("--campaign-split-manifest", type=Path)
+    parser.add_argument("--campaign-evaluation-only", action="store_true")
+    parser.add_argument("--campaign-full-valid-feature-only", action="store_true")
+    parser.add_argument("--device", choices=("cuda", "cpu"), default="cuda")
     parser.add_argument(
         "--fit-subset-manifest",
         type=Path,
@@ -114,6 +149,12 @@ def main():
     parser.add_argument("--gate-mode", choices=["soft", "hard", "confident"], default="soft")
     args = parser.parse_args()
     name, split = args.name, args.split
+    if (args.campaign_evaluation_only or args.campaign_full_valid_feature_only) and (
+        args.campaign_split_manifest is None
+    ):
+        parser.error("campaign row selectors require --campaign-split-manifest")
+    if args.fit_subset_manifest is not None and args.campaign_split_manifest is not None:
+        parser.error("E540 and campaign selectors are mutually exclusive")
     checkpoint_name = f"model_ep{args.epoch}.pt" if args.epoch is not None else "model.pt"
     checkpoint_path = ROOT / "artifacts" / "runs" / name / checkpoint_name
     ck = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
@@ -121,8 +162,14 @@ def main():
         raise ValueError(
             "privileged teachers require component-crossfit extraction, not causal prediction export"
         )
-    feature_only = args.fit_subset_manifest is not None
-    if feature_only:
+    feature_only = args.fit_subset_manifest is not None or args.campaign_split_manifest is not None
+    if args.campaign_split_manifest is not None:
+        groups = campaign_prediction_groups(
+            args.campaign_split_manifest, ck, split,
+            evaluation_only=args.campaign_evaluation_only,
+            full_valid=args.campaign_full_valid_feature_only,
+        )
+    elif args.fit_subset_manifest is not None:
         if (
             split != "valid"
             or ck["args"].get("numeric_map", "none") == "none"
@@ -133,12 +180,13 @@ def main():
             load_e540_evaluation_groups(args.fit_subset_manifest, ck), dtype=np.int64
         )
     else:
-        groups = np.load(ROOT / "cache" / f"{split}_targets.npz")["row_group"]
+        with np.load(ROOT / "cache" / f"{split}_targets.npz", allow_pickle=False) as targets:
+            groups = targets["row_group"]
     quote_cache = ck.get("provenance", {}).get("quote_cache")
     if ck["args"].get("quote_cache_root") and quote_cache is None:
         raise ValueError("checkpoint lacks quote cache provenance")
     configure_torch()
-    device = torch.device("cuda")
+    device = torch.device(args.device)
     model = make_model(ck["args"], ck["n_in"], ck["model"]["head.2.weight"].shape[0]).to(device)
     model.load_state_dict(ck["model"])
     train_rnn.SENTINEL_PREPROCESSOR = (
@@ -255,8 +303,18 @@ def main():
             else None
         ),
         "fit_subset_manifest_sha256": (
-            file_sha256(args.fit_subset_manifest) if feature_only else None
+            file_sha256(args.fit_subset_manifest) if args.fit_subset_manifest is not None else None
         ),
+        "campaign_export_scope": (
+            "full-valid-feature-only" if args.campaign_full_valid_feature_only
+            else "evaluation" if args.campaign_evaluation_only
+            else "fit" if args.campaign_split_manifest is not None else None
+        ),
+        "campaign_split_manifest_sha256": (
+            file_sha256(args.campaign_split_manifest)
+            if args.campaign_split_manifest is not None else None
+        ),
+        "feature_only": feature_only,
     }
     final.with_suffix(".json").write_text(json.dumps(metadata, indent=2) + "\n")
 

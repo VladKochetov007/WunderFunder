@@ -98,7 +98,8 @@ from wnn.training_state import (atomic_save_training_state, capture_training_sta
                                 restore_training_state)
 from wnn.training_views import origin_windows, update_ema_for_rows
 
-ROOT = Path(__file__).resolve().parents[1]
+SOURCE_ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
 SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
 EV_I0PX = N_FEATURES + FEATURE_NAMES.index("ev_i0px")
 
@@ -904,7 +905,7 @@ def fit_e540_numeric_preprocessing(
         "fit_members_sha256": hashlib.sha256(
             json.dumps(sorted(members), separators=(",", ":")).encode("ascii")
         ).hexdigest(),
-        "module_source_sha256": file_sha256(ROOT / "src/wnn/numeric_ple.py"),
+        "module_source_sha256": file_sha256(SOURCE_ROOT / "src/wnn/numeric_ple.py"),
     }
     if numeric_map.mode == "linear":
         result["control_definition"] = "same K+1 slots; only raw bypass coordinate is active"
@@ -2152,7 +2153,7 @@ def main():
         if json.loads((spread_root / "metadata.json").read_text())["N_SP_AUX"] != N_SP_AUX:
             raise ValueError("spread cache head dimension differs")
         spread_provenance["mode"] = args.spread_aux_mode
-        spread_provenance["source_sha256"] = file_sha256(ROOT / "src/wnn/spread_aux.py")
+        spread_provenance["source_sha256"] = file_sha256(SOURCE_ROOT / "src/wnn/spread_aux.py")
         args.spread_cache_root = str(spread_root)
     elif args.spread_cache_root:
         raise ValueError("spread cache supplied without a matched known-code mode")
@@ -2251,15 +2252,15 @@ def main():
         provenance["native_export_supported"] = False
         provenance["readout_activation"] = args.readout_activation
     if args.arch == "structured":
-        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/structured_state.py")
+        provenance["model_source_sha256"] = file_sha256(SOURCE_ROOT / "src/wnn/structured_state.py")
     if spread_provenance is not None:
         provenance["spread_aux"] = spread_provenance
     if args.arch == "event-content":
-        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/event_content.py")
+        provenance["model_source_sha256"] = file_sha256(SOURCE_ROOT / "src/wnn/event_content.py")
     if args.arch in ("tcn", "twoclock"):
-        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/nn.py")
+        provenance["model_source_sha256"] = file_sha256(SOURCE_ROOT / "src/wnn/nn.py")
     if args.arch in ("specialist", "prefix-adapter"):
-        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/specialist.py")
+        provenance["model_source_sha256"] = file_sha256(SOURCE_ROOT / "src/wnn/specialist.py")
     if quote_cache_provenance is not None:
         provenance["quote_cache"] = quote_cache_provenance
     if args.propensity:
@@ -2410,7 +2411,7 @@ def main():
             )
         provenance["causal_feature_prior"] = RESEARCH_FEATURE_PRIOR
         provenance["causal_feature_prior_source_sha256"] = file_sha256(
-            ROOT / "src/wnn/research_features.py"
+            SOURCE_ROOT / "src/wnn/research_features.py"
         )
         zero_width = research_feature_control_width(
             RESEARCH_FEATURES, RESEARCH_FEATURE_CONTROL
@@ -2431,8 +2432,8 @@ def main():
         if numeric_preprocessing is None:
             raise RuntimeError("E540 numeric map disappeared during model construction")
         provenance["numeric_preprocessing"] = numeric_preprocessing
-        provenance["trainer_source_sha256"] = file_sha256(ROOT / "scripts/train_rnn.py")
-        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/nn.py")
+        provenance["trainer_source_sha256"] = file_sha256(SOURCE_ROOT / "scripts/train_rnn.py")
+        provenance["model_source_sha256"] = file_sha256(SOURCE_ROOT / "src/wnn/nn.py")
     configure_factorized(model, args.recurrent_rank)
     if saved_training is not None:
         model.load_state_dict(saved_training["model"])
@@ -2451,7 +2452,7 @@ def main():
             "training_compute": "materialized dense FP32 GRU; native runtime not validated"}
     provenance["normalization_identity"] = normalization_identity(model)
     provenance["update_counter_implementation"] = scaler_source_identity()
-    provenance["run_identity_source_sha256"] = file_sha256(ROOT / "src/wnn/run_identity.py")
+    provenance["run_identity_source_sha256"] = file_sha256(SOURCE_ROOT / "src/wnn/run_identity.py")
     provenance["fit_membership_identity"] = {
         "train": group_identity(provenance["fit_row_groups"]["train"]),
         "valid": group_identity(provenance["fit_row_groups"]["valid"]),
