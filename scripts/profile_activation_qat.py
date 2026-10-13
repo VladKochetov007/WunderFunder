@@ -328,9 +328,9 @@ def _synthetic_smoke(args: argparse.Namespace) -> int:
             self.network = ActivationQATModel(model, quantize_activations)
 
         def forward(
-            self, inputs: torch.Tensor, replacements: dict[str, torch.Tensor]
+            self, inputs: torch.Tensor, parameters: dict[str, torch.Tensor]
         ) -> torch.Tensor:
-            output, state = self.network(inputs, replacements, False)
+            output, state = self.network(inputs, parameters, False, parameter_map_is_complete=True)
             return output.square().mean() + 0.01 * state.square().mean()
 
     device = torch.device(args.device)
@@ -346,7 +346,9 @@ def _synthetic_smoke(args: argparse.Namespace) -> int:
         inputs = torch.randn(2, 32, 112, dtype=torch.float32, device=device)
         require_finite_activation_a8(inputs, "synthetic smoke input")
         started = time.perf_counter()
-        loss = compiled(inputs, qat_weight_replacements(model))
+        parameters = dict(model.named_parameters())
+        parameters.update(qat_weight_replacements(model))
+        loss = compiled(inputs, parameters)
         loss.backward()
         if device.type == "cuda":
             torch.cuda.synchronize(device)

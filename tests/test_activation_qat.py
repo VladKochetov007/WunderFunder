@@ -113,8 +113,14 @@ def test_activation_qat_model_wrapper_preserves_chunk_initial_state() -> None:
     actual, actual_state = ActivationQATModel(model, quantize_activations=False)(
         inputs, {}, False, initial
     )
+    complete_parameters = dict(model.named_parameters())
+    complete, complete_state = ActivationQATModel(model, quantize_activations=False)(
+        inputs, complete_parameters, False, initial, True
+    )
     torch.testing.assert_close(actual, expected, rtol=2e-5, atol=2e-6)
     torch.testing.assert_close(actual_state, expected_state, rtol=2e-5, atol=2e-6)
+    torch.testing.assert_close(complete, expected, rtol=2e-5, atol=2e-6)
+    torch.testing.assert_close(complete_state, expected_state, rtol=2e-5, atol=2e-6)
 
 
 def test_native_q8vnni_hidden_state_tracks_recurrent_a8_backend() -> None:
