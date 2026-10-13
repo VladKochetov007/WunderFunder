@@ -1,0 +1,221 @@
+{
+  "actual_grade": {
+    "blends": {
+      "baseline": {
+        "coefficients_f32": [
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "dtype": "float32",
+        "members_in_native_sum_order": [
+          "common0",
+          "common1",
+          "common2",
+          "common3"
+        ],
+        "prediction_file": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_blend_grade_r2/blend_baseline.npy",
+        "prediction_sha256": "cc6fe05fc0500ba8e393e8cc357023022cddfc74e7e174ea3a1b7b7d0471579e",
+        "score": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 808863,
+          "t0": 0.6969958865293817,
+          "t1": 0.707536588854403,
+          "wp": 0.7022662376918923
+        },
+        "shape": [
+          468,
+          20000,
+          2
+        ]
+      },
+      "qat_s3": {
+        "coefficients_f32": [
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "dtype": "float32",
+        "members_in_native_sum_order": [
+          "common0",
+          "common1",
+          "common2",
+          "lsq_s3"
+        ],
+        "prediction_file": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_blend_grade_r2/blend_qat_s3.npy",
+        "prediction_sha256": "b574cbaa06623b83a84c9aa3c7b9d169cc6103c0abbf3c34e874ee85c66d449c",
+        "score": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 808863,
+          "t0": 0.696548617989006,
+          "t1": 0.7069797606392235,
+          "wp": 0.7017641893141148
+        },
+        "shape": [
+          468,
+          20000,
+          2
+        ]
+      },
+      "qat_s4": {
+        "coefficients_f32": [
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "dtype": "float32",
+        "members_in_native_sum_order": [
+          "common0",
+          "common1",
+          "common2",
+          "lsq_s4"
+        ],
+        "prediction_file": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_blend_grade_r2/blend_qat_s4.npy",
+        "prediction_sha256": "14c4174303ad516fd431f83ef7fdaa762567083433677567d55c0176ae35ee45",
+        "score": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 808863,
+          "t0": 0.6960108268278791,
+          "t1": 0.7064433872443293,
+          "wp": 0.7012271070361042
+        },
+        "shape": [
+          468,
+          20000,
+          2
+        ]
+      }
+    },
+    "data_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+    "data_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "deltas_candidate_minus_baseline": {
+      "qat_s3": {
+        "t0": -0.0004472685403756893,
+        "t1": -0.000556828215179439,
+        "wp": -0.0005020483777775642
+      },
+      "qat_s4": {
+        "t0": -0.000985059701502644,
+        "t1": -0.0010932016100736464,
+        "wp": -0.0010391306557880897
+      },
+      "qat_s4_minus_qat_s3": {
+        "t0": -0.0005377911611269548,
+        "t1": -0.0005363733948942073,
+        "wp": -0.0005370822780105255
+      }
+    },
+    "exporter_sha256": "1e6550d6af562ac462cfca0c984d7c24f7d6c29ec14759d339a92c49f49b16ee",
+    "limits": [
+      "All endpoints use exposed, fitted-data F0; this is not clean CV or a public forecast.",
+      "Point scores compare only the three predeclared fixed mixtures; they do not rank every possible endpoint or establish a universally strongest model.",
+      "Prediction member hashes are independently verified, but the full validation parquet was not rescanned for a whole-file SHA; its producer hash receipt and split source identity are pinned, and grading reads only the 468 selected label/mask groups.",
+      "Root owns submission choice and must separately verify callback parity against the final ZIP on the planned eight full-F0 sequences."
+    ],
+    "member_receipts": {
+      "common0": {
+        "prediction_sha256": "6627c634372173cc06e7a32e0800106a46646a901d7aedc48b02b0a10d591dfd",
+        "score_recomputed": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 808863,
+          "t0": 0.6956052104379676,
+          "t1": 0.7058339130735669,
+          "wp": 0.7007195617557673
+        },
+        "weights_sha256": "45ac50f7324b8e26f37eee97b975e2643134e54ab2399077de8778f931abc2bf"
+      },
+      "common1": {
+        "prediction_sha256": "9ae1b5788000afa203dfce3858e23d5fb85c6e57ccb763f160a3c070455cb12c",
+        "score_recomputed": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 808863,
+          "t0": 0.6955246479498559,
+          "t1": 0.7050421134157818,
+          "wp": 0.7002833806828188
+        },
+        "weights_sha256": "65176bef6f8ab63931bc34e2da3118328e7922e2bea233e6e1cf4a33e9da8945"
+      },
+      "common2": {
+        "prediction_sha256": "9c2c922e93b02a6fc320a3e7689b5642945bf3d221fbbff00529ed0bd9d073fa",
+        "score_recomputed": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 808863,
+          "t0": 0.6914608892738051,
+          "t1": 0.7027461781971075,
+          "wp": 0.6971035337354563
+        },
+        "weights_sha256": "8d1c4a32f58f322427093b564a4b657475e43eb393bc384336abba4fcfad043e"
+      },
+      "common3": {
+        "prediction_sha256": "aa9205b713e2696c593c87ad409aff6329555a0a26639685d25fad69333923f4",
+        "score_recomputed": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 808863,
+          "t0": 0.6983665446677405,
+          "t1": 0.7101014436351718,
+          "wp": 0.7042339941514562
+        },
+        "weights_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6"
+      },
+      "lsq_s3": {
+        "prediction_sha256": "1a8111717b898a64e01b3605ffc8043b7afadb2ac2e830031002daeac2551a75",
+        "score_recomputed": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 808863,
+          "t0": 0.6965384122264523,
+          "t1": 0.7076149317983468,
+          "wp": 0.7020766720123995
+        },
+        "weights_sha256": "4a3ef323a3523778b9d56fb39970da73b07e112c4ee97da5745e40c4038d27fb"
+      },
+      "lsq_s4": {
+        "prediction_sha256": "7162579bf611c575ae1994526ab2618a93e5ef38d8e0140826913c7c00ff115b",
+        "score_recomputed": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 808863,
+          "t0": 0.6942971987606408,
+          "t1": 0.705593250202214,
+          "wp": 0.6999452244814274
+        },
+        "weights_sha256": "2017cc8ae4e30a20729b9a0099bac44819f81621a8b056afe3bd251152bef4cd"
+      }
+    },
+    "metric_id": "global_wp_clip2_v1",
+    "metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "native_blend_source_sha256": "b336ceee2e170c9b6176c5008183a4194c5b05e0ab933d893aec0b01a8be54a5",
+    "native_sha256": "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+    "ordered_group_count": 468,
+    "ordered_groups_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+    "result_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/final_blend_grade_r2/result.json",
+    "result_sha256": "a7abe1b4c66895e2f489ade92c00ad756bbf2e5b799f65cb1a732456c0385077",
+    "scope": "final fitted-data diagnostic; no held-out or public-score claim",
+    "selected_rows": 808863,
+    "split_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "execution": {
+    "all_six_member_result_metadata_preflight": "pass: exact ordered groups, data/split identities, reset replay true; prediction arrays unopened during this preflight",
+    "command_contract": "scripts/limited; CPU quota 6% on the 16-core host (~0.96 CPU), 1 thread, memory max 750000000 bytes, runtime max 180s",
+    "exit_status": 0,
+    "full_grade": "pass: member archives, prediction hashes/NPY shape and dtype, official mask/targets, member producer scores and all fixed blends verified; full validation parquet was not whole-file rehashed"
+  },
+  "experiment_id": "E-QAT-FINAL-ADAPTATION-20261013-R2",
+  "frozen_recipe": {
+    "correction_disclosure": "During R1 diagnosis, common0 result.json metadata and its standalone producer WP were inspected to identify the groups field; no blend score was computed or read before R2 recipe freeze.",
+    "r1_grader_sha256": "70db5c008e63e8069604de8f221613f5f7fff0f56df2c9554af19201e50635c0",
+    "r1_outcome": "stopped before admission, result, or prediction validation at KeyError: panel.evaluation_groups was absent; no output directory was created",
+    "r1_path": "research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/FINAL_BLEND_GRADE_RECIPE_R1.json",
+    "r1_sha256": "d9548e2d50764cfc28782055d661f4b61cf35e94ff02e302365f7068f5e7de29",
+    "r2_correction": "added ordered evaluation_groups generated only from the hash-pinned official F0 split; blend members, coefficients and metric unchanged",
+    "r2_grader_path": "scripts/grade_qat_final_blends_r2.py",
+    "r2_grader_sha256": "2d1f92cf66fccc7ed821bd7ce0a7a284776a2bf5ecbaa5227b943847c3fe14d4",
+    "r2_path": "research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/FINAL_BLEND_GRADE_RECIPE_R2.json",
+    "r2_sha256": "01d93578e10de84eadaee659032552225216a5cc9201ac0aab55c25c59581315"
+  },
+  "reviewer_role": "independent frozen grader",
+  "schema": "wnn.qat-final-blend-grade-review.v2",
+  "status": "graded"
+}
