@@ -7,6 +7,7 @@ The holdout split (wnn.splits) is read only with --eval-source holdout, for grad
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import math
@@ -958,6 +959,86 @@ def forward_chunk(model, inputs, sl, state):
     return model(inputs[:, sl], state)
 
 
+def final_initializer_distillation_error(args: argparse.Namespace) -> str | None:
+    """Return why the opt-in initializer-target arm is outside its supported recipe."""
+    if not args.final_distill_initializer:
+        return None
+    if not args.final_model_adaptation or not args.init or not args.inherit_init_preprocessing:
+        return "--final-distill-initializer requires final-model adaptation from an inherited initializer"
+    if (args.precision != "fp32" or args.arch != "gru" or args.cell != "gru"
+            or args.enc != "linear" or args.recurrent_rank != 0):
+        return "--final-distill-initializer requires a dense FP32 plain GRU with linear input encoding"
+    if not args.distill_cache_root or args.distill:
+        return "--final-distill-initializer requires a validated --distill-cache-root, not --distill"
+    if args.loss != "wmse" or args.loss_norm != "chunk":
+        return "--final-distill-initializer requires cached wMSE with chunk normalization"
+    if (args.distill_alpha != 0.9 or args.distill_alpha_far is not None
+            or args.distill_boot_h != 0 or args.distill_reanchor != 0.0
+            or args.distill_cache_scale != 1.0 or args.distill_family_weight != 0.0):
+        return "--final-distill-initializer fixes alpha=0.9 and disables cache scaling, bootstrap, reanchor, and family targets"
+    if (args.update_rows != 0 or args.detach_rows != 0
+            or args.distill_denominator != "chunk" or args.detach_boundary_jitter
+            or args.origin_view != "off" or args.credit_mode != "deterministic"):
+        return "--final-distill-initializer supports only default chunk updates and deterministic causal credit"
+    if (args.ema_teacher != 0.0 or args.ema_metric_weight or args.ema_reference_rows != 0
+            or args.eval_ema or args.swa_frac != 0.0 or args.td_alpha != 0.0):
+        return "--final-distill-initializer does not support EMA, SWA, or TD targets"
+    if args.resume_state or args.save_training_state:
+        return "--final-distill-initializer does not support training-state continuation"
+    return None
+
+
+def final_initializer_state_sha256(model: torch.nn.Module) -> str:
+    """Fingerprint the complete ordered tensor state of the frozen initializer teacher."""
+    digest = hashlib.sha256()
+    for name, value in sorted(model.state_dict().items()):
+        tensor = value.detach().cpu().contiguous()
+        digest.update(name.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(str(tensor.dtype).encode("ascii"))
+        digest.update(b"\0")
+        digest.update(str(tuple(tensor.shape)).encode("ascii"))
+        digest.update(b"\0")
+        digest.update(tensor.numpy().tobytes(order="C"))
+    return digest.hexdigest()
+
+
+def final_initializer_distillation_target(labels: torch.Tensor, predictions: torch.Tensor) -> torch.Tensor:
+    """Apply the fixed clipped-label/initializer 0.1/0.9 target rule."""
+    return 0.1 * labels.float().clamp(-2, 2) + 0.9 * predictions.float().clamp(-2, 2)
+
+
+def make_final_initializer_teacher(model: torch.nn.Module) -> torch.nn.Module:
+    """Clone the loaded, pre-QAT FP32 initializer as a fixed inference teacher."""
+    if not getattr(model, "_inference_fp32", False):
+        raise ValueError("initializer teacher must be created from an FP32 inference model")
+    if getattr(model, "_qat_preset", "none") != "none":
+        raise ValueError("initializer teacher must be cloned before QAT configuration")
+    if any(value.dtype != torch.float32 for value in model.state_dict().values()):
+        raise ValueError("initializer teacher requires an all-FP32 model state")
+    teacher = copy.deepcopy(model)
+    teacher.eval()
+    teacher.requires_grad_(False)
+    return teacher
+
+
+def replace_final_initializer_chunk(
+    teacher: torch.nn.Module,
+    inputs: torch.Tensor,
+    rows: slice,
+    state: Any,
+    target_batch: torch.Tensor,
+) -> Any:
+    """Overwrite one device-batch target slice with causal frozen-teacher predictions."""
+    with torch.no_grad(), torch.autocast(inputs.device.type, enabled=False):
+        output, next_state = forward_chunk(teacher, inputs, rows, state)
+    prediction = output[..., :2].float().detach()
+    if prediction.shape != target_batch[:, rows].shape:
+        raise ValueError("initializer output does not match the cached main-target batch shape")
+    target_batch[:, rows] = prediction
+    return detach_state(next_state)
+
+
 def inference_checkpoint_fields(model: torch.nn.Module, source: str) -> dict:
     """Export effective weights and representation metadata without changing raw resume state."""
     if getattr(model, "_recurrent_rank", 0):
@@ -1685,6 +1766,8 @@ def main():
     ap.add_argument("--init", default="", help="run name whose model.pt initializes weights; NAME@epN loads model_epN.pt")
     ap.add_argument("--final-model-adaptation", action="store_true",
                     help="explicit all-data initializer adaptation; no held-out claim")
+    ap.add_argument("--final-distill-initializer", action="store_true",
+                    help="replace validated cached main targets with causal predictions from the fixed FP32 initializer")
     ap.add_argument("--inherit-init-preprocessing", action="store_true",
                     help="inherit parent feature construction and architecture; reject conflicting explicit flags")
     ap.add_argument("--freeze", default="",
@@ -1874,6 +1957,9 @@ def main():
         init_checkpoint = torch.load(ROOT / "artifacts" / "runs" / parent_run / parent_file,
                                      map_location="cpu", weights_only=False)
         inherit_init_arguments(args, init_checkpoint, sys.argv[1:])
+    final_initializer_error = final_initializer_distillation_error(args)
+    if final_initializer_error is not None:
+        ap.error(final_initializer_error)
     try:
         research_feature_control_width(args.research_features, args.research_feature_control)
     except ValueError as exc:
@@ -2501,6 +2587,34 @@ def main():
     configure_factorized(model, args.recurrent_rank)
     if args.precision == "fp32":
         model._inference_fp32 = True
+    initializer_teacher = None
+    if args.final_distill_initializer:
+        initializer_teacher = make_final_initializer_teacher(model)
+        cache_provenance = provenance["distillation_cache"]
+        provenance["final_initializer_distillation"] = {
+            "version": 1,
+            "initializer_reference": args.init,
+            "initializer_checkpoint_sha256": provenance["initial_checkpoint_sha256"],
+            "initializer_fp32_state_sha256": final_initializer_state_sha256(initializer_teacher),
+            "source_sha256": {
+                "trainer": file_sha256(Path(__file__)),
+                "model": file_sha256(SOURCE_ROOT / "src/wnn/nn.py"),
+                "features": file_sha256(SOURCE_ROOT / "src/wnn/features.py"),
+                "qat": file_sha256(SOURCE_ROOT / "src/wnn/training_qat.py"),
+                "quantization": file_sha256(SOURCE_ROOT / "src/wnn/quantization.py"),
+            },
+            "student_qat": args.qat,
+            "student_qat_learn_scales": args.qat_learn_scales,
+            "teacher_creation": "deepcopy after initializer and preprocessing load with _inference_fp32=true, before student QAT configuration",
+            "teacher_execution": "independent FP32 model, eval, requires_grad=false, no_grad forward; held fixed for the full fit",
+            "cache_main_values": "validated cache values are loaded into each batch, copied to a private device tensor, then fully overwritten chunk-by-chunk before the main loss; cache files remain unchanged and cached main values are not used as targets",
+            "cache_metadata_sha256": cache_provenance["metadata_sha256"],
+            "cache_verified_files": cache_provenance["verified_files"],
+            "causal_state": "initializer hidden state resets to None for each sequence batch; ordered chunks consume only current/past inputs and carry detached hidden state forward",
+            "target_formula": "0.1*clamp(label,-2,2) + 0.9*clamp(initializer_prediction[...,0:2],-2,2)",
+            "main_loss_weights": "abs(clamp(label,-2,2))*main_valid; configured auxiliary terms are unchanged",
+            "continuation": "unsupported; --final-model-adaptation requires an epoch-zero start and the initializer teacher is rebuilt from the pinned source checkpoint",
+        }
     configure_qat(model, args.qat, args.qat_learn_scales)
     if saved_training is not None:
         # Register learned scale parameters before strict state restoration.
@@ -2714,6 +2828,11 @@ def main():
                     teach, y = y[..., 2:4], y[..., :2]
                     if args.distill_cache_scale != 1.0:
                         teach = teach * args.distill_cache_scale
+                    if initializer_teacher is not None:
+                        # The cache is memory-mapped by the dataset; only this per-batch device copy is writable.
+                        teach = teach.clone()
+            if initializer_teacher is not None and teach is None:
+                raise ValueError("final initializer distillation requires cached main-target columns")
             steps = torch.arange(inputs.shape[1], device=device)[None].expand(inputs.shape[0], -1)
             valid = steps >= WARMUP
             if kept_len is not None:
@@ -2749,6 +2868,7 @@ def main():
                 td_a = args.td_alpha * min(1.0, step_count / ramp_steps)
             timer.mark("labels")
             h = h_ema = None
+            h_initializer = None
             donor_masses = None
             windows = origin_windows(inputs.shape[1], update_rows, args.chunk, args.origin_view,
                                      args.origin_seed, epoch, b)
@@ -2765,6 +2885,10 @@ def main():
             for window_index, sl in enumerate(windows):
                 s = sl.start
                 opt = dynamics.maybe_switch(step_count, opt, sched)
+                if initializer_teacher is not None:
+                    h_initializer = replace_final_initializer_chunk(
+                        initializer_teacher, inputs, sl, h_initializer, teach
+                    )
                 if controlled_loss:
                     def raw_forward(window, state):
                         with torch.autocast(device.type, dtype=amp_dtype, enabled=use_autocast):
@@ -2849,12 +2973,15 @@ def main():
                             alive = (nxt_label[:, sl] > ahead) & (ahead < teach.shape[1])
                             idx = ahead.clamp(max=teach.shape[1] - 1).expand(yc.shape[0], -1)[..., None].expand(-1, -1, 2)
                             label = torch.where(alive[..., None], teach.gather(1, idx).float().clamp(-2, 2), yc)
-                        tgt = (1 - a) * label + a * teach[:, sl].float().clamp(-2, 2)
-                        if args.distill_reanchor:
-                            tgt = blended_target(
-                                y, teach, nxt_label, sl, args.distill_alpha,
-                                args.distill_boot_h, args.distill_reanchor,
-                            )
+                        if initializer_teacher is not None:
+                            tgt = final_initializer_distillation_target(y[:, sl], teach[:, sl])
+                        else:
+                            tgt = (1 - a) * label + a * teach[:, sl].float().clamp(-2, 2)
+                            if args.distill_reanchor:
+                                tgt = blended_target(
+                                    y, teach, nxt_label, sl, args.distill_alpha,
+                                    args.distill_boot_h, args.distill_reanchor,
+                                )
                         w = yc.abs() * main_valid[:, sl][..., None]
                         loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
                         if family_targets is not None:

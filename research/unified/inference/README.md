@@ -37,6 +37,8 @@ Runtime claims must name the hardware, exact ZIP, callback protocol, complete-te
 
 [Learned row-scale QAT specification](../../campaign_2026-10-13/qat_renewable_r1/LSQ_ROW_SCALE_SPEC_R1.md) describes the opt-in LSQ-inspired scale derivative, matched initial-representation invariant, and optimizer decay semantics. The [prototype receipt](../../campaign_2026-10-13/qat_renewable_r1/LSQ_ROW_SCALE_PROTOTYPE_R1.md) records code and 23 passing bounded CPU checks, including actual trainer resume/EMA export; no fit or scale-learning benefit is claimed.
 
+[Final-initializer target distillation R2](../../campaign_2026-10-13/qat_renewable_r1/FINAL_INITIALIZER_DISTILLATION_R2.md) documents the separately gated R2 target-source arm: a frozen FP32 initializer is replayed causally per chunk and replaces validated cache main targets on a private batch copy. The fixed 0.1 clipped-label/0.9 clipped-initializer objective and row weights are recorded with checkpoint, model-state, cache and source fingerprints. Thirteen tiny CPU tests pass; root owns any subsequent profile, matched fit and quality interpretation.
+
 ## QAT native transport — 2026-10-13
 
 [Native dynamic Q8 transport and state diagnostics](QAT_NATIVE_TRANSPORT_R1.md) records exact row-code/scale import/export for `q8vnni*` and copied recurrent-state access for the QAT deployment plan. Rust tests and a Python 3.13 synthetic integration smoke pass, including exact transport and reset/replay. This is implementation evidence only: no actual-data quality, archive-size, runtime, or INT4-speed result is claimed. Related: H-QAT-W4-20261013, H-QAT-A8-20261013, H-QAT-LSQ-20261013, E-QAT-DEPLOYMENT-20261013-R1.
