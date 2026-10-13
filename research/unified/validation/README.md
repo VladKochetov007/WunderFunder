@@ -1,3 +1,7 @@
+## Complete original native scores and live-output snapshot
+
+[Original callback results](../../campaign_2026-10-13/team_models_r1/scores/README.md) now record all 1,873 supplied-valid sequences for C=0.712560467, E=0.712065318, pair_ftt2=0.712026560 and xteam_h4=0.712654817. Final-fit/unknown validation overlap makes these diagnostics, not clean CV or public forecasts. [Immutable runtime snapshot](../../campaign_2026-10-13/team_models_r1/runtime_snapshot_r1/README.md) preserves current complete-line logs and progress for all eight admitted replays. Four remaining runs continue; live staging is ignored by Git, with terminal collection still owned by root. E-TEAM-ARCHIVE-REPLAY-20261013-R1.
+
 # Validation and public transfer
 
 - [Individual team prediction bank](../../campaign_2026-10-13/team_models_r1/member_bank/README.md) deduplicates fourteen predictive weights and fixes nine mixtures before full FP32 export. Source/hash/sequence-aware grading will compare individual and complete endpoints diagnostically; fitted/unknown overlap and GPU/native numerical differences remain explicit. Actual profile and independent implementation review support admission, not candidate selection.

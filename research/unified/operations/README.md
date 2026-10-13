@@ -1,3 +1,7 @@
+## Stable Git evidence during live replays
+
+[Versioned replay snapshot](../../campaign_2026-10-13/team_models_r1/runtime_snapshot_r1/README.md) preserves the current useful telemetry while four admitted CPU replays keep running. Mutable logs/progress and pending output staging are excluded from Git; completed scores and source contracts remain tracked. This implements the user's request for a clean working tree without stopping jobs or discarding evidence. The [score index](../../campaign_2026-10-13/team_models_r1/scores/README.md) identifies completed and pending receipts; root owns terminal collection.
+
 # Execution, incidents, and preservation
 
 This domain preserves run delivery, resource safety, incident diagnosis, historical stops and subsequent explicit resumes.

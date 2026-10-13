@@ -1,9 +1,18 @@
-# Full original archive replays
+# Original archive replay results
 
-[Contract](../CONTRACT.json), [admission](../FULL_REPLAY_ADMISSION_R1.json), [frozen worker](../score_archive.py) and [controller](../run_replays.py) define eight complete1,873-sequence diagnostic runs. Four one-CPU workers run concurrently. Seven use original callbacks; one uses the same pair_ftt2 weights through Rust. Terminal `RESULT.json` and `*_ATTEMPT.json` appear after completion; progress logs do not certify completion. Large FP32 predictions remain ignored here.
+Four complete original callbacks are now available. All use1,873 supplied-valid sequences and the official metric; final-fit/unknown overlap prevents clean-CV or public-transfer claims.
 
-The [notebook](../team_model_comparison.py) displays saved terminal evidence. Final models have fitted or unknown validation overlap: runs establish exact behavior, conversion differences and diagnostic diversity, not clean CV or public forecasts. Full-file/group hashes, official masks and moments accompany grades. Root owns collection and comparative analysis.
-# Complete FP32 diagnostic grade
+| Endpoint | Diagnostic WP |
+|---|---:|
+| [C_original_r1](C_original_r1/README.md) | 0.712560467 |
+| [E_original_r1](E_original_r1/README.md) | 0.712065318 |
+| [pair_ftt2_original_r1](pair_ftt2_original_r1/README.md) | 0.712026560 |
+| [xteam_h4_original_r1](xteam_h4_original_r1/README.md) | 0.712654817 |
 
-[Member-bank results](member_bank_fp32_r1/README.md) grade14 individual members and9 fixed mixtures on all1,873 supplied-valid groups, with full producer/prediction hashes verified. Original xteam_h4 improves on E/pair_ftt2 in this diagnostic, while own H390 seed3 is stronger individually. Final-fit/unknown data overlap prevents clean-CV or public-transfer claims. The new exploratory seed6 ZIP is not included in those nine mixtures.
+Original xteam_h4 exceeds E by 0.000589499 and pair_ftt2 by 0.000628257 on these diagnostic final-weight predictions. These differences do not predict public gains. The new seed6 release is a distinct endpoint.
 
+Still running at capture: [e6a_original_r1](e6a_original_r1/README.md), [p_c3zero_original_r1](p_c3zero_original_r1/README.md), [p_c3only_original_r1](p_c3only_original_r1/README.md), [pair_ftt2_rust_r1](pair_ftt2_rust_r1/README.md).
+
+[Immutable runtime snapshot](../runtime_snapshot_r1/README.md) retains all current logs/progress. Live operational output is ignored so jobs can continue without dirtying Git. Completed pending results and controller terminal receipts must be collected into versioned evidence; ignoring their staging location does not discard them. [Frozen worker](../score_archive.py), [controller](../run_replays.py), [contract](../CONTRACT.json) and [admission](../FULL_REPLAY_ADMISSION_R1.json) remain unchanged.
+
+[Complete FP32 fourteen-member/nine-mixture diagnostic grade](member_bank_fp32_r1/README.md) uses a different arithmetic endpoint and is recorded separately.

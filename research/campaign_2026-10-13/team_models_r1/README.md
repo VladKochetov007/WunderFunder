@@ -15,7 +15,7 @@ Root owns the complete model comparison. The user's subsequent [exploratory rele
 - `profiles/` and `scores/` retain exact-command callback checks and evaluated terminal receipts as they land; large predictions remain ignored.
 - `team_model_comparison.py` is the live marimo notebook. Its cells read saved evidence and never launch inference or fitting.
 
-Current stage: eight short profiles and all fourteen member exports are complete; [full FP32 diagnostic grading](scores/member_bank_fp32_r1/README.md) also completed. Original native callbacks continue under the admitted controller. The user's exploratory four-member ZIP is checked and ready; no joint clean-CV result is claimed. The remote source search still sees teammate research commit833aaf54 (October6), without the later fttall training code or clean CV counterparts.
+Current stage: eight short profiles and all fourteen member exports are complete; [full FP32 diagnostic grading](scores/member_bank_fp32_r1/README.md) also completed. Four original native callbacks completed; four additional original/conversion callbacks continue under the admitted controller. The user's exploratory four-member ZIP is checked and ready; no joint clean-CV result is claimed. The remote source search still sees teammate research commit833aaf54 (October6), without the later fttall training code or clean CV counterparts.
 
 ## Interpretation and operational evidence
 
@@ -36,3 +36,7 @@ Current stage: eight short profiles and all fourteen member exports are complete
 - [First intake incident](INTAKE_FAILURE_R1.json) preserves the cross-subvolume hardlink failure and bounded copy correction. [Cache handoff](CACHE_HANDOFF_R1.json) records file-cache-only reclamation with limits unchanged.
 - [Full replay admission](FULL_REPLAY_ADMISSION_R1.json) records actual RAM/profile/source bounds; [controller](run_replays.py) owns the complete queue and [controller log](REPLAY_CONTROLLER.log) records starts/ends. Mutable progress is operational evidence, not a completed grade.
 - [Preserved profile source](score_archive_profile_r1.py) binds the original short profiles; [full successor](score_archive.py) additionally verifies the entire validation-file SHA before inference. Both remain frozen while consumed.
+
+## Versioned runtime evidence
+
+[Immutable replay snapshot](runtime_snapshot_r1/README.md) preserves all current logs and sequence progress. [Complete original scores](scores/README.md) now include C, E, pair_ftt2 and xteam_h4. Live output remains on physical disk and is ignored by Git; root must collect pending terminal receipts after completion. Worker/controller sources and healthy jobs were not changed. This separates live staging from committed evidence and keeps the working tree clean.

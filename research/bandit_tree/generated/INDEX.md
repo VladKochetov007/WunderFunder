@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1413 · raw hypothesis rows 488 · raw experiment rows 814 · legacy arms 18 · catalog files 89411.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1418 · raw hypothesis rows 490 · raw experiment rows 820 · legacy arms 18 · catalog files 89652.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json](<snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json>).
 
@@ -1515,6 +1515,8 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-STRATEGY-CROSSFIT-20261013 | Component-excluded causal teacher targets may transfer better to a fixed student than in-sample predictions. | hypothesis · not_tested | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L486>) | — |
 | hypothesis:H-STRATEGY-GRADIENT-CREDIT-20261013-01 | At a fixed 2000-row optimizer update window, cutting hidden-state gradient credit every 500 rows may change the F0 clean-T3 student endpoint relative to retaining credit across 2000 rows, independent of optimizer, LR, EMA and target-denominator clocks. | hypothesis · not_tested | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L487>) | — |
 | hypothesis:H-STRATEGY-MIRROR-20261013 | At least one schema-anchored involutive bid/ask side permutation or conditional price-axis reflection preserves the marginal feature support/distribution of source-qualified fitting sequences closely enough to merit a dedicated symmetry follow-up; this is a necessary input screen only, and the target transformation remains unknown. | hypothesis · proposed | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L488>) | — |
+| hypothesis:H-TEAM-NATIVE-20261013 | The complete pair_ftt2 endpoint may retain useful prediction quality with lower callback cost through the own Q8 runtime; cross-team teacher and blend diversity may provide additional conditional value. | hypothesis · proposed | family:deployment | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L489>) | — |
+| hypothesis:H-TEAM-CACHE-STUDENT-20261013 | A matched two-student H192/H224/H256 compression ladder may preserve a useful part of complete team-ensemble signal while reducing the CPU matrix working set, especially near Zen4 one-MB L2. | hypothesis · proposed | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L490>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -2269,6 +2271,9 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-STRATEGY-INNOVATION-F0-S3-20261013-R2 | E-STRATEGY-INNOVATION-F0-S3-20261013-R2 | experiment · prepared_pending_independent_delta_review_and_device_profiles | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L812>) | — |
 | experiment:E-STRATEGY-AMPLITUDE-F0-GRADE-20261013-R1 | E-STRATEGY-AMPLITUDE-F0-GRADE-20261013-R1 | experiment · complete_inconclusive | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L813>) | — |
 | experiment:E-STRATEGY-SWA-F0-GRADE-20261013-R1 | E-STRATEGY-SWA-F0-GRADE-20261013-R1 | experiment · complete_inconclusive | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L814>) | — |
+| experiment:E-TEAM-ARCHIVE-REPLAY-20261013-R1 | E-TEAM-ARCHIVE-REPLAY-20261013-R1 | experiment · running | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L815>), [research/experiments.jsonl](<../../experiments.jsonl#L820>) | — |
+| experiment:E-TEAM-MEMBER-BANK-20261013-R1 | E-TEAM-MEMBER-BANK-20261013-R1 | experiment · complete | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L816>), [research/experiments.jsonl](<../../experiments.jsonl#L819>) | — |
+| experiment:E-TEAM-XTEAM-S6-RELEASE-20261013-R1 | E-TEAM-XTEAM-S6-RELEASE-20261013-R1 | experiment · complete | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L817>), [research/experiments.jsonl](<../../experiments.jsonl#L818>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
