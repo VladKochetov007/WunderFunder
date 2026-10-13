@@ -1,0 +1,149 @@
+{
+  "created_utc": "2026-10-13T19:49:21.104131+00:00",
+  "owner": "root",
+  "decision": "Allfour reviewedprofiles pass100finiteupdates and measuredmemory. Admit four matched oneepoch1440-update final-parent adaptations sequentially with6GBhost/1CPU/singleGPU and freshguards; noheldoutclaim.",
+  "independent_profile_review": "research/unified/reviews/QAT_FINAL_ADAPTATION_PROFILE_REVIEW_R1.md",
+  "recipe_sha256": "b4fda57f4ca8680289fd0252d8c4a4077f0871d1fe0b4c94e34ea43c28c29eed",
+  "profiles": [
+    {
+      "attempt": "qat-final-s3-fp32-profile-r1",
+      "log_sha256": "f4afcf7b4d654dff463aa9e517daf98e0efe05c22560c7a2f0f651e9c9591b2e",
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "profile": {
+        "backward": 644.3,
+        "forward": 352.81,
+        "gpu_total": 1029.04,
+        "h2d": 0.01,
+        "inputs": 9.64,
+        "labels": 1.89,
+        "loss": 4.35,
+        "optimizer": 6.07,
+        "weights": 0.3,
+        "loader_wait": 411.53,
+        "step_wall": 1389.46,
+        "seq_per_s": 11.52,
+        "syncs_per_step": 0.67
+      },
+      "peak_ram_bytes": 3895472128,
+      "peak_observed_vram_bytes": 2169503744
+    },
+    {
+      "attempt": "qat-final-s3-lsq_w4-profile-r1",
+      "log_sha256": "4080e5423e87a63004977d172d40c0d76938d822bc79cc3bad6005351d2b49e3",
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "profile": {
+        "backward": 638.48,
+        "forward": 441.88,
+        "gpu_total": 1112.48,
+        "h2d": 0.03,
+        "inputs": 9.22,
+        "labels": 1.35,
+        "loss": 8.05,
+        "optimizer": 24.63,
+        "weights": 0.19,
+        "loader_wait": 370.7,
+        "step_wall": 1498.45,
+        "seq_per_s": 10.68,
+        "syncs_per_step": 843.33
+      },
+      "peak_ram_bytes": 3836559360,
+      "peak_observed_vram_bytes": 2175795200
+    },
+    {
+      "attempt": "qat-final-s4-fp32-profile-r1",
+      "log_sha256": "bc4a08337ebf3f53885fc44bcb6ebf64a25049bf8d405b3f63dde22914138174",
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "profile": {
+        "backward": 627.1,
+        "forward": 363.29,
+        "gpu_total": 1016.24,
+        "h2d": 0.01,
+        "inputs": 9.34,
+        "labels": 1.9,
+        "loss": 4.37,
+        "optimizer": 6.18,
+        "weights": 0.3,
+        "loader_wait": 307.21,
+        "step_wall": 1311.81,
+        "seq_per_s": 12.2,
+        "syncs_per_step": 0.67
+      },
+      "peak_ram_bytes": 3310137344,
+      "peak_observed_vram_bytes": 2169503744
+    },
+    {
+      "attempt": "qat-final-s4-lsq_w4-profile-r1",
+      "log_sha256": "b204f438588c3b1dbfa9839bffcd8eca47e8deb2ab560ad936948e4af235313b",
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "profile": {
+        "backward": 647.22,
+        "forward": 450.18,
+        "gpu_total": 1137.87,
+        "h2d": 0.04,
+        "inputs": 9.35,
+        "labels": 1.39,
+        "loss": 7.93,
+        "optimizer": 25.36,
+        "weights": 0.18,
+        "loader_wait": 349.96,
+        "step_wall": 1494.71,
+        "seq_per_s": 10.7,
+        "syncs_per_step": 846.0
+      },
+      "peak_ram_bytes": 3257434112,
+      "peak_observed_vram_bytes": 2175795200
+    }
+  ]
+}

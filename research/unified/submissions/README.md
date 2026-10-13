@@ -23,3 +23,5 @@ The latest reported public reference in the archive is 0.6671 for candidate C. D
 ## Resumed strategy execution — 2026-10-13
 
 [Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.
+
+[QAT immediate final-release recipe](../../campaign_2026-10-13/qat_renewable_r1/final_release_r1/README.md) records the latest user authority to prepare one best possible QAT submission and test it publicly. It freezes matched seed3/4 all-data-parent adaptations, retained clean-T3 fitting targets, inherited preprocessing and component-complete10% membership. This is a provisional final endpoint path with no held-out claim; independent review, actual profiles/fits and complete package checks are pending. E-QAT-FINAL-ADAPTATION-20261013-R1.
