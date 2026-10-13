@@ -465,7 +465,9 @@ def test_main_random_credit_resume(
     )
 
 
-@pytest.mark.parametrize("qat", ["recurrent", "recurrent_head"])
+@pytest.mark.parametrize(
+    "qat", ["recurrent", "recurrent_head", "recurrent_w4", "input_w4_recurrent_w8"]
+)
 @pytest.mark.parametrize("controlled", [False, True])
 def test_main_qat_finetune_resume(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, qat: str, controlled: bool

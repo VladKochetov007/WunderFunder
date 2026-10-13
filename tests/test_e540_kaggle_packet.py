@@ -123,6 +123,18 @@ def test_duplicate_script_token_would_fail_actual_trainer_parser() -> None:
     assert parsed.numeric_map == "linear"
 
 
+@pytest.mark.parametrize("qat", ["recurrent_w4", "input_w4_recurrent_w8"])
+def test_trainer_parser_accepts_new_qat_policies(qat: str) -> None:
+    root = Path(__file__).resolve().parents[1]
+    parsed = parse_project_cli(
+        root / "scripts/train_rnn.py",
+        ["--name", "qat-parser-smoke", "--qat", qat],
+        parser_name="ap",
+        dynamics_path=root / "src/wnn/training_dynamics.py",
+    )
+    assert parsed.qat == qat
+
+
 def test_in_process_entry_point_strips_exact_logged_script_token(tmp_path: Path) -> None:
     observed: list[list[str]] = []
     module = SimpleNamespace(main=lambda: observed.append(sys.argv.copy()))

@@ -36,7 +36,9 @@ def test_canonical_ties_subnormals_zero_rows_and_identity_ste() -> None:
     torch.testing.assert_close(latent.grad, direction, rtol=0, atol=0)
 
 
-@pytest.mark.parametrize("preset", ["recurrent", "recurrent_head"])
+@pytest.mark.parametrize(
+    "preset", ["recurrent", "recurrent_head", "recurrent_w4", "input_w4_recurrent_w8"]
+)
 def test_full_20000_row_qat_matches_reconstructed_checkpoint(preset: str) -> None:
     torch.manual_seed(69)
     model = RNNModel(3, hidden=4, layers=2).eval()
@@ -69,6 +71,29 @@ def test_full_20000_row_qat_matches_reconstructed_checkpoint(preset: str) -> Non
         copied, _ = qat_forward(duplicate, features[:, :8], None)
         original_prefix, _ = qat_forward(model, features[:, :8], None)
     torch.testing.assert_close(copied, original_prefix, rtol=0, atol=0)
+
+
+def test_q4_cache_refreshes_after_parameter_version_and_explicit_invalidation() -> None:
+    torch.manual_seed(417)
+    model = RNNModel(3, hidden=4, layers=1).eval()
+    configure_qat(model, "recurrent_w4")
+    features = torch.randn(2, 8, 3)
+    with torch.no_grad():
+        qat_forward(model, features, None)
+    name = "gru.weight_ih_l0"
+    first = model._qat_cache[name]
+    with torch.no_grad():
+        model.gru.weight_ih_l0.add_(2.0)
+        qat_forward(model, features, None)
+    second = model._qat_cache[name]
+    assert second is not first
+    assert second[0] != first[0]
+    assert not torch.equal(second[1], first[1])
+    invalidate_qat_cache(model)
+    assert model._qat_cache == {}
+    with torch.no_grad():
+        qat_forward(model, features, None)
+    assert model._qat_cache[name] is not second
 
 
 def test_head_halves_have_independent_scale_and_frozen_ema_trunk_codes() -> None:

@@ -4,7 +4,10 @@ import hashlib
 
 import numpy as np
 
-PRESETS = ("recurrent", "recurrent_head")
+LEGACY_PRESETS = ("recurrent", "recurrent_head")
+W4_PRESETS = ("recurrent_w4", "input_w4_recurrent_w8")
+PRESETS = (*LEGACY_PRESETS, *W4_PRESETS)
+HEAD_Q8_PRESETS = ("recurrent_head", *W4_PRESETS)
 
 
 def component_panel(evaluation_groups: tuple[int, ...], components: dict[int, int]) -> list[int]:
@@ -42,6 +45,29 @@ def quantize_rows(weights: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     return codes, scales
 
 
+def quantize_rows_q4(weights: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Encode finite weights as symmetric signed Q4 rows with nearest-even rounding.
+
+    Args:
+        weights: Nonempty two-dimensional weight matrix.
+
+    Returns:
+        Signed int8 codes in [-7, 7] and float32 per-row scales.
+
+    Raises:
+        ValueError: If the matrix is empty, non-finite, or not two-dimensional.
+    """
+    values = np.asarray(weights, dtype=np.float32)
+    if values.ndim != 2 or 0 in values.shape or not np.isfinite(values).all():
+        raise ValueError("expected a nonempty finite matrix")
+    maximum = np.max(np.abs(values), axis=1)
+    scales = np.maximum(maximum / np.float32(7), np.nextafter(np.float32(0), np.float32(1)))
+    scales = np.where(maximum == 0, np.float32(0), scales)
+    ratios = values / np.where(scales == 0, np.float32(1), scales)[:, None]
+    codes = np.clip(np.rint(ratios), -7, 7).astype(np.int8)
+    return codes, scales
+
+
 def represented_rows(codes: np.ndarray, scales: np.ndarray) -> np.ndarray:
     """Return the exact float32 matrix represented by valid q8 rows."""
     if (
@@ -58,18 +84,79 @@ def represented_rows(codes: np.ndarray, scales: np.ndarray) -> np.ndarray:
     return np.ascontiguousarray(codes.astype(np.float32) * scales[:, None])
 
 
+def represented_rows_q4(codes: np.ndarray, scales: np.ndarray) -> np.ndarray:
+    """Return the exact float32 matrix represented by valid signed Q4 rows.
+
+    Args:
+        codes: Two-dimensional int8 codes in [-7, 7].
+        scales: One float32 scale per output row.
+
+    Returns:
+        The contiguous float32 matrix represented by the supplied rows.
+
+    Raises:
+        ValueError: If code widths, scales, or zero-row invariants are invalid.
+    """
+    if (
+        codes.dtype != np.int8
+        or codes.ndim != 2
+        or scales.dtype != np.float32
+        or scales.shape != (codes.shape[0],)
+        or not np.isfinite(scales).all()
+        or (scales < 0).any()
+        or (codes < -7).any()
+        or (codes > 7).any()
+        or ((scales == 0) & (codes != 0).any(axis=1)).any()
+    ):
+        raise ValueError("invalid signed Q4 matrix representation")
+    return np.ascontiguousarray(codes.astype(np.float32) * scales[:, None])
+
+
+def bits_for_matrix(name: str, preset: str) -> int:
+    """Return the weight width assigned by a versioned quantization preset."""
+    if preset not in PRESETS:
+        raise ValueError(f"unknown quantization preset: {preset}")
+    if name == "head.0.weight":
+        return 8 if preset in HEAD_Q8_PRESETS else 0
+    if name.startswith("gru.weight_ih_"):
+        return 4 if preset in ("recurrent_w4", "input_w4_recurrent_w8") else 8
+    if name.startswith("gru.weight_hh_"):
+        return 4 if preset == "recurrent_w4" else 8
+    return 0
+
+
+def policy_metadata(preset: str) -> dict[str, object]:
+    """Describe matrix selection and arithmetic for a quantization preset."""
+    if preset not in PRESETS:
+        raise ValueError(f"unknown quantization preset: {preset}")
+    if preset in LEGACY_PRESETS:
+        return {
+            "version": 1,
+            "preset": preset,
+            "scheme": "symmetric_per_row_int8_nearest_even_v1",
+            "head_split": "hidden_then_projection" if preset == "recurrent_head" else None,
+        }
+    return {
+        "version": 2,
+        "preset": preset,
+        "scheme": "symmetric_per_row_signed_q4_q8_nearest_even_v2",
+        "q4_codes": [-7, 7],
+        "q4_invalid_code": -8,
+        "head_split": "hidden_then_projection_q8",
+    }
+
+
 def quantize_model(
     weights: dict[str, np.ndarray], preset: str
 ) -> tuple[dict[str, np.ndarray], dict[str, np.ndarray], dict[str, object]]:
-    """Create fixed recurrent-only or recurrent-plus-head weight-only variants.
+    """Apply a versioned recurrent Q8/Q4 weight-only policy.
 
-    The second preset quantizes head.0 independently for hidden/projection
-    columns, matching the planned q16x-style split. Input projection, final
-    output layer, normalization and every bias remain float32. Returned codes
-    and scales are an audit artifact, not a submission engine format.
+    Head-aware presets quantize head.0 independently for hidden/projection
+    columns. Input projection, final output layer, normalization and biases
+    remain float32. Returned codes and scales are exact transport data.
     """
     if preset not in PRESETS:
-        raise ValueError(f"unknown q8 preset: {preset}")
+        raise ValueError(f"unknown quantization preset: {preset}")
     hidden = int(weights["inp.bias"].size)
     represented = {
         name: np.ascontiguousarray(value, dtype=np.float32) for name, value in weights.items()
@@ -79,19 +166,23 @@ def quantize_model(
     )
     if not recurrent:
         raise ValueError("checkpoint has no recurrent matrices")
-    selected = recurrent + (["head.0.weight"] if preset == "recurrent_head" else [])
+    selected = recurrent + (["head.0.weight"] if preset in HEAD_Q8_PRESETS else [])
     encoded, details = {}, {}
     for name in selected:
         original = represented[name]
         if name == "head.0.weight" and original.shape[1] != 2 * hidden:
             raise ValueError("head.0 must concatenate hidden and projection features")
         blocks = np.split(original, [hidden], axis=1) if name == "head.0.weight" else [original]
-        restored, storage = [], 0
+        restored, storage, block_bits = [], 0, []
         for index, block in enumerate(blocks):
-            codes, scales = quantize_rows(block)
+            bits = bits_for_matrix(name, preset)
+            quantizer = quantize_rows_q4 if bits == 4 else quantize_rows
+            restorer = represented_rows_q4 if bits == 4 else represented_rows
+            codes, scales = quantizer(block)
             encoded[f"{name}.{index}.codes"] = codes
             encoded[f"{name}.{index}.scales"] = scales
-            restored.append(represented_rows(codes, scales))
+            restored.append(restorer(codes, scales))
+            block_bits.append(bits)
             # Native tile padding: four rows and sixteen columns per panel.
             storage += ((block.shape[0] + 3) // 4) * (((block.shape[1] + 15) // 16) * 64 + 16)
         represented[name] = np.ascontiguousarray(np.concatenate(restored, axis=1))
@@ -99,6 +190,7 @@ def quantize_model(
         details[name] = {
             "shape": list(original.shape),
             "blocks": len(blocks),
+            "block_bits": block_bits,
             "max_abs_error": float(np.abs(error).max()),
             "rms_error": float(np.sqrt(np.mean(error**2))),
             "float32_bytes": original.nbytes,
@@ -108,8 +200,7 @@ def quantize_model(
         represented,
         encoded,
         {
-            "preset": preset,
-            "scheme": "symmetric_per_row_int8_nearest_even_v1",
+            **policy_metadata(preset),
             "selected": details,
             "unquantized": sorted(set(weights) - set(selected)),
             "engine_format": False,

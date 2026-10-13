@@ -8,7 +8,9 @@ from wnn.quantization import (
     merge_frozen_heads,
     quantize_model,
     quantize_rows,
+    quantize_rows_q4,
     represented_rows,
+    represented_rows_q4,
 )
 
 
@@ -47,6 +49,22 @@ def test_native_tie_rounding_fixture_and_subnormal() -> None:
     np.testing.assert_array_equal(represented_rows(*quantize_rows(values)), values)
 
 
+def test_q4_ties_subnormals_zero_rows_and_invalid_codes() -> None:
+    tiny = np.nextafter(np.float32(0), np.float32(1))
+    values = np.array(
+        [[7, 0.5, 1.5, 2.5, -0.5, -1.5, -2.5, -7], [tiny, 0, 0, 0, 0, 0, 0, 0], [0] * 8],
+        np.float32,
+    )
+    codes, scales = quantize_rows_q4(values)
+    np.testing.assert_array_equal(codes[0], [7, 0, 2, 2, 0, -2, -2, -7])
+    np.testing.assert_array_equal(represented_rows_q4(codes, scales)[1:], values[1:])
+    np.testing.assert_array_equal(scales[2:], [0])
+    with pytest.raises(ValueError, match="Q4"):
+        represented_rows_q4(np.array([[-8]], np.int8), np.array([1], np.float32))
+    with pytest.raises(ValueError, match="Q4"):
+        represented_rows_q4(np.array([[1]], np.int8), np.array([0], np.float32))
+
+
 @pytest.mark.parametrize("preset", ["recurrent", "recurrent_head"])
 def test_exact_serialized_representation_and_unchanged_fields(tmp_path, preset: str) -> None:
     original = fixture_weights()
@@ -66,6 +84,31 @@ def test_exact_serialized_representation_and_unchanged_fields(tmp_path, preset: 
         np.testing.assert_array_equal(represented[name], original[name])
     for name in report["selected"]:
         assert not np.array_equal(represented[name], original[name])
+
+
+@pytest.mark.parametrize(
+    ("preset", "expected_bits"),
+    [
+        ("recurrent_w4", {"gru.weight_ih_l0": 4, "gru.weight_hh_l0": 4, "head.0.weight": 8}),
+        (
+            "input_w4_recurrent_w8",
+            {"gru.weight_ih_l0": 4, "gru.weight_hh_l0": 8, "head.0.weight": 8},
+        ),
+    ],
+)
+def test_versioned_w4_policies_select_expected_matrices(
+    preset: str, expected_bits: dict[str, int]
+) -> None:
+    original = fixture_weights()
+    represented, encoded, report = quantize_model(original, preset)
+    assert report["version"] == 2
+    for name, bits in expected_bits.items():
+        assert report["selected"][name]["block_bits"] == (
+            [8, 8] if name == "head.0.weight" else [bits]
+        )
+        assert np.all(np.abs(encoded[f"{name}.0.codes"]) <= (7 if bits == 4 else 127))
+    for name in report["unquantized"]:
+        np.testing.assert_array_equal(represented[name], original[name])
 
 
 def test_merging_checks_frozen_trunk_and_preserves_equal_head_prediction() -> None:

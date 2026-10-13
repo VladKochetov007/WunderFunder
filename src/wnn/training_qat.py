@@ -8,7 +8,16 @@ import torch
 from torch.func import functional_call
 
 from wnn.nn import RNNModel
-from wnn.quantization import PRESETS, quantize_model, quantize_rows, represented_rows
+from wnn.quantization import (
+    HEAD_Q8_PRESETS,
+    PRESETS,
+    bits_for_matrix,
+    quantize_model,
+    quantize_rows,
+    quantize_rows_q4,
+    represented_rows,
+    represented_rows_q4,
+)
 
 QAT_MODES = ("none", *PRESETS)
 
@@ -38,7 +47,7 @@ def qat_names(model: RNNModel, preset: str) -> tuple[str, ...]:
     )
     if not recurrent:
         raise ValueError("QAT requires recurrent matrices")
-    return recurrent + (("head.0.weight",) if preset == "recurrent_head" else ())
+    return recurrent + (("head.0.weight",) if preset in HEAD_Q8_PRESETS else ())
 
 
 def configure_qat(model: RNNModel, preset: str) -> None:
@@ -56,6 +65,7 @@ def configure_qat(model: RNNModel, preset: str) -> None:
     model._qat_preset = preset
     model._inference_fp32 = True
     model._qat_names = qat_names(model, preset)
+    model._qat_bits = {name: bits_for_matrix(name, preset) for name in model._qat_names}
     model._qat_cache = {}
 
 
@@ -65,15 +75,17 @@ def invalidate_qat_cache(model: torch.nn.Module) -> None:
         model._qat_cache.clear()
 
 
-def _represented_matrix(name: str, value: torch.Tensor, hidden: int) -> torch.Tensor:
+def _represented_matrix(name: str, value: torch.Tensor, hidden: int, bits: int = 8) -> torch.Tensor:
     # Canonical CPU arithmetic deliberately handles subnormals and ties exactly;
     # CUDA fast math may flush subnormal scales. Once-per-update caching bounds
     # the transfer cost while a fresh STE node permits every truncated backward.
+    if bits not in (4, 8):
+        raise ValueError("QAT matrix bit width must be 4 or 8")
     weights = value.detach().cpu().numpy()
     blocks = np.split(weights, [hidden], axis=1) if name == "head.0.weight" else [weights]
-    represented = np.concatenate(
-        [represented_rows(*quantize_rows(block)) for block in blocks], axis=1
-    )
+    quantizer = quantize_rows_q4 if bits == 4 else quantize_rows
+    restorer = represented_rows_q4 if bits == 4 else represented_rows
+    represented = np.concatenate([restorer(*quantizer(block)) for block in blocks], axis=1)
     return torch.from_numpy(np.ascontiguousarray(represented)).to(value.device)
 
 
@@ -92,7 +104,10 @@ def qat_forward(
         identity = (id(value), value._version, value.data_ptr())
         cached = model._qat_cache.get(name)
         if cached is None or cached[0] != identity:
-            cached = (identity, _represented_matrix(name, value, model.inp.out_features))
+            cached = (
+                identity,
+                _represented_matrix(name, value, model.inp.out_features, model._qat_bits[name]),
+            )
             model._qat_cache[name] = cached
         replacements[name] = _RepresentedWeight.apply(value, cached[1])
     try:
@@ -110,7 +125,7 @@ def effective_qat_state(
     preset: str,
     source: str,
 ) -> tuple[dict[str, torch.Tensor], dict[str, object]]:
-    """Export exact effective float32 matrices and their original signed-byte representation.
+    """Export exact effective matrices and their original signed code/scale representation.
 
     EMA/SWA callers pass latent averaged tensors. The output is an inference
     artifact; exact continuation remains in the raw epoch training state.

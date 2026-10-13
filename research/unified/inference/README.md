@@ -2,6 +2,8 @@
 
 This domain covers competition CPU execution, native kernels, quantization, packaging, and measured runtime.
 
+- [Versioned Python QAT and packed-row format](../../campaign_2026-10-13/qat_renewable_r1/QUANTIZATION_SPEC_R1.md) defines recurrent W4 and mixed input-W4/recurrent-W8 policy selection, exact Q4 nibble/code-scale transport, cache and checkpoint semantics, and the native A8/I16 differences. It indexes implementation in `src/wnn/quantization.py`, `src/wnn/training_qat.py`, and `src/wnn/quantization_export.py`; this is code-contract evidence only, with no model-quality or speed result.
+
 - [Same-weight paired runtime harness](../../../scripts/benchmark_team_runtimes.py), described in the [team comparison](../../campaign_2026-10-13/team_models_r1/README.md), uses the frozen exact callback loader, repeated A-B-B-A, source/ELF/ISA receipts and reset checks. Four unit checks pass; no controlled engine timing or target-host winner is claimed from implementation alone. Python3.11 is required for imported C++.
 
 - [EPYC9224 runtime reflection](../../campaign_2026-10-13/team_models_r1/EPYC_RUNTIME_REFLECTION_R1.md) reconciles portal durations, library/member hashes, Intel profiles and AMD Zen4 documentation. Q8 VNNI remains the baseline; no EPYC engine winner is established. It prioritizes paired same-weight timing, exact reuse and ensemble distillation; quantization and size limits remain explicit. H-TEAM-NATIVE-20261013 / E-TEAM-ARCHIVE-REPLAY-20261013-R1.

@@ -67,6 +67,7 @@ from wnn.outcomes import (
 from wnn.propensity import load_propensity, propensity
 from wnn.privileged import (PRIVILEGED_MODES, load_inner_manifest, privileged_inputs,
                             validate_crossfit_cache)
+from wnn.quantization import policy_metadata
 from wnn.structured_state import StructuredStateModel
 from wnn.event_content import EventContentModel
 from wnn.resources import configure_torch, cpu_threads, dataloader_budget
@@ -1490,7 +1491,7 @@ def main():
     ap.add_argument("--credit-keep-probability", type=float, default=.8)
     ap.add_argument("--credit-seed", type=int, default=100100)
     ap.add_argument("--qat", choices=QAT_MODES, default="none",
-                    help="weight-only nearest-even q8 with identity STE; paired float control must use the same fp32 recipe")
+                    help="versioned per-row q4/q8 weight-only QAT; activations/state remain fp32")
     ap.add_argument("--recurrent-rank", type=int, default=0,
                     help="SVD-initialized rank per stacked GRU matrix; 0 preserves dense recurrence")
     ap.add_argument("--sentinel-values", choices=VALUE_MODES, default="unchanged")
@@ -2441,7 +2442,7 @@ def main():
         model._inference_fp32 = True
     configure_qat(model, args.qat)
     if args.qat != "none":
-        provenance["qat"] = {"preset": args.qat, "scheme": "symmetric_per_row_int8_nearest_even_v1",
+        provenance["qat"] = {**policy_metadata(args.qat),
                              "gradient": "identity STE; scales detached; no scale/round/clamp derivative",
                              "averaging": "latent float parameters, quantized for each effective forward/export",
                              "training_state": "raw latent float weights; derived quantization cache not serialized"}
