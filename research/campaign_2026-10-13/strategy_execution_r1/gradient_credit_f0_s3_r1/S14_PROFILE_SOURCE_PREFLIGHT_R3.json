@@ -2,7 +2,7 @@
   "caveat": "Preparation-only source binding. Root must independently verify these exact R3 vectors/source manifests and perform fresh shared admission before either actual-device profile. No profile or fit is authorized by this receipt.",
   "controller_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py",
   "controller_sha256": "a7b0260eada659f5f067f95d7f83ab89c635d23a72b2c7320a6617c7f68ed2d6",
-  "created_utc": "2026-10-13T00:41:45+00:00",
+  "created_utc": "2026-10-13T00:42:44+00:00",
   "device_or_data_work_performed": false,
   "fit_authorized": false,
   "gpu_policy": "fraction 1.0; dynamic 1000000000-byte free-VRAM safety reserve; no explicit per-process VRAM cap",
@@ -218,6 +218,23 @@
     "separate_binary_hash_recorded": true,
     "sha256": "b38f5f0cf308efd4f3861db2b917ffcb284d0e51a86f76235819356f075c7498",
     "worker_timeout_seconds": 900
+  },
+  "runtime_tool_smoke": {
+    "command": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=1s",
+      "0.05s",
+      "/bin/sleep",
+      "0.3"
+    ],
+    "device_or_data_work_performed": false,
+    "exit_code": 124,
+    "expected_exit_code": 124,
+    "passed": true,
+    "purpose": "Verify the pinned GNU timeout option syntax and expected timeout exit status without model/data/device work.",
+    "stderr": "",
+    "timeout_binary_sha256": "b38f5f0cf308efd4f3861db2b917ffcb284d0e51a86f76235819356f075c7498"
   },
   "schema": "wnn.strategy-s14-profile-source-preflight.r3",
   "source_overlay": "/home/vlad/development/wunder/wnn-agent-worktrees/strategy-cohort-20261013/research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2"
