@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 
 import torch
 import torch.nn.functional as F
@@ -27,7 +27,9 @@ def _gru_scan_step(
         gates_from_input: torch.Tensor,
     ) -> tuple[torch.Tensor, torch.Tensor]:
         recurrent_input = (
-            fake_quantize_activation_a8(previous) if quantize_activations else previous
+            fake_quantize_activation_a8(previous, require_finite=False)
+            if quantize_activations
+            else previous
         )
         gates_from_state = F.linear(recurrent_input, weight_hh, bias_hh)
         input_reset, input_update, input_new = gates_from_input.chunk(3, dim=-1)
@@ -41,15 +43,30 @@ def _gru_scan_step(
     return step
 
 
-def quantize_activation_a8(values: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+def require_finite_activation_a8(values: torch.Tensor, name: str = "activation") -> None:
+    """Fail before recurrence when an A8 boundary input leaves the finite domain."""
+    if values.dtype != torch.float32 or not bool(torch.isfinite(values).all().item()):
+        raise ValueError(f"A8 {name} must contain only finite float32 values")
+
+
+def quantize_activation_a8(
+    values: torch.Tensor, *, require_finite: bool = True
+) -> tuple[torch.Tensor, torch.Tensor]:
     """Return native-style symmetric A8 codes and scales for each final-axis vector.
 
     Finite float32 input vectors use ``round_ties_even(clamp(x * (127 / maxabs)))``
     and a dequantization scale of ``maxabs / 127``, matching ``vnni::quantize``.
-    All-zero vectors return zero codes and scales. Callers keep the original
-    float32 recurrent state and use these codes only at matvec boundaries.
+    All-zero vectors return zero codes and scales. By default this helper
+    rejects nonfinite input; the pure scan body disables that eager guard only
+    after its caller validates the batch/state outside the compiled recurrence.
+    Callers keep the original float32 recurrent state and use these codes only
+    at matvec boundaries.
     """
-    if values.dtype != torch.float32 or values.ndim < 1 or values.shape[-1] == 0:
+    if values.ndim < 1 or values.shape[-1] == 0:
+        raise ValueError("A8 activation quantization requires nonempty float32 vectors")
+    if require_finite:
+        require_finite_activation_a8(values)
+    elif values.dtype != torch.float32:
         raise ValueError("A8 activation quantization requires nonempty float32 vectors")
     detached = values.detach()
     maximum = detached.abs().amax(dim=-1, keepdim=True)
@@ -70,9 +87,11 @@ def quantize_activation_a8(values: torch.Tensor) -> tuple[torch.Tensor, torch.Te
     return codes, scale.squeeze(-1)
 
 
-def fake_quantize_activation_a8(values: torch.Tensor) -> torch.Tensor:
+def fake_quantize_activation_a8(
+    values: torch.Tensor, *, require_finite: bool = True
+) -> torch.Tensor:
     """Quantize and dequantize final-axis vectors with an identity STE backward."""
-    codes, scales = quantize_activation_a8(values)
+    codes, scales = quantize_activation_a8(values, require_finite=require_finite)
     represented = codes.to(torch.float32) * scales.unsqueeze(-1)
     return values + (represented - values).detach()
 
@@ -83,6 +102,8 @@ def activation_qat_forward(
     state: torch.Tensor | None = None,
     *,
     quantize_activations: bool = True,
+    weight_replacements: Mapping[str, torch.Tensor] | None = None,
+    validate_finite: bool = True,
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """Run the model with a scan-based GRU and optional recurrent-boundary A8.
 
@@ -90,11 +111,23 @@ def activation_qat_forward(
     scans its causal recurrent state. A8 is applied immediately before both
     recurrent matvecs; the stored GRU state remains float32. Any configured
     weight-QAT policy is retained through the same represented-weight helpers
-    used by ``qat_forward``. Projection/head activation quantization is outside
-    this recurrent-only implementation.
+    used by ``qat_forward``. It quantizes the post-encoder vector entering the
+    first GRU ``weight_ih`` matvec and each later layer's input matvec. It does
+    not quantize raw model inputs, input-projection weights/native I16 math, or
+    the head's hidden/projection activation blocks.
     """
     if inputs.dtype != torch.float32 or (state is not None and state.dtype != torch.float32):
         raise ValueError("activation-aware QAT inputs and state must remain float32")
+    if validate_finite:
+        require_finite_activation_a8(inputs, "input batch")
+        if state is not None:
+            require_finite_activation_a8(state, "initial recurrent state")
+        finite_parameters = torch.stack(
+            [torch.isfinite(parameter).all() for parameter in model.parameters()]
+            + [torch.isfinite(model.mean).all(), torch.isfinite(model.std).all()]
+        ).all()
+        if not bool(finite_parameters.item()):
+            raise ValueError("A8 model parameters and normalization tensors must be finite")
     if not isinstance(model.gru, nn.GRU) or model.enc != "linear":
         raise ValueError("activation-aware QAT supports the plain GRU with linear input encoder")
     if inputs.ndim != 3 or inputs.shape[-1] != model.mean.numel() or inputs.shape[1] == 0:
@@ -112,7 +145,9 @@ def activation_qat_forward(
         normalized = (inputs - model.mean) / model.std
         projection = model.encode(normalized)
         parameters = dict(model.named_parameters())
-        parameters.update(qat_weight_replacements(model))
+        parameters.update(
+            qat_weight_replacements(model) if weight_replacements is None else weight_replacements
+        )
         layer_input = projection
         final_states: list[torch.Tensor] = []
 
@@ -122,7 +157,9 @@ def activation_qat_forward(
             bias_ih = parameters[f"gru.bias_ih_l{layer}"]
             bias_hh = parameters[f"gru.bias_hh_l{layer}"]
             layer_input_for_matvec = (
-                fake_quantize_activation_a8(layer_input) if quantize_activations else layer_input
+                fake_quantize_activation_a8(layer_input, require_finite=False)
+                if quantize_activations
+                else layer_input
             )
             input_gates = F.linear(layer_input_for_matvec, weight_ih, bias_ih)
             initial = (
@@ -158,10 +195,19 @@ class ActivationQATModel(nn.Module):
         self.model = model
         self.quantize_activations = quantize_activations
 
-    def forward(self, inputs: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
-        """Run one complete sequence from the model's zero recurrent state."""
+    def forward(
+        self,
+        inputs: torch.Tensor,
+        weight_replacements: Mapping[str, torch.Tensor] | None = None,
+        validate_finite: bool = True,
+        state: torch.Tensor | None = None,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Run a chunk from the supplied causal state, or initialize from zero."""
         return activation_qat_forward(
             self.model,
             inputs,
+            state,
             quantize_activations=self.quantize_activations,
+            weight_replacements=weight_replacements,
+            validate_finite=validate_finite,
         )

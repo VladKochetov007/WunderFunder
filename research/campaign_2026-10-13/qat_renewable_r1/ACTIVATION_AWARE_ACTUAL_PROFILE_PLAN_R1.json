@@ -1,0 +1,72 @@
+{
+  "schema": "activation_aware_actual_profile_plan_v2",
+  "status": "prepared_pending_root_gpu_admission",
+  "created_utc": "2026-10-13T18:12:23Z",
+  "experiment_id": "E-QAT-A8-BACKEND-20261013-R1",
+  "hypothesis_id": "H-QAT-A8-20261013",
+  "owner": "root",
+  "profile_kind": "actual_recipe_first_chunk_backend_profile",
+  "quality_status": "not_evaluated",
+  "recipe": {
+    "source": "research/campaign_2026-10-13/qat_renewable_r1/delivery_r1/RUN_RECIPE_R1.json",
+    "fit_name": "qat_deploy_f0_s3_10pct_uniform_w4_r1",
+    "weight_preset": "recurrent_w4",
+    "optimizer": "existing fresh AdamW and clipping path from train_rnn.py; only two profile updates per mode; profile scheduler remains at the frozen one-cycle configuration",
+    "objective": "the unchanged train_rnn WMSE distillation term plus aux_struct=0.3 and aux_next=0.3, using the validated source caches and full-sequence labels",
+    "profile_forward": "same deterministic B16 first loader batch is reused for one compile/warmup update and one measured update; each update starts at sequence row 0 and forwards only rows 0:1000",
+    "limitations": [
+      "This is a backend/profile smoke, not a fit-fidelity run: it performs two repeated first-chunk updates on 16 fitting sequences, not the full trajectory or one-cycle schedule horizon.",
+      "No validation, quality comparison, score, native serving claim, or fit result is produced.",
+      "A8 changes recurrent-boundary activations only; head activation A8 and native I16 projection are separate untested effects."
+    ]
+  },
+  "actual_data": {
+    "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "checkpoint": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+    "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "subset_manifest": "research/campaign_2026-10-13/qat_renewable_r1/delivery_r1/subsets/f0_s3/fit_components_10pct.json",
+    "subset_provenance": "validated by the unchanged train_rnn component-subset and clean-fold readers; first batch order is seed-bound and emitted in PROFILE_BATCH_PROVENANCE",
+    "input_reader": "the frozen train_rnn SequenceFile, build_inputs, data loader and first causal window; no copied objective or cache reader",
+    "teacher_cache": "the unchanged validate_distillation_cache path; homogeneous main target, verified cache file hashes and metadata SHA emitted in PROFILE_RUN_PROVENANCE",
+    "propensity_cache": "the unchanged train_rnn propensity cache and sidecar validator; model checkpoint and sidecar SHA, path, rows and bytes emitted in PROFILE_RUN_PROVENANCE",
+    "source_hashes": "profile receipt carries trainer, activation backend, weight-QAT, GRU model, checkpoint, normalization, split, subset, teacher and propensity provenance hashes",
+    "model_shape": {
+      "batch": 16,
+      "causal_input_rows": 1000,
+      "model_features": 211,
+      "hidden": 256,
+      "layers": 2,
+      "sequence_label_context_rows": 20000
+    },
+    "finite_domain": "finite CP5 parameters/normalization checked before compile; actual input and carried FP32 state checked before every compiled chunk; finite update/loss/gradient evidence checked by the frozen trainer"
+  },
+  "comparison": {
+    "modes": [
+      "scan_a8",
+      "scan_fp32"
+    ],
+    "initialization": "separate trainer processes reload the same CP5 checkpoint and create fresh optimizers; deterministic seed/order and same first fitting batch",
+    "compiled_backend": "both modes use torch.compile(fullgraph=True) around the same scan recurrence; compiler thread count 1 and physical cache required",
+    "update_integrity": "receipt records optimizer/update evidence, finite losses/gradients/parameters, latent QAT tensor versions, cache invalidation, represented-weight fingerprints across consecutive forwards, compile timings and compile graph counters",
+    "cache_fingerprint_instrumentation": "hashes small fixed-W4 represented weight tensors for the first two forwards; this bounded D2H check is included in the profile timing and must be identified when interpreting timings"
+  },
+  "cost_bound": {
+    "modes": 2,
+    "warmup_updates_per_mode": 1,
+    "measured_updates_per_mode": 1,
+    "maximum_optimizer_updates_total": 4,
+    "sequence_groups": 16,
+    "causal_rows_per_update": 1000,
+    "maximum_trained_input_rows_per_mode": 2000,
+    "note": "The first 16 sequence batch is reused after the first optimizer update; only the first causal prefix is forwarded. Compiler and cgroup peaks must be admitted by root from live measurements before execution."
+  },
+  "inductor_cache": {
+    "path": "/home/vlad/.cache/torch/inductor-qat-activation-aware-r1",
+    "observed_filesystem_for_parent": "btrfs",
+    "runtime_behavior": "wrapper requires TORCHINDUCTOR_CACHE_DIR and rejects tmpfs/ramfs before trainer launch"
+  },
+  "exact_profile_command": "TORCHINDUCTOR_CACHE_DIR=/home/vlad/.cache/torch/inductor-qat-activation-aware-r1 WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack PYTHONPATH=/home/vlad/development/wunder/wnn-agent-worktrees/qat-activation-aware-20261013/src /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn-agent-worktrees/qat-activation-aware-20261013/scripts/profile_activation_qat.py --profile-kind actual_recipe --project-root /home/vlad/development/wunder/wnn_connectome_starterpack --worktree-root /home/vlad/development/wunder/wnn-agent-worktrees/qat-activation-aware-20261013 --mode both --device cuda --receipt /home/vlad/development/wunder/wnn-agent-worktrees/qat-activation-aware-20261013/research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_ACTUAL_PROFILE_R1.json",
+  "execution": "Root owns the physical memory/VRAM admission, GPU lock, command execution and terminal receipt collection. This actor performed static implementation checks only; no Torch test, compiler, native rebuild, or GPU run occurred.",
+  "profile_result": null
+}
