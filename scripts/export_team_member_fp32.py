@@ -137,6 +137,7 @@ def main() -> None:
     for name in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
         os.environ.setdefault(name, "1")
     import numpy as np
+    import pyarrow
     import torch
 
     if not torch.cuda.is_available():
@@ -154,6 +155,9 @@ def main() -> None:
 
     import pyarrow.parquet as pq
 
+    import wnn.data as data_module
+    import wnn.features as feature_module
+    import wnn.nn as nn_module
     from wnn.data import FEATURE_COLUMNS
     from wnn.features import event_features_torch
 
@@ -248,6 +252,13 @@ def main() -> None:
                 print(json.dumps(status), flush=True)
     predictions.flush()
     del predictions
+    source_dependencies = {
+        "exporter": Path(__file__).resolve(),
+        "exporter_helper": Path(__file__).with_name("team_member_export_lib.py").resolve(),
+        "wnn.data": Path(data_module.__file__).resolve(),
+        "wnn.features": Path(feature_module.__file__).resolve(),
+        "wnn.nn": Path(nn_module.__file__).resolve(),
+    }
     result = {
         "status": "complete",
         "candidate": args.candidate,
@@ -267,6 +278,16 @@ def main() -> None:
         "data_sha256": data_sha256,
         "data_hash_verified_by_this_run": True,
         "exporter_sha256": digest(Path(__file__)),
+        "source_dependencies": {
+            name: {"path": str(path), "sha256": digest(path)}
+            for name, path in source_dependencies.items()
+        },
+        "environment": {
+            "python": sys.version,
+            "numpy": np.__version__,
+            "pyarrow": pyarrow.__version__,
+            "torch": torch.__version__,
+        },
         "row_groups": list(groups),
         "group_results": group_results,
         "architecture": asdict(architecture),
