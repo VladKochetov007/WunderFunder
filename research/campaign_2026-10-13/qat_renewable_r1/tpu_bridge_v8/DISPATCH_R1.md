@@ -1,0 +1,3 @@
+# Root TPU V8 dispatch
+
+Root admitted exactly one private run after the independent V8 review and [fresh typed quota](QUOTA_PREFLIGHT_R1.json):20TPU hours available, paid scaling disabled. [Admission](ADMISSION_R1.json) binds deadlines, frozen packet hash and100MB collection allowance; [push receipt](PUSH_R1.json) confirms kernel version1 accepted on2026-10-13T16:32UTC. The first read-only status was QUEUED. The shared provider poller now includes this target; root retains collection/reconciliation ownership. Provider acceptance is execution progress, not evidence the actual-data update ran. The actor's frozen `provider_push_authorized=false` remains an accurate record of that code-only role.

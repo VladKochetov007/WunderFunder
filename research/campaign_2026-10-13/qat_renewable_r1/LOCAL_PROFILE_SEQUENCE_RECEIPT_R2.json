@@ -1,0 +1,13 @@
+{
+  "attempt": "qat-profile-f0-s3-mixed-w4w8-r1",
+  "error": "RuntimeError: guard refused qat-profile-f0-s3-mixed-w4w8-r1; inspect its retained record",
+  "heartbeat_utc": "2026-10-13T16:25:54.775279+00:00",
+  "index": 1,
+  "launch_returncode": 1,
+  "launch_stderr": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 1456, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 1434, in main\n    print(json.dumps(launch(args), indent=2))\n                     ~~~~~~^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 753, in launch\n    resources = verify_capacity(\n        state,\n    ...<4 lines>...\n        current_memory_bytes=measured,\n    )\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 555, in verify_capacity\n    raise RuntimeError(\n    ...<3 lines>...\n    )\nRuntimeError: projected committed RAM exceeds the 17 GB working allowance: parent=11477221376, active_unused_reservations=507025920, new_bound=5500000000, projected=17484247296\n",
+  "plan": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/LOCAL_PROFILE_SEQUENCE_R2.json",
+  "plan_sha256": "83946d726176bc2e10df9c2e4d3973cdc5c8743b95dd444f17460ae511c5b0c0",
+  "status": "needs_review",
+  "worker_heartbeat": "2026-10-13T16:25:39.946579+00:00",
+  "worker_status": "finished"
+}

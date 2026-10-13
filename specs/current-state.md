@@ -1,3 +1,7 @@
+## 2026-10-13T16:38:34.882139+00:00 — QAT GPU experiments and TPU bridge dispatched
+
+[QAT frontier](../research/campaign_2026-10-13/qat_renewable_r1/FRONTIER.md): all three B16/C1000 FP32 profiles pass100 finite updates. Matched10% floating and uniform-W4 fits completed1,440 updates each with identical sample-order/normalization hashes; mixedW4/W8 runs next on the singleGPUworker. Exact nativeQ8 baseline over full468-groupF0 isWP=.681135399; compressed/QAT paired grades remain pending. These are exposedF0 adaptation experiments. [TPU V8](../research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/DISPATCH_R1.md) passed independent review and privateversion1 push; provider QUEUED, no actual-update claim yet. Resource refusals/cachehandoffs are preserved; no cap change, paid action or public upload.
+
 ## 2026-10-13T15:44:27Z — QAT plan implementation authorized
 
 [Indexed QAT plan](../research/campaign_2026-10-13/qat_renewable_r1/PLAN.md) and [ADR0036](adr/0036-qat-renewable-capacity.md) record the user's current instruction: implement exact W4/W8 deployment/QAT comparisons, activation-aware/learned-scale extensions and broader endpoint validation using local GPU plus all renewable Kaggle allowance, with no campaign-wide GPU-hour cap. Proposed4/2/2-hour allocations are removed; CPU/RAM/no-swap/single-worker and no-paid-action rules remain. Root owns implementation through actual evaluated artifacts. No new QAT fit/score/package at entry; prior healthy work is preserved.
