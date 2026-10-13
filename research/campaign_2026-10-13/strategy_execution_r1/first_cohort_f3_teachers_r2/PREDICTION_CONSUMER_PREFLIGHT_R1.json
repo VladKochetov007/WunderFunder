@@ -1,0 +1,61 @@
+{
+  "schema": "wnn.strategy.f3-prediction-consumer-preflight.r1",
+  "created_utc": "2026-10-13T00:12:04Z",
+  "status": "PASS_FOLD_MEMBERSHIP_AND_ORDER_ONLY",
+  "scope": "Read the canonical F3 split and target-index row_group members; test producer order and the existing cleanfold full-valid projection without fitting, CUDA, prediction-array reads, or cache materialization.",
+  "compute": {
+    "python": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "cpu_quota": "100%",
+    "memory_max_bytes": 1200000000,
+    "runtime_max": "120s",
+    "gpu_used": false,
+    "paid_spend_usd": 0
+  },
+  "lineage": {
+    "fold": 3,
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold3.json",
+    "split_manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343",
+    "target_members_read": [
+      "cache/train_targets.npz:row_group",
+      "cache/valid_targets.npz:row_group"
+    ],
+    "target_labels_read": false
+  },
+  "producer": {
+    "path": "research/campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r1/source_snapshot/scripts/predict_run.py",
+    "sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+    "order_rule": "The campaign-split export uses CampaignSplit.train_groups or CampaignSplit.valid_groups order; the full-valid feature-only export uses valid_targets.row_group order."
+  },
+  "consumer_projection_helper": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r1/build_clean_t3_f0_homogeneous_cache_r1.py",
+    "sha256": "13b20f62a988df90f17da495b2cc7e4e219de0792291412165a10d2cd8b22380",
+    "functions_exercised": [
+      "load_group_target_order",
+      "selected_target_order",
+      "project_full_valid_rows"
+    ],
+    "limitation": "Only these generic row-order helpers were exercised; the F0-specific cache contract and materializer were not run for F3."
+  },
+  "observed_membership_and_order": {
+    "fit_train_count": 10539,
+    "fit_train_export_order_equals_target_order_filtered_by_fit_membership": true,
+    "fit_valid_count": 1368,
+    "fit_valid_export_order_equals_target_order_filtered_by_fit_membership": true,
+    "full_valid_count": 1873,
+    "evaluation_valid_count": 505,
+    "projected_full_valid_indices_count": 1368,
+    "projected_full_valid_order_equals_fit_valid_order": true,
+    "fit_valid_disjoint_from_evaluation": true
+  },
+  "packet_expected_geometry_not_yet_observed": {
+    "fit_train": {"dtype": "float32", "shape": [10539, 20000, 2]},
+    "fit_valid": {"dtype": "float32", "shape": [1368, 20000, 2]},
+    "full_valid": {"dtype": "float32", "shape": [1873, 20000, 2]}
+  },
+  "handoff_rule": "After terminal collection, check each actual sidecar run/split/epoch/split hash/checkpoint hash/row_groups and prediction hash before creating canonical aliases. Fit-train and fit-valid orders may be aliased only after exact sidecar compatibility passes. Keep full-valid feature-only predictions separate; never use their 505 evaluation rows as fit-valid targets.",
+  "limitations": [
+    "The Kaggle producer has not yet reached terminal status.",
+    "No actual F3 prediction arrays or sidecars have been inspected.",
+    "This preflight does not validate prediction values, checkpoint provenance, or cache materialization."
+  ]
+}
