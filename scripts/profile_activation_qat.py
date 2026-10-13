@@ -36,6 +36,40 @@ def _write_receipt(path: Path, receipt: dict[str, Any]) -> None:
     temporary.replace(path)
 
 
+def _has_valid_latent_parameter_change(update: dict[str, Any]) -> bool:
+    before = update.get("latent_parameter_fingerprints_before")
+    after = update.get("latent_parameter_fingerprints_after")
+    changed_by_name = update.get("latent_parameters_changed_by_name")
+    if not isinstance(before, dict) or not before or not isinstance(after, dict):
+        return False
+    if before.keys() != after.keys() or not isinstance(changed_by_name, dict):
+        return False
+
+    recomputed: dict[str, bool] = {}
+    for name in before:
+        before_item = before[name]
+        after_item = after[name]
+        if not isinstance(before_item, dict) or not isinstance(after_item, dict):
+            return False
+        if before_item.get("shape") != after_item.get("shape"):
+            return False
+        if before_item.get("dtype") != after_item.get("dtype"):
+            return False
+        before_hash = before_item.get("sha256")
+        after_hash = after_item.get("sha256")
+        if not isinstance(before_hash, str) or not isinstance(after_hash, str):
+            return False
+        if len(before_hash) != 64 or len(after_hash) != 64:
+            return False
+        recomputed[name] = before_hash != after_hash
+
+    return (
+        changed_by_name == recomputed
+        and update.get("latent_parameters_changed") is any(recomputed.values())
+        and any(recomputed.values())
+    )
+
+
 def _recipe_arguments(
     project_root: Path, worktree_root: Path, mode: str, device: str
 ) -> tuple[list[str], dict[str, Any]]:
@@ -239,7 +273,7 @@ def _actual_profile(args: argparse.Namespace, receipt: dict[str, Any]) -> int:
                 and all(
                     update.get("cache_identity_valid_before_update") is True
                     and update.get("weight_cache_cleared_after_optimizer_step") is True
-                    and update.get("latent_versions_advanced") is True
+                    and _has_valid_latent_parameter_change(update)
                     for update in qat_updates
                 )
                 and len(fingerprints) >= 2

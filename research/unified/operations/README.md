@@ -55,6 +55,8 @@ The October12 stop and its terminal-state archive remain preserved as historical
 
 [QAT terminal execution receipts](../../campaign_2026-10-13/qat_renewable_r1/RUNTIME_RECEIPTS_R1.md) link original measured GPU profiles, fixed-checkpoint fits and pre-start RAM refusals. The [campaign index](../../campaign_2026-10-13/qat_renewable_r1/README.md) also describes cache handoffs after completed fits. Healthy jobs and physical limits are preserved; completed optimization does not establish a QAT gain.
 
+[Activation-QAT actual-profile incident](../../campaign_2026-10-13/qat_renewable_r1/ACTIVATION_ACTUAL_GPU_R2_INVARIANT_INCIDENT_R1.md) diagnoses why the first root-owned CP5 B16/C1000 scan profiles compiled and updated but were marked failed by a fused-Adam `_version` invariant. It preserves the immutable failure, measured compile/resource evidence, a raw-latent-fingerprint repair and the review/test requirements before any successor profile; no quality or activation-QAT gain is established.
+
 ## QAT actual GPU wave and 30% scale follow-up
 
 - [LOCAL_30PCT_EXECUTION_R1.json](../../campaign_2026-10-13/qat_renewable_r1/LOCAL_30PCT_EXECUTION_R1.json): Frozen matched 30% fit vectors transfer measured B16/C1000 profiles; 219 batches and 4,380 updates per arm, with full sequences and the unchanged final-partial-batch omission.

@@ -985,6 +985,29 @@ def forward_chunk(model, inputs, sl, state):
     return model(inputs[:, sl], state)
 
 
+def activation_profile_parameter_fingerprints(
+    parameters: dict[str, torch.Tensor], names: Iterable[str]
+) -> dict[str, dict[str, object]]:
+    """Fingerprint selected latent tensors for the bounded activation profile only."""
+    fingerprints: dict[str, dict[str, object]] = {}
+    for name in names:
+        parameter = parameters[name]
+        raw = (
+            parameter.detach()
+            .to(device="cpu")
+            .contiguous()
+            .view(torch.uint8)
+            .numpy()
+            .tobytes()
+        )
+        fingerprints[name] = {
+            "sha256": hashlib.sha256(raw).hexdigest(),
+            "shape": list(parameter.shape),
+            "dtype": str(parameter.dtype),
+        }
+    return fingerprints
+
+
 def inference_checkpoint_fields(model: torch.nn.Module, source: str) -> dict:
     """Export effective weights and representation metadata without changing raw resume state."""
     if getattr(model, "_recurrent_rank", 0):
@@ -2935,7 +2958,12 @@ def main():
                 else:
                     with torch.autocast(device.type, dtype=amp_dtype, enabled=use_autocast):
                         out, h = forward_chunk(model, inputs, sl, h)
-                    if args.profile_steps and args.activation_backend != "none" and args.qat != "none":
+                    if (
+                        args.profile_steps
+                        and args.activation_profile_first_chunk
+                        and args.activation_backend != "none"
+                        and args.qat != "none"
+                    ):
                         parameters = dict(model.named_parameters())
                         qat_cache_identity = {
                             "cache": {
@@ -2943,6 +2971,11 @@ def main():
                                 for name in model._qat_names
                                 if name in model._qat_cache
                             },
+                            "latent_parameter_fingerprints_before": (
+                                activation_profile_parameter_fingerprints(
+                                    parameters, model._qat_names
+                                )
+                            ),
                         }
                         qat_cache_identity["valid_before_update"] = all(
                             qat_cache_identity["cache"].get(name)
@@ -3109,6 +3142,17 @@ def main():
                 if qat_cache_identity is not None:
                     parameters = dict(model.named_parameters())
                     versions_after = {name: parameters[name]._version for name in model._qat_names}
+                    fingerprints_after = activation_profile_parameter_fingerprints(
+                        parameters, model._qat_names
+                    )
+                    fingerprints_before = qat_cache_identity[
+                        "latent_parameter_fingerprints_before"
+                    ]
+                    changed_by_name = {
+                        name: fingerprints_before[name]["sha256"]
+                        != fingerprints_after[name]["sha256"]
+                        for name in model._qat_names
+                    }
                     activation_profile_updates.append({
                         "cache_identity_valid_before_update": qat_cache_identity["valid_before_update"],
                         "latent_parameter_versions_before": {
@@ -3119,6 +3163,10 @@ def main():
                             versions_after[name] != qat_cache_identity["cache"][name][1]
                             for name in model._qat_names
                         ),
+                        "latent_parameter_fingerprints_before": fingerprints_before,
+                        "latent_parameter_fingerprints_after": fingerprints_after,
+                        "latent_parameters_changed_by_name": changed_by_name,
+                        "latent_parameters_changed": any(changed_by_name.values()),
                         "weight_cache_cleared_after_optimizer_step": not model._qat_cache,
                     })
                 scaler.update()

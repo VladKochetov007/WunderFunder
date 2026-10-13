@@ -1,13 +1,14 @@
 ---
 kind: method
-status: admitted
+status: inconclusive
 created_utc: 2026-10-13T17:30:00Z
-updated_utc: 2026-10-13T17:40:25Z
+updated_utc: 2026-10-13T19:16:15Z
 hypothesis_ids: [H-QAT-A8-20261013]
-experiment_ids: [E-QAT-DEPLOYMENT-20261013-R1]
+experiment_ids: [E-QAT-A8-BACKEND-20261013-R1]
 evidence_paths:
   - QUANTIZATION_SPEC_R1.md
   - ../../campaign_2026-10-04/E419_RECOVERED_QAT_REPORT.md
+  - ACTIVATION_ACTUAL_GPU_R2_INVARIANT_INCIDENT_R1.md
 ---
 
 # Activation-aware recurrent QAT backend
@@ -83,11 +84,14 @@ floating epilogue, so the state comparison is close numeric agreement rather
 than bitwise gate-level equivalence. Fast nonlinearities are disabled in that
 diagnostic. The previous B16/C1000 random-input/square-loss invocation is
 retained only as an explicitly synthetic compile smoke; it is not a profile
-admission input or training objective. A source-qualified actual-data
-profile using the CP5 checkpoint, real fit labels/cache and AdamW updates is
-prepared in [the actual-data profile plan](ACTIVATION_AWARE_ACTUAL_PROFILE_PLAN_R1.json)
-and remains pending root-owned GPU admission. No Rust build, GPU profile, long
-scan, fit or quality evaluation has been performed by this code-only actor.
+admission input or training objective. Root has now run the source-qualified
+actual-data profile from the [frozen profile plan](ACTIVATION_AWARE_ACTUAL_PROFILE_PLAN_R1.json).
+Both modes compiled and completed two bounded updates, but a wrapper check
+incorrectly treated unchanged fused-Adam tensor version counters as proof that
+weights had not changed. The [R2 incident](ACTIVATION_ACTUAL_GPU_R2_INVARIANT_INCIDENT_R1.md)
+preserves the original failure and records the raw-latent-fingerprint repair,
+which still requires independent review and a fresh root-owned profile. No long
+scan, fit or quality evaluation has been performed.
 The public eager forward validates finite inputs, initial state and model
 parameters before recurrence. The pure scan body does no host-side finiteness
 synchronization; the trainer validates each actual input chunk and carried
@@ -97,15 +101,16 @@ two-update-per-mode cap are in the [profile plan](ACTIVATION_AWARE_ACTUAL_PROFIL
 
 ## Source records
 
-- Initial backend revision: `7939e64c0a14cba9e0c1eaaf5822787c89dd54bf`; the opt-in trainer hook and profile wrapper are the current code-only successor and have not been compiled or run.
+- Initial backend revision: `7939e64c0a14cba9e0c1eaaf5822787c89dd54bf`. The immutable actual-profile source was `a0e3a4f699cef424027ee9a2360bbe682e313aea`; root compiled both actual-shape modes but the wrapper rejected their update evidence. The isolated successor records direct latent parameter fingerprints and awaits independent review before another profile.
 - [Versioned quantization specification](QUANTIZATION_SPEC_R1.md) — fixed
   weight and native A8 semantics.
 - [Historical E419 QAT report](../../campaign_2026-10-04/E419_RECOVERED_QAT_REPORT.md)
   — prior weight-only Q8 evidence and rationale for activation-aware work.
 - [Plan](PLAN.md), [frontier](FRONTIER.md) and [campaign contract](CONTRACT.json)
   — active experiment scope and execution ownership.
-- Tests: `tests/test_activation_qat.py`.
-- [Focused CPU/native receipt R2](ACTIVATION_AWARE_CPU_NATIVE_RECEIPT_R2.json) records four passing tests against successor `5f6812b0` and the supplied pinned native library; compiled trainer profiling remains untested.
+- Tests: `tests/test_activation_qat.py` and
+  [profile-validator receipt checks](../../../tests/test_profile_activation_qat.py).
+- [Focused CPU/native receipt R2](ACTIVATION_AWARE_CPU_NATIVE_RECEIPT_R2.json) records four passing tests against successor `5f6812b0` and the supplied pinned native library; at the time of that receipt, compiled trainer profiling remained untested. The later actual-profile attempt is preserved in the [R2 incident](ACTIVATION_ACTUAL_GPU_R2_INVARIANT_INCIDENT_R1.md).
 - Focused CPU/native command previously passed on the pre-wrapper backend: `PYTHONPATH=src PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
   WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1
   WNN_Q8_TEST_LIBRARY=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_r1
@@ -116,7 +121,9 @@ two-update-per-mode cap are in the [profile plan](ACTIVATION_AWARE_ACTUAL_PROFIL
   `a4390ecf7bcd54bb6826b43f5dcf6d7a40064c64ed1450bdc1780c34c2a6e108`.
 - The exact actual-data profile command, pinned files, maximum four AdamW updates,
   payload sizing and root-owned execution boundary are in the [actual-data
-  profile plan](ACTIVATION_AWARE_ACTUAL_PROFILE_PLAN_R1.json). Run only after
-  root grants the measured profile window and single-GPU admission. The
+  profile plan](ACTIVATION_AWARE_ACTUAL_PROFILE_PLAN_R1.json). The first
+  attempt's wrapper-invariant failure and successor regression plan are in the
+  [R2 incident](ACTIVATION_ACTUAL_GPU_R2_INVARIANT_INCIDENT_R1.md). A successor
+  still requires independent review and root's single-GPU admission. The
   synthetic square-loss smoke requires the explicit `--profile-kind
   synthetic_smoke` and is not an admission substitute.
