@@ -1422,8 +1422,19 @@ def expand_research_feature_state(source_state: dict[str, torch.Tensor],
     return expanded
 
 
-def validate_campaign_checkpoint(checkpoint: dict, args: argparse.Namespace) -> None:
+def validate_campaign_checkpoint(checkpoint: dict, args: argparse.Namespace, *,
+                                 final_initializer: bool = False) -> None:
     """Reject initialization or propensity weights fitted outside this clean outer fold."""
+    if final_initializer:
+        source = checkpoint.get("args", {})
+        if (source.get("train_source") != "train+valid"
+                or not source.get("include_heldout_valid")
+                or source.get("split_manifest") is not None
+                or not source.get("no_eval_during_fit")
+                or source.get("checkpoint_policy") != "fixed"
+                or checkpoint.get("epoch") != source.get("checkpoint_epoch")):
+            raise ValueError("final adaptation requires a fixed all-data initializer")
+        return
     if args.split_manifest:
         source = checkpoint.get("args", {})
         if (source.get("split_manifest_sha256") != args.split_manifest_sha256
@@ -1703,6 +1714,8 @@ def main():
     ap.add_argument("--valid-repeat", type=int, default=1,
                     help="with train+valid: each validation training sequence appears this many times per epoch")
     ap.add_argument("--init", default="", help="run name whose model.pt initializes weights; NAME@epN loads model_epN.pt")
+    ap.add_argument("--final-model-adaptation", action="store_true",
+                    help="explicit all-data initializer adaptation; no held-out claim")
     ap.add_argument("--inherit-init-preprocessing", action="store_true",
                     help="inherit parent feature construction and architecture; reject conflicting explicit flags")
     ap.add_argument("--freeze", default="",
@@ -1785,6 +1798,13 @@ def main():
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     add_dynamics_arguments(ap)
     args = ap.parse_args()
+    if args.final_model_adaptation and (
+        not args.init or not args.inherit_init_preprocessing
+        or args.split_manifest is None or args.fit_subset_manifest is None
+        or not args.no_eval_during_fit or args.checkpoint_policy != "fixed"
+        or args.resume_state or args.save_training_state
+    ):
+        ap.error("final model adaptation requires inherited preprocessing, fixed component subset and no fit-time evaluation or continuation")
     apply_block_memory_defaults(args, sys.argv[1:])
     block_memory_error = block_memory_rejection(args)
     if block_memory_error is not None:
@@ -2445,7 +2465,7 @@ def main():
             ap.error("factorized initialization must be a dense float checkpoint; use raw state for exact resume")
         if args.qat != "none" and init.get("factorization"):
             ap.error("combined QAT and factorized initialization is not implemented")
-        validate_campaign_checkpoint(init, args)
+        validate_campaign_checkpoint(init, args, final_initializer=args.final_model_adaptation)
         if args.spread_aux_mode != "original":
             validate_spread_parent(init, campaign_split.sha256, provenance["fit_row_groups"])
         provenance["initial_checkpoint_sha256"] = file_sha256(init_path)
