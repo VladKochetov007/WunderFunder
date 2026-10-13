@@ -246,6 +246,7 @@ def _actual_profile(args: argparse.Namespace, receipt: dict[str, Any]) -> int:
                 and evidence.get("represented_weights_changed_between_first_two_forwards") is True
                 and evidence.get("first_forward_compile_seconds") is not None
                 and evidence.get("first_backward_compile_seconds") is not None
+                and evidence.get("finite_parameters_after_updates") is True
                 and isinstance(run_provenance, dict)
                 and run_provenance.get("initial_checkpoint_sha256") is not None
                 and run_provenance.get("normalization_identity") is not None
@@ -284,6 +285,10 @@ def _actual_profile(args: argparse.Namespace, receipt: dict[str, Any]) -> int:
             "fit_subset_members_sha256",
             "fit_membership_identity",
             "normalization_identity",
+            "distillation_cache",
+            "propensity_checkpoint_sha256",
+            "propensity_cache",
+            "source_sha256",
         )
         comparisons = {
             field: a8["run_provenance"].get(field) == no_a8["run_provenance"].get(field)

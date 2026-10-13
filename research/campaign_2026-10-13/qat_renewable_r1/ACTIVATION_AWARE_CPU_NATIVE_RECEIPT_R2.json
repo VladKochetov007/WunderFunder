@@ -1,0 +1,46 @@
+{
+  "schema": "activation_aware_cpu_native_test_receipt_v1",
+  "created_utc": "2026-10-13T18:19:29Z",
+  "status": "pass",
+  "source_revision": "5f6812b098fdf4c88e6ccb496a0343e159781eef",
+  "source_workspace": "/home/vlad/development/wunder/wnn-agent-worktrees/qat-activation-aware-20261013",
+  "test": {
+    "path": "tests/test_activation_qat.py",
+    "sha256": "f1225e5e45c0daae342628d5cf83d6b91c632e174cade92f023c7017fb01de3a",
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=180s WNN_Q8_TEST_LIBRARY=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_r1 PYTHONPATH=/home/vlad/development/wunder/wnn-agent-worktrees/qat-activation-aware-20261013/src PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack scripts/limited .venv/bin/python -m pytest -q tests/test_activation_qat.py",
+    "result": "4 passed in 6.64s",
+    "coverage": [
+      "native-compatible A8 codes/scales",
+      "scan forward/final-state/input-state and parameter-gradient parity against fused nn.GRU across two layers, nonzero initial state and chunks",
+      "FP32 recurrent state under A8",
+      "actual q8vnni_portable native hidden-state comparison with a controlled zero-projection fixture, A8 sensitivity assertion, and atol=1e-4 match"
+    ],
+    "captured_native_error_values": false,
+    "captured_native_error_note": "pytest quiet mode captured the fixture's printed error values; only its assertions and pass status are retained"
+  },
+  "native_library": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_r1/wnn_native.abi3.so",
+    "sha256": "a4390ecf7bcd54bb6826b43f5dcf6d7a40064c64ed1450bdc1780c34c2a6e108",
+    "rebuilt": false
+  },
+  "resource_bound": {
+    "launcher": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+    "cpu_quota": "100%",
+    "threads": 1,
+    "memory_max_bytes": 1500000000,
+    "swap_max_bytes": 0,
+    "runtime_max": "180s",
+    "measured_peak_memory_bytes": null
+  },
+  "execution_scope": {
+    "device": "CPU",
+    "tests_run": ["tests/test_activation_qat.py"],
+    "inductor_or_compile": false,
+    "gpu_profile": false,
+    "training_fit": false,
+    "quality_result": false
+  },
+  "limitations": [
+    "This test receipt validates the recurrent-only experimental backend and native comparison fixture; it does not validate the trainer hook, compiled profile, head activation A8, native projection/I16 interactions, or any fit-quality effect."
+  ]
+}
