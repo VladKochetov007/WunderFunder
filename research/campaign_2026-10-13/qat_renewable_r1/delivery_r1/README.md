@@ -35,4 +35,4 @@ The prior TPU bridge failure is preserved in [the V7 registry-schema diagnosis](
 - [Frozen subset manifests](subsets/f0_s3/) preserve selected complete-component membership and its hashes.
 - [TPU V7 failure diagnosis](TPU_V7_REGISTRY_SCHEMA_DIAGNOSIS_R1.json) preserves the unsupported-field failure and narrow V8 repair requirement.
 
-The QAT plan and parent campaign record are in [the campaign entry point](../README.md) and [the experiment plan](../PLAN.md). This packet is indexed from [unified operations](../../../../unified/operations/README.md).
+The QAT plan and parent campaign record are in [the campaign entry point](../README.md) and [the experiment plan](../PLAN.md). This packet is indexed from [unified operations](../../../unified/operations/README.md).
