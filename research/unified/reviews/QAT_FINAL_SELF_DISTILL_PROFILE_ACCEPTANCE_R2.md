@@ -1,0 +1,7 @@
+# Stationary-teacher QAT profile acceptance R2
+
+After the independent static GO, root's frozen [profile acceptance and fit-allocation receipt](../../campaign-2026-10-13/qat_renewable_r1/final_self_distill_r2/PROFILE_ACCEPTANCE_FIT_ALLOCATION_R2.json) reports that both B16/C1000 arms completed 100 optimizer attempts with 100 updates, zero AMP skips, finite losses and gradients, and consistent counters. Peak host memory was 3.983GB for FP32 and 3.972GB for learned W4; observed VRAM was 2.174GB and 2.180GB. Root admitted the matched one-epoch 1,440-update fits sequentially after those checks.
+
+The short measured profiles report 10.20 versus 9.57 sequences/second (learned W4 about 6% slower) and 1,266 versus 1,359ms GPU time. The W4 profile's `syncs_per_step` field is 844 versus 0.67 for FP32; the root receipt records this difference, which is worth retaining in throughput interpretation. This does not invalidate the finite-update/resource gate, but the five-batch profile is not a full-epoch runtime estimate. No fit outcome, model-quality result, or public-transfer claim is established here.
+
+This is a reviewer interpretation of the root-owned, hash-pinned profile receipt, not a separate rerun of its GPU jobs. The profile acceptance JSON SHA-256 is `4dbae7a9e2d7a4fad21541183f2b1911684303911ab0436ee56b2265c95200b2`. The frozen recipe and static independent review remain linked from [the profile-recipe review](QAT_FINAL_SELF_DISTILL_PROFILE_REVIEW_R2.md).
