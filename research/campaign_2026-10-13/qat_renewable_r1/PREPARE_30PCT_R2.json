@@ -1,0 +1,45 @@
+{
+  "first_attempt": {
+    "status": "failed_before_artifact_creation",
+    "reason": "--library passed the ELF file; native_module requires its containing directory",
+    "correction": "Use reviewed artifacts/native_qat_r1 directory; no source or checkpoint changes"
+  },
+  "prepared": [
+    {
+      "arm": "fp32",
+      "command": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/deployment_source_r3/scripts/evaluate_qat_deployment.py",
+        "prepare",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "--output",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/30pct_fp32_deployment_r3",
+        "--run",
+        "qat_deploy_f0_s3_30pct_fp32_r1@ep0",
+        "--split",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--library",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_r1"
+      ]
+    },
+    {
+      "arm": "uniform_w4",
+      "command": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/deployment_source_r3/scripts/evaluate_qat_deployment.py",
+        "prepare",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "--output",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/30pct_uniform_w4_deployment_r3",
+        "--run",
+        "qat_deploy_f0_s3_30pct_uniform_w4_r1@ep0",
+        "--split",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--library",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/native_qat_r1"
+      ]
+    }
+  ]
+}

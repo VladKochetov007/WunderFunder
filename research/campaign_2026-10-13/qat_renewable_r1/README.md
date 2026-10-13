@@ -25,3 +25,27 @@ Canonical navigation: [inference research](../../unified/inference/README.md); r
 - [TPU V8 dispatch and receipts](tpu_bridge_v8/DISPATCH_R1.md) record independent review, renewed typed quota, bounded root admission and successful private kernel version1 push. Startup is queued; actual-data update/reload/export remain pending collection. [Post-control cache handoff](CACHE_HANDOFF_AFTER_FLOAT_FIT_R1.json) restores local headroom after the successful floating-control fit; uniform-W4 QAT follows without changing limits.
 
 - [Full-fold unchanged-parent baseline results](baseline_results_r2/README.md) retain the corrected frozen manifest and nativeQ8 WP=.681135399 on all468 F0 groups/141 components; other formats and independent paired grades remain pending. [Terminal runtime receipts](RUNTIME_RECEIPTS_R1.md) index original completed GPU profiles/fits, native replay and pre-start admission refusals. [Post-W4 fit cache handoff](CACHE_HANDOFF_AFTER_W4_FIT_R1.json) restores headroom before mixedQAT; no memory limit or healthy job was changed.
+
+## Matched adaptation wave and scale follow-up
+
+- [LOCAL_30PCT_EXECUTION_R1.json](LOCAL_30PCT_EXECUTION_R1.json): Frozen matched 30% fit vectors transfer measured B16/C1000 profiles; 219 batches and 4,380 updates per arm, with full sequences and the unchanged final-partial-batch omission.
+- [LOCAL_100PCT_EXECUTION_R1.json](LOCAL_100PCT_EXECUTION_R1.json): Prepared full-data vectors retain identical recipe and 5.5GB reservation; 746 batches and 14,920 updates. Fresh admission is still required.
+- [LOCAL_30PCT_FLOAT_ADMISSION_R2.json](LOCAL_30PCT_FLOAT_ADMISSION_R2.json): Diagnoses the first pre-start CPU quota refusal; the unchanged floating command was admitted under a new attempt ID after transient support work ended.
+- [ALLOCATION_30PCT_W4_R1.json](ALLOCATION_30PCT_W4_R1.json): Admits the preplanned uniform-W4 scale follow-up while the primary 10% grade was finishing; no benefit was assumed.
+- [ALLOCATION_30PCT_MIXED_R1.json](ALLOCATION_30PCT_MIXED_R1.json): Admits the mixed scale follow-up after a small positive but uncertain 10% matched effect; zero-crossing uncertainty is not a stop rule.
+- [CACHE_HANDOFF_AFTER_MIXED_FIT_R1.json](CACHE_HANDOFF_AFTER_MIXED_FIT_R1.json): Reclaims only file cache after the completed 10% mixed fit, using the historical completed S37 export as the helper prerequisite.
+- [CACHE_HANDOFF_AFTER_30PCT_FLOAT_R1.json](CACHE_HANDOFF_AFTER_30PCT_FLOAT_R1.json): Restores measured parent headroom after the 30% floating fit with no limit or healthy-worker change.
+- [CACHE_HANDOFF_AFTER_30PCT_W4_R1.json](CACHE_HANDOFF_AFTER_30PCT_W4_R1.json): Restores parent headroom after the completed 30% W4 fit before export and next GPU admission; no swap or process termination.
+- [PREPARE_30PCT_R2.json](PREPARE_30PCT_R2.json): Records a failed preparer invocation that passed an ELF file instead of the required library directory, then the corrected actual epoch-0 floating/W4 archive commands. The guard failed before output creation.
+- [NATIVE_SEQUENCE_A_R1.json](NATIVE_SEQUENCE_A_R1.json): Frozen baseline-FP32 then 10% matched floating-PTQ evaluation sequence; all steps completed.
+- [NATIVE_SEQUENCE_A_RECEIPT_R1.json](NATIVE_SEQUENCE_A_RECEIPT_R1.json): Terminal sequence receipt confirms the final 10% mixed-PTQ control finished; individual artifacts remain in physical storage.
+- [NATIVE_SEQUENCE_B_R1.json](NATIVE_SEQUENCE_B_R1.json): Frozen 10% QAT and remaining unchanged-parent format sequence; actual sources and manifest hashes are pinned.
+- [NATIVE_SEQUENCE_30PCT_R1.json](NATIVE_SEQUENCE_30PCT_R1.json): Frozen 30% native comparison sequence for the shared floating control and uniform QAT, with fixed full F0 and one-CPU/1GB workers.
+- Independent [uniform 10% grade](../../unified/reviews/QAT_10PCT_UNIFORM_W4_MATCHED_GRADE_R1.md) and [mixed 10% grade](../../unified/reviews/QAT_10PCT_MIXED_W4W8_MATCHED_GRADE_R1.md) establish actual matched native deltas of −0.0001149 and +0.0001390, with intervals spanning zero. One exposed fold/seed, no public forecast or final selection.
+
+[Terminal runtime receipts R2](RUNTIME_RECEIPTS_R2.md) index completed 10% native comparisons, five-format baselines and completed 30% fits, preserving pre-start refusals separately. [Sequence B completion](NATIVE_SEQUENCE_B_RECEIPT_R1.json) confirms the exact packed-Q8 replay landed. These execution receipts accompany the independent matched grades, with no public or final-package claim.
+
+- [CACHE_HANDOFF_AFTER_30PCT_MIXED_R1.json](CACHE_HANDOFF_AFTER_30PCT_MIXED_R1.json): Records bounded file-cache reclaim after all three 30% GPU fits completed, preserving limits and healthy CPU evaluations.
+- [NATIVE_30PCT_MIXED_R1.json](NATIVE_30PCT_MIXED_R1.json): Pins the selected mixed epoch-0 checkpoint deployment manifest and full-F0 native worker with a measured 1GB host reservation.
+- [ALLOCATION_100PCT_FLOAT_R1.json](ALLOCATION_100PCT_FLOAT_R1.json): Admits the full-data floating control after the uncertain positive 30% W4 effect, to support matched full-data fixed/learned-scale comparisons.
+- [INDEX_VERIFICATION_R2.json](INDEX_VERIFICATION_R2.json): Records successful tree generation and local Markdown link checks, plus catalog-only freshness failures caused by changing live operational records; not a full integrity-check pass.
