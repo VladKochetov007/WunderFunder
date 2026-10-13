@@ -312,9 +312,22 @@ def qat_forward(
     """Run exact weight-only fake quantization, keeping activations and state float32."""
     if inputs.dtype != torch.float32 or state is not None and state.dtype != torch.float32:
         raise ValueError("QAT inputs and recurrent state must remain float32")
+    replacements = qat_weight_replacements(model)
+    try:
+        with torch.autocast(inputs.device.type, enabled=False):
+            return functional_call(model, replacements, (inputs, state), strict=False)
+    finally:
+        # nn.GRU caches non-Parameter functional overrides in _flat_weights.
+        # Restore its ordinary cache after reparameterization so later EMA
+        # copies and parameter mutation cannot retain a completed autograd graph.
+        model.gru._init_flat_weights()
+
+
+def qat_weight_replacements(model: RNNModel) -> dict[str, torch.Tensor]:
+    """Return exact configured fake-quantized weights for custom forward paths."""
     parameters = dict(model.named_parameters())
-    replacements = {}
-    for name in model._qat_names:
+    replacements: dict[str, torch.Tensor] = {}
+    for name in getattr(model, "_qat_names", ()):
         value = parameters[name]
         if getattr(model, "_qat_learn_scales", False):
             blocks = _matrix_blocks(name, value, model.inp.out_features)
@@ -335,14 +348,7 @@ def qat_forward(
             )
             model._qat_cache[name] = cached
         replacements[name] = _RepresentedWeight.apply(value, cached[1])
-    try:
-        with torch.autocast(inputs.device.type, enabled=False):
-            return functional_call(model, replacements, (inputs, state), strict=False)
-    finally:
-        # nn.GRU caches non-Parameter functional overrides in _flat_weights.
-        # Restore its ordinary cache after reparameterization so later EMA
-        # copies and parameter mutation cannot retain a completed autograd graph.
-        model.gru._init_flat_weights()
+    return replacements
 
 
 def effective_qat_state(

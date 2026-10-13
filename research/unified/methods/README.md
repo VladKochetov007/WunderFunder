@@ -13,6 +13,10 @@ This domain collects the reusable research protocol: data membership, causal seq
 
 The official metric and fold membership are part of every scored claim. Training-target clipping, teacher targets, initializer ancestry, and fitting membership are separate method details; preserve them in the recipe and experiment record.
 
+## Activation-aware recurrent QAT — 2026-10-13
+
+[Activation-aware recurrent QAT backend](../../campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_BACKEND_R1.md) adds scan-based GRU recurrence and native-style A8 fake quantization at the input/recurrent matvec boundaries while carrying FP32 state. [Its CPU/native receipt](../../campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_CPU_NATIVE_RECEIPT_R1.json) records four passing engineering tests and a controlled recurrent-state comparison (max error `5.96e-08`; disabling A8 changes state by `6.90e-04`). The compiled B16/C1000 profile is unrun; projection/head activation treatment is outside this implementation, and no quality claim exists.
+
 ## Resumed strategy execution — 2026-10-13
 
 [Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.
