@@ -6,6 +6,8 @@
 
 This domain preserves run delivery, resource safety, incident diagnosis, historical stops and subsequent explicit resumes.
 
+- [QAT delivery preparation R1](../../campaign_2026-10-13/qat_renewable_r1/delivery_r1/README.md) freezes the source-qualified clean-T3 F0 seed-3 CP5 ancestry, nested whole-component fit subsets, matched one-epoch FP32/W4/mixed-W4-W8 profile and fit vectors, and fresh full-valid feature-only evaluation commands. The 10%/30% runs are adaptation diagnostics because parent and teachers saw the complete fit membership; no fits or profiles were run by this actor. Its receipt preserves the TPU V7 unsupported dataset_ref failure and exact narrow V8 repair requirement.
+
 - [October 13 shared-runtime resume](../../campaign_2026-10-13/strategy_execution_r1/RESOURCE_RESUME_R1.json) records the user's renewed authority, original GPU-lock reuse and preserved barrier history. [Independent resource review R2](../../campaign_2026-10-13/strategy_execution_r1/reviews/resource_r2/README.md) passed the first zero-active-worker admission and 55 tests. Active-worker/support overlap uses conservative full reservations because sequential cgroup samples have a remaining race. No model result is implied.
 
 ## Read these sources

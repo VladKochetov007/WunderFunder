@@ -12,7 +12,7 @@ import torch
 import scripts.export_onnx as export_onnx
 import scripts.predict_run as predict_run
 import scripts.train_rnn as train_rnn
-from scripts.train_rnn import load_e540_fit_subset
+from scripts.train_rnn import load_component_fit_subset, load_e540_fit_subset
 from wnn.features import event_features_torch
 from wnn.nn import RNNModel
 from wnn.numeric_ple import NumericFeatureMap, fit_training_quantile_knots
@@ -263,12 +263,16 @@ def test_ple_matches_every_row_stream_and_resets_between_sequences() -> None:
 
 
 def _subset_manifest(
-    train: list[int], valid: list[int], components: list[int], evaluation: list[int]
+    train: list[int],
+    valid: list[int],
+    components: list[int],
+    evaluation: list[int],
+    experiment_id: str = "E540",
 ) -> dict[str, object]:
     members = sorted([("train", group) for group in train] + [("valid", group) for group in valid])
     return {
         "version": 1,
-        "experiment_id": "E540",
+        "experiment_id": experiment_id,
         "split_manifest_sha256": "split-sha",
         "selected_groups": {"train": train, "valid": valid},
         "selected_components": components,
@@ -329,6 +333,36 @@ def test_fit_subset_requires_complete_non_evaluation_components(tmp_path: Path) 
 
     path.write_text(json.dumps(_subset_manifest([1, 2], [14], [100], [14])))
     with pytest.raises(ValueError, match="outside the fit split"):
+        load_e540_fit_subset(path, split)
+
+
+def test_component_fit_subset_binds_non_e540_experiment(tmp_path: Path) -> None:
+    split = CampaignSplit(
+        path=tmp_path / "split.json",
+        sha256="split-sha",
+        fold=0,
+        n_folds=2,
+        train_groups=(1, 2),
+        valid_groups=(10,),
+        evaluation_groups=(14,),
+        components=(
+            ("train", 1, 100),
+            ("train", 2, 100),
+            ("valid", 10, 100),
+            ("valid", 14, 500),
+        ),
+    )
+    experiment_id = "E-QAT-DEPLOYMENT-20261013-R1"
+    path = tmp_path / "qat_subset.json"
+    path.write_text(json.dumps(_subset_manifest([1, 2], [10], [100], [14], experiment_id)))
+
+    subset = load_component_fit_subset(path, split, expected_experiment_id=experiment_id)
+    assert subset["train_groups"] == [1, 2]
+    assert subset["valid_groups"] == [10]
+    assert subset["manifest"]["experiment_id"] == experiment_id
+    with pytest.raises(ValueError, match="different experiment"):
+        load_component_fit_subset(path, split, expected_experiment_id="E540")
+    with pytest.raises(ValueError, match="different experiment"):
         load_e540_fit_subset(path, split)
 
 
