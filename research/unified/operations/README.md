@@ -116,3 +116,5 @@ The October12 stop and its terminal-state archive remain preserved as historical
 [Learned-scale evaluation admission recovery](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_LSQ_LEARNED_RECOVERY_R2.json) preserves the pre-start17.11GB committed-memory refusal and waits for the other native replay to finish before a fresh attempt. The same checkpoint, code, 1GB worker bound and17GB target are retained; this is an execution guard, not a scientific failure.
 
 [Navigation verification R3](../../campaign_2026-10-13/qat_renewable_r1/INDEX_VERIFICATION_R3.json) records successful tree generation and six-file local link validation. The subsequent check reached the freshness test and reported stale generated catalogs during live execution; this is not represented as a complete integrity-check pass.
+
+[Terminal execution snapshot R3](../../campaign_2026-10-13/qat_renewable_r1/TERMINAL_EXECUTION_SNAPSHOT_R3.json) and [raw-file navigation](../../campaign_2026-10-13/qat_renewable_r1/README.md) pin successful full-data controls and the completed LSQ pair, while preserving the diagnosed17GB pre-start refusal as operational evidence. The active GPU worker remains live.
