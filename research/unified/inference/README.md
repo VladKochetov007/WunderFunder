@@ -36,6 +36,7 @@ Runtime claims must name the hardware, exact ZIP, callback protocol, complete-te
 [Checkpoint-path correction](../../campaign_2026-10-13/qat_renewable_r1/POSTFIT_QAT_CHECKPOINT_PATH_CORRECTION_R1.md) retains the original exact-export receipt and corrects its smoke label: the recorded hash identifies `model.pt`; its normalized tensor payload is byte-identical to `model_ep0.pt`, though the smoke did not explicitly resolve `@ep0`.
 
 [Learned row-scale QAT specification](../../campaign_2026-10-13/qat_renewable_r1/LSQ_ROW_SCALE_SPEC_R1.md) describes the opt-in LSQ-inspired scale derivative, matched initial-representation invariant, and optimizer decay semantics. The [prototype receipt](../../campaign_2026-10-13/qat_renewable_r1/LSQ_ROW_SCALE_PROTOTYPE_R1.md) records code and 23 passing bounded CPU checks, including actual trainer resume/EMA export; no fit or scale-learning benefit is claimed.
+[Independent activation-aware trainer review](../reviews/QAT_ACTIVATION_AWARE_TRAINER_PROFILE_REVIEW_R1.md) clears only a bounded first-chunk full-shape compiler/resource profile after root admission. It checks FP32 recurrent state, post-encoder/recurrent A8 boundaries and weight-QAT cache updates; it does not establish a full-fit result, native export or quality gain.
 
 ## QAT native transport — 2026-10-13
 

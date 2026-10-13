@@ -1,0 +1,44 @@
+{
+  "schema": "independent_activation_aware_trainer_profile_review_v1",
+  "decision": "go_bounded_actual_shape_gpu_engineering_profile_after_root_resource_admission",
+  "fit_admission": false,
+  "quality_status": "not_evaluated",
+  "profile_scope": {
+    "modes": ["scan_a8", "scan_fp32"],
+    "optimizer_updates_per_mode": 2,
+    "total_optimizer_updates": 4,
+    "batch_sequences": 16,
+    "forward_rows_per_update": 1000,
+    "initial_state": "zero at first chunk of each fitting sequence batch",
+    "full_causal_100_update_profile_required_before_fit": true
+  },
+  "source": {
+    "initial_reviewed_revision": "99987feda784c1e157adaae5f6e57b4daa66996c",
+    "reviewed_successor": "5f6812b098fdf4c88e6ccb496a0343e159781eef",
+    "successor_parent": "99987feda784c1e157adaae5f6e57b4daa66996c",
+    "trainer_sha256": "7f69848bb460914af41f5f06bf6b76cb9c84f9aeed57bfdc7abf78dbb2cd3008",
+    "activation_backend_sha256": "9ccdfb864222ef77c139cd64ca1adf420e6939dea652fd37e59a93c484a397b7",
+    "profile_wrapper_sha256": "9d5680059f6d6104e0f2ca82a2ab93941cc44ad45c77b77de951c74b6944c901",
+    "recipe_sha256": "c08c6a7c46d1d117521153b0cd233410695cf738d7784d32d26de80f7a92e585",
+    "profile_plan_sha256": "78358d3b4a31ffb0d791280fad4b6e447172ec2dfd54e75bd6d3fd7175ce13c5"
+  },
+  "independent_checks": {
+    "diff_reviewed": true,
+    "a8_gru_equations_and_scope_reviewed": true,
+    "finite_domain_and_zero_vector_semantics_reviewed": true,
+    "eager_qat_replacements_and_cache_invalidation_reviewed": true,
+    "cross_mode_checkpoint_membership_normalization_sampler_identity_checks_reviewed": true,
+    "resume_contract_binds_backend_flag_and_source": true,
+    "stdlib_ast_parse": "passed for train_rnn.py, profile_activation_qat.py, activation_qat.py",
+    "torch_tests_or_import": "not run",
+    "gpu_profile": "not run",
+    "fit_or_quality_evaluation": "not run"
+  },
+  "limitations": [
+    "The private higher-order scan and Inductor APIs have not been exercised by this review; the actual-shape GPU profile must confirm runtime compatibility.",
+    "The profile only repeats the zero-initial-state first chunk and does not validate carried-state continuation or the full causal update trajectory.",
+    "No native export, deployed predictor, complete callback comparison, quality score or fit result is established.",
+    "EMA/SWA activation-A8 behavior is outside the frozen no-EMA/no-SWA profile and requires an explicit future contract."
+  ],
+  "owner": "root controls GPU admission, execution and terminal profile receipt"
+}
