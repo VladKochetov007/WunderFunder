@@ -280,12 +280,7 @@ def load_submission(package: Path, level: str) -> tuple[Any, Any, str]:
     if "wnn_native" in sys.modules:
         raise RuntimeError("wnn_native is already imported; invoke each ISA level in a fresh process")
     os.environ["WNN_NATIVE_LEVEL"] = level
-    solution = package / "solution.py"
-    spec = importlib.util.spec_from_file_location("checked_zip_submission_solution", solution)
-    if spec is None or spec.loader is None:
-        raise ImportError("submission ZIP has no importable solution.py")
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    module = import_solution_module(package)
     constructor = getattr(module, "PredictionModel", None)
     if not callable(constructor):
         raise TypeError("submission solution.py lacks PredictionModel")
@@ -303,6 +298,47 @@ def load_submission(package: Path, level: str) -> tuple[Any, Any, str]:
     if not callable(getattr(model, "predict", None)):
         raise TypeError("submission PredictionModel.predict is not callable")
     return model, native_path, str(getattr(getattr(model, "model", None), "precision", "unknown"))
+
+
+def import_solution_module(package: Path) -> Any:
+    """Import solution.py with its extracted directory available for siblings.
+
+    Python caches top-level imports such as ``qat_archive`` in ``sys.modules``;
+    only the temporary search-path entry is removed after module execution.
+    """
+    solution = package / "solution.py"
+    helper_path = package / "qat_archive.py"
+    cached_helper = sys.modules.get("qat_archive")
+    if helper_path.is_file() and cached_helper is not None:
+        cached_path = getattr(cached_helper, "__file__", None)
+        if cached_path is None or Path(cached_path).resolve() != helper_path.resolve():
+            raise RuntimeError("qat_archive is already cached from a different package")
+
+    package_root = str(package.resolve())
+    original_root_entries = sys.path.count(package_root)
+    added_to_path = package_root not in sys.path
+    if added_to_path:
+        sys.path.insert(0, package_root)
+    try:
+        spec = importlib.util.spec_from_file_location("checked_zip_submission_solution", solution)
+        if spec is None or spec.loader is None:
+            raise ImportError("submission ZIP has no importable solution.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+    except BaseException:
+        if cached_helper is None:
+            sys.modules.pop("qat_archive", None)
+        raise
+    finally:
+        while sys.path.count(package_root) > original_root_entries:
+            sys.path.remove(package_root)
+
+    imported_helper = sys.modules.get("qat_archive")
+    if helper_path.is_file() and imported_helper is not None:
+        imported_path = getattr(imported_helper, "__file__", None)
+        if imported_path is None or Path(imported_path).resolve() != helper_path.resolve():
+            raise RuntimeError("submission imported qat_archive from outside its extracted package")
+    return module
 
 
 def write_report(path: Path, report: dict[str, Any]) -> None:
