@@ -1,7 +1,7 @@
 ---
 kind: experiment
 status: proposed
-created_utc: 2026-10-13T18:35:00Z
+created_utc: 2026-10-13T18:31:46.281621+00:00
 hypothesis_ids: [H-QAT-LSQ-20261013]
 experiment_ids: [E-QAT-LSQ-10PCT-F0S4-20261013-R1]
 ---

@@ -1,6 +1,6 @@
 # QAT implementation frontier
 
-Updated 2026-10-13T18:32:00+00:00. Root owns delivery under the [plan](PLAN.md) and [contract](CONTRACT.json).
+Updated 2026-10-13T18:31:46.281621+00:00. Root owns delivery under the [plan](PLAN.md) and [contract](CONTRACT.json).
 
 - Uniform recurrent W4, mixed W4/W8, exact native code/scale import and packed transport are implemented and independently reviewed. Focused Python/Rust checks and real CP5 reset/replay checks pass. Packed Q8 preserves native predictions/states on fitting trajectories. W4 reduces archives, but expands into the same resident byte kernels.
 - Complete exposed-F0 unchanged-parent scores: FP32 0.681154152, native Q8 0.681135399, uniform W4 0.680288607, mixed W4/W8 0.680057216. Each covers 468 groups, 141 components and 808,863 scored rows. Full packed-Q8 replay has the identical prediction hash as native Q8. [Baseline receipts](baseline_results_r2/README.md) pin the actual artifacts.
