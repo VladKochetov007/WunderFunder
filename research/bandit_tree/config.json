@@ -11,7 +11,7 @@
     "evaluation_exposure": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
     "resources": {
       "aggregate_cpu_cores_max": 5,
-      "aggregate_vram_bytes_max": null,
+      "aggregate_vram_bytes_max": 5000000000,
       "aggregate_ram_bytes_max": 20000000000,
       "memory_high_bytes": 18000000000,
       "local_allocator_initial_bytes": null,
@@ -33,8 +33,8 @@
       "vast_cap_usd": 70,
       "vast_prepaid_admission": "Auto-topup OFF per latest user instruction; fresh remaining credit must cover fitting, export, collection and margin before depletion. This is stricter than the $70 ceiling. Existing instance 55080658 only; no top-up, rental or billing change.",
       "support_admission_target_bytes": 17000000000,
-      "latest_scope_authority": "specs/adr/0034-strategy-execution-full-gpu-allowance.md",
-      "local_gpu_memory_policy": "Actual available device memory minus profiled configurable operating reserve; no inherited5GB cap"
+      "latest_scope_authority": "specs/adr/0037-cpu-student-frontier-and-asynchronous-probes.md",
+      "local_gpu_memory_policy": "Observed local VRAM <=5 decimal GB per latest CPU student plan"
     },
     "external_reported_public_result": {
       "score": 0.6674,
@@ -46,7 +46,7 @@
       "source": "research/campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/iterations/2026-10-05-wave20/public-result.json",
       "changes_root_public_best": false
     },
-    "active_campaign": "research/campaign_2026-10-13/strategy_execution_r1",
+    "active_campaign": "research/campaign_2026-10-14/cpu_student_frontier_r1",
     "public_best_status": "User-reported October12 H390s3/s4/Z4 half Q8 candidateC 1ya21vpd, 36m36s; not independently browser refreshed.",
     "interim_public_milestone": 0.672,
     "private_mean_cv_sacrifice_max": 0.001

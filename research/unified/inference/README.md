@@ -1,5 +1,7 @@
 # Inference, quantization, and runtime
 
+- [CPU student frontier: complete user plan](../../campaign_2026-10-14/cpu_student_frontier_r1/README.md) records fixed-weight A/B/C/D CPU policies, the eight-shape distilled-student ladder, precision/recurrence branches, causal initialization, teacher improvement and staged cross-fold/seed validation. Its contract preserves local limits and its frontier owns delivery. H-CPU-POLICY-20261014 / H-STUDENT-LADDER-20261014 / H-STATE-INIT-20261014. Authorized implementation, no new winner; CPU probes await user upload while theory and independent experiments continue. Existing folds remain exposed.
+
 This domain covers competition CPU execution, native kernels, quantization, packaging, and measured runtime.
 
 [October 13 QAT progress review](QAT_PROGRESS_REVIEW_20261013.md) synthesizes independently graded full-fold comparisons: full-data W4/mixed QAT gains +0.000622/+0.000760 over matching PTQ, with intervals crossing zero; both remain below matched Q8. It records 13 completed training runs including one control reproduction, measured archive savings without resident-memory/runtime savings, pending seed/fold evidence and the conditional path to stronger complete blends. Controller synthesis; no public gain or rank forecast (H-QAT-W4/A8/LSQ-20261013).

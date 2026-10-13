@@ -1,5 +1,7 @@
 # Research library
 
+[Current CPU student frontier](research/campaign_2026-10-14/cpu_student_frontier_r1/README.md) contains the complete approved plan, resource/comparison contract and live delivery frontier. Fixed-weight CPU probes, architecture/precision and causal-state experiments proceed with theory and cloud recovery; user uploads are asynchronous. No new winner is claimed at entry.
+
 Start with the [unified research library](research/unified/README.md) for a topic-based guide, shared note format, and links to the dated archive. The [October 12, 2026 archive](research/unified/archive/2026-10-12/README.md) contains the split final handoff.
 
 The [public and future private leaderboard strategy](research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md) reviews the previous approach and gives separate selection plans for the public leaderboard and two to four weeks of future private data, ranked experiments, scaling directions and decision criteria. It is a proposed research plan; its new mechanisms have not been tested.
