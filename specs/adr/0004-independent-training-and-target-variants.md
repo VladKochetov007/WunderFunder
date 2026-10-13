@@ -1,5 +1,7 @@
 # ADR-0004: Own training and explicit target variants
 
+2026-10-13 successor: [ADR0035](0035-official-team-code-and-weight-sharing.md). Own-weights-only restriction superseded; explicit target variants and evaluation requirements remain.
+
 Status: Accepted. Date: 2026-10-07.
 
 ## Context and evidence

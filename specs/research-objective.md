@@ -10,7 +10,7 @@ Preserve exploration alongside deepening a promising lineage. An individually we
 
 Requirements:
 
-- Train our model weights independently. The user confirms hosts approved the team merge; authorized recipe/code inspection does not imply reusing teammate weights.
+- Reuse official team code and weights, including teachers and initializers, under [ADR0035](adr/0035-official-team-code-and-weight-sharing.md). Record source and fitting ancestry; shared assets do not count as independent replications.
 - Use permitted supplied data and declared training membership. Keep final all-data training separate from held-out evaluation claims.
 - Preserve official metric and submission requirements. Training-target clipping is an experimental choice; official scoring clipping stays fixed.
 - Separate competition rules from submission engineering limits. Data/weight provenance and official evaluation rules remain binding. During research, model size, architecture, context, precision, ensemble size and inference cost may exceed the final submission envelope; test whether the resulting signal can become a compliant student or blend.

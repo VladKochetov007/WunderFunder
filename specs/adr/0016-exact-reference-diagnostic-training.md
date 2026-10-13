@@ -1,5 +1,7 @@
 # ADR0016: exact teammate-source diagnostic training
 
+2026-10-13 successor: [ADR0035](0035-official-team-code-and-weight-sharing.md). Diagnostic-only and fresh-weight restrictions superseded for future official-team work; the historical experiment remains unchanged.
+
 Status: accepted, 2026-10-08 Kyiv. Narrow diagnostic exception to ADR0012, based on the latest explicit user instruction.
 
 ## Basis

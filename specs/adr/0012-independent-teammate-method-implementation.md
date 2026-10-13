@@ -1,5 +1,7 @@
 # ADR0012: Independently implement shared teammate methods
 
+2026-10-13 successor: [ADR0035](0035-official-team-code-and-weight-sharing.md). Independent-reimplementation restriction superseded for the official team.
+
 Status: Accepted, 2026-10-07.
 
 The user permits reading teammates' code and sharing ideas and implementation details, but requires independently written code. They report that identical teammate code can be banned. This instruction supersedes the earlier request to directly run Maxim's implementation.

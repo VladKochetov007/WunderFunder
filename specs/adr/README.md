@@ -54,3 +54,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0033: complete endpoint compression and Sol analysis](0033-complete-endpoint-compression-and-sol-analysis.md): optimize the actual served blend under size/runtime constraints; the user's explicit Sol6.1/xhigh exception covers analysis roles, while implementations and artifact reviews remain Luna/max.
 
 - [ADR0034: resumed strategy execution and full GPU allowance](0034-strategy-execution-full-gpu-allowance.md): implement every actionable strategy-review idea, use all Kaggle allowance and actual local GPU capacity, preserve CPU/RAM/no-paid-spend constraints, and allow at most.001 mean-CV sacrifice for private robustness.
+
+- [ADR0035: official team code and weight sharing](0035-official-team-code-and-weight-sharing.md): direct reuse of official teammates' code, native libraries, weights, teachers and initializers is authorized; source/fit ancestry, independent criticism and valid evaluation remain required. Complete joint-model research before new ZIPs.
