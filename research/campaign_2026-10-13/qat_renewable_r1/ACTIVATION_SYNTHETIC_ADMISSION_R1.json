@@ -1,0 +1,49 @@
+{
+  "created_utc": "2026-10-13T18:36:33.587009+00:00",
+  "owner": "root",
+  "experiment_id": "E-QAT-A8-BACKEND-20261013-R1",
+  "decision": "admit one bounded small compiled backend probe after healthy full-data mixed fit, targeted cachehandoff and fresh guarded admission",
+  "scope": "B2/T32/F112/H64/L2 synthetic forward/backward, two modes, no optimizer or quality evidence; actualdata/fullshape remains unadmitted",
+  "source_revision": "60daafba7b6bb9fc55b62ecf3f656b48eb90726e",
+  "source_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/activation_source_r1",
+  "source_sha256": {
+    "scripts/profile_activation_qat.py": "9d5680059f6d6104e0f2ca82a2ab93941cc44ad45c77b77de951c74b6944c901",
+    "src/wnn/activation_qat.py": "9ccdfb864222ef77c139cd64ca1adf420e6939dea652fd37e59a93c484a397b7"
+  },
+  "resource_bound": {
+    "cpus": 1,
+    "host_reserve_bytes": 4000000000,
+    "timeout_seconds": 300,
+    "collection_seconds": 60,
+    "observed_vram_limit_bytes": 5000000000,
+    "basis": "Tiny model/batch/time bounds working tensors; 4GB reserve includes Torch/compiler process overhead. Single compile thread; parent<=17GB committed and worker actualGPUfree guard mandatory. Compiler resource failure is backend evidence, not model quality."
+  },
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "300s",
+    "env",
+    "TORCHINDUCTOR_COMPILE_THREADS=1",
+    "TORCHINDUCTOR_CACHE_DIR=/home/vlad/.cache/torch/inductor-qat-activation-aware-r1",
+    "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/activation_source_r1/src",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/activation_source_r1/scripts/profile_activation_qat.py",
+    "--profile-kind",
+    "synthetic_smoke",
+    "--project-root",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "--worktree-root",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/activation_source_r1",
+    "--mode",
+    "both",
+    "--device",
+    "cuda",
+    "--receipt",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_SYNTHETIC_GPU_R1.json"
+  ],
+  "output_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_SYNTHETIC_GPU_R1.json",
+  "review": "research/unified/reviews/QAT_ACTIVATION_AWARE_TRAINER_PROFILE_REVIEW_R1.md; staged engineering probe below cleared actual-shape profile",
+  "recovery": "new IDs only after diagnosed failure; no saved model/checkpoint, preserve receipt/log/cache metadata; no automatic escalation to fullshape or fit"
+}
