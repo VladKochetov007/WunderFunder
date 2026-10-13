@@ -1,0 +1,79 @@
+{
+  "actual_r2_admission_path": "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/NATIVE_EXPORT_ADMISSION_R2.json",
+  "actual_r2_admission_sha256": "5aaa036b406f79cc3767c7165d817c3959fa765cda50c77d5fb9af5f93704bcb",
+  "actual_r2_cpu_repair_path": "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/NATIVE_EXPORT_ADMISSION_R2_CPU_REPAIR.json",
+  "actual_r2_cpu_repair_sha256": "8b4559ed6df78629ae8479a9a8435ae507f5be9efa69b110ad2c238b3878ef30",
+  "experiment_id": "E-QAT-FINAL-SELF-DISTILL-20261013-R3-GRADE",
+  "grade_contract_changed": false,
+  "interpretation": "Schema compatibility defect only. It is not export, transport, metric, or quality evidence; all R3 fixed mixtures remain preregistered unchanged for R4.",
+  "r2_actual_admission_shape": {
+    "command_argv_field": "argv",
+    "command_count": 3,
+    "evaluation_keys": [
+      "evaluation_groups",
+      "fixed_sequence_reset",
+      "fold",
+      "metric",
+      "output_shape",
+      "result_fields",
+      "scope",
+      "sequence_rows"
+    ],
+    "format": "wnn.qat-native-export-admission",
+    "frozen_input_keys": [
+      "exporter",
+      "exporter_sha256",
+      "fold0_split",
+      "fold0_split_sha256",
+      "native_library",
+      "native_library_sha256",
+      "parquet_identity_source",
+      "valid_parquet",
+      "valid_parquet_sha256"
+    ],
+    "top_level_keys": [
+      "admission",
+      "attempt_policy",
+      "authority",
+      "commands",
+      "created_utc",
+      "evaluation",
+      "fit_ancestry",
+      "format",
+      "frozen_inputs",
+      "purpose",
+      "storage",
+      "vectors",
+      "version"
+    ],
+    "vector_count": 3,
+    "version": 2
+  },
+  "r3_expected_admission_shape": {
+    "required_top_level_fields": [
+      "source_sha256",
+      "native_sha256",
+      "split_sha256",
+      "ordered_panel_count",
+      "jobs"
+    ],
+    "selected_job_command_field": "command"
+  },
+  "r3_failure_point": "If bound to this actual R2 admission path, R3 verify_admissions first compares the absent top-level source_sha256 and raises; this is before member result or prediction validation. The original R3 recipe still has a pending admission path, so this finding is static compatibility evidence, not a claimed execution failure.",
+  "r3_grader_path": "scripts/grade_qat_final_blends_r3.py",
+  "r3_grader_sha256": "f274da71b5711b753b3127b042f9481ae8cf5cb21ca84295a62c0cc89b56c7b4",
+  "r3_predeclaration_path": "research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/FINAL_BLEND_GRADE_PREDECLARATION_R3.json",
+  "r3_predeclaration_sha256": "d4f33c7aeb336cd0d4304e08f939752f40348eb99e72037b8569060076f18db1",
+  "result_or_prediction_files_read": false,
+  "review_id": "QAT-FINAL-SELF-DISTILL-BLEND-GRADE-R3-SCHEMA-REJECTION-R2",
+  "schema_mapping": {
+    "data_sha256": "frozen_inputs.valid_parquet_sha256",
+    "exporter_sha256": "frozen_inputs.exporter_sha256",
+    "jobs/command": "commands/argv",
+    "native_sha256": "frozen_inputs.native_library_sha256",
+    "ordered_panel_count": "evaluation.evaluation_groups (integer count 468; ordered values are loaded from the SHA-pinned split and verified against each member result)",
+    "split_sha256": "frozen_inputs.fold0_split_sha256"
+  },
+  "status": "static_schema_incompatibility_found_before_scoring",
+  "verification_kind": "Read-only source/fixture schema comparison; the R3 CLI was not run against result or prediction outputs."
+}
