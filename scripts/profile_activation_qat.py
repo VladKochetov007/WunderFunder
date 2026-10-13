@@ -107,6 +107,10 @@ def _recipe_arguments(
         "optimizer": "fresh AdamW from frozen recipe; two bounded first-chunk updates only",
         "objective": "existing train_rnn WMSE distillation, structural and next-change losses",
         "forward_scope": "first 1000 rows from each actual fitting sequence, from sequence origin",
+        "profile_loader_deviation": (
+            "only --fast and --pin-memory are removed for same-batch host reuse; explicit "
+            "--fused-adam, --sync-free and --prop-cache flags remain"
+        ),
         "argv": command,
     }
     return command, recipe_summary
@@ -221,6 +225,8 @@ def _actual_profile(args: argparse.Namespace, receipt: dict[str, Any]) -> int:
             evidence = mode_receipt["activation_backend_evidence"]
             update_evidence = mode_receipt["update_evidence"]
             run_provenance = mode_receipt["run_provenance"]
+            qat_updates = evidence.get("weight_qat_update_evidence", []) if isinstance(evidence, dict) else []
+            fingerprints = evidence.get("represented_weight_fingerprints", []) if isinstance(evidence, dict) else []
             valid = (
                 result.returncode == 0
                 and mode_receipt["profile"] is not None
@@ -228,6 +234,16 @@ def _actual_profile(args: argparse.Namespace, receipt: dict[str, Any]) -> int:
                 and update_evidence.get("valid_for_throughput") is True
                 and isinstance(evidence, dict)
                 and evidence.get("optimizer_updates") == 2
+                and len(qat_updates) == 2
+                and all(isinstance(update, dict) for update in qat_updates)
+                and all(
+                    update.get("cache_identity_valid_before_update") is True
+                    and update.get("weight_cache_cleared_after_optimizer_step") is True
+                    and update.get("latent_versions_advanced") is True
+                    for update in qat_updates
+                )
+                and len(fingerprints) >= 2
+                and evidence.get("represented_weights_changed_between_first_two_forwards") is True
                 and evidence.get("first_forward_compile_seconds") is not None
                 and evidence.get("first_backward_compile_seconds") is not None
                 and isinstance(run_provenance, dict)
@@ -255,9 +271,39 @@ def _actual_profile(args: argparse.Namespace, receipt: dict[str, Any]) -> int:
             )
         mode_receipt["finished_utc"] = datetime.now(UTC).isoformat()
         _write_receipt(args.receipt, receipt)
+    paired_identity_valid = True
+    if args.mode == "both" and all(
+        mode["backend_status"] == "profile_complete" for mode in receipt["modes"].values()
+    ):
+        a8 = receipt["modes"]["a8"]
+        no_a8 = receipt["modes"]["no_a8"]
+        provenance_fields = (
+            "initial_checkpoint_sha256",
+            "split_manifest_sha256",
+            "fit_subset_manifest_sha256",
+            "fit_subset_members_sha256",
+            "fit_membership_identity",
+            "normalization_identity",
+        )
+        comparisons = {
+            field: a8["run_provenance"].get(field) == no_a8["run_provenance"].get(field)
+            for field in provenance_fields
+        }
+        comparisons["sample_order_identity"] = (
+            a8["batch_provenance"].get("sample_order_identity")
+            == no_a8["batch_provenance"].get("sample_order_identity")
+        )
+        receipt["paired_identity_checks"] = comparisons
+        paired_identity_valid = all(comparisons.values())
+        if not paired_identity_valid:
+            receipt["paired_identity_failure"] = (
+                "scan_fp32 and scan_a8 profiles did not share identical checkpoint, "
+                "fit membership, normalization or first-batch order"
+            )
     receipt["backend_status"] = (
         "profile_complete"
-        if all(mode["backend_status"] == "profile_complete" for mode in receipt["modes"].values())
+        if paired_identity_valid
+        and all(mode["backend_status"] == "profile_complete" for mode in receipt["modes"].values())
         else "backend_failure"
     )
     return 0 if receipt["backend_status"] == "profile_complete" else 1

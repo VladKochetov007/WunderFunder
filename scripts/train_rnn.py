@@ -24,7 +24,6 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
-from wnn.activation_qat import ActivationQATModel, require_finite_activation_a8
 from wnn.block_memory_attention import BlockMemoryAttention
 from wnn.data import (
     CORRUPT_TRAIN_ROW_GROUPS,
@@ -41,7 +40,6 @@ from wnn.distillation import (
     four_family_weighted_mse,
 )
 from wnn.distillation_cache import validate_distillation_cache
-from wnn.event_content import EventContentModel
 from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch, online_zscore_torch
 from wnn.metric import block_aggregate_score, block_scores, score
 from wnn.nn import (
@@ -67,78 +65,40 @@ from wnn.outcomes import (
     sequence_class,
     structure_labels,
 )
-from wnn.privileged import (
-    PRIVILEGED_MODES,
-    load_inner_manifest,
-    privileged_inputs,
-    validate_crossfit_cache,
-)
 from wnn.propensity import load_propensity, propensity
+from wnn.privileged import (PRIVILEGED_MODES, load_inner_manifest, privileged_inputs,
+                            validate_crossfit_cache)
 from wnn.quantization import policy_metadata
-from wnn.research_features import (
-    MOMENT_FEATURE_MODES,
-    RESEARCH_FEATURE_MODES,
-    fit_causal_moment_prior,
-    research_feature_control_width,
-    research_feature_names,
-    research_features_torch,
-    validate_causal_moment_prior,
-)
+from wnn.structured_state import StructuredStateModel
+from wnn.event_content import EventContentModel
 from wnn.resources import configure_torch, cpu_threads, dataloader_budget
-from wnn.run_identity import (
-    EpochUpdateCounter,
-    group_identity,
-    normalization_identity,
-    sample_order_identity,
-    scaler_source_identity,
-)
-from wnn.sentinel import INDICATOR_MODES, VALUE_MODES, SentinelInputProjection, SentinelPreprocessor
+from wnn.research_features import (MOMENT_FEATURE_MODES, RESEARCH_FEATURE_MODES,
+                                   fit_causal_moment_prior, research_feature_control_width,
+                                   research_feature_names,
+                                   research_features_torch, validate_causal_moment_prior)
+from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_identity,
+                              sample_order_identity, scaler_source_identity)
+from wnn.splits import CampaignSplit, dev_halves, file_sha256, load_campaign_split, valid_row_groups
+from wnn.spread_aux import (PackedSpreadCache, structural_loss, validate_spread_cache,
+                            validate_spread_parent)
+from wnn.training_controls import (DistilledLoss, blended_target, distilled_macro_losses,
+                                   detach_boundary_offset, ema_decay_per_update, shuffled_masses)
+from wnn.training_credit import credit_edge_scales
+from wnn.training_dynamics import (Dynamics, add_arguments as add_dynamics_arguments,
+                                   build_optimizer, build_scheduler, switch_optimizer)
+from wnn.training_sampling import EpochOrderSampler, init_qmc_
+from wnn.training_factorized import (configure_factorized, factorized_forward,
+                                      factorized_inference_state)
+from wnn.sentinel import (INDICATOR_MODES, VALUE_MODES, SentinelInputProjection,
+                          SentinelPreprocessor)
 from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
 from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
-from wnn.splits import CampaignSplit, dev_halves, file_sha256, load_campaign_split, valid_row_groups
-from wnn.spread_aux import (
-    PackedSpreadCache,
-    structural_loss,
-    validate_spread_cache,
-    validate_spread_parent,
-)
-from wnn.structured_state import StructuredStateModel
-from wnn.training_controls import (
-    DistilledLoss,
-    blended_target,
-    detach_boundary_offset,
-    distilled_macro_losses,
-    ema_decay_per_update,
-    shuffled_masses,
-)
-from wnn.training_credit import credit_edge_scales
-from wnn.training_dynamics import Dynamics, build_optimizer, build_scheduler, switch_optimizer
-from wnn.training_dynamics import add_arguments as add_dynamics_arguments
-from wnn.training_factorized import (
-    configure_factorized,
-    factorized_forward,
-    factorized_inference_state,
-)
-from wnn.training_qat import (
-    QAT_LEARN_SCALE_MODES,
-    QAT_MODES,
-    configure_qat,
-    inference_state,
-    invalidate_qat_cache,
-    project_qat_scales_,
-    qat_forward,
-    qat_weight_replacements,
-    scale_learning_metadata,
-)
-from wnn.training_sampling import EpochOrderSampler, init_qmc_
-from wnn.training_state import (
-    atomic_save_training_state,
-    capture_training_state,
-    load_training_state,
-    loader_state,
-    restore_rng,
-    restore_training_state,
-)
+from wnn.training_qat import (QAT_LEARN_SCALE_MODES, QAT_MODES, configure_qat,
+                              inference_state, invalidate_qat_cache, qat_forward,
+                              project_qat_scales_, qat_weight_replacements, scale_learning_metadata)
+from wnn.training_state import (atomic_save_training_state, capture_training_state,
+                                load_training_state, loader_state, restore_rng,
+                                restore_training_state)
 from wnn.training_views import origin_windows, update_ema_for_rows
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
@@ -992,6 +952,8 @@ def fit_e540_numeric_preprocessing(
 def forward_chunk(model, inputs, sl, state):
     activation_backend = getattr(model, "_activation_qat_backend", None)
     if activation_backend is not None:
+        from wnn.activation_qat import require_finite_activation_a8
+
         chunk = inputs[:, sl]
         require_finite_activation_a8(chunk, "input chunk")
         if state is not None:
@@ -2392,7 +2354,7 @@ def main():
         if campaign_split is not None:
             validate_campaign_checkpoint(torch.load(propensity_path, map_location="cpu", weights_only=False), args)
         provenance["propensity_checkpoint_sha256"] = file_sha256(propensity_path)
-        if args.prop_cache:
+        if args.prop_cache and args.profile_steps and args.activation_backend != "none":
             provenance["propensity_cache"] = {
                 split: {
                     "path": str(path),
@@ -2573,6 +2535,8 @@ def main():
         model._inference_fp32 = True
     configure_qat(model, args.qat, args.qat_learn_scales)
     if args.activation_backend != "none":
+        from wnn.activation_qat import ActivationQATModel
+
         if args.qat_learn_scales:
             ap.error("activation scan currently profiles fixed-scale weight QAT only")
         if not os.environ.get("TORCHINDUCTOR_CACHE_DIR"):
@@ -2971,11 +2935,23 @@ def main():
                     with torch.autocast(device.type, dtype=amp_dtype, enabled=use_autocast):
                         out, h = forward_chunk(model, inputs, sl, h)
                     if args.profile_steps and args.activation_backend != "none" and args.qat != "none":
+                        parameters = dict(model.named_parameters())
                         qat_cache_identity = {
-                            name: model._qat_cache[name][0]
-                            for name in model._qat_names
-                            if name in model._qat_cache
+                            "cache": {
+                                name: model._qat_cache[name][0]
+                                for name in model._qat_names
+                                if name in model._qat_cache
+                            },
                         }
+                        qat_cache_identity["valid_before_update"] = all(
+                            qat_cache_identity["cache"].get(name)
+                            == (
+                                id(parameters[name]),
+                                parameters[name]._version,
+                                parameters[name].data_ptr(),
+                            )
+                            for name in model._qat_names
+                        )
                     h = detach_state(h)
                     timer.mark("forward")
                     if args.ema_teacher > 0 or args.td_alpha > 0:
@@ -3133,17 +3109,13 @@ def main():
                     parameters = dict(model.named_parameters())
                     versions_after = {name: parameters[name]._version for name in model._qat_names}
                     activation_profile_updates.append({
-                        "cache_identity_valid_before_update": all(
-                            qat_cache_identity.get(name)
-                            == (id(parameters[name]), parameters[name]._version, parameters[name].data_ptr())
-                            for name in model._qat_names
-                        ),
+                        "cache_identity_valid_before_update": qat_cache_identity["valid_before_update"],
                         "latent_parameter_versions_before": {
-                            name: int(qat_cache_identity[name][1]) for name in model._qat_names
+                            name: int(qat_cache_identity["cache"][name][1]) for name in model._qat_names
                         },
                         "latent_parameter_versions_after": versions_after,
                         "latent_versions_advanced": any(
-                            versions_after[name] != qat_cache_identity[name][1]
+                            versions_after[name] != qat_cache_identity["cache"][name][1]
                             for name in model._qat_names
                         ),
                         "weight_cache_cleared_after_optimizer_step": not model._qat_cache,

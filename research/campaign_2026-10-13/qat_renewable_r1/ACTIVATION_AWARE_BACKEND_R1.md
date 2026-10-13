@@ -32,6 +32,8 @@ represented-weight cache and gradient helpers as `training_qat.py`.
 The opt-in `train_rnn.py --activation-backend scan_fp32|scan_a8` route keeps
 the existing model loading, actual data/cache readers, training objective,
 sampler, AdamW updates and QAT cache invalidation. It is disabled by default.
+The scan implementation is imported only when this opt-in path is selected, so
+the established fused-GRU CLI does not import the private scan operator.
 The profiler derives the 10% recurrent-W4 fit argv from the frozen recipe and
 compares the compiled FP32-activation scan with A8 on the same first actual
 B16 batch, reusing it for one compile/warmup and one measured optimizer update
@@ -39,8 +41,15 @@ per mode. Only the first 1000 rows from sequence origin are forwarded; this is
 a backend smoke, not a fit-fidelity or quality experiment. The receipt records
 checkpoint, normalization, cache and source hashes; loss/gradient/parameter
 finiteness; QAT cache invalidation and represented-weight fingerprints; compile
-times; and CUDA/RSS peaks. The `synthetic_smoke` mode remains explicit and has
-no fit admission value. Backend errors are separate from quality
+times; and CUDA/RSS peaks. Propensity-cache sidecar details are collected only
+for this bounded activation profile, preserving compatibility with existing
+fit runs and caches that predate those sidecars. For same-batch host reuse the
+profile removes `--fast` and `--pin-memory` only; explicit `--fused-adam`,
+`--sync-free` and `--prop-cache` flags remain. The wrapper requires matching
+checkpoint, split/subset membership, normalization and sample-order identities
+across both modes, as well as valid pre-update cache identity, post-update
+invalidation and changed represented-weight fingerprints. The `synthetic_smoke`
+mode remains explicit and has no fit admission value. Backend errors are separate from quality
 (`quality_status: not_evaluated`).
 
 ## Recipe audit and limits
