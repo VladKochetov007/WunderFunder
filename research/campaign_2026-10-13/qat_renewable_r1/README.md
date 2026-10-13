@@ -4,6 +4,8 @@
 
 - [Contract](CONTRACT.json) binds objective, data/metric invariants, resource limits, owners and confirmation requirements.
 - [Frontier](FRONTIER.md) distinguishes implementation, actual profiling, fits, native evaluation and package readiness.
+- [Versioned quantization specification](QUANTIZATION_SPEC_R1.md) defines both new QAT policies, exact codes/scales and packing, continuation semantics and native activation/projection differences. [Native implementation receipt](../../unified/inference/QAT_NATIVE_TRANSPORT_R1.md) records the dynamic-Q8 importer and copied state diagnostic API.
+- [Real-model deployment checks](deployment_checks_r1/README.md) bind exact CP5/native/source artifacts and two complete fitting trajectories: all formats reset/replay exactly, packedQ8 matches nativeQ8 predictions/states, and W4 reduces archive bytes while resident byte-kernel weights stay unchanged. Full-fold grades and fits are pending.
 - [ADR0036](../../../specs/adr/0036-qat-renewable-capacity.md) records the latest authority and supersedes proposed 4/2/2-hour allocations without relaxing physical RAM, CPU or provider quotas.
 - [Historical E419 QAT report](../../campaign_2026-10-04/E419_RECOVERED_QAT_REPORT.md) found no established weight-only Q8 QAT gain over matched fine-tuning/PTQ on exposed F0; it motivates W4, mixed precision, activation semantics and exact export tests.
 - [Primary-source components](SOURCES.md) links the three requested RNN/RNN-T/LSQ papers, records proposed transfers and distinguishes published findings from unmeasured local hypotheses.
