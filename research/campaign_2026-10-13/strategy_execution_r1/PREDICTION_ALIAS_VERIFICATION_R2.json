@@ -1,0 +1,51 @@
+{
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn-agent-worktrees/strategy-cohort-20261013/scripts/alias_grade_prediction.py",
+    "--root",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "--run",
+    "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+    "--export-name",
+    "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_cp5_full_valid_r1",
+    "--epoch",
+    "5",
+    "--split-manifest",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "--checkpoint",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+    "--mode",
+    "verify-only"
+  ],
+  "created_utc": "2026-10-13T00:30:25Z",
+  "fixture_kind": "actual historical matched-control CP5 full-valid FP32 producer output; verify-only, no writes",
+  "helper_path": "/home/vlad/development/wunder/wnn-agent-worktrees/strategy-cohort-20261013/scripts/alias_grade_prediction.py",
+  "helper_sha256": "34bb9b4bd3a3db0685e305a644a93ba86825f7a15854eb6db69cea118a02d1a4",
+  "resource_bound": {
+    "cpus": 1,
+    "ram_bytes": 1000000000,
+    "wall_seconds": 120
+  },
+  "result": {
+    "alias": "verified-existing-hardlinks",
+    "bytes": 299680128,
+    "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "data_hardlink": true,
+    "dtype": "<f4",
+    "epoch": 5,
+    "mode": "verify-only",
+    "prediction_sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6",
+    "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+    "shape": [
+      1873,
+      20000,
+      2
+    ],
+    "sidecar_hardlink": true,
+    "sidecar_sha256": "ad3ef0a0ad9f9668ab9764f40f916752d450554517859fb6782978ca5e97348e",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "status": "pass",
+    "stdout_exact": "{\"alias\": \"verified-existing-hardlinks\", \"bytes\": 299680128, \"checkpoint_sha256\": \"e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda\", \"data_hardlink\": true, \"dtype\": \"<f4\", \"epoch\": 5, \"mode\": \"verify-only\", \"prediction_sha256\": \"f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6\", \"run\": \"clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1\", \"shape\": [1873, 20000, 2], \"sidecar_hardlink\": true, \"sidecar_sha256\": \"ad3ef0a0ad9f9668ab9764f40f916752d450554517859fb6782978ca5e97348e\", \"split_manifest_sha256\": \"09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d\", \"status\": \"pass\"}"
+  },
+  "schema": "wnn.prediction-alias-actual-producer-verification.r2"
+}
