@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 import io
+import sys
 import zipfile
+from pathlib import Path
 
 import numpy as np
 import pytest
 
 from scripts.check_submission_zip_native_parity import (
     compare_required_rows,
+    import_solution_module,
     same_float32_bits,
     validate_archive,
     validate_prediction,
@@ -55,7 +58,7 @@ def test_bitwise_comparison_accepts_identical_float32_arrays() -> None:
     assert result["actual_sha256"] == result["expected_sha256"]
 
 
-def test_archive_validation_rejects_traversal_and_symlink_entries() -> None:
+def test_archive_validation_rejects_traversal_entries() -> None:
     traversal = io.BytesIO()
     with zipfile.ZipFile(traversal, "w") as archive:
         archive.writestr("solution.py", "class PredictionModel: pass\n")
@@ -65,17 +68,64 @@ def test_archive_validation_rejects_traversal_and_symlink_entries() -> None:
     ):
         validate_archive(archive)
 
+
+def test_archive_validation_rejects_symlink_entries() -> None:
     symlink = io.BytesIO()
     with zipfile.ZipFile(symlink, "w") as archive:
         archive.writestr("solution.py", "class PredictionModel: pass\n")
         info = zipfile.ZipInfo("link")
         info.create_system = 3
-        info.external_attr = (0o120777 << 16)
+        info.external_attr = 0o120777 << 16
         archive.writestr(info, "solution.py")
     with zipfile.ZipFile(symlink) as archive, pytest.raises(
         ValueError, match="not a regular file or directory"
     ):
         validate_archive(archive)
+
+
+def test_solution_import_resolves_and_retains_zip_sibling_helper(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.delitem(sys.modules, "qat_archive", raising=False)
+    helper = tmp_path / "qat_archive.py"
+    helper.write_text("def value():\n    return 73\n", encoding="utf-8")
+    (tmp_path / "solution.py").write_text(
+        "import sys\n"
+        "from pathlib import Path\n"
+        "HERE = Path(__file__).resolve().parent\n"
+        "sys.path.insert(0, str(HERE))\n"
+        "from qat_archive import value\n"
+        "class PredictionModel:\n"
+        "    def read_value(self):\n"
+        "        return value()\n",
+        encoding="utf-8",
+    )
+    package_path = str(tmp_path.resolve())
+    original_path = list(sys.path)
+
+    module = import_solution_module(tmp_path)
+
+    assert sys.path == original_path
+    assert package_path not in sys.path
+    assert Path(sys.modules["qat_archive"].__file__).resolve() == helper.resolve()
+    assert module.PredictionModel().read_value() == 73
+
+
+def test_failed_solution_import_cleans_search_path_and_new_helper(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.delitem(sys.modules, "qat_archive", raising=False)
+    (tmp_path / "qat_archive.py").write_text("value = 73\n", encoding="utf-8")
+    (tmp_path / "solution.py").write_text(
+        "import qat_archive\nraise RuntimeError('fixture failure')\n", encoding="utf-8"
+    )
+    original_path = list(sys.path)
+
+    with pytest.raises(RuntimeError, match="fixture failure"):
+        import_solution_module(tmp_path)
+
+    assert sys.path == original_path
+    assert "qat_archive" not in sys.modules
 
 
 def test_bitwise_comparison_rejects_dtype_and_shape_drift() -> None:
