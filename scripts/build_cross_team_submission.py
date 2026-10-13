@@ -252,7 +252,12 @@ def _read_qat_release_spec(path: Path) -> tuple[dict[str, object], dict[str, obj
     preset = archive_item.get("preset")
     if preset not in ("recurrent_w4", "input_w4_recurrent_w8"):
         raise ValueError("QAT archive preset must be a versioned recurrent W4 policy")
-    from scripts.templates.qat_archive import read_qat_archive
+    if __package__:
+        from .templates.qat_archive import read_qat_archive
+    else:
+        # Direct ``python scripts/build_cross_team_submission.py`` places the
+        # scripts directory, rather than the repository root, on sys.path.
+        from templates.qat_archive import read_qat_archive
 
     archive_weights, _, archive_metadata = read_qat_archive(
         archive_path, expected_preset=cast(str, preset)

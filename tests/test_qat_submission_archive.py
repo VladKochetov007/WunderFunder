@@ -5,6 +5,7 @@ import importlib
 import json
 import os
 import shutil
+import subprocess
 import sys
 import types
 from pathlib import Path
@@ -17,7 +18,6 @@ from scripts.build_cross_team_submission import (
     NATIVE_VARIANTS,
     _read_native_manifest,
     _read_qat_release_spec,
-    build_package,
 )
 from scripts.templates.qat_archive import read_qat_archive
 from wnn.quantization import quantize_model
@@ -383,7 +383,7 @@ def test_actual_native_exact_import_and_unchanged_member_replay_when_supplied() 
         sys.path.remove(str(native_path.parent))
 
 
-def test_actual_qat_builder_package_callback_when_supplied(monkeypatch) -> None:
+def test_actual_qat_builder_cli_and_callback_when_supplied(monkeypatch) -> None:
     archive_value = os.environ.get("WNN_QAT_SOURCE_FIXTURE")
     archive_hash = os.environ.get("WNN_QAT_SOURCE_FIXTURE_SHA256")
     native_manifest_value = os.environ.get("WNN_QAT_NATIVE_MANIFEST")
@@ -408,9 +408,10 @@ def test_actual_qat_builder_package_callback_when_supplied(monkeypatch) -> None:
     recipe["name"] = "qat_cross_team_builder_fixture_r1"
     recipe_path = fixture_root / "qat_recipe_fixture.json"
     release_path = fixture_root / "qat_release_fixture.json"
-    output_path = fixture_root / "qat_package_fixture_output"
-    if output_path.exists():
-        raise FileExistsError(output_path)
+    output_path = fixture_root / "qat_package_direct_cli_fixture_output"
+    module_output_path = fixture_root / "qat_package_module_cli_fixture_output"
+    if output_path.exists() or module_output_path.exists():
+        raise FileExistsError(output_path if output_path.exists() else module_output_path)
     recipe_path.write_text(json.dumps(recipe), encoding="utf-8")
     release = {
         "version": 1,
@@ -439,17 +440,55 @@ def test_actual_qat_builder_package_callback_when_supplied(monkeypatch) -> None:
         },
     }
     release_path.write_text(json.dumps(release), encoding="utf-8")
-    try:
-        manifest = build_package(
-            inventory_path,
-            recipe_path,
-            output_path,
-            20_000_000,
-            qat_release_spec_path=release_path,
-            native_manifest_path=Path(native_manifest_value),
+
+    def build_cli(entrypoint: list[str], destination: Path) -> dict[str, object]:
+        command = [
+            sys.executable,
+            *entrypoint,
+            "--inventory",
+            str(inventory_path),
+            "--recipe",
+            str(recipe_path),
+            "--qat-release-spec",
+            str(release_path),
+            "--native-manifest",
+            native_manifest_value,
+            "--out-dir",
+            str(destination),
+            "--max-zip-bytes",
+            "20000000",
+        ]
+        child_env = os.environ.copy()
+        child_env.pop("PYTHONPATH", None)
+        completed = subprocess.run(
+            command,
+            cwd=root,
+            env=child_env,
+            capture_output=True,
+            check=False,
+            text=True,
+            timeout=160,
         )
+        assert completed.returncode == 0, (
+            f"builder CLI failed ({' '.join(entrypoint)}):\n{completed.stderr}"
+        )
+        return json.loads(completed.stdout)
+
+    try:
+        direct_result = build_cli(
+            [str(root / "scripts/build_cross_team_submission.py")], output_path
+        )
+        module_result = build_cli(["-m", "scripts.build_cross_team_submission"], module_output_path)
+        manifest_name = "qat_cross_team_builder_fixture_r1.manifest.json"
+        assert direct_result["manifest"] == str(output_path / manifest_name)
+        assert module_result["manifest"] == str(
+            module_output_path / manifest_name
+        )
+        manifest = json.loads(Path(direct_result["manifest"]).read_text(encoding="utf-8"))
         package_root = output_path / "pkg"
         assert manifest["artifact"]["bytes"] < 20_000_000
+        assert module_result["zip"]["sha256"] == direct_result["zip"]["sha256"]
+        assert module_result["zip"]["bytes"] == direct_result["zip"]["bytes"]
         assert (package_root / "solution.py").is_file()
         assert (package_root / "qat_provenance.json").is_file()
         packaged_members = json.loads((package_root / "members.json").read_text())
@@ -489,5 +528,6 @@ def test_actual_qat_builder_package_callback_when_supplied(monkeypatch) -> None:
             sys.path.remove(str(package_root / "v2"))
     finally:
         shutil.rmtree(output_path, ignore_errors=True)
+        shutil.rmtree(module_output_path, ignore_errors=True)
         recipe_path.unlink(missing_ok=True)
         release_path.unlink(missing_ok=True)

@@ -36,9 +36,11 @@ LSQ-inspired learned row-scale derivative, not a full LSQ reproduction. The
 replaced team source is inventory-bound as `E/weights_0.npz`, SHA-256
 `62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6`.
 
-Under one CPU, 500 MB and 180 seconds, the focused source-format, malformed
-archive, manifest-binding, callback and existing cross-team builder tests
-passed: **17 passed**. The actual source fixture was decoded both by the
+Under the initial one-CPU bound, the focused source-format, malformed archive,
+manifest-binding, callback and existing cross-team builder tests passed:
+**17 passed**. After the CLI correction, the same suite passed again in 20.03
+seconds under 25% CPU, 500 MB and 180 seconds, with `PYTHONPATH` removed in
+both direct-script and module-mode builder subprocesses. The actual source fixture was decoded both by the
 package-local reader and `wnn.quantization_export`; all exact code and scale
 arrays matched. Native `EnsemblePredictor` constructor-generated maps were
 exported and re-imported for the original four weights, and callback outputs
@@ -50,11 +52,11 @@ under the same 500 MB cap; its prediction replay after changing `seq_ix` was
 bitwise-identical. The temporary ZIP and package directory were removed after
 the test.
 
-Exact focused command (the actual-fixture environment paths are
-hash-bound in the code/test invocation):
+Exact focused command after the CLI correction (the test asserts the fixture
+SHA and removes `PYTHONPATH` from both builder subprocesses):
 
 ```sh
-WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 \
+WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=25% WNN_THREADS=1 \
 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=180s \
 WNN_QAT_SOURCE_FIXTURE=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/lsq_s4_10pct_learned_deployment_r1/recurrent_w4.npz \
 WNN_QAT_SOURCE_FIXTURE_SHA256=d205f01063c272bfbd4837c9891a190f60547365a3d4a0feea487deaf4b7c182 \
@@ -77,6 +79,22 @@ python scripts/build_cross_team_submission.py \
   --native-manifest research/campaign_2026-10-13/qat_renewable_r1/final_release_r1/NATIVE_SET_R1.json \
   --out-dir <new-durable-package-directory>
 ```
+
+## Direct-script import correction
+
+The first production-style direct-script invocation failed before creating an
+output directory: `python scripts/build_cross_team_submission.py ...
+--qat-release-spec ...` raised `ModuleNotFoundError: No module named
+'scripts'` while importing `scripts.templates.qat_archive`. The original
+pytest fixture had imported the builder as `scripts.build_cross_team_submission`
+with the repository root already on `sys.path`, so it did not exercise the
+direct-script import context. The builder now uses a relative helper import in
+module mode and `templates.qat_archive` when run directly, where Python places
+the `scripts/` directory on `sys.path`. The actual S4 fixture subprocess
+regression runs both CLI forms with `PYTHONPATH` removed and verifies that they
+produce the same ZIP hash; the callback replay remains covered by the direct
+build's package fixture. This is an integration repair only and makes no change
+to package contents or model behavior.
 
 The release spec must bind the exact all-data final checkpoint/archive selected
 by the controller and state its seed, update count, parent checkpoint hash,
