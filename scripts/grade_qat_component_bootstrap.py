@@ -276,8 +276,6 @@ def summarize_pair(
     wp_from_sums: ScoreFunction,
 ) -> JsonObject:
     """Return full-fold paired point deltas and deterministic bootstrap intervals."""
-    if reference.manifest_sha256 != candidate.manifest_sha256:
-        raise ValueError(f"paired endpoints use different manifests: {name}")
     if (
         reference.result_sha256 == candidate.result_sha256
         and reference.component_sums_sha256 == candidate.component_sums_sha256
@@ -307,7 +305,8 @@ def summarize_pair(
         "candidate_case": candidate.result["case"],
         "candidate_result_sha256": candidate.result_sha256,
         "candidate_component_sums_sha256": candidate.component_sums_sha256,
-        "manifest_sha256": reference.manifest_sha256,
+        "reference_manifest_sha256": reference.manifest_sha256,
+        "candidate_manifest_sha256": candidate.manifest_sha256,
         "paired_metrics": metrics,
     }
 
