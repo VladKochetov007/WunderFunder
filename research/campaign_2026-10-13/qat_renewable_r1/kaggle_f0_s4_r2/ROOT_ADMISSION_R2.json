@@ -1,0 +1,211 @@
+{
+  "schema": "qat-kaggle-f0-s4-profile-root-admission-r2",
+  "status": "pre_push_gates_passed",
+  "this_receipt_precedes_kernel_push": true,
+  "admission_observed_utc": {
+    "final_pre_push_snapshot_completed_utc": "2026-10-13T19:06:52.649814+00:00"
+  },
+  "authority": {
+    "root_authorization": "one R2 PROFILE dispatch only; no fit, duplicate, or automatic retry; admission is conditional on all listed gates",
+    "independent_critic": "GO 19458e69 (root-reported review identifier)",
+    "provider_attempt_limit": 1,
+    "automatic_retries": 0,
+    "this_receipt_precedes_kernel_push": true
+  },
+  "kernel": {
+    "id": "vladkochetov07/wnn-qat-f0-s4-profile-r2-runner",
+    "title": "wnn-qat-f0-s4-profile-r2 runner",
+    "private": true,
+    "provider": "Kaggle GPU",
+    "machine_shape": "NvidiaTeslaT4",
+    "provider_timeout_seconds": 1800,
+    "finalization_reserve_seconds": 300,
+    "collection_limit_bytes": 100000000,
+    "candidate_specs": [
+      "qat_deploy_f0_s4_100pct_fp32_profile_r1",
+      "qat_deploy_f0_s4_100pct_uniform_w4_profile_r1",
+      "qat_deploy_f0_s4_100pct_mixed_w4w8_profile_r1"
+    ],
+    "worker_reservation_bytes_each": 8589934592,
+    "host_operational_headroom_bytes": 1000000000,
+    "preflight_barrier": "separate preflight runner must pass its terminal status and input receipt before the unchanged candidate admission gate and three-worker runner",
+    "push_command": "kaggle kernels push --path /home/vlad/qa4r2/kernel --timeout 1800"
+  },
+  "frozen_packet": {
+    "packet_commit": "5a0112deb8eea2982ccc898cd9266db90671bdc4",
+    "packet_json_sha256": "61bbf4afb69214e966200ede1e2c9c2faa748e40afaefceb97e154926c0665af",
+    "binding_json_sha256": "0a9d9e80cda8f719c7745224e4a160de9cfb85f3951acfbc1f58bad94f43309a",
+    "bootstrap_sha256": "ae5806e09548673a317af4440710fd15fd82aa680a6ec897027fccd74571192e",
+    "bootstrap_bytes": 27410,
+    "bundle_archive_sha256": "06e6a9cca4eb3533f6003290a773be1c8f75b3538f344ba2a9ec83ad771b5719",
+    "bundle_archive_bytes": 260008,
+    "entrypoint_template_sha256": "a2e5d9343431e7fc018ffa8231c9432463691a49b7e5f0b6d23c9a88a740303a",
+    "profile_bundle": "vladkochetov07/wnn-qat-f0-s4-profile-r2",
+    "profile_bundle_version": 1,
+    "profile_bundle_manifest_sha256": "12d8550ddb860b1f100ecb70788810a4fd33b695322a2a311ad4d281ead692a4",
+    "asset_bundle": "vladkochetov07/wnn-qat-f0-s4-assets-r1/version1",
+    "reused_asset_manifest_sha256": "0ebf4803f542d1831258d1ed3e6cee5bcb926a04c51c6d7972469d05ad787384",
+    "short_physical_upload_root": "/home/vlad/qa4r2",
+    "collection_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/collected/profile_attempt_001"
+  },
+  "uploaded_file_hashes": {
+    "profile_bundle/bundle.wnn": {
+      "bytes": 260008,
+      "sha256": "06e6a9cca4eb3533f6003290a773be1c8f75b3538f344ba2a9ec83ad771b5719",
+      "remote_download_matches": true
+    },
+    "profile_bundle/bundle-manifest.json": {
+      "bytes": 24879,
+      "sha256": "12d8550ddb860b1f100ecb70788810a4fd33b695322a2a311ad4d281ead692a4",
+      "remote_download_matches": true
+    },
+    "profile_bundle/dataset-metadata.json": {
+      "bytes": 169,
+      "sha256": "7b52c6c23e8f22312f2648fc1fb73382624bc90c148e7f585488c317c5b9d3ec",
+      "remote_download_matches": null
+    },
+    "kernel/kernel.py": {
+      "bytes": 27410,
+      "sha256": "ae5806e09548673a317af4440710fd15fd82aa680a6ec897027fccd74571192e",
+      "remote_download_matches": null
+    },
+    "kernel/kernel-metadata.json": {
+      "bytes": 575,
+      "sha256": "339a33a2f8ac0da97be0a049547ff902f15ecb614450a98a53d99a74e912131e",
+      "remote_download_matches": null
+    },
+    "assets/assets-manifest.json": {
+      "bytes": 6419,
+      "sha256": "0ebf4803f542d1831258d1ed3e6cee5bcb926a04c51c6d7972469d05ad787384",
+      "downloaded_asset_version": 1
+    }
+  },
+  "provider_state_at_gate": {
+    "r2_kernel_inventory": "Not found immediately before one authorized push",
+    "r1_kernel_status": "ERROR",
+    "tpu_v8_status": "QUEUED",
+    "r2_bundle_status": "ready",
+    "r2_bundle_version": 1,
+    "r2_bundle_private": true,
+    "assets_r1_status": "ready",
+    "assets_r1_current_version": 1,
+    "fold0_assets_status": "ready",
+    "wunder_funder_status": "ready"
+  },
+  "typed_quota_gate": {
+    "source": "KaggleApi.quota_view typed timedelta.total_seconds(); not the lossy display conversion",
+    "gpu_used_seconds": 74064.28,
+    "gpu_total_allowed_seconds": 108000.0,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_remaining_seconds": 33935.72,
+    "gpu_required_minimum_seconds": 3600.0,
+    "gpu_gate_passed": true,
+    "tpu_used_seconds": 0.0,
+    "tpu_total_allowed_seconds": 72000.0,
+    "tpu_reserved_seconds": 0.0,
+    "tpu_remaining_seconds": 72000.0
+  },
+  "local_resource_gate": {
+    "source": "wnn-campaign.slice cgroup memory.current, direct child cgroups, and durable attempt records",
+    "parent_control_group": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "parent_memory_current_bytes": 9761701888,
+    "parent_memory_max_bytes": 19999997952,
+    "parent_cpu_max": "500000 100000",
+    "active_managed_attempts": [],
+    "active_managed_worker_reserved_bytes": 0,
+    "direct_child_cgroups": [
+      {
+        "name": "wnn-codex-research-watch.service",
+        "memory_current_bytes": 32985088,
+        "memory_max_bytes": 134217728,
+        "unused_limit_bytes": 101232640,
+        "cpu_max": "5000 100000"
+      },
+      {
+        "name": "wnn-qat-r2-cloud-dispatch-20261013-v4.scope",
+        "memory_current_bytes": 35885056,
+        "memory_max_bytes": 749998080,
+        "unused_limit_bytes": 714113024,
+        "cpu_max": "50000 100000"
+      },
+      {
+        "name": "wnn-research-monitor.service",
+        "memory_current_bytes": 45895680,
+        "memory_max_bytes": 536870912,
+        "unused_limit_bytes": 490975232,
+        "cpu_max": "100000 100000"
+      },
+      {
+        "name": "wnn-slice-filecache-guard.service",
+        "memory_current_bytes": 2129920,
+        "memory_max_bytes": 99999744,
+        "unused_limit_bytes": 97869824,
+        "cpu_max": "5000 100000"
+      }
+    ],
+    "conservative_committed_bytes": 11165892608,
+    "conservative_committed_calculation": "parent current + each listed direct child's (memory.max - memory.current); includes this task's remaining 750MB bounded scope allowance and both resident service limits",
+    "maximum_committed_target_bytes": 17000000000,
+    "memory_gate_passed": true,
+    "local_gpu_memory_used_mib": 75,
+    "local_gpu_memory_total_mib": 6144,
+    "local_gpu_utilization_percent": 0,
+    "source_observed_utc": "2026-10-13T19:06:52.649814+00:00"
+  },
+  "profile_only": true,
+  "fit_authorized": false,
+  "dataset_versions_at_push_gate": {
+    "vladkochetov07/wnn-qat-f0-s4-profile-r2": {
+      "version": 1,
+      "private": true,
+      "status": "ready",
+      "updated": "2026-10-13T18:56:21.473000"
+    },
+    "vladkochetov07/wnn-qat-f0-s4-assets-r1": {
+      "version": 1,
+      "private": true,
+      "status": "ready",
+      "updated": "2026-10-13T17:28:28.820000"
+    },
+    "vladkochetov07/wnn-c20261004-fold0-assets": {
+      "status": "ready"
+    },
+    "vladkochetov07/wunder-funder": {
+      "status": "ready"
+    }
+  },
+  "uploaded_file_hashes_verified_at_push_gate": {
+    "kernel/kernel.py": {
+      "bytes": 27410,
+      "sha256": "ae5806e09548673a317af4440710fd15fd82aa680a6ec897027fccd74571192e"
+    },
+    "kernel/kernel-metadata.json": {
+      "bytes": 575,
+      "sha256": "339a33a2f8ac0da97be0a049547ff902f15ecb614450a98a53d99a74e912131e"
+    },
+    "profile_bundle/bundle.wnn": {
+      "bytes": 260008,
+      "sha256": "06e6a9cca4eb3533f6003290a773be1c8f75b3538f344ba2a9ec83ad771b5719"
+    },
+    "profile_bundle/bundle-manifest.json": {
+      "bytes": 24879,
+      "sha256": "12d8550ddb860b1f100ecb70788810a4fd33b695322a2a311ad4d281ead692a4"
+    },
+    "profile_bundle/dataset-metadata.json": {
+      "bytes": 169,
+      "sha256": "7b52c6c23e8f22312f2648fc1fb73382624bc90c148e7f585488c317c5b9d3ec"
+    },
+    "assets/assets-manifest.json": {
+      "bytes": 6419,
+      "sha256": "0ebf4803f542d1831258d1ed3e6cee5bcb926a04c51c6d7972469d05ad787384"
+    },
+    "bundle-download/bundle.wnn": {
+      "bytes": 260008,
+      "sha256": "06e6a9cca4eb3533f6003290a773be1c8f75b3538f344ba2a9ec83ad771b5719"
+    },
+    "bundle-download/bundle-manifest.json": {
+      "bytes": 24879,
+      "sha256": "12d8550ddb860b1f100ecb70788810a4fd33b695322a2a311ad4d281ead692a4"
+    }
+  }
+}
