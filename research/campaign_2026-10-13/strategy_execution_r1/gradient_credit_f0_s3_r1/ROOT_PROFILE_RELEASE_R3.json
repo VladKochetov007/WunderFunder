@@ -1,0 +1,33 @@
+{
+  "schema": "wnn.strategy.s14-profile-root-release.v1",
+  "created_utc": "2026-10-13T00:43:33.561700+00:00",
+  "reviewer": "root",
+  "packet_sha256": "a3af53c583f936567b68cc7d353885fd3af6c1ef748db77baebc3dfe1270026c",
+  "source_preflight_sha256": "97e74dbacf358bda445e236fae2e34f99a9f998dfd08518b9bd0256fd240d65f",
+  "actual_parser_receipt_sha256": "d069b4df638a4f665032af449b286317b06f0d56d9c1947f267090f4ce3ab1d7",
+  "status": "pass_conditional_profile_release",
+  "checks": {
+    "standalone_equals_actual_controller_worker_suffix": true,
+    "outer_embeds_exact_controller": true,
+    "actual_source_manifest_recomputed_both": "d27cff5beaf522b1e7034358f0ed3d21b0f50166647ed4fabc6df62f72e38e56",
+    "source_files_per_profile": 66,
+    "actual_timeout_executable_sha256": "b38f5f0cf308efd4f3861db2b917ffcb284d0e51a86f76235819356f075c7498",
+    "scientific_profile_fit_differences": "Only run identity,1warmup+3measured batches, no save-state and no fit stop-after-epoch; all data/model/optimizer/schedule/auxiliary/micro/update/detach settings match respective fit.",
+    "equation_audit": "ROOT_PREFLIGHT_R1.json:14 prior tests pass; no source changes since."
+  },
+  "profile_attempts": [
+    "clean-t3-f0-gc-detach500-profile-s14-r3-20261013",
+    "clean-t3-f0-gc-detach2000-profile-s14-r3-20261013"
+  ],
+  "profile_reservation_bytes": 6500000000,
+  "full_fit_authorized": false,
+  "owner": "strategy_first_cohort",
+  "conditional_sequence": [
+    "Finish healthy amplitude P2/P3, CP5 export and grade handoff.",
+    "Root evaluates the two already-reviewed S37 trajectory means before any long fit.",
+    "On root lane handoff, admit each exact R3 profile separately through the unchanged shared controller, singleGPUlock, parent+unusedreservations+6.5GB<=17GB.",
+    "Confirm actual40optimizer attempts, complete4batches, finite losses, memory/VRAM/elapsed and termination status; profile success is no quality result.",
+    "Do not launch S14 full fits before comparing measured profiles and recording allocation; the user need not repeat already-granted experiment authorization."
+  ],
+  "source_isolation": "Preserve current frozen R2 overlay and Main controller bytes. R1/R2 malformed profiles remain unused historical evidence."
+}
