@@ -114,6 +114,11 @@ impl DynQ8 {
         {
             return Err("invalid int8 codes, scales or dimensions");
         }
+        for row in 0..rows {
+            if scales[row] == 0.0 && codes[row * cols..(row + 1) * cols].iter().any(|q| *q != 0) {
+                return Err("nonzero int8 code has zero row scale");
+            }
+        }
         let kgroups = cols.div_ceil(4);
         let supers = rows.div_ceil(SUPER_ROWS);
         let mut lines = vec![Line([0; 64]); supers * kgroups * 4];
@@ -665,6 +670,24 @@ mod tests {
         assert!(DynQ8::from_rows(&[1, 2], &[1.0], 1, 3).is_err());
         assert!(DynQ8::from_rows(&[-128], &[1.0], 1, 1).is_err());
         assert!(DynQ8::from_rows(&[1], &[f32::NAN], 1, 1).is_err());
+        assert!(DynQ8::from_rows(&[1], &[f32::INFINITY], 1, 1).is_err());
+        assert!(DynQ8::from_rows(&[1], &[-1.0], 1, 1).is_err());
+        assert!(DynQ8::from_rows(&[1], &[0.0], 1, 1).is_err());
+        assert!(DynQ8::from_rows(&[1], &[], 1, 1).is_err());
+        assert!(DynQ8::from_rows(&[], &[], 0, 1).is_err());
         assert!(DynQ8::pack(&[f32::INFINITY], 1, 1).is_err());
+    }
+
+    #[test]
+    fn imported_zero_rows_and_scale_bits_round_trip() {
+        let codes = [0, 0, -7, 7, -127, 127];
+        let scales = [0.0, f32::from_bits(0x3d00_0001), 0.125];
+        let matrix = DynQ8::from_rows(&codes, &scales, 3, 2).unwrap();
+        let (round_codes, round_scales) = matrix.to_rows();
+        assert_eq!(round_codes, codes);
+        assert_eq!(
+            round_scales.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+            scales.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+        );
     }
 }
