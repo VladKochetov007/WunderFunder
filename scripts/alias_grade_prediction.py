@@ -9,9 +9,11 @@ pair without changing either artifact.
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import json
 import os
+import struct
 from pathlib import Path
 from typing import Any
 
@@ -32,19 +34,55 @@ def _sha256(path: Path) -> str:
 
 
 def _npy_header(path: Path) -> tuple[tuple[int, ...], np.dtype[Any], bool, int]:
+    """Read a small NPY header only after bounding its declared length."""
     with path.open("rb") as stream:
-        version = np.lib.format.read_magic(stream)
+        prefix = stream.read(8)
+        if len(prefix) != 8 or prefix[:6] != b"\x93NUMPY":
+            raise ValueError(f"invalid NPY magic in {path}")
+        version = tuple(prefix[6:8])
         if version == (1, 0):
-            shape, fortran_order, dtype = np.lib.format.read_array_header_1_0(
-                stream, max_header_size=MAX_NPY_HEADER_BYTES
-            )
+            length_bytes = stream.read(2)
+            if len(length_bytes) != 2:
+                raise ValueError(f"truncated NPY header length in {path}")
+            header_length = struct.unpack("<H", length_bytes)[0]
+            prefix_bytes = 10
         elif version in {(2, 0), (3, 0)}:
-            shape, fortran_order, dtype = np.lib.format.read_array_header_2_0(
-                stream, max_header_size=MAX_NPY_HEADER_BYTES
-            )
+            length_bytes = stream.read(4)
+            if len(length_bytes) != 4:
+                raise ValueError(f"truncated NPY header length in {path}")
+            header_length = struct.unpack("<I", length_bytes)[0]
+            prefix_bytes = 12
         else:
             raise ValueError(f"unsupported NPY version {version}")
-        return tuple(shape), np.dtype(dtype), bool(fortran_order), stream.tell()
+        if not 0 < header_length <= MAX_NPY_HEADER_BYTES:
+            raise ValueError(
+                f"NPY header exceeds the {MAX_NPY_HEADER_BYTES}-byte bound: {header_length}"
+            )
+        header_bytes = stream.read(header_length)
+        if len(header_bytes) != header_length:
+            raise ValueError(f"truncated NPY header in {path}")
+
+    encoding = "utf-8" if version == (3, 0) else "latin1"
+    try:
+        header = ast.literal_eval(header_bytes.decode(encoding).strip())
+    except (SyntaxError, UnicodeDecodeError, ValueError) as error:
+        raise ValueError(f"invalid NPY header in {path}") from error
+    if not isinstance(header, dict):
+        raise ValueError(f"NPY header is not a dictionary in {path}")
+    try:
+        raw_shape = header["shape"]
+        if not isinstance(raw_shape, tuple) or any(
+            type(dimension) is not int or dimension < 0 for dimension in raw_shape
+        ):
+            raise ValueError("shape must contain nonnegative integers")
+        shape = tuple(raw_shape)
+        dtype = np.dtype(header["descr"])
+        fortran_order = header["fortran_order"]
+        if type(fortran_order) is not bool:
+            raise ValueError("fortran_order must be a boolean")
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError(f"invalid NPY header fields in {path}: {error}") from error
+    return shape, dtype, fortran_order, prefix_bytes + header_length
 
 
 def _simple_name(value: str, flag: str) -> str:
