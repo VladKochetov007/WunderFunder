@@ -3461,6 +3461,25 @@
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "ce410a40fd10f4952efb7a5910b00821328ff2cf8d1260746b8572652dd4077f"
         }
+      },
+      {
+        "raw_record": "{\"kind\": \"allocation\", \"created_utc\": \"2026-10-13T17:51:11.374392+00:00\", \"hypothesis_id\": \"H-QAT-W4-20261013\", \"decision\": \"admit one full-data uniformW4 QAT and one matched mixedW4/W8 QAT after currentLSQpair completes; sequentialsingleGPU, controllerfreshresourcegate\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/ALLOCATION_100PCT_QAT_R1.json\", \"research/campaign_2026-10-13/qat_renewable_r1/MATCHED_ADAPTATION_WAVE_R1.md\"], \"scope\": \"onefullmatchedweight-onlycohortF0s3; uncertaintyretained\"}\n",
+        "record": {
+          "created_utc": "2026-10-13T17:51:11.374392+00:00",
+          "decision": "admit one full-data uniformW4 QAT and one matched mixedW4/W8 QAT after currentLSQpair completes; sequentialsingleGPU, controllerfreshresourcegate",
+          "evidence_paths": [
+            "research/campaign_2026-10-13/qat_renewable_r1/ALLOCATION_100PCT_QAT_R1.json",
+            "research/campaign_2026-10-13/qat_renewable_r1/MATCHED_ADAPTATION_WAVE_R1.md"
+          ],
+          "hypothesis_id": "H-QAT-W4-20261013",
+          "kind": "allocation",
+          "scope": "onefullmatchedweight-onlycohortF0s3; uncertaintyretained"
+        },
+        "source": {
+          "line": 141,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "b1a56761e487d2a18dd01890f7568c4ac0a3c29ff41c7199723f799c9f37ff51"
+        }
       }
     ],
     "legacy_archive": {
@@ -9272,9 +9291,9 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 827,
+      "experiments": 840,
       "hypotheses": 493,
-      "journal": 140
+      "journal": 141
     }
   },
   "nodes": [
@@ -80512,7 +80531,7 @@
         "rule": "multiple_or_missing_linked_hypotheses"
       },
       "id": "experiment:E-QAT-DEPLOYMENT-20261013-R1",
-      "latest_recorded_status": "baseline_complete",
+      "latest_recorded_status": "identity_correction",
       "parent_id": "family:unclassified",
       "raw_rows": [
         {
@@ -80610,6 +80629,58 @@
             "path": "research/experiments.jsonl",
             "sha256": "3d84314aa2e93d73bd6119673d3835900f6eb25e895be2175c76fed796556913"
           }
+        },
+        {
+          "raw_record": "{\"id\": \"E-QAT-DEPLOYMENT-20261013-R1\", \"hypothesis_id\": \"H-QAT-A8-20261013\", \"status\": \"implementation\", \"claim_scope\": \"recurrent-only activation-aware QAT backend; engineering validation, no fit or quality result\", \"cpu_native_tests\": {\"passed\": 4, \"failed\": 0, \"wall_seconds\": 4.76, \"native_state_max_abs_error\": 5.96046448e-08, \"no_a8_state_effect\": 6.89923763e-04}, \"compiled_b16_c1000_profile\": \"pending root-owned GPU admission\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_BACKEND_R1.md\", \"research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_CPU_NATIVE_RECEIPT_R1.json\"], \"created_utc\": \"2026-10-13T17:42:38+00:00\"}\n",
+          "record": {
+            "claim_scope": "recurrent-only activation-aware QAT backend; engineering validation, no fit or quality result",
+            "compiled_b16_c1000_profile": "pending root-owned GPU admission",
+            "cpu_native_tests": {
+              "failed": 0,
+              "native_state_max_abs_error": 5.96046448e-08,
+              "no_a8_state_effect": 0.000689923763,
+              "passed": 4,
+              "wall_seconds": 4.76
+            },
+            "created_utc": "2026-10-13T17:42:38+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_BACKEND_R1.md",
+              "research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_CPU_NATIVE_RECEIPT_R1.json"
+            ],
+            "hypothesis_id": "H-QAT-A8-20261013",
+            "id": "E-QAT-DEPLOYMENT-20261013-R1",
+            "status": "implementation"
+          },
+          "source": {
+            "line": 832,
+            "path": "research/experiments.jsonl",
+            "sha256": "a32a0c6064e856e7ca6cb4694c3f792be60a8f6d3adf16774f621b0e79c2c437"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-QAT-DEPLOYMENT-20261013-R1\", \"hypothesis_id\": \"H-QAT-W4-20261013\", \"status\": \"identity_correction\", \"claim_scope\": \"Correction: the deployment baseline and matched weight-only QAT recipe remain under H-QAT-W4-20261013; the prior implementation-only row's H-QAT-A8 linkage is superseded by the separate successor profile experiment\", \"corrects_prior_record\": {\"id\": \"E-QAT-DEPLOYMENT-20261013-R1\", \"hypothesis_id\": \"H-QAT-A8-20261013\", \"status\": \"implementation\", \"created_utc\": \"2026-10-13T17:42:38+00:00\"}, \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/PLAN.md\", \"research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_BACKEND_R1.md\"], \"created_utc\": \"2026-10-13T17:58:49+00:00\"}\n",
+          "record": {
+            "claim_scope": "Correction: the deployment baseline and matched weight-only QAT recipe remain under H-QAT-W4-20261013; the prior implementation-only row's H-QAT-A8 linkage is superseded by the separate successor profile experiment",
+            "corrects_prior_record": {
+              "created_utc": "2026-10-13T17:42:38+00:00",
+              "hypothesis_id": "H-QAT-A8-20261013",
+              "id": "E-QAT-DEPLOYMENT-20261013-R1",
+              "status": "implementation"
+            },
+            "created_utc": "2026-10-13T17:58:49+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/PLAN.md",
+              "research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_BACKEND_R1.md"
+            ],
+            "hypothesis_id": "H-QAT-W4-20261013",
+            "id": "E-QAT-DEPLOYMENT-20261013-R1",
+            "status": "identity_correction"
+          },
+          "source": {
+            "line": 834,
+            "path": "research/experiments.jsonl",
+            "sha256": "11726e89f95b985fd418857fac66081ade7560e07fbd8499cbd9b746f0ac9466"
+          }
         }
       ],
       "title": "E-QAT-DEPLOYMENT-20261013-R1",
@@ -80621,7 +80692,7 @@
         "rule": "multiple_or_missing_linked_hypotheses"
       },
       "id": "experiment:E-QAT-WEIGHT-10PCT-F0S3-20261013-R1",
-      "latest_recorded_status": "running",
+      "latest_recorded_status": "complete",
       "parent_id": "family:unclassified",
       "raw_rows": [
         {
@@ -80646,6 +80717,42 @@
             "line": 824,
             "path": "research/experiments.jsonl",
             "sha256": "e2d3f2418cfe87b55373d856ea1355732aaea3b15be0e8e382c0a2e9860b1a45"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-QAT-WEIGHT-10PCT-F0S3-20261013-R1\", \"hypothesis_id\": \"H-QAT-W4-20261013\", \"status\": \"complete\", \"quality_scope\": \"fixed exposed F0, seed3; adaptation subsets inherit full-fitting ancestry\", \"paired_wp\": {\"Uniform W4\": {\"bootstrap_median\": -0.00010681563510145375, \"bootstrap_q025\": -0.0009160345376892753, \"bootstrap_q975\": 0.0006607897791703537, \"candidate\": 0.6812982820329947, \"candidate_minus_reference\": -0.00011492816629876668, \"reference\": 0.6814132101992935}, \"Mixed W4/W8\": {\"bootstrap_median\": 0.00013327599112678, \"bootstrap_q025\": -0.00048137939245140594, \"bootstrap_q975\": 0.0007805465378697579, \"candidate\": 0.6813219054809543, \"candidate_minus_reference\": 0.00013904216922178136, \"reference\": 0.6811828633117325}}, \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/MATCHED_ADAPTATION_WAVE_R1.md\"], \"created_utc\": \"2026-10-13T17:22:51.723690+00:00\"}\n",
+          "record": {
+            "created_utc": "2026-10-13T17:22:51.723690+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/MATCHED_ADAPTATION_WAVE_R1.md"
+            ],
+            "hypothesis_id": "H-QAT-W4-20261013",
+            "id": "E-QAT-WEIGHT-10PCT-F0S3-20261013-R1",
+            "paired_wp": {
+              "Mixed W4/W8": {
+                "bootstrap_median": 0.00013327599112678,
+                "bootstrap_q025": -0.00048137939245140594,
+                "bootstrap_q975": 0.0007805465378697579,
+                "candidate": 0.6813219054809543,
+                "candidate_minus_reference": 0.00013904216922178136,
+                "reference": 0.6811828633117325
+              },
+              "Uniform W4": {
+                "bootstrap_median": -0.00010681563510145375,
+                "bootstrap_q025": -0.0009160345376892753,
+                "bootstrap_q975": 0.0006607897791703537,
+                "candidate": 0.6812982820329947,
+                "candidate_minus_reference": -0.00011492816629876668,
+                "reference": 0.6814132101992935
+              }
+            },
+            "quality_scope": "fixed exposed F0, seed3; adaptation subsets inherit full-fitting ancestry",
+            "status": "complete"
+          },
+          "source": {
+            "line": 828,
+            "path": "research/experiments.jsonl",
+            "sha256": "2cedcdf925bdce5b395d8602c31383f5d092c1f29a2e90a4a2ea6fbebaae1494"
           }
         }
       ],
@@ -80689,7 +80796,7 @@
         "rule": "multiple_or_missing_linked_hypotheses"
       },
       "id": "experiment:E-QAT-WEIGHT-30PCT-F0S3-20261013-R1",
-      "latest_recorded_status": "running",
+      "latest_recorded_status": "complete",
       "parent_id": "family:unclassified",
       "raw_rows": [
         {
@@ -80716,9 +80823,339 @@
             "path": "research/experiments.jsonl",
             "sha256": "427a52b8737399cc9a5c5c182198e4193a7ff4b9a25978dae3ea4bb9ac7faa0c"
           }
+        },
+        {
+          "raw_record": "{\"id\": \"E-QAT-WEIGHT-30PCT-F0S3-20261013-R1\", \"hypothesis_id\": \"H-QAT-W4-20261013\", \"status\": \"complete\", \"quality_scope\": \"fixed exposed F0, seed3; adaptation subsets inherit full-fitting ancestry\", \"paired_wp\": {\"Uniform W4\": {\"bootstrap_median\": 0.0002351211264732811, \"bootstrap_q025\": -0.0003045741014333386, \"bootstrap_q975\": 0.0008922332972393225, \"candidate\": 0.680900109299133, \"candidate_minus_reference\": 0.0002399238396733061, \"reference\": 0.6806601854594597}, \"Mixed W4/W8\": {\"bootstrap_median\": 0.0002772855450323686, \"bootstrap_q025\": -0.0002896932203375613, \"bootstrap_q975\": 0.0008544838923486033, \"candidate\": 0.6808340283015706, \"candidate_minus_reference\": 0.00027110456119694426, \"reference\": 0.6805629237403736}}, \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/MATCHED_ADAPTATION_WAVE_R1.md\"], \"created_utc\": \"2026-10-13T17:22:51.723690+00:00\"}\n",
+          "record": {
+            "created_utc": "2026-10-13T17:22:51.723690+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/MATCHED_ADAPTATION_WAVE_R1.md"
+            ],
+            "hypothesis_id": "H-QAT-W4-20261013",
+            "id": "E-QAT-WEIGHT-30PCT-F0S3-20261013-R1",
+            "paired_wp": {
+              "Mixed W4/W8": {
+                "bootstrap_median": 0.0002772855450323686,
+                "bootstrap_q025": -0.0002896932203375613,
+                "bootstrap_q975": 0.0008544838923486033,
+                "candidate": 0.6808340283015706,
+                "candidate_minus_reference": 0.00027110456119694426,
+                "reference": 0.6805629237403736
+              },
+              "Uniform W4": {
+                "bootstrap_median": 0.0002351211264732811,
+                "bootstrap_q025": -0.0003045741014333386,
+                "bootstrap_q975": 0.0008922332972393225,
+                "candidate": 0.680900109299133,
+                "candidate_minus_reference": 0.0002399238396733061,
+                "reference": 0.6806601854594597
+              }
+            },
+            "quality_scope": "fixed exposed F0, seed3; adaptation subsets inherit full-fitting ancestry",
+            "status": "complete"
+          },
+          "source": {
+            "line": 829,
+            "path": "research/experiments.jsonl",
+            "sha256": "f6922f1b1f231331a3d4e32ad4e0dc0d8913581738c9b2b5d24e8a7ab364dc7f"
+          }
         }
       ],
       "title": "E-QAT-WEIGHT-30PCT-F0S3-20261013-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-QAT-WEIGHT-100PCT-F0S3-20261013-R1",
+      "latest_recorded_status": "uniform_arm_graded_mixed_running",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-QAT-WEIGHT-100PCT-F0S3-20261013-R1\", \"hypothesis_id\": \"H-QAT-W4-20261013\", \"status\": \"running\", \"active_fit\": \"fp32\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/ALLOCATION_100PCT_FLOAT_R1.json\"], \"created_utc\": \"2026-10-13T17:22:51.723690+00:00\"}\n",
+          "record": {
+            "active_fit": "fp32",
+            "created_utc": "2026-10-13T17:22:51.723690+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/ALLOCATION_100PCT_FLOAT_R1.json"
+            ],
+            "hypothesis_id": "H-QAT-W4-20261013",
+            "id": "E-QAT-WEIGHT-100PCT-F0S3-20261013-R1",
+            "status": "running"
+          },
+          "source": {
+            "line": 830,
+            "path": "research/experiments.jsonl",
+            "sha256": "d310bac02cc162882392d154fcfa17b50a518daa8ffa804f60c32ed1d45f7054"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-QAT-WEIGHT-100PCT-F0S3-20261013-R1\", \"hypothesis_id\": \"H-QAT-W4-20261013\", \"status\": \"uniform_arm_graded_mixed_running\", \"created_utc\": \"2026-10-13T18:33:32.582574+00:00\", \"metric_id\": \"global_wp_clip2_v1\", \"uniform_qat_wp\": 0.6813627889635053, \"matched_float_ptq_w4_wp\": 0.6807411711076589, \"paired_delta\": 0.0006216178558463578, \"component_bootstrap_ci95\": [-0.000401165, 0.001686432], \"scope\": \"468 exposed F0 groups; one fitting seed; no promotion/public forecast\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/full_uniform_results_r1/README.md\", \"research/unified/reviews/QAT_100PCT_UNIFORM_W4_MATCHED_GRADE_R1.md\"]}\n",
+          "record": {
+            "component_bootstrap_ci95": [
+              -0.000401165,
+              0.001686432
+            ],
+            "created_utc": "2026-10-13T18:33:32.582574+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/full_uniform_results_r1/README.md",
+              "research/unified/reviews/QAT_100PCT_UNIFORM_W4_MATCHED_GRADE_R1.md"
+            ],
+            "hypothesis_id": "H-QAT-W4-20261013",
+            "id": "E-QAT-WEIGHT-100PCT-F0S3-20261013-R1",
+            "matched_float_ptq_w4_wp": 0.6807411711076589,
+            "metric_id": "global_wp_clip2_v1",
+            "paired_delta": 0.0006216178558463578,
+            "scope": "468 exposed F0 groups; one fitting seed; no promotion/public forecast",
+            "status": "uniform_arm_graded_mixed_running",
+            "uniform_qat_wp": 0.6813627889635053
+          },
+          "source": {
+            "line": 839,
+            "path": "research/experiments.jsonl",
+            "sha256": "0b1030caa531575b961850f1e69219f53a15ca22d5566f15b5edeb001e7a3759"
+          }
+        }
+      ],
+      "title": "E-QAT-WEIGHT-100PCT-F0S3-20261013-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-QAT-LSQ-10PCT-F0S3-20261013-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-QAT-LSQ-10PCT-F0S3-20261013-R1\", \"hypothesis_id\": \"H-QAT-LSQ-20261013\", \"status\": \"prepared\", \"comparison\": \"All-selected learned row scales vs same-source nonlearned per-update absmax row scales, recurrent_w4, same10%recipe, fixed raw epoch0\", \"profiles_pending\": true, \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/LSQ_LOCAL_EXECUTION_R1.json\", \"research/unified/reviews/QAT_LSQ_ROW_SCALE_RECIPE_REVIEW_R1.md\"], \"created_utc\": \"2026-10-13T17:31:02.344363+00:00\"}\n",
+          "record": {
+            "comparison": "All-selected learned row scales vs same-source nonlearned per-update absmax row scales, recurrent_w4, same10%recipe, fixed raw epoch0",
+            "created_utc": "2026-10-13T17:31:02.344363+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/LSQ_LOCAL_EXECUTION_R1.json",
+              "research/unified/reviews/QAT_LSQ_ROW_SCALE_RECIPE_REVIEW_R1.md"
+            ],
+            "hypothesis_id": "H-QAT-LSQ-20261013",
+            "id": "E-QAT-LSQ-10PCT-F0S3-20261013-R1",
+            "profiles_pending": true,
+            "status": "prepared"
+          },
+          "source": {
+            "line": 831,
+            "path": "research/experiments.jsonl",
+            "sha256": "3635ffcaff8999d0cd20eb0682465411d1fcb9fa2baf010cbfe9e6ad697a027a"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-QAT-LSQ-10PCT-F0S3-20261013-R1\", \"hypothesis_id\": \"H-QAT-LSQ-20261013\", \"status\": \"complete\", \"created_utc\": \"2026-10-13T18:16:25.433905+00:00\", \"primary_wp_delta\": 0.000194138616879, \"component_bootstrap_interval\": [-0.0001531, 0.00053581], \"fitting_seed\": 3, \"fold\": 0, \"exposure\": \"exposedF0; commonfullfitancestry\", \"checkpoint\": \"fixedrawepoch0\", \"scope\": \"allselected recurrentW4 rowstepsincludingQ8head; FP32activations, identityweightSTE\", \"evidence_paths\": [\"research/unified/reviews/QAT_LSQ_10PCT_PAIRED_GRADE_R1.md\", \"research/unified/reviews/receipts/QAT_LSQ_10PCT_MATCHED_GRADE_AUDIT_R1.json\", \"research/campaign_2026-10-13/qat_renewable_r1/lsq_10pct_results_r1/README.md\"], \"interpretation\": \"positiveimprecise conditional scaleeffect; noQ8endpointwin or publicclaim; boundedcleanseedfollowup remainseligible\"}\n",
+          "record": {
+            "checkpoint": "fixedrawepoch0",
+            "component_bootstrap_interval": [
+              -0.0001531,
+              0.00053581
+            ],
+            "created_utc": "2026-10-13T18:16:25.433905+00:00",
+            "evidence_paths": [
+              "research/unified/reviews/QAT_LSQ_10PCT_PAIRED_GRADE_R1.md",
+              "research/unified/reviews/receipts/QAT_LSQ_10PCT_MATCHED_GRADE_AUDIT_R1.json",
+              "research/campaign_2026-10-13/qat_renewable_r1/lsq_10pct_results_r1/README.md"
+            ],
+            "exposure": "exposedF0; commonfullfitancestry",
+            "fitting_seed": 3,
+            "fold": 0,
+            "hypothesis_id": "H-QAT-LSQ-20261013",
+            "id": "E-QAT-LSQ-10PCT-F0S3-20261013-R1",
+            "interpretation": "positiveimprecise conditional scaleeffect; noQ8endpointwin or publicclaim; boundedcleanseedfollowup remainseligible",
+            "primary_wp_delta": 0.000194138616879,
+            "scope": "allselected recurrentW4 rowstepsincludingQ8head; FP32activations, identityweightSTE",
+            "status": "complete"
+          },
+          "source": {
+            "line": 833,
+            "path": "research/experiments.jsonl",
+            "sha256": "8183fae24989288084936eee5594f00bbb714bb10c9e7cfd5f20c10203c08901"
+          }
+        }
+      ],
+      "title": "E-QAT-LSQ-10PCT-F0S3-20261013-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-QAT-A8-BACKEND-20261013-R1",
+      "latest_recorded_status": "bounded_compiler_probe_allocated",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-QAT-A8-BACKEND-20261013-R1\", \"hypothesis_id\": \"H-QAT-A8-20261013\", \"status\": \"profile_prepared\", \"claim_scope\": \"actual-data B16/C1000/F211 compiled engineering profile of the first fitting chunk; not a fit or quality evaluation\", \"profile_modes\": [\"recurrent A8\", \"same backend with recurrent A8 disabled\"], \"optimizer_updates_max\": 10, \"recipe_loss\": \"frozen WMSE/distillation plus aux_struct and aux_next with full-sequence next-change labels\", \"parent\": \"clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5\", \"weight_preset\": \"recurrent_w4\", \"quality_result\": null, \"execution_owner\": \"root; pending single-GPU admission\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_ACTUAL_PROFILE_PLAN_R1.json\", \"research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_BACKEND_R1.md\"], \"created_utc\": \"2026-10-13T17:58:49+00:00\"}\n",
+          "record": {
+            "claim_scope": "actual-data B16/C1000/F211 compiled engineering profile of the first fitting chunk; not a fit or quality evaluation",
+            "created_utc": "2026-10-13T17:58:49+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_ACTUAL_PROFILE_PLAN_R1.json",
+              "research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_BACKEND_R1.md"
+            ],
+            "execution_owner": "root; pending single-GPU admission",
+            "hypothesis_id": "H-QAT-A8-20261013",
+            "id": "E-QAT-A8-BACKEND-20261013-R1",
+            "optimizer_updates_max": 10,
+            "parent": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5",
+            "profile_modes": [
+              "recurrent A8",
+              "same backend with recurrent A8 disabled"
+            ],
+            "quality_result": null,
+            "recipe_loss": "frozen WMSE/distillation plus aux_struct and aux_next with full-sequence next-change labels",
+            "status": "profile_prepared",
+            "weight_preset": "recurrent_w4"
+          },
+          "source": {
+            "line": 835,
+            "path": "research/experiments.jsonl",
+            "sha256": "c936e86b684cc77a61c58bd2f9f132b72aa7455f3379b0470e74f588d3e21005"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-QAT-A8-BACKEND-20261013-R1\", \"hypothesis_id\": \"H-QAT-A8-20261013\", \"status\": \"profile_plan_correction\", \"corrects_prior_record\": {\"id\": \"E-QAT-A8-BACKEND-20261013-R1\", \"status\": \"profile_prepared\", \"created_utc\": \"2026-10-13T17:58:49+00:00\", \"optimizer_updates_max\": 10, \"duplicated_objective_path\": true}, \"claim_scope\": \"corrected actual trainer-path compiled recurrent scan backend smoke; no fit or quality inference\", \"profile_kind\": \"actual_recipe_first_chunk\", \"profile_modes\": [\"scan_a8\", \"same compiled scan with A8 disabled\"], \"optimizer_updates_max\": 4, \"recipe_path\": \"research/campaign_2026-10-13/qat_renewable_r1/delivery_r1/RUN_RECIPE_R1.json\", \"recipe_fit\": \"qat_deploy_f0_s3_10pct_uniform_w4_r1\", \"initialization\": \"clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5\", \"weight_preset\": \"recurrent_w4\", \"bounded_profile\": \"same actual B16 first fitting batch reused for one compile/warmup and one measured update per arm; each forwards the first 1000 rows from sequence origin\", \"recipe_fidelity\": \"existing train_rnn readers, teacher/propensity validation, objective, AdamW and cache invalidation are unchanged; intentionally not a fit-fidelity run\", \"quality_result\": null, \"backend_profile\": \"pending root-owned GPU admission\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_ACTUAL_PROFILE_PLAN_R1.json\", \"research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_BACKEND_R1.md\", \"scripts/profile_activation_qat.py\", \"scripts/train_rnn.py\"], \"created_utc\": \"2026-10-13T18:10:10+00:00\"}\n",
+          "record": {
+            "backend_profile": "pending root-owned GPU admission",
+            "bounded_profile": "same actual B16 first fitting batch reused for one compile/warmup and one measured update per arm; each forwards the first 1000 rows from sequence origin",
+            "claim_scope": "corrected actual trainer-path compiled recurrent scan backend smoke; no fit or quality inference",
+            "corrects_prior_record": {
+              "created_utc": "2026-10-13T17:58:49+00:00",
+              "duplicated_objective_path": true,
+              "id": "E-QAT-A8-BACKEND-20261013-R1",
+              "optimizer_updates_max": 10,
+              "status": "profile_prepared"
+            },
+            "created_utc": "2026-10-13T18:10:10+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_ACTUAL_PROFILE_PLAN_R1.json",
+              "research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_BACKEND_R1.md",
+              "scripts/profile_activation_qat.py",
+              "scripts/train_rnn.py"
+            ],
+            "hypothesis_id": "H-QAT-A8-20261013",
+            "id": "E-QAT-A8-BACKEND-20261013-R1",
+            "initialization": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5",
+            "optimizer_updates_max": 4,
+            "profile_kind": "actual_recipe_first_chunk",
+            "profile_modes": [
+              "scan_a8",
+              "same compiled scan with A8 disabled"
+            ],
+            "quality_result": null,
+            "recipe_fidelity": "existing train_rnn readers, teacher/propensity validation, objective, AdamW and cache invalidation are unchanged; intentionally not a fit-fidelity run",
+            "recipe_fit": "qat_deploy_f0_s3_10pct_uniform_w4_r1",
+            "recipe_path": "research/campaign_2026-10-13/qat_renewable_r1/delivery_r1/RUN_RECIPE_R1.json",
+            "status": "profile_plan_correction",
+            "weight_preset": "recurrent_w4"
+          },
+          "source": {
+            "line": 836,
+            "path": "research/experiments.jsonl",
+            "sha256": "2659ca8407fbf65344bb76c24aebe4c7767889a6d112ed66ecb1ca1fd4606cef"
+          }
+        },
+        {
+          "raw_record": "{\"id\":\"E-QAT-A8-BACKEND-20261013-R1\",\"hypothesis_id\":\"H-QAT-A8-20261013\",\"status\":\"cpu_native_validation_update\",\"claim_scope\":\"focused recurrent-backend engineering checks only; no compiled trainer profile, fit or quality result\",\"source_revision\":\"5f6812b098fdf4c88e6ccb496a0343e159781eef\",\"test_file_sha256\":\"f1225e5e45c0daae342628d5cf83d6b91c632e174cade92f023c7017fb01de3a\",\"result\":{\"passed\":4,\"failed\":0,\"wall_seconds\":6.64,\"native_fixture\":\"q8vnni_portable passed controlled recurrent-state comparison and A8-sensitivity assertion\"},\"native_library_sha256\":\"a4390ecf7bcd54bb6826b43f5dcf6d7a40064c64ed1450bdc1780c34c2a6e108\",\"resource_bound\":{\"cpu_quota\":\"100%\",\"threads\":1,\"memory_max_bytes\":1500000000,\"runtime_max\":\"180s\"},\"evidence_paths\":[\"research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_CPU_NATIVE_RECEIPT_R2.json\",\"research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_BACKEND_R1.md\"],\"created_utc\":\"2026-10-13T18:20:15+00:00\"}\n",
+          "record": {
+            "claim_scope": "focused recurrent-backend engineering checks only; no compiled trainer profile, fit or quality result",
+            "created_utc": "2026-10-13T18:20:15+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_CPU_NATIVE_RECEIPT_R2.json",
+              "research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_AWARE_BACKEND_R1.md"
+            ],
+            "hypothesis_id": "H-QAT-A8-20261013",
+            "id": "E-QAT-A8-BACKEND-20261013-R1",
+            "native_library_sha256": "a4390ecf7bcd54bb6826b43f5dcf6d7a40064c64ed1450bdc1780c34c2a6e108",
+            "resource_bound": {
+              "cpu_quota": "100%",
+              "memory_max_bytes": 1500000000,
+              "runtime_max": "180s",
+              "threads": 1
+            },
+            "result": {
+              "failed": 0,
+              "native_fixture": "q8vnni_portable passed controlled recurrent-state comparison and A8-sensitivity assertion",
+              "passed": 4,
+              "wall_seconds": 6.64
+            },
+            "source_revision": "5f6812b098fdf4c88e6ccb496a0343e159781eef",
+            "status": "cpu_native_validation_update",
+            "test_file_sha256": "f1225e5e45c0daae342628d5cf83d6b91c632e174cade92f023c7017fb01de3a"
+          },
+          "source": {
+            "line": 837,
+            "path": "research/experiments.jsonl",
+            "sha256": "9db8f174a465eb775b7dc52ac55bcfb1f599335bb9514c9ca124f10ba8e03f25"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-QAT-A8-BACKEND-20261013-R1\", \"hypothesis_id\": \"H-QAT-A8-20261013\", \"status\": \"bounded_compiler_probe_allocated\", \"created_utc\": \"2026-10-13T18:36:33.587009+00:00\", \"quality_result\": null, \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_SYNTHETIC_ADMISSION_R1.json\"], \"scope\": \"B2/T32/F112/H64/L2 synthetic forward/backward, two modes, no optimizer or quality evidence; actualdata/fullshape remains unadmitted\"}\n",
+          "record": {
+            "created_utc": "2026-10-13T18:36:33.587009+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/ACTIVATION_SYNTHETIC_ADMISSION_R1.json"
+            ],
+            "hypothesis_id": "H-QAT-A8-20261013",
+            "id": "E-QAT-A8-BACKEND-20261013-R1",
+            "quality_result": null,
+            "scope": "B2/T32/F112/H64/L2 synthetic forward/backward, two modes, no optimizer or quality evidence; actualdata/fullshape remains unadmitted",
+            "status": "bounded_compiler_probe_allocated"
+          },
+          "source": {
+            "line": 840,
+            "path": "research/experiments.jsonl",
+            "sha256": "fae44fae0cbdf9ff9f5ab4dec46de32dee2f1da62f5605f5acc2abbcdbec642a"
+          }
+        }
+      ],
+      "title": "E-QAT-A8-BACKEND-20261013-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-QAT-LSQ-10PCT-F0S4-20261013-R1",
+      "latest_recorded_status": "prepared",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-QAT-LSQ-10PCT-F0S4-20261013-R1\", \"hypothesis_id\": \"H-QAT-LSQ-20261013\", \"status\": \"prepared\", \"created_utc\": \"2026-10-13T18:31:25.987244+00:00\", \"owner\": \"root\", \"scope\": \"Same-membership F0 seed4 CP5 and fitting RNG confirmation of matched learned versus nonlearned row scales; one exposed fold, not independent teacher lineage\", \"evidence_paths\": [\"research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/EXECUTION_R1.json\", \"research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/README.md\"], \"planned_updates_per_fit\": 1440, \"profile_updates_per_arm\": 100, \"quality_result\": null}\n",
+          "record": {
+            "created_utc": "2026-10-13T18:31:25.987244+00:00",
+            "evidence_paths": [
+              "research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/EXECUTION_R1.json",
+              "research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/README.md"
+            ],
+            "hypothesis_id": "H-QAT-LSQ-20261013",
+            "id": "E-QAT-LSQ-10PCT-F0S4-20261013-R1",
+            "owner": "root",
+            "planned_updates_per_fit": 1440,
+            "profile_updates_per_arm": 100,
+            "quality_result": null,
+            "scope": "Same-membership F0 seed4 CP5 and fitting RNG confirmation of matched learned versus nonlearned row scales; one exposed fold, not independent teacher lineage",
+            "status": "prepared"
+          },
+          "source": {
+            "line": 838,
+            "path": "research/experiments.jsonl",
+            "sha256": "e1a52b9848820680702c54eff799ca216ba1318bb96d69a813f7c0e42010b952"
+          }
+        }
+      ],
+      "title": "E-QAT-LSQ-10PCT-F0S4-20261013-R1",
       "type": "experiment"
     },
     {
