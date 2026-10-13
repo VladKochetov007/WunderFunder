@@ -1,0 +1,97 @@
+{
+  "schema": "wnn.strategy.s14.independent-preflight.v1",
+  "created_utc": "2026-10-13T00:10:09.122417+00:00",
+  "reviewer": "root",
+  "actor_commit": "28c1e7ce",
+  "main_integration_commit": "2a049c20",
+  "status": "static_equation_and_command_checks_pass_actual_device_profile_pending",
+  "exact_vectors": {
+    "500": {
+      "contract_sha256": "a2cdeb6f5960c22720bf77e787312beacdbcc70addd1a82e4bbbe4165cda365c",
+      "vectors": {
+        "p1": {
+          "source_manifest_sha256": "623c52838b114aec40d02d738e0464c0b5a88b58fdcd4d31935c129a04e61954",
+          "source_file_count": 66,
+          "argv_sha256": "f04daca84243087363c45232f41457668aafa94cfbc91a872641b69ae0c1f318"
+        },
+        "p2": {
+          "source_manifest_sha256": "623c52838b114aec40d02d738e0464c0b5a88b58fdcd4d31935c129a04e61954",
+          "source_file_count": 66,
+          "argv_sha256": "95d63bbada2fcb20975044412942bbf7b04adb0e9dd3c2e539f750c93f4a6271"
+        },
+        "p3": {
+          "source_manifest_sha256": "623c52838b114aec40d02d738e0464c0b5a88b58fdcd4d31935c129a04e61954",
+          "source_file_count": 66,
+          "argv_sha256": "cb63f251c05e31dc70cc524ddb14291733a757c09e9f825aa809783edfaf88a9"
+        },
+        "export": {
+          "source_manifest_sha256": "623c52838b114aec40d02d738e0464c0b5a88b58fdcd4d31935c129a04e61954",
+          "source_file_count": 66,
+          "argv_sha256": "700b5a3fbd9e85315112d4d8a6fcf027893c4e2bbbcabc8f63083664e0e060c3"
+        }
+      }
+    },
+    "2000": {
+      "contract_sha256": "6c0c978bb7b019c3a61bc5fd3c5c2f585d83547335057aefd9bd3ec3391cfaae",
+      "vectors": {
+        "p1": {
+          "source_manifest_sha256": "9068a068b035fd769d469d90aeb12723be451565d44a66e1d22ba9cb8fded6e0",
+          "source_file_count": 66,
+          "argv_sha256": "edfa0cb3179fbbd7c252641356ad3e6a71a9faa4d70b829cf32b45bcdd4cb972"
+        },
+        "p2": {
+          "source_manifest_sha256": "9068a068b035fd769d469d90aeb12723be451565d44a66e1d22ba9cb8fded6e0",
+          "source_file_count": 66,
+          "argv_sha256": "ef5c56c80f8103ff9799427b4de571b27eb72fad18cf4fbd5922a4bf709e3134"
+        },
+        "p3": {
+          "source_manifest_sha256": "9068a068b035fd769d469d90aeb12723be451565d44a66e1d22ba9cb8fded6e0",
+          "source_file_count": 66,
+          "argv_sha256": "d96d83398a55b0294e9d4a8af3f0bb5152856de401cb99347b3472bafb9b12a4"
+        },
+        "export": {
+          "source_manifest_sha256": "9068a068b035fd769d469d90aeb12723be451565d44a66e1d22ba9cb8fded6e0",
+          "source_file_count": 66,
+          "argv_sha256": "68144d2dade6f4548e29b2ecead1e5cf96d70c85d86cbc784a63661761804101"
+        }
+      }
+    }
+  },
+  "same_pair_except": [
+    "attempt/run/resume identities",
+    "--detach-rows=500 vs2000"
+  ],
+  "fixed_clocks": {
+    "micro_rows": 500,
+    "update_rows": 2000,
+    "epochs": 6,
+    "scheduled_attempts": 44760,
+    "normalization": "original-label mass pooled over2000-row update window for both"
+  },
+  "checks": [
+    "trainer validates divisibility and supported distillation objective",
+    "both structural and next-event losses feed controlled macro path",
+    "backward each detached contribution; optimizer/scaler/scheduler advance once after full macro window",
+    "same target amplitude .8125, initializer, fitting groups, alpha .9, propensity and CP5 policy",
+    "actual root-controller source manifest recomputed for both exact actor contract paths"
+  ],
+  "findings": [
+    {
+      "severity": "prelaunch",
+      "finding": "B16/chunk2000 historical device profile does not measure chunk500 controlled path; exact-device profiles required for each detach horizon before fits."
+    },
+    {
+      "severity": "pregrade",
+      "finding": "Export custom output name differs from grader default run filename; use validated immutable NPY+sidecar alias, as existing audited control, or separately corrected consumer vector."
+    }
+  ],
+  "scientific_result": null,
+  "fits_authorized": false,
+  "independent_tests": {
+    "passed": 14,
+    "seconds": 0.72,
+    "command": "pytest -q tests/test_training_controls.py with actual R2 overlay training_controls module imported first and path asserted",
+    "memory_bound_bytes": 1200000000,
+    "gpu_used": false
+  }
+}
