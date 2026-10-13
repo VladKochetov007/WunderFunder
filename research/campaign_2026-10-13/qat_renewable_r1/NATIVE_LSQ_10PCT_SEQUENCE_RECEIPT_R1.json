@@ -1,12 +1,13 @@
 {
-  "attempt": "qat-lsq-10pct-f0-s3-fixed-native-r1",
-  "heartbeat_utc": "2026-10-13T17:53:44.523680+00:00",
-  "index": 0,
-  "launch_returncode": 0,
-  "launch_stderr": "",
+  "attempt": "qat-lsq-10pct-f0-s3-learned-native-r1",
+  "error": "RuntimeError: guard refused qat-lsq-10pct-f0-s3-learned-native-r1; inspect its retained record",
+  "heartbeat_utc": "2026-10-13T17:57:45.735391+00:00",
+  "index": 1,
+  "launch_returncode": 1,
+  "launch_stderr": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 1456, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 1434, in main\n    print(json.dumps(launch(args), indent=2))\n                     ~~~~~~^^^^^^\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 753, in launch\n    resources = verify_capacity(\n        state,\n    ...<4 lines>...\n        current_memory_bytes=measured,\n    )\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py\", line 555, in verify_capacity\n    raise RuntimeError(\n    ...<3 lines>...\n    )\nRuntimeError: projected committed RAM exceeds the 17 GB working allowance: parent=14828822528, active_unused_reservations=1281913088, new_bound=1000000000, projected=17110735616\n",
   "plan": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/NATIVE_LSQ_10PCT_SEQUENCE_R1.json",
   "plan_sha256": "ff82378e74287f0db380d891f99e3cc9c5eb109f3d0507c13b90a5f6d99f739d",
-  "status": "running",
-  "worker_heartbeat": "2026-10-13T17:53:39.923344+00:00",
-  "worker_status": "running"
+  "status": "needs_review",
+  "worker_heartbeat": "2026-10-13T17:57:36.124066+00:00",
+  "worker_status": "finished"
 }

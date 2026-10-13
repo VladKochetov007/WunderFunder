@@ -104,3 +104,7 @@ Terminal raw execution evidence pinned by the snapshot above:
 [Full-data GPU handoff sequence](FULL_QAT_GPU_SEQUENCE_R1.json) waits for the healthy uniformW4 fit, uses the existing bounded cache helper and then freshly admits the allocated mixedW4/W8 fit. Commands are frozen, stop markers and failed receipts block new admission, and no failed job is retried. Root retains checkpoint/evaluation ownership.
 
 [Fixed-control archive reproduction](LSQ_FIXED_ARCHIVE_REPRODUCTION_R1.json) verifies byte-identical packed W4 output between the original and fresh same-source 10% control. The learned-scale archive differs. This supports implementation continuity; shared ancestry and sampling do not create an independent replication.
+
+[Learned-scale evaluation admission recovery](NATIVE_LSQ_LEARNED_RECOVERY_R2.json) preserves the pre-start17.11GB committed-memory refusal and waits for the other native replay to finish before a fresh attempt. The same checkpoint, code, 1GB worker bound and17GB target are retained; this is an execution guard, not a scientific failure.
+
+[Full-data floating native controls](full_float_results_r1/README.md) record complete exposed-F0 Q8/W4/mixed scores0.681605037/0.680741171/0.680660270, fixed14920-update checkpoint and exact archive/source/prediction identities. They are matched controls for the ongoing full-data QAT cohort; independent paired grading and distinct-seed/fold confirmation remain separate.

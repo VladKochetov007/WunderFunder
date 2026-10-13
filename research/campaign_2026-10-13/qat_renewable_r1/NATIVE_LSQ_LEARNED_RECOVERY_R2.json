@@ -1,0 +1,80 @@
+{
+  "runtime": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime",
+  "disk_path": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "min_free_bytes": 5000000000,
+  "owner": "root",
+  "purpose": "Diagnosed R1 prestart17GB refusal; wait until full100float mixedCPU replay releases reservation before exact same learnedcheckpoint evaluation, new attemptidentity",
+  "steps": [
+    {
+      "attempt": "qat-100pct-f0-s3-float-mixed-native-r1",
+      "expected_command": [
+        "env",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/deployment_source_r3/src",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/deployment_source_r3/scripts/evaluate_qat_deployment.py",
+        "run",
+        "--output",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/100pct_fp32_deployment_r3",
+        "--case",
+        "input_w4_recurrent_w8",
+        "--manifest-sha256",
+        "4d0e8fe7345124c8837305568f1fa0ae69aa26bd1f12dd01dc57d9e2a09bc24b"
+      ]
+    },
+    {
+      "attempt": "qat-lsq-10pct-f0-s3-learned-native-r2",
+      "expected_command": [
+        "env",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/lsq_export_source_r2/src",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/lsq_export_source_r2/scripts/evaluate_qat_deployment.py",
+        "run",
+        "--output",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/lsq_10pct_learned_deployment_r2",
+        "--case",
+        "recurrent_w4",
+        "--manifest-sha256",
+        "d3790b8d2cfa7ed5d9794694e15637d7372a39480ff3c54811867fe8e158ddfb"
+      ],
+      "launch_command": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/lsq_export_source_r2",
+        "--state",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime",
+        "launch",
+        "--attempt",
+        "qat-lsq-10pct-f0-s3-learned-native-r2",
+        "--kind",
+        "cpu",
+        "--cpus",
+        "1",
+        "--reserve-bytes",
+        "1000000000",
+        "--profile",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/deployment_checks_r1/PROFILE_SUMMARY_R1.json",
+        "--contract",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/CONTRACT.json",
+        "--",
+        "env",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/lsq_export_source_r2/src",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/lsq_export_source_r2/scripts/evaluate_qat_deployment.py",
+        "run",
+        "--output",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/lsq_10pct_learned_deployment_r2",
+        "--case",
+        "recurrent_w4",
+        "--manifest-sha256",
+        "d3790b8d2cfa7ed5d9794694e15637d7372a39480ff3c54811867fe8e158ddfb"
+      ],
+      "output_bytes": 80000000,
+      "must_not_exist": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/qat_renewable_r1/lsq_10pct_learned_deployment_r2/recurrent_w4"
+      ]
+    }
+  ],
+  "failure_preserved": "NATIVE_LSQ_10PCT_SEQUENCE_RECEIPT_R1.json",
+  "recovery_basis": "R1 refused at projected17.110735616GB; no evaluator process or result was created. Preserve healthyGPU/fullnativeworker. Do not reduce measured1GB reserve orchange17GBtarget."
+}
