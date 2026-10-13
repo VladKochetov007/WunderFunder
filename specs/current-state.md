@@ -1,5 +1,10 @@
 ## 2026-10-13T17:04:15.769478+00:00 — matched 10% QAT grades and active 30% GPU wave
 
+### 2026-10-13 17:55 UTC — QAT execution continues
+
+The [current QAT frontier](../research/campaign_2026-10-13/qat_renewable_r1/FRONTIER.md) records all six completed 10%/30% fits and independent native matched grades. The full-data floating control completed 14,920 updates; its native-Q8 score is 0.681605037 on exposed F0. Both learned-scale comparison fits completed 1,440 updates with identical sampling and normalization, and exact-code native evaluation is running. The local GPU now runs full-data uniform-W4 QAT; the mixed arm is allocated next. A private seed-4 Kaggle profile was accepted as version 1 and is RUNNING; the actual-data TPU bridge remains QUEUED. All score evidence is one exposed fold/seed until the separate seed/fold repetitions land. No new serving winner, public forecast, paid action or public upload is claimed. The [computation receipt](../research/campaign_2026-10-13/qat_renewable_r1/COMPUTE_WAVE_PROGRESS_R2.md) links resource, profile, collection and export checks.
+
+
 The [QAT frontier](../research/campaign_2026-10-13/qat_renewable_r1/FRONTIER.md) records completed matched 10% fits and full-F0 native grades: uniform W4 QAT minus matching PTQ −0.0001149; mixed W4/W8 +0.0001390. Component-bootstrap intervals span zero; this is one exposed fold and seed, with full fitting-set parent/teacher ancestry. The 30% floating and uniform-W4 fits completed 4,380 updates, their native evaluations are active, and mixed 30% QAT is running on the local GPU. Full-data vectors, learned-scale implementation and a seed4 private Kaggle packet are being prepared. The admitted TPU bridge remains provider QUEUED. No public upload, paid action, serving winner or public forecast is claimed.
 
 ## 2026-10-13T16:38:34.882139+00:00 — QAT GPU experiments and TPU bridge dispatched
