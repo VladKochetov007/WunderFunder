@@ -133,3 +133,5 @@ Terminal raw execution evidence pinned by the snapshot above:
 [Full-data uniform-W4 QAT result](full_uniform_results_r1/README.md) records the completed 14,920-update fit and full-F0 native WP 0.681362789, versus matched W4 PTQ 0.680741171. It indexes checkpoint/export/resource receipts; independent uncertainty review is pending and no cross-seed or public gain is established. H-QAT-W4-20261013; E-QAT-WEIGHT-100PCT-F0S3-20261013-R1.
 
 [Between-fit cache handoff](CACHE_HANDOFF_BETWEEN_100PCT_QAT_R1.json) restored admission headroom after the completed full-data uniform fit; the healthy mixed arm is now running. [Root cloud status](CLOUD_STATUS_ROOT_R2.json) records the seed-4 profile ERROR and TPU QUEUED at the latest observation; terminal artifact diagnosis is separate from model quality.
+
+[Seed-4 LSQ confirmation recipe](lsq_f0_s4_r1/README.md) prepares the independently motivated learned-versus-fixed scale pair with seed4 CP5/RNG and the same 315-component subset. Exact parent/source/commands and actual-shape profiles are frozen for review; no seed4 local fit is admitted yet. H-QAT-LSQ-20261013; E-QAT-LSQ-10PCT-F0S4-20261013-R1.
