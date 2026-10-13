@@ -1,0 +1,112 @@
+{
+  "schema": "wnn.qat-selected-zip-independent-release-audit.v1",
+  "created_utc": "2026-10-13T21:14:08Z",
+  "experiment_id": "E-QAT-FINAL-SELF-DISTILL-20261013-R2-ZIP-AUDIT",
+  "review_role": "independent package/parity reviewer",
+  "verdict": "GO_EXACT_PACKAGE_INTEGRITY_AND_DOCUMENTED_OFFLINE_PARITY_SCOPE",
+  "candidate": "kotiki_qat_selfdistill_lsq_20261013_r2",
+  "artifact": {
+    "release_path": "submissions/10-14-qat-r1/kotiki_qat_lsq_20261014.zip",
+    "build_path": "artifacts/qat_renewable_r1/submission_candidates_r2/self_s3/kotiki_qat_selfdistill_lsq_20261013_r2.zip",
+    "sha256": "e2f78e09b0147b37c74b5809b9aa38f48d1ee6b83d656483b14eeb609aac22b3",
+    "bytes": 13461304,
+    "same_hardlinked_file": true,
+    "package_limit_bytes": 20000000,
+    "zip_crc_passed": true,
+    "member_count": 12,
+    "all_member_hashes_match_build_manifest": true,
+    "build_manifest_path": "artifacts/qat_renewable_r1/submission_candidates_r2/self_s3/kotiki_qat_selfdistill_lsq_20261013_r2.manifest.json",
+    "build_manifest_sha256": "c4d0b1fdd1333905b02799dc971631a76ea39ffe0ae5db9f569ab8370acf87f2",
+    "solution_template_sha256": "2c3fbba2b1c805480fc1c321242f3be74572f2a9d1320aaf3171ec7aaf4b62b2",
+    "qat_archive_template_sha256": "81d271885d93698935260dcc23d30d0d6d40c75418a041487b34f6422eb7fc4d"
+  },
+  "transport": {
+    "fixed_member_count": 4,
+    "coefficients": [0.25, 0.25, 0.25, 0.25],
+    "qat_member_index": 3,
+    "qat_preset": "recurrent_w4",
+    "qat_archive_sha256": "11bdaec0734234e8e9550c799f8d8390cc2d710325b21b42d143091b9ba65bdd",
+    "release_spec_path": "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/QAT_RELEASE_SPEC_R2.json",
+    "release_spec_sha256": "90343427631c47b36811413e9e468c7b7af8431a8d1c415477bb08209e3a28b4",
+    "recipe_path": "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/SUBMISSION_RECIPE_R2.json",
+    "recipe_sha256": "d53cc43ea011c358bc8d70a3dba9ccb874d3a4aa43698c379397b395445c6c2a"
+  },
+  "abi": {
+    "receipt_path": "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/ZIP_ABI_R2.json",
+    "receipt_sha256": "59caa6401aa97f11e0ef606f7d08b028082ebece5dcbf2e1dec8081fcc0f623d",
+    "passed": true,
+    "runtime_directories": ["avx2", "v2", "v3"],
+    "native_sha256_all_directories": "1fa4de2594d1918b4dc11a75b8901dc5e1854b1f00dd6195b8201fed35384052",
+    "maximum_glibc": "2.34",
+    "libpython_dependency": false
+  },
+  "callback_parity": {
+    "receipts": [
+      {
+        "path": "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/SELECTED_ZIP_NATIVE_PARITY_V2_R2.json",
+        "sha256": "b5748cad075898d513e5a73d9dda1acd50ab172a27ea7e69e9b3efe1eff271da"
+      },
+      {
+        "path": "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/SELECTED_ZIP_NATIVE_PARITY_V3_R2.json",
+        "sha256": "373ca8a1137cafec0533250396bce06492883974dbc4b4ecac770c6f29d98ac9"
+      }
+    ],
+    "passed_both": true,
+    "python": "3.11.16",
+    "zip_sha256_both": "e2f78e09b0147b37c74b5809b9aa38f48d1ee6b83d656483b14eeb609aac22b3",
+    "reference_blend_sha256": "f8ac48c6fa8f3e12dab4d99e97f3212f3a38a61ddded3ced3977dfc97d6de198",
+    "data_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "ordered_row_groups": [4, 5, 7, 9, 12, 18, 19, 22],
+    "sequences_length_rows": 20000,
+    "required_rows_per_sequence": 19901,
+    "required_rows_all_eight": 159208,
+    "a_b_a_reset_replay_rows": 19901,
+    "required_rows_with_replay": 179109,
+    "bitwise_equal_to_reference": true,
+    "different_rows": 0,
+    "different_values": 0,
+    "max_absolute_difference": 0.0,
+    "limitations": [
+      "Local Python/native callback and reset-parity evidence only; both receipts use the same portable native binary.",
+      "No metric, public score, independent hardware-ISA, or full-panel quality claim is made.",
+      "The separate 17-test package-repair suite used an S4 archive fixture, not this selected S3 ZIP."
+    ]
+  },
+  "runtime_context": {
+    "matched_receipt_path": "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/MATCHED_CALLBACK_RUNTIME_R2.json",
+    "matched_receipt_sha256": "b88bcc00e3950d0f52fc0f8859e607c87b1ce2260eecde05339e0bf750da8097",
+    "candidate_result_path": "research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/SELECTED_CALLBACK_RUNTIME_R2.json",
+    "candidate_result_sha256": "9d1027894c72856021a6326193e881132e043ac73f5a06a4cb71abd3734f4ee8",
+    "baseline_result_path": "artifacts/qat_renewable_r1/final_release_r1/BASELINE_CALLBACK_RUNTIME_R3.json",
+    "baseline_result_sha256": "a71515f86f01ce8caaabef29e777aece4ba344a34a421cb7444ac6b22482b476",
+    "controls_matched": true,
+    "candidate_median_us_per_row": 87.56384277500001,
+    "baseline_median_us_per_row": 89.67824917499999,
+    "candidate_over_baseline": 0.9764223050800882,
+    "archive_bytes_candidate": 13461304,
+    "archive_bytes_baseline": 16308160,
+    "archive_savings_fraction": 0.17456635205933713,
+    "scope": "Two sequential short local CPU0 Python 3.11 timings on two complete sequences, two repeats; each 1 GB worker leaf reached its cap during full-file hashing, with zero OOM/kill/throttle.",
+    "limitations": [
+      "Not official-host performance, not INT4-kernel throughput, and not a full-panel runtime estimate.",
+      "Reset and parquet decoding are excluded from callback timing.",
+      "Archive-size reduction includes portable native binary changes, not only QAT packing."
+    ]
+  },
+  "quality_context": {
+    "grade_receipt_path": "research/unified/reviews/receipts/QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R4.json",
+    "grade_receipt_sha256": "2be59b330c2d5271fe31e02a2af13dcbcfd006653265c5205e1f7700f8d7c90e",
+    "grade_result_sha256": "286161d017c3cae19fe5f36b70adbb97a071dc2be4b405eea4dc41d608b42dec",
+    "metric": "global_wp_clip2_v1",
+    "qat_wp": 0.7022161445465765,
+    "baseline_wp": 0.7022662376918923,
+    "matched_fp32_native_q8_wp": 0.7023745299872821,
+    "matched_fp32_ptq_w4_wp": 0.7021328288051931,
+    "qat_delta_vs_baseline": -0.000050093145315788234,
+    "qat_delta_vs_fp32_native_q8": -0.00015838544070556626,
+    "qat_delta_vs_matched_fp32_ptq_w4": 0.00008331574138342827,
+    "evidence_limit": "One fitting seed, exposed fitted-data F0 only; no clean-CV, held-out, or public-score claim."
+  },
+  "release_scope": "Technical package/parity GO only. Root retains release coordination; this receipt does not claim quality improvement or public transfer."
+}
