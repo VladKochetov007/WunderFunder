@@ -1,0 +1,27 @@
+{
+  "attempt_id": "clean-t3-f0-amplitude1-s3-a9-r3-p2-20261013",
+  "bounded_command": "scripts/limited Main .venv/bin/python inspect_amplitude_resume_boundary.py --expected-next-epoch 4 --expected-attempts 29840 --expected-completed-updates 29829 --expected-amp-skips 11 --expected-total-steps 44760",
+  "corrected_behavior": "Represent None generator fields as global CPU RNG mode and retain the separately captured global RNG states; hash only explicit uint8 generator tensors.",
+  "created_utc": "2026-10-13T00:51:03+00:00",
+  "diagnosis": "This is an inspection-helper bug. The actual trainer recipe intentionally stores None for both explicit loader and sampler generators and saves the global RNG in the training state.",
+  "exit_status": 1,
+  "failure": "AttributeError while hashing loader generator state: the recorded loader_generator is None because this recipe uses the global CPU RNG; validator assumed an explicit torch.Generator tensor.",
+  "failure_location": "loader generator summary after successful state, contract, optimizer, scheduler and finite tensor checks; no receipt was written.",
+  "model_fit_or_device_work_performed_by_failed_helper": false,
+  "output_receipt_created": false,
+  "preserved_before_correction": true,
+  "resource_bound": {
+    "cpu_cores": 1,
+    "memory_max_bytes": 1200000000,
+    "runtime_max_seconds": 120
+  },
+  "schema": "wnn.strategy-amplitude-resume-validator-failure.r1",
+  "stage": "P2 terminal-state validation",
+  "training_state_artifact": {
+    "bytes": 11826031,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/clean_t3_f0_amplitude1_s3_a9_t3r5_r3_p2/training_state.pt",
+    "sha256": "89af66541acdb72023999b7670a3a93817d33a8bdc75063ae89f4a9ae5efa2cf"
+  },
+  "validator_path": "/home/vlad/development/wunder/wnn-agent-worktrees/strategy-cohort-20261013/research/campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/inspect_amplitude_resume_boundary.py",
+  "validator_source_sha256_at_failure": "not captured before immediate repair"
+}
