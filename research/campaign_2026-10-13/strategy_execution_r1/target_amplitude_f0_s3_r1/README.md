@@ -1,6 +1,6 @@
 # F0 seed-3 cached-teacher amplitude packet
 
-**Status: R3 command correction is ready for root-authorized execution after its split-loader preflight passed; fresh shared-resource admission remains mandatory.** R2 P1 was admitted but failed before training because the relative split-manifest path resolved inside the source overlay. Its exact failure is preserved in [the R2 attempt receipt](P1_ATTEMPT_FAILURE_R2.json); R2 JSON/source remain immutable. R3 uses absolute split-manifest paths and fresh attempt/output IDs. No treatment fit or score exists yet. See [R3 correction receipt](RECIPE_REVIEW_CORRECTION_R3.md) and the exact [R3 controller source-manifest preflight](SOURCE_MANIFEST_PREFLIGHT_R3.json).
+**Status: R3 P1 completed at `next_epoch=2`; P2 is admitted and actively fitting through epoch 2. No treatment score exists yet.** The actual P1 resume state, optimizer/scheduler/RNG checks, matching initializer hash, P2 admission and first fit-progress line are bound in the [P1→P2 resume-gate receipt](P1_P2_RESUME_GATE_R1.json). P1's worker-local OOM counters were zero; the one aggregate hierarchical OOM event was the separate 400MB S38 metadata-only support-scope failure documented in the [S38 execution receipt](../s38_mirror_symmetry_r1/EXECUTION_RECEIPT_R1.json). R2 P1 was admitted but failed before training because the relative split-manifest path resolved inside the source overlay. Its exact failure is preserved in [the R2 attempt receipt](P1_ATTEMPT_FAILURE_R2.json); R2 JSON/source remain immutable. R3 uses absolute split-manifest paths and fresh attempt/output IDs. See [R3 correction receipt](RECIPE_REVIEW_CORRECTION_R3.md) and the exact [R3 controller source-manifest preflight](SOURCE_MANIFEST_PREFLIGHT_R3.json).
 
 This packet tests one variable: multiply the stored homogeneous teacher target by `16/13` before the trainer's existing `[-2, 2]` clip. The cache stores `float32(0.8125 * float32_mean(three epoch-2 clean T3 F0 teacher predictions))` without cache clipping. The student remains seed 3, initialized from `c20261003_combo_s3_f0@ep3`, with alpha `0.9`, the same fitting membership, six-epoch OneCycle schedule, fixed epoch-5 checkpoint, FP16 training, unchanged label weighting and auxiliary losses, and FP32 full-valid export. Scale `1` is the exact no-op control path.
 
@@ -14,11 +14,16 @@ F0 is the quickest runnable amplitude arm. The seed-3 F3 initializer exists (`c2
 
 The separate R22 Kaggle R7 packet failed before fitting because its worker argv retained a literal `{python}` token; the process exited 2 with zero GPU use. That packet used a different MuonAll-parent treatment, so the infrastructure failure is not scientific evidence about amplitude and will not be rebuilt as this comparator.
 
+## Export-to-grader path binding
+
+The frozen R3 exporter sets `--output-name` to a CP5-specific name, so the actual producer writes `cache/pred_<output-name>_valid.npy` and its sidecar. The existing grader resolves `cache/pred_<run>_valid.npy` and requires the sidecar's `run` field to equal the run name. The frozen R3 command packet is retained unchanged; after the terminal FP32 export, use the separately frozen [prediction alias workflow](../PREDICTION_ALIAS_WORKFLOW_R1.json) to validate and hardlink both files to the run-name paths before grading. Its helper passed a verify-only check against the actual matched-control producer artifact and its existing aliases. The new candidate still needs its own export-time hash, checkpoint, shape and sidecar checks.
+
 ## Files
 
 - [R3 exact fit, export and grade commands](FIT_AND_EXPORT_COMMANDS_R3.json) — fresh worker vectors with absolute split-manifest paths; root authorized execution after preflight, subject to exact source-manifest verification and fresh resource admission.
 - [R3 correction receipt](RECIPE_REVIEW_CORRECTION_R3.md) — records the R2 pre-fit failure, actual loader preflight, path audit and conditional root authorization.
 - [R3 source-manifest preflight](SOURCE_MANIFEST_PREFLIGHT_R3.json) — runs the root controller manifest function on the exact P1/P2/P3/export worker vectors; all four resolve to one source-manifest hash.
+- [P1→P2 resume-gate receipt](P1_P2_RESUME_GATE_R1.json) — records P1's actual epoch-boundary state hash, full continuation checks, matching seed-3 parent ancestry, P2 input-state binding, fresh aggregate admission and first actual training progress.
 - [R2 P1 attempt failure](P1_ATTEMPT_FAILURE_R2.json) — immutable terminal runtime/log identities; no fitting or scientific result occurred.
 - [R2 correction receipt](RECIPE_REVIEW_CORRECTION_R2.md) — documents the two R1 blockers, fixes and immutable hashes.
 - [R1 command packet](FIT_AND_EXPORT_COMMANDS_R1.json) — superseded after review found a restrictive byte cap and invalid relative resume paths; never launch this packet.
@@ -26,5 +31,7 @@ The separate R22 Kaggle R7 packet failed before fitting because its worker argv 
 - [R1 source and input bindings](SOURCE_AND_INPUT_BINDINGS_R1.json) — preserved original review packet; superseded for execution by R2.
 - [Scale parity receipt](AMPLITUDE_PARITY_CHECK_R1.json) — implementation position, default identity and hand-checked FP32 scale/clip/blend values.
 - [R2 R3-derived source overlay](source_overlay_r2/README.md) — two disclosed overrides: target-scale trainer and reviewed dynamic allocator.
+- [Post-export prediction alias and grade workflow](../PREDICTION_ALIAS_WORKFLOW_R1.json) — binds the custom export name to the run-name paths expected by the grader, with an actual-control producer fixture check.
+- [Alias validation helper](../../../../scripts/alias_grade_prediction.py) — bounded NPY-header/sidecar/checkpoint/split validation and no-overwrite hardlink creation.
 - [R2 source delta](SOURCE_DELTA_R2.patch) — trainer treatment and operational resource-policy changes.
 - [R1 source overlay](source_overlay/README.md) and [R1 source delta](SOURCE_DELTA_R1.patch) — immutable audit history; R1 is not launchable.
