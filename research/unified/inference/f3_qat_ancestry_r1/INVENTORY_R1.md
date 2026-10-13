@@ -21,7 +21,7 @@ The F0 CP5 reference is not just an H256 checkpoint. The local F0 S3 and S4 pare
 
 - S3 clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt, SHA e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda.
 - S4 clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1/model_ep5.pt, SHA e6be82ff799f4ea2b62e770e9c340a8cfd8f98780d1c7dec4a76eab5a853d35c.
-- Both use cache/clean_t3_f0_h390_t3r5_a9_r2 metadata SHA 1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8. That cache blends epoch-2 H384 clean-T3 fold-0 teachers S3/S4/S5 at coefficient 0.1 each. The F0 parents use F0 combo S3/S4 initializers, respectively, and fold-0 membership.
+- Both use cache/clean_t3_f0_h390_t3r5_a9_r2 metadata SHA 1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8. The metadata lists source coefficients 0.1 each, but the authoritative stored-target contract is `float32(0.8125 * float32_mean(three_epoch2_predictions))`: the unweighted mean of epoch-2 H384 clean-T3 fold-0 teachers S3/S4/S5, scaled by0.8125. The student applies the separately recorded distillation alpha; the source coefficient fields alone do not describe the stored target. The F0 parents use F0 combo S3/S4 initializers, respectively, and fold-0 membership.
 
 There is no F3 counterpart to that clean-T3 H384 three-teacher cache, no fold-3 H256 clean-T3 CP5 continuation checkpoint, and no fold-3 S4 combo initializer. Do not reuse the F0 CP5 parents or the F0 cache for F3: their fitted membership is fold 0 and can include fold-3 evaluation groups. The F3 QAT delivery folder also has only F0 S3 subset manifests, so any QAT adaptation that consumes a fit_components manifest needs a fold-3 manifest rather than one of those files.
 

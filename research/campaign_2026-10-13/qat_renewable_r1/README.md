@@ -108,3 +108,5 @@ Terminal raw execution evidence pinned by the snapshot above:
 [Learned-scale evaluation admission recovery](NATIVE_LSQ_LEARNED_RECOVERY_R2.json) preserves the pre-start17.11GB committed-memory refusal and waits for the other native replay to finish before a fresh attempt. The same checkpoint, code, 1GB worker bound and17GB target are retained; this is an execution guard, not a scientific failure.
 
 [Full-data floating native controls](full_float_results_r1/README.md) record complete exposed-F0 Q8/W4/mixed scores0.681605037/0.680741171/0.680660270, fixed14920-update checkpoint and exact archive/source/prediction identities. They are matched controls for the ongoing full-data QAT cohort; independent paired grading and distinct-seed/fold confirmation remain separate.
+
+[Navigation verification R3](INDEX_VERIFICATION_R3.json) records successful tree generation and six-file local link validation. The subsequent check reached the freshness test and reported stale generated catalogs during live execution; this is not represented as a complete integrity-check pass.
