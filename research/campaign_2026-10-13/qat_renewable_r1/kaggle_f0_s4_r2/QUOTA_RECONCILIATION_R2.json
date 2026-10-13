@@ -1,0 +1,79 @@
+{
+  "schema": "qat-kaggle-f0-s4-r2-terminal-quota-reconciliation",
+  "recorded_utc": "2026-10-13T20:24:33.850610+00:00",
+  "kernel": "vladkochetov07/wnn-qat-f0-s4-profile-r2-runner",
+  "provider_version": 1,
+  "provider_attempt": 1,
+  "profile_only": true,
+  "fit_authorized": false,
+  "provider_terminal_status": "KernelWorkerStatus.ERROR",
+  "provider_failure_message": "",
+  "root_admission": {
+    "path": "ROOT_ADMISSION_R2.json",
+    "sha256": "7de9a1011e8db117cb908a5c4117b97e1ac2e54992a8512a948e39945b33195c",
+    "gpu_used_seconds_before_push": 74064.28,
+    "gpu_reserved_seconds_before_push": 0.0,
+    "gpu_total_seconds_allowed": 108000.0,
+    "gpu_remaining_seconds_before_push": 33935.72,
+    "tpu_used_seconds_before_push": 0.0,
+    "tpu_reserved_seconds_before_push": 0.0,
+    "tpu_total_seconds_allowed": 72000.0
+  },
+  "root_push": {
+    "path": "ROOT_KERNEL_PUSH_R2.json",
+    "sha256": "8228e7192901847ce25baecf5e0ac9d24d44fc0751d4fa58befd760028544786"
+  },
+  "terminal_collection": {
+    "path": "PROFILE_TERMINAL_R2.json",
+    "sha256": "b5116f63dfaf87681a15989cce09d245a66c2110c8a3dd0111b7da4db11c3639",
+    "manifest_sha256": "74c8a54dab2929b69c083b1d12fb141dfb115d6770d20c95119d3c39c93efb2b",
+    "collected_file_count": 25,
+    "total_bytes_including_manifest": 274597,
+    "collection_limit_bytes": 100000000
+  },
+  "collector_source_revisions": {
+    "source_sha256_used_for_successful_collection": "952aa110b690b9ecc9059c8051a064c3c178b5323445bf7ba969d175d58b487a",
+    "committed_collector_sha256": "6e9b8303e49af4fb2fb2e7a2afa40f47288e9e0fa7364f9838ee71a6cc003d56",
+    "post_collection_changes": [
+      "Allow and recheck a pre-created empty approved collection directory after the recorded first-attempt race.",
+      "Map typed Kaggle quota fields time_used/time_reserved instead of nonexistent used/reserved attributes."
+    ],
+    "quota_correction_source": "Direct KaggleApi.quota_view typed model inspection at corrected_typed_quota_snapshot.observed_utc; no provider mutation."
+  },
+  "original_terminal_receipt_quota_field_issue": {
+    "terminal_receipt_path": "PROFILE_TERMINAL_R2.json",
+    "observed_utc_before": "2026-10-13T20:21:34.396239+00:00",
+    "observed_utc_after": "2026-10-13T20:21:43.523511+00:00",
+    "total_time_allowed_fields_were_present": true,
+    "used_and_reserved_fields_were_null": true,
+    "cause": "The collector initially queried quota attributes named used/reserved; the Kaggle SDK model exposes time_used/time_reserved.",
+    "preservation": "The original terminal receipt is unchanged. This sidecar supplies a fresh correctly mapped typed quota snapshot."
+  },
+  "corrected_typed_quota_snapshot": {
+    "observed_utc": "2026-10-13T20:24:33.850610+00:00",
+    "quota_refresh_time": "2026-10-17T00:00:00",
+    "sdk_model": "ApiAcceleratorQuota",
+    "attribute_mapping": {
+      "used_seconds": "time_used.total_seconds()",
+      "reserved_seconds": "time_reserved.total_seconds()",
+      "total_allowed_seconds": "total_time_allowed.total_seconds()"
+    },
+    "gpu": {
+      "used_seconds": 74693.935,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "remaining_seconds": 33306.065
+    },
+    "tpu": {
+      "used_seconds": 0.0,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "remaining_seconds": 72000.0
+    }
+  },
+  "usage_reconciliation": {
+    "gpu_seconds_used_since_root_admission": 629.655,
+    "tpu_seconds_used_since_root_admission": 0.0,
+    "interpretation": "Observed account quota delta is consistent with the R2 kernel session duration. This does not establish successful training/profile measurements."
+  }
+}

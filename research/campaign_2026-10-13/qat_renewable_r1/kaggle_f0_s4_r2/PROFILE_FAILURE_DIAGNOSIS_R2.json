@@ -1,0 +1,115 @@
+{
+  "schema": "qat-kaggle-f0-s4-profile-failure-diagnosis",
+  "recorded_utc": "2026-10-13T20:30:08+00:00",
+  "kernel": "vladkochetov07/wnn-qat-f0-s4-profile-r2-runner",
+  "provider_version": 1,
+  "provider_attempt": 1,
+  "profile_only": true,
+  "fit_authorized": false,
+  "bootstrap_sha256": "ae5806e09548673a317af4440710fd15fd82aa680a6ec897027fccd74571192e",
+  "bundle_archive_sha256": "06e6a9cca4eb3533f6003290a773be1c8f75b3538f344ba2a9ec83ad771b5719",
+  "terminal_status": "KernelWorkerStatus.ERROR",
+  "provider_failure_message": "",
+  "actual_data_preflight": {
+    "status": "complete",
+    "wall_seconds": 313.9920615680003,
+    "input_count": 34,
+    "hashed_bytes": 40075446871,
+    "peak_ram_bytes": 621748224,
+    "peak_gpu_bytes": 0,
+    "input_identity_artifact_sha256": "3142e361c9ae721dadbdd7a90c7481231852a344dc0e770ac1fe4ab12af172cb",
+    "source_identity_summary": {
+      "status": "verified_internal_deferred_external",
+      "internal_source_files_matched": 67,
+      "external_inputs_deferred_to_actual_preflight": 34
+    }
+  },
+  "cache_handoff": {
+    "status": "complete",
+    "advice": "POSIX_FADV_DONTNEED",
+    "files": 34,
+    "bytes": 40075446871,
+    "all_advice_calls_succeeded": true,
+    "cgroup_file_bytes_before": 27680329728,
+    "cgroup_file_bytes_after": 555126784,
+    "receipt_sha256": "0a211d3fa330d5251828225b658803da07c0e150ebfbcd0349e1accbaf1fd6dd"
+  },
+  "candidate_tranche": {
+    "concurrency_admitted": 2,
+    "planned_conditions": ["fp32", "uniform_w4", "mixed_w4w8"],
+    "fp32": {
+      "status": "failed_before_profile_updates",
+      "returncode": 1,
+      "wall_seconds": 306.937463624,
+      "peak_ram_bytes": 678404096,
+      "peak_gpu_bytes": 3145728,
+      "worker_log_sha256": "37aed47c39e364aadfa3ef8236c2c3bd68de9c439f44200f7a622933e17a3121",
+      "result_sha256": "467ae429dcdaeaada99ecae654ae3e06736582e9a51ad36921511dbd21d523dc"
+    },
+    "uniform_w4": {
+      "status": "aborted_after_sibling_failure_and_failed_same_pre_profile_validation",
+      "worker_log_sha256": "37aed47c39e364aadfa3ef8236c2c3bd68de9c439f44200f7a622933e17a3121",
+      "failure_receipt_sha256": "130fa82011197eeab5eb25c35190c33133b2dff0a1ec44352ff485152a9c2514"
+    },
+    "mixed_w4w8": {
+      "status": "not_started"
+    },
+    "summary_sha256": "968bf1b54edcd88809879b2b0f5c660820268b2a2b7d245440f3c1f77ef217b0",
+    "post_handoff_device_inventory": {
+      "gpu_count": 2,
+      "gpu_name": "Tesla T4",
+      "bytes_per_gpu": 16106127360,
+      "observed_used_bytes": [0, 0]
+    }
+  },
+  "first_worker_exception": {
+    "type": "ValueError",
+    "message": "cache file escapes the registered cache root: main_homogeneous_train",
+    "trace_source": "src/wnn/distillation_cache.py:239-241, invoked from scripts/train_rnn.py:2203",
+    "observed_path": "/kaggle/input/datasets/vladkochetov07/wnn-qat-f0-s4-assets-r1/6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3.wnn",
+    "required_cache_root": "/kaggle/working/experiment/cache/clean_t3_f0_h390_t3r5_a9_r2",
+    "cause": "Kaggle runtime mounting exposes the registered cache array through a symlink to a content-addressed dataset file. validate_distillation_cache resolves the array path and requires its resolved location to remain beneath cache_root; the symlink resolves outside the registered working cache root and is rejected.",
+    "reproduced_in": ["FP32 worker log", "uniform-W4 worker log"]
+  },
+  "exact_registered_cache_inputs": [
+    {
+      "logical_path": "cache/clean_t3_f0_h390_t3r5_a9_r2/metadata.json",
+      "size_bytes": 323404,
+      "sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8"
+    },
+    {
+      "logical_path": "cache/clean_t3_f0_h390_t3r5_a9_r2/main_homogeneous_train.npy",
+      "size_bytes": 1685600128,
+      "sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3"
+    },
+    {
+      "logical_path": "cache/clean_t3_f0_h390_t3r5_a9_r2/main_homogeneous_valid.npy",
+      "size_bytes": 224800128,
+      "sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+    }
+  ],
+  "frozen_source_file_sha256": {
+    "scripts/kaggle_gpu_runner.py": "ff95040cf4f964f3a7c86067a4603660bf80a5468ab71445ce7fcd36482fa9da",
+    "scripts/train_rnn.py": "4935c9faac8f98846f417759d4e620109f18ae6ecc75580964fe716848e1ba84",
+    "src/wnn/distillation_cache.py": "b0b588605b3134a62c7a0c634219030fbcdd820e572668aff6d33980db180740"
+  },
+  "proposed_successor_preflight": [
+    "After the 34-input producer receipt passes exact identity/size/SHA validation, resolve only the three registered distillation-cache sources through those verified logical paths.",
+    "Stream-copy them into the matching /kaggle/working/experiment/cache/clean_t3_f0_h390_t3r5_a9_r2 paths using exclusive temporary files; keep sources read-only and never load the NPY payloads into RAM.",
+    "Verify every local copy has the producer-receipt byte count and SHA-256, is a regular non-symlink file, and resolves beneath the registered cache root before releasing the candidate barrier.",
+    "Drop cache on exact verified source/copy handles if needed, then run the existing unchanged host inventory and worker-admission gate with the same per-worker reservation and operational headroom."
+  ],
+  "limits_of_evidence": [
+    "No candidate completed a profile batch or optimizer update; no throughput or QAT quality result exists.",
+    "The existing R2 attempt limit was one. This diagnosis does not authorize a new kernel version, retry, fit, or provider mutation.",
+    "The successful preflight and cache advice are execution evidence only; they do not validate the QAT policy scientifically."
+  ],
+  "terminal_evidence": {
+    "terminal_receipt_sha256": "b5116f63dfaf87681a15989cce09d245a66c2110c8a3dd0111b7da4db11c3639",
+    "collection_manifest_sha256": "74c8a54dab2929b69c083b1d12fb141dfb115d6770d20c95119d3c39c93efb2b",
+    "collected_files_including_kernel_log": 25,
+    "collected_bytes_including_manifest": 274597,
+    "collection_limit_bytes": 100000000,
+    "payload_location": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/collected/profile_attempt_001"
+  }
+}
