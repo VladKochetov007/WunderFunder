@@ -77,3 +77,5 @@ Runtime claims must name the hardware, exact ZIP, callback protocol, complete-te
 [Activation repair CPU/native checks](../../campaign_2026-10-13/qat_renewable_r1/ACTIVATION_REPAIR_CPU_NATIVE_RECEIPT_R1.json) record8 passing tests after moving GRU metadata/parameter-map construction outside the compiled body. They preserve eager recurrence/native parity; no compiler or quality success is implied. H-QAT-A8-20261013.
 
 [Full-data mixed W4/W8 result](../../campaign_2026-10-13/qat_renewable_r1/full_mixed_results_r1/README.md) records the completed14,920-update fit and native WP0.681420269 versus matched mixed PTQ0.680660270. Checkpoint/export/prediction receipts are indexed; paired independent uncertainty is pending, with only exposed-F0 seed3 evidence. H-QAT-W4-20261013; E-QAT-WEIGHT-100PCT-F0S3-20261013-R1.
+
+- [Stationary final-parent QAT target repair R2](../../campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/README.md): original final initializer supplies fixed causal FP32 targets after R1 target-transfer degradation; matched S3 FP32/learned-scale W4, pending profile/fit results, no held-out or public claim.
