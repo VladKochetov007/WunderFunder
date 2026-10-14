@@ -1,0 +1,47 @@
+{
+  "kind": "profile_harness_preflight_failure",
+  "created_utc": "2026-10-14T00:26:06.629257+00:00",
+  "exit_code": 1,
+  "worktree": "/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014",
+  "source_commit": "95c3b7625e4d88f3203b56acbeda99aa05daa4e7",
+  "source_commit_argument_passed": "95c3b76275db66b9e85ae05641ad68b86ebc9a1e",
+  "source_commit_argument_note": "The first preflight command contained an incorrect, unverified source-commit argument; no result file was produced. The worker failed before it could write that value to a success receipt.",
+  "profile_script_sha256_at_failure": "64819a4d13202b41ea8fd24c4dda0362d653e86bbf259f1a903b03a167a05282",
+  "command": {
+    "environment": {
+      "WNN_SLICE": "wnn-campaign.slice",
+      "WNN_CPU_QUOTA": "100%",
+      "WNN_THREADS": "1",
+      "WNN_MEM_MAX": "1500000000",
+      "WNN_RUNTIME_MAX": "120s",
+      "WNN_SCOPE_UNIT": "cpu-arch-preflight-r1.scope"
+    },
+    "argv": [
+      "scripts/limited",
+      "/home/vlad/.cache/codex/cpu-policy-20261014-venv311/bin/python",
+      "research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py",
+      "--worker",
+      "--hidden",
+      "256",
+      "--layers",
+      "2",
+      "--precision",
+      "q8vnni",
+      "--source-commit",
+      "95c3b76275db66b9e85ae05641ad68b86ebc9a1e",
+      "--result-path",
+      "research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/preflight_r1/h256l2_q8vnni.json"
+    ],
+    "exact_shell_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=cpu-arch-preflight-r1.scope scripts/limited /home/vlad/.cache/codex/cpu-policy-20261014-venv311/bin/python research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py --worker --hidden 256 --layers 2 --precision q8vnni --source-commit 95c3b76275db66b9e85ae05641ad68b86ebc9a1e --result-path research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/preflight_r1/h256l2_q8vnni.json",
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py\", line 551, in <module>\n    main()\n  File \"/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py\", line 538, in main\n    result = run_worker(args)\n             ^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py\", line 300, in run_worker\n    raise AssertionError(\"Q8 policy assertion passed but no Q8 matrix payload is resident\")\nAssertionError: Q8 policy assertion passed but no Q8 matrix payload is resident\n"
+  },
+  "diagnosis": {
+    "failure_class": "harness storage-accounting assertion; no native binary, model-shape, input, or memory failure",
+    "selected_precision_assertion": "passed: EnsemblePredictor.precision was q8vnni",
+    "bad_assumption": "PyEnsemblePredictor.q8_weight_bytes counts model.q8_matrices() only, which is the static PackedQ8 collection and is empty for dynamic q8vnni",
+    "source_evidence": "FastRnn::is_dynamic_int8 and dyn8_matrices identify the q8vnni dynamic-int8 bank; FastRnn::weight_bytes includes self.dq matrix storage, and Python storage_bytes reports that total as total_streamed_weights",
+    "correction": "assert Q8 payload presence through q8vnni selection, positive total_streamed_weights, and positive dynamic shared-backbone/head payload fields; retain q8_weight_bytes as an API-specific static-Q8-only field only if explicitly labeled"
+  },
+  "scope_note": "No fallback run or model-quality evaluation occurred."
+}
