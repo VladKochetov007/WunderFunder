@@ -1,0 +1,42 @@
+{
+  "format": "wnn.student-frontier-f0-grader-inputs",
+  "version": 1,
+  "basis": "F0 seed-3 fixed epoch-0 predictions are scored on the already-exposed source-qualified 468-component fold-0 development panel.",
+  "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "split": {
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "prediction": {
+    "upstream_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+    "upstream_sha256": "2171279b58caa3d3d344f853acecc3825e5cf4c462aeb428f089992ee74ac41d",
+    "pinned_copy_path": "scripts/predict_student_frontier_f0_frozen.py",
+    "pinned_copy_sha256": "1ef54e7e73f4a515b7722c0e0035bef4f48599018df1e5265a2c9e218128d6a1",
+    "root_semantics": "pinned copy honors WNN_PROJECT_ROOT=MAIN; because it runs from ops/scripts it imports the frozen R2 trainer from this same worktree.",
+    "pinned_copy_delta": "Byte-identical production prediction path plus a resource-only first-16-sequence profiling flag; the flag is absent from all quality exports."
+  },
+  "grader": {
+    "score_fold0_panel": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/score_fold0_panel.py",
+      "sha256": "0f67ac06cd769a582901b854737528c89e9a7738c3057acf68d7f99eddbfa2d0",
+      "execution_requirement": "invoke this exact MAIN path; its ROOT is Path(__file__).resolve().parents[1] and must remain MAIN"
+    },
+    "evaluate_bandit_continuation": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/evaluate_bandit_continuation.py",
+      "sha256": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+      "role": "score_fold0_panel imports its prediction-sidecar validator and paired component bootstrap from MAIN/scripts"
+    },
+    "metric": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    },
+    "targets": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_targets.npz",
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "bytes": 337186198,
+      "filesystem": "btrfs (/home on /dev/nvme0n1p7)"
+    }
+  },
+  "evidence_limit": "Repeatedly inspected fold-0 development evidence; not a fresh holdout or public-score forecast.",
+  "ops_root": "/home/vlad/development/wunder/worktrees/student-frontier-ops-20261014"
+}

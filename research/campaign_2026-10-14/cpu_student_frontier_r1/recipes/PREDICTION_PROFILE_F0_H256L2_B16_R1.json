@@ -1,0 +1,55 @@
+{
+  "format": "wnn.student-frontier-inference-resource-profile",
+  "version": 1,
+  "id": "student-frontier-f0s3-h256l2-prediction-b16-r1",
+  "status": "prepared_for_root_admission",
+  "purpose": "Measure the production exporter at its actual DataLoader batch size before the full-valid export; no quality evaluation or model selection.",
+  "consumer_contract": "/home/vlad/development/wunder/worktrees/student-frontier-ops-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_SEED3_B8_R2_CONSUMER_CONTRACT.json",
+  "consumer_contract_sha256": "9476373fc3c32aea2ae48e9a2c48d211f0f152d13d086fa68efd1e8b1a02e768",
+  "model": {
+    "run": "student_frontier_f0s3_h256_l2_r2",
+    "hidden": 256,
+    "layers": 2,
+    "checkpoint": "model_ep0.pt",
+    "epoch": 0
+  },
+  "prediction": {
+    "source": "valid",
+    "selection": "first 16 entries of the frozen full-valid row_group order; profile-only output, not gradeable",
+    "full_valid_groups": 1873,
+    "profile_groups": 16,
+    "batch_size": 16,
+    "sequence_rows": 20000,
+    "output_columns": 2,
+    "precision": "fp32",
+    "chunk_rows": 4000,
+    "feature_only": true,
+    "state_reset": "new zero state per sequence; state carried through inference chunks",
+    "output_name": "student_frontier_f0s3_h256_l2_r2_profileb16",
+    "output_reserve_bytes": 3000000
+  },
+  "data": {
+    "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "valid_targets_path": "cache/valid_targets.npz",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "valid_targets_bytes": 337186198
+  },
+  "source": {
+    "upstream_predictor": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+    "upstream_predictor_sha256": "2171279b58caa3d3d344f853acecc3825e5cf4c462aeb428f089992ee74ac41d",
+    "profiled_predictor_copy": "/home/vlad/development/wunder/worktrees/student-frontier-ops-20261014/scripts/predict_student_frontier_f0_frozen.py",
+    "profiled_predictor_copy_sha256": "1ef54e7e73f4a515b7722c0e0035bef4f48599018df1e5265a2c9e218128d6a1",
+    "source_root": "/home/vlad/development/wunder/worktrees/student-frontier-ops-20261014"
+  },
+  "resource_policy": {
+    "root_admission_required": true,
+    "host_reservation_bytes": 5000000000,
+    "cpu_reservation": 1,
+    "cuda_allocator_cap_bytes": 3500000000,
+    "observed_vram_ceiling_bytes": 5000000000,
+    "timeout_seconds": 600,
+    "no_quality_selection": true
+  }
+}
