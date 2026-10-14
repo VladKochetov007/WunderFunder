@@ -1,0 +1,179 @@
+{
+  "kind": "cost_only_random_weight_runtime_proxy",
+  "created_utc": "2026-10-14T00:27:51.242061+00:00",
+  "source_commit": "febdb238a64f56f2d969bdf59855537527d80f2c",
+  "source_script": "/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py",
+  "source_script_sha256": "d87d3944ab5db7e440c7acc80aea7f4aa00deeff30a3be2ec508a002aca96614",
+  "source_tree_base_commit": "b0331300b939f08877cb526a91da66e1082a025c",
+  "native_api": "EnsemblePredictor.predict(DataPoint) via rebuilt A q8vnni binary",
+  "native_selected_precision": "f32",
+  "active_members": 1,
+  "coefficients": [
+    1.0
+  ],
+  "native_binary_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+  "shape": {
+    "hidden": 192,
+    "layers": 2,
+    "input_width": 211,
+    "encoder": "211 -> H, GELU",
+    "recurrent": "L stacked GRU layers, H each",
+    "skip_readout": "concatenate final GRU state and encoder activation, 2H -> H GELU -> 2",
+    "activations": "fast native GELU, project GRU gates/tanh"
+  },
+  "weights": {
+    "seed": 20261014,
+    "generator": "numpy.PCG64 via default_rng(SeedSequence([20261014, hidden, layers]))",
+    "initialization": "independent float32 uniform matrices with +/-1/sqrt(fan_in); zero biases",
+    "normalization": "exact original xteam_h4 member-0 mean/std, reused across shapes",
+    "trainable_parameter_count": 559682,
+    "trainable_float32_bytes": 2238728,
+    "tensor_sha256": {
+      "gru.bias_hh_l0": "cfc335996cfae29fdf14fd2db7ea853366d350a5d387aa3c322616e81dacd56b",
+      "gru.bias_hh_l1": "cfc335996cfae29fdf14fd2db7ea853366d350a5d387aa3c322616e81dacd56b",
+      "gru.bias_ih_l0": "cfc335996cfae29fdf14fd2db7ea853366d350a5d387aa3c322616e81dacd56b",
+      "gru.bias_ih_l1": "cfc335996cfae29fdf14fd2db7ea853366d350a5d387aa3c322616e81dacd56b",
+      "gru.weight_hh_l0": "e7d0ba3edc22cce62d2989b88d5ab2f3464e339eced0377591461ffc24803c42",
+      "gru.weight_hh_l1": "e71015bf89df0fc34c7b21819781a53d7b1a38f7993309b4e717abe0a7260257",
+      "gru.weight_ih_l0": "c8956d546ce71b92b2a0c1f90934f410af599627da3a265438a277852e3570de",
+      "gru.weight_ih_l1": "8c24a3bb86d9732fb04f5b07de84048ddc7a23e791652cafc0be8d4da4f2f30d",
+      "head.0.bias": "ef115a0e0c15cdc41958ca46b5b14b456115f4baec5e3ca68599d2a8f435e3b8",
+      "head.0.weight": "08079b16c95c64e346025d30512fcb67de955dcdae30b073afbb32f307e6b757",
+      "head.2.bias": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+      "head.2.weight": "045c58a7a0e811fa4b4f5066fde89a5ceed8c1bc948a073ebcdb52484470d4a1",
+      "inp.bias": "ef115a0e0c15cdc41958ca46b5b14b456115f4baec5e3ca68599d2a8f435e3b8",
+      "inp.weight": "32c07359f02aa8fcca235203c842660bd9095c58f66e471b288250e4be25f27d",
+      "mean": "25fe4bf5b5d2029134695891569995a5e4d52713594a7c15388624b9d765d9f0",
+      "std": "6aa63c3d12a1a98b7a690b45d306dcd29ea9ab551de4f83d5bef4d8cb218a135"
+    },
+    "all_tensor_sha256": "40fbac5a547feffa39c1c51a7a4b109b35d58c34bc2fb3264b4bacf9145baffa"
+  },
+  "input": {
+    "source_file": "/home/vlad/development/wunder/worktrees/cpu-policy-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/probes/input_r1/rows/group_0.f32",
+    "row_group": 0,
+    "sequence_id": 256678,
+    "rows": 20000,
+    "features": 112,
+    "sha256": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e",
+    "need_mask_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+    "fixture_manifest_sha256": "5f4fa2cbf45ac9d353b3e120acbb3be6529ff446ae35207b8ccc51e23a692af5",
+    "warmup_rows": 99,
+    "need_prediction_rows": 19901,
+    "features_sha256": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e",
+    "labels_targets_masks_read": false,
+    "validation_full_file_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  },
+  "weights_source": {
+    "source_file": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4/weights_0.npz",
+    "sha256": "45ac50f7324b8e26f37eee97b975e2643134e54ab2399077de8778f931abc2bf"
+  },
+  "timings_seconds": {
+    "synthetic_weight_generation": 0.011592078997637145,
+    "constructor_quantize_pack_and_native_model_init": 0.0034862059983424842,
+    "complete_callback_replay": 1.6577313720044913,
+    "explicit_reset": 1.958003849722445e-06,
+    "complete_callback_replay_after_reset": 1.7170573620096548,
+    "two_replay_mean": 1.687394367007073
+  },
+  "reset_replay_bitwise": true,
+  "complete_prediction_sha256": "7c3c6aee79ff64a315f4f532b05374f669f508c27483028470ab0044fa51fe7f",
+  "post_reset_prediction_sha256": "7c3c6aee79ff64a315f4f532b05374f669f508c27483028470ab0044fa51fe7f",
+  "resident_model_storage_bytes": {
+    "factor_weights": 0,
+    "recurrent_state": 1536,
+    "total_streamed_weights": 2238784,
+    "scratch": 8524,
+    "independent_head_step_payload": 0,
+    "import_only_dense_recurrent": 0,
+    "shared_backbone_step_payload": 0
+  },
+  "native_weight_bytes": 2238784,
+  "native_q8_packed_weight_bytes": null,
+  "native_q8_packed_weight_bytes_note": "The sealed Python getter q8_weight_bytes counts only static PackedQ8 matrices; q8vnni uses dynamic DynQ8 matrices. Their storage is included in native_weight_bytes and total_streamed_weights, while shared_backbone_step_payload and independent_head_step_payload expose logical dynamic-Q8 step payloads.",
+  "process_max_rss_kib": 81356,
+  "cpu": {
+    "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "processor": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "affinity_cpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "thread_environment": {
+      "WNN_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "ARROW_NUM_THREADS": "1"
+    }
+  },
+  "cgroup": {
+    "available": true,
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/cpu-student-ladder-profile-r1.scope",
+    "memory.current": "56500224",
+    "memory.peak": "57303040",
+    "memory.max": "1499996160",
+    "memory.swap.max": "0",
+    "cpu.max": "100000 100000",
+    "memory.events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0,
+      "sock_throttled": 0
+    },
+    "cpu.stat": {
+      "usage_usec": 7337528,
+      "user_usec": 7250957,
+      "system_usec": 86570,
+      "nice_usec": 7248059,
+      "core_sched.force_idle_usec": 0,
+      "nr_periods": 74,
+      "nr_throttled": 1,
+      "throttled_usec": 893,
+      "nr_bursts": 0,
+      "burst_usec": 0
+    }
+  },
+  "provenance": {
+    "archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+    "archive_bytes": 16308160,
+    "validation_file_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "validation_file_bytes": 5615509128,
+    "validation_file_sha256_source": "campaign_2026-10-13/team_models_r1/INVENTORY.json",
+    "validation_features": {
+      "source_file": "/home/vlad/development/wunder/worktrees/cpu-policy-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/probes/input_r1/rows/group_0.f32",
+      "row_group": 0,
+      "sequence_id": 256678,
+      "rows": 20000,
+      "features": 112,
+      "sha256": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e",
+      "need_mask_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "fixture_manifest_sha256": "5f4fa2cbf45ac9d353b3e120acbb3be6529ff446ae35207b8ccc51e23a692af5"
+    },
+    "normalization_tensors": {
+      "source_file": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4/weights_0.npz",
+      "sha256": "45ac50f7324b8e26f37eee97b975e2643134e54ab2399077de8778f931abc2bf"
+    },
+    "native_binary": {
+      "source_file": "/home/vlad/development/wunder/worktrees/cpu-policy-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/extracted/A_rebuilt/v3/wnn_native.abi3.so",
+      "sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362"
+    }
+  },
+  "interpretation": "Runtime/memory only. Synthetic deterministic weights preserve tensor shapes and use original member-0 normalization; no fitting, labels, quality score, or trained-weight package-size claim. F32 and Q8 are distinct arithmetic policies."
+}
