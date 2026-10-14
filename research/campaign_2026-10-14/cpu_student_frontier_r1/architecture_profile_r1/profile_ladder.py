@@ -561,6 +561,17 @@ def verify_existing(args: argparse.Namespace) -> dict[str, Any]:
     historical_source_sha = hashlib.sha256(historical_source).hexdigest()
     if historical_source_sha != summary["source_script_sha256"]:
         raise ValueError("profile script hash does not match the source commit in the result")
+    current_utils = args.main_root / "utils.py"
+    utils_sha = sha256_file(current_utils)
+    historical_utils = subprocess.run(
+        ["git", "show", f"{summary['base_commit']}:utils.py"],
+        cwd=args.main_root,
+        check=True,
+        capture_output=True,
+    ).stdout
+    historical_utils_sha = hashlib.sha256(historical_utils).hexdigest()
+    if utils_sha != historical_utils_sha:
+        raise ValueError("callback DataPoint utility differs from the frozen base commit")
     if len(summary["results"]) != len(SHAPES):
         raise ValueError("summary does not contain all eight planned shapes")
 
@@ -666,6 +677,9 @@ def verify_existing(args: argparse.Namespace) -> dict[str, Any]:
         "ladder_summary_sha256": sha256_file(summary_path),
         "source_commit_verified": expected_commit,
         "source_script_sha256_verified_from_git_object": historical_source_sha,
+        "callback_utility_source": str(current_utils),
+        "callback_utility_sha256": utils_sha,
+        "callback_utility_matches_base_commit": summary["base_commit"],
         "native_binary_sha256": NATIVE_SHA256,
         "worker_count": sum(
             len(policies) for policies in (shape["policies"] for shape in summary["results"])
