@@ -156,7 +156,6 @@ def validate_fit_receipt(
         "optim": str(optimizer["name"]).lower(),
         "sched": str(recipe["schedule"]["name"]).replace("LR", "").lower(),
         "lr": optimizer["learning_rate"],
-        "beta1": optimizer["beta1"],
         "beta2": optimizer["beta2"],
         "wd": optimizer["weight_decay"],
         "clip": optimizer["gradient_clip_norm"],
@@ -168,13 +167,20 @@ def validate_fit_receipt(
         "deterministic": True,
     }.items():
         require_equal(args.get(name), expected, f"trainer argument {name}")
-    if Path(str(args.get("split_manifest"))).resolve() != (
-        root / contract["split"]["path"]
-    ).resolve():
+    require_equal(optimizer.get("beta1"), 0.9, "AdamW constructor beta1")
+    if "beta1" in args:
+        raise ValueError("beta1 must remain the trainer's source-bound default, not a CLI override")
+    require_equal(recipe["schedule"].get("cycle_momentum"), True, "OneCycle momentum cycling")
+    require_equal(recipe["schedule"].get("total_updates"), 14920, "OneCycle update horizon")
+    if (
+        Path(str(args.get("split_manifest"))).resolve()
+        != (root / contract["split"]["path"]).resolve()
+    ):
         raise ValueError("trainer split-manifest path differs from the frozen fold")
-    if Path(str(args.get("distill_cache_root"))).resolve() != (
-        root / contract["cache"]["root"]
-    ).resolve():
+    if (
+        Path(str(args.get("distill_cache_root"))).resolve()
+        != (root / contract["cache"]["root"]).resolve()
+    ):
         raise ValueError("trainer distillation-cache path differs from the frozen producer")
 
     require_equal(
@@ -217,9 +223,7 @@ def validate_fit_receipt(
     require_equal(frontier.get("contract_id"), contract["id"], "frontier contract id")
     require_equal(frontier.get("contract_sha256"), contract_sha256, "frontier contract SHA256")
     require_equal(frontier.get("stage"), "f0_seed3_fit", "frontier stage")
-    require_equal(
-        frontier.get("stage_settings"), stage, "frontier stage settings"
-    )
+    require_equal(frontier.get("stage_settings"), stage, "frontier stage settings")
     source_root = Path(contract["source_root"]).resolve(strict=True)
     source_hashes = contract.get("source_sha256")
     if not isinstance(source_hashes, dict):
@@ -240,6 +244,7 @@ def validate_fit_receipt(
         if relative_path not in source_hashes:
             raise ValueError(f"provenance records an unpinned source: {relative_path}")
         require_equal(actual_hash, source_hashes[relative_path], f"recorded source {relative_path}")
+    training_dynamics_sha256 = recorded_sources["src/wnn/training_dynamics.py"]
     order = frontier.get("sample_order")
     if not isinstance(order, dict):
         raise ValueError("provenance lacks source-qualified sampler order")
@@ -378,7 +383,56 @@ def validate_fit_receipt(
         raise ValueError("provenance lacks checkpoint hash map")
     require_equal(hashes.get("model_ep0.pt"), checkpoint_sha256, "epoch-0 checkpoint hash")
 
+    import inspect
+
     import torch
+
+    update_counter = provenance.get("update_counter_implementation")
+    if not isinstance(update_counter, dict):
+        raise ValueError("provenance lacks the trainer's recorded PyTorch version")
+    require_equal(update_counter.get("torch_version"), torch.__version__, "PyTorch version")
+    onecycle_signature = inspect.signature(torch.optim.lr_scheduler.OneCycleLR).parameters
+    scheduler_defaults = {
+        "anneal_strategy": "cos",
+        "base_momentum": 0.85,
+        "div_factor": 25.0,
+        "max_momentum": 0.95,
+        "three_phase": False,
+    }
+    for name, expected in scheduler_defaults.items():
+        require_equal(onecycle_signature[name].default, expected, f"OneCycleLR default {name}")
+    if args["optim"] == "sgd":
+        raise ValueError("the frozen AdamW recipe must enable OneCycle momentum cycling")
+    parameter = torch.nn.Parameter(torch.ones(1, dtype=torch.float32))
+    schedule_optimizer = torch.optim.AdamW(
+        [parameter],
+        lr=float(optimizer["learning_rate"]),
+        betas=(float(optimizer["beta1"]), float(optimizer["beta2"])),
+    )
+    schedule = recipe["schedule"]
+    schedule_steps = int(schedule["total_updates"])
+    schedule_lr = torch.optim.lr_scheduler.OneCycleLR(
+        schedule_optimizer,
+        max_lr=float(optimizer["learning_rate"]),
+        total_steps=schedule_steps,
+        pct_start=float(schedule["warmup_fraction"]),
+        final_div_factor=float(schedule["final_div_factor"]),
+        cycle_momentum=bool(schedule["cycle_momentum"]),
+    )
+    momentum_values = [float(schedule_optimizer.param_groups[0]["betas"][0])]
+    for _ in range(schedule_steps - 1):
+        parameter.grad = torch.zeros_like(parameter)
+        schedule_optimizer.step()
+        schedule_lr.step()
+        momentum_values.append(float(schedule_optimizer.param_groups[0]["betas"][0]))
+    for value, expected, description in (
+        (momentum_values[0], 0.95, "OneCycle initial beta1"),
+        (min(momentum_values), 0.85, "OneCycle minimum beta1"),
+        (momentum_values[-1], 0.95, "OneCycle terminal beta1"),
+    ):
+        if abs(value - expected) > 1e-12:
+            raise ValueError(f"{description} differs: expected {expected!r}, got {value!r}")
+    del schedule_lr, schedule_optimizer, parameter
 
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
     require_equal(checkpoint.get("epoch"), 0, "embedded checkpoint epoch")
@@ -427,6 +481,19 @@ def validate_fit_receipt(
         "normalization_identity": normalization,
         "normalization_source": normalization_source,
         "propensity_source": recorded_propensity,
+        "optimizer_semantics": {
+            "name": str(optimizer["name"]).lower(),
+            "constructor_beta1": optimizer["beta1"],
+            "beta1_cli_override": None,
+            "beta2": optimizer["beta2"],
+            "schedule": "OneCycleLR",
+            "cycle_momentum": True,
+            "beta1_path": [momentum_values[0], min(momentum_values), momentum_values[-1]],
+            "schedule_updates": schedule_steps,
+            "training_dynamics_sha256": training_dynamics_sha256,
+            "torch_version": torch.__version__,
+            "validation": "source-bound default plus OneCycleLR runtime reconstruction",
+        },
         "batch_membership_sha256": order["batch_membership_sha256"],
         "checkpoint_path": str(checkpoint_path),
         "checkpoint_sha256": checkpoint_sha256,
