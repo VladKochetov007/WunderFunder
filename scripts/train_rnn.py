@@ -144,6 +144,14 @@ from wnn.training_views import origin_windows, update_ema_for_rows
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
 ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
+
+
+def serialized_args(args: argparse.Namespace) -> dict[str, object]:
+    """Return CLI arguments with path values safe for JSON and checkpoints."""
+    return {
+        name: str(value) if isinstance(value, Path) else value
+        for name, value in vars(args).items()
+    }
 SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
 EV_I0PX = N_FEATURES + FEATURE_NAMES.index("ev_i0px")
 
@@ -2512,7 +2520,7 @@ def main():
         )
 
     shifts = [int(v) for v in args.aux.split(",") if v]
-    provenance = {"seed": args.seed, "args": vars(args).copy(),
+    provenance = {"seed": args.seed, "args": serialized_args(args),
                   "split_manifest_sha256": campaign_split.sha256 if campaign_split is not None else None,
                   "fit_row_groups": {"train": train_idx.tolist() if train_split == "train" else [],
                                      "valid": train_idx.tolist() if train_split == "valid" else
@@ -2964,7 +2972,7 @@ def main():
             return weighted_mse_loss(o, t, v) + args.gcorr_weight * weighted_pooled_corr_loss(o, t, v)
         return weighted_corr_loss(o, t, v) + 0.5 * weighted_mse_loss(o, t, v)
 
-    print(json.dumps(vars(args)), flush=True)
+    print(json.dumps(serialized_args(args)), flush=True)
     print(json.dumps({"source_train_sequences": len(train_idx),
                       "eligible_valid_train_sequences": eligible_valid_count,
                       "used_valid_train_sequences": len(extra_valid) if extra_valid is not None else
@@ -3577,7 +3585,7 @@ def main():
         # snapshot every epoch (~1 MB): lets any epoch be re-read out later without selection on the eval set
         representation = inference_checkpoint_fields(eval_model, "ema" if args.eval_ema else
                                                       "raw" if eval_model is model else "swa")
-        checkpoint = {**representation, "args": vars(args), "n_in": n_in, "epoch": epoch,
+        checkpoint = {**representation, "args": serialized_args(args), "n_in": n_in, "epoch": epoch,
                       "readout": None if READOUT is None else [t.cpu() for t in READOUT],
                       "readout_tilted": READOUT_TILTED,
                       "provenance": {key: value for key, value in provenance.items() if key != "checkpoint_sha256"}}
@@ -3617,7 +3625,7 @@ def main():
         provenance["fitting_seconds"] = prior_fit_seconds
         representation = inference_checkpoint_fields(eval_model, "ema" if args.eval_ema else
                                                       "raw" if eval_model is model else "swa")
-        checkpoint = {**representation, "args": vars(args), "n_in": n_in,
+        checkpoint = {**representation, "args": serialized_args(args), "n_in": n_in,
                       "epoch": args.epochs - 1,
                       "readout": None if moments is None else [value.cpu() for value in moments.tables()],
                       "readout_tilted": bool(args.ce_tilt),

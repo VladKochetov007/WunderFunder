@@ -1,0 +1,378 @@
+{
+  "format": "wnn.student-frontier-cpu-preflight-result",
+  "version": 1,
+  "attempt": "student-frontier-f0s3-train-rnn-cpu-preflight-r2",
+  "status": "passed-no-fit",
+  "exit_code": 0,
+  "quality_claim": null,
+  "source_tree_worktree": "/home/vlad/development/wunder/worktrees/student-frontier-sequence-20261014",
+  "source_sha256": {
+    "scripts/train_rnn.py": "952939f15e1dfa84bdee20295a4c64c1fbe4fc174d72e76a6bf574d2fdaeba01",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/distillation.py": "5d68b03204b9413d2412533a7aa75ae0759276dacbbed4035b846da1d38350e2",
+    "src/wnn/distillation_cache.py": "008fd6615ac5b627273f419072933cb95dc85fcd6c30eaffd6f1fb2df53ab0eb",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/nn.py": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+    "src/wnn/optim.py": "b37b1ba4a6e4954057902b553e04d61e4d661ad3f822ad99daf5aff47bbdcdf5",
+    "src/wnn/propensity.py": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+    "src/wnn/resources.py": "0b6280130a480f5547552df83cc4a15e7cfe88ad04498ca11c2ab2d54bb428e9",
+    "src/wnn/run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "src/wnn/splits.py": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe",
+    "src/wnn/student_frontier.py": "a747431d9bc2acc25f3f053bdfe7b5cfd64c4a211ecdd75002faa54785062e07",
+    "src/wnn/student_frontier_order.py": "6be4ab23547c38cc1373ac8a3ba0f5cb8f7a7cbd989cc924f965aa25d3dbc9ba",
+    "src/wnn/training_controls.py": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39",
+    "src/wnn/training_dynamics.py": "041e3afdf11b064ba35b6ee021116789c6222a4c73a992ea1398ad69f65c0463",
+    "src/wnn/training_sampling.py": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2"
+  },
+  "consumer_contract_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_SEED3_B8_R2_CONSUMER_CONTRACT.json",
+  "consumer_contract_sha256": "9476373fc3c32aea2ae48e9a2c48d211f0f152d13d086fa68efd1e8b1a02e768",
+  "producer_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+  "trainer_stdout_receipt": {
+    "batch_size": 8,
+    "batches_per_epoch": 1492,
+    "cache_binding": {
+      "cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+      "contract_id": "cpu-student-frontier-f0-seed3-b8-r2-consumer",
+      "contract_sha256": "9476373fc3c32aea2ae48e9a2c48d211f0f152d13d086fa68efd1e8b1a02e768",
+      "propensity": {
+        "cache_files": {
+          "train": {
+            "bytes": 848560128,
+            "n_filled": 10606,
+            "path": "cache/propcache_c20260929_prop_f0_train.npy",
+            "rows": 10607,
+            "sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174",
+            "sidecar_path": "cache/propcache_c20260929_prop_f0_train.json",
+            "sidecar_sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9"
+          },
+          "valid": {
+            "bytes": 149840128,
+            "n_filled": 1873,
+            "path": "cache/propcache_c20260929_prop_f0_valid.npy",
+            "rows": 1873,
+            "sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c",
+            "sidecar_path": "cache/propcache_c20260929_prop_f0_valid.json",
+            "sidecar_sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a"
+          }
+        },
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "power": 2.0,
+        "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+        "run": "c20260929_prop_f0",
+        "valid_true_mask_eps": 0.03
+      },
+      "source_qualified_group_identities": {
+        "evaluation_valid": {
+          "count": 468,
+          "ordered_int64_le_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1"
+        },
+        "train": {
+          "count": 10535,
+          "ordered_int64_le_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda"
+        },
+        "valid": {
+          "count": 1405,
+          "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+        }
+      },
+      "source_qualified_target_order": {
+        "train": {
+          "count": 10535,
+          "ordered_int64_le_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda"
+        },
+        "valid": {
+          "count": 1405,
+          "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+        }
+      },
+      "source_qualified_target_rows": 11940,
+      "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "stage": "f0_seed3_fit",
+      "target_formula": "float32(0.8125 * float32_mean(three_epoch2_predictions))",
+      "target_semantics": {
+        "cache_target_formula": "float32(0.8125 * float32_mean(three_epoch2_predictions))",
+        "cache_variant": "homogeneous",
+        "label_clip": [
+          -2.0,
+          2.0
+        ],
+        "loss": "chunk-normalized weighted MSE; numerator uses abs(clamp(label,-2,2))*row_weight*(prediction-target)^2",
+        "row_weight": "valid rows after warmup times (cached propensity^2 + 0.03); valid true-mask sequences use the existing true_mask_weights(..., eps=0.03) rule",
+        "score_mask": "not a hard training mask; exact propensity/mask semantics remain those in train_rnn.main_row_weights",
+        "target_columns": {
+          "homogeneous_teacher": [
+            2,
+            4
+          ],
+          "labels": [
+            0,
+            2
+          ]
+        },
+        "teacher_clip": [
+          -2.0,
+          2.0
+        ],
+        "training_target": "0.1*clamp(label,-2,2)+0.9*clamp(homogeneous_teacher,-2,2)"
+      },
+      "teacher_sources": [
+        {
+          "checkpoint": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt",
+          "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+          "coefficient": 0.1,
+          "epoch": 2,
+          "family": "strong",
+          "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json",
+          "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+          "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+          "seed": 3
+        },
+        {
+          "checkpoint": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/model_ep2.pt",
+          "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+          "coefficient": 0.1,
+          "epoch": 2,
+          "family": "strong",
+          "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json",
+          "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+          "run": "clean_t3_f0_muonall_h384_e3_s4_r5",
+          "seed": 4
+        },
+        {
+          "checkpoint": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/model_ep2.pt",
+          "checkpoint_sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+          "coefficient": 0.1,
+          "epoch": 2,
+          "family": "strong",
+          "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json",
+          "provenance_sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18",
+          "run": "clean_t3_f0_muonall_h384_e3_s5_r5",
+          "seed": 5
+        }
+      ],
+      "verified_target_files": {
+        "main_homogeneous_train": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+        "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+      }
+    },
+    "contract_id": "cpu-student-frontier-f0-seed3-b8-r2-consumer",
+    "contract_sha256": "9476373fc3c32aea2ae48e9a2c48d211f0f152d13d086fa68efd1e8b1a02e768",
+    "fit_started": false,
+    "format": "wnn.student-frontier-trainer-preflight",
+    "normalization_identity": {
+      "mean": {
+        "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      },
+      "std": {
+        "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      }
+    },
+    "normalization_source": {
+      "checkpoint_file": "model_ep5.pt",
+      "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "epoch": 5,
+      "learned_weights_loaded": false,
+      "loaded_fields_only": [
+        "mean",
+        "std"
+      ],
+      "normalization_identity": {
+        "mean": {
+          "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        },
+        "std": {
+          "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        }
+      },
+      "provenance_sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+      "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1"
+    },
+    "optimizer_constructed": false,
+    "quality_claim": null,
+    "sample_order": {
+      "batch_membership_sha256": "994cef93396ec6769d84560f5104c09a50e5adb6754fd936b2f5a7ab0389e882",
+      "batch_size": 8,
+      "batches_per_epoch": 1492,
+      "chunks_per_sequence": 10,
+      "dropped_sequence_count": 4,
+      "dropped_tail_members": [
+        [
+          "train",
+          3449
+        ],
+        [
+          "train",
+          2425
+        ],
+        [
+          "train",
+          879
+        ],
+        [
+          "train",
+          7224
+        ]
+      ],
+      "dropped_tail_positions": [
+        5638,
+        4941,
+        3775,
+        2355
+      ],
+      "epoch": 0,
+      "exposed_sequence_count": 11936,
+      "fit_groups_before_drop_last": 11940,
+      "optimizer_updates_per_epoch": 14920,
+      "retained_source_rows_sha256": "ed1125e5e5e4f6b1cf65c179068362d7452d52f100cace9c9f75644ef571a907",
+      "same_order_and_omissions_across_shapes": true,
+      "sampler_positions_sha256": "0ebdb64780b034ced17e78bd95cb0f3b94e86cd6575b5ee2d6bc0680ee820c69",
+      "sampler_source_rows_sha256": "124edb9c19924911d173c1082c49f53b26ad281995c6300266ab46d402c827e2",
+      "seed": 3,
+      "train_group_order_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+      "valid_group_order_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+    },
+    "shape": [
+      256,
+      2
+    ],
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "stage": "f0_seed3_fit",
+    "updates_per_epoch": 14920,
+    "version": 1
+  },
+  "resource_bound": {
+    "slice": "wnn-campaign.slice",
+    "cpu_quota": "100%",
+    "threads": 1,
+    "memory_max_bytes": 2000000000,
+    "swap_max_bytes": 0,
+    "runtime_max_seconds": 900,
+    "gpu_used": false
+  },
+  "command": {
+    "wrapper": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+    "environment": {
+      "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "PYTHONPATH": "/home/vlad/development/wunder/worktrees/student-frontier-sequence-20261014/src",
+      "WNN_LOADER_WORKERS": "0",
+      "WNN_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    },
+    "python": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "script": "/home/vlad/development/wunder/worktrees/student-frontier-sequence-20261014/scripts/train_rnn.py",
+    "arguments": [
+      "--name",
+      "student_frontier_f0s3_preflight_cpu_r2",
+      "--device",
+      "cpu",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--enc",
+      "linear",
+      "--hidden",
+      "256",
+      "--layers",
+      "2",
+      "--dropout",
+      "0",
+      "--train-seqs",
+      "10607",
+      "--train-source",
+      "train+valid",
+      "--valid-train-fraction",
+      "1",
+      "--valid-repeat",
+      "1",
+      "--valid-fold",
+      "0",
+      "--n-valid-folds",
+      "4",
+      "--full-valid",
+      "--batch",
+      "8",
+      "--chunk",
+      "2000",
+      "--epochs",
+      "1",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "0",
+      "--no-eval-during-fit",
+      "--split-manifest",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--student-frontier-contract",
+      "/home/vlad/development/wunder/worktrees/student-frontier-sequence-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_SEED3_B8_R2_CONSUMER_CONTRACT.json",
+      "--student-frontier-stage",
+      "f0_seed3_fit",
+      "--student-frontier-preflight-only",
+      "--seed",
+      "3",
+      "--precision",
+      "fp32",
+      "--distill-cache-root",
+      "cache/clean_t3_f0_h390_t3r5_a9_r2",
+      "--distill-cache-variant",
+      "homogeneous",
+      "--distill-cache-scale",
+      "1",
+      "--distill-alpha",
+      "0.9",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--propensity",
+      "c20260929_prop_f0",
+      "--prop-power",
+      "2",
+      "--prop-eps",
+      "0.03",
+      "--valid-true-mask",
+      "0.03",
+      "--batch-order",
+      "seeded",
+      "--deterministic",
+      "--fast",
+      "--grad-stats",
+      "--optim",
+      "adamw",
+      "--lr",
+      "0.0001",
+      "--beta2",
+      "0.999",
+      "--wd",
+      "0.01",
+      "--sched",
+      "onecycle",
+      "--warmup-frac",
+      "0.05",
+      "--head-lr-mult",
+      "1",
+      "--clip",
+      "1"
+    ]
+  },
+  "stdout_log": "profiles/CPU_PREFLIGHT_R2_SUCCESS.log",
+  "previous_rejected_order_receipt": "profiles/CPU_PREFLIGHT_R2_ORDER_MISMATCH_R1.json",
+  "branch_base_commit": "7eaa8b1932c3e9f3570c79f005abccb7d73a89b8"
+}
