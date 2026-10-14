@@ -1,0 +1,736 @@
+{
+  "recorded_utc": "2026-10-14T01:43:29.946786+00:00",
+  "script_sha256": "e8474321cba14fee04e1fbd7d9440593076c8637b37fb112dae2086d551bf87f",
+  "quantization_source_sha256": "fbca8fff8af5ae488eea2c2b53e304fd3620fdaf32f1f213ac499378b0261298",
+  "elapsed_seconds": 0.410320123002748,
+  "max_rss_bytes": 560107520,
+  "results": {
+    "clean_f0_control_h256_l2_cp5": {
+      "checkpoint": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+      "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "matrices": {
+        "inp.weight": {
+          "shape": [
+            256,
+            211
+          ],
+          "spectral_norm": 6.908396377654058,
+          "frobenius_norm": 19.335108302371058,
+          "stable_rank": 7.833191112911591,
+          "rank_for_95_percent_energy": 102,
+          "rank_for_99_percent_energy": 152,
+          "low_rank": [
+            {
+              "rank": 26,
+              "relative_frobenius_error": 0.590980274973058,
+              "factor_matrix_elements": 12142,
+              "dense_matrix_elements": 54016
+            },
+            {
+              "rank": 52,
+              "relative_frobenius_error": 0.41815785311547954,
+              "factor_matrix_elements": 24284,
+              "dense_matrix_elements": 54016
+            },
+            {
+              "rank": 105,
+              "relative_frobenius_error": 0.2125242294136066,
+              "factor_matrix_elements": 49035,
+              "dense_matrix_elements": 54016
+            },
+            {
+              "rank": 158,
+              "relative_frobenius_error": 0.08600160760487814,
+              "factor_matrix_elements": 73786,
+              "dense_matrix_elements": 54016
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.01188280047656558,
+              "maximum_absolute_error": 0.005193143151700497,
+              "row_scale_min": 0.0016669362084940076,
+              "row_scale_max": 0.010422519408166409
+            },
+            "q4": {
+              "relative_frobenius_error": 0.21012947573220062,
+              "maximum_absolute_error": 0.09112975001335144,
+              "row_scale_min": 0.030242985114455223,
+              "row_scale_max": 0.18909429013729095
+            }
+          }
+        },
+        "gru.weight_ih_l0": {
+          "shape": [
+            768,
+            256
+          ],
+          "spectral_norm": 4.37305904236283,
+          "frobenius_norm": 32.51311682843515,
+          "stable_rank": 55.2772624911399,
+          "rank_for_95_percent_energy": 206,
+          "rank_for_99_percent_energy": 242,
+          "low_rank": [
+            {
+              "rank": 32,
+              "relative_frobenius_error": 0.8257274690099783,
+              "factor_matrix_elements": 32768,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 64,
+              "relative_frobenius_error": 0.6927114596700079,
+              "factor_matrix_elements": 65536,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 128,
+              "relative_frobenius_error": 0.46599507530704554,
+              "factor_matrix_elements": 131072,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 192,
+              "relative_frobenius_error": 0.2653176022778636,
+              "factor_matrix_elements": 196608,
+              "dense_matrix_elements": 196608
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.007236021289127139,
+              "maximum_absolute_error": 0.0022410256788134575,
+              "row_scale_min": 0.0011174854589626193,
+              "row_scale_max": 0.004501196555793285
+            },
+            "q4": {
+              "relative_frobenius_error": 0.1313361396997674,
+              "maximum_absolute_error": 0.04062066227197647,
+              "row_scale_min": 0.02027438022196293,
+              "row_scale_max": 0.0816645622253418
+            }
+          }
+        },
+        "gru.weight_hh_l0": {
+          "shape": [
+            768,
+            256
+          ],
+          "spectral_norm": 4.747788488188095,
+          "frobenius_norm": 35.53567206558291,
+          "stable_rank": 56.02041743645925,
+          "rank_for_95_percent_energy": 207,
+          "rank_for_99_percent_energy": 243,
+          "low_rank": [
+            {
+              "rank": 32,
+              "relative_frobenius_error": 0.8247302996480718,
+              "factor_matrix_elements": 32768,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 64,
+              "relative_frobenius_error": 0.6941261222890259,
+              "factor_matrix_elements": 65536,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 128,
+              "relative_frobenius_error": 0.470958348918584,
+              "factor_matrix_elements": 131072,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 192,
+              "relative_frobenius_error": 0.27044727991179013,
+              "factor_matrix_elements": 196608,
+              "dense_matrix_elements": 196608
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.007511375855271652,
+              "maximum_absolute_error": 0.003246936947107315,
+              "row_scale_min": 0.0012850293423980474,
+              "row_scale_max": 0.006499845068901777
+            },
+            "q4": {
+              "relative_frobenius_error": 0.13648213233091747,
+              "maximum_absolute_error": 0.05863797664642334,
+              "row_scale_min": 0.023314103484153748,
+              "row_scale_max": 0.11792576313018799
+            }
+          }
+        },
+        "gru.weight_ih_l1": {
+          "shape": [
+            768,
+            256
+          ],
+          "spectral_norm": 6.470292506333105,
+          "frobenius_norm": 37.88421937262751,
+          "stable_rank": 34.28221359947773,
+          "rank_for_95_percent_energy": 203,
+          "rank_for_99_percent_energy": 241,
+          "low_rank": [
+            {
+              "rank": 32,
+              "relative_frobenius_error": 0.8011688435573817,
+              "factor_matrix_elements": 32768,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 64,
+              "relative_frobenius_error": 0.6674283467426376,
+              "factor_matrix_elements": 65536,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 128,
+              "relative_frobenius_error": 0.4465202942204677,
+              "factor_matrix_elements": 131072,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 192,
+              "relative_frobenius_error": 0.253595847045014,
+              "factor_matrix_elements": 196608,
+              "dense_matrix_elements": 196608
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.007986091299253862,
+              "maximum_absolute_error": 0.005331853404641151,
+              "row_scale_min": 0.0012947493232786655,
+              "row_scale_max": 0.010711158625781536
+            },
+            "q4": {
+              "relative_frobenius_error": 0.14507509923814776,
+              "maximum_absolute_error": 0.0959642305970192,
+              "row_scale_min": 0.023490453138947487,
+              "row_scale_max": 0.19433102011680603
+            }
+          }
+        },
+        "gru.weight_hh_l1": {
+          "shape": [
+            768,
+            256
+          ],
+          "spectral_norm": 4.882680744981897,
+          "frobenius_norm": 37.838457227143806,
+          "stable_rank": 60.055140032979025,
+          "rank_for_95_percent_energy": 205,
+          "rank_for_99_percent_energy": 242,
+          "low_rank": [
+            {
+              "rank": 32,
+              "relative_frobenius_error": 0.8159134508638364,
+              "factor_matrix_elements": 32768,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 64,
+              "relative_frobenius_error": 0.6800970829591022,
+              "factor_matrix_elements": 65536,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 128,
+              "relative_frobenius_error": 0.4569608494372645,
+              "factor_matrix_elements": 131072,
+              "dense_matrix_elements": 196608
+            },
+            {
+              "rank": 192,
+              "relative_frobenius_error": 0.260422450037135,
+              "factor_matrix_elements": 196608,
+              "dense_matrix_elements": 196608
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.007672304962796565,
+              "maximum_absolute_error": 0.0025543533265590668,
+              "row_scale_min": 0.0011237842263653874,
+              "row_scale_max": 0.00511510856449604
+            },
+            "q4": {
+              "relative_frobenius_error": 0.13915281481550906,
+              "maximum_absolute_error": 0.04639127478003502,
+              "row_scale_min": 0.020388657227158546,
+              "row_scale_max": 0.09280268847942352
+            }
+          }
+        },
+        "head.0.weight": {
+          "shape": [
+            256,
+            512
+          ],
+          "spectral_norm": 9.231691254425604,
+          "frobenius_norm": 26.59176780930942,
+          "stable_rank": 8.297206082883049,
+          "rank_for_95_percent_energy": 145,
+          "rank_for_99_percent_energy": 210,
+          "low_rank": [
+            {
+              "rank": 32,
+              "relative_frobenius_error": 0.5796178644318001,
+              "factor_matrix_elements": 24576,
+              "dense_matrix_elements": 131072
+            },
+            {
+              "rank": 64,
+              "relative_frobenius_error": 0.4395703773503879,
+              "factor_matrix_elements": 49152,
+              "dense_matrix_elements": 131072
+            },
+            {
+              "rank": 128,
+              "relative_frobenius_error": 0.2605289733793869,
+              "factor_matrix_elements": 98304,
+              "dense_matrix_elements": 131072
+            },
+            {
+              "rank": 192,
+              "relative_frobenius_error": 0.13080522523170413,
+              "factor_matrix_elements": 147456,
+              "dense_matrix_elements": 131072
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.011264088911211658,
+              "maximum_absolute_error": 0.004224319010972977,
+              "row_scale_min": 0.0013202757108956575,
+              "row_scale_max": 0.008455131202936172
+            },
+            "q4": {
+              "relative_frobenius_error": 0.20157231004618034,
+              "maximum_absolute_error": 0.07666926831007004,
+              "row_scale_min": 0.023953573778271675,
+              "row_scale_max": 0.1534002274274826
+            }
+          }
+        },
+        "head.2.weight": {
+          "shape": [
+            23,
+            256
+          ],
+          "spectral_norm": 6.660919486214084,
+          "frobenius_norm": 13.792684045770345,
+          "stable_rank": 4.287747547807982,
+          "rank_for_95_percent_energy": 15,
+          "rank_for_99_percent_energy": 18,
+          "low_rank": [
+            {
+              "rank": 2,
+              "relative_frobenius_error": 0.7816411422829657,
+              "factor_matrix_elements": 558,
+              "dense_matrix_elements": 5888
+            },
+            {
+              "rank": 5,
+              "relative_frobenius_error": 0.5758514566627103,
+              "factor_matrix_elements": 1395,
+              "dense_matrix_elements": 5888
+            },
+            {
+              "rank": 11,
+              "relative_frobenius_error": 0.3275891561514076,
+              "factor_matrix_elements": 3069,
+              "dense_matrix_elements": 5888
+            },
+            {
+              "rank": 17,
+              "relative_frobenius_error": 0.12093238748916674,
+              "factor_matrix_elements": 4743,
+              "dense_matrix_elements": 5888
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.01630552028292905,
+              "maximum_absolute_error": 0.008870735764503479,
+              "row_scale_min": 0.0007948215352371335,
+              "row_scale_max": 0.01793712005019188
+            },
+            "q4": {
+              "relative_frobenius_error": 0.2767244430659141,
+              "maximum_absolute_error": 0.16258227825164795,
+              "row_scale_min": 0.014420333318412304,
+              "row_scale_max": 0.32543060183525085
+            }
+          }
+        }
+      }
+    },
+    "clean_f0_muon_teacher_h384_l2_cp2": {
+      "checkpoint": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt",
+      "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+      "matrices": {
+        "inp.weight": {
+          "shape": [
+            384,
+            211
+          ],
+          "spectral_norm": 3.1387319428154243,
+          "frobenius_norm": 19.578616728298826,
+          "stable_rank": 38.909491484297305,
+          "rank_for_95_percent_energy": 138,
+          "rank_for_99_percent_energy": 180,
+          "low_rank": [
+            {
+              "rank": 26,
+              "relative_frobenius_error": 0.750900762051775,
+              "factor_matrix_elements": 15470,
+              "dense_matrix_elements": 81024
+            },
+            {
+              "rank": 52,
+              "relative_frobenius_error": 0.584419248733661,
+              "factor_matrix_elements": 30940,
+              "dense_matrix_elements": 81024
+            },
+            {
+              "rank": 105,
+              "relative_frobenius_error": 0.3365139935754735,
+              "factor_matrix_elements": 62475,
+              "dense_matrix_elements": 81024
+            },
+            {
+              "rank": 158,
+              "relative_frobenius_error": 0.15979898092390116,
+              "factor_matrix_elements": 94010,
+              "dense_matrix_elements": 81024
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.010022487010249822,
+              "maximum_absolute_error": 0.0030295997858047485,
+              "row_scale_min": 0.0011173910461366177,
+              "row_scale_max": 0.0061609745025634766
+            },
+            "q4": {
+              "relative_frobenius_error": 0.18100616806154984,
+              "maximum_absolute_error": 0.05581965669989586,
+              "row_scale_min": 0.020272666588425636,
+              "row_scale_max": 0.11177767813205719
+            }
+          }
+        },
+        "gru.weight_ih_l0": {
+          "shape": [
+            1152,
+            384
+          ],
+          "spectral_norm": 4.406507626748075,
+          "frobenius_norm": 40.403983241043534,
+          "stable_rank": 84.07353576558371,
+          "rank_for_95_percent_energy": 309,
+          "rank_for_99_percent_energy": 363,
+          "low_rank": [
+            {
+              "rank": 48,
+              "relative_frobenius_error": 0.821463710384811,
+              "factor_matrix_elements": 73728,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 96,
+              "relative_frobenius_error": 0.6884690241959004,
+              "factor_matrix_elements": 147456,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 192,
+              "relative_frobenius_error": 0.46465601905749626,
+              "factor_matrix_elements": 294912,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 288,
+              "relative_frobenius_error": 0.264934281805669,
+              "factor_matrix_elements": 442368,
+              "dense_matrix_elements": 442368
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.007452791383114026,
+              "maximum_absolute_error": 0.001733243465423584,
+              "row_scale_min": 0.0009030562359839678,
+              "row_scale_max": 0.0034677900839596987
+            },
+            "q4": {
+              "relative_frobenius_error": 0.13541850338227698,
+              "maximum_absolute_error": 0.031432949006557465,
+              "row_scale_min": 0.016384020447731018,
+              "row_scale_max": 0.0629156157374382
+            }
+          }
+        },
+        "gru.weight_hh_l0": {
+          "shape": [
+            1152,
+            384
+          ],
+          "spectral_norm": 4.541518794423954,
+          "frobenius_norm": 39.95378422405985,
+          "stable_rank": 77.39512536368808,
+          "rank_for_95_percent_energy": 310,
+          "rank_for_99_percent_energy": 364,
+          "low_rank": [
+            {
+              "rank": 48,
+              "relative_frobenius_error": 0.8232554178584963,
+              "factor_matrix_elements": 73728,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 96,
+              "relative_frobenius_error": 0.6910233586087946,
+              "factor_matrix_elements": 147456,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 192,
+              "relative_frobenius_error": 0.4673650031267647,
+              "factor_matrix_elements": 294912,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 288,
+              "relative_frobenius_error": 0.2680184649059741,
+              "factor_matrix_elements": 442368,
+              "dense_matrix_elements": 442368
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.007732152547823755,
+              "maximum_absolute_error": 0.0024050958454608917,
+              "row_scale_min": 0.0008326848619617522,
+              "row_scale_max": 0.004815185908228159
+            },
+            "q4": {
+              "relative_frobenius_error": 0.14018610495213307,
+              "maximum_absolute_error": 0.04358656331896782,
+              "row_scale_min": 0.015107282437384129,
+              "row_scale_max": 0.08736123144626617
+            }
+          }
+        },
+        "gru.weight_ih_l1": {
+          "shape": [
+            1152,
+            384
+          ],
+          "spectral_norm": 6.072602577942988,
+          "frobenius_norm": 40.41844604760658,
+          "stable_rank": 44.30058951410843,
+          "rank_for_95_percent_energy": 301,
+          "rank_for_99_percent_energy": 360,
+          "low_rank": [
+            {
+              "rank": 48,
+              "relative_frobenius_error": 0.7949498299843969,
+              "factor_matrix_elements": 73728,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 96,
+              "relative_frobenius_error": 0.6583241807941749,
+              "factor_matrix_elements": 147456,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 192,
+              "relative_frobenius_error": 0.43779980294316845,
+              "factor_matrix_elements": 294912,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 288,
+              "relative_frobenius_error": 0.2470068735875509,
+              "factor_matrix_elements": 442368,
+              "dense_matrix_elements": 442368
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.008282512310240806,
+              "maximum_absolute_error": 0.004673991352319717,
+              "row_scale_min": 0.0006538010202348232,
+              "row_scale_max": 0.0093655064702034
+            },
+            "q4": {
+              "relative_frobenius_error": 0.14968287395334343,
+              "maximum_absolute_error": 0.0835169330239296,
+              "row_scale_min": 0.01186181791126728,
+              "row_scale_max": 0.169917032122612
+            }
+          }
+        },
+        "gru.weight_hh_l1": {
+          "shape": [
+            1152,
+            384
+          ],
+          "spectral_norm": 4.53773532751412,
+          "frobenius_norm": 39.206716168547494,
+          "stable_rank": 74.65220069943189,
+          "rank_for_95_percent_energy": 301,
+          "rank_for_99_percent_energy": 361,
+          "low_rank": [
+            {
+              "rank": 48,
+              "relative_frobenius_error": 0.798006236339762,
+              "factor_matrix_elements": 73728,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 96,
+              "relative_frobenius_error": 0.6598534941016903,
+              "factor_matrix_elements": 147456,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 192,
+              "relative_frobenius_error": 0.43833602500558777,
+              "factor_matrix_elements": 294912,
+              "dense_matrix_elements": 442368
+            },
+            {
+              "rank": 288,
+              "relative_frobenius_error": 0.2485549484650387,
+              "factor_matrix_elements": 442368,
+              "dense_matrix_elements": 442368
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.008688563041752516,
+              "maximum_absolute_error": 0.0036331787705421448,
+              "row_scale_min": 0.0005434178747236729,
+              "row_scale_max": 0.007271436043083668
+            },
+            "q4": {
+              "relative_frobenius_error": 0.15747499918927796,
+              "maximum_absolute_error": 0.06584234535694122,
+              "row_scale_min": 0.00985915306955576,
+              "row_scale_max": 0.13192462921142578
+            }
+          }
+        },
+        "head.0.weight": {
+          "shape": [
+            384,
+            768
+          ],
+          "spectral_norm": 5.765995210710389,
+          "frobenius_norm": 27.949598123880982,
+          "stable_rank": 23.49646783577603,
+          "rank_for_95_percent_energy": 240,
+          "rank_for_99_percent_energy": 324,
+          "low_rank": [
+            {
+              "rank": 48,
+              "relative_frobenius_error": 0.6768913221505545,
+              "factor_matrix_elements": 55296,
+              "dense_matrix_elements": 294912
+            },
+            {
+              "rank": 96,
+              "relative_frobenius_error": 0.5218701023055602,
+              "factor_matrix_elements": 110592,
+              "dense_matrix_elements": 294912
+            },
+            {
+              "rank": 192,
+              "relative_frobenius_error": 0.3064541113560067,
+              "factor_matrix_elements": 221184,
+              "dense_matrix_elements": 294912
+            },
+            {
+              "rank": 288,
+              "relative_frobenius_error": 0.14939092794519046,
+              "factor_matrix_elements": 331776,
+              "dense_matrix_elements": 294912
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.015382518995612491,
+              "maximum_absolute_error": 0.009371494874358177,
+              "row_scale_min": 0.0004750757943838835,
+              "row_scale_max": 0.018797272816300392
+            },
+            "q4": {
+              "relative_frobenius_error": 0.24714528029789049,
+              "maximum_absolute_error": 0.16650721430778503,
+              "row_scale_min": 0.008619232103228569,
+              "row_scale_max": 0.34103626012802124
+            }
+          }
+        },
+        "head.2.weight": {
+          "shape": [
+            23,
+            384
+          ],
+          "spectral_norm": 5.151811490338686,
+          "frobenius_norm": 9.176521980864079,
+          "stable_rank": 3.1727532062424446,
+          "rank_for_95_percent_energy": 13,
+          "rank_for_99_percent_energy": 19,
+          "low_rank": [
+            {
+              "rank": 2,
+              "relative_frobenius_error": 0.730074272212025,
+              "factor_matrix_elements": 814,
+              "dense_matrix_elements": 8832
+            },
+            {
+              "rank": 5,
+              "relative_frobenius_error": 0.5061640920960073,
+              "factor_matrix_elements": 2035,
+              "dense_matrix_elements": 8832
+            },
+            {
+              "rank": 11,
+              "relative_frobenius_error": 0.27412557322284475,
+              "factor_matrix_elements": 4477,
+              "dense_matrix_elements": 8832
+            },
+            {
+              "rank": 17,
+              "relative_frobenius_error": 0.1263578820894075,
+              "factor_matrix_elements": 6919,
+              "dense_matrix_elements": 8832
+            }
+          ],
+          "row_quantization": {
+            "q8": {
+              "relative_frobenius_error": 0.015268974683998394,
+              "maximum_absolute_error": 0.004488652106374502,
+              "row_scale_min": 0.0005653093685396016,
+              "row_scale_max": 0.008981051854789257
+            },
+            "q4": {
+              "relative_frobenius_error": 0.26976286834590707,
+              "maximum_absolute_error": 0.08144519478082657,
+              "row_scale_min": 0.010256326757371426,
+              "row_scale_max": 0.16294193267822266
+            }
+          }
+        }
+      }
+    }
+  },
+  "interpretation": "Unweighted matrix geometry only. No activation/state distribution, fitting, quality, causal perturbation, runtime, or target-host capacity measurement. Checkpoints differ in training recipe and width; not a controlled optimizer comparison."
+}
