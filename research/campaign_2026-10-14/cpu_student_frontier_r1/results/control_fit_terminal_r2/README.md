@@ -1,0 +1,3 @@
+# First matched control fit terminal receipt
+
+H256×2, F0 seed3, B8/C2000 FP32 completed14,920 updates at fixed checkpoint0 in2047.903seconds, with no skipped/nonfinite recorded gradient updates or OOM. [Controller receipt](attempt.json), [trainer log](fit.log), and [manifest](MANIFEST.json) preserve exact source/command and resource observations. Checkpoint audit initially failed on an absent `beta1` CLI field; successor validator is being corrected against the unchanged producer. This is a completed fit, not a quality result. Root owns checkpoint verification, actual B16 export profile and full F0 grading. H-STUDENT-LADDER-20261014.

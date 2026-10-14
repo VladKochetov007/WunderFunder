@@ -1,12 +1,12 @@
 {
   "collection_bounds": {
+    "download_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/f3_teacher_fit_r5/collected",
+    "download_timeout_seconds": 1800,
     "maximum_remote_inventory_bytes": 1000000000,
     "minimum_free_physical_disk_before_download_bytes": 4000000000,
     "no_overwrite": true,
-    "single_download_attempt": true,
-    "download_timeout_seconds": 1800,
-    "download_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/f3_teacher_fit_r5/collected",
-    "scope": "results/ fit checkpoints and provenance plus kernel session log; inventory before download"
+    "scope": "results/ fit checkpoints and provenance plus kernel session log; inventory before download",
+    "single_download_attempt": true
   },
   "deferred_prediction_artifacts": [
     "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_fit_valid_valid.npy",
@@ -79,8 +79,8 @@
     "f3_teacher_pipeline.json",
     "quota_admission.json",
     "profile_reuse_receipt.json",
-    "fit/summary.json",
-    "fit/fit_clean_t3_f3_muonall_h384_e3_s3_r5/result.json"
+    "fit/fit_clean_t3_f3_muonall_h384_e3_s3_r5/summary.json",
+    "fit/fit_clean_t3_f3_muonall_h384_e3_s3_r5/fit_clean_t3_f3_muonall_h384_e3_s3_r5/result.json"
   ],
   "resource_bounds": {
     "basis": "R2 exact-source T4 profile measured 4,490,899,456 bytes peak RSS; 6 GB reserves 1,509,100,544 bytes for fit/checkpoint state and is below the post-hash host budget only when at least 7 GB is available",
@@ -97,19 +97,19 @@
     "prediction_worker_ram_reservation_bytes": 6000000000,
     "worker_stages_are_serialized": true
   },
-  "schema": "wnn.strategy.f3-teacher-output-collection.r4",
+  "schema": "wnn.strategy.f3-teacher-output-collection.r5",
   "status": "fit_and_fit_train_packet_pending_root_review",
   "validation": {
     "check_exact_kernel_version_and_terminal_status": true,
     "consumer_compatibility": {
-      "f3_membership_and_order_preflight": "../first_cohort_f3_teachers_r2/PREDICTION_CONSUMER_PREFLIGHT_R1.json",
-      "cleanfold_cache_adapter_reference": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r1/build_clean_t3_f0_homogeneous_cache_r1.py",
       "adapter_source_sha256": "13b20f62a988df90f17da495b2cc7e4e219de0792291412165a10d2cd8b22380",
-      "require_actual_fit_train_and_fit_valid_arrays_and_sidecars_before_cache_aliasing": true,
+      "cleanfold_cache_adapter_reference": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r1/build_clean_t3_f0_homogeneous_cache_r1.py",
+      "f3_membership_and_order_preflight": "../first_cohort_f3_teachers_r2/PREDICTION_CONSUMER_PREFLIGHT_R1.json",
       "fit_train_rows": 10539,
       "fit_valid_rows": 1368,
       "full_valid_is_not_a_fit_valid_substitute": true,
-      "prediction_arrays_not_yet_available": true
+      "prediction_arrays_not_yet_available": true,
+      "require_actual_fit_train_and_fit_valid_arrays_and_sidecars_before_cache_aliasing": true
     },
     "finite_scan_rows_per_chunk": 8,
     "hash_every_downloaded_file": true,

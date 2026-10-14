@@ -1,0 +1,114 @@
+{
+  "utc": "2026-10-14T02:01:15.000046+00:00",
+  "manifest_files_rehashed": 31,
+  "payload_bytes": 318286,
+  "profiles": [
+    {
+      "name": "qat_deploy_f0_s4_100pct_fp32_profile_r1",
+      "wall_seconds": 409.2846924960004,
+      "peak_gpu_bytes": 2077229056,
+      "peak_ram_bytes": 3365765120,
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "performance": {
+        "backward": 850.15,
+        "forward": 602.72,
+        "gpu_total": 1487.75,
+        "h2d": 0.06,
+        "inputs": 15.98,
+        "labels": 2.24,
+        "loss": 9.26,
+        "optimizer": 6.89,
+        "weights": 0.36,
+        "loader_wait": 1020.79,
+        "step_wall": 2430.5,
+        "seq_per_s": 6.58,
+        "syncs_per_step": 0.67
+      }
+    },
+    {
+      "name": "qat_deploy_f0_s4_100pct_mixed_w4w8_profile_r1",
+      "wall_seconds": 426.63425848099996,
+      "peak_gpu_bytes": 2081423360,
+      "peak_ram_bytes": 3272339456,
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "performance": {
+        "backward": 785.01,
+        "forward": 732.43,
+        "gpu_total": 1542.43,
+        "h2d": 0.05,
+        "inputs": 15.87,
+        "labels": 1.39,
+        "loss": 6.44,
+        "optimizer": 5.68,
+        "weights": 0.15,
+        "loader_wait": 1076.65,
+        "step_wall": 2507.78,
+        "seq_per_s": 6.38,
+        "syncs_per_step": 200.67
+      }
+    },
+    {
+      "name": "qat_deploy_f0_s4_100pct_uniform_w4_profile_r1",
+      "wall_seconds": 379.1959755080002,
+      "peak_gpu_bytes": 2081423360,
+      "peak_ram_bytes": 3351617536,
+      "update_evidence": {
+        "optimizer_attempts": 100,
+        "optimizer_completed_updates": 100,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 100,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 100,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "performance": {
+        "backward": 940.69,
+        "forward": 808.71,
+        "gpu_total": 1789.49,
+        "h2d": 0.09,
+        "inputs": 15.73,
+        "labels": 1.5,
+        "loss": 16.95,
+        "optimizer": 5.61,
+        "weights": 0.19,
+        "loader_wait": 736.63,
+        "step_wall": 2430.57,
+        "seq_per_s": 6.58,
+        "syncs_per_step": 200.67
+      }
+    }
+  ],
+  "source_bundle_sha256": "5e7191304e851d3ec9f66d8d995c8d7cb94b7e5b06ea5ec0dde926e99afc5fa9",
+  "interpretation": "Three actual T4 profile successes only,100updates each; nofullfit/checkpoint/grade/export. Seed4QATline repaired; architectureladderdifferentrecipe."
+}

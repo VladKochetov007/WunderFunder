@@ -1,0 +1,13 @@
+# Clean F3 teacher checkpoint tranche R5
+
+Draft, not dispatched. This prepares a missing clean F3 teacher while the local GPU runs the architecture ladder. The user plan requires source-qualified teachers for later F3 confirmation; the clean F0 cohort cannot supply those targets. Root owns dispatch, collection and all required prediction exports.
+
+The earlier [F3 R4 packet](../../../campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r4/README.md) budgets15,900 wall-seconds for one unchanged three-epoch H384/Muon-all seed3 fit plus fit-train export and finalization. The currently remaining Kaggle quota cannot conservatively cover twice that bound plus reserve. R5 admits only the same fit and checkpoint collection. It does not reduce training epochs, switch folds, reuse an exposed initializer, or call the teacher cache complete without predictions.
+
+The proposed process ceiling is10,000seconds, with8,500 for the fit,900 finalization and600 bootstrap allowance. Conservative accounting reserves20,000GPU-seconds plus1,800 safety reserve. No dispatch until the current QAT R4 profile terminates, its outputs/quota are collected, and a fresh quota snapshot passes. Private dataset/kernel names are `vladkochetov07/wnn-f3-teacher-s3-20261014-r5` and its `-runner` kernel. No paid capacity or automatic retry is authorized.
+
+The unchanged successful R2 actual-T4 profile is copied in `profile_reuse_r2/` and checked against its terminal inventory and original source/argv/input hashes by [profile_reuse.py](kernel_support/profile_reuse.py). It measured200 updates,3.497GB GPU and4.491GB RSS. The fit keeps a6GB reservation and the repaired conservative admission calculation using observed available RAM, a1GB reserve and80% capacity bound; inactive file cache is not counted as guaranteed free memory.
+
+[Preparation](prepare_packet_r5.py) derives the source/job bundle from the original frozen H390/F3 recipe using existing Kaggle tooling. [Driver](kernel_support/f3_teacher_driver_r5.py) runs only the fit and lists all three pending prediction exports. [Quota guard](KAGGLE_QUOTA_GUARD_R5.json) deliberately retains a stale snapshot until final sealing; it is not a release. [Collection plan](OUTPUT_COLLECTION_PLAN_R5.json) bounds the selected checkpoint/provenance results to1GB, requires physical disk and no overwrite, and leaves fit-train, fit-valid and full-valid export under root ownership after collection.
+
+This is an operational subdivision of a pending clean-teacher experiment, not a scientific result. The remaining teacher seeds and larger/heterogeneous teacher directions remain separate active requirements in the [complete plan](../PLAN.md). A single F3 seed3 checkpoint alone is not the planned three-teacher cohort.

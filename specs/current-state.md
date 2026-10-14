@@ -1,3 +1,7 @@
+## 2026-10-14T02:15:00Z — first fit complete; F3 teacher dispatched
+
+The [CPU/student frontier](../research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md) has its first completed matched H256×2 F0 seed3 fit: 14,920 FP32 updates, no skipped/nonfinite recorded gradient updates, 34m08s. A postfit consumer assertion expected a nonexistent CLI field; repair against the unchanged producer precedes B16 export profiling and grading. All eight shapes remain authorized. Kaggle precision profiles completed 100 finite updates each and were collected; the missing F3 seed3 teacher was privately dispatched under fresh quota. CPU uploads remain asynchronous. No new model-quality winner or competition-host capacity claim.
+
 ## 2026-10-14T01:38:00Z — first matched student fit running
 
 The [CPU/student frontier](../research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md) now has an actual trainer profile with ten finite completed updates and an admitted H256×2 F0 seed3 fit. The frozen comparison is B8/C2000 FP32,14,920 updates, fixed checkpoint0, common fitting-derived normalization and clean teacher targets. Finite progress is observed; checkpoint counters, predictions and grade are pending. Independent-width training/native support and its tests proceed separately. The missing F3 teacher checkpoint packet passes independent offline review but awaits QAT R4 terminal collection and fresh quota before dispatch. CPU uploads remain asynchronous; no new quality winner or target-host capacity claim.
