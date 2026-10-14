@@ -19,3 +19,5 @@ Independent [R3 review](../../../unified/reviews/KAGGLE_CACHE_MATERIALIZATION_R3
 
 [`collect_terminal_r3.py`](collect_terminal_r3.py) adapts the successfully used R2 collector to this exact R3 kernel, sealed bootstrap/archive hashes, admission and push receipts. It downloads only `results/**` and the provider session log with a100MB streamed ceiling, safe relative paths and exclusive file creation. Output is `collected/attempt_001`; `TERMINAL_R3.json` is written only after closure. Its import/CLI check passes. The old campaign timer does not collect this target; root owns terminal collection and diagnosis. No new fit or provider retry is implied.
 
+
+[Terminal diagnosis](TERMINAL_DIAGNOSIS_R3.md): R3 reached successful copy and strict preflight, then rejected a correct-sized regular cache file because the candidate deferred list still required a symlink. [All collected evidence](collected/README.md) is retained. No candidate GPU update or scientific result; R4 changes only the candidate file-validation route.
