@@ -1,0 +1,74 @@
+{
+  "schema": "wnn.state-initializer-native-validation.v1",
+  "date": "2026-10-14",
+  "base_commit": "25bb064fac1c0befa0ab7ffd3f467d6d0a872e4e",
+  "fixture": {
+    "type": "deterministic synthetic callback",
+    "torch_seed": 197,
+    "raw_seed": 5921,
+    "raw_rows": 137,
+    "raw_width": 112,
+    "preprocessed_width": 211,
+    "layers": 2,
+    "hidden_width": 8,
+    "modes": ["zero", "constant", "first_row", "prefix"],
+    "normalization": "nontrivial deterministic per-feature mean/std"
+  },
+  "python_validation": {
+    "command": "PYTHONPATH=src:native/target/release WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=600s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m pytest -q tests/test_state_initialization.py tests/test_state_initialization_native.py --junitxml=research/campaign_2026-10-14/cpu_state_initializer_native_r1/NATIVE_PARITY_R1.xml -o junit_family=xunit1",
+    "python": "Python 3.13.9",
+    "result": "25 passed in 2.19 seconds",
+    "junit_sha256": "7ff3118d4a01a60a15e54f5148add3ee32156ab1ccf43078b6beb0f078a1a8ee",
+    "test_source_sha256": "195c443b7a5704d78f8b3c400dbfe3185d97b137d191c760d94669c4184b98ab",
+    "native_library_sha256": "7ea04f8b99882d74af0ba9f7766d1efdb84cb3f47095d487d705370ab3e8bcb0",
+    "exact_activation_python_reference": {
+      "max_prediction_absolute_error": 2.9802322387695312e-8,
+      "prediction_rms_range": [1.2983043085057488e-8, 1.3352302374869396e-8],
+      "max_final_hidden_absolute_error": 5.960464477539063e-8
+    },
+    "zero_config_vs_omitted": "bitwise identical predictions and final hidden state",
+    "callback_new_sequence_reset": "bitwise identical prediction replay and final hidden state for all four modes",
+    "prefix_causality": "changing raw rows from 100 onward leaves predictions for rows 0-99 bitwise identical",
+    "native_fast_vs_exact_activation": {
+      "max_prediction_absolute_delta": 2.9802322387695312e-8,
+      "prediction_rms_delta": 1.5592130253594405e-8
+    },
+    "portable_quantized_state_transport": {
+      "presets": ["q8vnni_portable", "q8x_portable", "q16x_portable"],
+      "modes": ["constant", "first_row", "prefix"],
+      "result": "all configured arms changed the intended trajectory and reset replay was bitwise identical"
+    },
+    "ruff_format_and_check": "passed for src/wnn/state_initialization.py and tests/test_state_initialization_native.py"
+  },
+  "rust_unit_test": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=600s CARGO_BUILD_JOBS=1 scripts/limited cargo test --manifest-path native/Cargo.toml --lib state_init::tests::prefix_stats_reset_with_the_sequence_state",
+    "result": "1 passed; 59 filtered out",
+    "full_suite_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=600s CARGO_BUILD_JOBS=1 scripts/limited cargo test --manifest-path native/Cargo.toml --lib",
+    "full_suite_result": "59 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; 45.59 seconds"
+  },
+  "python311_import_attempt": {
+    "command": "PYTHONPATH=native/target/release WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited python3.11 -c 'import numpy; import wnn_native; print(numpy.__version__, wnn_native.__file__)'",
+    "python": "Python 3.11.16",
+    "exit_code": 1,
+    "error": "ModuleNotFoundError: No module named 'numpy'",
+    "diagnosis": "This initial probe used the system Python 3.11 interpreter, which has no NumPy. No package was installed. The project Python 3.11 profile environment was subsequently used for a successful abi3 import and native callback test with a NumPy-only fixture."
+  },
+  "python311_profile_fixture": {
+    "command": "PYTHONPATH=src:native/target/release WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python research/campaign_2026-10-14/cpu_state_initializer_native_r1/verify_py311_fixture.py",
+    "python": "Python 3.11.16",
+    "numpy": "2.2.6",
+    "torch": "not installed; no packages installed",
+    "result": "passed: abi3 extension imported; all four modes ran through the native callback and matched the Python 3.13 reference within 2.98e-8 maximum absolute prediction error; reset replay bitwise identical",
+    "fixture": "PY311_CALLBACK_FIXTURE_R1.npz",
+    "fixture_sha256": "009f4c16c4872dba5d1bc91080d2d3e471ed889ce5ea30d0e7f06336de374d96",
+    "receipt": "PY311_ABI3_NATIVE_RECEIPT_R1.json",
+    "receipt_sha256": "67207a46d20026457026a0b6ff2353293ac87ddfcb2f77b862032527f07f7aa0",
+    "zero_vs_omitted": "bitwise identical predictions and final hidden state"
+  },
+  "scope": {
+    "training": false,
+    "gpu_or_provider": false,
+    "competition_data_or_quality_score": false,
+    "claim_limit": "synthetic H8x2 implementation, export, native callback, state-transport and reset evidence only"
+  }
+}

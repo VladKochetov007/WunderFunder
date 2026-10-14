@@ -1,0 +1,36 @@
+{
+  "schema": "wnn.state-initializer-native-build.v1",
+  "date": "2026-10-14",
+  "worktree": "/home/vlad/development/wunder/worktrees/cpu-state-initializer-native-r1",
+  "base_commit": "25bb064fac1c0befa0ab7ffd3f467d6d0a872e4e",
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=600s CARGO_BUILD_JOBS=1 scripts/limited cargo build --manifest-path native/Cargo.toml --release --features extension-module",
+  "exit_code": 0,
+  "reported_incremental_build_seconds": 5.50,
+  "limits": {
+    "cpu_quota": "100%",
+    "threads": 1,
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 600,
+    "swap": 0
+  },
+  "toolchain": {
+    "rustc": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+    "cargo": "cargo 1.94.0 (85eff7c80 2026-01-15)",
+    "target": "x86_64-unknown-linux-gnu",
+    "python_abi": "abi3-py311"
+  },
+  "extension": {
+    "build_path": "native/target/release/libwnn_native.so",
+    "size_bytes": 1156608,
+    "sha256": "7ea04f8b99882d74af0ba9f7766d1efdb84cb3f47095d487d705370ab3e8bcb0",
+    "test_import_alias": "native/target/release/wnn_native.abi3.so"
+  },
+  "source_sha256": {
+    "native/src/python.rs": "a3bac422e74b3f4cb652dad0221a5edfe3be9588bd4f26df320fa5267c788a1f",
+    "native/src/rnn_fast.rs": "5e69b591df41438f136dd28cc115be5063c13792368eebcf33a6340f327b714c",
+    "native/src/state_init.rs": "20132e54db3829bf655bc7080217c7aaa59f55f74708cd5371290e7ab51f72ed",
+    "native/src/lib.rs": "7d0c16ab7cf09963ebb0293adb1136dac394643a3fff43e5692276eeb2a61574",
+    "src/wnn/state_initialization.py": "6bf8105e94b0830421f2a9b04ad82369a58c2bfeb9c5c525e3eceb793304d256"
+  },
+  "provenance_note": "This is a successful incremental build after the exact first compiler failure recorded in BUILD_FAILURE_R1.json was diagnosed. Dependencies had already been compiled in the same worktree. No checked xteam package or original native binary was changed."
+}

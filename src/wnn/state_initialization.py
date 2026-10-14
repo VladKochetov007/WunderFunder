@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Literal
 
+import numpy as np
 import torch
 from attrs import frozen
 from torch import nn
@@ -148,3 +149,45 @@ class InitializedGRU(nn.Module):
             state = InitializationState(hidden, state.position + stop - offset, mean, m2, last)
             offset = stop
         return torch.cat(outputs, dim=1), state
+
+
+def export_native_initializer(module: InitializedGRU) -> dict[str, object]:
+    """Export FP32 initializer parameters for ``wnn_native.EnsemblePredictor``.
+
+    The backbone remains in the ordinary model weight dictionary. This payload contains only
+    initializer parameters and does not quantize or alter their values.
+    """
+    config: dict[str, object] = {"mode": module.mode}
+    if module.mode == "zero":
+        return config
+    config["residual_bound"] = float(module.residual_bound)
+    if module.mode == "constant":
+        if module.constant is None:
+            raise RuntimeError("constant initializer parameters are missing")
+        config["constant"] = np.ascontiguousarray(
+            module.constant.detach().cpu().numpy()[:, 0, :], dtype=np.float32
+        )
+        return config
+    if module.predictor is None:
+        raise RuntimeError("context initializer parameters are missing")
+    input_layer = module.predictor[0]
+    output_layer = module.predictor[2]
+    if not isinstance(input_layer, nn.Linear) or not isinstance(output_layer, nn.Linear):
+        raise RuntimeError("unsupported context initializer layout")
+    config.update(
+        {
+            "predictor_input_weight": np.ascontiguousarray(
+                input_layer.weight.detach().cpu().numpy(), dtype=np.float32
+            ),
+            "predictor_input_bias": np.ascontiguousarray(
+                input_layer.bias.detach().cpu().numpy(), dtype=np.float32
+            ),
+            "predictor_output_weight": np.ascontiguousarray(
+                output_layer.weight.detach().cpu().numpy(), dtype=np.float32
+            ),
+            "predictor_output_bias": np.ascontiguousarray(
+                output_layer.bias.detach().cpu().numpy(), dtype=np.float32
+            ),
+        }
+    )
+    return config

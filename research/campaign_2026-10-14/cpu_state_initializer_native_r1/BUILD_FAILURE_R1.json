@@ -1,0 +1,37 @@
+{
+  "schema": "wnn.state-initializer-native-build-failure.v1",
+  "date": "2026-10-14",
+  "worktree": "/home/vlad/development/wunder/worktrees/cpu-state-initializer-native-r1",
+  "base_commit": "25bb064fac1c0befa0ab7ffd3f467d6d0a872e4e",
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=600s CARGO_BUILD_JOBS=1 scripts/limited cargo build --manifest-path native/Cargo.toml --release --features extension-module",
+  "exit_code": 101,
+  "limits": {
+    "cpu_quota": "100%",
+    "threads": 1,
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 600,
+    "swap": 0
+  },
+  "source_sha256_at_failure": {
+    "native/src/python.rs": "8e4a94729315386c58cfcea74cc75590208927ebec1e93e9efb33006823bb5fe",
+    "native/src/rnn_fast.rs": "44b825a73e3457a961c82c344ab600633cfb7340e14a9fed23d6d4a4421687a0",
+    "native/src/state_init.rs": "20132e54db3829bf655bc7080217c7aaa59f55f74708cd5371290e7ab51f72ed",
+    "native/src/lib.rs": "7d0c16ab7cf09963ebb0293adb1136dac394643a3fff43e5692276eeb2a61574",
+    "src/wnn/state_initialization.py": "6bf8105e94b0830421f2a9b04ad82369a58c2bfeb9c5c525e3eceb793304d256",
+    "tests/test_state_initialization_native.py": "b23fcdd6a37b31299d40c8fe71b2c628ca74b7ed3403e78f79c8c20cb35975bb"
+  },
+  "diagnosis": "Builder mutation failed in Rust compilation, not malformed input or resource exhaustion. PyO3 needed an explicit Python lifetime on the moved Bound return. The timed ensemble loop retained a mutable borrow of governor while calling another &mut self method to initialize a member. The compiler reported both locations; no retry or fallback occurred before diagnosis.",
+  "compiler_errors": [
+    {
+      "code": "E0106",
+      "location": "native/src/python.rs:350:21",
+      "detail": "missing lifetime specifier for PyResult<Bound<'_, PyAny>>"
+    },
+    {
+      "code": "E0499",
+      "location": "native/src/python.rs:877:25",
+      "detail": "cannot borrow *self as mutable more than once at a time; the governor borrow from match &mut self.governor remained live through member_time update"
+    }
+  ],
+  "compiler_output": "Compiled all dependencies and wnn_native; Rustc then reported E0106 at src/python.rs:350:21 for the missing Bound lifetime and E0499 at src/python.rs:877:25 for a second mutable self borrow while the governor borrow remained live. Exit 101."
+}

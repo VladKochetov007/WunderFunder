@@ -4,6 +4,8 @@
 
 This domain covers competition CPU execution, native kernels, quantization, packaging, and measured runtime.
 
+[Native causal state initialization R1](../../campaign_2026-10-14/cpu_state_initializer_native_r1/README.md) adds optional exported FP32 zero, bounded constant, first-row MLP and prefix-residual initialization to the Rust callback without changing the GRU. Twenty-five synthetic checks pass with at most 2.98e-8 exact-wrapper prediction error; zero and omitted configuration are bitwise identical. A NumPy-only fixture also verifies the abi3 callback under Python 3.11. Quantized reset/transport is covered, but fitting, actual-data quality, trained-package compatibility and runtime impact remain unmeasured (H-STATE-INIT-20261014; E-STATE-INIT-IMPLEMENTATION-20261014-R1).
+
 - [Checked A–B–C–D–A upload handoff](../../../submissions/10-14-cpu-policy-r1/README.md) provides original/fixed-weight ZIPs, hashes, policy purposes and independent parity/ABI evidence for H-CPU-POLICY-20261014. User uploads are asynchronous. Local Intel timings favorA; there is no AMD runtime result or newly selected architecture.
 
 - [Exact packed-W4 matrix screen](../../campaign_2026-10-14/cpu_student_frontier_r1/packed_w4_screen_r1/README.md) compares identical W4 codes in expanded VNNI, scalar nibble/LUT and vectorized in-kernel decode paths (E-PACKED-W4-MATRIX-20261014-R1). Exact synthetic dot checks pass; vectorized decoding is about1.30–2.34× slower than expanded VNNI on the local Intel host. The scalar LUT is a correctness prototype, not optimized T-MAC; no GRU/callback, quality or AMD capacity conclusion follows.
