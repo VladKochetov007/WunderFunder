@@ -1,0 +1,54 @@
+{
+  "kind": "controller_post_result_failure",
+  "created_utc": "2026-10-14T00:30:09.516598+00:00",
+  "exit_code": 1,
+  "source_commit": "febdb238a64f56f2d969bdf59855537527d80f2c",
+  "profile_script_sha256_at_failure": "d87d3944ab5db7e440c7acc80aea7f4aa00deeff30a3be2ec508a002aca96614",
+  "command": {
+    "environment": {
+      "WNN_SLICE": "wnn-campaign.slice",
+      "WNN_CPU_QUOTA": "100%",
+      "WNN_THREADS": "1",
+      "WNN_MEM_MAX": "1500000000",
+      "WNN_RUNTIME_MAX": "900s",
+      "WNN_SCOPE_UNIT": "cpu-student-ladder-profile-r1.scope"
+    },
+    "argv": [
+      "scripts/limited",
+      "/home/vlad/.cache/codex/cpu-policy-20261014-venv311/bin/python",
+      "research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py"
+    ],
+    "exact_shell_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=900s WNN_SCOPE_UNIT=cpu-student-ladder-profile-r1.scope scripts/limited /home/vlad/.cache/codex/cpu-policy-20261014-venv311/bin/python research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py",
+    "stdout_worker_receipts": [
+      "h256l1_f32_command.json",
+      "h256l1_q8vnni_command.json",
+      "h192l2_f32_command.json",
+      "h192l2_q8vnni_command.json",
+      "h256l2_f32_command.json",
+      "h256l2_q8vnni_command.json",
+      "h512l1_f32_command.json",
+      "h512l1_q8vnni_command.json",
+      "h384l2_f32_command.json",
+      "h384l2_q8vnni_command.json",
+      "h640l1_f32_command.json",
+      "h640l1_q8vnni_command.json",
+      "h512l2_f32_command.json",
+      "h512l2_q8vnni_command.json",
+      "h448l3_f32_command.json",
+      "h448l3_q8vnni_command.json"
+    ],
+    "stderr": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py\", line 562, in <module>\n    main()\n  File \"/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py\", line 558, in main\n    run_ladder(args)\n  File \"/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py\", line 538, in run_ladder\n    print(json.dumps({\"result\": str(result_path), \"shapes\": len(outputs)}, flush=True))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib64/python3.11/json/__init__.py\", line 234, in dumps\n    return cls(\n           ^^^^\nTypeError: JSONEncoder.__init__() got an unexpected keyword argument 'flush'\n"
+  },
+  "outputs_written_before_failure": {
+    "worker_count": 16,
+    "worker_command_receipt_count": 16,
+    "ladder_results_file": "LADDER_RESULTS_R1.json",
+    "ladder_results_file_bytes": 14788
+  },
+  "diagnosis": {
+    "failure_class": "post-measurement reporting typo",
+    "root_cause": "The final status print passed flush=True to json.dumps instead of to print.",
+    "worker_status": "All 16 subprocesses exited zero and each worker wrote a full result JSON and command receipt before this controller error.",
+    "measurement_scope": "The completed worker results are usable only after independent consistency, hash and cgroup verification; the overall controller command itself exited 1."
+  }
+}
