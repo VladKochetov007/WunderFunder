@@ -15,3 +15,7 @@ Independent [R3 review](../../../unified/reviews/KAGGLE_CACHE_MATERIALIZATION_R3
 [Sealed specifications](specs/README.md) retain the original preflight and three full-shape FP32/W4/mixed profiles.
 
 [Final bounded offline test receipt](OFFLINE_TESTS_R3.xml) records9passing preflight/materialization checks on physical Btrfs. New builder/tests pass Ruff. The reused bootstrap has5pre-existing Ruff diagnostics in unrelated process cleanup/error chaining; this repair preserves those sections and avoids wholesale formatting of frozen source.
+# Bounded terminal collection
+
+[`collect_terminal_r3.py`](collect_terminal_r3.py) adapts the successfully used R2 collector to this exact R3 kernel, sealed bootstrap/archive hashes, admission and push receipts. It downloads only `results/**` and the provider session log with a100MB streamed ceiling, safe relative paths and exclusive file creation. Output is `collected/attempt_001`; `TERMINAL_R3.json` is written only after closure. Its import/CLI check passes. The old campaign timer does not collect this target; root owns terminal collection and diagnosis. No new fit or provider retry is implied.
+
