@@ -7,6 +7,7 @@ pub mod kernels;
 pub mod quant8;
 pub mod rnn;
 pub mod rnn_fast;
+pub mod state_init;
 pub mod stream;
 pub mod vnni;
 

@@ -9,6 +9,7 @@ use pyo3::prelude::*;
 
 use crate::rnn::{GruLayer, RnnModel, RnnWeights};
 use crate::rnn_fast::{Activations, FastRnn, Precision};
+use crate::state_init::{StateInitializer, StateInitializerConfig};
 
 type Q8Codes = HashMap<String, Py<PyAny>>;
 type FactorTensors = HashMap<String, HashMap<String, Py<PyAny>>>;
@@ -342,6 +343,127 @@ fn weights_from_dict(
     })
 }
 
+fn take_initializer_value<'py>(
+    py: Python<'py>,
+    config: &mut HashMap<String, Py<PyAny>>,
+    key: &str,
+) -> PyResult<Bound<'py, PyAny>> {
+    config
+        .remove(key)
+        .map(|value| value.into_bound(py))
+        .ok_or_else(|| PyValueError::new_err(format!("missing initializer field {key}")))
+}
+
+fn take_initializer_array(
+    py: Python<'_>,
+    config: &mut HashMap<String, Py<PyAny>>,
+    key: &str,
+    shape: &[usize],
+) -> PyResult<Vec<f32>> {
+    let value = take_initializer_value(py, config, key)?;
+    let array: PyReadonlyArrayDyn<'_, f32> = value.extract()?;
+    if array.shape() != shape {
+        return Err(PyValueError::new_err(format!(
+            "initializer field {key} shape mismatch: expected {shape:?}, got {:?}",
+            array.shape()
+        )));
+    }
+    Ok(array.as_slice()?.to_vec())
+}
+
+fn take_initializer_bound(
+    py: Python<'_>,
+    config: &mut HashMap<String, Py<PyAny>>,
+) -> PyResult<f32> {
+    take_initializer_value(py, config, "residual_bound")?.extract()
+}
+
+fn reject_initializer_extras(config: &HashMap<String, Py<PyAny>>) -> PyResult<()> {
+    if config.is_empty() {
+        Ok(())
+    } else {
+        Err(PyValueError::new_err(format!(
+            "unexpected initializer fields: {:?}",
+            config.keys().collect::<Vec<_>>()
+        )))
+    }
+}
+
+fn parse_state_initializer(
+    py: Python<'_>,
+    mut config: HashMap<String, Py<PyAny>>,
+    model: &FastRnn,
+) -> PyResult<StateInitializer> {
+    let mode = take_initializer_value(py, &mut config, "mode")?.extract::<String>()?;
+    let (layers, hidden) = model.hidden_state_shape();
+    let n_in = model.n_in();
+    let initializer = match mode.as_str() {
+        "zero" => {
+            reject_initializer_extras(&config)?;
+            StateInitializerConfig::Zero
+        }
+        "constant" => {
+            let bound = take_initializer_bound(py, &mut config)?;
+            let values = take_initializer_array(py, &mut config, "constant", &[layers, hidden])?;
+            reject_initializer_extras(&config)?;
+            StateInitializerConfig::Constant { bound, values }
+        }
+        "first_row" | "prefix" => {
+            let bound = take_initializer_bound(py, &mut config)?;
+            let input_width = if mode == "prefix" { 3 * n_in } else { n_in };
+            let input_weight = take_initializer_array(
+                py,
+                &mut config,
+                "predictor_input_weight",
+                &[64, input_width],
+            )?;
+            let input_bias =
+                take_initializer_array(py, &mut config, "predictor_input_bias", &[64])?;
+            let output_weight = take_initializer_array(
+                py,
+                &mut config,
+                "predictor_output_weight",
+                &[layers * hidden, 64],
+            )?;
+            let output_bias = take_initializer_array(
+                py,
+                &mut config,
+                "predictor_output_bias",
+                &[layers * hidden],
+            )?;
+            reject_initializer_extras(&config)?;
+            if mode == "prefix" {
+                StateInitializerConfig::Prefix {
+                    bound,
+                    input_weight,
+                    input_bias,
+                    output_weight,
+                    output_bias,
+                }
+            } else {
+                StateInitializerConfig::FirstRow {
+                    bound,
+                    input_weight,
+                    input_bias,
+                    output_weight,
+                    output_bias,
+                }
+            }
+        }
+        _ => {
+            return Err(PyValueError::new_err(format!(
+                "unknown initializer mode {mode:?}"
+            )));
+        }
+    };
+    if mode != "zero" && model.cell() != crate::rnn_fast::Cell::Gru {
+        return Err(PyValueError::new_err(
+            "state initialization requires a GRU backbone",
+        ));
+    }
+    StateInitializer::new(initializer, n_in, layers, hidden).map_err(PyValueError::new_err)
+}
+
 fn same_float_bits(left: &[f32], right: &[f32]) -> bool {
     left.len() == right.len()
         && left
@@ -588,6 +710,7 @@ struct PyEnsemblePredictor {
     norm: Option<crate::stream::OnlineNorm>,
     widths: Vec<usize>,
     models: Vec<FastRnn>,
+    initializers: Vec<StateInitializer>,
     /// Each member's first weights, prefetched by the member stepped before it.
     firsts: Vec<crate::half::Ahead>,
     input: Vec<f32>,
@@ -682,6 +805,9 @@ impl PyEnsemblePredictor {
         for model in &mut self.models {
             model.reset();
         }
+        for initializer in &mut self.initializers {
+            initializer.reset();
+        }
     }
 
     fn set_active(&mut self, active: usize) {
@@ -694,8 +820,18 @@ impl PyEnsemblePredictor {
             .collect();
     }
 
+    fn initialize_member(&mut self, index: usize) -> PyResult<()> {
+        if self.initializers.is_empty() {
+            return Ok(());
+        }
+        let width = self.widths[index];
+        self.initializers[index]
+            .before_step(&mut self.models[index], &self.input[..width])
+            .map_err(PyValueError::new_err)
+    }
+
     /// Features for the row already in `input[..N_RAW]`, then the blend of the active members.
-    fn advance(&mut self) {
+    fn advance(&mut self) -> PyResult<()> {
         let (raw, rest) = self.input.split_at_mut(crate::stream::N_RAW);
         self.features.sanitize(raw);
         let (event, zscores) = rest.split_at_mut(crate::stream::N_EVENT);
@@ -721,28 +857,29 @@ impl PyEnsemblePredictor {
                 &mut first_scratch[0],
                 &mut second_scratch[0],
             );
+        } else if self.governor.is_none() {
+            for k in 0..active {
+                let i = order(k);
+                self.initialize_member(i)?;
+                // Prefetch the next member's first weights (for the last member, the next
+                // row's first) during this member's final activation pass.
+                let after = self.firsts[order((k + 1) % active)];
+                let width = self.widths[i];
+                self.models[i].step_then(&self.input[..width], &mut self.scratch[i], after);
+            }
         } else {
-            match &mut self.governor {
-                None => {
-                    for k in 0..active {
-                        let i = order(k);
-                        // Prefetch the next member's first weights (for the last member, the next
-                        // row's first) during this member's final activation pass.
-                        let after = self.firsts[order((k + 1) % active)];
-                        let width = self.widths[i];
-                        self.models[i].step_then(&self.input[..width], &mut self.scratch[i], after);
-                    }
+            for k in 0..active {
+                let i = order(k);
+                self.initialize_member(i)?;
+                let t = Instant::now();
+                let width = self.widths[i];
+                self.models[i].step(&self.input[..width], &mut self.scratch[i]);
+                if let Some(governor) = &mut self.governor {
+                    governor.member_time[i] += t.elapsed();
                 }
-                Some(governor) => {
-                    for k in 0..active {
-                        let i = order(k);
-                        let t = Instant::now();
-                        let width = self.widths[i];
-                        self.models[i].step(&self.input[..width], &mut self.scratch[i]);
-                        governor.member_time[i] += t.elapsed();
-                    }
-                    governor.rows += 1;
-                }
+            }
+            if let Some(governor) = &mut self.governor {
+                governor.rows += 1;
             }
         }
         for (scratch, coefficient) in self.scratch.iter().zip(&self.coefficients).take(active) {
@@ -755,6 +892,7 @@ impl PyEnsemblePredictor {
                 *value = 0.0;
             }
         }
+        Ok(())
     }
 }
 
@@ -770,7 +908,8 @@ impl PyEnsemblePredictor {
         expected_rows=39_400_000.0,
         q8_codes=None,
         factors=None,
-        shared_backbone=false
+        shared_backbone=false,
+        state_initializers=None
     ))]
     fn new(
         py: Python<'_>,
@@ -783,6 +922,7 @@ impl PyEnsemblePredictor {
         q8_codes: Option<Vec<Q8Codes>>,
         factors: Option<Vec<FactorTensors>>,
         shared_backbone: bool,
+        state_initializers: Option<Vec<HashMap<String, Py<PyAny>>>>,
     ) -> PyResult<Self> {
         if weights.is_empty() || weights.len() != coefficients.len() {
             return Err(PyValueError::new_err(
@@ -861,6 +1001,27 @@ impl PyEnsemblePredictor {
             models.push(model);
         }
         let needs_norm = widths.iter().any(|&w| w > base);
+        let initializers = match state_initializers {
+            Some(configs) => {
+                if configs.len() != models.len() {
+                    return Err(PyValueError::new_err(
+                        "provide one state initializer config for each ensemble member",
+                    ));
+                }
+                let parsed = configs
+                    .into_iter()
+                    .zip(&models)
+                    .map(|(config, model)| parse_state_initializer(py, config, model))
+                    .collect::<PyResult<Vec<_>>>()?;
+                if shared_backbone && parsed.iter().any(|initializer| !initializer.is_zero()) {
+                    return Err(PyValueError::new_err(
+                        "nonzero state initialization is not supported with shared_backbone",
+                    ));
+                }
+                parsed
+            }
+            None => Vec::new(),
+        };
         let governor = budget_s.map(|budget| Governor {
             budget,
             expected_rows,
@@ -875,6 +1036,7 @@ impl PyEnsemblePredictor {
             features: Default::default(),
             norm: needs_norm.then(Default::default),
             scratch: vec![[0.0; 2]; models.len()],
+            initializers,
             alternate: !shared_backbone
                 && models.iter().all(FastRnn::is_dynamic_int8)
                 && models.len() > 1,
@@ -903,7 +1065,7 @@ impl PyEnsemblePredictor {
         row: &Bound<'py, PyAny>,
     ) -> PyResult<Bound<'py, PyArray1<f32>>> {
         read_row(py, row, &mut self.input[..crate::stream::N_RAW])?;
-        self.advance();
+        self.advance()?;
         Ok(PyArray1::from_slice(py, &self.out))
     }
 
@@ -925,7 +1087,7 @@ impl PyEnsemblePredictor {
         }
         let state = data_point.getattr(intern!(py, "state"))?;
         read_row(py, &state, &mut self.input[..crate::stream::N_RAW])?;
-        self.advance();
+        self.advance()?;
         if data_point
             .getattr(intern!(py, "need_prediction"))?
             .is_truthy()?
@@ -994,6 +1156,17 @@ impl PyEnsemblePredictor {
     #[getter]
     fn storage_bytes(&self) -> Vec<HashMap<String, usize>> {
         self.models.iter().map(storage_bytes).collect()
+    }
+
+    #[getter]
+    fn hidden_states<'py>(
+        &self,
+        py: Python<'py>,
+    ) -> PyResult<Vec<Bound<'py, numpy::PyArray2<f32>>>> {
+        self.models
+            .iter()
+            .map(|model| export_hidden_state(py, model))
+            .collect()
     }
 }
 

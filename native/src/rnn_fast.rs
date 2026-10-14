@@ -252,6 +252,8 @@ pub struct FastRnn {
     n_in: usize,
     hidden: usize,
     n_out: usize,
+    input_mean: Vec<f32>,
+    input_std: Vec<f32>,
     act: Activations,
     cell: Cell,
     precision: Precision,
@@ -708,6 +710,8 @@ impl FastRnn {
         mut supplied: Vec<(String, crate::factorized::FloatFactors)>,
     ) -> Result<Self, ShapeError> {
         let n_in = w.mean.len();
+        let input_mean = w.mean.clone();
+        let input_std = w.std.clone();
         let hidden = w.b_in.len();
         let n_out = w.b2.len();
         let cell = match w.layers.first() {
@@ -1035,6 +1039,8 @@ impl FastRnn {
             n_in,
             hidden,
             n_out,
+            input_mean,
+            input_std,
             act,
             cell,
             precision,
@@ -1077,6 +1083,19 @@ impl FastRnn {
         self.n_out
     }
 
+    /// Input normalization used by the Python backbone, before its input projection.
+    pub fn normalize_input(&self, input: &[f32], output: &mut [f32]) {
+        assert_eq!(input.len(), self.n_in, "input width");
+        assert_eq!(output.len(), self.n_in, "normalized input width");
+        for ((value, source), (mean, std)) in output
+            .iter_mut()
+            .zip(input)
+            .zip(self.input_mean.iter().zip(&self.input_std))
+        {
+            *value = (*source - *mean) / *std;
+        }
+    }
+
     pub fn hidden(&self) -> usize {
         self.hidden
     }
@@ -1089,6 +1108,83 @@ impl FastRnn {
     /// Read-only flattened hidden vectors, one contiguous `hidden`-wide row per layer.
     pub fn hidden_state(&self) -> &[f32] {
         &self.state.as_ref()[self.h.clone()]
+    }
+
+    /// Replace the FP32 GRU state and refresh any activation-code cache used by this precision.
+    pub fn set_hidden_state(&mut self, values: &[f32]) -> Result<(), ShapeError> {
+        if self.cell != Cell::Gru {
+            return Err(ShapeError("state initialization requires a GRU".into()));
+        }
+        if values.len() != self.layers.len() * self.hidden {
+            return Err(ShapeError(format!(
+                "hidden-state size mismatch: expected {}, got {}",
+                self.layers.len() * self.hidden,
+                values.len()
+            )));
+        }
+        if values.iter().any(|value| !value.is_finite()) {
+            return Err(ShapeError("hidden state must be finite".into()));
+        }
+        self.state.as_mut()[self.h.clone()].copy_from_slice(values);
+        self.refresh_hidden_codes();
+        Ok(())
+    }
+
+    /// Add a bounded FP32 residual to every GRU layer and refresh quantized activation caches.
+    pub fn add_hidden_state(&mut self, values: &[f32]) -> Result<(), ShapeError> {
+        if self.cell != Cell::Gru {
+            return Err(ShapeError("state initialization requires a GRU".into()));
+        }
+        if values.len() != self.layers.len() * self.hidden {
+            return Err(ShapeError(format!(
+                "hidden-state size mismatch: expected {}, got {}",
+                self.layers.len() * self.hidden,
+                values.len()
+            )));
+        }
+        if values.iter().any(|value| !value.is_finite()) {
+            return Err(ShapeError("hidden-state residual must be finite".into()));
+        }
+        for (state, residual) in self.state.as_mut()[self.h.clone()].iter_mut().zip(values) {
+            *state += *residual;
+        }
+        if self.hidden_state().iter().any(|value| !value.is_finite()) {
+            return Err(ShapeError(
+                "initialized hidden state must remain finite".into(),
+            ));
+        }
+        self.refresh_hidden_codes();
+        Ok(())
+    }
+
+    fn refresh_hidden_codes(&mut self) {
+        let layers = self.layers.len();
+        let hidden = self.hidden;
+        let state = self.hidden_state().to_vec();
+        if self.precision.dyn8().is_some() {
+            let padded = crate::vnni::padded_cols(hidden);
+            for layer in 0..layers {
+                let start = layer * padded;
+                self.dscales[layer] = crate::vnni::quantize(
+                    &state[layer * hidden..(layer + 1) * hidden],
+                    &mut self.dcodes[start..start + padded],
+                );
+            }
+        } else if self.precision == Precision::Q16x
+            || self.precision == Precision::Q16xPortable
+            || self.precision.q8()
+        {
+            let padded = hidden.div_ceil(TILE_COLS) * TILE_COLS;
+            let codes: &mut [i16] = bytemuck::cast_slice_mut(&mut self.codes);
+            for layer in 0..layers {
+                let start = layer * padded;
+                crate::half::quantize(
+                    &state[layer * hidden..(layer + 1) * hidden],
+                    Some(1.0),
+                    &mut codes[start..start + padded],
+                );
+            }
+        }
     }
 
     /// Whether the step runs on the dynamic-int8 kernels (`Q8Vnni` and its fallbacks).

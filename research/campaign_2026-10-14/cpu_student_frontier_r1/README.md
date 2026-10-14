@@ -13,6 +13,8 @@ The canonical narrative entry is in [unified inference](../../unified/inference/
 
 - [Initializer implementation](INITIALIZER_IMPLEMENTATION_R1.md): separate zero/constant/first-row/prefix wrapper and ten passing causal, reset, gradient and long-sequence checks. Code evidence only; fits, native export and quality comparison remain pending.
 
+- [Native causal state initialization R1](../cpu_state_initializer_native_r1/README.md): native callback now accepts exported per-member FP32 zero, bounded constant, first-row MLP and prefix residual states while retaining the original GRU. Twenty-five focused checks pass; Python wrapper/native exact activation error is at most 2.98e-8, zero equals omitted configuration bitwise, and the abi3 callback/reset path runs under Python 3.11. Synthetic implementation and transport evidence only; initializer fitting and quality comparison remain with root.
+
 - [Actual-data state decay diagnostic](STATE_DECAY_DIAGNOSTIC_R1.md): one clean-F0 control and one fitting sequence show a random initial perturbation surviving warmup, with second-layer influence through several thousand rows. This is mechanism evidence only, not initializer quality or a population-level decay claim.
 
 - [Student resource profiles](profiles/README.md): source/hash-bound actual-data smoke, controller terminal receipt and measured host/device consumption. B1 success does not establish the intended fitting-batch capacity.

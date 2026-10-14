@@ -1,0 +1,34 @@
+{
+  "schema": "wnn.state-initializer-native-py311.v1",
+  "python": "3.11.16",
+  "numpy": "2.2.6",
+  "extension_path": "/home/vlad/development/wunder/worktrees/cpu-state-initializer-native-r1/native/target/release/wnn_native.abi3.so",
+  "extension_sha256": "7ea04f8b99882d74af0ba9f7766d1efdb84cb3f47095d487d705370ab3e8bcb0",
+  "fixture_path": "PY311_CALLBACK_FIXTURE_R1.npz",
+  "fixture_sha256": "009f4c16c4872dba5d1bc91080d2d3e471ed889ce5ea30d0e7f06336de374d96",
+  "fixture_reference_environment": "Python 3.13.9, deterministic synthetic Torch wrapper",
+  "modes": {
+    "zero": {
+      "prediction_max_abs_error": 2.9802322387695312e-08,
+      "hidden_max_abs_error": 5.960464477539063e-08,
+      "reset_replay_bitwise_equal": true
+    },
+    "constant": {
+      "prediction_max_abs_error": 2.9802322387695312e-08,
+      "hidden_max_abs_error": 5.960464477539063e-08,
+      "reset_replay_bitwise_equal": true
+    },
+    "first_row": {
+      "prediction_max_abs_error": 2.9802322387695312e-08,
+      "hidden_max_abs_error": 5.960464477539063e-08,
+      "reset_replay_bitwise_equal": true
+    },
+    "prefix": {
+      "prediction_max_abs_error": 2.9802322387695312e-08,
+      "hidden_max_abs_error": 5.960464477539063e-08,
+      "reset_replay_bitwise_equal": true
+    }
+  },
+  "zero_vs_omitted": "bitwise identical predictions and final hidden state",
+  "scope": "Python 3.11 abi3 import and native serving callback/transport only; wrapper/export generation used Python 3.13 because Torch is absent from the profile environment"
+}
