@@ -17,6 +17,7 @@ from typing import Any
 BUNDLE_SLUG = ""
 EXPECTED_ARCHIVE_SHA256 = ""
 EXPECTED_EXTERNAL_MOUNTS = None
+MATERIALIZED_CACHE_ROOTS = ("cache/clean_t3_f0_h390_t3r5_a9_r2",)
 KERNEL_PROCESS_WALL_SECONDS_MAX = 43_200  # Packet builder binds this to the Kaggle push timeout.
 RUNNER_FINALIZATION_RESERVE_SECONDS = 300
 BOOTSTRAP_STARTED_MONOTONIC = time.monotonic()
@@ -283,12 +284,125 @@ def write_phase_receipt(path: Path, value: dict) -> None:
     temporary.replace(path)
 
 
+def materialize_distillation_cache(
+    root: Path,
+    manifest: dict[str, Any],
+    receipt: dict[str, Any],
+    output: Path,
+    deadline: float,
+) -> list[Path]:
+    """Replace verified cache symlinks with contained, byte-identical disk files.
+
+    The cache consumer intentionally rejects resolved paths outside its root.
+    Preserve that check and the frozen producer manifest; copy only the three
+    cache files, with bounded buffers and incremental file-cache handoff.
+    """
+    if receipt.get("status") != "pass":
+        raise ValueError("cache materialization requires passing input preflight")
+    identities = {item["path"]: item for item in receipt["inputs"]}
+    selected = [
+        item
+        for item in manifest["files"]
+        if str(PurePosixPath(item["path"]).parent) in MATERIALIZED_CACHE_ROOTS
+        and item["path"] in manifest["external_mounts"]
+    ]
+    expected = {
+        f"{cache_root}/{name}"
+        for cache_root in MATERIALIZED_CACHE_ROOTS
+        for name in ("metadata.json", "main_homogeneous_train.npy", "main_homogeneous_valid.npy")
+    }
+    if {item["path"] for item in selected} != expected or len(selected) != len(expected):
+        raise ValueError("cache materialization inventory differs from frozen producer")
+    total = sum(item["size"] for item in selected)
+    filesystem = subprocess.check_output(["stat", "-f", "-c", "%T", str(root)], text=True).strip()
+    if filesystem in {"tmpfs", "ramfs"}:
+        raise ValueError("cache materialization requires physical working storage")
+    if shutil.disk_usage(root).free < total + 2 * 1024**3:
+        raise ValueError("insufficient physical disk for contained cache and reserve")
+    record: dict[str, Any] = {
+        "status": "started",
+        "bytes_expected": total,
+        "filesystem": filesystem,
+        "files": [],
+    }
+    write_phase_receipt(output, record)
+    completed: list[Path] = []
+    try:
+        for item in selected:
+            require_remaining(deadline, "cache materialization")
+            target = root / item["path"]
+            identity = identities.get(item["path"], {})
+            if not target.is_symlink() or not target.parent.resolve().is_relative_to(
+                root.resolve()
+            ):
+                raise ValueError("cache destination is not a contained staging symlink")
+            source_path = target.resolve(strict=True)
+            if (
+                identity.get("size") != item["size"]
+                or identity.get("expected_size") != item["size"]
+                or identity.get("sha256") != item["sha256"]
+                or identity.get("expected_sha256") != item["sha256"]
+                or Path(identity.get("resolved_path", "")) != source_path
+            ):
+                raise ValueError("cache identity differs from successful input receipt")
+            temporary = target.with_name(target.name + ".materializing")
+            digest = hashlib.sha256()
+            copied = 0
+            handed_off = 0
+            with source_path.open("rb") as source, temporary.open("xb") as destination:
+                while block := source.read(min(1024**2, item["size"] - copied + 1)):
+                    require_remaining(deadline, "cache streaming copy")
+                    copied += len(block)
+                    if copied > item["size"]:
+                        raise ValueError("cache source exceeds pinned length")
+                    digest.update(block)
+                    destination.write(block)
+                    if copied - handed_off >= 64 * 1024**2:
+                        destination.flush()
+                        os.fdatasync(destination.fileno())
+                        for handle in (source, destination):
+                            os.posix_fadvise(
+                                handle.fileno(),
+                                handed_off,
+                                copied - handed_off,
+                                os.POSIX_FADV_DONTNEED,
+                            )
+                        handed_off = copied
+                destination.flush()
+                os.fdatasync(destination.fileno())
+                for handle in (source, destination):
+                    os.posix_fadvise(handle.fileno(), 0, 0, os.POSIX_FADV_DONTNEED)
+            if copied != item["size"] or digest.hexdigest() != item["sha256"]:
+                raise ValueError("materialized cache differs from producer bytes")
+            temporary.replace(target)
+            completed.append(target)
+            if target.is_symlink() or target.resolve().parent != target.parent.resolve():
+                raise ValueError("materialized cache escaped its registered root")
+            record["files"].append(dict(item))
+            write_phase_receipt(output, record)
+    except (OSError, ValueError, TimeoutError) as error:
+        record.update(status="failed", error=f"{type(error).__name__}: {error}")
+        write_phase_receipt(output, record)
+        raise
+    record.update(status="pass", bytes_copied=total)
+    write_phase_receipt(output, record)
+    return completed
+
+
 def release_mounts(root: Path, mounts: dict) -> None:
-    """Remove only external symlinks before Kaggle captures local results."""
+    """Remove owned external staging links/copies before provider collection."""
     for logical in mounts:
         target = root / logical
-        if target.is_symlink():
+        if target.is_symlink() or (
+            str(PurePosixPath(logical).parent) in MATERIALIZED_CACHE_ROOTS
+            and target.is_file()
+            and target.resolve().is_relative_to(root.resolve())
+        ):
             target.unlink()
+        if str(PurePosixPath(logical).parent) in MATERIALIZED_CACHE_ROOTS:
+            partial = target.with_name(target.name + ".materializing")
+            if partial.is_file() and partial.resolve().is_relative_to(root.resolve()):
+                partial.unlink()
 
 
 def main() -> None:
@@ -391,6 +505,10 @@ def main() -> None:
             preflight_receipt = verify_preflight(summary)
             cache_handoff_receipt = advise_hashed_inputs_dontneed(
                 preflight_receipt, Path("/kaggle/working/results/preflight/cache_handoff.json")
+            )
+            materialize_distillation_cache(
+                root, manifest, preflight_receipt,
+                Path("/kaggle/working/results/preflight/cache_materialization.json"), deadline,
             )
 
         # Keep the guard and invocation visibly sequential: phase two is unreachable
