@@ -4,6 +4,8 @@
 
 This domain covers competition CPU execution, native kernels, quantization, packaging, and measured runtime.
 
+[CPU student frontier one-sequence profile packet](../../campaign_2026-10-14/cpu_student_frontier_r1/profiles/README.md) freezes a real clean-F0 H192×2/B1/C2000 FP32 resource probe, with producer target ancestry, exact seed-3 sampler order, and H256 fitting-only normalization. Its CPU preflight verified the sampled data row and identities; the CUDA update awaits root's bounded admission. This is infrastructure evidence only and makes no quality or architecture-ranking claim (H-STUDENT-LADDER-20261014).
+
 [October 13 QAT progress review](QAT_PROGRESS_REVIEW_20261013.md) synthesizes independently graded full-fold comparisons: full-data W4/mixed QAT gains +0.000622/+0.000760 over matching PTQ, with intervals crossing zero; both remain below matched Q8. It records 13 completed training runs including one control reproduction, measured archive savings without resident-memory/runtime savings, pending seed/fold evidence and the conditional path to stronger complete blends. Controller synthesis; no public gain or rank forecast (H-QAT-W4/A8/LSQ-20261013).
 
 - [Versioned Python QAT and packed-row format](../../campaign_2026-10-13/qat_renewable_r1/QUANTIZATION_SPEC_R1.md) defines recurrent W4 and mixed input-W4/recurrent-W8 policy selection, exact Q4 nibble/code-scale transport, cache and checkpoint semantics, and the native A8/I16 differences. It indexes implementation in `src/wnn/quantization.py`, `src/wnn/training_qat.py`, and `src/wnn/quantization_export.py`; this is code-contract evidence only, with no model-quality or speed result.

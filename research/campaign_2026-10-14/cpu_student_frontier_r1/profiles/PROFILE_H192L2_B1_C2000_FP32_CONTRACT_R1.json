@@ -1,0 +1,174 @@
+{
+  "format": "wnn.student-frontier-shape-profile-contract",
+  "version": 1,
+  "id": "student-frontier-f0-s3-h192l2-b1-c2000-fp32-one-update-r1",
+  "stage": "actual_data_single_sequence_update",
+  "purpose": "Bounded resource/finite-update smoke profile using one real source-qualified F0 sequence; not a quality comparison or a fit.",
+  "data_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "cache_root": "cache/clean_t3_f0_h390_t3r5_a9_r2",
+  "cache_metadata_max_bytes": 512000,
+  "cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+  "cache_profile": "cleanfold_homogeneous_strong_t3_v1",
+  "historical_producer_student_contract": {
+    "epochs": 6,
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch": 5,
+    "hidden": 256,
+    "layers": 2,
+    "batch": 16,
+    "chunk": 2000,
+    "distill_alpha": 0.9,
+    "since_weight": 0.0,
+    "inherit_init_preprocessing": false
+  },
+  "target_contract": {
+    "variant": "homogeneous",
+    "family": "strong",
+    "formula": "float32(0.8125 * float32_mean(three_epoch2_predictions))",
+    "teacher_epoch": 2,
+    "teacher_mean": "unweighted arithmetic mean in float32",
+    "cache_construction_clipping": "none",
+    "training_target_clipping": [-2.0, 2.0],
+    "distill_alpha": 0.9,
+    "target_files": {
+      "train": {
+        "path": "main_homogeneous_train.npy",
+        "shape": [10535, 20000, 2],
+        "bytes": 1685600128,
+        "sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+        "row_groups_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda"
+      },
+      "valid": {
+        "path": "main_homogeneous_valid.npy",
+        "shape": [1405, 20000, 2],
+        "bytes": 224800128,
+        "sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2",
+        "row_groups_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      }
+    },
+    "full_target_payload_sha_recomputed_by_profile": false,
+    "sampled_target_row_finite_checked": true
+  },
+  "teacher_ancestry": [
+    {
+      "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+      "checkpoint": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt",
+      "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+      "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json",
+      "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+      "coefficient": 0.1,
+      "family": "strong",
+      "epoch": 2
+    },
+    {
+      "run": "clean_t3_f0_muonall_h384_e3_s4_r5",
+      "checkpoint": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/model_ep2.pt",
+      "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+      "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json",
+      "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+      "coefficient": 0.1,
+      "family": "strong",
+      "epoch": 2
+    },
+    {
+      "run": "clean_t3_f0_muonall_h384_e3_s5_r5",
+      "checkpoint": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/model_ep2.pt",
+      "checkpoint_sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+      "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json",
+      "provenance_sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18",
+      "coefficient": 0.1,
+      "family": "strong",
+      "epoch": 2
+    }
+  ],
+  "normalization_source": {
+    "description": "copy only fitting-only mean/std from the clean F0 H256×2 seed-3 FP16 six-epoch control; no learned model parameters are loaded into the profile student",
+    "checkpoint": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+    "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "provenance": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/provenance.json",
+    "provenance_sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+    "source_fit_groups": "same source-qualified F0 fitting sets; evaluation components excluded",
+    "buffers_only": true
+  },
+  "normalization_sha256": {
+    "mean": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+    "std": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+  },
+  "sample_order": {
+    "train_seqs_argument": 10607,
+    "train_permutation": "numpy.default_rng(seed=3).permutation(split.train_groups)",
+    "combined_dataset_order": "permuted train groups followed by split.valid_groups, matching train_rnn train+valid construction",
+    "sampler": "wnn.training_sampling.EpochOrderSampler",
+    "sampler_seed": 3,
+    "sampler_epoch": 0,
+    "batch_size_for_order": 16,
+    "drop_last": true,
+    "profile_rows_used": 1,
+    "evaluation_groups_allowed": false
+  },
+  "shape": [192, 2],
+  "architecture_allowlist": [[256, 1], [192, 2], [256, 2], [512, 1], [384, 2], [640, 1], [512, 2], [448, 3]],
+  "features": 211,
+  "model_semantics": {
+    "class": "wnn.nn.RNNModel",
+    "cell": "gru",
+    "encoder": "linear",
+    "projection_skip": "enabled as implemented by RNNModel",
+    "head": "existing GELU two-output head",
+    "dropout": 0.0,
+    "initial_state": "zero",
+    "state_resets": "one sequence starts from zero"
+  },
+  "seed": 3,
+  "precision": "float32",
+  "tf32": false,
+  "batch_size": 1,
+  "chunk_rows": 2000,
+  "effective_loss_rows": "positions 99 through 1999",
+  "loss": {
+    "form": "sum(weight * squared_error) / sum(weight), where weight=abs(clamp(label,-2,2))*valid and squared_error=(prediction-((1-alpha)*clamp(label,-2,2)+alpha*clamp(teacher,-2,2)))^2",
+    "warmup_rows": 99,
+    "distill_alpha": 0.9,
+    "fit_only_diagnostic": true,
+    "omissions": ["propensity weighting", "true-mask weighting", "structural auxiliary", "next-event auxiliary", "evaluation"]
+  },
+  "optimizer": {
+    "name": "torch.optim.AdamW",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "attempted_updates": 1,
+    "completed_updates": 1,
+    "scheduler": "none for this one-update capacity probe"
+  },
+  "outputs": {
+    "checkpoint": false,
+    "predictions": false,
+    "quality_claim": false,
+    "permitted_artifact": "small JSON profile receipt with data/source hashes, finite-update and observed resources"
+  },
+  "resource_admission": {
+    "host_reservation_bytes": 3000000000,
+    "cuda_allocator_cap_bytes": 3500000000,
+    "input_array_upper_bound_bytes": 20000000,
+    "model_parameter_estimate_bytes": 3000000,
+    "optimizer_and_gradient_estimate_bytes": 10000000,
+    "activation_estimate_bytes": 100000000,
+    "input_bound_scope": "one sequence prefix, row/target/scored tensors, 211-wide input, and bounded autograd activations; Python/PyArrow/torch import and file-cache margin is supplied by the 3 GB reservation",
+    "profile_result_must_record": ["host max RSS", "cgroup memory", "CUDA peak allocated", "CUDA peak reserved", "CUDA free after update", "NVML/nvidia-smi before and after update", "device name"]
+  },
+  "source_sha256": {
+    "scripts/profile_student_frontier.py": "2ab9985b711fe687743b9676fba4899191d398fbbfb9c266c209113a7b8b9b01",
+    "scripts/train_rnn.py": "5718375e270aa2d0c081402703309eb90ebbcdb411fe0ef52ea9e4db59066541",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/distillation_cache.py": "b0b588605b3134a62c7a0c634219030fbcdd820e572668aff6d33980db180740",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/nn.py": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+    "src/wnn/resources.py": "0b6280130a480f5547552df83cc4a15e7cfe88ad04498ca11c2ab2d54bb428e9",
+    "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+    "src/wnn/training_controls.py": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39",
+    "src/wnn/training_sampling.py": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2"
+  }
+}
