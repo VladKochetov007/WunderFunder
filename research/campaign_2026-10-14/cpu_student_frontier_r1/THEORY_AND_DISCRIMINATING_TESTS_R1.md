@@ -70,6 +70,14 @@ For a stacked3H×H gate matrix, a rank-r factorization costs4Hr coefficients ins
 
 Sharing a two-branch encoder saves only211H projection coefficients at equal widths; each independent recurrent transition still needs its own gates/state. Exact shared-backbone serving requires matching tensors and preprocessing, not matching architecture names. Shared-encoder training and independently fitted ensemble diversity are separate experiments.
 
+For independent encoder widthE, recurrent widthR, readout widthM and L recurrent layers, one hidden readout layer has matrix count
+
+`P(E,R,M,L) = 211E + 3R(E+R) + 6(L-1)R² + (R+E)M + 2M`.
+
+A second M-wide hidden readout addsM² coefficients. At E=R=M=H this reduces to the initial ladder formula. Changing only the encoder byΔE changes the count by `(211+3R+M)ΔE`; changing only the readout byΔM changes it by `(R+E+2)ΔM`. Recurrent-width changes affect both repeated transitions and state/nonlinearity costs. Thus a useful allocation screen first changes one dimension at a time, then spends the measured saved callback time on another dimension. An equal-parameter reallocation is not automatically equal-cost. Retain the projection skip so readout-width comparisons do not simultaneously remove access to current-row information.
+
+The repository already has a [factorized training implementation](../../../src/wnn/training_factorized.py) and [historical E420 callback measurements](../../campaign_2026-10-04/E420_factorized_runtime_v3/result.json). Its H384×2 rank128 zero-update control measured112.9µs/row in factorized FP32 versus184.7µs for the same represented dense FP32 weights; the separate unfactorized Q16 context measured99.1µs. Five repetitions over three complete sequences were used. This establishes a historical factor-execution saving against its matched FP32 reconstruction, not a quality benefit, Q8 comparison, trained compression result or current EPYC capacity. Reuse that factor/export path for a successor instead of treating low-rank execution as unimplemented. A successor must compare current Q8 and include the intermediate activation quantization cost; the existing trainer materializes factors for fused-GRU training and therefore does not itself demonstrate training acceleration.
+
 ## Evidence and interpretation
 
 The shape formulas are derived from current source and reproduce historical logical byte accounting. Literature provides mechanisms and boundary conditions. None of these sources establishes a new competition-quality gain, a target CPU capacity range, a best architecture, or a winning initial state.
