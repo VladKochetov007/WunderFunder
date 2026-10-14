@@ -40,6 +40,10 @@ No gate-bias model or initializer has been fitted, graded or promoted. Actual-da
 
 Root will profile the complete-sequence initializer-only path on a source-qualified fitting batch, then compare it with zero-state evaluation and separately admitted joint training. The main eight-shape screen keeps its frozen recipe. Root owns subsequent fitted checkpoints, predictions, position-bucket effects and native grades.
 
+## Bounded profile packet staged
+
+The [complete-sequence initializer profile packet](profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R1_README.md) binds the completed F0 seed-3 H256×2 terminal checkpoint, exact clean teacher/propensity/norm ancestry, and source-qualified B8 sampler member `(valid,37,44346154)`. Its [R3 standard-library preflight](profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R3_PREFLIGHT.json) passed under a 400 MB/one-CPU limit; the execution entry point repeats these checks and the unchanged strict target validator runs again inside the separately admitted worker. The declared resource envelope is 5 GB host, 3.5 GB PyTorch allocator, and 5 GB observed VRAM. Root retains GPU admission and launch; no initializer update, fit, or quality result exists yet.
+
 ## Source records
 
 [Initial plan](PLAN.md), [initializer implementation](INITIALIZER_IMPLEMENTATION_R1.md), [minGRU reference](MINGRU_REFERENCE_R1.md), [one-sequence state decay](STATE_DECAY_DIAGNOSTIC_R1.md), and [first fixed-budget control grade](results/control_prediction_grade_r3/README.md) supply the local context. All existing folds remain exposed.
