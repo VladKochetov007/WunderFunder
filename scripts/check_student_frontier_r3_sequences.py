@@ -57,10 +57,19 @@ def argument(command: list[str], name: str) -> str:
     return command[index + 1]
 
 
-def validate(root: Path, main: Path, fit_worktree: Path, output: Path) -> dict[str, Any]:
+def validate(
+    root: Path,
+    main: Path,
+    fit_worktree: Path,
+    profile_worktree: Path,
+    output: Path,
+) -> dict[str, Any]:
     """Check profile pins, each shape plan and the per-shape export gate."""
     recipes = root / "research/campaign_2026-10-14/cpu_student_frontier_r1/recipes"
-    profile_path = recipes / "PREDICTION_PROFILE_F0_EIGHT_SHAPES_B16_R2.json"
+    profile_path = (
+        profile_worktree
+        / "research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/PREDICTION_PROFILE_F0_EIGHT_SHAPES_B16_R2.json"
+    )
     profile = read_json(profile_path)
     profile_sha = sha256_file(profile_path)
     require(profile.get("project_root"), str(main), "profile project root")
@@ -75,6 +84,10 @@ def validate(root: Path, main: Path, fit_worktree: Path, output: Path) -> dict[s
         raise ValueError("profile model run names are not unique")
     if len({item.get("output_path") for item in models}) != len(SHAPES):
         raise ValueError("profile output paths are not unique")
+    fit_contract = (
+        fit_worktree
+        / "research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_SEED3_B8_R2_CONSUMER_CONTRACT.json"
+    )
     plan_reports = []
     seen_attempts: set[str] = set()
     for hidden, layers in SHAPES:
@@ -86,7 +99,9 @@ def validate(root: Path, main: Path, fit_worktree: Path, output: Path) -> dict[s
         require(plan.get("run"), run, f"{shape} run")
         require(plan.get("step_count"), len(EXPECTED_PHASES), f"{shape} step count")
         steps = plan.get("steps")
-        if not isinstance(steps, list) or [step.get("phase") for step in steps] != list(EXPECTED_PHASES):
+        if not isinstance(steps, list) or [step.get("phase") for step in steps] != list(
+            EXPECTED_PHASES
+        ):
             raise ValueError(f"{shape} sequence order is incomplete or differs")
         if any(step.get("attempt") in seen_attempts for step in steps):
             raise ValueError(f"{shape} plan reuses a nonshared attempt ID")
@@ -95,7 +110,33 @@ def validate(root: Path, main: Path, fit_worktree: Path, output: Path) -> dict[s
         for step in steps:
             if step["phase"] != "frozen-grader-input-check":
                 seen_attempts.add(step["attempt"])
-        model = next(item for item in models if item["hidden"] == hidden and item["layers"] == layers)
+        model = next(
+            item for item in models if item["hidden"] == hidden and item["layers"] == layers
+        )
+        fit_gate_worker = steps[1]["expected_command"]
+        require(
+            str(root / "scripts/validate_student_frontier_fit.py") in fit_gate_worker,
+            True,
+            f"{shape} post-fit validator source path",
+        )
+        require(argument(fit_gate_worker, "--run"), run, f"{shape} fit-gate run")
+        require(
+            argument(fit_gate_worker, "--contract"), str(fit_contract), f"{shape} fit-gate contract"
+        )
+        require(
+            argument(fit_gate_worker, "--hidden"), str(hidden), f"{shape} fit-gate hidden width"
+        )
+        require(argument(fit_gate_worker, "--layers"), str(layers), f"{shape} fit-gate layer count")
+        require(
+            argument(fit_gate_worker, "--out"),
+            model["fit_receipt_path"],
+            f"{shape} fit receipt path",
+        )
+        require(
+            argument(fit_gate_worker, "--contract-sha256"),
+            profile["consumer_contract_sha256"],
+            f"{shape} fit-gate contract hash",
+        )
         fit_worker = steps[0]["expected_command"]
         for name, expected in {
             "--name": run,
@@ -109,18 +150,50 @@ def validate(root: Path, main: Path, fit_worktree: Path, output: Path) -> dict[s
             "--student-frontier-stage": "f0_seed3_fit",
         }.items():
             require(argument(fit_worker, name), expected, f"{shape} trainer argv {name}")
-        require(steps[3].get("expected_command"), model["worker_command"], f"{shape} profile worker argv")
-        require(steps[3].get("profile_contract_sha256"), profile_sha, f"{shape} profile contract pin")
+        require(
+            steps[3].get("expected_command"),
+            model["worker_command"],
+            f"{shape} profile worker argv",
+        )
+        require(
+            steps[3].get("profile_contract_sha256"), profile_sha, f"{shape} profile contract pin"
+        )
         profile_launch = steps[3]["launch_command"]
-        require(argument(profile_launch, "--contract"), str(profile_path), f"{shape} profile contract path")
-        require(argument(profile_launch, "--reserve-bytes"), "5000000000", f"{shape} profile host reserve")
+        require(
+            argument(profile_launch, "--contract"),
+            str(profile_path),
+            f"{shape} profile contract path",
+        )
+        require(
+            argument(profile_launch, "--reserve-bytes"),
+            "5000000000",
+            f"{shape} profile host reserve",
+        )
         gate_worker = steps[4]["expected_command"]
-        require(argument(gate_worker, "--profile-contract-sha256"), profile_sha, f"{shape} profile gate hash")
-        require(argument(gate_worker, "--attempt-id"), model["profile_attempt_id"], f"{shape} profile gate attempt")
-        require(argument(gate_worker, "--out"), model["profile_validation_receipt_path"], f"{shape} profile receipt path")
+        require(
+            argument(gate_worker, "--profile-contract-sha256"),
+            profile_sha,
+            f"{shape} profile gate hash",
+        )
+        require(
+            argument(gate_worker, "--attempt-id"),
+            model["profile_attempt_id"],
+            f"{shape} profile gate attempt",
+        )
+        require(
+            argument(gate_worker, "--out"),
+            model["profile_validation_receipt_path"],
+            f"{shape} profile receipt path",
+        )
         export_launch = steps[5]["launch_command"]
-        require(argument(export_launch, "--contract"), model["profile_validation_receipt_path"], f"{shape} export dependency")
-        require(argument(export_launch, "--reserve-bytes"), "6000000000", f"{shape} export host reserve")
+        require(
+            argument(export_launch, "--contract"),
+            model["profile_validation_receipt_path"],
+            f"{shape} export dependency",
+        )
+        require(
+            argument(export_launch, "--reserve-bytes"), "6000000000", f"{shape} export host reserve"
+        )
         export_worker = steps[5]["expected_command"]
         if "--campaign-profile-first-batch" in export_worker:
             raise ValueError(f"{shape} quality export accidentally uses profile-only mode")
@@ -132,19 +205,22 @@ def validate(root: Path, main: Path, fit_worktree: Path, output: Path) -> dict[s
         scorer_index = grade_worker.index(str(main / "scripts/score_fold0_panel.py"))
         require(grade_worker[scorer_index + 1], f"{run}@ep0", f"{shape} grade candidate")
         profile_path_out = Path(model["output_path"])
-        plan_reports.append({
-            "shape": [hidden, layers],
-            "plan_path": str(plan_path),
-            "plan_sha256": sha256_file(plan_path),
-            "run": run,
-            "step_count": len(steps),
-            "profile_attempt": model["profile_attempt_id"],
-            "profile_output_path": str(profile_path_out),
-            "export_contract_dependency": model["profile_validation_receipt_path"],
-            "fit_worker_sha256": hashlib.sha256(json.dumps(fit_worker, separators=(",", ":")).encode()).hexdigest(),
-        })
+        plan_reports.append(
+            {
+                "shape": [hidden, layers],
+                "plan_path": str(plan_path),
+                "plan_sha256": sha256_file(plan_path),
+                "run": run,
+                "step_count": len(steps),
+                "profile_attempt": model["profile_attempt_id"],
+                "profile_output_path": str(profile_path_out),
+                "export_contract_dependency": model["profile_validation_receipt_path"],
+                "fit_worker_sha256": hashlib.sha256(
+                    json.dumps(fit_worker, separators=(",", ":")).encode()
+                ).hexdigest(),
+            }
+        )
 
-    fit_contract = fit_worktree / "research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_SEED3_B8_R2_CONSUMER_CONTRACT.json"
     require(profile.get("consumer_contract"), str(fit_contract), "fit consumer path")
     require(profile.get("consumer_contract_sha256"), sha256_file(fit_contract), "fit consumer hash")
     if output.exists():
@@ -173,15 +249,21 @@ def main() -> None:
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--main", type=Path, required=True)
     parser.add_argument("--fit-worktree", type=Path, required=True)
+    parser.add_argument("--profile-worktree", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
     receipt = validate(
         args.root.resolve(strict=True),
         args.main.resolve(strict=True),
         args.fit_worktree.resolve(strict=True),
+        args.profile_worktree.resolve(strict=True),
         args.out.resolve(),
     )
-    print(json.dumps({"status": receipt["static_checks"], "shape_plan_count": receipt["shape_plan_count"]}))
+    print(
+        json.dumps(
+            {"status": receipt["static_checks"], "shape_plan_count": receipt["shape_plan_count"]}
+        )
+    )
 
 
 if __name__ == "__main__":
