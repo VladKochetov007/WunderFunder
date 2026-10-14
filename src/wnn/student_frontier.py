@@ -240,6 +240,12 @@ def validate_training_order(
     if (args.batch_order != "seeded" or args.valid_repeat != 1
             or train_loader.batch_size != batch_size or not train_loader.drop_last):
         raise ValueError("student-frontier requires its exact seeded drop-last loader")
+    loader = recipe["loader"]
+    if (train_loader.num_workers != int(loader["workers"])
+            or train_loader.pin_memory != bool(loader["pin_memory"])
+            or train_loader.prefetch_factor != loader["prefetch_factor"]
+            or train_loader.persistent_workers):
+        raise ValueError("student-frontier DataLoader worker/pinning policy differs from its recipe")
     sampler = train_loader.sampler
     if type(sampler).__name__ != "EpochOrderSampler":
         raise ValueError("student-frontier loader must use EpochOrderSampler")
@@ -331,6 +337,13 @@ def validate_cache_binding(
     }
     if actual_membership != split_contract["groups"]:
         raise ValueError("student-frontier source-qualified fitting/evaluation groups changed")
+    actual_group_ids = {
+        "train": list(map(int, split.train_groups)),
+        "valid_fit": list(map(int, split.valid_groups)),
+        "valid_evaluation": list(map(int, split.evaluation_groups)),
+    }
+    if actual_group_ids != split_contract["source_qualified_group_ids"]:
+        raise ValueError("student-frontier exact source-qualified fitting/evaluation groups changed")
     split.assert_fit_groups(split.train_groups, split.valid_groups)
     # Row-group numbers are source-local. A train row-group may have the same
     # integer as a valid row-group; only compare memberships within one source.
