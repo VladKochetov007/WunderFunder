@@ -1,0 +1,56 @@
+{
+  "recorded_utc": "2026-10-14T00:24:53Z",
+  "format": "wnn.packed-w4-matrix-screen",
+  "method": "Same structured synthetic [-7,7] W4 codes and offset-u8 activations for expanded512VNNI/scalar nibble/scalar bit-plane LUT/vectorized nibble inside512VNNI. LUT table construction included. Each matrix exact against independent row-major integer dot.",
+  "scope": "matrix-only synthetic Intel screen; no activation quantizer, nonlinearity, GRU, callback, fitted quality or AMD claim",
+  "policy_assertion": "supported(Isa::Vnni512) required; no fallback",
+  "cpu_affinity": [
+    2
+  ],
+  "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+  "measurement": {
+    "outer_repeats": 9,
+    "calls_per_sample": 40,
+    "order": "alternate forward/reverse five method order",
+    "statistic": "median of9 sample means in microseconds",
+    "build_cpu_quota": "100%",
+    "build_host_cap_bytes": 1500000000,
+    "run_cpu_quota": "100%",
+    "run_host_cap_bytes": 500000000,
+    "runtime_cap_seconds": 120
+  },
+  "build_command": "CARGO_BUILD_JOBS=1 cargo build --release --manifest-path native/Cargo.toml --example bench_packed_w4",
+  "run_command": "taskset -c 2 native/target/release/examples/bench_packed_w4",
+  "rustc": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+  "sources": {
+    "native/examples/bench_packed_w4.rs": {
+      "sha256": "a4d492d690af433b618ffcde2c2d58bd183820626c58a239cba488043a44dd0e",
+      "bytes": 8773
+    },
+    "native/src/vnni.rs": {
+      "sha256": "47cfd8fea80857fe66f81dca119e75661845b9092fe635f7116a4ec7ab18233c",
+      "bytes": 49068
+    },
+    "native/Cargo.toml": {
+      "sha256": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+      "bytes": 684
+    },
+    "native/Cargo.lock": {
+      "sha256": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+      "bytes": 13803
+    },
+    "native/target/release/examples/bench_packed_w4": {
+      "sha256": "4221035ad1d4b630c55b00d99eb4505c3f6c8a2a0b1d625580492342677ff780",
+      "bytes": 432728
+    },
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/packed_w4_screen_r1/MATRIX_TIMINGS_R3.csv": {
+      "sha256": "5bb9341565077ff8915d068f0dedf7ec7c5f59568c331d5cdebf130307c708e1",
+      "bytes": 687
+    },
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/packed_w4_screen_r1/PACKED_VNNI_ASSEMBLY_R3.txt": {
+      "sha256": "e669a6ace083cf30e8184c09967103d5f28242a623e03d1408dcf7b2afe8e37c",
+      "bytes": 15483
+    }
+  },
+  "warning": "scalar LUT is a correctness prototype, not optimized T-MAC; packed weights omit common scales/biases and are not resident-memory measurements"
+}

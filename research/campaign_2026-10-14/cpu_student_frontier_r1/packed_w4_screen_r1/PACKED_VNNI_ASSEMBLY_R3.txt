@@ -1,0 +1,292 @@
+00000000000119f0 <bench_packed_w4::packed_vnni>:
+   119f0:	55                   	push   rbp
+   119f1:	41 57                	push   r15
+   119f3:	41 56                	push   r14
+   119f5:	41 55                	push   r13
+   119f7:	41 54                	push   r12
+   119f9:	53                   	push   rbx
+   119fa:	48 81 ec 38 01 00 00 	sub    rsp,0x138
+   11a01:	48 89 f0             	mov    rax,rsi
+   11a04:	4c 8b b4 24 78 01 00 	mov    r14,QWORD PTR [rsp+0x178]
+   11a0b:	00 
+   11a0c:	4c 89 f6             	mov    rsi,r14
+   11a0f:	48 83 e6 3f          	and    rsi,0x3f
+   11a13:	48 89 74 24 08       	mov    QWORD PTR [rsp+0x8],rsi
+   11a18:	0f 85 30 04 00 00    	jne    11e4e <bench_packed_w4::packed_vnni+0x45e>
+   11a1e:	4c 89 ce             	mov    rsi,r9
+   11a21:	48 83 e6 03          	and    rsi,0x3
+   11a25:	48 89 74 24 10       	mov    QWORD PTR [rsp+0x10],rsi
+   11a2a:	0f 85 38 04 00 00    	jne    11e68 <bench_packed_w4::packed_vnni+0x478>
+   11a30:	48 89 4c 24 18       	mov    QWORD PTR [rsp+0x18],rcx
+   11a35:	4c 89 74 24 30       	mov    QWORD PTR [rsp+0x30],r14
+   11a3a:	4c 39 f1             	cmp    rcx,r14
+   11a3d:	0f 85 3f 04 00 00    	jne    11e82 <bench_packed_w4::packed_vnni+0x492>
+   11a43:	48 89 44 24 20       	mov    QWORD PTR [rsp+0x20],rax
+   11a48:	4c 89 f1             	mov    rcx,r14
+   11a4b:	49 0f af c9          	imul   rcx,r9
+   11a4f:	48 d1 e9             	shr    rcx,1
+   11a52:	48 89 4c 24 28       	mov    QWORD PTR [rsp+0x28],rcx
+   11a57:	48 39 c8             	cmp    rax,rcx
+   11a5a:	0f 85 3a 04 00 00    	jne    11e9a <bench_packed_w4::packed_vnni+0x4aa>
+   11a60:	4d 85 f6             	test   r14,r14
+   11a63:	0f 84 bb 03 00 00    	je     11e24 <bench_packed_w4::packed_vnni+0x434>
+   11a69:	48 8b 8c 24 70 01 00 	mov    rcx,QWORD PTR [rsp+0x170]
+   11a70:	00 
+   11a71:	4c 89 f0             	mov    rax,r14
+   11a74:	48 c1 e8 06          	shr    rax,0x6
+   11a78:	48 89 04 24          	mov    QWORD PTR [rsp],rax
+   11a7c:	49 83 f9 03          	cmp    r9,0x3
+   11a80:	0f 87 47 01 00 00    	ja     11bcd <bench_packed_w4::packed_vnni+0x1dd>
+   11a86:	31 f6                	xor    esi,esi
+   11a88:	bf 3f 00 00 00       	mov    edi,0x3f
+   11a8d:	c5 f9 ef c0          	vpxor  xmm0,xmm0,xmm0
+   11a91:	41 b8 10 00 00 00    	mov    r8d,0x10
+   11a97:	49 89 d1             	mov    r9,rdx
+   11a9a:	49 89 cb             	mov    r11,rcx
+   11a9d:	31 db                	xor    ebx,ebx
+   11a9f:	45 31 ff             	xor    r15d,r15d
+   11aa2:	66 66 66 66 66 2e 0f 	data16 data16 data16 data16 cs nop WORD PTR [rax+rax*1+0x0]
+   11aa9:	1f 84 00 00 00 00 00 
+   11ab0:	4d 89 f4             	mov    r12,r14
+   11ab3:	49 29 dc             	sub    r12,rbx
+   11ab6:	4c 0f 42 e6          	cmovb  r12,rsi
+   11aba:	49 83 fc 3f          	cmp    r12,0x3f
+   11abe:	4c 0f 43 e7          	cmovae r12,rdi
+   11ac2:	4c 89 f8             	mov    rax,r15
+   11ac5:	48 c1 e0 06          	shl    rax,0x6
+   11ac9:	4d 89 f2             	mov    r10,r14
+   11acc:	49 29 c2             	sub    r10,rax
+   11acf:	4c 0f 42 d6          	cmovb  r10,rsi
+   11ad3:	62 f1 fe 48 7f 84 24 	vmovdqu64 ZMMWORD PTR [rsp+0xf0],zmm0
+   11ada:	f0 00 00 00 
+   11ade:	62 f1 fe 48 7f 84 24 	vmovdqu64 ZMMWORD PTR [rsp+0xb0],zmm0
+   11ae5:	b0 00 00 00 
+   11ae9:	62 f1 fe 48 7f 84 24 	vmovdqu64 ZMMWORD PTR [rsp+0x70],zmm0
+   11af0:	70 00 00 00 
+   11af4:	62 f1 fe 48 7f 84 24 	vmovdqu64 ZMMWORD PTR [rsp+0x30],zmm0
+   11afb:	30 00 00 00 
+   11aff:	b8 00 00 00 00       	mov    eax,0x0
+   11b04:	41 bd 00 00 00 00    	mov    r13d,0x0
+   11b0a:	49 83 fa 0f          	cmp    r10,0xf
+   11b0e:	76 60                	jbe    11b70 <bench_packed_w4::packed_vnni+0x180>
+   11b10:	49 83 fa 3f          	cmp    r10,0x3f
+   11b14:	4c 0f 43 d7          	cmovae r10,rdi
+   11b18:	49 ff c2             	inc    r10
+   11b1b:	45 89 d5             	mov    r13d,r10d
+   11b1e:	41 83 e5 0f          	and    r13d,0xf
+   11b22:	4d 0f 44 e8          	cmove  r13,r8
+   11b26:	4c 89 d0             	mov    rax,r10
+   11b29:	4c 29 e8             	sub    rax,r13
+   11b2c:	4d 29 ec             	sub    r12,r13
+   11b2f:	49 ff c4             	inc    r12
+   11b32:	45 31 d2             	xor    r10d,r10d
+   11b35:	66 66 2e 0f 1f 84 00 	data16 cs nop WORD PTR [rax+rax*1+0x0]
+   11b3c:	00 00 00 00 
+   11b40:	62 b1 fe 48 6f 8c 94 	vmovdqu64 zmm1,ZMMWORD PTR [rsp+r10*4+0x30]
+   11b47:	30 00 00 00 
+   11b4b:	62 91 75 48 fa 0c 91 	vpsubd zmm1,zmm1,ZMMWORD PTR [r9+r10*4]
+   11b52:	62 f1 7c 48 5b c9    	vcvtdq2ps zmm1,zmm1
+   11b58:	62 91 fe 48 7f 0c 93 	vmovdqu64 ZMMWORD PTR [r11+r10*4],zmm1
+   11b5f:	49 83 c2 10          	add    r10,0x10
+   11b63:	4d 39 d4             	cmp    r12,r10
+   11b66:	75 d8                	jne    11b40 <bench_packed_w4::packed_vnni+0x150>
+   11b68:	4c 8d 2c 85 00 00 00 	lea    r13,[rax*4+0x0]
+   11b6f:	00 
+   11b70:	49 ff c7             	inc    r15
+   11b73:	48 01 d8             	add    rax,rbx
+   11b76:	66 2e 0f 1f 84 00 00 	cs nop WORD PTR [rax+rax*1+0x0]
+   11b7d:	00 00 00 
+   11b80:	4c 39 f0             	cmp    rax,r14
+   11b83:	0f 83 b0 02 00 00    	jae    11e39 <bench_packed_w4::packed_vnni+0x449>
+   11b89:	46 8b 54 2c 30       	mov    r10d,DWORD PTR [rsp+r13*1+0x30]
+   11b8e:	44 2b 14 82          	sub    r10d,DWORD PTR [rdx+rax*4]
+   11b92:	c4 c1 02 2a ca       	vcvtsi2ss xmm1,xmm15,r10d
+   11b97:	49 83 c5 04          	add    r13,0x4
+   11b9b:	c5 fa 11 0c 81       	vmovss DWORD PTR [rcx+rax*4],xmm1
+   11ba0:	48 ff c0             	inc    rax
+   11ba3:	49 81 fd 00 01 00 00 	cmp    r13,0x100
+   11baa:	75 d4                	jne    11b80 <bench_packed_w4::packed_vnni+0x190>
+   11bac:	48 83 c3 40          	add    rbx,0x40
+   11bb0:	49 81 c3 00 01 00 00 	add    r11,0x100
+   11bb7:	49 81 c1 00 01 00 00 	add    r9,0x100
+   11bbe:	4c 3b 3c 24          	cmp    r15,QWORD PTR [rsp]
+   11bc2:	0f 85 e8 fe ff ff    	jne    11ab0 <bench_packed_w4::packed_vnni+0xc0>
+   11bc8:	e9 57 02 00 00       	jmp    11e24 <bench_packed_w4::packed_vnni+0x434>
+   11bcd:	49 c1 e9 02          	shr    r9,0x2
+   11bd1:	48 83 c7 60          	add    rdi,0x60
+   11bd5:	4d 89 cb             	mov    r11,r9
+   11bd8:	49 c1 e3 07          	shl    r11,0x7
+   11bdc:	62 f2 7d 48 58 05 da 	vpbroadcastd zmm0,DWORD PTR [rip+0xffffffffffff1ada]        # 36c0 <__abi_tag+0x33c4>
+   11be3:	1a ff ff 
+   11be6:	62 f2 7d 48 58 0d b8 	vpbroadcastd zmm1,DWORD PTR [rip+0xffffffffffff1ab8]        # 36a8 <__abi_tag+0x33ac>
+   11bed:	1a ff ff 
+   11bf0:	62 f1 fd 48 6f 15 06 	vmovdqa64 zmm2,ZMMWORD PTR [rip+0xffffffffffff1b06]        # 3700 <__abi_tag+0x3404>
+   11bf7:	1b ff ff 
+   11bfa:	62 f1 fd 48 6f 1d 3c 	vmovdqa64 zmm3,ZMMWORD PTR [rip+0xffffffffffff1b3c]        # 3740 <__abi_tag+0x3444>
+   11c01:	1b ff ff 
+   11c04:	49 89 d4             	mov    r12,rdx
+   11c07:	49 89 cd             	mov    r13,rcx
+   11c0a:	31 ed                	xor    ebp,ebp
+   11c0c:	45 31 ff             	xor    r15d,r15d
+   11c0f:	90                   	nop
+   11c10:	4c 89 f6             	mov    rsi,r14
+   11c13:	48 29 ee             	sub    rsi,rbp
+   11c16:	b8 00 00 00 00       	mov    eax,0x0
+   11c1b:	48 0f 42 f0          	cmovb  rsi,rax
+   11c1f:	48 83 fe 3f          	cmp    rsi,0x3f
+   11c23:	b8 3f 00 00 00       	mov    eax,0x3f
+   11c28:	48 0f 43 f0          	cmovae rsi,rax
+   11c2c:	c5 d9 ef e4          	vpxor  xmm4,xmm4,xmm4
+   11c30:	48 89 f8             	mov    rax,rdi
+   11c33:	c5 d1 ef ed          	vpxor  xmm5,xmm5,xmm5
+   11c37:	c5 c9 ef f6          	vpxor  xmm6,xmm6,xmm6
+   11c3b:	c5 c1 ef ff          	vpxor  xmm7,xmm7,xmm7
+   11c3f:	31 db                	xor    ebx,ebx
+   11c41:	66 66 66 66 66 66 2e 	data16 data16 data16 data16 data16 cs nop WORD PTR [rax+rax*1+0x0]
+   11c48:	0f 1f 84 00 00 00 00 
+   11c4f:	00 
+   11c50:	62 52 7d 48 58 04 98 	vpbroadcastd zmm8,DWORD PTR [r8+rbx*4]
+   11c57:	62 72 7d 48 30 48 fd 	vpmovzxbw zmm9,YMMWORD PTR [rax-0x60]
+   11c5e:	62 71 35 48 db d0    	vpandd zmm10,zmm9,zmm0
+   11c64:	62 d1 35 48 71 f1 04 	vpsllw zmm9,zmm9,0x4
+   11c6b:	62 71 35 48 db c9    	vpandd zmm9,zmm9,zmm1
+   11c71:	62 53 ed 48 25 ca 36 	vpternlogq zmm9,zmm2,zmm10,0x36
+   11c78:	62 71 35 48 fc cb    	vpaddb zmm9,zmm9,zmm3
+   11c7e:	62 d2 3d 48 50 f9    	vpdpbusd zmm7,zmm8,zmm9
+   11c84:	62 72 7d 48 30 48 fe 	vpmovzxbw zmm9,YMMWORD PTR [rax-0x40]
+   11c8b:	62 71 35 48 db d0    	vpandd zmm10,zmm9,zmm0
+   11c91:	62 d1 35 48 71 f1 04 	vpsllw zmm9,zmm9,0x4
+   11c98:	62 71 35 48 db c9    	vpandd zmm9,zmm9,zmm1
+   11c9e:	62 53 ed 48 25 ca 36 	vpternlogq zmm9,zmm2,zmm10,0x36
+   11ca5:	62 71 35 48 fc cb    	vpaddb zmm9,zmm9,zmm3
+   11cab:	62 d2 3d 48 50 f1    	vpdpbusd zmm6,zmm8,zmm9
+   11cb1:	62 72 7d 48 30 48 ff 	vpmovzxbw zmm9,YMMWORD PTR [rax-0x20]
+   11cb8:	62 71 35 48 db d0    	vpandd zmm10,zmm9,zmm0
+   11cbe:	62 d1 35 48 71 f1 04 	vpsllw zmm9,zmm9,0x4
+   11cc5:	62 71 35 48 db c9    	vpandd zmm9,zmm9,zmm1
+   11ccb:	62 53 ed 48 25 ca 36 	vpternlogq zmm9,zmm2,zmm10,0x36
+   11cd2:	62 71 35 48 fc cb    	vpaddb zmm9,zmm9,zmm3
+   11cd8:	62 d2 3d 48 50 e9    	vpdpbusd zmm5,zmm8,zmm9
+   11cde:	62 72 7d 48 30 08    	vpmovzxbw zmm9,YMMWORD PTR [rax]
+   11ce4:	62 71 35 48 db d0    	vpandd zmm10,zmm9,zmm0
+   11cea:	62 d1 35 48 71 f1 04 	vpsllw zmm9,zmm9,0x4
+   11cf1:	62 71 35 48 db c9    	vpandd zmm9,zmm9,zmm1
+   11cf7:	62 53 ed 48 25 ca 36 	vpternlogq zmm9,zmm2,zmm10,0x36
+   11cfe:	62 71 35 48 fc cb    	vpaddb zmm9,zmm9,zmm3
+   11d04:	62 d2 3d 48 50 e1    	vpdpbusd zmm4,zmm8,zmm9
+   11d0a:	48 ff c3             	inc    rbx
+   11d0d:	48 83 e8 80          	sub    rax,0xffffffffffffff80
+   11d11:	49 39 d9             	cmp    r9,rbx
+   11d14:	0f 85 36 ff ff ff    	jne    11c50 <bench_packed_w4::packed_vnni+0x260>
+   11d1a:	4c 89 f8             	mov    rax,r15
+   11d1d:	48 c1 e0 06          	shl    rax,0x6
+   11d21:	4d 89 f2             	mov    r10,r14
+   11d24:	49 29 c2             	sub    r10,rax
+   11d27:	b8 00 00 00 00       	mov    eax,0x0
+   11d2c:	4c 0f 42 d0          	cmovb  r10,rax
+   11d30:	62 f1 fe 48 7f bc 24 	vmovdqu64 ZMMWORD PTR [rsp+0x30],zmm7
+   11d37:	30 00 00 00 
+   11d3b:	62 f1 fe 48 7f b4 24 	vmovdqu64 ZMMWORD PTR [rsp+0x70],zmm6
+   11d42:	70 00 00 00 
+   11d46:	62 f1 fe 48 7f ac 24 	vmovdqu64 ZMMWORD PTR [rsp+0xb0],zmm5
+   11d4d:	b0 00 00 00 
+   11d51:	62 f1 fe 48 7f a4 24 	vmovdqu64 ZMMWORD PTR [rsp+0xf0],zmm4
+   11d58:	f0 00 00 00 
+   11d5c:	b8 00 00 00 00       	mov    eax,0x0
+   11d61:	bb 00 00 00 00       	mov    ebx,0x0
+   11d66:	49 83 fa 0f          	cmp    r10,0xf
+   11d6a:	76 65                	jbe    11dd1 <bench_packed_w4::packed_vnni+0x3e1>
+   11d6c:	49 83 fa 3f          	cmp    r10,0x3f
+   11d70:	b8 3f 00 00 00       	mov    eax,0x3f
+   11d75:	4c 0f 43 d0          	cmovae r10,rax
+   11d79:	49 ff c2             	inc    r10
+   11d7c:	44 89 d3             	mov    ebx,r10d
+   11d7f:	83 e3 0f             	and    ebx,0xf
+   11d82:	b8 10 00 00 00       	mov    eax,0x10
+   11d87:	48 0f 44 d8          	cmove  rbx,rax
+   11d8b:	4c 89 d0             	mov    rax,r10
+   11d8e:	48 29 d8             	sub    rax,rbx
+   11d91:	48 29 de             	sub    rsi,rbx
+   11d94:	48 ff c6             	inc    rsi
+   11d97:	45 31 d2             	xor    r10d,r10d
+   11d9a:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+   11da0:	62 b1 fe 48 6f a4 94 	vmovdqu64 zmm4,ZMMWORD PTR [rsp+r10*4+0x30]
+   11da7:	30 00 00 00 
+   11dab:	62 91 5d 48 fa 24 94 	vpsubd zmm4,zmm4,ZMMWORD PTR [r12+r10*4]
+   11db2:	62 f1 7c 48 5b e4    	vcvtdq2ps zmm4,zmm4
+   11db8:	62 91 fe 48 7f 64 95 	vmovdqu64 ZMMWORD PTR [r13+r10*4+0x0],zmm4
+   11dbf:	00 
+   11dc0:	49 83 c2 10          	add    r10,0x10
+   11dc4:	4c 39 d6             	cmp    rsi,r10
+   11dc7:	75 d7                	jne    11da0 <bench_packed_w4::packed_vnni+0x3b0>
+   11dc9:	48 8d 1c 85 00 00 00 	lea    rbx,[rax*4+0x0]
+   11dd0:	00 
+   11dd1:	49 ff c7             	inc    r15
+   11dd4:	48 01 e8             	add    rax,rbp
+   11dd7:	66 0f 1f 84 00 00 00 	nop    WORD PTR [rax+rax*1+0x0]
+   11dde:	00 00 
+   11de0:	4c 39 f0             	cmp    rax,r14
+   11de3:	73 54                	jae    11e39 <bench_packed_w4::packed_vnni+0x449>
+   11de5:	8b 74 1c 30          	mov    esi,DWORD PTR [rsp+rbx*1+0x30]
+   11de9:	2b 34 82             	sub    esi,DWORD PTR [rdx+rax*4]
+   11dec:	c5 82 2a e6          	vcvtsi2ss xmm4,xmm15,esi
+   11df0:	48 83 c3 04          	add    rbx,0x4
+   11df4:	c5 fa 11 24 81       	vmovss DWORD PTR [rcx+rax*4],xmm4
+   11df9:	48 ff c0             	inc    rax
+   11dfc:	48 81 fb 00 01 00 00 	cmp    rbx,0x100
+   11e03:	75 db                	jne    11de0 <bench_packed_w4::packed_vnni+0x3f0>
+   11e05:	4c 01 df             	add    rdi,r11
+   11e08:	48 83 c5 40          	add    rbp,0x40
+   11e0c:	49 81 c5 00 01 00 00 	add    r13,0x100
+   11e13:	49 81 c4 00 01 00 00 	add    r12,0x100
+   11e1a:	4c 3b 3c 24          	cmp    r15,QWORD PTR [rsp]
+   11e1e:	0f 85 ec fd ff ff    	jne    11c10 <bench_packed_w4::packed_vnni+0x220>
+   11e24:	48 81 c4 38 01 00 00 	add    rsp,0x138
+   11e2b:	5b                   	pop    rbx
+   11e2c:	41 5c                	pop    r12
+   11e2e:	41 5d                	pop    r13
+   11e30:	41 5e                	pop    r14
+   11e32:	41 5f                	pop    r15
+   11e34:	5d                   	pop    rbp
+   11e35:	c5 f8 77             	vzeroupper
+   11e38:	c3                   	ret
+   11e39:	48 8d 15 00 7b 04 00 	lea    rdx,[rip+0x47b00]        # 59940 <__dso_handle+0xb0>
+   11e40:	48 89 c7             	mov    rdi,rax
+   11e43:	4c 89 f6             	mov    rsi,r14
+   11e46:	c5 f8 77             	vzeroupper
+   11e49:	e8 7d 6c 00 00       	call   18acb <core::panicking::panic_bounds_check>
+   11e4e:	48 8d 35 0b 1c ff ff 	lea    rsi,[rip+0xffffffffffff1c0b]        # 3a60 <__abi_tag+0x3764>
+   11e55:	48 8d 0d 14 7b 04 00 	lea    rcx,[rip+0x47b14]        # 59970 <__dso_handle+0xe0>
+   11e5c:	48 8d 7c 24 08       	lea    rdi,[rsp+0x8]
+   11e61:	31 d2                	xor    edx,edx
+   11e63:	e8 d4 d3 00 00       	call   1f23c <core::panicking::assert_failed>
+   11e68:	48 8d 35 f1 1b ff ff 	lea    rsi,[rip+0xffffffffffff1bf1]        # 3a60 <__abi_tag+0x3764>
+   11e6f:	48 8d 0d e2 7a 04 00 	lea    rcx,[rip+0x47ae2]        # 59958 <__dso_handle+0xc8>
+   11e76:	48 8d 7c 24 10       	lea    rdi,[rsp+0x10]
+   11e7b:	31 d2                	xor    edx,edx
+   11e7d:	e8 ba d3 00 00       	call   1f23c <core::panicking::assert_failed>
+   11e82:	48 8d 0d 87 7a 04 00 	lea    rcx,[rip+0x47a87]        # 59910 <__dso_handle+0x80>
+   11e89:	48 8d 7c 24 18       	lea    rdi,[rsp+0x18]
+   11e8e:	48 8d 74 24 30       	lea    rsi,[rsp+0x30]
+   11e93:	31 d2                	xor    edx,edx
+   11e95:	e8 a2 d3 00 00       	call   1f23c <core::panicking::assert_failed>
+   11e9a:	48 8d 0d 87 7a 04 00 	lea    rcx,[rip+0x47a87]        # 59928 <__dso_handle+0x98>
+   11ea1:	48 8d 7c 24 20       	lea    rdi,[rsp+0x20]
+   11ea6:	48 8d 74 24 28       	lea    rsi,[rsp+0x28]
+   11eab:	31 d2                	xor    edx,edx
+   11ead:	e8 8a d3 00 00       	call   1f23c <core::panicking::assert_failed>
+   11eb2:	cc                   	int3
+   11eb3:	cc                   	int3
+   11eb4:	cc                   	int3
+   11eb5:	cc                   	int3
+   11eb6:	cc                   	int3
+   11eb7:	cc                   	int3
+   11eb8:	cc                   	int3
+   11eb9:	cc                   	int3
+   11eba:	cc                   	int3
+   11ebb:	cc                   	int3
+   11ebc:	cc                   	int3
+   11ebd:	cc                   	int3
+   11ebe:	cc                   	int3
+   11ebf:	cc                   	int3
+

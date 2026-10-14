@@ -1,0 +1,11 @@
+{
+  "recorded_utc": "2026-10-14T00:24:53Z",
+  "phase": "first exactness assertion, before publishing a timing row",
+  "exit_code": 134,
+  "failure": "expanded VNNI output was40times the reference after40 benchmark repetitions",
+  "diagnosis": "The DynQ8 gemv API with bias=None accumulates into existing output. Benchmark expected overwrite semantics. This was a harness bug, not a weight/quantization/native-kernel error.",
+  "first_mismatch": {"shape": [576,192], "expected": -749.0, "observed": -29960.0},
+  "source_snapshot": "BENCH_FAILED_R1.rs",
+  "partial_output": "MATRIX_TIMINGS_R1.csv",
+  "correction": "Use an explicit zero bias vector, matching production overwrite calls, and report the first mismatched row without dumping arrays. New run identity MATRIX_TIMINGS_R2.csv."
+}
