@@ -1,0 +1,162 @@
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:7:
+ use pyo3::intern;
+ use pyo3::prelude::*;
+ 
+-use crate::min_gru::{
+-    MinGruCellWeights, MinGruModel, MinGruPrecision, MinGruWeights,
+-};
++use crate::min_gru::{MinGruCellWeights, MinGruModel, MinGruPrecision, MinGruWeights};
+ use crate::rnn::{GruLayer, RnnModel, RnnWeights};
+ use crate::rnn_fast::{Activations, FastRnn, Precision};
+ use crate::state_init::{StateInitializer, StateInitializerConfig};
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:474:
+         Activations::Exact
+     };
+     let precision = MinGruPrecision::parse(precision).map_err(PyValueError::new_err)?;
+-    MinGruModel::new(
+-        min_gru_weights_from_dict(weights)?,
+-        activations,
+-        precision,
+-    )
+-    .map_err(PyValueError::new_err)
++    MinGruModel::new(min_gru_weights_from_dict(weights)?, activations, precision)
++        .map_err(PyValueError::new_err)
+ }
+ 
+ fn min_gru_storage_bytes(model: &MinGruModel) -> HashMap<String, usize> {
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:663:
+             "shared_backbone requires fixed 0.5/0.5 output averaging",
+         ));
+     }
+-    if weights.iter().any(|member| {
+-        member.b2.len() != 2 || member.w2.len() != 2 * member.b1.len()
+-    }) {
++    if weights
++        .iter()
++        .any(|member| member.b2.len() != 2 || member.w2.len() != 2 * member.b1.len())
++    {
+         return Err(PyValueError::new_err(
+             "shared_backbone requires two-output heads",
+         ));
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:786:
+             .as_slice()
+             .map_err(|error| PyValueError::new_err(error.to_string()))?;
+         let mut outputs = vec![0.0f32; nrows * 2];
+-        for (input, output) in inputs
+-            .chunks_exact(211)
+-            .zip(outputs.chunks_exact_mut(2))
+-        {
++        for (input, output) in inputs.chunks_exact(211).zip(outputs.chunks_exact_mut(2)) {
+             self.model.step(input, output);
+         }
+         PyArray1::from_vec(py, outputs).reshape([nrows, 2])
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:796:
+     }
+ 
+     #[getter]
+-    fn hidden_state<'py>(
+-        &self,
+-        py: Python<'py>,
+-    ) -> PyResult<Bound<'py, numpy::PyArray2<f32>>> {
++    fn hidden_state<'py>(&self, py: Python<'py>) -> PyResult<Bound<'py, numpy::PyArray2<f32>>> {
+         PyArray1::from_vec(py, self.model.hidden_state().to_vec())
+             .reshape([self.model.layers(), self.model.recurrent_width()])
+     }
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:929:
+     }
+ 
+     #[getter]
+-    fn hidden_state<'py>(
+-        &self,
+-        py: Python<'py>,
+-    ) -> PyResult<Bound<'py, numpy::PyArray2<f32>>> {
++    fn hidden_state<'py>(&self, py: Python<'py>) -> PyResult<Bound<'py, numpy::PyArray2<f32>>> {
+         PyArray1::from_vec(py, self.model.hidden_state().to_vec())
+             .reshape([self.model.layers(), self.model.recurrent_width()])
+     }
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:1743:
+         let precision = Precision::Q8VnniPortable;
+ 
+         assert!(
+-            validate_shared_backbone_pair(
+-                &[first, second],
+-                &half,
+-                precision,
+-                false,
+-                false,
+-                false,
+-            )
+-            .is_ok(),
++            validate_shared_backbone_pair(&[first, second], &half, precision, false, false, false,)
++                .is_ok(),
+             "different heads remain eligible for exact sharing"
+         );
+ 
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:1758:
+         let first = fixture_weights(1);
+         let mut incompatible = fixture_weights(1);
+-        incompatible.layers[0].w_hh[0] = f32::from_bits(
+-            incompatible.layers[0].w_hh[0].to_bits() ^ 1,
+-        );
++        incompatible.layers[0].w_hh[0] =
++            f32::from_bits(incompatible.layers[0].w_hh[0].to_bits() ^ 1);
+         assert!(
+             validate_shared_backbone_pair(
+                 &[first, incompatible],
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:1868:
+         .map_err(|error| PyValueError::new_err(error.0))
+     }
+ 
+-    fn with_python<T>(
+-        f: impl for<'py> FnOnce(Python<'py>) -> PyResult<T>,
+-    ) -> PyResult<T> {
++    fn with_python<T>(f: impl for<'py> FnOnce(Python<'py>) -> PyResult<T>) -> PyResult<T> {
+         Python::initialize();
+         Python::attach(f)
+     }
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:1900:
+                         .iter()
+                         .map(|value| value.to_bits())
+                         .collect::<Vec<_>>(),
+-                    scales.iter().map(|value| value.to_bits()).collect::<Vec<_>>(),
++                    scales
++                        .iter()
++                        .map(|value| value.to_bits())
++                        .collect::<Vec<_>>(),
+                 );
+             }
+ 
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:1910:
+             let stepper = PyModelStepper { model };
+             let snapshot = stepper.hidden_state(py)?;
+             assert_eq!(snapshot.shape(), [2, 4]);
+-            assert!(!snapshot
+-                .getattr("flags")?
+-                .getattr("writeable")?
+-                .extract::<bool>()?);
++            assert!(
++                !snapshot
++                    .getattr("flags")?
++                    .getattr("writeable")?
++                    .extract::<bool>()?
++            );
+             snapshot.call_method1(intern!(py, "setflags"), (true,))?;
+             snapshot.call_method1(intern!(py, "fill"), (f32::NAN,))?;
+             assert_eq!(stepper.model.hidden_state(), before);
+Diff in /home/vlad/development/wunder/worktrees/min-gru-native-20261014/native/src/python.rs:1927:
+             predictor.model.step(&[0.2, -0.4, 1.0], &mut output);
+             let predictor_snapshot = predictor.hidden_state(py)?;
+             assert_eq!(predictor_snapshot.shape(), [2, 4]);
+-            assert!(!predictor_snapshot
+-                .getattr("flags")?
+-                .getattr("writeable")?
+-                .extract::<bool>()?);
++            assert!(
++                !predictor_snapshot
++                    .getattr("flags")?
++                    .getattr("writeable")?
++                    .extract::<bool>()?
++            );
+             Ok(())
+         })
+         .unwrap();

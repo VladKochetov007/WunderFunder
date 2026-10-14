@@ -7,6 +7,7 @@ use pyo3::exceptions::PyValueError;
 use pyo3::intern;
 use pyo3::prelude::*;
 
+use crate::min_gru::{MinGruCellWeights, MinGruModel, MinGruPrecision, MinGruWeights};
 use crate::rnn::{GruLayer, RnnModel, RnnWeights};
 use crate::rnn_fast::{Activations, FastRnn, Precision};
 use crate::state_init::{StateInitializer, StateInitializerConfig};
@@ -343,6 +344,154 @@ fn weights_from_dict(
     })
 }
 
+fn min_gru_array_shape(
+    weights: &HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+    key: &str,
+) -> PyResult<Vec<usize>> {
+    weights
+        .get(key)
+        .map(|array| array.shape().to_vec())
+        .ok_or_else(|| PyValueError::new_err(format!("missing minGRU tensor {key}")))
+}
+
+fn take_min_gru_array(
+    weights: &mut HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+    key: &str,
+    expected: &[usize],
+) -> PyResult<Vec<f32>> {
+    let array = weights
+        .remove(key)
+        .ok_or_else(|| PyValueError::new_err(format!("missing minGRU tensor {key}")))?;
+    if array.shape() != expected {
+        return Err(PyValueError::new_err(format!(
+            "minGRU tensor {key} must have shape {expected:?}, got {:?}",
+            array.shape()
+        )));
+    }
+    Ok(array
+        .as_slice()
+        .map_err(|error| PyValueError::new_err(error.to_string()))?
+        .to_vec())
+}
+
+fn min_gru_weights_from_dict(
+    mut weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+) -> PyResult<MinGruWeights> {
+    let n_in = 211;
+    let mean = take_min_gru_array(&mut weights, "mean", &[n_in])?;
+    let std = take_min_gru_array(&mut weights, "std", &[n_in])?;
+    let inp_shape = min_gru_array_shape(&weights, "inp.weight")?;
+    if inp_shape.len() != 2 || inp_shape[1] != n_in || inp_shape[0] == 0 {
+        return Err(PyValueError::new_err(
+            "minGRU inp.weight must have shape [encoder_width, 211]",
+        ));
+    }
+    let encoder = inp_shape[0];
+    let inp_weight = take_min_gru_array(&mut weights, "inp.weight", &inp_shape)?;
+    let inp_bias = take_min_gru_array(&mut weights, "inp.bias", &[encoder])?;
+
+    let mut cells = Vec::new();
+    loop {
+        let index = cells.len();
+        let weight_key = format!("cells.{index}.input_projection.weight");
+        if !weights.contains_key(&weight_key) {
+            break;
+        }
+        let weight_shape = min_gru_array_shape(&weights, &weight_key)?;
+        if weight_shape.len() != 2 || weight_shape[0] == 0 || weight_shape[0] % 2 != 0 {
+            return Err(PyValueError::new_err(format!(
+                "minGRU tensor {weight_key} must have shape [2 * recurrent_width, input_width]"
+            )));
+        }
+        let recurrent = weight_shape[0] / 2;
+        let input_size = if index == 0 { encoder } else { recurrent };
+        if weight_shape[1] != input_size {
+            return Err(PyValueError::new_err(format!(
+                "minGRU tensor {weight_key} must have {input_size} input columns"
+            )));
+        }
+        let bias_key = format!("cells.{index}.input_projection.bias");
+        let projection = take_min_gru_array(&mut weights, &weight_key, &weight_shape)?;
+        let bias = take_min_gru_array(&mut weights, &bias_key, &[2 * recurrent])?;
+        cells.push(MinGruCellWeights {
+            input_size,
+            projection,
+            bias,
+        });
+    }
+    if cells.is_empty() {
+        return Err(PyValueError::new_err("minGRU needs at least one cell"));
+    }
+    let recurrent = cells[0].bias.len() / 2;
+    let head0_shape = min_gru_array_shape(&weights, "head.0.weight")?;
+    if head0_shape.len() != 2 || head0_shape[0] == 0 {
+        return Err(PyValueError::new_err(
+            "minGRU head.0.weight must have shape [readout_width, recurrent_width + encoder_width]",
+        ));
+    }
+    let readout = head0_shape[0];
+    if head0_shape[1] != recurrent + encoder {
+        return Err(PyValueError::new_err(format!(
+            "minGRU head.0.weight must have {} input columns",
+            recurrent + encoder
+        )));
+    }
+    let head0_weight = take_min_gru_array(&mut weights, "head.0.weight", &head0_shape)?;
+    let head0_bias = take_min_gru_array(&mut weights, "head.0.bias", &[readout])?;
+    let head2_weight = take_min_gru_array(&mut weights, "head.2.weight", &[2, readout])?;
+    let head2_bias = take_min_gru_array(&mut weights, "head.2.bias", &[2])?;
+    if !weights.is_empty() {
+        let mut extra: Vec<_> = weights.into_keys().collect();
+        extra.sort();
+        return Err(PyValueError::new_err(format!(
+            "unexpected minGRU tensors: {}",
+            extra.join(", ")
+        )));
+    }
+    Ok(MinGruWeights {
+        mean,
+        std,
+        inp_weight,
+        inp_bias,
+        cells,
+        head0_weight,
+        head0_bias,
+        head2_weight,
+        head2_bias,
+    })
+}
+
+fn min_gru_model_from_dict(
+    weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+    fast_activations: bool,
+    precision: &str,
+) -> PyResult<MinGruModel> {
+    let activations = if fast_activations {
+        Activations::Fast
+    } else {
+        Activations::Exact
+    };
+    let precision = MinGruPrecision::parse(precision).map_err(PyValueError::new_err)?;
+    MinGruModel::new(min_gru_weights_from_dict(weights)?, activations, precision)
+        .map_err(PyValueError::new_err)
+}
+
+fn min_gru_storage_bytes(model: &MinGruModel) -> HashMap<String, usize> {
+    let storage = model.storage_bytes();
+    HashMap::from([
+        ("matrix_weights".into(), storage.matrix_weights),
+        ("biases".into(), storage.biases),
+        ("normalization".into(), storage.normalization),
+        ("recurrent_state".into(), storage.recurrent_state),
+        ("scratch".into(), storage.scratch),
+    ])
+}
+
+fn min_gru_weight_bytes(model: &MinGruModel) -> usize {
+    let storage = model.storage_bytes();
+    storage.matrix_weights + storage.biases + storage.normalization
+}
+
 fn take_initializer_value<'py>(
     py: Python<'py>,
     config: &mut HashMap<String, Py<PyAny>>,
@@ -572,9 +721,238 @@ impl PyGruStepper {
     }
 }
 
+/// Direct model-step API for already engineered 211-column inputs.
+#[pyclass(name = "MinGruStepper")]
+struct PyMinGruStepper {
+    model: MinGruModel,
+}
+
+#[pymethods]
+impl PyMinGruStepper {
+    #[new]
+    #[pyo3(signature = (weights, fast_activations=true, precision="f32"))]
+    fn new(
+        weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+        fast_activations: bool,
+        precision: &str,
+    ) -> PyResult<Self> {
+        let model = min_gru_model_from_dict(weights, fast_activations, precision)?;
+        Ok(Self { model })
+    }
+
+    fn reset(&mut self) {
+        self.model.reset();
+    }
+
+    fn step<'py>(
+        &mut self,
+        py: Python<'py>,
+        input: PyReadonlyArray1<'py, f32>,
+    ) -> PyResult<Bound<'py, PyArray1<f32>>> {
+        let input = input
+            .as_slice()
+            .map_err(|error| PyValueError::new_err(error.to_string()))?;
+        if input.len() != 211 {
+            return Err(PyValueError::new_err(format!(
+                "expected 211 engineered features, got {}",
+                input.len()
+            )));
+        }
+        let mut output = [0.0f32; 2];
+        self.model.step(input, &mut output);
+        Ok(PyArray1::from_slice(py, &output))
+    }
+
+    /// Run a chunk of already engineered rows while preserving state across calls.
+    fn run<'py>(
+        &mut self,
+        py: Python<'py>,
+        inputs: numpy::PyReadonlyArray2<'py, f32>,
+    ) -> PyResult<Bound<'py, numpy::PyArray2<f32>>> {
+        if inputs.shape()[1] != 211 {
+            return Err(PyValueError::new_err(format!(
+                "expected 211 engineered features, got {}",
+                inputs.shape()[1]
+            )));
+        }
+        let nrows = inputs.shape()[0];
+        let inputs = inputs
+            .as_slice()
+            .map_err(|error| PyValueError::new_err(error.to_string()))?;
+        let mut outputs = vec![0.0f32; nrows * 2];
+        for (input, output) in inputs.chunks_exact(211).zip(outputs.chunks_exact_mut(2)) {
+            self.model.step(input, output);
+        }
+        PyArray1::from_vec(py, outputs).reshape([nrows, 2])
+    }
+
+    #[getter]
+    fn hidden_state<'py>(&self, py: Python<'py>) -> PyResult<Bound<'py, numpy::PyArray2<f32>>> {
+        PyArray1::from_vec(py, self.model.hidden_state().to_vec())
+            .reshape([self.model.layers(), self.model.recurrent_width()])
+    }
+
+    #[getter]
+    fn storage_bytes(&self) -> HashMap<String, usize> {
+        min_gru_storage_bytes(&self.model)
+    }
+
+    #[getter]
+    fn weight_bytes(&self) -> usize {
+        min_gru_weight_bytes(&self.model)
+    }
+
+    #[getter]
+    fn precision(&self) -> &'static str {
+        self.model.precision().name()
+    }
+
+    #[getter]
+    fn fast_activations(&self) -> bool {
+        self.model.fast_activations()
+    }
+}
+
+/// Competition callback prototype: accepts one raw 112-feature row and builds its causal
+/// 99-column event features before stepping the minGRU model on 211 columns.
+#[pyclass(name = "MinGruPredictor")]
+struct PyMinGruPredictor {
+    features: crate::stream::StreamFeatures,
+    model: MinGruModel,
+    input: Vec<f32>,
+}
+
+fn min_gru_raw_step(
+    features: &mut crate::stream::StreamFeatures,
+    model: &mut MinGruModel,
+    input: &mut [f32],
+    row: &[f32],
+    output: &mut [f32],
+) -> PyResult<()> {
+    if row.len() != crate::stream::N_RAW {
+        return Err(PyValueError::new_err(format!(
+            "expected 112 raw features, got {}",
+            row.len()
+        )));
+    }
+    let (raw, event) = input.split_at_mut(crate::stream::N_RAW);
+    raw.copy_from_slice(row);
+    features.sanitize(raw);
+    features.update(raw, event);
+    model.step(input, output);
+    Ok(())
+}
+
+#[pymethods]
+impl PyMinGruPredictor {
+    #[new]
+    #[pyo3(signature = (weights, fast_activations=true, precision="f32"))]
+    fn new(
+        weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+        fast_activations: bool,
+        precision: &str,
+    ) -> PyResult<Self> {
+        let model = min_gru_model_from_dict(weights, fast_activations, precision)?;
+        Ok(Self {
+            features: Default::default(),
+            model,
+            input: vec![0.0; crate::stream::N_RAW + crate::stream::N_EVENT],
+        })
+    }
+
+    fn reset(&mut self) {
+        self.features.reset();
+        self.model.reset();
+    }
+
+    fn step<'py>(
+        &mut self,
+        py: Python<'py>,
+        row: PyReadonlyArray1<'py, f32>,
+    ) -> PyResult<Bound<'py, PyArray1<f32>>> {
+        let row = row
+            .as_slice()
+            .map_err(|error| PyValueError::new_err(error.to_string()))?;
+        let mut output = [0.0f32; 2];
+        min_gru_raw_step(
+            &mut self.features,
+            &mut self.model,
+            &mut self.input,
+            row,
+            &mut output,
+        )?;
+        Ok(PyArray1::from_slice(py, &output))
+    }
+
+    /// Batched test/measurement helper; it executes the same row callback internally.
+    fn run<'py>(
+        &mut self,
+        py: Python<'py>,
+        rows: numpy::PyReadonlyArray2<'py, f32>,
+    ) -> PyResult<Bound<'py, numpy::PyArray2<f32>>> {
+        if rows.shape()[1] != crate::stream::N_RAW {
+            return Err(PyValueError::new_err(format!(
+                "expected 112 raw features, got {}",
+                rows.shape()[1]
+            )));
+        }
+        let nrows = rows.shape()[0];
+        let rows = rows
+            .as_slice()
+            .map_err(|error| PyValueError::new_err(error.to_string()))?;
+        let mut outputs = vec![0.0f32; nrows * 2];
+        for (row, output) in rows
+            .chunks_exact(crate::stream::N_RAW)
+            .zip(outputs.chunks_exact_mut(2))
+        {
+            min_gru_raw_step(
+                &mut self.features,
+                &mut self.model,
+                &mut self.input,
+                row,
+                output,
+            )?;
+        }
+        PyArray1::from_vec(py, outputs).reshape([nrows, 2])
+    }
+
+    #[getter]
+    fn hidden_state<'py>(&self, py: Python<'py>) -> PyResult<Bound<'py, numpy::PyArray2<f32>>> {
+        PyArray1::from_vec(py, self.model.hidden_state().to_vec())
+            .reshape([self.model.layers(), self.model.recurrent_width()])
+    }
+
+    #[getter]
+    fn storage_bytes(&self) -> HashMap<String, usize> {
+        let mut storage = min_gru_storage_bytes(&self.model);
+        storage.insert(
+            "feature_builder_state".into(),
+            std::mem::size_of::<crate::stream::StreamFeatures>() + self.input.len() * 4,
+        );
+        storage
+    }
+
+    #[getter]
+    fn weight_bytes(&self) -> usize {
+        min_gru_weight_bytes(&self.model)
+    }
+
+    #[getter]
+    fn precision(&self) -> &'static str {
+        self.model.precision().name()
+    }
+
+    #[getter]
+    fn fast_activations(&self) -> bool {
+        self.model.fast_activations()
+    }
+}
+
 #[pymodule]
 fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyGruStepper>()?;
+    m.add_class::<PyMinGruStepper>()?;
+    m.add_class::<PyMinGruPredictor>()?;
     m.add_class::<PyPredictor>()?;
     m.add_class::<PyEnsemblePredictor>()?;
     m.add_class::<PyModelStepper>()?;

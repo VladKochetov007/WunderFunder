@@ -1,0 +1,20 @@
+{
+  "classification": "repository-wide baseline formatting drift; check traversed all native targets rather than only changed files",
+  "command": "env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited cargo fmt --manifest-path native/Cargo.toml --all -- --check",
+  "command_sha256": "8716acf2def45adfffa16187f062adf5f5700bc635b83fc6d6bc43b6eaa97ea9",
+  "diagnosis": "The command emitted 1,682 lines of rustfmt diffs across existing untouched files. The relevant changed files will be checked directly; no workspace-wide formatting rewrite will be applied.",
+  "exit_code": 1,
+  "format": "wnn.min-gru-native-format-check-failure",
+  "observed_unmodified_paths_in_output": [
+    "native/examples/bench_engine.rs",
+    "native/examples/bench_int8.rs",
+    "native/src/vnni.rs"
+  ],
+  "parent_memory_current_bytes_after_check": 11416965120,
+  "source_sha256": {
+    "native/src/lib.rs": "e723e66179cf3fe25624e3b7a2cdaacb8dd0b98f135bd0df721a20aaa2dd10f4",
+    "native/src/min_gru.rs": "cb6652cb50478b3d8b5a612f259c311c90045b5722e0d654857bba133ae1a38e",
+    "native/src/python.rs": "1d3be11392f61207ee087152a9f6b4d6617e518d19ad436a9116a6affe43944f"
+  },
+  "version": 1
+}

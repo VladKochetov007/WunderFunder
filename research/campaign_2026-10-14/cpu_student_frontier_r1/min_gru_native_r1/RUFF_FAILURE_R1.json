@@ -1,0 +1,14 @@
+{
+  "classification": "new-file import sorting issue",
+  "command": "env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/ruff check scripts/probe_min_gru_native.py tests/test_min_gru_native.py",
+  "command_sha256": "f2c1ca569f7045507b81103aa3492a1f78520be621ad7d28ed34a48cdec0cb36",
+  "diagnosis": "Ruff I001 identified wnn_native as a first-party import that belongs in the adjacent application-import group rather than the third-party group. No logic/test failure.",
+  "exit_code": 1,
+  "format": "wnn.min-gru-native-lint-failure",
+  "parent_memory_current_bytes_after_check": 11417464832,
+  "source_sha256": {
+    "scripts/probe_min_gru_native.py": "bae0e84ac240d942d52d75ebd53eede2072eca9df75dc325ce081c0aba0a5d38",
+    "tests/test_min_gru_native.py": "beac63d4dcc6f908786410ff4107528bc86aa659a8c51adc7b7c588dd5b5f775"
+  },
+  "version": 1
+}

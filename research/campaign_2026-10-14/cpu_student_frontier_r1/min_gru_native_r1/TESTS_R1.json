@@ -1,0 +1,82 @@
+{
+  "checks": [
+    {
+      "command": "env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited cargo test --manifest-path native/Cargo.toml --lib",
+      "command_sha256": "a2130ba6a73c4d9d4dc9b9eb25e0cdf2f7635ed919922b0282c346dbeccf0b87",
+      "elapsed_seconds": 48.92,
+      "exit_code": 0,
+      "failed": 0,
+      "ignored": 1,
+      "name": "full native Rust library suite",
+      "passed": 62
+    },
+    {
+      "command": "env PYTHONPATH=src:. WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m pytest -q tests/test_min_gru_native.py tests/test_min_gru.py",
+      "command_sha256": "3f91e791884a67cc75f19b91a3c1551fc6829fbd6c6b809e8d6a3e6ffe111cbc",
+      "elapsed_seconds": 2.39,
+      "exit_code": 0,
+      "failed": 0,
+      "name": "Python reference/native complete-sequence and callback tests",
+      "passed": 15,
+      "python": "3.13.9; torch 2.14.0+cu130, CPU tests"
+    },
+    {
+      "command": "env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/ruff check scripts/probe_min_gru_native.py tests/test_min_gru_native.py",
+      "command_sha256": "f2c1ca569f7045507b81103aa3492a1f78520be621ad7d28ed34a48cdec0cb36",
+      "exit_code": 0,
+      "name": "Ruff checks for added Python probe and tests",
+      "result": "All checks passed"
+    }
+  ],
+  "coverage": [
+    "actual zero initial state and candidate-first write",
+    "full/chunk/reset recurrence",
+    "211-input direct stepper",
+    "112-to-211 causal native feature callback",
+    "scalar row callback",
+    "Q8 VNNI and portable finite/reset paths",
+    "malformed dimensions rejected"
+  ],
+  "created_utc": "2026-10-14T02:15:26Z",
+  "failure_receipts": [
+    "CARGO_BUILD_FAILURE_R1.json",
+    "PYTEST_ENV_FAILURE_R1.json",
+    "FORMAT_CHECK_FAILURE_R1.json",
+    "RUSTFMT_SOURCE_FAILURE_R1.json",
+    "RUFF_FAILURE_R1.json",
+    "TOOLCHAIN_PATH_FAILURE_R1.json"
+  ],
+  "format": "wnn.native-min-gru-tests-receipt",
+  "formatting_note": "The workspace-wide cargo fmt check reports existing style diffs in untouched native files. The raw focused rustfmt output is preserved; new minGRU sections were adjusted to its formatting, while unrelated legacy sections remain untouched.",
+  "limits": {
+    "cpu_quota": "100%",
+    "memory_max_bytes": 2000000000,
+    "swap_max_bytes": 0,
+    "threads": 1
+  },
+  "native_binary_sha256": "20510deab14d051ada9260417fe02b2df7c9ff75593108c11a9bcaf368d5bbc6",
+  "reused_native_primitives_sha256": {
+    "native/src/approx.rs": "9ccf56716d8416210cab7b6260df12bd30178a8cad6bb289f0b8d3111649f912",
+    "native/src/kernels.rs": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+    "native/src/rnn_fast.rs": "5e69b591df41438f136dd28cc115be5063c13792368eebcf33a6340f327b714c",
+    "native/src/vnni.rs": "47cfd8fea80857fe66f81dca119e75661845b9092fe635f7116a4ec7ab18233c"
+  },
+  "source_base_commit": "b6c38e685826375dd42d8b2aa7faa747ab8b184d",
+  "source_sha256": {
+    "native/Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+    "native/Cargo.toml": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+    "native/src/approx.rs": "9ccf56716d8416210cab7b6260df12bd30178a8cad6bb289f0b8d3111649f912",
+    "native/src/kernels.rs": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+    "native/src/lib.rs": "e723e66179cf3fe25624e3b7a2cdaacb8dd0b98f135bd0df721a20aaa2dd10f4",
+    "native/src/min_gru.rs": "cb6652cb50478b3d8b5a612f259c311c90045b5722e0d654857bba133ae1a38e",
+    "native/src/python.rs": "dacbd689b4ad548e1493059170914bfef86f2a6b8b9e33eb11b63ea2148d76e4",
+    "native/src/rnn_fast.rs": "5e69b591df41438f136dd28cc115be5063c13792368eebcf33a6340f327b714c",
+    "native/src/stream.rs": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6",
+    "native/src/vnni.rs": "47cfd8fea80857fe66f81dca119e75661845b9092fe635f7116a4ec7ab18233c",
+    "scripts/probe_min_gru_native.py": "dd9987f9ca0a9246b642d6cd48474842909331893236a170b0490e95a43ff2c1",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/min_gru.py": "f7ffca46d34c37eca35a3294d292cc4560e36d01592daa0d3093a114e5fe1e43",
+    "tests/test_min_gru_native.py": "c8c7a8c64bd3ad6fe1e52c5913fee397175cac0d98e90512fce561bed39de6b2"
+  },
+  "version": 1
+}

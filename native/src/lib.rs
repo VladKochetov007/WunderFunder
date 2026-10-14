@@ -4,6 +4,7 @@ pub mod approx;
 pub mod factorized;
 pub mod half;
 pub mod kernels;
+pub mod min_gru;
 pub mod quant8;
 pub mod rnn;
 pub mod rnn_fast;

@@ -1,0 +1,17 @@
+{
+  "classification": "environment-path failure before Python startup; isolated worktree intentionally has no ignored virtualenv copy",
+  "command": "env PYTHONPATH=src:. WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q tests/test_min_gru_native.py tests/test_min_gru.py",
+  "command_sha256": "ddfc5cddb93172cfe22fd6434850d4791f58a889a946a8ab302ca2d1bb0dddd5",
+  "diagnosis": "The command used a worktree-relative .venv/bin/python path. This worktree does not contain that ignored environment; project Python 3.13 environment remains at the MAIN checkout absolute path.",
+  "exit_code": 127,
+  "fallback": "Use the existing MAIN .venv/bin/python by absolute path without modifying that environment or MAIN files.",
+  "format": "wnn.min-gru-native-command-failure",
+  "parent_memory_current_bytes_before_retry": 11416608768,
+  "source_sha256": {
+    "native/src/min_gru.rs": "cb6652cb50478b3d8b5a612f259c311c90045b5722e0d654857bba133ae1a38e",
+    "native/src/python.rs": "1d3be11392f61207ee087152a9f6b4d6617e518d19ad436a9116a6affe43944f",
+    "tests/test_min_gru_native.py": "beac63d4dcc6f908786410ff4107528bc86aa659a8c51adc7b7c588dd5b5f775"
+  },
+  "stderr": "ionice: failed to execute .venv/bin/python: No such file or directory",
+  "version": 1
+}
