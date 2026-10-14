@@ -111,6 +111,12 @@ pub enum Precision {
     Q8Vnni,
     Q8VnniAvx2,
     Q8VnniPortable,
+    /// Dynamic-int8 matrix products using EVEX 256-bit AVX-512VL/VNNI instructions.
+    Q8Vnni256,
+    /// Dynamic-int8 matrix products using 16-row register blocks and four accumulators.
+    Q8VnniBlocked,
+    /// Dynamic-int8 GRU input/recurrent projections share one VNNI matrix traversal.
+    Q8VnniFused,
 }
 
 impl Precision {
@@ -120,6 +126,9 @@ impl Precision {
             Precision::Q8Vnni => Some(crate::vnni::Isa::Vnni512),
             Precision::Q8VnniAvx2 => Some(crate::vnni::Isa::Avx2),
             Precision::Q8VnniPortable => Some(crate::vnni::Isa::Portable),
+            Precision::Q8Vnni256 => Some(crate::vnni::Isa::Vnni256),
+            Precision::Q8VnniBlocked => Some(crate::vnni::Isa::Vnni512Blocked),
+            Precision::Q8VnniFused => Some(crate::vnni::Isa::Vnni512),
             _ => None,
         }
     }
@@ -139,7 +148,10 @@ impl Precision {
             | Precision::Q16xPortable
             | Precision::Q8Vnni
             | Precision::Q8VnniAvx2
-            | Precision::Q8VnniPortable => Some(Encoding::I16),
+            | Precision::Q8VnniPortable
+            | Precision::Q8Vnni256
+            | Precision::Q8VnniBlocked
+            | Precision::Q8VnniFused => Some(Encoding::I16),
         }
     }
 
@@ -704,6 +716,20 @@ impl FastRnn {
         };
         let gates = cell.gates();
         check_shapes(&w, gates)?;
+        let required_policy = match precision {
+            Precision::Q8Vnni256 => Some(crate::vnni::Isa::Vnni256),
+            Precision::Q8VnniBlocked => Some(crate::vnni::Isa::Vnni512Blocked),
+            Precision::Q8VnniFused => Some(crate::vnni::Isa::Vnni512),
+            _ => None,
+        };
+        if required_policy.is_some_and(|isa| !crate::vnni::supported(isa)) {
+            return Err(ShapeError(format!(
+                "requested CPU policy {precision:?} is unsupported; refusing fallback"
+            )));
+        }
+        if precision == Precision::Q8VnniFused && cell != Cell::Gru {
+            return Err(ShapeError("fused recurrent policy requires a GRU".into()));
+        }
         let head = w.b1.len();
         let mut factors = Vec::new();
         if precision.factorized() {
@@ -773,7 +799,12 @@ impl FastRnn {
             Precision::Q8VnniAvx2 if !crate::vnni::supported(crate::vnni::Isa::Avx2) => {
                 Precision::Q8VnniPortable
             }
-            Precision::Q8Vnni | Precision::Q8VnniAvx2 | Precision::Q8VnniPortable => precision,
+            Precision::Q8Vnni
+            | Precision::Q8VnniAvx2
+            | Precision::Q8VnniPortable
+            | Precision::Q8Vnni256
+            | Precision::Q8VnniBlocked
+            | Precision::Q8VnniFused => precision,
             Precision::Q16x if !crate::half::available() => Precision::Q16xPortable,
             Precision::Q16x | Precision::Q16xPortable => precision,
             _ if !crate::half::available() => Precision::F32,
@@ -1254,9 +1285,20 @@ impl FastRnn {
             #[cfg(target_arch = "x86_64")]
             Precision::Q8Vnni => unsafe { self.step_dyn_vnni(x, out, after) },
             #[cfg(target_arch = "x86_64")]
+            Precision::Q8Vnni256 => unsafe { self.step_dyn_vnni256(x, out, after) },
+            #[cfg(target_arch = "x86_64")]
+            Precision::Q8VnniBlocked => unsafe { self.step_dyn_vnni_blocked(x, out, after) },
+            #[cfg(target_arch = "x86_64")]
+            Precision::Q8VnniFused => unsafe { self.step_dyn_vnni_fused(x, out, after) },
+            #[cfg(target_arch = "x86_64")]
             Precision::Q8VnniAvx2 => unsafe { self.step_dyn_avx2(x, out, after) },
             Precision::Q8VnniPortable => {
-                self.step_dyn_impl::<false, false>(x, out, after, crate::vnni::Isa::Portable)
+                self.step_dyn_impl::<false, false, false>(
+                    x,
+                    out,
+                    after,
+                    crate::vnni::Isa::Portable,
+                )
             }
             #[cfg(target_arch = "x86_64")]
             Precision::Q8r | Precision::Q8x => unsafe { self.step_q16x(x, out, after) },
@@ -1326,10 +1368,22 @@ impl FastRnn {
 
         let fast = self.act == Activations::Fast;
         #[cfg(target_arch = "x86_64")]
-        if fast && self.precision == Precision::Q8Vnni {
+        if fast
+            && matches!(
+                self.precision,
+                Precision::Q8Vnni
+                    | Precision::Q8VnniBlocked
+                    | Precision::Q8VnniFused
+            )
+        {
             // SAFETY: Q8Vnni is selected only after the AVX-512 VNNI capability check.
             unsafe { crate::approx::avx512::gelu_slice(a, &mut after) };
-        } else if fast && self.precision == Precision::Q8VnniAvx2 {
+        } else if fast
+            && matches!(
+                self.precision,
+                Precision::Q8VnniAvx2 | Precision::Q8Vnni256
+            )
+        {
             // SAFETY: Q8VnniAvx2 is selected only after the AVX2 capability check.
             unsafe { crate::approx::avx2::gelu_slice(a, &mut after) };
         } else if fast {
@@ -1439,20 +1493,43 @@ impl FastRnn {
     #[cfg(target_arch = "x86_64")]
     #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512bw,avx512vnni")]
     unsafe fn step_dyn_vnni(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
-        self.step_dyn_impl::<true, true>(x, out, after, crate::vnni::Isa::Vnni512)
+        self.step_dyn_impl::<true, true, false>(x, out, after, crate::vnni::Isa::Vnni512)
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512vl,avx512vnni")]
+    unsafe fn step_dyn_vnni256(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
+        self.step_dyn_impl::<true, false, false>(x, out, after, crate::vnni::Isa::Vnni256)
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512bw,avx512vnni")]
+    unsafe fn step_dyn_vnni_blocked(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
+        self.step_dyn_impl::<true, true, false>(
+            x,
+            out,
+            after,
+            crate::vnni::Isa::Vnni512Blocked,
+        )
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512bw,avx512vnni")]
+    unsafe fn step_dyn_vnni_fused(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
+        self.step_dyn_impl::<true, true, true>(x, out, after, crate::vnni::Isa::Vnni512)
     }
 
     #[cfg(target_arch = "x86_64")]
     #[target_feature(enable = "avx2,fma,f16c")]
     unsafe fn step_dyn_avx2(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
-        self.step_dyn_impl::<true, false>(x, out, after, crate::vnni::Isa::Avx2)
+        self.step_dyn_impl::<true, false, false>(x, out, after, crate::vnni::Isa::Avx2)
     }
 
     /// The dynamic-int8 step. `SIMD` selects the AVX2 helpers (projection, activations,
     /// quantization), `ZMM` (only from the AVX-512 wrapper) their sixteen-lane twins; `isa` the
     /// matvec kernel. Every combination returns the same bits.
     #[inline(always)]
-    fn step_dyn_impl<const SIMD: bool, const ZMM: bool>(
+    fn step_dyn_impl<const SIMD: bool, const ZMM: bool, const FUSED: bool>(
         &mut self,
         x: &[f32],
         out: &mut [f32],
@@ -1540,10 +1617,39 @@ impl FastRnn {
             } else {
                 (&done[(k - 1) * kp..], hs[k - 1])
             };
-            self.dq[li.w_ih.q8.unwrap()].gemv(isa, q_in, s_in, Some(&wts[li.b_ih.clone()]), gi);
-            crate::vnni::prof::lap(2 + 4 * k, &mut clock);
-            self.dq[li.w_hh.q8.unwrap()].gemv(isa, &cur[..kp], hs[k], Some(&wts[li.b_hh.clone()]), gh);
-            crate::vnni::prof::lap(3 + 4 * k, &mut clock);
+            if FUSED {
+                debug_assert_eq!(self.cell, Cell::Gru);
+                self.dq[li.w_ih.q8.unwrap()].gemv_pair_vnni(
+                    &self.dq[li.w_hh.q8.unwrap()],
+                    q_in,
+                    s_in,
+                    Some(&wts[li.b_ih.clone()]),
+                    gi,
+                    &cur[..kp],
+                    hs[k],
+                    Some(&wts[li.b_hh.clone()]),
+                    gh,
+                );
+                crate::vnni::prof::lap(2 + 4 * k, &mut clock);
+                crate::vnni::prof::lap(3 + 4 * k, &mut clock);
+            } else {
+                self.dq[li.w_ih.q8.unwrap()].gemv(
+                    isa,
+                    q_in,
+                    s_in,
+                    Some(&wts[li.b_ih.clone()]),
+                    gi,
+                );
+                crate::vnni::prof::lap(2 + 4 * k, &mut clock);
+                self.dq[li.w_hh.q8.unwrap()].gemv(
+                    isa,
+                    &cur[..kp],
+                    hs[k],
+                    Some(&wts[li.b_hh.clone()]),
+                    gh,
+                );
+                crate::vnni::prof::lap(3 + 4 * k, &mut clock);
+            }
             let next = self.layers.get(k + 1).map_or(&self.w1, |l| &l.w_ih);
             match self.cell {
                 // SAFETY: as for `quant`; ZMM only from the AVX-512 wrapper.
@@ -2299,19 +2405,44 @@ mod tests {
                     weights(n_in, hidden, layers, 9)
                 }
             };
-            let mut models: Vec<FastRnn> = [Precision::Q8Vnni, Precision::Q8VnniAvx2, Precision::Q8VnniPortable]
-                .into_iter()
+            let mut precisions = vec![
+                Precision::Q8Vnni,
+                Precision::Q8VnniAvx2,
+                Precision::Q8VnniPortable,
+            ];
+            if supported(Isa::Vnni256) {
+                precisions.push(Precision::Q8Vnni256);
+            }
+            if supported(Isa::Vnni512Blocked) {
+                precisions.push(Precision::Q8VnniBlocked);
+            }
+            if supported(Isa::Vnni512) && !lstm {
+                precisions.push(Precision::Q8VnniFused);
+            }
+            let mut models: Vec<FastRnn> = precisions
+                .iter()
+                .copied()
                 .map(|p| FastRnn::with_precision(w(), Activations::Fast, p).unwrap())
                 .collect();
             if supported(Isa::Vnni512) {
                 assert_eq!(models[0].precision(), Precision::Q8Vnni);
             }
             assert_eq!(models[2].precision(), Precision::Q8VnniPortable);
+            for (model, precision) in models.iter().zip(&precisions) {
+                if matches!(
+                    precision,
+                    Precision::Q8Vnni256
+                        | Precision::Q8VnniBlocked
+                        | Precision::Q8VnniFused
+                ) {
+                    assert_eq!(model.precision(), *precision, "strict policy selection");
+                }
+            }
             let mut f32 = FastRnn::new(w(), Activations::Fast).unwrap();
             let mut q8x = FastRnn::with_precision(w(), Activations::Fast, Precision::Q8x).unwrap();
             let mut q8x_out = vec![0.0f32; 2];
             let mut q8x_worst = 0.0f32;
-            let mut outs = vec![vec![0.0f32; 2]; 3];
+            let mut outs = vec![vec![0.0f32; 2]; models.len()];
             let mut d = vec![0.0f32; 2];
             let (mut first, mut worst) = (Vec::new(), 0.0f32);
             for x in inputs(n_in, 300) {

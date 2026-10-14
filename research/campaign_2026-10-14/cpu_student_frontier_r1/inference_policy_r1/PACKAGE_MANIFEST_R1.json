@@ -1,0 +1,266 @@
+{
+  "format": "wnn.cpu-policy-packages",
+  "version": 1,
+  "source_archive": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4.zip",
+  "source_archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+  "native_source_base_revision": "7800d30473e3810e12d9ba22596f9fd6df5626ca",
+  "native_source_files_sha256": {
+    "native/Cargo.toml": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+    "native/Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+    "native/src/python.rs": "28462601a70ae08da559b9f37cef60c78daf1fa124f1ca0e7df56053c445c0c2",
+    "native/src/rnn_fast.rs": "7edc865656dfca14bd53b42cc145ab00c24d8e720b4cd2ab1be8d61e9a8a970d",
+    "native/src/vnni.rs": "47cfd8fea80857fe66f81dca119e75661845b9092fe635f7116a4ec7ab18233c",
+    "native/examples/bench_int8.rs": "4693886ed913f3ad1cfc7dedba4dff3d8c05a02f02cc785cec6ab69164fe7f5c"
+  },
+  "campaign_scripts_sha256": {
+    "prepare_cpu_policy_packages.py": "1547f5126353cf02f42046993e6fd2bbcd912f15166fc1e45f02116e539f71bb",
+    "benchmark_cpu_policy.py": "b74154bc6cef6168542e06d541644e4e78baf14865089a14371d97765141b3c2",
+    "export_xteam_probe_data.py": "e836be35d0b707898c73e8b92013339f71eb1c4803b5a77f38b7b3c9316f1655"
+  },
+  "native_build_command": [
+    "cargo",
+    "build",
+    "--release",
+    "--manifest-path",
+    "native/Cargo.toml",
+    "--features",
+    "extension-module"
+  ],
+  "native_build_constraints": {
+    "cargo_build_jobs": 1,
+    "cpu_quota": "100%",
+    "memory_max_bytes": 1500000000,
+    "swap_bytes": 0
+  },
+  "native_library": "/home/vlad/development/wunder/worktrees/cpu-policy-20261014/native/target/release/libwnn_native.so",
+  "native_library_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+  "native_library_bytes": 1123456,
+  "package_policy_order": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "A"
+  ],
+  "rebuilt_a_control": {
+    "label": "A_rebuilt",
+    "policy": "q8vnni",
+    "purpose": "compare the original callback archive with a newly written ZIP using the rebuilt native library and policy assertions",
+    "submission_order": null
+  },
+  "submission_order": [
+    {
+      "label": "A",
+      "policy": "q8vnni",
+      "archive_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4.zip",
+      "archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+      "archive_bytes": 16308160
+    },
+    {
+      "label": "B",
+      "policy": "q8vnni256",
+      "archive_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/xteam_h4_B_q8vnni256.zip",
+      "archive_sha256": "5aed417e57bd7cf845d106802c5722bd2eafeec0fd26010fa29912d7729dae78",
+      "archive_bytes": 16464825
+    },
+    {
+      "label": "C",
+      "policy": "q8vnni_blocked",
+      "archive_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/xteam_h4_C_q8vnni_blocked.zip",
+      "archive_sha256": "c17c6415728e9582375fee968668b0452bfc2faf2512443eaabb4f7055027835",
+      "archive_bytes": 16464830
+    },
+    {
+      "label": "D",
+      "policy": "q8vnni_fused",
+      "archive_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/xteam_h4_D_q8vnni_fused.zip",
+      "archive_sha256": "e11ff6a3232c5bb720fad77e09c66bd806ada30e7ab008cc98a25b0de6c05951",
+      "archive_bytes": 16464828
+    },
+    {
+      "label": "A",
+      "policy": "q8vnni",
+      "archive_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4.zip",
+      "archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+      "archive_bytes": 16308160
+    }
+  ],
+  "variants": [
+    {
+      "submission_order": null,
+      "label": "A_rebuilt",
+      "policy": "q8vnni",
+      "archive_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/xteam_h4_A_rebuilt_q8vnni.zip",
+      "archive_sha256": "3424828b1ec92397fd3b897ba4d852253c8729958e1cbc85bdc8784b9e3cd342",
+      "archive_bytes": 16464822,
+      "extracted_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/extracted/A_rebuilt",
+      "source_archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+      "native_library_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+      "changed_files": {
+        "v3/wnn_native.abi3.so": {
+          "source_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        },
+        "avx2/wnn_native.abi3.so": {
+          "source_sha256": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        },
+        "solution.py": {
+          "source_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+          "package_sha256": "e887d34edef19ff360b5846bc121f8ee4c1f9959a7f154628204a668ab031596",
+          "package_bytes": 3481
+        },
+        "v2/wnn_native.abi3.so": {
+          "source_sha256": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        }
+      },
+      "fixed": [
+        "weights and member order",
+        "coefficients",
+        "preprocessing callback",
+        "GRU architecture",
+        "Q8 codes/scales and activation quantization"
+      ]
+    },
+    {
+      "submission_order": 1,
+      "label": "B",
+      "policy": "q8vnni256",
+      "archive_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/xteam_h4_B_q8vnni256.zip",
+      "archive_sha256": "5aed417e57bd7cf845d106802c5722bd2eafeec0fd26010fa29912d7729dae78",
+      "archive_bytes": 16464825,
+      "extracted_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/extracted/B",
+      "source_archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+      "native_library_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+      "changed_files": {
+        "precision.txt": {
+          "source_sha256": "14ee38fd31cb3cc62f996a64cb7ddfa69c7bce784386c23890955bab6abc9e52",
+          "package_sha256": "ad9066bc0418fda7b9bef0c97152e3d8e993aede90b2bacd47fdb1861ad172d0",
+          "package_bytes": 10
+        },
+        "v3/wnn_native.abi3.so": {
+          "source_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        },
+        "avx2/wnn_native.abi3.so": {
+          "source_sha256": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        },
+        "solution.py": {
+          "source_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+          "package_sha256": "e887d34edef19ff360b5846bc121f8ee4c1f9959a7f154628204a668ab031596",
+          "package_bytes": 3481
+        },
+        "v2/wnn_native.abi3.so": {
+          "source_sha256": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        }
+      },
+      "fixed": [
+        "weights and member order",
+        "coefficients",
+        "preprocessing callback",
+        "GRU architecture",
+        "Q8 codes/scales and activation quantization"
+      ]
+    },
+    {
+      "submission_order": 2,
+      "label": "C",
+      "policy": "q8vnni_blocked",
+      "archive_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/xteam_h4_C_q8vnni_blocked.zip",
+      "archive_sha256": "c17c6415728e9582375fee968668b0452bfc2faf2512443eaabb4f7055027835",
+      "archive_bytes": 16464830,
+      "extracted_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/extracted/C",
+      "source_archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+      "native_library_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+      "changed_files": {
+        "precision.txt": {
+          "source_sha256": "14ee38fd31cb3cc62f996a64cb7ddfa69c7bce784386c23890955bab6abc9e52",
+          "package_sha256": "762583b91295156f64c41a45ec5820b2c371f126bea71c08219131feb73a182a",
+          "package_bytes": 15
+        },
+        "v3/wnn_native.abi3.so": {
+          "source_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        },
+        "avx2/wnn_native.abi3.so": {
+          "source_sha256": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        },
+        "solution.py": {
+          "source_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+          "package_sha256": "e887d34edef19ff360b5846bc121f8ee4c1f9959a7f154628204a668ab031596",
+          "package_bytes": 3481
+        },
+        "v2/wnn_native.abi3.so": {
+          "source_sha256": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        }
+      },
+      "fixed": [
+        "weights and member order",
+        "coefficients",
+        "preprocessing callback",
+        "GRU architecture",
+        "Q8 codes/scales and activation quantization"
+      ]
+    },
+    {
+      "submission_order": 3,
+      "label": "D",
+      "policy": "q8vnni_fused",
+      "archive_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/xteam_h4_D_q8vnni_fused.zip",
+      "archive_sha256": "e11ff6a3232c5bb720fad77e09c66bd806ada30e7ab008cc98a25b0de6c05951",
+      "archive_bytes": 16464828,
+      "extracted_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/extracted/D",
+      "source_archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+      "native_library_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+      "changed_files": {
+        "precision.txt": {
+          "source_sha256": "14ee38fd31cb3cc62f996a64cb7ddfa69c7bce784386c23890955bab6abc9e52",
+          "package_sha256": "e923aabd496093a2954d33139eace9609430873374bceb72cbf7aaa079a989d1",
+          "package_bytes": 13
+        },
+        "v3/wnn_native.abi3.so": {
+          "source_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        },
+        "avx2/wnn_native.abi3.so": {
+          "source_sha256": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        },
+        "solution.py": {
+          "source_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+          "package_sha256": "e887d34edef19ff360b5846bc121f8ee4c1f9959a7f154628204a668ab031596",
+          "package_bytes": 3481
+        },
+        "v2/wnn_native.abi3.so": {
+          "source_sha256": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+          "package_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+          "package_bytes": 1123456
+        }
+      },
+      "fixed": [
+        "weights and member order",
+        "coefficients",
+        "preprocessing callback",
+        "GRU architecture",
+        "Q8 codes/scales and activation quantization"
+      ]
+    }
+  ],
+  "upload_status": "prepared locally; user owns later upload"
+}

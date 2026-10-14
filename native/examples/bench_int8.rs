@@ -11,6 +11,7 @@
 //! every sequence boundary. Reports the median over `--reps` alternating-order trials. The
 //! controller supplies CPU affinity (taskset) and resource limits.
 use std::hint::black_box;
+use std::path::Path;
 use std::time::Instant;
 
 use wnn_native::rnn::{GruLayer, RnnWeights};
@@ -71,7 +72,91 @@ fn precision(name: &str) -> Precision {
         "q8vnni" => Precision::Q8Vnni,
         "q8vnni_avx2" => Precision::Q8VnniAvx2,
         "q8vnni_portable" => Precision::Q8VnniPortable,
+        "q8vnni256" => Precision::Q8Vnni256,
+        "q8vnni_blocked" => Precision::Q8VnniBlocked,
+        "q8vnni_fused" => Precision::Q8VnniFused,
         other => panic!("precision {other}"),
+    }
+}
+
+fn matrix_isa(name: &str) -> wnn_native::vnni::Isa {
+    use wnn_native::vnni::Isa;
+    match name {
+        "q8vnni" => Isa::Vnni512,
+        "q8vnni256" => Isa::Vnni256,
+        "q8vnni_blocked" => Isa::Vnni512Blocked,
+        other => panic!("{other} has no independent matrix kernel"),
+    }
+}
+
+/// Compare A/B/C matrix kernels on the exact xteam_h4 Q8 matrices and realistic widths.
+fn matrix_bench(paths: &[String], names: &str, reps: usize) {
+    use wnn_native::vnni::{Isa, padded_cols, quantize, supported};
+
+    let policies: Vec<_> = names
+        .split(',')
+        .map(|name| (name, matrix_isa(name)))
+        .collect();
+    assert!(!paths.is_empty(), "--matrix requires --members");
+    assert!(reps > 0, "--reps must be positive");
+    for (name, isa) in &policies {
+        assert!(supported(*isa), "selected policy {name} is unsupported; no fallback");
+    }
+    for path in paths {
+        let model = FastRnn::with_precision(load(path), Activations::Fast, Precision::Q8Vnni)
+            .unwrap();
+        assert_eq!(model.precision(), Precision::Q8Vnni, "A matrix source precision");
+        for (matrix_name, matrix) in model.dyn8_matrices() {
+            let x: Vec<f32> = (0..matrix.cols())
+                .map(|index| ((index * 73 + 19) % 257) as f32 / 128.0 - 1.0)
+                .collect();
+            let mut q = vec![128u8; padded_cols(matrix.cols())];
+            let xs = quantize(&x, &mut q);
+            let bias = vec![0.0f32; matrix.rows()];
+            let mut expected = vec![0.0f32; matrix.rows()];
+            matrix.gemv(Isa::Portable, &q, xs, Some(&bias), &mut expected);
+            let mut samples = vec![Vec::new(); policies.len()];
+            for cycle in 0..reps {
+                let order = [0usize, 1, 2, 2, 1, 0];
+                for position in 0..order.len() {
+                    let policy_index = if cycle % 2 == 0 {
+                        order[position]
+                    } else {
+                        order[order.len() - 1 - position]
+                    };
+                    if policy_index >= policies.len() {
+                        continue;
+                    }
+                    let (policy_name, isa) = policies[policy_index];
+                    let mut out = vec![0.0f32; matrix.rows()];
+                    let start = Instant::now();
+                    for _ in 0..40 {
+                        matrix.gemv(isa, black_box(&q), xs, Some(&bias), &mut out);
+                        black_box(&mut out);
+                    }
+                    samples[policy_index].push(start.elapsed().as_secs_f64() / 40.0 * 1e6);
+                    assert_eq!(
+                        out.iter().map(|value| value.to_bits()).collect::<Vec<_>>(),
+                        expected.iter().map(|value| value.to_bits()).collect::<Vec<_>>(),
+                        "{policy_name} changed matrix outputs for {matrix_name}"
+                    );
+                }
+            }
+            for ((policy_name, isa), times) in policies.iter().zip(samples) {
+                let mut times = times;
+                times.sort_by(f64::total_cmp);
+                let median_us = times[times.len() / 2];
+                println!(
+                    "{} {} {}x{} {:?} median={median_us:.3}us exact=true",
+                    Path::new(path).file_name().unwrap().to_string_lossy(),
+                    matrix_name,
+                    matrix.rows(),
+                    matrix.cols(),
+                    isa,
+                );
+                black_box(policy_name);
+            }
+        }
     }
 }
 
@@ -320,6 +405,7 @@ fn main() {
     }
     let mut args = std::env::args().skip(1).peekable();
     let mut profile_members = 0usize;
+    let mut matrix_mode = false;
     let (mut rows_path, mut reps) = (String::new(), 7usize);
     let (mut members, mut wide) = (Vec::new(), None);
     let mut names = "i16,q8x,q8vnni_avx2,q8vnni".to_string();
@@ -329,6 +415,7 @@ fn main() {
             "--reps" => reps = args.next().unwrap().parse().unwrap(),
             "--wide" => wide = args.next(),
             "--profile" => profile_members = args.next().unwrap().parse().unwrap(),
+            "--matrix" => matrix_mode = true,
             "--precisions" => names = args.next().unwrap(),
             "--members" => {
                 while args.peek().is_some_and(|p| !p.starts_with("--")) {
@@ -337,6 +424,9 @@ fn main() {
             }
             other => panic!("unknown argument {other}"),
         }
+    }
+    if matrix_mode {
+        return matrix_bench(&members, &names, reps);
     }
     let raw = read_rows(&rows_path);
     let n_rows = raw.len() / N_RAW;

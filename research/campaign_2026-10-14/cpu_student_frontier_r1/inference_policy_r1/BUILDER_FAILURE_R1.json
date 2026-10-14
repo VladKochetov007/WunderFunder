@@ -1,0 +1,21 @@
+{
+  "format": "wnn.cpu-policy-package-builder-failure",
+  "version": 1,
+  "source_archive": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4.zip",
+  "source_archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+  "failed_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=300s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/prepare_cpu_policy_packages.py --archive /home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4.zip --library native/target/release/libwnn_native.so --out research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages --manifest research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/PACKAGE_MANIFEST_R1.json",
+  "runtime": "Python 3.13.9",
+  "failure": "zipfile.BadZipFile: Overlapped entries: 'precision.txt' (possible zip bomb)",
+  "failed_at": "reading precision.txt from the original archive while building the second policy variant",
+  "diagnosis": {
+    "original_archive_valid": true,
+    "unzip_test": "passed",
+    "python311_zipfile_testzip": null,
+    "precision_entry_local_data_range": [0, 78],
+    "precision_entry_next_header_offset": 78,
+    "cause": "The builder passed the source ZipInfo object directly to the output ZipFile.writestr(). Writing variant B mutated that shared object's size metadata. Reading the source entry for variant C then compared the mutated size against its original end offset and reported a false overlap.",
+    "corrupt_source_or_original_package": false
+  },
+  "repair": "Clone each source ZipInfo with copy.copy() before passing it to target.writestr(). Rebuilt B/C/D archives were extracted and CRC-checked under Python 3.11.",
+  "partial_worktree_output": "The incomplete packages/ tree from the failed attempt was removed before rebuilding; original assets were read-only."
+}
