@@ -103,11 +103,13 @@ def main() -> None:
                 continue
             values = tensor.detach().numpy()
             matrices[key] = describe_matrix(values)
-            if key.startswith("rnn.weight_"):
+            if key.startswith("gru.weight_"):
                 for gate, block in zip(
                     ("reset", "update", "candidate"), np.split(values, 3), strict=True
                 ):
                     matrices[f"{key}/{gate}"] = describe_matrix(block)
+        if len(matrices) != 19:
+            raise ValueError("expected seven whole matrices and twelve GRU gate blocks")
         results[name] = {
             "checkpoint": relative,
             "checkpoint_sha256": expected_sha,

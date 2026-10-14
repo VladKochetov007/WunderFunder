@@ -2,10 +2,10 @@
 kind: result
 status: complete
 created_utc: 2026-10-14T01:45:00Z
-updated_utc: 2026-10-14T01:45:00Z
+updated_utc: 2026-10-14T01:48:00Z
 hypothesis_ids: [H-STUDENT-LADDER-20261014]
 experiment_ids: [E-STUDENT-WEIGHT-GEOMETRY-20261014-R1]
-evidence_paths: [WEIGHT_COMPRESSION_GEOMETRY_R1.json]
+evidence_paths: [WEIGHT_COMPRESSION_GEOMETRY_R1.json, WEIGHT_COMPRESSION_GEOMETRY_R2.json]
 ---
 
 # Static recurrent spectra do not support aggressive post-hoc truncation
@@ -32,3 +32,7 @@ For a stacked3H×H recurrent matrix, a two-factor rank-r implementation has4Hr m
 Matrix energy is not prediction sensitivity. Inputs and recurrent states occupy a nonuniform, correlated distribution; gate saturation and downstream projections can suppress or amplify these errors. A large weight-norm error need not imply a large score loss, and a small error cannot certify a long recurrent sequence. W4 here is PTQ weight reconstruction only, without activation quantization, retraining, gate/state dynamics or native callback timing. The two checkpoints differ in width, recipe and training exposure; their comparison does not isolate Muon. No low-rank or W4 research arm is rejected.
 
 Continue per-gate diagnostics, measured factorized serving and bounded low-rank fitting after the matched architecture screen. Use official end-to-end grades to allocate precision. [Earlier theory and cost formula](THEORY_AND_DISCRIMINATING_TESTS_R1.md) and [precision/state plan](PLAN.md) remain the governing comparison.
+
+## Per-gate successor
+
+[Gate-decomposed receipt R2](WEIGHT_COMPRESSION_GEOMETRY_R2.json) corrects the diagnostic selector from `rnn.weight_*` to the actual checkpoint keys `gru.weight_*` and asserts all seven whole matrices plus twelve gate blocks per checkpoint. R1 whole-matrix results remain valid and unchanged; its script revision is `9c73c640`. R2 exits0 in0.66s,621MB RSS under an800MB cap. For six H256 recurrent gates,95%-energy ranks are148–154; for six H384 gates they are212–229. Independent H×H factorizations save arithmetic only belowH/2 (128/192), so this representation also requires adaptation for aggressive compression. Half-rank errors are0.292–0.314 and0.266–0.310 respectively. Per-gate W4 matrix error varies from0.131 to0.147 inH256 and0.136 to0.174 inH384, but this does not rank end-to-end gate sensitivity.
