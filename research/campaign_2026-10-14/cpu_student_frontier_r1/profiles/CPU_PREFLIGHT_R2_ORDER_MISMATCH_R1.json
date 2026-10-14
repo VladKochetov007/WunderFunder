@@ -1,0 +1,32 @@
+{
+  "format": "wnn.student-frontier-cpu-preflight-attempt",
+  "version": 1,
+  "attempt": "r2-cpu-preflight-order-mismatch-1",
+  "status": "failed-before-fit",
+  "failure": "actual trainer sampler rejected stale batch_membership_sha256 in successor R2 contract",
+  "contract_preflight_sha256": "a568f0a234d93fb071e739ed7dfed05aab8d4973309f85962fc1fbfb2da87556",
+  "contract_preflight_batch_membership_sha256": "5f23b605c180d3aadd473abb2816d551405d612b1e1faeff24640741d7015008",
+  "actual_batch_membership_sha256": "994cef93396ec6769d84560f5104c09a50e5adb6754fd936b2f5a7ab0389e882",
+  "other_sampler_order_fields": "matched after reproducing train_idx = default_rng(seed=3).permutation(10,535 fold-0 train groups) and the 1,405 valid-fit groups",
+  "first16_order": "matched independently: positions [10562,8725,6305,1586,2134,11477,8128,1560,2922,8340,4913,2805,4517,9259,2632,2203]; source-qualified first item (valid,37), others matched pinned test fixture",
+  "dropped_tail": [
+    [
+      "train",
+      3449
+    ],
+    [
+      "train",
+      2425
+    ],
+    [
+      "train",
+      879
+    ],
+    [
+      "train",
+      7224
+    ]
+  ],
+  "scope": "no optimizer constructed; no fit started; no GPU used",
+  "branch_base_commit": "7eaa8b1932c3e9f3570c79f005abccb7d73a89b8"
+}

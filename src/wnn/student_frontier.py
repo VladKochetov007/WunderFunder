@@ -66,6 +66,34 @@ def load_contract(path: Path) -> tuple[dict[str, Any], str]:
     return contract, hashlib.sha256(raw).hexdigest()
 
 
+def teacher_source_matches_contract(
+    source: dict[str, Any], expected: dict[str, Any], root: Path
+) -> bool:
+    """Compare producer ancestry fields with the portable consumer contract."""
+    path_fields = {"checkpoint": "checkpoint_path", "provenance": "provenance_path"}
+    for field, expected_value in expected.items():
+        producer_field = path_fields.get(field)
+        if producer_field is None:
+            if source.get(field) != expected_value:
+                return False
+            continue
+        if not isinstance(expected_value, str):
+            return False
+        expected_path = Path(expected_value)
+        actual_value = source.get(producer_field)
+        if expected_path.is_absolute() or not isinstance(actual_value, str):
+            return False
+        actual_path = Path(actual_value)
+        if not actual_path.is_absolute():
+            return False
+        try:
+            if actual_path.resolve(strict=True) != (root / expected_path).resolve(strict=True):
+                return False
+        except (OSError, RuntimeError):
+            return False
+    return True
+
+
 def validate_stage_args(
     args: Any, contract: dict[str, Any], stage_name: str, root: Path
 ) -> dict[str, Any]:
@@ -402,8 +430,7 @@ def validate_cache_binding(
         raise ValueError("student-frontier teacher source count changed")
     verified_sources = []
     for source, expected in zip(source_records, expected_sources, strict=True):
-        identity = {key: source.get(key) for key in expected}
-        if identity != expected:
+        if not teacher_source_matches_contract(source, expected, root):
             raise ValueError(f"student-frontier teacher ancestry changed: {source.get('run')}")
         run = str(expected["run"])
         checkpoint = root / "artifacts/runs" / run / f"model_ep{expected['epoch']}.pt"
