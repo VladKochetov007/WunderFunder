@@ -52,6 +52,8 @@ fn weights(n_in: usize, h: usize, layers: usize, gates: usize, heads: usize, see
             .collect(),
         w1: r.init(heads * 2 * h * h, 2 * h),
         b1: r.init(heads * h, 2 * h),
+        w_mid: Vec::new(),
+        b_mid: Vec::new(),
         w2: r.init(heads * 2 * h, heads * h),
         b2: r.init(2, h),
     }

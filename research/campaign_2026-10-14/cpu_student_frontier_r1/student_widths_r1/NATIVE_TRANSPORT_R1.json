@@ -1,0 +1,46 @@
+{
+  "format": "wnn.student-independent-width-native-transport",
+  "version": 1,
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited cargo run --manifest-path native/Cargo.toml --quiet --example bench_int8 -- --rows research/campaign_2026-10-14/cpu_student_frontier_r1/student_widths_r1/SYNTHETIC_RAW_20K.f32 --reps 1 --members research/campaign_2026-10-14/cpu_student_frontier_r1/student_widths_r1/SYNTHETIC_WIDTHS_WNNWTS02.wbin --precisions f32,q8vnni_portable",
+  "exit_code": 0,
+  "runtime_seconds_including_cargo": 26.5,
+  "host": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+  "cpu_features": {"avx2": true, "vnni512": true},
+  "input": {
+    "format": "raw float32 rows",
+    "rows": 20000,
+    "raw_columns": 112,
+    "bytes": 8960000,
+    "sha256": "5d58ef920bf0104d852044c8ba9c47a2a2162ead5dcf259c9df9956f19137b66",
+    "sequence_count": 1,
+    "synthetic": true
+  },
+  "member": {
+    "format": "WNNWTS02",
+    "bytes": 16468,
+    "sha256": "4bc16862b65ef5f7a373ccebf488b2dcb40e4648219c7c1921112440b4f64858",
+    "shape": {"encoder_width": 12, "recurrent_width": 8, "readout_width": 6, "layers": 2, "head_layers": 2}
+  },
+  "observations": {
+    "rows_reported": 20000,
+    "repetitions": 1,
+    "fp32_us_per_row": 107.57,
+    "q8vnni_portable_us_per_row": 257.75,
+    "q8_max_abs_error_scored_output_0": 0.00110,
+    "q8_max_abs_error_scored_output_1": 0.00051,
+    "q8_rms_error_scored_rows": 0.000108
+  },
+  "resource_receipt": {
+    "memory_limit_bytes": 2000000000,
+    "cpu_quota": "100%",
+    "threads": 1,
+    "pre_parent_memory_current_bytes": 13169266688,
+    "post_parent_memory_current_bytes": 13223018496,
+    "pre_fit_memory_current_bytes": 4344721408,
+    "post_fit_memory_current_bytes": 4343959552,
+    "fit_memory_max_bytes": 4999999488,
+    "parent_oom_kill_events_before_and_after": 1,
+    "fit_oom_kill_events_before_and_after": 0
+  },
+  "interpretation": "The exported binary was consumed by the native callback over one full synthetic 20k sequence. One-repetition timings are not a stable runtime estimate; portable Q8 was slower than FP32 here. Q8 output differences are numerical. No trained weights, score, or competition-host claim."
+}

@@ -109,9 +109,10 @@ def muon_param_groups(model: nn.Module, scope: str = "rnn") -> list[dict]:
 
     scope 'rnn': ``model.gru`` and optional ``model.experts`` recurrent
     ``weight_ih_l*`` / ``weight_hh_l*`` matrices (one Muon block per gate);
-    scope 'hidden': also the head's hidden layer ``head.0.weight``. The input
-    projection ``inp`` (first layer), output layers and biases stay on AdamW,
-    as Muon prescribes for input/output layers and vectors.
+    scope 'hidden': also the hidden readout matrices ``head.0.weight`` and,
+    when present, ``head.extra.weight``. The input projection ``inp`` (first
+    layer), output layers and biases stay on AdamW, as Muon prescribes for
+    input/output layers and vectors.
     """
     if scope not in ("rnn", "hidden"):
         raise ValueError(scope)
@@ -133,7 +134,7 @@ def muon_param_groups(model: nn.Module, scope: str = "rnn") -> list[dict]:
             continue
         if name.startswith(recurrent_prefixes):
             gate_mats.append(p)
-        elif scope == "hidden" and name == "head.0.weight":
+        elif scope == "hidden" and name in {"head.0.weight", "head.extra.weight"}:
             hidden_mats.append(p)
         else:
             adam.append(p)

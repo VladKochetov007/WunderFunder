@@ -1,0 +1,46 @@
+{
+  "format": "wnn.student-independent-width-style-check",
+  "version": 1,
+  "initial_full_ruff_check": {
+    "command": "ruff check src/wnn/nn.py src/wnn/optim.py src/wnn/activation_qat.py src/wnn/infer.py scripts/train_rnn.py scripts/export_native_weights.py scripts/feature_cache.py scripts/feature_gain.py scripts/feature_predict.py scripts/feature_reset.py scripts/probe_independent_widths.py tests/test_independent_model_widths.py tests/test_native_independent_widths.py",
+    "exit_code": 1,
+    "findings": [
+      {"code": "I001", "file": "scripts/probe_independent_widths.py", "status": "fixed by sorting imports"},
+      {"code": "SIM102", "file": "scripts/train_rnn.py", "line_at_check": 2108, "status": "pre-existing unchanged line"},
+      {"code": "B023", "file": "scripts/train_rnn.py", "line_at_check": 3283, "status": "pre-existing unchanged line"},
+      {"code": "B023", "file": "scripts/train_rnn.py", "line_at_check": 3287, "status": "pre-existing unchanged line"},
+      {"code": "B020", "file": "scripts/train_rnn.py", "line_at_check": 3306, "status": "pre-existing unchanged line"},
+      {"code": "B007", "file": "scripts/train_rnn.py", "line_at_check": 3306, "status": "pre-existing unchanged line"},
+      {"code": "B905", "file": "src/wnn/nn.py", "line_at_check": 143, "status": "pre-existing unchanged line"}
+    ],
+    "diagnosis": "The six baseline findings occupy five unchanged source lines outside changed hunks. The import-order issue in the new probe was corrected."
+  },
+  "scoped_ruff_check": {
+    "command": "ruff check --extend-ignore=SIM102,B023,B020,B007,B905 <same modified Python files>",
+    "exit_code": 0,
+    "output": "All checks passed!",
+    "ignored_rules": ["SIM102", "B023", "B020", "B007", "B905"],
+    "interpretation": "Checks all other configured Ruff rules on the modified Python files while excluding identified unchanged baseline findings."
+  },
+  "formatting": {
+    "initial_check": {
+      "command": "ruff format --check scripts/probe_independent_widths.py tests/test_independent_model_widths.py tests/test_native_independent_widths.py",
+      "exit_code": 1,
+      "result": "Three new Python files were reported unformatted."
+    },
+    "format_command": "ruff format scripts/probe_independent_widths.py tests/test_independent_model_widths.py tests/test_native_independent_widths.py",
+    "format_exit_code": 0,
+    "format_output": "3 files reformatted",
+    "action": "Applied ruff format to scripts/probe_independent_widths.py, tests/test_independent_model_widths.py, and tests/test_native_independent_widths.py.",
+    "final_check": {
+      "command": "ruff format --check scripts/probe_independent_widths.py tests/test_independent_model_widths.py tests/test_native_independent_widths.py",
+      "exit_code": 0,
+      "output": "3 files already formatted"
+    },
+    "native_rust_workspace_check": {
+      "command": "cargo fmt --check --manifest-path native/Cargo.toml",
+      "exit_code": 1,
+      "diagnosis": "The workspace-wide check reports extensive existing formatting differences across many native files and examples, including unchanged sections of files touched for this task. No broad reformat was applied; task code was kept locally styled and will be compiled/tested."
+    }
+  }
+}

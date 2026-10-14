@@ -1,0 +1,47 @@
+{
+  "claim_limit": "Build and synthetic package-consumer evidence only; not a fit, trained package, model-quality result, or hardware performance selection.",
+  "commands": [
+    {
+      "command": "cargo test --lib --quiet",
+      "cpu_quota": "100%",
+      "exit_code": 0,
+      "ignored": 1,
+      "memory_limit_bytes": 2000000000,
+      "passed": 59,
+      "runtime_seconds": 66.99
+    },
+    {
+      "command": "cargo check --tests --examples",
+      "exit_code": 0
+    },
+    {
+      "command": "cargo build --features extension-module",
+      "exit_code": 0
+    }
+  ],
+  "consumer_build": {
+    "command": "cargo run --manifest-path native/Cargo.toml --quiet --example bench_int8 -- --rows research/campaign_2026-10-14/cpu_student_frontier_r1/student_widths_r1/SYNTHETIC_RAW_20K.f32 --reps 1 --members research/campaign_2026-10-14/cpu_student_frontier_r1/student_widths_r1/SYNTHETIC_WIDTHS_WNNWTS02.wbin --precisions f32,q8vnni_portable",
+    "cpu_quota": "100%",
+    "exit_code": 0,
+    "memory_limit_bytes": 2000000000,
+    "runtime_seconds_including_cargo": 26.5
+  },
+  "environment": {
+    "cargo": "cargo 1.94.0 (85eff7c80 2026-01-15)",
+    "cpu": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "native_cpu_features_reported_by_consumer": {
+      "avx2": true,
+      "vnni512": true
+    },
+    "python": "Python 3.13.9",
+    "rustc": "rustc 1.94.0 (4a4ef493e 2026-03-02)"
+  },
+  "extension_module": {
+    "bytes": 17494624,
+    "path": "native/target/debug/wnn_native.abi3.so",
+    "sha256": "50c3a8c9ecac188a72420ef65bb1ef7ee1ffd6bb0a356ff4099eba8c7149685b"
+  },
+  "format": "wnn.student-independent-width-build",
+  "source_base_commit": "ad7214945f822dcf8c38afd7e5a3149dfaeb38d9",
+  "version": 1
+}

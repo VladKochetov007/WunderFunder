@@ -41,6 +41,10 @@ def predict(checkpoint: Path, raw: np.ndarray, device: str) -> tuple[np.ndarray,
         hidden=config["hidden"],
         layers=config.get("layers", 2),
         n_out=payload["model"]["head.2.weight"].shape[0],
+        encoder_width=config.get("encoder_width"),
+        recurrent_width=config.get("recurrent_width"),
+        readout_width=config.get("readout_width"),
+        head_layers=config.get("head_layers", 1),
     ).to(device)
     model.load_state_dict(payload["model"])
     model.eval()

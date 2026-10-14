@@ -31,6 +31,8 @@ fn weights(n_in: usize, h: usize, l: usize) -> RnnWeights {
             .collect(),
         w1: v(2 * h * h),
         b1: v(h),
+        w_mid: Vec::new(),
+        b_mid: Vec::new(),
         w2: v(2 * h),
         b2: v(2),
     }

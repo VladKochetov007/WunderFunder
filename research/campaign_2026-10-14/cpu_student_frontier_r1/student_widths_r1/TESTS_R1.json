@@ -1,0 +1,67 @@
+{
+  "format": "wnn.student-independent-width-tests",
+  "interpretation": "Synthetic code-path and compatibility evidence only; no fit or model-quality result.",
+  "resource_boundary": {
+    "cpu_quota": "100%",
+    "fit_or_gpu": false,
+    "memory_max_bytes": 2000000000,
+    "test_command_runtime_max": "120s",
+    "threads": 1
+  },
+  "runs": [
+    {
+      "command": "pytest -q tests/test_independent_model_widths.py tests/test_native_independent_widths.py tests/test_optim.py",
+      "coverage": [
+        "legacy state-dict/output compatibility",
+        "independent shapes",
+        "export headers",
+        "native callback",
+        "chunk/full and reset",
+        "causality",
+        "Q8 matrix accounting"
+      ],
+      "exit_code": 0,
+      "failed": 0,
+      "passed": 34,
+      "seconds": 5.35,
+      "source_qualification": "Rerun after legacy wide-head dispatch repair; exact current source is bound by native/src/rnn_fast.rs SHA-256.",
+      "source_sha256": "e65dd681690bb290f36b4287cac5ea3e130080fd47b821f1e1f9d98676aab145"
+    },
+    {
+      "command": "pytest -q tests/test_predictor.py tests/test_activation_qat.py tests/test_distillation.py tests/test_training_factorized.py tests/test_conditional_readout.py tests/test_state_initialization.py tests/test_native_quantized_export.py tests/test_native_factorized.py tests/test_infer.py tests/test_team_member_fp32_export.py tests/test_training_dynamics.py tests/test_training_qat.py",
+      "exit_code": 0,
+      "failed": 0,
+      "passed": 107,
+      "seconds": 21.16,
+      "skip_reason": "separately built native quantizer variants or trained checkpoint fixtures were not present",
+      "skipped": 7,
+      "source_qualification": "Compatibility batch preceded the final Rust wide-head dispatch repair; final post-repair evidence is the focused suite and full native Rust suite.",
+      "subtests_passed": 7
+    },
+    {
+      "command": "cargo test --lib --quiet",
+      "exit_code": 0,
+      "failed": 0,
+      "ignored": 1,
+      "passed": 59,
+      "seconds": 66.99
+    },
+    {
+      "command": "cargo check --tests --examples",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "command": "cargo build --features extension-module",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "status": "passed"
+    }
+  ],
+  "source_base_commit": "ad7214945f822dcf8c38afd7e5a3149dfaeb38d9",
+  "version": 1
+}

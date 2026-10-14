@@ -45,8 +45,11 @@ class NumpyRNN:
                 )
             )
             k += 1
-        self.hidden = self.w_in.shape[0]
+        self.encoder_width = self.w_in.shape[0]
+        self.hidden = self.layers[0][3].shape[0] // 3
         self.w1, self.b1 = w["head.0.weight"], w["head.0.bias"]
+        self.w_mid = w.get("head.extra.weight")
+        self.b_mid = w.get("head.extra.bias")
         self.w2, self.b2 = w["head.2.weight"], w["head.2.bias"]
         self.h = np.zeros((len(self.layers), self.hidden), dtype=np.float32)
 
@@ -68,4 +71,7 @@ class NumpyRNN:
             inp = self.h[k]
         a = self.w1 @ np.concatenate([inp, z]) + self.b1
         a = 0.5 * a * (1.0 + _erf_vec(a / np.float32(math.sqrt(2.0))))
+        if self.w_mid is not None:
+            a = self.w_mid @ a + self.b_mid
+            a = 0.5 * a * (1.0 + _erf_vec(a / np.float32(math.sqrt(2.0))))
         return self.w2 @ a + self.b2

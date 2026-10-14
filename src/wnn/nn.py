@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
+
 import torch
 import torch.nn.functional as F
 from torch import nn
@@ -20,6 +22,46 @@ class FixedReadoutMixture(nn.Module):
         return 0.5 * F.gelu(values) + 0.5 * F.leaky_relu(values, negative_slope=0.01)
 
 
+class RNNReadout(nn.Sequential):
+    """One- or two-hidden-layer readout with the legacy parameter names intact."""
+
+    def __init__(self, input_width: int, width: int, n_out: int, layers: int,
+                 activation: nn.Module) -> None:
+        first = nn.Linear(input_width, width)
+        extra = nn.Linear(width, width) if layers == 2 else None
+        output = nn.Linear(width, n_out)
+        super().__init__(first, activation, output)
+        self.extra = extra
+
+    def _legacy_layers(self) -> tuple[nn.Module, nn.Module, nn.Module]:
+        return self._modules["0"], self._modules["1"], self._modules["2"]
+
+    def __getitem__(self, index: int | slice) -> nn.Module:
+        layers = self._legacy_layers()
+        if isinstance(index, slice):
+            return nn.Sequential(*layers[index])
+        return layers[index]
+
+    def __setitem__(self, index: int, module: nn.Module) -> None:
+        normalized = index + 3 if index < 0 else index
+        if normalized not in (0, 1, 2):
+            raise IndexError("readout index out of range")
+        self._modules[str(normalized)] = module
+
+    def __len__(self) -> int:
+        return 3
+
+    def __iter__(self) -> Iterator[nn.Module]:
+        return iter(self._legacy_layers())
+
+    def forward(self, values: torch.Tensor) -> torch.Tensor:
+        first, activation, output = self._legacy_layers()
+        values = activation(first(values))
+        if self.extra is not None:
+            values = activation(self.extra(values))
+        return output(values)
+
+
 class RNNModel(nn.Module):
     """Input projection -> stacked GRU -> head fed by GRU output and the projection skip."""
 
@@ -27,26 +69,41 @@ class RNNModel(nn.Module):
         self, n_in: int, hidden: int = 256, layers: int = 2, dropout: float = 0.0, n_out: int = 2,
         cell: str = "gru", enc: str = "linear", tok_dim: int = 32, att_layers: int = 1, conv_k: int = 16,
         readout_activation: str = "gelu", numeric_map: str = "none", ple_intervals: int = 8,
+        encoder_width: int | None = None, recurrent_width: int | None = None,
+        readout_width: int | None = None, head_layers: int = 1,
     ):
         super().__init__()
         if readout_activation not in ("gelu", "fixed_mix"):
             raise ValueError("readout_activation must be gelu or fixed_mix")
         if numeric_map not in ("none", *NumericFeatureMap.MODES):
             raise ValueError(f"unknown numeric map mode: {numeric_map}")
+        encoder_width = hidden if encoder_width is None else encoder_width
+        recurrent_width = hidden if recurrent_width is None else recurrent_width
+        readout_width = hidden if readout_width is None else readout_width
+        if min(encoder_width, recurrent_width, readout_width) <= 0:
+            raise ValueError("encoder, recurrent and readout widths must be positive")
+        if head_layers not in (1, 2):
+            raise ValueError("head_layers must be 1 or 2")
+        self.encoder_width = encoder_width
+        self.recurrent_width = recurrent_width
+        self.readout_width = readout_width
+        self.head_layers = head_layers
+        # Keep the historical attribute as the recurrent-state width.
+        self.hidden = recurrent_width
         self.register_buffer("mean", torch.zeros(n_in))
         self.register_buffer("std", torch.ones(n_in))
         self.numeric_feature_map = (
             None if numeric_map == "none" else NumericFeatureMap(n_in, numeric_map, ple_intervals)
         )
         input_width = n_in if self.numeric_feature_map is None else self.numeric_feature_map.output_width
-        self.inp = nn.Linear(input_width, hidden)
+        self.inp = nn.Linear(input_width, encoder_width)
         # Optional per-row encoders, added as residuals to the linear projection (research screening only;
         # the native engine supports enc="linear").
         self.enc = enc
         if enc == "mlp":
-            self.enc_norm = nn.LayerNorm(hidden)
-            self.enc_up = nn.Linear(hidden, 4 * hidden)
-            self.enc_down = nn.Linear(2 * hidden, hidden)
+            self.enc_norm = nn.LayerNorm(encoder_width)
+            self.enc_up = nn.Linear(encoder_width, 4 * encoder_width)
+            self.enc_down = nn.Linear(2 * encoder_width, encoder_width)
         elif enc == "tokens":
             self.groups = token_groups(n_in)
             self.tok_in = nn.ModuleList(nn.Linear(b - a, tok_dim) for a, b in self.groups)
@@ -54,26 +111,28 @@ class RNNModel(nn.Module):
             layer = nn.TransformerEncoderLayer(tok_dim, 4, 2 * tok_dim, dropout=0.0, activation="gelu",
                                                batch_first=True, norm_first=True)
             self.att = nn.TransformerEncoder(layer, att_layers, enable_nested_tensor=False)
-            self.tok_out = nn.Linear(2 * tok_dim, hidden)
+            self.tok_out = nn.Linear(2 * tok_dim, encoder_width)
         elif enc == "conv":
             self.conv_k = conv_k
-            self.conv_dw = nn.Conv1d(hidden, hidden, conv_k, groups=hidden)
-            self.conv_pw = nn.Linear(hidden, hidden)
+            self.conv_dw = nn.Conv1d(encoder_width, encoder_width, conv_k, groups=encoder_width)
+            self.conv_pw = nn.Linear(encoder_width, encoder_width)
         elif enc != "linear":
             raise ValueError(enc)
         rnn = {"gru": nn.GRU, "lstm": nn.LSTM}[cell]
         # Attribute name kept as ``gru`` so existing checkpoints and exporters stay valid.
         self.gru = rnn(
-            hidden,
-            hidden,
+            encoder_width,
+            recurrent_width,
             num_layers=layers,
             batch_first=True,
             dropout=dropout if layers > 1 else 0.0,
         )
-        self.head = nn.Sequential(
-            nn.Linear(2 * hidden, hidden),
+        self.head = RNNReadout(
+            recurrent_width + encoder_width,
+            readout_width,
+            n_out,
+            head_layers,
             nn.GELU() if readout_activation == "gelu" else FixedReadoutMixture(),
-            nn.Linear(hidden, n_out),
         )
 
     def encode(self, xn):

@@ -205,6 +205,12 @@ def activation_qat_forward(
         head_input = torch.cat([recurrent, projection], dim=-1)
         first = F.linear(head_input, parameters["head.0.weight"], parameters["head.0.bias"])
         activated = model.head[1](first)
+        if model.head.extra is not None:
+            activated = model.head[1](F.linear(
+                activated,
+                parameters["head.extra.weight"],
+                parameters["head.extra.bias"],
+            ))
         prediction = F.linear(activated, parameters["head.2.weight"], parameters["head.2.bias"])
         return prediction, final_state
 

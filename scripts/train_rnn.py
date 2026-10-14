@@ -1213,7 +1213,67 @@ def block_memory_rejection(args: argparse.Namespace) -> str | None:
     return "block-memory raw scratch rejects " + ", ".join(rejected)
 
 
+def independent_width_configuration_error(
+    args_dict: dict[str, Any], n_in: int | None = None
+) -> str | None:
+    """Validate the independent-width shape against the native 211-feature GRU path."""
+    requested = any(
+        args_dict.get(name) is not None
+        for name in ("encoder_width", "recurrent_width", "readout_width")
+    ) or args_dict.get("head_layers", 1) != 1
+    if not requested:
+        return None
+
+    incompatible = []
+    if args_dict.get("student_frontier_contract"):
+        incompatible.append("equal-width --student-frontier-contract")
+    if args_dict.get("arch", "gru") != "gru":
+        incompatible.append("--arch")
+    if args_dict.get("cell", "gru") != "gru":
+        incompatible.append("--cell")
+    if args_dict.get("enc", "linear") != "linear":
+        incompatible.append("--enc")
+    if args_dict.get("numeric_map", "none") != "none":
+        incompatible.append("--numeric-map")
+    if args_dict.get("readout_activation", "gelu") != "gelu":
+        incompatible.append("--readout-activation")
+    if args_dict.get("loss") == "ce_joint":
+        incompatible.append("--loss ce_joint output decoding")
+    if args_dict.get("recurrent_rank", 0):
+        incompatible.append("--recurrent-rank")
+    if n_in is not None and n_in != 211:
+        incompatible.append("non-native input width")
+    if args_dict.get("research_features", "none") != "none":
+        incompatible.append("--research-features")
+    if args_dict.get("privileged_mode", "none") != "none":
+        incompatible.append("--privileged-mode")
+    if args_dict.get("raw_only", False):
+        incompatible.append("--raw-only")
+    if args_dict.get("heuristics", False):
+        incompatible.append("--heuristics")
+    if args_dict.get("online_norm", False):
+        incompatible.append("--online-norm")
+    if args_dict.get("prop_input", ""):
+        incompatible.append("--prop-input")
+    if (
+        args_dict.get("sentinel_base_width", 0)
+        or args_dict.get("sentinel_indicators", "none") != "none"
+        or args_dict.get("sentinel_values", "unchanged") != "unchanged"
+    ):
+        incompatible.append("sentinel preprocessing")
+    if incompatible:
+        reasons = ", ".join(incompatible)
+        return (
+            "independent widths/head depth require the native-compatible linear-input GELU GRU; "
+            f"{reasons} is unsupported"
+        )
+    return None
+
+
 def make_model(args_dict, n_in, n_out):
+    width_error = independent_width_configuration_error(args_dict, n_in)
+    if width_error is not None:
+        raise ValueError(width_error)
     numeric_map = args_dict.get("numeric_map", "none")
     if numeric_map != "none" and (
         args_dict.get("arch", "gru") != "gru"
@@ -1342,6 +1402,10 @@ def make_model(args_dict, n_in, n_out):
         readout_activation=args_dict.get("readout_activation", "gelu"),
         numeric_map=numeric_map,
         ple_intervals=args_dict.get("ple_intervals", 8),
+        encoder_width=args_dict.get("encoder_width"),
+        recurrent_width=args_dict.get("recurrent_width"),
+        readout_width=args_dict.get("readout_width"),
+        head_layers=args_dict.get("head_layers", 1),
     )
     if args_dict.get("sentinel_indicators", "none") != "none":
         model.inp = SentinelInputProjection(model.inp, args_dict["sentinel_base_width"])
@@ -1454,6 +1518,10 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
     """Preserve the parent's feature construction and model/output dimensions during FT."""
     fields = (
         "hidden",
+        "encoder_width",
+        "recurrent_width",
+        "readout_width",
+        "head_layers",
         "layers",
         "dropout",
         "arch",
@@ -1663,6 +1731,14 @@ def main():
     ap.add_argument("--valid-seqs", type=int, default=600, help="dev sequences used for selection")
     ap.add_argument("--full-valid", action="store_true", help="all 1505 dev sequences")
     ap.add_argument("--hidden", type=int, default=256)
+    ap.add_argument("--encoder-width", type=int, default=None,
+                    help="plain GRU input-projection width; defaults to --hidden")
+    ap.add_argument("--recurrent-width", type=int, default=None,
+                    help="plain GRU state width; defaults to --hidden")
+    ap.add_argument("--readout-width", type=int, default=None,
+                    help="plain GRU readout hidden width; defaults to --hidden")
+    ap.add_argument("--head-layers", type=int, choices=(1, 2), default=1,
+                    help="number of hidden readout layers")
     ap.add_argument("--layers", type=int, default=2)
     ap.add_argument("--dropout", type=float, default=0.0)
     ap.add_argument("--chunk", type=int, default=2000)
@@ -2073,10 +2149,22 @@ def main():
         or args.qat != "none" or args.recurrent_rank
     ):
         ap.error("fixed readout mixture requires a plain dense GRU, linear encoder and no QAT")
+    width_override = any(
+        value is not None
+        for value in (args.encoder_width, args.recurrent_width, args.readout_width)
+    ) or args.head_layers != 1
+    width_error = independent_width_configuration_error(vars(args))
+    if width_error is not None:
+        ap.error(width_error)
+    if width_override and args.student_frontier_preflight_only:
+        ap.error("student-frontier preflight uses its frozen equal-width shape contract")
+    if any(value is not None and value <= 0 for value in
+           (args.encoder_width, args.recurrent_width, args.readout_width)):
+        ap.error("encoder, recurrent and readout widths must be positive")
     if args.recurrent_rank and (args.precision != "fp32" or args.optim != "adamw"
             or args.optim_switch or args.qat != "none" or not args.init
             or args.arch != "gru" or args.cell != "gru" or args.enc != "linear"
-            or args.recurrent_rank > args.hidden):
+            or args.recurrent_rank > (args.recurrent_width or args.hidden)):
         ap.error("factorized recurrence needs dense --init, plain GRU, linear encoder, rank <= hidden, "
                  "AdamW, explicit FP32, no QAT or optimizer switch")
     if (args.sentinel_base_width or args.sentinel_values != "unchanged"

@@ -93,6 +93,13 @@ fn storage_bytes(model: &FastRnn) -> HashMap<String, usize> {
                 .map(|(_, matrix)| matrix.storage_bytes())
                 .sum(),
         ),
+        (
+            "dynamic_q8_weights".into(),
+            model
+                .dyn8_matrices()
+                .map(|(_, matrix)| matrix.storage_bytes())
+                .sum(),
+        ),
         ("recurrent_state".into(), model.recurrent_state_bytes()),
         ("scratch".into(), model.scratch_bytes()),
         (
@@ -312,6 +319,10 @@ fn take(w: &mut HashMap<String, Vec<f32>>, key: &str) -> PyResult<Vec<f32>> {
         .ok_or_else(|| PyValueError::new_err(format!("missing weight {key}")))
 }
 
+fn take_optional(w: &mut HashMap<String, Vec<f32>>, key: &str) -> Vec<f32> {
+    w.remove(key).unwrap_or_default()
+}
+
 fn weights_from_dict(
     weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
 ) -> PyResult<RnnWeights> {
@@ -338,6 +349,8 @@ fn weights_from_dict(
         layers,
         w1: take(&mut w, "head.0.weight")?,
         b1: take(&mut w, "head.0.bias")?,
+        w_mid: take_optional(&mut w, "head.extra.weight"),
+        b_mid: take_optional(&mut w, "head.extra.bias"),
         w2: take(&mut w, "head.2.weight")?,
         b2: take(&mut w, "head.2.bias")?,
     })
@@ -513,6 +526,17 @@ fn validate_shared_backbone_pair(
     }) {
         return Err(PyValueError::new_err(
             "shared_backbone requires two-output heads",
+        ));
+    }
+    if weights.iter().any(|member| {
+        let recurrent = member.layers.first().map_or(0, |layer| layer.b_hh.len() / 3);
+        member.b_in.len() != recurrent
+            || member.b1.len() != recurrent
+            || !member.w_mid.is_empty()
+            || !member.b_mid.is_empty()
+    }) {
+        return Err(PyValueError::new_err(
+            "shared_backbone currently requires equal-width one-hidden heads",
         ));
     }
     if !matches!(
@@ -1335,6 +1359,8 @@ mod shared_backbone_tests {
                 .collect(),
             w1: values(hidden * 2 * hidden, 12),
             b1: values(hidden, 13),
+            w_mid: Vec::new(),
+            b_mid: Vec::new(),
             w2: values(2 * hidden, 14),
             b2: values(2, 15),
         }
@@ -1427,6 +1453,8 @@ mod dyn_q8_python_tests {
                 .collect(),
             w1: values(2 * hidden * hidden, 11),
             b1: values(hidden, 12),
+            w_mid: Vec::new(),
+            b_mid: Vec::new(),
             w2: values(2 * hidden, 13),
             b2: values(2, 14),
         }

@@ -187,10 +187,31 @@ impl Cell {
     }
 }
 
-/// Shape checks for a `gates`-gate stack whose head.0 has `b1.len()` rows (k*hidden for k
-/// merged heads; `rnn::RnnModel` only knows the plain GRU with hidden-wide head).
+fn infer_cell_and_width(w: &RnnWeights) -> Result<(Cell, usize), ShapeError> {
+    let layer = w
+        .layers
+        .first()
+        .ok_or_else(|| ShapeError("at least one recurrent layer required".into()))?;
+    for (gates, cell) in [(3usize, Cell::Gru), (4usize, Cell::Lstm)] {
+        if layer.b_hh.len() % gates != 0 {
+            continue;
+        }
+        let recurrent = layer.b_hh.len() / gates;
+        if layer.b_ih.len() == gates * recurrent
+            && layer.w_hh.len() == gates * recurrent * recurrent
+        {
+            return Ok((cell, recurrent));
+        }
+    }
+    Err(ShapeError("cannot infer a square GRU/LSTM recurrent matrix".into()))
+}
+
+/// Shape checks for a `gates`-gate stack with independent encoder, recurrent and readout widths.
 fn check_shapes(w: &RnnWeights, gates: usize) -> Result<(), ShapeError> {
-    let (n_in, hidden, n_out, head) = (w.mean.len(), w.b_in.len(), w.b2.len(), w.b1.len());
+    let n_in = w.mean.len();
+    let encoder = w.b_in.len();
+    let n_out = w.b2.len();
+    let head = w.b1.len();
     let expect = |name: String, got: usize, want: usize| {
         if got == want {
             Ok(())
@@ -201,29 +222,46 @@ fn check_shapes(w: &RnnWeights, gates: usize) -> Result<(), ShapeError> {
         }
     };
     expect("std".into(), w.std.len(), n_in)?;
-    expect("inp.weight".into(), w.w_in.len(), hidden * n_in)?;
     if w.layers.is_empty() {
         return Err(ShapeError("at least one recurrent layer required".into()));
     }
+    let recurrent = w.layers[0].b_hh.len() / gates;
+    expect("inp.weight".into(), w.w_in.len(), encoder * n_in)?;
     for (k, l) in w.layers.iter().enumerate() {
+        let input = if k == 0 { encoder } else { recurrent };
         expect(
             format!("weight_ih_l{k}"),
             l.w_ih.len(),
-            gates * hidden * hidden,
+            gates * recurrent * input,
         )?;
         expect(
             format!("weight_hh_l{k}"),
             l.w_hh.len(),
-            gates * hidden * hidden,
+            gates * recurrent * recurrent,
         )?;
-        expect(format!("bias_ih_l{k}"), l.b_ih.len(), gates * hidden)?;
-        expect(format!("bias_hh_l{k}"), l.b_hh.len(), gates * hidden)?;
+        expect(format!("bias_ih_l{k}"), l.b_ih.len(), gates * recurrent)?;
+        expect(format!("bias_hh_l{k}"), l.b_hh.len(), gates * recurrent)?;
     }
     if head == 0 || n_out == 0 {
         return Err(ShapeError("empty head".into()));
     }
-    expect("head.0.weight".into(), w.w1.len(), head * 2 * hidden)?;
+    expect("head.0.weight".into(), w.w1.len(), head * (recurrent + encoder))?;
+    if w.w_mid.is_empty() != w.b_mid.is_empty() {
+        return Err(ShapeError("head.extra weight and bias must be present together".into()));
+    }
+    if !w.w_mid.is_empty() {
+        expect("head.extra.weight".into(), w.w_mid.len(), head * head)?;
+        expect("head.extra.bias".into(), w.b_mid.len(), head)?;
+    }
     expect("head.2.weight".into(), w.w2.len(), n_out * head)
+}
+
+fn activate_slice(act: Activations, values: &mut [f32]) {
+    if act == Activations::Fast {
+        values.iter_mut().for_each(|value| *value = gelu_fast(*value));
+    } else {
+        values.iter_mut().for_each(|value| *value = gelu(*value));
+    }
 }
 
 const MODE_F32: u8 = 0;
@@ -250,7 +288,10 @@ struct LayerIdx {
 
 pub struct FastRnn {
     n_in: usize,
+    encoder_width: usize,
     hidden: usize,
+    readout_width: usize,
+    general_dims: bool,
     n_out: usize,
     input_mean: Vec<f32>,
     input_std: Vec<f32>,
@@ -281,6 +322,8 @@ pub struct FastRnn {
     /// Q16x: the projection (z) column block of head.0; `w1` then holds the hidden block.
     w1z: Mat,
     b1: Range<usize>,
+    w_mid: Mat,
+    b_mid: Range<usize>,
     w2: Range<usize>,
     b2: Range<usize>,
     h: Range<usize>,
@@ -289,6 +332,7 @@ pub struct FastRnn {
     gh: Range<usize>,
     cat: Range<usize>,
     a: Range<usize>,
+    a_mid: Range<usize>,
     /// LSTM cell state, one hidden vector per layer (empty for a GRU).
     c: Range<usize>,
     /// Nonzero input columns of the current row (half projection scratch).
@@ -296,6 +340,15 @@ pub struct FastRnn {
     /// Q16x activation codes, `hidden` padded to whole chunks per block: [h per layer | z]. The
     /// hidden blocks persist across steps (each is requantized right after its update).
     codes: Vec<Codes>,
+    /// Dimension-aware dynamic-int8 scratch used only when encoder/recurrent/readout widths differ
+    /// or the optional second hidden readout layer is present.
+    general_q_z: Vec<u8>,
+    general_q_hidden: Vec<u8>,
+    general_q_recurrent: Vec<u8>,
+    general_q_cat: Vec<u8>,
+    general_q_mid: Vec<u8>,
+    general_hidden_scales: Vec<f32>,
+    general_input: Vec<f32>,
 }
 
 /// AVX2 dot product for the tail rows of `gemv_avx2`.
@@ -712,14 +765,26 @@ impl FastRnn {
         let n_in = w.mean.len();
         let input_mean = w.mean.clone();
         let input_std = w.std.clone();
-        let hidden = w.b_in.len();
+        let encoder_width = w.b_in.len();
+        let (cell, hidden) = infer_cell_and_width(&w)?;
+        let readout_width = w.b1.len();
         let n_out = w.b2.len();
-        let cell = match w.layers.first() {
-            Some(l) if l.b_ih.len() == 4 * hidden => Cell::Lstm,
-            _ => Cell::Gru,
-        };
         let gates = cell.gates();
         check_shapes(&w, gates)?;
+        // Existing merged-head ensembles use M=kR and keep their established optimized kernels.
+        let legacy_wide_head = hidden > 0 && readout_width > hidden && readout_width % hidden == 0;
+        let independent_readout = readout_width != hidden && !legacy_wide_head;
+        let general_dims = encoder_width != hidden || independent_readout || !w.w_mid.is_empty();
+        if general_dims && precision != Precision::F32 && precision.dyn8().is_none() {
+            return Err(ShapeError(
+                "independent widths currently support f32 and dynamic q8vnni precision".into(),
+            ));
+        }
+        if general_dims && precision == Precision::Q8VnniFused {
+            return Err(ShapeError(
+                "q8vnni_fused is not implemented for independent-width models".into(),
+            ));
+        }
         let required_policy = match precision {
             Precision::Q8Vnni256 => Some(crate::vnni::Isa::Vnni256),
             Precision::Q8VnniBlocked => Some(crate::vnni::Isa::Vnni512Blocked),
@@ -776,12 +841,12 @@ impl FastRnn {
         };
 
         // Fold normalization: W'[r][c] = W[r][c] / std[c]; b'[r] = b[r] - sum_c W'[r][c] mean[c].
-        let mut cols = vec![0.0f32; hidden * n_in];
+        let mut cols = vec![0.0f32; encoder_width * n_in];
         let mut b_in = w.b_in.clone();
-        for r in 0..hidden {
+        for r in 0..encoder_width {
             for c in 0..n_in {
                 let v = w.w_in[r * n_in + c] / w.std[c];
-                cols[c * hidden + r] = v;
+                cols[c * encoder_width + r] = v;
                 b_in[r] -= v * w.mean[c];
             }
         }
@@ -830,9 +895,9 @@ impl FastRnn {
         let mut dq_names = Vec::new();
         // The 16-bit projection writes whole COL_TILE row tiles; z and b_in are padded to match.
         let z_len = if precision.encoding().is_none() {
-            hidden
+            encoder_width
         } else {
-            hidden.div_ceil(crate::half::COL_TILE) * crate::half::COL_TILE
+            encoder_width.div_ceil(crate::half::COL_TILE) * crate::half::COL_TILE
         };
         let w_in_cols = match precision.encoding() {
             None => Mat {
@@ -843,21 +908,21 @@ impl FastRnn {
             Some(enc) => {
                 let scales = match enc {
                     Encoding::F16 => Vec::new(),
-                    Encoding::I16 => crate::half::column_scales(&cols, hidden, n_in),
+                    Encoding::I16 => crate::half::column_scales(&cols, encoder_width, n_in),
                 };
-                let packed = half.push_columns_as(enc, &cols, &scales, hidden, n_in);
+                let packed = half.push_columns_as(enc, &cols, &scales, encoder_width, n_in);
                 // Fold the mean with the decoded weights the kernel uses, so W'(x - mean) stays
                 // exact in the rounding of W' instead of picking up (W'16 - W') mean.
                 for c in 0..n_in {
                     let scale = scales.get(c).copied().unwrap_or(1.0);
-                    for v in &mut cols[c * hidden..(c + 1) * hidden] {
+                    for v in &mut cols[c * encoder_width..(c + 1) * encoder_width] {
                         *v = enc.decode(*v, scale);
                     }
                 }
                 b_in.copy_from_slice(&w.b_in);
-                for r in 0..hidden {
+                for r in 0..encoder_width {
                     for c in 0..n_in {
-                        b_in[r] -= cols[c * hidden + r] * w.mean[c];
+                        b_in[r] -= cols[c * encoder_width + r] * w.mean[c];
                     }
                 }
                 b_in.resize(z_len, 0.0);
@@ -937,13 +1002,14 @@ impl FastRnn {
             .iter()
             .enumerate()
             .map(|(k, l)| {
+                let input_width = if k == 0 { encoder_width } else { hidden };
                 Ok(LayerIdx {
                     w_ih: matrix(
                         &mut weights,
                         format!("gru.weight_ih_l{k}.0"),
                         &l.w_ih,
                         gates * hidden,
-                        hidden,
+                        input_width,
                         precision.q8(),
                     )?,
                     b_ih: weights.push(&l.b_ih),
@@ -960,7 +1026,24 @@ impl FastRnn {
             })
             .collect::<Result<Vec<_>, ShapeError>>()?;
         let q16x = matches!(precision, Precision::Q16x | Precision::Q16xPortable);
-        let (w1, w1z) = if q16x || precision.q8_head() || precision.dyn8().is_some() {
+        let empty_mat = Mat {
+            w: 0..0,
+            s: 0..0,
+            q8: None,
+        };
+        let (w1, w1z) = if general_dims {
+            (
+                matrix(
+                    &mut weights,
+                    "head.0.weight".into(),
+                    &w.w1,
+                    head,
+                    hidden + encoder_width,
+                    precision.q8_head(),
+                )?,
+                empty_mat.clone(),
+            )
+        } else if q16x || precision.q8_head() || precision.dyn8().is_some() {
             let block = |k: usize| -> Vec<f32> {
                 w.w1.chunks_exact(2 * hidden)
                     .flat_map(|row| &row[k * hidden..(k + 1) * hidden])
@@ -975,17 +1058,15 @@ impl FastRnn {
                 hidden,
                 precision.q8_head(),
             )?;
-            (
-                w1,
-                matrix(
+            let w1z = matrix(
                     &mut weights,
                     "head.0.weight.1".into(),
                     &block(1),
                     head,
                     hidden,
                     precision.q8_head(),
-                )?,
-            )
+                )?;
+            (w1, w1z)
         } else {
             let w1 = matrix(
                 &mut weights,
@@ -997,14 +1078,28 @@ impl FastRnn {
             )?;
             (
                 w1,
-                Mat {
-                    w: 0..0,
-                    s: 0..0,
-                    q8: None,
-                },
+                empty_mat.clone(),
             )
         };
         let b1 = weights.push(&w.b1);
+        let w_mid = if w.w_mid.is_empty() {
+            empty_mat
+        } else {
+            matrix(
+                &mut weights,
+                "head.extra.weight".into(),
+                &w.w_mid,
+                head,
+                head,
+                precision.q8_head(),
+            )?
+        };
+        let b_mid = if w.b_mid.is_empty() {
+            let end = weights.len;
+            end..end
+        } else {
+            weights.push(&w.b_mid)
+        };
         let w2 = weights.push(&w.w2);
         let b2 = weights.push(&w.b2);
 
@@ -1012,12 +1107,18 @@ impl FastRnn {
         let h = state.zeros(layers.len() * hidden);
         let z = {
             let padded = state.zeros(z_len);
-            padded.start..padded.start + hidden
+            padded.start..padded.start + encoder_width
         };
         let gi = state.zeros(gates * hidden);
         let gh = state.zeros(gates * hidden);
-        let cat = state.zeros(2 * hidden);
+        let cat = state.zeros(hidden + encoder_width);
         let a = state.zeros(head);
+        let a_mid = if w.w_mid.is_empty() {
+            let end = state.len;
+            end..end
+        } else {
+            state.zeros(head)
+        };
         let c = match cell {
             Cell::Gru => {
                 let end = state.len;
@@ -1025,19 +1126,43 @@ impl FastRnn {
             }
             Cell::Lstm => state.zeros(layers.len() * hidden),
         };
-        let code_blocks = if q16x || precision.q8() {
+        let code_blocks = if !general_dims && (q16x || precision.q8()) {
             layers.len() + 1
         } else {
             0
         };
         let codes = vec![Codes([0; TILE_COLS]); code_blocks * hidden.div_ceil(TILE_COLS)];
-        let dyn_blocks = if precision.dyn8().is_some() { layers.len() + 1 } else { 0 };
+        let dyn_blocks = if precision.dyn8().is_some() && !general_dims { layers.len() + 1 } else { 0 };
         let dcodes = vec![crate::vnni::OFFSET; dyn_blocks * crate::vnni::padded_cols(hidden)];
         let dscales = vec![0.0; dyn_blocks];
+        let general_q_z = if general_dims && precision.dyn8().is_some() {
+            vec![crate::vnni::OFFSET; crate::vnni::padded_cols(encoder_width)]
+        } else { Vec::new() };
+        let general_q_hidden = if general_dims && precision.dyn8().is_some() {
+            vec![crate::vnni::OFFSET; layers.len() * crate::vnni::padded_cols(hidden)]
+        } else { Vec::new() };
+        let general_q_recurrent = if general_dims && precision.dyn8().is_some() {
+            vec![crate::vnni::OFFSET; crate::vnni::padded_cols(hidden)]
+        } else { Vec::new() };
+        let general_q_cat = if general_dims && precision.dyn8().is_some() {
+            vec![crate::vnni::OFFSET; crate::vnni::padded_cols(hidden + encoder_width)]
+        } else { Vec::new() };
+        let general_q_mid = if general_dims && precision.dyn8().is_some() {
+            vec![crate::vnni::OFFSET; crate::vnni::padded_cols(head)]
+        } else { Vec::new() };
+        let general_hidden_scales = if general_dims && precision.dyn8().is_some() {
+            vec![0.0; layers.len()]
+        } else { Vec::new() };
+        let general_input = if general_dims {
+            vec![0.0; encoder_width.max(hidden)]
+        } else { Vec::new() };
         debug_assert!(weights.len >= weights.as_ref().len());
         Ok(Self {
             n_in,
+            encoder_width,
             hidden,
+            readout_width,
+            general_dims,
             n_out,
             input_mean,
             input_std,
@@ -1061,6 +1186,8 @@ impl FastRnn {
             w1,
             w1z,
             b1,
+            w_mid,
+            b_mid,
             w2,
             b2,
             h,
@@ -1069,9 +1196,17 @@ impl FastRnn {
             gh,
             cat,
             a,
+            a_mid,
             c,
             nz: Vec::with_capacity(n_in),
             codes,
+            general_q_z,
+            general_q_hidden,
+            general_q_recurrent,
+            general_q_cat,
+            general_q_mid,
+            general_hidden_scales,
+            general_input,
         })
     }
 
@@ -1158,6 +1293,10 @@ impl FastRnn {
     }
 
     fn refresh_hidden_codes(&mut self) {
+        if self.general_dims {
+            // The dimension-aware Q8 path quantizes persistent FP32 states at use sites.
+            return;
+        }
         let layers = self.layers.len();
         let hidden = self.hidden;
         let state = self.hidden_state().to_vec();
@@ -1223,6 +1362,14 @@ impl FastRnn {
             + self.dcodes.len()
             + self.dscales.len() * 4
             + self.nz.capacity() * size_of::<u32>()
+            + (self.general_q_z.capacity()
+                + self.general_q_hidden.capacity()
+                + self.general_q_recurrent.capacity()
+                + self.general_q_cat.capacity()
+                + self.general_q_mid.capacity())
+            * size_of::<u8>()
+            + (self.general_hidden_scales.capacity() + self.general_input.capacity())
+                * size_of::<f32>()
     }
 
     /// Dense recurrent copies accepted by the existing Python weights API, not retained.
@@ -1322,9 +1469,17 @@ impl FastRnn {
         if self.precision.dyn8().is_none() {
             return 0;
         }
-        self.dq[self.w1.q8.expect("dynamic head matrix")].storage_bytes()
-            + self.dq[self.w1z.q8.expect("dynamic projection-head matrix")].storage_bytes()
-            + (self.b1.len() + self.w2.len() + self.b2.len()) * size_of::<f32>()
+        let mut bytes = self.dq[self.w1.q8.expect("dynamic head matrix")].storage_bytes()
+            + (self.b1.len() + self.w2.len() + self.b2.len()) * size_of::<f32>();
+        if self.general_dims {
+            if let Some(index) = self.w_mid.q8 {
+                bytes += self.dq[index].storage_bytes();
+                bytes += self.b_mid.len() * size_of::<f32>();
+            }
+        } else {
+            bytes += self.dq[self.w1z.q8.expect("dynamic projection-head matrix")].storage_bytes();
+        }
+        bytes
     }
 
     pub fn cell(&self) -> Cell {
@@ -1338,6 +1493,13 @@ impl FastRnn {
         self.codes.fill(Codes([0; TILE_COLS]));
         self.dcodes.fill(crate::vnni::OFFSET);
         self.dscales.fill(0.0);
+        self.general_q_z.fill(crate::vnni::OFFSET);
+        self.general_q_hidden.fill(crate::vnni::OFFSET);
+        self.general_q_recurrent.fill(crate::vnni::OFFSET);
+        self.general_q_cat.fill(crate::vnni::OFFSET);
+        self.general_q_mid.fill(crate::vnni::OFFSET);
+        self.general_hidden_scales.fill(0.0);
+        self.general_input.fill(0.0);
     }
 
     pub fn step(&mut self, x: &[f32], out: &mut [f32]) {
@@ -1365,6 +1527,14 @@ impl FastRnn {
     pub fn step_then(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
         assert_eq!(x.len(), self.n_in, "input width");
         assert_eq!(out.len(), self.n_out, "output width");
+        if self.general_dims {
+            if self.precision == Precision::F32 {
+                self.step_general_f32(x, out);
+            } else {
+                self.step_general_dyn8(x, out);
+            }
+            return;
+        }
         match self.precision {
             Precision::F32 => self.step_impl::<MODE_F32>(x, out),
             Precision::FactorF32 | Precision::FactorF32Portable => self.step_factorized(x, out),
@@ -1419,6 +1589,7 @@ impl FastRnn {
         second_out: &mut [f32],
     ) {
         debug_assert!(self.precision.dyn8().is_some());
+        debug_assert!(!self.general_dims);
         debug_assert_eq!(self.precision, second_head.precision);
         debug_assert_eq!(self.hidden, second_head.hidden);
         debug_assert_eq!(self.layers.len(), second_head.layers.len());
@@ -1490,6 +1661,215 @@ impl FastRnn {
             a.iter_mut().for_each(|value| *value = gelu(*value));
         }
         gemv_lanes(&wts[self.w2.clone()], &wts[self.b2.clone()], a, out);
+    }
+
+    /// Portable matrix path for independent E/R/M widths and an optional second head layer.
+    /// Equal-width one-head models stay on their existing specialized path.
+    fn step_general_f32(&mut self, x: &[f32], out: &mut [f32]) {
+        let weights = self.weights.as_ref();
+        let state = self.state.as_mut();
+        let e = self.encoder_width;
+        let r = self.hidden;
+        let m = self.readout_width;
+        {
+            let z = &mut state[self.z.clone()];
+            z.copy_from_slice(&weights[self.b_in.clone()][..e]);
+            for (column, &value) in weights[self.w_in_cols.w.clone()].chunks_exact(e).zip(x) {
+                if value != 0.0 {
+                    for (output, &weight) in z.iter_mut().zip(column) {
+                        *output += weight * value;
+                    }
+                }
+            }
+            activate_slice(self.act, z);
+        }
+
+        for (index, layer) in self.layers.iter().enumerate() {
+            let input_width = if index == 0 { e } else { r };
+            let input_range = if index == 0 {
+                self.z.clone()
+            } else {
+                self.h.start + (index - 1) * r..self.h.start + index * r
+            };
+            self.general_input[..input_width]
+                .copy_from_slice(&state[input_range]);
+            let h_start = self.h.start + index * r;
+            let (low, high) = state.split_at_mut(self.gi.start);
+            let (gi, rest) = high.split_at_mut(self.gi.len());
+            let gh_offset = self.gh.start - self.gi.end;
+            let (rest, cells) = rest.split_at_mut(self.c.start - self.gi.end);
+            let gh = &mut rest[gh_offset..gh_offset + self.cell.gates() * r];
+            let h = &mut low[h_start..h_start + r];
+            gemv_lanes(
+                &weights[layer.w_ih.w.clone()],
+                &weights[layer.b_ih.clone()],
+                &self.general_input[..input_width],
+                gi,
+            );
+            gemv_lanes(
+                &weights[layer.w_hh.w.clone()],
+                &weights[layer.b_hh.clone()],
+                h,
+                gh,
+            );
+            match self.cell {
+                Cell::Gru => gru_update(h, gi, gh, self.act == Activations::Fast),
+                Cell::Lstm => lstm_update(
+                    h,
+                    &mut cells[index * r..(index + 1) * r],
+                    gi,
+                    gh,
+                    self.act == Activations::Fast,
+                ),
+            }
+        }
+
+        let last = self.h.start + (self.layers.len() - 1) * r;
+        let (low, rest) = state.split_at_mut(self.cat.start);
+        let (cat, rest) = rest.split_at_mut(self.cat.len());
+        cat[..r].copy_from_slice(&low[last..last + r]);
+        cat[r..].copy_from_slice(&low[self.z.clone()]);
+        let a_offset = self.a.start - self.cat.end;
+        let (_padding, after_a) = rest.split_at_mut(a_offset);
+        let (a, after_a) = after_a.split_at_mut(m);
+        gemv_lanes(
+            &weights[self.w1.w.clone()],
+            &weights[self.b1.clone()],
+            cat,
+            a,
+        );
+        activate_slice(self.act, a);
+        if !self.w_mid.w.is_empty() {
+            let mid_offset = self.a_mid.start - self.a.end;
+            let (_padding, after_mid) = after_a.split_at_mut(mid_offset);
+            let mid = &mut after_mid[..m];
+            gemv_lanes(
+                &weights[self.w_mid.w.clone()],
+                &weights[self.b_mid.clone()],
+                a,
+                mid,
+            );
+            activate_slice(self.act, mid);
+            gemv_lanes(&weights[self.w2.clone()], &weights[self.b2.clone()], mid, out);
+        } else {
+            gemv_lanes(&weights[self.w2.clone()], &weights[self.b2.clone()], a, out);
+        }
+    }
+
+    fn step_general_dyn8(&mut self, x: &[f32], out: &mut [f32]) {
+        use crate::vnni::{padded_cols, quantize};
+
+        let isa = self.precision.dyn8().expect("general Q8 path");
+        let fast = self.act == Activations::Fast;
+        let weights = self.weights.as_ref();
+        let state = self.state.as_mut();
+        let e = self.encoder_width;
+        let r = self.hidden;
+        let m = self.readout_width;
+        {
+            let b = &weights[self.b_in.clone()];
+            let padded = &mut state[self.z.start..self.z.start + b.len()];
+            crate::half::project_q16_portable(
+                &self.half.as_ref()[self.w_in_cols.w.clone()],
+                &weights[self.w_in_cols.s.clone()],
+                b,
+                x,
+                padded,
+            );
+            let z = &mut state[self.z.clone()];
+            activate_slice(self.act, z);
+        }
+        let z_scale = quantize(&state[self.z.clone()], &mut self.general_q_z);
+        let kr = padded_cols(r);
+
+        for (index, layer) in self.layers.iter().enumerate() {
+            let input_width = if index == 0 { e } else { r };
+            let input_codes: &[u8] = if index == 0 {
+                &self.general_q_z
+            } else {
+                let start = (index - 1) * kr;
+                &self.general_q_hidden[start..start + kr]
+            };
+            let input_scale = if index == 0 {
+                z_scale
+            } else {
+                self.general_hidden_scales[index - 1]
+            };
+            debug_assert_eq!(input_codes.len(), padded_cols(input_width));
+
+            let h_start = self.h.start + index * r;
+            let (low, high) = state.split_at_mut(self.gi.start);
+            let (gi, rest) = high.split_at_mut(self.gi.len());
+            let gh_offset = self.gh.start - self.gi.end;
+            let (rest, cells) = rest.split_at_mut(self.c.start - self.gi.end);
+            let gh = &mut rest[gh_offset..gh_offset + self.cell.gates() * r];
+            let h = &mut low[h_start..h_start + r];
+            let recurrent_scale = quantize(h, &mut self.general_q_recurrent);
+            self.dq[layer.w_ih.q8.expect("dynamic input matrix")].gemv(
+                isa,
+                input_codes,
+                input_scale,
+                Some(&weights[layer.b_ih.clone()]),
+                gi,
+            );
+            self.dq[layer.w_hh.q8.expect("dynamic recurrent matrix")].gemv(
+                isa,
+                &self.general_q_recurrent,
+                recurrent_scale,
+                Some(&weights[layer.b_hh.clone()]),
+                gh,
+            );
+            match self.cell {
+                Cell::Gru => gru_update(h, gi, gh, fast),
+                Cell::Lstm => lstm_update(
+                    h,
+                    &mut cells[index * r..(index + 1) * r],
+                    gi,
+                    gh,
+                    fast,
+                ),
+            }
+            let start = index * kr;
+            self.general_hidden_scales[index] = quantize(
+                h,
+                &mut self.general_q_hidden[start..start + kr],
+            );
+        }
+
+        let last = self.h.start + (self.layers.len() - 1) * r;
+        let (low, rest) = state.split_at_mut(self.cat.start);
+        let (cat, rest) = rest.split_at_mut(self.cat.len());
+        cat[..r].copy_from_slice(&low[last..last + r]);
+        cat[r..].copy_from_slice(&low[self.z.clone()]);
+        let cat_scale = quantize(cat, &mut self.general_q_cat);
+        let a_offset = self.a.start - self.cat.end;
+        let (_padding, after_a) = rest.split_at_mut(a_offset);
+        let (a, rest) = after_a.split_at_mut(m);
+        self.dq[self.w1.q8.expect("dynamic head matrix")].gemv(
+            isa,
+            &self.general_q_cat,
+            cat_scale,
+            Some(&weights[self.b1.clone()]),
+            a,
+        );
+        activate_slice(self.act, a);
+        if self.w_mid.q8.is_some() {
+            let mid_scale = quantize(a, &mut self.general_q_mid);
+            let mid_offset = self.a_mid.start - self.a.end;
+            let (_padding, after_mid) = rest.split_at_mut(mid_offset);
+            let mid = &mut after_mid[..m];
+            self.dq[self.w_mid.q8.expect("dynamic second head matrix")].gemv(
+                isa,
+                &self.general_q_mid,
+                mid_scale,
+                Some(&weights[self.b_mid.clone()]),
+                mid,
+            );
+            activate_slice(self.act, mid);
+            gemv_lanes(&weights[self.w2.clone()], &weights[self.b2.clone()], mid, out);
+        } else {
+            gemv_lanes(&weights[self.w2.clone()], &weights[self.b2.clone()], a, out);
+        }
     }
 
     fn step_factorized(&mut self, x: &[f32], out: &mut [f32]) {
@@ -2142,6 +2522,8 @@ mod tests {
                 .collect(),
             w1: v(2 * hidden * hidden, 0.3),
             b1: v(hidden, 0.1),
+            w_mid: Vec::new(),
+            b_mid: Vec::new(),
             w2: v(2 * hidden, 0.3),
             b2: v(2, 0.1),
         }
@@ -2960,6 +3342,8 @@ mod tests {
                 .collect(),
             w1: w.w1.clone(),
             b1: w.b1.clone(),
+            w_mid: w.w_mid.clone(),
+            b_mid: w.b_mid.clone(),
             w2: w.w2.clone(),
             b2: w.b2.clone(),
         }

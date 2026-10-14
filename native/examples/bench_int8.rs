@@ -23,10 +23,20 @@ const WARMUP: usize = 99;
 
 fn load(path: &str) -> RnnWeights {
     let bytes = std::fs::read(path).unwrap_or_else(|e| panic!("{path}: {e}"));
-    assert_eq!(&bytes[..8], b"WNNWTS01", "{path}: not a .wbin file");
     let dim = |i: usize| u32::from_le_bytes(bytes[8 + 4 * i..12 + 4 * i].try_into().unwrap()) as usize;
-    let (n_in, hidden, layers, head, n_out) = (dim(0), dim(1), dim(2), dim(3), dim(4));
-    let mut at = 28;
+    let (n_in, encoder, recurrent, layer_count, head, head_layers, n_out, mut at) =
+        if &bytes[..8] == b"WNNWTS01" {
+            let (n_in, hidden, layer_count, head, n_out) =
+                (dim(0), dim(1), dim(2), dim(3), dim(4));
+            (n_in, hidden, hidden, layer_count, head, 1, n_out, 28)
+        } else if &bytes[..8] == b"WNNWTS02" {
+            (
+                dim(0), dim(1), dim(2), dim(3), dim(4), dim(5), dim(6), 36,
+            )
+        } else {
+            panic!("{path}: unsupported .wbin version");
+        };
+    assert!(layer_count > 0 && matches!(head_layers, 1 | 2));
     let mut take = |len: usize| -> Vec<f32> {
         let out = bytes[at..at + 4 * len]
             .chunks_exact(4)
@@ -37,26 +47,39 @@ fn load(path: &str) -> RnnWeights {
     };
     let mean = take(n_in);
     let std = take(n_in);
-    let w_in = take(hidden * n_in);
-    let b_in = take(hidden);
-    let layers = (0..layers)
-        .map(|_| GruLayer {
-            w_ih: take(3 * hidden * hidden),
-            w_hh: take(3 * hidden * hidden),
-            b_ih: take(3 * hidden),
-            b_hh: take(3 * hidden),
-        })
-        .collect();
+    let w_in = take(encoder * n_in);
+    let b_in = take(encoder);
+    let mut layers = Vec::with_capacity(layer_count);
+    for index in 0..layer_count {
+        let input_width = if index == 0 { encoder } else { recurrent };
+        layers.push(GruLayer {
+            w_ih: take(3 * recurrent * input_width),
+            w_hh: take(3 * recurrent * recurrent),
+            b_ih: take(3 * recurrent),
+            b_hh: take(3 * recurrent),
+        });
+    }
+    let w1 = take(head * (recurrent + encoder));
+    let b1 = take(head);
+    let (w_mid, b_mid) = if head_layers == 2 {
+        (take(head * head), take(head))
+    } else {
+        (Vec::new(), Vec::new())
+    };
+    let w2 = take(n_out * head);
+    let b2 = take(n_out);
     let w = RnnWeights {
         mean,
         std,
         w_in,
         b_in,
         layers,
-        w1: take(head * 2 * hidden),
-        b1: take(head),
-        w2: take(n_out * head),
-        b2: take(n_out),
+        w1,
+        b1,
+        w_mid,
+        b_mid,
+        w2,
+        b2,
     };
     assert_eq!(at, bytes.len(), "{path}: trailing bytes");
     w

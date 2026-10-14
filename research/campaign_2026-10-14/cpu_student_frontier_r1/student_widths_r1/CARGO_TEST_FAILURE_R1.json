@@ -1,0 +1,25 @@
+{
+  "format": "wnn.student-independent-width-test-failure",
+  "version": 1,
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited cargo test --manifest-path native/Cargo.toml --lib --quiet",
+  "exit_code": 101,
+  "elapsed_seconds": 66.03,
+  "test_summary": {"passed": 57, "failed": 2, "ignored": 1},
+  "failed_tests": [
+    {
+      "name": "rnn_fast::tests::merged_wide_head_is_the_mean_of_its_heads",
+      "error": "independent widths currently support f32 and dynamic q8vnni precision"
+    },
+    {
+      "name": "rnn_fast::tests::q16x_wide_head_is_the_mean_of_its_heads",
+      "error": "independent widths currently support f32 and dynamic q8vnni precision"
+    }
+  ],
+  "pre_failure_source": {
+    "path": "native/src/rnn_fast.rs",
+    "sha256": "1e613ee75b73a1d90faa1b8a6e89dee6947ba9ed3354071e259f8efe9744bd5b"
+  },
+  "diagnosis": "The initial generic-path condition classified legacy concatenated wide-head models (readout width equal to an integer multiple of recurrent width) as independent M models and rejected their established optimized Q8/Q16 precision paths.",
+  "repair": "Keep the specialized wide-head path when M is a positive integer multiple of R. Route other M != R shapes through the generic path; the added M>R non-multiple Q8 regression exercises that route.",
+  "classification": "Implementation compatibility failure, not a source-data issue or resource failure."
+}

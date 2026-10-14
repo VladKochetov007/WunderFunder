@@ -14,7 +14,9 @@ pub struct GruLayer {
 #[derive(Debug)]
 pub struct RnnModel {
     n_in: usize,
+    encoder_width: usize,
     hidden: usize,
+    readout_width: usize,
     inv_std: Vec<f32>,
     mean: Vec<f32>,
     w_in: Vec<f32>,
@@ -22,6 +24,8 @@ pub struct RnnModel {
     layers: Vec<GruLayer>,
     w1: Vec<f32>,
     b1: Vec<f32>,
+    w_mid: Vec<f32>,
+    b_mid: Vec<f32>,
     w2: Vec<f32>,
     b2: Vec<f32>,
     // State and scratch, allocated once.
@@ -32,6 +36,7 @@ pub struct RnnModel {
     gh: Vec<f32>,
     cat: Vec<f32>,
     a: Vec<f32>,
+    mid: Vec<f32>,
     y: Vec<f32>,
 }
 
@@ -46,6 +51,9 @@ pub struct RnnWeights {
     pub layers: Vec<GruLayer>,
     pub w1: Vec<f32>,
     pub b1: Vec<f32>,
+    /// Optional second hidden readout matrix; empty for the historical one-hidden-layer head.
+    pub w_mid: Vec<f32>,
+    pub b_mid: Vec<f32>,
     pub w2: Vec<f32>,
     pub b2: Vec<f32>,
 }
@@ -63,10 +71,16 @@ fn expect(name: &str, got: usize, want: usize) -> Result<(), ShapeError> {
 impl RnnModel {
     pub fn new(w: RnnWeights) -> Result<Self, ShapeError> {
         let n_in = w.mean.len();
-        let hidden = w.b_in.len();
+        let encoder_width = w.b_in.len();
+        let hidden = w
+            .layers
+            .first()
+            .map(|layer| layer.b_hh.len() / 3)
+            .unwrap_or(0);
+        let readout_width = w.b1.len();
         let n_out = w.b2.len();
         expect("std", w.std.len(), n_in)?;
-        expect("inp.weight", w.w_in.len(), hidden * n_in)?;
+        expect("inp.weight", w.w_in.len(), encoder_width * n_in)?;
         if w.layers.is_empty() {
             return Err(ShapeError("at least one GRU layer required".into()));
         }
@@ -74,7 +88,7 @@ impl RnnModel {
             expect(
                 &format!("weight_ih_l{k}"),
                 l.w_ih.len(),
-                3 * hidden * hidden,
+                3 * hidden * if k == 0 { encoder_width } else { hidden },
             )?;
             expect(
                 &format!("weight_hh_l{k}"),
@@ -84,13 +98,22 @@ impl RnnModel {
             expect(&format!("bias_ih_l{k}"), l.b_ih.len(), 3 * hidden)?;
             expect(&format!("bias_hh_l{k}"), l.b_hh.len(), 3 * hidden)?;
         }
-        expect("head.0.weight", w.w1.len(), hidden * 2 * hidden)?;
-        expect("head.0.bias", w.b1.len(), hidden)?;
-        expect("head.2.weight", w.w2.len(), n_out * hidden)?;
+        expect("head.0.weight", w.w1.len(), readout_width * (hidden + encoder_width))?;
+        if w.w_mid.is_empty() != w.b_mid.is_empty() {
+            return Err(ShapeError("head.extra weight and bias must be present together".into()));
+        }
+        if !w.w_mid.is_empty() {
+            expect("head.extra.weight", w.w_mid.len(), readout_width * readout_width)?;
+            expect("head.extra.bias", w.b_mid.len(), readout_width)?;
+        }
+        expect("head.2.weight", w.w2.len(), n_out * readout_width)?;
         let layers = w.layers.len();
+        let has_mid = !w.w_mid.is_empty();
         Ok(Self {
             n_in,
+            encoder_width,
             hidden,
+            readout_width,
 
             inv_std: w.std.iter().map(|s| 1.0 / s).collect(),
             mean: w.mean,
@@ -99,21 +122,28 @@ impl RnnModel {
             layers: w.layers,
             w1: w.w1,
             b1: w.b1,
+            w_mid: w.w_mid,
+            b_mid: w.b_mid,
             w2: w.w2,
             b2: w.b2,
             h: vec![0.0; layers * hidden],
             x_norm: vec![0.0; n_in],
-            z: vec![0.0; hidden],
+            z: vec![0.0; encoder_width],
             gi: vec![0.0; 3 * hidden],
             gh: vec![0.0; 3 * hidden],
-            cat: vec![0.0; 2 * hidden],
-            a: vec![0.0; hidden],
+            cat: vec![0.0; hidden + encoder_width],
+            a: vec![0.0; readout_width],
+            mid: vec![0.0; if has_mid { readout_width } else { 0 }],
             y: vec![0.0; n_out],
         })
     }
 
     pub fn n_in(&self) -> usize {
         self.n_in
+    }
+
+    pub fn widths(&self) -> (usize, usize, usize) {
+        (self.encoder_width, self.hidden, self.readout_width)
     }
 
     pub fn reset(&mut self) {
@@ -165,7 +195,13 @@ impl RnnModel {
         self.cat[n..].copy_from_slice(&self.z);
         gemv(&self.w1, &self.b1, &self.cat, &mut self.a);
         self.a.iter_mut().for_each(|v| *v = gelu(*v));
-        gemv(&self.w2, &self.b2, &self.a, &mut self.y);
+        if self.w_mid.is_empty() {
+            gemv(&self.w2, &self.b2, &self.a, &mut self.y);
+        } else {
+            gemv(&self.w_mid, &self.b_mid, &self.a, &mut self.mid);
+            self.mid.iter_mut().for_each(|v| *v = gelu(*v));
+            gemv(&self.w2, &self.b2, &self.mid, &mut self.y);
+        }
         &self.y
     }
 }
@@ -201,6 +237,8 @@ mod tests {
                 .collect(),
             w1: v(hidden * 2 * hidden),
             b1: v(hidden),
+            w_mid: Vec::new(),
+            b_mid: Vec::new(),
             w2: v(2 * hidden),
             b2: v(2),
         }
