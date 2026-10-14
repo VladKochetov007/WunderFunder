@@ -18,6 +18,7 @@ import numpy as np
 import pyarrow.parquet as pq
 
 HOLDOUT_MODULUS = 5
+MAX_CAMPAIGN_SPLIT_BYTES = 2_000_000
 
 
 def is_holdout(seq_ix: int) -> bool:
@@ -112,7 +113,14 @@ def load_campaign_split(path: Path, root: Path) -> CampaignSplit:
     metadata. Small chain caches are also hashed on every read.
     """
     path = path.resolve()
+    size = path.stat().st_size
+    if size <= 0 or size > MAX_CAMPAIGN_SPLIT_BYTES:
+        raise ValueError(
+            f"campaign split manifest exceeds its {MAX_CAMPAIGN_SPLIT_BYTES}-byte read bound"
+        )
     raw = path.read_bytes()
+    if len(raw) != size:
+        raise ValueError("campaign split manifest changed while being read")
     manifest = json.loads(raw)
     if manifest.get("version") != 1:
         raise ValueError("unsupported campaign split version")

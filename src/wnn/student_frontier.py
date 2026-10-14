@@ -1,0 +1,369 @@
+"""Strict consumer-side contract for the CPU student architecture frontier.
+
+This module deliberately does not alter the producer's historical distillation
+cache contract. It validates one separately versioned recipe after that cache
+has passed its original validator, then copies only fit-derived normalization
+buffers from the pinned reference checkpoint.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+from typing import Any
+
+import numpy as np
+import torch
+
+from wnn.run_identity import group_identity, tensor_identity
+from wnn.splits import CampaignSplit, file_sha256
+
+CONTRACT_FORMAT = "wnn.cpu-student-frontier-consumer-contract"
+CONTRACT_VERSION = 1
+MAX_CONTRACT_BYTES = 256_000
+MAX_PROPENSITY_SIDECAR_BYTES = 64_000
+MAX_PROVENANCE_BYTES = 8_000_000
+
+
+def _read_bounded_json(path: Path, max_bytes: int, description: str) -> dict[str, Any]:
+    """Parse a small provenance JSON only after checking its file-size bound."""
+    size = path.stat().st_size
+    if size <= 0 or size > max_bytes:
+        raise ValueError(f"{description} exceeds its {max_bytes}-byte read bound")
+    raw = path.read_bytes()
+    if len(raw) != size:
+        raise ValueError(f"{description} changed while being read")
+    value = json.loads(raw)
+    if not isinstance(value, dict):
+        raise ValueError(f"{description} must be a JSON object")
+    return value
+
+
+def load_contract(path: Path) -> tuple[dict[str, Any], str]:
+    """Read a bounded consumer recipe and return its contents and exact digest."""
+    path = path.resolve(strict=True)
+    if path.stat().st_size > MAX_CONTRACT_BYTES:
+        raise ValueError("student-frontier consumer contract exceeds the 256 KB bound")
+    raw = path.read_bytes()
+    contract = json.loads(raw)
+    if (not isinstance(contract, dict)
+            or contract.get("format") != CONTRACT_FORMAT
+            or contract.get("version") != CONTRACT_VERSION):
+        raise ValueError("unsupported student-frontier consumer contract")
+    if not isinstance(contract.get("id"), str) or not contract["id"]:
+        raise ValueError("student-frontier consumer contract needs a stable id")
+    return contract, hashlib.sha256(raw).hexdigest()
+
+
+def validate_stage_args(args: Any, contract: dict[str, Any], stage_name: str) -> dict[str, Any]:
+    """Reject any trainer setting outside the selected frozen consumer stage."""
+    stages = contract.get("stages")
+    if not isinstance(stages, dict) or stage_name not in stages:
+        raise ValueError(f"student-frontier stage is not admitted: {stage_name}")
+    stage = stages[stage_name]
+    if not isinstance(stage, dict) or stage.get("kind") not in {"profile", "fit"}:
+        raise ValueError("student-frontier stage must declare profile or fit kind")
+
+    shapes = {tuple(pair) for pair in contract.get("architecture_ladder", [])}
+    shape = (int(args.hidden), int(args.layers))
+    if shape not in shapes:
+        raise ValueError(f"student-frontier shape is not admitted: {shape}")
+
+    expected: dict[str, object] = {
+        "arch": "gru",
+        "cell": "gru",
+        "enc": "linear",
+        "dropout": 0.0,
+        "train_source": "train+valid",
+        "train_seqs": 10607,
+        "valid_train_fraction": 1.0,
+        "valid_repeat": 1,
+        "valid_fold": 0,
+        "n_valid_folds": 4,
+        "full_valid": True,
+        "include_heldout_valid": False,
+        "class_balance": False,
+        "train_classes": "",
+        "epoch_samples": 0,
+        "batch": 16,
+        "chunk": 2000,
+        "update_rows": 0,
+        "detach_rows": 0,
+        "batch_order": "seeded",
+        "antithetic": False,
+        "seed": int(stage["seed"]),
+        "precision": "fp32",
+        "epochs": int(stage["epochs"]),
+        "checkpoint_policy": "fixed",
+        "checkpoint_epoch": int(stage["checkpoint_epoch"]),
+        "no_eval_during_fit": True,
+        "init": "",
+        "inherit_init_preprocessing": False,
+        "rnn_init": "default",
+        "loss": "wmse",
+        "loss_norm": "chunk",
+        "distill_cache_variant": "homogeneous",
+        "distill_cache_scale": 1.0,
+        "distill_alpha": 0.9,
+        "distill_alpha_far": None,
+        "distill_boot_h": 0,
+        "distill_reanchor": 0.0,
+        "distill_denominator": "chunk",
+        "distill_family_weight": 0.0,
+        "since_weight": 0.0,
+        "propensity": contract["propensity"]["run"],
+        "prop_cache": True,
+        "prop_power": 2.0,
+        "prop_eps": 0.0,
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "mask_weight": False,
+        "class_weight": "",
+        "aux": "",
+        "aux_next": 0.0,
+        "aux_next_k": "",
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_struct": 0.0,
+        "ema_teacher": 0.0,
+        "td_alpha": 0.0,
+        "swa_frac": 0.0,
+        "eval_ema": False,
+        "qat": "none",
+        "recurrent_rank": 0,
+        "numeric_map": "none",
+        "online_norm": False,
+        "heuristics": False,
+        "raw_only": False,
+        "research_features": "none",
+        "privileged_mode": "none",
+        "quote_cache_root": "",
+        "spread_cache_root": "",
+        "sentinel_base_width": 0,
+        "sentinel_indicators": "none",
+        "freeze": "",
+        "optim": "adamw",
+        "sched": "onecycle",
+        "lr": 1e-4,
+        "wd": 1e-2,
+        "clip": 1.0,
+        "deterministic": True,
+        "save_training_state": False,
+        "resume_state": None,
+        "max_batches": 1 if stage["kind"] == "profile" else 0,
+        "profile_steps": 1 if stage["kind"] == "profile" else 0,
+        "profile_warmup": 0 if stage["kind"] == "profile" else 5,
+        "grad_stats": True,
+    }
+    for name, value in expected.items():
+        actual = getattr(args, name, None)
+        if actual != value:
+            raise ValueError(
+                f"student-frontier {stage_name} requires {name}={value!r}, got {actual!r}"
+            )
+
+    prefix = stage.get("run_name_prefix")
+    if not isinstance(prefix, str) or not str(args.name).startswith(prefix):
+        raise ValueError("student-frontier run name is outside the frozen stage namespace")
+
+    split = contract["split"]
+    if str(args.split_manifest) != split["path"]:
+        raise ValueError("student-frontier split manifest path differs from its contract")
+    cache = contract["cache"]
+    if str(args.distill_cache_root) != cache["root"]:
+        raise ValueError("student-frontier distillation cache root differs from its contract")
+    normalization = contract["normalization_source"]
+    if contract.get("feature_width") != 211 or normalization.get("feature_width") != 211:
+        raise ValueError("student-frontier common normalization must have exactly 211 features")
+    return stage
+
+
+def validate_cache_binding(
+    root: Path,
+    contract: dict[str, Any],
+    contract_sha256: str,
+    split: CampaignSplit,
+    cache_validation: dict[str, Any],
+) -> dict[str, Any]:
+    """Bind the strict legacy cache result to the separate frontier recipe."""
+    split_contract = contract["split"]
+    if split.fold != split_contract["fold"] or split.sha256 != split_contract["sha256"]:
+        raise ValueError("student-frontier split identity differs from its contract")
+    if str(split.path) != split_contract["path"]:
+        raise ValueError("student-frontier split path differs from its contract")
+    actual_membership = {
+        "train": group_identity(split.train_groups),
+        "valid": group_identity(split.valid_groups),
+        "evaluation_valid": group_identity(split.evaluation_groups),
+    }
+    if actual_membership != split_contract["groups"]:
+        raise ValueError("student-frontier source-qualified fitting/evaluation groups changed")
+    split.assert_fit_groups(split.train_groups, split.valid_groups)
+    # Row-group numbers are source-local. A train row-group may have the same
+    # integer as a valid row-group; only compare memberships within one source.
+    if set(split.valid_groups) & set(split.evaluation_groups):
+        raise ValueError("student-frontier fitting and evaluation memberships overlap")
+
+    cache_contract = contract["cache"]
+    metadata = cache_validation["metadata"]
+    if cache_validation["metadata_sha256"] != cache_contract["metadata_sha256"]:
+        raise ValueError("student-frontier producer metadata hash differs from its contract")
+    if (metadata.get("cache_profile") != cache_contract["profile"]
+            or metadata.get("format") != cache_contract["format"]
+            or metadata.get("version") != cache_contract["version"]
+            or metadata.get("fold") != split.fold
+            or metadata.get("split_manifest_sha256") != split.sha256
+            or metadata.get("family_order") != ["strong"]
+            or metadata.get("homogeneous_family") != "strong"):
+        raise ValueError("student-frontier cache profile or fold identity changed")
+    if metadata.get("target_contract") != cache_contract["target_contract"]:
+        raise ValueError("student-frontier teacher-target arithmetic differs")
+    if metadata.get("student_contract") != cache_contract["historical_student_contract"]:
+        raise ValueError("historical producer student contract was rewritten")
+    if metadata.get("adapter_contract_sha256") != cache_contract["adapter_contract_sha256"]:
+        raise ValueError("student-frontier cache adapter ancestry differs")
+    if (metadata.get("fit_groups") != {
+            "train": list(split.train_groups), "valid": list(split.valid_groups)}
+            or metadata.get("evaluation_valid_groups") != list(split.evaluation_groups)):
+        raise ValueError("student-frontier cache fitting/evaluation memberships changed")
+
+    verified_targets = cache_validation["verified_files"]
+    for name, expected in cache_contract["targets"].items():
+        entry = metadata.get("files", {}).get(name)
+        if not isinstance(entry, dict):
+            raise ValueError(f"student-frontier cache is missing target {name}")
+        for field in ("path", "sha256", "bytes", "shape", "dtype", "row_groups_sha256"):
+            if entry.get(field) != expected.get(field):
+                raise ValueError(f"student-frontier target identity changed: {name}.{field}")
+        if verified_targets.get(name) != expected["sha256"]:
+            raise ValueError(f"student-frontier target payload was not verified: {name}")
+
+    source_records = metadata.get("sources", [])
+    expected_sources = cache_contract["teachers"]
+    if len(source_records) != len(expected_sources):
+        raise ValueError("student-frontier teacher source count changed")
+    verified_sources = []
+    for source, expected in zip(source_records, expected_sources, strict=True):
+        identity = {key: source.get(key) for key in expected}
+        if identity != expected:
+            raise ValueError(f"student-frontier teacher ancestry changed: {source.get('run')}")
+        run = str(expected["run"])
+        checkpoint = root / "artifacts/runs" / run / f"model_ep{expected['epoch']}.pt"
+        provenance = root / "artifacts/runs" / run / "provenance.json"
+        if (file_sha256(checkpoint) != expected["checkpoint_sha256"]
+                or file_sha256(provenance) != expected["provenance_sha256"]):
+            raise ValueError(f"student-frontier teacher artifact changed: {run}")
+        verified_sources.append(expected)
+
+    propensity = contract["propensity"]
+    propensity_model = root / "artifacts/runs" / propensity["run"] / "model.pt"
+    propensity_provenance = root / "artifacts/runs" / propensity["run"] / "provenance.json"
+    if (file_sha256(propensity_model) != propensity["checkpoint_sha256"]
+            or file_sha256(propensity_provenance) != propensity["provenance_sha256"]):
+        raise ValueError("student-frontier propensity model or provenance changed")
+    verified_propensity_caches = {}
+    for split_name, expected in propensity["caches"].items():
+        cache_path = root / expected["path"]
+        sidecar_path = root / expected["sidecar_path"]
+        sidecar = _read_bounded_json(
+            sidecar_path, MAX_PROPENSITY_SIDECAR_BYTES, f"{split_name} propensity sidecar"
+        )
+        if (file_sha256(cache_path) != expected["sha256"]
+                or cache_path.stat().st_size != expected["bytes"]
+                or file_sha256(sidecar_path) != expected["sidecar_sha256"]
+                or sidecar.get("model_sha256") != propensity["checkpoint_sha256"]
+                or sidecar.get("split") != split_name):
+            raise ValueError(f"student-frontier propensity cache changed: {split_name}")
+        verified_propensity_caches[split_name] = expected
+
+    return {
+        "contract_id": contract["id"],
+        "contract_sha256": contract_sha256,
+        "stage": None,
+        "split_sha256": split.sha256,
+        "source_qualified_group_identities": actual_membership,
+        "cache_metadata_sha256": cache_validation["metadata_sha256"],
+        "verified_target_files": verified_targets,
+        "target_formula": cache_contract["target_contract"]["formula"],
+        "teacher_sources": verified_sources,
+        "propensity": {
+            "run": propensity["run"],
+            "checkpoint_sha256": propensity["checkpoint_sha256"],
+            "provenance_sha256": propensity["provenance_sha256"],
+            "cache_files": verified_propensity_caches,
+            "power": propensity["power"],
+            "valid_true_mask_eps": propensity["valid_true_mask_eps"],
+        },
+        "target_semantics": contract["target_semantics"],
+    }
+
+
+def load_normalization_buffers(
+    root: Path,
+    contract: dict[str, Any],
+    split: CampaignSplit,
+) -> tuple[torch.Tensor, torch.Tensor, dict[str, Any]]:
+    """Load only mean/std from the pinned H256 reference; never load its weights."""
+    source = contract["normalization_source"]
+    run = source["run"]
+    checkpoint_path = root / "artifacts/runs" / run / source["checkpoint_file"]
+    provenance_path = root / "artifacts/runs" / run / "provenance.json"
+    if (file_sha256(checkpoint_path) != source["checkpoint_sha256"]
+            or file_sha256(provenance_path) != source["provenance_sha256"]):
+        raise ValueError("student-frontier normalization source changed")
+    provenance = _read_bounded_json(
+        provenance_path, MAX_PROVENANCE_BYTES, "normalization provenance"
+    )
+    if (provenance.get("split_manifest_sha256") != split.sha256
+            or provenance.get("fit_membership_identity") != source["fit_membership_identity"]
+            or provenance.get("normalization_identity") != source["normalization_identity"]):
+        raise ValueError("student-frontier normalization provenance changed")
+    fit_groups = provenance.get("fit_row_groups", {})
+    if (set(fit_groups.get("train", [])) != set(split.train_groups)
+            or set(fit_groups.get("valid", [])) != set(split.valid_groups)
+            or set(provenance.get("evaluation_row_groups", [])) != set(split.evaluation_groups)):
+        raise ValueError("student-frontier normalization source used different fold membership")
+
+    checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    if checkpoint.get("epoch") != source["epoch"]:
+        raise ValueError("student-frontier normalization source checkpoint epoch changed")
+    state = checkpoint.get("model")
+    if not isinstance(state, dict) or "mean" not in state or "std" not in state:
+        raise ValueError("student-frontier normalization source lacks mean/std buffers")
+    mean = state["mean"].detach().to(dtype=torch.float32, device="cpu").clone()
+    std = state["std"].detach().to(dtype=torch.float32, device="cpu").clone()
+    del state, checkpoint
+    identity = {
+        "mean": tensor_identity(mean),
+        "std": tensor_identity(std),
+    }
+    if (mean.shape != (211,) or std.shape != (211,)
+            or identity != source["normalization_identity"]):
+        raise ValueError("student-frontier H256 normalization buffers differ from the frozen identity")
+    return mean, std, {
+        "run": run,
+        "epoch": source["epoch"],
+        "checkpoint_file": source["checkpoint_file"],
+        "checkpoint_sha256": source["checkpoint_sha256"],
+        "provenance_sha256": source["provenance_sha256"],
+        "normalization_identity": identity,
+        "loaded_fields_only": ["mean", "std"],
+        "learned_weights_loaded": False,
+    }
+
+
+def install_normalization(
+    model: torch.nn.Module,
+    mean: torch.Tensor,
+    std: torch.Tensor,
+) -> None:
+    """Copy the common FP32 normalization buffers to a new student model."""
+    if mean.shape != (211,) or std.shape != (211,):
+        raise ValueError("student-frontier normalization buffers must each have width 211")
+    if not torch.isfinite(mean).all() or not torch.isfinite(std).all() or torch.any(std <= 0):
+        raise ValueError("student-frontier normalization buffers must be finite and positive")
+    model.mean.copy_(mean.to(device=model.mean.device, dtype=model.mean.dtype))
+    model.std.copy_(std.to(device=model.std.device, dtype=model.std.dtype))
