@@ -1,0 +1,9 @@
+# R5 draft packet verification
+
+[Root integrity receipt](ROOT_DRAFT_INTEGRITY_R5.json) verifies all83 archive files, the one fit specification and its82 code hashes against both packaged bytes and current source. The six scientific/worker fields—argv, environment, inputs, limits, artifacts and kind—match the old R4 fit after only run-name normalization. The process ceiling is10,000seconds. No export worker is packaged.
+
+[Actual bootstrap fixture](OFFLINE_BOOTSTRAP_TEST_CURRENT_DRAFT_R5.xml) passed using an extracted archive and fake small mounted files, with process creation intercepted before execution. This checks dispatch/mount cleanup, not actual cloud data reads, a fit or available quota. The original R2 successful T4 profile inventory is verified by the reused validator during preparation. [Source](SOURCE_BINDING_R5.json), [profile binding](PROFILE_REUSE_BINDING_R5.json), [entrypoint binding](ENTRYPOINT_BINDING_R5.json), [builder stdout](PREPARATION_DRAFT_R5.json), and [bundle manifest](bundle_f3_teacher_seed3_r5/bundle-manifest.json) pin this draft.
+
+The [first draft rebuild failure](DRAFT_REBUILD_FAILURE_R5.json) is preserved. The bundle builder correctly refused an existing output directory after source formatting. The earlier archive and metadata remain under `draft_bundle_before_format_r5/`; the first bootstrap test exercised that older draft. Root moved it aside, built the current draft, reran the fixture, and checked all source hashes. No provider action resulted from either draft.
+
+The [quota record](KAGGLE_QUOTA_GUARD_R5.json) is intentionally stale and blocks dispatch. Final sealing requires a fresh terminal-QAT-R4 quota observation, independent review and sufficient20,000GPU-second process allowance plus1,800 reserve. The draft artifact is not a release. Root owns full checkpoint collection and all three pending export kinds before constructing any F3 teacher cache.

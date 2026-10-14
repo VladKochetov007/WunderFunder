@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-14T01:23:20.058872+00:00",
+  "stage": "offline draft rebuild after formatting",
+  "failure": "build_bundle refuses existing destination; FileExistsError before overwriting frozen archive",
+  "consequence": "the subsequent offline bootstrap test exercised the first draft, not newly formatted source",
+  "repair": "preserve first archive under draft_bundle_before_format_r5, build successor canonical bundle and rerun actual bootstrap plus fullcode hashes",
+  "provider_action": false
+}
