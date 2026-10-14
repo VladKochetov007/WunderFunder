@@ -5,7 +5,7 @@ import copy
 import pytest
 import torch
 
-from wnn.min_gru import MinGRULayer
+from wnn.min_gru import MinGRULayer, MinGRUModel
 
 
 def serial(layer: MinGRULayer, inputs: torch.Tensor, initial: torch.Tensor) -> torch.Tensor:
@@ -94,3 +94,51 @@ def test_empty_chunk_preserves_state_and_state_shape_is_checked() -> None:
     assert hidden is initial
     with pytest.raises(ValueError, match="state"):
         layer(torch.ones(2, 3, 3), torch.ones(2, 4))
+
+
+def test_full_model_matches_row_callback_and_carries_every_layer() -> None:
+    torch.manual_seed(819)
+    model = MinGRUModel(
+        211, layers=3, encoder_width=12, recurrent_width=8, readout_width=6
+    ).double()
+    with torch.no_grad():
+        model.mean.copy_(torch.randn(211, dtype=torch.float64))
+        model.std.copy_(torch.rand(211, dtype=torch.float64) + 0.5)
+    inputs = torch.randn(2, 101, 211, dtype=torch.float64)
+    initial = torch.randn(3, 2, 8, dtype=torch.float64)
+    with torch.inference_mode():
+        full, final = model(inputs, initial)
+        state = initial
+        outputs = []
+        for row in inputs.unbind(dim=1):
+            projection = torch.nn.functional.gelu(model.inp((row - model.mean) / model.std))
+            value = projection
+            next_states = []
+            for index, cell in enumerate(model.cells):
+                value = cell.step(value, state[index])
+                next_states.append(value)
+            state = torch.stack(next_states)
+            outputs.append(model.head(torch.cat((value, projection), dim=-1)))
+        torch.testing.assert_close(full, torch.stack(outputs, dim=1), rtol=1e-12, atol=1e-12)
+        torch.testing.assert_close(final, state, rtol=1e-12, atol=1e-12)
+        first, carry = model(inputs[:, :99], initial)
+        last, chunk_final = model(inputs[:, 99:], carry)
+        torch.testing.assert_close(full, torch.cat((first, last), dim=1), rtol=1e-12, atol=1e-12)
+        torch.testing.assert_close(final, chunk_final, rtol=1e-12, atol=1e-12)
+        reset, _ = model(inputs)
+        replay, _ = model(inputs, torch.zeros_like(initial))
+        assert torch.equal(reset, replay)
+
+
+def test_full_model_has_finite_trainable_gradients_and_expected_matrix_count() -> None:
+    torch.manual_seed(651)
+    model = MinGRUModel(211, hidden=8, layers=2)
+    inputs = torch.randn(2, 17, 211)
+    prediction, _ = model(inputs)
+    prediction.square().sum().backward()
+    assert all(
+        parameter.grad is not None and torch.isfinite(parameter.grad).all()
+        for parameter in model.parameters()
+    )
+    matrix_count = sum(parameter.numel() for parameter in model.parameters() if parameter.ndim == 2)
+    assert matrix_count == (2 * 2 + 2) * 8**2 + 213 * 8

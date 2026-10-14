@@ -99,3 +99,60 @@ class MinGRULayer(nn.Module):
         )
         outputs = affine_prefix_scan(retention, addition)
         return outputs, outputs[:, -1]
+
+
+class MinGRUModel(nn.Module):
+    """Preserve the GRU student's normalized GELU encoder and skip readout.
+
+    Inputs are already-engineered causal features, not raw competition rows.
+    Returned state is [layers, batch, recurrent_width], and None resets every
+    layer. This separate model is not registered in the production trainer.
+    """
+
+    def __init__(
+        self,
+        n_in: int,
+        hidden: int = 256,
+        layers: int = 2,
+        n_out: int = 2,
+        encoder_width: int | None = None,
+        recurrent_width: int | None = None,
+        readout_width: int | None = None,
+    ) -> None:
+        super().__init__()
+        encoder = hidden if encoder_width is None else encoder_width
+        recurrent = hidden if recurrent_width is None else recurrent_width
+        readout = hidden if readout_width is None else readout_width
+        if min(n_in, layers, n_out, encoder, recurrent, readout) <= 0:
+            raise ValueError("all model dimensions must be positive")
+        self.recurrent_width = recurrent
+        self.register_buffer("mean", torch.zeros(n_in))
+        self.register_buffer("std", torch.ones(n_in))
+        self.inp = nn.Linear(n_in, encoder)
+        self.cells = nn.ModuleList(
+            MinGRULayer(encoder if index == 0 else recurrent, recurrent) for index in range(layers)
+        )
+        self.head = nn.Sequential(
+            nn.Linear(recurrent + encoder, readout), nn.GELU(), nn.Linear(readout, n_out)
+        )
+
+    def forward(
+        self, inputs: torch.Tensor, hidden: torch.Tensor | None = None
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Process complete or partial sequences with caller-owned state."""
+        if inputs.ndim != 3 or inputs.shape[-1] != self.mean.numel():
+            raise ValueError("inputs must have shape [batch, time, n_in]")
+        if hidden is not None and hidden.shape != (
+            len(self.cells),
+            inputs.shape[0],
+            self.recurrent_width,
+        ):
+            raise ValueError("model state must have shape [layers, batch, recurrent_width]")
+        projection = torch.nn.functional.gelu(self.inp((inputs - self.mean) / self.std))
+        sequence = projection
+        states = []
+        for index, cell in enumerate(self.cells):
+            sequence, state = cell(sequence, None if hidden is None else hidden[index])
+            states.append(state)
+        predictions = self.head(torch.cat((sequence, projection), dim=-1))
+        return predictions, torch.stack(states)
