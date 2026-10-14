@@ -266,6 +266,8 @@ def replay(model: Any, sequence: int, features: np.ndarray, need: np.ndarray) ->
 def run_worker(args: argparse.Namespace) -> dict[str, Any]:
     if args.hidden is None or args.layers is None or args.precision is None:
         raise ValueError("worker requires --hidden, --layers and --precision")
+    if args.source_commit != git_head(args.main_root):
+        raise ValueError("worker source-commit argument does not match its checked-out worktree")
     paths = standard_paths(args.main_root, args.policy_worktree)
     provenance = verify_inputs(paths)
     sys.path.insert(0, str(args.main_root))
@@ -295,11 +297,14 @@ def run_worker(args: argparse.Namespace) -> dict[str, Any]:
     if len(model.weight_bytes) != 1 or len(model.storage_bytes) != 1:
         raise AssertionError("native model storage report has an unexpected member count")
     storage_bytes = dict(model.storage_bytes[0])
-    q8_weight_bytes = int(model.q8_weight_bytes[0])
-    if args.precision == "q8vnni" and q8_weight_bytes <= 0:
-        raise AssertionError("Q8 policy assertion passed but no Q8 matrix payload is resident")
-    if args.precision == "f32" and q8_weight_bytes != 0:
-        raise AssertionError("FP32 control unexpectedly reports packed Q8 weights")
+    native_weight_bytes = int(model.weight_bytes[0])
+    if native_weight_bytes <= 0 or storage_bytes.get("total_streamed_weights", 0) <= 0:
+        raise AssertionError("native model reports no resident streamed weights")
+    if args.precision == "q8vnni":
+        if storage_bytes.get("shared_backbone_step_payload", 0) <= 0:
+            raise AssertionError("selected dynamic-Q8 policy has no backbone payload")
+        if storage_bytes.get("independent_head_step_payload", 0) <= 0:
+            raise AssertionError("selected dynamic-Q8 policy has no readout payload")
 
     # Match the shipped Python callback's lifetime: native construction copies the
     # supplied arrays, after which the temporary NumPy weight dictionaries are released.
@@ -366,8 +371,14 @@ def run_worker(args: argparse.Namespace) -> dict[str, Any]:
         "complete_prediction_sha256": prediction_sha256,
         "post_reset_prediction_sha256": reset_prediction_sha256,
         "resident_model_storage_bytes": storage_bytes,
-        "native_weight_bytes": int(model.weight_bytes[0]),
-        "native_q8_packed_weight_bytes": q8_weight_bytes,
+        "native_weight_bytes": native_weight_bytes,
+        "native_q8_packed_weight_bytes": None,
+        "native_q8_packed_weight_bytes_note": (
+            "The sealed Python getter q8_weight_bytes counts only static PackedQ8 matrices; "
+            "q8vnni uses dynamic DynQ8 matrices. Their storage is included in native_weight_bytes "
+            "and total_streamed_weights, while shared_backbone_step_payload and "
+            "independent_head_step_payload expose logical dynamic-Q8 step payloads."
+        ),
         "process_max_rss_kib": int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss),
         "cpu": {
             "platform": platform.platform(),
