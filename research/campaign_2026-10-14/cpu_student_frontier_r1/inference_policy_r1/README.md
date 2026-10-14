@@ -12,3 +12,7 @@ This folder records a fixed inference-engine comparison for the unchanged origin
 - export_xteam_probe_data.py extracts the original four weight tensors and complete raw-feature row groups into bounded local probe inputs; it does not modify source artifacts or labels.
 
 The task freezes all model and data semantics. A bitwise-equality statement applies only if the complete callback prediction arrays match exactly; otherwise the affected policy is a numerical variant and is labeled accordingly. All supplied validation rows remain exposed through prior campaign work. Public transfer and competition runtime remain unmeasured for these policies.
+# Main workspace artifact binding
+
+[MAIN_ARTIFACT_BINDING_R1.json](MAIN_ARTIFACT_BINDING_R1.json) records immutable physical hardlinks of the sealed rebuilt-A/B/C/D ZIPs into this same relative location in the main repository, with every package SHA256 rechecked. The original A stays at its original artifact path. This makes the packages available independently of the actor checkout without rewriting or duplicating weights. Independent release review remains separate from this file-transfer receipt.
+

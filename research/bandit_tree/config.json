@@ -5,7 +5,7 @@
     "title": "Wunder Connectome Challenge2 research",
     "objective_mode": "competition",
     "metric_id": "global_wp_clip2_v1",
-    "public_best": 0.6671,
+    "public_best": 0.6682,
     "public_milestone": 0.7,
     "public_milestone_status": "unmet",
     "evaluation_exposure": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
@@ -47,7 +47,7 @@
       "changes_root_public_best": false
     },
     "active_campaign": "research/campaign_2026-10-14/cpu_student_frontier_r1",
-    "public_best_status": "User-reported October12 H390s3/s4/Z4 half Q8 candidateC 1ya21vpd, 36m36s; not independently browser refreshed.",
+    "public_best_status": "Official-team best pair_ftt2=0.6682 reported by user, not independently queried; source research/campaign_2026-10-13/team_models_r1/PUBLIC_LB_UPDATE_20261013_R2.md. Public feedback confirms transfer, not primary selection.",
     "interim_public_milestone": 0.672,
     "private_mean_cv_sacrifice_max": 0.001
   },
@@ -5387,6 +5387,114 @@
         "update_rule": "Measured matched endpoint evidence only"
       },
       "cost_h": null
+    },
+    {
+      "id": "arm:cpu-policy-frontier-20261014",
+      "parent_id": "family:deployment",
+      "title": "Fixed xteam_h4 native CPU policy comparison",
+      "hypothesis_ids": [
+        "H-CPU-POLICY-20261014"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/REPORT.md",
+        "research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/PACKAGE_MANIFEST_R1.json"
+      ],
+      "status": "local_parity_pass_target_runtime_pending",
+      "next_test": "User uploads A-B-C-D-A asynchronously; actor profiles all eight shapes locally using fixed serving policy. Intel short timings favor original A; no AMD winner.",
+      "related_nodes": [
+        "arm:cpu-exact-q8-serving-20261012"
+      ],
+      "kind": "arm",
+      "numeric_prior": null,
+      "cost_h": null,
+      "claim_scope": "Claim-specific evidence only; existing folds exposed. No quality or public forecast from smoke tests or parity.",
+      "allocation": {
+        "eligible": true,
+        "priority": 5,
+        "launch_authorized": false,
+        "reason": "Root owns the authorized workflow; each exact fit requires a frozen recipe and live resource admission. CPU uploads do not gate other arms."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "unmeasured",
+        "reviewed": false
+      }
+    },
+    {
+      "id": "arm:student-capacity-frontier-20261014",
+      "parent_id": "family:teacher",
+      "title": "Matched depth width and precision distilled-student frontier",
+      "hypothesis_ids": [
+        "H-STUDENT-LADDER-20261014"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-14/cpu_student_frontier_r1/PLAN.md",
+        "research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/README.md"
+      ],
+      "status": "actual_data_smoke_complete_sampler_source_correction_required",
+      "next_test": "Profile source-qualified B16/C2000 acrosseight shapes; fit one matched FP32 epoch, same clean F0 teacher, normalization and sample order; grade terminal checkpoints and allocate seed/fold repetition.",
+      "related_nodes": [
+        "arm:cpu-policy-frontier-20261014"
+      ],
+      "kind": "arm",
+      "numeric_prior": null,
+      "cost_h": null,
+      "claim_scope": "Claim-specific evidence only; existing folds exposed. No quality or public forecast from smoke tests or parity.",
+      "allocation": {
+        "eligible": true,
+        "priority": 5,
+        "launch_authorized": false,
+        "reason": "Root owns the authorized workflow; each exact fit requires a frozen recipe and live resource admission. CPU uploads do not gate other arms."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "unmeasured",
+        "reviewed": false
+      }
+    },
+    {
+      "id": "arm:causal-state-init-20261014",
+      "parent_id": "family:temporal",
+      "title": "Learned constant first-row and prefix GRU states",
+      "hypothesis_ids": [
+        "H-STATE-INIT-20261014"
+      ],
+      "experiment_ids": [
+        "E-STATE-INIT-IMPLEMENTATION-20261014-R1",
+        "E-STATE-DECAY-20261014-R1"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-14/cpu_student_frontier_r1/INITIALIZER_IMPLEMENTATION_R1.md",
+        "research/campaign_2026-10-14/cpu_student_frontier_r1/STATE_DECAY_DIAGNOSTIC_R1.md"
+      ],
+      "status": "causal_implementation_pass_single_sequence_mechanism_observation",
+      "next_test": "Matched joint/initializer-only fits; official grade and position bins; retain all arms, no quality selection from random perturbation.",
+      "related_nodes": [
+        "arm:student-capacity-frontier-20261014"
+      ],
+      "kind": "arm",
+      "numeric_prior": null,
+      "cost_h": null,
+      "claim_scope": "Claim-specific evidence only; existing folds exposed. No quality or public forecast from smoke tests or parity.",
+      "allocation": {
+        "eligible": true,
+        "priority": 5,
+        "launch_authorized": false,
+        "reason": "Root owns the authorized workflow; each exact fit requires a frozen recipe and live resource admission. CPU uploads do not gate other arms."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "unmeasured",
+        "reviewed": false
+      }
     }
   ],
   "links": [],
