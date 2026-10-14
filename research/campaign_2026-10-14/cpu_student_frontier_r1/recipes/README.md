@@ -160,3 +160,5 @@ RECEIPT="$MAIN/research/campaign_2026-10-14/cpu_student_frontier_r1/results/stud
 ```
 
 The root admission packet identifies the remaining-plan order and resource envelopes. Require a fresh root memory/GPU admission before each next-shape invocation; a successful after-grade file-cache handoff prepares memory headroom but does not authorize or start that next fit.
+
+Root [H256×1 R5 admission](ROOT_H256L1_R5_SEQUENCE_ADMISSION_R1.json) accounts for the active fit, two-gigabyte inference support and400MBsequence controller. The one-shape sequence reuses the healthy fit and proceeds through matching profile/export/grade gates; [independent review](../../../unified/reviews/CPU_STUDENT_FRONTIER_R5_CACHE_HANDOFF_REVIEW_20261014_R1.md) records reclaim-target and in-progress self-hash caveats. No next shape is launched by that plan.
