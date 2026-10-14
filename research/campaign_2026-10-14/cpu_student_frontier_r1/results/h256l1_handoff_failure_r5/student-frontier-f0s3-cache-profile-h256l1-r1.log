@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/scripts/reclaim_student_frontier_cache.py", line 1007, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/scripts/reclaim_student_frontier_cache.py", line 968, in main
+    receipt = run_handoff(
+        root=args.root,
+    ...<9 lines>...
+        cgroup_root=args.cgroup_root,
+    )
+  File "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/scripts/reclaim_student_frontier_cache.py", line 882, in run_handoff
+    resources = reclaim_cache(
+        runtime=runtime,
+    ...<3 lines>...
+        next_reserve_bytes=next_reserve,
+    )
+  File "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/scripts/reclaim_student_frontier_cache.py", line 755, in reclaim_cache
+    parent = systemd_parent_properties()
+  File "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/scripts/reclaim_student_frontier_cache.py", line 602, in systemd_parent_properties
+    result = subprocess.run(
+        [
+    ...<9 lines>...
+        timeout=5,
+    )
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['systemctl', '--user', 'show', 'wnn-campaign.slice', '--property=CPUQuotaPerSecUSec,MemoryHigh,MemoryMax,MemorySwapMax,ControlGroup']' returned non-zero exit status 1.

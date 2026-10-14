@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-14T02:53:09.794482+00:00",
+  "failure_phase": "after-profile cache handoff; before reclaim",
+  "source": "bandit_resources._run_worker child whitelist excludes XDG_RUNTIME_DIR and DBUS_SESSION_BUS_ADDRESS",
+  "sanitized": {
+    "returncode": 1,
+    "stderr": "Failed to connect to user scope bus via local transport: $DBUS_SESSION_BUS_ADDRESS and $XDG_RUNTIME_DIR not defined (consider using --machine=<user>@.host --user to connect to bus of other user)\n"
+  },
+  "explicit_same_user_bus": {
+    "returncode": 0,
+    "stdout": "ControlGroup=/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice\nCPUQuotaPerSecUSec=5s\nMemoryHigh=18000000000\nMemoryMax=20000000000\nMemorySwapMax=0\n",
+    "stderr": ""
+  },
+  "runtime_dir": "/run/user/1000",
+  "uid": 1000,
+  "no_reclaim_in_probe": true,
+  "science_steps_unchanged": true
+}

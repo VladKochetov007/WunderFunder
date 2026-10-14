@@ -1,0 +1,3 @@
+# R5 first handoff failure
+
+[Manifest](MANIFEST.json) binds the terminal failed [worker attempt](student-frontier-f0s3-cache-profile-h256l1-r1.json), [log](student-frontier-f0s3-cache-profile-h256l1-r1.log), [handoff receipt](student_frontier_f0s3_h256_l1_r5_after_profile_cache_handoff.json), and [stopped sequence](student_frontier_f0s3_h256_l1_r5_sequence.json). The failure was user-bus environment lookup before file-cache reclaim. H256×1 fit and matched B16 profile passed; no prediction export ran in this failed sequence. The command-only R6 successor retains these receipts and resumes completed science stages.

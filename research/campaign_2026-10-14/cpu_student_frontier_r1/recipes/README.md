@@ -162,3 +162,21 @@ RECEIPT="$MAIN/research/campaign_2026-10-14/cpu_student_frontier_r1/results/stud
 The root admission packet identifies the remaining-plan order and resource envelopes. Require a fresh root memory/GPU admission before each next-shape invocation; a successful after-grade file-cache handoff prepares memory headroom but does not authorize or start that next fit.
 
 Root [H256×1 R5 admission](ROOT_H256L1_R5_SEQUENCE_ADMISSION_R1.json) accounts for the active fit, two-gigabyte inference support and400MBsequence controller. The one-shape sequence reuses the healthy fit and proceeds through matching profile/export/grade gates; [independent review](../../../unified/reviews/CPU_STUDENT_FRONTIER_R5_CACHE_HANDOFF_REVIEW_20261014_R1.md) records reclaim-target and in-progress self-hash caveats. No next shape is launched by that plan.
+
+## R6 user-bus environment repair
+
+The first R5 after-profile handoff stopped before reclaim: the controller's child environment strips the user-bus variables required by `systemctl --user`. The [bounded actual-environment diagnosis](HANDOFF_USER_BUS_DIAGNOSIS_R1.json) reproduces the error and verifies the same-user `/run/user/1000` bus fix. [Exact-delta preflight](R6_COMMAND_REPAIR_PREFLIGHT_R1.json) checks all seven successors: the original eight science steps are unchanged, and the two handoffs gain only explicit user-bus variables, fresh attempt IDs and fresh receipt paths. Helper source, limits, locks, predecessor contracts and scientific artifacts remain pinned. Failed R5 receipts remain historical evidence.
+
+| Shape | Original handoff plan | Command-repaired successor |
+|---|---|---|
+| H256L1 | [R5](CPU_STUDENT_FRONTIER_F0_S3_H256L1_R5_SEQUENCE.json) | [R6](CPU_STUDENT_FRONTIER_F0_S3_H256L1_R6_SEQUENCE.json) |
+| H192L2 | [R5](CPU_STUDENT_FRONTIER_F0_S3_H192L2_R5_SEQUENCE.json) | [R6](CPU_STUDENT_FRONTIER_F0_S3_H192L2_R6_SEQUENCE.json) |
+| H512L1 | [R5](CPU_STUDENT_FRONTIER_F0_S3_H512L1_R5_SEQUENCE.json) | [R6](CPU_STUDENT_FRONTIER_F0_S3_H512L1_R6_SEQUENCE.json) |
+| H384L2 | [R5](CPU_STUDENT_FRONTIER_F0_S3_H384L2_R5_SEQUENCE.json) | [R6](CPU_STUDENT_FRONTIER_F0_S3_H384L2_R6_SEQUENCE.json) |
+| H640L1 | [R5](CPU_STUDENT_FRONTIER_F0_S3_H640L1_R5_SEQUENCE.json) | [R6](CPU_STUDENT_FRONTIER_F0_S3_H640L1_R6_SEQUENCE.json) |
+| H512L2 | [R5](CPU_STUDENT_FRONTIER_F0_S3_H512L2_R5_SEQUENCE.json) | [R6](CPU_STUDENT_FRONTIER_F0_S3_H512L2_R6_SEQUENCE.json) |
+| H448L3 | [R5](CPU_STUDENT_FRONTIER_F0_S3_H448L3_R5_SEQUENCE.json) | [R6](CPU_STUDENT_FRONTIER_F0_S3_H448L3_R6_SEQUENCE.json) |
+
+Each successor is a single-shape fit→profile→export→grade plan; root still admits the next shape from fresh memory and previous terminal evidence. A completed cache handoff prepares capacity and does not launch another fit.
+
+The [H256×1 R6 root admission](ROOT_H256L1_R6_SEQUENCE_ADMISSION_R1.json) resumes completed fit/profile stages after independent exact-delta review. The inference actor holds heavy work through full export; projected post-handoff export plus controller/source support is15.6GB within17GB. No limits change.
