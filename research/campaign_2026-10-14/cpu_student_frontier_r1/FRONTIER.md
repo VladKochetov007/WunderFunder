@@ -2,14 +2,14 @@
 
 Entry: 2026-10-13T23:43:28Z (October14 Europe/Kyiv). Root owns completion under [contract](CONTRACT.json).
 
-## Current position — 2026-10-14 00:42 UTC
+## Current position — 2026-10-14 01:12 UTC
 
-- The complete plan is saved. [A–B–C–D–A delivery](../../../submissions/10-14-cpu-policy-r1/README.md) is checked and independently reviewed; user uploads are asynchronous. All original weights and coefficients stay fixed. No target-host result has arrived.
-- [All eight shapes](architecture_profile_r1/REPORT.md) have FP32/Q8 full-callback cost proxies with exact reset replay. One local Intel host, synthetic weights, no quality or competition capacity claim. At similar parameter counts, depth/width changes measured cost materially; retain both alternatives for fitting.
-- [Packed W4](packed_w4_screen_r1/README.md) is exact on the tested matrices but vectorized decode remains1.3–2.3× slower than expanded VNNI here. The scalar lookup is not an optimized T-MAC reproduction. No W4 serving advantage is established.
-- The first H192×2 B1 finite-update smoke passed, with the source-order claim corrected below. The proposed all-shape B16 launch was withheld before execution because larger activation bounds could exceed5GB observed VRAM. Source-qualified H640×1 and H448×3 B1 profiles are being sealed to choose a common safe fitting batch. No new eight-shape fit or quality winner exists yet.
-- The causal initializer wrapper and ten implementation checks pass. A separate fitting-sequence diagnostic finds perturbation effects through several thousand rows, so warmup does not universally erase initial-state information. Native initialization support is now an independent implementation lane; trained quality remains unknown.
-- At00:38UTC, repaired private Kaggle R3 profile remainsRUNNING and the TPU bridge remainsQUEUED. Terminal collection is prepared. Provider status alone is not evidence of an optimizer update.
+- The complete plan is saved. [A–B–C–D–A delivery](../../../submissions/10-14-cpu-policy-r1/README.md) is checked and independently reviewed; user uploads are asynchronous. Original weights and coefficients are fixed. No target-host result has arrived.
+- [All eight shapes](architecture_profile_r1/REPORT.md) have FP32/Q8 complete-callback cost proxies on one local Intel host with synthetic weights. The [packed-W4 matrix screen](packed_w4_screen_r1/README.md) did not find a local speed advantage over expanded VNNI. Neither establishes competition capacity or model quality.
+- [All eight B8/C2000 GPU profiles](profiles/README.md) completed three finite FP32 updates and one full-sequence causal export each. Successful attemptR2 used3.152GB host peak and1.700GB observed VRAM. A root CLI argument error inR1 exited before CUDA updates and remains preserved. Independent resource review passed. The [strict real-trainer recipe](recipes/README.md) is sealed for the actual CLI profile, then the matched one-epoch14,920-update F0 seed3 fits; no fitted architecture grade exists yet.
+- [Native state initialization](../cpu_state_initializer_native_r1/README.md) now supports zero, learned-constant payloads, first-row MLP and prefix residual before99, with reset and Python3.11 checks. The actual H256×2 20k-row fixture has maximum exact-native/Python prediction difference1.91e-6; these are untrained deterministic initializer payloads, not quality gains. One fitting-sequence perturbation diagnostic motivates continued fitting of this arm.
+- KaggleR3 cache copying succeeded but a stale regular-file/symlink predicate prevented candidate updates. The independently checked [R4 repair](kaggle_profile_r4/README.md) is privateversion1, providerRUNNING at01:09UTC. TPU remainsQUEUED. Remaining GPU quota snapshot31,740.567seconds; provider status is not fit evidence.
+- Root owns trainer admission and complete fits→predictions→grading. Training delivery prepares the sequential cohort; inference develops independent encoder/recurrent/head widths in a separate worktree. Public CPU upload delays do not block either line or theory work.
 
 ## Entry and historical updates
 
