@@ -48,4 +48,4 @@ CONTRACT="$WT/research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/PROF
   --profile-batch-size 16 --shape-indices 0 1 2 3 4 5 6 7 --execute
 ```
 
-The [profile contract](PROFILE_B16_LADDER_R1_CONTRACT.json) SHA256 is `c6cc21c25ffec2996ed6a42368cdcd5751d0223060df0e799e1e7b87be4bf515`; the source-qualified batch harness SHA256 is `0bb78a9a3ec449d214d3ce293f051ae7e4528f8dfe065901ff27cbf02e0a0d5b`. A source change requires a regenerated preflight before admission.
+The [profile contract](PROFILE_B16_LADDER_R1_CONTRACT.json) SHA256 is `e93d89b31069cfa2a17f4e93b6b95640264e70e4cdad8567bbc853f62caf140e`; the source-qualified batch harness SHA256 is `0bb78a9a3ec449d214d3ce293f051ae7e4528f8dfe065901ff27cbf02e0a0d5b`. A source change requires a regenerated preflight before admission.

@@ -42,4 +42,4 @@ CONTRACT="$WT/research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/PROF
   --profile-batch-size 1 --shape-indices 5 7 --execute
 ```
 
-The profile contract SHA256 is `f8175f31f4747bcc78b8ad01f01ba904987ea056f8188fd9f7bb1b47c141304b`; the shared batch-profile source SHA256 is `0bb78a9a3ec449d214d3ce293f051ae7e4528f8dfe065901ff27cbf02e0a0d5b`. Any source or contract change requires a new preflight before launch.
+The profile contract SHA256 is `93c72c250dcb2427b83210395ab4aa70d9c961666c3f431577cff67c539672ee`; the shared batch-profile source SHA256 is `0bb78a9a3ec449d214d3ce293f051ae7e4528f8dfe065901ff27cbf02e0a0d5b`. Any source or contract change requires a new preflight before launch.
