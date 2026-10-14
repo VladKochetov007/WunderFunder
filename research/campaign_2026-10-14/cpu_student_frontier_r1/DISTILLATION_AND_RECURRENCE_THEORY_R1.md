@@ -26,6 +26,8 @@ Mirzadeh et al. find that a larger teacher can yield a worse distilled student i
 
 For the current actual trainer, each chunk uses clipped-label magnitude weights and target `0.1*clip(y,2) + 0.9*clip(T,2)`, where stored `T=float32(0.8125*mean3)`. The teacher's stored amplitude therefore affects target clipping and fit dynamics. Identical metadata labels cannot substitute for this arithmetic. Preserve this target in the first screen; teacher amplitude or assistant targets are separate matched arms.
 
+Existing task evidence also argues against treating teacher score as a student ceiling: the [October12 clean teacher grade](../../campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_local_equal_trio_grade_r1/F0_EQUAL_TEACHER_TRIO_GRADE_R1.json) gives the equal H384 trio .680902 on exposedF0, while a separately trained historical oldz4 student scores .683142. Their recipes and inference precisions differ, so this is neither a matched causal estimate nor a new winner. Keep the strong historical run visible when interpreting the new fresh-weight screen.
+
 Next evidence: retain a fixed terminal checkpoint, record finite update counts and learning curves, and advance an uncertain candidate if its observed improvement trajectory warrants more exposure. Longer fits use a new matched schedule, rather than calling an extra tail of the one-epoch OneCycle schedule a faithful continuation. When a stronger teacher version is available, redistill the two leading architectures with unchanged student recipes. Only then can teacher-by-student interactions be estimated.
 
 ### Why an individually weaker student can improve an ensemble
