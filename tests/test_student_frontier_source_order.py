@@ -15,7 +15,6 @@ from wnn.student_frontier_order import (  # noqa: E402
     source_qualified_target_positions,
 )
 
-
 ACTUAL_F0_FIRST16_POSITIONS = [
     10562, 8725, 6305, 1586, 2134, 11477, 8128, 1560,
     2922, 8340, 4913, 2805, 4517, 9259, 2632, 2203,
@@ -58,6 +57,17 @@ def test_frozen_f0_sampler_prefix_is_source_qualified_despite_overlapping_37() -
 
     actual = source_qualified_members(train_order, valid_groups, positions[:16])
     assert actual == ACTUAL_F0_FIRST16_MEMBERS
+
+
+def test_b8_keeps_the_same_first16_order_and_four_source_qualified_tail_omissions() -> None:
+    positions = seeded_epoch_positions(11_940, seed=3, batch_size=8, epoch=0)
+    positions_b16 = seeded_epoch_positions(11_940, seed=3, batch_size=16, epoch=0)
+    assert positions[:16] == positions_b16[:16] == ACTUAL_F0_FIRST16_POSITIONS
+    assert len(positions) == 11_940
+    assert len(positions) // 8 == 1_492
+    assert (len(positions) // 8) * 8 == 11_936
+    assert positions[11_936:] == [5638, 4941, 3775, 2355]
+    assert (len(positions) // 8) * 10 == 14_920
 
 
 def test_every_cache_row_maps_to_its_source_even_when_ids_overlap() -> None:

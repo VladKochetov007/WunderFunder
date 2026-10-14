@@ -18,6 +18,13 @@ import torch
 
 from wnn.run_identity import group_identity, tensor_identity
 from wnn.splits import CampaignSplit, file_sha256
+from wnn.student_frontier_order import (
+    members_sha256,
+    positions_sha256,
+    seeded_epoch_positions,
+    source_qualified_members,
+    source_qualified_target_positions,
+)
 
 CONTRACT_FORMAT = "wnn.cpu-student-frontier-consumer-contract"
 CONTRACT_VERSION = 1
@@ -43,9 +50,12 @@ def _read_bounded_json(path: Path, max_bytes: int, description: str) -> dict[str
 def load_contract(path: Path) -> tuple[dict[str, Any], str]:
     """Read a bounded consumer recipe and return its contents and exact digest."""
     path = path.resolve(strict=True)
-    if path.stat().st_size > MAX_CONTRACT_BYTES:
+    size = path.stat().st_size
+    if size <= 0 or size > MAX_CONTRACT_BYTES:
         raise ValueError("student-frontier consumer contract exceeds the 256 KB bound")
     raw = path.read_bytes()
+    if len(raw) != size:
+        raise ValueError("student-frontier consumer contract changed while being read")
     contract = json.loads(raw)
     if (not isinstance(contract, dict)
             or contract.get("format") != CONTRACT_FORMAT
@@ -56,7 +66,9 @@ def load_contract(path: Path) -> tuple[dict[str, Any], str]:
     return contract, hashlib.sha256(raw).hexdigest()
 
 
-def validate_stage_args(args: Any, contract: dict[str, Any], stage_name: str) -> dict[str, Any]:
+def validate_stage_args(
+    args: Any, contract: dict[str, Any], stage_name: str, root: Path
+) -> dict[str, Any]:
     """Reject any trainer setting outside the selected frozen consumer stage."""
     stages = contract.get("stages")
     if not isinstance(stages, dict) or stage_name not in stages:
@@ -69,6 +81,9 @@ def validate_stage_args(args: Any, contract: dict[str, Any], stage_name: str) ->
     shape = (int(args.hidden), int(args.layers))
     if shape not in shapes:
         raise ValueError(f"student-frontier shape is not admitted: {shape}")
+    recipe = contract["recipe"]
+    optimizer = recipe["optimizer"]
+    loader = recipe["loader"]
 
     expected: dict[str, object] = {
         "arch": "gru",
@@ -86,7 +101,7 @@ def validate_stage_args(args: Any, contract: dict[str, Any], stage_name: str) ->
         "class_balance": False,
         "train_classes": "",
         "epoch_samples": 0,
-        "batch": 16,
+        "batch": int(recipe["batch_size"]),
         "chunk": 2000,
         "update_rows": 0,
         "detach_rows": 0,
@@ -115,7 +130,7 @@ def validate_stage_args(args: Any, contract: dict[str, Any], stage_name: str) ->
         "propensity": contract["propensity"]["run"],
         "prop_cache": True,
         "prop_power": 2.0,
-        "prop_eps": 0.0,
+        "prop_eps": float(contract["propensity"]["epsilon"]),
         "valid_true_mask": 0.03,
         "prop_input": "",
         "mask_weight": False,
@@ -147,9 +162,20 @@ def validate_stage_args(args: Any, contract: dict[str, Any], stage_name: str) ->
         "freeze": "",
         "optim": "adamw",
         "sched": "onecycle",
-        "lr": 1e-4,
-        "wd": 1e-2,
-        "clip": 1.0,
+        "optim_switch": "",
+        "head_lr_mult": 1.0,
+        "warmup_frac": float(recipe["schedule"]["warmup_fraction"]),
+        "no_gradient_clip": False,
+        "grad_noise": 0.0,
+        "zoneout": 0.0,
+        "momentum": 0.0,
+        "lr": float(optimizer["learning_rate"]),
+        "beta2": float(optimizer["beta2"]),
+        "wd": float(optimizer["weight_decay"]),
+        "clip": float(optimizer["gradient_clip_norm"]),
+        "fused_adam": bool(optimizer["fused"]),
+        "sync_free": bool(optimizer["sync_free"]),
+        "pin_memory": bool(loader["pin_memory"]),
         "deterministic": True,
         "save_training_state": False,
         "resume_state": None,
@@ -169,16 +195,120 @@ def validate_stage_args(args: Any, contract: dict[str, Any], stage_name: str) ->
     if not isinstance(prefix, str) or not str(args.name).startswith(prefix):
         raise ValueError("student-frontier run name is outside the frozen stage namespace")
 
+    source_root = Path(contract["source_root"]).resolve()
+    if source_root != Path(__file__).resolve().parents[2]:
+        raise ValueError("student-frontier consumer code root differs from its contract")
+    expected_sources = contract["source_sha256"]
+    if not isinstance(expected_sources, dict) or not expected_sources:
+        raise ValueError("student-frontier consumer recipe lacks source hashes")
+    actual_sources = {
+        relative_path: file_sha256(source_root / relative_path)
+        for relative_path in expected_sources
+    }
+    if actual_sources != expected_sources:
+        raise ValueError("student-frontier consumer source hashes differ from its contract")
+
     split = contract["split"]
-    if str(args.split_manifest) != split["path"]:
+    if Path(args.split_manifest).resolve() != (root / split["path"]).resolve():
         raise ValueError("student-frontier split manifest path differs from its contract")
     cache = contract["cache"]
-    if str(args.distill_cache_root) != cache["root"]:
+    cache_path = Path(args.distill_cache_root)
+    if not cache_path.is_absolute():
+        cache_path = root / cache_path
+    if cache_path.resolve() != (root / cache["root"]).resolve():
         raise ValueError("student-frontier distillation cache root differs from its contract")
     normalization = contract["normalization_source"]
     if contract.get("feature_width") != 211 or normalization.get("feature_width") != 211:
         raise ValueError("student-frontier common normalization must have exactly 211 features")
     return stage
+
+
+def validate_training_order(
+    args: Any,
+    contract: dict[str, Any],
+    stage: dict[str, Any],
+    split: CampaignSplit,
+    train_groups: np.ndarray,
+    valid_groups: np.ndarray,
+    train_loader: Any,
+) -> dict[str, Any]:
+    """Bind the actual epoch sampler to one source-qualified, fixed batch order."""
+    recipe = contract["recipe"]
+    batch_size = int(recipe["batch_size"])
+    seed = int(stage["seed"])
+    epoch = int(stage["checkpoint_epoch"])
+    if (args.batch_order != "seeded" or args.valid_repeat != 1
+            or train_loader.batch_size != batch_size or not train_loader.drop_last):
+        raise ValueError("student-frontier requires its exact seeded drop-last loader")
+    sampler = train_loader.sampler
+    if type(sampler).__name__ != "EpochOrderSampler":
+        raise ValueError("student-frontier loader must use EpochOrderSampler")
+
+    positions = seeded_epoch_positions(len(train_loader.dataset), seed, batch_size, epoch)
+    prior_epoch = sampler.epoch
+    sampler.set_epoch(epoch)
+    actual_positions = [int(position) for position in sampler]
+    sampler.set_epoch(prior_epoch)
+    if actual_positions != positions:
+        raise ValueError("trainer sampler order differs from the frozen order implementation")
+
+    all_members = source_qualified_members(train_groups, valid_groups, positions)
+    batches = len(positions) // batch_size
+    exposed = batches * batch_size
+    fit_members = all_members[:exposed]
+    dropped_members = all_members[exposed:]
+    fit_train = set(map(int, train_groups))
+    fit_valid = set(map(int, valid_groups))
+    eval_valid = set(map(int, split.evaluation_groups))
+    if (not set(map(int, train_groups)).issubset(split.train_groups)
+            or not set(map(int, valid_groups)).issubset(split.valid_groups)):
+        raise ValueError("student-frontier ordered membership differs from its source-qualified split")
+    if any(
+        group not in (fit_train if source == "train" else fit_valid)
+        or source == "valid" and group in eval_valid
+        for source, group in fit_members
+    ):
+        raise ValueError("student-frontier sampler includes a non-fitting source-qualified group")
+
+    def batch_digest(members: list[tuple[str, int]]) -> str:
+        encoded = "\n".join(
+            f"{index // batch_size}:{source}:{group}"
+            for index, (source, group) in enumerate(members)
+        ).encode("ascii")
+        return hashlib.sha256(encoded).hexdigest()
+
+    observed = {
+        "batch_size": batch_size,
+        "seed": seed,
+        "epoch": epoch,
+        "fit_groups_before_drop_last": len(positions),
+        "exposed_sequence_count": exposed,
+        "dropped_sequence_count": len(dropped_members),
+        "batches_per_epoch": batches,
+        "chunks_per_sequence": int(recipe["sequence_rows"]) // int(recipe["chunk_rows"]),
+        "optimizer_updates_per_epoch": (
+            batches * int(recipe["sequence_rows"]) // int(recipe["chunk_rows"])
+        ),
+        "train_group_order_sha256": group_identity(train_groups)["ordered_int64_le_sha256"],
+        "valid_group_order_sha256": group_identity(valid_groups)["ordered_int64_le_sha256"],
+        "sampler_positions_sha256": positions_sha256(positions),
+        "sampler_source_rows_sha256": members_sha256(all_members),
+        "retained_source_rows_sha256": members_sha256(fit_members),
+        "batch_membership_sha256": batch_digest(fit_members),
+        "dropped_tail_positions": positions[exposed:],
+        "dropped_tail_members": [list(member) for member in dropped_members],
+        "same_order_and_omissions_across_shapes": True,
+    }
+    expected = contract["sample_order"]
+    for key, value in observed.items():
+        if expected.get(key) != value:
+            raise ValueError(
+                f"student-frontier source-qualified sample order differs at {key}: "
+                f"expected {expected.get(key)!r}, got {value!r}"
+            )
+    if int(stage["expected_updates"]) != observed["optimizer_updates_per_epoch"]:
+        raise ValueError("student-frontier stage update budget differs from the actual loader")
+    return observed
 
 
 def validate_cache_binding(
@@ -192,7 +322,7 @@ def validate_cache_binding(
     split_contract = contract["split"]
     if split.fold != split_contract["fold"] or split.sha256 != split_contract["sha256"]:
         raise ValueError("student-frontier split identity differs from its contract")
-    if str(split.path) != split_contract["path"]:
+    if Path(split.path).resolve() != (root / split_contract["path"]).resolve():
         raise ValueError("student-frontier split path differs from its contract")
     actual_membership = {
         "train": group_identity(split.train_groups),
@@ -241,6 +371,18 @@ def validate_cache_binding(
         if verified_targets.get(name) != expected["sha256"]:
             raise ValueError(f"student-frontier target payload was not verified: {name}")
 
+    try:
+        cache_rows = source_qualified_target_positions(
+            metadata["files"]["main_homogeneous_train"]["row_groups"],
+            metadata["files"]["main_homogeneous_valid"]["row_groups"],
+            split.train_groups,
+            split.valid_groups,
+        )
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError("student-frontier cache rows do not map to source-qualified fit groups") from error
+    if len(cache_rows) != len(split.train_groups) + len(split.valid_groups):
+        raise ValueError("student-frontier cache rows omit a source-qualified fitting group")
+
     source_records = metadata.get("sources", [])
     expected_sources = cache_contract["teachers"]
     if len(source_records) != len(expected_sources):
@@ -287,6 +429,11 @@ def validate_cache_binding(
         "source_qualified_group_identities": actual_membership,
         "cache_metadata_sha256": cache_validation["metadata_sha256"],
         "verified_target_files": verified_targets,
+        "source_qualified_target_rows": len(cache_rows),
+        "source_qualified_target_order": {
+            "train": group_identity(metadata["files"]["main_homogeneous_train"]["row_groups"]),
+            "valid": group_identity(metadata["files"]["main_homogeneous_valid"]["row_groups"]),
+        },
         "target_formula": cache_contract["target_contract"]["formula"],
         "teacher_sources": verified_sources,
         "propensity": {

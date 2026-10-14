@@ -25,6 +25,7 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
+from wnn import student_frontier
 from wnn.block_memory_attention import BlockMemoryAttention
 from wnn.data import (
     CORRUPT_TRAIN_ROW_GROUPS,
@@ -41,6 +42,7 @@ from wnn.distillation import (
     four_family_weighted_mse,
 )
 from wnn.distillation_cache import validate_distillation_cache
+from wnn.event_content import EventContentModel
 from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch, online_zscore_torch
 from wnn.metric import block_aggregate_score, block_scores, score
 from wnn.nn import (
@@ -66,40 +68,78 @@ from wnn.outcomes import (
     sequence_class,
     structure_labels,
 )
+from wnn.privileged import (
+    PRIVILEGED_MODES,
+    load_inner_manifest,
+    privileged_inputs,
+    validate_crossfit_cache,
+)
 from wnn.propensity import load_propensity, propensity
-from wnn.privileged import (PRIVILEGED_MODES, load_inner_manifest, privileged_inputs,
-                            validate_crossfit_cache)
 from wnn.quantization import policy_metadata
-from wnn.structured_state import StructuredStateModel
-from wnn.event_content import EventContentModel
+from wnn.research_features import (
+    MOMENT_FEATURE_MODES,
+    RESEARCH_FEATURE_MODES,
+    fit_causal_moment_prior,
+    research_feature_control_width,
+    research_feature_names,
+    research_features_torch,
+    validate_causal_moment_prior,
+)
 from wnn.resources import configure_torch, cpu_threads, dataloader_budget
-from wnn.research_features import (MOMENT_FEATURE_MODES, RESEARCH_FEATURE_MODES,
-                                   fit_causal_moment_prior, research_feature_control_width,
-                                   research_feature_names,
-                                   research_features_torch, validate_causal_moment_prior)
-from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_identity,
-                              sample_order_identity, scaler_source_identity)
-from wnn.splits import CampaignSplit, dev_halves, file_sha256, load_campaign_split, valid_row_groups
-from wnn.spread_aux import (PackedSpreadCache, structural_loss, validate_spread_cache,
-                            validate_spread_parent)
-from wnn.training_controls import (DistilledLoss, blended_target, distilled_macro_losses,
-                                   detach_boundary_offset, ema_decay_per_update, shuffled_masses)
-from wnn.training_credit import credit_edge_scales
-from wnn.training_dynamics import (Dynamics, add_arguments as add_dynamics_arguments,
-                                   build_optimizer, build_scheduler, switch_optimizer)
-from wnn.training_sampling import EpochOrderSampler, init_qmc_
-from wnn.training_factorized import (configure_factorized, factorized_forward,
-                                      factorized_inference_state)
-from wnn.sentinel import (INDICATOR_MODES, VALUE_MODES, SentinelInputProjection,
-                          SentinelPreprocessor)
+from wnn.run_identity import (
+    EpochUpdateCounter,
+    group_identity,
+    normalization_identity,
+    sample_order_identity,
+    scaler_source_identity,
+)
+from wnn.sentinel import INDICATOR_MODES, VALUE_MODES, SentinelInputProjection, SentinelPreprocessor
 from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
 from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
-from wnn.training_qat import (QAT_LEARN_SCALE_MODES, QAT_MODES, configure_qat,
-                              inference_state, invalidate_qat_cache, qat_forward,
-                              project_qat_scales_, qat_weight_replacements, scale_learning_metadata)
-from wnn.training_state import (atomic_save_training_state, capture_training_state,
-                                load_training_state, loader_state, restore_rng,
-                                restore_training_state)
+from wnn.splits import CampaignSplit, dev_halves, file_sha256, load_campaign_split, valid_row_groups
+from wnn.spread_aux import (
+    PackedSpreadCache,
+    structural_loss,
+    validate_spread_cache,
+    validate_spread_parent,
+)
+from wnn.structured_state import StructuredStateModel
+from wnn.training_controls import (
+    DistilledLoss,
+    blended_target,
+    detach_boundary_offset,
+    distilled_macro_losses,
+    ema_decay_per_update,
+    shuffled_masses,
+)
+from wnn.training_credit import credit_edge_scales
+from wnn.training_dynamics import Dynamics, build_optimizer, build_scheduler, switch_optimizer
+from wnn.training_dynamics import add_arguments as add_dynamics_arguments
+from wnn.training_factorized import (
+    configure_factorized,
+    factorized_forward,
+    factorized_inference_state,
+)
+from wnn.training_qat import (
+    QAT_LEARN_SCALE_MODES,
+    QAT_MODES,
+    configure_qat,
+    inference_state,
+    invalidate_qat_cache,
+    project_qat_scales_,
+    qat_forward,
+    qat_weight_replacements,
+    scale_learning_metadata,
+)
+from wnn.training_sampling import EpochOrderSampler, init_qmc_
+from wnn.training_state import (
+    atomic_save_training_state,
+    capture_training_state,
+    load_training_state,
+    loader_state,
+    restore_rng,
+    restore_training_state,
+)
 from wnn.training_views import origin_windows, update_ema_for_rows
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
@@ -1662,6 +1702,12 @@ def main():
     ap.add_argument("--checkpoint-epoch", type=int, default=None, help="zero-based fixed checkpoint epoch")
     ap.add_argument("--no-eval-during-fit", action="store_true", help="never construct or read an evaluation loader")
     ap.add_argument("--split-manifest", type=Path, default=None, help="frozen component-excluded outer-fold manifest")
+    ap.add_argument("--student-frontier-contract", type=Path,
+                    help="explicit consumer recipe for the CPU-student architecture frontier")
+    ap.add_argument("--student-frontier-stage", default="",
+                    help="named seed/update/checkpoint stage inside the consumer recipe")
+    ap.add_argument("--student-frontier-preflight-only", action="store_true",
+                    help="validate recipe, cache payloads, source order and normalization without fitting")
     ap.add_argument("--save-training-state", action="store_true",
                     help="atomically save full training_state.pt at each epoch boundary; fixed final checkpoint only")
     ap.add_argument("--resume-state", type=Path, default=None,
@@ -1888,6 +1934,8 @@ def main():
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     add_dynamics_arguments(ap)
     args = ap.parse_args()
+    if args.profile_steps:
+        args.max_batches = args.profile_warmup + args.profile_steps
     if args.final_model_adaptation and (
         not args.init or not args.inherit_init_preprocessing
         or args.split_manifest is None or args.fit_subset_manifest is None
@@ -2104,10 +2152,27 @@ def main():
         ap.error("--quote-cache-root requires --aux-quote")
     if args.fast:
         args.sync_free = args.fused_adam = args.pin_memory = args.prop_cache = True
+    frontier_contract = None
+    frontier_contract_sha256 = None
+    frontier_stage = None
+    if args.student_frontier_contract is not None:
+        if campaign_split is None or not args.student_frontier_stage:
+            ap.error("student-frontier recipes require --split-manifest and a named stage")
+        frontier_contract, frontier_contract_sha256 = student_frontier.load_contract(
+            args.student_frontier_contract
+        )
+        frontier_stage = student_frontier.validate_stage_args(
+            args, frontier_contract, args.student_frontier_stage, ROOT
+        )
+        expected_device = "cpu" if args.student_frontier_preflight_only else "cuda"
+        if args.device != expected_device:
+            ap.error(f"student-frontier stage requires --device {expected_device}")
+        torch.backends.cuda.matmul.allow_tf32 = False
+        torch.backends.cudnn.allow_tf32 = False
+    elif args.student_frontier_stage or args.student_frontier_preflight_only:
+        ap.error("student-frontier stage/preflight flags require --student-frontier-contract")
     if args.activation_profile_first_chunk and args.pin_memory:
         ap.error("first-chunk profile batch reuse requires a non-pinned DataLoader")
-    if args.profile_steps:
-        args.max_batches = args.profile_warmup + args.profile_steps
     if args.mask_weight and args.train_source == "train":
         ap.error("--mask-weight needs is_scored, which train.parquet does not have")
     if args.include_heldout_valid and (args.valid_fold >= 0 or args.train_source not in ("train+valid", "valid")):
@@ -2180,14 +2245,16 @@ def main():
 
     torch.manual_seed(args.seed)
     device = torch.device(args.device)
-    if device.type == "cpu" and (args.pin_memory or args.fused_adam):
+    if (device.type == "cpu" and (args.pin_memory or args.fused_adam)
+            and not args.student_frontier_preflight_only):
         ap.error("CPU implementation checks require unfused, synchronous loaders (omit --fast)")
     duty = configure_torch()
     if args.deterministic:
         torch.backends.cudnn.benchmark = False
         torch.backends.cudnn.deterministic = True
     out_dir = ROOT / "artifacts" / "runs" / args.name
-    out_dir.mkdir(parents=True, exist_ok=True)
+    if not args.student_frontier_preflight_only:
+        out_dir.mkdir(parents=True, exist_ok=True)
 
     valid_path = ROOT / "datasets" / "valid.parquet"
     if campaign_split is None:
@@ -2358,6 +2425,7 @@ def main():
     elif args.spread_cache_root:
         raise ValueError("spread cache supplied without a matched known-code mode")
     distill_cache_validation = None
+    frontier_cache_binding = None
     if args.distill_cache_root:
         cache_root = Path(args.distill_cache_root)
         if not cache_root.is_absolute():
@@ -2367,6 +2435,15 @@ def main():
             cache_root, ROOT, campaign_split, args.distill_cache_variant,
             require_families=args.distill_family_weight > 0)
         args.distill_cache_root = str(cache_root)
+        if frontier_contract is not None:
+            frontier_cache_binding = student_frontier.validate_cache_binding(
+                ROOT,
+                frontier_contract,
+                frontier_contract_sha256,
+                campaign_split,
+                distill_cache_validation,
+            )
+            frontier_cache_binding["stage"] = args.student_frontier_stage
     thin = None
     if args.thin_prob > 0:
         low, high = (float(v) for v in args.thin_range.split(","))
@@ -2420,6 +2497,20 @@ def main():
     valid_loader = None if valid_ds is None else DataLoader(
         valid_ds, batch_size=16, num_workers=0, prefetch_factor=None)
 
+    frontier_order = None
+    if frontier_contract is not None:
+        if frontier_cache_binding is None or extra_valid is None or train_split != "train":
+            raise ValueError("student-frontier fit requires validated clean train+valid cache membership")
+        frontier_order = student_frontier.validate_training_order(
+            args,
+            frontier_contract,
+            frontier_stage,
+            campaign_split,
+            train_idx,
+            extra_valid,
+            train_loader,
+        )
+
     shifts = [int(v) for v in args.aux.split(",") if v]
     provenance = {"seed": args.seed, "args": vars(args).copy(),
                   "split_manifest_sha256": campaign_split.sha256 if campaign_split is not None else None,
@@ -2444,6 +2535,32 @@ def main():
             "homogeneous_family": cache_metadata["homogeneous_family"],
             "family_order": cache_metadata["family_order"],
             "epoch_convention": cache_metadata["epoch_convention"],
+        }
+    if frontier_contract is not None:
+        frontier_sources = (
+            Path(__file__).resolve(),
+            SOURCE_ROOT / "src/wnn/student_frontier.py",
+            SOURCE_ROOT / "src/wnn/student_frontier_order.py",
+            SOURCE_ROOT / "src/wnn/training_sampling.py",
+            SOURCE_ROOT / "src/wnn/nn.py",
+            SOURCE_ROOT / "src/wnn/features.py",
+            SOURCE_ROOT / "src/wnn/distillation_cache.py",
+            SOURCE_ROOT / "src/wnn/splits.py",
+            SOURCE_ROOT / "src/wnn/propensity.py",
+            SOURCE_ROOT / "src/wnn/training_dynamics.py",
+            SOURCE_ROOT / "src/wnn/optim.py",
+        )
+        provenance["student_frontier"] = {
+            "contract_id": frontier_contract["id"],
+            "contract_sha256": frontier_contract_sha256,
+            "stage": args.student_frontier_stage,
+            "stage_settings": frontier_stage,
+            "cache_binding": frontier_cache_binding,
+            "sample_order": frontier_order,
+            "source_sha256": {
+                str(path.relative_to(SOURCE_ROOT)): file_sha256(path)
+                for path in frontier_sources
+            },
         }
     if inner_crossfit is not None:
         provenance["inner_crossfit"] = inner_crossfit
@@ -2632,7 +2749,14 @@ def main():
             "effective_capacity": "reduced" if zero_width else "full",
         }
     if not args.init and saved_training is None:
-        fit_normalization(model, train_loader, device)
+        if frontier_contract is None:
+            fit_normalization(model, train_loader, device)
+        else:
+            mean, std, normalization_source = student_frontier.load_normalization_buffers(
+                ROOT, frontier_contract, campaign_split
+            )
+            student_frontier.install_normalization(model, mean, std)
+            provenance["student_frontier"]["normalization_source"] = normalization_source
     if args.numeric_map != "none":
         fit_groups_train = train_idx.tolist() if train_split == "train" else []
         fit_groups_valid = (train_idx.tolist() if train_split == "valid" else
@@ -2770,6 +2894,28 @@ def main():
         for position, (name, _, _) in enumerate(model._qat_scale_keys):
             model._qat_scale_params[position].requires_grad_(parameters[name].requires_grad)
     total = len(train_loader) * math.ceil(SEQUENCE_LENGTH / update_rows) * args.epochs
+    if args.student_frontier_preflight_only:
+        receipt = {
+            "format": "wnn.student-frontier-trainer-preflight",
+            "version": 1,
+            "contract_id": frontier_contract["id"],
+            "contract_sha256": frontier_contract_sha256,
+            "stage": args.student_frontier_stage,
+            "shape": [args.hidden, args.layers],
+            "split_manifest_sha256": campaign_split.sha256,
+            "cache_binding": frontier_cache_binding,
+            "sample_order": frontier_order,
+            "normalization_identity": provenance["normalization_identity"],
+            "normalization_source": provenance["student_frontier"]["normalization_source"],
+            "batch_size": args.batch,
+            "batches_per_epoch": len(train_loader),
+            "updates_per_epoch": total,
+            "optimizer_constructed": False,
+            "fit_started": False,
+            "quality_claim": None,
+        }
+        print("STUDENT_FRONTIER_PREFLIGHT", json.dumps(receipt, sort_keys=True), flush=True)
+        return
     if args.calibrate_distill_reference:
         calibrate_distill_reference(args, train_loader, prop_model, provenance, device, total)
         return
@@ -2911,6 +3057,16 @@ def main():
         if isinstance(train_loader.sampler, EpochOrderSampler):
             epoch_order_identity["seeded_order"] = {"seed": args.seed, "epoch": epoch,
                                                     "antithetic": args.antithetic, "shared_dropped_tail": True}
+        if frontier_contract is not None:
+            epoch_order_identity["student_frontier_order"] = student_frontier.validate_training_order(
+                args,
+                frontier_contract,
+                frontier_stage,
+                campaign_split,
+                train_idx,
+                extra_valid,
+                train_loader,
+            )
         if args.activation_profile_first_chunk:
             print("PROFILE_BATCH_PROVENANCE", json.dumps({
                 "batch_size": args.batch,

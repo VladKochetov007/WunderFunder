@@ -44,7 +44,8 @@ MAX_SMALL_JSON_BYTES = 64_000
 N_EVAL_GROUPS_F0 = 468
 SEQUENCE_ROWS = 20_000
 CHUNK_ROWS = 2_000
-BATCH_SIZE = 16
+FIT_BATCH_SIZE = 8
+FROZEN_ORDER_PREFIX_SIZE = 16
 SEED = 3
 EPOCH = 0
 ALPHA = 0.9
@@ -238,16 +239,22 @@ def validate_order_and_sources(
     valid_order = np.asarray(split.valid_groups, dtype=np.int64)
     split.assert_fit_groups(train_order, valid_order)
     combined_size = len(train_order) + len(valid_order)
-    positions = seeded_epoch_positions(combined_size, seed, BATCH_SIZE, EPOCH)
+    positions = seeded_epoch_positions(combined_size, seed, FIT_BATCH_SIZE, EPOCH)
     members = source_qualified_members(train_order, valid_order, positions)
-    if (positions[:BATCH_SIZE] != EXPECTED_FIRST_BATCH_POSITIONS
-            or positions[:BATCH_SIZE] != contract["sample_order"]["first_batch_positions"]):
+    first16_positions = positions[:FROZEN_ORDER_PREFIX_SIZE]
+    first16_members = members[:FROZEN_ORDER_PREFIX_SIZE]
+    if (first16_positions != EXPECTED_FIRST_BATCH_POSITIONS
+            or first16_positions != contract["sample_order"]["first16_positions"]):
         raise ValueError("epoch-0 sampler's first 16 positions differ from the frozen actual-data test")
-    first_batch_members = [[source, group] for source, group in members[:BATCH_SIZE]]
-    if (first_batch_members != EXPECTED_FIRST_BATCH_MEMBERS
+    first16_members_serialized = [[source, group] for source, group in first16_members]
+    if (first16_members_serialized != EXPECTED_FIRST_BATCH_MEMBERS
+            or first16_members_serialized != contract["sample_order"]["first16_members"]):
+        raise ValueError("epoch-0 first 16 source-qualified memberships differ from the frozen actual-data test")
+    first_batch_members = first16_members_serialized[:FIT_BATCH_SIZE]
+    if (positions[:FIT_BATCH_SIZE] != contract["sample_order"]["first_batch_positions"]
             or first_batch_members != contract["sample_order"]["first_batch_members"]):
-        raise ValueError("epoch-0 first batch's source-qualified memberships differ from the frozen actual-data test")
-    tail_start = len(positions) - len(positions) % BATCH_SIZE
+        raise ValueError("epoch-0 B8 batch differs from the contracted source-qualified batch")
+    tail_start = len(positions) - len(positions) % FIT_BATCH_SIZE
     dropped_tail = source_qualified_members(train_order, valid_order, positions[tail_start:])
     dropped_tail_members = [[source, group] for source, group in dropped_tail]
     if (positions[tail_start:] != EXPECTED_DROPPED_TAIL_POSITIONS
@@ -255,8 +262,8 @@ def validate_order_and_sources(
             or positions[tail_start:] != contract["sample_order"]["dropped_tail_positions"]
             or dropped_tail_members != contract["sample_order"]["dropped_tail_members"]):
         raise ValueError("drop_last tail differs from the frozen four source-qualified omissions")
-    if len(positions) != 11_940 or len(positions) // BATCH_SIZE != 746:
-        raise ValueError("one-epoch matched sampler must retain exactly 746 complete B16 batches")
+    if len(positions) != 11_940 or len(positions) // FIT_BATCH_SIZE != 1_492:
+        raise ValueError("one-epoch matched sampler must retain exactly 1,492 complete B8 batches")
 
     split_manifest, _ = bounded_json(split_path, MAX_SPLIT_MANIFEST_BYTES, "campaign split manifest")
     source_seq_ix: dict[tuple[str, int], int] = {}
@@ -289,20 +296,27 @@ def validate_order_and_sources(
     for source_row in cache_rows:
         if source_row not in source_seq_ix:
             raise ValueError(f"homogeneous cache row lacks source-qualified split ancestry: {source_row}")
+    if ("train", 37) not in cache_rows or ("valid", 37) not in cache_rows:
+        raise ValueError("overlapping row_group=37 must map to source-local cache rows")
 
-    first_members = members[:BATCH_SIZE]
-    first_seq_ix = []
-    for source, group in first_members:
+    first16_seq_ix = []
+    for source, group in first16_members:
         sequence_ix = source_seq_ix.get((source, group))
         if sequence_ix is None:
-            raise ValueError(f"first batch row has no source-qualified seq_ix: {(source, group)}")
+            raise ValueError(f"first-16 sample row has no source-qualified seq_ix: {(source, group)}")
         sequence = trainer.SequenceFile(root / "datasets" / f"{source}.parquet").read(group)
         if int(sequence.seq_ix) != sequence_ix:
             raise ValueError(f"parquet seq_ix disagrees with split identity for {(source, group)}")
-        first_seq_ix.append(sequence_ix)
-    if (first_seq_ix != EXPECTED_FIRST_BATCH_SEQ_IX
-            or first_seq_ix != contract["sample_order"]["first_batch_seq_ix"]):
-        raise ValueError("first epoch-0 Parquet identities differ from the frozen source-qualified sample order")
+        first16_seq_ix.append(sequence_ix)
+    if (first16_seq_ix != EXPECTED_FIRST_BATCH_SEQ_IX
+            or first16_seq_ix != contract["sample_order"]["first16_seq_ix"]):
+        raise ValueError("first 16 epoch-0 Parquet identities differ from the frozen source-qualified order")
+    first_batch_seq_ix = first16_seq_ix[:FIT_BATCH_SIZE]
+    if first_batch_seq_ix != contract["sample_order"]["first_batch_seq_ix"]:
+        raise ValueError("first B8 Parquet identities differ from the contracted batch")
+    if (("train", 37) not in cache_rows or ("valid", 37) not in cache_rows
+            or first16_members[0] != ("valid", 37)):
+        raise ValueError("overlapping row_group=37 must remain distinct across the two cache sources")
     order_hashes = {
         "train_order_sha256": sha256_bytes(np.asarray(train_order, dtype="<i8").tobytes()),
         "sampler_positions_sha256": positions_sha256(positions),
@@ -326,17 +340,27 @@ def validate_order_and_sources(
             for name, groups in group_identities.items()
         },
         **order_hashes,
-        "first_batch_positions": positions[:BATCH_SIZE],
-        "first_batch_members": [[source, group] for source, group in first_members],
-        "first_batch_seq_ix": first_seq_ix,
+        "first16_positions": first16_positions,
+        "first16_members": first16_members_serialized,
+        "first16_seq_ix": first16_seq_ix,
+        "first_batch_positions": positions[:FIT_BATCH_SIZE],
+        "first_batch_members": first_batch_members,
+        "first_batch_seq_ix": first_batch_seq_ix,
+        "overlapping_row_group_probe": {
+            "row_group": 37,
+            "train_cache_row": cache_rows[("train", 37)],
+            "valid_cache_row": cache_rows[("valid", 37)],
+            "first16_source_member": list(first16_members[0]),
+            "source_qualification_preserved": True,
+        },
         "dropped_tail_positions": positions[tail_start:],
         "dropped_tail_members": [[source, group] for source, group in dropped_tail],
         "fit_groups_before_drop_last": len(train_order) + len(valid_order),
-        "fit_group_exposures_after_drop_last": (len(positions) // BATCH_SIZE) * BATCH_SIZE,
+        "fit_group_exposures_after_drop_last": (len(positions) // FIT_BATCH_SIZE) * FIT_BATCH_SIZE,
         "omitted_fit_group_count_per_epoch": len(dropped_tail),
-        "batches_per_epoch": len(positions) // BATCH_SIZE,
+        "batches_per_epoch": len(positions) // FIT_BATCH_SIZE,
         "chunks_per_sequence": SEQUENCE_ROWS // CHUNK_ROWS,
-        "optimizer_updates_per_epoch": (len(positions) // BATCH_SIZE) * (SEQUENCE_ROWS // CHUNK_ROWS),
+        "optimizer_updates_per_epoch": (len(positions) // FIT_BATCH_SIZE) * (SEQUENCE_ROWS // CHUNK_ROWS),
         "all_cache_rows_source_qualified": len(cache_rows),
         "strict_cache_verified_files": cache_validation["verified_files"],
         "strict_cache_metadata_sha256": cache_validation["metadata_sha256"],
@@ -425,18 +449,18 @@ def build_first_batch(root: Path, contract: dict[str, Any], trainer: Any,
         distill_cache_variant="homogeneous", distill_cache_metadata=cache_validation,
     )
     dataset = ConcatDataset([train_ds, valid_ds])
-    sampler = trainer.EpochOrderSampler(len(dataset), seed, batch_size=BATCH_SIZE, drop_last=True)
+    sampler = trainer.EpochOrderSampler(len(dataset), seed, batch_size=FIT_BATCH_SIZE, drop_last=True)
     sampler.set_epoch(EPOCH)
     start = time.perf_counter()
-    loader = DataLoader(dataset, batch_size=BATCH_SIZE, sampler=sampler, drop_last=True,
+    loader = DataLoader(dataset, batch_size=FIT_BATCH_SIZE, sampler=sampler, drop_last=True,
                         num_workers=0, prefetch_factor=None, pin_memory=True)
     batch = next(iter(loader))
     load_seconds = time.perf_counter() - start
     x, targets, scored, prop = batch
-    if (tuple(x.shape) != (BATCH_SIZE, SEQUENCE_ROWS, 112)
-            or tuple(targets.shape) != (BATCH_SIZE, SEQUENCE_ROWS, 4)
-            or tuple(scored.shape) != (BATCH_SIZE, SEQUENCE_ROWS)
-            or tuple(prop.shape) != (BATCH_SIZE, SEQUENCE_ROWS)):
+    if (tuple(x.shape) != (FIT_BATCH_SIZE, SEQUENCE_ROWS, 112)
+            or tuple(targets.shape) != (FIT_BATCH_SIZE, SEQUENCE_ROWS, 4)
+            or tuple(scored.shape) != (FIT_BATCH_SIZE, SEQUENCE_ROWS)
+            or tuple(prop.shape) != (FIT_BATCH_SIZE, SEQUENCE_ROWS)):
         raise ValueError("production Sequences loader returned a different batch schema")
     arrays = {
         "train": np.load(root / contract["cache"]["root"] / "main_homogeneous_train.npy",
@@ -445,8 +469,8 @@ def build_first_batch(root: Path, contract: dict[str, Any], trainer: Any,
                           mmap_mode="r", allow_pickle=False),
     }
     first_members = [tuple(item) for item in order_receipt["first_batch_members"]]
-    if len(first_members) != BATCH_SIZE:
-        raise ValueError("profile requires exactly the first 16 source-qualified sampler rows")
+    if len(first_members) != FIT_BATCH_SIZE:
+        raise ValueError("profile requires exactly the contracted first B8 source-qualified sampler rows")
     for batch_index, (source, group) in enumerate(first_members):
         expected_row = cache_rows[(source, group)]
         row = np.asarray(arrays[source][expected_row], dtype=np.float32)
@@ -454,7 +478,7 @@ def build_first_batch(root: Path, contract: dict[str, Any], trainer: Any,
         if row.shape != (SEQUENCE_ROWS, 2) or not np.isfinite(row).all() or not np.array_equal(row, observed):
             raise ValueError(f"source-qualified target payload mismatch for {(source, group)}")
     batch_tensor_bytes = max(
-        train_ds.batch_tensor_bytes(BATCH_SIZE), valid_ds.batch_tensor_bytes(BATCH_SIZE)
+        train_ds.batch_tensor_bytes(FIT_BATCH_SIZE), valid_ds.batch_tensor_bytes(FIT_BATCH_SIZE)
     )
     del arrays, train_ds, valid_ds, dataset, loader, sampler
     return batch, cache_rows, load_seconds, batch_tensor_bytes
@@ -556,7 +580,7 @@ def profile_shape(
                                    for old, new in zip(before, model.parameters(), strict=True))
             del before
     if not parameter_update:
-        raise FloatingPointError(f"first actual B16 update changed no parameters for shape {shape}")
+        raise FloatingPointError(f"first actual B8 update changed no parameters for shape {shape}")
 
     memory_allocated = int(torch.cuda.max_memory_allocated(device))
     memory_reserved = int(torch.cuda.max_memory_reserved(device))
@@ -578,7 +602,7 @@ def profile_shape(
     projected_eval_export_seconds = per_sequence_export_seconds * N_EVAL_GROUPS_F0
     projected_fit_update_seconds = (
         step_times[0] + float(np.median(step_times[1:])) * (total_updates - 1)
-        if profile_batch_size == BATCH_SIZE else None
+        if profile_batch_size == FIT_BATCH_SIZE else None
     )
     output_bytes = int(sample_prediction.nbytes)
     receipt = {
@@ -594,7 +618,7 @@ def profile_shape(
         "optimizer_attempts": 3,
         "optimizer_completed_updates": 3,
         "optimizer": "train_rnn.build_optimizer: fused AdamW, lr=1e-4, beta=(.9,.999), wd=.01",
-        "schedule": "train_rnn.build_scheduler: OneCycleLR, 7460 total steps, pct_start=.05, final_div_factor=100",
+        "schedule": "train_rnn.build_scheduler: OneCycleLR, 14920 total steps, pct_start=.05, final_div_factor=100",
         "gradient_clip_norm": 1.0,
         "alpha": 0.9,
         "row_weight": "abs(clamp(label,-2,2))*main_row_weights; F0 propensity cache p^2+0.03 and valid_true_mask .03",
@@ -606,16 +630,16 @@ def profile_shape(
         "chunk_update_seconds": step_times,
         "first_chunk_update_seconds": step_times[0],
         "steady_update_seconds_median": float(np.median(step_times[1:])),
-        "one_epoch_updates": total_updates if profile_batch_size == BATCH_SIZE else None,
+        "one_epoch_updates": total_updates if profile_batch_size == FIT_BATCH_SIZE else None,
         "projected_one_epoch_update_wall_seconds": projected_fit_update_seconds,
         "projected_one_epoch_update_hours": (
             projected_fit_update_seconds / 3600.0 if projected_fit_update_seconds is not None else None
         ),
         "projection_scope": (
-            "three updates on the exact first B16 batch; update-only linear extrapolation excludes batch loads, "
+            "three updates on the exact first B8 batch; update-only linear extrapolation excludes batch loads, "
             "cache verification, checkpoint and prediction export"
-            if profile_batch_size == BATCH_SIZE else
-            "three updates on a prefix of the exact first B16 batch; resource-only, no full-fit time extrapolation"
+            if profile_batch_size == FIT_BATCH_SIZE else
+            "three updates on a prefix of the exact first B8 batch; resource-only, no full-fit time extrapolation"
         ),
         "torch_cuda_peak_allocated_bytes": memory_allocated,
         "torch_cuda_peak_reserved_bytes": memory_reserved,
@@ -673,7 +697,7 @@ def main() -> int:
             or contract.get("version") != 1
             or contract.get("shape_profile_order") != [list(shape) for shape in SHAPE_PROFILE_ORDER]
             or contract.get("recipe", {}).get("seed") != SEED
-            or contract.get("recipe", {}).get("batch_size") != BATCH_SIZE
+            or contract.get("recipe", {}).get("batch_size") != FIT_BATCH_SIZE
             or contract.get("recipe", {}).get("chunk_rows") != CHUNK_ROWS
             or contract.get("recipe", {}).get("precision") != "float32"):
         raise ValueError("unsupported batch profile contract or settings")
@@ -702,18 +726,29 @@ def main() -> int:
     torch.backends.cudnn.allow_tf32 = False
     split, cache_validation, cache_rows, order = validate_order_and_sources(root, contract, trainer)
     profile_scope = contract.get("profile_scope")
-    if profile_scope is not None:
-        if (profile_scope.get("kind") != "resource_only"
-                or profile_scope.get("batch_size") != args.profile_batch_size
-                or profile_scope.get("shape_indices") != args.shape_indices
-                or profile_scope.get("shapes") != [list(SHAPE_PROFILE_ORDER[index]) for index in args.shape_indices]
-                or profile_scope.get("source_qualified_member") != order["first_batch_members"][0]
-                or profile_scope.get("seq_ix") != order["first_batch_seq_ix"][0]
-                or profile_scope.get("updates") != 3
-                or profile_scope.get("causal_export_sequences") != 1
-                or profile_scope.get("no_quality_claim") is not True
-                or profile_scope.get("no_fit_walltime_extrapolation") is not True):
-            raise ValueError("resource-only profile scope differs from the validated source-qualified batch")
+    if (profile_scope is None
+            or profile_scope.get("kind") != "resource_only"
+            or profile_scope.get("batch_size") != args.profile_batch_size
+            or profile_scope.get("shape_indices") != args.shape_indices
+            or profile_scope.get("shapes") != [list(SHAPE_PROFILE_ORDER[index]) for index in args.shape_indices]
+            or profile_scope.get("source_qualified_member") != order["first_batch_members"][0]
+            or profile_scope.get("seq_ix") != order["first_batch_seq_ix"][0]
+            or profile_scope.get("updates") != 3
+            or profile_scope.get("causal_export_sequences") != 1
+            or profile_scope.get("no_quality_claim") is not True
+            or profile_scope.get("no_full_epoch_fit") is not True
+            or profile_scope.get("update_only_projection") is not True):
+        raise ValueError("resource-only profile scope differs from the validated source-qualified batch")
+    resource_envelope = contract.get("resource_envelope", {})
+    capacity_basis = resource_envelope.get("capacity_basis", {})
+    if (resource_envelope.get("cuda_allocator_cap_bytes") != CUDA_ALLOCATOR_CAP_BYTES
+            or resource_envelope.get("observed_vram_ceiling_bytes") != OBSERVED_VRAM_LIMIT_BYTES
+            or resource_envelope.get("worker_memory_max_bytes") != 3_500_000_000
+            or resource_envelope.get("host_reservation_bytes") != 3_500_000_000
+            or capacity_basis.get("measured_largest_b1_reserved_bytes") != 327_155_712
+            or capacity_basis.get("b8_linear_reserved_upper_bound_bytes") != 2_617_245_696
+            or capacity_basis.get("allocator_headroom_bytes") != 882_754_304):
+        raise ValueError("B8 profile resource envelope is not tied to the root-bounded measured capacity basis")
     ancestry = verify_ancestry(root, contract, cache_validation["metadata"])
     mean, std = load_bound_norm(root, contract, split)
     output = {
@@ -786,11 +821,11 @@ def main() -> int:
         batch, cache_rows, batch_load_seconds, batch_tensor_bytes = build_first_batch(
             root, contract, trainer, split, cache_validation, cache_rows, order
         )
-        output["first_real_B16_batch_loader_seconds"] = batch_load_seconds
+        output["first_real_B8_batch_loader_seconds"] = batch_load_seconds
         output["batch_tensor_bytes"] = batch_tensor_bytes
         output["host_cgroup_memory_current_bytes_after_batch_load"] = cgroup_memory_current()
         output["host_max_rss_bytes_after_batch_load"] = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) * 1024
-        output["source_qualified_first_batch_targets_checked"] = BATCH_SIZE
+        output["source_qualified_first_batch_targets_checked"] = FIT_BATCH_SIZE
         output["resource_profile_batch_size"] = args.profile_batch_size
         output["resource_profile_shape_indices"] = args.shape_indices
         output["resource_profile_shapes"] = [list(SHAPE_PROFILE_ORDER[index]) for index in args.shape_indices]
@@ -839,8 +874,9 @@ def main() -> int:
             raise RuntimeError("final observed VRAM exceeded the fixed 5 GB ceiling")
         output["interpretation"] = (
             f"{len(args.shape_indices)} shape resource/rate probes using profile batch size "
-            f"{args.profile_batch_size} from the exact source-qualified clean-F0 B16 first batch; "
-            "three FP32 chunk updates per shape and one B1 causal prediction only; not a quality fit"
+            f"{args.profile_batch_size} from the exact source-qualified clean-F0 B8 first batch; "
+            "three FP32 chunk updates per shape and one B1 causal prediction only; update-only duration "
+            "projection excludes full-fit data loading/export overhead; no quality claim"
         )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(output, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
