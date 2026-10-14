@@ -1,0 +1,45 @@
+{
+  "kind": "profile_harness_preflight_failure",
+  "created_utc": "2026-10-14T00:27:12.862061+00:00",
+  "exit_code": 1,
+  "worktree": "/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014",
+  "checked_out_source_commit": "86c75bf5b91751ae4cae8c4a6b5b526acc72f0d2",
+  "profile_script_sha256_at_failure": "d87d3944ab5db7e440c7acc80aea7f4aa00deeff30a3be2ec508a002aca96614",
+  "command": {
+    "environment": {
+      "WNN_SLICE": "wnn-campaign.slice",
+      "WNN_CPU_QUOTA": "100%",
+      "WNN_THREADS": "1",
+      "WNN_MEM_MAX": "1500000000",
+      "WNN_RUNTIME_MAX": "120s",
+      "WNN_SCOPE_UNIT": "cpu-arch-preflight-r1b.scope"
+    },
+    "argv": [
+      "scripts/limited",
+      "/home/vlad/.cache/codex/cpu-policy-20261014-venv311/bin/python",
+      "research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py",
+      "--worker",
+      "--hidden",
+      "256",
+      "--layers",
+      "2",
+      "--precision",
+      "q8vnni",
+      "--source-commit",
+      "86c75bf5b01763b4c6168bca179859af0c4a442c",
+      "--result-path",
+      "research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/preflight_r1/h256l2_q8vnni.json"
+    ],
+    "exact_shell_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=cpu-arch-preflight-r1b.scope scripts/limited /home/vlad/.cache/codex/cpu-policy-20261014-venv311/bin/python research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py --worker --hidden 256 --layers 2 --precision q8vnni --source-commit 86c75bf5b01763b4c6168bca179859af0c4a442c --result-path research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/preflight_r1/h256l2_q8vnni.json",
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py\", line 562, in <module>\n    main()\n  File \"/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py\", line 549, in main\n    result = run_worker(args)\n             ^^^^^^^^^^^^^^^^\n  File \"/home/vlad/development/wunder/worktrees/cpu-architecture-profile-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py\", line 270, in run_worker\n    raise ValueError(\"worker source-commit argument does not match its checked-out worktree\")\nValueError: worker source-commit argument does not match its checked-out worktree\n"
+  },
+  "diagnosis": {
+    "failure_class": "operator provenance argument error before native import or profile work",
+    "checked_out_commit": "86c75bf5b91751ae4cae8c4a6b5b526acc72f0d2",
+    "argument_supplied": "86c75bf5b01763b4c6168bca179859af0c4a442c",
+    "cause": "The command again used a guessed full commit hash instead of the actual git rev-parse output. The worker's source guard rejected the mismatch before loading weights or replaying rows.",
+    "correction": "Run the controller, which obtains git rev-parse HEAD directly and passes that exact string to each worker; do not hand-type commit hashes."
+  },
+  "scope_note": "No native import, model construction, callback, output file, fallback, or quality evaluation occurred."
+}
