@@ -34,7 +34,7 @@ No teacher, label or evaluation group was used for fitting here. Existing folds 
 
 ## Decision and next step
 
-Keep this arm independent of target-host CPU uploads. Integrate joint and initializer-only fitting after the initial ladder consumer is delivered; record the actual gradient horizon. Grade the official metric and the plan's position bins, then measure hidden-state and prediction perturbation decay separately. Independent implementation review is pending.
+Keep this arm independent of target-host CPU uploads. Integrate joint and initializer-only fitting after the initial ladder consumer is delivered; record the actual gradient horizon. Grade the official metric and the plan's position bins, then measure hidden-state and prediction perturbation decay separately. [Independent implementation review](../../unified/reviews/STATE_INITIALIZER_CAUSAL_REVIEW_20261014_R1.md) found no blocking causal/reset/gradient issue in this wrapper; it does not establish learned initializer quality.
 
 ## Source records
 
