@@ -57,6 +57,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--policy-worktree", type=Path, default=DEFAULT_POLICY_WORKTREE)
     parser.add_argument("--output-dir", type=Path, default=HERE / "runs_r1")
     parser.add_argument("--worker", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument(
+        "--verify-existing",
+        action="store_true",
+        help="verify an already written full-ladder result without rerunning workers",
+    )
     parser.add_argument("--hidden", type=int, choices=sorted({h for h, _ in SHAPES}))
     parser.add_argument("--layers", type=int, choices=(1, 2, 3))
     parser.add_argument("--precision", choices=PRECISIONS)
@@ -535,8 +540,161 @@ def run_ladder(args: argparse.Namespace) -> dict[str, Any]:
     }
     result_path = args.output_dir / "LADDER_RESULTS_R1.json"
     result_path.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
-    print(json.dumps({"result": str(result_path), "shapes": len(outputs)}, flush=True))
+    print(json.dumps({"result": str(result_path), "shapes": len(outputs)}), flush=True)
     return result
+
+
+def verify_existing(args: argparse.Namespace) -> dict[str, Any]:
+    output_dir = args.output_dir
+    summary_path = output_dir / "LADDER_RESULTS_R1.json"
+    summary = json.loads(summary_path.read_text())
+    if summary.get("kind") != "cost_only_student_shape_ladder_screen":
+        raise ValueError("existing ladder summary has the wrong result kind")
+    expected_commit = summary["source_commit"]
+    source_path = "research/campaign_2026-10-14/cpu_student_frontier_r1/architecture_profile_r1/profile_ladder.py"
+    historical_source = subprocess.run(
+        ["git", "show", f"{expected_commit}:{source_path}"],
+        cwd=HERE.parents[3],
+        check=True,
+        capture_output=True,
+    ).stdout
+    historical_source_sha = hashlib.sha256(historical_source).hexdigest()
+    if historical_source_sha != summary["source_script_sha256"]:
+        raise ValueError("profile script hash does not match the source commit in the result")
+    if len(summary["results"]) != len(SHAPES):
+        raise ValueError("summary does not contain all eight planned shapes")
+
+    worker_hashes: dict[str, dict[str, str]] = {}
+    input_hashes: set[str] = set()
+    peak_rss_kib = 0
+    peak_cgroup_memory_bytes = 0
+    for expected_shape, shape_record in zip(SHAPES, summary["results"], strict=True):
+        hidden, layers = expected_shape
+        if (shape_record["hidden"], shape_record["layers"]) != expected_shape:
+            raise ValueError("shape order differs from the frozen ladder")
+        policies = shape_record["policies"]
+        if set(policies) != set(PRECISIONS):
+            raise ValueError("a shape is missing an expected precision policy")
+        worker_hashes[f"h{hidden}l{layers}"] = {}
+        paired_weight_hashes: set[str] = set()
+        for precision in PRECISIONS:
+            name = f"h{hidden}l{layers}_{precision}"
+            worker_path = output_dir / f"{name}.json"
+            receipt_path = output_dir / f"{name}_command.json"
+            worker = json.loads(worker_path.read_text())
+            receipt = json.loads(receipt_path.read_text())
+            if receipt["returncode"] != 0:
+                raise ValueError(f"worker command failed: {name}")
+            if worker["source_commit"] != expected_commit:
+                raise ValueError(f"source commit differs in worker {name}")
+            if worker["source_script_sha256"] != historical_source_sha:
+                raise ValueError(f"source hash differs in worker {name}")
+            if worker["native_binary_sha256"] != NATIVE_SHA256:
+                raise ValueError(f"native binary hash differs in worker {name}")
+            if worker["native_selected_precision"] != precision:
+                raise ValueError(f"selected precision differs in worker {name}")
+            if worker["active_members"] != 1 or worker["coefficients"] != [1.0]:
+                raise ValueError(f"model member/coefficient assertion differs in worker {name}")
+            if not worker["reset_replay_bitwise"]:
+                raise ValueError(f"reset replay failed in worker {name}")
+            if worker["complete_prediction_sha256"] != worker["post_reset_prediction_sha256"]:
+                raise ValueError(f"prediction hashes differ after reset in worker {name}")
+            if worker["input"]["features_sha256"] != FIXTURE_SHA256:
+                raise ValueError(f"raw input hash differs in worker {name}")
+            if worker["input"]["need_mask_sha256"] != NEED_SHA256:
+                raise ValueError(f"need-mask hash differs in worker {name}")
+            if worker["input"]["labels_targets_masks_read"] is not False:
+                raise ValueError(f"worker {name} reports reading labels or masks")
+            timing = worker["timings_seconds"]
+            if any(
+                timing[key] <= 0
+                for key in (
+                    "constructor_quantize_pack_and_native_model_init",
+                    "complete_callback_replay",
+                    "complete_callback_replay_after_reset",
+                )
+            ):
+                raise ValueError(f"worker {name} has a nonpositive measured phase")
+            cgroup = worker["cgroup"]
+            if int(cgroup["memory.max"]) > 1_500_000_000:
+                raise ValueError(f"worker {name} exceeded the admitted memory cap")
+            if cgroup["memory.swap.max"] != "0" or cgroup["cpu.max"] != "100000 100000":
+                raise ValueError(f"worker {name} has unexpected CPU/swap limits")
+            if not cgroup["path"].endswith("cpu-student-ladder-profile-r1.scope"):
+                raise ValueError(f"worker {name} ran outside the admitted scope")
+            events = cgroup["memory.events"]
+            if any(events.get(key, 0) != 0 for key in ("max", "oom", "oom_kill", "oom_group_kill")):
+                raise ValueError(f"worker {name} reports a memory cap or OOM event")
+            if (
+                worker["native_weight_bytes"]
+                != worker["resident_model_storage_bytes"]["total_streamed_weights"]
+            ):
+                raise ValueError(f"worker {name} has inconsistent native weight accounting")
+            if worker["native_weight_bytes"] <= 0:
+                raise ValueError(f"worker {name} reports no native weight storage")
+            peak_rss_kib = max(peak_rss_kib, worker["process_max_rss_kib"])
+            peak_cgroup_memory_bytes = max(peak_cgroup_memory_bytes, int(cgroup["memory.peak"]))
+            input_hashes.add(worker["input"]["features_sha256"])
+            worker_hashes[f"h{hidden}l{layers}"][precision] = {
+                "result_sha256": sha256_file(worker_path),
+                "command_sha256": sha256_file(receipt_path),
+            }
+            paired_weight_hashes.add(worker["weights"]["all_tensor_sha256"])
+        if len(paired_weight_hashes) != 1:
+            raise ValueError(f"F32 and Q8 controls used different weights for H{hidden}L{layers}")
+    if input_hashes != {FIXTURE_SHA256}:
+        raise ValueError("worker input hashes do not all match the single frozen feature fixture")
+
+    controller_cgroup = summary["controller_cgroup_after_all_workers"]
+    if int(controller_cgroup["memory.max"]) > 1_500_000_000:
+        raise ValueError("controller exceeded the admitted memory cap")
+    if (
+        controller_cgroup["memory.swap.max"] != "0"
+        or controller_cgroup["cpu.max"] != "100000 100000"
+    ):
+        raise ValueError("controller had unexpected CPU/swap limits")
+    if any(
+        controller_cgroup["memory.events"].get(key, 0) != 0
+        for key in ("max", "oom", "oom_kill", "oom_group_kill")
+    ):
+        raise ValueError("controller cgroup reports a memory cap or OOM event")
+
+    verification = {
+        "kind": "student_shape_ladder_result_verification",
+        "created_utc": datetime.now(UTC).isoformat(),
+        "ladder_summary_file": summary_path.name,
+        "ladder_summary_sha256": sha256_file(summary_path),
+        "source_commit_verified": expected_commit,
+        "source_script_sha256_verified_from_git_object": historical_source_sha,
+        "native_binary_sha256": NATIVE_SHA256,
+        "worker_count": sum(
+            len(policies) for policies in (shape["policies"] for shape in summary["results"])
+        ),
+        "shape_order_verified": [f"H{hidden}L{layers}" for hidden, layers in SHAPES],
+        "precision_order_verified": list(PRECISIONS),
+        "reset_prediction_bit_parity_verified": True,
+        "identical_weights_within_each_precision_pair": True,
+        "single_raw_feature_fixture_hash_verified": FIXTURE_SHA256,
+        "shared_mask_hash_verified": NEED_SHA256,
+        "worker_file_hashes": worker_hashes,
+        "max_worker_process_rss_kib": peak_rss_kib,
+        "max_observed_cgroup_memory_peak_bytes": peak_cgroup_memory_bytes,
+        "worker_resource_checks": {
+            "memory_max_at_most_bytes": 1_500_000_000,
+            "memory_max_observed_bytes": int(controller_cgroup["memory.max"]),
+            "cpu_max": controller_cgroup["cpu.max"],
+            "swap_max": controller_cgroup["memory.swap.max"],
+            "oom_or_memory_cap_events": 0,
+        },
+        "controller_failure_preserved": "CONTROLLER_FAILURE_AFTER_RESULTS_R1.json",
+        "verification_note": "All checks inspect completed worker/result receipts; this verifier does not rerun or retime the models.",
+    }
+    target = output_dir / "RESULTS_VERIFICATION_R1.json"
+    target.write_text(json.dumps(verification, indent=2, allow_nan=False) + "\n")
+    print(
+        json.dumps({"verified": verification["worker_count"], "receipt": str(target)}), flush=True
+    )
+    return verification
 
 
 def main() -> None:
@@ -554,6 +712,9 @@ def main() -> None:
                 {"result": str(args.result_path), "precision": result["native_selected_precision"]}
             )
         )
+        return
+    if args.verify_existing:
+        verify_existing(args)
         return
     run_ladder(args)
 
