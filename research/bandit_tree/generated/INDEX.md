@@ -6,9 +6,9 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1431 · raw hypothesis rows 493 · raw experiment rows 845 · legacy arms 18 · catalog files 90311.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1444 · raw hypothesis rows 496 · raw experiment rows 852 · legacy arms 18 · catalog files 90518.
 
-Config snapshot: [research/bandit_tree/generated/snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json](<snapshots/config-cb44bcfcc7ce33a2e4026798cf4b2ba133d5000121c623d44c541bea9b4e9f80.json>).
+Config snapshot: [research/bandit_tree/generated/snapshots/config-a0f04689b2ff2755406ce37fc97d293e013ecc70a1c8ea9b868f3cf779a1d783.json](<snapshots/config-a0f04689b2ff2755406ce37fc97d293e013ecc70a1c8ea9b868f3cf779a1d783.json>).
 
 Missing or ambiguous artifact and relationship links are called out below and in `tree.json` warnings. The recursive file inventory is in `catalog.json`; generated output is excluded.
 
@@ -187,6 +187,11 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **claim_scope:** Exposed cross-fold complete endpoint improvement and domain robustness; no inferred public gain
   - artifact: [research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json](<../../campaign_2026-10-13/strategy_execution_r1/CONTRACT.json>)
   - artifact: [research/campaign_2026-10-13/strategy_execution_r1/COVERAGE.json](<../../campaign_2026-10-13/strategy_execution_r1/COVERAGE.json>)
+- **Matched depth width and precision distilled-student frontier** (`arm:student-capacity-frontier-20261014`) — actual_data_smoke_complete_sampler_source_correction_required; eligible=True.
+  - **next_test:** Profile source-qualified B16/C2000 acrosseight shapes; fit one matched FP32 epoch, same clean F0 teacher, normalization and sample order; grade terminal checkpoints and allocate seed/fold repetition.
+  - **claim_scope:** Claim-specific evidence only; existing folds exposed. No quality or public forecast from smoke tests or parity.
+  - artifact: [research/campaign_2026-10-14/cpu_student_frontier_r1/PLAN.md](<../../campaign_2026-10-14/cpu_student_frontier_r1/PLAN.md>)
+  - artifact: [research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/README.md](<../../campaign_2026-10-14/cpu_student_frontier_r1/profiles/README.md>)
 
 ### Temporal state and memory (`family:temporal`)
 
@@ -239,6 +244,11 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **claim_scope:** Exposed cross-fold complete endpoint improvement and domain robustness; no inferred public gain
   - artifact: [research/campaign_2026-10-13/strategy_execution_r1/CONTRACT.json](<../../campaign_2026-10-13/strategy_execution_r1/CONTRACT.json>)
   - artifact: [research/campaign_2026-10-13/strategy_execution_r1/COVERAGE.json](<../../campaign_2026-10-13/strategy_execution_r1/COVERAGE.json>)
+- **Learned constant first-row and prefix GRU states** (`arm:causal-state-init-20261014`) — causal_implementation_pass_single_sequence_mechanism_observation; eligible=True.
+  - **next_test:** Matched joint/initializer-only fits; official grade and position bins; retain all arms, no quality selection from random perturbation.
+  - **claim_scope:** Claim-specific evidence only; existing folds exposed. No quality or public forecast from smoke tests or parity.
+  - artifact: [research/campaign_2026-10-14/cpu_student_frontier_r1/INITIALIZER_IMPLEMENTATION_R1.md](<../../campaign_2026-10-14/cpu_student_frontier_r1/INITIALIZER_IMPLEMENTATION_R1.md>)
+  - artifact: [research/campaign_2026-10-14/cpu_student_frontier_r1/STATE_DECAY_DIAGNOSTIC_R1.md](<../../campaign_2026-10-14/cpu_student_frontier_r1/STATE_DECAY_DIAGNOSTIC_R1.md>)
 
 ### Targets, losses and supervision (`family:objective`)
 
@@ -741,6 +751,11 @@ Missing or ambiguous artifact and relationship links are called out below and in
 - **Quantization and native runtime headroom** (`arm:deployment`) — not_tested; eligible=True.
   - **next_test:** Recheck exact ZIP ABI and realistic timing before submission; use saved public results as anchor, not proxy forecast.
   - **claim_scope:** specific recipe / exposed-data exploration; no inferred public gain
+- **Fixed xteam_h4 native CPU policy comparison** (`arm:cpu-policy-frontier-20261014`) — local_parity_pass_target_runtime_pending; eligible=True.
+  - **next_test:** User uploads A-B-C-D-A asynchronously; actor profiles all eight shapes locally using fixed serving policy. Intel short timings favor original A; no AMD winner.
+  - **claim_scope:** Claim-specific evidence only; existing folds exposed. No quality or public forecast from smoke tests or parity.
+  - artifact: [research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/REPORT.md](<../../campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/REPORT.md>)
+  - artifact: [research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/PACKAGE_MANIFEST_R1.json](<../../campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/PACKAGE_MANIFEST_R1.json>)
 
 ### Evaluation, data exposure and diagnostics (`family:evaluation`)
 
@@ -1048,6 +1063,9 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | arm:strategy-path-clock | Signed path order and learned causal decay | arm · not_tested | family:temporal | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:strategy-moment-projection | Cross-fitted privileged moment projection | arm · not_tested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:strategy-relational-compression | Relational teacher geometry compression | arm · not_tested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:cpu-policy-frontier-20261014 | Fixed xteam_h4 native CPU policy comparison | arm · local_parity_pass_target_runtime_pending | family:deployment | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:student-capacity-frontier-20261014 | Matched depth width and precision distilled-student frontier | arm · actual_data_smoke_complete_sampler_source_correction_required | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:causal-state-init-20261014 | Learned constant first-row and prefix GRU states | arm · causal_implementation_pass_single_sequence_mechanism_observation | family:temporal | [research/bandit_tree/config.json](<../config.json>) | — |
 | hypothesis:H-001 | Targets change only on rows where i0 bid and ask price columns both update. | hypothesis · supported | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L1>) | experiment:E-001 (linked) |
 | hypothesis:H-002 | Each sequence's targets are integer multiples of one of four quanta {0.12543,0.24133,0.46854,0.65687}, defining market classes with different tick regimes. | hypothesis · supported | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L2>) | experiment:E-001 (linked), experiment:E-002 (linked) |
 | hypothesis:H-003 | Features are rank-Gauss transformed: bounded near +-2.326 (Phi^-1(0.99)) with sentinel -5.19934 = Phi^-1(1e-7) for missing values. | hypothesis · probing | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L3>) | experiment:E-001 (linked) |
@@ -1520,6 +1538,9 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-QAT-W4-20261013 | Uniform recurrent W4 or mixed inputW4/recurrentW8 QAT may recover quantization loss versus matched floating continuation plus exact PTQ, improving complete native endpoint tradeoffs. | hypothesis · proposed | family:deployment | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L491>) | — |
 | hypothesis:H-QAT-A8-20261013 | Matching native activation rounding at recurrent matvec boundaries may recover residual deployment loss while preserving FP32 state. | hypothesis · proposed | family:deployment | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L492>) | — |
 | hypothesis:H-QAT-LSQ-20261013 | Learned weight row scales may improve W4 served quality when exact exported scales are preserved. | hypothesis · proposed | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L493>) | — |
+| hypothesis:H-CPU-POLICY-20261014 | Equivalent EVEX256, packed register scheduling and recurrent fusion can improve full callback runtime without changing original xteam_h4 predictions. | hypothesis · proposed | arm:cpu-policy-frontier-20261014 | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L494>) | — |
+| hypothesis:H-STUDENT-LADDER-20261014 | Joint depth width and precision allocation can improve the quality/runtime frontier under fixed clean teacher targets. | hypothesis · proposed | arm:student-capacity-frontier-20261014 | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L495>) | — |
+| hypothesis:H-STATE-INIT-20261014 | Learned or same-sequence input-conditioned GRU state can improve early scoring and possibly persistent prediction quality. | hypothesis · proposed | arm:causal-state-init-20261014 | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L496>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -2287,6 +2308,13 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-QAT-LSQ-10PCT-F0S4-20261013-R1 | E-QAT-LSQ-10PCT-F0S4-20261013-R1 | experiment · profile_passed_fit_pair_admitted | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L838>), [research/experiments.jsonl](<../../experiments.jsonl#L841>) | — |
 | experiment:E-QAT-FINAL-SELF-DISTILL-20261013-R2 | E-QAT-FINAL-SELF-DISTILL-20261013-R2 | experiment · public_probe_completed_not_promoted | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L842>), [research/experiments.jsonl](<../../experiments.jsonl#L844>), [research/experiments.jsonl](<../../experiments.jsonl#L845>) | — |
 | experiment:E-QAT-FINAL-ADAPTATION-20261013-R1 | E-QAT-FINAL-ADAPTATION-20261013-R1 | experiment · completed_final_fitted_diagnostic | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L843>) | — |
+| experiment:E-KAGGLE-CACHE-CONTAINMENT-20261014-R3 | E-KAGGLE-CACHE-CONTAINMENT-20261014-R3 | experiment · provider_running_profile_only | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L846>) | — |
+| experiment:E-STATE-INIT-IMPLEMENTATION-20261014-R1 | causal implementation verification | experiment · complete | arm:causal-state-init-20261014 | [research/experiments.jsonl](<../../experiments.jsonl#L847>) | — |
+| experiment:E-STATE-DECAY-20261014-R1 | fitting-sequence state-perturbation diagnostic | experiment · complete | arm:causal-state-init-20261014 | [research/experiments.jsonl](<../../experiments.jsonl#L848>) | — |
+| experiment:E-PACKED-W4-MATRIX-20261014-R1 | exact represented-weight execution matrix screen | experiment · complete | hypothesis:H-STUDENT-LADDER-20261014 | [research/experiments.jsonl](<../../experiments.jsonl#L849>) | — |
+| experiment:E-CPU-POLICY-20261014-R1 | fixed original-weight CPU serving policies | experiment · local_complete_target_host_pending | hypothesis:H-CPU-POLICY-20261014 | [research/experiments.jsonl](<../../experiments.jsonl#L850>) | — |
+| experiment:E-STUDENT-CPU-LADDER-20261014-R1 | eight-shape sixteen-worker random-weight callback cost screen | experiment · complete | hypothesis:H-STUDENT-LADDER-20261014 | [research/experiments.jsonl](<../../experiments.jsonl#L851>) | — |
+| experiment:E-STUDENT-F0-S3-LARGEST-B1-RESOURCE-PROFILE-20261014-R1 | actual fitting-sequence two-shape GPU resource probe | experiment · complete | hypothesis:H-STUDENT-LADDER-20261014 | [research/experiments.jsonl](<../../experiments.jsonl#L852>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
@@ -2450,6 +2478,8 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L140>) `sha256:ce410a40fd10f4952efb7a5910b00821328ff2cf8d1260746b8572652dd4077f` — `{"created_utc": "2026-10-13T17:04:15.769478+00:00", "decision": "Complete 30% matched trio after 10% deltas W4 -0.0001149 and mixed +0.0001390 with broad component intervals; retain scale-dependent information value, no promotion or failure claim. Full-data vectors prepared; native grades and fresh resource admission guide each launch.", "evidence": ["research/campaign_2026-10-13/qat_renewable_r1/ALLOCATION_30PCT_W4_R1.json", "research/campaign_2026-10-13/qat_renewable_r1/ALLOCATION_30PCT_MIXED_R1.json"], "id": "QAT-30PCT-SCALE-ALLOCATION-20261013-R1", "owner": "root", "type": "measured_adaptation_scale_followup"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L141>) `sha256:b1a56761e487d2a18dd01890f7568c4ac0a3c29ff41c7199723f799c9f37ff51` — `{"created_utc": "2026-10-13T17:51:11.374392+00:00", "decision": "admit one full-data uniformW4 QAT and one matched mixedW4/W8 QAT after currentLSQpair completes; sequentialsingleGPU, controllerfreshresourcegate", "evidence_paths": ["research/campaign_2026-10-13/qat_renewable_r1/ALLOCATION_100PCT_QAT_R1.json", "research/campaign_2026-10-13/qat_renewable_r1/MATCHED_ADAPTATION_WAVE_R1.md"], "hypothesis_id": "H-QAT-W4-20261013", "kind": "allocation", "scope": "onefullmatchedweight-onlycohortF0s3; uncertaintyretained"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L142>) `sha256:06cd4e2b4673c163f04aa3cc831ae2d8e5450de7b81618aec4ee22e9de719fa0` — `{"created_utc": "2026-10-13T18:40:30.334310+00:00", "decision": "admit the two frozen100-update actual-shape local profiles sequentially after current healthy work; fits remain conditional on both profiles finite and measured resource envelope", "evidence_paths": ["research/campaign_2026-10-13/qat_renewable_r1/lsq_f0_s4_r1/PROFILE_ALLOCATION_R1.json", "research/unified/reviews/QAT_LSQ_F0S4_PROFILE_RECIPE_REVIEW_R1.md"], "hypothesis_id": "H-QAT-LSQ-20261013", "kind": "allocation"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L143>) `sha256:898d8593be4cf886160ae98d1246f93628df13362d97413538197d0fa2e5e112` — `{"created_utc": "2026-10-13T23:47:13.328966+00:00", "decision": "User authorizes full CPU/student plan; fixed Q8 policies plus clean teacher architecture ladder and causal initialization. User uploads later; theory and independent work continue.", "evidence_paths": ["research/campaign_2026-10-14/cpu_student_frontier_r1/PLAN.md", "research/campaign_2026-10-14/cpu_student_frontier_r1/CONTRACT.json"], "hypothesis_ids": ["H-CPU-POLICY-20261014", "H-STUDENT-LADDER-20261014", "H-STATE-INIT-20261014"], "kind": "allocation"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L144>) `sha256:3aa4d489dfbd5c9c070d053fc485d36bd714c7dd84ecdd35723a7cf089f24c73` — `{"created_utc": "2026-10-14T00:20:15Z", "decision": "Retain three independent lanes: target-host uploads asynchronous; actor serves eight scratch shapes locally; training actor fixes source-qualified batch mapping before B16 profiles and matched fits; root advances causal initializer implementation and actual-data perturbation diagnostics. No quality selection from resource/parity diagnostics.", "evidence_paths": ["research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md", "research/campaign_2026-10-14/cpu_student_frontier_r1/STATE_DECAY_DIAGNOSTIC_R1.md"], "hypothesis_ids": ["H-CPU-POLICY-20261014", "H-STUDENT-LADDER-20261014", "H-STATE-INIT-20261014"], "kind": "allocation"}`
 
 ## Link and artifact warnings
 
