@@ -1,8 +1,8 @@
 ---
 kind: result
 status: complete
-created_utc: 2026-10-14T01:45:00Z
-updated_utc: 2026-10-14T01:48:00Z
+created_utc: 2026-10-14T01:43:29.946786+00:00
+updated_utc: 2026-10-14T01:45:22.773646+00:00
 hypothesis_ids: [H-STUDENT-LADDER-20261014]
 experiment_ids: [E-STUDENT-WEIGHT-GEOMETRY-20261014-R1]
 evidence_paths: [WEIGHT_COMPRESSION_GEOMETRY_R1.json, WEIGHT_COMPRESSION_GEOMETRY_R2.json]
