@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import math
+
 import torch
 from torch import nn
 
@@ -55,6 +57,35 @@ class MinGRULayer(nn.Module):
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.input_projection = nn.Linear(input_size, 2 * hidden_size)
+
+    @torch.no_grad()
+    def initialize_write_timescales_(
+        self, minimum_rows: float = 2.0, maximum_rows: float = 10_000.0
+    ) -> torch.Tensor:
+        """Initialize only write biases with a log-spaced memory-time prior.
+
+        This explicit experimental arm leaves default initialization unchanged.
+        With zero gate input, retention exp(-1/tau) gives an e-folding time of
+        tau rows. Actual input-dependent gates need a separate measurement.
+        Returns the intended timescales; stored bias precision can alter them.
+        """
+        if not (
+            math.isfinite(minimum_rows)
+            and math.isfinite(maximum_rows)
+            and 1 <= minimum_rows <= maximum_rows
+        ):
+            raise ValueError("timescales must be finite with 1 <= minimum <= maximum")
+        timescales = torch.logspace(
+            math.log10(minimum_rows),
+            math.log10(maximum_rows),
+            self.hidden_size,
+            dtype=torch.float64,
+            device=self.input_projection.bias.device,
+        )
+        # z is the write gate here, opposite PyTorch GRU's retention gate.
+        bias = torch.log(torch.expm1(timescales.reciprocal()))
+        self.input_projection.bias[self.hidden_size :].copy_(bias)
+        return timescales
 
     def _state(self, inputs: torch.Tensor, hidden: torch.Tensor | None) -> torch.Tensor:
         expected = (inputs.shape[0], self.hidden_size)

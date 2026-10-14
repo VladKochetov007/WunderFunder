@@ -8,6 +8,36 @@ import torch
 from wnn.min_gru import MinGRULayer, MinGRUModel
 
 
+def test_timescale_arm_preserves_weights_candidate_bias_and_random_state() -> None:
+    torch.manual_seed(20261014)
+    layer = MinGRULayer(3, 4).double()
+    old_weight = layer.input_projection.weight.detach().clone()
+    old_candidate_bias = layer.input_projection.bias[:4].detach().clone()
+    random_state = torch.random.get_rng_state().clone()
+    timescales = layer.initialize_write_timescales_()
+    torch.testing.assert_close(layer.input_projection.weight, old_weight, rtol=0, atol=0)
+    torch.testing.assert_close(layer.input_projection.bias[:4], old_candidate_bias, rtol=0, atol=0)
+    assert torch.equal(torch.random.get_rng_state(), random_state)
+    retention, _ = layer._coefficients(torch.zeros(1, 3, dtype=torch.float64))
+    torch.testing.assert_close(-1 / retention[0].log(), timescales, rtol=1e-11, atol=1e-11)
+
+
+def test_timescale_arm_initial_state_gradient_matches_exact_decay() -> None:
+    torch.manual_seed(20261014)
+    layer = MinGRULayer(3, 4).double()
+    timescales = layer.initialize_write_timescales_(2, 10_000)
+    initial = torch.ones(1, 4, dtype=torch.float64, requires_grad=True)
+    _, final = layer(torch.zeros(1, 500, 3, dtype=torch.float64), initial)
+    gradient = torch.autograd.grad(final.sum(), initial)[0]
+    torch.testing.assert_close(gradient[0], torch.exp(-500 / timescales), rtol=1e-11, atol=1e-14)
+
+
+@pytest.mark.parametrize("bounds", [(0, 1), (3, 2), (float("nan"), 2), (2, float("inf"))])
+def test_timescale_arm_rejects_invalid_ranges(bounds: tuple[float, float]) -> None:
+    with pytest.raises(ValueError, match="timescales must be finite"):
+        MinGRULayer(3, 4).initialize_write_timescales_(*bounds)
+
+
 def serial(layer: MinGRULayer, inputs: torch.Tensor, initial: torch.Tensor) -> torch.Tensor:
     states = []
     hidden = initial

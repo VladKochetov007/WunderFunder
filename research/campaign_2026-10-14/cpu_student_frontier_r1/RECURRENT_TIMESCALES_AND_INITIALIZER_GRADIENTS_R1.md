@@ -4,7 +4,7 @@ status: proposed
 created_utc: 2026-10-14T02:33:52.201048+00:00
 updated_utc: 2026-10-14T02:33:52.201048+00:00
 hypothesis_ids: [H-MINGRU-TIMESCALES-20261014, H-STATE-INIT-20261014]
-experiment_ids: [E-INITIALIZER-GRADIENTS-20261014-R1]
+experiment_ids: [E-INITIALIZER-GRADIENTS-20261014-R1, E-MINGRU-TIMESCALE-IMPLEMENTATION-20261014-R1]
 evidence_paths: [RECURRENT_TIMESCALE_ALGEBRA_R1.json, INITIALIZER_GRADIENT_TESTS_R1.xml]
 ---
 
@@ -34,7 +34,7 @@ For an initializer fitted against a frozen backbone, the current trainer's norma
 
 ## Limits and validity
 
-No gate-bias model or initializer has been fitted, graded or promoted. Actual-data CUDA profiling, end-to-end data/teacher/initializer ancestry checks, checkpoint reload and native export remain required before a fit. The complete-sequence helper is not wired into the trainer. Joint training remains a separate experiment with its own declared gradient horizon. Checkpoint recomputation must remain deterministic; dropout is disabled by the wrapper. The existing native initializer already transports the required FP32 parameters.
+The separate `MinGRULayer.initialize_write_timescales_` option now implements this prior without changing default initialization. [Seventeen minGRU tests](MINGRU_TIMESCALE_TESTS_R1.xml) passed in1.86seconds, including zero-input e-folding times, exact initial-state gradient decay, unchanged matrix/candidate bias/RNG state, and invalid-range rejection. Its returned timescales are the intended FP64 values; stored bias precision and real gate inputs still require measurement. This does not alter the frozen default-gate CPU benchmark. No gate-bias model or initializer has been fitted, graded or promoted. Actual-data CUDA profiling, end-to-end data/teacher/initializer ancestry checks, checkpoint reload and native export remain required before a fit. The complete-sequence helper is not wired into the trainer. Joint training remains a separate experiment with its own declared gradient horizon. Checkpoint recomputation must remain deterministic; dropout is disabled by the wrapper. The existing native initializer already transports the required FP32 parameters.
 
 ## Decision and next step
 
