@@ -1,0 +1,151 @@
+{
+  "format": "wnn.student-frontier-r5-sequence-static-preflight",
+  "version": 1,
+  "root_admission_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/ROOT_REMAINING_F0_SEED3_ADMISSION_R4.json",
+  "root_admission_sha256": "051ebf5203b982bfa26ece9635ca403b51512299a49b11e64fba15f8c2b60484",
+  "root_admitted_order": [
+    "h256l1",
+    "h192l2",
+    "h512l1",
+    "h384l2",
+    "h640l1",
+    "h512l2",
+    "h448l3"
+  ],
+  "profile_contract_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/PREDICTION_PROFILE_F0_EIGHT_SHAPES_B16_R2.json",
+  "profile_contract_sha256": "ed4ba5be2b74c4487d7f773d9e8ac0b86c334b611654b127a2e91484a67019e2",
+  "plan_builder_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/scripts/build_student_frontier_r5_sequences.py",
+  "plan_builder_source_sha256": "5cfa28cd49d4d2acbb21f19e91dc0bed91aa675f28b5577be21fe41477b5be47",
+  "handoff_helper_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/scripts/reclaim_student_frontier_cache.py",
+  "handoff_helper_source_sha256": "6b776d6b324b3fa6fa8b69fd4d9beb567ed76d83b2fa2d07144d0d44123e7ccc",
+  "static_checker_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/scripts/check_student_frontier_r5_sequences.py",
+  "static_checker_source_sha256": "864f65e741d0515b2af1c3f995ecef8c35a0f068781981bd6b1e026fd4a5fcc2",
+  "shape_plan_count": 7,
+  "phase_order": [
+    "full-fit",
+    "post-fit-assertions",
+    "frozen-grader-input-check",
+    "shape-matched-inference-resource-profile",
+    "validate-shape-matched-inference-resource-profile",
+    "file-cache-handoff-after-profile-before-export",
+    "full-valid-prediction",
+    "official-fold0-grade",
+    "postgrade-assertions",
+    "file-cache-handoff-after-grade-before-next-fit"
+  ],
+  "handoff_worker_reserve_bytes": 400000000,
+  "next_phase_reserves_bytes": {
+    "after-profile": 6000000000,
+    "after-grade": 5000000000
+  },
+  "preserved_source_commands": "all eight original R4 phase steps are byte-identical in each R5 plan; only two guarded CPU handoff steps and sequence metadata were added",
+  "resource_safety": "handoff helper requires terminal source-bound profile/grade evidence, acquires controller and GPU locks nonblocking, rejects active/unresolved GPU attempts, rechecks unchanged caps, and reclaims file cache only",
+  "plans": [
+    {
+      "shape": [
+        256,
+        1
+      ],
+      "base_plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r4-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H256L1_R3_SEQUENCE.json",
+      "base_plan_sha256": "bf2ab555cc821cd3192f38df470a8252e604baecb1fb23ac1fa1c1d9e626fccc",
+      "plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H256L1_R5_SEQUENCE.json",
+      "plan_sha256": "5667ae2173d6622da45e7a562130e53d66227700aadc9df832ebbb4c3c112d04",
+      "profile_handoff_attempt": "student-frontier-f0s3-cache-profile-h256l1-r1",
+      "profile_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h256_l1_r5_after_profile_cache_handoff.json",
+      "grade_handoff_attempt": "student-frontier-f0s3-cache-grade-h256l1-r1",
+      "grade_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h256_l1_r5_after_grade_cache_handoff.json",
+      "preserved_fit_attempt": "student-frontier-f0s3-fit-h256l1-r2"
+    },
+    {
+      "shape": [
+        192,
+        2
+      ],
+      "base_plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r4-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H192L2_R3_SEQUENCE.json",
+      "base_plan_sha256": "ddedb6e186ae9cc826936841308d547aba86f756c9f17d50a8aac553436f898d",
+      "plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H192L2_R5_SEQUENCE.json",
+      "plan_sha256": "ae9ac8c38d02434284c5ab66a0adffbbd993b563ddebc6cf5f2d2ddb207c4d3e",
+      "profile_handoff_attempt": "student-frontier-f0s3-cache-profile-h192l2-r1",
+      "profile_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h192_l2_r5_after_profile_cache_handoff.json",
+      "grade_handoff_attempt": "student-frontier-f0s3-cache-grade-h192l2-r1",
+      "grade_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h192_l2_r5_after_grade_cache_handoff.json",
+      "preserved_fit_attempt": "student-frontier-f0s3-fit-h192l2-r2"
+    },
+    {
+      "shape": [
+        512,
+        1
+      ],
+      "base_plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r4-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H512L1_R3_SEQUENCE.json",
+      "base_plan_sha256": "6a0ebfd83ad97356e61af7cc37774d168352af70b4f64f27c0d85a864e8b4681",
+      "plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H512L1_R5_SEQUENCE.json",
+      "plan_sha256": "cfee42948eb86aec42a34481e41f4b027ccd706c970b8bd363bb6478110acd3b",
+      "profile_handoff_attempt": "student-frontier-f0s3-cache-profile-h512l1-r1",
+      "profile_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h512_l1_r5_after_profile_cache_handoff.json",
+      "grade_handoff_attempt": "student-frontier-f0s3-cache-grade-h512l1-r1",
+      "grade_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h512_l1_r5_after_grade_cache_handoff.json",
+      "preserved_fit_attempt": "student-frontier-f0s3-fit-h512l1-r2"
+    },
+    {
+      "shape": [
+        384,
+        2
+      ],
+      "base_plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r4-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H384L2_R3_SEQUENCE.json",
+      "base_plan_sha256": "e2e291f1ebbcdaf58d6a6da2cf7b05211aa391a823d25eb8738a3aa8dc104299",
+      "plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H384L2_R5_SEQUENCE.json",
+      "plan_sha256": "c70304edcc300a4913dee751e0e80447d89e1d4f361c12dfe5762703ac820c37",
+      "profile_handoff_attempt": "student-frontier-f0s3-cache-profile-h384l2-r1",
+      "profile_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h384_l2_r5_after_profile_cache_handoff.json",
+      "grade_handoff_attempt": "student-frontier-f0s3-cache-grade-h384l2-r1",
+      "grade_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h384_l2_r5_after_grade_cache_handoff.json",
+      "preserved_fit_attempt": "student-frontier-f0s3-fit-h384l2-r2"
+    },
+    {
+      "shape": [
+        640,
+        1
+      ],
+      "base_plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r4-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H640L1_R3_SEQUENCE.json",
+      "base_plan_sha256": "ce4b002d9e7fe33fecdc7c3729ae18058903c227bd19b5696a3fd1c24f5720a4",
+      "plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H640L1_R5_SEQUENCE.json",
+      "plan_sha256": "26c6850573c25e5b119071672831198f9177f07b069c0577d75a51cf329f4c10",
+      "profile_handoff_attempt": "student-frontier-f0s3-cache-profile-h640l1-r1",
+      "profile_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h640_l1_r5_after_profile_cache_handoff.json",
+      "grade_handoff_attempt": "student-frontier-f0s3-cache-grade-h640l1-r1",
+      "grade_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h640_l1_r5_after_grade_cache_handoff.json",
+      "preserved_fit_attempt": "student-frontier-f0s3-fit-h640l1-r2"
+    },
+    {
+      "shape": [
+        512,
+        2
+      ],
+      "base_plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r4-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H512L2_R3_SEQUENCE.json",
+      "base_plan_sha256": "e6bf0ca73ebb3f337941900d10c3cae0c3be12977a6985c5ab646c1a2d1360e8",
+      "plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H512L2_R5_SEQUENCE.json",
+      "plan_sha256": "f38547060e9c6956fa432fe56afcc843f00addcebb2bae5ff287bcd289e32fc6",
+      "profile_handoff_attempt": "student-frontier-f0s3-cache-profile-h512l2-r1",
+      "profile_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h512_l2_r5_after_profile_cache_handoff.json",
+      "grade_handoff_attempt": "student-frontier-f0s3-cache-grade-h512l2-r1",
+      "grade_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h512_l2_r5_after_grade_cache_handoff.json",
+      "preserved_fit_attempt": "student-frontier-f0s3-fit-h512l2-r2"
+    },
+    {
+      "shape": [
+        448,
+        3
+      ],
+      "base_plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r4-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H448L3_R3_SEQUENCE.json",
+      "base_plan_sha256": "6db0882f5b808f373b6f06443802ab6e350e65dc0040e25887012ef2454a0c43",
+      "plan_path": "/home/vlad/development/wunder/worktrees/student-frontier-ops-r5-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/CPU_STUDENT_FRONTIER_F0_S3_H448L3_R5_SEQUENCE.json",
+      "plan_sha256": "567c8a851c463c2de9f07ad58b335b02bca4c7f38b7d0ce90f09c512e877b09f",
+      "profile_handoff_attempt": "student-frontier-f0s3-cache-profile-h448l3-r1",
+      "profile_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h448_l3_r5_after_profile_cache_handoff.json",
+      "grade_handoff_attempt": "student-frontier-f0s3-cache-grade-h448l3-r1",
+      "grade_handoff_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h448_l3_r5_after_grade_cache_handoff.json",
+      "preserved_fit_attempt": "student-frontier-f0s3-fit-h448l3-r2"
+    }
+  ],
+  "static_checks": "passed; seven root-admitted shapes and order, exact R4 commands preserved, custom predictor/profile dependency pinned, matching profile and grade handoff phases, unique receipts and 400 MB one-CPU maintenance attempts"
+}
