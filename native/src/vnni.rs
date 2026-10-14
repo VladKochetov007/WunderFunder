@@ -34,11 +34,15 @@ pub const SUPER_ROWS: usize = 64;
 /// Activation byte code that represents zero in the offset (unsigned) representation.
 pub const OFFSET: u8 = 128;
 
-/// Instruction set a kernel runs on; every choice returns identical bits.
+/// Instruction set and scheduling policy for a dynamic-int8 kernel.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Isa {
     /// AVX-512 F/BW/VNNI `vpdpbusd`.
     Vnni512,
+    /// EVEX 256-bit AVX-512VL/VNNI `vpdpbusd`.
+    Vnni256,
+    /// AVX-512 VNNI with one 16-row register block per inner loop.
+    Vnni512Blocked,
     /// AVX2 `vpmaddwd` on widened bytes.
     Avx2,
     /// Scalar integer loops.
@@ -62,6 +66,15 @@ pub fn supported(isa: Isa) -> bool {
                 && std::arch::is_x86_feature_detected!("avx512bw")
                 && std::arch::is_x86_feature_detected!("avx512vnni")
         }
+        #[cfg(target_arch = "x86_64")]
+        Isa::Vnni256 => {
+            supported(Isa::Avx2)
+                && std::arch::is_x86_feature_detected!("avx512f")
+                && std::arch::is_x86_feature_detected!("avx512vl")
+                && std::arch::is_x86_feature_detected!("avx512vnni")
+        }
+        #[cfg(target_arch = "x86_64")]
+        Isa::Vnni512Blocked => supported(Isa::Vnni512),
         #[cfg(not(target_arch = "x86_64"))]
         _ => false,
     }
@@ -215,12 +228,25 @@ impl DynQ8 {
     /// `q` holds offset codes from `quantize` (`code + 128`), padded to `padded_cols`.
     pub fn gemv(&self, isa: Isa, q: &[u8], xs: f32, bias: Option<&[f32]>, out: &mut [f32]) {
         self.check(q, xs, bias, out);
+        assert!(
+            !matches!(isa, Isa::Vnni256 | Isa::Vnni512Blocked) || supported(isa),
+            "selected dynamic-int8 policy is unsupported by this CPU"
+        );
         match isa {
             // SAFETY: `supported` is the dispatch contract; `check` covers every bound.
             #[cfg(target_arch = "x86_64")]
             Isa::Vnni512 if supported(Isa::Vnni512) => unsafe {
                 self.gemv_vnni(q, xs, bias, out)
             },
+            #[cfg(target_arch = "x86_64")]
+            Isa::Vnni256 if supported(Isa::Vnni256) => unsafe {
+                self.gemv_vnni256(q, xs, bias, out)
+            },
+            #[cfg(target_arch = "x86_64")]
+            Isa::Vnni512Blocked if supported(Isa::Vnni512Blocked) => unsafe {
+                self.gemv_vnni_blocked(q, xs, bias, out)
+            },
+            Isa::Vnni256 | Isa::Vnni512Blocked => unreachable!("unsupported CPU policy"),
             #[cfg(target_arch = "x86_64")]
             Isa::Vnni512 | Isa::Avx2 if supported(Isa::Avx2) => unsafe {
                 self.gemv_avx2(q, xs, bias, out)
@@ -379,6 +405,356 @@ impl DynQ8 {
                         None => _mm512_maskz_loadu_ps(mask, out.as_ptr().add(r0)),
                     };
                     _mm512_mask_storeu_ps(out.as_mut_ptr().add(r0), mask, _mm512_add_ps(scaled, base));
+                }
+            }
+        }
+    }
+
+    /// # Safety
+    /// The CPU must support AVX-512 F/VL/VNNI and AVX2 (`supported(Isa::Vnni256)`).
+    #[cfg(target_arch = "x86_64")]
+    #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512vl,avx512vnni")]
+    unsafe fn gemv_vnni256(&self, q: &[u8], xs: f32, bias: Option<&[f32]>, out: &mut [f32]) {
+        use std::arch::x86_64::*;
+
+        let base = self.lines.as_ptr() as *const u8;
+        let kg = self.kgroups;
+        unsafe {
+            for row_block in 0..self.rows.div_ceil(8) {
+                let mut even = _mm256_setzero_si256();
+                let mut odd = _mm256_setzero_si256();
+                let row = row_block * 8;
+                let within = row % SUPER_ROWS;
+                let block = within / 16;
+                let half = within % 16 / 8;
+                let sb = row / SUPER_ROWS;
+                let mut g = 0;
+                while g + 2 <= kg {
+                    let a0 = _mm256_set1_epi32(
+                        std::ptr::read_unaligned(q.as_ptr().add(4 * g) as *const i32),
+                    );
+                    let a1 = _mm256_set1_epi32(
+                        std::ptr::read_unaligned(q.as_ptr().add(4 * (g + 1)) as *const i32),
+                    );
+                    let w0 = base.add(((sb * kg + g) * 4 + block) * 64 + half * 32);
+                    let w1 = base.add(((sb * kg + g + 1) * 4 + block) * 64 + half * 32);
+                    even = _mm256_dpbusd_epi32(
+                        even,
+                        a0,
+                        _mm256_loadu_si256(w0 as *const __m256i),
+                    );
+                    odd = _mm256_dpbusd_epi32(
+                        odd,
+                        a1,
+                        _mm256_loadu_si256(w1 as *const __m256i),
+                    );
+                    g += 2;
+                }
+                if g < kg {
+                    let a = _mm256_set1_epi32(
+                        std::ptr::read_unaligned(q.as_ptr().add(4 * g) as *const i32),
+                    );
+                    let w = base.add(((sb * kg + g) * 4 + block) * 64 + half * 32);
+                    even = _mm256_dpbusd_epi32(
+                        even,
+                        a,
+                        _mm256_loadu_si256(w as *const __m256i),
+                    );
+                }
+                let rows = 8.min(self.rows - row);
+                let mask = _mm256_setr_epi32(
+                    if rows > 0 { -1 } else { 0 },
+                    if rows > 1 { -1 } else { 0 },
+                    if rows > 2 { -1 } else { 0 },
+                    if rows > 3 { -1 } else { 0 },
+                    if rows > 4 { -1 } else { 0 },
+                    if rows > 5 { -1 } else { 0 },
+                    if rows > 6 { -1 } else { 0 },
+                    if rows > 7 { -1 } else { 0 },
+                );
+                let total = _mm256_add_epi32(even, odd);
+                let offsets = _mm256_maskload_epi32(self.offset_sum.as_ptr().add(row), mask);
+                let dot = _mm256_sub_epi32(total, offsets);
+                let scales = _mm256_maskload_ps(self.scales.as_ptr().add(row), mask);
+                let scale = _mm256_mul_ps(scales, _mm256_set1_ps(xs));
+                let scaled = _mm256_mul_ps(_mm256_cvtepi32_ps(dot), scale);
+                let base_out = match bias {
+                    Some(values) => _mm256_maskload_ps(values.as_ptr().add(row), mask),
+                    None => _mm256_maskload_ps(out.as_ptr().add(row), mask),
+                };
+                _mm256_maskstore_ps(
+                    out.as_mut_ptr().add(row),
+                    mask,
+                    _mm256_add_ps(scaled, base_out),
+                );
+            }
+        }
+    }
+
+    /// Fuse the two GRU matrix projections while preserving each matrix's codes, scales,
+    /// bias and activation vector. The recurrent activation must be the pre-update state.
+    pub fn gemv_pair_vnni(
+        &self,
+        other: &Self,
+        q_self: &[u8],
+        xs_self: f32,
+        bias_self: Option<&[f32]>,
+        out_self: &mut [f32],
+        q_other: &[u8],
+        xs_other: f32,
+        bias_other: Option<&[f32]>,
+        out_other: &mut [f32],
+    ) {
+        self.check(q_self, xs_self, bias_self, out_self);
+        other.check(q_other, xs_other, bias_other, out_other);
+        assert_eq!((self.rows, self.cols), (other.rows, other.cols));
+        assert!(supported(Isa::Vnni512), "fused Q8 policy requires AVX-512 VNNI");
+        #[cfg(target_arch = "x86_64")]
+        // SAFETY: the checks above establish the ISA and every slice length.
+        unsafe {
+            self.gemv_pair_vnni_inner(
+                other,
+                q_self,
+                xs_self,
+                bias_self,
+                out_self,
+                q_other,
+                xs_other,
+                bias_other,
+                out_other,
+            )
+        }
+        #[cfg(not(target_arch = "x86_64"))]
+        {
+            self.gemv(Isa::Portable, q_self, xs_self, bias_self, out_self);
+            other.gemv(Isa::Portable, q_other, xs_other, bias_other, out_other);
+        }
+    }
+
+    /// # Safety
+    /// Both activation slices, matrices and outputs must satisfy `check`, and the CPU must
+    /// support AVX-512 F/BW/VNNI.
+    #[cfg(target_arch = "x86_64")]
+    #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512bw,avx512vnni")]
+    unsafe fn gemv_pair_vnni_inner(
+        &self,
+        other: &Self,
+        q_self: &[u8],
+        xs_self: f32,
+        bias_self: Option<&[f32]>,
+        out_self: &mut [f32],
+        q_other: &[u8],
+        xs_other: f32,
+        bias_other: Option<&[f32]>,
+        out_other: &mut [f32],
+    ) {
+        use std::arch::x86_64::*;
+
+        let kg = self.kgroups;
+        let base_self = self.lines.as_ptr() as *const __m512i;
+        let base_other = other.lines.as_ptr() as *const __m512i;
+        unsafe {
+            for sb in 0..self.rows.div_ceil(SUPER_ROWS) {
+                let stream_self = base_self.add(sb * kg * 4);
+                let stream_other = base_other.add(sb * kg * 4);
+                let mut even_self = [_mm512_setzero_si512(); 4];
+                let mut odd_self = [_mm512_setzero_si512(); 4];
+                let mut even_other = [_mm512_setzero_si512(); 4];
+                let mut odd_other = [_mm512_setzero_si512(); 4];
+                let word = |q: &[u8], g: usize| {
+                    _mm512_set1_epi32(std::ptr::read_unaligned(
+                        q.as_ptr().add(4 * g) as *const i32,
+                    ))
+                };
+                let mut g = 0;
+                while g + 2 <= kg {
+                    let (a0, a1) = (word(q_self, g), word(q_self, g + 1));
+                    let (b0, b1) = (word(q_other, g), word(q_other, g + 1));
+                    for i in 0..4 {
+                        even_self[i] = _mm512_dpbusd_epi32(
+                            even_self[i],
+                            a0,
+                            _mm512_load_si512(stream_self.add(4 * g + i) as *const _),
+                        );
+                        odd_self[i] = _mm512_dpbusd_epi32(
+                            odd_self[i],
+                            a1,
+                            _mm512_load_si512(stream_self.add(4 * g + 4 + i) as *const _),
+                        );
+                        even_other[i] = _mm512_dpbusd_epi32(
+                            even_other[i],
+                            b0,
+                            _mm512_load_si512(stream_other.add(4 * g + i) as *const _),
+                        );
+                        odd_other[i] = _mm512_dpbusd_epi32(
+                            odd_other[i],
+                            b1,
+                            _mm512_load_si512(stream_other.add(4 * g + 4 + i) as *const _),
+                        );
+                    }
+                    g += 2;
+                }
+                if g < kg {
+                    let (a, b) = (word(q_self, g), word(q_other, g));
+                    for i in 0..4 {
+                        even_self[i] = _mm512_dpbusd_epi32(
+                            even_self[i],
+                            a,
+                            _mm512_load_si512(stream_self.add(4 * g + i) as *const _),
+                        );
+                        even_other[i] = _mm512_dpbusd_epi32(
+                            even_other[i],
+                            b,
+                            _mm512_load_si512(stream_other.add(4 * g + i) as *const _),
+                        );
+                    }
+                }
+                let xv_self = _mm512_set1_ps(xs_self);
+                let xv_other = _mm512_set1_ps(xs_other);
+                for i in 0..4 {
+                    let r0 = sb * SUPER_ROWS + 16 * i;
+                    if r0 >= self.rows {
+                        break;
+                    }
+                    let mask = ((1u32 << (self.rows - r0).min(16)) - 1) as u16;
+                    let total_self = _mm512_add_epi32(even_self[i], odd_self[i]);
+                    let dot_self = _mm512_sub_epi32(
+                        total_self,
+                        _mm512_loadu_si512(self.offset_sum.as_ptr().add(r0) as *const _),
+                    );
+                    let scale_self = _mm512_mul_ps(
+                        _mm512_loadu_ps(self.scales.as_ptr().add(r0)),
+                        xv_self,
+                    );
+                    let scaled_self = _mm512_mul_ps(_mm512_cvtepi32_ps(dot_self), scale_self);
+                    let base_out_self = match bias_self {
+                        Some(values) => _mm512_maskz_loadu_ps(mask, values.as_ptr().add(r0)),
+                        None => _mm512_maskz_loadu_ps(mask, out_self.as_ptr().add(r0)),
+                    };
+                    _mm512_mask_storeu_ps(
+                        out_self.as_mut_ptr().add(r0),
+                        mask,
+                        _mm512_add_ps(scaled_self, base_out_self),
+                    );
+
+                    let total_other = _mm512_add_epi32(even_other[i], odd_other[i]);
+                    let dot_other = _mm512_sub_epi32(
+                        total_other,
+                        _mm512_loadu_si512(other.offset_sum.as_ptr().add(r0) as *const _),
+                    );
+                    let scale_other = _mm512_mul_ps(
+                        _mm512_loadu_ps(other.scales.as_ptr().add(r0)),
+                        xv_other,
+                    );
+                    let scaled_other = _mm512_mul_ps(_mm512_cvtepi32_ps(dot_other), scale_other);
+                    let base_out_other = match bias_other {
+                        Some(values) => _mm512_maskz_loadu_ps(mask, values.as_ptr().add(r0)),
+                        None => _mm512_maskz_loadu_ps(mask, out_other.as_ptr().add(r0)),
+                    };
+                    _mm512_mask_storeu_ps(
+                        out_other.as_mut_ptr().add(r0),
+                        mask,
+                        _mm512_add_ps(scaled_other, base_out_other),
+                    );
+                }
+            }
+        }
+    }
+
+    /// # Safety
+    /// The CPU must support AVX-512 F/BW/VNNI and AVX2 (`supported(Isa::Vnni512Blocked)`).
+    #[cfg(target_arch = "x86_64")]
+    #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512bw,avx512vnni")]
+    unsafe fn gemv_vnni_blocked(
+        &self,
+        q: &[u8],
+        xs: f32,
+        bias: Option<&[f32]>,
+        out: &mut [f32],
+    ) {
+        use std::arch::x86_64::*;
+
+        let kg = self.kgroups;
+        let base = self.lines.as_ptr() as *const __m512i;
+        unsafe {
+            for sb in 0..self.rows.div_ceil(SUPER_ROWS) {
+                for block in 0..4 {
+                    let stream = base.add(sb * kg * 4 + block);
+                    let mut acc0 = _mm512_setzero_si512();
+                    let mut acc1 = _mm512_setzero_si512();
+                    let mut acc2 = _mm512_setzero_si512();
+                    let mut acc3 = _mm512_setzero_si512();
+                    let mut g = 0;
+                    while g + 4 <= kg {
+                        let a0 = _mm512_set1_epi32(
+                            std::ptr::read_unaligned(q.as_ptr().add(4 * g) as *const i32),
+                        );
+                        let a1 = _mm512_set1_epi32(
+                            std::ptr::read_unaligned(q.as_ptr().add(4 * (g + 1)) as *const i32),
+                        );
+                        let a2 = _mm512_set1_epi32(
+                            std::ptr::read_unaligned(q.as_ptr().add(4 * (g + 2)) as *const i32),
+                        );
+                        let a3 = _mm512_set1_epi32(
+                            std::ptr::read_unaligned(q.as_ptr().add(4 * (g + 3)) as *const i32),
+                        );
+                        acc0 = _mm512_dpbusd_epi32(acc0, a0, _mm512_load_si512(stream.add(4 * g) as *const _));
+                        acc1 = _mm512_dpbusd_epi32(acc1, a1, _mm512_load_si512(stream.add(4 * (g + 1)) as *const _));
+                        acc2 = _mm512_dpbusd_epi32(acc2, a2, _mm512_load_si512(stream.add(4 * (g + 2)) as *const _));
+                        acc3 = _mm512_dpbusd_epi32(acc3, a3, _mm512_load_si512(stream.add(4 * (g + 3)) as *const _));
+                        g += 4;
+                    }
+                    if g < kg {
+                        let a = _mm512_set1_epi32(
+                            std::ptr::read_unaligned(q.as_ptr().add(4 * g) as *const i32),
+                        );
+                        acc0 = _mm512_dpbusd_epi32(acc0, a, _mm512_load_si512(stream.add(4 * g) as *const _));
+                        g += 1;
+                    }
+                    if g < kg {
+                        let a = _mm512_set1_epi32(
+                            std::ptr::read_unaligned(q.as_ptr().add(4 * g) as *const i32),
+                        );
+                        acc1 = _mm512_dpbusd_epi32(acc1, a, _mm512_load_si512(stream.add(4 * g) as *const _));
+                        g += 1;
+                    }
+                    if g < kg {
+                        let a = _mm512_set1_epi32(
+                            std::ptr::read_unaligned(q.as_ptr().add(4 * g) as *const i32),
+                        );
+                        acc2 = _mm512_dpbusd_epi32(acc2, a, _mm512_load_si512(stream.add(4 * g) as *const _));
+                        g += 1;
+                    }
+                    if g < kg {
+                        let a = _mm512_set1_epi32(
+                            std::ptr::read_unaligned(q.as_ptr().add(4 * g) as *const i32),
+                        );
+                        acc3 = _mm512_dpbusd_epi32(acc3, a, _mm512_load_si512(stream.add(4 * g) as *const _));
+                    }
+                    let total = _mm512_add_epi32(_mm512_add_epi32(acc0, acc1), _mm512_add_epi32(acc2, acc3));
+                    let r0 = sb * SUPER_ROWS + 16 * block;
+                    if r0 >= self.rows {
+                        break;
+                    }
+                    let mask = ((1u32 << (self.rows - r0).min(16)) - 1) as u16;
+                    let dot = _mm512_sub_epi32(
+                        total,
+                        _mm512_loadu_si512(self.offset_sum.as_ptr().add(r0) as *const _),
+                    );
+                    let scale = _mm512_mul_ps(
+                        _mm512_loadu_ps(self.scales.as_ptr().add(r0)),
+                        _mm512_set1_ps(xs),
+                    );
+                    let scaled = _mm512_mul_ps(_mm512_cvtepi32_ps(dot), scale);
+                    let base_out = match bias {
+                        Some(values) => _mm512_maskz_loadu_ps(mask, values.as_ptr().add(r0)),
+                        None => _mm512_maskz_loadu_ps(mask, out.as_ptr().add(r0)),
+                    };
+                    _mm512_mask_storeu_ps(
+                        out.as_mut_ptr().add(r0),
+                        mask,
+                        _mm512_add_ps(scaled, base_out),
+                    );
                 }
             }
         }
@@ -561,7 +937,13 @@ mod tests {
     }
 
     fn isas() -> Vec<Isa> {
-        [Isa::Portable, Isa::Avx2, Isa::Vnni512]
+        [
+            Isa::Portable,
+            Isa::Avx2,
+            Isa::Vnni256,
+            Isa::Vnni512Blocked,
+            Isa::Vnni512,
+        ]
             .into_iter()
             .filter(|i| supported(*i))
             .collect()
@@ -640,6 +1022,69 @@ mod tests {
                     assert!((acc[row] - (bias[row] + plain)).abs() < 1e-4, "{isa:?}");
                 }
             }
+        }
+    }
+
+    #[test]
+    fn paired_vnni_projections_match_separate_paths_bitwise() {
+        if !supported(Isa::Vnni512) {
+            return;
+        }
+        let mut rng = Rng(19);
+        for (rows, cols) in [(3, 5), (65, 33), (768, 256), (1152, 390)] {
+            let left = DynQ8::pack(&matrix(rows, cols, 23), rows, cols).unwrap();
+            let right = DynQ8::pack(&matrix(rows, cols, 29), rows, cols).unwrap();
+            let x_left: Vec<f32> = (0..cols).map(|_| rng.next()).collect();
+            let x_right: Vec<f32> = (0..cols).map(|_| rng.next()).collect();
+            let (mut q_left, mut q_right) = (
+                vec![OFFSET; padded_cols(cols)],
+                vec![OFFSET; padded_cols(cols)],
+            );
+            let (s_left, s_right) = (
+                quantize(&x_left, &mut q_left),
+                quantize(&x_right, &mut q_right),
+            );
+            let (b_left, b_right): (Vec<_>, Vec<_>) = (
+                (0..rows).map(|_| rng.next()).collect(),
+                (0..rows).map(|_| rng.next()).collect(),
+            );
+            let (mut expected_left, mut expected_right) = (vec![0.0; rows], vec![0.0; rows]);
+            left.gemv(
+                Isa::Vnni512,
+                &q_left,
+                s_left,
+                Some(&b_left),
+                &mut expected_left,
+            );
+            right.gemv(
+                Isa::Vnni512,
+                &q_right,
+                s_right,
+                Some(&b_right),
+                &mut expected_right,
+            );
+            let (mut actual_left, mut actual_right) = (vec![0.0; rows], vec![0.0; rows]);
+            left.gemv_pair_vnni(
+                &right,
+                &q_left,
+                s_left,
+                Some(&b_left),
+                &mut actual_left,
+                &q_right,
+                s_right,
+                Some(&b_right),
+                &mut actual_right,
+            );
+            assert_eq!(
+                actual_left.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+                expected_left.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+                "left {rows}x{cols}"
+            );
+            assert_eq!(
+                actual_right.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+                expected_right.iter().map(|v| v.to_bits()).collect::<Vec<_>>(),
+                "right {rows}x{cols}"
+            );
         }
     }
 

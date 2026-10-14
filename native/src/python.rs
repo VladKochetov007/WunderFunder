@@ -244,6 +244,9 @@ fn parse_precision(name: &str) -> PyResult<Precision> {
         "q8vnni" => Ok(Precision::Q8Vnni),
         "q8vnni_avx2" => Ok(Precision::Q8VnniAvx2),
         "q8vnni_portable" => Ok(Precision::Q8VnniPortable),
+        "q8vnni256" => Ok(Precision::Q8Vnni256),
+        "q8vnni_blocked" => Ok(Precision::Q8VnniBlocked),
+        "q8vnni_fused" => Ok(Precision::Q8VnniFused),
         "factor_f32" => Ok(Precision::FactorF32),
         "factor_f32_portable" => Ok(Precision::FactorF32Portable),
         other => Err(PyValueError::new_err(format!(
@@ -266,6 +269,9 @@ fn precision_name(p: Precision) -> &'static str {
         Precision::Q8Vnni => "q8vnni",
         Precision::Q8VnniAvx2 => "q8vnni_avx2",
         Precision::Q8VnniPortable => "q8vnni_portable",
+        Precision::Q8Vnni256 => "q8vnni256",
+        Precision::Q8VnniBlocked => "q8vnni_blocked",
+        Precision::Q8VnniFused => "q8vnni_fused",
         Precision::FactorF32 => "factor_f32",
         Precision::FactorF32Portable => "factor_f32_portable",
     }

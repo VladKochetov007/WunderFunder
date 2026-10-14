@@ -1,0 +1,65 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running unittests src/lib.rs (native/target/debug/deps/wnn_native-9a2bd2a9c51c8ca7)
+
+running 59 tests
+test approx::tests::avx2_activations_match_scalar_bitwise ... ok
+test approx::tests::avx512_activations_match_scalar_bitwise ... ok
+test approx::tests::gelu_error_is_bounded_and_asymptotes_hold ... ok
+test approx::tests::monotone_on_grid ... ok
+test approx::tests::sigmoid_tanh_errors_are_bounded ... ok
+test factorized::tests::scalar_and_simd_factor_products_are_bitwise_equal ... ok
+test factorized::tests::validates_import_without_transforming_factor_bytes ... ok
+test half::tests::conversion_matches_f16c_on_every_half_and_rounds_to_nearest_even ... ok
+test half::tests::gemv_matches_widened_oracle_on_ragged_shapes ... ok
+test half::tests::portable_projection_matches_simd_bitwise ... ok
+test half::tests::project_matches_column_saxpy_bitwise ... ok
+test half::tests::q16_kernels_match_dequantized_oracle ... ok
+test half::tests::q16x_gemv_matches_dequantized_oracle_and_portable_bits ... ok
+test half::tests::q16x_gemv_survives_extreme_codes ... ok
+test half::tests::quantize_avx2_matches_scalar_bitwise ... ok
+test half::tests::quantize_rounds_half_even_within_bounds ... ok
+test half::tests::segments_are_cache_line_aligned ... ok
+test kernels::tests::dot_matches_f64_oracle ... ok
+test kernels::tests::gelu_reference_points ... ok
+test kernels::tests::gemv_matches_rowwise_oracle ... ok
+test quant8::tests::full_range_integer_bound_matches_oracle_and_padding_is_ignored ... ok
+test quant8::tests::quantization_bound_and_bitwise_dispatch ... ok
+test quant8::tests::rejects_invalid_weights_and_shape ... ok
+test quant8::tests::rounding_zeros_and_subnormals ... ok
+test rnn::tests::rejects_bad_shapes ... ok
+test rnn::tests::reset_is_deterministic_and_state_matters ... ok
+test rnn_fast::tests::arena_segments_are_64_byte_aligned ... ok
+test rnn_fast::tests::bench_step_breakdown ... ignored
+test rnn_fast::tests::dynamic_int8_isas_agree_bitwise_and_track_f32 ... ok
+test rnn_fast::tests::exact_activations_match_reference_model ... ok
+test rnn_fast::tests::f16_falls_back_to_f32_outside_half_range ... ok
+test rnn_fast::tests::f16_halves_matrix_bytes ... ok
+test rnn_fast::tests::f16_ragged_hidden_tracks_reference_and_is_repeatable ... ok
+test rnn_fast::tests::f16_step_is_f32_step_on_half_rounded_weights ... ok
+test rnn_fast::tests::fast_activations_stay_close_over_300_steps ... ok
+test rnn_fast::tests::gemv_matches_naive_for_ragged_shapes ... ok
+test rnn_fast::tests::i16_tracks_f32_on_dequantized_weights_and_repeats_bitwise ... ok
+test rnn_fast::tests::imported_dynamic_q8_codes_round_trip_and_match_every_isa ... ok
+test rnn_fast::tests::lstm_matches_f64_reference_in_every_precision ... ok
+test rnn_fast::tests::merged_wide_head_is_the_mean_of_its_heads ... ok
+test rnn_fast::tests::q16x_tracks_f32_and_portable_path_is_bitwise_identical ... ok
+test rnn_fast::tests::q16x_wide_head_is_the_mean_of_its_heads ... ok
+test rnn_fast::tests::q8_preserves_own_representation_and_matches_scalar_reset ... ok
+test rnn_fast::tests::q8_unscaled_recurrent_stress_is_finite_and_bitwise_portable ... ok
+test rnn_fast::tests::q8vnni_shared_backbone_matches_two_independent_heads_across_resets ... ok
+test rnn_fast::tests::reset_restores_initial_output ... ok
+test stream::tests::first_row_is_all_zero_except_nothing ... ok
+test stream::tests::one_sided_price_change_is_not_an_event ... ok
+test stream::tests::online_norm_is_the_float32_prefix_computation_bit_for_bit ... ok
+test stream::tests::online_norm_tracks_two_pass_statistics_and_resets ... ok
+test stream::tests::price_event_sets_flag_counter_and_held_delta ... ok
+test stream::tests::sanitize_holds_previous_value_for_nonfinite_inputs ... ok
+test vnni::tests::extreme_codes_do_not_overflow ... ok
+test vnni::tests::imported_zero_rows_and_scale_bits_round_trip ... ok
+test vnni::tests::kernels_match_integer_oracle_bitwise ... ok
+test vnni::tests::pack_round_trip_keeps_codes ... ok
+test vnni::tests::paired_vnni_projections_match_separate_paths_bitwise ... ok
+test vnni::tests::quantize_paths_agree_and_handle_edges ... ok
+test vnni::tests::rejects_invalid_import ... ok
+
+test result: ok. 58 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 45.43s

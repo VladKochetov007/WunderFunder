@@ -1,0 +1,305 @@
+{
+  "format": "wnn.cpu-policy-measurement",
+  "version": 1,
+  "hypothesis_id": "H-CPU-POLICY-20261014",
+  "source": {
+    "archive": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4.zip",
+    "archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+    "base_revision": "7800d30473e3810e12d9ba22596f9fd6df5626ca",
+    "native_source_sha256": {
+      "native/Cargo.toml": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+      "native/Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+      "native/src/python.rs": "28462601a70ae08da559b9f37cef60c78daf1fa124f1ca0e7df56053c445c0c2",
+      "native/src/rnn_fast.rs": "7edc865656dfca14bd53b42cc145ab00c24d8e720b4cd2ab1be8d61e9a8a970d",
+      "native/src/vnni.rs": "47cfd8fea80857fe66f81dca119e75661845b9092fe635f7116a4ec7ab18233c",
+      "native/examples/bench_int8.rs": "4693886ed913f3ad1cfc7dedba4dff3d8c05a02f02cc785cec6ab69164fe7f5c"
+    },
+    "native_library_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+    "native_library_bytes": 1123456,
+    "original_callback_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+    "ordered_weight_files": [
+      {
+        "path": "weights_0.npz",
+        "sha256": "45ac50f7324b8e26f37eee97b975e2643134e54ab2399077de8778f931abc2bf",
+        "dimensions": [
+          211,
+          256,
+          2,
+          256,
+          2
+        ]
+      },
+      {
+        "path": "weights_1.npz",
+        "sha256": "65176bef6f8ab63931bc34e2da3118328e7922e2bea233e6e1cf4a33e9da8945",
+        "dimensions": [
+          211,
+          256,
+          2,
+          256,
+          2
+        ]
+      },
+      {
+        "path": "weights_2.npz",
+        "sha256": "8d1c4a32f58f322427093b564a4b657475e43eb393bc384336abba4fcfad043e",
+        "dimensions": [
+          211,
+          256,
+          2,
+          512,
+          2
+        ]
+      },
+      {
+        "path": "weights_3.npz",
+        "sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6",
+        "dimensions": [
+          211,
+          256,
+          2,
+          256,
+          2
+        ]
+      }
+    ],
+    "validation_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "probe_inputs_sha256": {
+      "group_0": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e",
+      "group_1": "da1552d094eee4cb347ee88c14613885802e54c3f7052e758834b36f7ad03a5f"
+    },
+    "campaign_scripts_sha256": {
+      "prepare_cpu_policy_packages.py": "1547f5126353cf02f42046993e6fd2bbcd912f15166fc1e45f02116e539f71bb",
+      "benchmark_cpu_policy.py": "b74154bc6cef6168542e06d541644e4e78baf14865089a14371d97765141b3c2",
+      "export_xteam_probe_data.py": "e836be35d0b707898c73e8b92013339f71eb1c4803b5a77f38b7b3c9316f1655"
+    }
+  },
+  "fixed_semantics": [
+    "four original members and order",
+    "0.25 coefficients",
+    "original callback and preprocessing",
+    "GRU/head architecture",
+    "Q8 weight codes and scales",
+    "dynamic activation quantization"
+  ],
+  "build": {
+    "native_command": [
+      "cargo",
+      "build",
+      "--release",
+      "--manifest-path",
+      "native/Cargo.toml",
+      "--features",
+      "extension-module"
+    ],
+    "constraints": {
+      "cargo_build_jobs": 1,
+      "cpu_quota": "100%",
+      "memory_max_bytes": 1500000000,
+      "swap_bytes": 0
+    },
+    "rustc": "rustc 1.94.0 (4a4ef493e 2026-03-02); LLVM 21.1.8; x86_64-unknown-linux-gnu",
+    "cargo": "cargo 1.94.0 (85eff7c80 2026-01-15)",
+    "builds_passed": [
+      "cargo check --lib --features extension-module",
+      "cargo build --release --manifest-path native/Cargo.toml --features extension-module",
+      "cargo build --release --manifest-path native/Cargo.toml --example bench_int8 --features profile"
+    ],
+    "unit_tests": {
+      "command": "cargo test --manifest-path native/Cargo.toml --lib",
+      "passed": 58,
+      "failed": 0,
+      "ignored": 1,
+      "seconds": 45.43,
+      "log": "probes/CARGO_TEST_R1.log",
+      "log_sha256": "381baebf56d00d9b3c0c9a4ca9a2a93ebd358a92f4d950850df9f52e210196cd"
+    }
+  },
+  "host": {
+    "model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "selected_logical_cpu": 0,
+    "python": "3.11.16",
+    "scope": "one pinned logical CPU; local host only"
+  },
+  "policies": {
+    "A": "original shipped q8vnni VNNI512 control",
+    "B": "strict EVEX256 VNNI path (q8vnni256)",
+    "C": "four-accumulator/register-blocked VNNI512 path (q8vnni_blocked)",
+    "D": "paired input/recurrent projection fusion, separate scales/biases and old state (q8vnni_fused; GRU only)"
+  },
+  "assembly": {
+    "source": "probes/ASSEMBLY_R1.vpdpbusd.txt",
+    "sha256": "0d0a08529d12540f6c135bcaa2ee8aba4053c402d56d5ba343ccfc2fce25aa35",
+    "vpdpbusd_ymm_lines": 3,
+    "vpdpbusd_zmm_lines": 44
+  },
+  "matrix_probe": {
+    "source": "probes/MATRIX_R1.log",
+    "sha256": "980733571df0c8eae1e17c29a1bb697f1285eee147829871447acfd7760acb04",
+    "invocation": "bench_int8 --matrix --reps 3 --precisions q8vnni,q8vnni256,q8vnni_blocked --members [four original member_*.wbin paths]",
+    "matrices_per_policy": 24,
+    "alternating_cycles": 3,
+    "timed_samples_per_policy_matrix": 6,
+    "integer_output_bitwise_exact_against_reference": true,
+    "median_us_all_matrices": {
+      "Vnni512": 1.2295,
+      "Vnni256": 3.025,
+      "Vnni512Blocked": 1.7355
+    },
+    "gru_768x256_count_per_policy": 16,
+    "median_us_gru_768x256": {
+      "Vnni512": 1.2495,
+      "Vnni256": 3.081,
+      "Vnni512Blocked": 1.7595
+    }
+  },
+  "cell_probe": {
+    "measurement": "one warm complete sequence, then one instrumented complete sequence; four original member weights; local perf counters; single sample",
+    "models_us_per_row": {
+      "A": 114.05,
+      "B": 178.65,
+      "C": 138.27,
+      "D": 115.54
+    },
+    "features_only_us_per_row": {
+      "A": 0.15,
+      "B": 0.17,
+      "C": 0.14,
+      "D": 0.14
+    },
+    "log_sha256": {
+      "A": "a5d9bdf99b29866bedf43d6417e7972a5001943ec28e9d697ae04462fc2fef0b",
+      "B": "9e0e35b654eca536919e53b3d4bd14d9e17bc2d580815f4e206703c49f579514",
+      "C": "d16412725cee75cd224506ac2368ac7e93061b6ae75b7a54fd65e0cd7aa32566",
+      "D": "dcbc36e66fe935f304b02a5630ffe15951901a3535a54f6d20e13f8360bdad73"
+    },
+    "finding": "D fused paired projection work; measured cycle delta about 0.1%, within single-profile noise, not a material cell-speed result."
+  },
+  "complete_sequence_probe": {
+    "script": "benchmark_cpu_policy.py",
+    "data_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "groups": [
+      {
+        "row_group": 0,
+        "sequence_id": 256678,
+        "rows": 20000,
+        "input_sha256": "bfec7e22df30437429f794156f75ce6f6843c882149ec6e6e7d0c57ead588f3e"
+      },
+      {
+        "row_group": 1,
+        "sequence_id": 751005,
+        "rows": 20000,
+        "input_sha256": "da1552d094eee4cb347ee88c14613885802e54c3f7052e758834b36f7ad03a5f"
+      }
+    ],
+    "order": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "A2"
+    ],
+    "mean_seconds_per_20000_rows": {
+      "A": 2.0386749085,
+      "B": 3.055802127,
+      "C": 2.421778758,
+      "D": 2.1770684005,
+      "A2": 2.0975571445
+    },
+    "A_control_mean_seconds": 2.0681160265,
+    "all_policies_match_A_bitwise_on_both_sequences": true,
+    "all_fresh_reset_replays_bitwise_equal": true,
+    "max_rss_kib": 606916,
+    "receipts": {
+      "A": "probes/callback_A/RESULT.json",
+      "B": "probes/callback_B/RESULT.json",
+      "C": "probes/callback_C/RESULT.json",
+      "D": "probes/callback_D/RESULT.json",
+      "A2": "probes/callback_A2/RESULT.json"
+    },
+    "scope": "complete callback timing and parity only; previously exposed validation; no quality grade"
+  },
+  "packages": {
+    "ordered_labels": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "A"
+    ],
+    "manifest": "PACKAGE_MANIFEST_R1.json",
+    "variants": [
+      {
+        "label": "B",
+        "policy": "q8vnni256",
+        "archive_sha256": "5aed417e57bd7cf845d106802c5722bd2eafeec0fd26010fa29912d7729dae78",
+        "archive_bytes": 16464825
+      },
+      {
+        "label": "C",
+        "policy": "q8vnni_blocked",
+        "archive_sha256": "c17c6415728e9582375fee968668b0452bfc2faf2512443eaabb4f7055027835",
+        "archive_bytes": 16464830
+      },
+      {
+        "label": "D",
+        "policy": "q8vnni_fused",
+        "archive_sha256": "e11ff6a3232c5bb720fad77e09c66bd806ada30e7ab008cc98a25b0de6c05951",
+        "archive_bytes": 16464828
+      }
+    ],
+    "python311_crc_pass": true,
+    "inventory_preserved": true,
+    "all_original_npz_weights_byte_identical": true,
+    "upload_status": "prepared locally; user owns any later upload",
+    "manifest_sha256": "90206bb263f914d0b766a541e02a0e19a9601b26f520baf1305ed36d9c5b451d",
+    "rebuilt_a_control": {
+      "label": "A_rebuilt",
+      "policy": "q8vnni",
+      "submission_order": null,
+      "archive_sha256": "3424828b1ec92397fd3b897ba4d852253c8729958e1cbc85bdc8784b9e3cd342",
+      "archive_bytes": 16464822,
+      "crc_pass": true,
+      "member_inventory_equal": true,
+      "all_original_npz_weights_byte_identical": true,
+      "callback_receipt": "probes/callback_A_rebuilt/RESULT.json",
+      "callback_receipt_sha256": "69bf9e37713671ee842725d5112f0fe43b8f7e10314a2f423c113279b4a2385e",
+      "selected_policy": "q8vnni",
+      "selected_native_level": "v3",
+      "group_prediction_sha256": [
+        "1253b676cf19f9f75a4fcb6305fcf850f7cc421a356e98581c32d2e5c4120cc3",
+        "e50325f8f52c4407a97aedc5391a3c2d3e3926e6e679e6dbeffc927d69b4a8f6"
+      ],
+      "bitwise_equal_to_original_A": true,
+      "fresh_reset_bitwise": true,
+      "callback_seconds": [
+        2.049146338002174,
+        1.9730723679967923
+      ]
+    }
+  },
+  "builder_failure": {
+    "receipt": "BUILDER_FAILURE_R1.json",
+    "classification": "builder mutation failure: reused mutable ZipInfo invalidated source metadata; source ZIP was valid; fixed by cloning ZipInfo before writes"
+  },
+  "limitations": [
+    "two complete sequences only",
+    "one local Intel i9-11900H host",
+    "single sequential callback sample per sequence and policy",
+    "no AMD competition-host profile",
+    "no public score or quality grade",
+    "finite exact-parity samples are not an all-input proof"
+  ],
+  "builder_failures": [
+    {
+      "receipt": "BUILDER_FAILURE_R1.json",
+      "sha256": "b56a7f82e92fac336c8e196598b42e701f93280b4180b2a3639e793ef3cf3c27",
+      "classification": "shared ZipInfo mutation falsely reported overlapping entries in a valid source ZIP"
+    },
+    {
+      "receipt": "BUILDER_FAILURE_R2.json",
+      "sha256": "13b8045431cdc8c2c9b59380340395ea5a17d98276551cfd3412033de305650a",
+      "classification": "builder literal precision heuristic rejected original callback source while adding rebuilt A"
+    }
+  ]
+}

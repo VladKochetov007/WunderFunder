@@ -1,0 +1,17 @@
+{
+  "format": "wnn.cpu-policy-package-builder-failure",
+  "version": 1,
+  "source_archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+  "failed_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=60s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/ruff format research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/prepare_cpu_policy_packages.py && python3 -c 'import shutil; shutil.rmtree(\"research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages\", ignore_errors=True)' && WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=180s scripts/limited /usr/bin/python3.11 research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/prepare_cpu_policy_packages.py --archive /home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4.zip --library native/target/release/libwnn_native.so --out research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages --manifest research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/PACKAGE_MANIFEST_R1.json && WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=60s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/ruff check research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/prepare_cpu_policy_packages.py",
+  "runtime": "Python 3.11.16",
+  "failure": "ValueError: unexpected baseline precision source",
+  "failed_at": "patching the solution for the new A_rebuilt control before writing its first member",
+  "diagnosis": {
+    "original_archive_valid": true,
+    "original_precision_member": "q8vnni",
+    "source_loader": "solution.py reads precision.txt; it does not contain the literal q8vnni string assumed by the builder guard",
+    "cause": "The package builder's unnecessary literal-source heuristic rejected the valid original callback when policy=q8vnni. This was a builder guard bug, not an archive or source defect.",
+    "partial_output": "The packages/ directory may contain an empty A_rebuilt ZIP created before the exception; it is isolated worktree output and was removed before retry."
+  },
+  "repair": "Remove the literal-code heuristic and assert the frozen source precision.txt value directly before generating variants; preserve the command's copy of ZipInfo metadata."
+}
