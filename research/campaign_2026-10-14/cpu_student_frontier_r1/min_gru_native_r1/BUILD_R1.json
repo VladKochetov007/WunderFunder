@@ -1,0 +1,63 @@
+{
+  "build_profile": "Cargo dev/debug; not a release or submission package",
+  "claim_limit": "Build provenance for an isolated prototype only; no trainer, package export, fit, grade or production replacement.",
+  "command": "env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited cargo build --manifest-path native/Cargo.toml --features extension-module",
+  "command_sha256": "bcb70d45ef1bba91f3c70d970200077cba7d323559ed67eaec9ab7a5c28ba9fd",
+  "created_utc": "2026-10-14T02:15:26Z",
+  "elapsed_seconds": 1.08,
+  "exit_code": 0,
+  "features": [
+    "extension-module",
+    "python",
+    "pyo3/extension-module",
+    "abi3-py311"
+  ],
+  "format": "wnn.native-min-gru-build-receipt",
+  "limits": {
+    "cpu_quota": "100%",
+    "memory_max_bytes": 2000000000,
+    "runtime_max": "120s",
+    "swap_max_bytes": 0,
+    "threads": 1
+  },
+  "native_binding_binary": {
+    "build_id_sha1": "05e6ac8401baf048ff7b1f0046d56caa52c21d7a",
+    "elf": "x86-64 shared object with debug_info, not stripped",
+    "path": "native/target/debug/libwnn_native.so",
+    "sha256": "20510deab14d051ada9260417fe02b2df7c9ff75593108c11a9bcaf368d5bbc6",
+    "size_bytes": 18214192
+  },
+  "python_reference_commit": "750701ce96807c2fc6921c7e12512893f8ed33c1",
+  "reused_native_primitives_sha256": {
+    "native/src/approx.rs": "9ccf56716d8416210cab7b6260df12bd30178a8cad6bb289f0b8d3111649f912",
+    "native/src/kernels.rs": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+    "native/src/rnn_fast.rs": "5e69b591df41438f136dd28cc115be5063c13792368eebcf33a6340f327b714c",
+    "native/src/vnni.rs": "47cfd8fea80857fe66f81dca119e75661845b9092fe635f7116a4ec7ab18233c"
+  },
+  "runtime_probe_sha256": "c6bdbaf17afda9f8ccdd8514415e5dd79b2b3220e46b5ed6e10f3602060b48fd",
+  "source_base_commit": "b6c38e685826375dd42d8b2aa7faa747ab8b184d",
+  "source_sha256": {
+    "native/Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+    "native/Cargo.toml": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+    "native/src/approx.rs": "9ccf56716d8416210cab7b6260df12bd30178a8cad6bb289f0b8d3111649f912",
+    "native/src/kernels.rs": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+    "native/src/lib.rs": "e723e66179cf3fe25624e3b7a2cdaacb8dd0b98f135bd0df721a20aaa2dd10f4",
+    "native/src/min_gru.rs": "cb6652cb50478b3d8b5a612f259c311c90045b5722e0d654857bba133ae1a38e",
+    "native/src/python.rs": "dacbd689b4ad548e1493059170914bfef86f2a6b8b9e33eb11b63ea2148d76e4",
+    "native/src/rnn_fast.rs": "5e69b591df41438f136dd28cc115be5063c13792368eebcf33a6340f327b714c",
+    "native/src/stream.rs": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6",
+    "native/src/vnni.rs": "47cfd8fea80857fe66f81dca119e75661845b9092fe635f7116a4ec7ab18233c",
+    "scripts/probe_min_gru_native.py": "dd9987f9ca0a9246b642d6cd48474842909331893236a170b0490e95a43ff2c1",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/min_gru.py": "f7ffca46d34c37eca35a3294d292cc4560e36d01592daa0d3093a114e5fe1e43",
+    "tests/test_min_gru_native.py": "c8c7a8c64bd3ad6fe1e52c5913fee397175cac0d98e90512fce561bed39de6b2"
+  },
+  "status": "passed",
+  "toolchain": {
+    "cargo": "1.94.0 (85eff7c80 2026-01-15)",
+    "rustc": "1.94.0 (4a4ef493e 2026-03-02)",
+    "target": "x86_64-linux"
+  },
+  "version": 1,
+  "worktree": "/home/vlad/development/wunder/worktrees/min-gru-native-20261014"
+}

@@ -1,0 +1,21 @@
+{
+  "format": "wnn.native-min-gru-build-failure",
+  "version": 1,
+  "source_base_commit": "750701ce96807c2fc6921c7e12512893f8ed33c1",
+  "command": "env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited cargo build --manifest-path native/Cargo.toml --features extension-module",
+  "exit_code": 101,
+  "resource_boundary": {
+    "cpu_quota": "100%",
+    "threads": 1,
+    "memory_max_bytes": 2000000000,
+    "runtime_max": "120s",
+    "aggregate_admission_estimate_bytes": 16971000000
+  },
+  "source": {
+    "path": "native/src/min_gru.rs",
+    "sha256": "7187c6a5fbd1ebdf0589cb1c01caa785567ef5c42681451e43ee01ebeef58864"
+  },
+  "diagnosis": "Rust compilation reached the new module and failed because the iterator sum for quantizer_scratch had an ambiguous result type. This was a source type-annotation issue, not a memory/runtime failure.",
+  "compiler_message": "error[E0283]: type annotations needed at src/min_gru.rs:403; cannot satisfy _: Sum<usize>; help: annotate quantizer_scratch as usize",
+  "correction": "Add an explicit usize type to the quantizer scratch byte sum, then retry after a fresh live admission check."
+}

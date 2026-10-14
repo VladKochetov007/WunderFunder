@@ -1,0 +1,12 @@
+{
+  "format": "wnn.native-min-gru-staged-diff-check-failure",
+  "version": 1,
+  "created_utc": "2026-10-14T02:22:01Z",
+  "command": "git add native/src/lib.rs native/src/python.rs native/src/min_gru.rs research/campaign_2026-10-14/cpu_student_frontier_r1/README.md research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1 research/experiments.jsonl research/unified/inference/README.md scripts/probe_min_gru_native.py tests/test_min_gru_native.py && git diff --cached --check && git diff --cached --stat",
+  "command_sha256": "746d63f0166262d2a6bb89cd1bfb9e5b3d9960ab240a112b8c75e9ce59b32b95",
+  "exit_code": 2,
+  "failed_subcommand": "git diff --cached --check",
+  "failure_output": "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUSTFMT_SOURCE_DIFF_R1.txt:4: trailing whitespace.\n+ \nresearch/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUSTFMT_SOURCE_DIFF_R1.txt:25: trailing whitespace.\n+ \nresearch/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUSTFMT_SOURCE_DIFF_R1.txt:55: trailing whitespace.\n+ \nresearch/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUSTFMT_SOURCE_DIFF_R1.txt:67: trailing whitespace.\n+ \nresearch/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUSTFMT_SOURCE_DIFF_R1.txt:79: trailing whitespace.\n+ \nresearch/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUSTFMT_SOURCE_DIFF_R1.txt:94: trailing whitespace.\n+ \nresearch/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUSTFMT_SOURCE_DIFF_R1.txt:109: trailing whitespace.\n+ \nresearch/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUSTFMT_SOURCE_DIFF_R1.txt:128: trailing whitespace.\n+ \n",
+  "diagnosis": "All paths staged after the sparse-checkout correction. The check rejects blank lines with trailing spaces in the preserved raw rustfmt output artifact; this is not source formatting drift in new Rust code. The raw diagnostic is retained byte-for-byte.",
+  "correction": "Keep the captured rustfmt output unchanged and run git diff --cached --check excluding only RUSTFMT_SOURCE_DIFF_R1.txt; all other staged files remain subject to the normal whitespace check."
+}

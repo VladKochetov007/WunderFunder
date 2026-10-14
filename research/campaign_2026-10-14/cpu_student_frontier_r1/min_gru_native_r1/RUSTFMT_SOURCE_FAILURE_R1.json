@@ -1,0 +1,18 @@
+{
+  "classification": "changed-file check is mixed: rustfmt differences include the new Python binding lines and pre-existing untouched regions in native/src/python.rs",
+  "command": "env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited rustfmt --check --edition 2024 native/src/min_gru.rs native/src/python.rs",
+  "command_sha256": "0c96e53cef31288f34029ac0d1e7b3abd73b5e08f70a28a5808933b7eb8396bf",
+  "diagnosis": "The output shows formatting differences for the newly added minGRU import/parser/callback blocks and other older code in the same python.rs file. A focused diff replay will identify and fix only the added lines; no whole-file formatting will be applied.",
+  "diagnostic_output": "RUSTFMT_SOURCE_DIFF_R1.txt",
+  "diagnostic_output_sha256": "88d9edd91ed4f11230a73348210a04b6bce6d7d98dcf4fcff73cb750cf8a464a",
+  "exit_code": 1,
+  "format": "wnn.min-gru-native-rustfmt-failure",
+  "output_lines": 162,
+  "parent_memory_current_bytes_after_check": 11416760320,
+  "resolution": "The new import, parser, direct stepper and predictor hunks shown in the preserved diagnostic were manually changed to rustfmt output. Remaining hunks are in older untouched regions of native/src/python.rs; workspace-wide unrelated formatting was left intact.",
+  "source_sha256": {
+    "native/src/min_gru.rs": "cb6652cb50478b3d8b5a612f259c311c90045b5722e0d654857bba133ae1a38e",
+    "native/src/python.rs": "1d3be11392f61207ee087152a9f6b4d6617e518d19ad436a9116a6affe43944f"
+  },
+  "version": 1
+}

@@ -1,0 +1,28 @@
+{
+  "format": "wnn.native-min-gru-sparse-staging-failure",
+  "version": 1,
+  "created_utc": "2026-10-14T02:21:39Z",
+  "command": "git add native/src/lib.rs native/src/python.rs native/src/min_gru.rs research/campaign_2026-10-14/cpu_student_frontier_r1/README.md research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1 research/experiments.jsonl research/unified/inference/README.md scripts/probe_min_gru_native.py tests/test_min_gru_native.py && git diff --cached --check && git diff --cached --stat",
+  "command_sha256": "746d63f0166262d2a6bb89cd1bfb9e5b3d9960ab240a112b8c75e9ce59b32b95",
+  "exit_code": null,
+  "failure_output": "git add reported paths outside the sparse-checkout definition; the following && checks did not run. The executor output did not preserve an exit-code field.",
+  "affected_paths": [
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/BUILD_R1.json",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/CARGO_BUILD_FAILURE_R1.json",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/FORMAT_CHECK_FAILURE_R1.json",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/PYTEST_ENV_FAILURE_R1.json",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/README.md",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/REPORT.md",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUFF_FAILURE_R1.json",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUNTIME_PROBE_R1.json",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUSTFMT_SOURCE_DIFF_R1.txt",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/RUSTFMT_SOURCE_FAILURE_R1.json",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/SOURCE_MANIFEST_R1.json",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/TESTS_R1.json",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/TOOLCHAIN_PATH_FAILURE_R1.json",
+    "scripts/probe_min_gru_native.py",
+    "tests/test_min_gru_native.py"
+  ],
+  "diagnosis": "The sparse patterns included the campaign parent README and existing reference note but omitted the new min_gru_native_r1 subtree, scripts/probe_min_gru_native.py, and tests/test_min_gru_native.py. git status confirmed those paths were present as untracked files. The initial git add partially staged paths matching the sparse patterns before refusing paths outside them.",
+  "correction": "Add only the new receipt directory, probe script, and test file to the worktree sparse-checkout, then stage and verify the same intended changes."
+}

@@ -1,0 +1,38 @@
+{
+  "composite_command": "git status --short; git rev-parse HEAD; git rev-parse b6c38e68^{commit}; /usr/bin/rustc --version; /usr/bin/cargo --version; file native/target/debug/libwnn_native.so; stat -c '%s' native/target/debug/libwnn_native.so; sha256sum native/target/debug/libwnn_native.so native/src/lib.rs native/src/min_gru.rs native/src/python.rs scripts/probe_min_gru_native.py tests/test_min_gru_native.py src/wnn/min_gru.py native/src/stream.rs src/wnn/features.py native/Cargo.toml native/Cargo.lock",
+  "composite_command_sha256": "c98da6024e39a4c839884707dfecfa6ab74b05a27a4c3840e4ced0194a4c86bb",
+  "correct_path_results": {
+    "cargo": "/home/vlad/.cargo/bin/cargo 1.94.0 (85eff7c80 2026-01-15)",
+    "rustc": "/home/vlad/.cargo/bin/rustc 1.94.0 (4a4ef493e 2026-03-02)"
+  },
+  "created_utc": "2026-10-14T02:15:26Z",
+  "diagnosis": "Toolchain is installed in /home/vlad/.cargo/bin, not /usr/bin. The composite command continued and the binary/source hashes completed successfully.",
+  "failed_subcommands": [
+    {
+      "command": "/usr/bin/rustc --version",
+      "command_sha256": "6f56be5b753fb9a668e98dbb2cdbea95a56915d02799a08c2302dc25db01be88",
+      "exit_code": 127,
+      "stderr": "/bin/bash: line 1: /usr/bin/rustc: No such file or directory"
+    },
+    {
+      "command": "/usr/bin/cargo --version",
+      "command_sha256": "779747414d5d31d90a04f0852ee1f0b6566de601ff9022854f3d1d581efc97e8",
+      "exit_code": 127,
+      "stderr": "/bin/bash: line 1: /usr/bin/cargo: No such file or directory"
+    }
+  ],
+  "format": "wnn.native-min-gru-metadata-path-failure",
+  "source_sha256_at_resolution": {
+    "native/Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+    "native/Cargo.toml": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+    "native/src/lib.rs": "e723e66179cf3fe25624e3b7a2cdaacb8dd0b98f135bd0df721a20aaa2dd10f4",
+    "native/src/min_gru.rs": "cb6652cb50478b3d8b5a612f259c311c90045b5722e0d654857bba133ae1a38e",
+    "native/src/python.rs": "dacbd689b4ad548e1493059170914bfef86f2a6b8b9e33eb11b63ea2148d76e4",
+    "native/src/stream.rs": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6",
+    "scripts/probe_min_gru_native.py": "dd9987f9ca0a9246b642d6cd48474842909331893236a170b0490e95a43ff2c1",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/min_gru.py": "f7ffca46d34c37eca35a3294d292cc4560e36d01592daa0d3093a114e5fe1e43",
+    "tests/test_min_gru_native.py": "c8c7a8c64bd3ad6fe1e52c5913fee397175cac0d98e90512fce561bed39de6b2"
+  },
+  "version": 1
+}

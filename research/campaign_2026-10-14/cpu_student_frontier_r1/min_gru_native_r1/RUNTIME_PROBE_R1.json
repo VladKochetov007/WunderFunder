@@ -1,0 +1,88 @@
+{
+  "execution_environment": {
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "cpu_quota": "100%",
+    "machine": "x86_64",
+    "memory_max_bytes": 2000000000,
+    "process_peak_rss_bytes": 651599872
+  },
+  "format": "wnn.native-min-gru-synthetic-callback-probe",
+  "interpretation": "Prototype transport/numerical evidence only; no trained model, quality claim, production replacement, or target-host speed claim.",
+  "model": {
+    "class": "wnn.min_gru.MinGRUModel",
+    "encoder_width": 12,
+    "event_features": 99,
+    "input_features": 211,
+    "layers": 2,
+    "outputs": 2,
+    "raw_features": 112,
+    "readout_width": 6,
+    "recurrent_width": 8,
+    "state_dict_sha256": "5a4b35a9b4f80ede01d8ec437e88c98bbc3fa8342409feae2b6e226f793437f8"
+  },
+  "native_exact_fp32": {
+    "activation": "exact GELU erf and sigmoid",
+    "bulk_callback_ns_per_row": 46264.79124999605,
+    "bulk_callback_seconds": 0.925295824999921,
+    "construction_seconds": 0.00015334899944718927,
+    "direct_211_stepper_max_abs_hidden_vs_python": 1.1920928955078125e-07,
+    "direct_211_stepper_max_abs_prediction_vs_python": 7.450580596923828e-08,
+    "direct_211_stepper_seconds": 0.8559115090029081,
+    "final_hidden_state_sha256": "3b29bef04ec80c09c796d6f3347a85da8293f749f4c20d46b2bf3b2d2a64255a",
+    "max_abs_hidden_vs_python": 1.1920928955078125e-07,
+    "max_abs_prediction_vs_direct_211_stepper": 0.0,
+    "max_abs_prediction_vs_python": 7.450580596923828e-08,
+    "max_abs_prefix_delta_vs_python": 4.470348358154297e-08,
+    "precision": "f32",
+    "python_step_callback_ns_per_row": 50246.33770008222,
+    "python_step_callback_seconds": 1.0049267540016444,
+    "reset_replay_bitwise_equal": true,
+    "reset_replay_seconds": 0.8962797560088802,
+    "split_at_row_99_bitwise_equal": true,
+    "storage_bytes": {
+      "biases": 208,
+      "feature_builder_state": 1420,
+      "matrix_weights": 11936,
+      "normalization": 1688,
+      "recurrent_state": 64,
+      "scratch": 1068
+    },
+    "weight_bytes": 13832
+  },
+  "native_fast_fp32": {
+    "bulk_callback_seconds": 0.9062661530042533,
+    "max_abs_hidden_delta_vs_exact_fp32": 0.0,
+    "max_abs_prediction_delta_vs_exact_fp32": 8.195638656616211e-08
+  },
+  "native_fast_q8vnni": {
+    "bulk_callback_seconds": 0.5177664380025817,
+    "max_abs_hidden_delta_vs_exact_fp32": 0.0014716386795043945,
+    "max_abs_prediction_delta_vs_exact_fp32": 0.001778721809387207,
+    "storage_bytes": {
+      "biases": 208,
+      "feature_builder_state": 1420,
+      "matrix_weights": 18224,
+      "normalization": 1688,
+      "recurrent_state": 64,
+      "scratch": 1320
+    },
+    "weight_bytes": 20120
+  },
+  "reference": {
+    "device": "cpu",
+    "framework": "torch 2.14.0+cu130",
+    "full_sequence_seconds": 0.027372806987841614,
+    "python_version": "3.13.9",
+    "threads": 1
+  },
+  "size_definition": "weight_bytes = packed or FP32 matrix payloads + FP32 biases + FP32 mean/std; storage_bytes additionally includes recurrent state, model scratch and raw-stream feature-builder state.",
+  "synthetic_input": {
+    "claim_limit": "Deterministic synthetic input and random weights; no fitting or grade.",
+    "generator": "numpy.default_rng(seed).normal(0, 0.2).astype(float32)",
+    "raw_payload_sha256": "db877443cda09d8a1385dda477b48346fcc642b74e6866c9366ba20cecc6a86d",
+    "rows": 20000,
+    "seed": 10062026,
+    "stored_payload": false
+  },
+  "version": 1
+}
