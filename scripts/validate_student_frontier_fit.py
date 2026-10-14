@@ -277,8 +277,40 @@ def validate_fit_receipt(
         "verified target hashes",
     )
     require_equal(
+        cache_binding.get("source_qualified_group_identities"),
+        contract["split"]["groups"],
+        "cache-binding source-qualified group identities",
+    )
+    require_equal(
         cache_binding.get("teacher_sources"), contract["cache"]["teachers"], "teacher ancestry"
     )
+    require_equal(
+        cache_binding.get("target_formula"),
+        contract["cache"]["target_contract"]["formula"],
+        "teacher-target formula",
+    )
+    require_equal(
+        cache_binding.get("target_semantics"),
+        contract["target_semantics"],
+        "teacher-target semantics",
+    )
+    recorded_propensity = cache_binding.get("propensity")
+    expected_propensity = contract["propensity"]
+    if not isinstance(recorded_propensity, dict):
+        raise ValueError("cache binding lacks propensity ancestry")
+    for recorded_name, contract_name in (
+        ("run", "run"),
+        ("checkpoint_sha256", "checkpoint_sha256"),
+        ("provenance_sha256", "provenance_sha256"),
+        ("cache_files", "caches"),
+        ("power", "power"),
+        ("valid_true_mask_eps", "valid_true_mask_eps"),
+    ):
+        require_equal(
+            recorded_propensity.get(recorded_name),
+            expected_propensity[contract_name],
+            f"propensity ancestry {recorded_name}",
+        )
 
     expected_normalization = contract["normalization_source"]["normalization_identity"]
     normalization = provenance.get("normalization_identity")
@@ -286,8 +318,27 @@ def validate_fit_receipt(
     normalization_source = frontier.get("normalization_source")
     if not isinstance(normalization_source, dict):
         raise ValueError("provenance lacks normalization-source identity")
+    expected_normalization_source = contract["normalization_source"]
+    for name in (
+        "run",
+        "epoch",
+        "checkpoint_file",
+        "checkpoint_sha256",
+        "provenance_sha256",
+        "normalization_identity",
+    ):
+        require_equal(
+            normalization_source.get(name),
+            expected_normalization_source[name],
+            f"normalization source {name}",
+        )
     require_equal(
         normalization_source.get("normalization_identity"), normalization, "installed normalization"
+    )
+    require_equal(
+        normalization_source.get("loaded_fields_only"),
+        ["mean", "std"],
+        "normalization source loaded fields",
     )
     require_equal(
         normalization_source.get("learned_weights_loaded"), False, "normalization-only source use"
@@ -345,6 +396,17 @@ def validate_fit_receipt(
         "update_diagnostics",
     ):
         require_equal(embedded.get(field), provenance.get(field), f"checkpoint/provenance {field}")
+    model_state = checkpoint.get("model")
+    if not isinstance(model_state, dict):
+        raise ValueError("epoch-0 checkpoint lacks its model tensor mapping")
+    finite_model_tensors = 0
+    for name, tensor in model_state.items():
+        if not isinstance(tensor, torch.Tensor):
+            raise ValueError(f"checkpoint model entry {name!r} is not a tensor")
+        if torch.is_floating_point(tensor):
+            if not bool(torch.isfinite(tensor).all().item()):
+                raise ValueError(f"checkpoint model tensor {name!r} contains nonfinite values")
+            finite_model_tensors += 1
     del checkpoint
 
     if output_path.exists():
@@ -362,12 +424,19 @@ def validate_fit_receipt(
         "optimizer_attempts": 14920,
         "optimizer_completed_updates": 14920,
         "amp_skipped_updates": 0,
-        "nonfinite_gradient_steps": 0,
         "normalization_identity": normalization,
+        "normalization_source": normalization_source,
+        "propensity_source": recorded_propensity,
         "batch_membership_sha256": order["batch_membership_sha256"],
         "checkpoint_path": str(checkpoint_path),
         "checkpoint_sha256": checkpoint_sha256,
-        "validation": "passed; no quality evaluation performed",
+        "finite_model_tensors_checked": finite_model_tensors,
+        "gradient_stats_steps": grad_stats["steps"],
+        "nonfinite_gradient_steps": grad_stats["nonfinite_steps"],
+        "validation": (
+            "passed; counts, recorded gradients and terminal model tensors checked; "
+            "per-step loss finiteness is not separately serialized; no quality evaluation performed"
+        ),
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
