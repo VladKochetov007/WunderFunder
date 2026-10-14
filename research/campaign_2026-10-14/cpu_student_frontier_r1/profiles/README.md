@@ -25,6 +25,10 @@ The [B8 contract](PROFILE_B8_LADDER_R1_CONTRACT.json), [CPU preflight](PROFILE_B
 
 The initial matched screen now keeps B8 for all eight shapes. The actual training CLI must still pass its consumer/profile gate before full fits. Root owns H256×2 control first, then compact pair and remaining five; no new fit or quality result yet.
 
+## Complete-sequence initializer profile staged
+
+The [initializer-only complete-sequence profile packet](INITIALIZER_COMPLETE_SEQUENCE_B1_R1_README.md) binds the fitted H256×2 seed-3 epoch-0 checkpoint, clean homogeneous teacher targets, common normalization, source-qualified `(valid,37,44346154)` fitting sequence, and reviewed B8 strict cache/order helper. It defines one FP32 full-sequence optimizer update for each of constant, first-row and prefix initialization, plus zero-state reference, checkpointed across ten C2000 chunks. The current [R3 standard-library CPU preflight](INITIALIZER_COMPLETE_SEQUENCE_B1_R3_PREFLIGHT.json) passed under 400 MB/one CPU, including the prior B8 terminal controller receipt and target-file sizes. The earlier [R1](INITIALIZER_COMPLETE_SEQUENCE_B1_R1_PREFLIGHT.json) and [R2](INITIALIZER_COMPLETE_SEQUENCE_B1_R2_PREFLIGHT.json) receipts remain indexed as byte-identical predecessor evidence. The packet is waiting for root GPU admission; it has no execution or quality evidence yet.
+
 - [Actual trainer CLI admission](ROOT_CLI_PROFILE_ADMISSION_R1.json), [first terminal failure](TRAINER_CLI_FAILURE_R1.json) and [traceback](TRAINER_CLI_FAILURE_R1.log): the frozen consumer rejected the cache before any GPU updates because consumer-relative `checkpoint`/`provenance` field names were compared directly with producer `checkpoint_path`/`provenance_path`. All teacher byte hashes match. Exit1 after5.073s, host514,756,608bytes, no observed CUDA allocation beyond79,691,776-byte device baseline. Actor owns explicit path-field mapping and the separately discovered argparse-Path JSON fix; neither failure is architecture or teacher-quality evidence.
 ## Successor R2 trainer consumer preflight
 
