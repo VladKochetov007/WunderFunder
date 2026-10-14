@@ -12,3 +12,7 @@ The canonical narrative entry is in [unified inference](../../unified/inference/
 - [Theory and discriminating tests](THEORY_AND_DISCRIMINATING_TESTS_R1.md), with [shape accounting](SHAPE_ACCOUNTING_R1.csv), grounds the nonblocking architecture/initializer/precision work in primary sources and explicit formulas. Derived costs are not serving measurements.
 
 - [Initializer implementation](INITIALIZER_IMPLEMENTATION_R1.md): separate zero/constant/first-row/prefix wrapper and ten passing causal, reset, gradient and long-sequence checks. Code evidence only; fits, native export and quality comparison remain pending.
+
+- [Actual-data state decay diagnostic](STATE_DECAY_DIAGNOSTIC_R1.md): one clean-F0 control and one fitting sequence show a random initial perturbation surviving warmup, with second-layer influence through several thousand rows. This is mechanism evidence only, not initializer quality or a population-level decay claim.
+
+- [Student resource profiles](profiles/README.md): source/hash-bound actual-data smoke, controller terminal receipt and measured host/device consumption. B1 success does not establish the intended fitting-batch capacity.
