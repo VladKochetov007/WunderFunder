@@ -180,3 +180,5 @@ The first R5 after-profile handoff stopped before reclaim: the controller's chil
 Each successor is a single-shape fit→profile→export→grade plan; root still admits the next shape from fresh memory and previous terminal evidence. A completed cache handoff prepares capacity and does not launch another fit.
 
 The [H256×1 R6 root admission](ROOT_H256L1_R6_SEQUENCE_ADMISSION_R1.json) resumes completed fit/profile stages after independent exact-delta review. The inference actor holds heavy work through full export; projected post-handoff export plus controller/source support is15.6GB within17GB. No limits change.
+
+[H192×2 root admission](ROOT_H192L2_R6_SEQUENCE_ADMISSION_R1.json) follows complete H256×1 fit/profile/export/grade and both successful R6 handoffs. Fresh projected start16.52GB includes5GBfit,2GBinference support,400MBcontroller and700MBsource support. Root rechecks later profile/export overlap; no larger shape is admitted by this record.

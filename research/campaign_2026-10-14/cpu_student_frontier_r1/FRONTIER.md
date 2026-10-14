@@ -2,15 +2,22 @@
 
 Entry: 2026-10-13T23:43:28Z (October14 Europe/Kyiv). Root owns completion under [contract](CONTRACT.json).
 
-## Current position at 02:44 UTC
+## Current position at03:02UTC
 
-The first matched **H256×2 F0 seed3** fit completed14,920 updates and its complete feature-only FP32 export passed the official fixed-F0 grade: **WP0.6697776418601018**, t0=.6614771050,t1=.6780781787. There are468 exposed groups/141 components and one fitting seed. [Collected fit](results/control_fit_terminal_r2/README.md), [prediction/grade receipts](results/control_prediction_grade_r3/README.md), and [independent review](../../unified/reviews/CPU_STUDENT_FRONTIER_H256L2_F0_GRADE_REVIEW_20261014_R1.md) establish this as the screen control, not a promoted model. The historical stronger student remains visible in that comparison.
+Two matched F0seed3 students have complete FP32 exports and official grades:
 
-The matching **H256×1** fit is RUNNING under the same targets, normalization, exposure and update budget. All remaining seven fits are admitted individually through profile/export/grade gates. A durable bounded file-cache handoff is being verified to keep the cohort moving without raising caps. All eight shapes already have actual-data fitting profiles and synthetic Intel FP32/Q8 callback costs; target-host capacity remains unmeasured.
+| Architecture | Official WP | Paired delta vsH256×2 | Fitting time |
+|---|---:|---:|---:|
+| H256×2 |0.669777642| control |34m07.9s|
+| H256×1 |0.669346318|−0.000431324|26m17.5s|
 
-Independent-width and minGRU native implementations are integrated. A same-input H256×2 GRU/H384×2 minGRU callback cost probe is active. [Full-sequence initializer gradients](RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md) pass six synthetic checks; actual-data CUDA profiling precedes fitting. Theory and these branches continue while CPU uploads remain asynchronous.
+The compact model's paired95%component interval is[−0.002304313,+0.001321198],141components/468groups/808,863scored rows/2,000resamples. Both have the same clean targets/normalization,11,936sequence exposures,14,920FP32updates and fixedCP0. One exposedfold/seed does not establish the best architecture or native-Q8 ranking. [H256×2 evidence](results/control_prediction_grade_r3/README.md) and [H256×1 collected result](results/h256l1_terminal_r6/README.md) retain ancestry and terminal receipts. The compact candidate remains active; historical stronger students remain visible.
 
-[Kaggle R4](kaggle_profile_r4/README.md) completed three finite100-update precision profiles and was collected. The [missing F3 teacher](f3_teacher_fit_r5/DRAFT_STATUS_R5.md) is provider RUNNING after private dispatch02:12UTC, with10,000-second ceiling; checkpoint collection and all exports remain pending. TPU is QUEUED at the latest observation. No new winning package or public transfer claim.
+**H192×2 is RUNNING** under the same recipe. R5's first cache handoff failed before reclaim on missing user-bus variables; the [command-only R6 repair](recipes/README.md#r6-user-bus-environment-repair) completed both H256×1 handoffs with unchanged caps. Each next shape receives fresh root capacity admission, accounting for concurrent support reservations. No target-host CPU result has arrived.
+
+The paired GRU/minGRU release callback experiment is active, separate from a preserved debug-build timing. Independent-width/native implementations are integrated; full-sequence initializer gradients and an explicit minGRU memory-timescale prior pass synthetic checks. The actual initializer CUDA profile is being prepared; no initializer/minGRU fit or grade yet. Theory and these experiments continue during asynchronous CPU uploads.
+
+The missing clean F3teacher isRUNNING; TPUQUEUED at02:45–02:47UTC. [Owner-inventory correction](f3_teacher_fit_r5/DRAFT_STATUS_R5.md#inventory-correction-at0247utc) records absent accelerator fields and rate-limited direct status checks without inventing a complete inventory. No additional cloud admission or new winning package.
 
 ## Entry and historical updates
 

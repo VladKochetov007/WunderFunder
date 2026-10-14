@@ -1,3 +1,7 @@
+## 2026-10-14T03:02:00Z — two matched students graded; H192×2 fitting
+
+[CPU/student frontier](../research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md): H256×1 completed14,920updates and full F0gradeWP0.669346318, versus H256×2 .669777642; paired delta−.000431324 with component95%interval[−.002304313,+.001321198], one exposedfold/seed. Compact candidate retained without winner promotion. H192×2 is fitting. R6 command-only handoff repair completed without cap changes; paired release minGRU cost and real-data initializer profiling proceed independently. F3teacherRUNNING,TPUQUEUED; no competition CPU upload or new cloud admission.
+
 ## 2026-10-14T02:44:00Z — first matched student grade; second shape fitting
 
 The [CPU/student frontier](../research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md) has its first validated complete F0 grade: H256×2 seed3 WP0.669777642 on468 exposed groups/141 components. This fixed-budget control is not a promoted model. H256×1 is fitting, and remaining shapes have root-owned fit→profile→export→grade admission. Nonblocking minGRU cost and initializer-gradient experiments continue; the missing clean F3 teacher is privately RUNNING, TPU QUEUED. No competition-host CPU result or stronger architecture established.
