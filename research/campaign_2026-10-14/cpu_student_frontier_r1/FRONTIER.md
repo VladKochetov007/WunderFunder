@@ -2,6 +2,17 @@
 
 Entry: 2026-10-13T23:43:28Z (October14 Europe/Kyiv). Root owns completion under [contract](CONTRACT.json).
 
+## Current position — 2026-10-14 00:42 UTC
+
+- The complete plan is saved. [A–B–C–D–A delivery](../../../submissions/10-14-cpu-policy-r1/README.md) is checked and independently reviewed; user uploads are asynchronous. All original weights and coefficients stay fixed. No target-host result has arrived.
+- [All eight shapes](architecture_profile_r1/REPORT.md) have FP32/Q8 full-callback cost proxies with exact reset replay. One local Intel host, synthetic weights, no quality or competition capacity claim. At similar parameter counts, depth/width changes measured cost materially; retain both alternatives for fitting.
+- [Packed W4](packed_w4_screen_r1/README.md) is exact on the tested matrices but vectorized decode remains1.3–2.3× slower than expanded VNNI here. The scalar lookup is not an optimized T-MAC reproduction. No W4 serving advantage is established.
+- The first H192×2 B1 finite-update smoke passed, with the source-order claim corrected below. The proposed all-shape B16 launch was withheld before execution because larger activation bounds could exceed5GB observed VRAM. Source-qualified H640×1 and H448×3 B1 profiles are being sealed to choose a common safe fitting batch. No new eight-shape fit or quality winner exists yet.
+- The causal initializer wrapper and ten implementation checks pass. A separate fitting-sequence diagnostic finds perturbation effects through several thousand rows, so warmup does not universally erase initial-state information. Native initialization support is now an independent implementation lane; trained quality remains unknown.
+- At00:38UTC, repaired private Kaggle R3 profile remainsRUNNING and the TPU bridge remainsQUEUED. Terminal collection is prepared. Provider status alone is not evidence of an optimizer update.
+
+## Entry and historical updates
+
 - Complete plan recorded; current tree clean at entry revision7800d304. No new model/runtime results yet.
 - Parent5CPU/18GB high/20GB maximum/no swap verified. Entry charged memory5.12GB; local GPU75MiB, no research worker observed; physical Btrfs has56GB available. These are snapshots, not future admission receipts.
 - Inference actor: implement separately asserted A/B/C/D policies on original xteam_h4; exact complete-sequence checks, actual assembly, callback timings and packages.
