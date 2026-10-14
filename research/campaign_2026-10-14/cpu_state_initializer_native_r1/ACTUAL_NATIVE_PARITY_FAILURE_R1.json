@@ -1,0 +1,17 @@
+{
+  "schema": "wnn.state-initializer-actual-native-parity-failure.v1",
+  "date": "2026-10-14",
+  "command": "PYTHONPATH=src:native/target/release CUDA_VISIBLE_DEVICES= WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=3000000000 WNN_RUNTIME_MAX=120s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-14/cpu_state_initializer_native_r1/run_actual_native_parity.py --root /home/vlad/development/wunder/wnn_connectome_starterpack --output /home/vlad/development/wunder/worktrees/cpu-state-initializer-native-r1/research/campaign_2026-10-14/cpu_state_initializer_native_r1/ACTUAL_NATIVE_CALLBACK_PARITY_20K_R1.json",
+  "exit_code": 1,
+  "script_sha256_at_failure": "5511ccfd9dd76eadfe084ae6df95a28fe466d4c20dfcf62c765d4cb7a026a3c4",
+  "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+  "data_identity_checked_before_failure": {
+    "source": "train",
+    "row_group": 37,
+    "seq_ix": 7598721,
+    "full_feature_sha256": "fe24c974e6d6e3e720d36937be06d222d00f743efd65e4a0a3ec178db891f57a"
+  },
+  "error": "RuntimeError: size mismatch for head.2.weight: checkpoint has shape [23, 256], constructed model expected [2, 256]; size mismatch for head.2.bias: checkpoint has shape [23], constructed model expected [2]",
+  "diagnosis": "The pinned diagnostic checkpoint has a 23-output readout, while the native competition EnsemblePredictor enforces two outputs. The frozen state-decay diagnostic itself intentionally compares only the first two output channels. The initial native parity harness incorrectly constructed a two-output Python reference before loading all 23 checkpoint rows.",
+  "repair": "Keep the Python reference at its checkpoint-declared 23 outputs; send only the exact first two existing head.2 rows to the native two-output callback and compare its results with reference[..., :2]. No checkpoint tensor, preprocessing or recurrent weight is modified. The failed attempt wrote no output receipt."
+}

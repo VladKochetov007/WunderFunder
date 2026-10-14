@@ -11,9 +11,11 @@ The canonical narrative entry is in [unified inference](../../unified/inference/
 
 - [Theory and discriminating tests](THEORY_AND_DISCRIMINATING_TESTS_R1.md), with [shape accounting](SHAPE_ACCOUNTING_R1.csv), grounds the nonblocking architecture/initializer/precision work in primary sources and explicit formulas. Derived costs are not serving measurements.
 
-- [Initializer implementation](INITIALIZER_IMPLEMENTATION_R1.md): separate zero/constant/first-row/prefix wrapper and ten passing causal, reset, gradient and long-sequence checks. Code evidence only; fits, native export and quality comparison remain pending.
+- [Initializer implementation](INITIALIZER_IMPLEMENTATION_R1.md): separate zero/constant/first-row/prefix Python wrapper and ten causal, reset, gradient and long-sequence checks. Native export/callback support is in the linked native R1 entry below; fits and quality comparison remain pending.
 
 - [Native causal state initialization R1](../cpu_state_initializer_native_r1/README.md): native callback now accepts exported per-member FP32 zero, bounded constant, first-row MLP and prefix residual states while retaining the original GRU. Twenty-five focused checks pass; Python wrapper/native exact activation error is at most 2.98e-8, zero equals omitted configuration bitwise, and the abi3 callback/reset path runs under Python 3.11. Synthetic implementation and transport evidence only; initializer fitting and quality comparison remain with root.
+
+- [Actual H256×2 full-sequence callback check](../cpu_state_initializer_native_r1/README.md): on the pinned clean-F0 train row-group37 sequence, 20k-row native exact-vs-Python prediction error is at most1.91e-6 and fast-vs-exact is at most4.18e-7 for the deterministic initializer fixture. Prefix row99 and reset are checked; these are one fitting sequence and not a grade or trained-initializer result.
 
 - [Actual-data state decay diagnostic](STATE_DECAY_DIAGNOSTIC_R1.md): one clean-F0 control and one fitting sequence show a random initial perturbation surviving warmup, with second-layer influence through several thousand rows. This is mechanism evidence only, not initializer quality or a population-level decay claim.
 
