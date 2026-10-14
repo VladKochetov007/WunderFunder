@@ -1,0 +1,112 @@
+{
+  "format": "wnn.student-frontier-fit-receipt-validation",
+  "version": 1,
+  "run": "student_frontier_f0s3_h256_l2_r2",
+  "contract_sha256": "9476373fc3c32aea2ae48e9a2c48d211f0f152d13d086fa68efd1e8b1a02e768",
+  "shape": [
+    256,
+    2
+  ],
+  "epoch": 0,
+  "exposed_sequences": 11936,
+  "dropped_tail_sequences": 4,
+  "completed_batches": 1492,
+  "optimizer_attempts": 14920,
+  "optimizer_completed_updates": 14920,
+  "amp_skipped_updates": 0,
+  "normalization_identity": {
+    "mean": {
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32",
+      "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8"
+    },
+    "std": {
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32",
+      "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+    }
+  },
+  "normalization_source": {
+    "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+    "epoch": 5,
+    "checkpoint_file": "model_ep5.pt",
+    "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "provenance_sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+    "normalization_identity": {
+      "mean": {
+        "shape": [
+          211
+        ],
+        "dtype": "torch.float32",
+        "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8"
+      },
+      "std": {
+        "shape": [
+          211
+        ],
+        "dtype": "torch.float32",
+        "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+      }
+    },
+    "loaded_fields_only": [
+      "mean",
+      "std"
+    ],
+    "learned_weights_loaded": false
+  },
+  "propensity_source": {
+    "run": "c20260929_prop_f0",
+    "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+    "cache_files": {
+      "train": {
+        "bytes": 848560128,
+        "n_filled": 10606,
+        "path": "cache/propcache_c20260929_prop_f0_train.npy",
+        "rows": 10607,
+        "sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174",
+        "sidecar_path": "cache/propcache_c20260929_prop_f0_train.json",
+        "sidecar_sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9"
+      },
+      "valid": {
+        "bytes": 149840128,
+        "n_filled": 1873,
+        "path": "cache/propcache_c20260929_prop_f0_valid.npy",
+        "rows": 1873,
+        "sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c",
+        "sidecar_path": "cache/propcache_c20260929_prop_f0_valid.json",
+        "sidecar_sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a"
+      }
+    },
+    "power": 2.0,
+    "valid_true_mask_eps": 0.03
+  },
+  "optimizer_semantics": {
+    "name": "adamw",
+    "constructor_beta1": 0.9,
+    "beta1_cli_override": null,
+    "beta2": 0.999,
+    "schedule": "OneCycleLR",
+    "cycle_momentum": true,
+    "beta1_path": [
+      0.95,
+      0.85,
+      0.95
+    ],
+    "schedule_updates": 14920,
+    "training_dynamics_sha256": "041e3afdf11b064ba35b6ee021116789c6222a4c73a992ea1398ad69f65c0463",
+    "torch_version": "2.14.0+cu130",
+    "validation": "source-bound default plus OneCycleLR runtime reconstruction"
+  },
+  "batch_membership_sha256": "994cef93396ec6769d84560f5104c09a50e5adb6754fd936b2f5a7ab0389e882",
+  "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/student_frontier_f0s3_h256_l2_r2/model_ep0.pt",
+  "checkpoint_sha256": "1baa583573089da3eec02bee9256c32e3caeae59e15f77c7475eea0717f006e6",
+  "finite_model_tensors_checked": 16,
+  "gradient_stats_steps": 14920,
+  "nonfinite_gradient_steps": 0,
+  "validation": "passed; counts, recorded gradients and terminal model tensors checked; per-step loss finiteness is not separately serialized; no quality evaluation performed"
+}
