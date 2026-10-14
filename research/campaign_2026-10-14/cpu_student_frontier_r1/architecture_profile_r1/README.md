@@ -1,0 +1,11 @@
+# CPU student architecture cost screen R1
+
+This folder holds the bounded cost-only screen of the eight fixed student shapes from the [campaign plan](../PLAN.md). It uses one deterministic synthetic member per shape, the exact original xteam_h4 member-0 normalization tensors, and the already validated complete 20k-row raw-feature fixture from the sealed [inference-policy R1 package](../inference_policy_r1/README.md). No fitting, labels, score, GPU, or candidate-quality inference is involved.
+
+- [Profile harness](profile_ladder.py) runs one fresh worker per shape and precision, sequentially. Every worker asserts the selected native precision/member/coefficient, measures constructor quantization/packing separately from full callback and reset-replay time, checks complete-sequence reset bit parity, and records resident model bytes, process peak RSS, cgroup limits and input/weight hashes.
+- [Measured ladder results](runs_r1/LADDER_RESULTS_R1.json) and per-worker JSON/command receipts are created after the authorized run. The expected policies are native FP32 and dynamic Q8 VNNI with identical deterministic float32 weights. Q8 is a numerical policy; this screen does not grade its output quality.
+- The source validation-file SHA comes from the frozen team-model inventory and R1 fixture manifest. The screen rehashes the original archive, member-0 weights, raw feature fixture, fixture manifest and native binary, then reuses the raw fixture rather than rereading the 5.6 GB parquet file. It reads no targets or scoring mask.
+- The synthetic weights use seed 20261014 and per-matrix uniform `±1/sqrt(fan_in)` initialization with zero biases; only normalization is reused from the source model. The model shape preserves the 211-wide encoder, stacked GRU and `[last_state, encoder]` skip readout.
+- W4 and package-byte estimates are omitted: there is no straightforward W4 inference entry point in this native binary, and no trained weights exist for a valid package-size estimate. Local one-core timings are not portal-host claims.
+
+Related hypotheses: H-STUDENT-LADDER-20261014 and H-CPU-POLICY-20261014. The profile is infrastructure/cost evidence only; all validation folds remain exposed.
