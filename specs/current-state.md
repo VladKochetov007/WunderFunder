@@ -1,3 +1,7 @@
+## 2026-10-14T02:44:00Z — first matched student grade; second shape fitting
+
+The [CPU/student frontier](../research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md) has its first validated complete F0 grade: H256×2 seed3 WP0.669777642 on468 exposed groups/141 components. This fixed-budget control is not a promoted model. H256×1 is fitting, and remaining shapes have root-owned fit→profile→export→grade admission. Nonblocking minGRU cost and initializer-gradient experiments continue; the missing clean F3 teacher is privately RUNNING, TPU QUEUED. No competition-host CPU result or stronger architecture established.
+
 ## 2026-10-14T02:15:00Z — first fit complete; F3 teacher dispatched
 
 The [CPU/student frontier](../research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md) has its first completed matched H256×2 F0 seed3 fit: 14,920 FP32 updates, no skipped/nonfinite recorded gradient updates, 34m08s. A postfit consumer assertion expected a nonexistent CLI field; repair against the unchanged producer precedes B16 export profiling and grading. All eight shapes remain authorized. Kaggle precision profiles completed 100 finite updates each and were collected; the missing F3 seed3 teacher was privately dispatched under fresh quota. CPU uploads remain asynchronous. No new model-quality winner or competition-host capacity claim.

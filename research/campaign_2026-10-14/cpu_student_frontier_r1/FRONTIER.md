@@ -2,17 +2,15 @@
 
 Entry: 2026-10-13T23:43:28Z (October14 Europe/Kyiv). Root owns completion under [contract](CONTRACT.json).
 
-## Current position — 2026-10-14 02:15 UTC
+## Current position at 02:44 UTC
 
-The complete plan and asynchronous A–B–C–D–A CPU packages are saved and checked. No competition-host timing has arrived, so those comparisons remain open.
+The first matched **H256×2 F0 seed3** fit completed14,920 updates and its complete feature-only FP32 export passed the official fixed-F0 grade: **WP0.6697776418601018**, t0=.6614771050,t1=.6780781787. There are468 exposed groups/141 components and one fitting seed. [Collected fit](results/control_fit_terminal_r2/README.md), [prediction/grade receipts](results/control_prediction_grade_r3/README.md), and [independent review](../../unified/reviews/CPU_STUDENT_FRONTIER_H256L2_F0_GRADE_REVIEW_20261014_R1.md) establish this as the screen control, not a promoted model. The historical stronger student remains visible in that comparison.
 
-The first matched H256×2 F0 seed3 fit completed 14,920 FP32 updates in 34m08s. Peak host memory was 4.502 GB and observed VRAM 1.687 GB, with zero skipped updates, nonfinite recorded gradients or OOM events. [Terminal evidence](results/control_fit_terminal_r2/README.md) is preserved. The postfit validator expected an absent `beta1` CLI field; the actor and independent critic are repairing that consumer assertion against the pinned optimizer source. Actual B16 export profiling, full predictions and F0 grading follow. The other seven matched shapes remain authorized and prepared.
+The matching **H256×1** fit is RUNNING under the same targets, normalization, exposure and update budget. All remaining seven fits are admitted individually through profile/export/grade gates. A durable bounded file-cache handoff is being verified to keep the cohort moving without raising caps. All eight shapes already have actual-data fitting profiles and synthetic Intel FP32/Q8 callback costs; target-host capacity remains unmeasured.
 
-All eight architectures have bounded actual-data fitting profiles and synthetic local FP32/Q8 callback measurements. Independent encoder/recurrent/head widths, causal initializers and a separate minGRU implementation are being checked. Weight spectra and recurrence/distillation theory guide these nonblocking experiments; none supplies a new quality winner.
+Independent-width and minGRU native implementations are integrated. A same-input H256×2 GRU/H384×2 minGRU callback cost probe is active. [Full-sequence initializer gradients](RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md) pass six synthetic checks; actual-data CUDA profiling precedes fitting. Theory and these branches continue while CPU uploads remain asynchronous.
 
-[Kaggle R4](kaggle_profile_r4/README.md) completed three 100-update seed4 profiles (FP32, W4, mixed), all finite, and terminal artifacts are collected and hashed. The missing clean F3 seed3 teacher was [privately dispatched](f3_teacher_fit_r5/DRAFT_STATUS_R5.md) at 02:12 UTC after quota and uploaded-manifest verification. It has a 10,000-second ceiling; all prediction exports remain pending. TPU was still queued at the latest observation.
-
-Root owns fits through predictions and grading. CPU uploads do not block local training, teacher recovery, theory or implementation. No target-host capacity range or stronger student has yet been established.
+[Kaggle R4](kaggle_profile_r4/README.md) completed three finite100-update precision profiles and was collected. The [missing F3 teacher](f3_teacher_fit_r5/DRAFT_STATUS_R5.md) is provider RUNNING after private dispatch02:12UTC, with10,000-second ceiling; checkpoint collection and all exports remain pending. TPU is QUEUED at the latest observation. No new winning package or public transfer claim.
 
 ## Entry and historical updates
 

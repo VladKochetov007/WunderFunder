@@ -44,7 +44,9 @@ The canonical narrative entry is in [unified inference](../../unified/inference/
 
 - [minGRU reference](MINGRU_REFERENCE_R1.md): isolated positive-candidate cell and affine-composition scan, with explicit actual-zero state semantics. Eleven synthetic cell/full-model forward/gradient/chunk/reset/20k-row checks pass. Trainer integration, device profiling and quality results remain pending; O(T log T) reference scan is not a speed claim.
 
-- [Fit and evaluation results](results/README.md): first matched H256×2 terminal fit is collected; checkpoint-audit repair and full prediction grading remain pending.
-- [minGRU reference](MINGRU_REFERENCE_R1.md): Python positive-candidate cell and affine-composition scan, with explicit actual-zero state semantics. Nine synthetic forward/gradient/chunk/reset/20k-row checks pass. That reference remains separate from the trainer; its O(T log T) scan is not a speed claim. The later native callback prototype is indexed below.
+- [Fit and evaluation results](results/README.md): the first matched H256×2 fit and complete validated F0 grade are collected, WP0.669777642. H256×1 is fitting; no architecture winner is established.
+
 
 - [Native minGRU callback prototype](min_gru_native_r1/README.md): separate FP32/exact, fast-FP32 and optional Q8 native callback using the committed Python state-dict layout and existing causal112-to-211 feature builder. Full Rust suite62/63 and focused Python tests15/15 pass. On20k deterministic synthetic rows, exact native-vs-Python max prediction error is7.45e-8 and reset/chunk replay is bitwise; Q8 changes predictions and is larger for the tiny E12/R8/M6 fixture. No fitting, grade, target-shape capacity or architecture claim.
+
+- [Memory timescales and initializer gradients](RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md): primary-source gate-bias hypothesis, six scalar decay/gradient checks, and a tested complete-sequence frozen-backbone initializer loss that preserves late gradients. No fit or quality result; actual CUDA profile is next.
