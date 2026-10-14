@@ -16,3 +16,5 @@ The task freezes all model and data semantics. A bitwise-equality statement appl
 
 [MAIN_ARTIFACT_BINDING_R1.json](MAIN_ARTIFACT_BINDING_R1.json) records immutable physical hardlinks of the sealed rebuilt-A/B/C/D ZIPs into this same relative location in the main repository, with every package SHA256 rechecked. The original A stays at its original artifact path. This makes the packages available independently of the actor checkout without rewriting or duplicating weights. Independent release review remains separate from this file-transfer receipt.
 
+The [upload handoff](../../../../submissions/10-14-cpu-policy-r1/README.md) gives A–B–C–D–A links and complete evidence references. [Independent policy review](../../../unified/reviews/CPU_POLICY_IMPLEMENTATION_REVIEW_20261014_R1.md) passes the exact tested scope; [ELF ABI inspection](ELF_ABI_R1.json) records required libraries and a maximum GLIBC2.34 symbol version. No target-host receipt exists yet.
+
