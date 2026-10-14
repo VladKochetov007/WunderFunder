@@ -15,6 +15,7 @@ from wnn.splits import CampaignSplit
 CACHE_FORMAT = "wnn.heterogeneous-distillation-cache"
 CACHE_VERSION = 1
 SEQUENCE_ROWS = 20_000
+MAX_CACHE_METADATA_BYTES = 512_000
 MAIN_WIDTH = 2
 FAMILY_WIDTH = 8
 FAMILY_ORDER = ("strong", "full_finetuned", "raw_wmse", "samefold_baseline")
@@ -128,7 +129,15 @@ def validate_distillation_cache(
         raise ValueError(f"unknown distillation target variant: {variant}")
     cache_root = cache_root.resolve(strict=True)
     metadata_path = cache_root / "metadata.json"
-    metadata = json.loads(metadata_path.read_text())
+    metadata_size = metadata_path.stat().st_size
+    if metadata_size <= 0 or metadata_size > MAX_CACHE_METADATA_BYTES:
+        raise ValueError(
+            f"distillation cache metadata exceeds its {MAX_CACHE_METADATA_BYTES}-byte read bound"
+        )
+    metadata_raw = metadata_path.read_bytes()
+    if len(metadata_raw) != metadata_size:
+        raise ValueError("distillation cache metadata changed while being read")
+    metadata = json.loads(metadata_raw)
     if metadata.get("format") != CACHE_FORMAT or metadata.get("version") != CACHE_VERSION:
         raise ValueError("unsupported heterogeneous distillation cache format")
     if metadata.get("split_manifest_sha256") != split.sha256 or metadata.get("fold") != split.fold:

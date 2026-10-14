@@ -1,0 +1,304 @@
+{
+  "cache_ancestry": {
+    "propensity": {
+      "caches": {
+        "train": {
+          "bytes": 848560128,
+          "path": "cache/propcache_c20260929_prop_f0_train.npy",
+          "sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174",
+          "sidecar_sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9"
+        },
+        "valid": {
+          "bytes": 149840128,
+          "path": "cache/propcache_c20260929_prop_f0_valid.npy",
+          "sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c",
+          "sidecar_sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a"
+        }
+      },
+      "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+      "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+      "run": "c20260929_prop_f0"
+    },
+    "teacher_sources": [
+      {
+        "checkpoint": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt",
+        "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json",
+        "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+        "run": "clean_t3_f0_muonall_h384_e3_s3_r5"
+      },
+      {
+        "checkpoint": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/model_ep2.pt",
+        "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json",
+        "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+        "run": "clean_t3_f0_muonall_h384_e3_s4_r5"
+      },
+      {
+        "checkpoint": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/model_ep2.pt",
+        "checkpoint_sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+        "coefficient": 0.1,
+        "epoch": 2,
+        "family": "strong",
+        "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json",
+        "provenance_sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18",
+        "run": "clean_t3_f0_muonall_h384_e3_s5_r5"
+      }
+    ]
+  },
+  "cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+  "cache_verified_files": {
+    "main_homogeneous_train": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+    "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+  },
+  "data_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "format": "wnn.student-frontier-batch-profile-result",
+  "host_cgroup_memory_current_bytes_after_preflight": 1499860992,
+  "host_max_rss_bytes_after_preflight": 1766436864,
+  "interpretation": "strict actual-data source/order/cache validation; no fit or quality evaluation",
+  "normalization_sha256": {
+    "mean": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+    "std": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+  },
+  "normalization_source": {
+    "buffers_only": true,
+    "checkpoint": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+    "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "description": "copy only fitting-only mean/std from the clean F0 H256\u00d72 seed-3 FP16 six-epoch control; no learned model parameters are loaded into the profile student",
+    "learned_weights_loaded": false,
+    "loaded_fields_only": [
+      "mean",
+      "std"
+    ],
+    "provenance": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/provenance.json",
+    "provenance_sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+    "source_fit_groups": "same source-qualified F0 fitting sets; evaluation components excluded"
+  },
+  "profile_contract_sha256": "93c72c250dcb2427b83210395ab4aa70d9c961666c3f431577cff67c539672ee",
+  "profile_selection": {
+    "batch_size": 1,
+    "shape_indices": [
+      5,
+      7
+    ],
+    "shapes": [
+      [
+        640,
+        1
+      ],
+      [
+        448,
+        3
+      ]
+    ]
+  },
+  "profile_source_sha256": {
+    "scripts/profile_student_frontier_batch.py": "0bb78a9a3ec449d214d3ce293f051ae7e4528f8dfe065901ff27cbf02e0a0d5b",
+    "scripts/train_rnn.py": "500c35e2fe6ab5390ee708a21969300973caaf8558fecea9272055655b2cdd7d",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/distillation_cache.py": "008fd6615ac5b627273f419072933cb95dc85fcd6c30eaffd6f1fb2df53ab0eb",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/nn.py": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+    "src/wnn/propensity.py": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+    "src/wnn/resources.py": "0b6280130a480f5547552df83cc4a15e7cfe88ad04498ca11c2ab2d54bb428e9",
+    "src/wnn/splits.py": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe",
+    "src/wnn/student_frontier.py": "5fd65fa9c3a31f03f9330be8ec382d380dd0bcdc2dc9c8e63514fe9198aa6e30",
+    "src/wnn/student_frontier_order.py": "6be4ab23547c38cc1373ac8a3ba0f5cb8f7a7cbd989cc924f965aa25d3dbc9ba",
+    "src/wnn/training_controls.py": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39",
+    "src/wnn/training_dynamics.py": "041e3afdf11b064ba35b6ee021116789c6222a4c73a992ea1398ad69f65c0463",
+    "src/wnn/training_sampling.py": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2"
+  },
+  "quality_claim": null,
+  "resource_profile_scope": {
+    "batch_size": 1,
+    "causal_export_sequences": 1,
+    "kind": "resource_only",
+    "no_fit_walltime_extrapolation": true,
+    "no_quality_claim": true,
+    "seq_ix": 44346154,
+    "shape_indices": [
+      5,
+      7
+    ],
+    "shapes": [
+      [
+        640,
+        1
+      ],
+      [
+        448,
+        3
+      ]
+    ],
+    "source_qualified_member": [
+      "valid",
+      37
+    ],
+    "updates": 3
+  },
+  "source_qualified_sampler": {
+    "all_cache_rows_source_qualified": 11940,
+    "batches_per_epoch": 746,
+    "chunks_per_sequence": 10,
+    "dropped_tail_members": [
+      [
+        "train",
+        3449
+      ],
+      [
+        "train",
+        2425
+      ],
+      [
+        "train",
+        879
+      ],
+      [
+        "train",
+        7224
+      ]
+    ],
+    "dropped_tail_positions": [
+      5638,
+      4941,
+      3775,
+      2355
+    ],
+    "first_batch_members": [
+      [
+        "valid",
+        37
+      ],
+      [
+        "train",
+        9839
+      ],
+      [
+        "train",
+        1639
+      ],
+      [
+        "train",
+        7977
+      ],
+      [
+        "train",
+        7548
+      ],
+      [
+        "valid",
+        1263
+      ],
+      [
+        "train",
+        3788
+      ],
+      [
+        "train",
+        9480
+      ],
+      [
+        "train",
+        2478
+      ],
+      [
+        "train",
+        1094
+      ],
+      [
+        "train",
+        7529
+      ],
+      [
+        "train",
+        10227
+      ],
+      [
+        "train",
+        2131
+      ],
+      [
+        "train",
+        9134
+      ],
+      [
+        "train",
+        1832
+      ],
+      [
+        "train",
+        5224
+      ]
+    ],
+    "first_batch_positions": [
+      10562,
+      8725,
+      6305,
+      1586,
+      2134,
+      11477,
+      8128,
+      1560,
+      2922,
+      8340,
+      4913,
+      2805,
+      4517,
+      9259,
+      2632,
+      2203
+    ],
+    "first_batch_seq_ix": [
+      44346154,
+      1997333359,
+      342781553,
+      1629092802,
+      1546977674,
+      1466505621,
+      774192677,
+      1930716618,
+      514227336,
+      230774826,
+      1544636377,
+      2077965454,
+      444849898,
+      1864890861,
+      382374263,
+      1074328294
+    ],
+    "fit_group_exposures_after_drop_last": 11936,
+    "fit_groups_before_drop_last": 11940,
+    "omitted_fit_group_count_per_epoch": 4,
+    "optimizer_updates_per_epoch": 7460,
+    "sampler_positions_sha256": "0ebdb64780b034ced17e78bd95cb0f3b94e86cd6575b5ee2d6bc0680ee820c69",
+    "sampler_source_rows_sha256": "124edb9c19924911d173c1082c49f53b26ad281995c6300266ab46d402c827e2",
+    "source_qualified_group_identities": {
+      "train": {
+        "count": 10535,
+        "ordered_int64_le_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda"
+      },
+      "valid_evaluation": {
+        "count": 468,
+        "ordered_int64_le_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1"
+      },
+      "valid_fit": {
+        "count": 1405,
+        "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      }
+    },
+    "strict_cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "strict_cache_verified_files": {
+      "main_homogeneous_train": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+      "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+    },
+    "train_order_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9"
+  },
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "version": 1
+}

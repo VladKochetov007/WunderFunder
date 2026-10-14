@@ -404,14 +404,21 @@ def true_mask_weights(main_valid, valid, scored, eps, branchless):
 
 def prop_cache_path(name, split):
     """Propensity cache written by scripts/cache_propensity.py; refuses a cache built from other weights."""
-    import hashlib
-
     path = ROOT / "cache" / f"propcache_{name}_{split}.npy"
     meta = path.with_suffix(".json")
     if not path.exists() or not meta.exists():
         raise FileNotFoundError(f"{path} missing: run scripts/cache_propensity.py {name}")
-    want = hashlib.sha256((ROOT / "artifacts" / "runs" / name / "model.pt").read_bytes()).hexdigest()
-    got = json.loads(meta.read_text())
+    model_path = ROOT / "artifacts" / "runs" / name / "model.pt"
+    want = file_sha256(model_path)
+    metadata_size = meta.stat().st_size
+    if metadata_size <= 0 or metadata_size > 64_000:
+        raise ValueError("propensity cache sidecar exceeds its 64,000-byte read bound")
+    metadata_raw = meta.read_bytes()
+    if len(metadata_raw) != metadata_size:
+        raise ValueError("propensity cache sidecar changed while being read")
+    got = json.loads(metadata_raw)
+    if not isinstance(got, dict):
+        raise ValueError("propensity cache sidecar must be a JSON object")
     if got.get("model_sha256") != want:
         raise RuntimeError(f"{path}: propensity weights changed since the cache was built")
     return path
