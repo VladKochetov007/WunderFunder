@@ -10,3 +10,5 @@ The canonical narrative entry is in [unified inference](../../unified/inference/
 - [Entry resource/quota and recovery receipt](OPERATIONS_ENTRY_R1.md): live GPU/TPU quota and statuses, effective limits, and the [contained-cache R3 successor](kaggle_profile_r3/README.md). Execution evidence only.
 
 - [Theory and discriminating tests](THEORY_AND_DISCRIMINATING_TESTS_R1.md), with [shape accounting](SHAPE_ACCOUNTING_R1.csv), grounds the nonblocking architecture/initializer/precision work in primary sources and explicit formulas. Derived costs are not serving measurements.
+
+- [Initializer implementation](INITIALIZER_IMPLEMENTATION_R1.md): separate zero/constant/first-row/prefix wrapper and ten passing causal, reset, gradient and long-sequence checks. Code evidence only; fits, native export and quality comparison remain pending.
