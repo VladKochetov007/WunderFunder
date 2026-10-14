@@ -8,3 +8,5 @@ The [complete user plan](PLAN.md) defines matched fixed-weight Q8 CPU policies, 
 The canonical narrative entry is in [unified inference](../../unified/inference/README.md); sources, independent reviews and operations are indexed in their corresponding unified domains as they land.
 
 - [Entry resource/quota and recovery receipt](OPERATIONS_ENTRY_R1.md): live GPU/TPU quota and statuses, effective limits, and the [contained-cache R3 successor](kaggle_profile_r3/README.md). Execution evidence only.
+
+- [Theory and discriminating tests](THEORY_AND_DISCRIMINATING_TESTS_R1.md), with [shape accounting](SHAPE_ACCOUNTING_R1.csv), grounds the nonblocking architecture/initializer/precision work in primary sources and explicit formulas. Derived costs are not serving measurements.
