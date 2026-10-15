@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.student-shape-pair-normalizer-remote-readback.r1",
+  "readback_performed": true,
+  "provider_mutation_performed_by_readback": false,
+  "dataset": {
+    "ref": "vladkochetov07/wnn-f0-h256l2-cp5-norm-20261015-r1",
+    "version": 1,
+    "status": "ready",
+    "private": true,
+    "owner": "vladkochetov07"
+  },
+  "upload_attempt": {
+    "exit_code": 0,
+    "argv_directory": "private_assets/wnn-f0-h256l2-cp5-norm-20261015-r1",
+    "expected_preflight_directory": "private_assets/upload_wnn-f0-h256l2-cp5-norm-20261015-r1",
+    "diagnosis": "The two payload contents were identical; the uploaded flat filenames differed from the reviewed external mount descriptors."
+  },
+  "approved_payloads": [
+    {
+      "expected_filename": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda.wnn",
+      "remote_filename": "model_ep5.pt",
+      "logical_path": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+      "size": 3983015,
+      "sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "remote_sha256_verified": true
+    },
+    {
+      "expected_filename": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961.wnn",
+      "remote_filename": "provenance.json",
+      "logical_path": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/provenance.json",
+      "size": 166152,
+      "sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+      "remote_sha256_verified": true
+    }
+  ],
+  "remote_manifest": {
+    "filename": "assets-manifest.json",
+    "size": 893,
+    "sha256": "5fcc65bccec019616ad3ea3eeb93d57ae51a43e43c0896a64c59d26af488d271",
+    "format": "wnn.f0_student_pair_normalization_asset_manifest",
+    "declares_private": true,
+    "source_run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+    "checkpoint_epoch": 5,
+    "semantic_payload_hashes_match_approved_manifest": true
+  },
+  "remote_file_inventory": {
+    "assets-manifest.json": 893,
+    "model_ep5.pt": 3983015,
+    "provenance.json": 166152
+  },
+  "readback_method": "KaggleApi exact dataset/version file download to physical local scratch; SHA-256 computed for all three files",
+  "local_scratch_path": "private_assets/remote_verify_norm_r1",
+  "claim_limit": "This verifies private v1 payload bytes and manifest; it does not establish any student fit or quality result."
+}

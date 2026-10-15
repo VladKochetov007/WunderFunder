@@ -1,0 +1,12 @@
+{
+  "schema": "wnn.student-shape-pair-offline-preflight-failure.r1",
+  "status": "initial_code_check_read_mutable_checkout_not_frozen_archive",
+  "provider_action_performed": false,
+  "attempts": 1,
+  "numeric_exit_code_retained": false,
+  "failure_class": "mutable_local_input_diverged_from_frozen_source",
+  "observed_path": "artifacts/runs/c20260929_prop_f0/provenance.json",
+  "observed_error": "The first R3 offline preflight invoked verify_files against the current worktree and rejected this source file because its live bytes differ from the source identity already embedded in the sealed R2 archive.",
+  "resolution": "The final R3 preflight compares the two frozen job code closures directly with the R2 archive manifest, verifies the source archive is byte-identical to R2, and does not inspect or substitute the changed local file.",
+  "scientific_result": false
+}

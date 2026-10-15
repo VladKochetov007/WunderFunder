@@ -1,0 +1,230 @@
+{
+  "asset_datasets": [
+    "vladkochetov07/wnn-c20261004-fold0-assets",
+    "vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9",
+    "vladkochetov07/wnn-clean-t3-f0-treatment-assets-20261012-r22",
+    "vladkochetov07/wnn-f0-h256l2-cp5-norm-20261015-r1"
+  ],
+  "base_commit": "afb2e89e18d04c45853097becdb7264d3dfc386a",
+  "bootstrap_outer_deadline_seconds": 1800,
+  "bundle_successor_command": [
+    "/usr/bin/python3",
+    "research/campaign_2026-10-15/student_shape_pair_f0_r3/prepare_bundle_mount_successor_r3.py"
+  ],
+  "bundle_successor_path": "research/campaign_2026-10-15/student_shape_pair_f0_r3/prepare_bundle_mount_successor_r3.py",
+  "bundle_successor_receipt_path": "research/campaign_2026-10-15/student_shape_pair_f0_r3/OFFLINE_BUNDLE_BUILD_R3.json",
+  "bundle_successor_receipt_sha256": "84b52b6f9e05e83402e3a082a68e0fc78c12f3f9e977eae902609b7f662bf242",
+  "bundle_successor_sha256": "cfd8491dac1344423a837a0eb2fca2531a6b2b402c45ee36cb96707c3c412784",
+  "code_aggregate_sha256": "95792333e15b6c3553e58d65c3e6fcb497b8ad1c0a697096ebaf4a8bd0c3474a",
+  "code_file_count": 68,
+  "collection_run_name_mapping": [
+    {
+      "job_name": "student_pair_t4_profile_f0s3_h256_l2_r2",
+      "trainer_run_name": "student_pair_profile_f0s3_h256_l2_t4_r2"
+    },
+    {
+      "job_name": "student_pair_t4_profile_f0s3_h512_l1_r2",
+      "trainer_run_name": "student_pair_profile_f0s3_h512_l1_t4_r2"
+    }
+  ],
+  "consumer_source_change": [
+    "precision validation now uses the explicit contract precision",
+    "AMP initial scale is checked against the contract",
+    "profile max_batches/profile_steps/profile_warmup are read from the declared stage",
+    "relative source_root resolves relative to the runtime root"
+  ],
+  "consumer_source_path": "src/wnn/student_frontier.py",
+  "consumer_source_sha256": "caca6b0019f21286767112b77719a280b9409833b5c4b625bd9c14c5736397d0",
+  "input_binding_path": "research/campaign_2026-10-15/student_shape_pair_f0_r3/INPUT_BINDING_R3.json",
+  "input_binding_sha256": "7ce131de35810c8c6ef5b129621b5162619be78d3cdaed3f5fa5a6a682fd54f7",
+  "kernel_dataset": "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1",
+  "kernel_deadline_patch_plan_path": "research/campaign_2026-10-15/student_shape_pair_f0_r1/KERNEL_DEADLINE_PATCH_PLAN_R1.json",
+  "kernel_id": "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1-runner",
+  "kernel_mount_successor_receipt_path": "research/campaign_2026-10-15/student_shape_pair_f0_r3/KERNEL_MOUNT_SUCCESSOR_R3.json",
+  "kernel_mount_successor_receipt_sha256": "1d85fa69411cc773f8badb7beb6df47f9f06edd0babda27867ef6b2f568cf552",
+  "normalization_mount_correction": {
+    "dataset": "vladkochetov07/wnn-f0-h256l2-cp5-norm-20261015-r1",
+    "exact_payload_sha256_and_size_verified": true,
+    "mounts": [
+      {
+        "after": "model_ep5.pt",
+        "before": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda.wnn",
+        "logical_path": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+        "sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+        "size": 3983015
+      },
+      {
+        "after": "provenance.json",
+        "before": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961.wnn",
+        "logical_path": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/provenance.json",
+        "sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+        "size": 166152
+      }
+    ],
+    "only_filename_fields_changed": true,
+    "remote_readback_path": "research/campaign_2026-10-15/student_shape_pair_f0_r2/NORM_ASSET_REMOTE_READBACK_R1.json",
+    "remote_readback_sha256": "312cc374fb88a85eb473c4abc4e7a8158f688070ccc8d756769050b258631758",
+    "version": 1
+  },
+  "offline_bundle_command": [
+    "/usr/bin/python3",
+    "research/campaign_2026-10-15/student_shape_pair_f0_r3/prepare_bundle_mount_successor_r3.py"
+  ],
+  "profile_jobs": [
+    {
+      "name": "student_pair_t4_profile_f0s3_h256_l2_r2",
+      "optimizer_attempts_expected": 50,
+      "path": "research/campaign_2026-10-15/student_shape_pair_f0_r3/jobs/student_pair_t4_profile_f0s3_h256_l2_r2.json",
+      "profile_batches": 5,
+      "sha256": "56c4e2e6dc08ba4b11102a83c84f3fc517bea537d54a583c6a1166965ad3a2be",
+      "shape": [
+        256,
+        2
+      ],
+      "timeout_seconds": 600,
+      "trainer_run_name": "student_pair_profile_f0s3_h256_l2_t4_r2"
+    },
+    {
+      "name": "student_pair_t4_profile_f0s3_h512_l1_r2",
+      "optimizer_attempts_expected": 50,
+      "path": "research/campaign_2026-10-15/student_shape_pair_f0_r3/jobs/student_pair_t4_profile_f0s3_h512_l1_r2.json",
+      "profile_batches": 5,
+      "sha256": "14a752fb24363fc4b95401e5af84524d3a4655578a1f3e1e975b667f0815c604",
+      "shape": [
+        512,
+        1
+      ],
+      "timeout_seconds": 600,
+      "trainer_run_name": "student_pair_profile_f0s3_h512_l1_t4_r2"
+    }
+  ],
+  "provider_action_performed": false,
+  "r2_bundle_rebuild_failure_path": "research/campaign_2026-10-15/student_shape_pair_f0_r3/R3_BUNDLE_REBUILD_FAILURE_R1.json",
+  "r2_bundle_rebuild_failure_sha256": "0be9ad475d3cf21005c523e7f16e02bcd4004fd4652a47a9c432a158df34edf1",
+  "r2_full_bundle_rebuild": {
+    "command": [
+      "/usr/bin/python3",
+      "scripts/kaggle_bundle.py",
+      "--root",
+      "/home/vlad/development/wunder/worktrees/student-shape-pair-kaggle-r1-20261015",
+      "--spec",
+      "/home/vlad/development/wunder/worktrees/student-shape-pair-kaggle-r1-20261015/research/campaign_2026-10-15/student_shape_pair_f0_r3/jobs/student_pair_t4_profile_f0s3_h256_l2_r2.json",
+      "--spec",
+      "/home/vlad/development/wunder/worktrees/student-shape-pair-kaggle-r1-20261015/research/campaign_2026-10-15/student_shape_pair_f0_r3/jobs/student_pair_t4_profile_f0s3_h512_l1_r2.json",
+      "--destination",
+      "/home/vlad/development/wunder/worktrees/student-shape-pair-kaggle-r1-20261015/private_assets/upload_wnn-f0-student-shape-t4-profile-20261015-r3",
+      "--dataset",
+      "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1",
+      "--external",
+      "datasets/train.parquet=train.parquet",
+      "--external",
+      "datasets/valid.parquet=valid.parquet",
+      "--external",
+      "cache/chain_folds.npz=vladkochetov07/wnn-c20261004-fold0-assets:a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f.wnn",
+      "--external",
+      "cache/chains.npz=vladkochetov07/wnn-c20261004-fold0-assets:39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766.wnn",
+      "--external",
+      "cache/propcache_c20260929_prop_f0_train.json=vladkochetov07/wnn-c20261004-fold0-assets:b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9.wnn",
+      "--external",
+      "cache/propcache_c20260929_prop_f0_train.npy=vladkochetov07/wnn-c20261004-fold0-assets:811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174.wnn",
+      "--external",
+      "cache/propcache_c20260929_prop_f0_valid.json=vladkochetov07/wnn-c20261004-fold0-assets:775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a.wnn",
+      "--external",
+      "cache/propcache_c20260929_prop_f0_valid.npy=vladkochetov07/wnn-c20261004-fold0-assets:9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c.wnn",
+      "--external",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json=vladkochetov07/wnn-c20261004-fold0-assets:09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d.wnn",
+      "--external",
+      "research/campaign_2026-10-04/portable_inputs.json=vladkochetov07/wnn-c20261004-fold0-assets:90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c.wnn",
+      "--external",
+      "artifacts/runs/c20260929_prop_f0/model.pt=vladkochetov07/wnn-c20261004-fold0-assets:b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7.wnn",
+      "--external",
+      "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt=vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9:clean_t3_f0_muonall_h384_e3_s3_r5__model_ep2.pt",
+      "--external",
+      "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json=vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9:clean_t3_f0_muonall_h384_e3_s3_r5__provenance.json",
+      "--external",
+      "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/model_ep2.pt=vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9:clean_t3_f0_muonall_h384_e3_s4_r5__model_ep2.pt",
+      "--external",
+      "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json=vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9:clean_t3_f0_muonall_h384_e3_s4_r5__provenance.json",
+      "--external",
+      "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/model_ep2.pt=vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9:clean_t3_f0_muonall_h384_e3_s5_r5__model_ep2.pt",
+      "--external",
+      "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json=vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9:clean_t3_f0_muonall_h384_e3_s5_r5__provenance.json",
+      "--external",
+      "cache/clean_t3_f0_h390_t3r5_a9_r2/metadata.json=vladkochetov07/wnn-clean-t3-f0-treatment-assets-20261012-r22:pair_r2_cache_metadata.json",
+      "--external",
+      "cache/clean_t3_f0_h390_t3r5_a9_r2/main_homogeneous_train.npy=vladkochetov07/wnn-clean-t3-f0-treatment-assets-20261012-r22:pair_r2_main_homogeneous_train.npy",
+      "--external",
+      "cache/clean_t3_f0_h390_t3r5_a9_r2/main_homogeneous_valid.npy=vladkochetov07/wnn-clean-t3-f0-treatment-assets-20261012-r22:pair_r2_main_homogeneous_fit_valid.npy",
+      "--external",
+      "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt=vladkochetov07/wnn-f0-h256l2-cp5-norm-20261015-r1:model_ep5.pt",
+      "--external",
+      "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/provenance.json=vladkochetov07/wnn-f0-h256l2-cp5-norm-20261015-r1:provenance.json",
+      "--asset-dataset",
+      "vladkochetov07/wnn-c20261004-fold0-assets",
+      "--asset-dataset",
+      "vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9",
+      "--asset-dataset",
+      "vladkochetov07/wnn-clean-t3-f0-treatment-assets-20261012-r22",
+      "--asset-dataset",
+      "vladkochetov07/wnn-f0-h256l2-cp5-norm-20261015-r1"
+    ],
+    "failure_path": "research/campaign_2026-10-15/student_shape_pair_f0_r3/R3_BUNDLE_REBUILD_FAILURE_R1.json",
+    "failure_sha256": "0be9ad475d3cf21005c523e7f16e02bcd4004fd4652a47a9c432a158df34edf1",
+    "not_retried": true
+  },
+  "r9_mount_correction": {
+    "corrected_mount_count": 6,
+    "dataset": "vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9",
+    "manifest_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_h390_r9_export_from_owned_checkpoints_20261012_r2/R9_CHECKPOINT_INPUT_MANIFEST_R2.json",
+    "manifest_schema": "wnn.kaggle.r9_checkpoint_input_manifest.r2",
+    "manifest_sha256": "30c4b2edfe6d39f13713a6dd82d1355e1975143a64ec8b8f422d8c316566053d",
+    "mounts": [
+      {
+        "filename": "clean_t3_f0_muonall_h384_e3_s3_r5__model_ep2.pt",
+        "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt",
+        "sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+        "size": 8692775
+      },
+      {
+        "filename": "clean_t3_f0_muonall_h384_e3_s3_r5__provenance.json",
+        "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json",
+        "sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+        "size": 159434
+      },
+      {
+        "filename": "clean_t3_f0_muonall_h384_e3_s4_r5__model_ep2.pt",
+        "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/model_ep2.pt",
+        "sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+        "size": 8692775
+      },
+      {
+        "filename": "clean_t3_f0_muonall_h384_e3_s4_r5__provenance.json",
+        "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json",
+        "sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+        "size": 159434
+      },
+      {
+        "filename": "clean_t3_f0_muonall_h384_e3_s5_r5__model_ep2.pt",
+        "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/model_ep2.pt",
+        "sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+        "size": 8692775
+      },
+      {
+        "filename": "clean_t3_f0_muonall_h384_e3_s5_r5__provenance.json",
+        "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json",
+        "sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18",
+        "size": 159434
+      }
+    ],
+    "readiness_status": "live READY/version must be rechecked before provider mutation",
+    "sha256_values_unchanged": true,
+    "version": 1
+  },
+  "recipe_contract_path": "research/campaign_2026-10-15/student_shape_pair_f0_r1/CPU_STUDENT_SHAPE_PAIR_F0_SEED3_B16_C2000_FP16_3E_R1_CONTRACT.json",
+  "recipe_contract_sha256": "815fe98fdecfafec84e4f5f4800aabb9b06bcf8dcfdff5efec057ddb1723363d",
+  "schema": "wnn.student-shape-pair-source-binding.r3",
+  "source_tree_commit": "6934fb7d37ab5e95d353c47b3cb12856bc52e723",
+  "spec_generator_path": "research/campaign_2026-10-15/student_shape_pair_f0_r3/prepare_norm_filename_successor_r3.py",
+  "spec_generator_sha256": "7843593f446d0e184e28d90b57747093f51916cb405e45568c3ec0c4aae82266",
+  "teacher_cp2_asset_dataset": "vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9"
+}

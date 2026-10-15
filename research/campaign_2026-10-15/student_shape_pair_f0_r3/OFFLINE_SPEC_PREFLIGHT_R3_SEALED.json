@@ -1,0 +1,109 @@
+{
+  "attempt_semantics": {
+    "attempts_per_shape": 50,
+    "chunk_updates_per_sequence": 10,
+    "formula": "max_batches * (sequence_rows // chunk_rows)",
+    "max_batches_per_shape": 5
+  },
+  "checks": [
+    "exact two-shape H256x2/H512x1 B16/C2000/FP16 five-batch CLI specs",
+    "same code closure and exact 22-input identities for both jobs",
+    "all 68 frozen job code identities are present with matching hashes and sizes in the already sealed R2 archive manifest; the mutable checkout is not used to rebuild or replace those bytes",
+    "R3 source archive is byte-identical to the sealed R2 source archive, with all manifest fields except external_mounts unchanged",
+    "exactly two normalization filenames changed in the external map; logical paths, payload hashes, sizes, and dataset identity remain fixed",
+    "all six R9 CP2/provenance flat filenames, hashes, sizes, and unchanged logical mount paths",
+    "generated kernel AST mount map equals R3 input binding",
+    "R3 source binding, build and kernel-mount receipts, bundle archive, generated kernel, and reviewed R1 recipe contract hashes agree",
+    "the earlier full local rebuild mismatch remains recorded as infrastructure evidence and is not retried",
+    "profile-only specs have empty saved-artifact lists and no provider action"
+  ],
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=20% WNN_THREADS=1 WNN_MEM_MAX=300000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-15/student_shape_pair_f0_r3/preflight_t4_profile_specs_r3.py",
+  "contract_sha256": "815fe98fdecfafec84e4f5f4800aabb9b06bcf8dcfdff5efec057ddb1723363d",
+  "input_binding_sha256": "7ce131de35810c8c6ef5b129621b5162619be78d3cdaed3f5fa5a6a682fd54f7",
+  "kernel_seal_sha256": "6ea17e19145df519eb8a8a4f25a902c8c183c028ab24a58d7835a4ed6aad77b1",
+  "preflight_script_sha256": "dad4dfe2a106c8336c0d2cec6d677527ae9eeb44f60f3c8f03cd0be153b113ce",
+  "provider_action_performed": false,
+  "r9_manifest_sha256": "30c4b2edfe6d39f13713a6dd82d1355e1975143a64ec8b8f422d8c316566053d",
+  "r9_mounts": [
+    {
+      "dataset": "vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9",
+      "filename": "clean_t3_f0_muonall_h384_e3_s3_r5__model_ep2.pt",
+      "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/model_ep2.pt",
+      "sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+      "size": 8692775,
+      "version": 1
+    },
+    {
+      "dataset": "vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9",
+      "filename": "clean_t3_f0_muonall_h384_e3_s3_r5__provenance.json",
+      "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json",
+      "sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+      "size": 159434,
+      "version": 1
+    },
+    {
+      "dataset": "vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9",
+      "filename": "clean_t3_f0_muonall_h384_e3_s4_r5__model_ep2.pt",
+      "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/model_ep2.pt",
+      "sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+      "size": 8692775,
+      "version": 1
+    },
+    {
+      "dataset": "vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9",
+      "filename": "clean_t3_f0_muonall_h384_e3_s4_r5__provenance.json",
+      "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json",
+      "sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+      "size": 159434,
+      "version": 1
+    },
+    {
+      "dataset": "vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9",
+      "filename": "clean_t3_f0_muonall_h384_e3_s5_r5__model_ep2.pt",
+      "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/model_ep2.pt",
+      "sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+      "size": 8692775,
+      "version": 1
+    },
+    {
+      "dataset": "vladkochetov07/wnn-clean-t3-f0-h384-cp2-20261012-r9",
+      "filename": "clean_t3_f0_muonall_h384_e3_s5_r5__provenance.json",
+      "logical_path": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json",
+      "sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18",
+      "size": 159434,
+      "version": 1
+    }
+  ],
+  "schema": "wnn.student-shape-pair-offline-spec-preflight.r3",
+  "source_binding_sha256": "78048d2e7ba6d6b6b9c06e9c4c84f9c487191a19d582a6328ac73a69834cc263",
+  "specs": [
+    {
+      "code_count": 68,
+      "expected_attempts": 50,
+      "expected_complete_sequences": 5,
+      "input_count": 22,
+      "path": "research/campaign_2026-10-15/student_shape_pair_f0_r3/jobs/student_pair_t4_profile_f0s3_h256_l2_r2.json",
+      "sha256": "56c4e2e6dc08ba4b11102a83c84f3fc517bea537d54a583c6a1166965ad3a2be",
+      "shape": [
+        256,
+        2
+      ],
+      "trainer_run_name": "student_pair_profile_f0s3_h256_l2_t4_r2"
+    },
+    {
+      "code_count": 68,
+      "expected_attempts": 50,
+      "expected_complete_sequences": 5,
+      "input_count": 22,
+      "path": "research/campaign_2026-10-15/student_shape_pair_f0_r3/jobs/student_pair_t4_profile_f0s3_h512_l1_r2.json",
+      "sha256": "14a752fb24363fc4b95401e5af84524d3a4655578a1f3e1e975b667f0815c604",
+      "shape": [
+        512,
+        1
+      ],
+      "trainer_run_name": "student_pair_profile_f0s3_h512_l1_t4_r2"
+    }
+  ],
+  "status": "passed_offline_no_provider_action",
+  "working_directory": "/home/vlad/development/wunder/worktrees/student-shape-pair-kaggle-r1-20261015"
+}
