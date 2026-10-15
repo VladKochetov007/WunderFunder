@@ -1,0 +1,55 @@
+{
+  "correction": {
+    "basis": [
+      "Frozen trainer loop at scripts/train_rnn.py:3145 uses the zero-based Python range counter epoch.",
+      "The same counter is stored unchanged in provenance update_diagnostics.epoch_index at line 3653 and emitted in FIT JSON epoch at lines 3662 and 3672.",
+      "The terminal P2 FIT entry is epoch=3; terminal provenance epoch_index=3; trusted training-state loader reports next_epoch=4."
+    ],
+    "builder_error": "The terminal receipt builder incorrectly computed fit[epoch] - 1. This erratum supersedes only that annotation; the original receipt is preserved unchanged.",
+    "corrected_value": 3,
+    "field": "fit_update_diagnostics.epoch_index"
+  },
+  "created_utc": "2026-10-15T15:46:37.973846+00:00",
+  "cross_bindings": {
+    "attempt_exit_status": 0,
+    "attempt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/student-f0-warm-s3-alpha0-r1-p2-envr1-20261015.json",
+    "attempt_sha256": "9787153e9df5337b2933874f3a1081e2db8d99f8e6cf909a30365ac41e6a2a5a",
+    "attempt_status": "finished",
+    "cumulative_counts": {
+      "amp_skipped_updates": 15,
+      "completed_batches": 2984,
+      "ema_updates": 0,
+      "optimizer_attempts": 29840,
+      "optimizer_completed_updates": 29825
+    },
+    "fit_contract_sha256": "150b811fd5e08465088e84d7fe003e670db631167eb83646078a69c71b3b4c16",
+    "last_fit_epoch_counts": {
+      "amp_skipped_updates": 3,
+      "completed_batches": 746,
+      "ema_updates": 0,
+      "optimizer_attempts": 7460,
+      "optimizer_completed_updates": 7457
+    },
+    "last_fit_zero_based_epoch": 3,
+    "last_provenance_epoch_index": 3,
+    "provenance_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/student_f0_warm_s3_alpha0_r1_p2_envr1/provenance.json",
+    "provenance_sha256": "e19812ee822dd38a0348132529fdd9dc0ad41438ebf53100162a3e87d0dacec0",
+    "resume_state_next_epoch": 4,
+    "resume_state_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/student_f0_warm_s3_alpha0_r1_p2_envr1/training_state.pt",
+    "resume_state_sha256": "617e1c2f10c7b5fffa66a5edd07d08c6e944d828783cbae2a7a9fb7e0a05a4ca",
+    "terminal_log_path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/student-f0-warm-s3-alpha0-r1-p2-envr1-20261015.log",
+    "terminal_log_sha256": "09fa95aad4a4adeb31bcabc27b7777c57c155f94ff5a3169d11db7b51033be69",
+    "trainer_source_commit": "7b639c46f1bd6f721e87e59ef20032c314308dcb",
+    "trainer_source_path": "scripts/train_rnn.py",
+    "trainer_source_sha256": "4c0d32a4ca644add3be39bfed16f653e6f9710dc852c0c63648da20bfb0165f3"
+  },
+  "original_terminal_receipt": {
+    "path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_P2_TERMINAL_STATE_R1.json",
+    "recorded_field": "fit_update_diagnostics.epoch_index",
+    "recorded_value": 2,
+    "sha256": "e5c7c46c21dd965d130de81f531d9912d8151b46ba33f0b2c03ae134fcd3d9ad"
+  },
+  "schema": "wnn.alpha0-p2-terminal-metadata-erratum.r1",
+  "scope": "Metadata only. No checkpoint, optimizer/state payload, trainer, fit contract, recipe, training result, or fit output was modified.",
+  "status": "PASS_METADATA_CORRECTION_ONLY; NO_FIT_CHANGE"
+}

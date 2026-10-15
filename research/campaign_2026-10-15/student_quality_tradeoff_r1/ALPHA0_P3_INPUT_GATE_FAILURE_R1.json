@@ -1,0 +1,53 @@
+{
+  "created_utc": "2026-10-15T15:32:03.049499+00:00",
+  "diagnosis": {
+    "actual_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "affected_input": "A9 P3 reusable endpoint model_ep5.pt",
+    "changed_identity_field": "ctime_ns",
+    "dataset_identity_checks_passed_before_checkpoint_failure": true,
+    "failed_before_fit_or_launch": true,
+    "hardlink_peers_found_by_inode": [
+      "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+      "artifacts/hf_model_upload_20261012/stage/priority/files/artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt"
+    ],
+    "observed_identity": {
+      "ctime_ns": 1792077364484678523,
+      "device": 54,
+      "inode": 61298087,
+      "mtime_ns": 1791810531715371860,
+      "size_bytes": 3983015
+    },
+    "observed_link_count": 4,
+    "path": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+    "pinned_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "pinned_identity": {
+      "ctime_ns": 1791837438403682186,
+      "device": 54,
+      "inode": 61298087,
+      "mtime_ns": 1791810531715371860,
+      "size_bytes": 3983015
+    },
+    "provenance_sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961"
+  },
+  "failed_command": {
+    "exit_status": 1,
+    "login_shell": false,
+    "sha256": "c3364e3e3ab56a3038f0873b79db9bb77c06b0a508ed4c21077a0c37e675608b",
+    "shell": "test ! -e research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_INPUT_IDENTITY_SMOKE_P3_POSTP2_R3.json && WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=300000000 WNN_RUNTIME_MAX=120s WNN_TMP_ROOT=/home/vlad/development/wunder/research_tmp PYTHONDONTWRITEBYTECODE=1 scripts/limited /usr/bin/python3 research/campaign_2026-10-15/student_quality_tradeoff_r1/verify_alpha0_input_binding_r3.py --mode verify-stage --stage p3 --receipt research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_DATASET_BYTE_BINDING_R3.json --receipt-out research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_INPUT_IDENTITY_SMOKE_P3_POSTP2_R3.json",
+    "stderr": "INPUT_BINDING_FAILED RuntimeError: A9 checkpoint identity changed; a fresh full checkpoint hash is required\nTraceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/verify_alpha0_input_binding_r3.py\", line 498, in <module>\n    raise SystemExit(main())\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/verify_alpha0_input_binding_r3.py\", line 492, in main\n    verify_stage(args.stage, args.receipt, args.receipt_out)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/verify_alpha0_input_binding_r3.py\", line 445, in verify_stage\n    raise RuntimeError(\nRuntimeError: A9 checkpoint identity changed; a fresh full checkpoint hash is required\n"
+  },
+  "recovery": {
+    "next_step": "Rehash this 3.98 MB checkpoint against both frozen R3 and provenance pins, refresh only its runtime file-identity record in a derivative receipt, then rerun unchanged P3 verifier.",
+    "original_full_byte_receipt_modified": false,
+    "recipe_or_source_changed": false
+  },
+  "schema": "wnn.alpha0-p3-input-gate-failure.r1",
+  "status": "FAILED_IDENTITY_GATE; NO_FIT_NO_LAUNCH",
+  "verifier": {
+    "full_receipt_path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_DATASET_BYTE_BINDING_R3.json",
+    "full_receipt_sha256": "8fa68124ac67114f4d86aa4d1200bde84133aee09318181bf9e5a23a86ce7bcd",
+    "path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/verify_alpha0_input_binding_r3.py",
+    "postfit_p3_output_receipt_written": false,
+    "sha256": "446e37f16ac66cb29024cc5d30977bd499b0ec68b1272602b5bdbc18dc53a6f0"
+  }
+}
