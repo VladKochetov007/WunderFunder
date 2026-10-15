@@ -1,0 +1,17 @@
+{
+  "schema": "wnn.student-warmparent-alpha0-materializer-failure.r1",
+  "status": "FAILED_BUILDER_LOOKUP_NOT_SOURCE_OR_RECIPE_FAILURE",
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=300000000 WNN_RUNTIME_MAX=240s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /usr/bin/python3 research/campaign_2026-10-15/student_quality_tradeoff_r1/materialize_alpha0_contracts.py",
+  "command_sha256_utf8_no_trailing_newline": "77adc89d58de346e2892bf091451fa52f59e0f05c52e2d0940af5bf5879a59f2",
+  "builder_sha256_at_failure": "4b2c53727d9620738e79766181f22534e055badfed80aa3e495267c57da7f47f",
+  "exit_status": 1,
+  "exception": "StopIteration",
+  "failed_lookup": "next(item for item in successor_actual_ref['stages'] if item['base_stage_id'] == 'control_p2')",
+  "diagnosis": "CONTROL_TREATMENT_ENV_PREFIXED_SUCCESSOR_BINDINGS_R1.json has the reviewed env-prefixed control P3 binding, but no control P2 element; P2's successful actual argv and terminal receipt are separate inputs. The source receipt is valid. The materializer incorrectly assumed those overlapping stage indexes shared the same entry list.",
+  "partial_outputs_at_failure": [
+    "ALPHA0_P1_FIT_CONTRACT_R2.json",
+    "ALPHA0_P2_FIT_CONTRACT_R2.json",
+    "ALPHA0_P3_FIT_CONTRACT_R2.json"
+  ],
+  "no_fit_no_launch": true
+}
