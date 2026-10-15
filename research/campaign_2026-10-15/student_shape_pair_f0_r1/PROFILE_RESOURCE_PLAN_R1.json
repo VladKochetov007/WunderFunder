@@ -1,0 +1,45 @@
+{
+  "schema": "wnn.student-shape-pair-profile-resource-plan.r1",
+  "provider_action_performed": false,
+  "status": "prepared_for_independent_review",
+  "profile_only": true,
+  "shapes_serial": [
+    [256, 2],
+    [512, 1]
+  ],
+  "per_shape_profile_batches": 5,
+  "expected_optimizer_attempts_per_shape": 50,
+  "attempt_semantics": "five B16 batches times ten C2000 chunk steps; AMP skips are reported and never compensated",
+  "fit_and_checkpoint": false,
+  "evaluation_or_quality_selection": false,
+  "prediction_export": false,
+  "worker_limits": {
+    "cpus": 2,
+    "host_ram_bytes": 8000000000,
+    "cuda_allocator_bytes": 3500000000,
+    "observed_gpu_stop_bytes": 5000000000,
+    "timeout_seconds_per_shape": 600
+  },
+  "kernel_deadline_seconds": 1800,
+  "deadline_budget": {
+    "two_serial_worker_caps_seconds": 1200,
+    "runner_finalization_reserve_seconds": 300,
+    "remaining_bootstrap_startup_and_queue_margin_seconds": 300,
+    "cache_validation_and_actual_dataloader_initialization_inside_deadline": true
+  },
+  "quota_gate": {
+    "fresh_typed_gpu_quota_min_seconds_before_kernel": 3600,
+    "minimum_quota_remaining_after_outer_deadline_and_collection_seconds": 1800,
+    "collection_cost_must_be_included": true,
+    "old_quota_snapshots_are_authoritative": false
+  },
+  "profile_acceptance_evidence": [
+    "exact pinned mounted inputs and strict teacher-cache payload verification pass before training",
+    "each CLI reports 50 optimizer attempts and records completed/skipped updates, finite loss and finite gradient statistics",
+    "source-qualified EpochOrderSampler and normalization buffer hashes match the frozen contract",
+    "zero OOM delta and measured GPU use remains below 5,000,000,000 bytes",
+    "allocator remains bounded by 3,500,000,000 bytes and measured host use remains below 8,000,000,000 bytes",
+    "both workers reach terminal success in the one 1,800-second kernel deadline"
+  ],
+  "interpretation": "Resource and short-horizon CLI evidence only. It does not establish model quality or predict three-epoch fit duration beyond the measured 50-update rates."
+}
