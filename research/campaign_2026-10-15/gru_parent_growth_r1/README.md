@@ -1,5 +1,7 @@
 # Function-preserving GRU growth
 
+[Root C/G/F/W fit delivery authority](ROOT_CGFW_FIT_DELIVERY_AUTHORITY_R1.json) conditionally releases the four frozen two-epoch fits after all four actual resource profiles pass. It binds exact parser-compatible worker vectors, a conservative6.5GB host reservation, explicit4.3GB allocator setting,5400s per-fit timeout and fresh aggregate admission each time. It assigns checkpoint validation, full-valid FP32 export and independent grading as owned continuation work; one exposed F0 seed does not establish a final architecture winner. This operational authority changes neither targets nor sampling/normalization/horizon.
+
 Root owns H-STUDENT-PARENT-GROWTH-20261015 through fitting, export and grading.
 This directory records an engineering result, not a trained quality improvement.
 
