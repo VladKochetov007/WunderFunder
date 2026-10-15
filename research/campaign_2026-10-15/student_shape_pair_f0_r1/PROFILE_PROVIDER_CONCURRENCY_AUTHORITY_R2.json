@@ -1,0 +1,23 @@
+{
+  "schema": "wnn.student-profile-cloud-concurrency-authority.r2",
+  "created_utc": "2026-10-15T16:23:03.329772+00:00",
+  "scope": "Two Kaggle T4 resource-profile jobs only; original profile source/recipe unchanged.",
+  "root_owner": "/root",
+  "reason": "Existing sealed runner admits one or two measured T4 devices when actual host memory/CPU reservations fit. Metadata machine-shape alone does not prove a single device.",
+  "cloud_profile_concurrency_max": 2,
+  "concurrency_rule": "Use unchanged runner admit_specs on measured inventory; record admitted concurrency and per-job devices/host limits.",
+  "outer_deadline_seconds": 1800,
+  "fresh_gpu_quota_min_seconds": 5400,
+  "worst_case_gpu_seconds_reserved": 3600,
+  "gpu_quota_collection_reserve_seconds": 1800,
+  "latest_observed_gpu_remaining_seconds": 22012.691999999995,
+  "fresh_provider_quota_check_required": true,
+  "local_limits_unchanged": {
+    "cpu_cores": 2,
+    "gpu_workers": 1,
+    "observed_vram_bytes": 5000000000,
+    "committed_memory_target_bytes": 17000000000
+  },
+  "fit_admitted": false,
+  "interpretation": "Profile training rates condition on actual concurrency/host contention. Preserve startup versus steady training phases; do not label parallel profiles serial. No paid capacity/top-up."
+}
