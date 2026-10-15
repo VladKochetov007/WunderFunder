@@ -56,3 +56,7 @@ The canonical narrative entry is in [unified inference](../../unified/inference/
 - [October15 provider/quota snapshot](QUOTA_RESUME_20261015_R1.json) records current GPU/TPU allowance and no new GPU cloud admission. [F3terminalstatus](f3_teacher_fit_r5/DRAFT_STATUS_R5.md#completed-and-collected-on-october15) and [TPUcollection](../../campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/README.md#october15-terminal-collection) report actual completed artifacts and remaining export/validation work after the usage-limit interruption.
 
 - [Quota SDK diagnosis](QUOTA_SERIALIZATION_DIAGNOSIS_20261015_R3.json) corrects the erroneous exhausted-GPU interpretation in [R1](QUOTA_RESUME_20261015_R1.json) and the [R2 reconciliation](QUOTA_RECONCILIATION_20261015_R2.json). Serialized durations lost one day; typed values leave7.40GPUhours at this snapshot. Actual quota is refreshed before admission.
+
+## October15 initializer R2 actual-profile failure
+
+[Rootadmission](profiles/ROOT_INITIALIZER_R2_ADMISSION_R1.json) started the reviewed one-sequenceR2GPUprofile after H512×1terminalgrade. [Failure receipt](profiles/INITIALIZER_R2_FAILURE_R1.json) records pre-update device-equality assertion failure and exact loghash; no initializerquality/resource-successclaim. R2sources remainimmutable; student_delivery owns diagnosedR3successor.
