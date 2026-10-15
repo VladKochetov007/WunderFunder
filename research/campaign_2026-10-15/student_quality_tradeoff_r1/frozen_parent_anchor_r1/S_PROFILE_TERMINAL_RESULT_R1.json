@@ -1,0 +1,142 @@
+{
+  "bindings": {
+    "controller_attempt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/warm-parent-anchor-s-profile-20261015-r1.json",
+      "sha256": "1296f04a55e2b2a288b3b3dd8ec3fa1b0bddb1ecee1c74c50156c0a82b3ec798"
+    },
+    "fit_delivery_authority": {
+      "path": "research/campaign_2026-10-15/gru_parent_growth_r1/ROOT_CGFW_FIT_DELIVERY_AUTHORITY_R1.json",
+      "sha256": "8c3908ee88082dd1d4e619dbae1af2d8e6a28c426b5afbb5550fcb7965479dbe"
+    },
+    "independent_review": {
+      "decision": "GO for the bounded 50-attempt S resource profile",
+      "path": "research/unified/reviews/FROZEN_PARENT_S_PROFILE_REVIEW_20261015_R1.md",
+      "sha256": "717f2d83920bd9d0e446d0c7f680746f18591fef6d214abf24838bff01cff612"
+    },
+    "prelaunch_identity": {
+      "path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/frozen_parent_anchor_r1/S_PROFILE_PRELAUNCH_IDENTITY_R1.json",
+      "sha256": "f6cb2058767b12a61c335deb211fb08cc1cd8ceef5737c53ffb8df1fd6625faa",
+      "status": "PASS_SOURCE_INPUTS_AND_ABSENCE; FRESH_CURRENT_CONTROLLER_ADMISSION_REQUIRED"
+    },
+    "profile_contract": {
+      "path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/frozen_parent_anchor_r1/S_PARENT_ANCHOR_PROFILE_R1.json",
+      "sha256": "334a0b4fbc1f26fd8ad06526912e1684436117e3145d0e734244030bc88e1316"
+    },
+    "worker_log": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/warm-parent-anchor-s-profile-20261015-r1.log",
+      "sha256": "c5eae26e26caddeb91621119d04d544193e9fd5f7559116085e9e1579f9c44a3"
+    }
+  },
+  "created_utc": "2026-10-15T17:49:09.096006+00:00",
+  "execution": {
+    "chunk_rows": 2000,
+    "chunks_per_batch": 10,
+    "explicit_cuda_allocator_env_bytes": 4300000000,
+    "full_batch_sequences": 16,
+    "profile_steps": 5,
+    "profile_warmup": 0,
+    "reserved_cpu_cores": 1,
+    "reserved_host_bytes": 6500000000,
+    "sequence_rows": 20000
+  },
+  "experiment": {
+    "arm": "S",
+    "hypothesis_id": "H-FROZEN-PARENT-ANCHOR-20261015",
+    "profile_id": "frozen-parent-anchor-s-direct-50-update-r1",
+    "run_name": "warm_mechanism_f0_s3_s_parent_anchor_r1_profile"
+  },
+  "interpretation": "Resource/rate evidence only for this direct-parent input path. It does not establish an S quality effect, full-fit memory/runtime, checkpoint, prediction, or transfer result.",
+  "profile_fields_as_emitted_by_trainer": {
+    "backward": 484.78,
+    "forward": 302.98,
+    "gpu_total": 818.24,
+    "h2d": 0.01,
+    "inputs": 9.33,
+    "labels": 2.46,
+    "loader_wait": 594.19,
+    "loss": 9.46,
+    "optimizer": 2.51,
+    "seq_per_s": 11.71,
+    "step_wall": 1366.3,
+    "syncs_per_step": 0.4,
+    "weights": 0.32
+  },
+  "resources": {
+    "initial_parent_hierarchical_memory_events": {
+      "high": 9144101,
+      "low": 0,
+      "max": 1041028,
+      "oom": 1,
+      "oom_group_kill": 0,
+      "oom_kill": 1,
+      "sock_throttled": 402
+    },
+    "note": "All command and parent memory-event deltas report zero OOM kills. The parent hierarchical counter already had one cumulative OOM at the attempt baseline; this profile added none.",
+    "parent_hierarchical_memory_event_deltas": {
+      "high": 988,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_local_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "peak_observed_vram_bytes": 2178940928,
+    "peak_parent_memory_bytes": 8286826496,
+    "peak_worker_memory_bytes": 5852131328,
+    "worker_memory_event_deltas": {
+      "high": 988,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    }
+  },
+  "schema": "wnn.frozen-parent-anchor-s-profile-terminal.r1",
+  "scope": "Five full-sequence B16 batches / 50 attempted C2000 chunks for the frozen direct-parent S recipe; no checkpoint, prediction export, full fit, or quality grade was produced.",
+  "source": {
+    "commit": "56d900e3c283512e7128243374cd937c05979359",
+    "manifest_sha256": "c5acbd2a24ba00c71c8dd34a62920d281ca744fe37dbd654a4e6b251d2696242",
+    "worktree": "/home/vlad/development/wunder/worktrees/gru-parent-growth-20261015"
+  },
+  "status": "PASS_RESOURCE_PROFILE_ONLY",
+  "terminal": {
+    "controller_phase": "terminal",
+    "elapsed_seconds": 20.23076849701465,
+    "exit_status": 0,
+    "failure": null,
+    "finished_utc": "2026-10-15T17:46:33.828441+00:00",
+    "user_systemd_final_properties": {
+      "ActiveState": "inactive",
+      "ExecMainStatus": "0",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "user_systemd_unit": "wnn-bandit-warm-parent-anchor-s-profile-20261015-r1.service"
+  },
+  "updates": {
+    "amp_skipped_updates": 0,
+    "counts_consistent": true,
+    "grad_scaler_enabled": true,
+    "gradient_check_basis": "GradScaler found-inf flags after unscale, before optimizer step",
+    "gradient_finite": true,
+    "gradient_stats_nonfinite_steps": null,
+    "gradient_stats_steps": null,
+    "loss_checks": 50,
+    "loss_finite": true,
+    "optimizer_attempts": 50,
+    "optimizer_completed_updates": 50,
+    "valid_for_throughput": true
+  }
+}

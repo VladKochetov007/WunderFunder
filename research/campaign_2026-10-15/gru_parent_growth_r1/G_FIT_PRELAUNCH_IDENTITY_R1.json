@@ -1,0 +1,265 @@
+{
+  "arm": "G",
+  "attempt_id": "warm-mechanism-fit-g-20261015-r1",
+  "authority_path": "research/campaign_2026-10-15/gru_parent_growth_r1/ROOT_CGFW_FIT_DELIVERY_AUTHORITY_R1.json",
+  "authority_sha256": "8c3908ee88082dd1d4e619dbae1af2d8e6a28c426b5afbb5550fcb7965479dbe",
+  "checks": {
+    "controller_attempt_and_log_absent": true,
+    "output_absence": [
+      "artifacts/runs/warm_mechanism_f0_s3_g_r3/model_ep1.pt",
+      "artifacts/runs/warm_mechanism_f0_s3_g_r3/training_state.pt",
+      "artifacts/runs/warm_mechanism_f0_s3_g_r3/provenance.json",
+      "cache/pred_warm_mechanism_f0_s3_g_r3_valid.npy",
+      "cache/pred_warm_mechanism_f0_s3_g_r3_valid.json",
+      "cache/pred_warm_mechanism_f0_s3_g_r3_valid.npy.partial",
+      "cache/pred_warm_mechanism_f0_s3_g_r3_valid.json.partial"
+    ],
+    "prelaunch_resource_snapshot": {
+      "cpu_max": "200000 100000",
+      "gpu_initial_check": "the durable controller checks free GPU memory at actual launch",
+      "parent_memory_current_bytes": 5266665472,
+      "parent_memory_max_bytes": 19999997952,
+      "physical_scratch_free_bytes": 41976807424,
+      "projected_with_1GB_operating_headroom_bytes": 12766665472,
+      "swap_current_bytes": 0,
+      "target_bytes": 17000000000,
+      "worker_reserve_bytes": 6500000000
+    },
+    "prior_inline_check": {
+      "cause": "the first check compared full authority commit to 8-character manifest revision for equality; actual HEAD equals full authority and begins with the manifest revision",
+      "result": "failed before any data/source hashes or controller launch",
+      "source_mismatch": false
+    },
+    "reviewed_vector": {
+      "argv_sha256_from_authority": "7afc447fb889800773cf5b8f03425c3a13abb7bf3eeaf19fc5cd69435bd6c71b",
+      "checkpoint_epoch_index": 1,
+      "feature_mode": "group_age",
+      "full_fit_vector_used_without_changes": true,
+      "run_name": "warm_mechanism_f0_s3_g_r3",
+      "updates_expected": 14920
+    },
+    "small_input_hashes": {
+      "parent_checkpoint": {
+        "path": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+        "sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+      },
+      "parent_provenance": {
+        "path": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+        "sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f"
+      },
+      "propensity_model": {
+        "path": "artifacts/runs/c20260929_prop_f0/model.pt",
+        "sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7"
+      },
+      "propensity_train_sidecar": {
+        "path": "cache/propcache_c20260929_prop_f0_train.json",
+        "sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9"
+      },
+      "propensity_valid_sidecar": {
+        "path": "cache/propcache_c20260929_prop_f0_valid.json",
+        "sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a"
+      },
+      "split_manifest": {
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "teacher_cache_metadata": {
+        "path": "cache/clean_t3_f0_h390_t3r5_a9_r2/metadata.json",
+        "sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8"
+      }
+    },
+    "source_files_rehashed": 64,
+    "source_manifest_sha256": "5949c1cbd9fbef6383efd793aadaf29dc9fc53fd0c7df70058422da65b33b9a7",
+    "source_tree": {
+      "authority_commit_exact": true,
+      "clean": true,
+      "head": "56d900e3c283512e7128243374cd937c05979359",
+      "manifest_short_revision_prefix_match": "56d900e3"
+    },
+    "teacher_cache_arrays": {
+      "main_homogeneous_train": {
+        "bytes": 1685600128,
+        "dtype": "float32",
+        "path": "cache/clean_t3_f0_h390_t3r5_a9_r2/main_homogeneous_train.npy",
+        "pinned_sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+        "preflight_body_rehash": false,
+        "shape": [
+          10535,
+          20000,
+          2
+        ],
+        "trainer_runtime_digest_validation_required": true
+      },
+      "main_homogeneous_valid": {
+        "bytes": 224800128,
+        "dtype": "float32",
+        "path": "cache/clean_t3_f0_h390_t3r5_a9_r2/main_homogeneous_valid.npy",
+        "pinned_sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2",
+        "preflight_body_rehash": false,
+        "shape": [
+          1405,
+          20000,
+          2
+        ],
+        "trainer_runtime_digest_validation_required": true
+      }
+    },
+    "train_parquet": {
+      "body_rescanned": false,
+      "identity": {
+        "ctime_ns": 1789416047130491282,
+        "device": 54,
+        "inode": 50918586,
+        "mtime_ns": 1577826000000000000,
+        "size_bytes": 29240219011
+      },
+      "sha256_reused_from_trusted_receipt": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+    },
+    "valid_parquet": {
+      "body_rescanned": false,
+      "identity": {
+        "ctime_ns": 1791229412504811133,
+        "device": 54,
+        "inode": 50919096,
+        "mtime_ns": 1577826000000000000,
+        "size_bytes": 5615509128
+      },
+      "sha256_reused_from_trusted_receipt": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    }
+  },
+  "controller_attempt_receipt": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/warm-mechanism-fit-g-20261015-r1.json",
+    "sha256": "eff2e45a7fb0bf3e839d5e1156ca09195459bbb7bd40f1431c779890d3b109a1"
+  },
+  "controller_launch": {
+    "admission_measurement": null,
+    "exit_status": 0,
+    "phase": null,
+    "status": "reserved",
+    "stderr": "",
+    "stdout_sha256": "c3876cb4e160d436acee8827c7c3121b285438880ad91410ee96366f47dc6679",
+    "unit": "wnn-bandit-warm-mechanism-fit-g-20261015-r1.service"
+  },
+  "created_utc": "2026-10-15T17:53:42Z",
+  "input_hash_scope": "Large immutable Parquet and teacher-array payloads were not rescanned. Parquet body hashes are reused only because inode/device/size/mtime/ctime equal the trusted complete-hash receipt. Teacher array digests are pinned in the reviewed R4 packet and must pass frozen trainer consumer validation at startup.",
+  "profile_prep_path": "research/campaign_2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_CONTROLLER_PREP_R4.json",
+  "profile_prep_sha256": "b5b2691568cbddf3b4a6e4399d5a6cf6b0a33ff39dc7f71b305269a38365754d",
+  "reviewed_worker_argv": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=30s",
+    "5400s",
+    "/usr/bin/env",
+    "WNN_GPU_MEMORY_BYTES=4300000000",
+    "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "PYTHONPATH=/home/vlad/development/wunder/worktrees/gru-parent-growth-20261015/src",
+    "WNN_LOADER_RAM_GB=4",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/worktrees/gru-parent-growth-20261015/scripts/train_rnn.py",
+    "--name",
+    "warm_mechanism_f0_s3_g_r3",
+    "--seed",
+    "3",
+    "--device",
+    "cuda",
+    "--arch",
+    "gru",
+    "--cell",
+    "gru",
+    "--hidden",
+    "256",
+    "--layers",
+    "2",
+    "--dropout",
+    "0",
+    "--train-source",
+    "train+valid",
+    "--train-seqs",
+    "10607",
+    "--valid-seqs",
+    "600",
+    "--valid-fold",
+    "0",
+    "--no-eval-during-fit",
+    "--split-manifest",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "--epochs",
+    "2",
+    "--checkpoint-policy",
+    "fixed",
+    "--checkpoint-epoch",
+    "1",
+    "--save-training-state",
+    "--batch",
+    "16",
+    "--chunk",
+    "2000",
+    "--loss",
+    "wmse",
+    "--loss-norm",
+    "chunk",
+    "--lr",
+    "0.0001",
+    "--wd",
+    "0.01",
+    "--optim",
+    "adamw",
+    "--sched",
+    "onecycle",
+    "--precision",
+    "fp16",
+    "--propensity",
+    "c20260929_prop_f0",
+    "--prop-power",
+    "2",
+    "--prop-eps",
+    "0.03",
+    "--prop-cache",
+    "--valid-true-mask",
+    "0.03",
+    "--aux-struct",
+    "0.3",
+    "--aux-next",
+    "0.3",
+    "--since-weight",
+    "0",
+    "--since-floor",
+    "0.25",
+    "--distill-cache-root",
+    "cache/clean_t3_f0_h390_t3r5_a9_r2",
+    "--distill-cache-variant",
+    "homogeneous",
+    "--distill-alpha",
+    "0.9",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--init",
+    "c20261003_combo_s3_f0@ep3",
+    "--stop-after-epoch",
+    "1",
+    "--distill-denominator",
+    "chunk",
+    "--distill-alpha-tau",
+    "32",
+    "--distill-boot-h",
+    "0",
+    "--distill-reanchor",
+    "0",
+    "--distill-family-weight",
+    "0",
+    "--batch-order",
+    "seeded",
+    "--inherit-init-preprocessing",
+    "--research-features",
+    "group_age"
+  ],
+  "reviewed_worker_argv_sha256": "7afc447fb889800773cf5b8f03425c3a13abb7bf3eeaf19fc5cd69435bd6c71b",
+  "schema": "wnn.gru-growth-g-fit-prelaunch-identity.r1",
+  "source_commit": "56d900e3c283512e7128243374cd937c05979359",
+  "source_manifest_path": "research/campaign_2026-10-15/gru_parent_growth_r1/TRAINER_SOURCE_MANIFEST_R3.json",
+  "source_manifest_sha256": "5949c1cbd9fbef6383efd793aadaf29dc9fc53fd0c7df70058422da65b33b9a7",
+  "status": "LAUNCHED"
+}

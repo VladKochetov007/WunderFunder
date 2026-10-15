@@ -3,7 +3,27 @@
 [Root C/G/F/W fit delivery authority](ROOT_CGFW_FIT_DELIVERY_AUTHORITY_R1.json) conditionally releases the four frozen two-epoch fits after all four actual resource profiles pass. It binds exact parser-compatible worker vectors, a conservative6.5GB host reservation, explicit4.3GB allocator setting,5400s per-fit timeout and fresh aggregate admission each time. It assigns checkpoint validation, full-valid FP32 export and independent grading as owned continuation work; one exposed F0 seed does not establish a final architecture winner. This operational authority changes neither targets nor sampling/normalization/horizon.
 
 Root owns H-STUDENT-PARENT-GROWTH-20261015 through fitting, export and grading.
-This directory records an engineering result, not a trained quality improvement.
+The growth initializer itself remains an engineering result; the current C
+continuation has a separate matched CP1 quality measurement recorded below.
+
+## Current delivery state — October 15
+
+C's frozen two-epoch fit completed successfully. Its trusted continuation
+state passed the `next_epoch=2` gate; the CP1 checkpoint was exported with the
+fit-worktree predictor and independently graded against the matched parent.
+The result is WP 0.6812265132 versus parent WP 0.6809412068, with paired
+component delta +0.0002853064 and 95% CI [−0.0022089120,+0.0024805067] on the
+repeatedly inspected F0 panel. This is one-seed exposed-panel evidence, not a
+confirmed improvement or fresh holdout. See the [fit state gate](C_FIT_TERMINAL_STATE_GATE_R1.json),
+[CP1 export receipt](C_CP1_EXPORT_RESULT_R1.json), and [independent grade](../../student_quality_tradeoff_r1/WARM_MECHANISM_F0_S3_C_R3_CP1_PAIRED_GRADE_R1.json).
+
+The separate direct-parent S resource profile completed 50/50 finite updates
+with no AMP skips and no OOM delta; it produced no checkpoint, prediction or
+quality score. Its [terminal receipt](../../student_quality_tradeoff_r1/frozen_parent_anchor_r1/S_PROFILE_TERMINAL_RESULT_R1.json)
+is indexed with the reviewed contract. G is next under the already authorized
+C/G/F/W fit sequence after fresh source, input and resource checks. The separate
+S fit authority permits an S continuation only after this primary C/G/F/W
+sequence and its exports are delivered.
 
 - [Complete-sequence result](COMPLETE_SEQUENCE_PROFILE_R1.json) pins the original
   F0 seed3 parent, fitting-only raw fixture, source hashes and derived initializer.
@@ -61,10 +81,10 @@ the packet binds the split, original parent, grown initializer, teacher-cache
 metadata, propensity model/sidecars, and the verified dataset-body/identity
 receipt. Its only worker-argv delta from the R3 recipe packet is explicit
 `WNN_GPU_MEMORY_BYTES=4300000000`; no model, data or training arguments change.
-Independent paired grades are terminal per root's update. R2's C launch reached
-the immutable trainer parser and failed on unsupported arguments before CUDA;
-G/F/W were not launched. The exact failure and the corrected successor are
-indexed below.
+Independent paired grades are terminal per root's update. At the R2 launch
+boundary, C reached the immutable trainer parser and failed on unsupported
+arguments before CUDA; G/F/W had not yet been launched. The exact failure and
+the corrected successor are indexed below.
 Root directed 5.5GB host reservations for H256 C/G/F (C's matched A0 P1 peak
 was4,952,576,000B) and6.5GB for H384 W (historical H384 peak was
 6,499,999,744B). G/F's CUDA age transforms may raise working memory, so the
@@ -72,7 +92,8 @@ profile must measure it. Each probe is 50 attempted B16/C2000 FP16 updates and
 provides resource/rate evidence only; G/F construct features through frozen
 CUDA `build_inputs(x)` with loader workers at zero. The5GB observed-VRAM ceiling
 is an operator stop threshold because the controller records VRAM but does not
-enforce it as a hard GPU cap. No fit is admitted by R2.
+enforce it as a hard GPU cap. R2 itself did not admit a fit; the later
+root-owned conditional authority is linked below.
 
 R2's first C attempt is preserved as an execution failure: the immutable trainer
 parser exited2 before CUDA/model work because it rejected the four options
@@ -142,4 +163,4 @@ The [complete C/G/F/W profile summary](WARM_MECHANISM_PROFILE_WAVE_SUMMARY_R1.js
 
 The [C prelaunch identity receipt](ROOT_C_FIT_PRELAUNCH_IDENTITY_R1.json) records the exact source, profile, input-file identities, reusable complete-body hashes, fitted parent/cache/propensity pins, and absent output paths immediately before the C fit admission. Dataset and teacher-array bodies were not rescanned because their immutable file identities matched trusted complete hashes. The mutable controller attempt receipt and log remain the terminal execution record.
 
-The [full-valid FP32 export contract](CGFW_FULLVALID_EXPORT_CONTRACT_R1.json) prepares the same immutable fit-worktree predictor and feature transform for C/G/F/W, with observed hashes, exact checkpoint epochs, full-valid feature-only scope, row-order source, expected dimensions, output paths, and per-export controller commands. It deliberately avoids the older teacher-cohort predictor, whose feature-mode enum lacks `group_age` and `field_age`; the fit-worktree implementation supports both and is byte-identical to the MAIN predictor/feature modules. At creation this contract was preparation-only: each export still requires a successful fit/state gate, absent outputs and fresh current-controller GPU admission, then an independent official fold-0 grade. No C/G/F/W full-fit or quality claim follows from the resource profiles.
+The [full-valid FP32 export contract](CGFW_FULLVALID_EXPORT_CONTRACT_R1.json) prepares the same immutable fit-worktree predictor and feature transform for C/G/F/W, with observed hashes, exact checkpoint epochs, full-valid feature-only scope, row-order source, expected dimensions, output paths, and per-export controller commands. It deliberately avoids the older teacher-cohort predictor, whose feature-mode enum lacks `group_age` and `field_age`; the fit-worktree implementation supports both and is byte-identical to the MAIN predictor/feature modules. At creation this contract was preparation-only; the current C fit, CP1 export and grade are recorded above. G/F/W still require their own successful fit/state gate, absent outputs and fresh controller admission, followed by independent official fold-0 grading.
