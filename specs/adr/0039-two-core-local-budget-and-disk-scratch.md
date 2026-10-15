@@ -7,7 +7,9 @@ The user reports laptop freezes and full temporary storage, requiring at most
 two aggregate CPU cores. GPU research continues. The live campaign slice is now
 200%; the dated controller guard records the new boundary at14:23:35UTC and
 rejects a five-core parent. Keep one one-core GPU worker, zero loader workers,
-and serialize CPU support at20% quota. Use the updated operational controller
+and keep lightweight CPU support at20% quota. When the GPU worker is idle, one
+existing scorer/state check may use one core, with fresh total reservations below
+two; do not overlap it with the model worker. Use the updated operational controller
 with unchanged frozen trainer commands; do not raise caps for old controllers.
 
 Both scripts/limited and the controller route temporary files and TorchInductor
