@@ -100,3 +100,10 @@ bodies were not rescanned. The corrected C profile itself is the actual
 parser/consumer check.
 Fresh source, input, absence and resource checks still precede each 50-update
 profile.
+
+
+## R3 profile consumer failure and R4 correction
+
+The R3 corrected C attempt reached the immutable trainer's post-argument guard, which rejects `--save-training-state` when `--profile-steps` is active. It exited 2 after 5.06s with the exact error `profiling/parity early exits cannot save epoch continuation state`; the profile run directory was absent afterward. This is a profile-command compatibility failure before model work, not a training or quality result. The [attempt receipt](../../campaign_2026-10-06/bandit_continuation/runtime/attempts/warm-growth-r3-compat-profile-c-20261015.json) SHA-256 is `fe4f3a398a542f4508c1e1ae683204ec73dcd743badc38ec2ac04f0653227c21` and the [worker log](../../campaign_2026-10-06/bandit_continuation/runtime/logs/warm-growth-r3-compat-profile-c-20261015.log) SHA-256 is `c77423f7ae934d3348a678d45632681330dbc9a7161222baf98f7e2edb7366ba`.
+
+[R4 controller prep](WARM_MECHANISM_PROFILE_CONTROLLER_PREP_R4.json), SHA-256 `b5b2691568cbddf3b4a6e4399d5a6cf6b0a33ff39dc7f71b305269a38365754d`, makes the narrow profile-only repair: it removes `--save-training-state` from the profile-worker vectors because these five-batch early exits cannot save continuation state. The base trainer and full-fit vectors are unchanged, as are the architecture, data, initialization, optimizer, schedule, 4.3GB allocator setting, per-arm reservations and 5GB observed-VRAM stop threshold. The next C run is the actual immutable trainer consumer check; G/F/W remain serial and unlaunched until C succeeds. No successful profile measurement is claimed yet.
