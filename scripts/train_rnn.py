@@ -77,6 +77,7 @@ from wnn.privileged import (
 from wnn.propensity import load_propensity, propensity
 from wnn.quantization import policy_metadata
 from wnn.research_features import (
+    FIELD_AGE_FEATURE_MODES,
     MOMENT_FEATURE_MODES,
     RESEARCH_FEATURE_MODES,
     fit_causal_moment_prior,
@@ -1582,8 +1583,9 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
 
 
 def can_extend_research_features(parent_mode: str, child_mode: str) -> bool:
-    """Allow a causal moment representation to append features to its parent."""
-    if child_mode not in MOMENT_FEATURE_MODES or parent_mode not in ("none", *MOMENT_FEATURE_MODES):
+    """Allow an append-only causal representation to extend a matching parent."""
+    appendable_modes = (*MOMENT_FEATURE_MODES, *FIELD_AGE_FEATURE_MODES)
+    if child_mode not in appendable_modes or parent_mode not in ("none", *appendable_modes):
         return False
     parent_names = research_feature_names(parent_mode)
     child_names = research_feature_names(child_mode)
@@ -1965,7 +1967,7 @@ def main():
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--research-features", choices=RESEARCH_FEATURE_MODES, default="none",
-                    help="append causal volume or fitting-prior moments before TBPTT slicing")
+                    help="append causal volume, moment, or raw-field age features before TBPTT")
     ap.add_argument("--research-feature-control", choices=("none", "newest"), default="none",
                     help="newest zeros the newest moment-feature block while keeping input width fixed")
     ap.add_argument("--privileged-mode", choices=PRIVILEGED_MODES, default="none",

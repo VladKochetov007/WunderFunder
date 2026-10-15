@@ -11,7 +11,14 @@ if TYPE_CHECKING:
 
 ENDPOINT = np.float32(-5.199337482452393)
 MOMENT_FEATURE_MODES = ("causal_moments", "causal_innovations")
-RESEARCH_FEATURE_MODES = ("none", "volume28", "volume28_current", *MOMENT_FEATURE_MODES)
+FIELD_AGE_FEATURE_MODES = ("group_age", "field_age")
+RESEARCH_FEATURE_MODES = (
+    "none",
+    "volume28",
+    "volume28_current",
+    *MOMENT_FEATURE_MODES,
+    *FIELD_AGE_FEATURE_MODES,
+)
 MOMENT_PROJECTION_WIDTH = 16
 MOMENT_FAST_HALF_LIFE = 32.0
 MOMENT_SLOW_HALF_LIFE = 512.0
@@ -28,6 +35,8 @@ VOLUME28_NAMES = tuple(f"dVrun_{index}" for index in range(22)) + (
     "netV_first11",
     "netV_last11",
 )
+FIELD_AGE_CAP = 10_000
+RAW_FIELD_GROUPS = ((0, 22), (22, 44), (44, 52), (52, 74), (74, 96), (96, 104), (104, 112))
 
 
 def research_feature_names(mode: str) -> tuple[str, ...]:
@@ -50,6 +59,8 @@ def research_feature_names(mode: str) -> tuple[str, ...]:
                 f"innovation_{index}" for index in range(MOMENT_PROJECTION_WIDTH)
             )
         return moment_names
+    if mode in FIELD_AGE_FEATURE_MODES:
+        return tuple(f"{mode}_{index}" for index in range(112))
     return tuple(f"currentV_{index}" for index in range(22)) + (
         "current_step_path_first11",
         "current_step_path_last11",
@@ -81,6 +92,66 @@ def _raw_array(raw: np.ndarray) -> tuple[np.ndarray, bool]:
     if not np.isfinite(array).all():
         raise ValueError("Raw features must be finite")
     return array, squeeze
+
+
+def _field_age_features_numpy(raw: np.ndarray, mode: str) -> np.ndarray:
+    """Build reset-local log ages from exact raw-field changes."""
+    batch_size, rows, _ = raw.shape
+    output = np.empty((batch_size, rows, 112), dtype=np.float32)
+    positions = np.arange(rows, dtype=np.int32)[None, :, None]
+    groups = ((0, 112),) if mode == "field_age" else RAW_FIELD_GROUPS
+    for start, end in groups:
+        width = 112 if mode == "field_age" else 1
+        changed = np.zeros((batch_size, rows, width), dtype=np.bool_)
+        if rows > 1:
+            delta = raw[:, 1:, start:end] != raw[:, :-1, start:end]
+            changed[:, 1:] = delta if mode == "field_age" else delta.any(axis=-1, keepdims=True)
+        last_change = np.where(changed, positions, 0).astype(np.int32, copy=False)
+        np.maximum.accumulate(last_change, axis=1, out=last_change)
+        np.subtract(positions, last_change, out=last_change)
+        np.minimum(last_change, FIELD_AGE_CAP, out=last_change)
+        encoded = np.log1p(last_change.astype(np.float32, copy=False))
+        output[..., start:end] = encoded
+    return output
+
+
+def _field_age_features_torch(
+    raw: torch.Tensor, mode: str, output: torch.Tensor | None = None
+) -> torch.Tensor:
+    """Build reset-local log ages with a bounded-width cumulative last-change scan."""
+    import torch
+
+    expected_shape = (*raw.shape[:2], 112)
+    if output is None:
+        output = raw.new_empty(expected_shape)
+    elif output.shape != expected_shape or output.dtype != raw.dtype or output.device != raw.device:
+        raise ValueError("field-age output buffer must match the input batch, dtype, and device")
+    batch_size, rows, _ = raw.shape
+    positions = torch.arange(rows, device=raw.device, dtype=torch.int32).view(1, rows, 1)
+    groups = ((0, 112),) if mode == "field_age" else RAW_FIELD_GROUPS
+    for start, end in groups:
+        if rows > 1:
+            changed = raw[:, 1:, start:end] != raw[:, :-1, start:end]
+            if mode == "group_age":
+                changed = changed.any(dim=-1, keepdim=True)
+            row_zero = torch.zeros(
+                (batch_size, 1, changed.shape[-1]), device=raw.device, dtype=torch.bool
+            )
+            changed = torch.cat((row_zero, changed), dim=1)
+        else:
+            changed = torch.zeros(
+                (batch_size, 1, 112 if mode == "field_age" else 1),
+                device=raw.device,
+                dtype=torch.bool,
+            )
+        last_change = torch.where(changed, positions, torch.zeros_like(positions))
+        last_change = torch.cummax(last_change, dim=1).values
+        age = (positions - last_change).clamp_max(FIELD_AGE_CAP).to(dtype=raw.dtype)
+        encoded = torch.log1p(age)
+        output[..., start:end] = (
+            encoded if mode == "field_age" else encoded.expand(-1, -1, end - start)
+        )
+    return output
 
 
 def _moment_projection() -> np.ndarray:
@@ -439,6 +510,9 @@ def research_features_numpy(
         if zero_width:
             output[..., -zero_width:] = 0.0
         return output[0] if squeeze else output
+    if mode in FIELD_AGE_FEATURE_MODES:
+        output = _field_age_features_numpy(x, mode)
+        return output[0] if squeeze else output
     volume = x[..., 22:44]
     delta = np.diff(volume, axis=1, prepend=volume[:, :1])
     path = np.stack((np.abs(delta[..., :11]).sum(-1), np.abs(delta[..., 11:]).sum(-1)), -1)
@@ -481,6 +555,8 @@ def research_features_torch(
         if zero_width:
             features[..., -zero_width:].zero_()
         return features
+    if mode in FIELD_AGE_FEATURE_MODES:
+        return _field_age_features_torch(raw, mode, output)
     volume = raw[..., 22:44]
     delta = torch.diff(volume, dim=1, prepend=volume[:, :1])
     path = torch.stack((delta[..., :11].abs().sum(-1), delta[..., 11:].abs().sum(-1)), -1)
@@ -584,6 +660,50 @@ class StreamingCausalMoments:
         return features
 
 
+class StreamingFieldAgeFeatures:
+    """Track exact field or group change ages across arbitrary input chunks."""
+
+    def __init__(self, mode: str) -> None:
+        if mode not in FIELD_AGE_FEATURE_MODES:
+            raise ValueError(f"Unknown field-age feature mode: {mode}")
+        self.mode = mode
+        self.reset()
+
+    def reset(self) -> None:
+        """Clear the previous row and return every age to sequence-start zero."""
+        self.previous: np.ndarray | None = None
+        self.ages = np.zeros(112, dtype=np.int32)
+
+    def update(self, row: np.ndarray) -> np.ndarray:
+        """Encode one current row using only exact changes from its predecessor."""
+        raw = np.asarray(row, dtype=np.float32)
+        if raw.shape != (112,) or not np.isfinite(raw).all():
+            raise ValueError("Expected one finite float32 raw row of width112")
+        if self.previous is None:
+            self.ages.fill(0)
+        elif self.mode == "field_age":
+            changed = raw != self.previous
+            self.ages[changed] = 0
+            self.ages[~changed] = np.minimum(self.ages[~changed] + 1, FIELD_AGE_CAP)
+        else:
+            for start, end in RAW_FIELD_GROUPS:
+                if np.any(raw[start:end] != self.previous[start:end]):
+                    self.ages[start:end] = 0
+                else:
+                    self.ages[start:end] = np.minimum(self.ages[start:end] + 1, FIELD_AGE_CAP)
+        self.previous = raw.copy()
+        return np.log1p(self.ages.astype(np.float32, copy=False))
+
+    def update_chunk(self, rows: np.ndarray) -> np.ndarray:
+        """Process a row chunk while retaining state for the following chunk."""
+        raw = np.asarray(rows, dtype=np.float32)
+        if raw.ndim != 2 or raw.shape[1] != 112 or not np.isfinite(raw).all():
+            raise ValueError("Expected finite raw rows with shape (T,112)")
+        if not len(raw):
+            return np.empty((0, 112), dtype=np.float32)
+        return np.stack([self.update(row) for row in raw])
+
+
 class StreamingResearchFeatures:
     """Keep O(1) per-sequence state matching the volume28 training transform."""
 
@@ -602,6 +722,9 @@ class StreamingResearchFeatures:
             if mode in MOMENT_FEATURE_MODES and prior is not None
             else None
         )
+        self.field_ages = (
+            StreamingFieldAgeFeatures(mode) if mode in FIELD_AGE_FEATURE_MODES else None
+        )
         if mode in MOMENT_FEATURE_MODES and self.causal_moments is None:
             raise ValueError("causal moment features require a fitting-only prior")
         self.reset()
@@ -610,6 +733,9 @@ class StreamingResearchFeatures:
         """Clear every volume accumulator at a sequence boundary."""
         if self.causal_moments is not None:
             self.causal_moments.reset()
+            return
+        if self.field_ages is not None:
+            self.field_ages.reset()
             return
         self.previous: np.ndarray | None = None
         self.origin: np.ndarray | None = None
@@ -622,6 +748,8 @@ class StreamingResearchFeatures:
             raise ValueError("Expected one finite float32 raw row of width112")
         if self.causal_moments is not None:
             return self.causal_moments.update(raw)
+        if self.field_ages is not None:
+            return self.field_ages.update(raw)
         if not self.names:
             return np.empty(0, dtype=np.float32)
         volume = raw[22:44]

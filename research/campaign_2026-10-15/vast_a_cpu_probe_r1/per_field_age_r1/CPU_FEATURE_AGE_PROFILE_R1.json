@@ -1,0 +1,244 @@
+{
+  "created_utc": "2026-10-15T14:17:43.931288+00:00",
+  "format": "wnn.field-age-cpu-profile",
+  "interpretation_limit": "runtime-only exposed fitting features; no predictive-quality or generalization claim",
+  "payload_scope": {
+    "not_read": [
+      "need_prediction.bin",
+      "labels",
+      "official_scoring_mask",
+      "teacher_outputs",
+      "distillation_cache_values",
+      "propensity_values",
+      "train.parquet body"
+    ],
+    "read": [
+      "features.bin"
+    ]
+  },
+  "runtime": {
+    "cpu_count_visible": 16,
+    "numpy": "2.2.6",
+    "python": "3.13.9"
+  },
+  "scope": "single-pass NumPy feature-construction timing; no fit or quality evaluation",
+  "single_pass_timings": {
+    "field_age": [
+      {
+        "elapsed_seconds": 0.6135645360045601,
+        "output_sha256": "52b3e2580eac8ae6232db239d9e06500c1b8f79c2e0f03353c8ee9a2888d471d",
+        "rows_per_second": 32596.408081596423,
+        "slot": 0
+      },
+      {
+        "elapsed_seconds": 0.3248082519858144,
+        "output_sha256": "0efe2b9f877ec0edeffb18acf22c34169d9dc803692eb61a45fee3cb9e33fb62",
+        "rows_per_second": 61574.79028849758,
+        "slot": 1
+      },
+      {
+        "elapsed_seconds": 0.2990916009875946,
+        "output_sha256": "3c8f95e71c7dcaad613f1fd4e4740710f79b6a340990d05f1b231b7b66f309e3",
+        "rows_per_second": 66869.14622129271,
+        "slot": 2
+      },
+      {
+        "elapsed_seconds": 0.290466768987244,
+        "output_sha256": "fe278e3dd2e374387bcb80c8cd191ec71bb299af8570fee67ea2e47fd5f8db74",
+        "rows_per_second": 68854.69229314252,
+        "slot": 3
+      },
+      {
+        "elapsed_seconds": 0.3059587959724013,
+        "output_sha256": "591f25fd726f9f706a191f204bc54a303c7e0f13e4edcf05078ef8ec54bcf85c",
+        "rows_per_second": 65368.279203857506,
+        "slot": 4
+      },
+      {
+        "elapsed_seconds": 0.2755013779969886,
+        "output_sha256": "ea646c3ce5a6ffda6b6c092f57bb37482bbff8872219bf9f9604bb266125d23d",
+        "rows_per_second": 72594.91820116635,
+        "slot": 5
+      },
+      {
+        "elapsed_seconds": 0.2892288099974394,
+        "output_sha256": "2ee911da150f2b6bf463cc8516f287b309e552bcf08caca8f48173ebcdbad160",
+        "rows_per_second": 69149.40458447782,
+        "slot": 6
+      },
+      {
+        "elapsed_seconds": 0.28450994100421667,
+        "output_sha256": "ce99b1f26eeb65f88c8a1125d39cc9ac7d7693686aecec0500a55f3e5930a25e",
+        "rows_per_second": 70296.31347645452,
+        "slot": 7
+      }
+    ],
+    "group_age": [
+      {
+        "elapsed_seconds": 0.17500710100284778,
+        "output_sha256": "38837d97b0e26a0b88c99cf573f4705bac397fbcd98d6341ea17179e76cbea3b",
+        "rows_per_second": 114281.07708426387,
+        "slot": 0
+      },
+      {
+        "elapsed_seconds": 0.1827825830259826,
+        "output_sha256": "b21fe2903b3dbfd8d2371804c56b3e426a4fcd664096d736e1c02a014c756616",
+        "rows_per_second": 109419.6157472892,
+        "slot": 1
+      },
+      {
+        "elapsed_seconds": 0.16597740299766883,
+        "output_sha256": "e577f656793c589c539a69d834c2903f7b94f35681a063763d305f11e8b3bb26",
+        "rows_per_second": 120498.33072927946,
+        "slot": 2
+      },
+      {
+        "elapsed_seconds": 0.16766287901555188,
+        "output_sha256": "8c47ed7a56521a3148d00813c3f03b89ffec488f168619cc57c124c876f2c075",
+        "rows_per_second": 119286.98897115361,
+        "slot": 3
+      },
+      {
+        "elapsed_seconds": 0.14841351899667643,
+        "output_sha256": "4b4c8c3110403e4a9d8be7e62163c41c199532cc4c74814a6f48b37511f38ca3",
+        "rows_per_second": 134758.61319916468,
+        "slot": 4
+      },
+      {
+        "elapsed_seconds": 0.14356031897477806,
+        "output_sha256": "e6697c0cbdc791d61f2107e3b7671c33704eb590d508804c16308d971f9b456f",
+        "rows_per_second": 139314.26276305347,
+        "slot": 5
+      },
+      {
+        "elapsed_seconds": 0.1555207450001035,
+        "output_sha256": "98caaac4598570af0c80e70ca61626b36d4d62fa2866f1b558e23c8093db3ce5",
+        "rows_per_second": 128600.20700123762,
+        "slot": 6
+      },
+      {
+        "elapsed_seconds": 0.15138979299808852,
+        "output_sha256": "fd88c925776e49395b7a5d117c91f94fbf69aa0e3f6a261460ec65e19b9ce631",
+        "rows_per_second": 132109.302773487,
+        "slot": 7
+      }
+    ]
+  },
+  "source": {
+    "fixture_feature_payload_sha256": "e8e8e1268cea54be12c3cf93e1be79b18cb097a1584851bcc4f5dc65885dd337",
+    "fixture_manifest_sha256": "941b656d8408be6f5c8f5816c1e32f3c8b24e59040bb4ed84bb895078a9f9f05",
+    "fixture_source_identity_sha256": "956724a5f1e695ffdd33d7b7629ec3ae06abf9c647465e2d531574754741d9ad",
+    "sampler_manifest_sha256": "c4f597956172d65eec9da579bfa4011b1349b58632de8b2eecf23dcbbfbf2041",
+    "sequences": [
+      {
+        "component_id": 974,
+        "feature_sha256": "913cdbff7e360b72a2f0a4945f392d0a11e884ea79e8c9ef7c662ff3c0206d99",
+        "sequence_id": 280116399,
+        "slot": 0,
+        "source": "train",
+        "source_position": 0,
+        "train_row_group": 1335
+      },
+      {
+        "component_id": 1857,
+        "feature_sha256": "836c4b4e67b6d2f5280babfaca6a8e9eea26880252427f03d825d37361a34778",
+        "sequence_id": 1210883499,
+        "slot": 1,
+        "source": "train",
+        "source_position": 1,
+        "train_row_group": 5862
+      },
+      {
+        "component_id": 74,
+        "feature_sha256": "1eed0be9f6b49ca31b0c22d26cd8524c3ac927b47105c293920d5e43a848f724",
+        "sequence_id": 988007941,
+        "slot": 2,
+        "source": "train",
+        "source_position": 2,
+        "train_row_group": 4811
+      },
+      {
+        "component_id": 1149,
+        "feature_sha256": "bfcc7d6d8658663810a76d66a0212c7a150da84ff622437528f9753a82148f68",
+        "sequence_id": 703209675,
+        "slot": 3,
+        "source": "train",
+        "source_position": 3,
+        "train_row_group": 3430
+      },
+      {
+        "component_id": 1771,
+        "feature_sha256": "08c3e8d8e1204322ad15310ad4ef3ba775d8ed9e1c90729dd858f8ad8e35c3d0",
+        "sequence_id": 705808958,
+        "slot": 4,
+        "source": "train",
+        "source_position": 4,
+        "train_row_group": 3447
+      },
+      {
+        "component_id": 592,
+        "feature_sha256": "5b30b6e5b677ba5949832fba623d592b5d1cae81834b1e3afb0f9fb4192d4c68",
+        "sequence_id": 1019082568,
+        "slot": 5,
+        "source": "train",
+        "source_position": 5,
+        "train_row_group": 4960
+      },
+      {
+        "component_id": 2688,
+        "feature_sha256": "c2bbd98ec7e134da4170768de68720f92e144936358f3e9f728f93100d2e0a4a",
+        "sequence_id": 1888159643,
+        "slot": 6,
+        "source": "train",
+        "source_position": 6,
+        "train_row_group": 9274
+      },
+      {
+        "component_id": 816,
+        "feature_sha256": "7c7f0481d3336e10871a2540c84d3184d578070c6df34630318f1d3a3a7350f9",
+        "sequence_id": 1987685802,
+        "slot": 7,
+        "source": "train",
+        "source_position": 7,
+        "train_row_group": 9781
+      }
+    ],
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "transform": {
+    "definition": "row 0 age 0; exact raw float32 inequality resets age to 0; otherwise increment by 1; cap at 10000; encode log1p(age)",
+    "field_age": "one clock per raw column",
+    "group_age": "one any-field-change clock per range, broadcast to its raw columns",
+    "group_ranges_half_open": [
+      [
+        0,
+        22
+      ],
+      [
+        22,
+        44
+      ],
+      [
+        44,
+        52
+      ],
+      [
+        52,
+        74
+      ],
+      [
+        74,
+        96
+      ],
+      [
+        96,
+        104
+      ],
+      [
+        104,
+        112
+      ]
+    ]
+  },
+  "version": 1
+}
