@@ -1,0 +1,291 @@
+{
+  "format": "wnn.cpu-policy-smoke-pair",
+  "version": 1,
+  "status": "complete",
+  "created_utc": "2026-10-15T10:55:11.542684+00:00",
+  "source_commit": "9558070a69758cbf8cfd3b646f1f5d2af322b84c",
+  "runner_sha256": "be2697340cc90d676745f52d33b04e22794dc80c338c34a6bfb30527b671825b",
+  "command": [
+    "scripts/benchmark_cpu_policy_panel_r1.py",
+    "--smoke-pair",
+    "--package-root",
+    ".cpu-policy-test-packages",
+    "--package-binding",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/portable_cpu_benchmark_r1/PACKAGE_BINDING_R1.json",
+    "--fixture-dir",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/vast_a_cpu_probe_r1",
+    "--fixture-manifest",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/vast_a_cpu_probe_r1/CPU_TIMING_FIXTURE_R1.json",
+    "--output",
+    "research/campaign_2026-10-14/cpu_student_frontier_r1/portable_cpu_benchmark_r1/smoke_local_20261015_r1"
+  ],
+  "host": {
+    "requested_cpu": null,
+    "selected_cpu": 0,
+    "affinity_before": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "affinity_after": [
+      0
+    ],
+    "numa_nodes_for_cpu": [
+      0
+    ],
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "cpu_flags": "fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities",
+    "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]"
+  },
+  "single_cpu_affinity_only": true,
+  "cpu_quota_asserted": false,
+  "cgroup": {
+    "available": true,
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p2905906-i7107962.scope",
+    "cpu.max": "100000 100000",
+    "memory.current": "114630656",
+    "memory.max": "1499996160",
+    "memory.swap.current": "0",
+    "memory.swap.max": "0",
+    "cpu.stat": {
+      "usage_usec": 10736481,
+      "user_usec": 10619336,
+      "system_usec": 117145,
+      "nice_usec": 10623161,
+      "core_sched.force_idle_usec": 0,
+      "nr_periods": 109,
+      "nr_throttled": 0,
+      "throttled_usec": 0,
+      "nr_bursts": 0,
+      "burst_usec": 0
+    },
+    "memory.events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0,
+      "sock_throttled": 0
+    }
+  },
+  "fixture_manifest_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/vast_a_cpu_probe_r1/CPU_TIMING_FIXTURE_R1.json",
+  "fixture_manifest_sha256": "941b656d8408be6f5c8f5816c1e32f3c8b24e59040bb4ed84bb895078a9f9f05",
+  "fixture_hash_and_map_seconds": 0.09668743598740548,
+  "fixture_arrays": {
+    "features": {
+      "bytes": 71680000,
+      "dtype": "<f4",
+      "file": "features.bin",
+      "sha256": "e8e8e1268cea54be12c3cf93e1be79b18cb097a1584851bcc4f5dc65885dd337",
+      "shape": [
+        8,
+        20000,
+        112
+      ]
+    },
+    "need_prediction": {
+      "bytes": 160000,
+      "dtype": "|u1",
+      "file": "need_prediction.bin",
+      "sha256": "976947b85bdde6f53e3e7323e872ab4019175b404e58d29fd40321fadfe8ed82",
+      "shape": [
+        8,
+        20000
+      ]
+    }
+  },
+  "source": {
+    "bytes": 29240219011,
+    "dataset_path": "datasets/train.parquet",
+    "fold": 0,
+    "footer_bytes": 60437285,
+    "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+    "mtime_ns": 1577826000000000000,
+    "sampler_manifest_sha256": "c4f597956172d65eec9da579bfa4011b1349b58632de8b2eecf23dcbbfbf2041",
+    "seed": 3,
+    "source_identity_scope": "frozen fold-0 Parquet footer SHA-256, file byte length and mtime_ns; the 29GB parquet body was not rescanned",
+    "source_identity_sha256": "956724a5f1e695ffdd33d7b7629ec3ae06abf9c647465e2d531574754741d9ad",
+    "split_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "sequence": {
+    "component_id": 974,
+    "feature_sha256": "913cdbff7e360b72a2f0a4945f392d0a11e884ea79e8c9ef7c662ff3c0206d99",
+    "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+    "sequence_id": 280116399,
+    "slot": 0,
+    "source": "train",
+    "source_position": 0,
+    "train_row_group": 1335
+  },
+  "datapoint_contract": {
+    "source_path": "utils.py",
+    "source_sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+    "fields_in_order": [
+      "seq_ix",
+      "step_in_seq",
+      "need_prediction",
+      "state"
+    ],
+    "adapter_imports_pyarrow": false
+  },
+  "package_binding_sha256": "61a11ab4ea6bf89df3f2789ae0a64db6e5064c12e1d554150ea55f118a0f2367",
+  "package_verification_seconds": 0.06588524801190943,
+  "worker_cold_start_and_constructor": {
+    "A": {
+      "event": "ready",
+      "worker_label": "A",
+      "pid": 2905938,
+      "startup_seconds": 0.0909942019789014,
+      "label": "A",
+      "selected_policy": "q8vnni",
+      "native_level": "v3",
+      "constructor_seconds_including_weight_load_and_pack": 0.055157905007945374,
+      "constructor_process_seconds": 0.05424615799999999,
+      "native_library": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/team_models_20261013/xteam_h4/v3/wnn_native.abi3.so",
+      "native_library_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+      "package_solution_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+      "max_rss_kib_after_load": 124284,
+      "numpy": "2.2.6",
+      "parent_spawn_to_ready_seconds": 0.1350683009950444
+    },
+    "B": {
+      "event": "ready",
+      "worker_label": "B",
+      "pid": 2905939,
+      "startup_seconds": 0.19093689299188554,
+      "label": "B",
+      "selected_policy": "q8vnni256",
+      "native_level": "v3",
+      "constructor_seconds_including_weight_load_and_pack": 0.1456888869870454,
+      "constructor_process_seconds": 0.14277710500000002,
+      "native_library": "/home/vlad/development/wunder/worktrees/cpu-policy-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/packages/extracted/B/v3/wnn_native.abi3.so",
+      "native_library_sha256": "cd8b9692d102e5173fbe3b89a15373dcccb63382892f7621c0b2a1382f0ba362",
+      "package_solution_sha256": "e887d34edef19ff360b5846bc121f8ee4c1f9959a7f154628204a668ab031596",
+      "max_rss_kib_after_load": 124284,
+      "numpy": "2.2.6",
+      "parent_spawn_to_ready_seconds": 0.2681498460005969
+    }
+  },
+  "samples": {
+    "A": [
+      {
+        "event": "sample",
+        "worker_label": "A",
+        "block": -3,
+        "slot": 0,
+        "sequence_id": 280116399,
+        "request_id": "smoke_A_r0_s0",
+        "output_sha256": "5658f961803dbb79385e6274717f9f61ae4e468a62d04bce6c96f78da753cda4",
+        "callback_wall_seconds": 2.1681793330062646,
+        "callback_process_seconds": 2.1467811820000002,
+        "reset_wall_seconds": 0.011503232992254198,
+        "reset_process_seconds": 0.011303913999999998,
+        "output_bytes": 160000,
+        "max_rss_kib": 124284,
+        "worker_roundtrip_seconds": 2.1802027319790795,
+        "phase": "compatibility_smoke",
+        "cpu_policy": "q8vnni",
+        "input_sha256": "913cdbff7e360b72a2f0a4945f392d0a11e884ea79e8c9ef7c662ff3c0206d99",
+        "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+        "reset_before_callback": true
+      },
+      {
+        "event": "sample",
+        "worker_label": "A",
+        "block": -3,
+        "slot": 0,
+        "sequence_id": 280116399,
+        "request_id": "smoke_A_r1_s0",
+        "output_sha256": "5658f961803dbb79385e6274717f9f61ae4e468a62d04bce6c96f78da753cda4",
+        "callback_wall_seconds": 2.0812195220205467,
+        "callback_process_seconds": 2.064583013,
+        "reset_wall_seconds": 0.009870554000372067,
+        "reset_process_seconds": 0.009823981999999898,
+        "output_bytes": 160000,
+        "max_rss_kib": 124284,
+        "worker_roundtrip_seconds": 2.0915555270039476,
+        "phase": "compatibility_smoke",
+        "cpu_policy": "q8vnni",
+        "input_sha256": "913cdbff7e360b72a2f0a4945f392d0a11e884ea79e8c9ef7c662ff3c0206d99",
+        "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+        "reset_before_callback": true
+      }
+    ],
+    "B": [
+      {
+        "event": "sample",
+        "worker_label": "B",
+        "block": -3,
+        "slot": 0,
+        "sequence_id": 280116399,
+        "request_id": "smoke_B_r0_s0",
+        "output_sha256": "5658f961803dbb79385e6274717f9f61ae4e468a62d04bce6c96f78da753cda4",
+        "callback_wall_seconds": 2.8789141880115494,
+        "callback_process_seconds": 2.862271203,
+        "reset_wall_seconds": 0.014503452024655417,
+        "reset_process_seconds": 0.014402124000000016,
+        "output_bytes": 160000,
+        "max_rss_kib": 124284,
+        "worker_roundtrip_seconds": 2.893858014023863,
+        "phase": "compatibility_smoke",
+        "cpu_policy": "q8vnni256",
+        "input_sha256": "913cdbff7e360b72a2f0a4945f392d0a11e884ea79e8c9ef7c662ff3c0206d99",
+        "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+        "reset_before_callback": true
+      },
+      {
+        "event": "sample",
+        "worker_label": "B",
+        "block": -3,
+        "slot": 0,
+        "sequence_id": 280116399,
+        "request_id": "smoke_B_r1_s0",
+        "output_sha256": "5658f961803dbb79385e6274717f9f61ae4e468a62d04bce6c96f78da753cda4",
+        "callback_wall_seconds": 2.9978589579986874,
+        "callback_process_seconds": 2.9776715660000006,
+        "reset_wall_seconds": 0.014088191994233057,
+        "reset_process_seconds": 0.014001154000000238,
+        "output_bytes": 160000,
+        "max_rss_kib": 124284,
+        "worker_roundtrip_seconds": 3.012425967026502,
+        "phase": "compatibility_smoke",
+        "cpu_policy": "q8vnni256",
+        "input_sha256": "913cdbff7e360b72a2f0a4945f392d0a11e884ea79e8c9ef7c662ff3c0206d99",
+        "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+        "reset_before_callback": true
+      }
+    ]
+  },
+  "same_policy_complete_reset_replay_bitwise_equal": {
+    "A": true,
+    "B": true
+  },
+  "A_vs_B": {
+    "bitwise_equal": true,
+    "different_elements": 0,
+    "max_abs": 0.0,
+    "mean_abs": 0.0,
+    "rmse": 0.0
+  },
+  "callback_scope": "Two full 20,000-row solution.PredictionModel.predict replays per policy from raw112 features using the synthetic runtime request vector; each replay follows a 99-row sentinel reset. Includes per-row DataPoint creation and native preprocessing/inference.",
+  "interpretation": "Compatibility smoke only; one source-qualified sequence does not establish a timing ranking, performance variance or a multi-sequence parity claim.",
+  "max_rss_kib": 606916,
+  "numpy": "2.2.6",
+  "python": "3.11.16 (main, Aug 13 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]"
+}
