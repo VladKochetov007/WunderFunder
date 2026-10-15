@@ -1,0 +1,94 @@
+{
+  "all_gates_no_fit_no_launch": true,
+  "created_utc": "2026-10-15T12:35:15.443080+00:00",
+  "external_predicates_before_any_fit": [
+    "Independent critic issues GO on this exact successor commit.",
+    "The current H384 complete sequence, export and grade chain succeeds.",
+    "Root records a fresh per-stage resource admission after validating the stage boundary."
+  ],
+  "input_checker_path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/verify_alpha0_input_binding_r3.py",
+  "input_checker_source_sha256": "446e37f16ac66cb29024cc5d30977bd499b0ec68b1272602b5bdbc18dc53a6f0",
+  "p1_hashing_policy": "One streaming train+valid SHA pass and A9 endpoint rehash before P1; do not repeat whole-file hashing per later stage.",
+  "p2_p3_identity_policy": "Verify device/inode/size/mtime/ctime and pinned checkpoint provenance; any identity change requires fresh full hashing.",
+  "purpose": "Bounded source/data/checkpoint identity checks only; no trainer invocation.",
+  "schema": "wnn.student-warmparent-alpha0-stage-input-gates.r3",
+  "source_materializer_path": "materialize_alpha0_input_bindings_r3.py",
+  "source_materializer_sha256": "1afe3c57953ad6227ea45e4db317107c6d87e24ee9171eb754e0cc01c0959792",
+  "stage_commands": {
+    "p1": {
+      "command_argv": [
+        "env",
+        "WNN_SLICE=wnn-campaign.slice",
+        "WNN_CPU_QUOTA=100%",
+        "WNN_THREADS=1",
+        "WNN_MEM_MAX=300000000",
+        "WNN_RUNTIME_MAX=600s",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+        "/usr/bin/python3",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/verify_alpha0_input_binding_r3.py",
+        "--mode",
+        "establish",
+        "--stage",
+        "p1",
+        "--receipt-out",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_RUNTIME_INPUT_BINDING_P1.json"
+      ],
+      "contract_path": "ALPHA0_P1_INPUT_BINDING_R3.json",
+      "contract_sha256": "5ed2d875dd3cf2a45c83ae95c1e20aa46fb2bd80de07e59d9582984b92feb4ec",
+      "fit_or_launch_authorized_by_gate": false,
+      "stage_requires_fresh_root_admission": true
+    },
+    "p2": {
+      "command_argv": [
+        "env",
+        "WNN_SLICE=wnn-campaign.slice",
+        "WNN_CPU_QUOTA=100%",
+        "WNN_THREADS=1",
+        "WNN_MEM_MAX=300000000",
+        "WNN_RUNTIME_MAX=120s",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+        "/usr/bin/python3",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/verify_alpha0_input_binding_r3.py",
+        "--mode",
+        "verify-stage",
+        "--stage",
+        "p2",
+        "--receipt",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_RUNTIME_INPUT_BINDING_P1.json",
+        "--receipt-out",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_RUNTIME_INPUT_BINDING_P2.json"
+      ],
+      "contract_path": "ALPHA0_P2_INPUT_BINDING_R3.json",
+      "contract_sha256": "47aaede74a921da2ebcaed57c003772890fb597dc5a9eb4ad0963ad0bc556e7b",
+      "fit_or_launch_authorized_by_gate": false,
+      "stage_requires_fresh_root_admission": true
+    },
+    "p3": {
+      "command_argv": [
+        "env",
+        "WNN_SLICE=wnn-campaign.slice",
+        "WNN_CPU_QUOTA=100%",
+        "WNN_THREADS=1",
+        "WNN_MEM_MAX=300000000",
+        "WNN_RUNTIME_MAX=120s",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+        "/usr/bin/python3",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/verify_alpha0_input_binding_r3.py",
+        "--mode",
+        "verify-stage",
+        "--stage",
+        "p3",
+        "--receipt",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_RUNTIME_INPUT_BINDING_P2.json",
+        "--receipt-out",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_RUNTIME_INPUT_BINDING_P3.json"
+      ],
+      "contract_path": "ALPHA0_P3_INPUT_BINDING_R3.json",
+      "contract_sha256": "d557f2f5defabd2b40482063cf4b8eb2c509aaf3d74cda46ce60cc3b7bfcacb3",
+      "fit_or_launch_authorized_by_gate": false,
+      "stage_requires_fresh_root_admission": true
+    }
+  },
+  "status": "COMMANDS_PINNED; NO_FIT_NO_LAUNCH",
+  "working_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+}

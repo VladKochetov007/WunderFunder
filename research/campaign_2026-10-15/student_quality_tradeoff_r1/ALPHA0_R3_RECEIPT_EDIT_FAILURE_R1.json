@@ -1,0 +1,15 @@
+{
+  "corrected_receipt_sha256": "8fa68124ac67114f4d86aa4d1200bde84133aee09318181bf9e5a23a86ce7bcd",
+  "created_utc": "2026-10-15T12:31:18.163135+00:00",
+  "diagnosis": "Receipt metadata-edit path-formatting bug only; no source or input hashing failure. Corrected retry used Path.as_posix() and retained the raw platform-dependent ru_maxrss value without interpreting units.",
+  "effect": "The initial receipt copy was created, then the edit exited before writing the original receipt. Its SHA-256 remained unchanged.",
+  "error": "ValueError: Path.relative_to was passed a relative receipt path and absolute Path.cwd().",
+  "failed_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=300000000 WNN_RUNTIME_MAX=60s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /usr/bin/python3 - <<'PY'\nimport hashlib\nimport json\nimport shutil\nfrom pathlib import Path\np=Path('research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_DATASET_BYTE_BINDING_R3.json')\ninitial=p.with_name('ALPHA0_DATASET_BYTE_BINDING_R3_INITIAL.json')\nif initial.exists() or not p.is_file():\n    raise SystemExit('expected a single original R3 receipt; refusing overwrite')\nold_sha=hashlib.sha256(p.read_bytes()).hexdigest()\nshutil.copy2(p,initial)\nd=json.loads(p.read_text())\nruntime=d['runtime']\nraw=runtime.pop('process_max_rss_kib')\nruntime['process_ru_maxrss_raw_platform_units']=raw\nruntime['process_ru_maxrss_used_for_cap_assessment']=False\nruntime['cap_assessment_source']='cgroup v2 memory.max/current/peak'\nd['receipt_revision']={\n  'reason':'The initial label implied KiB although ru_maxrss units are platform-dependent; the raw value is retained without interpretation. Cgroup v2 counters are the cap evidence.',\n  'supersedes_initial_receipt_path':str(initial.relative_to(Path.cwd())),\n  'supersedes_initial_receipt_sha256':old_sha,\n}\np.write_text(json.dumps(d,indent=2,sort_keys=True)+'\\n')\nprint(json.dumps({'initial_receipt_sha256':old_sha,'corrected_receipt_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'initial_copy':str(initial)},sort_keys=True))\nPY",
+  "failed_command_sha256": "5cc4bc3e1acf2ee5e0aac18be6ad9a6204f2ad4627b7434da06c221afede7943",
+  "fit_authorized": false,
+  "launch_authorized": false,
+  "preserved_initial_receipt_sha256": "4d6a74b8c5d75c41e6475b8289c53e4b566e55e4147522b671a6990d831a68b7",
+  "retry_attempts": 1,
+  "schema": "wnn.alpha0-r3-receipt-edit-failure.r1",
+  "status": "FAILED_EDIT_ONLY; INPUT_HASHING_UNAFFECTED"
+}
