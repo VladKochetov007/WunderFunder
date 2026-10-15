@@ -4,7 +4,7 @@ R2 is a quota-safe successor to the frozen R1 packet. It keeps the same verified
 
 The worker serially exports causal FP32 predictions for 10,539 fit-train, 1,368 fit-valid and 1,873 full-valid sequences. Their raw arrays total 2,204,800,000 bytes. It performs no fit, label-based score, grade or selection. Prediction runtime has not been measured; the 18,000-second worker bound preserves the three existing 6,000-second per-export caps. The 8 GB host reservation, 12 GiB CUDA allocator cap, 13 GiB observed stop and 6 GB free-work-disk gate are unchanged from R1.
 
-The bundle slug is `wnn-f3-t3-cp2-exports-20261015-r2`, and the kernel id is `vladkochetov07/wnn-f3-t3-cp2-exports-20261015-r2-runner`. The private CP2/provenance asset dataset identity stays `vladkochetov07/wnn-f3-t3-cp2-assets-20261015-r1`, whose local content-addressed stage is verified by the builder before packaging. No Kaggle provider action has occurred for either packet.
+The bundle slug is `wnn-f3-t3-cp2-exports-20261015-r2`, and the kernel id is `vladkochetov07/wnn-f3-t3-cp2-exports-20261015-r2-runner`. The private CP2/provenance asset dataset identity stays `vladkochetov07/wnn-f3-t3-cp2-assets-20261015-r1`, whose local content-addressed stage is verified by the builder before packaging. R2 was pushed as private kernel version 1 and reached provider `COMPLETE`; this export-only run makes no fit or teacher-quality claim.
 
 ## Offline build and checks
 
@@ -34,15 +34,21 @@ Root must verify both datasets are private and READY at the exact versions mount
 
 ## Terminal collection
 
-After the exact pushed kernel version is terminal, use the R2-only collector:
+The first R2 collector invocation reached terminal `COMPLETE` but stopped before creating a collection directory or downloading any result body: its exact allowlist omitted the standard runner's `results/heartbeat.json`. The frozen failure is in [COLLECTOR_INVENTORY_FAILURE_R1.json](COLLECTOR_INVENTORY_FAILURE_R1.json). A read-only response-header inventory is in [REMOTE_OUTPUT_INVENTORY_R1.json](REMOTE_OUTPUT_INVENTORY_R1.json): all 15 result files total 2,205,066,956 bytes, the session log is 34,396 bytes, and the total with the 4 MB manifest reserve is 2,209,101,352 bytes, below the 2.5 GB cap. The sole additional path is the 502-byte heartbeat written by the exact runner source pinned in the deployed archive.
+
+R2's collector remains frozen. The narrow [R3 collector](collect_terminal_r3.py) verifies the archived GPU runner hash, admits only that exact heartbeat path with a 16 KiB declared and downloaded size limit, and validates its small JSON against the runner's resource-only schema. It preserves the R2 source/CP2/provenance bindings, six prediction files and sidecars, 2.5 GB cap, streaming length checks, and finite FP32 array scans. It writes to `collected/attempt_002` and records `TERMINAL_COLLECTION_R3.json`; it does not rerun or repush the kernel.
+
+After reviewing the R3 source and rechecking aggregate memory, CPU and disk, collect the already-complete R2 kernel version with:
 
 ```sh
-/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python \
-  research/campaign_2026-10-15/f3_teacher_export_r2/collect_terminal_r2.py \
+WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 \
+WNN_MEM_MAX=3000000000 WNN_RUNTIME_MAX=3600s \
+scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python \
+  research/campaign_2026-10-15/f3_teacher_export_r2/collect_terminal_r3.py \
   --repo-root /home/vlad/development/wunder/worktrees/f3-teacher-export-r2-20261015
 ```
 
-It requires the exact R2 admission and push receipts, inventories the fixed `results/` allowlist via GET headers before downloading, caps streamed collection at 2.5 GB, and writes to a unique physical-disk directory with a 4 GB free-space floor. A complete export claim requires terminal `COMPLETE`, all expected outputs, downloaded lengths and hashes matching both the worker manifest and prediction sidecars, the worker pipeline's CP2/provenance/split identity, FP32 shapes, and a bounded mmap scan confirming every prediction is finite. A failed post-download check is preserved in the terminal receipt and cannot be reported as complete. Root runs the official F3 grader afterward; this packet itself makes no teacher-quality claim.
+The collector requires the exact R2 admission and push receipts, inventories the complete `results/` allowlist via GET headers before downloading, streams at most 2.5 GB, and writes on the physical filesystem with a 4 GB free-space floor. A complete export claim requires terminal `COMPLETE`, every declared output including a valid runner heartbeat, downloaded lengths and hashes matching the worker manifest and prediction sidecars, the worker pipeline's CP2/provenance/split identity, FP32 shapes, and a bounded mmap scan confirming every prediction is finite. A failed post-download check is preserved in the terminal receipt and cannot be reported as complete. Root runs the official F3 grader afterward; this packet itself makes no teacher-quality claim.
 
 ## Provider preflight receipts
 
@@ -60,3 +66,7 @@ It requires the exact R2 admission and push receipts, inventories the fixed `res
 - [R2 bundle READY receipt](BUNDLE_DATASET_READY_R2.json) records private version 1 with the exact archive and manifest filenames. The kernel source directory was skipped by the dataset uploader and is pushed separately.
 - [Root admission receipt](ROOT_ADMISSION_R2.json) binds the fresh typed quota, exact five private READY dataset versions and root authority before the kernel push.
 - [Kernel push receipt](KERNEL_PUSH_R2.json) records private kernel version 1, the RUNNING state at first verification, exact provider-returned source hash and resource caps. [The preserved owner-list field gap](KERNEL_PUSH_OWNER_LIST_FIELD_GAP_R1.json) explains why nullable list fields were not treated as evidence against the successful push; the authenticated `GetKernel` response supplied the exact privacy/version fields.
+- [First terminal inventory failure](COLLECTOR_INVENTORY_FAILURE_R1.json) preserves the R2 allowlist mismatch and confirms that no result body was downloaded.
+- [Complete bounded remote inventory](REMOTE_OUTPUT_INVENTORY_R1.json) lists all 15 result paths and header lengths, binds the runner hash and shows the total is within the collection cap.
+- [R3 collector preflight](COLLECTOR_PREFLIGHT_R3.json) binds the frozen R2 release receipts and runner archive, records the 500 MB CPU test results, and leaves the 3 GB collection unstarted pending root's fresh combined gate.
+- [R3 collector source](collect_terminal_r3.py) adds only the standard runner heartbeat with a size/schema bound; its focused [heartbeat tests](tests/test_collect_terminal_r3.py) cover the runner-generated schema, unexpected paths/fields and non-finite values. Collection and official grading are still pending.

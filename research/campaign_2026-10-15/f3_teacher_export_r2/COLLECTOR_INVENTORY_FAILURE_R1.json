@@ -1,0 +1,18 @@
+{
+  "schema": "wnn.f3-teacher-cp2-collector-failure.r1",
+  "recorded_utc": "2026-10-15T13:39:17Z",
+  "kernel_id": "vladkochetov07/wnn-f3-t3-cp2-exports-20261015-r2-runner",
+  "kernel_version": 1,
+  "provider_status": "KernelWorkerStatus.COMPLETE",
+  "provider_failure_message": "",
+  "collector_revision": "R2",
+  "collector_source_sha256": "b7ad2f306ab49d8ae2b839e9cca5189c05d0583a953f46a7e902d0fb7e7acbdc",
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=3000000000 WNN_RUNTIME_MAX=3600s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-15/f3_teacher_export_r2/collect_terminal_r2.py --repo-root /home/vlad/development/wunder/worktrees/f3-teacher-export-r2-20261015",
+  "exit_code": 1,
+  "failure": "ValueError: undeclared Kaggle result path: results/heartbeat.json",
+  "downloaded_payload_bytes": 0,
+  "output_directory_created": false,
+  "cause": "The pinned Kaggle GPU runner emits results/heartbeat.json every 30 seconds; R2 allowed only export and worker receipt paths.",
+  "resolution_scope": "Add only the exact runner heartbeat path with a 16 KiB ceiling and strict JSON schema validation in the R3 collector. Preserve all R2 pins, six prediction arrays/sidecars, source ancestry checks, total 2.5 GB cap, streaming download and finite scans.",
+  "automatic_retry": false
+}
