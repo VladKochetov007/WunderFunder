@@ -1,0 +1,249 @@
+{
+  "comparison": {
+    "baseline_final_state_sha256": "4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009",
+    "baseline_matches_sealed_output_and_state": true,
+    "baseline_median_seconds": 1.0427204040170182,
+    "baseline_output_sha256": "0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc",
+    "baseline_storage_bytes": {
+      "biases": 9224,
+      "feature_builder_state": 1420,
+      "matrix_weights": 987648,
+      "normalization": 1688,
+      "recurrent_state": 3072,
+      "scratch": 11816
+    },
+    "median_speedup_factor": 2.070586787049574,
+    "optimized_complete_sequence_bitwise_parity": true,
+    "optimized_median_seconds": 0.5035869109851774,
+    "optimized_storage_bytes": {
+      "biases": 9224,
+      "feature_builder_state": 1420,
+      "matrix_weights": 987648,
+      "normalization": 1688,
+      "recurrent_state": 3072,
+      "scratch": 11816
+    },
+    "storage_breakdowns_equal": true,
+    "weight_bytes_equal": true
+  },
+  "constructor": {
+    "baseline_seconds_including_q8_pack": 0.013328552013263106,
+    "optimized_seconds_including_q8_pack": 0.013365489983698353
+  },
+  "format": "wnn.min-gru-q8-fastpath-cost-profile",
+  "implementation": {
+    "baseline_binary": "/home/vlad/development/wunder/worktrees/min-gru-real-costprofile-20261014/native/target/release/libwnn_native.so",
+    "baseline_binary_sha256": "5e29328c940aeaada3f38c86a75a824585fedae78bf68d6a1dd5d78b98996f13",
+    "baseline_source_commit": "7364a452e0c72c2600a27e21cb66f6deb9e714ce",
+    "optimized_binary": "native/target/release/libwnn_native.so",
+    "optimized_binary_sha256": "72fbbd1a6a426ba2b830ff5a9b86807db80e58428f787643a2afc75b0a432024",
+    "optimized_source_commit": "76c6d417b33fe609ee26f022cea958677de18edc",
+    "selected_policy": {
+      "assertions_passed": true,
+      "avx2_fma_fastpath_enabled": true,
+      "fast_activations": true,
+      "precision": "q8vnni"
+    }
+  },
+  "input": {
+    "normalization": {
+      "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "mean_file_sha256": "43697dd368a929f1a83432d625ba35d625082f66c6e97fbb514b73175f18322f",
+      "mean_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+      "mean_shape": [
+        211
+      ],
+      "shared_by_both_families": true,
+      "source_checkpoint": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+      "std_file_sha256": "fc668d5d0a05e6b6bf692164bb51bda21061634b2c873396230f1196309330bd",
+      "std_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+      "std_shape": [
+        211
+      ]
+    },
+    "raw_width": 112,
+    "rows": 20000,
+    "source": {
+      "dataset": "datasets/train.parquet",
+      "membership": "fitting",
+      "raw_feature_sha256": "fe24c974e6d6e3e720d36937be06d222d00f743efd65e4a0a3ec178db891f57a",
+      "raw_features": 112,
+      "row_group": 37,
+      "rows": 20000,
+      "sequence_id": 7598721,
+      "source_qualified_reference_sha256": "fe24c974e6d6e3e720d36937be06d222d00f743efd65e4a0a3ec178db891f57a",
+      "targets_or_masks_loaded": false
+    }
+  },
+  "limitations": "One Intel CPU, one fitting sequence of real features, and deterministic synthetic weights. Complete-sequence parity is only for this fixture; timings are local cost evidence, not fit quality, capacity, or competition-host performance.",
+  "measured_replays": {
+    "baseline": [
+      {
+        "bitwise_matches_sealed_scalar_baseline": true,
+        "final_state_sha256": "4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009",
+        "finite_predictions_and_state": true,
+        "microseconds_per_raw_row": 52.13602020085091,
+        "output_sha256": "0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc",
+        "pair_index": 0,
+        "reset_state_all_zero": true,
+        "rows": 20000,
+        "seconds": 1.0427204040170182
+      },
+      {
+        "bitwise_matches_sealed_scalar_baseline": true,
+        "final_state_sha256": "4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009",
+        "finite_predictions_and_state": true,
+        "microseconds_per_raw_row": 54.48297755065141,
+        "output_sha256": "0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc",
+        "pair_index": 1,
+        "reset_state_all_zero": true,
+        "rows": 20000,
+        "seconds": 1.0896595510130282
+      },
+      {
+        "bitwise_matches_sealed_scalar_baseline": true,
+        "final_state_sha256": "4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009",
+        "finite_predictions_and_state": true,
+        "microseconds_per_raw_row": 50.43657864880515,
+        "output_sha256": "0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc",
+        "pair_index": 2,
+        "reset_state_all_zero": true,
+        "rows": 20000,
+        "seconds": 1.008731572976103
+      }
+    ],
+    "optimized": [
+      {
+        "bitwise_matches_sealed_scalar_baseline": true,
+        "final_state_sha256": "4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009",
+        "finite_predictions_and_state": true,
+        "microseconds_per_raw_row": 25.220477249240503,
+        "output_sha256": "0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc",
+        "pair_index": 0,
+        "reset_state_all_zero": true,
+        "rows": 20000,
+        "seconds": 0.50440954498481
+      },
+      {
+        "bitwise_matches_sealed_scalar_baseline": true,
+        "final_state_sha256": "4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009",
+        "finite_predictions_and_state": true,
+        "microseconds_per_raw_row": 25.17934554925887,
+        "output_sha256": "0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc",
+        "pair_index": 1,
+        "reset_state_all_zero": true,
+        "rows": 20000,
+        "seconds": 0.5035869109851774
+      },
+      {
+        "bitwise_matches_sealed_scalar_baseline": true,
+        "final_state_sha256": "4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009",
+        "finite_predictions_and_state": true,
+        "microseconds_per_raw_row": 24.44112564990064,
+        "output_sha256": "0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc",
+        "pair_index": 2,
+        "reset_state_all_zero": true,
+        "rows": 20000,
+        "seconds": 0.4888225129980128
+      }
+    ]
+  },
+  "method": {
+    "callback": "20,000 sequential Python-to-native raw112 steps, including sanitization and causal feature construction to 211 columns",
+    "reset": "both callbacks reset before each complete-sequence replay",
+    "timing_order": "one warmup per callback, then alternating baseline-first and optimized-first paired measured replays",
+    "weights": "same deterministic synthetic Q8 fixture and seed as the sealed matched-matrix profile"
+  },
+  "model": {
+    "family": "min_gru",
+    "full_state_dict_bytes_including_norm_buffers": 3877024,
+    "generator": "NumPy PCG64 via default_rng(SeedSequence([20261014, family_id]))",
+    "initialization": "independent float32 uniform matrices +/-1/sqrt(fan_in); zero biases",
+    "layers": 2,
+    "matrix_parameter_count_excluding_biases_and_norm_buffers": 966528,
+    "outputs": 2,
+    "seed": 20261014,
+    "seed_sequence": [
+      20261014,
+      1
+    ],
+    "state_dict_sha256": "b52c31451de7fbcd50df1e5c6cf1830346b11cc7b14ff5ab4b4aa06fa7c14828",
+    "tensor_sha256": {
+      "cells.0.input_projection.bias": "e80232b4d18d0bb7e794be263ba937626f383f9917d4b8a737ba893a8f752293",
+      "cells.0.input_projection.weight": "3325d157b1a9ffc077e4419e83fac7e3b1d92c169037e6521a1370c1f94cfaba",
+      "cells.1.input_projection.bias": "e80232b4d18d0bb7e794be263ba937626f383f9917d4b8a737ba893a8f752293",
+      "cells.1.input_projection.weight": "b473d68244918c95db534f95f013567718c063e013b70478ae9834a0fdb43034",
+      "head.0.bias": "80422bc3d307b4a25bdafcc84ac7fb01cb55a09810e8b0f37bb12e0edb5c48ca",
+      "head.0.weight": "db85f87271c5b5fb70ed3be43fbbc863d02358500648826f1e90711378edbb5d",
+      "head.2.bias": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+      "head.2.weight": "efd49e2ac14cd86f9954ef80bed72c83031ffeed27d84bbd3e1c4071585081da",
+      "inp.bias": "80422bc3d307b4a25bdafcc84ac7fb01cb55a09810e8b0f37bb12e0edb5c48ca",
+      "inp.weight": "aa58f8ffb67971408a1399af29fa03cba88811f5f59086d8d1cbee51707966dd",
+      "mean": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+      "std": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+    },
+    "trainable_f32_bytes_excluding_norm_buffers": 3875336,
+    "trainable_parameter_count_including_biases": 968834,
+    "widths": {
+      "encoder": 384,
+      "readout": 384,
+      "recurrent": 384
+    }
+  },
+  "quality_claim": false,
+  "resources": {
+    "after": {
+      "cgroup": {
+        "available": true,
+        "cpu.max": "100000 100000",
+        "memory.current": "86634496",
+        "memory.events": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0,
+          "sock_throttled": 0
+        },
+        "memory.max": "1999998976",
+        "memory.peak": "86634496",
+        "memory.swap.max": "0",
+        "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-min-gru-q8-opt-profile-20261015.scope"
+      },
+      "process_max_rss_bytes": 621481984,
+      "resident_bytes": 64528384
+    },
+    "before": {
+      "cgroup": {
+        "available": true,
+        "cpu.max": "100000 100000",
+        "memory.current": "45912064",
+        "memory.events": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0,
+          "sock_throttled": 0
+        },
+        "memory.max": "1999998976",
+        "memory.peak": "45920256",
+        "memory.swap.max": "0",
+        "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-min-gru-q8-opt-profile-20261015.scope"
+      },
+      "process_max_rss_bytes": 621481984,
+      "resident_bytes": 33722368
+    },
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "numpy": "2.2.6",
+    "python": "3.11.16"
+  },
+  "version": 1,
+  "warmup": {
+    "baseline_seconds": 0.9266461200022604,
+    "optimized_seconds": 0.4924608049914241,
+    "outputs_and_final_state_bitwise_equal": true
+  }
+}

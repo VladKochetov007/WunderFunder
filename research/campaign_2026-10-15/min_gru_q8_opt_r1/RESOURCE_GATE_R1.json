@@ -1,0 +1,50 @@
+{
+  "aggregate_target_bytes": 17000000000,
+  "authority": "root task-thread admission; no GPU, fit, provider, or clock-budget change",
+  "authorized_scope": "one release build, paired callback profile with two warmups and six measured 20k callbacks, plus focused AVX2 unit tests",
+  "format": "wnn.min-gru-q8-fastpath-resource-gate",
+  "measured_profile_worker": {
+    "cpu_max": "100000 100000",
+    "memory_events": {
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 86634496,
+    "process_max_rss_bytes": 621481984,
+    "scope": "wnn-min-gru-q8-opt-profile-20261015.scope"
+  },
+  "pretest_fresh_gate_reported_by_root": {
+    "active_h512_fit_current_decimal_gb": 4.344,
+    "active_h512_fit_limit_decimal_gb": 5.0,
+    "active_h512_fit_unused_decimal_gb": 0.656,
+    "other_populated_reservations": "included in root aggregate reread; exact component inventory is not retained in this worktree record",
+    "parent_current_decimal_gb": 8.495,
+    "root_confirmed_projected_total_below_target": true
+  },
+  "profile_admission_reported_by_root": {
+    "parent_current_decimal_gb": 8.22,
+    "populated_service_unused_decimal_gb": 1.192,
+    "projected_total_decimal_gb": 13.612,
+    "root_torch_reference_reservation_decimal_gb": 1.5,
+    "shared_source_reservation_decimal_gb": 0.7,
+    "support_worker_bound_decimal_gb": 2.0,
+    "within_target": true
+  },
+  "quality_claim": false,
+  "test_worker": {
+    "memory_peak_bytes": null,
+    "note": "systemd reported the scope inactive and successful; MemoryPeak was unavailable after exit.",
+    "result": "success",
+    "scope": "wnn-min-gru-q8-opt-tests-20261015.scope"
+  },
+  "version": 1,
+  "worker_limits": {
+    "cpu_quota": "100%",
+    "memory_max_bytes": 2000000000,
+    "swap_max_bytes": 0,
+    "threads": 1
+  }
+}

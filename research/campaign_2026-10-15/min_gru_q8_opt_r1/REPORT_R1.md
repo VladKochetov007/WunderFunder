@@ -1,0 +1,15 @@
+# Results: minGRU Q8 AVX2 callback fast path
+
+The vectorized implementation cut the measured 20,000-row minGRU Q8 VNNI callback from a 1.042720s scalar median to 0.503587s, a 2.070587× within-session median speedup. The same source-qualified raw112 sequence was passed through the full causal feature builder, and all three measured replays per path produced bitwise-identical prediction and final-state arrays. Reset restored the all-zero recurrent state on every replay. Both paths were finite.
+
+The measured scalar callback times were 1.042720s, 1.089660s, and 1.008732s. The optimized times were 0.504410s, 0.503587s, and 0.488823s. The warmups also matched bitwise. All outputs had SHA-256 `0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc`; final states had SHA-256 `4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009`. The AVX2/FMA-enabled path and `q8vnni`/fast-activation policy were asserted at runtime.
+
+The speedup follows a targeted change to phases previously measured as expensive: activation quantization, GELU, and the candidate/write/state update now reuse exact-bit-tested AVX2 helpers. The Q8 matvec schedule and all stored values remain unchanged. This profile does not isolate each vectorized component's contribution; no per-kernel A/B or compiler assembly claim is made.
+
+Constructor time including Q8 packing was 13.3286ms for the scalar baseline and 13.3655ms for the optimized model. The storage breakdown is identical: 987,648 matrix-weight bytes, 9,224 bias bytes, 1,688 normalization bytes, 3,072 recurrent-state bytes, 11,816 scratch bytes, and 1,420 feature-builder-state bytes. This code change adds no model or packed-weight storage.
+
+The profile worker used Python3.11.16 and NumPy2.2.6 on an Intel i9-11900H, under a one-CPU/2GB worker cap with swap disabled. The callback cgroup peak was 86,634,496 bytes; process max RSS was 621,481,984 bytes. No worker OOM event was recorded. These are one-host measurements, not an AMD host, public-serving runtime, or capacity result.
+
+The scalar median here (1.042720s) is higher than the earlier scalar profile's 0.93937s mean; these were separate sessions under changing aggregate load and are not an absolute before/after comparison. The within-session alternating paired comparison is the relevant timing evidence. The earlier instrumented phase profile measured relative hotspot shares but its callback wall time was confounded by run order and shared CPU work, so no instrumentation-overhead estimate is claimed.
+
+The weight fixture is deterministic random synthetic H384×2 minGRU with 966,528 matrix parameters and seed sequence `[20261014, 1]`. The only real input is fitting row-group37, sequence7598721; label and mask columns were not loaded. This establishes bitwise serving parity for that fixture and measured cost on that CPU only. There is no fit, score, general input-domain proof, or claim of production/competition-host speed. A useful next check is independent review plus profiles on other production shapes/target CPUs before any deployment decision.

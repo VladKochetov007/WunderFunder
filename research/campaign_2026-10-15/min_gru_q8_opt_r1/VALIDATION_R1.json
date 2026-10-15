@@ -1,0 +1,24 @@
+{
+  "format": "wnn.min-gru-q8-fastpath-receipt-validation",
+  "prior_attempt": {
+    "base_commit": "722d455a5a039f71ec4e393e4e1b556909fa2847",
+    "base_lines": [
+      200,
+      201
+    ],
+    "correction": "Narrowed verification to this change\u2019s IDs and explicitly preserve the old duplicate unchanged.",
+    "output": "duplicate H-201 in research/hypotheses.jsonl:201",
+    "reason": "The global uniqueness assumption is already false before this change; historical ledger rows must remain append-only.",
+    "shell_status_caveat": "The first shell command continued to git diff --check after Python exited, which could mask the validator failure; no pass was claimed from that combined command. git diff --check is run separately.",
+    "status": "failed_on_historical_duplicate"
+  },
+  "quality_claim": false,
+  "result": "The scoped validation passed under a 1CPU/500MB bounded worker.",
+  "scope": [
+    "All JSON receipts in this profile folder parse.",
+    "The new hypothesis and experiment IDs each occur once in their append-only ledgers.",
+    "Campaign-local README links and root research/unified parent links resolve."
+  ],
+  "status": "passed_scoped",
+  "version": 1
+}

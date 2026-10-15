@@ -50,3 +50,5 @@ The repository root contains no research compatibility aliases. Use the canonica
 ### QAT public result — 2026-10-13T22:55:30.861028+00:00
 
 [User-reported QAT public test](research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/PUBLIC_TRANSFER_REVIEW_20261014_R1.md): portal00fpe72k,0.6680/54m26s/655MB. Original0.6681/50m16s/650MB remains higher and faster in these observations; priorreportedpairbest0.6682 unchanged. Exactprobecompleted/notpromoted;17.46% smallerZIP, no observed runtime/RAM or newbest benefit,5m34s deadline headroom. One rounded publicpoint, not a family refutation; source-qualified controls/activation-aware and broader validation remain open. Timestamp chronology is unresolved and payloadhash not independently verified.
+
+[October 15 native minGRU Q8 profile](research/campaign_2026-10-15/README.md) records a local, bitwise-checked serving optimization and its evidence limits.

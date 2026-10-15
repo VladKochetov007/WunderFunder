@@ -1,0 +1,223 @@
+{
+  "baseline_reset": {
+    "state_all_zero": true,
+    "state_shape": [
+      2,
+      384
+    ]
+  },
+  "comparison": {
+    "baseline_binary": "/home/vlad/development/wunder/worktrees/min-gru-real-costprofile-20261014/native/target/release/libwnn_native.so",
+    "baseline_binary_sha256": "5e29328c940aeaada3f38c86a75a824585fedae78bf68d6a1dd5d78b98996f13",
+    "baseline_callback_seconds": 1.0699116369942203,
+    "baseline_sealed_output_sha256": "0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc",
+    "baseline_sealed_state_sha256": "4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009",
+    "baseline_source_commit": "7364a452e0c72c2600a27e21cb66f6deb9e714ce",
+    "profile_binary": "native/target/release/libwnn_native.so",
+    "profile_binary_sha256": "e2dafdc9d3d064c84d05a8ea9da53a079c0a1ee6611a1f05ab99ed967ef953d8",
+    "profile_constructor_seconds_including_q8_pack": 0.014844558027107269,
+    "profile_output_bitwise_equal_to_baseline": true,
+    "profile_state_bitwise_equal_to_baseline": true
+  },
+  "format": "wnn.min-gru-q8-phase-profile",
+  "input": {
+    "normalization": {
+      "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "mean_file_sha256": "43697dd368a929f1a83432d625ba35d625082f66c6e97fbb514b73175f18322f",
+      "mean_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+      "mean_shape": [
+        211
+      ],
+      "shared_by_both_families": true,
+      "source_checkpoint": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+      "std_file_sha256": "fc668d5d0a05e6b6bf692164bb51bda21061634b2c873396230f1196309330bd",
+      "std_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+      "std_shape": [
+        211
+      ]
+    },
+    "raw_width": 112,
+    "rows": 20000,
+    "source": {
+      "dataset": "datasets/train.parquet",
+      "membership": "fitting",
+      "raw_feature_sha256": "fe24c974e6d6e3e720d36937be06d222d00f743efd65e4a0a3ec178db891f57a",
+      "raw_features": 112,
+      "row_group": 37,
+      "rows": 20000,
+      "sequence_id": 7598721,
+      "source_qualified_reference_sha256": "fe24c974e6d6e3e720d36937be06d222d00f743efd65e4a0a3ec178db891f57a",
+      "targets_or_masks_loaded": false
+    }
+  },
+  "limitations": "One deterministic synthetic-weight minGRU, one fitting sequence and one Intel CPU. Counters are sampled RDTSC ticks, and atomic/counter instrumentation perturbs this build; this is hotspot evidence only, not an optimized-path result, score, capacity or competition-host runtime claim.",
+  "method": {
+    "activation_policy": "fast activations asserted, matching sealed paired cost profile",
+    "callback": "Python-to-native step for each of 20,000 source-qualified raw112 rows; native path sanitizes/builds causal 211 features and steps minGRU",
+    "candidate_and_gate_semantics": "unchanged: candidate x>=0 ? x+0.5 : sigmoid(x); write=sigmoid(gate); h=(1-write)*old+write*candidate",
+    "counter_semantics": "x86 RDTSC deltas from the existing native profile API; phase slots are cumulative exclusive spans except model_step_inclusive and raw_callback_body_inclusive, which intentionally include nested spans",
+    "phase_slots": {
+      "13": "normalization",
+      "14": "q8_activation_quantize_all_linears",
+      "15": "q8_matvec_all_linears",
+      "16": "fp32_matvec_all_linears",
+      "17": "encoder_activation",
+      "18": "candidate_gate_and_state_update_all_layers",
+      "19": "skip_state_projection_concat",
+      "20": "head_activation",
+      "21": "model_step_inclusive",
+      "22": "raw_sanitize_and_causal_feature_builder",
+      "23": "raw_callback_body_inclusive"
+    },
+    "precision": "q8vnni asserted",
+    "source_commit": "8521382a1bba4242bc64e5b603f75a3743a66c8d"
+  },
+  "model": {
+    "family": "min_gru",
+    "full_state_dict_bytes_including_norm_buffers": 3877024,
+    "generator": "NumPy PCG64 via default_rng(SeedSequence([20261014, family_id]))",
+    "initialization": "independent float32 uniform matrices +/-1/sqrt(fan_in); zero biases",
+    "layers": 2,
+    "matrix_parameter_count_excluding_biases_and_norm_buffers": 966528,
+    "outputs": 2,
+    "seed": 20261014,
+    "seed_sequence": [
+      20261014,
+      1
+    ],
+    "state_dict_sha256": "b52c31451de7fbcd50df1e5c6cf1830346b11cc7b14ff5ab4b4aa06fa7c14828",
+    "tensor_sha256": {
+      "cells.0.input_projection.bias": "e80232b4d18d0bb7e794be263ba937626f383f9917d4b8a737ba893a8f752293",
+      "cells.0.input_projection.weight": "3325d157b1a9ffc077e4419e83fac7e3b1d92c169037e6521a1370c1f94cfaba",
+      "cells.1.input_projection.bias": "e80232b4d18d0bb7e794be263ba937626f383f9917d4b8a737ba893a8f752293",
+      "cells.1.input_projection.weight": "b473d68244918c95db534f95f013567718c063e013b70478ae9834a0fdb43034",
+      "head.0.bias": "80422bc3d307b4a25bdafcc84ac7fb01cb55a09810e8b0f37bb12e0edb5c48ca",
+      "head.0.weight": "db85f87271c5b5fb70ed3be43fbbc863d02358500648826f1e90711378edbb5d",
+      "head.2.bias": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+      "head.2.weight": "efd49e2ac14cd86f9954ef80bed72c83031ffeed27d84bbd3e1c4071585081da",
+      "inp.bias": "80422bc3d307b4a25bdafcc84ac7fb01cb55a09810e8b0f37bb12e0edb5c48ca",
+      "inp.weight": "aa58f8ffb67971408a1399af29fa03cba88811f5f59086d8d1cbee51707966dd",
+      "mean": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+      "std": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+    },
+    "trainable_f32_bytes_excluding_norm_buffers": 3875336,
+    "trainable_parameter_count_including_biases": 968834,
+    "widths": {
+      "encoder": 384,
+      "readout": 384,
+      "recurrent": 384
+    }
+  },
+  "phase_cycles_mean_per_raw_row": {
+    "13": 228.01686666666666,
+    "14": 28181.099183333332,
+    "15": 27440.383416666667,
+    "16": 359.1721166666666,
+    "17": 8358.975966666667,
+    "18": 43798.7152,
+    "19": 166.4711,
+    "20": 8352.808466666667,
+    "21": 117959.36248333333,
+    "22": 756.2456833333333,
+    "23": 118889.42261666668
+  },
+  "phase_timing_summary": {
+    "candidate_gate_and_state_update_all_layers": {
+      "fraction_of_raw_callback_body_inclusive_ticks": 0.36839875437211533,
+      "tsc_ticks_per_raw_row": 43798.7152
+    },
+    "encoder_activation": {
+      "fraction_of_raw_callback_body_inclusive_ticks": 0.07030882800750395,
+      "tsc_ticks_per_raw_row": 8358.975966666667
+    },
+    "fp32_matvec_all_linears": {
+      "fraction_of_raw_callback_body_inclusive_ticks": 0.0030210603160614187,
+      "tsc_ticks_per_raw_row": 359.1721166666666
+    },
+    "head_activation": {
+      "fraction_of_raw_callback_body_inclusive_ticks": 0.07025695207216624,
+      "tsc_ticks_per_raw_row": 8352.808466666667
+    },
+    "model_step_inclusive": {
+      "fraction_of_raw_callback_body_inclusive_ticks": 0.9921770994184056,
+      "tsc_ticks_per_raw_row": 117959.36248333333
+    },
+    "normalization": {
+      "fraction_of_raw_callback_body_inclusive_ticks": 0.0019178902685216825,
+      "tsc_ticks_per_raw_row": 228.01686666666666
+    },
+    "q8_activation_quantize_all_linears": {
+      "fraction_of_raw_callback_body_inclusive_ticks": 0.23703621872399205,
+      "tsc_ticks_per_raw_row": 28181.099183333332
+    },
+    "q8_matvec_all_linears": {
+      "fraction_of_raw_callback_body_inclusive_ticks": 0.2308059271609239,
+      "tsc_ticks_per_raw_row": 27440.383416666667
+    },
+    "raw_sanitize_and_causal_feature_builder": {
+      "fraction_of_raw_callback_body_inclusive_ticks": 0.006360916443943752,
+      "tsc_ticks_per_raw_row": 756.2456833333333
+    },
+    "skip_state_projection_concat": {
+      "fraction_of_raw_callback_body_inclusive_ticks": 0.0014002179196104787,
+      "tsc_ticks_per_raw_row": 166.4711
+    }
+  },
+  "profile_counter_consistency": {
+    "callback_inclusive_ticks_positive": true,
+    "model_inclusive_ticks_positive": true,
+    "q8_matvec_ticks_positive": true,
+    "q8_quantize_ticks_positive": true
+  },
+  "profile_repetitions": [
+    {
+      "all_predictions_and_state_finite": true,
+      "bitwise_matches_sealed_uninstrumented_baseline": true,
+      "final_state_sha256": "4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009",
+      "index": 0,
+      "microseconds_per_raw_row": 51.947477750945836,
+      "output_sha256": "0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc",
+      "reset_state_all_zero": true,
+      "rows": 20000,
+      "seconds": 1.0389495550189167
+    },
+    {
+      "all_predictions_and_state_finite": true,
+      "bitwise_matches_sealed_uninstrumented_baseline": true,
+      "final_state_sha256": "4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009",
+      "index": 1,
+      "microseconds_per_raw_row": 46.37603384908289,
+      "output_sha256": "0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc",
+      "reset_state_all_zero": true,
+      "rows": 20000,
+      "seconds": 0.9275206769816577
+    },
+    {
+      "all_predictions_and_state_finite": true,
+      "bitwise_matches_sealed_uninstrumented_baseline": true,
+      "final_state_sha256": "4d1f832b5dce5d46f8f1025ea65dd5762fc1d2d2f95576b535808abb0bede009",
+      "index": 2,
+      "microseconds_per_raw_row": 48.26856889994815,
+      "output_sha256": "0feb54067b2d40f207c4d5e2df46aabd17d76ff2b45b84df866dd61bc82ec6cc",
+      "reset_state_all_zero": true,
+      "rows": 20000,
+      "seconds": 0.965371377998963
+    }
+  ],
+  "quality_claim": false,
+  "resources": {
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "numpy": "2.2.6",
+    "process_after": {
+      "max_rss_bytes": 621481984,
+      "resident_bytes": 57786368
+    },
+    "process_before": {
+      "max_rss_bytes": 621481984,
+      "resident_bytes": 34258944
+    },
+    "process_max_rss_bytes": 621481984,
+    "python": "3.11.16"
+  },
+  "version": 1
+}
