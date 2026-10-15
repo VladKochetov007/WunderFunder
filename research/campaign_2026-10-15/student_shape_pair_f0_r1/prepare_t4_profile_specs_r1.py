@@ -417,6 +417,7 @@ def main() -> None:
                 "path": str(job_path.relative_to(ROOT)),
                 "sha256": sha256_file(job_path),
                 "name": spec["name"],
+                "trainer_run_name": run_name,
                 "shape": [hidden, layers],
                 "profile_batches": 5,
                 "optimizer_attempts_expected": 50,
@@ -477,6 +478,7 @@ def main() -> None:
         "schema": "wnn.student-shape-pair-source-binding.r1",
         "provider_action_performed": False,
         "base_commit": "afb2e89e18d04c45853097becdb7264d3dfc386a",
+        "source_tree_commit": "6934fb7d37ab5e95d353c47b3cb12856bc52e723",
         "spec_generator_path": str(Path(__file__).resolve().relative_to(ROOT)),
         "spec_generator_sha256": sha256_file(Path(__file__).resolve()),
         "recipe_contract_path": str(CONTRACT_PATH.relative_to(ROOT)),
@@ -488,6 +490,13 @@ def main() -> None:
             "AMP initial scale is checked against the contract",
             "profile max_batches/profile_steps/profile_warmup are read from the declared stage",
             "relative source_root resolves relative to the runtime root",
+        ],
+        "collection_run_name_mapping": [
+            {
+                "job_name": item["name"],
+                "trainer_run_name": item["trainer_run_name"],
+            }
+            for item in output_specs
         ],
         "code_file_count": len(code),
         "code_aggregate_sha256": code_hash,

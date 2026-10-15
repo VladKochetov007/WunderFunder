@@ -105,6 +105,7 @@ def main() -> None:
                 "path": str(path.relative_to(ROOT)),
                 "sha256": sha256_file(path),
                 "shape": [hidden, layers],
+                "trainer_run_name": argument(argv, "--name"),
                 "inputs": len(spec["inputs"]),
                 "code": len(spec["code"]),
                 "expected_attempts": int(argument(argv, "--max-batches")) * 10,
@@ -135,6 +136,10 @@ def main() -> None:
         item["sha256"] for item in spec_receipts
     ]:
         raise ValueError("Source binding job hashes are stale")
+    if [item["trainer_run_name"] for item in source_binding["profile_jobs"]] != [
+        item["trainer_run_name"] for item in spec_receipts
+    ]:
+        raise ValueError("Source binding trainer run names do not match worker argv")
     if source_binding["code_aggregate_sha256"] != parsed_specs[0]["code_sha256"]:
         raise ValueError("Source binding code aggregate hash is stale")
     if not input_binding["provider_action_performed"] and not source_binding["provider_action_performed"]:
