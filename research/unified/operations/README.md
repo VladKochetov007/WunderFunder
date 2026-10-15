@@ -61,6 +61,10 @@ The October12 stop and its terminal-state archive remain preserved as historical
 
 [QAT terminal execution receipts](../../campaign_2026-10-13/qat_renewable_r1/RUNTIME_RECEIPTS_R1.md) link original measured GPU profiles, fixed-checkpoint fits and pre-start RAM refusals. The [campaign index](../../campaign_2026-10-13/qat_renewable_r1/README.md) also describes cache handoffs after completed fits. Healthy jobs and physical limits are preserved; completed optimization does not establish a QAT gain.
 
+## October 15 per-field age transform profile
+
+- [Per-field age fixture transform profile](../../campaign_2026-10-15/vast_a_cpu_probe_r1/per_field_age_r1/README.md) records one CPU-only NumPy full-sequence transform pass over the existing hash-pinned runtime fixture, with source-qualified slots and per-output hashes. It does not measure the serving callback, establish a stable comparative throughput result, read targets, or support a prediction-quality claim; no fit or GPU profile was launched.
+
 ## QAT actual GPU wave and 30% scale follow-up
 
 - [LOCAL_30PCT_EXECUTION_R1.json](../../campaign_2026-10-13/qat_renewable_r1/LOCAL_30PCT_EXECUTION_R1.json): Frozen matched 30% fit vectors transfer measured B16/C1000 profiles; 219 batches and 4,380 updates per arm, with full sequences and the unchanged final-partial-batch omission.
