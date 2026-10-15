@@ -75,12 +75,21 @@ class KernelDeadlineTests(unittest.TestCase):
             kernel = bundle / "kernel"
             kernel.mkdir()
             source = kernel / "kernel.py"
-            source.write_text("KERNEL_PROCESS_WALL_SECONDS_MAX = 43_200\n")
+            source.write_text(
+                "KERNEL_PROCESS_WALL_SECONDS_MAX = 43_200\n"
+                'raise TimeoutError("runner completed outside the '
+                '6,000-second kernel-process budget")\n'
+            )
 
             builder.enforce_kernel_wall_cap(bundle)
-            self.assertEqual(source.read_text(), "KERNEL_PROCESS_WALL_SECONDS_MAX = 21_600\n")
+            expected = (
+                "KERNEL_PROCESS_WALL_SECONDS_MAX = 21_600\n"
+                'raise TimeoutError("runner completed outside the '
+                '21,600-second kernel-process budget")\n'
+            )
+            self.assertEqual(source.read_text(), expected)
             builder.enforce_kernel_wall_cap(bundle)
-            self.assertEqual(source.read_text(), "KERNEL_PROCESS_WALL_SECONDS_MAX = 21_600\n")
+            self.assertEqual(source.read_text(), expected)
 
     def test_release_receipts_reject_the_r1_outer_deadline(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

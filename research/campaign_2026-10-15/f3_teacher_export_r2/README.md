@@ -1,6 +1,6 @@
 # F3 teacher CP2 export packet R2
 
-R2 is a quota-safe successor to the frozen R1 packet. It keeps the same verified F3 seed-3 H384 epoch-2 checkpoint, provenance, split, prediction scopes and 18,000-second export worker cap. The generated private kernel bootstrap now enforces a 21,600-second outer wall limit, leaving a 3,600-second startup/finalization margin. R1 files and hashes remain unchanged; R2 uses its own bundle and kernel slug so it cannot silently replace the prior packet.
+R2 is a quota-safe successor to the frozen R1 packet. It keeps the same verified F3 seed-3 H384 epoch-2 checkpoint, provenance, split, prediction scopes and 18,000-second export worker cap. The generated private kernel bootstrap enforces a 21,600-second outer wall limit, emits a matching timeout diagnostic, and leaves a 3,600-second startup/finalization margin. R1 files and hashes remain unchanged; R2 uses its own bundle and kernel slug so it cannot silently replace the prior packet.
 
 The worker serially exports causal FP32 predictions for 10,539 fit-train, 1,368 fit-valid and 1,873 full-valid sequences. Their raw arrays total 2,204,800,000 bytes. It performs no fit, label-based score, grade or selection. Prediction runtime has not been measured; the 18,000-second worker bound preserves the three existing 6,000-second per-export caps. The 8 GB host reservation, 12 GiB CUDA allocator cap, 13 GiB observed stop and 6 GB free-work-disk gate are unchanged from R1.
 

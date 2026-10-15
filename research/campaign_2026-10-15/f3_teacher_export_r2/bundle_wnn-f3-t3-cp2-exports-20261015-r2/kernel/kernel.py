@@ -220,7 +220,7 @@ def main() -> None:
         if returncode != 0:
             raise subprocess.CalledProcessError(returncode, command)
         if remaining_seconds(kernel_deadline) <= 0:
-            raise TimeoutError("runner completed outside the 6,000-second kernel-process budget")
+            raise TimeoutError("runner completed outside the 21,600-second kernel-process budget")
     finally:
         release_mounts(root, manifest["external_mounts"])
 
