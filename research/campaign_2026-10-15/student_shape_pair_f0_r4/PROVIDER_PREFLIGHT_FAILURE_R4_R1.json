@@ -1,0 +1,50 @@
+{
+  "schema": "wnn.student-shape-pair-provider-preflight-failure.r4",
+  "phase": "source-version",
+  "status": "held_before_typed_quota_and_provider_mutation",
+  "provider_action_performed": false,
+  "attempts": [
+    {
+      "ordinal": 1,
+      "terminal_error": "existing profile kernel is not private GPU-enabled",
+      "diagnosis": "The exact kernel-list response omitted _is_private and _enable_gpu; SDK properties appeared as false defaults. No target version/push was attempted.",
+      "attempted_source_sha256": null
+    },
+    {
+      "ordinal": 2,
+      "terminal_error": "exact pulled kernel code or frozen R3 source file is absent",
+      "diagnosis": "Kaggle normalizes local kernel.py to the slug-based remote code filename. The exact pulled code bytes matched the frozen R3 kernel.py, SHA-256 117aa9dd4ef342d282b177769108a85c3a7b55f54ad859a9e9d2cc0ddd4fec62.",
+      "attempted_source_sha256": null
+    },
+    {
+      "ordinal": 3,
+      "terminal_error": "a recent owner kernel is still active",
+      "diagnosis": "All exact mounted-data, source-version, remote kernel metadata, and code checks passed. Preflight stopped before typed quota because the recent owner page reported the following active kernel.",
+      "attempted_source_sha256": "99e19656d122ed59bf280e10cd9b5ff88eedd562eb7dec646dc5ee6006e43a08",
+      "exact_active_kernel": {
+        "ref": "vladkochetov07/casmi2026-reference-audit-001",
+        "status": "KernelWorkerStatus.RUNNING"
+      }
+    }
+  ],
+  "exact_r3_kernel_readback": {
+    "path": "private_assets/readback_student_shape_t4_r4_source-version_20261015T171640Z",
+    "metadata_sha256": "31594b33a446438a3558600a14b711c67065ed2aee624bfedcd79af0f9f9d199",
+    "remote_code_file": "wnn-f0-student-shape-t4-profile-20261015-r1-runner.py",
+    "remote_code_sha256": "117aa9dd4ef342d282b177769108a85c3a7b55f54ad859a9e9d2cc0ddd4fec62",
+    "frozen_local_code_sha256": "117aa9dd4ef342d282b177769108a85c3a7b55f54ad859a9e9d2cc0ddd4fec62",
+    "private": true,
+    "enable_gpu": true,
+    "enable_tpu": false
+  },
+  "quota_read": false,
+  "source_dataset_version_created": false,
+  "kernel_version_pushed": false,
+  "controller_override": {
+    "authority": "root message during this task",
+    "status": "superseded_active_kernel_idle_gate_for_bounded_profile_only",
+    "allowed_exact_overlap_kernel": "vladkochetov07/casmi2026-reference-audit-001",
+    "instruction": "Record the exact kernel metadata and typed quota; do not wait for this unrelated job to finish. The source-version action and bounded profiles may queue/overlap under the reviewed allocation."
+  },
+  "retry_condition": "Re-run the exact-target R4 source-version preflight with the root-authorized concurrency handling and require fresh typed GPU quota of at least 5,400 seconds before any mutation."
+}
