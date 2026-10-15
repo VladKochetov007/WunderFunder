@@ -1,0 +1,74 @@
+{
+  "attempt": {
+    "checkpoint_policy": "fixed endpoint at zero-based epoch 5 in the unchanged six-epoch schedule",
+    "checkpoint_selection_marker_semantics": "The P1 log marker SELECTED_FIXED 5 denotes the configured global endpoint; P1 ended after epoch index 1, so epoch index 5 was not produced.",
+    "elapsed_seconds": 2232.2983278060274,
+    "exit_status": 0,
+    "final_memory_event_deltas": {
+      "high": 871523,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "finished_utc": "2026-10-15T14:11:53.221397+00:00",
+    "fixed_epoch5_checkpoint_produced_in_p1": false,
+    "id": "student-f0-warm-s3-alpha0-r1-p1-20261015",
+    "peak_observed_vram_bytes": 2638217216,
+    "peak_parent_ram_bytes": 7620157440,
+    "peak_ram_bytes": 4952576000,
+    "status": "finished"
+  },
+  "created_utc": "2026-10-15T14:20:10Z",
+  "fit_contract": {
+    "path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_P1_FIT_CONTRACT_R2.json",
+    "sha256": "ddf42bdcc643f1f4c8834c5c81466834a07efa6c8e6696fa25395200aa45c7ad",
+    "source_parent_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+  },
+  "input_binding": {
+    "path": "/home/vlad/development/wunder/worktrees/student-quality-alpha0-dataset-r3-20261015/research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_RUNTIME_INPUT_BINDING_P1.json",
+    "sha256": "d2435224a61d8c94d1c5143ccc66cb61129a22ccf265496ece6a1b28fdf935d6",
+    "status": "PASS_FULL_DATA_AND_A9_CHECKPOINT_SHA; NO_FIT_NO_LAUNCH"
+  },
+  "prior_check_attempts": [
+    {
+      "detail": "First nested exec yielded while running; outer code kept only output and dropped session_id/exit metadata. No state pass was claimed.",
+      "status": "UNVERIFIED_ORCHESTRATOR_CAPTURE_LOSS"
+    },
+    {
+      "correct_path": "/home/vlad/development/wunder/worktrees/student-quality-alpha0-dataset-r3-20261015/research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_RUNTIME_INPUT_BINDING_P1.json",
+      "correct_sha256": "d2435224a61d8c94d1c5143ccc66cb61129a22ccf265496ece6a1b28fdf935d6",
+      "detail": "A subsequent check looked for the runtime input-binding receipt under MAIN; the immutable receipt is in the R3 worktree.",
+      "exit_status": 1,
+      "missing_path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_RUNTIME_INPUT_BINDING_P1.json",
+      "status": "FAILED_WRONG_RECEIPT_PATH"
+    },
+    {
+      "detail": "A subsequent check loaded the trusted state, then incorrectly treated progress.update_diagnostics (a list) as a dict. No scientific/state assertion failed; no receipt was written.",
+      "exit_status": 1,
+      "status": "FAILED_HELPER_FIELD_ASSUMPTION"
+    }
+  ],
+  "resume_state": {
+    "format_validation": "passed by trusted loader",
+    "history_sha256": "34de2ac58f32dbc81941196af8ef667939cdc83afc2ca6ecb4e37083f5e820d4",
+    "loader_api": "wnn.training_state.load_training_state",
+    "model_ep1_sha256": "5ac7b148388fbe42952377ab8582a7dc43332028b3546bd282dbafbd7b6ac8d0",
+    "next_epoch": 2,
+    "provenance_sha256": "fac44ce5cc752cd77a599cf087616711f9ab586f609152a537b2d37e84afafdc",
+    "training_state_bytes": 11823087,
+    "training_state_sha256": "5f4df2883e2b199a7738d503f01addb8cee06b345367118fcd4705bc5b84ffa4"
+  },
+  "schema": "wnn.alpha0-p1-terminal-state-validation.r1",
+  "status": "PASS_P1_TERMINAL_AND_RESUME_STATE",
+  "validation": {
+    "cpu_quota": "100%",
+    "elapsed_seconds": 0.035,
+    "python_executable": "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/bin/python3.13",
+    "python_version": "3.13.9",
+    "ram_max_bytes": 1500000000,
+    "swap_bytes": 0
+  }
+}
