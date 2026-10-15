@@ -22,7 +22,7 @@ The builder verifies the exact CP2 and provenance bytes in the existing private 
 
 ## Conditional provider command sequence
 
-Only after an independent critic gives GO, root records a fresh typed GPU quota of at least 21,600 seconds remaining, confirms its owner inventory has no conflicting job, and admits this exact set of hashes may root run the following private operations. The reported quota snapshot at `2026-10-15T11:50:33Z` showed 26,627.389 seconds remaining; that observation is stale and does not authorize launch.
+Only after an independent critic gives GO, a fresh typed GPU quota has at least 21,600 seconds remaining, the owner inventory has no conflicting job, and root admits this exact hash set may the assigned delivery operator run the following private operations under root's authority. The earlier quota snapshot at `2026-10-15T11:50:33Z` is historical and does not authorize launch.
 
 ```sh
 kaggle datasets create -p /home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/kaggle_assets/wnn-f3-t3-cp2-assets-20261015-r1
@@ -43,6 +43,11 @@ After the exact pushed kernel version is terminal, use the R2-only collector:
 ```
 
 It requires the exact R2 admission and push receipts, inventories the fixed `results/` allowlist via GET headers before downloading, caps streamed collection at 2.5 GB, and writes to a unique physical-disk directory with a 4 GB free-space floor. A complete export claim requires terminal `COMPLETE`, all expected outputs, downloaded lengths and hashes matching both the worker manifest and prediction sidecars, the worker pipeline's CP2/provenance/split identity, FP32 shapes, and a bounded mmap scan confirming every prediction is finite. A failed post-download check is preserved in the terminal receipt and cannot be reported as complete. Root runs the official F3 grader afterward; this packet itself makes no teacher-quality claim.
+
+## Provider preflight receipts
+
+- [Initial provider preflight](PROVIDER_PREFLIGHT_R2.json) preserves an incomplete check that inferred dataset IDs only from object-valued cache mounts; it omitted `wunder-funder`, whose raw parquet mounts are represented as strings. No provider action followed that receipt.
+- [Corrected provider preflight](PROVIDER_PREFLIGHT_R2_CORRECTION_R1.json) derives the full dataset-source set from frozen kernel metadata and verifies all three existing mounts are private, version 1 and READY. At 2026-10-15 12:39:31 UTC, typed GPU quota had 26,627.389 seconds remaining against the 21,600-second R2 gate, all 176 owner kernels were inventoried, the 16 kernels run in the prior four days were terminal, and both R2 dataset targets and the kernel slug were absent. It also rechecked the local content-addressed CP2/provenance files, private dataset metadata, 21,600/18,000-second outer/worker caps, and bundle hash. This finding establishes operational eligibility under the root authority; no provider mutation had occurred when the receipt was written.
 
 ## Navigation
 
