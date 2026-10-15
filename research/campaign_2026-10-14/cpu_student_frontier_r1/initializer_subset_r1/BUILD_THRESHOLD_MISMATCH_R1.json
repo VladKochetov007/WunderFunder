@@ -1,0 +1,18 @@
+{
+  "format": "wnn.initializer-subset-builder-repair",
+  "version": 1,
+  "attempt": "seed-3 component subset draft",
+  "created_utc": "2026-10-15",
+  "builder": "scripts/build_initializer_component_subset_r1.py",
+  "builder_sha256": "235af333482bf7fb0a4ee94e1e9b43003162cce4e773bf0080c67fb17db665a8",
+  "output": "FIT_COMPONENTS_384_SEED3_R1.json",
+  "output_sha256": "af0ae8740be7bc78b798d863ffde821ec91cd475ada67ad3235887257c2b71bd",
+  "observed": {
+    "target_sequence_count": 384,
+    "selected_sequence_count": 258,
+    "selected_component_count": 82
+  },
+  "failure": "The builder stopped when it first crossed the 256-sequence lower bound, although its recipe metadata declared a 384-sequence target. The component membership is source-qualified and complete but the target declaration and selection rule disagree.",
+  "resolution": "Preserve this draft and regenerate a distinct canonical manifest whose target is 256 sequences; it will use the same deterministic seed-3 prefix if the resulting membership remains valid.",
+  "use_for_fit": false
+}

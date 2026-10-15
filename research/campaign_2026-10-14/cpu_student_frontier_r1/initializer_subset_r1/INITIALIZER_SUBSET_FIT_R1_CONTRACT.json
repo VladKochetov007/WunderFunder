@@ -1,0 +1,272 @@
+{
+  "ancestry": {
+    "clean_target_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "clean_teacher_sources": [
+      {
+        "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+        "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0",
+        "run": "clean_t3_f0_muonall_h384_e3_s3_r5"
+      },
+      {
+        "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+        "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11",
+        "run": "clean_t3_f0_muonall_h384_e3_s4_r5"
+      },
+      {
+        "checkpoint_sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+        "provenance_sha256": "44728c0c60981166f63038f2f6696b6714ce57c52e039e304883ffe7449def18",
+        "run": "clean_t3_f0_muonall_h384_e3_s5_r5"
+      }
+    ],
+    "fit_validation_receipt_sha256": "1042e31a73456edd88f40a8bd03b11c91ff346907ace16c50abc10b58fecdf43",
+    "native_profile_gate_output_path": "research/campaign_2026-10-14/cpu_student_frontier_r1/initializer_subset_r1/NATIVE_PROFILE_GATE_R1.json",
+    "native_profile_gate_required": true,
+    "native_profile_gate_result_sha256": null,
+    "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "propensity_provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+    "target_files": {
+      "main_homogeneous_train": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+      "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+    }
+  },
+  "arms": {
+    "backbone": "same H256x2 CP0 for every mode; only 211-feature mean/std are installed from the parent; all recurrent/head weights remain frozen",
+    "initializer_residual_bound": 1.0,
+    "learned": [
+      "constant",
+      "first_row",
+      "prefix"
+    ],
+    "zero": "unchanged H256x2 seed-3 CP0 control"
+  },
+  "basis": {
+    "control_checkpoint": "artifacts/runs/student_frontier_f0s3_h256_l2_r2/model_ep0.pt",
+    "control_checkpoint_sha256": "1baa583573089da3eec02bee9256c32e3caeae59e15f77c7475eea0717f006e6",
+    "control_fit_validation_sha256": "1042e31a73456edd88f40a8bd03b11c91ff346907ace16c50abc10b58fecdf43",
+    "control_run": "student_frontier_f0s3_h256_l2_r2",
+    "profile_contract_sha256": "c07644f386fd0c6d6a42935d2856c68e17fc52498718ef21920b6783e8c62665",
+    "profile_source_sha256": "f94c3274e2cc16eb1793d0ded7f4a8db39eda20eb7a2085608782e944eb1bdee",
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "subset_builder_sha256": "14c6e1f97826c25b5a713f1e0a919437ead644ad6c9470819f7c16f73250b308",
+    "subset_manifest": "research/campaign_2026-10-14/cpu_student_frontier_r1/initializer_subset_r1/FIT_COMPONENTS_TARGET256_SEED3_R1.json",
+    "subset_manifest_sha256": "05f9e671783ad741de4514ad4a566d988280380f3d171e6baee56ceff337893c"
+  },
+  "cohort": {
+    "all_members_source_qualified": true,
+    "complete_sequence_rows": 20000,
+    "eligible_components": 3148,
+    "evaluation_groups": 468,
+    "fit_evaluation_components_disjoint": true,
+    "fit_order_sha256": "60852f26fbd79a26a182a6f5823261dc889b3ba6b598558d3145ecb11c8ee0e8",
+    "selected_components": 82,
+    "selected_sequences": 258,
+    "selection": "permutation of sorted eligible F0 fitting component IDs; shortest prefix reaching 256 sequences while keeping both train and fit-valid sources represented",
+    "selection_seed": 3,
+    "source_counts": {
+      "train": 228,
+      "valid": 30
+    }
+  },
+  "commands": {
+    "bucket_grade_argv_template": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/worktrees/student-initializer-fit-20261014/scripts/score_initializer_position_buckets_r1.py",
+      "student_init_subf0_s3_{mode}_r1",
+      "--data-root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "--reference",
+      "student_frontier_f0s3_h256_l2_r2@ep0",
+      "--out",
+      "research/campaign_2026-10-14/cpu_student_frontier_r1/initializer_subset_r1/grades/{mode}_POSITION_BUCKETS_R1.json"
+    ],
+    "fit_worker_argv_template": [
+      "/usr/bin/env",
+      "WNN_GPU_MEMORY_BYTES=3500000000",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/worktrees/student-initializer-fit-20261014/scripts/fit_initializer_subset_r1.py",
+      "--mode",
+      "{constant|first_row|prefix}",
+      "--profile-contract",
+      "/home/vlad/development/wunder/worktrees/student-initializer-profile-r2-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R2_CONTRACT.json",
+      "--profile-result",
+      "/home/vlad/development/wunder/worktrees/student-initializer-profile-r2-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R2_RESULT.json",
+      "--native-gate",
+      "/home/vlad/development/wunder/worktrees/student-initializer-fit-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/initializer_subset_r1/NATIVE_PROFILE_GATE_R1.json",
+      "--subset",
+      "/home/vlad/development/wunder/worktrees/student-initializer-fit-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/initializer_subset_r1/FIT_COMPONENTS_TARGET256_SEED3_R1.json",
+      "--attempt-number",
+      "1"
+    ],
+    "native_profile_gate": [
+      "/usr/bin/env",
+      "WNN_SLICE=wnn-campaign.slice",
+      "WNN_CPU_QUOTA=100%",
+      "WNN_THREADS=1",
+      "WNN_MEM_MAX=900000000",
+      "WNN_RUNTIME_MAX=120s",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/worktrees/student-initializer-fit-20261014/scripts/validate_initializer_native_profile_r1.py",
+      "--profile-contract",
+      "/home/vlad/development/wunder/worktrees/student-initializer-profile-r2-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R2_CONTRACT.json",
+      "--profile-result",
+      "/home/vlad/development/wunder/worktrees/student-initializer-profile-r2-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R2_RESULT.json",
+      "--output",
+      "/home/vlad/development/wunder/worktrees/student-initializer-fit-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/initializer_subset_r1/NATIVE_PROFILE_GATE_R1.json",
+      "--attempt-id",
+      "student-initializer-profile-f0s3-h256l2-b1-c2000-fp32-r2"
+    ],
+    "official_grade_argv_template": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/score_fold0_panel.py",
+      "student_init_subf0_s3_{mode}_r1@ep0",
+      "--reference",
+      "student_frontier_f0s3_h256_l2_r2@ep0",
+      "--out",
+      "research/campaign_2026-10-14/cpu_student_frontier_r1/initializer_subset_r1/grades/{mode}_R1.json"
+    ],
+    "prediction_worker_argv_template": [
+      "/usr/bin/env",
+      "WNN_GPU_MEMORY_BYTES=3500000000",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/worktrees/student-initializer-fit-20261014/scripts/predict_initializer_subset_r1.py",
+      "--run",
+      "student_init_subf0_s3_{mode}_r1",
+      "--profile-contract",
+      "/home/vlad/development/wunder/worktrees/student-initializer-profile-r2-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R2_CONTRACT.json",
+      "--subset",
+      "/home/vlad/development/wunder/worktrees/student-initializer-fit-20261014/research/campaign_2026-10-14/cpu_student_frontier_r1/initializer_subset_r1/FIT_COMPONENTS_TARGET256_SEED3_R1.json"
+    ]
+  },
+  "experiment_id": "E-STATE-INIT-SUBSET-20261015-R1",
+  "format": "wnn.initializer-only-complete-component-screen",
+  "native_profile_gate_resources": {
+    "cpu_quota": "100%",
+    "fresh_root_admission_required": true,
+    "memory_max_bytes": 900000000,
+    "memory_swap_max_bytes": 0,
+    "runtime_max_seconds": 120,
+    "threads": 1
+  },
+  "outputs": {
+    "bucket_uncertainty": "paired resampling of complete evaluation components; 2000 replicates, seed 271828",
+    "exposure": "F0 468-group evaluation panel is repeatedly inspected development evidence, not a fresh holdout or public forecast",
+    "official_grade": "scripts/score_fold0_panel.py on the fixed 468 evaluation groups, paired against H256x2 CP0",
+    "panel_backend": "FP32 Torch InitializedGRU C2000; concrete learned NPZ first passes native C++ callback parity on the source-qualified profile sequence before any panel output",
+    "position_buckets": [
+      [
+        99,
+        200
+      ],
+      [
+        200,
+        1000
+      ],
+      [
+        1000,
+        5000
+      ],
+      [
+        5000,
+        10000
+      ],
+      [
+        10000,
+        20000
+      ]
+    ],
+    "prediction": "cache/pred_{run}_valid.npy, shape [1873,20000,2], float32, exact valid_targets row order",
+    "run_name_template": "student_init_subf0_s3_{mode}_r{attempt_number}",
+    "selection": "position buckets are fixed diagnostics; no adaptive selection from a bucket",
+    "terminal_checkpoint": "model_ep0.pt plus initializer_ep0.pt and initializer_native_ep0.npz"
+  },
+  "quality_claim": null,
+  "resource_envelope": {
+    "cuda_allocator_cap_bytes": 3500000000,
+    "fit_batch_profile": "B1/C2000/20k, H256x2 actual-data full-graph initializer profile, pending root terminal resource receipt",
+    "fit_host_reservation_bytes": 5000000000,
+    "launch_authority": "root shared bandit_resources controller only",
+    "no_fit_or_prediction_attempt_in_this_recipe_packet": true,
+    "observed_vram_ceiling_bytes": 5000000000,
+    "prediction_host_reservation_bytes": 6000000000
+  },
+  "scoring_sources": {
+    "official_grade": {
+      "root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "source_sha256": {
+        "scripts/evaluate_bandit_continuation.py": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+        "scripts/score_fold0_panel.py": "0f67ac06cd769a582901b854737528c89e9a7738c3057acf68d7f99eddbfa2d0",
+        "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+        "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      }
+    },
+    "position_buckets": {
+      "root": "/home/vlad/development/wunder/worktrees/student-initializer-fit-20261014",
+      "source_sha256": {
+        "scripts/evaluate_bandit_continuation.py": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+        "scripts/score_fold0_panel.py": "0f67ac06cd769a582901b854737528c89e9a7738c3057acf68d7f99eddbfa2d0",
+        "scripts/score_initializer_position_buckets_r1.py": "c2a66820fe9fa70f600ed5c6e7b5a1cc59d1b16d7dcfcc6d9a0e479251cfebc6",
+        "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+        "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      }
+    }
+  },
+  "source_roots": {
+    "recipe": "/home/vlad/development/wunder/worktrees/student-initializer-fit-20261014"
+  },
+  "source_sha256": {
+    "scripts/build_initializer_component_subset_r1.py": "a471e04e0b312623da801c2826dde97f153d0c8f80da2fc9ee34d203af5c7dcd",
+    "scripts/fit_initializer_subset_r1.py": "aa83d8a43b15392cb0e1a340a39579ec022db1bbae4e619c441e151d25a0051c",
+    "scripts/predict_initializer_subset_r1.py": "eac0de56277d1f717a3e9b7d19b210d8ee8b39255765c8b4cd9dc08244bf1714",
+    "scripts/score_initializer_position_buckets_r1.py": "c2a66820fe9fa70f600ed5c6e7b5a1cc59d1b16d7dcfcc6d9a0e479251cfebc6",
+    "scripts/validate_initializer_native_profile_r1.py": "04037170dbe719fd42115f5ff711600fad8c33c04db6b1cca7fd23a49eeba0a3"
+  },
+  "status": "FROZEN_RECIPE_PENDING_PROFILE_AND_ROOT_ADMISSION",
+  "support_sources": {
+    "cpu_limited_wrapper": {
+      "root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "source_sha256": {
+        "scripts/limited": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76"
+      }
+    }
+  },
+  "training": {
+    "adaptive_validation_or_checkpoint_selection": false,
+    "at_least_one_nonzero_initializer_gradient_update_required": true,
+    "attempted_updates": 258,
+    "batch_size": 1,
+    "checkpointed_chunks": 10,
+    "chunk_rows": 2000,
+    "complete_sequence_updates_per_learned_arm": 258,
+    "full_fit_claim": false,
+    "loss": "global sum(weight * (prediction - target)^2) over all 20,000 rows and both outputs divided by full sequence weight mass clamped at 1e-8",
+    "normalization_sha256": {
+      "mean": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+      "std": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+    },
+    "optimizer": {
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "fused": false,
+      "global_gradient_clip": 1.0,
+      "lr": 0.0001,
+      "name": "AdamW",
+      "scheduler": null,
+      "weight_decay": 0.01
+    },
+    "precision": "FP32, autocast disabled, TF32 disabled; no AMP skips",
+    "propensity_model": "c20260929_prop_f0",
+    "recurrent_graph": "retained across all chunks; no hidden-state detach; initializer context/state resets to None for each sequence",
+    "same_source_qualified_fit_order_for_all_arms": true,
+    "successful_updates_required": 258,
+    "target": "0.1*clip(label,-2,2) + 0.9*clip(clean homogeneous teacher,-2,2)",
+    "teacher_cache_alpha": 0.9,
+    "teacher_cache_variant": "homogeneous",
+    "weight": "abs(clip(label,-2,2))*train_rnn.main_row_weights; cached propensity p^2+0.03, true-mask epsilon 0.03; rows 0..98 zeroed"
+  },
+  "version": 1
+}

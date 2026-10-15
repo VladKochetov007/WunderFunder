@@ -47,3 +47,5 @@ The [complete-sequence initializer profile packet](profiles/INITIALIZER_COMPLETE
 ## Source records
 
 [Initial plan](PLAN.md), [initializer implementation](INITIALIZER_IMPLEMENTATION_R1.md), [minGRU reference](MINGRU_REFERENCE_R1.md), [one-sequence state decay](STATE_DECAY_DIAGNOSTIC_R1.md), and [first fixed-budget control grade](results/control_prediction_grade_r3/README.md) supply the local context. All existing folds remain exposed.
+
+The separate [seed-3 complete-component initializer screen](initializer_subset_r1/README.md) specifies 258 whole F0 fitting sequences from 82 components, the shared order and update budget for all three learned arms, and the zero H256×2 CP0 control. It still requires root's actual R2 B1 resource profile and the concrete C++ native-consumer gate; the teacher and frozen backbone retain full fitting ancestry, and no subset fit/grade is claimed.

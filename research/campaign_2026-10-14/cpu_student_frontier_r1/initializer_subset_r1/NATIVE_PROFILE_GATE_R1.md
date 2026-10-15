@@ -1,0 +1,9 @@
+# Native consumer gate for the initializer subset
+
+This gate is a required precondition for fitting the 258-sequence subset. It reads the three actual one-update initializer checkpoints and `.npz` exports from the R2 complete-sequence resource profile, reconstructs each wrapper around the frozen H256×2 epoch-0 backbone, and passes the exported arrays to `wnn_native.EnsemblePredictor` with FP32 precision and exact activations.
+
+The test runs every one of the 20,000 raw rows from the source-qualified profile member `(valid, row_group 37, seq_ix 44,346,154)`. It checks the full Python/native prediction trace within `rtol=3e-4, atol=3e-5`, finite outputs and hidden state, and exact replay after a fresh sequence ID resets the native state. The validator binds the reviewed R2 contract and source hashes, control and normalization ancestry, target cache file hashes, teacher and propensity ancestry, and the actual exported checkpoint/archive hashes. A pass establishes the concrete native consumer path and reset behavior; it says nothing about subset quality.
+
+The reviewed contract is `profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R2_CONTRACT.json` in the profile worktree, SHA256 `c07644f386fd0c6d6a42935d2856c68e17fc52498718ef21920b6783e8c62665`. The validator is [`scripts/validate_initializer_native_profile_r1.py`](../../../../../../scripts/validate_initializer_native_profile_r1.py), SHA256 `04037170dbe719fd42115f5ff711600fad8c33c04db6b1cca7fd23a49eeba0a3`. It writes `NATIVE_PROFILE_GATE_R1.json`; no receipt exists until root collects and admits the actual R2 profile result.
+
+The exact validator argv is pinned in [`INITIALIZER_SUBSET_FIT_R1_CONTRACT.json`](INITIALIZER_SUBSET_FIT_R1_CONTRACT.json). Root must provide a fresh bounded CPU admission for this Torch/native check after the R2 profile finishes. No GPU or fitting work is part of this command.

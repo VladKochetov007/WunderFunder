@@ -1,0 +1,85 @@
+{
+  "checks": {
+    "python_bytecode": "PASS: all five source files compile without importing or running the model pipeline",
+    "recipe_source_bindings": {
+      "limit": {
+        "cpu_quota": "100%",
+        "memory_max_bytes": 450000000,
+        "runtime_max_seconds": 120,
+        "threads": 1
+      },
+      "pinned_file_count": 15,
+      "recipe_contract_sha256": "96f6a9954c6fc49e6d3dc8252be2b9dd16fb958ef2d721e1465aaa359b899c54",
+      "result": "PASS",
+      "subset_manifest_sha256": "05f9e671783ad741de4514ad4a566d988280380f3d171e6baee56ceff337893c"
+    },
+    "ruff_check": "PASS: all five source files pass ruff check under the same cap",
+    "ruff_format": "PASS: five Python source files formatted under 450,000,000-byte memory cap, one CPU, 120-second bound",
+    "subset_reproduction": {
+      "canonical_manifest_rebuilt_byte_for_byte": true,
+      "limit": {
+        "cpu_quota": "100%",
+        "memory_max_bytes": 450000000,
+        "runtime_max_seconds": 120,
+        "threads": 1
+      },
+      "result": "PASS",
+      "selected_components": 82,
+      "selected_sequences": 258,
+      "sha256": "05f9e671783ad741de4514ad4a566d988280380f3d171e6baee56ceff337893c",
+      "source_counts": {
+        "train": 228,
+        "valid": 30
+      }
+    }
+  },
+  "date": "2026-10-15",
+  "format": "wnn.initializer-subset-source-preflight",
+  "interpretation": "Source and subset-integrity preflight only. No initializer fit or quality evidence; no launch authorization.",
+  "not_run": {
+    "full_valid_prediction": true,
+    "gpu_or_cloud_launch": true,
+    "initializer_fit": true,
+    "native_profile_gate": "waiting for root-owned R2 actual-data profile result and fresh bounded CPU admission",
+    "official_grade": true
+  },
+  "recipe_contract_sha256": "4922290857ffbdec96f3d6499614a30631acdfe9f3828f6c93381570d6dd34ab",
+  "scoring_source_sha256": {
+    "official_grade": {
+      "root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "source_sha256": {
+        "scripts/evaluate_bandit_continuation.py": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+        "scripts/score_fold0_panel.py": "0f67ac06cd769a582901b854737528c89e9a7738c3057acf68d7f99eddbfa2d0",
+        "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+        "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      }
+    },
+    "position_buckets": {
+      "root": "/home/vlad/development/wunder/worktrees/student-initializer-fit-20261014",
+      "source_sha256": {
+        "scripts/evaluate_bandit_continuation.py": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+        "scripts/score_fold0_panel.py": "0f67ac06cd769a582901b854737528c89e9a7738c3057acf68d7f99eddbfa2d0",
+        "scripts/score_initializer_position_buckets_r1.py": "c2a66820fe9fa70f600ed5c6e7b5a1cc59d1b16d7dcfcc6d9a0e479251cfebc6",
+        "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+        "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      }
+    }
+  },
+  "source_sha256": {
+    "scripts/build_initializer_component_subset_r1.py": "a471e04e0b312623da801c2826dde97f153d0c8f80da2fc9ee34d203af5c7dcd",
+    "scripts/fit_initializer_subset_r1.py": "aa83d8a43b15392cb0e1a340a39579ec022db1bbae4e619c441e151d25a0051c",
+    "scripts/predict_initializer_subset_r1.py": "eac0de56277d1f717a3e9b7d19b210d8ee8b39255765c8b4cd9dc08244bf1714",
+    "scripts/score_initializer_position_buckets_r1.py": "c2a66820fe9fa70f600ed5c6e7b5a1cc59d1b16d7dcfcc6d9a0e479251cfebc6",
+    "scripts/validate_initializer_native_profile_r1.py": "04037170dbe719fd42115f5ff711600fad8c33c04db6b1cca7fd23a49eeba0a3"
+  },
+  "subset_manifest_sha256": "05f9e671783ad741de4514ad4a566d988280380f3d171e6baee56ceff337893c",
+  "support_source_sha256": {
+    "cpu_limited_wrapper": {
+      "root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "source_sha256": {
+        "scripts/limited": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76"
+      }
+    }
+  },
+  "version": 1
+}
