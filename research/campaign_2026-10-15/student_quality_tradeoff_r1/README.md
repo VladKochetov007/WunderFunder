@@ -17,3 +17,5 @@ This folder holds a source-bound, not-yet-admitted comparison of continued label
 - [Materializer](materialize_alpha0_contracts.py) is a task-specific builder for these contracts. The [preserved first builder failure](ALPHA0_MATERIALIZER_FAILURE_R1.json) records a `StopIteration` caused by assuming the P2 control binding was in the env-prefixed P3 receipt; it was a builder lookup error, not a source or recipe failure. The corrected builder uses the separate successful P2 attempt.
 
 Packet status: prepared from metadata, source and existing receipts; no alpha-0 fit, prediction or grade has run. Root's separate parent/student historical-prediction regrade is linked above. No provider action or new GPU admission was performed.
+
+- [Root P1 admission after H384 completion](ROOT_ALPHA0_P1_ADMISSION_R1.json) records full-chain success, exact reviewed R3 worktree and6.539GB measured parent memory; projected total16.039GB including5.5GB worker and support/margins is below17GB. Actor must still run the fresh source/input gate and guarded admission; this receipt is not proof of launch. P2/P3 require actual resume-state validation and fresh accounting.
