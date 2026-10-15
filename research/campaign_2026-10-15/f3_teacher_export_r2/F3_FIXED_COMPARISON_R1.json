@@ -1,0 +1,100 @@
+{
+  "created_utc": "2026-10-15T13:55:28.633243+00:00",
+  "metric_id": "global_wp_clip2_v1",
+  "split_manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343",
+  "targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+  "evaluation_groups": 505,
+  "components": 145,
+  "runs": {
+    "teacher": "clean_t3_f3_muonall_h384_e3_s3_r5@ep2",
+    "older_model": "c20261003_combo_s3_f3@ep3"
+  },
+  "bindings": {
+    "teacher": {
+      "run": "clean_t3_f3_muonall_h384_e3_s3_r5",
+      "epoch": 2,
+      "checkpoint_sha256": "d67bed97eaa16f73338ea275c316bf76c785b37f8451aa5cee8fe5daadf2f1b5",
+      "prediction_sha256": "ec9a993a4e91d5ea7ed08c2884bffe09d12b4741e60539680929a404abc2e5c5",
+      "split_manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343",
+      "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+      "inference_precision": "fp32"
+    },
+    "older_model": {
+      "run": "c20261003_combo_s3_f3",
+      "epoch": 3,
+      "checkpoint_sha256": "247d0197379ecec613c3761a7737441310cd650321480f3ecb89fc2907538595",
+      "prediction_sha256": "80b43f5edd5290a47a90e75cf352450c3484aaf1faa23958e5c9eaba1471d171",
+      "split_manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343",
+      "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+      "inference_precision": null
+    }
+  },
+  "official": {
+    "teacher": {
+      "t0": 0.7043941326616269,
+      "t1": 0.7116363650113874,
+      "wp": 0.7080152488365071,
+      "selected_rows": 1004172,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "older_model": {
+      "t0": 0.7056661649845144,
+      "t1": 0.7134177623365392,
+      "wp": 0.7095419636605268,
+      "selected_rows": 1004172,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "fixed_half": {
+      "t0": 0.7066931428622446,
+      "t1": 0.7141405369909243,
+      "wp": 0.7104168399265844,
+      "selected_rows": 1004172,
+      "metric_id": "global_wp_clip2_v1"
+    }
+  },
+  "paired_vs_older_model": {
+    "teacher": {
+      "candidate_wp": 0.708015248836507,
+      "reference_wp": 0.7095419636605269,
+      "mean_diff": -0.0015267148240198924,
+      "bootstrap_sd": 0.0012594428631049614,
+      "ci95": [
+        -0.0041832500111667476,
+        0.0007409154693528011
+      ],
+      "p_le_0": 0.9015,
+      "n_sequences": 505,
+      "n_components": 145,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true,
+      "selected_rows": 1004172
+    },
+    "fixed_half": {
+      "candidate_wp": 0.7104168399265842,
+      "reference_wp": 0.7095419636605269,
+      "mean_diff": 0.0008748762660573117,
+      "bootstrap_sd": 0.0006204739001179332,
+      "ci95": [
+        -0.00045516800569980753,
+        0.002012859646071574
+      ],
+      "p_le_0": 0.0815,
+      "n_sequences": 505,
+      "n_components": 145,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true,
+      "selected_rows": 1004172
+    }
+  },
+  "scope": "Exploratory exposed F3, one seed per recipe. Half weights fixed after seeing single scores; no weight search. Different training and unknown older-model inference precision prevent causal claims. Intervals condition on fitted predictions, not training variation.",
+  "sources_sha256": {
+    "research/campaign_2026-10-15/f3_teacher_export_r2/grade_fixed_f3_comparison_r1.py": "e3623536968c5a73c352aebcc1f45e57340fcbcdc27aeaa6883d8f8f1838ca08",
+    "scripts/score_fold0_panel.py": "0f67ac06cd769a582901b854737528c89e9a7738c3057acf68d7f99eddbfa2d0",
+    "scripts/evaluate_bandit_continuation.py": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  }
+}

@@ -124,3 +124,7 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 - [Innovation R2 independent review](../../campaign_2026-10-13/strategy_execution_r1/reviews/innovation_f0_s3_r2/README.md) — independently reviews the cache-schema repair and paired command semantics via a verified free Nemotron route after native Luna usage exhaustion. PASS for operational compatibility; no GPU or quality claim.
 
 - [First-wave progress and reallocation](STRATEGY_PROGRESS_AND_REALLOCATION_20261013.md) — compares the earlier strategy and Claude plan against actual October13 costs/grades. Fixed averaging produced similar uncertain F0 gains to amplitude at about28times lower incremental worker time. All conditional intervals crosszero; no complete submission improved yet. Records the6.74hour handoff gap and prioritizes reuse, two ready mechanism pairs, compact serving and bounded exploration.
+
+## F3 teacher and blend evidence — 2026-10-15
+
+- [F3 fixed teacher-blend grade review](F3_FIXED_BLEND_F3_EXPLORATORY_GRADE_REVIEW_20261015_R1.md) audits the fold-3 scorer, teacher and H128-distilled older-combo ancestry, and paired component interval. The fixed half blend is +0.000875 WP versus the older model, but its 95% component interval crosses zero and the weight was chosen after seeing the single scores. Treat it as exposed, one-seed exploratory evidence, not a confirmed gain or teacher-family effect.
