@@ -1,0 +1,511 @@
+{
+  "format": "wnn.min-gru-cost-profile-resource-gates",
+  "version": 1,
+  "recorded_utc": "2026-10-14T02:56:19Z",
+  "aggregate_target_bytes": 17000000000,
+  "events": [
+    {
+      "id": "initial-timing-worker-refusal",
+      "snapshot_time": "2026-10-14; exact timestamp was not captured",
+      "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 10945204224,
+      "active_reservations": [
+        {
+          "name": "H256L2 GPU fit worker",
+          "cgroup": "wnn-bandit-student-frontier-fit-f0s3-h256l2-b8-c2000-fp32-r2.service",
+          "memory_current_bytes": 120270848,
+          "memory_max_bytes": 4999999488,
+          "unused_reservation_bytes": 4879728640
+        },
+        {
+          "name": "source-qualified sequence scope",
+          "memory_current_bytes": 8835072,
+          "memory_max_bytes": 399998976,
+          "unused_reservation_bytes": 391163904
+        }
+      ],
+      "proposed_support_worker_max_bytes": 2000000000,
+      "projected_committed_bytes": 18216096768,
+      "decision": "refused-before-launch",
+      "reason": "Projected parent current plus unused admitted worker reservations and the proposed 2 GB support scope exceeded the 17 GB aggregate target. No paired timing worker was launched."
+    },
+    {
+      "id": "release-build-admission",
+      "snapshot_time": "2026-10-14T02:53:30Z",
+      "parent_memory_current_bytes": 10845503488,
+      "proposed_build_scope_max_bytes": 2000000000,
+      "projected_committed_bytes": 12845503488,
+      "decision": "admitted-by-root-and-completed",
+      "result": "Release build completed in 28.57 seconds. Its scope had been removed before memory.peak could be read; compile peak is not claimed."
+    },
+    {
+      "id": "paired-profile-hold-for-export",
+      "recorded_utc": "2026-10-14T02:56:19Z",
+      "decision": "hold",
+      "status": "No release timing worker has started.",
+      "root_instruction": "Wait for H256L1 full export terminal and a fresh aggregate admission. Root identified possible overlap of the 2 GB support scope, 6 GB export, 400 MB sequence reservation, and 700 MB shared-source reservation against the 17 GB target.",
+      "next_gate": "Re-read parent memory.current and every populated direct child reservation after root confirms export terminal; include each new worker's 2 GB maximum exactly once."
+    },
+    {
+      "id": "post-export-static-preflight-admission",
+      "snapshot_utc": "2026-10-14T03:00:18Z",
+      "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 12482711552,
+      "active_reservations": [
+        {
+          "name": "H192L2 fit",
+          "cgroup": "wnn-bandit-student-frontier-f0s3-fit-h192l2-r2.service",
+          "memory_current_bytes": 4082847744,
+          "memory_max_bytes": 4999999488,
+          "unused_reservation_bytes": 917151744
+        },
+        {
+          "name": "H192L2 source-qualified sequence scope",
+          "cgroup": "wnn-frontier-h192l2-r6-sequence.scope",
+          "memory_current_bytes": 8626176,
+          "memory_max_bytes": 399998976,
+          "unused_reservation_bytes": 391372800
+        }
+      ],
+      "other_root_reservations_included": {
+        "controller_bytes": 400000000,
+        "shared_source_bytes": 700000000,
+        "basis": "Root's current admission message"
+      },
+      "proposed_static_preflight_scope_max_bytes": 500000000,
+      "projected_committed_bytes_for_static_preflight": 15391236096,
+      "projected_committed_bytes_for_full_2gb_support_worker": 16891236096,
+      "decision": "within-17gb-target; static preflight admitted, timing workers remain sequential and require another fresh gate",
+      "root_authority": "Root reported H256L1 export/grade/R6 completion, GPU idle, and explicitly admitted sequential 2 GB release profiles after fresh-gating actual reservations."
+    },
+    {
+      "id": "first-release-worker-admission",
+      "snapshot_utc": "2026-10-14T03:00:50Z",
+      "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 12018745344,
+      "active_reservations": [
+        {
+          "name": "H192L2 fit",
+          "cgroup": "wnn-bandit-student-frontier-f0s3-fit-h192l2-r2.service",
+          "memory_current_bytes": 4343582720,
+          "memory_max_bytes": 4999999488,
+          "unused_reservation_bytes": 656416768
+        },
+        {
+          "name": "H192L2 source-qualified sequence scope",
+          "cgroup": "wnn-frontier-h192l2-r6-sequence.scope",
+          "memory_current_bytes": 9068544,
+          "memory_max_bytes": 399998976,
+          "unused_reservation_bytes": 390930432
+        }
+      ],
+      "other_root_reservations_included": {
+        "controller_bytes": 400000000,
+        "shared_source_bytes": 700000000,
+        "basis": "Root's current admission message"
+      },
+      "proposed_worker_max_bytes": 2000000000,
+      "projected_committed_bytes": 16166092544,
+      "decision": "admitted-within-17gb-target",
+      "worker": "GRU H256L2 FP32 release callback; one command only, then refresh the gate before the next family/precision.",
+      "limits": {
+        "cpu_quota": "100%",
+        "threads": 1,
+        "memory_max_bytes": 2000000000,
+        "swap_max_bytes": 0,
+        "runtime_max_seconds": 900
+      }
+    },
+    {
+      "id": "min-gru-f32-release-worker-admission",
+      "snapshot_utc": "2026-10-14T03:01:44Z",
+      "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 12040929280,
+      "active_reservations": [
+        {
+          "name": "H192L2 fit",
+          "cgroup": "wnn-bandit-student-frontier-f0s3-fit-h192l2-r2.service",
+          "memory_current_bytes": 4343472128,
+          "memory_max_bytes": 4999999488,
+          "unused_reservation_bytes": 656527360
+        },
+        {
+          "name": "H192L2 source-qualified sequence scope",
+          "cgroup": "wnn-frontier-h192l2-r6-sequence.scope",
+          "memory_current_bytes": 8843264,
+          "memory_max_bytes": 399998976,
+          "unused_reservation_bytes": 391155712
+        }
+      ],
+      "other_root_reservations_included": {
+        "controller_bytes": 400000000,
+        "shared_source_bytes": 700000000,
+        "basis": "Root's current admission message"
+      },
+      "proposed_worker_max_bytes": 2000000000,
+      "projected_committed_bytes": 16188612352,
+      "decision": "admitted-within-17gb-target",
+      "worker": "minGRU H384L2 FP32 release callback; next sequential command. Previous GRU FP32 worker exited before this snapshot.",
+      "limits": {
+        "cpu_quota": "100%",
+        "threads": 1,
+        "memory_max_bytes": 2000000000,
+        "swap_max_bytes": 0,
+        "runtime_max_seconds": 900
+      }
+    },
+    {
+      "id": "gru-q8vnni-release-worker-admission",
+      "snapshot_utc": "2026-10-14T03:02:21Z",
+      "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 12074102784,
+      "active_reservations": [
+        {
+          "name": "H192L2 fit",
+          "cgroup": "wnn-bandit-student-frontier-f0s3-fit-h192l2-r2.service",
+          "memory_current_bytes": 4374208512,
+          "memory_max_bytes": 4999999488,
+          "unused_reservation_bytes": 625790976
+        },
+        {
+          "name": "H192L2 source-qualified sequence scope",
+          "cgroup": "wnn-frontier-h192l2-r6-sequence.scope",
+          "memory_current_bytes": 8847360,
+          "memory_max_bytes": 399998976,
+          "unused_reservation_bytes": 391151616
+        }
+      ],
+      "other_root_reservations_included": {
+        "controller_bytes": 400000000,
+        "shared_source_bytes": 700000000,
+        "basis": "Root's current admission message"
+      },
+      "proposed_worker_max_bytes": 2000000000,
+      "projected_committed_bytes": 16191045376,
+      "decision": "admitted-within-17gb-target",
+      "worker": "GRU H256L2 Q8 VNNI release callback; next sequential command.",
+      "limits": {
+        "cpu_quota": "100%",
+        "threads": 1,
+        "memory_max_bytes": 2000000000,
+        "swap_max_bytes": 0,
+        "runtime_max_seconds": 900
+      }
+    },
+    {
+      "id": "min-gru-q8vnni-release-worker-admission",
+      "snapshot_utc": "2026-10-14T03:03:14Z",
+      "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 12180148224,
+      "active_reservations": [
+        {
+          "name": "H192L2 fit",
+          "cgroup": "wnn-bandit-student-frontier-f0s3-fit-h192l2-r2.service",
+          "memory_current_bytes": 4373712896,
+          "memory_max_bytes": 4999999488,
+          "unused_reservation_bytes": 626286592
+        },
+        {
+          "name": "H192L2 source-qualified sequence scope",
+          "cgroup": "wnn-frontier-h192l2-r6-sequence.scope",
+          "memory_current_bytes": 8847360,
+          "memory_max_bytes": 399998976,
+          "unused_reservation_bytes": 391151616
+        },
+        {
+          "name": "research monitor",
+          "cgroup": "wnn-research-monitor.service",
+          "memory_current_bytes": 46325760,
+          "memory_max_bytes": 536870912,
+          "unused_reservation_bytes": 490545152
+        },
+        {
+          "name": "watchdog",
+          "cgroup": "wnn-watchdog.service",
+          "memory_current_bytes": 59768832,
+          "memory_max_bytes": 838860800,
+          "unused_reservation_bytes": 779091968
+        }
+      ],
+      "other_root_reservations_included": {
+        "controller_bytes": 400000000,
+        "shared_source_bytes": 700000000,
+        "basis": "Root's current admission message; included conservatively despite possible overlap with listed support services."
+      },
+      "proposed_worker_max_bytes": 500000000,
+      "projected_committed_bytes": 16067223552,
+      "decision": "admitted-within-17gb-target-under-reduced-cap",
+      "worker": "minGRU H384L2 Q8 VNNI release callback. Previous same-script callback scopes peaked below 52 MB; use a 500 MB cap to preserve headroom.",
+      "limits": {
+        "cpu_quota": "100%",
+        "threads": 1,
+        "memory_max_bytes": 500000000,
+        "swap_max_bytes": 0,
+        "runtime_max_seconds": 900
+      }
+    },
+    {
+      "id": "torch-reference-admission",
+      "snapshot_utc": "2026-10-14T03:06:02Z",
+      "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 11770114048,
+      "active_reservations": [
+        {
+          "name": "H192L2 fit",
+          "cgroup": "wnn-bandit-student-frontier-f0s3-fit-h192l2-r2.service",
+          "memory_current_bytes": 4344152064,
+          "memory_max_bytes": 4999999488,
+          "unused_reservation_bytes": 655847424
+        },
+        {
+          "name": "H192L2 source-qualified sequence scope",
+          "cgroup": "wnn-frontier-h192l2-r6-sequence.scope",
+          "memory_current_bytes": 8921088,
+          "memory_max_bytes": 399998976,
+          "unused_reservation_bytes": 391077888
+        }
+      ],
+      "other_root_reservations_included": {
+        "controller_bytes": 400000000,
+        "shared_source_bytes": 700000000,
+        "watcher_services": "research-monitor and watchdog were not populated in this fresh snapshot; no unused reservation for them was added.",
+        "basis": "Root's current admission message"
+      },
+      "proposed_worker_max_bytes": 1500000000,
+      "projected_committed_bytes": 15417039360,
+      "decision": "admitted-within-17gb-target",
+      "worker": "Python exact reference for 137 raw rows per family, CPU-only; separate from callback timing workers.",
+      "limits": {
+        "cpu_quota": "100%",
+        "threads": 1,
+        "memory_max_bytes": 1500000000,
+        "swap_max_bytes": 0,
+        "runtime_max_seconds": 900,
+        "gpu": "not requested"
+      }
+    },
+    {
+      "id": "final-static-receipt-validation",
+      "snapshot_utc": "2026-10-14T03:10:39Z",
+      "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 12073181184,
+      "active_reservations": [
+        {
+          "name": "H192L2 fit",
+          "cgroup": "wnn-bandit-student-frontier-f0s3-fit-h192l2-r2.service",
+          "memory_current_bytes": 4344188928,
+          "memory_max_bytes": 4999999488,
+          "unused_reservation_bytes": 655810560
+        },
+        {
+          "name": "source-qualified sequence scope",
+          "cgroup": "wnn-frontier-h192l2-r6-sequence.scope",
+          "memory_current_bytes": 8953856,
+          "memory_max_bytes": 399998976,
+          "unused_reservation_bytes": 391045120
+        },
+        {
+          "name": "file-cache guard",
+          "cgroup": "wnn-slice-filecache-guard.service",
+          "memory_current_bytes": 2686976,
+          "memory_max_bytes": 99999744,
+          "unused_reservation_bytes": 97312768
+        },
+        {
+          "name": "research watcher",
+          "cgroup": "wnn-codex-research-watch.service",
+          "memory_current_bytes": 26918912,
+          "memory_max_bytes": 134217728,
+          "unused_reservation_bytes": 107298816
+        }
+      ],
+      "other_root_reservations_included": {
+        "controller_bytes": 400000000,
+        "shared_source_bytes": 700000000,
+        "basis": "Root admission message already reflected in earlier profile gates; included conservatively."
+      },
+      "proposed_worker_max_bytes": 500000000,
+      "projected_committed_bytes": 14924648448,
+      "decision": "admitted-within-17gb-target",
+      "worker": "Final metadata, Ruff, py_compile, CLI help and diff validation only; no build or profiling.",
+      "limits": {
+        "cpu_quota": "100%",
+        "threads": 1,
+        "memory_max_bytes": 500000000,
+        "swap_max_bytes": 0,
+        "runtime_max_seconds": 120
+      }
+    },
+    {
+      "id": "research-tree-index-refresh",
+      "snapshot_utc": "2026-10-14T03:11:08Z",
+      "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 12126502912,
+      "active_reservations": [
+        {
+          "name": "H192L2 fit",
+          "cgroup": "wnn-bandit-student-frontier-f0s3-fit-h192l2-r2.service",
+          "memory_current_bytes": 4400340992,
+          "memory_max_bytes": 4999999488,
+          "unused_reservation_bytes": 599658496
+        },
+        {
+          "name": "source-qualified sequence scope",
+          "cgroup": "wnn-frontier-h192l2-r6-sequence.scope",
+          "memory_current_bytes": 8962048,
+          "memory_max_bytes": 399998976,
+          "unused_reservation_bytes": 391036928
+        },
+        {
+          "name": "file-cache guard",
+          "cgroup": "wnn-slice-filecache-guard.service",
+          "memory_current_bytes": 2682880,
+          "memory_max_bytes": 99999744,
+          "unused_reservation_bytes": 97316864
+        },
+        {
+          "name": "research watcher",
+          "cgroup": "wnn-codex-research-watch.service",
+          "memory_current_bytes": 26918912,
+          "memory_max_bytes": 134217728,
+          "unused_reservation_bytes": 107298816
+        }
+      ],
+      "other_root_reservations_included": {
+        "controller_bytes": 400000000,
+        "shared_source_bytes": 700000000,
+        "basis": "Root admission accounting included conservatively."
+      },
+      "proposed_worker_max_bytes": 500000000,
+      "projected_committed_bytes": 14921814016,
+      "decision": "500 MB admission was within target; attempted command failed before tree-generation work because the script is omitted from this sparse checkout; no build retry.",
+      "worker": "A generated-tree refresh was attempted once and recorded in FAILED_ATTEMPTS_R1.json. Direct campaign/unified README indexing is complete; leave full catalog regeneration to root after integration.",
+      "limits": {
+        "cpu_quota": "100%",
+        "threads": 1,
+        "memory_max_bytes": 500000000,
+        "swap_max_bytes": 0,
+        "runtime_max_seconds": 120
+      }
+    },
+    {
+      "id": "final-json-and-provenance-check",
+      "snapshot_utc": "2026-10-14T03:12:15Z",
+      "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 12116000768,
+      "active_reservations": [
+        {
+          "name": "H192L2 fit",
+          "cgroup": "wnn-bandit-student-frontier-f0s3-fit-h192l2-r2.service",
+          "memory_current_bytes": 4343857152,
+          "memory_max_bytes": 4999999488,
+          "unused_reservation_bytes": 656142336
+        },
+        {
+          "name": "source-qualified sequence scope",
+          "cgroup": "wnn-frontier-h192l2-r6-sequence.scope",
+          "memory_current_bytes": 8962048,
+          "memory_max_bytes": 399998976,
+          "unused_reservation_bytes": 391036928
+        },
+        {
+          "name": "file-cache guard",
+          "cgroup": "wnn-slice-filecache-guard.service",
+          "memory_current_bytes": 2686976,
+          "memory_max_bytes": 99999744,
+          "unused_reservation_bytes": 97312768
+        },
+        {
+          "name": "Kaggle poller",
+          "cgroup": "wnn-campaign-kaggle-poller.service",
+          "memory_current_bytes": 270336,
+          "memory_max_bytes": 536870912,
+          "unused_reservation_bytes": 536600576
+        },
+        {
+          "name": "root worker scope",
+          "cgroup": "run-p3597262-i3575185.scope",
+          "memory_current_bytes": 39116800,
+          "memory_max_bytes": 536870912,
+          "unused_reservation_bytes": 497754112
+        },
+        {
+          "name": "research watcher",
+          "cgroup": "wnn-codex-research-watch.service",
+          "memory_current_bytes": 26923008,
+          "memory_max_bytes": 134217728,
+          "unused_reservation_bytes": 107294720
+        }
+      ],
+      "other_root_reservations_included": {
+        "controller_bytes": 400000000,
+        "shared_source_bytes": 700000000,
+        "basis": "Root admission accounting, included conservatively."
+      },
+      "proposed_worker_max_bytes": 500000000,
+      "projected_committed_bytes": 16002142208,
+      "decision": "Admitted within target; first receipt-validator attempt failed on the manifest key typo and was separately recorded; corrected 500 MB static validation passed under the next fresh gate.",
+      "worker": "Ruff and Python 3.11 compile passed; JSON/provenance assertion used the wrong manifest key. The failure and corrected later attempt are recorded in ATTEMPTS_R1.json and FAILED_ATTEMPTS_R1.json.",
+      "limits": {
+        "cpu_quota": "100%",
+        "threads": 1,
+        "memory_max_bytes": 500000000,
+        "swap_max_bytes": 0,
+        "runtime_max_seconds": 120
+      }
+    },
+    {
+      "id": "corrected-final-receipt-validation",
+      "snapshot_utc": "2026-10-15T07:42:30Z",
+      "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 1903198208,
+      "active_reservations": [
+        {
+          "name": "file-cache guard",
+          "cgroup": "wnn-slice-filecache-guard.service",
+          "memory_current_bytes": 3002368,
+          "memory_max_bytes": 99999744,
+          "unused_reservation_bytes": 96997376
+        },
+        {
+          "name": "research watcher",
+          "cgroup": "wnn-codex-research-watch.service",
+          "memory_current_bytes": 35524608,
+          "memory_max_bytes": 134217728,
+          "unused_reservation_bytes": 98693120
+        },
+        {
+          "name": "research monitor",
+          "cgroup": "wnn-research-monitor.service",
+          "memory_current_bytes": 45887488,
+          "memory_max_bytes": 536870912,
+          "unused_reservation_bytes": 490983424
+        }
+      ],
+      "other_root_reservations_included": {
+        "controller_bytes": 400000000,
+        "shared_source_bytes": 700000000,
+        "basis": "Root admission accounting, included conservatively."
+      },
+      "proposed_worker_max_bytes": 500000000,
+      "projected_committed_bytes": 4189872128,
+      "decision": "admitted-and-completed-within-17gb-target",
+      "worker": "Corrected receipt metadata validation passed; JSON/JSONL, tracked command hashes, four release worker reset/precision assertions, ignored private payloads and git diff check passed. No profile/build/training work.",
+      "limits": {
+        "cpu_quota": "100%",
+        "threads": 1,
+        "memory_max_bytes": 500000000,
+        "swap_max_bytes": 0,
+        "runtime_max_seconds": 120
+      }
+    }
+  ],
+  "limits": {
+    "cpu_quota": "100%",
+    "threads": 1,
+    "memory_max_bytes_per_support_worker": 2000000000,
+    "swap_max_bytes": 0,
+    "runtime_max_seconds_per_worker": 900
+  },
+  "claim_limit": "Resource-admission and refusal record only. No fit or GPU state was changed by the profiling actor."
+}

@@ -1,0 +1,41 @@
+{
+  "format": "wnn.min-gru-cost-profile-source-manifest",
+  "version": 1,
+  "source_commit": "7364a452e0c72c2600a27e21cb66f6deb9e714ce",
+  "worktree": "/home/vlad/development/wunder/worktrees/min-gru-real-costprofile-20261014",
+  "runner": {
+    "path": "scripts/profile_min_gru_cost_pair.py",
+    "sha256_after_release-loader_preflight_fix": "5c5e27e877dc06596a843f89553e119c1b5efb460ee1a37e206cd2e554a31644",
+    "role": "prepare the pinned fitting-sequence fixture; generate seeded synthetic models; measure native callback costs; compare bounded chunks to Python references"
+  },
+  "native_build": {
+    "receipt": "BUILD_R1.json",
+    "binary": "native/target/release/libwnn_native.so",
+    "sha256": "5e29328c940aeaada3f38c86a75a824585fedae78bf68d6a1dd5d78b98996f13",
+    "profile": "optimized Cargo release, opt-level 3, fat LTO, one codegen unit, panic abort",
+    "source_commit_matches_worktree": true
+  },
+  "pinned_source_hashes": {
+    "native/Cargo.toml": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+    "native/Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+    "native/src/min_gru.rs": "cb6652cb50478b3d8b5a612f259c311c90045b5722e0d654857bba133ae1a38e",
+    "native/src/rnn_fast.rs": "5e69b591df41438f136dd28cc115be5063c13792368eebcf33a6340f327b714c",
+    "src/wnn/min_gru.py": "f7ffca46d34c37eca35a3294d292cc4560e36d01592daa0d3093a114e5fe1e43"
+  },
+  "input_manifest": {
+    "tracked_receipt": "INPUT_MANIFEST_R1.json",
+    "sha256": "805d15f074052b5b12253233deea3b496340bb26275e7502eb8d53970ee3d87a",
+    "raw_payload_in_git": false,
+    "normalization_checkpoint_payload_in_git": false,
+    "private_local_payloads": [
+      "cache/min_gru_cost_profile_r1/train37_raw112.f32",
+      "cache/min_gru_cost_profile_r1/clean_f0_mean.npy",
+      "cache/min_gru_cost_profile_r1/clean_f0_std.npy"
+    ]
+  },
+  "width_support": {
+    "min_gru": "Independent encoder, recurrent and readout widths are supported by this source/build.",
+    "gru": "The ordinary GRU family remains shared-width in this source/build; this profile uses equal widths in both families."
+  },
+  "claim_limit": "Hash-bound implementation and input provenance; synthetic weights and cost evidence only. No fitting, quality or competition-host claim."
+}
