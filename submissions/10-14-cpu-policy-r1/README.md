@@ -1,5 +1,7 @@
 # Fixed-weight CPU-policy probes
 
+[October15 handoff verification](HANDOFF_FILE_VERIFICATION_20261015_R1.json) rechecks all four current ZIP sizes, full SHA256 values and archive CRCs: PASS. This verifies the delivered files separately from the earlier prediction/ABI review. Portal uploads and target-host timings remain pending; local research continues independently.
+
 These checked packages implement the requested original-xteam_h4 engine comparison. They preserve all four original weights, member order,25% coefficients, preprocessing and Q8 representations. They are runtime probes, not newly selected student architectures. Uploads are user-owned and asynchronous; local research continues independently.
 
 Use the available team slots in this order, carrying the sequence across days if necessary:
