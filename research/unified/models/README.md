@@ -4,6 +4,8 @@ Use this domain for architecture, optimization, distillation, target constructio
 
 ## Read these sources
 
+- [Current T3 student versus exact parent, paired regrade](../../campaign_2026-10-15/student_quality_tradeoff_r1/CURRENT_T3_PARENT_PAIRED_GRADE_R1.json), E-KD-CURRENT-PARENT-PAIRED-GRADE-20261015-R1/H-KD-CONTINUATION-VALUE-20261015, reproduces official F0 scores .6811553603 versus .6809412068 and measures delta+.000214154 with conditional141-component interval[-.00338452,.00309511]. Existing prediction/checkpoint/sidecar and membership bindings passed the unchanged scorer. One exposed fold, unknown parent inference precision and changed continuation recipe prevent causal KD attribution; no training or public forecast. [Interpretation and next matched comparison](../ideas/QUALITY_BOTTLENECK_AND_STUDENT_TRADEOFFS_20261015_R1.md).
+
 - [Private Hugging Face archive and model lookup](huggingface/README.md) — organization model repository, checkpoint inventory, per-run descriptions and verified transfer receipts. Starts with public-best source students and strong local teachers/students, then preserves historical models with their repository paths and research IDs.
 - [Model families, training, and source-qualified findings](../archive/2026-10-12/pages/02-models-and-training.md)
 - [Current best solution explained](../../campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/solution_report/CURRENT_BEST_SOLUTION_EXPLAINED.md)
