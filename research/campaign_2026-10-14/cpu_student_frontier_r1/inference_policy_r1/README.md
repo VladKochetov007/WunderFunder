@@ -1,5 +1,7 @@
 # xteam_h4 CPU policies — R1
 
+- [October15 public CPU result](PUBLIC_CPU_POLICY_RESULT_20261015_R1.md) and [structured portal receipts](PUBLIC_CPU_POLICY_RECEIPTS_20261015_R1.json) record D47m27s/0.6681, C57m27s/0.6681 and B TIMEOUT versus historical A50m16s/0.6681. D is169s faster provisionally; repeated contemporaneous controls remain missing. Includes all eight supplied historical rows and expected local archive hashes, not portal payload verification. No quality-weight selection or research restart.
+
 This folder records a fixed inference-engine comparison for the unchanged original xteam_h4 weights, blend coefficients, callback, preprocessing and dynamic-Q8 weight/activation quantization. The native source is adapted from project revision 7800d304; the shipped A package is retained as the immutable control. Related hypothesis: H-CPU-POLICY-20261014.
 
 - [Results and limits](REPORT.md) describe the implementation, source/build hashes, selected-policy checks, assembly evidence, matrix and recurrent-cell probes, full-sequence callback parity and package checks.

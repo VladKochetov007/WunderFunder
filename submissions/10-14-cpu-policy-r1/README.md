@@ -1,5 +1,7 @@
 # Fixed-weight CPU-policy probes
 
+[October15 competition results](../../research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/PUBLIC_CPU_POLICY_RESULT_20261015_R1.md): user reports D47m27s/651MB/0.6681, C57m27s/656MB/0.6681 and B TIMEOUT61m57s/650MB. Historical A50m16s/650MB/0.6681. Prefer D provisionally (169s/5.60% less time), retain A fallback; same-day A–D–A would help assess host variation after explicit resume. Structured receipts preserve all supplied rows and expected local ZIP hashes, not portal-verified payload hashes. Research remains paused.
+
 [October15 handoff verification](HANDOFF_FILE_VERIFICATION_20261015_R1.json) rechecks all four current ZIP sizes, full SHA256 values and archive CRCs: PASS. This verifies the delivered files separately from the earlier prediction/ABI review. Portal uploads and target-host timings remain pending; local research continues independently.
 
 These checked packages implement the requested original-xteam_h4 engine comparison. They preserve all four original weights, member order,25% coefficients, preprocessing and Q8 representations. They are runtime probes, not newly selected student architectures. Uploads are user-owned and asynchronous; local research continues independently.

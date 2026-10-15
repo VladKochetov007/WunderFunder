@@ -2,6 +2,10 @@
 
 Entry: 2026-10-13T23:43:28Z (October14 Europe/Kyiv). Root owns completion under [contract](CONTRACT.json).
 
+## CPU serving update, October15 18:00UTC — D wins observed timing
+
+[User-reported target-host results](inference_policy_r1/PUBLIC_CPU_POLICY_RESULT_20261015_R1.md): D47m27s/0.6681 versus historical A50m16s/0.6681 (169s/5.60% less time); C57m27s/0.6681, B TIMEOUT61m57s. Prefer D provisionally, preserve A fallback. One run each and historical A leave host variation unresolved; no student or blend selection follows. D has12m33s to60minutes, but linear work headroom is not certified model capacity. Research remains paused except for the previously authorized G drain; no new probe is admitted.
+
 ## Latest scope, October15 17:55UTC — pause after bounded G drain
 
 User requests a convenient research pause. This supersedes the continuous allocation below. Finish only already-running G, its previously owned CP1 FP32 export and independent official grade; no F/W/S, initializer profile/fit, additional diagnostic or cloud retry. [Authoritative pause record](../../unified/operations/RESEARCH_PAUSE_20261015_R1.md) preserves the exact drain, owner and resume boundaries. C is independently graded at0.6812265132; G result remains pending. Cloud R5 version3 is terminal before optimizer updates (strict cache-root symlink escape), not negative architecture evidence. CPU ZIPs remain available for user uploads; no new target-host runtime result.

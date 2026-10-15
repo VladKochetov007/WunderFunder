@@ -1,3 +1,7 @@
+## 2026-10-15T18:00:12Z — CPU portal receipts land during pause
+
+User reports frozen-policy D47m27s/651MB/0.6681 (182a1r2g), C57m27s/656MB/0.6681 (2nk0qaui), B TIMEOUT61m57s/650MB (0emo1mvc). Historical A50m16s/650MB/0.6681 (1hl88h25). D saves169s/5.60% observed time and becomes provisional serving-engine preference with A fallback; single runs and noncontemporaneous control leave host variation unresolved. [Full result, all eight supplied rows and exact expected local ZIP pins](../research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/PUBLIC_CPU_POLICY_RESULT_20261015_R1.md). No public quality gain or model-capacity guarantee. Recording these receipts does not resume research; only the prior G drain remains permitted.
+
 ## 2026-10-15T17:55:39Z — user requests convenient pause; G alone drains
 
 Latest user: “pause research when its convenient”. New research admission is closed by scope immediately; only the healthy already-running G fit, its previously owned CP1 FP32 export and independent official grade may finish. No F/W/S fit, initializer profile/fit, new diagnostic or Kaggle R6 retry. All three owners have been notified. [Pause and bounded-drain record](../research/unified/operations/RESEARCH_PAUSE_20261015_R1.md) specifies the exact drain and controller-barrier handoff; completion is pending, not claimed.
