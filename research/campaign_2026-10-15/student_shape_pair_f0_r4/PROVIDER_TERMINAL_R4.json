@@ -1,0 +1,74 @@
+{
+  "schema": "wnn.student-shape-pair-provider-terminal.r4",
+  "status": "terminal_bootstrap_infrastructure_failure_before_runner",
+  "provider_action_performed": true,
+  "kernel": {
+    "ref": "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1-runner",
+    "version": 2,
+    "provider_status": "KernelWorkerStatus.ERROR",
+    "version_qualified_status_query": true,
+    "source_dataset": "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1",
+    "source_dataset_version": 2,
+    "kernel_push_preflight_path": "PROVIDER_PREFLIGHT_KERNEL_PUSH_R4.json",
+    "kernel_push_preflight_sha256": "c4d40a7bc2b35d87c9e91bb45cb78c4a25617b31cd4ec0c21d9550b9493178d6",
+    "expected_outer_kernel_sha256": "e4610b3989ada343b47c220f09412f29910ec656feaf910c44fbbb1bd065baa2",
+    "pulled_current_outer_kernel_sha256": "e4610b3989ada343b47c220f09412f29910ec656feaf910c44fbbb1bd065baa2",
+    "pulled_outer_kernel_bytes": 14067,
+    "pulled_metadata_sha256": "31594b33a446438a3558600a14b711c67065ed2aee624bfedcd79af0f9f9d199"
+  },
+  "profile_recipe": {
+    "source_binding_sha256": "4031266199233d7d5fe4b28e7dc049e3ec5ab713c37dde096226831ef2e7648e",
+    "input_binding_sha256": "5877a724351b1ec7b81e67a5f0b2d30316adb04585b7defd92b0ba6710b8beb7",
+    "generated_kernel_seal_sha256": "ce48235b717d42974d1685e7104896777d8976d5c7e6ac49b01a7ef3e953fd2d",
+    "profile_jobs_expected": [
+      "student_pair_t4_profile_f0s3_h256_l2_r2",
+      "student_pair_t4_profile_f0s3_h512_l1_r2"
+    ],
+    "optimizer_attempts_per_job": 50
+  },
+  "terminal": {
+    "first_error": "ValueError: Unsafe external input mapping",
+    "remote_script_location": "/kaggle/src/script.py:173",
+    "elapsed_seconds_from_remote_log": 1.385613118,
+    "worker_process_started": false,
+    "profile_jobs_started": false,
+    "optimizer_attempts_completed": 0,
+    "cuda_resource_profile_reached": false,
+    "interpretation": "Bootstrap input-path validation failed before kaggle_gpu_runner.py started. This is an infrastructure failure and supplies no architecture or throughput evidence."
+  },
+  "output_collection": {
+    "version_qualified_output_command": "kaggle kernels output vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1-runner/2",
+    "local_staging_relative": "private_assets/download_student_shape_t4_profile_r4_v2_exact",
+    "file_count": 71,
+    "total_file_bytes": 1091657,
+    "experiment_source_files": 70,
+    "kernel_log_files": 1,
+    "result_files": 0,
+    "worker_results_present": false,
+    "kernel_log_path": "PROVIDER_KERNEL_LOG_R4.txt",
+    "kernel_log_bytes": 1475,
+    "kernel_log_sha256": "979d3a1a68532d3b00f1695655d10c66658bc6a93f4c1ecfba2ea308ee28545c",
+    "default_and_version_qualified_log_bytes_identical": true
+  },
+  "diagnosis": {
+    "manifest_external_mounts_added": [
+      "cache/train_targets.npz",
+      "cache/valid_targets.npz"
+    ],
+    "manifest_files_contains_external_only_paths": false,
+    "kernel_safety_check": "The unchanged bootstrap constructs allowed from manifest.files path entries plus spec_paths and requires each external mount logical path to be in allowed.",
+    "cause": "R4 added the two paths to external_mounts but not to manifest.files; the bootstrap rejected the first external-only path.",
+    "repair_scope": "Declare exactly the two existing target-cache file descriptors in manifest.files using their pinned SHA-256 and byte sizes. Keep the kernel safety check, scientific recipe, archive bytes, and inputs unchanged."
+  },
+  "read_only_diagnostics": {
+    "version_qualified_source_pull": {
+      "command": "kaggle kernels pull <kernel-ref>/2",
+      "result": "HTTP 403 from Kaggle GetKernel endpoint; no provider state changed"
+    },
+    "current_source_pull": {
+      "command": "kaggle kernels pull <kernel-ref>",
+      "pulled_code_sha256": "e4610b3989ada343b47c220f09412f29910ec656feaf910c44fbbb1bd065baa2",
+      "matches_frozen_r4_kernel": true
+    }
+  }
+}
