@@ -7,7 +7,7 @@
 use crate::approx::{gelu_fast, sigmoid_fast};
 use crate::kernels::{gelu, gemv, sigmoid};
 use crate::rnn_fast::Activations;
-use crate::vnni::{DynQ8, Isa, padded_cols, quantize};
+use crate::vnni::{DynQ8, Isa, padded_cols, prof, quantize};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MinGruPrecision {
@@ -129,9 +129,16 @@ impl Linear {
         assert_eq!(input.len(), self.cols, "minGRU linear input width");
         assert_eq!(output.len(), self.rows, "minGRU linear output width");
         match &self.weights {
-            Matrix::F32(weights) => gemv(weights, &self.bias, input, output),
+            Matrix::F32(weights) => {
+                let mut phase = prof::tick();
+                gemv(weights, &self.bias, input, output);
+                prof::lap(16, &mut phase);
+            }
             Matrix::Q8(weights) => {
+                let mut phase = prof::tick();
                 let scale = quantize(input, &mut self.activation_codes);
+                prof::lap(14, &mut phase);
+                phase = prof::tick();
                 weights.gemv(
                     precision.isa().expect("Q8 matrix needs an ISA"),
                     &self.activation_codes,
@@ -139,6 +146,7 @@ impl Linear {
                     Some(&self.bias),
                     output,
                 );
+                prof::lap(15, &mut phase);
             }
         }
     }
@@ -299,6 +307,8 @@ impl MinGruModel {
     pub fn step(&mut self, input: &[f32], output: &mut [f32]) {
         assert_eq!(input.len(), self.n_in, "minGRU model input width");
         assert_eq!(output.len(), 2, "minGRU output width");
+        let mut model_total = prof::tick();
+        let mut phase = prof::tick();
         for (normalized, ((value, mean), std)) in self
             .normalized
             .iter_mut()
@@ -306,8 +316,10 @@ impl MinGruModel {
         {
             *normalized = (*value - *mean) / *std;
         }
+        prof::lap(13, &mut phase);
         self.inp
             .apply(&self.normalized, self.precision, &mut self.projection);
+        phase = prof::tick();
         match self.activations {
             Activations::Exact => self
                 .projection
@@ -318,6 +330,7 @@ impl MinGruModel {
                 .iter_mut()
                 .for_each(|value| *value = gelu_fast(*value)),
         }
+        prof::lap(17, &mut phase);
 
         let recurrent = self.recurrent;
         for (index, cell) in self.cells.iter_mut().enumerate() {
@@ -329,6 +342,7 @@ impl MinGruModel {
                 &self.state[start - recurrent..start]
             };
             cell.apply(prior_layer, self.precision, &mut self.cell_projection);
+            phase = prof::tick();
             let (candidate, gate) = self.cell_projection.split_at(recurrent);
             for (hidden, (&candidate, &gate)) in self.state[start..end]
                 .iter_mut()
@@ -348,13 +362,17 @@ impl MinGruModel {
                 };
                 *hidden = (1.0 - write) * *hidden + write * candidate;
             }
+            prof::lap(18, &mut phase);
         }
 
+        phase = prof::tick();
         let state_start = self.state.len() - recurrent;
         self.head_input[..recurrent].copy_from_slice(&self.state[state_start..]);
         self.head_input[recurrent..].copy_from_slice(&self.projection);
+        prof::lap(19, &mut phase);
         self.head0
             .apply(&self.head_input, self.precision, &mut self.head_hidden);
+        phase = prof::tick();
         match self.activations {
             Activations::Exact => self
                 .head_hidden
@@ -365,8 +383,10 @@ impl MinGruModel {
                 .iter_mut()
                 .for_each(|value| *value = gelu_fast(*value)),
         }
+        prof::lap(20, &mut phase);
         self.head2
             .apply(&self.head_hidden, MinGruPrecision::F32, output);
+        prof::lap(21, &mut model_total);
     }
 
     pub fn reset(&mut self) {

@@ -859,11 +859,15 @@ fn min_gru_raw_step(
             row.len()
         )));
     }
+    let mut callback_total = crate::vnni::prof::tick();
+    let mut feature_phase = crate::vnni::prof::tick();
     let (raw, event) = input.split_at_mut(crate::stream::N_RAW);
     raw.copy_from_slice(row);
     features.sanitize(raw);
     features.update(raw, event);
+    crate::vnni::prof::lap(22, &mut feature_phase);
     model.step(input, output);
+    crate::vnni::prof::lap(23, &mut callback_total);
     Ok(())
 }
 
@@ -980,7 +984,24 @@ fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyPredictor>()?;
     m.add_class::<PyEnsemblePredictor>()?;
     m.add_class::<PyModelStepper>()?;
+    #[cfg(feature = "profile")]
+    {
+        m.add_function(pyo3::wrap_pyfunction!(profile_reset, m)?)?;
+        m.add_function(pyo3::wrap_pyfunction!(profile_cycles, m)?)?;
+    }
     Ok(())
+}
+
+#[cfg(feature = "profile")]
+#[pyfunction]
+fn profile_reset() {
+    crate::vnni::prof::reset();
+}
+
+#[cfg(feature = "profile")]
+#[pyfunction]
+fn profile_cycles() -> Vec<u64> {
+    crate::vnni::prof::snapshot().to_vec()
 }
 
 /// One `FastRnn` on precomputed model inputs (no stream features), for parity checks against

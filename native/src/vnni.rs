@@ -886,14 +886,29 @@ pub unsafe fn project_zmm(
     }
 }
 
-/// Optional per-stage cycle accounting of the dynamic-int8 step (cargo feature `profile`);
-/// compiles to nothing otherwise. Slots: 0 projection + GELU, 1 quantize z, then per layer k
+/// Optional per-stage cycle accounting for native recurrent callbacks (cargo feature `profile`);
+/// compiles to nothing otherwise. GRU slots: 0 projection + GELU, 1 quantize z, then per layer k
 /// `2 + 4k` ih matvec, `3 + 4k` hh matvec, `4 + 4k` gate update, `5 + 4k` requantize h; after the
-/// last layer (2 layers: 10..) head.0 matvecs, head GELU, head.2.
+/// last layer (2 layers: 10..) head.0 matvecs, head GELU, head.2. MinGRU slots: 13 normalization,
+/// 14 Q8 activation quantization (all Q8 linears), 15 Q8 matvec (all Q8 linears), 16 FP32 matvecs,
+/// 17 encoder activation, 18 candidate/gate/state update, 19 skip concat, 20 head activation,
+/// 21 inclusive model step, 22 raw causal feature builder, and 23 inclusive raw callback body.
 pub mod prof {
     #[cfg(feature = "profile")]
     pub static CYCLES: [std::sync::atomic::AtomicU64; 32] =
         [const { std::sync::atomic::AtomicU64::new(0) }; 32];
+
+    #[cfg(feature = "profile")]
+    pub fn reset() {
+        for counter in &CYCLES {
+            counter.store(0, std::sync::atomic::Ordering::Relaxed);
+        }
+    }
+
+    #[cfg(feature = "profile")]
+    pub fn snapshot() -> [u64; 32] {
+        std::array::from_fn(|index| CYCLES[index].load(std::sync::atomic::Ordering::Relaxed))
+    }
 
     /// Time stamp, or 0 when profiling is off.
     #[inline(always)]

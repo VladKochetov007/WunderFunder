@@ -1,0 +1,30 @@
+{
+  "format": "wnn.min-gru-q8-phase-profile-admission",
+  "version": 1,
+  "status": "pending_root_coordinated_resource_gate",
+  "worktree": "/home/vlad/development/wunder/worktrees/min-gru-q8-phaseprofile-20261015",
+  "branch": "cpu-inference/min-gru-q8-phaseprofile-20261015",
+  "base_commit": "39008b8eeb27d69d97eb9d5431241cac426ec9a2",
+  "prepared_scope": [
+    "feature-gated profiling-only native counters for minGRU phases",
+    "profile-build Python counter accessors",
+    "full-sequence runner with sealed uninstrumented output/state comparison"
+  ],
+  "not_yet_run": [
+    "Rust formatting/build/tests",
+    "profile extension build",
+    "complete-sequence profile callback"
+  ],
+  "resource_policy": {
+    "cpu_quota": "100%",
+    "threads": 1,
+    "source_review_bound_bytes": 500000000,
+    "build_or_profile_bound_bytes": 2000000000,
+    "build_or_profile_requires_fresh_root_coordination": true,
+    "gpu_or_fitting_work": false
+  },
+  "profile_runner_baseline": {
+    "commit": "6ec323bc8286349e240e7f25df2d1976bc2d90fe",
+    "script_sha256": "5c5e27e877dc06596a843f89553e119c1b5efb460ee1a37e206cd2e554a31644"
+  }
+}

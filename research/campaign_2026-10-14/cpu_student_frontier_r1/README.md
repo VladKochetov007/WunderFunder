@@ -49,4 +49,6 @@ The canonical narrative entry is in [unified inference](../../unified/inference/
 
 - [Native minGRU callback prototype](min_gru_native_r1/README.md): separate FP32/exact, fast-FP32 and optional Q8 native callback using the committed Python state-dict layout and existing causal112-to-211 feature builder. Full Rust suite62/63 and focused Python tests15/15 pass. On20k deterministic synthetic rows, exact native-vs-Python max prediction error is7.45e-8 and reset/chunk replay is bitwise; Q8 changes predictions and is larger for the tiny E12/R8/M6 fixture. No fitting, grade, target-shape capacity or architecture claim.
 
+- [minGRU Q8 phase-profile successor](min_gru_q8_phase_profile_r1/README.md): profiling-only native counters and an output-bound full-sequence runner are prepared to split Q8 quantization, VNNI matvecs, fast activations, recurrence updates, and causal preprocessing. Root-coordinated build/profile admission and measurements are pending; no optimization or speed claim is made.
+
 - [Memory timescales and initializer gradients](RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md): primary-source gate-bias hypothesis, six scalar decay/gradient checks, and a tested complete-sequence frozen-backbone initializer loss that preserves late gradients. No fit or quality result; actual CUDA profile is next.

@@ -1,0 +1,19 @@
+{
+  "format": "wnn.min-gru-q8-phase-profile-staging-failure",
+  "version": 1,
+  "observed_utc": "2026-10-15T07:57:00Z",
+  "worktree": "/home/vlad/development/wunder/worktrees/min-gru-q8-phaseprofile-20261015",
+  "branch": "cpu-inference/min-gru-q8-phaseprofile-20261015",
+  "exact_failed_command": "git add native/src/min_gru.rs native/src/python.rs native/src/vnni.rs scripts/profile_min_gru_cost_pair.py scripts/profile_min_gru_q8_phases.py research/campaign_2026-10-14/cpu_student_frontier_r1/README.md research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_q8_phase_profile_r1/README.md research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_q8_phase_profile_r1/METHOD_R1.md research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_q8_phase_profile_r1/PENDING_R1.json research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_q8_phase_profile_r1/RESOURCE_GATE_R1.json research/unified/inference/README.md && git diff --cached --check && git status --short",
+  "command_sha256": "59c4723e5b92df5af058c4ffeb36852d1a31c6126c8343cc9ce29e83c61cd4d1",
+  "failure_kind": "sparse_checkout_exclusion",
+  "tool_output": "The following paths and/or pathspecs matched paths that exist outside of your sparse-checkout definition, so will not be updated in the index: scripts/profile_min_gru_q8_phases.py",
+  "diagnosis": {
+    "excluded_path": "scripts/profile_min_gru_q8_phases.py",
+    "sparse_pattern_present": false,
+    "similar_included_pattern": "/scripts/profile_min_gru_cost_pair.py",
+    "other_target_paths_staged": true,
+    "source_or_build_failure": false
+  },
+  "recovery": "Record this attempt first, then add scripts/profile_min_gru_q8_phases.py to this isolated worktree's sparse patterns and stage the runner. No MAIN files or other worktrees are changed."
+}
