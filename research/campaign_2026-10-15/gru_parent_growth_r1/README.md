@@ -36,7 +36,6 @@ The original parent checkpoint SHA is
 `d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e`.
 It is a derived initializer, not an independently fitted checkpoint.
 
-Actual trainer reload, B16 FP16 GPU profiling and quality fitting remain next.
 FP32 mathematical equivalence permits floating-point differences; stochastic
 training trajectories and native/quantized serving equivalence are not established.
 
@@ -49,3 +48,25 @@ source/input checks and fresh aggregate admission. Full fits are not admitted ye
 [Prepared trainer vectors](WARM_MECHANISM_COMMANDS_R3.json) make the four-arm comparison reviewable. They require exact parser/wrapper/source binding and actual GPU profiles before execution.
 
 [Trainer source manifest](TRAINER_SOURCE_MANIFEST_R3.json) pins the frozen implementation worktree at56d900e3. Direct trainer commands set explicit PYTHONPATH and data root, avoiding the historical wrapper that would select old trainer source. Serial profiles use five B16 batches (50 attempted C2000 updates), resource/rate evidence only.
+
+[Initial controller prep R1](WARM_MECHANISM_PROFILE_CONTROLLER_PREP_R1.json)
+preserves the first command materialization; it was superseded before launch
+when root fixed the intended allocator cap and H256 host reservation.
+[Current controller launch vectors R2](WARM_MECHANISM_PROFILE_CONTROLLER_PREP_R2.json)
+freeze serial C/G/F/W `bandit_resources` commands from the reviewed immutable
+source (`56d900e3…`). All64 manifest files were rehashed with no mismatches;
+the packet binds the split, original parent, grown initializer, teacher-cache
+metadata, propensity model/sidecars, and the verified dataset-body/identity
+receipt. Its only worker-argv delta from the R3 recipe packet is explicit
+`WNN_GPU_MEMORY_BYTES=4300000000`; no model, data or training arguments change.
+Independent paired grades are terminal per root's update; R2 remains
+`PREPARED_NOT_LAUNCHED` until the independent reviewer signals CPU-handoff-DONE,
+then it still requires fresh per-profile controller source/resource checks.
+Root directed 5.5GB host reservations for H256 C/G/F (C's matched A0 P1 peak
+was4,952,576,000B) and6.5GB for H384 W (historical H384 peak was
+6,499,999,744B). G/F's CUDA age transforms may raise working memory, so the
+profile must measure it. Each probe is 50 attempted B16/C2000 FP16 updates and
+provides resource/rate evidence only; G/F construct features through frozen
+CUDA `build_inputs(x)` with loader workers at zero. The5GB observed-VRAM ceiling
+is an operator stop threshold because the controller records VRAM but does not
+enforce it as a hard GPU cap. No fit is admitted by R2.
