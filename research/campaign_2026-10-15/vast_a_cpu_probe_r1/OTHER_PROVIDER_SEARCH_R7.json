@@ -1,0 +1,105 @@
+{
+  "format": "wnn.cpu_host_scout",
+  "version": 1,
+  "created_utc": "2026-10-15T10:59:33Z",
+  "kind": "bounded_read_only_public_inventory_search",
+  "scope": {
+    "required_cpu": "AMD EPYC 9224, as required by the competition CPU profile",
+    "eligible_product": "CPU-only, no GPU attached or mandatory",
+    "billing": "hourly or per-second, total experiment ceiling USD 3",
+    "provider_actions": false,
+    "credentials_used": false,
+    "signup_or_purchase": false
+  },
+  "findings": [
+    {
+      "provider": "Contabo",
+      "result": "Exact 24-core EPYC 9224 dedicated servers are publicly listed, but the official listing is monthly-priced (US location page shows a 24-month-term price) and does not offer hourly rental. Historical independent VPS trials also identified EPYC 9224 hosts but explicitly say hourly billing is unavailable; these are not current inventory checks.",
+      "fit": "exact_cpu; fails hourly and USD 3 total budget",
+      "sources": [
+        {
+          "url": "https://contabo.com/en-us/locations/united-states/?tab=us-bare-metal",
+          "type": "official_current_product_listing",
+          "supports": "AMD Genoa 24 Cores uses AMD EPYC 9224; monthly price and Get Started listing."
+        },
+        {
+          "url": "https://contabo.com/blog/our-dedicated-servers-just-got-more-epyc-introducing-the-new-amd-genoa-24-bare-metal-server/",
+          "type": "official_product_announcement",
+          "supports": "EPYC 9224 dedicated host was listed at EUR 239/month; announcement updated June 2026."
+        },
+        {
+          "url": "https://www.vpsbenchmarks.com/hosters/contabo/plans/cloud-vps-1",
+          "type": "independent_historical_trial",
+          "supports": "October 2024 VPS trial observed an EPYC 9224; plan table reports no hourly billing."
+        }
+      ],
+      "availability_limit": "No purchase/configuration flow was entered; listing does not prove an immediately deployable slot."
+    },
+    {
+      "provider": "TensorDock",
+      "result": "Official site advertises pay-as-you-go CPU Cloud with Xeon/EPYC hardware from USD 0.012/hour. Public CPU deployment preview shows a default 4-core/16-GB/100-GB example at USD 0.0490/hour, billed per second with no minimum, but requires authentication to deploy and does not identify or guarantee the host CPU SKU.",
+      "fit": "CPU-only hourly billing is a possible lead; exact EPYC 9224 inventory/guarantee not established",
+      "sources": [
+        {
+          "url": "https://www.tensordock.com/",
+          "type": "official_product_page",
+          "supports": "CPU Cloud, latest Xeon and EPYC CPUs, from USD 0.012/hour; pay-as-you-go billing."
+        },
+        {
+          "url": "https://dashboard.dev.tensordock.com/deploy/cpu",
+          "type": "public_deployment_preview",
+          "supports": "Example CPU-only config at USD 0.0490/hour, billed per second/no minimum; authentication required to deploy. No processor model is shown."
+        }
+      ],
+      "availability_limit": "No login, account, API, or deployment action was used; public material is insufficient to qualify an exact-CPU purchase."
+    },
+    {
+      "provider": "FireVM",
+      "result": "Exact dual EPYC 9224 appears only in listings bundling RTX PRO 6000 or H200 GPUs; prices are monthly.",
+      "fit": "excluded mandatory GPU bundle; fails CPU-only and budget requirements",
+      "sources": [
+        {
+          "url": "https://www.firevm.com/gpu-bare-metal-servers/",
+          "type": "official_product_listing",
+          "supports": "RTX PRO 6000 + 2x EPYC 9224 at USD 1,299/month and H200 NVL + 2x EPYC 9224 at USD 2,499/month; listings are GPU servers."
+        }
+      ]
+    },
+    {
+      "provider": "NexSpire",
+      "result": "EPYC 9224 appears as the CPU in an AI Mid product bundled with an L40S GPU at USD 549/month.",
+      "fit": "excluded mandatory GPU bundle; fails CPU-only and budget requirements",
+      "sources": [
+        {
+          "url": "https://nexspire.io/brands/ai/",
+          "type": "public_product_listing",
+          "supports": "Spire AI Mid lists 32 vCPU EPYC 9224 with 1x NVIDIA L40S at USD 549/month."
+        }
+      ]
+    },
+    {
+      "provider": "Vast-A",
+      "result": "Previously inspected sanitized API receipts found the exact EPYC 9224 offer only with an H200 GPU bundle; zero-GPU results were disk volumes rather than CPU compute.",
+      "fit": "no eligible CPU-only offer in inspected inventory",
+      "sources": [
+        {
+          "path": "EXACT_CPU_EXPANDED_SEARCH_R3.json",
+          "type": "prior_read_only_provider_receipt",
+          "supports": "Exact-CPU Vast search and offer classification."
+        },
+        {
+          "path": "CPU_ONLY_SEARCH_R4.json",
+          "type": "prior_read_only_provider_receipt",
+          "supports": "CPU-only clarification and zero-GPU result classification."
+        }
+      ]
+    }
+  ],
+  "conclusion": "This bounded public search found no qualified CPU-only exact EPYC 9224 hourly/per-second option within USD 3. TensorDock remains unverified because its public CPU cloud pages do not pin the CPU SKU; Contabo has exact-SKU monthly listings, and other exact-SKU leads bundle GPUs. This does not establish global absence. No provider mutation or spend occurred.",
+  "search_queries": [
+    "AMD EPYC 9224 hourly cloud CPU server",
+    "AMD EPYC 9224 cloud VPS hourly",
+    "EPYC 9224 CPU only hourly billing",
+    "TensorDock CPU-only cloud exact processor listing"
+  ]
+}
