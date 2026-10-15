@@ -194,6 +194,8 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 
 # October 15 F3 teacher export packet
 
+- [Restart-safety running snapshot, October15 18:08UTC](RESEARCH_PAUSE_20261015_R1.md#restart-safety-snapshot-october15-1808utc) links the G attempt/log committed at user request while the two-epoch fit remains active. Roughly22minutes of fitting plus export/grade remain; this is not reboot-safe completion. The final drain owner must update and push terminal evidence. Ignored data/weights/ZIPs stay on disk.
+
 - [October15 user-requested pause and bounded G drain](RESEARCH_PAUSE_20261015_R1.md) supersedes continuous research and queued fit/profile authorities. Only the already-running G fit, its CP1 FP32 export and independent official grade may finish; F/W/S, initializer experiments and cloud retries are held until explicit resume. The note records owners, controller-barrier timing, available CPU submission ZIPs and the cloud cache-symlink failure. At creation the drain is still running; it does not claim a completed G result or full shutdown.
 
 - [F3 CP2 export-only packet R1](../../campaign_2026-10-15/f3_teacher_export_r1/README.md) binds the completed F3 seed3 H384 epoch2 checkpoint/provenance to the frozen causal predictor, three source-qualified scopes, an offline private bundle and bounded terminal collection plan. This is an operational prediction-export recipe only; no new Kaggle provider action, model fit or quality score is recorded.

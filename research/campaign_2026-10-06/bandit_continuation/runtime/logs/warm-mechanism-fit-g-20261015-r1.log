@@ -1,0 +1,33 @@
+{"name": "warm_mechanism_f0_s3_g_r3", "device": "cuda", "train_seqs": 10607, "valid_seqs": 600, "full_valid": false, "hidden": 256, "encoder_width": null, "recurrent_width": null, "readout_width": null, "head_layers": 1, "layers": 2, "dropout": 0.0, "chunk": 2000, "update_rows": 0, "detach_rows": 0, "detach_boundary_jitter": false, "detach_jitter_seed": 271828, "origin_view": "off", "origin_seed": 79079, "credit_mode": "deterministic", "credit_keep_probability": 0.8, "credit_seed": 100100, "qat": "none", "activation_backend": "none", "activation_profile_first_chunk": false, "qat_learn_scales": false, "recurrent_rank": 0, "sentinel_values": "unchanged", "sentinel_indicators": "none", "sentinel_base_width": 0, "batch": 16, "numeric_map": "none", "ple_intervals": 8, "fit_subset_manifest": null, "fit_subset_experiment_id": null, "epochs": 2, "stop_after_epoch": 1, "checkpoint_policy": "fixed", "checkpoint_epoch": 1, "no_eval_during_fit": true, "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json", "student_frontier_contract": null, "student_frontier_stage": "", "student_frontier_preflight_only": false, "save_training_state": true, "resume_state": null, "lr": 0.0001, "wd": 0.01, "optim": "adamw", "muon_scope": "rnn", "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "wsd_shape": "sqrt", "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "grad_stats": false, "loss": "wmse", "thin_prob": 0.0, "thin_range": "0.1,0.4", "thin_mode": "compress", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_cache_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/clean_t3_f0_h390_t3r5_a9_r2", "distill_cache_variant": "homogeneous", "distill_cache_scale": 1.0, "distill_family_weight": 0.0, "distill_alpha": 0.9, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 0, "distill_reanchor": 0.0, "readout_activation": "gelu", "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "block_heads": 8, "block_rows": 256, "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "expert_hidden": 32, "num_experts": 4, "specialist_route": "learned", "hash_seed": 1729, "adapter_rank": 8, "adapter_mode": "conditional", "prefix_rows": 99, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "c20261003_combo_s3_f0@ep3", "final_model_adaptation": false, "final_distill_initializer": false, "inherit_init_preprocessing": true, "freeze": "", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "ema_reference_rows": 0, "eval_ema": false, "mask_weight": false, "propensity": "c20260929_prop_f0", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "research_features": "group_age", "research_feature_control": "none", "privileged_mode": "none", "privileged_horizon": 8, "fit_groups_manifest": null, "seed": 3, "loss_norm": "chunk", "distill_denominator": "chunk", "distill_reference_mass": 0.0, "calibrate_distill_reference": "", "calibration_epochs": 1, "denominator_shuffle_seed": 314159, "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "amp_init_scale": 65536.0, "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "optim_switch": "", "warmup_frac": null, "restarts": 1, "head_lr_mult": 1.0, "clip_per_module": "", "grad_noise": 0.0, "zoneout": 0.0, "init_qmc": false, "batch_order": "seeded", "antithetic": false, "momentum": 0.0, "no_gradient_clip": false, "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"}
+{"source_train_sequences": 10535, "eligible_valid_train_sequences": 1405, "used_valid_train_sequences": 1405, "eval_sequences": 468}
+loader workers 0 prefetch 0; params 1.01M; steps 14920
+ep 0 batch 0/746 loss 0.6104 lr 4.04e-06 seq/s 0.4
+ep 0 batch 20/746 loss 0.6804 lr 2.16e-05 seq/s 5.3
+ep 0 batch 40/746 loss 0.5239 lr 5.96e-05 seq/s 7.3
+ep 0 batch 60/746 loss 0.6175 lr 9.24e-05 seq/s 8.2
+ep 0 batch 80/746 loss 0.6601 lr 1.00e-04 seq/s 9.0
+ep 0 batch 100/746 loss 0.5618 lr 9.99e-05 seq/s 9.4
+ep 0 batch 120/746 loss 0.5540 lr 9.97e-05 seq/s 9.6
+ep 0 batch 140/746 loss 0.5796 lr 9.95e-05 seq/s 9.8
+ep 0 batch 160/746 loss 0.6097 lr 9.91e-05 seq/s 10.0
+ep 0 batch 180/746 loss 0.5669 lr 9.86e-05 seq/s 10.1
+ep 0 batch 200/746 loss 0.5464 lr 9.80e-05 seq/s 10.2
+ep 0 batch 220/746 loss 0.5209 lr 9.74e-05 seq/s 10.2
+ep 0 batch 240/746 loss 0.5881 lr 9.66e-05 seq/s 10.3
+ep 0 batch 260/746 loss 0.5447 lr 9.58e-05 seq/s 10.3
+ep 0 batch 280/746 loss 0.5784 lr 9.49e-05 seq/s 10.3
+ep 0 batch 300/746 loss 0.6159 lr 9.38e-05 seq/s 10.4
+ep 0 batch 320/746 loss 0.5616 lr 9.27e-05 seq/s 10.4
+ep 0 batch 340/746 loss 0.5416 lr 9.15e-05 seq/s 10.3
+ep 0 batch 360/746 loss 0.5758 lr 9.03e-05 seq/s 10.3
+ep 0 batch 380/746 loss 0.5803 lr 8.89e-05 seq/s 10.3
+ep 0 batch 400/746 loss 0.4593 lr 8.75e-05 seq/s 10.3
+ep 0 batch 420/746 loss 0.5812 lr 8.60e-05 seq/s 10.4
+ep 0 batch 440/746 loss 0.5392 lr 8.44e-05 seq/s 10.4
+ep 0 batch 460/746 loss 0.5375 lr 8.28e-05 seq/s 10.4
+ep 0 batch 480/746 loss 0.5113 lr 8.10e-05 seq/s 10.5
+ep 0 batch 500/746 loss 0.5634 lr 7.93e-05 seq/s 10.5
+ep 0 batch 520/746 loss 0.4763 lr 7.75e-05 seq/s 10.6
+ep 0 batch 540/746 loss 0.6151 lr 7.56e-05 seq/s 10.6
+ep 0 batch 560/746 loss 0.5575 lr 7.37e-05 seq/s 10.6
+ep 0 batch 580/746 loss 0.5433 lr 7.17e-05 seq/s 10.6

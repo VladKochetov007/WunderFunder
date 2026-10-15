@@ -35,6 +35,12 @@ Previously exposed folds remain exposed. No new architecture winner, teacher cei
 
 ## Decision and next step
 
+### Restart-safety snapshot, October15 18:08UTC
+
+User asks when the laptop can restart and requests git add/commit/push all. The exact G unit is still active/running; latest progress epoch0 batch580/746 of two epochs (1,492 total batches), not a terminal checkpoint. Overall observed rate suggests roughly22 minutes of fitting remain, with export/grade afterwards; earlier shorter estimates counted only one epoch and are superseded. No restart-safe completion is claimed. Root commits all nonignored current files as a running snapshot; future telemetry changes remain owned by the drain actor. Ignored model/data/ZIP payloads remain on physical disk rather than entering Git.
+
+The live [attempt record](../../campaign_2026-10-06/bandit_continuation/runtime/attempts/warm-mechanism-fit-g-20261015-r1.json) and [worker log](../../campaign_2026-10-06/bandit_continuation/runtime/logs/warm-mechanism-fit-g-20261015-r1.log) provide operational progress only. They are mutable until the worker reaches terminal state, then must be committed again with its final result. Restart is safe for this campaign after terminal checkpoint/export preservation, final grading/receipt commits and admission closure, verified by no active fit/export/grade units. No further research is authorized.
+
 Pause all research after the bounded drain; only explicit user resume reopens admission. Preserve all frozen sources, recipes, negative results and unrun arms. Update this record with the actual drain outcome rather than silently treating the estimate as completion.
 
 ## Source records
