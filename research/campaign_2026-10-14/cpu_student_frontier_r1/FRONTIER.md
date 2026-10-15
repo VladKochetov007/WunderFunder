@@ -2,7 +2,15 @@
 
 Entry: 2026-10-13T23:43:28Z (October14 Europe/Kyiv). Root owns completion under [contract](CONTRACT.json).
 
-## Latest allocation, October15 14:05UTC
+## Latest allocation, October15 16:57UTC
+
+User requested competition CPU submission files. [A/B/C/D handoff](../../../submissions/10-14-cpu-policy-r1/README.md) now includes fresh complete hash/size/CRC verification and the recommended repeated-control order A–B–C–D–A. No target-host receipts yet; uploads are asynchronous and do not block quality work. [Bandwidth envelope](../../unified/inference/EPYC9224_BANDWIDTH_ENVELOPE_20261015_R1.md) separates logical weight throughput from physical cache traffic and achievable headroom.
+
+The [six-epoch alpha0/.9 comparison](../../campaign_2026-10-15/student_quality_tradeoff_r1/README.md) is complete: fixed CP5 WP0.66684254 versus0.68115536. Independent fit-valid diagnostics show increasing in-sample quality alongside worsening exposed-evaluation quality, motivating a [frozen-parent target discriminator](../../unified/ideas/FROZEN_PARENT_ANCHOR_CONTROL_20261015_R1.md); neither teacher ceiling nor student capacity ceiling is established. The next-control review ranks that single additional target arm ahead of stronger-parent package continuation and label-only rescue; current C/G/F/W recipes remain unchanged.
+
+Local C resource profile completed50/50 finite updates, zero AMP skips,4.953GB host peak/2.179GB observed VRAM, zero OOM; [mechanism-wave delivery](../../campaign_2026-10-15/gru_parent_growth_r1/README.md). G/F/W follow serially, then actual fit allocation from measured resources. The private Kaggle cold H256×2/H512×1 profile kernel is actually RUNNING under1800s. Latest user budget is **two aggregate local CPU cores**, physical scratch,one GPU worker; historical five-core wording below is superseded. No paid rental/spend. Root continues research until explicit user pause.
+
+## Allocation snapshot, October15 14:05UTC
 
 The user's continued-experiment instruction asks us to escape repetitive research loops. The [bounded cycle reset](../../unified/methods/RESEARCH_LOOP_RESET_20261015_R1.md) separates model limitations from delivery, evaluation and search failures. No model-quality ceiling is established.
 
