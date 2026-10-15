@@ -1,3 +1,9 @@
+## 2026-10-15T11:05:00Z — CPU-only access unresolved; portable panel checked; H384 fitting
+
+The user clarified CPU-only access: GPUbundles are excluded, exactAMD EPYC9224 and$3total remain binding. [Market searches and userauthority](../research/campaign_2026-10-15/vast_a_cpu_probe_r1/README.md) found no qualifying purchasable route; spendzero. A72MBsourcequalifiedeightsequencefixture and independently reviewed portable A/B/C/D panel are ready for an exploratory run; localPython3.11complete20ksmokeA/B/reset predictions are bitwiseequal. No targetCPUtimingranking exists; any meteredrun still needs an outercontrollerdeadline/teardownreserve.
+
+H384×2is fitting under the fixedF0seed3recipe after H512×1grade.673237761 (independentreviewedfirstscreenonly). H256×1nativeQ8grade.669361725 matchesFP32.669346318 closely. InitializerR3resourceprofilecompleted allthreeone-updatearms/finite/reload/reset/exportchecks,3.719GBhost/.875GBobservedVRAM/zeroOOMdeltas; nativeC++gate andactualsubsetfits remainpending. [Frontier](../research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md). Originalcontinuousresearchauthorization/localcaps unchanged; no newpaidprovideraction.
+
 ## 2026-10-15T10:43:00Z — exactCPU rental research; fourth student graded
 
 [ADR0038](adr/0038-vast-a-exact-cpu-benchmark-budget.md) records user-approved$3Vast-A CPU benchmark scope and sameEPYC9224requirement. Read-only provider searches find only GPUbundledcompute, zeroGPUentries are storage; rental spendzero, CPU-only fixture/protocol preparation continues while clarification is pending. [Evidence](../research/campaign_2026-10-15/vast_a_cpu_probe_r1/PROTOCOL_AND_MARKET_R2.md).
