@@ -1,0 +1,82 @@
+{
+  "schema": "wnn.warm_mechanism_profile_result.r1",
+  "status": "PASS_RESOURCE_PROFILE_ONLY",
+  "created_utc": "2026-10-15T16:55:46.356202+00:00",
+  "arm": "C",
+  "attempt_id": "warm-growth-r4-profile-c-20261015",
+  "attempt_receipt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/warm-growth-r4-profile-c-20261015.json",
+  "attempt_receipt_sha256": "1b88528168e2467da2b9616555eff95d0db6a0027c951a9c898490df35c64768",
+  "worker_log_path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/warm-growth-r4-profile-c-20261015.log",
+  "worker_log_sha256": "aecefd45123698217b829d40fa0b488bf92a4d91dbf1ea661e0e6fff958af7f1",
+  "controller_contract_path": "research/campaign_2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_CONTROLLER_PREP_R4.json",
+  "controller_contract_sha256": "b5b2691568cbddf3b4a6e4399d5a6cf6b0a33ff39dc7f71b305269a38365754d",
+  "immutable_source_worktree": "/home/vlad/development/wunder/worktrees/gru-parent-growth-20261015",
+  "immutable_source_commit": "56d900e3c283512e7128243374cd937c05979359",
+  "execution": {
+    "exit_status": 0,
+    "elapsed_seconds": 20.211567218007986,
+    "attempted_updates": 50,
+    "completed_updates": 50,
+    "amp_skipped_updates": 0,
+    "finite_loss": true,
+    "finite_gradient": true,
+    "profile_batches": 5,
+    "warmup_batches": 0,
+    "sequence_length_rows": 20000,
+    "optimizer_chunks_per_sequence_batch": 10
+  },
+  "trainer_profile_fields": {
+    "backward": 418.48,
+    "forward": 256.26,
+    "gpu_total": 687.44,
+    "h2d": 0.01,
+    "inputs": 9.39,
+    "labels": 1.9,
+    "loss": 6.09,
+    "optimizer": 2.43,
+    "weights": 0.31,
+    "loader_wait": 632.13,
+    "step_wall": 1216.41,
+    "seq_per_s": 13.15,
+    "syncs_per_step": 0.4
+  },
+  "derived_timing": {
+    "median_batch_step_ms": 1216.41,
+    "sequence_per_second": 13.15,
+    "estimated_median_ms_per_2000_row_chunk": 121.641,
+    "basis": "Trainer StageTimer step_wall is the median time between full sequence-batch starts; each B16 batch covers 10 sequential 2,000-row chunks. The per-chunk value is a simple division, not an independent timing measurement."
+  },
+  "resources": {
+    "ram_reservation_bytes": 5500000000,
+    "peak_worker_ram_bytes": 4953374720,
+    "peak_observed_vram_bytes": 2178940928,
+    "observed_vram_stop_threshold_bytes": 5000000000,
+    "worker_memory_event_deltas": {
+      "high": 5504,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "swap_limit_bytes": 0,
+    "peak_vram_field_null_reason": "Controller stores peak_observed_vram_bytes as the observed GPU metric; peak_vram_bytes is null in this receipt schema."
+  },
+  "interpretation": {
+    "claim": "Resource/rate profile only; no fit or model-quality result.",
+    "full_fit_admission": "not granted by this profile.",
+    "next_serial_profile": "G"
+  },
+  "source_manifest_path": "research/campaign_2026-10-15/gru_parent_growth_r1/TRAINER_SOURCE_MANIFEST_R3.json",
+  "source_manifest_sha256": "5949c1cbd9fbef6383efd793aadaf29dc9fc53fd0c7df70058422da65b33b9a7"
+}
