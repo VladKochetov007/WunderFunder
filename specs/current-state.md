@@ -1,3 +1,7 @@
+## 2026-10-15T15:15:19.360192+00:00 — inherited growth parity and shared-control next wave
+
+The [grown parent initializer](../research/campaign_2026-10-15/gru_parent_growth_r1/README.md) preserves all23 outputs over one complete20k-row fitting sequence within1.14441e-5, with exact reset and576MB charged peak. Nine combined growth/field-age tests pass; zero new training updates, no quality/native claim. Root prepares a shared-control C/G/F/W twoepoch alpha.9 seeded-order wave, replacing unlaunched age R2; independent consumer review and actual GPU profiles remain. The healthy sixepoch alpha0 chain continues unchanged, now epoch3. Its CP1 score .67636773 versus matched alpha.9 .68031459 is an early descriptive result, not final selection. Latest two-core/disk-scratch limits remain; user renewed GPU authorization.
+
 ## 2026-10-15T14:23:35Z — two CPU cores and disk scratch override earlier budgets
 
 Latest user reports laptop freezes/full tmp and limits all our work to **two CPU

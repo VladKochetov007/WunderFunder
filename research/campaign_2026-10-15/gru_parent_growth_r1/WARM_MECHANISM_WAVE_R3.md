@@ -1,8 +1,8 @@
 ---
 kind: experiment
 status: proposed
-created_utc: 2026-10-15T15:15:00Z
-updated_utc: 2026-10-15T15:15:00Z
+created_utc: 2026-10-15T15:15:19.360192+00:00
+updated_utc: 2026-10-15T15:15:19.360192+00:00
 hypothesis_ids: [H-STUDENT-PARENT-GROWTH-20261015, H-087, H-138]
 experiment_ids: [E-WARM-MECHANISM-WAVE-20261015-R3]
 evidence_paths: [COMPLETE_SEQUENCE_PROFILE_R1.json]
