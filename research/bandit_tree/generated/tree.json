@@ -3563,6 +3563,26 @@
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "a17185ff01e57b0a25ee7f437e3e698ee2af195957fc6091cf2691380947ab0b"
         }
+      },
+      {
+        "raw_record": "{\"created_utc\": \"2026-10-15T13:40:09.493704+00:00\", \"decision\": \"User explicitly asks continued experiments without lineage fixation. Finish active matched alpha0 quality comparison; fresh-context scout gets15min source-only to commit two non-width/KD mechanisms before archive deduplication. Separate shortscreen from fullfit decisions, preserve uncertain branches, and review information delivered by next4scientificcomparisons. Correct double-counted fit reservation to overlap safe collection; collector heartbeat mismatch is execution evidence and does not justify refit. Cosmetic diagnostics are not scientific blockers.\", \"evidence_paths\": [\"research/unified/methods/RESEARCH_LOOP_RESET_20261015_R1.md\"], \"hypothesis_ids\": [\"H-KD-CONTINUATION-VALUE-20261015\", \"H-STUDENT-LADDER-20261014\"], \"kind\": \"allocation\"}\n",
+        "record": {
+          "created_utc": "2026-10-15T13:40:09.493704+00:00",
+          "decision": "User explicitly asks continued experiments without lineage fixation. Finish active matched alpha0 quality comparison; fresh-context scout gets15min source-only to commit two non-width/KD mechanisms before archive deduplication. Separate shortscreen from fullfit decisions, preserve uncertain branches, and review information delivered by next4scientificcomparisons. Correct double-counted fit reservation to overlap safe collection; collector heartbeat mismatch is execution evidence and does not justify refit. Cosmetic diagnostics are not scientific blockers.",
+          "evidence_paths": [
+            "research/unified/methods/RESEARCH_LOOP_RESET_20261015_R1.md"
+          ],
+          "hypothesis_ids": [
+            "H-KD-CONTINUATION-VALUE-20261015",
+            "H-STUDENT-LADDER-20261014"
+          ],
+          "kind": "allocation"
+        },
+        "source": {
+          "line": 146,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "71543c6b12d1a289f763322b01f355037ae2d8aeb20bb6e0401d879fccb3e67f"
+        }
       }
     ],
     "legacy_archive": {
@@ -9482,9 +9502,9 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 876,
-      "hypotheses": 500,
-      "journal": 145
+      "experiments": 878,
+      "hypotheses": 501,
+      "journal": 146
     }
   },
   "nodes": [
@@ -43505,6 +43525,43 @@
         }
       ],
       "title": "A gate-aware function-preserving embedding of a strong H256x2 parent into a wider GRU may retain inherited quality while enabling useful additional capacity under bounded continued fitting.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:teacher",
+        "matches": [
+          "family:teacher"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-KD-COMPLEMENTARY-TEACHER-20261015",
+      "latest_recorded_status": "exploratory_component_measurement",
+      "parent_id": "family:teacher",
+      "raw_rows": [
+        {
+          "raw_record": "{\"created_utc\": \"2026-10-15T13:58:59.793651+00:00\", \"id\": \"H-KD-COMPLEMENTARY-TEACHER-20261015\", \"mechanism_family\": \"heterogeneous_teacher_conditional_value\", \"numerical_gain_prior\": null, \"parent_ids\": [\"H-KD-CONTINUATION-VALUE-20261015\"], \"source\": \"research/campaign_2026-10-15/f3_teacher_export_r2/F3_FIXED_COMPARISON_R1.json\", \"statement\": \"A fixed mixture of an older distilled model and a new label-trained recurrent teacher can have higher exposed-fold prediction quality even when the new teacher has a lower standalone point score; transfer into a matched student remains a separate test.\", \"status\": \"exploratory_component_measurement\"}\n",
+          "record": {
+            "created_utc": "2026-10-15T13:58:59.793651+00:00",
+            "id": "H-KD-COMPLEMENTARY-TEACHER-20261015",
+            "mechanism_family": "heterogeneous_teacher_conditional_value",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-KD-CONTINUATION-VALUE-20261015"
+            ],
+            "source": "research/campaign_2026-10-15/f3_teacher_export_r2/F3_FIXED_COMPARISON_R1.json",
+            "statement": "A fixed mixture of an older distilled model and a new label-trained recurrent teacher can have higher exposed-fold prediction quality even when the new teacher has a lower standalone point score; transfer into a matched student remains a separate test.",
+            "status": "exploratory_component_measurement"
+          },
+          "source": {
+            "line": 501,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "64d71917537d2a83dc2ad9f7c2e44f9acad0f1aa7f222749785fafd83938f64f"
+          }
+        }
+      ],
+      "title": "A fixed mixture of an older distilled model and a new label-trained recurrent teacher can have higher exposed-fold prediction quality even when the new teacher has a lower standalone point score; transfer into a matched student remains a separate test.",
       "type": "hypothesis"
     },
     {
@@ -83101,6 +83158,141 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [
+          "H-KD-COMPLEMENTARY-TEACHER-20261015",
+          "H-KD-CONTINUATION-VALUE-20261015"
+        ],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-F3-TEACHER-FIXED-HALF-20261015-R1",
+      "latest_recorded_status": "graded_existing_predictions",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"bootstrap_replicates\": 2000, \"components\": 145, \"conditional_component_ci95\": [-0.00045516800569980753, 0.002012859646071574], \"created_utc\": \"2026-10-15T13:58:59.793651+00:00\", \"decision\": \"Retain conditional-value hypothesis and test matched student transfer after currentA0diagnostic; do not promote from this point alone.\", \"evaluation_groups\": 505, \"evidence\": \"research/campaign_2026-10-15/f3_teacher_export_r2/F3_FIXED_COMPARISON_R1.json\", \"fixed_half_wp\": 0.7104168399265844, \"hypotheses\": [\"H-KD-COMPLEMENTARY-TEACHER-20261015\", \"H-KD-CONTINUATION-VALUE-20261015\"], \"id\": \"E-F3-TEACHER-FIXED-HALF-20261015-R1\", \"older_model_wp\": 0.7095419636605268, \"paired_delta_vs_older\": 0.0008748762660573117, \"scope\": \"One exposed F3 and one seed per different recipe. Half weights chosen after single grades, no weight optimization. Older inference precision unknown. Not a teacher-family causal test, new student result or public forecast.\", \"status\": \"graded_existing_predictions\", \"teacher_wp\": 0.7080152488365071}\n",
+          "record": {
+            "bootstrap_replicates": 2000,
+            "components": 145,
+            "conditional_component_ci95": [
+              -0.00045516800569980753,
+              0.002012859646071574
+            ],
+            "created_utc": "2026-10-15T13:58:59.793651+00:00",
+            "decision": "Retain conditional-value hypothesis and test matched student transfer after currentA0diagnostic; do not promote from this point alone.",
+            "evaluation_groups": 505,
+            "evidence": "research/campaign_2026-10-15/f3_teacher_export_r2/F3_FIXED_COMPARISON_R1.json",
+            "fixed_half_wp": 0.7104168399265844,
+            "hypotheses": [
+              "H-KD-COMPLEMENTARY-TEACHER-20261015",
+              "H-KD-CONTINUATION-VALUE-20261015"
+            ],
+            "id": "E-F3-TEACHER-FIXED-HALF-20261015-R1",
+            "older_model_wp": 0.7095419636605268,
+            "paired_delta_vs_older": 0.0008748762660573117,
+            "scope": "One exposed F3 and one seed per different recipe. Half weights chosen after single grades, no weight optimization. Older inference precision unknown. Not a teacher-family causal test, new student result or public forecast.",
+            "status": "graded_existing_predictions",
+            "teacher_wp": 0.7080152488365071
+          },
+          "source": {
+            "line": 877,
+            "path": "research/experiments.jsonl",
+            "sha256": "7af7eaa29c3d05639b1e6ec7a621f54e6c3491fa00d8f6251fca1df4d93722f5"
+          }
+        }
+      ],
+      "title": "E-F3-TEACHER-FIXED-HALF-20261015-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-087",
+          "H-138"
+        ],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-PER-FIELD-CLOCK-RESOLUTION-F0-20261015-R1",
+      "latest_recorded_status": "diagnostic_complete",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-PER-FIELD-CLOCK-RESOLUTION-F0-20261015-R1\",\"date\":\"2026-10-15\",\"hypotheses\":[\"H-087\",\"H-138\"],\"status\":\"diagnostic_complete\",\"kind\":\"raw-feature-only per-field change-clock resolution and parity screen\",\"evidence\":[\"research/campaign_2026-10-15/vast_a_cpu_probe_r1/PER_FIELD_CLOCK_INPUT_SCREEN_20261015_R1.md\",\"research/campaign_2026-10-15/vast_a_cpu_probe_r1/PER_FIELD_CLOCK_REDUNDANCY_SCREEN_R1.json\",\"research/campaign_2026-10-15/vast_a_cpu_probe_r1/per_field_clock_probe_r1.py\"],\"scope\":\"Eight complete distinct-component exposed F0 fitting sequences from the source-qualified [8,20000,112] CPU fixture; raw feature bytes only. Manifest and feature size/SHA verified before read-only memmap. No request-vector payload, targets, scoring mask, teachers, weights, parquet or predictions read.\",\"result\":{\"distinct_field_reset_patterns_per_sequence_min_max\":[19,48],\"distinct_group_reset_patterns_each_sequence\":7,\"fields_matching_any_existing_since_clock_all_slots\":4,\"constant_fields\":[],\"always_changing_fields\":[106,107],\"change_rate_min_median_max\":[0.16293314665733286,0.3418514675733787,1.0],\"per_field_age_support_min_median_max\":[1,919,2348],\"age_cap_rows\":0,\"group_vs_field_age_differing_cell_fraction\":[0.07266335227272727,0.25198835227272726,0.225121875,0.1159221590909091,0.26723948863636365,0.17313125,0.07523515625],\"row_position_degeneracy_fraction\":0.00367734375,\"stream_batch_and_reset_parity_all_sequences\":true,\"interpretation\":\"Extra deterministic clock representation resolution on this panel; no predictive utility or quality claim.\"},\"exposure\":\"F0 fitting components were selected for a runtime fixture and are exposed development data; no validation/holdout evidence.\",\"resource_receipt\":{\"elapsed_seconds\":16.94807876300183,\"cpu_quota\":\"1 core\",\"memory_max_bytes\":499998720,\"memory_peak_bytes\":95277056,\"swap_max_bytes\":0,\"torch_imported\":false,\"task_cgroup_oom_delta\":0},\"quality_claim\":false,\"fitted\":false}\n",
+          "record": {
+            "date": "2026-10-15",
+            "evidence": [
+              "research/campaign_2026-10-15/vast_a_cpu_probe_r1/PER_FIELD_CLOCK_INPUT_SCREEN_20261015_R1.md",
+              "research/campaign_2026-10-15/vast_a_cpu_probe_r1/PER_FIELD_CLOCK_REDUNDANCY_SCREEN_R1.json",
+              "research/campaign_2026-10-15/vast_a_cpu_probe_r1/per_field_clock_probe_r1.py"
+            ],
+            "exposure": "F0 fitting components were selected for a runtime fixture and are exposed development data; no validation/holdout evidence.",
+            "fitted": false,
+            "hypotheses": [
+              "H-087",
+              "H-138"
+            ],
+            "id": "E-PER-FIELD-CLOCK-RESOLUTION-F0-20261015-R1",
+            "kind": "raw-feature-only per-field change-clock resolution and parity screen",
+            "quality_claim": false,
+            "resource_receipt": {
+              "cpu_quota": "1 core",
+              "elapsed_seconds": 16.94807876300183,
+              "memory_max_bytes": 499998720,
+              "memory_peak_bytes": 95277056,
+              "swap_max_bytes": 0,
+              "task_cgroup_oom_delta": 0,
+              "torch_imported": false
+            },
+            "result": {
+              "age_cap_rows": 0,
+              "always_changing_fields": [
+                106,
+                107
+              ],
+              "change_rate_min_median_max": [
+                0.16293314665733286,
+                0.3418514675733787,
+                1.0
+              ],
+              "constant_fields": [],
+              "distinct_field_reset_patterns_per_sequence_min_max": [
+                19,
+                48
+              ],
+              "distinct_group_reset_patterns_each_sequence": 7,
+              "fields_matching_any_existing_since_clock_all_slots": 4,
+              "group_vs_field_age_differing_cell_fraction": [
+                0.07266335227272727,
+                0.25198835227272726,
+                0.225121875,
+                0.1159221590909091,
+                0.26723948863636365,
+                0.17313125,
+                0.07523515625
+              ],
+              "interpretation": "Extra deterministic clock representation resolution on this panel; no predictive utility or quality claim.",
+              "per_field_age_support_min_median_max": [
+                1,
+                919,
+                2348
+              ],
+              "row_position_degeneracy_fraction": 0.00367734375,
+              "stream_batch_and_reset_parity_all_sequences": true
+            },
+            "scope": "Eight complete distinct-component exposed F0 fitting sequences from the source-qualified [8,20000,112] CPU fixture; raw feature bytes only. Manifest and feature size/SHA verified before read-only memmap. No request-vector payload, targets, scoring mask, teachers, weights, parquet or predictions read.",
+            "status": "diagnostic_complete"
+          },
+          "source": {
+            "line": 878,
+            "path": "research/experiments.jsonl",
+            "sha256": "a73fd80fb40afb435d27a44eaf121675cecece4a724e962ac984e17157341aa5"
+          }
+        }
+      ],
+      "title": "raw-feature-only per-field change-clock resolution and parity screen",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -86313,6 +86505,17 @@
       "target_id": "hypothesis:H-KD-CONTINUATION-VALUE-20261015"
     },
     {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 501,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "64d71917537d2a83dc2ad9f7c2e44f9acad0f1aa7f222749785fafd83938f64f"
+      },
+      "source_id": "hypothesis:H-KD-COMPLEMENTARY-TEACHER-20261015",
+      "target_id": "hypothesis:H-KD-CONTINUATION-VALUE-20261015"
+    },
+    {
       "relation": "ledger_hypothesis_reference",
       "resolved": true,
       "source": {
@@ -89116,6 +89319,50 @@
       },
       "source_id": "experiment:E-KD-CURRENT-PARENT-PAIRED-GRADE-20261015-R1",
       "target_id": "hypothesis:H-KD-CONTINUATION-VALUE-20261015"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 877,
+        "path": "research/experiments.jsonl",
+        "sha256": "7af7eaa29c3d05639b1e6ec7a621f54e6c3491fa00d8f6251fca1df4d93722f5"
+      },
+      "source_id": "experiment:E-F3-TEACHER-FIXED-HALF-20261015-R1",
+      "target_id": "hypothesis:H-KD-COMPLEMENTARY-TEACHER-20261015"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 877,
+        "path": "research/experiments.jsonl",
+        "sha256": "7af7eaa29c3d05639b1e6ec7a621f54e6c3491fa00d8f6251fca1df4d93722f5"
+      },
+      "source_id": "experiment:E-F3-TEACHER-FIXED-HALF-20261015-R1",
+      "target_id": "hypothesis:H-KD-CONTINUATION-VALUE-20261015"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 878,
+        "path": "research/experiments.jsonl",
+        "sha256": "a73fd80fb40afb435d27a44eaf121675cecece4a724e962ac984e17157341aa5"
+      },
+      "source_id": "experiment:E-PER-FIELD-CLOCK-RESOLUTION-F0-20261015-R1",
+      "target_id": "hypothesis:H-087"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 878,
+        "path": "research/experiments.jsonl",
+        "sha256": "a73fd80fb40afb435d27a44eaf121675cecece4a724e962ac984e17157341aa5"
+      },
+      "source_id": "experiment:E-PER-FIELD-CLOCK-RESOLUTION-F0-20261015-R1",
+      "target_id": "hypothesis:H-138"
     },
     {
       "relation": "curated_hypothesis_membership",
