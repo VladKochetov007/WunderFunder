@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1470 · raw hypothesis rows 499 · raw experiment rows 875 · legacy arms 18 · catalog files 91156.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1472 · raw hypothesis rows 500 · raw experiment rows 876 · legacy arms 18 · catalog files 91183.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-a0f04689b2ff2755406ce37fc97d293e013ecc70a1c8ea9b868f3cf779a1d783.json](<snapshots/config-a0f04689b2ff2755406ce37fc97d293e013ecc70a1c8ea9b868f3cf779a1d783.json>).
 
@@ -1544,6 +1544,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-MINGRU-TIMESCALES-20261014 | A declared distribution of initial minGRU write-gate timescales may improve finite-budget long-sequence distillation without extra serving matrices. | hypothesis · proposed | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L497>) | — |
 | hypothesis:H-MINGRU-Q8-AVX2-FASTPATH-20261015 | Bitwise-exact AVX2 activation quantization, fast GELU, and ordered candidate/gate/state helpers reduce native minGRU Q8 callback cost without changing represented predictions or recurrent state. | hypothesis · measured | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L498>) | — |
 | hypothesis:H-KD-CONTINUATION-VALUE-20261015 | Matched warm-parent label-only versus homogeneous T3 KD continuation can separate teacher-target contribution from inherited quality and ordinary continued fitting. | hypothesis · proposed | family:teacher | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L499>) | — |
+| hypothesis:H-STUDENT-PARENT-GROWTH-20261015 | A gate-aware function-preserving embedding of a strong H256x2 parent into a wider GRU may retain inherited quality while enabling useful additional capacity under bounded continued fitting. | hypothesis · proposed | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L500>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -2341,6 +2342,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-STUDENT-FRONTIER-H512L1-F0S3-20261015 | E-STUDENT-FRONTIER-H512L1-F0S3-20261015 | experiment · fit_predicted_graded | hypothesis:H-STUDENT-LADDER-20261014 | [research/experiments.jsonl](<../../experiments.jsonl#L873>) | — |
 | experiment:E-STUDENT-H256L1-NATIVE-Q8-F0S3-20261015-R2 | E-STUDENT-H256L1-NATIVE-Q8-F0S3-20261015-R2 | experiment · complete | hypothesis:H-STUDENT-LADDER-20261014 | [research/experiments.jsonl](<../../experiments.jsonl#L874>) | — |
 | experiment:E-KD-BOTTLENECK-ANCESTRY-AUDIT-20261015-R1 | E-KD-BOTTLENECK-ANCESTRY-AUDIT-20261015-R1 | experiment · metadata_audit_complete | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L875>) | — |
+| experiment:E-KD-CURRENT-PARENT-PAIRED-GRADE-20261015-R1 | E-KD-CURRENT-PARENT-PAIRED-GRADE-20261015-R1 | experiment · graded_existing_predictions | hypothesis:H-KD-CONTINUATION-VALUE-20261015 | [research/experiments.jsonl](<../../experiments.jsonl#L876>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |

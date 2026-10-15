@@ -9482,8 +9482,8 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 875,
-      "hypotheses": 499,
+      "experiments": 876,
+      "hypotheses": 500,
       "journal": 145
     }
   },
@@ -43465,6 +43465,46 @@
         }
       ],
       "title": "Matched warm-parent label-only versus homogeneous T3 KD continuation can separate teacher-target contribution from inherited quality and ordinary continued fitting.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:temporal",
+          "family:optimization",
+          "family:ensemble"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-STUDENT-PARENT-GROWTH-20261015",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"created_utc\": \"2026-10-15T12:00:42.830486+00:00\", \"id\": \"H-STUDENT-PARENT-GROWTH-20261015\", \"mechanism_family\": \"student_capacity_with_inherited_quality\", \"numerical_gain_prior\": null, \"parent_ids\": [\"H-STUDENT-LADDER-20261014\", \"H-KD-CONTINUATION-VALUE-20261015\"], \"source\": \"research/unified/ideas/QUALITY_BOTTLENECK_AND_STUDENT_TRADEOFFS_20261015_R1.md\", \"statement\": \"A gate-aware function-preserving embedding of a strong H256x2 parent into a wider GRU may retain inherited quality while enabling useful additional capacity under bounded continued fitting.\", \"status\": \"proposed\"}\n",
+          "record": {
+            "created_utc": "2026-10-15T12:00:42.830486+00:00",
+            "id": "H-STUDENT-PARENT-GROWTH-20261015",
+            "mechanism_family": "student_capacity_with_inherited_quality",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-STUDENT-LADDER-20261014",
+              "H-KD-CONTINUATION-VALUE-20261015"
+            ],
+            "source": "research/unified/ideas/QUALITY_BOTTLENECK_AND_STUDENT_TRADEOFFS_20261015_R1.md",
+            "statement": "A gate-aware function-preserving embedding of a strong H256x2 parent into a wider GRU may retain inherited quality while enabling useful additional capacity under bounded continued fitting.",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 500,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "edd1697c2b136723c3eee3b62d2031cd1ee5abb2e4d639fce1681fb644cfb752"
+          }
+        }
+      ],
+      "title": "A gate-aware function-preserving embedding of a strong H256x2 parent into a wider GRU may retain inherited quality while enabling useful additional capacity under bounded continued fitting.",
       "type": "hypothesis"
     },
     {
@@ -83017,6 +83057,50 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [
+          "H-KD-CONTINUATION-VALUE-20261015"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-KD-CURRENT-PARENT-PAIRED-GRADE-20261015-R1",
+      "latest_recorded_status": "graded_existing_predictions",
+      "parent_id": "hypothesis:H-KD-CONTINUATION-VALUE-20261015",
+      "raw_rows": [
+        {
+          "raw_record": "{\"bootstrap_replicates\": 2000, \"candidate_wp\": 0.6811553603333363, \"components\": 141, \"conditional_component_ci95\": [-0.003384520076894901, 0.0030951111841272553], \"created_utc\": \"2026-10-15T12:08:49.490744+00:00\", \"evaluation_groups\": 468, \"evidence\": \"research/campaign_2026-10-15/student_quality_tradeoff_r1/CURRENT_T3_PARENT_PAIRED_GRADE_R1.json\", \"execution\": \"Unchanged scripts/score_fold0_panel.py, 1 CPU/1.5GB/600s, exit0, no fit/GPU.\", \"hypotheses\": [\"H-KD-CONTINUATION-VALUE-20261015\"], \"id\": \"E-KD-CURRENT-PARENT-PAIRED-GRADE-20261015-R1\", \"paired_delta\": 0.00021415352618148198, \"reference_wp\": 0.680941206807155, \"scope\": \"Existing saved endpoints; warm continuation changes optimizer/targets/budget; parent inference precision unrecorded; exposedF0; no causal KD claim or public forecast.\", \"status\": \"graded_existing_predictions\"}\n",
+          "record": {
+            "bootstrap_replicates": 2000,
+            "candidate_wp": 0.6811553603333363,
+            "components": 141,
+            "conditional_component_ci95": [
+              -0.003384520076894901,
+              0.0030951111841272553
+            ],
+            "created_utc": "2026-10-15T12:08:49.490744+00:00",
+            "evaluation_groups": 468,
+            "evidence": "research/campaign_2026-10-15/student_quality_tradeoff_r1/CURRENT_T3_PARENT_PAIRED_GRADE_R1.json",
+            "execution": "Unchanged scripts/score_fold0_panel.py, 1 CPU/1.5GB/600s, exit0, no fit/GPU.",
+            "hypotheses": [
+              "H-KD-CONTINUATION-VALUE-20261015"
+            ],
+            "id": "E-KD-CURRENT-PARENT-PAIRED-GRADE-20261015-R1",
+            "paired_delta": 0.00021415352618148198,
+            "reference_wp": 0.680941206807155,
+            "scope": "Existing saved endpoints; warm continuation changes optimizer/targets/budget; parent inference precision unrecorded; exposedF0; no causal KD claim or public forecast.",
+            "status": "graded_existing_predictions"
+          },
+          "source": {
+            "line": 876,
+            "path": "research/experiments.jsonl",
+            "sha256": "33e0f5a942552c3f06c02c6f7825255933982992146c565703d065c2770f89de"
+          }
+        }
+      ],
+      "title": "E-KD-CURRENT-PARENT-PAIRED-GRADE-20261015-R1",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -86207,6 +86291,28 @@
       "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
     },
     {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 500,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "edd1697c2b136723c3eee3b62d2031cd1ee5abb2e4d639fce1681fb644cfb752"
+      },
+      "source_id": "hypothesis:H-STUDENT-PARENT-GROWTH-20261015",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 500,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "edd1697c2b136723c3eee3b62d2031cd1ee5abb2e4d639fce1681fb644cfb752"
+      },
+      "source_id": "hypothesis:H-STUDENT-PARENT-GROWTH-20261015",
+      "target_id": "hypothesis:H-KD-CONTINUATION-VALUE-20261015"
+    },
+    {
       "relation": "ledger_hypothesis_reference",
       "resolved": true,
       "source": {
@@ -88999,6 +89105,17 @@
       },
       "source_id": "experiment:E-KD-BOTTLENECK-ANCESTRY-AUDIT-20261015-R1",
       "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 876,
+        "path": "research/experiments.jsonl",
+        "sha256": "33e0f5a942552c3f06c02c6f7825255933982992146c565703d065c2770f89de"
+      },
+      "source_id": "experiment:E-KD-CURRENT-PARENT-PAIRED-GRADE-20261015-R1",
+      "target_id": "hypothesis:H-KD-CONTINUATION-VALUE-20261015"
     },
     {
       "relation": "curated_hypothesis_membership",
