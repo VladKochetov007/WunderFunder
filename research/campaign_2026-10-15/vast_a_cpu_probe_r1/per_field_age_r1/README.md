@@ -48,3 +48,7 @@ All arms should use the same source-qualified fold-0 split (SHA-256 `09263ad4fe2
 After a later root admission, predict all 1,405 fold-0 valid groups from epoch 5 using the source-qualified manifest and existing `scripts/predict_run.py` causal exporter. Grade the same 468 official fold-0 evaluation groups with `global_wp_clip2_v1`, paired across C/G/F and preserving the fixed row-position buckets 99–199, 200–999, 1,000–4,999, 5,000–9,999, and 10,000–19,999. This fold is exposed development evidence, not a fresh holdout. No current score exists.
 
 The current Python batch/stream feature paths and trainer integration have not yet been exercised on a fitted checkpoint or real GPU batch. The native C++ serving path does not implement these new feature modes. Before considering a submission, implement and test exact native causal age/reset/chunk behavior, compare native predictions to Python, then measure package size and runtime. The fit/export/grade sequence, native integration, and all quality claims remain unimplemented and require separate source review and resource admission.
+
+## Shared-control successor R3
+
+[Warm mechanism wave R3](../../gru_parent_growth_r1/WARM_MECHANISM_WAVE_R3.md) supersedes the unlaunched alpha0 R2 allocation with a newly matched alpha.9 C/G/F/W comparison and explicit seeded sampler. [Nine combined tests](../../gru_parent_growth_r1/CPU_TEST_RESULT_R1.json) now include the previously missing production Torch/oracle age check; GPU profiles and quality fits remain pending.
