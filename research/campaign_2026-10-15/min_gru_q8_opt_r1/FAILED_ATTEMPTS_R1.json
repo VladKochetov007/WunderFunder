@@ -1,0 +1,44 @@
+{
+  "attempts": [
+    {
+      "command_sha256": "79177be702b7b27dc33c231c5b1327693d619ca4a93abe8d762a336b01e7743c",
+      "diagnosis": "Import ordering only; no runtime or implementation failure.",
+      "failure": "Ruff I001 import-order violation in the new profile runner.",
+      "id": "ruff-import-order-first-check",
+      "literal_command": null,
+      "literal_command_available": false,
+      "preservation_note": "The compacted execution summary retained this exact digest and diagnosis but not the shell text. The command is intentionally not reconstructed.",
+      "repair": "Applied Ruff --fix to the profile runner, then reran ruff format/check successfully.",
+      "source_state": "resolved before implementation commit 76c6d417b33fe609ee26f022cea958677de18edc"
+    },
+    {
+      "command": "cp research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_q8_phase_profile_r1/PHASE_PROFILE_R1.json research/campaign_2026-10-15/min_gru_q8_opt_r1/PRIOR_PHASE_PROFILE_R1.json",
+      "command_sha256": "6840e1d941a7c5357ee61088648206060fb914aa5b042e7b5f42f39715123bd5",
+      "diagnosis": "The source receipt lives in the separate phase-profile worktree, not in this optimization worktree.",
+      "exit_code": 1,
+      "id": "copy-prior-phase-profile-from-wrong-worktree-relative-path",
+      "repair": "Copied from its absolute worktree path, then verified the original commit and SHA-256 in this receipt.",
+      "status": "failed_no_mutation"
+    },
+    {
+      "diagnosis": "Formatting the whole existing Python binding introduced unrelated formatting drift.",
+      "id": "rustfmt-whole-python-binding-drift",
+      "literal_command": null,
+      "literal_command_available": false,
+      "repair": "Reverted that file to the implementation parent and reapplied only the two getter additions; final diff is scoped and the edited min_gru.rs passes rustfmt --check.",
+      "status": "reverted_unrelated_format_churn"
+    },
+    {
+      "command_context": "bounded Python JSON/ledger/link validator under scripts/limited; it checked every hypothesis ID globally",
+      "command_digest": "not captured; the initial ad-hoc validator was not saved as a file",
+      "diagnosis": "H-201 already appears twice at base MAIN commit 722d455a5a039f71ec4e393e4e1b556909fa2847, lines 200-201; the same two rows are unchanged in this branch.",
+      "id": "global-ledger-uniqueness-check-hit-historical-duplicate",
+      "interpretation": "This is a pre-existing ledger-ID overlap, not a duplicate introduced by this experiment. The initial command also had a trailing git diff --check, so its shell exit status was not used as proof that the Python check passed.",
+      "observed_output": "duplicate H-201 in research/hypotheses.jsonl:201",
+      "repair": "Did not alter historical append-only rows. Re-ran a scoped check that parses all new receipts and verifies only this change\u2019s hypothesis/experiment IDs occur exactly once, then checked new README and index links.",
+      "status": "diagnostic_failure_preexisting"
+    }
+  ],
+  "format": "wnn.min-gru-q8-fastpath-failed-attempts",
+  "version": 1
+}

@@ -1,0 +1,49 @@
+{
+  "binary": {
+    "path": "native/target/release/libwnn_native.so",
+    "sha256": "72fbbd1a6a426ba2b830ff5a9b86807db80e58428f787643a2afc75b0a432024",
+    "size_bytes": 1279864
+  },
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=900s scripts/limited cargo build --manifest-path native/Cargo.toml --release --features extension-module",
+  "command_sha256": "71401ca7a08b8589eb110fcd9cc13aca33e2aae66149ec59d15bb8cee3f11d5b",
+  "elapsed_seconds": 44.32,
+  "exit_code": 0,
+  "features": [
+    "extension-module",
+    "python",
+    "pyo3/extension-module",
+    "abi3-py311"
+  ],
+  "format": "wnn.min-gru-q8-fastpath-build",
+  "merged_source_coverage": {
+    "independent_gru_width_source_included": true,
+    "native_min_gru_source_included": true,
+    "this_task_ran_width_specific_tests": false
+  },
+  "quality_claim": false,
+  "resource_limit": {
+    "cpu_quota": "100%",
+    "memory_max_bytes": 2000000000,
+    "resource_admission": "root coordinated admission; see RESOURCE_GATE_R1.json",
+    "runtime_max": "900s",
+    "swap_max_bytes": 0,
+    "threads": 1
+  },
+  "source": {
+    "base_main_commit": "722d455a5a039f71ec4e393e4e1b556909fa2847",
+    "implementation_commit": "76c6d417b33fe609ee26f022cea958677de18edc",
+    "native_src_min_gru_sha256": "0ce65dada516cb14dc6b3e5f9c9ebe677227bde918012fb0fa5b30cd6382ef81",
+    "native_src_python_sha256": "63cec725cf1e9c40ee5228151daad94a0e577813b3833a8d097fc49338635919",
+    "profile_runner_sha256": "ac7a45faea67694a87da5358a6a89737b0b9be21938929d5fbea64fa63d0d049"
+  },
+  "status": "passed",
+  "toolchain": {
+    "cargo": "1.94.0 (85eff7c80 2026-01-15)",
+    "rustc": "1.94.0 (4a4ef493e 2026-03-02)",
+    "target": "x86_64-linux"
+  },
+  "version": 1,
+  "warnings": [
+    "Compiler reported two unnecessary unsafe blocks around sigmoid8 calls inside the AVX2 target-feature function; build and tests succeeded. No source rebuild was made after the profiled commit."
+  ]
+}

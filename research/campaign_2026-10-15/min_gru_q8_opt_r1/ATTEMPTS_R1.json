@@ -1,0 +1,55 @@
+{
+  "attempts": [
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=900s scripts/limited cargo build --manifest-path native/Cargo.toml --release --features extension-module",
+      "command_sha256": "71401ca7a08b8589eb110fcd9cc13aca33e2aae66149ec59d15bb8cee3f11d5b",
+      "elapsed_seconds": 44.32,
+      "exit_code": 0,
+      "id": "release-extension-build",
+      "receipt": "BUILD_R1.json",
+      "status": "passed"
+    },
+    {
+      "baseline_and_optimized_measured_callbacks_each": 3,
+      "complete_rows_per_callback": 20000,
+      "exit_code": 0,
+      "full_prediction_and_final_state_bitwise_parity": true,
+      "id": "paired-full-sequence-callback-profile",
+      "literal_original_argv_and_command_digest": "not retained in the compacted execution note; use receipt source, binary and input hashes for replay binding",
+      "receipt": "OPTIMIZED_CALLBACK_PROFILE_R1.json",
+      "selected_q8vnni_fast_avx2_policy_asserted": true,
+      "status": "passed",
+      "warmups_each": 1
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_SCOPE_UNIT=wnn-min-gru-q8-opt-tests-20261015 WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=900s scripts/limited cargo test --manifest-path native/Cargo.toml --lib avx2",
+      "command_sha256": "b32b1b42cfa7bb4c9411cb1289c0fbe7727470f8385c3e100acf5e6583c939f5",
+      "exit_code": 0,
+      "filtered_out": 61,
+      "id": "focused-avx2-native-tests",
+      "passed": 4,
+      "receipt": "TESTS_R1.json",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        "ruff format/check for scripts/profile_min_gru_q8_optimized.py",
+        "Python 3.11.16 syntax check for the profile runner",
+        "rustfmt --edition 2024 --check native/src/min_gru.rs",
+        "git diff --check"
+      ],
+      "id": "static-source-checks",
+      "scope": "No full-suite or extra benchmark was run after the admitted paired profile and tests.",
+      "status": "passed"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=60s scripts/limited python3 - (JSON parse, unique new IDs, campaign and parent/unified links)",
+      "historical_note": "Global hypothesis-ID uniqueness is not asserted because pre-existing H-201 is duplicated in base MAIN.",
+      "id": "receipt-and-index-validation",
+      "result": "All campaign JSON parses; new ledger IDs occur once; campaign links and parent/unified index links resolve.",
+      "status": "passed_scoped"
+    }
+  ],
+  "format": "wnn.min-gru-q8-fastpath-attempts",
+  "version": 1
+}

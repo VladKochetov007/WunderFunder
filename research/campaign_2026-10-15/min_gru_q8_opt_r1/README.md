@@ -1,0 +1,13 @@
+# Native minGRU Q8 AVX2 fast-path profile R1
+
+This isolated successor vectorizes existing minGRU Q8 callback work after the earlier phase profile found substantial time in scalar activation quantization, fast GELU, and candidate/gate/state updates. The [report](REPORT_R1.md) records a paired 2.071× median full-callback speedup against the sealed scalar library on one 20k-row fixture, with bitwise-equal predictions and final state. No represented weights, Q8 schedule, scientific recurrence, or original GRU path changed.
+
+- [Method and implementation scope](METHOD_R1.md) explains the AVX2 fast paths, scalar fallbacks, selected-policy assertions, and parity gates.
+- [Optimized callback measurements](OPTIMIZED_CALLBACK_PROFILE_R1.json) contain all six measured paired callbacks, two warmups, reset checks, hashes, storage, constructor timings, and resources.
+- [Prior phase profile snapshot](PRIOR_PHASE_PROFILE_R1.json) is copied byte-for-byte from phase-profile commit `07d2d5461814ed75dbfb0180694532ff545783f8` (SHA-256 `add7f32cd9f0e1e2f6c4f65635cb3101a686064c10d88ec1d84f7be47845bebd`). It records the pre-optimization phase shares; those diagnostic shares do not causally assign the later speedup.
+- [Release build provenance](BUILD_R1.json) pins the integrated source commit, compiler, native file hashes, selected features, and binary digest. The release library remains in the isolated worktree's ignored Cargo target directory for local replay.
+- [Focused native tests](TESTS_R1.json) and [captured test output](NATIVE_TESTS_R1.log) preserve the four passing AVX2-filtered unit checks; this was not the full Rust test suite.
+- [Resource admission and observation](RESOURCE_GATE_R1.json) records root's 1CPU/2GB admission, projected aggregate bounds, and measured callback-worker memory.
+- [Attempt ledger](ATTEMPTS_R1.json) records successful build/profile/test and static checks. [Failed attempts](FAILED_ATTEMPTS_R1.json) retain the Ruff import-order failure, wrong-worktree-relative copy, and pre-existing duplicate `H-201` diagnosis. [Scoped validation](VALIDATION_R1.json) confirms this change’s receipts, new IDs and navigation links without rewriting history.
+
+The [indexed inference overview](../../unified/inference/README.md) links this item. Related lineage: `H-STUDENT-LADDER-20261014`, `H-MINGRU-Q8-AVX2-FASTPATH-20261015`, and `E-MINGRU-Q8-AVX2-FASTPATH-20261015-R1`. Evidence is limited to deterministic synthetic H384×2 minGRU weights and one fitting-membership train37 sequence on an Intel i9-11900H. Labels and masks were not loaded; no fit, quality, AMD/competition-host, or capacity conclusion follows.

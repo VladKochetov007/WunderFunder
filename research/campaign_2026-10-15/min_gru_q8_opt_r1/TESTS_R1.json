@@ -1,0 +1,26 @@
+{
+  "cargo_test_profile_compile_seconds": 27.63,
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_SCOPE_UNIT=wnn-min-gru-q8-opt-tests-20261015 WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=900s scripts/limited cargo test --manifest-path native/Cargo.toml --lib avx2",
+  "command_sha256": "b32b1b42cfa7bb4c9411cb1289c0fbe7727470f8385c3e100acf5e6583c939f5",
+  "exit_code": 0,
+  "failed": 0,
+  "filter": "avx2",
+  "filtered_out": 61,
+  "format": "wnn.min-gru-q8-fastpath-tests",
+  "passed": 4,
+  "scope_memory_peak": "unavailable after unit became inactive; no peak is claimed",
+  "scope_result": "success",
+  "scope_unit": "wnn-min-gru-q8-opt-tests-20261015.scope",
+  "test_execution_seconds": 0.41,
+  "test_names": [
+    "approx::tests::avx2_activations_match_scalar_bitwise",
+    "half::tests::quantize_avx2_matches_scalar_bitwise",
+    "min_gru::tests::avx2_min_gru_recurrent_update_matches_scalar_bitwise",
+    "min_gru::tests::avx2_q8_activation_quantizer_matches_scalar_for_callback_widths"
+  ],
+  "test_scope": "Focused AVX2-filtered native unit tests; not a full crate test suite.",
+  "version": 1,
+  "warnings": [
+    "Two unnecessary unsafe warnings on sigmoid8 calls; no test failures."
+  ]
+}
