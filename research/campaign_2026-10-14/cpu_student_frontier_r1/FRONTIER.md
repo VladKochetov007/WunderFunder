@@ -2,7 +2,11 @@
 
 Entry: 2026-10-13T23:43:28Z (October14 Europe/Kyiv). Root owns completion under [contract](CONTRACT.json).
 
-## Latest allocation, October15 16:57UTC
+## Latest scope, October15 17:55UTC — pause after bounded G drain
+
+User requests a convenient research pause. This supersedes the continuous allocation below. Finish only already-running G, its previously owned CP1 FP32 export and independent official grade; no F/W/S, initializer profile/fit, additional diagnostic or cloud retry. [Authoritative pause record](../../unified/operations/RESEARCH_PAUSE_20261015_R1.md) preserves the exact drain, owner and resume boundaries. C is independently graded at0.6812265132; G result remains pending. Cloud R5 version3 is terminal before optimizer updates (strict cache-root symlink escape), not negative architecture evidence. CPU ZIPs remain available for user uploads; no new target-host runtime result.
+
+## Historical allocation, October15 16:57UTC
 
 User requested competition CPU submission files. [A/B/C/D handoff](../../../submissions/10-14-cpu-policy-r1/README.md) now includes fresh complete hash/size/CRC verification and the recommended repeated-control order A–B–C–D–A. No target-host receipts yet; uploads are asynchronous and do not block quality work. [Bandwidth envelope](../../unified/inference/EPYC9224_BANDWIDTH_ENVELOPE_20261015_R1.md) separates logical weight throughput from physical cache traffic and achievable headroom.
 

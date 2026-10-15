@@ -194,6 +194,8 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 
 # October 15 F3 teacher export packet
 
+- [October15 user-requested pause and bounded G drain](RESEARCH_PAUSE_20261015_R1.md) supersedes continuous research and queued fit/profile authorities. Only the already-running G fit, its CP1 FP32 export and independent official grade may finish; F/W/S, initializer experiments and cloud retries are held until explicit resume. The note records owners, controller-barrier timing, available CPU submission ZIPs and the cloud cache-symlink failure. At creation the drain is still running; it does not claim a completed G result or full shutdown.
+
 - [F3 CP2 export-only packet R1](../../campaign_2026-10-15/f3_teacher_export_r1/README.md) binds the completed F3 seed3 H384 epoch2 checkpoint/provenance to the frozen causal predictor, three source-qualified scopes, an offline private bundle and bounded terminal collection plan. This is an operational prediction-export recipe only; no new Kaggle provider action, model fit or quality score is recorded.
 
 - [October15 quality-delivery conditional authority](../../campaign_2026-10-15/student_quality_tradeoff_r1/ROOT_QUALITY_DELIVERY_AUTHORITY_R1.json) assigns CPU/student delivery of one matched alpha0 continuation after H384 completion and independent input review, plus private Kaggle export-only delivery after a corrected21600s outer deadline and fresh quota. It fixes resource, source-delta, failure and collection boundaries; it does not establish launch or authorize paid spending. Related H-KD-CONTINUATION-VALUE-20261015; root remains controller and the critic independently checks successors.

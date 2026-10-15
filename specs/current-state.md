@@ -1,3 +1,9 @@
+## 2026-10-15T17:55:39Z — user requests convenient pause; G alone drains
+
+Latest user: “pause research when its convenient”. New research admission is closed by scope immediately; only the healthy already-running G fit, its previously owned CP1 FP32 export and independent official grade may finish. No F/W/S fit, initializer profile/fit, new diagnostic or Kaggle R6 retry. All three owners have been notified. [Pause and bounded-drain record](../research/unified/operations/RESEARCH_PAUSE_20261015_R1.md) specifies the exact drain and controller-barrier handoff; completion is pending, not claimed.
+
+C finished at WP0.6812265132 versus parent0.6809412068, with component interval crossing zero. Kaggle R5 version3 is terminal ERROR before optimizer updates because strict cache-root containment rejects symlink targets; preserve the physical-copy repair proposal for an explicit resume. CPU A/B/C/D submission ZIPs remain ready for user-owned uploads. Two aggregate local CPU cores, physical scratch, one GPU worker and unchanged memory limits remain binding during drain.
+
 ## 2026-10-15T16:53:10Z — CPU probe ZIPs delivered; distillation divergence measured
 
 The user clarified that CPU probes mean competition submission ZIPs. All four original-weight A/B/C/D files have fresh full-SHA/size/CRC checks and were delivered in A–B–C–D–A order; [handoff and verification](../submissions/10-14-cpu-policy-r1/README.md). Portal uploads remain user-owned and pending; this does not block research. [Bandwidth accounting](../research/unified/inference/EPYC9224_BANDWIDTH_ENVELOPE_20261015_R1.md) is explicitly an illustrative logical-byte comparison, not measured bus utilization or an achievable runtime forecast.
