@@ -130,3 +130,10 @@ The [reservation erratum](WARM_MECHANISM_PROFILE_RESERVATION_ERRATUM_R1.json) re
 The [F resource-profile receipt](WARM_MECHANISM_PROFILE_F_RESULT_R1.json) records a successful five-batch run: 50/50 optimizer updates, no AMP skips, finite loss and gradients. It took 15.19s and measured 1120.99ms per full B16×20,000-row sequence batch (14.27 sequences/s). Peak host use was 4,267,720,704B and observed VRAM was 3,263,168,512B, with zero OOM events. The run remains resource/rate evidence, not a fit or quality result.
 
 F used the frozen outer command's 6.5GB host reservation; the [reservation erratum](WARM_MECHANISM_PROFILE_RESERVATION_ERRATUM_R1.json) now includes its terminal receipt. W is the final serial profile.
+
+
+## W profile result and complete probe wave
+
+The [W resource-profile receipt](WARM_MECHANISM_PROFILE_W_RESULT_R1.json) records all 50 optimizer updates completed with no AMP skips, finite loss and gradients, and zero OOM events. The run took 15.17s; its median full B16×20,000-row batch took 1245.58ms (12.85 sequences/s). Host peak was 3,460,964,352B and observed VRAM peak 2,327,838,720B, below the 5GB operator threshold.
+
+The [complete C/G/F/W profile summary](WARM_MECHANISM_PROFILE_WAVE_SUMMARY_R1.json) links every terminal receipt and reports source, recipe and resource pins. All four actual-trainer probes completed the planned 50 updates; they measure resource/rate only. C/G/F use the H256×2 baseline initializer (G/F enable their reviewed group-age/field-age input paths); W uses H384×2 with the pinned growth initializer. No full-fit metric or quality claim follows.

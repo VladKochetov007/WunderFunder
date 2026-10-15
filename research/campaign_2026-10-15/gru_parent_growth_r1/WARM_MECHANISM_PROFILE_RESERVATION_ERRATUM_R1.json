@@ -1,6 +1,6 @@
 {
   "schema": "wnn.warm_mechanism_profile_reservation_erratum.r1",
-  "status": "RECORDED; G AND F ACTUAL 6.5GB; W PENDING",
+  "status": "RECORDED; C/G/F/W PROFILES TERMINAL",
   "created_utc": "2026-10-15T16:58:06.768223+00:00",
   "contract_path": "research/campaign_2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_CONTROLLER_PREP_R4.json",
   "contract_sha256": "b5b2691568cbddf3b4a6e4399d5a6cf6b0a33ff39dc7f71b305269a38365754d",
@@ -39,5 +39,14 @@
     "peak_observed_vram_bytes": 3263168512,
     "exit_status": 0,
     "interpretation": "F completed under the already frozen 6.5GB outer-argv reserve; no command/model change."
+  },
+  "subsequent_w_execution": {
+    "attempt_receipt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/warm-growth-r4-profile-w-20261015.json",
+    "attempt_receipt_sha256": "914a4f9b462677e21ea87d878ba2e7ed3d5bbadbf78848ed93306f054478977d",
+    "actual_controller_reservation_bytes": 6500000000,
+    "peak_worker_ram_bytes": 3460964352,
+    "peak_observed_vram_bytes": 2327838720,
+    "exit_status": 0,
+    "interpretation": "W completed under its matching frozen 6.5GB outer-vector reserve."
   }
 }

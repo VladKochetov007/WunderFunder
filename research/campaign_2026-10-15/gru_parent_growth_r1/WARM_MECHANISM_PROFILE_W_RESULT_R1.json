@@ -1,0 +1,81 @@
+{
+  "schema": "wnn.warm_mechanism_profile_result.r1",
+  "status": "PASS_RESOURCE_PROFILE_ONLY",
+  "created_utc": "2026-10-15T17:00:03.022217+00:00",
+  "arm": "W",
+  "attempt_id": "warm-growth-r4-profile-w-20261015",
+  "attempt_receipt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/warm-growth-r4-profile-w-20261015.json",
+  "attempt_receipt_sha256": "914a4f9b462677e21ea87d878ba2e7ed3d5bbadbf78848ed93306f054478977d",
+  "worker_log_path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/warm-growth-r4-profile-w-20261015.log",
+  "worker_log_sha256": "9ead5a95932df5813d616eae862166f7a8bc5a548c80e768ec92e1bd5773e23f",
+  "controller_contract_path": "research/campaign_2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_CONTROLLER_PREP_R4.json",
+  "controller_contract_sha256": "b5b2691568cbddf3b4a6e4399d5a6cf6b0a33ff39dc7f71b305269a38365754d",
+  "immutable_source_worktree": "/home/vlad/development/wunder/worktrees/gru-parent-growth-20261015",
+  "immutable_source_commit": "56d900e3c283512e7128243374cd937c05979359",
+  "source_manifest_path": "research/campaign_2026-10-15/gru_parent_growth_r1/TRAINER_SOURCE_MANIFEST_R3.json",
+  "source_manifest_sha256": "5949c1cbd9fbef6383efd793aadaf29dc9fc53fd0c7df70058422da65b33b9a7",
+  "execution": {
+    "exit_status": 0,
+    "elapsed_seconds": 15.173895436018938,
+    "attempted_updates": 50,
+    "completed_updates": 50,
+    "amp_skipped_updates": 0,
+    "finite_loss": true,
+    "finite_gradient": true,
+    "profile_batches": 5,
+    "warmup_batches": 0,
+    "sequence_length_rows": 20000,
+    "optimizer_chunks_per_sequence_batch": 10
+  },
+  "trainer_profile_fields": {
+    "backward": 535.99,
+    "forward": 286.54,
+    "gpu_total": 842.53,
+    "h2d": 0.01,
+    "inputs": 9.32,
+    "labels": 2.28,
+    "loss": 3.29,
+    "optimizer": 4.33,
+    "weights": 0.31,
+    "loader_wait": 422.77,
+    "step_wall": 1245.58,
+    "seq_per_s": 12.85,
+    "syncs_per_step": 0.4
+  },
+  "derived_timing": {
+    "median_full_sequence_batch_step_ms": 1245.58,
+    "sequence_per_second": 12.85,
+    "estimated_median_ms_per_2000_row_chunk": 124.55799999999999,
+    "basis": "Trainer step_wall is the median time between full sequence-batch starts. Each B16 batch covers ten sequential 2,000-row chunks; division is a derived estimate, not an independent timing."
+  },
+  "resources": {
+    "contract_profile_reserve_bytes": 6500000000,
+    "outer_argv_reserve_bytes": 6500000000,
+    "actual_controller_reservation_bytes": 6500000000,
+    "peak_worker_ram_bytes": 3460964352,
+    "peak_observed_vram_bytes": 2327838720,
+    "observed_vram_stop_threshold_bytes": 5000000000,
+    "worker_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    }
+  },
+  "interpretation": {
+    "claim": "Resource/rate profile only; no fit or model-quality result.",
+    "full_fit_admission": "not granted by this profile."
+  }
+}
