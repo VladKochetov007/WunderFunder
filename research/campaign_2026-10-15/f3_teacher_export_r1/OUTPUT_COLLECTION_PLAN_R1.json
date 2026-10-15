@@ -1,0 +1,74 @@
+{
+  "schema": "wnn.f3-teacher-cp2-export-collection-plan.r1",
+  "status": "prepared_before_provider_action",
+  "provider_action_performed": false,
+  "kernel_id": "vladkochetov07/wnn-f3-t3-cp2-exports-20261015-r1-runner",
+  "provider_preflight_receipts_before_kernel_push": [
+    "ROOT_ADMISSION_R1.json",
+    "ASSET_DATASET_READY_R1.json",
+    "BUNDLE_DATASET_READY_R1.json"
+  ],
+  "required_root_receipts_before_collection": [
+    "ROOT_ADMISSION_R1.json",
+    "KERNEL_PUSH_R1.json"
+  ],
+  "terminal_gate": {
+    "exact_kernel_id_and_pushed_version_must_match": true,
+    "admission_receipt_fields": ["status=admitted", "kernel_id", "bundle_archive_sha256", "worker_timeout_seconds=18000"],
+    "push_receipt_fields": ["kernel_id", "kernel_version", "bundle_archive_sha256", "kernel_metadata_sha256", "private=true"],
+    "provider_status_must_be_terminal": true,
+    "complete_prediction_claim_requires_status_complete": true,
+    "error_or_cancelled_attempt_must_not_be_retried_automatically": true,
+    "recheck_typed_quota_and_owner_inventory": true
+  },
+  "remote_inventory": {
+    "scope": "results/ only, plus the provider session log",
+    "inventory_before_body_download": true,
+    "get_headers_without_consuming_body": true,
+    "maximum_inventory_bytes_including_log_and_manifest_reserve": 2500000000,
+    "expected_remote_paths": [
+      "results/inventory.json",
+      "results/summary.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1.input_identity.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1/worker.log",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1/spec.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1/timeout_resolution.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1/result.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_fit_train_train.npy",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_fit_train_train.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_fit_valid_valid.npy",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_fit_valid_valid.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_full_valid_valid.npy",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_full_valid_valid.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r1/artifacts/results/f3_teacher_export_pipeline.json"
+    ],
+    "unexpected_results_paths": "fail closed before download and preserve provider output inventory for root diagnosis"
+  },
+  "local_collection": {
+    "download_path": "research/campaign_2026-10-15/f3_teacher_export_r1/collected/attempt_001",
+    "terminal_receipt": "research/campaign_2026-10-15/f3_teacher_export_r1/TERMINAL_COLLECTION_R1.json",
+    "filesystem_must_be_physical": true,
+    "minimum_free_physical_disk_bytes_before_download": 4000000000,
+    "no_overwrite": true,
+    "one_streaming_download_attempt": true,
+    "hash_every_downloaded_file": true,
+    "collector_command": "python research/campaign_2026-10-15/f3_teacher_export_r1/collect_terminal_r1.py --repo-root <repository-root>",
+    "collector_requires_root_admission_and_push_receipts": true,
+    "collector_source": "collect_terminal_r1.py",
+    "download_helper_source": "research/campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r4/collect_terminal_r4.py",
+    "download_helper_sha256": "a6e258be44c92d52642046f3fb1ffb45787a2e2e3b66a8f71bcb8f37ad7b1899"
+  },
+  "post_download_checks": {
+    "worker_result_returncode": 0,
+    "worker_result_status": "complete",
+    "declared_artifacts_missing": [],
+    "pipeline_receipt_status": "complete",
+    "all_three_stages_complete": true,
+    "checkpoint_sha256": "d67bed97eaa16f73338ea275c316bf76c785b37f8451aa5cee8fe5daadf2f1b5",
+    "provenance_sha256": "c60719d1db7d44d17e04e0379f576616a43c6ad2564fd58e192ced5453bc8da3",
+    "split_manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343",
+    "prediction_dtype_and_shape": "FP32 [rows,20000,2] per export",
+    "prediction_hash_and_finiteness": "match sidecar; finite checked in bounded sequence windows before packaging",
+    "teacher_quality_score": "not part of this export packet; root scorer runs separately after collection"
+  }
+}
