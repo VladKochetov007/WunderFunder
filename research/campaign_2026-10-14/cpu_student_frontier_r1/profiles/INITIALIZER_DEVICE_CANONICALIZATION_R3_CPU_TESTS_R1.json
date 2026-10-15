@@ -1,0 +1,33 @@
+{
+  "command": "PYTHONPATH=/home/vlad/development/wunder/worktrees/student-initializer-profile-r3-20261015/src WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=900000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q /home/vlad/development/wunder/worktrees/student-initializer-profile-r3-20261015/tests/test_profile_initializer_frontier_r3.py",
+  "contract_sha256": "08b943d63913e5ceebd845f1419feed65af36b375589304ed85fb50ed03fa3e7",
+  "coverage": [
+    "implicit cuda resolves once to the current explicit index",
+    "explicit CUDA indices are preserved without querying current device",
+    "CPU and meta devices pass through without querying CUDA",
+    "new/reloaded initializer parameters and buffers follow a meta-device backbone",
+    "declared 5 GB cgroup cap and page-rounded values are accepted while invalid caps are rejected"
+  ],
+  "created_utc": "2026-10-15T10:53:13+00:00",
+  "format": "wnn.initializer-profile-r3-device-canonicalization-cpu-regression-tests",
+  "interpretation": "CPU implementation regression only; no CUDA initialization, optimizer update, full-sequence fit, export grade, or initializer quality claim",
+  "preflight_contract_sha256": "08b943d63913e5ceebd845f1419feed65af36b375589304ed85fb50ed03fa3e7",
+  "preflight_sha256": "70e5fee614adaddffde31c616b4e522bee9c0ec04e50a751513f9ef8ae8655b7",
+  "resource_bound": {
+    "cpu_quota": "100%",
+    "gpu_used": false,
+    "memory_max_bytes": 900000000,
+    "runtime_max": "120s"
+  },
+  "result": {
+    "elapsed_seconds": 1.56,
+    "exit_status": 0,
+    "tests_failed": 0,
+    "tests_passed": 14
+  },
+  "source_sha256": {
+    "scripts/profile_initializer_frontier_r3.py": "b2e01a312b5f7e7a785c5bd92ad3d106e6758e78432ebac0528444cad2c140c9",
+    "tests/test_profile_initializer_frontier_r3.py": "5b8222541d8e038e7335309a9782a52fdcf0d456742cb0ed259a8c67eb89d1c1"
+  },
+  "version": 1
+}
