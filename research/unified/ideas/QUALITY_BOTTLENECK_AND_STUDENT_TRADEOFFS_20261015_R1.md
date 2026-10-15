@@ -76,3 +76,7 @@ Local limits remain five aggregate CPU cores, one GPU worker, 5 GB observed VRAM
 - [Collected F3 teacher and pending exports](../../campaign_2026-10-14/cpu_student_frontier_r1/f3_teacher_fit_r5/DRAFT_STATUS_R5.md).
 
 No local delta in this note is a public-score forecast. All reported uncertainty conditions on the fitted endpoints unless explicitly described otherwise.
+
+## Historical parent update-budget audit, October15
+
+The [bounded provenance audit](../../campaign_2026-10-15/student_quality_tradeoff_r1/PARENT_UPDATE_BUDGET_AUDIT_R1.json) finds that `c20261003_combo_s3_f0@ep3` used B32/C1000 with29,840 attempts/29,828 completed updates; the stronger `oldz4_h230_parent_f0_s3_r3@ep3` used B16/C1000 with59,680/59,654. Both nominally trained four epochs. Their Muon scope (rnn versus hidden), teacher/cache recipe and normalization identities also differ; doubling updates also changes any per-update EMA clock relative to samples. Their .680941/.682823 grades are existing results with unrecorded/FP16 precision respectively. This is a comparison confound, not evidence that any one setting caused the gain. Preserve the stronger clean older parent as a follow-up initializer, without changing the current frozen alpha trajectory or the shared-control mechanism screen. Next method promotion should assess that starting point after actual FP32/consumer checks, rather than anchoring all future candidates to the weaker parent.

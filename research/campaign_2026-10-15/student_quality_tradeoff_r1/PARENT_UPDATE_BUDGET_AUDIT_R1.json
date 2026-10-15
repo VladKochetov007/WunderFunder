@@ -1,0 +1,110 @@
+{
+  "schema": "wnn.parent-update-budget-audit.r1",
+  "created_utc": "2026-10-15T16:19:35.152915+00:00",
+  "scope": "Bounded provenance-only historical comparison; no payload weights/data/predictions loaded, fit or score recomputation.",
+  "parents": [
+    {
+      "run": "c20261003_combo_s3_f0",
+      "provenance_path": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+      "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+      "recipe": {
+        "hidden": 256,
+        "layers": 2,
+        "batch": 32,
+        "chunk": 1000,
+        "epochs": 4,
+        "checkpoint_epoch": 3,
+        "precision": "fp16",
+        "optim": "muon",
+        "muon_scope": "rnn",
+        "distill_alpha": 0.5,
+        "distill_boot_h": 8,
+        "distill_cache_root": null,
+        "distill_cache_variant": null,
+        "ema": null,
+        "ema_decay": 0.999,
+        "ema_teacher": 1.0
+      },
+      "cumulative_updates": {
+        "optimizer_attempts": 29840,
+        "amp_skipped_updates": 12,
+        "optimizer_completed_updates": 29828,
+        "ema_updates": 29840,
+        "completed_batches": 1492
+      },
+      "normalization_identity": {
+        "mean": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8"
+        },
+        "std": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+        }
+      },
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    {
+      "run": "oldz4_h230_parent_f0_s3_r3",
+      "provenance_path": "artifacts/runs/oldz4_h230_parent_f0_s3_r3/provenance.json",
+      "provenance_sha256": "6ffe36b370269265e327768fd0b3f24dedb61a91cda58505242a2403b95b3262",
+      "recipe": {
+        "hidden": 256,
+        "layers": 2,
+        "batch": 16,
+        "chunk": 1000,
+        "epochs": 4,
+        "checkpoint_epoch": 3,
+        "precision": "fp16",
+        "optim": "muon",
+        "muon_scope": "hidden",
+        "distill_alpha": 0.5,
+        "distill_boot_h": 8,
+        "distill_cache_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_w384_family_v1",
+        "distill_cache_variant": "source",
+        "ema": null,
+        "ema_decay": 0.999,
+        "ema_teacher": 1.0
+      },
+      "cumulative_updates": {
+        "optimizer_attempts": 59680,
+        "amp_skipped_updates": 26,
+        "optimizer_completed_updates": 59654,
+        "ema_updates": 59680,
+        "completed_batches": 2984
+      },
+      "normalization_identity": {
+        "mean": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "b5c74bd5507b06fed49228172cbe7f60374c5ec98b6024885d317128adb71874"
+        },
+        "std": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "281f23f5f7b071a8fa275ebaed4881b46d627eba532bb187250305c8c1c91218"
+        }
+      },
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    }
+  ],
+  "scores_from_existing_paired_grades": {
+    "current_parent_wp": 0.680941206807155,
+    "older_parent_wp": 0.6828233413695428,
+    "older_student_wp": 0.6831418133898598,
+    "older_inference_precision": "fp16",
+    "current_parent_inference_precision": "not recorded"
+  },
+  "interpretation": "Four nominal epochs did not match optimizer attempts: older B16 parent has twice the attempts of current B32 parent, with different Muon scope/cache/normalization and potentially EMA sample clock. This is not causal evidence for batch size, update count or heterogeneous teachers.",
+  "next_action": "Keep current frozen comparison and C/G/F/W wave unchanged; preserve stronger old parent as an explicit initializer branch after mechanism screen and FP32/ancestry consumer verification."
+}
