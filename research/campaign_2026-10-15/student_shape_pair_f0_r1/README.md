@@ -27,3 +27,9 @@ The [resource plan](PROFILE_RESOURCE_PLAN_R1.json) caps the kernel at 1,800 seco
 ## Current status
 
 The offline job specs, source/input bindings and generated T4 kernel are sealed and locally available. The normalizer upload-stage bytes are physically staged and hash-pinned; no dataset has been created or uploaded, no kernel has been pushed, and no T4 profile has run. This packet contains no quality result. Root owns the fresh typed quota check, provider admission, profile dispatch and any later matched fits.
+
+## Root continuation after independent review
+
+The [independent frozen-packet review](../../unified/reviews/F0_STUDENT_SHAPE_PAIR_T4_PROFILE_REVIEW_20261015_R1.md) gives GO for the two resource profiles. [Root delivery authority](PROFILE_DELIVERY_AUTHORITY_R1.json) assigns actual private upload/provider checks/dispatch/terminal collection to the cloud actor under the fixed quota/deadline limits; no repeated approval is needed once those conditions pass. Full fits remain a later measured allocation. The packet-freeze status above is historical, not live provider inventory.
+
+Wording clarification: the CP5 checkpoint is deserialized in CPU memory to verify ancestry and extract normalization buffers. Its learned parameters are never applied to either fresh student. The stale 6,000-second error text does not change the generated kernel's enforced1,800-second limit.
