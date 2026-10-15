@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1475 · raw hypothesis rows 501 · raw experiment rows 878 · legacy arms 18 · catalog files 91306.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1477 · raw hypothesis rows 501 · raw experiment rows 880 · legacy arms 18 · catalog files 91336.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-a0f04689b2ff2755406ce37fc97d293e013ecc70a1c8ea9b868f3cf779a1d783.json](<snapshots/config-a0f04689b2ff2755406ce37fc97d293e013ecc70a1c8ea9b868f3cf779a1d783.json>).
 
@@ -2346,6 +2346,8 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-KD-CURRENT-PARENT-PAIRED-GRADE-20261015-R1 | E-KD-CURRENT-PARENT-PAIRED-GRADE-20261015-R1 | experiment · graded_existing_predictions | hypothesis:H-KD-CONTINUATION-VALUE-20261015 | [research/experiments.jsonl](<../../experiments.jsonl#L876>) | — |
 | experiment:E-F3-TEACHER-FIXED-HALF-20261015-R1 | E-F3-TEACHER-FIXED-HALF-20261015-R1 | experiment · graded_existing_predictions | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L877>) | — |
 | experiment:E-PER-FIELD-CLOCK-RESOLUTION-F0-20261015-R1 | raw-feature-only per-field change-clock resolution and parity screen | experiment · diagnostic_complete | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L878>) | — |
+| experiment:E-GRU-PARENT-GROWTH-PARITY-20261015-R1 | E-GRU-PARENT-GROWTH-PARITY-20261015-R1 | experiment · engineering_complete | hypothesis:H-STUDENT-PARENT-GROWTH-20261015 | [research/experiments.jsonl](<../../experiments.jsonl#L879>) | — |
+| experiment:E-WARM-MECHANISM-WAVE-20261015-R3 | E-WARM-MECHANISM-WAVE-20261015-R3 | experiment · proposed_not_admitted | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L880>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
