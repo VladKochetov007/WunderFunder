@@ -1,0 +1,83 @@
+{
+  "schema": "wnn.warm_mechanism_profile_result.r1",
+  "status": "PASS_RESOURCE_PROFILE_ONLY",
+  "created_utc": "2026-10-15T16:58:06.767944+00:00",
+  "arm": "G",
+  "attempt_id": "warm-growth-r4-profile-g-20261015",
+  "attempt_receipt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/warm-growth-r4-profile-g-20261015.json",
+  "attempt_receipt_sha256": "3c31a8c6a9d1d60349df6d8fce70d9e8fa8f7b6820700796657e7846a2c7cb53",
+  "worker_log_path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/warm-growth-r4-profile-g-20261015.log",
+  "worker_log_sha256": "af1e44b7eec7696ffe04cf659303c65d066d71bef7bcc4990d1bb1809c04ffce",
+  "controller_contract_path": "research/campaign_2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_CONTROLLER_PREP_R4.json",
+  "controller_contract_sha256": "b5b2691568cbddf3b4a6e4399d5a6cf6b0a33ff39dc7f71b305269a38365754d",
+  "immutable_source_worktree": "/home/vlad/development/wunder/worktrees/gru-parent-growth-20261015",
+  "immutable_source_commit": "56d900e3c283512e7128243374cd937c05979359",
+  "source_manifest_path": "research/campaign_2026-10-15/gru_parent_growth_r1/TRAINER_SOURCE_MANIFEST_R3.json",
+  "source_manifest_sha256": "5949c1cbd9fbef6383efd793aadaf29dc9fc53fd0c7df70058422da65b33b9a7",
+  "execution": {
+    "exit_status": 0,
+    "elapsed_seconds": 20.193091101013124,
+    "attempted_updates": 50,
+    "completed_updates": 50,
+    "amp_skipped_updates": 0,
+    "finite_loss": true,
+    "finite_gradient": true,
+    "profile_batches": 5,
+    "warmup_batches": 0,
+    "sequence_length_rows": 20000,
+    "optimizer_chunks_per_sequence_batch": 10
+  },
+  "trainer_profile_fields": {
+    "backward": 423.68,
+    "forward": 268.03,
+    "gpu_total": 730.46,
+    "h2d": 0.01,
+    "inputs": 25.7,
+    "labels": 1.44,
+    "loss": 6.12,
+    "optimizer": 2.48,
+    "weights": 0.19,
+    "loader_wait": 587.91,
+    "step_wall": 1252.38,
+    "seq_per_s": 12.78,
+    "syncs_per_step": 0.4
+  },
+  "derived_timing": {
+    "median_full_sequence_batch_step_ms": 1252.38,
+    "sequence_per_second": 12.78,
+    "estimated_median_ms_per_2000_row_chunk": 125.23800000000001,
+    "basis": "Trainer step_wall is the median time between full sequence-batch starts. Each B16 batch covers ten sequential 2,000-row chunks; division is a derived estimate, not an independent timing."
+  },
+  "resources": {
+    "contract_profile_reserve_bytes": 5500000000,
+    "outer_argv_reserve_bytes": 6500000000,
+    "actual_controller_reservation_bytes": 6500000000,
+    "peak_worker_ram_bytes": 3612647424,
+    "peak_observed_vram_bytes": 2669674496,
+    "observed_vram_stop_threshold_bytes": 5000000000,
+    "worker_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "reservation_metadata_mismatch": "R4 descriptive reserve_bytes is 5.5GB but the frozen outer argv and actual admission are 6.5GB; this was a conservative over-reservation, accepted by controller, and did not alter model execution."
+  },
+  "interpretation": {
+    "claim": "Resource/rate profile only; no fit or model-quality result.",
+    "full_fit_admission": "not granted by this profile.",
+    "next_serial_profile": "F"
+  }
+}

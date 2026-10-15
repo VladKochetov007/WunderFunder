@@ -114,3 +114,10 @@ The R3 corrected C attempt reached the immutable trainer's post-argument guard, 
 The [C resource-profile receipt](WARM_MECHANISM_PROFILE_C_RESULT_R1.json) records a successful five-batch/50-update run through the R4 command: 50 optimizer attempts and 50 completions, zero AMP skips, and finite loss and gradients. It completed in 20.21s. The trainer reports a median full-sequence-batch wall time of 1216.41ms (B16 across 20,000 rows), 13.15 sequences/s, and 632.13ms median loader wait. Each batch covers ten sequential 2,000-row chunks; dividing the batch timing gives an estimated 121.64ms/chunk, not a separate measurement.
 
 The worker peaked at 4,953,374,720B host memory under the 5,500,000,000B reservation, and 2,178,940,928B observed VRAM, below the 5,000,000,000B operator stop threshold. Worker and parent OOM deltas were zero. This supports resource/rate feasibility for C only; it does not establish fit duration, quality or a full-fit admission. G is next in the serial profile order.
+
+
+## G profile result and reservation note
+
+The [G resource-profile receipt](WARM_MECHANISM_PROFILE_G_RESULT_R1.json) records 50 of 50 optimizer updates completed, zero AMP skips, and finite loss and gradients. The attempt took 20.19s; its median full B16×20,000-row batch time was 1252.38ms (12.78 sequences/s). Peak host memory was 3,612,647,424B, observed VRAM 2,669,674,496B, and worker/parent OOM deltas were zero. As with C, the divided 2,000-row chunk timing is an estimate; the receipt makes no fit or quality claim.
+
+The [reservation erratum](WARM_MECHANISM_PROFILE_RESERVATION_ERRATUM_R1.json) records that the R4 descriptive reserve for G/F is 5.5GB, but their frozen outer commands and the actual G admission use 6.5GB. This conservative over-reservation is within the reviewed aggregate target and leaves the model command unchanged; F/W proceed at their frozen 6.5GB outer-vector reserve.

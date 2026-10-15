@@ -1,0 +1,34 @@
+{
+  "schema": "wnn.warm_mechanism_profile_reservation_erratum.r1",
+  "status": "RECORDED; NO EXECUTION_VECTOR_CHANGE",
+  "created_utc": "2026-10-15T16:58:06.768223+00:00",
+  "contract_path": "research/campaign_2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_CONTROLLER_PREP_R4.json",
+  "contract_sha256": "b5b2691568cbddf3b4a6e4399d5a6cf6b0a33ff39dc7f71b305269a38365754d",
+  "scope": "Controller reservation metadata only. The trainer argv and all model/data/recipe settings are unchanged.",
+  "actual_vector_values": {
+    "C": {
+      "contract_reserve_bytes": 5500000000,
+      "outer_argv_reserve_bytes": 5500000000,
+      "status": "completed; receipt agrees"
+    },
+    "G": {
+      "contract_reserve_bytes": 5500000000,
+      "outer_argv_reserve_bytes": 6500000000,
+      "actual_admitted_reserve_bytes": 6500000000,
+      "attempt_receipt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/warm-growth-r4-profile-g-20261015.json",
+      "attempt_receipt_sha256": "3c31a8c6a9d1d60349df6d8fce70d9e8fa8f7b6820700796657e7846a2c7cb53"
+    },
+    "F": {
+      "contract_reserve_bytes": 5500000000,
+      "outer_argv_reserve_bytes": 6500000000,
+      "status": "not yet launched; use frozen outer-argv value"
+    },
+    "W": {
+      "contract_reserve_bytes": 6500000000,
+      "outer_argv_reserve_bytes": 6500000000,
+      "status": "not yet launched"
+    }
+  },
+  "finding": "R4 profile descriptors for G and F say 5.5GB, while their frozen outer commands request 6.5GB. The C/G completed receipts show the controller used the outer command value; G was admitted at 6.5GB. This is a conservative reservation, within the reviewed 17GB target, and does not change the scientific recipe. Continue F/W at their existing 6.5GB outer-vector reserve; do not rewrite the frozen R4 contract or rerun G.",
+  "source": "Root admission note on 2026-10-15 explicitly approved conservative 6.5GB G/F reservations and directed preserving the current execution vector."
+}
