@@ -1,0 +1,48 @@
+{
+  "schema": "wnn.f3-teacher-cp2-collector-preflight.r3",
+  "recorded_utc": "2026-10-15T13:43:56Z",
+  "kernel_id": "vladkochetov07/wnn-f3-t3-cp2-exports-20261015-r2-runner",
+  "kernel_version": 1,
+  "kernel_terminal_status": "COMPLETE",
+  "kernel_failure_message": "",
+  "source_pins": {
+    "r2_collector_sha256": "b7ad2f306ab49d8ae2b839e9cca5189c05d0583a953f46a7e902d0fb7e7acbdc",
+    "r3_collector_sha256": "e901dc7147dfa50e2b2e63f81922ce4352eceb08e582529ca83e0bcee98869f2",
+    "r3_test_sha256": "3ca0d137270688807948a3f047e22c5b8577020b9b354875ed7903a12d931d3b",
+    "runner_sha256": "ff95040cf4f964f3a7c86067a4603660bf80a5468ab71445ce7fcd36482fa9da",
+    "source_binding_sha256": "d767d0d59f1bf36227a128d2cc5a66d12d195803df861c7593b05469d4e3014c",
+    "root_admission_sha256": "000ca3ebee8f87b62f6aa2743913c2d4d85963a4ec403a125e3d995a6610a5af",
+    "kernel_push_receipt_sha256": "b1f8186d998aa81053d95604baaad6660ca631b3c3188553836bee4fd522684e"
+  },
+  "checks": {
+    "ruff_format": "passed",
+    "ruff_check": "passed",
+    "focused_pytest": {"status": "passed", "tests": 5, "wall_seconds": 0.20},
+    "cli_help": "passed",
+    "offline_release_receipt_validation": "passed",
+    "deployed_tar_runner_hash_validation": "passed",
+    "runner_generated_heartbeat_schema_smoke": {
+      "status": "passed",
+      "active_workers": 1,
+      "finished_workers": 0,
+      "not_started_workers": 0
+    }
+  },
+  "heartbeat_contract": {
+    "path": "results/heartbeat.json",
+    "maximum_bytes": 16384,
+    "expected_json_keys": ["active", "event", "finished", "not_started", "scope"],
+    "runner_writer": "resource_heartbeat() is serialized every 30 seconds",
+    "runner_output_mapping": "/kaggle/working/results"
+  },
+  "collection": {
+    "output_directory": "research/campaign_2026-10-15/f3_teacher_export_r2/collected/attempt_002",
+    "terminal_receipt": "research/campaign_2026-10-15/f3_teacher_export_r2/TERMINAL_COLLECTION_R3.json",
+    "maximum_download_bytes": 2500000000,
+    "collector_memory_max_bytes": 3000000000,
+    "collector_cpu_cores": 1,
+    "provider_mutations": [],
+    "started": false,
+    "requires_fresh_combined_resource_gate": true
+  }
+}
