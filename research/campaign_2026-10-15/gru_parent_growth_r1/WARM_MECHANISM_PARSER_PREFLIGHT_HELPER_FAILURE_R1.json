@@ -1,0 +1,17 @@
+{
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s WNN_TMP_ROOT=/home/vlad/development/wunder/research_tmp TMPDIR=/home/vlad/development/wunder/research_tmp TMP=/home/vlad/development/wunder/research_tmp TEMP=/home/vlad/development/wunder/research_tmp WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack PYTHONPATH=/home/vlad/development/wunder/worktrees/gru-parent-growth-20261015/src PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES= .venv/bin/python research/campaign_2026-10-15/gru_parent_growth_r1/preflight_warm_mechanism_vectors_r3.py",
+  "created_utc": "2026-10-15T16:47:25.653891+00:00",
+  "diagnosis": "The helper handled the raw trainer_argv form but did not recognize the fit-worker vector\u2019s relative trainer token `scripts/train_rnn.py`; actual worker vectors use an absolute trainer path.",
+  "error": "ValueError: worker vector does not invoke the pinned trainer",
+  "repair": "Updated the focused helper to recognize both the literal relative trainer token and the absolute pinned worker path. Future parser preflight will run through scripts/limited.",
+  "resource_scope": "The command accidentally invoked Python directly and bypassed scripts/limited despite setting quota-related environment variables. It exited immediately; no GPU, dataset, model or training work occurred. No per-command peak was captured; no running process/session remained.",
+  "schema": "wnn.warm-mechanism-parser-preflight-helper-failure.r1",
+  "status": "FAILED_HELPER_VECTOR_EXTRACTION",
+  "tool_result": {
+    "chunk_id": "51f2d4",
+    "exit_code": 1,
+    "original_token_count": 369,
+    "session_id": null,
+    "wall_time_seconds": 1.1186e-05
+  }
+}

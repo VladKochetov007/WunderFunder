@@ -1,0 +1,34 @@
+{
+  "command": "scripts/limited .venv/bin/python - [bounded inline prelaunch checker]",
+  "created_utc": "2026-10-15T16:49:06.123698+00:00",
+  "diagnosis": "The helper assumed datasets lived under the referenced receipt key train_and_valid. The actual producer receipt ALPHA0_DATASET_BYTE_BINDING_P3_IDENTITY_REFRESH_R1.json uses top-level `datasets` with train and valid entries; bounded direct inspection confirmed both actual file identities and body hashes are present there.",
+  "error": "KeyError: 'train_and_valid'",
+  "impact": "No input validation receipt was written and no profile/model/GPU work occurred. No Parquet body was rescanned.",
+  "observed_actual_receipt_keys": [
+    "a9_p1_attempt",
+    "a9_reusable_checkpoints",
+    "alpha0_output_absence",
+    "created_utc",
+    "datasets",
+    "fit_authorized",
+    "historical_binding_limit",
+    "identity_reuse",
+    "launch_authorized",
+    "no_fit_no_launch",
+    "receipt_revision",
+    "runtime",
+    "runtime_identity_refresh",
+    "schema",
+    "source_receipts_sha256",
+    "status"
+  ],
+  "repair": "The single corrected check will consume the observed top-level datasets schema directly, compare current stat identity fields to each train/valid entry, and retain the trusted full body hashes without rereading payloads.",
+  "resource_scope": {
+    "cpu_quota": "20%",
+    "memory_max_bytes": 300000000,
+    "physical_tmp": "/home/vlad/development/wunder/research_tmp",
+    "runtime_max": "120s"
+  },
+  "schema": "wnn.warm-mechanism-prelaunch-helper-failure.r1",
+  "status": "FAILED_INPUT_RECEIPT_FIELD_ASSUMPTION"
+}

@@ -59,9 +59,10 @@ the packet binds the split, original parent, grown initializer, teacher-cache
 metadata, propensity model/sidecars, and the verified dataset-body/identity
 receipt. Its only worker-argv delta from the R3 recipe packet is explicit
 `WNN_GPU_MEMORY_BYTES=4300000000`; no model, data or training arguments change.
-Independent paired grades are terminal per root's update; R2 remains
-`PREPARED_NOT_LAUNCHED` until the independent reviewer signals CPU-handoff-DONE,
-then it still requires fresh per-profile controller source/resource checks.
+Independent paired grades are terminal per root's update. R2's C launch reached
+the immutable trainer parser and failed on unsupported arguments before CUDA;
+G/F/W were not launched. The exact failure and the corrected successor are
+indexed below.
 Root directed 5.5GB host reservations for H256 C/G/F (C's matched A0 P1 peak
 was4,952,576,000B) and6.5GB for H384 W (historical H384 peak was
 6,499,999,744B). G/F's CUDA age transforms may raise working memory, so the
@@ -70,3 +71,32 @@ provides resource/rate evidence only; G/F construct features through frozen
 CUDA `build_inputs(x)` with loader workers at zero. The5GB observed-VRAM ceiling
 is an operator stop threshold because the controller records VRAM but does not
 enforce it as a hard GPU cap. No fit is admitted by R2.
+
+R2's first C attempt is preserved as an execution failure: the immutable trainer
+parser exited2 before CUDA/model work because it rejected the four options
+`--distill-loss mse`, `--distill-channel-weights 1,1`,
+`--label-weight-power 1`, and `--label-weight-floor 0`. The [attempt receipt](../../campaign_2026-10-06/bandit_continuation/runtime/attempts/warm-growth-r3-profile-c-20261015.json)
+SHA256 is `97a2853d6bd2dcf39fe6e1f5d110efd47ace34c02091e42c8c9a0c35249517a7`;
+the [worker log](../../campaign_2026-10-06/bandit_continuation/runtime/logs/warm-growth-r3-profile-c-20261015.log)
+SHA256 is `7bd7aeff56847b8a7c81c8d65a94e4159d342d828a32a925b0696d0bd49963d3`.
+No profile metric was produced, so this is not a resource or scientific result.
+
+[Controller prep R3](WARM_MECHANISM_PROFILE_CONTROLLER_PREP_R3.json) is the
+compatibility successor. It preserves R1/R2 and the failed C evidence, proves
+from the immutable cached-MSE implementation that these four default-valued
+options are identities, and removes only those pairs from the C/G/F/W trainer,
+fit and profile vectors. It retains the4.3GB allocator setting, per-arm host
+reservations, data/model/recipe pins and5GB observed-VRAM operator threshold.
+The [parser-helper failure receipt](WARM_MECHANISM_PARSER_PREFLIGHT_HELPER_FAILURE_R1.json)
+preserves a brief vector-extraction error; root superseded that custom helper
+gate. A separate [input-check helper failure](WARM_MECHANISM_PRELAUNCH_HELPER_FAILURE_R1.json)
+preserves an incorrect guessed JSON key (`train_and_valid`); inspection of the
+actual trusted receipt established top-level `datasets.train` and `datasets.valid`.
+No Parquet payload was read. The [first prelaunch check](WARM_MECHANISM_PRELAUNCH_CHECK_C_R1.json)
+preserves a single manually mistyped historical-attempt hash; the [corrected check](WARM_MECHANISM_PRELAUNCH_CHECK_C_R2.json)
+derives that pin from the file and passes the unchanged source, command, data
+identity, model/cache, propensity and output-absence checks. The 34GB Parquet
+bodies were not rescanned. The corrected C profile itself is the actual
+parser/consumer check.
+Fresh source, input, absence and resource checks still precede each 50-update
+profile.
