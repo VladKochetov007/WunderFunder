@@ -835,6 +835,11 @@ impl PyMinGruStepper {
     fn fast_activations(&self) -> bool {
         self.model.fast_activations()
     }
+
+    #[getter]
+    fn avx2_fastpath_enabled(&self) -> bool {
+        self.model.avx2_fastpath_enabled()
+    }
 }
 
 /// Competition callback prototype: accepts one raw 112-feature row and builds its causal
@@ -969,6 +974,11 @@ impl PyMinGruPredictor {
     #[getter]
     fn fast_activations(&self) -> bool {
         self.model.fast_activations()
+    }
+
+    #[getter]
+    fn avx2_fastpath_enabled(&self) -> bool {
+        self.model.avx2_fastpath_enabled()
     }
 }
 
