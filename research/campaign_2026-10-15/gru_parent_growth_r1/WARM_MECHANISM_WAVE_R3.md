@@ -41,7 +41,7 @@ Use source-qualified F0 membership:10,535 train-fit +1,405 valid-fit;468 valid
 evaluation groups excluded from fitting and ancestry.746 drop-last batches per
 epoch give7,460 attempted chunk updates,14,920 total. Record completed updates and
 AMP skips. Explicit seeded order avoids architecture-dependent global-RNG shuffles;
-train-fit order first follows the recipe's seed3 NumPy permutation, then fit-valid.
+base dataset first follows the recipe's seed3 NumPy train-fit permutation, then fit-valid. EpochOrderSampler subsequently shuffles the entire concatenated dataset with torch.randperm seed=3+1009×(epoch+1), crossing the source boundary (normalization epoch−1; fit epochs0/1).
 
 Export all1,873 valid groups in canonical order, then grade468 evaluation groups
 with unchanged `global_wp_clip2_v1`. Primary contrasts F−G and W−C; F−C/G−C are

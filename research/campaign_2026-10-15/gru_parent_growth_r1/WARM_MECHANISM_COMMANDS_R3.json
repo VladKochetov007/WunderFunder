@@ -1428,7 +1428,7 @@
       "profile_attempted_updates": 50
     }
   },
-  "order": "seeded; np.default_rng(3) train-fit permutation followed by fit-valid; verify actual consumer order",
+  "order": "Base dataset: np.default_rng(3) train-fit permutation then fit-valid; EpochOrderSampler shuffles the complete concatenated dataset with torch.randperm seed=3+1009*(epoch+1), normalization epoch=-1, fit epochs=0/1. Identical source-qualified memberships/order across arms.",
   "resources": {
     "aggregate_cpu": 2,
     "fit_cpu": 1,
