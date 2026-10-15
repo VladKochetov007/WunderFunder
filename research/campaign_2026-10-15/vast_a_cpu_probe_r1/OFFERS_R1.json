@@ -1,0 +1,70 @@
+{
+  "created_utc": "2026-10-15T08:42:36.367440+00:00",
+  "credential_profile": "vast-a",
+  "credential_variable": "vastai",
+  "vastai2_used": false,
+  "authority": "read-only search; explicit user approval required before any rental",
+  "query": {
+    "limit": 1500,
+    "type": "on-demand",
+    "verified": {
+      "eq": true
+    },
+    "rentable": {
+      "eq": true
+    },
+    "rented": {
+      "eq": false
+    },
+    "allocated_storage": 20,
+    "order": [
+      [
+        "dph_total",
+        "asc"
+      ]
+    ]
+  },
+  "returned_count": 512,
+  "selected_offers": [
+    {
+      "id": 50293333,
+      "machine_id": 140925,
+      "cpu_name": "AMD EPYC 9354P 32-Core Emb Processor",
+      "cpu_cores": 64,
+      "cpu_cores_effective": 32.0,
+      "cpu_ghz": 3.800241,
+      "cpu_ram": 96466,
+      "num_gpus": 1,
+      "gpu_name": "RTX 6000Ada",
+      "dph_total": 0.6718518518518518,
+      "dph_base": 0.6666666666666666,
+      "storage_cost": 0.18666666666666665,
+      "storage_total_cost": 0.005185185185185184,
+      "inet_up_cost": 0.010416666666666666,
+      "inet_down_cost": 0.010416666666666666,
+      "reliability": 0.9950646,
+      "geolocation": "Oklahoma, US",
+      "direct_port_count": 256,
+      "search": {
+        "gpuCostPerHour": 0.6666666666666666,
+        "diskHour": 0.005185185185185184,
+        "totalHour": 0.6718518518518518,
+        "discountTotalHour": 0,
+        "discountedTotalPerHour": 0.6718518518518518
+      },
+      "instance": {
+        "gpuCostPerHour": 0,
+        "diskHour": 0.005185185185185184,
+        "totalHour": 0.005185185185185184,
+        "discountTotalHour": 0,
+        "discountedTotalPerHour": 0.005185185185185184
+      }
+    }
+  ],
+  "prior_failures": [
+    "default installed CLI credential returned HTTP401 before profile selection",
+    "broad search reader encountered cpu_name=null; corrected consumer to handle null"
+  ],
+  "account_prepaid_credit_usd_snapshot": 5.156628863041192,
+  "rental_created": false
+}
