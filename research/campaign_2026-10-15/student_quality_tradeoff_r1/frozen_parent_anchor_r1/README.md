@@ -1,10 +1,12 @@
 # Frozen-parent anchor recipe R1
 
+[Root full-fit delivery authority](S_PARENT_ANCHOR_FIT_AUTHORITY_R1.json) now releases one fixed two-epoch S fit after the primary G/F/W fits and exports, conditional on fresh shared admission. Its actual resource profile completed50/50 finite updates without AMP skips/OOM. Exact worker vector,6.5GB host/4.3GB allocator/5400s limits, CP1/state validation, full-valid FP32 export and independent grading are owned continuation work. Historical recipe-ready/no-fit wording below describes the preparation stage; no S fit has run yet.
+
 This is a source-bound, no-new-trainer-source recipe for arm S under
-`H-FROZEN-PARENT-ANCHOR-20261015`. The direct-parent S child has not been
-profiled, admitted, fit, exported, or graded. Its 50-attempt resource profile
-is pinned in [the queued profile contract](S_PARENT_ANCHOR_PROFILE_R1.json)
-and is not launched until the C fit and export release the GPU lane. The
+`H-FROZEN-PARENT-ANCHOR-20261015`. The direct-parent S child has completed its
+bounded 50-update resource profile after C's CP1 export; it has not been fit,
+exported, or quality-graded. The [profile contract](S_PARENT_ANCHOR_PROFILE_R1.json)
+and [terminal result](S_PROFILE_TERMINAL_RESULT_R1.json) are linked below. The
 predeclared parent/T3 endpoint-mixture diagnostic is complete and indexed in
 the [campaign README](../README.md); it does not qualify as an S fit result.
 
@@ -67,3 +69,16 @@ forecast. The separately predeclared parent / scaled-T3 fixed mixture has now
 been graded against the parent with the existing scorer. It is endpoint-
 complementarity evidence only, uses the same exposed panel, and does not block
 S; see the grade receipt linked from the campaign README.
+
+## Bounded S profile result
+
+The [prelaunch identity receipt](S_PROFILE_PRELAUNCH_IDENTITY_R1.json),
+[independent profile review](../../../unified/reviews/FROZEN_PARENT_S_PROFILE_REVIEW_20261015_R1.md),
+and [terminal result](S_PROFILE_TERMINAL_RESULT_R1.json) bind this resource-only
+probe to the frozen trainer, data and direct-parent inputs. The trainer
+completed 50/50 finite optimizer updates across five B16 full-sequence batches,
+with no AMP skips. It took 20.23s, peaked at 5,852,131,328B worker memory,
+8,286,826,496B parent memory and 2,178,940,928B observed VRAM; command and
+parent OOM deltas were zero. This estimates the direct-parent hashing/read and
+training path at profile scale only. No checkpoint, full fit, prediction or
+quality result was produced by S.
