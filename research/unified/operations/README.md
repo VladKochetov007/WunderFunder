@@ -1,3 +1,7 @@
+## Bounded cloud profiles and unrelated work
+
+- [Student profile overlap authority R3](../../campaign_2026-10-15/student_shape_pair_f0_r1/PROFILE_OVERLAP_AUTHORITY_R3.json) removes an internal all-peer-idle gate for the already-budgeted R4 resource profiles while an unrelated CASMI kernel runs. Fresh5400-second available quota/private-source checks remain; no unrelated cancellation, paid action or full-fit admission. Record contention rather than treating it as architecture evidence.
+
 ## Stable Git evidence during live replays
 
 [Versioned replay snapshot](../../campaign_2026-10-13/team_models_r1/runtime_snapshot_r1/README.md) preserves the current useful telemetry while four admitted CPU replays keep running. Mutable logs/progress and pending output staging are excluded from Git; completed scores and source contracts remain tracked. This implements the user's request for a clean working tree without stopping jobs or discarding evidence. The [score index](../../campaign_2026-10-13/team_models_r1/scores/README.md) identifies completed and pending receipts; root owns terminal collection.

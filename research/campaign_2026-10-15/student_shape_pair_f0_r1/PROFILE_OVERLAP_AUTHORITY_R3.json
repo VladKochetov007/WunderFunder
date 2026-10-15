@@ -1,0 +1,15 @@
+{
+  "schema": "wnn.root.student-shape-profile-overlap.r3",
+  "date": "2026-10-15",
+  "owner": "root",
+  "scope": "R4 input-binding repair and the existing two bounded resource profiles only; no full fit",
+  "decision": "The unrelated vladkochetov07/casmi2026-reference-audit-001 RUNNING kernel does not impose a peer-idle prerequisite. Do not cancel or modify it. Read its exact GPU metadata once for the receipt; overlap qualifies throughput interpretation rather than imposing additional manual approval.",
+  "conditions": [
+    "Fresh typed available GPU quota must remain at least5400seconds:3600GPU-second worst-case two-device envelope plus1800reserve. Subtract explicit provider reservations if not already reflected in available quota.",
+    "Existing private/READY/version/source checks and1800second outer deadline remain binding.",
+    "Record actual devices, admitted concurrency and overlap. Provider rejection/startup delay is execution evidence, not architecture evidence.",
+    "No exhaustive owner inventory or waiting for unrelated work solely because its RUNNING row exists.",
+    "No paid capacity, top-up, quota increase or CASMI mutation. Local aggregate200percent CPU and one-GPU limits remain unchanged."
+  ],
+  "supersedes": "Internal peer-idle gating for these bounded profiles, not resource/quota checks or full-fit admission."
+}
