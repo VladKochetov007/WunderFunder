@@ -1,0 +1,27 @@
+{
+  "schema": "wnn.warm-mechanism-profile-authority.r1",
+  "status": "CONDITIONAL_PROFILE_DELIVERY_AUTHORIZED",
+  "owner": "/root/cpu_inference",
+  "root_owner": "/root",
+  "basis": "User continued experiments and GPU authorization; independent review b8a1fdb7.",
+  "sequence": "Complete the healthy alpha0 P2/P3 and CP5 export/grade first; then C/G/F/W profiles serially.",
+  "commands": "WARM_MECHANISM_COMMANDS_R3.json",
+  "source_manifest": "TRAINER_SOURCE_MANIFEST_R3.json",
+  "profile_attempted_updates_each": 50,
+  "timeout_seconds_each": 300,
+  "cpu_cores_each": 1,
+  "aggregate_cpu_cores_max": 2,
+  "aggregate_committed_memory_target_bytes": 17000000000,
+  "observed_vram_max_bytes": 5000000000,
+  "local_gpu_workers_max": 1,
+  "loader_workers": 0,
+  "swap_bytes": 0,
+  "conditions": [
+    "Exact source and argv/parser compatibility; bound actual input and initializer hashes.",
+    "Fresh parent plus unused-worker-reserve plus complete new task memory accounting.",
+    "Existing shared controller and GPU lock; physical disk scratch, no cap changes.",
+    "Record selected feature mode, inherited preprocessing, actual update/AMP-skip evidence, charged RAM/VRAM and terminal status."
+  ],
+  "fit_admitted": false,
+  "fit_next_action": "Root allocates full fits using terminal actual-profile evidence; no public or quality claim from profiles."
+}

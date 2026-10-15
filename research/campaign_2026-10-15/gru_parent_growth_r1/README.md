@@ -40,6 +40,12 @@ Actual trainer reload, B16 FP16 GPU profiling and quality fitting remain next.
 FP32 mathematical equivalence permits floating-point differences; stochastic
 training trajectories and native/quantized serving equivalence are not established.
 
+[Independent consumer/recipe review](../../unified/reviews/GRU_PARENT_GROWTH_WARM_WAVE_R3_REVIEW_20261015_R1.md)
+permits the four bounded resource profiles, with the corrected seeded-order
+description. [Delivery authority](PROFILE_DELIVERY_AUTHORITY_R1.json) assigns
+them to the local delivery actor after the healthy alpha0 chain, subject to exact
+source/input checks and fresh aggregate admission. Full fits are not admitted yet.
+
 [Prepared trainer vectors](WARM_MECHANISM_COMMANDS_R3.json) make the four-arm comparison reviewable. They require exact parser/wrapper/source binding and actual GPU profiles before execution.
 
 [Trainer source manifest](TRAINER_SOURCE_MANIFEST_R3.json) pins the frozen implementation worktree at56d900e3. Direct trainer commands set explicit PYTHONPATH and data root, avoiding the historical wrapper that would select old trainer source. Serial profiles use five B16 batches (50 attempted C2000 updates), resource/rate evidence only.
