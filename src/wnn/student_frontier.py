@@ -136,7 +136,7 @@ def validate_stage_args(
         "batch_order": "seeded",
         "antithetic": False,
         "seed": int(stage["seed"]),
-        "precision": "fp32",
+        "precision": str(recipe["precision"]),
         "epochs": int(stage["epochs"]),
         "checkpoint_policy": "fixed",
         "checkpoint_epoch": int(stage["checkpoint_epoch"]),
@@ -200,6 +200,7 @@ def validate_stage_args(
         "lr": float(optimizer["learning_rate"]),
         "beta2": float(optimizer["beta2"]),
         "wd": float(optimizer["weight_decay"]),
+        "amp_init_scale": float(optimizer.get("amp_init_scale", 65536.0)),
         "clip": float(optimizer["gradient_clip_norm"]),
         "fused_adam": bool(optimizer["fused"]),
         "sync_free": bool(optimizer["sync_free"]),
@@ -207,9 +208,9 @@ def validate_stage_args(
         "deterministic": True,
         "save_training_state": False,
         "resume_state": None,
-        "max_batches": 1 if stage["kind"] == "profile" else 0,
-        "profile_steps": 1 if stage["kind"] == "profile" else 0,
-        "profile_warmup": 0 if stage["kind"] == "profile" else 5,
+        "max_batches": int(stage["max_batches"]),
+        "profile_steps": int(stage["profile_steps"]),
+        "profile_warmup": int(stage["profile_warmup"]),
         "grad_stats": True,
     }
     for name, value in expected.items():
@@ -223,7 +224,10 @@ def validate_stage_args(
     if not isinstance(prefix, str) or not str(args.name).startswith(prefix):
         raise ValueError("student-frontier run name is outside the frozen stage namespace")
 
-    source_root = Path(contract["source_root"]).resolve()
+    source_root_value = Path(contract["source_root"])
+    source_root = (
+        source_root_value if source_root_value.is_absolute() else root / source_root_value
+    ).resolve()
     if source_root != Path(__file__).resolve().parents[2]:
         raise ValueError("student-frontier consumer code root differs from its contract")
     expected_sources = contract["source_sha256"]
