@@ -4,6 +4,8 @@ Use this page to navigate proposals, mechanism families, and their evidence. An 
 
 ## Core records
 
+- [Quality bottleneck and student tradeoffs, October 15](QUALITY_BOTTLENECK_AND_STUDENT_TRADEOFFS_20261015_R1.md), H-KD-CONTINUATION-VALUE-20261015/H-STUDENT-LADDER-20261014, separates matched architecture gains from warm-start inheritance and heterogeneous recipe differences. Primary grades show only +0.000214 current T3 continuation improvement over its exact parent; teacher quality versus distillation remains unresolved. Proposes a matched label-only/KD continuation pair, preserves all eight shapes and prioritizes clean F3 exports. Includes quota snapshot, resource scope and primary distillation literature; all local folds remain exposed and no new fit/result is claimed.
+
 - [Causal initial-state implementation](../../campaign_2026-10-14/cpu_student_frontier_r1/INITIALIZER_IMPLEMENTATION_R1.md) implements H-STATE-INIT-20261014 with zero, learned constant, first-row and prefix-residual arms around the unchanged GRU. Ten synthetic checks pass for timing, reset, chunk parity and initializer gradients through a frozen backbone. Fitting, actual-data stability, native export and score/position-bin evidence remain pending; this is a nonblocking branch while target-host CPU probes await upload.
 
 - [Actual-data initial-state decay](../../campaign_2026-10-14/cpu_student_frontier_r1/STATE_DECAY_DIAGNOSTIC_R1.md), E-STATE-DECAY-20261014-R1, observes a random perturbation surviving99-row warmup in the clean-F0 H256×2 control, with second-layer influence through several thousand rows. One fitting sequence/direction provides a mechanism diagnostic, not learned-initializer quality, a Jacobian bound or cross-validation evidence.

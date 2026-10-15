@@ -2,6 +2,10 @@
 
 Entry: 2026-10-13T23:43:28Z (October14 Europe/Kyiv). Root owns completion under [contract](CONTRACT.json).
 
+## Quality attribution priority, October15
+
+The user asks whether teacher or distillation quality blocks progress. [Root synthesis and next comparisons](../../unified/ideas/QUALITY_BOTTLENECK_AND_STUDENT_TRADEOFFS_20261015_R1.md) and [independent ancestry review](../../unified/reviews/CLEAN_T3_TEACHER_STUDENT_BOTTLENECK_REVIEW_20261015_R1.md) find that the mature T3 student .68115536 starts from an exact parent already scoring .68094121; the older .68314181 student has a separate .68282334 parent. These are modest continuation gains and do not isolate new teacher value. The fresh short screen remains a valid matched architecture comparison, not a converged quality ceiling. H384×2 continues unchanged; the inference role now prepares a matched warm-parent label-only versus KD continuation recipe, while the cloud-delivery role prepares export-only recovery from collected F3 CP2. New fits await root review/admission. All eight ladder shapes remain in scope. CPU hosting, initializer native-build repair and further TPU numerical engineering are lower-priority while quality delivery is ready work. Fresh typed Kaggle quota at11:50UTC remains7.3965GPUhours/19.8424TPUhours, reserved0; no paid rental.
+
 ## Current position on October15,11:05UTC
 
 The user explicitly resumed after an LLM usage-limit interruption. H192×2 completed its full frozen fit/profile/export/grade sequence during that interval. Four F0 seed-3 architectures are graded:
