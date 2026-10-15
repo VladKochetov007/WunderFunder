@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+- [Root R5 bootstrap reproduction receipt](STUDENT_SHAPE_T4_R5_ROOT_FIXTURE_20261015_R1.json): root compared R4/R5 manifests directly—only the two required target descriptors are added to `files`, with archive and outer kernel byte-identical—then reran the actor's actual-bootstrap fixture in a fresh physical directory. All24 mounts resolve, runtime specs are written, the runner is intercepted before Torch/GPU code, and links are cleaned. Conditional GO for the same bounded provider profile after fresh checks. This corrects the R4 review's missed manifest-allowlist requirement; it is bootstrap evidence, not actual-data/profile/quality evidence.
+
 - [Root review of queued frozen-parent S profile](FROZEN_PARENT_S_PROFILE_REVIEW_20261015_R1.md) independently compares exact S/C options and reads direct/cached teacher consumer/loss paths. GO for50-update resource smoke after C export and fresh shared admission; full fit remains unadmitted. Target calibration, historical precision and inherited-teacher confounds remain explicit.
 
 - [Root review of T4 R4 target-cache mount repair](STUDENT_SHAPE_T4_R4_MOUNT_REVIEW_20261015_R1.md): direct job/archive/source comparison confirms only two required input bindings and duplicate-hash deferral change; all training argv/non-job source payloads remain identical. Conditional GO for the same1800s profile rerun after fresh provider checks, no architecture/quality result. Actor packet is isolated pending integration.
