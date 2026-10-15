@@ -22,7 +22,9 @@ scripts/limited /path/to/python3.11 scripts/benchmark_cpu_policy_panel_r1.py \
   --output /path/to/new-smoke-receipt
 ```
 
-The full panel is prepared but has not been run. It uses a five-callback A/B/C/D/A pilot, then the same eight-sequence panel in every formal block. For each sequence A brackets the candidate trio; the B/C/D order traverses all six permutations exactly once in each six-block cycle. A minimum of six blocks per candidate is mandatory. After that, the panel may stop when all wall-time paired intervals reach the requested half-width, or continue to a maximum of 12 blocks. A full block has 40 timed complete-sequence callbacks. A/B/C/D callback order and sequence order are frozen by seed `20261015`. All blocks and adaptive intervals are exploratory; they do not confirm a selected winner. Any later winner claim needs untouched confirmation blocks after the adaptive panel stops.
+The bounded local smoke completed successfully. Its [receipt](smoke_local_20261015_r1/SMOKE_PAIR_R1.json) (SHA-256 `afc48e63a62e7b51ada060cb04e67abddbec3e04444c790516fe63ecaffc6821`) records two complete reset-separated A callbacks and two B callbacks on one source-qualified 20,000-row sequence. A and B were bitwise equal, and each policy reproduced its output bitwise after reset. Callback wall times were A 2.168/2.081s and B 2.879/2.998s on one pinned Intel i9-11900H logical CPU; package verification, construction and reset are reported separately. The parent process peak RSS was 606,916 KiB; the 1.5 GB cgroup recorded no swap use or memory high/max/OOM events. This confirms callback compatibility for this sequence only. It does not rank policies or establish timing variance. The run used Python 3.11.16/NumPy 2.2.6. No host rental or external upload occurred.
+
+The full panel is prepared but has not been run. It uses a five-callback A/B/C/D/A pilot, then the same eight-sequence panel in every formal block. For each sequence A brackets the candidate trio; the B/C/D order traverses all six permutations exactly once in each six-block cycle. A minimum of six blocks per candidate is mandatory. After that, the panel may stop when all wall-time paired intervals reach the requested half-width, or continue to a maximum of 12 blocks. A full block has 40 timed complete-sequence callbacks. A/B/C/D callback order and sequence order are frozen by seed `20261015`. All blocks and adaptive intervals are exploratory; they do not confirm a selected winner. Any winner claim requires a successor preregistration that fixes untouched confirmation block order, seed, count and output path before those blocks run. Confirmation is not scheduled or included in this packet.
 
 ```sh
 scripts/benchmark_cpu_policy_panel_r1.py \
@@ -37,7 +39,7 @@ scripts/benchmark_cpu_policy_panel_r1.py \
 
 The output reports callback wall and worker process time, per-sequence repeats, between-sequence means, block-paired log-ratio intervals, fixture/package verification, constructor/weight packing, process spawn-to-ready, cgroup counters, CPU identity and every reset/parity result. Cold start, construction, fixture hashing and sentinel reset are separate from callback time. Intervals are descriptive and conditional on one host; sequential stopping is not adjusted, and a near-tie stays unresolved. No runtime score or public result is computed.
 
-Four pure-protocol unit tests pass for block balance, minimum budget admission, paired intervals and the separate within-/between-sequence summaries. A local compatibility smoke receipt will be added separately after its bounded callback run. The target AMD EPYC 9224 timing panel remains pending root-owned CPU-host availability; no Vast instance, payment, GPU or remote action was initiated.
+Four pure-protocol unit tests pass for block balance, minimum budget admission, paired intervals and the separate within-/between-sequence summaries. The target AMD EPYC 9224 timing panel remains pending root-owned CPU-host availability; no Vast instance, payment, GPU or remote action was initiated.
 
 ## Files
 
@@ -46,3 +48,4 @@ Four pure-protocol unit tests pass for block balance, minimum budget admission, 
 - [`test_cpu_policy_panel_r1.py`](../../../../tests/test_cpu_policy_panel_r1.py): deterministic protocol and summary checks.
 - [`BENCHMARK_PACKET_R1.json`](BENCHMARK_PACKET_R1.json): machine-readable commands, panel order, boundaries and current execution status.
 - [`PACKAGE_BINDING_R1.json`](PACKAGE_BINDING_R1.json): immutable archive and extracted-package identities.
+- [`SMOKE_PAIR_R1.json`](smoke_local_20261015_r1/SMOKE_PAIR_R1.json): completed local A/B compatibility smoke receipt; exact output parity, callback timings and resource observations for one source-qualified sequence.

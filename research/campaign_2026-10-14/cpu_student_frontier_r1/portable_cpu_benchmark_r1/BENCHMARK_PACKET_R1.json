@@ -1,7 +1,7 @@
 {
   "format": "wnn.portable-cpu-policy-panel-packet",
   "version": 1,
-  "status": "prepared; full timing panel not run",
+  "status": "A/B compatibility smoke complete; full timing panel not run",
   "purpose": "paired runtime comparison of fixed original xteam_h4 A/B/C/D CPU policies",
   "source_archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
   "package_binding": {
@@ -55,7 +55,21 @@
       "same-policy bitwise output across reset-separated replay",
       "A/B bitwise equality and numerical-difference summary"
     ],
-    "timing_claim": false
+    "timing_claim": false,
+    "execution_receipt": "smoke_local_20261015_r1/SMOKE_PAIR_R1.json",
+    "execution_status": "complete",
+    "execution_receipt_sha256": "afc48e63a62e7b51ada060cb04e67abddbec3e04444c790516fe63ecaffc6821",
+    "source_commit": "9558070a69758cbf8cfd3b646f1f5d2af322b84c",
+    "runner_sha256": "be2697340cc90d676745f52d33b04e22794dc80c338c34a6bfb30527b671825b",
+    "result": {
+      "same_policy_reset_replay_bitwise_equal": true,
+      "A_B_bitwise_equal_on_one_source_qualified_sequence": true,
+      "A_callback_wall_seconds": [2.1681793330062646, 2.0812195220205467],
+      "B_callback_wall_seconds": [2.8789141880115494, 2.9978589579986874],
+      "max_parent_process_rss_kib": 606916,
+      "local_host": "Intel i9-11900H, one logical CPU affinity; Python 3.11.16, NumPy 2.2.6",
+      "interpretation": "Compatibility evidence for one sequence only; not a timing ranking, variance estimate, or AMD EPYC 9224 measurement."
+    }
   },
   "full_panel": {
     "policy_labels": ["A", "B", "C", "D"],
@@ -73,6 +87,7 @@
     "adaptive_stop": "after at least six blocks, stop only when all wall-time paired intervals meet the half-width target, otherwise continue up to twelve blocks",
     "all_blocks_exploratory": true,
     "fresh_confirmation_required_for_winner_claim": true,
+    "confirmation_schedule": "Not part of this packet. Any later winner claim requires a successor preregistration fixing untouched block order, seed, count and output path before execution.",
     "comparisons": ["B/A", "C/A", "D/A", "B/C", "B/D", "C/D"],
     "reported_clocks": ["callback wall seconds", "worker process CPU seconds"],
     "variance_levels": ["within-sequence repeated calls", "between-sequence means", "paired block log ratios"],
