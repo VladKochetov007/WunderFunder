@@ -1,3 +1,16 @@
+## 2026-10-15T14:23:35Z — two CPU cores and disk scratch override earlier budgets
+
+Latest user reports laptop freezes/full tmp and limits all our work to **two CPU
+cores**, with GPU research still allowed. [ADR0039](adr/0039-two-core-local-budget-and-disk-scratch.md)
+records the applied200% aggregate cap, guarded controller and physical temp/cache
+paths, including model-child propagation. Eight redundant poller/queue timers are
+stopped. Closed research scratch moved to physical disk with compatibility links;
+/tmp measured87MiB afterward (297MiB before, earlier full condition not reproduced).
+No fit/export was running; alpha0 P1 finished successfully with valid next_epoch2.
+CP1 exports were held for maintenance and resume only through the new two-core
+controller/fresh reservation check, one worker and serialized low-CPU support.
+Earlier five-core state entries below are historical. Scientific endpoints unchanged.
+
 ## 2026-10-15T14:05:17Z — new measurements and research-loop diversification
 
 Latest user steering: keep experimenting and do not get stuck in a lineage. The [cycle reset](../research/unified/methods/RESEARCH_LOOP_RESET_20261015_R1.md) requires discriminating measurements, preserves alternative branches and separates delivery failures from scientific negatives. Five short-screen shapes are graded; H384×2 completed WP .6716880442 (+.0019104024 versus H256×2), while H512×1 leads the short screen. This is not a converged architecture ranking.

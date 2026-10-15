@@ -1,23 +1,26 @@
 #!/usr/bin/env bash
 # Run a research command inside a transient systemd scope so it cannot take the
-# laptop down: CPU quota (default 80% of all logical CPUs), a hard memory cap
+# laptop down: CPU quota (default one core), a hard memory cap
 # with swap disabled (the job is OOM-killed inside its cgroup, not the desktop),
 # and lowered CPU/IO priority.
 #
 #   scripts/limited .venv/bin/python scripts/train_rnn.py ...
 #
-# Overrides: WNN_CPU_PCT (default 80), WNN_MEM_MAX (default 30G).
+# Explicit job bounds override defaults; the campaign parent caps aggregate CPU.
 set -euo pipefail
 
-cpu_pct=${WNN_CPU_PCT:-80}
 mem_max=${WNN_MEM_MAX:-30G}
-threads=${WNN_THREADS:-$(( $(nproc --all) * cpu_pct / 100 ))}
+threads=${WNN_THREADS:-1}
 (( threads < 1 )) && threads=1
-quota=${WNN_CPU_QUOTA:-$(( $(nproc --all) * cpu_pct ))%}
-scope_properties=()
-if [[ -n ${WNN_SLICE:-} ]]; then
-    scope_properties+=(--slice="$WNN_SLICE")
-fi
+quota=${WNN_CPU_QUOTA:-100%}
+scope_properties=(--slice="${WNN_SLICE:-wnn-campaign.slice}")
+research_tmp=${WNN_TMP_ROOT:-/home/vlad/development/wunder/research_tmp}
+mkdir -p "$research_tmp"
+export TMPDIR="$research_tmp"
+export TMP="$research_tmp"
+export TEMP="$research_tmp"
+export WNN_TMP_ROOT="$research_tmp"
+export TORCHINDUCTOR_CACHE_DIR="$research_tmp/torchinductor"
 if [[ -n ${WNN_RUNTIME_MAX:-} ]]; then
     scope_properties+=(-p "RuntimeMaxSec=$WNN_RUNTIME_MAX")
     scope_properties+=(-p "TimeoutStopSec=2s")

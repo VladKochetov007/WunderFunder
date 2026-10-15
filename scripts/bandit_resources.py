@@ -36,13 +36,16 @@ CPU_CAP = 6
 POST_WINDOW_CPU_CAP = 5
 TEMPORARY_CPU_START = datetime(2026, 10, 7, 22, 16, 56, tzinfo=UTC)
 TEMPORARY_CPU_END = datetime(2026, 10, 8, 7, 0, tzinfo=UTC)
+TWO_CORE_CPU_START = datetime(2026, 10, 15, 14, 23, 35, tzinfo=UTC)
 
 
 def authorized_cpu_cap(now: datetime | None = None) -> int:
-    """Apply the dated twelve-core window, then the user's five-core ceiling."""
+    """Apply dated authorizations, including the latest two-core ceiling."""
     current = datetime.now(UTC) if now is None else now
     if current.tzinfo is None:
         raise ValueError("CPU authorization time must include a timezone")
+    if current >= TWO_CORE_CPU_START:
+        return 2
     if current >= TEMPORARY_CPU_END:
         return POST_WINDOW_CPU_CAP
     return 12 if current >= TEMPORARY_CPU_START else CPU_CAP
@@ -578,6 +581,18 @@ def verify_attempt_id(attempt: str) -> None:
         raise ValueError("attempt ID must contain 1-80 letters, digits, underscores or dashes")
 
 
+def temporary_environment(root: Path) -> dict[str, str]:
+    """Route both the service and its model subprocess to physical scratch."""
+    scratch = os.environ.get("WNN_TMP_ROOT", str(root.parent / "research_tmp"))
+    return {
+        "WNN_TMP_ROOT": scratch,
+        "TMPDIR": scratch,
+        "TMP": scratch,
+        "TEMP": scratch,
+        "TORCHINDUCTOR_CACHE_DIR": str(Path(scratch) / "torchinductor"),
+    }
+
+
 def service_command(
     root: Path,
     state: Path,
@@ -610,6 +625,7 @@ def service_command(
         "PYTHONPATH": str(root / "src"),
         "CUDA_VISIBLE_DEVICES": "0" if kind == "gpu" else "",
     }
+    env.update(temporary_environment(root))
     for key in ("PATH", "HOME", "LANG", "LD_LIBRARY_PATH", "VIRTUAL_ENV"):
         if key in os.environ:
             env[key] = os.environ[key]
@@ -1028,6 +1044,7 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
         ),  # the unit environment already carries the admitted value
         "CUDA_VISIBLE_DEVICES": "0" if kind == "gpu" else "",
     }
+    env.update(temporary_environment(root))
     for key in ("LD_LIBRARY_PATH", "VIRTUAL_ENV"):
         if key in os.environ:
             env[key] = os.environ[key]

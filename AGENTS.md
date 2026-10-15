@@ -1,5 +1,11 @@
 # Project agent instructions
 
+Latest local instruction (2026-10-15): **two aggregate CPU cores**, replacing
+earlier five-core allocations, including support jobs. GPU research continues
+with one worker; serialize CPU support at low quota. Temporary files/caches must
+use physical disk at `/home/vlad/development/wunder/research_tmp`, not RAM-backed
+`/tmp` or `/dev/shm`. See [ADR0039](specs/adr/0039-two-core-local-budget-and-disk-scratch.md).
+
 ## Mission and session entry
 
 This repository's root task is Wunder Connectome Challenge2. Maximize long-term expected competition performance with traceable team models, reproducible experiments and valid deterministic submissions. **Form and rank submissions from our research and valid local evaluation evidence. Public leaderboard feedback confirms transfer; it is not the primary selection objective or a prerequisite for packaging a locally supported candidate.** The user wants top-1 and public score above 0.700 as active, achievable research objectives. Do not prune promising directions because current scores are lower or a public forecast is unavailable; report claims and uncertainty honestly. A confidence interval crossing zero is not a universal reject/stop rule; follow [ADR0009](specs/adr/0009-uncertainty-is-not-a-kill-switch.md) and the research methods when allocating uncertain arms. Follow [ADR0008](specs/adr/0008-research-scale-beyond-serving-envelope.md) when distinguishing competition rules from relaxable serving limits. Exclude `wunder/challenge-3`; nested challenge packages can have different formats.

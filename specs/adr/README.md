@@ -61,3 +61,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0037: CPU student frontier and asynchronous probes](0037-cpu-student-frontier-and-asynchronous-probes.md): fixed-weight native comparisons, architecture/precision/initializer search and continuous theory/training while user uploads later;5GB observedVRAM for new admissions.
 
 - [ADR0038: Vast-A exactCPU benchmark budget](0038-vast-a-exact-cpu-benchmark-budget.md) records explicit$3authority on`vastai`, exactEPYC9224requirement, CPU-only access uncertainty and no-rental status.
+
+- [ADR0039: two local CPU cores and physical-disk scratch](0039-two-core-local-budget-and-disk-scratch.md) supersedes five-core allocations after laptop responsiveness/storage concerns; preserves GPU research, model recipes and checkpoints.
