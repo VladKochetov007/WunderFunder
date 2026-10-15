@@ -1,8 +1,12 @@
 # Frozen-parent anchor recipe R1
 
 This is a source-bound, no-new-trainer-source recipe for arm S under
-`H-FROZEN-PARENT-ANCHOR-20261015`. It is ready for root review but has not been
-profiled, admitted, fit, exported, or graded.
+`H-FROZEN-PARENT-ANCHOR-20261015`. The direct-parent S child has not been
+profiled, admitted, fit, exported, or graded. Its 50-attempt resource profile
+is pinned in [the queued profile contract](S_PARENT_ANCHOR_PROFILE_R1.json)
+and is not launched until the C fit and export release the GPU lane. The
+predeclared parent/T3 endpoint-mixture diagnostic is complete and indexed in
+the [campaign README](../README.md); it does not qualify as an S fit result.
 
 The exact two-epoch trainer argument vector and all input/source pins are in
 [S_PARENT_ANCHOR_RECIPE_R1.json](S_PARENT_ANCHOR_RECIPE_R1.json). It runs the
@@ -59,7 +63,7 @@ The recipe fixes an FP32 full-valid prediction export and official
 `global_wp_clip2_v1` grading of the same exposed 468-group F0 panel as C,
 with the exact parent as an additional reference. Results would represent
 one seed and one repeatedly inspected fold, not a fresh holdout or public
-forecast. A separate cheap measurement is proposed in the JSON: score one
-predeclared parent / scaled-T3 fixed mixture against the parent with the
-existing grader. It is endpoint-complementarity evidence only, uses the same
-exposed panel, and does not block S.
+forecast. The separately predeclared parent / scaled-T3 fixed mixture has now
+been graded against the parent with the existing scorer. It is endpoint-
+complementarity evidence only, uses the same exposed panel, and does not block
+S; see the grade receipt linked from the campaign README.
