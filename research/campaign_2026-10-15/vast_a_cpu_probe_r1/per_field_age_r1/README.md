@@ -1,5 +1,11 @@
 # Per-field causal age representation R1
 
+The unlaunched [matched screen R2](MATCHED_SCREEN_R2.md) supersedes this page's
+proposed fit/export recipe: common original warm parent, two matched epochs,
+fixed CP1 and full1,873-valid-group export followed by468-group evaluation.
+It adds the missing production Torch/oracle check before actual GPU profiling.
+The R1 engineering results below remain historical evidence.
+
 **Lineage:** H-087/H-138; E-PER-FIELD-CLOCK-RESOLUTION-F0-20261015-R1.
 
 **Status:** source and matched recipe prepared; no fit, GPU profile, export, or grade has been admitted. The historical 211-input path remains the default and is unchanged.
