@@ -1,0 +1,13 @@
+{
+  "schema": "wnn.student-shape-pair-offline-seal-failure.r1",
+  "status": "offline_seal_check_caught_stale_dataset_literal",
+  "provider_action_performed": false,
+  "attempts": 1,
+  "numeric_exit_code_retained": false,
+  "failure_class": "local_verifier_binding_mismatch",
+  "check": "seal_generated_profile_r3.py",
+  "observed_problem": "The copied R2 seal helper expected treatment-assets version r32, while the frozen input binding and R2 kernel metadata both name version r22. The inputs themselves agree on r22.",
+  "resolution": "Derive the expected kernel dataset-source set from the frozen source binding and explicitly add the bound profile-source and raw-data datasets.",
+  "provider_mutation": false,
+  "scientific_result": false
+}
