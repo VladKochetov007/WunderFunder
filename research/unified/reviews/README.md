@@ -145,6 +145,7 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 ## Warm-parent growth and age continuation — 2026-10-15
 
 - [Warm-parent growth and age wave R3 recipe review](GRU_PARENT_GROWTH_WARM_WAVE_R3_REVIEW_20261015_R1.md) traces the source-bound C/G/F/W vectors through trainer initialization, split membership, seeded sampling, two-epoch OneCycle, and CP1 selection. It gives bounded GO for the four 50-update B16 resource profiles after root parser/source preflight and fresh admission; full fits remain root-admitted after terminal profiles. One inaccurate sampler-order description was corrected before this review. No fit or GPU action was taken.
+- [Warm-mechanism C CP1 grade review](WARM_MECHANISM_C_CP1_GRADE_REVIEW_20261015_R1.md) independently grades the source-bound two-epoch C continuation against its exact original parent and a secondary, explicitly non-matched A9 CP5 reference. C scores 0.681227 on exposed F0; both paired component intervals cross zero. The note records the 14,920 attempts / 14,914 completed / six AMP-skipped updates and limits interpretation to this FP32-exported, single-seed endpoint; it does not isolate T3-target value.
 
 ## Student shape-pair T4 profile — 2026-10-15
 

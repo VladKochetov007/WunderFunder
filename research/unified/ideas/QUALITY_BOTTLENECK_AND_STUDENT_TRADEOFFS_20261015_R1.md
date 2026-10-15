@@ -4,7 +4,7 @@ status: proposed
 created_utc: 2026-10-15T11:55:00Z
 updated_utc: 2026-10-15T12:06:57Z
 hypothesis_ids: [H-KD-CONTINUATION-VALUE-20261015, H-STUDENT-LADDER-20261014, H-STUDENT-PARENT-GROWTH-20261015]
-experiment_ids: []
+experiment_ids: [E-WARM-MECHANISM-C-CP1-20261015-R1]
 evidence_paths: [research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md]
 ---
 
@@ -80,3 +80,7 @@ No local delta in this note is a public-score forecast. All reported uncertainty
 ## Historical parent update-budget audit, October15
 
 The [bounded provenance audit](../../campaign_2026-10-15/student_quality_tradeoff_r1/PARENT_UPDATE_BUDGET_AUDIT_R1.json) finds that `c20261003_combo_s3_f0@ep3` used B32/C1000 with29,840 attempts/29,828 completed updates; the stronger `oldz4_h230_parent_f0_s3_r3@ep3` used B16/C1000 with59,680/59,654. Both nominally trained four epochs. Their Muon scope (rnn versus hidden), teacher/cache recipe and normalization identities also differ; doubling updates also changes any per-update EMA clock relative to samples. Their .680941/.682823 grades are existing results with unrecorded/FP16 precision respectively. This is a comparison confound, not evidence that any one setting caused the gain. Preserve the stronger clean older parent as a follow-up initializer, without changing the current frozen alpha trajectory or the shared-control mechanism screen. Next method promotion should assess that starting point after actual FP32/consumer checks, rather than anchoring all future candidates to the weaker parent.
+
+## Warm-mechanism C checkpoint grade addendum, October15
+
+The shared two-epoch C continuation now has a fixed zero-based CP1 export and official grade. It scores 0.6812265132 against 0.6809412068 for its exact original starting checkpoint `c20261003_combo_s3_f0@ep3`; the paired +0.0002853064 interval [-0.0022089120,+0.0024805067] crosses zero. C used alpha-.9 clean T3 targets with `aux_next=aux_struct=.3`, FP16 training, 14,920 attempts and 14,914 completed updates (six AMP skips), and exports FP32 predictions. This is a continuation-versus-parent endpoint comparison, not a matched target-treatment effect. The secondary A9 CP5 comparison also crosses zero and changes the horizon/recipe. See the [independent grade review](../reviews/WARM_MECHANISM_C_CP1_GRADE_REVIEW_20261015_R1.md) and [machine grade](../../campaign_2026-10-15/student_quality_tradeoff_r1/WARM_MECHANISM_F0_S3_C_R3_CP1_PAIRED_GRADE_R1.json). These exposed F0 results do not resolve teacher versus distillation limits.
