@@ -1,0 +1,101 @@
+{
+  "failed_attempts": [
+    {
+      "command": "git sparse-checkout add --no-cone /scripts/profile_min_gru_cost_pair.py /research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1/** && git sparse-checkout reapply && git status --short",
+      "command_sha256": "cf1d8494a31382261ff3e2a751cb01d81f98ccbd755c87702de1379a6c1c4310",
+      "diagnosis": "The installed Git version accepts --no-cone on sparse-checkout set, not sparse-checkout add. The command rejected the option before changing the sparse patterns.",
+      "exit_code": 129,
+      "id": "sparse-checkout-add-no-cone",
+      "resolution": "Read the existing pattern list and reapplied it with the two new paths using git sparse-checkout set --no-cone; verified the requested source paths materialized and the index returned clean.",
+      "status": "failed-preflight",
+      "stdout_stderr": "error: unknown option `no-cone'\nusage: git sparse-checkout add [--skip-checks] (--stdin | <patterns>)"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s scripts/limited /usr/bin/python3 -m py_compile scripts/profile_min_gru_cost_pair.py && git diff --check && if command -v ruff >/dev/null 2>&1; then WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s scripts/limited ruff check scripts/profile_min_gru_cost_pair.py; else printf 'ruff unavailable\\n'; fi",
+      "command_sha256": "e167849535b1f8b773509b7082754199be0c51d3ab6db188e747d4e725a0f52d",
+      "diagnosis": "A single unused import in the new profiling script.",
+      "exit_code": 1,
+      "id": "ruff-first-profile-script-check",
+      "resolution": "Removed the unused import; subsequent Ruff, py_compile, and git diff --check all passed.",
+      "status": "failed-static-check",
+      "stdout_stderr": "Ruff F401: unused import os at scripts/profile_min_gru_cost_pair.py:11; Found 1 error."
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s scripts/limited ruff check scripts/profile_min_gru_cost_pair.py && WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python -m py_compile scripts/profile_min_gru_cost_pair.py && git diff --check && cat /sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/memory.current && find /sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice -mindepth 1 -maxdepth 1 -type d -print0 | while IFS= read -r -d '' d; do state=$(cat \"$d/cgroup.events\" 2>/dev/null | rg '^populated '); if [ \"$state\" = 'populated 1' ]; then printf '%s ' \"${d##*/}\"; cat \"$d/memory.current\" \"$d/memory.max\" 2>/dev/null | tr '\\n' ' '; printf '\\n'; fi; done",
+      "command_sha256": "a066cebfa71886943b0ca6e7074ccc2d58aa9308cc1b8cf43564c10b15dd979e",
+      "diagnosis": "The query targeted the system manager rather than the user manager that owns wnn-campaign.slice; no worker was launched by this command.",
+      "exit_code": 1,
+      "id": "fresh-resource-gate-service-filter",
+      "resolution": "Queried populated direct child cgroups under the exact user wnn-campaign.slice path, which exposed the active H256L1 fit and its memory.current/max. Later process-specific scopes were verified from /proc/<pid>/cgroup and their memory files.",
+      "status": "failed-resource-telemetry-filter",
+      "stdout_stderr": "Static checks passed and parent memory.current was printed; the default system-manager `systemctl list-units` query returned no matching wnn/bandit services, so rg returned 1 and the chained cgroup loop did not run."
+    },
+    {
+      "command": "mkdir -p research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1/runs_r1 && WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=900s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-gru-f32-r1.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python scripts/profile_min_gru_cost_pair.py worker --family gru --precision f32 --local-dir cache/min_gru_cost_profile_r1 --output research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1/runs_r1/gru_f32_worker.json",
+      "command_sha256": "b5696e804eec3acf015d10b131c831ca4eacddf4f2b381d4377a3a27241efeb9",
+      "diagnosis": "The matrix-only counter matched names ending with `weight`, omitting GRU PyTorch keys `gru.weight_ih_l*` and `gru.weight_hh_l*`.",
+      "exit_code": 1,
+      "id": "gru-f32-debug-worker-matrix-accounting-preflight",
+      "resolution": "Counted GRU keys beginning with `gru.weight_` as matrices. Corrected generator asserted 972,032 GRU matrix parameters and later completed the full debug FP32 run.",
+      "status": "failed-worker-preflight",
+      "stdout_stderr": "AssertionError: gru matrix count 185600 != 972032, raised in synthesize_weights before native import/constructor or callback timing."
+    },
+    {
+      "command": "sha256sum scripts/profile_min_gru_cost_pair.py native/Cargo.toml native/Cargo.lock src/wnn/min_gru.py native/src/min_gru.rs native/src/rnn_fast.rs && git diff --check &&",
+      "command_sha256": "d678b06f908bf91dabe931c81df32446f6d3c413975ed8b13458bd83778a46e7",
+      "diagnosis": "An accidental trailing shell operator made this provenance-only hash query syntactically incomplete; it launched no profiling or build work.",
+      "exit_code": 2,
+      "id": "source-hash-query-shell-typo",
+      "resolution": "Re-ran the exact intended sha256sum and git diff --check without the final &&; all requested source hashes were recorded and the diff check passed.",
+      "status": "failed-metadata-query",
+      "stdout_stderr": "/bin/bash: -c: line 2: syntax error: unexpected end of file"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-preflight-r1.scope scripts/limited ruff check scripts/profile_min_gru_cost_pair.py && WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-preflight-r1-py.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python -m py_compile scripts/profile_min_gru_cost_pair.py && WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-preflight-r1-help.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python scripts/profile_min_gru_cost_pair.py worker --help && git diff --check",
+      "command_sha256": "695a428c18f7c2b19e0b3ff2812055c677fc1c2bf6c51f5aa634bf3ca6a49d6f",
+      "diagnosis": "The exec request used a stale worktree path, so the process was rejected before the shell started. No check or worker ran.",
+      "exit_code": null,
+      "id": "static-preflight-stale-workdir",
+      "requested_workdir": "/home/vlad/development/worktrees/min-gru-real-costprofile-20261014",
+      "resolution": "Re-ran the exact command from /home/vlad/development/wunder/worktrees/min-gru-real-costprofile-20261014 after recalculating the gate. Ruff, Python 3.11 py_compile and --help, and git diff --check all passed.",
+      "status": "failed-process-creation",
+      "retry_status": "passed-from-correct-workdir",
+      "stdout_stderr": "CreateProcess rejected the request: no such file or directory (os error 2)."
+    },
+    {
+      "id": "research-tree-script-absent-from-sparse-checkout",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-tree-refresh-r1.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python scripts/research_tree.py --root . build",
+      "command_sha256": "af8770f7a03cdf4251e5a1953cee633ae739aa8778bf2f957934e1c0e33db0b9",
+      "status": "failed-process-input",
+      "exit_code": 2,
+      "requested_workdir": "/home/vlad/development/wunder/worktrees/min-gru-real-costprofile-20261014",
+      "stdout_stderr": "python: can't open file '/home/vlad/development/wunder/worktrees/min-gru-real-costprofile-20261014/scripts/research_tree.py': [Errno 2] No such file or directory",
+      "diagnosis": "This worktree uses sparse checkout and omits scripts/research_tree.py. The shell and bounded Python process launched, but the requested script was absent and no tree-generation work ran. Read-only comparison showed the source commit HEAD and current MAIN resolve scripts/research_tree.py to the same blob SHA-256-equivalent Git object 5786cca2d63475e44c3f946d8cbc5ada85a1802f.",
+      "resolution": "No retry. The script and configured document roots are omitted from this deliberately sparse worktree; a partial catalog refresh would be misleading. The campaign README and unified inference README directly index this profile. Root will rebuild the generated research tree after integration into the complete MAIN checkout.",
+      "retry_status": "not-retried-by-actor; root-owned full-checkout refresh after integration",
+      "source_blob": "5786cca2d63475e44c3f946d8cbc5ada85a1802f"
+    },
+    {
+      "id": "final-receipt-validator-manifest-key-typo",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-final-json-r1.scope scripts/limited bash -c 'ruff check scripts/profile_min_gru_cost_pair.py && /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python -m py_compile scripts/profile_min_gru_cost_pair.py && /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python -c '\\''import hashlib,json,pathlib; b=pathlib.Path(\"research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1\"); [json.loads(p.read_text()) for p in b.rglob(\"*.json\")]; m=json.loads((b/\"SOURCE_MANIFEST_R1.json\").read_text()); assert hashlib.sha256(pathlib.Path(\"scripts/profile_min_gru_cost_pair.py\").read_bytes()).hexdigest()==m[\"runner\"][\"sha256_after_release_loader_preflight_fix\"]; a=json.loads((b/\"ATTEMPTS_R1.json\").read_text()); assert all(hashlib.sha256(x[\"command\"].encode()).hexdigest()==x[\"command_sha256\"] for x in a[\"attempts\"]); ws=[json.loads((b/\"runs_r1\"/n).read_text()) for n in [\"gru_f32_release_worker.json\",\"min_gru_f32_release_worker.json\",\"gru_q8vnni_release_worker.json\",\"min_gru_q8vnni_release_worker.json\"]]; assert all(len(w[\"full_callback_repetitions\"])==3 and w[\"determinism\"][\"same_predictions_bitwise_after_reset\"] and w[\"determinism\"][\"same_final_state_bitwise_after_reset\"] and w[\"precision_requested\"]==w[\"precision_selected_assertion\"] for w in ws); rows=[json.loads(x) for x in pathlib.Path(\"research/experiments.jsonl\").read_text().splitlines() if x.strip()]; assert sum(x.get(\"id\")==\"E-STUDENT-GRU-MINGRU-COST-20261014-R1\" for x in rows)==1'\\'' && git diff --check && git check-ignore -q cache/min_gru_cost_profile_r1/train37_raw112.f32 && git check-ignore -q cache/min_gru_cost_profile_r1/clean_f0_mean.npy && git check-ignore -q cache/min_gru_cost_profile_r1/clean_f0_std.npy'",
+      "command_sha256": "0297830e86bad2f50cceb7867ef2df485d3458aceb1be777fc2ce46cfccff4f8",
+      "status": "failed-static-check",
+      "exit_code": 1,
+      "stdout_stderr": "Traceback: KeyError: sha256_after_release_loader_preflight_fix",
+      "diagnosis": "Validator used underscores while SOURCE_MANIFEST_R1.json contains the existing field sha256_after_release-loader_preflight_fix. Ruff and Python bytecode compilation passed before the JSON assertion; no native build, fit or profile ran.",
+      "resolution": "Corrected the lookup to the exact existing hyphenated manifest key; the corrected command passed all JSON/JSONL, command-hash, four-worker reset/precision, payload-ignore and diff checks.",
+      "retry_status": "passed; see ATTEMPTS_R1.json corrected-final-receipt-validation"
+    }
+  ],
+  "preflight_corrections": [
+    {
+      "issue": "The original loader's expected native SHA was fixed to the earlier debug library, which would reject the pinned optimized release library before import.",
+      "resolution": "The harness now accepts an explicit expected SHA-256 and build-mode label; release workers must pass the build receipt hash and assert release mode. No release worker command was attempted before this correction.",
+      "status": "corrected-before-attempt",
+      "source": "scripts/profile_min_gru_cost_pair.py"
+    }
+  ],
+  "format": "wnn.min-gru-real-cost-profile-attempts",
+  "note": "Preserves first failed commands and diagnoses before the successful fallback/retry. The matrix-accounting failure performed no native timing.",
+  "version": 1
+}

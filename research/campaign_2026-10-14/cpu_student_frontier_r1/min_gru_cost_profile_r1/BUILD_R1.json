@@ -1,0 +1,65 @@
+{
+  "binary": {
+    "build_id_sha1": "d08dbd3892f332b9fcafd34fb826d29399fbde06",
+    "path": "native/target/release/libwnn_native.so",
+    "sha256": "5e29328c940aeaada3f38c86a75a824585fedae78bf68d6a1dd5d78b98996f13",
+    "size_bytes": 1224720,
+    "stripped": false
+  },
+  "branch": "cpu-inference/min-gru-real-costprofile-20261014",
+  "build_profile": "Cargo release: opt-level=3, LTO=fat, codegen-units=1, panic=abort; optimized native shared object",
+  "claim_limit": "Local optimized build provenance only. No package, fit, quality grade, or competition-host performance claim.",
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=900s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-release-build-r1.scope scripts/limited cargo build --release --manifest-path native/Cargo.toml --features extension-module",
+  "command_sha256": "24a4f8b64a856d3657caae3281a0d5540f35eac15b9ae872022ad5b5262c4d79",
+  "completed_utc": "2026-10-14T02:54:16Z",
+  "elapsed_seconds": 28.57,
+  "features": [
+    "extension-module",
+    "python",
+    "pyo3/extension-module",
+    "abi3-py311"
+  ],
+  "format": "wnn.min-gru-production-shape-cost-build",
+  "limits": {
+    "cpu_quota": "100%",
+    "memory_max_bytes": 2000000000,
+    "runtime_max": "900s",
+    "swap_max_bytes": 0,
+    "threads": 1
+  },
+  "native_source_unchanged_from_commit": true,
+  "profile_script_at_worker_initial_hash": "defb4149c24dce2954b289afe87b240919890ff34879c65b90a7212190c12552",
+  "relationship_to_debug_profile": "This release binary is built from the same sealed source commit as the earlier debug worker; the two build-mode timings are kept separate.",
+  "resource_peak": "The bounded systemd scope completed successfully. Its cgroup was removed before the post-build memory.peak could be read; no actual peak is claimed from the compile receipt.",
+  "source_commit": "7364a452e0c72c2600a27e21cb66f6deb9e714ce",
+  "source_sha256": {
+    "native/Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+    "native/Cargo.toml": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+    "native/src/approx.rs": "9ccf56716d8416210cab7b6260df12bd30178a8cad6bb289f0b8d3111649f912",
+    "native/src/factorized.rs": "7e3666cceae408e746d171ea2096500f37aa0b1eaafa5974026f2623cd0d6199",
+    "native/src/half.rs": "87035e5569bb7a53295c222026337a4a08661f1d6d821c2b26074fa12b4bb9cc",
+    "native/src/kernels.rs": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+    "native/src/lib.rs": "e723e66179cf3fe25624e3b7a2cdaacb8dd0b98f135bd0df721a20aaa2dd10f4",
+    "native/src/min_gru.rs": "cb6652cb50478b3d8b5a612f259c311c90045b5722e0d654857bba133ae1a38e",
+    "native/src/python.rs": "dacbd689b4ad548e1493059170914bfef86f2a6b8b9e33eb11b63ea2148d76e4",
+    "native/src/quant8.rs": "07354c7f65deaa145127f359448b5fe1f5648e16fe3034bfdccd2939f91347cc",
+    "native/src/rnn.rs": "544135da67cb156a471d8ca0a9de7837f2ae3657a7885e4f8d95edf238cb0abf",
+    "native/src/rnn_fast.rs": "5e69b591df41438f136dd28cc115be5063c13792368eebcf33a6340f327b714c",
+    "native/src/state_init.rs": "20132e54db3829bf655bc7080217c7aaa59f55f74708cd5371290e7ab51f72ed",
+    "native/src/stream.rs": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6",
+    "native/src/vnni.rs": "47cfd8fea80857fe66f81dca119e75661845b9092fe635f7116a4ec7ab18233c",
+    "src/wnn/min_gru.py": "f7ffca46d34c37eca35a3294d292cc4560e36d01592daa0d3093a114e5fe1e43"
+  },
+  "status": "passed",
+  "toolchain": {
+    "cargo": "1.94.0 (85eff7c80 2026-01-15)",
+    "rustc": "1.94.0 (4a4ef493e 2026-03-02)",
+    "target": "x86_64-linux"
+  },
+  "version": 1,
+  "width_support": {
+    "gru": "ordinary RNNModel/FastRnn in this sealed source still uses a shared hidden width; later independent-width GRU support is not included.",
+    "min_gru": "native MinGruModel infers and validates independent encoder/recurrent/readout widths; Python MinGRUModel constructor exposes all three."
+  },
+  "worktree": "/home/vlad/development/wunder/worktrees/min-gru-real-costprofile-20261014"
+}

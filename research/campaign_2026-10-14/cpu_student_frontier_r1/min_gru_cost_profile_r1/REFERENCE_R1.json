@@ -1,0 +1,74 @@
+{
+  "checks": {
+    "gru": {
+      "model_input_shape": [
+        1,
+        137,
+        211
+      ],
+      "native_callback": "wnn_native.Predictor, fast_activations=False, f32",
+      "prediction_max_abs_error": 1.4901161193847656e-07,
+      "prediction_rmse": 4.142178869441277e-08,
+      "predictions_and_state_finite": true,
+      "python_reference": "wnn.nn.RNNModel with exact GELU/torch GRU",
+      "rows": 137,
+      "state_dict_sha256": "41a71cc83b48cf3593c19770039d12476fbf77f9ab19c2f8923c2192946c7597",
+      "state_max_abs_error": 5.513429641723633e-07,
+      "state_rmse": 1.463785196038549e-07
+    },
+    "min_gru": {
+      "model_input_shape": [
+        1,
+        137,
+        211
+      ],
+      "native_callback": "wnn_native.MinGruPredictor, fast_activations=False, f32",
+      "prediction_max_abs_error": 1.6391277313232422e-07,
+      "prediction_rmse": 4.4157603897030404e-08,
+      "predictions_and_state_finite": true,
+      "python_reference": "wnn.min_gru.MinGRUModel affine-prefix sequence reference",
+      "rows": 137,
+      "state_dict_sha256": "b52c31451de7fbcd50df1e5c6cf1830346b11cc7b14ff5ab4b4aa06fa7c14828",
+      "state_max_abs_error": 3.5762786865234375e-07,
+      "state_rmse": 6.902685815933991e-08
+    }
+  },
+  "format": "wnn.min-gru-real-cost-profile-reference-check",
+  "input": {
+    "normalization_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "raw_feature_sha256": "fe24c974e6d6e3e720d36937be06d222d00f743efd65e4a0a3ec178db891f57a",
+    "rows_checked": 137,
+    "source": "fitting train row-group 37"
+  },
+  "limitations": "Only 137 rows per family were compared to the Python reference; production cost measurements remain full-sequence native callbacks. Numerical differences are reported rather than treated as exact parity.",
+  "native_binary_path": "native/target/release/libwnn_native.so",
+  "native_binary_sha256": "5e29328c940aeaada3f38c86a75a824585fedae78bf68d6a1dd5d78b98996f13",
+  "native_build_mode": "release",
+  "quality_claim": false,
+  "resources": {
+    "cgroup": {
+      "available": true,
+      "cpu.max": "100000 100000",
+      "memory.current": "591568896",
+      "memory.events": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0,
+        "sock_throttled": 0
+      },
+      "memory.max": "1499996160",
+      "memory.peak": "595333120",
+      "memory.swap.max": "0",
+      "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-min-gru-costprofile-reference-r1.scope"
+    },
+    "cpu_model": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+    "numpy": "2.2.6",
+    "process_max_rss_bytes": 763465728,
+    "python": "3.13.9",
+    "torch": "2.14.0+cu130"
+  },
+  "version": 1
+}

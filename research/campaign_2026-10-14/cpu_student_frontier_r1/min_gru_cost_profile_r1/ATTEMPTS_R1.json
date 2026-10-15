@@ -1,0 +1,116 @@
+{
+  "format": "wnn.min-gru-cost-profile-attempts",
+  "version": 1,
+  "source_commit": "7364a452e0c72c2600a27e21cb66f6deb9e714ce",
+  "profile_script_sha256": "5c5e27e877dc06596a843f89553e119c1b5efb460ee1a37e206cd2e554a31644",
+  "native_binary_sha256": "5e29328c940aeaada3f38c86a75a824585fedae78bf68d6a1dd5d78b98996f13",
+  "command_hash_rule": "SHA-256 of exact UTF-8 command string with no trailing newline.",
+  "attempts": [
+    {
+      "id": "optimized-release-build",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=900s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-release-build-r1.scope scripts/limited cargo build --release --manifest-path native/Cargo.toml --features extension-module",
+      "command_sha256": "24a4f8b64a856d3657caae3281a0d5540f35eac15b9ae872022ad5b5262c4d79",
+      "exit_code": 0,
+      "status": "passed",
+      "output_receipt": "BUILD_R1.json",
+      "scope_unit": "wnn-min-gru-costprofile-release-build-r1.scope",
+      "memory_max_bytes": 2000000000,
+      "command_elapsed_seconds": 28.57,
+      "elapsed_note": null
+    },
+    {
+      "id": "static-preflight-and-help",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-preflight-r1.scope scripts/limited ruff check scripts/profile_min_gru_cost_pair.py && WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-preflight-r1-py.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python -m py_compile scripts/profile_min_gru_cost_pair.py && WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-preflight-r1-help.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python scripts/profile_min_gru_cost_pair.py worker --help && git diff --check",
+      "command_sha256": "695a428c18f7c2b19e0b3ff2812055c677fc1c2bf6c51f5aa634bf3ca6a49d6f",
+      "exit_code": 0,
+      "status": "passed",
+      "output_receipt": null,
+      "scope_unit": "three sequential 500 MB scopes",
+      "memory_max_bytes": 500000000,
+      "command_elapsed_seconds": null,
+      "elapsed_note": "Not recorded for the wrapper command; callback timings and cgroup/process measurements are in the output receipt."
+    },
+    {
+      "id": "gru-f32-release-full-callback",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=900s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-gru-f32-release-r1.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python scripts/profile_min_gru_cost_pair.py worker --family gru --precision f32 --native native/target/release/libwnn_native.so --expected-native-sha256 5e29328c940aeaada3f38c86a75a824585fedae78bf68d6a1dd5d78b98996f13 --build-mode release --local-dir cache/min_gru_cost_profile_r1 --output research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1/runs_r1/gru_f32_release_worker.json",
+      "command_sha256": "286b854849d17d8543dde35157161bdc1dd937e656192dbc8f22a294aa176457",
+      "exit_code": 0,
+      "status": "passed",
+      "output_receipt": "runs_r1/gru_f32_release_worker.json",
+      "scope_unit": "wnn-min-gru-costprofile-gru-f32-release-r1.scope",
+      "memory_max_bytes": 2000000000,
+      "command_elapsed_seconds": null,
+      "elapsed_note": "Not recorded for the wrapper command; callback timings and cgroup/process measurements are in the output receipt."
+    },
+    {
+      "id": "min_gru-f32-release-full-callback",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=900s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-mingru-f32-release-r1.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python scripts/profile_min_gru_cost_pair.py worker --family min_gru --precision f32 --native native/target/release/libwnn_native.so --expected-native-sha256 5e29328c940aeaada3f38c86a75a824585fedae78bf68d6a1dd5d78b98996f13 --build-mode release --local-dir cache/min_gru_cost_profile_r1 --output research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1/runs_r1/min_gru_f32_release_worker.json",
+      "command_sha256": "eb04627632cd42a82549f3449c1ec45e7e3778f9037feb6ea90b6b3d333a4531",
+      "exit_code": 0,
+      "status": "passed",
+      "output_receipt": "runs_r1/min_gru_f32_release_worker.json",
+      "scope_unit": "wnn-min-gru-costprofile-mingru-f32-release-r1.scope",
+      "memory_max_bytes": 2000000000,
+      "command_elapsed_seconds": null,
+      "elapsed_note": "Not recorded for the wrapper command; callback timings and cgroup/process measurements are in the output receipt."
+    },
+    {
+      "id": "gru-q8vnni-release-full-callback",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=900s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-gru-q8-release-r1.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python scripts/profile_min_gru_cost_pair.py worker --family gru --precision q8vnni --native native/target/release/libwnn_native.so --expected-native-sha256 5e29328c940aeaada3f38c86a75a824585fedae78bf68d6a1dd5d78b98996f13 --build-mode release --local-dir cache/min_gru_cost_profile_r1 --output research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1/runs_r1/gru_q8vnni_release_worker.json",
+      "command_sha256": "7550269f06e5dc146e5503df835b63c38cd5c0bf80221ada25186df0031a2901",
+      "exit_code": 0,
+      "status": "passed",
+      "output_receipt": "runs_r1/gru_q8vnni_release_worker.json",
+      "scope_unit": "wnn-min-gru-costprofile-gru-q8-release-r1.scope",
+      "memory_max_bytes": 2000000000,
+      "command_elapsed_seconds": null,
+      "elapsed_note": "Not recorded for the wrapper command; callback timings and cgroup/process measurements are in the output receipt."
+    },
+    {
+      "id": "min_gru-q8vnni-release-full-callback",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=900s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-mingru-q8-release-r1.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python scripts/profile_min_gru_cost_pair.py worker --family min_gru --precision q8vnni --native native/target/release/libwnn_native.so --expected-native-sha256 5e29328c940aeaada3f38c86a75a824585fedae78bf68d6a1dd5d78b98996f13 --build-mode release --local-dir cache/min_gru_cost_profile_r1 --output research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1/runs_r1/min_gru_q8vnni_release_worker.json",
+      "command_sha256": "3f6c767b6561f04bf54fa3f31a6b94669bb94cac21279e29388f6303b8431580",
+      "exit_code": 0,
+      "status": "passed",
+      "output_receipt": "runs_r1/min_gru_q8vnni_release_worker.json",
+      "scope_unit": "wnn-min-gru-costprofile-mingru-q8-release-r1.scope",
+      "memory_max_bytes": 500000000,
+      "command_elapsed_seconds": null,
+      "elapsed_note": "Not recorded for the wrapper command; callback timings and cgroup/process measurements are in the output receipt."
+    },
+    {
+      "id": "exact-python-reference-137-rows-per-family",
+      "command": "CUDA_VISIBLE_DEVICES= WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=900s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-reference-r1.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python scripts/profile_min_gru_cost_pair.py reference --local-dir cache/min_gru_cost_profile_r1 --native native/target/release/libwnn_native.so --expected-native-sha256 5e29328c940aeaada3f38c86a75a824585fedae78bf68d6a1dd5d78b98996f13 --build-mode release --output research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1/REFERENCE_R1.json",
+      "command_sha256": "e9539b6b225fff36f4eb59fc24249a5eb26d4b573bcf8ea937c95a9e2cebadd1",
+      "exit_code": 0,
+      "status": "passed",
+      "output_receipt": "REFERENCE_R1.json",
+      "scope_unit": "wnn-min-gru-costprofile-reference-r1.scope",
+      "memory_max_bytes": 1500000000,
+      "command_elapsed_seconds": null,
+      "elapsed_note": "Not recorded for the wrapper command; callback timings and cgroup/process measurements are in the output receipt."
+    },
+    {
+      "id": "corrected-final-receipt-validation",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-min-gru-costprofile-corrected-metadata-r1.scope scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python -c 'import hashlib,json,pathlib; b=pathlib.Path(\"research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1\"); [json.loads(p.read_text()) for p in b.rglob(\"*.json\")]; m=json.loads((b/\"SOURCE_MANIFEST_R1.json\").read_text()); assert hashlib.sha256(pathlib.Path(\"scripts/profile_min_gru_cost_pair.py\").read_bytes()).hexdigest()==m[\"runner\"][\"sha256_after_release-loader_preflight_fix\"]; a=json.loads((b/\"ATTEMPTS_R1.json\").read_text()); assert all(hashlib.sha256(x[\"command\"].encode()).hexdigest()==x[\"command_sha256\"] for x in a[\"attempts\"]); f=json.loads((b/\"FAILED_ATTEMPTS_R1.json\").read_text()); assert all(hashlib.sha256(x[\"command\"].encode()).hexdigest()==x[\"command_sha256\"] for x in f[\"failed_attempts\"] if x.get(\"command_sha256\")); ws=[json.loads((b/\"runs_r1\"/n).read_text()) for n in [\"gru_f32_release_worker.json\",\"min_gru_f32_release_worker.json\",\"gru_q8vnni_release_worker.json\",\"min_gru_q8vnni_release_worker.json\"]]; assert all(len(w[\"full_callback_repetitions\"])==3 and w[\"determinism\"][\"same_predictions_bitwise_after_reset\"] and w[\"determinism\"][\"same_final_state_bitwise_after_reset\"] and w[\"precision_requested\"]==w[\"precision_selected_assertion\"] for w in ws); rows=[json.loads(x) for x in pathlib.Path(\"research/experiments.jsonl\").read_text().splitlines() if x.strip()]; assert sum(x.get(\"id\")==\"E-STUDENT-GRU-MINGRU-COST-20261014-R1\" for x in rows)==1' && git diff --check && git check-ignore -q cache/min_gru_cost_profile_r1/train37_raw112.f32 && git check-ignore -q cache/min_gru_cost_profile_r1/clean_f0_mean.npy && git check-ignore -q cache/min_gru_cost_profile_r1/clean_f0_std.npy'",
+      "command_sha256": "850ed2f6d9fdec6fa742f868567bb8b10dec7ac7b1de8aa9df4457f7b3131cdc",
+      "exit_code": 0,
+      "status": "passed",
+      "output_receipts": [
+        "SOURCE_MANIFEST_R1.json",
+        "ATTEMPTS_R1.json",
+        "FAILED_ATTEMPTS_R1.json",
+        "runs_r1/gru_f32_release_worker.json",
+        "runs_r1/min_gru_f32_release_worker.json",
+        "runs_r1/gru_q8vnni_release_worker.json",
+        "runs_r1/min_gru_q8vnni_release_worker.json",
+        "RESOURCE_GATE_R1.json"
+      ],
+      "scope_unit": "wnn-min-gru-costprofile-corrected-metadata-r1.scope",
+      "memory_max_bytes": 500000000,
+      "command_elapsed_seconds": null,
+      "elapsed_note": "Bounded receipt, hash, JSONL, ignored-input and diff checks; elapsed time not separately captured."
+    }
+  ],
+  "claim_limit": "Successful build, bounded callback timing and numerical reference only. No fitting, quality grade, host-transfer or exclusive-core claim."
+}
