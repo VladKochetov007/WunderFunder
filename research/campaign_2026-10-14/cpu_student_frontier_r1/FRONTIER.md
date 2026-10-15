@@ -2,6 +2,17 @@
 
 Entry: 2026-10-13T23:43:28Z (October14 Europe/Kyiv). Root owns completion under [contract](CONTRACT.json).
 
+## Latest allocation, October15 14:05UTC
+
+The user's continued-experiment instruction asks us to escape repetitive research loops. The [bounded cycle reset](../../unified/methods/RESEARCH_LOOP_RESET_20261015_R1.md) separates model limitations from delivery, evaluation and search failures. No model-quality ceiling is established.
+
+- H384×2 completed its original screen: WP .6716880442 versus H256×2 .6697776419; paired delta +.0019104024, conditional interval [.0003020132, .0034776104]. H512×1 remains the strongest short-screen point. Five of eight shapes are graded; the remaining three and longer-fit ranking checks stay eligible.
+- Matched warm-parent alpha0 P1 is actually fitting, epoch1 batch480/746 at this snapshot. The actor owns actual resume checks, P2/P3, fixed2/4/6-epoch FP32 predictions and paired grades against the hash-bound alpha.9 control. The six-epoch endpoint remains primary. Root permits the already-declared two-epoch export/grade between P1 and P2 to obtain feedback sooner without early selection. [Packet and authority](../../campaign_2026-10-15/student_quality_tradeoff_r1/README.md).
+- F3 CP2 exports are collected and finite-validated. [Official grades and independent review](../../campaign_2026-10-15/f3_teacher_export_r2/README.md#root-official-f3-grading-after-collection) give teacher .70801525, older F3 model .70954196, fixed half .71041684; blend delta +.00087488, conditional interval [-.00045517, .00201286]. One exposed fold/seed per different recipe, weight chosen after singles: exploratory complementarity, no public forecast or causal distillation result.
+- The fresh source audit recovered E-291's pooled-loss negative and deferred a close rerun. It also caught the cached trainer's hard-coded MSE path, preventing an ineffective `--loss` intervention. The [per-field clock screen](../../campaign_2026-10-15/vast_a_cpu_probe_r1/PER_FIELD_CLOCK_INPUT_SCREEN_20261015_R1.md) measured finer causal timing coordinates on eight fitting components without labels or prediction evidence. A bounded actor now implements the transform and matched group/field recipe with independent oracle/reset/chunk checks; no representation fit is admitted yet.
+
+Healthy alpha0 sources remain immutable. No new paid action or CPU-host search is allocated. Parent5CPU/17GB committed target/18–20GB memory/no swap and one local GPU/5GB observed VRAM remain binding. Historical snapshots below retain their original status at the stated time.
+
 ## Quality attribution priority, October15
 
 Follow-up: [recomputed parent/student paired grade](../../campaign_2026-10-15/student_quality_tradeoff_r1/CURRENT_T3_PARENT_PAIRED_GRADE_R1.json) reproduces+.000214154 but conditional141-component interval[-.00338452,.00309511]; no established continuation gain or isolated KD effect. [Root conditional delivery authority](../../campaign_2026-10-15/student_quality_tradeoff_r1/ROOT_QUALITY_DELIVERY_AUTHORITY_R1.json) assigns one alpha0 continuation after independent input/source review and completion of this H384 sequence, plus private F3 export-only delivery after correcting its overall21600s cap and refreshing quota. Actual launches remain conditional; actors own terminal artifacts/grades within the stated bounds. No additional paid spending.

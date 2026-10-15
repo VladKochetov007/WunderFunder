@@ -1,6 +1,8 @@
 # Student quality tradeoff R1
 
-This folder holds a source-bound, not-yet-admitted comparison of continued label supervision against continued clean-T3 distillation from the same warm H256×2 student parent. The proposed intervention changes only `--distill-alpha`; it does not test cold-start distillation or remove the initializer's earlier distillation ancestry.
+Latest status, October15 14:05UTC: independently reviewed R3 alpha0 P1 is actually fitting (epoch1 batch480/746), under the [root P1 admission](ROOT_ALPHA0_P1_ADMISSION_R1.json). The actor owns P1/P2/P3 and fixed2/4/6-epoch FP32 predictions/paired grades, with fresh accounting and actual state-hash/next_epoch checks. Root permits the declared two-epoch export/grade between P1 and P2; it does not change the six-epoch primary endpoint or authorize early checkpoint selection. No alpha0 quality result exists yet. Earlier packet descriptions retain their original preparation status.
+
+This folder holds a source-bound comparison of continued label supervision against continued clean-T3 distillation from the same warm H256×2 student parent. The proposed intervention changes only `--distill-alpha`; it does not test cold-start distillation or remove the initializer's earlier distillation ancestry.
 
 - [Root conditional delivery authority](ROOT_QUALITY_DELIVERY_AUTHORITY_R1.json) assigns end-to-end delivery of one six-epoch alpha0 arm after the healthy H384 sequence and independent input/source review, with fresh per-stage resource accounting. It separately assigns private Kaggle F3 export-only delivery after review of the corrected21600s overall deadline and fresh quota. It is conditional authority, not evidence that either job launched; no new paid spending or science changes are authorized.
 

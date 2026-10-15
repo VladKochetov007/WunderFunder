@@ -1,5 +1,7 @@
 # Campaign 2026-10-15
 
+Latest status, October15 14:05UTC: alpha0 is fitting; F3 teacher exports are collected and officially graded; the input-only clock screen is measured and a bounded transform/recipe implementation follows. The [live frontier](../campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md) and [research-cycle reset](../unified/methods/RESEARCH_LOOP_RESET_20261015_R1.md) describe allocation and limits. Historical packet descriptions retain their original preparation status.
+
 This folder indexes bounded research follow-up work.
 
 - [F3 teacher CP2 export-only packet](f3_teacher_export_r1/README.md) prepares a hash-bound private job for three serial causal FP32 prediction exports from the verified R5 F3 seed3 epoch2 checkpoint. The packet includes offline bundle/slug checks, a fresh-quota gate and bounded terminal collection plan. No provider action or teacher-quality grade has occurred.
