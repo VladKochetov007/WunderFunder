@@ -16,3 +16,6 @@ The copied R3 JSON metadata in `profile_artifacts_r3/` is hash-identical to the 
 
 
 The first authorized native-gate invocation is preserved in [the validator failure receipt](NATIVE_PROFILE_GATE_VALIDATOR_FAILURE_R1.json). It stopped before reading the Parquet sample or invoking C++; the frozen controller receipt used the absolute profile-script path, while R2 checked for a bare argv token. R3 now checks the exact source-root-qualified script path derived from the hash-pinned R3 profile contract. The profile, recipe, and failed invocation are unchanged; the successor source and R3-bound preflight are now sealed; the native gate remains unrun pending independent review.
+
+
+The corrected R3 argv validator reached the actual native consumer but the installed extension has no `EnsemblePredictor` export: [the preserved native API failure](NATIVE_PROFILE_GATE_NATIVE_API_FAILURE_R2.json) records the binary SHA and exact bounded command. It loaded the source-qualified sample and checkpoint, then stopped before a C++ callback. This does not pass the native gate; the installed binary must be reconciled with the pinned state-initializer API before another invocation. No fit or quality evaluation ran.
