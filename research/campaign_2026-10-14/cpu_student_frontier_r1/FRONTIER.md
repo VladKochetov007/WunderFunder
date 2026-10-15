@@ -2,19 +2,20 @@
 
 Entry: 2026-10-13T23:43:28Z (October14 Europe/Kyiv). Root owns completion under [contract](CONTRACT.json).
 
-## Current position on October15,08:06UTC
+## Current position on October15,10:50UTC
 
-The user explicitly resumed after an LLM usage-limit interruption. H192×2 completed its full frozen fit/profile/export/grade sequence during that interval. Three F0seed3 architectures are graded:
+The user explicitly resumed after an LLM usage-limit interruption. H192×2 completed its full frozen fit/profile/export/grade sequence during that interval. Four F0 seed-3 architectures are graded:
 
 | Architecture | FP32 officialWP | NativeQ8 officialWP | Fitting time |
 |---|---:|---:|---:|
 | H256×2 |.669777642|.669782769|34m07.9s|
-| H256×1 |.669346318|pending|26m17.5s|
+| H256×1 |.669346318|.669361725|26m17.5s|
 | H192×2 |.668653372|pending|34m50.6s|
+| H512×1 |.673237761|pending|102m07.9s worker elapsed|
 
 H192×2 versus H256×2 delta−.001124270, reported component95%interval[−.002369216,−.000070034], one exposedfold/seed. H256×1 remains close to control with a smaller local serving cost. These are fixed14920-update screens; no new winner or public forecast. [Independent H192review](../../unified/reviews/CPU_STUDENT_FRONTIER_H192L2_GRADE_REVIEW_20261015_R1.md) confirms recipe/ancestry. [NativeQ8control result](native_grades_r1/README.md) matchesFP32within.00000513; it certifies this endpoint's local callback/grade, not competition-host capacity.
 
-**H512×1 is RUNNING**, using the original clean targets/common normalization/order/B8/C2000FP32one-epoch recipe. Remaining H384×2,H640×1,H512×2,H448×3 remain admitted directions requiring separate root capacity invocation.
+**H512×1 completed** the original clean-target/common-normalization/order/B8/C2000 FP32 one-epoch recipe:14,920 completed updates, zero skips,12 finite terminal tensors. Paired gain over H256×2 is+.00346012 with conditional141-component95%interval[+.00200307,+.00490448]. [Independent review](../../unified/reviews/CPU_STUDENT_FRONTIER_H512L1_RESULT_REVIEW_20261015_R1.md) supports advancement as a first-screen candidate only. One exposedfold/one seed; native grade, seed/fold confirmation and competition-CPUcost remain pending. The historical stronger, more-exposed/longer-fit H256×2 endpoint remains visible; this does not establish an overall winner. Remaining H384×2,H640×1,H512×2,H448×3 require separate root invocation. [ExactCPU-only rental search](../../campaign_2026-10-15/vast_a_cpu_probe_r1/README.md) has approved$3scope but no suitable host yet; spendzero. Local H256×1nativeQ8grade completedWP.669361725 (FP32+.00001541); initializerR2failed beforeupdate on an implicit-CUDA-index comparison and has a diagnosedR3successor in preparation.
 
 [CleanF3teacherCP2](f3_teacher_fit_r5/DRAFT_STATUS_R5.md#completed-and-collected-on-october15) is collected, hash/finite/sourcequalified ancestry checked, and staged. All prediction exports and grade remain pending. Its cloud5.309GBVRAMhigh-water is below its12GiBcloudrecipe, above the local5GBtarget. [TPUV8collection](../../campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/README.md#october15-terminal-collection) passes the bounded actual-update/reload/causality bridge, but nativeforward differs bymax.00777 and is under diagnosis. It has no full-fit claim.
 

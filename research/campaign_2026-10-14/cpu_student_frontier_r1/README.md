@@ -60,3 +60,7 @@ The canonical narrative entry is in [unified inference](../../unified/inference/
 ## October15 initializer R2 actual-profile failure
 
 [Rootadmission](profiles/ROOT_INITIALIZER_R2_ADMISSION_R1.json) started the reviewed one-sequenceR2GPUprofile after H512×1terminalgrade. [Failure receipt](profiles/INITIALIZER_R2_FAILURE_R1.json) records pre-update device-equality assertion failure and exact loghash; no initializerquality/resource-successclaim. R2sources remainimmutable; student_delivery owns diagnosedR3successor.
+
+## Fourth matched screen: H512×1
+
+[H512×1fullF0grade](results/student_frontier_f0s3_h512_l1_r2_fold0.json), [fitvalidation](results/student_frontier_f0s3_h512_l1_r2_fit_validation.json), [gradevalidation](results/student_frontier_f0s3_h512_l1_r2_fold0_validation.json), [exportprofilevalidation](results/student_frontier_f0s3_h512_l1_r2_prediction_profile_validation.json) and [terminalsequence](results/student_frontier_f0s3_h512_l1_r6_sequence.json) record14920/14920updates, zero skips, WP.673237761, paired+.00346012 vsH256×2 with141-component95%interval[.00200307,.00490448]. [Profile-to-export](results/student_frontier_f0s3_h512_l1_r6_after_profile_cache_handoff.json) and [postgradehandoff](results/student_frontier_f0s3_h512_l1_r6_after_grade_cache_handoff.json) preserve boundedcachehandoffs. [Independentreview](../../unified/reviews/CPU_STUDENT_FRONTIER_H512L1_RESULT_REVIEW_20261015_R1.md) supports first-screen advancement, with F0/seed3exposure, nativecost/quality and crossseed/fold gates explicit. No finalwinner/publicforecast.
