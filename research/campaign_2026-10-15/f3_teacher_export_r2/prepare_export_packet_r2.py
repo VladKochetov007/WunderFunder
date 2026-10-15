@@ -64,16 +64,22 @@ def file_entry(root: Path, relative: str) -> dict[str, object]:
 
 
 def enforce_kernel_wall_cap(bundle: Path) -> None:
-    """Set the generated outer kernel deadline to the R2 quota-safe cap."""
+    """Set the generated deadline and timeout diagnostic to the R2 cap."""
     path = bundle / "kernel/kernel.py"
     source = path.read_text(encoding="utf-8")
     old = "KERNEL_PROCESS_WALL_SECONDS_MAX = 43_200"
     pinned = f"KERNEL_PROCESS_WALL_SECONDS_MAX = {KERNEL_PROCESS_WALL_SECONDS_MAX:_}"
-    if pinned in source and old not in source:
-        return
-    if source.count(old) != 1:
+    old_message = "runner completed outside the 6,000-second kernel-process budget"
+    pinned_message = (
+        "runner completed outside the "
+        f"{KERNEL_PROCESS_WALL_SECONDS_MAX:,}-second kernel-process budget"
+    )
+    if source.count(old) + source.count(pinned) != 1:
         raise ValueError("generated Kaggle bootstrap has an unexpected outer deadline")
-    path.write_text(source.replace(old, pinned, 1), encoding="utf-8")
+    if source.count(old_message) + source.count(pinned_message) != 1:
+        raise ValueError("generated Kaggle bootstrap has an unexpected deadline diagnostic")
+    source = source.replace(old, pinned, 1).replace(old_message, pinned_message, 1)
+    path.write_text(source, encoding="utf-8")
 
 
 def load_module(name: str, path: Path) -> ModuleType:
@@ -342,6 +348,13 @@ def write_source_binding(
             "kernel_bootstrap_override": {
                 "template_wall_seconds": 43_200,
                 "packet_wall_seconds": KERNEL_PROCESS_WALL_SECONDS_MAX,
+                "template_timeout_message": (
+                    "runner completed outside the 6,000-second kernel-process budget"
+                ),
+                "packet_timeout_message": (
+                    "runner completed outside the "
+                    f"{KERNEL_PROCESS_WALL_SECONDS_MAX:,}-second kernel-process budget"
+                ),
                 "reason": "R1 template exceeds the currently reported remaining GPU quota; R2 binds a six-hour outer deadline",
             },
             "packet_builder": file_entry(root, f"{PACKET.as_posix()}/prepare_export_packet_r2.py"),
@@ -436,7 +449,16 @@ def offline_preflight(root: Path, bundle: Path, spec_path: Path) -> dict[str, An
         or manifest.get("dataset") != BUNDLE_DATASET
         or manifest.get("archive_sha256") != sha256_file(archive)
         or f"KERNEL_PROCESS_WALL_SECONDS_MAX = {KERNEL_PROCESS_WALL_SECONDS_MAX:_}" not in bootstrap
+        or bootstrap.count(
+            "runner completed outside the "
+            f"{KERNEL_PROCESS_WALL_SECONDS_MAX:,}-second kernel-process budget"
+        )
+        != 1
         or kernel_template_source.count("KERNEL_PROCESS_WALL_SECONDS_MAX = 43_200") != 1
+        or kernel_template_source.count(
+            "runner completed outside the 6,000-second kernel-process budget"
+        )
+        != 1
         or code_entries.get("scripts/kaggle_kernel.py") != kernel_template
         or bundle_binding.get("archive_sha256") != manifest.get("archive_sha256")
         or bundle_binding.get("kernel_id") != metadata.get("id")
@@ -466,6 +488,10 @@ def offline_preflight(root: Path, bundle: Path, spec_path: Path) -> dict[str, An
         "bundle_slug": slug,
         "kernel_id": metadata["id"],
         "kernel_process_wall_seconds_max": KERNEL_PROCESS_WALL_SECONDS_MAX,
+        "kernel_timeout_message": (
+            "runner completed outside the "
+            f"{KERNEL_PROCESS_WALL_SECONDS_MAX:,}-second kernel-process budget"
+        ),
         "kernel_bootstrap_template_sha256": kernel_template["sha256"],
         "bootstrap_bytes": len(bootstrap.encode("utf-8")),
         "archive_bytes": archive.stat().st_size,
