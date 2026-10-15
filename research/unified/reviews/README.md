@@ -137,3 +137,7 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 ## Warm-parent growth and age continuation — 2026-10-15
 
 - [Warm-parent growth and age wave R3 recipe review](GRU_PARENT_GROWTH_WARM_WAVE_R3_REVIEW_20261015_R1.md) traces the source-bound C/G/F/W vectors through trainer initialization, split membership, seeded sampling, two-epoch OneCycle, and CP1 selection. It gives bounded GO for the four 50-update B16 resource profiles after root parser/source preflight and fresh admission; full fits remain root-admitted after terminal profiles. One inaccurate sampler-order description was corrected before this review. No fit or GPU action was taken.
+
+## Student shape-pair T4 profile — 2026-10-15
+
+- [F0 student shape-pair T4 profile review R1](F0_STUDENT_SHAPE_PAIR_T4_PROFILE_REVIEW_20261015_R1.md) independently rehashes the frozen source closure, both job specs, 22 external mounts, private bundle, and patched T4 kernel. It gives GO only for the two five-batch resource profiles after root checks current provider readiness and quota; no fit or quality claim is supported. It records a stale timeout diagnostic string and a wording caveat about deserializing the CP5 donor checkpoint.
