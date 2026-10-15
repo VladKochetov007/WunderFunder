@@ -1,0 +1,238 @@
+{
+  "arrays": {
+    "features": {
+      "bytes": 71680000,
+      "dtype": "<f4",
+      "file": "features.bin",
+      "sha256": "e8e8e1268cea54be12c3cf93e1be79b18cb097a1584851bcc4f5dc65885dd337",
+      "shape": [
+        8,
+        20000,
+        112
+      ]
+    },
+    "need_prediction": {
+      "bytes": 160000,
+      "dtype": "|u1",
+      "file": "need_prediction.bin",
+      "sha256": "976947b85bdde6f53e3e7323e872ab4019175b404e58d29fd40321fadfe8ed82",
+      "shape": [
+        8,
+        20000
+      ]
+    }
+  },
+  "created_utc": "2026-10-15T10:44:03.557906+00:00",
+  "excluded_payloads": [
+    "targets",
+    "official_scoring_mask",
+    "teacher_outputs",
+    "distillation_cache_values",
+    "propensity_values"
+  ],
+  "format": "wnn.vast-cpu-sequence-panel",
+  "payload_root": "artifacts/vast_a_cpu_probe_r1",
+  "producer": {
+    "generator_path": "scripts/prepare_vast_a_cpu_probe_fixture.py",
+    "generator_sha256": "b2717e31431223569eb22041a3f7cd97154ce2c90bc300b9e1250766e55004c2",
+    "numpy": "2.2.6",
+    "pyarrow": "19.0.1",
+    "python": "3.13.9",
+    "sequence_reader_path": "src/wnn/data.py",
+    "sequence_reader_sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+  },
+  "purpose": "runtime-only CPU timing fixture; no quality evaluation",
+  "reader": {
+    "api": "wnn.data.SequenceFile.read",
+    "complete_sequence_rows": 20000,
+    "features": 112,
+    "mask": false,
+    "targets": false
+  },
+  "request_schedule": {
+    "false_rows": [
+      0,
+      98
+    ],
+    "kind": "fixed runtime request vector, not an official scoring mask",
+    "need_prediction_sha256_per_sequence": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+    "true_rows": [
+      99,
+      19999
+    ]
+  },
+  "sampler_manifest": {
+    "algorithm": "numpy.default_rng(seed).permutation(fold0.fit.train); scan in order and retain the first train row group from each distinct component",
+    "candidate_count": 10535,
+    "candidate_membership_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+    "input_source_order": "fold0.json fit.train list order",
+    "numpy_version": "2.2.6",
+    "permuted_candidate_order_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+    "sampler_manifest_sha256": "c4f597956172d65eec9da579bfa4011b1349b58632de8b2eecf23dcbbfbf2041",
+    "seed": 3,
+    "selected": [
+      {
+        "component_id": 974,
+        "sequence_id": 280116399,
+        "slot": 0,
+        "source": "train",
+        "source_position": 0,
+        "train_row_group": 1335
+      },
+      {
+        "component_id": 1857,
+        "sequence_id": 1210883499,
+        "slot": 1,
+        "source": "train",
+        "source_position": 1,
+        "train_row_group": 5862
+      },
+      {
+        "component_id": 74,
+        "sequence_id": 988007941,
+        "slot": 2,
+        "source": "train",
+        "source_position": 2,
+        "train_row_group": 4811
+      },
+      {
+        "component_id": 1149,
+        "sequence_id": 703209675,
+        "slot": 3,
+        "source": "train",
+        "source_position": 3,
+        "train_row_group": 3430
+      },
+      {
+        "component_id": 1771,
+        "sequence_id": 705808958,
+        "slot": 4,
+        "source": "train",
+        "source_position": 4,
+        "train_row_group": 3447
+      },
+      {
+        "component_id": 592,
+        "sequence_id": 1019082568,
+        "slot": 5,
+        "source": "train",
+        "source_position": 5,
+        "train_row_group": 4960
+      },
+      {
+        "component_id": 2688,
+        "sequence_id": 1888159643,
+        "slot": 6,
+        "source": "train",
+        "source_position": 6,
+        "train_row_group": 9274
+      },
+      {
+        "component_id": 816,
+        "sequence_id": 1987685802,
+        "slot": 7,
+        "source": "train",
+        "source_position": 7,
+        "train_row_group": 9781
+      }
+    ],
+    "selected_order_scope": "fixture-selection order only; not a DataLoader minibatch-order claim"
+  },
+  "sequences": [
+    {
+      "component_id": 974,
+      "feature_sha256": "913cdbff7e360b72a2f0a4945f392d0a11e884ea79e8c9ef7c662ff3c0206d99",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "sequence_id": 280116399,
+      "slot": 0,
+      "source": "train",
+      "source_position": 0,
+      "train_row_group": 1335
+    },
+    {
+      "component_id": 1857,
+      "feature_sha256": "836c4b4e67b6d2f5280babfaca6a8e9eea26880252427f03d825d37361a34778",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "sequence_id": 1210883499,
+      "slot": 1,
+      "source": "train",
+      "source_position": 1,
+      "train_row_group": 5862
+    },
+    {
+      "component_id": 74,
+      "feature_sha256": "1eed0be9f6b49ca31b0c22d26cd8524c3ac927b47105c293920d5e43a848f724",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "sequence_id": 988007941,
+      "slot": 2,
+      "source": "train",
+      "source_position": 2,
+      "train_row_group": 4811
+    },
+    {
+      "component_id": 1149,
+      "feature_sha256": "bfcc7d6d8658663810a76d66a0212c7a150da84ff622437528f9753a82148f68",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "sequence_id": 703209675,
+      "slot": 3,
+      "source": "train",
+      "source_position": 3,
+      "train_row_group": 3430
+    },
+    {
+      "component_id": 1771,
+      "feature_sha256": "08c3e8d8e1204322ad15310ad4ef3ba775d8ed9e1c90729dd858f8ad8e35c3d0",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "sequence_id": 705808958,
+      "slot": 4,
+      "source": "train",
+      "source_position": 4,
+      "train_row_group": 3447
+    },
+    {
+      "component_id": 592,
+      "feature_sha256": "5b30b6e5b677ba5949832fba623d592b5d1cae81834b1e3afb0f9fb4192d4c68",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "sequence_id": 1019082568,
+      "slot": 5,
+      "source": "train",
+      "source_position": 5,
+      "train_row_group": 4960
+    },
+    {
+      "component_id": 2688,
+      "feature_sha256": "c2bbd98ec7e134da4170768de68720f92e144936358f3e9f728f93100d2e0a4a",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "sequence_id": 1888159643,
+      "slot": 6,
+      "source": "train",
+      "source_position": 6,
+      "train_row_group": 9274
+    },
+    {
+      "component_id": 816,
+      "feature_sha256": "7c7f0481d3336e10871a2540c84d3184d578070c6df34630318f1d3a3a7350f9",
+      "need_prediction_sha256": "838c9b675ba71c3e713fb0279acad0eb1b09e89a84efa3bc6f84ecf91dafb76b",
+      "sequence_id": 1987685802,
+      "slot": 7,
+      "source": "train",
+      "source_position": 7,
+      "train_row_group": 9781
+    }
+  ],
+  "source": {
+    "bytes": 29240219011,
+    "dataset_path": "datasets/train.parquet",
+    "fold": 0,
+    "footer_bytes": 60437285,
+    "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+    "mtime_ns": 1577826000000000000,
+    "sampler_manifest_sha256": "c4f597956172d65eec9da579bfa4011b1349b58632de8b2eecf23dcbbfbf2041",
+    "seed": 3,
+    "source_identity_scope": "frozen fold-0 Parquet footer SHA-256, file byte length and mtime_ns; the 29GB parquet body was not rescanned",
+    "source_identity_sha256": "956724a5f1e695ffdd33d7b7629ec3ae06abf9c647465e2d531574754741d9ad",
+    "split_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "version": 1
+}
