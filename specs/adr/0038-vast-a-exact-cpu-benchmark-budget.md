@@ -20,3 +20,7 @@ Read-only Vast-A searches establish exact9224 only in GPUbundledcompute; zeroGPU
 ## Revisit when
 
 A documented CPU-only exact9224 offer appears, or the user clarifies that CPUuse of a GPUbundle is acceptable. New spending outside$3 or a differentCPU requires changed user scope.
+
+## Clarification received
+
+The user selected **Keep looking for CPU-only access**. GPUbundle rental is excluded. The$3budget and exactEPYC9224requirement remain; no paidaction has occurred. [Clarification receipt](../../research/campaign_2026-10-15/vast_a_cpu_probe_r1/CPU_ONLY_AUTHORITY_R3.json).
