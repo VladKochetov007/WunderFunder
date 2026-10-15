@@ -183,3 +183,7 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 - [H384×2nextscreen and initializerR3 actualprofile](../../campaign_2026-10-14/cpu_student_frontier_r1/README.md#next-matched-screen-and-repaired-initializer-actual-profile) links separate rootadmissions: H384×2fixedrecipefit is active, and R3completed25.24s/3.719GBhost/.875GBobservedVRAM withthreefiniteupdates and zeroOOMdeltas. Nativeinitializergate/subsetquality remainpending; this does not admit a finalsubmission.
 
 - [IntegratedCPUprobe validation snapshot](../../campaign_2026-10-15/vast_a_cpu_probe_r1/README.md#integrated-validation-snapshot) links successful navigationbuild, strictfreshnessfailure on livecatalog/integrity, integratedPy3.11A/Bcompletecallbacksmoke and independentprotocolreview. No graph/ledgercoveragefailure was reported; fullstrictcheckdoesnotpassduringmutabletelemetry. No remotehost/rental/timingranking.
+
+# October 15 F3 teacher export packet
+
+- [F3 CP2 export-only packet R1](../../campaign_2026-10-15/f3_teacher_export_r1/README.md) binds the completed F3 seed3 H384 epoch2 checkpoint/provenance to the frozen causal predictor, three source-qualified scopes, an offline private bundle and bounded terminal collection plan. This is an operational prediction-export recipe only; no new Kaggle provider action, model fit or quality score is recorded.

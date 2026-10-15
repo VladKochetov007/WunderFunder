@@ -1,0 +1,68 @@
+{
+  "schema": "wnn.f3-teacher-cp2-export-resource-plan.r1",
+  "status": "offline_packet_preparation_only",
+  "provider_action_performed": false,
+  "kernel_id": "vladkochetov07/wnn-f3-t3-cp2-exports-20261015-r1-runner",
+  "kernel_process_wall_seconds_max": 43200,
+  "worker": {
+    "serial_prediction_triplet": true,
+    "cpu_count": 2,
+    "ram_reservation_bytes": 8000000000,
+    "gpu_allocator_bytes": 12884901888,
+    "observed_gpu_stop_bytes": 13958643712,
+    "timeout_seconds": 18000,
+    "timeout_derivation": "sum of three existing exact-source R1 export worker caps at 6000 seconds each; this bound is not a measured prediction runtime"
+  },
+  "export_geometry": {
+    "fit_train": {
+      "source": "train",
+      "rows": 10539,
+      "shape": [10539, 20000, 2],
+      "dtype": "float32",
+      "raw_prediction_bytes": 1686240000
+    },
+    "fit_valid": {
+      "source": "valid",
+      "rows": 1368,
+      "shape": [1368, 20000, 2],
+      "dtype": "float32",
+      "raw_prediction_bytes": 218880000
+    },
+    "full_valid": {
+      "source": "valid",
+      "rows": 1873,
+      "shape": [1873, 20000, 2],
+      "dtype": "float32",
+      "raw_prediction_bytes": 299680000
+    },
+    "raw_prediction_payload_total_bytes": 2204800000,
+    "minimum_free_kaggle_working_disk_before_export_bytes": 6000000000,
+    "runner_copies_predictions_to_results": true
+  },
+  "measured_basis": {
+    "portable_parquet_hash_scan_seconds": 1125.241,
+    "source": "R5 actual T4 profile, train parquet 1018.760 seconds plus valid parquet 106.481 seconds",
+    "same_process_predictor_import": true,
+    "hash_cache_reuse": "frozen R1 predictor is imported once; its process-local content-digest cache can serve all three sequential calls",
+    "prediction_stage_durations": "not measured",
+    "t4_fit_peak_vram_bytes": 5309000000,
+    "fit_peak_interpretation": "training observation only; it is not an export measurement or proof of export capacity"
+  },
+  "quota_gate": {
+    "latest_operator_reported_gpu_total_seconds": 108000,
+    "latest_operator_reported_gpu_used_seconds": 81372.611,
+    "latest_operator_reported_gpu_reserved_seconds": 0,
+    "latest_operator_reported_gpu_remaining_seconds": 26627.389,
+    "snapshot_utc": "2026-10-15T11:50:33Z",
+    "fresh_typed_quota_required_before_any_provider_action": true,
+    "minimum_remaining_gpu_seconds_for_worker_and_finalization": 18300,
+    "quota_snapshot_is_not_provider_admission": true
+  },
+  "execution_guard": {
+    "one_worker_only": true,
+    "no_fit_or_quality_grade": true,
+    "automatic_retry": false,
+    "root_owns_admission_upload_create_push_and_terminal_collection": true,
+    "stop_if_worker_cap_or_fresh_quota_does_not_fit": true
+  }
+}
