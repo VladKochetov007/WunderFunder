@@ -39,7 +39,7 @@ After the exact pushed kernel version is terminal, use the R2-only collector:
 ```sh
 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python \
   research/campaign_2026-10-15/f3_teacher_export_r2/collect_terminal_r2.py \
-  --repo-root /home/vlad/development/wunder/wnn_connectome_starterpack
+  --repo-root /home/vlad/development/wunder/worktrees/f3-teacher-export-r2-20261015
 ```
 
 It requires the exact R2 admission and push receipts, inventories the fixed `results/` allowlist via GET headers before downloading, caps streamed collection at 2.5 GB, and writes to a unique physical-disk directory with a 4 GB free-space floor. A complete export claim requires terminal `COMPLETE`, all expected outputs, downloaded lengths and hashes matching both the worker manifest and prediction sidecars, the worker pipeline's CP2/provenance/split identity, FP32 shapes, and a bounded mmap scan confirming every prediction is finite. A failed post-download check is preserved in the terminal receipt and cannot be reported as complete. Root runs the official F3 grader afterward; this packet itself makes no teacher-quality claim.
@@ -55,3 +55,8 @@ It requires the exact R2 admission and push receipts, inventories the fixed `res
 - [Offline preflight](OFFLINE_PREFLIGHT_R2.json) records the R2 slug, bootstrap cap and size, archive hash, mounts and output paths without contacting Kaggle.
 - [Resource and quota plan](RESOURCE_AND_QUOTA_PLAN_R2.json) separates measured parquet hashing from the unmeasured prediction runtime and sets the 21,600-second quota gate.
 - [Collection plan](OUTPUT_COLLECTION_PLAN_R2.json) fixes the R2 receipts, output inventory and streamed byte bound.
+- [Provider preflight attempts and correction](PROVIDER_PREFLIGHT_R2_CORRECTION_R1.json) records the fresh quota and exact owner/source checks; the initial incomplete source-mount check is preserved in the linked superseded attempt.
+- [CP2 asset READY receipt](ASSET_DATASET_READY_R2.json) records the private version-1 dataset and the three uploaded filenames. The remote listing does not expose hashes; the worker validates mounted bytes before prediction.
+- [R2 bundle READY receipt](BUNDLE_DATASET_READY_R2.json) records private version 1 with the exact archive and manifest filenames. The kernel source directory was skipped by the dataset uploader and is pushed separately.
+- [Root admission receipt](ROOT_ADMISSION_R2.json) binds the fresh typed quota, exact five private READY dataset versions and root authority before the kernel push.
+- [Kernel push receipt](KERNEL_PUSH_R2.json) records private kernel version 1, the RUNNING state at first verification, exact provider-returned source hash and resource caps. [The preserved owner-list field gap](KERNEL_PUSH_OWNER_LIST_FIELD_GAP_R1.json) explains why nullable list fields were not treated as evidence against the successful push; the authenticated `GetKernel` response supplied the exact privacy/version fields.
