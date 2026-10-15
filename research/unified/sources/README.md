@@ -19,7 +19,7 @@ This domain holds external writeups and source material that informed research. 
 
 ## Competition writeups and transcripts
 
-- [Rogii first-place writeup](competition-writeups/rogii_top1.txt)
+- [Rogii first-place writeup](competition-writeups/rogii_top1.txt) — imported competition evidence whose model table shows a particle-filter feature was not universally useful and ensemble weights varied with context; used only as a hypothesis about conditional component value, not as a transferable score or method result.
 - [Santander competition transcript](competition-writeups/santander_transcript_english_translation.md)
 - [BNP competition transcript](competition-writeups/semenov.txt)
 - [Discord feature and ensemble notes](competition-writeups/discord_tricks.txt)
@@ -34,3 +34,5 @@ Keep provenance and source links with each imported item. Generated idea cards d
 - [minGRU Appendix B implementation use](../../campaign_2026-10-14/cpu_student_frontier_r1/MINGRU_REFERENCE_R1.md): primary paper v3 was re-opened for candidate/gate/state semantics. The local implementation uses direct affine composition and exact initial state, with separate gradient/causality tests. Paper benchmark claims do not establish competition performance or a CPU speedup.
 
 - [Recurrent timescales and initializer gradients](../../campaign_2026-10-14/cpu_student_frontier_r1/RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md): chrono initialization (Tallec/Ollivier2018), minLSTM initialization analysis (Feng et al.2024), truncation-bias literature and official checkpointing API inform a distinct minGRU bias arm and complete-sequence initializer training. Six scalar checks and five synthetic gradient tests pass; no fitted-model benefit. H-MINGRU-TIMESCALES-20261014 / H-STATE-INIT-20261014.
+
+- [Directed event-time literature and seeded Rogii passage](../ideas/EVENT_STATE_AND_METRIC_OBJECTIVE_REFRAME_20261015_R1.md#source-records) links primary Engle–Russell ACD and Eisler et al. order-event-impact sources, plus the seeded random writeup passage. These support testing event duration and context-conditional value; none establishes gains here. The random Rogii table reports conditional particle-feature weights and a strong weighted ensemble on its own CV, not transferable Challenge2 scores.
