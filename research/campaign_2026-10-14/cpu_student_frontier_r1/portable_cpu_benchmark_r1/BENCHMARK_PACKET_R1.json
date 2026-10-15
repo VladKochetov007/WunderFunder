@@ -1,0 +1,95 @@
+{
+  "format": "wnn.portable-cpu-policy-panel-packet",
+  "version": 1,
+  "status": "prepared; full timing panel not run",
+  "purpose": "paired runtime comparison of fixed original xteam_h4 A/B/C/D CPU policies",
+  "source_archive_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+  "package_binding": {
+    "path": "PACKAGE_BINDING_R1.json",
+    "sha256": "61a11ab4ea6bf89df3f2789ae0a64db6e5064c12e1d554150ea55f118a0f2367",
+    "weights_member_order_coefficients_architecture_preprocessing_and_q8_representation_fixed": true
+  },
+  "fixture": {
+    "manifest_path": "research/campaign_2026-10-15/vast_a_cpu_probe_r1/CPU_TIMING_FIXTURE_R1.json",
+    "manifest_sha256": "941b656d8408be6f5c8f5816c1e32f3c8b24e59040bb4ed84bb895078a9f9f05",
+    "source_identity_sha256": "956724a5f1e695ffdd33d7b7629ec3ae06abf9c647465e2d531574754741d9ad",
+    "sampler_manifest_sha256": "c4f597956172d65eec9da579bfa4011b1349b58632de8b2eecf23dcbbfbf2041",
+    "array_shapes": {
+      "features": [8, 20000, 112],
+      "need_prediction": [8, 20000]
+    },
+    "request_schedule": "false at rows 0..98 and true at rows 99..19999; synthetic runtime requests, not a scoring mask",
+    "source_body_fully_hashed": false,
+    "source_identity_scope": "F0 Parquet footer SHA-256, file size and mtime_ns plus selected sequence feature/request hashes"
+  },
+  "callback": {
+    "python_version": "3.11",
+    "path": "solution.PredictionModel.predict",
+    "rows_per_replay": 20000,
+    "raw_features": 112,
+    "sequence_reset": "99-row sentinel sequence-ID switch before every measured replay",
+    "includes": [
+      "DataPoint object construction",
+      "package callback dispatch",
+      "raw112-to-model-input preprocessing",
+      "native inference"
+    ],
+    "excludes_from_callback_time": [
+      "process startup",
+      "model construction and weight packing",
+      "fixture/package validation and hashing",
+      "sentinel reset callback"
+    ],
+    "dependencies": ["Python 3.11", "NumPy", "selected package native extension"],
+    "pyarrow_or_torch_required": false
+  },
+  "smoke": {
+    "policy_labels": ["A", "B"],
+    "sequences": 1,
+    "complete_replays_per_policy": 2,
+    "checks": [
+      "producer manifest and payload SHA-256",
+      "source, sampler and synthetic request schedule",
+      "all package member hashes and precision assertions",
+      "loaded native-library path and hash",
+      "same-policy bitwise output across reset-separated replay",
+      "A/B bitwise equality and numerical-difference summary"
+    ],
+    "timing_claim": false
+  },
+  "full_panel": {
+    "policy_labels": ["A", "B", "C", "D"],
+    "sequence_slots_per_block": 8,
+    "same_panel_every_block": true,
+    "seed": 20261015,
+    "block_order": "for each slot, A then a seeded B/C/D permutation then A; each six-block cycle uses all six candidate permutations exactly once per slot; slot order is independently shuffled per block",
+    "pilot_callbacks": ["A", "B", "C", "D", "A"],
+    "pilot_sequence_slot": 0,
+    "minimum_blocks": 6,
+    "maximum_blocks": 12,
+    "callbacks_per_block": 40,
+    "time_budget_seconds": 1000,
+    "adaptive_precision_halfwidth_pct": 1.0,
+    "adaptive_stop": "after at least six blocks, stop only when all wall-time paired intervals meet the half-width target, otherwise continue up to twelve blocks",
+    "all_blocks_exploratory": true,
+    "fresh_confirmation_required_for_winner_claim": true,
+    "comparisons": ["B/A", "C/A", "D/A", "B/C", "B/D", "C/D"],
+    "reported_clocks": ["callback wall seconds", "worker process CPU seconds"],
+    "variance_levels": ["within-sequence repeated calls", "between-sequence means", "paired block log ratios"],
+    "interval": "descriptive Student-t interval on block means of sequence-paired log ratios; conditional on the one host; adaptive stopping is unadjusted"
+  },
+  "resource_protocol": {
+    "cpu_affinity": "pin controller and workers to one allowed logical CPU; record CPU identity and affinity",
+    "cpu_quota_asserted": false,
+    "cpu_quota": "record available cgroup CPU quota/throttling without claiming it is enforced",
+    "swap": "record; do not change",
+    "memory_cap_bytes": 1500000000,
+    "no_builds_fits_gpu_provider_or_upload": true,
+    "remote_host": "exact competition CPU SKU AMD EPYC 9224; no current host run or Vast action is included in this packet",
+    "time_reserve": "keep artifact collection and host teardown inside the controller-owned rental limit"
+  },
+  "commands": {
+    "smoke_template": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=180s scripts/limited python3.11 scripts/benchmark_cpu_policy_panel_r1.py --smoke-pair --package-root <A_B_C_D_PACKAGE_ROOT> --package-binding research/campaign_2026-10-14/cpu_student_frontier_r1/portable_cpu_benchmark_r1/PACKAGE_BINDING_R1.json --fixture-dir artifacts/vast_a_cpu_probe_r1 --fixture-manifest research/campaign_2026-10-15/vast_a_cpu_probe_r1/CPU_TIMING_FIXTURE_R1.json --output <NEW_SMOKE_OUTPUT>",
+    "full_panel_template": "python3.11 scripts/benchmark_cpu_policy_panel_r1.py --package-root <A_B_C_D_PACKAGE_ROOT> --package-binding research/campaign_2026-10-14/cpu_student_frontier_r1/portable_cpu_benchmark_r1/PACKAGE_BINDING_R1.json --fixture-dir artifacts/vast_a_cpu_probe_r1 --fixture-manifest research/campaign_2026-10-15/vast_a_cpu_probe_r1/CPU_TIMING_FIXTURE_R1.json --output <NEW_PANEL_OUTPUT> --seed 20261015 --min-blocks 6 --max-blocks 12 --precision-halfwidth-pct 1 --time-budget-s 1000"
+  }
+}
