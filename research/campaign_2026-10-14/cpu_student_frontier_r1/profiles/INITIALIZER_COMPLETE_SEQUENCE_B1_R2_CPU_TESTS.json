@@ -1,0 +1,30 @@
+{
+  "format": "wnn.initializer-profile-r2-cpu-regression-tests",
+  "version": 1,
+  "created_utc": "2026-10-15T07:44:09Z",
+  "source_sha256": {
+    "scripts/profile_initializer_frontier_r2.py": "f94c3274e2cc16eb1793d0ded7f4a8db39eda20eb7a2085608782e944eb1bdee",
+    "tests/test_profile_initializer_frontier_r2.py": "cdb47557e1c1269ac60515b7b369de4dd10ff9f7fe88aec515f5ad003c759cea"
+  },
+  "contract_sha256": "c07644f386fd0c6d6a42935d2856c68e17fc52498718ef21920b6783e8c62665",
+  "preflight_sha256": "3bc2ad2aba91e754495499c5f2338ab94bd6f3a5ea4be30239138f4d5ea9821d",
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=900000000 WNN_RUNTIME_MAX=120s PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH=<profile-worktree>/src scripts/limited .venv/bin/python -m pytest -q -p no:cacheprovider <profile-worktree>/tests/test_profile_initializer_frontier_r2.py",
+  "resource_bound": {
+    "cpu_quota": "100%",
+    "memory_max_bytes": 900000000,
+    "runtime_max": "120s",
+    "gpu_used": false
+  },
+  "result": {
+    "exit_status": 0,
+    "tests_passed": 10,
+    "tests_failed": 0,
+    "elapsed_seconds": 1.57
+  },
+  "coverage": [
+    "new constant, first-row and prefix parameters/buffers are placed with a meta-device backbone",
+    "declared 5 GB cgroup cap and page-rounded values are accepted",
+    "zero, materially smaller and larger cgroup caps are rejected"
+  ],
+  "interpretation": "CPU implementation regression evidence only; no CUDA execution, full-sequence update, export grade, or initializer quality claim"
+}

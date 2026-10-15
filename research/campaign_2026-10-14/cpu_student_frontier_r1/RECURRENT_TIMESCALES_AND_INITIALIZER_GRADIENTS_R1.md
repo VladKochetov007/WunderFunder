@@ -44,6 +44,8 @@ Root will profile the complete-sequence initializer-only path on a source-qualif
 
 The [complete-sequence initializer profile packet](profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R1_README.md) binds the completed F0 seed-3 H256×2 terminal checkpoint, exact clean teacher/propensity/norm ancestry, and source-qualified B8 sampler member `(valid,37,44346154)`. Its [R3 standard-library preflight](profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R3_PREFLIGHT.json) passed under a 400 MB/one-CPU limit; the execution entry point repeats these checks and the unchanged strict target validator runs again inside the separately admitted worker. The declared resource envelope is 5 GB host, 3.5 GB PyTorch allocator, and 5 GB observed VRAM. Root retains GPU admission and launch; no initializer update, fit, or quality result exists yet.
 
+The first prelaunch review identified a cgroup page-rounding false rejection, missing device placement for newly created/reloaded initializer tensors, and an exact-hash check across different zero-state cuDNN call segmentation. These are repaired in the [R2 profile successor](profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R2_README.md), whose meta-device and cap regression passed 10/10 under a fresh 900 MB CPU gate. Its R2 static preflight passed without importing PyTorch; the actual-data CUDA resource smoke still awaits root admission.
+
 ## Source records
 
 [Initial plan](PLAN.md), [initializer implementation](INITIALIZER_IMPLEMENTATION_R1.md), [minGRU reference](MINGRU_REFERENCE_R1.md), [one-sequence state decay](STATE_DECAY_DIAGNOSTIC_R1.md), and [first fixed-budget control grade](results/control_prediction_grade_r3/README.md) supply the local context. All existing folds remain exposed.
