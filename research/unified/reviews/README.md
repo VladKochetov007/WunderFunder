@@ -128,3 +128,7 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 ## F3 teacher and blend evidence — 2026-10-15
 
 - [F3 fixed teacher-blend grade review](F3_FIXED_BLEND_F3_EXPLORATORY_GRADE_REVIEW_20261015_R1.md) audits the fold-3 scorer, teacher and H128-distilled older-combo ancestry, and paired component interval. The fixed half blend is +0.000875 WP versus the older model, but its 95% component interval crosses zero and the weight was chosen after seeing the single scores. Treat it as exposed, one-seed exploratory evidence, not a confirmed gain or teacher-family effect.
+
+## Event-state input screen — 2026-10-15
+
+- [Per-field clock input screen review](PER_FIELD_CLOCK_INPUT_SCREEN_REVIEW_20261015_R1.md) confirms that the eight-sequence screen supports added deterministic clock resolution only. Its batch/stream and reset checks cover the existing 99 event features, not the proposed appended ages; the new transform still needs an independent chunk/reset oracle before fitting. It also records that the broadcast G control repeats seven clocks across 112 columns, which changes optimizer geometry and must be described accordingly.
