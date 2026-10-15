@@ -9461,8 +9461,8 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 852,
-      "hypotheses": 496,
+      "experiments": 874,
+      "hypotheses": 498,
       "journal": 144
     }
   },
@@ -43332,6 +43332,81 @@
         }
       ],
       "title": "Learned or same-sequence input-conditioned GRU state can improve early scoring and possibly persistent prediction quality.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:temporal",
+        "matches": [
+          "family:temporal"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-MINGRU-TIMESCALES-20261014",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:temporal",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-MINGRU-TIMESCALES-20261014\", \"mechanism_family\": \"cheap_recurrence_memory_initialization\", \"parent_ids\": [\"H-STUDENT-LADDER-20261014\"], \"statement\": \"A declared distribution of initial minGRU write-gate timescales may improve finite-budget long-sequence distillation without extra serving matrices.\", \"status\": \"proposed\", \"source\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md\", \"numerical_gain_prior\": null, \"created_utc\": \"2026-10-14T02:33:52.201048+00:00\"}\n",
+          "record": {
+            "created_utc": "2026-10-14T02:33:52.201048+00:00",
+            "id": "H-MINGRU-TIMESCALES-20261014",
+            "mechanism_family": "cheap_recurrence_memory_initialization",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "source": "research/campaign_2026-10-14/cpu_student_frontier_r1/RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md",
+            "statement": "A declared distribution of initial minGRU write-gate timescales may improve finite-budget long-sequence distillation without extra serving matrices.",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 497,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "df6bd116217604c261566739415eb52c8de294208869786deec33e2a24623a72"
+          }
+        }
+      ],
+      "title": "A declared distribution of initial minGRU write-gate timescales may improve finite-budget long-sequence distillation without extra serving matrices.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:optimization",
+          "family:deployment"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-MINGRU-Q8-AVX2-FASTPATH-20261015",
+      "latest_recorded_status": "measured",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"created_utc\": \"2026-10-15T08:18:11+00:00\", \"id\": \"H-MINGRU-Q8-AVX2-FASTPATH-20261015\", \"mechanism_family\": \"native_inference_kernel_optimization\", \"numerical_gain_prior\": null, \"parent_ids\": [\"H-STUDENT-LADDER-20261014\"], \"source\": \"research/campaign_2026-10-15/min_gru_q8_opt_r1/METHOD_R1.md\", \"statement\": \"Bitwise-exact AVX2 activation quantization, fast GELU, and ordered candidate/gate/state helpers reduce native minGRU Q8 callback cost without changing represented predictions or recurrent state.\", \"status\": \"measured\"}\n",
+          "record": {
+            "created_utc": "2026-10-15T08:18:11+00:00",
+            "id": "H-MINGRU-Q8-AVX2-FASTPATH-20261015",
+            "mechanism_family": "native_inference_kernel_optimization",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "source": "research/campaign_2026-10-15/min_gru_q8_opt_r1/METHOD_R1.md",
+            "statement": "Bitwise-exact AVX2 activation quantization, fast GELU, and ordered candidate/gate/state helpers reduce native minGRU Q8 callback cost without changing represented predictions or recurrent state.",
+            "status": "measured"
+          },
+          "source": {
+            "line": 498,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "5fe7d00e0bc28845bc0c2659b75c59fb3179170c6ae4c61b37aab2620005c7aa"
+          }
+        }
+      ],
+      "title": "Bitwise-exact AVX2 activation quantization, fast GELU, and ordered candidate/gate/state helpers reduce native minGRU Q8 callback cost without changing represented predictions or recurrent state.",
       "type": "hypothesis"
     },
     {
@@ -82032,6 +82107,821 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [
+          "H-STATE-INIT-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STATE-INIT-NATIVE-20261014-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STATE-INIT-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"date\": \"2026-10-14\", \"evidence\": \"research/campaign_2026-10-14/cpu_state_initializer_native_r1/README.md\", \"hypotheses\": [\"H-STATE-INIT-20261014\"], \"id\": \"E-STATE-INIT-NATIVE-20261014-R1\", \"kind\": \"native causal initializer export and callback parity\", \"limitations\": \"Synthetic H8x2 fixture only; no fit, actual-data quality, runtime ranking, production package compatibility or submission evidence. Python 3.11 callback exercised from exported NumPy fixture because profile environment has no Torch.\", \"quality_claim\": false, \"result\": \"25 focused Python checks and one Rust reset unit test passed. Exact native/Python prediction max error 2.98e-8, hidden max error 5.96e-8; zero equals omitted config bitwise. Q8 VNNI, Q8x and Q16x state transport/reset replay tested. Python 3.11.16 abi3 callback fixture passed all four modes.\", \"status\": \"complete\"}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_state_initializer_native_r1/README.md",
+            "hypotheses": [
+              "H-STATE-INIT-20261014"
+            ],
+            "id": "E-STATE-INIT-NATIVE-20261014-R1",
+            "kind": "native causal initializer export and callback parity",
+            "limitations": "Synthetic H8x2 fixture only; no fit, actual-data quality, runtime ranking, production package compatibility or submission evidence. Python 3.11 callback exercised from exported NumPy fixture because profile environment has no Torch.",
+            "quality_claim": false,
+            "result": "25 focused Python checks and one Rust reset unit test passed. Exact native/Python prediction max error 2.98e-8, hidden max error 5.96e-8; zero equals omitted config bitwise. Q8 VNNI, Q8x and Q16x state transport/reset replay tested. Python 3.11.16 abi3 callback fixture passed all four modes.",
+            "status": "complete"
+          },
+          "source": {
+            "line": 853,
+            "path": "research/experiments.jsonl",
+            "sha256": "fa3e9709da4eeea101cea4260d65bc6ca4a0b59f86fb03651cc30660718f5ce9"
+          }
+        }
+      ],
+      "title": "native causal initializer export and callback parity",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STUDENT-F0-S3-B8-LADDER-PROFILE-20261014-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STUDENT-F0-S3-B8-LADDER-PROFILE-20261014-R1\", \"date\": \"2026-10-14\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\"], \"kind\": \"all-eight actual-data B8 GPU capacity and update-rate profile\", \"status\": \"complete\", \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/README.md\", \"result\": \"All8 shapes completed3finiteFP32updates and20k causalexport each; maxCUDAallocated1.310GB/reserved1.462GB, host3.152GB; observedVRAM1.700GB; exactcleanF0teacher/norm/sourcequalifiedinput\", \"quality_claim\": false, \"limitations\": \"Threeupdates each, one real batch; no full-epoch workload, quality grade, architecture selection or complete trainer CLI verification yet\"}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/README.md",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-STUDENT-F0-S3-B8-LADDER-PROFILE-20261014-R1",
+            "kind": "all-eight actual-data B8 GPU capacity and update-rate profile",
+            "limitations": "Threeupdates each, one real batch; no full-epoch workload, quality grade, architecture selection or complete trainer CLI verification yet",
+            "quality_claim": false,
+            "result": "All8 shapes completed3finiteFP32updates and20k causalexport each; maxCUDAallocated1.310GB/reserved1.462GB, host3.152GB; observedVRAM1.700GB; exactcleanF0teacher/norm/sourcequalifiedinput",
+            "status": "complete"
+          },
+          "source": {
+            "line": 854,
+            "path": "research/experiments.jsonl",
+            "sha256": "e9c9bf5e421629d71ac20abd821387a64b274a2fe14dd90fa4570ffed9cd4010"
+          }
+        }
+      ],
+      "title": "all-eight actual-data B8 GPU capacity and update-rate profile",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STATE-INIT-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STATE-INIT-ACTUAL-PARITY-20261014-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STATE-INIT-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"date\": \"2026-10-14\", \"evidence\": \"research/campaign_2026-10-14/cpu_state_initializer_native_r1/README.md\", \"hypotheses\": [\"H-STATE-INIT-20261014\"], \"id\": \"E-STATE-INIT-ACTUAL-PARITY-20261014-R1\", \"kind\": \"actual-shape full-sequence initializer callback numerical validation\", \"limitations\": \"One clean-F0 H256x2 checkpoint and one source-qualified fitting sequence; deterministic synthetic initializer tensors only. First two of23 checkpoint readout rows projected to the existing two-output native callback ABI. No initializer fit, grade, score/quality claim, population stability, runtime ranking or submission evidence.\", \"quality_claim\": false, \"result\": \"Pinned 20k-row reference decay probe and native exact/fast callback comparison pass. Native exact vs Python maximum prediction/hidden errors 1.91e-6/2.75e-6; fast vs exact maximum prediction delta4.18e-7; Python chunk/full max delta1.15e-5. All four modes finite and reset replay bitwise exact. One CPU, 3GB cap, observed max RSS1.608GB.\", \"status\": \"complete\"}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_state_initializer_native_r1/README.md",
+            "hypotheses": [
+              "H-STATE-INIT-20261014"
+            ],
+            "id": "E-STATE-INIT-ACTUAL-PARITY-20261014-R1",
+            "kind": "actual-shape full-sequence initializer callback numerical validation",
+            "limitations": "One clean-F0 H256x2 checkpoint and one source-qualified fitting sequence; deterministic synthetic initializer tensors only. First two of23 checkpoint readout rows projected to the existing two-output native callback ABI. No initializer fit, grade, score/quality claim, population stability, runtime ranking or submission evidence.",
+            "quality_claim": false,
+            "result": "Pinned 20k-row reference decay probe and native exact/fast callback comparison pass. Native exact vs Python maximum prediction/hidden errors 1.91e-6/2.75e-6; fast vs exact maximum prediction delta4.18e-7; Python chunk/full max delta1.15e-5. All four modes finite and reset replay bitwise exact. One CPU, 3GB cap, observed max RSS1.608GB.",
+            "status": "complete"
+          },
+          "source": {
+            "line": 855,
+            "path": "research/experiments.jsonl",
+            "sha256": "127c5d413e1eefcd8879a2563a457c7877d970f747c560f80dfa19e900243a51"
+          }
+        }
+      ],
+      "title": "actual-shape full-sequence initializer callback numerical validation",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STATE-INIT-20261014",
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STUDENT-THEORY-ALGEBRA-20261014-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STUDENT-THEORY-ALGEBRA-20261014-R1\", \"date\": \"2026-10-14\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\", \"H-STATE-INIT-20261014\"], \"status\": \"complete\", \"kind\": \"synthetic algebra verification\", \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/DISTILLATION_AND_RECURRENCE_THEORY_R1.md\", \"result\": \"Clipped weighted-correlation mixture derivative matches official float32 finite difference within3.68e-8; one-layer minGRU same-input perturbation product matches float64 recurrence within2.64e-16 over20k rows. Ruff passed.\", \"quality_claim\": false, \"limitations\": \"Synthetic inputs only; no fits, competition predictions, measured capacity or model-selection evidence\"}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/DISTILLATION_AND_RECURRENCE_THEORY_R1.md",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014",
+              "H-STATE-INIT-20261014"
+            ],
+            "id": "E-STUDENT-THEORY-ALGEBRA-20261014-R1",
+            "kind": "synthetic algebra verification",
+            "limitations": "Synthetic inputs only; no fits, competition predictions, measured capacity or model-selection evidence",
+            "quality_claim": false,
+            "result": "Clipped weighted-correlation mixture derivative matches official float32 finite difference within3.68e-8; one-layer minGRU same-input perturbation product matches float64 recurrence within2.64e-16 over20k rows. Ruff passed.",
+            "status": "complete"
+          },
+          "source": {
+            "line": 856,
+            "path": "research/experiments.jsonl",
+            "sha256": "c8580d9c03065ff6f02962e15b2860b322e923cb8970350db2db16348a38f0ff"
+          }
+        }
+      ],
+      "title": "synthetic algebra verification",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STUDENT-ACTUAL-CLI-PROFILE-20261014-R2",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STUDENT-ACTUAL-CLI-PROFILE-20261014-R2\", \"status\": \"complete\", \"result\": \"Ten finite attempted/completed updates,0AMPskips/nonfinitegradientstats,exit0,10.09s,hostpeak2464940032bytes; sparseGPU269MB is not truepeak\", \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/README.md\", \"date\": \"2026-10-14\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\"], \"quality_claim\": false}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/README.md",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-STUDENT-ACTUAL-CLI-PROFILE-20261014-R2",
+            "quality_claim": false,
+            "result": "Ten finite attempted/completed updates,0AMPskips/nonfinitegradientstats,exit0,10.09s,hostpeak2464940032bytes; sparseGPU269MB is not truepeak",
+            "status": "complete"
+          },
+          "source": {
+            "line": 857,
+            "path": "research/experiments.jsonl",
+            "sha256": "30d00e2e93a06ac84eca0342ebbc8b1a3d3da6bc9d5319a93ac8e67d95c8e858"
+          }
+        }
+      ],
+      "title": "E-STUDENT-ACTUAL-CLI-PROFILE-20261014-R2",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STUDENT-F0S3-H256L2-20261014-R2",
+      "latest_recorded_status": "running",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STUDENT-F0S3-H256L2-20261014-R2\", \"status\": \"running\", \"result\": \"Single matched14,920-update control fit admitted; first finite batch progression observed. CP0/export/grade pending.\", \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/ROOT_CONTROL_FIT_ADMISSION_R2.json\", \"date\": \"2026-10-14\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\"], \"quality_claim\": false}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/recipes/ROOT_CONTROL_FIT_ADMISSION_R2.json",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-STUDENT-F0S3-H256L2-20261014-R2",
+            "quality_claim": false,
+            "result": "Single matched14,920-update control fit admitted; first finite batch progression observed. CP0/export/grade pending.",
+            "status": "running"
+          },
+          "source": {
+            "line": 858,
+            "path": "research/experiments.jsonl",
+            "sha256": "1c64facfa7271a9cf79d08b903031db44542ce86afd9eaf78b7d007f6fdb05e2"
+          }
+        }
+      ],
+      "title": "E-STUDENT-F0S3-H256L2-20261014-R2",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STUDENT-WEIGHT-GEOMETRY-20261014-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STUDENT-WEIGHT-GEOMETRY-20261014-R1\", \"date\": \"2026-10-14\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\"], \"status\": \"complete\", \"kind\": \"static historical checkpoint matrix diagnostic\", \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/WEIGHT_GEOMETRY_R1.md\", \"result\": \"All4stacked recurrent95%-energy ranks exceed0.75H arithmetic break-even; half-rankrelativeFrobeniuserror0.438\\u20130.471; W8error0.0075\\u20130.0087/W4error0.136\\u20130.157. Noactivationorqualityclaim.\", \"quality_claim\": false}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/WEIGHT_GEOMETRY_R1.md",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-STUDENT-WEIGHT-GEOMETRY-20261014-R1",
+            "kind": "static historical checkpoint matrix diagnostic",
+            "quality_claim": false,
+            "result": "All4stacked recurrent95%-energy ranks exceed0.75H arithmetic break-even; half-rankrelativeFrobeniuserror0.438–0.471; W8error0.0075–0.0087/W4error0.136–0.157. Noactivationorqualityclaim.",
+            "status": "complete"
+          },
+          "source": {
+            "line": 859,
+            "path": "research/experiments.jsonl",
+            "sha256": "301e8e69c9b91da4d1908d02b70997176faa6efd5a94365fbe1793a0b6843ead"
+          }
+        }
+      ],
+      "title": "static historical checkpoint matrix diagnostic",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STUDENT-WEIGHT-GEOMETRY-20261014-R2",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STUDENT-WEIGHT-GEOMETRY-20261014-R2\", \"date\": \"2026-10-14\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\"], \"status\": \"complete\", \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/WEIGHT_GEOMETRY_R1.md\", \"kind\": \"per-gate historical matrix diagnostic\", \"result\": \"Correctedactualgru keyselector; all38whole/gatematricesverified across2checkpoints; every recurrentgate95%-energy rank exceedsH/2 gatefactorizationarithmeticbreak-even. Noactivationorqualityclaim.\", \"quality_claim\": false}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/WEIGHT_GEOMETRY_R1.md",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-STUDENT-WEIGHT-GEOMETRY-20261014-R2",
+            "kind": "per-gate historical matrix diagnostic",
+            "quality_claim": false,
+            "result": "Correctedactualgru keyselector; all38whole/gatematricesverified across2checkpoints; every recurrentgate95%-energy rank exceedsH/2 gatefactorizationarithmeticbreak-even. Noactivationorqualityclaim.",
+            "status": "complete"
+          },
+          "source": {
+            "line": 860,
+            "path": "research/experiments.jsonl",
+            "sha256": "1d0d58c285c3ceb79558953cfdea9e52665a76e3771a45027b05821226be976f"
+          }
+        }
+      ],
+      "title": "per-gate historical matrix diagnostic",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-MINGRU-REFERENCE-20261014-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-MINGRU-REFERENCE-20261014-R1\", \"date\": \"2026-10-14\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\"], \"status\": \"complete\", \"kind\": \"isolated recurrent implementation\", \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/MINGRU_REFERENCE_R1.md\", \"result\": \"Nine synthetic forward/gradient/exact-zero/chunk/reset/20k-row checks pass; nofit/GPU/native/grade. Parallel-doublingreference O(TlogT) isnotoptimizedspeedclaim.\", \"quality_claim\": false}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/MINGRU_REFERENCE_R1.md",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-MINGRU-REFERENCE-20261014-R1",
+            "kind": "isolated recurrent implementation",
+            "quality_claim": false,
+            "result": "Nine synthetic forward/gradient/exact-zero/chunk/reset/20k-row checks pass; nofit/GPU/native/grade. Parallel-doublingreference O(TlogT) isnotoptimizedspeedclaim.",
+            "status": "complete"
+          },
+          "source": {
+            "line": 861,
+            "path": "research/experiments.jsonl",
+            "sha256": "479b0fdd51286f2ae1184a09aef21e83a1df0734cefec299128422e870329bac"
+          }
+        }
+      ],
+      "title": "isolated recurrent implementation",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-QAT-KAGGLE-SEED4-PROFILE-20261014-R4",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-QAT-KAGGLE-SEED4-PROFILE-20261014-R4\", \"date\": \"2026-10-14\", \"status\": \"complete\", \"kind\": \"repairedactualGPUresourceprofile\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\"], \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r4/README.md\", \"result\": \"FP32/W4/mixed each100finiteupdates/0AMPskips;actualT4peaks2.081GBdevice3.366GBhost;noqualityresult\", \"quality_claim\": false}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r4/README.md",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-QAT-KAGGLE-SEED4-PROFILE-20261014-R4",
+            "kind": "repairedactualGPUresourceprofile",
+            "quality_claim": false,
+            "result": "FP32/W4/mixed each100finiteupdates/0AMPskips;actualT4peaks2.081GBdevice3.366GBhost;noqualityresult",
+            "status": "complete"
+          },
+          "source": {
+            "line": 862,
+            "path": "research/experiments.jsonl",
+            "sha256": "20f4858819699c186a82edc771c84a6e1c609fd960bf3f35d7cf618dfc1ca9c1"
+          }
+        }
+      ],
+      "title": "repairedactualGPUresourceprofile",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STUDENT-FRONTIER-F0S3-H256L2-FIT-R2-TERMINAL-20261014",
+      "latest_recorded_status": "fit_complete_audit_repair",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STUDENT-FRONTIER-F0S3-H256L2-FIT-R2-TERMINAL-20261014\", \"hypothesis_id\": \"H-STUDENT-LADDER-20261014\", \"timestamp\": \"2026-10-14T02:13:33.067789+00:00\", \"status\": \"fit_complete_audit_repair\", \"run\": \"student_frontier_f0s3_h256_l2_r2\", \"updates\": 14920, \"elapsed_seconds\": 2047.9032740630064, \"artifact\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/results/control_fit_terminal_r2/README.md\", \"limitation\": \"No predictions/quality grade yet; validator expected nonexistent beta1 CLI field, unchanged producer source fixes effective beta1 and OneCycle schedule.\"}\n",
+          "record": {
+            "artifact": "research/campaign_2026-10-14/cpu_student_frontier_r1/results/control_fit_terminal_r2/README.md",
+            "elapsed_seconds": 2047.9032740630064,
+            "hypothesis_id": "H-STUDENT-LADDER-20261014",
+            "id": "E-STUDENT-FRONTIER-F0S3-H256L2-FIT-R2-TERMINAL-20261014",
+            "limitation": "No predictions/quality grade yet; validator expected nonexistent beta1 CLI field, unchanged producer source fixes effective beta1 and OneCycle schedule.",
+            "run": "student_frontier_f0s3_h256_l2_r2",
+            "status": "fit_complete_audit_repair",
+            "timestamp": "2026-10-14T02:13:33.067789+00:00",
+            "updates": 14920
+          },
+          "source": {
+            "line": 863,
+            "path": "research/experiments.jsonl",
+            "sha256": "ed99c8da0f12d07a532d0f0513bf3595feba1dc1543b39ebbcf1a168f5dcec8f"
+          }
+        }
+      ],
+      "title": "E-STUDENT-FRONTIER-F0S3-H256L2-FIT-R2-TERMINAL-20261014",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STUDENT-WIDTHS-CODE-20261014-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"date\":\"2026-10-14\",\"evidence\":\"research/campaign_2026-10-14/cpu_student_frontier_r1/student_widths_r1/REPORT.md\",\"hypotheses\":[\"H-STUDENT-LADDER-20261014\"],\"id\":\"E-STUDENT-WIDTHS-CODE-20261014-R1\",\"kind\":\"independent student encoder/recurrent/readout width and head-depth training/native-serving implementation\",\"limitations\":\"Code-only; no fit, grade, quality ranking, trained package, or competition submission. Synthetic one-member timing is a single-run transport proxy; broad compatibility suite preceded final Rust wide-head dispatch repair.\",\"quality_claim\":false,\"result\":\"Default state-dict compatibility and synthetic width/depth native export/callback checks passed. Focused Python suite 34/34; Rust unit suite 59 passed, 1 ignored. WNNWTS02 consumed over 20,000 synthetic rows in FP32 and portable Q8; Q8 numerical error is reported in the receipt.\",\"status\":\"complete\"}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/student_widths_r1/REPORT.md",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-STUDENT-WIDTHS-CODE-20261014-R1",
+            "kind": "independent student encoder/recurrent/readout width and head-depth training/native-serving implementation",
+            "limitations": "Code-only; no fit, grade, quality ranking, trained package, or competition submission. Synthetic one-member timing is a single-run transport proxy; broad compatibility suite preceded final Rust wide-head dispatch repair.",
+            "quality_claim": false,
+            "result": "Default state-dict compatibility and synthetic width/depth native export/callback checks passed. Focused Python suite 34/34; Rust unit suite 59 passed, 1 ignored. WNNWTS02 consumed over 20,000 synthetic rows in FP32 and portable Q8; Q8 numerical error is reported in the receipt.",
+            "status": "complete"
+          },
+          "source": {
+            "line": 864,
+            "path": "research/experiments.jsonl",
+            "sha256": "0318ac45208781d43c8b901c1f333e4857d6e91c6f12e7baf37b298dd63c8180"
+          }
+        }
+      ],
+      "title": "independent student encoder/recurrent/readout width and head-depth training/native-serving implementation",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STUDENT-F0S3-H256L2-GRADE-20261014-R3",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STUDENT-F0S3-H256L2-GRADE-20261014-R3\", \"date\": \"2026-10-14\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\"], \"status\": \"complete\", \"kind\": \"fixedepoch0 exposedF0 grade\", \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/results/control_prediction_grade_r3/README.md\", \"official_wp\": 0.6697776418601018, \"groups\": 468, \"components\": 141, \"seed\": 3, \"updates\": 14920, \"quality_claim\": \"singlefixedbudgetcontrolonly\", \"limitations\": \"No matched alternative yet; below historicaldifferentrecipe strongstudent; no convergence/public/nativeprecisionclaim\"}\n",
+          "record": {
+            "components": 141,
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/results/control_prediction_grade_r3/README.md",
+            "groups": 468,
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-STUDENT-F0S3-H256L2-GRADE-20261014-R3",
+            "kind": "fixedepoch0 exposedF0 grade",
+            "limitations": "No matched alternative yet; below historicaldifferentrecipe strongstudent; no convergence/public/nativeprecisionclaim",
+            "official_wp": 0.6697776418601018,
+            "quality_claim": "singlefixedbudgetcontrolonly",
+            "seed": 3,
+            "status": "complete",
+            "updates": 14920
+          },
+          "source": {
+            "line": 865,
+            "path": "research/experiments.jsonl",
+            "sha256": "ed103a5523d4fb0e42e3fbf40ae7351046154f6835667869084b8e9a65273e92"
+          }
+        }
+      ],
+      "title": "fixedepoch0 exposedF0 grade",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-MINGRU-NATIVE-CALLBACK-20261014-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"date\":\"2026-10-14\",\"evidence\":\"research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/REPORT.md\",\"hypotheses\":[\"H-STUDENT-LADDER-20261014\"],\"id\":\"E-MINGRU-NATIVE-CALLBACK-20261014-R1\",\"kind\":\"synthetic native minGRU complete-sequence callback prototype\",\"limitations\":\"Random E12/R8/M6/L2 weights and deterministic synthetic inputs only; one local i9-11900H CPU timing pass; no fit, grade, actual-data quality, H256L2 capacity or target-host speed claim. Native exact-FP32 differs numerically from Python by up to7.45e-8 in predictions; Q8 shifts outputs and is larger for this tiny shape.\",\"quality_claim\":false,\"result\":\"Native raw112-to-causal211 callback and direct engineered-input stepper pass 20,000-row checks. Full/split-at99 and reset replay are bitwise identical; max exact-FP32 vs Python prediction/hidden errors7.45e-8/1.19e-7. Fast Q8-VNNI max prediction/hidden deltas1.78e-3/1.47e-3; callback time0.518s and packed weight+norm bytes20,120 versus FP3213,832.\",\"status\":\"complete\"}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_native_r1/REPORT.md",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-MINGRU-NATIVE-CALLBACK-20261014-R1",
+            "kind": "synthetic native minGRU complete-sequence callback prototype",
+            "limitations": "Random E12/R8/M6/L2 weights and deterministic synthetic inputs only; one local i9-11900H CPU timing pass; no fit, grade, actual-data quality, H256L2 capacity or target-host speed claim. Native exact-FP32 differs numerically from Python by up to7.45e-8 in predictions; Q8 shifts outputs and is larger for this tiny shape.",
+            "quality_claim": false,
+            "result": "Native raw112-to-causal211 callback and direct engineered-input stepper pass 20,000-row checks. Full/split-at99 and reset replay are bitwise identical; max exact-FP32 vs Python prediction/hidden errors7.45e-8/1.19e-7. Fast Q8-VNNI max prediction/hidden deltas1.78e-3/1.47e-3; callback time0.518s and packed weight+norm bytes20,120 versus FP3213,832.",
+            "status": "complete"
+          },
+          "source": {
+            "line": 866,
+            "path": "research/experiments.jsonl",
+            "sha256": "a26ee7deba69a241a202663b36359ad0389eeca7ba0c593a27e103d1f74e3e0c"
+          }
+        }
+      ],
+      "title": "synthetic native minGRU complete-sequence callback prototype",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-MINGRU-TIMESCALES-20261014",
+          "H-STATE-INIT-20261014"
+        ],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-INITIALIZER-GRADIENTS-20261014-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-INITIALIZER-GRADIENTS-20261014-R1\", \"date\": \"2026-10-14\", \"hypotheses\": [\"H-STATE-INIT-20261014\", \"H-MINGRU-TIMESCALES-20261014\"], \"status\": \"complete\", \"kind\": \"synthetic algebra and gradient implementation checks\", \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md\", \"result\": \"Sixscalar timescales verified; fivecheckpointed fullsequence initializer gradienttests pass; noCUDAfit/grade.\", \"quality_claim\": false}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md",
+            "hypotheses": [
+              "H-STATE-INIT-20261014",
+              "H-MINGRU-TIMESCALES-20261014"
+            ],
+            "id": "E-INITIALIZER-GRADIENTS-20261014-R1",
+            "kind": "synthetic algebra and gradient implementation checks",
+            "quality_claim": false,
+            "result": "Sixscalar timescales verified; fivecheckpointed fullsequence initializer gradienttests pass; noCUDAfit/grade.",
+            "status": "complete"
+          },
+          "source": {
+            "line": 867,
+            "path": "research/experiments.jsonl",
+            "sha256": "70fed690af7fd4250996857811a402fdc2e2a37d876ba6da04980dc02176e9ba"
+          }
+        }
+      ],
+      "title": "synthetic algebra and gradient implementation checks",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-MINGRU-TIMESCALE-IMPLEMENTATION-20261014-R1",
+      "latest_recorded_status": "implementation_verified",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-MINGRU-TIMESCALE-IMPLEMENTATION-20261014-R1\", \"hypothesis_id\": \"H-MINGRU-TIMESCALES-20261014\", \"timestamp\": \"2026-10-14T02:58:35.682618+00:00\", \"status\": \"implementation_verified\", \"mechanism\": \"explicit minGRU write-gate bias prior, log-spaced nominal e-folding2..10000rows\", \"result\": {\"tests_passed\": 17, \"new_checks\": 6, \"finite_sequence_gradient_matches_analytic_decay\": true, \"default_weights_candidate_bias_rng_unchanged\": true}, \"evidence\": [\"research/campaign_2026-10-14/cpu_student_frontier_r1/RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md\", \"research/campaign_2026-10-14/cpu_student_frontier_r1/MINGRU_TIMESCALE_TESTS_R1.xml\"], \"quality_claim\": false, \"fitted\": false}\n",
+          "record": {
+            "evidence": [
+              "research/campaign_2026-10-14/cpu_student_frontier_r1/RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md",
+              "research/campaign_2026-10-14/cpu_student_frontier_r1/MINGRU_TIMESCALE_TESTS_R1.xml"
+            ],
+            "fitted": false,
+            "hypothesis_id": "H-MINGRU-TIMESCALES-20261014",
+            "id": "E-MINGRU-TIMESCALE-IMPLEMENTATION-20261014-R1",
+            "mechanism": "explicit minGRU write-gate bias prior, log-spaced nominal e-folding2..10000rows",
+            "quality_claim": false,
+            "result": {
+              "default_weights_candidate_bias_rng_unchanged": true,
+              "finite_sequence_gradient_matches_analytic_decay": true,
+              "new_checks": 6,
+              "tests_passed": 17
+            },
+            "status": "implementation_verified",
+            "timestamp": "2026-10-14T02:58:35.682618+00:00"
+          },
+          "source": {
+            "line": 868,
+            "path": "research/experiments.jsonl",
+            "sha256": "e5f7a7956b9bbf7c80ff15e6e161b9b9c0ae055e5876c2c32907380745b14c4b"
+          }
+        }
+      ],
+      "title": "E-MINGRU-TIMESCALE-IMPLEMENTATION-20261014-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-STUDENT-FRONTIER-H256L1-F0S3-20261014",
+      "latest_recorded_status": "fit_predicted_graded",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STUDENT-FRONTIER-H256L1-F0S3-20261014\", \"hypothesis_id\": \"H-STUDENT-FRONTIER-20261014\", \"timestamp\": \"2026-10-14T03:01:05.606072+00:00\", \"status\": \"fit_predicted_graded\", \"run\": \"student_frontier_f0s3_h256_l1_r2\", \"official_wp\": 0.6693463181793853, \"paired_vs_h256l2\": {\"candidate_wp\": 0.6693463181793853, \"reference_wp\": 0.6697776418601016, \"mean_diff\": -0.0004313236807163001, \"bootstrap_sd\": 0.0009195719724472664, \"ci95\": [-0.002304312534208089, 0.0013211983632722929], \"p_le_0\": 0.6785, \"n_sequences\": 468, \"n_components\": 141, \"n_boot\": 2000, \"seed\": 271828, \"metric_id\": \"global_wp_clip2_v1\", \"centered_moments\": true, \"selected_rows\": 808863}, \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/results/h256l1_terminal_r6/README.md\", \"exposure\": \"one repeatedly exposedF0;onefittingseed;no publicforecast\", \"decision\": \"retain compact candidate; continue full eight-shape screen\"}\n",
+          "record": {
+            "decision": "retain compact candidate; continue full eight-shape screen",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/results/h256l1_terminal_r6/README.md",
+            "exposure": "one repeatedly exposedF0;onefittingseed;no publicforecast",
+            "hypothesis_id": "H-STUDENT-FRONTIER-20261014",
+            "id": "E-STUDENT-FRONTIER-H256L1-F0S3-20261014",
+            "official_wp": 0.6693463181793853,
+            "paired_vs_h256l2": {
+              "bootstrap_sd": 0.0009195719724472664,
+              "candidate_wp": 0.6693463181793853,
+              "centered_moments": true,
+              "ci95": [
+                -0.002304312534208089,
+                0.0013211983632722929
+              ],
+              "mean_diff": -0.0004313236807163001,
+              "metric_id": "global_wp_clip2_v1",
+              "n_boot": 2000,
+              "n_components": 141,
+              "n_sequences": 468,
+              "p_le_0": 0.6785,
+              "reference_wp": 0.6697776418601016,
+              "seed": 271828,
+              "selected_rows": 808863
+            },
+            "run": "student_frontier_f0s3_h256_l1_r2",
+            "status": "fit_predicted_graded",
+            "timestamp": "2026-10-14T03:01:05.606072+00:00"
+          },
+          "source": {
+            "line": 869,
+            "path": "research/experiments.jsonl",
+            "sha256": "c45316b1e6db1a002ed776655682d211a28db5370ab28a1bfff17ec8b90e9b31"
+          }
+        }
+      ],
+      "title": "E-STUDENT-FRONTIER-H256L1-F0S3-20261014",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STUDENT-GRU-MINGRU-COST-20261014-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-STUDENT-GRU-MINGRU-COST-20261014-R1\",\"date\":\"2026-10-14\",\"hypotheses\":[\"H-STUDENT-LADDER-20261014\"],\"status\":\"complete\",\"kind\":\"matched-matrix native full-sequence serving cost profile\",\"evidence\":\"research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1/REPORT.md\",\"result\":\"On one i9-11900H, seeded synthetic-weight H256L2 GRU/H384L2 minGRU matrix counts972032/966528 (n_out=2). FP32 callback means4.15645/3.58502s; Q8 VNNI means0.30860/0.93937s. All four 20k callbacks reset/replay bitwise deterministically; bounded 137-row exact-reference numerical errors and selected-precision assertions recorded.\",\"quality_claim\":false,\"limitations\":\"One fitting sequence, synthetic deterministic weights, one unpinned Intel host with a concurrent H192 fit, and native callback timing only. GRU Q8 encoder is I16 while minGRU encoder is Q8; activation and quantization schedules differ. Source inspection suggests but does not isolate the cause of minGRU Q8 3.044x latency. No fit, quality, host-transfer or AMD result.\"}\n",
+          "record": {
+            "date": "2026-10-14",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/min_gru_cost_profile_r1/REPORT.md",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-STUDENT-GRU-MINGRU-COST-20261014-R1",
+            "kind": "matched-matrix native full-sequence serving cost profile",
+            "limitations": "One fitting sequence, synthetic deterministic weights, one unpinned Intel host with a concurrent H192 fit, and native callback timing only. GRU Q8 encoder is I16 while minGRU encoder is Q8; activation and quantization schedules differ. Source inspection suggests but does not isolate the cause of minGRU Q8 3.044x latency. No fit, quality, host-transfer or AMD result.",
+            "quality_claim": false,
+            "result": "On one i9-11900H, seeded synthetic-weight H256L2 GRU/H384L2 minGRU matrix counts972032/966528 (n_out=2). FP32 callback means4.15645/3.58502s; Q8 VNNI means0.30860/0.93937s. All four 20k callbacks reset/replay bitwise deterministically; bounded 137-row exact-reference numerical errors and selected-precision assertions recorded.",
+            "status": "complete"
+          },
+          "source": {
+            "line": 870,
+            "path": "research/experiments.jsonl",
+            "sha256": "fa7c56fb930770f737badb4dde70354ffd52f032f83d0c309baa8febf50b5a86"
+          }
+        }
+      ],
+      "title": "matched-matrix native full-sequence serving cost profile",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-CPU-POLICY-20261014",
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-VAST-A-CPU-FEASIBILITY-20261015-R1",
+      "latest_recorded_status": "access_route_unresolved",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-VAST-A-CPU-FEASIBILITY-20261015-R1\", \"created_utc\": \"2026-10-15T10:42:10.146688+00:00\", \"hypotheses\": [\"H-CPU-POLICY-20261014\", \"H-STUDENT-LADDER-20261014\"], \"status\": \"access_route_unresolved\", \"kind\": \"read_only_market_and_runtime_protocol\", \"evidence\": \"research/campaign_2026-10-15/vast_a_cpu_probe_r1/PROTOCOL_AND_MARKET_R2.md\", \"result\": \"Exact9224computeonlyGPUbundle in current search; zeroGPUoffersdiskvolumes; no rental/spend or CPU measurement\", \"quality_claim\": false}\n",
+          "record": {
+            "created_utc": "2026-10-15T10:42:10.146688+00:00",
+            "evidence": "research/campaign_2026-10-15/vast_a_cpu_probe_r1/PROTOCOL_AND_MARKET_R2.md",
+            "hypotheses": [
+              "H-CPU-POLICY-20261014",
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-VAST-A-CPU-FEASIBILITY-20261015-R1",
+            "kind": "read_only_market_and_runtime_protocol",
+            "quality_claim": false,
+            "result": "Exact9224computeonlyGPUbundle in current search; zeroGPUoffersdiskvolumes; no rental/spend or CPU measurement",
+            "status": "access_route_unresolved"
+          },
+          "source": {
+            "line": 871,
+            "path": "research/experiments.jsonl",
+            "sha256": "de1411443d6c4f6a0340805a8a75b8eef413420831aba344187d77c9011fb36d"
+          }
+        }
+      ],
+      "title": "read_only_market_and_runtime_protocol",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-MINGRU-Q8-AVX2-FASTPATH-20261015",
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-MINGRU-Q8-AVX2-FASTPATH-20261015-R1",
+      "latest_recorded_status": "complete",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"date\": \"2026-10-15\", \"evidence\": \"research/campaign_2026-10-15/min_gru_q8_opt_r1/REPORT_R1.md\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\", \"H-MINGRU-Q8-AVX2-FASTPATH-20261015\"], \"id\": \"E-MINGRU-Q8-AVX2-FASTPATH-20261015-R1\", \"kind\": \"bitwise-checked native minGRU Q8 serving optimization profile\", \"limitations\": \"Deterministic synthetic H384L2 weights and one fitting-membership train37 sequence; targets/masks were not loaded. One host and one callback shape; no fit, quality, capacity, AMD, or competition-host conclusion. No per-kernel ablation isolates which changed helper contributes what share.\", \"quality_claim\": false, \"result\": \"On one Intel i9-11900H, the AVX2 fast path reduced the paired three-replay 20k raw112-to-211 callback median from 1.042720s to 0.503587s (2.070587x); complete predictions and final states were bitwise identical to the sealed scalar Q8 library.\", \"status\": \"complete\"}\n",
+          "record": {
+            "date": "2026-10-15",
+            "evidence": "research/campaign_2026-10-15/min_gru_q8_opt_r1/REPORT_R1.md",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014",
+              "H-MINGRU-Q8-AVX2-FASTPATH-20261015"
+            ],
+            "id": "E-MINGRU-Q8-AVX2-FASTPATH-20261015-R1",
+            "kind": "bitwise-checked native minGRU Q8 serving optimization profile",
+            "limitations": "Deterministic synthetic H384L2 weights and one fitting-membership train37 sequence; targets/masks were not loaded. One host and one callback shape; no fit, quality, capacity, AMD, or competition-host conclusion. No per-kernel ablation isolates which changed helper contributes what share.",
+            "quality_claim": false,
+            "result": "On one Intel i9-11900H, the AVX2 fast path reduced the paired three-replay 20k raw112-to-211 callback median from 1.042720s to 0.503587s (2.070587x); complete predictions and final states were bitwise identical to the sealed scalar Q8 library.",
+            "status": "complete"
+          },
+          "source": {
+            "line": 872,
+            "path": "research/experiments.jsonl",
+            "sha256": "f11e68cd900f1106a42589aa5523d4bd31fdca92f6279554f77aec3d8300d1e8"
+          }
+        }
+      ],
+      "title": "bitwise-checked native minGRU Q8 serving optimization profile",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STUDENT-FRONTIER-H512L1-F0S3-20261015",
+      "latest_recorded_status": "fit_predicted_graded",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STUDENT-FRONTIER-H512L1-F0S3-20261015\", \"created_utc\": \"2026-10-15T10:50:33.785621+00:00\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\"], \"status\": \"fit_predicted_graded\", \"run\": \"student_frontier_f0s3_h512_l1_r2\", \"official_wp\": 0.6732377614517364, \"paired_delta_vs_h256l2\": 0.003460119591635058, \"conditional_component_ci95\": [0.002003072923834501, 0.00490448015826515], \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h512_l1_r2_fold0.json\", \"review\": \"research/unified/reviews/CPU_STUDENT_FRONTIER_H512L1_RESULT_REVIEW_20261015_R1.md\", \"exposure\": \"one repeatedly exposedF0/onefittingseed; nottrainingseeduncertainty/publicforecast\", \"decision\": \"advancefirstscreen; continue ladder/native/seed/foldconfirmation\"}\n",
+          "record": {
+            "conditional_component_ci95": [
+              0.002003072923834501,
+              0.00490448015826515
+            ],
+            "created_utc": "2026-10-15T10:50:33.785621+00:00",
+            "decision": "advancefirstscreen; continue ladder/native/seed/foldconfirmation",
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/results/student_frontier_f0s3_h512_l1_r2_fold0.json",
+            "exposure": "one repeatedly exposedF0/onefittingseed; nottrainingseeduncertainty/publicforecast",
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-STUDENT-FRONTIER-H512L1-F0S3-20261015",
+            "official_wp": 0.6732377614517364,
+            "paired_delta_vs_h256l2": 0.003460119591635058,
+            "review": "research/unified/reviews/CPU_STUDENT_FRONTIER_H512L1_RESULT_REVIEW_20261015_R1.md",
+            "run": "student_frontier_f0s3_h512_l1_r2",
+            "status": "fit_predicted_graded"
+          },
+          "source": {
+            "line": 873,
+            "path": "research/experiments.jsonl",
+            "sha256": "2cd941e125bf4f905ef4b6bdf11488b56bbcf9a84f6711773338b50c0a9cf356"
+          }
+        }
+      ],
+      "title": "E-STUDENT-FRONTIER-H512L1-F0S3-20261015",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-STUDENT-LADDER-20261014"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-STUDENT-H256L1-NATIVE-Q8-F0S3-20261015-R2",
+      "latest_recorded_status": "complete",
+      "parent_id": "hypothesis:H-STUDENT-LADDER-20261014",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-STUDENT-H256L1-NATIVE-Q8-F0S3-20261015-R2\", \"created_utc\": \"2026-10-15T10:56:18.675642+00:00\", \"hypotheses\": [\"H-STUDENT-LADDER-20261014\"], \"status\": \"complete\", \"evidence\": \"research/campaign_2026-10-14/cpu_student_frontier_r1/native_grades_r1/H256L1_COLLECTION_R2.json\", \"official_wp\": 0.6693617251912373, \"fp32_same_checkpoint_wp\": 0.6693463181793853, \"delta\": 1.5407011852e-05, \"scope\": \"fixedCP0 full468group/141component exposedF0; nofitting/calibration/selection; localtimingnotcontrolledcapacity\", \"precision\": \"I16encoder,dynamicA8Q8VNNI,FP32state,fastactivations\"}\n",
+          "record": {
+            "created_utc": "2026-10-15T10:56:18.675642+00:00",
+            "delta": 1.5407011852e-05,
+            "evidence": "research/campaign_2026-10-14/cpu_student_frontier_r1/native_grades_r1/H256L1_COLLECTION_R2.json",
+            "fp32_same_checkpoint_wp": 0.6693463181793853,
+            "hypotheses": [
+              "H-STUDENT-LADDER-20261014"
+            ],
+            "id": "E-STUDENT-H256L1-NATIVE-Q8-F0S3-20261015-R2",
+            "official_wp": 0.6693617251912373,
+            "precision": "I16encoder,dynamicA8Q8VNNI,FP32state,fastactivations",
+            "scope": "fixedCP0 full468group/141component exposedF0; nofitting/calibration/selection; localtimingnotcontrolledcapacity",
+            "status": "complete"
+          },
+          "source": {
+            "line": 874,
+            "path": "research/experiments.jsonl",
+            "sha256": "14964d0bfa2ae2d7488ed9eb764d9923c4f7eaa54b30daf8ed988ec3c61741b2"
+          }
+        }
+      ],
+      "title": "E-STUDENT-H256L1-NATIVE-Q8-F0S3-20261015-R2",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -85189,6 +86079,28 @@
       "target_id": "hypothesis:H-QAT-W4-20261013"
     },
     {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 497,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "df6bd116217604c261566739415eb52c8de294208869786deec33e2a24623a72"
+      },
+      "source_id": "hypothesis:H-MINGRU-TIMESCALES-20261014",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 498,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "5fe7d00e0bc28845bc0c2659b75c59fb3179170c6ae4c61b37aab2620005c7aa"
+      },
+      "source_id": "hypothesis:H-MINGRU-Q8-AVX2-FASTPATH-20261015",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
       "relation": "ledger_hypothesis_reference",
       "resolved": true,
       "source": {
@@ -87705,6 +88617,259 @@
         "sha256": "8e71ca328c39b665e7c5ef1c2e5a3cd2708d9e1766432221f1ff0c7cc4fed69b"
       },
       "source_id": "experiment:E-STUDENT-F0-S3-LARGEST-B1-RESOURCE-PROFILE-20261014-R1",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 853,
+        "path": "research/experiments.jsonl",
+        "sha256": "fa3e9709da4eeea101cea4260d65bc6ca4a0b59f86fb03651cc30660718f5ce9"
+      },
+      "source_id": "experiment:E-STATE-INIT-NATIVE-20261014-R1",
+      "target_id": "hypothesis:H-STATE-INIT-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 854,
+        "path": "research/experiments.jsonl",
+        "sha256": "e9c9bf5e421629d71ac20abd821387a64b274a2fe14dd90fa4570ffed9cd4010"
+      },
+      "source_id": "experiment:E-STUDENT-F0-S3-B8-LADDER-PROFILE-20261014-R1",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 855,
+        "path": "research/experiments.jsonl",
+        "sha256": "127c5d413e1eefcd8879a2563a457c7877d970f747c560f80dfa19e900243a51"
+      },
+      "source_id": "experiment:E-STATE-INIT-ACTUAL-PARITY-20261014-R1",
+      "target_id": "hypothesis:H-STATE-INIT-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 856,
+        "path": "research/experiments.jsonl",
+        "sha256": "c8580d9c03065ff6f02962e15b2860b322e923cb8970350db2db16348a38f0ff"
+      },
+      "source_id": "experiment:E-STUDENT-THEORY-ALGEBRA-20261014-R1",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 856,
+        "path": "research/experiments.jsonl",
+        "sha256": "c8580d9c03065ff6f02962e15b2860b322e923cb8970350db2db16348a38f0ff"
+      },
+      "source_id": "experiment:E-STUDENT-THEORY-ALGEBRA-20261014-R1",
+      "target_id": "hypothesis:H-STATE-INIT-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 857,
+        "path": "research/experiments.jsonl",
+        "sha256": "30d00e2e93a06ac84eca0342ebbc8b1a3d3da6bc9d5319a93ac8e67d95c8e858"
+      },
+      "source_id": "experiment:E-STUDENT-ACTUAL-CLI-PROFILE-20261014-R2",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 858,
+        "path": "research/experiments.jsonl",
+        "sha256": "1c64facfa7271a9cf79d08b903031db44542ce86afd9eaf78b7d007f6fdb05e2"
+      },
+      "source_id": "experiment:E-STUDENT-F0S3-H256L2-20261014-R2",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 859,
+        "path": "research/experiments.jsonl",
+        "sha256": "301e8e69c9b91da4d1908d02b70997176faa6efd5a94365fbe1793a0b6843ead"
+      },
+      "source_id": "experiment:E-STUDENT-WEIGHT-GEOMETRY-20261014-R1",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 860,
+        "path": "research/experiments.jsonl",
+        "sha256": "1d0d58c285c3ceb79558953cfdea9e52665a76e3771a45027b05821226be976f"
+      },
+      "source_id": "experiment:E-STUDENT-WEIGHT-GEOMETRY-20261014-R2",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 861,
+        "path": "research/experiments.jsonl",
+        "sha256": "479b0fdd51286f2ae1184a09aef21e83a1df0734cefec299128422e870329bac"
+      },
+      "source_id": "experiment:E-MINGRU-REFERENCE-20261014-R1",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 862,
+        "path": "research/experiments.jsonl",
+        "sha256": "20f4858819699c186a82edc771c84a6e1c609fd960bf3f35d7cf618dfc1ca9c1"
+      },
+      "source_id": "experiment:E-QAT-KAGGLE-SEED4-PROFILE-20261014-R4",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 864,
+        "path": "research/experiments.jsonl",
+        "sha256": "0318ac45208781d43c8b901c1f333e4857d6e91c6f12e7baf37b298dd63c8180"
+      },
+      "source_id": "experiment:E-STUDENT-WIDTHS-CODE-20261014-R1",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 865,
+        "path": "research/experiments.jsonl",
+        "sha256": "ed103a5523d4fb0e42e3fbf40ae7351046154f6835667869084b8e9a65273e92"
+      },
+      "source_id": "experiment:E-STUDENT-F0S3-H256L2-GRADE-20261014-R3",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 866,
+        "path": "research/experiments.jsonl",
+        "sha256": "a26ee7deba69a241a202663b36359ad0389eeca7ba0c593a27e103d1f74e3e0c"
+      },
+      "source_id": "experiment:E-MINGRU-NATIVE-CALLBACK-20261014-R1",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 867,
+        "path": "research/experiments.jsonl",
+        "sha256": "70fed690af7fd4250996857811a402fdc2e2a37d876ba6da04980dc02176e9ba"
+      },
+      "source_id": "experiment:E-INITIALIZER-GRADIENTS-20261014-R1",
+      "target_id": "hypothesis:H-STATE-INIT-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 867,
+        "path": "research/experiments.jsonl",
+        "sha256": "70fed690af7fd4250996857811a402fdc2e2a37d876ba6da04980dc02176e9ba"
+      },
+      "source_id": "experiment:E-INITIALIZER-GRADIENTS-20261014-R1",
+      "target_id": "hypothesis:H-MINGRU-TIMESCALES-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 870,
+        "path": "research/experiments.jsonl",
+        "sha256": "fa7c56fb930770f737badb4dde70354ffd52f032f83d0c309baa8febf50b5a86"
+      },
+      "source_id": "experiment:E-STUDENT-GRU-MINGRU-COST-20261014-R1",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 871,
+        "path": "research/experiments.jsonl",
+        "sha256": "de1411443d6c4f6a0340805a8a75b8eef413420831aba344187d77c9011fb36d"
+      },
+      "source_id": "experiment:E-VAST-A-CPU-FEASIBILITY-20261015-R1",
+      "target_id": "hypothesis:H-CPU-POLICY-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 871,
+        "path": "research/experiments.jsonl",
+        "sha256": "de1411443d6c4f6a0340805a8a75b8eef413420831aba344187d77c9011fb36d"
+      },
+      "source_id": "experiment:E-VAST-A-CPU-FEASIBILITY-20261015-R1",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 872,
+        "path": "research/experiments.jsonl",
+        "sha256": "f11e68cd900f1106a42589aa5523d4bd31fdca92f6279554f77aec3d8300d1e8"
+      },
+      "source_id": "experiment:E-MINGRU-Q8-AVX2-FASTPATH-20261015-R1",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 872,
+        "path": "research/experiments.jsonl",
+        "sha256": "f11e68cd900f1106a42589aa5523d4bd31fdca92f6279554f77aec3d8300d1e8"
+      },
+      "source_id": "experiment:E-MINGRU-Q8-AVX2-FASTPATH-20261015-R1",
+      "target_id": "hypothesis:H-MINGRU-Q8-AVX2-FASTPATH-20261015"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 873,
+        "path": "research/experiments.jsonl",
+        "sha256": "2cd941e125bf4f905ef4b6bdf11488b56bbcf9a84f6711773338b50c0a9cf356"
+      },
+      "source_id": "experiment:E-STUDENT-FRONTIER-H512L1-F0S3-20261015",
+      "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 874,
+        "path": "research/experiments.jsonl",
+        "sha256": "14964d0bfa2ae2d7488ed9eb764d9923c4f7eaa54b30daf8ed988ec3c61741b2"
+      },
+      "source_id": "experiment:E-STUDENT-H256L1-NATIVE-Q8-F0S3-20261015-R2",
       "target_id": "hypothesis:H-STUDENT-LADDER-20261014"
     },
     {
