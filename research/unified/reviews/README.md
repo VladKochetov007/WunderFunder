@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+- [Root review of queued frozen-parent S profile](FROZEN_PARENT_S_PROFILE_REVIEW_20261015_R1.md) independently compares exact S/C options and reads direct/cached teacher consumer/loss paths. GO for50-update resource smoke after C export and fresh shared admission; full fit remains unadmitted. Target calibration, historical precision and inherited-teacher confounds remain explicit.
+
 - [Root review of T4 R4 target-cache mount repair](STUDENT_SHAPE_T4_R4_MOUNT_REVIEW_20261015_R1.md): direct job/archive/source comparison confirms only two required input bindings and duplicate-hash deferral change; all training argv/non-job source payloads remain identical. Conditional GO for the same1800s profile rerun after fresh provider checks, no architecture/quality result. Actor packet is isolated pending integration.
 
 This domain stores independent critiques, strategy reviews, and structured audit receipts. Reviews interpret or challenge evidence; they do not replace the source experiment, score receipt, or append-only ledger row they cite.
