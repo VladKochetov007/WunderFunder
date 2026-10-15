@@ -1,0 +1,90 @@
+{
+  "archive": {
+    "archive_bytes": 272182,
+    "archive_path": "private_assets/upload_wnn-f0-student-shape-t4-profile-20261015-r4/bundle.wnn",
+    "archive_sha256": "ae9f7bc635e75b1468c136fe929d1e9f02f6d1e87e0872073ffcc0b7bdd6f9e0",
+    "dataset": "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1",
+    "external_mount_count": 24,
+    "manifest_path": "private_assets/upload_wnn-f0-student-shape-t4-profile-20261015-r4/bundle-manifest.json",
+    "manifest_sha256": "b3a15a56f65f8b157ff384a37085df3715b70d59b6f446db30f033d9c0125f78",
+    "private": true
+  },
+  "checks": [
+    "R3 failure is pinned and remains infrastructure-only: missing split target-cache mounts before any CUDA update",
+    "exact fold0 producer split and portable registry identities for train/valid target caches",
+    "all source-qualified fold0 split consumer paths are mounted in both profile job declarations and the outer bootstrap map",
+    "R4 differs from R3 only by two required target-cache inputs, their worker-deferred whole-file identity check, and the corresponding outer mount map/archive identity",
+    "profile CLI argv, optimizer, shape, seed, budget, source closure, and model recipe remain identical to R3",
+    "R3 archive members outside the two embedded job JSON documents are byte-identical",
+    "worker performs strict portable target-content hash and index verification before training",
+    "profile jobs remain profile-only with two 50-attempt jobs and the fixed 1,800-second outer deadline"
+  ],
+  "input_binding_sha256": "5877a724351b1ec7b81e67a5f0b2d30316adb04585b7defd92b0ba6710b8beb7",
+  "jobs": [
+    {
+      "attempts_requested": 50,
+      "cli_argv_unchanged": true,
+      "input_count": 24,
+      "name": "student_pair_t4_profile_f0s3_h256_l2_r2",
+      "path": "research/campaign_2026-10-15/student_shape_pair_f0_r4/jobs/student_pair_t4_profile_f0s3_h256_l2_r2.json",
+      "required_target_paths_present": [
+        "cache/train_targets.npz",
+        "cache/valid_targets.npz"
+      ],
+      "sha256": "2162da84939c75b0d577b98906fd548498cd9578a7fcfe07179f0e68145c6d14",
+      "shape": [
+        256,
+        2
+      ]
+    },
+    {
+      "attempts_requested": 50,
+      "cli_argv_unchanged": true,
+      "input_count": 24,
+      "name": "student_pair_t4_profile_f0s3_h512_l1_r2",
+      "path": "research/campaign_2026-10-15/student_shape_pair_f0_r4/jobs/student_pair_t4_profile_f0s3_h512_l1_r2.json",
+      "required_target_paths_present": [
+        "cache/train_targets.npz",
+        "cache/valid_targets.npz"
+      ],
+      "sha256": "eb541b843f63ed30993517b89ad7c723c5f52d1eefed6f97a1affadf5a84c46b",
+      "shape": [
+        512,
+        1
+      ]
+    }
+  ],
+  "kernel": {
+    "kernel_id": "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1-runner",
+    "mounts_match_input_binding": true,
+    "outer_deadline_seconds": 1800,
+    "path": "private_assets/upload_wnn-f0-student-shape-t4-profile-20261015-r4/kernel/kernel.py",
+    "sha256": "e4610b3989ada343b47c220f09412f29910ec656feaf910c44fbbb1bd065baa2"
+  },
+  "preflight_script_sha256": "42e050096206b7ddb8e7ab9bdac89bbbec3d3aa5e5a05253f9f4fdeeb18c2f9d",
+  "provider_action_performed": false,
+  "r3_failed_profile_log_sha256": "d49e40a25207778bcb4c238671353c5d452a157da846f1d4291bc19742cf1ec5",
+  "recipe_contract_sha256": "815fe98fdecfafec84e4f5f4800aabb9b06bcf8dcfdff5efec057ddb1723363d",
+  "schema": "wnn.student-shape-pair-offline-spec-preflight.r4",
+  "seal_sha256": "ce48235b717d42974d1685e7104896777d8976d5c7e6ac49b01a7ef3e953fd2d",
+  "source_binding_sha256": "4031266199233d7d5fe4b28e7dc049e3ec5ab713c37dde096226831ef2e7648e",
+  "status": "passed_offline_no_provider_action",
+  "target_cache_descriptors": [
+    {
+      "dataset": "vladkochetov07/wnn-c20261004-fold0-assets",
+      "filename": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9.wnn",
+      "logical_path": "cache/train_targets.npz",
+      "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+      "size": 1909335790,
+      "version_expected": 1
+    },
+    {
+      "dataset": "vladkochetov07/wnn-c20261004-fold0-assets",
+      "filename": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955.wnn",
+      "logical_path": "cache/valid_targets.npz",
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "size": 337186198,
+      "version_expected": 1
+    }
+  ]
+}
