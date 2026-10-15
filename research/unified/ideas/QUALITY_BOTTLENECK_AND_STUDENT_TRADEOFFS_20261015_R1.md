@@ -3,7 +3,7 @@ kind: idea
 status: proposed
 created_utc: 2026-10-15T11:55:00Z
 updated_utc: 2026-10-15T11:55:00Z
-hypothesis_ids: [H-KD-CONTINUATION-VALUE-20261015, H-STUDENT-LADDER-20261014]
+hypothesis_ids: [H-KD-CONTINUATION-VALUE-20261015, H-STUDENT-LADDER-20261014, H-STUDENT-PARENT-GROWTH-20261015]
 experiment_ids: []
 evidence_paths: [research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md]
 ---
@@ -52,6 +52,8 @@ Teacher prediction quality is not a mathematical ceiling on a student: [Born Aga
 
 The prior target-amplitude and trajectory-average experiments produced only small uncertain effects. Preserve those negatives; repeating a scale-only change is a lower priority than separating inherited quality, label-only improvement and teacher contribution.
 
+One additional proposal addresses the initializer confound directly: grow a strong H256×2 parent into H384×2 or H512×2 while preserving its initial function. [Net2Net](https://arxiv.org/abs/1511.05641) supplies the function-preserving transfer precedent; the following GRU adaptation is our proposal, not a published or locally verified result. Keep parent encoder units, recurrent units and readout units in designated subsets. Copy each reset/update/candidate gate into the corresponding enlarged gate slice; zero incoming connections from new units to old units. Map the old readout's concatenated recurrent/encoder columns explicitly and zero new output columns. New units can start with distinct random features while their initial contribution to the old outputs is zero. Preserve normalization, biases, old-state mapping and all recurrent layers. This avoids asking every wider model to relearn a strong starting function from scratch. A cheap falsifier is complete-sequence parent/grown prediction parity and reset before any fit, followed by finite-gradient checks that the added capacity can learn. FP16/native quantization and larger matrix summation order can change numerical parity and must be measured separately. Compare grown versus unchanged parent under matched continued fitting, then compare growth against a cold larger model at declared cost. No growth implementation or experiment is admitted here; the original cold architecture ladder remains unchanged.
+
 ## Decision and resource allocation
 
 Continue the healthy H384 fit and its profile/export/grade chain. Prepare the matched continuation packet for review and the next useful GPU admission. No new fit is admitted by this note. Preserve remaining architecture candidates and broader-fold/seed confirmation. Defer CPU-host searches, initializer native-build repair and additional TPU numerical engineering while these quality deliverables are ready work.
@@ -65,6 +67,7 @@ Local limits remain five aggregate CPU cores, one GPU worker, 5 GB observed VRAM
 - [Live architecture frontier](../../campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md) and [H512 independent result review](../reviews/CPU_STUDENT_FRONTIER_H512L1_RESULT_REVIEW_20261015_R1.md).
 - [Native Q8 grade receipts](../../campaign_2026-10-14/cpu_student_frontier_r1/native_grades_r1/README.md) bind the H256×2 and H256×1 serving conversions and official full-F0 scores.
 - [Independent teacher/student ancestry review](../reviews/CLEAN_T3_TEACHER_STUDENT_BOTTLENECK_REVIEW_20261015_R1.md) verifies the direct parents, target treatment and comparison limits.
+- [Matched warm-parent alpha packet](../../campaign_2026-10-15/student_quality_tradeoff_r1/README.md) pins the historical control, initializer and cache. Executable stage contracts and independent launch review remain pending at this note's snapshot.
 - [Teacher trio and fixed half-student blend grade](../../campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_local_equal_trio_grade_r1/F0_EQUAL_TEACHER_TRIO_GRADE_R1.json).
 - [Current seed-3 student grade](../../campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/student_fit_r2/f0_grade_r1/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1.grade.json) and [historical direct-parent grade bank](../../campaign_2026-10-06/bandit_continuation/prediction_bank/GRADE_FOLD0FULL_20261010T004533Z_f3ec9c4efd4d7305.json). The independent reviewer checked matching split, fitting/evaluation membership, normalization and exact initializer checkpoint hash.
 - [Older Z4 matched parent/student paired grade](../../campaign_2026-10-06/bandit_continuation/runtime/receipts/oldz4-r5-f0-s3-student-export/F0_GRADE_PAIRED_R5.json).
