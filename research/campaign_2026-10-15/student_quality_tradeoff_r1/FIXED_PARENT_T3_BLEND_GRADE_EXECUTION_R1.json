@@ -1,0 +1,64 @@
+{
+  "alias_handling": "All six canonical names were confirmed absent before symlink creation. Symlinks pointed to existing immutable arrays/sidecars, were unlinked by the shell EXIT trap after the grade, and their absence was verified after exit. No prediction or sidecar payload was rewritten.",
+  "created_utc": "2026-10-15T17:14:20.500084+00:00",
+  "exact_cli": [
+    "scripts/limited",
+    ".venv/bin/python",
+    "scripts/score_fold0_panel.py",
+    "c20261003_combo_s3_f0@ep3*0.5,clean_t3_f0_muonall_h384_e3_s3_r5@ep2*0.13541666666666666,clean_t3_f0_muonall_h384_e3_s4_r5@ep2*0.13541666666666666,clean_t3_f0_muonall_h384_e3_s5_r5@ep2*0.13541666666666666",
+    "--reference",
+    "c20261003_combo_s3_f0@ep3",
+    "--out",
+    "research/campaign_2026-10-15/student_quality_tradeoff_r1/FIXED_PARENT_T3_BLEND_COMPONENT_GRADE_R1.json"
+  ],
+  "grade_receipt_path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/FIXED_PARENT_T3_BLEND_COMPONENT_GRADE_R1.json",
+  "grade_receipt_sha256": "4daeba4a84e70ab9c4b814a5e1b356c92bcc5f93e76b9340ee2ce936b9a0bb19",
+  "interpretation": "The scorer verified prediction sidecar/checkpoint/split/row-order hashes and full prediction-file hashes, scored the frozen exposed 468-group F0 panel with 2,000 component-bootstrap replicates, and exited 0. See the grade receipt for exact metrics and ancestry. This execution measures fixed endpoint complementarity only.",
+  "limited_environment": {
+    "TMPDIR_default_from_wrapper": "/home/vlad/development/wunder/research_tmp",
+    "WNN_CPU_QUOTA": "100%",
+    "WNN_MEM_MAX": "1500000000",
+    "WNN_RUNTIME_MAX": "120s",
+    "WNN_SLICE": "wnn-campaign.slice",
+    "WNN_THREADS": "1",
+    "swap": "disabled by limited/systemd scope"
+  },
+  "pre_run_resource_snapshot": {
+    "campaign_slice_cpu_max": "200000 100000",
+    "campaign_slice_memory_current_bytes": 7752683520,
+    "campaign_slice_memory_max_bytes": 19999997952,
+    "note": "Observed during the grade-admission window with C as the only admitted GPU worker; snapshot is not a per-process peak. Grade itself was capped at 1.5GB and 120 seconds. Its exact cgroup memory peak was not captured, so no peak value is claimed."
+  },
+  "schema": "fixed-existing-prediction-grade-execution-r1",
+  "scorer_path": "scripts/score_fold0_panel.py",
+  "scorer_sha256": "0f67ac06cd769a582901b854737528c89e9a7738c3057acf68d7f99eddbfa2d0",
+  "status": "EXIT_0_GRADE_COMPLETE",
+  "stdout_log_path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/FIXED_PARENT_T3_BLEND_COMPONENT_GRADE_R1.log",
+  "stdout_log_sha256": "04dd6b2d9a52896af1ed26f68272552a2a00045e56b4cb5d46cf8cc3737970d1",
+  "temporary_symlink_aliases": [
+    {
+      "created": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_valid.npy",
+      "target": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1_valid.npy"
+    },
+    {
+      "created": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_valid.json",
+      "target": "cache/pred_clean_t3_f0_muonall_h384_e3_s3_r5_local_full_valid_r1_valid.json"
+    },
+    {
+      "created": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_valid.npy",
+      "target": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_local_full_valid_r1_valid.npy"
+    },
+    {
+      "created": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_valid.json",
+      "target": "cache/pred_clean_t3_f0_muonall_h384_e3_s4_r5_local_full_valid_r1_valid.json"
+    },
+    {
+      "created": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_valid.npy",
+      "target": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_local_full_valid_r1_valid.npy"
+    },
+    {
+      "created": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_valid.json",
+      "target": "cache/pred_clean_t3_f0_muonall_h384_e3_s5_r5_local_full_valid_r1_valid.json"
+    }
+  ]
+}
