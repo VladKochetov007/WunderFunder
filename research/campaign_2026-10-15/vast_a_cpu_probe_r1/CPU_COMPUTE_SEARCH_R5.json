@@ -1,0 +1,27 @@
+{
+  "created_utc": "2026-10-15T10:39:37.490949+00:00",
+  "profile": "vast-a",
+  "query": {
+    "limit": 100,
+    "type": "on-demand",
+    "rentable": {
+      "eq": true
+    },
+    "rented": {
+      "eq": false
+    },
+    "allocated_storage": 20,
+    "num_gpus": {
+      "eq": 0
+    },
+    "resource_type": {
+      "eq": "cpu"
+    }
+  },
+  "result": {
+    "status": 400,
+    "error": "{\"success\":false,\"error\":\"bad_request\",\"msg\":\"resource_type: Input should be 'network_disk', 'disk', 'gpu' or None\"}"
+  },
+  "prior_query_failure": "resource_type neq disk returnedHTTP400, no rental",
+  "rental_created": false
+}

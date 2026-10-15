@@ -59,3 +59,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0036: QAT research with renewable capacity](0036-qat-renewable-capacity.md): implement the indexed W4/W8, activation-aware and learned-scale plan with no campaign GPU-hour ceiling; retain actual provider/physical limits, clean ancestry and complete-endpoint validation.
 
 - [ADR0037: CPU student frontier and asynchronous probes](0037-cpu-student-frontier-and-asynchronous-probes.md): fixed-weight native comparisons, architecture/precision/initializer search and continuous theory/training while user uploads later;5GB observedVRAM for new admissions.
+
+- [ADR0038: Vast-A exactCPU benchmark budget](0038-vast-a-exact-cpu-benchmark-budget.md) records explicit$3authority on`vastai`, exactEPYC9224requirement, CPU-only access uncertainty and no-rental status.

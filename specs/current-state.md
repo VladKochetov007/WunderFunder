@@ -1,3 +1,9 @@
+## 2026-10-15T10:43:00Z — exactCPU rental research; fourth student graded
+
+[ADR0038](adr/0038-vast-a-exact-cpu-benchmark-budget.md) records user-approved$3Vast-A CPU benchmark scope and sameEPYC9224requirement. Read-only provider searches find only GPUbundledcompute, zeroGPUentries are storage; rental spendzero, CPU-only fixture/protocol preparation continues while clarification is pending. [Evidence](../research/campaign_2026-10-15/vast_a_cpu_probe_r1/PROTOCOL_AND_MARKET_R2.md).
+
+H512×1 finished its matchedF0seed3fit/export/grade:WP.673237761 vsH256×2.669777642, conditionalpaired+.00346012, component95%interval[.00200307,.00490448]. Independent recipe review is underway; this is a first-screen result, not a validated finalwinner. Local initializerR2actualGPUprofile failed pre-update on device-equality assertion, preserved for diagnosed successor; no qualityresult. Existing5CPU/17GBcommitment/18–20GB/no-swap/local5GBVRAMlimits unchanged.
+
 ## 2026-10-15T08:06:00Z — research resumed; third screen graded and cloud artifacts collected
 
 [CPU/student frontier](../research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md): H192×2 finishedWP.668653372 versusH256×2 .669777642; H512×1 is now fitting. The control's complete nativeQ8grade.669782769 matchesFP32 closely. CleanF3teacherCP2 is collected/finite/ancestry-checked, all exports pending. TPUV8actual-update/reload/causal bridge is collected; its nativeforward difference is being diagnosed before substantialTPUtraining. Correct typedquota leaves7.40GPUhours/19.84TPUhours; SDKtextserialization discarded a day in the earlier exhausted-GPUclaim. Native roles respond after resume; initializerR2resourceprofile has boundedreviewGO and awaits nextGPUslot. Limits and asynchronousCPUupload policy continue unchanged; no new winning endpoint or public forecast.

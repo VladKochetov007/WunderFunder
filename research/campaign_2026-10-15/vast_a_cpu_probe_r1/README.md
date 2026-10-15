@@ -40,3 +40,7 @@ Await explicit user approval of offer50293333 for at most two hours and $2 total
 - [Existing A/B/C/D checked packages](../../../submissions/10-14-cpu-policy-r1/README.md).
 - [Vast offer API](https://docs.vast.ai/api-reference/search/search-offers).
 - [AMD9354P specification](https://www.amd.com/en/products/processors/server/epyc/4th-generation-9004-and-8004-series/amd-epyc-9354p.html).
+
+## October15 successor: exact9224 requirement and $3 authority
+
+The original9354P proposal above is superseded by the latest user requirement for the same CPU as competition. [Revised protocol and market findings](PROTOCOL_AND_MARKET_R2.md) records approved$3Vast-A scope, exactEPYC9224officialspecification, randomized complete-sequence timing design, and the unresolved CPU-only access route. No rental has occurred. Zero-GPU offers are storage, not measured CPU compute. [Authority](USER_AUTHORITY_R2.json) and all linked search receipts preserve the actual attempts.
