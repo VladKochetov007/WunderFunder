@@ -1,0 +1,85 @@
+{
+  "execution_guard": {
+    "automatic_retry": false,
+    "no_fit_or_quality_grade": true,
+    "one_worker_only": true,
+    "root_owns_admission_upload_create_push_and_terminal_collection": true,
+    "stop_if_worker_cap_or_fresh_quota_does_not_fit": true
+  },
+  "export_geometry": {
+    "fit_train": {
+      "dtype": "float32",
+      "raw_prediction_bytes": 1686240000,
+      "rows": 10539,
+      "shape": [
+        10539,
+        20000,
+        2
+      ],
+      "source": "train"
+    },
+    "fit_valid": {
+      "dtype": "float32",
+      "raw_prediction_bytes": 218880000,
+      "rows": 1368,
+      "shape": [
+        1368,
+        20000,
+        2
+      ],
+      "source": "valid"
+    },
+    "full_valid": {
+      "dtype": "float32",
+      "raw_prediction_bytes": 299680000,
+      "rows": 1873,
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "source": "valid"
+    },
+    "minimum_free_kaggle_working_disk_before_export_bytes": 6000000000,
+    "raw_prediction_payload_total_bytes": 2204800000,
+    "runner_copies_predictions_to_results": true
+  },
+  "kernel_id": "vladkochetov07/wnn-f3-t3-cp2-exports-20261015-r2-runner",
+  "kernel_process_wall_seconds_max": 21600,
+  "measured_basis": {
+    "fit_peak_interpretation": "training observation only; it is not an export measurement or proof of export capacity",
+    "hash_cache_reuse": "frozen R1 predictor is imported once; its process-local content-digest cache can serve all three sequential calls",
+    "portable_parquet_hash_scan_seconds": 1125.241,
+    "prediction_stage_durations": "not measured",
+    "same_process_predictor_import": true,
+    "source": "R5 actual T4 profile, train parquet 1018.760 seconds plus valid parquet 106.481 seconds",
+    "t4_fit_peak_vram_bytes": 5309000000
+  },
+  "provider_action_performed": false,
+  "quota_gate": {
+    "fresh_typed_quota_required_before_any_provider_action": true,
+    "kernel_process_wall_seconds_max": 21600,
+    "latest_operator_reported_gpu_remaining_seconds": 26627.389,
+    "latest_operator_reported_gpu_reserved_seconds": 0,
+    "latest_operator_reported_gpu_total_seconds": 108000,
+    "latest_operator_reported_gpu_used_seconds": 81372.611,
+    "minimum_remaining_gpu_seconds_for_worker_and_finalization": 21600,
+    "quota_snapshot_is_not_provider_admission": true,
+    "required_remaining_includes": {
+      "kernel_startup_and_finalization_reserve_seconds": 3600,
+      "worker_cap_seconds": 18000
+    },
+    "snapshot_utc": "2026-10-15T11:50:33Z"
+  },
+  "schema": "wnn.f3-teacher-cp2-export-resource-plan.r2",
+  "status": "offline_packet_preparation_only",
+  "worker": {
+    "cpu_count": 2,
+    "gpu_allocator_bytes": 12884901888,
+    "observed_gpu_stop_bytes": 13958643712,
+    "ram_reservation_bytes": 8000000000,
+    "serial_prediction_triplet": true,
+    "timeout_derivation": "sum of three existing exact-source R1 export worker caps at 6000 seconds each; this bound is not a measured prediction runtime",
+    "timeout_seconds": 18000
+  }
+}

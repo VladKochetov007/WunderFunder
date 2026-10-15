@@ -1,0 +1,88 @@
+{
+  "kernel_id": "vladkochetov07/wnn-f3-t3-cp2-exports-20261015-r2-runner",
+  "local_collection": {
+    "collector_command": "python research/campaign_2026-10-15/f3_teacher_export_r2/collect_terminal_r2.py --repo-root <repository-root>",
+    "collector_requires_root_admission_and_push_receipts": true,
+    "collector_source": "collect_terminal_r2.py",
+    "download_helper_sha256": "a6e258be44c92d52642046f3fb1ffb45787a2e2e3b66a8f71bcb8f37ad7b1899",
+    "download_helper_source": "research/campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r4/collect_terminal_r4.py",
+    "download_path": "research/campaign_2026-10-15/f3_teacher_export_r2/collected/attempt_001",
+    "filesystem_must_be_physical": true,
+    "hash_every_downloaded_file": true,
+    "minimum_free_physical_disk_bytes_before_download": 4000000000,
+    "no_overwrite": true,
+    "one_streaming_download_attempt": true,
+    "terminal_receipt": "research/campaign_2026-10-15/f3_teacher_export_r2/TERMINAL_COLLECTION_R2.json"
+  },
+  "post_download_checks": {
+    "all_three_stages_complete": true,
+    "checkpoint_sha256": "d67bed97eaa16f73338ea275c316bf76c785b37f8451aa5cee8fe5daadf2f1b5",
+    "declared_artifacts_missing": [],
+    "pipeline_receipt_status": "complete",
+    "prediction_dtype_and_shape": "FP32 [rows,20000,2] per export",
+    "prediction_hash_and_finiteness": "downloaded file length and streamed hash match the worker manifest and sidecar; collector mmap-scans finite FP32 values in bounded sequence windows after transfer",
+    "provenance_sha256": "c60719d1db7d44d17e04e0379f576616a43c6ad2564fd58e192ced5453bc8da3",
+    "split_manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343",
+    "teacher_quality_score": "not part of this export packet; root scorer runs separately after collection",
+    "worker_result_returncode": 0,
+    "worker_result_status": "complete",
+    "complete_export_payload_requires_post_download_validation_receipt": true
+  },
+  "provider_action_performed": false,
+  "provider_preflight_receipts_before_kernel_push": [
+    "ROOT_ADMISSION_R2.json",
+    "ASSET_DATASET_READY_R2.json",
+    "BUNDLE_DATASET_READY_R2.json"
+  ],
+  "remote_inventory": {
+    "expected_remote_paths": [
+      "results/inventory.json",
+      "results/summary.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2.input_identity.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2/worker.log",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2/spec.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2/timeout_resolution.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2/result.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_fit_train_train.npy",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_fit_train_train.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_fit_valid_valid.npy",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_fit_valid_valid.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_full_valid_valid.npy",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2/artifacts/cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_full_valid_valid.json",
+      "results/export_f3_teacher_cp2_triplet_20261015_r2/artifacts/results/f3_teacher_export_pipeline_r2.json"
+    ],
+    "get_headers_without_consuming_body": true,
+    "inventory_before_body_download": true,
+    "maximum_inventory_bytes_including_log_and_manifest_reserve": 2500000000,
+    "scope": "results/ only, plus the provider session log",
+    "unexpected_results_paths": "fail closed before download and preserve provider output inventory for root diagnosis"
+  },
+  "required_root_receipts_before_collection": [
+    "ROOT_ADMISSION_R2.json",
+    "KERNEL_PUSH_R2.json"
+  ],
+  "schema": "wnn.f3-teacher-cp2-export-collection-plan.r2",
+  "status": "prepared_before_provider_action",
+  "terminal_gate": {
+    "admission_receipt_fields": [
+      "status=admitted",
+      "kernel_id",
+      "bundle_archive_sha256",
+      "worker_timeout_seconds=18000",
+      "kernel_process_wall_seconds_max=21600"
+    ],
+    "complete_prediction_claim_requires_status_complete": true,
+    "error_or_cancelled_attempt_must_not_be_retried_automatically": true,
+    "exact_kernel_id_and_pushed_version_must_match": true,
+    "kernel_process_wall_seconds_max": 21600,
+    "provider_status_must_be_terminal": true,
+    "push_receipt_fields": [
+      "kernel_id",
+      "kernel_version",
+      "bundle_archive_sha256",
+      "kernel_metadata_sha256",
+      "private=true"
+    ],
+    "recheck_typed_quota_and_owner_inventory": true
+  }
+}

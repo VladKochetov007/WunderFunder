@@ -187,3 +187,5 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 # October 15 F3 teacher export packet
 
 - [F3 CP2 export-only packet R1](../../campaign_2026-10-15/f3_teacher_export_r1/README.md) binds the completed F3 seed3 H384 epoch2 checkpoint/provenance to the frozen causal predictor, three source-qualified scopes, an offline private bundle and bounded terminal collection plan. This is an operational prediction-export recipe only; no new Kaggle provider action, model fit or quality score is recorded.
+
+- [F3 CP2 export-only packet R2](../../campaign_2026-10-15/f3_teacher_export_r2/README.md) preserves the R1 recipe but caps the actual kernel process at 21,600 seconds against an 18,000-second worker timeout. The R2 bundle/kernel identity and all collection/source hashes are distinct; no provider action or teacher-quality grade is recorded.
