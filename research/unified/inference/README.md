@@ -1,5 +1,7 @@
 # Inference, quantization, and runtime
 
+- [EPYC9224 bandwidth envelope](EPYC9224_BANDWIDTH_ENVELOPE_20261015_R1.md) derives52.51GB/s logical weight use from the original endpoint and compares it with AMD's32B/cycle Zen4 cache-fill constant. The44–66% ratio and22–33minute weights-only envelope are illustrative, not measured bus utilization or an achievable runtime forecast. Primary AMD sources rechecked October15; motivates matched submissions while quality research continues.
+
 - [CPU probe submission handoff and fresh October15 file verification](../../../submissions/10-14-cpu-policy-r1/README.md) links the four user-uploadable original-weight A/B/C/D ZIPs and the full SHA256/size/CRC receipt. All four files pass; recommended order A–B–C–D–A separates policy effects from host variation. Earlier independent sequence/ABI checks remain distinct; no competition-host timing or quality improvement is claimed.
 
 - [CPU student frontier: complete user plan](../../campaign_2026-10-14/cpu_student_frontier_r1/README.md) records fixed-weight A/B/C/D CPU policies, the eight-shape distilled-student ladder, precision/recurrence branches, causal initialization, teacher improvement and staged cross-fold/seed validation. Its contract preserves local limits and its frontier owns delivery. H-CPU-POLICY-20261014 / H-STUDENT-LADDER-20261014 / H-STATE-INIT-20261014. Authorized implementation, no new winner; CPU probes await user upload while theory and independent experiments continue. Existing folds remain exposed.
