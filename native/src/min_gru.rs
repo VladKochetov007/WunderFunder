@@ -7,7 +7,18 @@
 use crate::approx::{gelu_fast, sigmoid_fast};
 use crate::kernels::{gelu, gemv, sigmoid};
 use crate::rnn_fast::Activations;
-use crate::vnni::{DynQ8, Isa, padded_cols, quantize};
+use crate::vnni::{padded_cols, quantize, DynQ8, Isa};
+
+fn avx2_fma_available() -> bool {
+    #[cfg(target_arch = "x86_64")]
+    {
+        std::arch::is_x86_feature_detected!("avx2") && std::arch::is_x86_feature_detected!("fma")
+    }
+    #[cfg(not(target_arch = "x86_64"))]
+    {
+        false
+    }
+}
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MinGruPrecision {
@@ -69,6 +80,122 @@ pub struct MinGruWeights {
     pub head2_bias: Vec<f32>,
 }
 
+fn quantize_q8_activation(input: &[f32], codes: &mut [u8], use_avx2: bool) -> f32 {
+    #[cfg(target_arch = "x86_64")]
+    if use_avx2 {
+        // SAFETY: the model caches this choice only after checking AVX2 and FMA support.
+        return unsafe { crate::vnni::quantize_avx2(input, codes) };
+    }
+    let _ = use_avx2;
+    quantize(input, codes)
+}
+
+fn gelu_in_place(values: &mut [f32], activations: Activations, use_avx2: bool) {
+    match activations {
+        Activations::Exact => values.iter_mut().for_each(|value| *value = gelu(*value)),
+        Activations::Fast => {
+            #[cfg(target_arch = "x86_64")]
+            if use_avx2 && !values.iter().any(|value| value.is_nan()) {
+                let mut ahead = crate::half::Ahead::NONE;
+                // SAFETY: AVX2/FMA support was checked once when the model was constructed.
+                unsafe { crate::approx::avx2::gelu_slice(values, &mut ahead) };
+                return;
+            }
+            let _ = use_avx2;
+            values
+                .iter_mut()
+                .for_each(|value| *value = gelu_fast(*value));
+        }
+    }
+}
+
+#[inline(always)]
+fn update_hidden_scalar(hidden: &mut f32, candidate: f32, gate: f32, activations: Activations) {
+    let candidate = if candidate >= 0.0 {
+        candidate + 0.5
+    } else {
+        match activations {
+            Activations::Exact => sigmoid(candidate),
+            Activations::Fast => sigmoid_fast(candidate),
+        }
+    };
+    let write = match activations {
+        Activations::Exact => sigmoid(gate),
+        Activations::Fast => sigmoid_fast(gate),
+    };
+    *hidden = (1.0 - write) * *hidden + write * candidate;
+}
+
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx2,fma")]
+unsafe fn update_hidden_avx2(hidden: &mut [f32], candidate: &[f32], gate: &[f32]) {
+    use crate::approx::avx2::sigmoid8;
+    use std::arch::x86_64::*;
+
+    assert_eq!(hidden.len(), candidate.len());
+    assert_eq!(hidden.len(), gate.len());
+    let main = hidden.len() / 8 * 8;
+    let (one, half, zero) = (
+        _mm256_set1_ps(1.0),
+        _mm256_set1_ps(0.5),
+        _mm256_setzero_ps(),
+    );
+    for index in (0..main).step_by(8) {
+        // SAFETY: each index covers eight elements within all equal-length slices.
+        let old = unsafe { _mm256_loadu_ps(hidden.as_ptr().add(index)) };
+        let candidate_input = unsafe { _mm256_loadu_ps(candidate.as_ptr().add(index)) };
+        let gate_input = unsafe { _mm256_loadu_ps(gate.as_ptr().add(index)) };
+        // SAFETY: this function has the same AVX2/FMA target-feature requirement.
+        let candidate_sigmoid = unsafe { sigmoid8(candidate_input) };
+        let nonnegative = _mm256_cmp_ps::<_CMP_GE_OQ>(candidate_input, zero);
+        let positive_candidate = _mm256_add_ps(candidate_input, half);
+        let candidate_value = _mm256_blendv_ps(candidate_sigmoid, positive_candidate, nonnegative);
+        // SAFETY: this function has the same AVX2/FMA target-feature requirement.
+        let write = unsafe { sigmoid8(gate_input) };
+        let keep_term = _mm256_mul_ps(_mm256_sub_ps(one, write), old);
+        let write_term = _mm256_mul_ps(write, candidate_value);
+        let updated = _mm256_add_ps(keep_term, write_term);
+        // SAFETY: the same eight-element range was loaded above.
+        unsafe { _mm256_storeu_ps(hidden.as_mut_ptr().add(index), updated) };
+    }
+    for index in main..hidden.len() {
+        update_hidden_scalar(
+            &mut hidden[index],
+            candidate[index],
+            gate[index],
+            Activations::Fast,
+        );
+    }
+}
+
+fn update_hidden(
+    hidden: &mut [f32],
+    candidate: &[f32],
+    gate: &[f32],
+    activations: Activations,
+    use_avx2: bool,
+) {
+    assert_eq!(hidden.len(), candidate.len());
+    assert_eq!(hidden.len(), gate.len());
+    #[cfg(target_arch = "x86_64")]
+    if activations == Activations::Fast
+        && use_avx2
+        && !hidden
+            .iter()
+            .chain(candidate)
+            .chain(gate)
+            .any(|value| value.is_nan())
+    {
+        // SAFETY: AVX2/FMA support was checked once when the model was constructed.
+        unsafe { update_hidden_avx2(hidden, candidate, gate) };
+        return;
+    }
+    let _ = use_avx2;
+    for ((hidden, candidate), gate) in hidden.iter_mut().zip(candidate).zip(gate) {
+        update_hidden_scalar(hidden, *candidate, *gate, activations);
+    }
+}
+
 enum Matrix {
     F32(Vec<f32>),
     Q8(DynQ8),
@@ -125,13 +252,23 @@ impl Linear {
         })
     }
 
-    fn apply(&mut self, input: &[f32], precision: MinGruPrecision, output: &mut [f32]) {
+    fn apply(
+        &mut self,
+        input: &[f32],
+        precision: MinGruPrecision,
+        use_avx2: bool,
+        output: &mut [f32],
+    ) {
         assert_eq!(input.len(), self.cols, "minGRU linear input width");
         assert_eq!(output.len(), self.rows, "minGRU linear output width");
         match &self.weights {
             Matrix::F32(weights) => gemv(weights, &self.bias, input, output),
             Matrix::Q8(weights) => {
-                let scale = quantize(input, &mut self.activation_codes);
+                let scale = if precision == MinGruPrecision::Q8Vnni {
+                    quantize_q8_activation(input, &mut self.activation_codes, use_avx2)
+                } else {
+                    quantize(input, &mut self.activation_codes)
+                };
                 weights.gemv(
                     precision.isa().expect("Q8 matrix needs an ISA"),
                     &self.activation_codes,
@@ -178,6 +315,7 @@ pub struct MinGruModel {
     head_hidden: Vec<f32>,
     activations: Activations,
     precision: MinGruPrecision,
+    use_avx2: bool,
 }
 
 impl MinGruModel {
@@ -276,6 +414,7 @@ impl MinGruModel {
             MinGruPrecision::F32,
         )?;
         let layers = cells.len();
+        let use_avx2 = avx2_fma_available();
         Ok(Self {
             n_in,
             recurrent,
@@ -293,12 +432,14 @@ impl MinGruModel {
             head_hidden: vec![0.0; readout],
             activations,
             precision,
+            use_avx2,
         })
     }
 
     pub fn step(&mut self, input: &[f32], output: &mut [f32]) {
         assert_eq!(input.len(), self.n_in, "minGRU model input width");
         assert_eq!(output.len(), 2, "minGRU output width");
+        let use_avx2 = self.use_avx2;
         for (normalized, ((value, mean), std)) in self
             .normalized
             .iter_mut()
@@ -306,18 +447,13 @@ impl MinGruModel {
         {
             *normalized = (*value - *mean) / *std;
         }
-        self.inp
-            .apply(&self.normalized, self.precision, &mut self.projection);
-        match self.activations {
-            Activations::Exact => self
-                .projection
-                .iter_mut()
-                .for_each(|value| *value = gelu(*value)),
-            Activations::Fast => self
-                .projection
-                .iter_mut()
-                .for_each(|value| *value = gelu_fast(*value)),
-        }
+        self.inp.apply(
+            &self.normalized,
+            self.precision,
+            use_avx2,
+            &mut self.projection,
+        );
+        gelu_in_place(&mut self.projection, self.activations, use_avx2);
 
         let recurrent = self.recurrent;
         for (index, cell) in self.cells.iter_mut().enumerate() {
@@ -328,45 +464,34 @@ impl MinGruModel {
             } else {
                 &self.state[start - recurrent..start]
             };
-            cell.apply(prior_layer, self.precision, &mut self.cell_projection);
+            cell.apply(
+                prior_layer,
+                self.precision,
+                use_avx2,
+                &mut self.cell_projection,
+            );
             let (candidate, gate) = self.cell_projection.split_at(recurrent);
-            for (hidden, (&candidate, &gate)) in self.state[start..end]
-                .iter_mut()
-                .zip(candidate.iter().zip(gate))
-            {
-                let candidate = if candidate >= 0.0 {
-                    candidate + 0.5
-                } else {
-                    match self.activations {
-                        Activations::Exact => sigmoid(candidate),
-                        Activations::Fast => sigmoid_fast(candidate),
-                    }
-                };
-                let write = match self.activations {
-                    Activations::Exact => sigmoid(gate),
-                    Activations::Fast => sigmoid_fast(gate),
-                };
-                *hidden = (1.0 - write) * *hidden + write * candidate;
-            }
+            update_hidden(
+                &mut self.state[start..end],
+                candidate,
+                gate,
+                self.activations,
+                use_avx2,
+            );
         }
 
         let state_start = self.state.len() - recurrent;
         self.head_input[..recurrent].copy_from_slice(&self.state[state_start..]);
         self.head_input[recurrent..].copy_from_slice(&self.projection);
-        self.head0
-            .apply(&self.head_input, self.precision, &mut self.head_hidden);
-        match self.activations {
-            Activations::Exact => self
-                .head_hidden
-                .iter_mut()
-                .for_each(|value| *value = gelu(*value)),
-            Activations::Fast => self
-                .head_hidden
-                .iter_mut()
-                .for_each(|value| *value = gelu_fast(*value)),
-        }
+        self.head0.apply(
+            &self.head_input,
+            self.precision,
+            use_avx2,
+            &mut self.head_hidden,
+        );
+        gelu_in_place(&mut self.head_hidden, self.activations, use_avx2);
         self.head2
-            .apply(&self.head_hidden, MinGruPrecision::F32, output);
+            .apply(&self.head_hidden, MinGruPrecision::F32, use_avx2, output);
     }
 
     pub fn reset(&mut self) {
@@ -391,6 +516,10 @@ impl MinGruModel {
 
     pub fn fast_activations(&self) -> bool {
         self.activations == Activations::Fast
+    }
+
+    pub fn avx2_fastpath_enabled(&self) -> bool {
+        self.use_avx2
     }
 
     pub fn storage_bytes(&self) -> MinGruStorage {
@@ -569,5 +698,83 @@ mod tests {
         assert!(model.storage_bytes().matrix_weights > 0);
         model.reset();
         assert!(model.hidden_state().iter().all(|value| *value == 0.0));
+    }
+
+    #[test]
+    fn avx2_q8_activation_quantizer_matches_scalar_for_callback_widths() {
+        let use_avx2 = avx2_fma_available();
+        for width in [211, 384, 768] {
+            let input: Vec<f32> = (0..width)
+                .map(|index| match index % 13 {
+                    0 => -0.0,
+                    1 => 0.0,
+                    2 => -3.5,
+                    3 => 3.5,
+                    _ => ((index * 29 % 251) as f32 - 125.0) / 73.0,
+                })
+                .collect();
+            let mut input = input;
+            input[0] = 3.5;
+            input[1] = 0.5 * 3.5 / 127.0;
+            input[2] = 1.5 * 3.5 / 127.0;
+            input[3] = 2.5 * 3.5 / 127.0;
+            input[4] = -0.5 * 3.5 / 127.0;
+            input[5] = -1.5 * 3.5 / 127.0;
+            input[6] = -2.5 * 3.5 / 127.0;
+            input[width - 1] = f32::NAN;
+            let mut scalar_codes = vec![128; padded_cols(width)];
+            let mut selected_codes = vec![128; padded_cols(width)];
+            let scalar_scale = quantize(&input, &mut scalar_codes);
+            let selected_scale = quantize_q8_activation(&input, &mut selected_codes, use_avx2);
+            assert_eq!(selected_scale.to_bits(), scalar_scale.to_bits());
+            assert_eq!(selected_codes, scalar_codes, "activation width {width}");
+        }
+    }
+
+    #[test]
+    fn avx2_min_gru_recurrent_update_matches_scalar_bitwise() {
+        if !avx2_fma_available() {
+            return;
+        }
+        for width in [1, 7, 8, 9, 383, 384, 385] {
+            let original: Vec<f32> = (0..width)
+                .map(|index| ((index * 17 % 97) as f32 - 48.0) / 53.0)
+                .collect();
+            let candidate: Vec<f32> = (0..width)
+                .map(|index| match index % 5 {
+                    0 => -0.0,
+                    1 => 0.0,
+                    2 => -0.75,
+                    3 => 0.75,
+                    _ => ((index * 11 % 43) as f32 - 21.0) / 19.0,
+                })
+                .collect();
+            let gate: Vec<f32> = (0..width)
+                .map(|index| ((index * 31 % 89) as f32 - 44.0) / 37.0)
+                .collect();
+            let mut scalar = original.clone();
+            let mut selected = original;
+            update_hidden(&mut scalar, &candidate, &gate, Activations::Fast, false);
+            update_hidden(&mut selected, &candidate, &gate, Activations::Fast, true);
+            assert!(
+                scalar
+                    .iter()
+                    .zip(&selected)
+                    .all(|(left, right)| left.to_bits() == right.to_bits()),
+                "width {width}"
+            );
+        }
+
+        let mut scalar = values(16, 101);
+        let mut selected = scalar.clone();
+        let mut candidate = values(16, 102);
+        let gate = values(16, 103);
+        candidate[7] = f32::from_bits(0x7fc0_0021);
+        update_hidden(&mut scalar, &candidate, &gate, Activations::Fast, false);
+        update_hidden(&mut selected, &candidate, &gate, Activations::Fast, true);
+        assert!(scalar
+            .iter()
+            .zip(&selected)
+            .all(|(left, right)| left.to_bits() == right.to_bits()));
     }
 }
