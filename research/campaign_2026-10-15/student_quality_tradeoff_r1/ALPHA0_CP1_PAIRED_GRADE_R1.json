@@ -1,0 +1,103 @@
+{
+  "arms": {
+    "alpha0": {
+      "after_epochs": 2,
+      "checkpoint_epoch_zero_based": 1,
+      "grade_path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/f0_grade_alpha0_r2/ep2/student_f0_warm_s3_alpha0_r1_p1.grade.json",
+      "grade_sha256": "3185b001d3fa9972ac38fae8bfd03ebd0d85020703aed3676294e11949bfa85e",
+      "prediction_receipt_sha256": "9acd8422c9c11387fd6ef089192f2f068217d8e13a24ffa19c381b084ba21fcb",
+      "prediction_sha256": "2da07d300636e973df53d774b32162f0174de47cde10b7e070edf280cfc97bad",
+      "result": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6705315452326241,
+        "t1": 0.6822039138070994,
+        "wp": 0.6763677295198618
+      },
+      "run": "student_f0_warm_s3_alpha0_r1_p1"
+    },
+    "alpha09": {
+      "after_epochs": 2,
+      "checkpoint_epoch_zero_based": 1,
+      "grade_path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/f0_grade_alpha09_r2/ep2/clean_t3_f0_control_s3_a9_t3r5_r2_p1.grade.json",
+      "grade_sha256": "fb807ae4351b6cb5f817085ef1f54cb812e41ed9b48ec399f69e100ce002b7c5",
+      "prediction_receipt_sha256": "fc124ff217ad824a8c9eca60ccc64c085dd41cc1061a5ec0900519259bae7071",
+      "prediction_sha256": "7096b59a11c8795c8e5706b223e6c2c82171b89a952ddcfa0183866d4ab8204a",
+      "result": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6732810120814282,
+        "t1": 0.6873481708330024,
+        "wp": 0.6803145914572153
+      },
+      "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p1"
+    }
+  },
+  "descriptive_delta_alpha0_minus_alpha09": {
+    "t0": -0.0027494668488040608,
+    "t1": -0.005144257025902932,
+    "wp": -0.003946861937353496
+  },
+  "grade_contract_path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_POSTFIT_EXPORT_GRADE_COMMANDS_R1.json",
+  "grade_contract_sha256": "6d224c87c060f474c6aba03d452fcb6c79dca3886fad005e5eecb64b2a3a5819",
+  "grade_execution": {
+    "alpha0": {
+      "command": "scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_warm_cohort/grade_fold0_run.py --root /home/vlad/development/wunder/wnn_connectome_starterpack --run student_f0_warm_s3_alpha0_r1_p1 --epoch 1 --out-dir /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/f0_grade_alpha0_r2/ep2",
+      "cpu_quota": "100% one core",
+      "exit_status": 0,
+      "fresh_admission": {
+        "parent_memory_current_bytes": 8475049984,
+        "projected_committed_ram_bytes": 9975049984,
+        "requested_cpu_cores": 1,
+        "requested_ram_bytes": 1500000000,
+        "support_cpu_cores": 0.3
+      },
+      "memory_max_bytes": 1500000000,
+      "observed_exec_wall_seconds": 2.755,
+      "observed_per_command_peak_memory_captured": false,
+      "runtime_max_seconds": 120
+    },
+    "alpha09": {
+      "command": "scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_warm_cohort/grade_fold0_run.py --root /home/vlad/development/wunder/wnn_connectome_starterpack --run clean_t3_f0_control_s3_a9_t3r5_r2_p1 --epoch 1 --out-dir /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/f0_grade_alpha09_r2/ep2",
+      "cpu_quota": "100% one core",
+      "exit_status": 0,
+      "fresh_admission": {
+        "parent_memory_current_bytes": 8867704832,
+        "projected_committed_ram_bytes": 10367704832,
+        "requested_cpu_cores": 1,
+        "requested_ram_bytes": 1500000000,
+        "support_cpu_cores": 0.3
+      },
+      "memory_max_bytes": 1500000000,
+      "observed_exec_wall_seconds": 1.915,
+      "observed_per_command_peak_memory_captured": false,
+      "runtime_max_seconds": 120
+    },
+    "both_serial_with_gpu_inactive": true,
+    "main_commit_at_both_grades": "afb2e89e18d04c45853097becdb7264d3dfc386a",
+    "parent_cpu_cap_cores": 2,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_swap_max_bytes": 0
+  },
+  "grade_script_path": "scripts/kaggle_warm_cohort/grade_fold0_run.py",
+  "grade_script_sha256": "b6f80ef2d5323bdd9f9941f8bb2b698d61d87ac05fe918d53343a52aee0e6654",
+  "interpretation": "The alpha0 continuation is lower on the exposed F0 development panel after two epochs by the recorded descriptive delta. This is an early trajectory point, not the fixed endpoint, and does not authorize stopping or selecting. The predeclared six-epoch CP5 comparison remains primary.",
+  "metric_id": "global_wp_clip2_v1",
+  "next_stage": "Continue alpha0 P2 from the validated P1 next_epoch=2 state, subject to fresh P2 state/identity/output/resource gates; do not alter the frozen recipe.",
+  "no_early_selection": true,
+  "paired_panel": {
+    "evaluation_group_count_matches": true,
+    "evaluation_group_count_reported_each": 468,
+    "same_split_binding": true,
+    "same_split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "selected_rows_each": 808863
+  },
+  "panel": "source-qualified fold-0 valid development panel; previously exposed; not fresh holdout",
+  "preserved_non_scientific_builder_failure": {
+    "diagnosis": "The first paired-grade receipt builder treated grade_report.evaluation_groups as a list; the official grader reports an integer count (468). No source, prediction, grade report or recipe was changed. The corrected builder validates equal counts and the common frozen split SHA.",
+    "status": "FAILED_RECEIPT_BUILDER_ASSUMPTION; NO_OUTPUT_WRITTEN"
+  },
+  "schema": "wnn.student-warmparent-alpha0-cp1-paired-official-grade.r1",
+  "status": "PASS_MATCHED_CP1_OFFICIAL_GRADES; CP1_DESCRIPTIVE_ONLY"
+}

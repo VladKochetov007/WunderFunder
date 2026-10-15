@@ -1,0 +1,101 @@
+{
+  "schema": "wnn.student-warmparent-alpha0-cp1-component-bootstrap-execution.r1",
+  "status": "PASS_CP1_PAIRED_COMPONENT_BOOTSTRAP; DESCRIPTIVE_ONLY",
+  "result_path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_CP1_COMPONENT_BOOTSTRAP_R1.json",
+  "result_sha256": "f5c37e0a2a8e2a08d7dec8df81e46582aa1a382d8a85fbc455e529b0253c2264",
+  "command": [
+    "scripts/limited",
+    ".venv/bin/python",
+    "scripts/score_fold0_panel.py",
+    "student_f0_warm_s3_alpha0_r1_p1@ep1",
+    "--reference",
+    "clean_t3_f0_control_s3_a9_t3r5_r2_p1@ep1",
+    "--split",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "--n-boot",
+    "2000",
+    "--out",
+    "research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_CP1_COMPONENT_BOOTSTRAP_R1.json"
+  ],
+  "environment": {
+    "WNN_SLICE": "wnn-campaign.slice",
+    "WNN_CPU_QUOTA": "100%",
+    "WNN_THREADS": "1",
+    "WNN_MEM_MAX": 1500000000,
+    "WNN_RUNTIME_MAX": "120s",
+    "TMPDIR": "/home/vlad/development/wunder/research_tmp",
+    "aggregate_cpu_cap_at_run": 2,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_swap_max_bytes": 0
+  },
+  "admission": {
+    "parent_memory_current_bytes": 9402216448,
+    "active_worker_reserved_ram_bytes": 0,
+    "active_worker_measured_headroom_bytes": 0,
+    "new_process_memory_bound_bytes": 1500000000,
+    "projected_committed_ram_bytes": 10902216448,
+    "working_target_bytes": 17000000000,
+    "support_cpu_reservations": {
+      "run-p3502874-i7698276.scope": 0.2,
+      "wnn-codex-research-watch.service": 0.05,
+      "wnn-slice-filecache-guard.service": 0.05
+    },
+    "new_cpu_cores": 1,
+    "aggregate_cpu_after_admission": 1.3,
+    "parent_swap_current_bytes": 0,
+    "gpu_idle_snapshot_mib": 75,
+    "running_wnn_bandit_services": []
+  },
+  "execution": {
+    "exit_code": 0,
+    "observed_wall_seconds": 8.842974,
+    "peak_process_memory_captured": false,
+    "memory_bound_bytes": 1500000000,
+    "bootstrap_output_stdout": "{\"candidate\": \"student_f0_warm_s3_alpha0_r1_p1@ep1\", \"wp\": 0.6763677295198618}"
+  },
+  "implementation": {
+    "score_script": "scripts/score_fold0_panel.py",
+    "score_script_sha256": "0f67ac06cd769a582901b854737528c89e9a7738c3057acf68d7f99eddbfa2d0",
+    "paired_helper_script": "scripts/evaluate_bandit_continuation.py",
+    "paired_helper_script_sha256": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+    "metric_implementation": "src/wnn/evaluation.py",
+    "metric_implementation_sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "official_metric_implementation": "src/wnn/gmetric.py",
+    "official_metric_implementation_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "method": "paired frozen-component bootstrap over centered per-sequence Welford moments; NumPy percentile interval",
+    "seed": 271828,
+    "replicates": 2000
+  },
+  "bindings": {
+    "candidate_run": "student_f0_warm_s3_alpha0_r1_p1",
+    "candidate_checkpoint_epoch_zero_based": 1,
+    "candidate_checkpoint_sha256": "5ac7b148388fbe42952377ab8582a7dc43332028b3546bd282dbafbd7b6ac8d0",
+    "candidate_prediction_sha256": "2da07d300636e973df53d774b32162f0174de47cde10b7e070edf280cfc97bad",
+    "reference_run": "clean_t3_f0_control_s3_a9_t3r5_r2_p1",
+    "reference_checkpoint_epoch_zero_based": 1,
+    "reference_checkpoint_sha256": "078e5e55b2a7c12476daa79a9dc36152af2f397a629888f3509fc32523fffa77",
+    "reference_prediction_sha256": "7096b59a11c8795c8e5706b223e6c2c82171b89a952ddcfa0183866d4ab8204a",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+    "evaluation_groups": 468,
+    "components": 141,
+    "selected_rows": 808863,
+    "precision": "FP32 for both members"
+  },
+  "result": {
+    "candidate": "alpha0",
+    "reference": "alpha0.9",
+    "delta_candidate_minus_reference": -0.003946861937353274,
+    "conditional_component_bootstrap_ci95": [
+      -0.008452006623398192,
+      -0.00010596454153759677
+    ],
+    "bootstrap_sd": 0.0021622256819450207,
+    "p_delta_le_zero": 0.977,
+    "metric_id": "global_wp_clip2_v1"
+  },
+  "interpretation": "This interval is conditional on the fixed two-epoch checkpoints and the repeatedly exposed fold-0 development panel. It is not training-seed or public-transfer uncertainty, and does not select or stop an arm. The predeclared fixed CP5 endpoint remains primary.",
+  "next_stage": "Proceed with alpha0 P2 only after trusted P1 state validation returns next_epoch=2 and the frozen source/input/output/resource gates pass."
+}
