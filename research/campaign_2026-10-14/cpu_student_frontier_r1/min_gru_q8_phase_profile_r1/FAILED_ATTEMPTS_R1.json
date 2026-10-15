@@ -1,0 +1,24 @@
+{
+  "format": "wnn.min-gru-q8-phase-profile-failed-attempts",
+  "version": 1,
+  "failures": [
+    {
+      "id": "workspace-rustfmt-check",
+      "exact_command": "git diff -- native/src/min_gru.rs native/src/python.rs native/src/vnni.rs; cargo fmt --check",
+      "command_sha256": "e20a762a5887e3929e028f0a2b8ce43fc309d84bd70057703253a78466d40a8a",
+      "workdir": "native/",
+      "failure_kind": "preexisting_workspace_format_drift",
+      "diagnosis": "The workspace-wide formatter reported changes in preexisting examples and unrelated native source/test blocks. The changed min_gru.rs passes its scoped rustfmt check; targeted python.rs and vnni.rs checks report existing diffs outside the added profile functions/counter slots. No cargo fmt rewrite was applied.",
+      "outcome": "No build or runtime effect; preserve rather than reformat unrelated files."
+    },
+    {
+      "id": "runner-staging-sparse-exclusion",
+      "command_sha256": "59c4723e5b92df5af058c4ffeb36852d1a31c6126c8343cc9ce29e83c61cd4d1",
+      "receipt": "STAGING_FAILURE_R1.json",
+      "failure_kind": "sparse_checkout_exclusion",
+      "diagnosis": "The worktree sparse patterns included scripts/profile_min_gru_cost_pair.py but omitted scripts/profile_min_gru_q8_phases.py. The target source file existed; Git refused to update its index until only this worktree's sparse pattern was extended.",
+      "recovery": "Added the missing script path to this isolated worktree's sparse checkout; staging and commit then succeeded."
+    }
+  ],
+  "scientific_failure": false
+}

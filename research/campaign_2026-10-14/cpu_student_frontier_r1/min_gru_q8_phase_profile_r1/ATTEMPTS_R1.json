@@ -1,0 +1,39 @@
+{
+  "format": "wnn.min-gru-q8-phase-profile-attempts",
+  "version": 1,
+  "attempts": [
+    {
+      "id": "profile-extension-build",
+      "command_sha256": "220e519829cdbdcb6875d3dfb35ede5e78a0c231df01d44cade3ef28d2783204",
+      "receipt": "BUILD_R1.json",
+      "status": "passed",
+      "elapsed_seconds": 48.72,
+      "exit_code": 0
+    },
+    {
+      "id": "baseline-plus-three-full-sequence-profiles",
+      "command_sha256": "88f35653866aaa640f1f0e35b838712d28ec25d6065681aea807369d90b6e227",
+      "receipt": "PHASE_PROFILE_R1.json",
+      "status": "passed",
+      "elapsed_seconds": 4.4847,
+      "exit_code": 0,
+      "rows_per_callback": 20000,
+      "callbacks": 4,
+      "prediction_and_final_state_bitwise_match": true
+    },
+    {
+      "id": "python-source-syntax-and-whitespace-check",
+      "commands": [
+        "git diff --check",
+        "python3 -m py_compile scripts/profile_min_gru_cost_pair.py scripts/profile_min_gru_q8_phases.py"
+      ],
+      "status": "passed"
+    },
+    {
+      "id": "scoped-min-gru-rustfmt",
+      "command": "rustfmt --edition 2024 --check native/src/min_gru.rs",
+      "status": "passed"
+    }
+  ],
+  "performance_claim": false
+}

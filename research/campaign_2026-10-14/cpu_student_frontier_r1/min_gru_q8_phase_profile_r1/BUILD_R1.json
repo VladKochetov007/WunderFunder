@@ -1,0 +1,55 @@
+{
+  "format": "wnn.min-gru-q8-phase-profile-build",
+  "version": 1,
+  "status": "passed",
+  "observed_utc": "2026-10-15T07:57:58Z",
+  "source": {
+    "commit": "8521382a1bba4242bc64e5b603f75a3743a66c8d",
+    "base_main_commit": "39008b8eeb27d69d97eb9d5431241cac426ec9a2",
+    "native_min_gru_sha256": "d366df73bd7d3a0ab0e8e456951110298d6db04ab0a19c57f6dbed7f9c428f52",
+    "native_python_binding_sha256": "467ce3e7acb48a8aeda1d59b21f461d754b0e65dcfdc316c0e3ca68caf3e17ff",
+    "native_vnni_sha256": "c6c8923a44b9adb92712f7995f5264fcd8b9a702d9c6b568178deefb48eb96b8",
+    "profile_runner_sha256": "eea44ea73f040ab7e42d0900dcf3b686d7597ec19cb55039850700741644b796",
+    "reused_fixture_runner_sha256": "5c5e27e877dc06596a843f89553e119c1b5efb460ee1a37e206cd2e554a31644"
+  },
+  "command": "CARGO_BUILD_JOBS=1 WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=900s WNN_SCOPE_UNIT=wnn-min-gru-q8-phase-build-r1.scope scripts/limited cargo build --release --manifest-path native/Cargo.toml --features extension-module,profile",
+  "command_sha256": "220e519829cdbdcb6875d3dfb35ede5e78a0c231df01d44cade3ef28d2783204",
+  "limits": {
+    "cpu_quota": "100%",
+    "cargo_build_jobs": 1,
+    "threads": 1,
+    "memory_max_bytes": 2000000000,
+    "runtime_max": "900s",
+    "swap_max_bytes": 0
+  },
+  "elapsed_seconds": 48.72,
+  "toolchain": {
+    "cargo": "1.94.0 (85eff7c80 2026-01-15)",
+    "rustc": "1.94.0 (4a4ef493e 2026-03-02)",
+    "target": "x86_64-linux"
+  },
+  "features": [
+    "extension-module",
+    "profile",
+    "python",
+    "pyo3/extension-module",
+    "abi3-py311"
+  ],
+  "binary": {
+    "path": "native/target/release/libwnn_native.so",
+    "sha256": "e2dafdc9d3d064c84d05a8ea9da53a079c0a1ee6611a1f05ab99ed967ef953d8",
+    "size_bytes": 1283832,
+    "profile_counter_api": [
+      "wnn_native.profile_reset",
+      "wnn_native.profile_cycles"
+    ]
+  },
+  "merged_width_support": {
+    "independent_encoder_recurrent_readout_gru_width_source_included": true,
+    "native_min_gru_source_included": true,
+    "width_python_tests_run_by_this_build_receipt": false,
+    "verification_limit": "The release extension compiled the integrated source tree; this build does not claim separate functional width-test execution."
+  },
+  "resource_peak": "The transient systemd scope exited successfully; MemoryPeak was unavailable after the scope became inactive, so no compile peak is claimed. The pre/post aggregate snapshots and worker cap are in RESOURCE_GATE_R1.json.",
+  "quality_claim": false
+}
