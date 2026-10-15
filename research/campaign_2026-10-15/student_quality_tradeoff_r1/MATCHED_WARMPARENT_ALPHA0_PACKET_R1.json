@@ -1,0 +1,195 @@
+{
+  "schema": "wnn.student-warmparent-alpha-control-plan.r1",
+  "status": "PREPARED_CODE_ONLY_NO_FIT_NO_ADMISSION",
+  "fit_authorized": false,
+  "question": "For the same seed-3 warm H256x2 parent and six-epoch continuation recipe, what is the marginal F0 effect of continued clean-T3 distillation (alpha=0.9) versus label-only continuation (alpha=0)?",
+  "claim_scope": "Marginal continuation effect only. The common initializer itself was distilled previously; this is not a no-teacher-ancestry comparison or a cold-start KD test.",
+  "source_revision": {
+    "main_commit": "813a2dac1d57a5082eaeb97f31647297ec2d1ad2",
+    "frozen_trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+    "frozen_wrapper_sha256": "246586bfd4be3a4e3d95ac026860bb835611f09958193b75798124c9500455ab",
+    "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "control_p1_fit_contract_sha256": "17350c0616debacd3507ad25bc627ba2f7087ddb17e0398cedf7674d696aaf79",
+    "control_successor_stage_contract_sha256": "957a49c882e4745404c0ec7ff545f5835249291e089cd0888b23aaefb2923a8e",
+    "control_launch_template_sha256": "6f4c7912449a45ed1e5a2baaa2a0f9c9b5fedd727b4d62099543cd47d70a664a"
+  },
+  "parent": {
+    "run": "c20261003_combo_s3_f0",
+    "epoch": 3,
+    "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+    "ancestry": "Four-epoch GRU256x2 parent with alpha=0.5 distillation from c20260929_since_s3_f0 and c20260929_since_s4_f0; common ancestry is retained in both arms.",
+    "historical_grade_bank": "research/campaign_2026-10-06/bandit_continuation/prediction_bank/GRADE_FOLD0FULL_20261010T004533Z_f3ec9c4efd4d7305.json",
+    "historical_grade_bank_sha256": "cc2a690c978d0bfa30124401141c1cb55874756aadcbea48a8e1f910c0ee825c",
+    "historical_wp": 0.6809412068071548,
+    "historical_grade_inference_precision_recorded": false,
+    "independent_critic_confirmed_same_split_membership_normalization_and_initializer": true
+  },
+  "membership": {
+    "split_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "fit_train_groups": 10535,
+    "fit_valid_groups": 1405,
+    "evaluation_groups_excluded_from_fit": 468,
+    "fit_train_canonical_order_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+    "fit_valid_order_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+    "seed3_fit_loader_order_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+    "exposure": "Repeatedly exposed F0 development panel; not a pristine holdout."
+  },
+  "cache": {
+    "root": "cache/clean_t3_f0_h390_t3r5_a9_r2",
+    "metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "train_array_sha256": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+    "fit_valid_array_sha256": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2",
+    "target": "float32(0.8125 * float32_mean(F0 clean-T3 teacher seeds 3,4,5 at epoch 2)); unclipped in cache; clipped by trainer during blend.",
+    "teacher_sources": [
+      "clean_t3_f0_muonall_h384_e3_s3_r5@ep2",
+      "clean_t3_f0_muonall_h384_e3_s4_r5@ep2",
+      "clean_t3_f0_muonall_h384_e3_s5_r5@ep2"
+    ],
+    "same_cache_path_in_alpha_zero_arm": true,
+    "alpha_zero_teacher_coefficient": 0.0
+  },
+  "common_recipe": {
+    "architecture": "GRU",
+    "hidden": 256,
+    "layers": 2,
+    "seed": 3,
+    "epochs": 6,
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch_zero_based": 5,
+    "optimizer": "AdamW",
+    "lr": 0.0001,
+    "weight_decay": 0.01,
+    "scheduler": "OneCycle",
+    "precision": "fp16",
+    "batch": 16,
+    "chunk": 2000,
+    "main_loss": "wmse/chunk",
+    "propensity": "c20260929_prop_f0",
+    "propensity_power": 2,
+    "propensity_epsilon": 0.03,
+    "valid_true_mask": 0.03,
+    "aux_struct": 0.3,
+    "aux_next": 0.3,
+    "distill_loss": "mse",
+    "distill_channel_weights": "1,1",
+    "distill_denominator": "chunk",
+    "distill_alpha_tau": 32,
+    "distill_boot_h": 0,
+    "distill_reanchor": 0,
+    "distill_family_weight": 0,
+    "label_weight_power": 1,
+    "label_weight_floor": 0,
+    "since_weight": 0,
+    "since_floor": 0.25,
+    "train_source": "train+valid",
+    "train_seqs_argument": 10607,
+    "valid_seqs_argument": 600,
+    "valid_fold": 0,
+    "no_eval_during_fit": true,
+    "precision_and_optimizer_flags_unchanged": true
+  },
+  "arms": [
+    {
+      "id": "warmparent_label_only_alpha0",
+      "distill_alpha": 0.0,
+      "new_fit_required": true,
+      "run_names": [
+        "student_f0_warm_s3_alpha0_r1_p1",
+        "student_f0_warm_s3_alpha0_r1_p2",
+        "student_f0_warm_s3_alpha0_r1_p3"
+      ]
+    },
+    {
+      "id": "warmparent_clean_t3_alpha09",
+      "distill_alpha": 0.9,
+      "new_fit_required": false,
+      "reuse_existing_only_after_hash_revalidation": true,
+      "run_names": [
+        "clean_t3_f0_control_s3_a9_t3r5_r2_p1",
+        "clean_t3_f0_control_s3_a9_t3r5_r2_p2_envr1",
+        "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1"
+      ],
+      "endpoint_wp_epoch5": 0.6811553603333363,
+      "endpoint_grade_sha256": "c518f7cdb5f3e5148f72de152c3aaecd308ff97c83aa74169fdaa95442e085a0"
+    }
+  ],
+  "single_argument_change": {
+    "flag": "--distill-alpha",
+    "alpha0_arm": 0.0,
+    "alpha09_arm": 0.9,
+    "other_training_arguments_must_be_byte_for_byte_equal_after_run_path_stage_fields": true
+  },
+  "recoverable_stages": [
+    {
+      "stage": "P1",
+      "epoch_indices": [0, 1],
+      "stop_after_epoch_inclusive": 1,
+      "resume_from": null,
+      "curve_checkpoint_epoch_zero_based": 1
+    },
+    {
+      "stage": "P2",
+      "epoch_indices": [2, 3],
+      "stop_after_epoch_inclusive": 3,
+      "resume_from": "P1/training_state.pt",
+      "curve_checkpoint_epoch_zero_based": 3
+    },
+    {
+      "stage": "P3",
+      "epoch_indices": [4, 5],
+      "stop_after_epoch_inclusive": 5,
+      "resume_from": "P2/training_state.pt",
+      "curve_checkpoint_epoch_zero_based": 5
+    }
+  ],
+  "existing_alpha09_curve_checkpoints": [
+    {
+      "after_epoch": 2,
+      "path": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p1/model_ep1.pt",
+      "sha256": "078e5e55b2a7c12476daa79a9dc36152af2f397a629888f3509fc32523fffa77"
+    },
+    {
+      "after_epoch": 4,
+      "path": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p2_envr1/model_ep3.pt",
+      "sha256": "def9c26e7d3d2ebde684a8e80083c88fbe08aaae6d4aa548f6e38f4461270c8c"
+    },
+    {
+      "after_epoch": 6,
+      "path": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+      "sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda"
+    }
+  ],
+  "evaluation": {
+    "metric_id": "global_wp_clip2_v1",
+    "panel": "same fold-0 fixed 468-group evaluation panel",
+    "fixed_points_after_epochs": [2, 4, 6],
+    "checkpoint_epochs_zero_based": [1, 3, 5],
+    "selection": "Epoch 6/epoch index 5 is the fixed endpoint. Intermediate points are descriptive only and cannot select an epoch.",
+    "inference_precision": "fp32 for all three paired snapshot points",
+    "primary_comparison": "Paired component bootstrap of alpha0 vs alpha0.9 at fixed epoch index 5; report raw delta and interval.",
+    "public_score_forecast": null
+  },
+  "known_resource_basis": {
+    "existing_alpha09_stage_seconds": [2142.4821718859894, 1936.8376550520188, 2076.099595939013],
+    "existing_alpha09_total_seconds": 6155.419422877021,
+    "estimated_hours_per_six_epoch_arm": 1.71,
+    "worker_cpu_cores": 1,
+    "worker_memory_reserve_bytes": 5500000000,
+    "worker_peak_ram_bytes": 4952358912,
+    "gpu_allocator_cap_bytes": 4300000000,
+    "observed_vram_ceiling_bytes": 5000000000,
+    "observed_vram_peak_bytes": 2638217216,
+    "loader_workers": 0,
+    "swap_bytes": 0,
+    "fresh_root_admission_required_before_each_stage": true
+  },
+  "limits": [
+    "One seed and repeatedly exposed F0 only.",
+    "The warm initializer has earlier distillation ancestry.",
+    "The alpha0 vs alpha0.9 comparison does not isolate teacher-family strength, cold-start KD or model capacity.",
+    "No new fit, predictions, grades or resource admission were performed by this packet.",
+    "Cross-fold and distinct-seed confirmation is required before promotion."
+  ]
+}
