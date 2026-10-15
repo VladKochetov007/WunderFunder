@@ -1,0 +1,101 @@
+{
+ "metric_id": "global_wp_clip2_v1",
+ "created_utc": "2026-10-15T17:14:20.500084+00:00",
+ "candidate": "c20261003_combo_s3_f0@ep3*0.5,clean_t3_f0_muonall_h384_e3_s3_r5@ep2*0.13541666666666666,clean_t3_f0_muonall_h384_e3_s4_r5@ep2*0.13541666666666666,clean_t3_f0_muonall_h384_e3_s5_r5@ep2*0.13541666666666666",
+ "candidate_members": [
+  {
+   "run": "c20261003_combo_s3_f0",
+   "epoch": 3,
+   "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+   "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+   "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+   "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+   "inference_precision": null,
+   "weight": 0.5
+  },
+  {
+   "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+   "epoch": 2,
+   "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+   "prediction_sha256": "d9e7edcc6a93619b70336c2acf5bcc823c16cfc8ec7e57fecd0c9a5fcc9061f1",
+   "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+   "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+   "inference_precision": "fp32",
+   "weight": 0.13541666666666666
+  },
+  {
+   "run": "clean_t3_f0_muonall_h384_e3_s4_r5",
+   "epoch": 2,
+   "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+   "prediction_sha256": "314172c91053c5581ac73160dc936fb3fa5d8615b8dac5fffeca73f0d7524d1a",
+   "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+   "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+   "inference_precision": "fp32",
+   "weight": 0.13541666666666666
+  },
+  {
+   "run": "clean_t3_f0_muonall_h384_e3_s5_r5",
+   "epoch": 2,
+   "checkpoint_sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+   "prediction_sha256": "13420c11164234ce14a49aaae9c7612c8e54d32fde02acd062991b47deb21e92",
+   "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+   "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+   "inference_precision": "fp32",
+   "weight": 0.13541666666666666
+  }
+ ],
+ "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+ "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+ "evaluation_groups": 468,
+ "components": 141,
+ "official": {
+  "t0": 0.6753689147048685,
+  "t1": 0.6890018042397495,
+  "wp": 0.6821853594723091,
+  "selected_rows": 808863,
+  "metric_id": "global_wp_clip2_v1"
+ },
+ "exposure": "fold0 excluded-468 panel; repeatedly inspected development evidence, not a public forecast",
+ "contrasts": [
+  {
+   "reference": "c20261003_combo_s3_f0@ep3",
+   "reference_members": [
+    {
+     "run": "c20261003_combo_s3_f0",
+     "epoch": 3,
+     "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+     "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+     "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+     "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+     "inference_precision": null,
+     "weight": 1.0
+    }
+   ],
+   "reference_official": {
+    "t0": 0.6744630336944981,
+    "t1": 0.6874193799198117,
+    "wp": 0.680941206807155,
+    "selected_rows": 808863,
+    "metric_id": "global_wp_clip2_v1"
+   },
+   "paired": {
+    "candidate_wp": 0.6821853594723091,
+    "reference_wp": 0.680941206807155,
+    "mean_diff": 0.0012441526651540968,
+    "bootstrap_sd": 0.0007299619132585834,
+    "ci95": [
+     -0.0002706938196265718,
+     0.002583637654148942
+    ],
+    "p_le_0": 0.0555,
+    "n_sequences": 468,
+    "n_components": 141,
+    "n_boot": 2000,
+    "seed": 271828,
+    "metric_id": "global_wp_clip2_v1",
+    "centered_moments": true,
+    "selected_rows": 808863
+   }
+  }
+ ]
+}
