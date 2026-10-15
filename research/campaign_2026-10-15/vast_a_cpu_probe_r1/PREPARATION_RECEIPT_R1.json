@@ -1,0 +1,73 @@
+{
+  "format": "wnn.vast-cpu-fixture-preparation-receipt",
+  "version": 1,
+  "status": "prepared",
+  "manifest_path": "research/campaign_2026-10-15/vast_a_cpu_probe_r1/CPU_TIMING_FIXTURE_R1.json",
+  "manifest_sha256": "941b656d8408be6f5c8f5816c1e32f3c8b24e59040bb4ed84bb895078a9f9f05",
+  "manifest_created_utc": "2026-10-15T10:44:03.557906+00:00",
+  "preparation_command": {
+    "working_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "environment": {
+      "WNN_SLICE": "wnn-campaign.slice",
+      "WNN_CPU_QUOTA": "100%",
+      "WNN_THREADS": "1",
+      "WNN_MEM_MAX": "1500000000",
+      "WNN_RUNTIME_MAX": "180s"
+    },
+    "argv": [
+      "scripts/limited",
+      "/usr/bin/env",
+      "PYTHONPATH=/home/vlad/development/wunder/worktrees/vast-a-cpu-probe-r1-20261015/src",
+      ".venv/bin/python",
+      "/home/vlad/development/wunder/worktrees/vast-a-cpu-probe-r1-20261015/scripts/prepare_vast_a_cpu_probe_fixture.py",
+      "--data-root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "--artifact-dir",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/vast_a_cpu_probe_r1",
+      "--manifest-out",
+      "/home/vlad/development/wunder/worktrees/vast-a-cpu-probe-r1-20261015/research/campaign_2026-10-15/vast_a_cpu_probe_r1/CPU_TIMING_FIXTURE_R1.json"
+    ],
+    "exit_code": 0,
+    "runtime_seconds": null,
+    "peak_memory_bytes": null
+  },
+  "producer": {
+    "commit_after_preparation": "a2c443c49f5d22428ce9e9ca0960e03fa3b80a0c",
+    "generator_path": "scripts/prepare_vast_a_cpu_probe_fixture.py",
+    "generator_sha256": "b2717e31431223569eb22041a3f7cd97154ce2c90bc300b9e1250766e55004c2",
+    "sequence_reader_path": "src/wnn/data.py",
+    "sequence_reader_sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+  },
+  "source_identity": {
+    "dataset_path": "datasets/train.parquet",
+    "bytes": 29240219011,
+    "mtime_ns": 1577826000000000000,
+    "footer_bytes": 60437285,
+    "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+    "source_identity_sha256": "956724a5f1e695ffdd33d7b7629ec3ae06abf9c647465e2d531574754741d9ad",
+    "identity_scope": "Parquet footer, file size and mtime; full parquet body not rescanned",
+    "fold0_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "sampler_manifest_sha256": "c4f597956172d65eec9da579bfa4011b1349b58632de8b2eecf23dcbbfbf2041"
+  },
+  "payloads": {
+    "root": "artifacts/vast_a_cpu_probe_r1",
+    "features.bin": {
+      "shape": [8, 20000, 112],
+      "dtype": "<f4",
+      "bytes": 71680000,
+      "sha256": "e8e8e1268cea54be12c3cf93e1be79b18cb097a1584851bcc4f5dc65885dd337"
+    },
+    "need_prediction.bin": {
+      "shape": [8, 20000],
+      "dtype": "|u1",
+      "bytes": 160000,
+      "sha256": "976947b85bdde6f53e3e7323e872ab4019175b404e58d29fd40321fadfe8ed82"
+    },
+    "storage_filesystem": "btrfs (/home, /dev/nvme0n1p7)",
+    "selection_count": 8,
+    "distinct_f0_fit_components": 8,
+    "labels_scoring_mask_teacher_and_cache_payloads": "absent",
+    "feature_values": "all finite; complete-sequence shape checked; per-sequence readback hashes and whole-array hashes verified"
+  },
+  "interpretation": "Runtime fixture only. No rental, inference timing, fitting or prediction-quality evaluation occurred."
+}

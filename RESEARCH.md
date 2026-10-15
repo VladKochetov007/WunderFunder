@@ -1,5 +1,7 @@
 # Research library
 
+[October 15 Vast-A CPU probe](research/campaign_2026-10-15/README.md) links the source-qualified, label-free complete-sequence timing fixture and exact-CPU execution boundary. The fixture supports runtime measurement only and makes no prediction-quality claim.
+
 [Current CPU student frontier](research/campaign_2026-10-14/cpu_student_frontier_r1/README.md) contains the complete approved plan, resource/comparison contract and live delivery frontier. Fixed-weight CPU probes, architecture/precision and causal-state experiments proceed with theory and cloud recovery; user uploads are asynchronous. No new winner is claimed at entry.
 
 Start with the [unified research library](research/unified/README.md) for a topic-based guide, shared note format, and links to the dated archive. The [October 12, 2026 archive](research/unified/archive/2026-10-12/README.md) contains the split final handoff.

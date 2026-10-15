@@ -1,14 +1,18 @@
 ---
 kind: experiment
-status: proposed
+status: prepared
 created_utc: 2026-10-15T08:42:36Z
-updated_utc: 2026-10-15T08:42:36Z
+updated_utc: 2026-10-15T10:44:03Z
 hypothesis_ids: []
 experiment_ids: []
-evidence_paths: [OFFERS_R1.json]
+evidence_paths: [OFFERS_R1.json, CPU_TIMING_FIXTURE_R1.json, PREPARATION_RECEIPT_R1.json]
 ---
 
 # Vast-A Zen 4 CPU benchmark proposal
+
+## Scope update, 2026-10-15
+
+The later user instruction approved up to$3 for the exact-EPYC9224 Vast-A runtime probe. The older9354P/$2 offer and pending-approval text below are historical; the current fixture task creates no instance and performs no provider action.
 
 ## Question or claim
 
@@ -32,7 +36,7 @@ This is a Zen4 proxy, not an exact competition-machine match. Cache topology, fr
 
 ## Decision and next step
 
-Await explicit user approval of offer50293333 for at most two hours and $2 total. No instance has been created. Continue healthy local fits independently.
+The original offer50293333/$2 proposal above is historical. A later user instruction approved up to$3 for the exact-EPYC9224 Vast-A work; this fixture-preparation task itself performs no rental/provider action. No instance has been created as part of this fixture task, and the controller owns any later rental execution.
 
 ## Source records
 
@@ -40,3 +44,15 @@ Await explicit user approval of offer50293333 for at most two hours and $2 total
 - [Existing A/B/C/D checked packages](../../../submissions/10-14-cpu-policy-r1/README.md).
 - [Vast offer API](https://docs.vast.ai/api-reference/search/search-offers).
 - [AMD9354P specification](https://www.amd.com/en/products/processors/server/epyc/4th-generation-9004-and-8004-series/amd-epyc-9354p.html).
+
+## Portable CPU timing fixture
+
+[CPU timing fixture manifest](CPU_TIMING_FIXTURE_R1.json) binds eight complete F0 fitting sequences to the frozen split, `train.parquet` footer identity, source-qualified row groups, seed-3 selection order, per-sequence feature hashes, and whole-payload hashes. Its only payloads are little-endian float32 features shaped `[8,20000,112]` and a synthetic runtime request vector shaped `[8,20000]` that skips rows0–98; it contains no targets, official scoring mask, teacher output or cache values. The ignored binary payloads are stored under `artifacts/vast_a_cpu_probe_r1/` on the local physical filesystem, and the committed manifest points to their hashes rather than committing the payloads.
+
+The fixture supports runtime measurement only. The eight sequences are from distinct F0 fitting components; their use establishes no prediction-quality or held-out result. The source-order receipt is the fixture's deterministic seed-3 selection order, not a claim about DataLoader minibatch order. No Vast-A instance was created during fixture preparation.
+
+The preparation completed with exit status0 under `scripts/limited` at one CPU, 1.5GB `MemoryMax`, no swap, and a 180-second runtime cap. The payload directory resolves to the physical Btrfs filesystem. The writer used `SequenceFile.read(..., targets=False, mask=False)`, checked all feature values for finiteness and complete `[20000,112]` shape, and verified each feature slot again from the finished memmap. A second bounded pass recomputed both whole-file SHA-256 values and matched the manifest. The request schedule is synthetic: false for rows0–98 and true for rows99–19999.
+
+The committed [fixture manifest](CPU_TIMING_FIXTURE_R1.json) has SHA-256 `941b656d8408be6f5c8f5816c1e32f3c8b24e59040bb4ed84bb895078a9f9f05`. It pins feature-array SHA-256 `e8e8e1268cea54be12c3cf93e1be79b18cb097a1584851bcc4f5dc65885dd337`, request-array SHA-256 `976947b85bdde6f53e3e7323e872ab4019175b404e58d29fd40321fadfe8ed82`, and source identity SHA-256 `956724a5f1e695ffdd33d7b7629ec3ae06abf9c647465e2d531574754741d9ad`. The [preparation receipt](PREPARATION_RECEIPT_R1.json) records the exact bounded command, generator/source hashes, binary paths and verification scope. The producer pins the frozen fold-0 split SHA-256 and the Parquet footer, file-size and modification-time identity; it does not rescan the full29GB Parquet body.
+
+Builder source is [prepare_vast_a_cpu_probe_fixture.py](../../../scripts/prepare_vast_a_cpu_probe_fixture.py), SHA-256 `b2717e31431223569eb22041a3f7cd97154ce2c90bc300b9e1250766e55004c2`. The feature reader is the unchanged [SequenceFile implementation](../../../src/wnn/data.py), SHA-256 `a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00`. Binary files remain untracked under the local ignored path `artifacts/vast_a_cpu_probe_r1/` and are not copied into source control.
