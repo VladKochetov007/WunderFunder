@@ -1,3 +1,7 @@
+## 2026-10-15T18:32:17Z — G fit complete; export is sole drain unit
+
+G completed exit0 in2170s: 14,920 attempted,14,914 completed,6 AMP skips, fixed CP1. Trusted state loader confirms `next_epoch=2`; checkpoint/model, state, provenance, source worktree and all five export-source hashes match frozen receipts. Full-valid FP32 export `warm-mechanism-export-g-20261015-r1` is now active under its previously authorized 1CPU/6.5GB reservation. Controller `STOP_ADMISSION` barrier `dfb6e4dd...` lists only that export. Independent grading and final Git receipt push are pending; do not restart until exporter/grader are done and no campaign units remain. [Pause/drain record](../research/unified/operations/RESEARCH_PAUSE_20261015_R1.md).
+
 ## 2026-10-15T18:00:12Z — CPU portal receipts land during pause
 
 User reports frozen-policy D47m27s/651MB/0.6681 (182a1r2g), C57m27s/656MB/0.6681 (2nk0qaui), B TIMEOUT61m57s/650MB (0emo1mvc). Historical A50m16s/650MB/0.6681 (1hl88h25). D saves169s/5.60% observed time and becomes provisional serving-engine preference with A fallback; single runs and noncontemporaneous control leave host variation unresolved. [Full result, all eight supplied rows and exact expected local ZIP pins](../research/campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/PUBLIC_CPU_POLICY_RESULT_20261015_R1.md). No public quality gain or model-capacity guarantee. Recording these receipts does not resume research; only the prior G drain remains permitted.
