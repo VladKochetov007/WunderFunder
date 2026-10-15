@@ -1,0 +1,91 @@
+{
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-tpu-v8-matmul-prefix-r1.scope PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src scripts/limited .venv/bin/python /home/vlad/development/wunder/worktrees/tpu-matmul-precision-diagnosis-20261015/research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/numerical_diag_r1/run_prefix_diagnosis_r1.py --root /home/vlad/development/wunder/wnn_connectome_starterpack --jax-rnn-source /home/vlad/development/wunder/worktrees/e529-s4-ampdiag-profile-r3a-20261008/research/campaign_2026-10-04/staging/jax_tpu_e465/src/wnn_jax/rnn.py --output /home/vlad/development/wunder/worktrees/tpu-matmul-precision-diagnosis-20261015/research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/numerical_diag_r1/NUMERICAL_DIAGNOSIS_R1.json > /home/vlad/development/wunder/worktrees/tpu-matmul-precision-diagnosis-20261015/research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/numerical_diag_r1/ATTEMPT_R1.stdout 2> /home/vlad/development/wunder/worktrees/tpu-matmul-precision-diagnosis-20261015/research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/numerical_diag_r1/ATTEMPT_R1.stderr",
+  "command_sha256": "56206c1928a93dc6f83839c3ee5a10a4042564c6dcb294df47bc418445537c9e",
+  "created_utc": "2026-10-15T11:12:58.497817+00:00",
+  "exit_code": 0,
+  "experiment_id": "E-TPU-V8-BF16-OPERAND-PREFIX-20261015-R1",
+  "fresh_admission_snapshot": {
+    "active_fit_memory_current_bytes": 4344000512,
+    "active_fit_memory_max_bytes": 5000000000,
+    "active_fit_unused_reservation_bytes": 655999488,
+    "cpu_max": "500000 100000",
+    "operating_headroom_bytes": 1000000000,
+    "parent_memory_current_bytes": 10326966272,
+    "parent_memory_max_bytes": 19999997952,
+    "periodic_provider_tick_reservation_bytes": 2000000000,
+    "projected_committed_bytes": 16382965760,
+    "student_delivery_reservation_bytes": 900000000,
+    "swap_max": "0",
+    "target_limit_bytes": 17000000000
+  },
+  "measured": {
+    "cgroup_peak_memory_bytes": null,
+    "prefix_forward_compute_seconds_after_data_and_model_load": 0.19202280999161303,
+    "process_peak_rss_bytes_linux": 826081280,
+    "wrapper_total_wall_seconds": null,
+    "wrapper_wall_limit_observation": "exec first wait returned at1.001s and command had exited by the first process poll; exact total wall was not measured"
+  },
+  "no_fit_gpu_tpu_cloud_actions": true,
+  "numpy": "2.2.6",
+  "python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]",
+  "result_path": "research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/numerical_diag_r1/NUMERICAL_DIAGNOSIS_R1.json",
+  "result_sha256": "5922c90631017cf1b4d07a5ebde0d0ef8eb5a34120a3f236e0979ea3f13a72af",
+  "runtime_import_source_pins": {
+    "src/wnn/data.py": {
+      "bytes": 4000,
+      "mtime_ns": 1791057038875510426,
+      "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+    },
+    "src/wnn/features.py": {
+      "bytes": 5421,
+      "mtime_ns": 1791057038875510426,
+      "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee"
+    },
+    "src/wnn/nn.py": {
+      "bytes": 23729,
+      "mtime_ns": 1791944074638446574,
+      "sha256": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+    }
+  },
+  "scope": {
+    "cpu_quota": "100% of one CPU",
+    "memory_max_bytes": 1500000000,
+    "post_exit_unit_query": "unit was no longer loaded, so cgroup MemoryPeak was unavailable",
+    "runtime_max": "120s",
+    "swap_max_bytes": 0,
+    "threads": 1,
+    "unit": "wnn-tpu-v8-matmul-prefix-r1.scope"
+  },
+  "source_audit_sha256": "5034e4e576ade5032ffc8590d922a7b9c7073ae4daf26152e3c18f0db6c83b50",
+  "source_sha256": "81dbfddfce8ddb6adbadcf5c1276d2cadf1cb5cd5619287dd8eb30c82106edab",
+  "status": "completed_exit_0",
+  "stderr_path": "research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/numerical_diag_r1/ATTEMPT_R1.stderr",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_path": "research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/numerical_diag_r1/ATTEMPT_R1.stdout",
+  "stdout_sha256": "5be7d817463ec8c795a3831b6c70ca661bfeb403c261d90fda4d0cee91ee65d1",
+  "torch": "2.14.0+cu130",
+  "validation_attempts": [
+    {
+      "command": "python - <<'PY'\nimport hashlib,json\nfrom pathlib import Path\nbase=Path('research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/numerical_diag_r1')\nfor name in ('SOURCE_AUDIT_R1.json','NUMERICAL_DIAGNOSIS_R1.json','ATTEMPT_R1.json'):\n    json.loads((base/name).read_text())\nsource=json.loads((base/'SOURCE_AUDIT_R1.json').read_text())\nrunner=hashlib.sha256((base/'run_prefix_diagnosis_r1.py').read_bytes()).hexdigest()\nassert source['runner_sha256']==runner\nattempt=json.loads((base/'ATTEMPT_R1.json').read_text())\nassert attempt['source_sha256']==runner\nassert attempt['result_sha256']==hashlib.sha256((base/'NUMERICAL_DIAGNOSIS_R1.json').read_bytes()).hexdigest()\nfor path in (Path('research/hypotheses.jsonl'),Path('research/experiments.jsonl')):\n    rows=[json.loads(line) for line in path.read_text().splitlines() if line.strip()]\n    ids=[row['id'] for row in rows]\n    assert len(ids)==len(set(ids)), path\nassert any(row['id']=='H-TPU-V8-MATMUL-PRECISION-20261015' for row in map(json.loads,Path('research/hypotheses.jsonl').read_text().splitlines()))\nassert any(row['id']=='E-TPU-V8-BF16-OPERAND-PREFIX-20261015-R1' for row in map(json.loads,Path('research/experiments.jsonl').read_text().splitlines()))\nprint('three JSON receipts, pinned runner/result hashes, and both append-only ledgers parse with unique IDs')\nPY",
+      "command_sha256": "9df6a796d7f1b5dba49b3fd23bcfc7c7505d88fa608a18d322df062e5d3c5383",
+      "corrected_validation": "All lines in both ledgers parse as JSON; the two new task IDs each occur exactly once. Existing repeated IDs remain intact.",
+      "diagnosis": {
+        "first_record": {
+          "line": 200,
+          "line_sha256": "387cdd0e1dce750d204bcd1ec07ece3ba1ff065218d216b32fe036543c5d7938",
+          "status": "proposed"
+        },
+        "first_repeated_id": "H-201",
+        "interpretation": "The hypothesis ledger is append-only and uses repeated IDs for later evidence-update events; the validator incorrectly assumed IDs were globally unique. No ledger rows were changed or removed to work around the assertion.",
+        "second_record": {
+          "line": 201,
+          "line_sha256": "570559a204bf317c7296c6e6ccd6671540810e1ecc939769ee57d8b13be43ef6",
+          "status": "insufficient_evidence"
+        }
+      },
+      "exit_code": 1,
+      "first_error": "AssertionError: research/hypotheses.jsonl",
+      "kind": "overstrict_unique_id_audit_preserved_before_corrected_check"
+    }
+  ]
+}

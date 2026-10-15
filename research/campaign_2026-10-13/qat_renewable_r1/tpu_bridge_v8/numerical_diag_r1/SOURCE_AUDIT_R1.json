@@ -1,0 +1,135 @@
+{
+  "cpu_reference_source_pins": {
+    "comparison_to_v8_source_materialization": {
+      "src/wnn/data.py_matches": true,
+      "src/wnn/features.py_matches": true,
+      "src/wnn/nn.py_note": "The local reference used current MAIN RNNModel after later width support; default equal-width legacy path was loaded, while an independent equation-by-equation FP32 replay matched it on this prefix.",
+      "src/wnn/nn.py_source_sha256_in_v8": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3"
+    },
+    "modules": {
+      "src/wnn/data.py": {
+        "bytes": 4000,
+        "mtime_ns": 1791057038875510426,
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      "src/wnn/features.py": {
+        "bytes": 5421,
+        "mtime_ns": 1791057038875510426,
+        "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee"
+      },
+      "src/wnn/nn.py": {
+        "bytes": 23729,
+        "mtime_ns": 1791944074638446574,
+        "sha256": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      }
+    },
+    "root_import_prefix": "/home/vlad/development/wunder/wnn_connectome_starterpack/src"
+  },
+  "created_utc": "2026-10-15T11:12:16Z",
+  "executed_worker": {
+    "framework_import_source_range": "packet/probe.py:641-655",
+    "kernel_id": "vladkochetov07/e463-tpu-realdata-reload-v8-20261013",
+    "metadata_code_file": "probe.py",
+    "metadata_path": "research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/packet/kernel-metadata.json",
+    "packet_code_sha256": "ce334ceb2ddb67bb0b61d34f99586fc327dfa29ae89d77ba77a21891594e8247",
+    "packet_manifest_sha256": "a5217d038b59a2c391630e6390823809bbbba71a6c303a8aa217a6d661607e53",
+    "parent_main_source_range": "packet/probe.py:4315-4450",
+    "realdata_call_source_range": "packet/probe.py:1039",
+    "run_device_worker_source_range": "packet/probe.py:641-655",
+    "top_level_entrypoint": "if __name__ == __main__: parent_main()",
+    "worker_entrypoint": "parent_main launches the same probe.py with --device-worker; worker_main invokes run_device_worker()",
+    "worker_source_range": "packet/probe.py:4269-4299 and :4448-4450"
+  },
+  "experiment_id": "E-TPU-V8-BF16-OPERAND-PREFIX-20261015-R1",
+  "hypothesis_id": "H-TPU-V8-MATMUL-PRECISION-20261015",
+  "limits": [
+    "Fitting group, already exposed; no score or quality claim.",
+    "A CPU BF16 operand surrogate cannot prove which TPU compiler algorithm ran.",
+    "Do not infer missing inherited environment configuration from the absence of a captured value.",
+    "No full20k CPU replay, JAX install, GPU, TPU or cloud action in this audit."
+  ],
+  "matched_input_reference": {
+    "input_matches_tpu_export": true,
+    "input_sha256": "68af663f9a28e26142d3dc20b6780550c55c741c6fdc2a1db8fdd12afe1d3f08",
+    "native_vs_pytorch_main2_max_abs": 1.430511474609375e-06,
+    "pytorch_vs_tpu_main2_max_abs": 0.007772356271743774,
+    "r4_result": "research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/FEATURE_FORWARD_DIAGNOSIS_R4.json",
+    "r4_result_sha256": "a0be9d8f3295cd5743c42d7ff51506f71880224e00711cd6a56be0b73163006c",
+    "r4_source_sha256": "8f205ea0ad5ae750d475fb8acc0fb32c6bfef6d975d4fe7151425f4567663dc6"
+  },
+  "next_step": "Any full-20k CPU replay is a separate root-owned admission decision; this actor did not run or imply one.",
+  "numerical_result": {
+    "bf16_dot_surrogate_improves_main2_max_error_to_tpu": true,
+    "global_runtime_config_remains_unknown": true,
+    "manual_fp32_matches_pytorch_all23": true,
+    "path": "research/campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/numerical_diag_r1/NUMERICAL_DIAGNOSIS_R1.json",
+    "prefix_rows": 137,
+    "sha256": "5922c90631017cf1b4d07a5ebde0d0ef8eb5a34120a3f236e0979ea3f13a72af",
+    "status": "completed"
+  },
+  "precision_call_order": {
+    "dot_sites": [
+      {
+        "functions": [
+          " _linear",
+          "_gru_cell"
+        ],
+        "path": "src/wnn_jax/rnn.py",
+        "precision_argument": "none",
+        "sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc"
+      },
+      {
+        "forward_precision_argument": "precision=\"fp32\" (input/weight compute dtype; no per-dot precision override)",
+        "forward_source_range": "packet/probe.py:3979-3984, :4100-4119, :4136-4142",
+        "functions": [
+          "run_realdata_one_update"
+        ],
+        "path": "packet/probe.py",
+        "sha256": "ce334ceb2ddb67bb0b61d34f99586fc327dfa29ae89d77ba77a21891594e8247"
+      }
+    ],
+    "global_default_source_configuration": "No jax.config.update, jax.default_matmul_precision context, JAX_DEFAULT_MATMUL_PRECISION assignment, or equivalent in V8 probe/builder before the actual forward.",
+    "inherited_environment_receipt": "V8 worker launch/start receipts do not capture inherited JAX_DEFAULT_MATMUL_PRECISION or jax.config value; actual runtime setting remains unknown.",
+    "interpretation": "The official JAX documentation says Precision.DEFAULT/None is the fastest and least accurate level and TPU FP32 dots use BF16 arithmetic by default; HIGH uses three BF16 passes and HIGHEST six. This makes reduced dot precision source-plausible only if Kaggle did not set an inherited/global override. That runtime premise is not captured, so this is not a demonstrated cause.",
+    "jax_version_on_tpu": "0.11.0",
+    "official_primary_documentation": [
+      "https://docs.jax.dev/en/latest/201/precision.html",
+      "https://docs.jax.dev/en/latest/_autosummary/jax.default_matmul_precision.html"
+    ],
+    "parent_imports_jax_before_worker": false,
+    "source_precision_config_hits": [],
+    "unrelated_e465_worker": {
+      "executed_by_v8_packet": false,
+      "path": "/home/vlad/development/wunder/worktrees/e529-s4-ampdiag-profile-r3a-20261008/research/campaign_2026-10-04/staging/jax_tpu_e465/src/wnn_jax/e465_tpu_worker.py",
+      "precision_setting": "jax.config.update(\"jax_default_matmul_precision\", \"highest\") in _runtime_setup around line 751",
+      "reason": "V8 metadata selects packet/probe.py; its worker imports only wnn_jax.bridge and wnn_jax.rnn, and the source materialization manifest does not include e465_tpu_worker.py.",
+      "sha256": "1ba4bd83c5ccce789a989e100464e915fd418e909caf24e4a071d818c688ed8c"
+    },
+    "worker_environment": "parent copies Kaggle os.environ, then overrides JAX_PLATFORMS, PJRT_DEVICE, allocator/thread/data variables, and PYTHONPATH; it does not set JAX_DEFAULT_MATMUL_PRECISION.",
+    "worker_imports_jax_before_model_forward": true
+  },
+  "quality_claim": false,
+  "question": "Could TPU backend-default reduced-precision FP32 dot multiplication account for part of the 0.007772356 main2 PyTorch-vs-TPU gap after exact engineered-input and updated-EMA identity are established?",
+  "runner_sha256": "81dbfddfce8ddb6adbadcf5c1276d2cadf1cb5cd5619287dd8eb30c82106edab",
+  "score": null,
+  "status": "source_audit_and_137_row_cpu_prefix_complete",
+  "updated_ema_identity": {
+    "ema_sha256": "fdc038206756202cdb9a1831be0ea79da49c27e66842b97259725eca43aa77e2",
+    "evidence_source_range": "packet/probe.py:4009-4011, :4052-4058, :4081-4087, :4132-4154",
+    "full20k_prediction_uses_reloaded_ema": true,
+    "heldout_claim": null,
+    "input_sha256": "68af663f9a28e26142d3dc20b6780550c55c741c6fdc2a1db8fdd12afe1d3f08",
+    "prediction_receipt_sha256": "bb3f1baeff3951616733c6f8e8e7f1ea0e364b10ae02342c780ab5fa363f5cb8",
+    "prediction_sha256": "9c3a2218a030fa7a4bb06bed82305d825926132c57ae7414dff73563834986c7",
+    "rows": 20000,
+    "saved_ema_exported_then_reload_checked_bitwise": "bitwise_equal_all_tensors",
+    "seq_ix": 267134787,
+    "source_qualified_group": [
+      "valid",
+      254
+    ],
+    "student_and_ema_saved_separately": true,
+    "training_data_used": true,
+    "update_equation": "next_ema = 0.999 * current_ema + 0.001 * next_params; mean/std buffers stay unchanged"
+  }
+}
