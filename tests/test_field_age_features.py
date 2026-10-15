@@ -112,3 +112,28 @@ def test_age_caps_at_declared_history_limit() -> None:
     expected = np.log1p(capped_ages)
     np.testing.assert_array_equal(actual[:, 0], expected)
     np.testing.assert_array_equal(actual[:, -1], expected)
+
+
+def test_production_torch_path_matches_oracle_and_saturates() -> None:
+    import torch
+
+    from wnn.research_features import research_features_torch
+
+    raw = _raw_panel(rows=257)
+    changed_future = raw.copy()
+    changed_future[:, 150:, 17] += 100.0
+    for mode, grouped in (("field_age", False), ("group_age", True)):
+        expected = np.stack([_oracle(sequence, grouped=grouped) for sequence in raw])
+        actual = research_features_torch(torch.from_numpy(raw), mode).numpy()
+        np.testing.assert_allclose(actual, expected, rtol=1e-7, atol=1e-6)
+        altered = research_features_torch(torch.from_numpy(changed_future), mode).numpy()
+        np.testing.assert_array_equal(actual[:, :150], altered[:, :150])
+        # A second call starts a new sequence; it must not inherit prior clocks.
+        replay = research_features_torch(torch.from_numpy(raw[:, :2]), mode).numpy()
+        np.testing.assert_array_equal(replay, actual[:, :2])
+        constant = torch.zeros((1, FIELD_AGE_CAP + 2, 112), dtype=torch.float32)
+        capped = research_features_torch(constant, mode).numpy()
+        expected_cap = np.log1p(
+            np.minimum(np.arange(FIELD_AGE_CAP + 2), FIELD_AGE_CAP).astype(np.float32)
+        )
+        np.testing.assert_allclose(capped[0, :, 0], expected_cap, rtol=1e-7, atol=1e-6)
