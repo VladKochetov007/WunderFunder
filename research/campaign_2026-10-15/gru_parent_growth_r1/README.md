@@ -121,3 +121,10 @@ The worker peaked at 4,953,374,720B host memory under the 5,500,000,000B reserva
 The [G resource-profile receipt](WARM_MECHANISM_PROFILE_G_RESULT_R1.json) records 50 of 50 optimizer updates completed, zero AMP skips, and finite loss and gradients. The attempt took 20.19s; its median full B16×20,000-row batch time was 1252.38ms (12.78 sequences/s). Peak host memory was 3,612,647,424B, observed VRAM 2,669,674,496B, and worker/parent OOM deltas were zero. As with C, the divided 2,000-row chunk timing is an estimate; the receipt makes no fit or quality claim.
 
 The [reservation erratum](WARM_MECHANISM_PROFILE_RESERVATION_ERRATUM_R1.json) records that the R4 descriptive reserve for G/F is 5.5GB, but their frozen outer commands and the actual G admission use 6.5GB. This conservative over-reservation is within the reviewed aggregate target and leaves the model command unchanged; F/W proceed at their frozen 6.5GB outer-vector reserve.
+
+
+## F profile result
+
+The [F resource-profile receipt](WARM_MECHANISM_PROFILE_F_RESULT_R1.json) records a successful five-batch run: 50/50 optimizer updates, no AMP skips, finite loss and gradients. It took 15.19s and measured 1120.99ms per full B16×20,000-row sequence batch (14.27 sequences/s). Peak host use was 4,267,720,704B and observed VRAM was 3,263,168,512B, with zero OOM events. The run remains resource/rate evidence, not a fit or quality result.
+
+F used the frozen outer command's 6.5GB host reservation; the [reservation erratum](WARM_MECHANISM_PROFILE_RESERVATION_ERRATUM_R1.json) now includes its terminal receipt. W is the final serial profile.
