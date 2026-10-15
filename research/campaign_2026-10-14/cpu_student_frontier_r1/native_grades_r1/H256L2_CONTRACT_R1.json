@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-15T07:54:43.891945+00:00",
+  "run": "student_frontier_f0s3_h256_l2_r2",
+  "epoch": 0,
+  "precision": "native_q8",
+  "manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/student_frontier_native_r1/h256l2_f0s3/manifest.json",
+  "manifest_sha256": "de76c3123ee3c98bb22e4da3ccb3b1f971b6976987e2fcb34665942c042dc8a9",
+  "fitting_only_native_profile": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/student_frontier_native_r1/h256l2_f0s3/profile_native_q8/result.json",
+  "profile_sha256": "de46edf8d00ba75b0c38c95bcc50ca1acc12ce87388826660f8320e675f20e00",
+  "fit_validation_sha256": "1042e31a73456edd88f40a8bd03b11c91ff346907ace16c50abc10b58fecdf43",
+  "assertion_wrapper": "scripts/evaluate_student_native_q8.py",
+  "assertion_wrapper_sha256": "5725978c213c49c42297d169b6d2f45ceb0867944af3cd24090c38d676f50976",
+  "frozen_evaluator_sha256": "a8bb0f15d49f0a6a36ea9f37995ea5a1906814e56bed566a829fb4ff396a80ce",
+  "evaluation_groups": 468,
+  "components": 141,
+  "official_metric": "global_wp_clip2_v1",
+  "scope": "same fixed exposedF0 CP0, exactnativecallback; no calibration/fit/coeffselection",
+  "matrix_policy": "existingnativeQ8VNNI, I16encoder, dynamicA8, FP32states; scalarfastactivations",
+  "resources": {
+    "cpus": 1,
+    "host_reserve_bytes": 1000000000,
+    "timeout_seconds": 1200,
+    "memory_basis": "streamone20krowgroup plus75MBphysicalpredictionmemmap and smallmodel/metricarrays; fittingonly2completecallbacks succeeded under1GBlimit"
+  },
+  "no_parent_or_scorer_mutation": true
+}

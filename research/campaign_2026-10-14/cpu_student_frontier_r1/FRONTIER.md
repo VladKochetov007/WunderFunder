@@ -2,22 +2,23 @@
 
 Entry: 2026-10-13T23:43:28Z (October14 Europe/Kyiv). Root owns completion under [contract](CONTRACT.json).
 
-## Current position at03:02UTC
+## Current position on October15,08:06UTC
 
-Two matched F0seed3 students have complete FP32 exports and official grades:
+The user explicitly resumed after an LLM usage-limit interruption. H192×2 completed its full frozen fit/profile/export/grade sequence during that interval. Three F0seed3 architectures are graded:
 
-| Architecture | Official WP | Paired delta vsH256×2 | Fitting time |
+| Architecture | FP32 officialWP | NativeQ8 officialWP | Fitting time |
 |---|---:|---:|---:|
-| H256×2 |0.669777642| control |34m07.9s|
-| H256×1 |0.669346318|−0.000431324|26m17.5s|
+| H256×2 |.669777642|.669782769|34m07.9s|
+| H256×1 |.669346318|pending|26m17.5s|
+| H192×2 |.668653372|pending|34m50.6s|
 
-The compact model's paired95%component interval is[−0.002304313,+0.001321198],141components/468groups/808,863scored rows/2,000resamples. Both have the same clean targets/normalization,11,936sequence exposures,14,920FP32updates and fixedCP0. One exposedfold/seed does not establish the best architecture or native-Q8 ranking. [H256×2 evidence](results/control_prediction_grade_r3/README.md) and [H256×1 collected result](results/h256l1_terminal_r6/README.md) retain ancestry and terminal receipts. The compact candidate remains active; historical stronger students remain visible.
+H192×2 versus H256×2 delta−.001124270, reported component95%interval[−.002369216,−.000070034], one exposedfold/seed. H256×1 remains close to control with a smaller local serving cost. These are fixed14920-update screens; no new winner or public forecast. [Independent H192review](../../unified/reviews/CPU_STUDENT_FRONTIER_H192L2_GRADE_REVIEW_20261015_R1.md) confirms recipe/ancestry. [NativeQ8control result](native_grades_r1/README.md) matchesFP32within.00000513; it certifies this endpoint's local callback/grade, not competition-host capacity.
 
-**H192×2 is RUNNING** under the same recipe. R5's first cache handoff failed before reclaim on missing user-bus variables; the [command-only R6 repair](recipes/README.md#r6-user-bus-environment-repair) completed both H256×1 handoffs with unchanged caps. Each next shape receives fresh root capacity admission, accounting for concurrent support reservations. No target-host CPU result has arrived.
+**H512×1 is RUNNING**, using the original clean targets/common normalization/order/B8/C2000FP32one-epoch recipe. Remaining H384×2,H640×1,H512×2,H448×3 remain admitted directions requiring separate root capacity invocation.
 
-The paired GRU/minGRU release callback experiment is active, separate from a preserved debug-build timing. Independent-width/native implementations are integrated; full-sequence initializer gradients and an explicit minGRU memory-timescale prior pass synthetic checks. The actual initializer CUDA profile is being prepared; no initializer/minGRU fit or grade yet. Theory and these experiments continue during asynchronous CPU uploads.
+[CleanF3teacherCP2](f3_teacher_fit_r5/DRAFT_STATUS_R5.md#completed-and-collected-on-october15) is collected, hash/finite/sourcequalified ancestry checked, and staged. All prediction exports and grade remain pending. Its cloud5.309GBVRAMhigh-water is below its12GiBcloudrecipe, above the local5GBtarget. [TPUV8collection](../../campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/README.md#october15-terminal-collection) passes the bounded actual-update/reload/causality bridge, but nativeforward differs bymax.00777 and is under diagnosis. It has no full-fit claim.
 
-The missing clean F3teacher isRUNNING; TPUQUEUED at02:45–02:47UTC. [Owner-inventory correction](f3_teacher_fit_r5/DRAFT_STATUS_R5.md#inventory-correction-at0247utc) records absent accelerator fields and rate-limited direct status checks without inventing a complete inventory. No additional cloud admission or new winning package.
+[Corrected quota](QUOTA_SERIALIZATION_DIAGNOSIS_20261015_R3.json):7.40GPUhours and19.84TPUhours remain at the snapshot; SDK textserialization drops days. No additional cloudjob yet. Native agents respond again; the [repaired initializer profile](profiles/INITIALIZER_COMPLETE_SEQUENCE_B1_R2_README.md) has independent boundedGO for a GPU resource smoke after the current healthy fit. Its subset-fit/evaluation recipe is being prepared separately. minGRUQ8phase profiling identifies scalar nonlinear/update and quantization work as the main overheads; exact SIMD successors are being developed. CPU competition uploads remain asynchronous.
 
 ## Entry and historical updates
 

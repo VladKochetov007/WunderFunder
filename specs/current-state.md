@@ -1,3 +1,7 @@
+## 2026-10-15T08:06:00Z — research resumed; third screen graded and cloud artifacts collected
+
+[CPU/student frontier](../research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md): H192×2 finishedWP.668653372 versusH256×2 .669777642; H512×1 is now fitting. The control's complete nativeQ8grade.669782769 matchesFP32 closely. CleanF3teacherCP2 is collected/finite/ancestry-checked, all exports pending. TPUV8actual-update/reload/causal bridge is collected; its nativeforward difference is being diagnosed before substantialTPUtraining. Correct typedquota leaves7.40GPUhours/19.84TPUhours; SDKtextserialization discarded a day in the earlier exhausted-GPUclaim. Native roles respond after resume; initializerR2resourceprofile has boundedreviewGO and awaits nextGPUslot. Limits and asynchronousCPUupload policy continue unchanged; no new winning endpoint or public forecast.
+
 ## 2026-10-14T03:02:00Z — two matched students graded; H192×2 fitting
 
 [CPU/student frontier](../research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md): H256×1 completed14,920updates and full F0gradeWP0.669346318, versus H256×2 .669777642; paired delta−.000431324 with component95%interval[−.002304313,+.001321198], one exposedfold/seed. Compact candidate retained without winner promotion. H192×2 is fitting. R6 command-only handoff repair completed without cap changes; paired release minGRU cost and real-data initializer profiling proceed independently. F3teacherRUNNING,TPUQUEUED; no competition CPU upload or new cloud admission.

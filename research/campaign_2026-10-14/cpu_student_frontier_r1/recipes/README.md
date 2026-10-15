@@ -182,3 +182,5 @@ Each successor is a single-shape fit→profile→export→grade plan; root still
 The [H256×1 R6 root admission](ROOT_H256L1_R6_SEQUENCE_ADMISSION_R1.json) resumes completed fit/profile stages after independent exact-delta review. The inference actor holds heavy work through full export; projected post-handoff export plus controller/source support is15.6GB within17GB. No limits change.
 
 [H192×2 root admission](ROOT_H192L2_R6_SEQUENCE_ADMISSION_R1.json) follows complete H256×1 fit/profile/export/grade and both successful R6 handoffs. Fresh projected start16.52GB includes5GBfit,2GBinference support,400MBcontroller and700MBsource support. Root rechecks later profile/export overlap; no larger shape is admitted by this record.
+
+[October15 H512×1 admission](ROOT_H512L1_R6_SEQUENCE_ADMISSION_R1.json) resumes after validated H192×2 terminal grade, under unchanged5CPU/18–20GB/no-swap/5GBlocalVRAMlimits. All scientific sources and fixed fit/profile/export/grade commands remain pinned; fresh start projection9.76GB includes collection and source-support bounds.

@@ -1,0 +1,217 @@
+{
+  "effective_completed_elapsed_seconds": 4923.284651771,
+  "pending_exports": [
+    "export_clean_t3_f3_muonall_h384_e3_s3_r5_fit_train",
+    "export_clean_t3_f3_muonall_h384_e3_s3_r5_fit_valid",
+    "export_clean_t3_f3_muonall_h384_e3_s3_r5_full_valid"
+  ],
+  "profile_reuse": {
+    "optimizer_completed_updates": 200,
+    "peak_gpu_bytes": 3497000960,
+    "peak_worker_ram_bytes": 4490899456,
+    "profile_batches": 10,
+    "profile_device": {
+      "index": 0,
+      "name": "Tesla T4",
+      "total_bytes": 16106127360,
+      "used_bytes": 0,
+      "uuid": "GPU-cc2e87ff-90c6-9c16-ac4f-8fec1cb0ce0c"
+    },
+    "profile_host_inventory": {
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "available_bytes": 32139948032,
+      "capacity_bytes": 32212254720,
+      "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+      "versions": {
+        "numpy": "2.1.3",
+        "psutil": "5.9.5",
+        "pyarrow": "23.0.1",
+        "torch": "2.11.0+cu128"
+      }
+    },
+    "profile_recipe_identity": "R2 argv, inputs, environment, limits, and every H390 source snapshot hash match the R1 resource-profile recipe after only the run-name suffix normalization.",
+    "profile_reference_r1_sha256": "001653a89909a44e35fb386476002bbb820afc10238dd1b5a73572f6a053b4dc",
+    "profile_spec_r2_sha256": "61676febc3cf297680fac6ef5b774a1c1814ebff4ea61670e69b8ff63c1ba15c",
+    "profile_worker_log_sha256": "cb057a0ca28535601f15b1baa0eb98fc532c5d119eed6621f52f59646ac2ee85",
+    "schema": "wnn.strategy.f3-teacher-profile-reuse.r5",
+    "scientific_result": null,
+    "source_kernel_id": "vladkochetov07/wnn-strategy-f3-t3-seed3-20261013-r2-runner",
+    "source_kernel_version": 1,
+    "source_terminal_status": "ERROR",
+    "split_log_evidence": {
+      "group_counts": {
+        "evaluation_groups": 505,
+        "fit_train_groups": 10539,
+        "fit_valid_groups": 1368
+      },
+      "portable_hash_seconds_total": 1125.241,
+      "portable_hashes": {
+        "train.parquet": {
+          "bytes": 29240219011,
+          "elapsed_seconds": 1018.76,
+          "fully_read": true,
+          "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+        },
+        "valid.parquet": {
+          "bytes": 5615509128,
+          "elapsed_seconds": 106.481,
+          "fully_read": true,
+          "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+        }
+      },
+      "split_load_elapsed_seconds": 1132.214,
+      "split_manifest": "fold3.json"
+    },
+    "status": "passed"
+  },
+  "quota_admission": {
+    "available_effective_wall_seconds_at_admission": 9999.591657234,
+    "conservative_billable_gpu_count": 2,
+    "effective_deadline_monotonic": 10630.595051843,
+    "gpu_safety_reserve_seconds": 1800,
+    "gpu_seconds_remaining_at_snapshot": 31561.292,
+    "gpu_seconds_reserved_at_snapshot": 0.0,
+    "interpretation": "Two T4 billable devices are assumed conservatively until actual quota billing is verified; worker execution remains serialized on one visible T4 device.",
+    "maximum_planned_stage_plus_finalization_seconds": 9400,
+    "provider_session_cap_seconds": 10000,
+    "provider_started_monotonic": 630.595051843,
+    "quota_deadline_monotonic": 15510.595051843,
+    "quota_derived_wall_window_seconds": 14880,
+    "quota_snapshot_age_seconds": 1108.101456,
+    "quota_snapshot_checked_utc": "2026-10-14T02:00:30.080117+00:00",
+    "schema": "wnn.strategy.f3-teacher-quota-admission.r5",
+    "stage_budgets_seconds": {
+      "finalization": 900,
+      "fit": 8500,
+      "prediction_exports": 0
+    },
+    "status": "passed"
+  },
+  "schema": "wnn.strategy.f3-teacher-pipeline.r5",
+  "stages": [
+    {
+      "name": "profile_reuse_r2",
+      "result": {
+        "optimizer_completed_updates": 200,
+        "peak_gpu_bytes": 3497000960,
+        "peak_worker_ram_bytes": 4490899456,
+        "profile_batches": 10,
+        "profile_device": {
+          "index": 0,
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0,
+          "uuid": "GPU-cc2e87ff-90c6-9c16-ac4f-8fec1cb0ce0c"
+        },
+        "profile_host_inventory": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "available_bytes": 32139948032,
+          "capacity_bytes": 32212254720,
+          "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+          "versions": {
+            "numpy": "2.1.3",
+            "psutil": "5.9.5",
+            "pyarrow": "23.0.1",
+            "torch": "2.11.0+cu128"
+          }
+        },
+        "profile_recipe_identity": "R2 argv, inputs, environment, limits, and every H390 source snapshot hash match the R1 resource-profile recipe after only the run-name suffix normalization.",
+        "profile_reference_r1_sha256": "001653a89909a44e35fb386476002bbb820afc10238dd1b5a73572f6a053b4dc",
+        "profile_spec_r2_sha256": "61676febc3cf297680fac6ef5b774a1c1814ebff4ea61670e69b8ff63c1ba15c",
+        "profile_worker_log_sha256": "cb057a0ca28535601f15b1baa0eb98fc532c5d119eed6621f52f59646ac2ee85",
+        "schema": "wnn.strategy.f3-teacher-profile-reuse.r5",
+        "scientific_result": null,
+        "source_kernel_id": "vladkochetov07/wnn-strategy-f3-t3-seed3-20261013-r2-runner",
+        "source_kernel_version": 1,
+        "source_terminal_status": "ERROR",
+        "split_log_evidence": {
+          "group_counts": {
+            "evaluation_groups": 505,
+            "fit_train_groups": 10539,
+            "fit_valid_groups": 1368
+          },
+          "portable_hash_seconds_total": 1125.241,
+          "portable_hashes": {
+            "train.parquet": {
+              "bytes": 29240219011,
+              "elapsed_seconds": 1018.76,
+              "fully_read": true,
+              "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+            },
+            "valid.parquet": {
+              "bytes": 5615509128,
+              "elapsed_seconds": 106.481,
+              "fully_read": true,
+              "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+            }
+          },
+          "split_load_elapsed_seconds": 1132.214,
+          "split_manifest": "fold3.json"
+        },
+        "status": "passed"
+      },
+      "status": "complete"
+    },
+    {
+      "name": "fit_clean_t3_f3_muonall_h384_e3_s3_r5",
+      "result": {
+        "artifacts": {
+          "files": [
+            {
+              "path": "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r5/model_ep2.pt",
+              "sha256": "d67bed97eaa16f73338ea275c316bf76c785b37f8451aa5cee8fe5daadf2f1b5",
+              "size": 8692775
+            },
+            {
+              "path": "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r5/model.pt",
+              "sha256": "b1c764f72832157cbb474f92e82769311cfe981da89d88996b8678df91842969",
+              "size": 8692331
+            },
+            {
+              "path": "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r5/provenance.json",
+              "sha256": "c60719d1db7d44d17e04e0379f576616a43c6ad2564fd58e192ced5453bc8da3",
+              "size": 159416
+            },
+            {
+              "path": "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r5/history.json",
+              "sha256": "bb420bc26e44096c88423e05a7d0d1b977fe4ba3d16690d2395ced74e7a35f1e",
+              "size": 4586
+            },
+            {
+              "path": "artifacts/runs/clean_t3_f3_muonall_h384_e3_s3_r5/training_state.pt",
+              "sha256": "6e47e81b1629ab5f334ac58a627797398a7f8d0eb1b313fdcb12210a66df857d",
+              "size": 17344750
+            }
+          ],
+          "missing": []
+        },
+        "device": {
+          "index": 0,
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0,
+          "uuid": "GPU-114368be-c260-d3b9-2fba-5575192129d6"
+        },
+        "name": "fit_clean_t3_f3_muonall_h384_e3_s3_r5",
+        "peak_gpu_bytes": 5308940288,
+        "peak_ram_bytes": 5503868928,
+        "returncode": 0,
+        "status": "complete",
+        "wall_seconds": 4889.410553504,
+        "worker_timeout_seconds": 8500
+      },
+      "status": "complete"
+    }
+  ],
+  "status": "fit_complete_all_exports_pending"
+}

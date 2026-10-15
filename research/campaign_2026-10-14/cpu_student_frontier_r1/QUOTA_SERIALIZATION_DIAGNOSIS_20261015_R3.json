@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-15T07:53:42.752225+00:00",
+  "diagnosis": "KaggleSDKserialize_timedelta usesdelta.seconds and discardsdays; to_dict/str serialize30h as6h. Typedtimedelta.total_seconds retains108000. Rootinitialstr-basedexhaustionclaimwithdrawn.",
+  "sdk_source": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kaggle_object.py",
+  "sdk_source_sha256": "17e37bfc533a0083fb91dd994d4ed35bc729e74c5a5e4a442f46eb45126032e5",
+  "actual_source_excerpt": "        lambda cls, v: TimeDeltaSerializer._from_dict_value(v),\n    )\n\n  @staticmethod\n  def _to_dict_value(delta):\n    seconds = delta.seconds\n    nanos_str = TimeDeltaSerializer._nanos_to_str(delta.microseconds * 1000)\n    if nanos_str is None:\n      return \"{}s\".format(seconds)\n    return \"{}.{}s\".format(seconds, nanos_str)\n\n  @staticmethod\n  def _nanos_to_str(nanos):\n    if nanos == 0:\n      return None\n    if nanos < 0:",
+  "typed_gpu": {
+    "total_time_allowed": 108000.0,
+    "used": 81372.611,
+    "reserved": 0.0
+  },
+  "gpu_remaining_seconds": 26627.388999999996,
+  "typed_tpu": {
+    "total_time_allowed": 72000.0,
+    "used": 567.197,
+    "reserved": 0.0
+  },
+  "tpu_remaining_seconds": 71432.803,
+  "effective_admission": "refresh typedvalues beforeeachdispatch; no newpaidcapacity; preservepriorR1/R2mistakes"
+}
