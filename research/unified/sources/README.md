@@ -4,6 +4,8 @@ This domain holds external writeups and source material that informed research. 
 
 ## Literature searches and source provenance
 
+- [Distillation quality precedents and their local tests](../ideas/QUALITY_BOTTLENECK_AND_STUDENT_TRADEOFFS_20261015_R1.md#theory-and-useful-falsifiers), checked October15, links primary [Born Again Networks](https://proceedings.mlr.press/v80/furlanello18a.html), [Cho–Hariharan](https://arxiv.org/abs/1910.01348) and [Beyer et al.](https://arxiv.org/abs/2106.05237). They motivate testing student benefit, capacity mismatch and training duration rather than assuming a teacher-score ceiling. Published vision/language findings are hypotheses for this recurrent regression task, not measured local gains; related H-KD-CONTINUATION-VALUE-20261015. CVF HTML returned403 on recheck; primary arXiv/PMLR records and CVF PDF search records were available.
+
 - [Audited teammate methods and evidence](../../campaign_2026-10-13/team_models_r1/TEAM_METHODS_AND_EVIDENCE_R1.md) pins October6 branch833aaf54 and separates family distillation, unnormalized0.8125 teacher scale, head-FT and causal regime probes. Historical reports support bounded recipe follow-ups, but current final-model CV arrays/FTT ancestry are missing; supplied probe weights make inference replayable despite source-branch payload gaps.
 
 - [AMD EPYC9224 architecture sources and runtime application](../../campaign_2026-10-13/team_models_r1/EPYC_RUNTIME_REFLECTION_R1.md#source-records) records primary AMD product and Zen4 white-paper references checked October13,2026. They establish VNNI support, 256-bit internal paths and cache structure; they do not establish our hosted runtime or a kernel winner. Related independent ELF audit and H-TEAM-NATIVE-20261013 are linked there.

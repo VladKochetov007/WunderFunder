@@ -1,4 +1,4 @@
-## 2026-10-15T11:58:00Z — quality attribution takes priority; H384 fitting continues
+## 2026-10-15T11:55:24Z — quality attribution takes priority; H384 fitting continues
 
 The user asks what limits student quality and directs continued tradeoff experiments. [Quality synthesis](../research/unified/ideas/QUALITY_BOTTLENECK_AND_STUDENT_TRADEOFFS_20261015_R1.md) and [independent review](../research/unified/reviews/CLEAN_T3_TEACHER_STUDENT_BOTTLENECK_REVIEW_20261015_R1.md) establish that mature currentT3student .68115536 inherits exactparent .68094121; historicaloldZ4student .68314181 inherits differentparent .68282334. No matched label-only continuation or evaluated learning curve isolates KD contribution. H512×1's matched short-screen gain+.003460 remains useful architecture evidence. H384×2 continues its unchanged fit; roles now prepare matched warm-parent alpha0/.9 continuation and export-only cleanF3teacher recovery. All eight shapes remain authorized; newfits need concrete review/admission. CPU-host search/nativeinitializer/TPUengineering move behind qualitydelivery. TypedKaggle11:50UTC remains7.3965GPUhours/19.8424TPUhours; paidspendzero, localcapsunchanged.
 
