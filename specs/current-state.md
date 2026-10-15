@@ -1,4 +1,8 @@
-## 2026-10-15T18:32:17Z — G fit complete; export is sole drain unit
+## 2026-10-15T18:39:10Z — research pause drained; laptop restart is safe
+
+G fit, trusted CP1 gate, full-valid FP32 export and independent G-versus-C grade are terminal; the delta is+0.00002956 with conditional component95% interval[−0.00038018,+0.00037707], so the exposed single-seed comparison resolves no quality advantage. No `wnn-*`/`run-*` jobs, campaign-slice children or GPU compute processes remain. Research watchers and poll timers are stopped, the `STOP_ADMISSION` barrier remains closed, and the closeout receipts and notes are pushed. It is safe to restart; research stays paused until explicit resume. [Pause closeout](../research/unified/operations/RESEARCH_PAUSE_20261015_R1.md).
+
+## 2026-10-15T18:32:17Z — G fit complete; export is sole drain unit (historical snapshot)
 
 G completed exit0 in2170s: 14,920 attempted,14,914 completed,6 AMP skips, fixed CP1. Trusted state loader confirms `next_epoch=2`; checkpoint/model, state, provenance, source worktree and all five export-source hashes match frozen receipts. Full-valid FP32 export `warm-mechanism-export-g-20261015-r1` is now active under its previously authorized 1CPU/6.5GB reservation. Controller `STOP_ADMISSION` barrier `dfb6e4dd...` lists only that export. Independent grading and final Git receipt push are pending; do not restart until exporter/grader are done and no campaign units remain. [Pause/drain record](../research/unified/operations/RESEARCH_PAUSE_20261015_R1.md).
 

@@ -1,5 +1,16 @@
 # Student quality tradeoff R1
 
+## G-versus-C matched feature comparison — October15
+
+The completed group-age G arm scored0.6812560749 versus matched C0.6812265132
+on the repeatedly inspected F0 panel: delta+0.00002956, conditional component
+95% interval[−0.00038018,+0.00037707]. The full-valid FP32 export and
+independent grade are hash-bound in the [machine receipt](WARM_MECHANISM_F0_S3_G_R3_CP1_PAIRED_GRADE_R1.json);
+the [independent review](../../unified/reviews/WARM_MECHANISM_G_CP1_GRADE_REVIEW_20261015_R1.md)
+checks the unchanged scorer and paired membership. This is one seed and a
+two-epoch checkpoint comparison on exposed development data; it neither
+promotes G nor rules out the feature family. User pause stopped F/W and S.
+
 The terminal feature-only exports are preserved separately from grading: [A0 CP3 attempt](../../campaign_2026-10-06/bandit_continuation/runtime/attempts/student-alpha0-cp3-export-20261015-r1.json) and [log](../../campaign_2026-10-06/bandit_continuation/runtime/logs/student-alpha0-cp3-export-20261015-r1.log), [A0 CP5 attempt](../../campaign_2026-10-06/bandit_continuation/runtime/attempts/student-alpha0-cp5-export-20261015-r1.json) and [log](../../campaign_2026-10-06/bandit_continuation/runtime/logs/student-alpha0-cp5-export-20261015-r1.log), and [A9 CP3 attempt](../../campaign_2026-10-06/bandit_continuation/runtime/attempts/student-alpha09-cp3-export-20261015-r1.json) and [log](../../campaign_2026-10-06/bandit_continuation/runtime/logs/student-alpha09-cp3-export-20261015-r1.log). All completed successfully and produced full1873-sequence FP32 predictions; A9 CP5 reuses its exact existing export. The independent grade/diagnostic below checks predictions and evaluated membership; export telemetry alone is not quality evidence.
 
 Latest status, October15 16:33 UTC: alpha0 P1/P2/P3 completed successfully through zero-based epoch indices0–5; the trusted training-state loader returned `next_epoch=6`. P2's terminal receipt mistakenly recorded `fit_update_diagnostics.epoch_index=2`; the metadata-only [erratum](ALPHA0_P2_TERMINAL_METADATA_ERRATUM_R1.json) corrects it to3 from the frozen trainer's loop, terminal provenance and `next_epoch=4`. Both alpha0 and alpha-.9 full-valid FP32 feature-only predictions have been exported and officially graded at CP1/CP3/CP5. Alpha0 scores0.6763677295/0.6722203242/0.6668425394 versus alpha-.9 0.6803145915/0.6809640574/0.6811553603. The paired alpha0-minus-alpha-.9 differences are−0.00394686 at CP1,−0.00874373 at CP3 (conditional95% component interval [−0.01832483,−0.00146275]), and−0.01431282 at the predeclared CP5 endpoint (interval [−0.03116723,−0.00112208]); each uses2,000 resamples of141 components on the same exposed F0 panel. These intervals condition on fixed predictions and are not training-seed/public-transfer uncertainty or universal kill gates. P3's final fit epoch index5 completed at16:12:41 UTC, and its terminal checkpoint/state passed the trusted loader. See the indexed [independent grade review](../../unified/reviews/ALPHA0_WARMPARENT_CP3_CP5_GRADE_REVIEW_20261015_R1.md) and [machine-readable receipt](ALPHA0_CP3_CP5_PAIRED_GRADE_REVIEW_R1.json).

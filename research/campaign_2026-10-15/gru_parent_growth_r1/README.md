@@ -17,13 +17,17 @@ repeatedly inspected F0 panel. This is one-seed exposed-panel evidence, not a
 confirmed improvement or fresh holdout. See the [fit state gate](C_FIT_TERMINAL_STATE_GATE_R1.json),
 [CP1 export receipt](C_CP1_EXPORT_RESULT_R1.json), and [independent grade](../../student_quality_tradeoff_r1/WARM_MECHANISM_F0_S3_C_R3_CP1_PAIRED_GRADE_R1.json).
 
-The separate direct-parent S resource profile completed 50/50 finite updates
-with no AMP skips and no OOM delta; it produced no checkpoint, prediction or
-quality score. Its [terminal receipt](../../student_quality_tradeoff_r1/frozen_parent_anchor_r1/S_PROFILE_TERMINAL_RESULT_R1.json)
-is indexed with the reviewed contract. G is next under the already authorized
-C/G/F/W fit sequence after fresh source, input and resource checks. The separate
-S fit authority permits an S continuation only after this primary C/G/F/W
-sequence and its exports are delivered.
+The already-running G arm completed its two-epoch fit and full-valid export.
+It scored0.6812560749 versus C's0.6812265132 on the same repeatedly exposed F0
+panel; the paired delta is+0.00002956 with a conditional component95% interval
+[−0.00038018,+0.00037707]. This does not resolve a quality advantage. See the
+[trusted fit gate](G_FIT_TERMINAL_STATE_GATE_R1.json),
+[export validation](G_EXPORT_TERMINAL_VALIDATION_R1.json),
+[machine grade](../../student_quality_tradeoff_r1/WARM_MECHANISM_F0_S3_G_R3_CP1_PAIRED_GRADE_R1.json),
+and [independent review](../../unified/reviews/WARM_MECHANISM_G_CP1_GRADE_REVIEW_20261015_R1.md).
+The user's pause stopped the sequence after G: F/W and the separate S fit,
+initializer profiles/fits and cloud retry remain unrun. The S resource-only
+profile is still terminal and produced no checkpoint or quality score.
 
 - [Complete-sequence result](COMPLETE_SEQUENCE_PROFILE_R1.json) pins the original
   F0 seed3 parent, fitting-only raw fixture, source hashes and derived initializer.

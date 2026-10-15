@@ -1,6 +1,6 @@
 # Campaign 2026-10-15
 
-Latest status, October15 14:05UTC: alpha0 is fitting; F3 teacher exports are collected and officially graded; the input-only clock screen is measured and a bounded transform/recipe implementation follows. The [live frontier](../campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md) and [research-cycle reset](../unified/methods/RESEARCH_LOOP_RESET_20261015_R1.md) describe allocation and limits. Historical packet descriptions retain their original preparation status.
+Latest status, October15 18:39UTC: the user-requested pause has drained. G's fit, export and independent grade are complete; its exposed F0 score is effectively tied with C and does not promote the group-age arm. Admission remains closed and the laptop is restart-safe. See the [pause closeout](../unified/operations/RESEARCH_PAUSE_20261015_R1.md), [G delivery](gru_parent_growth_r1/README.md), and [paired grade](student_quality_tradeoff_r1/WARM_MECHANISM_F0_S3_G_R3_CP1_PAIRED_GRADE_R1.json). F/W/S and initializer work remain unrun pending explicit resume.
 
 This folder indexes bounded research follow-up work.
 
