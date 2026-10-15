@@ -1,0 +1,144 @@
+{
+  "schema": "wnn.student-quality-alpha0-cp3-cp5-independent-grade-review.r1",
+  "status": "PASS_OFFICIAL_GRADE_AND_FIXED_COMPONENT_BOOTSTRAP; EXPOSED_F0_DESCRIPTIVE",
+  "created_utc": "2026-10-15T16:33:00Z",
+  "claim_scope": "Matched alpha=0 versus alpha=0.9 continuation from the same already-distilled H256x2 warm parent, seed 3, at fixed zero-based checkpoint indices 3 and 5. This is not a cold-start KD test or a teacher/student ceiling comparison.",
+  "protocol": {
+    "path": "research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_POSTFIT_EXPORT_GRADE_COMMANDS_R1.json",
+    "sha256": "6d224c87c060f474c6aba03d452fcb6c79dca3886fad005e5eecb64b2a3a5819",
+    "grader_path": "scripts/kaggle_warm_cohort/grade_fold0_run.py",
+    "grader_sha256": "b6f80ef2d5323bdd9f9941f8bb2b698d61d87ac05fe918d53343a52aee0e6654",
+    "metric_id": "global_wp_clip2_v1",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "evaluation_groups": 468,
+    "components": 141,
+    "selected_rows": 808863,
+    "prediction_shape": [1873, 20000, 2],
+    "prediction_dtype": "<f4",
+    "prediction_file_bytes": 299680128,
+    "npy_header_check": "Standard-library header reads only; all four prediction files report the declared shape, C order and float32 dtype. Official grade receipts bind their full-file SHA-256 values."
+  },
+  "commands": {
+    "environment": {
+      "WNN_SLICE": "wnn-campaign.slice",
+      "WNN_CPU_QUOTA": "100%",
+      "WNN_THREADS": "1",
+      "WNN_MEM_MAX": 1500000000,
+      "WNN_RUNTIME_MAX": "120s"
+    },
+    "grade_argv": [
+      ["env", "WNN_SLICE=wnn-campaign.slice", "WNN_CPU_QUOTA=100%", "WNN_THREADS=1", "WNN_MEM_MAX=1500000000", "WNN_RUNTIME_MAX=120s", "scripts/limited", "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python", "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_warm_cohort/grade_fold0_run.py", "--root", "/home/vlad/development/wunder/wnn_connectome_starterpack", "--run", "student_f0_warm_s3_alpha0_r1_p2_envr1", "--epoch", "3", "--out-dir", "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/f0_grade_alpha0_r2/ep4"],
+      ["env", "WNN_SLICE=wnn-campaign.slice", "WNN_CPU_QUOTA=100%", "WNN_THREADS=1", "WNN_MEM_MAX=1500000000", "WNN_RUNTIME_MAX=120s", "scripts/limited", "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python", "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_warm_cohort/grade_fold0_run.py", "--root", "/home/vlad/development/wunder/wnn_connectome_starterpack", "--run", "student_f0_warm_s3_alpha0_r1_p3_envr1", "--epoch", "5", "--out-dir", "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/f0_grade_alpha0_r2/ep6"],
+      ["env", "WNN_SLICE=wnn-campaign.slice", "WNN_CPU_QUOTA=100%", "WNN_THREADS=1", "WNN_MEM_MAX=1500000000", "WNN_RUNTIME_MAX=120s", "scripts/limited", "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python", "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_warm_cohort/grade_fold0_run.py", "--root", "/home/vlad/development/wunder/wnn_connectome_starterpack", "--run", "clean_t3_f0_control_s3_a9_t3r5_r2_p2_envr1", "--epoch", "3", "--out-dir", "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-15/student_quality_tradeoff_r1/f0_grade_alpha09_r2/ep4"]
+    ],
+    "paired_bootstrap_argv": [
+      ["env", "WNN_SLICE=wnn-campaign.slice", "WNN_CPU_QUOTA=100%", "WNN_THREADS=1", "WNN_MEM_MAX=1500000000", "WNN_RUNTIME_MAX=120s", "TMPDIR=/home/vlad/development/wunder/research_tmp", "scripts/limited", ".venv/bin/python", "scripts/score_fold0_panel.py", "student_f0_warm_s3_alpha0_r1_p2_envr1@ep3", "--reference", "clean_t3_f0_control_s3_a9_t3r5_r2_p2_envr1@ep3", "--split", "research/campaign_2026-09-29/artifacts/splits/fold0.json", "--n-boot", "2000", "--out", "research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_CP3_COMPONENT_BOOTSTRAP_R1.json"],
+      ["env", "WNN_SLICE=wnn-campaign.slice", "WNN_CPU_QUOTA=100%", "WNN_THREADS=1", "WNN_MEM_MAX=1500000000", "WNN_RUNTIME_MAX=120s", "TMPDIR=/home/vlad/development/wunder/research_tmp", "scripts/limited", ".venv/bin/python", "scripts/score_fold0_panel.py", "student_f0_warm_s3_alpha0_r1_p3_envr1@ep5", "--reference", "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5", "--split", "research/campaign_2026-09-29/artifacts/splits/fold0.json", "--n-boot", "2000", "--out", "research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_CP5_COMPONENT_BOOTSTRAP_R1.json"]
+    ],
+    "all_commands_exit_code": 0,
+    "score_script_sha256": "0f67ac06cd769a582901b854737528c89e9a7738c3057acf68d7f99eddbfa2d0",
+    "paired_helper_sha256": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+    "evaluation_source_sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "official_metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "resource_observation": {
+    "fresh_root_projection_bytes": 15420000000,
+    "working_target_bytes": 17000000000,
+    "direct_before": {
+      "memory_current_bytes": 9326882816,
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "memory_swap_max_bytes": 0,
+      "cpu_quota_cores": 2,
+      "gpu_utilization_pct": 0,
+      "gpu_memory_used_mib": 75
+    },
+    "direct_after": {
+      "memory_current_bytes": 9345257472,
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "memory_swap_max_bytes": 0,
+      "cpu_quota_cores": 2,
+      "gpu_utilization_pct": 0,
+      "gpu_memory_used_mib": 75
+    },
+    "controller_status_caveat": "A prior bandit_resources status response displayed stale active-attempt/reservation fields. Root verified the relevant user units inactive before this work; direct slice, active-unit and GPU observations were used. No unrelated unit was stopped or reconciled."
+  },
+  "fit_comparability": {
+    "trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6",
+    "initial_checkpoint": "c20261003_combo_s3_f0@ep3",
+    "initial_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "ordered_fit_membership": {
+      "train_groups": 10535,
+      "train_group_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+      "fit_valid_groups": 1405,
+      "fit_valid_group_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "evaluation_groups_excluded_from_fit": 468
+    },
+    "cache_metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+    "cache_sources": [
+      "clean_t3_f0_muonall_h384_e3_s3@epoch2",
+      "clean_t3_f0_muonall_h384_e3_s4@epoch2",
+      "clean_t3_f0_muonall_h384_e3_s5@epoch2"
+    ],
+    "cache_source_coefficients": [0.1, 0.1, 0.1],
+    "same_recipe": "H256x2 GRU, seed3, B16/C2000, FP16 fitting, AdamW, OneCycle six-epoch horizon, LR 1e-4, WD 0.01, same propensity and auxiliary losses, same fit membership/order and normalization buffers. At the same stage, provenance arg diffs are only distill_alpha, unique run name and arm-specific resume-state path.",
+    "treatment": "distill_alpha=0.0 versus 0.9 on the same current homogeneous clean-T3 cache. Both inherit the same previously distilled warm parent; alpha0 is not from-scratch or no-distillation-ever.",
+    "normalization_mean_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+    "normalization_std_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+    "attempted_updates_each_arm": 44760,
+    "amp_skips": {"alpha0": 23, "alpha0_9": 19},
+    "completed_optimizer_updates": {"alpha0": 44737, "alpha0_9": 44741},
+    "sample_order_and_normalization": "History records identical sampler RNG identity and normalization-buffer hashes between arms at each epoch index 0 through 5."
+  },
+  "grades": [
+    {
+      "checkpoint": "CP1 (zero-based epoch index 1; after 2 epochs)",
+      "alpha0": {"wp": 0.6763677295198618, "prediction_sha256": "2da07d300636e973df53d774b32162f0174de47cde10b7e070edf280cfc97bad"},
+      "alpha0_9": {"wp": 0.6803145914572153, "prediction_sha256": "7096b59a11c8795c8e5706b223e6c2c82171b89a952ddcfa0183866d4ab8204a"},
+      "paired_delta_alpha0_minus_alpha0_9": -0.003946861937353274,
+      "conditional_component_ci95": [-0.008452006623398192, -0.00010596454153759677],
+      "receipt": "research/campaign_2026-10-15/student_quality_tradeoff_r1/ALPHA0_CP1_COMPONENT_BOOTSTRAP_R1.json",
+      "receipt_sha256": "f5c37e0a2a8e2a08d7dec8df81e46582aa1a382d8a85fbc455e529b0253c2264"
+    },
+    {
+      "checkpoint": "CP3 (zero-based epoch index 3; after 4 epochs)",
+      "alpha0": {"wp": 0.6722203241749931, "t0": 0.6647958155166288, "t1": 0.6796448328333575, "prediction_sha256": "db6231c6c52729835159d7140fc7f64ff150e270c5777f6f5a17550270742c6b", "grade_sha256": "a89218e138680a9cb4d8c1eb88e840768c517d203a682fa8494c23809e183912"},
+      "alpha0_9": {"wp": 0.680964057445111, "t0": 0.6743143739583931, "t1": 0.6876137409318288, "prediction_sha256": "904bf64812368aeb0ed1d01b0555532d3c65313663acd3f26ed3e302b7ace161", "grade_sha256": "12eac826a638065af06bcae5a34f9dc23af4d130f6f7ca76ff7e1124f4721583"},
+      "paired_delta_alpha0_minus_alpha0_9": -0.008743733270117793,
+      "conditional_component_ci95": [-0.018324834318405897, -0.0014627481125381208],
+      "bootstrap_sd": 0.004427587415526555,
+      "bootstrap_n": 2000,
+      "bootstrap_seed": 271828,
+      "bootstrap_sha256": "89ac36c59f765f917d132ea60851f110950a1abe77e30574b560f60128963a64"
+    },
+    {
+      "checkpoint": "CP5 (zero-based epoch index 5; after 6 epochs; predeclared primary endpoint)",
+      "alpha0": {"wp": 0.666842539444437, "t0": 0.657964571741444, "t1": 0.6757205071474303, "prediction_sha256": "9d024b9c8b9383a7bdf4d1cd989dd7918b5f69ee354044a2be9a274124de3907", "grade_sha256": "01ff9e47ce3a8364e869672c0dd2a4e1687fb32e0904042ee9d0c545e4fa37c8"},
+      "alpha0_9": {"wp": 0.6811553603333363, "t0": 0.6743770243809764, "t1": 0.6879336962856963, "prediction_sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6", "grade_source": "research/campaign_2026-10-15/student_quality_tradeoff_r1/CURRENT_T3_PARENT_PAIRED_GRADE_R1.json", "grade_source_sha256": "e5ac213d8c713aa696bfcb77808035645598dc14ec8ea7aab9fcd747e3141463"},
+      "paired_delta_alpha0_minus_alpha0_9": -0.014312820888899291,
+      "conditional_component_ci95": [-0.03116723150327439, -0.0011220808044165604],
+      "bootstrap_sd": 0.007812443384960627,
+      "bootstrap_n": 2000,
+      "bootstrap_seed": 271828,
+      "bootstrap_sha256": "a8de0525a2459ffb78339dc869a7dd3bfef86263a03c72cfec0ceae05444c619"
+    }
+  ],
+  "interpretation": {
+    "finding": "Alpha0 is lower than alpha0.9 at CP1, CP3, and CP5 on the same repeatedly inspected F0 panel. The fixed CP5 point gap is -0.01431282 WP; its conditional 95% component interval is below zero.",
+    "scope_limit": "The bootstrap resamples the 141 evaluation components conditional on fixed predictions; it does not quantify training-seed variability, restore a fresh holdout, or support a public-transfer forecast. These repeated checkpoint grades are correlated views of one seed/trajectory, not replications.",
+    "bottleneck_implication": "For this already-distilled warm parent, continuing with the current T3 cache at alpha0.9 is better supported than removing that target. This does not identify teacher weakness, student capacity, or a cold-start KD ceiling: both arms share earlier distillation ancestry and the same fixed auxiliary losses. The alpha0 trajectory alone is not a label-only-from-scratch experiment.",
+    "allocation": "Retain the alpha0.9 warm continuation as the better of these two matched arms on exposed F0; do not generalize to other teacher targets, initializers, folds or seeds and do not treat a component interval as a universal kill gate."
+  },
+  "fit_artifact_hashes": {
+    "alpha0_p2_provenance": "e19812ee822dd38a0348132529fdd9dc0ad41438ebf53100162a3e87d0dacec0",
+    "alpha0_p2_history": "dccb5909f0dcc4741e4de0e67c223121d60690aedcb402b9b683ba03d1d150fb",
+    "alpha0_p3_provenance": "a28e9f244d0a6eb0b70095200edd4a2d136121089e9a6d838ebe82d883758d1b",
+    "alpha0_p3_history": "4ee05895da4b9c91a4920dda0f2ba49d33e08136151946fbd165149e4075c357",
+    "alpha0_9_p2_provenance": "3e1781b4ff28053016c8517595e8914dce2ce4d9ab2f88ed679e9c558e83e368",
+    "alpha0_9_p2_history": "7082ce9483d05816e711554e7e468915cd9d9c04b4353fa62d5b59f587f4674b",
+    "alpha0_9_p3_provenance": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+    "alpha0_9_p3_history": "3d424d630f3d342b3dcebe744cf08fbc7094c9b7d10fcd3a9eca7f437ff9d050"
+  }
+}

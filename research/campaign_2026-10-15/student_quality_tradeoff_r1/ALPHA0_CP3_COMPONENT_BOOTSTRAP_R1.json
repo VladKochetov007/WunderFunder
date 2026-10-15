@@ -1,0 +1,71 @@
+{
+ "metric_id": "global_wp_clip2_v1",
+ "created_utc": "2026-10-15T16:30:23.040802+00:00",
+ "candidate": "student_f0_warm_s3_alpha0_r1_p2_envr1@ep3",
+ "candidate_members": [
+  {
+   "run": "student_f0_warm_s3_alpha0_r1_p2_envr1",
+   "epoch": 3,
+   "checkpoint_sha256": "b842faf1187a713d6a435aa364103f053583732bc89e536e11cdfa23845168b8",
+   "prediction_sha256": "db6231c6c52729835159d7140fc7f64ff150e270c5777f6f5a17550270742c6b",
+   "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+   "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+   "inference_precision": "fp32",
+   "weight": 1.0
+  }
+ ],
+ "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+ "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+ "evaluation_groups": 468,
+ "components": 141,
+ "official": {
+  "t0": 0.6647958155166288,
+  "t1": 0.6796448328333575,
+  "wp": 0.6722203241749931,
+  "selected_rows": 808863,
+  "metric_id": "global_wp_clip2_v1"
+ },
+ "exposure": "fold0 excluded-468 panel; repeatedly inspected development evidence, not a public forecast",
+ "contrasts": [
+  {
+   "reference": "clean_t3_f0_control_s3_a9_t3r5_r2_p2_envr1@ep3",
+   "reference_members": [
+    {
+     "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p2_envr1",
+     "epoch": 3,
+     "checkpoint_sha256": "def9c26e7d3d2ebde684a8e80083c88fbe08aaae6d4aa548f6e38f4461270c8c",
+     "prediction_sha256": "904bf64812368aeb0ed1d01b0555532d3c65313663acd3f26ed3e302b7ace161",
+     "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+     "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+     "inference_precision": "fp32",
+     "weight": 1.0
+    }
+   ],
+   "reference_official": {
+    "t0": 0.6743143739583931,
+    "t1": 0.6876137409318288,
+    "wp": 0.680964057445111,
+    "selected_rows": 808863,
+    "metric_id": "global_wp_clip2_v1"
+   },
+   "paired": {
+    "candidate_wp": 0.6722203241749932,
+    "reference_wp": 0.680964057445111,
+    "mean_diff": -0.008743733270117793,
+    "bootstrap_sd": 0.004427587415526555,
+    "ci95": [
+     -0.018324834318405897,
+     -0.0014627481125381208
+    ],
+    "p_le_0": 0.9925,
+    "n_sequences": 468,
+    "n_components": 141,
+    "n_boot": 2000,
+    "seed": 271828,
+    "metric_id": "global_wp_clip2_v1",
+    "centered_moments": true,
+    "selected_rows": 808863
+   }
+  }
+ ]
+}
