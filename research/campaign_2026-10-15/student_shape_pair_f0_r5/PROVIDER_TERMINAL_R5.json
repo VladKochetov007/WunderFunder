@@ -1,0 +1,677 @@
+{
+  "collection_utc": "2026-10-15T17:52:03.081682+00:00",
+  "device_observation": {
+    "devices": [
+      {
+        "index": 0,
+        "name": "Tesla T4",
+        "total_bytes": 16106127360,
+        "used_bytes": 0,
+        "uuid": "GPU-36a34806-75ad-8eb5-1776-68111a8efb8f"
+      },
+      {
+        "index": 1,
+        "name": "Tesla T4",
+        "total_bytes": 16106127360,
+        "used_bytes": 0,
+        "uuid": "GPU-fd0a50b7-87d5-23ec-ce4a-3d778e641cbf"
+      }
+    ],
+    "peak_worker_gpu_bytes": 3145728,
+    "peak_worker_ram_bytes": 683483136,
+    "telemetry_scope": "Two T4 workers were launched concurrently; watchdog samples do not prove training progress or exact peak device allocation."
+  },
+  "diagnosis": {
+    "exception": "ValueError: cache file escapes the registered cache root: main_homogeneous_train",
+    "external_mount_target": "/kaggle/input/datasets/vladkochetov07/wnn-clean-t3-f0-treatment-assets-20261012-r22/pair_r2_main_homogeneous_train.npy",
+    "registered_cache_root": "/kaggle/working/experiment/cache/clean_t3_f0_h390_t3r5_a9_r2",
+    "worker_logs": {
+      "h256l2_sha256": "d0bb78c36f292d5df94118da5713b47d313c85c94152bdeb53b81ff88a6084b5",
+      "h512l1_sha256": "d0bb78c36f292d5df94118da5713b47d313c85c94152bdeb53b81ff88a6084b5"
+    }
+  },
+  "exact_kernel_status": {
+    "ref": "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1-runner",
+    "state": "ERROR",
+    "status": "KernelWorkerStatus.ERROR"
+  },
+  "kernel_id": "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1-runner",
+  "kernel_identity": {
+    "enable_gpu": false,
+    "last_run_time": "2026-10-15 17:42:50.363000",
+    "private": false,
+    "ref": "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1-runner",
+    "title": "wnn-f0-student-shape-t4-profile-20261015-r1 runner"
+  },
+  "kernel_version": 3,
+  "outer_runner_log": {
+    "bytes": 12119,
+    "max_recorded_monotonic_seconds": 374.191675762,
+    "path": "/home/vlad/development/wunder/worktrees/student-shape-pair-kaggle-r1-20261015/private_assets/download_student_shape_t4_r5_v3terminal_20261015/wnn-f0-student-shape-t4-profile-20261015-r1-runner.log",
+    "sha256": "f1eef2702ee9cd0bf88e80a9ab3e8c68fcaf835a4e7dd41c673f0b86305253da"
+  },
+  "profile_execution_scope": {
+    "concurrency_admitted": 2,
+    "expected_optimizer_attempts_each": 50,
+    "jobs": [
+      "student_pair_t4_profile_f0s3_h256_l2_r2",
+      "student_pair_t4_profile_f0s3_h512_l1_r2"
+    ],
+    "optimizer_attempts_completed": 0,
+    "outer_deadline_seconds": 1800,
+    "reason_zero_completed": "both workers failed in strict cache-path validation before the first optimizer update"
+  },
+  "provider_action_performed": true,
+  "provider_last_run_time": "2026-10-15 17:42:50.363000",
+  "qualification": "The exact v3 output was collected after version-qualified ERROR. The failure is in strict cache validation, not evidence against either architecture. R4/R5 bootstrap allowlist issue is fixed; this is a later distillation-cache path containment issue.",
+  "quality_claim": "None. No optimizer updates, profile rates, model artifacts, predictions, or quality measurements were produced.",
+  "quota_after_terminal": {
+    "gpu": {
+      "remaining_seconds": 21384.720063999994,
+      "time_reserved_seconds": 0.0,
+      "time_used_seconds": 86615.279936,
+      "total_time_allowed_seconds": 108000.0
+    },
+    "interpretation": "Record the typed quota delta against the immediate pre-push snapshot; whether provider accounting follows session wall time or sums concurrent T4 worker time remains unproven.",
+    "preflight_gpu_remaining_seconds": 21943.622000000003,
+    "refresh_time": "2026-10-17T00:00:00",
+    "remaining_delta_seconds": 558.9019360000093,
+    "tpu": {
+      "remaining_seconds": 71432.803,
+      "time_reserved_seconds": 0.0,
+      "time_used_seconds": 567.197,
+      "total_time_allowed_seconds": 72000.0
+    }
+  },
+  "schema": "wnn.student-shape-pair-provider-terminal.r5",
+  "source_dataset_version": 3,
+  "source_manifest_sha256": "cba7f403c710d744dbb80757e10435efa4d96fb5c8595edf7a82d5e44d1bc9f2",
+  "status": "terminal_infrastructure_failure_before_training_cache_validation",
+  "terminal_output": {
+    "directory": "/home/vlad/development/wunder/worktrees/student-shape-pair-kaggle-r1-20261015/private_assets/download_student_shape_t4_r5_v3terminal_20261015",
+    "exit_code": 0,
+    "file_count": 86,
+    "files": [
+      {
+        "bytes": 21626,
+        "path": "experiment/artifacts/runs/c20260929_prop_f0/provenance.json",
+        "sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812"
+      },
+      {
+        "bytes": 14948,
+        "path": "experiment/kaggle_specs/student_pair_t4_profile_f0s3_h256_l2_r2.json",
+        "sha256": "b87f37147a391e53d38c4b8ad215d4ac3cbd4fa519cbbf10d42d333e1910e299"
+      },
+      {
+        "bytes": 14948,
+        "path": "experiment/kaggle_specs/student_pair_t4_profile_f0s3_h512_l1_r2.json",
+        "sha256": "31f48080695e23c93f00174d855461be25cc2c91a4b222649e26bad68a011616"
+      },
+      {
+        "bytes": 190323,
+        "path": "experiment/research/campaign_2026-10-15/student_shape_pair_f0_r1/CPU_STUDENT_SHAPE_PAIR_F0_SEED3_B16_C2000_FP16_3E_R1_CONTRACT.json",
+        "sha256": "815fe98fdecfafec84e4f5f4800aabb9b06bcf8dcfdff5efec057ddb1723363d"
+      },
+      {
+        "bytes": 5194,
+        "path": "experiment/scripts/kaggle_common.py",
+        "sha256": "d9765e5484a86f65b0089982265ad5456b4a500995280b552023160741e7403e"
+      },
+      {
+        "bytes": 23034,
+        "path": "experiment/scripts/kaggle_gpu_runner.py",
+        "sha256": "ff95040cf4f964f3a7c86067a4603660bf80a5468ab71445ce7fcd36482fa9da"
+      },
+      {
+        "bytes": 9778,
+        "path": "experiment/scripts/kaggle_kernel.py",
+        "sha256": "3dc0e6aa436787b20c506c718b980964068ddb514e9dabfd06cdfeece165db6f"
+      },
+      {
+        "bytes": 211359,
+        "path": "experiment/scripts/train_rnn.py",
+        "sha256": "4c0d32a4ca644add3be39bfed16f653e6f9710dc852c0c63648da20bfb0165f3"
+      },
+      {
+        "bytes": 63,
+        "path": "experiment/src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+      },
+      {
+        "bytes": 11302,
+        "path": "experiment/src/wnn/activation_qat.py",
+        "sha256": "b951d103791178ba3b1be300349517d2f467d1e499da67078eff941d1cc02da4"
+      },
+      {
+        "bytes": 34735,
+        "path": "experiment/src/wnn/bandit_campaign_recipe.py",
+        "sha256": "883bc6415345ec5e4deff56be13fc0ae0be8791702e999898dfdb3557a5a6374"
+      },
+      {
+        "bytes": 20040,
+        "path": "experiment/src/wnn/blend_optimization.py",
+        "sha256": "5b24cff7cf05feb7dafb6b167dd64ca32ca72a7ab0f852e0ef5ef0ba3903e8f5"
+      },
+      {
+        "bytes": 6009,
+        "path": "experiment/src/wnn/block_memory_attention.py",
+        "sha256": "a05c04d49f258d808ddb4fc4f7373a7bef57963050619f96698822e61840cc39"
+      },
+      {
+        "bytes": 20774,
+        "path": "experiment/src/wnn/campaign.py",
+        "sha256": "35dd701fdb33c50494a3c781a315731212da22f41cae331f2f85073af0637605"
+      },
+      {
+        "bytes": 24324,
+        "path": "experiment/src/wnn/campaign_local.py",
+        "sha256": "0213ff7a809ce898be5d3180c15e31d228ad6f3f03f1f08fd968f9186e91353d"
+      },
+      {
+        "bytes": 10370,
+        "path": "experiment/src/wnn/campaign_spec.py",
+        "sha256": "5cbc0bc02e935a92038af90410cb50bf45c40fd138146fa8d9636e12e2f5d335"
+      },
+      {
+        "bytes": 9120,
+        "path": "experiment/src/wnn/conditional_readout.py",
+        "sha256": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426"
+      },
+      {
+        "bytes": 4000,
+        "path": "experiment/src/wnn/data.py",
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      {
+        "bytes": 7875,
+        "path": "experiment/src/wnn/distillation.py",
+        "sha256": "5d68b03204b9413d2412533a7aa75ae0759276dacbbed4035b846da1d38350e2"
+      },
+      {
+        "bytes": 14779,
+        "path": "experiment/src/wnn/distillation_cache.py",
+        "sha256": "008fd6615ac5b627273f419072933cb95dc85fcd6c30eaffd6f1fb2df53ab0eb"
+      },
+      {
+        "bytes": 6802,
+        "path": "experiment/src/wnn/domain_stress.py",
+        "sha256": "d6f7ac1ce7c96b8095d53de91ae862f3fee2fbcb76d1e2e84cd5302f7af9ff31"
+      },
+      {
+        "bytes": 8080,
+        "path": "experiment/src/wnn/evaluation.py",
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+      },
+      {
+        "bytes": 7226,
+        "path": "experiment/src/wnn/event_content.py",
+        "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd"
+      },
+      {
+        "bytes": 5421,
+        "path": "experiment/src/wnn/features.py",
+        "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee"
+      },
+      {
+        "bytes": 27279,
+        "path": "experiment/src/wnn/final_distillation_cache.py",
+        "sha256": "d649fe87a7ee2da53d60fa0350aa8a95cdf1b5046fd128e35814e199a37d82af"
+      },
+      {
+        "bytes": 8902,
+        "path": "experiment/src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      },
+      {
+        "bytes": 9025,
+        "path": "experiment/src/wnn/heuristics.py",
+        "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e"
+      },
+      {
+        "bytes": 2686,
+        "path": "experiment/src/wnn/infer.py",
+        "sha256": "585186c19bfde76e88cc46ca2bf23793edbd162a8a3e0f6ce684294c02e92bb5"
+      },
+      {
+        "bytes": 3972,
+        "path": "experiment/src/wnn/initializer_training.py",
+        "sha256": "8244bab83bd613dd227eb727a692600954ecbf6c428bbbb82db3b92d83f30566"
+      },
+      {
+        "bytes": 2624,
+        "path": "experiment/src/wnn/markov.py",
+        "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2"
+      },
+      {
+        "bytes": 4806,
+        "path": "experiment/src/wnn/metric.py",
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc"
+      },
+      {
+        "bytes": 8292,
+        "path": "experiment/src/wnn/min_gru.py",
+        "sha256": "4d9ec093d0714065f4e685d3b60ef701f640ca9e03b3e4ee8650081a99397057"
+      },
+      {
+        "bytes": 23729,
+        "path": "experiment/src/wnn/nn.py",
+        "sha256": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      {
+        "bytes": 9598,
+        "path": "experiment/src/wnn/numeric_ple.py",
+        "sha256": "229a7e0f032cd65bbf6700fa9372c08016b20e4719cb2f9eddd540ff8c468720"
+      },
+      {
+        "bytes": 3626,
+        "path": "experiment/src/wnn/online_dynamics.py",
+        "sha256": "15276c6879f770dcbb89f3dd7b10f916b7db7790f5564c7ca5fd690f25c2722b"
+      },
+      {
+        "bytes": 12170,
+        "path": "experiment/src/wnn/optim.py",
+        "sha256": "549831f55be352c46d740a46e73386d41db8a8c2247b4a6d3f646177bd3cdd97"
+      },
+      {
+        "bytes": 4538,
+        "path": "experiment/src/wnn/outcomes.py",
+        "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75"
+      },
+      {
+        "bytes": 2239,
+        "path": "experiment/src/wnn/portability.py",
+        "sha256": "a35f84ee5c95fd45cd76aa5f34f7013c8e1c5963a6306b0e4049386515589a44"
+      },
+      {
+        "bytes": 6608,
+        "path": "experiment/src/wnn/privileged.py",
+        "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4"
+      },
+      {
+        "bytes": 1404,
+        "path": "experiment/src/wnn/propensity.py",
+        "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d"
+      },
+      {
+        "bytes": 9543,
+        "path": "experiment/src/wnn/quantization.py",
+        "sha256": "fbca8fff8af5ae488eea2c2b53e304fd3620fdaf32f1f213ac499378b0261298"
+      },
+      {
+        "bytes": 16030,
+        "path": "experiment/src/wnn/quantization_export.py",
+        "sha256": "06347fec1955af937285c2751694dfc395d4f7c48d673803190ce85e3f8dce90"
+      },
+      {
+        "bytes": 29658,
+        "path": "experiment/src/wnn/research_features.py",
+        "sha256": "bd7ad95ffcd8201030292dd404d2ff84695f28a9517308c789daf702902b8449"
+      },
+      {
+        "bytes": 6047,
+        "path": "experiment/src/wnn/resources.py",
+        "sha256": "0b6280130a480f5547552df83cc4a15e7cfe88ad04498ca11c2ab2d54bb428e9"
+      },
+      {
+        "bytes": 4488,
+        "path": "experiment/src/wnn/run_identity.py",
+        "sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76"
+      },
+      {
+        "bytes": 8603,
+        "path": "experiment/src/wnn/sentinel.py",
+        "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec"
+      },
+      {
+        "bytes": 8550,
+        "path": "experiment/src/wnn/sentinel_calibration.py",
+        "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599"
+      },
+      {
+        "bytes": 12064,
+        "path": "experiment/src/wnn/specialist.py",
+        "sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400"
+      },
+      {
+        "bytes": 9000,
+        "path": "experiment/src/wnn/splits.py",
+        "sha256": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe"
+      },
+      {
+        "bytes": 7553,
+        "path": "experiment/src/wnn/spread_aux.py",
+        "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512"
+      },
+      {
+        "bytes": 8827,
+        "path": "experiment/src/wnn/state_initialization.py",
+        "sha256": "6bf8105e94b0830421f2a9b04ad82369a58c2bfeb9c5c525e3eceb793304d256"
+      },
+      {
+        "bytes": 5621,
+        "path": "experiment/src/wnn/streaming.py",
+        "sha256": "b93c6dbfa35daa1bc01d5daefc4cc6f7ea3da1f0e0b8d102b2c60abae5e65823"
+      },
+      {
+        "bytes": 9963,
+        "path": "experiment/src/wnn/structured_state.py",
+        "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756"
+      },
+      {
+        "bytes": 26091,
+        "path": "experiment/src/wnn/student_frontier.py",
+        "sha256": "caca6b0019f21286767112b77719a280b9409833b5c4b625bd9c14c5736397d0"
+      },
+      {
+        "bytes": 3405,
+        "path": "experiment/src/wnn/student_frontier_order.py",
+        "sha256": "6be4ab23547c38cc1373ac8a3ba0f5cb8f7a7cbd989cc924f965aa25d3dbc9ba"
+      },
+      {
+        "bytes": 11386,
+        "path": "experiment/src/wnn/symreg.py",
+        "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849"
+      },
+      {
+        "bytes": 3511,
+        "path": "experiment/src/wnn/tcn_ref.py",
+        "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa"
+      },
+      {
+        "bytes": 4946,
+        "path": "experiment/src/wnn/ticks.py",
+        "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8"
+      },
+      {
+        "bytes": 2694,
+        "path": "experiment/src/wnn/training_calibration.py",
+        "sha256": "30923120c1bd9773556556ee0fbbab5d8db4a5f4232c48b81f11fa87a5e74e52"
+      },
+      {
+        "bytes": 10695,
+        "path": "experiment/src/wnn/training_controls.py",
+        "sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39"
+      },
+      {
+        "bytes": 2225,
+        "path": "experiment/src/wnn/training_credit.py",
+        "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd"
+      },
+      {
+        "bytes": 14972,
+        "path": "experiment/src/wnn/training_dynamics.py",
+        "sha256": "041e3afdf11b064ba35b6ee021116789c6222a4c73a992ea1398ad69f65c0463"
+      },
+      {
+        "bytes": 7615,
+        "path": "experiment/src/wnn/training_factorized.py",
+        "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2"
+      },
+      {
+        "bytes": 19765,
+        "path": "experiment/src/wnn/training_qat.py",
+        "sha256": "65d770f1ee5bc4cb5b88d7e1b42d63eb77fae4704010f0b263966e0de58578e2"
+      },
+      {
+        "bytes": 6540,
+        "path": "experiment/src/wnn/training_sampling.py",
+        "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2"
+      },
+      {
+        "bytes": 8689,
+        "path": "experiment/src/wnn/training_state.py",
+        "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+      },
+      {
+        "bytes": 6979,
+        "path": "experiment/src/wnn/training_trace.py",
+        "sha256": "d131642efb2295ec37e1e5455a5573980fb541def918eb97db65f1f7bdc867be"
+      },
+      {
+        "bytes": 3065,
+        "path": "experiment/src/wnn/training_views.py",
+        "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142"
+      },
+      {
+        "bytes": 3732,
+        "path": "experiment/src/wnn/twoclock_ref.py",
+        "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44"
+      },
+      {
+        "bytes": 4297,
+        "path": "experiment/src/wnn/viz.py",
+        "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5"
+      },
+      {
+        "bytes": 785,
+        "path": "results/heartbeat.json",
+        "sha256": "48253ad62a61a1af9b22810cf1051880a86e28bed8b5d7fcba86482a102557df"
+      },
+      {
+        "bytes": 1085,
+        "path": "results/inventory.json",
+        "sha256": "3f1285617cf36d17e7f0ef1e5d163deeef711f48303c09e1daf37815fa779ef8"
+      },
+      {
+        "bytes": 447,
+        "path": "results/student_pair_t4_profile_f0s3_h256_l2_r2/result.json",
+        "sha256": "2308a9450a65ed71a061ddbc103c23af1fd5aef518c61c36e651437786dbe972"
+      },
+      {
+        "bytes": 18018,
+        "path": "results/student_pair_t4_profile_f0s3_h256_l2_r2/spec.json",
+        "sha256": "2162da84939c75b0d577b98906fd548498cd9578a7fcfe07179f0e68145c6d14"
+      },
+      {
+        "bytes": 308,
+        "path": "results/student_pair_t4_profile_f0s3_h256_l2_r2/timeout_resolution.json",
+        "sha256": "40cbe5c3afdc799447105b5de6360ba1f3283ebc41157f4a71f5a0c31b5cfcd8"
+      },
+      {
+        "bytes": 1332,
+        "path": "results/student_pair_t4_profile_f0s3_h256_l2_r2/worker.log",
+        "sha256": "d0bb78c36f292d5df94118da5713b47d313c85c94152bdeb53b81ff88a6084b5"
+      },
+      {
+        "bytes": 33047,
+        "path": "results/student_pair_t4_profile_f0s3_h256_l2_r2.input_identity.json",
+        "sha256": "84abb232a819ea70b87e46d5e7bb7469b899c61aef3118a5834c246d11914d0c"
+      },
+      {
+        "bytes": 239,
+        "path": "results/student_pair_t4_profile_f0s3_h512_l1_r2/failure.json",
+        "sha256": "80eea746c13dbc4d5c051f115480981d0060795e0df96926f97005a483bc29ee"
+      },
+      {
+        "bytes": 18018,
+        "path": "results/student_pair_t4_profile_f0s3_h512_l1_r2/spec.json",
+        "sha256": "eb541b843f63ed30993517b89ad7c723c5f52d1eefed6f97a1affadf5a84c46b"
+      },
+      {
+        "bytes": 308,
+        "path": "results/student_pair_t4_profile_f0s3_h512_l1_r2/timeout_resolution.json",
+        "sha256": "d0fd8bb01462fc35c0b44ed229139853763a2771c30887448e6a13924a9d17a9"
+      },
+      {
+        "bytes": 1332,
+        "path": "results/student_pair_t4_profile_f0s3_h512_l1_r2/worker.log",
+        "sha256": "d0bb78c36f292d5df94118da5713b47d313c85c94152bdeb53b81ff88a6084b5"
+      },
+      {
+        "bytes": 33047,
+        "path": "results/student_pair_t4_profile_f0s3_h512_l1_r2.input_identity.json",
+        "sha256": "84abb232a819ea70b87e46d5e7bb7469b899c61aef3118a5834c246d11914d0c"
+      },
+      {
+        "bytes": 818,
+        "path": "results/summary.json",
+        "sha256": "5a17aa5cccf1ac3b1388652cb4e8290b7175de5cb850536a775f9ddc9105d2b5"
+      },
+      {
+        "bytes": 18018,
+        "path": "runtime_specs/student_pair_t4_profile_f0s3_h256_l2_r2.json",
+        "sha256": "2162da84939c75b0d577b98906fd548498cd9578a7fcfe07179f0e68145c6d14"
+      },
+      {
+        "bytes": 18018,
+        "path": "runtime_specs/student_pair_t4_profile_f0s3_h512_l1_r2.json",
+        "sha256": "eb541b843f63ed30993517b89ad7c723c5f52d1eefed6f97a1affadf5a84c46b"
+      },
+      {
+        "bytes": 12119,
+        "path": "wnn-f0-student-shape-t4-profile-20261015-r1-runner.log",
+        "sha256": "f1eef2702ee9cd0bf88e80a9ab3e8c68fcaf835a4e7dd41c673f0b86305253da"
+      }
+    ],
+    "total_bytes": 1247121,
+    "version_qualified_output_command": [
+      "kaggle",
+      "kernels",
+      "output",
+      "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1-runner/3",
+      "-p",
+      "/home/vlad/development/wunder/worktrees/student-shape-pair-kaggle-r1-20261015/private_assets/download_student_shape_t4_r5_v3terminal_20261015",
+      "-q"
+    ]
+  },
+  "version_qualified_status_command": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle",
+    "kernels",
+    "status",
+    "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1-runner/3"
+  ],
+  "version_qualified_status_stderr": "",
+  "version_qualified_status_stdout": "vladkochetov07/wnn-f0-student-shape-t4-profile-20261015-r1-runner/3 has status \"KernelWorkerStatus.ERROR\"",
+  "worker_outcomes": {
+    "h256l2": {
+      "artifacts": {
+        "files": [],
+        "missing": []
+      },
+      "device": {
+        "index": 0,
+        "name": "Tesla T4",
+        "total_bytes": 16106127360,
+        "used_bytes": 0,
+        "uuid": "GPU-36a34806-75ad-8eb5-1776-68111a8efb8f"
+      },
+      "name": "student_pair_t4_profile_f0s3_h256_l2_r2",
+      "peak_gpu_bytes": 3145728,
+      "peak_ram_bytes": 680067072,
+      "returncode": 1,
+      "status": "failed",
+      "wall_seconds": 335.476027776,
+      "worker_timeout_seconds": 600
+    },
+    "h512l1_failure": {
+      "artifacts": {
+        "files": [],
+        "missing": []
+      },
+      "incident": "RuntimeError: Worker failed: student_pair_t4_profile_f0s3_h256_l2_r2",
+      "peak_gpu_bytes": 3145728,
+      "peak_ram_bytes": 683483136,
+      "worker_timeout_seconds": 600
+    },
+    "heartbeat": {
+      "active": [
+        {
+          "elapsed_seconds": 332.307,
+          "gpu_index": 0,
+          "gpu_uuid": "GPU-36a34806-75ad-8eb5-1776-68111a8efb8f",
+          "name": "student_pair_t4_profile_f0s3_h256_l2_r2",
+          "peak_gpu_bytes": 3145728,
+          "peak_ram_bytes": 587702272,
+          "worker_timeout_seconds": 600
+        },
+        {
+          "elapsed_seconds": 302.207,
+          "gpu_index": 1,
+          "gpu_uuid": "GPU-fd0a50b7-87d5-23ec-ce4a-3d778e641cbf",
+          "name": "student_pair_t4_profile_f0s3_h512_l1_r2",
+          "peak_gpu_bytes": 3145728,
+          "peak_ram_bytes": 592728064,
+          "worker_timeout_seconds": 600
+        }
+      ],
+      "event": "campaign_resource_heartbeat",
+      "finished": [],
+      "not_started": [],
+      "scope": "measured worker resource activity; not proof of epoch progress or scientific success"
+    },
+    "inventory": {
+      "devices": [
+        {
+          "index": 0,
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0,
+          "uuid": "GPU-36a34806-75ad-8eb5-1776-68111a8efb8f"
+        },
+        {
+          "index": 1,
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0,
+          "uuid": "GPU-fd0a50b7-87d5-23ec-ce4a-3d778e641cbf"
+        }
+      ],
+      "host": {
+        "affinity": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "available_bytes": 32138772480,
+        "capacity_bytes": 32212254720,
+        "cgroup_active_file_bytes": 12476416,
+        "cgroup_anon_bytes": 41705472,
+        "cgroup_current_bytes": 73482240,
+        "cgroup_file_bytes": 27697152,
+        "cgroup_free_bytes": 32138772480,
+        "cgroup_headroom_known": true,
+        "cgroup_inactive_file_bytes": 15147008,
+        "cgroup_limit_bytes": 32212254720,
+        "cgroup_shmem_bytes": 0,
+        "mem_available_bytes": 32509259776,
+        "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+        "versions": {
+          "numpy": "2.1.3",
+          "psutil": "5.9.5",
+          "pyarrow": "23.0.1",
+          "torch": "2.11.0+cu128"
+        }
+      }
+    },
+    "summary": {
+      "concurrency_admitted": 2,
+      "finished": [
+        {
+          "artifacts": {
+            "files": [],
+            "missing": []
+          },
+          "device": {
+            "index": 0,
+            "name": "Tesla T4",
+            "total_bytes": 16106127360,
+            "used_bytes": 0,
+            "uuid": "GPU-36a34806-75ad-8eb5-1776-68111a8efb8f"
+          },
+          "name": "student_pair_t4_profile_f0s3_h256_l2_r2",
+          "peak_gpu_bytes": 3145728,
+          "peak_ram_bytes": 680067072,
+          "returncode": 1,
+          "status": "failed",
+          "wall_seconds": 335.476027776,
+          "worker_timeout_seconds": 600
+        }
+      ],
+      "incident": "RuntimeError: Worker failed: student_pair_t4_profile_f0s3_h256_l2_r2",
+      "limitation": "GPU/RSS external watchdog is sampled; it is not a provider cgroup hard cap",
+      "not_started": [],
+      "watchdog_interval_seconds": 0.25
+    }
+  }
+}

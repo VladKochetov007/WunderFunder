@@ -1,0 +1,33 @@
+{
+  "failures": [
+    {
+      "error": "The helper expected bootstrap_outer_deadline_seconds in SOURCE_BINDING_R5; the reviewed value is in GENERATED_KERNEL_SEAL_R5.kernel.outer_deadline_seconds.",
+      "outcome": "failed_before_provider_call",
+      "phase": "frozen_source_check"
+    },
+    {
+      "error": "The helper expected kernel_metadata_sha256 in GENERATED_KERNEL_SEAL_R5; R5 reuses the metadata byte-identically from the reviewed R4 bundle and the seal binds kernel code bytes.",
+      "outcome": "failed_before_provider_call",
+      "phase": "frozen_source_check"
+    },
+    {
+      "error": "The helper expected R5_BUNDLE_BUILD.manifest_sha256; the producer receipt field is r5_bundle_manifest_sha256.",
+      "outcome": "failed_before_provider_call",
+      "phase": "frozen_source_check"
+    },
+    {
+      "error": "The helper compared remote dataset_sources ordering to local metadata ordering. All values match as a sorted set; this was order-only. Exact v2 private/READY status, source files, remote code hash and private GPU-only metadata checks had passed before this comparison.",
+      "metadata_readback_path": "private_assets/readback_student_shape_t4_r5_source-version_20261015T173942Z/kernel-metadata.json",
+      "metadata_sha256": "31594b33a446438a3558600a14b711c67065ed2aee624bfedcd79af0f9f9d199",
+      "outcome": "failed_before_quota_and_before_receipt",
+      "phase": "read_only_provider_preflight",
+      "sorted_dataset_sources_match": true
+    }
+  ],
+  "provider_action_performed": false,
+  "qualification": "These are actor-side preflight tooling defects only. They are not cache, profile, model, or quality evidence.",
+  "resolution": "Per controller instruction, the helper was retired rather than expanded. A compact source-version receipt was made from the already-proven R3 exact Kaggle SDK calls; all provider mutations used separate passing source-version and kernel-push receipts.",
+  "schema": "wnn.student-shape-pair-local-preflight-tooling-diagnostic.r1",
+  "scope": "A temporary R5-specific provider-preflight helper was attempted, but did not complete its gate and was not used for any provider mutation. The source version and kernel push used the reviewed R3 exact-provider primitives directly.",
+  "status": "retired_before_provider_action"
+}
