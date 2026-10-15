@@ -46,4 +46,4 @@ OUTPUT="$WT/research/campaign_2026-10-14/cpu_student_frontier_r1/profiles/INITIA
   --data-root "$MAIN" --contract "$CONTRACT" --output "$OUTPUT" --execute
 ```
 
-This command is an unlaunched handoff to root. It spends no GPU allocation until the reviewer and root explicitly clear the source and runtime bounds.
+The command above was admitted by root as `student-initializer-profile-f0s3-h256l2-b1-c2000-fp32-r3` and completed successfully. The [R3 terminal record](terminal_r3_r1/README.md) preserves exact resource measurements and output hashes. This remains a resource-only smoke. The concrete native C++ gate has not yet run, and no initializer subset fit, full-panel prediction or quality comparison is authorized by this result.
