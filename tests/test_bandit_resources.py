@@ -10,7 +10,9 @@ import pytest
 from scripts import bandit_resources as resources
 
 
-def test_manifest_binds_actual_controller_helper_with_separate_scientific_root(tmp_path: Path) -> None:
+def test_manifest_binds_actual_controller_helper_with_separate_scientific_root(
+    tmp_path: Path,
+) -> None:
     root = tmp_path / "scientific_source"
     (root / "scripts").mkdir(parents=True)
     script = root / "scripts/train.py"
@@ -77,7 +79,11 @@ def worker_workspace(
 
 
 def prepare_worker_observers(
-    monkeypatch: pytest.MonkeyPatch, group: str, *, gpu_reads: list[int | Exception] | None = None
+    monkeypatch: pytest.MonkeyPatch,
+    group: str,
+    *,
+    gpu_reads: list[int | Exception] | None = None,
+    gpu_devices: list[str] | None = None,
 ) -> None:
     parent = parent_properties()
     monkeypatch.setattr(resources, "parent_properties", lambda: parent)
@@ -113,7 +119,9 @@ def prepare_worker_observers(
     if gpu_reads is not None:
         results = iter(gpu_reads)
 
-        def gpu_memory() -> int:
+        def gpu_memory(device: str = "0") -> int:
+            if gpu_devices is not None:
+                gpu_devices.append(device)
             value = next(results)
             if isinstance(value, Exception):
                 raise value
@@ -349,6 +357,65 @@ def test_launch_preflight_excludes_its_own_unresolved_record(
     assert "MemoryMax=1000000000" in launch_commands[0]
 
 
+def test_gpu_launch_records_and_passes_selected_device_uuid(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = tmp_path / "repo"
+    (root / "scripts").mkdir(parents=True)
+    (root / "scripts" / "limited").write_text("#!/bin/sh\n", encoding="utf-8")
+    contract = tmp_path / "CONTRACT.md"
+    contract.write_text("frozen test contract\n", encoding="utf-8")
+    state = tmp_path / "runtime"
+    device = "GPU-12345678-abcd-1234-abcd-1234567890ab"
+    observed_devices: list[str] = []
+    monkeypatch.setattr(resources, "verify_controller_membership", lambda: None)
+    monkeypatch.setattr(resources, "parent_properties", parent_properties)
+    monkeypatch.setattr(resources, "verify_parent_membership", lambda *_args: None)
+    monkeypatch.setattr(resources, "memory_current", lambda _group: 1_000_000_000)
+    monkeypatch.setattr(
+        resources,
+        "memory_events",
+        lambda _group, **_kwargs: {"oom": 0, "oom_kill": 0, "oom_group_kill": 0},
+    )
+    monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
+    monkeypatch.setattr(
+        resources,
+        "gpu_memory_bytes",
+        lambda selected: observed_devices.append(selected) or 100_000_000,
+    )
+    launch_commands: list[list[str]] = []
+
+    def capture_launch(command: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
+        launch_commands.append(command)
+        return subprocess.CompletedProcess(command, 0, "", "")
+
+    monkeypatch.setattr(resources.subprocess, "run", capture_launch)
+    args = argparse.Namespace(
+        attempt="computer-vision-homework-r4",
+        kind="gpu",
+        gpu_device=device,
+        cpus=1,
+        reserve_bytes=1_000_000_000,
+        admission_timeout=5,
+        command=["python", "-c", "pass"],
+        contract=contract,
+        state=state,
+        root=root,
+        python="python",
+        profile="smoke",
+    )
+
+    launched = resources.launch(args)
+
+    record = resources.read_json(resources.attempt_path(state, args.attempt))
+    assert launched["status"] == "reserved"
+    assert record["gpu_device"] == device
+    assert record["initial_observed_vram_bytes"] == 100_000_000
+    assert observed_devices == [device]
+    assert f"--setenv=CUDA_VISIBLE_DEVICES={device}" in launch_commands[0]
+    assert f"--setenv=WNN_GPU_DEVICE={device}" in launch_commands[0]
+
+
 def test_another_unresolved_attempt_still_blocks_admission(tmp_path: Path) -> None:
     state = tmp_path / "state"
     own = attempt_record("own", cpus=1, ram_bytes=1_000_000_000)
@@ -402,6 +469,7 @@ def test_gpu_service_is_directly_bounded_under_campaign_parent(
     assert "OOMPolicy=continue" in command
     assert "KillMode=control-group" in command
     assert "--setenv=CUDA_VISIBLE_DEVICES=0" in command
+    assert "--setenv=WNN_GPU_DEVICE=0" in command
     assert "--setenv=WNN_GPU_MEMORY_RESERVE_BYTES=1000000000" in command
     assert not any(
         arg.startswith(("--setenv=WNN_GPU_MEMORY_BYTES=", "--setenv=WNN_VRAM_GB="))
@@ -414,6 +482,86 @@ def test_gpu_service_is_directly_bounded_under_campaign_parent(
         tmp_path, tmp_path / "runtime", "fit_s4", "gpu", 2, 8_000_000_000, "python", 900
     )
     assert "--setenv=WNN_GPU_MEMORY_RESERVE_BYTES=600000000" in command
+
+
+def test_gpu_service_inherits_one_selected_uuid(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    device = "GPU-12345678-abcd-1234-abcd-1234567890ab"
+    command = resources.service_command(
+        tmp_path,
+        tmp_path / "runtime",
+        "computer-vision-homework-r4",
+        "gpu",
+        1,
+        2_000_000_000,
+        "python",
+        900,
+        device,
+    )
+
+    assert "--unit=wnn-bandit-computer-vision-homework-r4.service" in command
+    assert f"--setenv=CUDA_VISIBLE_DEVICES={device}" in command
+    assert f"--setenv=WNN_GPU_DEVICE={device}" in command
+
+
+@pytest.mark.parametrize(
+    ("value", "expected"),
+    [
+        (None, "0"),
+        ("0", "0"),
+        ("6", "6"),
+        ("GPU-12345678-abcd-1234-abcd-1234567890ab", "GPU-12345678-abcd-1234-abcd-1234567890ab"),
+    ],
+)
+def test_gpu_selector_accepts_one_index_or_full_uuid(value: str | None, expected: str) -> None:
+    assert resources.validate_gpu_device(value) == expected
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        "",
+        "-1",
+        "0,1",
+        "GPU-12345678-abcd-1234-abcd-1234567890ab,GPU-12345678-abcd-1234-abcd-1234567890ac",
+        "GPU-1234",
+        "0 1",
+    ],
+)
+def test_gpu_selector_rejects_malformed_or_multiple_devices(value: str) -> None:
+    with pytest.raises(ValueError, match="one NVIDIA"):
+        resources.validate_gpu_device(value)
+
+
+def test_gpu_memory_observer_queries_only_the_selected_uuid(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    device = "GPU-12345678-abcd-1234-abcd-1234567890ab"
+    observed_commands: list[list[str]] = []
+
+    def show(command: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
+        observed_commands.append(command)
+        return subprocess.CompletedProcess(command, 0, "4096\n", "")
+
+    monkeypatch.setattr(resources.subprocess, "run", show)
+
+    assert resources.gpu_memory_bytes(device) == 4097 * 1024**2
+    assert f"--id={device}" in observed_commands[0]
+    assert "--query-gpu=memory.used" in observed_commands[0]
+
+
+def test_gpu_memory_observer_rejects_multi_device_output(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        resources.subprocess,
+        "run",
+        lambda command, **_kwargs: subprocess.CompletedProcess(command, 0, "4096\n8192\n", ""),
+    )
+
+    with pytest.raises(RuntimeError, match="unparseable nvidia-smi"):
+        resources.gpu_memory_bytes("GPU-12345678-abcd-1234-abcd-1234567890ab")
 
 
 @pytest.mark.parametrize("value", ["-1", "1.5", "NaN", "４"])
@@ -595,6 +743,56 @@ def test_gpu_observer_timeout_is_unknown_and_does_not_kill_healthy_child(
         event["observer"] for event in final["observer_events"] if event["state"] == "unknown"
     } >= {"nvidia_smi_runtime", "attempt_systemd_runtime"}
     assert not (state / "STOP_ADMISSION.json").exists()
+
+
+def test_worker_preserves_selected_uuid_in_observers_and_child_environment(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root, state, group, record = worker_workspace(tmp_path)
+    device = "GPU-12345678-abcd-1234-abcd-1234567890ab"
+    record["gpu_device"] = device
+    resources.atomic_json(resources.attempt_path(state, "a1"), record)
+    monkeypatch.setenv("WNN_GPU_DEVICE", device)
+    observed_devices: list[str] = []
+    prepare_worker_observers(
+        monkeypatch,
+        group,
+        gpu_reads=[100_000_000] * 3,
+        gpu_devices=observed_devices,
+    )
+    monkeypatch.setattr(resources, "memory_peak", lambda _group: 100_000_000)
+    child_environments: list[dict[str, str]] = []
+
+    class Child:
+        pid = os.getpid()
+        returncode: int | None = None
+        polls = 0
+
+        def poll(self) -> int | None:
+            self.polls += 1
+            if self.returncode is None and self.polls > 1:
+                self.returncode = 0
+            return self.returncode
+
+        def wait(self, timeout: float | None = None) -> int:
+            return self.returncode or 0
+
+    child = Child()
+
+    def start_child(*_args: object, env: dict[str, str], **_kwargs: object) -> Child:
+        child_environments.append(env)
+        return child
+
+    monkeypatch.setattr(resources.subprocess, "Popen", start_child)
+    monkeypatch.setattr(resources, "POLL_SECONDS", 0)
+
+    assert resources.worker(root, state, "a1", 2) == 0
+
+    final = resources.read_json(resources.attempt_path(state, "a1"))
+    assert final["gpu_device"] == device
+    assert observed_devices == [device, device, device]
+    assert child_environments[0]["CUDA_VISIBLE_DEVICES"] == device
+    assert child_environments[0]["WNN_GPU_DEVICE"] == device
 
 
 def test_worker_rejects_attempt_with_unverified_memory_high(

@@ -55,6 +55,11 @@ RAM_WORKING_BYTES = 17_000_000_000
 RAM_PARENT_BYTES = 20_000_000_000
 RAM_HIGH_BYTES = 18_000_000_000
 GPU_MEMORY_SAFETY_RESERVE_BYTES = 1_000_000_000
+DEFAULT_GPU_DEVICE = "0"
+GPU_DEVICE = re.compile(
+    r"(?:[0-9]+|GPU-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-"
+    r"[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\Z"
+)
 ACTIVE = {"reserved", "waiting", "running"}
 UNRESOLVED = {"preflight", "launch_uncertain"}
 ATTEMPT_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}\Z")
@@ -78,6 +83,25 @@ def gpu_memory_safety_reserve_bytes() -> int:
     if not value.isascii() or not value.isdigit():
         raise ValueError("WNN_GPU_MEMORY_RESERVE_BYTES must be a nonnegative integer")
     return int(value)
+
+
+def validate_gpu_device(value: str | None = None) -> str:
+    """Validate one NVIDIA index or full GPU UUID for a guarded GPU attempt.
+
+    Args:
+        value: A single NVIDIA device selector. ``None`` preserves the existing
+            default of device index zero.
+
+    Returns:
+        The validated selector.
+
+    Raises:
+        ValueError: The selector is malformed or names multiple devices.
+    """
+    selected = DEFAULT_GPU_DEVICE if value is None else value
+    if not isinstance(selected, str) or not GPU_DEVICE.fullmatch(selected):
+        raise ValueError("GPU device must be one NVIDIA index or full GPU UUID")
+    return selected
 
 
 def sha256_file(path: Path) -> str:
@@ -287,20 +311,26 @@ def observe(
     return None
 
 
-def gpu_memory_bytes() -> int:
-    """Observe and sum used memory across every device reported by nvidia-smi."""
+def gpu_memory_bytes(device: str = DEFAULT_GPU_DEVICE) -> int:
+    """Observe used memory on exactly one selected device reported by nvidia-smi."""
+    selected = validate_gpu_device(device)
     result = subprocess.run(
-        ["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader,nounits"],
+        [
+            "nvidia-smi",
+            f"--id={selected}",
+            "--query-gpu=memory.used",
+            "--format=csv,noheader,nounits",
+        ],
         check=True,
         capture_output=True,
         text=True,
         timeout=5,
     )
     rows = [line.strip() for line in result.stdout.splitlines() if line.strip()]
-    if not rows or any(not row.isascii() or not row.isdigit() for row in rows):
+    if len(rows) != 1 or any(not row.isascii() or not row.isdigit() for row in rows):
         raise RuntimeError(f"unparseable nvidia-smi memory output: {result.stdout!r}")
-    # nvidia-smi reports MiB. Round each device upward to stay conservative.
-    return sum(int(row) + 1 for row in rows) * 1024**2
+    # nvidia-smi reports MiB. Round upward to stay conservative.
+    return (int(rows[0]) + 1) * 1024**2
 
 
 def systemd_properties(unit: str) -> dict[str, str]:
@@ -602,9 +632,11 @@ def service_command(
     ram_bytes: int,
     python: str,
     admission_timeout: int,
+    gpu_device: str | None = None,
 ) -> list[str]:
     """Build a bounded systemd service command for one admitted worker."""
     unit = f"wnn-bandit-{attempt}.service"
+    selected_gpu = validate_gpu_device(gpu_device) if kind == "gpu" else None
     env = {
         "WNN_SLICE": SLICE,
         "WNN_THREADS": str(cpus),
@@ -623,13 +655,14 @@ def service_command(
         "PYTHONUNBUFFERED": "1",
         "PYTHONHASHSEED": "0",
         "PYTHONPATH": str(root / "src"),
-        "CUDA_VISIBLE_DEVICES": "0" if kind == "gpu" else "",
+        "CUDA_VISIBLE_DEVICES": selected_gpu or "",
     }
     env.update(temporary_environment(root))
     for key in ("PATH", "HOME", "LANG", "LD_LIBRARY_PATH", "VIRTUAL_ENV"):
         if key in os.environ:
             env[key] = os.environ[key]
     if kind == "gpu":
+        env["WNN_GPU_DEVICE"] = str(selected_gpu)
         env["WNN_GPU_MEMORY_RESERVE_BYTES"] = str(gpu_memory_safety_reserve_bytes())
     command = [
         "systemd-run",
@@ -677,11 +710,29 @@ def service_command(
     return command
 
 
+def attempt_gpu_device(record: dict[str, object]) -> str:
+    """Resolve and verify the one-device selector carried by a GPU receipt."""
+    selected = validate_gpu_device(record.get("gpu_device"))
+    inherited = os.environ.get("WNN_GPU_DEVICE")
+    if inherited is not None and validate_gpu_device(inherited) != selected:
+        raise RuntimeError("worker GPU device differs from the reserved attempt receipt")
+    if inherited is None and selected != DEFAULT_GPU_DEVICE:
+        raise RuntimeError("worker did not inherit the reserved GPU device selector")
+    return selected
+
+
 def launch(args: argparse.Namespace) -> dict[str, object]:
     """Reserve aggregate resources and submit one durable systemd attempt."""
     verify_attempt_id(args.attempt)
     if args.kind not in {"cpu", "gpu"}:
         raise ValueError("local job kind must be cpu or gpu")
+    requested_gpu_device = getattr(args, "gpu_device", None)
+    if args.kind == "gpu":
+        gpu_device = validate_gpu_device(requested_gpu_device)
+    elif requested_gpu_device is not None:
+        raise ValueError("--gpu-device is only valid for GPU jobs")
+    else:
+        gpu_device = None
     cpu_cap = authorized_cpu_cap()
     if not 1 <= args.cpus <= cpu_cap:
         raise ValueError(f"worker CPU reservation must be in [1, {cpu_cap}]")
@@ -706,6 +757,7 @@ def launch(args: argparse.Namespace) -> dict[str, object]:
         "id": args.attempt,
         "unit": unit,
         "kind": args.kind,
+        "gpu_device": gpu_device,
         "profile": args.profile,
         "command": command,
         "working_directory": str(args.root),
@@ -749,7 +801,12 @@ def launch(args: argparse.Namespace) -> dict[str, object]:
             verify_parent_membership(parent_group)
             initial_vram = None
             if args.kind == "gpu":
-                initial_vram = observe("nvidia_smi_launch", gpu_memory_bytes, record, record_path)
+                initial_vram = observe(
+                    "nvidia_smi_launch",
+                    lambda: gpu_memory_bytes(str(gpu_device)),
+                    record,
+                    record_path,
+                )
                 if initial_vram is None:
                     raise RuntimeError("initial GPU memory is unknown after bounded retries")
             measured = observe(
@@ -804,6 +861,7 @@ def launch(args: argparse.Namespace) -> dict[str, object]:
             args.reserve_bytes,
             args.python,
             args.admission_timeout,
+            gpu_device,
         )
         try:
             subprocess.run(launch_command, check=True, capture_output=True, text=True, timeout=15)
@@ -919,6 +977,7 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
     if actual_manifest != manifest:
         raise RuntimeError("frozen source changed between reservation and worker start")
     kind = str(record["kind"])
+    gpu_device = attempt_gpu_device(record) if kind == "gpu" else None
     record.update(
         parent_properties_at_start=parent,
         attempt_properties_at_start=own_properties,
@@ -930,7 +989,12 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
         lock_file = wait_for_gpu_lock(state, admission_timeout, record, record_path)
         if lock_file is None:
             return 0
-        initial_vram = observe("nvidia_smi_admission", gpu_memory_bytes, record, record_path)
+        initial_vram = observe(
+            "nvidia_smi_admission",
+            lambda: gpu_memory_bytes(str(gpu_device)),
+            record,
+            record_path,
+        )
         if initial_vram is None:
             record.update(
                 status="not_started", phase="gpu_observer_unknown", finished_utc=utc_now()
@@ -1042,7 +1106,7 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
         "WNN_LOADER_WORKERS": os.environ.get(
             "WNN_LOADER_WORKERS", "0"
         ),  # the unit environment already carries the admitted value
-        "CUDA_VISIBLE_DEVICES": "0" if kind == "gpu" else "",
+        "CUDA_VISIBLE_DEVICES": str(gpu_device) if kind == "gpu" else "",
     }
     env.update(temporary_environment(root))
     for key in ("LD_LIBRARY_PATH", "VIRTUAL_ENV"):
@@ -1058,6 +1122,7 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
         env[key] = str(cpus)
     env["ARROW_NUM_THREADS"] = "1"
     if kind == "gpu":
+        env["WNN_GPU_DEVICE"] = str(gpu_device)
         env["WNN_GPU_MEMORY_RESERVE_BYTES"] = str(gpu_memory_safety_reserve_bytes())
     try:
         with log_path.open("xb", buffering=0) as log:
@@ -1132,7 +1197,10 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
                 observed_vram = None
                 if kind == "gpu":
                     observed_vram = observe(
-                        "nvidia_smi_runtime", gpu_memory_bytes, record, record_path
+                        "nvidia_smi_runtime",
+                        lambda: gpu_memory_bytes(str(gpu_device)),
+                        record,
+                        record_path,
                     )
                 if group_current is not None:
                     record["peak_ram_bytes"] = max(int(record["peak_ram_bytes"]), group_current)
@@ -1258,7 +1326,12 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
                 failure = f"aggregate working RAM exceeded {RAM_WORKING_BYTES} bytes at exit"
                 close_admission(state, f"resource budget breach in {attempt}: {failure}")
         if kind == "gpu":
-            final_vram = observe("nvidia_smi_final", gpu_memory_bytes, record, record_path)
+            final_vram = observe(
+                "nvidia_smi_final",
+                lambda: gpu_memory_bytes(str(gpu_device)),
+                record,
+                record_path,
+            )
             if final_vram is not None:
                 record["peak_observed_vram_bytes"] = max(
                     int(record["peak_observed_vram_bytes"]), final_vram
@@ -1420,6 +1493,10 @@ def parser() -> argparse.ArgumentParser:
     start.add_argument("--reserve-bytes", type=int, required=True)
     start.add_argument("--profile", required=True)
     start.add_argument("--contract", type=Path, required=True)
+    start.add_argument(
+        "--gpu-device",
+        help="one NVIDIA index or full GPU UUID; GPU jobs default to index zero",
+    )
     start.add_argument("--python", default=sys.executable)
     start.add_argument("--admission-timeout", type=int, default=900)
     start.add_argument("command", nargs=argparse.REMAINDER)
