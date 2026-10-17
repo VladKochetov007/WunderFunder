@@ -1,0 +1,242 @@
+{
+  "schema": "wnn.experiment-proposal-recipe.v1",
+  "id": "rr17-20",
+  "status": "proposal",
+  "training_authorized": false,
+  "hypothesis_id": "H-RR17-20",
+  "experiment_id": "E-RR17-20",
+  "experiment_id_status": "registered proposal in research/experiments.jsonl; no fit",
+  "owner": "root controller; implementation/fit owner unassigned",
+  "owner_gate": "Root controller assigns a named owner before implementation/admission.",
+  "mechanism_family": "posthoc_calibration",
+  "canonical_idea": {
+    "card_id": "H-RR17-20",
+    "title": "Cross-fitted scalar calibration under the weighted metric",
+    "staging_source_path": "../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md",
+    "eventual_packet_relative_path": "../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md"
+  },
+  "proposal": {
+    "mechanism": "For each target and fixed bins of an honest out-of-fold student score s, estimate the metric-weighted conditional mean E[M·|Y_c|·Y_c | s] / E[M·|Y_c| | s], where Y_c=clip(Y,−2,2) and M is the official scoring mask. Bin-level EDA is allowed now; fitting a calibration map is future-only on training folds, never grade components.",
+    "evidence_and_counterevidence": "The weighted-mean geometry is exact for the official score, and positive affine transforms do nothing before clipping. Histogram MSE/CE were negative; this proposal is a low-dimensional scalar post-map, not another codebook head, and has no measured gain.",
+    "prior_overlap": "New narrow candidate from R3; overlaps histogram calibration enough that the exact old arm and held-out component protocol must be checked first.",
+    "no_fit_gate": "Inspect existing frozen-checkpoint outputs if available; bounded inference of a frozen checkpoint is allowed under the contract if needed. Plot only predeclared weighted bin means, support, and component stability; do not fit a calibration map now or tune on grade components.",
+    "additional_gate": "The score-map equation and bins must be reviewed and frozen before fitting; calibration maps are cross-fit on training folds only and never trained on grade components.",
+    "falsifier": "Defer if the curve is affine, sparse, unstable, or no separately graded components improve under the later authorized map.",
+    "future_control": "CP30: identity readout versus per-target cross-fitted map, with map fit only on training folds and score measured on disjoint exposed components.",
+    "compute_and_cpu_path": "Low offline CPU cost; two tiny tables run statelessly after a CPU student. Calibrate the student’s own outputs, not a mismatched teacher.",
+    "sources": [
+      "https://arxiv.org/html/0912.0902",
+      "https://wundernn.io/connectome/docs/data_overview"
+    ]
+  },
+  "comparison": {
+    "candidate": {
+      "description": "For each target and fixed bins of an honest out-of-fold student score s, estimate the metric-weighted conditional mean E[M·|Y_c|·Y_c | s] / E[M·|Y_c| | s], where Y_c=clip(Y,−2,2) and M is the official scoring mask. Bin-level EDA is allowed now; fitting a calibration map is future-only on training folds, never grade components.",
+      "model_implementation": null,
+      "architecture_dimensions": null,
+      "gate": "Bind source, exact architecture and code hashes before any future fit."
+    },
+    "control": {
+      "description": "CP30: identity readout versus per-target cross-fitted map, with map fit only on training folds and score measured on disjoint exposed components.",
+      "model_implementation": null,
+      "architecture_dimensions": null,
+      "gate": "Bind the matched control source/checkpoint and exact arm definition before any future fit."
+    },
+    "candidate_minus_control_effect_threshold": null,
+    "effect_threshold_gate": "Before any future fit, predeclare a practically useful quality/cost effect tied to the endpoint and available compute; no numerical effect or public-score gain is asserted here.",
+    "fit_budget": {
+      "paired_endpoint_cells_per_arm": 30,
+      "two_arm_endpoint_cell_runs": 60,
+      "ancillary_fold_clean_teacher_or_pretraining_jobs": null,
+      "ancillary_job_gate": "List and resource-account every teacher, pretraining, cache or calibration fit outside the endpoint matrix before admission."
+    }
+  },
+  "cell_matrix": {
+    "folds": [
+      "F0",
+      "F1",
+      "F2",
+      "F3"
+    ],
+    "seeds_by_fold": {
+      "F0": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "F1": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "F2": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ],
+      "F3": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ]
+    },
+    "candidate_cells": 30,
+    "control_cells": 30,
+    "paired_by": [
+      "fold",
+      "seed"
+    ],
+    "cell_ids_per_arm": [
+      "F0-S1001",
+      "F0-S1002",
+      "F0-S1003",
+      "F0-S1004",
+      "F0-S1005",
+      "F0-S1006",
+      "F0-S1007",
+      "F0-S1008",
+      "F1-S1001",
+      "F1-S1002",
+      "F1-S1003",
+      "F1-S1004",
+      "F1-S1005",
+      "F1-S1006",
+      "F1-S1007",
+      "F1-S1008",
+      "F2-S1001",
+      "F2-S1002",
+      "F2-S1003",
+      "F2-S1004",
+      "F2-S1005",
+      "F2-S1006",
+      "F2-S1007",
+      "F3-S1001",
+      "F3-S1002",
+      "F3-S1003",
+      "F3-S1004",
+      "F3-S1005",
+      "F3-S1006",
+      "F3-S1007"
+    ],
+    "total_two_arm_endpoint_cell_runs": 60,
+    "membership_artifact": null,
+    "membership_sha256": null,
+    "membership_gate": "Bind the existing source-qualified F0-F3 fitting/evaluation membership artifacts and hashes; do not create row splits or imply the folds are fresh."
+  },
+  "data": {
+    "permitted_source": "Competition-supplied train.parquet and valid.parquet only",
+    "local_paths": null,
+    "source_hashes": null,
+    "source_gate": "Bind exact supplied file paths, sizes and SHA-256 before any run.",
+    "feature_count": 112,
+    "feature_semantics": "Anonymized features; use documented groups only. `seq_ix` can identify reset boundaries but is not an input feature.",
+    "sequence_length_rows": 20000,
+    "target_count": 2,
+    "training_supervision_mask": "need_prediction",
+    "evaluation_scored_mask": "need_prediction AND is_scored",
+    "transform_fit_scope": "Training membership only; all state/statistics reset per sequence and use past/current inputs only.",
+    "forbidden": [
+      "external market data",
+      "future labels or targets as inference inputs",
+      "cross-sequence model/cache/state",
+      "target-derived inference gates",
+      "validation/test fit statistics"
+    ]
+  },
+  "metric_and_uncertainty": {
+    "name": "global_wp_clip2_v1",
+    "official_mask": "need_prediction AND is_scored on scored evaluation rows; training supervision uses permitted need_prediction rows",
+    "per_target": "unchanged official clipping at +/-2 and original clipped-label magnitude weights; compute separately for both targets, then average according to the official scorer",
+    "primary_statistic": "D = (1/4) * sum over F0..F3 of the fold mean of paired candidate-minus-control WP deltas; each fold mean averages its available 8/8/7/7 seed pairs; WP is scored for each complete outer endpoint, not averaged across model seeds first",
+    "seed_bootstrap": {
+      "method": "bootstrap the eight seed identities with replacement; use the same sampled seed multiplicities across all four fixed folds; for each replicate renormalize over available seed cells in each fold and average the four fold means equally; redraw if any fold has zero effective seed multiplicity",
+      "replicates": 10000,
+      "seed_identities": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "shared_multiplicities_across_folds": true,
+      "resample_folds": false,
+      "rng_seed": 20261017,
+      "scope": "approximate fitting-seed interval conditional on four exposed folds, fixed data, memberships and ancestry; eight identities are few and do not represent unseen regime uncertainty"
+    },
+    "evaluation_unit_uncertainty": "Separate fixed-prediction paired resampling of source-qualified components within each fold, using identical component multiplicities for both arms and all seeds; no fold resampling. Exact component manifests and RNG details are null pending binding.",
+    "exposure": "All current panels are exposed development data; this plan does not create a fresh holdout or estimate unseen public score.",
+    "multiplicity": "If selecting among the 25 portfolio arms for a formal claim, freeze the family and multiplicity procedure before outcomes; exploratory intervals alone are not confirmatory."
+  },
+  "training_configuration": {
+    "precision": "strict FP32 for weights, activations, state, gradients and optimizer; autocast/GradScaler off; TF32 off; float32 matmul precision highest",
+    "optimizer": null,
+    "learning_rate_and_schedule": null,
+    "batch_and_accumulation": null,
+    "update_or_epoch_budget": null,
+    "context_or_window": null,
+    "gradient_clip": null,
+    "checkpoint_rule": null,
+    "resume_state_policy": null,
+    "configuration_gate": "Bind all values, train-only selection rule, seed behavior and resume policy identically across paired arms before admission."
+  },
+  "ancestry": {
+    "contract_base_main_sha": "4ca5c936daa5f88097188dcea903f2f74dd87097",
+    "research_team_base_sha": "ed40bea53b66f65a437f9ea3658a982ebdbe5251",
+    "experiment_source_sha": null,
+    "candidate_initialization_source_and_sha": null,
+    "control_initialization_source_and_sha": null,
+    "teacher_or_pretraining_ancestor_per_fold_seed": null,
+    "normalization_or_cache_ancestor_per_fold_seed": null,
+    "gate": "Resolve research-team base and record exact sources, membership, hashes and transitive teacher/initializer/cache ancestry; evaluation components must be excluded from every fitted ancestor."
+  },
+  "compute": {
+    "hardware_site": null,
+    "gpu_model_count_topology": null,
+    "cpu_profile_and_limits": null,
+    "cuda_driver_torch_environment": null,
+    "data_mount_and_cache": null,
+    "profile_receipt": null,
+    "cost_estimate": null,
+    "gate": "No hardware or duration measurement is claimed; profile the actual pathway and record a resource admission before a future run."
+  },
+  "commands": {
+    "training_command": null,
+    "training_command_gate": "No trainer/adapters/cache bindings are implemented in this proposal; an exact runnable training command must be added only after implementation review and explicit training authority.",
+    "packet_json_validation_only": ".venv/bin/python -m json.tool research/experiment_drafts/rr17-20/recipe.json",
+    "validation_scope": "JSON syntax only. This command does not validate scientific binding and does not train, fit, infer, profile or score."
+  },
+  "results": {
+    "state": "not_run",
+    "measured_gain": null,
+    "leaderboard_effect": null,
+    "pr_url": null,
+    "merge_sha": null
+  },
+  "publication": {
+    "branch": "experiment/rr17-20",
+    "source_commit_binding": "publication/BRANCHES.json records this packet commit",
+    "pr_url": null,
+    "status": "proposal_only"
+  }
+}
