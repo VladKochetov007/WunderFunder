@@ -9,7 +9,9 @@ QUALITY_PATHS = \
 	scripts/check_training_structure.py \
 	tests/test_training_structure_checker.py \
 	tests/test_training_compatibility.py \
-	tests/test_training_input_allocation.py
+	tests/test_training_input_allocation.py \
+	src/wnn/prediction_safety.py \
+	tests/test_prediction_safety.py
 TRAINING_TESTS = \
 	tests/test_training_compatibility.py \
 	tests/test_training_input_allocation.py \
@@ -17,7 +19,8 @@ TRAINING_TESTS = \
 	tests/test_trainer_resume_integration.py \
 	tests/test_features.py \
 	tests/test_causal_moment_features.py \
-	tests/test_field_age_features.py
+	tests/test_field_age_features.py \
+	tests/test_prediction_safety.py
 
 .PHONY: quality lint format-check training-structure quality-tests training-tests
 
