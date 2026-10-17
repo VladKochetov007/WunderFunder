@@ -33,12 +33,20 @@ def _flag_values(argv: list[str], names: tuple[str, ...]) -> dict[str, str]:
     values: dict[str, str] = {}
     index = 0
     while index < len(argv):
-        token = argv[index]
+        token, separator, inline_value = argv[index].partition("=")
         if token in names:
-            if token in values or index + 1 >= len(argv) or argv[index + 1].startswith("--"):
+            if token in values:
                 raise ValueError(f"malformed or repeated {token} in trainer arguments")
-            values[token] = argv[index + 1]
-            index += 2
+            if separator:
+                if not inline_value:
+                    raise ValueError(f"malformed or repeated {token} in trainer arguments")
+                values[token] = inline_value
+                index += 1
+            else:
+                if index + 1 >= len(argv) or argv[index + 1].startswith("--"):
+                    raise ValueError(f"malformed or repeated {token} in trainer arguments")
+                values[token] = argv[index + 1]
+                index += 2
         else:
             index += 1
     return values
@@ -172,6 +180,7 @@ def build_spec(
     score_refs: bool,
 ) -> dict[str, object]:
     """Return one queue spec whose argv contains only root-relative project paths."""
+    root = str(Path(root).resolve())
     seed = int(arm.get("seed", cohort["seed"]))
     fold = int(cohort.get("fold", 0))
     if fold < 0:
@@ -189,6 +198,7 @@ def build_spec(
         raise ValueError("non-zero cohort folds require a declared trainer split path")
     if split_path is not None:
         _validate_split_file(split_path, root, fold)
+        split_path = str((Path(root) / split_path).resolve())
     checkpoint_epoch = _flag_values(flags, ("--checkpoint-epoch",))
     if "--checkpoint-epoch" not in checkpoint_epoch:
         raise ValueError("trainer arguments must declare --checkpoint-epoch")
@@ -263,23 +273,45 @@ def build_spec(
         )
         receipt_path = arm.get("receipt_path", cohort.get("receipt_path"))
         ledger_path = arm.get("ledger_path", cohort.get("ledger_path"))
+        for label, value in (
+            ("experiment_id", experiment_id),
+            ("hypothesis_id", hypothesis_id),
+            ("receipt_path", receipt_path),
+            ("ledger_path", ledger_path),
+        ):
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f"comparison requires a non-empty {label}")
+        if not references or len(set(references)) != len(references):
+            raise ValueError("comparison requires non-empty, unique score_references")
         split_metadata_path = split_path or arm.get(
             "split_path", cohort.get("split_path", f"{root}/{DEFAULT_F0_SPLIT}")
         )
+        resolved_receipt = str((Path(root) / _format_path(receipt_path, fmt)).resolve())
+        resolved_ledger = str((Path(root) / _format_path(ledger_path, fmt)).resolve())
+        resolved_split = str((Path(root) / _format_path(split_metadata_path, fmt)).resolve())
+        if (
+            len(
+                {str(Path(grade_path).resolve()), resolved_receipt, resolved_ledger, resolved_split}
+            )
+            != 4
+        ):
+            raise ValueError("comparison grade, receipt, ledger and split paths must be distinct")
         comparison = {
             "experiment_id": experiment_id,
             "hypothesis_id": hypothesis_id,
             "candidate": run_at_epoch,
             "references": references,
             "grade_path": str(grade_path),
-            "receipt_path": (_format_path(receipt_path, fmt) if receipt_path is not None else None),
-            "ledger_path": _format_path(ledger_path, fmt) if ledger_path is not None else None,
-            "split_path": split_metadata_path,
+            "receipt_path": resolved_receipt,
+            "ledger_path": resolved_ledger,
+            "split_path": resolved_split,
             "fold": fold,
             "expected_fold": fold,
         }
         fidelity = arm.get("fidelity", cohort.get("fidelity"))
         if fidelity is not None:
+            if not isinstance(fidelity, dict):
+                raise ValueError("comparison fidelity must be an object")
             comparison["fidelity"] = fidelity
         spec["comparison"] = comparison
     return spec

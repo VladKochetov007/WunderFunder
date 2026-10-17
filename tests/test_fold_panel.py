@@ -21,9 +21,10 @@ def fold3_artifacts(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Pa
     run = "candidate_s3_f3"
     run_root = root / "artifacts" / "runs" / run
     run_root.mkdir(parents=True)
+    (root / "fold3.json").write_text(json.dumps({"fold": 3, "n_folds": 4}))
     split = CampaignSplit(
         root / "fold3.json",
-        "a" * 64,
+        file_sha256(root / "fold3.json"),
         3,
         4,
         (0,),
@@ -189,7 +190,7 @@ def _cohort() -> tuple[dict[str, object], dict[str, object]]:
         "score_references": ["control_s3_f3@ep2"],
         "receipt_path": "research/receipts/{seed}.json",
         "ledger_path": "research/experiments.jsonl",
-        "fidelity": "screen",
+        "fidelity": {"stage": "screen"},
         "base_argv": [
             "--checkpoint-epoch",
             "2",
@@ -225,12 +226,12 @@ def test_cohort_spec_binds_fold_comparison_and_prediction_output(tmp_path: Path)
         "candidate": "synthetic_a01_s3_f3@ep2",
         "references": ["control_s3_f3@ep2"],
         "grade_path": f"{root}/artifacts/runs/synthetic_a01_s3_f3/grade_fold3.json",
-        "receipt_path": "research/receipts/3.json",
-        "ledger_path": "research/experiments.jsonl",
-        "split_path": "research/splits/fold3.json",
+        "receipt_path": f"{root}/research/receipts/3.json",
+        "ledger_path": f"{root}/research/experiments.jsonl",
+        "split_path": f"{root}/research/splits/fold3.json",
         "fold": 3,
         "expected_fold": 3,
-        "fidelity": "screen",
+        "fidelity": {"stage": "screen"},
     }
     outputs = spec["expected_outputs"]
     assert f"{root}/cache/pred_synthetic_a01_s3_f3_valid.npy" in outputs
@@ -293,3 +294,81 @@ def test_cohort_spec_rejects_malformed_score_references(tmp_path: Path) -> None:
     cohort["score_references"] = ["control_s3_f3@ep2*nan"]
     with pytest.raises(ValueError, match="non-finite score reference weight"):
         build_spec(cohort, arm, str(root), "/usr/bin/python3", True)
+
+
+@pytest.mark.parametrize(
+    "missing", ["hypothesis_id", "receipt_path", "ledger_path", "score_references"]
+)
+def test_cohort_rejects_incomplete_comparison_before_fit(tmp_path: Path, missing: str) -> None:
+    cohort, arm = _cohort()
+    root = _prepare_cohort_root(tmp_path)
+    cohort.pop(missing)
+    with pytest.raises(ValueError, match="comparison requires"):
+        build_spec(cohort, arm, str(root), "/usr/bin/python3", True)
+
+
+def test_cohort_rejects_disabled_references_and_invalid_fidelity(tmp_path: Path) -> None:
+    cohort, arm = _cohort()
+    root = _prepare_cohort_root(tmp_path)
+    with pytest.raises(ValueError, match="comparison requires"):
+        build_spec(cohort, arm, str(root), "/usr/bin/python3", False)
+    cohort["fidelity"] = "screen"
+    with pytest.raises(ValueError, match="fidelity must be an object"):
+        build_spec(cohort, arm, str(root), "/usr/bin/python3", True)
+
+
+def test_cohort_checks_argparse_equals_form(tmp_path: Path) -> None:
+    cohort, arm = _cohort()
+    root = _prepare_cohort_root(tmp_path)
+    cohort["base_argv"] = [
+        "--checkpoint-epoch=2",
+        "--valid-fold=1",
+        "--n-valid-folds=4",
+        "--split-manifest={root}/research/splits/fold3.json",
+    ]
+    with pytest.raises(ValueError, match="fold argument disagrees"):
+        build_spec(cohort, arm, str(root), "/usr/bin/python3", True)
+    cohort["base_argv"][1] = "--valid-fold=3"
+    spec = build_spec(cohort, arm, str(root), "/usr/bin/python3", True)
+    assert spec["comparison"]["split_path"] == str(root / "research/splits/fold3.json")
+
+
+def test_real_grade_blend_roundtrips_to_idempotent_receipt(
+    fold3_artifacts: tuple[Path, CampaignSplit],
+) -> None:
+    from scripts.comparison_receipt import record_comparison_receipt
+
+    root, split = fold3_artifacts
+    candidate = "candidate_s3_f3@ep2*0.25,candidate_s3_f3@ep2*0.75"
+    reference = "candidate_s3_f3@ep2"
+    grade_path = root / "grade.json"
+    grade = score_fold_panel.score_panel(
+        candidate,
+        references=[reference],
+        split_path=split.path,
+        expected_fold=3,
+        output_path=grade_path,
+        root=root,
+        n_boot=8,
+    )
+    comparison = {
+        "experiment_id": "E-PRODUCER-CONSUMER",
+        "hypothesis_id": "H-FIXTURE",
+        "candidate": candidate,
+        "references": [reference],
+        "expected_fold": 3,
+        "split_path": str(split.path),
+        "grade_path": str(grade_path),
+        "receipt_path": str(root / "receipt.json"),
+        "ledger_path": str(root / "comparisons.jsonl"),
+        "fidelity": {"stage": "synthetic_cpu_integration"},
+    }
+    kwargs = dict(run_id="fixture", spec_bytes=b"fixed-spec", steps=[], base_dir=root)
+    result = record_comparison_receipt(comparison, **kwargs)
+    assert result["ledger_appended"] is True
+    receipt = json.loads((root / "receipt.json").read_text())
+    assert receipt["candidate"]["wp"] == grade["official"]["wp"]
+    assert receipt["grade_metadata"]["valid_targets_sha256"] == grade["valid_targets_sha256"]
+    assert receipt["references"][0]["paired_delta"] == 0.0
+    assert record_comparison_receipt(comparison, **kwargs)["ledger_appended"] is False
+    assert len((root / "comparisons.jsonl").read_text().splitlines()) == 1
