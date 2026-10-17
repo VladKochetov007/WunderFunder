@@ -26,3 +26,9 @@ The prior must be exported from the fitted child's `research_feature_prior` as r
 - The first native parity run failed before correction: row 0, geometry channel 2 emitted `0.0` rather than reference `-1.0` because the category field-stride was incorrectly applied to scalar stat blocks. This is preserved in [first failure](first_parity_failure.json); corrected parity passed after the channel-order fix and f64 dominant-event division.
 
 All profile and parity fixtures here are synthetic engineering checks, not scientific comparisons, validation scores, or full-package acceptance. Root must run actual-checkpoint parity and the competition package gate.
+
+## Actual F0 package check
+
+[`scripts/score_geometry_served_f0.py`](../../../../scripts/score_geometry_served_f0.py) replays an exact ZIP against the F0 split's declared evaluation row groups only. It validates each row-group/sequence identity, uses the official scored-row mask and `global_wp_clip2_v1`, writes a row-group-indexed prediction array and sidecar, and records callback-only plus end-to-end timing. An optional FP32 cache is accepted only with a matching split-hash and row-group sidecar. Run one fixed precision per fresh process, with the package ZIP, build receipt, root `datasets/valid.parquet`, and fold-0 split pinned. The script does not read the full validation table or require Torch.
+
+The feature adapter callback now exposes the native stepper at `.model`, so existing reset-aware ZIP validators can invoke `model.model.reset()` between sequence groups without rebuilding the extension.
