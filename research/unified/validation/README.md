@@ -54,3 +54,5 @@ Keep fold, fitting membership, ancestry, selection exposure, and score uncertain
 
 [Full14-member /9-mixture grade](../../campaign_2026-10-13/team_models_r1/scores/member_bank_fp32_r1/README.md) uses the official metric on1,873 supplied-valid groups and verifies terminal provenance plus complete prediction-file hashes. Original xteam_h4 FP32 is0.712660191 versus E0.712082246 and pair_ftt20.712025385; own H390 seed3 alone is0.713414409. Final-fit/unknown validation overlap and FP32-versus-Q8 arithmetic limit these to diagnostics. The exploratory seed6 ZIP is not assigned a score by this grade. E-TEAM-MEMBER-BANK-20261013-R1; the linked terminal receipt, grade JSON and execution log preserve all results and prediction/residual correlations.
 
+
+- [Sequence moment geometry investigation](../../campaign_2026-10-17/moment_geometry_r1/README.md) registers the user's mean/std arc EDA and bounded causal normalization/early-inference experiments on main. Initial status: contract recorded, screenshot feature unknown, no measured mechanism or predictive gain;5GB aggregate task RAM and no Kaggle job changes.
