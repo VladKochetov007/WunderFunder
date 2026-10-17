@@ -1,10 +1,10 @@
 # Native geometry callback serving check — 2026-10-18
 
-Status: implementation and synthetic engineering parity/profile checks passed. No model-quality result or complete competition runtime is claimed.
+Status: implementation, synthetic parity checks, and actual exposed-F0 package replay are complete. The candidate did not improve its matched warm parent; complete competition runtime is unmeasured.
 
 ## Implementation
 
-Source is in commits `bdf996f9d`, `ce5f8f63c`, and correction `03e6db635977d9514f46ec990738112075c588de`. `submission/solution_geometry.py` exposes the competition `PredictionModel` callback and uses native `wnn_native.GeometryPredictor` for raw, event, geometry, reset, recurrent-state, and masked-row handling. The required native API is present in the library below. `scripts/geometry_serving_reference.py` and `GeometryFeatureStepper` are checker/reference support, not production callback fallbacks.
+Source is in commits `bdf996f9d`, `ce5f8f63c`, `03e6db635977d9514f46ec990738112075c588de`, `52e7ed6bb`, `60e0b1e02`, `001e01307`, and `2c47d6083`. `submission/solution_geometry.py` exposes the competition `PredictionModel` callback and uses native `wnn_native.GeometryPredictor` for raw, event, geometry, reset, recurrent-state, and masked-row handling. The required native API is present in the library below. `scripts/geometry_serving_reference.py` and `GeometryFeatureStepper` are checker/reference support, not production callback fallbacks.
 
 The root packager can stage this endpoint with:
 
@@ -13,10 +13,10 @@ uv run python scripts/package_submission.py CANDIDATE RUN:COEF \
   --solution submission/solution_geometry.py \
   --native-from /home/vlad/development/wunder/research_tmp/geometry-serving-20261018/native-built-pass2 \
   --extra-file /path/to/geometry_prior.json \
-  --precision q8vnni
+  --precision q16x
 ```
 
-The prior must be exported from the fitted child's `research_feature_prior` as root-level `geometry_prior.json` with schema `causal_geometry_discrete_v1`. The packager creates `solution.py`, `members.json`, `precision.txt`, and `weights_0.npz`; the required auxiliary file is `geometry_prior.json`. It copies native libraries under `v2/`, `avx2/`, and `v3/`. The model member must have exactly 271 inputs (112 raw + 99 causal event + 60 causal geometry). Root owns selecting and validating actual fitted weights and coefficient.
+The prior must be exported from the fitted child's `research_feature_prior` as root-level `geometry_prior.json` with schema `causal_geometry_discrete_v1`. The packager creates `solution.py`, `members.json`, `precision.txt`, and `weights_0.npz`; the required auxiliary file is `geometry_prior.json`. It copies native libraries under `v2/`, `avx2/`, and `v3/`. The served R2 child has exactly 271 inputs (112 raw + 99 causal event + 60 causal geometry) and nonzero new geometry weights; its frozen-parent proof is in the linked campaign packet.
 
 ## ABI and runtime receipts
 
