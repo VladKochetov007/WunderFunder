@@ -59,3 +59,14 @@ The GitHub inventory contains14 open drafts against research-team. A mergeable d
 4. **[#6 parent anchor](https://github.com/VladKochetov007/WunderFunder/pull/6):** a useful distillation-link question after source-matched parents/control targets/caches are available for every fold. Its profile does not establish a quality gain.
 
 [#2 width/depth](https://github.com/VladKochetov007/WunderFunder/pull/2) remains a scale study: five old single-seed F0 screens cannot establish a scaling law; bind matched budgets before the larger matrix. [#1 Transformer](https://github.com/VladKochetov007/WunderFunder/pull/1), [#8 encoding](https://github.com/VladKochetov007/WunderFunder/pull/8), [#3 teacher family](https://github.com/VladKochetov007/WunderFunder/pull/3) and [#11 pretrained teachers](https://github.com/VladKochetov007/WunderFunder/pull/11) have additional trainer/adapter/teacher-cohort dependencies. They remain research options, with no implied measured advantage over GRU.
+
+## Related research-reset proposals
+
+The integrated [research-reset report](../../campaign_2026-10-17/research_reset_r1/REPORT.md) and [25 hypothesis cards](../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md) add no-fit evidence and proposals beyond the fourteen published PRs. The report describes exceptions to the universal selected-i0 event trigger; it does not reject soft clocks or row-based decay. PR #9 keeps every row and the raw bypass, so its frozen EWMA comparison does not assume that trigger. The source report's census and export-repair results belong to that team's investigation, not to this experiment's unrun fits.
+
+- **H-RR17-01:** matched cold wide one-layer versus two-layer GRU; coordinate with PR #2 instead of creating another capacity ticket. Audit historical ancestry and exposure first.
+- **H-RR17-02 / H-RR17-04:** causal-teacher transfer mechanisms, kept separate; coordinate with PR #3 and bind teacher/cache/context provenance before fitting.
+- **H-RR17-06:** strict prefix normalization with a raw bypass, a separate input comparison from fixed EWMA.
+- **H-RR17-03:** learned soft state updates from causal duration/change traces; related to history summaries, but not an extra name for an EMA bank. Complete the card's input-only controls before a fit.
+
+These are research priorities, not measured improvements. The existing checkpoint-average export in PR #13 remains useful evidence collection without purchasing another fit; PR #9 remains the prepared new labels-only comparison.
