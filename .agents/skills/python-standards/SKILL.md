@@ -19,7 +19,7 @@ Apply these rules to all Python code in this project.
 whitespace, line breaks, and wrapping. Write code that's already formatter-clean
 so commits don't generate churn. A few concrete rules that come up constantly:
 
-- **Line length is 88 chars** (ruff default; no override in `pyproject.toml`).
+- **Use the configured line length** in `pyproject.toml` (currently100). Ruff is the wrapping source of truth; do not assume its upstream default.
 - **Do not hand-wrap argument lists.** Write the call on one line and let the
   formatter decide whether it fits. If it doesn't, ruff will split it — your
   hand-picked break points will just be redone.
@@ -120,3 +120,7 @@ Use **Google-style** docstrings (`Args:`, `Returns:`, `Raises:`).
 - Catching and silently discarding exceptions.
 - String formatting with `%` or `.format()`; use f-strings.
 - `print` for observability; use `logging` or structured output.
+
+## Recurrent training architecture
+
+Use `src/wnn/training/README.md` to find existing reusable components. Keep scripts/train_rnn.py a small compatibility CLI, and use explicit TrainingEnvironment/InputConfiguration objects for new code. Do not clone a full trainer for an experiment. The package and entrypoint have enforced300-line module and200-line function budgets; run `uv run python scripts/check_training_structure.py` with Ruff. Source/CLI/AST-packet compatibility and resume provenance are part of a refactor's scope. Static checks alone do not establish numerical or throughput parity. See ADR0041 and its research receipt.
