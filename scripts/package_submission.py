@@ -223,10 +223,36 @@ def add_package_files(
     precision: str,
     runs_dir: Path,
     require_provenance: bool,
-) -> tuple[list[dict[str, object]], dict[str, str]]:
+    extra_files: list[Path] | None = None,
+) -> tuple[list[dict[str, object]], dict[str, str], list[dict[str, str]]]:
     """Create package files without modifying any source artifact."""
     shutil.copyfile(solution, package / "solution.py")
     (package / "precision.txt").write_text(precision + "\n")
+    auxiliary_records: list[dict[str, str]] = []
+    used_names = {
+        "solution.py",
+        "members.json",
+        "precision.txt",
+        *(f"weights_{index}.npz" for index in range(len(members))),
+    }
+    for source in extra_files or []:
+        resolved = source.resolve(strict=True)
+        if not resolved.is_file():
+            raise FileNotFoundError(resolved)
+        name = resolved.name
+        if name in used_names or Path(name).name != name or name in ("", ".", ".."):
+            raise ValueError(f"unsafe or duplicate package auxiliary file name: {name!r}")
+        used_names.add(name)
+        destination = package / name
+        shutil.copyfile(resolved, destination)
+        auxiliary_records.append(
+            {
+                "source_path": str(resolved),
+                "source_sha256": sha256_file(resolved),
+                "package_path": name,
+                "package_sha256": sha256_file(destination),
+            }
+        )
     member_records: list[dict[str, object]] = []
     spec: list[dict[str, object]] = []
     for index, (run, coefficient) in enumerate(members):
@@ -243,7 +269,7 @@ def add_package_files(
             raise FileNotFoundError(f"native {level} library missing: {library}")
         shutil.copytree(source, package / level)
         library_hashes[f"{level}/wnn_native.abi3.so"] = sha256_file(library)
-    return member_records, library_hashes
+    return member_records, library_hashes, auxiliary_records
 
 
 def package_files(package: Path) -> list[Path]:
@@ -309,6 +335,13 @@ def main() -> None:
     )
     parser.add_argument("--solution", type=Path, default=ROOT / "submission" / "solution_multi.py")
     parser.add_argument(
+        "--extra-file",
+        type=Path,
+        action="append",
+        default=None,
+        help="copy one auxiliary file to the package root (repeatable)",
+    )
+    parser.add_argument(
         "--precision",
         choices=("f32", "f16", "i16", "q16x", "q8vnni"),
         default="i16",
@@ -364,7 +397,7 @@ def main() -> None:
         stage = Path(temporary)
         package = stage / "pkg"
         package.mkdir()
-        member_records, native_hashes = add_package_files(
+        member_records, native_hashes, auxiliary_records = add_package_files(
             package,
             native_from,
             solution,
@@ -372,6 +405,7 @@ def main() -> None:
             args.precision,
             runs_dir,
             args.require_provenance,
+            args.extra_file,
         )
         temporary_zip = stage / "submission.zip"
         zip_record = write_zip(package, temporary_zip, args.max_zip_bytes)
@@ -398,6 +432,7 @@ def main() -> None:
                 "libraries": native_hashes,
             },
             "members": member_records,
+            "auxiliary_files": auxiliary_records,
             "artifact": zip_record,
             "gate_status": "package_crc_passed; offline_import_and_streaming_gate_pending",
         }
