@@ -21,6 +21,8 @@ from pathlib import Path
 from types import FrameType
 from typing import Any
 
+from comparison_receipt import ComparisonReceiptError, record_comparison_receipt
+
 LOG = logging.getLogger(__name__)
 HEARTBEAT_INTERVAL_SECONDS = 30
 PROGRESS_SCHEMA_VERSION = 1
@@ -413,6 +415,7 @@ class QueueWorker:
         status: str,
         steps: list[dict[str, Any]],
         expected_outputs: list[dict[str, Any]],
+        comparison_receipt: dict[str, Any] | None = None,
     ) -> None:
         """Append result line to results.jsonl with atomicity."""
         result = {
@@ -426,6 +429,8 @@ class QueueWorker:
             "worker_host": self.host,
             "worker_start_time": self.start_time,
         }
+        if comparison_receipt is not None:
+            result["comparison_receipt"] = comparison_receipt
         line = json.dumps(result)
         with open(self.results_path, "a") as f:
             f.write(line + "\n")
@@ -670,6 +675,38 @@ class QueueWorker:
                 }
             )
 
+        comparison_receipt_record: dict[str, Any] | None = None
+        if success and "comparison" in spec:
+            try:
+                comparison_receipt_record = record_comparison_receipt(
+                    spec["comparison"],
+                    run_id=run_id,
+                    spec_bytes=spec_bytes,
+                    steps=steps_records,
+                    declared_spec=spec,
+                )
+                steps_records.append(
+                    {
+                        "name": "comparison_receipt",
+                        "status": "succeeded",
+                        "receipt_path": comparison_receipt_record["receipt_path"],
+                        "ledger_path": comparison_receipt_record["ledger_path"],
+                        "ledger_appended": comparison_receipt_record["ledger_appended"],
+                    }
+                )
+            except ComparisonReceiptError as error:
+                success = False
+                comparison_receipt_record = {"status": "failed", "error": str(error)}
+                steps_records.append(
+                    {
+                        "name": "comparison_receipt",
+                        "status": "failed",
+                        "error": str(error),
+                        "start_utc": datetime.now(UTC).isoformat(),
+                        "end_utc": datetime.now(UTC).isoformat(),
+                    }
+                )
+
         self._write_result(
             run_id=run_id,
             spec_sha256=spec_sha256,
@@ -680,6 +717,7 @@ class QueueWorker:
             ),
             steps=steps_records,
             expected_outputs=expected_outputs_records,
+            comparison_receipt=comparison_receipt_record,
         )
 
         if success:
