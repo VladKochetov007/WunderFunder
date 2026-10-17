@@ -1,0 +1,48 @@
+{
+  "id": "E-DISCRETE-OCCUPANCY-PILOT-20261017-R2",
+  "phase": "adaptive_exploratory",
+  "parent": "E-MOMENT-GEOMETRY-20261017-R1",
+  "prior_results_seen": "All9R1endpoints; pooled moments-control mean+.0008833 with opposedfoldsigns; three trainseeds and twoexposed slices. NoR2scoresseen.",
+  "question": "Do exact frequent-level categories, row/event occupancy and dwell help alone or interact with causal moments at two recurrent capacities?",
+  "data": "Same pinned43fit/46evalsourcequalified components asR1; allsourcebindingandlabels/masksunchanged",
+  "dictionary": "Top3exactFP32levels per each of4selectedfields, fitonly; explicitunknown4thcategory. Currentonehot16,rowoccupancy16,eventdominantfrequency4,logdwell4. Resetpersequence,current-inclusive; nocausaluseoffinalmoments.",
+  "input_width": 271,
+  "arms": {
+    "control": "raw+events211; zero60suffix",
+    "scaled": "raw+events plusR1all20; zero40dictionary",
+    "dictionary": "raw+events plus40dictionary; zeroR1suffix20",
+    "combined": "raw+events plusboth20+40"
+  },
+  "capacities": [
+    {
+      "hidden": 32,
+      "layers": 1
+    },
+    {
+      "hidden": 128,
+      "layers": 2
+    }
+  ],
+  "paired_seeds": [
+    3,
+    7,
+    11
+  ],
+  "epochs": 2,
+  "updates_per_endpoint": 880,
+  "optimizer_schedule_precision": "Unchangedcanonical FP32 AdamW.001/.01wd/.999beta2,0warm cosine to1e-5,clip1,batch4,chunk512",
+  "checkpoint": "fixedfinal,no scoreselection",
+  "primary_contrasts": [
+    "dictionary-control",
+    "combined-scaled",
+    "(combined-scaled)-(dictionary-control)"
+  ],
+  "evaluation": "Officialglobal_wp_clip2_v1 pooledandfold0/1; 8components eachfold; allseed outcomes",
+  "trial_budget": {
+    "fit_endpoints": 24,
+    "new_feature_families": 1,
+    "evaluation_slices": 2
+  },
+  "interpretation": "Initialbenefit may be conditional on architecture, teacher target or featurecombination. No earlystandalone-dominancegate. Small43seqpilot is not30cell/fulltraining confirmation or productionteacher/studentKD.",
+  "resources": "Same5GBaggregateownslice, CPU1withinparent2,oneCUDAworkerfraction.18. Stage2GBchildwithoutGPUfitoverlap; fit3.5GBchild. ExistingexternalGPUworkeruntouched."
+}

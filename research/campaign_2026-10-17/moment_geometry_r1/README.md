@@ -52,3 +52,7 @@ The recorded pilot uses the already-frozen membership rather than resampling. On
 ## Independent prefit recipe review
 
 Native Luna/max first reviewed the question independently and then the implementation without outcomes. Source/storage pins were repaired; a duplicated numerical pilot loop was replaced with a canonical-component adapter. The reviewer caught the canonical CLI's default mixed loss; the recipe now explicitly sets `--loss wmse`. Final static review finds no concrete prefit blocker:43sequences, batch4,512rows,2epochs give880updates; zero-warmup single-cycle SGDR matches the frozen cosine endpoints; causal recurrent state and post-normalization zero controls match. This is recipe review, not empirical approval.
+
+## Adaptive discrete follow-up
+
+[Discrete pilot R2 plan](discrete_plan_r2.json) was registered after all9 R1 scores and before R2 outcomes. It freezes a fitting-only three-level dictionary plus explicit unknown category, row/event occupancy and dwell. Four matched-capacity arms isolate dictionary-only, moment-only and their interaction at H32×1 and H128×2,3paired seeds and the same2epoch budget. The larger model is a capacity probe, not a validated teacher; no KD experiment is claimed. This is an additional exploratory stage, with reused evaluation exposure and no early-dominance rejection gate.
