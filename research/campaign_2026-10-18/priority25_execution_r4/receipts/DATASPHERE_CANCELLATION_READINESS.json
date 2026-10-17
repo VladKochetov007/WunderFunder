@@ -1,0 +1,47 @@
+{
+  "kind": "datasphere_external_cancellation_readiness",
+  "checked_date": "2026-10-18",
+  "reviewer": "/root/datasphere_discovery_r4",
+  "scope": "Read-only installed CLI/SDK and durable-host inspection; no provider mutation or paid launch",
+  "status": "interface_verified_controller_not_armed",
+  "verified": {
+    "cli_version": "0.10.0",
+    "force_cancel_argv": [
+      "datasphere",
+      "project",
+      "job",
+      "cancel",
+      "--id",
+      "<JOB_ID>"
+    ],
+    "get_argv": [
+      "datasphere",
+      "project",
+      "job",
+      "get",
+      "--id",
+      "<JOB_ID>",
+      "--format",
+      "json"
+    ],
+    "cancel_behavior": "Default graceful=false; RPC return does not establish terminal state. Poll exact job ID until SUCCESS, ERROR or CANCELLED.",
+    "graceful_behavior": "Optional --graceful uses configured SIGTERM/60s shutdown; do not confuse this with total job lifetime.",
+    "refreshable_auth": "Installed CLI/yc and existing authenticated profile are verified on Mac only. Fixed YC_IAM_TOKEN is non-refreshable.",
+    "beleriand_linger": true
+  },
+  "not_verified": [
+    "DataSphere CLI, yc and authenticated profile on a durable controller host",
+    "Persistent external timer/service armed before submission",
+    "Live forced cancellation and terminal confirmation against a campaign job",
+    "Current A100/four-mount admission"
+  ],
+  "required_before_paid_submit": [
+    "User supplies current finite DataSphere allocation",
+    "Verify durable controller host and refreshable auth without printing/copying credentials",
+    "Arm external3600-second-from-submission deadline and persist exact newly-created job ID atomically",
+    "Cancel only the uniquely identified campaign job and verify terminal state"
+  ],
+  "new_campaign_gpu_hours": null,
+  "paid_job_launched": false,
+  "quality_result": null
+}
