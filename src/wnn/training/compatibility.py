@@ -7,6 +7,7 @@ from functools import wraps
 # Checkpoint payloads and experimental backend states have heterogeneous schemas.
 from typing import Any
 
+from wnn.training.compatibility_classes import environment_bound_class
 from wnn.training.environment import InputConfiguration, ReadoutConfiguration, TrainingEnvironment
 from wnn.training.forward import forward_chunk
 from wnn.training.models import make_model
@@ -235,6 +236,7 @@ class LegacyTrainerAPI:
 
     def __init__(self, namespace: Mapping[str, Any]) -> None:
         self.namespace = namespace
+        self._class_exports: dict[str, type[Any]] = {}
 
     def environment(self) -> TrainingEnvironment:
         """Snapshot caller settings without mutating another module."""
@@ -269,6 +271,8 @@ class LegacyTrainerAPI:
         target = getattr(importlib.import_module(f"wnn.training.{EXPORTS[name]}"), name)
         if name not in ENVIRONMENT_EXPORTS:
             return target
+        if isinstance(target, type):
+            return self._class_export(name, target)
 
         @wraps(target)
         def invoke(*args: Any, **kwargs: Any) -> Any:
@@ -277,6 +281,16 @@ class LegacyTrainerAPI:
             return target(*args, **kwargs)
 
         return invoke
+
+    def _class_export(self, name: str, target: type[Any]) -> type[Any]:
+        """Inject legacy settings while keeping class-valued exports as classes."""
+        if name not in self._class_exports:
+            self._class_exports[name] = environment_bound_class(
+                target,
+                self.environment,
+                str(self.namespace.get("__name__", target.__module__)),
+            )
+        return self._class_exports[name]
 
     def main(self) -> None:
         """Run with explicitly captured legacy settings and I/O dependencies."""

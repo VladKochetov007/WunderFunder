@@ -52,10 +52,61 @@ def build_inputs(
             control=environment.inputs.research_feature_control,
         )
         return inputs
-    inputs = torch.cat([raw, ev], dim=-1)
+    if x.requires_grad:
+        return _build_staged_inputs(raw, extra, ev, environment)
+    input_parts = [raw, ev]
+    if environment.inputs.online_norm:
+        input_parts.append(online_zscore_torch(raw))
+    propensity_parts = (
+        list(input_parts) if environment.inputs.propensity_model is not None else None
+    )
+    if environment.inputs.research_features != "none":
+        input_parts.append(
+            research_features_torch(
+                raw,
+                environment.inputs.research_features,
+                environment.inputs.research_feature_prior,
+                control=environment.inputs.research_feature_control,
+            )
+        )
+    if environment.inputs.privileged_mode != "none":
+        input_parts.append(
+            privileged_inputs(
+                raw, environment.inputs.privileged_mode, environment.inputs.privileged_horizon
+            )
+        )
+    if extra.shape[-1]:
+        input_parts.append(extra)
+        if propensity_parts is not None:
+            propensity_parts.append(extra)
+    if environment.inputs.propensity_model is not None:
+        assert propensity_parts is not None
+        prop_inputs = torch.cat(propensity_parts, dim=-1)
+        input_dtype = input_parts[0].dtype
+        for part in input_parts[1:]:
+            input_dtype = torch.promote_types(input_dtype, part.dtype)
+        input_parts.append(
+            environment.propensity(environment.inputs.propensity_model, prop_inputs)[..., None].to(
+                input_dtype
+            )
+        )
+    inputs = torch.cat(input_parts, dim=-1)
+    if environment.inputs.sentinel_preprocessor is not None:
+        inputs = environment.inputs.sentinel_preprocessor.torch(inputs)
+    return inputs
+
+
+def _build_staged_inputs(
+    raw: torch.Tensor,
+    extra: torch.Tensor,
+    event: torch.Tensor,
+    environment: TrainingEnvironment,
+) -> torch.Tensor:
+    """Retain the legacy autograd accumulation order for differentiable inputs."""
+    inputs = torch.cat([raw, event], dim=-1)
     if environment.inputs.online_norm:
         inputs = torch.cat([inputs, online_zscore_torch(raw)], dim=-1)
-    prop_inputs = inputs
+    propensity_inputs = inputs
     if environment.inputs.research_features != "none":
         inputs = torch.cat(
             [
@@ -82,12 +133,12 @@ def build_inputs(
     if extra.shape[-1]:
         inputs = torch.cat([inputs, extra], dim=-1)
         if environment.inputs.propensity_model is not None:
-            prop_inputs = torch.cat([prop_inputs, extra], dim=-1)
+            propensity_inputs = torch.cat([propensity_inputs, extra], dim=-1)
     if environment.inputs.propensity_model is not None:
         inputs = torch.cat(
             [
                 inputs,
-                environment.propensity(environment.inputs.propensity_model, prop_inputs)[
+                environment.propensity(environment.inputs.propensity_model, propensity_inputs)[
                     ..., None
                 ].to(inputs.dtype),
             ],

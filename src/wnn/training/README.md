@@ -34,6 +34,7 @@ from wnn.training.runner import run_training
 | [cli_targets](cli_targets.py) | Main row weighting, shifted targets and next-change auxiliary labels. |
 | [cli_views](cli_views.py) | Ordered CLI registration for views options, preserving original declarations. |
 | [compatibility](compatibility.py) | Bounded legacy export adapters for bare/package/custom-name imports; no module monkey-patching. |
+| [compatibility_classes](compatibility_classes.py) | Environment injection for legacy class exports while preserving class identity. |
 | [data_caches](data_caches.py) | Validated teacher, quote, spread and propensity cache bindings. |
 | [data_loaders](data_loaders.py) | Loader memory admission, sampling order, pinning and drop-tail behavior. |
 | [data_membership](data_membership.py) | Deterministic fitting/evaluation membership and sampling selection. |
