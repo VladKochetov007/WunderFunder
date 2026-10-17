@@ -79,6 +79,6 @@ The branch also includes native feature serving, the single-member callback, a r
 
 ## Registration and next decision
 
-H-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1 is a child of the moment-geometry and discrete-occupancy hypotheses. E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1 is a proposal with implemented launch code, zero B300 profiles, zero admitted scientific fits and zero optimizer steps. The [experiment draft catalogue](../../experiment_drafts/README.md) records the GitHub draft URL and published branch head.
+H-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1 is a child of the moment-geometry and discrete-occupancy hypotheses. E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1 is a proposal with implemented launch code, zero B300 profiles, zero admitted scientific fits and zero optimizer steps. The [experiment draft catalogue](../../experiment_drafts/README.md) records GitHub draft PR #15 and its original publication source SHA; the live branch head is checked through GitHub.
 
 A useful positive combined or interaction result would keep the representation active and direct a separate warm/teacher/student follow-up. A negative fresh baseline comparison narrows this H512 recipe but leaves warm continuation, distillation, fixed mixtures and larger-capacity descendants available. The [arXiv helper query](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md) returned no directly applicable primary method; this is an internal-Evidence proposal, not literature-backed proof.
