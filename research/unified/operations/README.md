@@ -4,6 +4,8 @@ Execution status, storage locations, preservation receipts and operational incid
 
 ## Current navigation
 
+- [Rank1 wide stage1 completion](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F0_S1001_STAGE1_VERIFICATION.json) — E-RR18-01-LABELS wide F0/seed1001 completed epochs0–1 with29,840 updates and exit0. Model/provenance/history/optimizer archives passed finite-state and source/contract/hash checks; this is a planned intermediate stage, not the epoch5 quality endpoint. The existing controller handed the sole GPU worker to deep H384×2, preserving the paired recipe.
+
 - [Rank1 first-epoch archive and verification](../../campaign_2026-10-18/priority25_execution_r4/receipts/README.md) — E-RR18-01-LABELS wide F0/seed1001 epoch0 completed14,920 finite updates in3505.8 training seconds. Stable remote model/provenance/optimizer-state copies are hash-bound; independent interpretation preserves the distinction between intermediate `next_epoch=1`, planned stage1 `next_epoch=2`, structural validity and unmeasured GPU resume parity. The single worker continues epoch1; no quality endpoint or CP30 conclusion exists.
 
 - [Cluster issue handoff for rank1](../../campaign_2026-10-18/priority25_execution_r4/cluster/README.md) — The user authorizes repository issues for the team cluster. The prepared first task binds recipe, data, cell ownership and required outputs; Git publication works, while issue authentication and cluster execution remain unverified.
