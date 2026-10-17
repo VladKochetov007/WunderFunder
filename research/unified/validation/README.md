@@ -56,3 +56,4 @@ Keep fold, fitting membership, ancestry, selection exposure, and score uncertain
 
 
 - [Sequence moment geometry investigation](../../campaign_2026-10-17/moment_geometry_r1/README.md) registers the user's mean/std arc EDA and bounded causal normalization/early-inference experiments on main. Initial status: contract recorded, screenshot feature unknown, no measured mechanism or predictive gain;5GB aggregate task RAM and no Kaggle job changes.
+- [Sequence moment geometry: arcs and causal representations](SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) reports128train/128valid raw-input scans, all112visually inspected mean/std plots, near-arc multi-value support and prefix reconstruction errors. Explains point-mass mixture arcs, future-leakage risks, source/component provenance and the preregistered matched causal-feature pilot. Geometry is measured; predictive gain remains pending.

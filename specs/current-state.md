@@ -1,3 +1,7 @@
+## 2026-10-17 — scoped sequence-moment research resume
+
+The latest user explicitly authorizes marimo EDA and local causal geometry/normalization experiments directly on main, within5GB aggregate task RAM and existing two-core parent. This overrides the historical pause for this investigation only. Kaggle remains with its other owner. The [experiment record](../research/unified/validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) records the preregistered pilot and measured input-only geometry; no predictive gain is claimed yet.
+
 ## 2026-10-17 — modular trainer maintenance
 
 The user authorizes semantic decomposition/reuse of train_rnn.py, shared main/research-team integration, uv/Ruff and one Sol6.1/medium critic. The [refactor receipt](../research/unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md) records the typed per-run package, legacy CLI/packet compatibility, source hashes, structural CI and independent fixes. No fitting, tests, parity or throughput benchmark ran; model research remains paused. Historical frozen sources/checkpoints/recipes were preserved.
