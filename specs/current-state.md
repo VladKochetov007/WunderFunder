@@ -8,6 +8,8 @@ The latest user explicitly requests testing ideas1–25 end-to-end on Beleriand 
 
 ## Operating state
 
+The user additionally authorizes creating repository issues for the team’s powerful cluster. The [first cluster handoff](../research/campaign_2026-10-18/priority25_execution_r4/cluster/README.md) proposes F1/F2/F3 seed1001 pairs, preserving Beleriand’s F0/seed1001 ownership. The issue body is prepared and can be published through Git; the issue API/CLI currently lacks authenticated repository access. No cluster job or automatic issue executor is verified.
+
 The latest research closeout is dated 15 October 2026 at 18:39 UTC. It records
 that the admitted G fit, export and grade finished, all admitted work drained,
 and the research admission barrier remained closed. The latest user explicitly resumed the sequence-moment/heuristic investigation locally on main with a5GB aggregate task RAM cap. This supersedes that pause for this exact scope; unrelated campaign admission and the other agent's Kaggle ownership remain unchanged. Older plans, quotas and stop snapshots are historical authority only.

@@ -1,5 +1,9 @@
 # Project agent instructions
 
+## Cluster handoffs through GitHub issues — user instruction, 2026-10-18
+
+The user explicitly authorizes creating issues in this repository for the team's powerful cluster to check research ideas. Use concrete experiment handoffs with pinned source/recipe/data identities, matched controls, bounded initial work, expected outputs and acceptance criteria. Check existing issues before creating duplicates when issue access is available. Record the actual issue URL and a worker/cell claim before describing work as dispatched or running; posting an issue alone is not evidence of automatic execution. Keep both arms of each paired cell on the same provider/runtime and avoid cells already owned by Beleriand or another worker. This does not change the one-GPU Beleriand limit or supply a new DataSphere spending ceiling. If issue API access is unavailable, preserve and publish the prepared handoff via the working Git connection and report the access dependency honestly.
+
 ## Python training architecture — user instruction, 2026-10-17
 
 Use `$python-standards` proactively for Python changes. The [training component map](src/wnn/training/README.md) is canonical: reuse its datasets, input assembly, model factory, objectives, update, checkpoint and provenance components. `scripts/train_rnn.py` is a compatibility entrypoint; do not add orchestration or model/feature/loss implementations there. New training logic belongs in a focused semantic component, never in a copied trainer.

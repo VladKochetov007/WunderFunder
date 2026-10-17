@@ -5,6 +5,7 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 ## Current navigation
 
 - [Ranked25 execution, October18](../../campaign_2026-10-18/priority25_execution_r4/README.md) — Execution of the current25ranked hypotheses in order; rank1 compares two cold GRU shapes, with matched membership and explicit near-capacity control. Both actual-data profiles passed; the first F0 paired six-epoch pipeline is running with actual optimizer progress. Quality results are pending.
+- [Rank1 cluster handoff](../../campaign_2026-10-18/priority25_execution_r4/cluster/README.md) — Prepared issue for additional paired folds and remaining CP30 cells, excluding the running Beleriand pair. It documents executable-source references and unresolved cluster paths/scheduler; no issue or cluster fit has yet been created.
 
 - [Current 25 ranked ideas, October 18](PRIORITIZED_25_20261018_R3.md) - ordered H-RR17 portfolio after R2 and the separate geometry pilot: width/depth, causal statistics, teacher/student and intermediate hints lead; architecture exploration is retained and duplicated event auxiliaries move down. Each card has rationale, a decisive comparison and qualitative cost. Informed Luna critique and unchanged no-fit authority are explicit; no new measured gains.
 
