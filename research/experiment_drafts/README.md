@@ -6,18 +6,18 @@ Each scientific idea is a separate draft targeting research-team. No experiment 
 
 | Branch | Source SHA | Status |
 |---|---|---|
-| `experiment/field-age` | `8b6482aa0eaa` | draft publication planned |
-| `experiment/gru-growth` | `b8d9b338b7cc` | draft publication planned |
-| `experiment/parent-anchor` | `e77beb930628` | draft publication planned |
-| `experiment/initial-state` | `7de60a2f6cca` | draft publication planned |
-| `experiment/gru-capacity` | `09fd0bd586d8` | draft publication planned |
-| `experiment/transformer-ar` | `bc4a46020059` | draft publication planned |
-| `experiment/input-encoding` | `f8635e0df3bd` | draft publication planned |
-| `experiment/causal-smoothing` | `a3575606c421` | draft publication planned |
-| `experiment/circle-feature` | `697793e7efe3` | draft publication planned |
-| `experiment/teacher-family` | `1de2842fec94` | draft publication planned |
-| `experiment/pretrained-teacher` | `4eed1577c589` | draft publication planned |
-| `experiment/teacher-cohort` | `2c19e5c2834d` | draft publication planned |
-| `experiment/trajectory-average` | `82a2c684244b` | draft publication planned |
-| `experiment/causal-innovation` | `b1ab21ec3804` | draft publication planned |
-| `experiment/tpu-parity` | `9f4f92eaffbb` | retained locally; definition/engineering only |
+| `experiment/field-age` | `8be5f8bf9a3d` | draft publication planned |
+| `experiment/gru-growth` | `6b96ed88c3a3` | draft publication planned |
+| `experiment/parent-anchor` | `400334f291c3` | draft publication planned |
+| `experiment/initial-state` | `4c78577307e1` | draft publication planned |
+| `experiment/gru-capacity` | `9390f08af7a5` | draft publication planned |
+| `experiment/transformer-ar` | `f772da4c35d9` | draft publication planned |
+| `experiment/input-encoding` | `e239bab3a7d3` | draft publication planned |
+| `experiment/causal-smoothing` | `2b664e31654f` | draft publication planned |
+| `experiment/circle-feature` | `d2716b197941` | draft publication planned |
+| `experiment/teacher-family` | `510d971b5549` | draft publication planned |
+| `experiment/pretrained-teacher` | `00692b0eeb31` | draft publication planned |
+| `experiment/teacher-cohort` | `d2c92de6a8e6` | draft publication planned |
+| `experiment/trajectory-average` | `1002c70913ae` | draft publication planned |
+| `experiment/causal-innovation` | `de2ade7dafdc` | draft publication planned |
+| `experiment/tpu-parity` | `a7660a5b0d12` | retained locally; definition/engineering only |
