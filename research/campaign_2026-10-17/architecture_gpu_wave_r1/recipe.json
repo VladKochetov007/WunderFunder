@@ -1,0 +1,178 @@
+{
+  "schema": "wnn.architecture-gpu-wave-recipe.v1",
+  "campaign_id": "architecture_gpu_wave_r1",
+  "status": "recipe_locked_gpu_preflight_pending",
+  "hypothesis_ids": [
+    "H-CAUSAL-TRANSFORMER-20261017",
+    "H-CONTEXT-TRANSFORMER-20261017",
+    "H-SELECTIVE-SSM-20261017"
+  ],
+  "split": {
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "fold": 0,
+    "evaluation_groups": 468,
+    "full_valid_groups": 1873,
+    "exposure": "Repeatedly inspected development evidence; not a fresh holdout or public forecast."
+  },
+  "common": {
+    "fit_source": "train+valid",
+    "labels_only": true,
+    "seed": 3,
+    "epochs": 1,
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch": 0,
+    "batch_order": "seeded",
+    "batch": 8,
+    "chunk": 2000,
+    "full_epoch_batches": 1492,
+    "optimizer_updates_per_batch": 10,
+    "precision": "fp32",
+    "optimizer": "adamw",
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "beta2": 0.999,
+    "scheduler": "onecycle",
+    "gradient_clip": 1.0,
+    "loss": "wmse",
+    "loss_norm": "chunk",
+    "dropout": 0.0,
+    "input_features": 211,
+    "sequence_rows": 20000,
+    "normalization": "Fit on the shared fitting groups in the shared seeded normalization order.",
+    "score_mask": "Unchanged official global_wp_clip2_v1 mask; fixed fold-0 evaluation groups.",
+    "fit_scope": "Exact component-disjoint train and valid fitting groups from the frozen fold-0 manifest.",
+    "evaluation_during_fit": false,
+    "preflight_batches": 1,
+    "preflight_scope": "One real-data batch per architecture under a separate run name; it is not a scored fit."
+  },
+  "arms": [
+    {
+      "arm": "A",
+      "run_id": "architecture_wave_gru_f0_s3_r1",
+      "preflight_run_id": "architecture_wave_gru_f0_s3_preflight_r1",
+      "architecture": "gru",
+      "hypothesis_id": "H-CAUSAL-TRANSFORMER-20261017",
+      "description": "Scratch GRU reference, hidden width 256, two layers.",
+      "model": {
+        "arch": "gru",
+        "hidden": 256,
+        "layers": 2
+      }
+    },
+    {
+      "arm": "B",
+      "run_id": "architecture_wave_transformer_w256_f256_f0_s3_r1",
+      "preflight_run_id": "architecture_wave_transformer_w256_f256_f0_s3_preflight_r1",
+      "architecture": "causal-transformer",
+      "hypothesis_id": "H-CAUSAL-TRANSFORMER-20261017",
+      "description": "Causal sliding-window Transformer, width 256, four layers, window 256.",
+      "model": {
+        "arch": "causal-transformer",
+        "hidden": 256,
+        "layers": 4,
+        "attention_heads": 8,
+        "attention_window": 256,
+        "attention_ffn_mult": 4
+      }
+    },
+    {
+      "arm": "C",
+      "run_id": "architecture_wave_transformer_w256_f2048_f0_s3_r1",
+      "preflight_run_id": "architecture_wave_transformer_w256_f2048_f0_s3_preflight_r1",
+      "architecture": "causal-transformer",
+      "hypothesis_id": "H-CONTEXT-TRANSFORMER-20261017",
+      "description": "Same Transformer as B with only the attention window extended to 2048.",
+      "model": {
+        "arch": "causal-transformer",
+        "hidden": 256,
+        "layers": 4,
+        "attention_heads": 8,
+        "attention_window": 2048,
+        "attention_ffn_mult": 4
+      }
+    },
+    {
+      "arm": "D",
+      "run_id": "architecture_wave_mamba2_f0_s3_r1",
+      "preflight_run_id": "architecture_wave_mamba2_f0_s3_preflight_r1",
+      "architecture": "mamba2",
+      "hypothesis_id": "H-SELECTIVE-SSM-20261017",
+      "description": "Mamba-2 selective state-space model, width 256, four layers, declared state and chunk settings.",
+      "model": {
+        "arch": "mamba2",
+        "hidden": 256,
+        "layers": 4,
+        "mamba_state_size": 64,
+        "mamba_head_dim": 64,
+        "mamba_expand": 2,
+        "mamba_conv_width": 4,
+        "mamba_chunk_size": 256
+      }
+    }
+  ],
+  "comparison": {
+    "reference_run_id": "architecture_wave_gru_f0_s3_r1",
+    "standalone_metric": "global_wp_clip2_v1",
+    "paired_references": {
+      "B": ["architecture_wave_gru_f0_s3_r1@ep0"],
+      "C": [
+        "architecture_wave_gru_f0_s3_r1@ep0",
+        "architecture_wave_transformer_w256_f256_f0_s3_r1@ep0"
+      ],
+      "D": ["architecture_wave_gru_f0_s3_r1@ep0"]
+    },
+    "fixed_mix": {
+      "reference_weight": 0.9,
+      "candidate_weight": 0.1,
+      "reference_run_id": "architecture_wave_gru_f0_s3_r1",
+      "candidate_arms": ["B", "C", "D"]
+    },
+    "limit": "Layer counts differ by design; this is a matched-data, matched-seed, matched-training-budget architecture screen, not a parameter-count match."
+  },
+  "target_gpu_preflight": {
+    "required_tests": [
+      "tests/test_causal_transformer_gpu.py",
+      "tests/test_mamba2_gpu.py",
+      "tests/test_architecture_wave_integration_gpu.py"
+    ],
+    "requirements": "CUDA-visible Linux host; tests may not skip.",
+    "torch": "2.14.0+cu130",
+    "mamba_source_commit": "95d8aba8a8c75aedcaa6143713b11e745e7cd0d9",
+    "mamba_install": "Install torch and Mamba build prerequisites first; install the pinned Mamba source with --no-build-isolation.",
+    "one_batch_per_architecture": true,
+    "preflight_run_names_are_separate": true
+  },
+  "source_closure": {
+    "scripts": [
+      "scripts/train_rnn.py",
+      "scripts/predict_run.py",
+      "scripts/score_fold_panel.py",
+      "scripts/evaluate_bandit_continuation.py",
+      "scripts/comparison_receipt.py",
+      "scripts/warm_queue_worker.py",
+      "scripts/prepare_architecture_gpu_wave.py",
+      "scripts/run_architecture_gpu_wave.py"
+    ],
+    "source_roots": [
+      "src/wnn"
+    ],
+    "tests": [
+      "tests/test_causal_transformer_gpu.py",
+      "tests/test_mamba2_gpu.py",
+      "tests/test_architecture_wave_integration_gpu.py"
+    ],
+    "dependency_files": [
+      "pyproject.toml",
+      "requirements.txt",
+      "requirements/mamba2-gpu.txt"
+    ],
+    "recipe": "research/campaign_2026-10-17/architecture_gpu_wave_r1/recipe.json"
+  },
+  "limits": [
+    "No result, speed, memory, or submission-quality claim exists until target-GPU preflight and all four fits complete.",
+    "Every arm starts from scratch with label-only wMSE; no teacher or initializer is used.",
+    "Full-valid predictions contain all 1873 validation groups; fold-0 grading uses only its 468 frozen evaluation groups.",
+    "No native CPU export is claimed. Consider quantized student/CPU export only after the architecture comparison is complete."
+  ]
+}

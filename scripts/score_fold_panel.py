@@ -286,6 +286,12 @@ def main() -> None:
     parser.add_argument("--expected-fold", type=int, required=True)
     parser.add_argument("--epoch", type=int, help="default epoch for an unqualified candidate")
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument(
+        "--root",
+        type=Path,
+        default=ROOT,
+        help="project/data root holding runs, targets, and predictions (defaults to this checkout)",
+    )
     parser.add_argument("--n-boot", type=int, default=BOOTSTRAP_REPLICATES)
     args = parser.parse_args()
     report = score_panel(
@@ -294,6 +300,7 @@ def main() -> None:
         split_path=args.split,
         expected_fold=args.expected_fold,
         output_path=args.out,
+        root=args.root,
         n_boot=args.n_boot,
         candidate_epoch=args.epoch,
     )
