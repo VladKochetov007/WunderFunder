@@ -1,0 +1,19 @@
+{
+  "id": "E-MOMENT-GEOMETRY-20261017-R1",
+  "question": "Does the sequence mean/std arc encode a bounded or discrete support identity, and can causal prefix statistics improve target prediction?",
+  "objective_mode": "competition",
+  "verification_tier": "B for fixed-data measurements; C for transfer to competition quality",
+  "authority": "Latest user explicitly resumes this scoped local investigation directly on main; historic research pause remains for unrelated campaigns. Kaggle is secondary and currently owned by another agent.",
+  "scope": ["streaming train/valid EDA", "causal feature and normalization probes", "bounded local GPU comparisons if free capacity permits", "marimo notebook and static exports"],
+  "budgets": {"aggregate_task_memory_bytes": 5000000000, "task_cpu_cores": 1, "existing_parent_cpu_cores": 2, "local_gpu_worker": 1, "gpu_memory_bytes_max": 1500000000, "paid_spend": 0, "initial_wall_minutes": 60},
+  "sampling": {"seed": 20261017, "eda_train_groups": 128, "eda_valid_groups": 128, "exclude_train": [528], "unit": "complete 20000-row sequence"},
+  "primary_diagnostics": ["train-fitted variance=beta*mean+intercept-mean^2 residual on sampled valid", "per-sequence two-support variance identity", "prefix geometry accuracy and stability", "causality under future mutation"],
+  "candidate_families": ["raw baseline", "causal expanding moments and support evidence", "causal scale normalization retaining raw values"],
+  "model_comparison": "Freeze exact model arms and source-qualified component-disjoint membership before fitting. Official global_wp_clip2_v1, unchanged clipping/mask; matched final checkpoint and seeds. Small-data screens are exploratory, never full-scale recipe rejection.",
+  "selection_budget": {"geometry_columns_scanned": 112, "prefix_lengths": [32,100,512,2048,8192,20000], "max_model_treatments_besides_control": 2, "paired_seeds": [3,7,11], "posthoc_changes": "append-only amendment required"},
+  "invariants": ["no full-sequence moments or extrema supplied to causal predictions", "no targets in preprocessing or feature fitting", "fit transform parameters on fitting data only", "reset state at true sequence start", "no touched Kaggle jobs or other GPU processes"],
+  "exposure": "All reused validation is exposed/unknown; no pristine confirmation available. EDA selection is adaptive; training seed variation and evaluation component sampling are separate.",
+  "success": "A measured identity plus a usable causal estimate, or a reproducible paired predictive gain of practical interest (initial threshold +0.001 official score for a screen, not significance).",
+  "abort": ["task memory bound cannot fit", "other GPU worker cannot safely coexist", "data integrity failure", "evaluator or causal invariant fails"],
+  "negative_interpretation": "An arc alone does not prove new predictive information. A failed small screen closes only the tested recipe. Confidence intervals crossing zero are not an automatic family rejection."
+}

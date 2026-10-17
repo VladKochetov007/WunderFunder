@@ -1,0 +1,72 @@
+--- a/home/grinchenkoeg/xteam/xeval.py
++++ b/home/grinchenkoeg/xteam/xeval.py
+@@ -1,7 +1,15 @@
+-import json, sys, numpy as np
++from __future__ import annotations
++
++from collections.abc import Callable, Iterable
++import json
++import sys
++
++import numpy as np
+ R = "/home/grinchenkoeg/WunderFunder-creative/"
+ vt = np.load(R + "cache/valid_targets.npz"); Y = vt["y"]; MASK = vt["mask"]; RG = vt["row_group"]
+ pos = {int(g): i for i, g in enumerate(RG)}
++if len(pos) != len(RG) or Y.shape[0] != len(RG) or MASK.shape[0] != len(RG):
++    raise ValueError("valid target row-group order is duplicated or misaligned")
+ cf = np.load(R + "cache/chain_folds.npz"); sp = cf["split"].astype(str); tr = set(cf["chain"][sp == "train"].tolist())
+ v = sp == "valid"; chain = dict(zip(cf["row_group"][v].tolist(), cf["chain"][v].tolist()))
+ strict = set(int(g) for g, c, f in zip(cf["row_group"][v], cf["chain"][v], cf["fold"][v]) if f == 0 and c not in tr)
+@@ -9,17 +17,47 @@
+ def load(name):
+     p = f"p/{name}.npy" if name.startswith("v") and not name.startswith("vt") else R + f"cache/pred_{name}_valid.npy"
+     return np.load(p, mmap_mode="r")
+-def mom(groups, preds):
+-    # per-group moments for each pred: returns dict name->(G,2,6)
++def mom(groups: Iterable[int], preds: dict[str, Callable[[int], np.ndarray]]) -> dict[str, np.ndarray]:
++    """Compute per-group weighted moments after validating selected values.
++
++    Args:
++        groups: Unique valid-source row groups in requested output order.
++        preds: Mapping of prediction names to row-group prediction readers.
++
++    Returns:
++        Per-group ``(groups, 2, 6)`` weighted moments for each predictor.
++    """
++    groups = [int(g) for g in groups]
++    if len(set(groups)) != len(groups):
++        raise ValueError("evaluation row groups contain duplicates")
++    missing = [g for g in groups if g not in pos]
++    if missing:
++        raise ValueError(f"evaluation row groups are missing from valid targets: {missing[:5]}")
+     out = {k: np.zeros((len(groups), 2, 6)) for k in preds}
+     for j, g in enumerate(groups):
+-        i = pos[g]; y = np.clip(Y[i].astype(np.float64), -2, 2); m = MASK[i].astype(bool).copy(); m[:99] = False
++        i = pos[g]
++        raw_y = np.asarray(Y[i], np.float64)
++        if raw_y.ndim != 2 or raw_y.shape[1] != 2:
++            raise ValueError(f"target row for group {g} must have shape (timesteps, 2)")
++        m = np.asarray(MASK[i], dtype=bool).copy()
+         if m.ndim == 1: m = np.repeat(m[:, None], 2, 1)
++        if m.shape != raw_y.shape:
++            raise ValueError(f"scoring mask for group {g} does not match its target shape")
++        m[:99] = False
++        if not np.isfinite(raw_y[m]).all():
++            raise ValueError(f"selected targets for group {g} contain nonfinite values")
++        y = np.clip(np.where(m, raw_y, 0.0), -2, 2)
+         w = np.abs(y) * m
+         for k, p in preds.items():
+-            x = np.clip(np.nan_to_num(np.asarray(p(g), np.float64)), -2, 2)
++            raw_x = np.asarray(p(g), np.float64)
++            if raw_x.shape != raw_y.shape:
++                raise ValueError(f"prediction for {k} group {g} has shape {raw_x.shape}, expected {raw_y.shape}")
++            if not np.isfinite(raw_x[m]).all():
++                raise ValueError(f"selected predictions for {k} group {g} contain nonfinite values")
++            x = np.clip(np.where(m, raw_x, 0.0), -2, 2)
+             out[k][j] = np.stack([w.sum(0), (w*y).sum(0), (w*x).sum(0), (w*y*y).sum(0), (w*x*x).sum(0), (w*y*x).sum(0)], -1)
+     return out
+-def wp(S):
++def wp(S: np.ndarray) -> float:
++    """Compute mean weighted Pearson correlation from summed moments."""
+     w, sy, sx, syy, sxx, syx = S.T
+     return float(np.mean((syx - sy*sx/w) / np.sqrt((syy - sy*sy/w) * (sxx - sx*sx/w))))
