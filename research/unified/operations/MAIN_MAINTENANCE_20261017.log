@@ -1,0 +1,42 @@
+uv run --no-project --with ruff==0.16.7 ruff check src/wnn/training scripts/train_rnn.py scripts/e540_cli_preflight.py scripts/check_training_structure.py tests/test_training_structure_checker.py tests/test_training_compatibility.py tests/test_training_input_allocation.py
+All checks passed!
+uv run --no-project --with ruff==0.16.7 ruff format --check src/wnn/training scripts/train_rnn.py scripts/e540_cli_preflight.py scripts/check_training_structure.py tests/test_training_structure_checker.py tests/test_training_compatibility.py tests/test_training_input_allocation.py
+64 files already formatted
+uv run --no-project python scripts/check_training_structure.py
+{"files": 59, "errors": 0, "max_module_lines": 300, "max_function_lines": 200}
+uv run --no-project python -m unittest tests.test_training_structure_checker
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.026s
+
+OK
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WNN_THREADS=1 \
+		PYTHONPATH=src .venv/bin/python -m pytest -q tests/test_training_compatibility.py tests/test_training_input_allocation.py tests/test_training_structure_checker.py tests/test_trainer_resume_integration.py tests/test_features.py tests/test_causal_moment_features.py tests/test_field_age_features.py
+.............................................s.........s.....            [100%]
+=============================== warnings summary ===============================
+tests/test_causal_moment_features.py::test_causal_moments_match_batch_stream_and_ignore_future[causal_moments]
+tests/test_causal_moment_features.py::test_causal_moments_match_batch_stream_and_ignore_future[causal_innovations]
+tests/test_causal_moment_features.py::test_newest_control_keeps_width_and_matches_batch_stream[causal_moments-64]
+tests/test_causal_moment_features.py::test_newest_control_keeps_width_and_matches_batch_stream[causal_innovations-16]
+  <checkout>/src/wnn/research_features.py:255: RuntimeWarning: divide by zero encountered in matmul
+    projected = sequence @ MOMENT_PROJECTION
+
+tests/test_causal_moment_features.py::test_causal_moments_match_batch_stream_and_ignore_future[causal_moments]
+tests/test_causal_moment_features.py::test_causal_moments_match_batch_stream_and_ignore_future[causal_innovations]
+tests/test_causal_moment_features.py::test_newest_control_keeps_width_and_matches_batch_stream[causal_moments-64]
+tests/test_causal_moment_features.py::test_newest_control_keeps_width_and_matches_batch_stream[causal_innovations-16]
+  <checkout>/src/wnn/research_features.py:255: RuntimeWarning: overflow encountered in matmul
+    projected = sequence @ MOMENT_PROJECTION
+
+tests/test_causal_moment_features.py::test_causal_moments_match_batch_stream_and_ignore_future[causal_moments]
+tests/test_causal_moment_features.py::test_causal_moments_match_batch_stream_and_ignore_future[causal_innovations]
+tests/test_causal_moment_features.py::test_newest_control_keeps_width_and_matches_batch_stream[causal_moments-64]
+tests/test_causal_moment_features.py::test_newest_control_keeps_width_and_matches_batch_stream[causal_innovations-16]
+  <checkout>/src/wnn/research_features.py:255: RuntimeWarning: invalid value encountered in matmul
+    projected = sequence @ MOMENT_PROJECTION
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_features.py:72: datasets/*.parquet not present
+SKIPPED [1] tests/test_causal_moment_features.py:158: datasets/*.parquet not present
+59 passed, 2 skipped, 12 warnings in 11.09s

@@ -1,0 +1,165 @@
+{
+  "schema": "wnn.no-fit.future-comparison.v1",
+  "status": "design_only_not_runnable",
+  "training_authorized": false,
+  "fit_admitted": false,
+  "cells_per_arm": [
+    {
+      "fold": "F0",
+      "seed": 1001
+    },
+    {
+      "fold": "F0",
+      "seed": 1002
+    },
+    {
+      "fold": "F0",
+      "seed": 1003
+    },
+    {
+      "fold": "F0",
+      "seed": 1004
+    },
+    {
+      "fold": "F0",
+      "seed": 1005
+    },
+    {
+      "fold": "F0",
+      "seed": 1006
+    },
+    {
+      "fold": "F0",
+      "seed": 1007
+    },
+    {
+      "fold": "F0",
+      "seed": 1008
+    },
+    {
+      "fold": "F1",
+      "seed": 1001
+    },
+    {
+      "fold": "F1",
+      "seed": 1002
+    },
+    {
+      "fold": "F1",
+      "seed": 1003
+    },
+    {
+      "fold": "F1",
+      "seed": 1004
+    },
+    {
+      "fold": "F1",
+      "seed": 1005
+    },
+    {
+      "fold": "F1",
+      "seed": 1006
+    },
+    {
+      "fold": "F1",
+      "seed": 1007
+    },
+    {
+      "fold": "F1",
+      "seed": 1008
+    },
+    {
+      "fold": "F2",
+      "seed": 1001
+    },
+    {
+      "fold": "F2",
+      "seed": 1002
+    },
+    {
+      "fold": "F2",
+      "seed": 1003
+    },
+    {
+      "fold": "F2",
+      "seed": 1004
+    },
+    {
+      "fold": "F2",
+      "seed": 1005
+    },
+    {
+      "fold": "F2",
+      "seed": 1006
+    },
+    {
+      "fold": "F2",
+      "seed": 1007
+    },
+    {
+      "fold": "F3",
+      "seed": 1001
+    },
+    {
+      "fold": "F3",
+      "seed": 1002
+    },
+    {
+      "fold": "F3",
+      "seed": 1003
+    },
+    {
+      "fold": "F3",
+      "seed": 1004
+    },
+    {
+      "fold": "F3",
+      "seed": 1005
+    },
+    {
+      "fold": "F3",
+      "seed": 1006
+    },
+    {
+      "fold": "F3",
+      "seed": 1007
+    }
+  ],
+  "n_per_arm": 30,
+  "n_two_arm_fits": 60,
+  "precision": {
+    "weights": "float32",
+    "states": "float32",
+    "activations": "float32",
+    "gradients": "float32",
+    "optimizer_state": "float32",
+    "autocast": false,
+    "tf32": false,
+    "quantization": false
+  },
+  "metric": "global_wp_clip2_v1",
+  "primary_estimand": "D = mean_over_4_fixed_folds(mean_over_available_paired_seeds(WP_candidate - WP_control))",
+  "seed_uncertainty": {
+    "replicates": 10000,
+    "rng_seed": 20261017,
+    "unit": "eight seed identities, shared multiplicities across the four fixed folds",
+    "folds_resampled": false,
+    "within_fold": "renormalize over 8/8/7/7 available seed cells; redraw if a fold has zero available multiplicity",
+    "interval": "approximate percentile95 conditional on fixed exposed folds/data/ancestry"
+  },
+  "evaluation_uncertainty": "separate component-cluster paired bootstrap with fits fixed, same component multiplicities for all seeds and arms within a fold; does not measure fitting variation",
+  "multiple_comparisons": "freeze primary comparison family and correction (e.g. Holm) before any fit; no portfolio-wide significance from uncorrected per-card intervals",
+  "ancestry": "source-qualified component-clean fitting, teachers, initializers and normalizers per outer fold; selection stays inside fitting components",
+  "exposure": "all four folds already exposed; no fresh holdout or chronological guarantee",
+  "pending_before_fit": [
+    "explicit training authority",
+    "exact dataset and fold-membership hashes",
+    "complete ancestor bindings",
+    "implemented candidate/control adapters and executable commands",
+    "matched update/exposure and checkpoint rules",
+    "measured real-shape resource profile and approved budget",
+    "predeclared useful effect/cost threshold and primary comparison family"
+  ],
+  "no_public_gain_estimate": true,
+  "scope": "A comparison design, not a launchable training recipe or allocation."
+}

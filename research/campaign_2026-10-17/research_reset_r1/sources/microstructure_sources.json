@@ -1,0 +1,211 @@
+{
+  "schema": "wnn.microstructure-primary-sources.v1",
+  "verified_at": "2026-10-17",
+  "scope": "Primary literature/code source register for MICROSTRUCTURE_ROUND1.md. Source claims motivate mechanisms only; transfer to the anonymized challenge stream is untested.",
+  "sources": [
+    {
+      "id": "S01",
+      "title": "The Price Impact of Order Book Events",
+      "authors": ["Rama Cont", "Arseniy Kukanov", "Sasha Stoikov"],
+      "year": 2014,
+      "version_note": "arXiv first submitted 2010, revised 2011; journal reference: Journal of Financial Econometrics 12(1), 47–88 (Winter 2014).",
+      "primary_url": "https://arxiv.org/abs/1011.6402",
+      "source_type": "primary paper / arXiv author preprint",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Opened the arXiv paper page and inspected its title, authors, submission/version record, journal reference, and abstract.",
+      "source_claim": "In the studied NYSE data, short-interval price changes were mainly driven by best-bid/ask order-flow imbalance; their measured impact was approximately linear and inversely related to market depth.",
+      "local_transfer_assumption": "A small causal event-state summary may preserve some event-flow information in the challenge features.",
+      "counterevidence_and_limits": [
+        "The study uses identified exchange events and a best-level interpretation absent from the challenge's anonymized feature codes.",
+        "Local audit evidence reports no reproducible forecast gain for a broad i0 order-flow feature block; contemporaneous impact is not future-label alpha."
+      ]
+    },
+    {
+      "id": "S02",
+      "title": "Econometric Analysis of Discrete-Valued Irregularly-Spaced Financial Transactions Data Using a New Autoregressive Conditional Multinomial Model",
+      "authors": ["Jeffrey R. Russell", "Robert F. Engle"],
+      "year": 1998,
+      "version_note": "Author-hosted UC San Diego discussion paper 98-10, February/April 1998; this paper discusses the Engle–Russell ACD model and its relation to arrival-time/mark dynamics.",
+      "primary_url": "https://eml.berkeley.edu/symposia/nsf98/engle_russell.pdf",
+      "source_type": "primary author paper / author-hosted PDF",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Opened and inspected the 33-page author-hosted PDF, including its title page, abstract, introduction, and description of ACD arrival times and duration-dependent transition probabilities.",
+      "source_claim": "The authors describe the ACD framework for irregular event intervals and a marked-process view in which price-transition probabilities may depend on realized/expected duration, volume, and spread.",
+      "local_transfer_assumption": "The row-step interval between observed feature-change events may contain a useful causal rate-normalized state.",
+      "counterevidence_and_limits": [
+        "The source studies financial transaction arrival times with transaction marks, while this challenge provides row steps and anonymous feature groups rather than verified trades or timestamps.",
+        "Past per-field age proposals only established added representation resolution, not predictive value."
+      ]
+    },
+    {
+      "id": "S03",
+      "title": "Forecasting High Frequency Order Flow Imbalance",
+      "authors": ["Aditya Nittur Anantha", "Shashi Jain"],
+      "year": 2024,
+      "version_note": "arXiv v1 submitted 2024-08-07.",
+      "primary_url": "https://arxiv.org/abs/2408.03594",
+      "source_type": "primary paper / arXiv preprint",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Opened the arXiv paper page and inspected title, authors, version/date, and abstract.",
+      "source_claim": "The paper models bid/ask OFI dependence with Hawkes processes and reports the best OFI forecast among its tested models for a sum-of-exponentials kernel on NSE tick data.",
+      "local_transfer_assumption": "A few exponential traces over observed feature-event families may approximate useful event clustering without a large sequence model.",
+      "counterevidence_and_limits": [
+        "The dependent variable is OFI distribution, not the challenge's two future-price labels.",
+        "The paper's stated best method and dataset result do not imply lift here; broad local flow features were already negative/null in forecast tests."
+      ]
+    },
+    {
+      "id": "S04",
+      "title": "Inferring Microscopic Financial Information from the Long Memory in Market-Order Flow: A Quantitative Test of the Lillo-Mike-Farmer Model",
+      "authors": ["Yuki Sato", "Kiyoshi Kanazawa"],
+      "year": 2023,
+      "version_note": "Physical Review Letters 131, 197401; published 2023-11-08.",
+      "primary_url": "https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.131.197401",
+      "source_type": "primary peer-reviewed paper / publisher page",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Opened the APS publisher page and inspected title, author list, publication date, abstract, and article text outline.",
+      "source_claim": "Using long high-frequency TSE account-level data, the authors report power-law persistence in market-order signs and quantitative agreement between observed sign-correlation decay and the Lillo-Mike-Farmer model.",
+      "local_transfer_assumption": "A persistent side-activity proxy in the challenge might need a longer memory kernel than a few short event-age features.",
+      "counterevidence_and_limits": [
+        "The challenge does not expose participant identity or verified buy/sell market-order signs.",
+        "Long memory in inputs can be offset by liquidity/size effects and does not by itself establish directional predictability."
+      ]
+    },
+    {
+      "id": "S05",
+      "title": "Cross-Impact of Order Flow Imbalance in Equity Markets",
+      "authors": ["Rama Cont", "Mihai Cucuringu", "Chao Zhang"],
+      "year": 2021,
+      "version_note": "arXiv first submitted 2021-12-25; v4 revised 2023-06-13.",
+      "primary_url": "https://arxiv.org/abs/2112.13213",
+      "source_type": "primary paper / arXiv author preprint",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Opened the arXiv paper page and inspected the title, authors, revision history, and abstract.",
+      "source_claim": "The authors report that integrated multi-level OFI improves impact explanation; lagged cross-asset OFI improves short-horizon return forecasts and its effect decays rapidly, while contemporaneous cross-impact adds little after own OFI in their study.",
+      "local_transfer_assumption": "A lag-profile of observed i1 changes might contain information not represented by a static i1 block.",
+      "counterevidence_and_limits": [
+        "The study uses many identified equity assets and OFI; the challenge has one auxiliary instrument, anonymous features, and no i1 target.",
+        "The local audit reports no reproducible gain from its tested static i1 cross-impact block; a prior event-time i1 proposal is also an explicit overlap."
+      ]
+    },
+    {
+      "id": "S06",
+      "title": "On Covariance Estimation of Non-synchronously Observed Diffusion Processes",
+      "authors": ["Takaki Hayashi", "Nakahiro Yoshida"],
+      "year": 2005,
+      "version_note": "Bernoulli 11(2), 359–379 (2005).",
+      "primary_url": "https://www.ms.u-tokyo.ac.jp/~nakahiro/mypapers_for_personal_use/hayyos03.pdf",
+      "source_type": "primary paper / author-hosted journal-paper PDF",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Retrieved the actual author-hosted PDF text, including title, abstract, journal issue, and the overlapping-interval covariance estimator formula. A later direct-open attempt timed out; the inspected content was the PDF text itself, not a secondary summary.",
+      "source_claim": "The paper proposes estimating covariance from products of increments whose observation intervals overlap, avoiding forced synchronization of nonsynchronous processes.",
+      "local_transfer_assumption": "Explicit event-order or lag handling may be safer than assuming feature changes in the two instruments are perfectly aligned in event time.",
+      "counterevidence_and_limits": [
+        "The estimator is for processes observed with actual timestamps; this challenge documents row order but not exchange timestamps, so the estimator cannot be applied literally.",
+        "Only two synchronized row records are exposed at each step; inferred event timing is a proxy, not true asynchrony correction."
+      ]
+    },
+    {
+      "id": "S07",
+      "title": "HLOB -- Information Persistence and Structure in Limit Order Books",
+      "authors": ["Antonio Briola", "Silvia Bartolucci", "Tomaso Aste"],
+      "year": 2024,
+      "version_note": "arXiv submitted 2024-05-29, revised 2024-06-04 (v3).",
+      "primary_url": "https://arxiv.org/abs/2405.18938",
+      "source_type": "primary paper / arXiv preprint",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Opened the arXiv paper page and inspected title, authors, version history, and abstract.",
+      "source_claim": "HLOB uses an information-filtering graph to represent dependencies among volume levels and evaluates the model against alternatives on three NASDAQ LOB datasets.",
+      "local_transfer_assumption": "There may be stable pairwise interactions among named challenge feature components even when adjacent indices do not denote adjacent depth.",
+      "counterevidence_and_limits": [
+        "HLOB's graph is built for interpreted volume levels; challenge component identifiers do not guarantee level order.",
+        "Local audit notes HLOB/bilinear proposals in documents but no proven execution result; the actual edge structure may not be stable here."
+      ]
+    },
+    {
+      "id": "S08",
+      "title": "Deep Learning Meets Queue-Reactive: A Framework for Realistic Limit Order Book Simulation",
+      "authors": ["Hamza Bodor", "Laurent Carlier"],
+      "year": 2025,
+      "version_note": "arXiv v1 submitted 2025-01-15.",
+      "primary_url": "https://arxiv.org/abs/2501.08822",
+      "source_type": "primary paper / arXiv preprint",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Opened the arXiv page and inspected title, authors, submission date, and abstract.",
+      "source_claim": "The MDQR simulator extends queue-reactive modeling with cross-queue dependencies, richer market state, and order-size distributions, and reports reproducing selected market stylized facts on Bund futures data.",
+      "local_transfer_assumption": "A predictive event effect may depend on the current observed feature state, rather than being useful as a context-free flow signal.",
+      "counterevidence_and_limits": [
+        "The paper evaluates realistic simulation/stylized facts, not this competition's pooled weighted Pearson objective.",
+        "Challenge queue semantics and level ordering are not supplied; state conditioning must preserve raw feature identities and avoid physical queue claims."
+      ]
+    },
+    {
+      "id": "S09",
+      "title": "Limit Order Book Event Stream Prediction with Diffusion Model",
+      "authors": ["Zetao Zheng", "Guoan Li", "Deqiang Ouyang", "Decui Liang", "Jie Shao"],
+      "year": 2024,
+      "version_note": "arXiv v1 submitted 2024-11-27.",
+      "primary_url": "https://arxiv.org/abs/2412.09631",
+      "source_type": "primary paper / arXiv preprint",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Opened the arXiv paper page and inspected title, authors, version date, and abstract.",
+      "source_claim": "LOBDIF models future LOB event time and event type jointly with a diffusion-based event-stream model and reports results on three real-world assets.",
+      "local_transfer_assumption": "A small auxiliary objective over observable event family and row-step waiting time may shape a useful causal representation.",
+      "counterevidence_and_limits": [
+        "The primary task is event generation/distribution prediction, not direct price-direction scoring.",
+        "A generic next-row pretraining idea is already present in local history as queued/unverified, and earlier event heads had mixed or null outcomes."
+      ]
+    },
+    {
+      "id": "S10",
+      "title": "Extracting Information from the Signature of a Financial Data Stream",
+      "authors": ["Lajos Gergely Gyurkó", "Terry Lyons", "Mark Kontkowski", "Jonathan Field"],
+      "year": 2013,
+      "version_note": "arXiv v1 submitted 2013-07-27, revised 2014-07-15 (v2).",
+      "primary_url": "https://arxiv.org/abs/1307.7244",
+      "source_type": "primary paper / arXiv preprint",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Opened the arXiv page and inspected its title, author list, revision record, and abstract.",
+      "source_claim": "The authors use path-signature coordinates to summarize financial streams and report examples involving market behavior and execution-algorithm impact classification.",
+      "local_transfer_assumption": "Low-degree path terms could encode event ordering and interactions among a few challenge streams.",
+      "counterevidence_and_limits": [
+        "The reported examples and stream sampling differ from this challenge's online per-row callback.",
+        "A mathematically expressive signature can be redundant, noisy, or too costly; no transfer to pooled WP is established."
+      ]
+    },
+    {
+      "id": "S11",
+      "title": "Latent Continuum of Regimes in Limit Order Book Dynamics",
+      "authors": ["Anjali Thawait"],
+      "year": 2026,
+      "version_note": "arXiv v1 submitted 2026-10-05, revised 2026-10-06 (v2); preprint as of this register date.",
+      "primary_url": "https://arxiv.org/abs/2610.05740",
+      "source_type": "primary paper / recent arXiv preprint",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Opened the arXiv page and inspected submission/revision dates, author, title, and full abstract.",
+      "source_claim": "On EURO STOXX 50 futures, the preprint studies covariance-state geometry and reports a low-dimensional continuous state; it reports stronger out-of-sample performance at a macro regime tier than finer discrete tiers.",
+      "local_transfer_assumption": "A continuous online covariance summary may be more robust than fixed regime categories for this sequence-local state.",
+      "counterevidence_and_limits": [
+        "This is a newly posted preprint, not established consensus, and uses 30–60 second aggregated futures observations rather than this anonymized 20,000-step stream.",
+        "The preprint reports that fine-grained regime tiers fail to generalize; it does not establish a prediction gain for this challenge."
+      ]
+    },
+    {
+      "id": "S12",
+      "title": "Fast Online Changepoint Detection via Functional Pruning CUSUM Statistics",
+      "authors": ["Gaetano Romano", "Idris Eckley", "Paul Fearnhead", "Guillem Rigaill"],
+      "year": 2023,
+      "version_note": "arXiv first submitted 2021-10-15, revised 2022-07-27 (v3); JMLR journal reference 2023.",
+      "primary_url": "https://arxiv.org/abs/2110.08205",
+      "source_type": "primary paper / arXiv preprint with journal reference",
+      "verified_at": "2026-10-17",
+      "actual_source_content_checked": "Opened the arXiv page and inspected title, authors, abstract, submission/version dates, and JMLR journal reference.",
+      "source_claim": "FOCuS combines CUSUM-like mean-shift detectors over window/change sizes, with a theoretical per-iteration cost logarithmic in observations and reported server-anomaly applications.",
+      "local_transfer_assumption": "A bounded one-sided change alarm over normalized per-sequence feature innovations could gate a slow predictor state.",
+      "counterevidence_and_limits": [
+        "Its application is server telemetry, not market or financial forecasting; the source validates detection efficiency, not predictive value.",
+        "Routine market event clusters may trigger too many alarms; calibration on independent synthetic shifts does not show target quality."
+      ]
+    }
+  ]
+}
