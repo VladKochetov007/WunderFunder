@@ -1,0 +1,4567 @@
+{
+  "actual_prediction_file_count": 463,
+  "actual_removed_prediction_allocated_bytes": 187433500672,
+  "actual_removed_prediction_count": 463,
+  "actual_removed_prediction_logical_bytes": 187431899264,
+  "created_utc": "2026-10-17T01:19:03.860889+00:00",
+  "cutoff_utc_exclusive": "2026-10-10T00:00:00Z",
+  "errors": [],
+  "execution_note": "Initial pass removed 118 files; a nanosecond-to-microsecond mtime round-trip made its equality guard reject the unchanged remainder. Recovery verified frozen inode, byte size, and cutoff age before unlinking. Original skipped-path list is retained below.",
+  "initial_timestamp_guard_skipped_paths": [
+    "cache/pred_ab56_ema_e4_f0_train.npy",
+    "cache/pred_ab56_ema_e4_f0_valid.npy",
+    "cache/pred_ab56_ema_e4_f1_valid.npy",
+    "cache/pred_ab56_ema_f0_valid.npy",
+    "cache/pred_ab56_ema_f1_valid.npy",
+    "cache/pred_ab58_ema_e4_f1_train.npy",
+    "cache/pred_ab58_ema_e4_f1_valid.npy",
+    "cache/pred_ab60_final_ema4_p1_lpft_valid.npy",
+    "cache/pred_ab60_final_ema4_p1_valid.npy",
+    "cache/pred_ab61_conv_gru_f0_valid.npy",
+    "cache/pred_ab61_conv_lstm_f0_valid.npy",
+    "cache/pred_ab61_linear_lstm_f0_valid.npy",
+    "cache/pred_ab61_mlp_lstm_f0_valid.npy",
+    "cache/pred_ab62_base_s3_f0_valid.npy",
+    "cache/pred_ab62_base_s3_f1_valid.npy",
+    "cache/pred_ab62_base_s4_f0_train.npy",
+    "cache/pred_ab62_base_s4_f0_valid.npy",
+    "cache/pred_ab62_base_s4_f1_valid.npy",
+    "cache/pred_ab62_conv_f1_valid.npy",
+    "cache/pred_ab62_lnorm_f0_valid.npy",
+    "cache/pred_ab62_lnorm_f1_valid.npy",
+    "cache/pred_ab62_p2_f1_valid.npy",
+    "cache/pred_ab62_since_f0_valid.npy",
+    "cache/pred_ab62_td5_f1_valid.npy",
+    "cache/pred_ab63_ctrl_f0_valid.npy",
+    "cache/pred_ab63_ftema_f0_valid.npy",
+    "cache/pred_ab63_ftema_f1_valid.npy",
+    "cache/pred_ab63_gcorr_f1_valid.npy",
+    "cache/pred_ab63_wgc_f0_valid.npy",
+    "cache/pred_ab63_wgc_f1_valid.npy",
+    "cache/pred_ab64_final_ema4_gclp_valid.npy",
+    "cache/pred_ab65_final_ema4_s3_gclp_valid.npy",
+    "cache/pred_ab66_ch500_f1_valid.npy",
+    "cache/pred_ab66_onorm_f0_valid.npy",
+    "cache/pred_ab67_final_since_s3_gcorr_valid.npy",
+    "cache/pred_ab67_final_since_s3_train.npy",
+    "cache/pred_ab67_final_since_s3_valid.npy",
+    "cache/pred_ab67_final_since_s3_wmse_valid.npy",
+    "cache/pred_ab67_final_since_s3_wmseh_valid.npy",
+    "cache/pred_ab67_final_since_s4_gcorr_valid.npy",
+    "cache/pred_ab67_final_since_s4_gcorrh_valid.npy",
+    "cache/pred_ab67_final_since_s4_train.npy",
+    "cache/pred_ab67_final_since_s4_valid.npy",
+    "cache/pred_ab67_final_since_s4_wmse_valid.npy",
+    "cache/pred_ab67_final_since_s4_wmseh_valid.npy",
+    "cache/pred_ab68_ema6_since_ep5_f0_valid.npy",
+    "cache/pred_ab68_ema6_since_ep5_f1_valid.npy",
+    "cache/pred_ab68_ema6_since_f0_valid.npy",
+    "cache/pred_ab68_ema6_since_f1_valid.npy",
+    "cache/pred_ab68_ema6_since_soup_f0_valid.npy",
+    "cache/pred_ab69_episode_f0_valid.npy",
+    "cache/pred_ab70_validrepeat_f0_valid.npy",
+    "cache/pred_ab71_ema_metric_f0_valid.npy",
+    "cache/pred_ab72_final_ema6_s3_ep5_valid.npy",
+    "cache/pred_ab72_final_ema6_s4_ep5_valid.npy",
+    "cache/pred_ab74_shallow_since_f0_valid.npy",
+    "cache/pred_ab76_mask01_f0_valid.npy",
+    "cache/pred_ab77_gated_hard_f0_valid.npy",
+    "cache/pred_ab77_gated_soft_f0_valid.npy",
+    "cache/pred_ab78_auxsign01_f0_valid.npy",
+    "cache/pred_ab79_quotepath01_f0_valid.npy",
+    "cache/pred_ab80_validvolume_p100_gcorr_f0_valid.npy",
+    "cache/pred_ab81_h192_ep5_f0_valid.npy",
+    "cache/pred_ab81_mlp_ep5_f0_valid.npy",
+    "cache/pred_ab81_wd01_ep5_f0_valid.npy",
+    "cache/pred_ab82_ft_base4s4_f0h_valid.npy",
+    "cache/pred_ab82_ft_base4s4_f1_valid.npy",
+    "cache/pred_ab82_ft_ch500_f0_valid.npy",
+    "cache/pred_ab82_ft_ch500_f0h_valid.npy",
+    "cache/pred_ab82_ft_ch500_f1_valid.npy",
+    "cache/pred_ab82_ft_ch500_f1h_valid.npy",
+    "cache/pred_ab82_ft_ema6s3_f0_valid.npy",
+    "cache/pred_ab82_ft_ema6s3_f0h_valid.npy",
+    "cache/pred_ab82_ft_ema6s3_f1_valid.npy",
+    "cache/pred_ab82_ft_ema6s3_f1h_valid.npy",
+    "cache/pred_ab82_ft_ema6s4_f0_valid.npy",
+    "cache/pred_ab82_ft_ema6s4_f0h_valid.npy",
+    "cache/pred_ab82_ft_ema6s4_f1_valid.npy",
+    "cache/pred_ab82_ft_onorm_f0h_valid.npy",
+    "cache/pred_ab82_ft_onorm_f1_valid.npy",
+    "cache/pred_ab82_ft_since4s3_f0_valid.npy",
+    "cache/pred_ab82_ft_since4s3_f0h_valid.npy",
+    "cache/pred_ab82_ft_since4s3_f1h_valid.npy",
+    "cache/pred_ab83_final_ema6_s3_gclp_valid.npy",
+    "cache/pred_ab83_final_ema6_s3_gclph_valid.npy",
+    "cache/pred_ab83_final_ema6_s4_gclp_valid.npy",
+    "cache/pred_ab83_final_ema6_s4_gclph_valid.npy",
+    "cache/pred_ab84_final_ch500_s5_ep3_valid.npy",
+    "cache/pred_ab84_final_ch500_s5_gclp_valid.npy",
+    "cache/pred_ab84_final_onorm_s5_ep3_valid.npy",
+    "cache/pred_ab84_final_onorm_s5_gclp_valid.npy",
+    "cache/pred_ab84_final_onorm_s5_gclph_valid.npy",
+    "cache/pred_ab85_final_ema6_s4_gclpall_valid.npy",
+    "cache/pred_ab85_final_onorm_s5_gclpall_valid.npy",
+    "cache/pred_ab85_final_since_s3_gclpall_valid.npy",
+    "cache/pred_ab85_final_since_s4_gclpall_valid.npy",
+    "cache/pred_base_rnn_valid.npy",
+    "cache/pred_bd26_c1v2_s3_f0_valid.npy",
+    "cache/pred_bd26_c1v2_s4_f0_valid.npy",
+    "cache/pred_bd26_w384raw_s3_f0_train.npy",
+    "cache/pred_bd26_w384raw_s3_f1_resume_r3_valid.npy",
+    "cache/pred_bd26_w384raw_s4_f0_train.npy",
+    "cache/pred_bd26_w384raw_s4_f0_valid.npy",
+    "cache/pred_bd26_w384raw_s4_f1_train.npy",
+    "cache/pred_bd26_w384raw_s4_f1_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f0_train.npy",
+    "cache/pred_c20260929_ft_since_s3_f1_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f1h_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f2_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f2h_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f3_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f3h_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f0_train.npy",
+    "cache/pred_c20260929_ft_since_s4_f0_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f0h_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f1_train.npy",
+    "cache/pred_c20260929_ft_since_s4_f1_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f2h_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f3_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f3h_valid.npy",
+    "cache/pred_c20260929_since_s3_f0_valid.npy",
+    "cache/pred_c20260929_since_s3_f1_train.npy",
+    "cache/pred_c20260929_since_s3_f1_valid.npy",
+    "cache/pred_c20260929_since_s3_f2_train.npy",
+    "cache/pred_c20260929_since_s3_f2_valid.npy",
+    "cache/pred_c20260929_since_s3_f3_valid.npy",
+    "cache/pred_c20260929_since_s4_f0_train.npy",
+    "cache/pred_c20260929_since_s4_f0_valid.npy",
+    "cache/pred_c20260929_since_s4_f1_train.npy",
+    "cache/pred_c20260929_since_s4_f1_valid.npy",
+    "cache/pred_c20260929_since_s4_f2_train.npy",
+    "cache/pred_c20260929_since_s4_f3_train.npy",
+    "cache/pred_c20260930_ft_spread_proxy_f0_valid.npy",
+    "cache/pred_c20261001_d256_s3_f0_ep2_valid.npy",
+    "cache/pred_c20261001_d256_s3_f1_valid.npy",
+    "cache/pred_c20261001_d256_s3_f2_valid.npy",
+    "cache/pred_c20261001_d256_s3_f3_valid.npy",
+    "cache/pred_c20261001_d256a07_s3_f0_train.npy",
+    "cache/pred_c20261001_d256a07_s3_f0_valid.npy",
+    "cache/pred_c20261001_d256a07_s3_f1_valid.npy",
+    "cache/pred_c20261001_dh_since_s3_f0h_valid.npy",
+    "cache/pred_c20261001_final_d256_s3_gcorrh_valid.npy",
+    "cache/pred_c20261001_final_since_s5_gcorrh_valid.npy",
+    "cache/pred_c20261001_final_since_s5_valid.npy",
+    "cache/pred_c20261001_final_since_s6_gcorrh_valid.npy",
+    "cache/pred_c20261001_final_since_s6_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f0_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f0h_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f1_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f1h_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f2h_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f3_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f3h_valid.npy",
+    "cache/pred_c20261001_ft_d256a07_s3_f0h_valid.npy",
+    "cache/pred_c20261001_ft_d256a07_s3_f1_valid.npy",
+    "cache/pred_c20261001_ft_d256a085_s3_f0_valid.npy",
+    "cache/pred_c20261001_ft_d256a085_s3_f0h_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s3_f0_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s3_f0h_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s3_f1_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s3_f1h_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s4_f0_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s4_f0h_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s4_f1_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s4_f1h_valid.npy",
+    "cache/pred_c20261001_hb_since_s3_f0_k5h_valid.npy",
+    "cache/pred_c20261001_hb_since_s3_f0_k6h_valid.npy",
+    "cache/pred_c20261001_hb_since_s3_f1_k5h_valid.npy",
+    "cache/pred_c20261001_hb_since_s3_f1_k6h_valid.npy",
+    "cache/pred_c20261001_hb_since_s4_f1_k5h_valid.npy",
+    "cache/pred_c20261001_jpair_joint_f1_m0_valid.npy",
+    "cache/pred_c20261001_jpair_solo_f0_m0_valid.npy",
+    "cache/pred_c20261001_jpair_solo_f0_m1_valid.npy",
+    "cache/pred_c20261001_jpair_solo_f1_m0_valid.npy",
+    "cache/pred_c20261001_jpair_solo_f1_m1_valid.npy",
+    "cache/pred_c20261001_tvh_since_s3_f0_valid.npy",
+    "cache/pred_c20261001_tvh_since_s3_f1_valid.npy",
+    "cache/pred_c20261001_tvh_since_s4_f0_valid.npy",
+    "cache/pred_c20261001_xf_shared_f0_valid.npy",
+    "cache/pred_c20261001_xf_shared_f1_valid.npy",
+    "cache/pred_c20261001_xf_since_pair_f0_valid.npy",
+    "cache/pred_c20261001_xf_since_pair_f1_valid.npy",
+    "cache/pred_c20261001_xf_since_pair_f2_valid.npy",
+    "cache/pred_c20261001_xf_since_pair_f3_valid.npy",
+    "cache/pred_c20261002_chrono64_s3_f0_valid.npy",
+    "cache/pred_c20261002_chrono64_s3_f1_valid.npy",
+    "cache/pred_c20261002_chunk1000_s3_f0_valid.npy",
+    "cache/pred_c20261002_chunk1000_s3_f1_train.npy",
+    "cache/pred_c20261002_dlstm192a05_s3_f0_valid.npy",
+    "cache/pred_c20261002_dlstm192a05_s3_f1_valid.npy",
+    "cache/pred_c20261002_dtcn128l12a05_s3_f0_valid.npy",
+    "cache/pred_c20261002_dtwo192e128a05_s3_f0_valid.npy",
+    "cache/pred_c20261002_dtwo192e128a05_s3_f1_valid.npy",
+    "cache/pred_c20261002_final_d256a07_s3_gcorr_valid.npy",
+    "cache/pred_c20261002_final_d256a07_s3_gcorrh_valid.npy",
+    "cache/pred_c20261002_final_d256a07_s3_train.npy",
+    "cache/pred_c20261002_final_d256a07_s3_valid.npy",
+    "cache/pred_c20261002_final_d256a07_s4_gcorrh_valid.npy",
+    "cache/pred_c20261002_final_d256a07_s4_valid.npy",
+    "cache/pred_c20261002_final_te07_s3_gcorrh_valid.npy",
+    "cache/pred_c20261002_final_te07_s4_gcorrh_valid.npy",
+    "cache/pred_c20261002_final_te07_s4_valid.npy",
+    "cache/pred_c20261002_ft_dlstm192a05_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_dlstm192a05_s3_f1h_valid.npy",
+    "cache/pred_c20261002_ft_dtcn128l12a05_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_dtcn128l12a05_s3_f1h_valid.npy",
+    "cache/pred_c20261002_ft_dtwosmoke192e128_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_sbd05_h8_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_sbd05_h8_s3_f1h_valid.npy",
+    "cache/pred_c20261002_ft_soup23_d256a07_s3_f0_valid.npy",
+    "cache/pred_c20261002_ft_soup23_d256a07_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_te07_s3_f1_valid.npy",
+    "cache/pred_c20261002_ft_te07_s3_f1h_valid.npy",
+    "cache/pred_c20261002_muon_s3_f0_valid.npy",
+    "cache/pred_c20261002_muon_s3_f1_valid.npy",
+    "cache/pred_c20261002_nad05_09_t32_s3_f0_valid.npy",
+    "cache/pred_c20261002_sbd05_h8_s3_f0_valid.npy",
+    "cache/pred_c20261002_soup123_d256a07_s3_f0_valid.npy",
+    "cache/pred_c20261002_soup23_d256_s3_f0_valid.npy",
+    "cache/pred_c20261002_te07_s3_f0_valid.npy",
+    "cache/pred_c20261002_te07_s3_f1_train.npy",
+    "cache/pred_c20261003_c3off_a05_s3_f0_valid.npy",
+    "cache/pred_c20261003_c3off_a05_s3_f1_valid.npy",
+    "cache/pred_c20261003_c3off_a0_s3_f0_valid.npy",
+    "cache/pred_c20261003_c3off_a0_s3_f1_valid.npy",
+    "cache/pred_c20261003_c3on_a0_s3_f0_valid.npy",
+    "cache/pred_c20261003_c3on_a0_s3_f1_valid.npy",
+    "cache/pred_c20261003_combo_s3_f0_train.npy",
+    "cache/pred_c20261003_combo_s3_f1_valid.npy",
+    "cache/pred_c20261003_combo_s3_f2_valid.npy",
+    "cache/pred_c20261003_combo_s3_f3_valid.npy",
+    "cache/pred_c20261003_combo_s4_f0_valid.npy",
+    "cache/pred_c20261003_combo_s4_f1_train.npy",
+    "cache/pred_c20261003_combo_s4_f1_valid.npy",
+    "cache/pred_c20261003_muonfull_s3_f1_valid.npy",
+    "cache/pred_c20261003_s100_s4_f1_train.npy",
+    "cache/pred_c20261003_s100_s4_f1_valid.npy",
+    "cache/pred_c20261003_s50_s3_f0_valid.npy",
+    "cache/pred_c20261003_s50_s4_f0_valid.npy",
+    "cache/pred_c20261003_w320_s3_f0_valid.npy",
+    "cache/pred_c20261003_w320_s3_f1_train.npy",
+    "cache/pred_c20261003_w320_s3_f1_valid.npy",
+    "cache/pred_c20261003_w384_s3_f0_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_f1_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_f2_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_final_valid.npy",
+    "cache/pred_c20261004_combo_head_s4_final_fp32_valid.npy",
+    "cache/pred_c20261004_combo_s3_final_r1_fp32_valid.npy",
+    "cache/pred_c20261004_combo_s3_final_r1_valid.npy",
+    "cache/pred_c20261004_combo_s4_final_fp32_valid.npy",
+    "cache/pred_c20261004_e419_float_fp16_s3_f0_r2_common_fp32_valid.npy",
+    "cache/pred_c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3_valid.npy",
+    "cache/pred_c20261004_e419_fp32_control_recurrent_s3_f0_t4v3_valid.npy",
+    "cache/pred_c20261004_e423_combo_control_s3_f0_v1_common_fp32_valid.npy",
+    "cache/pred_c20261004_e464_h093_gru_budget_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h093_hash_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h093_learned_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h094_conditional_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h094_diagonal_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h094_gru_budget_head_s3_final_valid.npy",
+    "cache/pred_c20261004_h093_gru_budget_s3_final_valid.npy",
+    "cache/pred_c20261004_h093_hash_s3_final_valid.npy",
+    "cache/pred_c20261004_h093_universal_s3_final_valid.npy",
+    "cache/pred_c20261004_h094_conditional_s3_final_valid.npy",
+    "cache/pred_c20261004_h094_diagonal_s3_final_valid.npy",
+    "cache/pred_c20261004_h094_gru_budget_s3_final_valid.npy",
+    "cache/pred_c20261004_h094_unconditional_s3_final_valid.npy",
+    "cache/pred_c20261004_h106_soft_s3_final_fp32_valid.npy",
+    "cache/pred_c20261004_volume28_current_s3_f0_t4v1_valid.npy",
+    "cache/pred_c20261004_volume28_s3_f0_t4v1_valid.npy",
+    "cache/pred_combo_scratch_s3_onecycle_f1_valid.npy",
+    "cache/pred_combo_scratch_s3_wsd_f1_valid.npy",
+    "cache/pred_e426_clock_aligned_fp32_valid.npy",
+    "cache/pred_e514_ab12_h128_plain_fallback_valid.npy",
+    "cache/pred_e514_ab48_basehead_f0_valid.npy",
+    "cache/pred_e529_s4_served_head_f0_control_v1_fp32_valid.npy",
+    "cache/pred_f0_z3_combo_s4_parent_hft_v2_valid.npy",
+    "cache/pred_f0_z3_combo_s4_student_hft_v3_valid.npy",
+    "cache/pred_f0_z3_combo_s4_student_v2_core_identity_v2_valid.npy",
+    "cache/pred_h218_block_memory_cleanfold0_seed7_ep3_fp32_eval468_v1_valid.npy",
+    "cache/pred_h230_f1_s3_expanded12_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_floor01_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_lr2e4_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_mexact_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_muon_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_stage_broad2strong_ep0_valid.npy",
+    "cache/pred_h230_f1_s3_stage_strong2broad_ep0_valid.npy",
+    "cache/pred_h230_f1_s4_mexact_ep1_valid.npy",
+    "cache/pred_h230_f1_soup_s3_a_ep1_valid.npy",
+    "cache/pred_h230_history_parent_ep3_fp32_v1_train.npy",
+    "cache/pred_h230_seed99_ep3_fp32_train.npy",
+    "cache/pred_h230_seed99_ep3_fp32_valid.npy",
+    "cache/pred_soup4_valid.npy",
+    "cache/pred_vt_f0_dsq_f0none_valid.npy",
+    "cache/pred_vt_f0_dsq_f0t256_valid.npy",
+    "cache/pred_vt_f0_dsq_f0t384_valid.npy",
+    "cache/pred_vt_f0_gru384_ep6_valid.npy",
+    "cache/pred_vt_f0_gru384_valid.npy",
+    "cache/pred_vt_f0_gru512_valid.npy",
+    "cache/pred_vt_f0_mu3_valid.npy",
+    "cache/pred_vt_f1_chrono8k_valid.npy",
+    "cache/pred_vt_f1_chrono_valid.npy",
+    "cache/pred_vt_f1_corr_valid.npy",
+    "cache/pred_vt_f1_dsq_t256_valid.npy",
+    "cache/pred_vt_f1_dual_valid.npy",
+    "cache/pred_vt_f1_ep8_mu3_ema_valid.npy",
+    "cache/pred_vt_f1_fixmix_valid.npy",
+    "cache/pred_vt_f1_gated_trap_valid.npy",
+    "cache/pred_vt_f1_gated_valid.npy",
+    "cache/pred_vt_f1_gru256x3_valid.npy",
+    "cache/pred_vt_f1_gru320_valid.npy",
+    "cache/pred_vt_f1_gru384_ema_valid.npy",
+    "cache/pred_vt_f1_gru384_fixmix_valid.npy",
+    "cache/pred_vt_f1_gru384_s4_valid.npy",
+    "cache/pred_vt_f1_gru384_valid.npy",
+    "cache/pred_vt_f1_gru448_valid.npy",
+    "cache/pred_vt_f1_heur_valid.npy",
+    "cache/pred_vt_f1_lw15_valid.npy",
+    "cache/pred_vt_f1_mu3_valid.npy",
+    "cache/pred_vt_f1_mu6_valid.npy",
+    "cache/pred_vt_f1_orth_valid.npy",
+    "cache/pred_vt_f1_proppow1_valid.npy",
+    "cache/pred_vt_f1_rawonly_valid.npy",
+    "cache/pred_vt_f1_seed4_valid.npy",
+    "cache/pred_vt_f1_seed5_valid.npy",
+    "cache/pred_vt_f1_since128_valid.npy",
+    "cache/pred_vt_f1_since8_valid.npy",
+    "cache/pred_vt_f1_tcn_valid.npy",
+    "cache/pred_vt_f1_tr_adamw_lr2_valid.npy",
+    "cache/pred_vt_f1_tr_adamw_lrh_valid.npy",
+    "cache/pred_vt_f1_tr_base_valid.npy",
+    "cache/pred_vt_f1_tr_lr2_valid.npy",
+    "cache/pred_vt_f1_tr_lrh_valid.npy",
+    "cache/pred_vt_f1_tr_sgdr2__ep1_valid.npy",
+    "cache/pred_vt_f1_tr_sgdr4__ep2_valid.npy",
+    "cache/pred_vt_f1_tr_swa_valid.npy",
+    "cache/pred_vt_f1_tr_wsd_valid.npy",
+    "cache/pred_vt_f1_twoclock_valid.npy",
+    "cache/pred_vt_f1_wd05_valid.npy",
+    "cache/pred_vt_f1_wmsegcorr_valid.npy",
+    "cache/pred_vt_f2_gru256_valid.npy",
+    "cache/pred_vt_f2_mu3_valid.npy",
+    "cache/pred_vt_f3_gru256_valid.npy",
+    "cache/pred_vt_f3_gru384_valid.npy",
+    "cache/pred_vt_f3_mu3_valid.npy"
+  ],
+  "kind": "cache_prune",
+  "planned_incomplete_file": {
+    "allocated_bytes": 8192,
+    "inode": 59468795,
+    "link_count": 1,
+    "mtime_utc": "2026-10-11T19:59:19.932645+00:00",
+    "path": "cache/pred_oldz4_h230_parent_f0_s3_r3_valid.npy.partial",
+    "size_bytes": 299680128
+  },
+  "planned_prediction_allocated_bytes": 187433500672,
+  "planned_prediction_file_count": 463,
+  "planned_prediction_logical_bytes": 187431899264,
+  "planned_space_before": {
+    "available_bytes": 25922260992,
+    "total_bytes": 1369178112000
+  },
+  "prediction_files": [
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 54199695,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T02:32:35.414333+00:00",
+      "path": "cache/pred_ab56_ema_e4_f0_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54191630,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T00:41:19.203370+00:00",
+      "path": "cache/pred_ab56_ema_e4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54191762,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T00:41:44.840075+00:00",
+      "path": "cache/pred_ab56_ema_e4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54146769,
+      "link_count": 1,
+      "mtime_utc": "2026-09-26T18:09:02.303596+00:00",
+      "path": "cache/pred_ab56_ema_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54147151,
+      "link_count": 1,
+      "mtime_utc": "2026-09-26T18:24:18.884424+00:00",
+      "path": "cache/pred_ab56_ema_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 54199864,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T02:40:25.271527+00:00",
+      "path": "cache/pred_ab58_ema_e4_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54191755,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T00:41:44.255081+00:00",
+      "path": "cache/pred_ab58_ema_e4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54164865,
+      "link_count": 1,
+      "mtime_utc": "2026-09-26T22:08:23.584583+00:00",
+      "path": "cache/pred_ab60_final_ema4_p1_lpft_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54199546,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T02:24:27.082496+00:00",
+      "path": "cache/pred_ab60_final_ema4_p1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54187528,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T00:02:42.826835+00:00",
+      "path": "cache/pred_ab61_conv_gru_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54188289,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T00:14:51.472000+00:00",
+      "path": "cache/pred_ab61_conv_lstm_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54184619,
+      "link_count": 1,
+      "mtime_utc": "2026-09-26T23:33:03.547669+00:00",
+      "path": "cache/pred_ab61_linear_lstm_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54184635,
+      "link_count": 1,
+      "mtime_utc": "2026-09-26T23:33:12.452517+00:00",
+      "path": "cache/pred_ab61_mlp_gru_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54187601,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T00:05:10.494806+00:00",
+      "path": "cache/pred_ab61_mlp_lstm_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54191763,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T00:41:44.856075+00:00",
+      "path": "cache/pred_ab62_base_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54191764,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T00:41:44.872074+00:00",
+      "path": "cache/pred_ab62_base_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 54199790,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T02:36:19.288585+00:00",
+      "path": "cache/pred_ab62_base_s4_f0_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54198699,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T01:56:32.934814+00:00",
+      "path": "cache/pred_ab62_base_s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 54199972,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T02:44:19.657662+00:00",
+      "path": "cache/pred_ab62_base_s4_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54199179,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T02:09:37.765028+00:00",
+      "path": "cache/pred_ab62_base_s4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54200786,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T03:10:40.146691+00:00",
+      "path": "cache/pred_ab62_conv_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54201083,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T03:25:39.422762+00:00",
+      "path": "cache/pred_ab62_conv_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54199996,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T02:41:52.060096+00:00",
+      "path": "cache/pred_ab62_lnorm_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54200410,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T02:55:34.027604+00:00",
+      "path": "cache/pred_ab62_lnorm_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54194055,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T00:55:51.526608+00:00",
+      "path": "cache/pred_ab62_p2_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54197090,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T01:14:44.137343+00:00",
+      "path": "cache/pred_ab62_p2_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54204174,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T03:38:49.575540+00:00",
+      "path": "cache/pred_ab62_since_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54205746,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T03:52:06.339124+00:00",
+      "path": "cache/pred_ab62_since_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54197944,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T01:30:51.683124+00:00",
+      "path": "cache/pred_ab62_td5_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54198414,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T01:43:37.204629+00:00",
+      "path": "cache/pred_ab62_td5_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54194043,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T00:55:19.329022+00:00",
+      "path": "cache/pred_ab63_ctrl_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54196918,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T01:09:16.242020+00:00",
+      "path": "cache/pred_ab63_ctrl_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54195800,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T01:05:14.067139+00:00",
+      "path": "cache/pred_ab63_ftema_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54197236,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T01:21:10.810798+00:00",
+      "path": "cache/pred_ab63_ftema_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54195194,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T00:58:51.653157+00:00",
+      "path": "cache/pred_ab63_gcorr_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54197067,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T01:14:02.066053+00:00",
+      "path": "cache/pred_ab63_gcorr_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54195347,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T01:02:07.206244+00:00",
+      "path": "cache/pred_ab63_wgc_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54197159,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T01:17:36.979428+00:00",
+      "path": "cache/pred_ab63_wgc_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54197379,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T01:26:33.408427+00:00",
+      "path": "cache/pred_ab64_final_ema4_gclp_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54199538,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T02:24:01.971910+00:00",
+      "path": "cache/pred_ab65_final_ema4_s3_gclp_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54199531,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T02:23:35.718342+00:00",
+      "path": "cache/pred_ab65_final_ema4_s3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54206290,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T04:06:46.370257+00:00",
+      "path": "cache/pred_ab66_ch500_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54207427,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T04:52:27.185104+00:00",
+      "path": "cache/pred_ab66_ch500_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54208419,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T05:08:10.787365+00:00",
+      "path": "cache/pred_ab66_onorm_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54208833,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T05:23:56.527636+00:00",
+      "path": "cache/pred_ab66_onorm_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54206997,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T04:37:58.007687+00:00",
+      "path": "cache/pred_ab67_final_since_s3_gcorr_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54336975,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:18:17.124208+00:00",
+      "path": "cache/pred_ab67_final_since_s3_gcorrh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55172585,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T17:22:31.823352+00:00",
+      "path": "cache/pred_ab67_final_since_s3_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54207018,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T04:38:22.687273+00:00",
+      "path": "cache/pred_ab67_final_since_s3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54206966,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T04:36:30.932148+00:00",
+      "path": "cache/pred_ab67_final_since_s3_wmse_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55093708,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:35:19.339864+00:00",
+      "path": "cache/pred_ab67_final_since_s3_wmseh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54206614,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T04:22:15.314577+00:00",
+      "path": "cache/pred_ab67_final_since_s4_gcorr_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54336867,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:17:02.548342+00:00",
+      "path": "cache/pred_ab67_final_since_s4_gcorrh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55172994,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T17:25:17.176542+00:00",
+      "path": "cache/pred_ab67_final_since_s4_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54206623,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T04:22:42.211124+00:00",
+      "path": "cache/pred_ab67_final_since_s4_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54206573,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T04:20:46.047083+00:00",
+      "path": "cache/pred_ab67_final_since_s4_wmse_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55093783,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:35:48.465382+00:00",
+      "path": "cache/pred_ab67_final_since_s4_wmseh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54214904,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T07:39:51.425359+00:00",
+      "path": "cache/pred_ab68_ema6_since_ep5_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54214929,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T07:40:20.754902+00:00",
+      "path": "cache/pred_ab68_ema6_since_ep5_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54213295,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T07:11:37.720345+00:00",
+      "path": "cache/pred_ab68_ema6_since_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54214869,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T07:39:10.943033+00:00",
+      "path": "cache/pred_ab68_ema6_since_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54214963,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T07:41:05.676203+00:00",
+      "path": "cache/pred_ab68_ema6_since_soup_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54214990,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T07:41:35.235742+00:00",
+      "path": "cache/pred_ab68_ema6_since_soup_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54220335,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T08:57:33.414094+00:00",
+      "path": "cache/pred_ab69_episode_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54224574,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T10:15:23.246054+00:00",
+      "path": "cache/pred_ab70_validrepeat_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54225548,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T10:34:24.589857+00:00",
+      "path": "cache/pred_ab71_ema_metric_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54216508,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T08:09:26.691330+00:00",
+      "path": "cache/pred_ab72_final_ema6_s3_ep5_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54219256,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T08:37:21.902797+00:00",
+      "path": "cache/pred_ab72_final_ema6_s4_ep5_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54221940,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T09:25:44.371111+00:00",
+      "path": "cache/pred_ab73_ema6_since_s4_ep5_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54223372,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T09:53:45.889336+00:00",
+      "path": "cache/pred_ab73_ema6_since_s4_ep5_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54226141,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T10:55:19.368156+00:00",
+      "path": "cache/pred_ab74_shallow_since_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54252039,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T20:16:09.314058+00:00",
+      "path": "cache/pred_ab75_tier01_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54252894,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T20:47:38.876211+00:00",
+      "path": "cache/pred_ab76_mask01_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54253687,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T21:19:57.565223+00:00",
+      "path": "cache/pred_ab77_gated_hard_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54253633,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T21:18:07.368927+00:00",
+      "path": "cache/pred_ab77_gated_soft_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54254402,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T21:42:27.490059+00:00",
+      "path": "cache/pred_ab78_auxsign01_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54255379,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T22:25:32.673196+00:00",
+      "path": "cache/pred_ab79_quotepath01_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54259341,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T23:33:05.298299+00:00",
+      "path": "cache/pred_ab80_validvolume_p100_gcorr_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54259019,
+      "link_count": 1,
+      "mtime_utc": "2026-09-27T23:12:07.241364+00:00",
+      "path": "cache/pred_ab80_validvolume_p80_gcorr_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54401110,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T20:15:46.482251+00:00",
+      "path": "cache/pred_ab81_h192_ep5_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54485747,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T21:04:37.243826+00:00",
+      "path": "cache/pred_ab81_mlp_ep5_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54323160,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T16:51:40.619519+00:00",
+      "path": "cache/pred_ab81_wd01_ep5_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54324932,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:02:02.937530+00:00",
+      "path": "cache/pred_ab82_ft_base4s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337785,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:27:03.994627+00:00",
+      "path": "cache/pred_ab82_ft_base4s4_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54326066,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:13:23.257320+00:00",
+      "path": "cache/pred_ab82_ft_base4s4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337859,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:27:56.173759+00:00",
+      "path": "cache/pred_ab82_ft_base4s4_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54325121,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:04:23.158461+00:00",
+      "path": "cache/pred_ab82_ft_ch500_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337909,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:28:48.590888+00:00",
+      "path": "cache/pred_ab82_ft_ch500_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54326208,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:15:28.842002+00:00",
+      "path": "cache/pred_ab82_ft_ch500_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337975,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:29:43.032952+00:00",
+      "path": "cache/pred_ab82_ft_ch500_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54324462,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T16:54:24.637794+00:00",
+      "path": "cache/pred_ab82_ft_ema6s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337392,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:21:30.276174+00:00",
+      "path": "cache/pred_ab82_ft_ema6s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54325263,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:06:43.291872+00:00",
+      "path": "cache/pred_ab82_ft_ema6s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337452,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:22:25.442257+00:00",
+      "path": "cache/pred_ab82_ft_ema6s3_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54324608,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T16:57:01.184288+00:00",
+      "path": "cache/pred_ab82_ft_ema6s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337535,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:23:18.370377+00:00",
+      "path": "cache/pred_ab82_ft_ema6s4_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54325744,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:09:03.507282+00:00",
+      "path": "cache/pred_ab82_ft_ema6s4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337592,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:24:15.898421+00:00",
+      "path": "cache/pred_ab82_ft_ema6s4_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54327131,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:26:11.932282+00:00",
+      "path": "cache/pred_ab82_ft_onorm_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54338029,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:30:46.932846+00:00",
+      "path": "cache/pred_ab82_ft_onorm_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54327681,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:28:43.791493+00:00",
+      "path": "cache/pred_ab82_ft_onorm_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54338112,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:31:50.837741+00:00",
+      "path": "cache/pred_ab82_ft_onorm_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54324784,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T16:59:38.039775+00:00",
+      "path": "cache/pred_ab82_ft_since4s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337664,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:25:13.686460+00:00",
+      "path": "cache/pred_ab82_ft_since4s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54325924,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:11:15.140686+00:00",
+      "path": "cache/pred_ab82_ft_since4s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337722,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:26:09.900526+00:00",
+      "path": "cache/pred_ab82_ft_since4s3_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54326346,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:17:40.167577+00:00",
+      "path": "cache/pred_ab83_final_ema6_s3_gclp_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54336712,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:14:42.138476+00:00",
+      "path": "cache/pred_ab83_final_ema6_s3_gclph_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54326493,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:19:51.093947+00:00",
+      "path": "cache/pred_ab83_final_ema6_s4_gclp_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54336788,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:15:48.321470+00:00",
+      "path": "cache/pred_ab83_final_ema6_s4_gclph_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54330581,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:51:07.238637+00:00",
+      "path": "cache/pred_ab84_final_ch500_s5_ep3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54330807,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T17:53:34.063013+00:00",
+      "path": "cache/pred_ab84_final_ch500_s5_gclp_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337230,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:19:24.334186+00:00",
+      "path": "cache/pred_ab84_final_ch500_s5_gclph_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54332510,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T18:18:40.495902+00:00",
+      "path": "cache/pred_ab84_final_onorm_s5_ep3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54332643,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T18:20:56.576135+00:00",
+      "path": "cache/pred_ab84_final_onorm_s5_gclp_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54337304,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T19:20:32.943127+00:00",
+      "path": "cache/pred_ab84_final_onorm_s5_gclph_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54333827,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T18:38:20.473506+00:00",
+      "path": "cache/pred_ab85_final_ch500_s5_gclpall_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54334551,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T18:47:33.251261+00:00",
+      "path": "cache/pred_ab85_final_ema6_s3_gclpall_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54334701,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T18:50:03.134809+00:00",
+      "path": "cache/pred_ab85_final_ema6_s4_gclpall_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54334009,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T18:40:46.370725+00:00",
+      "path": "cache/pred_ab85_final_onorm_s5_gclpall_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54333691,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T18:35:54.726323+00:00",
+      "path": "cache/pred_ab85_final_since_s3_gclpall_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54333529,
+      "link_count": 1,
+      "mtime_utc": "2026-09-28T18:33:31.992115+00:00",
+      "path": "cache/pred_ab85_final_since_s4_gclpall_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54140313,
+      "link_count": 1,
+      "mtime_utc": "2026-09-26T15:55:49.219931+00:00",
+      "path": "cache/pred_base_rnn_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56360381,
+      "link_count": 1,
+      "mtime_utc": "2026-10-06T22:01:07.628645+00:00",
+      "path": "cache/pred_bd26_c0_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56360586,
+      "link_count": 1,
+      "mtime_utc": "2026-10-06T22:03:07.784132+00:00",
+      "path": "cache/pred_bd26_c0_s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56567027,
+      "link_count": 1,
+      "mtime_utc": "2026-10-07T02:33:41.295844+00:00",
+      "path": "cache/pred_bd26_c1v2_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56567132,
+      "link_count": 1,
+      "mtime_utc": "2026-10-07T02:36:20.504109+00:00",
+      "path": "cache/pred_bd26_c1v2_s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 56638612,
+      "link_count": 1,
+      "mtime_utc": "2026-10-07T14:59:18.881561+00:00",
+      "path": "cache/pred_bd26_w384raw_s3_f0_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56623063,
+      "link_count": 1,
+      "mtime_utc": "2026-10-07T13:01:17.468373+00:00",
+      "path": "cache/pred_bd26_w384raw_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 58019508,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T03:59:45.222783+00:00",
+      "path": "cache/pred_bd26_w384raw_s3_f1_resume_r3_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 57998918,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T03:50:23.216549+00:00",
+      "path": "cache/pred_bd26_w384raw_s3_f1_resume_r3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 56640254,
+      "link_count": 1,
+      "mtime_utc": "2026-10-07T15:09:03.191701+00:00",
+      "path": "cache/pred_bd26_w384raw_s4_f0_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56637420,
+      "link_count": 1,
+      "mtime_utc": "2026-10-07T14:38:44.374097+00:00",
+      "path": "cache/pred_bd26_w384raw_s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 58020514,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T04:08:05.921908+00:00",
+      "path": "cache/pred_bd26_w384raw_s4_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58019400,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T03:51:46.750437+00:00",
+      "path": "cache/pred_bd26_w384raw_s4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 56366899,
+      "link_count": 1,
+      "mtime_utc": "2026-10-06T23:00:58.942578+00:00",
+      "path": "cache/pred_c20260929_ft_since_s3_f0_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54857808,
+      "link_count": 1,
+      "mtime_utc": "2026-09-29T20:31:23.290716+00:00",
+      "path": "cache/pred_c20260929_ft_since_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55076443,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:33:29.882146+00:00",
+      "path": "cache/pred_c20260929_ft_since_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 58021507,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T04:13:21.534544+00:00",
+      "path": "cache/pred_c20260929_ft_since_s3_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54867799,
+      "link_count": 1,
+      "mtime_utc": "2026-09-29T21:24:28.892046+00:00",
+      "path": "cache/pred_c20260929_ft_since_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55077584,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:38:01.730417+00:00",
+      "path": "cache/pred_c20260929_ft_since_s3_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54881060,
+      "link_count": 1,
+      "mtime_utc": "2026-09-29T22:56:40.483186+00:00",
+      "path": "cache/pred_c20260929_ft_since_s3_f2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55093398,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:33:24.847747+00:00",
+      "path": "cache/pred_c20260929_ft_since_s3_f2h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54892628,
+      "link_count": 1,
+      "mtime_utc": "2026-09-29T23:39:02.331499+00:00",
+      "path": "cache/pred_c20260929_ft_since_s3_f3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55093544,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:34:20.298836+00:00",
+      "path": "cache/pred_c20260929_ft_since_s3_f3h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 56367705,
+      "link_count": 1,
+      "mtime_utc": "2026-10-06T23:07:31.081109+00:00",
+      "path": "cache/pred_c20260929_ft_since_s4_f0_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54861762,
+      "link_count": 1,
+      "mtime_utc": "2026-09-29T20:53:52.851880+00:00",
+      "path": "cache/pred_c20260929_ft_since_s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55076826,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:35:45.866830+00:00",
+      "path": "cache/pred_c20260929_ft_since_s4_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 58021914,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T04:18:38.430882+00:00",
+      "path": "cache/pred_c20260929_ft_since_s4_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54873481,
+      "link_count": 1,
+      "mtime_utc": "2026-09-29T22:34:23.435238+00:00",
+      "path": "cache/pred_c20260929_ft_since_s4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55078292,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:40:27.357842+00:00",
+      "path": "cache/pred_c20260929_ft_since_s4_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54886351,
+      "link_count": 1,
+      "mtime_utc": "2026-09-29T23:16:08.138700+00:00",
+      "path": "cache/pred_c20260929_ft_since_s4_f2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55093466,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:33:53.348279+00:00",
+      "path": "cache/pred_c20260929_ft_since_s4_f2h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54898202,
+      "link_count": 1,
+      "mtime_utc": "2026-09-29T23:59:14.949261+00:00",
+      "path": "cache/pred_c20260929_ft_since_s4_f3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55093635,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:34:46.894399+00:00",
+      "path": "cache/pred_c20260929_ft_since_s4_f3h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55053558,
+      "link_count": 2,
+      "mtime_utc": "2026-09-30T23:14:49.782879+00:00",
+      "path": "cache/pred_c20260929_since_s3_f0_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55049039,
+      "link_count": 2,
+      "mtime_utc": "2026-09-30T23:12:08.888695+00:00",
+      "path": "cache/pred_c20260929_since_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55059132,
+      "link_count": 2,
+      "mtime_utc": "2026-09-30T23:21:31.567450+00:00",
+      "path": "cache/pred_c20260929_since_s3_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55058868,
+      "link_count": 2,
+      "mtime_utc": "2026-09-30T23:18:48.521247+00:00",
+      "path": "cache/pred_c20260929_since_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55183526,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T18:19:48.869805+00:00",
+      "path": "cache/pred_c20260929_since_s3_f2_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55079292,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:41:01.935507+00:00",
+      "path": "cache/pred_c20260929_since_s3_f2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55184417,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T18:24:52.464477+00:00",
+      "path": "cache/pred_c20260929_since_s3_f3_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55080419,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:42:09.222705+00:00",
+      "path": "cache/pred_c20260929_since_s3_f3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55057333,
+      "link_count": 2,
+      "mtime_utc": "2026-09-30T23:18:15.529611+00:00",
+      "path": "cache/pred_c20260929_since_s4_f0_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55056445,
+      "link_count": 2,
+      "mtime_utc": "2026-09-30T23:15:23.182511+00:00",
+      "path": "cache/pred_c20260929_since_s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55060468,
+      "link_count": 2,
+      "mtime_utc": "2026-09-30T23:25:03.215052+00:00",
+      "path": "cache/pred_c20260929_since_s4_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55060228,
+      "link_count": 2,
+      "mtime_utc": "2026-09-30T23:22:02.234112+00:00",
+      "path": "cache/pred_c20260929_since_s4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55183970,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T18:22:18.011188+00:00",
+      "path": "cache/pred_c20260929_since_s4_f2_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55080221,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:41:35.584112+00:00",
+      "path": "cache/pred_c20260929_since_s4_f2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55184860,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T18:27:22.270846+00:00",
+      "path": "cache/pred_c20260929_since_s4_f3_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55081370,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:42:41.938310+00:00",
+      "path": "cache/pred_c20260929_since_s4_f3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54908260,
+      "link_count": 1,
+      "mtime_utc": "2026-09-30T00:19:46.868238+00:00",
+      "path": "cache/pred_c20260930_ft_spread_current_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55048646,
+      "link_count": 1,
+      "mtime_utc": "2026-09-30T23:09:23.145576+00:00",
+      "path": "cache/pred_c20260930_ft_spread_proxy_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55495676,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T18:47:49.802893+00:00",
+      "path": "cache/pred_c20261001_d256_s3_f0_ep2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55071152,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T00:06:02.653800+00:00",
+      "path": "cache/pred_c20261001_d256_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55512062,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T19:56:55.479056+00:00",
+      "path": "cache/pred_c20261001_d256_s3_f1_ep2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55092727,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:29:34.026539+00:00",
+      "path": "cache/pred_c20261001_d256_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55191866,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T19:05:29.170494+00:00",
+      "path": "cache/pred_c20261001_d256_s3_f2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55199113,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T19:46:27.798129+00:00",
+      "path": "cache/pred_c20261001_d256_s3_f3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55321527,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T03:03:49.439583+00:00",
+      "path": "cache/pred_c20261001_d256a07_s3_f0_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55238182,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T21:05:57.594012+00:00",
+      "path": "cache/pred_c20261001_d256a07_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55354462,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T06:07:57.604704+00:00",
+      "path": "cache/pred_c20261001_d256a07_s3_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55337859,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T04:30:03.088944+00:00",
+      "path": "cache/pred_c20261001_d256a07_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55320701,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T02:55:50.156603+00:00",
+      "path": "cache/pred_c20261001_d256a085_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55098388,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:03:17.080379+00:00",
+      "path": "cache/pred_c20261001_dh_since_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55098674,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:04:54.158712+00:00",
+      "path": "cache/pred_c20261001_dh_since_s3_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55098521,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:04:06.041538+00:00",
+      "path": "cache/pred_c20261001_dh_since_s4_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55098803,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:05:42.775883+00:00",
+      "path": "cache/pred_c20261001_dh_since_s4_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55183384,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T18:17:15.559470+00:00",
+      "path": "cache/pred_c20261001_final_d256_s3_gcorr_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55183268,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T18:16:32.084223+00:00",
+      "path": "cache/pred_c20261001_final_d256_s3_gcorrh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55183134,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T18:15:47.348997+00:00",
+      "path": "cache/pred_c20261001_final_d256_s3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55097128,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:56:10.264861+00:00",
+      "path": "cache/pred_c20261001_final_since_s5_gcorrh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55097048,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:55:43.549314+00:00",
+      "path": "cache/pred_c20261001_final_since_s5_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55102172,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:26:06.037961+00:00",
+      "path": "cache/pred_c20261001_final_since_s6_gcorrh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55102091,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:25:37.956404+00:00",
+      "path": "cache/pred_c20261001_final_since_s6_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55071578,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T00:08:36.719151+00:00",
+      "path": "cache/pred_c20261001_ft_d256_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55071698,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T00:09:21.857374+00:00",
+      "path": "cache/pred_c20261001_ft_d256_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55093152,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:32:10.400970+00:00",
+      "path": "cache/pred_c20261001_ft_d256_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55093277,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:32:54.517246+00:00",
+      "path": "cache/pred_c20261001_ft_d256_s3_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55192323,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T19:08:03.806817+00:00",
+      "path": "cache/pred_c20261001_ft_d256_s3_f2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55192467,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T19:08:47.626059+00:00",
+      "path": "cache/pred_c20261001_ft_d256_s3_f2h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55199562,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T19:49:01.002499+00:00",
+      "path": "cache/pred_c20261001_ft_d256_s3_f3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55199721,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T19:49:44.546752+00:00",
+      "path": "cache/pred_c20261001_ft_d256_s3_f3h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55238790,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T21:09:08.733462+00:00",
+      "path": "cache/pred_c20261001_ft_d256a07_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55239141,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T21:10:06.119452+00:00",
+      "path": "cache/pred_c20261001_ft_d256a07_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55338378,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T04:32:51.226112+00:00",
+      "path": "cache/pred_c20261001_ft_d256a07_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55338544,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T04:33:41.053273+00:00",
+      "path": "cache/pred_c20261001_ft_d256a07_s3_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55321208,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T02:58:34.783854+00:00",
+      "path": "cache/pred_c20261001_ft_d256a085_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55321341,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T02:59:25.456008+00:00",
+      "path": "cache/pred_c20261001_ft_d256a085_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55076255,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:32:35.665671+00:00",
+      "path": "cache/pred_c20261001_ftpool_since_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55076348,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:33:03.401402+00:00",
+      "path": "cache/pred_c20261001_ftpool_since_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55077275,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:37:02.650066+00:00",
+      "path": "cache/pred_c20261001_ftpool_since_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55077383,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:37:32.264741+00:00",
+      "path": "cache/pred_c20261001_ftpool_since_s3_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55076655,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:34:47.381396+00:00",
+      "path": "cache/pred_c20261001_ftpool_since_s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55076734,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:35:18.023099+00:00",
+      "path": "cache/pred_c20261001_ftpool_since_s4_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55077989,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:39:23.804514+00:00",
+      "path": "cache/pred_c20261001_ftpool_since_s4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55078101,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:39:54.397178+00:00",
+      "path": "cache/pred_c20261001_ftpool_since_s4_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55097275,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:57:01.206982+00:00",
+      "path": "cache/pred_c20261001_hb_since_s3_f0_k5h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55097412,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:57:48.155147+00:00",
+      "path": "cache/pred_c20261001_hb_since_s3_f0_k6h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55097813,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:00:09.490633+00:00",
+      "path": "cache/pred_c20261001_hb_since_s3_f1_k5h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55097992,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:00:57.224784+00:00",
+      "path": "cache/pred_c20261001_hb_since_s3_f1_k6h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55097544,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:58:35.566304+00:00",
+      "path": "cache/pred_c20261001_hb_since_s4_f0_k5h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55097676,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T02:59:21.717483+00:00",
+      "path": "cache/pred_c20261001_hb_since_s4_f0_k6h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55098118,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:01:43.264989+00:00",
+      "path": "cache/pred_c20261001_hb_since_s4_f1_k5h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55098249,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:02:29.758191+00:00",
+      "path": "cache/pred_c20261001_hb_since_s4_f1_k6h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55081676,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:43:47.134522+00:00",
+      "path": "cache/pred_c20261001_jpair_joint_f0_m0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55081765,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:44:20.969113+00:00",
+      "path": "cache/pred_c20261001_jpair_joint_f0_m1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55083316,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:47:12.689697+00:00",
+      "path": "cache/pred_c20261001_jpair_joint_f1_m0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55083519,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:47:47.083348+00:00",
+      "path": "cache/pred_c20261001_jpair_joint_f1_m1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55082663,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:45:28.781353+00:00",
+      "path": "cache/pred_c20261001_jpair_solo_f0_m0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55082910,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:46:02.352389+00:00",
+      "path": "cache/pred_c20261001_jpair_solo_f0_m1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55083915,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:48:54.928661+00:00",
+      "path": "cache/pred_c20261001_jpair_solo_f1_m0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55084280,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:49:26.973336+00:00",
+      "path": "cache/pred_c20261001_jpair_solo_f1_m1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55102612,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:28:56.678257+00:00",
+      "path": "cache/pred_c20261001_tvh_since_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55103495,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:34:29.068870+00:00",
+      "path": "cache/pred_c20261001_tvh_since_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55103069,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:31:43.099601+00:00",
+      "path": "cache/pred_c20261001_tvh_since_s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55104003,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T03:37:13.730145+00:00",
+      "path": "cache/pred_c20261001_tvh_since_s4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55081607,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:42:59.180102+00:00",
+      "path": "cache/pred_c20261001_xf_shared_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55081618,
+      "link_count": 1,
+      "mtime_utc": "2026-10-01T01:43:00.941080+00:00",
+      "path": "cache/pred_c20261001_xf_shared_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55058820,
+      "link_count": 1,
+      "mtime_utc": "2026-09-30T23:18:11.389657+00:00",
+      "path": "cache/pred_c20261001_xf_since_pair_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55058825,
+      "link_count": 1,
+      "mtime_utc": "2026-09-30T23:18:12.388646+00:00",
+      "path": "cache/pred_c20261001_xf_since_pair_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55058830,
+      "link_count": 1,
+      "mtime_utc": "2026-09-30T23:18:13.473634+00:00",
+      "path": "cache/pred_c20261001_xf_since_pair_f2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55058840,
+      "link_count": 1,
+      "mtime_utc": "2026-09-30T23:18:14.494622+00:00",
+      "path": "cache/pred_c20261001_xf_since_pair_f3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55613368,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T07:31:34.356348+00:00",
+      "path": "cache/pred_c20261002_chrono64_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55617720,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T08:07:58.235711+00:00",
+      "path": "cache/pred_c20261002_chrono64_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55605339,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T06:24:02.936409+00:00",
+      "path": "cache/pred_c20261002_chunk1000_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 58072588,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T11:25:12.426038+00:00",
+      "path": "cache/pred_c20261002_chunk1000_s3_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55609292,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T06:57:16.221390+00:00",
+      "path": "cache/pred_c20261002_chunk1000_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55410293,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T10:51:06.792193+00:00",
+      "path": "cache/pred_c20261002_dlstm192a05_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55425974,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T12:03:16.646841+00:00",
+      "path": "cache/pred_c20261002_dlstm192a05_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55462598,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T15:23:10.075179+00:00",
+      "path": "cache/pred_c20261002_dtcn128l12a05_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55480528,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T16:53:56.007830+00:00",
+      "path": "cache/pred_c20261002_dtcn128l12a05_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55623372,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T08:54:54.901072+00:00",
+      "path": "cache/pred_c20261002_dtwo192e128a05_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55629346,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T09:42:04.182868+00:00",
+      "path": "cache/pred_c20261002_dtwo192e128a05_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55488857,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T18:17:32.979205+00:00",
+      "path": "cache/pred_c20261002_dtwosmoke192e128_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55312328,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T02:09:08.682593+00:00",
+      "path": "cache/pred_c20261002_final_d256a07_s3_gcorr_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55312202,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T02:08:23.367346+00:00",
+      "path": "cache/pred_c20261002_final_d256a07_s3_gcorrh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 55364298,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T06:59:29.786241+00:00",
+      "path": "cache/pred_c20261002_final_d256a07_s3_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55312054,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T02:07:37.044116+00:00",
+      "path": "cache/pred_c20261002_final_d256a07_s3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55346453,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T05:18:06.552461+00:00",
+      "path": "cache/pred_c20261002_final_d256a07_s4_gcorr_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55346298,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T05:17:18.510268+00:00",
+      "path": "cache/pred_c20261002_final_d256a07_s4_gcorrh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55346157,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T05:16:30.390076+00:00",
+      "path": "cache/pred_c20261002_final_d256a07_s4_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55374337,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T07:44:16.823210+00:00",
+      "path": "cache/pred_c20261002_final_te07_s3_gcorrh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55374181,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T07:43:23.394147+00:00",
+      "path": "cache/pred_c20261002_final_te07_s3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55601449,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T05:51:13.770291+00:00",
+      "path": "cache/pred_c20261002_final_te07_s4_gcorrh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55601347,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T05:50:28.900919+00:00",
+      "path": "cache/pred_c20261002_final_te07_s4_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55410765,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T10:53:17.758790+00:00",
+      "path": "cache/pred_c20261002_ft_dlstm192a05_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55426422,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T12:05:28.642227+00:00",
+      "path": "cache/pred_c20261002_ft_dlstm192a05_s3_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55462952,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T15:25:10.828837+00:00",
+      "path": "cache/pred_c20261002_ft_dtcn128l12a05_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55481368,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T16:55:43.383071+00:00",
+      "path": "cache/pred_c20261002_ft_dtcn128l12a05_s3_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55489088,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T18:18:45.672659+00:00",
+      "path": "cache/pred_c20261002_ft_dtwosmoke192e128_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55354137,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T06:01:05.655724+00:00",
+      "path": "cache/pred_c20261002_ft_nad05_09_t32_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55590534,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T04:19:37.977869+00:00",
+      "path": "cache/pred_c20261002_ft_sbd05_h8_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55595934,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T05:05:00.676981+00:00",
+      "path": "cache/pred_c20261002_ft_sbd05_h8_s3_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55313212,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T02:14:09.174611+00:00",
+      "path": "cache/pred_c20261002_ft_soup23_d256a07_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55313340,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T02:14:54.790855+00:00",
+      "path": "cache/pred_c20261002_ft_soup23_d256a07_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55330596,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T03:49:17.204284+00:00",
+      "path": "cache/pred_c20261002_ft_te07_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55330729,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T03:50:05.428470+00:00",
+      "path": "cache/pred_c20261002_ft_te07_s3_f0h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55363751,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T06:52:39.165233+00:00",
+      "path": "cache/pred_c20261002_ft_te07_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55363896,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T06:53:28.887387+00:00",
+      "path": "cache/pred_c20261002_ft_te07_s3_f1h_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55495514,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T18:46:59.884443+00:00",
+      "path": "cache/pred_c20261002_muon_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55511926,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T19:56:12.968626+00:00",
+      "path": "cache/pred_c20261002_muon_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55353846,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T05:59:35.492260+00:00",
+      "path": "cache/pred_c20261002_nad05_09_t32_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55590348,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T04:18:08.229104+00:00",
+      "path": "cache/pred_c20261002_sbd05_h8_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55595743,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T05:03:30.747234+00:00",
+      "path": "cache/pred_c20261002_sbd05_h8_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55312601,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T02:10:44.389003+00:00",
+      "path": "cache/pred_c20261002_soup123_d256a07_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55312740,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T02:11:29.438255+00:00",
+      "path": "cache/pred_c20261002_soup23_d256_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55312461,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T02:09:58.272769+00:00",
+      "path": "cache/pred_c20261002_soup23_d256a07_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55330110,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T03:46:38.071970+00:00",
+      "path": "cache/pred_c20261002_te07_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 58074587,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T11:35:15.492586+00:00",
+      "path": "cache/pred_c20261002_te07_s3_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55363233,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T06:49:55.228025+00:00",
+      "path": "cache/pred_c20261002_te07_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55565793,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T00:51:33.992212+00:00",
+      "path": "cache/pred_c20261003_c3off_a05_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55580156,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T02:52:21.056143+00:00",
+      "path": "cache/pred_c20261003_c3off_a05_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55570358,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T01:29:59.927176+00:00",
+      "path": "cache/pred_c20261003_c3off_a0_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55585161,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T03:34:30.415252+00:00",
+      "path": "cache/pred_c20261003_c3off_a0_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55560118,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T00:11:26.677469+00:00",
+      "path": "cache/pred_c20261003_c3on_a0_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55575171,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T02:10:22.091125+00:00",
+      "path": "cache/pred_c20261003_c3on_a0_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 56363318,
+      "link_count": 1,
+      "mtime_utc": "2026-10-06T22:36:48.413151+00:00",
+      "path": "cache/pred_c20261003_combo_s3_f0_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55635376,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T10:25:55.065469+00:00",
+      "path": "cache/pred_c20261003_combo_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 58022169,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T04:26:21.798352+00:00",
+      "path": "cache/pred_c20261003_combo_s3_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55642375,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T11:03:44.280529+00:00",
+      "path": "cache/pred_c20261003_combo_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55696532,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T16:14:59.092013+00:00",
+      "path": "cache/pred_c20261003_combo_s3_f2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55702394,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T17:00:24.800905+00:00",
+      "path": "cache/pred_c20261003_combo_s3_f3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 56365378,
+      "link_count": 1,
+      "mtime_utc": "2026-10-06T22:54:17.087730+00:00",
+      "path": "cache/pred_c20261003_combo_s4_f0_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55649292,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T11:53:52.680375+00:00",
+      "path": "cache/pred_c20261003_combo_s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 58022588,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T04:33:41.049234+00:00",
+      "path": "cache/pred_c20261003_combo_s4_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55654406,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T12:31:25.636895+00:00",
+      "path": "cache/pred_c20261003_combo_s4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55519206,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T20:36:13.723687+00:00",
+      "path": "cache/pred_c20261003_muonfull_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55537775,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T22:08:40.042938+00:00",
+      "path": "cache/pred_c20261003_muonfull_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55506362,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T19:26:54.048371+00:00",
+      "path": "cache/pred_c20261003_s100_s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 58070672,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T11:02:01.509872+00:00",
+      "path": "cache/pred_c20261003_s100_s4_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55665272,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T13:21:47.970464+00:00",
+      "path": "cache/pred_c20261003_s100_s4_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55524163,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T20:58:23.300467+00:00",
+      "path": "cache/pred_c20261003_s50_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55530198,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T21:27:44.858459+00:00",
+      "path": "cache/pred_c20261003_s50_s4_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55678042,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T14:27:28.301225+00:00",
+      "path": "cache/pred_c20261003_w320_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 58071709,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T11:14:14.257247+00:00",
+      "path": "cache/pred_c20261003_w320_s3_f1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55686121,
+      "link_count": 1,
+      "mtime_utc": "2026-10-03T15:29:41.945559+00:00",
+      "path": "cache/pred_c20261003_w320_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55550774,
+      "link_count": 1,
+      "mtime_utc": "2026-10-02T23:19:01.414101+00:00",
+      "path": "cache/pred_c20261003_w384_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55788086,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T01:40:19.399256+00:00",
+      "path": "cache/pred_c20261004_combo_head_s3_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55790042,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T01:51:42.566525+00:00",
+      "path": "cache/pred_c20261004_combo_head_s3_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55790545,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T01:53:54.031853+00:00",
+      "path": "cache/pred_c20261004_combo_head_s3_f2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55790842,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T01:55:31.561662+00:00",
+      "path": "cache/pred_c20261004_combo_head_s3_f3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55812505,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T03:33:17.220374+00:00",
+      "path": "cache/pred_c20261004_combo_head_s3_final_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55809535,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T03:08:35.589996+00:00",
+      "path": "cache/pred_c20261004_combo_head_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55962537,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T17:06:37.296873+00:00",
+      "path": "cache/pred_c20261004_combo_head_s4_final_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55811918,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T03:29:55.026907+00:00",
+      "path": "cache/pred_c20261004_combo_s3_final_r1_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55809243,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T03:07:00.489361+00:00",
+      "path": "cache/pred_c20261004_combo_s3_final_r1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55962063,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T17:05:07.107138+00:00",
+      "path": "cache/pred_c20261004_combo_s4_final_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55840050,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T07:35:41.999151+00:00",
+      "path": "cache/pred_c20261004_e419_float_fp16_s3_f0_r2_common_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55840381,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T07:36:59.976822+00:00",
+      "path": "cache/pred_c20261004_e419_float_fp32_s3_f0_common_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55869152,
+      "link_count": 2,
+      "mtime_utc": "2026-10-04T10:56:57.283597+00:00",
+      "path": "cache/pred_c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55869172,
+      "link_count": 3,
+      "mtime_utc": "2026-10-04T10:56:57.821592+00:00",
+      "path": "cache/pred_c20261004_e419_fp32_control_recurrent_s3_f0_t4v3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55866532,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T09:30:57.560280+00:00",
+      "path": "cache/pred_c20261004_e423_combo_control_s3_f0_v1_common_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56039074,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T22:55:46.732528+00:00",
+      "path": "cache/pred_c20261004_e464_h093_gru_budget_head_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56038666,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T22:53:47.914975+00:00",
+      "path": "cache/pred_c20261004_e464_h093_hash_head_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56038514,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T22:52:49.600845+00:00",
+      "path": "cache/pred_c20261004_e464_h093_learned_head_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56038887,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T22:54:46.801312+00:00",
+      "path": "cache/pred_c20261004_e464_h093_universal_head_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56039174,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T22:56:43.700435+00:00",
+      "path": "cache/pred_c20261004_e464_h094_conditional_head_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56039477,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T22:58:43.308567+00:00",
+      "path": "cache/pred_c20261004_e464_h094_diagonal_head_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56039645,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T22:59:39.565925+00:00",
+      "path": "cache/pred_c20261004_e464_h094_gru_budget_head_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56039307,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T22:57:44.428271+00:00",
+      "path": "cache/pred_c20261004_e464_h094_unconditional_head_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55866226,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T09:29:40.721515+00:00",
+      "path": "cache/pred_c20261004_ema_rows_s3_f0_v2_common_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55909744,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T14:07:28.696151+00:00",
+      "path": "cache/pred_c20261004_h093_gru_budget_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55945238,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T16:09:02.194906+00:00",
+      "path": "cache/pred_c20261004_h093_hash_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55909246,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T14:06:22.562946+00:00",
+      "path": "cache/pred_c20261004_h093_learned_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55945410,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T16:09:59.587067+00:00",
+      "path": "cache/pred_c20261004_h093_universal_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55910121,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T14:08:30.444515+00:00",
+      "path": "cache/pred_c20261004_h094_conditional_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55945776,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T16:11:56.223362+00:00",
+      "path": "cache/pred_c20261004_h094_diagonal_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55910421,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T14:09:34.334764+00:00",
+      "path": "cache/pred_c20261004_h094_gru_budget_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55945612,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T16:10:57.137225+00:00",
+      "path": "cache/pred_c20261004_h094_unconditional_s3_final_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56018448,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T20:55:44.908787+00:00",
+      "path": "cache/pred_c20261004_h106_soft_s3_final_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55821101,
+      "link_count": 2,
+      "mtime_utc": "2026-10-04T06:25:27.635089+00:00",
+      "path": "cache/pred_c20261004_volume28_current_s3_f0_t4v1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 55821115,
+      "link_count": 2,
+      "mtime_utc": "2026-10-04T06:25:44.748924+00:00",
+      "path": "cache/pred_c20261004_volume28_s3_f0_t4v1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58061778,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T09:44:14.495666+00:00",
+      "path": "cache/pred_combo_scratch_s3_onecycle_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58070338,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T10:50:33.436220+00:00",
+      "path": "cache/pred_combo_scratch_s3_wsd_f1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56005906,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T20:05:35.972932+00:00",
+      "path": "cache/pred_e426_clock_aligned_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56005409,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T20:00:48.380656+00:00",
+      "path": "cache/pred_e426_clock_constant_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56006160,
+      "link_count": 1,
+      "mtime_utc": "2026-10-04T20:06:49.137744+00:00",
+      "path": "cache/pred_e426_clock_shuffled_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56567631,
+      "link_count": 1,
+      "mtime_utc": "2026-10-07T02:50:00.577237+00:00",
+      "path": "cache/pred_e514_ab12_h128_plain_fallback_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56567964,
+      "link_count": 1,
+      "mtime_utc": "2026-10-07T02:52:27.421645+00:00",
+      "path": "cache/pred_e514_ab48_basehead_f0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 57496017,
+      "link_count": 1,
+      "mtime_utc": "2026-10-08T16:12:33.624593+00:00",
+      "path": "cache/pred_e529_s4_served_head_f0_control_v1_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 57723937,
+      "link_count": 1,
+      "mtime_utc": "2026-10-08T19:46:27.003267+00:00",
+      "path": "cache/pred_f0_combo_s3_parent_hft_v1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 57724273,
+      "link_count": 1,
+      "mtime_utc": "2026-10-08T19:50:35.604493+00:00",
+      "path": "cache/pred_f0_h230_hetero_s3_hft_v1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 57727842,
+      "link_count": 1,
+      "mtime_utc": "2026-10-08T20:27:43.228234+00:00",
+      "path": "cache/pred_f0_z3_combo_s4_parent_hft_v2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 57746220,
+      "link_count": 1,
+      "mtime_utc": "2026-10-08T20:30:33.080719+00:00",
+      "path": "cache/pred_f0_z3_combo_s4_student_hft_v3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 57746286,
+      "link_count": 1,
+      "mtime_utc": "2026-10-08T20:32:06.305292+00:00",
+      "path": "cache/pred_f0_z3_combo_s4_student_v2_core_identity_v2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54105266,
+      "link_count": 1,
+      "mtime_utc": "2026-09-26T00:33:20.175168+00:00",
+      "path": "cache/pred_gbm_member_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 74883072,
+      "inode": 57067369,
+      "link_count": 1,
+      "mtime_utc": "2026-10-08T05:49:19.661981+00:00",
+      "path": "cache/pred_h218_block_memory_cleanfold0_seed7_ep3_fp32_eval468_v1_valid.npy",
+      "size_bytes": 74880128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58155492,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T20:23:11.162752+00:00",
+      "path": "cache/pred_h230_f1_s3_alpha05_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58081435,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T12:21:38.008203+00:00",
+      "path": "cache/pred_h230_f1_s3_expanded12_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58164617,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:23:43.108928+00:00",
+      "path": "cache/pred_h230_f1_s3_familyoff_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58091599,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T13:48:02.973423+00:00",
+      "path": "cache/pred_h230_f1_s3_floor01_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58167176,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T23:12:35.256680+00:00",
+      "path": "cache/pred_h230_f1_s3_lr2e4_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58138347,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T19:12:35.183781+00:00",
+      "path": "cache/pred_h230_f1_s3_mexact_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58164470,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:19:45.914538+00:00",
+      "path": "cache/pred_h230_f1_s3_muon3_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58164373,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:17:42.342437+00:00",
+      "path": "cache/pred_h230_f1_s3_muon_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58039623,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T07:04:10.916555+00:00",
+      "path": "cache/pred_h230_f1_s3_onecycle_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58097755,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T14:32:27.962095+00:00",
+      "path": "cache/pred_h230_f1_s3_stage_broad2strong_ep0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58104592,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T15:24:49.107816+00:00",
+      "path": "cache/pred_h230_f1_s3_stage_strong2broad_ep0_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58087082,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T13:05:19.406034+00:00",
+      "path": "cache/pred_h230_f1_s3_tailp15_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58046428,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T07:55:28.504725+00:00",
+      "path": "cache/pred_h230_f1_s3_wsd_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58138544,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T19:14:33.778462+00:00",
+      "path": "cache/pred_h230_f1_s4_mexact_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58051926,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T08:37:53.433389+00:00",
+      "path": "cache/pred_h230_f1_s4_onecycle_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58119983,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T17:01:39.432853+00:00",
+      "path": "cache/pred_h230_f1_soup_s3_a_ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 56743333,
+      "link_count": 1,
+      "mtime_utc": "2026-10-07T23:12:56.596531+00:00",
+      "path": "cache/pred_h230_familyoff_s3_retry1_ep1_20261008_v1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 57068693,
+      "link_count": 1,
+      "mtime_utc": "2026-10-08T06:09:46.765829+00:00",
+      "path": "cache/pred_h230_history_parent_ep3_fp32_v1_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 57086622,
+      "link_count": 1,
+      "mtime_utc": "2026-10-08T06:15:58.017195+00:00",
+      "path": "cache/pred_h230_history_parent_ep3_fp32_v1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 1696960512,
+      "inode": 57384848,
+      "link_count": 1,
+      "mtime_utc": "2026-10-08T12:59:24.771081+00:00",
+      "path": "cache/pred_h230_seed99_ep3_fp32_train.npy",
+      "size_bytes": 1696960128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 57384227,
+      "link_count": 1,
+      "mtime_utc": "2026-10-08T12:46:23.146472+00:00",
+      "path": "cache/pred_h230_seed99_ep3_fp32_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 54113224,
+      "link_count": 1,
+      "mtime_utc": "2026-09-26T05:18:57.668101+00:00",
+      "path": "cache/pred_soup4_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58157785,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T21:15:44.768024+00:00",
+      "path": "cache/pred_vt_f0_dsq_f0none_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58164403,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:17:22.756738+00:00",
+      "path": "cache/pred_vt_f0_dsq_f0t256_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58165673,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:46:16.033935+00:00",
+      "path": "cache/pred_vt_f0_dsq_f0t384_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58138931,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T19:15:20.779566+00:00",
+      "path": "cache/pred_vt_f0_gru256_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58142842,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T19:36:00.373370+00:00",
+      "path": "cache/pred_vt_f0_gru384_ep6_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58125070,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T17:41:57.446840+00:00",
+      "path": "cache/pred_vt_f0_gru384_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58127625,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T17:48:39.471128+00:00",
+      "path": "cache/pred_vt_f0_gru512_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58166390,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T23:01:06.091235+00:00",
+      "path": "cache/pred_vt_f0_mu3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58110925,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T16:11:19.174946+00:00",
+      "path": "cache/pred_vt_f1_adamw_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58163987,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:12:26.424447+00:00",
+      "path": "cache/pred_vt_f1_chrono8k_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58168916,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T23:48:14.564067+00:00",
+      "path": "cache/pred_vt_f1_chrono_orth_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58164915,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:31:56.170141+00:00",
+      "path": "cache/pred_vt_f1_chrono_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58162012,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T21:52:15.134629+00:00",
+      "path": "cache/pred_vt_f1_cls3w2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58155307,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T20:24:32.891088+00:00",
+      "path": "cache/pred_vt_f1_corr_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58165582,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:49:20.002567+00:00",
+      "path": "cache/pred_vt_f1_ctrl_s3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58167651,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T23:21:32.410504+00:00",
+      "path": "cache/pred_vt_f1_dsq_t256_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58112041,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T16:21:27.879849+00:00",
+      "path": "cache/pred_vt_f1_dual_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58111588,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T16:16:17.175007+00:00",
+      "path": "cache/pred_vt_f1_encmlp_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58163684,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:08:06.450585+00:00",
+      "path": "cache/pred_vt_f1_ep8_mu3_ema_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58107665,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T15:49:41.176830+00:00",
+      "path": "cache/pred_vt_f1_fixmix_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58152385,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T20:01:20.343292+00:00",
+      "path": "cache/pred_vt_f1_gated384_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58155368,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T20:20:22.643178+00:00",
+      "path": "cache/pred_vt_f1_gated_trap_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58120063,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T17:01:25.083134+00:00",
+      "path": "cache/pred_vt_f1_gated_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58108162,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T15:51:15.148983+00:00",
+      "path": "cache/pred_vt_f1_gru256x3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58132271,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T18:25:11.628354+00:00",
+      "path": "cache/pred_vt_f1_gru320_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58157581,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T21:16:27.298343+00:00",
+      "path": "cache/pred_vt_f1_gru384_drop2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58166326,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T23:04:30.665965+00:00",
+      "path": "cache/pred_vt_f1_gru384_ema_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58120161,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T17:02:18.610083+00:00",
+      "path": "cache/pred_vt_f1_gru384_fixmix_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58128072,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T17:50:14.775647+00:00",
+      "path": "cache/pred_vt_f1_gru384_s4_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58129329,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T17:51:55.981074+00:00",
+      "path": "cache/pred_vt_f1_gru384_s5_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58099178,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T14:45:14.265353+00:00",
+      "path": "cache/pred_vt_f1_gru384_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58132687,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T18:29:11.883660+00:00",
+      "path": "cache/pred_vt_f1_gru448_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58099238,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T14:45:55.142566+00:00",
+      "path": "cache/pred_vt_f1_gru512_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58165946,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:55:46.993476+00:00",
+      "path": "cache/pred_vt_f1_heur_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58162912,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T21:58:11.452918+00:00",
+      "path": "cache/pred_vt_f1_huber_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58108312,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T15:52:11.752870+00:00",
+      "path": "cache/pred_vt_f1_lineard2z_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58099303,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T14:46:31.312870+00:00",
+      "path": "cache/pred_vt_f1_lstm256_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58155878,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T20:34:29.753469+00:00",
+      "path": "cache/pred_vt_f1_lw15_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58156384,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T20:45:21.430615+00:00",
+      "path": "cache/pred_vt_f1_lwfloor_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58156836,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T20:55:57.556309+00:00",
+      "path": "cache/pred_vt_f1_mu3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58164297,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:19:39.045644+00:00",
+      "path": "cache/pred_vt_f1_mu6_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58169140,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T23:46:43.536360+00:00",
+      "path": "cache/pred_vt_f1_orth_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58166891,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T23:14:19.374168+00:00",
+      "path": "cache/pred_vt_f1_proppow1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58158182,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T21:31:59.931063+00:00",
+      "path": "cache/pred_vt_f1_rawonly_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58108448,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T15:53:07.633771+00:00",
+      "path": "cache/pred_vt_f1_seed4_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58120719,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T17:06:29.881211+00:00",
+      "path": "cache/pred_vt_f1_seed5_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58157194,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T21:05:49.621686+00:00",
+      "path": "cache/pred_vt_f1_since128_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58154357,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T20:17:24.414940+00:00",
+      "path": "cache/pred_vt_f1_since8_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58157942,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T21:22:17.526944+00:00",
+      "path": "cache/pred_vt_f1_tcn_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58156371,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T20:36:18.917818+00:00",
+      "path": "cache/pred_vt_f1_tr_adamw_lr1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58157127,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T20:55:56.890318+00:00",
+      "path": "cache/pred_vt_f1_tr_adamw_lr2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58169408,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T23:51:55.576857+00:00",
+      "path": "cache/pred_vt_f1_tr_adamw_lrh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58136065,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T18:55:28.433495+00:00",
+      "path": "cache/pred_vt_f1_tr_base_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58163453,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:01:32.650672+00:00",
+      "path": "cache/pred_vt_f1_tr_ep6_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58156455,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T20:37:54.741586+00:00",
+      "path": "cache/pred_vt_f1_tr_lr2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58158018,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T21:21:09.919979+00:00",
+      "path": "cache/pred_vt_f1_tr_lrh_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58167454,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T23:17:06.825055+00:00",
+      "path": "cache/pred_vt_f1_tr_sgdr2__ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58167501,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T23:18:06.340301+00:00",
+      "path": "cache/pred_vt_f1_tr_sgdr2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58163722,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:06:45.216871+00:00",
+      "path": "cache/pred_vt_f1_tr_sgdr4__ep1_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58163782,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:07:26.866214+00:00",
+      "path": "cache/pred_vt_f1_tr_sgdr4__ep2_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58163812,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:09:00.415731+00:00",
+      "path": "cache/pred_vt_f1_tr_sgdr4_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58165056,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:31:38.607381+00:00",
+      "path": "cache/pred_vt_f1_tr_swa_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58136174,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T18:56:39.628175+00:00",
+      "path": "cache/pred_vt_f1_tr_wsd_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58108542,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T15:54:01.865705+00:00",
+      "path": "cache/pred_vt_f1_trapezoid_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58120385,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T17:03:13.964995+00:00",
+      "path": "cache/pred_vt_f1_twoclock_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58158593,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T21:40:55.694427+00:00",
+      "path": "cache/pred_vt_f1_wd05_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58111051,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T16:12:18.096759+00:00",
+      "path": "cache/pred_vt_f1_wmsegcorr_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58158058,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T21:22:08.002088+00:00",
+      "path": "cache/pred_vt_f2_gru256_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58143412,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T19:41:08.081681+00:00",
+      "path": "cache/pred_vt_f2_gru384_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58158213,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T21:26:04.343122+00:00",
+      "path": "cache/pred_vt_f2_mu3_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58163911,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:10:40.819136+00:00",
+      "path": "cache/pred_vt_f3_gru256_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58143601,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T19:43:01.129124+00:00",
+      "path": "cache/pred_vt_f3_gru384_valid.npy",
+      "size_bytes": 299680128
+    },
+    {
+      "allocated_bytes": 299683840,
+      "inode": 58166149,
+      "link_count": 1,
+      "mtime_utc": "2026-10-09T22:56:14.799115+00:00",
+      "path": "cache/pred_vt_f3_mu3_valid.npy",
+      "size_bytes": 299680128
+    }
+  ],
+  "recovery_errors": [],
+  "removed_incomplete_file": "cache/pred_oldz4_h230_parent_f0_s3_r3_valid.npy.partial",
+  "removed_prediction_files": [
+    "cache/pred_ab56_ema_e4_f0_train.npy",
+    "cache/pred_ab56_ema_e4_f0_valid.npy",
+    "cache/pred_ab56_ema_e4_f1_valid.npy",
+    "cache/pred_ab56_ema_f0_valid.npy",
+    "cache/pred_ab56_ema_f1_valid.npy",
+    "cache/pred_ab58_ema_e4_f1_train.npy",
+    "cache/pred_ab58_ema_e4_f1_valid.npy",
+    "cache/pred_ab60_final_ema4_p1_lpft_valid.npy",
+    "cache/pred_ab60_final_ema4_p1_valid.npy",
+    "cache/pred_ab61_conv_gru_f0_valid.npy",
+    "cache/pred_ab61_conv_lstm_f0_valid.npy",
+    "cache/pred_ab61_linear_lstm_f0_valid.npy",
+    "cache/pred_ab61_mlp_gru_f0_valid.npy",
+    "cache/pred_ab61_mlp_lstm_f0_valid.npy",
+    "cache/pred_ab62_base_s3_f0_valid.npy",
+    "cache/pred_ab62_base_s3_f1_valid.npy",
+    "cache/pred_ab62_base_s4_f0_train.npy",
+    "cache/pred_ab62_base_s4_f0_valid.npy",
+    "cache/pred_ab62_base_s4_f1_train.npy",
+    "cache/pred_ab62_base_s4_f1_valid.npy",
+    "cache/pred_ab62_conv_f0_valid.npy",
+    "cache/pred_ab62_conv_f1_valid.npy",
+    "cache/pred_ab62_lnorm_f0_valid.npy",
+    "cache/pred_ab62_lnorm_f1_valid.npy",
+    "cache/pred_ab62_p2_f0_valid.npy",
+    "cache/pred_ab62_p2_f1_valid.npy",
+    "cache/pred_ab62_since_f0_valid.npy",
+    "cache/pred_ab62_since_f1_valid.npy",
+    "cache/pred_ab62_td5_f0_valid.npy",
+    "cache/pred_ab62_td5_f1_valid.npy",
+    "cache/pred_ab63_ctrl_f0_valid.npy",
+    "cache/pred_ab63_ctrl_f1_valid.npy",
+    "cache/pred_ab63_ftema_f0_valid.npy",
+    "cache/pred_ab63_ftema_f1_valid.npy",
+    "cache/pred_ab63_gcorr_f0_valid.npy",
+    "cache/pred_ab63_gcorr_f1_valid.npy",
+    "cache/pred_ab63_wgc_f0_valid.npy",
+    "cache/pred_ab63_wgc_f1_valid.npy",
+    "cache/pred_ab64_final_ema4_gclp_valid.npy",
+    "cache/pred_ab65_final_ema4_s3_gclp_valid.npy",
+    "cache/pred_ab65_final_ema4_s3_valid.npy",
+    "cache/pred_ab66_ch500_f0_valid.npy",
+    "cache/pred_ab66_ch500_f1_valid.npy",
+    "cache/pred_ab66_onorm_f0_valid.npy",
+    "cache/pred_ab66_onorm_f1_valid.npy",
+    "cache/pred_ab67_final_since_s3_gcorr_valid.npy",
+    "cache/pred_ab67_final_since_s3_gcorrh_valid.npy",
+    "cache/pred_ab67_final_since_s3_train.npy",
+    "cache/pred_ab67_final_since_s3_valid.npy",
+    "cache/pred_ab67_final_since_s3_wmse_valid.npy",
+    "cache/pred_ab67_final_since_s3_wmseh_valid.npy",
+    "cache/pred_ab67_final_since_s4_gcorr_valid.npy",
+    "cache/pred_ab67_final_since_s4_gcorrh_valid.npy",
+    "cache/pred_ab67_final_since_s4_train.npy",
+    "cache/pred_ab67_final_since_s4_valid.npy",
+    "cache/pred_ab67_final_since_s4_wmse_valid.npy",
+    "cache/pred_ab67_final_since_s4_wmseh_valid.npy",
+    "cache/pred_ab68_ema6_since_ep5_f0_valid.npy",
+    "cache/pred_ab68_ema6_since_ep5_f1_valid.npy",
+    "cache/pred_ab68_ema6_since_f0_valid.npy",
+    "cache/pred_ab68_ema6_since_f1_valid.npy",
+    "cache/pred_ab68_ema6_since_soup_f0_valid.npy",
+    "cache/pred_ab68_ema6_since_soup_f1_valid.npy",
+    "cache/pred_ab69_episode_f0_valid.npy",
+    "cache/pred_ab70_validrepeat_f0_valid.npy",
+    "cache/pred_ab71_ema_metric_f0_valid.npy",
+    "cache/pred_ab72_final_ema6_s3_ep5_valid.npy",
+    "cache/pred_ab72_final_ema6_s4_ep5_valid.npy",
+    "cache/pred_ab73_ema6_since_s4_ep5_f0_valid.npy",
+    "cache/pred_ab73_ema6_since_s4_ep5_f1_valid.npy",
+    "cache/pred_ab74_shallow_since_f0_valid.npy",
+    "cache/pred_ab75_tier01_f0_valid.npy",
+    "cache/pred_ab76_mask01_f0_valid.npy",
+    "cache/pred_ab77_gated_hard_f0_valid.npy",
+    "cache/pred_ab77_gated_soft_f0_valid.npy",
+    "cache/pred_ab78_auxsign01_f0_valid.npy",
+    "cache/pred_ab79_quotepath01_f0_valid.npy",
+    "cache/pred_ab80_validvolume_p100_gcorr_f0_valid.npy",
+    "cache/pred_ab80_validvolume_p80_gcorr_f0_valid.npy",
+    "cache/pred_ab81_h192_ep5_f0_valid.npy",
+    "cache/pred_ab81_mlp_ep5_f0_valid.npy",
+    "cache/pred_ab81_wd01_ep5_f0_valid.npy",
+    "cache/pred_ab82_ft_base4s4_f0_valid.npy",
+    "cache/pred_ab82_ft_base4s4_f0h_valid.npy",
+    "cache/pred_ab82_ft_base4s4_f1_valid.npy",
+    "cache/pred_ab82_ft_base4s4_f1h_valid.npy",
+    "cache/pred_ab82_ft_ch500_f0_valid.npy",
+    "cache/pred_ab82_ft_ch500_f0h_valid.npy",
+    "cache/pred_ab82_ft_ch500_f1_valid.npy",
+    "cache/pred_ab82_ft_ch500_f1h_valid.npy",
+    "cache/pred_ab82_ft_ema6s3_f0_valid.npy",
+    "cache/pred_ab82_ft_ema6s3_f0h_valid.npy",
+    "cache/pred_ab82_ft_ema6s3_f1_valid.npy",
+    "cache/pred_ab82_ft_ema6s3_f1h_valid.npy",
+    "cache/pred_ab82_ft_ema6s4_f0_valid.npy",
+    "cache/pred_ab82_ft_ema6s4_f0h_valid.npy",
+    "cache/pred_ab82_ft_ema6s4_f1_valid.npy",
+    "cache/pred_ab82_ft_ema6s4_f1h_valid.npy",
+    "cache/pred_ab82_ft_onorm_f0_valid.npy",
+    "cache/pred_ab82_ft_onorm_f0h_valid.npy",
+    "cache/pred_ab82_ft_onorm_f1_valid.npy",
+    "cache/pred_ab82_ft_onorm_f1h_valid.npy",
+    "cache/pred_ab82_ft_since4s3_f0_valid.npy",
+    "cache/pred_ab82_ft_since4s3_f0h_valid.npy",
+    "cache/pred_ab82_ft_since4s3_f1_valid.npy",
+    "cache/pred_ab82_ft_since4s3_f1h_valid.npy",
+    "cache/pred_ab83_final_ema6_s3_gclp_valid.npy",
+    "cache/pred_ab83_final_ema6_s3_gclph_valid.npy",
+    "cache/pred_ab83_final_ema6_s4_gclp_valid.npy",
+    "cache/pred_ab83_final_ema6_s4_gclph_valid.npy",
+    "cache/pred_ab84_final_ch500_s5_ep3_valid.npy",
+    "cache/pred_ab84_final_ch500_s5_gclp_valid.npy",
+    "cache/pred_ab84_final_ch500_s5_gclph_valid.npy",
+    "cache/pred_ab84_final_onorm_s5_ep3_valid.npy",
+    "cache/pred_ab84_final_onorm_s5_gclp_valid.npy",
+    "cache/pred_ab84_final_onorm_s5_gclph_valid.npy",
+    "cache/pred_ab85_final_ch500_s5_gclpall_valid.npy",
+    "cache/pred_ab85_final_ema6_s3_gclpall_valid.npy",
+    "cache/pred_ab85_final_ema6_s4_gclpall_valid.npy",
+    "cache/pred_ab85_final_onorm_s5_gclpall_valid.npy",
+    "cache/pred_ab85_final_since_s3_gclpall_valid.npy",
+    "cache/pred_ab85_final_since_s4_gclpall_valid.npy",
+    "cache/pred_base_rnn_valid.npy",
+    "cache/pred_bd26_c0_s3_f0_valid.npy",
+    "cache/pred_bd26_c0_s4_f0_valid.npy",
+    "cache/pred_bd26_c1v2_s3_f0_valid.npy",
+    "cache/pred_bd26_c1v2_s4_f0_valid.npy",
+    "cache/pred_bd26_w384raw_s3_f0_train.npy",
+    "cache/pred_bd26_w384raw_s3_f0_valid.npy",
+    "cache/pred_bd26_w384raw_s3_f1_resume_r3_train.npy",
+    "cache/pred_bd26_w384raw_s3_f1_resume_r3_valid.npy",
+    "cache/pred_bd26_w384raw_s4_f0_train.npy",
+    "cache/pred_bd26_w384raw_s4_f0_valid.npy",
+    "cache/pred_bd26_w384raw_s4_f1_train.npy",
+    "cache/pred_bd26_w384raw_s4_f1_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f0_train.npy",
+    "cache/pred_c20260929_ft_since_s3_f0_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f0h_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f1_train.npy",
+    "cache/pred_c20260929_ft_since_s3_f1_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f1h_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f2_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f2h_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f3_valid.npy",
+    "cache/pred_c20260929_ft_since_s3_f3h_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f0_train.npy",
+    "cache/pred_c20260929_ft_since_s4_f0_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f0h_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f1_train.npy",
+    "cache/pred_c20260929_ft_since_s4_f1_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f1h_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f2_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f2h_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f3_valid.npy",
+    "cache/pred_c20260929_ft_since_s4_f3h_valid.npy",
+    "cache/pred_c20260929_since_s3_f0_train.npy",
+    "cache/pred_c20260929_since_s3_f0_valid.npy",
+    "cache/pred_c20260929_since_s3_f1_train.npy",
+    "cache/pred_c20260929_since_s3_f1_valid.npy",
+    "cache/pred_c20260929_since_s3_f2_train.npy",
+    "cache/pred_c20260929_since_s3_f2_valid.npy",
+    "cache/pred_c20260929_since_s3_f3_train.npy",
+    "cache/pred_c20260929_since_s3_f3_valid.npy",
+    "cache/pred_c20260929_since_s4_f0_train.npy",
+    "cache/pred_c20260929_since_s4_f0_valid.npy",
+    "cache/pred_c20260929_since_s4_f1_train.npy",
+    "cache/pred_c20260929_since_s4_f1_valid.npy",
+    "cache/pred_c20260929_since_s4_f2_train.npy",
+    "cache/pred_c20260929_since_s4_f2_valid.npy",
+    "cache/pred_c20260929_since_s4_f3_train.npy",
+    "cache/pred_c20260929_since_s4_f3_valid.npy",
+    "cache/pred_c20260930_ft_spread_current_f0_valid.npy",
+    "cache/pred_c20260930_ft_spread_proxy_f0_valid.npy",
+    "cache/pred_c20261001_d256_s3_f0_ep2_valid.npy",
+    "cache/pred_c20261001_d256_s3_f0_valid.npy",
+    "cache/pred_c20261001_d256_s3_f1_ep2_valid.npy",
+    "cache/pred_c20261001_d256_s3_f1_valid.npy",
+    "cache/pred_c20261001_d256_s3_f2_valid.npy",
+    "cache/pred_c20261001_d256_s3_f3_valid.npy",
+    "cache/pred_c20261001_d256a07_s3_f0_train.npy",
+    "cache/pred_c20261001_d256a07_s3_f0_valid.npy",
+    "cache/pred_c20261001_d256a07_s3_f1_train.npy",
+    "cache/pred_c20261001_d256a07_s3_f1_valid.npy",
+    "cache/pred_c20261001_d256a085_s3_f0_valid.npy",
+    "cache/pred_c20261001_dh_since_s3_f0h_valid.npy",
+    "cache/pred_c20261001_dh_since_s3_f1h_valid.npy",
+    "cache/pred_c20261001_dh_since_s4_f0h_valid.npy",
+    "cache/pred_c20261001_dh_since_s4_f1h_valid.npy",
+    "cache/pred_c20261001_final_d256_s3_gcorr_valid.npy",
+    "cache/pred_c20261001_final_d256_s3_gcorrh_valid.npy",
+    "cache/pred_c20261001_final_d256_s3_valid.npy",
+    "cache/pred_c20261001_final_since_s5_gcorrh_valid.npy",
+    "cache/pred_c20261001_final_since_s5_valid.npy",
+    "cache/pred_c20261001_final_since_s6_gcorrh_valid.npy",
+    "cache/pred_c20261001_final_since_s6_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f0_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f0h_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f1_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f1h_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f2_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f2h_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f3_valid.npy",
+    "cache/pred_c20261001_ft_d256_s3_f3h_valid.npy",
+    "cache/pred_c20261001_ft_d256a07_s3_f0_valid.npy",
+    "cache/pred_c20261001_ft_d256a07_s3_f0h_valid.npy",
+    "cache/pred_c20261001_ft_d256a07_s3_f1_valid.npy",
+    "cache/pred_c20261001_ft_d256a07_s3_f1h_valid.npy",
+    "cache/pred_c20261001_ft_d256a085_s3_f0_valid.npy",
+    "cache/pred_c20261001_ft_d256a085_s3_f0h_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s3_f0_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s3_f0h_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s3_f1_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s3_f1h_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s4_f0_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s4_f0h_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s4_f1_valid.npy",
+    "cache/pred_c20261001_ftpool_since_s4_f1h_valid.npy",
+    "cache/pred_c20261001_hb_since_s3_f0_k5h_valid.npy",
+    "cache/pred_c20261001_hb_since_s3_f0_k6h_valid.npy",
+    "cache/pred_c20261001_hb_since_s3_f1_k5h_valid.npy",
+    "cache/pred_c20261001_hb_since_s3_f1_k6h_valid.npy",
+    "cache/pred_c20261001_hb_since_s4_f0_k5h_valid.npy",
+    "cache/pred_c20261001_hb_since_s4_f0_k6h_valid.npy",
+    "cache/pred_c20261001_hb_since_s4_f1_k5h_valid.npy",
+    "cache/pred_c20261001_hb_since_s4_f1_k6h_valid.npy",
+    "cache/pred_c20261001_jpair_joint_f0_m0_valid.npy",
+    "cache/pred_c20261001_jpair_joint_f0_m1_valid.npy",
+    "cache/pred_c20261001_jpair_joint_f1_m0_valid.npy",
+    "cache/pred_c20261001_jpair_joint_f1_m1_valid.npy",
+    "cache/pred_c20261001_jpair_solo_f0_m0_valid.npy",
+    "cache/pred_c20261001_jpair_solo_f0_m1_valid.npy",
+    "cache/pred_c20261001_jpair_solo_f1_m0_valid.npy",
+    "cache/pred_c20261001_jpair_solo_f1_m1_valid.npy",
+    "cache/pred_c20261001_tvh_since_s3_f0_valid.npy",
+    "cache/pred_c20261001_tvh_since_s3_f1_valid.npy",
+    "cache/pred_c20261001_tvh_since_s4_f0_valid.npy",
+    "cache/pred_c20261001_tvh_since_s4_f1_valid.npy",
+    "cache/pred_c20261001_xf_shared_f0_valid.npy",
+    "cache/pred_c20261001_xf_shared_f1_valid.npy",
+    "cache/pred_c20261001_xf_since_pair_f0_valid.npy",
+    "cache/pred_c20261001_xf_since_pair_f1_valid.npy",
+    "cache/pred_c20261001_xf_since_pair_f2_valid.npy",
+    "cache/pred_c20261001_xf_since_pair_f3_valid.npy",
+    "cache/pred_c20261002_chrono64_s3_f0_valid.npy",
+    "cache/pred_c20261002_chrono64_s3_f1_valid.npy",
+    "cache/pred_c20261002_chunk1000_s3_f0_valid.npy",
+    "cache/pred_c20261002_chunk1000_s3_f1_train.npy",
+    "cache/pred_c20261002_chunk1000_s3_f1_valid.npy",
+    "cache/pred_c20261002_dlstm192a05_s3_f0_valid.npy",
+    "cache/pred_c20261002_dlstm192a05_s3_f1_valid.npy",
+    "cache/pred_c20261002_dtcn128l12a05_s3_f0_valid.npy",
+    "cache/pred_c20261002_dtcn128l12a05_s3_f1_valid.npy",
+    "cache/pred_c20261002_dtwo192e128a05_s3_f0_valid.npy",
+    "cache/pred_c20261002_dtwo192e128a05_s3_f1_valid.npy",
+    "cache/pred_c20261002_dtwosmoke192e128_s3_f0_valid.npy",
+    "cache/pred_c20261002_final_d256a07_s3_gcorr_valid.npy",
+    "cache/pred_c20261002_final_d256a07_s3_gcorrh_valid.npy",
+    "cache/pred_c20261002_final_d256a07_s3_train.npy",
+    "cache/pred_c20261002_final_d256a07_s3_valid.npy",
+    "cache/pred_c20261002_final_d256a07_s4_gcorr_valid.npy",
+    "cache/pred_c20261002_final_d256a07_s4_gcorrh_valid.npy",
+    "cache/pred_c20261002_final_d256a07_s4_valid.npy",
+    "cache/pred_c20261002_final_te07_s3_gcorrh_valid.npy",
+    "cache/pred_c20261002_final_te07_s3_valid.npy",
+    "cache/pred_c20261002_final_te07_s4_gcorrh_valid.npy",
+    "cache/pred_c20261002_final_te07_s4_valid.npy",
+    "cache/pred_c20261002_ft_dlstm192a05_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_dlstm192a05_s3_f1h_valid.npy",
+    "cache/pred_c20261002_ft_dtcn128l12a05_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_dtcn128l12a05_s3_f1h_valid.npy",
+    "cache/pred_c20261002_ft_dtwosmoke192e128_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_nad05_09_t32_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_sbd05_h8_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_sbd05_h8_s3_f1h_valid.npy",
+    "cache/pred_c20261002_ft_soup23_d256a07_s3_f0_valid.npy",
+    "cache/pred_c20261002_ft_soup23_d256a07_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_te07_s3_f0_valid.npy",
+    "cache/pred_c20261002_ft_te07_s3_f0h_valid.npy",
+    "cache/pred_c20261002_ft_te07_s3_f1_valid.npy",
+    "cache/pred_c20261002_ft_te07_s3_f1h_valid.npy",
+    "cache/pred_c20261002_muon_s3_f0_valid.npy",
+    "cache/pred_c20261002_muon_s3_f1_valid.npy",
+    "cache/pred_c20261002_nad05_09_t32_s3_f0_valid.npy",
+    "cache/pred_c20261002_sbd05_h8_s3_f0_valid.npy",
+    "cache/pred_c20261002_sbd05_h8_s3_f1_valid.npy",
+    "cache/pred_c20261002_soup123_d256a07_s3_f0_valid.npy",
+    "cache/pred_c20261002_soup23_d256_s3_f0_valid.npy",
+    "cache/pred_c20261002_soup23_d256a07_s3_f0_valid.npy",
+    "cache/pred_c20261002_te07_s3_f0_valid.npy",
+    "cache/pred_c20261002_te07_s3_f1_train.npy",
+    "cache/pred_c20261002_te07_s3_f1_valid.npy",
+    "cache/pred_c20261003_c3off_a05_s3_f0_valid.npy",
+    "cache/pred_c20261003_c3off_a05_s3_f1_valid.npy",
+    "cache/pred_c20261003_c3off_a0_s3_f0_valid.npy",
+    "cache/pred_c20261003_c3off_a0_s3_f1_valid.npy",
+    "cache/pred_c20261003_c3on_a0_s3_f0_valid.npy",
+    "cache/pred_c20261003_c3on_a0_s3_f1_valid.npy",
+    "cache/pred_c20261003_combo_s3_f0_train.npy",
+    "cache/pred_c20261003_combo_s3_f0_valid.npy",
+    "cache/pred_c20261003_combo_s3_f1_train.npy",
+    "cache/pred_c20261003_combo_s3_f1_valid.npy",
+    "cache/pred_c20261003_combo_s3_f2_valid.npy",
+    "cache/pred_c20261003_combo_s3_f3_valid.npy",
+    "cache/pred_c20261003_combo_s4_f0_train.npy",
+    "cache/pred_c20261003_combo_s4_f0_valid.npy",
+    "cache/pred_c20261003_combo_s4_f1_train.npy",
+    "cache/pred_c20261003_combo_s4_f1_valid.npy",
+    "cache/pred_c20261003_muonfull_s3_f0_valid.npy",
+    "cache/pred_c20261003_muonfull_s3_f1_valid.npy",
+    "cache/pred_c20261003_s100_s4_f0_valid.npy",
+    "cache/pred_c20261003_s100_s4_f1_train.npy",
+    "cache/pred_c20261003_s100_s4_f1_valid.npy",
+    "cache/pred_c20261003_s50_s3_f0_valid.npy",
+    "cache/pred_c20261003_s50_s4_f0_valid.npy",
+    "cache/pred_c20261003_w320_s3_f0_valid.npy",
+    "cache/pred_c20261003_w320_s3_f1_train.npy",
+    "cache/pred_c20261003_w320_s3_f1_valid.npy",
+    "cache/pred_c20261003_w384_s3_f0_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_f0_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_f1_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_f2_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_f3_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_final_fp32_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_final_valid.npy",
+    "cache/pred_c20261004_combo_head_s4_final_fp32_valid.npy",
+    "cache/pred_c20261004_combo_s3_final_r1_fp32_valid.npy",
+    "cache/pred_c20261004_combo_s3_final_r1_valid.npy",
+    "cache/pred_c20261004_combo_s4_final_fp32_valid.npy",
+    "cache/pred_c20261004_e419_float_fp16_s3_f0_r2_common_fp32_valid.npy",
+    "cache/pred_c20261004_e419_float_fp32_s3_f0_common_fp32_valid.npy",
+    "cache/pred_c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3_valid.npy",
+    "cache/pred_c20261004_e419_fp32_control_recurrent_s3_f0_t4v3_valid.npy",
+    "cache/pred_c20261004_e423_combo_control_s3_f0_v1_common_fp32_valid.npy",
+    "cache/pred_c20261004_e464_h093_gru_budget_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h093_hash_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h093_learned_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h093_universal_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h094_conditional_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h094_diagonal_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h094_gru_budget_head_s3_final_valid.npy",
+    "cache/pred_c20261004_e464_h094_unconditional_head_s3_final_valid.npy",
+    "cache/pred_c20261004_ema_rows_s3_f0_v2_common_fp32_valid.npy",
+    "cache/pred_c20261004_h093_gru_budget_s3_final_valid.npy",
+    "cache/pred_c20261004_h093_hash_s3_final_valid.npy",
+    "cache/pred_c20261004_h093_learned_s3_final_valid.npy",
+    "cache/pred_c20261004_h093_universal_s3_final_valid.npy",
+    "cache/pred_c20261004_h094_conditional_s3_final_valid.npy",
+    "cache/pred_c20261004_h094_diagonal_s3_final_valid.npy",
+    "cache/pred_c20261004_h094_gru_budget_s3_final_valid.npy",
+    "cache/pred_c20261004_h094_unconditional_s3_final_valid.npy",
+    "cache/pred_c20261004_h106_soft_s3_final_fp32_valid.npy",
+    "cache/pred_c20261004_volume28_current_s3_f0_t4v1_valid.npy",
+    "cache/pred_c20261004_volume28_s3_f0_t4v1_valid.npy",
+    "cache/pred_combo_scratch_s3_onecycle_f1_valid.npy",
+    "cache/pred_combo_scratch_s3_wsd_f1_valid.npy",
+    "cache/pred_e426_clock_aligned_fp32_valid.npy",
+    "cache/pred_e426_clock_constant_fp32_valid.npy",
+    "cache/pred_e426_clock_shuffled_fp32_valid.npy",
+    "cache/pred_e514_ab12_h128_plain_fallback_valid.npy",
+    "cache/pred_e514_ab48_basehead_f0_valid.npy",
+    "cache/pred_e529_s4_served_head_f0_control_v1_fp32_valid.npy",
+    "cache/pred_f0_combo_s3_parent_hft_v1_valid.npy",
+    "cache/pred_f0_h230_hetero_s3_hft_v1_valid.npy",
+    "cache/pred_f0_z3_combo_s4_parent_hft_v2_valid.npy",
+    "cache/pred_f0_z3_combo_s4_student_hft_v3_valid.npy",
+    "cache/pred_f0_z3_combo_s4_student_v2_core_identity_v2_valid.npy",
+    "cache/pred_gbm_member_valid.npy",
+    "cache/pred_h218_block_memory_cleanfold0_seed7_ep3_fp32_eval468_v1_valid.npy",
+    "cache/pred_h230_f1_s3_alpha05_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_expanded12_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_familyoff_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_floor01_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_lr2e4_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_mexact_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_muon3_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_muon_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_onecycle_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_stage_broad2strong_ep0_valid.npy",
+    "cache/pred_h230_f1_s3_stage_strong2broad_ep0_valid.npy",
+    "cache/pred_h230_f1_s3_tailp15_ep1_valid.npy",
+    "cache/pred_h230_f1_s3_wsd_ep1_valid.npy",
+    "cache/pred_h230_f1_s4_mexact_ep1_valid.npy",
+    "cache/pred_h230_f1_s4_onecycle_ep1_valid.npy",
+    "cache/pred_h230_f1_soup_s3_a_ep1_valid.npy",
+    "cache/pred_h230_familyoff_s3_retry1_ep1_20261008_v1_valid.npy",
+    "cache/pred_h230_history_parent_ep3_fp32_v1_train.npy",
+    "cache/pred_h230_history_parent_ep3_fp32_v1_valid.npy",
+    "cache/pred_h230_seed99_ep3_fp32_train.npy",
+    "cache/pred_h230_seed99_ep3_fp32_valid.npy",
+    "cache/pred_soup4_valid.npy",
+    "cache/pred_vt_f0_dsq_f0none_valid.npy",
+    "cache/pred_vt_f0_dsq_f0t256_valid.npy",
+    "cache/pred_vt_f0_dsq_f0t384_valid.npy",
+    "cache/pred_vt_f0_gru256_valid.npy",
+    "cache/pred_vt_f0_gru384_ep6_valid.npy",
+    "cache/pred_vt_f0_gru384_valid.npy",
+    "cache/pred_vt_f0_gru512_valid.npy",
+    "cache/pred_vt_f0_mu3_valid.npy",
+    "cache/pred_vt_f1_adamw_valid.npy",
+    "cache/pred_vt_f1_chrono8k_valid.npy",
+    "cache/pred_vt_f1_chrono_orth_valid.npy",
+    "cache/pred_vt_f1_chrono_valid.npy",
+    "cache/pred_vt_f1_cls3w2_valid.npy",
+    "cache/pred_vt_f1_corr_valid.npy",
+    "cache/pred_vt_f1_ctrl_s3_valid.npy",
+    "cache/pred_vt_f1_dsq_t256_valid.npy",
+    "cache/pred_vt_f1_dual_valid.npy",
+    "cache/pred_vt_f1_encmlp_valid.npy",
+    "cache/pred_vt_f1_ep8_mu3_ema_valid.npy",
+    "cache/pred_vt_f1_fixmix_valid.npy",
+    "cache/pred_vt_f1_gated384_valid.npy",
+    "cache/pred_vt_f1_gated_trap_valid.npy",
+    "cache/pred_vt_f1_gated_valid.npy",
+    "cache/pred_vt_f1_gru256x3_valid.npy",
+    "cache/pred_vt_f1_gru320_valid.npy",
+    "cache/pred_vt_f1_gru384_drop2_valid.npy",
+    "cache/pred_vt_f1_gru384_ema_valid.npy",
+    "cache/pred_vt_f1_gru384_fixmix_valid.npy",
+    "cache/pred_vt_f1_gru384_s4_valid.npy",
+    "cache/pred_vt_f1_gru384_s5_valid.npy",
+    "cache/pred_vt_f1_gru384_valid.npy",
+    "cache/pred_vt_f1_gru448_valid.npy",
+    "cache/pred_vt_f1_gru512_valid.npy",
+    "cache/pred_vt_f1_heur_valid.npy",
+    "cache/pred_vt_f1_huber_valid.npy",
+    "cache/pred_vt_f1_lineard2z_valid.npy",
+    "cache/pred_vt_f1_lstm256_valid.npy",
+    "cache/pred_vt_f1_lw15_valid.npy",
+    "cache/pred_vt_f1_lwfloor_valid.npy",
+    "cache/pred_vt_f1_mu3_valid.npy",
+    "cache/pred_vt_f1_mu6_valid.npy",
+    "cache/pred_vt_f1_orth_valid.npy",
+    "cache/pred_vt_f1_proppow1_valid.npy",
+    "cache/pred_vt_f1_rawonly_valid.npy",
+    "cache/pred_vt_f1_seed4_valid.npy",
+    "cache/pred_vt_f1_seed5_valid.npy",
+    "cache/pred_vt_f1_since128_valid.npy",
+    "cache/pred_vt_f1_since8_valid.npy",
+    "cache/pred_vt_f1_tcn_valid.npy",
+    "cache/pred_vt_f1_tr_adamw_lr1_valid.npy",
+    "cache/pred_vt_f1_tr_adamw_lr2_valid.npy",
+    "cache/pred_vt_f1_tr_adamw_lrh_valid.npy",
+    "cache/pred_vt_f1_tr_base_valid.npy",
+    "cache/pred_vt_f1_tr_ep6_valid.npy",
+    "cache/pred_vt_f1_tr_lr2_valid.npy",
+    "cache/pred_vt_f1_tr_lrh_valid.npy",
+    "cache/pred_vt_f1_tr_sgdr2__ep1_valid.npy",
+    "cache/pred_vt_f1_tr_sgdr2_valid.npy",
+    "cache/pred_vt_f1_tr_sgdr4__ep1_valid.npy",
+    "cache/pred_vt_f1_tr_sgdr4__ep2_valid.npy",
+    "cache/pred_vt_f1_tr_sgdr4_valid.npy",
+    "cache/pred_vt_f1_tr_swa_valid.npy",
+    "cache/pred_vt_f1_tr_wsd_valid.npy",
+    "cache/pred_vt_f1_trapezoid_valid.npy",
+    "cache/pred_vt_f1_twoclock_valid.npy",
+    "cache/pred_vt_f1_wd05_valid.npy",
+    "cache/pred_vt_f1_wmsegcorr_valid.npy",
+    "cache/pred_vt_f2_gru256_valid.npy",
+    "cache/pred_vt_f2_gru384_valid.npy",
+    "cache/pred_vt_f2_mu3_valid.npy",
+    "cache/pred_vt_f3_gru256_valid.npy",
+    "cache/pred_vt_f3_gru384_valid.npy",
+    "cache/pred_vt_f3_mu3_valid.npy"
+  ],
+  "retained_predictions": [
+    "cache/pred_baseline_train.npy",
+    "cache/pred_baseline_valid.npy",
+    "cache/pred_clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_valid.npy",
+    "cache/pred_clean_t3_f0_control_s4_a9_t3r5_r3_p3_envr1_valid.npy",
+    "cache/pred_clean_t3_f3_muonall_h384_e3_s3_r5_valid.npy",
+    "cache/pred_h230_hetero_s3_ep1_20261008_v1_valid.npy",
+    "cache/pred_oldz4_h230_student_f0_s3_r3_valid.npy",
+    "cache/pred_vt_all_h390_ds_homogeneous_s3_r3_export_r1_valid.npy",
+    "cache/pred_vt_all_h390_ds_homogeneous_s4_r3_export_r1_valid.npy"
+  ],
+  "scope": "Only regular cache/pred_*.npy files older than cutoff, plus one incomplete sparse .partial file; no source data, checkpoints, score sidecars, symlinks, code, research records, or submissions.",
+  "space_after_recovery": {
+    "available_bytes": 136660660224,
+    "total_bytes": 1369178112000
+  },
+  "space_after_unlink": {
+    "available_bytes": 53411741696,
+    "total_bytes": 1369178112000
+  },
+  "status": "complete"
+}
