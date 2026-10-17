@@ -13,7 +13,7 @@
     "shared_policy_main_sha": "0f4796609781da2b0886e2c5f9c52139987ba120",
     "selected_source_worktree_commit": "35cf36a337a23ecc0e86159a5cb1867a851ac06e",
     "selected_source_worktree_state": "dirty; only listed implementation files were copied into the isolated branch and are included in the branch source digest",
-    "owner": "B300 compute owner for future profile and fits; root owns the separate local short direction probe",
+    "owner": "B300 compute owner for future profile and fits; root owns separate local R1/R2 short direction probes",
     "source_sha": "original publication source is fafe38e262992e6f62c1dbf8439e24b9bfb65943; each future profile/cell receipt must bind its actual current branch SHA",
     "code_only_changes_from_dirty_main": [
       "scripts/predict_run.py",
@@ -29,7 +29,8 @@
       "src/wnn/training/profile_results.py",
       "src/wnn/training/setup_lineage.py",
       "src/wnn/training/setup_model_runtime.py",
-      "src/wnn/training/setup_preprocessing.py"
+      "src/wnn/training/setup_preprocessing.py",
+      "src/wnn/training/feature_adapter.py"
     ],
     "serving_commits": [
       {
@@ -66,7 +67,8 @@
       "scripts/package_submission.py",
       "submission/solution_geometry.py"
     ],
-    "native_status": "native build, abi3 import/ELF scan, and corrected synthetic 20,000-row event/geometry/prediction/reset parity passed; fixed-precision q8vnni/i16/q16x profiles are synthetic row-cost proxies only; actual-weight parity, full competition runtime, and package checks pending"
+    "native_status": "native build, abi3 import/ELF scan, and corrected synthetic 20,000-row event/geometry/prediction/reset parity passed; fixed-precision q8vnni/i16/q16x profiles are synthetic row-cost proxies only; actual-weight parity, full competition runtime, and package checks pending",
+    "post_probe_adapter_source": "feature_adapter.py was copied separately from root’s dirty worktree after R2 for this PR; portable R2 receipts lack the exact pre-guard runtime source revision."
   },
   "scope": {
     "fits_per_arm": 30,
@@ -286,9 +288,8 @@
     "supplied_datasets_in_archive": false
   },
   "future_quality_scaling": {
-    "current_path": "implemented fresh H512x1 four-arm matrix only",
-    "strong_parent_continuation": "zero-initialized append is implemented in inheritance.py, but a full comparison is future work; require one independently fit, matching fold-clean parent per fold/seed (30 identities); never transfer F0 parent into other folds",
-    "root_local_probe": "one exposed F0 seed3 short paired warm continuation from warm_mechanism_f0_s3_c_r3@ep1; feature WP 0.6804165153 versus zero control 0.6804784081 (delta -0.0000618929, conditional component-bootstrap 95% interval [-0.0001217170, -0.0000031872], 2,000 draws); both child endpoints were about -0.0008 below parent WP 0.6812265132. This is not one of the 120 matrix cells or seed-level confirmation; see prior_evidence/root_quick_probe_comparison.json and root_quick_probe_results.png",
+    "current_path": "implemented fresh H512x1 four-arm matrix plus an optional guarded warm-adapter mode; only fresh-matrix B300 fitting is proposed, and no B300 profile or cell has run",
+    "strong_parent_continuation": "The optional --research-feature-adapter-only mode freezes all parent parameters and old input columns, training only the zero-initialized appended 60 input-weight columns; it requires a raw/event parent with exact 211+60 width, causal_geometry_discrete child features, FP32, AdamW, wd=0, no generic freeze, no resume, no QAT/mapping/online norm/propensity/heuristics, and a matching fold-clean parent per cell. The adaptive local R2 F0/seed3 probe was negative versus its fixed parent; this exact short recipe is not a family rejection.",
     "larger_teacher": "future measured size/context ladder for larger GRU teachers with identical data membership, targets, and update-budget policy; profile each architecture before allocation",
     "feature_paths": [
       "teacher-only geometry/discrete features",
@@ -297,7 +298,9 @@
     ],
     "distillation": "future fold-clean teacher/student factorial; teacher ancestry excludes each evaluated fold, fit-only feature priors and target caches are fold-bound, compare label-only and distillation targets under matched student recipe and evaluate component-level fixed mixtures",
     "scaling_implementation": "canonical trainer exposes GRU size and feature controls, but larger-teacher scale recipes, teacher cache builder, factorial distillation runner and their B300 profiles are not implemented in this packet",
-    "distributed_training": "no DDP for the small independent GRU cells; torchrun/DDP is a separate future option only if a larger teacher profile justifies multi-card training"
+    "distributed_training": "no DDP for the small independent GRU cells; torchrun/DDP is a separate future option only if a larger teacher profile justifies multi-card training",
+    "root_local_r1": "One exposed F0/seed3 paired warm continuation from warm_mechanism_f0_s3_c_r3@ep1: feature WP 0.6804165153 vs zero control 0.6804784081 (delta -0.0000618929, conditional component-bootstrap95% interval [-0.0001217170,-0.0000031872], 2000 draws); both children were about -0.0008 below parent WP 0.6812265132. Not a B300 cell or seed-level confirmation.",
+    "root_local_r2": "Adaptive follow-up froze old parent weights and trained only columns 211:271 for one exposed F0/seed3 recipe: adapter WP 0.6804499040 vs fixed parent 0.6812265132 (delta -0.0007766092, conditional component-bootstrap95% interval [-0.0013528215,-0.0002791334], 2000 draws; 468 sequences/141 components). Fit took 693s/5120 updates, peak memory 4052291584 bytes, no OOM; bitwise parent check passed and all15360 new weights were nonzero. The portable receipts lack the exact local source revision; this branch adds precondition guards around the same adapter update path. Not a B300 cell, independent confirmation, or family rejection."
   },
   "current_evidence": {
     "r1": "causal moment pilot mean delta +0.0008833 on a tiny exposed panel with opposing fold effects; all conditional component intervals crossed zero",
@@ -319,7 +322,8 @@
       "feature_minus_parent_wp": -0.0008099979701405857,
       "zero_minus_parent_wp": -0.0007481051033773056,
       "interpretation": "Both children drifted below the parent; the small feature-control difference is not independent confirmation and does not reject the feature family."
-    }
+    },
+    "root_local_adapter_probe_r2": "Adaptive follow-up froze old parent weights and trained only columns 211:271 for one exposed F0/seed3 recipe: adapter WP 0.6804499040 vs fixed parent 0.6812265132 (delta -0.0007766092, conditional component-bootstrap95% interval [-0.0013528215,-0.0002791334], 2000 draws; 468 sequences/141 components). Fit took 693s/5120 updates, peak memory 4052291584 bytes, no OOM; bitwise parent check passed and all15360 new weights were nonzero. The portable receipts lack the exact local source revision; this branch adds precondition guards around the same adapter update path. Not a B300 cell, independent confirmation, or family rejection."
   },
   "literature_search": {
     "query": "causal online moments discrete state occupancy time series neural",
@@ -330,5 +334,13 @@
   "scientific_fits_completed": 0,
   "optimizer_steps": 0,
   "measured_b300_profiles": 0,
-  "execution_counters_scope": "fit_admitted, scientific_fits_completed, optimizer_steps and measured_b300_profiles refer only to this B300 packet; the separate root local warm probe is prior evidence and excluded."
+  "execution_counters_scope": "fit_admitted, scientific_fits_completed, optimizer_steps and measured_b300_profiles refer only to this B300 packet; the separate root local R1/R2 warm probes are prior evidence and excluded.",
+  "evidence_sources": [
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md",
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_quick_probe_recipe.json",
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_quick_probe_comparison.json",
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_recipe.json",
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_comparison.json",
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_frozen_parent_check.json"
+  ]
 }

@@ -9,10 +9,15 @@ hypothesis_ids:
   - H-DISCRETE-OCCUPANCY-20261017-R1
 experiment_ids:
   - E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1
+  - E-GEOMETRY-QUICK-PROBE-20261018-R1
+  - E-GEOMETRY-ADAPTER-PROBE-20261018-R2
 evidence_paths:
   - research/campaign_2026-10-17/moment_geometry_r1/README.md
   - research/experiment_drafts/causal-geometry-discrete-b300/README.md
   - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/summary_r3.json
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_comparison.json
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_frozen_parent_check.json
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_recipe.json
 ---
 
 # Causal geometry and discrete state features on B300
@@ -21,7 +26,7 @@ evidence_paths:
 
 Do causal mean/scale/arc cues and frequent-level occupancy/event/dwell features add predictive value to a strong recurrent endpoint, and do the continuous and discrete blocks help independently or interact? The test uses a fresh H512×1 GRU with a matched 60-channel suffix so the model's input width and parameter count remain fixed in all arms.
 
-The H512 fresh comparison is the implemented path. Root separately completed a short F0/seed3 warm continuation under the local two-hour authority: feature minus zero-control was −0.0000619 WP (conditional component-bootstrap 95% interval [−0.0001217, −0.0000032]); both children finished about −0.0008 below their parent. It is one exposed seed direction probe, does not provide a B300 cell, cannot initialize another fold, and does not change this proposed matrix.
+The H512 fresh comparison is the implemented B300 path. Root separately completed two local F0/seed3 warm-parent probes. R1 feature minus zero-control was−0.0000619 WP (conditional component-bootstrap95% interval [−0.0001217,−0.0000032]); both children finished about−0.0008 below their parent. Adaptive R2 froze all old parameters and trained only the new60 input-weight columns; its score was0.6804499 versus the fixed parent0.6812265, delta−0.0007766 (conditional component-bootstrap95% interval [−0.0013528,−0.0002791]). A separate receipt verifies bitwise preservation of16 parent state keys and211 old input columns, with15,360 nonzero new weights. These are two exact-recipe negative direction probes on one exposed fold/seed, not B300 cells, independent confirmation, or a family rejection. The R2 portable receipt lacks the exact local source revision; additional input guards are now included in the packet's optional adapter path.
 
 ## Mechanism and prediction
 
@@ -42,7 +47,7 @@ The [registered investigation and visual EDA](../validation/SEQUENCE_MOMENT_GEOM
 
 The [R2 discrete pilot](../../campaign_2026-10-17/moment_geometry_r1/discrete_summary_r2.json) compared four arms at H32×1 and H128×2 on43 fitting/46 exposed evaluation sequences. Results varied by capacity; combinations were not reliably additive and fixed half-mixtures suggested conditional value.
 
-The [R3 H128×2 continuation summary](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/summary_r3.json) reports three paired seeds and eight epochs on the same tiny exposed panel. Mean deltas versus control were −0.019742 for moment/scale, +0.000501 for dictionary, and −0.017251 for all features. A fixed control+dictionary half-mixture was+0.007337 across those three seeds. The [small-panel loss and paired-delta plots](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md) are descriptive only. Root’s [separate local comparison and figure](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md) add one exposed F0/seed3 warm-start result; its component interval conditions on fixed fits and covers neither seed nor fold variation. None of this establishes statistical significance, teacher/student transfer, serving quality, or public performance.
+The [R3 H128×2 continuation summary](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/summary_r3.json) reports three paired seeds and eight epochs on the same tiny exposed panel. Mean deltas versus control were −0.019742 for moment/scale, +0.000501 for dictionary, and −0.017251 for all features. A fixed control+dictionary half-mixture was+0.007337 across those three seeds. The [small-panel loss and paired-delta plots and local R1/R2 receipts](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md) are descriptive, exposed evidence. R1 tests feature versus zero control; R2 is an adaptive frozen-adapter versus parent follow-up. Both are one F0/seed3 direction only, and their component intervals condition on fixed fits rather than seed/fold variation. None of this establishes family-level significance, teacher/student transfer, serving quality, or public performance.
 
 ## Frozen B300 comparison
 
@@ -71,7 +76,7 @@ A+0.001 absolute WP change is a useful effect reference for follow-up, not a rej
 
 ## Quality scaling and serving path
 
-Fresh-from-scratch H512×1 is the current test. The zero-initialized append path is implemented, but a warm comparison remains future work and requires a matching fold-clean parent for every one of the30 fold/seed identities. The single F0 seed3 parent in root's short local probe cannot initialize F1–F3.
+Fresh-from-scratch H512×1 is the current B300 test. The zero-initialized append path and guarded adapter-only training mode are implemented. The single exposed F0/seed3 R2 adapter result is negative for that short recipe and cannot initialize F1–F3. Any broader warm comparison requires a matching fold-clean parent for every one of the30 fold/seed identities. Teacher-only, student-only and both-feature factorials plus geometry-feature distillation remain future work; the packet does not implement their cache/runner path.
 
 A larger-GRU quality path should be profiled and preregistered as its own scale/context ladder. Factor teacher and student feature exposure into teacher-only, student-only, and both-feature arms, and compare label-only versus fold-clean teacher distillation under a matched student recipe. Teacher ancestry, feature priors and prediction caches must exclude each evaluated fold. Keep component-level grades and fixed mixtures even when one model is weaker standalone. The current packet does not implement these teacher-cache or factorial-distillation runners. Larger teachers may use DDP only if their measured profiles justify it; independent GRU cells stay one per card.
 

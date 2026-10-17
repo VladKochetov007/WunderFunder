@@ -2,7 +2,7 @@
 
 The active [rank1 continuation draft](https://github.com/VladKochetov007/WunderFunder/tree/experiment/rr18-01-labels/research/experiment_drafts/rr18-01-labels) is published on `experiment/rr18-01-labels`, based on the source-bound [October18 execution packet](../campaign_2026-10-18/priority25_execution_r4/README.md). Both profiles passed and the first paired fit is running. Its endpoint metrics and PR URL remain pending; the historical catalogue below is unchanged.
 
-Fifteen draft PRs are published with base **research-team**; the table preserves publication SHAs, and the [pre-publication synchronization receipt](BRANCH_SYNC_20261017_R2.json) preserves prior branch synchronization. This B300 publication contains no profile or matrix fit; root’s separate one-pair local direction probe is outside the draft. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
+Fifteen draft PRs are published with base **research-team**; the table preserves publication SHAs, and the [pre-publication synchronization receipt](BRANCH_SYNC_20261017_R2.json) preserves prior branch synchronization. This B300 publication contains no profile or matrix fit; root’s two one-pair local direction probes are indexed as separate prior evidence. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
 
 - [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.
 - [Workflow](../unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) defines30 paired cells per scientific arm, strictFP32, source-clean evaluation and separate logs/weights archives.
@@ -27,7 +27,7 @@ Fifteen draft PRs are published with base **research-team**; the table preserves
 
 ## Readiness
 
-These are experiment handoffs. Existing GRU mechanisms reuse linked trainer/model code; new Transformer/geometry/smoothing code is a starter. Every recipe is marked launch_ready=false: receiving researchers must bind fold-clean assets, finish trainer/reporting integration and profile actual B300 shapes. The plan entry point prints a matrix and does not train. No wall time, numerical parity or LB gain is claimed. No tests were added/run; static lint/format and document review only.
+These are experiment handoffs. Existing GRU mechanisms reuse linked trainer/model code; new Transformer/geometry/smoothing code is a starter. Every recipe is marked launch_ready=false: receiving researchers must bind fold-clean assets, finish trainer/reporting integration and profile actual B300 shapes. The geometry PR includes a guarded optional adapter path and two negative local one-pair receipts; its B300 matrix is still unprofiled and unfitted. The plan entry point prints a matrix and does not train. No wall time, numerical parity or LB gain is claimed. No tests were added/run; static lint/format and document review only.
 
 TPU parity remains a local engineering branch, outside these B300 quality drafts. Preserve its originating campaign evidence without launching it here. Shared primitive files appearing in related PRs have identical contents; merge them once and retain all append-only ledger/README entries when resolving conflicts.
 

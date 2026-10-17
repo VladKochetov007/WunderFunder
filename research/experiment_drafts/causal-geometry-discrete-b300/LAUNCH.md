@@ -102,6 +102,12 @@ WNN_PORTABLE_INPUT_DIR=/mnt/geometry-inputs WNN_B300_SCRATCH=/b300-scratch/causa
 
 Select the exact pair/arm from `matrix.json`, and set the card's actual unique physical `WNN_GPU_ID`. The direct command refuses a completed cell unless `--skip-completed` is supplied. Do not relaunch a completed scientific cell as a new replicate.
 
+## Optional warm-parent adapter path
+
+The canonical training CLI also exposes `--research-feature-adapter-only`. It freezes a raw/event parent and all211 existing input columns, then trains only the zero-initialized appended60 input-weight columns with zero weight decay. Guards require a `none` parent preprocessing mode, `causal_geometry_discrete` child mode, exact211+60 width, FP32 AdamW, a fresh optimizer, no generic `--freeze`, no resume, and no mapped/online-normalized/propensity/heuristic inputs. This optional path is not used by the four-arm B300 matrix.
+
+Root's one exposed F0/seed3 R2 adapter probe scored0.6804499 versus its fixed parent0.6812265, delta−0.0007766; the conditional component-bootstrap95% interval was [−0.0013528,−0.0002791]. Its parent-preservation receipt passes, but the exact short recipe is negative and the interval does not cover fitting-seed or fold variation. Do not reuse its F0 parent for another fold. A broader warm comparison needs a matching fold-clean parent for each cell. Teacher scaling, teacher-only/student-only/both-feature factorials, and geometry-feature distillation remain future paths; teacher caches and the factorial runner are not implemented here. Keep small GRU fits independent at one card each; consider torchrun/DDP only after measuring a larger teacher's actual profile.
+
 ## Artifacts and archive return
 
 The runner writes per-cell phase commands, timestamps, exit codes and log hashes under `artifacts/geometry_b300/`; canonical training writes history, provenance, scores, checkpoint and resume state under `artifacts/runs/`; fixed-fold predictions and array-hash sidecars stay under `cache/`. Preserve every failure attempt.

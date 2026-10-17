@@ -4,7 +4,7 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
-- [Causal geometry/discrete features on eight B300s](CAUSAL_GEOMETRY_DISCRETE_B300_20261018_R1.md) registers H-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1 and E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1, with an implemented H512×1 four-arm runner and explicit 120-fit/15-wave matrix. R1–R3 and root’s one-pair warm probe are small, exposed evidence; the [published draft PR #15](https://github.com/VladKochetov007/WunderFunder/pull/15) contains the handoff, while its B300 profile and quality matrix have not run. Native build/ABI and synthetic callback parity pass; actual-weight/full-runtime checks remain pending.
+- [Causal geometry/discrete features on eight B300s](CAUSAL_GEOMETRY_DISCRETE_B300_20261018_R1.md) registers the four-arm proposal and explicit 120-fit/15-wave matrix. Root’s separate local R1 feature-versus-zero probe and adaptive R2 frozen-adapter probe are both one-pair, exposed F0/seed3 results and negative for those short recipes; neither rejects the family or counts as a B300 cell. The [published draft PR #15](https://github.com/VladKochetov007/WunderFunder/pull/15) contains the handoff, while B300 profiles and matrix fits have not run. Native build/ABI and synthetic callback parity pass; actual-weight/full-runtime checks remain pending.
 
 - [Ranked25 execution, October18](../../campaign_2026-10-18/priority25_execution_r4/README.md) — Execution of the current25ranked hypotheses in order; rank1 compares two cold GRU shapes, with matched membership and explicit near-capacity control. Both actual-data profiles passed; the first F0 paired six-epoch pipeline is running with actual optimizer progress. Quality results are pending.
 - [Rank1 cluster handoff](../../campaign_2026-10-18/priority25_execution_r4/cluster/README.md) — Prepared issue for additional paired folds and remaining CP30 cells, excluding the running Beleriand pair. It documents executable-source references and unresolved cluster paths/scheduler; no issue or cluster fit has yet been created.
@@ -103,7 +103,7 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 
 - [Research-team branch/commit catalogue](../../experiment_drafts/README.md) records the prepared per-idea source SHAs and PR publication state. It is integration navigation, not merged experiment code or training evidence.
 
-- [Published draft PR catalogue](../../experiment_drafts/README.md) links all14 English experiment handoffs, exact GitHub draft/base/head verification and the branch/commit JSON manifest. Describes code readiness, shared primitive provenance and missing B300/data bindings; no fits, tests or model-quality claim.
+- [Published draft PR catalogue](../../experiment_drafts/README.md) links all15 English experiment handoffs, exact GitHub draft/base/head verification and the branch/commit JSON manifest. Describes code readiness, shared primitive provenance and missing B300/data bindings; no B300 matrix fit or model-quality claim.
 
 </details>
 
