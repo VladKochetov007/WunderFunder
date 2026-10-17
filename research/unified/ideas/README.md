@@ -4,6 +4,8 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
+- [Current 25 ranked ideas, October 18](PRIORITIZED_25_20261018_R3.md) - ordered H-RR17 portfolio after R2 and the separate geometry pilot: width/depth, causal statistics, teacher/student and intermediate hints lead; architecture exploration is retained and duplicated event auxiliaries move down. Each card has rationale, a decisive comparison and qualitative cost. Informed Luna critique and unchanged no-fit authority are explicit; no new measured gains.
+
 - [R2 revised decisions for all25 cards](../../campaign_2026-10-17/research_reset_r2/reflection/ROUND3_EDA_DECISIONS.md) — H-RR17-01–25 retain their identities; three reflection rounds compare mechanism claims with actual Belief/DualClock/bootstrap/auxiliary code and new frozen-output EDA. Rare-exception repair and generic smoothing lose priority; distinct capacity/KD questions remain, event-state proposals need nonduplicated operators. Includes the separately authorized geometry pilot as scoped neighboring evidence, not an R2 fit or full-scale promotion.
 
 - [RR17 published proposal branches](../../campaign_2026-10-17/research_reset_r1/publication/README.md) —25isolated proposal commits from research-team, remote SHA verification and ready PR bodies. No new PR exists without API authentication; no fit is admitted.
