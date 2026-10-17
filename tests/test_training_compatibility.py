@@ -19,8 +19,25 @@ from wnn.training.environment import TrainingEnvironment
 
 def _spawned_dataset_probe(dataset: CanonicalSequences, sender: Connection) -> None:
     """Read the canonical dataset state from an independently spawned worker."""
-    sender.send((type(dataset) is CanonicalSequences, dataset.path.as_posix()))
+    marker = getattr(dataset, "compatibility_marker", lambda: None)()
+    sender.send(
+        (
+            type(dataset) is CanonicalSequences,
+            type(dataset).__module__,
+            type(dataset).__qualname__,
+            marker,
+            dataset.path.as_posix(),
+        )
+    )
     sender.close()
+
+
+class ImportableSequenceFacade(train_rnn.Sequences):
+    """Verify subclass methods survive facade pickling."""
+
+    def compatibility_marker(self) -> str:
+        """Return an override that a base-class fallback would lose."""
+        return "subclass-method-preserved"
 
 
 def test_legacy_sequences_export_remains_a_class_and_injects_environment(
@@ -41,6 +58,9 @@ def test_legacy_sequences_export_remains_a_class_and_injects_environment(
     dataset = dataset_class("valid", [])
     assert isinstance(dataset, dataset_class)
     assert dataset.path == tmp_path / "datasets/valid.parquet"
+    restored = pickle.loads(pickle.dumps(dataset))
+    assert type(restored) is dataset_class
+    assert restored.environment.root == tmp_path
 
     explicit_environment = TrainingEnvironment(root=tmp_path / "explicit")
     explicit_dataset = dataset_class("valid", [], environment=explicit_environment)
@@ -95,4 +115,45 @@ def test_custom_name_sequence_facade_pickles_through_spawn(
             process.join()
 
     assert process.exitcode == 0
-    assert worker_result == (True, str(tmp_path / "datasets/valid.parquet"))
+    assert worker_result == (
+        True,
+        CanonicalSequences.__module__,
+        CanonicalSequences.__qualname__,
+        None,
+        str(tmp_path / "datasets/valid.parquet"),
+    )
+
+
+def test_importable_sequence_subclass_keeps_override_through_pickle_and_spawn(
+    tmp_path: Path,
+) -> None:
+    """Retain a caller subclass and its method through ordinary and spawn pickling."""
+    dataset = ImportableSequenceFacade("valid", [], environment=TrainingEnvironment(root=tmp_path))
+    restored = pickle.loads(pickle.dumps(dataset))
+
+    assert type(restored) is ImportableSequenceFacade
+    assert restored.compatibility_marker() == "subclass-method-preserved"
+
+    context = multiprocessing.get_context("spawn")
+    receiver, sender = context.Pipe(duplex=False)
+    process = context.Process(target=_spawned_dataset_probe, args=(dataset, sender))
+    process.start()
+    sender.close()
+    try:
+        assert receiver.poll(30), "spawn worker did not return subclass state"
+        worker_result = receiver.recv()
+    finally:
+        receiver.close()
+        process.join(30)
+        if process.is_alive():
+            process.terminate()
+            process.join()
+
+    assert process.exitcode == 0
+    assert worker_result == (
+        False,
+        ImportableSequenceFacade.__module__,
+        ImportableSequenceFacade.__qualname__,
+        "subclass-method-preserved",
+        str(tmp_path / "datasets/valid.parquet"),
+    )
