@@ -30,14 +30,14 @@ def _fixture(tmp_path: Path) -> tuple[dict[str, object], Path, Path, bytes]:
     receipt_path = tmp_path / "receipt.json"
     ledger_path = tmp_path / "comparisons.jsonl"
 
-    def member(run: str, epoch: int) -> dict[str, object]:
+    def member(run: str, epoch: int, weight: float = 1.0) -> dict[str, object]:
         return {
             "run": run,
             "epoch": epoch,
             "checkpoint_sha256": "a" * 64,
             "prediction_sha256": "b" * 64,
             "split_manifest_sha256": split_hash,
-            "weight": 1.0,
+            "weight": weight,
         }
 
     comparison: dict[str, object] = {
@@ -63,6 +63,7 @@ def _fixture(tmp_path: Path) -> tuple[dict[str, object], Path, Path, bytes]:
         "official": {"metric_id": METRIC_ID, "wp": 0.72, "selected_rows": 1234},
         "evaluation_groups": 468,
         "evaluation_components": 141,
+        "valid_targets_sha256": "c" * 64,
         "exposure": "exposed development fold",
         "ancestry": {"initializer": "parent_checkpoint"},
         "uncertainty": {"ci95": [-0.01, 0.02]},
@@ -107,11 +108,50 @@ def test_receipt_preserves_metrics_hashes_timing_and_uncertainty(tmp_path: Path)
     assert receipt["candidate"]["official"]["selected_rows"] == 1234
     assert receipt["grade_metadata"]["evaluation_groups"] == 468
     assert receipt["grade_metadata"]["evaluation_components"] == 141
+    assert receipt["grade_metadata"]["valid_targets_sha256"] == "c" * 64
     assert receipt["grade_metadata"]["uncertainty"]["ci95"] == [-0.01, 0.02]
     assert receipt["phase_timing"]["total_wall_seconds"] == 15.5
     assert receipt["phase_timing"]["measurement"] == "subprocess_wall_seconds"
     assert "GPU busy time" in receipt["limits"][0]
     assert len(ledger_rows) == 1
+
+
+def test_declared_blend_with_explicit_weights_is_validated_and_retained(tmp_path: Path) -> None:
+    comparison, grade_path, _, spec_bytes = _fixture(tmp_path)
+    grade = json.loads(grade_path.read_text())
+    blend = "candidate_a@ep1*0.25,candidate_b@ep2*0.75"
+    comparison["candidate"] = blend
+    grade["candidate"] = blend
+    grade["candidate_members"] = [
+        {**grade["candidate_members"][0], "run": "candidate_a", "epoch": 1, "weight": 0.25},
+        {**grade["candidate_members"][0], "run": "candidate_b", "epoch": 2, "weight": 0.75},
+    ]
+    grade_path.write_text(json.dumps(grade))
+
+    result = record_comparison_receipt(
+        comparison,
+        run_id="candidate_run",
+        spec_bytes=spec_bytes,
+        steps=[],
+    )
+
+    receipt = json.loads(Path(result["receipt_path"]).read_text())
+    assert result["status"] == "valid"
+    assert [member["weight"] for member in receipt["candidate"]["members"]] == [0.25, 0.75]
+
+
+@pytest.mark.parametrize("weight", ["", "NaN", "inf", "not-a-number", "1e999"])
+def test_malformed_or_nonfinite_blend_weights_fail(weight: str, tmp_path: Path) -> None:
+    comparison, _, _, spec_bytes = _fixture(tmp_path)
+    comparison["candidate"] = f"candidate_run@ep3*{weight}"
+
+    with pytest.raises(ComparisonReceiptError, match="blend weight"):
+        record_comparison_receipt(
+            comparison,
+            run_id="candidate_run",
+            spec_bytes=spec_bytes,
+            steps=[],
+        )
 
 
 def test_old_grade_fold_is_proved_by_split_manifest(tmp_path: Path) -> None:

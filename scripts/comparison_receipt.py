@@ -78,7 +78,16 @@ def _member_specs(value: object, label: str) -> list[tuple[str, float]]:
         endpoint, marker, weight_text = part.partition("*")
         if not MEMBER_RE.fullmatch(endpoint):
             raise ComparisonReceiptError(f"invalid endpoint in comparison.{label}: {endpoint!r}")
-        weight = 1.0 if not marker else _finite_number(weight_text, f"{label} blend weight")
+        if not marker:
+            weight = 1.0
+        else:
+            try:
+                parsed_weight = float(weight_text)
+            except ValueError as error:
+                raise ComparisonReceiptError(
+                    f"{label} blend weight must be a finite number"
+                ) from error
+            weight = _finite_number(parsed_weight, f"{label} blend weight")
         result.append((endpoint, weight))
     return result
 
@@ -397,6 +406,7 @@ def record_comparison_receipt(
                 "evaluation_components",
                 "components",
                 "selected_rows",
+                "valid_targets_sha256",
                 "uncertainty",
                 "selected_groups",
             )
