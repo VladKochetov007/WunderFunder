@@ -47,4 +47,4 @@ The research-team branch carries a local branch/commit catalogue after preparati
 
 ## Publication receipt
 
-GitHub API confirmed14 open draft PRs with base research-team and matching source head SHAs. The [catalogue](../../experiment_drafts/README.md) links every PR and its [machine manifest](../../experiment_drafts/CATALOG_20261017_R1.json). No experiment code is promoted into main by this index update, and no fits were launched.
+GitHub API confirmed14 open draft PRs with base research-team and matching source head SHAs. The [catalogue](../../experiment_drafts/README.md) links every PR and its [machine manifest](../../experiment_drafts/CATALOG_20261017_R1.json). No experiment code is promoted into main by this index update, and no fits were launched. Shared catalogue/README conflicts were resolved by merging the integration branch into every published draft, retaining the full catalogue, each packet link and scientific ledger history. Original and updated source SHAs are preserved in the manifest; no force push was used.
