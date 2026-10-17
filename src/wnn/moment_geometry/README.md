@@ -13,3 +13,6 @@ Reusable research code for the [registered mean/std geometry investigation](../.
 - [grading.py](grading.py): streaming official metric and explicitly conditional approximate legacy-sum component resampling.
 
 The pilot does not replace the shared production trainer. It isolates a small representation comparison, omitting teacher caches, EMA, continuation and serving machinery intentionally. The [modular trainer](../training/README.md) remains the reusable production path.
+
+- [discrete.py](discrete.py) and [discrete_staging.py](discrete_staging.py): fitting-only top-three-level dictionary plus unknown class, row/event occupancy and dwell; shared physical array staging for the adaptiveR2 comparison.
+- [recipe.py](recipe.py) and [run_metadata.py](run_metadata.py): common pilot budgets/channel schema and reproducible per-endpoint metadata; avoid duplicating these in model variants.

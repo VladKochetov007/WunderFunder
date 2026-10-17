@@ -44,5 +44,38 @@
     "evaluation_slices": 2
   },
   "interpretation": "Initialbenefit may be conditional on architecture, teacher target or featurecombination. No earlystandalone-dominancegate. Small43seqpilot is not30cell/fulltraining confirmation or productionteacher/studentKD.",
-  "resources": "Same5GBaggregateownslice, CPU1withinparent2,oneCUDAworkerfraction.18. Stage2GBchildwithoutGPUfitoverlap; fit3.5GBchild. ExistingexternalGPUworkeruntouched."
+  "resources": "Same5GBaggregateownslice, CPU1withinparent2,oneCUDAworkerfraction.18. Stage2GBchildwithoutGPUfitoverlap; fit3.5GBchild. ExistingexternalGPUworkeruntouched.",
+  "fixed_prediction_mixtures": [
+    {
+      "members": [
+        "control",
+        "dictionary"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "members": [
+        "control",
+        "combined"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "members": [
+        "scaled",
+        "dictionary"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ]
+    }
+  ],
+  "mixture_interpretation": "Predeclared fixed coefficients, matchedseed andcapacity only; possible teacher-target/ensemble complementarity is distinct from actualstudentdistillation, which remainsunrun."
 }

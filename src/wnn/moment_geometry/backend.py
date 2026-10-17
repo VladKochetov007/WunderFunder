@@ -17,7 +17,13 @@ from wnn.training.updates import optimizer_step
 
 
 def prepare_run(
-    width: int, total_updates: int, epochs: int, device: torch.device, seed: int
+    width: int,
+    total_updates: int,
+    epochs: int,
+    device: torch.device,
+    seed: int,
+    hidden: int = 32,
+    layers: int = 1,
 ) -> TrainingRun:
     """Bind the exact pilot recipe to shared model/optimizer/scheduler/update implementations."""
     args = build_parser().parse_args(
@@ -39,6 +45,7 @@ def prepare_run(
         ]
     )
     args.seed = seed
+    args.hidden, args.layers = hidden, layers
     args.lr, args.wd, args.beta2 = 0.001, 0.01, 0.999
     args.epochs, args.batch, args.chunk = epochs, 4, 512
     args.warmup_frac, args.restarts, args.wsd_final = 0.0, 0, 0.01

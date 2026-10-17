@@ -56,3 +56,19 @@ Native Luna/max first reviewed the question independently and then the implement
 ## Adaptive discrete follow-up
 
 [Discrete pilot R2 plan](discrete_plan_r2.json) was registered after all9 R1 scores and before R2 outcomes. It freezes a fitting-only three-level dictionary plus explicit unknown category, row/event occupancy and dwell. Four matched-capacity arms isolate dictionary-only, moment-only and their interaction at H32×1 and H128×2,3paired seeds and the same2epoch budget. The larger model is a capacity probe, not a validated teacher; no KD experiment is claimed. This is an additional exploratory stage, with reused evaluation exposure and no early-dominance rejection gate.
+
+## First pilot result
+
+- [All9endpoint results](pilot_results_r1.json): three paired fitting seeds, official pooled/t0/t1 scores and both exposed validation slices, exact shared-source identities and initial-state hashes. Control meanWP0.29930670; moment/occupancy0.30019002 (+0.00088332); additionally scaled0.29963501 (+0.00032832). The moment effect is negative on fold0 (−0.00788477) and positive on fold1 (+0.01306417). This tiny-model result is heterogeneous, not a production or leaderboard gain.
+- [Training progress](training_progress_r1.jsonl) preserves198records with arm/seed, loss, preclip gradient norm, LR, attempted step/epoch, elapsed time and CUDA peak. Every endpoint completed880updates; peak allocatedCUDA≈167MB. Finite successful pilot execution does not retroactively validate every production trainer branch.
+- [Checkpoint/prediction/log manifest](pilot_artifacts_r1.json) pins original payload sizes/hashes and approved physical paths. Weights and predictions remain outside Git, ready for a separate artifact handoff.
+- [Frozen source snapshot](frozen_source.json) pins all133Python/dependency/entrypoint source files and main commit; these sources were preserved while the job ran.
+- [Fit admission](fit_admission.json) records observedGPUheadroom, the1.16GiBallocator cap,3.5GBchild RAM cap and unchanged5GBaggregate task limit. The otherprojectGPUprocess was untouched.
+- [Static HTML EDA](eda.html) exports the marimo plots for offline viewing; the live notebook supports feature selection.
+- [Independent numerical grade R1](independent_grade_r1.json) recomputes all9pooled/fold scores with the frozen official accumulator within1e-12, checks source and matched initialization hashes,880update clocks and loss flags. Pooled moment deltas across seeds are+0.00044474,+0.00067988,+0.00152535; sampleSD0.00056831. All conditional2,000-draw component intervals cross zero; they do not include fitting/selection/transfer uncertainty and do not close this direction.
+
+### R2 implementation review
+
+An independent read-only builder review confirms all four channel masks and fit-only dictionary/scaler paths. R1 defaults intentionally stay compatible; everyR2 command explicitly supplies `--arms control scaled dictionary combined`. Endpoint metadata now hashes every geometry source module and every staged JSON receipt (including dictionary/scaler and array manifest). The event-frequency channel means frequency of the **training-most-frequent level** among exact raw changes, and dwell means time since exact raw change even within unknown; these definitions are causal and are kept fixed.
+
+- [R2 fitted dictionary/scaler](dictionary_preprocessing_r2.json) and [R2 staged array hashes](staged_artifacts_r2.json) bind the new40-channel suffix. Prefix-only recomputation and future-suffix mutation agree exactly. Base labels/masks/component IDs are immutable hardlinks to the verifiedR1 data.

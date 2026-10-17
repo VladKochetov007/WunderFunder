@@ -4,7 +4,6 @@ import argparse
 import hashlib
 import json
 import math
-import platform
 import time
 from pathlib import Path
 
@@ -12,19 +11,15 @@ import numpy as np
 import torch
 from torch import Tensor
 
-import wnn.gmetric as gmetric_module
-import wnn.nn as nn_module
 from wnn.moment_geometry.backend import prepare_run, step_prepared
 from wnn.moment_geometry.grading import grade_by_fold
+from wnn.moment_geometry.recipe import ARMS, BATCH, CHUNK, CURRENT, GEO, LOG_EVERY, RAW, SEQ
+from wnn.moment_geometry.run_metadata import endpoint_config
 from wnn.nn import RNNModel
 from wnn.training.checkpoints import inference_checkpoint_fields
 from wnn.training.forward import detach_state, forward_chunk
 from wnn.training.source_identity import training_source_identity
 from wnn.training.state import TrainingRun
-
-SEQ, WIDTH, RAW, GEO, CURRENT, BATCH, CHUNK, WARMUP = 20_000, 231, 211, 20, 4, 4, 512, 99
-MAX_NORM, BASE_LR, MIN_LR, WD, LOG_EVERY = 1.0, 1e-3, 1e-5, 0.01, 40
-ARMS = ("control", "moments", "scaled")
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -33,9 +28,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--data", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--report-label", default="combined-folds-0-1")
+    parser.add_argument("--hidden", type=int, default=32)
+    parser.add_argument("--layers", type=int, default=1)
     parser.add_argument("--epochs", type=int, default=2)
     parser.add_argument("--seeds", type=int, nargs="+", default=[3, 7, 11])
-    parser.add_argument("--arms", choices=ARMS, nargs="+", default=list(ARMS))
+    parser.add_argument("--arms", choices=ARMS, nargs="+", default=list(ARMS[:3]))
     args = parser.parse_args(argv)
     if (
         args.epochs <= 0
@@ -60,10 +57,13 @@ def load_arrays(path: Path) -> dict[str, np.ndarray]:
     )
     arrays = {key: np.load(path / f"{key}.npy", mmap_mode="r", allow_pickle=False) for key in names}
     nf, ne = arrays["fit_x"].shape[0], arrays["eval_x"].shape[0]
+    width = arrays["fit_x"].shape[-1]
+    if width not in (231, 271):
+        raise ValueError("prepared width must be231 or271")
     schema = {
-        "fit_x": ((nf, SEQ, WIDTH), np.float32),
+        "fit_x": ((nf, SEQ, width), np.float32),
         "fit_y": ((nf, SEQ, 2), np.float32),
-        "eval_x": ((ne, SEQ, WIDTH), np.float32),
+        "eval_x": ((ne, SEQ, width), np.float32),
         "eval_y": ((ne, SEQ, 2), np.float32),
         "eval_mask": ((ne, SEQ), np.bool_),
         "fit_component": ((nf,), np.int64),
@@ -82,9 +82,15 @@ def load_arrays(path: Path) -> dict[str, np.ndarray]:
 def _inputs(source: np.ndarray, start: int, stop: int, arm: str) -> np.ndarray:
     batch = np.array(source[start:stop], dtype=np.float32, copy=True)
     if arm == "control":
-        batch[..., -GEO:] = 0.0
+        batch[..., RAW:] = 0.0
     elif arm == "moments":
-        batch[..., -CURRENT:] = 0.0
+        batch[..., RAW + GEO - CURRENT :] = 0.0
+    elif arm == "scaled":
+        batch[..., RAW + GEO :] = 0.0
+    elif arm == "dictionary":
+        if batch.shape[-1] != 271:
+            raise ValueError("dictionary treatment requires271prepared channels")
+        batch[..., RAW : RAW + GEO] = 0.0
     return batch
 
 
@@ -168,56 +174,6 @@ def predict(
     return result
 
 
-def _config(
-    arrays: dict[str, np.ndarray], args: argparse.Namespace, arm: str, seed: int
-) -> dict[str, object]:
-    hashes = {
-        "runner.py": Path(__file__),
-        "grading.py": Path(__file__).with_name("grading.py"),
-        "backend.py": Path(__file__).with_name("backend.py"),
-        "wnn.nn": Path(nn_module.__file__),
-        "wnn.gmetric": Path(gmetric_module.__file__),
-    }
-    return {
-        "evaluation_scope": args.report_label,
-        "seed": seed,
-        "arm": arm,
-        "data_directory": str(args.data.resolve()),
-        "epochs": args.epochs,
-        "model": {
-            "class": "wnn.nn.RNNModel",
-            "n_in": WIDTH,
-            "hidden": 32,
-            "layers": 1,
-            "dropout": 0.0,
-        },
-        "optimizer": {"class": "AdamW", "lr_start": BASE_LR, "lr_end": MIN_LR, "weight_decay": WD},
-        "schedule": "update cosine, endpoints included",
-        "batch_chunk_warmup_clip": [BATCH, CHUNK, WARMUP, MAX_NORM],
-        "loss": "wnn.nn.weighted_mse_loss",
-        "precision": "FP32; autocast and TF32 disabled",
-        "input": "fixed sequence order, chronological chunks, fit-only normalized",
-        "channels": {
-            "raw_event": RAW,
-            "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
-            "arm_treatment": {
-                "control": "zero final 20",
-                "moments": "zero final 4",
-                "scaled": "retain all 20",
-            }[arm],
-        },
-        "metric": "global_wp_clip2_v1",
-        "fit_sequences": int(arrays["fit_x"].shape[0]),
-        "eval_sequences": int(arrays["eval_x"].shape[0]),
-        "fit_component_count": int(np.unique(arrays["fit_component"]).size),
-        "eval_fold_ids": np.unique(arrays["eval_fold"]).tolist(),
-        "source_sha256": {
-            name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in hashes.items()
-        },
-        "versions": [platform.python_version(), np.__version__, torch.__version__],
-    }
-
-
 def run_one(
     arrays: dict[str, np.ndarray],
     args: argparse.Namespace,
@@ -230,7 +186,15 @@ def run_one(
     torch.cuda.manual_seed_all(seed)
     torch.cuda.reset_peak_memory_stats(device)
     total_updates = args.epochs * math.ceil(len(arrays["fit_x"]) / BATCH) * math.ceil(SEQ / CHUNK)
-    run = prepare_run(WIDTH, total_updates, args.epochs, device, seed)
+    run = prepare_run(
+        arrays["fit_x"].shape[-1],
+        total_updates,
+        args.epochs,
+        device,
+        seed,
+        args.hidden,
+        args.layers,
+    )
     model = run.network.model
     initial_digest = hashlib.sha256(
         b"".join(value.detach().cpu().numpy().tobytes() for value in model.state_dict().values())
@@ -248,7 +212,7 @@ def run_one(
         arrays["eval_component"],
         arrays["eval_fold"],
     )
-    config = _config(arrays, args, arm, seed)
+    config = endpoint_config(arrays, args, arm, seed)
     config["initial_state_sha256"] = initial_digest
     config["canonical_trainer_source"] = training_source_identity(run.environment)
     config["canonical_loss_flag"] = run.options.args.loss
@@ -287,6 +251,11 @@ def main(argv: list[str] | None = None) -> int:
     torch.backends.cudnn.allow_tf32 = False
     device = torch.device("cuda:0")
     arrays = load_arrays(args.data)
+    if (
+        any(arm in ("dictionary", "combined") for arm in args.arms)
+        and arrays["fit_x"].shape[-1] != 271
+    ):
+        raise ValueError("dictionary/combined arms require271channel inputs")
     if args.output.exists() and any(args.output.iterdir()):
         raise FileExistsError("output directory must be empty")
     for directory in ("checkpoints", "predictions", "logs"):
