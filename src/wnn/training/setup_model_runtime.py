@@ -10,6 +10,7 @@ import torch
 from wnn.quantization import policy_metadata
 from wnn.run_identity import group_identity, normalization_identity, scaler_source_identity
 from wnn.splits import file_sha256
+from wnn.training.feature_adapter import configure_feature_adapter
 from wnn.training.reporting import emit
 from wnn.training.state import TrainingRun
 from wnn.training_qat import scale_learning_metadata
@@ -142,6 +143,7 @@ def record_model_identity(run: TrainingRun) -> None:
     for pname, prm in model.named_parameters():
         if frozen and pname.startswith(frozen):
             prm.requires_grad_(False)
+    configure_feature_adapter(run)
     if args.qat_learn_scales:
         parameters = dict(model.named_parameters())
         for position, (name, _, _) in enumerate(model._qat_scale_keys):

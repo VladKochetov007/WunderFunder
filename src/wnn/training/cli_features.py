@@ -102,6 +102,11 @@ def add_features_arguments(ap: argparse.ArgumentParser) -> None:
         help="mask all, moment-only, or dictionary-only geometry blocks at fixed input width",
     )
     ap.add_argument(
+        "--research-feature-adapter-only",
+        action="store_true",
+        help="freeze a compatible parent and train only its zero-initialized causal feature columns",
+    )
+    ap.add_argument(
         "--privileged-mode",
         choices=PRIVILEGED_MODES,
         default="none",

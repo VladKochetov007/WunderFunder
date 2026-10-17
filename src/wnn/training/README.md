@@ -66,6 +66,7 @@ from wnn.training.runner import run_training
 | [setup_lineage](setup_lineage.py) | Source ancestry and split loading, device/runtime prerequisites. |
 | [setup_model](setup_model.py) | Output layout, model construction and parent-state loading. |
 | [setup_model_runtime](setup_model_runtime.py) | QAT/factorization/activation attachment and model identity. |
+| [feature_adapter](feature_adapter.py) | Optional guarded warm-parent mode that freezes the inherited model and trains only the appended causal geometry input columns. |
 | [setup_preprocessing](setup_preprocessing.py) | Inherited/fitting-only preprocessing and frozen initializer-teacher construction. |
 | [setup_progress](setup_progress.py) | Clocks, profiling setup and strict resume; RNG restoration remains last. |
 | [setup_state](setup_state.py) | Options, source-qualified data and network state records. |
