@@ -4,13 +4,13 @@
   "hypothesis_id": "H-DRAFT-CAUSAL-SMOOTHING-20261017",
   "slug": "causal-smoothing",
   "title": "Past-only smoothing while retaining raw inputs",
-  "status": "implementation_handoff",
+  "status": "code_prepared_runtime_unverified",
   "kind": "scientific",
   "lineage": "teacher/student",
   "base_main_sha": "18407ecfa3b02d4db70cfb3c34abbacd6653e79d",
   "base_research_team_sha": "96b014737211c19d421e29c5595b5ea7e86797ff",
   "source_receipt": "research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md",
-  "historical_evidence": "User proposal; causal helper only, no fit.",
+  "historical_evidence": "User proposal; existing causal helper integrated into the canonical trainer. No scientific fits or runtime checks performed for this preparation.",
   "arms": [
     "raw-plus-control",
     "raw-plus-causal-ewma"
@@ -30,19 +30,27 @@
   ],
   "bootstrap_seed": 17017,
   "bootstrap_replicates": 10000,
-  "decision_threshold": null,
-  "decision_threshold_status": "must be justified and frozen before fits, not selected from these results",
+  "decision_threshold": 0.0005,
+  "decision_threshold_status": "Predeclared allocation target, not a measured effect or universal significance cutoff. A +0.0005 mean WP justifies a dedicated input path and downstream distillation/serving work; uncertain smaller complementary signals can earn a separate blend study.",
   "implementation_sources": [
     "src/wnn/causal_research_features.py",
-    "scripts/train_rnn.py"
+    "src/wnn/research_features.py",
+    "src/wnn/training/inputs.py",
+    "src/wnn/training/runner.py",
+    "scripts/predict_run.py",
+    "research/experiment_drafts/causal-smoothing/run_cell.py",
+    "research/experiment_drafts/causal-smoothing/train.py"
   ],
   "implementation_files_in_this_pr": [
-    "src/wnn/causal_research_features.py"
+    "src/wnn/causal_research_features.py",
+    "src/wnn/research_features.py",
+    "research/experiment_drafts/causal-smoothing"
   ],
   "remaining_work": [
-    "Wire feature/cache/streaming path; freeze smoothing coefficient using fitting-only development; no centered smoothing or whole-sequence fitted statistics.",
-    "Freeze practically useful effect, resource allocation and exact per-cell command/config/ancestry bindings.",
-    "Integrate per-step reporting and graded prediction manifests; no real-data B300 profile or numerical invariance checks performed."
+    "Run authored feature/causality/reload checks on the receiving host before scientific fits; tests were not executed locally.",
+    "Bind actual permitted datasets/cache identities and four source-qualified split manifests; inspect GPU/driver/CUDA environment and profile both real-shape arms.",
+    "Confirm complete fit->predict->score and paired normalization/order identities on the target host; memory, throughput and predictive gains remain unmeasured.",
+    "After 60 fits, run the declared paired seed/component uncertainty analysis; per-cell scoring is not the final 30-pair inference."
   ],
   "optimizer_starting_proposal": {
     "name": "AdamW",
@@ -52,7 +60,8 @@
       0.999
     ],
     "weight_decay": 0.01,
-    "preclip_gradient_norm": 1.0
+    "preclip_gradient_norm": 1.0,
+    "status": "bound by training settings; all-parameter decay follows canonical AdamW"
   },
   "schedule_starting_proposal": {
     "name": "WSD",
@@ -60,17 +69,73 @@
     "warmup_fraction": 0.02,
     "cooldown_fraction": 0.2,
     "final_lr_fraction": 0.1,
-    "status": "proposal; not legacy-recipe replication and not yet bound to actual successful-update count"
+    "status": "bound by training settings and canonical --warmup-frac .02; horizon derived from actual full fitting loader"
   },
   "hardware_plan": {
-    "user_reported": "8 x NVIDIA B300",
+    "available_now": false,
     "verified": false,
-    "gpus_per_fit": "1 for GRU; measured DDP/FSDP allocation for larger teacher",
-    "queue_manager": false
+    "gpus_per_fit": 1,
+    "queue_manager": false,
+    "cpu_inference_limit": "submission work only: Python3.11,1vCPU,16GB,3600s,20MBZIP; no serving-fit claim"
   },
   "artifact_contract": "separate evidence.tar, weights.tar and SHA256 manifest; no dataset auto-collection",
   "original_base_research_team_sha": "18407ecfa3b02d4db70cfb3c34abbacd6653e79d",
   "integration_method": "merge current research-team; preserve original source history",
   "shared_trainer_revision": "eb3309a322c1e24b3cc157eaefe3ca0e0290cd42",
-  "latest_integration_parent_sha": "944b4e0c8ce26b842b6b8466aea9f0932bf36ea8"
+  "latest_integration_parent_sha": "944b4e0c8ce26b842b6b8466aea9f0932bf36ea8",
+  "comparison": {
+    "model": "GRU H256 L2, dropout0, linear encoder, two output heads",
+    "features": "raw112 + existing event features + 224 treatment/control channels",
+    "candidate": "EWMA32(raw), raw-EWMA32(raw)",
+    "control": "raw, zeros_like(raw)",
+    "half_life_rows": 32,
+    "initial_state": "first observed row, reset every sequence",
+    "ancestors": [],
+    "targets": "supplied labels, weighted MSE, no teacher/initializer/propensity",
+    "fit_fraction": 1.0,
+    "normalization": "existing deterministic fitting-loader sample, fitted separately per arm/seed/fold; same selected rows, unchanged raw/event channels",
+    "checkpoint": "fixed zero-based epoch11; no outer evaluation during fitting",
+    "loss": "wmse"
+  },
+  "training": {
+    "epochs": 12,
+    "batch": 8,
+    "chunk": 2000,
+    "update_rows": 2000,
+    "detach_rows": 2000,
+    "precision": "fp32",
+    "autocast": false,
+    "tf32": false,
+    "optim": "adamw",
+    "lr": 0.001,
+    "wd": 0.01,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "clip": 1.0,
+    "sched": "wsd",
+    "warmup_frac": 0.02,
+    "wsd_decay": 0.2,
+    "wsd_final": 0.1,
+    "wsd_shape": "sqrt",
+    "weight_decay_policy": "existing single AdamW group: all trainable parameters, including biases; no new exclusions",
+    "normalization_rows": "existing fit_normalization: two fit batches, every seventh row",
+    "drop_last": "existing canonical loader policy, recorded in sample order; no fitting subset",
+    "loss": "wmse",
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch": 11,
+    "no_eval_during_fit": true,
+    "save_training_state": true,
+    "hidden": 256,
+    "layers": 2,
+    "dropout": 0.0
+  },
+  "statistics": {
+    "primary_contrast": "raw-plus-causal-ewma minus raw-plus-control",
+    "primary_null": "D <= 0",
+    "comparison_family_size": 1,
+    "seed_interval": "workflow crossed-seed bootstrap,10000 draws,RNG17017,conditional on four exposed folds",
+    "component_interval": "workflow paired source-component bootstrap with fits fixed; separate from seed interval",
+    "multiple_comparisons": "one primary contrast; any new half-life/model adds a new declared comparison family",
+    "selection_budget": "one half-life32 and one architecture; no outcome-guided sweeps in this matrix"
+  }
 }

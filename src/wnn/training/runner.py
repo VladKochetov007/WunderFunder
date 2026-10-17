@@ -56,6 +56,8 @@ def run_training(
         return
     initialize_progress(run)
     restore_progress(run)
+    if environment.observer is not None:
+        environment.observer(run, "start")
     args = run.options.args
     for epoch in range(run.progress.start_epoch, args.epochs):
         if args.stop_after_epoch is not None and epoch > args.stop_after_epoch:
@@ -79,7 +81,11 @@ def run_training(
                     main_loss(run)
                     auxiliary_loss(run)
                     backward_standard(run)
+                if environment.observer is not None:
+                    environment.observer(run, "before_update")
                 optimizer_step(run)
+                if environment.observer is not None:
+                    environment.observer(run, "after_update")
             if not finish_batch(run):
                 break
         epoch_diagnostics(run)

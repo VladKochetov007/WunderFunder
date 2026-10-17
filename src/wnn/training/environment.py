@@ -8,7 +8,7 @@ from pathlib import Path
 
 # Historical checkpoint records and experimental backend/batch states have
 # heterogeneous layouts; Any is retained only at those compatibility boundaries.
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import torch
 from attrs import define, field
@@ -19,6 +19,9 @@ from wnn.splits import dev_halves, valid_row_groups
 from wnn.training.forward import forward_chunk
 from wnn.training.models import make_model
 from wnn.training_dynamics import build_optimizer
+
+if TYPE_CHECKING:
+    from wnn.training.state import TrainingRun
 
 
 @define
@@ -73,6 +76,7 @@ class TrainingEnvironment:
     )
     make_model: Callable[[dict[str, Any], int, int], torch.nn.Module] = make_model
     prediction: Callable[..., Any] | None = None
+    observer: Callable[[TrainingRun, str], None] | None = None
 
     @property
     def entrypoint(self) -> Path:

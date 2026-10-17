@@ -24,13 +24,13 @@ Fourteen draft PRs are published with base **research-team**; GitHub reports eve
 
 ## Readiness
 
-These are experiment handoffs. Existing GRU mechanisms reuse linked trainer/model code; new Transformer/geometry/smoothing code is a starter. Every recipe is marked launch_ready=false: receiving researchers must bind fold-clean assets, finish trainer/reporting integration and profile actual B300 shapes. The plan entry point prints a matrix and does not train. No wall time, numerical parity or LB gain is claimed. No tests were added/run; static lint/format and document review only.
+These are experiment handoffs. Existing GRU mechanisms reuse linked trainer/model code; new Transformer/geometry code is a starter. PR #9 now contains a prepared smoothing fit/predict/score path; target-host validation remains pending. Every recipe remains launch_ready=false: receiving researchers must bind fold-clean assets, complete each packet's stated integration gaps and profile actual GPU shapes. The plan entry point prints a matrix and does not train. No wall time, numerical parity or LB gain is claimed. No tests were executed during this preparation. PR #9 adds regression-test source for target-host execution; static checks are separate from runtime validation.
 
 TPU parity remains a local engineering branch, outside these B300 quality drafts. Preserve its originating campaign evidence without launching it here. Shared primitive files appearing in related PRs have identical contents; merge them once and retain all append-only ledger/README entries when resolving conflicts.
 
 ## Packet included by this draft
 
-- [Past-only smoothing while retaining raw inputs](causal-smoothing/README.md) contains this draft's English proposal, recipe, code bindings and explicit missing training/profile work. `E-DRAFT-CAUSAL-SMOOTHING-20261017-R1`; no new fit.
+- [Past-only smoothing while retaining raw inputs](causal-smoothing/README.md) contains this draft's English protocol, matched input integration, per-cell commands and remaining target-host checks. `E-DRAFT-CAUSAL-SMOOTHING-20261017-R1`; no new fit.
 
 ## Modular trainer integration
 
