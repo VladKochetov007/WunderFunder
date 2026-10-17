@@ -448,6 +448,7 @@ class ProfileController:
                 last_status_at_utc=utc_now(),
                 consecutive_poll_errors=0,
             )
+            atomic_write(self.state_path, state)
             if status in TERMINAL_STATUSES:
                 state.update(phase="TERMINAL", terminal_at_utc=utc_now())
                 atomic_write(self.state_path, state)

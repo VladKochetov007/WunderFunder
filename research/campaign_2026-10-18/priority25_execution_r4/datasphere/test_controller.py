@@ -43,6 +43,7 @@ class FakeRunner:
         self.cancelled = False
         self.observed_status: str | None = None
         self.downloaded_after: str | None = None
+        self.get_receipts: list[dict[str, object]] = []
         self.fail_submit = False
         self.fail_first_get = False
         self.mismatch_status_identity = False
@@ -71,6 +72,9 @@ class FakeRunner:
             if self.fail_first_get:
                 self.fail_first_get = False
                 return subprocess.CompletedProcess(argv, 1)
+            state_path = cwd / "controller-state.json"
+            if state_path.exists():
+                self.get_receipts.append(json.loads(state_path.read_text(encoding="utf-8")))
             status = self.next_status()
             self.observed_status = status
             job_id = "different-job" if self.mismatch_status_identity else "job-123"
@@ -155,6 +159,16 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(state["project_id"], PROJECT_ID)
         self.assertEqual(state["job_id"], "job-123")
         self.assertEqual((self.job_dir / "controller-state.json").stat().st_mode & 0o777, 0o600)
+
+    def test_successful_nonterminal_poll_is_persisted_before_next_poll(self) -> None:
+        runner = FakeRunner(["EXECUTING", "SUCCESS"])
+
+        self.assertEqual(self.controller(runner).run(), 0)
+
+        self.assertEqual(len(runner.get_receipts), 2)
+        self.assertEqual(runner.get_receipts[1]["provider_status"], "EXECUTING")
+        self.assertTrue(runner.get_receipts[1]["last_status_at_utc"])
+        self.assertEqual(runner.get_receipts[1]["consecutive_poll_errors"], 0)
 
     def test_cancel_is_forced_by_exact_id_at_deadline_then_polls_terminal(self) -> None:
         runner = FakeRunner(
