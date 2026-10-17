@@ -4,6 +4,8 @@ This domain collects the reusable research protocol: data membership, causal seq
 
 ## Read these sources
 
+- [Causal AR teacher/student and DDP training proposal](../ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md) gives free-running output recurrence, exact sequence/window/reset semantics, separately normalized weighted-DDP gradients with accumulation, official pooled evaluation, fitting ancestry and conditional eight-B300 cost arithmetic. The user's quality-first steering expands the scale/context/horizon and teacher-assistant portfolio. Four H-TRANSFORMER-* hypotheses and three proposed comparisons are recorded; no runnable trainer, hardware profile, admitted fit or quality claim. The canonical architecture/source description is in the [ideas index](../ideas/README.md).
+
 - [October15 research-cycle reset](RESEARCH_LOOP_RESET_20261015_R1.md) implements the user's instruction not to get stuck: separates warm-parent KD attribution, short-screen fidelity, fresh mechanism generation and delivery failures; assigns concrete measurements and outcome-dependent decisions. It preserves uncertain branches and tracks information over the next four scientific comparisons. Primary AIRA/Amazon/JANUS sources are checked with transfer limitations. Records an actual double-counted-memory correction and collector/producer inventory failure; no new framework, paid spending or quality gain is claimed.
 
 - [Project research methods](../../RESEARCH_METHODS.md)

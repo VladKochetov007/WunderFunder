@@ -9519,8 +9519,8 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 888,
-      "hypotheses": 502,
+      "experiments": 891,
+      "hypotheses": 506,
       "journal": 147
     }
   },
@@ -43620,6 +43620,174 @@
         }
       ],
       "title": "A frozen-parent prediction target may retain the early benefit of new-teacher KD by preserving a useful initial function; a matched parent-output control distinguishes this from external target information, subject to calibration confounds.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:teacher",
+          "family:temporal"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-TRANSFORMER-CAUSAL-AR-20261017",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"created_utc\": \"2026-10-17T11:11:30Z\", \"falsifier\": \"The full-training matched recipe repeatedly adds lag or reduces the selected endpoint; this closes the recipe, not all autoregressive models.\", \"fit_admitted\": false, \"id\": \"H-TRANSFORMER-CAUSAL-AR-20261017\", \"mechanism_family\": \"causal_transformer_output_recurrence\", \"numerical_gain_prior\": null, \"parent_ids\": [\"H-KD-COMPLEMENTARY-TEACHER-20261015\"], \"predicted_observable\": \"Matched T1 versus T0 teacher and subsequent student deltas, with gate/lag diagnostics.\", \"source\": \"research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md\", \"statement\": \"A causal numerical Transformer with a learned stable AR(1) recurrence over its own outputs may improve teacher quality relative to a matched direct readout without feeding unavailable lagged future-price labels.\", \"status\": \"proposed\"}\n",
+          "record": {
+            "created_utc": "2026-10-17T11:11:30Z",
+            "falsifier": "The full-training matched recipe repeatedly adds lag or reduces the selected endpoint; this closes the recipe, not all autoregressive models.",
+            "fit_admitted": false,
+            "id": "H-TRANSFORMER-CAUSAL-AR-20261017",
+            "mechanism_family": "causal_transformer_output_recurrence",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-KD-COMPLEMENTARY-TEACHER-20261015"
+            ],
+            "predicted_observable": "Matched T1 versus T0 teacher and subsequent student deltas, with gate/lag diagnostics.",
+            "source": "research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md",
+            "statement": "A causal numerical Transformer with a learned stable AR(1) recurrence over its own outputs may improve teacher quality relative to a matched direct readout without feeding unavailable lagged future-price labels.",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 503,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "f05c08d505b38a8f09e7fb1ab47a7a197732c1d61484b2912fbc0a65c14c246d"
+          }
+        }
+      ],
+      "title": "A causal numerical Transformer with a learned stable AR(1) recurrence over its own outputs may improve teacher quality relative to a matched direct readout without feeding unavailable lagged future-price labels.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:teacher",
+          "family:temporal",
+          "family:optimization"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-TRANSFORMER-INNOVATION-AUX-20261017",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"created_utc\": \"2026-10-17T11:11:30Z\", \"falsifier\": \"An actual full-training matched comparison shows no useful endpoint contribution at the declared cost; no universal auxiliary-learning rejection.\", \"fit_admitted\": false, \"id\": \"H-TRANSFORMER-INNOVATION-AUX-20261017\", \"mechanism_family\": \"causal_observable_innovation_auxiliary\", \"numerical_gain_prior\": null, \"parent_ids\": [\"H-TRANSFORMER-CAUSAL-AR-20261017\"], \"predicted_observable\": \"T2 versus T0 and T3 versus T1, with the AR/aux interaction separately measured.\", \"source\": \"research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md\", \"statement\": \"Predicting future observable-feature innovations as fitting-only auxiliary targets may improve a causal Transformer teacher or interact with its learned output recurrence.\", \"status\": \"proposed\"}\n",
+          "record": {
+            "created_utc": "2026-10-17T11:11:30Z",
+            "falsifier": "An actual full-training matched comparison shows no useful endpoint contribution at the declared cost; no universal auxiliary-learning rejection.",
+            "fit_admitted": false,
+            "id": "H-TRANSFORMER-INNOVATION-AUX-20261017",
+            "mechanism_family": "causal_observable_innovation_auxiliary",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-TRANSFORMER-CAUSAL-AR-20261017"
+            ],
+            "predicted_observable": "T2 versus T0 and T3 versus T1, with the AR/aux interaction separately measured.",
+            "source": "research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md",
+            "statement": "Predicting future observable-feature innovations as fitting-only auxiliary targets may improve a causal Transformer teacher or interact with its learned output recurrence.",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 504,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "6f88b60f49b46a1e8a037dd3244d3dfd9db4c1d67902e0488c08d72011d7be71"
+          }
+        }
+      ],
+      "title": "Predicting future observable-feature innovations as fitting-only auxiliary targets may improve a causal Transformer teacher or interact with its learned output recurrence.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:teacher",
+          "family:temporal"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-TRANSFORMER-AR-GRU-KD-20261017",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"created_utc\": \"2026-10-17T11:11:30Z\", \"falsifier\": \"Teacher gains do not transfer to either declared student recipe under matched ancestry and training budgets.\", \"fit_admitted\": false, \"id\": \"H-TRANSFORMER-AR-GRU-KD-20261017\", \"mechanism_family\": \"heterogeneous_autoregressive_teacher_student_transfer\", \"numerical_gain_prior\": null, \"parent_ids\": [\"H-TRANSFORMER-CAUSAL-AR-20261017\", \"H-KD-CONTINUATION-VALUE-20261015\"], \"predicted_observable\": \"Student official-score and fixed-mixture deltas versus matched label-only and GRU-teacher controls, not teacher score alone.\", \"source\": \"research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md\", \"statement\": \"Free-running causal Transformer-AR predictions may improve a matched GRU student, with explicit two-scalar student output recurrence as a separate compression path.\", \"status\": \"proposed\"}\n",
+          "record": {
+            "created_utc": "2026-10-17T11:11:30Z",
+            "falsifier": "Teacher gains do not transfer to either declared student recipe under matched ancestry and training budgets.",
+            "fit_admitted": false,
+            "id": "H-TRANSFORMER-AR-GRU-KD-20261017",
+            "mechanism_family": "heterogeneous_autoregressive_teacher_student_transfer",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-TRANSFORMER-CAUSAL-AR-20261017",
+              "H-KD-CONTINUATION-VALUE-20261015"
+            ],
+            "predicted_observable": "Student official-score and fixed-mixture deltas versus matched label-only and GRU-teacher controls, not teacher score alone.",
+            "source": "research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md",
+            "statement": "Free-running causal Transformer-AR predictions may improve a matched GRU student, with explicit two-scalar student output recurrence as a separate compression path.",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 505,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "a1f5c104b3dc536e816d0293708a078c5c1d4ddebb54938709bd98466e487b0a"
+          }
+        }
+      ],
+      "title": "Free-running causal Transformer-AR predictions may improve a matched GRU student, with explicit two-scalar student output recurrence as a separate compression path.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:teacher",
+          "family:temporal"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-TRANSFORMER-QUALITY-SCALE-20261017",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"created_utc\": \"2026-10-17T11:21:03Z\", \"falsifier\": \"The particular fully trained scale/context/compression route fails to improve its declared endpoint at fair comparison budgets; related distinct descendants remain eligible.\", \"fit_admitted\": false, \"id\": \"H-TRANSFORMER-QUALITY-SCALE-20261017\", \"mechanism_family\": \"quality_first_teacher_scale_context_and_compression\", \"numerical_gain_prior\": null, \"parent_ids\": [\"H-TRANSFORMER-CAUSAL-AR-20261017\", \"H-TRANSFORMER-AR-GRU-KD-20261017\"], \"predicted_observable\": \"Matched teacher/student and fixed-endpoint quality curves over model scale, context and training horizon; no presumption of monotonic improvement.\", \"source\": \"research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md\", \"statement\": \"Substantially larger and longer-trained causal teachers, full-sequence context and heterogeneous ensembles may improve the eventual GRU endpoint, including via larger student or teacher-assistant stages when direct narrow-student transfer is weak.\", \"status\": \"proposed\", \"user_basis\": \"Latest user instruction: focus on best possible quality, we have a lot of compute.\"}\n",
+          "record": {
+            "created_utc": "2026-10-17T11:21:03Z",
+            "falsifier": "The particular fully trained scale/context/compression route fails to improve its declared endpoint at fair comparison budgets; related distinct descendants remain eligible.",
+            "fit_admitted": false,
+            "id": "H-TRANSFORMER-QUALITY-SCALE-20261017",
+            "mechanism_family": "quality_first_teacher_scale_context_and_compression",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-TRANSFORMER-CAUSAL-AR-20261017",
+              "H-TRANSFORMER-AR-GRU-KD-20261017"
+            ],
+            "predicted_observable": "Matched teacher/student and fixed-endpoint quality curves over model scale, context and training horizon; no presumption of monotonic improvement.",
+            "source": "research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md",
+            "statement": "Substantially larger and longer-trained causal teachers, full-sequence context and heterogeneous ensembles may improve the eventual GRU endpoint, including via larger student or teacher-assistant stages when direct narrow-student transfer is weak.",
+            "status": "proposed",
+            "user_basis": "Latest user instruction: focus on best possible quality, we have a lot of compute."
+          },
+          "source": {
+            "line": 506,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "e85f2efc69cc18da6877c1c24c57d1cfa34941499fdf1f978495ae5ed1e12c36"
+          }
+        }
+      ],
+      "title": "Substantially larger and longer-trained causal teachers, full-sequence context and heterogeneous ensembles may improve the eventual GRU endpoint, including via larger student or teacher-assistant stages when direct narrow-student transfer is weak.",
       "type": "hypothesis"
     },
     {
@@ -83896,6 +84064,159 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [
+          "H-TRANSFORMER-CAUSAL-AR-20261017",
+          "H-TRANSFORMER-INNOVATION-AUX-20261017"
+        ],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-TRANSFORMER-AR-FACTORIAL-20261017-R1",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"controls\": [\"direct numerical Transformer\", \"AR-only Transformer\", \"aux-only Transformer\", \"AR-plus-aux Transformer\"], \"created_utc\": \"2026-10-17T11:11:30Z\", \"date\": \"2026-10-17\", \"design\": \"T0/T1/T2/T3 output-AR by observable-innovation-auxiliary factorial; complete fitting data and declared training horizons, matched source-qualified folds/seeds.\", \"exposure\": \"Existing four local folds remain exposed; source-qualified fitting/teacher/initializer exclusions required.\", \"fit_admitted\": false, \"hypotheses\": [\"H-TRANSFORMER-CAUSAL-AR-20261017\", \"H-TRANSFORMER-INNOVATION-AUX-20261017\"], \"id\": \"E-TRANSFORMER-AR-FACTORIAL-20261017-R1\", \"kind\": \"proposed_full_training_comparison\", \"metric\": \"global_wp_clip2_v1\", \"resources\": {\"allocated_gpu_hours\": null, \"cluster_verified\": false, \"planned_user_reported_gpus\": \"8 x NVIDIA B300\"}, \"result\": null, \"scientific_fits_completed\": 0, \"source\": \"research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md\", \"status\": \"proposed\"}\n",
+          "record": {
+            "controls": [
+              "direct numerical Transformer",
+              "AR-only Transformer",
+              "aux-only Transformer",
+              "AR-plus-aux Transformer"
+            ],
+            "created_utc": "2026-10-17T11:11:30Z",
+            "date": "2026-10-17",
+            "design": "T0/T1/T2/T3 output-AR by observable-innovation-auxiliary factorial; complete fitting data and declared training horizons, matched source-qualified folds/seeds.",
+            "exposure": "Existing four local folds remain exposed; source-qualified fitting/teacher/initializer exclusions required.",
+            "fit_admitted": false,
+            "hypotheses": [
+              "H-TRANSFORMER-CAUSAL-AR-20261017",
+              "H-TRANSFORMER-INNOVATION-AUX-20261017"
+            ],
+            "id": "E-TRANSFORMER-AR-FACTORIAL-20261017-R1",
+            "kind": "proposed_full_training_comparison",
+            "metric": "global_wp_clip2_v1",
+            "resources": {
+              "allocated_gpu_hours": null,
+              "cluster_verified": false,
+              "planned_user_reported_gpus": "8 x NVIDIA B300"
+            },
+            "result": null,
+            "scientific_fits_completed": 0,
+            "source": "research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 889,
+            "path": "research/experiments.jsonl",
+            "sha256": "47a787d1baa386092c6b3ccebc5f01022097b5e2c926133981d340b682440a5e"
+          }
+        }
+      ],
+      "title": "proposed_full_training_comparison",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-TRANSFORMER-AR-GRU-KD-20261017"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-TRANSFORMER-AR-GRU-KD-20261017-R1",
+      "latest_recorded_status": "proposed",
+      "parent_id": "hypothesis:H-TRANSFORMER-AR-GRU-KD-20261017",
+      "raw_rows": [
+        {
+          "raw_record": "{\"controls\": [\"label-only GRU\", \"GRU-teacher KD\", \"T0 KD\", \"T1 KD\", \"fixed heterogeneous teacher mixture if separately admitted\"], \"created_utc\": \"2026-10-17T11:11:30Z\", \"date\": \"2026-10-17\", \"design\": \"Compare direct and explicit-AR GRU students from free-running teacher rollouts, with matched label-only, GRU-teacher, direct-Transformer and Transformer-AR controls.\", \"exposure\": \"Existing four local folds remain exposed; source-qualified fitting/teacher/initializer exclusions required.\", \"fit_admitted\": false, \"hypotheses\": [\"H-TRANSFORMER-AR-GRU-KD-20261017\"], \"id\": \"E-TRANSFORMER-AR-GRU-KD-20261017-R1\", \"kind\": \"proposed_full_training_comparison\", \"metric\": \"global_wp_clip2_v1\", \"resources\": {\"allocated_gpu_hours\": null, \"cluster_verified\": false, \"planned_user_reported_gpus\": \"8 x NVIDIA B300\"}, \"result\": null, \"scientific_fits_completed\": 0, \"source\": \"research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md\", \"status\": \"proposed\"}\n",
+          "record": {
+            "controls": [
+              "label-only GRU",
+              "GRU-teacher KD",
+              "T0 KD",
+              "T1 KD",
+              "fixed heterogeneous teacher mixture if separately admitted"
+            ],
+            "created_utc": "2026-10-17T11:11:30Z",
+            "date": "2026-10-17",
+            "design": "Compare direct and explicit-AR GRU students from free-running teacher rollouts, with matched label-only, GRU-teacher, direct-Transformer and Transformer-AR controls.",
+            "exposure": "Existing four local folds remain exposed; source-qualified fitting/teacher/initializer exclusions required.",
+            "fit_admitted": false,
+            "hypotheses": [
+              "H-TRANSFORMER-AR-GRU-KD-20261017"
+            ],
+            "id": "E-TRANSFORMER-AR-GRU-KD-20261017-R1",
+            "kind": "proposed_full_training_comparison",
+            "metric": "global_wp_clip2_v1",
+            "resources": {
+              "allocated_gpu_hours": null,
+              "cluster_verified": false,
+              "planned_user_reported_gpus": "8 x NVIDIA B300"
+            },
+            "result": null,
+            "scientific_fits_completed": 0,
+            "source": "research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 890,
+            "path": "research/experiments.jsonl",
+            "sha256": "f55a32874d2348d9cc2fbef5d99708bd701b99497e371fbfcda15553f192e46c"
+          }
+        }
+      ],
+      "title": "proposed_full_training_comparison",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [
+          "H-TRANSFORMER-AR-GRU-KD-20261017",
+          "H-TRANSFORMER-QUALITY-SCALE-20261017"
+        ],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-TRANSFORMER-QUALITY-SCALE-20261017-R1",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"created_utc\": \"2026-10-17T11:21:03Z\", \"date\": \"2026-10-17\", \"design\": \"86M reference; primary approximately 207M and 682M plus 1.65B exploration; 12/24/48-epoch quality routes, longer/full20k context, fixed heterogeneous teacher ensembles and direct/assistant GRU distillation. Selected scientific comparisons use declared paired fold/seed replication.\", \"exposure\": \"Existing four folds remain exposed; component-disjoint fitting and teacher/initializer ancestry remain required.\", \"fit_admitted\": false, \"hypotheses\": [\"H-TRANSFORMER-QUALITY-SCALE-20261017\", \"H-TRANSFORMER-AR-GRU-KD-20261017\"], \"id\": \"E-TRANSFORMER-QUALITY-SCALE-20261017-R1\", \"kind\": \"proposed_quality_first_scale_and_transfer_portfolio\", \"metric\": \"global_wp_clip2_v1\", \"resources\": {\"allocated_gpu_hours\": null, \"cluster_verified\": false, \"user_reported_gpus\": \"8 x NVIDIA B300\"}, \"result\": null, \"scientific_fits_completed\": 0, \"source\": \"research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md\", \"status\": \"proposed\", \"user_scope\": \"Quality-first research-note planning; no cluster launch or spending authority inferred.\"}\n",
+          "record": {
+            "created_utc": "2026-10-17T11:21:03Z",
+            "date": "2026-10-17",
+            "design": "86M reference; primary approximately 207M and 682M plus 1.65B exploration; 12/24/48-epoch quality routes, longer/full20k context, fixed heterogeneous teacher ensembles and direct/assistant GRU distillation. Selected scientific comparisons use declared paired fold/seed replication.",
+            "exposure": "Existing four folds remain exposed; component-disjoint fitting and teacher/initializer ancestry remain required.",
+            "fit_admitted": false,
+            "hypotheses": [
+              "H-TRANSFORMER-QUALITY-SCALE-20261017",
+              "H-TRANSFORMER-AR-GRU-KD-20261017"
+            ],
+            "id": "E-TRANSFORMER-QUALITY-SCALE-20261017-R1",
+            "kind": "proposed_quality_first_scale_and_transfer_portfolio",
+            "metric": "global_wp_clip2_v1",
+            "resources": {
+              "allocated_gpu_hours": null,
+              "cluster_verified": false,
+              "user_reported_gpus": "8 x NVIDIA B300"
+            },
+            "result": null,
+            "scientific_fits_completed": 0,
+            "source": "research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md",
+            "status": "proposed",
+            "user_scope": "Quality-first research-note planning; no cluster launch or spending authority inferred."
+          },
+          "source": {
+            "line": 891,
+            "path": "research/experiments.jsonl",
+            "sha256": "f5d35b1343e0d5f6cad14e7536fe1f1d2f728d2e9ca682572d77837031d58b66"
+          }
+        }
+      ],
+      "title": "proposed_quality_first_scale_and_transfer_portfolio",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -87130,6 +87451,72 @@
       "target_id": "hypothesis:H-KD-CONTINUATION-VALUE-20261015"
     },
     {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 503,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "f05c08d505b38a8f09e7fb1ab47a7a197732c1d61484b2912fbc0a65c14c246d"
+      },
+      "source_id": "hypothesis:H-TRANSFORMER-CAUSAL-AR-20261017",
+      "target_id": "hypothesis:H-KD-COMPLEMENTARY-TEACHER-20261015"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 504,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "6f88b60f49b46a1e8a037dd3244d3dfd9db4c1d67902e0488c08d72011d7be71"
+      },
+      "source_id": "hypothesis:H-TRANSFORMER-INNOVATION-AUX-20261017",
+      "target_id": "hypothesis:H-TRANSFORMER-CAUSAL-AR-20261017"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 505,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "a1f5c104b3dc536e816d0293708a078c5c1d4ddebb54938709bd98466e487b0a"
+      },
+      "source_id": "hypothesis:H-TRANSFORMER-AR-GRU-KD-20261017",
+      "target_id": "hypothesis:H-TRANSFORMER-CAUSAL-AR-20261017"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 505,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "a1f5c104b3dc536e816d0293708a078c5c1d4ddebb54938709bd98466e487b0a"
+      },
+      "source_id": "hypothesis:H-TRANSFORMER-AR-GRU-KD-20261017",
+      "target_id": "hypothesis:H-KD-CONTINUATION-VALUE-20261015"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 506,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "e85f2efc69cc18da6877c1c24c57d1cfa34941499fdf1f978495ae5ed1e12c36"
+      },
+      "source_id": "hypothesis:H-TRANSFORMER-QUALITY-SCALE-20261017",
+      "target_id": "hypothesis:H-TRANSFORMER-CAUSAL-AR-20261017"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 506,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "e85f2efc69cc18da6877c1c24c57d1cfa34941499fdf1f978495ae5ed1e12c36"
+      },
+      "source_id": "hypothesis:H-TRANSFORMER-QUALITY-SCALE-20261017",
+      "target_id": "hypothesis:H-TRANSFORMER-AR-GRU-KD-20261017"
+    },
+    {
       "relation": "ledger_hypothesis_reference",
       "resolved": true,
       "source": {
@@ -90131,6 +90518,61 @@
       },
       "source_id": "experiment:E-WARM-MECHANISM-G-CP1-20261015-R1",
       "target_id": "hypothesis:H-087"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 889,
+        "path": "research/experiments.jsonl",
+        "sha256": "47a787d1baa386092c6b3ccebc5f01022097b5e2c926133981d340b682440a5e"
+      },
+      "source_id": "experiment:E-TRANSFORMER-AR-FACTORIAL-20261017-R1",
+      "target_id": "hypothesis:H-TRANSFORMER-CAUSAL-AR-20261017"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 889,
+        "path": "research/experiments.jsonl",
+        "sha256": "47a787d1baa386092c6b3ccebc5f01022097b5e2c926133981d340b682440a5e"
+      },
+      "source_id": "experiment:E-TRANSFORMER-AR-FACTORIAL-20261017-R1",
+      "target_id": "hypothesis:H-TRANSFORMER-INNOVATION-AUX-20261017"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 890,
+        "path": "research/experiments.jsonl",
+        "sha256": "f55a32874d2348d9cc2fbef5d99708bd701b99497e371fbfcda15553f192e46c"
+      },
+      "source_id": "experiment:E-TRANSFORMER-AR-GRU-KD-20261017-R1",
+      "target_id": "hypothesis:H-TRANSFORMER-AR-GRU-KD-20261017"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 891,
+        "path": "research/experiments.jsonl",
+        "sha256": "f5d35b1343e0d5f6cad14e7536fe1f1d2f728d2e9ca682572d77837031d58b66"
+      },
+      "source_id": "experiment:E-TRANSFORMER-QUALITY-SCALE-20261017-R1",
+      "target_id": "hypothesis:H-TRANSFORMER-QUALITY-SCALE-20261017"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 891,
+        "path": "research/experiments.jsonl",
+        "sha256": "f5d35b1343e0d5f6cad14e7536fe1f1d2f728d2e9ca682572d77837031d58b66"
+      },
+      "source_id": "experiment:E-TRANSFORMER-QUALITY-SCALE-20261017-R1",
+      "target_id": "hypothesis:H-TRANSFORMER-AR-GRU-KD-20261017"
     },
     {
       "relation": "curated_hypothesis_membership",
