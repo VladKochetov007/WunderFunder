@@ -70,17 +70,15 @@ def test_torch_matches_numpy():
 
 
 @pytest.mark.data
-def test_real_sequence_streaming_equivalence_and_target_clock():
+def test_real_sequence_streaming_equivalence():
     seq = SequenceFile(DATASETS / "valid.parquet").read(0)
     feats = event_features(seq.features)
     assert feats.shape == (SEQUENCE_LENGTH, N_EVENT_FEATURES)
     stream = StreamingEventFeatures()
     for i in range(2000):
         np.testing.assert_array_equal(stream.update(seq.features[i]), feats[i])
-    # Research finding encoded as a guard: targets only move on i0 price events.
-    moved = np.any(np.diff(seq.targets, axis=0) != 0, axis=1)
-    px_event = feats[1:, FEATURE_NAMES.index("ev_i0px")] > 0
-    assert moved.any() and not (moved & ~px_event).any()
+    # H-001's universal target-clock assertion was falsified by the October 17
+    # census. Input-feature parity is the contract; label timing is not.
 
 
 def test_online_zscore_is_causal_and_matches_oracle():

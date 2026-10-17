@@ -1,0 +1,59 @@
+{
+  "schema": "wnn.no-fit-research-contract.v1",
+  "date": "2026-10-17",
+  "base_main": "4ca5c936daa5f88097188dcea903f2f74dd87097",
+  "objective_mode": "competition",
+  "request": "Fix proven prediction/cache defects, investigate existing evidence and fresh literature, perform descriptive EDA and iterative agent critique, then deliver exactly 25 diverse source-qualified ideas toward top-1.",
+  "training_authorized": false,
+  "scope": {
+    "allowed": [
+      "read supplied data and existing artifacts",
+      "deterministic EDA and resampling",
+      "correct proven code defects with tests",
+      "bounded inference of existing checkpoints",
+      "public literature search",
+      "independent proposal and critique rounds",
+      "versioned research documentation"
+    ],
+    "forbidden": [
+      "training or fitting any predictive model",
+      "new paid rentals or purchases",
+      "competition submissions",
+      "external market data",
+      "cross-sequence inference state or future-label access",
+      "rewriting original logs, caches, weights or frozen evidence"
+    ]
+  },
+  "resources": {
+    "aggregate_cpu_cores": 2,
+    "max_subagents": 3,
+    "new_spend": 0,
+    "training_gpu_hours": 0,
+    "eda_ram_target_gib": 2,
+    "disk": "physical filesystem; append-only result paths",
+    "training_trials": 0
+  },
+  "verification": {
+    "code_tier": "A: deterministic tests and concrete compatibility fixtures",
+    "eda_tier": "B measurements on exposed data, exploratory only",
+    "idea_tier": "C: literature and mechanism proposals, no measured gain",
+    "metric": "global_wp_clip2_v1 unchanged",
+    "exposure": "all existing validation panels remain exposed; no new holdout claim"
+  },
+  "process": [
+    "independent first proposals before sharing",
+    "adversarial cross-review against old evidence and fresh EDA",
+    "deduplicate and revise",
+    "final ranked 25 with falsifiers and cheapest no-fit checks"
+  ],
+  "deliverables": [
+    "reviewed bug fixes and deployment/replay receipts",
+    "reproducible EDA scripts and measured summaries",
+    "primary-source literature register with date and transfer limits",
+    "independent proposals and review decisions",
+    "25 hypothesis cards with history, mechanism, caveats and future validation plan"
+  ],
+  "completion": "Fixes verified; measured EDA reconciled; at least two proposal/critique stages completed; 25 nonduplicate, legal, indexed idea cards delivered. No claim of top-1 or a score gain without future training/evaluation.",
+  "note": "This user instruction resumes analysis, EDA and engineering only. It does not resume model fitting. No new orchestration framework is required.",
+  "execution_disclosure": "No competition-data fits or adaptation. Required engineering regression suite includes tiny synthetic trainer/resume optimizer fixtures; replay itself0optimizersteps. See reviews/DECISIONS.md."
+}
