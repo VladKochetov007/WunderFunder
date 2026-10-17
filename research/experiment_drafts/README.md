@@ -1,5 +1,7 @@
 # Research-team experiment catalogue
 
+The [rank1 execution continuation](rr18-01-labels/README.md) adds the active E-RR18-01-LABELS comparison on `experiment/rr18-01-labels`: both profiles passed and the first paired F0 fit is running, with no completed quality endpoint. It references the source-bound October18 campaign rather than copying training settings. Its GitHub PR URL remains pending; the historical catalogue below is unchanged.
+
 Fourteen draft PRs are published with base **research-team**; The table below preserves historical publication SHAs; the [latest synchronization receipt](BRANCH_SYNC_20261017_R2.json) records current pushed heads, merged target and GitHub verification. No experiment has been merged or fitted by this publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
 
 - [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.
