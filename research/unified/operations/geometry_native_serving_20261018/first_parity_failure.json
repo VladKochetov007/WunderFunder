@@ -1,0 +1,18 @@
+{
+  "status": "failed_before_fix",
+  "synthetic": true,
+  "rows": 20000,
+  "precision": "f32",
+  "library_sha256": "871a9d9c23180939e11e971178ef271a70dff990ca748df5352621c597aedee6",
+  "failure": {
+    "row": 0,
+    "geometry_channel": 2,
+    "native_value": 0.0,
+    "reference_value": -1.0,
+    "interpretation": "channel 2 is the third mean field for selected raw input 52"
+  },
+  "diagnosis": "The first 20 geometry channels used the category-block field*4 offset pattern for scalar stat blocks. This placed mean/std/residual/atom/normalized values into incorrect positions. Category and occupancy blocks retain field*4 layout.",
+  "correction_commit": "03e6db635977d9514f46ec990738112075c588de",
+  "corrected_library_sha256": "ebba8fe295175bf1c2ab57dbe76dd764c5c893941020af774be95cfe8a83043d",
+  "scope": "engineering parity only; no quality result"
+}
