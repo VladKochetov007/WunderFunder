@@ -141,5 +141,21 @@ def _(RUN, mo):
     return
 
 
+@app.cell(hide_code=True)
+def _(RUN, json, mo):
+    _results = json.loads((RUN / "pilot_results_r1.json").read_text())
+    _pilot_table = [{"arm": _r["arm"], "seed": _r["seed"], "pooled_wp": _r["evaluation"]["wp"], "fold0_wp": _r["evaluation_by_fold"]["0"]["wp"], "fold1_wp": _r["evaluation_by_fold"]["1"]["wp"], "updates": _r["training"]["updates"], "cuda_peak_MB": _r["training"]["cuda_peak_allocated_bytes"] / 1e6} for _r in _results]
+    mo.vstack([
+        mo.md("""## First causal RNN pilot — all paired seeds
+
+    Three matched-capacity arms, H32×1,43fitting sequences, fixed2epochs/880updates. Official scores were independently recomputed with the frozen scorer. Mean pooled moments-control delta is **+0.000883**, but fold0 worsens and fold1 improves. There are only8components per fold, validation is exposed and this is not a production-gain claim. All conditional component intervals include zero; that does not close the mechanism.
+
+    The discrete/heuristic direction remains active. The follow-up separates dictionary/event/dwell channels and their interaction with moments at two capacities; student distillation itself has not run.
+    """),
+        mo.ui.table(_pilot_table),
+    ])
+    return
+
+
 if __name__ == "__main__":
     app.run()
