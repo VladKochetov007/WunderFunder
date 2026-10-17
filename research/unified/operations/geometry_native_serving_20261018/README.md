@@ -31,4 +31,6 @@ All profile and parity fixtures here are synthetic engineering checks, not scien
 
 [`scripts/score_geometry_served_f0.py`](../../../../scripts/score_geometry_served_f0.py) replays an exact ZIP against the F0 split's declared evaluation row groups only. It validates each row-group/sequence identity, uses the official scored-row mask and `global_wp_clip2_v1`, writes a row-group-indexed prediction array and sidecar, and records callback-only plus end-to-end timing. An optional FP32 cache is accepted only with a matching split-hash and row-group sidecar. Run one fixed precision per fresh process, with the package ZIP, build receipt, root `datasets/valid.parquet`, and fold-0 split pinned. The script does not read the full validation table or require Torch.
 
+[`scripts/export_geometry_prior.py`](../../../../scripts/export_geometry_prior.py) copies and validates `research_feature_prior` from the selected checkpoint without refitting it; it writes an output hash receipt for the package's `geometry_prior.json` auxiliary file.
+
 The feature adapter callback now exposes the native stepper at `.model`, so existing reset-aware ZIP validators can invoke `model.model.reset()` between sequence groups without rebuilding the extension.
