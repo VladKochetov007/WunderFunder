@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "experiment_id": "E-RR18-01-LABELS",
+  "created_utc": "2026-10-17T21:47:05.256847+00:00",
+  "declaration_timing": "After the first optimizer updates, before any completed endpoint, export or score. The original fit recipe lacked an explicit practically useful effect threshold. This is a dated decision-policy addendum, not a claim of pre-fit registration.",
+  "changes_to_active_fit": null,
+  "quality_route": {
+    "primary_equal_fold_mean_delta_at_least": 0.001,
+    "same_machine_cpu_median_step_latency_ratio_at_most": 1.1
+  },
+  "cost_route": {
+    "primary_equal_fold_mean_delta_at_least": -0.0002,
+    "same_machine_cpu_median_step_latency_ratio_at_most": 0.8
+  },
+  "rationale": "The quality route asks for a nontrivial local WP change worth follow-up against a near-capacity control, with limited serving regression; the cost route asks for a material 20% latency reduction with only a small local score tradeoff. These are chosen allocation preferences, not estimated benefits, a universal threshold, a power calculation or a public-score conversion.",
+  "required_evidence": "Full declared paired-cell analysis, all four exposed fold means and seed/component uncertainty, plus repeated same-machine CPU FP32 one-row stateful serving timing under identical threads/library/reset/input conditions. Report median and tail latency. No CPU win is established by the shared-GPU profiles.",
+  "uncertainty_policy": "Point thresholds alone do not establish a robust win. Report interval scope, fold sensitivity and failures. An interval crossing zero is not a universal stop; inconclusive outcomes can justify a specifically bounded follow-up. A result below the thresholds is preserved and may be retained for a distinct blend/teacher or longer-schedule question, without relabeling this comparison positive.",
+  "convergence": "Fixed six epochs remains the primary endpoint, not proof of convergence. Any longer schedule requires a distinct matched recipe declared before evaluation feedback is used to select its endpoint.",
+  "score_seen_when_declared": false
+}
