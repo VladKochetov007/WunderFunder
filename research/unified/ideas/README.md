@@ -4,7 +4,7 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
-- [Causal geometry/discrete features on eight B300s](CAUSAL_GEOMETRY_DISCRETE_B300_20261018_R1.md) registers H-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1 and E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1, with an implemented H512×1 four-arm runner and explicit 120-fit/15-wave matrix. R1–R3 evidence is tiny and exposed; the B300 profile and quality matrix have not run. Native serving build/runtime remains pending.
+- [Causal geometry/discrete features on eight B300s](CAUSAL_GEOMETRY_DISCRETE_B300_20261018_R1.md) registers H-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1 and E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1, with an implemented H512×1 four-arm runner and explicit 120-fit/15-wave matrix. R1–R3 and root’s one-pair warm probe are small, exposed evidence; the B300 profile and quality matrix have not run. Native build/ABI and synthetic callback parity pass; actual-weight/full-runtime checks remain pending.
 
 - [Ranked25 execution, October18](../../campaign_2026-10-18/priority25_execution_r4/README.md) — Execution of the current25ranked hypotheses in order; rank1 compares two cold GRU shapes, with matched membership and explicit near-capacity control. Both actual-data profiles passed; the first F0 paired six-epoch pipeline is running with actual optimizer progress. Quality results are pending.
 - [Rank1 cluster handoff](../../campaign_2026-10-18/priority25_execution_r4/cluster/README.md) — Prepared issue for additional paired folds and remaining CP30 cells, excluding the running Beleriand pair. It documents executable-source references and unresolved cluster paths/scheduler; no issue or cluster fit has yet been created.

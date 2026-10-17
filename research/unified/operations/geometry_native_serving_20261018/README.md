@@ -4,7 +4,7 @@ Status: implementation and synthetic engineering parity/profile checks passed. N
 
 ## Implementation
 
-Source is in commits `bdf996f9d`, `ce5f8f63c`, and correction `03e6db635977d9514f46ec990738112075c588de`. `submission/solution_geometry.py` exposes the competition `PredictionModel` callback and uses native `wnn_native.GeometryPredictor` for raw, event, geometry, reset, recurrent-state, and masked-row handling. The required native API is present in the library below. `scripts/geometry_serving_reference.py` and `GeometryFeatureStepper` are checker/reference support, not production callback fallbacks.
+Source is in commits `bdf996f9d`, `ce5f8f63c`, correction `03e6db635977d9514f46ec990738112075c588de`, indexed evidence `04252f6a35bc99711edf57397b775b66f6f11fe3`, and callback reset-compatibility fix `52e7ed6bb6f5861846bb11eac29ceeaf3669dc0b`. `submission/solution_geometry.py` exposes the competition `PredictionModel` callback and uses native `wnn_native.GeometryPredictor` for raw, event, geometry, reset, recurrent-state, and masked-row handling. The callback exposes the native predictor as `.model` so standard validators can reset it between source-qualified sequences. The required native API is present in the library below. `scripts/geometry_serving_reference.py` and `GeometryFeatureStepper` are checker/reference support, not production callback fallbacks.
 
 The root packager can stage this endpoint with:
 

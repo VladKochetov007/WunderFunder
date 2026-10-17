@@ -32,11 +32,41 @@
       "src/wnn/training/setup_preprocessing.py"
     ],
     "serving_commits": [
-      {"source_commit": "bdf996f9d1040936e2f84c837a39fc39e7431e40", "branch_commit": "bbf4ec035", "purpose": "native causal geometry feature implementation, callback, reference checker and package extra-file support"},
-      {"source_commit": "ce5f8f63c1c495dac3c7f4a3ce46226b6efd7aba", "branch_commit": "f7abf901e", "purpose": "single-member native serving path and reference scorer"}
+      {
+        "source_commit": "bdf996f9d1040936e2f84c837a39fc39e7431e40",
+        "branch_commit": "0617a9442066d801ddccd71ff9657446714c2554",
+        "purpose": "native causal geometry feature implementation, callback, reference checker and package extra-file support"
+      },
+      {
+        "source_commit": "ce5f8f63c1c495dac3c7f4a3ce46226b6efd7aba",
+        "branch_commit": "a10698d21c16ff40388ecd94afc64c29ca24dbd8",
+        "purpose": "single-member native serving path and reference scorer"
+      },
+      {
+        "source_commit": "03e6db635977d9514f46ec990738112075c588de",
+        "branch_commit": "a87155ae5db8794c027f2b9c5e9bc52f8d8ca692",
+        "purpose": "fix statistic-major first-20 native geometry channel order and strengthen synthetic callback parity checks"
+      },
+      {
+        "source_commit": "04252f6a35bc99711edf57397b775b66f6f11fe3",
+        "branch_commit": "b7dd3711fbf9fe94f48ea9d2914b4001f2df64a4",
+        "purpose": "index the native ABI, synthetic parity, profiles and retained first failure"
+      },
+      {
+        "source_commit": "52e7ed6bb6f5861846bb11eac29ceeaf3669dc0b",
+        "branch_commit": "722717d10cbb2c22f827e1080bada9d8d705c621",
+        "purpose": "expose the native stepper as callback .model for standard per-sequence reset validators"
+      }
     ],
-    "serving_files": ["native/src/python.rs", "native/src/python_geometry.rs", "scripts/check_geometry_submission.py", "scripts/geometry_serving_reference.py", "scripts/package_submission.py", "submission/solution_geometry.py"],
-    "native_status": "source review complete; native build, actual-weight parity, full-context runtime and package checks pending"
+    "serving_files": [
+      "native/src/python.rs",
+      "native/src/python_geometry.rs",
+      "scripts/check_geometry_submission.py",
+      "scripts/geometry_serving_reference.py",
+      "scripts/package_submission.py",
+      "submission/solution_geometry.py"
+    ],
+    "native_status": "native build, abi3 import/ELF scan, and corrected synthetic 20,000-row event/geometry/prediction/reset parity passed; fixed-precision q8vnni/i16/q16x profiles are synthetic row-cost proxies only; actual-weight parity, full competition runtime, and package checks pending"
   },
   "scope": {
     "fits_per_arm": 30,
@@ -73,30 +103,48 @@
       "control": "all",
       "feature_index_space": "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
       "visible_feature_index_range_inclusive": null,
-      "zeroed_feature_index_range_inclusive": [0, 59],
+      "zeroed_feature_index_range_inclusive": [
+        0,
+        59
+      ],
       "description": "211 raw/event channels plus the same 60-wide geometry suffix, all zeroed; matched input width and parameters."
     },
     {
       "name": "moments",
       "control": "moments_only",
       "feature_index_space": "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
-      "visible_feature_index_range_inclusive": [0, 19],
-      "zeroed_feature_index_range_inclusive": [20, 59],
+      "visible_feature_index_range_inclusive": [
+        0,
+        19
+      ],
+      "zeroed_feature_index_range_inclusive": [
+        20,
+        59
+      ],
       "description": "20 causal moment/arc/anchor/current channels; 40 dictionary/event/dwell channels zeroed."
     },
     {
       "name": "dictionary",
       "control": "dictionary_only",
       "feature_index_space": "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
-      "visible_feature_index_range_inclusive": [20, 59],
-      "zeroed_feature_index_range_inclusive": [0, 19],
+      "visible_feature_index_range_inclusive": [
+        20,
+        59
+      ],
+      "zeroed_feature_index_range_inclusive": [
+        0,
+        19
+      ],
       "description": "40 exact-level/dictionary/row occupancy/event/dwell channels; 20 moment/arc/anchor/current channels zeroed."
     },
     {
       "name": "combined",
       "control": "none",
       "feature_index_space": "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
-      "visible_feature_index_range_inclusive": [0, 59],
+      "visible_feature_index_range_inclusive": [
+        0,
+        59
+      ],
       "zeroed_feature_index_range_inclusive": null,
       "description": "All 60 appended causal channels."
     }
@@ -240,7 +288,7 @@
   "future_quality_scaling": {
     "current_path": "implemented fresh H512x1 four-arm matrix only",
     "strong_parent_continuation": "zero-initialized append is implemented in inheritance.py, but a full comparison is future work; require one independently fit, matching fold-clean parent per fold/seed (30 identities); never transfer F0 parent into other folds",
-    "root_local_probe": "one F0 seed3 short paired continuation from warm_mechanism_f0_s3_c_r3@ep1 is a separate directional probe; it is not one of these 120 cells or an independent confirmation; see prior_evidence/root_quick_probe_recipe.json",
+    "root_local_probe": "one exposed F0 seed3 short paired warm continuation from warm_mechanism_f0_s3_c_r3@ep1; feature WP 0.6804165153 versus zero control 0.6804784081 (delta -0.0000618929, conditional component-bootstrap 95% interval [-0.0001217170, -0.0000031872], 2,000 draws); both child endpoints were about -0.0008 below parent WP 0.6812265132. This is not one of the 120 matrix cells or seed-level confirmation; see prior_evidence/root_quick_probe_comparison.json and root_quick_probe_results.png",
     "larger_teacher": "future measured size/context ladder for larger GRU teachers with identical data membership, targets, and update-budget policy; profile each architecture before allocation",
     "feature_paths": [
       "teacher-only geometry/discrete features",
@@ -256,7 +304,22 @@
     "r2": "H32x1 and H128x2 four-arm screens on 43 fitting/46 exposed evaluation sequences show capacity- and combination-dependent effects; fixed half-mixtures suggest possible conditional value",
     "r3": "fresh H128x2, 8-epoch screen, 3 paired seeds, 43 fitting/46 exposed evaluation sequences: moments -0.019742, dictionary +0.000501, combined -0.017251 WP versus control on average; fixed control+dictionary mixture +0.007337",
     "interpretation": "tiny panels and few seeds; not statistically significant, no production/teacher/KD/public claim. The strongest alternative is extra input capacity/optimization interaction and seed/slice noise rather than a stable feature-regime effect.",
-    "mechanism_limit": "bounded/discrete support mixtures can yield mean/variance arc relations; ~46% arc inliers are descriptive, not proof of a universal circle, periodicity, market regime or physical semantics."
+    "mechanism_limit": "bounded/discrete support mixtures can yield mean/variance arc relations; ~46% arc inliers are descriptive, not proof of a universal circle, periodicity, market regime or physical semantics.",
+    "root_local_warm_probe": {
+      "result_json": "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_quick_probe_comparison.json",
+      "result_sha256": "729f8e6aebf139cbdf29dbc68cde7da881663bf3fbfbf7bd7de11ee93727d279",
+      "figure": "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_quick_probe_results.png",
+      "figure_sha256": "8ac1128af5f955cb0159e5d2da6b6aaa86ba2db3cfb04e5247fc8d944c39d94c",
+      "scope": "one exposed F0/seed3 warm fit pair; fixed endpoints over 468 sequences and 141 components; component bootstrap only, no seed/fold/public-transfer uncertainty",
+      "feature_minus_zero_wp": -6.18928667632801e-05,
+      "feature_minus_zero_component_ci95": [
+        -0.00012171703674205558,
+        -3.1872304500912948e-06
+      ],
+      "feature_minus_parent_wp": -0.0008099979701405857,
+      "zero_minus_parent_wp": -0.0007481051033773056,
+      "interpretation": "Both children drifted below the parent; the small feature-control difference is not independent confirmation and does not reject the feature family."
+    }
   },
   "literature_search": {
     "query": "causal online moments discrete state occupancy time series neural",
