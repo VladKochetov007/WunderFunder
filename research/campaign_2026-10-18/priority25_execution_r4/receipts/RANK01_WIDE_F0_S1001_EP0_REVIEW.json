@@ -1,0 +1,26 @@
+{
+  "kind": "independent_checkpoint_interpretation_review",
+  "date": "2026-10-18",
+  "reviewer": "/root/idea01_recipe_r4",
+  "scope": "Read-only frozen-source audit, separate from root's actual-artifact CPU verification; no GPU work or file edits by reviewer.",
+  "source_revision": "a266b036b02e8e012c6eb31072291dad618a169d",
+  "source_files": [
+    "src/wnn/training_state.py",
+    "src/wnn/training/checkpoints.py",
+    "src/wnn/training/setup_lineage.py",
+    "src/wnn/training/setup_progress.py",
+    "src/wnn/training/outputs.py",
+    "src/wnn/training/runner.py"
+  ],
+  "findings": [
+    "Training state is a full epoch-boundary object; canonical loading rejects inference snapshots and malformed envelopes.",
+    "Contract binds options, source, data, fitting membership, normalization and runtime; sampler/generator state is saved separately.",
+    "The no-EMA/no-SWA recipe requires tensor equality between raw resume state and inference checkpoint.",
+    "training_state.pt needs its own external SHA256; checkpoint_sha256 in provenance covers inference snapshots.",
+    "Provenance is rewritten independently; collect one stable generation and verify model export SHA.",
+    "Epoch0 next_epoch=1 is intermediate. Planned stop_after_epoch=1 includes epochs0 and1, ending with next_epoch=2 and29840 updates.",
+    "Structural validation is not measured GPU continuation parity; later continuation must record resumed_from path/SHA and exact contract."
+  ],
+  "actual_artifact_verification": "RANK01_WIDE_F0_S1001_EP0_VERIFICATION.json",
+  "quality_assessment": null
+}

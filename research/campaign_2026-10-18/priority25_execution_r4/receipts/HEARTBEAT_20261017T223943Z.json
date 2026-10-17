@@ -1,0 +1,132 @@
+{
+  "checked_utc": "2026-10-17T22:39:43.677130+00:00",
+  "sequence": {
+    "attempt": "computer-vision-homework-r01-wide-f0s1001-ep01-v1",
+    "heartbeat_utc": "2026-10-17T22:39:38.671481+00:00",
+    "index": 2,
+    "launch_returncode": 0,
+    "launch_stderr": "",
+    "plan": "/home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json",
+    "plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+    "status": "running",
+    "worker_heartbeat": "2026-10-17T22:39:35.480541+00:00",
+    "worker_status": "running"
+  },
+  "plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+  "attempt": {
+    "name": "computer-vision-homework-r01-wide-f0s1001-ep01-v1",
+    "status": "running",
+    "heartbeat_utc": "2026-10-17T22:39:40.910038+00:00",
+    "elapsed_seconds": 3864.195304410998,
+    "gpu_device": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+    "source_manifest_sha256": "1e87130afe114cdb0f506e2cf22a2a8a7d8bfacf326421ecfc7f12fe53a1021c",
+    "memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_hierarchical_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "observer_events": [],
+    "peak_ram_bytes": 2478739456,
+    "peak_observed_vram_bytes": 7436500992
+  },
+  "progress": [
+    "ep 0 batch 1440/1492 loss 1.3796 lr 9.67e-05 seq/s 3.4",
+    "ep 0 batch 1460/1492 loss 1.2648 lr 9.65e-05 seq/s 3.4",
+    "ep 0 batch 1480/1492 loss 1.2305 lr 9.64e-05 seq/s 3.4",
+    "GRAD_STATS {\"epoch\": 0, \"steps\": 14920, \"nonfinite_steps\": 0, \"clip\": 1.0, \"total_q05_q50_q95\": [0.85292, 1.53085, 3.27137], \"clip_rate\": 0.8759, \"mean_clip_factor\": 0.663, \"family_median\": {\"rnn_hh\": 0.24278, \"rnn_ih\": 0.44036, \"inp\": 0.91795, \"head\": 0.96823, \"bias\": 0.33122}, \"family_sq_share_mean\": {\"rnn_hh\": 0.0275, \"rnn_ih\": 0.0977, \"inp\": 0.381, \"head\": 0.4362, \"bias\": 0.0576}}",
+    "FIT {\"epoch\": 0, \"train_seconds\": 3505.8, \"evaluation\": \"withheld\", \"update_diagnostics\": {\"epoch\": {\"optimizer_attempts\": 14920, \"amp_skipped_updates\": 0, \"optimizer_completed_updates\": 14920, \"ema_updates\": 0, \"completed_batches\": 1492}, \"cumulative\": {\"optimizer_attempts\": 14920, \"amp_skipped_updates\": 0, \"optimizer_completed_updates\": 14920, \"ema_updates\": 0, \"completed_batches\": 1492}, \"sample_order_identity\": {\"sampler_class\": \"EpochOrderSampler\", \"batch_size\": 8, \"drop_last\": true, \"loader_generator\": \"global CPU RNG\", \"loader_rng\": {\"shape\": [5056], \"dtype\": \"torch.uint8\", \"bytes_sha256\": \"f03b626ae646fcf88b13ac63c917be30f1964f0bd165a5a75d53c0289828dd98\"}, \"sampler_generator\": \"global CPU RNG\", \"sampler_rng\": {\"shape\": [5056], \"dtype\": \"torch.uint8\", \"bytes_sha256\": \"f03b626ae646fcf88b13ac63c917be30f1964f0bd165a5a75d53c0289828dd98\"}, \"num_workers\": 0, \"persistent_workers\": false, \"sampler_replacement\": null, \"sampler_num_samples\": null, \"seeded_order\": {\"seed\": 1001, \"epoch\": 0, \"antithetic\": false, \"shared_dropped_tail\": true}}, \"normalization_identity\": {\"mean\": {\"shape\": [211], \"dtype\": \"torch.float32\", \"bytes_sha256\": \"8ad0707c6e6be6ee758a549b7e538d567aad0b0d660c76f8f1d28c85bb33e8a9\"}, \"std\": {\"shape\": [211], \"dtype\": \"torch.float32\", \"bytes_sha256\": \"9a0587df74f1cfe76745bb7b8ba1c918831bdaf535aba610db19687d9cf87fb7\"}}, \"grad_stats\": {\"epoch\": 0, \"steps\": 14920, \"nonfinite_steps\": 0, \"clip\": 1.0, \"total_q05_q50_q95\": [0.85292, 1.53085, 3.27137], \"clip_rate\": 0.8759, \"mean_clip_factor\": 0.663, \"family_median\": {\"rnn_hh\": 0.24278, \"rnn_ih\": 0.44036, \"inp\": 0.91795, \"head\": 0.96823, \"bias\": 0.33122}, \"family_sq_share_mean\": {\"rnn_hh\": 0.0275, \"rnn_ih\": 0.0977, \"inp\": 0.381, \"head\": 0.4362, \"bias\": 0.0576}}}, \"fit_summary\": {\"objective_mean\": 1.3787218027396113, \"objective_reduction\": \"arithmetic mean of per-window scalar objectives before optimizer update\", \"optimizer_windows\": 14920, \"learning_rate_by_group\": [{\"group\": 0, \"first\": 4.000000000000002e-06, \"last\": 9.632617347939579e-05, \"mean\": 8.473837472342971e-05}], \"optimizer_updates\": {\"optimizer_attempts\": 14920, \"amp_skipped_updates\": 0, \"optimizer_completed_updates\": 14920, \"ema_updates\": 0, \"completed_batches\": 1492}}}",
+    "ep 1 batch 0/1492 loss 1.3353 lr 9.63e-05 seq/s 3.9",
+    "ep 1 batch 20/1492 loss 1.0109 lr 9.62e-05 seq/s 3.6",
+    "ep 1 batch 40/1492 loss 1.2921 lr 9.60e-05 seq/s 3.5",
+    "ep 1 batch 60/1492 loss 0.9589 lr 9.59e-05 seq/s 3.5",
+    "ep 1 batch 80/1492 loss 1.2174 lr 9.57e-05 seq/s 3.5",
+    "ep 1 batch 100/1492 loss 1.4571 lr 9.56e-05 seq/s 3.5",
+    "ep 1 batch 120/1492 loss 1.1753 lr 9.54e-05 seq/s 3.6",
+    "ep 1 batch 140/1492 loss 1.1254 lr 9.53e-05 seq/s 3.8",
+    "ep 1 batch 160/1492 loss 1.2259 lr 9.51e-05 seq/s 4.0"
+  ],
+  "log_age_seconds": 23.56141996383667,
+  "heartbeat_age_seconds": 2.767092,
+  "worker": {
+    "MainPID": "1663339",
+    "Result": "success",
+    "ExecMainStatus": "0",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/wnn-bandit-computer-vision-homework-r01-wide-f0s1001-ep01-v1.service",
+    "MemoryCurrent": "2408128512",
+    "MemoryPeak": "2546638848",
+    "CPUQuotaPerSecUSec": "1s",
+    "MemoryHigh": "7200000000",
+    "MemoryMax": "8000000000",
+    "MemorySwapMax": "0",
+    "ActiveState": "active",
+    "SubState": "running",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "memory.current": "2408128512",
+    "memory.peak": "2546638848"
+  },
+  "parent": {
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+    "MemoryCurrent": "2721312768",
+    "MemoryPeak": "2859819008",
+    "CPUQuotaPerSecUSec": "2s",
+    "MemoryHigh": "18000000000",
+    "MemoryMax": "20000000000",
+    "MemorySwapMax": "0",
+    "ActiveState": "active",
+    "SubState": "active",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "memory.current": "2721312768",
+    "memory.peak": "2859819008"
+  },
+  "sequence_service": {
+    "MainPID": "1662987",
+    "Result": "success",
+    "ExecMainStatus": "0",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-r01-f0-sequence.service",
+    "MemoryCurrent": "12787712",
+    "MemoryPeak": "48132096",
+    "CPUQuotaPerSecUSec": "100ms",
+    "MemoryHigh": "infinity",
+    "MemoryMax": "500000000",
+    "MemorySwapMax": "0",
+    "ActiveState": "active",
+    "SubState": "running",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "memory.current": "12787712",
+    "memory.peak": "48132096"
+  },
+  "active_attempts": [
+    "computer-vision-homework-r01-wide-f0s1001-ep01-v1"
+  ],
+  "run_files": {
+    "rr18_r01_wide_f0_s1001": [
+      {
+        "name": "model_ep0.pt",
+        "bytes": 8900519,
+        "mtime": 1792276434.0448492
+      },
+      {
+        "name": "provenance.json",
+        "bytes": 162649,
+        "mtime": 1792276434.0988529
+      },
+      {
+        "name": "training_state.pt",
+        "bytes": 26576991,
+        "mtime": 1792276434.1648574
+      }
+    ]
+  },
+  "grade_exists": false
+}
