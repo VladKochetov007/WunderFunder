@@ -90,6 +90,8 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 
 - [October17 experiment draft inventory](EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) maps fifteen local idea branches: interrupted F/W/S/initializers/capacity, earlier innovation/averaging continuations and new B300 teacher/encoding/preprocessing/distillation ideas. Records completed sources and TPU engineering separately; code readiness and missing bindings remain explicit, with no new fits;14 draft PRs are now published in the [catalogue](../../experiment_drafts/README.md).
 
+- [Research-team branch/commit catalogue](../../experiment_drafts/README.md) records the prepared per-idea source SHAs and PR publication state. It is integration navigation, not merged experiment code or training evidence.
+
 - [Published draft PR catalogue](../../experiment_drafts/README.md) links all14 English experiment handoffs, exact GitHub draft/base/head verification and the branch/commit JSON manifest. Describes code readiness, shared primitive provenance and missing B300/data bindings; no fits, tests or model-quality claim.
 
 </details>
