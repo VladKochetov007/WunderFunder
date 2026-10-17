@@ -1,4 +1,20 @@
-# Submissions and observed scores
+# Submission choices and scores
+
+Exact releases, public feedback, packaging and release decisions.
+
+## Current navigation
+
+- [Model and submission catalog](../models/CURRENT_MODEL_CATALOG.md) — current team packages, model/engine naming and source-qualified public results.
+- [Dated public receipt inventory](../reviews/audit-2026-10-17/public_receipts.json) — 81 observations of 70 portal IDs; incomplete submission history.
+- [Official leaderboard snapshot](../reviews/audit-2026-10-17/official_leaderboard_20261017.json) — October 17 team score and rank; 97 is the team submission count.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
 
 This domain links the exact submission packages, their source membership and runtime checks, and user-reported portal outcomes.
 
@@ -29,3 +45,5 @@ The latest reported public reference in the archive is 0.6671 for candidate C. D
 - [October14 selected QAT public-transfer package](../../../submissions/10-14-qat-r1/README.md) and [result/release](../../campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/RESULT_AND_RELEASE_R2.md): one13.46MB checked ZIP replacing only the fourth equal-weight member with stationary-teacher S3 learnedW4. FullfittedF0 diagnostic−0.000050 versus original,+0.000083 versus matchedW4PTQ; floatingQ8higher. SelectedZIP Python3.11/V2/V3 fullsequence bitparity/reset, ABI/size and matchedlocalruntimepass; no cleanCV/publicgain/INT4 claim. Upload authorized but availableportalanonymous, so no upload/publicscore. E-QAT-FINAL-SELF-DISTILL-20261013-R2.
 
 - [QAT public transfer review — October14](../../campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/PUBLIC_TRANSFER_REVIEW_20261014_R1.md) and [user-reported scored receipt](../../campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/PUBLIC_RESULT_20261014_R1.json): selectedZIP0.6680 versus original0.6681;54m26s/655MB,4m10s slower and5MBhigher. Package17.46% smaller but no quality/runtime/RAM winner; publicprobecompleted, notpromoted. One rounded/transcribed public comparison, no causal/statistical family rejection or payloadhashverification. E-QAT-FINAL-SELF-DISTILL-20261013-R2.
+
+</details>
