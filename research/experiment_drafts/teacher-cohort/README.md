@@ -1,6 +1,6 @@
 # Expand clean heterogeneous recurrent teacher cohort
 
-Status: implementation handoff; no new fits. Lineage `teacher/connection`; `H-DRAFT-TEACHER-COHORT-20261017` / `E-DRAFT-TEACHER-COHORT-20261017-R1`. Base main/research-team `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`. Single cleanF3 teacher and FP32 exports are complete; broader cohort incomplete.
+Status: implementation handoff; no new fits. Lineage `teacher/connection`; `H-DRAFT-TEACHER-COHORT-20261017` / `E-DRAFT-TEACHER-COHORT-20261017-R1`. Original fork main/research-team `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`. Single cleanF3 teacher and FP32 exports are complete; broader cohort incomplete.
 
 - [English draft PR](PR.md) answers mechanism, compute, validation/significance, ancestry/leakage, decisions, actual code readiness and execution/artifact return. Do not redo completed export-only task; rebuild fullFP32 clean teacher cohorts for each evaluated fold, document every teacher fitting membership.
 - [Recipe](recipe.json) records strictFP32, candidate/control arms,30-cell protocol (engineering diagnostics excepted), proposed optimizer/scheduler and explicitly missing bindings. Launch-ready is false.
@@ -14,3 +14,5 @@ Status: implementation handoff; no new fits. Lineage `teacher/connection`; `H-DR
 - [scripts/build_distill_cache.py](../../../scripts/build_distill_cache.py)
 
 New code in this PR: none; reuse linked existing implementation, preserving original source.
+
+Integration parent: research-team `96b014737211c19d421e29c5595b5ea7e86797ff`. Common catalogues were preserved and this packet appended; no scientific settings or historical ledger rows were dropped.
