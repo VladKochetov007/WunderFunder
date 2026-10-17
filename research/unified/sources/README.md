@@ -1,5 +1,22 @@
 # Imported sources
 
+External writeups and literature provenance; external results do not establish local model gains.
+
+## Current navigation
+
+- [October17 no-fit source register](../../campaign_2026-10-17/research_reset_r1/sources/README.md) — 32 primary works, independent R1 searches and live official-rule checks; inspection depth and transfer limits are explicit, no imported external market data or measured model gain.
+
+- [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — existing project evidence, separate from outside proposals.
+- [Storage and source map](../operations/STORAGE_MAP.md) — source histories and physical artifact locations.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
+
 This domain holds external writeups and source material that informed research. These files report methods from other competitions or conversations; they are not results from our own fits and must not be presented as evidence that a method transfers to this task.
 
 ## Literature searches and source provenance
@@ -46,3 +63,5 @@ Keep provenance and source links with each imported item. Generated idea cards d
 - [Initializer-preservation sources](INITIALIZER_PRESERVATION_SOURCES_20261015_R1.md) verifies primary LwF2016/2017 and L2-SP2018 sources. Their fixed-output and parameter-reference mechanisms motivate an untrained regression control; vision/task-transfer results are not claimed for this competition. H-FROZEN-PARENT-ANCHOR-20261015.
 
 - [B300 skill search and project adaptation](B300_AGENT_SKILLS_REVIEW_20261017_R1.md) records the inspected NVIDIA/Han Lab profiling skills, official training catalogue and external B300 field report. Motivates a project-authored skill with source links; no bundle installation, hardware profile or throughput claim.
+
+</details>

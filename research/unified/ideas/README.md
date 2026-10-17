@@ -1,5 +1,22 @@
 # Ideas and hypotheses
 
+Existing proposals and their evidence; a proposal is not an admitted or completed fit.
+
+## Current navigation
+
+- [Research reset: 25 ideas](../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md) — ranked proposal portfolio with existing-work overlap, counterevidence, no-fit gates and future controls; no training admitted.
+- [Current state](../../../specs/current-state.md) — analysis/EDA is active; model fitting remains paused.
+- [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — established results and corrections to stale pending statuses.
+- [Experiment draft workflow](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) — implementation handoffs are distinct from measured research outcomes.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
+
 Use this page to navigate proposals, mechanism families, and their evidence. An idea is not a result until a source-qualified experiment and evaluation support it.
 
 ## Core records
@@ -78,3 +95,4 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 - [Published draft PR catalogue](../../experiment_drafts/README.md) links all14 English experiment handoffs, exact GitHub draft/base/head verification and the branch/commit JSON manifest. Describes code readiness, shared primitive provenance and missing B300/data bindings; no fits, tests or model-quality claim.
 
 - [Past-only smoothing while retaining raw inputs — experiment packet](../../experiment_drafts/causal-smoothing/README.md) implements the matched GRU/EWMA input comparison for [draft PR #9](https://github.com/VladKochetov007/WunderFunder/pull/9), `E-DRAFT-CAUSAL-SMOOTHING-20261017-R1` / `H-DRAFT-CAUSAL-SMOOTHING-20261017`. Fixed half-life32, equal input width,60 full-data FP32 fits planned; per-cell fit/predict/score and explicit step reporting are prepared. No local tests/training or target-host profile; runtime, memory and quality remain unverified.
+</details>
