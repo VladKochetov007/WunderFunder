@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import math
 import os
 import platform
 import resource
@@ -152,6 +153,11 @@ def main() -> None:
         "--scratch", type=Path, default=Path("/home/vlad/development/wunder/research_tmp")
     )
     parser.add_argument("--reference-predictions", type=Path)
+    parser.add_argument(
+        "--max-groups",
+        type=int,
+        help="replay only this many leading split-qualified F0 evaluation groups",
+    )
     parser.add_argument("--total-rows", type=int, default=39_400_000)
     args = parser.parse_args()
 
@@ -179,7 +185,12 @@ def main() -> None:
     sequence_by_group = {
         int(item["row_group"]): int(item["seq_ix"]) for item in split_manifest["sequences"]["valid"]
     }
-    groups = tuple(map(int, split.evaluation_groups))
+    evaluation_groups = tuple(map(int, split.evaluation_groups))
+    if args.max_groups is not None and args.max_groups <= 0:
+        raise ValueError("--max-groups must be positive when provided")
+    groups = (
+        evaluation_groups[: args.max_groups] if args.max_groups is not None else evaluation_groups
+    )
     if not groups or len(groups) != len(set(groups)):
         raise ValueError("F0 evaluation row groups must be nonempty and unique")
     reference = load_reference(args.reference_predictions, split.sha256, groups)
@@ -204,6 +215,7 @@ def main() -> None:
     reference_score = GlobalAccumulator() if reference is not None else None
     max_abs_difference = 0.0
     absolute_difference_sum = 0.0
+    squared_difference_sum = 0.0
     different_values = 0
     compared_values = 0
     callback_wall_ns = 0
@@ -293,6 +305,7 @@ def main() -> None:
                             max_abs_difference, float(np.max(difference, initial=0.0))
                         )
                         absolute_difference_sum += float(difference.sum())
+                        squared_difference_sum += float(np.square(difference).sum())
                         different_values += int(np.count_nonzero(difference))
                         compared_values += int(difference.size)
                     group_receipts.append(
@@ -362,6 +375,9 @@ def main() -> None:
             {
                 "max_abs": max_abs_difference,
                 "mean_abs": absolute_difference_sum / compared_values if compared_values else 0.0,
+                "rms": math.sqrt(squared_difference_sum / compared_values)
+                if compared_values
+                else 0.0,
                 "different_values": different_values,
                 "compared_values": compared_values,
             }
@@ -371,6 +387,8 @@ def main() -> None:
         "groups": group_receipts,
         "row_group_order": "CampaignSplit.evaluation_groups; each group bound to split sequence identity",
         "rows_total": rows,
+        "evaluation_groups_total": len(evaluation_groups),
+        "evaluation_groups_replayed": len(groups),
         "scored_rows": int(score.selected_rows),
         "zip_path": str(submission),
         "zip_sha256": zip_sha256,
@@ -415,7 +433,11 @@ def main() -> None:
             ),
             "projection_label": "measured actual F0 row-cost extrapolations; complete competition runtime not measured",
         },
-        "scope": "official exposed F0 quality plus exact ZIP callback and source/reset handling; no public score forecast",
+        "scope": (
+            "source-qualified exposed F0 panel plus exact ZIP callback and reset handling; panel score is descriptive only"
+            if len(groups) != len(evaluation_groups)
+            else "official exposed F0 quality plus exact ZIP callback and source/reset handling; no public score forecast"
+        ),
     }
     write_create_only(receipt_path, report)
     print(json.dumps(report, sort_keys=True, allow_nan=False))
