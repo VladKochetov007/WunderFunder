@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
+
 import numpy as np
 
 SELECTED = (0, 3, 52, 55)
 EXTRA_WIDTH = 20
+MAX_UNIQUE_LEVELS_PER_FIELD = 65_536
 
 
 def geometry_features(
@@ -29,34 +32,45 @@ def geometry_features(
     return np.concatenate([mean, std, residual, occupancy, normalized], axis=-1).astype(np.float32)
 
 
-def infer_geometry(raw_sequences: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def infer_geometry(
+    raw_sequences: np.ndarray, after_sequence: Callable[[int], None] | None = None
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Fit arc consensus and frequently observed anchor atoms from fitting data only."""
     from wnn.moment_geometry.analysis import robust_arc
 
-    means, variances, unique_values, counts = [], [], [], []
-    for raw in raw_sequences:
+    means = np.empty((len(raw_sequences), len(SELECTED)), dtype=np.float64)
+    variances = np.empty_like(means)
+    level_counts: list[dict[float | None, int]] = [{} for _ in SELECTED]
+    for index, raw in enumerate(raw_sequences):
         values = raw[:, SELECTED].astype(np.float64)
-        means.append(values.mean(axis=0))
-        variances.append(values.var(axis=0))
-    means, variances = np.stack(means), np.stack(variances)
+        means[index] = values.mean(axis=0)
+        variances[index] = values.var(axis=0)
+        for column, selected_column in enumerate(SELECTED):
+            levels, frequencies = np.unique(raw[:, selected_column], return_counts=True)
+            counts = level_counts[column]
+            for level, frequency in zip(levels, frequencies, strict=True):
+                key = None if np.isnan(level) else float(level)
+                counts[key] = counts.get(key, 0) + int(frequency)
+            if len(counts) > MAX_UNIQUE_LEVELS_PER_FIELD:
+                raise ValueError("geometry level cardinality exceeds the bounded exact reducer")
+        if after_sequence is not None:
+            after_sequence(index)
+
     beta, intercept = [], []
-    for column in range(4):
+    atoms = []
+    for column in range(len(SELECTED)):
         arc = robust_arc(means[:, column], variances[:, column])
         beta.append(arc["beta"])
         intercept.append(arc["intercept"])
-        for raw in raw_sequences:
-            u, n = np.unique(raw[:, SELECTED[column]], return_counts=True)
-            unique_values.append(u)
-            counts.append(n)
-        u, inverse = np.unique(np.concatenate(unique_values), return_inverse=True)
-        n = np.bincount(inverse, weights=np.concatenate(counts))
-        candidates = u[np.argsort(n)[-8:]]
+        counts = level_counts[column]
+        ordered = sorted(counts, key=lambda value: (value is None, 0.0 if value is None else value))
+        values = np.asarray(
+            [np.nan if value is None else value for value in ordered], dtype=raw_sequences.dtype
+        )
+        frequencies = np.asarray([counts[value] for value in ordered], dtype=np.float64)
+        candidates = values[np.argsort(frequencies)[-8:]]
         center = arc["beta"] / 2
         endpoint = center + np.sqrt(max(arc["intercept"] + center**2, 0))
         anchor = candidates[np.argmin(np.abs(candidates - endpoint))]
-        if column == 0:
-            atoms = []
         atoms.append(float(anchor))
-        unique_values.clear()
-        counts.clear()
     return np.asarray(beta), np.asarray(intercept), np.asarray(atoms)

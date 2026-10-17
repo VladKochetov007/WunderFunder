@@ -2,24 +2,40 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
+
 import numpy as np
 
 from wnn.moment_geometry.features import SELECTED
 
 DISCRETE_WIDTH = 40
+MAX_UNIQUE_LEVELS_PER_FIELD = 65_536
 
 
-def fit_dictionary(raw_sequences: np.ndarray) -> np.ndarray:
+def fit_dictionary(
+    raw_sequences: np.ndarray, after_sequence: Callable[[int], None] | None = None
+) -> np.ndarray:
     """Select three frequent exact FP32 levels per field using only fitting membership."""
-    vocabulary = []
-    for column in SELECTED:
-        levels, frequencies = [], []
-        for raw in raw_sequences:
+    level_counts: list[dict[float | None, int]] = [{} for _ in SELECTED]
+    for index, raw in enumerate(raw_sequences):
+        for position, column in enumerate(SELECTED):
             values, counts = np.unique(raw[:, column], return_counts=True)
-            levels.append(values)
-            frequencies.append(counts)
-        values, inverse = np.unique(np.concatenate(levels), return_inverse=True)
-        counts = np.bincount(inverse, weights=np.concatenate(frequencies))
+            aggregate = level_counts[position]
+            for value, count in zip(values, counts, strict=True):
+                key = None if np.isnan(value) else float(value)
+                aggregate[key] = aggregate.get(key, 0) + int(count)
+            if len(aggregate) > MAX_UNIQUE_LEVELS_PER_FIELD:
+                raise ValueError("dictionary level cardinality exceeds the bounded exact reducer")
+        if after_sequence is not None:
+            after_sequence(index)
+
+    vocabulary = []
+    for aggregate in level_counts:
+        ordered = sorted(
+            aggregate, key=lambda value: (value is None, 0.0 if value is None else value)
+        )
+        values = np.asarray([np.nan if value is None else value for value in ordered])
+        counts = np.asarray([aggregate[value] for value in ordered], dtype=np.float64)
         if len(values) < 3:
             raise ValueError("need at least three observed levels for this dictionary recipe")
         vocabulary.append(values[np.argsort(counts, kind="stable")[-3:][::-1]])

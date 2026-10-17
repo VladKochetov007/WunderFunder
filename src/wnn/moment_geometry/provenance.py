@@ -11,6 +11,31 @@ import numpy as np
 
 SCRATCH = Path("/home/vlad/development/wunder/research_tmp")
 REFERENCE = Path("research/campaign_2026-09-29/artifacts/splits/fold0.json")
+MAX_REFERENCE_BYTES = 2_000_000
+
+
+def validate_chain_cache_sources(root: Path, cache_hashes: dict[str, str]) -> dict[str, object]:
+    """Bind tiny chain-cache hashes to the trusted manifest without opening Parquet."""
+    reference = root / REFERENCE
+    if reference.stat().st_size > MAX_REFERENCE_BYTES:
+        raise ValueError("trusted source manifest exceeds its bounded read size")
+    manifest = json.loads(reference.read_text())
+    identities = {}
+    for name, digest in cache_hashes.items():
+        path = root / name
+        expected = manifest["sources"][name]
+        stat = path.stat()
+        if stat.st_size != expected["bytes"] or stat.st_mtime_ns != expected["mtime_ns"]:
+            raise ValueError(f"changed trusted chain cache: {name}")
+        if expected["sha256"] != digest:
+            raise ValueError(f"chain cache differs from trusted source revision: {name}")
+        identities[name] = expected
+    return {
+        "reference": str(REFERENCE),
+        "reference_sha256": hashlib.sha256(reference.read_bytes()).hexdigest(),
+        "chain_caches": identities,
+        "parquet_opened": False,
+    }
 
 
 def validate_storage(output: Path, required_bytes: int = 3_000_000_000) -> None:

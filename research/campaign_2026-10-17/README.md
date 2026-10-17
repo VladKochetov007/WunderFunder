@@ -14,4 +14,4 @@ frozen evidence or authorize their training commands.
   fixed-mixture scores. Exposed evaluation and short fitting budgets limit quality
   claims; the heuristic direction remains active.
 
-- [Autonomous local continuation](geometry_continuation_r3/README.md) — new explicit continuous-local authority, longer-budget causal feature comparison and queued follow-ups; no cloud/team experiment ownership change.
+- [Autonomous local continuation](geometry_continuation_r3/README.md) — R3 preserves its original longer-budget registration; the linked all-eligible metadata manifest defines a broader source-qualified membership for a from-scratch comparison. Full staged arrays exceed inspected scratch capacity, so no expanded fit has started.
