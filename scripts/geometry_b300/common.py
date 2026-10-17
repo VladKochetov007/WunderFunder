@@ -126,10 +126,15 @@ def validate_mounts(root: Path, fold: int, manifest_override: Path | None) -> Pa
         if entries.get(name, {}).get("original_identity") != identity:
             raise ValueError(f"portable source identity does not match frozen split: {name}")
     for directory in (root / "artifacts", root / "cache"):
-        directory.mkdir(parents=True, exist_ok=True)
+        if not directory.is_dir():
+            raise FileNotFoundError(f"required persistent output mount is missing: {directory}")
         if not os.access(directory, os.W_OK):
             raise PermissionError(f"persistent output mount is not writable: {directory}")
-        require_mount_mode(directory, mounts, "rw")
+        mount = require_mount_mode(directory, mounts, "rw")
+        if mount.target.resolve() != directory.resolve():
+            raise OSError(f"bind the persistent output volume at {directory}")
+        if mount.filesystem in {"tmpfs", "ramfs"}:
+            raise ValueError(f"persistent output mount resolves to RAM-backed storage: {directory}")
     scratch_text = os.environ.get("WNN_B300_SCRATCH")
     if not scratch_text:
         raise OSError("set WNN_B300_SCRATCH to a writable physical-disk mount")
