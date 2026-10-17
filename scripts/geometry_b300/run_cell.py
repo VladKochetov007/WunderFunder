@@ -23,11 +23,11 @@ from common import (
     sha256_file,
     train_command,
     utc_now,
-    validate_frozen_matrix,
     validate_mounts,
     write_json,
 )
 from execution import clean_profile_id, parse_profile_events, run_phase, validate_profile_receipt
+from matrix import validate_frozen_matrix
 
 
 def parse_args() -> argparse.Namespace:

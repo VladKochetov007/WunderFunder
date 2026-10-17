@@ -11,6 +11,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from mounts import mount_for_path, read_mount_table, require_mount_mode
+
 ROOT = Path(__file__).resolve().parents[2]
 SPLIT_DIGESTS = {
     0: "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
@@ -95,49 +97,18 @@ def pair_identity(pair_index: int) -> tuple[int, int]:
     return pair_index % 4, 1001 + pair_index // 4
 
 
-def validate_frozen_matrix(root: Path) -> None:
-    """Require the human-readable 120-fit matrix to match launch arithmetic."""
-    path = root / "scripts/geometry_b300/matrix.json"
-    matrix = json.loads(path.read_text())
-    arms = ["baseline", "moments", "dictionary", "combined"]
-    cells = [
-        {"pair_index": index, "fold": pair_identity(index)[0], "seed": pair_identity(index)[1]}
-        for index in range(30)
-    ]
-    waves = []
-    for wave in range(15):
-        pair_a, pair_b = 2 * wave, 2 * wave + 1
-        assignments = []
-        for gpu in range(8):
-            pair_index = pair_a if gpu < 4 else pair_b
-            fold, seed = pair_identity(pair_index)
-            assignments.append(
-                {
-                    "gpu_slot": gpu,
-                    "pair_index": pair_index,
-                    "fold": fold,
-                    "seed": seed,
-                    "arm": arms[gpu % 4],
-                }
-            )
-        waves.append(
-            {"wave_index": wave, "pair_indices": [pair_a, pair_b], "assignments": assignments}
-        )
-    if matrix != {
-        "schema": "causal_geometry_b300_matrix_v1",
-        "arms": arms,
-        "cells": cells,
-        "waves": waves,
-    }:
-        raise ValueError(f"frozen matrix does not match the 30-pair/15-wave launcher: {path}")
-
-
 def validate_mounts(root: Path, fold: int, manifest_override: Path | None) -> Path:
     """Check required mount targets and small source-identity manifests."""
-    for name in ("train", "valid"):
-        dataset = root / "datasets" / f"{name}.parquet"
-        if not dataset.is_file() or dataset.stat().st_size <= 0:
-            raise FileNotFoundError(f"required read-only input is missing: {dataset}")
+    mounts = read_mount_table()
+    input_paths = [root / "datasets" / f"{name}.parquet" for name in ("train", "valid")]
+    input_paths.extend(
+        root / "cache" / name
+        for name in ("train_targets.npz", "valid_targets.npz", "chains.npz", "chain_folds.npz")
+    )
+    for path in input_paths:
+        if not path.is_file() or path.stat().st_size <= 0:
+            raise FileNotFoundError(f"required read-only input is missing: {path}")
+        require_mount_mode(path, mounts, "ro")
     split_path = root / f"research/campaign_2026-09-29/artifacts/splits/fold{fold}.json"
     if sha256_file(split_path) != SPLIT_DIGESTS[fold]:
         raise ValueError(f"frozen split manifest changed: {split_path}")
@@ -146,6 +117,7 @@ def validate_mounts(root: Path, fold: int, manifest_override: Path | None) -> Pa
     registry = manifest_override or portable_dir / f"portable_inputs_fold{fold}.json"
     if not registry.is_file():
         raise FileNotFoundError(f"portable source registry is missing: {registry}")
+    require_mount_mode(registry, mounts, "ro")
     payload = json.loads(registry.read_text())
     if payload.get("version") != 1 or payload.get("split_manifest_sha256") != SPLIT_DIGESTS[fold]:
         raise ValueError("portable source registry is not bound to this frozen split")
@@ -157,22 +129,16 @@ def validate_mounts(root: Path, fold: int, manifest_override: Path | None) -> Pa
         directory.mkdir(parents=True, exist_ok=True)
         if not os.access(directory, os.W_OK):
             raise PermissionError(f"persistent output mount is not writable: {directory}")
+        require_mount_mode(directory, mounts, "rw")
     scratch_text = os.environ.get("WNN_B300_SCRATCH")
     if not scratch_text:
         raise OSError("set WNN_B300_SCRATCH to a writable physical-disk mount")
     scratch = Path(scratch_text).resolve()
-    scratch.mkdir(parents=True, exist_ok=True)
-    mounts = []
-    for line in Path("/proc/mounts").read_text().splitlines():
-        fields = line.split()
-        if len(fields) >= 3:
-            mount_point = fields[1].replace("\\040", " ")
-            if str(scratch) == mount_point or str(scratch).startswith(
-                mount_point.rstrip("/") + "/"
-            ):
-                mounts.append((len(mount_point), fields[2]))
-    if mounts and max(mounts)[1] in {"tmpfs", "ramfs"}:
+    scratch_mount = mount_for_path(scratch, mounts)
+    if scratch_mount.filesystem in {"tmpfs", "ramfs"}:
         raise ValueError("WNN_B300_SCRATCH resolves to RAM-backed storage")
+    require_mount_mode(scratch, mounts, "rw")
+    scratch.mkdir(parents=True, exist_ok=True)
     return registry.resolve()
 
 
