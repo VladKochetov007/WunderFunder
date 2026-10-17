@@ -1,0 +1,242 @@
+{
+  "schema": "wnn.experiment-proposal-recipe.v1",
+  "id": "rr17-17",
+  "status": "proposal",
+  "training_authorized": false,
+  "hypothesis_id": "H-RR17-17",
+  "experiment_id": "E-RR17-17",
+  "experiment_id_status": "registered proposal in research/experiments.jsonl; no fit",
+  "owner": "root controller; implementation/fit owner unassigned",
+  "owner_gate": "Root controller assigns a named owner before implementation/admission.",
+  "mechanism_family": "masked_pretraining",
+  "canonical_idea": {
+    "card_id": "H-RR17-17",
+    "title": "Masked current-feature self-supervision",
+    "staging_source_path": "../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md",
+    "eventual_packet_relative_path": "../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md"
+  },
+  "proposal": {
+    "mechanism": "Pretrain the eventual student on allowed training sequences by masking a whole predefined current-feature group before every encoder, normalization, delta, and auxiliary path, then reconstruct that group from remaining current/past inputs.",
+    "evidence_and_counterevidence": "MOMENT shows masked time-series pretraining as a method, but its external corpus/weights are ineligible. The sample has no adjacent identical full rows, which neither proves nor disproves useful cross-feature reconstructability.",
+    "prior_overlap": "Continuation of masked-current-row reconstruction; explicitly not future-input reconstruction and not an external pretrained foundation model.",
+    "no_fit_gate": "Audit the complete derived-feature graph with synthetic copy sentinels and verify the masked group cannot leak through normalization, deltas, skips, or auxiliary labels.",
+    "additional_gate": "Mask whole feature groups through every derived-feature route; any residual copy/leak path fails admission before pretraining.",
+    "falsifier": "Stop if the objective is a same-row copy task, any unmasked duplicate path remains, or student score does not beat identical no-pretraining control.",
+    "future_control": "CP30: pretrain the deployment-sized student versus the same student without reconstruction; train and evaluate only on permitted sequences, no external corpus.",
+    "compute_and_cpu_path": "Medium self-supervised compute; discard reconstruction head at inference and retain an ordinary compact CPU student.",
+    "sources": [
+      "https://arxiv.org/abs/2402.03885",
+      "https://github.com/moment-timeseries-foundation-model/moment"
+    ]
+  },
+  "comparison": {
+    "candidate": {
+      "description": "Pretrain the eventual student on allowed training sequences by masking a whole predefined current-feature group before every encoder, normalization, delta, and auxiliary path, then reconstruct that group from remaining current/past inputs.",
+      "model_implementation": null,
+      "architecture_dimensions": null,
+      "gate": "Bind source, exact architecture and code hashes before any future fit."
+    },
+    "control": {
+      "description": "CP30: pretrain the deployment-sized student versus the same student without reconstruction; train and evaluate only on permitted sequences, no external corpus.",
+      "model_implementation": null,
+      "architecture_dimensions": null,
+      "gate": "Bind the matched control source/checkpoint and exact arm definition before any future fit."
+    },
+    "candidate_minus_control_effect_threshold": null,
+    "effect_threshold_gate": "Before any future fit, predeclare a practically useful quality/cost effect tied to the endpoint and available compute; no numerical effect or public-score gain is asserted here.",
+    "fit_budget": {
+      "paired_endpoint_cells_per_arm": 30,
+      "two_arm_endpoint_cell_runs": 60,
+      "ancillary_fold_clean_teacher_or_pretraining_jobs": null,
+      "ancillary_job_gate": "List and resource-account every teacher, pretraining, cache or calibration fit outside the endpoint matrix before admission."
+    }
+  },
+  "cell_matrix": {
+    "folds": [
+      "F0",
+      "F1",
+      "F2",
+      "F3"
+    ],
+    "seeds_by_fold": {
+      "F0": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "F1": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "F2": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ],
+      "F3": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ]
+    },
+    "candidate_cells": 30,
+    "control_cells": 30,
+    "paired_by": [
+      "fold",
+      "seed"
+    ],
+    "cell_ids_per_arm": [
+      "F0-S1001",
+      "F0-S1002",
+      "F0-S1003",
+      "F0-S1004",
+      "F0-S1005",
+      "F0-S1006",
+      "F0-S1007",
+      "F0-S1008",
+      "F1-S1001",
+      "F1-S1002",
+      "F1-S1003",
+      "F1-S1004",
+      "F1-S1005",
+      "F1-S1006",
+      "F1-S1007",
+      "F1-S1008",
+      "F2-S1001",
+      "F2-S1002",
+      "F2-S1003",
+      "F2-S1004",
+      "F2-S1005",
+      "F2-S1006",
+      "F2-S1007",
+      "F3-S1001",
+      "F3-S1002",
+      "F3-S1003",
+      "F3-S1004",
+      "F3-S1005",
+      "F3-S1006",
+      "F3-S1007"
+    ],
+    "total_two_arm_endpoint_cell_runs": 60,
+    "membership_artifact": null,
+    "membership_sha256": null,
+    "membership_gate": "Bind the existing source-qualified F0-F3 fitting/evaluation membership artifacts and hashes; do not create row splits or imply the folds are fresh."
+  },
+  "data": {
+    "permitted_source": "Competition-supplied train.parquet and valid.parquet only",
+    "local_paths": null,
+    "source_hashes": null,
+    "source_gate": "Bind exact supplied file paths, sizes and SHA-256 before any run.",
+    "feature_count": 112,
+    "feature_semantics": "Anonymized features; use documented groups only. `seq_ix` can identify reset boundaries but is not an input feature.",
+    "sequence_length_rows": 20000,
+    "target_count": 2,
+    "training_supervision_mask": "need_prediction",
+    "evaluation_scored_mask": "need_prediction AND is_scored",
+    "transform_fit_scope": "Training membership only; all state/statistics reset per sequence and use past/current inputs only.",
+    "forbidden": [
+      "external market data",
+      "future labels or targets as inference inputs",
+      "cross-sequence model/cache/state",
+      "target-derived inference gates",
+      "validation/test fit statistics"
+    ]
+  },
+  "metric_and_uncertainty": {
+    "name": "global_wp_clip2_v1",
+    "official_mask": "need_prediction AND is_scored on scored evaluation rows; training supervision uses permitted need_prediction rows",
+    "per_target": "unchanged official clipping at +/-2 and original clipped-label magnitude weights; compute separately for both targets, then average according to the official scorer",
+    "primary_statistic": "D = (1/4) * sum over F0..F3 of the fold mean of paired candidate-minus-control WP deltas; each fold mean averages its available 8/8/7/7 seed pairs; WP is scored for each complete outer endpoint, not averaged across model seeds first",
+    "seed_bootstrap": {
+      "method": "bootstrap the eight seed identities with replacement; use the same sampled seed multiplicities across all four fixed folds; for each replicate renormalize over available seed cells in each fold and average the four fold means equally; redraw if any fold has zero effective seed multiplicity",
+      "replicates": 10000,
+      "seed_identities": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "shared_multiplicities_across_folds": true,
+      "resample_folds": false,
+      "rng_seed": 20261017,
+      "scope": "approximate fitting-seed interval conditional on four exposed folds, fixed data, memberships and ancestry; eight identities are few and do not represent unseen regime uncertainty"
+    },
+    "evaluation_unit_uncertainty": "Separate fixed-prediction paired resampling of source-qualified components within each fold, using identical component multiplicities for both arms and all seeds; no fold resampling. Exact component manifests and RNG details are null pending binding.",
+    "exposure": "All current panels are exposed development data; this plan does not create a fresh holdout or estimate unseen public score.",
+    "multiplicity": "If selecting among the 25 portfolio arms for a formal claim, freeze the family and multiplicity procedure before outcomes; exploratory intervals alone are not confirmatory."
+  },
+  "training_configuration": {
+    "precision": "strict FP32 for weights, activations, state, gradients and optimizer; autocast/GradScaler off; TF32 off; float32 matmul precision highest",
+    "optimizer": null,
+    "learning_rate_and_schedule": null,
+    "batch_and_accumulation": null,
+    "update_or_epoch_budget": null,
+    "context_or_window": null,
+    "gradient_clip": null,
+    "checkpoint_rule": null,
+    "resume_state_policy": null,
+    "configuration_gate": "Bind all values, train-only selection rule, seed behavior and resume policy identically across paired arms before admission."
+  },
+  "ancestry": {
+    "contract_base_main_sha": "4ca5c936daa5f88097188dcea903f2f74dd87097",
+    "research_team_base_sha": "ed40bea53b66f65a437f9ea3658a982ebdbe5251",
+    "experiment_source_sha": null,
+    "candidate_initialization_source_and_sha": null,
+    "control_initialization_source_and_sha": null,
+    "teacher_or_pretraining_ancestor_per_fold_seed": null,
+    "normalization_or_cache_ancestor_per_fold_seed": null,
+    "gate": "Resolve research-team base and record exact sources, membership, hashes and transitive teacher/initializer/cache ancestry; evaluation components must be excluded from every fitted ancestor."
+  },
+  "compute": {
+    "hardware_site": null,
+    "gpu_model_count_topology": null,
+    "cpu_profile_and_limits": null,
+    "cuda_driver_torch_environment": null,
+    "data_mount_and_cache": null,
+    "profile_receipt": null,
+    "cost_estimate": null,
+    "gate": "No hardware or duration measurement is claimed; profile the actual pathway and record a resource admission before a future run."
+  },
+  "commands": {
+    "training_command": null,
+    "training_command_gate": "No trainer/adapters/cache bindings are implemented in this proposal; an exact runnable training command must be added only after implementation review and explicit training authority.",
+    "packet_json_validation_only": ".venv/bin/python -m json.tool research/experiment_drafts/rr17-17/recipe.json",
+    "validation_scope": "JSON syntax only. This command does not validate scientific binding and does not train, fit, infer, profile or score."
+  },
+  "results": {
+    "state": "not_run",
+    "measured_gain": null,
+    "leaderboard_effect": null,
+    "pr_url": null,
+    "merge_sha": null
+  },
+  "publication": {
+    "branch": "experiment/rr17-17",
+    "source_commit_binding": "publication/BRANCHES.json records this packet commit",
+    "pr_url": null,
+    "status": "proposal_only"
+  }
+}
