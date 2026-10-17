@@ -112,6 +112,7 @@ def verify_fit(
     for key in (
         "epochs",
         "batch",
+        "batch_order",
         "chunk",
         "update_rows",
         "detach_rows",
@@ -212,6 +213,25 @@ def verify_fit(
         or len(metrics) != total
     ):
         raise ValueError("fit lacks its fixed checkpoint or complete update history")
+    sampling_epochs = []
+    for epoch, (row, diagnostic) in enumerate(zip(history, diagnostics, strict=True)):
+        order = diagnostic.get("sample_order_identity", {})
+        expected_order = {
+            "sampler_class": "EpochOrderSampler",
+            "batch_size": training["batch"],
+            "drop_last": True,
+            "seeded_order": {
+                "seed": seed,
+                "epoch": epoch,
+                "antithetic": False,
+                "shared_dropped_tail": True,
+            },
+        }
+        if row.get("epoch") != epoch or any(
+            order.get(key) != value for key, value in expected_order.items()
+        ):
+            raise ValueError(f"epoch {epoch} differs from the paired seeded order contract")
+        sampling_epochs.append(expected_order)
     for step, event in enumerate(events, 1):
         if (
             event.get("status") != "optimizer_completed"
@@ -247,6 +267,7 @@ def verify_fit(
         "epochs": len(history),
         "events": len(events),
         "metrics": len(metrics),
+        "sampling_epochs": sampling_epochs,
     }
 
 
@@ -264,9 +285,16 @@ def stage_digest(receipt: dict[str, Any]) -> str:
         "run_name",
     )
     outputs = {
-        "checkpoint_sha256": receipt.get("fit_evidence", {}).get("checkpoint_sha256"),
-        "prediction_sha256": receipt.get("prediction", {}).get("sha256"),
-        "score_prediction_sha256": receipt.get("score", {}).get("prediction_sha256"),
+        key: receipt.get(key)
+        for key in (
+            "fit_evidence",
+            "prediction",
+            "score",
+            "profile_evidence",
+            "command",
+            "runtime",
+            "pair_order",
+        )
     }
     raw = json.dumps(
         {"identity": {key: receipt.get(key) for key in keys}, "outputs": outputs},

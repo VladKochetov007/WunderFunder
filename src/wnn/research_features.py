@@ -800,9 +800,7 @@ class StreamingResearchFeatures:
             decay = np.float32(CAUSAL_EWMA_DECAY)
             complement = np.float32(1.0 - CAUSAL_EWMA_DECAY)
             self.smoothed = (
-                raw.copy()
-                if self.smoothed is None
-                else decay * self.smoothed + complement * raw
+                raw.copy() if self.smoothed is None else decay * self.smoothed + complement * raw
             )
             return np.concatenate((self.smoothed, raw - self.smoothed))
         if not self.names:

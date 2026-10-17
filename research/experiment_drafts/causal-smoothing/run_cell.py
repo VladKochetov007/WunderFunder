@@ -37,6 +37,8 @@ def verify_prior(path: Path, expected: dict[str, Any], *, profile: bool = False)
     prior = read_json(path)
     if prior.get("status") != "complete":
         raise ValueError(f"required predecessor is not complete: {path}")
+    if prior.get("binding_sha256") != stage_digest(prior):
+        raise ValueError(f"predecessor receipt checksum differs: {path}")
     keys = ("arm", "recipe_sha256", "source_identity", "dataset_identity_sha256")
     if not profile:
         keys += ("fold", "seed", "attempt", "split", "run_name")
@@ -173,6 +175,8 @@ def execute(args: argparse.Namespace) -> None:
                 or metadata.get("campaign_export_scope") != "evaluation"
                 or metadata.get("inference_precision") != "fp32"
                 or metadata.get("quantization_preset") is not None
+                or metadata.get("inference_batch") != training["batch"]
+                or metadata.get("inference_chunk") != training["chunk"]
                 or metadata.get("row_groups")
                 != json.loads(Path(split["path"]).read_text())["evaluation"]["valid"]
             ):
@@ -197,6 +201,33 @@ def execute(args: argparse.Namespace) -> None:
                 or score.get("split_manifest_sha256") != split["sha256"]
             ):
                 raise ValueError("grade receipt changed prediction, checkpoint, or fold binding")
+            other_arm = next(arm for arm in ARMS if arm != args.arm)
+            other_fit_path = (
+                root
+                / "artifacts/causal-smoothing-runner/cells"
+                / cell_key(other_arm, args.fold, args.seed, args.attempt)
+                / "fit.json"
+            )
+            # First completed arm stays explicitly unpaired. The later score verifies both.
+            receipt["pair_order"] = {"status": "awaiting_counterpart"}
+            if other_fit_path.exists() and read_json(other_fit_path).get("status") == "complete":
+                other_fit = verify_prior(
+                    other_fit_path,
+                    {
+                        **receipt,
+                        "arm": other_arm,
+                        "run_name": run_name(other_arm, args.fold, args.seed, args.attempt),
+                    },
+                )
+                if other_fit["fit_evidence"].get("sampling_epochs") != fit["fit_evidence"].get(
+                    "sampling_epochs"
+                ):
+                    raise ValueError("paired arms have different epoch sampling identities")
+                receipt["pair_order"] = {
+                    "status": "matched",
+                    "counterpart_fit": str(other_fit_path),
+                    "counterpart_binding_sha256": other_fit["binding_sha256"],
+                }
             receipt["score"] = score
         if source_identity()["sha256"] != bindings["source_identity"]["sha256"]:
             raise RuntimeError("source files changed while the stage was running")

@@ -80,6 +80,8 @@ def grade(root: Path, run: str, fold: int, recipe: Path, output: Path) -> dict[s
         or metadata.get("checkpoint_sha256") != sha256(checkpoint)
         or metadata.get("inference_precision") != "fp32"
         or metadata.get("quantization_preset") is not None
+        or metadata.get("inference_batch") != recipe_value["training"]["batch"]
+        or metadata.get("inference_chunk") != recipe_value["training"]["chunk"]
     ):
         raise ValueError("prediction or fixed checkpoint bytes/precision differ from sidecar")
     mask = scored & (np.arange(targets.shape[1])[None, :] >= WARMUP)

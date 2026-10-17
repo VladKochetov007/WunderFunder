@@ -54,6 +54,7 @@ class SmoothingObserver:
         for name in (
             "epochs",
             "batch",
+            "batch_order",
             "chunk",
             "update_rows",
             "detach_rows",

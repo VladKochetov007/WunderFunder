@@ -128,13 +128,9 @@ def test_checkpoint_rebuild_and_chunked_prediction_use_saved_feature_mode(
         state = None
         chunks = []
         for start in range(0, len(rows), 5):
-            prediction, state = restored_model(
-                streaming_inputs[:, start : start + 5], state
-            )
+            prediction, state = restored_model(streaming_inputs[:, start : start + 5], state)
             chunks.append(prediction)
-    torch.testing.assert_close(
-        torch.cat(chunks, dim=1), full_prediction, rtol=3e-5, atol=3e-6
-    )
+    torch.testing.assert_close(torch.cat(chunks, dim=1), full_prediction, rtol=3e-5, atol=3e-6)
 
 
 def test_training_source_identity_binds_feature_implementation() -> None:

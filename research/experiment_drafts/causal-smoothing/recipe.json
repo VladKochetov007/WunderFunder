@@ -82,7 +82,7 @@
   "original_base_research_team_sha": "18407ecfa3b02d4db70cfb3c34abbacd6653e79d",
   "integration_method": "merge current research-team; preserve original source history",
   "shared_trainer_revision": "eb3309a322c1e24b3cc157eaefe3ca0e0290cd42",
-  "latest_integration_parent_sha": "944b4e0c8ce26b842b6b8466aea9f0932bf36ea8",
+  "latest_integration_parent_sha": "db3f37b50e69f39b16410aa2ad5c2a14f6aaf224",
   "comparison": {
     "model": "GRU H256 L2, dropout0, linear encoder, two output heads",
     "features": "raw112 + existing event features + 224 treatment/control channels",
@@ -127,7 +127,8 @@
     "save_training_state": true,
     "hidden": 256,
     "layers": 2,
-    "dropout": 0.0
+    "dropout": 0.0,
+    "batch_order": "seeded"
   },
   "statistics": {
     "primary_contrast": "raw-plus-causal-ewma minus raw-plus-control",
@@ -137,5 +138,7 @@
     "component_interval": "workflow paired source-component bootstrap with fits fixed; separate from seed interval",
     "multiple_comparisons": "one primary contrast; any new half-life/model adds a new declared comparison family",
     "selection_budget": "one half-life32 and one architecture; no outcome-guided sweeps in this matrix"
-  }
+  },
+  "implementation_base_sha": "d3976529fb814c3337253f75d9809465f29c140d",
+  "pr_url": "https://github.com/VladKochetov007/WunderFunder/pull/9"
 }

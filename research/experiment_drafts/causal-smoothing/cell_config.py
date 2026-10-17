@@ -121,6 +121,7 @@ def recipe_config() -> tuple[dict[str, Any], str]:
     required = {
         "epochs",
         "batch",
+        "batch_order",
         "chunk",
         "update_rows",
         "detach_rows",
@@ -159,6 +160,7 @@ def recipe_config() -> tuple[dict[str, Any], str]:
     expected = {
         "epochs": 12,
         "batch": 8,
+        "batch_order": "seeded",
         "chunk": 2000,
         "update_rows": 2000,
         "detach_rows": 2000,
@@ -225,6 +227,7 @@ def trainer_command(
         "--layers": training["layers"],
         "--dropout": training["dropout"],
         "--batch": training["batch"],
+        "--batch-order": training["batch_order"],
         "--epochs": training["epochs"],
         "--chunk": training["chunk"],
         "--update-rows": training["update_rows"],

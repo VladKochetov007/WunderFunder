@@ -63,6 +63,10 @@ def command_for(
             "fp32",
             "--device",
             "cuda",
+            "--batch",
+            str(training["batch"]),
+            "--chunk",
+            str(training["chunk"]),
             "--epoch",
             str(training["checkpoint_epoch"]),
         ]

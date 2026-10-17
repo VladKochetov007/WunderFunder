@@ -1,6 +1,6 @@
 # Research-team experiment catalogue
 
-Fourteen draft PRs are published with base **research-team**; GitHub reports every one as draft and its head SHA matches this catalogue. No experiment has been merged or fitted by this publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
+Fourteen draft PRs are published with base **research-team**. The catalogue preserves the publication/integration snapshot; subsequent implementation commits can advance individual heads. No experiment has been merged or fitted by this publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
 
 - [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.
 - [Workflow](../unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) defines30 paired cells per scientific arm, strictFP32, source-clean evaluation and separate logs/weights archives.
