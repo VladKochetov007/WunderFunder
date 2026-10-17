@@ -12,6 +12,9 @@ experiment_ids:
   - E-GEOMETRY-QUICK-PROBE-20261018-R1
   - E-GEOMETRY-ADAPTER-PROBE-20261018-R2
   - E-GEOMETRY-ADAPTER-NATIVE-SERVING-20261018-R2
+  - E-GEOMETRY-VARIATIONS-20261018-R3
+  - E-GEOMETRY-CORRECTION-SCALE-20261018-R3S
+  - E-GEOMETRY-ADAPTER-PUBLIC-RESULT-20261018-R2
 evidence_paths:
   - research/campaign_2026-10-17/moment_geometry_r1/README.md
   - research/experiment_drafts/causal-geometry-discrete-b300/README.md
@@ -21,6 +24,9 @@ evidence_paths:
   - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_recipe.json
   - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/README.md
   - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/RELEASE.json
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/PUBLIC_RESULT.json
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_geometry_variations_r3/README.md
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_geometry_variations_r3/geometry_r3_comparison.png
 ---
 
 # Causal geometry and discrete state features on B300
@@ -50,9 +56,11 @@ The [registered investigation and visual EDA](../validation/SEQUENCE_MOMENT_GEOM
 
 The [R2 discrete pilot](../../campaign_2026-10-17/moment_geometry_r1/discrete_summary_r2.json) compared four arms at H32×1 and H128×2 on43 fitting/46 exposed evaluation sequences. Results varied by capacity; combinations were not reliably additive and fixed half-mixtures suggested conditional value.
 
-The [R3 H128×2 continuation summary](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/summary_r3.json) reports three paired seeds and eight epochs on the same tiny exposed panel. Mean deltas versus control were −0.019742 for moment/scale, +0.000501 for dictionary, and −0.017251 for all features. A fixed control+dictionary half-mixture was+0.007337 across those three seeds. The [small-panel loss and paired-delta plots and local R1/R2 receipts](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md) are descriptive, exposed evidence. R1 tests feature versus zero control; R2 is an adaptive frozen-adapter versus parent follow-up. Both are one F0/seed3 direction only, and their component intervals condition on fixed fits rather than seed/fold variation. None of this establishes family-level significance, teacher/student transfer, serving quality, or public performance.
+The [earlier R3 H128×2 continuation summary](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/summary_r3.json) reports three paired seeds and eight epochs on the same tiny exposed panel. The later root-owned [F0/seed3 block-fit and alpha-scale follow-up](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_geometry_variations_r3/README.md) is a distinct R3: two matched adapter-only block fits both scored below the fixed parent, while an inference-only alpha=−0.50 alias was +0.0001956 versus parent with a conditional component-bootstrap 95% interval [−0.0000248,+0.0004214] crossing zero. It is adaptive on exposed F0; alpha aliases share the same R2 fit and do not add replications. The [comparison figure](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_geometry_variations_r3/geometry_r3_comparison.png) shows scores relative to the fixed parent. These checks, R1 and R2 all reuse one F0/seed3 lineage and do not establish seed/fold robustness, teacher/student transfer, or a feature-family result.
 
-The R2 adapted checkpoint's selected native q16x ZIP was subsequently scored over all 468 exposed F0 groups: WP 0.6804519697 versus Torch FP32 at 0.6804499040. This tiny endpoint precision difference does not change the negative adapter-versus-parent training result (0.6804499040 versus0.6812265132). Exact-ZIP Python 3.11 checks and an eight-group signed-zero-sensitive q16x native-cache replay passed; the predeclared FP32 native/Torch tolerance failed (287,989/318,416 values outside threshold), with `Activations::Fast` present and the cause unisolated. The callback's40.43-minute row-cost and 44.41-minute full-replay projections are local estimates, not measured target-host runtime. The [source-indexed receipts](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/README.md) include the archive hash and scope corrections. No ZIP, predictions, or weights are copied into this packet, and no upload occurred.
+The user-reported [public result receipt](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/PUBLIC_RESULT.json) records that the separate R2 q16x ZIP scored 0.66428, below the then-reported team best 0.66832. This endpoint-specific result does not evaluate the R3 aliases and is not a public forecast for the B300 matrix.
+
+The R2 adapted checkpoint's selected native q16x ZIP was subsequently scored over all 468 exposed F0 groups: WP 0.6804519697 versus Torch FP32 at 0.6804499040. This tiny endpoint precision difference does not change the negative adapter-versus-parent training result (0.6804499040 versus0.6812265132). Exact-ZIP Python 3.11 checks and an eight-group signed-zero-sensitive q16x native-cache replay passed; the predeclared FP32 native/Torch tolerance failed (287,989/318,416 values outside threshold), with `Activations::Fast` present and the cause unisolated. The callback's40.43-minute row-cost and 44.41-minute full-replay projections are local estimates, not measured target-host runtime. The [source-indexed receipts](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/README.md) include the archive hash, tolerance corrections and user-reported public result. No ZIP, predictions, or weights are copied into this packet; the user submitted the separate R2 ZIP and observed no public quality improvement. No R3 variant has a public result.
 
 ## Frozen B300 comparison
 

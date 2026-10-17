@@ -29,6 +29,12 @@ R2 is negative for this exact short adapter recipe and is not evidence against t
 
 The explicit unresolved alternative is that appending60 channels changes optimization dynamics or interacts with parameterization and seed noise; a feature-regime effect may not be stable at the larger endpoint. Equal-width indexed zero masks isolate feature block visibility while preserving the input dimension and parameter count, but the four arms still cannot identify physical semantics or guarantee transfer to larger teachers and students.
 
+### Root local frozen-parent block and correction-scale follow-up (R3)
+
+Experiments E-GEOMETRY-VARIATIONS-20261018-R3 and E-GEOMETRY-CORRECTION-SCALE-20261018-R3S are indexed in a [separate root R3 evidence bundle](root_geometry_variations_r3/README.md), distinct from the earlier H128×2 three-seed summary_r3.json above. It records two matched F0/seed3 adapter-only block fits plus four inference-only aliases of the R2 checkpoint. Each block fit completed 5,120 optimizer updates; both fit endpoints scored below the fixed parent. The inference-only alpha=−0.50 alias was +0.0001956 versus parent, with a conditional component-bootstrap 95% interval [−0.0000248,+0.0004214] crossing zero after an adaptive exposed-F0 grid. All aliases share the R2 fit and all variants share one F0/seed3 lineage. The selected alpha=−0.50 native q16x replay was pending when this receipt bundle was prepared.
+
+The [comparison figure](root_geometry_variations_r3/geometry_r3_comparison.png) uses only the independent grade JSON. It displays no unsupported intervals for other candidates. No B300 profile or matrix fit is represented by these local results.
+
 ### R2 selected native q16x endpoint
 
 The root-owned [release bundle](root_adapter_probe_r2_native_q16x/README.md) copies the hash-bound `RELEASE.json`, its nine referenced small receipts, three later tolerance/parity interpretation receipts, and the optional adapter figure. It excludes the ZIP, weights, predictions, data, and logs. The selected native q16x ZIP (5,323,200 bytes; SHA-256 `955bff715871ff8a977d96a43f4edb89b1f5ecec72ae8ee49c0c2b53a3b6688b`) scored **0.6804519697** on all 468 exposed F0 groups, versus **0.6804499040** for its Torch reference. This +0.0000021 endpoint difference does not change the negative adapter-versus-parent training result and is not a public-gain claim. The exact ZIP passed offline Python 3.11 checks and an eight-group, signed-zero-sensitive same-precision replay; complete target-host runtime remains unmeasured.

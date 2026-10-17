@@ -10,6 +10,9 @@ experiment_ids:
   - E-GEOMETRY-QUICK-PROBE-20261018-R1
   - E-GEOMETRY-ADAPTER-PROBE-20261018-R2
   - E-GEOMETRY-ADAPTER-NATIVE-SERVING-20261018-R2
+  - E-GEOMETRY-VARIATIONS-20261018-R3
+  - E-GEOMETRY-CORRECTION-SCALE-20261018-R3S
+  - E-GEOMETRY-ADAPTER-PUBLIC-RESULT-20261018-R2
 evidence_paths:
   - research/campaign_2026-10-17/moment_geometry_r1/README.md
   - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md
@@ -21,11 +24,14 @@ evidence_paths:
   - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_recipe.json
   - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/README.md
   - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/RELEASE.json
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/PUBLIC_RESULT.json
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_geometry_variations_r3/README.md
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_geometry_variations_r3/geometry_r3_comparison.png
 ---
 
 # Causal geometry and discrete state features: B300 handoff
 
-This packet proposes a four-arm, 30-cell-per-arm comparison on eight independent B300 workers. It includes the causal feature implementation, an indexed equal-width mask, a clean single-cell runner, per-card profile receipts, a frozen 120-fit/15-wave matrix, and exact launch instructions. **No B300 profile or matrix fit has run from this packet.** Root's separate local work completed two one-pair F0/seed3 direction probes; neither is a B300 cell. Both are indexed in [prior evidence](prior_evidence/README.md): R1's feature-versus-zero delta was−0.0000619, and the follow-up frozen adapter was−0.0007766 versus parent. These scoped negative results do not reject the feature family.
+This packet proposes a four-arm, 30-cell-per-arm comparison on eight independent B300 workers. It includes the causal feature implementation, an indexed equal-width mask, a clean single-cell runner, per-card profile receipts, a frozen 120-fit/15-wave matrix, and exact launch instructions. **No B300 profile or matrix fit has run from this packet.** Root's separate local R1/R2 direction probes and later R3 block/scale follow-up are exposed F0/seed3 evidence, not B300 cells or independent seed replications. R1 and R2 adapter training were negative for their exact recipes; the two R3 block fits also scored below their parent. The inference-only R2 alpha=−0.50 alias was slightly above the parent, with a conditional component interval crossing zero. The [prior evidence index](prior_evidence/README.md) keeps these scoped findings and their limitations separate; none rejects the broader feature, teacher/student or distillation family.
 
 ## Contents
 
@@ -33,13 +39,13 @@ This packet proposes a four-arm, 30-cell-per-arm comparison on eight independent
 - [recipe.json](recipe.json): machine-readable arms, folds, seeds, optimizer/update budget, contrasts and lineage.
 - [matrix.json](../../../scripts/geometry_b300/matrix.json): all 30 crossed fold/seed pairs and all 15 waves with eight explicit GPU-slot assignments per wave. The adapter validates this file before each invocation.
 - [LAUNCH.md](LAUNCH.md): exact commands, read-only data bindings, writable output/scratch mounts, profile gate, wave launch, resume and archives.
-- [prior_evidence/README.md](prior_evidence/README.md): linked geometry EDA and copied, hash-bound R3, R1 and R2 evidence, including the frozen-parent receipt and selected q16x endpoint package receipts.
+- [prior_evidence/README.md](prior_evidence/README.md): linked geometry EDA and copied, hash-bound evidence. The earlier H128×2 R3 screen is distinct from the later root-owned F0/seed3 R3 block fits and inference-only alpha screen; both retain their separate figures and receipts. The R2 q16x bundle also records the user's public result.
 - [native serving receipt](../../unified/operations/geometry_native_serving_20261018/README.md): corrected native channel order, ABI scan, synthetic full-feature parity, exact-ZIP Python 3.11 smoke, full exposed-F0 q16x score and same-precision cache replay. The FP32 native/Torch tolerance failed; complete target-host runtime remains unmeasured.
 - [scripts/geometry_b300/](../../../scripts/geometry_b300/): independent one-GPU cell runner, mount and frozen-matrix preflight, eight-card profile launcher, profile receipt validator and eight-fit wave launcher.
 - [src/wnn/moment_geometry/online.py](../../../src/wnn/moment_geometry/online.py) and [src/wnn/research_features.py](../../../src/wnn/research_features.py): causal transform, fitting-only prior, fixed feature order and indexed controls, reused by the canonical modular trainer.
 - [src/wnn/training/feature_adapter.py](../../../src/wnn/training/feature_adapter.py): optional guarded warm-parent adapter that freezes old weights and trains only the appended causal-feature input columns; its R2 local probe was negative for one exposed recipe.
 - [native geometry serving path](../../../native/src/python_geometry.rs), [single-member callback](../../../submission/solution_geometry.py), [reference checker](../../../scripts/check_geometry_submission.py) and [packager extension](../../../scripts/package_submission.py): native build/ABI and corrected synthetic parity passed; the separate root R2 q16x endpoint has full exposed-F0 grading and exact-ZIP Python3.11 checks. FP32 native/Torch tolerance failed; full target-host runtime remains unmeasured.
-- [H/E ledger records](../../hypotheses.jsonl) and [experiment ledger](../../experiments.jsonl): append-only proposal registration, one-fit local adapter probe, and separate q16x native serving evidence; no B300 profile or matrix fit.
+- [H/E ledger records](../../hypotheses.jsonl) and [experiment ledger](../../experiments.jsonl): append-only proposal registration, root-owned local R1/R2/R3 evidence, the user-reported R2 public result, and separate q16x native serving evidence; no B300 profile or matrix fit.
 
 ## Provenance and implementation status
 

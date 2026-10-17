@@ -1,0 +1,26 @@
+{
+  "id": "E-GEOMETRY-CORRECTION-SCALE-20261018-R3S",
+  "created_utc": "2026-10-17T22:56:05.978088+00:00",
+  "kind": "inference_only_postfit_intervention",
+  "source_run": "geometry_adapter_f0_s3_r2@ep0",
+  "source_checkpoint_sha256": "f03785c3dbc364d3d12a0ad0cbe1969a50a95bdc3a95d1f4bd0f4758f654df19",
+  "intervention": "Scale only inp.weight[:,211:271]; every old tensor/prior/normalizer remains unchanged. No fitting or new independent replication.",
+  "alpha_grid": [
+    -0.5,
+    -0.25,
+    0,
+    0.25,
+    0.5,
+    1
+  ],
+  "cached_controls": {
+    "alpha0": "warm_mechanism_f0_s3_c_r3 FP32 prediction cache (parent-function control; kernel rounding may differ)",
+    "alpha1": "geometry_adapter_f0_s3_r2 FP32 prediction cache"
+  },
+  "new_gpu_forward_count": 4,
+  "hypothesis": "The learned feature correction may have the wrong strength or direction for target prediction under inherited auxiliary losses; cause not established.",
+  "comparison": "Same468exposedF0sequences, original officialmask/metric; include parent, R2 andbothR3block fits in ranking. Adaptive screen explicitly selection-exposed; do not claim generalization or training-seed significance.",
+  "selection": "Nominate at most one strongest completed endpoint for direct nativeq16fullF0 replay. Alpha0 may serve as baseline if no feature variant is better; no forced feature replacement. Existing ZIP remains frozen.",
+  "deadline_utc": "2026-10-17T23:50:00Z",
+  "budget": "No extra fits; four new inference exports under single GPU worker after fits drain, then one~11minute native replay."
+}
