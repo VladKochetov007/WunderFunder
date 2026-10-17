@@ -63,3 +63,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0038: Vast-A exactCPU benchmark budget](0038-vast-a-exact-cpu-benchmark-budget.md) records explicit$3authority on`vastai`, exactEPYC9224requirement, CPU-only access uncertainty and no-rental status.
 
 - [ADR0039: two local CPU cores and physical-disk scratch](0039-two-core-local-budget-and-disk-scratch.md) supersedes five-core allocations after laptop responsiveness/storage concerns; preserves GPU research, model recipes and checkpoints.
+
+- [ADR0040: research-team draft experiments](0040-research-team-draft-experiments.md) records the October17 user protocol: per-idea draft PRs,30 paired cells per arm, strictFP32, English execution/evidence handoffs and unified merge trace; local preparation before push, no queue or new fits.

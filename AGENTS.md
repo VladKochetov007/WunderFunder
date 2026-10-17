@@ -1,5 +1,14 @@
 # Project agent instructions
 
+## Experiment draft PR workflow — user instruction, 2026-10-17
+
+Use the [research-team workflow guide](research/unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) and [English PR template](research/unified/templates/EXPERIMENT_DRAFT_PR.md). Shared policy lives on main; [research-team](https://github.com/VladKochetov007/WunderFunder/tree/research-team) is the integration base; each idea gets an `experiment/<id>` draft PR targeting research-team. The remote link is prospective until first push. The subsequent October17 user instruction explicitly authorizes `gh`, pushing the prepared branches and creating draft PRs; it supersedes the initial pre-push hold. Documentation/implementation preparation does not resume paused model fits.
+
+Proactively use `$create-experiment-draft` for experiment proposals/code/handoffs, `$conduct-creative-research` for mechanisms and independent criticism, `$arxiv-search` for primary literature, and `$b300-training` for accelerator implementation. Canonical skill folders are `.agents/skills/`; Claude discovers the same skills through `.claude/skills/` symlinks. `CLAUDE.md` is a symlink to this file.
+
+Scientific comparisons require30 paired fold/seed cells **per arm** (8/8/7/7 over the existing four exposed folds), clean teacher/initializer ancestry, strictFP32 with autocast and TF32 off, and the unchanged official metric. Engineering profiles/parity checks are not quality comparisons. No quantization until submission work; no queue manager. Every PR answers mechanism, compute advantage, validation/significance, lineage, decision-changing effects and leakage/coverage. Preserve progress metrics, preclip gradient norm, LR, scores, source/config/ancestry and separate evidence/weights archives. Trace all results from unified READMEs through packet/run/archive manifests and PR/merge SHAs; retain negative and inconclusive evidence. See the guide for precise statistics, execution and merge rules.
+
+
 Latest local instruction (2026-10-15): **two aggregate CPU cores**, replacing
 earlier five-core allocations, including support jobs. GPU research continues
 with one worker; serialize CPU support at low quota. Temporary files/caches must

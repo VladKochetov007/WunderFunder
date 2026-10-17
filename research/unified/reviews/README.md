@@ -151,3 +151,5 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 ## Student shape-pair T4 profile — 2026-10-15
 
 - [F0 student shape-pair T4 profile review R1](F0_STUDENT_SHAPE_PAIR_T4_PROFILE_REVIEW_20261015_R1.md) independently rehashes the frozen source closure, both job specs, 22 external mounts, private bundle, and patched T4 kernel. It gives GO only for the two five-batch resource profiles after root checks current provider readiness and quota; no fit or quality claim is supported. It records a stale timeout diagnostic string and a wording caveat about deserializing the CP5 donor checkpoint.
+
+- [Independent experiment-workflow static review](EXPERIMENT_WORKFLOW_STATIC_REVIEW_20261017_R1.md) records Luna/max conditional pass, two material gaps (estimand/uncertainty and branch SHA pinning), and root fixes. Document review only; no numerical, training or archive-execution evidence.

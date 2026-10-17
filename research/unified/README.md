@@ -20,7 +20,7 @@ Independent second review: [first-principles verdict and plan](reviews/FIRST_PRI
 - [Inference, quantization, and runtime](inference/README.md)
 - [Execution, incidents, and preservation](operations/README.md)
 - [Dated October 12 archive](archive/2026-10-12/README.md)
-- [Shared note template](templates/NOTE_TEMPLATE.md)
+- [Shared templates](templates/README.md) — narrative notes and experiment draft PR descriptions.
 
 ## How records fit together
 
