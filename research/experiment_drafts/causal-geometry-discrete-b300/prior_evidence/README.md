@@ -29,6 +29,12 @@ R2 is negative for this exact short adapter recipe and is not evidence against t
 
 The explicit unresolved alternative is that appending60 channels changes optimization dynamics or interacts with parameterization and seed noise; a feature-regime effect may not be stable at the larger endpoint. Equal-width indexed zero masks isolate feature block visibility while preserving the input dimension and parameter count, but the four arms still cannot identify physical semantics or guarantee transfer to larger teachers and students.
 
+### R2 selected native q16x endpoint
+
+The root-owned [release bundle](root_adapter_probe_r2_native_q16x/README.md) copies the hash-bound `RELEASE.json`, its nine referenced small receipts, three later tolerance/parity interpretation receipts, and the optional adapter figure. It excludes the ZIP, weights, predictions, data, and logs. The selected native q16x ZIP (5,323,200 bytes; SHA-256 `955bff715871ff8a977d96a43f4edb89b1f5ecec72ae8ee49c0c2b53a3b6688b`) scored **0.6804519697** on all 468 exposed F0 groups, versus **0.6804499040** for its Torch reference. This +0.0000021 endpoint difference does not change the negative adapter-versus-parent training result and is not a public-gain claim. The exact ZIP passed offline Python 3.11 checks and an eight-group, signed-zero-sensitive same-precision replay; complete target-host runtime remains unmeasured.
+
+The predeclared FP32 native/Torch tolerance failed: 287,989/318,416 values exceeded the threshold (max absolute difference 0.0007533; mean 0.0000555; RMS 0.0000764). The cause was not isolated (`Activations::Fast` is used), and no tolerance was changed. The q16 endpoint was graded directly; generic replay `passed` fields do not establish FP32 equivalence. The bundle preserves a later correction that narrows the legacy cache panel's reference to q16 native cache, not FP32.
+
 ## Literature search
 
 The repository arXiv helper was run with the query “causal online moments discrete state occupancy time series neural” and a five-result cap. Results covered broad clustering, causal discovery and online causal-model topics; no directly applicable primary method was used to motivate this implementation. The mechanism and predictions here come from the repository's own EDA and remain hypotheses.

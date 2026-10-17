@@ -1,0 +1,53 @@
+{
+  "build_receipt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/geometry_adapter_probe_r2/geometry_adapter_r2_f32_native_panel_build_receipt.json",
+  "build_receipt_sha256": "d3b3792b6db18ddcb52591224a357a87471b9a139f538fd08c8c94e29405c416",
+  "comparison_rows_per_group": 19901,
+  "comparison_values": 318416,
+  "declared_before_output_comparison": true,
+  "declared_utc": "2026-10-17T22:41:23Z",
+  "protocol_id": "geometry_adapter_r2_f32_native_torch_first8_f0_rtol1e-5_atol1e-6",
+  "reference_predictions_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_geometry_adapter_f0_s3_r2_valid.npy",
+  "reference_predictions_sha256_from_sidecar": "b86574111adb85cbd1a4de564f4a91f3efc2d455c20ff932312eafbae1a21f0d",
+  "reference_sidecar_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_geometry_adapter_f0_s3_r2_valid.json",
+  "reference_sidecar_sha256": "d4a8c1ecdb5f67567b9b7eed9b365c9f23ff1cefaed5fc791ee747c39fb17eb7",
+  "reported_statistics": [
+    "max_abs_difference",
+    "mean_abs_difference",
+    "rms_difference",
+    "different_values_under_exact_bits"
+  ],
+  "row_groups": [
+    4,
+    5,
+    7,
+    9,
+    12,
+    18,
+    19,
+    22
+  ],
+  "schema": "wnn.geometry-f32-native-torch-panel-preregistration.v1",
+  "scope": "implementation comparison only; no metric or quality decision",
+  "sequence_ids": [
+    1990332,
+    2308749,
+    6746551,
+    9147005,
+    11423352,
+    24654613,
+    25927382,
+    28399078
+  ],
+  "source_bound": "the F0 split SHA and per-row-group sequence identities; read only these eight complete groups; no full parquet hash/scan",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "split_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "tolerance": {
+    "atol": 1e-06,
+    "kind": "elementwise float32 numerical comparison; exact bitwise equality is not required across PyTorch and native backends",
+    "pass_condition": "all compared values finite and satisfy the predicate",
+    "predicate": "abs(native - torch) <= atol + rtol * abs(torch)",
+    "rtol": 1e-05
+  },
+  "zip_path": "/home/vlad/development/wunder/research_tmp/geometry-serving-20261018/geometry_adapter_r2_f32_native_panel_eval_20261018.zip",
+  "zip_sha256": "7b544d2cd215d3ca21d0ad9375c8690b5a6e8dc816d67753d3030db6acb2f49b"
+}

@@ -11,6 +11,7 @@ experiment_ids:
   - E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1
   - E-GEOMETRY-QUICK-PROBE-20261018-R1
   - E-GEOMETRY-ADAPTER-PROBE-20261018-R2
+  - E-GEOMETRY-ADAPTER-NATIVE-SERVING-20261018-R2
 evidence_paths:
   - research/campaign_2026-10-17/moment_geometry_r1/README.md
   - research/experiment_drafts/causal-geometry-discrete-b300/README.md
@@ -18,6 +19,8 @@ evidence_paths:
   - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_comparison.json
   - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_frozen_parent_check.json
   - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_recipe.json
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/README.md
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/RELEASE.json
 ---
 
 # Causal geometry and discrete state features on B300
@@ -48,6 +51,8 @@ The [registered investigation and visual EDA](../validation/SEQUENCE_MOMENT_GEOM
 The [R2 discrete pilot](../../campaign_2026-10-17/moment_geometry_r1/discrete_summary_r2.json) compared four arms at H32×1 and H128×2 on43 fitting/46 exposed evaluation sequences. Results varied by capacity; combinations were not reliably additive and fixed half-mixtures suggested conditional value.
 
 The [R3 H128×2 continuation summary](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/summary_r3.json) reports three paired seeds and eight epochs on the same tiny exposed panel. Mean deltas versus control were −0.019742 for moment/scale, +0.000501 for dictionary, and −0.017251 for all features. A fixed control+dictionary half-mixture was+0.007337 across those three seeds. The [small-panel loss and paired-delta plots and local R1/R2 receipts](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md) are descriptive, exposed evidence. R1 tests feature versus zero control; R2 is an adaptive frozen-adapter versus parent follow-up. Both are one F0/seed3 direction only, and their component intervals condition on fixed fits rather than seed/fold variation. None of this establishes family-level significance, teacher/student transfer, serving quality, or public performance.
+
+The R2 adapted checkpoint's selected native q16x ZIP was subsequently scored over all 468 exposed F0 groups: WP 0.6804519697 versus Torch FP32 at 0.6804499040. This tiny endpoint precision difference does not change the negative adapter-versus-parent training result (0.6804499040 versus0.6812265132). Exact-ZIP Python 3.11 checks and an eight-group signed-zero-sensitive q16x native-cache replay passed; the predeclared FP32 native/Torch tolerance failed (287,989/318,416 values outside threshold), with `Activations::Fast` present and the cause unisolated. The callback's40.43-minute row-cost and 44.41-minute full-replay projections are local estimates, not measured target-host runtime. The [source-indexed receipts](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_native_q16x/README.md) include the archive hash and scope corrections. No ZIP, predictions, or weights are copied into this packet, and no upload occurred.
 
 ## Frozen B300 comparison
 
@@ -80,10 +85,10 @@ Fresh-from-scratch H512×1 is the current B300 test. The zero-initialized append
 
 A larger-GRU quality path should be profiled and preregistered as its own scale/context ladder. Factor teacher and student feature exposure into teacher-only, student-only, and both-feature arms, and compare label-only versus fold-clean teacher distillation under a matched student recipe. Teacher ancestry, feature priors and prediction caches must exclude each evaluated fold. Keep component-level grades and fixed mixtures even when one model is weaker standalone. The current packet does not implement these teacher-cache or factorial-distillation runners. Larger teachers may use DDP only if their measured profiles justify it; independent GRU cells stay one per card.
 
-The branch also includes native feature serving, the single-member callback, a reference checker and packager support for an extra native file. Native build/ABI and corrected synthetic 20,000-row event/geometry/prediction/reset parity passed; actual-weight parity, full competition runtime and package checks remain pending. Quantization stays out of this research comparison. Do not claim the research-only implementation is submission ready until actual-weight and complete serving checks pass.
+The branch also includes native feature serving, the single-member callback, a reference checker and packager support for an extra native file. Native build/ABI and corrected synthetic 20,000-row event/geometry/prediction/reset parity passed. A separate root-owned R2 package has actual full-exposed-F0 q16x scoring, Python 3.11 exact-ZIP checks and same-precision native-cache replay; it is exploratory and its exact training recipe is negative versus parent. FP32 native/Torch equivalence failed its preregistered tolerance. Complete target-host competition runtime remains unmeasured. Quantization stays out of the B300 training comparison. The B300 implementation is not profile-admitted or run.
 
 ## Registration and next decision
 
-H-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1 is a child of the moment-geometry and discrete-occupancy hypotheses. E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1 is a proposal with implemented launch code, zero B300 profiles, zero admitted scientific fits and zero optimizer steps. The [experiment draft catalogue](../../experiment_drafts/README.md) records GitHub draft PR #15 and its original publication source SHA; the live branch head is checked through GitHub.
+H-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1 is a child of the moment-geometry and discrete-occupancy hypotheses. E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1 is a proposal with implemented launch code, zero B300 profiles, zero admitted scientific fits and zero optimizer steps. E-GEOMETRY-ADAPTER-NATIVE-SERVING-20261018-R2 records separate endpoint-serving evidence, not a B300 fit or positive training result. The [experiment draft catalogue](../../experiment_drafts/README.md) records GitHub draft PR #15 and its original publication source SHA; the live branch head is checked through GitHub.
 
 A useful positive combined or interaction result would keep the representation active and direct a separate warm/teacher/student follow-up. A negative fresh baseline comparison narrows this H512 recipe but leaves warm continuation, distillation, fixed mixtures and larger-capacity descendants available. The [arXiv helper query](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md) returned no directly applicable primary method; this is an internal-Evidence proposal, not literature-backed proof.
