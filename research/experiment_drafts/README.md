@@ -31,3 +31,5 @@ TPU parity remains a local engineering branch, outside these B300 quality drafts
 ## Modular trainer integration
 
 All14 draft branches now include shared trainer revision `eb3309a322c1e24b3cc157eaefe3ca0e0290cd42` through ordinary merges. Each packet records its integration parent and links the [component map](../../src/wnn/training/README.md) and [engineering receipt](../unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md). The JSON catalogue retains original publication and pre-refactor heads alongside current integrated heads. This is source maintenance with no fits or measured performance result.
+
+- [rr17-04](rr17-04/README.md) — Teacher hidden-state hints versus output-only distillation; proposal only, no fit.
