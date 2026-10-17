@@ -267,6 +267,8 @@ def build_spec(
     }
     experiment_id = arm.get("experiment_id", cohort.get("experiment_id"))
     if experiment_id is not None:
+        if split_path is None:
+            raise ValueError("comparison requires an explicit trainer split manifest")
         hypothesis_id = arm.get(
             "hypothesis_id",
             arm.get("hypothesis", cohort.get("hypothesis_id", cohort.get("hypothesis"))),

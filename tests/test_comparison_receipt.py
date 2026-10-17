@@ -351,3 +351,23 @@ def test_legacy_worker_spec_succeeds_without_comparison_changes(tmp_path: Path) 
     assert result["status"] == "succeeded"
     assert "comparison_receipt" not in result
     assert (queue / "done" / "legacy_run.json").exists()
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("valid_targets_sha256", None),
+        ("ci95", None),
+        ("ci95", [float("nan"), 0.1]),
+        ("ci95", [0.1, -0.1]),
+    ],
+)
+def test_receipt_rejects_missing_target_binding_or_invalid_uncertainty(tmp_path, field, value):
+    comparison, grade_path, ledger_path, spec_bytes = _fixture(tmp_path)
+    grade = json.loads(grade_path.read_text())
+    target = grade if field == "valid_targets_sha256" else grade["contrasts"][0]["paired"]
+    target[field] = value
+    grade_path.write_text(json.dumps(grade))
+    with pytest.raises(ComparisonReceiptError):
+        record_comparison_receipt(comparison, run_id="run", spec_bytes=spec_bytes, steps=[])
+    assert not ledger_path.exists()

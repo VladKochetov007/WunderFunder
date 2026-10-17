@@ -372,3 +372,11 @@ def test_real_grade_blend_roundtrips_to_idempotent_receipt(
     assert receipt["references"][0]["paired_delta"] == 0.0
     assert record_comparison_receipt(comparison, **kwargs)["ledger_appended"] is False
     assert len((root / "comparisons.jsonl").read_text().splitlines()) == 1
+
+
+def test_comparison_fold0_requires_same_explicit_fit_split(tmp_path: Path) -> None:
+    cohort, arm = _cohort()
+    cohort.update(fold=0, split_manifest=None, base_argv=["--checkpoint-epoch", "1"])
+    root = _prepare_cohort_root(tmp_path)
+    with pytest.raises(ValueError, match="explicit trainer split manifest"):
+        build_spec(cohort, arm, str(root), "/usr/bin/python3", True)

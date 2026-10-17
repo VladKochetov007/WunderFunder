@@ -300,6 +300,7 @@ def record_comparison_receipt(
         split_sha256 = hashlib.sha256(split_bytes).hexdigest()
         if grade.get("metric_id") != METRIC_ID:
             raise ComparisonReceiptError("grade metric_id is not global_wp_clip2_v1")
+        _valid_hash(grade.get("valid_targets_sha256"), "grade valid-targets hash")
         if grade.get("candidate") != candidate:
             raise ComparisonReceiptError(
                 "grade candidate does not exactly match comparison.candidate"
@@ -361,6 +362,14 @@ def record_comparison_receipt(
                 )
             delta_value = paired.get("delta", paired.get("mean_diff"))
             delta = _finite_number(delta_value, f"reference {reference} paired delta")
+            interval = paired.get("ci95")
+            if not isinstance(interval, list) or len(interval) != 2:
+                raise ComparisonReceiptError(f"reference {reference} lacks paired ci95")
+            lower, upper = (
+                _finite_number(value, f"reference {reference} paired ci95") for value in interval
+            )
+            if lower > upper:
+                raise ComparisonReceiptError(f"reference {reference} paired ci95 is reversed")
             paired_candidate = _finite_number(
                 paired.get("candidate_wp"), f"reference {reference} paired candidate wp"
             )
