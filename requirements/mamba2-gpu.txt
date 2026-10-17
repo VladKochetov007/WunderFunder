@@ -1,0 +1,22 @@
+# TARGETED, UNVERIFIED backend: Linux x86_64, CPython 3.11, NVIDIA CUDA 13.0
+# toolkit/nvcc and a compatible NVIDIA driver. Package build compatibility for
+# this torch/CUDA/Mamba combination has not yet been established.
+#
+# Source builds need torch importable before Mamba metadata/build hooks run.
+# First install torch and source-build tools, then install this file:
+#   python -m pip install --index-url https://download.pytorch.org/whl/cu130 \
+#       "torch==2.14.0+cu130" ninja packaging setuptools wheel
+#   python -m pip install --no-build-isolation -r requirements/mamba2-gpu.txt
+# The exact PyTorch wheel supplies its matching Triton build; do not substitute
+# a CPU wheel or independently upgrade Triton.
+--extra-index-url https://download.pytorch.org/whl/cu130
+torch==2.14.0+cu130
+ninja>=1.11,<2
+packaging>=23
+setuptools>=65
+wheel>=0.40
+
+# Official state-spaces/mamba release v2.2.4, pinned to commit
+# 95d8aba8a8c75aedcaa6143713b11e745e7cd0d9. The model verifies the installed
+# version and direct_url.json VCS commit before loading its Mamba2 and SSD APIs.
+mamba-ssm @ git+https://github.com/state-spaces/mamba.git@95d8aba8a8c75aedcaa6143713b11e745e7cd0d9
