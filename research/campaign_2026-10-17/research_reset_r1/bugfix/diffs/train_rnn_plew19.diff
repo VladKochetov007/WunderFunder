@@ -1,0 +1,167 @@
+--- a/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-08-shift/plew19/train_rnn_plew19.py
++++ b/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-08-shift/plew19/train_rnn_plew19.py
+@@ -7,6 +7,7 @@
+ from __future__ import annotations
+ 
+ import argparse
++import hashlib
+ import json
+ import math
+ import os
+@@ -32,6 +33,112 @@
+ FAMILY_TEACHERS = ()
+ SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
+ EV_I0PX = N_FEATURES + FEATURE_NAMES.index("ev_i0px")
++
++
++def _sha256_file(path: Path) -> str:
++    digest = hashlib.sha256()
++    with path.open("rb") as source:
++        for chunk in iter(lambda: source.read(1024 * 1024), b""):
++            digest.update(chunk)
++    return digest.hexdigest()
++
++
++def _root_file(root: Path, value: object, label: str) -> Path:
++    if not isinstance(value, str) or not value:
++        raise ValueError(f"teacher cache metadata has invalid {label} path")
++    relative = Path(value)
++    if relative.is_absolute():
++        raise ValueError(f"teacher cache metadata {label} path must be relative")
++    path = (root / relative).resolve()
++    try:
++        path.relative_to(root.resolve())
++    except ValueError as exc:
++        raise ValueError(f"teacher cache metadata {label} path escapes the research root") from exc
++    return path
++
++
++def _validate_prediction_identity(metadata: dict[str, object]) -> None:
++    """Verify cache ancestry fields against the checkpoint and producer source files."""
++    checkpoint = _root_file(ROOT, metadata.get("checkpoint_path"), "checkpoint")
++    checkpoint_sha256 = metadata.get("checkpoint_sha256")
++    if not isinstance(checkpoint_sha256, str) or _sha256_file(checkpoint) != checkpoint_sha256:
++        raise ValueError("teacher cache checkpoint SHA-256 does not match its recorded identity")
++
++    preprocessing = metadata.get("preprocessing")
++    if not isinstance(preprocessing, dict):
++        raise ValueError("teacher cache preprocessing identity is missing")
++    serialized = json.dumps(preprocessing, sort_keys=True, separators=(",", ":"), allow_nan=False)
++    expected_preprocessing_sha256 = hashlib.sha256(serialized.encode()).hexdigest()
++    if metadata.get("preprocessing_sha256") != expected_preprocessing_sha256:
++        raise ValueError("teacher cache preprocessing SHA-256 does not match its settings")
++
++    lookahead = metadata.get("lookahead")
++    causal = metadata.get("causal")
++    privileged = metadata.get("privileged")
++    if not isinstance(lookahead, list) or lookahead != preprocessing.get("lookahead"):
++        raise ValueError("teacher cache lookahead identity is malformed")
++    if (
++        not isinstance(causal, bool)
++        or causal != (len(lookahead) == 0)
++        or not isinstance(privileged, bool)
++        or privileged == causal
++    ):
++        raise ValueError("teacher cache causality identity is malformed")
++
++    sources = metadata.get("source_sha256")
++    if not isinstance(sources, dict) or set(sources) != {"predictor", "trainer"}:
++        raise ValueError("teacher cache producer source identity is missing")
++    for label, identity in sources.items():
++        if not isinstance(identity, dict):
++            raise ValueError(f"teacher cache {label} source identity is malformed")
++        path = _root_file(ROOT, identity.get("path"), f"{label} source")
++        if _sha256_file(path) != identity.get("sha256"):
++            raise ValueError(f"teacher cache {label} source SHA-256 does not match")
++
++
++def validate_full_prediction_cache(
++    array: np.ndarray, path: Path, split: str, row_groups: np.ndarray
++) -> np.ndarray:
++    """Reject partial or misaligned prediction caches before a teacher row is used.
++
++    Args:
++        array: Loaded prediction cache.
++        path: Prediction array path, used to locate its JSON sidecar.
++        split: Dataset split requested by the trainer.
++        row_groups: Canonical split membership in array order.
++
++    Returns:
++        The validated memory-mapped prediction array.
++
++    Raises:
++        ValueError: If sidecar, shape, dtype, or membership is incomplete.
++    """
++    expected_groups = [int(group) for group in row_groups]
++    if len(set(expected_groups)) != len(expected_groups):
++        raise ValueError("target row groups contain duplicates")
++    expected_shape = (len(expected_groups), 20000, 2)
++    if array.shape != expected_shape:
++        raise ValueError(f"teacher cache shape {array.shape} does not match {expected_shape}")
++    if array.dtype != np.float32:
++        raise ValueError("teacher cache dtype must be float32")
++    sidecar_path = path.with_suffix(".json")
++    if not sidecar_path.is_file():
++        raise ValueError(f"teacher cache needs a full-membership sidecar: {sidecar_path}")
++    metadata = json.loads(sidecar_path.read_text())
++    _validate_prediction_identity(metadata)
++    expected = {
++        "schema": "wunder.full-prediction-cache.v1",
++        "split": split,
++        "prediction_name": path.name,
++        "complete": True,
++        "row_groups": expected_groups,
++        "shape": list(array.shape),
++        "dtype": array.dtype.name,
++    }
++    for key, value in expected.items():
++        if metadata.get(key) != value:
++            raise ValueError(f"teacher cache sidecar {key} does not match the requested split")
++    return array
+ 
+ 
+ class Sequences(Dataset):
+@@ -68,16 +175,38 @@
+         y = seq.targets
+         if self.teachers:
+             if self._teach is None:
+-                rg = np.load(ROOT / "cache" / f"{self.split}_targets.npz")["row_group"]
++                rg = np.asarray(np.load(ROOT / "cache" / f"{self.split}_targets.npz")["row_group"])
+                 self._pos = {int(g): i for i, g in enumerate(rg)}
+-                self._teach = [(np.load(ROOT / "cache" / f"pred_{n}_{self.split}.npy", mmap_mode="r"), sc) for n, sc in self.teachers]
++                self._teach = []
++                for name, scale in self.teachers:
++                    if not np.isfinite(scale):
++                        raise ValueError(f"teacher scale is nonfinite: {name}")
++                    path = ROOT / "cache" / f"pred_{name}_{self.split}.npy"
++                    array = np.load(path, mmap_mode="r")
++                    array = validate_full_prediction_cache(array, path, self.split, rg)
++                    self._teach.append((array, scale))
+             j = self._pos[int(self.indices[i])]
+-            t = sum(sc * np.asarray(arr[j], dtype=np.float32) for arr, sc in self._teach) / len(self._teach)
++            rows = []
++            for array, scale in self._teach:
++                teacher = np.asarray(array[j], dtype=np.float32)
++                if teacher.shape != (20000, 2) or not np.isfinite(teacher).all():
++                    raise ValueError(f"teacher cache contains malformed or nonfinite rows for group {self.indices[i]}")
++                rows.append(scale * teacher)
++            t = sum(rows) / len(rows)
++            if not np.isfinite(t).all():
++                raise ValueError(f"blended teacher target is nonfinite for group {self.indices[i]}")
+             y = np.concatenate([y, t.astype(np.float32)], axis=1)
+             if FAMILY_TEACHERS:
+                 if not hasattr(self, "_family_arrays"):
+-                    self._family_arrays = [np.load(ROOT / "cache" / f"pred_{n}_{self.split}.npy", mmap_mode="r") for n in FAMILY_TEACHERS]
+-                y = np.concatenate([y] + [np.asarray(a[j], dtype=np.float32) for a in self._family_arrays], axis=1)
++                    self._family_arrays = []
++                    for name in FAMILY_TEACHERS:
++                        path = ROOT / "cache" / f"pred_{name}_{self.split}.npy"
++                        array = np.load(path, mmap_mode="r")
++                        self._family_arrays.append(validate_full_prediction_cache(array, path, self.split, rg))
++                family_rows = [np.asarray(array[j], dtype=np.float32) for array in self._family_arrays]
++                if any(not np.isfinite(rows).all() for rows in family_rows):
++                    raise ValueError(f"family teacher cache contains nonfinite rows for group {self.indices[i]}")
++                y = np.concatenate([y] + family_rows, axis=1)
+         if self.quote_path:
+             if self._quote is None:
+                 self._quote = np.load(ROOT / "cache" / f"quote_path_{self.split}.npy", mmap_mode="r")

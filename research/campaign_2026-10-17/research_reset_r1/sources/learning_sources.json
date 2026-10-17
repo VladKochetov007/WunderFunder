@@ -1,0 +1,294 @@
+{
+  "schema": "wunder.connectome.learning-scout.sources.v1",
+  "checked_date": "2026-10-17",
+  "scope": "Primary literature and author/official code survey for long-sequence state and memory, hybrid recurrence, structured self-supervision, distillation context, optimization horizons, distribution robustness, and sequence-local adaptation. No local training, fitting, inference, or benchmark execution.",
+  "sources": [
+    {
+      "id": "S1",
+      "date": "2026-03-16",
+      "title": "Mamba-3: Improved Sequence Modeling using State Space Principles",
+      "authors": [
+        "Aakash Lahoti",
+        "Kevin Y. Li",
+        "Berlin Chen",
+        "Caitlin Wang",
+        "Aviv Bick",
+        "J. Zico Kolter",
+        "Tri Dao",
+        "Albert Gu"
+      ],
+      "year": 2026,
+      "venue_or_status": "ICLR 2026; arXiv:2603.15569",
+      "paper_url": "https://arxiv.org/abs/2603.15569",
+      "official_code_url": "https://github.com/state-spaces/mamba",
+      "verified_claim": "The paper proposes a more expressive SSM recurrence, complex-valued state updates, and MIMO formulation; it reports retrieval, state-tracking, and language-modeling results. The official repository contains Mamba-3 code.",
+      "limits": "Reported evaluations are language/retrieval tasks at large model scales. They do not establish quality on this 112-feature regression task, CPU callback performance, or compatibility with the competition environment.",
+      "url": "https://arxiv.org/abs/2603.15569"
+    },
+    {
+      "id": "S2",
+      "date": "2024-05-31",
+      "title": "Transformers are SSMs: Generalized Models and Efficient Algorithms Through Structured State Space Duality",
+      "authors": [
+        "Tri Dao",
+        "Albert Gu"
+      ],
+      "year": 2024,
+      "venue_or_status": "ICML 2024; arXiv:2405.21060",
+      "paper_url": "https://arxiv.org/abs/2405.21060",
+      "official_code_url": "https://github.com/state-spaces/mamba",
+      "verified_claim": "The paper develops structured state-space duality, relating SSMs and attention through structured semiseparable matrices, and introduces Mamba-2 with an algorithm the authors report as 2–8x faster than Mamba-1 on their language-modeling setup.",
+      "limits": "The speed claim is specific to the authors' model, kernels, and hardware. The paper does not show a competition-task gain or CPU serving advantage.",
+      "url": "https://arxiv.org/abs/2405.21060"
+    },
+    {
+      "id": "S3",
+      "date": "2024-12-09",
+      "title": "Gated Delta Networks: Improving Mamba2 with Delta Rule",
+      "authors": [
+        "Songlin Yang",
+        "Jan Kautz",
+        "Ali Hatamizadeh"
+      ],
+      "year": 2025,
+      "venue_or_status": "ICLR 2025; arXiv:2412.06464",
+      "paper_url": "https://arxiv.org/abs/2412.06464",
+      "official_code_url": "https://github.com/NVlabs/GatedDeltaNet",
+      "verified_claim": "The paper combines a gate for adaptive memory forgetting with delta-rule updates for targeted memory writing and describes a parallel training algorithm; NVlabs identifies the repository as the official PyTorch implementation.",
+      "limits": "Evidence comes from language modeling, retrieval, and long-context benchmarks. The local project already has an older negative-point-estimate GDN comparison, so this source does not justify a vanilla rerun.",
+      "url": "https://arxiv.org/abs/2412.06464"
+    },
+    {
+      "id": "S4",
+      "date": "2024-05-07",
+      "title": "xLSTM: Extended Long Short-Term Memory",
+      "authors": [
+        "Maximilian Beck",
+        "Korbinian Pöppel",
+        "Markus Spanring",
+        "Andreas Auer",
+        "Oleksandra Prudnikova",
+        "Michael Kopp",
+        "Günter Klambauer",
+        "Johannes Brandstetter",
+        "Sepp Hochreiter"
+      ],
+      "year": 2024,
+      "venue_or_status": "NeurIPS 2024; arXiv:2405.04517",
+      "paper_url": "https://arxiv.org/abs/2405.04517",
+      "official_code_url": "https://github.com/NX-AI/xlstm",
+      "verified_claim": "The paper extends LSTM with stabilized exponential gates and two memory variants: scalar-memory sLSTM and matrix-memory mLSTM; the official repository provides the authors' implementation.",
+      "limits": "The paper's main evaluation is language modeling. CUDA/kernel requirements and training results do not establish numeric forecasting quality or CPU callback viability here.",
+      "url": "https://arxiv.org/abs/2405.04517"
+    },
+    {
+      "id": "S5",
+      "date": "2024-02-29",
+      "title": "Griffin: Mixing Gated Linear Recurrences with Local Attention for Efficient Language Models",
+      "authors": [
+        "Soham De",
+        "Samuel L. Smith",
+        "Anushan Fernando",
+        "Aleksandar Botev",
+        "George Cristian-Muraru",
+        "Albert Gu",
+        "Ruba Haroun",
+        "Leonard Berrada",
+        "Yutian Chen",
+        "Srivatsan Srinivasan",
+        "Guillaume Desjardins",
+        "Arnaud Doucet",
+        "David Budden",
+        "Yee Whye Teh",
+        "Razvan Pascanu",
+        "Nando De Freitas",
+        "Caglar Gulcehre"
+      ],
+      "year": 2024,
+      "venue_or_status": "Primary arXiv paper: arXiv:2402.19427",
+      "paper_url": "https://arxiv.org/abs/2402.19427",
+      "official_code_url": "https://github.com/google-deepmind/recurrentgemma",
+      "verified_claim": "The paper presents Hawk gated linear recurrence and Griffin, a hybrid that mixes gated recurrence with local attention. Google's RecurrentGemma repository states that its models are based on Griffin.",
+      "limits": "Results concern language-model training and inference. The code is an implementation/resource reference, not a drop-in numeric model or evidence of transfer to this task.",
+      "url": "https://arxiv.org/abs/2402.19427"
+    },
+    {
+      "id": "S6",
+      "date": "2024-02-06",
+      "title": "MOMENT: A Family of Open Time-series Foundation Models",
+      "authors": [
+        "Mononito Goswami",
+        "Konrad Szafer",
+        "Arjun Choudhry",
+        "Yifu Cai",
+        "Shuo Li",
+        "Artur Dubrawski"
+      ],
+      "year": 2024,
+      "venue_or_status": "ICML 2024; arXiv:2402.03885",
+      "paper_url": "https://arxiv.org/abs/2402.03885",
+      "official_code_url": "https://github.com/moment-timeseries-foundation-model/moment",
+      "verified_claim": "The paper describes time-series foundation models pretrained with masked-patch reconstruction; the author repository includes research code and pretraining workflows.",
+      "limits": "The reported pretrained models use a public multi-domain time-series corpus. Such external series and pretrained weights are not usable here if they contain external market data; only the training objective is a candidate for adaptation to permitted supplied inputs.",
+      "url": "https://arxiv.org/abs/2402.03885"
+    },
+    {
+      "id": "S7",
+      "date": "2024-02-15",
+      "title": "SAMformer: Unlocking the Potential of Transformers in Time Series Forecasting with Sharpness-Aware Minimization and Channel-Wise Attention",
+      "authors": [
+        "Romain Ilbert",
+        "Ambroise Odonnat",
+        "Vasilii Feofanov",
+        "Aladin Virmaux",
+        "Giuseppe Paolo",
+        "Themis Palpanas",
+        "Ievgen Redko"
+      ],
+      "year": 2024,
+      "venue_or_status": "ICML 2024; arXiv:2402.10198",
+      "paper_url": "https://arxiv.org/abs/2402.10198",
+      "official_code_url": "https://github.com/romilbert/samformer",
+      "verified_claim": "The authors combine sharpness-aware minimization with a shallow time-series Transformer and report forecasting results, seed variation, and sharpness analyses on their benchmark datasets.",
+      "limits": "Their architecture, data splits, forecast horizons, and MSE-based evaluation differ from this challenge's recurrent per-row predictions and pooled weighted Pearson score.",
+      "url": "https://arxiv.org/abs/2402.10198"
+    },
+    {
+      "id": "S8",
+      "date": "2024-07-05",
+      "title": "Learning to (Learn at Test Time): RNNs with Expressive Hidden States",
+      "authors": [
+        "Yu Sun",
+        "Xinhao Li",
+        "Karan Dalal",
+        "Jiarui Xu",
+        "Arjun Vikram",
+        "Genghan Zhang",
+        "Yann Dubois",
+        "Xinlei Chen",
+        "Xiaolong Wang",
+        "Sanmi Koyejo",
+        "Tatsunori Hashimoto",
+        "Carlos Guestrin"
+      ],
+      "year": 2024,
+      "venue_or_status": "Primary arXiv paper: arXiv:2407.04620",
+      "paper_url": "https://arxiv.org/abs/2407.04620",
+      "official_code_url": "https://github.com/test-time-training/ttt-lm-jax",
+      "verified_claim": "The authors define TTT-Linear and TTT-MLP layers whose hidden state is a model updated by self-supervised learning on the sequence; the repository identifies itself as the official JAX implementation.",
+      "limits": "Reported evaluations are large language models with accelerator/system optimizations. They do not establish per-row CPU cost, allowed contest semantics for online parameter updates, or label-prediction improvement here.",
+      "url": "https://arxiv.org/abs/2407.04620"
+    },
+    {
+      "id": "S9",
+      "date": "2024-12-31",
+      "title": "Titans: Learning to Memorize at Test Time",
+      "authors": [
+        "Ali Behrouz",
+        "Peilin Zhong",
+        "Vahab Mirrokni"
+      ],
+      "year": 2025,
+      "venue_or_status": "NeurIPS 2025; arXiv:2501.00663",
+      "paper_url": "https://arxiv.org/abs/2501.00663",
+      "official_code_url": null,
+      "verified_claim": "The paper proposes a neural long-term memory module updated at test time and several ways to combine that memory with attention; the NeurIPS paper reports long-context language/retrieval results.",
+      "limits": "No verified author implementation link was found during this scout. The result does not establish suitability for numeric data, CPU serving, or this challenge's allowed-update interpretation.",
+      "url": "https://arxiv.org/abs/2501.00663"
+    },
+    {
+      "id": "S10",
+      "date": "2026-08-13",
+      "title": "Context-Matched Distillation: Teacher Causality for Autoregressive Video Distillation",
+      "authors": [
+        "Hmrishav Bandyopadhyay",
+        "Xuanchi Ren",
+        "Zijian Huang",
+        "Jay Zhangjie Wu",
+        "Tianshi Cao",
+        "Ruilong Li",
+        "Bryan Chu",
+        "Sanja Fidler",
+        "Yi-Zhe Song",
+        "Zian Wang"
+      ],
+      "year": 2026,
+      "venue_or_status": "Primary arXiv preprint: arXiv:2608.13391",
+      "paper_url": "https://arxiv.org/abs/2608.13391",
+      "official_code_url": "https://github.com/nv-tlabs/cmd",
+      "verified_claim": "The paper proposes causal teacher scoring and context-matched student distillation for autoregressive video generation; the author repository includes causal teacher and student distillation configurations.",
+      "limits": "Video diffusion/generation differs substantially from numeric time-series regression. This source motivates an information-set audit, not a forecast-quality claim or permission to use future inputs.",
+      "url": "https://arxiv.org/abs/2608.13391"
+    },
+    {
+      "id": "S11",
+      "date": "2022",
+      "title": "Reversible Instance Normalization for Accurate Time-Series Forecasting against Distribution Shift",
+      "authors": [
+        "Taesung Kim",
+        "Jinhee Kim",
+        "Yunwon Tae",
+        "Cheonbok Park",
+        "Jang-Ho Choi",
+        "Jaegul Choo"
+      ],
+      "year": 2022,
+      "venue_or_status": "ICLR 2022",
+      "paper_url": "https://openreview.net/forum?id=cGDAkQo1C0p",
+      "official_code_url": "https://github.com/ts-kim/RevIN",
+      "verified_claim": "The paper proposes reversible instance-wise input normalization with learnable affine parameters for time-series forecasting under distribution shift; the repository identifies itself as the official PyTorch implementation.",
+      "limits": "Standard instance statistics can use a complete input window. For this per-row causal callback, only prefix statistics are legal; the proposed streaming adaptation is not the paper's unchanged method.",
+      "url": "https://openreview.net/forum?id=cGDAkQo1C0p"
+    },
+    {
+      "id": "S12",
+      "date": "2017-05-23",
+      "title": "Unbiasing Truncated Backpropagation Through Time",
+      "authors": [
+        "Corentin Tallec",
+        "Yann Ollivier"
+      ],
+      "year": 2017,
+      "venue_or_status": "Primary arXiv paper: arXiv:1705.08209",
+      "paper_url": "https://arxiv.org/abs/1705.08209",
+      "official_code_url": null,
+      "verified_claim": "ARTBP uses random truncation lengths and compensation factors to obtain an unbiased gradient estimator while retaining truncated-backpropagation computational benefits; the paper evaluates synthetic dependency tasks and language modeling.",
+      "limits": "The paper's tasks do not establish training stability, variance, or score benefit on 20,000-row sequences with this objective.",
+      "url": "https://arxiv.org/abs/1705.08209"
+    },
+    {
+      "id": "S13",
+      "date": "2007-10-19",
+      "title": "Bayesian Online Changepoint Detection",
+      "authors": [
+        "Ryan Prescott Adams",
+        "David J. C. MacKay"
+      ],
+      "year": 2007,
+      "venue_or_status": "Primary arXiv paper: arXiv:0710.3742",
+      "paper_url": "https://arxiv.org/abs/0710.3742",
+      "official_code_url": null,
+      "verified_claim": "The paper derives an online message-passing algorithm for the posterior distribution over current run length and applies it under a segment-wise generative model.",
+      "limits": "Exact inference depends on the assumed run-length hazard and segment observation model. No source establishes useful changepoints or target-regime alignment in these anonymous features.",
+      "url": "https://arxiv.org/abs/0710.3742"
+    },
+    {
+      "id": "S14",
+      "date": "2022-12-28",
+      "title": "Near-Optimal Algorithms for Group Distributionally Robust Optimization and Beyond",
+      "authors": [
+        "Tasuku Soma",
+        "Khashayar Gatmiry",
+        "Sharut Gupta",
+        "Stefanie Jegelka"
+      ],
+      "year": 2022,
+      "venue_or_status": "Primary arXiv paper: arXiv:2212.13669",
+      "paper_url": "https://arxiv.org/abs/2212.13669",
+      "official_code_url": null,
+      "verified_claim": "The paper studies optimization algorithms for group-DRO, subpopulation fairness, and empirical CVaR objectives, with convergence analyses and experiments.",
+      "limits": "Meaningful known groups are central to the setup. It does not establish that source components or feature-defined regimes are valid groups for this competition or that its objectives improve pooled weighted correlation.",
+      "url": "https://arxiv.org/abs/2212.13669"
+    }
+  ]
+}

@@ -1,56 +1,69 @@
-# Research library
+# Research evidence index
 
-[October 15 Vast-A CPU probe](research/campaign_2026-10-15/README.md) links the source-qualified, label-free complete-sequence timing fixture and exact-CPU execution boundary. The fixture supports runtime measurement only and makes no prediction-quality claim.
+Use [current project state](specs/current-state.md) for the latest status and
+effective scope. The [unified research library](research/unified/README.md) is
+the maintained topic index for ideas, methods, reviews, sources, models,
+validation, inference and operations.
 
-[Current CPU student frontier](research/campaign_2026-10-14/cpu_student_frontier_r1/README.md) contains the complete approved plan, resource/comparison contract and live delivery frontier. Fixed-weight CPU probes, architecture/precision and causal-state experiments proceed with theory and cloud recovery; user uploads are asynchronous. No new winner is claimed at entry.
+## Evidence path
 
-Start with the [unified research library](research/unified/README.md) for a topic-based guide, shared note format, and links to the dated archive. The [October 12, 2026 archive](research/unified/archive/2026-10-12/README.md) contains the split final handoff.
+1. Read the [research objective](specs/research-objective.md) and
+   [current state](specs/current-state.md).
+2. Follow a topic from the [unified library](research/unified/README.md) to its
+   source notes and campaign receipts.
+3. Check the append-only [hypothesis ledger](research/hypotheses.jsonl),
+   [experiment ledger](research/experiments.jsonl), and the
+   [research-tree index](research/bandit_tree/generated/INDEX.md) for IDs and
+   lineage.
+4. Use the frozen recipe, membership, provenance and grade files in the
+   originating campaign to verify a result. A summary or ledger row alone is
+   not a complete result receipt.
 
-The [public and future private leaderboard strategy](research/unified/reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md) reviews the previous approach and gives separate selection plans for the public leaderboard and two to four weeks of future private data, ranked experiments, scaling directions and decision criteria. It is a proposed research plan; its new mechanisms have not been tested.
+## Status and evidence limits
 
-For a single-file overview, open the [interactive results dashboard](research/unified/validation/RESULTS_DASHBOARD_20261012.html). It includes the public-score climb, protocol-separated local/public plots, recorded local confidence intervals, 45 preserved public records with three missing historic portal events called out, and searchable experiment and idea ledgers.
+The latest 17 October request resumes analysis, literature review, EDA and bug
+repair while explicitly withholding model fitting. The
+[research reset](research/campaign_2026-10-17/research_reset_r1/README.md) records
+that scope: deployed fixes and an existing-checkpoint replay, measured EDA,
+32 primary literature works and 25 proposals revised through independent
+criticism. No new model was fitted and no competition submission was made.
+The earlier trainer integration and draft packets remain implementation work,
+not measured model improvements.
 
-The [first-principles review proposal](research/unified/reviews/FIRST_PRINCIPLES_REVIEW_PLAN_20261012.md), merged from `claude/stoic-euler-70wff3`, challenges the campaign's allocation and proposes compact ensembles, averaging and cross-fitted teachers. The [experiment assessment](research/unified/ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md) checks its evidence, identifies useful comparisons and explains which proposed policy changes are not adopted.
+The 17 October repository snapshot recorded 14 experiment-prefixed draft branches
+and pull requests. They are implementation proposals and handoffs, not 14
+completed experiments. Review their source and measurement stage in the
+[pull-request list](https://github.com/VladKochetov007/WunderFunder/pulls) and
+the [current-state note](specs/current-state.md).
 
-The current competition status remains in [specs/current-state.md](specs/current-state.md). The user explicitly resumed experiments in the [October 13 strategy campaign](research/campaign_2026-10-13/strategy_execution_r1/README.md), superseding the historical [October 12 stop](research/campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json). CPU/RAM protections and the prohibition on new paid capacity remain in force.
+The official leaderboard was read on 17 October 2026: the team had public WP
+0.66832 at rank 22 with 97 team submissions, with the leader at 0.67243. The dated observation is
+linked to the [official leaderboard](https://wundernn.io/connectome/leaderboard).
+It does not identify the exact ZIP or submission ID that produced the current
+team best, and it says nothing about private-leaderboard performance.
 
-## Find source evidence
+The 17 October maintenance index also links the
+[repository audit](research/unified/reviews/REPOSITORY_AUDIT_20261017.md),
+[current model catalog](research/unified/models/CURRENT_MODEL_CATALOG.md),
+[validation protocols](research/unified/validation/VALIDATION_PROTOCOLS.md),
+and [storage map](research/unified/operations/STORAGE_MAP.md). These maintained
+summaries route readers to their hash-bound evidence receipts.
 
-- Find uploaded models in the [private Hugging Face archive guide](research/unified/models/huggingface/README.md), including short run descriptions, source checkpoint paths, research IDs and verified upload receipts.
-- Search hypothesis IDs in [hypotheses.jsonl](research/hypotheses.jsonl), experiment IDs in [experiments.jsonl](research/experiments.jsonl), and decisions in the [bandit tree](research/bandit_tree/generated/INDEX.md).
-- Open a domain README under `research/unified/` for a curated route to the relevant synthesis and receipts.
-- Every useful research item must have a link and explanatory entry in its corresponding unified folder's README, including sources and artifacts stored outside the library; see [the indexing requirements](AGENTS.md#research-note-organization).
-- Treat append-only ledgers, frozen experiment receipts, and official grade artifacts as evidence. Domain pages summarize and link to them; they do not replace them.
-- Use `research/unified/reviews/` for critical reviews and audit receipts, `research/unified/sources/` for imported competition writeups, and the ideas domain for generated proposals.
-- The dated archive is a point-in-time record. The unified domain pages are the maintained navigation and synthesis layer if research is explicitly resumed.
+## Where evidence lives
 
-## Search examples
+- research/unified/ — maintained topic navigation and synthesis.
+- Campaign folders under research/ — dated plans, recipes, execution logs and
+  result receipts. Preserve their historical state.
+- research/hypotheses.jsonl and research/experiments.jsonl — append-only
+  idea and experiment records.
+- research/bandit_tree/ — links hypotheses, experiments and combinations.
+- artifacts/, cache/ and submissions/ — run outputs, selected caches,
+  package manifests and release evidence. Check their receipts before treating
+  a path as current or portable.
+- specs/ — objective, current authority and durable decisions.
 
-```sh
-# Find an idea or experiment by its stable identifier.
-rg -n 'H-381|E-CLEAN-T3-F0-CONTROL-S4' research/hypotheses.jsonl research/experiments.jsonl
-
-# Find notes about blending, quantization, or transfer.
-rg -n -i 'blend|quantization|public transfer' research/unified
-
-# Find all tracked candidate and validation notes.
-rg -n -i '0\.6671|Q8|fold|validation' research/unified/{validation,submissions,inference}
-```
-
-## Canonical locations
-
-The repository root contains no research compatibility aliases. Use the canonical [competition metric](research/unified/methods/COMPETITION_METRIC.md), [October 5 idea memo](research/unified/ideas/legacy/oct5_ideas.md), and [literature review](research/unified/reviews/legacy/review_2.txt). The old root writeups were sorted by type: imported reports are under `research/unified/sources/competition-writeups/`, generated ideas under `research/unified/ideas/legacy/`, internal reviews under `research/unified/reviews/legacy/`, and controller commentary under `research/unified/operations/legacy/`. The [WunderFunder source audit](research/unified/reviews/legacy/WunderFunder_audit_evidence.md) is filed with the historical reviews.
-
-## Latest authority: strategy research resumed
-
-[Current QAT research plan](research/campaign_2026-10-13/qat_renewable_r1/PLAN.md) implements the user's new quantization-aware training/compression work using local GPU and all renewable Kaggle GPU/TPU allowance, with no campaign GPU-hour ceiling. It specifies exact W4/W8 native export, matched controls, activation/learned-scale extensions and broader endpoint validation; implementation and matched GPU experiments are active; full-fold results and independent grades are recorded without claiming a validated QAT winner. [Campaign and live progress](research/campaign_2026-10-13/qat_renewable_r1/README.md).
-
-[October13 execution campaign](research/campaign_2026-10-13/strategy_execution_r1/README.md) supersedes the historical experimental stop following the user's approval to implement the review and use all Kaggle allowance/local GPU capacity. It contains the plan, coverage and frontier; existing CPU/RAM and no-paid-spend constraints remain.
-
-[Selected QAT public-test package](research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/RESULT_AND_RELEASE_R2.md) completes the immediate file preparation: exact learned-scale W4, near-original fitteddiagnostic, one13.46MB checked ZIP. StrongesttestedQAT, floatingcontrolhigher; publicupload/score pendingauthenticatedportalaccess.
-
-### QAT public result — 2026-10-13T22:55:30.861028+00:00
-
-[User-reported QAT public test](research/campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/PUBLIC_TRANSFER_REVIEW_20261014_R1.md): portal00fpe72k,0.6680/54m26s/655MB. Original0.6681/50m16s/650MB remains higher and faster in these observations; priorreportedpairbest0.6682 unchanged. Exactprobecompleted/notpromoted;17.46% smallerZIP, no observed runtime/RAM or newbest benefit,5m34s deadline headroom. One rounded publicpoint, not a family refutation; source-qualified controls/activation-aware and broader validation remain open. Timestamp chronology is unresolved and payloadhash not independently verified.
-
-[October 15 native minGRU Q8 profile](research/campaign_2026-10-15/README.md) records a local, bitwise-checked serving optimization and its evidence limits.
+See [AGENTS.md research note organization](AGENTS.md#research-note-organization)
+for indexing and provenance requirements. The large
+[12 October handoff](research/RESEARCH_COMPLETE_HANDOFF_20261012.md) and the
+[current-state history archive](specs/current-state-history-20261017.md) are
+dated historical records, not current authority.

@@ -1,5 +1,22 @@
 # Reviews and audit receipts
 
+Source-qualified audits, independent reviews and evidence assessments.
+
+## Current navigation
+
+- [October17 iterative research reviews](../../campaign_2026-10-17/research_reset_r1/reviews/README.md) — independent R2 cross-criticism, R3 EDA/weighted-metric audits, R4 portfolio critique and coordinator resolutions; resulting25cards are proposals, not model results.
+
+- [Repository audit](REPOSITORY_AUDIT_20261017.md) — reconciled local, live GitHub and beleriand findings, corrected stale statuses and unresolved gaps.
+- [Portable audit evidence](audit-2026-10-17/README.md) — five small metadata/public receipts with SHA-256 manifest; no large data or weights.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
+
 - [Root R5 bootstrap reproduction receipt](STUDENT_SHAPE_T4_R5_ROOT_FIXTURE_20261015_R1.json): root compared R4/R5 manifests directly—only the two required target descriptors are added to `files`, with archive and outer kernel byte-identical—then reran the actor's actual-bootstrap fixture in a fresh physical directory. All24 mounts resolve, runtime specs are written, the runner is intercepted before Torch/GPU code, and links are cleaned. Conditional GO for the same bounded provider profile after fresh checks. This corrects the R4 review's missed manifest-allowlist requirement; it is bootstrap evidence, not actual-data/profile/quality evidence.
 
 - [Root review of queued frozen-parent S profile](FROZEN_PARENT_S_PROFILE_REVIEW_20261015_R1.md) independently compares exact S/C options and reads direct/cached teacher consumer/loss paths. GO for50-update resource smoke after C export and fresh shared admission; full fit remains unadmitted. Target calibration, historical precision and inherited-teacher confounds remain explicit.
@@ -155,3 +172,11 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 - [Independent experiment-workflow static review](EXPERIMENT_WORKFLOW_STATIC_REVIEW_20261017_R1.md) records Luna/max conditional pass, two material gaps (estimand/uncertainty and branch SHA pinning), and root fixes. Document review only; no numerical, training or archive-execution evidence.
 
 - [Independent modular-trainer static review and fixes](../methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md#independent-review-and-corrections) records the explicitly authorized Sol6.1/medium critic, concrete compatibility/state/packet bugs, corrections and final bounded disposition. Static review only; no empirical parity or speed claim. Canonical description is in methods.
+
+</details>
+
+## Current sequence-moment investigation
+
+- [Independent causal-geometry pilot grade](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r1.json), interpreted in the [geometry note](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md), verifies all9endpoint official pooled/fold scores, source/initial-state hashes and880updates. Tiny pooled moment gain is opposed across exposed folds; conditional component intervals cross zero. This is integrity evidence and exploratory comparison, not production gain or a rejection of heuristics.
+
+- [Independent discrete/capacity pilot grade R2](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r2.json) verifies all24endpoints and18predeclared half-mixtures, their source/data bindings, matched initialization and880-update clocks. It confirms heterogeneous feature effects and negative naive-concatenation interactions at two capacities; no production, teacher-distillation or public-transfer conclusion follows from these exposed tiny-data slices.

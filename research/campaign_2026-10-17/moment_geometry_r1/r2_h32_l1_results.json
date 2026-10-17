@@ -1,0 +1,2294 @@
+[
+  {
+    "arm": "control",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/control_seed3.pt",
+    "config": {
+      "arm": "control",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "zero all suffix channels after211",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "ec23fd6f9191f26414c1c50c9c0924e64ddbc236df32d6eff9a77e582312998c",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 3,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.30431133235625046,
+      "t1": 0.3091711463423368,
+      "wp": 0.30674123934929365
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.18407454343293003,
+        "t1": 0.2911107820884833,
+        "wp": 0.23759266276070667
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.38909562825249994,
+        "t1": 0.38322045215112005,
+        "wp": 0.38615804020181
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/control_seed3_evalpred.npy",
+    "seed": 3,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 2.8850579369973275,
+      "updates": 880
+    }
+  },
+  {
+    "arm": "control",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/control_seed7.pt",
+    "config": {
+      "arm": "control",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "zero all suffix channels after211",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "7234afed52af53c2c5a8dcd3a326a93671ce199f814540803fabc80e04e7707b",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 7,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.3104624446162752,
+      "t1": 0.27979416997060097,
+      "wp": 0.2951283072934381
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.20420361619513994,
+        "t1": 0.2607492199220155,
+        "wp": 0.23247641805857772
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.38411101139992765,
+        "t1": 0.3547141621903047,
+        "wp": 0.3694125867951162
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/control_seed7_evalpred.npy",
+    "seed": 7,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 2.851071200995648,
+      "updates": 880
+    }
+  },
+  {
+    "arm": "control",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/control_seed11.pt",
+    "config": {
+      "arm": "control",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "zero all suffix channels after211",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "6accf8ad1aa3fde55e2fdd80f02c7dd9a257f9bacad03cc01b99ab59185794b5",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 11,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.2933528584745439,
+      "t1": 0.2908333765819317,
+      "wp": 0.2920931175282378
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.17042393322891733,
+        "t1": 0.26457282036563284,
+        "wp": 0.21749837679727507
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.3737748867569829,
+        "t1": 0.3746677430388359,
+        "wp": 0.3742213148979094
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/control_seed11_evalpred.npy",
+    "seed": 11,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 2.6112236639964976,
+      "updates": 880
+    }
+  },
+  {
+    "arm": "scaled",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/scaled_seed3.pt",
+    "config": {
+      "arm": "scaled",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "retain only first20ofsuffix",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "ec23fd6f9191f26414c1c50c9c0924e64ddbc236df32d6eff9a77e582312998c",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 3,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.30397158821002473,
+      "t1": 0.3164124873056593,
+      "wp": 0.310192037757842
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.1694081106680135,
+        "t1": 0.2902574246004682,
+        "wp": 0.22983276763424088
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.4000607556752976,
+        "t1": 0.4023967754618583,
+        "wp": 0.40122876556857795
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/scaled_seed3_evalpred.npy",
+    "seed": 3,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 2.5001705230024527,
+      "updates": 880
+    }
+  },
+  {
+    "arm": "scaled",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/scaled_seed7.pt",
+    "config": {
+      "arm": "scaled",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "retain only first20ofsuffix",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "7234afed52af53c2c5a8dcd3a326a93671ce199f814540803fabc80e04e7707b",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 7,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.30704786925123373,
+      "t1": 0.28868873357306263,
+      "wp": 0.29786830141214815
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.18694102790871345,
+        "t1": 0.26626798404700114,
+        "wp": 0.2266045059778573
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.39470099721653434,
+        "t1": 0.37569979602630427,
+        "wp": 0.3852003966214193
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/scaled_seed7_evalpred.npy",
+    "seed": 7,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 2.576911743999517,
+      "updates": 880
+    }
+  },
+  {
+    "arm": "scaled",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/scaled_seed11.pt",
+    "config": {
+      "arm": "scaled",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "retain only first20ofsuffix",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "6accf8ad1aa3fde55e2fdd80f02c7dd9a257f9bacad03cc01b99ab59185794b5",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 11,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.3064364401570222,
+      "t1": 0.3006727592547775,
+      "wp": 0.3035545997058998
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.1833284093303416,
+        "t1": 0.2690114197987593,
+        "wp": 0.22616991456455046
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.39438916136963686,
+        "t1": 0.39482753047487607,
+        "wp": 0.39460834592225646
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/scaled_seed11_evalpred.npy",
+    "seed": 11,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 2.6664771159994416,
+      "updates": 880
+    }
+  },
+  {
+    "arm": "dictionary",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/dictionary_seed3.pt",
+    "config": {
+      "arm": "dictionary",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "retain only40dictionary suffixchannels after231",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "ec23fd6f9191f26414c1c50c9c0924e64ddbc236df32d6eff9a77e582312998c",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 3,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.305146188719576,
+      "t1": 0.3168769996691741,
+      "wp": 0.3110115941943751
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.15672145062750412,
+        "t1": 0.2905260434935337,
+        "wp": 0.2236237470605189
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.41019245893211553,
+        "t1": 0.40801616493835097,
+        "wp": 0.4091043119352332
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/dictionary_seed3_evalpred.npy",
+    "seed": 3,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 2.6632984899988514,
+      "updates": 880
+    }
+  },
+  {
+    "arm": "dictionary",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/dictionary_seed7.pt",
+    "config": {
+      "arm": "dictionary",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "retain only40dictionary suffixchannels after231",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "7234afed52af53c2c5a8dcd3a326a93671ce199f814540803fabc80e04e7707b",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 7,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.308895856604692,
+      "t1": 0.27717054680430936,
+      "wp": 0.29303320170450065
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.1640346411067308,
+        "t1": 0.24953459160500607,
+        "wp": 0.20678461635586842
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.4130374623452055,
+        "t1": 0.37544270533630575,
+        "wp": 0.3942400838407556
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/dictionary_seed7_evalpred.npy",
+    "seed": 7,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 2.7063414410004043,
+      "updates": 880
+    }
+  },
+  {
+    "arm": "dictionary",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/dictionary_seed11.pt",
+    "config": {
+      "arm": "dictionary",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "retain only40dictionary suffixchannels after231",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "6accf8ad1aa3fde55e2fdd80f02c7dd9a257f9bacad03cc01b99ab59185794b5",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 11,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.29696638177976664,
+      "t1": 0.2934075968898154,
+      "wp": 0.29518698933479104
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.15389128877627314,
+        "t1": 0.25291633146027376,
+        "wp": 0.20340381011827346
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.39296275555561944,
+        "t1": 0.4001219260409094,
+        "wp": 0.39654234079826445
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/dictionary_seed11_evalpred.npy",
+    "seed": 11,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 2.5386942320037633,
+      "updates": 880
+    }
+  },
+  {
+    "arm": "combined",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/combined_seed3.pt",
+    "config": {
+      "arm": "combined",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "retain all60suffixchannels",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "ec23fd6f9191f26414c1c50c9c0924e64ddbc236df32d6eff9a77e582312998c",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 3,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.30015743541141626,
+      "t1": 0.315022318373231,
+      "wp": 0.30758987689232364
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.14251818369021046,
+        "t1": 0.2849248369028043,
+        "wp": 0.21372151029650738
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.4118448344858554,
+        "t1": 0.40818746741075546,
+        "wp": 0.41001615094830546
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/combined_seed3_evalpred.npy",
+    "seed": 3,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 2.72022634500172,
+      "updates": 880
+    }
+  },
+  {
+    "arm": "combined",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/combined_seed7.pt",
+    "config": {
+      "arm": "combined",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "retain all60suffixchannels",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "7234afed52af53c2c5a8dcd3a326a93671ce199f814540803fabc80e04e7707b",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 7,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.30142995873354617,
+      "t1": 0.28126999919520596,
+      "wp": 0.2913499789643761
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.15316481329213752,
+        "t1": 0.26181665709215773,
+        "wp": 0.2074907351921476
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.4068240811802872,
+        "t1": 0.37854550828140093,
+        "wp": 0.39268479473084406
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/combined_seed7_evalpred.npy",
+    "seed": 7,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 2.7700808119989233,
+      "updates": 880
+    }
+  },
+  {
+    "arm": "combined",
+    "checkpoint": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/checkpoints/combined_seed11.pt",
+    "config": {
+      "arm": "combined",
+      "batch_chunk_warmup_clip": [
+        4,
+        512,
+        99,
+        1.0
+      ],
+      "canonical_loss_flag": "wmse",
+      "canonical_trainer_source": {
+        "files": {
+          "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+          "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+          "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+          "src/wnn/training/averaging.py": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1",
+          "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+          "src/wnn/training/cache_identity.py": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f",
+          "src/wnn/training/calibration.py": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112",
+          "src/wnn/training/checkpoints.py": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+          "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+          "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+          "src/wnn/training/cli_features.py": "d967222dbe1b74c80598e36b7db31e7819eaf184eb78e02f8482c3f7b32dd867",
+          "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+          "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+          "src/wnn/training/cli_optimizer.py": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474",
+          "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+          "src/wnn/training/cli_targets.py": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1",
+          "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+          "src/wnn/training/compatibility.py": "d0b8b8cb44f9a10cd334213ab891a53dc390a783979fc5f0155db46dc230ff8a",
+          "src/wnn/training/data_caches.py": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a",
+          "src/wnn/training/data_loaders.py": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612",
+          "src/wnn/training/data_membership.py": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+          "src/wnn/training/datasets.py": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02",
+          "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+          "src/wnn/training/epoch.py": "f4082e9e0497ac20eb5df4e0daeb33600599a5426f4c9ad0cda865e65104c13f",
+          "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+          "src/wnn/training/fit_state.py": "1a62599199f66111680150de225462261241c3bb1f9e035edb7e72a313af0ca1",
+          "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+          "src/wnn/training/forward_backward.py": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3",
+          "src/wnn/training/inheritance.py": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8",
+          "src/wnn/training/initializer.py": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94",
+          "src/wnn/training/inputs.py": "36c23e7b180d4173fab8256b425fc1b60a85e280a7f9ce77215d00bea96b03f1",
+          "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+          "src/wnn/training/macro_updates.py": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4",
+          "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+          "src/wnn/training/model_validation.py": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba",
+          "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+          "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c",
+          "src/wnn/training/optimization.py": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62",
+          "src/wnn/training/outputs.py": "02814ecdf45af151d431ba2d9bfacfff00064fcd30559a99205e2dd7397e327e",
+          "src/wnn/training/prefetch.py": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646",
+          "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+          "src/wnn/training/profiling.py": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604",
+          "src/wnn/training/provenance.py": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584",
+          "src/wnn/training/reporting.py": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b",
+          "src/wnn/training/row_views.py": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5",
+          "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+          "src/wnn/training/setup_lineage.py": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+          "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+          "src/wnn/training/setup_model_runtime.py": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982",
+          "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+          "src/wnn/training/setup_progress.py": "a43a665f67d67aaf21a5f3a95888a5093f62e5f044c913d253120d4673765a31",
+          "src/wnn/training/setup_state.py": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976",
+          "src/wnn/training/source_identity.py": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c",
+          "src/wnn/training/state.py": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8",
+          "src/wnn/training/targets.py": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438",
+          "src/wnn/training/updates.py": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1",
+          "src/wnn/training/validation_inputs.py": "2ecabc219e06e43aa5acb35d11a6f8594d71be8851eb4ade63677dc0aa748626",
+          "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+          "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+        },
+        "missing_dependency_files": [],
+        "runtime_dependencies": {
+          "attrs": "26.1.0"
+        },
+        "schema": "wnn.training-source.v1",
+        "sha256": "d7dc97332c0712179bb9d7bf1eaf956f0ceb33f9d9ced8cf4858bd6e656a84f3"
+      },
+      "channels": {
+        "arm_treatment": "retain all60suffixchannels",
+        "geometry_order": "mean4/std4/circle_res4/modal_occ4/causal_normalized_current4",
+        "raw_event": 211
+      },
+      "data_directory": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2",
+      "data_receipt_sha256": {
+        "array_manifest.json": "6e369f3f5d34c580fa428ec21f58f9b65cb5b906a3b907fe66d943df66a45652",
+        "dictionary.json": "aa0c7971580a77bdaf479a43378a02919b342d89cb12c4260db6e35c5374d8e0",
+        "membership.json": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+        "preprocessing.json": "aa7175e5c40eb386cb0870d3e383c67dd2d220872c39976ef6cbac1ed2c47108",
+        "source_binding.json": "01b5d1a98f6c37551ce77af40abcbb08ca19b16735b3fd2278996b5965bc73bf"
+      },
+      "epochs": 2,
+      "eval_fold_ids": [
+        0,
+        1
+      ],
+      "eval_sequences": 46,
+      "evaluation_scope": "dictionary-capacity-h32-l1",
+      "fit_component_count": 12,
+      "fit_sequences": 43,
+      "initial_state_sha256": "6accf8ad1aa3fde55e2fdd80f02c7dd9a257f9bacad03cc01b99ab59185794b5",
+      "input": "fixed sequence order, chronological chunks, fit-only normalized",
+      "loss": "wnn.nn.weighted_mse_loss",
+      "metric": "global_wp_clip2_v1",
+      "model": {
+        "class": "wnn.nn.RNNModel",
+        "dropout": 0.0,
+        "hidden": 32,
+        "layers": 1,
+        "n_in": 271
+      },
+      "optimization_backend": "canonical TrainingRun/build_optimization/forward_standard/backward_standard/optimizer_step",
+      "optimizer": {
+        "class": "AdamW",
+        "lr_end": 1e-05,
+        "lr_start": 0.001,
+        "weight_decay": 0.01
+      },
+      "precision": "FP32; autocast and TF32 disabled",
+      "requested_arms": [
+        "control",
+        "scaled",
+        "dictionary",
+        "combined"
+      ],
+      "schedule": "update cosine, endpoints included",
+      "seed": 11,
+      "source_sha256": {
+        "__init__.py": "bf13a885355b701c47819311b2fcdfcc6e71228d3cf865634935556f9add31c2",
+        "analysis.py": "4d597a52a075b68422cbe194199f422f26bf07ff4a3370e2b60c24a5d5a8c9ee",
+        "backend.py": "284d29269e8adb4625f58e7e9f87b15a262796810bd0445056c6c3565cf01d41",
+        "descriptive.py": "fa527e8d762cca192d2c5d8da111f09a8c3aad1e742990a409acab054764b7b4",
+        "discrete.py": "8c5b5cd0a368f2b0890a03d548d256025aa1cde13dd9ac64185e63a31a2078e9",
+        "discrete_staging.py": "87a58e1be251df22ff5271979075292e6ad8378117c1325e67717bbe46cb45d8",
+        "features.py": "bccb5807b89256ecacfa8bc9ee79c39fe7b3f55ab35705667579a24d9bf573be",
+        "grading.py": "ce01c5a2f84160eb75af18058be6954436119f03d921b0d477096efb97b64c4c",
+        "provenance.py": "1115dc03c5c1d01f3be7360949df7873e469e39dd5e6fb296eb8a22f38600107",
+        "recipe.py": "ad72bfb6f9ec6ece2622c1b89dc01b5838726f9387dba533895e533f2eec0b72",
+        "run_metadata.py": "051372bf444e5310e8afed71826076971d5f3cb810edc3b80ffa85741b73ebe2",
+        "runner.py": "3352e6dddcc7c579a7b43894ddd116bd581ff17cffeca21f892c69764426b9f1",
+        "scan.py": "cf9415210567e9bacc0f5e004376151f02cdcaad7b14591cb607e6d95418ba1d",
+        "staging.py": "e379de35fbd55312a477a9a27033b263ec7ae33fd9312c2c3a1176b8a5f4c6b3",
+        "wnn.gmetric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "wnn.nn": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "versions": [
+        "3.13.9",
+        "2.2.6",
+        "2.14.0+cu130"
+      ]
+    },
+    "evaluation": {
+      "component_count": 16,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 80040,
+      "sequence_count": 46,
+      "t0": 0.2978017199647623,
+      "t1": 0.2873410542042277,
+      "wp": 0.292571387084495
+    },
+    "evaluation_by_fold": {
+      "0": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 50209,
+        "sequence_count": 28,
+        "t0": 0.15421023308555612,
+        "t1": 0.24486145239789192,
+        "wp": 0.19953584274172403
+      },
+      "1": {
+        "component_count": 8,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 29831,
+        "sequence_count": 18,
+        "t0": 0.39606659999152005,
+        "t1": 0.3985950906836078,
+        "wp": 0.3973308453375639
+      }
+    },
+    "predictions": "/home/vlad/development/wunder/research_tmp/moment_geometry_discrete_r2/pilot_h32_l1/predictions/combined_seed11_evalpred.npy",
+    "seed": 11,
+    "training": {
+      "cuda_peak_allocated_bytes": 192457728,
+      "training_seconds": 3.0461901579983532,
+      "updates": 880
+    }
+  }
+]
