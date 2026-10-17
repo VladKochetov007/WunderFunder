@@ -1,0 +1,72 @@
+{
+  "schema": "wnn.experiment-draft.v1",
+  "id": "E-DRAFT-INPUT-ENCODING-20261017-R1",
+  "hypothesis_id": "H-DRAFT-INPUT-ENCODING-20261017",
+  "slug": "input-encoding",
+  "title": "Grouped feature encoding for causal Transformer",
+  "status": "implementation_handoff",
+  "kind": "scientific",
+  "lineage": "teacher",
+  "base_main_sha": "18407ecfa3b02d4db70cfb3c34abbacd6653e79d",
+  "base_research_team_sha": "18407ecfa3b02d4db70cfb3c34abbacd6653e79d",
+  "source_receipt": "research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md",
+  "historical_evidence": "User proposal; grouped model starter only, no measured result.",
+  "arms": [
+    "flat-projection",
+    "grouped-projection"
+  ],
+  "precision": "fp32",
+  "tf32": false,
+  "autocast": false,
+  "launch_ready": false,
+  "metric": "global_wp_clip2_v1",
+  "primary_statistic": "equal-quarter fold mean of within-fold mean paired per-fit WP deltas; no seed prediction averaging",
+  "replications_per_arm": 30,
+  "fold_seed_counts": [
+    8,
+    8,
+    7,
+    7
+  ],
+  "bootstrap_seed": 17017,
+  "bootstrap_replicates": 10000,
+  "decision_threshold": null,
+  "decision_threshold_status": "must be justified and frozen before fits, not selected from these results",
+  "implementation_sources": [
+    "src/wnn/causal_teacher.py"
+  ],
+  "implementation_files_in_this_pr": [
+    "src/wnn/causal_research_features.py",
+    "src/wnn/causal_teacher.py"
+  ],
+  "remaining_work": [
+    "Add flat matched-parameter control and identical temporal position handling; exact13groups from user schema; no physical-price assumptions.",
+    "Freeze practically useful effect, resource allocation and exact per-cell command/config/ancestry bindings.",
+    "Integrate per-step reporting and graded prediction manifests; no real-data B300 profile or numerical invariance checks performed."
+  ],
+  "optimizer_starting_proposal": {
+    "name": "AdamW",
+    "peak_lr": 0.0002,
+    "betas": [
+      0.9,
+      0.95
+    ],
+    "weight_decay": 0.1,
+    "preclip_gradient_norm": 1.0
+  },
+  "schedule_starting_proposal": {
+    "name": "WSD",
+    "epochs": 12,
+    "warmup_fraction": 0.02,
+    "cooldown_fraction": 0.2,
+    "final_lr_fraction": 0.1,
+    "status": "proposal; not legacy-recipe replication and not yet bound to actual successful-update count"
+  },
+  "hardware_plan": {
+    "user_reported": "8 x NVIDIA B300",
+    "verified": false,
+    "gpus_per_fit": "1 for GRU; measured DDP/FSDP allocation for larger teacher",
+    "queue_manager": false
+  },
+  "artifact_contract": "separate evidence.tar, weights.tar and SHA256 manifest; no dataset auto-collection"
+}
