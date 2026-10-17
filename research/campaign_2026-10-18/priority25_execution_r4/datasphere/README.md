@@ -1,9 +1,10 @@
 # DataSphere rank-1 profile packet
 
 This directory prepares a sealed, fit-only profile job for rank 1 of
-`E-RR18-01-LABELS`. It does not submit a job or authorize spending. The pending
-DataSphere budget answer and the controller's live preflight are still required
-before the paid `execute` call.
+`E-RR18-01-LABELS`. The [latest user authority](../receipts/DATASPHERE_AUTHORITY_UPDATE_20261018.json)
+now permits discretionary DataSphere spending within the existing balance;
+the numeric-budget wait is superseded. The controller's live preflight and
+durable cancellation must pass before the paid `execute` call.
 
 The one g2.1 job profiles three training batches for each of two cold-start
 GRUs, H512×1 and H384×2. It makes no validation score, checkpoint selection,

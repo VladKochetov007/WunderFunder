@@ -67,3 +67,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0040: research-team draft experiments](0040-research-team-draft-experiments.md) records the October17 user protocol: per-idea draft PRs,30 paired cells per arm, strictFP32, English execution/evidence handoffs and unified merge trace; local preparation before push, no queue or new fits.
 
 - [ADR0041: modular training code](0041-modular-training-code.md) makes the semantic package/thin CLI, uv/Ruff, explicit run state and300/200-line structure checks the shared main/research-team policy; preserves frozen source and numerical recipes.
+
+- [ADR0042: discretionary DataSphere execution](0042-discretionary-datasphere-execution.md) records the user's open allocation authority for ranked25 within existing balance and actual quotas, superseding the numeric-budget wait while retaining bounded jobs, no top-ups and the Beleriand one-GPU limit.

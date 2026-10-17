@@ -1,5 +1,9 @@
 # Project agent instructions
 
+## DataSphere allocation — user instruction, 2026-10-18
+
+The user explicitly authorizes discretionary DataSphere use: "сколько хочешь на датасфере делай". This supersedes the ranked25 campaign's pending numeric-budget question and paid-launch hold. Root may choose useful bounded experiments within the existing project balance and actual provider quotas; a null numeric ceiling no longer means missing approval. Preserve per-attempt runtime/cancellation bounds, cost accounting, artifact collection, same-provider paired comparisons and cell ownership. Do not change billing or top up balance. The Beleriand one-GPU limit remains unchanged. See [ADR0042](specs/adr/0042-discretionary-datasphere-execution.md) and the [current authority](research/campaign_2026-10-18/priority25_execution_r4/AUTHORITY.json).
+
 ## Cluster handoffs through GitHub issues — user instruction, 2026-10-18
 
 The user explicitly authorizes creating issues in this repository for the team's powerful cluster to check research ideas. Use concrete experiment handoffs with pinned source/recipe/data identities, matched controls, bounded initial work, expected outputs and acceptance criteria. Check existing issues before creating duplicates when issue access is available. Record the actual issue URL and a worker/cell claim before describing work as dispatched or running; posting an issue alone is not evidence of automatic execution. Keep both arms of each paired cell on the same provider/runtime and avoid cells already owned by Beleriand or another worker. This does not change the one-GPU Beleriand limit or supply a new DataSphere spending ceiling. If issue API access is unavailable, preserve and publish the prepared handoff via the working Git connection and report the access dependency honestly.
