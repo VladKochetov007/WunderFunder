@@ -27,8 +27,11 @@ and [research objective](specs/research-objective.md).
 
 ## Current status
 
-Model research has been paused since the recorded closeout on 15 October 2026.
-The latest main snapshot and this maintenance work do not resume fitting. The
+The 17 October request resumes research analysis, literature review, descriptive
+EDA and bug repair; model fitting remains paused. The
+[research reset](research/campaign_2026-10-17/research_reset_r1/README.md) contains
+deployed prediction/cache fixes, an existing-checkpoint replay, a full event
+census and 25 reviewed proposals. None is a newly trained model. The
 [official leaderboard](https://wundernn.io/connectome/leaderboard) showed the
 team at public WP 0.66832, rank 22 with 97 team submissions, when read on 17 October 2026. That
 dated public snapshot is not a local validation result or a private-leaderboard

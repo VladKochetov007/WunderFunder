@@ -4,7 +4,8 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
-- [Current state](../../../specs/current-state.md) — research remains paused; this maintenance adds no new model hypotheses.
+- [Research reset: 25 ideas](../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md) — ranked proposal portfolio with existing-work overlap, counterevidence, no-fit gates and future controls; no training admitted.
+- [Current state](../../../specs/current-state.md) — analysis/EDA is active; model fitting remains paused.
 - [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — established results and corrections to stale pending statuses.
 - [Experiment draft workflow](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) — implementation handoffs are distinct from measured research outcomes.
 

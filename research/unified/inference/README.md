@@ -4,6 +4,8 @@ Serving implementations, quantization, package identity and measured runtime.
 
 ## Current navigation
 
+- [Checkpoint preprocessing and teacher-cache safety](../../campaign_2026-10-17/research_reset_r1/bugfix/README.md) — restored zero_groups and other saved modes; complete cache identity/membership enforcement and selected-NaN rejection in legacy server paths. Existing-checkpoint CPU replay matches manual inputs/predictions bitwise on4groups; full-panel and GPU parity remain unmeasured.
+
 - [Model and engine distinctions](../models/CURRENT_MODEL_CATALOG.md#keep-serving-policies-separate-from-model-names) — separates Main ensemble labels from CPU policy variants using the same xteam weights.
 - [Code architecture](../../../docs/ARCHITECTURE.md#serving-path) — callback, Python/native runtime and packaging boundaries.
 

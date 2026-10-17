@@ -4,6 +4,8 @@ Reusable metric, causal data handling, statistical and implementation contracts.
 
 ## Current navigation
 
+- [No-fit research contract and future CP30 design](../../campaign_2026-10-17/research_reset_r1/README.md) — bounded EDA/frozen inference now, exact30paired cells per arm only after future fit authority, strictFP32, clean ancestry and fixed-fold shared-seed uncertainty. Also links the weighted-target derivation and explicit limitations.
+
 - [Validation protocol map](../validation/VALIDATION_PROTOCOLS.md) — pooled official scoring, exact panel counts and interpretation limits.
 - [Training component map](../../../src/wnn/training/README.md) — maintained implementation and explicit runtime environment.
 - [Development checks](../../../docs/DEVELOPMENT.md) — repeatable code-quality and compatibility checks.

@@ -1,0 +1,39 @@
+{
+  "schema": "wnn.research-reset.release-check.v1",
+  "date": "2026-10-17",
+  "independent_reviewer": "repair_prediction_bugs (Luna/max)",
+  "hash_review": "four staged deployment sources, original/backup/new hashes; census compressed/raw/script hashes; lag-control source and replay artifact/source/data/checkpoint identities consistent",
+  "suite": {
+    "command": "make quality quality-tests training-tests",
+    "ruff": "pass",
+    "training_structure": "pass",
+    "stdlib_checker_tests": 6,
+    "pytest_passed": 66,
+    "pytest_skipped": 2,
+    "existing_numpy_warnings": 12,
+    "disclosure": "tiny synthetic optimizer/resume fixtures execute updates; no competition-data fits, calibrator fitting or test-time adaptation"
+  },
+  "post_event_guard_check": {
+    "command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 PYTHONPATH=src .venv/bin/python -m pytest -q tests/test_features.py",
+    "passed": 5,
+    "skipped": 1,
+    "ruff_check_and_format": "pass"
+  },
+  "navigation": {
+    "campaign_local_links_checked": 348,
+    "missing": 0
+  },
+  "portfolio": {
+    "cards": 25,
+    "staged_packets": 25,
+    "fits_authorized": false
+  },
+  "research_tree_rebuild": {
+    "status": "not_available_in_sparse_checkout",
+    "reason": "Materialized tracked bandit_tree/config and retried; builder/check stop because configured document root reflect_05_day is outside this sparse checkout. No generated catalog files were modified.",
+    "manual_indexes": "all newly produced useful artifacts linked through campaign and unified READMEs"
+  },
+  "implementation_scope": "four legacy server files; standalone safety helper is tested but not globally wired into canonical trainers",
+  "publication": "separate receipt; not claimed by this check",
+  "preserved_patch_whitespace": "Raw .diff artifacts contain the single-space blank context lines required by unified-diff formatting; source Ruff/format checks pass, and executable source hashes remain unchanged."
+}

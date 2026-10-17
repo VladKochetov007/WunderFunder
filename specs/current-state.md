@@ -1,7 +1,8 @@
 # Current project state
 
-**Snapshot date:** 17 October 2026. **Research status:** paused. **Current
-scope:** repository maintenance and documentation.
+**Snapshot date:** 17 October 2026. **Research status:** analysis/EDA active;
+model fitting paused. **Current scope:** prediction bug fixes, primary-literature
+review, measured no-fit diagnostics and a 25-idea research portfolio.
 
 ## Operating state
 
@@ -12,9 +13,15 @@ in the project record resumes model fitting. New fits require an explicit
 resume; older plans, quotas and stop snapshots are historical authority only.
 See the [pause closeout](../research/unified/operations/RESEARCH_PAUSE_20261015_R1.md).
 
-The 17 October trainer refactor and repository maintenance are code work. They
-do not resume fitting; no provider or submission action is part of this
-maintenance scope.
+The latest October 17 user instruction explicitly resumes research thinking,
+literature, EDA and bug repair, while explicitly excluding model training.
+The [research reset contract](../research/campaign_2026-10-17/research_reset_r1/CONTRACT.json)
+records this boundary. No fit, rental or submission is authorized by this reset.
+
+The [research reset packet](../research/campaign_2026-10-17/research_reset_r1/README.md)
+records deployed creative prediction/cache repairs, deterministic checks,
+full-data target/event census, sampled full-feature EDA, source registers and
+independent proposal/critique rounds. Its ideas are proposals, not new model scores.
 
 ## Public leaderboard snapshot
 

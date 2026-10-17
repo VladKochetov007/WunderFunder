@@ -4,6 +4,8 @@ External writeups and literature provenance; external results do not establish l
 
 ## Current navigation
 
+- [October17 no-fit source register](../../campaign_2026-10-17/research_reset_r1/sources/README.md) — 32 primary works, independent R1 searches and live official-rule checks; inspection depth and transfer limits are explicit, no imported external market data or measured model gain.
+
 - [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — existing project evidence, separate from outside proposals.
 - [Storage and source map](../operations/STORAGE_MAP.md) — source histories and physical artifact locations.
 

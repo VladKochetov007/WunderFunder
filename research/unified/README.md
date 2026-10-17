@@ -1,8 +1,12 @@
 # Unified research library
 
-Start with [current state](../../specs/current-state.md). Model research is paused;
-the October 17 maintenance organizes existing evidence and improves code quality.
+Start with [current state](../../specs/current-state.md). Model fitting is paused;
+the October 17 research reset authorizes analysis, EDA and engineering.
 This index distinguishes measured results, implementation drafts and historical plans.
+
+Latest: [No-fit research reset and 25-idea portfolio](../campaign_2026-10-17/research_reset_r1/README.md)
+— deployed prediction/cache fixes, a 249.6M-row narrow census, sampled full-feature
+and event-lag EDA, primary literature, and independent criticism. No new fits.
 
 ## Read first
 

@@ -4,6 +4,8 @@ Metric, data membership, exposure, uncertainty and transfer to the public leader
 
 ## Current navigation
 
+- [October17 measured EDA and clock correction](../../campaign_2026-10-17/research_reset_r1/eda/README.md) — E-RR17-EVENT-CENSUS refutes universal H-001 with1,253exceptions; four-column census covers249.6Mrows, separate full-feature sample5.12Mrows and lag-control sample1.28Mrows. Retrospective strata and magnitude weight are not serving gates or additive score contributions.
+
 - [Validation protocols](VALIDATION_PROTOCOLS.md) — official metric and a side-by-side map of creative/Main panels; highlights fitted diagnostics, exposed folds and invalid historical comparisons.
 - [Audit evidence](../reviews/audit-2026-10-17/README.md) — Parquet counts, RG528 inspection and dated public observations.
 

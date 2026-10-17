@@ -21,12 +21,14 @@ validation, inference and operations.
 
 ## Status and evidence limits
 
-Research was explicitly resumed on 12 October and later paused after the
-admitted work drained on 15 October. The pause remains the latest recorded
-research authority; archived stop receipts and campaign plans do not resume
-work. The 17 October trainer integration and experiment drafts are code and
-documentation changes. They do not establish new fits, model parity, quality or
-throughput results.
+The latest 17 October request resumes analysis, literature review, EDA and bug
+repair while explicitly withholding model fitting. The
+[research reset](research/campaign_2026-10-17/research_reset_r1/README.md) records
+that scope: deployed fixes and an existing-checkpoint replay, measured EDA,
+32 primary literature works and 25 proposals revised through independent
+criticism. No new model was fitted and no competition submission was made.
+The earlier trainer integration and draft packets remain implementation work,
+not measured model improvements.
 
 The 17 October repository snapshot recorded 14 experiment-prefixed draft branches
 and pull requests. They are implementation proposals and handoffs, not 14
@@ -35,7 +37,7 @@ completed experiments. Review their source and measurement stage in the
 the [current-state note](specs/current-state.md).
 
 The official leaderboard was read on 17 October 2026: the team had public WP
-0.66832 at rank 22 of 97, with the leader at 0.67243. The dated observation is
+0.66832 at rank 22 with 97 team submissions, with the leader at 0.67243. The dated observation is
 linked to the [official leaderboard](https://wundernn.io/connectome/leaderboard).
 It does not identify the exact ZIP or submission ID that produced the current
 team best, and it says nothing about private-leaderboard performance.

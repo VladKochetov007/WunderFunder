@@ -4,6 +4,8 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [October17 iterative research reviews](../../campaign_2026-10-17/research_reset_r1/reviews/README.md) — independent R2 cross-criticism, R3 EDA/weighted-metric audits, R4 portfolio critique and coordinator resolutions; resulting25cards are proposals, not model results.
+
 - [Repository audit](REPOSITORY_AUDIT_20261017.md) — reconciled local, live GitHub and beleriand findings, corrected stale statuses and unresolved gaps.
 - [Portable audit evidence](audit-2026-10-17/README.md) — five small metadata/public receipts with SHA-256 manifest; no large data or weights.
 
