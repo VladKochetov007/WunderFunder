@@ -134,7 +134,7 @@ class PredictionModel:
         if not np.isfinite(coefficient):
             raise ValueError("member coefficient must be finite")
         weights = _load_weights(HERE / str(member["weights"]))
-        self.stepper = wnn_native.GeometryPredictor(
+        self.model = wnn_native.GeometryPredictor(
             weights,
             *prior,
             precision=precision,
@@ -147,11 +147,11 @@ class PredictionModel:
         seq_ix = int(data_point.seq_ix)
         if seq_ix != self.seq_ix:
             self.seq_ix = seq_ix
-            self.stepper.reset()
+            self.model.reset()
         row = np.asarray(data_point.state, dtype=np.float32)
         if row.shape != (112,) or not np.isfinite(row).all():
             raise ValueError("expected one finite raw row with shape (112,)")
-        value = self.stepper.step(np.ascontiguousarray(row), bool(data_point.need_prediction))
+        value = self.model.step(np.ascontiguousarray(row), bool(data_point.need_prediction))
         if value is None:
             return None
         prediction = np.asarray(value, dtype=np.float32) * self.coefficient
