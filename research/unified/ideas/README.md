@@ -1,5 +1,21 @@
 # Ideas and hypotheses
 
+Existing proposals and their evidence; a proposal is not an admitted or completed fit.
+
+## Current navigation
+
+- [Current state](../../../specs/current-state.md) — research remains paused; this maintenance adds no new model hypotheses.
+- [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — established results and corrections to stale pending statuses.
+- [Experiment draft workflow](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) — implementation handoffs are distinct from measured research outcomes.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
+
 Use this page to navigate proposals, mechanism families, and their evidence. An idea is not a result until a source-qualified experiment and evaluation support it.
 
 ## Core records
@@ -74,5 +90,9 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 - [October17 experiment draft inventory](EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) maps fifteen local idea branches: interrupted F/W/S/initializers/capacity, earlier innovation/averaging continuations and new B300 teacher/encoding/preprocessing/distillation ideas. Records completed sources and TPU engineering separately; code readiness and missing bindings remain explicit, with no new fits;14 draft PRs are now published in the [catalogue](../../experiment_drafts/README.md).
 
 - [Published draft PR catalogue](../../experiment_drafts/README.md) links all14 English experiment handoffs, exact GitHub draft/base/head verification and the branch/commit JSON manifest. Describes code readiness, shared primitive provenance and missing B300/data bindings; no fits, tests or model-quality claim.
+
+</details>
+
+## Current sequence-moment investigation
 
 - [Discrete occupancy and regime heuristics](DISCRETE_OCCUPANCY_HEURISTICS_20261017_R1.md) turns the user-requested all112 mean/std visual review into six causal representation families for teachers and students: frequent-level identity, row/event occupancy, dwell/transitions, soft branch evidence and level-plus-scale. Input geometry is measured; predictive/teacher/distillation gains are untested. Explicitly preserves the direction after a weak tiny pilot and evaluates conditional contributions rather than requiring immediate standalone dominance.

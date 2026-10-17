@@ -1,5 +1,57 @@
 # Unified research library
 
+Start with [current state](../../specs/current-state.md). Model research is paused;
+the October 17 maintenance organizes existing evidence and improves code quality.
+This index distinguishes measured results, implementation drafts and historical plans.
+
+## Read first
+
+| Need | Start here |
+|---|---|
+| Established findings and remaining unknowns | [Repository audit](reviews/REPOSITORY_AUDIT_20261017.md) |
+| Current models, lineage and packages | [Model catalog](models/CURRENT_MODEL_CATALOG.md) |
+| Metric, panels and comparable scores | [Validation protocols](validation/VALIDATION_PROTOCOLS.md) |
+| Local, GitHub, beleriand and private archives | [Storage map](operations/STORAGE_MAP.md) |
+| Code layout and routine checks | [Architecture](../../docs/ARCHITECTURE.md), [development](../../docs/DEVELOPMENT.md) |
+| Retained metadata and exact source identities | [Audit receipts](reviews/audit-2026-10-17/README.md) |
+
+## Browse by topic
+
+| Topic | Contents |
+|---|---|
+| [Models](models/README.md) | Architecture, optimization, distillation and ancestry |
+| [Validation](validation/README.md) | Membership, official scoring, uncertainty and public transfer |
+| [Submissions](submissions/README.md) | Releases, package identities and recorded portal outcomes |
+| [Inference](inference/README.md) | Native runtime, quantization and serving measurements |
+| [Operations](operations/README.md) | Execution, pauses, incidents and preservation |
+| [Reviews](reviews/README.md) | Audits, independent assessments and source reconciliation |
+| [Methods](methods/README.md) | Metric, research protocol and implementation contracts |
+| [Ideas](ideas/README.md) | Existing hypotheses and proposed comparisons |
+| [Sources](sources/README.md) | External literature and imported writeups |
+| [Private model archive](models/huggingface/README.md) | Checkpoint and run lookup, transfer provenance |
+| [October 12 archive](archive/2026-10-12/README.md) | Preserved dated handoff |
+| [Templates](templates/README.md) | New narrative records and experiment drafts |
+
+## Reading and recording evidence
+
+Follow a topic page to a synthesis, then to the source-qualified receipt, exact
+artifact identity and H/E records. Compare scores only within a stated protocol.
+The append-only [hypothesis](../hypotheses.jsonl), [experiment](../experiments.jsonl)
+and [decision](../bandit_tree/journal.jsonl) ledgers retain their original rows;
+rows and repeated IDs do not count independent completed fits.
+
+Every useful research item needs a descriptive link in its domain README, and
+new folders need an indexed README. Use the [templates](templates/README.md),
+preserve frozen campaign sources and keep large private payloads at their
+recorded storage locations. See [AGENTS.md](../../AGENTS.md#research-note-organization).
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
+
+The following text is retained for provenance. Its execution/authorization and
+pending-status claims are historical; [current state](../../specs/current-state.md)
+and later receipts supersede them.
+
 This is the maintained, human-facing research map. It joins different result types through shared topic pages while preserving the original campaign records and evidence paths.
 
 The [critical assessment and separate public and future private leaderboard strategies](reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md) audits the previous approach and sets out ranked experiments, model and representation scaling, and selection for the public leaderboard versus the user's two-to-four-week future-data scenario. Its proposals are now being implemented under the [subsequent explicit user resume](../campaign_2026-10-13/strategy_execution_r1/README.md).
@@ -44,3 +96,5 @@ The dated archive preserves the October 12 handoff as it stood when all admitted
 ## Current execution
 
 [October13 strategy implementation and experiments](../campaign_2026-10-13/strategy_execution_r1/README.md) records the subsequent explicit user resume, every actionable review item, full Kaggle/local GPU authority, accepted private-risk preference, owners and evidence. The earlier stop/archive paragraphs describe historical scope; ADR0034 now governs new research. No new model result at admission.
+
+</details>

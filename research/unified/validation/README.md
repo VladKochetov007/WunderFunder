@@ -1,4 +1,19 @@
-## Complete original native scores and live-output snapshot
+# Validation and public transfer
+
+Metric, data membership, exposure, uncertainty and transfer to the public leaderboard.
+
+## Current navigation
+
+- [Validation protocols](VALIDATION_PROTOCOLS.md) — official metric and a side-by-side map of creative/Main panels; highlights fitted diagnostics, exposed folds and invalid historical comparisons.
+- [Audit evidence](../reviews/audit-2026-10-17/README.md) — Parquet counts, RG528 inspection and dated public observations.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
 
 [Original callback results](../../campaign_2026-10-13/team_models_r1/scores/README.md) now record all 1,873 supplied-valid sequences for C=0.712560467, E=0.712065318, pair_ftt2=0.712026560 and xteam_h4=0.712654817. Final-fit/unknown validation overlap makes these diagnostics, not clean CV or public forecasts. [Immutable runtime snapshot](../../campaign_2026-10-13/team_models_r1/runtime_snapshot_r1/README.md) preserves current complete-line logs and progress for all eight admitted replays. Four remaining runs continue; live staging is ignored by Git, with terminal collection still owned by root. E-TEAM-ARCHIVE-REPLAY-20261013-R1.
 
@@ -54,6 +69,9 @@ Keep fold, fitting membership, ancestry, selection exposure, and score uncertain
 
 [Full14-member /9-mixture grade](../../campaign_2026-10-13/team_models_r1/scores/member_bank_fp32_r1/README.md) uses the official metric on1,873 supplied-valid groups and verifies terminal provenance plus complete prediction-file hashes. Original xteam_h4 FP32 is0.712660191 versus E0.712082246 and pair_ftt20.712025385; own H390 seed3 alone is0.713414409. Final-fit/unknown validation overlap and FP32-versus-Q8 arithmetic limit these to diagnostics. The exploratory seed6 ZIP is not assigned a score by this grade. E-TEAM-MEMBER-BANK-20261013-R1; the linked terminal receipt, grade JSON and execution log preserve all results and prediction/residual correlations.
 
+</details>
+
+## Current sequence-moment investigation
 
 - [Sequence moment geometry investigation](../../campaign_2026-10-17/moment_geometry_r1/README.md) registers the user's mean/std arc EDA and bounded causal normalization/early-inference experiments on main. Initial status: contract recorded, screenshot feature unknown, no measured mechanism or predictive gain;5GB aggregate task RAM and no Kaggle job changes.
 - [Sequence moment geometry: arcs and causal representations](SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) reports128train/128valid raw-input scans, all112visually inspected mean/std plots, near-arc multi-value support and prefix reconstruction errors. Explains point-mass mixture arcs, future-leakage risks, source/component provenance and the preregistered matched causal-feature pilot. Geometry is measured; predictive gain remains pending.

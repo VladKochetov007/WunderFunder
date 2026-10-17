@@ -34,6 +34,7 @@ from wnn.training.runner import run_training
 | [cli_targets](cli_targets.py) | Main row weighting, shifted targets and next-change auxiliary labels. |
 | [cli_views](cli_views.py) | Ordered CLI registration for views options, preserving original declarations. |
 | [compatibility](compatibility.py) | Bounded legacy export adapters for bare/package/custom-name imports; no module monkey-patching. |
+| [compatibility_classes](compatibility_classes.py) | Environment injection for legacy class exports, class-valued API and worker serialization. |
 | [data_caches](data_caches.py) | Validated teacher, quote, spread and propensity cache bindings. |
 | [data_loaders](data_loaders.py) | Loader memory admission, sampling order, pinning and drop-tail behavior. |
 | [data_membership](data_membership.py) | Deterministic fitting/evaluation membership and sampling selection. |
@@ -86,15 +87,14 @@ from wnn.training.runner import run_training
 
 ## Quality checks
 
-From a normally synchronized checkout:
+Static checks and checker unit tests do not require the training dependencies:
 
 ```bash
-uv sync --locked
-uv run ruff format src/wnn/training scripts/train_rnn.py scripts/e540_cli_preflight.py scripts/check_training_structure.py
-uv run ruff check src/wnn/training scripts/train_rnn.py scripts/e540_cli_preflight.py scripts/check_training_structure.py
-uv run python scripts/check_training_structure.py
+make quality quality-tests
 ```
 
-The lint-only GitHub workflow checks PRs to main/research-team without installing Torch or loading competition data. New trainer modules are capped at300lines and functions at200lines; signatures/docs and absence of global/nonlocal are checked. Keep new orchestration out of the legacy facade. Add a component only for a clear responsibility, and reuse models/inputs/targets/checkpoints rather than forking trainers.
+The lightweight GitHub workflow checks PRs to main/research-team without installing Torch or loading competition data. New trainer modules are capped at300lines and functions at200lines; signatures/docs and absence of global/nonlocal are checked. Keep new orchestration out of the legacy facade. Add a component only for a clear responsibility, and reuse models/inputs/targets/checkpoints rather than forking trainers.
 
-Independent Sol6.1/medium static review and the [research receipt](../../../research/unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md) document scope and corrections. Ruff/structure checks and a normal CLI help command passed. No unit/integration tests, fitting, numerical parity runs or throughput benchmarks were executed; runtime equivalence and efficiency have not been measured by this change.
+Independent Sol6.1/medium static review and the [original refactor receipt](../../../research/unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md) document that change's scope: Ruff/structure checks and normal CLI help, without unit/integration, numerical parity or throughput tests.
+
+The subsequent [maintenance receipt](../../../research/unified/operations/MAIN_MAINTENANCE_20261017.md) adds synthetic CPU checks for feature values/gradients, causal behavior, resume/export and legacy class/pickle/spawn compatibility. Run `make training-tests` in a provisioned CPU environment; see [Development](../../../docs/DEVELOPMENT.md). CUDA parity, full-data scoring and end-to-end speedup remain unmeasured.
