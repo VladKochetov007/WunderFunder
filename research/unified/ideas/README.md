@@ -95,3 +95,5 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 - [Published draft PR catalogue](../../experiment_drafts/README.md) links all14 English experiment handoffs, exact GitHub draft/base/head verification and the branch/commit JSON manifest. Describes code readiness, shared primitive provenance and missing B300/data bindings; no fits, tests or model-quality claim.
 
 </details>
+
+- [rr17-15: xLSTM matrix memory versus scalar memory](../../experiment_drafts/rr17-15/README.md) — H-RR17-15/E-RR17-15, proposal only; independent critique and exact30paired cells/arm are specified, adapters/data/ancestry remain pending, training unauthorized and no measured gain.
