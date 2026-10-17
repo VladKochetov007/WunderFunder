@@ -13,7 +13,7 @@ evidence_paths:
 
 ## Scope and evidence
 
-This delivery prepares one local branch per listed idea, based on the October15 interrupted campaign, explicitly reused October13 continuations and October17 chat proposals. It is not a claim that every historical hypothesis in the repository has been exhausted. The independent read-only inventory checked campaign receipts; completed C/G fits and the cleanF3 export remain completed sources. No fits, provider jobs or published PRs result from this preparation. Existing evaluation folds are exposed.
+This delivery prepares one local branch per listed idea, based on the October15 interrupted campaign, explicitly reused October13 continuations and October17 chat proposals. It is not a claim that every historical hypothesis in the repository has been exhausted. The independent read-only inventory checked campaign receipts; completed C/G fits and the cleanF3 export remain completed sources. No fits or provider jobs result from this preparation. Publication was subsequently authorized; fourteen draft PRs are now open targeting research-team. Existing evaluation folds are exposed.
 
 Read the [workflow](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) and [original AR teacher note](CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md). Each local `experiment/<slug>` branch contains `research/experiment_drafts/<slug>/README.md`, English `PR.md`, `recipe.json` and `run_plan.py`; implementation sources are referenced rather than copied. `run_plan.py` prints the paired matrix; it does not train. Missing data/GPU integration is explicit per packet. Engineering TPU parity is not a30-run quality experiment.
 
@@ -37,10 +37,14 @@ Read the [workflow](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) and [or
 
 ## Execution and decision
 
-The research-team branch carries a local branch/commit catalogue after preparation. Remote URLs and PR numbers are intentionally absent until publication; use `git show experiment/<slug>:research/experiment_drafts/<slug>/PR.md` to read a local draft. No leaderboard deltas are predicted for unrun ideas. Historical deltas are conditional local evidence, not transferable additive public gains. Each packet must freeze a useful-effect threshold and exact source-clean cell bindings before running; the current code handoff is not execution approval.
+The research-team branch carries a local branch/commit catalogue after preparation. Actual PR URLs and source SHAs are in the [published catalogue](../../experiment_drafts/README.md); use `git show experiment/<slug>:research/experiment_drafts/<slug>/PR.md` to read a local draft. No leaderboard deltas are predicted for unrun ideas. Historical deltas are conditional local evidence, not transferable additive public gains. Each packet must freeze a useful-effect threshold and exact source-clean cell bindings before running; the current code handoff is not execution approval.
 
 ## Source records
 
 - [Pause and terminal closeout](../operations/RESEARCH_PAUSE_20261015_R1.md): C/G complete, new F/W/S and initializer fits unrun.
 - [Warm mechanism campaign](../../campaign_2026-10-15/gru_parent_growth_r1/README.md): source, profiles, growth parity and recipe versions.
 - [B300 skill search](../sources/B300_AGENT_SKILLS_REVIEW_20261017_R1.md): inspected sources and adaptation limits.
+
+## Publication receipt
+
+GitHub API confirmed14 open draft PRs with base research-team and matching source head SHAs. The [catalogue](../../experiment_drafts/README.md) links every PR and its [machine manifest](../../experiment_drafts/CATALOG_20261017_R1.json). No experiment code is promoted into main by this index update, and no fits were launched.
