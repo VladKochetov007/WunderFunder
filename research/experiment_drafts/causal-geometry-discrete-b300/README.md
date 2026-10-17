@@ -9,7 +9,8 @@ experiment_ids:
   - E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1
 evidence_paths:
   - research/campaign_2026-10-17/moment_geometry_r1/README.md
-  - research/campaign_2026-10-17/geometry_continuation_r3/README.md
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/summary_r3.json
 ---
 
 # Causal geometry and discrete state features: B300 handoff

@@ -11,8 +11,8 @@ experiment_ids:
   - E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1
 evidence_paths:
   - research/campaign_2026-10-17/moment_geometry_r1/README.md
-  - research/campaign_2026-10-17/geometry_continuation_r3/README.md
   - research/experiment_drafts/causal-geometry-discrete-b300/README.md
+  - research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/summary_r3.json
 ---
 
 # Causal geometry and discrete state features on B300
@@ -42,11 +42,11 @@ The [registered investigation and visual EDA](../validation/SEQUENCE_MOMENT_GEOM
 
 The [R2 discrete pilot](../../campaign_2026-10-17/moment_geometry_r1/discrete_summary_r2.json) compared four arms at H32×1 and H128×2 on43 fitting/46 exposed evaluation sequences. Results varied by capacity; combinations were not reliably additive and fixed half-mixtures suggested conditional value.
 
-The [R3 H128×2 continuation](../../campaign_2026-10-17/geometry_continuation_r3/README.md) used three paired seeds and eight epochs on the same tiny exposed panel. Mean deltas versus control were −0.019742 for moment/scale, +0.000501 for dictionary, and −0.017251 for all features. A fixed control+dictionary half-mixture was+0.007337 across those three seeds. The [small-panel loss and paired-delta plots](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md) are descriptive only. None of this establishes statistical significance, teacher/student transfer, serving quality, or public performance.
+The [R3 H128×2 continuation summary](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/summary_r3.json) reports three paired seeds and eight epochs on the same tiny exposed panel. Mean deltas versus control were −0.019742 for moment/scale, +0.000501 for dictionary, and −0.017251 for all features. A fixed control+dictionary half-mixture was+0.007337 across those three seeds. The [small-panel loss and paired-delta plots](../../experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md) are descriptive only. None of this establishes statistical significance, teacher/student transfer, serving quality, or public performance.
 
 ## Frozen B300 comparison
 
-The [experiment packet](../../experiment_drafts/causal-geometry-discrete-b300/README.md) contains the code, recipe, explicit [30-pair/15-wave matrix](../../experiment_drafts/causal-geometry-discrete-b300/matrix.json), profile receipt builder, launch commands, prior evidence and PR recipe.
+The [experiment packet](../../experiment_drafts/causal-geometry-discrete-b300/README.md) contains the code, recipe, explicit [30-pair/15-wave matrix](../../../scripts/geometry_b300/matrix.json), profile receipt builder, launch commands, prior evidence and PR recipe.
 
 | Arm | Feature control | Visible indices | Interpretation |
 |---|---|---:|---|
