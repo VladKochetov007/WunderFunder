@@ -4,7 +4,7 @@ This packet's runner expects a clean checkout at `$PROJECT_ROOT`, exactly one vi
 
 ## Required mounts
 
-Create one clean checkout from the published experiment branch at the source SHA recorded in the PR. Keep the split JSON files from that checkout unchanged. Bind the data as follows:
+Create one clean checkout from the current pushed `experiment/causal-geometry-b300` PR branch. For later branch updates, use the latest pushed head; the catalogue SHA is the original publication snapshot, not a pin for future execution. Record `git rev-parse HEAD` and use that same clean SHA for all eight profiles and all matrix cells; each receipt enforces this binding. Keep the split JSON files from that checkout unchanged. Bind the data as follows:
 
 | Source on the approved B300/data host | Checkout destination | Access | Purpose |
 |---|---|---|---|
