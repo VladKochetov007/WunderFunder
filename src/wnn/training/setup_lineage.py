@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import math
 
+import torch
+
 from wnn import student_frontier
 from wnn.privileged import load_inner_manifest
 from wnn.resources import configure_strict_fp32
@@ -146,6 +148,10 @@ def configure_runtime(run: TrainingRun) -> None:
     update_rows = run.options.update_rows
     frontier_contract_sha256 = None
     frontier_stage = None
+    if args.precision == "fp32":
+        torch.backends.cuda.matmul.allow_tf32 = False
+        torch.backends.cudnn.allow_tf32 = False
+        torch.set_float32_matmul_precision("highest")
     if args.student_frontier_contract is not None:
         if campaign_split is None or not args.student_frontier_stage:
             ap.error("student-frontier recipes require --split-manifest and a named stage")

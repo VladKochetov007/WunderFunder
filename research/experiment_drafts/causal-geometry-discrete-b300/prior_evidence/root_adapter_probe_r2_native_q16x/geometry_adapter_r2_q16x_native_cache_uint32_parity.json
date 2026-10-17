@@ -1,0 +1,93 @@
+{
+  "claim_scope": "exact selected q16x ZIP callback output matches the q16x native full-F0 cache exactly on the first eight split-qualified F0 groups; this is native-cache consistency, not Torch equivalence or a quality claim",
+  "comparison": "float32 output values viewed as uint32; signed zero and all other bit-pattern differences are detected",
+  "different_float_values": 0,
+  "different_uint32_values": 0,
+  "full_f0_cache_sha256": "929672136eb8db76e4c4f3b88864dc6c51065f0eee98af682e9e237cf98c3aca",
+  "full_f0_cache_sidecar_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_geometry_adapter_f0_s3_r2_q16x_valid.json",
+  "full_f0_cache_sidecar_sha256": "a901e0f0ba092748830683ee24a62dfc833c14488c59948e2574900355eaa971",
+  "max_abs_difference": 0.0,
+  "method": "Memory-mapped only the first eight sequence rows from the row-group-indexed caches; read seq_ix and need_prediction from those eight source row groups only; compared prediction values by uint32 view. No model rerun and no full parquet scan.",
+  "panel_prediction_sha256": "c5411ad3f976b1bec66aba2957c432287bea54225f4d6bcd7b26ebaa28705dca",
+  "panel_replay_report_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/geometry_adapter_probe_r2/geometry_adapter_r2_q16x_native_cache_parity.json",
+  "panel_replay_report_sha256": "df5774157994bf416c49257f37c35099c0073593992c191011a9ba864e4757a5",
+  "panel_sidecar_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_geometry_adapter_r2_q16x_native_cache_panel_valid.json",
+  "panel_sidecar_sha256": "b0939e3f6da731d644245db8fcb7060881da4ebccb859ef18557d3dda7aaec89",
+  "prediction_masks": [
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 4,
+      "rows": 20000,
+      "sequence_id": 1990332
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 5,
+      "rows": 20000,
+      "sequence_id": 2308749
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 7,
+      "rows": 20000,
+      "sequence_id": 6746551
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 9,
+      "rows": 20000,
+      "sequence_id": 9147005
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 12,
+      "rows": 20000,
+      "sequence_id": 11423352
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 18,
+      "rows": 20000,
+      "sequence_id": 24654613
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 19,
+      "rows": 20000,
+      "sequence_id": 25927382
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 22,
+      "rows": 20000,
+      "sequence_id": 28399078
+    }
+  ],
+  "result": "PASS",
+  "row_groups": [
+    4,
+    5,
+    7,
+    9,
+    12,
+    18,
+    19,
+    22
+  ],
+  "schema": "wnn.geometry-q16x-native-cache-uint32-parity.v1",
+  "selected_submission_zip_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/geometry_adapter_r2_q16x_20261018.zip",
+  "selected_submission_zip_sha256": "955bff715871ff8a977d96a43f4edb89b1f5ecec72ae8ee49c0c2b53a3b6688b",
+  "sequence_ids": [
+    1990332,
+    2308749,
+    6746551,
+    9147005,
+    11423352,
+    24654613,
+    25927382,
+    28399078
+  ],
+  "sequence_reset": "The exact-ZIP scorer reset the model before every row group; the independent Python 3.11 exact-ZIP receipt records synthetic A-B-A reset equality.",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "values_compared": 318416
+}

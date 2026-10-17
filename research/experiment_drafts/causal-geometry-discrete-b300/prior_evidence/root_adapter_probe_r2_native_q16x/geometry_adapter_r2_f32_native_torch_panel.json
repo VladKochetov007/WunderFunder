@@ -1,0 +1,146 @@
+{
+  "build_receipt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/geometry_adapter_probe_r2/geometry_adapter_r2_f32_native_panel_build_receipt.json",
+  "build_receipt_sha256": "d3b3792b6db18ddcb52591224a357a87471b9a139f538fd08c8c94e29405c416",
+  "candidate": "geometry_adapter_r2_f32_native_panel_eval_20261018",
+  "cpu_affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "data_identity": {
+    "bytes": 5615509128,
+    "footer_sha256_from_split": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+    "mtime_ns": 1577826000000000000
+  },
+  "data_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+  "evaluation_groups_replayed": 8,
+  "evaluation_groups_total": 468,
+  "filesystem": "btrfs",
+  "fp32_reference_f0_score": {
+    "metric_id": "global_wp_clip2_v1",
+    "selected_rows": 17454,
+    "t0": 0.7777602317286232,
+    "t1": 0.6582403220788242,
+    "wp": 0.7180002769037237
+  },
+  "groups": [
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 4,
+      "rows": 20000,
+      "scored_rows": 3000,
+      "sequence_id": 1990332
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 5,
+      "rows": 20000,
+      "scored_rows": 1601,
+      "sequence_id": 2308749
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 7,
+      "rows": 20000,
+      "scored_rows": 146,
+      "sequence_id": 6746551
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 9,
+      "rows": 20000,
+      "scored_rows": 977,
+      "sequence_id": 9147005
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 12,
+      "rows": 20000,
+      "scored_rows": 3135,
+      "sequence_id": 11423352
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 18,
+      "rows": 20000,
+      "scored_rows": 3678,
+      "sequence_id": 24654613
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 19,
+      "rows": 20000,
+      "scored_rows": 3675,
+      "sequence_id": 25927382
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 22,
+      "rows": 20000,
+      "scored_rows": 1242,
+      "sequence_id": 28399078
+    }
+  ],
+  "memory_max_rss_kib": 813112,
+  "metric_id": "global_wp_clip2_v1",
+  "native_library": "v3/wnn_native.abi3.so",
+  "native_library_sha256": "ebba8fe295175bf1c2ab57dbe76dd764c5c893941020af774be95cfe8a83043d",
+  "official_f0_score": {
+    "metric_id": "global_wp_clip2_v1",
+    "selected_rows": 17454,
+    "t0": 0.777765970819555,
+    "t1": 0.6582443772929178,
+    "wp": 0.7180051740562364
+  },
+  "passed": true,
+  "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+  "precision": "f32",
+  "prediction_sidecar": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_geometry_adapter_f0_s3_r2_f32_panel_valid.json",
+  "predictions_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_geometry_adapter_f0_s3_r2_f32_panel_valid.npy",
+  "predictions_sha256": "2ffb2a48746b8fe6e3fa2f125e20266e7376e94d9341e9218eb72858b0a64a54",
+  "python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]",
+  "reference_prediction_difference": {
+    "compared_values": 318416,
+    "different_values": 318245,
+    "max_abs": 0.0007533133029937744,
+    "mean_abs": 5.551172550199535e-05,
+    "rms": 7.635945364895165e-05
+  },
+  "row_group_order": "CampaignSplit.evaluation_groups; each group bound to split sequence identity",
+  "rows_total": 160000,
+  "schema": "wnn.geometry-served-f0.v1",
+  "scope": "source-qualified exposed F0 panel plus exact ZIP callback and reset handling; panel score is descriptive only",
+  "scored_rows": 17454,
+  "served_minus_fp32_f0_wp": 4.8971525127283755e-06,
+  "split_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "timing": {
+    "callback_only_cpu_seconds": 24.504008081,
+    "callback_only_cpu_seconds_per_row": 0.00015315005050625,
+    "callback_only_one_core_full_dataset_seconds_proxy": 5858.885309723625,
+    "callback_only_same_quota_full_dataset_seconds_proxy": 19529.61769907875,
+    "callback_only_seconds": 79.308092179,
+    "callback_only_wall_us_per_row": 495.67557611875003,
+    "cpu_quota_fraction": 0.3,
+    "elapsed_process_cpu_seconds_including_parquet_and_score": 25.050702283,
+    "elapsed_wall_seconds_including_parquet_and_score": 83.510771734007,
+    "full_dataset_rows_for_projection": 39400000,
+    "projection_label": "measured actual F0 row-cost extrapolations; complete competition runtime not measured",
+    "rows_per_second_callback_only": 2017.4486058607577
+  },
+  "zip_path": "/home/vlad/development/wunder/research_tmp/geometry-serving-20261018/geometry_adapter_r2_f32_native_panel_eval_20261018.zip",
+  "zip_sha256": "7b544d2cd215d3ca21d0ad9375c8690b5a6e8dc816d67753d3030db6acb2f49b"
+}

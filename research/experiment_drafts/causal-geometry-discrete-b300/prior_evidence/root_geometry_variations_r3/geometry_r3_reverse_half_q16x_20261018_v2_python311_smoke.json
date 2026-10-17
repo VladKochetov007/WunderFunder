@@ -1,0 +1,95 @@
+{
+  "schema": "wnn.geometry-r3-q16x-python311-exact-zip-smoke.v1",
+  "passed": true,
+  "artifact": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/geometry_r3_reverse_half_q16x_20261018_v2.zip",
+    "sha256": "27f01f53ba32f7256ce1663e8b163b382e673fc96e7870fdebdf310d4886f98e",
+    "bytes": 5323608,
+    "archive_members": 8,
+    "member_paths_safe": true,
+    "crc_integrity": true,
+    "solution_sha256_matches_build_receipt": true,
+    "geometry_prior_sha256_matches_build_receipt": true,
+    "member_sha256_matches_build_receipt": true,
+    "member_sha256": {
+      "avx2/wnn_native.abi3.so": "ebba8fe295175bf1c2ab57dbe76dd764c5c893941020af774be95cfe8a83043d",
+      "geometry_prior.json": "06aab6460050457dc1b43b5bf10c53f26c8fceda770586f69e7adb4fd7924e06",
+      "members.json": "f7ff146a696436765aa1f3216e97a1209325a247f5f1e9379387527441cbac1f",
+      "precision.txt": "fc51ddb717d2bab432f602268750f4e8adb3620de39cd128e0b886e36bebc34b",
+      "solution.py": "43b334acfd283255f979da86cc0d9ff7f69dbcffbe3143283772a41dcc524f69",
+      "v2/wnn_native.abi3.so": "ebba8fe295175bf1c2ab57dbe76dd764c5c893941020af774be95cfe8a83043d",
+      "v3/wnn_native.abi3.so": "ebba8fe295175bf1c2ab57dbe76dd764c5c893941020af774be95cfe8a83043d",
+      "weights_0.npz": "122d2e852a8a060f1f41e1815fa3a2899116f24cdbd7e1e04979f3fbce48cc30"
+    }
+  },
+  "producer_binding": {
+    "build_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_reverse_half_q16x_20261018_v2_build_receipt.json",
+    "build_receipt_sha256": "b93e940f1d0a7d7d3e47397f07015ad12c254a94fdaf7e553d344e8f765e0495",
+    "abi_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_reverse_half_q16x_20261018_v2_abi.json",
+    "abi_receipt_sha256": "bff34f9b33e46450f6d6715daf8f9f90aea7fbde3c3080df0016317f9f6a0193",
+    "abi_receipt_passed": true,
+    "run_reference": "geometry_adapter_f0_s3_r2_scale_a_m0p50@ep0",
+    "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/geometry_adapter_f0_s3_r2_scale_a_m0p50/model_ep0.pt",
+    "checkpoint_sha256": "16fdcd698c548375933964debd2259a05582cbd53c2e94e60247eb3152558e3e",
+    "checkpoint_sha256_is_64_hex": true,
+    "native_sha256": "ebba8fe295175bf1c2ab57dbe76dd764c5c893941020af774be95cfe8a83043d",
+    "precision": "q16x"
+  },
+  "execution": {
+    "container_image": "wnn-python311-submission-check:latest",
+    "container_image_id": "sha256:949c72c9cf887a68e25dc00955ab030f1e528c21f1049459330ff022a7d51317",
+    "python": "3.11.16",
+    "numpy": "2.2.6",
+    "network": "disabled",
+    "cpu_cores": 0.2,
+    "memory_bytes": 536870912,
+    "memory_plus_swap_bytes": 536870912,
+    "root_filesystem": "read-only",
+    "torch_package_imported": false,
+    "torch_stub_used_by_reference_checker": true,
+    "physical_scratch": "/home/vlad/development/wunder/research_tmp/geometry-r3-v2-py311-smoke",
+    "scratch_filesystem_type": "btrfs"
+  },
+  "smoke": {
+    "checker_source": "/home/vlad/development/wunder/research_tmp/geometry-serving-20261018/scripts/check_geometry_submission.py",
+    "checker_source_sha256": "720d3552a285d7676f399136688c98354d2b815ad2cccfd8131628e46c91318c",
+    "checker_result": {
+      "callback_seconds_20k_proxy": null,
+      "callback_seconds_per_row": 5.504151923076923e-05,
+      "cpu_quota_fraction": null,
+      "feature_width": 271,
+      "native_event_features_bitwise_equal": true,
+      "native_geometry_features_bitwise_equal": true,
+      "native_max_abs_error": 0.0,
+      "native_predictions_bitwise_equal": true,
+      "need_prediction_rows": 5,
+      "one_core_runtime_extrapolation_seconds": null,
+      "precision": "q16x",
+      "reference_feature_stream_seconds": 0.08074515,
+      "rows": 104,
+      "runtime_estimate_label": "row-cost extrapolations only; complete competition runtime not measured",
+      "same_quota_runtime_extrapolation_seconds": null,
+      "seed": 20261018,
+      "status": "pass",
+      "synthetic": true
+    },
+    "aba_helper_source": "research/campaign_2026-10-18/geometry_variations_r3/check_geometry_r3_python311_aba.py",
+    "aba_helper_sha256": "60017c7a268c57c9b883dfc8c64b0e58e7fd6d0d314fe383be919cd6cd5b13c6",
+    "aba_helper_result": {
+      "passed": true,
+      "native_level": "v3",
+      "rows_per_sequence": 104,
+      "warmup_rows": 99,
+      "predictions_per_sequence": 5,
+      "all_predictions_finite": true,
+      "aba_outputs_bitwise_equal": true
+    },
+    "scope": "Exact ZIP extraction and Python 3.11 import/callback smoke on deterministic synthetic rows: event and 60-column geometry features match the canonical reference bitwise; callback matches direct native model output bitwise; 99-row warmup, finite requested predictions, reset-prefix check and explicit A-B-A reset determinism pass. No training, target/prediction payload, Torch computation, runtime-envelope approval, full-F0 grade or public-score claim."
+  },
+  "commands": {
+    "parity": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=20% WNN_THREADS=1 WNN_MEM_MAX=536870912 WNN_RUNTIME_MAX=300s WNN_TMP_ROOT=/home/vlad/development/wunder/research_tmp scripts/limited docker run --rm --network none --memory=536870912 --memory-swap=536870912 --cpus=0.2 --pids-limit=64 --read-only --tmpfs /tmp:rw,noexec,nosuid,size=16m --mount type=bind,src=/home/vlad/development/wunder/research_tmp/geometry-serving-20261018,dst=/work,readonly --mount type=bind,src=/home/vlad/development/wunder/research_tmp/geometry-r3-v2-py311-smoke/package,dst=/pkg,readonly --mount type=bind,src=/home/vlad/development/wunder/research_tmp/geometry-r3-v2-py311-smoke/output,dst=/out --workdir=/work --env PYTHONDONTWRITEBYTECODE=1 --env HOME=/tmp --env OMP_NUM_THREADS=1 --env OPENBLAS_NUM_THREADS=1 --env MKL_NUM_THREADS=1 --env NUMEXPR_NUM_THREADS=1 wnn-python311-submission-check:latest python -I /work/scripts/check_geometry_submission.py --package-root /pkg --rows 104 --seed 20261018 --output /out/geometry_r3_reverse_half_q16x_python311_result.json",
+    "aba_reset": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=20% WNN_THREADS=1 WNN_MEM_MAX=536870912 WNN_RUNTIME_MAX=300s WNN_TMP_ROOT=/home/vlad/development/wunder/research_tmp scripts/limited docker run --rm --network none --memory=536870912 --memory-swap=536870912 --cpus=0.2 --pids-limit=64 --read-only --tmpfs /tmp:rw,noexec,nosuid,size=16m --mount type=bind,src=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/geometry_variations_r3/check_geometry_r3_python311_aba.py,dst=/check_aba.py,readonly --mount type=bind,src=/home/vlad/development/wunder/research_tmp/geometry-r3-v2-py311-smoke/package,dst=/pkg,readonly --workdir=/ --env PYTHONDONTWRITEBYTECODE=1 --env HOME=/tmp --env OMP_NUM_THREADS=1 --env OPENBLAS_NUM_THREADS=1 --env MKL_NUM_THREADS=1 --env NUMEXPR_NUM_THREADS=1 wnn-python311-submission-check:latest python -I /check_aba.py --package-root /pkg --rows 104 --warmup 99",
+    "ruff_format": ".venv/bin/ruff format research/campaign_2026-10-18/geometry_variations_r3/check_geometry_r3_python311_aba.py (formatted 1 file)",
+    "ruff_check": ".venv/bin/ruff check research/campaign_2026-10-18/geometry_variations_r3/check_geometry_r3_python311_aba.py (passed)"
+  }
+}

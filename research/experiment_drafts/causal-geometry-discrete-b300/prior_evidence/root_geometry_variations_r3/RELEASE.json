@@ -1,0 +1,119 @@
+{
+  "artifact": {
+    "bytes": 5323608,
+    "path": "submissions/geometry_r3_reverse_half_q16x_20261018_v2.zip",
+    "sha256": "27f01f53ba32f7256ce1663e8b163b382e673fc96e7870fdebdf310d4886f98e"
+  },
+  "authority": "User authorized one additional bounded hour for geometry variations. No portal upload was performed.",
+  "finalized_utc": "2026-10-17T23:39:00+00:00",
+  "id": "R-GEOMETRY-ALPHA-20261018-R3",
+  "receipts": {
+    "build": {
+      "path": "research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_reverse_half_q16x_20261018_v2_build_receipt.json",
+      "sha256": "b93e940f1d0a7d7d3e47397f07015ad12c254a94fdaf7e553d344e8f765e0495"
+    },
+    "exposed_f0_grade": {
+      "path": "research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_grade.json",
+      "sha256": "4f5087c1fe00e59c1a5f9193bc0d5e328b00055b3b0a4afad0ad84760536d47a"
+    },
+    "full_f0_serving": {
+      "path": "research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_reverse_half_q16x_20261018_v2_f0_serving.json",
+      "sha256": "b28c57cef8a316a21b5db919924e4f165bb56dc19c0215c282d8d142b333c7c6"
+    },
+    "offline_python311": {
+      "path": "research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_reverse_half_q16x_20261018_v2_python311_smoke.json",
+      "sha256": "4629cec690832dd9cbccb885d3dd4e03ca8942ad83a9119304a4cfb879394df7"
+    },
+    "prior_export": {
+      "path": "research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_reverse_half_q16x_20261018_v2_prior_export.json",
+      "sha256": "3a6cda4151f6f2b15f533654d2c191393e80bf0f621b0ad30415305d496e2664"
+    },
+    "selected_weight_proof": {
+      "path": "research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_reverse_half_alpha_weight_proof.json",
+      "sha256": "158293b7ef1d87dbbb445d2dc9aec56db122706d666991e0457edf349bd1d19e"
+    },
+    "static_abi": {
+      "path": "research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_reverse_half_q16x_20261018_v2_abi.json",
+      "sha256": "bff34f9b33e46450f6d6715daf8f9f90aea7fbde3c3080df0016317f9f6a0193"
+    }
+  },
+  "runtime": {
+    "callback_only_39400000_row_projection_minutes": 38.09383445687429,
+    "callback_only_39400000_row_projection_seconds": 2285.6300674124573,
+    "callback_wall_us_per_row_measured": 58.01091541655983,
+    "complete_competition_runtime_measured": false,
+    "configured_limits": {
+      "cpu_quota": "100% of one core",
+      "memory_max": "2G",
+      "swap_max": "0"
+    },
+    "f0_callback_only_seconds_measured": 542.982168299,
+    "f0_replay_wall_seconds_measured": 595.4108653919975,
+    "max_rss_kib": 820168,
+    "target_host_runtime_guaranteed": false
+  },
+  "scientific_status": "Exploratory serving candidate only. Alpha was selected adaptively on an exposed F0; the conditional FP32 screen interval crosses zero. No cross-fold replication, selection-adjusted gain, generalization claim, or public gain claim is established.",
+  "selected_endpoint": {
+    "alpha": -0.5,
+    "kind": "inference-only checkpoint alias; no new fit",
+    "run": "geometry_adapter_f0_s3_r2_scale_a_m0p50@ep0",
+    "scaled_input_columns": [
+      211,
+      271
+    ],
+    "selected_checkpoint_sha256": "16fdcd698c548375933964debd2259a05582cbd53c2e94e60247eb3152558e3",
+    "selection": "Highest completed point-score alpha alias after adaptive inspection of the previously exposed F0 alpha grid and R3 variants; not an independent training replicate.",
+    "source_r2_checkpoint_sha256": "f03785c3dbc364d3d12a0ad0cbe1969a50a95bdc3a95d1f4bd0f4758f654df19"
+  },
+  "selection_evidence": {
+    "ci_scope": "Fixed FP32 cached predictions on exposed F0, conditional on the selected predictions; not selection-adjusted and not recomputed for the q16 served endpoint.",
+    "conditional_component_bootstrap_95_ci": [
+      -2.4797592499131714e-05,
+      0.0004214278945046276
+    ],
+    "exposure": "previously exposed F0; adaptive R1/R2/R3 and alpha-screen selection; no clean-holdout claim",
+    "generalization_gain_claimed": false,
+    "public_score_forecast": null,
+    "screen_candidate_minus_parent_fp32_wp": 0.00019559679100211724,
+    "screen_path": "research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_grade.json"
+  },
+  "served_endpoint": {
+    "evaluation_components_in_screen": 141,
+    "evaluation_groups": 468,
+    "evaluation_rows": 9360000,
+    "full_f0_replay_passed": true,
+    "metric_id": "global_wp_clip2_v1",
+    "official_exposed_f0_t0": 0.6745339923707513,
+    "official_exposed_f0_t1": 0.688312815159263,
+    "official_exposed_f0_wp": 0.6814234037650071,
+    "offline_python311_smoke_passed": true,
+    "offline_smoke_scope": "Exact ZIP extraction and Python 3.11 import/callback smoke on deterministic synthetic rows: event and 60-column geometry features match the canonical reference bitwise; callback matches direct native model output bitwise; 99-row warmup, finite requested predictions, reset-prefix check and explicit A-B-A reset determinism pass. No training, target/prediction payload, Torch computation, runtime-envelope approval, full-F0 grade or public-score claim.",
+    "precision": "q16x",
+    "scored_rows": 808863,
+    "static_abi_passed": true,
+    "zip_crc_passed": true
+  },
+  "status": "ready_for_user_exploratory_upload",
+  "superseded_failed_package": {
+    "failure_receipt": {
+      "path": "research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_reverse_half_q16x_v1_failure.json",
+      "sha256": "8ef1e8000e89bd7808f4cae7cf2e5e1bc65321044d5756825d7c290daabcd464"
+    },
+    "path": "submissions/geometry_r3_reverse_half_q16x_20261018.zip",
+    "reason": "The prior file was packaged under a noncanonical root member name; its callback was not replayed. The corrected v2 is the artifact named above.",
+    "sha256": "dda671f3b5f3db93b299c88cc3307d93f3eec6f441c2e55d351bc62f1344b9d9"
+  },
+  "torch_equivalence": {
+    "established_for_selected_q16_endpoint": false,
+    "related_r2_f32_panel": {
+      "atol": 1e-06,
+      "cause": "Not isolated; threshold was not relaxed. The selected q16 endpoint was scored directly through its packaged native callback.",
+      "panel_max_abs": 0.0007533133029937744,
+      "predeclared_tolerance_failed": true,
+      "receipt": "research/campaign_2026-10-18/geometry_adapter_probe_r2/geometry_adapter_r2_f32_native_torch_panel.json",
+      "rtol": 1e-05,
+      "sha256": "7c905fec4381f984c56054375381df6424161531f88d2c1b3d228312018f313e",
+      "values_outside_tolerance": 287989
+    }
+  }
+}

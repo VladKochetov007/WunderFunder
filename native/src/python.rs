@@ -12,6 +12,9 @@ use crate::rnn::{GruLayer, RnnModel, RnnWeights};
 use crate::rnn_fast::{Activations, FastRnn, Precision};
 use crate::state_init::{StateInitializer, StateInitializerConfig};
 
+#[path = "python_geometry.rs"]
+mod geometry;
+
 type Q8Codes = HashMap<String, Py<PyAny>>;
 type FactorTensors = HashMap<String, HashMap<String, Py<PyAny>>>;
 
@@ -990,6 +993,8 @@ fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyPredictor>()?;
     m.add_class::<PyEnsemblePredictor>()?;
     m.add_class::<PyModelStepper>()?;
+    m.add_class::<geometry::PyGeometryFeatureStepper>()?;
+    m.add_class::<geometry::PyGeometryPredictor>()?;
     Ok(())
 }
 

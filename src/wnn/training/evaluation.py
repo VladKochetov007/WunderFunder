@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 # Historical checkpoint records and experimental backend/batch states have
 # heterogeneous layouts; Any is retained only at those compatibility boundaries.
 from typing import Any
@@ -51,6 +53,8 @@ def evaluate(
     device: torch.device,
     *,
     environment: TrainingEnvironment | None = None,
+    capture_path: Path | None = None,
+    group_ids: np.ndarray | None = None,
 ) -> dict[str, Any]:
     """Evaluate."""
     environment = environment if environment is not None else TrainingEnvironment()
@@ -67,6 +71,16 @@ def evaluate(
         masks.append(selected)
         classes += [market_class(t) for t in y.numpy()]
     p, y, m = (np.concatenate(preds), np.concatenate(ys), np.concatenate(masks))
+    if capture_path is not None:
+        if group_ids is None or len(group_ids) != len(p):
+            raise ValueError("prediction capture needs one source row-group ID per sequence")
+        np.savez(
+            capture_path,
+            group_ids=np.asarray(group_ids, dtype=np.int64),
+            predictions=np.asarray(p, dtype=np.float32),
+            targets=np.asarray(y, dtype=np.float32),
+            scoring_mask=np.asarray(m, dtype=np.bool_),
+        )
     res = score(y, p, m)
     legacy = (
         block_aggregate_score(y, p, m)

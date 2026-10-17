@@ -1,0 +1,346 @@
+{
+  "id": "E-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1",
+  "status": "implemented_packet_profile_pending_no_fit",
+  "hypotheses": [
+    "H-CAUSAL-GEOMETRY-DISCRETE-B300-20261018-R1",
+    "H-MOMENT-GEOMETRY-20261017-R1",
+    "H-DISCRETE-OCCUPANCY-20261017-R1"
+  ],
+  "lineage": {
+    "branch": "experiment/causal-geometry-b300",
+    "base_branch": "research-team",
+    "base_sha": "e9a4c16c848e09d87d279a3dd64d7db376a8551d",
+    "shared_policy_main_sha": "0f4796609781da2b0886e2c5f9c52139987ba120",
+    "selected_source_worktree_commit": "35cf36a337a23ecc0e86159a5cb1867a851ac06e",
+    "selected_source_worktree_state": "dirty; only listed implementation files were copied into the isolated branch and are included in the branch source digest",
+    "owner": "B300 compute owner for future profile and fits; root owns separate local R1/R2 short direction probes",
+    "source_sha": "original publication source is fafe38e262992e6f62c1dbf8439e24b9bfb65943; each future profile/cell receipt must bind its actual current branch SHA",
+    "code_only_changes_from_dirty_main": [
+      "scripts/predict_run.py",
+      "src/wnn/research_features.py",
+      "src/wnn/moment_geometry/online.py",
+      "src/wnn/training/checkpoints.py",
+      "src/wnn/training/cli_features.py",
+      "src/wnn/training/cli_performance.py",
+      "src/wnn/training/evaluation.py",
+      "src/wnn/training/inheritance.py",
+      "src/wnn/training/inputs.py",
+      "src/wnn/training/outputs.py",
+      "src/wnn/training/profile_results.py",
+      "src/wnn/training/setup_lineage.py",
+      "src/wnn/training/setup_model_runtime.py",
+      "src/wnn/training/setup_preprocessing.py",
+      "src/wnn/training/feature_adapter.py"
+    ],
+    "serving_commits": [
+      {
+        "source_commit": "bdf996f9d1040936e2f84c837a39fc39e7431e40",
+        "branch_commit": "0617a9442066d801ddccd71ff9657446714c2554",
+        "purpose": "native causal geometry feature implementation, callback, reference checker and package extra-file support"
+      },
+      {
+        "source_commit": "ce5f8f63c1c495dac3c7f4a3ce46226b6efd7aba",
+        "branch_commit": "a10698d21c16ff40388ecd94afc64c29ca24dbd8",
+        "purpose": "single-member native serving path and reference scorer"
+      },
+      {
+        "source_commit": "03e6db635977d9514f46ec990738112075c588de",
+        "branch_commit": "a87155ae5db8794c027f2b9c5e9bc52f8d8ca692",
+        "purpose": "fix statistic-major first-20 native geometry channel order and strengthen synthetic callback parity checks"
+      },
+      {
+        "source_commit": "04252f6a35bc99711edf57397b775b66f6f11fe3",
+        "branch_commit": "b7dd3711fbf9fe94f48ea9d2914b4001f2df64a4",
+        "purpose": "index the native ABI, synthetic parity, profiles and retained first failure"
+      },
+      {
+        "source_commit": "52e7ed6bb6f5861846bb11eac29ceeaf3669dc0b",
+        "branch_commit": "722717d10cbb2c22f827e1080bada9d8d705c621",
+        "purpose": "expose the native stepper as callback .model for standard per-sequence reset validators"
+      }
+    ],
+    "serving_files": [
+      "native/src/python.rs",
+      "native/src/python_geometry.rs",
+      "scripts/check_geometry_submission.py",
+      "scripts/geometry_serving_reference.py",
+      "scripts/package_submission.py",
+      "submission/solution_geometry.py"
+    ],
+    "native_status": "native build, abi3 import/ELF scan, and corrected synthetic 20,000-row event/geometry/prediction/reset parity passed; fixed-precision q8vnni/i16/q16x profiles are synthetic row-cost proxies only; actual-weight parity, full competition runtime, and package checks pending",
+    "post_probe_adapter_source": "feature_adapter.py was copied separately from root’s dirty worktree after R2 for this PR; portable R2 receipts lack the exact pre-guard runtime source revision."
+  },
+  "scope": {
+    "fits_per_arm": 30,
+    "arms": 4,
+    "total_scientific_fits": 120,
+    "waves": 15,
+    "independent_workers_per_wave": 8,
+    "layout": "each wave assigns two crossed pair indices to eight cards: four arms for pair A and four arms for pair B",
+    "matrix_path": "scripts/geometry_b300/matrix.json",
+    "pair_identity": "pair_index 0..29; fold=pair_index mod 4; seed=1001+floor(pair_index/4)",
+    "seed_identity_by_fold": {
+      "0": [
+        1001,
+        1008
+      ],
+      "1": [
+        1001,
+        1008
+      ],
+      "2": [
+        1001,
+        1007
+      ],
+      "3": [
+        1001,
+        1007
+      ]
+    },
+    "profile_fits_are_scientific_cells": false
+  },
+  "arms": [
+    {
+      "name": "baseline",
+      "control": "all",
+      "feature_index_space": "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+      "visible_feature_index_range_inclusive": null,
+      "zeroed_feature_index_range_inclusive": [
+        0,
+        59
+      ],
+      "description": "211 raw/event channels plus the same 60-wide geometry suffix, all zeroed; matched input width and parameters."
+    },
+    {
+      "name": "moments",
+      "control": "moments_only",
+      "feature_index_space": "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+      "visible_feature_index_range_inclusive": [
+        0,
+        19
+      ],
+      "zeroed_feature_index_range_inclusive": [
+        20,
+        59
+      ],
+      "description": "20 causal moment/arc/anchor/current channels; 40 dictionary/event/dwell channels zeroed."
+    },
+    {
+      "name": "dictionary",
+      "control": "dictionary_only",
+      "feature_index_space": "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+      "visible_feature_index_range_inclusive": [
+        20,
+        59
+      ],
+      "zeroed_feature_index_range_inclusive": [
+        0,
+        19
+      ],
+      "description": "40 exact-level/dictionary/row occupancy/event/dwell channels; 20 moment/arc/anchor/current channels zeroed."
+    },
+    {
+      "name": "combined",
+      "control": "none",
+      "feature_index_space": "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+      "visible_feature_index_range_inclusive": [
+        0,
+        59
+      ],
+      "zeroed_feature_index_range_inclusive": null,
+      "description": "All 60 appended causal channels."
+    }
+  ],
+  "feature_order": {
+    "selected_raw_columns": [
+      0,
+      3,
+      52,
+      55
+    ],
+    "raw_event_width": 211,
+    "geometry_width": 60,
+    "model_input_width": 271,
+    "first_20": "mean[4], std[4], arc_residual[4], anchor_occupancy[4], normalized_current[4]",
+    "final_40": "current dictionary indicators[16], prefix row occupancy[16], dominant-event fractions[4], log dwell[4]",
+    "prior_fit": "sequence-level moments and exact-level counts from that cell's source-qualified fitting rows only; deterministic tie-break; never evaluation groups",
+    "transform_numeric_detail": "statistics and categorical counts are accumulated in FP64; the final 60 feature channels are cast to FP32; raw model inputs remain FP32"
+  },
+  "training": {
+    "model": "fresh GRU H512x1",
+    "train_source": "train+valid under each frozen CampaignSplit",
+    "train_sequences": 10607,
+    "epochs": 3,
+    "checkpoint_policy": "fixed epoch 2",
+    "no_evaluation_during_fit": true,
+    "batch_sequences": 8,
+    "chunk_rows": 2000,
+    "loss": "wmse",
+    "optimizer": "AdamW",
+    "scheduler": "OneCycle",
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "gradient_clip": 1,
+    "precision": {
+      "model_inputs_weights_activations_state_loss_gradients_optimizer_state": "FP32",
+      "autocast": false,
+      "grad_scaler": false,
+      "cuda_matmul_tf32": false,
+      "cudnn_tf32": false,
+      "float32_matmul_precision": "highest",
+      "feature_preprocessing": "FP64 accumulators for causal geometry statistics, then cast feature tensor to FP32",
+      "official_metric": "global_wp_clip2_v1 with canonical FP64-centered accumulation"
+    },
+    "resume": "atomic epoch-boundary training_state.pt; incomplete cell resumes with the same source/config/profile receipt and preserves phase attempts",
+    "expected_optimizer_updates_per_fit_by_fold": {
+      "0": 44760,
+      "1": 44790,
+      "2": 44850,
+      "3": 44640
+    },
+    "full_matrix_optimizer_updates": 5371320,
+    "update_budget_note": "counts are inherited from the frozen R4 recipe and must be checked against the actual eight-card profile and every terminal history; discrepancy is an execution stop-and-diagnose condition, not a silently revised result"
+  },
+  "data": {
+    "splits": [
+      {
+        "fold": 0,
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "eval_valid_sequences": 468,
+        "eval_components": 141
+      },
+      {
+        "fold": 1,
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+        "sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+        "eval_valid_sequences": 457,
+        "eval_components": 149
+      },
+      {
+        "fold": 2,
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold2.json",
+        "sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+        "eval_valid_sequences": 443,
+        "eval_components": 144
+      },
+      {
+        "fold": 3,
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold3.json",
+        "sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343",
+        "eval_valid_sequences": 505,
+        "eval_components": 145
+      }
+    ],
+    "exposure": "all four folds are exposed or potentially exposed development panels; no fresh holdout claim",
+    "payload_handling": "supplied data, target caches and chain caches are mounted on the B300 host and excluded from Git and the evidence archive"
+  },
+  "contrasts": {
+    "primary": "combined - baseline",
+    "family": [
+      "combined - baseline",
+      "moments - baseline",
+      "dictionary - baseline",
+      "combined - moments - dictionary + baseline"
+    ],
+    "interaction": "combined - moments - dictionary + baseline",
+    "familywise_adjustment": "Holm correction over these four preregistered two-sided tests",
+    "estimand": "equal-weight mean of the four fold means; within each fold average paired per-seed WP differences over its available seeds",
+    "fitting_seed_bootstrap": {
+      "draws": 10000,
+      "rng_seed": 20261018,
+      "method": "resample the eight shared seed identities with replacement; use the same seed multiplicities in all folds; renormalize among available seeds within each fold; redraw if a fold has zero sampled seed weight",
+      "interval": "percentile 95%, approximate and conditional on these exposed folds, fitting membership, and ancestry"
+    },
+    "evaluation_component_bootstrap": {
+      "method": "hold trained cells fixed; resample source-qualified evaluation components independently within each fold; apply identical component multiplicities to every arm and seed; recompute official WP and the equal-fold contrast",
+      "interval": "reported separately from seed variation; does not cover new fitting seeds, folds, or regimes"
+    },
+    "null_rule": "center the paired-seed bootstrap contrast distribution at zero for an approximate two-sided p-value; apply Holm to the four p-values; report all unadjusted and adjusted values with the seed-bootstrap intervals",
+    "limitations": "only eight seed identities, seven in F2/F3; bootstrap and p-values are approximate; no zero-crossing interval is an automatic family rejection"
+  },
+  "outcome": {
+    "metric": "global_wp_clip2_v1",
+    "useful_effect_reference": 0.001,
+    "useful_effect_note": "+0.001 absolute WP is a direction for useful follow-up, not a kill threshold.",
+    "success": "a useful positive primary contrast with compatible per-fold behavior and independent component uncertainty; preserve secondary/interaction evidence even if primary is inconclusive",
+    "failure": "negative or noisy concatenation narrows this exact fresh H512 recipe; it does not reject warm continuation, teacher targets, feature-only student support, distillation, or fixed mixtures",
+    "no_public_score_forecast": true
+  },
+  "profile_gate": {
+    "cards": 8,
+    "profile_model": "H512x1, batch8, 2000-row chunks, 211+60=271 inputs",
+    "measured_updates_per_card": 8,
+    "warmup_updates_per_card": 2,
+    "required_receipt": "artifacts/geometry_b300/profiles/profile_receipt.json",
+    "required_evidence": "one source SHA; eight unique B300 identities; overlapping profile windows; finite updates; strict FP32 flags; measured time/update, CPU RSS, CUDA allocated/reserved peaks, and training update budget",
+    "wall_time_seconds": null,
+    "wall_time_policy": "record measured card profiles and complete update totals; do not estimate or advertise B300 wall time before observing the actual hardware",
+    "launch_requirement": "inspect the sealed profile receipt and actual wall-clock/update throughput against available allocation before starting the 120 scientific cells"
+  },
+  "artifacts": {
+    "per_cell_receipt": "artifacts/geometry_b300/cells/geometry_b300_f{fold}_s{seed}_{arm}.json",
+    "phase_logs": "artifacts/geometry_b300/logs/",
+    "run_directories": "artifacts/runs/",
+    "predictions": "cache/pred_geometry_b300_f{fold}_s{seed}_{arm}_valid.npy plus JSON sidecar with array hash",
+    "evidence_archive": "separate archive of profile/cell receipts, command logs, histories, provenance, scores, prediction arrays/sidecars and source manifests; hash every file/archive; store only in approved private storage",
+    "weights_archive": "separate archive containing fixed epoch-2 checkpoint and training_state.pt for each cell; hash every file/archive; store only in approved private storage",
+    "supplied_datasets_in_archive": false
+  },
+  "future_quality_scaling": {
+    "current_path": "implemented fresh H512x1 four-arm matrix plus an optional guarded warm-adapter mode; only fresh-matrix B300 fitting is proposed, and no B300 profile or cell has run",
+    "strong_parent_continuation": "The optional --research-feature-adapter-only mode freezes all parent parameters and old input columns, training only the zero-initialized appended 60 input-weight columns; it requires a raw/event parent with exact 211+60 width, causal_geometry_discrete child features, FP32, AdamW, wd=0, no generic freeze, no resume, no QAT/mapping/online norm/propensity/heuristics, and a matching fold-clean parent per cell. The adaptive local R2 F0/seed3 probe was negative versus its fixed parent; this exact short recipe is not a family rejection.",
+    "larger_teacher": "future measured size/context ladder for larger GRU teachers with identical data membership, targets, and update-budget policy; profile each architecture before allocation",
+    "feature_paths": [
+      "teacher-only geometry/discrete features",
+      "student-only features",
+      "features on both teacher and student"
+    ],
+    "distillation": "future fold-clean teacher/student factorial; teacher ancestry excludes each evaluated fold, fit-only feature priors and target caches are fold-bound, compare label-only and distillation targets under matched student recipe and evaluate component-level fixed mixtures",
+    "scaling_implementation": "canonical trainer exposes GRU size and feature controls, but larger-teacher scale recipes, teacher cache builder, factorial distillation runner and their B300 profiles are not implemented in this packet",
+    "distributed_training": "no DDP for the small independent GRU cells; torchrun/DDP is a separate future option only if a larger teacher profile justifies multi-card training",
+    "root_local_r1": "One exposed F0/seed3 paired warm continuation from warm_mechanism_f0_s3_c_r3@ep1: feature WP 0.6804165153 vs zero control 0.6804784081 (delta -0.0000618929, conditional component-bootstrap95% interval [-0.0001217170,-0.0000031872], 2000 draws); both children were about -0.0008 below parent WP 0.6812265132. Not a B300 cell or seed-level confirmation.",
+    "root_local_r2": "Adaptive follow-up froze old parent weights and trained only columns 211:271 for one exposed F0/seed3 recipe: adapter WP 0.6804499040 vs fixed parent 0.6812265132 (delta -0.0007766092, conditional component-bootstrap95% interval [-0.0013528215,-0.0002791334], 2000 draws; 468 sequences/141 components). Fit took 693s/5120 updates, peak memory 4052291584 bytes, no OOM; bitwise parent check passed and all15360 new weights were nonzero. The portable receipts lack the exact local source revision; this branch adds precondition guards around the same adapter update path. Not a B300 cell, independent confirmation, or family rejection."
+  },
+  "current_evidence": {
+    "r1": "causal moment pilot mean delta +0.0008833 on a tiny exposed panel with opposing fold effects; all conditional component intervals crossed zero",
+    "r2": "H32x1 and H128x2 four-arm screens on 43 fitting/46 exposed evaluation sequences show capacity- and combination-dependent effects; fixed half-mixtures suggest possible conditional value",
+    "r3": "fresh H128x2, 8-epoch screen, 3 paired seeds, 43 fitting/46 exposed evaluation sequences: moments -0.019742, dictionary +0.000501, combined -0.017251 WP versus control on average; fixed control+dictionary mixture +0.007337",
+    "interpretation": "tiny panels and few seeds; not statistically significant, no production/teacher/KD/public claim. The strongest alternative is extra input capacity/optimization interaction and seed/slice noise rather than a stable feature-regime effect.",
+    "mechanism_limit": "bounded/discrete support mixtures can yield mean/variance arc relations; ~46% arc inliers are descriptive, not proof of a universal circle, periodicity, market regime or physical semantics.",
+    "root_local_warm_probe": {
+      "result_json": "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_quick_probe_comparison.json",
+      "result_sha256": "729f8e6aebf139cbdf29dbc68cde7da881663bf3fbfbf7bd7de11ee93727d279",
+      "figure": "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_quick_probe_results.png",
+      "figure_sha256": "8ac1128af5f955cb0159e5d2da6b6aaa86ba2db3cfb04e5247fc8d944c39d94c",
+      "scope": "one exposed F0/seed3 warm fit pair; fixed endpoints over 468 sequences and 141 components; component bootstrap only, no seed/fold/public-transfer uncertainty",
+      "feature_minus_zero_wp": -6.18928667632801e-05,
+      "feature_minus_zero_component_ci95": [
+        -0.00012171703674205558,
+        -3.1872304500912948e-06
+      ],
+      "feature_minus_parent_wp": -0.0008099979701405857,
+      "zero_minus_parent_wp": -0.0007481051033773056,
+      "interpretation": "Both children drifted below the parent; the small feature-control difference is not independent confirmation and does not reject the feature family."
+    },
+    "root_local_adapter_probe_r2": "Adaptive follow-up froze old parent weights and trained only columns 211:271 for one exposed F0/seed3 recipe: adapter WP 0.6804499040 vs fixed parent 0.6812265132 (delta -0.0007766092, conditional component-bootstrap95% interval [-0.0013528215,-0.0002791334], 2000 draws; 468 sequences/141 components). Fit took 693s/5120 updates, peak memory 4052291584 bytes, no OOM; bitwise parent check passed and all15360 new weights were nonzero. The portable receipts lack the exact local source revision; this branch adds precondition guards around the same adapter update path. Not a B300 cell, independent confirmation, or family rejection."
+  },
+  "literature_search": {
+    "query": "causal online moments discrete state occupancy time series neural",
+    "tool": "repository arxiv-search skill helper, max five results",
+    "finding": "no directly applicable primary method was used; search returned broad time-series clustering, causal-discovery, online causal-model and foundation-model generalization papers"
+  },
+  "fit_admitted": false,
+  "scientific_fits_completed": 0,
+  "optimizer_steps": 0,
+  "measured_b300_profiles": 0,
+  "execution_counters_scope": "fit_admitted, scientific_fits_completed, optimizer_steps and measured_b300_profiles refer only to this B300 packet; the separate root local R1/R2 warm probes are prior evidence and excluded.",
+  "evidence_sources": [
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/README.md",
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_quick_probe_recipe.json",
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_quick_probe_comparison.json",
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_recipe.json",
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_comparison.json",
+    "research/experiment_drafts/causal-geometry-discrete-b300/prior_evidence/root_adapter_probe_r2_frozen_parent_check.json"
+  ]
+}

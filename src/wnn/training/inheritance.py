@@ -4,6 +4,7 @@ import argparse
 
 import torch
 
+from wnn.moment_geometry.online import MODE as GEOMETRY_DISCRETE_MODE
 from wnn.research_features import (
     FIELD_AGE_FEATURE_MODES,
     MOMENT_FEATURE_MODES,
@@ -80,7 +81,7 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
 
 def can_extend_research_features(parent_mode: str, child_mode: str) -> bool:
     """Allow an append-only causal representation to extend a matching parent."""
-    appendable_modes = (*MOMENT_FEATURE_MODES, *FIELD_AGE_FEATURE_MODES)
+    appendable_modes = (*MOMENT_FEATURE_MODES, *FIELD_AGE_FEATURE_MODES, GEOMETRY_DISCRETE_MODE)
     if child_mode not in appendable_modes or parent_mode not in ("none", *appendable_modes):
         return False
     parent_names = research_feature_names(parent_mode)
