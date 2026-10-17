@@ -14,3 +14,8 @@ pub mod vnni;
 
 #[cfg(feature = "python")]
 mod python;
+
+#[cfg(feature = "python")]
+mod python_geometry;
+
+pub mod moment_geometry;

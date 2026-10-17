@@ -288,7 +288,7 @@ fn precision_name(p: Precision) -> &'static str {
 
 /// Copies a raw 112-feature row into `dst`. float32 contiguous arrays (what the scorer passes)
 /// are read in place; anything else goes through numpy.ascontiguousarray(.., float32).
-fn read_row(py: Python<'_>, row: &Bound<'_, PyAny>, dst: &mut [f32]) -> PyResult<()> {
+pub(crate) fn read_row(py: Python<'_>, row: &Bound<'_, PyAny>, dst: &mut [f32]) -> PyResult<()> {
     let copy = |src: &[f32], dst: &mut [f32]| {
         if src.len() != dst.len() {
             return Err(PyValueError::new_err(format!(
@@ -324,7 +324,7 @@ fn take_optional(w: &mut HashMap<String, Vec<f32>>, key: &str) -> Vec<f32> {
     w.remove(key).unwrap_or_default()
 }
 
-fn weights_from_dict(
+pub(crate) fn weights_from_dict(
     weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
 ) -> PyResult<RnnWeights> {
     let mut w: HashMap<String, Vec<f32>> = HashMap::new();
@@ -990,6 +990,7 @@ fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyPredictor>()?;
     m.add_class::<PyEnsemblePredictor>()?;
     m.add_class::<PyModelStepper>()?;
+    crate::python_geometry::register(m)?;
     Ok(())
 }
 
