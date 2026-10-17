@@ -10,17 +10,21 @@ pytestmark = pytest.mark.gpu
 
 def _model() -> Mamba2Regressor:
     """Build a small Mamba-2 model with dimensions supported by the SSD kernels."""
-    return Mamba2Regressor(
-        n_in=9,
-        hidden=64,
-        layers=2,
-        state_size=16,
-        head_dim=16,
-        expand=2,
-        conv_width=4,
-        chunk_size=16,
-        n_out=2,
-    ).cuda().eval()
+    return (
+        Mamba2Regressor(
+            n_in=9,
+            hidden=64,
+            layers=2,
+            state_size=16,
+            head_dim=16,
+            expand=2,
+            conv_width=4,
+            chunk_size=16,
+            n_out=2,
+        )
+        .cuda()
+        .eval()
+    )
 
 
 def _assert_state_close(left: Mamba2State, right: Mamba2State) -> None:
@@ -75,9 +79,7 @@ def test_batch_members_are_independent_and_none_starts_fresh_state() -> None:
     batched, batched_state = model(values)
     separate = [model(values[index : index + 1]) for index in range(2)]
     separate_predictions = [result[0] for result in separate]
-    torch.testing.assert_close(
-        torch.cat(separate_predictions), batched, atol=5e-4, rtol=5e-4
-    )
+    torch.testing.assert_close(torch.cat(separate_predictions), batched, atol=5e-4, rtol=5e-4)
     for layer_index, batched_layer in enumerate(batched_state.layers):
         for batch_index, (_, single_state) in enumerate(separate):
             single_layer = single_state.layers[layer_index]

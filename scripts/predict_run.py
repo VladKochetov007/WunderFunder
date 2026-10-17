@@ -133,6 +133,8 @@ def main():
     parser.add_argument("--campaign-evaluation-only", action="store_true")
     parser.add_argument("--campaign-full-valid-feature-only", action="store_true")
     parser.add_argument("--device", choices=("cuda", "cpu"), default="cuda")
+    parser.add_argument("--batch", type=int, default=16, help="prediction sequences per batch")
+    parser.add_argument("--chunk", type=int, default=4000, help="rows per streaming forward call")
     parser.add_argument(
         "--fit-subset-manifest",
         type=Path,
@@ -148,6 +150,8 @@ def main():
     parser.add_argument("--dump-family", action="store_true", help="also save [main 2 outputs, last 8 family-head outputs] to cache/allout_<name>.npy (research probe)")
     parser.add_argument("--gate-mode", choices=["soft", "hard", "confident"], default="soft")
     args = parser.parse_args()
+    if args.batch <= 0 or args.chunk <= 0:
+        parser.error("--batch and --chunk must be positive")
     name, split = args.name, args.split
     if (args.campaign_evaluation_only or args.campaign_full_valid_feature_only) and (
         args.campaign_split_manifest is None
@@ -158,6 +162,8 @@ def main():
     checkpoint_name = f"model_ep{args.epoch}.pt" if args.epoch is not None else "model.pt"
     checkpoint_path = ROOT / "artifacts" / "runs" / name / checkpoint_name
     ck = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    if ck["args"].get("arch") == "mamba2" and args.device != "cuda":
+        parser.error("Mamba-2 research checkpoints require CUDA prediction export")
     if ck["args"].get("privileged_mode", "none") != "none":
         raise ValueError(
             "privileged teachers require component-crossfit extraction, not causal prediction export"
@@ -237,10 +243,10 @@ def main():
     dataset = (
         FeatureOnlySequences(split, groups.tolist()) if feature_only else Sequences(split, groups)
     )
-    workers, prefetch = dataloader_budget(dataset.batch_tensor_bytes(16), max_workers=2)
+    workers, prefetch = dataloader_budget(dataset.batch_tensor_bytes(args.batch), max_workers=2)
     loader = DataLoader(
         dataset,
-        batch_size=16,
+        batch_size=args.batch,
         num_workers=workers,
         prefetch_factor=prefetch if workers else None,
     )
@@ -257,15 +263,18 @@ def main():
     for batch in loader:
         x = batch if feature_only else batch[0]
         if fam is None:
-            p = predict(model, x, 4000, device)
+            p = predict(model, x, args.chunk, device)
         else:  # research probe: keep every output column (family heads are the last 8)
             model.eval()
             with torch.no_grad():
                 inputs = train_rnn.build_inputs(x.to(device, non_blocking=True))
             state, parts = None, []
-            for s0 in range(0, inputs.shape[1], 4000):
-                with torch.no_grad(), torch.autocast(device.type, dtype=torch.float16, enabled=device.type == "cuda"):
-                    o, state = train_rnn.forward_chunk(model, inputs, slice(s0, s0 + 4000), state)
+            for s0 in range(0, inputs.shape[1], args.chunk):
+                with torch.no_grad(), torch.autocast(
+                    device.type, dtype=torch.float16,
+                    enabled=device.type == "cuda" and not getattr(model, "_inference_fp32", False),
+                ):
+                    o, state = train_rnn.forward_chunk(model, inputs, slice(s0, s0 + args.chunk), state)
                 parts.append(o.float())
             full = torch.cat(parts, dim=1).detach().cpu().numpy()
             p = full[..., :2]
@@ -292,6 +301,8 @@ def main():
         "quote_cache": quote_cache,
         "gate_mode": args.gate_mode,
         "inference_precision": "fp32" if getattr(model, "_inference_fp32", False) else "fp16",
+        "inference_batch": args.batch,
+        "inference_chunk": args.chunk,
         "quantization_preset": ck.get("quantization", {}).get("preset"),
         "recurrent_rank": ck.get("factorization", {}).get("rank"),
         "sentinel_preprocessing": ck.get("sentinel_preprocessing"),

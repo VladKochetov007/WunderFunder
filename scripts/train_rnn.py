@@ -25,7 +25,7 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
-from wnn import student_frontier
+from wnn import architecture_wave, student_frontier
 from wnn.block_memory_attention import BlockMemoryAttention
 from wnn.data import (
     CORRUPT_TRAIN_ROW_GROUPS,
@@ -1146,8 +1146,8 @@ def detach_state(state):
 
 
 def apply_block_memory_defaults(args: argparse.Namespace, argv: list[str]) -> None:
-    """Use four block-memory layers unless the command explicitly sets --layers."""
-    if args.arch != "block-memory":
+    """Use four attention/SSM layers unless the command explicitly sets --layers."""
+    if args.arch not in ("block-memory", *architecture_wave.ARCHITECTURES):
         return
     if any(token == "--layers" or token.startswith("--layers=") for token in argv):
         return
@@ -1275,6 +1275,8 @@ def make_model(args_dict, n_in, n_out):
     width_error = independent_width_configuration_error(args_dict, n_in)
     if width_error is not None:
         raise ValueError(width_error)
+    if args_dict.get("arch") in architecture_wave.ARCHITECTURES:
+        return architecture_wave.make_sequence_model(args_dict, n_in, n_out)
     numeric_map = args_dict.get("numeric_map", "none")
     if numeric_map != "none" and (
         args_dict.get("arch", "gru") != "gru"
@@ -1526,6 +1528,14 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "layers",
         "dropout",
         "arch",
+        "attention_heads",
+        "attention_window",
+        "attention_ffn_mult",
+        "mamba_state_size",
+        "mamba_head_dim",
+        "mamba_expand",
+        "mamba_conv_width",
+        "mamba_chunk_size",
         "decay_init",
         "memory_arm",
         "cell",
@@ -1871,13 +1881,16 @@ def main():
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
     ap.add_argument("--arch", choices=["gru", "dual", "gated", "structured", "event-content", "tcn", "twoclock",
-                                       "specialist", "prefix-adapter", "block-memory"],
+                                       "specialist", "prefix-adapter", "block-memory",
+                                       *architecture_wave.ARCHITECTURES],
                     default="gru",
                     help="tcn: causal dilated conv stack, --hidden channels, --layers blocks (receptive field 2^layers); "
                          "twoclock: --layers x GRU(--hidden) on rows + GRU(--event-hidden) stepping on a6 endpoint rows; "
                          "specialist: shared GRU plus always-updated expert GRUs; prefix-adapter: matched low-rank arms; "
                          "block-memory: causal block attention; width is --hidden; "
-                         "layers default 4; --block-heads 8; --block-rows 256")
+                         "layers default 4; --block-heads 8; --block-rows 256; "
+                         "causal-transformer/mamba2: streaming research backends, default 4 layers")
+    architecture_wave.add_arguments(ap)
     ap.add_argument(
         "--block-heads",
         type=int,
@@ -2013,6 +2026,8 @@ def main():
     perf.add_argument("--amp-init-scale", type=float, default=65536.0,
                       help="initial GradScaler scale for fp16; default preserves PyTorch's current training scale")
     perf.add_argument("--max-batches", type=int, default=0, help="stop each epoch after this many batches (harness)")
+    perf.add_argument("--check-finite-updates", action="store_true",
+                      help="record every loss and pre-clip gradient norm; reject nonfinite epochs before checkpointing")
     perf.add_argument("--profile-steps", type=int, default=0,
                       help="time this many batches per stage (after --profile-warmup), print a table and exit")
     perf.add_argument("--profile-warmup", type=int, default=5)
@@ -2020,6 +2035,8 @@ def main():
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     add_dynamics_arguments(ap)
     args = ap.parse_args()
+    if args.check_finite_updates:
+        args.grad_stats = True
     if args.profile_steps:
         args.max_batches = args.profile_warmup + args.profile_steps
     if args.final_model_adaptation and (
@@ -2030,6 +2047,9 @@ def main():
     ):
         ap.error("final model adaptation requires inherited preprocessing, fixed component subset and no fit-time evaluation or continuation")
     apply_block_memory_defaults(args, sys.argv[1:])
+    architecture_error = architecture_wave.rejection(vars(args))
+    if architecture_error is not None:
+        ap.error(architecture_error)
     block_memory_error = block_memory_rejection(args)
     if block_memory_error is not None:
         ap.error(block_memory_error)
@@ -2139,6 +2159,10 @@ def main():
         init_checkpoint = torch.load(ROOT / "artifacts" / "runs" / parent_run / parent_file,
                                      map_location="cpu", weights_only=False)
         inherit_init_arguments(args, init_checkpoint, sys.argv[1:])
+    # A parent checkpoint can change args.arch after the initial CLI validation.
+    architecture_error = architecture_wave.rejection(vars(args))
+    if architecture_error is not None:
+        ap.error(architecture_error)
     final_initializer_error = final_initializer_distillation_error(args)
     if final_initializer_error is not None:
         ap.error(final_initializer_error)
@@ -2676,6 +2700,21 @@ def main():
         provenance["model_source_sha256"] = file_sha256(SOURCE_ROOT / "src/wnn/nn.py")
     if args.arch in ("specialist", "prefix-adapter"):
         provenance["model_source_sha256"] = file_sha256(SOURCE_ROOT / "src/wnn/specialist.py")
+    if args.arch in architecture_wave.ARCHITECTURES:
+        provenance["model_source_sha256"] = file_sha256(
+            SOURCE_ROOT / architecture_wave.MODEL_SOURCES[args.arch]
+        )
+        provenance["architecture_adapter_sha256"] = file_sha256(
+            SOURCE_ROOT / "src/wnn/architecture_wave.py"
+        )
+        provenance["native_export_supported"] = False
+        provenance["architecture_wave"] = {
+            "version": 1,
+            "state_policy": "carry causal state within each sequence; detach between TBPTT chunks",
+            "submission_status": "research predictions only; CPU serving not qualified",
+            "torch_version": torch.__version__,
+            "cuda_version": torch.version.cuda,
+        }
     if quote_cache_provenance is not None:
         provenance["quote_cache"] = quote_cache_provenance
     if args.propensity:
@@ -2753,6 +2792,17 @@ def main():
     if args.distill_family_weight > 0:
         n_out += 8
     model = make_model(vars(args), n_in, base_n_out)
+    if args.arch == "mamba2":
+        from importlib.metadata import distribution
+
+        mamba_package = distribution("mamba-ssm")
+        provenance["architecture_wave"]["mamba_ssm_version"] = mamba_package.version
+        provenance["architecture_wave"]["mamba_ssm_source"] = json.loads(
+            mamba_package.read_text("direct_url.json") or "{}"
+        )
+        provenance["architecture_wave"]["weight_decay_policy"] = (
+            "shared AdamW all-parameter policy; upstream no-weight-decay annotations ignored"
+        )
     if args.distill_family_weight > 0:
         model = append_family_output_head(model)
     model = model.to(device)
@@ -3076,7 +3126,9 @@ def main():
         torch.cuda.reset_peak_memory_stats(device)
     norm_ema = None  # running weight-sum normalizer for --loss-norm running
     losses_trace = []
-    profile_losses: list[torch.Tensor] | None = [] if args.profile_steps else None
+    profile_losses: list[torch.Tensor] | None = (
+        [] if args.profile_steps or args.check_finite_updates else None
+    )
     best, t0, history = -1.0, time.time(), []
     fitting_started = t0
     cumulative_updates = {}
@@ -3148,6 +3200,8 @@ def main():
         if args.stop_after_epoch is not None and epoch > args.stop_after_epoch:
             break  # cheaper screens: the lr schedule still spans --epochs, so earlier checkpoints are unchanged
         model.train()
+        if profile_losses is not None:
+            profile_losses.clear()
         epoch_counter = EpochUpdateCounter(device)
         if isinstance(train_loader.sampler, EpochOrderSampler):
             train_loader.sampler.set_epoch(epoch)
@@ -3652,6 +3706,22 @@ def main():
         update_counts["normalization_identity"] = provenance["normalization_identity"]
         if epoch_grad_stats is not None:
             update_counts["grad_stats"] = epoch_grad_stats
+        if args.check_finite_updates:
+            epoch_updates = update_counts["epoch"]
+            evidence = profile_update_evidence(
+                epoch_updates["optimizer_attempts"],
+                epoch_updates["optimizer_completed_updates"],
+                epoch_updates["amp_skipped_updates"],
+                len(profile_losses or []),
+                bool(profile_losses and torch.isfinite(torch.stack(profile_losses)).all().item()),
+                scaler.is_enabled(),
+                None if epoch_grad_stats is None else epoch_grad_stats.get("steps"),
+                None if epoch_grad_stats is None else epoch_grad_stats.get("nonfinite_steps"),
+            )
+            update_counts["finite_update_evidence"] = evidence
+            print("FINITE_UPDATE_EVIDENCE", json.dumps(evidence), flush=True)
+            if not evidence["valid_for_throughput"]:
+                raise FloatingPointError("epoch contains incomplete or nonfinite optimizer updates")
         provenance["update_diagnostics"].append({"epoch_index": epoch, **update_counts})
         provenance["cumulative_updates"] = cumulative_updates.copy()
         train_seconds = round(time.time() - t0, 1)

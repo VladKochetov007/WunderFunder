@@ -4,7 +4,7 @@
 #
 # Source builds need torch importable before Mamba metadata/build hooks run.
 # First install torch and source-build tools, then install this file:
-#   python -m pip install --index-url https://download.pytorch.org/whl/cu130 \
+#   python -m pip install --extra-index-url https://download.pytorch.org/whl/cu130 \
 #       "torch==2.14.0+cu130" ninja packaging setuptools wheel
 #   python -m pip install --no-build-isolation -r requirements/mamba2-gpu.txt
 # The exact PyTorch wheel supplies its matching Triton build; do not substitute

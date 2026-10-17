@@ -7,24 +7,40 @@ import torch
 
 from wnn.causal_transformer import CausalTransformer, CausalTransformerState
 
-
 pytestmark = [
     pytest.mark.gpu,
     pytest.mark.skipif(not torch.cuda.is_available(), reason="requires a CUDA device"),
 ]
 
 
+def test_sequence_reset_and_batch_independence() -> None:
+    model = _model()
+    inputs = torch.randn(2, 19, 5, device="cuda")
+    with torch.no_grad():
+        batched, _ = model(inputs)
+        separate = torch.cat([model(inputs[index : index + 1])[0] for index in range(2)])
+        _, state = model(inputs[:, :7])
+        model(inputs[:, 7:], state)
+        reset, _ = model(inputs, None)
+    torch.testing.assert_close(batched, separate, rtol=3e-5, atol=3e-5)
+    torch.testing.assert_close(reset, batched, rtol=0, atol=0)
+
+
 def _model() -> CausalTransformer:
     torch.manual_seed(143)
-    return CausalTransformer(
-        n_in=5,
-        hidden=32,
-        layers=2,
-        heads=4,
-        window=5,
-        ffn_mult=2,
-        n_out=2,
-    ).cuda().eval()
+    return (
+        CausalTransformer(
+            n_in=5,
+            hidden=32,
+            layers=2,
+            heads=4,
+            window=5,
+            ffn_mult=2,
+            n_out=2,
+        )
+        .cuda()
+        .eval()
+    )
 
 
 def _run_chunks(
@@ -73,14 +89,18 @@ def test_full_step_and_ragged_chunk_parity_and_bounded_state() -> None:
 @pytest.mark.parametrize("window", [256, 2048])
 def test_production_windows_keep_exact_history_and_chunk_parity(window: int) -> None:
     torch.manual_seed(319)
-    model = CausalTransformer(
-        n_in=3,
-        hidden=16,
-        layers=1,
-        heads=4,
-        window=window,
-        ffn_mult=2,
-    ).cuda().eval()
+    model = (
+        CausalTransformer(
+            n_in=3,
+            hidden=16,
+            layers=1,
+            heads=4,
+            window=window,
+            ffn_mult=2,
+        )
+        .cuda()
+        .eval()
+    )
     inputs = torch.randn(1, window + 3, 3, device="cuda")
     first = window // 2
     second = window // 2 + 1

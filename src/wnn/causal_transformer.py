@@ -52,9 +52,7 @@ class CausalTransformerLayer(nn.Module):
         angles = positions.to(torch.float32)[:, None] * self.inv_freq[None, :]
         cosine = angles.cos().to(tensor.dtype)[None, None, :, :]
         sine = angles.sin().to(tensor.dtype)[None, None, :, :]
-        rotated = torch.stack(
-            (even * cosine - odd * sine, even * sine + odd * cosine), dim=-1
-        )
+        rotated = torch.stack((even * cosine - odd * sine, even * sine + odd * cosine), dim=-1)
         return rotated.flatten(-2)
 
     def forward(
@@ -154,12 +152,10 @@ class CausalTransformer(nn.Module):
         self.register_buffer("std", torch.ones(n_in))
         self.project = nn.Linear(n_in, hidden)
         inv_freq = 1.0 / (
-            10000.0
-            ** (torch.arange(0, head_width, 2, dtype=torch.float32) / head_width)
+            10000.0 ** (torch.arange(0, head_width, 2, dtype=torch.float32) / head_width)
         )
         self.layers = nn.ModuleList(
-            CausalTransformerLayer(hidden, heads, window, ffn_mult, inv_freq)
-            for _ in range(layers)
+            CausalTransformerLayer(hidden, heads, window, ffn_mult, inv_freq) for _ in range(layers)
         )
         # Keep head.2.weight compatible with existing output-width inspection.
         self.head = nn.Sequential(nn.Linear(hidden, hidden), nn.GELU(), nn.Linear(hidden, n_out))
@@ -173,7 +169,9 @@ class CausalTransformer(nn.Module):
         expected_history = min(state.position_offset, max_history)
         for key, value in zip(state.keys, state.values, strict=True):
             if key.ndim != 4 or value.shape != key.shape:
-                raise ValueError("each state cache must have matching [batch, heads, time, width] tensors")
+                raise ValueError(
+                    "each state cache must have matching [batch, heads, time, width] tensors"
+                )
             if (
                 key.shape[0] != batch
                 or key.shape[1] != self.layers[0].heads

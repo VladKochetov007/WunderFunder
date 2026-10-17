@@ -89,8 +89,7 @@ def _load_mamba2_backend() -> tuple[type[nn.Module], _ChunkScan]:
         ) from exc
     if installed.version != _MAMBA_SSM_VERSION:
         raise RuntimeError(
-            f"Mamba2Regressor requires mamba-ssm v{_MAMBA_SSM_VERSION}; "
-            f"found v{installed.version}"
+            f"Mamba2Regressor requires mamba-ssm v{_MAMBA_SSM_VERSION}; found v{installed.version}"
         )
     direct_url = installed.read_text("direct_url.json")
     if direct_url is None:
@@ -104,16 +103,14 @@ def _load_mamba2_backend() -> tuple[type[nn.Module], _ChunkScan]:
         raise RuntimeError("mamba-ssm direct_url.json metadata is invalid") from exc
     if revision != _MAMBA_SSM_COMMIT:
         raise RuntimeError(
-            "Mamba2Regressor requires mamba-ssm Git commit "
-            f"{_MAMBA_SSM_COMMIT}; found {revision!r}"
+            f"Mamba2Regressor requires mamba-ssm Git commit {_MAMBA_SSM_COMMIT}; found {revision!r}"
         )
     try:
         from mamba_ssm.modules.mamba2 import Mamba2
         from mamba_ssm.ops.triton.ssd_combined import mamba_chunk_scan_combined
     except ImportError as exc:
         raise RuntimeError(
-            "Mamba2Regressor requires the Linux CUDA backend from "
-            "requirements/mamba2-gpu.txt"
+            "Mamba2Regressor requires the Linux CUDA backend from requirements/mamba2-gpu.txt"
         ) from exc
     return Mamba2, mamba_chunk_scan_combined
 
@@ -150,6 +147,9 @@ class _Mamba2Block(nn.Module):
                 ngroups=1,
                 rmsnorm=True,
                 norm_before_gate=False,
+                # The streaming wrapper supplies its own causal Conv1d. Keep
+                # upstream's full-forward oracle usable without causal-conv1d.
+                use_mem_eff_path=False,
             ),
         )
         self.scan = scan
@@ -310,9 +310,7 @@ class Mamba2Regressor(nn.Module):
         hidden = self.project((x - self.mean) / self.std)
         next_states: list[Mamba2LayerState] = []
         for index, layer in enumerate(self.layers):
-            hidden, layer_state = layer(
-                hidden, None if state is None else state.layers[index]
-            )
+            hidden, layer_state = layer(hidden, None if state is None else state.layers[index])
             next_states.append(layer_state)
         predictions = self.head(self.final_norm(hidden))
         return predictions, Mamba2State(tuple(next_states))
