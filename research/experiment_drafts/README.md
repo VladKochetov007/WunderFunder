@@ -2,7 +2,7 @@
 
 The active [rank1 continuation draft](https://github.com/VladKochetov007/WunderFunder/tree/experiment/rr18-01-labels/research/experiment_drafts/rr18-01-labels) is published on `experiment/rr18-01-labels`, based on the source-bound [October18 execution packet](../campaign_2026-10-18/priority25_execution_r4/README.md). Both profiles passed and the first paired fit is running. Its endpoint metrics and PR URL remain pending; the historical catalogue below is unchanged.
 
-Fourteen draft PRs are published with base **research-team**; The table below preserves historical publication SHAs; the [latest synchronization receipt](BRANCH_SYNC_20261017_R2.json) records current pushed heads, merged target and GitHub verification. No experiment has been merged or fitted by this publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
+Fifteen draft PRs are published with base **research-team**; the table preserves publication SHAs, and the [pre-publication synchronization receipt](BRANCH_SYNC_20261017_R2.json) preserves prior branch synchronization. This B300 publication contains no profile or matrix fit; root’s separate one-pair local direction probe is outside the draft. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
 
 - [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.
 - [Workflow](../unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) defines30 paired cells per scientific arm, strictFP32, source-clean evaluation and separate logs/weights archives.
@@ -23,6 +23,7 @@ Fourteen draft PRs are published with base **research-team**; The table below pr
 | [#12](https://github.com/VladKochetov007/WunderFunder/pull/12) | Expand clean heterogeneous recurrent teacher cohort | `ec1e55bba63a` |
 | [#13](https://github.com/VladKochetov007/WunderFunder/pull/13) | Fixed checkpoint trajectory averaging | `cc523fc5c1c3` |
 | [#14](https://github.com/VladKochetov007/WunderFunder/pull/14) | Causal innovation residuals beyond moment features | `65f6fffdc559` |
+| [#15](https://github.com/VladKochetov007/WunderFunder/pull/15) | Causal geometry and discrete state features on B300 | `fafe38e26299` |
 
 ## Readiness
 
@@ -32,4 +33,4 @@ TPU parity remains a local engineering branch, outside these B300 quality drafts
 
 ## Modular trainer integration
 
-All14 draft branches now include shared trainer revision `eb3309a322c1e24b3cc157eaefe3ca0e0290cd42` through ordinary merges. Each packet records its integration parent and links the [component map](../../src/wnn/training/README.md) and [engineering receipt](../unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md). The JSON catalogue retains original publication and pre-refactor heads alongside current integrated heads. This is source maintenance with no fits or measured performance result.
+The14 earlier draft branches include shared trainer revision `eb3309a322c1e24b3cc157eaefe3ca0e0290cd42` through ordinary merges. B300 PR #15 is based on research-team after that trainer integration and reuses the same canonical components. The packet links the [component map](../../src/wnn/training/README.md) and [engineering receipt](../unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md). The JSON catalogue retains original publication and pre-refactor heads alongside current integrated heads. This is source maintenance with no B300 fit or performance result.
