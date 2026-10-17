@@ -65,3 +65,7 @@ Keep provenance and source links with each imported item. Generated idea cards d
 - [B300 skill search and project adaptation](B300_AGENT_SKILLS_REVIEW_20261017_R1.md) records the inspected NVIDIA/Han Lab profiling skills, official training catalogue and external B300 field report. Motivates a project-authored skill with source links; no bundle installation, hardware profile or throughput claim.
 
 </details>
+
+## Current sequence-moment investigation
+
+- [RevIN official implementation and its causal-use limitation](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) records the ICLR2022authors' [repository](https://github.com/ts-kim/RevIN) and inspected RevIN.py reduction over the supplied temporal axis. Relevant to mean/variance normalization: a whole-current-sequence call would leak future observations in this competition; the local expanding-prefix treatment is an adaptation, with no imported performance claim.

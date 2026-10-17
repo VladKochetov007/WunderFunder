@@ -97,3 +97,7 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 - [Published draft PR catalogue](../../experiment_drafts/README.md) links all14 English experiment handoffs, exact GitHub draft/base/head verification and the branch/commit JSON manifest. Describes code readiness, shared primitive provenance and missing B300/data bindings; no fits, tests or model-quality claim.
 
 </details>
+
+## Current sequence-moment investigation
+
+- [Discrete occupancy and regime heuristics](DISCRETE_OCCUPANCY_HEURISTICS_20261017_R1.md) turns the user-requested all112 mean/std visual review into six causal representation families for teachers and students: frequent-level identity, row/event occupancy, dwell/transitions, soft branch evidence and level-plus-scale. Input geometry is measured; predictive/teacher/distillation gains are untested. Explicitly preserves the direction after a weak tiny pilot and evaluates conditional contributions rather than requiring immediate standalone dominance.

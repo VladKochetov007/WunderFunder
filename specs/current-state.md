@@ -1,20 +1,15 @@
 # Current project state
 
-**Snapshot date:** 17 October 2026. **Research status:** analysis/EDA active;
-model fitting paused. **Current scope:** prediction bug fixes, primary-literature
-review, measured no-fit diagnostics and a 25-idea research portfolio.
+**Snapshot date:** 17 October 2026. **Research status:** scoped local moment/discrete-feature experiments resumed by the latest user instruction. **Current scope:** bounded local EDA/fits, plus repository integration. Unrelated paused campaigns retain their prior boundary.
 
 ## Operating state
 
 The latest research closeout is dated 15 October 2026 at 18:39 UTC. It records
 that the admitted G fit, export and grade finished, all admitted work drained,
-and the research admission barrier remained closed. No later user instruction
-in the project record resumes model fitting. New fits require an explicit
-resume; older plans, quotas and stop snapshots are historical authority only.
+and the research admission barrier remained closed. The latest user explicitly resumed the sequence-moment/heuristic investigation locally on main with a5GB aggregate task RAM cap. This supersedes that pause for this exact scope; unrelated campaign admission and the other agent's Kaggle ownership remain unchanged. Older plans, quotas and stop snapshots are historical authority only.
 See the [pause closeout](../research/unified/operations/RESEARCH_PAUSE_20261015_R1.md).
 
-The latest October 17 user instruction explicitly resumes research thinking,
-literature, EDA and bug repair, while explicitly excluding model training.
+The separately recorded October 17 research-reset scope resumes research thinking, literature, EDA and bug repair while excluding model training for that packet. The geometry-specific local fit authority above is separate and does not expand that packet's scope.
 The [research reset contract](../research/campaign_2026-10-17/research_reset_r1/CONTRACT.json)
 records this boundary. No fit, rental or submission is authorized by this reset.
 
@@ -22,6 +17,11 @@ The [research reset packet](../research/campaign_2026-10-17/research_reset_r1/RE
 records deployed creative prediction/cache repairs, deterministic checks,
 full-data target/event census, sampled full-feature EDA, source registers and
 independent proposal/critique rounds. Its ideas are proposals, not new model scores.
+
+
+## Current scoped geometry investigation
+
+The [geometry record](../research/unified/validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) contains128train/128valid raw-input EDA, all112visually inspected features and the first9matched tiny-GRU endpoints. Independently verified pooled moment gain is+0.0008833, with opposing exposed-fold effects; this is not a production or public gain. The preregistered discrete occupancy/dwell and capacity interaction pilot is running from an immutable source snapshot. Allcode and provenance are maintained on main and integrated into research-team. One initial1.4GBmetadata-reader OOM was diagnosed and fixed; later tasks are contained within5GBaggregateRAM and one CPU inside the existing two-core parent. No Kaggle job is modified.
 
 ## Public leaderboard snapshot
 

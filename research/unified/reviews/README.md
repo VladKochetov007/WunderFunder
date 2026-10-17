@@ -174,3 +174,7 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 - [Independent modular-trainer static review and fixes](../methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md#independent-review-and-corrections) records the explicitly authorized Sol6.1/medium critic, concrete compatibility/state/packet bugs, corrections and final bounded disposition. Static review only; no empirical parity or speed claim. Canonical description is in methods.
 
 </details>
+
+## Current sequence-moment investigation
+
+- [Independent causal-geometry pilot grade](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r1.json), interpreted in the [geometry note](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md), verifies all9endpoint official pooled/fold scores, source/initial-state hashes and880updates. Tiny pooled moment gain is opposed across exposed folds; conditional component intervals cross zero. This is integrity evidence and exploratory comparison, not production gain or a rejection of heuristics.
