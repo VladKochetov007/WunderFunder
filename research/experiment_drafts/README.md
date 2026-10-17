@@ -1,11 +1,11 @@
 # Research-team experiment catalogue
 
-Fourteen draft PRs are published with base **research-team**; GitHub reports every one as draft and its head SHA matches this catalogue. No experiment has been merged or fitted by this publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
+Fourteen draft PRs are published with base **research-team**; The table below preserves historical publication SHAs; the [latest synchronization receipt](BRANCH_SYNC_20261017_R2.json) records current pushed heads, merged target and GitHub verification. No experiment has been merged or fitted by this publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
 
 - [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.
 - [Workflow](../unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) defines30 paired cells per scientific arm, strictFP32, source-clean evaluation and separate logs/weights archives.
 
-| Draft | Idea | Source SHA |
+| Draft | Idea | Historical source SHA |
 |---|---|---|
 | [#1](https://github.com/VladKochetov007/WunderFunder/pull/1) | Causal Transformer with output autoregression | `484dde614cea` |
 | [#2](https://github.com/VladKochetov007/WunderFunder/pull/2) | Cold GRU width versus depth at matched compute | `89582990815b` |
