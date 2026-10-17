@@ -92,12 +92,12 @@ impl GeometryFeatures {
             } else {
                 0.0
             };
-            let base = field * 4;
-            output[base] = mean as f32;
-            output[4 + base] = std as f32;
-            output[8 + base] = (second - self.beta[field] * mean - self.intercept[field]) as f32;
-            output[12 + base] = (self.atom_count[field] / count) as f32;
-            output[16 + base] = ((values[field] - mean) / std.max(0.05)).clamp(-8.0, 8.0) as f32;
+            output[field] = mean as f32;
+            output[4 + field] = std as f32;
+            output[8 + field] = (second - self.beta[field] * mean - self.intercept[field]) as f32;
+            output[12 + field] = (self.atom_count[field] / count) as f32;
+            output[16 + field] = ((values[field] - mean) / std.max(0.05)).clamp(-8.0, 8.0) as f32;
+            let category_base = field * 4;
 
             let mut any_known = false;
             for level in 0..3 {
@@ -112,12 +112,12 @@ impl GeometryFeatures {
                 } else {
                     0.0
                 };
-                output[20 + base + level] = if self.category[field][level] {
+                output[20 + category_base + level] = if self.category[field][level] {
                     1.0
                 } else {
                     0.0
                 };
-                output[36 + base + level] = (self.occupancy[field][level] / count) as f32;
+                output[36 + category_base + level] = (self.occupancy[field][level] / count) as f32;
             }
             if changed[field] {
                 self.event_count[field] += 1;
@@ -127,7 +127,7 @@ impl GeometryFeatures {
                 self.last_change[field] = self.position;
             }
             output[52 + field] =
-                self.dominant_count[field] as f32 / self.event_count[field].max(1) as f32;
+                (self.dominant_count[field] as f64 / self.event_count[field].max(1) as f64) as f32;
             let dwell = self
                 .position
                 .saturating_sub(self.last_change[field])

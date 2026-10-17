@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -54,6 +55,18 @@ def _synthetic_rows(count: int, seed: int) -> np.ndarray:
     return np.ascontiguousarray(rows)
 
 
+def _cpu_quota_fraction() -> float | None:
+    """Read the requested one-core quota passed through `scripts/limited`."""
+    value = os.environ.get("WNN_CPU_QUOTA")
+    if value is None or not value.endswith("%"):
+        return None
+    try:
+        fraction = float(value[:-1]) / 100.0
+    except ValueError:
+        return None
+    return fraction if 0.0 < fraction <= 1.0 else None
+
+
 def _load_member(package: Path, precision: str) -> tuple[dict[str, np.ndarray], np.float32]:
     """Load the one fixed 271-input package member."""
     spec = cast(list[dict[str, object]], json.loads((package / "members.json").read_text()))
@@ -101,12 +114,18 @@ def check_package(
         streamed_events[index] = observed[:99]
         streamed_geometry[index] = observed[99:]
         if not np.array_equal(streamed_events[index], expected_event):
+            channel = int(np.flatnonzero(streamed_events[index] != expected_event)[0])
             raise AssertionError(
-                f"native event features differ from streaming reference at row {index}"
+                f"native event mismatch at row {index}, channel {channel}: "
+                f"native={streamed_events[index, channel]!r}, "
+                f"reference={expected_event[channel]!r}"
             )
         if not np.array_equal(streamed_geometry[index], expected_geometry):
+            channel = int(np.flatnonzero(streamed_geometry[index] != expected_geometry)[0])
             raise AssertionError(
-                f"native geometry features differ from streaming reference at row {index}"
+                f"native geometry mismatch at row {index}, channel {channel}: "
+                f"native={streamed_geometry[index, channel]!r}, "
+                f"reference={expected_geometry[channel]!r}"
             )
     feature_seconds = (time.perf_counter_ns() - feature_started) / 1e9
     event_equal = bool(np.array_equal(streamed_events, batch_events))
@@ -162,6 +181,7 @@ def check_package(
             raise AssertionError(f"sequence reset parity failed at prefix row {index}")
 
     seconds_per_row = callback_seconds / row_count
+    quota_fraction = _cpu_quota_fraction()
     return {
         "status": "pass",
         "synthetic": True,
@@ -177,10 +197,18 @@ def check_package(
         "callback_seconds_20k_proxy": callback_seconds if row_count == 20_000 else None,
         "callback_seconds_per_row": seconds_per_row,
         "need_prediction_rows": int(need.sum()),
-        "row_cost_runtime_estimate_seconds": (
+        "cpu_quota_fraction": quota_fraction,
+        "same_quota_runtime_extrapolation_seconds": (
             seconds_per_row * total_rows if total_rows is not None else None
         ),
-        "runtime_estimate_label": "row-cost extrapolation only; complete competition runtime not measured",
+        "one_core_runtime_extrapolation_seconds": (
+            seconds_per_row * quota_fraction * total_rows
+            if total_rows is not None and quota_fraction is not None
+            else None
+        ),
+        "runtime_estimate_label": (
+            "row-cost extrapolations only; complete competition runtime not measured"
+        ),
     }
 
 
@@ -191,6 +219,7 @@ def main() -> None:
     parser.add_argument("--rows", type=int, default=20_000)
     parser.add_argument("--seed", type=int, default=20261018)
     parser.add_argument("--total-rows", type=int)
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if not 1 <= args.rows <= 20_000:
         raise SystemExit("--rows must be between 1 and 20000")
@@ -199,7 +228,12 @@ def main() -> None:
     result = check_package(
         args.package_root.resolve(strict=True), args.rows, args.seed, args.total_rows
     )
-    print(json.dumps(result, indent=2, sort_keys=True))
+    rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
+    if args.output is not None:
+        output = args.output.resolve()
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(rendered, encoding="utf-8")
+    print(rendered, end="")
 
 
 if __name__ == "__main__":
