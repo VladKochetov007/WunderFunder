@@ -12,6 +12,7 @@ from wnn.training.checkpoints import (
     inference_checkpoint_fields,
     serialized_args,
 )
+from wnn.training.epoch import fit_epoch_summary
 from wnn.training.evaluation import evaluate
 from wnn.training.reporting import emit
 from wnn.training.state import TrainingRun
@@ -68,6 +69,7 @@ def evaluate_epoch(run: TrainingRun) -> None:
         )
         evaluation_score = res["weighted_pearson"]
     res["update_diagnostics"] = update_counts
+    res["fit_summary"] = fit_epoch_summary(run, update_counts["epoch"])
     history.append(res)
     emit("FIT" if args.no_eval_during_fit else "VALID", json.dumps(res), flush=True)
     run.progress.eval_model = eval_model

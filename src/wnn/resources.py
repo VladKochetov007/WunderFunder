@@ -77,6 +77,14 @@ def configure_torch(gpu_fraction: float | None = None, duty: float | None = None
     return DutyCycle(duty) if duty < 1.0 else None
 
 
+def configure_strict_fp32() -> None:
+    """Disable CUDA TF32 paths for a declared full-float32 execution path."""
+    import torch
+
+    torch.backends.cuda.matmul.allow_tf32 = False
+    torch.backends.cudnn.allow_tf32 = False
+
+
 def allocator_fraction(memory_bytes: str, total_bytes: int) -> float:
     """Validate a byte-based allocation ceiling without confusing GB and GiB.
 

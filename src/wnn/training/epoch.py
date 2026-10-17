@@ -68,6 +68,11 @@ def prepare_epoch(run: TrainingRun) -> None:
             ),
             flush=True,
         )
+    run.progress.fit_loss_sum = None
+    run.progress.fit_loss_windows = 0
+    run.progress.fit_lr_first = None
+    run.progress.fit_lr_last = None
+    run.progress.fit_lr_sum = None
     batches = CudaPrefetcher(train_loader, device, timer) if args.pin_memory else train_loader
     if args.activation_profile_first_chunk:
         first_batch = next(iter(batches))
@@ -77,6 +82,56 @@ def prepare_epoch(run: TrainingRun) -> None:
     run.progress.epoch_counter = epoch_counter
     run.progress.epoch_order_identity = epoch_order_identity
     run.progress.profile_batches = profile_batches
+
+
+@torch.no_grad()
+def record_fit_window(run: TrainingRun) -> None:
+    """Accumulate detached objective and pre-update learning rates for fit reporting."""
+    loss = run.batch.loss
+    sched = run.optimization.sched
+    if loss is None or sched is None:
+        raise RuntimeError("fit window lacks its objective or scheduler")
+    fit_loss_sum = run.progress.fit_loss_sum
+    fit_lr_sum = run.progress.fit_lr_sum
+    rates = [float(value) for value in sched.get_last_lr()]
+    if fit_loss_sum is None:
+        run.progress.fit_loss_sum = loss.detach().clone()
+        run.progress.fit_lr_first = rates.copy()
+        run.progress.fit_lr_sum = rates.copy()
+    else:
+        if fit_lr_sum is None or len(fit_lr_sum) != len(rates):
+            raise RuntimeError("scheduler learning-rate groups changed within an epoch")
+        fit_loss_sum.add_(loss.detach())
+        for index, rate in enumerate(rates):
+            fit_lr_sum[index] += rate
+    run.progress.fit_lr_last = rates
+    run.progress.fit_loss_windows += 1
+
+
+def fit_epoch_summary(run: TrainingRun, epoch_update_counts: dict[str, int]) -> dict[str, object]:
+    """Return fit-only loss, learning-rate and optimizer-count telemetry."""
+    count = run.progress.fit_loss_windows
+    loss_sum = run.progress.fit_loss_sum
+    lr_first = run.progress.fit_lr_first
+    lr_last = run.progress.fit_lr_last
+    lr_sum = run.progress.fit_lr_sum
+    mean_loss = None if loss_sum is None or count == 0 else float(loss_sum.item()) / count
+    mean_lr = None if lr_sum is None or count == 0 else [rate / count for rate in lr_sum]
+    groups = []
+    if lr_first is not None and lr_last is not None and mean_lr is not None:
+        groups = [
+            {"group": index, "first": first, "last": last, "mean": mean}
+            for index, (first, last, mean) in enumerate(
+                zip(lr_first, lr_last, mean_lr, strict=True)
+            )
+        ]
+    return {
+        "objective_mean": mean_loss,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": count,
+        "learning_rate_by_group": groups,
+        "optimizer_updates": epoch_update_counts,
+    }
 
 
 def finish_batch(run: TrainingRun) -> bool:

@@ -49,6 +49,11 @@ class ProgressState:
     epoch_order_identity: dict[str, Any] | None = None
     eval_model: torch.nn.Module | None = None
     evaluation_score: float | None = None
+    fit_loss_sum: torch.Tensor | None = None
+    fit_loss_windows: int = 0
+    fit_lr_first: list[float] | None = None
+    fit_lr_last: list[float] | None = None
+    fit_lr_sum: list[float] | None = None
     fitting_started: float | None = None
     history: list[dict[str, Any]] | None = None
     losses_trace: list[torch.Tensor] | None = None

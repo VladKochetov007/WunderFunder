@@ -78,7 +78,7 @@ from wnn.training.runner import run_training
 
 ## Preserved contracts
 
-- No new tensor copies, detach boundaries, loss reductions, dtype policy, sampler changes or device synchronizations are introduced into the numerical path. The original fast input allocation, foreach EMA and CUDA prefetch remain.
+- Training arithmetic keeps the original tensor copies, gradient boundaries, loss reductions, dtype policy, sampler behavior and update order. Fit-only epoch telemetry accumulates detached scalar objectives and pre-update learning rates, then reads one scalar at epoch reporting and adds their mean with update counts to the existing `FIT`/`VALID` record. It does not affect evaluation or checkpoint selection. The original fast input allocation, foreach EMA and CUDA prefetch remain.
 - Per-window order is unscale → update counters/preclip diagnostics → perturb/clipping → optimizer → QAT projection/invalidation → scaler → scheduler → attempted clock → SWA/EMA. Skipped AMP attempts retain the original scheduler/averaging clock semantics.
 - Sequence state resets, prefix replay/discard, initializer-teacher state, teacher-target clone isolation, source-qualified folds and fixed checkpoint policy remain explicit.
 - CLI defaults are preserved, including the legacy FP16 default. Strict-FP32 research recipes must still pass `--precision fp32`; this refactor does not rewrite numerical recipes.

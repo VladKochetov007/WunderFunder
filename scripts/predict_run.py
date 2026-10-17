@@ -30,7 +30,7 @@ from wnn.research_features import (
     research_feature_control_width,
     validate_causal_moment_prior,
 )
-from wnn.resources import configure_torch, dataloader_budget
+from wnn.resources import configure_strict_fp32, configure_torch, dataloader_budget
 from wnn.sentinel import SentinelPreprocessor
 from wnn.splits import file_sha256, load_campaign_split
 
@@ -39,8 +39,12 @@ ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
 
 
 def campaign_prediction_groups(
-    manifest_path: Path, checkpoint: dict, split: str, *,
-    evaluation_only: bool = False, full_valid: bool = False,
+    manifest_path: Path,
+    checkpoint: dict,
+    split: str,
+    *,
+    evaluation_only: bool = False,
+    full_valid: bool = False,
 ) -> np.ndarray:
     """Bind feature-only campaign exports to checkpoint ancestry and row order."""
     if split not in ("train", "valid"):
@@ -145,7 +149,11 @@ def main():
         default="checkpoint",
         help="force common fp32 evaluation for paired fp16/fp32 training controls",
     )
-    parser.add_argument("--dump-family", action="store_true", help="also save [main 2 outputs, last 8 family-head outputs] to cache/allout_<name>.npy (research probe)")
+    parser.add_argument(
+        "--dump-family",
+        action="store_true",
+        help="also save [main 2 outputs, last 8 family-head outputs] to cache/allout_<name>.npy (research probe)",
+    )
     parser.add_argument("--gate-mode", choices=["soft", "hard", "confident"], default="soft")
     args = parser.parse_args()
     name, split = args.name, args.split
@@ -165,7 +173,9 @@ def main():
     feature_only = args.fit_subset_manifest is not None or args.campaign_split_manifest is not None
     if args.campaign_split_manifest is not None:
         groups = campaign_prediction_groups(
-            args.campaign_split_manifest, ck, split,
+            args.campaign_split_manifest,
+            ck,
+            split,
             evaluation_only=args.campaign_evaluation_only,
             full_valid=args.campaign_full_valid_feature_only,
         )
@@ -200,6 +210,7 @@ def main():
         or ck.get("quantization") is not None
         or ck.get("factorization") is not None
     ):
+        configure_strict_fp32()
         model._inference_fp32 = True
     if ck["args"].get("arch") == "gated":
         model.gate_mode = args.gate_mode
@@ -211,13 +222,15 @@ def main():
     train_rnn.INPUT_LEAD = int(ck["args"].get("input_lead", 0))
     if ck["args"].get("snap_codebook"):
         import numpy as _np
+
         _book = _np.load(ck["args"]["snap_codebook"])
-        train_rnn.SNAP_CODEBOOK = {int(k[1:]): (torch.tensor((v[1:] + v[:-1]) / 2), torch.tensor(v)) for k, v in _book.items()}
+        train_rnn.SNAP_CODEBOOK = {
+            int(k[1:]): (torch.tensor((v[1:] + v[:-1]) / 2), torch.tensor(v))
+            for k, v in _book.items()
+        }
     train_rnn.RESEARCH_FEATURES = ck["args"].get("research_features", "none")
     train_rnn.RESEARCH_FEATURE_CONTROL = ck["args"].get("research_feature_control", "none")
-    research_feature_control_width(
-        train_rnn.RESEARCH_FEATURES, train_rnn.RESEARCH_FEATURE_CONTROL
-    )
+    research_feature_control_width(train_rnn.RESEARCH_FEATURES, train_rnn.RESEARCH_FEATURE_CONTROL)
     if train_rnn.RESEARCH_FEATURES in MOMENT_FEATURE_MODES:
         prior = ck.get("research_feature_prior")
         if not isinstance(prior, dict):
@@ -252,8 +265,12 @@ def main():
     i = 0
     fam = None
     if args.dump_family:
-        fam = np.lib.format.open_memmap(ROOT / "cache" / f"allout_{args.output_name or name}_{split}.npy", mode="w+", dtype=np.float32,
-                                        shape=(len(groups), SEQUENCE_LENGTH, 10))
+        fam = np.lib.format.open_memmap(
+            ROOT / "cache" / f"allout_{args.output_name or name}_{split}.npy",
+            mode="w+",
+            dtype=np.float32,
+            shape=(len(groups), SEQUENCE_LENGTH, 10),
+        )
     for batch in loader:
         x = batch if feature_only else batch[0]
         if fam is None:
@@ -264,7 +281,10 @@ def main():
                 inputs = train_rnn.build_inputs(x.to(device, non_blocking=True))
             state, parts = None, []
             for s0 in range(0, inputs.shape[1], 4000):
-                with torch.no_grad(), torch.autocast(device.type, dtype=torch.float16, enabled=device.type == "cuda"):
+                with (
+                    torch.no_grad(),
+                    torch.autocast(device.type, dtype=torch.float16, enabled=device.type == "cuda"),
+                ):
                     o, state = train_rnn.forward_chunk(model, inputs, slice(s0, s0 + 4000), state)
                 parts.append(o.float())
             full = torch.cat(parts, dim=1).detach().cpu().numpy()
@@ -306,13 +326,18 @@ def main():
             file_sha256(args.fit_subset_manifest) if args.fit_subset_manifest is not None else None
         ),
         "campaign_export_scope": (
-            "full-valid-feature-only" if args.campaign_full_valid_feature_only
-            else "evaluation" if args.campaign_evaluation_only
-            else "fit" if args.campaign_split_manifest is not None else None
+            "full-valid-feature-only"
+            if args.campaign_full_valid_feature_only
+            else "evaluation"
+            if args.campaign_evaluation_only
+            else "fit"
+            if args.campaign_split_manifest is not None
+            else None
         ),
         "campaign_split_manifest_sha256": (
             file_sha256(args.campaign_split_manifest)
-            if args.campaign_split_manifest is not None else None
+            if args.campaign_split_manifest is not None
+            else None
         ),
         "feature_only": feature_only,
     }

@@ -6,7 +6,7 @@ from wnn.training.data_caches import bind_caches
 from wnn.training.data_loaders import build_loaders
 from wnn.training.data_membership import select_membership
 from wnn.training.environment import TrainingEnvironment
-from wnn.training.epoch import epoch_diagnostics, finish_batch, prepare_epoch
+from wnn.training.epoch import epoch_diagnostics, finish_batch, prepare_epoch, record_fit_window
 from wnn.training.forward_backward import backward_standard, forward_standard
 from wnn.training.losses import auxiliary_loss, main_loss
 from wnn.training.macro_updates import backward_controlled, prepare_window
@@ -79,6 +79,7 @@ def run_training(
                     main_loss(run)
                     auxiliary_loss(run)
                     backward_standard(run)
+                record_fit_window(run)
                 optimizer_step(run)
             if not finish_batch(run):
                 break

@@ -2,10 +2,9 @@ from __future__ import annotations
 
 import math
 
-import torch
-
 from wnn import student_frontier
 from wnn.privileged import load_inner_manifest
+from wnn.resources import configure_strict_fp32
 from wnn.splits import file_sha256, load_campaign_split
 from wnn.training.membership import load_component_fit_subset
 from wnn.training.state import TrainingRun
@@ -159,10 +158,10 @@ def configure_runtime(run: TrainingRun) -> None:
         expected_device = "cpu" if args.student_frontier_preflight_only else "cuda"
         if args.device != expected_device:
             ap.error(f"student-frontier stage requires --device {expected_device}")
-        torch.backends.cuda.matmul.allow_tf32 = False
-        torch.backends.cudnn.allow_tf32 = False
     elif args.student_frontier_stage or args.student_frontier_preflight_only:
         ap.error("student-frontier stage/preflight flags require --student-frontier-contract")
+    if args.precision == "fp32" or args.student_frontier_contract is not None:
+        configure_strict_fp32()
     if args.activation_profile_first_chunk and args.pin_memory:
         ap.error("first-chunk profile batch reuse requires a non-pinned DataLoader")
     if args.mask_weight and args.train_source == "train":
