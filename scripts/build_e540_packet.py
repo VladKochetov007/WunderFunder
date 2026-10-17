@@ -210,7 +210,11 @@ def build_packet(split_manifest: Path, output_dir: Path) -> dict[str, object]:
             ROOT,
         )
 
-    source_hashes = {name: file_sha256(ROOT / name) for name in SOURCE_FILES}
+    source_names = sorted(
+        set(SOURCE_FILES)
+        | {path.relative_to(ROOT).as_posix() for path in (ROOT / "src/wnn/training").glob("*.py")}
+    )
+    source_hashes = {name: file_sha256(ROOT / name) for name in source_names}
     packet = {
         "version": 2,
         "experiment_id": "E540",

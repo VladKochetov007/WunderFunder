@@ -1,3 +1,7 @@
+## 2026-10-17 — modular trainer maintenance
+
+The user authorizes semantic decomposition/reuse of train_rnn.py, shared main/research-team integration, uv/Ruff and one Sol6.1/medium critic. The [refactor receipt](../research/unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md) records the typed per-run package, legacy CLI/packet compatibility, source hashes, structural CI and independent fixes. No fitting, tests, parity or throughput benchmark ran; model research remains paused. Historical frozen sources/checkpoints/recipes were preserved.
+
 ## 2026-10-17T01:23:13Z — old prediction cache pruned; research remains paused
 
 Under the user's selective-cleanup authorization, removed 463 regular `cache/pred_*.npy` outputs dated before 2026-10-10 UTC and one sparse incomplete output. Retained a compact baseline, seed/fold examples from the strongest own endpoints, and one heterogeneous-teacher prediction; supplied Parquet data, model weights, frozen ZIPs, provenance and remote Kaggle/HF objects were untouched. `/home` free space rose from 25.92 GB before pruning to 137.16 GB immediately after; the latest check is 136.58 GB free (about 128 GiB, 90% filesystem use). Exact paths and limitations are in the [prune receipt](../research/unified/operations/CACHE_PRUNE_20261017_R1.md) and its [machine-readable manifest](../research/unified/operations/cache_prune_manifest_20261017_r1.json). This maintenance task did not resume model research; the October 15 research pause remains in effect.
