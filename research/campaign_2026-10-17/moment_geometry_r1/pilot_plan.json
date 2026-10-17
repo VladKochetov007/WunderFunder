@@ -1,0 +1,49 @@
+{
+  "id": "E-MOMENT-GEOMETRY-PILOT-20261017-R1",
+  "parent": "E-MOMENT-GEOMETRY-20261017-R1",
+  "phase": "exploratory_screen",
+  "selection_history": "128train+128valid input-only scan of112columns; visual selection i0_p0,i0_p3,i1_p0,i1_p3 and exploratory train-consensus arc; no target scores seen. Prior validation exposure remains.",
+  "membership_sha256": "be670bc3d3f7b26e58e297c0559d4970c540cfe6db5611c3dcae4eee1ed12f67",
+  "fitting_sequences": 43,
+  "evaluation_sequences": 46,
+  "fit_components": 12,
+  "eval_components_per_fold": 8,
+  "fitting_pool_folds": [
+    2,
+    3
+  ],
+  "evaluation_slices": [
+    0,
+    1
+  ],
+  "distinct_fitting_seed_pairs": [
+    3,
+    7,
+    11
+  ],
+  "arms": [
+    "control",
+    "moments",
+    "scaled"
+  ],
+  "model": "existing wnn.nn.RNNModel hidden32 layers1 dropout0;231inputs identical capacity; raw112+existing99event+20geometry suffix",
+  "feature_control": "control zero20 after fitting-only normalization; moments zero final4 causal normalized current; scaled all20",
+  "geometry": "four columns; expanding current-inclusive mean/std, train-only arc residual, train-only frequent-atom occupancy and current-centered/std with0.05floor/clamp8",
+  "training": {
+    "epochs": 2,
+    "batch": 4,
+    "chunk": 512,
+    "precision": "FP32",
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "scheduler": "cosine update clock to1e-5",
+    "gradient_clip": 1.0,
+    "checkpoint": "fixed final epoch, no score-based selection",
+    "loss": "existing weighted_mse_loss, clipped-label magnitude weights; alltrainrowsafterwarmup99"
+  },
+  "metric": "global_wp_clip2_v1; suppliedmask AND need_prediction; unchangedclip2",
+  "utility_threshold": 0.001,
+  "uncertainty": "Report all pairedseed deltas separately for two evaluation slices. Component bootstrap conditional on fixedpredictions cannot estimate training variation. Three seeds plus two slices are not six independent fits. Full30seed/fold confirmation deferred until pilot evidence and resource allocation justify it.",
+  "compute_admission": "one CUDAworker, allocator0.18*6GiB~1.16GiB; estimated model/activations<0.1GB,batch~0.08GB,context/workspace reserve~0.5GB; current other GPUprocess3.24GiB unchanged. Parenttask5GB hard,3.2GB staging child,no overlap withfit. NoCPUmodeltraining or Kaggle actions."
+}
