@@ -97,9 +97,9 @@ def add_features_arguments(ap: argparse.ArgumentParser) -> None:
     )
     ap.add_argument(
         "--research-feature-control",
-        choices=("none", "newest"),
+        choices=("none", "newest", "raw_zero"),
         default="none",
-        help="newest zeros the newest moment-feature block while keeping input width fixed",
+        help="newest zeros the newest moment block; raw_zero controls causal_ewma at equal width",
     )
     ap.add_argument(
         "--privileged-mode",

@@ -12,10 +12,14 @@ if TYPE_CHECKING:
 ENDPOINT = np.float32(-5.199337482452393)
 MOMENT_FEATURE_MODES = ("causal_moments", "causal_innovations")
 FIELD_AGE_FEATURE_MODES = ("group_age", "field_age")
+CAUSAL_EWMA_MODE = "causal_ewma"
+CAUSAL_EWMA_HALF_LIFE = 32.0
+CAUSAL_EWMA_DECAY = 2.0 ** (-1.0 / CAUSAL_EWMA_HALF_LIFE)
 RESEARCH_FEATURE_MODES = (
     "none",
     "volume28",
     "volume28_current",
+    "causal_ewma",
     *MOMENT_FEATURE_MODES,
     *FIELD_AGE_FEATURE_MODES,
 )
@@ -47,6 +51,10 @@ def research_feature_names(mode: str) -> tuple[str, ...]:
         return ()
     if mode == "volume28":
         return VOLUME28_NAMES
+    if mode == CAUSAL_EWMA_MODE:
+        return tuple(f"ewma_{index}" for index in range(112)) + tuple(
+            f"ewma_residual_{index}" for index in range(112)
+        )
     if mode in MOMENT_FEATURE_MODES:
         moment_names = tuple(
             f"{clock}_{stat}_{index}"
@@ -75,8 +83,10 @@ def research_feature_control_width(mode: str, control: str = "none") -> int:
     """Return the feature suffix width zeroed by a matched-capacity control."""
     if control == "none":
         return 0
+    if control == "raw_zero" and mode == CAUSAL_EWMA_MODE:
+        return 112
     if control != "newest" or mode not in MOMENT_FEATURE_MODES:
-        raise ValueError("the newest feature control requires a causal moment feature mode")
+        raise ValueError("feature control is incompatible with the selected research feature mode")
     if mode == "causal_moments":
         return len(research_feature_names(mode))
     return MOMENT_PROJECTION_WIDTH
@@ -510,6 +520,18 @@ def research_features_numpy(
         if zero_width:
             output[..., -zero_width:] = 0.0
         return output[0] if squeeze else output
+    if mode == CAUSAL_EWMA_MODE:
+        if control == "raw_zero":
+            output = np.concatenate((x, np.zeros_like(x)), axis=-1)
+        else:
+            decay = np.float32(CAUSAL_EWMA_DECAY)
+            complement = np.float32(1.0 - CAUSAL_EWMA_DECAY)
+            smoothed = np.empty_like(x)
+            smoothed[:, 0] = x[:, 0]
+            for row in range(1, x.shape[1]):
+                smoothed[:, row] = decay * smoothed[:, row - 1] + complement * x[:, row]
+            output = np.concatenate((smoothed, x - smoothed), axis=-1)
+        return output[0] if squeeze else output
     if mode in FIELD_AGE_FEATURE_MODES:
         output = _field_age_features_numpy(x, mode)
         return output[0] if squeeze else output
@@ -555,6 +577,25 @@ def research_features_torch(
         if zero_width:
             features[..., -zero_width:].zero_()
         return features
+    if mode == CAUSAL_EWMA_MODE:
+        if output is None:
+            output = raw.new_empty((*raw.shape[:2], 224))
+        elif (
+            output.shape != (*raw.shape[:2], 224)
+            or output.dtype != raw.dtype
+            or output.device != raw.device
+        ):
+            raise ValueError("causal EWMA output buffer must match batch, dtype, and device")
+        if control == "raw_zero":
+            output[..., :112].copy_(raw)
+            output[..., 112:].zero_()
+            return output
+        from wnn.causal_research_features import CausalExponentialSmoother
+
+        smoothed, _ = CausalExponentialSmoother(CAUSAL_EWMA_HALF_LIFE)(raw)
+        output[..., :112].copy_(smoothed)
+        output[..., 112:].copy_(raw - smoothed)
+        return output
     if mode in FIELD_AGE_FEATURE_MODES:
         return _field_age_features_torch(raw, mode, output)
     volume = raw[..., 22:44]
@@ -705,7 +746,7 @@ class StreamingFieldAgeFeatures:
 
 
 class StreamingResearchFeatures:
-    """Keep O(1) per-sequence state matching the volume28 training transform."""
+    """Keep O(1) per-sequence state matching the batched research transforms."""
 
     def __init__(
         self,
@@ -730,12 +771,15 @@ class StreamingResearchFeatures:
         self.reset()
 
     def reset(self) -> None:
-        """Clear every volume accumulator at a sequence boundary."""
+        """Clear every feature accumulator at a sequence boundary."""
         if self.causal_moments is not None:
             self.causal_moments.reset()
             return
         if self.field_ages is not None:
             self.field_ages.reset()
+            return
+        if self.mode == CAUSAL_EWMA_MODE:
+            self.smoothed: np.ndarray | None = None
             return
         self.previous: np.ndarray | None = None
         self.origin: np.ndarray | None = None
@@ -750,6 +794,17 @@ class StreamingResearchFeatures:
             return self.causal_moments.update(raw)
         if self.field_ages is not None:
             return self.field_ages.update(raw)
+        if self.mode == CAUSAL_EWMA_MODE:
+            if self.control == "raw_zero":
+                return np.concatenate((raw, np.zeros_like(raw)))
+            decay = np.float32(CAUSAL_EWMA_DECAY)
+            complement = np.float32(1.0 - CAUSAL_EWMA_DECAY)
+            self.smoothed = (
+                raw.copy()
+                if self.smoothed is None
+                else decay * self.smoothed + complement * raw
+            )
+            return np.concatenate((self.smoothed, raw - self.smoothed))
         if not self.names:
             return np.empty(0, dtype=np.float32)
         volume = raw[22:44]

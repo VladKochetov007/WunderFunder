@@ -9,7 +9,7 @@ from wnn.training.environment import TrainingEnvironment
 
 
 def training_source_identity(environment: TrainingEnvironment) -> dict[str, object]:
-    """Bind the thin CLI and every implementation module to one source digest.
+    """Bind the thin CLI, causal feature transforms, and trainer to one source digest.
 
     Args:
         environment: Actual source root and public entrypoint for this run.
@@ -25,6 +25,12 @@ def training_source_identity(environment: TrainingEnvironment) -> dict[str, obje
     missing_dependencies = [path.name for path in dependency_paths if not path.is_file()]
     paths.extend(path for path in dependency_paths if path.is_file())
     paths.extend(sorted((root / "src/wnn/training").glob("*.py")))
+    paths.extend(
+        (
+            root / "src/wnn/causal_research_features.py",
+            root / "src/wnn/research_features.py",
+        )
+    )
     files = {path.relative_to(root).as_posix(): file_sha256(path) for path in paths}
     encoded = json.dumps(files, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return {

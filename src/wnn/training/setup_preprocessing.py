@@ -6,6 +6,8 @@ import numpy as np
 
 from wnn import student_frontier
 from wnn.research_features import (
+    CAUSAL_EWMA_HALF_LIFE,
+    CAUSAL_EWMA_MODE,
     MOMENT_FEATURE_MODES,
     research_feature_control_width,
     validate_causal_moment_prior,
@@ -36,6 +38,31 @@ def fit_preprocessing(run: TrainingRun) -> None:
     train_idx = run.data.train_idx
     train_loader = run.data.train_loader
     train_split = run.data.train_split
+    if environment.inputs.research_features == CAUSAL_EWMA_MODE:
+        zero_width = research_feature_control_width(
+            environment.inputs.research_features, environment.inputs.research_feature_control
+        )
+        provenance["causal_feature_control"] = {
+            "kind": environment.inputs.research_feature_control,
+            "zeroed_suffix_width": zero_width,
+            "effective_capacity": "reduced" if zero_width else "full",
+        }
+        ewma_sources = (
+            environment.source_root / "src/wnn/research_features.py",
+            environment.source_root / "src/wnn/causal_research_features.py",
+        )
+        provenance["causal_feature_transform"] = {
+            "schema": "causal_ewma.row32.v1",
+            "mode": CAUSAL_EWMA_MODE,
+            "half_life_rows": CAUSAL_EWMA_HALF_LIFE,
+            "initialization": "first_observed_row",
+            "residual": "raw_minus_current_ewma",
+            "control": environment.inputs.research_feature_control,
+            "source_sha256": {
+                str(path.relative_to(environment.source_root)): file_sha256(path)
+                for path in ewma_sources
+            },
+        }
     if environment.inputs.research_features in MOMENT_FEATURE_MODES:
         if (
             init is not None
