@@ -20,6 +20,8 @@ Existing project `bt1dqf9jg0tuhggcrj4k`, community `bt1dv4jmd0u81i806t74`. Exist
 
 Use the `datasphere/` adapter when it is sealed and independently reviewed. Canonical code is `source-a266b036.tar.gz`; small supplemental inputs hold the derived canonical folds, graph and content registry, while supplied parquet/target arrays come from historical mounts and must match fresh SHA256. Four historically successful dataset IDs do not prove present Jobs admission; the documented three-project-dataset limit alone does not prove a Jobs failure. Keep a finite runtime cap, reconcile actual billed time, and collect results before further admissions. Both arms of a paired cell use the same provider/runtime.
 
+The sealed packet and independent review are now available in `datasphere/VALIDATION.json` and `receipts/DATASPHERE_REVIEW.json`. The adapter enforces 55 minutes from entry. The 60-minute external cancellation is still an operator procedure: concretely arm a durable controller and record its receipt before any paid submission. A heartbeat alone is not that watchdog. Do not confuse sealed inputs or eight passing staging fixtures with cloud admission, a provider profile, or an authorized spend reservation.
+
 ## Progression and communication
 
 The active thread heartbeat is `wunder-1-25`, every 30 minutes. It owns inspection, terminal collection, correction and subsequent admissions within current authority; unchanged healthy progress is quiet. Its presence does not itself establish that any subsequent fit has run. Read the newest user message before acting, including a DataSphere allocation answer or explicit stop.

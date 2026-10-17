@@ -1,0 +1,36 @@
+{
+  "created_utc": "2026-10-17T21:53:52.811848+00:00",
+  "reviewer": "beleriand_gpu_guard_r4, independent read-only review followed by actual producer-size audit",
+  "packet_source_revision": "68deaa6772786c5c1b3dd338d97a3c399f38eadd",
+  "integration_revision": "32906cb5",
+  "decision": "profile_packet_verified; paid_launch_not_admitted",
+  "reviewed_files_sha256": {
+    "profile_entry.py": "6ec8d044bfb766b9550e5e90d734e662195f40978732ed3428ea0fa1c6e5c66d",
+    "profile_recipe.py": "d87c0ff23395055ca2168dd872b512102d3ddf26bf4ce7a4cb9ee27bf50ae15d",
+    "profile_staging.py": "59ec79b70b550db6746054b59998909c7f455fea85396eb810b030b0d151d6a6",
+    "profile-spec.json": "1ca416cac32fb075b4b9d16683e9a07634f3926e625e62576468c99b2b722d56"
+  },
+  "checks": [
+    "Pinned source/supplemental archive hashes match actual artifacts",
+    "Actual graph, folds and portable registry match staged file identities",
+    "All four source byte counts and SHA256 values match actual portable registry",
+    "37,102,250,127 staged bytes plus10GiB reserve checked before copying",
+    "Both target caches fit the exact-size guarded2.1GiB cap",
+    "Internal55minute deadline starts before hashing/staging",
+    "One visible A100, declared runtime and strictFP32 two-arm profile; no quality selection"
+  ],
+  "corrected_prelaunch_findings": [
+    "Supplemental fold-cache path differed from initial adapter expectation",
+    "Internal timeout initially omitted staging",
+    "Actual1.91GB train target cache exceeded the initial512MiB copy cap",
+    "Source descriptors needed exact byte counts for copy/assembly/disk checks"
+  ],
+  "remaining_admission_requirements": [
+    "Record current finite DataSphere allocation from user answer",
+    "Fresh balance/provider admission and reservation reconciliation",
+    "Arm a durable external60minute cancellation controller before execute; current packet documents this procedure but does not implement that controller",
+    "Verify four-mount admission and declared runtime in the bounded paid profile"
+  ],
+  "paid_job_launched": false,
+  "quality_result": null
+}
