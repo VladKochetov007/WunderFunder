@@ -1,5 +1,22 @@
 # Inference, quantization, and runtime
 
+Serving implementations, quantization, package identity and measured runtime.
+
+## Current navigation
+
+- [Checkpoint preprocessing and teacher-cache safety](../../campaign_2026-10-17/research_reset_r1/bugfix/README.md) — restored zero_groups and other saved modes; complete cache identity/membership enforcement and selected-NaN rejection in legacy server paths. Existing-checkpoint CPU replay matches manual inputs/predictions bitwise on4groups; full-panel and GPU parity remain unmeasured.
+
+- [Model and engine distinctions](../models/CURRENT_MODEL_CATALOG.md#keep-serving-policies-separate-from-model-names) — separates Main ensemble labels from CPU policy variants using the same xteam weights.
+- [Code architecture](../../../docs/ARCHITECTURE.md#serving-path) — callback, Python/native runtime and packaging boundaries.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
+
 - [October15 competition CPU-policy results](../../campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/PUBLIC_CPU_POLICY_RESULT_20261015_R1.md) and [all eight user-transcribed receipts](../../campaign_2026-10-14/cpu_student_frontier_r1/inference_policy_r1/PUBLIC_CPU_POLICY_RECEIPTS_20261015_R1.json): D fused47m27s/0.6681 versus historical A50m16s/0.6681; C57m27s/0.6681, B timeout61m57s. D saves169s/5.60% and is the provisional engine preference; historical control and one run per policy leave host variation unresolved. Expected local hashes are pinned, uploaded hashes unverified. H-CPU-POLICY-20261014 / E-CPU-POLICY-PUBLIC-20261015-R1. Research pause remains active.
 
 - [EPYC9224 bandwidth envelope](EPYC9224_BANDWIDTH_ENVELOPE_20261015_R1.md) derives52.51GB/s logical weight use from the original endpoint and compares it with AMD's32B/cycle Zen4 cache-fill constant. The44–66% ratio and22–33minute weights-only envelope are illustrative, not measured bus utilization or an achievable runtime forecast. Primary AMD sources rechecked October15; motivates matched submissions while quality research continues.
@@ -147,3 +164,5 @@ Runtime claims must name the hardware, exact ZIP, callback protocol, complete-te
 - [H256×1nativeQ8 fullF0grade](../../campaign_2026-10-14/cpu_student_frontier_r1/native_grades_r1/H256L1_COLLECTION_R2.json) binds exactCP0/transport/profile/controllerreceipts:WP.669361725 vsFP32.669346318,468groups/141components, firstcomplete-sequencereset/replayexact. This supports numericaldeploymentfidelity on oneexposedfold/seed; concurrentlocalcallbackduration is not a CPUcapacity comparison. I16encoder/dynamicA8Q8VNNI withFP32state, notW8throughout.
 
 - [TPUV8 exact-input forward diagnosisR4](../../campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/README.md#exact-input-forward-diagnosis-r4) binds full20k NumPyfeature/inputhash parity and updatedEMAoutputs: exactTPUinputs still leave main2gap.00777, while native/PyTorch agree1.43e-6. Featureprecision is excluded as the observed cause; JAXdefaultmatmulprecision is a source-grounded hypothesis awaiting CPU/TPUarithmetic isolation. Rawexecutedsource and its style-check limitations are explicitly preserved, noqualityclaim.
+
+</details>

@@ -1,0 +1,63 @@
+{
+  "schema": "wunder.zero-i1-replay-artifacts.v1",
+  "host": "beleriand",
+  "remote_output_dir": "/home/grinchenkoeg/wunder_research_reset_20261017_r1/zero_i1_replay",
+  "local_packet_dir": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-17/research_reset_r1/bugfix",
+  "replay": {
+    "status": "complete",
+    "checkpoint": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/dftt_zi1_s3/model_ep1.pt",
+    "checkpoint_sha256_before_after": "82b7c93aa9cdfbad03cf9c62b419727f0ff537ddc42ad1a88c765d01bd648c68",
+    "device": "cpu",
+    "cuda_available": false,
+    "torch_threads": {"intra_op": 1, "inter_op": 1},
+    "optimizer_steps": 0,
+    "groups_selected_before_scoring": [3, 6, 14, 15],
+    "panel": "first four groups in valid_targets order from strict425",
+    "selected_rows_after_warmup": 11522,
+    "metric": "global_wp_clip2_v1",
+    "metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "scores": {
+      "zero_cols_none": {"wp": 0.06289741678964236, "t0": 0.08175472123975816, "t1": 0.04404011233952655},
+      "restored_i1": {"wp": 0.7299478152340093, "t0": 0.7419494122105856, "t1": 0.717946218257433}
+    },
+    "limitation": "Four-group diagnostic only; not a full strict425 result or a general model-quality claim."
+  },
+  "source_identity": {
+    "predictor_sha256": "786896a87186ed8878b8ae31c49fa015a231f71d505ce6e5b43be2edaf7a5f1c",
+    "trainer_sha256": "8a34b74f5df9a13030c2102a22443cee6d74be6dde847f3052679b0f013d5903",
+    "runner_local_and_remote_sha256": "431ad4bb55802071a7e69c32180e219dd23cdb303afc08259a0f451654a50bcf",
+    "canonical_metric_local_and_remote_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "data_identity": {
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "chain_folds_sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+    "valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  },
+  "preserved_initial_harness_failure": {
+    "artifact": "REPLAY_zero_i1.log",
+    "sha256": "39699b9d162bfc22ece69b2835bed8bcfc3eaa49d58b35960b9d00848402ca05",
+    "cause": "The one-sequence dataset item was (T,F), but the trainer input builder expected (B,T,F); failure occurred before inference.",
+    "correction": "The v2 runner adds a batch axis before input construction and prediction."
+  },
+  "artifacts": {
+    "REPLAY_gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "REPLAY_zero_i1_v2.json": "f3cf58b7c1f130b695fb8337eeeb35fe49a1e9653de9b1ea79f865849cc1d3c0",
+    "REPLAY_zero_i1_v2.md": "ec58467fba8963f0e296c71e2345f6f1dc642c9f7fd7ca4ee6e947483bcfbbad",
+    "REPLAY_zero_i1_v2.log": "2d3053faf98b649ac3948c0527caca0a391225d74cead9d37464e37b39768586",
+    "REPLAY_zero_i1.log": "39699b9d162bfc22ece69b2835bed8bcfc3eaa49d58b35960b9d00848402ca05"
+  },
+  "verification": {
+    "copy_method": "scp from the remote replay directory to this packet",
+    "remote_hashes_checked_before_copy": true,
+    "local_hashes_match_remote": true,
+    "synthetic_test_command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest -q tests/test_prediction_safety.py",
+    "synthetic_test_result": "7 passed in 0.96s"
+  },
+  "commands": {
+    "runner_upload": "scp research/campaign_2026-10-17/research_reset_r1/bugfix/replay_zero_i1.py beleriand:/home/grinchenkoeg/wunder_research_reset_20261017_r1/zero_i1_replay/replay_zero_i1.py",
+    "metric_upload": "scp src/wnn/gmetric.py beleriand:/home/grinchenkoeg/wunder_research_reset_20261017_r1/zero_i1_replay/REPLAY_gmetric.py",
+    "replay_launch": "ssh beleriand 'cd /home/grinchenkoeg/WunderFunder-creative && env CUDA_VISIBLE_DEVICES=\"\" OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WNN_THREADS=1 REPLAY_GROUP_LIMIT=4 timeout 290s .venv/bin/python /home/grinchenkoeg/wunder_research_reset_20261017_r1/zero_i1_replay/replay_zero_i1.py > /home/grinchenkoeg/wunder_research_reset_20261017_r1/zero_i1_replay/REPLAY_zero_i1_v2.log 2>&1'",
+    "remote_hash_check": "ssh beleriand 'sha256sum /home/grinchenkoeg/wunder_research_reset_20261017_r1/zero_i1_replay/REPLAY_zero_i1_v2.json /home/grinchenkoeg/wunder_research_reset_20261017_r1/zero_i1_replay/REPLAY_zero_i1_v2.md /home/grinchenkoeg/wunder_research_reset_20261017_r1/zero_i1_replay/REPLAY_zero_i1_v2.log /home/grinchenkoeg/wunder_research_reset_20261017_r1/zero_i1_replay/REPLAY_zero_i1.log /home/grinchenkoeg/wunder_research_reset_20261017_r1/zero_i1_replay/REPLAY_gmetric.py'",
+    "local_hash_check": "shasum -a 256 research/campaign_2026-10-17/research_reset_r1/bugfix/REPLAY_zero_i1_v2.json research/campaign_2026-10-17/research_reset_r1/bugfix/REPLAY_zero_i1_v2.md research/campaign_2026-10-17/research_reset_r1/bugfix/REPLAY_zero_i1_v2.log research/campaign_2026-10-17/research_reset_r1/bugfix/REPLAY_zero_i1.log research/campaign_2026-10-17/research_reset_r1/bugfix/REPLAY_gmetric.py"
+  }
+}
