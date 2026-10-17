@@ -1,6 +1,6 @@
 # Function-preserving GRU widening
 
-Status: implementation handoff; no new fits. Lineage `student`; `H-DRAFT-GRU-GROWTH-20261017` / `E-DRAFT-GRU-GROWTH-20261017-R1`. Base main/research-team `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`. W50-update profile and initializer parity completed; no W fullfit.
+Status: implementation handoff; no new fits. Lineage `student`; `H-DRAFT-GRU-GROWTH-20261017` / `E-DRAFT-GRU-GROWTH-20261017-R1`. Original fork main/research-team `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`. W50-update profile and initializer parity completed; no W fullfit.
 
 - [English draft PR](PR.md) answers mechanism, compute, validation/significance, ancestry/leakage, decisions, actual code readiness and execution/artifact return. Rebuild parent per fold; pin grow initialization; strictFP32 fit versus matched continued parent and cold wider model as secondary arm.
 - [Recipe](recipe.json) records strictFP32, candidate/control arms,30-cell protocol (engineering diagnostics excepted), proposed optimizer/scheduler and explicitly missing bindings. Launch-ready is false.
@@ -15,3 +15,5 @@ Status: implementation handoff; no new fits. Lineage `student`; `H-DRAFT-GRU-GRO
 - [scripts/train_rnn.py](../../../scripts/train_rnn.py)
 
 New code in this PR: none; reuse linked existing implementation, preserving original source.
+
+Integration parent: research-team `96b014737211c19d421e29c5595b5ea7e86797ff`. Common catalogues were preserved and this packet appended; no scientific settings or historical ledger rows were dropped.
