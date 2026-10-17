@@ -277,7 +277,8 @@ class LegacyTrainerAPI:
         @wraps(target)
         def invoke(*args: Any, **kwargs: Any) -> Any:
             """Adapt a legacy call to explicit environment injection."""
-            kwargs.setdefault("environment", self.environment())
+            if "environment" not in kwargs:
+                kwargs["environment"] = self.environment()
             return target(*args, **kwargs)
 
         return invoke
