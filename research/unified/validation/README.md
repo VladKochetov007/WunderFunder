@@ -4,6 +4,8 @@
 
 # Validation and public transfer
 
+- [Raw train and validation EDA notebook](../../../notebooks/raw_train_valid_eda_20261017.py) opens in marimo and shows all 112 state positions with raw values, per-column quantiles, grouped train/validation histograms, target distributions, short sequence traces, and wide raw rows. It reads the canonical `datasets/train.parquet` and `datasets/valid.parquet` files and uses four complete row groups per file with seed `20261017`: train `5383, 5840, 8776, 8799`; validation `723, 1298, 1571, 1636`. Known corrupt train group `528` is excluded. All sampled rows, including warmup and unscored rows, are retained. This is descriptive sample EDA only, not a full-file estimate or validation score; no hypothesis or experiment ledger entry applies.
+
 - [Individual team prediction bank](../../campaign_2026-10-13/team_models_r1/member_bank/README.md) deduplicates fourteen predictive weights and fixes nine mixtures before full FP32 export. Source/hash/sequence-aware grading will compare individual and complete endpoints diagnostically; fitted/unknown overlap and GPU/native numerical differences remain explicit. Actual profile and independent implementation review support admission, not candidate selection.
 
 - [Official-team diagnostic comparison](../../campaign_2026-10-13/team_models_r1/README.md) binds seven original ZIPs and the same-weight Rust conversion to the pooled official metric over1,873 complete supplied-valid sequences. [Live marimo artifact](../../campaign_2026-10-13/team_models_r1/team_model_comparison.py) reads saved evidence; final-fit overlap prevents clean-CV claims. Source-qualified teammate fold counterparts remain missing. E-TEAM-ARCHIVE-REPLAY-20261013-R1.
