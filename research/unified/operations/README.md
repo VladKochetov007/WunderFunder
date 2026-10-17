@@ -4,7 +4,7 @@ Execution status, storage locations, preservation receipts and operational incid
 
 ## Current navigation
 
-- [Native causal geometry serving check (2026-10-18)](geometry_native_serving_20261018/README.md) records the 271-input callback, corrected event/geometry parity, ABI-compatible library, inference-only R2 scale helper, synthetic profiles, and the fixed q16x exploratory ZIP. Actual R2 replay covers all 468 exposed F0 groups (WP 0.680452; the matched candidate comparison was negative); the preregistered FP32 native/Torch panel fails its tolerance, while q16x ZIP-to-cache uint32 parity and Python 3.11 offline/reset checks pass. The 40.43-minute callback-only row-cost projection is not full competition runtime.
+- [Native causal geometry serving check (2026-10-18)](geometry_native_serving_20261018/README.md) records the 271-input callback, corrected event/geometry parity, ABI-compatible library, inference-only R2 scale helper with per-alias ancestry/hash sidecars, synthetic profiles, and the fixed q16x exploratory ZIP. Actual R2 replay covers all 468 exposed F0 groups (WP 0.680452; the matched candidate comparison was negative); the preregistered FP32 native/Torch panel fails its tolerance, while q16x ZIP-to-cache uint32 parity and Python 3.11 offline/reset checks pass. The 40.43-minute callback-only row-cost projection is not full competition runtime.
 
 - [No-fit research publication](../../campaign_2026-10-17/research_reset_r1/publication/README.md) — shared repair/evidence published on research-team and25proposal branches; exact refs verified. GitSSH succeeds, while gh API authentication is absent; main promotion PR remains prepared.
 
