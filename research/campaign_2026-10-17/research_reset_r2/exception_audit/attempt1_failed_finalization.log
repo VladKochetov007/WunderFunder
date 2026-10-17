@@ -1,0 +1,6 @@
+Attempt 1 operational receipt
+Command: env OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_MAX_THREADS=1 ~/WunderFunder/.venv/bin/python ~/wunder_research_reset_20261017_r2/exception_audit/exception_audit.py --data ~/WunderFunder/datasets --cache ~/WunderFunder-creative/cache --output-dir ~/wunder_research_reset_20261017_r2/exception_audit --rss-limit-gib 1.85
+Complete train+valid scan traversed train 10607/10607 row groups and valid 1873/1873 row groups; observed 941 train and 312 valid raw need-eligible outside-i0-AND exception records.
+Full input SHA-256 computed: train=4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81; valid=2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782.
+Peak observed RSS during scan was approximately 1.20 GB; single-core bounded run.
+Failure after scan: NameError: name 'results_path' is not defined. Did you mean: 'result_path'? Trace at exception_audit.py line 765 during results JSON finalization. No optimizer steps or model inference.

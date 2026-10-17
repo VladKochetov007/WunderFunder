@@ -1,0 +1,1106 @@
+"""Full no-fit event-exception and target-clock reconstruction audit.
+
+Reads only four price-code columns, two targets, sequence/step identifiers and
+official masks, one 20,000-row Parquet row group at a time. Retrospective target
+reconstructions are diagnostics only and are never predictor inputs.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import resource
+import sys
+import tempfile
+import time
+from collections import Counter, defaultdict
+from pathlib import Path
+
+import numpy as np
+import pyarrow as pa
+import pyarrow.parquet as pq
+
+R1_TRAIN_BYTES = 29_240_219_011
+R1_VALID_BYTES = 5_615_509_128
+R1_TRAIN_GROUPS = 10_607
+R1_VALID_GROUPS = 1_873
+EXPECTED_ROWS_PER_SEQUENCE = 20_000
+PRICE_COLUMNS = ["i0_p0", "i0_p11", "i1_p0", "i1_p11"]
+LABEL_COLUMNS = ["t0", "t1"]
+R1_CANDIDATE_QUANTA = {0: 0.12543, 1: 0.24133, 2: 0.46854, 3: 0.65687}
+TOLERANCES = (0.0, 1e-6, 1e-4)
+MAG_EDGES = [
+    0.0,
+    1e-6,
+    1e-4,
+    0.01,
+    0.05,
+    0.1,
+    0.125,
+    0.25,
+    0.5,
+    1.0,
+    2.0,
+    4.0,
+    8.0,
+    16.0,
+    32.0,
+    64.0,
+    128.0,
+    1024.0,
+]
+POSITION_EDGES = list(range(0, EXPECTED_ROWS_PER_SEQUENCE + 1, 1000))
+
+
+def sha256_file(path: Path) -> str:
+    """Hash a file in bounded chunks without loading it into memory."""
+    digest = hashlib.sha256()
+    with path.open("rb", buffering=0) as file:
+        while chunk := file.read(8 * 1024 * 1024):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def linux_rss_bytes() -> int | None:
+    """Read current resident memory from procfs when available."""
+    try:
+        for line in Path("/proc/self/status").read_text().splitlines():
+            if line.startswith("VmRSS:"):
+                return int(line.split()[1]) * 1024
+    except OSError:
+        return None
+    return None
+
+
+def sha_and_stat(path: Path) -> dict:
+    """Capture current metadata and content SHA for a source file."""
+    before = path.stat()
+    digest = sha256_file(path)
+    after = path.stat()
+    if (before.st_size, before.st_mtime_ns, before.st_ino) != (
+        after.st_size,
+        after.st_mtime_ns,
+        after.st_ino,
+    ):
+        raise RuntimeError(f"source changed while hashing: {path}")
+    return {
+        "path": str(path),
+        "bytes": before.st_size,
+        "mtime_ns": before.st_mtime_ns,
+        "inode": before.st_ino,
+        "sha256": digest,
+        "stable_during_hash": True,
+    }
+
+
+def new_bucket() -> dict:
+    """Return an exact additive bucket for one split/class stratum."""
+    return {
+        "row_counts": Counter(),
+        "target_counts": defaultdict(Counter),
+        "clock_counts": defaultdict(Counter),
+        "confusion": defaultdict(lambda: defaultdict(Counter)),
+        "threshold_counts": defaultdict(Counter),
+        "weight_sums": defaultdict(lambda: np.zeros(2, dtype=np.float64)),
+        "distortion_sums": defaultdict(lambda: np.zeros(2, dtype=np.float64)),
+        "magnitude_hist": defaultdict(lambda: np.zeros(len(MAG_EDGES) - 1, dtype=np.int64)),
+        "position_hist": defaultdict(lambda: np.zeros(len(POSITION_EDGES) - 1, dtype=np.int64)),
+        "quantization": defaultdict(Counter),
+        "reconstruction": defaultdict(
+            lambda: {
+                "need_rows": np.zeros(2, dtype=np.int64),
+                "scored_rows": np.zeros(2, dtype=np.int64),
+                "need_weight": np.zeros(2, dtype=np.float64),
+                "scored_weight": np.zeros(2, dtype=np.float64),
+                "need_abs_distortion": np.zeros(2, dtype=np.float64),
+                "need_sq_distortion": np.zeros(2, dtype=np.float64),
+                "scored_abs_distortion": np.zeros(2, dtype=np.float64),
+                "scored_sq_distortion": np.zeros(2, dtype=np.float64),
+                "episode_lengths": [[], []],
+            }
+        ),
+        "exception_delta_values": {"raw": [[], []], "clipped": [[], []]},
+        "exception_distances": {"previous_and": [], "next_and": []},
+        "sequences": 0,
+        "sequence_exception_counts": [],
+    }
+
+
+def nested_add(target: Counter, key: str, value: int | float) -> None:
+    """Add an exact integer or floating sufficient statistic."""
+    target[key] += value
+
+
+def quantization_counts(values: np.ndarray, quantum: float, prefix: str, out: Counter) -> None:
+    """Count nonzero values close to integer multiples of a frozen candidate quantum."""
+    v = np.asarray(values, dtype=np.float64)
+    v = v[v != 0]
+    out[f"{prefix}_n"] += int(v.size)
+    if not v.size:
+        return
+    residual = np.abs(v - np.rint(v / quantum) * quantum)
+    for tolerance in (1e-6, 1e-4):
+        out[f"{prefix}_within_{tolerance:g}"] += int(np.count_nonzero(residual <= tolerance))
+    out[f"{prefix}_residual_sum"] += float(residual.sum())
+    out[f"{prefix}_residual_max"] = max(
+        float(out.get(f"{prefix}_residual_max", 0.0)), float(residual.max())
+    )
+
+
+def run_lengths(mask: np.ndarray) -> list[int]:
+    """Return lengths of contiguous true runs."""
+    where = np.flatnonzero(mask)
+    if not where.size:
+        return []
+    breaks = np.flatnonzero(np.diff(where) != 1)
+    starts = np.r_[0, breaks + 1]
+    ends = np.r_[breaks + 1, where.size]
+    return (ends - starts).astype(int).tolist()
+
+
+def value_summary(values: list[float]) -> dict:
+    """Summarize a small exact exception-only sample."""
+    if not values:
+        return {
+            "n": 0,
+            "min": None,
+            "median": None,
+            "p90": None,
+            "p99": None,
+            "max": None,
+            "mean": None,
+        }
+    a = np.asarray(values, dtype=np.float64)
+    return {
+        "n": int(a.size),
+        "min": float(a.min()),
+        "median": float(np.quantile(a, 0.5)),
+        "p90": float(np.quantile(a, 0.9)),
+        "p99": float(np.quantile(a, 0.99)),
+        "max": float(a.max()),
+        "mean": float(a.mean()),
+    }
+
+
+def score_bucket(bucket: dict) -> dict:
+    """Convert an additive working bucket into JSON-friendly summaries."""
+    result = {
+        "sequences": int(bucket["sequences"]),
+        "row_counts": {k: int(v) for k, v in sorted(bucket["row_counts"].items())},
+        "target_counts": {},
+        "clock_counts": {},
+        "confusion": {},
+        "threshold_counts": {},
+        "weight_sums": {k: v.tolist() for k, v in bucket["weight_sums"].items()},
+        "exception_weight_shares_by_target": {},
+        "distortion_sums": {k: v.tolist() for k, v in bucket["distortion_sums"].items()},
+        "magnitude_histogram_edges": MAG_EDGES,
+        "magnitude_histograms": {k: v.tolist() for k, v in bucket["magnitude_hist"].items()},
+        "position_bin_edges": POSITION_EDGES,
+        "position_histograms": {k: v.tolist() for k, v in bucket["position_hist"].items()},
+        "quantization": {
+            k: {
+                kk: (int(vv) if isinstance(vv, (int, np.integer)) else float(vv))
+                for kk, vv in v.items()
+            }
+            for k, v in bucket["quantization"].items()
+        },
+        "reconstruction": {},
+        "exception_raw_abs_delta_by_target": [
+            value_summary(v) for v in bucket["exception_delta_values"]["raw"]
+        ],
+        "exception_clipped_abs_delta_by_target": [
+            value_summary(v) for v in bucket["exception_delta_values"]["clipped"]
+        ],
+        "exception_distance_previous_and_rows": value_summary(
+            bucket["exception_distances"]["previous_and"]
+        ),
+        "exception_distance_next_and_rows_diagnostic_only": value_summary(
+            bucket["exception_distances"]["next_and"]
+        ),
+    }
+    for state, counts in bucket["target_counts"].items():
+        result["target_counts"][state] = {k: int(v) for k, v in counts.items()}
+    for state, counts in bucket["clock_counts"].items():
+        result["clock_counts"][state] = {k: int(v) for k, v in counts.items()}
+    for state, events in bucket["confusion"].items():
+        result["confusion"][state] = {}
+        for event, values in events.items():
+            result["confusion"][state][event] = {k: int(v) for k, v in values.items()}
+            for scope in ("all_transitions", "need_transitions", "scored_transitions"):
+                tp = int(values.get(f"{scope}_tp", 0))
+                fp = int(values.get(f"{scope}_fp", 0))
+                fn = int(values.get(f"{scope}_fn", 0))
+                result["confusion"][state][event][f"{scope}_precision"] = (
+                    tp / (tp + fp) if tp + fp else None
+                )
+                result["confusion"][state][event][f"{scope}_recall"] = (
+                    tp / (tp + fn) if tp + fn else None
+                )
+    for state, counts in bucket["threshold_counts"].items():
+        result["threshold_counts"][state] = {k: int(v) for k, v in counts.items()}
+    for scope in ("need", "scored"):
+        denom = bucket["weight_sums"][f"{scope}_total"]
+        for subset in ("raw_exception_rows", "changed_target_exception"):
+            numerator = bucket["weight_sums"][f"{scope}_{subset}"]
+            result["exception_weight_shares_by_target"][f"{scope}_{subset}"] = [
+                float(numerator[j] / denom[j]) if denom[j] else None for j in range(2)
+            ]
+    for clock, values in bucket["reconstruction"].items():
+        result["reconstruction"][clock] = {
+            "need_mismatch_rows_by_target": values["need_rows"].tolist(),
+            "scored_mismatch_rows_by_target": values["scored_rows"].tolist(),
+            "need_mismatch_target_weight_by_target": values["need_weight"].tolist(),
+            "scored_mismatch_target_weight_by_target": values["scored_weight"].tolist(),
+            "need_abs_target_distortion_by_target": values["need_abs_distortion"].tolist(),
+            "need_squared_target_distortion_by_target": values["need_sq_distortion"].tolist(),
+            "scored_abs_target_distortion_by_target": values["scored_abs_distortion"].tolist(),
+            "scored_squared_target_distortion_by_target": values["scored_sq_distortion"].tolist(),
+            "need_weight_share_by_target": [
+                float(values["need_weight"][j] / bucket["weight_sums"]["need_total"][j])
+                if bucket["weight_sums"]["need_total"][j]
+                else None
+                for j in range(2)
+            ],
+            "scored_weight_share_by_target": [
+                float(values["scored_weight"][j] / bucket["weight_sums"]["scored_total"][j])
+                if bucket["weight_sums"]["scored_total"][j]
+                else None
+                for j in range(2)
+            ],
+            "need_mismatch_episode_length_by_target": [
+                value_summary(x) for x in values["episode_lengths"]
+            ],
+        }
+    return result
+
+
+def merge_bucket(dst: dict, src: dict) -> None:
+    """Add one sequence-level bucket to its split/class aggregate."""
+    dst["sequences"] += 1
+    for key, value in src["row_counts"].items():
+        dst["row_counts"][key] += value
+    for container in ("target_counts", "clock_counts", "confusion", "threshold_counts"):
+        for key, val in src[container].items():
+            if isinstance(val, Counter):
+                dst[container][key].update(val)
+            else:
+                for subkey, counter in val.items():
+                    dst[container][key][subkey].update(counter)
+    for key, value in src["weight_sums"].items():
+        dst["weight_sums"][key] += value
+    for key, value in src["distortion_sums"].items():
+        dst["distortion_sums"][key] += value
+    for key, value in src["magnitude_hist"].items():
+        dst["magnitude_hist"][key] += value
+    for key, value in src["position_hist"].items():
+        dst["position_hist"][key] += value
+    for key, value in src["quantization"].items():
+        merged = dst["quantization"][key]
+        for stat, amount in value.items():
+            if stat.endswith("_residual_max"):
+                merged[stat] = max(float(merged.get(stat, 0.0)), float(amount))
+            else:
+                merged[stat] += amount
+    for clock, values in src["reconstruction"].items():
+        out = dst["reconstruction"][clock]
+        for key in (
+            "need_rows",
+            "scored_rows",
+            "need_weight",
+            "scored_weight",
+            "need_abs_distortion",
+            "need_sq_distortion",
+            "scored_abs_distortion",
+            "scored_sq_distortion",
+        ):
+            out[key] += values[key]
+        for target in range(2):
+            out["episode_lengths"][target].extend(values["episode_lengths"][target])
+    for kind in ("raw", "clipped"):
+        for target in range(2):
+            dst["exception_delta_values"][kind][target].extend(
+                src["exception_delta_values"][kind][target]
+            )
+    for key in ("previous_and", "next_and"):
+        dst["exception_distances"][key].extend(src["exception_distances"][key])
+    dst["sequence_exception_counts"].extend(src["sequence_exception_counts"])
+
+
+def counters_for_sequence(
+    split: str,
+    y: np.ndarray,
+    need: np.ndarray,
+    scored: np.ndarray | None,
+    price: np.ndarray,
+    rg: int,
+    seq_ix: int,
+    cls: int,
+    records: list[dict],
+) -> tuple[dict, dict]:
+    """Compute exact descriptive counters and exception details for one sequence."""
+    n = len(y)
+    step = np.arange(n, dtype=np.int32)
+    transitions = step > 0
+    selected = (need & scored) if scored is not None else np.zeros(n, dtype=bool)
+    raw = y.astype(np.float64)
+    clipped = np.clip(raw, -2.0, 2.0)
+    raw_delta = np.zeros_like(raw)
+    raw_delta[1:] = raw[1:] - raw[:-1]
+    clip_delta = np.zeros_like(clipped)
+    clip_delta[1:] = clipped[1:] - clipped[:-1]
+    raw_by_target = raw_delta != 0
+    clip_by_target = clip_delta != 0
+    raw_any = raw_by_target.any(axis=1)
+    clip_any = clip_by_target.any(axis=1)
+    price_changed = price[1:] != price[:-1]
+    flags = np.zeros((n, 4), dtype=bool)
+    flags[1:] = price_changed
+    i0_and = flags[:, 0] & flags[:, 1]
+    i0_or = flags[:, 0] | flags[:, 1]
+    i1_and = flags[:, 2] & flags[:, 3]
+    i1_or = flags[:, 2] | flags[:, 3]
+    both_or = i0_or | i1_or
+    events = {
+        "i0_p0_and_i0_p11": i0_and,
+        "i0_p0_or_i0_p11": i0_or,
+        "i1_p0_and_i1_p11": i1_and,
+        "i1_p0_or_i1_p11": i1_or,
+        "any_of_four_price_columns": flags.any(axis=1),
+        "i0_or_i1_price_or": both_or,
+    }
+    scopes = {
+        "all_transitions": transitions,
+        "need_transitions": transitions & need,
+        "scored_transitions": transitions & selected,
+    }
+    src = new_bucket()
+    src["sequences"] = 1
+    src["row_counts"].update(
+        {
+            "rows": n,
+            "transitions": int(transitions.sum()),
+            "need_rows": int(need.sum()),
+            "need_transitions": int((transitions & need).sum()),
+            "scored_rows": int(selected.sum()),
+            "scored_transitions": int((transitions & selected).sum()),
+        }
+    )
+    labels = {
+        "raw_any_target": raw_any,
+        "clipped_any_target": clip_any,
+        "raw_t0": raw_by_target[:, 0],
+        "raw_t1": raw_by_target[:, 1],
+        "clipped_t0": clip_by_target[:, 0],
+        "clipped_t1": clip_by_target[:, 1],
+    }
+    for state, arr in labels.items():
+        for scope, mask in scopes.items():
+            src["target_counts"][state][scope] += int(np.count_nonzero(arr & mask))
+    for event_name, event in events.items():
+        for scope, mask in scopes.items():
+            src["clock_counts"][event_name][scope] += int(np.count_nonzero(event & mask))
+    for target_name in ("raw_any_target", "clipped_any_target"):
+        target_event = labels[target_name]
+        for event_name, event in events.items():
+            for scope, mask in scopes.items():
+                e = event & mask
+                z = target_event & mask
+                conf = src["confusion"][target_name][event_name]
+                conf[f"{scope}_tp"] += int(np.count_nonzero(e & z))
+                conf[f"{scope}_fp"] += int(np.count_nonzero(e & ~z))
+                conf[f"{scope}_fn"] += int(np.count_nonzero(~event & z & mask))
+                conf[f"{scope}_tn"] += int(np.count_nonzero(~event & ~z & mask))
+
+    # Exact tolerance sensitivity for label changes and p0 AND violations.
+    raw_any_exception = raw_any & ~i0_and & need & transitions
+    clip_any_exception = clip_any & ~i0_and & need & transitions
+    i0_and_exceptions_by_tolerance = {}
+    for tol in TOLERANCES:
+        raw_evt_tol = (np.abs(raw_delta) > tol).any(axis=1) & transitions
+        clip_evt_tol = (np.abs(clip_delta) > tol).any(axis=1) & transitions
+        key = f"tol_{tol:g}"
+        for name, event in (("raw", raw_evt_tol), ("clipped", clip_evt_tol)):
+            exc = event & ~i0_and & need
+            src["threshold_counts"][key][f"{name}_changes_all"] += int(np.count_nonzero(event))
+            src["threshold_counts"][key][f"{name}_changes_need"] += int(
+                np.count_nonzero(event & need)
+            )
+            src["threshold_counts"][key][f"{name}_changes_scored"] += int(
+                np.count_nonzero(event & selected)
+            )
+            src["threshold_counts"][key][f"{name}_outside_i0_and_need"] += int(
+                np.count_nonzero(exc)
+            )
+            src["threshold_counts"][key][f"{name}_outside_i0_and_scored"] += int(
+                np.count_nonzero(exc & selected)
+            )
+        i0_and_exceptions_by_tolerance[key] = int(np.count_nonzero(raw_evt_tol & ~i0_and & need))
+
+    # Official target-magnitude mass at the raw exception rows; include both target axes.
+    mass = np.abs(clipped)
+    src["weight_sums"]["need_total"] += mass[need].sum(axis=0)
+    src["weight_sums"]["need_raw_exception_rows"] += mass[raw_any_exception].sum(axis=0)
+    src["weight_sums"]["need_changed_target_exception"] += (
+        mass * (raw_by_target & ~i0_and[:, None])
+    )[need].sum(axis=0)
+    if scored is not None:
+        src["weight_sums"]["scored_total"] += mass[selected].sum(axis=0)
+        src["weight_sums"]["scored_raw_exception_rows"] += mass[raw_any_exception & selected].sum(
+            axis=0
+        )
+        src["weight_sums"]["scored_changed_target_exception"] += (
+            mass * (raw_by_target & ~i0_and[:, None])
+        )[selected].sum(axis=0)
+
+    # Exact log histograms for all changes and for exceptions, separately raw/clipped.
+    for name, arr, change_mask in (("raw", raw_delta, raw_any), ("clipped", clip_delta, clip_any)):
+        for target in range(2):
+            values = np.abs(arr[:, target])
+            key = f"{name}_all_t{target}"
+            target_changes = change_mask & transitions & (arr[:, target] != 0)
+            src["magnitude_hist"][key] += np.histogram(values[target_changes], bins=MAG_EDGES)[0]
+            key_exc = f"{name}_exception_t{target}"
+            src["magnitude_hist"][key_exc] += np.histogram(
+                values[raw_any_exception & (arr[:, target] != 0)], bins=MAG_EDGES
+            )[0]
+            exc_values = values[raw_any_exception & (arr[:, target] != 0)]
+            src["exception_delta_values"][name][target].extend(exc_values.tolist())
+
+    # Retrospective test of the four H-002 candidate quanta, with old class labels.
+    if cls in R1_CANDIDATE_QUANTA:
+        q = R1_CANDIDATE_QUANTA[cls]
+        for target in range(2):
+            quantization_counts(
+                raw[need, target], q, f"raw_level_t{target}", src["quantization"][f"q{q:g}"]
+            )
+            quantization_counts(
+                raw_delta[need & raw_by_target[:, target], target],
+                q,
+                f"raw_delta_t{target}",
+                src["quantization"][f"q{q:g}"],
+            )
+            quantization_counts(
+                clipped[need, target], q, f"clipped_level_t{target}", src["quantization"][f"q{q:g}"]
+            )
+            quantization_counts(
+                clip_delta[need & clip_by_target[:, target], target],
+                q,
+                f"clipped_delta_t{target}",
+                src["quantization"][f"q{q:g}"],
+            )
+            quantization_counts(
+                raw_delta[raw_any_exception & raw_by_target[:, target], target],
+                q,
+                f"raw_exception_delta_t{target}",
+                src["quantization"][f"q{q:g}"],
+            )
+            quantization_counts(
+                clip_delta[raw_any_exception & clip_by_target[:, target], target],
+                q,
+                f"clipped_exception_delta_t{target}",
+                src["quantization"][f"q{q:g}"],
+            )
+
+    # Ten-position-bin exception concentration (1000 rows/bin; index is not a clock).
+    raw_exc_positions = np.flatnonzero(raw_any_exception)
+    if raw_exc_positions.size:
+        src["position_hist"]["raw_outside_and"] += np.histogram(
+            raw_exc_positions, bins=POSITION_EDGES
+        )[0]
+        selected_exc_positions = raw_exc_positions[selected[raw_exc_positions]]
+        if selected_exc_positions.size:
+            src["position_hist"]["raw_outside_and_scored"] += np.histogram(
+                selected_exc_positions, bins=POSITION_EDGES
+            )[0]
+    clip_exc_positions = np.flatnonzero(clip_any_exception)
+    if clip_exc_positions.size:
+        src["position_hist"]["clipped_outside_and"] += np.histogram(
+            clip_exc_positions, bins=POSITION_EDGES
+        )[0]
+
+    # Label-only clock reconstructions. These use actual clipped labels at clock events;
+    # they are oracle diagnostics, cannot be predictor inputs, and are not forecasts.
+    reconstructions = {}
+    for clock_name, clock in (("i0_and", i0_and), ("i0_or", i0_or)):
+        last_event = np.maximum.accumulate(np.where(clock, step, 0))
+        oracle = clipped[last_event]
+        mismatch = oracle != clipped
+        reconstructions[clock_name] = {"mismatch": mismatch, "oracle": oracle}
+        for target in range(2):
+            need_mm = mismatch[:, target] & need
+            scored_mm = mismatch[:, target] & selected
+            stats = src["reconstruction"][clock_name]
+            stats["need_rows"][target] += int(need_mm.sum())
+            stats["scored_rows"][target] += int(scored_mm.sum())
+            stats["need_weight"][target] += float(mass[need_mm, target].sum())
+            stats["scored_weight"][target] += float(mass[scored_mm, target].sum())
+            need_abs = np.abs(oracle[:, target] - clipped[:, target])
+            stats["need_abs_distortion"][target] += float(need_abs[need].sum())
+            stats["need_sq_distortion"][target] += float(np.square(need_abs[need]).sum())
+            stats["scored_abs_distortion"][target] += float(need_abs[selected].sum())
+            stats["scored_sq_distortion"][target] += float(np.square(need_abs[selected]).sum())
+            stats["episode_lengths"][target].extend(run_lengths(need_mm))
+
+    # All raw outside-i0-AND exceptions, exported with only the four price fields.
+    and_steps = np.flatnonzero(i0_and)
+    sequence_exception_count = int(raw_any_exception.sum())
+    for pos in raw_exc_positions:
+        j = int(np.searchsorted(and_steps, pos, side="left"))
+        prev_and = int(and_steps[j - 1]) if j > 0 else None
+        next_and = int(and_steps[j]) if j < len(and_steps) else None
+        if prev_and is not None:
+            src["exception_distances"]["previous_and"].append(int(pos - prev_and))
+        if next_and is not None:
+            src["exception_distances"]["next_and"].append(int(next_and - pos))
+        prev_y = raw[pos - 1]
+        cur_y = raw[pos]
+        prev_clipped = clipped[pos - 1]
+        cur_clipped = clipped[pos]
+        price_prev = price[pos - 1]
+        price_cur = price[pos]
+        records.append(
+            {
+                "split": split,
+                "row_group": rg,
+                "seq_ix": seq_ix,
+                "market_class_retrospective": cls,
+                "step_in_seq": int(pos),
+                "need_prediction": bool(need[pos]),
+                "is_scored": None if scored is None else bool(scored[pos]),
+                "official_selected": None if scored is None else bool(selected[pos]),
+                "raw_target_changed_any": bool(raw_any[pos]),
+                "clipped_target_changed_any": bool(clip_any[pos]),
+                "raw_target_changed_t0_t1": raw_by_target[pos].tolist(),
+                "clipped_target_changed_t0_t1": clip_by_target[pos].tolist(),
+                "raw_outside_i0_and_exception": True,
+                "clipped_outside_i0_and_exception": bool(clip_any[pos]),
+                "y_previous_raw_t0_t1": prev_y.tolist(),
+                "y_current_raw_t0_t1": cur_y.tolist(),
+                "y_previous_clipped_t0_t1": prev_clipped.tolist(),
+                "y_current_clipped_t0_t1": cur_clipped.tolist(),
+                "delta_raw_t0_t1": raw_delta[pos].tolist(),
+                "delta_clipped_t0_t1": clip_delta[pos].tolist(),
+                "price_columns": PRICE_COLUMNS,
+                "price_previous": price_prev.tolist(),
+                "price_current": price_cur.tolist(),
+                "price_changed_flags_p0_p11_i1p0_i1p11": flags[pos].tolist(),
+                "i0_p0_and_i0_p11": bool(i0_and[pos]),
+                "i0_p0_or_i0_p11": bool(i0_or[pos]),
+                "i1_p0_or_i1_p11": bool(i1_or[pos]),
+                "any_of_four_price_columns": bool(flags[pos].any()),
+                "previous_i0_and_step": prev_and,
+                "rows_since_previous_i0_and": int(pos - prev_and) if prev_and is not None else None,
+                "next_i0_and_step_diagnostic_only": next_and,
+                "rows_until_next_i0_and_diagnostic_only": int(next_and - pos)
+                if next_and is not None
+                else None,
+            }
+        )
+
+    seq_summary = {
+        "split": split,
+        "row_group": rg,
+        "seq_ix": seq_ix,
+        "market_class_retrospective": cls,
+        "rows": n,
+        "need_rows": int(need.sum()),
+        "scored_rows": int(selected.sum()),
+        "raw_outside_i0_and_exceptions": sequence_exception_count,
+        "clipped_outside_i0_and_exceptions": int(clip_any_exception.sum()),
+        "scored_raw_outside_i0_and_exceptions": int((raw_any_exception & selected).sum()),
+        "raw_exception_first_step": int(raw_exc_positions[0]) if raw_exc_positions.size else None,
+        "raw_exception_last_step": int(raw_exc_positions[-1]) if raw_exc_positions.size else None,
+        "i0_and_events": int(i0_and.sum()),
+        "i0_or_events": int(i0_or.sum()),
+        "i0_and_reconstruction_scored_mismatch_t0_t1": reconstructions["i0_and"]["mismatch"][
+            selected
+        ]
+        .sum(axis=0)
+        .astype(int)
+        .tolist(),
+        "i0_or_reconstruction_scored_mismatch_t0_t1": reconstructions["i0_or"]["mismatch"][selected]
+        .sum(axis=0)
+        .astype(int)
+        .tolist(),
+    }
+    src["sequence_exception_counts"].append(sequence_exception_count)
+    return src, seq_summary
+
+
+def load_class_map(cache_path: Path) -> tuple[dict[int, int], dict]:
+    """Load the retrospective R1 class labels and bind the small cache file."""
+    before = cache_path.stat()
+    with np.load(cache_path) as cache:
+        groups = cache["row_group"].astype(np.int64)
+        classes = cache["market_class"].astype(np.int64)
+    if len(groups) != len(classes):
+        raise ValueError(f"row_group/market_class length mismatch in class cache: {cache_path}")
+    if len(np.unique(groups)) != len(groups):
+        raise ValueError(f"duplicate row_group in class cache: {cache_path}")
+    if not np.isin(classes, [-1, 0, 1, 2, 3]).all():
+        raise ValueError(f"unexpected cached retrospective class in {cache_path}")
+    mapping = {int(g): int(c) for g, c in zip(groups, classes, strict=True)}
+    unique_classes, class_counts = np.unique(classes, return_counts=True)
+    if len(unique_classes) != len(class_counts):
+        raise ValueError(f"class-count length mismatch in class cache: {cache_path}")
+    identity = {
+        "path": str(cache_path),
+        "bytes": before.st_size,
+        "mtime_ns": before.st_mtime_ns,
+        "sha256": sha256_file(cache_path),
+        "row_group_entries": int(len(groups)),
+        "unique_row_groups": int(len(np.unique(groups))),
+        "class_counts": {
+            str(int(k)): int(v) for k, v in zip(unique_classes, class_counts, strict=True)
+        },
+        "retrospective_only": True,
+    }
+    return mapping, identity
+
+
+def preflight(data_dir: Path, cache_dir: Path) -> dict:
+    """Read Parquet metadata and one sequence per split; do not scan all data."""
+    result = {"preflight_only": True, "splits": {}}
+    for split, expected_groups, expected_bytes in (
+        ("train", R1_TRAIN_GROUPS, R1_TRAIN_BYTES),
+        ("valid", R1_VALID_GROUPS, R1_VALID_BYTES),
+    ):
+        path = data_dir / f"{split}.parquet"
+        pf = pq.ParquetFile(path)
+        names = pf.schema_arrow.names
+        expected_cols = ["seq_ix", "step_in_seq", "need_prediction", *PRICE_COLUMNS, *LABEL_COLUMNS]
+        if split == "valid":
+            expected_cols.append("is_scored")
+        missing = [c for c in expected_cols if c not in names]
+        if missing:
+            raise ValueError(f"missing expected columns in {split}: {missing}")
+        table = pf.read_row_group(
+            0,
+            columns=["seq_ix", "step_in_seq", "need_prediction", *PRICE_COLUMNS, *LABEL_COLUMNS]
+            + (["is_scored"] if split == "valid" else []),
+            use_threads=False,
+        )
+        step = table["step_in_seq"].to_numpy(zero_copy_only=False)
+        need = table["need_prediction"].to_numpy(zero_copy_only=False).astype(bool)
+        if len(step) != EXPECTED_ROWS_PER_SEQUENCE or not np.array_equal(
+            step, np.arange(EXPECTED_ROWS_PER_SEQUENCE)
+        ):
+            raise ValueError(f"bad preflight step sequence: {split}")
+        if need[:99].any() or not need[99:].all():
+            raise ValueError(f"bad preflight warmup mask: {split}")
+        if len(np.unique(table["seq_ix"].to_numpy(zero_copy_only=False))) != 1:
+            raise ValueError(f"seq_ix is not constant inside first group: {split}")
+        result["splits"][split] = {
+            "path": str(path),
+            "bytes": path.stat().st_size,
+            "r1_expected_bytes": expected_bytes,
+            "bytes_match_r1": path.stat().st_size == expected_bytes,
+            "row_groups": pf.num_row_groups,
+            "r1_expected_row_groups": expected_groups,
+            "row_groups_match_r1": pf.num_row_groups == expected_groups,
+            "columns": len(names),
+            "required_columns_present": True,
+            "first_group_rows": len(step),
+            "first_group_seq_ix": int(table["seq_ix"][0].as_py()),
+            "first_group_step_and_warmup_ok": True,
+        }
+    for split in ("train", "valid"):
+        _, identity = load_class_map(cache_dir / f"{split}_targets.npz")
+        result["splits"][split]["class_cache"] = identity
+    return result
+
+
+def write_artifacts(
+    output_dir: Path, results: dict, exception_records: list[dict], manifest_base: dict
+) -> dict:
+    """Write the three final JSON artifacts and bind their exact hashes."""
+    result_path = output_dir / "results.json"
+    records_path = output_dir / "exception_records.jsonl"
+    manifest_path = output_dir / "manifest.json"
+    for path in (result_path, records_path, manifest_path):
+        if path.exists():
+            raise FileExistsError(path)
+    results["exception_records_path"] = str(records_path)
+    with records_path.open("x", encoding="utf-8") as out:
+        for record in exception_records:
+            out.write(json.dumps(record, separators=(",", ":"), allow_nan=False) + "\n")
+    result_path.write_text(json.dumps(results, indent=2, allow_nan=False) + "\n")
+    manifest = dict(manifest_base)
+    manifest.update(
+        {
+            "script_sha256": sha256_file(Path(__file__)),
+            "results_sha256": sha256_file(result_path),
+            "exception_records_sha256": sha256_file(records_path),
+            "exception_records_bytes": records_path.stat().st_size,
+            "result_bytes": result_path.stat().st_size,
+        }
+    )
+    manifest_path.write_text(json.dumps(manifest, indent=2, allow_nan=False) + "\n")
+    return manifest
+
+
+def self_test_final_write_path() -> dict:
+    """Exercise the actual final writer on tiny synthetic JSON-only artifacts."""
+    with tempfile.TemporaryDirectory(prefix="exception-audit-write-check-") as temp:
+        output_dir = Path(temp)
+        base = {"training_steps": 0, "optimizer_steps": 0, "inference_calls": 0}
+        records = [{"synthetic": True, "seq_ix": 17, "delta": [0.0, 0.25]}]
+        manifest = write_artifacts(output_dir, {"schema": "synthetic-no-fit-check"}, records, base)
+        loaded_result = json.loads((output_dir / "results.json").read_text())
+        loaded_manifest = json.loads((output_dir / "manifest.json").read_text())
+        loaded_record = json.loads((output_dir / "exception_records.jsonl").read_text())
+        assert loaded_result["schema"] == "synthetic-no-fit-check"
+        assert loaded_record == records[0]
+        assert loaded_manifest["results_sha256"] == sha256_file(output_dir / "results.json")
+        assert loaded_manifest["exception_records_sha256"] == sha256_file(
+            output_dir / "exception_records.jsonl"
+        )
+        assert loaded_manifest == manifest
+        assert {p.name for p in output_dir.iterdir()} == {
+            "results.json",
+            "manifest.json",
+            "exception_records.jsonl",
+        }
+        return {
+            "passed": True,
+            "training_steps": 0,
+            "optimizer_steps": 0,
+            "inference_calls": 0,
+            "artifacts": sorted(p.name for p in output_dir.iterdir()),
+        }
+
+
+def write_split_checkpoint(
+    output_dir: Path,
+    split: str,
+    aggregate: dict,
+    class_aggregates: dict,
+    sequences: list[dict],
+    source_sha256: str,
+    cache_sha256: str,
+) -> dict:
+    """Persist a recoverable descriptive checkpoint after one split is scanned."""
+    checkpoint_dir = output_dir / "split_aggregates"
+    checkpoint_dir.mkdir(exist_ok=True)
+    path = checkpoint_dir / f"{split}.json"
+    if path.exists():
+        raise FileExistsError(path)
+    exception_sequences = [
+        {
+            k: v
+            for k, v in row.items()
+            if k
+            in (
+                "split",
+                "row_group",
+                "seq_ix",
+                "market_class_retrospective",
+                "rows",
+                "need_rows",
+                "scored_rows",
+                "raw_outside_i0_and_exceptions",
+                "clipped_outside_i0_and_exceptions",
+                "scored_raw_outside_i0_and_exceptions",
+                "raw_exception_first_step",
+                "raw_exception_last_step",
+            )
+        }
+        for row in sequences
+        if row["raw_outside_i0_and_exceptions"] > 0
+    ]
+    payload = {
+        "schema": "wnn.exception-audit-r2-split-checkpoint.v1",
+        "split": split,
+        "sequences_scanned": len(sequences),
+        "row_groups_scanned": len(sequences),
+        "source_sha256": source_sha256,
+        "retrospective_class_cache_sha256": cache_sha256,
+        "training_steps": 0,
+        "optimizer_steps": 0,
+        "inference_calls": 0,
+        "aggregate": score_bucket(aggregate),
+        "class_aggregate": {str(k): score_bucket(v) for k, v in sorted(class_aggregates.items())},
+        "sequences_with_exceptions": exception_sequences,
+    }
+    path.write_text(json.dumps(payload, indent=2, allow_nan=False) + "\n")
+    return {"path": str(path), "bytes": path.stat().st_size, "sha256": sha256_file(path)}
+
+
+def main() -> None:
+    """Perform full bounded scan, including data hashes and row-level exceptions."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--data", type=Path, required=True)
+    parser.add_argument("--cache", type=Path, required=True)
+    parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--preflight-only", action="store_true")
+    parser.add_argument("--self-test-final-write", action="store_true")
+    parser.add_argument("--rss-limit-gib", type=float, default=1.85)
+    args = parser.parse_args()
+    pa.set_cpu_count(1)
+    pa.set_io_thread_count(1)
+    if args.self_test_final_write:
+        print(json.dumps(self_test_final_write_path(), indent=2), flush=True)
+        return
+    if args.preflight_only:
+        print(json.dumps(preflight(args.data, args.cache), indent=2))
+        return
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    result_path = args.output_dir / "results.json"
+    records_path = args.output_dir / "exception_records.jsonl"
+    manifest_path = args.output_dir / "manifest.json"
+    for path in (result_path, records_path, manifest_path):
+        if path.exists():
+            raise FileExistsError(path)
+    start = time.time()
+    rss_limit = int(args.rss_limit_gib * (1024**3))
+    initial_rss = linux_rss_bytes()
+    if initial_rss is not None and initial_rss >= rss_limit:
+        raise MemoryError(f"initial RSS {initial_rss} exceeds {rss_limit}")
+    preflight_result = preflight(args.data, args.cache)
+    for split in ("train", "valid"):
+        if (
+            not preflight_result["splits"][split]["bytes_match_r1"]
+            or not preflight_result["splits"][split]["row_groups_match_r1"]
+        ):
+            raise RuntimeError(f"current {split} Parquet identity dimensions differ from R1")
+
+    # R1 did not record a content digest for either Parquet input. Compute exact new
+    # SHA-256 values here and record current stat fields; do not imply a comparison
+    # against a nonexistent prior input digest.
+    input_identities = {}
+    for split in ("train", "valid"):
+        source_file = args.data / f"{split}.parquet"
+        print(f"hashing full input {split} ({source_file.stat().st_size} bytes)", flush=True)
+        input_identities[split] = sha_and_stat(source_file)
+        print(f"hashed {split}: {input_identities[split]['sha256']}", flush=True)
+
+    cache_identities = {}
+    class_maps = {}
+    for split in ("train", "valid"):
+        class_maps[split], cache_identities[split] = load_class_map(
+            args.cache / f"{split}_targets.npz"
+        )
+
+    split_buckets = {s: new_bucket() for s in ("train", "valid")}
+    class_buckets = {s: defaultdict(new_bucket) for s in ("train", "valid")}
+    sequence_summaries = []
+    exception_records: list[dict] = []
+    per_sequence_counts = {s: Counter() for s in ("train", "valid")}
+    split_checkpoint_receipts = {}
+    scan_started = time.time()
+    for split in ("train", "valid"):
+        path = args.data / f"{split}.parquet"
+        pf = pq.ParquetFile(path)
+        names = pf.schema_arrow.names
+        expected_cols = ["seq_ix", "step_in_seq", "need_prediction", *PRICE_COLUMNS, *LABEL_COLUMNS]
+        if split == "valid":
+            expected_cols.append("is_scored")
+        if split == "train" and len(names) != 117 or split == "valid" and len(names) != 118:
+            raise ValueError(f"unexpected feature table width for {split}: {len(names)}")
+        if pf.num_row_groups != (R1_TRAIN_GROUPS if split == "train" else R1_VALID_GROUPS):
+            raise ValueError(f"row group count changed for {split}")
+        for rg in range(pf.num_row_groups):
+            table = pf.read_row_group(rg, columns=expected_cols, use_threads=False)
+            n = table.num_rows
+            if n != EXPECTED_ROWS_PER_SEQUENCE:
+                raise ValueError(f"wrong sequence length: {split} rg={rg} n={n}")
+            step = table["step_in_seq"].to_numpy(zero_copy_only=False)
+            if not np.array_equal(step, np.arange(EXPECTED_ROWS_PER_SEQUENCE, dtype=step.dtype)):
+                raise ValueError(f"step sequence mismatch: {split} rg={rg}")
+            seq_values = table["seq_ix"].to_numpy(zero_copy_only=False)
+            if not np.all(seq_values == seq_values[0]):
+                raise ValueError(f"seq_ix not constant: {split} rg={rg}")
+            need = table["need_prediction"].to_numpy(zero_copy_only=False).astype(bool)
+            if need[:99].any() or not need[99:].all():
+                raise ValueError(f"warmup mask mismatch: {split} rg={rg}")
+            scored = None
+            if split == "valid":
+                scored = table["is_scored"].to_numpy(zero_copy_only=False).astype(bool)
+                if np.any(scored & ~need):
+                    raise ValueError(f"scoring mask includes warmup: {split} rg={rg}")
+            price = np.column_stack(
+                [table[c].to_numpy(zero_copy_only=False) for c in PRICE_COLUMNS]
+            ).astype(np.float32, copy=False)
+            y = np.column_stack(
+                [table[c].to_numpy(zero_copy_only=False) for c in LABEL_COLUMNS]
+            ).astype(np.float32, copy=False)
+            if not np.isfinite(price).all() or not np.isfinite(y).all():
+                raise ValueError(f"non-finite selected input or target: {split} rg={rg}")
+            seq_ix = int(seq_values[0])
+            cls = class_maps[split].get(rg, -1)
+            bucket, seq_summary = counters_for_sequence(
+                split, y, need, scored, price, rg, seq_ix, cls, exception_records
+            )
+            merge_bucket(split_buckets[split], bucket)
+            merge_bucket(class_buckets[split][cls], bucket)
+            sequence_summaries.append(seq_summary)
+            per_sequence_counts[split][bucket["sequence_exception_counts"][0]] += 1
+            rss = linux_rss_bytes()
+            if rss is not None and rss > rss_limit:
+                raise MemoryError(f"RSS {rss} exceeds configured {rss_limit} at {split} rg={rg}")
+            if rg % 1000 == 0:
+                print(
+                    f"{split} row_group {rg}/{pf.num_row_groups} exceptions={len(exception_records)} rss={rss}",
+                    flush=True,
+                )
+        del pf
+        split_sequences = [x for x in sequence_summaries if x["split"] == split]
+        split_checkpoint_receipts[split] = write_split_checkpoint(
+            args.output_dir,
+            split,
+            split_buckets[split],
+            class_buckets[split],
+            split_sequences,
+            input_identities[split]["sha256"],
+            cache_identities[split]["sha256"],
+        )
+        print(f"saved {split} aggregate checkpoint: {split_checkpoint_receipts[split]}", flush=True)
+
+    scan_elapsed = time.time() - scan_started
+    for split in ("train", "valid"):
+        current = (args.data / f"{split}.parquet").stat()
+        prior = input_identities[split]
+        if (current.st_size, current.st_mtime_ns, current.st_ino) != (
+            prior["bytes"],
+            prior["mtime_ns"],
+            prior["inode"],
+        ):
+            raise RuntimeError(f"input changed during scan: {split}")
+
+    observed = len(exception_records)
+    expected_exception_count = 1_253
+    # Exception total is computed directly from sequence summaries, not by subtracting
+    # all target changes from all price events (those sets need not be nested).
+    exact_split_exception_counts = {
+        s: int(
+            sum(x["raw_outside_i0_and_exceptions"] for x in sequence_summaries if x["split"] == s)
+        )
+        for s in ("train", "valid")
+    }
+    if observed != sum(exact_split_exception_counts.values()):
+        raise AssertionError("exception record count does not match sequence summaries")
+    if exact_split_exception_counts != {"train": 941, "valid": 312}:
+        raise AssertionError(f"R1 exception count changed: {exact_split_exception_counts}")
+    if observed != expected_exception_count:
+        raise AssertionError(f"expected 1,253 raw need-eligible exceptions, found {observed}")
+
+    def concentration(split: str) -> dict:
+        entries = [x for x in sequence_summaries if x["split"] == split]
+        counts = sorted((x["raw_outside_i0_and_exceptions"] for x in entries), reverse=True)
+        total = int(sum(counts))
+        return {
+            "sequences": len(entries),
+            "sequences_with_raw_exceptions": int(sum(v > 0 for v in counts)),
+            "exception_rows": total,
+            "max_exceptions_in_one_sequence": int(counts[0] if counts else 0),
+            "share_top_1_sequence": float(sum(counts[:1]) / total) if total else 0.0,
+            "share_top_10_sequences": float(sum(counts[:10]) / total) if total else 0.0,
+            "share_top_100_sequences": float(sum(counts[:100]) / total) if total else 0.0,
+            "per_sequence_count_mean": float(np.mean(counts)) if counts else 0.0,
+            "per_sequence_count_median": float(np.median(counts)) if counts else 0.0,
+        }
+
+    results = {
+        "schema": "wnn.exception-audit-r2.v1",
+        "created_utc_note": "run date 2026-10-17; host clock captured in manifest",
+        "training_steps": 0,
+        "optimizer_steps": 0,
+        "model_inference_calls": 0,
+        "features_read": PRICE_COLUMNS,
+        "columns_read": [
+            "seq_ix",
+            "step_in_seq",
+            "need_prediction",
+            *PRICE_COLUMNS,
+            *LABEL_COLUMNS,
+            "is_scored(valid only)",
+        ],
+        "scope_note": "Full train+valid census for four selected price-code columns plus targets/masks/sequence metadata. This is not an all-112-feature census and does not establish which input caused target changes.",
+        "definition_note": "A raw exception is a need-eligible exact raw target-pair change on a row without simultaneous changes in i0_p0 and i0_p11. A clipped exception is the analogous change after clipping each target to [-2,2]. Row 0 has no previous transition and is never an event.",
+        "retrospective_class_note": "Cached market class is an exploratory, retrospective label stratum only. Missing class remains -1; no class is an input or predictor.",
+        "clock_reconstruction_warning": "i0_AND and i0_OR target reconstructions read the actual clipped target whenever an input clock fires. They are label-oracle diagnostics, not legal predictors, training targets, predictions or score estimates.",
+        "historical_quanta_note": "Candidate quanta copied from archived H-002: 0.12543, 0.24133, 0.46854, 0.65687, mapped to retrospective classes 0..3. These rounded values are hypotheses, not proven physical ticks. Tolerance results are descriptive.",
+        "r1_reconciliation": {
+            "r1_output_sha256": "f9e3bb41612e22911a53528f6863b5bdd2afef0e7152c6580699811144ff9588",
+            "r1_script_sha256": "4fcef0f4f87cf296c5b507211691e3fe6c9f29741998fdfd37924793cb0fcbc5",
+            "r1_recorded_data_content_sha256": None,
+            "identity_limitation": "R1 recorded input paths, byte counts and row-group counts but no input-data content SHA or file mtime. This run checks same host path, byte count, row-group count, schema, sequence IDs and mask invariants, and computes new full-file data SHA-256 values; equality to an unavailable R1 data digest cannot be asserted.",
+            "r1_counts_to_reproduce": {
+                "train_raw_outside_and_need": 941,
+                "valid_raw_outside_and_need": 312,
+                "valid_scored_raw_outside_and": 92,
+            },
+        },
+        "source_identity": {
+            "data_files": input_identities,
+            "retrospective_class_cache": cache_identities,
+            "r1_path_size_group_preflight": preflight_result,
+        },
+        "mask_scope_availability": {
+            "train": "need_prediction is available for descriptive eligible counts; no training scoring mask exists, so scored counts are not applicable (stored as zero placeholders)",
+            "valid": "official scored mask is need_prediction AND is_scored",
+        },
+        "split_aggregate": {s: score_bucket(split_buckets[s]) for s in ("train", "valid")},
+        "class_aggregate": {
+            s: {str(cls): score_bucket(bucket) for cls, bucket in sorted(class_buckets[s].items())}
+            for s in ("train", "valid")
+        },
+        "sequence_concentration": {s: concentration(s) for s in ("train", "valid")},
+        "sequence_exception_rows": [
+            x for x in sequence_summaries if x["raw_outside_i0_and_exceptions"] > 0
+        ],
+        "all_sequence_summaries": sequence_summaries,
+        "exception_record_count": observed,
+        "reconciled_split_exception_counts": exact_split_exception_counts,
+        "elapsed_scan_seconds": scan_elapsed,
+        "elapsed_total_seconds": time.time() - start,
+        "maxrss_linux_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+        "current_rss_at_end_bytes": linux_rss_bytes(),
+        "rss_limit_gib": args.rss_limit_gib,
+        "thread_limits": {
+            "pyarrow_cpu": 1,
+            "pyarrow_io": 1,
+            "environment_expected": "OMP/BLAS/MKL/NumExpr each 1",
+        },
+    }
+    manifest_base = {
+        "schema": "wnn.exception-audit-r2-manifest.v1",
+        "host": os.uname().nodename,
+        "home": str(Path.home()),
+        "data_dir": str(args.data),
+        "cache_dir": str(args.cache),
+        "output_dir": str(args.output_dir),
+        "run_unix_time": time.time(),
+        "python": sys.version,
+        "training_steps": 0,
+        "optimizer_steps": 0,
+        "inference_calls": 0,
+        "full_data_content_hashes_computed": True,
+        "maxrss_linux_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+        "current_rss_at_end_bytes": linux_rss_bytes(),
+        "expected_exception_count_reproduced": observed == expected_exception_count,
+        "split_aggregate_checkpoints": split_checkpoint_receipts,
+    }
+    manifest = write_artifacts(args.output_dir, results, exception_records, manifest_base)
+    print(
+        json.dumps(
+            {
+                "done": True,
+                "exceptions": observed,
+                "train": exact_split_exception_counts["train"],
+                "valid": exact_split_exception_counts["valid"],
+                "maxrss_linux_kib": manifest["maxrss_linux_kib"],
+                "elapsed_seconds": results["elapsed_total_seconds"],
+                "results_sha256": manifest["results_sha256"],
+            },
+            indent=2,
+        ),
+        flush=True,
+    )
+
+
+if __name__ == "__main__":
+    main()

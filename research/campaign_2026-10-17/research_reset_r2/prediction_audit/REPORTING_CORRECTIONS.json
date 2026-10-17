@@ -1,0 +1,48 @@
+{
+  "schema": "wunder.prediction-audit.reporting-corrections.v1",
+  "raw_results": {
+    "path": "RESULTS.json",
+    "sha256": "8fc8ff7b9d24559eeee2ff4bb4ee8e37ddac4a7d8a11f6b4a252018f7c70bf8b",
+    "preserved_unchanged": true
+  },
+  "corrected_view": {
+    "path": "RESULTS_CORRECTED_VIEW.json",
+    "sha256": "1e1a1b376aefeb525588f52b1c31cff5b8d331a207f0a61408fa54479dce75d9",
+    "source_results_sha256": "8fc8ff7b9d24559eeee2ff4bb4ee8e37ddac4a7d8a11f6b4a252018f7c70bf8b"
+  },
+  "corrections": [
+    {
+      "field": "paired_chain_bootstrap.*.mean_delta",
+      "raw_meaning": "mean of the 512 paired bootstrap deltas; this is not the observed fixed-panel scenario-minus-baseline point estimate",
+      "clarified_fields": [
+        "bootstrap_mean_delta",
+        "observed_delta"
+      ],
+      "clarified_artifacts": [
+        "RESULTS_CORRECTED_VIEW.json",
+        "BOOTSTRAP_SUMMARY.json"
+      ]
+    },
+    {
+      "field": "models[*].scenarios[*].exposure.selected_rows",
+      "raw_meaning": "for transformed scenarios, count of rows whose emitted output changed AND was selected; baseline count is zero",
+      "clarified_fields": [
+        "changed_selected_rows",
+        "changed_rows_all",
+        "total_rows"
+      ],
+      "clarified_artifact": "RESULTS_CORRECTED_VIEW.json"
+    },
+    {
+      "field": "oracle_variance_checks[*].partition_relative_error",
+      "raw_meaning": "reported partition used between_variance = total_variance - within_variance, making its partition closure check tautological",
+      "clarified_validation": "ORACLE_DECOMPOSITION_CHECKS.json recomputes between-run variance from directly scored oracle predictions and validates variance/covariance/WP identities"
+    }
+  ],
+  "unchanged": [
+    "canonical point scores",
+    "prediction arrays and masks",
+    "sufficient statistics",
+    "bootstrap resamples and percentile interval endpoints"
+  ]
+}

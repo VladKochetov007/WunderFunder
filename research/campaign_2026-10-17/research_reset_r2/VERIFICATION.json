@@ -1,0 +1,234 @@
+{
+  "schema": "wunder.research-reset-r2.integration-verification.v1",
+  "verified_utc": "2026-10-17T20:52:01.236516+00:00",
+  "original_research_base": "33c39ab8ed8bf025d14331af9328ed00383f4198",
+  "integration_base": "0f4796609781da2b0886e2c5f9c52139987ba120",
+  "authority": {
+    "R2_optimizer_steps": 0,
+    "R2_model_fits": 0,
+    "R2_model_inference_calls": 0,
+    "GPU_jobs": 0,
+    "paid_resources": 0,
+    "production_training_or_serving_code_changed": false,
+    "separate_upstream_geometry_fits": "Preserved in parent history under independent authority; not R2 execution."
+  },
+  "checks": [
+    {
+      "argv": [
+        "uv",
+        "run",
+        "--no-sync",
+        "ruff",
+        "check",
+        "research/campaign_2026-10-17/research_reset_r2"
+      ],
+      "exit_code": 0,
+      "output": "All checks passed!\n"
+    },
+    {
+      "argv": [
+        "uv",
+        "run",
+        "--no-sync",
+        "ruff",
+        "format",
+        "--check",
+        "research/campaign_2026-10-17/research_reset_r2"
+      ],
+      "exit_code": 0,
+      "output": "32 files already formatted\n"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output": ""
+    }
+  ],
+  "numerical_tests": {
+    "argv": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "-q",
+      "research/campaign_2026-10-17/research_reset_r2/prediction_audit/test_prediction_audit_core.py",
+      "research/campaign_2026-10-17/research_reset_r2/theory/test_sequence_decomposition.py"
+    ],
+    "env": {
+      "PYTHONPATH": "src:research/campaign_2026-10-17/research_reset_r2/prediction_audit",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    },
+    "result": "8 passed in0.76s",
+    "optimizer_steps": 0,
+    "scope": "7 fixed-transform tests and1 decomposition test over100 randomized masked fixtures; no training suite invoked"
+  },
+  "source_maintenance": "Original exception scan source frozen byte-for-byte; lint and strict cache-length guard corrections tested synthetically only. See exception_audit/README.md and its source-maintenance receipt. The frozen source, rather than the updated script, is the source bound by the full-scan manifest. Local integration subsequently added split/frozen-source navigation and refreshed the local checksum list; it did not change source or numerical outputs.",
+  "earlier_checks": {
+    "initial_exception_lint": "3 style/explicit zip issues, resolved in active source; original retained",
+    "initial_ad_hoc_decomposition_fixture": "Used private centered-moment helper with float32, then replaced with canonical public scorer fixture; no production scorer bug or change",
+    "failed_first_reports": "Both exception/prediction passes failed final report assembly; logs preserved and full successful retries recorded. Not training bugs.",
+    "initial_staged_diff": "Matplotlib SVG trailing whitespace and a source-note final blank line detected; whitespace normalized, renderer updated to normalize future SVG output."
+  },
+  "artifact_manifest_hash_checks": {
+    "prediction_artifacts": 28,
+    "exception_checksum_entries": 19,
+    "all_pass": true
+  },
+  "structural_checks": {
+    "python_AST_files": 13,
+    "json_files": 20,
+    "local_markdown_links": 151,
+    "missing_local_links": [],
+    "external_links_not_fetched_in_this_check": 20
+  },
+  "numerical_parity": {
+    "target_scores": 84,
+    "max_absolute_reconstruction_difference": 5.551115123125783e-16,
+    "canonical_scorer_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "vendored_scorer_byte_identical": true
+  },
+  "plot_QA": {
+    "renderer": "theory/plot_output_audit.py",
+    "PNG_and_SVG_generated": true,
+    "PNG_visually_inspected": true,
+    "observed_point_deltas_not_bootstrap_mean": true,
+    "oracle_separate_axis": true,
+    "SVG_whitespace_normalized_after_render": true
+  },
+  "derived_followup": {
+    "uniform_mean_within_run_fluctuation_variance_over_mean_individual_variance": [
+      0.9744925939868059,
+      0.9749324358379686
+    ],
+    "meaning": "Algebra of stored cross-model run-fluctuation covariance sums; no ensemble prediction formed or graded."
+  },
+  "limits": [
+    "Existing panels exposed; fixed-array conditional resampling is not training-seed/public-transfer uncertainty.",
+    "Historical prediction producer/checkpoint/row-order bindings remain unverified despite exact target-cache alignment.",
+    "Exception census covers selected columns, not all112 features.",
+    "Output transforms do not intervene on hidden state.",
+    "Label-run oracle and market class are retrospective diagnostics, never serving features.",
+    "No new model gain or top1 forecast established."
+  ],
+  "artifacts": [
+    {
+      "path": "CONTRACT.json",
+      "bytes": 4255,
+      "sha256": "ef22593c9f598aff17293e7d6be4d547238079042f4c96529eb25179f6a517ec"
+    },
+    {
+      "path": "REPORT_RU.md",
+      "bytes": 27190,
+      "sha256": "e7b899c1938591fb6d0a16f4f23e05d59aa950c7f1606ff3d47f99058271a7c2"
+    },
+    {
+      "path": "prediction_audit/RESULTS.json",
+      "bytes": 492450,
+      "sha256": "8fc8ff7b9d24559eeee2ff4bb4ee8e37ddac4a7d8a11f6b4a252018f7c70bf8b"
+    },
+    {
+      "path": "prediction_audit/SEQUENCE_SUMS.npz",
+      "bytes": 1762975,
+      "sha256": "febb297f3c3edb873f8b5b4f82582249031332246599bd75fbeb952de9c56cde"
+    },
+    {
+      "path": "prediction_audit/ALIGNMENT.json",
+      "bytes": 6997,
+      "sha256": "08a8039a3ae7a0b583dcc3165550c1c67b7d0ac49cc1725a4c686a911a83b5c0"
+    },
+    {
+      "path": "prediction_audit/INVENTORY.json",
+      "bytes": 73253,
+      "sha256": "affafad6e2ccf668658cd6dc92c273391903d1a864c7dba742e419f20363d306"
+    },
+    {
+      "path": "prediction_audit/FOLLOWUP_DIAGNOSTICS.json",
+      "bytes": 116161,
+      "sha256": "7b8f4b9baf343dbe5f17e5d53ae23cad1137838aba5930ee12a833041ab38291"
+    },
+    {
+      "path": "prediction_audit/AGE_CLASS_VARIANCE_CLARIFICATION.json",
+      "bytes": 1753,
+      "sha256": "9da4ec2d30e3e0f1965c7598446b020a069ad1fc1708f98af0732238b50b093f"
+    },
+    {
+      "path": "prediction_audit/ORACLE_DECOMPOSITION_CHECKS.json",
+      "bytes": 5856,
+      "sha256": "2ca3fdc05368deb091259b195f47ddc080d0a56111300ab151ff989e80c65ed5"
+    },
+    {
+      "path": "prediction_audit/ARTIFACT_MANIFEST.json",
+      "bytes": 18786,
+      "sha256": "3ad8e6b983fbec07cfe9d808f31c116bb36d65dec056b338c4b77006ce5312f4"
+    },
+    {
+      "path": "exception_audit/results.json",
+      "bytes": 8911017,
+      "sha256": "1e70196774a6386cf14468eb142ac6fb33c6fa2ff9d1572a87d813e6bf7ba8d7"
+    },
+    {
+      "path": "exception_audit/manifest.json",
+      "bytes": 1524,
+      "sha256": "26bf5ff2b17bf17fdba83fad43585317ae1b03764257b090552543a2256ed123"
+    },
+    {
+      "path": "exception_audit/SHA256SUMS.txt",
+      "bytes": 1717,
+      "sha256": "677fc9452d14ced641467b78c33053381a2802dc4063fe6cbf3a3578f45deb67"
+    },
+    {
+      "path": "theory/SEQUENCE_DECOMPOSITION.json",
+      "bytes": 70421,
+      "sha256": "9c5e2fd70ed8ad66a403d65ed7e4a3e335dab6ff0394e9cad7aefa591a9b8133"
+    },
+    {
+      "path": "theory/derive_sequence_decomposition.py",
+      "bytes": 5233,
+      "sha256": "86097d32aa78c65e76c8e1c153cd3611b5051fcdaab96a3e893f714a94eee054"
+    },
+    {
+      "path": "theory/test_sequence_decomposition.py",
+      "bytes": 1339,
+      "sha256": "d8802111831a4633b154b3de1c7c5a182e9120a376b1a498c5fa7af647a1467e"
+    },
+    {
+      "path": "theory/plot_output_audit.py",
+      "bytes": 5223,
+      "sha256": "9f10963616cd0529dfdd79e069b459027469c77f091d8a420fa4fce36d49a061"
+    },
+    {
+      "path": "plots/output_policies.png",
+      "bytes": 140741,
+      "sha256": "4babc64382d30b72b836465be58c702c4119553549e88e94c9204dc8471869f7"
+    },
+    {
+      "path": "plots/output_policies.svg",
+      "bytes": 116735,
+      "sha256": "f06e38dfa85112f925d84b8ec2e03cb464e3f05d2cf705ce63997733867dea5a"
+    },
+    {
+      "path": "reflection/ROUND3_EDA_DECISIONS.md",
+      "bytes": 33649,
+      "sha256": "52e3b0e823451d78e349c9f31b2b3fb8778f59c90141fd6a51ee90c1cb190776"
+    },
+    {
+      "path": "exception_audit/split_aggregates/README.md",
+      "bytes": 572,
+      "sha256": "fee5082d191288ec6abafc651a298b33e5df752d8cbb20a3c4b7856ae6ed67d2"
+    },
+    {
+      "path": "exception_audit/SOURCE_MAINTENANCE.json",
+      "bytes": 2110,
+      "sha256": "26da6513b39200a7d58bdb209e17a9123f836e723754da0c98d755881c5a2985"
+    }
+  ]
+}

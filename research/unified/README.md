@@ -1,10 +1,15 @@
 # Unified research library
 
-Start with [current state](../../specs/current-state.md). Model fitting is paused;
-the October 17 research reset authorizes analysis, EDA and engineering.
+Start with [current state](../../specs/current-state.md). The October 17 research
+reset authorizes analysis, EDA and engineering; the separately admitted geometry
+pilot has its own bounded fitting authority.
 This index distinguishes measured results, implementation drafts and historical plans.
 
-Latest: [No-fit research reset and 25-idea portfolio](../campaign_2026-10-17/research_reset_r1/README.md)
+Latest research-reset follow-up: [R2 measured exception impact and prediction dynamics](../campaign_2026-10-17/research_reset_r2/README.md)
+— full census, fixed-output interventions, mathematical decomposition and25
+revised decisions. No training or new inference in this packet.
+
+Earlier: [No-fit research reset and 25-idea portfolio](../campaign_2026-10-17/research_reset_r1/README.md)
 — deployed prediction/cache fixes, a 249.6M-row narrow census, sampled full-feature
 and event-lag EDA, primary literature, and independent criticism. No new fits.
 

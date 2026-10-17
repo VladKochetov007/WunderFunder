@@ -4,10 +4,12 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
+- [R2 revised decisions for all25 cards](../../campaign_2026-10-17/research_reset_r2/reflection/ROUND3_EDA_DECISIONS.md) — H-RR17-01–25 retain their identities; three reflection rounds compare mechanism claims with actual Belief/DualClock/bootstrap/auxiliary code and new frozen-output EDA. Rare-exception repair and generic smoothing lose priority; distinct capacity/KD questions remain, event-state proposals need nonduplicated operators. Includes the separately authorized geometry pilot as scoped neighboring evidence, not an R2 fit or full-scale promotion.
+
 - [RR17 published proposal branches](../../campaign_2026-10-17/research_reset_r1/publication/README.md) —25isolated proposal commits from research-team, remote SHA verification and ready PR bodies. No new PR exists without API authentication; no fit is admitted.
 
 - [Research reset: 25 ideas](../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md) — ranked proposal portfolio with existing-work overlap, counterevidence, no-fit gates and future controls; no training admitted.
-- [Current state](../../../specs/current-state.md) — analysis/EDA is active; model fitting remains paused.
+- [Current state](../../../specs/current-state.md) — packet-specific authority, including the separately resumed geometry investigation.
 - [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — established results and corrections to stale pending statuses.
 - [Experiment draft workflow](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) — implementation handoffs are distinct from measured research outcomes.
 

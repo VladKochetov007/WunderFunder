@@ -1,0 +1,92 @@
+{
+  "schema": "wnn.no-fit-research-followup.v1",
+  "date": "2026-10-17",
+  "base_commit": "33c39ab8ed8bf025d14331af9328ed00383f4198",
+  "user_steering": "Rare exceptions may be outliers; do substantially deeper EDA and reflection rather than overinterpreting a universal-rule counterexample.",
+  "training_authorized": false,
+  "optimizer_steps_authorized": false,
+  "allowed": [
+    "streaming supplied-data EDA",
+    "evaluation of existing frozen prediction arrays",
+    "predeclared deterministic causal output transforms without coefficient fitting",
+    "explicitly nondeployable retrospective oracle diagnostics",
+    "algebra and primary literature",
+    "independent criticism and revised priorities"
+  ],
+  "forbidden": [
+    "competition model fits",
+    "calibrator or probe fitting",
+    "test-time adaptation",
+    "synthetic optimizer demos",
+    "coefficient search or promoted tuned filters",
+    "GPU jobs",
+    "paid resources",
+    "competition submissions",
+    "external market data",
+    "future data or labels in any deployable predictor"
+  ],
+  "retrospective_scope": "Targets, later input-event distances and label-defined partitions may be used only to describe fixed data or compute explicitly noncausal oracle diagnostics. Such diagnostics are not deployable predictors, improvements, or Bayes ceilings.",
+  "budget": {
+    "aggregate_cpu_cores": 2,
+    "max_active_subagents": 3,
+    "worker_rss_gib": 2,
+    "heavy_workers": [
+      "exception census: 1 thread",
+      "existing prediction audit: 1 thread"
+    ],
+    "training_trials": 0,
+    "new_spend": 0
+  },
+  "predeclared_questions": [
+    "How rare are exceptions under relevant denominators and clipped target weights?",
+    "Does a missed change produce persistent clock-reconstruction distortion?",
+    "Does holding emitted outputs help or harm existing models while leaving their hidden-state computation intact?",
+    "How much weighted prediction variance lies within constant-clipped-label runs?",
+    "Which model mechanisms are actually distinguished by these observations?"
+  ],
+  "scientific_limits": [
+    "all local panels remain exposed",
+    "no model-quality claim from counts alone",
+    "sequence/bootstrap uncertainty is conditional on fixed predictions, not fit variability",
+    "no public-score projection",
+    "correlated seeds and related teacher/student models are not independent mechanisms"
+  ],
+  "comparison_matrix": {
+    "candidate_cache_names": [
+      "pred_t384_s3_full_valid.npy",
+      "pred_t384_s4_full_valid.npy",
+      "pred_dftt_tlead_s3_valid.npy"
+    ],
+    "selection": "documented lineage before scores; full finite-RG coverage and shared intersection established before grading",
+    "policies": [
+      "baseline",
+      "hold_i0_and",
+      "hold_i0_or",
+      "cadence2",
+      "cadence4",
+      "cadence8",
+      "blend_half_and",
+      "ema_raw_tau4",
+      "ema_raw_tau16",
+      "ema_raw_tau64",
+      "ema_clipped_tau4",
+      "ema_clipped_tau16",
+      "ema_clipped_tau64",
+      "oracle_clipped_label_run (noncausal diagnostic)"
+    ],
+    "policy_detail": "Both raw-then-clip and clipped-input EMA orders fixed before scoring in the prediction inventory; alpha=1/tau."
+  },
+  "owners": {
+    "exception_audit": "microstructure_scout",
+    "prediction_audit": "repair_prediction_bugs",
+    "independent_reflection": "mechanism_reframe_r2",
+    "integration_and_mathematical_review": "root"
+  },
+  "publication": "Keep R1 sources and results frozen; append new records and publish a coherent R2 research snapshot without new fits. Existing proposal branches retain their R1 base.",
+  "objective_mode": "competition: identify the next informative mechanism test; no candidate promotion",
+  "verification_tier": "deterministic descriptive EDA and exact fixed-array intervention; exposed empirical surface, no generalization confirmation",
+  "additional_diagnostics_before_grades": [
+    "Within/between-sequence covariance and variance decomposition from saved six raw moments, independently checked against centered canonical scores.",
+    "Optional cross-model weighted prediction, clipped residual and within-label-run fluctuation correlations; no fitted correction or ensemble coefficient selection."
+  ]
+}

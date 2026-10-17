@@ -1,0 +1,19 @@
+graded 64/467 shared row groups
+graded 128/467 shared row groups
+graded 192/467 shared row groups
+graded 256/467 shared row groups
+graded 320/467 shared row groups
+graded 384/467 shared row groups
+graded 448/467 shared row groups
+graded 467/467 shared row groups
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/wunder_research_reset_20261017_r2/prediction_audit/run_prediction_audit.py", line 851, in <module>
+    main()
+    ~~~~^^
+  File "/home/grinchenkoeg/wunder_research_reset_20261017_r2/prediction_audit/run_prediction_audit.py", line 847, in main
+    grade(args)
+    ~~~~~^^^^^^
+  File "/home/grinchenkoeg/wunder_research_reset_20261017_r2/prediction_audit/run_prediction_audit.py", line 769, in grade
+    np.clip(target[selected_mask], -2.0, 2.0).astype(np.float64)
+            ~~~~~~^^^^^^^^^^^^^^^
+IndexError: boolean index did not match indexed array along axis 0; size of axis is 1873 but size of corresponding boolean axis is 467

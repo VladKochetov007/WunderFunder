@@ -4,6 +4,8 @@ Reusable metric, causal data handling, statistical and implementation contracts.
 
 ## Current navigation
 
+- [R2 metric decompositions and clocks](../../campaign_2026-10-17/research_reset_r2/theory/README.md) — exact label-run variance/covariance identity, existing WMSE fluctuation penalty and within/between-sequence pooled-score decomposition. All84 target-scores reconstruct within5.56e-16; pure numerical fixtures exercise the canonical scorer. Observation/state/output/label/gradient clocks are distinguished; oracle gain is not a causal gain or Bayes ceiling. E-RR17-R2-DECOMPOSITION/OUTPUTS.
+
 - [No-fit research contract and future CP30 design](../../campaign_2026-10-17/research_reset_r1/README.md) — bounded EDA/frozen inference now, exact30paired cells per arm only after future fit authority, strictFP32, clean ancestry and fixed-fold shared-seed uncertainty. Also links the weighted-target derivation and explicit limitations.
 
 - [Validation protocol map](../validation/VALIDATION_PROTOCOLS.md) — pooled official scoring, exact panel counts and interpretation limits.

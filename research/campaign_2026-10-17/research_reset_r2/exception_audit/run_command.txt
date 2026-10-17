@@ -1,0 +1,6 @@
+Host: beleriand
+Working output directory: ~/wunder_research_reset_20261017_r2/exception_audit
+Command:
+cd ~/wunder_research_reset_20261017_r2/exception_audit && test ! -e results.json && test ! -e manifest.json && test ! -e exception_records.jsonl && test ! -e split_aggregates/train.json && OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_MAX_THREADS=1 ~/WunderFunder/.venv/bin/python exception_audit.py --data ~/WunderFunder/datasets --cache ~/WunderFunder-creative/cache --output-dir ~/wunder_research_reset_20261017_r2/exception_audit --rss-limit-gib 1.85 2>&1 | tee run_attempt2.log
+
+The Python script sets PyArrow CPU and IO thread counts to 1. It verifies source identity/invariants, streams one sequence row group at a time, writes train and valid split checkpoints, then emits results.json, exception_records.jsonl and manifest.json. No training, fitting or inference is invoked.

@@ -4,6 +4,8 @@ Metric, data membership, exposure, uncertainty and transfer to the public leader
 
 ## Current navigation
 
+- [R2 exception impact, output policies and residual dynamics](../../campaign_2026-10-17/research_reset_r2/README.md) — E-RR17-R2-EXCEPTIONS/OUTPUTS/DECOMPOSITION/RESIDUALS: full selected-column 249.6M-row census makes the rare exceptions practically tiny (0.003172% of scored valid target weight; reconstruction mismatches 0.001953%). Three frozen arrays on467 exposed sequences show all36 causal output-transform deltas negative, despite +0.029–0.030 noncausal oracle deltas. Exact sequence covariance decomposition and correlated within-run fluctuations (~0.96) change interpretation; no fit, new inference or public forecast. See the [figure and renderer](../../campaign_2026-10-17/research_reset_r2/plots/README.md), [alignment/corrections](../../campaign_2026-10-17/research_reset_r2/prediction_audit/README.md), and explicit producer-lineage limits.
+
 - [October17 measured EDA and clock correction](../../campaign_2026-10-17/research_reset_r1/eda/README.md) — E-RR17-EVENT-CENSUS refutes universal H-001 with1,253exceptions; four-column census covers249.6Mrows, separate full-feature sample5.12Mrows and lag-control sample1.28Mrows. Retrospective strata and magnitude weight are not serving gates or additive score contributions.
 
 - [Validation protocols](VALIDATION_PROTOCOLS.md) — official metric and a side-by-side map of creative/Main panels; highlights fitted diagnostics, exposed folds and invalid historical comparisons.

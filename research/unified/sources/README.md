@@ -4,6 +4,8 @@ External writeups and literature provenance; external results do not establish l
 
 ## Current navigation
 
+- [R2 mechanism sources](../../campaign_2026-10-17/research_reset_r2/reflection/SOURCE_MANIFEST.md) and [state-clock/query transfer](../../campaign_2026-10-17/research_reset_r2/theory/STATE_CLOCKS_AND_PREDICTIVE_QUERIES.md) — scoped primary-source checks covering semi-Markov/sticky-state/point-process/Rao–Blackwell/compressed-memory mechanisms, Phased LSTM, Skip RNN, hierarchical recurrence, predictive states and Chronos-2. Abstract/formulation inspection and local transfer inferences are separated; no pretrained weights or published gains are imported. Old-code overlap is linked before retaining a proposal.
+
 - [October17 no-fit source register](../../campaign_2026-10-17/research_reset_r1/sources/README.md) — 32 primary works, independent R1 searches and live official-rule checks; inspection depth and transfer limits are explicit, no imported external market data or measured model gain.
 
 - [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — existing project evidence, separate from outside proposals.

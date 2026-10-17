@@ -1,8 +1,11 @@
 # October 17 research
 
+- [Research reset R2: practical exceptions and prediction dynamics](research_reset_r2/README.md) — full selected-column census,14 fixed output policies on three frozen arrays, exact metric decompositions, cross-model diagnostics and25 revised ideas after old-code criticism. Zero optimizer steps and zero new inference, including tests.
+
 - [Research reset, no fitting](research_reset_r1/README.md) — user-requested bug
   repair, literature search, actual EDA and 25 reviewed proposals. Existing
-  checkpoint inference is diagnostic; no optimizer update or new model fit.
+  checkpoint inference is diagnostic; no competition-data model fit. R1 software
+  tests included tiny synthetic optimizer fixtures, as disclosed in its receipt.
 
 The earlier October 17 maintenance and experiment-draft inventory are indexed in
 the [unified library](../unified/README.md). This campaign does not replace their

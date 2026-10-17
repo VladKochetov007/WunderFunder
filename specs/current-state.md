@@ -34,13 +34,28 @@ does not replace local validation.
 
 ## Latest measured local evidence
 
+The [R2 research-reset packet](../research/campaign_2026-10-17/research_reset_r2/README.md)
+quantifies the rare clock exceptions:0.003172% of scored valid target weight,
+and0.001953% for retrospective label-reconstruction mismatch rows. It therefore
+reduces their research priority without restoring the universal H-001 claim.
+On467 exposed sequences, all36 causal fixed-output transforms across three saved
+arrays are negative (AND-hold loses0.118–0.126WP); noncausal label-run oracle gains
+~0.03 cannot be treated as recoverable causal gain. Within-run fluctuations
+correlate~0.96 across arrays. Complete target/mask alignment passes, but historical
+prediction-producer binding remains unverified. All25 proposal dispositions
+were revised against old code and current evidence. This packet has zero fits,
+optimizer steps or new inference; it is distinct from the geometry fits above.
+
 The October17 [no-fit packet](../research/campaign_2026-10-17/research_reset_r1/README.md)
 adds deployed legacy fixes and a four-group frozen-checkpoint replay (WP0.06289742
 with wrong preprocessing,0.72994782restored; bitwise manual/config parity). This
 is bug isolation, not a new model ranking. Its full four-column census refutes
 H-001 with1,253need-eligible exceptions. The shared evidence and25proposal branches
-are published on research-team; [publication status](../research/campaign_2026-10-17/research_reset_r1/publication/README.md)
-records that new PRs/main promotion await API authentication.
+were published on research-team; the [dated publication receipt](../research/campaign_2026-10-17/research_reset_r1/publication/README.md)
+records that session's missing API authentication. A later upstream integration
+put that R1 history into both main and research-team at0f479660; the R2
+[publication record](../research/campaign_2026-10-17/research_reset_r2/PUBLICATION.md)
+distinguishes the subsequently published follow-up from main promotion.
 
 The last completed comparison in the current pause record is the exposed-F0
 G-versus-C grade: G scored 0.68125607, a delta of **+0.00002956** over C, with

@@ -1,0 +1,24 @@
+{
+  "schema": "wunder.prediction-audit.age-class-variance-clarification.v1",
+  "source_artifact": {
+    "path": "FOLLOWUP_DIAGNOSTICS.json",
+    "sha256": "7b8f4b9baf343dbe5f17e5d53ae23cad1137838aba5930ee12a833041ab38291",
+    "raw_artifact_preserved": true
+  },
+  "affected_field": "age_by_market_class_weighted_mse.records[*].weighted_target_variance_sum",
+  "observed_computation": {
+    "unit": "single validation row group, corresponding to one sequence",
+    "operation": "for each sequence and age-by-market_class-by-target cell, calculate the weighted centered target variance over selected rows, then sum these within-sequence centered variances across sequences",
+    "weight": "absolute clipped target",
+    "centering": "within sequence, not across all sequences pooled into the reported stratum"
+  },
+  "correct_interpretation": "sum of within-sequence weighted target variances for the cell; between-sequence variation in target means is omitted, so this is not the fully pooled target-variance sum for the entire age-by-market_class-by-target stratum",
+  "downstream_effect": {
+    "weighted_mse_changed": false,
+    "weighted_mse_formula": "sum of weighted squared prediction errors divided by sum of weights, both accumulated across all rows in the stratum",
+    "cross_model_correlations_changed": false,
+    "canonical_global_wp_scores_changed": false
+  },
+  "required_use": "Treat this field only as a within-sequence variance diagnostic. Do not use it as the denominator of a pooled stratum WP or as the total target variance when decomposing between/within-sequence variation.",
+  "scope_and_action": "Append-only clarification; no source script, raw follow-up JSON, prediction array, grade, or score was changed or recomputed."
+}

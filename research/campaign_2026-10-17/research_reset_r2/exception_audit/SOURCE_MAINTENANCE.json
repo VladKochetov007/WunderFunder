@@ -1,0 +1,38 @@
+{
+  "schema": "wnn.exception-audit-r2-source-maintenance.v1",
+  "purpose": "Preserve provenance of the already completed full scan while making the active source pass repository lint and make cache-array zip strictness explicit.",
+  "full_census": {
+    "rerun": false,
+    "source_used_sha256": "23cdd33138e6ab9da6cafef6b538123e835d341a1068e8876a24ac390b0513bf",
+    "source_archive": "frozen_source/exception_audit.py.txt",
+    "manifest_sha256_unchanged": "26bf5ff2b17bf17fdba83fad43585317ae1b03764257b090552543a2256ed123",
+    "results_sha256_unchanged": "1e70196774a6386cf14468eb142ac6fb33c6fa2ff9d1572a87d813e6bf7ba8d7",
+    "manifest_script_sha256_still_binds_archived_source": true
+  },
+  "active_source": {
+    "path": "exception_audit.py",
+    "sha256": "86085251f09eb108e37abf8ef93c71f235a4cb63d385da98b6d45532596e76d1",
+    "changes": [
+      "Ruff import sorting and formatting.",
+      "Validate row_group and market_class array lengths before mapping.",
+      "Use zip(..., strict=True) after explicit lengths are checked, including the NumPy class/count arrays."
+    ],
+    "mathematical_scan_logic_changed": false,
+    "used_for_full_census": false
+  },
+  "validation": {
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "ast_comparison": "all top-level behavior outside load_class_map is AST-identical to the archived source; load_class_map differences are limited to the declared length guards and strict zips",
+    "synthetic_class_cache_valid_lengths": "passed; expected {9: 1, 12: 3} mapping and class counts reproduced",
+    "synthetic_class_cache_mismatched_lengths": "passed; explicit ValueError raised before zip",
+    "synthetic_final_artifact_writer": "passed; results.json, manifest.json and exception_records.jsonl emitted and their manifest hashes verified",
+    "final_writer_receipt": "preflight_source_maintenance_writer.json",
+    "training_steps": 0,
+    "optimizer_steps": 0,
+    "inference_calls": 0,
+    "full_scan_rerun": false
+  },
+  "original_run_checksum_inventory": "SHA256SUMS_RUN.txt",
+  "current_additive_checksum_inventory": "SHA256SUMS.txt"
+}

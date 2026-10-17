@@ -1,0 +1,31 @@
+{
+  "schema": "wunder.prediction-audit.grade-retry-source-patch.v1",
+  "initial_inventory_bound_runner_sha256": "2299204c80d9f832608fe960b232454b5ac7704e706e3e7c56298b61a0da76bb",
+  "retry_runner_sha256": "bb81801ada4d78fe00abe59673fa1e72b159597afcbc5de606d79a0ef1431225",
+  "changes_after_inventory": [
+    {
+      "change": "Index the common-slice target array with the matching common-slice mask when computing global target weight masses.",
+      "reason": "The first full scoring pass reached all 467 groups but final report assembly incorrectly indexed the full 1,873-group target array with a 467-group mask.",
+      "metric_math_changed": false
+    },
+    {
+      "change": "On retry, compare the saved SEQUENCE_SUMS.npz statistics and metadata exactly against the deterministic rerun rather than overwriting the first-pass artifact.",
+      "reason": "Preserve the completed first-pass sufficient statistics and require exact repeatability.",
+      "metric_math_changed": false
+    }
+  ],
+  "first_attempt": {
+    "log": "GRADE_initial_failure.log",
+    "log_sha256": "bfd96d40188490edfd01612e92aca74409570d712fc44c92f2e84ff257b7724a",
+    "status": "scoring and bootstrap completed for all groups; final JSON report failed at weight-mass array indexing; no RESULTS.json was emitted"
+  },
+  "retry": {
+    "log": "GRADE_retry.log",
+    "log_sha256": "5ffcee78b1bcbb3ef79ff4483f6e08e607054706dcd77176e09fd8349d87b150",
+    "result": "RESULTS.json",
+    "preserved_first_pass_sums_exactly_reproduced": true,
+    "metric_math_changed": false
+  },
+  "remote_output_dir": "/home/grinchenkoeg/wunder_research_reset_20261017_r2/prediction_audit",
+  "retry_command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WNN_THREADS=1 /home/grinchenkoeg/WunderFunder-creative/.venv/bin/python run_prediction_audit.py grade --cache /home/grinchenkoeg/WunderFunder/cache --data /home/grinchenkoeg/WunderFunder/datasets --source-root /home/grinchenkoeg/WunderFunder-creative --output-dir /home/grinchenkoeg/wunder_research_reset_20261017_r2/prediction_audit"
+}
