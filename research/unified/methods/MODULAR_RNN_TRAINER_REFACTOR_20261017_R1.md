@@ -53,3 +53,7 @@ Integrate the shared refactor into main and research-team and synchronize the op
 
 - [ADR0041](../../../specs/adr/0041-modular-training-code.md), [workflow](EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md), [published experiment catalogue](../../experiment_drafts/README.md).
 - [Complete component map and usage](../../../src/wnn/training/README.md), [Ruff/uv configuration](../../../pyproject.toml), [locked environment](../../../uv.lock).
+
+## Publication receipt
+
+Shared implementation commit `eb3309a322c1e24b3cc157eaefe3ca0e0290cd42` was pushed to main, research-team and all14 published experiment branches using ordinary merges and atomic pushes. Catalogue README conflicts were resolved by retaining both the shared integration section and each draft's own idea entry. GitHub verified all14 PRs remain drafts targeting research-team, with exact catalogue head matches and MERGEABLE status. The [catalogue](../../experiment_drafts/CATALOG_20261017_R1.json) retains original, pre-refactor and integrated heads. The first [research-team CI run](https://github.com/VladKochetov007/WunderFunder/actions/runs/39036319996) passed; it runs lint/format/structure checks only.

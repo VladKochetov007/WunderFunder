@@ -17,9 +17,5 @@ jobs:
           version: "0.12.11"
           python-version: "3.12"
           enable-cache: false
-      - name: Ruff lint
-        run: uv run --no-project --with ruff==0.16.7 ruff check src/wnn/training scripts/train_rnn.py scripts/e540_cli_preflight.py scripts/check_training_structure.py
-      - name: Ruff format
-        run: uv run --no-project --with ruff==0.16.7 ruff format --check src/wnn/training scripts/train_rnn.py scripts/e540_cli_preflight.py scripts/check_training_structure.py
-      - name: Module and function boundaries
-        run: uv run --no-project python scripts/check_training_structure.py
+      - name: Lightweight repository quality checks
+        run: make quality quality-tests
