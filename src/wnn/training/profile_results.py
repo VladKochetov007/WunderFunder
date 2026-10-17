@@ -3,12 +3,38 @@ from __future__ import annotations
 import json
 import resource
 from pathlib import Path
+from typing import Any
 
 import torch
 
 from wnn.training.profiling import profile_update_evidence
 from wnn.training.reporting import emit
 from wnn.training.state import TrainingRun
+
+
+def _cgroup_memory_evidence() -> dict[str, Any]:
+    """Read memory peak and OOM counters from the active cgroup v2 scope."""
+    try:
+        relative = next(
+            line.split("::", 1)[1]
+            for line in Path("/proc/self/cgroup").read_text().splitlines()
+            if line.startswith("0::")
+        )
+        directory = Path("/sys/fs/cgroup") / relative.lstrip("/")
+        result: dict[str, Any] = {"cgroup": relative}
+        for name in ("memory.current", "memory.peak", "memory.max", "memory.swap.max"):
+            path = directory / name
+            if path.is_file():
+                result[name.replace(".", "_")] = path.read_text().strip()
+        events = directory / "memory.events"
+        if events.is_file():
+            result["memory_events"] = {
+                key: int(value)
+                for key, value in (line.split() for line in events.read_text().splitlines())
+            }
+        return result
+    except (OSError, StopIteration, ValueError):
+        return {}
 
 
 def report_profile(run: TrainingRun) -> None:
@@ -26,6 +52,36 @@ def report_profile(run: TrainingRun) -> None:
     timer = run.progress.timer
     med = timer.report(args.profile_warmup, args.batch)
     emit("PROFILE", json.dumps({k: round(v, 2) for k, v in med.items()}), flush=True)
+    process_peak_rss = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024)
+    try:
+        process_current_rss = next(
+            int(line.split()[1]) * 1024
+            for line in Path("/proc/self/status").read_text().splitlines()
+            if line.startswith("VmRSS:")
+        )
+    except (OSError, StopIteration, ValueError):
+        process_current_rss = None
+    emit(
+        "PROFILE_RESOURCE_EVIDENCE",
+        json.dumps(
+            {
+                "cuda_peak_allocated_bytes": torch.cuda.max_memory_allocated(device)
+                if device.type == "cuda"
+                else None,
+                "cuda_peak_reserved_bytes": torch.cuda.max_memory_reserved(device)
+                if device.type == "cuda"
+                else None,
+                "precision": args.precision,
+                "matmul_tf32": torch.backends.cuda.matmul.allow_tf32,
+                "cudnn_tf32": torch.backends.cudnn.allow_tf32,
+                "float32_matmul_precision": torch.get_float32_matmul_precision(),
+                "process_peak_rss_bytes": process_peak_rss,
+                "process_current_rss_bytes": process_current_rss,
+                **_cgroup_memory_evidence(),
+            }
+        ),
+        flush=True,
+    )
     update_counts = epoch_counter.finish(cumulative_updates)
     loss_finite = bool(profile_losses and torch.isfinite(torch.stack(profile_losses)).all().item())
     epoch_updates = update_counts["epoch"]
@@ -48,18 +104,9 @@ def report_profile(run: TrainingRun) -> None:
             for key, value in dynamo_utils.counters.get("stats", {}).items()
             if key in {"unique_graphs", "calls_captured", "calls_recompiles"}
         }
-        process_peak_rss = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024)
         finite_parameters = bool(
             torch.stack([torch.isfinite(value).all() for value in model.parameters()]).all().item()
         )
-        try:
-            process_current_rss = next(
-                int(line.split()[1]) * 1024
-                for line in Path("/proc/self/status").read_text().splitlines()
-                if line.startswith("VmRSS:")
-            )
-        except (OSError, StopIteration, ValueError):
-            process_current_rss = None
         emit(
             "PROFILE_ACTIVATION_BACKEND_EVIDENCE",
             json.dumps(

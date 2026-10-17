@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import os
@@ -72,8 +73,12 @@ def record_model_identity(run: TrainingRun) -> None:
     train_ds = run.data.train_ds
     train_loader = run.data.train_loader
     update_rows = run.options.update_rows
+    # The pairing identity is the seeded initialization, not the weights at a
+    # later resume boundary.  Capture it before restoring the saved parameters.
+    initial_parameter_sha256 = parameter_sha256(model)
     if saved_training is not None:
         model.load_state_dict(saved_training["model"])
+    provenance["initial_parameter_sha256"] = initial_parameter_sha256
     if args.qat != "none":
         provenance["qat"] = {
             **policy_metadata(args.qat),
@@ -117,6 +122,7 @@ def record_model_identity(run: TrainingRun) -> None:
             json.dumps(
                 {
                     "initial_checkpoint_sha256": provenance.get("initial_checkpoint_sha256"),
+                    "initial_parameter_sha256": provenance["initial_parameter_sha256"],
                     "split_manifest_sha256": provenance.get("split_manifest_sha256"),
                     "fit_subset_manifest_sha256": provenance.get("fit_subset_manifest_sha256"),
                     "fit_subset_members_sha256": provenance.get("fit_subset_members_sha256"),
@@ -142,3 +148,14 @@ def record_model_identity(run: TrainingRun) -> None:
             model._qat_scale_params[position].requires_grad_(parameters[name].requires_grad)
     total = len(train_loader) * math.ceil(environment.sequence_length / update_rows) * args.epochs
     run.network.total = total
+
+
+def parameter_sha256(model: torch.nn.Module) -> str:
+    """Hash ordered model parameters before fitting to audit paired initialization."""
+    digest = hashlib.sha256()
+    for name, parameter in model.named_parameters():
+        value = parameter.detach().cpu().contiguous()
+        digest.update(name.encode("utf-8"))
+        digest.update(str(tuple(value.shape)).encode("ascii"))
+        digest.update(value.numpy().tobytes())
+    return digest.hexdigest()

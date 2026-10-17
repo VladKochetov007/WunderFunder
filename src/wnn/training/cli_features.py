@@ -93,13 +93,13 @@ def add_features_arguments(ap: argparse.ArgumentParser) -> None:
         "--research-features",
         choices=RESEARCH_FEATURE_MODES,
         default="none",
-        help="append causal volume, moment, or raw-field age features before TBPTT",
+        help="append causal volume, moment, geometry/discrete, or raw-field age features before TBPTT",
     )
     ap.add_argument(
         "--research-feature-control",
-        choices=("none", "newest"),
+        choices=("none", "newest", "all", "moments_only", "dictionary_only"),
         default="none",
-        help="newest zeros the newest moment-feature block while keeping input width fixed",
+        help="mask all, moment-only, or dictionary-only geometry blocks at fixed input width",
     )
     ap.add_argument(
         "--privileged-mode",

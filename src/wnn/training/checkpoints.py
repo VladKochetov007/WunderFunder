@@ -10,7 +10,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
-from wnn.research_features import MOMENT_FEATURE_MODES, validate_causal_moment_prior
+from wnn.research_features import PRIOR_FEATURE_MODES, validate_research_feature_prior
 from wnn.splits import file_sha256
 from wnn.training.averaging import FastEMA
 from wnn.training.cache_identity import prop_cache_path
@@ -88,11 +88,11 @@ def inference_checkpoint_fields(
         result = {"model": exported, **({"quantization": metadata} if metadata is not None else {})}
     if hasattr(model, "_sentinel_preprocessing"):
         result["sentinel_preprocessing"] = model._sentinel_preprocessing
-    if environment.inputs.research_features in MOMENT_FEATURE_MODES:
+    if environment.inputs.research_features in PRIOR_FEATURE_MODES:
         if environment.inputs.research_feature_prior is None:
-            raise ValueError("causal moment checkpoint is missing its fitting-only prior")
-        result["research_feature_prior"] = validate_causal_moment_prior(
-            environment.inputs.research_feature_prior
+            raise ValueError("research feature checkpoint is missing its fitting-only prior")
+        result["research_feature_prior"] = validate_research_feature_prior(
+            environment.inputs.research_features, environment.inputs.research_feature_prior
         )
     return result
 
@@ -167,6 +167,7 @@ def resume_contract(
     return {
         "epochs": args.epochs,
         "total_steps": total_steps,
+        "initial_parameter_sha256": provenance["initial_parameter_sha256"],
         "options": options,
         "sources": sources,
         "datasets": data,
@@ -206,5 +207,6 @@ def resume_contract(
             "cudnn_deterministic": torch.backends.cudnn.deterministic,
             "matmul_tf32": torch.backends.cuda.matmul.allow_tf32,
             "cudnn_tf32": torch.backends.cudnn.allow_tf32,
+            "float32_matmul_precision": torch.get_float32_matmul_precision(),
         },
     }

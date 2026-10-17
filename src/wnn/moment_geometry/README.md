@@ -18,3 +18,4 @@ The pilot does not replace the shared production trainer. It isolates a small re
 - [recipe.py](recipe.py) and [run_metadata.py](run_metadata.py): common pilot budgets/channel schema and reproducible per-endpoint metadata; avoid duplicating these in model variants.
 
 - [results.py](results.py): complete outcome/progress collection, fixed-half prediction mixtures and paired-seed/fold/training visualizations. Its output is analysis evidence, not an optimizer or leaderboard-selected blend.
+- [online.py](online.py): reset-local causal FP64 moment/count accumulators cast to a fixed 60-channel FP32 feature suffix, fitting-only arc/atom/dictionary priors, and exact indexed 20/40 block controls used by the [B300 experiment draft](../../../research/experiment_drafts/causal-geometry-discrete-b300/README.md). B300 profiles, the 120-fit matrix and native serving checks remain pending.
