@@ -7,7 +7,7 @@ The latest user explicitly resumes model training and requests the current25idea
 - [Decision-policy addendum](DECISION_ADDENDUM.json): useful quality/cost tradeoffs and uncertainty interpretation. These criteria were omitted before the fit and declared after its first updates, before any completed endpoint or score; the deviation is explicit and the active fit recipe is unchanged.
 - [Exact Beleriand commands](RANK01_COMMANDS.json) and [frozen F0 pair sequence](F0_PAIR_PLAN.json): profiles, staged six-epoch fits, FP32 exports and independent paired grade using the existing guarded sequence runner.
 - [Data binding tools](packetcode/README.md) restore the frozen Main folds and seal portable full-file hashes. [Endpoint grader](code/README.md) verifies producer, source labels and official masks before scoring any fold.
-- [DataSphere adapter](datasphere/README.md): bounded provider-specific input staging and profiles using the same frozen canonical trainer. Actual cloud profiles and paid admission remain pending.
+- [DataSphere adapter](datasphere/README.md): bounded provider-specific input staging and profiles using the same frozen canonical trainer. The [first A100 profile is admitted](receipts/DATASPHERE_PROFILE_V2_LAUNCH.json); runtime/results remain pending.
 - [Cluster issue handoff](cluster/README.md): user-authorized issue-based delegation of additional rank1 fold/seed pairs, with the active Beleriand pair excluded. The reviewable task is prepared; issue publication needs authenticated GitHub access, and no cluster job is claimed.
 - [Receipts](receipts/README.md): source/environment/data/resource/launch and terminal evidence as it lands.
 

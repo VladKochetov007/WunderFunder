@@ -1,0 +1,40 @@
+name: computer-vision-homework-rank01-profile
+desc: >-
+  Fit-only three-batch profiles for E-RR18-01-LABELS rank 1; no validation
+  scoring, checkpoint selection, or quality result. Spending is authorized by ADR0042;
+  root verifies current access and sealed input hashes before submission.
+cmd: >
+  python3 ${ENTRY} --spec ${SPEC} --code ${CODE}
+  --supplemental ${SUPPLEMENTAL} --out ${OUT}
+  --datasets ${DS1} ${DS2} ${DS3} ${DS4}
+env:
+  python:
+    type: manual
+    version: "3.12"
+    requirements-file: requirements.txt
+    local-paths:
+      - runtime_marker.py
+    pip:
+      extra-index-urls:
+        - https://download.pytorch.org/whl/cu130
+inputs:
+  - profile_entry.py: ENTRY
+  - profile_staging.py: STAGING
+  - profile_recipe.py: RECIPE
+  - source-a266b036.tar.gz: CODE
+  - supplemental-inputs.tar.gz: SUPPLEMENTAL
+  - profile-spec.json: SPEC
+outputs:
+  - profile-results.tar.gz: OUT
+datasets:
+  - bt1hgmjcuue6t8sam7s4: DS1
+  - bt1cqrmc1sg7egjd8e4l: DS2
+  - bt11g4q81k8jjr9sb9lj: DS3
+  - bt1pletrdim678shtnfa: DS4
+working-storage:
+  type: SSD
+  size: 100Gb
+cloud-instance-type: g2.1
+graceful-shutdown:
+  signal: SIGTERM
+  timeout: 60s

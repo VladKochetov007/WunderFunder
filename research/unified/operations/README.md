@@ -4,9 +4,11 @@ Execution status, storage locations, preservation receipts and operational incid
 
 ## Current navigation
 
+- [DataSphere first A100 profile launch](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_PROFILE_V2_LAUNCH.json) — actual provider job `bt13i2k83lo8n4m8kplk` under a durable Beleriand controller, with fresh balance/quota, one-hour engineering allocation and terminal artifact collection. The receipt preserves the initial SDK empty-local-paths failure, confirms no job was created by it, and binds the corrected inert-marker envelope. No cloud quality result follows; Beleriand retains one GPU worker.
+
 - [DataSphere discretionary allocation](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_AUTHORITY_UPDATE_20261018.json), formalized in [ADR0042](../../../specs/adr/0042-discretionary-datasphere-execution.md) — the latest user removes the numeric-budget wait for ranked25. Root can run useful experiments within existing balance and actual quota, retaining bounded attempts, durable cancellation, expense reconciliation and artifact collection. The existing heartbeat now follows this authority; no additional Beleriand GPU is authorized.
 
-- [DataSphere cancellation readiness](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_CANCELLATION_READINESS.json) — installed CLI0.10.0 supports forced cancellation, but its RPC return is not terminal confirmation. The required external deadline still needs a verified durable host with refreshable authentication and an armed timer. No paid job ran; the current campaign budget remains null.
+- [DataSphere cancellation readiness](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_CANCELLATION_READINESS.json) — installed CLI0.10.0 supports forced cancellation, but its RPC return is not terminal confirmation. The required external deadline still needs a verified durable host with refreshable authentication and an armed timer. This historical readiness snapshot is superseded by the discretionary authority and actual v2 launch above.
 
 - [Rank1 wide stage1 completion](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F0_S1001_STAGE1_VERIFICATION.json) — E-RR18-01-LABELS wide F0/seed1001 completed epochs0–1 with29,840 updates and exit0. Model/provenance/history/optimizer archives passed finite-state and source/contract/hash checks; this is a planned intermediate stage, not the epoch5 quality endpoint. The existing controller handed the sole GPU worker to deep H384×2, preserving the paired recipe.
 

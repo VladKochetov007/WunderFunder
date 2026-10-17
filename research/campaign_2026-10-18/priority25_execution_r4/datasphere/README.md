@@ -7,6 +7,17 @@ numeric-budget wait is superseded. This packet does not submit a job by itself.
 The controller's live host, credential, quota, dataset, and durable-cancellation
 preflight must pass before the paid `execute` call.
 
+The [v2 launch receipt](../receipts/DATASPHERE_PROFILE_V2_LAUNCH.json) records actual provider job
+`bt13i2k83lo8n4m8kplk`, submitted at23:58UTC on17October. The durable service is
+`computer-vision-homework-datasphere-r01-profile-v2.service` on Beleriand; its
+state and outputs live under the campaign `datasphere/r01-profile-v2/` directory.
+The original v1 attempt failed before provider creation: SDK0.10.0 turns a
+fully manual empty `local-paths` list into `None`. The preserved v1 config
+remains historical. Use [config.r2.template.yaml](config.r2.template.yaml) and
+the inert [runtime_marker.py](runtime_marker.py) for this corrected envelope;
+actual SDK environment/path/module/limit preparation now passes. Trainer,
+adapter, recipe, data hashes and dependency versions are unchanged.
+
 The one g2.1 job profiles three training batches for each of two cold-start
 GRUs, H512×1 and H384×2. It makes no validation score, checkpoint selection,
 or quality claim. The canonical trainer is imported from source commit
