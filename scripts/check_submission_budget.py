@@ -7,22 +7,25 @@ hidden evaluation data or competition-host qualification.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
 import json
 import os
 import platform
+import shutil
 import stat
 import subprocess
 import sys
 import time
 import zipfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Any
 from uuid import uuid4
 
 MAX_ZIP_BYTES = 20_000_000
 MEMORY_BYTES = 16_000_000_000
+MAX_EXTRACTED_BYTES = MEMORY_BYTES
 TIMEOUT_SECONDS = 3600
 SEQUENCE_LENGTH = 20_000
 ROOT = Path(__file__).resolve().parents[1]
@@ -36,20 +39,33 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def inspect_zip(path: Path) -> tuple[int, str]:
+def input_identity(path: Path) -> tuple[int, ...]:
+    value = path.stat()
+    return (value.st_dev, value.st_ino, value.st_size, value.st_mtime_ns, value.st_ctime_ns)
+
+
+def inspect_zip(path: Path) -> tuple[int, str, int]:
     size = path.stat().st_size
     if size > MAX_ZIP_BYTES:
         raise ValueError(f"submission ZIP is {size} bytes; limit is {MAX_ZIP_BYTES}")
     names: set[str] = set()
     has_solution = False
+    expanded_bytes = 0
     with zipfile.ZipFile(path) as archive:
         for entry in archive.infolist():
+            expanded_bytes += entry.file_size
+            if expanded_bytes > MAX_EXTRACTED_BYTES:
+                raise ValueError("ZIP expansion exceeds the verifier's 16 GB extraction guard")
             name = entry.filename
             posix, windows = PurePosixPath(name), PureWindowsPath(name)
             parts = name.rstrip("/").split("/")
             if (
-                not name or "\x00" in name or "\\" in name or posix.is_absolute()
-                or windows.is_absolute() or windows.drive
+                not name
+                or "\x00" in name
+                or "\\" in name
+                or posix.is_absolute()
+                or windows.is_absolute()
+                or windows.drive
                 or any(part in ("", ".", "..") for part in parts)
             ):
                 raise ValueError(f"unsafe ZIP entry path: {name!r}")
@@ -63,7 +79,7 @@ def inspect_zip(path: Path) -> tuple[int, str]:
             has_solution |= normalized == "solution.py" and not entry.is_dir()
     if not has_solution:
         raise ValueError("submission ZIP must contain solution.py at its root")
-    return size, sha256(path)
+    return size, sha256(path), expanded_bytes
 
 
 def filesystem_type(path: Path) -> str:
@@ -89,13 +105,18 @@ def host_facts(cpu_id: int) -> dict[str, Any]:
         if line.startswith("MemTotal:"):
             ram_bytes = int(line.split()[1]) * 1024
             break
-    return {"cpu_model": cpu_model, "ram_bytes": ram_bytes,
-            "machine": platform.machine(), "cpuset_cpu": cpu_id}
+    return {
+        "cpu_model": cpu_model,
+        "ram_bytes": ram_bytes,
+        "machine": platform.machine(),
+        "cpuset_cpu": cpu_id,
+    }
 
 
 def docker(*args: str, timeout: float = 30) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(["docker", *args], capture_output=True, text=True,
-                          timeout=timeout, check=False)
+    return subprocess.run(
+        ["docker", *args], capture_output=True, text=True, timeout=timeout, check=False
+    )
 
 
 def inspect_container(container_id: str) -> dict[str, Any]:
@@ -117,8 +138,9 @@ def verifier_result(path: Path) -> dict[str, Any]:
     return result
 
 
-def run_budget(submission: Path, data: Path, output_dir: Path,
-               image: str, expected_rows: int) -> int:
+def run_budget(
+    submission: Path, data: Path, output_dir: Path, image: str, expected_rows: int
+) -> int:
     if not sys.platform.startswith("linux"):
         raise RuntimeError("this CPU budget gate runs only on Linux")
     if expected_rows <= 0:
@@ -127,17 +149,23 @@ def run_budget(submission: Path, data: Path, output_dir: Path,
     if not allowed_cpus:
         raise RuntimeError("Linux did not report an available CPU for single-core pinning")
     cpu_id = min(allowed_cpus)
-    submission, data = submission.expanduser().resolve(strict=True), data.expanduser().resolve(strict=True)
+    submission, data = (
+        submission.expanduser().resolve(strict=True),
+        data.expanduser().resolve(strict=True),
+    )
     if not submission.is_file() or not data.is_file():
         raise ValueError("submission and data must be regular files")
-    zip_bytes, zip_hash = inspect_zip(submission)
+    input_identities = {path: input_identity(path) for path in (submission, data)}
+    zip_bytes, zip_hash, expanded_bytes = inspect_zip(submission)
     data_hash = sha256(data)
+    data_bytes = data.stat().st_size
     verify_script, utils_module = ROOT / "scripts/verify_submission.py", ROOT / "utils.py"
     for source in (verify_script, utils_module):
         if not source.is_file():
             raise FileNotFoundError(source)
-    source_hashes = {str(source.relative_to(ROOT)): sha256(source)
-                     for source in (verify_script, utils_module)}
+    source_hashes = {
+        str(source.relative_to(ROOT)): sha256(source) for source in (verify_script, utils_module)
+    }
     image_check = docker("image", "inspect", "--format", "{{.Id}}", image)
     if image_check.returncode or not image_check.stdout.strip():
         raise RuntimeError(f"Docker image {image!r} is unavailable: {image_check.stderr.strip()}")
@@ -152,20 +180,46 @@ def run_budget(submission: Path, data: Path, output_dir: Path,
     fs_type = filesystem_type(output_dir)
     if fs_type in {"tmpfs", "ramfs", "devtmpfs"}:
         raise ValueError(f"output directory must use disk-backed storage, not {fs_type}")
+    # The verifier keeps predictions, targets and mask (17 bytes/row), then
+    # copies them to the output directory before deleting the scratch versions.
+    disk_required = expanded_bytes + expected_rows * 34 + 64 * 1024 * 1024
+    disk_available = shutil.disk_usage(output_dir).free
+    if disk_available < disk_required:
+        raise ValueError(
+            f"need at least {disk_required} disk bytes; only {disk_available} available"
+        )
     (output_dir / "scratch").mkdir()
     log_path = output_dir / "docker.log"
 
     env = {
-        "CUDA_VISIBLE_DEVICES": "", "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1",
-        "OPENBLAS_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1",
-        "PYTHONUNBUFFERED": "1", "PYTHONDONTWRITEBYTECODE": "1",
-        "TMPDIR": "/out/scratch", "TMP": "/out/scratch", "TEMP": "/out/scratch",
-        "HOME": "/out/scratch",
+        "CUDA_VISIBLE_DEVICES": "",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONUNBUFFERED": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TMPDIR": "/out/scratch",
+        "TMP": "/out/scratch",
+        "TEMP": "/out/scratch",
     }
     name = f"submission-budget-{uuid4().hex[:12]}"
-    create = ["create", "--name", name, "--cpus", "1", "--cpuset-cpus", str(cpu_id),
-              "--memory", str(MEMORY_BYTES), "--memory-swap", str(MEMORY_BYTES),
-              "--network", "none", "--read-only"]
+    create = [
+        "create",
+        "--name",
+        name,
+        "--cpus",
+        "1",
+        "--cpuset-cpus",
+        str(cpu_id),
+        "--memory",
+        str(MEMORY_BYTES),
+        "--memory-swap",
+        str(MEMORY_BYTES),
+        "--network",
+        "none",
+        "--read-only",
+    ]
     for source, target in (
         (verify_script, "/tools/scripts/verify_submission.py"),
         (utils_module, "/tools/utils.py"),
@@ -176,9 +230,27 @@ def run_budget(submission: Path, data: Path, output_dir: Path,
     create.extend(("--mount", f"type=bind,source={output_dir},target=/out"))
     for key, value in env.items():
         create.extend(("--env", f"{key}={value}"))
-    create.extend((image_id, "python", "-u", "-B",
-                   "/tools/scripts/verify_submission.py", "/input/submission.zip",
-                   "/data/panel.parquet", "/out/pred.npy"))
+    verify_entry = (
+        "import runpy, sys; "
+        "sys.version_info[:2] == (3, 11) or sys.exit('CPU budget requires Python 3.11'); "
+        "sys.argv = sys.argv[1:]; "
+        "runpy.run_path(sys.argv[0], run_name='__main__')"
+    )
+    create.extend(
+        (
+            "--entrypoint",
+            "python",
+            image_id,
+            "-u",
+            "-B",
+            "-c",
+            verify_entry,
+            "/tools/scripts/verify_submission.py",
+            "/input/submission.zip",
+            "/data/panel.parquet",
+            "/out/pred.npy",
+        )
+    )
 
     started = time.monotonic()
     container_id, completed = None, None
@@ -192,18 +264,21 @@ def run_budget(submission: Path, data: Path, output_dir: Path,
         container_id, status = created.stdout.strip(), "running"
         remaining = TIMEOUT_SECONDS - (time.monotonic() - started)
         with log_path.open("w", encoding="utf-8") as log:
-            completed = subprocess.run(["docker", "start", "--attach", container_id],
-                                       stdout=log, stderr=subprocess.STDOUT, text=True,
-                                       timeout=max(0.01, remaining), check=False)
+            completed = subprocess.run(
+                ["docker", "start", "--attach", container_id],
+                stdout=log,
+                stderr=subprocess.STDOUT,
+                text=True,
+                timeout=max(0.01, remaining),
+                check=False,
+            )
         elapsed = time.monotonic() - started
     except subprocess.TimeoutExpired:
-        elapsed, status = TIMEOUT_SECONDS, "timed_out"
+        elapsed, status = time.monotonic() - started, "timed_out"
         error = f"verification exceeded {TIMEOUT_SECONDS} seconds"
         if container_id:
-            try:
+            with contextlib.suppress(Exception):
                 docker("kill", container_id, timeout=30)
-            except Exception:
-                pass
     except Exception as exc:
         elapsed, status = time.monotonic() - started, "failed"
         error = f"{type(exc).__name__}: {exc}"
@@ -225,13 +300,19 @@ def run_budget(submission: Path, data: Path, output_dir: Path,
                 elif state.get("ExitCode") != 0 or oom is not False:
                     status, error = "container_failed", "container exit/OOM state was not clean"
                 elif result.get("rows") != expected_rows:
-                    status, error = "row_coverage_mismatch", "verified rows differ from --expected-rows"
+                    status, error = (
+                        "row_coverage_mismatch",
+                        "verified rows differ from --expected-rows",
+                    )
                 else:
                     status = "passed_for_supplied_dataset"
             except Exception as exc:
                 status, error = "invalid_verifier_output", f"{type(exc).__name__}: {exc}"
         elif status == "running":
-            status, error = "container_failed", error or f"docker start exited {completed.returncode}"
+            status, error = (
+                "container_failed",
+                error or f"docker start exited {completed.returncode}",
+            )
         if oom is True:
             status, error = "out_of_memory", "Docker reports OOMKilled=true"
         try:
@@ -242,6 +323,17 @@ def run_budget(submission: Path, data: Path, output_dir: Path,
             source_unchanged = False
         if not source_unchanged:
             status, error = "source_changed", "verifier/utils source changed during the budget run"
+        try:
+            inputs_unchanged = all(
+                input_identity(path) == identity for path, identity in input_identities.items()
+            )
+        except OSError:
+            inputs_unchanged = False
+        if not inputs_unchanged:
+            status, error = (
+                "input_changed",
+                "submission ZIP or dataset changed during the budget run",
+            )
         removed = True
         if container_id:
             try:
@@ -249,28 +341,58 @@ def run_budget(submission: Path, data: Path, output_dir: Path,
             except Exception:
                 removed = False
         if not removed:
-            status, error = "container_cleanup_failed", "Docker could not remove the created container"
+            status, error = (
+                "container_cleanup_failed",
+                "Docker could not remove the created container",
+            )
         receipt = {
-            "schema_version": 1, "status": status,
+            "schema_version": 1,
+            "status": status,
             "passed_for_supplied_dataset": status == "passed_for_supplied_dataset",
             "claim_scope": "supplied Parquet dataset only; hidden evaluation coverage is not established",
-            "created_at_utc": datetime.now(timezone.utc).isoformat(),
-            "submission_zip": {"path": str(submission), "bytes": zip_bytes, "sha256": zip_hash},
-            "image_reference": image, "image_id": image_id,
-            "host": host_facts(cpu_id), "output_filesystem": fs_type,
-            "limits": {"cpus": 1, "cpuset_cpu": cpu_id,
-                       "memory_bytes": MEMORY_BYTES, "memory_swap_bytes": MEMORY_BYTES,
-                       "network": "none", "root_filesystem_read_only": True,
-                       "timeout_seconds": TIMEOUT_SECONDS},
-            "elapsed_seconds": round(elapsed, 3), "oom_killed": oom,
-            "container_exit_code": state.get("ExitCode"), "container_removed": removed,
+            "created_at_utc": datetime.now(UTC).isoformat(),
+            "submission_zip": {
+                "path": str(submission),
+                "bytes": zip_bytes,
+                "sha256": zip_hash,
+                "expanded_bytes": expanded_bytes,
+            },
+            "scratch_disk_preflight": {
+                "required_bytes": disk_required,
+                "available_bytes": disk_available,
+                "expanded_zip_limit_bytes": MAX_EXTRACTED_BYTES,
+            },
+            "image_reference": image,
+            "image_id": image_id,
+            "host": host_facts(cpu_id),
+            "output_filesystem": fs_type,
+            "limits": {
+                "cpus": 1,
+                "cpuset_cpu": cpu_id,
+                "memory_bytes": MEMORY_BYTES,
+                "memory_swap_bytes": MEMORY_BYTES,
+                "network": "none",
+                "root_filesystem_read_only": True,
+                "timeout_seconds": TIMEOUT_SECONDS,
+            },
+            "elapsed_seconds": round(elapsed, 3),
+            "oom_killed": oom,
+            "container_exit_code": state.get("ExitCode"),
+            "container_removed": removed,
             "sources": {"sha256": source_hashes, "unchanged_during_run": source_unchanged},
-            "dataset": {"path": str(data), "bytes": data.stat().st_size,
-                        "sha256": data_hash, "expected_rows": expected_rows,
-                        "verified_rows": None if result is None else result.get("rows"),
-                        "verified_sequences": None if result is None else result.get("sequences"),
-                        "coverage_complete": result is not None and result.get("rows") == expected_rows},
-            "verification": result, "error": error,
+            "inputs_unchanged_during_run": inputs_unchanged,
+            "python_version_required": "3.11",
+            "dataset": {
+                "path": str(data),
+                "bytes": data_bytes,
+                "sha256": data_hash,
+                "expected_rows": expected_rows,
+                "verified_rows": None if result is None else result.get("rows"),
+                "verified_sequences": None if result is None else result.get("sequences"),
+                "coverage_complete": result is not None and result.get("rows") == expected_rows,
+            },
+            "verification": result,
+            "error": error,
         }
         (output_dir / "budget_receipt.json").write_text(
             json.dumps(receipt, indent=2, sort_keys=True, allow_nan=False) + "\n",
@@ -287,14 +409,21 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--submission", required=True, type=Path, help="actual submission ZIP")
     parser.add_argument("--data", required=True, type=Path, help="supplied Parquet panel")
-    parser.add_argument("--output-dir", required=True, type=Path,
-                        help="new disk-backed receipt/output directory")
+    parser.add_argument(
+        "--output-dir", required=True, type=Path, help="new disk-backed receipt/output directory"
+    )
     parser.add_argument("--image", required=True, help="existing CPU budget Docker image")
-    parser.add_argument("--expected-rows", required=True, type=int,
-                        help="actual rows in the supplied full panel, not hidden evaluation rows")
+    parser.add_argument(
+        "--expected-rows",
+        required=True,
+        type=int,
+        help="actual rows in the supplied full panel, not hidden evaluation rows",
+    )
     args = parser.parse_args()
     try:
-        code = run_budget(args.submission, args.data, args.output_dir, args.image, args.expected_rows)
+        code = run_budget(
+            args.submission, args.data, args.output_dir, args.image, args.expected_rows
+        )
     except Exception as exc:
         parser.error(f"{type(exc).__name__}: {exc}")
     raise SystemExit(code)

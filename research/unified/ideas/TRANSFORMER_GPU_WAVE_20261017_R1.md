@@ -13,6 +13,82 @@ evidence_paths:
 
 # GPU-волна: проверить Transformer рядом с GRU
 
+Implementation follow-up: the user subsequently requested all four arms. The
+[implementation and GPU launch packet](../../campaign_2026-10-17/architecture_gpu_wave_r1/README.md)
+now supplies the new backends and target-host commands; runtime validation and
+fits remain pending. The proposal below is preserved as the original rationale,
+including its then-current implementation gaps.
+
+## Командное дополнение 17 октября, 13:15–13:35 UTC+3
+
+Источник — сообщения Vlad Koch и Ivan Vorfolomeev, переданные пользователем в
+этом чате: принадлежность последовательности окружности с допуском, сравнение
+GRU/Transformer как учителей, Chronos/TimesFM как pretrained teachers. Это новые
+гипотезы, не результаты и не разрешение запускать расчёты локально. Подготовленная
+четвёрка A–D остаётся без изменений; следующие сравнения используют её артефакты.
+
+**Первый следующий эксперимент — один и тот же GRU-студент с разными учителями.**
+Три условия: labels-only, KD от GRU A, KD от заранее выбранного Transformer B.
+Фиксируем student initialization, seed, fit groups, нормализацию, порядок строк,
+loss/KD coefficient, optimizer и число updates; оцениваем один и тот же epoch.
+Выбор B заранее отделяет смену семейства от подбора победителя B/C на evaluation.
+Смесь GRU+Transformer — последующий interaction arm, если отдельные teachers
+покажут переносимый сигнал. Главное наблюдение — качество **студента** после
+одинакового обучения и после Q8, а не только score или размер teacher.
+
+Teacher, его preprocessing и адаптация не должны обучаться на оценочных groups.
+In-sample teacher predictions на student fitting groups допустимы как явно
+обозначенный первый KD-протокол у обоих teachers; whole-component OOF targets
+можно проверить отдельно, не добавляя K переобучений к первому сравнению.
+Full-valid predictions из A–D достаточны для grading, но **недостаточны для KD**:
+ещё нужны row-aligned predictions для fitting train+valid groups, с масками,
+checkpoint/source hashes и ancestry. Текущий `--distill` принимает teacher cache,
+а существующий `build_distill_cache.py` ориентирован на T3 — универсальный
+экспорт этих двух teachers пока не реализован. Это proposal, не runnable KD queue.
+
+**Окружность — отдельная короткая feature ablation.** Координаты, рисунок и единицы
+epsilon в переданном сообщении не определены; соответствие анонимных столбцов
+геометрии не угадываем. После уточнения сравнить тот же GRU без/с фичей. Если
+центр и радиус оцениваются по последовательности, для строки t они используют
+только её префикс до t−1; текущая точка даёт расстояние до окружности. Если
+геометрия общая, её параметры обучаются только на fitting groups и замораживаются.
+Помимо `abs(distance - radius) <= epsilon` полезно заранее проверить непрерывный
+радиальный residual: он сохраняет информацию рядом с порогом. Нужны определённые
+warm-up и degenerate-fit значения, reset между sequences и epsilon, выбранный на
+fit данных. Полная последовательность, включая будущие точки, не может определять
+текущую фичу. Время обновления геометрии тоже входит в one-CPU budget.
+
+**Chronos/TimesFM — отдельная проверка переноса pretrained representations.**
+Официальная [карточка Chronos-2](https://huggingface.co/amazon/chronos-2), проверенная
+17 октября 2026, описывает 120M параметров, multivariate/covariate forecasting,
+контекст до 8,192 и Apache-2.0. Это разумный первый кандидат для GPU teacher:
+одни лишь 4-битные dense weights дают примерно 60 MB до служебных данных, поэтому
+для ZIP20MB основной исследуемый путь — дистилляция, а не обещание прямого сабмита.
+Это расчёт по числу параметров, не замер архивного размера или CPU скорости.
+
+[Официальный TimesFM](https://github.com/google-research/timesfm) теперь описывает
+3.0 с native multivariate и past/future covariates. Код и веса до 2.5 отмечены
+Apache-2.0, а [веса 3.0](https://huggingface.co/google/timesfm-3.0-pytorch) имеют
+отдельную non-commercial лицензию. Допустимость конкретных внешних weights и их
+использования в этой competition здесь не установлена; версия и источник должны
+быть определены до включения в рецепт.
+
+Оба forecasting API не являются готовой заменой нашей регрессии `X[<=t] -> y[t]`.
+Обычный пример с настоящей историей target нельзя выдавать за deployable teacher:
+в callback доступны признаки, но не прошлые true labels. Первая техническая
+проверка должна использовать только доступные на момент t признаки: например,
+frozen representations/прогноз наблюдаемых feature channels плюс обученный на fit
+groups readout к двум targets. Это **предлагаемая адаптация**, не подтверждённый
+API или работающий backend. Нормализация, патчи и извлечение representations также
+должны быть причинными; один bidirectional embedding всей 20k sequence протечёт
+в будущее. Не переносить рекламные benchmark scores на наши данные. Сначала
+проверить row-time contract и signal на ограниченном GPU-пилоте, потом выделять
+полный teacher budget.
+
+Связанные новые гипотезы: H-TEACHER-FAMILY-KD-20261017,
+H-CAUSAL-CIRCLE-FEATURE-20261017, H-PRETRAINED-TS-TEACHER-20261017.
+Ни один новый KD/geometry/pretrained fit не запущен.
+
 ## Question or claim
 
 Последнее уточнение пользователя: доступно много GPU; на этом Mac не запускать тесты; рассмотреть переход с GRU на Transformer. Новые локальные проверки и модельные расчёты остановлены. Эта записка меняет рекомендуемый научный приоритет, а не запускает оборудование. Адреса GPU, их число, память и допустимый бюджет ещё не установлены. Старая четвёрка S/W/F/H512 остаётся отдельным резервным пакетом; она не должна задерживать архитектурную ветку.

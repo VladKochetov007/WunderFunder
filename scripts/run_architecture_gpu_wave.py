@@ -55,6 +55,7 @@ def read_json(path: Path, label: str) -> dict[str, Any]:
 
 def verify_data_identity(saved: dict[str, Any], current: dict[str, Any]) -> None:
     """Compare content and membership identities while ignoring file mtimes."""
+
     def stable(value: dict[str, Any]) -> dict[str, Any]:
         sources = {}
         for name, source in value["sources"].items():
@@ -127,8 +128,7 @@ def verify_packet(manifest_path: Path) -> tuple[dict[str, Any], dict[str, Any], 
         queue = Path(record["queue"])
         run_id = record["run_id"]
         candidates = [
-            queue / state / f"{run_id}.json"
-            for state in ("pending", "running", "done", "failed")
+            queue / state / f"{run_id}.json" for state in ("pending", "running", "done", "failed")
         ]
         existing = [path for path in candidates if path.is_file()]
         if len(existing) != 1:
@@ -230,11 +230,12 @@ def run_worker(record: dict[str, Any], python: Path) -> None:
         return
     if state == "failed":
         raise WaveError(f"queue item is failed and requires diagnosis: {run_id}")
-    if state == "running":
-        if running_owner_is_alive(queue, run_id):
-            raise WaveError(f"queue item has a live or unverified owner; refusing duplicate worker: {run_id}")
-        # The established worker owns stale-item recovery. It resumes only a
-        # checkpointed step and fails closed if the saved state is incomplete.
+    if state == "running" and running_owner_is_alive(queue, run_id):
+        raise WaveError(
+            f"queue item has a live or unverified owner; refusing duplicate worker: {run_id}"
+        )
+    # The established worker owns stale-item recovery. It resumes only a
+    # checkpointed step and fails closed if the saved state is incomplete.
 
     spec = read_json(spec_path, f"worker spec {run_id}")
     steps = spec.get("steps")
@@ -259,9 +260,7 @@ def run_worker(record: dict[str, Any], python: Path) -> None:
         str(record["allowed_spec_manifest"]),
     ]
     with log_path.open("ab") as log:
-        log.write(
-            f"\n[{datetime.now(UTC).isoformat()}] START {run_id}\n".encode()
-        )
+        log.write(f"\n[{datetime.now(UTC).isoformat()}] START {run_id}\n".encode())
         completed = subprocess.run(
             argv,
             cwd=steps[0]["cwd"],
@@ -270,9 +269,7 @@ def run_worker(record: dict[str, Any], python: Path) -> None:
             stderr=subprocess.STDOUT,
             check=False,
         )
-        log.write(
-            f"[{datetime.now(UTC).isoformat()}] EXIT {completed.returncode}\n".encode()
-        )
+        log.write(f"[{datetime.now(UTC).isoformat()}] EXIT {completed.returncode}\n".encode())
     result = latest_worker_result(queue, run_id)
     if (
         completed.returncode != 0
@@ -337,14 +334,9 @@ def validate_provenance(
     common_updates: tuple[int, int, int] | None = None
     results: dict[str, Any] = {}
     arms_by_run_id = {
-        arm["preflight_run_id"] if preflight else arm["run_id"]: arm
-        for arm in recipe["arms"]
+        arm["preflight_run_id"] if preflight else arm["run_id"]: arm for arm in recipe["arms"]
     }
-    expected_batches = (
-        common["preflight_batches"]
-        if preflight
-        else common["full_epoch_batches"]
-    )
+    expected_batches = common["preflight_batches"] if preflight else common["full_epoch_batches"]
     expected_attempts = expected_batches * common["optimizer_updates_per_batch"]
     for run_id in run_ids:
         arm = arms_by_run_id.get(run_id)
@@ -382,7 +374,9 @@ def validate_provenance(
         expected_args.update(arm["model"])
         for key, expected in expected_args.items():
             if args.get(key) != expected:
-                raise WaveError(f"{run_id} trainer argument {key}={args.get(key)!r}, expected {expected!r}")
+                raise WaveError(
+                    f"{run_id} trainer argument {key}={args.get(key)!r}, expected {expected!r}"
+                )
         if provenance.get("fit_membership_identity") is None:
             raise WaveError(f"{run_id} lacks fit membership identity")
         if provenance.get("normalization_identity") is None:
@@ -391,7 +385,10 @@ def validate_provenance(
         if not isinstance(updates, list) or len(updates) != 1:
             raise WaveError(f"{run_id} must contain exactly one completed epoch record")
         diagnostic = updates[0]
-        if diagnostic.get("epoch_index") != 0 or diagnostic.get("normalization_identity") != provenance["normalization_identity"]:
+        if (
+            diagnostic.get("epoch_index") != 0
+            or diagnostic.get("normalization_identity") != provenance["normalization_identity"]
+        ):
             raise WaveError(f"{run_id} epoch diagnostic does not match its epoch-0 normalization")
         epoch = diagnostic.get("epoch")
         if not isinstance(epoch, dict):
@@ -488,7 +485,11 @@ def validate_provenance(
             reference = identity
             common_updates = (attempts, completed, batches)
         else:
-            for key in ("fit_membership_identity", "normalization_identity", "sample_order_identity"):
+            for key in (
+                "fit_membership_identity",
+                "normalization_identity",
+                "sample_order_identity",
+            ):
                 if identity[key] != reference[key]:
                     raise WaveError(f"{run_id} {key} differs from the common reference")
             if identity["optimizer_counts"] != common_updates:
@@ -499,9 +500,7 @@ def validate_provenance(
     return results
 
 
-def gpu_memory_limits_by_arm(
-    manifest: dict[str, Any], recipe: dict[str, Any]
-) -> dict[str, int]:
+def gpu_memory_limits_by_arm(manifest: dict[str, Any], recipe: dict[str, Any]) -> dict[str, int]:
     """Bind each arm to the CUDA capacity probed for its selected physical GPU."""
     gpu_ids = manifest.get("gpu_ids")
     devices = manifest.get("gpu_devices")
@@ -511,17 +510,20 @@ def gpu_memory_limits_by_arm(
         raise WaveError("manifest GPU id and device inventories differ in length")
     capacities = []
     for device in devices:
-        capacity = device.get("cuda_probe", {}).get("memory_bytes") if isinstance(device, dict) else None
+        capacity = (
+            device.get("cuda_probe", {}).get("memory_bytes") if isinstance(device, dict) else None
+        )
         if not isinstance(capacity, int) or capacity <= 0:
             raise WaveError("manifest has an invalid CUDA device memory capacity")
         capacities.append(capacity)
     return {
-        arm["arm"]: capacities[index % len(capacities)]
-        for index, arm in enumerate(recipe["arms"])
+        arm["arm"]: capacities[index % len(capacities)] for index, arm in enumerate(recipe["arms"])
     }
 
 
-def validate_gpu_junit(junit_path: Path, expected_counts: dict[str, Any] | None = None) -> dict[str, int]:
+def validate_gpu_junit(
+    junit_path: Path, expected_counts: dict[str, Any] | None = None
+) -> dict[str, int]:
     """Require executed, unskipped cases from each declared GPU test module."""
     try:
         root = ET.parse(junit_path).getroot()
@@ -532,13 +534,10 @@ def validate_gpu_junit(junit_path: Path, expected_counts: dict[str, Any] | None 
     failures = sum(case.find("failure") is not None for case in cases)
     errors = sum(case.find("error") is not None for case in cases)
     executed_modules = "\n".join(
-        f"{case.attrib.get('classname', '')} {case.attrib.get('name', '')}"
-        for case in cases
+        f"{case.attrib.get('classname', '')} {case.attrib.get('name', '')}" for case in cases
     )
     missing = [
-        Path(test).stem
-        for test in REQUIRED_GPU_TESTS
-        if Path(test).stem not in executed_modules
+        Path(test).stem for test in REQUIRED_GPU_TESTS if Path(test).stem not in executed_modules
     ]
     counts = {
         "test_cases": len(cases),
@@ -558,7 +557,9 @@ def validate_gpu_junit(junit_path: Path, expected_counts: dict[str, Any] | None 
     return counts
 
 
-def verify_exports(arm_ids: list[str], data_root: Path, recipe: dict[str, Any], split_path: Path) -> None:
+def verify_exports(
+    arm_ids: list[str], data_root: Path, recipe: dict[str, Any], split_path: Path
+) -> None:
     """Require fixed epoch-0 checkpoints and full-valid feature-only exports."""
     import numpy as np
 
@@ -584,9 +585,13 @@ def verify_exports(arm_ids: list[str], data_root: Path, recipe: dict[str, Any], 
             or sidecar.get("campaign_export_scope") != "full-valid-feature-only"
             or sidecar.get("feature_only") is not True
             or sidecar.get("inference_precision") != "fp32"
+            or sidecar.get("inference_batch") != recipe["common"]["batch"]
+            or sidecar.get("inference_chunk") != recipe["common"]["chunk"]
             or sidecar.get("row_groups") != expected_groups
         ):
-            raise WaveError(f"{run_id} prediction export does not prove the full 1873-group FP32 panel")
+            raise WaveError(
+                f"{run_id} prediction export does not prove the full 1873-group FP32 panel"
+            )
         prediction = data_root / "cache" / f"pred_{run_id}_valid.npy"
         if sidecar.get("prediction_sha256") != sha256_file(prediction):
             raise WaveError(f"{run_id} prediction sidecar hash does not match its array")
@@ -626,7 +631,9 @@ def verify_grade_record(record: dict[str, Any]) -> None:
             if line.strip()
         ]
     except (OSError, UnicodeError, json.JSONDecodeError) as error:
-        raise WaveError(f"comparison ledger is missing or invalid for {record['run_id']}: {error}") from error
+        raise WaveError(
+            f"comparison ledger is missing or invalid for {record['run_id']}: {error}"
+        ) from error
     if not any(
         row.get("experiment_id") == comparison.get("experiment_id")
         and row.get("status") == "valid"
@@ -637,12 +644,12 @@ def verify_grade_record(record: dict[str, Any]) -> None:
         raise WaveError(f"comparison ledger lacks the exact valid event for {record['run_id']}")
     result_receipt = result.get("comparison_receipt")
     if not isinstance(result_receipt, dict) or result_receipt.get("status") != "valid":
-        raise WaveError(f"queue worker did not validate a comparison receipt for {record['run_id']}")
+        raise WaveError(
+            f"queue worker did not validate a comparison receipt for {record['run_id']}"
+        )
 
 
-def run_preflight(
-    manifest: dict[str, Any], recipe: dict[str, Any], python: Path
-) -> None:
+def run_preflight(manifest: dict[str, Any], recipe: dict[str, Any], python: Path) -> None:
     """Run strict CUDA test suite first, then one real-data batch per arm."""
     project_root = Path(manifest["project_root"])
     output_dir = Path(manifest["output_dir"])
@@ -684,15 +691,13 @@ def run_preflight(
                 timeout=3600,
             )
     except subprocess.TimeoutExpired as error:
-        raise WaveError(f"CUDA GPU tests exceeded the 3600-second limit; inspect {log_path}") from error
-    if completed.returncode != 0 or not junit_path.is_file():
         raise WaveError(
-            f"CUDA GPU tests failed (exit={completed.returncode}); inspect {log_path}"
-        )
+            f"CUDA GPU tests exceeded the 3600-second limit; inspect {log_path}"
+        ) from error
+    if completed.returncode != 0 or not junit_path.is_file():
+        raise WaveError(f"CUDA GPU tests failed (exit={completed.returncode}); inspect {log_path}")
     test_counts = validate_gpu_junit(junit_path)
-    preflight_records = [
-        record for record in manifest["queues"] if record["stage"] == "preflight"
-    ]
+    preflight_records = [record for record in manifest["queues"] if record["stage"] == "preflight"]
     if len(preflight_records) != len(recipe["arms"]):
         raise WaveError("prepared packet does not contain exactly one preflight queue per arm")
     assignment = {
@@ -746,9 +751,7 @@ def run_fit(manifest: dict[str, Any], recipe: dict[str, Any], python: Path) -> N
         preflight=False,
         gpu_memory_by_arm=gpu_memory_limits_by_arm(manifest, recipe),
     )
-    verify_exports(
-        run_ids, data_root, recipe, Path(manifest["split_manifest"]).resolve()
-    )
+    verify_exports(run_ids, data_root, recipe, Path(manifest["split_manifest"]).resolve())
     atomic_json_write(
         Path(manifest["output_dir"]) / "reports" / "fit_passed.json",
         {
@@ -781,9 +784,7 @@ def run_grade(manifest: dict[str, Any], recipe: dict[str, Any], python: Path) ->
         preflight=False,
         gpu_memory_by_arm=gpu_memory_limits_by_arm(manifest, recipe),
     )
-    verify_exports(
-        run_ids, data_root, recipe, Path(manifest["split_manifest"]).resolve()
-    )
+    verify_exports(run_ids, data_root, recipe, Path(manifest["split_manifest"]).resolve())
     records = manifest["queues"]
     reference = next(record for record in records if record["stage"] == "grade_reference")
     run_worker(reference, python)
@@ -832,15 +833,14 @@ def verify_preflight_passed(manifest: dict[str, Any], recipe: dict[str, Any]) ->
     if not isinstance(test_report, dict):
         raise WaveError("GPU preflight report lacks its required CUDA test evidence")
     junit_path = Path(test_report.get("junit_xml", ""))
-    if (
-        not junit_path.is_file()
-        or sha256_file(junit_path) != test_report.get("junit_sha256")
-    ):
+    if not junit_path.is_file() or sha256_file(junit_path) != test_report.get("junit_sha256"):
         raise WaveError("CUDA JUnit file is missing or changed since preflight")
     try:
         validate_gpu_junit(junit_path, test_report)
     except WaveError as error:
-        raise WaveError(f"CUDA JUnit evidence no longer satisfies the preflight gate: {error}") from error
+        raise WaveError(
+            f"CUDA JUnit evidence no longer satisfies the preflight gate: {error}"
+        ) from error
     records = [record for record in manifest["queues"] if record["stage"] == "preflight"]
     if len(records) != len(recipe["arms"]):
         raise WaveError("GPU preflight queue does not contain exactly four architecture probes")

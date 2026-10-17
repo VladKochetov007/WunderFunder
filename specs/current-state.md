@@ -1,3 +1,34 @@
+## 2026-10-17 — Transformer/Mamba implementation; GPU execution remains pending
+
+The user explicitly requests implementing the architecture wave and preparing its
+four GPU runs, with no local tests or training. The
+[new packet](../research/campaign_2026-10-17/architecture_gpu_wave_r1/README.md)
+contains scratch GRU256×2, causal Transformer256×4 with windows256/2048, and
+Mamba-2 256×4 with state64. Stateful backends, trainer/checkpoint/prediction
+integration, CUDA-only validation sources and a staged host runner are prepared.
+All arms use seeded sequence order, one epoch, batch8/chunk2000/FP32 and fixed
+epoch0. The first real validation and fits belong on the GPU host; no local model
+execution, training or tests were run. Static inspection/lint are not GPU proof.
+Mamba's pinned CUDA source build remains unverified on target hardware. Quantized
+GRU Q8/Q4 and Transformer CPU export/INT8/INT4 are a subsequent measured endpoint
+stage, with the 1-vCPU/16GB/60-minute/20MB offline limits unchanged. No host was
+connected, rental started or submission uploaded. A separate Docker gate for an
+actual submission ZIP pins one CPU and enforces 16GB/no-swap/offline/60-minute
+limits with exact supplied-panel coverage and a dataset-specific receipt. Its
+image build and actual ZIP run also remain pending; it does not supply the
+missing Transformer/Mamba CPU exporter.
+
+The later user-shared team ideas are recorded in the
+[architecture proposal follow-up](../research/unified/ideas/TRANSFORMER_GPU_WAVE_20261017_R1.md):
+fixed-student GRU-versus-Transformer KD first, causal circle features after the
+coordinates are defined, and a separate Chronos/TimesFM adaptation study. They
+do not change the four prepared arms or authorize local execution. No universal
+teacher-cache exporter, geometry adapter or pretrained teacher was implemented.
+
+The historical reserve queue was pinned to its earlier trainer/export sources;
+use its frozen revision `685d5331` if preparing it. Do not relax its hashes to
+make it consume these architecture changes.
+
 ## 2026-10-17 — architecture exploration takes priority; no local tests
 
 The user reports ample GPUs and asks whether to move from GRU to Transformers; explicitly says not to run tests on this Mac. Local tests stop and remaining implementation is reviewed statically; target-host validation remains pending. [Proposed architecture wave](../research/unified/ideas/TRANSFORMER_GPU_WAVE_20261017_R1.md): common scratch GRU control, causal Transformer with short/long context, and Mamba-2 alternative. New Transformer/SSM backends are not executable yet. Old H218 is a small block-memory/GRU hybrid, with negative exposed-fold evidence but unmatched stronger-reference ancestry; it does not settle the new comparison. Current official CPU-only serving limits motivate a teacher/student path without restricting teacher research size. The existing four-recipe packet below remains a reserve, not a prerequisite for architecture work. No GPU host, rental, fit or submission was started.

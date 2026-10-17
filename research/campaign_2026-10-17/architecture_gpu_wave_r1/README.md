@@ -74,9 +74,38 @@ WAVE="$GPU_OUTPUT_ROOT/architecture_gpu_wave_r1"
 
 [`recipe.json`](recipe.json) is the frozen arm contract. At preparation time, the helper hashes `scripts/train_rnn.py`, `scripts/predict_run.py`, the fold scorer, comparison-receipt and queue-worker code, both packet scripts, all Python sources under `src/wnn/`, the three GPU test files, the Mamba-2 dependency file, `pyproject.toml`, `requirements.txt`, and this recipe. It writes the actual closure into `source_closure.json` and binds it into every admitted spec. The run stage recomputes those hashes and refuses changed source, recipe, split, or portable-data identities.
 
-The target-host preflight is the first point at which CUDA causality, reset behavior, streaming/chunk parity, finite gradients, real-data normalization, or an optimizer update can be claimed. This Mac preparation performed source reads and edits only; no tests, model imports, training, prediction, scoring, or profiling were run here. The final submission limits remain 1 vCPU, 16 GB RAM, 60 minutes, 20 MB, offline, without GPU; this GPU packet does not establish that any model meets them. Mamba's common AdamW recipe applies weight decay to all parameters, including `A_log`, `dt_bias`, and `D`, unlike the official Mamba no-decay tags; that is a deliberate shared-optimizer comparison choice. After this teacher comparison, evaluate a separate quantization path: the existing GRU through Q8/Q4, and only a Transformer that shows useful held-out-fold signal through FP32 CPU export, INT8 and then INT4 quality/size/runtime checks. None of that work is part of this four-arm recipe.
+The target-host preflight is the first point at which CUDA causality, reset behavior, streaming/chunk parity, finite gradients, real-data normalization, or an optimizer update can be claimed. This Mac preparation used source review, static Ruff checks/formatting and Git whitespace checks; no tests, model imports, training, prediction, scoring, or profiling were run here. The final submission limits remain 1 vCPU, 16 GB RAM, 60 minutes, 20 MB, offline, without GPU; this GPU packet does not establish that any model meets them. Mamba's common AdamW recipe applies weight decay to all parameters, including `A_log`, `dt_bias`, and `D`, unlike the official Mamba no-decay tags; that is a deliberate shared-optimizer comparison choice. After this teacher comparison, evaluate a separate quantization path: the existing GRU through Q8/Q4, and only a Transformer that shows useful held-out-fold signal through FP32 CPU export, INT8 and then INT4 quality/size/runtime checks. None of that work is part of this four-arm recipe.
+
+The GPU memory report measures the PyTorch allocator peak and requires it to stay below 80% of device capacity; the CUDA context and other processes are additional. Its RAM figure is the trainer process's lifetime peak RSS, excluding loader children and page cache. These observations are training diagnostics and do not establish the final CPU serving budget.
+
+## Final ZIP check on one CPU
+
+[`check_submission_budget.py`](../../../scripts/check_submission_budget.py) checks an actual packaged `solution.py` ZIP on a **Linux host with Docker**. It is separate from GPU training and does not export a Transformer or Mamba checkpoint. Those new backends still need a CPU serving implementation or distillation into an existing GRU student before this gate can qualify their endpoint. The script and image were statically reviewed only; neither Docker build nor inference was run on this Mac.
+
+Build the [Python 3.11 CPU image](Dockerfile.cpu-budget) on that host, using only this campaign folder as build context. For the supplied complete validation panel of 1,873 sequences × 20,000 rows:
+
+```bash
+docker build \
+  -f research/campaign_2026-10-17/architecture_gpu_wave_r1/Dockerfile.cpu-budget \
+  -t wnn-cpu-budget:20261017 \
+  research/campaign_2026-10-17/architecture_gpu_wave_r1
+
+python3 scripts/check_submission_budget.py \
+  --submission /data/wunder/submissions/candidate.zip \
+  --data /data/wunder/datasets/valid.parquet \
+  --expected-rows 37460000 \
+  --image wnn-cpu-budget:20261017 \
+  --output-dir /data/wunder_cpu_checks/candidate_r1
+```
+
+Use the actual panel path and exact row count if testing another dataset. The output directory must be new and on disk. The gate checks ZIP size ≤20,000,000 bytes, pins one allowed CPU core plus a one-CPU quota, limits RAM to 16,000,000,000 bytes with swap disabled, and runs the real streaming verifier with no network, no requested GPU, read-only inputs/root filesystem and single-thread library settings. Python 3.11 is checked inside the container. The 3,600-second deadline includes container creation, loading, all supplied rows, scoring and prediction-file output; input hashing and image preparation are outside that interval.
+
+`budget_receipt.json` records the ZIP, dataset and verifier hashes, image ID, CPU model/core, wall time, exit/OOM state and expected/observed row coverage. A clean pass means **`passed_for_supplied_dataset`**. It does not establish hidden-test coverage or identical speed on the competition CPU. The legacy verifier's `eta_min_39M_rows` field is an estimate and is not the gate's timing evidence. Quantization must additionally preserve acceptable official WP against the corresponding FP32 endpoint; fitting the limits alone does not establish useful quality.
+
+The checker also requires enough free disk for extracted files and both scratch/output prediction arrays. Its 16GB expanded-ZIP guard is an operational extraction safeguard, not an additional official competition limit.
 
 ## Source records
 
 - [Architecture proposal and prior attention evidence](../../unified/ideas/TRANSFORMER_GPU_WAVE_20261017_R1.md) explains why H218 is not a matched sliding-window Transformer test.
+- The same proposal records the team's later circle-feature, matched GRU-student KD and Chronos/TimesFM ideas, their causal-data constraints and implementation gaps. They are follow-up hypotheses, not extra runnable arms in this packet.
 - [Original fast GRU queue](../fast_gpu_queue_r1/README.md) is a separate set of recipes and is not a dependency of this architecture wave.

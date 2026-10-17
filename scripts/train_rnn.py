@@ -3202,6 +3202,8 @@ def main():
         model.train()
         if profile_losses is not None:
             profile_losses.clear()
+        if args.check_finite_updates and device.type == "cuda":
+            torch.cuda.reset_peak_memory_stats(device)
         epoch_counter = EpochUpdateCounter(device)
         if isinstance(train_loader.sampler, EpochOrderSampler):
             train_loader.sampler.set_epoch(epoch)
@@ -3209,6 +3211,16 @@ def main():
         if isinstance(train_loader.sampler, EpochOrderSampler):
             epoch_order_identity["seeded_order"] = {"seed": args.seed, "epoch": epoch,
                                                     "antithetic": args.antithetic, "shared_dropped_tail": True}
+            # This sampler uses a private generator; global CPU RNG hashes in
+            # the generic loader identity can differ across model architectures.
+            # Hash the actual retained order without advancing any shared RNG.
+            ordered_samples = list(iter(train_loader.sampler))
+            kept_samples = len(train_loader) * args.batch
+            if args.max_batches:
+                kept_samples = min(kept_samples, args.max_batches * args.batch)
+            epoch_order_identity["ordered_sample_indices"] = group_identity(
+                ordered_samples[:kept_samples]
+            )
         if frontier_contract is not None:
             epoch_order_identity["student_frontier_order"] = student_frontier.validate_training_order(
                 args,
@@ -3719,7 +3731,22 @@ def main():
                 None if epoch_grad_stats is None else epoch_grad_stats.get("nonfinite_steps"),
             )
             update_counts["finite_update_evidence"] = evidence
+            usage = {
+                "parent_peak_rss_bytes": int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+                * (1 if sys.platform == "darwin" else 1024),
+                "ram_scope": "trainer process lifetime peak; excludes loader children and page cache",
+            }
+            if device.type == "cuda":
+                torch.cuda.synchronize(device)
+                usage.update({
+                    "cuda_peak_allocated_bytes": torch.cuda.max_memory_allocated(device),
+                    "cuda_peak_reserved_bytes": torch.cuda.max_memory_reserved(device),
+                    "cuda_total_bytes": torch.cuda.get_device_properties(device).total_memory,
+                    "cuda_scope": "PyTorch allocator peak for this epoch; CUDA context is additional",
+                })
+            update_counts["resource_usage"] = usage
             print("FINITE_UPDATE_EVIDENCE", json.dumps(evidence), flush=True)
+            print("RESOURCE_USAGE", json.dumps(usage), flush=True)
             if not evidence["valid_for_throughput"]:
                 raise FloatingPointError("epoch contains incomplete or nonfinite optimizer updates")
         provenance["update_diagnostics"].append({"epoch_index": epoch, **update_counts})

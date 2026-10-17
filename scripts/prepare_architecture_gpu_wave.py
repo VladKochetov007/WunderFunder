@@ -19,7 +19,6 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-
 CAMPAIGN = Path("research/campaign_2026-10-17/architecture_gpu_wave_r1")
 RECIPE_PATH = CAMPAIGN / "recipe.json"
 SPLIT_DEFAULT = Path("research/campaign_2026-09-29/artifacts/splits/fold0.json")
@@ -68,7 +67,9 @@ def parse_gpu_ids(value: str) -> list[str]:
     if len(items) != len(set(items)):
         raise PreparationError("--gpu-ids contains duplicates")
     if any(not re.fullmatch(r"[A-Za-z0-9_.:-]{1,96}", item) for item in items):
-        raise PreparationError("GPU ids may contain only letters, digits, dot, underscore, colon, and dash")
+        raise PreparationError(
+            "GPU ids may contain only letters, digits, dot, underscore, colon, and dash"
+        )
     return items
 
 
@@ -141,7 +142,13 @@ def gpu_inventory(python: Path, gpu_ids: list[str]) -> list[dict[str, Any]]:
                 timeout=60,
             )
             torch_record = json.loads(checked.stdout.strip().splitlines()[-1])
-        except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired, ValueError, IndexError) as error:
+        except (
+            OSError,
+            subprocess.CalledProcessError,
+            subprocess.TimeoutExpired,
+            ValueError,
+            IndexError,
+        ) as error:
             detail = getattr(error, "stderr", "")
             raise PreparationError(
                 f"CUDA initialization failed for physical GPU {gpu_id}: {detail or error}"
@@ -188,7 +195,9 @@ def source_lock(project_root: Path, recipe: dict[str, Any]) -> dict[str, Any]:
         "project_root": str(project_root),
         "git_head": git_value(project_root, "rev-parse", "HEAD"),
         "git_branch": git_value(project_root, "branch", "--show-current"),
-        "git_status": git_value(project_root, "status", "--short", "--", *[item["path"] for item in files]),
+        "git_status": git_value(
+            project_root, "status", "--short", "--", *[item["path"] for item in files]
+        ),
         "files": files,
         "closure_sha256": hashlib.sha256(canonical).hexdigest(),
     }
@@ -226,7 +235,9 @@ def validate_data(
             raise PreparationError(f"portable data registry is missing: {portable_manifest}")
         registry = json.loads(portable_manifest.read_text(encoding="utf-8"))
         if registry.get("version") != 1 or registry.get("split_manifest_sha256") != split_sha256:
-            raise PreparationError("portable data registry is not bound to the selected fold-0 split")
+            raise PreparationError(
+                "portable data registry is not bound to the selected fold-0 split"
+            )
         for name, identity in split_value.get("sources", {}).items():
             entry = registry.get("sources", {}).get(name)
             if not isinstance(entry, dict) or entry.get("original_identity") != identity:
@@ -244,6 +255,7 @@ def validate_data(
         sys.path.insert(0, src)
     try:
         import numpy as np
+
         from wnn.splits import load_campaign_split
     except Exception as error:
         raise PreparationError(f"cannot load the project split/data validators: {error}") from error
@@ -462,7 +474,11 @@ def write_queue_spec(output_dir: Path, queue_name: str, spec: dict[str, Any]) ->
     """Write immutable pending JSON and its exact one-run SHA256 allowlist."""
     queue = output_dir / "queues" / queue_name
     pending = queue / "pending" / f"{spec['run_id']}.json"
-    if pending.exists() or (queue / "done" / pending.name).exists() or (queue / "failed" / pending.name).exists():
+    if (
+        pending.exists()
+        or (queue / "done" / pending.name).exists()
+        or (queue / "failed" / pending.name).exists()
+    ):
         raise PreparationError(f"worker spec path already exists: {pending}")
     pending.parent.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(spec, indent=2, sort_keys=True).encode() + b"\n"
@@ -496,18 +512,21 @@ def prepare_specs(
     portable_manifest: Path | None,
 ) -> list[dict[str, Any]]:
     """Write preflight, fit/export, and deferred coordinator grade specs."""
-    worker_specs: list[dict[str, Any]] = []
     grades = output_dir / "grades"
     queue_records: list[dict[str, Any]] = []
     split_sha = data_identity["split_sha256"]
-    manifest_sha = hashlib.sha256(canonical_bytes({
-        "recipe_sha256": sha256_file(project_root / RECIPE_PATH),
-        "source_closure_sha256": source_closure["closure_sha256"],
-        "data_identity_sha256": hashlib.sha256(canonical_bytes(data_identity)).hexdigest(),
-        "gpu_ids": gpu_ids,
-        "cpu_threads_per_worker": cpu_threads,
-        "loader_ram_gb_per_worker": loader_ram_gb,
-    })).hexdigest()
+    manifest_sha = hashlib.sha256(
+        canonical_bytes(
+            {
+                "recipe_sha256": sha256_file(project_root / RECIPE_PATH),
+                "source_closure_sha256": source_closure["closure_sha256"],
+                "data_identity_sha256": hashlib.sha256(canonical_bytes(data_identity)).hexdigest(),
+                "gpu_ids": gpu_ids,
+                "cpu_threads_per_worker": cpu_threads,
+                "loader_ram_gb_per_worker": loader_ram_gb,
+            }
+        )
+    ).hexdigest()
 
     for index, arm in enumerate(recipe["arms"]):
         gpu_id = gpu_ids[index % len(gpu_ids)]
@@ -528,9 +547,7 @@ def prepare_specs(
 
         preflight_step = {
             "name": "one_real_batch_preflight",
-            "argv": train_argv(
-                python, project_root, split_path, recipe, arm, preflight=True
-            ),
+            "argv": train_argv(python, project_root, split_path, recipe, arm, preflight=True),
             "cwd": str(project_root),
             "env": environment,
             "timeout_seconds": 3600,
@@ -851,13 +868,22 @@ def parse_args() -> argparse.Namespace:
     """Parse target-host preparation options."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project-root", type=Path, required=True, help="source checkout root")
-    parser.add_argument("--data-root", type=Path, required=True, help="data and model-artifact root")
+    parser.add_argument(
+        "--data-root", type=Path, required=True, help="data and model-artifact root"
+    )
     parser.add_argument("--portable-data-manifest", type=Path, default=None)
     parser.add_argument("--split-manifest", type=Path, default=None)
-    parser.add_argument("--gpu-ids", required=True, help="one to four physical GPU indices or UUIDs")
+    parser.add_argument(
+        "--gpu-ids", required=True, help="one to four physical GPU indices or UUIDs"
+    )
     parser.add_argument("--cpu-threads-per-worker", type=int, required=True)
     parser.add_argument("--loader-ram-gb-per-worker", type=float, required=True)
-    parser.add_argument("--output-dir", type=Path, required=True, help="persistent output outside the source checkout")
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        required=True,
+        help="persistent output outside the source checkout",
+    )
     return parser.parse_args()
 
 
@@ -883,15 +909,21 @@ def main() -> int:
     portable_manifest = None if portable_value is None else portable_value.resolve()
     try:
         if platform.system() != "Linux":
-            raise PreparationError("architecture wave preparation requires the intended Linux GPU host")
+            raise PreparationError(
+                "architecture wave preparation requires the intended Linux GPU host"
+            )
         if not project_root.is_dir() or not (project_root / ".git").exists():
             raise PreparationError(f"project root is not a Git checkout: {project_root}")
         if args.cpu_threads_per_worker < 1 or args.loader_ram_gb_per_worker <= 0:
             raise PreparationError("per-worker CPU thread and loader RAM budgets must be positive")
         if output_dir == project_root or project_root in output_dir.parents:
-            raise PreparationError("choose a persistent output directory outside the source checkout")
+            raise PreparationError(
+                "choose a persistent output directory outside the source checkout"
+            )
         if output_dir.exists() and any(output_dir.iterdir()):
-            raise PreparationError(f"output directory is nonempty; refusing to overwrite: {output_dir}")
+            raise PreparationError(
+                f"output directory is nonempty; refusing to overwrite: {output_dir}"
+            )
         recipe_source_path = project_root / RECIPE_PATH
         recipe_source_bytes = recipe_source_path.read_bytes()
         recipe = json.loads(recipe_source_bytes)
@@ -906,12 +938,24 @@ def main() -> int:
             raise PreparationError("frozen fold-0 split SHA256 differs from the recipe pin")
         source_closure = source_lock(project_root, recipe)
         run_ids = [arm[key] for arm in recipe["arms"] for key in ("run_id", "preflight_run_id")]
-        run_ids.extend([
-            "architecture_wave_grade_gru_f0_s3_r1",
-            *(f"grade_{arm['run_id']}" for arm in recipe["arms"] if arm["run_id"] != recipe["comparison"]["reference_run_id"]),
-            *(f"grade_mix_{arm['run_id']}" for arm in recipe["arms"] if arm["arm"] in recipe["comparison"]["fixed_mix"]["candidate_arms"]),
-        ])
-        if len(set(run_ids)) != len(run_ids) or any(not RUN_ID_RE.fullmatch(run_id) for run_id in run_ids):
+        run_ids.extend(
+            [
+                "architecture_wave_grade_gru_f0_s3_r1",
+                *(
+                    f"grade_{arm['run_id']}"
+                    for arm in recipe["arms"]
+                    if arm["run_id"] != recipe["comparison"]["reference_run_id"]
+                ),
+                *(
+                    f"grade_mix_{arm['run_id']}"
+                    for arm in recipe["arms"]
+                    if arm["arm"] in recipe["comparison"]["fixed_mix"]["candidate_arms"]
+                ),
+            ]
+        )
+        if len(set(run_ids)) != len(run_ids) or any(
+            not RUN_ID_RE.fullmatch(run_id) for run_id in run_ids
+        ):
             raise PreparationError("recipe contains an invalid or duplicate worker run id")
 
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -966,24 +1010,35 @@ def main() -> int:
             output_dir / "manifest.sha256.json",
             {"manifest_sha256": sha256_file(output_dir / "manifest.json")},
         )
-        print(json.dumps({
-            "status": manifest["status"],
-            "manifest": str(output_dir / "manifest.json"),
-            "gpu_ids": gpu_ids,
-            "gpu_count": len(gpu_ids),
-            "arm_count": len(recipe["arms"]),
-            "split_sha256": data_identity["split_sha256"],
-            "source_closure_sha256": source_closure["closure_sha256"],
-            "execution_started": False,
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "status": manifest["status"],
+                    "manifest": str(output_dir / "manifest.json"),
+                    "gpu_ids": gpu_ids,
+                    "gpu_count": len(gpu_ids),
+                    "arm_count": len(recipe["arms"]),
+                    "split_sha256": data_identity["split_sha256"],
+                    "source_closure_sha256": source_closure["closure_sha256"],
+                    "execution_started": False,
+                },
+                indent=2,
+            )
+        )
         return 0
     except (OSError, ValueError, PreparationError) as error:
-        print(json.dumps({
-            "status": "HOLD",
-            "error": str(error),
-            "execution_started": False,
-            "gpu_fit_started": False,
-        }, indent=2), file=sys.stderr)
+        print(
+            json.dumps(
+                {
+                    "status": "HOLD",
+                    "error": str(error),
+                    "execution_started": False,
+                    "gpu_fit_started": False,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
         return 2
 
 
