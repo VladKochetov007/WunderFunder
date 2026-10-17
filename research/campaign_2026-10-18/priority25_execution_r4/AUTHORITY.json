@@ -21,7 +21,8 @@
     "root": "/home/grinchenkoeg/computer-vision-homework-20261018",
     "shared_server": true,
     "other_users_jobs": "preserve",
-    "scratch": "physical disk under campaign root"
+    "scratch": "physical disk under campaign root",
+    "frozen_gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c"
   },
   "datasphere": {
     "project_id": "bt1dqf9jg0tuhggcrj4k",
@@ -89,7 +90,7 @@
       "rank": 1,
       "hypothesis_id": "H-RR17-01",
       "description": "**Широкий однослойный GRU до сходимости.** Самая прямая ставка на конечную модель; старый H512×1 screen лучше H256×2, но это один seed и короткий бюджет.",
-      "status": "binding_recipe"
+      "status": "first_F0_pair_running_optimizer_progress_observed"
     },
     {
       "rank": 2,
@@ -235,5 +236,10 @@
       "description": "**World-model входов и внутренние rollout учителя.** Длинная цепочка ошибок; воображаемое будущее не добавляет наблюдений.",
       "status": "pending_in_priority_order"
     }
-  ]
+  ],
+  "continuation": {
+    "automation_id": "wunder-1-25",
+    "interval_minutes": 30,
+    "runbook": "RUNBOOK.md"
+  }
 }

@@ -1,0 +1,167 @@
+{
+  "schema": "datasphere-live-discovery/v1",
+  "captured_local_date": "2026-10-18",
+  "scope": "metadata-only; no dataset bytes scanned; no job launched; no billing/project settings changed",
+  "project": {
+    "id": "bt1dqf9jg0tuhggcrj4k",
+    "community_id": "bt1dv4jmd0u81i806t74",
+    "name": "manushinmaximsergeevich",
+    "identity_scope_note": "Observed project access only; community-wide state may include resources/jobs invisible to this identity."
+  },
+  "access": {
+    "datasphere_cli_local": "/Users/nb/ds-venv/bin/datasphere",
+    "yc_cli_local": "/Users/nb/yandex-cloud/bin/yc",
+    "datasphere_cli_beleriand": "~/ds-venv/bin/datasphere",
+    "yc_cli_beleriand": "~/yandex-cloud/bin/yc",
+    "auth_refresh": "Existing configured Yandex Cloud identity was successfully used for a transient IAM-token refresh and live project read in the preceding discovery pass; token was not included in this receipt or persisted by this discovery.",
+    "safe_command_templates": [
+      "YC_IAM_TOKEN=<fresh_iam_token> ~/ds-venv/bin/datasphere project get --id bt1dqf9jg0tuhggcrj4k --format json",
+      "YC_IAM_TOKEN=<fresh_iam_token> ~/ds-venv/bin/datasphere project job list -p bt1dqf9jg0tuhggcrj4k --format json",
+      "YC_IAM_TOKEN=<fresh_iam_token> ~/ds-venv/bin/datasphere project job execute -p bt1dqf9jg0tuhggcrj4k -c config.yaml"
+    ],
+    "launch_template_status": "Template only; do not execute until the user-approved spend ceiling is set and root authorizes launch.",
+    "cli_capability": "Installed DataSphere CLI 1.39.0 project commands provide get/list/job but no project-restriction setter; explicit provider limits require DataSphere project Settings or API Project.SetRestrictions."
+  },
+  "live_project_limits_and_cost": {
+    "unit_balance": 41652791,
+    "unit_balance_api": "ProjectService.GetUnitBalance / REST Project.GetUnitBalance",
+    "g2_1_units_per_second": 116,
+    "g2_1_hours_equivalent": 99.7432734674,
+    "g2_1_usd_per_hour_ex_vat": 4.44982032,
+    "usd_equivalent_ex_vat": 443.8396450587,
+    "currency_caveat": "USD rates are net of VAT; Yandex.Cloud LLC customers are billed in RUB (VAT-inclusive). This is a price-list conversion, not an account invoice quote.",
+    "project_max_units_per_hour": null,
+    "project_max_units_per_execution": null,
+    "max_units_null_interpretation": "Both fields were unset in Project.Get. The observed unit balance is the only project-level consumption stop visible in this read; no campaign-specific ceiling was configured/verified.",
+    "active_jobs_visible_in_project": 0,
+    "active_job_scope": "Current project's active-job filter only; not a community-wide all-users inventory.",
+    "community_gpu_restrictions": "Project.GetRestrictions for the g2.1 allowlist returned HTTP 403 Permission denied, so current community GPU quota/whitelist could not be verified.",
+    "public_g2_1_quota_note": "Official Yandex docs state g2.1 quota availability requires a billing-account deposit of at least USD 10 or a support request; this is not proof the current community has that quota.",
+    "spend_limit_guidance": "A billing budget/notification alone does not stop consumption. An explicit DataSphere project consumption threshold is required for provider-side stopping. Do not infer that unset max_units_per_execution means a per-job cap.",
+    "estimated_hour_caps_at_current_price": {
+      "8_g2_1_hours": {
+        "units": 3340800,
+        "usd_ex_vat": 35.59856256
+      },
+      "24_g2_1_hours": {
+        "units": 10022400,
+        "usd_ex_vat": 106.79568768
+      },
+      "48_g2_1_hours": {
+        "units": 20044800,
+        "usd_ex_vat": 213.59137536
+      }
+    },
+    "historical_campaign_ceiling": "Oct 8 plan authorized a 24 A100-GPU-hour allocation with initial study capped at 16 hours and 8 hours reserved for follow-up. Historical plan only; not current user budget authorization or proof of remaining funds."
+  },
+  "prior_job_and_recipe": {
+    "historical_successful_job_id": "bt1b14t0auugkl8vtjgp",
+    "historical_job_name": "autoresearch-fullgdn-pair-s34-20261008",
+    "historical_actual_configuration": "g2.1; one A100, 28 vCPU, 119 GB RAM, 80 GB VRAM",
+    "historical_actual_started_utc": "2026-10-08T12:49:18Z",
+    "historical_actual_finished_utc": "2026-10-08T13:33:10Z",
+    "historical_runtime_seconds": 2632,
+    "historical_cost_at_current_price_usd_ex_vat": 3.252979968,
+    "historical_cost_note": "Estimate based on current public g2.1 rate, not historical invoice/billing currency.",
+    "local_historical_packet_root": "/Users/nb/Documents/wunder/audit-2026-10-17/evidence/github/snapshots/autoresearch__top15-20261007/research/datasphere-20261008",
+    "local_recipe_files": [
+      "prepare_job.py",
+      "cloud_main.py",
+      "cloud_controller.py",
+      "deployment/config.yaml",
+      "deployment/spec.json",
+      "deployment/data-manifest.json",
+      "deployment/preparation.json",
+      "STATUS.md"
+    ],
+    "remote_historical_job_directory": "~/dsjobs/autoresearch-20261008-fullgdn",
+    "remote_historical_code_archive": "~/dsjobs/autoresearch-20261008-fullgdn/code_all.tar",
+    "historical_archive_bytes": 4628480,
+    "historical_archive_files": 404,
+    "historical_source_inputs": [
+      "/home/grinchenkoeg/WunderFunder-creative/src",
+      "/home/grinchenkoeg/autoresearch-worktrees/top15-20261007/research/datasphere-20261008/science",
+      "/home/grinchenkoeg/autoresearch-worktrees/top15-20261007/research/top15/delta-prep/vendor"
+    ],
+    "historical_environment": {
+      "python": "3.12",
+      "requirements": [
+        "torch==2.14.0+cu126",
+        "numpy==2.2.6",
+        "pyarrow==19.0.1",
+        "numba==0.67.0"
+      ],
+      "torch_cuda130_attrs261_verification": "Not established by historical packet; its source config uses cu126 and does not list attrs."
+    },
+    "historical_runtime_caps": {
+      "spec_job_cap_seconds": 57600,
+      "runner_alarm_seconds": 57480,
+      "science_phase_caps_sum_seconds": 56400,
+      "controller_cancel_deadline": "16 hours from job creation",
+      "controller_cpu_evaluation_subprocess_timeout_seconds": 3600,
+      "graceful_shutdown": "SIGTERM; 60 seconds",
+      "provider_max_units_per_execution": "Unset in current Project.Get; historical cap was application/controller-enforced, not a verified provider per-execution limit."
+    }
+  },
+  "reusable_data_metadata": {
+    "historical_dataset_mounts": [
+      {
+        "slot": "DS1",
+        "id": "bt1hgmjcuue6t8sam7s4"
+      },
+      {
+        "slot": "DS2",
+        "id": "bt1cqrmc1sg7egjd8e4l"
+      },
+      {
+        "slot": "DS3",
+        "id": "bt11g4q81k8jjr9sb9lj"
+      },
+      {
+        "slot": "DS4",
+        "id": "bt1pletrdim678shtnfa"
+      }
+    ],
+    "historical_config_path": "/Users/nb/Documents/wunder/audit-2026-10-17/evidence/github/snapshots/autoresearch__top15-20261007/research/datasphere-20261008/deployment/config.yaml",
+    "historical_data_manifest_path": "/Users/nb/Documents/wunder/audit-2026-10-17/evidence/github/snapshots/autoresearch__top15-20261007/research/datasphere-20261008/deployment/data-manifest.json",
+    "historical_manifest_inputs_14": [
+      "datasets/train.parquet",
+      "datasets/valid.parquet",
+      "datasets/valid_mask.parquet",
+      "cache/chain_folds.npz",
+      "cache/propcache_prop_f0_train.npy",
+      "cache/propcache_prop_f0_train.json",
+      "cache/propcache_prop_f0_valid.npy",
+      "cache/propcache_prop_f0_valid.json",
+      "cache/train_targets.npz",
+      "cache/valid_targets.npz",
+      "artifacts/runs/prop_f0/model.pt",
+      "artifacts/runs/w15d256_s3/model_ep3.pt",
+      "research/iterations/2026-10-05-wave2/complement_hold.npy",
+      "research/artifacts/market-classes-v1.npz"
+    ],
+    "mount_reassembly": "cloud_main.py reconstructs train.parquet from mounted train.parquet.part00 through part05 and valid.parquet from mounted valid.parquet.part00 through part01; remaining manifest artifacts are linked from mounted files/extra inputs.",
+    "transfer_evidence": "Historical status records about 35 GB raw data served from four existing mounts; the prepared source archive was 4.63 MB; 14 data/input files were SHA-256 verified. Reuse mounts instead of uploading raw parquet again.",
+    "dataset_live_inventory_limit": "Dataset API reference exposes Activate/Deactivate only; project Get did not provide mount names/sizes/existence and no current dataset bytes were read. Four IDs are from the historical successful config, not a fresh live inventory.",
+    "docs_limit_mismatch": "Current public limits page says at most 3 datasets can be concurrently connected to a project; historical successful config lists 4. Historical job demonstrates 4 were accepted then, but current 4-mount acceptance must not be assumed. The new profile only needs the train/valid subset where available.",
+    "storage": "Historical job config used 100 GB ephemeral SSD working storage; it declared no S3 mount or project-disk attach. Current project storage usage and S3/file-storage inventory were not observable through the queried methods.",
+    "job_cache_ttl_note": "Official Jobs docs state the default job-data lifetime is 14 days and repeated jobs can reuse stored inputs within that lifetime. This is separate from the existing dataset mounts; cache presence was not independently checked."
+  },
+  "source_urls": [
+    "https://yandex.cloud/en/docs/datasphere/pricing",
+    "https://yandex.cloud/en/docs/datasphere/concepts/limits",
+    "https://yandex.cloud/en/docs/datasphere/concepts/configurations",
+    "https://yandex.cloud/en/docs/datasphere/concepts/budget",
+    "https://yandex.cloud/en/docs/datasphere/api-ref/Project/getUnitBalance",
+    "https://yandex.cloud/en/docs/datasphere/api-ref/Dataset/",
+    "https://yandex.cloud/en/docs/datasphere/concepts/jobs/"
+  ],
+  "next_gate": "No DataSphere job launched. Root/user must set a finite campaign ceiling and confirm whether to use the current project balance as the stopping limit before any paid execution.",
+  "later_docs_interpretation": {
+    "three_dataset_limit": "Documents describe three datasets activated to project/Jupyter storage. Jobs are independent of notebook VMs; do not treat this as a proven Jobs limit. Four IDs were used by the earlier successful job. Fresh bounded Jobs admission must establish current acceptance after allocation.",
+    "sources": [
+      "https://yandex.cloud/en/docs/datasphere/concepts/dataset",
+      "https://yandex.cloud/en/docs/datasphere/concepts/jobs/"
+    ]
+  }
+}

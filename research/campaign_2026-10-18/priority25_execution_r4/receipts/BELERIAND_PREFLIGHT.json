@@ -1,0 +1,23 @@
+{
+  "captured_utc": "2026-10-17T21:27:00.257295+00:00",
+  "host_alias": "beleriand",
+  "account": "grinchenkoeg",
+  "raw_readonly_resource_snapshot": "ControlGroup=/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice\nCPUQuotaPerSecUSec=2s\nMemoryHigh=18000000000\nMemoryMax=20000000000\nMemorySwapMax=0\n0, GPU-aa969728-9b37-ac58-7855-3f03494fb9e8, 10521 MiB, 5453 MiB, 100 %\n1, GPU-a922981b-b848-d027-b714-170d91808e71, 9703 MiB, 6272 MiB, 100 %\n2, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 6438 MiB, 9537 MiB, 100 %\n3, GPU-972b1ac9-5c27-384f-8f3b-b917fd06deba, 2668 MiB, 13307 MiB, 98 %\n4, GPU-a8fab7e3-7598-a8c6-a311-4c3fdbd02042, 15299 MiB, 676 MiB, 0 %\n5, GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c, 5656 MiB, 10319 MiB, 100 %\n6, GPU-53eaee12-1803-f8da-7399-ccdbfda91a18, 4 MiB, 15970 MiB, 0 %\nFilesystem             Size  Used Avail Use% Mounted on\n/dev/mapper/vg0-lv--0   91T  5.6T   81T   7% /\nLinger=yes\n",
+  "changes": [
+    "Created isolated campaign root and symlinked supplied inputs without modifying targets",
+    "Created previously absent own-user wnn-campaign.slice with 200% CPU,18GB memory-high,20GB max,no swap",
+    "Deployed immutable source-a266b036 from Git archive"
+  ],
+  "training_processes_launched": 0,
+  "failed_preflight": {
+    "stage": "build_campaign_splits",
+    "exception": "ValueError: validation component crosses cached folds",
+    "optimizer_steps": 0,
+    "graph_sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+    "beleriand_old_fold_cache_sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+    "canonical_main_original_fold_cache_sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+    "canonical_graph_and_live_graph_nodes_equal": true,
+    "next_action": "derive new cache from four frozen Main evaluation memberships and bind new source manifests; preserve legacy cache"
+  },
+  "resource_interpretation": "GPU5 has free memory but is already used by another user; proposed shared one-device profile, not exclusive reservation. Other jobs untouched."
+}

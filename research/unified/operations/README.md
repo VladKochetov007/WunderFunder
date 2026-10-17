@@ -4,7 +4,7 @@ Execution status, storage locations, preservation receipts and operational incid
 
 ## Current navigation
 
-- [Ranked25 execution, October18](../../campaign_2026-10-18/priority25_execution_r4/README.md) — Beleriand/DataSphere execution, renewed training authority, one selected Beleriand GPU and bounded provider budgets. Initial status: preparation/profile; no new quality result yet.
+- [Ranked25 execution, October18](../../campaign_2026-10-18/priority25_execution_r4/README.md) — Beleriand/DataSphere execution, renewed training authority, one selected Beleriand GPU and bounded provider budgets. Both actual-data profiles passed; the first F0 paired six-epoch pipeline is running with actual optimizer progress. Quality results are pending.
 
 - [R2 research delivery](../../campaign_2026-10-17/research_reset_r2/PUBLICATION.md) — zero-fit/zero-inference packet, preserved failed finalization logs and successful bounded reruns, exact input/output manifests and explicit Git integration. Parent geometry fits retain separate authority; no training/serving implementation is modified by this packet. [Contract](../../campaign_2026-10-17/research_reset_r2/CONTRACT.json) and [verification](../../campaign_2026-10-17/research_reset_r2/VERIFICATION.json) bind the no-training scope.
 

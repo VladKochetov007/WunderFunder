@@ -4,7 +4,7 @@
 
 ## Ranked25 execution authority,18 October2026
 
-The latest user explicitly requests testing ideas1–25 end-to-end on Beleriand and DataSphere, with at most one Beleriand GPU and job labels `computer-vision-homework-*`. This supersedes the earlier research-reset no-fit restriction for this campaign. The [execution packet](../research/campaign_2026-10-18/priority25_execution_r4/README.md) owns the current ordered tracker, provider budget and source-bound recipes. Initial stage: data/recipe/resource validation before rank1 fits. Historical scope statements below retain their dates and do not override this resume.
+The latest user explicitly requests testing ideas1–25 end-to-end on Beleriand and DataSphere, with at most one Beleriand GPU and job labels `computer-vision-homework-*`. This supersedes the earlier research-reset no-fit restriction for this campaign. The [execution packet](../research/campaign_2026-10-18/priority25_execution_r4/README.md) owns the current ordered tracker, provider budget and source-bound recipes. Both rank1 actual-data FP32 profiles passed (40 finite optimizer updates per shape). The first F0/seed1001 paired six-epoch pipeline is running on one Beleriand GPU, with actual optimizer progress observed; checkpoint/export/grade results are pending. DataSphere access is restored, with the new spending ceiling awaiting the user’s answer. Historical scope statements below retain their dates and do not override this resume.
 
 ## Operating state
 

@@ -45,3 +45,5 @@ The JSON receipt binds input hashes and graph node/component counts, canonical
 fold row counts, old-cache cross-fold component counts, output fields, fold
 array hash, output hash, and output path. The caller should retain both new
 artifacts and only then point the isolated campaign root at the derived cache.
+
+- [build_portable_sources.py](build_portable_sources.py) streams a fresh SHA256 for every frozen split source, verifies stable metadata, and writes the registry consumed by `wnn.portability` on DataSphere. It preserves input bytes and refuses an existing output.

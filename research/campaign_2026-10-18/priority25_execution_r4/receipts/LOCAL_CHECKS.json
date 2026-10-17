@@ -1,0 +1,29 @@
+{
+  "source": "a266b036",
+  "checks": [
+    {
+      "command": "PYTHONPATH=src:. OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m pytest -q tests/test_training_precision.py tests/test_bandit_resources.py tests/test_training_compatibility.py",
+      "result": "64 passed"
+    },
+    {
+      "command": "PYTHONPATH=src:. OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m pytest -q tests/test_training_trace.py tests/test_training_state.py",
+      "result": "12 passed"
+    },
+    {
+      "command": ".venv/bin/python scripts/check_training_structure.py",
+      "result": "59 files,0 errors"
+    },
+    {
+      "source": "6f9fd05e plus packet metadata",
+      "command": "PYTHONPATH=src:. OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m pytest -q tests/test_restore_canonical_folds.py tests/test_campaign_splits.py research/campaign_2026-10-18/priority25_execution_r4/code/test_grade_endpoint.py",
+      "result": "14 passed"
+    }
+  ],
+  "preliminary_command_failures": [
+    "Nonexistent test_train_rnn_compat.py name; no tests ran, corrected to actual file",
+    "Missing PYTHONPATH caused collection error; corrected environment before running tests"
+  ],
+  "limitation": "Synthetic CPU tests, not actual GPU/data profiles or model-quality evidence",
+  "github_api": "gh auth status: not logged in; Git SSH remote remains usable",
+  "total_passed_tests": 90
+}

@@ -1,3 +1,16 @@
 # Execution receipts
 
 This directory will retain sanitized provider access, source/data bindings, profiles, launches and terminal collections for [ranked25](../README.md). Credentials and large data/weights are excluded. No completed fit is claimed by an infrastructure receipt.
+
+- [Beleriand preflight](BELERIAND_PREFLIGHT.json): account, GPU/physical disk/cgroup observation and the first rejected legacy-fold binding, before optimizer steps.
+- [DataSphere discovery](DATASPHERE_DISCOVERY.json): successful existing-account IAM renewal, current project balance and job metadata, historical reusable mounts and explicit quota/budget uncertainty; no credentials.
+- [Local checks](LOCAL_CHECKS.json): 90 synthetic CPU tests across fit/guard, split restoration and endpoint grading, plus the trainer structure check; preliminary command errors are retained.
+- [Both actual-data profiles](PROFILE_COMPARISON.json):40 finite FP32 updates per shape, complete B8/T20000 sequences and C2000 truncation. Host peaks2.45/2.41GB; timing is shared-GPU engineering evidence only. [Wide receipt](PROFILE_WIDE_ATTEMPT.json), [wide log](PROFILE_WIDE_LOG.log), [deep receipt](PROFILE_DEEP_ATTEMPT.json), [deep log](PROFILE_DEEP_LOG.log) retain commands, sources, finite-gradient counts and runtime observations.
+- [Initial controller error](PROFILE_WIDE_LAUNCH.log): missing WNN_SLICE environment prevented admission; [corrected launch](PROFILE_WIDE_LAUNCH_V2.log) explicitly set it, and [deep launch](PROFILE_DEEP_LAUNCH.log) reused the corrected form. No blind retry or optimizer work in the rejected controller invocation.
+
+- [Independent first-pair admission review](ADMISSION_REVIEW.json): frozen source, clean membership, continuation, export and metric checks; permits the bounded F0 pair while retaining exposed-fold and provider-budget limits.
+- [Canonical fold restoration](FOLD_RESTORE.json): derives validation membership from the four pinned Main manifests against the verified graph. The old Beleriand cache remains untouched. Its one cross-fold component contains three validation sequences; that observation does not explain a large score gap.
+- [Portable input identities](PORTABLE_SOURCES.json): fresh full-file SHA256 of both supplied parquets, both target caches, the graph and derived fold cache. Train/valid hashes match the historical expected inputs.
+- [Portable archive inventory](PORTABLE_ARCHIVES.json): exact local paths, SHA256, byte sizes and member counts for frozen trainer code and small supplemental inputs. Large supplied data stays on existing storage; these archives are not a cloud launch.
+- [First sequence admission](F0_SEQUENCE_ADMISSION.json), [first fit attempt](FIRST_FIT_ATTEMPT.json) and [actual optimizer progress](FIRST_FIT_PROGRESS.log): timestamped running snapshots of the F0/seed1001 wide arm. Batch/loss/LR lines establish real fitting; no completed endpoint or quality improvement is claimed.
+- [Continuation ownership](CONTINUATION.json): durable service and thread heartbeat identifiers, monitoring scope and unresolved DataSphere allocation.

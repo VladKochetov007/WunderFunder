@@ -1,0 +1,29 @@
+# Ranked25 execution ownership
+
+Root owns the ordered campaign end-to-end, including failures, checkpoint collection, independent grading and deciding the next declared comparison. Start with `AUTHORITY.json`, this packet README and the current user messages; later stop/resume/budget instructions take precedence. The immutable ranking maps positions to original H-RR17 IDs.
+
+## Beleriand
+
+SSH alias `beleriand`, account `grinchenkoeg`. Campaign root `/home/grinchenkoeg/computer-vision-homework-20261018`. Do not modify legacy data/code or other users' jobs. Exactly one active GPU worker, pinned to `GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c` (physical GPU5 in the admission inventory). All job labels contain `computer-vision-homework`. Parent `wnn-campaign.slice` has2aggregateCPUs,18GBhigh/20GBmax/no swap; model worker reserves1CPU/8GB and limits the PyTorch allocator to4GB. The GPU is shared; whole-device observed memory includes others.
+
+The active service is `computer-vision-homework-r01-f0-sequence.service`. Its immutable plan is `f0_pair_plan.json`, matching repository `F0_PAIR_PLAN.json`. It runs the existing `scripts/bandit_sequence.py`; each job goes through existing `bandit_resources.py` admission and the shared `runtime/gpu.lock`. Do not run a second sequence or launch duplicate cells. Do not edit an active plan/source.
+
+Read `receipts/F0_SEQUENCE.json`, the current `runtime/attempts/<attempt>.json`, the matching `runtime/logs/<attempt>.log`, and actual systemd/cgroup status. Provider/service RUNNING is not proof of optimizer progress: initial exact-resume source/data hashing occurs after the run-argument log and before the first `ep0 batch...` line. Distinguish validation, fit, checkpoint, export and grade phases. Inspect heartbeat age, loss/LR/batch progress, completed update counts, memory.events, source and output hashes. A failed attempt or closed admission requires diagnosis and a new identified correction, never a blind retry.
+
+The F0/seed1001 plan completes wide/deep stage1 (epochs0–1), then strict continuation to epoch5 in distinct `_e6` run directories, feature-only FP32 exports, and `receipts/RANK01_F0_S1001_GRADE.json`. Source remains `source-a266b036`; independent grader is frozen under `grader-6f9fd05e`. The final grade is a conditional exposed-F0 comparison, not CP30. Preserve and collect all checkpoints, training_state, source/config, progress and predictions. Keep large weights/predictions remote, archive with SHA256/location, and copy bounded receipts into this packet.
+
+Both actual B8/C2000 FP32 profiles passed40finiteupdates, each host peak below2.5GB. The first full fit also hashes original parquet inputs for exact continuation; this is expected preparation, not a stalled optimizer. Full-epoch runtime and convergence remain unmeasured. Six epochs is the fixed endpoint and cannot alone establish convergence. Use fit-only trajectories before declaring a longer matched recipe.
+
+## DataSphere
+
+Existing project `bt1dqf9jg0tuhggcrj4k`, community `bt1dv4jmd0u81i806t74`. Existing default `yc` profile can refresh IAM in process memory; never print or commit credentials. The live discovery receipt confirms access and historical reusable inputs, but the old24A100-hour allocation is not current authority. The user has been asked for the new cap; `AUTHORITY.json.datasphere.new_campaign_gpu_hours` is null until answered. Prepare and verify artifacts while waiting; do not start a paid cloud job or change billing/quotas without the current finite allocation.
+
+Use the `datasphere/` adapter when it is sealed and independently reviewed. Canonical code is `source-a266b036.tar.gz`; small supplemental inputs hold the derived canonical folds, graph and content registry, while supplied parquet/target arrays come from historical mounts and must match fresh SHA256. Four historically successful dataset IDs do not prove present Jobs admission; the documented three-project-dataset limit alone does not prove a Jobs failure. Keep a finite runtime cap, reconcile actual billed time, and collect results before further admissions. Both arms of a paired cell use the same provider/runtime.
+
+## Progression and communication
+
+The active thread heartbeat is `wunder-1-25`, every 30 minutes. It owns inspection, terminal collection, correction and subsequent admissions within current authority; unchanged healthy progress is quiet. Its presence does not itself establish that any subsequent fit has run. Read the newest user message before acting, including a DataSphere allocation answer or explicit stop.
+
+After the first F0 pair, run the first seed on F1/F2/F3 within the same declared comparison, then the remaining CP30 cells as measured compute permits. Do not call one pair a complete rank1 result or start rank2 fits while claiming rank1 is settled. Cheap checks and implementation preparation may overlap healthy execution. The final CP30 estimand is the equal mean of four exposed folds,30pairedcells per arm (8/8/7/7 seeds1001+), with a10000-resample shared-seed bootstrap. The one-cell component bootstrap is a different conditional uncertainty statement. Retain negative and uncertain evidence without a universal zero-crossing kill rule.
+
+Continue positions1→25, freezing exact implementations, ancestry, budgets and decision rules before each comparison. Reuse canonical training modules; do not build another trainer/queue. Respect explicit user stops. Keep notifications quiet while a healthy run is unchanged; report meaningful stage completion, a scientific result, a failure, a budget boundary or required user input.
