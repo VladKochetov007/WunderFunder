@@ -24,7 +24,7 @@ uv sync --locked --group research --group dev
 
 ## Routine checks
 
-The repository Makefile defines the checks used by the lint-only CI workflow:
+The repository Makefile defines the static checks and checker unit tests used by CI:
 
 ```
 make quality
@@ -32,16 +32,43 @@ make quality-tests
 ```
 
 quality runs Ruff lint and format checks plus the training-structure checker.
-quality-tests runs focused unit tests for that checker. Run these targets from
+quality-tests runs six stdlib-only unit tests for that checker. Run these targets from
 the repository root; they use the tool versions and paths declared in Makefile.
 
-For manual checks outside those maintained targets, use:
+## CPU compatibility checks
+
+With PyTorch 2.14, attrs, NumPy, PyArrow, SciPy, pytest and the relevant test
+dependencies already installed, run the bounded trainer suite:
 
 ```
-uv run pytest
-uv run ruff check
-uv run ruff format --check
-uv run basedpyright
+make training-tests
+```
+
+It uses .venv/bin/python by default. To use a separately provisioned CPU
+environment:
+
+```
+make training-tests TEST_PYTHON=/absolute/path/to/cpu-env/bin/python
+```
+
+The target sets the compute-library thread budgets to one and imports the
+current checkout through PYTHONPATH. It checks legacy API compatibility, feature
+assembly, checkpoint/resume behavior and causal features using synthetic data.
+Two optional checks require real competition files and skip when those files
+are absent. It does not install packages or start a competition experiment.
+CI runs only the static checks and stdlib checker tests; it does not provision
+PyTorch or claim CUDA parity. The [maintenance receipt](../research/unified/operations/MAIN_MAINTENANCE_20261017.md)
+records the tested environment and results.
+
+## Other development checks
+
+For checks outside those maintained targets, use an already prepared environment:
+
+```
+uv run --no-sync pytest
+uv run --no-sync ruff check
+uv run --no-sync ruff format --check
+uv run --no-sync basedpyright
 ```
 
 Pytest marks checks that require competition Parquet files, a GPU or a longer
@@ -52,7 +79,7 @@ For changes under src/wnn/training/ or the trainer entrypoint, also run the
 structural checker required by the project instructions:
 
 ```
-uv run python scripts/check_training_structure.py
+make training-structure
 ```
 
 Read the [training component map](../src/wnn/training/README.md) before adding

@@ -1,5 +1,20 @@
 # Model families and training
 
+Architecture, training lineage, distillation and retained checkpoint sources.
+
+## Current navigation
+
+- [Current model and submission catalog](CURRENT_MODEL_CATALOG.md) — production packages, ancestry, exact ZIP identities and the distinction between research endpoints and serving engines.
+- [Private model archive](huggingface/README.md) — run lookup and source-qualified checkpoint preservation.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
+
 Use this domain for architecture, optimization, distillation, target construction, and model ancestry.
 
 ## Read these sources
@@ -26,3 +41,5 @@ Every comparison should name independent weights, teacher and initializer ancest
 - [Clean F3 teacher and fixed older-model mixture](../../campaign_2026-10-15/f3_teacher_export_r2/README.md#root-official-f3-grading-after-collection), H-KD-COMPLEMENTARY-TEACHER-20261015/E-F3-TEACHER-FIXED-HALF-20261015-R1, supplies505-group/145-component exposedF3 evidence: teacher.708015 versus older.709542, fixedhalf.710417 (delta+.000875, component interval[-.000455,.002013]). All exports collected/finite/identity checked and scored with frozen helpers; one seed/differentrecipes/olderprecisionunknown, half chosen after singles. Supports retaining possible complementary teacher signal, not a new student/publicbest or cross-fold numerical comparison.
 
 - [Derived F0 GRU growth initializer](../../campaign_2026-10-15/gru_parent_growth_r1/README.md) — parent c20261003_combo_s3_f0@ep3 expanded H256×2→H384×2 with pinned artifact/provenance and complete-sequence FP32 parity. Source-parent epoch is retained; no new updates, independent replication, native parity or measured quality. H-STUDENT-PARENT-GROWTH-20261015.
+
+</details>

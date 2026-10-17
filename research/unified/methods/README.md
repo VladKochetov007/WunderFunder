@@ -1,5 +1,21 @@
 # Methods, sampling, and metric
 
+Reusable metric, causal data handling, statistical and implementation contracts.
+
+## Current navigation
+
+- [Validation protocol map](../validation/VALIDATION_PROTOCOLS.md) — pooled official scoring, exact panel counts and interpretation limits.
+- [Training component map](../../../src/wnn/training/README.md) — maintained implementation and explicit runtime environment.
+- [Development checks](../../../docs/DEVELOPMENT.md) — repeatable code-quality and compatibility checks.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
+
 This domain collects the reusable research protocol: data membership, causal sequence handling, target treatments, official scoring, and uncertainty interpretation.
 
 ## Read these sources
@@ -44,3 +60,5 @@ The official metric and fold membership are part of every scored claim. Training
 - [Draft matrix expander](../../../scripts/experiment_draft_plan.py) reads a bounded recipe and prints the frozen30 paired cells per arm, strictFP32 requirements and missing bindings. It launches no training and supplies no queue. The [reporting API](../../../src/wnn/research_reporting.py) records immutable run metadata and append-only finite metrics; the [archive CLI](../../../scripts/research_result_bundle.py) streams explicitly selected evidence/weights into separate tarballs with hashes. These helpers require explicit trainer integration; static checks only, no new fit evidence.
 
 - [Modular RNN trainer refactor](MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md) records semantic components, explicit per-run state, preserved172-option CLI, source/portable-packet handling and Sol6.1/medium independent corrections. Ruff and structural checks pass; no fits, tests, numeric parity or throughput evidence. The [component map](../../../src/wnn/training/README.md) documents reusable APIs and every module.
+
+</details>

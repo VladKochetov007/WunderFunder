@@ -19,7 +19,7 @@ maintenance scope.
 ## Public leaderboard snapshot
 
 The official leaderboard was read on 17 October 2026. The team was at public
-WP **0.66832**, rank **22 of 97**; the leader was at **0.67243**. This is a dated
+WP **0.66832**, rank **22**, with **97 team submissions**; the leader was at **0.67243**. This is a dated
 external team result, linked to the [official leaderboard](https://wundernn.io/connectome/leaderboard).
 The page does not establish which exact ZIP or submission ID produced the
 current team-best score. The result is not private-leaderboard evidence and
@@ -50,6 +50,11 @@ not report unit or integration tests, numerical training parity, a new fit, or
 a throughput benchmark. Read the
 [refactor receipt](../research/unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md)
 before interpreting the change as evidence about model quality or performance.
+
+The subsequent [repository maintenance](../research/unified/operations/MAIN_MAINTENANCE_20261017.md)
+adds synthetic CPU regression and integration checks, legacy class compatibility
+fixes, and fewer intermediate feature concatenations. This is software evidence;
+it establishes no new model score, GPU parity or measured training speedup.
 
 The 17 October GitHub snapshot recorded 14 experiment-prefixed draft pull
 requests. They contain implementation proposals and handoffs; the count is not

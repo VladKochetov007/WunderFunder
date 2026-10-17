@@ -1,4 +1,22 @@
-## Bounded cloud profiles and unrelated work
+# Execution, incidents, and preservation
+
+Execution status, storage locations, preservation receipts and operational incidents.
+
+## Current navigation
+
+- [Storage map](STORAGE_MAP.md) — local, GitHub, beleriand, archive and private Hub locations, with coverage and identity limits.
+- [Research pause closeout](RESEARCH_PAUSE_20261015_R1.md) — the latest recorded research pause; no fitting is resumed by repository maintenance.
+- [Main maintenance receipt](MAIN_MAINTENANCE_20261017.md) — structural changes, compatibility fixes and the exact scope of code verification.
+- [Maintenance verification data](MAIN_MAINTENANCE_20261017.json) — commands, software versions, source hashes, test results and limits for the integrated change.
+- [Maintenance check log](MAIN_MAINTENANCE_20261017.log) — full local check output, with checkout paths normalized; includes two data-dependent skips and NumPy warnings.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
 
 - [Student profile overlap authority R3](../../campaign_2026-10-15/student_shape_pair_f0_r1/PROFILE_OVERLAP_AUTHORITY_R3.json) removes an internal all-peer-idle gate for the already-budgeted R4 resource profiles while an unrelated CASMI kernel runs. Fresh5400-second available quota/private-source checks remain; no unrelated cancellation, paid action or full-fit admission. Record contention rather than treating it as architecture evidence.
 
@@ -220,3 +238,5 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 - [Matched F0 student shape-pair T4 profile R3](../../campaign_2026-10-15/student_shape_pair_f0_r3/README.md) fixes the two CP5 normalization mount filenames against the already-created private READY v1 asset and reuses the reviewed R2 code closure. Its later private kernel run stopped before CUDA updates because the frozen fold0 split's train target-index cache was not mounted; the [terminal receipt](../../campaign_2026-10-15/student_shape_pair_f0_r3/PROVIDER_TERMINAL_R3.json) records zero GPU allocation and the H512 job not started. This is input-delivery evidence only.
 - [Matched F0 student shape-pair T4 profile R4](../../campaign_2026-10-15/student_shape_pair_f0_r4/README.md) restores both frozen fold0 target-index cache mounts from the existing content-addressed fold0 asset version1 while preserving the profile CLI vectors. Its source dataset and existing kernel were versioned to v2 after fresh preflights, but the exact v2 bootstrap stopped before runner launch because the two external cache paths were absent from `manifest.files`; the [terminal receipt](../../campaign_2026-10-15/student_shape_pair_f0_r4/PROVIDER_TERMINAL_R4.json) records this infrastructure error and no model evidence.
 - [Matched F0 student shape-pair T4 profile R5](../../campaign_2026-10-15/student_shape_pair_f0_r5/README.md) adds only the two producer-bound target-cache descriptors to the bundle manifest and passes both actual-bootstrap fixtures. Source/kernel v3 were pushed after exact preflights; the version-qualified run then failed before optimizer updates because the mounted homogeneous-cache symlinks resolve outside the registered cache root. The terminal receipt binds all 86 collected output files, the exact v3 status and typed-quota delta; this is delivery-path evidence, not model evidence.
+
+</details>

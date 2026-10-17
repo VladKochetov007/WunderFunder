@@ -23,7 +23,20 @@ from wnn.training.environment import TrainingEnvironment
 def build_inputs(
     x: torch.Tensor, *, environment: TrainingEnvironment | None = None
 ) -> torch.Tensor:
-    """Build inputs."""
+    """Assemble checkpoint-compatible feature blocks for one sequence batch.
+
+    Propensity uses only base, optional online-normalized and extra input
+    columns. Research and privileged features join the model inputs separately;
+    sentinel preprocessing runs after the final join. Differentiable raw inputs
+    retain the staged graph to preserve floating-point gradient accumulation.
+
+    Args:
+        x: Batch-by-time input tensor with raw columns followed by optional extras.
+        environment: Explicit feature configuration and propensity dependency.
+
+    Returns:
+        Model inputs in the feature order expected by existing checkpoints.
+    """
     environment = environment if environment is not None else TrainingEnvironment()
     raw, extra = (x[..., :N_FEATURES], x[..., N_FEATURES:])
     ev = event_features_torch(raw)

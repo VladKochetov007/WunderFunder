@@ -30,7 +30,7 @@ and [research objective](specs/research-objective.md).
 Model research has been paused since the recorded closeout on 15 October 2026.
 The latest main snapshot and this maintenance work do not resume fitting. The
 [official leaderboard](https://wundernn.io/connectome/leaderboard) showed the
-team at public WP 0.66832, rank 22 of 97, when read on 17 October 2026. That
+team at public WP 0.66832, rank 22 with 97 team submissions, when read on 17 October 2026. That
 dated public snapshot is not a local validation result or a private-leaderboard
 score. See [current state](specs/current-state.md) for the evidence limits and
 the preserved history.

@@ -1,5 +1,20 @@
 # Reviews and audit receipts
 
+Source-qualified audits, independent reviews and evidence assessments.
+
+## Current navigation
+
+- [Repository audit](REPOSITORY_AUDIT_20261017.md) — reconciled local, live GitHub and beleriand findings, corrected stale statuses and unresolved gaps.
+- [Portable audit evidence](audit-2026-10-17/README.md) — five small metadata/public receipts with SHA-256 manifest; no large data or weights.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
+
 - [Root R5 bootstrap reproduction receipt](STUDENT_SHAPE_T4_R5_ROOT_FIXTURE_20261015_R1.json): root compared R4/R5 manifests directly—only the two required target descriptors are added to `files`, with archive and outer kernel byte-identical—then reran the actor's actual-bootstrap fixture in a fresh physical directory. All24 mounts resolve, runtime specs are written, the runner is intercepted before Torch/GPU code, and links are cleaned. Conditional GO for the same bounded provider profile after fresh checks. This corrects the R4 review's missed manifest-allowlist requirement; it is bootstrap evidence, not actual-data/profile/quality evidence.
 
 - [Root review of queued frozen-parent S profile](FROZEN_PARENT_S_PROFILE_REVIEW_20261015_R1.md) independently compares exact S/C options and reads direct/cached teacher consumer/loss paths. GO for50-update resource smoke after C export and fresh shared admission; full fit remains unadmitted. Target calibration, historical precision and inherited-teacher confounds remain explicit.
@@ -155,3 +170,5 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 - [Independent experiment-workflow static review](EXPERIMENT_WORKFLOW_STATIC_REVIEW_20261017_R1.md) records Luna/max conditional pass, two material gaps (estimand/uncertainty and branch SHA pinning), and root fixes. Document review only; no numerical, training or archive-execution evidence.
 
 - [Independent modular-trainer static review and fixes](../methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md#independent-review-and-corrections) records the explicitly authorized Sol6.1/medium critic, concrete compatibility/state/packet bugs, corrections and final bounded disposition. Static review only; no empirical parity or speed claim. Canonical description is in methods.
+
+</details>
