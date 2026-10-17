@@ -57,25 +57,28 @@ def parse_fit_args(spec_path: Path) -> dict[str, Any]:
         raise ImportError(f"could not load the trainer source {source}")
     module = importlib.util.module_from_spec(module_spec)
     module_spec.loader.exec_module(module)
-    tree = ast.parse(source.read_text())
-    function = next(
-        node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == "main"
-    )
-    parse_args_index = next(
-        index
-        for index, node in enumerate(function.body)
-        if isinstance(node, ast.Assign)
-        and any(isinstance(target, ast.Name) and target.id == "args" for target in node.targets)
-    )
-    function.body = function.body[: parse_args_index + 1] + [
-        ast.Return(ast.Name("args", ast.Load()))
-    ]
-    parser_module = ast.fix_missing_locations(ast.Module(body=[function], type_ignores=[]))
-    exec(compile(parser_module, str(source), "exec"), module.__dict__)
+    if not hasattr(module, "build_parser"):
+        tree = ast.parse(source.read_text())
+        function = next(
+            node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == "main"
+        )
+        parse_args_index = next(
+            index
+            for index, node in enumerate(function.body)
+            if isinstance(node, ast.Assign)
+            and any(isinstance(target, ast.Name) and target.id == "args" for target in node.targets)
+        )
+        function.body = function.body[: parse_args_index + 1] + [
+            ast.Return(ast.Name("args", ast.Load()))
+        ]
+        parser_module = ast.fix_missing_locations(ast.Module(body=[function], type_ignores=[]))
+        exec(compile(parser_module, str(source), "exec"), module.__dict__)
     previous_argv = sys.argv
     try:
         sys.argv = [str(source)] + argv[source_index + 1 :]
-        parsed = vars(module.main())
+        parsed = vars(
+            module.build_parser().parse_args() if hasattr(module, "build_parser") else module.main()
+        )
     finally:
         sys.argv = previous_argv
     if parsed.get("fast"):
