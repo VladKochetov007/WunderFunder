@@ -51,9 +51,39 @@ def _is_parse_assignment(statement: ast.stmt, parser_name: str) -> bool:
     )
 
 
+def _modular_parser_statements(path: Path, module: ast.Module) -> list[ast.stmt] | None:
+    """Extract current modular declarations without importing Torch or any data code."""
+    is_modular = any(
+        isinstance(node, ast.ImportFrom) and node.module == "wnn.training.cli"
+        for node in module.body
+    )
+    if not is_modular:
+        return None
+    package = path.resolve().parents[1] / "src/wnn/training"
+    statements: list[ast.stmt] = []
+    # Use actual feature-choice definitions, including expanded moment/age modes.
+    features = ast.parse((package.parent / "research_features.py").read_text())
+    for node in features.body:
+        if isinstance(node, ast.Assign) and any(
+            isinstance(target, ast.Name)
+            and target.id
+            in {"MOMENT_FEATURE_MODES", "FIELD_AGE_FEATURE_MODES", "RESEARCH_FEATURE_MODES"}
+            for target in node.targets
+        ):
+            statements.append(node)
+    for source in sorted(package.glob("cli*.py")):
+        tree = ast.parse(source.read_text(), filename=str(source))
+        statements.extend(node for node in tree.body if isinstance(node, ast.FunctionDef))
+    statements.extend(ast.parse("args = build_parser().parse_args()").body)
+    return statements
+
+
 def _extract_main_parser(path: Path, *, parser_name: str) -> list[ast.stmt]:
     """Read the actual parser-building statements from a script's ``main``."""
     module = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+    modular = _modular_parser_statements(path, module)
+    if modular is not None:
+        return modular
     main = next(
         (
             node

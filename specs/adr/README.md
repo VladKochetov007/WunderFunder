@@ -65,3 +65,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0039: two local CPU cores and physical-disk scratch](0039-two-core-local-budget-and-disk-scratch.md) supersedes five-core allocations after laptop responsiveness/storage concerns; preserves GPU research, model recipes and checkpoints.
 
 - [ADR0040: research-team draft experiments](0040-research-team-draft-experiments.md) records the October17 user protocol: per-idea draft PRs,30 paired cells per arm, strictFP32, English execution/evidence handoffs and unified merge trace; local preparation before push, no queue or new fits.
+
+- [ADR0041: modular training code](0041-modular-training-code.md) makes the semantic package/thin CLI, uv/Ruff, explicit run state and300/200-line structure checks the shared main/research-team policy; preserves frozen source and numerical recipes.
