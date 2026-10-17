@@ -67,9 +67,14 @@ def load_contract(path: Path) -> tuple[dict[str, Any], str]:
 
 
 def teacher_source_matches_contract(
-    source: dict[str, Any], expected: dict[str, Any], root: Path
+    source: dict[str, Any], expected: dict[str, Any], root: Path,
+    *, source_path_bindings: dict[str, str] | None = None,
 ) -> bool:
-    """Compare producer ancestry fields with the portable consumer contract."""
+    """Compare ancestry, optionally relocating paths from hash-bound metadata.
+
+    The caller must verify the unchanged producer metadata and relocated local
+    checkpoint/provenance hashes. A binding changes path interpretation only.
+    """
     path_fields = {"checkpoint": "checkpoint_path", "provenance": "provenance_path"}
     for field, expected_value in expected.items():
         producer_field = path_fields.get(field)
@@ -87,7 +92,12 @@ def teacher_source_matches_contract(
         if not actual_path.is_absolute():
             return False
         try:
-            if actual_path.resolve(strict=True) != (root / expected_path).resolve(strict=True):
+            local_path = (root / expected_path).resolve(strict=True)
+            relocated = (source_path_bindings or {}).get(actual_value)
+            if relocated is not None:
+                if relocated != expected_value or not local_path.is_file():
+                    return False
+            elif actual_path.resolve(strict=True) != local_path:
                 return False
         except (OSError, RuntimeError):
             return False
@@ -430,11 +440,24 @@ def validate_cache_binding(
 
     source_records = metadata.get("sources", [])
     expected_sources = cache_contract["teachers"]
+    source_path_bindings = contract.get("source_path_bindings", {})
+    if not isinstance(source_path_bindings, dict) or any(
+        not isinstance(original, str)
+        or not Path(original).is_absolute()
+        or not isinstance(relative, str)
+        or not relative
+        or Path(relative).is_absolute()
+        or ".." in Path(relative).parts
+        for original, relative in source_path_bindings.items()
+    ):
+        raise ValueError("student-frontier source path bindings are malformed")
     if len(source_records) != len(expected_sources):
         raise ValueError("student-frontier teacher source count changed")
     verified_sources = []
     for source, expected in zip(source_records, expected_sources, strict=True):
-        if not teacher_source_matches_contract(source, expected, root):
+        if not teacher_source_matches_contract(
+            source, expected, root, source_path_bindings=source_path_bindings
+        ):
             raise ValueError(f"student-frontier teacher ancestry changed: {source.get('run')}")
         run = str(expected["run"])
         checkpoint = root / "artifacts/runs" / run / f"model_ep{expected['epoch']}.pt"
