@@ -4,10 +4,11 @@ Three implementations must agree exactly: ``event_features`` (numpy, batched),
 ``event_features_torch`` (GPU training) and ``StreamingEventFeatures`` (one row
 at a time, as in the submission callback).
 
-Findings behind the design (research/notes): targets change only on rows where
-both i0 bid and ask price columns update; trades show as transient trade-column
-changes; many columns hold between events, so recency and last-event deltas
-carry information a GRU would otherwise have to memorize.
+Findings behind the design (research/notes): target changes usually coincide
+with changes in selected i0 bid and ask price components. The October 17 full
+data audit found exceptions, so this is a useful feature clock, not an exact
+label law or permission to freeze outputs. Many columns hold between events;
+recency and last-event deltas expose that history to a recurrent model.
 """
 
 from __future__ import annotations

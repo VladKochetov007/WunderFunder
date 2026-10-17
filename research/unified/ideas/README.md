@@ -1,5 +1,24 @@
 # Ideas and hypotheses
 
+Existing proposals and their evidence; a proposal is not an admitted or completed fit.
+
+## Current navigation
+
+- [RR17 published proposal branches](../../campaign_2026-10-17/research_reset_r1/publication/README.md) —25isolated proposal commits from research-team, remote SHA verification and ready PR bodies. No new PR exists without API authentication; no fit is admitted.
+
+- [Research reset: 25 ideas](../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md) — ranked proposal portfolio with existing-work overlap, counterevidence, no-fit gates and future controls; no training admitted.
+- [Current state](../../../specs/current-state.md) — analysis/EDA is active; model fitting remains paused.
+- [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — established results and corrections to stale pending statuses.
+- [Experiment draft workflow](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) — implementation handoffs are distinct from measured research outcomes.
+
+For active status, start with [current state](../../../specs/current-state.md).
+The dated entries below retain their original descriptions and links. Their
+“pending”, “active” and authorization statements reflect their recording time;
+use a later result receipt or the current audit to establish final status.
+
+<details>
+<summary>Dated index preserved before the October 17 maintenance</summary>
+
 Use this page to navigate proposals, mechanism families, and their evidence. An idea is not a result until a source-qualified experiment and evaluation support it.
 
 ## Core records
@@ -77,4 +96,11 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 
 - [Published draft PR catalogue](../../experiment_drafts/README.md) links all14 English experiment handoffs, exact GitHub draft/base/head verification and the branch/commit JSON manifest. Describes code readiness, shared primitive provenance and missing B300/data bindings; no fits, tests or model-quality claim.
 
-- [Causal Transformer with output autoregression — experiment packet](../../experiment_drafts/transformer-ar/README.md) contains the English draft, recipe and matrix entry point for `E-DRAFT-TRANSFORMER-AR-20261017-R1` / `H-DRAFT-TRANSFORMER-AR-20261017` (teacher). Detailed architecture proposal; no teacher fit or B300 profile. Build real-data teacher/DDP trainer and cache exporter around model starter; profile strictFP32 attention, memory and serial AR; train207M/682M then quality/transfer-based1.65B extension. Proposal only; no new quality or LB result.
+</details>
+
+## Current sequence-moment investigation
+
+- [Discrete occupancy and regime heuristics](DISCRETE_OCCUPANCY_HEURISTICS_20261017_R1.md) turns the user-requested all112 mean/std visual review into six causal representation families for teachers and students: frequent-level identity, row/event occupancy, dwell/transitions, soft branch evidence and level-plus-scale. Input geometry and tiny predictive pilots are measured; teacher/studentdistillation and production transfer remain untested. Explicitly preserves the direction after a weak tiny pilot and evaluates conditional contributions rather than requiring immediate standalone dominance.
+
+## Experiment draft updates
+
