@@ -1,8 +1,10 @@
 # Staged experiment proposal packets: RR17
 
+Installed proposal branches are now published; see the [publication receipt](../publication/README.md) for exact SHAs and URLs. PRs remain uncreated because `gh` has no authenticated session. The staging descriptions below preserve the preparation stage.
+
 These 25 directories are proposal-only staging under the no-fit campaign. Each has README.md, PR.md and recipe.json; none includes a trainer, model adapter, data/cache binding, fit, profile, grade, PR URL or merge SHA. `training_authorized` is false. The parent controller owns installation onto isolated research-team branches and any later publication action; this staging pass does not mutate the unified idea index or append-only ledgers.
 
-Every packet preserves the canonical card link for its eventual `research/experiment_drafts/rr17-XX/` location. Its JSON records unresolved model specification, dataset paths/hashes, source-qualified fold memberships, compute profile, ancestry and training command as null with explicit gates. The 30 paired endpoint cells per arm are a future protocol only; ancillary teacher/pretraining jobs are additional and must be separately bound. The JSON syntax command in each PR body is not a trainer.
+Each staging packet links the local canonical card; installation adjusts the relative link for `research/experiment_drafts/rr17-XX/`. Its JSON records unresolved model specification, dataset paths/hashes, source-qualified fold memberships, compute profile, ancestry and training command as null with explicit gates. The 30 paired endpoint cells per arm are a future protocol only; ancillary teacher/pretraining jobs are additional and must be separately bound. The JSON syntax command in each PR body is not a trainer.
 
 ## Packets
 

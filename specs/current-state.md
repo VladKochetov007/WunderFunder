@@ -34,6 +34,14 @@ does not replace local validation.
 
 ## Latest measured local evidence
 
+The October17 [no-fit packet](../research/campaign_2026-10-17/research_reset_r1/README.md)
+adds deployed legacy fixes and a four-group frozen-checkpoint replay (WP0.06289742
+with wrong preprocessing,0.72994782restored; bitwise manual/config parity). This
+is bug isolation, not a new model ranking. Its full four-column census refutes
+H-001 with1,253need-eligible exceptions. The shared evidence and25proposal branches
+are published on research-team; [publication status](../research/campaign_2026-10-17/research_reset_r1/publication/README.md)
+records that new PRs/main promotion await API authentication.
+
 The last completed comparison in the current pause record is the exposed-F0
 G-versus-C grade: G scored 0.68125607, a delta of **+0.00002956** over C, with
 a conditional component 95% interval of **[−0.00038018, +0.00037707]**. This

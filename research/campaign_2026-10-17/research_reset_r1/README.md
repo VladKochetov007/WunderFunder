@@ -14,6 +14,9 @@ checks, not research fits or trained competition candidates.
   exactly 25 diverse proposals, each with prior overlap, counterevidence,
   discriminating control, no-fit checks and a CPU/student path. Priorities are
   qualitative information value, not expected leaderboard gains.
+- [Publication receipt](publication/README.md) — research-team and25proposal
+  branches published and remote SHAs verified; PR creation awaits GitHub API
+  authentication. No main promotion or model fit is claimed.
 - [Proposal draft packets](drafts/README.md) — 25 staged English PR bodies and
   explicit non-runnable recipes; implementation and fit admission remain pending.
 - [Future comparison protocol](PROTOCOL.json) — 30 paired fold/seed cells per arm,
