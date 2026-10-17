@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "state": "UNSEALED_REQUIRES_FRESH_ASSET_HASHES_AND_MOUNT_MAP",
+  "experiment_id": "E-RR18-01-LABELS",
+  "source_commit": "a266b036b02e8e012c6eb31072291dad618a169d",
+  "code_archive_sha256": "REQUIRED_SHA256_SOURCE_A266B036_TAR_GZ",
+  "supplemental_archive_sha256": "REQUIRED_SHA256_SUPPLEMENTAL_INPUTS_TAR_GZ",
+  "source_root": "source",
+  "data_root": "data",
+  "portable_registry": "portable-sources.json",
+  "split_manifest": "splits/fold0.json",
+  "expected_split_manifest_sha256": "REQUIRED_SHA256_FOLD0_JSON",
+  "expected_portable_registry_sha256": "REQUIRED_SHA256_PORTABLE_SOURCES_JSON",
+  "supplemental_members": {
+    "cache/chains.npz": "REQUIRED_SHA256_CANONICAL_CHAINS_NPZ",
+    "derivedcache/chain_folds.npz": "REQUIRED_SHA256_CANONICAL_CHAIN_FOLDS_NPZ",
+    "splits/fold0.json": "REQUIRED_SHA256_FOLD0_JSON",
+    "splits/fold1.json": "REQUIRED_SHA256_FOLD1_JSON",
+    "splits/fold2.json": "REQUIRED_SHA256_FOLD2_JSON",
+    "splits/fold3.json": "REQUIRED_SHA256_FOLD3_JSON",
+    "portable-sources.json": "REQUIRED_SHA256_PORTABLE_SOURCES_JSON"
+  },
+  "dataset_slots": ["DS1", "DS2", "DS3", "DS4"],
+  "mounted_inputs": {
+    "train": {
+      "assembled_path": "datasets/train.parquet",
+      "bytes": "REQUIRED_BYTES_TRAIN_PARQUET",
+      "sha256": "REQUIRED_SHA256_TRAIN_PARQUET",
+      "parts": [
+        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part00", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
+        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part01", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
+        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part02", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
+        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part03", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
+        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part04", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
+        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part05", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"}
+      ]
+    },
+    "valid": {
+      "assembled_path": "datasets/valid.parquet",
+      "bytes": "REQUIRED_BYTES_VALID_PARQUET",
+      "sha256": "REQUIRED_SHA256_VALID_PARQUET",
+      "parts": [
+        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "valid.parquet.part00", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
+        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "valid.parquet.part01", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"}
+      ]
+    }
+  },
+  "mounted_files": {
+    "cache/train_targets.npz": {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "cache__train_targets.npz", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
+    "cache/valid_targets.npz": {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "cache__valid_targets.npz", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"}
+  },
+  "minimum_free_bytes_after_staging": 10737418240,
+  "internal_deadline_seconds": 3300,
+  "external_cancel_deadline_seconds_from_submit": 3600,
+  "expected_environment": {
+    "python_version": "3.12",
+    "torch_version": "2.14.0+cu130",
+    "torch_cuda_version": "13.0",
+    "numpy_version": "2.2.6",
+    "pyarrow_version": "19.0.1",
+    "attrs_version": "26.1.0",
+    "visible_gpu_count": 1,
+    "gpu_name_substring": "A100"
+  },
+  "recipe": {
+    "profile_steps": 3,
+    "profile_warmup": 0,
+    "epochs": 6,
+    "fold": 0,
+    "seed": 1001,
+    "train_source": "train",
+    "loss": "wmse",
+    "loss_norm": "chunk",
+    "precision": "fp32",
+    "batch": 8,
+    "chunk": 2000,
+    "learning_rate": 0.0001,
+    "beta2": 0.999,
+    "weight_decay": 0.01,
+    "warmup_fraction": 0.05
+  },
+  "arms": [
+    {"name": "computer-vision-homework-rank01-profile-h512l1", "hidden": 512, "layers": 1},
+    {"name": "computer-vision-homework-rank01-profile-h384l2", "hidden": 384, "layers": 2}
+  ]
+}
