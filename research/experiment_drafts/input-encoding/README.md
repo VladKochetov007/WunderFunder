@@ -1,6 +1,6 @@
 # Grouped feature encoding for causal Transformer
 
-Status: implementation handoff; no new fits. Lineage `teacher`; `H-DRAFT-INPUT-ENCODING-20261017` / `E-DRAFT-INPUT-ENCODING-20261017-R1`. Base main/research-team `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`. User proposal; grouped model starter only, no measured result.
+Status: implementation handoff; no new fits. Lineage `teacher`; `H-DRAFT-INPUT-ENCODING-20261017` / `E-DRAFT-INPUT-ENCODING-20261017-R1`. Original fork main/research-team `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`. User proposal; grouped model starter only, no measured result.
 
 - [English draft PR](PR.md) answers mechanism, compute, validation/significance, ancestry/leakage, decisions, actual code readiness and execution/artifact return. Add flat matched-parameter control and identical temporal position handling; exact13groups from user schema; no physical-price assumptions.
 - [Recipe](recipe.json) records strictFP32, candidate/control arms,30-cell protocol (engineering diagnostics excepted), proposed optimizer/scheduler and explicitly missing bindings. Launch-ready is false.
@@ -13,3 +13,5 @@ Status: implementation handoff; no new fits. Lineage `teacher`; `H-DRAFT-INPUT-E
 - [src/wnn/causal_teacher.py](../../../src/wnn/causal_teacher.py)
 
 New code in this PR: src/wnn/causal_research_features.py, src/wnn/causal_teacher.py Shared primitive files have identical contents across related draft PRs, so they should merge once; they are not independent replications. Circle arithmetic is strictFP32, adapted from the source actor commit bc0ead82; cancellation and geometric validity remain untested.
+
+Integration parent: research-team `96b014737211c19d421e29c5595b5ea7e86797ff`. Common catalogues were preserved and this packet appended; no scientific settings or historical ledger rows were dropped.
