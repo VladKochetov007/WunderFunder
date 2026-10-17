@@ -4,6 +4,8 @@ Execution status, storage locations, preservation receipts and operational incid
 
 ## Current navigation
 
+- [Ranked25 execution, October18](../../campaign_2026-10-18/priority25_execution_r4/README.md) — Beleriand/DataSphere execution, renewed training authority, one selected Beleriand GPU and bounded provider budgets. Initial status: preparation/profile; no new quality result yet.
+
 - [R2 research delivery](../../campaign_2026-10-17/research_reset_r2/PUBLICATION.md) — zero-fit/zero-inference packet, preserved failed finalization logs and successful bounded reruns, exact input/output manifests and explicit Git integration. Parent geometry fits retain separate authority; no training/serving implementation is modified by this packet. [Contract](../../campaign_2026-10-17/research_reset_r2/CONTRACT.json) and [verification](../../campaign_2026-10-17/research_reset_r2/VERIFICATION.json) bind the no-training scope.
 
 - [R1 no-fit research publication](../../campaign_2026-10-17/research_reset_r1/publication/README.md) — dated receipt of shared repair/evidence on research-team and25proposal branches with exact refs. That session lacked gh API authentication. Subsequent upstream0f479660 incorporated R1 into main/research-team; the later [R2 publication record](../../campaign_2026-10-17/research_reset_r2/PUBLICATION.md) records the updated integration boundary.

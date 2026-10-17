@@ -1,6 +1,10 @@
 # Current project state
 
-**Snapshot date:** 17 October 2026. **Research status:** scoped local moment/discrete-feature experiments resumed by the latest user instruction. **Current scope:** bounded local EDA/fits, plus repository integration. Unrelated paused campaigns retain their prior boundary.
+**Snapshot date:**18 October2026. **Research status:** ranked25 execution resumed on Beleriand and DataSphere. **Current scope:** ordered experiments, initially rank1; one Beleriand GPU. Provider spending stays within the current campaign allocation.
+
+## Ranked25 execution authority,18 October2026
+
+The latest user explicitly requests testing ideas1–25 end-to-end on Beleriand and DataSphere, with at most one Beleriand GPU and job labels `computer-vision-homework-*`. This supersedes the earlier research-reset no-fit restriction for this campaign. The [execution packet](../research/campaign_2026-10-18/priority25_execution_r4/README.md) owns the current ordered tracker, provider budget and source-bound recipes. Initial stage: data/recipe/resource validation before rank1 fits. Historical scope statements below retain their dates and do not override this resume.
 
 ## Operating state
 

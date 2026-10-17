@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "campaign_id": "priority25_execution_r4_20261018",
+  "authority": {
+    "user_instruction": "давай с самого начала 1-25 проверять от начала до конца. на beleriand и datasphere. на beleriand занимай только одну карту и называй джобы что-то типа computer-vision-homework",
+    "training_authorized": true,
+    "supersedes": "no-fit research-reset boundary for this ranked25 execution campaign only",
+    "ordering_source": "research/unified/ideas/PRIORITIZED_25_20261018_R3.md",
+    "topups_or_new_rentals_authorized": false
+  },
+  "beleriand": {
+    "max_concurrent_gpu_workers": 1,
+    "gpu_selector": "one full GPU UUID frozen per attempt",
+    "job_label_prefix": "computer-vision-homework",
+    "aggregate_cpu_cores": 2,
+    "aggregate_memory_high_bytes": 18000000000,
+    "aggregate_memory_max_bytes": 20000000000,
+    "memory_working_target_bytes": 17000000000,
+    "swap_max_bytes": 0,
+    "pytorch_allocator_ceiling_bytes": 4000000000,
+    "root": "/home/grinchenkoeg/computer-vision-homework-20261018",
+    "shared_server": true,
+    "other_users_jobs": "preserve",
+    "scratch": "physical disk under campaign root"
+  },
+  "datasphere": {
+    "project_id": "bt1dqf9jg0tuhggcrj4k",
+    "community_id": "bt1dv4jmd0u81i806t74",
+    "new_campaign_gpu_hours": null,
+    "budget_status": "user question pending; no paid launch yet",
+    "max_concurrent_jobs_initially": 1,
+    "no_billing_changes": true
+  },
+  "scientific_contract": {
+    "metric_id": "global_wp_clip2_v1",
+    "precision": "fp32",
+    "autocast": false,
+    "tf32": false,
+    "paired_cells_per_arm": 30,
+    "fold_seeds": {
+      "0": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "1": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "2": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ],
+      "3": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ]
+    },
+    "fold_estimand": "equal mean across four exposed folds",
+    "bootstrap_draws": 10000,
+    "bootstrap": "resample shared seed identifiers jointly across paired arms; folds fixed",
+    "pilot_status": "exploratory; not full comparison or universal kill gate",
+    "same_cell_provider": "both arms on same provider/runtime",
+    "parent_teacher_ancestry": "must exclude evaluated components"
+  },
+  "ranked_ideas": [
+    {
+      "rank": 1,
+      "hypothesis_id": "H-RR17-01",
+      "description": "**Широкий однослойный GRU до сходимости.** Самая прямая ставка на конечную модель; старый H512×1 screen лучше H256×2, но это один seed и короткий бюджет.",
+      "status": "binding_recipe"
+    },
+    {
+      "rank": 2,
+      "hypothesis_id": "H-RR17-06",
+      "description": "**Причинные статистики и нормализация с raw bypass.** Есть соседние moment/scale positives; абсолютный уровень нельзя без проверки стирать.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 3,
+      "hypothesis_id": "H-RR17-02",
+      "description": "**Сильный causal teacher → компактный student.** KD уже имеет локальные основания; важен выигрыш student, а не teacher-only рекорд.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 4,
+      "hypothesis_id": "H-RR17-04",
+      "description": "**Промежуточные hints учителя.** Два выхода могут терять полезное состояние, но произвольные hidden coordinates могут мешать.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 5,
+      "hypothesis_id": "H-RR17-10",
+      "description": "**Разная ёмкость общей и контрастной компонент.** Реальное нелинейное разделение задач, а не эквивалентная замена координат.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 6,
+      "hypothesis_id": "H-RR17-22",
+      "description": "**Общие преобразования компонентов с сохранением ID.** Альтернатива плоскому encoder; симметрия таргета пока не установлена.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 7,
+      "hypothesis_id": "H-RR17-05",
+      "description": "**Надёжность i1 и межинструментные лаги.** Исправление preprocessing позволяет пересмотреть затронутые старые результаты; само исправление не доказывает пользу i1.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 8,
+      "hypothesis_id": "H-RR17-16",
+      "description": "**Локальное causal attention + recurrence.** Другая форма чтения недавних событий при сохранении длинного состояния. Clock-EDA её не проверяло.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 9,
+      "hypothesis_id": "H-RR17-11",
+      "description": "**Ковариационная ориентация групп признаков.** Может сохранить информацию о совместном движении, которую теряет scalar activity.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 10,
+      "hypothesis_id": "H-RR17-14",
+      "description": "**Mamba-3 teacher, MIMO против SISO.** Отдельная ставка на оператор памяти; языковые результаты не являются рыночными.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 11,
+      "hypothesis_id": "H-RR17-15",
+      "description": "**xLSTM teacher с матричной памятью.** Возможность хранить ассоциации иначе, чем GRU; наша EDA преимущества не доказала.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 12,
+      "hypothesis_id": "H-RR17-20",
+      "description": "**Нелинейная калибровка под weighted-метрику.** Дешёвая проверка clipping/нелинейности; обычный positive affine transform до clipping Pearson не улучшает.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 13,
+      "hypothesis_id": "H-RR17-08",
+      "description": "**Новые observable future queries.** Обычные next-mark/waiting-time уже были в Belief; нужен конкретный дополнительный query bank.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 14,
+      "hypothesis_id": "H-RR17-03",
+      "description": "**Мягкая запись в основное hidden state.** Выход остаётся плотным; output-hold не тестировал этот механизм. Generic DualClock — уже повтор.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 15,
+      "hypothesis_id": "H-RR17-21",
+      "description": "**Ограниченная group-robust поправка objective.** Может уменьшить систематические провалы; переразвесовка способна ухудшить pooled WP.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 16,
+      "hypothesis_id": "H-RR17-12",
+      "description": "**CUSUM для скорости адаптации медленной памяти.** Только observable innovations, без истинных классов. Age/class EDA не установило нужного порога.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 17,
+      "hypothesis_id": "H-RR17-09",
+      "description": "**Признак порядка межпоточных событий.** Low-order path signature близка лаговому базису и должна превзойти именно его.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 18,
+      "hypothesis_id": "H-RR17-17",
+      "description": "**Восстановление скрытой группы текущих признаков.** Предобучение encoder на межгрупповых связях; риск простого копирования.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 19,
+      "hypothesis_id": "H-RR17-18",
+      "description": "**CPC будущих входных состояний.** Может выучить динамику, но часто решается через persistence, activity или sequence identity.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 20,
+      "hypothesis_id": "H-RR17-07",
+      "description": "**KD распределения и зависимости.** Небольшой набор квантилей/связей может дополнять два средних; histogram/CE negatives снижают приоритет.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 21,
+      "hypothesis_id": "H-RR17-19",
+      "description": "**Компенсированное усечение градиента ARTBP.** Другой способ обучать длинную память, но компенсация может резко увеличить дисперсию.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 22,
+      "hypothesis_id": "H-RR17-13",
+      "description": "**Поиск прошлых состояний по содержимому.** Снижают приоритет нестабильные старые retrieval-результаты и стоимость lookup.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 23,
+      "hypothesis_id": "H-RR17-23",
+      "description": "**Топология переходов и циклов входных кодов.** Может отличать одинаковую occupancy; dictionary/dwell pilot подтверждает только необходимость простого контроля.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 24,
+      "hypothesis_id": "H-RR17-24",
+      "description": "**Адаптирующаяся fast memory только у teacher.** Смелая ставка; student может не суметь воспроизвести адаптацию.",
+      "status": "pending_in_priority_order"
+    },
+    {
+      "rank": 25,
+      "hypothesis_id": "H-RR17-25",
+      "description": "**World-model входов и внутренние rollout учителя.** Длинная цепочка ошибок; воображаемое будущее не добавляет наблюдений.",
+      "status": "pending_in_priority_order"
+    }
+  ]
+}
