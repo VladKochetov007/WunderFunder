@@ -1,5 +1,12 @@
 # Project agent instructions
 
+## Python training architecture — user instruction, 2026-10-17
+
+Use `$python-standards` proactively for Python changes. The [training component map](src/wnn/training/README.md) is canonical: reuse its datasets, input assembly, model factory, objectives, update, checkpoint and provenance components. `scripts/train_rnn.py` is a compatibility entrypoint; do not add orchestration or model/feature/loss implementations there. New training logic belongs in a focused semantic component, never in a copied trainer.
+
+Run `uv run ruff format`, `uv run ruff check` and `uv run python scripts/check_training_structure.py` for changed trainer code. The latter enforces300lines/module and200lines/function, typed signatures, public docs and no global/nonlocal; lint-only CI applies to main/research-team and PRs. Use Ruff's configured line length from pyproject.toml. Preserve numerical/update order and source-qualified provenance; do not claim measured parity or performance from static checks. See [ADR0041](specs/adr/0041-modular-training-code.md) and the [refactor/review receipt](research/unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md). Frozen historical source snapshots are preserved; new research code reuses the canonical package.
+
+
 ## Experiment draft PR workflow — user instruction, 2026-10-17
 
 Use the [research-team workflow guide](research/unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) and [English PR template](research/unified/templates/EXPERIMENT_DRAFT_PR.md). Shared policy lives on main; [research-team](https://github.com/VladKochetov007/WunderFunder/tree/research-team) is the integration base; each idea gets an `experiment/<id>` draft PR targeting research-team. The remote link is prospective until first push. The subsequent October17 user instruction explicitly authorizes `gh`, pushing the prepared branches and creating draft PRs; it supersedes the initial pre-push hold. Documentation/implementation preparation does not resume paused model fits.

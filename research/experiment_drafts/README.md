@@ -7,20 +7,20 @@ Fourteen draft PRs are published with base **research-team**; GitHub reports eve
 
 | Draft | Idea | Source SHA |
 |---|---|---|
-| [#1](https://github.com/VladKochetov007/WunderFunder/pull/1) | Causal Transformer with output autoregression | `f772da4c35d9` |
-| [#2](https://github.com/VladKochetov007/WunderFunder/pull/2) | Cold GRU width versus depth at matched compute | `9390f08af7a5` |
-| [#3](https://github.com/VladKochetov007/WunderFunder/pull/3) | GRU versus Transformer teachers for the same GRU student | `510d971b5549` |
-| [#4](https://github.com/VladKochetov007/WunderFunder/pull/4) | Per-field ages versus seven group clocks | `8be5f8bf9a3d` |
-| [#5](https://github.com/VladKochetov007/WunderFunder/pull/5) | Function-preserving GRU widening | `6b96ed88c3a3` |
-| [#6](https://github.com/VladKochetov007/WunderFunder/pull/6) | Frozen-parent output anchor | `400334f291c3` |
-| [#7](https://github.com/VladKochetov007/WunderFunder/pull/7) | Learned causal initial-state family | `4c78577307e1` |
-| [#8](https://github.com/VladKochetov007/WunderFunder/pull/8) | Grouped feature encoding for causal Transformer | `e239bab3a7d3` |
-| [#9](https://github.com/VladKochetov007/WunderFunder/pull/9) | Past-only smoothing while retaining raw inputs | `2b664e31654f` |
-| [#10](https://github.com/VladKochetov007/WunderFunder/pull/10) | Trailing geometry and circle residual feature | `d2716b197941` |
-| [#11](https://github.com/VladKochetov007/WunderFunder/pull/11) | Permitted Chronos or TimesFM teacher transfer | `00692b0eeb31` |
-| [#12](https://github.com/VladKochetov007/WunderFunder/pull/12) | Expand clean heterogeneous recurrent teacher cohort | `d2c92de6a8e6` |
-| [#13](https://github.com/VladKochetov007/WunderFunder/pull/13) | Fixed checkpoint trajectory averaging | `1002c70913ae` |
-| [#14](https://github.com/VladKochetov007/WunderFunder/pull/14) | Causal innovation residuals beyond moment features | `de2ade7dafdc` |
+| [#1](https://github.com/VladKochetov007/WunderFunder/pull/1) | Causal Transformer with output autoregression | `484dde614cea` |
+| [#2](https://github.com/VladKochetov007/WunderFunder/pull/2) | Cold GRU width versus depth at matched compute | `89582990815b` |
+| [#3](https://github.com/VladKochetov007/WunderFunder/pull/3) | GRU versus Transformer teachers for the same GRU student | `75e0497b7e0c` |
+| [#4](https://github.com/VladKochetov007/WunderFunder/pull/4) | Per-field ages versus seven group clocks | `72bf30823dc9` |
+| [#5](https://github.com/VladKochetov007/WunderFunder/pull/5) | Function-preserving GRU widening | `8f95cc0e1974` |
+| [#6](https://github.com/VladKochetov007/WunderFunder/pull/6) | Frozen-parent output anchor | `d354a0685b40` |
+| [#7](https://github.com/VladKochetov007/WunderFunder/pull/7) | Learned causal initial-state family | `930ee793814d` |
+| [#8](https://github.com/VladKochetov007/WunderFunder/pull/8) | Grouped feature encoding for causal Transformer | `5d4074c34199` |
+| [#9](https://github.com/VladKochetov007/WunderFunder/pull/9) | Past-only smoothing while retaining raw inputs | `78ef7f8093f5` |
+| [#10](https://github.com/VladKochetov007/WunderFunder/pull/10) | Trailing geometry and circle residual feature | `4e7d09de8f7f` |
+| [#11](https://github.com/VladKochetov007/WunderFunder/pull/11) | Permitted Chronos or TimesFM teacher transfer | `e42ae7fbf743` |
+| [#12](https://github.com/VladKochetov007/WunderFunder/pull/12) | Expand clean heterogeneous recurrent teacher cohort | `ec1e55bba63a` |
+| [#13](https://github.com/VladKochetov007/WunderFunder/pull/13) | Fixed checkpoint trajectory averaging | `cc523fc5c1c3` |
+| [#14](https://github.com/VladKochetov007/WunderFunder/pull/14) | Causal innovation residuals beyond moment features | `65f6fffdc559` |
 
 ## Readiness
 
