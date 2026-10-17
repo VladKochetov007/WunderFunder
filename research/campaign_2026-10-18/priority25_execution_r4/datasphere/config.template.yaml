@@ -4,7 +4,7 @@ desc: >-
   scoring, checkpoint selection, or quality result. Submission requires budget
   approval and fresh sealed input hashes.
 cmd: >
-  python3 profile_entry.py --spec ${SPEC} --code ${CODE}
+  python3 ${ENTRY} --spec ${SPEC} --code ${CODE}
   --supplemental ${SUPPLEMENTAL} --out ${OUT}
   --datasets ${DS1} ${DS2} ${DS3} ${DS4}
 env:
@@ -12,13 +12,17 @@ env:
     type: manual
     version: "3.12"
     requirements-file: requirements.txt
+    local-paths: []
     pip:
       extra-index-urls:
         - https://download.pytorch.org/whl/cu130
 inputs:
-  - /ABSOLUTE/PATH/TO/source-a266b036.tar.gz: CODE
-  - /ABSOLUTE/PATH/TO/supplemental-inputs.tar.gz: SUPPLEMENTAL
-  - /ABSOLUTE/PATH/TO/profile-spec.json: SPEC
+  - profile_entry.py: ENTRY
+  - profile_staging.py: STAGING
+  - profile_recipe.py: RECIPE
+  - /Users/nb/Documents/wunder/runtime-20261018/datasphere/source-a266b036.tar.gz: CODE
+  - /Users/nb/Documents/wunder/runtime-20261018/datasphere/supplemental-inputs.tar.gz: SUPPLEMENTAL
+  - profile-spec.json: SPEC
 outputs:
   - profile-results.tar.gz: OUT
 datasets:

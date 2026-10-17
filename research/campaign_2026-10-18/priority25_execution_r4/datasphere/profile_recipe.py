@@ -34,7 +34,7 @@ EXPECTED_ARMS = [
 ]
 EXPECTED_SUPPLEMENTAL_MEMBERS = {
     "cache/chains.npz",
-    "derivedcache/chain_folds.npz",
+    "cache/chain_folds.npz",
     "portable-sources.json",
     "splits/fold0.json",
     "splits/fold1.json",

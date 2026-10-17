@@ -26,6 +26,7 @@ from profile_recipe import (
 from profile_staging import (
     assemble,
     copy_mounted,
+    discover_mounted_files,
     relative_path,
     safe_extract,
     sealed_hash,
@@ -67,14 +68,35 @@ def _prepare(
         ):
             raise ValueError(f"profile requires the historical ordered {split} parquet parts")
         for index, part in enumerate(parts):
-            if not part["relative_path"].endswith(f"{split}.parquet.part{index:02d}"):
+            if part.get("filename") != f"{split}.parquet.part{index:02d}":
                 raise ValueError(f"{split} parquet parts are missing or out of order")
+        sealed_hash(spec["mounted_inputs"][split].get("sha256"), f"assembled {split}")
+        if int(spec["mounted_inputs"][split].get("bytes", 0)) <= 0:
+            raise ValueError(f"assembled {split} byte size is not sealed")
+    for logical, item in spec["mounted_files"].items():
+        if item.get("source_filename") != logical.replace("/", "__"):
+            raise ValueError(f"mounted target filename does not match historical alias: {logical}")
+        sealed_hash(item.get("sha256"), logical)
+        if int(item.get("bytes", 0)) <= 0:
+            raise ValueError(f"mounted target byte size is not sealed: {logical}")
     for field in ("code_archive_sha256", "supplemental_archive_sha256"):
         if input_identities[field] != sealed_hash(spec.get(field), field):
             raise ValueError(f"archive hash mismatch: {field}")
     if len(args.datasets) != len(spec["dataset_slots"]):
         raise ValueError("dataset argument count differs from sealed slot list")
     dataset_roots = dict(zip(spec["dataset_slots"], map(Path, args.datasets), strict=True))
+    expected_names = {
+        part["filename"] for item in spec["mounted_inputs"].values() for part in item["parts"]
+    }
+    expected_names.update(item["source_filename"] for item in spec["mounted_files"].values())
+    discovered, mount_scans = discover_mounted_files(dataset_roots, expected_names)
+    for split, entry in spec["mounted_inputs"].items():
+        actual_bytes = sum(int(discovered[part["filename"]]["bytes"]) for part in entry["parts"])
+        if actual_bytes != int(entry["bytes"]):
+            raise ValueError(f"mounted {split} part sizes disagree with the sealed total")
+    for logical, entry in spec["mounted_files"].items():
+        if int(discovered[entry["source_filename"]]["bytes"]) != int(entry["bytes"]):
+            raise ValueError(f"mounted target size disagrees with the sealed index: {logical}")
     work = Path.cwd() / "rank01-profile-work"
     source_root = work.joinpath(*relative_path(spec["source_root"]).parts)
     data_root = work.joinpath(*relative_path(spec["data_root"]).parts)
@@ -86,10 +108,6 @@ def _prepare(
         raise ValueError("source archive lacks the canonical trainer or locked metadata")
     runtime = check_runtime(spec["expected_environment"])
     safe_extract(args.supplemental, data_root, spec["supplemental_members"])
-    fold_cache = data_root / "cache/chain_folds.npz"
-    fold_cache.parent.mkdir(parents=True, exist_ok=True)
-    if not fold_cache.exists():
-        shutil.copyfile(data_root / "derivedcache/chain_folds.npz", fold_cache)
     manifest_path = data_root.joinpath(*relative_path(spec["split_manifest"]).parts)
     registry_path = data_root.joinpath(*relative_path(spec["portable_registry"]).parts)
     for path, field in (
@@ -98,18 +116,27 @@ def _prepare(
     ):
         if sha256_file(path) != sealed_hash(spec[field], field):
             raise ValueError(f"staged manifest identity mismatch: {path.name}")
-    projected_bytes = sum(int(item["bytes"]) for item in spec["mounted_inputs"].values())
-    projected_bytes += sum(int(item["bytes"]) for item in spec["mounted_files"].values())
+    registry = json.loads(registry_path.read_bytes())
+    staged_entries = {item["assembled_path"]: item for item in spec["mounted_inputs"].values()}
+    staged_entries.update(spec["mounted_files"])
+    for logical, item in staged_entries.items():
+        source = registry.get("sources", {}).get(logical, {})
+        if (
+            source.get("sha256") != item["sha256"]
+            or source.get("original_identity", {}).get("bytes") != item["bytes"]
+        ):
+            raise ValueError(f"profile spec disagrees with portable source registry: {logical}")
+    projected_bytes = sum(int(item["bytes"]) for item in staged_entries.values())
     disk_before = shutil.disk_usage(work.parent).free
     reserve = int(spec["minimum_free_bytes_after_staging"])
     if disk_before < projected_bytes + reserve:
         raise OSError("insufficient free disk for parquet assembly plus required reserve")
     mounted = {
-        split: assemble(split, item, data_root, dataset_roots)
+        split: assemble(split, item, data_root, discovered)
         for split, item in spec["mounted_inputs"].items()
     }
     indexes = {
-        name: copy_mounted(name, item, data_root, dataset_roots)
+        name: copy_mounted(name, item, data_root, discovered)
         for name, item in spec["mounted_files"].items()
     }
     disk_after = shutil.disk_usage(work.parent).free
@@ -118,6 +145,15 @@ def _prepare(
     staging = {
         "mounted_inputs": mounted,
         "mounted_files": indexes,
+        "mount_discovery": {
+            "expected_filenames": sorted(expected_names),
+            "resolved": {
+                name: {key: item[key] for key in ("dataset_slot", "relative_path", "bytes")}
+                for name, item in sorted(discovered.items())
+            },
+            "scans": mount_scans,
+            "entries_scanned": sum(scan["entries"] for scan in mount_scans.values()),
+        },
         "free_bytes_before_assembly": disk_before,
         "free_bytes_after_staging": disk_after,
     }
@@ -154,6 +190,12 @@ def main() -> int:
         spec = json.loads(args.spec.read_bytes())
         if spec.get("state") != "SEALED_FOR_PROFILE":
             raise ValueError("profile spec is not sealed for execution")
+        if (
+            spec.get("internal_deadline_seconds") != 3300
+            or spec.get("external_cancel_deadline_seconds_from_submit") != 3600
+        ):
+            raise ValueError("profile spec changes the time safety bounds")
+        signal.setitimer(signal.ITIMER_REAL, int(spec["internal_deadline_seconds"]))
         inputs = {
             "profile_spec_sha256": sha256_file(args.spec),
             "code_archive_sha256": sha256_file(args.code),
@@ -167,7 +209,6 @@ def main() -> int:
         os.environ["WNN_PORTABLE_DATA_MANIFEST"] = str(data_root / spec["portable_registry"])
         os.environ["WNN_PROJECT_ROOT"] = str(data_root)
         os.environ["WNN_GPU_FRACTION"] = "0.90"
-        signal.setitimer(signal.ITIMER_REAL, int(spec["internal_deadline_seconds"]))
         from wnn.splits import load_campaign_split
 
         validated = load_campaign_split(split_path, data_root)

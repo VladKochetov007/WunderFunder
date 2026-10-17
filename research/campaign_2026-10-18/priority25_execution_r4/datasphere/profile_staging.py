@@ -3,9 +3,15 @@
 from __future__ import annotations
 
 import hashlib
+import os
+import stat
 import tarfile
 from pathlib import Path, PurePosixPath
 from typing import Any
+
+MAX_MOUNT_ENTRIES = 250_000
+MAX_MOUNT_DEPTH = 16
+MAX_TARGET_INDEX_BYTES = int(2.1 * (1 << 30))
 
 
 def sha256_file(path: Path) -> str:
@@ -77,30 +83,118 @@ def safe_extract(
         raise ValueError(f"supplemental archive member set differs: missing {missing}")
 
 
-def _source_file(dataset_roots: dict[str, Path], entry: dict[str, Any]) -> Path:
-    slot = entry.get("dataset_slot")
-    if not isinstance(slot, str) or slot not in dataset_roots:
-        raise ValueError(f"unknown dataset slot: {slot!r}")
-    relative = relative_path(entry["relative_path"])
-    base = dataset_roots[slot].resolve()
-    path = base.joinpath(*relative.parts)
-    if not path.resolve().is_relative_to(base) or not path.is_file():
-        raise FileNotFoundError(f"mounted input missing or outside dataset {slot}: {relative}")
-    if path.stat().st_size != int(entry["bytes"]):
-        raise ValueError(f"mounted input size mismatch: {slot}/{relative}")
+def discover_mounted_files(
+    dataset_roots: dict[str, Path], expected_names: set[str]
+) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, int]]]:
+    """Resolve exact basenames across mounts using bounded directory metadata only.
+
+    Symlinks are ignored, and a name is accepted only when it occurs exactly
+    once across all mounts. No file payload is opened during this pass.
+    """
+    if not expected_names or any("/" in name or "\\" in name for name in expected_names):
+        raise ValueError("mounted input discovery requires exact basenames")
+    resolved: dict[str, dict[str, Any]] = {}
+    scans: dict[str, dict[str, int]] = {}
+    entries_seen = 0
+    for slot, root_arg in dataset_roots.items():
+        root = root_arg.resolve(strict=True)
+        if not root.is_dir():
+            raise NotADirectoryError(f"dataset {slot} root is not a directory")
+        stack: list[tuple[Path, PurePosixPath]] = [(root, PurePosixPath())]
+        directories = 0
+        files = 0
+        skipped_symlinks = 0
+        mount_entries = 0
+        while stack:
+            directory, relative_directory = stack.pop()
+            directories += 1
+            with os.scandir(directory) as iterator:
+                for item in iterator:
+                    entries_seen += 1
+                    mount_entries += 1
+                    if entries_seen > MAX_MOUNT_ENTRIES:
+                        raise ValueError("mounted dataset metadata scan exceeded its entry bound")
+                    relative = relative_directory / item.name
+                    if item.is_symlink():
+                        skipped_symlinks += 1
+                        if item.name in expected_names:
+                            raise ValueError(
+                                f"expected mounted input is a symlink: {slot}/{relative}"
+                            )
+                        continue
+                    if item.is_dir(follow_symlinks=False):
+                        if len(relative.parts) > MAX_MOUNT_DEPTH:
+                            raise ValueError(
+                                "mounted dataset metadata scan exceeded its depth bound"
+                            )
+                        stack.append((Path(item.path), relative))
+                        continue
+                    if not item.is_file(follow_symlinks=False):
+                        continue
+                    files += 1
+                    if item.name not in expected_names:
+                        continue
+                    info = item.stat(follow_symlinks=False)
+                    if not stat.S_ISREG(info.st_mode):
+                        raise ValueError(
+                            f"expected mounted input is not a regular file: {slot}/{relative}"
+                        )
+                    path = Path(item.path)
+                    if not path.resolve(strict=True).is_relative_to(root):
+                        raise ValueError(f"mounted input escapes dataset {slot}: {relative}")
+                    name = item.name
+                    if name in resolved:
+                        previous = resolved[name]
+                        raise ValueError(
+                            f"duplicate mounted basename {name!r} in {previous['dataset_slot']} and {slot}"
+                        )
+                    resolved[name] = {
+                        "dataset_slot": slot,
+                        "relative_path": relative.as_posix(),
+                        "bytes": info.st_size,
+                        "path": str(path),
+                        "root": str(root),
+                    }
+        scans[slot] = {
+            "entries": mount_entries,
+            "directories": directories,
+            "regular_files": files,
+            "skipped_symlinks": skipped_symlinks,
+        }
+    missing = sorted(expected_names - set(resolved))
+    if missing:
+        raise FileNotFoundError(f"mounted inputs were not found by exact basename: {missing}")
+    return resolved, scans
+
+
+def _source_file(discovered: dict[str, dict[str, Any]], filename: str) -> Path:
+    if filename not in discovered:
+        raise FileNotFoundError(f"mounted input was not discovered: {filename}")
+    item = discovered[filename]
+    path = Path(item["path"])
+    base = Path(item["root"]).resolve(strict=True)
+    relative = relative_path(item["relative_path"])
+    expected_path = base.joinpath(*relative.parts)
+    if path != expected_path or not path.resolve(strict=True).is_relative_to(base):
+        raise ValueError(f"mounted input escapes its dataset: {filename}")
+    metadata = path.lstat()
+    if not stat.S_ISREG(metadata.st_mode) or metadata.st_size != int(item["bytes"]):
+        raise ValueError(f"mounted input metadata changed after discovery: {filename}")
+    if path.name != relative.name:
+        raise ValueError(f"mounted input basename changed after discovery: {filename}")
     return path
 
 
 def assemble(
-    split: str, entry: dict[str, Any], root: Path, dataset_roots: dict[str, Path]
+    split: str, entry: dict[str, Any], root: Path, discovered: dict[str, dict[str, Any]]
 ) -> dict[str, Any]:
     target = root.joinpath(*relative_path(entry["assembled_path"]).parts)
     target.parent.mkdir(parents=True, exist_ok=True)
     total, total_bytes, parts = hashlib.sha256(), 0, []
     with target.open("xb") as output:
         for part in entry["parts"]:
-            source = _source_file(dataset_roots, part)
-            want_part = sealed_hash(part.get("sha256"), f"{split} part")
+            filename = part["filename"]
+            source = _source_file(discovered, filename)
             digest, count = hashlib.sha256(), 0
             with source.open("rb") as stream:
                 for block in iter(lambda: stream.read(8 << 20), b""):
@@ -109,21 +203,43 @@ def assemble(
                     output.write(block)
                     count += len(block)
                     total_bytes += len(block)
-            if count != int(part["bytes"]) or digest.hexdigest() != want_part:
-                raise ValueError(f"mounted part content mismatch: {source.name}")
-            parts.append({"path": str(source), "bytes": count, "sha256": digest.hexdigest()})
+            if count != int(discovered[filename]["bytes"]):
+                raise ValueError(f"mounted part size changed during assembly: {source.name}")
+            parts.append(
+                {
+                    "filename": filename,
+                    "dataset_slot": discovered[filename]["dataset_slot"],
+                    "relative_path": discovered[filename]["relative_path"],
+                    "bytes": count,
+                    "sha256": digest.hexdigest(),
+                }
+            )
     want_hash = sealed_hash(entry.get("sha256"), f"assembled {split}")
-    if total_bytes != int(entry["bytes"]) or total.hexdigest() != want_hash:
+    expected_bytes = sum(int(discovered[part["filename"]]["bytes"]) for part in entry["parts"])
+    if (
+        total_bytes != expected_bytes
+        or total_bytes != int(entry["bytes"])
+        or total.hexdigest() != want_hash
+    ):
         raise ValueError(f"assembled {split} parquet identity mismatch")
-    return {"path": str(target), "bytes": total_bytes, "sha256": total.hexdigest(), "parts": parts}
+    return {
+        "path": str(target),
+        "bytes": total_bytes,
+        "sha256": total.hexdigest(),
+        "parts": parts,
+    }
 
 
 def copy_mounted(
-    logical: str, entry: dict[str, Any], root: Path, dataset_roots: dict[str, Path]
+    logical: str, entry: dict[str, Any], root: Path, discovered: dict[str, dict[str, Any]]
 ) -> dict[str, Any]:
-    source = _source_file(dataset_roots, entry)
-    if source.stat().st_size > 512 * (1 << 20):
-        raise ValueError(f"declared target index is unexpectedly large: {logical}")
+    filename = entry["source_filename"]
+    source = _source_file(discovered, filename)
+    expected_bytes = int(entry["bytes"])
+    if expected_bytes > MAX_TARGET_INDEX_BYTES:
+        raise ValueError(f"target index exceeds the bounded staging cap: {logical}")
+    if int(discovered[filename]["bytes"]) != expected_bytes:
+        raise ValueError(f"mounted target index size mismatch: {logical}")
     target = root.joinpath(*relative_path(logical).parts)
     target.parent.mkdir(parents=True, exist_ok=True)
     digest, count = hashlib.sha256(), 0
@@ -133,10 +249,13 @@ def copy_mounted(
             dst.write(block)
             count += len(block)
     want = sealed_hash(entry.get("sha256"), logical)
-    if count != int(entry["bytes"]) or digest.hexdigest() != want:
+    if count != expected_bytes or digest.hexdigest() != want:
         raise ValueError(f"mounted target index identity mismatch: {logical}")
     return {
         "source": str(source),
+        "source_filename": filename,
+        "dataset_slot": discovered[filename]["dataset_slot"],
+        "relative_path": discovered[filename]["relative_path"],
         "path": str(target),
         "bytes": count,
         "sha256": digest.hexdigest(),

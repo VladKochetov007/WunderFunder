@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "state": "UNSEALED_REQUIRES_FRESH_ASSET_HASHES_AND_MOUNT_MAP",
+  "state": "UNSEALED_REQUIRES_FRESH_ASSET_HASHES",
   "experiment_id": "E-RR18-01-LABELS",
   "source_commit": "a266b036b02e8e012c6eb31072291dad618a169d",
   "code_archive_sha256": "REQUIRED_SHA256_SOURCE_A266B036_TAR_GZ",
@@ -13,7 +13,7 @@
   "expected_portable_registry_sha256": "REQUIRED_SHA256_PORTABLE_SOURCES_JSON",
   "supplemental_members": {
     "cache/chains.npz": "REQUIRED_SHA256_CANONICAL_CHAINS_NPZ",
-    "derivedcache/chain_folds.npz": "REQUIRED_SHA256_CANONICAL_CHAIN_FOLDS_NPZ",
+    "cache/chain_folds.npz": "REQUIRED_SHA256_CANONICAL_CHAIN_FOLDS_NPZ",
     "splits/fold0.json": "REQUIRED_SHA256_FOLD0_JSON",
     "splits/fold1.json": "REQUIRED_SHA256_FOLD1_JSON",
     "splits/fold2.json": "REQUIRED_SHA256_FOLD2_JSON",
@@ -27,12 +27,12 @@
       "bytes": "REQUIRED_BYTES_TRAIN_PARQUET",
       "sha256": "REQUIRED_SHA256_TRAIN_PARQUET",
       "parts": [
-        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part00", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
-        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part01", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
-        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part02", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
-        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part03", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
-        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part04", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
-        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "train.parquet.part05", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"}
+        {"filename": "train.parquet.part00"},
+        {"filename": "train.parquet.part01"},
+        {"filename": "train.parquet.part02"},
+        {"filename": "train.parquet.part03"},
+        {"filename": "train.parquet.part04"},
+        {"filename": "train.parquet.part05"}
       ]
     },
     "valid": {
@@ -40,14 +40,14 @@
       "bytes": "REQUIRED_BYTES_VALID_PARQUET",
       "sha256": "REQUIRED_SHA256_VALID_PARQUET",
       "parts": [
-        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "valid.parquet.part00", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
-        {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "valid.parquet.part01", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"}
+        {"filename": "valid.parquet.part00"},
+        {"filename": "valid.parquet.part01"}
       ]
     }
   },
   "mounted_files": {
-    "cache/train_targets.npz": {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "cache__train_targets.npz", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
-    "cache/valid_targets.npz": {"dataset_slot": "REQUIRED_DS_SLOT", "relative_path": "cache__valid_targets.npz", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"}
+    "cache/train_targets.npz": {"source_filename": "cache__train_targets.npz", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"},
+    "cache/valid_targets.npz": {"source_filename": "cache__valid_targets.npz", "bytes": "REQUIRED_BYTES", "sha256": "REQUIRED_SHA256"}
   },
   "minimum_free_bytes_after_staging": 10737418240,
   "internal_deadline_seconds": 3300,

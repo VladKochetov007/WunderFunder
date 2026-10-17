@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "state": "SEALED_FOR_PROFILE",
+  "experiment_id": "E-RR18-01-LABELS",
+  "source_commit": "a266b036b02e8e012c6eb31072291dad618a169d",
+  "code_archive_sha256": "288b4c9dd67b48114240bbf593901fc539de15aa709a1aa63388dccf64a4478a",
+  "supplemental_archive_sha256": "fec9413bcf73c8c8cc81fc99751eed552d182229b3a859749a55bd0f08deb0f2",
+  "source_root": "source",
+  "data_root": "data",
+  "portable_registry": "portable-sources.json",
+  "split_manifest": "splits/fold0.json",
+  "expected_split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+  "expected_portable_registry_sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378",
+  "supplemental_members": {
+    "cache/chain_folds.npz": "a112f809259f631c2ee7c12480e4ec1d4eef197a980e7ce23c707d842d092567",
+    "cache/chains.npz": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+    "portable-sources.json": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378",
+    "splits/fold0.json": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "splits/fold1.json": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "splits/fold2.json": "56b0e2ecb6bbda1f34569206cbf2c276544c275bac025793ae450488cf5d17a2",
+    "splits/fold3.json": "21c7fb52e8e69f38126362cbc5dc60dbc46539041d649b9206ec35e0f21ada1f"
+  },
+  "dataset_slots": [
+    "DS1",
+    "DS2",
+    "DS3",
+    "DS4"
+  ],
+  "mounted_inputs": {
+    "train": {
+      "assembled_path": "datasets/train.parquet",
+      "bytes": 29240219011,
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "parts": [
+        {
+          "filename": "train.parquet.part00"
+        },
+        {
+          "filename": "train.parquet.part01"
+        },
+        {
+          "filename": "train.parquet.part02"
+        },
+        {
+          "filename": "train.parquet.part03"
+        },
+        {
+          "filename": "train.parquet.part04"
+        },
+        {
+          "filename": "train.parquet.part05"
+        }
+      ]
+    },
+    "valid": {
+      "assembled_path": "datasets/valid.parquet",
+      "bytes": 5615509128,
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "parts": [
+        {
+          "filename": "valid.parquet.part00"
+        },
+        {
+          "filename": "valid.parquet.part01"
+        }
+      ]
+    }
+  },
+  "mounted_files": {
+    "cache/train_targets.npz": {
+      "source_filename": "cache__train_targets.npz",
+      "bytes": 1909335790,
+      "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9"
+    },
+    "cache/valid_targets.npz": {
+      "source_filename": "cache__valid_targets.npz",
+      "bytes": 337186198,
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    }
+  },
+  "minimum_free_bytes_after_staging": 10737418240,
+  "internal_deadline_seconds": 3300,
+  "external_cancel_deadline_seconds_from_submit": 3600,
+  "expected_environment": {
+    "python_version": "3.12",
+    "torch_version": "2.14.0+cu130",
+    "torch_cuda_version": "13.0",
+    "numpy_version": "2.2.6",
+    "pyarrow_version": "19.0.1",
+    "attrs_version": "26.1.0",
+    "visible_gpu_count": 1,
+    "gpu_name_substring": "A100"
+  },
+  "recipe": {
+    "profile_steps": 3,
+    "profile_warmup": 0,
+    "epochs": 6,
+    "fold": 0,
+    "seed": 1001,
+    "train_source": "train",
+    "loss": "wmse",
+    "loss_norm": "chunk",
+    "precision": "fp32",
+    "batch": 8,
+    "chunk": 2000,
+    "learning_rate": 0.0001,
+    "beta2": 0.999,
+    "weight_decay": 0.01,
+    "warmup_fraction": 0.05
+  },
+  "arms": [
+    {
+      "name": "computer-vision-homework-rank01-profile-h512l1",
+      "hidden": 512,
+      "layers": 1
+    },
+    {
+      "name": "computer-vision-homework-rank01-profile-h384l2",
+      "hidden": 384,
+      "layers": 2
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "validated_at_utc": "2026-10-17T21:52:57Z",
+  "scope": "Static packet validation only; no DataSphere job was submitted.",
+  "checks": [
+    {
+      "name": "Python syntax compilation",
+      "status": "passed",
+      "files": [
+        "profile_entry.py",
+        "profile_staging.py",
+        "profile_recipe.py",
+        "test_profile_staging.py"
+      ]
+    },
+    {
+      "name": "Synthetic staging fixtures",
+      "status": "passed",
+      "tests_passed": 8,
+      "tests_failed": 0,
+      "coverage": [
+        "exact filename discovery without an assumed slot map",
+        "missing, duplicate, symlink, and scan-bound rejection",
+        "ordered parquet assembly and whole-file hash verification",
+        "target-cache copy hash verification and mismatch rejection"
+      ]
+    },
+    {
+      "name": "DataSphere config parser",
+      "status": "passed",
+      "tool": "DataSphere package/CLI 0.10.0",
+      "config": "config.template.yaml",
+      "datasets_parsed": 4,
+      "inputs_parsed": 6,
+      "credentials_used": false
+    },
+    {
+      "name": "Installed provider CLI versions",
+      "status": "observed",
+      "datasphere_package_cli": "0.10.0",
+      "yandex_cloud_cli": "1.39.0"
+    },
+    {
+      "name": "Sealed source and supplemental archives",
+      "status": "passed",
+      "source_archive": {
+        "path": "/Users/nb/Documents/wunder/runtime-20261018/datasphere/source-a266b036.tar.gz",
+        "sha256": "288b4c9dd67b48114240bbf593901fc539de15aa709a1aa63388dccf64a4478a",
+        "required_canonical_trainer_files_present": true
+      },
+      "supplemental_archive": {
+        "path": "/Users/nb/Documents/wunder/runtime-20261018/datasphere/supplemental-inputs.tar.gz",
+        "sha256": "fec9413bcf73c8c8cc81fc99751eed552d182229b3a859749a55bd0f08deb0f2",
+        "expected_members_verified": 7,
+        "portable_registry_sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378"
+      },
+      "portable_source_descriptors_verified": 4,
+      "projected_staged_bytes": 37102250127
+    },
+    {
+      "name": "Patch whitespace check",
+      "status": "passed"
+    }
+  ],
+  "sealed_input_sizes": {
+    "datasets/train.parquet": 29240219011,
+    "datasets/valid.parquet": 5615509128,
+    "cache/train_targets.npz": 1909335790,
+    "cache/valid_targets.npz": 337186198
+  },
+  "resource_bounds": {
+    "target_cache_per_file_cap_bytes": 2254857830,
+    "post_staging_free_disk_reserve_bytes": 10737418240,
+    "adapter_deadline_seconds_from_entry": 3300,
+    "controller_cancel_deadline_seconds_from_submission": 3600
+  },
+  "provider_checks_not_performed": [
+    "DataSphere container package and GPU runtime versions",
+    "current admission and contents of the four dataset mounts",
+    "current g2.1 project quota or whitelist; the project restrictions request returned HTTP 403"
+  ],
+  "spend": "No job launch, rental, or billing/account change was performed. A user budget response is still pending."
+}
