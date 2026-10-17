@@ -178,3 +178,5 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 ## Current sequence-moment investigation
 
 - [Independent causal-geometry pilot grade](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r1.json), interpreted in the [geometry note](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md), verifies all9endpoint official pooled/fold scores, source/initial-state hashes and880updates. Tiny pooled moment gain is opposed across exposed folds; conditional component intervals cross zero. This is integrity evidence and exploratory comparison, not production gain or a rejection of heuristics.
+
+- [Independent discrete/capacity pilot grade R2](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r2.json) verifies all24endpoints and18predeclared half-mixtures, their source/data bindings, matched initialization and880-update clocks. It confirms heterogeneous feature effects and negative naive-concatenation interactions at two capacities; no production, teacher-distillation or public-transfer conclusion follows from these exposed tiny-data slices.

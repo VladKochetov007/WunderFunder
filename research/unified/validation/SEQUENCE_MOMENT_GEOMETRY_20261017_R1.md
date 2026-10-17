@@ -1,6 +1,6 @@
 ---
 kind: experiment
-status: running
+status: complete
 created_utc: 2026-10-17
 updated_utc: 2026-10-17
 hypothesis_ids: [H-MOMENT-GEOMETRY-20261017-R1]
@@ -48,7 +48,7 @@ The fixed budget is2 epochs, batch4,512-row chronological TBPTT, FP32, AdamW(lr0
 
 ## Limits and validity
 
-No predictive result is available at this note's initial registration. Tiny-data results cannot establish a production teacher/student gain or rule out a scale-dependent mechanism. A conditional component bootstrap describes evaluation sampling given fitted predictions; it does not include training variability, selection or future transfer. Previously inspected folds stay exposed.
+No predictive result was available at initial registration; the appended completed comparisons below preserve the original plan and its limitations. Tiny-data results cannot establish a production teacher/student gain or rule out a scale-dependent mechanism. A conditional component bootstrap describes evaluation sampling given fitted predictions; it does not include training variability, selection or future transfer. Previously inspected folds stay exposed.
 
 The first scan hit its1.4GB child cap before sampled data outcomes because Parquet metadata was opened redundantly. The corrected single-reader scan finished at≈2.6GiB process peak. The task slice remains5decimalGB RAM, with one CPU core inside the existing two-core parent. Subsequent staging peak including file cache was4.502 GB; dropping only this task's completed NPY cache via POSIX_FADV_DONTNEED reduced charged memory to≈2.1GB. This preserves operating headroom without changing the user's limits. No unrelated process is terminated. GPU admission is limited to one tiny worker and≤18%of the6GiBallocator; another project's≈3.24GiB job remains untouched.
 
@@ -63,3 +63,36 @@ Keep raw levels and use soft evidence of regime/occupancy; do not project every 
 - [Complete campaign evidence and reproduction entry](../../campaign_2026-10-17/moment_geometry_r1/README.md).
 - [Live marimo artifact](../../../notebooks/sequence_moment_geometry_20261017.py), [data semantics](../../../docs/data_overview.md), [source split provenance](../../campaign_2026-09-29/artifacts/splits/fold0.json).
 - [Feature implementation](../../../src/wnn/moment_geometry/features.py), [staging](../../../src/wnn/moment_geometry/staging.py), [provenance checks](../../../src/wnn/moment_geometry/provenance.py).
+
+## Completed exploratory comparisons
+
+### R1: ordinary moment/occupancy channels
+
+All9planned endpoints completed880updates each. [Independent grading](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r1.json) reproduces every official pooled/fold score within1e-12 and verifies source hashes and identical initialization within each seed's three arms. Mean pooled WP is0.29930670control,0.30019002moments and0.29963501scaled. Moment deltas across seeds3/7/11 are+0.00044474,+0.00067988,+0.00152535 (mean+0.00088332; sampleSD0.00056831). Fold0 mean delta−0.00788477 and fold1+0.01306417 oppose one another. Every conditional2000-draw approximate component interval includes zero. This is a heterogeneous tiny-data result, not a mechanism rejection or generalization claim.
+
+### R2: discrete dictionary, capacity and interactions
+
+The [R2plan](../../campaign_2026-10-17/moment_geometry_r1/discrete_plan_r2.json) preceded allR2 outcomes. It adds a fit-only top-three-level dictionary plus unknown category, current categories16, row occupancy16, event-clock frequency of the training-most-frequent level4and exact-raw-change log dwell4. All40channels are current-inclusive and reset per sequence. The same43fit/46evalsequences and seeds3/7/11 are reused. Four arms use the same271-wide model within each capacity; disabled channels are zeroed after normalization. Both H32×1 and H128×2 complete12endpoints,880updates per endpoint, fixed final epoch.
+
+| Capacity | Raw/event control | Moments + scale | Dictionary/event/dwell | All features |
+|---|---:|---:|---:|---:|
+| H32×1 |0.29798755|0.30387165|0.29974393|0.29717041|
+| H128×2 |0.29077737|0.29671299|0.29647379|0.29177407|
+
+These are means of three official pooled endpoint scores, not an ensemble score or public estimate. Exact per-seed and per-fold outcomes are in the [R2summary](../../campaign_2026-10-17/moment_geometry_r1/discrete_summary_r2.json). Moment-plus-scale deltas are positive for each tested seed at both capacities, averaging+0.00588409and+0.00593562. Dictionary-only deltas average+0.00175637and+0.00569642; H32seed7is negative. Fold heterogeneity remains material: dictionary treatment worsens fold0and improves fold1. The larger model does not beat the smaller model in this short,43-sequence budget; it is not established as a better teacher.
+
+Naively concatenating both feature families performs worse than moment-plus-scale at every seed of both capacities. The mean interaction `(combined-scaled)-(dictionary-control)` is−0.00845761for H32and−0.01063535for H128. This is evidence about this initialization/normalization/optimization recipe, not proof that all combinations or gating schemes fail.
+
+Fixed half/half prediction mixtures were declared beforeR2 scores:
+
+- H32control+combined averages0.30225879, a gain+0.00427123over control even though combined alone is−0.00081714below control. This directly illustrates conditional value of a weaker component within the tested pilot.
+- H128scaled+dictionary averages0.29837026, a gain+0.00759290over control and+0.00165727over scaled. It is a prospective fixed coefficient within this exploratory stage, not a fitted blend or measured student distillation gain.
+- H32scaled+dictionary averages0.30345320, below scaled alone. Complementarity depends on endpoint/capacity; mixture gains do not universally add.
+
+R1andR2 control scores are not a paired comparison across stages: R2input width271rather than231changes input fan-in and the seeded initialization draw sequence, despite the same seed numbers. Within each stage and capacity, initial-state hashes match exactly across arms. The larger observedR2 moment effect does not independently replicate the magnitude ofR1's effect.
+
+## Interpretation after the pilots
+
+The measured pattern supports preserving this family and decomposing its conditional value. Keep ordinary moments/scale, exact-level identity, row occupancy, event occupancy and dwell as separate arms and test late fusion or a zero-initialized residual feature path. Do not force every sequence onto one circle. Current results do not isolate which subfeature caused a gain, identify market semantics, show a good production teacher, or demonstrate teacher-to-student transfer.
+
+The next useful quality experiment is a clean-ancestry continuation or distillation ablation on a stronger recurrent endpoint, with function-preserving extra-channel initialization, enough fitting components, matched budgets, and the team's30seed/fold confirmation target. Compare teacher-only context, student-only context and both. Include fixed endpoint mixtures and log learning curves rather than killing a component on its first standalone score. If a proposed direction is deferred for resource or information value, retain its evidence and reopening condition.

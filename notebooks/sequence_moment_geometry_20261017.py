@@ -157,5 +157,26 @@ def _(RUN, json, mo):
     return
 
 
+@app.cell(hide_code=True)
+def _(RUN, json, mo):
+    _r2 = json.loads((RUN / "discrete_summary_r2.json").read_text())
+    _r2_rows = [{"capacity": _shape, "arm": _arm, "mean_wp": _row["mean_wp"], "seed_sd": _row["seed_sd"], "fold0": _row["fold_means"]["0"], "fold1": _row["fold_means"]["1"]} for _shape, _report in _r2.items() for _arm, _row in _report["arms"].items()]
+    mo.vstack([
+        mo.md("""## Discrete heuristics, capacity and conditional value
+
+    24 endpoints: four matched-capacity arms × three seeds × two capacities. A fit-only top-three-level dictionary plus unknown class supplies current category, row/event occupancy and dwell. All880-update final checkpoints are retained; these are tiny-data exploratory results on reused exposed slices.
+
+    **A weaker standalone model can be useful:** at H32×1, all-features alone is slightly below control, yet the predeclared control+all-features half mixture improves control by0.00427. At H128×2, the predeclared moment+dictionary half mixture improves control by0.00759. Naive input concatenation has a negative interaction in this recipe. These are fixed-mixture observations, not completed teacher-to-student distillation or public gains. The heuristic direction remains active.
+
+    R1/R2controls are not paired across stages: different input widths change fan-in and initialization draws. Within each stage/capacity, paired initialization hashes match.
+    """),
+        mo.ui.table(_r2_rows),
+        mo.image(RUN / "paired_deltas_r2.png"),
+        mo.image(RUN / "fold_heterogeneity_r2.png"),
+        mo.image(RUN / "training_progress_r2.png"),
+    ])
+    return
+
+
 if __name__ == "__main__":
     app.run()
