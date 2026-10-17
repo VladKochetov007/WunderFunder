@@ -13,3 +13,5 @@ frozen evidence or authorize their training commands.
   exploratory GRU fits. Independent grading confirms the recorded endpoint and
   fixed-mixture scores. Exposed evaluation and short fitting budgets limit quality
   claims; the heuristic direction remains active.
+
+- [Autonomous local continuation](geometry_continuation_r3/README.md) — new explicit continuous-local authority, longer-budget causal feature comparison and queued follow-ups; no cloud/team experiment ownership change.
