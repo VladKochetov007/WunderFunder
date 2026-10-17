@@ -1,6 +1,6 @@
 # B300 launch and input contract
 
-This packet's runner expects a clean checkout at `$PROJECT_ROOT`, exactly one visible CUDA card in each worker, four fold-bound portable manifests, six source inputs, persistent outputs, and a writable physical-disk scratch volume. Preflight checks `/proc/mounts`: all six data/cache inputs and the selected fold registry must resolve to read-only mounts; the cache and artifacts output mounts and physical scratch must be read-write; RAM-backed scratch is rejected.
+This packet's runner expects a clean checkout at `$PROJECT_ROOT`, exactly one visible CUDA card in each worker, four fold-bound portable manifests, six source inputs, persistent outputs, and a writable physical-disk scratch volume. Preflight checks `/proc/mounts`: all six data/cache inputs and the selected fold registry must resolve to read-only mounts; the persistent cache and artifacts volumes must be mounted read-write at their exact checkout targets, and physical scratch must be read-write; RAM-backed outputs or scratch are rejected.
 
 ## Required mounts
 
