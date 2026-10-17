@@ -2,9 +2,10 @@
 
 This directory prepares a sealed, fit-only profile job for rank 1 of
 `E-RR18-01-LABELS`. The [latest user authority](../receipts/DATASPHERE_AUTHORITY_UPDATE_20261018.json)
-now permits discretionary DataSphere spending within the existing balance;
-the numeric-budget wait is superseded. The controller's live preflight and
-durable cancellation must pass before the paid `execute` call.
+permits discretionary DataSphere spending within the existing balance; the
+numeric-budget wait is superseded. This packet does not submit a job by itself.
+The controller's live host, credential, quota, dataset, and durable-cancellation
+preflight must pass before the paid `execute` call.
 
 The one g2.1 job profiles three training batches for each of two cold-start
 GRUs, H512×1 and H384×2. It makes no validation score, checkpoint selection,
@@ -43,8 +44,86 @@ must cancel no later than 3,600 seconds from submission; this outer bound also
 covers queueing and dependency setup before adapter entry. The config has no
 provider-side execution timeout. At the observed public g2.1 rate, a full hour
 is estimated at about $4.45 before VAT; working-storage charges and
-account-specific billing are separate. The observed project balance is not
-spending authorization.
+account-specific billing are separate. The latest user authority permits
+discretionary use within the existing balance, with no top-up or billing change;
+the balance itself is not a new spending ceiling.
+
+## Durable submission controller
+
+[controller.py](controller.py) owns one run directory from submission through
+terminal output collection. It writes an atomic, mode-0600 `SUBMITTING` receipt
+before calling the DataSphere 0.10.0 CLI with the fixed project ID and private
+`config.yaml`. It captures the CLI's JSON `job_id` and `operation_id`, then
+monitors only that ID. A restart resumes the saved ID; a missing or malformed
+submission response becomes an `AMBIGUOUS_SUBMISSION` and exits fail-closed
+without retrying `execute` or cancelling by job name. A filesystem lock prevents
+two controller instances from sharing the same run directory.
+
+The controller polls every 30 seconds and retries transient status errors with
+bounded backoff. At 3,480 seconds from the recorded submission start, it sends
+the CLI's default forced `cancel --id JOB_ID` (no `--graceful`) and continues
+polling until `SUCCESS`, `ERROR`, or `CANCELLED`. Starting the timer before the
+network submission request gives the 3,600-second external stop target a
+120-second margin. This is a client-issued cancel request, not a provider-side
+execution deadline: host clock, connectivity, and provider responsiveness are
+required to stop the job. The controller retries exact-ID cancellation every
+60 seconds while the job remains nonterminal and keeps polling through outages.
+Calls are individually bounded: 300 seconds for `execute`, 60 seconds for
+status/cancel, and 600 seconds for output download. It downloads files, logs,
+and diagnostics only after observing a terminal provider status. It does not
+unpack or evaluate results.
+
+Use one private durable run directory per attempt. Place the private config,
+sealed spec, adapters, requirements file, and referenced source/data archives
+where the config expects them. The service host must have a tested DataSphere
+0.10.0 CLI, the exact job inputs, and durable user-systemd availability. A
+short-lived `YC_IAM_TOKEN` is accepted through the service environment; the
+controller never writes or prints it. The token must remain valid through the
+cancel deadline, terminal polling, and output download because the CLI does not
+refresh IAM tokens supplied through that variable. Alternatively, a verified
+`yc` profile can be passed with `--profile`; in that mode the controller removes
+ambient token environment variables and asks the CLI to use that profile.
+Credential issuance, host verification, token lifetime, and cleanup remain
+preflight duties. Never place a token in `config.yaml`, command arguments,
+provider inputs, or the run directory.
+
+Example user service; replace every path/profile placeholder with values
+verified on the selected host. For token-based authentication, add one
+`EnvironmentFile=` entry pointing to a mode-0600 file outside the job input
+directory. Omit that entry when using `--profile`. Do not enable the unit until
+the live preflight is recorded.
+
+```ini
+[Unit]
+Description=One bounded DataSphere rank-1 profile
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=oneshot
+TimeoutStartSec=infinity
+WorkingDirectory=/private/datasphere/profile-run
+EnvironmentFile=/private/path/outside-job-inputs/datasphere-auth.env
+ExecStart=/usr/bin/python3 /absolute/path/to/controller.py --cli /absolute/path/to/datasphere --job-dir /private/datasphere/profile-run --config /private/datasphere/profile-run/config.yaml
+Restart=on-failure
+RestartSec=30
+RestartPreventExitStatus=78
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
+```
+
+`TimeoutStartSec=infinity` keeps systemd from killing the controller at its
+default service-start timeout while it monitors the one-hour provider job.
+
+Exit status 78 means local identity or submission state is ambiguous; systemd
+must not restart it automatically. Inspect the saved private receipt and
+reconcile the exact project/job identity before any operator action. The
+controller never guesses an ID or uses a name-based cancel. Exit status 75
+marks an operational failure such as a failed download; with a terminal job
+receipt, a service restart retries collection without re-submitting.
 
 Files in this packet:
 
@@ -65,6 +144,14 @@ Files in this packet:
 - [profile_recipe.py](profile_recipe.py) freezes the two-arm command arguments,
   checks the declared runtime/GPU versions, and records valid profile/update
   evidence.
+- [controller.py](controller.py) is the durable one-job submit, monitor,
+  forced-cancel, and terminal-download controller. It does not contain tokens
+  or change the frozen trainer recipe.
+- [test_controller.py](test_controller.py) exercises interrupted submission,
+  duplicate prevention, deadline cancellation, exact-ID validation, transient
+  polling, private credential handling, locking, and terminal-only collection
+  entirely offline (`python3 -m unittest -v test_controller` from this
+  directory).
 - [requirements.txt](requirements.txt) pins the Python dependencies and the
   PyTorch CUDA 13.0 wheel index.
 - [launch-commands.md](launch-commands.md) gives the exact CLI shape and
