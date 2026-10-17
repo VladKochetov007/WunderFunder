@@ -4,6 +4,8 @@ Execution status, storage locations, preservation receipts and operational incid
 
 ## Current navigation
 
+- [Native causal geometry serving check (2026-10-18)](geometry_native_serving_20261018/README.md) records the 271-input callback, corrected event/geometry parity, ABI-compatible native library identity and fixed-precision synthetic row-cost profiles. The first channel-order failure is retained; actual-checkpoint quality and complete competition runtime remain root's gates.
+
 - [No-fit research publication](../../campaign_2026-10-17/research_reset_r1/publication/README.md) — shared repair/evidence published on research-team and25proposal branches; exact refs verified. GitSSH succeeds, while gh API authentication is absent; main promotion PR remains prepared.
 
 - [Prediction/cache repair and deployment](../../campaign_2026-10-17/research_reset_r1/bugfix/README.md) — four legacy files deployed on beleriand with hash-bound backups, full-cache provenance/finite checks and canonical-metric four-sequence replay. Seven new regression tests; no competition-data fits. E-RR17-ZERO-I1-REPLAY establishes a specific export failure, not leaderboard uplift.
