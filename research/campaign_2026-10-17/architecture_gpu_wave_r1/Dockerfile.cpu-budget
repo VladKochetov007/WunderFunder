@@ -1,0 +1,20 @@
+# Build with this campaign folder as context; it intentionally copies no repo files.
+# docker build -f research/campaign_2026-10-17/architecture_gpu_wave_r1/Dockerfile.cpu-budget \
+#   research/campaign_2026-10-17/architecture_gpu_wave_r1 -t wnn-cpu-budget:20261017
+FROM python:3.11-slim-bookworm
+
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgomp1 \
+    && rm -rf /var/lib/apt/lists/* \
+    && python -m pip install --no-cache-dir \
+        numpy==2.2.6 \
+        pyarrow==19.0.1 \
+        onnxruntime==1.23.2 \
+    && mkdir -p /tools/scripts /input /data /out
+
+WORKDIR /tools
