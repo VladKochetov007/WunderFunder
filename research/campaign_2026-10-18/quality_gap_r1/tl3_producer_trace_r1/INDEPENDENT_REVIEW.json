@@ -1,0 +1,31 @@
+{
+  "blockers": [],
+  "decision": "PASS_SCOPED_STATIC_PROVENANCE_REVIEW",
+  "limitations": [
+    "This is a static review of the pinned local packet and small metadata evidence only. It does not validate any remote state beyond the included probe receipt or reread any checkpoint/array payload.",
+    "The exact creative prop_f0 fitting recipe, source identity, preprocessing, and realized membership remain unresolved. The w18 cache/teacher producer provenance remains unresolved; this review makes no claim that relevant files are absent elsewhere.",
+    "The old and current F0 manifests have different SHA-256 identities even though the pinned comparison establishes ordered membership equality. Consumers that bind the split by hash must retain the historical manifest identity where required."
+  ],
+  "packet": "research/campaign_2026-10-18/quality_gap_r1/tl3_producer_trace_r1",
+  "preparation_manifest_sha256": "d6e2032cf6d4626ba3769ac405bd390588731cfd6dd6a09662f708a3d0a08124",
+  "reviewed_utc": "2026-10-18T17:30:28.658288+00:00",
+  "schema": "quality_gap.tl3_producer_trace_independent_review.r1",
+  "scope": {
+    "checkpoint_or_array_payloads_read_or_hashed_by_this_review": false,
+    "evidence_binding_files_rehashed": 20,
+    "hash_or_size_mismatches": 0,
+    "manifest_artifacts_rehashed": 5,
+    "new_remote_actions_or_probes": false,
+    "training_or_inference": false
+  },
+  "status": "passed",
+  "verified": [
+    "The preparation manifest SHA-256 is d6e2032cf6d4626ba3769ac405bd390588731cfd6dd6a09662f708a3d0a08124. All five packet artifacts match their declared byte counts and SHA-256 values; all 20 locally bound evidence files also match their declared byte counts and SHA-256 values.",
+    "The read-only probe receipt binds the exact script and raw stdout hashes, target root, SSH invocation, 35-second alarm, per-file/total text caps, 27,122 text bytes read, and no remote mutation/job. The script follows explicit run, sidecar, and source-path lists, uses Path.is_dir()/Path.is_file() checks, and only stats model endpoints; it does not open checkpoint or prediction/propensity array payloads.",
+    "The restored c20260929_prop_f0 model identity b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7 is pinned by the restore receipt. The distinct creative prop_f0 identity 9e92f26d1704f84f9170d746b372c2ba67f7fb611831865a1fc689d6b813b21c is pinned by the prior checkpoint metadata receipt and creative cache sidecars. The README states these are different checkpoints and does not transfer the restored run provenance to creative prop_f0.",
+    "The historical checkpoint-bound fold0 manifest (09263ad4...) is labeled separately from the current canonical manifest (c09f7240...). The bound membership-comparison receipt reports exact ordered equality for fit.train (10,535), fit.valid (1,405), evaluation.valid (468), exclusions, and component mapping while preserving the different manifest identities. The README does not conflate matching memberships with matching split hashes.",
+    "The finished c20260929_prop_f0 job record and log support the recorded command, arguments, successful exit, and four epochs with evaluation withheld. The independent controls report and local source hash pin the implementation inspected; the README explicitly notes that the job record lacks a per-run source map and labels implementation behavior as such rather than a separately observed historical runtime fact.",
+    "The cache job record/log support the separate c20260929_prop_f0 cache command and recorded parity check, while noting the historical helper source is not bound. The candidate w18 exporter is identified as a candidate only, not as the producer of the named arrays.",
+    "The w18 and creative prop_f0 probe findings are scoped to exact listed paths and Path.is_dir()/Path.is_file() observations. The README notes no lstat or broader search, leaves teacher/producer ancestry unresolved, and does not claim a clean-F0 control or global archive absence."
+  ]
+}

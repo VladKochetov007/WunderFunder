@@ -1,0 +1,504 @@
+{
+  "schema": "quality_gap.tl3_fin256_parent_metadata.v1",
+  "created_utc": "2026-10-18T17:26:33.780249+00:00",
+  "manifest_path": "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/tl3-fin256-metadata-v1/TL3_FIN256_METADATA_INPUTS_R1.json",
+  "manifest_sha256": "2cb24b4de1eb755a37364e92add395cfb74e913c06b13e5b62fd8230baedae18",
+  "status": "METADATA_ONLY_NO_WEIGHT_VALUES_EXPORTED",
+  "resources": {
+    "cgroup_path": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-tl3-fin256-metadata-v1.service",
+    "cpu_max": "50000 100000",
+    "cpu_quota_cores": 0.5,
+    "memory_max_bytes": 1499996160,
+    "memory_swap_max_bytes": 0,
+    "runtime_seconds": 120,
+    "runtime_enforced_by": "external root-admitted systemd RuntimeMaxSec=120; cgroup verification alone does not enforce elapsed time"
+  },
+  "elapsed_seconds": 4.420667,
+  "torch_version": "2.14.0+cu130",
+  "cuda_initialized": false,
+  "inputs": [
+    {
+      "id": "fin256_s3_ep3",
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/fin256_s3/model_ep3.pt",
+      "bytes": 3933599,
+      "sha256_before": "8590dae1c0fb9289c5b56bd4c4520383be089c010baa1a260919b75977f388fb",
+      "sha256_after": "8590dae1c0fb9289c5b56bd4c4520383be089c010baa1a260919b75977f388fb",
+      "source_generation": {
+        "device": 64512,
+        "inode": 743902901,
+        "size": 3933599,
+        "mtime_ns": 1790683067182196758
+      },
+      "top_level_keys": [
+        "args",
+        "epoch",
+        "model",
+        "n_in",
+        "readout",
+        "readout_tilted"
+      ],
+      "metadata": {
+        "args": {
+          "name": "fin256_s3",
+          "train_seqs": 10607,
+          "valid_seqs": 600,
+          "full_valid": true,
+          "hidden": 256,
+          "layers": 2,
+          "dropout": 0.0,
+          "chunk": 2000,
+          "batch": 32,
+          "epochs": 4,
+          "lr": 0.001,
+          "wd": 0.01,
+          "loss": "wmse",
+          "huber_delta": 0.5,
+          "ce_tilt": false,
+          "ce_mse": 0.0,
+          "distill": "",
+          "distill_alpha": 0.5,
+          "aux_next": 0.3,
+          "aux_tier": 0.0,
+          "aux_mask": 0.0,
+          "aux_sign": 0.0,
+          "aux_quote": 0.0,
+          "aux_next_k": "",
+          "aux_struct": 0.3,
+          "aux": "",
+          "aux_weight": 0.5,
+          "arch": "gru",
+          "gate_ce": 0.0,
+          "cell": "gru",
+          "enc": "linear",
+          "tok_dim": 32,
+          "att_layers": 1,
+          "conv_k": 16,
+          "event_hidden": 128,
+          "class_balance": false,
+          "train_source": "train+valid",
+          "include_heldout_valid": true,
+          "valid_train_fraction": 1.0,
+          "epoch_samples": 0,
+          "eval_source": "holdout",
+          "valid_fold": -1,
+          "n_valid_folds": 4,
+          "valid_repeat": 1,
+          "init": "",
+          "freeze": "",
+          "ema_teacher": 1.0,
+          "ema_metric_weight": false,
+          "ema_decay": 0.999,
+          "eval_ema": true,
+          "mask_weight": false,
+          "propensity": "prop_f0",
+          "prop_power": 2.0,
+          "prop_eps": 0.03,
+          "class_weight": "",
+          "valid_true_mask": 0.03,
+          "prop_input": "",
+          "swa_frac": 0.0,
+          "train_classes": "",
+          "online_norm": false,
+          "heuristics": false,
+          "raw_only": false,
+          "seed": 3,
+          "quant_feats": false,
+          "quant_i1": false,
+          "state_reset": 0,
+          "loss_norm": "chunk",
+          "since_weight": 32.0,
+          "since_floor": 0.25,
+          "episode_weight": 0.0,
+          "episode_floor": 0.5,
+          "td_alpha": 0.0,
+          "td_ramp": 0.5,
+          "gcorr_weight": 1.0,
+          "fast": true,
+          "sync_free": true,
+          "fused_adam": true,
+          "pin_memory": true,
+          "prop_cache": true,
+          "precision": "fp16",
+          "max_batches": 0,
+          "profile_steps": 0,
+          "profile_warmup": 5,
+          "parity_dump": "",
+          "deterministic": false
+        },
+        "n_in": 211,
+        "epoch": 3,
+        "readout": null,
+        "readout_tilted": false
+      },
+      "tensor_schema": [
+        {
+          "path": "model.mean",
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.std",
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.inp.weight",
+          "shape": [
+            256,
+            211
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.inp.bias",
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.weight_ih_l0",
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.weight_hh_l0",
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.bias_ih_l0",
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.bias_hh_l0",
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.weight_ih_l1",
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.weight_hh_l1",
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.bias_ih_l1",
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.bias_hh_l1",
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.head.0.weight",
+          "shape": [
+            256,
+            512
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.head.0.bias",
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.head.2.weight",
+          "shape": [
+            23,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.head.2.bias",
+          "shape": [
+            23
+          ],
+          "dtype": "torch.float32"
+        }
+      ],
+      "redacted_or_weight_payload_keys": [
+        "model"
+      ]
+    },
+    {
+      "id": "fin256_s4_ep3",
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/fin256_s4/model_ep3.pt",
+      "bytes": 3933599,
+      "sha256_before": "24d0f4b0edc2a800702b205e32cf61e9d36b213f2477cf852679155d0472abd7",
+      "sha256_after": "24d0f4b0edc2a800702b205e32cf61e9d36b213f2477cf852679155d0472abd7",
+      "source_generation": {
+        "device": 64512,
+        "inode": 743902899,
+        "size": 3933599,
+        "mtime_ns": 1790683053706997883
+      },
+      "top_level_keys": [
+        "args",
+        "epoch",
+        "model",
+        "n_in",
+        "readout",
+        "readout_tilted"
+      ],
+      "metadata": {
+        "args": {
+          "name": "fin256_s4",
+          "train_seqs": 10607,
+          "valid_seqs": 600,
+          "full_valid": true,
+          "hidden": 256,
+          "layers": 2,
+          "dropout": 0.0,
+          "chunk": 2000,
+          "batch": 32,
+          "epochs": 4,
+          "lr": 0.001,
+          "wd": 0.01,
+          "loss": "wmse",
+          "huber_delta": 0.5,
+          "ce_tilt": false,
+          "ce_mse": 0.0,
+          "distill": "",
+          "distill_alpha": 0.5,
+          "aux_next": 0.3,
+          "aux_tier": 0.0,
+          "aux_mask": 0.0,
+          "aux_sign": 0.0,
+          "aux_quote": 0.0,
+          "aux_next_k": "",
+          "aux_struct": 0.3,
+          "aux": "",
+          "aux_weight": 0.5,
+          "arch": "gru",
+          "gate_ce": 0.0,
+          "cell": "gru",
+          "enc": "linear",
+          "tok_dim": 32,
+          "att_layers": 1,
+          "conv_k": 16,
+          "event_hidden": 128,
+          "class_balance": false,
+          "train_source": "train+valid",
+          "include_heldout_valid": true,
+          "valid_train_fraction": 1.0,
+          "epoch_samples": 0,
+          "eval_source": "holdout",
+          "valid_fold": -1,
+          "n_valid_folds": 4,
+          "valid_repeat": 1,
+          "init": "",
+          "freeze": "",
+          "ema_teacher": 1.0,
+          "ema_metric_weight": false,
+          "ema_decay": 0.999,
+          "eval_ema": true,
+          "mask_weight": false,
+          "propensity": "prop_f0",
+          "prop_power": 2.0,
+          "prop_eps": 0.03,
+          "class_weight": "",
+          "valid_true_mask": 0.03,
+          "prop_input": "",
+          "swa_frac": 0.0,
+          "train_classes": "",
+          "online_norm": false,
+          "heuristics": false,
+          "raw_only": false,
+          "seed": 4,
+          "quant_feats": false,
+          "quant_i1": false,
+          "state_reset": 0,
+          "loss_norm": "chunk",
+          "since_weight": 32.0,
+          "since_floor": 0.25,
+          "episode_weight": 0.0,
+          "episode_floor": 0.5,
+          "td_alpha": 0.0,
+          "td_ramp": 0.5,
+          "gcorr_weight": 1.0,
+          "fast": true,
+          "sync_free": true,
+          "fused_adam": true,
+          "pin_memory": true,
+          "prop_cache": true,
+          "precision": "fp16",
+          "max_batches": 0,
+          "profile_steps": 0,
+          "profile_warmup": 5,
+          "parity_dump": "",
+          "deterministic": false
+        },
+        "n_in": 211,
+        "epoch": 3,
+        "readout": null,
+        "readout_tilted": false
+      },
+      "tensor_schema": [
+        {
+          "path": "model.mean",
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.std",
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.inp.weight",
+          "shape": [
+            256,
+            211
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.inp.bias",
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.weight_ih_l0",
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.weight_hh_l0",
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.bias_ih_l0",
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.bias_hh_l0",
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.weight_ih_l1",
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.weight_hh_l1",
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.bias_ih_l1",
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.gru.bias_hh_l1",
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.head.0.weight",
+          "shape": [
+            256,
+            512
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.head.0.bias",
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.head.2.weight",
+          "shape": [
+            23,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        {
+          "path": "model.head.2.bias",
+          "shape": [
+            23
+          ],
+          "dtype": "torch.float32"
+        }
+      ],
+      "redacted_or_weight_payload_keys": [
+        "model"
+      ]
+    }
+  ],
+  "excluded": [
+    "tensor values",
+    "prediction caches",
+    "optimizer state values",
+    "training",
+    "inference"
+  ]
+}

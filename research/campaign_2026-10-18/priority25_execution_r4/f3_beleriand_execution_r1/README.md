@@ -1,5 +1,9 @@
 # F3 / seed 1001 execution
 
+[Post-support17:27UTC observation](POST_SUPPORT_ACCEPTANCE_20261018T1730Z.json) confirms wide epoch0 batch460/1488, loss1.5942/LR1e-4, fresh heartbeats, one campaign GPU process1426MiB and zero new worker/parent memory events. Parent RAM4.11GB. The bounded fin256 metadata support completed and was stopped; training was preserved.
+
+[Routine 17:18 UTC observation](HEARTBEAT_ACCEPTANCE_20261018T1715Z.json) records wide epoch0 batch240/1488, finite loss/LR, fresh heartbeats, sole campaign GPU process and zero new memory events against the 17:10 baseline. Parent RAM4.11GB; no new job or checkpoint action was needed.
+
 [First actual optimizer progress](INITIAL_PROGRESS_ACCEPTANCE_V1.json), observed 17:10:46 UTC: epoch 0, batch 60/1488, loss 1.4539, LR 8.36e-6, fresh heartbeats. Our sole GPU process uses 1424 MiB; parent RAM 4.11 GB; all new worker and parent memory-event deltas are zero. This is a successful start, not a checkpoint or quality result.
 
 Both arms are admitted on Beleriand under the frozen seven-step F3 plan. The controller `computer-vision-homework-r01-f3-sequence.service` launched at 17:06 UTC. Index 0 owns `computer-vision-homework-r01-wide-f3s1001-ep01-v1`; the same sequence owns all later fit, export and paired-grade steps. Do not submit a second controller or duplicate this pair elsewhere. The documented `UNADMITTED` fields in the immutable plan describe preparation and are superseded by the separate [actual admission](F3_BELERIAND_ADMISSION_V1.json) and [launch](F3_BELERIAND_LAUNCH_V1.json), without editing plan bytes.

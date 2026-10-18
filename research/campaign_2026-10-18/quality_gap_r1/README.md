@@ -1,16 +1,18 @@
 # Strong-control recovery and F0 residual diagnostic
 
+[Latest17:30UTC continuation](CONTINUATION_20261018T1730Z.md): F3 remains healthy, two fin256 parents are inspected and independently accepted, and the remaining creative propensity/w18 producer identities are explicit. No new quality score or cleanTL3fit.
+
 **Measured result, 18 October 16:29 UTC:** [same-row comparison and interpretation](strong_control_evaluation_r4/records/RESULTS.md) are complete. The restored historical Main T3 control scores **0.6811541566** versus the new Q8 package's **0.6738263577** on 808,863 identical F0 rows. Difference **+0.007327799**, conditional component-bootstrap 95% interval **[+0.00238446,+0.01352521]**. The first target supplies 69.81% of the difference; the retrospective `|clipped label| ≥ 1` bin supplies 75.24% of its additive contribution. These describe this exposed panel, not public causality or deployable label-based rules. Canonical float64 grade and diagnostic calculations agree. All export/alignment/diagnostic/grade outputs are captured; do not repeat completed work.
 
 **Public incumbent identity:** the [100-row user transcript](public_submission_trace_r1/README.md) identifies **`tl3.zip` / `1lmehfi3` / 0.66832 / 39m12s / 656MB**. Its archived recipe is 0.34 distilled s5 + 0.33 tied-lead s5 + 0.33 tied-lead s6. Portal payload SHA remains unverified. These production models fit train+valid; the restored Main T3 control is a different recipe. The [reviewed clean counterpart plan](TL3_CLEAN_COUNTERPART_PLAN_20261018.md) specifies the still-needed source/config/ancestor closure and F0-excluding reconstruction. Do not score the all-data production checkpoints as held-out F0 or tune weights against public.
 
 The bounded [TL3 source-closure packet](tl3_source_closure_r1/README.md) now resolves a command-line ambiguity: `fttall_s5@ep3` supplied tied-lead arguments, while both resolved `init` values are empty, so it is not a model-weight ancestor. Exact teacher/cache and propensity ancestry remain unproven; allocator OOM warnings are not per-batch update receipts. The packet is metadata-only and does not certify a clean-F0 counterpart.
 
-The [checkpoint metadata extraction packet](tl3_checkpoint_metadata_r1/README.md) prepares a root-admitted, CPU-only pass over eight exact team checkpoints to recover stored config and tensor schemas. It has not been staged or run; every production checkpoint SHA still requires a fresh root-bound observation.
+The [actual checkpoint metadata extraction](tl3_checkpoint_metadata_execution_r1/README.md) completed on eight exact team checkpoints at17:01UTC, with stored configs and tensor schemas, exact hashes, exit0 and independent acceptance. Its [preparation](tl3_checkpoint_metadata_r1/README.md) remains frozen. All seven predictor configs include heldout valid; propensity has no stored fitting args. The [named ancestor follow-up](tl3_ancestor_followup_r1/README.md) identifies two unresolved fin256 parent checkpoints and preserves the remaining propensity/target producer gaps. Do not repeat the eight-file extraction.
 
-**Rank1:** F0 and F1 fits, exports, grades, terminal checks, result collection and independent acceptance are complete. [F1 acceptance](../priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json). Two paired cells per arm are not CP30. [F3 preparation](../priority25_execution_r4/f3_beleriand_preparation_r1/README.md) is independently reviewed but unadmitted and unstaged.
+**Rank1:** F0 and F1 fits, exports, grades, terminal checks, result collection and independent acceptance are complete. [F1 acceptance](../priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json). Two paired cells per arm are not CP30. [F3 execution](../priority25_execution_r4/f3_beleriand_execution_r1/README.md) was admitted and launched at17:06UTC under its unchanged reviewed plan. At17:18UTC wide stage1 reaches epoch0 batch240/1488, with fresh heartbeat and zero new memory events. It is running, not a third completed cell.
 
-**Provider state:** the [16:12 UTC observer](provider_observation_20261018T1615Z/) confirms zero nonterminal jobs among the latest 100 and unchanged balance 41,652,791. Official incident refresh returned JavaScript-required content, so recovery was not observed; no blind paid retry was made. The Mac performed only light orchestration, metadata work and tiny synthetic tests.
+**Provider state:** the [16:44 UTC observer and16:52 live official status](../priority25_execution_r4/f3_preflight_r1/PROVIDER_CELL_RECONCILIATION_V1.json) confirm zero nonterminal jobs among the latest100, unchanged balance41,652,791 and continuing incident2136 affecting DataSphere. No recovery or blind paid retry. The Mac performs only light orchestration, metadata work and tiny synthetic tests.
 
 Earlier dated continuation files preserve the SSH outage, restoration, preparation and consumer failures. They do not override the completed result above. [Detailed findings](FOLLOWUP_RESULTS.md).
 
@@ -87,6 +89,9 @@ reviewed R4 consumer completed the actual alignment and grade documented above;
 the R2/R3 runtime failures remain preserved.
 
 ## Evidence and operational index
+
+- [Two fin256 parent configs](tl3_fin256_metadata_execution_r1/README.md): successful CPU-only extraction of both exact epoch3 parents,7.87MB, unchanged source hashes, exit0/noCUDA/no new memory events. Recorded configs are scratch/empty-distill with auxiliary-next/structure losses and production train+valid; `prop_f0` remains a learned-weighting dependency. The [separate preparation/review](tl3_fin256_metadata_r1/README.md) is preserved and must not be rerun.
+- [Propensity and w18 producer trace](tl3_producer_trace_r1/README.md): recovered Main propensity recipe is a different checkpoint from creative TL3 `prop_f0`; the latter's fitting provenance and w18 target-cache producer bindings remain unresolved. Exact-path absence claims are bounded, not proof no archived copy exists.
 
 - [Propensity recovery](propensity_recovery_r1/RESULT.md): two additional exact
   archive files restored and verified, 187,249 bytes, exit 0; closes that export

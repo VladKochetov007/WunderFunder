@@ -1,0 +1,118 @@
+{
+  "artifacts": {
+    "INDEPENDENT_REVIEW_REQUEST.md": {
+      "bytes": 836,
+      "sha256": "811284c6d669136669a2569c47fc977d2bb97840f6d19a72beaf50afd6137dee"
+    },
+    "INPUT_MANIFEST_TEMPLATE.json": {
+      "bytes": 1132,
+      "sha256": "59e30c25cdc18843575de3f70deaf1db3ea8563fad1685183a60659bf36ab6ac"
+    },
+    "README.md": {
+      "bytes": 5048,
+      "sha256": "8405c6ca6c9b97fd0029be1778483fb91aafc2e00e614c8f302423208bf0fed8"
+    },
+    "TEST_RECEIPT.json": {
+      "bytes": 1521,
+      "sha256": "09e0c2ac60db5673e5b0575ecefbc2a1b347e243a222a5f063c811155fd826b5"
+    },
+    "extract_fin256_metadata.py": {
+      "bytes": 14398,
+      "sha256": "a48297ca45aa19af9211afac9f365f373790e3db6cb70fc7dcafec4875ccb4c6"
+    },
+    "test_extract_fin256_metadata.py": {
+      "bytes": 9614,
+      "sha256": "d46d185542b90cbcce9c0146067f1a9871d27286c815493866214d11fd972a53"
+    }
+  },
+  "created_utc": "2026-10-18T17:23:14.472078+00:00",
+  "endpoint_allowlist": [
+    {
+      "id": "fin256_s3_ep3",
+      "observed_bytes": 3933599,
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/fin256_s3/model_ep3.pt",
+      "sha256": "not computed"
+    },
+    {
+      "id": "fin256_s4_ep3",
+      "observed_bytes": 3933599,
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/fin256_s4/model_ep3.pt",
+      "sha256": "not computed"
+    }
+  ],
+  "execution_directory_allowlist": [
+    "extract_fin256_metadata.py",
+    "TL3_FIN256_METADATA_INPUTS_R1.json"
+  ],
+  "execution_directory_forbidden": [
+    "unlisted files",
+    "__pycache__",
+    "*.pyc"
+  ],
+  "input_contract": {
+    "checkpoint_sha256_values": "fresh root-observed only; not available in preparation",
+    "expected_total_input_bytes": 7867198,
+    "max_input_bytes_each": 33554432,
+    "max_total_input_bytes": 67108864,
+    "root_admission_receipt_sha256": "required in fresh ROOT_HASH_BOUND input manifest",
+    "schema": "quality_gap.tl3_fin256_parent_metadata.v1",
+    "source_observation_sha256": "93c7bda0dc3cad159d456022661ec2ef670bb4b6776257da55c8f662a0f18a18"
+  },
+  "limitations": [
+    "No actual B launch, root admission, or fresh source hash was performed. The input template is intentionally not runnable.",
+    "The prior probe statted model_ep3.pt through exact symlink targets; it did not read or hash checkpoint payloads.",
+    "Restricted weights_only loading may reject historical checkpoint objects; stop without unrestricted fallback if that occurs.",
+    "Safe checkpoint metadata does not by itself establish historical fit membership or clean F0 ancestry."
+  ],
+  "local_packet_inventory": [
+    "README.md",
+    "INDEPENDENT_REVIEW_REQUEST.md",
+    "INPUT_MANIFEST_TEMPLATE.json",
+    "extract_fin256_metadata.py",
+    "test_extract_fin256_metadata.py",
+    "TEST_RECEIPT.json",
+    "PREPARATION_MANIFEST.json"
+  ],
+  "purpose": "Bounded CPU-only extraction of safe metadata from the two exact fin256_s3/s4 epoch-3 initializer checkpoints; no weight values are serialized.",
+  "resource_contract": {
+    "cpu_quota_cores": 0.5,
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 120,
+    "swap_max_bytes": 0
+  },
+  "schema": "quality_gap.tl3_fin256_parent_metadata_preparation.v1",
+  "source_bindings": {
+    "ancestor_followup_probe": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_ancestor_followup_r1/RAW_PROBE_RECEIPT_R1.json",
+      "sha256": "93c7bda0dc3cad159d456022661ec2ef670bb4b6776257da55c8f662a0f18a18"
+    },
+    "ancestor_followup_readme": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_ancestor_followup_r1/README.md",
+      "sha256": "9c14f09b569374b12e70bb61ad2f9b77489547ecc3a8d224592934ef04a5b180"
+    },
+    "continuation_20261018T1710Z": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/CONTINUATION_20261018T1710Z.md",
+      "sha256": "18e3eb8c04f0c9862c3fa787c5a43a6329ac59489825fae509885d9889b137a3"
+    },
+    "reused_metadata_extractor_manifest": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_r1/PREPARATION_MANIFEST.json",
+      "sha256": "f65c7ac2011f11af490a7eeb61b7ec5f53b3126e4a3b6159fcc7c9483e5f34e2"
+    },
+    "reused_metadata_extractor_review": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_r1/INDEPENDENT_REVIEW.json",
+      "sha256": "ea69898450a7510f7464548b333a8a4ad70b3445683a85497c90dc98acee1226"
+    }
+  },
+  "status": "PREPARED_NOT_ADMITTED_READY_FOR_INDEPENDENT_REVIEW",
+  "validation": {
+    "actual_parent_checkpoint_opened_or_hashed": false,
+    "cli_help": "passed",
+    "remote_execution_or_mutation": false,
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "unit_tests_discovered": 13,
+    "unit_tests_failed": 0,
+    "unit_tests_passed": 13,
+    "unit_tests_skipped": 0
+  }
+}
