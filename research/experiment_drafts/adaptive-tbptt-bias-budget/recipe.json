@@ -1,0 +1,123 @@
+{
+  "id": "E-ADAPTIVE-TBPTT-20261018",
+  "hypothesis_id": "H-RR17-19",
+  "variant": "adaptive_bias_budget",
+  "target_source_sha": "1d57ed815c18eb278bcdd0207369b200970b28fb",
+  "status": "proposal_only",
+  "launch_ready": false,
+  "training_authorized": false,
+  "arms": [
+    "fixed_detach_K2000",
+    "adaptive_detach_K500_1000_2000_delta_0.10"
+  ],
+  "precision": "fp32",
+  "tf32": false,
+  "full_data": true,
+  "cells_per_arm": 30,
+  "fold_seed_matrix": [
+    {
+      "fold": "F0",
+      "seeds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ]
+    },
+    {
+      "fold": "F1",
+      "seeds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ]
+    },
+    {
+      "fold": "F2",
+      "seeds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ]
+    },
+    {
+      "fold": "F3",
+      "seeds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ]
+    }
+  ],
+  "microchunk_rows": 500,
+  "update_rows": 2000,
+  "fixed_arm": {
+    "detach_horizon_rows": 2000
+  },
+  "adaptive_arm": {
+    "candidate_detach_horizons_rows": [
+      500,
+      1000,
+      2000
+    ],
+    "relative_bias_tolerance_delta": 0.1,
+    "probe_positions": 32,
+    "probe_data": "training membership only",
+    "probe_max_lag_rows": 2000,
+    "probe_decay_region_rows": [
+      1800,
+      2000
+    ],
+    "probe_cadence": "once at the start of each epoch",
+    "selection": "smallest candidate K with Aicher-style empirical relative-tail proxy <= delta",
+    "fallback": "K=2000; mark proxy invalid or budget unmet when decay is not finite or no candidate satisfies delta",
+    "guarantee": "empirical proxy only; not equality to true gradient bias and not a universal certified bound"
+  },
+  "checkpoint_policy": "fixed-epoch final checkpoint; no best-fold or outer-validation selection",
+  "primary_metric": "global_wp_clip2_v1",
+  "proposed_decision_design": {
+    "minimum_end_to_end_time_reduction_including_probes": 0.15,
+    "wp_noninferiority_margin": -0.0005,
+    "time_reduction_ci": "Report crossed-seed and fixed-fit timing sensitivity; primary practical cost gate is equal-fold mean paired end-to-end reduction >=0.15.",
+    "wp_ci": "Lower 97.5% family-adjusted seed and component bounds for equal-fold mean adaptive-minus-fixed WP > -0.0005; also report marginal 95% intervals.",
+    "fold_guard": "Report every fold; systematic or concentrated fold regression prevents automatic promotion and requires a bounded follow-up.",
+    "multiplicity_family": "Two primary contrasts with E-CURRENT-MOMENT-WP-20261018; Bonferroni 97.5% intervals, approximate conditional inference."
+  },
+  "implementation_sources": [
+    "src/wnn/training/runner.py",
+    "src/wnn/training/forward.py",
+    "src/wnn/training/forward_backward.py",
+    "src/wnn/training/updates.py",
+    "scripts/experiment_draft_plan.py"
+  ],
+  "remaining_work": [
+    "bind owner, clean source-qualified CP30 fitting lineage and exact model/baseline configuration",
+    "implement and review adaptive gradient-tail estimator/controller adapter",
+    "implement recurrent detach-boundary adapter while preserving 500-row microchunks and 2000-row optimizer updates",
+    "pass exact-oracle synthetic estimator gate on controlled geometric, delayed, sparse-spike, nonmonotone, and cancellation tails",
+    "prove forward-state replay, sequence reset, and optimizer/update-cadence parity for every candidate K",
+    "bind the six-epoch update schedule, data/cache/output paths, environment, and exact resume/failure contract",
+    "profile complete training and probe path, memory, and timing on actual B300 before any CP30 fit",
+    "obtain separate explicit admission for the 30 paired cells per arm"
+  ],
+  "epochs": 6,
+  "fixed_checkpoint_epoch": 5,
+  "update_rows_unit": "input rows per sequence window, including rows masked out of loss"
+}
