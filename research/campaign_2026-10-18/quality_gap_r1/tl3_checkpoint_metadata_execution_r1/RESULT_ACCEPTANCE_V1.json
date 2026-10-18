@@ -1,0 +1,60 @@
+{
+  "schema": "quality_gap.tl3_checkpoint_metadata_result_acceptance.v1",
+  "reviewed_utc": "2026-10-18T17:02:55Z",
+  "decision": "ACCEPTED_METADATA_ONLY_RESULT",
+  "result_path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json",
+  "result_sha256": "1dea114d0588c6d6f64df59d2db9391657ba0940c632582b476c6f2de9298f4c",
+  "result_bytes": 52862,
+  "evidence_bindings": {
+    "input_manifest_sha256": "933faa52a181d530fdc114434c6de7b7d43682743fb46eb93a0661dbfb3a1294",
+    "admission_receipt_sha256": "2dca29fdabea473403953f6402b00349aa546cfce8d10220d57d5a8742cbefb3",
+    "preparation_manifest_sha256": "f65c7ac2011f11af490a7eeb61b7ec5f53b3126e4a3b6159fcc7c9483e5f34e2",
+    "independent_static_review_sha256": "ea69898450a7510f7464548b333a8a4ad70b3445683a85497c90dc98acee1226",
+    "extractor_sha256": "be0e33f4cccc34533e76c0f628948ffa992723d9c4d4f6289390407129879fe2",
+    "launch_receipt_sha256": "5c1dc0a0b4e657ee4b8866cd3ce5421cbedd77e4228aedae09730a5c77be8389",
+    "execution_capture_sha256": "349d7d75ce5267f8b44e5a6ef4425c593a12538db963d14980e34564ffd5e5ac",
+    "stop_receipt_sha256": "826fc8aa7fb39586565b0af40b29f52298ba3b6668d37ba4c314c58358812bef"
+  },
+  "acceptance_checks": {
+    "result_sha256_and_size_match_execution_capture": true,
+    "result_manifest_sha_matches_input_manifest_file": true,
+    "input_manifest_sha_matches_launch_record": true,
+    "admission_receipt_sha_matches_launch_record": true,
+    "admission_binds_preparation_manifest_review_extractor_and_all_inputs": true,
+    "result_has_exactly_eight_unique_inputs": true,
+    "every_result_input_matches_admitted_path_size_and_sha256": true,
+    "every_input_sha256_before_matches_after": true,
+    "launch_exit_status": 0,
+    "execution_result": "success",
+    "execution_exit_status": 0,
+    "stop_after_capture_exit_status": 0,
+    "training_or_inference": false
+  },
+  "run_observation": {
+    "total_input_bytes": 24811301,
+    "elapsed_seconds_inside_extractor": 5.79576,
+    "unit_elapsed_seconds": 7.06943,
+    "cpu_quota_cores": 0.5,
+    "memory_max_bytes": 1499996160,
+    "swap_max_bytes": 0,
+    "runtime_max_seconds": 120,
+    "torch_version": "2.14.0+cu130",
+    "cuda_initialized": false,
+    "status": "METADATA_ONLY_NO_WEIGHT_VALUES_EXPORTED"
+  },
+  "supported_findings": [
+    "All seven predictor checkpoint argument records store full_valid=true, include_heldout_valid=true, valid_fold=-1 and valid_train_fraction=1.0, with 10,607 train sequences and 600 validation sequences. The fin256ft_s3/s4 records say train_source=valid; fbc1k_s5, orgbase and w18final_distilled_s5 say train_source=train+valid. This is strong evidence that the stored recipes include the held-out validation scope, but stored args alone do not prove the historical loader's realized row membership.",
+    "fbc1k_s5@ep3 stores init='' and distill='fin256_s3,fin256_s4', with propensity='prop_f0'. w18final_distilled_s5@ep1 stores init='fbc1k_s5@ep3', distill='w18final_teacher', family_teachers='w18final_fbc1k_s5,w18final_family_full,w18final_family_raw,orgbase', and propensity='prop_f0'. These are separate initializer and distillation edges; the named teacher aliases are not resolved to exact checkpoint paths by this receipt.",
+    "The fin256ft_s3/s4 model.pt and model_ep1.pt objects store the same args per seed, including init='fin256_s3@ep3' or init='fin256_s4@ep3', train_source='valid', and loss='gcorr'. The ep1 objects report epoch=1; the model.pt objects omit an epoch field. Equal args and tensor schemas do not establish weight equality or identify model.pt as the terminal trained endpoint.",
+    "The prop_f0 checkpoint SHA-256 is 9e92f26d1704f84f9170d746b372c2ba67f7fb611831865a1fc689d6b813b21c, exactly matching the earlier cache-sidecar claim. Its metadata exposes hidden=64 and n_in=211 but no args or fit membership; the hash match does not establish training scope or clean-F0 provenance.",
+    "The seven predictor schemas report n_in=211 and float32 tensor metadata; orgbase has a 128-unit GRU body and two-output head, prop_f0 has a 64-unit GRU body and one-output head. No tensor values were emitted or reviewed."
+  ],
+  "limitations_and_next_closure_edges": [
+    "Do not certify any member, teacher, initializer, or prop_f0 as a clean-F0 control. The stored args strengthen the held-out-inclusion concern, while exact realized membership still requires historical source/loader binding and ordered fit-group evidence.",
+    "Resolve fin256_s3@ep3 and fin256_s4@ep3 to exact paths, checkpoint hashes, source/config and fit memberships; resolve the fin256_s3/fin256_s4 distillation aliases used by fbc1k_s5 to exact teacher artifacts.",
+    "Resolve w18final_teacher, w18final_fbc1k_s5, w18final_family_full and w18final_family_raw to exact paths, hashes, source/config and memberships. The current extraction includes fbc1k_s5_ep3 and orgbase_model but does not establish that these files are the exact teacher endpoints.",
+    "Recover historical trainer/source identity and realized row/group membership for fbc1k_s5, both fin256ft runs, w18final_distilled_s5, orgbase and prop_f0. Compare each direct and transitive learned ancestor against the canonical 468 F0 evaluation groups.",
+    "Recover cache producer receipts/sidecars that bind exact checkpoint endpoint, ordered rows, preprocessing/features, split membership and producer source for the public prediction arrays and teacher predictions. This metadata receipt contains no cache or prediction evidence.",
+    "The exact bytes and repeated hashes establish stable file identity at extraction time; they do not establish training provenance, endpoint use in a blend, public score causality, or optimizer-update completeness."
+  ]
+}

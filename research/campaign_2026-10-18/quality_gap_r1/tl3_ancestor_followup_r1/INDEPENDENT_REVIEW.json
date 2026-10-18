@@ -1,0 +1,33 @@
+{
+  "decision": "PASS_SCOPED_READONLY_METADATA_REVIEW",
+  "findings": [],
+  "inputs": {
+    "RAW_PROBE_RECEIPT_R1.json": {
+      "raw_stdout_sha256": "7313919a50da276a0e56053847c62c298699e3039f5d6a68075f46c36a917632",
+      "remote_script_sha256": "f32472441422e2ea491867aea320970749bba3b170c672b7cc62204415e5a9d8",
+      "sha256": "93c7bda0dc3cad159d456022661ec2ef670bb4b6776257da55c8f662a0f18a18",
+      "status": "READ_ONLY_PROBE_COMPLETE"
+    },
+    "README.md": {
+      "sha256": "9c14f09b569374b12e70bb61ad2f9b77489547ecc3a8d224592934ef04a5b180"
+    }
+  },
+  "packet": "research/campaign_2026-10-18/quality_gap_r1/tl3_ancestor_followup_r1",
+  "reviewed_utc": "2026-10-18T17:08:16Z",
+  "schema": "quality_gap.tl3_ancestor_followup_independent_review.r1",
+  "scope": {
+    "existing_packet_and_probe_review_only": true,
+    "global_archive_absence_claimed": false,
+    "model_weights_hashed_or_loaded": false,
+    "new_probes_or_jobs": false,
+    "remote_or_checkpoint_payload_reads": false
+  },
+  "status": "passed",
+  "verified": [
+    "The fin256_s3 and fin256_s4 observations name the exact logical run paths and symlink targets under /home/grinchenkoeg/WunderFunder-creative -> /home/grinchenkoeg/WunderFunder. model_ep3.pt is present at each observed logical path (3,933,599 bytes); endpoint stats do not include checkpoint payload hashes.",
+    "For each fin256 run, the only present file among the listed text metadata names is history.json. It contains epochs 0\u20133 on holdout368 with 368 eligible blocks. README explicitly says this evaluation history does not establish ordered training/fit membership or initializer source/config identity.",
+    "For prop_f0, the probe reports the named run directory and model.pt present (159,607 bytes) and the enumerated args/config/resolved_config/run/manifest/provenance/history files absent. The checkpoint digest and model dimensions are attributed to the preceding restricted checkpoint metadata receipt; the README limits the claim to the enumerated sidecars/metadata and notes that fit membership and preprocessing ancestry remain unbound.",
+    "The four w18final_* statements concern the exact named run directories under the probed root, whose presence flags are false. README points to the prior source-closure receipt for the named cache-sidecar observations and requests archived configs/logs/provenance as a next step; it does not claim that no copies or recoverable records exist elsewhere.",
+    "The raw probe reports 289,493 bytes read/copied against its 900,000-byte internal text cap, with payload opens/hashes, array access, and remote mutations/jobs all false."
+  ]
+}

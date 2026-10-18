@@ -1,0 +1,78 @@
+{
+  "admission_state": "BLOCKED_BY_FROZEN_PRODUCER_SCHEMA_AND_SOURCE_BINDING_MISMATCH",
+  "created_utc": "2026-10-18T15:27:50Z",
+  "decision": "Keep R1 immutable and not admitted. R1 integrity and most structural design properties pass static review, but the exact frozen producer's sidecar fails the current validator and the source/export contract is ambiguous. Use a separately sealed R2; no actual export, extraction, diagnostic or grade was run by this reviewer.",
+  "findings": [
+    {
+      "evidence": "The pinned H390 predictor emits `campaign_fit_scope='full-valid-feature-only'`; its sidecar has no `campaign_export_scope` or `feature_only` field. For this mode it emits `evaluation_membership_sha256=null` and `campaign_evaluation_membership_sha256=null`; only fit-subset and evaluation-only modes compute those respective digests. R1 instead requires `campaign_export_scope='full-valid-feature-only'`, `feature_only=true`, and a non-null `evaluation_membership_sha256` derived from row_groups. The first missing field fails the exact required-field loop at collection_support.py:73-75; accepting aliases alone would still fail the membership check at :81-83.",
+      "execution_effect": "Do not admit or run R1 collection against the actual control export.",
+      "id": "SC-EVAL-R1-001",
+      "location": "collection_support.py:62-83",
+      "required_fix": "Create an isolated R2 adapter that validates the producer's actual full-valid contract (`campaign_fit_scope`, exact campaign split SHA, explicit complete row_groups permutation, and expected null mode-specific membership fields), computes/records its own row-order digest, and adds fixtures copied from the pinned H390 producer schema plus wrong-scope/order rejection cases. Do not rewrite or normalize the frozen producer sidecar.",
+      "severity": "BLOCKER",
+      "title": "Collector rejects the actual frozen H390 full-valid sidecar"
+    },
+    {
+      "evidence": "R1 pins the working-tree `scripts/predict_run.py` at SHA-256 750b9e77\u20264b65. The frozen H390 source manifest pins its executed `scripts/predict_run.py` at 30647bb7\u202654dd0. The former emits the schema R1 expects; the latter is the checkpoint-lineage source and emits the incompatible metadata above. The arrival command does not bind an exact producer command/source receipt contract, so these two possible exporters are not distinguished in the packet.",
+      "id": "SC-EVAL-R1-002",
+      "location": "PREPARATION_MANIFEST.json source_files; README.md arrival-time command",
+      "required_fix": "In R2, explicitly bind the selected export command, predictor source SHA/source manifest, checkpoint SHA and producer receipt schema. If using a compatibility-modified current predictor, identify and review that as the chosen export implementation rather than implying the frozen H390 producer schema.",
+      "severity": "HIGH",
+      "title": "Preparation pins a different predictor than the frozen H390 source"
+    },
+    {
+      "evidence": "The helper parses the supplied expected-hash receipt as any JSON object, but does not check a required schema, success status, source/command identity, or that its prediction and sidecar bindings agree with the files. The output alignment receipt records only the receipt hash, byte count and optional schema field. A captured hash establishes byte integrity but not that this is a successful receipt for this exact export.",
+      "id": "SC-EVAL-R1-003",
+      "location": "collection_support.py:53-56; collect_control.py:170-175",
+      "required_fix": "Add an exact receipt schema/status contract in R2 and cross-check its run, checkpoint, predictor source/command, prediction path/hash, sidecar path/hash, split and full-valid scope against the validated sidecar and prediction. Add small negative fixtures for failed/wrong-source/wrong-file receipts.",
+      "severity": "MEDIUM",
+      "title": "Export receipt bytes are hash-pinned but their contract is not validated"
+    },
+    {
+      "evidence": "The collector resolves `args.output` before checking existence. A pre-existing dangling symlink can therefore resolve to a not-yet-existing target and cause the collector to create the target directory through that alias. The later `mkdir(exist_ok=False)` is race-safe for the resolved target, but does not reject the alias itself.",
+      "id": "SC-EVAL-R1-004",
+      "location": "collect_control.py:56-60",
+      "required_fix": "For complete create-only semantics, reject the caller-supplied output path with `lexists`/`is_symlink` before resolving it, and keep the exclusive mkdir. A root-owned exact clean-path check can also enforce this boundary.",
+      "severity": "LOW",
+      "title": "Output collision check follows path resolution"
+    }
+  ],
+  "integrity": {
+    "actual_frozen_predictor": {
+      "path": "research/campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r1/source_snapshot/scripts/predict_run.py",
+      "sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+      "source_manifest_path": "research/campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r1/source_snapshot/SOURCE_MANIFEST_H390.json",
+      "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa"
+    },
+    "author_reported_validation": [
+      "9 tiny synthetic tests passed",
+      "Ruff passed"
+    ],
+    "independent_reviewer_reran_tests": false,
+    "manifest_predictor_pin": {
+      "path": "scripts/predict_run.py",
+      "sha256": "750b9e77aa55673f61a4dd84d809d91dd315bf86eb36c36b065bc67a7d0f4b65"
+    },
+    "manifest_sha256_match": true,
+    "manifest_status": "PREPARED_NOT_ADMITTED",
+    "packet_artifacts": {
+      "checked": 9,
+      "matched_size_and_sha256": 9
+    },
+    "source_files": {
+      "checked": 13,
+      "matched_size_and_sha256": 13
+    }
+  },
+  "review_result": "NOT_APPROVED_FOR_EXECUTION_R1",
+  "review_scope": "Independent static review of artifact/source hashes, actual frozen H390 predictor sidecar contract, create-only outputs, derived diagnostic manifest, and no-training/no-checkpoint-load behavior. No export, model/checkpoint/prediction/target-array load, parquet payload read, remote call, or test rerun was performed.",
+  "reviewed_artifact": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1",
+  "reviewed_manifest_sha256": "f35271661752c3aab0d73a2fad224d7cc0b48aac17515ffe4ee463097ce0ad25",
+  "schema": "quality_gap.strong_control_evaluation_independent_review.r1",
+  "verified_design_properties": {
+    "create_only_writes": "Existing ordinary output directories are rejected; directory creation uses exist_ok=False; NPY and JSON files use exclusive creation. The dangling-symlink alias is noted separately above.",
+    "derived_manifest": "The helper copies the frozen diagnostic inputs, resolves their existing paths, adds the source-aligned strong_control NPY with paired-bundle/alignment receipt bindings, and appends only fixed comparisons against wide, fp32_mix and q8. The existing input validator checks those bindings. No blend search, calibration or tuning is introduced.",
+    "scientific_scope": "One previously exposed F0 panel, 808863 rows and 141 components; the control is explicitly not the exact public incumbent. Grade helper conditions component bootstrap on fixed predictions and disclaims seed/public-transfer variation.",
+    "training_and_model_loads": "Static imports and calls show no torch, model construction, checkpoint deserialization, optimizer, or training path. Runtime collection would memory-map the full prediction, load the compact scored bundle, and read only the pinned selected parquet groups/columns; this review did not execute those reads."
+  }
+}

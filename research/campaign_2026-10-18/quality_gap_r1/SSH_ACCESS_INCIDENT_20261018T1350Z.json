@@ -1,0 +1,40 @@
+{
+  "schema": "quality_gap.ssh_access_incident.v1",
+  "recorded_utc": "2026-10-18T13:52:11.518139+00:00",
+  "host_alias": "beleriand",
+  "observations": [
+    {
+      "attempt": "read-only status at heartbeat13:49",
+      "connect_timeout_seconds": 10,
+      "exit_status": 255,
+      "error": "Connection timed out during banner exchange"
+    },
+    {
+      "attempt": "read-only retry",
+      "connect_timeout_seconds": 15,
+      "exit_status": 255,
+      "error": "Connection timed out during banner exchange"
+    },
+    {
+      "attempt": "read-only ssh-v true",
+      "connect_timeout_seconds": 10,
+      "exit_status": 255,
+      "tcp_connection_established": true,
+      "local_version_sent": "SSH-2.0-OpenSSH_10.2",
+      "remote_banner_received": false,
+      "authentication_reached": false,
+      "error": "Connection timed out during banner exchange"
+    }
+  ],
+  "github_fetch_succeeded": true,
+  "limitations": [
+    "No evidence establishes model failure, server-wide outage, root cause or job termination.",
+    "Current F1 health after13:20UTC and plot terminal state are unknown from this host."
+  ],
+  "last_verified_training_receipt": "../priority25_execution_r4/receipts/F1_DEEP_PROGRESS_20261018T1320Z.json",
+  "active_training_preserved": true,
+  "restoration_completed_before_access_loss": "recovery/RESTORE_RECEIPT.json",
+  "pending_capture_unit": "computer-vision-homework-quality-gap-plot-v1.service",
+  "pending_capture_path": "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/plots-v1",
+  "next": "Recheck bounded SSH after backoff; inspect existing units/receipts before any retry. Do not restart training or duplicate plot."
+}

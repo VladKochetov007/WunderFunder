@@ -1,5 +1,9 @@
 # F1 continuation admission recovery, 18 October 2026
 
+**Current status,12:30UTC:** [wide terminal is collected and independently verified](../receipts/F1_WIDE_TERMINAL_HANDOFF_20261018T1230Z.json); the unchanged recovery sequence has handed the sole campaign GPU worker to deep continuation. Wide has89,580 successful updates, zero skips/nonfinite, exact original schedule/ancestry and finite FP32 model/Adam. F1 exports/grade remain pending.
+
+Wide collection used the original V3 collector. Root found a static V3 verifier error before execution: after validating a peer stage1 receipt against V2, it redundantly demanded the current V3 verifier SHA. The new [V4 packet](checkpoints_v4/README.md), [independent review](CHECKPOINT_REVIEW_V4.json) and [staging](CHECKPOINT_STAGING_V4.json) retain exact V2 parent identities while removing that incompatible comparison. Manifest SHA0492d5f569c46cbf498511dce62a6a8d33fec7ed986cae93f369b5ffe0a0970c; nine focused stdlib tests passed, then the actual terminal verifier passed once on Beleriand. Do not execute V3 verification or repeat wide collection. Deep terminal remains on its original V2 helpers. Earlier preparation statements below are historical.
+
 At10:08UTC deep stage1 finished successfully. The original sequence then refused
 wide continuation before starting a worker: CPU reservations were1 replay +0.1
 controller +1 requested worker =2.1 cores, above the two-core campaign limit.

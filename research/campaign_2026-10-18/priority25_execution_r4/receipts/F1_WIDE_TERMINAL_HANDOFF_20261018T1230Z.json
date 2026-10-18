@@ -1,0 +1,96 @@
+{
+  "schema": "priority25.f1_wide_terminal_handoff.v1",
+  "created_utc": "2026-10-18T12:29:19.315297+00:00",
+  "wide": {
+    "attempt": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+    "status": "finished",
+    "exit_status": 0,
+    "snapshot": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f1_s1001_e6/epoch5_terminal",
+    "state_sha256": "429ed49bfb63e3a65dce86a9e7d40066624ad7ff0afc826023cb5f0f543989d8",
+    "next_epoch": 6,
+    "completed_updates": {
+      "optimizer_attempts": 89580,
+      "amp_skipped_updates": 0,
+      "optimizer_completed_updates": 89580,
+      "ema_updates": 0,
+      "completed_batches": 8958
+    },
+    "history_epochs_verified": 6,
+    "source_files_verified": 138,
+    "stage1_parent_training_state_sha256": "8cb3dde79550355303cbede0d0953864046b7594c16af648423d4a3c9af92255",
+    "finite_fp32_model_adam": true,
+    "raw_selected_resume_tensor_equality": true,
+    "same_and_peer_stage1_contract_verified": true,
+    "terminal_verifier_sha256": "f724ae438d169ccee739d8c8af6229ea974bb61fb0a034c48a298aa17339e70d",
+    "terminal_verification_receipt_sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c"
+  },
+  "support": {
+    "original_v3_collector": "completed_once_exit0_captured_stopped",
+    "collector_wall_seconds": 5.721966,
+    "v4_verifier": "completed_once_exit0_captured_stopped",
+    "verifier_wall_seconds": 6.842304,
+    "v3_verifier": "not_executed; static peer helper version mismatch found before execution",
+    "v4_fix": "new isolated verifier binds peer V2 stage1 helper identity to exact original V2 SHA rather than current recovery verifier SHA; all other ancestry conditions retained",
+    "v4_manifest_sha256": "0492d5f569c46cbf498511dce62a6a8d33fec7ed986cae93f369b5ffe0a0970c",
+    "training_plan_or_source_changed": false,
+    "cuda_initialized": false,
+    "local_receipt_transport": "Initial collector JSON copy rounded mtime_ns via JavaScript numbers; _REMOTE is the exact authoritative byte copy. Both copies and diagnosis preserved."
+  },
+  "deep": {
+    "observation_utc": "2026-10-18T12:28:46.477075+00:00",
+    "sequence_index": 3,
+    "attempt": "computer-vision-homework-r01-deep-f1s1001-ep25-v1",
+    "status": "running",
+    "last_log": "ep 2 batch 400/1493 loss 1.0153 lr 7.34e-05 seq/s 3.7",
+    "memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_ram_bytes": 3779366912,
+    "our_gpu_processes": [
+      {
+        "pid": 105245,
+        "uid": 1061,
+        "vram_mib": "1586",
+        "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/wnn-bandit-computer-vision-homework-r01-deep-f1s1001-ep25-v1.service"
+      }
+    ],
+    "foreign_processes_preserved": true,
+    "continuation_checkpoint_observed": false
+  },
+  "artifact_index_sha256": {
+    "RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_V3_REMOTE.json": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26",
+    "RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_LAUNCH_V3.json": "69ed57afaed70962425cf95988d782cac71a8ba4de19f4fd408e9527e1e2d0b0",
+    "RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_EXECUTION_V3.json": "3bd826c06f95802e86bb84cc51044ad7f3fcb3031cf102459bbf2fadc79db139",
+    "RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_STOP_V3.json": "af14a04558a556d0bc0ecb5a13582a1118955bf356a4a63eafe5b5ee3b905432",
+    "RANK01_WIDE_F1_S1001_COLLECTION_TRANSPORT_RECONCILIATION_V1.json": "2a10747d3a14b6080eaaa1748ff9d0f7bfeeefd044b652df760613cbc2308ad3",
+    "RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_V4.json": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c",
+    "RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_LAUNCH_V4.json": "f83c700d6f99689868c243d6a9fc0ea31fca79d7fa795d4bf6c477f4e0930345",
+    "RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_EXECUTION_V4.json": "4e2413d0fd1c40ec907a1eb89ff2513d0e5a39eb2ca5d581a726d8f32b6a16a6",
+    "RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_STOP_V4.json": "df1b738957399ba603f91509b9280749ce30c10a76138cd271b6ac1ccfb44d07",
+    "F1_DEEP_PROGRESS_20261018T1230Z.json": "16aaf551ed33ada665d9c4190417513c36de5bce23006cb1c585e1a6975ff1f3"
+  },
+  "next": [
+    "Preserve healthy existing deep continuation; at first persisted checkpoint compare resumed_from with deep stage1 state SHA31f00126d3a4d572e9f35eba81fec5f87da8e7d10b7ceac8f5acdfa9501268d2/next_epoch2.",
+    "After deep finished exit0, use existing exact reviewed V2 terminal collector/verifier with both V2 stage1 archives.",
+    "Allow existing guarded sequence to complete both feature-only FP32 exports and independent paired grade; collect predictions/sidecars/provenance and independently interpret F1 result.",
+    "Do not repeat wide terminal, both stage1, wide epoch2, F0 endpoint/result or submission checks."
+  ],
+  "limitations": [
+    "F1 predictions and paired score still pending.",
+    "Structural verification does not establish GPU resumed-versus-uninterrupted parity, convergence, CP30 or public transfer.",
+    "Only F0/seed1001 is a fully graded pair at this handoff."
+  ]
+}

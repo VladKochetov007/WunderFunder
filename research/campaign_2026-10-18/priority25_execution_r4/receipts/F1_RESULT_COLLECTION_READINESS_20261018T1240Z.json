@@ -1,0 +1,438 @@
+{
+  "schema": "priority25.f1_result_collection_readiness.v1",
+  "created_utc": "2026-10-18T12:39:13Z",
+  "scope": "Local read-only inspection of small plan, receipt and helper files. No remote calls, fit, inference, Torch import, large data read, edit of frozen files, or collection run.",
+  "readiness": "PREPARATION_PRESENT_COLLECTION_NOT_READY",
+  "summary": "The frozen F1 plan already contains both epoch-5 FP32 evaluation-only export vectors and a fold1 paired grade vector. Wide F1 terminal checkpoint collection and structural verification have passed. Deep terminal verification is still the prerequisite; F1 exports, grade, and a result-collection receipt are not evidenced in the local packet. No F1 prediction/result collector is present. The available result collector is specifically frozen to F0 and cannot be reused unchanged.",
+  "bindings": {
+    "base_plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+    "recovery_plan_sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+    "rejected_wide_attempt": {
+      "id": "computer-vision-homework-r01-wide-f1s1001-ep25-v1",
+      "sha256": "c1f506e3e4015903b3a067a5f7a34814694916a73d928a989a9b67fac09e22f0",
+      "status": "not_started"
+    },
+    "wide_recovery_attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+    "fold1_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "wide_terminal": {
+      "collection_receipt_sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26",
+      "verification_receipt_sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c",
+      "status": "passed",
+      "attempt_status": "finished",
+      "exit_status": 0,
+      "run": "rr18_r01_wide_f1_s1001_e6",
+      "next_epoch": 6,
+      "completed_update_counts": {
+        "optimizer_attempts": 89580,
+        "amp_skipped_updates": 0,
+        "optimizer_completed_updates": 89580,
+        "ema_updates": 0,
+        "completed_batches": 8958
+      },
+      "model_ep5_sha256": "4510f1ed9530c10ea58741727bb7ab5c4a2631690e2252bf98777f923f270d2c",
+      "training_state_sha256": "429ed49bfb63e3a65dce86a9e7d40066624ad7ff0afc826023cb5f0f543989d8",
+      "resume_parent_stage1_training_state_sha256": "8cb3dde79550355303cbede0d0953864046b7594c16af648423d4a3c9af92255",
+      "recovery_binding": {
+        "base_plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+        "recovery_plan_sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+        "rejected_attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep25-v1",
+        "rejected_attempt_sha256": "c1f506e3e4015903b3a067a5f7a34814694916a73d928a989a9b67fac09e22f0",
+        "rejected_attempt_status": "not_started",
+        "rejected_attempt_phase": "admission_failed",
+        "recovery_attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+        "allowed_plan_changes": [
+          "steps[continuation_wide].attempt",
+          "steps[continuation_wide].launch_command[--attempt value]"
+        ]
+      }
+    },
+    "static_fold1_counts_from_saved_metadata": {
+      "evaluation_components": 149,
+      "evaluation_valid": 457,
+      "excluded_train": 73,
+      "fit_train": 10533,
+      "fit_valid": 1416,
+      "total_components": 3289
+    },
+    "expected_fit_schedule_not_observed": {
+      "basis": "Observed fold1 manifest counts plus frozen a266b036 membership/loader/update-clock logic; no F1 trainer executed.",
+      "fit_sequences": 11949,
+      "batch_size": 8,
+      "drop_last": true,
+      "batches_per_epoch": 1493,
+      "dropped_sequences_per_epoch": 5,
+      "sequence_rows": 20000,
+      "update_rows": 2000,
+      "updates_per_batch": 10,
+      "updates_per_epoch": 14930,
+      "stage1_epochs": 2,
+      "stage1_updates": 29860,
+      "terminal_epochs": 6,
+      "terminal_updates": 89580,
+      "terminal_batches": 8958,
+      "terminal_checkpoint_epoch": 5,
+      "terminal_next_epoch": 6,
+      "actual_optimizer_counts_observed": false
+    },
+    "f1_prediction_shape_expected_from_fold1": {
+      "row_groups": 457,
+      "sequence_length": 20000,
+      "outputs": 2,
+      "dtype": "float32",
+      "raw_payload_bytes": 73120000
+    },
+    "metric": "global_wp_clip2_v1",
+    "grade_bootstrap_count": 10000
+  },
+  "frozen_result_steps": {
+    "export_wide": {
+      "step_id": "export_wide",
+      "attempt": "computer-vision-homework-r01-wide-f1s1001-export-ep5-v1",
+      "receipt_path": "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/attempts/computer-vision-homework-r01-wide-f1s1001-export-ep5-v1.json",
+      "kind": "export_fixed_epoch5",
+      "arm": "wide",
+      "run_name": "rr18_r01_wide_f1_s1001_e6",
+      "expected_command": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=30s",
+        "2h",
+        "/usr/bin/env",
+        "WNN_PROJECT_ROOT=/home/grinchenkoeg/computer-vision-homework-20261018/data",
+        "WNN_GPU_MEMORY_BYTES=4000000000",
+        "WNN_LOADER_RAM_GB=1",
+        "NVIDIA_TF32_OVERRIDE=0",
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/predict_run.py",
+        "rr18_r01_wide_f1_s1001_e6",
+        "valid",
+        "--epoch",
+        "5",
+        "--campaign-split-manifest",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+        "--campaign-evaluation-only",
+        "--inference-precision",
+        "fp32"
+      ],
+      "launch_command": [
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/bandit_resources.py",
+        "--root",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036",
+        "--state",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/runtime",
+        "launch",
+        "--attempt",
+        "computer-vision-homework-r01-wide-f1s1001-export-ep5-v1",
+        "--kind",
+        "gpu",
+        "--gpu-device",
+        "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+        "--cpus",
+        "1",
+        "--reserve-bytes",
+        "8000000000",
+        "--profile",
+        "R4-finite-B8-C2000-both-shapes-20261018",
+        "--contract",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/F1_BELERIAND_PLAN.json",
+        "--python",
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "--admission-timeout",
+        "300",
+        "--",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=30s",
+        "2h",
+        "/usr/bin/env",
+        "WNN_PROJECT_ROOT=/home/grinchenkoeg/computer-vision-homework-20261018/data",
+        "WNN_GPU_MEMORY_BYTES=4000000000",
+        "WNN_LOADER_RAM_GB=1",
+        "NVIDIA_TF32_OVERRIDE=0",
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/predict_run.py",
+        "rr18_r01_wide_f1_s1001_e6",
+        "valid",
+        "--epoch",
+        "5",
+        "--campaign-split-manifest",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+        "--campaign-evaluation-only",
+        "--inference-precision",
+        "fp32"
+      ],
+      "must_not_exist": [
+        "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache/pred_rr18_r01_wide_f1_s1001_e6_valid.npy"
+      ],
+      "output_bytes": 500000000
+    },
+    "export_deep": {
+      "step_id": "export_deep",
+      "attempt": "computer-vision-homework-r01-deep-f1s1001-export-ep5-v1",
+      "receipt_path": "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/attempts/computer-vision-homework-r01-deep-f1s1001-export-ep5-v1.json",
+      "kind": "export_fixed_epoch5",
+      "arm": "deep",
+      "run_name": "rr18_r01_deep_f1_s1001_e6",
+      "expected_command": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=30s",
+        "2h",
+        "/usr/bin/env",
+        "WNN_PROJECT_ROOT=/home/grinchenkoeg/computer-vision-homework-20261018/data",
+        "WNN_GPU_MEMORY_BYTES=4000000000",
+        "WNN_LOADER_RAM_GB=1",
+        "NVIDIA_TF32_OVERRIDE=0",
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/predict_run.py",
+        "rr18_r01_deep_f1_s1001_e6",
+        "valid",
+        "--epoch",
+        "5",
+        "--campaign-split-manifest",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+        "--campaign-evaluation-only",
+        "--inference-precision",
+        "fp32"
+      ],
+      "launch_command": [
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/bandit_resources.py",
+        "--root",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036",
+        "--state",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/runtime",
+        "launch",
+        "--attempt",
+        "computer-vision-homework-r01-deep-f1s1001-export-ep5-v1",
+        "--kind",
+        "gpu",
+        "--gpu-device",
+        "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+        "--cpus",
+        "1",
+        "--reserve-bytes",
+        "8000000000",
+        "--profile",
+        "R4-finite-B8-C2000-both-shapes-20261018",
+        "--contract",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/F1_BELERIAND_PLAN.json",
+        "--python",
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "--admission-timeout",
+        "300",
+        "--",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=30s",
+        "2h",
+        "/usr/bin/env",
+        "WNN_PROJECT_ROOT=/home/grinchenkoeg/computer-vision-homework-20261018/data",
+        "WNN_GPU_MEMORY_BYTES=4000000000",
+        "WNN_LOADER_RAM_GB=1",
+        "NVIDIA_TF32_OVERRIDE=0",
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/predict_run.py",
+        "rr18_r01_deep_f1_s1001_e6",
+        "valid",
+        "--epoch",
+        "5",
+        "--campaign-split-manifest",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+        "--campaign-evaluation-only",
+        "--inference-precision",
+        "fp32"
+      ],
+      "must_not_exist": [
+        "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache/pred_rr18_r01_deep_f1_s1001_e6_valid.npy"
+      ],
+      "output_bytes": 500000000
+    },
+    "grade": {
+      "step_id": "grade",
+      "attempt": "computer-vision-homework-r01-f1s1001-grade-v1",
+      "receipt_path": "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/attempts/computer-vision-homework-r01-f1s1001-grade-v1.json",
+      "kind": "paired_official_grade",
+      "arm": "wide_vs_deep",
+      "run_name": null,
+      "expected_command": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=30s",
+        "1h",
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/grader-6f9fd05e/research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py",
+        "--root",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/data",
+        "--run",
+        "rr18_r01_wide_f1_s1001_e6",
+        "--split",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+        "--epoch",
+        "5",
+        "--reference",
+        "rr18_r01_deep_f1_s1001_e6@5",
+        "--bootstrap",
+        "10000",
+        "--scratch-dir",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+        "--output",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_F1_S1001_GRADE.json"
+      ],
+      "launch_command": [
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/bandit_resources.py",
+        "--root",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036",
+        "--state",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/runtime",
+        "launch",
+        "--attempt",
+        "computer-vision-homework-r01-f1s1001-grade-v1",
+        "--kind",
+        "cpu",
+        "--cpus",
+        "1",
+        "--reserve-bytes",
+        "4000000000",
+        "--profile",
+        "R4-streamed-official-grade-analytic-bound-v1",
+        "--contract",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/F1_BELERIAND_PLAN.json",
+        "--python",
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "--admission-timeout",
+        "300",
+        "--",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=30s",
+        "1h",
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/grader-6f9fd05e/research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py",
+        "--root",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/data",
+        "--run",
+        "rr18_r01_wide_f1_s1001_e6",
+        "--split",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+        "--epoch",
+        "5",
+        "--reference",
+        "rr18_r01_deep_f1_s1001_e6@5",
+        "--bootstrap",
+        "10000",
+        "--scratch-dir",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+        "--output",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_F1_S1001_GRADE.json"
+      ],
+      "must_not_exist": [
+        "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_F1_S1001_GRADE.json"
+      ],
+      "output_bytes": 500000000
+    }
+  },
+  "current_gates": [
+    {
+      "gate": "deep terminal",
+      "state": "PENDING",
+      "evidence": "Task handoff reports deep F1 ep2 running; latest durable wide handoff at 12:29 also records deep as running. Require its own successful terminal collection + recovery-bound structural verification before export or grade."
+    },
+    {
+      "gate": "wide terminal",
+      "state": "PASSED_STRUCTURALLY",
+      "evidence": "Wide terminal V4 status passed, terminal attempt ep25-v2 finished/exit 0, next_epoch 6, 89,580 updates, 8,958 batches, fold1 manifest hash and recovery binding present."
+    },
+    {
+      "gate": "exports",
+      "state": "NOT_EVIDENCED",
+      "evidence": "The durable wide handoff says predictions and paired score pending. No F1 prediction/grade collection receipt exists in the inspected packet."
+    },
+    {
+      "gate": "paired grade",
+      "state": "NOT_EVIDENCED",
+      "evidence": "F1 frozen command writes receipts/RANK01_F1_S1001_GRADE.json, but this artifact is not present in the inspected packet."
+    }
+  ],
+  "f0_collector_incompatibilities": [
+    "F0 collector snapshot embeds F0 plan SHA dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177 and fold0 SHA c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7.",
+    "It fixes F0 run names, prediction and sidecar hashes, grade/bootstrap values, terminal receipt hashes, export attempt IDs, and F0 grade attempt ID. Its validator requires 468 evaluation groups / 141 components and validates F0 scores, so it will reject F1 fold1 (457 eval groups / 149 components) and cannot bind the F1 recovery attempt lineage.",
+    "It archives/copies existing arrays, sidecars, grade, attempts/logs, plan/fold and terminal evidence; it does not rerun inference or grade and does not deserialize prediction payloads. F1 needs a separately bound collection receipt using the exact F1 plan/recovery/terminal evidence and observed outputs."
+  ],
+  "frozen_plan_path_mismatch": {
+    "step": "continuation_wide",
+    "plan_attempt": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+    "launch_command_attempt": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+    "receipt_path_in_frozen_step": "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/attempts/computer-vision-homework-r01-wide-f1s1001-ep25-v1.json",
+    "issue": "The frozen continuation_wide receipt_path still names the rejected v1 attempt file, although the attempt field, launch argv, terminal collection, and terminal verification bind ep25-v2. Any result collector must use the actual ep25-v2 attempt evidence bound by terminal V3/V4, not follow this stale receipt_path. Preserve the frozen plan and report the mismatch."
+  },
+  "output_collision_gap": {
+    "issue": "Each frozen export step must_not_exist lists only the .npy prediction path; it does not include the paired .json sidecar path.",
+    "next_step": "Before each export, independently require both data/cache/pred_<run>_valid.npy and data/cache/pred_<run>_valid.json absent, or capture and explicitly reconcile any existing file before launch. Do not overwrite prior evidence."
+  },
+  "recommended_collection_sequence": [
+    "Wait for deep continuation to finish successfully. Preserve deep terminal checkpoint collection and verification with exact deep attempt ID, recovery-plan binding, fold1 SHA, stage1 parent SHA, history/counters, and source identity; require both arm terminal verifications to pass before export.",
+    "Run the exact frozen export_wide and export_deep expected_command vectors unchanged: predict_run.py for epoch 5, split valid, fold1 manifest, evaluation-only, inference precision fp32. Keep each exact attempt record/log and source manifest. Verify sidecar run/split/epoch, fold1 manifest SHA, ordered 457 evaluation row groups, evaluation scope, feature_only, fp32, plus NPY header shape (457,20000,2), float32 and hash. Expected raw float32 payload is 73,120,000 bytes per array; actual file SHA/size must be recorded rather than inferred.",
+    "Run the exact frozen grade expected_command only after both exports: grade_endpoint.py --root data --run wide-F1-e6 --split fold1.json --epoch 5 --reference deep-F1-e6@5 --bootstrap 10000 --scratch-dir research_tmp --output receipts/RANK01_F1_S1001_GRADE.json. It dynamically loads the supplied split and validates checkpoint/export membership; it uses the official metric. Capture grade attempt record/log/source-manifest and grade JSON.",
+    "Create a separate create-only F1 result snapshot/receipt (suggested unique names: result_snapshots/rr18_r01_f1_s1001_e6 and receipts/RANK01_F1_S1001_RESULT_COLLECTION.json). Bind hashes and stable copy evidence for both NPYs/sidecars, grade JSON, export/grade attempts and logs, fold1 manifest, base and recovery plans, and both arms terminal collection/verification receipts. Preserve F1 result as one fold/seed pair only; do not infer CP30, convergence, or rank promotion."
+  ],
+  "existing_f1_result_collection_preparation": {
+    "found": false,
+    "searched": "F1 recovery packet file inventory and priority25 packet filenames matching result/grade/export/collection; only checkpoint and wide epoch2 collection/verifier helpers are present.",
+    "available_checkpoint_tools": "f1_recovery_r1/checkpoints_v4 and f1_recovery_r1/intermediate are checkpoint-only; no prediction/grade result collector."
+  },
+  "evidence_files": {
+    "f1_recovery_plan": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f1_recovery_r1/F1_RECOVERY_PLAN.json",
+      "sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111"
+    },
+    "fold1_metadata": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_BELERIAND_FALLBACK_METADATA_20261018.json",
+      "sha256": "abda35da69495e55360c89c8ea8cce6e35e968d73c72a59de2fa41dfa09ad3b7"
+    },
+    "wide_terminal_handoff": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_WIDE_TERMINAL_HANDOFF_20261018T1230Z.json",
+      "sha256": "dac3ea83087e8f9dd6fa2683cfda6f892d539f0bf67b1b96986ccf192d98b619"
+    },
+    "wide_terminal_interpretation": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_WIDE_TERMINAL_INTERPRETATION_REVIEW_V1.json",
+      "sha256": "0c6fc28bf47911debe78eebf7ce5b55acdc7a595ed00fe8568e54d0193b0523c"
+    },
+    "wide_terminal_collection_remote": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_V3_REMOTE.json",
+      "sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26"
+    },
+    "wide_terminal_verification": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_V4.json",
+      "sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c"
+    },
+    "wide_epoch2_collection": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_EP2_COLLECTION.json",
+      "sha256": "b1b74cc898e43e8f0af5e216bb277e57b576fb4c2b2f235e4f5ce57c941a4855"
+    },
+    "f0_result_collector": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/checks/collect_results_v2.py.snapshot",
+      "sha256": "902c29ae016a97f5fee0f620da1d191714c95e5012060e52b5987ec9df17769e"
+    },
+    "f0_result_collection": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F0_S1001_RESULT_COLLECTION.json",
+      "sha256": "6c9713606387c9b265506f51c9135d3dcefe15d572a7f0750167e39f46832612"
+    },
+    "f0_grade": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F0_S1001_GRADE.json",
+      "sha256": "65f448989243aa575cac2e5701c55bf8ee6e874e6b01f39840bb4418dbb9fdd0"
+    },
+    "grader_entrypoint": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py",
+      "sha256": "cb90c0bce31cf6aa2b8e4f6a7536c30972b14c6995fb0db1e9f72aa867c30ec0"
+    }
+  },
+  "limitations": [
+    "No live provider state was queried; deep status is taken from task context and the latest durable handoff, not a fresh remote observation.",
+    "No prediction arrays/sidecars or grade payloads were opened; these outputs are not evidenced yet in the local packet.",
+    "Fold1 counts and expected schedule are metadata/static derivations only; actual F1 terminal verification must bind observed counts.",
+    "Passing terminal checkpoint verification does not establish resumed-vs-uninterrupted parity, convergence, serving latency, CP30, or public transfer."
+  ]
+}

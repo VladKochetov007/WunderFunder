@@ -1,0 +1,50 @@
+{
+  "admission_state": "PREPARED_NOT_ADMITTED_PENDING_ACTUAL_EXPORT_CAPTURE_AND_ROOT_COLLECTION_GATE",
+  "created_utc": "2026-10-18T15:59:38.464472Z",
+  "decision": "R2 resolves the frozen H390 sidecar incompatibility found in R1 and binds collection to the exact exporter contract, captured guarded attempt, selected prediction and same-row source checks. Static review supports collection only after the actual export arrives and root applies the recorded source-map and resource gates.",
+  "findings": [
+    {
+      "evidence": "R2 checks required predictor, guard, limited, and five exporter utility hashes plus the canonical digest of the captured source map, but it does not require a fixed complete key set. The synthetic source-map fixture has eight entries and does not include the contract as the ninth entry. The collector also declares its CPU, memory, timeout, CUDA visibility, and physical scratch limits without enforcing them internally.",
+      "id": "SC-EVAL-R2-LIMIT-001",
+      "required_action": "At actual collection admission, root must verify the captured guard map is the expected complete nine-entry map including the exact contract path/hash, and run the collector under the declared 0.5-CPU, 1.5-GB, 300-second, CUDA-hidden, physical-scratch wrapper. These are external gates, not a blocker to the static R2 review.",
+      "severity": "NON_BLOCKING_ROOT_ACCEPTANCE_PRECONDITION",
+      "title": "Root must validate the complete captured source map and enforce collection limits"
+    }
+  ],
+  "integrity": {
+    "author_reported_validation": [
+      "17 bounded synthetic tests passed",
+      "Ruff passed"
+    ],
+    "export_execution_manifest_sha256": "825cf12b90d2e1f338d9d4af209c08569a9b41f88fca687dd8b0ffdb55982ede",
+    "export_execution_source_files": {
+      "checked": 6,
+      "matched_size_and_sha256": 6
+    },
+    "independent_reviewer_reran_tests": false,
+    "manifest_bytes": 13843,
+    "manifest_sha256_match": true,
+    "packet_artifacts": {
+      "checked": 14,
+      "matched_size_and_sha256": 14
+    },
+    "source_files": {
+      "checked": 12,
+      "matched_size_and_sha256": 12
+    },
+    "test_receipt_sha256": "7987c79345c90b46c0a68adfa19ef0629552d1feebe11d502d30483a2d9dade5"
+  },
+  "review_result": "PASS_STATIC_REVIEW_READY_FOR_ROOT_GATED_COLLECTION",
+  "review_scope": "Independent static review of the sealed R2 manifest/source hashes and collector, H390 sidecar adapter, export contract/receipt checks, row mapping and selection, derived diagnostic inputs, canonical grade path, and declared resource envelope. No remote call, test rerun, actual export or collection, prediction/model/checkpoint/target array load, parquet payload read, training, grading, or new execution was performed.",
+  "reviewed_artifact": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r2",
+  "reviewed_manifest_sha256": "53c283a5ce7c3f4b9131a5aef321c2de4933f29e6e1a241f4f21d4bc73042162",
+  "schema": "quality_gap.strong_control_evaluation_independent_review.r2",
+  "verified_design_properties": {
+    "contract_and_capture": "The contract binds the pinned H390 predictor and source manifest, old and canonical F0 splits, checkpoint, exact full-valid feature-only FP32 command, overlay-first PYTHONPATH, reviewed R3 runtime utility identities, fixed output paths, and no-training/no-grading scope. Receipt validation checks contract/receipt hashes, exact reconstructed worker command, successful guard exit, bounded duration, zero OOM counters, pinned predictor/guard/limited/runtime utility hashes, self-consistent source-manifest digest, prediction and sidecar bytes, and strict-FP32 pre-inference evidence with distinct original/archive paths.",
+    "frozen_h390_sidecar": "The validator accepts the pinned producer schema: exact field inventory, exact run/split/epoch/checkpoint and split hashes, campaign_fit_scope=full-valid-feature-only, null mode-specific evaluation membership digests, and an explicit unique full-valid row_groups permutation whose ordered digest matches captured receipt metadata. It does not require the absent R1 fields campaign_export_scope or feature_only.",
+    "grade_and_scope": "The derived input adds only the aligned strong_control and fixed comparisons against wide, fp32_mix, and q8. The grade helper rechecks endpoints against canonical global_wp and uses a fixed paired component bootstrap (2000 draws, seed 271828) conditional on predictions; it does not tune or select blends. The scope explicitly disclaims exact-public-incumbent, clean-holdout, seed-variation, and public-transfer claims.",
+    "no_training_or_model_load": "Static imports and call paths show NumPy/Parquet validation and mmap prediction handling, with no model construction, checkpoint deserialization, optimizer, training, or grading in the collector.",
+    "output_paths": "The supplied prediction and sidecar must be the exact absolute contract paths; symlink aliases and differing resolved paths are rejected. Collector output rejects existing/symlinked paths and uses exclusive directory/file creation.",
+    "same_row_alignment": "The full prediction is SHA-256 checked and mmap-read as finite float32 [1873,20000,2] in bounded groups. Physical parquet row groups are mapped through the explicit sidecar order. Only the 468 pinned evaluation groups and six source columns are read; the need_prediction AND is_scored selection must produce 808863 rows with labels, row_group IDs, and component IDs byte-identical to the frozen compact bundle, covering 141 components."
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "schema": "priority25.f1_checkpoint_verification.v1",
+  "status": "passed",
+  "created_utc": "2026-10-18T14:49:27.618902+00:00",
+  "arm": "deep",
+  "phase": "terminal",
+  "run": "rr18_r01_deep_f1_s1001_e6",
+  "next_epoch": 6,
+  "attempt": {
+    "id": "computer-vision-homework-r01-deep-f1s1001-ep25-v1",
+    "status": "finished",
+    "exit_status": 0,
+    "command": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=30s",
+      "24h",
+      "/usr/bin/env",
+      "WNN_PROJECT_ROOT=/home/grinchenkoeg/computer-vision-homework-20261018/data",
+      "WNN_GPU_MEMORY_BYTES=4000000000",
+      "WNN_LOADER_RAM_GB=1",
+      "NVIDIA_TF32_OVERRIDE=0",
+      "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/train_rnn.py",
+      "--name",
+      "rr18_r01_deep_f1_s1001_e6",
+      "--hidden",
+      "384",
+      "--layers",
+      "2",
+      "--valid-fold",
+      "1",
+      "--split-manifest",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--enc",
+      "linear",
+      "--dropout",
+      "0",
+      "--train-seqs",
+      "10607",
+      "--train-source",
+      "train+valid",
+      "--valid-train-fraction",
+      "1",
+      "--valid-repeat",
+      "1",
+      "--n-valid-folds",
+      "4",
+      "--full-valid",
+      "--eval-source",
+      "vfold",
+      "--batch",
+      "8",
+      "--chunk",
+      "2000",
+      "--epochs",
+      "6",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "5",
+      "--no-eval-during-fit",
+      "--seed",
+      "1001",
+      "--precision",
+      "fp32",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--batch-order",
+      "seeded",
+      "--deterministic",
+      "--sync-free",
+      "--fused-adam",
+      "--grad-stats",
+      "--optim",
+      "adamw",
+      "--lr",
+      "0.0001",
+      "--beta2",
+      "0.999",
+      "--wd",
+      "0.01",
+      "--sched",
+      "onecycle",
+      "--warmup-frac",
+      "0.05",
+      "--head-lr-mult",
+      "1",
+      "--clip",
+      "1",
+      "--save-training-state",
+      "--resume-state",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f1_s1001/training_state.pt"
+    ],
+    "record_sha256": "6df8702c2eea08269469f9cc6322abe0a0026927e3b634d49407f27258e87147"
+  },
+  "plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+  "collection_receipt_sha256": "7aa56c922b25378364dafe83571a3dffbc16dbe7ac5520d4ca2e32b584bf9f21",
+  "collection_helper_sha256": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+  "verification_helper_sha256": "d022367b0e4091b1fd4179ff1b5ea8d9f5722ae8ef686bd86fe5774869dc2186",
+  "verification_dependencies": {
+    "f1_checkpoint_common.py": "07d596a1b69574e266a909bfe2e24e4c82d1e9cd778c7338bc5855688159f5c5",
+    "f1_checkpoint_evidence.py": "8b50fcdc51dd9d040816dae7117de8c965366d0dd03c7bef8e26856325f790ce",
+    "f1_checkpoint_lineage.py": "c6aec1daace1fd200d60bcc5cc9532aa9d98f76d99bd01e0ca39c65eb727e81d",
+    "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+    "collect_f1_checkpoint.py": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+    "wnn/training_state.py": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+  },
+  "artifacts": {
+    "model.pt": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f1_s1001_e6/epoch5_terminal/model.pt",
+      "bytes": 8671019,
+      "sha256": "8dea07746d20d2cadca914688453f0cb27ea32bfd17ab4e354bdc0ab085aeb3e"
+    },
+    "history.json": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f1_s1001_e6/epoch5_terminal/history.json",
+      "bytes": 16398,
+      "sha256": "f0f9e5da534c3cd0be1c17ea89b2175d709b9348d1f5125988c098d1bbbb41d6"
+    },
+    "provenance.json": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f1_s1001_e6/epoch5_terminal/provenance.json",
+      "bytes": 175839,
+      "sha256": "abe28600205875e7ec785970863d920eb6d539ad122c673133f61de344a988d6"
+    },
+    "model_ep5.pt": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f1_s1001_e6/epoch5_terminal/model_ep5.pt",
+      "bytes": 8671527,
+      "sha256": "637ced53f5523dc7e42df38051a4b6c60f3faeaba0a8ce2f32398d8f52482e35"
+    },
+    "training_state.pt": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f1_s1001_e6/epoch5_terminal/training_state.pt",
+      "bytes": 25886831,
+      "sha256": "a01e42484ea63c979f4a388bd237d1ee18daba89fe67a1f68446d38a242455e6"
+    }
+  },
+  "source_revision": "a266b036b02e8e012c6eb31072291dad618a169d",
+  "source_files_verified": 138,
+  "source_archive_manifest_sha256": "9a90e46958eaed2784f1f12e6a501292e4c865b1bc6d07e3f2bd233271da7341",
+  "portable_registry_sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378",
+  "fold1_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+  "fold1_membership": {
+    "manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "fit_train_groups": 10533,
+    "fit_valid_groups": 1416,
+    "evaluation_groups": 457,
+    "evaluation_components": 149,
+    "fit_membership_identity": {
+      "train": {
+        "count": 10533,
+        "ordered_int64_le_sha256": "6f7da60741a85a644e7a01d23810f2106c7023f448c925ff593a5f946bf1e472"
+      },
+      "valid": {
+        "count": 1416,
+        "ordered_int64_le_sha256": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8"
+      },
+      "valid_repeat": 1,
+      "dataset_length": 11949
+    },
+    "ordered_evaluation_membership_sha256": "c27347bd1bc856a285174ed089fcc67d8ea3f42b5cf9e199412dc1108e015774"
+  },
+  "fit_membership_identity": {
+    "train": {
+      "count": 10533,
+      "ordered_int64_le_sha256": "6f7da60741a85a644e7a01d23810f2106c7023f448c925ff593a5f946bf1e472"
+    },
+    "valid": {
+      "count": 1416,
+      "ordered_int64_le_sha256": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8"
+    },
+    "valid_repeat": 1,
+    "dataset_length": 11949
+  },
+  "normalization_identity": {
+    "mean": {
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32",
+      "bytes_sha256": "5a5cdd80cbb320a66656415128726382e63bfb40ac5c041cc3c40ed4c37bc1b0"
+    },
+    "std": {
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32",
+      "bytes_sha256": "bf02d43e7154c9282babc7c5536f9f1a27f19ae8199521d914cb21ed13511f41"
+    }
+  },
+  "stage1_parent_training_state_sha256": "31f00126d3a4d572e9f35eba81fec5f87da8e7d10b7ceac8f5acdfa9501268d2",
+  "completed_update_counts": {
+    "optimizer_attempts": 89580,
+    "amp_skipped_updates": 0,
+    "optimizer_completed_updates": 89580,
+    "ema_updates": 0,
+    "completed_batches": 8958
+  },
+  "planned_schedule_updates": 89580,
+  "planned_schedule_batches": 8958,
+  "scheduler_last_epoch": 89580,
+  "scheduler_step_count": 89581,
+  "model_tensors_verified": 16,
+  "trainable_parameters": 2151554,
+  "adam_states_verified": 14,
+  "adam_floating_tensors_verified": 42,
+  "history_epochs_verified": 6,
+  "peer_pair_contract_checked": true,
+  "optional_epoch0_receipt_checked": false,
+  "cuda_initialized": false,
+  "limitations": [
+    "Structural checkpoint/source/data identity checks only; not measured GPU resume parity.",
+    "Raw parquet bytes are matched to the sealed registry; no second full-file rehash is performed at checkpoint verification.",
+    "No prediction score, serving latency, convergence, CP30 or quality claim follows."
+  ]
+}

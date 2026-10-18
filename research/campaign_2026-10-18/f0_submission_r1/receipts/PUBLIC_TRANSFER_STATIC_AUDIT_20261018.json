@@ -1,0 +1,265 @@
+{
+  "schema": "f0_submission.public_transfer_static_audit.v1",
+  "created_utc": "2026-10-18T12:58:52.105684+00:00",
+  "scope": {
+    "method": "Read-only metadata/code audit of existing release, replay and grade receipts; final ZIP identity hash recomputed and only small ZIP entries solution.py, members.json and precision.txt opened.",
+    "not_performed": [
+      "No training, replay, grading, provider/network access, ZIP extraction or frozen-file edits.",
+      "The two NPZ weight members and native binaries were not opened by this audit; existing hash-bound receipts cover their package identity and execution."
+    ],
+    "interpretation_rule": "Distinguish direct local-F0 checks from claims about portal bytes or hidden test behavior; no root-cause claim is inferred from static checks alone."
+  },
+  "reported_public_result": {
+    "source_receipt": "research/campaign_2026-10-18/f0_submission_r1/receipts/PUBLIC_RESULT_0897egiv_20261018.json",
+    "source_receipt_sha256": "a824ef866b38b7096d4c40833b99d163c0d025a7580407f47b2b70d63e395a1c",
+    "source": "User-transcribed competition result; browser_reverified=false; portal_payload_sha256_verified=false.",
+    "submission_id": "0897egiv",
+    "filename": "kotiki_f0_wide75_deep25_q8_20261018.zip",
+    "status": "scored_user_reported",
+    "displayed_timestamp": "15:04 2026-10-18",
+    "public_wp": 0.65839,
+    "runtime": "45m47s",
+    "runtime_seconds": 2747,
+    "memory_mb": 653,
+    "association_to_local_artifact": {
+      "local_path": "/Users/nb/Documents/wunder/submissions/kotiki_f0_wide75_deep25_q8_20261018.zip",
+      "local_zip_sha256": "c4cb51bf20e7639f0fa607489b911b551f5296158db3bd913429e95ce7c139e6",
+      "bytes": 17480575,
+      "association": "Exact filename matches frozen release; uploaded remote bytes not independently exposed.",
+      "release_receipt_sha256": "b856227ccd34d44560bfa898a0a8e7cfd4710bfbd63a11e437a43459dbb80ecb"
+    }
+  },
+  "local_artifact_identity": {
+    "path": "/Users/nb/Documents/wunder/submissions/kotiki_f0_wide75_deep25_q8_20261018.zip",
+    "bytes": 17480575,
+    "sha256": "c4cb51bf20e7639f0fa607489b911b551f5296158db3bd913429e95ce7c139e6",
+    "build_copy_path": "/Users/nb/Documents/wunder/runtime-20261018/f0-submission-r1/builds/r01_f0_mix75_q8/submission.zip",
+    "build_copy_bytes": 17480575,
+    "build_copy_sha256": "c4cb51bf20e7639f0fa607489b911b551f5296158db3bd913429e95ce7c139e6",
+    "build_copy_matches_final": true,
+    "release_receipt_sha256": "b856227ccd34d44560bfa898a0a8e7cfd4710bfbd63a11e437a43459dbb80ecb",
+    "build_receipt_sha256": "b8dbdfaf76101e4f77ebee86cc41710f831045a97f143c07574088b9113b042f",
+    "release_receipt_claims_upload_performed": false,
+    "public_byte_identity": "UNVERIFIED: filename and local release association match, but the portal did not expose a checksum and the public-result receipt explicitly records portal_payload_sha256_verified=false."
+  },
+  "package": {
+    "documented_zip_limit_bytes": 20000000,
+    "zip_under_documented_limit": true,
+    "members": [
+      {
+        "path": "avx2/wnn_native.abi3.so",
+        "bytes": 973000,
+        "crc32": "9d3b3252",
+        "sha256_expected_in_build_receipt": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+        "read_by_this_audit": false
+      },
+      {
+        "path": "members.json",
+        "bytes": 197,
+        "crc32": "b673d710",
+        "sha256_expected_in_build_receipt": "71e598f6e0bac33f43ba7b8268d7e37dc8df37f4e9b3bd86663e9758c9cb0200",
+        "read_by_this_audit": true,
+        "sha256_observed": "71e598f6e0bac33f43ba7b8268d7e37dc8df37f4e9b3bd86663e9758c9cb0200",
+        "sha256_matches_build_receipt": true,
+        "content": [
+          {
+            "weights": "weights_0.npz",
+            "coef": 0.75,
+            "source": "rr18_r01_wide_f0_s1001_e6@ep5"
+          },
+          {
+            "weights": "weights_1.npz",
+            "coef": 0.25,
+            "source": "rr18_r01_deep_f0_s1001_e6@ep5"
+          }
+        ]
+      },
+      {
+        "path": "precision.txt",
+        "bytes": 7,
+        "crc32": "8492cba4",
+        "sha256_expected_in_build_receipt": "14ee38fd31cb3cc62f996a64cb7ddfa69c7bce784386c23890955bab6abc9e52",
+        "read_by_this_audit": true,
+        "sha256_observed": "14ee38fd31cb3cc62f996a64cb7ddfa69c7bce784386c23890955bab6abc9e52",
+        "sha256_matches_build_receipt": true,
+        "content_ascii": "q8vnni\n"
+      },
+      {
+        "path": "solution.py",
+        "bytes": 3133,
+        "crc32": "7f030543",
+        "sha256_expected_in_build_receipt": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+        "read_by_this_audit": true,
+        "sha256_observed": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+        "sha256_matches_build_receipt": true
+      },
+      {
+        "path": "v2/wnn_native.abi3.so",
+        "bytes": 953992,
+        "crc32": "265c2c0b",
+        "sha256_expected_in_build_receipt": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+        "read_by_this_audit": false
+      },
+      {
+        "path": "v3/wnn_native.abi3.so",
+        "bytes": 978056,
+        "crc32": "6efc8792",
+        "sha256_expected_in_build_receipt": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+        "read_by_this_audit": false
+      },
+      {
+        "path": "weights_0.npz",
+        "bytes": 8845984,
+        "crc32": "80511941",
+        "sha256_expected_in_build_receipt": "3aba491b1bf7706cd12db2ad02efc93056d854f96bee41dd74e638de1711a9d0",
+        "read_by_this_audit": false
+      },
+      {
+        "path": "weights_1.npz",
+        "bytes": 8612024,
+        "crc32": "2ef8add2",
+        "sha256_expected_in_build_receipt": "f2c632cd6d03123351b805cc4e16a909fb6904e35d4bdf0a20e2b7a43bbebadf",
+        "read_by_this_audit": false
+      }
+    ],
+    "member_hash_source_note": "For unread large members, expected per-member hashes are from MIX75_Q8_BUILD.json; exact whole-archive SHA was independently recomputed. The actual loaded v3 library is separately bound by the full-replay receipt."
+  },
+  "release_provenance": {
+    "blend_selection_receipt": "research/campaign_2026-10-18/f0_submission_r1/receipts/BLEND_SELECTION.json",
+    "blend_selection_receipt_sha256": "59513a1aa292feb9eb4c59211c70a057c3cd0362ebddfc6ad6879b09279c6c46",
+    "blend": "0.75 wide + 0.25 deep, both epoch 5, fixed for both targets, q8vnni.",
+    "source_runs": [
+      "rr18_r01_wide_f0_s1001_e6@ep5",
+      "rr18_r01_deep_f0_s1001_e6@ep5"
+    ],
+    "selection_scope": "Best of five fixed scalar mixtures on previously exposed F0; no independent holdout, CP30 or public-score forecast. No model training was performed for the submission package."
+  },
+  "full_final_zip_replay": {
+    "receipt": "research/campaign_2026-10-18/f0_submission_r1/receipts/Q8_FULL_F0.json",
+    "receipt_sha256": "d5ff23d3bae39f831c00c6431e1d31de635e5c13e696cada2f6760c126dc1572",
+    "execution_receipt": "research/campaign_2026-10-18/f0_submission_r1/receipts/FULL_REPLAY_EXECUTION.json",
+    "execution_receipt_sha256": "bdb50431f9d9198a88e587b0ffe02f3c9f4a7e923f1fe680ce503c738c65b545",
+    "exact_zip_sha256": "c4cb51bf20e7639f0fa607489b911b551f5296158db3bd913429e95ce7c139e6",
+    "zip_solution_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+    "loaded_native_member": "v3/wnn_native.abi3.so",
+    "loaded_native_sha256": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+    "observed_native_level": "v3",
+    "data": {
+      "path": "/home/grinchenkoeg/WunderFunder/datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "bytes": 5615509128,
+      "fold_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "ordered_groups": 468,
+      "rows": 9360000,
+      "callbacks_including_warmup": 9360121,
+      "scored_rows": 808863,
+      "prediction_sha256": "34750ca1ecb93a12adebb38bbae62ff4234206ec00cb0942b5c02667f686848d"
+    },
+    "score": {
+      "metric_id": "global_wp_clip2_v1",
+      "t0": 0.6641447254350511,
+      "t1": 0.68350798990468,
+      "wp": 0.6738263576698655,
+      "selected_rows": 808863
+    },
+    "reset_check": {
+      "first_sequence_id": 1990332,
+      "interleaved_sequence_id": 2308749,
+      "rows_checked": 120,
+      "bitwise_equal": true
+    },
+    "execution": {
+      "status": "passed",
+      "exit_status": "0",
+      "memory_peak_bytes": "407310336",
+      "memory_max_bytes": "2000000000",
+      "cpu_quota_at_capture": "750ms",
+      "scope": "Full actual ZIP F0 callback validation; wall-time spans CPU quota100% then75%, report eta_seconds_39_4m_rows is not single-core projection and not scorer forecast."
+    },
+    "what_this_proves": "The archived local ZIP bytes (same SHA as release) imported and ran every recorded F0 callback on all 468 ordered fold groups; this is substantially stronger than a small smoke panel, but remains exposed validation rather than the public hidden set."
+  },
+  "scorer_contract_audit": {
+    "checker": "code/check_native_panel.py; the checker imports solution.py extracted from the ZIP and constructs a DataPoint with seq_ix, step_in_seq, need_prediction and float32 state.",
+    "feature_order": "Checker schema is 2x[p22,v22,dp4,dv4] then a0..a7; it requires exact Parquet column order before prediction. This matches utils.py and the documented 112-feature order.",
+    "scoring_mask": "Harness applies need_prediction AND is_scored; is_scored and labels are excluded from the callback object. Full replay records original valid.parquet SHA and full fold row-group ordering.",
+    "warmup": "All callback rows are processed; checker requires None during warmup and two finite outputs of shape (2,) on requested rows.",
+    "metric": "Full native grade is independently reproduced by canonical grade from original parquet labels/mask and a direct float64 weighted-Pearson audit; WP differs from canonical by 5e-16.",
+    "reset": "Full ZIP replay includes an A-B-A check with 120 rows per sequence and bitwise equality after returning to the first sequence.",
+    "native_feature_and_normalization_scope": "The Rust callback resets on seq_ix change, sanitizes/reads the 112 raw state values, advances streaming features on every callback, and returns only when need_prediction is true. Static Rust/Python feature formulas appear aligned. The local full run exercises the packaged model on F0, but this audit did not independently compare every engineered feature or serialized normalization tensor against the training implementation; that remains outside the proof.",
+    "source_hashes": [
+      {
+        "path": "native/src/python.rs",
+        "sha256": "63cec725cf1e9c40ee5228151daad94a0e577813b3833a8d097fc49338635919",
+        "bytes": 69220
+      },
+      {
+        "path": "native/src/stream.rs",
+        "sha256": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6",
+        "bytes": 9011
+      },
+      {
+        "path": "src/wnn/features.py",
+        "sha256": "c2b317d1f148d0cad9632726a1436b94f4ae76016458deaa70aa36fdca21ecb2",
+        "bytes": 5509
+      }
+    ]
+  },
+  "precision_and_dispatch": {
+    "precision_file": "q8vnni; package model membership/coefficient is fixed and solution.py constructs the predictor with budget_s=None, disabling runtime member shedding.",
+    "full_fold_loaded_level": "v3",
+    "panel_receipts": [
+      {
+        "path": "research/campaign_2026-10-18/f0_submission_r1/receipts/Q8_PANEL.json",
+        "sha256": "d916443758247be9882846c2de7144cceccbf3d40a66468f341963d95426984c",
+        "level": "v3",
+        "groups": 8,
+        "prediction_sha256": "c7b8e86cdfef0a88318d9a59b7670c8cc07cbb4b91f9aead3309d1dc440d3111"
+      },
+      {
+        "path": "research/campaign_2026-10-18/f0_submission_r1/receipts/Q8_v2_PANEL.json",
+        "sha256": "d9be44a64f06dc6478ef081b0d615f0edd6f7adae4cd7f6817506455d77ad264",
+        "level": "v2",
+        "groups": 8,
+        "prediction_sha256": "c7b8e86cdfef0a88318d9a59b7670c8cc07cbb4b91f9aead3309d1dc440d3111"
+      },
+      {
+        "path": "research/campaign_2026-10-18/f0_submission_r1/receipts/Q8_avx2_PANEL.json",
+        "sha256": "1a8a575b36b72342f62e25b3d1fec7dd564653b701c450795cf823129a4eb5c0",
+        "level": "avx2",
+        "groups": 8,
+        "prediction_sha256": "c7b8e86cdfef0a88318d9a59b7670c8cc07cbb4b91f9aead3309d1dc440d3111"
+      }
+    ],
+    "panel_result": "All three recorded panel prediction hashes match; full Fold0 replay used v3. Static ABI receipt passed for all libraries. Tests ran on Xeon Gold 6230, not the documented EPYC 9224 scorer host.",
+    "q8_vs_fp32": "Independent full-F0 rescore reports Q8 blend WP 0.6738263577 versus FP32 blend WP 0.6738509442 (difference -0.0000245866 on this exposed fold); this cannot establish the effect on hidden public data."
+  },
+  "public_gap": {
+    "local_full_f0_wp": 0.6738263576698655,
+    "public_wp_user_reported": 0.65839,
+    "public_minus_local_f0_wp": -0.015436357669865508,
+    "previous_team_public_snapshot_wp": 0.66832,
+    "public_minus_previous_snapshot_wp": -0.00993,
+    "interpretation": "The public result is about 0.01544 below local exposed-F0 WP and 0.00993 below the prior team snapshot. This comparison establishes a transfer/generalization gap only if the reported upload is this exact archive; it does not identify a single cause."
+  },
+  "documented_environment_comparison": {
+    "receipt": "research/campaign_2026-10-18/f0_submission_r1/receipts/OFFICIAL_ENVIRONMENT_CHECK.json",
+    "receipt_sha256": "50e1e1ae32cf6dc4e57e3c85408b1d64e4dac32d01a64f9dd61735906785cabe",
+    "recorded_official": "Python 3.11 slim Bookworm, AMD EPYC 9224, one CPU, 16GB, 3600s, network off, ZIP <=20MB, NumPy >=1.26,<3 and PyArrow >=15,<19.",
+    "recorded_test": "Python 3.11.16, Xeon Gold 6230, NumPy 2.2.6, PyArrow 19.0.1 for the external parquet harness; package imports stdlib, NumPy and local ABI3 extension, not PyArrow.",
+    "limitation": "The exact scorer image was not executed. The reported public runtime 2747s is within the documented 3600s if the user transcription and artifact association are correct; public memory 653MB is also below the documented cap. This is not a verified full-runtime margin for other hosts."
+  },
+  "proven_exclusions_for_this_tested_path": [
+    "No local archive/release/full-replay SHA mismatch: all bind to c4cb51bf20e7639f0fa607489b911b551f5296158db3bd913429e95ce7c139e6; the upload itself is still unbound.",
+    "No observed local ZIP import, ABI load or callback-output failure on Python 3.11/Linux; the full F0 callbacks completed with exit status 0.",
+    "No observed local F0 feature-column ordering, warmup behavior, scoring-mask, global metric or A-B-A reset mismatch in the recorded checker/independent grades.",
+    "No observed prediction change across the three native ISA library variants on the recorded 8-sequence panel; no runtime member shedding is configured."
+  ],
+  "not_excluded_and_next_evidence_needed": [
+    "Uploaded bytes may differ despite identical filename. First obtain a portal checksum or other byte-level upload receipt for submission 0897egiv and compare to the local SHA.",
+    "The package was selected from five mixtures on exposed F0 and has no independent-holdout/CP30 evidence. Distribution shift or selection optimism is therefore a plausible explanation for lower public WP, but this audit cannot prove it is the cause.",
+    "The official scorer image/hardware and runtime dispatch were not executed. The package honors WNN_PRECISION and WNN_NATIVE_LEVEL environment overrides; local receipts show the variables unset/auto-selected, while there is no evidence here about official-container overrides.",
+    "Hidden public feature distribution, sequence ordering/reset behavior and target/mask composition were not available for audit. The local full-F0 check cannot rule out behavior specific to that unseen input.",
+    "No independent tensor-level comparison of serialized normalization statistics against training-time normalization was performed. The checked served output includes the package’s actual normalization behavior on F0, but not on the hidden public distribution."
+  ],
+  "conclusion": "Current evidence does not show a concrete local packaging, scorer-mask, feature-order or state-reset defect in the final local ZIP. The strongest unresolved checks are byte identity of the actual upload and whether the exposed-F0-selected model transfers to the public evaluation distribution. Do not interpret these checks as proving that there is no bug."
+}

@@ -1,0 +1,127 @@
+{
+  "admission_state": "NOT_ADMITTED_PENDING_EXACT_REMOTE_STAGE_CHECK_AND_FRESH_ROOT_GPU_ADMISSION",
+  "blockers": [],
+  "created_utc": "2026-10-18T15:51:35.723020+00:00",
+  "integrity": {
+    "all_manifest_artifact_byte_counts_and_sha256_match": true,
+    "author_reported_checks": {
+      "ruff_check": "PASS per manifest-bound test receipt; not rerun",
+      "ruff_format_check": "PASS per manifest-bound test receipt; not rerun",
+      "tests": "11 passed per manifest-bound TEST_RECEIPT_R3.json; not rerun during independent review"
+    },
+    "local_test_source_byte_count_and_sha256_match": true,
+    "local_test_source_staged_on_b": false,
+    "manifest_self_sha256": "825cf12b90d2e1f338d9d4af209c08569a9b41f88fca687dd8b0ffdb55982ede",
+    "manifest_status": "PREPARED_FOR_INDEPENDENT_REVIEW_NOT_ADMITTED",
+    "remote_stage_allowlist": [
+      "bindings.py",
+      "prepare.py",
+      "launch.py",
+      "worker.py",
+      "capture.py",
+      "README.md",
+      "PREPARATION_MANIFEST_R3.json",
+      "TEST_RECEIPT_R3.json",
+      "INDEPENDENT_REVIEW_R3.json"
+    ],
+    "test_receipt_sha256": "c813d0cffd998df86928d3678608907cf1c02dfbb670da5cf91987339566bffc"
+  },
+  "recommendation": "Root may perform the separate exact staged-file check and fresh resource admission, then decide whether to launch the bounded no-training export. Preserve this static review and all source pins; do not infer export success from it.",
+  "review_result": "PASS_STATIC_REVIEW_READY_FOR_ROOT_GATED_EXPORT",
+  "review_scope": "Independent static review of the final R3 source pins, command/source bindings, portable data and artifact gates, runtime inventory, output/capture lifecycle, strict-FP32 setup, resource bounds, and staging instructions. No remote calls, checkpoint tensor deserialization, prediction or dataset-array loads, GPU execution, export, training, grading, or repeated local tests were run.",
+  "reviewed_artifact": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/export_execution_r1",
+  "reviewed_manifest_sha256": "825cf12b90d2e1f338d9d4af209c08569a9b41f88fca687dd8b0ffdb55982ede",
+  "schema": "quality_gap.strong_control_export_independent_review.r3",
+  "source_and_execution_review": {
+    "canonical_chain_folds": {
+      "bytes": 462719,
+      "logical_path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache/chain_folds.npz",
+      "resolved_path": "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/chain_folds_derived.npz",
+      "sha256": "a112f809259f631c2ee7c12480e4ec1d4eef197a980e7ce23c707d842d092567"
+    },
+    "canonical_split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "capture_lifecycle": {
+      "captured_archive": "records/<attempt>/CAPTURED_WORKER_PRE_INFERENCE.json is a separate exclusive archival copy",
+      "positive_main_fixture": "Manifest-bound integration test invokes capture.main with only contract/guard/output validators mocked, checks actual raw file writes and receipt references, then verifies a second capture is refused.",
+      "worker_source": "records/<attempt>/WORKER_PRE_INFERENCE.json remains the original worker record"
+    },
+    "control_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "execution_envelope": {
+      "admission_timeout_seconds": 300,
+      "child_environment": {
+        "NVIDIA_TF32_OVERRIDE": "0",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "WNN_GPU_MEMORY_BYTES": 4000000000,
+        "WNN_LOADER_RAM_GB": 1,
+        "WNN_LOADER_WORKERS": 0,
+        "WNN_THREADS": 1
+      },
+      "guard": "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/bandit_resources.py",
+      "guard_sha256": "3732ffeef79e635c8867d83e618f8d51b2fa8beffd7badf11f60412a864210f7",
+      "guard_state": "/home/grinchenkoeg/computer-vision-homework-20261018/runtime",
+      "limited": "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/limited",
+      "limited_sha256": "d9bcfc3b671af3237b607e18087fde43fc7451b6482891e4abadd8580bfb8661",
+      "physical_tmp": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+      "pre_inference_runtime_checks": [
+        "cuda_matmul_allow_tf32=false",
+        "cudnn_allow_tf32=false",
+        "cudnn_benchmark=false",
+        "cudnn_deterministic=true",
+        "float32_matmul_precision=highest"
+      ],
+      "python": "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+      "resource_envelope": {
+        "admission_timeout_seconds": 300,
+        "allocator_bytes": 4000000000,
+        "cpus": 1,
+        "gpu_free_memory_safety_reserve_bytes": 1000000000,
+        "guard_kind": "gpu",
+        "profile": "strong-control-export-unmeasured-r1",
+        "profile_status": "UNMEASURED_FOR_THIS_CONTROL",
+        "reserve_bytes": 8000000000,
+        "runtime_limit_seconds": 7200
+      },
+      "runtime_admission": "fresh <=300s; one full UUID; >=5GB selected-device free; >=2GB scratch free; root separately binds campaign-only claims and parent cgroup headroom",
+      "runtime_measurement": "UNMEASURED_FOR_THIS_CONTROL",
+      "unit_template": "wnn-bandit-{attempt}.service",
+      "worker_timeout_seconds": 7200
+    },
+    "export": {
+      "epoch": 5,
+      "full_valid_feature_only": true,
+      "grading_or_metric": false,
+      "output_name": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_exportprep_r1",
+      "prediction_dtype": "float32",
+      "prediction_shape": [
+        1873,
+        20000,
+        2
+      ],
+      "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+      "split": "valid",
+      "training": false
+    },
+    "frozen_h390_source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "frozen_predictor_sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+    "membership_comparison_sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d",
+    "old_checkpoint_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "output_paths": "Five exact create-only prediction, sidecar, partial, family-prediction and stale-sequence-sum paths; cache directory must be a real project-local directory and all outputs absent before launch.",
+    "overlay_manifest_sha256": "1785e8529a2868e1ca40a0c668c57ccc28ae82b04fda7c13bf7a3c8bc32c409b",
+    "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "preflight_receipt": {
+      "bytes": 3790,
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/records/preflight-r2-20261018t1520z/COMPATIBILITY_RECEIPT_R2.json",
+      "sha256": "fd1010d586de8cb472b0c6b421890225eecba84e5096ac80e5ff75d5b73b7670",
+      "status": "PASS_CPU_LOADER_PREFLIGHT"
+    },
+    "runtime_profile": "Explicitly UNMEASURED_FOR_THIS_CONTROL: one-CPU/8,000,000,000-byte guard reserve, 4,000,000,000-byte allocator cap, one selected GPU with 1,000,000,000-byte free-memory reserve, 7,200-second hard child limit, 300-second fresh admission requirement.",
+    "runtime_shadow_gate": "Manifest-bound standard-library stage allowlist plus import-time exact top-level runtime .py inventory and recursive bytecode rejection; child uses -B and PYTHONDONTWRITEBYTECODE=1.",
+    "snapshot_gate": "prepare.py inventories and hashes the full frozen source snapshot, rejects symlinks/bytecode, and verifies the exact predictor; portable-source full hashes remain the unchanged predictor loader gate before inference."
+  },
+  "supported_scope_and_limits": [
+    "This is a static readiness review, not GPU export admission or proof that the export will fit or finish within the hard limit.",
+    "The documented full-source loader check occurs inside the frozen predictor after its known checkpoint deserialization path; the earlier CPU preflight is not presented as replacing that runtime gate.",
+    "The capture lifecycle regression uses synthetic files and mocks contract/guard/output validation; it does not exercise the remote guard, real model, arrays, or export.",
+    "Output prediction byte identity is captured from the actual runtime receipt; cross-hardware or cross-library byte equality is not a gate."
+  ]
+}

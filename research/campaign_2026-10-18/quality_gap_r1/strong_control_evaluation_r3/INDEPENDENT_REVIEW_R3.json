@@ -1,0 +1,50 @@
+{
+  "blockers": [],
+  "conditions_for_root_admission": [
+    "Root admission must still verify the exact staged-file allowlist and source identities on B before import, including the actual nine-entry guard source map and the contract source entry; this review does not replace that root gate.",
+    "Run only under the manifest\u2019s bounded envelope (0.5 CPU, 1.5 GiB memory, 300 seconds, CUDA hidden, physical scratch) with a new create-only output directory. This review does not validate the forthcoming collection result."
+  ],
+  "limitations": [
+    "No actual prediction bytes or validation parquet payload were opened here. Hash/shape claims about the prediction are reviewed as captured receipt metadata, not independently recomputed in this review.",
+    "The review does not establish evaluation membership from the sidecar, performance on unseen/public data, exact public-incumbent identity, or grading results.",
+    "The collector verifies required source-map pins and the canonical full-map digest; root admission remains responsible for enforcing the exact staged nine-entry map, including its contract entry."
+  ],
+  "manifest": {
+    "bytes": 23418,
+    "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/PREPARATION_MANIFEST.json",
+    "sha256": "18d6ef5a817043a258d8122dd6246cbb428b1e540edc8d3796f126fa957a9963"
+  },
+  "reviewed_utc": "2026-10-18T16:14:16.752794+00:00",
+  "schema": "wnn.quality_gap.strong_control_evaluation.independent_review.r3",
+  "scope": "Independent read-only review of the sealed R3 consumer, its manifest, and small captured producer JSON metadata. No prediction payload, checkpoint, real parquet payload, remote execution, training, or grading was performed.",
+  "status": "PASS_FOR_ROOT_GATED_BOUNDED_EXECUTION",
+  "test_receipt": {
+    "bytes": 6634,
+    "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/TEST_RECEIPT.json",
+    "reported": "19/19 tiny local tests; Ruff format/check passed; not rerun in this review",
+    "sha256": "42b9ee1d3700e2b46906c55038aa2093491df49a1a5f97212bfe5ae417faedc6"
+  },
+  "verified": [
+    {
+      "finding": "All 41 manifest-listed packet artifacts, frozen source files, exporter source files, and JSON fixtures match their declared byte counts and SHA-256 identities."
+    },
+    {
+      "finding": "All five fixtures (CONTRACT, EXPORT_RECEIPT, BANDIT_ATTEMPT, PREDICTION_SIDECAR, CAPTURED_WORKER_PRE_INFERENCE) are byte-identical to the captured producer files."
+    },
+    {
+      "finding": "The R2 interpreter-path blocker is fixed: the captured execution.python value is the venv launcher /home/grinchenkoeg/WunderFunder/.venv/bin/python, while runtime.python_executable is the resolved uv interpreter /home/grinchenkoeg/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/bin/python3.13. R3 checks these independently and pins runtime version, bytes, binary SHA-256, packages, guard/limited hashes, and the five exporter utility identities."
+    },
+    {
+      "finding": "Reconstructed worker command exactly matches the captured 35-token BANDIT_ATTEMPT command when bound to the contract\u2019s canonical contract_path. The captured source map has nine entries and its canonical sorted-JSON digest matches source_manifest_sha256 d12cbbe33b561bb1fe302848dbb786d685fd3e27c590df048998016099a2c459."
+    },
+    {
+      "finding": "The actual H390 sidecar has the exact 19-field schema R3 expects. It reports campaign_fit_scope=full-valid-feature-only and null evaluation-membership hashes, as the frozen producer emits. Its 1,873 unique integer row groups span 0\u20131872, and the little-endian row-order digest matches the export receipt. R3 correctly does not treat this order digest as evaluation-membership proof."
+    },
+    {
+      "finding": "Captured receipt/guard/pre-inference evidence is internally consistent for the metadata checked: export and guard exit status 0, terminal/finished status, exact contract/command binding, zero recorded OOM counters, matching receipt/raw sidecar and pre-inference hashes, and strict FP32 settings."
+    },
+    {
+      "finding": "The failed R2 alignment attempt remains separately preserved; R3\u2019s manifest states that it failed before payload access. R3 keeps collection create-only and retains the no-training/no-grading scope."
+    }
+  ]
+}

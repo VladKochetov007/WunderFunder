@@ -1,0 +1,79 @@
+{
+  "acceptance_checks": {
+    "admission_binds_manifest_review_and_exact_extractor": true,
+    "admitted_paths_sizes_hashes_and_generations_match_result": true,
+    "both_args_have_empty_init_and_distill": true,
+    "cpu_memory_swap_runtime_caps_match_reviewed_contract": true,
+    "cuda_uninitialized_and_metadata_only_status": true,
+    "execution_result_success_exit_zero_and_receipt_capture_match": true,
+    "launch_binds_admission_and_input_manifest": true,
+    "logical_aliases_and_resolved_paths_bind_exact_inputs": true,
+    "no_clean_f0_or_historical_optimizer_inference": true,
+    "no_tensor_values_or_optimizer_class_claim": true,
+    "parent_memory_events_unchanged": true,
+    "pre_and_post_sha256_match_for_each_input": true,
+    "production_train_valid_and_prop_f0_options_preserved": true,
+    "remote_actions_or_checkpoint_reads_by_reviewer": false,
+    "result_manifest_sha_matches_actual_input_manifest": true,
+    "review_manifest_and_test_receipt_match_sealed_pins": true,
+    "root_wrapper_review_chain_reconstructable_from_pinned_review_and_exact_archived_scripts": true,
+    "stop_after_capture_exit_zero": true,
+    "two_args_records_differ_only_in_name_and_seed": true,
+    "two_expected_inputs_only_and_unique": true
+  },
+  "blockers": [],
+  "decision": "ACCEPTED_METADATA_ONLY_RESULT",
+  "evidence_bindings": {
+    "admission_receipt_sha256": "4ad8f0698df9e72bff8bd66c10c498291e238268a611301d943a69db55a62fd0",
+    "execution_capture_sha256": "aec580f13ca4026029867b5efb430dd6901cf41e10bb64290b56c0507ff4e11d",
+    "extractor_sha256": "a48297ca45aa19af9211afac9f365f373790e3db6cb70fc7dcafec4875ccb4c6",
+    "findings_sha256": "44ce5aacd212bb5057a86ca57ca8a24e15e2dd17defb067e287c683329cf2341",
+    "independent_static_review_sha256": "4c7ee62afc0cbc766b0a722677601e863897fd74c743750e5252fa6d1b4dc02f",
+    "input_manifest_sha256": "2cb24b4de1eb755a37364e92add395cfb74e913c06b13e5b62fd8230baedae18",
+    "launch_receipt_sha256": "2f45aa5aaf5c6466518b4f8952bdf3c6502e66ba86f8ea1908ba23fbbe8847e7",
+    "preparation_manifest_sha256": "b3d78618c18f73799e2e9d70cf5f6606a125d5ce2a18ccdb52218c35db07642b",
+    "readme_sha256": "a9c44c13e4d9af9343de374db24169dce9c87fa9f2f250ff06667b21ac29536c",
+    "root_capture_script_sha256": "baed8472c12b1587268c3e73e4342d7109ce46c76f0e7ca2b199e7627919be7f",
+    "root_launch_review_sha256": "786f397228dfe642b5574eaccf64a07d0535b383b047722d6b00bdada56374e4",
+    "root_launch_script_sha256": "f83ea184ddfd3cdca43f1e3395c57cdd0c63b1fc44346161c48924045bd419c4",
+    "stop_receipt_sha256": "cb34c4c1e4b3a52ed95e84041d6dd321cb23dd7523066e412d1089fcf205d8fe",
+    "test_receipt_sha256": "09e0c2ac60db5673e5b0575ecefbc2a1b347e243a222a5f063c811155fd826b5"
+  },
+  "narrative_review": {
+    "assessment": "Narrative preserves the unresolved realized-membership, clean-F0, exact historical trainer and prop_f0 dependency limits. No clean-F0 or optimizer-class overclaim found.",
+    "findings_sha256": "44ce5aacd212bb5057a86ca57ca8a24e15e2dd17defb067e287c683329cf2341",
+    "precision_update": "README wording now identifies high=177, max=561, oom=0 as memory.events counters, distinct from the 18 GB / 20 GB byte limits.",
+    "readme_sha256": "a9c44c13e4d9af9343de374db24169dce9c87fa9f2f250ff06667b21ac29536c"
+  },
+  "qualifications": [
+    "Acceptance covers the metadata extraction and its execution/capture chain only. It does not establish realized historical group membership, clean F0 ancestry, teacher/cache provenance, training quality, or score effect.",
+    "The root wrapper review hash is not embedded directly in admission/launch receipts. The preparation review SHA is embedded in admission; the wrapper review binds the latest launch/capture hashes and archived executed wrapper files match those hashes, so the chain is reconstructable.",
+    "Execution capture reports MemoryPeak and MemoryCurrent unavailable after exit; acceptance relies on enforced limits and the run resource record, not an observed peak-memory value."
+  ],
+  "result_bytes": 12714,
+  "result_path": "research/campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_execution_r1/TL3_FIN256_METADATA_R1.json",
+  "result_sha256": "734c1625eb504aae8a790987216d25acbc8246fb06d0b14161a04fd4c08bf283",
+  "reviewed_utc": "2026-10-18T17:29:20Z",
+  "run_observation": {
+    "cpu_quota_cores": 0.5,
+    "cuda_initialized": false,
+    "elapsed_seconds_inside_extractor": 4.420667,
+    "input_count": 2,
+    "memory_max_bytes": 1499996160,
+    "parent_memory_events_before_and_after": "low 0\nhigh 177\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "runtime_max_seconds": 120,
+    "status": "METADATA_ONLY_NO_WEIGHT_VALUES_EXPORTED",
+    "swap_max_bytes": 0,
+    "torch_version": "2.14.0+cu130",
+    "total_input_bytes": 7867198,
+    "unit_elapsed_seconds": 5.826403
+  },
+  "schema": "quality_gap.tl3_fin256_parent_metadata_result_acceptance.v1",
+  "supported_findings": [
+    "The actual fin256_s3@ep3 and fin256_s4@ep3 files are bound by fresh admission paths, sizes, stable file generations and SHA-256 values; result-side pre/post hashes match those pins. Metadata bytes are bound to the input manifest and preparation/review/admission chain.",
+    "The args dictionaries are identical except for `name` and `seed` (fin256_s3/3 versus fin256_s4/4). Both record epoch 3, 211 input channels, a two-layer GRU with hidden size 256, and 23 outputs.",
+    "Both configs record empty `init` and `distill`, `train_source=train+valid`, `include_heldout_valid=true`, `full_valid=true`, `valid_fold=-1`, `valid_train_fraction=1.0`, `aux_next=0.3`, `aux_struct=0.3`, and `propensity=prop_f0`. Stored options do not prove realized ordered fit membership; the prop_f0 dependency remains.",
+    "The receipt exposes config metadata and tensor names/shapes/dtypes only. It contains no optimizer object/class or ordered training membership. Findings correctly avoid inferring a historical optimizer class and do not certify clean-F0 ancestry.",
+    "The helper completed in 4.420667 seconds; the unit exited successfully in 5.826403 seconds under 0.5 CPU, at most 1.5 GB memory, zero swap, hidden CUDA and a 120-second hard runtime cap. Parent memory.events contents are identical before and after, and STOP follows capture."
+  ]
+}

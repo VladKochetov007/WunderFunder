@@ -1,0 +1,35 @@
+{
+  "schema": "wnn.quality_gap.strong_control_collect_acceptance_fixture.v1",
+  "positive_test": "test_collection_flow.py::CollectionFlowTests.test_collect_rehashes_capture_bindings_and_writes_diagnostic_ready_inputs",
+  "synthetic_selected_rows": 4,
+  "expected_output_files": [
+    "ALIGNMENT_RECEIPT.json",
+    "DERIVED_INPUTS.json",
+    "strong_control_scored.npy"
+  ],
+  "captured_raw_evidence_fields": [
+    "guard_attempt_path",
+    "guard_attempt_sha256",
+    "pre_inference_runtime_path",
+    "pre_inference_runtime_sha256",
+    "sidecar_path",
+    "sidecar_sha256"
+  ],
+  "strong_control_model": {
+    "kind": "npy",
+    "prediction_shape": [4, 2],
+    "prediction_dtype": "float32",
+    "alignment_receipt_fields": {
+      "bundle": "paired_bundle_sha256",
+      "prediction": "prediction_sha256",
+      "rows": "selected_rows"
+    },
+    "diagnostic_loader_checks": [
+      "prediction file SHA-256",
+      "alignment receipt SHA-256",
+      "paired bundle SHA-256",
+      "prediction SHA-256 and selected row count in alignment receipt",
+      "float32 shape and finite values"
+    ]
+  }
+}

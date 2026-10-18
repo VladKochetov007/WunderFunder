@@ -1,0 +1,44 @@
+{
+  "created_utc": "2026-10-18T13:23:12.766132+00:00",
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=computer-vision-homework-quality-gap-plot-v1.service",
+    "--slice=wnn-campaign.slice",
+    "--property=CPUQuota=25%",
+    "--property=MemoryMax=384000000",
+    "--property=MemorySwapMax=0",
+    "--property=RuntimeMaxSec=60",
+    "--property=TimeoutStopSec=10",
+    "--property=KillMode=control-group",
+    "--property=RemainAfterExit=yes",
+    "--setenv=CUDA_VISIBLE_DEVICES=",
+    "--setenv=OMP_NUM_THREADS=1",
+    "--setenv=OPENBLAS_NUM_THREADS=1",
+    "--setenv=MKL_NUM_THREADS=1",
+    "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "--setenv=MPLCONFIGDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/mpl-quality-gap",
+    "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/plot-source-v1/plot_existing_kd.py",
+    "--input",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/plot-source-v1/EXISTING_KD_TRAJECTORY.json",
+    "--input-sha256",
+    "27fce99953b0b31b38a4a710af47f1f96826c0bf51f1bb35b674fd0c894e31a5",
+    "--output-dir",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/plots-v1"
+  ],
+  "preflight": {
+    "quotas": {
+      "wnn-bandit-computer-vision-homework-r01-deep-f1s1001-ep25-v1.service": "100000 100000",
+      "computer-vision-homework-r01-f1-recovery-v1.service": "10000 100000"
+    },
+    "reserved_cpu": 1.35
+  },
+  "source_sha256": {
+    "plot_existing_kd.py": "2134dd229cb99bb8a31c77d030f8835138ea90782f706688370cb4ee0047059e",
+    "EXISTING_KD_TRAJECTORY.json": "27fce99953b0b31b38a4a710af47f1f96826c0bf51f1bb35b674fd0c894e31a5"
+  },
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "Running as unit: computer-vision-homework-quality-gap-plot-v1.service; invocation ID: 75b2b1f70ce34048a0bf41c3300b74c0\n"
+}

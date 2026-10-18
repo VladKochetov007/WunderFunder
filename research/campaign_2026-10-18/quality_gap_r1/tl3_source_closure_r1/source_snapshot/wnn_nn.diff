@@ -1,0 +1,47 @@
+diff --git a/src/wnn/nn.py b/src/wnn/nn.py
+index 62dd00b..b8b31bf 100644
+--- a/src/wnn/nn.py
++++ b/src/wnn/nn.py
+@@ -43,6 +43,22 @@ class RNNModel(nn.Module):
+             self.conv_k = conv_k
+             self.conv_dw = nn.Conv1d(hidden, hidden, conv_k, groups=hidden)
+             self.conv_pw = nn.Linear(hidden, hidden)
++        elif enc in ("tied", "tiedlead", "tiedlead2"):
++            # one per-row book encoder shared by both instruments (i0 cols 0:52, i1 cols 52:104, same code map),
++            # applied to raw codes and their row-to-row change; zero-initialised residual into the projection
++            import os as _os
++            th, te = (int(v) for v in _os.environ.get("RS_TIED_DIMS", "128,64").split(","))
++            self.tied = nn.Sequential(nn.Linear(104, th), nn.GELU(), nn.Linear(th, te), nn.GELU())
++            self.tied_out = nn.Linear(2 * te, hidden)
++            nn.init.zeros_(self.tied_out.weight); nn.init.zeros_(self.tied_out.bias)
++            if enc == "tiedlead2":  # RS_LEAD=2 tail: i1@last i0 event (52), i0@last i1 event (52), 2 ages
++                self.lead_out = nn.Linear(64, hidden)
++                self.lead0_out = nn.Linear(64, hidden)
++                for m in (self.lead_out, self.lead0_out):
++                    nn.init.zeros_(m.weight); nn.init.zeros_(m.bias)
++            if enc == "tiedlead":  # last 52 input cols = i1 block at the last i0 price event (RS_LEAD)
++                self.lead_out = nn.Linear(te, hidden)
++                nn.init.zeros_(self.lead_out.weight); nn.init.zeros_(self.lead_out.bias)
+         elif enc != "linear":
+             raise ValueError(enc)
+         rnn = {"gru": nn.GRU, "lstm": nn.LSTM}[cell]
+@@ -65,6 +81,19 @@ class RNNModel(nn.Module):
+ 
+     def encode(self, xn):
+         u = self.inp(xn)
++        if self.enc in ("tied", "tiedlead", "tiedlead2"):
++            raw = xn * self.std + self.mean
++            d = torch.cat([torch.zeros_like(raw[:, :1, :104]), raw[:, 1:, :104] - raw[:, :-1, :104]], dim=1)
++            e0 = self.tied(torch.cat([raw[..., 0:52], d[..., 0:52]], -1))
++            e1 = self.tied(torch.cat([raw[..., 52:104], d[..., 52:104]], -1))
++            u = u + self.tied_out(torch.cat([e0, e1], -1))
++            if self.enc == "tiedlead":
++                at = raw[..., -52:]
++                u = u + self.lead_out(self.tied(torch.cat([raw[..., 52:104], raw[..., 52:104] - at], -1)))
++            if self.enc == "tiedlead2":
++                at1, at0 = raw[..., -106:-54], raw[..., -54:-2]
++                u = u + self.lead_out(self.tied(torch.cat([raw[..., 52:104], raw[..., 52:104] - at1], -1)))
++                u = u + self.lead0_out(self.tied(torch.cat([raw[..., 0:52], raw[..., 0:52] - at0], -1)))
+         if self.enc == "tokens":
+             b, t, _ = xn.shape
+             flat = xn.reshape(b * t, -1)

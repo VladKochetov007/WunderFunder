@@ -1,0 +1,54 @@
+{
+  "blockers": [],
+  "evidence_bindings": {
+    "control_asset_map_sha256": "17b7b5fc31557b3d560ae6d8de9aedbba9cb90d9f050a5edf9c136f0c66c7c3f",
+    "f0_membership_comparison_sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d",
+    "model_catalog_sha256": "f5c393a4cabaed64231d3300c64f0636b3d04547664e5ffd96f0030caed46fb3",
+    "public_trace_binding_sha256": "11ef14a2a2ed8961b572ed514a124d45c740548bc94ed44930f69efa1356a883",
+    "public_trace_independent_review_sha256": "5cfe30dc4c4abd7b49f0f5caf7b7199f27ce5215019eca503c1d40886ceda51f",
+    "public_trace_manifest_sha256": "2e53757faefacc609db2e265af049ee63332d6de4658a356fdd4e2505769bae9",
+    "submission_inventory_sha256": "9682897ff941b25739999ae8d8f1f505fcd78d9b19cbf4f2d1e552282e9102c8"
+  },
+  "findings": [
+    {
+      "evidence": "The memo calls for one F0 fold/seed reconstruction with fixed archived weights, same-row comparison, and component-paired uncertainty, and explicitly says this cannot estimate public score, establish a winner, or satisfy the 30-cell general-comparison requirement. It forbids tuning blend weights to the public score and separates the clean F0 analogue from production fit scope.",
+      "severity": "PASS",
+      "title": "The proposed comparison is appropriately scoped"
+    },
+    {
+      "evidence": "The plan requires F0 exclusion from each member, warm initializer, teacher, teacher-target cache, propensity/calibration object, and learned preprocessing. It requires source/config/checkpoint/target-cache closure and says to stop if orgbase or any ancestor cannot be proven clean; it does not silently drop teachers or relabel full-fit checkpoints.",
+      "severity": "PASS",
+      "title": "The clean-fit gate accounts for learned ancestry"
+    },
+    {
+      "evidence": "The transcript binding identifies user-transcribed submission 1lmehfi3 / tl3.zip / displayed score 0.66832. Its local/server inventory entry lists the 0.34 distilled-s5, 0.33 tied-lead-s5, and 0.33 tied-lead-s6 recipe. CONTROL_ASSET_MAP records those production runs as train+valid, include_heldout_valid=true, valid_fold=-1 and marks them ineligible as local clean controls. The model catalog supports the stated 211/263 feature counts, GRU/tied-lead families, and optimizer/EMA distinctions. The membership receipt supports equal ordered old/canonical fit and evaluation memberships (10,535 fit.train, 1,405 fit.valid, 468 evaluation.valid) while requiring preservation of distinct split identities.",
+      "severity": "PASS",
+      "title": "Member recipe and membership details match the bound metadata"
+    },
+    {
+      "evidence": "The memo repeats the map\u2019s uncertified status and the sibling recipe\u2019s different teachers and 467/10,606/1,406 split counts, and treats those runs only as context rather than as substitutes for the tl3 recipe.",
+      "severity": "PASS",
+      "title": "Nearest historical siblings are not misrepresented as exact counterparts"
+    },
+    {
+      "evidence": "The public trace binds the displayed public ID/filename/score from user transcription to the local/server archive by filename only; portal_payload_sha256 and actual_portal_payload_sha256 are null. The plan states this caveat in its opening paragraph, but phrases such as \u201cIts fixed members are\u201d and the closing \u201cThe public tl3 package is a final train+valid fit\u201d can still imply that the uploaded ZIP\u2019s contents and training scope have been proven.",
+      "recommended_action": "When using the memo as a factual summary, say \u201cthe inventoried local tl3 archive\u2019s fixed members\u201d and \u201cthe inventoried production members are train+valid fits\u201d; retain the explicit statement that portal-uploaded bytes are unverified. This is a wording clarification, not a blocker to the proposed clean reconstruction.",
+      "severity": "NONBLOCKING_WORDING_NOTE",
+      "title": "Qualify statements about the public package recipe"
+    }
+  ],
+  "limits": [
+    "The trace supports the public ID, filename, displayed score, and local/server archive inventory binding, but does not prove portal-upload bytes equal the archived ZIP.",
+    "The asset map is bounded metadata evidence: it explicitly says checkpoint/target payloads were not rehashed or replayed and some teacher/cache/propensity ancestry remains uncertified. The plan correctly treats those as pre-launch closure gates.",
+    "This review assesses the proposed experiment only; it does not validate a future reconstructed run or its metric."
+  ],
+  "reviewed_plan": {
+    "bytes": 8582,
+    "path": "research/campaign_2026-10-18/quality_gap_r1/TL3_CLEAN_COUNTERPART_PLAN_20261018.md",
+    "sha256": "90d22e7a99f7fff97c5c7868d2fc458e05bde71504affc5c0fed9a883a19ab99"
+  },
+  "reviewed_utc": "2026-10-18T16:16:03.943386+00:00",
+  "schema": "quality_gap.tl3_clean_counterpart_plan_review.20261018.v1",
+  "scope": "Read-only scientific-adequacy and claim-boundary review of the TL3 clean-counterpart plan against the public submission trace, its independent review/binding, CONTROL_ASSET_MAP, F0 membership receipt, and model catalog. No model or array access, training, fitting, remote action, or tests.",
+  "status": "PASS_WITH_NONBLOCKING_IDENTITY_WORDING_NOTE"
+}

@@ -1,0 +1,72 @@
+{
+  "artifact_hash_scope": "This manifest does not self-hash; artifacts binds every packet file except this manifest.",
+  "artifacts": {
+    "INPUT_MANIFEST_TEMPLATE.json": {
+      "bytes": 2572,
+      "sha256": "0120576706840c7cb4d738adbc7098cca636e6071761f79710c951e904cee27c"
+    },
+    "README.md": {
+      "bytes": 5748,
+      "sha256": "6a3cf5e8eeffc0597f400d9b3eada342f81e6677c2c044caaae5073c4c9707f9"
+    },
+    "TEST_RECEIPT.json": {
+      "bytes": 1090,
+      "sha256": "cb19bab6130e3de53957336143541be6173c8e4ba6118f44a20301faf48d721b"
+    },
+    "extract_checkpoint_metadata.py": {
+      "bytes": 14508,
+      "sha256": "be0e33f4cccc34533e76c0f628948ffa992723d9c4d4f6289390407129879fe2"
+    },
+    "test_extract_checkpoint_metadata.py": {
+      "bytes": 7729,
+      "sha256": "94f398955ac2d07ea5f090c9acd1fc893ff2ed49c87689e90ca6c492ceb1670d"
+    }
+  },
+  "created_utc": "2026-10-18T16:59:41.943832+00:00",
+  "execution_directory_allowlist": [
+    "extract_checkpoint_metadata.py",
+    "TL3_CHECKPOINT_METADATA_INPUTS_R1.json"
+  ],
+  "execution_directory_forbidden": [
+    "unlisted files",
+    "__pycache__",
+    "*.pyc"
+  ],
+  "limitations": [
+    "Checkpoint SHA-256 values remain null in the template; only root may create the fresh admitted hash-bound input manifest.",
+    "The local positive-load test uses a tiny synthetic checkpoint and does not establish compatibility with production checkpoint objects.",
+    "This packet does not establish source lineage, teacher identity, checkpoint ancestry, or clean-F0 status without a later reviewed extraction receipt."
+  ],
+  "local_packet_inventory": [
+    "README.md",
+    "extract_checkpoint_metadata.py",
+    "INPUT_MANIFEST_TEMPLATE.json",
+    "test_extract_checkpoint_metadata.py",
+    "TEST_RECEIPT.json",
+    "PREPARATION_MANIFEST.json"
+  ],
+  "packet": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_r1",
+  "schema": "quality_gap.tl3_checkpoint_metadata_preparation.v1",
+  "scope": "CPU-only metadata extraction recipe for eight exact team checkpoints; no production checkpoint read, no training or inference.",
+  "source_bindings": {
+    "remote_path_probe": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/REMOTE_PATH_PROBE.json",
+      "sha256": "a7141c51d7aa90f4ea2f178f3a4323302c41980e3de0e27622dc8a804d56539d"
+    },
+    "tl3_source_closure_packet_manifest": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/PACKET_MANIFEST.json",
+      "sha256": "90c4f9c4025dc7afa435315ebf5e9f291742195549a911208546b8132d866162"
+    }
+  },
+  "status": "PREPARED_NOT_ADMITTED_READY_FOR_INDEPENDENT_REVIEW",
+  "validation": {
+    "production_inputs_read": false,
+    "root_admission_or_remote_launch": false,
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "unit_tests_discovered": 10,
+    "unit_tests_failed": 0,
+    "unit_tests_passed": 10,
+    "unit_tests_skipped": 0
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "capture_lifecycle": {
+    "both_paths_create_only": true,
+    "capture_archive_record": "records/<attempt>/CAPTURED_WORKER_PRE_INFERENCE.json",
+    "captured_raw_evidence_path_is_archive": true,
+    "receipt_source_path_is_original": true,
+    "worker_original_record": "records/<attempt>/WORKER_PRE_INFERENCE.json"
+  },
+  "capture_pass_status": "PASS_STRONG_CONTROL_FEATURE_EXPORT_CAPTURE",
+  "capture_schema": "quality_gap.f0_strong_control_export_receipt.r1",
+  "contract_schema": "quality_gap.f0_strong_control_export_contract.r1",
+  "created_utc": "2026-10-18T15:47:03.983998+00:00",
+  "execution_binding": {
+    "admission_timeout_seconds": 300,
+    "child_environment": {
+      "NVIDIA_TF32_OVERRIDE": "0",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "WNN_GPU_MEMORY_BYTES": 4000000000,
+      "WNN_LOADER_RAM_GB": 1,
+      "WNN_LOADER_WORKERS": 0,
+      "WNN_THREADS": 1
+    },
+    "guard": "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/bandit_resources.py",
+    "guard_sha256": "3732ffeef79e635c8867d83e618f8d51b2fa8beffd7badf11f60412a864210f7",
+    "guard_state": "/home/grinchenkoeg/computer-vision-homework-20261018/runtime",
+    "limited": "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/limited",
+    "limited_sha256": "d9bcfc3b671af3237b607e18087fde43fc7451b6482891e4abadd8580bfb8661",
+    "physical_tmp": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "pre_inference_runtime_checks": [
+      "cuda_matmul_allow_tf32=false",
+      "cudnn_allow_tf32=false",
+      "cudnn_benchmark=false",
+      "cudnn_deterministic=true",
+      "float32_matmul_precision=highest"
+    ],
+    "python": "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "resource_envelope": {
+      "admission_timeout_seconds": 300,
+      "allocator_bytes": 4000000000,
+      "cpus": 1,
+      "gpu_free_memory_safety_reserve_bytes": 1000000000,
+      "guard_kind": "gpu",
+      "profile": "strong-control-export-unmeasured-r1",
+      "profile_status": "UNMEASURED_FOR_THIS_CONTROL",
+      "reserve_bytes": 8000000000,
+      "runtime_limit_seconds": 7200
+    },
+    "runtime_admission": "fresh <=300s; one full UUID; >=5GB selected-device free; >=2GB scratch free; root separately binds campaign-only claims and parent cgroup headroom",
+    "runtime_measurement": "UNMEASURED_FOR_THIS_CONTROL",
+    "unit_template": "wnn-bandit-{attempt}.service",
+    "worker_timeout_seconds": 7200
+  },
+  "export_binding": {
+    "canonical_chain_folds": {
+      "bytes": 462719,
+      "logical_path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache/chain_folds.npz",
+      "resolved_path": "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/chain_folds_derived.npz",
+      "sha256": "a112f809259f631c2ee7c12480e4ec1d4eef197a980e7ce23c707d842d092567"
+    },
+    "canonical_split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "control_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "epoch": 5,
+    "h390_evaluation_membership_hashes": null,
+    "h390_sidecar_fit_scope": "full-valid-feature-only",
+    "membership_comparison_sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d",
+    "old_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "output_name": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_exportprep_r1",
+    "outputs_create_only": [
+      "prediction",
+      "sidecar",
+      "partial",
+      "family_prediction",
+      "stale_seqsum"
+    ],
+    "overlay_manifest_sha256": "1785e8529a2868e1ca40a0c668c57ccc28ae82b04fda7c13bf7a3c8bc32c409b",
+    "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "prediction_dtype": "float32",
+    "prediction_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "predictor_sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+    "r2_cpu_preflight_receipt": {
+      "bytes": 3790,
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/records/preflight-r2-20261018t1520z/COMPATIBILITY_RECEIPT_R2.json",
+      "sha256": "fd1010d586de8cb472b0c6b421890225eecba84e5096ac80e5ff75d5b73b7670",
+      "status": "PASS_CPU_LOADER_PREFLIGHT"
+    },
+    "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+    "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+    "split": "valid"
+  },
+  "files": [
+    {
+      "bytes": 16528,
+      "path": "bindings.py",
+      "sha256": "2cdc8456ea6c059b8db0c33169578250c5c1083060978fa61f941b92ab0b6cc4"
+    },
+    {
+      "bytes": 13166,
+      "path": "prepare.py",
+      "sha256": "d2bafcca727bb3f72e444dfbf46bca68b733371030035d3286f68dd07c9ad623"
+    },
+    {
+      "bytes": 9041,
+      "path": "launch.py",
+      "sha256": "18c96de0e8447db91648d3ce26390e6ce754c942f54b78c6dbddae61b13908f1"
+    },
+    {
+      "bytes": 7914,
+      "path": "worker.py",
+      "sha256": "ee8029db0095e4b0f4c897c04a08ff4d555436eec91d3ac8b81709493355be9f"
+    },
+    {
+      "bytes": 19207,
+      "path": "capture.py",
+      "sha256": "9edee7f6a1944d13632dff122a68aa0c3ce2c0247e7105ed52f237323366d88c"
+    },
+    {
+      "bytes": 9253,
+      "path": "README.md",
+      "sha256": "75509d9c524e1403678c6b2cab49c29bfca6b6b684ec9c100d634767eaf02658"
+    },
+    {
+      "bytes": 3315,
+      "path": "TEST_RECEIPT_R2.json",
+      "sha256": "1e0386805e87ec2e79ae7e314ae3a40b98e276ab957dca71c278326d33a5415b"
+    }
+  ],
+  "local_only_test_source": {
+    "bytes": 9645,
+    "path": "tests/test_export_execution.py",
+    "sha256": "98e3f37aa09f4b2c7aad98530a94570047d08038c1dc653c59967f1ffbc86d81",
+    "staged_on_b": false
+  },
+  "local_test_receipt": {
+    "bytes": 3315,
+    "path": "TEST_RECEIPT_R2.json",
+    "schema": "quality_gap.strong_control_export_preparation_test_receipt.r2",
+    "sha256": "1e0386805e87ec2e79ae7e314ae3a40b98e276ab957dca71c278326d33a5415b",
+    "status": "PASS_LOCAL_BOUNDED_CHECKS"
+  },
+  "owner": "root",
+  "preparation_scope": {
+    "gpu": false,
+    "grading": false,
+    "loader_preflight": "already passed separately; not rerun by this package",
+    "remote_execution": false,
+    "ssh": false,
+    "training": false
+  },
+  "remote_stage_allowlist": [
+    "bindings.py",
+    "prepare.py",
+    "launch.py",
+    "worker.py",
+    "capture.py",
+    "README.md",
+    "PREPARATION_MANIFEST_R2.json",
+    "TEST_RECEIPT_R2.json",
+    "INDEPENDENT_REVIEW_R2.json"
+  ],
+  "review_record": {
+    "included_in_stage_allowlist": true,
+    "not_created_by_author": true,
+    "path": "INDEPENDENT_REVIEW_R2.json",
+    "producer": "independent reviewer"
+  },
+  "schema": "quality_gap.strong_control_export_preparation_manifest.r2",
+  "source_preservation": {
+    "checkpoint_or_split_edited": false,
+    "frozen_predictor_or_trainer_edited": false,
+    "overlay_or_registry_edited": false
+  },
+  "status": "PREPARED_FOR_INDEPENDENT_REVIEW_NOT_ADMITTED",
+  "superseded_draft_files": [
+    {
+      "bytes": 6735,
+      "path": "PREPARATION_MANIFEST_R1_DRAFT_V1.json",
+      "sha256": "e9bedbdde449a7fa36b5a449615d53521535353904befa6d26bb1ea56bebc48a",
+      "stage": false
+    },
+    {
+      "bytes": 2961,
+      "path": "TEST_RECEIPT_R1_DRAFT_V1.json",
+      "sha256": "8677f495faeb7435e4c8f69ecbea982118f4389057bd5f1feacde9763da4805e",
+      "stage": false
+    }
+  ]
+}

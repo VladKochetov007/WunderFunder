@@ -1,0 +1,358 @@
+{
+  "arm": "wide",
+  "base_plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+  "checkpoint_support_manifests_sha256": {
+    "v2": "bbebbed8c061776eba1732147ea6084057ed4d9cb249c8d11c1df0ea479eb2fd",
+    "wide_terminal_v4": "0492d5f569c46cbf498511dce62a6a8d33fec7ed986cae93f369b5ffe0a0970c"
+  },
+  "collector_r2_binding": {
+    "admission_condition": "Root must bind the exact B split manifest and staged producer source maps before bounded collection; no R2 collection or grade is claimed here.",
+    "clean_stage_execution_condition": {
+      "allowlist": [
+        "README.md",
+        "collect_f1_results.py",
+        "result_checks.py",
+        "result_io.py",
+        "test_f1_result_collection.py",
+        "PREPARATION_MANIFEST.json",
+        "INDEPENDENT_REVIEW.json"
+      ],
+      "environment": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "reason": "The local R2 packet contains unmanifested bytecode that could be imported despite PYTHONDONTWRITEBYTECODE; root staging must copy only the listed files and assert no __pycache__ before launch.",
+      "require_no_recursive_pycache": true,
+      "required": true
+    },
+    "collection_completed": false,
+    "collector_modules_sha256": {
+      "collect_f1_results.py": "2f4d279a8354e046e37484788f7dad8e67235e9f8d74b5d385feb1dc406fbb01",
+      "result_checks.py": "c14d08a9d0f3e0fe0426b1fe06b857a1d30dbe847ed683f00215730c576f1ad6",
+      "result_io.py": "f57954179fff7d002b1168f3760864f418af89c2d29625250d93cc1ca0e945b7"
+    },
+    "external_grader_binding": {
+      "assessment": "The grade plan continues to name the external checkout's absolute path. The collector reads that exact command token as the source-map key, compares its value with the frozen grader SHA, then hashes the grader file. The generic source-map validator was not narrowed to project-relative keys. This preserves the existing external grader binding.",
+      "command_path": "/home/grinchenkoeg/computer-vision-homework-20261018/grader-6f9fd05e/research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py",
+      "sha256": "cb90c0bce31cf6aa2b8e4f6a7536c30972b14c6995fb0db1e9f72aa867c30ec0"
+    },
+    "five_manifest_artifacts_sha256": {
+      "README.md": "eaa71dbb8c99bf2c28e117d13755115295c349785eedb38396f82b25745ef191",
+      "collect_f1_results.py": "2f4d279a8354e046e37484788f7dad8e67235e9f8d74b5d385feb1dc406fbb01",
+      "result_checks.py": "c14d08a9d0f3e0fe0426b1fe06b857a1d30dbe847ed683f00215730c576f1ad6",
+      "result_io.py": "f57954179fff7d002b1168f3760864f418af89c2d29625250d93cc1ca0e945b7",
+      "test_f1_result_collection.py": "d03464505a348c48c09ce438b1398a0e320d2da28325d814c5969edb5a0529d5"
+    },
+    "independent_review_path": "research/campaign_2026-10-18/priority25_execution_r4/f1_result_collection_r2/INDEPENDENT_REVIEW.json",
+    "independent_review_sha256": "be148caed23a54ec1b4f777e84234b55fc74380429ad35e36d85b3470cfcbff7",
+    "independent_review_status": "PASS_STATIC_REVIEW_CONDITIONAL_ON_CLEAN_STAGE_AND_ROOT_BINDINGS",
+    "preparation_manifest_path": "research/campaign_2026-10-18/priority25_execution_r4/f1_result_collection_r2/PREPARATION_MANIFEST.json",
+    "preparation_manifest_sha256": "6c72459ad9e0ebc278f21766de4c723d37f345bfded650b1cdab38b2556cca77",
+    "source_map_contract": {
+      "assessment": "R2 static validator binds the absolute command path to the source-root-relative producer-map key and pinned source bytes; actual B producer maps were metadata-checked by root, not independently read by this local reviewer.",
+      "predictor_command_path": "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/predict_run.py",
+      "predictor_sha256": "750b9e77aa55673f61a4dd84d809d91dd315bf86eb36c36b065bc67a7d0f4b65",
+      "required_source_map_key": "scripts/predict_run.py"
+    },
+    "support_manifests": {
+      "use_during_collection": "Archive evidence bindings only; the R2 result collector does not import the V2/V4 checkpoint helper files.",
+      "v2": {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/checkpoints_v2/PREPARATION_MANIFEST_V2_R2.json",
+        "sha256": "bbebbed8c061776eba1732147ea6084057ed4d9cb249c8d11c1df0ea479eb2fd"
+      },
+      "wide_terminal_v4": {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/f1_recovery_r1/checkpoints_v4/PREPARATION_MANIFEST_V4.json",
+        "sha256": "0492d5f569c46cbf498511dce62a6a8d33fec7ed986cae93f369b5ffe0a0970c"
+      }
+    }
+  },
+  "collector_support_sha256": {
+    "collect_f1_results.py": "2f4d279a8354e046e37484788f7dad8e67235e9f8d74b5d385feb1dc406fbb01",
+    "result_checks.py": "c14d08a9d0f3e0fe0426b1fe06b857a1d30dbe847ed683f00215730c576f1ad6",
+    "result_io.py": "f57954179fff7d002b1168f3760864f418af89c2d29625250d93cc1ca0e945b7"
+  },
+  "collector_support_sha256_r1": {
+    "collect_f1_results.py": "0ecbbc3ec05fecbfce4f944216a0c77c9dd6295f85ec1df0bdbe9e9d33ebaae6",
+    "result_checks.py": "d3e20ade5a10c6008f2ad27efca00f0bbdbfb54c2d64128d4f38d858da95f569",
+    "result_io.py": "f57954179fff7d002b1168f3760864f418af89c2d29625250d93cc1ca0e945b7"
+  },
+  "created_utc": "2026-10-18T15:08:55Z",
+  "findings": [],
+  "fold1_binding_note": {
+    "expected_b_manifest_path": "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+    "expected_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "handling": "Use the exact B path/hash at root admission; the local copy is not a substitute and was not used for this receipt review.",
+    "local_copy_matches": false,
+    "local_copy_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+  },
+  "fold1_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+  "limitations": [
+    "Structural checkpoint, provenance, source and data-identity checks only; no prediction score, quality result, convergence, CP30 or serving claim follows.",
+    "The verifier records that raw parquet bytes are matched to the sealed registry without a second full-file rehash.",
+    "This review read receipt JSON and support source bytes only; it did not access checkpoint tensors, prediction arrays, parquet payloads, Torch, remote services, or execute tests.",
+    "This V2 updates collector source bindings only. It does not claim that the R2 collector ran, produced a successful result receipt, or graded the exports.",
+    "R2 execution requires a fresh allowlist-only staging folder with no recursive __pycache__, PYTHONDONTWRITEBYTECODE=1, and root admission checks for the exact B fold1 manifest and producer source maps.",
+    "The V2/V4 checkpoint support manifests are preserved as archive evidence; the result collector does not import their helper modules.",
+    "The pinned B fold1 manifest was not available byte-identically in this local workspace; no local fold1 substitute was used."
+  ],
+  "receipt_binding_audit_v2": {
+    "stage1": {
+      "collection": {
+        "actual_sha256": "06a1c36d89c08a2cdfb40339f4d60abe9ce6b2d2205697f047ac95ab5e495a73",
+        "expected_sha256": "06a1c36d89c08a2cdfb40339f4d60abe9ce6b2d2205697f047ac95ab5e495a73",
+        "matches": true,
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_STAGE1_COLLECTION.json",
+        "schema": "priority25.f1_checkpoint_collection.v1"
+      },
+      "verification": {
+        "actual_sha256": "b9cf2eb40fe3ba8018c2c98c015d5069bc5eca422a2c384de743f0426866bc81",
+        "expected_sha256": "b9cf2eb40fe3ba8018c2c98c015d5069bc5eca422a2c384de743f0426866bc81",
+        "matches": true,
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_STAGE1_VERIFICATION.json",
+        "schema": "priority25.f1_checkpoint_verification.v1"
+      }
+    },
+    "terminal": {
+      "collection": {
+        "actual_sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26",
+        "expected_sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26",
+        "matches": true,
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_V3_REMOTE.json",
+        "schema": "priority25.f1_checkpoint_collection.recovery_v3"
+      },
+      "verification": {
+        "actual_sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c",
+        "expected_sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c",
+        "matches": true,
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_V4.json",
+        "schema": "priority25.f1_checkpoint_verification.recovery_v4"
+      }
+    }
+  },
+  "receipt_paths": {
+    "stage1": {
+      "collection": {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_STAGE1_COLLECTION.json",
+        "schema": "priority25.f1_checkpoint_collection.v1",
+        "sha256": "06a1c36d89c08a2cdfb40339f4d60abe9ce6b2d2205697f047ac95ab5e495a73"
+      },
+      "verification": {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_STAGE1_VERIFICATION.json",
+        "schema": "priority25.f1_checkpoint_verification.v1",
+        "sha256": "b9cf2eb40fe3ba8018c2c98c015d5069bc5eca422a2c384de743f0426866bc81"
+      }
+    },
+    "terminal": {
+      "collection": {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_V3_REMOTE.json",
+        "schema": "priority25.f1_checkpoint_collection.recovery_v3",
+        "sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26"
+      },
+      "verification": {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_V4.json",
+        "schema": "priority25.f1_checkpoint_verification.recovery_v4",
+        "sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c"
+      }
+    }
+  },
+  "receipts": {
+    "stage1": {
+      "attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep01-v1",
+      "collection_dependencies": {
+        "f1_checkpoint_common.py": "07d596a1b69574e266a909bfe2e24e4c82d1e9cd778c7338bc5855688159f5c5"
+      },
+      "collection_helper_sha256": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+      "collection_receipt_sha256": "06a1c36d89c08a2cdfb40339f4d60abe9ce6b2d2205697f047ac95ab5e495a73",
+      "collection_schema": "priority25.f1_checkpoint_collection.v1",
+      "verification_dependencies": {
+        "collect_f1_checkpoint.py": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+        "f1_checkpoint_common.py": "07d596a1b69574e266a909bfe2e24e4c82d1e9cd778c7338bc5855688159f5c5",
+        "f1_checkpoint_evidence.py": "8b50fcdc51dd9d040816dae7117de8c965366d0dd03c7bef8e26856325f790ce",
+        "f1_checkpoint_lineage.py": "c6aec1daace1fd200d60bcc5cc9532aa9d98f76d99bd01e0ca39c65eb727e81d",
+        "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+        "wnn/training_state.py": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+      },
+      "verification_helper_sha256": "d022367b0e4091b1fd4179ff1b5ea8d9f5722ae8ef686bd86fe5774869dc2186",
+      "verification_receipt_sha256": "b9cf2eb40fe3ba8018c2c98c015d5069bc5eca422a2c384de743f0426866bc81",
+      "verification_schema": "priority25.f1_checkpoint_verification.v1"
+    },
+    "terminal": {
+      "attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+      "collection_dependencies": {
+        "f1_checkpoint_common.py": "6531e841cedaf9c5cd960dbe44c29a11fb89b65e15a781c07cea9c3fd2b5284e"
+      },
+      "collection_helper_sha256": "908b9a3d2655ce3957e14924be3709dc7bdbaac7e0e25c5d579dd65707397ca0",
+      "collection_receipt_sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26",
+      "collection_schema": "priority25.f1_checkpoint_collection.recovery_v3",
+      "verification_dependencies": {
+        "collect_f1_checkpoint.py": "908b9a3d2655ce3957e14924be3709dc7bdbaac7e0e25c5d579dd65707397ca0",
+        "f1_checkpoint_common.py": "6531e841cedaf9c5cd960dbe44c29a11fb89b65e15a781c07cea9c3fd2b5284e",
+        "f1_checkpoint_evidence.py": "a35ca6db74a0df37d8fe9610fd5b69ef1193289bacbdcfd314b850cf607c3a73",
+        "f1_checkpoint_lineage.py": "0fb68cedb1b2c4b3fe03e108c5915dfd97252cc1c9a9a3b860d8df701f196fcd",
+        "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+        "wnn/training_state.py": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+      },
+      "verification_helper_sha256": "f724ae438d169ccee739d8c8af6229ea974bb61fb0a034c48a298aa17339e70d",
+      "verification_receipt_sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c",
+      "verification_schema": "priority25.f1_checkpoint_verification.recovery_v4"
+    }
+  },
+  "recovery_plan_sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+  "review_conclusion": "The four previously reviewed stage1/terminal checkpoint receipt bindings for this arm remain byte-identical and their current local SHA256 values match. The R2 collector source map implementation has a passing static independent review conditional on clean staging and root source/data bindings. This is not an R2 collection, prediction-quality, grade, convergence, CP30, or public transfer conclusion.",
+  "reviewer": "independent_local_receipt_review_r2_binding",
+  "schema": "priority25.f1_terminal_result_review.v1",
+  "scope": "Independent local revalidation of the unchanged four checkpoint receipt hashes for this arm plus static R2 collector source binding. No remote access, collection, grading, tests, tensor/checkpoint loading, prediction-array/parquet access, Torch, or training.",
+  "stage1_collection_sha256": "06a1c36d89c08a2cdfb40339f4d60abe9ce6b2d2205697f047ac95ab5e495a73",
+  "stage1_verification_sha256": "b9cf2eb40fe3ba8018c2c98c015d5069bc5eca422a2c384de743f0426866bc81",
+  "status": "passed",
+  "structural_interpretation": {
+    "adam_floating_tensors_verified": 30,
+    "adam_states_verified": 10,
+    "artifact_hashes_and_sizes_match_between_collection_and_verification": true,
+    "attempt_finished_exit_zero": true,
+    "attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+    "collection_source_snapshot_stable": true,
+    "completed_update_counts": {
+      "amp_skipped_updates": 0,
+      "completed_batches": 8958,
+      "ema_updates": 0,
+      "optimizer_attempts": 89580,
+      "optimizer_completed_updates": 89580
+    },
+    "cuda_initialized": false,
+    "fold1_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "fold1_membership": {
+      "evaluation_components": 149,
+      "evaluation_groups": 457,
+      "fit_membership_identity": {
+        "dataset_length": 11949,
+        "train": {
+          "count": 10533,
+          "ordered_int64_le_sha256": "6f7da60741a85a644e7a01d23810f2106c7023f448c925ff593a5f946bf1e472"
+        },
+        "valid": {
+          "count": 1416,
+          "ordered_int64_le_sha256": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8"
+        },
+        "valid_repeat": 1
+      },
+      "fit_train_groups": 10533,
+      "fit_valid_groups": 1416,
+      "manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+      "ordered_evaluation_membership_sha256": "c27347bd1bc856a285174ed089fcc67d8ea3f42b5cf9e199412dc1108e015774"
+    },
+    "history_epochs_verified": 6,
+    "model_tensors_verified": 12,
+    "peer_pair_contract_checked": true,
+    "planned_schedule_batches": 8958,
+    "planned_schedule_updates": 89580,
+    "portable_registry_sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378",
+    "scheduler_last_epoch": 89580,
+    "scheduler_step_count": 89581,
+    "source_archive_manifest_sha256": "9a90e46958eaed2784f1f12e6a501292e4c865b1bc6d07e3f2bd233271da7341",
+    "source_files_verified": 138,
+    "source_revision": "a266b036b02e8e012c6eb31072291dad618a169d",
+    "stage1_parent_training_state_sha256": "8cb3dde79550355303cbede0d0953864046b7594c16af648423d4a3c9af92255",
+    "terminal_run": "rr18_r01_wide_f1_s1001_e6",
+    "terminal_training_state_sha256": "429ed49bfb63e3a65dce86a9e7d40066624ad7ff0afc826023cb5f0f543989d8",
+    "trainable_parameters": 2210306,
+    "trainable_parameters_expected": 2210306
+  },
+  "support_manifest_file_sets_match": {
+    "f1_beleriand_fallback/checkpoints_v2/PREPARATION_MANIFEST_V2_R2.json": true,
+    "f1_recovery_r1/checkpoints_v4/PREPARATION_MANIFEST_V4.json": true
+  },
+  "terminal_collection_sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26",
+  "terminal_execution_bindings": {
+    "collection": {
+      "execution_receipt": {
+        "captured_receipt_sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26",
+        "exit_status": "0",
+        "memory_swap_max": "0",
+        "observed_properties": {
+          "cpu_quota_per_sec": "250ms",
+          "exec_main_status": "0",
+          "memory_high_bytes": null,
+          "memory_max_bytes": "512000000",
+          "memory_swap_max_bytes": "0",
+          "result": "success",
+          "runtime_max": "2min"
+        },
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_EXECUTION_V3.json",
+        "receipt_sha256_matches": true,
+        "receipt_status": null,
+        "result": "success",
+        "runtime_max": "2min",
+        "sha256": "3bd826c06f95802e86bb84cc51044ad7f3fcb3031cf102459bbf2fadc79db139",
+        "wall_seconds": 5.721966
+      },
+      "launch_receipt": {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_LAUNCH_V3.json",
+        "phase": null,
+        "resource_policy": {
+          "attempt_record_sha256": null,
+          "cpu_quota": "25%",
+          "cuda_visible_devices": "",
+          "memory_high_bytes": "450000000",
+          "memory_max_bytes": "512000000",
+          "memory_swap_max_bytes": "0",
+          "physical_tmpdir": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+          "runtime_max_seconds": "120"
+        },
+        "sha256": "69ed57afaed70962425cf95988d782cac71a8ba4de19f4fd408e9527e1e2d0b0",
+        "status": null,
+        "unit": null
+      },
+      "stop_receipt": {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_STOP_V3.json",
+        "sha256": "af14a04558a556d0bc0ecb5a13582a1118955bf356a4a63eafe5b5ee3b905432",
+        "stop_returncode": 0
+      }
+    },
+    "verification": {
+      "execution_receipt": {
+        "captured_receipt_sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c",
+        "exit_status": "0",
+        "memory_swap_max": "0",
+        "observed_properties": {
+          "cpu_quota_per_sec": "500ms",
+          "exec_main_status": "0",
+          "memory_high_bytes": "1350000000",
+          "memory_max_bytes": "1500000000",
+          "memory_swap_max_bytes": "0",
+          "result": "success",
+          "runtime_max": "2min"
+        },
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_EXECUTION_V4.json",
+        "receipt_sha256_matches": true,
+        "receipt_status": null,
+        "result": "success",
+        "runtime_max": "2min",
+        "sha256": "4e2413d0fd1c40ec907a1eb89ff2513d0e5a39eb2ca5d581a726d8f32b6a16a6",
+        "wall_seconds": 6.842304
+      },
+      "launch_receipt": {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_LAUNCH_V4.json",
+        "phase": null,
+        "resource_policy": {
+          "attempt_record_sha256": null,
+          "cpu_quota": "50%",
+          "cuda_visible_devices": "",
+          "memory_high_bytes": "1350000000",
+          "memory_max_bytes": "1500000000",
+          "memory_swap_max_bytes": "0",
+          "physical_tmpdir": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+          "runtime_max_seconds": "120"
+        },
+        "sha256": "f83c700d6f99689868c243d6a9fc0ea31fca79d7fa795d4bf6c477f4e0930345",
+        "status": null,
+        "unit": null
+      },
+      "stop_receipt": {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_STOP_V4.json",
+        "sha256": "df1b738957399ba603f91509b9280749ce30c10a76138cd271b6ac1ccfb44d07",
+        "stop_returncode": 0
+      }
+    }
+  },
+  "terminal_verification_sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c"
+}

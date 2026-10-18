@@ -1,0 +1,5 @@
+# Retained R2 collection failure
+
+The first root prelaunch check found missing repo-relative copies of two canonical source metadata files; no unit was launched. [Failure](ROOT_PRELAUNCH_LAYOUT_FAILURE_V1.json). Exact create-only metadata copies resolved that layout dependency without changing canonical imports or scientific source: [supplement](METADATA_LAYOUT_SUPPLEMENT_V2.json).
+
+The actual alignment attempt then exited 1 in 2.960224 seconds at `export_contract.py` before prediction payload analysis or output creation. [Execution](ALIGN_CAPTURE_V1.json). The captured producer uses the venv Python command and records its resolved interpreter path; R2 incorrectly required their lexical equality. Guard/limited hashes matched. This is a consumer-validation failure, not a failed export, invalid prediction, or quality result. Preserve this sealed R2 packet and failed unit. A separate R3 consumer may repair the path-role check after review and fresh admission; do not restart this attempt or rerun the model.

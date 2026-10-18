@@ -1,0 +1,40 @@
+{
+  "schema": "quality_gap.tl3_producer_trace_probe_receipt.r1",
+  "status": "READ_ONLY_PROBE_COMPLETE",
+  "observed_utc": "2026-10-18T17:20:45.000998+00:00",
+  "host": "beleriand",
+  "ssh_argv": [
+    "ssh",
+    "-T",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=10",
+    "-o",
+    "ConnectionAttempts=1",
+    "beleriand",
+    "python3 -B -"
+  ],
+  "remote_script": {
+    "path": "PROBE_SCRIPT.py",
+    "bytes": 5553,
+    "sha256": "9e92ea16968fabad08970115b989c7133c517710d0ed6e19343f43fe253f7348"
+  },
+  "raw_stdout": {
+    "path": "RAW_PROBE_STDOUT.json",
+    "bytes": 20577,
+    "sha256": "e02fb7c9181a3bca565d523144e5eb875c9b3213ca663afefef4c7e25a153c69"
+  },
+  "remote_observation": {
+    "target_root": "/home/grinchenkoeg/WunderFunder-creative",
+    "text_bytes_read": 27122,
+    "text_read_cap_bytes": 250000,
+    "per_file_cap_bytes": 25000,
+    "script_alarm_seconds": 35,
+    "checkpoint_payloads_read": false,
+    "prediction_or_propensity_arrays_read": false,
+    "remote_mutations": false,
+    "training_or_jobs_started": false
+  },
+  "scope_note": "The probe followed an explicit list of run directories, cache sidecars, and candidate source paths. Model endpoint sizes were stat-only. No broad filesystem search or payload hashing/loading was performed."
+}

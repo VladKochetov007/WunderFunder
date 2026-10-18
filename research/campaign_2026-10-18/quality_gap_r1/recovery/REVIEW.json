@@ -1,0 +1,50 @@
+{
+  "schema": "quality_gap.control_archive_restore_independent_review.v1",
+  "reviewed_utc": "2026-10-18T13:18:09.647811+00:00",
+  "reviewer": "local_history",
+  "disposition": "no_material_blockers_for_exact_frozen_manifest_and_new_trusted_destination",
+  "method": "Static local review of exactly two Python sources and manifest; no network, execution, tests, deserialization or large-payload hashing performed by reviewer.",
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/recovery/restore_controls.py",
+      "bytes": 6223,
+      "sha256": "85d954ab833c988d2a4a4d919d68bde049b75c3aa4061b8e0bb9f4eb347e7272"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/recovery/test_restore_controls.py",
+      "bytes": 2895,
+      "sha256": "309245457c3820d206acc369e0657466ae92ae8a0f1852706836428258b93f39"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/recovery/FROZEN_INPUTS.json",
+      "bytes": 3834,
+      "sha256": "3172ed3b8c7c67b846edb45956ca26141b133c8ba1a9ffc712f94b6ca4679b16"
+    }
+  ],
+  "manifest_crosscheck": {
+    "equal_to_control_asset_map_prepared_hf_recovery": true,
+    "files": 10,
+    "distinct_local_paths": 10,
+    "distinct_hub_paths": 10,
+    "bytes": 34842630,
+    "repo_id": "hft-kagglers/wnn-challenge2-model-archive",
+    "revision": "167452c72a8e994b280446d2fca93f7c08e16f66"
+  },
+  "checks": [
+    "Exact caller-supplied manifest digest checked before JSON use; fixed own repository/revision and finite ten-file budget checked.",
+    "Fresh destination uses exist_ok=False. Partial creation uses xb; final os.link fails if final path already exists. Existing target is not overwritten.",
+    "Streaming consumes at most expected size plus one byte; exact total bytes and SHA256 checked before publishing each final file.",
+    "Existing credential is read from the standard token file into memory; no copy or log is emitted. Redirect handler strips Authorization on every redirect and permits only HTTPS without URL userinfo.",
+    "Failure output includes exception class and optional HTTP status only; exception text, signed URLs and credentials are not printed.",
+    "Imports and operations are stdlib only; no model/data deserialization, fitting, prediction or grading.",
+    "Offline tests cover final create-only behavior, short/long/wrong-hash streams, path traversal and redirect auth/plaintext boundary; reviewer inspected but did not rerun."
+  ],
+  "nonblocking_operational_limits": [
+    "Runtime must provide Python 3.11+ (datetime.UTC and hashlib.file_digest).",
+    "CPU/memory/global-wall limits are supplied by the external launcher, not enforced by this script. The script supplies 25-second per-request timeout only; a wall-time kill can leave partial files.",
+    "Failure retains already validated files and any partial. No success receipt is emitted until all ten files complete. Retry requires a fresh destination because destination creation is exclusive.",
+    "This scoped review assumes trusted existing destination parents and no concurrent hostile local replacement. The script does not independently reject ancestor symlinks or defend mkdir/open races; exact manifest paths contain no traversal.",
+    "The final receipt is create-only but not atomically published or fsynced as a directory transaction; after interruption parseability and presence of every verified final file must be checked before downstream use."
+  ],
+  "not_authorized_by_review": "No execution performed; no general-purpose downloader approval; changes to source/manifest invalidate the recorded source identity."
+}

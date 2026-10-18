@@ -1,0 +1,158 @@
+{
+  "schema": "quality_gap.compatibility_overlay_independent_review.v1",
+  "created_utc": "2026-10-18T14:49:20Z",
+  "reviewed_artifact": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/compatibility_overlay_r1",
+  "reviewed_manifest_sha256": "7328138a7d82e9a23e3bebe4a1e61c979a26e8e2b119a1605cac820c1dd6ee77",
+  "review_result": "NOT_APPROVED_FOR_ADMISSION_R1",
+  "review_scope": "Read-only static integrity, source-diff, membership, cache-gate, provenance-binding, receipt-gate, and command-usability review. No remote calls, full source preflight, model or target-array loads, exports, training, or repeated author tests were run.",
+  "integrity_findings": {
+    "manifest_status": "PREPARED_NOT_ADMITTED",
+    "source_snapshot": {
+      "source_manifest_sha256": "41a5452c752bb10bee28af2eb2e06e7a224da8d72f307b4d5bec6fb5b3b236fa",
+      "frozen_predict_run_sha256": "30647bb74da64ddab4ccaa5e2916338bbb4826466b47cd68ec61593269554dd0",
+      "frozen_trainer_sha256": "a2b5440ff4b8e5179db01cc047102ef634522327374fced31ca5fdf8afcd17a6"
+    },
+    "overlay_inventory": {
+      "manifest_source_entries": 59,
+      "copied_package_files": 57,
+      "unchanged_copied_files": 56,
+      "modified_copied_files": [
+        {
+          "path": "src/wnn/splits.py",
+          "baseline_sha256": "19a31b005710a16b1d3eef7c7a7fa0001b801d8f1faf26c4b4155217b8bd18ea",
+          "overlay_sha256": "a02f87a3a82feb14991558482cf0822f1aec2cb9b9eec32826e01899759f0a1e"
+        }
+      ],
+      "overlay_only_files": [
+        {
+          "path": "src/wnn/compatibility_f0.py",
+          "sha256": "302efe0c6d933e0de86657e295b32bf986fd48f0e3ccb4015d7f97936f6f4454"
+        },
+        {
+          "path": "src/wnn/compatibility_f0_artifacts.py",
+          "sha256": "b813b9e0c2e1529eafc744b6de1369fbcc8c0978fa9e7e2867afd105bf0159b6"
+        }
+      ],
+      "support_files": [
+        {
+          "path": "README.md",
+          "sha256": "5d017b3fae89ebfa5c67ab89e8fedd21e36ab93fda40e74d6dd312c62d49c931"
+        },
+        {
+          "path": "scripts/preflight_compatibility.py",
+          "sha256": "2e7d35897b7a4836e307a995f0e366568915ca68f882b0834f18d6a445f88f38"
+        },
+        {
+          "path": "tests/test_compatibility_gate.py",
+          "sha256": "f808bca3e604b04935746d949d34dfd3013101709c22f0fca858763d6572d65e"
+        }
+      ],
+      "local_inventory_check": "All listed source/support hashes and sizes matched; no extra package files or symlinks were present in the reviewed local overlay. The frozen source snapshot was not modified."
+    },
+    "split_and_cache_bindings": {
+      "old_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "canonical_split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "membership_comparison_sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d",
+      "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+      "old_chain_folds": {
+        "bytes": 550072,
+        "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+      },
+      "accepted_canonical_chain_folds": {
+        "path": "cache/chain_folds.npz",
+        "bytes": 462719,
+        "sha256": "a112f809259f631c2ee7c12480e4ec1d4eef197a980e7ce23c707d842d092567"
+      },
+      "rejected_third_variant": {
+        "path": "R/cache/chain_folds.npz",
+        "bytes": 562791,
+        "sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35"
+      },
+      "ordered_membership_counts": {
+        "fit.train": 10535,
+        "fit.valid": 1405,
+        "evaluation.valid": 468,
+        "excluded.train": 71,
+        "excluded.valid": 468,
+        "excluded.corrupt_train": 1
+      },
+      "result": "Local old and canonical split metadata preserve exact ordered memberships and component map. The override is limited to cache/chain_folds.npz under the exact old split SHA and exact a112 size/SHA; the 315b variant is rejected. The other five registry sources still take the ordinary portable verifier and existing full-file/index checks."
+    },
+    "artifact_bindings": {
+      "control_checkpoint": {
+        "bytes": 3983015,
+        "sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+        "provenance_bytes": 166152,
+        "provenance_sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961"
+      },
+      "propensity_checkpoint": {
+        "bytes": 165623,
+        "sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "provenance_bytes": 21626,
+        "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812"
+      },
+      "control_restore_receipt_sha256": "aa56d30ab1ec9cabcda835dfcb94fba4dc4dc06942c48fd287bc54a5525152d1",
+      "propensity_restore_receipt_sha256": "fd44eaf47d2e42234c353a9b57513bad622e4f19058bc30145eaeaf75ca77731",
+      "static_binding_review": "The loader resolves each logical artifact path and its specified restore path strictly, requires them to resolve to the same path, and checks exact size/SHA for checkpoint and provenance. Local restore receipts bind the expected values. B-side symlinks and live files were not observed in this review."
+    }
+  },
+  "confirmed_design": [
+    "The copied split loader preserves the old split bytes and applies the compatibility exception only to the exact chain-fold source. It retains feature-graph component reconstruction, evaluation-fold membership equality, fit/evaluation disjointness, and eligibility checks.",
+    "The preflight requires the pinned old split, canonical split, membership receipt, portable registry, cache identity, checkpoint/provenance bindings, ordered membership digests, and exact PASS_CPU_LOADER_PREFLIGHT receipt schema/status for the prediction path.",
+    "The preflight hashes portable sources in streaming chunks and reads the feature graph and fold cache for reconstruction. It does not load a model, prediction, or target array, train, grade, or initialize a GPU. The full portable-source verification is about 37.1 GB and has no internal CPU/wall/memory cap; it needs externally enforced resource limits.",
+    "The frozen predict_run.py makes no sys.path changes. With the documented overlay path first on PYTHONPATH and frozen snapshot src second, overlay wnn modules win. The preflight script inserts its own overlay src at sys.path[0].",
+    "The runtime compatibility gate occurs in load_campaign_split before model construction and inference, but the unchanged predictor deserializes the checkpoint with torch.load(weights_only=False) first. Do not describe the receipt gate as preceding checkpoint deserialization."
+  ],
+  "blockers": [
+    {
+      "id": "R1-RECEIPT-CLOBBER",
+      "severity": "BLOCKER",
+      "location": "scripts/preflight_compatibility.py:139-140",
+      "finding": "The preflight unconditionally calls args.output.write_text(). An existing receipt is truncated/replaced, and a symlink output can overwrite its target. This permits mutation of an existing admission artifact and wastes the full source-verification cost before discovering a collision.",
+      "required_resolution": "Refuse an existing output early and create the final receipt with an atomic exclusive-create operation at the write boundary (so a race cannot replace an existing file). Update and reseal the script/manifest and its focused tests before admission."
+    }
+  ],
+  "additional_limits_and_actions": [
+    {
+      "id": "R1-SUPPORT-FILE-SEAL",
+      "severity": "HIGH",
+      "location": "src/wnn/compatibility_f0.py:149-203",
+      "finding": "_verify_overlay_manifest checks the 59 source_files but does not check manifest support_files. The preflight script is listed in support_files but its runtime hash is not verified by the compatibility code; the locally reviewed hash alone does not establish the staged B script hash.",
+      "action": "Verify support-file hashes before execution or include the preflight script in a runtime-checked external seal."
+    },
+    {
+      "id": "R1-EXPECTED-MANIFEST-PIN",
+      "severity": "HIGH",
+      "location": "src/wnn/compatibility_f0.py:149-203; receipt validation",
+      "finding": "The receipt is checked against the current locally computed overlay manifest SHA, but runtime code has no independent expected reviewed-manifest SHA. If admission relies on the receipt alone, it only proves agreement with the local manifest observed at runtime.",
+      "action": "At admission, independently require the manifest SHA to equal the reviewed digest recorded here and ensure the actual preflight receipt binds that digest."
+    },
+    {
+      "id": "R1-README-ENV-AND-ORDER",
+      "severity": "MEDIUM",
+      "location": "README.md:67-80,96-100",
+      "finding": "The command uses FROZEN_SOURCE_SNAPSHOT and PYTHON without defining them. The export section says to stage the old split and six sources after a real preflight receipt, although the preflight itself needs those inputs staged first. The parent preparation README gives the earlier staging order.",
+      "action": "Define/bind the environment variables and state one consistent sequence: stage and hash inputs, run preflight, review receipt, then export."
+    },
+    {
+      "id": "R1-CANONICAL-CACHE-SOURCE-PATH",
+      "severity": "MEDIUM",
+      "location": "README.md:16-26, CPU preflight instructions",
+      "finding": "The accepted a112 cache is pinned by exact size/SHA, but the preparation docs do not identify an independently verified physical source path from which to stage it. The named R/cache file is the rejected 315b variant. No B-side cache file was accessed in this review.",
+      "action": "Bind the source path from an observed, provenance-backed input and verify the staged bytes against the a112 identity; do not select by filename alone."
+    },
+    {
+      "id": "R1-UNEXECUTED-PREFLIGHT",
+      "severity": "LIMIT",
+      "location": "B-side staging and preflight",
+      "finding": "No actual B-side restore symlink, canonical cache bytes, full portable-source hash, or PASS receipt was checked. The prepared overlay and local receipts do not establish that the remote staged tree passes.",
+      "action": "After the healthy F1 resource lane is released, run the reviewed preflight under root's external resource envelope and verify its receipt and input bindings before any export."
+    }
+  ],
+  "author_validation": {
+    "reported_by_author": ["7 small CPU tests", "py_compile", "Ruff", "CLI help"],
+    "independent_reviewer_reran": false,
+    "reason": "The review was static and read-only; no need to repeat the author's reported passing checks, and R1 has a known receipt-overwrite blocker."
+  },
+  "admission_decision": "Do not use R1 for preflight receipt generation or inference admission. Preserve it as the reviewed negative baseline; review the sealed successor against this record."
+}

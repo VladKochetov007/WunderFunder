@@ -1,0 +1,41 @@
+{
+  "schema": "quality_gap.tl3_source_closure_independent_review.v1",
+  "reviewed_utc": "2026-10-18T16:53:36Z",
+  "packet": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1",
+  "packet_manifest_sha256": "90c4f9c4025dc7afa435315ebf5e9f291742195549a911208546b8132d866162",
+  "source_closure_sha256": "40b97f2e13d2ad3a832ce74967585c416ddd242a37f1608cb03de367e9c2069e",
+  "decision": "PASS_METADATA_REVIEW_FOR_LIMITED_SOURCE_CLOSURE_ONLY",
+  "scope": {
+    "packet_manifest_entries_rehashed": 37,
+    "unlisted_or_missing_files": 0,
+    "hash_or_size_mismatches": 0,
+    "checkpoint_or_prediction_payloads_read": false,
+    "arrays_or_cache_payloads_read_or_hashed": false,
+    "remote_queries_or_mutations": false,
+    "training_or_inference": false
+  },
+  "confirmed": [
+    "The exact `fatl.sh` wrapper sets ARGS_FROM to fttall_s5@ep3, runs tiedlead seeds 5 and 6, and sets the tiedlead override. Both captured logs print resolved `init` as empty, record the full train+valid scope, include_heldout_valid=true, valid_fold=-1, and identify fin256ft_s3/fin256ft_s4 as direct teachers.",
+    "The copied live trainer reads only checkpoint args in its ARGS_FROM branch. Its model-weight load is in the separate `if args.init` branch; with the logged empty init, the current copied implementation would use fit_normalization instead. This supports the config-template interpretation for the observed source, subject to the explicit historical-source limitation below.",
+    "The closure distinguishes the W18 member's reported fbc1k_s5@ep3 initializer and direct/family teacher names from the tiedlead pair. It does not claim those ancestors' source, fit membership, or target-cache provenance is closed.",
+    "The tiedlead logs contain two allocator OOM warnings each and show subsequent batch progress plus full VALID records. The closure appropriately does not infer exactly-once optimizer updates or identify affected batches.",
+    "The packet correctly records that the current source snapshot is not proven to be the historical training-time source, `src/wnn/nn.py` is modified against the captured HEAD, the W18 run lacks exact resolved-args/provenance records in the inspected paths, large checkpoint/cache/prediction payloads were not read, and prediction sidecars are absent.",
+    "The pinned F0 membership comparison reports equal ordered fit/evaluation/excluded lists and component mapping between old and canonical manifests while their manifest/cache identities differ. The packet does not certify any production model or learned ancestor as clean-F0."
+  ],
+  "qualifications": [
+    {
+      "claim": "All three production blend members use full train+valid and include held-out validation.",
+      "qualification": "Direct exact resolved logs support this for the tiedlead pair. The W18 member's fields come through the separately pinned CONTROL_ASSET_MAP; the inspected W18 run has no exact args log/provenance and its checkpoint payload was not read. Retain that source distinction when summarizing the finding."
+    },
+    {
+      "claim": "fttall_s5@ep3 was only a configuration donor, not a historical warm-weight start; the OOM warnings did not invoke a Python retry/skip branch.",
+      "qualification": "The wrapper/logs plus the current copied trainer support these interpretations, but the source snapshot is explicitly not authenticated as the exact historical training-time code. Phrase them as conclusions from the observed wrapper/logs and copied live implementation, not as source-byte-proven historical execution facts."
+    }
+  ],
+  "remaining_blockers_to_clean_f0_counterpart": [
+    "Recover exact historical source/config and fit membership for the W18 initializer, its direct/family teachers, both tiedlead teachers, prop_f0 and all prediction-cache producers; prove every ancestor excludes all 468 canonical F0 evaluation groups.",
+    "Recover prediction-cache sidecars or equivalent producer evidence to bind checkpoint endpoint, source, row order, preprocessing and split membership. Current arrays were intentionally stat-only.",
+    "Keep the portal upload identity qualified: the reported submission ID, filename and score are user-transcribed, and portal payload bytes are not authenticated by hash."
+  ],
+  "no_overclaim": "This review accepts the packet as a careful partial metadata/source-closure result. It does not certify historical source identity, a clean F0 control, a causal explanation of the public score, or optimizer-update completeness."
+}

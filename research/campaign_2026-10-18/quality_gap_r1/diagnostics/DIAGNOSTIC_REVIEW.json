@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.quality_gap.diagnostic_review.v1",
+  "review_date": "2026-10-18",
+  "review_scope": "Independent static and synthetic-math review of the bounded source-bound F0 residual diagnostic. No model, training, parquet, remote, or production prediction inputs were loaded.",
+  "verdict": "ready_for_bounded_remote_execution",
+  "blockers": [],
+  "reviewed_file_sha256": {
+    "INPUTS.json": "ca42ce983e42e6c2eea501b05b85a2731bf0303bb997df0d337a5593b55cd487",
+    "diagnose_f0_residuals.py": "c46a60e03a1c63ffbe06b1dc72ac0e0beb353b2eac3b265b3b2388a84dc553f7",
+    "input_bindings.py": "7a990a1243ec9b042ec061d95bca7f5d2f0c0136ac95ee7af59438a9429584b2",
+    "receipt_validation.py": "6089ca9d21bf026b0c96c1f29916fadb10feb0b255f51f997a3b1ba34d71d984",
+    "residual_moments.py": "336c85f42a7334e2b78c90148f12854d5625fd378171a88faaaf9f8c70c64476",
+    "residual_analysis.py": "54d539309ceb693add355c0bfe9965c7cf5dea9ca4dc56d8ac46b40933824e6b",
+    "test_residual_analysis.py": "468023ede5364a065da10ae8e32ace7b6986838c55ded102dbf7ad1d549d201b",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "receipt_binding_review": {
+    "status": "passed",
+    "method": "Verified each locally available receipt file SHA-256 against INPUTS.json, then ran receipt_validation._validate_receipts against those exact local objects and the manifest's bundle hash and row count.",
+    "receipts": {
+      "EXTRACTION": "6934f283105bf70e449d93f8114750169a695c71e7a00a9d5cc9714d6c105fe7",
+      "BLEND_SELECTION": "59513a1aa292feb9eb4c59211c70a057c3cd0362ebddfc6ad6879b09279c6c46",
+      "INDEPENDENT_NATIVE_GRADE": "7c02f73f947faa1d075fa39e7d76395bb156abdd9aa17ca9726c7d68f1f3b9bf",
+      "Q8_FULL_F0": "d5ff23d3bae39f831c00c6431e1d31de635e5c13e696cada2f6760c126dc1572"
+    },
+    "checks": [
+      "Extraction bundle hash, byte count, row/group/component counts, fold hash, and wide/deep source pins match the manifest.",
+      "Blend-selection metric, bundle, extraction receipt, grade, fold, targets, predictions, row-group array, and component array bindings match.",
+      "Independent native grade binds the Q8 prediction hash, paired bundle, selected rows, shape, dtype, finite status, group/component counts, and replay receipt.",
+      "Q8 replay binds the validation panel hash, fold hash, official metric, and q8vnni precision label."
+    ]
+  },
+  "math_and_output_review": {
+    "official_metric": "Uses canonical global_wp_clip2_v1, clipping targets and predictions to ±2 and weighting with absolute clipped targets.",
+    "additive_contributions": "Per-bin pooled covariance uses global weighted centers and each target's global Syy/Spp denominator; a fixed partition sums to the official WP. Synthetic checks passed for label and component partitions.",
+    "calibration": "Within-bin covariance and target variance apply the weighted parallel-axis correction to globally centered moments. The prediction-on-target slope is corrected within-bin covariance divided by corrected within-bin target variance; weighted means define the intercept. This is descriptive calibration, not an additive score contribution.",
+    "csv": "The DictWriter field list covers all emitted record fields; the CSV regression test passed.",
+    "paired_undefined_values": "Fixed before final review: undefined weighted-bias and within-regime-rho deltas remain null for zero-weight bins, while additive contribution deltas remain numeric."
+  },
+  "validation": {
+    "initial_failure": "Before the fix, the three synthetic tests errored because paired deltas attempted float(None) for zero-weight bins. The failure was reported to the owner.",
+    "post_fix": {
+      "command": "uv run --no-sync python research/campaign_2026-10-18/quality_gap_r1/diagnostics/test_residual_analysis.py",
+      "result": "3 tests passed"
+    },
+    "receipt_contract": {
+      "command": "uv run --no-sync Python snippet loading only the four pinned local JSON receipts and calling _validate_receipts",
+      "result": "passed; all four file hashes and cross-receipt bindings matched"
+    },
+    "staged_import_smoke": "Passed --help import smoke in a temporary B/research/campaign_2026-10-18/quality_gap_r1/diagnostics layout with source-a266b036/src pointing to the local canonical src tree and B/src absent.",
+    "actual_input_arrays": "Not read. The manifest's Linux bundle, Q8 prediction, and fold paths are unavailable on this host by design; remote file sizes and array hashes remain to be checked by the bounded remote entrypoint before analysis."
+  },
+  "execution_boundary": "This review clears the implementation for the planned bounded source-only retrospective run. It does not verify remote input payload hashes, execute the diagnostic on Beleriand, or make a clean-validation, calibration, blend-selection, or performance claim."
+}

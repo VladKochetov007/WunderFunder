@@ -1,10 +1,32 @@
 # Reviews and audit receipts
 
+[Six-endpoint W18 metadata template review](../../campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_preparation_r1/INDEPENDENT_REVIEW_V1.json) verifies the 6,324,058-byte target list against bounded path observations, null payload/admission hashes, exclusion of already inspected models and unresolved fmu128 parents. It approves data-only preparation; no compatible helper or execution exists yet.
+
+[W18 source-history review](../../campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/INDEPENDENT_REVIEW_V1.json) verifies all 20 artifacts and 14 source snapshots, direct-sum semantics and limited DONE-log evidence; absent raw fine-tune logs remain a qualification. [Propensity history review](../../campaign_2026-10-18/quality_gap_r1/tl3_propensity_history_trace_r1/INDEPENDENT_REVIEW_V1.json) verifies the 15 source pins and four Git blobs, qualifying “likely” as structural compatibility only. [Operational review](../../campaign_2026-10-18/quality_gap_r1/provider_observation_20261018T1745Z/heartbeat_review_20261018T1745Z.json) verifies the healthy F3 observation and unchanged provider API summary. No payload or scientific acceptance is inferred.
+
+[TL3 propensity/target producer trace review](../../campaign_2026-10-18/quality_gap_r1/tl3_producer_trace_r1/INDEPENDENT_REVIEW.json): all5packet artifacts and20evidence pins pass; separate Main/creative propensity checkpoint identities and old/current split identities are kept distinct, while ordered memberships match. Exact-path file/directory checks do not establish global archive absence; the w18 cache producers remain unresolved.
+
+[Actual fin256 metadata acceptance](../../campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_execution_r1/RESULT_ACCEPTANCE_REVIEW_V1.json): independently binds two exact parent payload identities to safe configs, preparation/reviews, admission/input/launch, raw receipt and terminal capture/stop. Scratch initializer configs and no distillation alias are confirmed; production fitting scope and unresolved propensity ancestry prevent cleanF0 claims.
+
+[Fin256 parent metadata preparation and root-wrapper review](../../campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_r1/INDEPENDENT_REVIEW.json): separate exact two-parent extraction,13 tiny tests, fresh logical-alias/hash admission and restricted CPU loading. The [root wrapper review](../../campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_r1/ROOT_LAUNCH_REVIEW_V1.json) covers aggregate reservations, source generations and preservation of both successful and failed terminal evidence before cleanup. Actual results are indexed from the [execution packet](../../campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_execution_r1/README.md).
+
+[F3 checkpoint support independent review](../../campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1/INDEPENDENT_REVIEW.json): accepts isolated F3-specific stage1/terminal tooling with23tiny tests and exact attempt contract/source-map digest checks. Actual attempt working-directory/inventory and fresh source/runtime remain root bindings; no F3 checkpoint or quality result is claimed.
+
+[TL3 metadata/source closure review](../../campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/INDEPENDENT_REVIEW.json): accepts37hash-bound metadata/source files. Tied-lead’s ARGS_FROM edge is a config donor, with empty weight initializer in actual logs; W18 warm-parent facts come from the earlier pinned asset map. Copied live source is not authenticated historical source; teacher/cache/propensity F0 exclusion remains unproven.
+
+[F1/seed1001 completed pair and accepted collection](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json): independently verified endpoints and canonical grade, wide 0.66132919 versus deep 0.66169479 with conditional interval crossing zero. R2 collection, final-path verification and independent acceptance are complete; the R1 source-map failure remains preserved. This is the second cell, not CP30 or public evidence.
+
+
+- [Independent review of the actual F0 residual decomposition](../../campaign_2026-10-18/quality_gap_r1/diagnostics/RESULT_INTERPRETATION_REVIEW_V1.json): full input/output/source and receipt bindings pass; endpoint and additive contribution identities agree within floating-point rounding. The review separates a small local mixture gain from cancellation across components and limits the analysis to the current F0 models; strong-control residuals and public causation remain unmeasured.
+
+- [Concrete quality-gap follow-up](../../campaign_2026-10-18/quality_gap_r1/README.md) — exact student/parent/teacher restoration and source/membership reconciliation; source-bound residual diagnostic independently reviewed and now executed, with exact outputs and independent numerical interpretation linked. Existing KD trajectories remain one-seed exposed-F0 evidence, not a public forecast.
+
 Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
 - [Repository additions and evidence boundaries](REPOSITORY_DELTA_20261018.md) — audit of research-team sources 1d57ed815/e35220969 and live draft PR metadata: completed F0/F1 width-depth pairs, stronger historical T3 control, user-reported Q8 public result/runtime, and five new proposals. No local execution or provider mutation.
+- [Quality-gap diagnosis after public 0.65839](QUALITY_GAP_DIAGNOSIS_20261018_R1.md) — separates the regression against our own best from the dated leader gap; reconciles matched KD evidence, validation transfer, missing incumbent-relative diagnostics and checked serving paths. No new fits or causal public explanation.
 
 - [R2 iterative mechanism and implementation review](../../campaign_2026-10-17/research_reset_r2/reflection/README.md) — initial proposals preserved before old-code attack, then25 revised dispositions from measured evidence. Independent review prompted complete target/mask alignment and append-only reporting/variance clarifications. [Integration verification](../../campaign_2026-10-17/research_reset_r2/VERIFICATION.json) binds scores, sufficient statistics, numerical checks and limitations; agreement among agents is not independent model replication.
 
@@ -185,3 +207,11 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 - [Independent causal-geometry pilot grade](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r1.json), interpreted in the [geometry note](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md), verifies all9endpoint official pooled/fold scores, source/initial-state hashes and880updates. Tiny pooled moment gain is opposed across exposed folds; conditional component intervals cross zero. This is integrity evidence and exploratory comparison, not production gain or a rejection of heuristics.
 
 - [Independent discrete/capacity pilot grade R2](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r2.json) verifies all24endpoints and18predeclared half-mixtures, their source/data bindings, matched initialization and880-update clocks. It confirms heterogeneous feature effects and negative naive-concatenation interactions at two capacities; no production, teacher-distillation or public-transfer conclusion follows from these exposed tiny-data slices.
+
+- [TL3 metadata-extractor review](../../campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_r1/INDEPENDENT_REVIEW.json) — independent static PASS for eight exact paths, fresh hash admission, restricted CPU loading, bounded metadata output and create-only receipts; actual execution and its separate acceptance are linked from the execution README.
+
+- [F3 result collection review](../../campaign_2026-10-18/priority25_execution_r4/f3_result_collection_r1/INDEPENDENT_REVIEW.json) — static PASS after six producer-shaped tests for seven original-v1 attempts, four checkpoint receipt pairs, exact fold/order/ancestry, arrival seal and streamed prediction/grade bindings. Actual F3 collection remains pending terminal outputs and independent arrival reviews.
+
+- [Actual TL3 metadata acceptance](../../campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/RESULT_ACCEPTANCE_V1.json) — independent verification of eight exact checkpoint digests and the admission/execution/stop chain. Production config fields confirm validation inclusion; clean membership and target-cache producers remain unresolved.
+
+- [F3 root launch gate](../../campaign_2026-10-18/priority25_execution_r4/f3_preflight_r1/ROOT_LAUNCH_REVIEW_V1.json) and [TL3 ancestor probe review](../../campaign_2026-10-18/quality_gap_r1/tl3_ancestor_followup_r1/INDEPENDENT_REVIEW.json) — independent checks of exact reviewed launch inputs and scoped lineage observations; neither substitutes for future model-quality evidence.

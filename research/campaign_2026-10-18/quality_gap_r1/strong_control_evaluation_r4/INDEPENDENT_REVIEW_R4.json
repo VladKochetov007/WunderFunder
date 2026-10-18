@@ -1,0 +1,36 @@
+{
+  "blockers": [],
+  "conditions_for_root_execution": [
+    "Use root-verified clean staging and the manifest-pinned sources/metadata.",
+    "Respect the prepared 0.5 CPU, 1.5 GiB memory, 300-second, CUDA-hidden, physical-scratch envelope and a new create-only output directory.",
+    "Treat this review as approval of the R4 collector binding flow only. It does not validate a future alignment receipt, residual diagnostic, or component grade; those outputs need their own acceptance review."
+  ],
+  "limitations": [
+    "The positive test uses four synthetic rows and mocked contract/receipt/source readers to isolate the consumer binding flow; separate R4 metadata tests bind the actual captured producer JSON. The real full-valid payload was not read during this review.",
+    "The positive test verifies acceptance by diagnostics _load_inputs, not execution of diagnose_f0_residuals or grade_control. Those are subsequent result and grading phases.",
+    "No scientific performance conclusion follows from this software-flow review."
+  ],
+  "manifest": {
+    "bytes": 27343,
+    "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r4/PREPARATION_MANIFEST.json",
+    "sha256": "a77d612bbf4edd09ce986ede5559157b275ef9f263350f2c4f1a6345acbb0008"
+  },
+  "reviewed_utc": "2026-10-18T16:26:02.955569+00:00",
+  "schema": "wnn.quality_gap.strong_control_evaluation.independent_review.r4",
+  "scope": "Read-only review of the minimal R4 binding-forwarding fix, its pinned captured producer metadata, the real collect/output/diagnostic-loader positive fixture, and the preserved R3 failure record. No prediction payload, checkpoint, parquet payload, remote execution, test rerun, grading, or training.",
+  "status": "PASS_FOR_ROOT_GATED_COLLECTION",
+  "test_receipt": {
+    "bytes": 1529,
+    "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r4/TEST_RECEIPT.json",
+    "reported": "20/20 tiny local tests; Ruff check and format check passed; not rerun in this review",
+    "sha256": "d340fbe9e452a7d93f6f10fbb07c552364a6c968109eb979596af4f9e6bdcb54"
+  },
+  "verified": [
+    "All 50 manifest-listed artifacts, frozen source inputs, exporter sources, and captured metadata fixtures match declared size/SHA-256 identities.",
+    "R3_ALIGN_FAILURE_V1.json records the real R3 KeyError for captured_preinference_path after selected-row extraction and bitwise bundle comparison. The failure occurred before output-directory creation; the failed R3 packet remains preserved.",
+    "The R4 runtime change is minimal: validate_export begins its file_bindings result with all validated capture_bindings from validate_receipt, then retains explicit prediction/contract/receipt/stat identity and row-map fields. This forwards all ten producer capture fields, including captured_sidecar_sha256, raw_preinference_sha256, and captured_preinference_path that R3 dropped.",
+    "The positive test calls the real validate_export and collect functions on a four-row synthetic fixture. It compares all ten capture bindings returned through validate_export, confirms all six source files are rehashed after extraction, verifies the three expected create-only outputs, checks the serialized raw-evidence fields and row-order digest, and checks the compact output bytes/model metadata.",
+    "The test sends DERIVED_INPUTS.json through the real diagnostics input loader and verifies strong_control is accepted with the expected SHA, paired-bundle and row-count alignment fields, finite float32 shape, and prediction contents. The frozen baseline receipt-chain validator is intentionally stubbed only for this synthetic path test; existing pinned baseline receipt validation remains unchanged.",
+    "The derived strong_control alignment receipt field map matches the diagnostic loader contract: bundle -> paired_bundle_sha256, prediction -> prediction_sha256, rows -> selected_rows. The actual output remains scoped to a historical strong control, not the exact public incumbent."
+  ]
+}

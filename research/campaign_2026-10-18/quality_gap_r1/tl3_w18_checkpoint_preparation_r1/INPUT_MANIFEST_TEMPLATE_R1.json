@@ -1,0 +1,108 @@
+{
+  "schema": "quality_gap.tl3_w18_checkpoint_metadata_inputs.r1",
+  "status": "PREPARATION_TEMPLATE_NOT_EXECUTABLE",
+  "purpose": "Safe metadata-only closure for six stat-observed W18 teacher checkpoint endpoints; never export tensor values.",
+  "source_observation": {
+    "observed_utc": "2026-10-18T17:49:55.242392+00:00",
+    "remote_run_evidence_path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/REMOTE_RUN_EVIDENCE_R1.json",
+    "remote_run_evidence_sha256": "08a171c8718a393b9b91b79d6c05fcf2bec6b172fe234b693f9af128daff8609",
+    "interpretation": "Historical exact-path is_file and size observations only; no checkpoint payload or hash was read. Fresh root observations are required before use."
+  },
+  "resource_contract": {
+    "cpu_quota_cores": 0.5,
+    "memory_max_bytes": 1500000000,
+    "swap_max_bytes": 0,
+    "runtime_max_seconds": 120,
+    "cuda_visible_devices": "",
+    "physical_tmpdir": "root must bind a fresh verified physical disk-backed path on B"
+  },
+  "bounds": {
+    "max_file_bytes": 33554432,
+    "max_total_input_bytes": 67108864,
+    "observed_total_input_bytes": 6324058,
+    "max_manifest_bytes": 262144,
+    "max_output_bytes": 2097152
+  },
+  "root_admission_receipt_sha256": null,
+  "inputs": [
+    {
+      "id": "ffull_s3_ep1",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/ffull_s3/model_ep1.pt",
+      "expected_bytes": 1053479,
+      "expected_sha256": null,
+      "source_kind": "stat_only_historical_observation"
+    },
+    {
+      "id": "ffull_s4_ep1",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/ffull_s4/model_ep1.pt",
+      "expected_bytes": 1053479,
+      "expected_sha256": null,
+      "source_kind": "stat_only_historical_observation"
+    },
+    {
+      "id": "frawW_s3_ep3",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s3/model_ep3.pt",
+      "expected_bytes": 1054943,
+      "expected_sha256": null,
+      "source_kind": "stat_only_historical_observation"
+    },
+    {
+      "id": "frawW_s4_ep3",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s4/model_ep3.pt",
+      "expected_bytes": 1054943,
+      "expected_sha256": null,
+      "source_kind": "stat_only_historical_observation"
+    },
+    {
+      "id": "frawW_s3ft_ep1",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s3ft/model_ep1.pt",
+      "expected_bytes": 1053607,
+      "expected_sha256": null,
+      "source_kind": "stat_only_historical_observation"
+    },
+    {
+      "id": "frawW_s4ft_ep1",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s4ft/model_ep1.pt",
+      "expected_bytes": 1053607,
+      "expected_sha256": null,
+      "source_kind": "stat_only_historical_observation"
+    }
+  ],
+  "unresolved_parent_endpoints": [
+    {
+      "id": "fmu128_s3_ep3",
+      "run_log_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/logs/ffull_s3.log",
+      "run_log_sha256": "e59375c81d90f1c5429f47b383788db7606323b350ac4b352b755309ddcfb150",
+      "run_log_parent_reference": "fmu128_s3@ep3",
+      "checkpoint_path": null,
+      "expected_bytes": null,
+      "expected_sha256": null,
+      "status": "exact_checkpoint_path_and_size_not_observed"
+    },
+    {
+      "id": "fmu128_s4_ep3",
+      "run_log_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/logs/ffull_s4.log",
+      "run_log_sha256": "a342f9e5d8f4d91c6fe33b0884815be2f83ca8bd1d029b2189f28d8664b12d4f",
+      "run_log_parent_reference": "fmu128_s4@ep3",
+      "checkpoint_path": null,
+      "expected_bytes": null,
+      "expected_sha256": null,
+      "status": "exact_checkpoint_path_and_size_not_observed"
+    }
+  ],
+  "future_capture_contract": {
+    "restricted_loader": "torch.load(map_location='cpu', weights_only=True); stop without unrestricted fallback",
+    "per_input_identity": ["fresh lstat and resolved-target record", "full SHA-256 before load", "stable generation check", "full SHA-256 after load"],
+    "serialized_checkpoint_content": "safe scalar/config fields and tensor key/shape/dtype metadata only; no tensor values",
+    "raw_capture_outputs": ["new raw output JSON bytes", "new stdout bytes", "new stderr bytes", "byte counts and SHA-256 for each"],
+    "checkpoint_payload_copy": false,
+    "cuda_initialized": false,
+    "output_policy": "create-only"
+  },
+  "template_not_run": {
+    "checkpoint_hashes_computed": false,
+    "production_checkpoint_loads": false,
+    "remote_execution": false,
+    "admission": false
+  }
+}

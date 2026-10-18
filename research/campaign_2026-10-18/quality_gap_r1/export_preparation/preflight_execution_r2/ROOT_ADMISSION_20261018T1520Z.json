@@ -1,0 +1,50 @@
+{
+  "schema": "quality_gap.preflight_root_admission.v1",
+  "observed_utc": "2026-10-18T15:19:52.855015+00:00",
+  "status": "ADMITTED_CPU_PREFLIGHT_ONLY",
+  "source_files": {
+    "local_common.py": {
+      "bytes": 4306,
+      "sha256": "b51d705b56006c211186260a1642fc4ea8b4c497b8b4f1aa59091e30176af719"
+    },
+    "test_preflight_execution.py": {
+      "bytes": 3463,
+      "sha256": "424a019436db4ed7a26ea2c4f3a10038eb1d5199e5406cec95e2e1123f1f26b3"
+    },
+    "remote_stage.py": {
+      "bytes": 18666,
+      "sha256": "6b8463c9bac39926c211449bef13bc5fa7b9d1fb4bf3d66162f2699b42c7226b"
+    },
+    "README.md": {
+      "bytes": 7892,
+      "sha256": "b68c58a508f658f7bd3e2c770b5341891d8b734940c63e65cfcd6e2d164e34fb"
+    },
+    "capture.py": {
+      "bytes": 6434,
+      "sha256": "c96a6c2f5e346c74da7f7aa9266a79e97113aa0fc03664ab0476a3dca6e2cc6d"
+    },
+    "launch.py": {
+      "bytes": 8175,
+      "sha256": "df48bd596edf774af5467585477302683b4e3c031ebfcb904f531dc94483ddb9"
+    },
+    "bindings.py": {
+      "bytes": 16994,
+      "sha256": "53b2daa05464aaceb97814c3ce7da000d52a9c9e2e4d1b02d47e2caf71dcd7d6"
+    },
+    "stage.py": {
+      "bytes": 8399,
+      "sha256": "501b3a0aeae6c145c93c4e2265de67dc8b1797fee434ab04c6bbf10878e91f8d"
+    }
+  },
+  "independent_overlay_manifest_sha256": "1785e8529a2868e1ca40a0c668c57ccc28ae82b04fda7c13bf7a3c8bc32c409b",
+  "independent_overlay_review_sha256": "dfb733ebc98ac2012062e48152bf6f0d40d26f5c8ea079e4ab1b88379e8cdffe",
+  "fresh_remote_resource_observation": "Sun Oct 18 15:19:52 UTC 2026\nControlGroup=/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice\nMemoryCurrent=1981779968\nCPUQuotaPerSecUSec=2s\nMemoryHigh=18000000000\nMemoryMax=20000000000\nMemorySwapMax=0\next4\nlow 0\nhigh 0\nmax 306\noom 0\noom_kill 0\noom_group_kill 0\nFilesystem                 1B-blocks          Used      Available Use% Mounted on\n/dev/mapper/vg0-lv--0 99602705072128 6263700955136 88338894839808   7% /\n",
+  "limits": {
+    "cpu": 0.5,
+    "memory_max": 1500000000,
+    "swap": 0,
+    "runtime_seconds": 900
+  },
+  "review_scope": "Root static operations review plus prior independent overlay review and six small utility tests; no repeated tests or model loads. Fresh parent below 2GB of 20GB; no running campaign child units; ext4 scratch. All exact files pinned; source transfer create-only; full hashes run remotely under limits.",
+  "export_admitted": false
+}

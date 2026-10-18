@@ -1,0 +1,170 @@
+{
+  "captured_utc": "2026-10-18T17:51:51.436029+00:00",
+  "creative_prop_f0_identity": {
+    "bytes": 159607,
+    "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/prop_f0/model.pt",
+    "safe_metadata": {
+      "hidden": 64,
+      "n_in": 211
+    },
+    "sha256": "9e92f26d1704f84f9170d746b372c2ba67f7fb611831865a1fc689d6b813b21c",
+    "sha256_before_equals_after": true,
+    "tensor_value_accessed": false,
+    "top_level_keys": [
+      "hidden",
+      "model",
+      "n_in"
+    ]
+  },
+  "existing_creative_cache_sidecars": {
+    "interpretation": "Bind the cached prop_f0 label and model digest to counts, but not to the trainer source, fit groups, preprocessing recipe or endpoint-selection rule.",
+    "train": {
+      "model": "prop_f0",
+      "model_sha256": "9e92f26d1704f84f9170d746b372c2ba67f7fb611831865a1fc689d6b813b21c",
+      "n_filled": 10606,
+      "rows": 10607,
+      "seconds": 97.3,
+      "split": "train"
+    },
+    "valid": {
+      "model": "prop_f0",
+      "model_sha256": "9e92f26d1704f84f9170d746b372c2ba67f7fb611831865a1fc689d6b813b21c",
+      "n_filled": 1873,
+      "rows": 1873,
+      "seconds": 18.4,
+      "split": "valid"
+    }
+  },
+  "nearest_tracked_experiment": {
+    "conclusion": "E-031 is named prop_v1 and uses devA/devB on 741/764 validation sequences; its record contains no hash link to creative prop_f0 and its recorded commit tree lacks scripts/train_propensity.py.",
+    "history_artifact": {
+      "contains_model_sha256_or_args": false,
+      "entries": [
+        {
+          "base_rate": 0.0968,
+          "devB_auc": 0.8731,
+          "epoch": 0,
+          "mean_p": 0.1009
+        },
+        {
+          "base_rate": 0.0968,
+          "devB_auc": 0.8972,
+          "epoch": 1,
+          "mean_p": 0.0976
+        },
+        {
+          "base_rate": 0.0968,
+          "devB_auc": 0.9067,
+          "epoch": 2,
+          "mean_p": 0.0997
+        },
+        {
+          "base_rate": 0.0968,
+          "devB_auc": 0.9111,
+          "epoch": 3,
+          "mean_p": 0.1197
+        }
+      ],
+      "path": "research/artifacts/E-031-prop_v1-history.json"
+    },
+    "ledger_record": {
+      "artifact": "research/artifacts/E-031-prop_v1-history.json",
+      "command": "PYTHONPATH=scripts scripts/limited python scripts/train_propensity.py --name prop_v1",
+      "commit": "44f7eff",
+      "data": "fit on valid devA (741 seqs) masks; AUC on devB (764)",
+      "date": "2026-09-15",
+      "hypotheses": [
+        "H-007"
+      ],
+      "id": "E-031",
+      "kind": "model fit",
+      "line": 31,
+      "reproducible": "seeded, GPU nondeterminism",
+      "result": {
+        "base_rate": 0.0968,
+        "devB_auc_by_epoch": [
+          0.8731,
+          0.8972,
+          0.9067,
+          0.9111
+        ]
+      }
+    },
+    "recorded_code_commit_has_train_propensity_source": false,
+    "source_first_added_in_following_tracked_commit": "9833919b3611f4d62b00c358d6991e4018c790a6"
+  },
+  "remaining_binding": [
+    "No run/job record, command line, per-run source hash, history/provenance sidecar or saved selected epoch was found in the exact pinned local and remote indexes for the creative 9e92... model.",
+    "The creative checkpoint safe metadata is structurally compatible with the older minimal wrapper, and the current creative trainer source has that wrapper. This is compatibility evidence, not proof the observed source produced the checkpoint.",
+    "If the observed 4c source was invoked with --heldout-fold 0, it trained on the other validation folds and selected model.pt by AUC on fold 0; the missing command and history prevent establishing whether that happened."
+  ],
+  "remote_current_source_and_index": {
+    "checkout_head": "e8c050b1ede4c8d9838b446365581a81a94abf0a",
+    "exact_source_history": [
+      {
+        "commit": "4c260c9a388e848b988f98317f89ae03bfa5986c",
+        "date": "2026-09-26 22:24:39 +0300",
+        "subject": "fix(research): keep best propensity epoch; frontier update"
+      },
+      {
+        "commit": "f9167b30d774b890c3d1b472a651f9d3cf5c33c7",
+        "date": "2026-09-26 16:39:48 +0300",
+        "subject": "feat(research): learning-dynamics branch - weight interpolation, freeze/LP-FT, baseline-as-run, i1-lead and propensity probes"
+      },
+      {
+        "commit": "9833919b3611f4d62b00c358d6991e4018c790a6",
+        "date": "2026-09-15 02:34:19 +0300",
+        "subject": "feat(research): causal scoring propensity (devB AUC 0.911); data incident"
+      }
+    ],
+    "index_bytes": 216209,
+    "index_search_found_creative_name_or_digest": false,
+    "index_sha256": "22385503a0a4972f776a3028265da73fac4380d70ed8cc79c4e90c14a8198357",
+    "observation_path": "REMOTE_OBSERVATION_R1.json",
+    "trainer_current_sha256": "72fab2d0db66d513aca1e0eab6974eaa5ceb1df0c88fbcf25c842b2fa0a6d1b1",
+    "trainer_matches_tracked_revision_4c260c9a": true
+  },
+  "schema": "quality_gap.tl3_propensity_history_trace_evidence.r1",
+  "scope": "Targeted local run/source records plus one bounded read-only remote source/index probe; no checkpoint or array payload access.",
+  "separate_restored_main_control": {
+    "bytes": 165623,
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/restored-propensity-v1/artifacts/runs/c20260929_prop_f0/model.pt",
+    "restore_status": "size_and_sha_verified_no_tensor_load",
+    "sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "sha256_differs_from_creative": true
+  },
+  "tracked_trainer_source_history": {
+    "revisions": [
+      {
+        "bytes": 3907,
+        "commit": "9833919b3611f4d62b00c358d6991e4018c790a6",
+        "git_blob_oid": "88266573e806b6a32ee507053512490c61d21c95",
+        "sha256": "5fcbff9151d42b46b4adc604ac55100b9c3751518701f54335f6614a40ecc48f"
+      },
+      {
+        "bytes": 4572,
+        "commit": "f9167b30d774b890c3d1b472a651f9d3cf5c33c7",
+        "git_blob_oid": "66e760b8af1857389bccd888883d9dee94599572",
+        "sha256": "3dd8d7623a6759124904a8b40f8c2c6a047acefd6c7ca170f0106eae7e7cb3f5"
+      },
+      {
+        "bytes": 5034,
+        "commit": "4c260c9a388e848b988f98317f89ae03bfa5986c",
+        "git_blob_oid": "501996b301ba09da0475bb3ad7d9692e746382c0",
+        "sha256": "72fab2d0db66d513aca1e0eab6974eaa5ceb1df0c88fbcf25c842b2fa0a6d1b1"
+      },
+      {
+        "bytes": 8027,
+        "commit": "d1f6e17749f55181b5d90061b87cc31128943ddd",
+        "git_blob_oid": "feefda6dc674e22ba55d53424542534acebb2071",
+        "sha256": "ea6bf05470b8bf8afa23b00b95eb980646f6cb7935e013326815af626013f3b7"
+      }
+    ],
+    "source_semantics": {
+      "4c260c9a388e848b988f98317f89ae03bfa5986c": "Adds --dev-all and best-devB-AUC checkpoint selection; retains the minimal model/hidden/n_in wrapper and writes history.json.",
+      "9833919b3611f4d62b00c358d6991e4018c790a6": "Initial devA/devB helper: fixed torch.manual_seed(0), defaults hidden=64, epochs=4, lr=0.002, normalization from first shuffled training batch, saves only model/hidden/n_in at final epoch.",
+      "d1f6e17749f55181b5d90061b87cc31128943ddd": "Adds seed/split-manifest/checkpoint-policy/no-eval options and writes args/epoch/provenance into checkpoint metadata plus provenance.json.",
+      "f9167b30d774b890c3d1b472a651f9d3cf5c33c7": "Adds --heldout-fold backed by valid_targets.npz and chain_folds.npz; retains the minimal checkpoint wrapper."
+    }
+  }
+}

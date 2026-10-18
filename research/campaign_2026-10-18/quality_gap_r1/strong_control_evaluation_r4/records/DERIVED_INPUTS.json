@@ -1,0 +1,161 @@
+{
+  "bundle": {
+    "array_sha256": {
+      "component": "7096f4f887e37776406cf1504238820a8487629aa700a4181a8ea666fb3e0188",
+      "deep": "0dca851c31aaac3c724fa8b73b9447a0f3e8da7db1681690de955d27ec498b5f",
+      "row_group": "68953b4cc4b1c434954a251c5499e3935e510507f2b9e41772161f7095e48f03",
+      "target": "2170ef0b760c35e346c3f9a7dec288fdd731ff0fc245a1504b74773be7c4cb85",
+      "wide": "972d3986f8e4418ee9d1f1750c085acdb5e5e91d9fe20b4cc2725a5edd7dccd5"
+    },
+    "bytes": 32357862,
+    "keys": {
+      "component": "component",
+      "deep": "deep",
+      "deep_source_sha": "deep_prediction_sha256",
+      "grade_sha": "grade_sha256",
+      "position": null,
+      "row_group": "row_group",
+      "split_sha": "split_manifest_sha256",
+      "target": "y",
+      "wide": "wide",
+      "wide_source_sha": "wide_prediction_sha256"
+    },
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/submission-f0-r1/evidence/scored.npz",
+    "scalar_bindings": {
+      "deep_source_sha": "50ea5e088b60da8b31ee1796771c4c13f2940131293a51793d63ceadf324be3d",
+      "grade_sha": "65f448989243aa575cac2e5701c55bf8ee6e874e6b01f39840bb4418dbb9fdd0",
+      "split_sha": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "wide_source_sha": "21af6180c3290a99f450d701daca03581762ea18cfc70ffcc9453929435ee8f0"
+    },
+    "sha256": "6277cca8d92f103da556929b0e88fc1c63c9eada61c5ae36d98af4a153d62d38"
+  },
+  "comparisons": [
+    {
+      "baseline": "wide",
+      "candidate": "fp32_mix"
+    },
+    {
+      "baseline": "deep",
+      "candidate": "fp32_mix"
+    },
+    {
+      "baseline": "fp32_mix",
+      "candidate": "q8"
+    },
+    {
+      "baseline": "wide",
+      "candidate": "q8"
+    },
+    {
+      "baseline": "wide",
+      "candidate": "strong_control"
+    },
+    {
+      "baseline": "fp32_mix",
+      "candidate": "strong_control"
+    },
+    {
+      "baseline": "q8",
+      "candidate": "strong_control"
+    }
+  ],
+  "derived_comparison": {
+    "alignment_receipt_sha256": "49198121cbe8c1787c11db7982bce687bf1d0da2083c4c7490ad4ecd725cc315",
+    "control_is_exact_public_incumbent": false,
+    "control_is_historical_strong_pipeline": true,
+    "search_or_tuning": false,
+    "source_inputs_sha256": "ca42ce983e42e6c2eea501b05b85a2731bf0303bb997df0d337a5593b55cd487",
+    "status": "prepared_from_sealed_same_row_alignment"
+  },
+  "models": {
+    "deep": {
+      "array_sha256": "0dca851c31aaac3c724fa8b73b9447a0f3e8da7db1681690de955d27ec498b5f",
+      "key": "deep",
+      "kind": "bundle_key",
+      "source_prediction_sha256": "50ea5e088b60da8b31ee1796771c4c13f2940131293a51793d63ceadf324be3d"
+    },
+    "fp32_mix": {
+      "arithmetic": "float32 multiply wide by w, multiply deep by (1-w), then float32 add",
+      "array_sha256": "d30d612ed55f4b4dd10889c829bc703c0efdd1b8e981d143cd7aedfc10bbd131",
+      "deep_model": "deep",
+      "kind": "fixed_blend",
+      "wide_model": "wide",
+      "wide_weight": 0.75
+    },
+    "q8": {
+      "alignment_receipt": {
+        "fields": {
+          "bundle": "scored_source_npz_sha256",
+          "prediction": "scored_prediction_sha256",
+          "rows": "selected_rows"
+        },
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/f0_submission_r1/receipts/INDEPENDENT_NATIVE_GRADE.json",
+        "sha256": "7c02f73f947faa1d075fa39e7d76395bb156abdd9aa17ca9726c7d68f1f3b9bf"
+      },
+      "kind": "npy",
+      "paired_bundle_rows": 808863,
+      "paired_bundle_sha256": "6277cca8d92f103da556929b0e88fc1c63c9eada61c5ae36d98af4a153d62d38",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/submission-f0-r1/q8_scored.npy",
+      "sha256": "b14e6a6f2e879c52bc09d1cfd946760ed9ad9e175cbab9a59dd2ce50021d6048"
+    },
+    "strong_control": {
+      "alignment_receipt": {
+        "fields": {
+          "bundle": "paired_bundle_sha256",
+          "prediction": "prediction_sha256",
+          "rows": "selected_rows"
+        },
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/strong-control-eval-r4/ALIGNMENT_RECEIPT.json",
+        "sha256": "49198121cbe8c1787c11db7982bce687bf1d0da2083c4c7490ad4ecd725cc315"
+      },
+      "kind": "npy",
+      "paired_bundle_rows": 808863,
+      "paired_bundle_sha256": "6277cca8d92f103da556929b0e88fc1c63c9eada61c5ae36d98af4a153d62d38",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/strong-control-eval-r4/strong_control_scored.npy",
+      "sha256": "ea20109ca1bd194f40cba69f4fd412bb27e33fe164ed443c61f19af4d15fb24d"
+    },
+    "wide": {
+      "array_sha256": "972d3986f8e4418ee9d1f1750c085acdb5e5e91d9fe20b4cc2725a5edd7dccd5",
+      "key": "wide",
+      "kind": "bundle_key",
+      "source_prediction_sha256": "21af6180c3290a99f450d701daca03581762ea18cfc70ffcc9453929435ee8f0"
+    }
+  },
+  "purpose": "Source-bound retrospective F0 residual diagnostic only; not an incumbent comparison, calibration, blend search, or held-out evaluation.",
+  "receipts": {
+    "BLEND_SELECTION": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/f0_submission_r1/receipts/BLEND_SELECTION.json",
+      "sha256": "59513a1aa292feb9eb4c59211c70a057c3cd0362ebddfc6ad6879b09279c6c46"
+    },
+    "EXTRACTION": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/f0_submission_r1/receipts/EXTRACTION.json",
+      "sha256": "6934f283105bf70e449d93f8114750169a695c71e7a00a9d5cc9714d6c105fe7"
+    },
+    "INDEPENDENT_NATIVE_GRADE": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/f0_submission_r1/receipts/INDEPENDENT_NATIVE_GRADE.json",
+      "sha256": "7c02f73f947faa1d075fa39e7d76395bb156abdd9aa17ca9726c7d68f1f3b9bf"
+    },
+    "Q8_FULL_F0": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/f0_submission_r1/receipts/Q8_FULL_F0.json",
+      "sha256": "d5ff23d3bae39f831c00c6431e1d31de635e5c13e696cada2f6760c126dc1572"
+    }
+  },
+  "schema": "wnn.quality_gap.inputs.v1",
+  "source": {
+    "components": 141,
+    "fold_manifest": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/submission-f0-r1/evidence/fold0.json",
+      "sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+    },
+    "interpretation": "Labels are original-parquet t0/t1 values from rows already selected by is_scored AND need_prediction. No parquet scan or sequence-position reconstruction is performed by this diagnostic.",
+    "mask_predicate": "need_prediction AND is_scored; compact rows already selected",
+    "metric_id": "global_wp_clip2_v1",
+    "row_groups": 468,
+    "selected_rows": 808863,
+    "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "valid_parquet_bytes": 5615509128,
+    "valid_parquet_path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/datasets/valid.parquet",
+    "valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  }
+}

@@ -1,5 +1,7 @@
 # Imported sources
 
+[Archived w18 producer routes](../../campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/README.md) bind 14 source snapshots and bounded live text evidence. They recover teacher endpoints and raw composition coefficients totaling 0.8125, without proving actual target bytes or row alignment. [Creative propensity source history](../../campaign_2026-10-18/quality_gap_r1/tl3_propensity_history_trace_r1/README.md) distinguishes a structurally compatible legacy writer from an unproven actual producer; it preserves unknown fitting groups, normalization and checkpoint selection. These team-source findings narrow clean-counterpart preparation, not measured model quality.
+
 External writeups and literature provenance; external results do not establish local model gains.
 
 ## Current navigation

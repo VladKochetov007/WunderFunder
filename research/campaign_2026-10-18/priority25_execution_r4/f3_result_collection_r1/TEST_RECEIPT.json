@@ -1,0 +1,89 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "-v",
+        "test_f3_result_collection.py"
+      ],
+      "status": "passed",
+      "tests_passed": 6
+    },
+    {
+      "argv": [
+        "uv",
+        "run",
+        "--no-sync",
+        "ruff",
+        "format",
+        "--check",
+        "."
+      ],
+      "status": "passed"
+    },
+    {
+      "argv": [
+        "uv",
+        "run",
+        "--no-sync",
+        "ruff",
+        "check",
+        "."
+      ],
+      "status": "passed"
+    },
+    {
+      "argv": [
+        "python",
+        "collect_f3_results.py",
+        "--help"
+      ],
+      "status": "passed"
+    }
+  ],
+  "created_utc": "2026-10-18T17:02:58Z",
+  "schema": "priority25.f3_result_collection_tests.v1",
+  "scope": {
+    "checkpoint_or_prediction_payload_opened": false,
+    "model_quality_claimed": false,
+    "remote_commands_or_jobs": false,
+    "training_or_prediction_export": false
+  },
+  "source_artifacts": {
+    "INDEPENDENT_REVIEW_REQUEST.md": {
+      "bytes": 1079,
+      "sha256": "12cd1ff571edddd8ea16fd52c306c677b8d89a57ccc949310db5b76b853ceb5e"
+    },
+    "README.md": {
+      "bytes": 6081,
+      "sha256": "4d62f45ea1c0157db0cfcafef873024ee4ed44ea8127beadf751ced7061f4773"
+    },
+    "collect_f3_results.py": {
+      "bytes": 23054,
+      "sha256": "2a61de37d4fb9260a69e553aca2b789d427ad4719cc516a8a45d10fb745723b8"
+    },
+    "f3_result_checks.py": {
+      "bytes": 28486,
+      "sha256": "dd23c9f3016b7b4e5b0e2bb1e753d9b05e4f1717ec1d7d436253f8dcd1146925"
+    },
+    "result_io.py": {
+      "bytes": 9797,
+      "sha256": "8442d1b3f8880487e88888a1ec2749f25fab217878925d744f27acf36ee4b06d"
+    },
+    "test_f3_result_collection.py": {
+      "bytes": 19307,
+      "sha256": "1339bd7c78da84366b376ea7d3e213483f8e616179fb45ad8019f1b905207443"
+    }
+  },
+  "status": "passed",
+  "test_cases": [
+    "test_actual_f3_stage1_receipt_shapes_and_artifacts",
+    "test_attempt_binds_command_contract_and_source_manifest",
+    "test_evaluation_sidecar_uses_f3_order_and_epoch5",
+    "test_grade_binds_both_fixed_endpoints_and_components",
+    "test_plan_step_set_rejects_non_v1_attempt",
+    "test_terminal_seal_requires_actual_receipt_and_reviewer_bindings"
+  ]
+}

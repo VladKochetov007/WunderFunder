@@ -1,0 +1,47 @@
+{
+  "observed_utc": "2026-10-18T12:28:00.289920+00:00",
+  "unit": "computer-vision-homework-r01-wide-f1-terminal-verify-v4.service",
+  "systemd": {
+    "RuntimeMaxUSec": "2min",
+    "Result": "success",
+    "ExecMainStartTimestampMonotonic": "1383702142253",
+    "ExecMainExitTimestampMonotonic": "1383708984557",
+    "ExecMainCode": "1",
+    "ExecMainStatus": "0",
+    "ControlGroup": "",
+    "MemoryPeak": "[not set]",
+    "CPUUsageNSec": "3370682000",
+    "CPUQuotaPerSecUSec": "500ms",
+    "MemoryHigh": "1350000000",
+    "MemoryMax": "1500000000",
+    "MemorySwapMax": "0",
+    "LoadState": "loaded",
+    "ActiveState": "active",
+    "SubState": "exited"
+  },
+  "receipt_exists": true,
+  "journal_tail": "Oct 18 12:27:35 beleriand systemd[1720689]: Started computer-vision-homework-r01-wide-f1-terminal-verify-v4.service - /home/grinchenkoeg/WunderFunder/.venv/bin/python /home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_recovery_r1/checkpoints_v4/verify_f1_checkpoint.py --arm wide --phase terminal --snapshot-dir /home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f1_s1001_e6/epoch5_terminal --source-root /home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036 --collection-receipt /home/grinchenkoeg/computer-vision-homework-20261018/runtime/receipts/RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_V3.json --plan /home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/F1_BELERIAND_PLAN.json --fold-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json --data-registry /home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_SOURCES.json --archive-manifest /home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_ARCHIVES.json --stage1-snapshot-dir /home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f1_s1001/stage1_epoch1 --stage1-verification /home/grinchenkoeg/computer-vision-homework-20261018/runtime/receipts/RANK01_WIDE_F1_S1001_STAGE1_VERIFICATION.json --peer-stage1-snapshot-dir /home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f1_s1001/stage1_epoch1 --peer-stage1-verification /home/grinchenkoeg/computer-vision-homework-20261018/runtime/receipts/RANK01_DEEP_F1_S1001_STAGE1_VERIFICATION.json --output /home/grinchenkoeg/computer-vision-homework-20261018/runtime/receipts/RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_V4.json.\n",
+  "receipt_sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c",
+  "wall_seconds": 6.842304,
+  "verification_summary": {
+    "schema": "priority25.f1_checkpoint_verification.recovery_v4",
+    "status": "passed",
+    "next_epoch": 6,
+    "completed_update_counts": {
+      "optimizer_attempts": 89580,
+      "amp_skipped_updates": 0,
+      "optimizer_completed_updates": 89580,
+      "ema_updates": 0,
+      "completed_batches": 8958
+    },
+    "planned_schedule_updates": 89580,
+    "source_files_verified": 138,
+    "history_epochs_verified": 6,
+    "stage1_parent_training_state_sha256": "8cb3dde79550355303cbede0d0953864046b7594c16af648423d4a3c9af92255",
+    "model_tensors_verified": 12,
+    "adam_states_verified": 10,
+    "adam_floating_tensors_verified": 30,
+    "peer_pair_contract_checked": true,
+    "cuda_initialized": false
+  }
+}

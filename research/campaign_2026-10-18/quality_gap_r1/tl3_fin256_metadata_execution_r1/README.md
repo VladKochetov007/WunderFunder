@@ -1,0 +1,11 @@
+# Actual fin256 parent metadata extraction
+
+The two exact resolved `fin256_s3/s4@ep3` checkpoints were read under a separately admitted CPU-only unit on18October at17:26UTC. This closes the stored-config branch of the tied-lead teachers and fbc1k initializer; it does not certify clean evaluation membership or an exact historical trainer.
+
+The reviewed [preparation](../tl3_fin256_metadata_r1/README.md), [independent static review](../tl3_fin256_metadata_r1/INDEPENDENT_REVIEW.json) and [root wrapper review](../tl3_fin256_metadata_r1/ROOT_LAUNCH_REVIEW_V1.json) preceded execution. [Admission](TL3_FIN256_METADATA_ADMISSION_V1.json) freshly bound both logical creative symlinks to their exact resolved Main paths, stable generations, sizes and SHA. [Input manifest](TL3_FIN256_METADATA_INPUTS_R1.json) binds the actual admission. [Launch](TL3_FIN256_METADATA_LAUNCH_V1.json) records the exact command.
+
+[Actual receipt](TL3_FIN256_METADATA_R1.json), SHA `734c1625eb504aae8a790987216d25acbc8246fb06d0b14161a04fd4c08bf283`, records two files /7,867,198bytes, unchanged pre/post hashes, Torch2.14.0+cu130, CUDA uninitialized and4.420667seconds helper elapsed. [Execution capture](EXECUTION_V1.json) records successful exit0 at17:26:35UTC,5.826403seconds systemd process duration. [Stop](STOP_V1.json) confirms cleanup only after capture. Empty terminal ControlGroup was normal. Parent `memory.events` counters remained high=177, max=561, oom=0; parent byte limits remain18GBhigh/20GBmax. The existing F3 GPU worker was preserved.
+
+Support limits were0.5CPU/1.5GB/120seconds/no swap/hidden CUDA/physical TMP. Fresh reservations were1.6CPU total and11,826,462,464bytes committed including support, below2CPU and17GB. Only metadata and tensor schemas were copied locally, without tensor values or large arrays. No inference, fit, score, convergence or finiteness check was performed.
+
+[Findings](FINDINGS.md) interpret recorded options and remaining dependencies. `root_launch_script.py` and `root_capture_script.py` preserve the exact used wrappers; `transport_stdout.json` carries raw-byte base64 copies of admission/input/launch and empty stderr. Do not rerun this completed extraction. Frozen preparation still describes its prior prepared state.

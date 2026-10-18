@@ -1,0 +1,21 @@
+{
+  "schema": "priority25.f1_recovery_checkpoint_support_review.v4",
+  "created_utc": "2026-10-18T12:26:57.851563+00:00",
+  "author": "root; independent of implementing subagent",
+  "status": "accepted_for_one_cpu_terminal_verification",
+  "manifest_sha256": "0492d5f569c46cbf498511dce62a6a8d33fec7ed986cae93f369b5ffe0a0970c",
+  "checks": [
+    "Independent diff review: only lineage current-helper comparison removed, pinned V2 peer identity retained; own and peer run/attempt/contract/source/dependency checks intact.",
+    "Verifier caller agrees with removed unused parameters and emits distinct recovery_v4 schema.",
+    "Actual V2 receipt identities exercised by two new regression tests; agent reports 9 stdlib tests and Ruff pass; tests not redundantly rerun.",
+    "Collector/common/evidence/tensor implementations confirmed byte-identical to frozen V3; original V3 collection is accepted through identical collector hash.",
+    "No changes to original plan/recovery/rejection, trainer, data, optimizer or outputs."
+  ],
+  "v3_verifier_execution": "not_run; bug identified statically before execution",
+  "collection_already_complete": true,
+  "collection_exact_remote_sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26",
+  "limitations": [
+    "Preparation and code review only; actual terminal verification pending.",
+    "Synthetic regression uses actual receipt schemas and mocked state mappings, not Torch checkpoint tensors."
+  ]
+}

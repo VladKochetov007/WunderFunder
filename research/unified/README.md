@@ -1,5 +1,7 @@
 # Unified research library
 
+[18 October measured strong-control comparison](../campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r4/records/RESULTS.md): matched-row F0 WP 0.68115416 versus Q8 0.67382636; conditional delta interval [0.00238446,0.01352521]. [Public incumbent trace](../campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/README.md) resolves tl3 /1lmehfi3 /0.66832; [clean-counterpart plan](../campaign_2026-10-18/quality_gap_r1/TL3_CLEAN_COUNTERPART_PLAN_20261018.md) remains unexecuted pending ancestry closure.
+
 Start with [current state](../../specs/current-state.md). The October 17 research
 reset authorizes analysis, EDA and engineering; the separately admitted geometry
 pilot has its own bounded fitting authority.
@@ -12,6 +14,10 @@ revised decisions. No training or new inference in this packet.
 Earlier: [No-fit research reset and 25-idea portfolio](../campaign_2026-10-17/research_reset_r1/README.md)
 — deployed prediction/cache fixes, a 249.6M-row narrow census, sampled full-feature
 and event-lag EDA, primary literature, and independent criticism. No new fits.
+
+## October 18 direct quality-gap investigation
+
+The [100-row public submission trace](../campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/README.md) identifies `tl3.zip` / `1lmehfi3` as the user-reported team best, 0.66832, and binds its name to the archived three-model production recipe. Portal bytes remain unverified. The [quality-gap packet](../campaign_2026-10-18/quality_gap_r1/README.md) separates that recipe from the cold rank1 width/depth control, restores a historical F0 control, and records source-bound residual diagnostics. [F1](../campaign_2026-10-18/priority25_execution_r4/receipts/F1_COMPLETION_20261018T1500Z.md) is complete and accepted; F0/F1 are two paired cells, not CP30.
 
 ## Read first
 

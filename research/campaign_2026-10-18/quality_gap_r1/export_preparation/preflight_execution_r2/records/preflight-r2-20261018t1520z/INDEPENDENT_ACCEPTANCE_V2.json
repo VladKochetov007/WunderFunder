@@ -1,0 +1,31 @@
+{
+  "schema": "quality_gap.preflight_independent_acceptance.erratum.v1",
+  "supersedes": "INDEPENDENT_ACCEPTANCE_V1.json",
+  "superseded_review_sha256": "29039783d7ceb63744d5b9bfbf7cc73b006b78ffcd3ea92759a009156da7fce7",
+  "decision": "PASS_CPU_PREFLIGHT_ONLY",
+  "correction_scope": "This erratum corrects only the README modification-time interpretation in V1. The receipt/capture/execution validation, hashes, and decision remain unchanged.",
+  "corrected_readme_pin_observation": {
+    "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/README.md",
+    "root_admission_pin": {
+      "bytes": 7892,
+      "sha256": "b68c58a508f658f7bd3e2c770b5341891d8b734940c63e65cfcd6e2d164e34fb"
+    },
+    "current": {
+      "bytes": 8159,
+      "sha256": "f8cb652c2b5eb7eac9c97d37e5ae0d2fa1aee4cb6c09974269aaa64dac6d936c",
+      "mtime_utc": "2026-10-18T15:23:41.803725+00:00"
+    },
+    "launch_started_utc": "2026-10-18T15:20:53.522334+00:00",
+    "execution_finished_utc": "2026-10-18T15:27:01.634217+00:00",
+    "interpretation": "The README changed during the bounded run, before completion, not after it. It is documentation and not runtime input to the preflight. The seven pinned non-README .py files (six runtime helpers plus one test file) still match ROOT_ADMISSION. This is a non-blocking documentation-pin discrepancy; V1's claim that the mtime proved a post-run update is withdrawn. The available local metadata does not establish who changed the README or whether it changed before or after the launch began."
+  },
+  "unchanged_acceptance_basis": {
+    "manifest_sha256": "1785e8529a2868e1ca40a0c668c57ccc28ae82b04fda7c13bf7a3c8bc32c409b",
+    "independent_review_sha256": "dfb733ebc98ac2012062e48152bf6f0d40d26f5c8ea079e4ab1b88379e8cdffe",
+    "receipt_sha256": "fd1010d586de8cb472b0c6b421890225eecba84e5096ac80e5ff75d5b73b7670",
+    "execution_sha256": "8a44cd0f96e83b97c5693023cd69f1892d4c007b5eecd14bbf871713a71751df",
+    "capture_sha256": "62d5023127dedac0bf45be6996572bbf950c3929f704d0ba58c2d81ccb9a2526",
+    "result": "PASS_CPU_LOADER_PREFLIGHT, exit 0, captured bytes/hash equal the local receipt; execution stdout/stderr raw hashes match their recorded bindings. No export, inference, prediction, grading, or training was admitted."
+  },
+  "remaining_gate": "No inference or export admission follows from this pass. Preserve the original V1 errant statement as historical review evidence; use this erratum for the corrected timestamp interpretation."
+}

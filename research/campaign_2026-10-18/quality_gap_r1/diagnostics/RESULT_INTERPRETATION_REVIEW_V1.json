@@ -1,0 +1,199 @@
+{
+  "schema": "quality_gap.result_interpretation_review.v1",
+  "reviewed_at_utc": "2026-10-18 14:31:44 UTC",
+  "status": "pass_with_scope_limits",
+  "blockers": [],
+  "review_method": "Independent read-only review of aggregate RESULT.json/RESULT.csv, launch and execution receipts, INPUTS.json, and the pinned local receipt JSON files. No source arrays were loaded, no remote calls or jobs were made, and no tests were rerun.",
+  "bindings": {
+    "metric_id": "global_wp_clip2_v1",
+    "selected_rows": 808863,
+    "unique_row_groups": 468,
+    "unique_components": 141,
+    "source_bundle_sha256": "6277cca8d92f103da556929b0e88fc1c63c9eada61c5ae36d98af4a153d62d38",
+    "inputs_sha256": "ca42ce983e42e6c2eea501b05b85a2731bf0303bb997df0d337a5593b55cd487",
+    "canonical_metric_implementation_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "diagnostic_source_sha256": {
+      "entrypoint": "c46a60e03a1c63ffbe06b1dc72ac0e0beb353b2eac3b265b3b2388a84dc553f7",
+      "input_validation": "7a990a1243ec9b042ec061d95bca7f5d2f0c0136ac95ee7af59438a9429584b2",
+      "receipt_validation": "6089ca9d21bf026b0c96c1f29916fadb10feb0b255f51f997a3b1ba34d71d984",
+      "analysis": "54d539309ceb693add355c0bfe9965c7cf5dea9ca4dc56d8ac46b40933824e6b",
+      "moments": "336c85f42a7334e2b78c90148f12854d5625fd378171a88faaaf9f8c70c64476"
+    },
+    "prediction_sha256": {
+      "wide": "972d3986f8e4418ee9d1f1750c085acdb5e5e91d9fe20b4cc2725a5edd7dccd5",
+      "deep": "0dca851c31aaac3c724fa8b73b9447a0f3e8da7db1681690de955d27ec498b5f",
+      "fp32_mix": "d30d612ed55f4b4dd10889c829bc703c0efdd1b8e981d143cd7aedfc10bbd131",
+      "q8": "b14e6a6f2e879c52bc09d1cfd946760ed9ad9e175cbab9a59dd2ce50021d6048"
+    },
+    "result_json": {
+      "path": "results/RESULT.json",
+      "bytes": 1455052,
+      "sha256": "13cfa8d6028fde580b6afe9e94f891381927fdfdab29403f93664fa5797a3900"
+    },
+    "result_csv": {
+      "path": "results/RESULT.csv",
+      "bytes": 314311,
+      "data_rows": 1240,
+      "sha256": "c43c5b6fdacda57f0a666ab236abb2ff84970a85a5a30f0c8070d8913b9fe949"
+    },
+    "launch_receipt_sha256": "0f78b977d64be447270c72a7da1b38146d200177f3f98bd6eb73cd3979045e56",
+    "execution_receipt_sha256": "daf43e3883d127285fc4f041db4b20d640a8eb74a5ebddbe31e2099a0bcaee28",
+    "pinned_receipt_sha256": {
+      "EXTRACTION": "6934f283105bf70e449d93f8114750169a695c71e7a00a9d5cc9714d6c105fe7",
+      "BLEND_SELECTION": "59513a1aa292feb9eb4c59211c70a057c3cd0362ebddfc6ad6879b09279c6c46",
+      "INDEPENDENT_NATIVE_GRADE": "7c02f73f947faa1d075fa39e7d76395bb156abdd9aa17ca9726c7d68f1f3b9bf",
+      "Q8_FULL_F0": "d5ff23d3bae39f831c00c6431e1d31de635e5c13e696cada2f6760c126dc1572"
+    },
+    "position_status": "unavailable: compact source bundle has no source-bound step_in_seq sidecar; no parquet scan was performed"
+  },
+  "verification": {
+    "execution": {
+      "exec_main_status": 0,
+      "substate": "exited",
+      "wall_seconds": 6.274616,
+      "memory_peak": null,
+      "memory_peak_note": "Execution receipt reports MemoryPeak unset after cgroup removal; no measured peak is claimed."
+    },
+    "receipt_bindings": "All four local receipt byte hashes match INPUTS.json pins; result manifest hash, bundle hash, receipt hashes, and current diagnostic source hashes match their recorded bindings.",
+    "endpoint_receipt_match": {
+      "status": "matched_with_float64_roundoff",
+      "maximum_absolute_score_difference": 3.3306690738754696e-16,
+      "references": {
+        "wide": "BLEND_SELECTION.endpoints.wide.recomputed_score",
+        "deep": "BLEND_SELECTION.endpoints.deep.recomputed_score",
+        "fp32_mix": "BLEND_SELECTION.selection.score",
+        "q8": "INDEPENDENT_NATIVE_GRADE.scores and Q8_FULL_F0.official_score"
+      }
+    },
+    "additive_identity": {
+      "maximum_model_regime_sum_minus_official_wp": 2.1760371282653068e-14,
+      "maximum_shared_pair_partition_sum_minus_pair_delta": 1.1982060309223552e-15,
+      "shared_pair_partitions": [
+        "retrospective_label_abs_clipped",
+        "component"
+      ]
+    }
+  },
+  "findings": {
+    "endpoint_scores": {
+      "wide_wp": 0.6735757509889007,
+      "deep_wp": 0.6721087673204733,
+      "fp32_mix_75_wide_25_deep_wp": 0.6738509442388187,
+      "q8_wp": 0.6738263576698659,
+      "t0_t1_wp": {
+        "wide": [0.6637479907373636, 0.6834035112404377, 0.6735757509889007],
+        "deep": [0.6628715189356847, 0.6813460157052619, 0.6721087673204733],
+        "fp32_mix": [0.6641742334814981, 0.6835276549961395, 0.6738509442388187],
+        "q8": [0.6641447254350514, 0.6835079899046803, 0.6738263576698659]
+      },
+      "t0_t1_wp_array_order": ["t0", "t1", "wp"]
+    },
+    "paired_wp_deltas_candidate_minus_baseline": [
+      {
+        "baseline": "wide",
+        "candidate": "fp32_mix",
+        "delta": 0.00027519324991809313
+      },
+      {
+        "baseline": "deep",
+        "candidate": "fp32_mix",
+        "delta": 0.0017421769183454394
+      },
+      {
+        "baseline": "fp32_mix",
+        "candidate": "q8",
+        "delta": -0.00002458656895287792
+      },
+      {
+        "baseline": "wide",
+        "candidate": "q8",
+        "delta": 0.0002506066809652152
+      }
+    ],
+    "label_bin_concentration": {
+      "interpretation": "Per-target pooled global-WP contributions were summed across targets for each shared retrospective bin of absolute clipped target. These are metric contributions, not row-frequency shares; the official metric weights by absolute clipped target.",
+      "wide_to_fp32_mix": {
+        "highest_bin": "[1,2]",
+        "highest_bin_delta": 0.0001563545037113201,
+        "share_of_net_delta": 0.568,
+        "nonzero_bin_deltas": {
+          "[0.1,0.25)": 0.00000812607998238314,
+          "[0.25,0.5)": 0.000033588901011928456,
+          "[0.5,1)": 0.00007712376521237796,
+          "[1,2]": 0.0001563545037113201
+        }
+      },
+      "deep_to_fp32_mix": {
+        "highest_bin": "[1,2]",
+        "highest_bin_delta": 0.0017424565596121377,
+        "share_of_net_delta": 1.00016,
+        "nonzero_bin_deltas": {
+          "[0.1,0.25)": -0.000011439292012648677,
+          "[0.25,0.5)": -0.00004666474540170138,
+          "[0.5,1)": 0.0000578243961464886,
+          "[1,2]": 0.0017424565596121377
+        }
+      },
+      "fp32_mix_to_q8": {
+        "highest_bin": "[1,2]",
+        "highest_bin_delta": -0.00002217783409169671,
+        "share_of_net_delta": 0.902,
+        "nonzero_bin_deltas": {
+          "[0.1,0.25)": 2.8190340753755927e-7,
+          "[0.25,0.5)": -2.1590959158653694e-7,
+          "[0.5,1)": -0.000002474728676087057,
+          "[1,2]": -0.00002217783409169671
+        }
+      }
+    },
+    "component_concentration": {
+      "interpretation": "Component contributions were aggregated across both targets before ranking. Shares use gross absolute net component deltas, so opposing component effects can exceed the pair's net delta.",
+      "wide_to_fp32_mix": {
+        "positive_components": 74,
+        "negative_components": 67,
+        "largest_absolute_component_id": 2799,
+        "largest_component_delta": 0.00020641143276932047,
+        "largest_component_share_of_gross_absolute": 0.0966,
+        "top_five_share_of_gross_absolute": 0.2542
+      },
+      "deep_to_fp32_mix": {
+        "positive_components": 83,
+        "negative_components": 58,
+        "largest_absolute_component_id": 2799,
+        "largest_component_delta": -0.00046032606619842223,
+        "largest_component_share_of_gross_absolute": 0.0728,
+        "top_five_share_of_gross_absolute": 0.2654
+      },
+      "fp32_mix_to_q8": {
+        "positive_components": 49,
+        "negative_components": 92,
+        "largest_absolute_component_id": 2799,
+        "largest_component_delta": 0.000007067305074420077,
+        "largest_component_share_of_gross_absolute": 0.0547,
+        "top_five_share_of_gross_absolute": 0.2085
+      },
+      "conclusion": "No single component dominates gross absolute paired change in these comparisons; component IDs are descriptive audit leads only."
+    },
+    "descriptive_prediction_on_target_moments": {
+      "fp32_mix_target_0_weighted_bias_prediction_minus_target": -0.008323008847941793,
+      "fp32_mix_target_1_weighted_bias_prediction_minus_target": 0.00907595568460201,
+      "fp32_mix_target_0_slope_prediction_on_target": 0.45618859544184526,
+      "fp32_mix_target_1_slope_prediction_on_target": 0.48061164692666897,
+      "definition_and_caveat": "The reported slope is the weighted linear projection of clipped prediction on clipped target (Syp/Syy), with intercept mu_prediction - slope*mu_target. It is descriptive, is direction-specific, and is not a fitted calibration correction or a held-out calibration result."
+    }
+  },
+  "limitations": [
+    "The 75/25 blend weight was selected on this same exposed F0 population, so wide/deep/mix comparisons are retrospective and are not independent validation.",
+    "Q8 versus FP32 mix is a same-row, receipt-bound exposed-F0 grade comparison; it does not establish generalization.",
+    "No source-bound strong-control predictions were included, so this review supports no comparison to an absent strong control and no public-causality conclusion.",
+    "Rows are the compact source selection need_prediction AND is_scored. Sequence position is unavailable, and the diagnostic did not scan the parquet or reconstruct positions.",
+    "No uncertainty interval or independent resampling estimate is reported; the small paired score differences should not be read as evidence of stability beyond this panel.",
+    "The weighted bias and prediction-on-target moments describe this panel only. They do not justify fitting or applying a calibration transform.",
+    "The execution receipt has no measured memory peak."
+  ],
+  "actionable_followups": [
+    "When the historical strong-control prediction is restored or a receipt-bound compatibility route is approved, compare it on the exact same selected rows and metric, preserving the source and split bindings, then repeat the shared-partition decomposition.",
+    "Treat component 2799 and the high absolute-label bin as descriptive audit leads only; do not tune to these exposed-F0 contribution patterns.",
+    "If calibration is pursued later, specify the regression direction and fit/evaluation split up front, then report an independent held-out result."
+  ]
+}

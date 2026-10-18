@@ -1,0 +1,11 @@
+{
+  "schema": "quality_gap.root_prelaunch_layout_failure.v1",
+  "observed_utc": "2026-10-18T16:06:05.025951+00:00",
+  "status": "FAILED_BEFORE_SUPPORT_LAUNCH",
+  "operation": "align root prelaunch full helper/source hash check",
+  "error": "FileNotFoundError B/src/wnn/evaluation.py",
+  "cause": "Earlier metadata staging remapped src/wnn files to canonical source-a266b036/src, whereas sealed grade_control records source identities at repo-relative src/wnn. Canonical files are present and exact; expected metadata mirror paths missing.",
+  "scientific_code_or_arrays_executed": false,
+  "new_unit_created": false,
+  "repair": "Create-only exact two metadata source copies from canonical source-a266b036/src into B/src/wnn; preserve canonical PYTHONPATH and frozen helpers."
+}

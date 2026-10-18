@@ -3,6 +3,9 @@
 Start with the [packet interpretation](../README.md). These receipts distinguish
 FP32 selection, actual native serving and independent artifact checks.
 
+- [User-reported public result0897egiv](PUBLIC_RESULT_0897egiv_20261018.json):0.65839,45m47s/653MB; filename association, portal payload SHA unverified; no promotion over prior team best.
+- [Independent static public-transfer audit](PUBLIC_TRANSFER_STATIC_AUDIT_20261018.json): exact local release/replay hash binding and tested mask/reset/metric/dispatch paths; remaining scope limits, no demonstrated causal defect or new replay.
+
 - [LOCAL_ASSETS](LOCAL_ASSETS.json): selected epoch5 checkpoints/provenance,
   recovered native runtime and wrapper identities.
 - [EXTRACTION](EXTRACTION.json): compact scored rows and complete diagnostic

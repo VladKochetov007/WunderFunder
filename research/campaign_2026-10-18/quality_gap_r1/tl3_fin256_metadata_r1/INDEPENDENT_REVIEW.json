@@ -1,0 +1,33 @@
+{
+  "blockers": [],
+  "confirmed": [
+    "The sealed preparation manifest and test receipt match the requested SHA-256 pins. All six declared artifacts match their manifest byte counts and hashes; all five source-binding files match their pinned hashes. The packet inventory matched the declared inventory before this review receipt was created.",
+    "The helper accepts exactly the two resolved fin256_s3/fin256_s4 epoch-3 checkpoint paths, exact observed sizes, the pinned source observation, fresh per-input SHA-256 values, and a root admission receipt hash. The template remains intentionally non-runnable.",
+    "Checkpoint inputs are required to be regular non-symlink files and are checked by identity, size and SHA before loading and rechecked after loading. Deserialization is CPU-only with weights_only=True and has no unrestricted fallback; tensor values are not serialized.",
+    "The output is bounded and created with O_EXCL. Metadata traversal is bounded by depth/item/byte limits and redacts secret-shaped mapping keys. The helper checks active cgroup CPU/memory/swap limits and CUDA state; the README correctly assigns the hard 120-second interruption to the external unit.",
+    "The root launcher verifies the manifest/review pins and manifest-listed bytes, checks the current parent resource/collision/scratch gates, freshly binds both exact checkpoint hashes and stable file identities, validates each logical symlink parent and its resolution to the pinned resolved path, creates an exact clean two-file stage, and launches one CPU-only bounded systemd unit.",
+    "The latest capture helper preserves terminal success or failure evidence, records acceptance errors when no valid receipt exists, verifies the unit is terminal before stopping the exact owned unit, and writes a stop receipt. Its final SHA-256 is included in the companion root-launch review.",
+    "The local test receipt records 13 passing synthetic tests, Ruff check/format and CLI-help checks. No actual checkpoint was opened or hashed by this review."
+  ],
+  "decision": "PASS_STATIC_REVIEW_READY_FOR_ROOT_ADMISSION_WITH_FRESH_HASH_BINDING",
+  "packet": "research/campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_r1",
+  "preparation_manifest_sha256": "b3d78618c18f73799e2e9d70cf5f6606a125d5ce2a18ccdb52218c35db07642b",
+  "qualifications": [
+    "This decision approves static preparation only. It does not admit or execute the extraction and does not verify production checkpoint hashes or restricted-loader compatibility.",
+    "Before launch, root must bind the exact two current B checkpoint paths, sizes, stable generations and SHA-256 values; bind the current root admission receipt; stage only the helper and fresh manifest; and enforce the reviewed unit limits. If weights_only loading rejects either object, stop without fallback.",
+    "Safe metadata and tensor schema do not establish historical fit membership, teacher lineage, source/config identity, or clean F0 ancestry. Those remain separate evidence requirements."
+  ],
+  "reviewed_utc": "2026-10-18T17:26:21Z",
+  "schema": "quality_gap.tl3_fin256_metadata_independent_review.v1",
+  "scope": {
+    "hash_or_size_mismatches": 0,
+    "manifest_artifacts_rehashed": 6,
+    "production_checkpoint_read_or_hashed": false,
+    "remote_execution_or_mutation": false,
+    "source_binding_files_rehashed": 5,
+    "tests_rerun": false,
+    "training_or_inference": false,
+    "unlisted_packet_files_before_review_receipts": 0
+  },
+  "test_receipt_sha256": "09e0c2ac60db5673e5b0575ecefbc2a1b347e243a222a5f063c811155fd826b5"
+}

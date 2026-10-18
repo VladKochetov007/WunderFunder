@@ -1,8 +1,12 @@
 # Submission choices and scores
 
+[October 18 user-transcribed 100-row submission history](../../campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/README.md) resolves the best to `tl3.zip` / `1lmehfi3` / 0.66832, with independent metadata review. Archive recipe and portal-payload identities remain explicitly separate.
+
 Exact releases, public feedback, packaging and release decisions.
 
 ## Current navigation
+
+- [October18 F0 exploratory release and public feedback](../../campaign_2026-10-18/f0_submission_r1/README.md) — user reports `0897egiv` at0.65839,45m47s/653MB; below prior team best. Exact local ZIP passed full F0 at0.67382636; portal payload SHA remains unverified. [Quality-gap diagnosis](../reviews/QUALITY_GAP_DIAGNOSIS_20261018_R1.md).
 
 - [Model and submission catalog](../models/CURRENT_MODEL_CATALOG.md) — current team packages, model/engine naming and source-qualified public results.
 - [Dated public receipt inventory](../reviews/audit-2026-10-17/public_receipts.json) — 81 observations of 70 portal IDs; incomplete submission history.

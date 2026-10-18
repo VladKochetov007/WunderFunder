@@ -1,0 +1,55 @@
+{
+  "schema": "priority25.f3_preflight_independent_review.v1",
+  "status": "PASS_STATIC_REVIEW_UNADMITTED",
+  "reviewed_utc": "2026-10-18T16:41:51Z",
+  "reviewer": "independent static reviewer",
+  "bindings": {
+    "manifest_path": "research/campaign_2026-10-18/priority25_execution_r4/f3_preflight_r1/PREPARATION_MANIFEST.json",
+    "manifest_sha256": "f22393fa381360c3979f0e44b0678604c98e813d54641e30f3aff0ae1a52aad3",
+    "plan_sha256": "b303146cf9db05e0a3bddf8f245d3c9b880d055ce7e97ebe5dd13510b5f4a2d8",
+    "fold3_sha256": "21c7fb52e8e69f38126362cbc5dc60dbc46539041d649b9206ec35e0f21ada1f",
+    "f3_preflight_sha256": "21f83ba4ded89fd14c4f50a4920ba6931eba53007de8d550f57efbc8eef702b8",
+    "frozen_f1_helper_sha256": "3212ce79d0c9d37de41ba679f47929f4c7abbecff6d3682e8acc827051c52aa4",
+    "frozen_source_runtime_helper_sha256": "5e89f0fafa4fd68948fe625d882a055fce0a4554f8d4567bdcb1fa09f24e2eba"
+  },
+  "checks": {
+    "all_four_preparation_manifest_file_pins_match_local_bytes": true,
+    "create_only_receipt_and_hidden_cuda_requirements_are_present": true,
+    "exact_fold_identity_and_canonical_loader_module_paths_are_checked": true,
+    "six_registered_data_inputs_are_full_hashed_with_generation_checks": true,
+    "membership_counts_component_count_and_static_schedule_arithmetic_match_plan": true,
+    "preflight_scope_does_not_claim_training_or_cell_admission": true,
+    "frozen_source_helper_is_explicitly_labeled_as_historical_f0_inventory": true,
+    "canonical_resume_contract_binds_total_steps_data_sources_and_runtime_and_rejects_contract_drift": true,
+    "canonical_resume_loader_bounds_next_epoch_but_does_not_enforce_exact_stage1_counter": true,
+    "automatic_sequence_does_not_interpose_plan_continuation_receipt_gate": true
+  },
+  "findings": [
+    {
+      "severity": "admission_condition",
+      "finding": "The helper checks fold SHA, ordered-list counts, component count and static schedule, but does not recompute the ordered membership digests explicitly required by the F3 plan. Bind all F3_SPLIT_METADATA_V1 ordered digests in a fresh root-side admission record before launch; the exact fold SHA alone is not evidence that the requested digest comparison was performed.",
+      "resolution": "Can be satisfied by a separate bounded standard-library digest receipt without changing this sealed helper."
+    },
+    {
+      "severity": "admission_condition",
+      "finding": "The pinned source/runtime helper hashes the 523 source-map entries from a successful F0 attempt and records Python, NumPy, PyArrow, attrs and Torch metadata, but it does not compare every recorded runtime version with an approved current runtime profile or enumerate the complete extracted source-tree inventory. The F3 driver additionally verifies the canonical split and portability module paths and hashes.",
+      "resolution": "At admission, compare the recorded environment with the selected approved B runtime/profile and independently confirm the source archive/tree inventory against the canonical source binding."
+    },
+    {
+      "severity": "acceptance_condition",
+      "finding": "The frozen trainer recomputes an exact resume contract including total_steps, recipe options, source hashes, data/cache identities, fit membership, loader and runtime, and rejects inequality. Its state loader only bounds next_epoch to 1..epochs; it does not require the expected stage1 next_epoch=2 or cumulative_updates=29760. The sequence runner advances on worker exit 0 without consuming the plan's verification_receipt_path/continuation_gate.",
+      "resolution": "Preserve the current automatic sequence per user direction; bind the actual stage1 checkpoint contract, next_epoch, counters and ancestry in the checkpoint acceptance record, and describe continuation_gate as an acceptance condition rather than claiming it gates automatic admission."
+    }
+  ],
+  "limitations": [
+    "Static review only; this reviewer did not read arrays, execute the data preflight, access B, or perform training or grading.",
+    "The manifest records six tiny local tests and Ruff checks; those tests do not exercise real files or full data reads.",
+    "This review does not itself admit F3 or replace fresh ownership, output-collision, physical-scratch, source/runtime and resource checks."
+  ],
+  "scope": {
+    "data_payloads_read": false,
+    "execution_performed": false,
+    "remote_access": false,
+    "admission_granted": false
+  }
+}

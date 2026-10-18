@@ -1,0 +1,83 @@
+{
+  "schema": "quality_gap.propensity_restore_independent_review.v1",
+  "reviewed_utc": "2026-10-18T14:31:56+00:00",
+  "reviewer": "independent_static_review",
+  "disposition": "static_review_passed_with_trusted_workspace_assumption",
+  "method": "Static local review of the helper, README, exact shared dependency, its frozen review receipt, and local inventory/privacy records. No network access, restoration execution, test repetition, or tensor deserialization was performed.",
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/propensity_recovery_r1/restore_propensity.py",
+      "bytes": 3380,
+      "sha256": "6f875abf3a9261642a5ac966f6784ec20e5687bb653ce73300babe682032797c"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/propensity_recovery_r1/README.md",
+      "bytes": 1002,
+      "sha256": "0345972723b580ccbf3b313ff2149582762d238616c1727c2db9919742d5a8c3"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/recovery/restore_controls.py",
+      "bytes": 6223,
+      "sha256": "85d954ab833c988d2a4a4d919d68bde049b75c3aa4061b8e0bb9f4eb347e7272"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/recovery/REVIEW.json",
+      "bytes": 3632,
+      "sha256": "a0ffa937323daf1ab84e26e1273118b6a88a8f17b0b4bc861f936ed181fc0bb5"
+    },
+    {
+      "path": "research/unified/models/huggingface/MODEL_INVENTORY_20261012.json",
+      "bytes": 7442787,
+      "sha256": "23c60ee03c8884b286e687c90db82f52c9264365a62a955e6d5b12a5c3bdf49b"
+    },
+    {
+      "path": "research/unified/models/huggingface/FINAL_PRIVACY_AND_INTEGRITY_20261012.json",
+      "bytes": 718,
+      "sha256": "c1f2b4cdc69cbfb958791f0c9c2ebc539413fef87491e20eec040c48cb7104c7"
+    }
+  ],
+  "archive_crosscheck": {
+    "inventory_repo_id": "hft-kagglers/wnn-challenge2-model-archive",
+    "inventory_repo_type": "model",
+    "inventory_required_private": true,
+    "inventory_status": "inventoried_not_uploaded",
+    "privacy_receipt_revision": "167452c72a8e994b280446d2fca93f7c08e16f66",
+    "privacy_receipt_private": true,
+    "privacy_receipt_anonymous_visible": false,
+    "run_id": "c20260929_prop_f0",
+    "files": [
+      {
+        "local_path": "artifacts/runs/c20260929_prop_f0/model.pt",
+        "hub_path": "files/artifacts/runs/c20260929_prop_f0/model.pt",
+        "kind": "checkpoint",
+        "bytes": 165623,
+        "sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7"
+      },
+      {
+        "local_path": "artifacts/runs/c20260929_prop_f0/provenance.json",
+        "hub_path": "files/artifacts/runs/c20260929_prop_f0/provenance.json",
+        "kind": "run_metadata",
+        "bytes": 21626,
+        "sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812"
+      }
+    ],
+    "file_count": 2,
+    "total_bytes": 187249,
+    "exact_match_to_inventory": true
+  },
+  "checks": [
+    "The fixed file list, repository, revision, run prefix, sizes and SHA256 values match the two intended entries in the local model inventory; the pinned revision agrees with the frozen privacy/integrity receipt.",
+    "The helper's embedded dependency SHA256 exactly matches recovery/restore_controls.py and the prior frozen review receipt. SafeRedirect limits redirects to HTTPS without URL userinfo and removes Authorization; copy_verified streams with an expected-size-plus-one cap, verifies exact length and SHA256, and publishes with create-only hard-link semantics.",
+    "The helper accepts no arbitrary manifest or file list. It creates a fresh destination exclusively, restores only two fixed files, uses a 25-second per-request timeout, and writes the success receipt exclusively only after both files verify. Existing final files are not overwritten.",
+    "The token is read from the standard local cache into process memory, is sent only on the initial pinned HTTPS request, is stripped on redirects by the frozen helper, and is not included in success or failure output. Failure output omits exception text and URLs.",
+    "The reviewed helper path imports only standard-library modules and does not load or deserialize model tensors, run inference, or fit a model.",
+    "The README accurately assigns aggregate CPU, memory, wall-time, swap, CUDA visibility and physical scratch controls to the external launcher; these limits are not enforced by this helper."
+  ],
+  "nonblocking_operational_limits": [
+    "A failed or interrupted second transfer may leave the first verified file and/or a .partial file, with no success receipt. Downstream collection must require a parseable success receipt and treat any destination without it as incomplete; retry needs a fresh destination.",
+    "Resource ceilings are launcher policy. The helper supplies only per-request timeouts; its owner must launch with the stated CPU, memory, wall-time, no-swap, CUDA-hidden and physical-scratch bounds.",
+    "The helper hashes the dependency bytes and then imports the dependency by reopening its path. This review assumes the trusted workspace file cannot be concurrently replaced between those operations. For a hostile or concurrently writable workspace, execute the verified bytes directly or use an immutable helper path.",
+    "As in the shared helper review, destination ancestors and local filesystem races are trusted; this helper does not independently defend against hostile symlink or directory replacement outside its newly created destination."
+  ],
+  "not_authorized_by_review": "No archive download, network request, runtime/test execution, root resource admission, or downstream model use was authorized or performed. Changes to the helper, dependency, inventory or privacy receipt invalidate this review's hash bindings."
+}

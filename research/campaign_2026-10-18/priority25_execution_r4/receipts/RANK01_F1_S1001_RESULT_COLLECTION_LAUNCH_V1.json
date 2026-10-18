@@ -1,0 +1,110 @@
+{
+  "status": "ADMITTED_AND_LAUNCHED",
+  "utc": "2026-10-18T14:54:36.908452+00:00",
+  "unit": "computer-vision-homework-r01-f1-results-v1.service",
+  "staged_seal_files": [
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_TERMINAL_EVIDENCE_SEAL_V1.json",
+      "sha256": "76219e5977760998c7f44b5f061e8d78a1858c77d0ff268fa072bfd88de4e685"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_WIDE_TERMINAL_RESULT_REVIEW_V1.json",
+      "sha256": "2729ca2e7eee4024ca7eb7a285c20adb1d82523d79803264e4fbf31b05abaad5"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_STAGE1_COLLECTION.json",
+      "sha256": "06a1c36d89c08a2cdfb40339f4d60abe9ce6b2d2205697f047ac95ab5e495a73"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_STAGE1_VERIFICATION.json",
+      "sha256": "b9cf2eb40fe3ba8018c2c98c015d5069bc5eca422a2c384de743f0426866bc81"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_V3_REMOTE.json",
+      "sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_V4.json",
+      "sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_DEEP_TERMINAL_RESULT_REVIEW_V1.json",
+      "sha256": "c8c929acda0e667a9653696fc767c093618f1ff6c79630143ef8eee5a9e497b4"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F1_S1001_STAGE1_COLLECTION.json",
+      "sha256": "d8f44403e53550996e1cf1c2b92bdd3acf7f9139b3aa82fa8d5e0da761d171f8"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F1_S1001_STAGE1_VERIFICATION.json",
+      "sha256": "b6bb2c662feb7c3dd95d665902a43ba28ed2f06ec7d27cc371d201128c86a9be"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F1_S1001_TERMINAL_COLLECTION.json",
+      "sha256": "7aa56c922b25378364dafe83571a3dffbc16dbe7ac5520d4ca2e32b584bf9f21"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F1_S1001_TERMINAL_VERIFICATION.json",
+      "sha256": "4e4defaf1fa048e70b8edfc5685091f0ec71a4d11f4a801de13eb45bb8c80600"
+    }
+  ],
+  "parent_children_before": {},
+  "parent_ram_bytes": 1828368384,
+  "aggregate_reserved_cpu": 0.75,
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=computer-vision-homework-r01-f1-results-v1.service",
+    "--property=Type=exec",
+    "--property=RemainAfterExit=yes",
+    "--property=Slice=wnn-campaign.slice",
+    "--property=CPUQuota=75%",
+    "--property=MemoryHigh=460000000",
+    "--property=MemoryMax=512000000",
+    "--property=MemorySwapMax=0",
+    "--property=RuntimeMaxSec=120",
+    "--property=TimeoutStopSec=10",
+    "--working-directory=/home/grinchenkoeg/computer-vision-homework-20261018",
+    "--setenv=CUDA_VISIBLE_DEVICES=",
+    "--setenv=OMP_NUM_THREADS=1",
+    "--setenv=OPENBLAS_NUM_THREADS=1",
+    "--setenv=MKL_NUM_THREADS=1",
+    "--setenv=PYTHONDONTWRITEBYTECODE=1",
+    "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_result_collection_r1/collect_f1_results.py",
+    "--project-root",
+    "/home/grinchenkoeg/computer-vision-homework-20261018",
+    "--base-plan",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/F1_BELERIAND_PLAN.json",
+    "--recovery-plan",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_recovery_r1/F1_RECOVERY_PLAN.json",
+    "--fold-manifest",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+    "--terminal-seal",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_TERMINAL_EVIDENCE_SEAL_V1.json",
+    "--wide-stage1-collection",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_STAGE1_COLLECTION.json",
+    "--wide-stage1-verification",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_STAGE1_VERIFICATION.json",
+    "--wide-terminal-collection",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION_V3_REMOTE.json",
+    "--wide-terminal-verification",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION_V4.json",
+    "--deep-stage1-collection",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F1_S1001_STAGE1_COLLECTION.json",
+    "--deep-stage1-verification",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F1_S1001_STAGE1_VERIFICATION.json",
+    "--deep-terminal-collection",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F1_S1001_TERMINAL_COLLECTION.json",
+    "--deep-terminal-verification",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F1_S1001_TERMINAL_VERIFICATION.json",
+    "--snapshot-dir",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/result_snapshots/rr18_r01_f1_s1001_e6",
+    "--receipt",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/receipts/RANK01_F1_S1001_RESULT_COLLECTION.json"
+  ],
+  "launch_stdout": "",
+  "launch_stderr": "Running as unit: computer-vision-homework-r01-f1-results-v1.service; invocation ID: 0e990fea23e844c581f77de705a95c07\n",
+  "local_pre_admission_note": "First local seal-construction attempt duplicated a repository-relative prefix and failed before writing any seal; corrected path handling then validated all actual receipt/review bindings."
+}

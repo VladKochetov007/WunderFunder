@@ -1,0 +1,111 @@
+{
+  "artifact_hash_scope": "The manifest does not self-hash; artifacts binds README and input template.",
+  "artifacts": {
+    "INPUT_MANIFEST_TEMPLATE_R1.json": {
+      "bytes": 4547,
+      "sha256": "615ee43acb0afecd96a95f0ed1393e982c69210a564bf715a22c8fd1eb1136d4"
+    },
+    "README.md": {
+      "bytes": 4543,
+      "sha256": "c9f62871640ca3ea41d1cc9d1dd34ef09e894a4a7f525f172c6bc39e611987ec"
+    }
+  },
+  "created_utc": "2026-10-18T17:56:47.918419+00:00",
+  "existing_helper_compatibility": {
+    "checkpoint_metadata_r1": {
+      "accepts_target_ids": false,
+      "allowlist_items": 8,
+      "reason": "validates the exact eight preexisting IDs, paths, sizes, source schema and admission-bound manifest; no W18 target is in that set."
+    },
+    "decision": "Do not modify either sealed helper. A future loader needs an independently versioned exact allowlist and review, or a separately reviewed tested extension.",
+    "fin256_metadata_r1": {
+      "accepts_target_ids": false,
+      "allowlist_items": 2,
+      "reason": "validates exactly fin256_s3_ep3 and fin256_s4_ep3 plus its fixed source-observation binding."
+    }
+  },
+  "limitations": [
+    "Historical is_file/size observations do not establish current path generation, non-symlink status, checkpoint bytes, or SHA-256.",
+    "fmu128_s3/s4 epoch-3 are named parents in ffull logs but their checkpoint path, existence, and size were not observed; they are excluded from current inputs.",
+    "No production checkpoint was loaded on the Mac or B; no helper tests or remote execution are claimed."
+  ],
+  "packet": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_preparation_r1",
+  "resource_contract": {
+    "cpu_quota_cores": 0.5,
+    "cuda_visible_devices": "",
+    "memory_max_bytes": 1500000000,
+    "physical_tmpdir": "root must bind a fresh verified physical disk-backed path on B",
+    "runtime_max_seconds": 120,
+    "swap_max_bytes": 0
+  },
+  "root_binding_template": "INPUT_MANIFEST_TEMPLATE_R1.json; intentionally has null checkpoint hashes and null admission SHA.",
+  "schema": "quality_gap.tl3_w18_checkpoint_preparation_manifest.r1",
+  "scope": "Metadata-only preparation for six W18 endpoints with exact historical path/stat evidence; no production checkpoint hashes or loads, no remote execution, no arrays, no training.",
+  "source_bindings": {
+    "checkpoint_metadata_helper_manifest": {
+      "bytes": 2951,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_r1/PREPARATION_MANIFEST.json",
+      "sha256": "f65c7ac2011f11af490a7eeb61b7ec5f53b3126e4a3b6159fcc7c9483e5f34e2"
+    },
+    "checkpoint_metadata_helper_readme": {
+      "bytes": 5748,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_r1/README.md",
+      "sha256": "6a3cf5e8eeffc0597f400d9b3eada342f81e6677c2c044caaae5073c4c9707f9"
+    },
+    "checkpoint_metadata_helper_source": {
+      "bytes": 14508,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_r1/extract_checkpoint_metadata.py",
+      "sha256": "be0e33f4cccc34533e76c0f628948ffa992723d9c4d4f6289390407129879fe2"
+    },
+    "continuation_20261018T1710Z": {
+      "bytes": 13907,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/CONTINUATION_20261018T1710Z.md",
+      "sha256": "18e3eb8c04f0c9862c3fa787c5a43a6329ac59489825fae509885d9889b137a3"
+    },
+    "fin256_metadata_helper_manifest": {
+      "bytes": 4790,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_r1/PREPARATION_MANIFEST.json",
+      "sha256": "b3d78618c18f73799e2e9d70cf5f6606a125d5ce2a18ccdb52218c35db07642b"
+    },
+    "fin256_metadata_helper_readme": {
+      "bytes": 5048,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_r1/README.md",
+      "sha256": "8405c6ca6c9b97fd0029be1778483fb91aafc2e00e614c8f302423208bf0fed8"
+    },
+    "fin256_metadata_helper_source": {
+      "bytes": 14398,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_r1/extract_fin256_metadata.py",
+      "sha256": "a48297ca45aa19af9211afac9f365f373790e3db6cb70fc7dcafec4875ccb4c6"
+    },
+    "w18_history_manifest": {
+      "bytes": 4606,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/PREPARATION_MANIFEST_R1.json",
+      "sha256": "eda49d4cfadce1558e654202568085aa1df481daf8a2275b584e1319f3df5a50"
+    },
+    "w18_history_readme": {
+      "bytes": 10868,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/README.md",
+      "sha256": "d81580dd4494b1264a66e9f21113fa55e7d25cb7dbb34f0150a868ec0bad794b"
+    },
+    "w18_remote_run_evidence": {
+      "bytes": 37862,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/REMOTE_RUN_EVIDENCE_R1.json",
+      "sha256": "08a171c8718a393b9b91b79d6c05fcf2bec6b172fe234b693f9af128daff8609"
+    }
+  },
+  "status": "PREPARED_NOT_EXECUTABLE__NO_HELPER_ALLOWLIST_MATCHES_TARGETS",
+  "target_count": 6,
+  "target_total_observed_bytes": 6324058,
+  "unresolved_parent_ids": [
+    "fmu128_s3_ep3",
+    "fmu128_s4_ep3"
+  ],
+  "validation": {
+    "input_byte_sum_matches_bound": true,
+    "input_template_json_parsed": true,
+    "production_checkpoint_reads": false,
+    "remote_execution_or_mutation": false,
+    "source_binding_files_read_locally": true,
+    "tests_run": false
+  }
+}

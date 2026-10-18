@@ -1,5 +1,7 @@
 # Validation and public transfer
 
+[TL3 exact production-source closure](../../campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/README.md): the incumbent comprises a warm-initialized distilled member and two tied-lead members whose logs resolve an empty weight initializer. All production members include supplied-valid fitting; they cannot be scored as clean F0 controls. The reviewed partial graph preserves missing teacher/cache/propensity memberships and source-time identity, rather than substituting an uncertified ancestor.
+
 Metric, data membership, exposure, uncertainty and transfer to the public leaderboard.
 
 ## Current navigation
@@ -82,3 +84,7 @@ Keep fold, fitting membership, ancestry, selection exposure, and score uncertain
 - [Sequence moment geometry: arcs and causal representations](SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) reports128train/128valid raw-input scans, all112visually inspected mean/std plots, near-arc multi-value support and prefix reconstruction errors. Explains point-mass mixture arcs, future-leakage risks, source/component provenance and the preregistered matched causal-feature pilot. The appended33-endpoint pilot reports heterogeneous paired feature effects and fixed-mixture complementarity; no production/KD/public transfer claim.
 
 - [Autonomous local geometry continuation](../../campaign_2026-10-17/geometry_continuation_r3/README.md) registers the longer-budget four-arm comparison and subsequent function-preserving continuation after R2. Same source-qualified tiny fitting pool and exposed evaluation; results pending, not a production or KD claim.
+
+- [Recovered TL3 checkpoint ancestry fields](../../campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/README.md) — actual model configs distinguish valid-fitted teachers, true warm initializers and a propensity checkpoint without training metadata. These bindings advance exact-incumbent reconstruction but do not certify the 468-group clean F0 chain.
+
+- [TL3 named-ancestor follow-up](../../campaign_2026-10-18/quality_gap_r1/tl3_ancestor_followup_r1/README.md) — bounded exact-path probe resolves fin256 parent symlink targets and available history/cache-builder source, but not historical fit membership or w18 target producers; no model payloads or arrays read.

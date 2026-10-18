@@ -1,0 +1,64 @@
+{
+  "artifacts_sha256": {
+    "README.md": "a75b79008a45ff4dfdea20e54b1b50e5afd1c7375747bcd49ab29065be166972",
+    "collect_f1_results.py": "0ecbbc3ec05fecbfce4f944216a0c77c9dd6295f85ec1df0bdbe9e9d33ebaae6",
+    "result_checks.py": "d3e20ade5a10c6008f2ad27efca00f0bbdbfb54c2d64128d4f38d858da95f569",
+    "result_io.py": "f57954179fff7d002b1168f3760864f418af89c2d29625250d93cc1ca0e945b7",
+    "test_f1_result_collection.py": "4966576d2e9f1a5f7cc434f648629f911050d331ba09ca7dc4946bd25413615c"
+  },
+  "bindings": {
+    "base_plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+    "deep_terminal_binding": "Must be sealed on arrival after exact terminal receipt and dependency-map review; no expected SHA is guessed here.",
+    "deep_terminal_receipt_sha256": null,
+    "fold1_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "recovery_plan_sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+    "wide_recovery_attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep25-v2"
+  },
+  "created_utc": "2026-10-18T13:21:04Z",
+  "f1_metadata_checks": {
+    "bootstrap_resamples": 10000,
+    "evaluation_components": 149,
+    "evaluation_row_groups": 457,
+    "expected_prediction_dtype": "float32",
+    "expected_prediction_payload_bytes": 73120000,
+    "expected_prediction_shape": [
+      457,
+      20000,
+      2
+    ],
+    "metric_id": "global_wp_clip2_v1",
+    "static_expected_terminal_batches": 8958,
+    "static_expected_terminal_updates": 89580,
+    "static_expected_updates_per_epoch": 14930,
+    "static_schedule_is_observed_for_both_arms": false
+  },
+  "limitations": [
+    "Deep F1 terminal receipt is pending; the exact SHA and dependency map must be bound by a reviewed arrival seal.",
+    "F1 predictions and paired grade have not been collected by this helper; no scores or quality conclusions are present.",
+    "This preparation is not independently reviewed or admitted for execution.",
+    "Passing collection would bind one exposed fold/seed pair only and does not establish convergence, CP30, resumed/uninterrupted parity, serving performance, or public transfer."
+  ],
+  "manifest_hash_scope": "This manifest does not self-hash; artifacts_sha256 binds the listed preparation files.",
+  "schema": "priority25.f1_result_collection_preparation.v1",
+  "scope": "Local preparation, synthetic tests and documentation only. No staging, export, grading, result collection, training, remote execution, or admission.",
+  "status": "PREPARED_NOT_ADMITTED",
+  "support_profiles": {
+    "stage1_and_deep_terminal_v2": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/checkpoints_v2/PREPARATION_MANIFEST_V2_R2.json",
+      "sha256": "bbebbed8c061776eba1732147ea6084057ed4d9cb249c8d11c1df0ea479eb2fd"
+    },
+    "wide_terminal_v4": {
+      "note": "Support identity is hash-bound; manifest status PREPARATION_ONLY_NOT_STAGED is not an execution claim.",
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f1_recovery_r1/checkpoints_v4/PREPARATION_MANIFEST_V4.json",
+      "sha256": "0492d5f569c46cbf498511dce62a6a8d33fec7ed986cae93f369b5ffe0a0970c"
+    }
+  },
+  "validation": {
+    "ruff_check": "passed",
+    "ruff_command": "uv run --no-sync ruff check .",
+    "ruff_format_check": "passed",
+    "tests_scope": "Small local synthetic JSON and NPY fixtures; no real F1 arrays, checkpoint payloads, parquet targets or Torch tensors.",
+    "unit_test_command": "python -m unittest -v test_f1_result_collection.py",
+    "unit_tests_passed": 8
+  }
+}

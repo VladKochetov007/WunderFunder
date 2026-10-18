@@ -1,0 +1,70 @@
+{
+  "base_plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+  "changed_from_v3_sha256": {
+    "f1_checkpoint_lineage.py": {
+      "v3": "007ff9ef204ea5dc61988a1083ab2122bb7d1f0547fcfe9a7be6125d07650b24",
+      "v4": "0fb68cedb1b2c4b3fe03e108c5915dfd97252cc1c9a9a3b860d8df701f196fcd"
+    },
+    "verify_f1_checkpoint.py": {
+      "v3": "61216028a62b41b98fa381920a8019d42b8bd3155d877db1f77a2d90206e8545",
+      "v4": "f724ae438d169ccee739d8c8af6229ea974bb61fb0a034c48a298aa17339e70d"
+    }
+  },
+  "collector": {
+    "collection_schema": "priority25.f1_checkpoint_collection.recovery_v3",
+    "execution_path": "f1_recovery_r1/checkpoints/collect_f1_checkpoint.py",
+    "same_bytes_as_v3": true,
+    "sha256": "908b9a3d2655ce3957e14924be3709dc7bdbaac7e0e25c5d579dd65707397ca0"
+  },
+  "copied_byte_identical_from_v3": [
+    "collect_f1_checkpoint.py",
+    "f1_checkpoint_common.py",
+    "f1_checkpoint_evidence.py",
+    "f1_checkpoint_tensors.py"
+  ],
+  "copied_from_v3_sha256": {
+    "collect_f1_checkpoint.py": "908b9a3d2655ce3957e14924be3709dc7bdbaac7e0e25c5d579dd65707397ca0",
+    "f1_checkpoint_common.py": "6531e841cedaf9c5cd960dbe44c29a11fb89b65e15a781c07cea9c3fd2b5284e",
+    "f1_checkpoint_evidence.py": "a35ca6db74a0df37d8fe9610fd5b69ef1193289bacbdcfd314b850cf607c3a73",
+    "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c"
+  },
+  "discovered_before_execution_bug": {
+    "correction": "V4 retains the peer run binding and compares peer helper identity only with the pinned V2_STAGE1_VERIFIER_SHA256; exact V2 dependencies remain checked.",
+    "effect": "Every valid V2 peer stage1 receipt necessarily failed the redundant comparison because V2 and the recovery verifier have different hashes.",
+    "v3_line": "peer_receipt verification_helper_sha256 was first validated against the exact V2 stage1 identity, then compared again with the current V3 recovery verifier SHA."
+  },
+  "limitations": [
+    "No V4 terminal collection or verification has been executed.",
+    "No actual terminal tensor, optimizer, resource, resume-parity or quality result is established by this preparation packet.",
+    "The copied V3 collector is included for verifier helper hashing; the operator must produce the collection receipt at the original V3 collector path."
+  ],
+  "recovery_plan_sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+  "rejected_no_start_attempt_sha256": "c1f506e3e4015903b3a067a5f7a34814694916a73d928a989a9b67fac09e22f0",
+  "schema": "priority25.f1_recovery_checkpoint_support_preparation.v4",
+  "scope": "Wide F1/seed1001 terminal verification only; collection remains on the V3 collector path.",
+  "stage1_parent_identity": {
+    "deep_receipt_sha256": "b6bb2c662feb7c3dd95d665902a43ba28ed2f06ec7d27cc371d201128c86a9be",
+    "verifier_sha256": "d022367b0e4091b1fd4179ff1b5ea8d9f5722ae8ef686bd86fe5774869dc2186",
+    "wide_receipt_sha256": "b9cf2eb40fe3ba8018c2c98c015d5069bc5eca422a2c384de743f0426866bc81"
+  },
+  "status": "PREPARATION_ONLY_NOT_STAGED",
+  "support_files_sha256": {
+    "README.md": "983f35e5d3ba4691d25cc546d04428cef2353d21ca67406c92dd391a254a5724",
+    "collect_f1_checkpoint.py": "908b9a3d2655ce3957e14924be3709dc7bdbaac7e0e25c5d579dd65707397ca0",
+    "f1_checkpoint_common.py": "6531e841cedaf9c5cd960dbe44c29a11fb89b65e15a781c07cea9c3fd2b5284e",
+    "f1_checkpoint_evidence.py": "a35ca6db74a0df37d8fe9610fd5b69ef1193289bacbdcfd314b850cf607c3a73",
+    "f1_checkpoint_lineage.py": "0fb68cedb1b2c4b3fe03e108c5915dfd97252cc1c9a9a3b860d8df701f196fcd",
+    "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+    "test_f1_lineage_v4.py": "97d39dc60fe870fbb8edac0d229cb829eecb8a99048fb51b2f4b4dc1e8897ed8",
+    "test_f1_recovery_support_v4.py": "287b25d41281f80eb1677d2915cfd87c78689f4efb5be7e96c3ca5ad4c0288f3",
+    "verify_f1_checkpoint.py": "f724ae438d169ccee739d8c8af6229ea974bb61fb0a034c48a298aa17339e70d"
+  },
+  "v3_manifest_sha256": "45826ff1c599147ef9d6be905e9a4a116286338f30a91ee84f3968a3f9c01c29",
+  "validation": {
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "scope": "Actual V2 stage1 receipt identity exercised with synthetic CPU-only state mappings; no Torch checkpoint loading or remote execution.",
+    "stdlib_tests_passed": 9
+  },
+  "verifier_output_schema": "priority25.f1_checkpoint_verification.recovery_v4"
+}
