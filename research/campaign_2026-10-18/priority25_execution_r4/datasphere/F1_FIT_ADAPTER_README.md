@@ -76,3 +76,5 @@ No fit, GPU allocation, provider call, or grading was run to validate this
 adapter. `python3 -m unittest -v test_f1_fit` exercises fixed recipe validation,
 command invariants, producer-shaped artifact checks, bundle integrity, the
 downloaded-tree verifier, and the output-size guard entirely offline.
+
+The [prepared F1 admission/collection controller](F1_FIT_CONTROLLER_README.md) implements the exact-name, allocation, input-hash and provider-manifest checks. Its [independent review and root verification](../receipts/DATASPHERE_F1_CONTROLLER_PREPARATION.json) do not establish cloud execution.

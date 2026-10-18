@@ -1,5 +1,9 @@
 # Execution, incidents, and preservation
 
+- [Ranked25 continuation at00:38UTC](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0038Z_CLOSEOUT.json) — healthy single-worker deep-arm progress through batch1360/1492, fresh heartbeats and no memory events. Both cloud diagnostic attempts are terminal with credentials removed; issue16 still has no observed worker claim. No new score is claimed.
+
+- [F1 cloud controller review and preparation](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_F1_CONTROLLER_PREPARATION.json) — reviewed admission/collection extension now binds all uploads/host modules, uses explicit finite measured budgets without the old profile-hour ceiling, and verifies provider/local bundle hashes across restart.30CPU fixtures and the installed SDK producer-schema fixture passed. A working cloud profile, private runtime/budget/token/host bindings and actual dispatch remain pending.
+
 - [Runtime canary terminal failure](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_CANARY_V1_TERMINAL.json) — the previously successful cu126 environment with an explicitly included no-training probe also ended INTERNAL13 before start and produced no files. Credentials are removed, no paid job remains active, observed balance is unchanged. The exact cause remains unresolved; this weakens a model-entrypoint/cu130-specific explanation and does not justify an unchanged retry.
 
 - [DataSphere runtime canary](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_CANARY_V1.json) — a separately bounded, actually admitted no-training diagnostic uses the previously successful cu126 envelope and an explicit included probe;600-second submit-relative cancel trigger and checked quota/balance. Output remains unverified; this is not a model experiment or an unchanged failed-profile retry.

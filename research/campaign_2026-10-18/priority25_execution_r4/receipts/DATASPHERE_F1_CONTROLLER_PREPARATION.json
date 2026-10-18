@@ -1,0 +1,62 @@
+{
+  "created_utc": "2026-10-18T00:38:05.873610+00:00",
+  "status": "prepared_not_admitted",
+  "cell": "F1/seed1001 both arms",
+  "implementation_commit": "bfc5da8f",
+  "agent_commit": "93c7402f40527f09ceb8fcc0641a6c3e39b6f7b8",
+  "reviewers": [
+    "idea01_recipe_r4 independent producer/controller review",
+    "root deadline and real SDK producer-schema review"
+  ],
+  "corrected_findings": [
+    "F1 exact job name separately bound from profile controller",
+    "no inherited one-hour profile ceiling; finite measured allocation required",
+    "startup delay and fit/collection/cancel margins validated",
+    "first observed UPLOADING_OUTPUT does not trigger startup-expiry cancellation",
+    "missing terminal manifest retried at most3times; mismatches fail closed",
+    "CLI download exit0 separated from verified provider/local/archive hashes",
+    "all uploaded helpers and host controller modules are hash-bound"
+  ],
+  "root_checks": {
+    "merged_cpu_tests": 30,
+    "ruff_check": "passed",
+    "ruff_format_check": "11files passed",
+    "installed_sdk_0_10_0_real_Job_File_protobuf_fixture": "passed with mocked client; no provider calls"
+  },
+  "provider_schema_note": "Job.output_files contains File directly (desc,size_bytes,sha256); StorageFile wraps File plus URL in download RPC. Actual installed descriptors verified.",
+  "no_provider_job": true,
+  "no_quality_result": true,
+  "remaining_admission_requirements": [
+    "working actual-shape cloud profile",
+    "fresh private input/archive/runtime binding",
+    "finite startup/fit/collection/cancel and cost allocation from measured profile",
+    "fresh balance/quota and IAM lifetime covering terminal collection",
+    "durable host service and exact-cell ownership reconciliation"
+  ],
+  "files": {
+    "f1_fit_controller.py": {
+      "sha256": "6d50c9b13591369d26162857ca3474d5bfaa5d88a942518c05819625375428c0",
+      "bytes": 25771
+    },
+    "f1_fit_admission.py": {
+      "sha256": "112f09b0e8bfee336688e3e8fd7797f2bab87f5a62f3f4c26eb118ccb04112ec",
+      "bytes": 10241
+    },
+    "f1_fit_verification.py": {
+      "sha256": "74e55ba6855c1c8192ab42f93f9a134bc3d8e6e022d6f60f8463f68d88803f38",
+      "bytes": 8386
+    },
+    "f1_provider_manifest.py": {
+      "sha256": "e196b27b35170e61df1b0cdc6398cd4f3d6c626d354f6d49b1c0707b9f718c92",
+      "bytes": 3240
+    },
+    "f1-fit-admission.template.json": {
+      "sha256": "8a3dfd6d2c029aa7867ff49ba6a4ed25b0464ef7e9684a470335d020916137e2",
+      "bytes": 1346
+    },
+    "test_f1_fit_controller.py": {
+      "sha256": "eec8fdfe5548ad8665d840385d21ed7e684c1fb22db98cd524431d1236782bfc",
+      "bytes": 24631
+    }
+  }
+}

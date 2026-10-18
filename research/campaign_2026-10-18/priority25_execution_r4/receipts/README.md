@@ -35,3 +35,7 @@ This directory will retain sanitized provider access, source/data bindings, prof
 - [Bounded runtime canary v1](DATASPHERE_CANARY_V1.json): actual job bt12dffc0bhjrba9jcp6, independent durable controller,600-second cancel trigger, fresh quota/balance and private token lifetime. The known-success cu126 envelope plus explicit probe distinguishes runtime readiness from the failed scientific profile; no canary output or quality result is yet verified.
 
 - [Runtime canary terminal evidence](DATASPHERE_CANARY_V1_TERMINAL.json): known-success cu126/manual environment with an explicit non-training probe also failed before start, code13 and no files. Temporary IAM removed; no active paid job and unchanged observed balance, not final invoiced cost. This narrows the diagnostic without proving a global outage or exact internal cause.
+
+- [F1 controller preparation and review](DATASPHERE_F1_CONTROLLER_PREPARATION.json): exact-name/hash-bound admission, finite multi-hour-capable budgets, startup/collection guards, restart-safe provider/local bundle verification and bounded output-manifest retry.30merged offline checks plus an actual SDK protobuf fixture passed; no cloud fit/allocation is established.
+
+- [00:38UTC continuation receipt](HEARTBEAT_20261018T0038Z_CLOSEOUT.json): deep F0 reaches batch1360/1492 with fresh sequence/worker heartbeats and zero memory events; parent RAM2.65GB. Canary is terminal, both temporary IAM files are absent, no cluster claim or scientific quality result exists.
