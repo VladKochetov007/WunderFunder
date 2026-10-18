@@ -18,3 +18,5 @@ gh issue create --repo VladKochetov007/WunderFunder \
 This command has not been executed. Do not attach an invented issue URL or describe the prepared file as an issued job.
 
 The existing Beleriand sequence continues. Its one-GPU limit remains unchanged, and this cluster handoff does not authorize a new paid-cloud allocation. Return to the [execution packet](../README.md).
+
+- [F2-only issue body](ISSUE_RANK01_F2.md) narrows the first dispatch to F2/seed1001, excluding Beleriand F0 and DataSphere F1 preparation. Authenticated Zen browser access is now verified; an all-state `is:issue` search returned0 results before publication. Posting and actual worker admission remain separate.

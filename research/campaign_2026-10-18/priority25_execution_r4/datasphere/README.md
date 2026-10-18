@@ -7,6 +7,8 @@ numeric-budget wait is superseded. This packet does not submit a job by itself.
 The controller's live host, credential, quota, dataset, and durable-cancellation
 preflight must pass before the paid `execute` call.
 
+**Current status:** the [v2 terminal incident](../receipts/DATASPHERE_PROFILE_V2_TERMINAL_INCIDENT.json) records providerERROR during preparation, no reported start/allocated machine and no produced files. The short-lived token has been removed. V3 is staged only; unchanged retries are held pending diagnosis or recovery. F1 preparation remains unallocated. Earlier admission and version notes below are historical.
+
 The [v2 launch receipt](../receipts/DATASPHERE_PROFILE_V2_LAUNCH.json) records actual provider job
 `bt13i2k83lo8n4m8kplk`, submitted at23:58UTC on17October. The durable service is
 `computer-vision-homework-datasphere-r01-profile-v2.service` on Beleriand; its
