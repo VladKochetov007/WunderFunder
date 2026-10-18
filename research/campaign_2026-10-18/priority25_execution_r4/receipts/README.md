@@ -33,3 +33,5 @@ This directory will retain sanitized provider access, source/data bindings, prof
 - [F1 adapter preparation](DATASPHERE_F1_ADAPTER_PREPARATION.json): reviewed canonical-trainer/exporter adapter, explicit fit/collection deadlines, partial-artifact preservation and hash verification, with15 passing CPU fixtures. It is not allocated, dispatched or cloud-validated.
 
 - [Bounded runtime canary v1](DATASPHERE_CANARY_V1.json): actual job bt12dffc0bhjrba9jcp6, independent durable controller,600-second cancel trigger, fresh quota/balance and private token lifetime. The known-success cu126 envelope plus explicit probe distinguishes runtime readiness from the failed scientific profile; no canary output or quality result is yet verified.
+
+- [Runtime canary terminal evidence](DATASPHERE_CANARY_V1_TERMINAL.json): known-success cu126/manual environment with an explicit non-training probe also failed before start, code13 and no files. Temporary IAM removed; no active paid job and unchanged observed balance, not final invoiced cost. This narrows the diagnostic without proving a global outage or exact internal cause.

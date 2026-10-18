@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Runtime canary terminal failure](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_CANARY_V1_TERMINAL.json) — the previously successful cu126 environment with an explicitly included no-training probe also ended INTERNAL13 before start and produced no files. Credentials are removed, no paid job remains active, observed balance is unchanged. The exact cause remains unresolved; this weakens a model-entrypoint/cu130-specific explanation and does not justify an unchanged retry.
+
 - [DataSphere runtime canary](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_CANARY_V1.json) — a separately bounded, actually admitted no-training diagnostic uses the previously successful cu126 envelope and an explicit included probe;600-second submit-relative cancel trigger and checked quota/balance. Output remains unverified; this is not a model experiment or an unchanged failed-profile retry.
 
 - [F1 DataSphere adapter preparation](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_F1_ADAPTER_PREPARATION.json) — canonical six-epoch pair adapter with bounded collection, partial state and embedded SHA verification;15 offline checks pass. No F1 cloud run is admitted. [Full v2 error reconciliation](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_PROFILE_V2_FULL_ERROR_RECONCILIATION.json) finds no further server detail and motivates a separate no-op diagnostic.
