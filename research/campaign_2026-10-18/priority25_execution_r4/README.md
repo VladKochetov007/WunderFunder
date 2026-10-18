@@ -1,5 +1,7 @@
 # Ranked25 execution, 18 October 2026
 
+**10:57 UTC handoff:** [Wide F1 continuation epoch2](receipts/F1_WIDE_CONTINUATION_EP2_20261018.json) is archived with44,790 producer updates,zero skips/nonfinite,stable source/copy hashes and exact persisted stage1 ancestry. The reviewed CPU-only collector exited0 and was stopped after capture; intermediate tensors and state payload were not deserialized. The existing recovery worker advances through epoch3 batch600/1493. [Provider/cell reconciliation](receipts/PROVIDER_CELL_RECONCILIATION_20261018T1050Z.json) finds unchanged DataSphere incident/balance,zero recent nonterminal jobs and no cluster claims. Both F1 stage1 checks and F0 submission work remain complete; do not repeat them.
+
 **10:43UTC handoff:** [Deep F1 stage1 collection and independent verification](receipts/F1_DEEP_STAGE1_HANDOFF_20261018T1043Z.json) passed:29,860updates,2,986batches,0skips,finite FP32 model/Adam,138canonical source hashes; stateSHA31f00126d3a4d572e9f35eba81fec5f87da8e7d10b7ceac8f5acdfa9501268d2. Both stage1 archives/verifications are complete; do not repeat. Wide ep25-v2 continues under recovery sequence. Submission CPU replay/grade and stage1 support all exited0 and were stopped aftercapture. The F0 Q8 ZIP is released with WP0.6738263577; see [submission packet](../f0_submission_r1/README.md).
 
 

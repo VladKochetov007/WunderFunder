@@ -1,0 +1,63 @@
+{
+  "schema": "priority25.f1_wide_epoch2_collector_review.v1",
+  "status": "passed_with_outer_model_hash_gate",
+  "reviewed_utc": "2026-10-18",
+  "review_scope": "Independent local code and fixture review only; no remote invocation, artifact collection, SSH, provider call, training, GPU, or checkpoint deserialization.",
+  "preparation_manifest": {
+    "path": "PREPARATION_MANIFEST.json",
+    "sha256": "54be2e28cf42d8a545b07a3ea9d3f2b082dbbfe810d99339951fe86f916bb83f"
+  },
+  "reviewed_files_sha256": {
+    "README.md": "31d61c42d0526fb998dbbdb49a34d9cb338b6723bd9eab51a99b4cc216f1ad1e",
+    "collect_f1_wide_epoch2.py": "d6ed3fbaef76fc7c3feb998020905499f316305d3c6908a35ce46b1913b87e2d",
+    "test_collect_f1_wide_epoch2.py": "174cbbc9de1e955d95680dfec50096c3b4dd491e7e908623d45dcb2588b98a58"
+  },
+  "retry_and_parent_binding": {
+    "original_plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+    "recovery_plan_sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+    "rejected_attempt_sha256": "c1f506e3e4015903b3a067a5f7a34814694916a73d928a989a9b67fac09e22f0",
+    "v3_recovery_binder_sha256": "6531e841cedaf9c5cd960dbe44c29a11fb89b65e15a781c07cea9c3fd2b5284e",
+    "stage1_verification_receipt_sha256": "b9cf2eb40fe3ba8018c2c98c015d5069bc5eca422a2c384de743f0426866bc81",
+    "stage1_training_state_sha256": "8cb3dde79550355303cbede0d0953864046b7594c16af648423d4a3c9af92255",
+    "result": "Exact wide recovery attempt v2, original F1 plan/contract and trainer command, and V2 stage1 parent are bound. The stage1 receipt and dependency identities are checked against the actual local receipt fixture; B paths resolve to runtime/receipts."
+  },
+  "producer_schema_checks": {
+    "checkpoint": "model_ep2.pt",
+    "expected_model_sha256_from_root_preflight": "ce9d6e0623ce51de179a95a6defc1222d20a9a62b2890b364cdf6b491de08fdd",
+    "cumulative_optimizer_attempts": 44790,
+    "cumulative_optimizer_completed_updates": 44790,
+    "cumulative_completed_batches": 4479,
+    "amp_skipped_updates": 0,
+    "update_diagnostics_epochs": [0, 1, 2],
+    "per_epoch_updates": 14930,
+    "per_epoch_batches": 1493,
+    "nonfinite_gradient_steps_per_epoch": 0,
+    "resumed_from": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_wide_f1_s1001/training_state.pt",
+      "sha256": "8cb3dde79550355303cbede0d0953864046b7594c16af648423d4a3c9af92255",
+      "next_epoch": 2
+    },
+    "result": "Collector validates exact provenance counters, per-epoch diagnostics, resume pointer and model hash against producer provenance. It captures attempt JSON bytes once and parses/hashes the same bytes. Source hashes/stats are pinned before validation, required during copy, and copied artifacts are checked against those hashes."
+  },
+  "resource_and_output_checks": {
+    "collector_quota": "at most 25% CPU, 512000000 bytes, zero swap, RuntimeMaxUSec=2min",
+    "parent_headroom": "memory.current + 8000000000 worker reserve + 512000000 collector reserve <= min(memory.max, 17000000000); campaign-slice swap must be zero",
+    "destination_snapshot": "checkpoint_snapshots/rr18_r01_wide_f1_s1001_e6/epoch2",
+    "destination_receipt": "runtime/receipts/RANK01_WIDE_F1_S1001_EP2_COLLECTION.json",
+    "copied_artifacts": ["model_ep2.pt", "provenance.json", "training_state.pt"],
+    "create_only_and_total_copy_bound_bytes": 100000000,
+    "torch_import": false
+  },
+  "validation": {
+    "unit_tests": "7 passed using local Python 3.13.11",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "manifest_listed_file_hashes": "all matched"
+  },
+  "mandatory_outer_gate": "The helper internally checks model_ep2.pt against its contemporaneous producer provenance, but does not hardcode the independently observed model SHA. Before launch, root must require the live model SHA to equal ce9d6e0623ce51de179a95a6defc1222d20a9a62b2890b364cdf6b491de08fdd and after collection require the copied model SHA to equal that same value.",
+  "limitations": [
+    "The collector does not deserialize training_state.pt; next_epoch=3, optimizer tensors, tensor finiteness and measured resume parity remain for the structural verifier.",
+    "The reviewed code does not itself set or inspect CUDA_VISIBLE_DEVICES or TMPDIR. The outer launcher must hide CUDA and set TMPDIR to physical B/research_tmp, with the parent resource and mount preflight recorded separately.",
+    "No actual epoch-2 artifact bytes were collected or inspected during this review; no quality or training claim follows."
+  ]
+}

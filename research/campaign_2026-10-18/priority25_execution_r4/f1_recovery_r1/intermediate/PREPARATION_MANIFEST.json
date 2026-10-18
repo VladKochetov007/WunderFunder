@@ -1,0 +1,87 @@
+{
+  "base_plan": {
+    "path": "f1_beleriand_fallback/F1_BELERIAND_PLAN.json",
+    "sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+    "trainer_contract_unchanged": true
+  },
+  "fold_and_schedule": {
+    "batches_per_epoch": 1493,
+    "collected_epoch_index": 2,
+    "counts_are_predeclared_checkpoint_conditions_not_tensor_validation": true,
+    "expected_amp_skipped_updates": 0,
+    "expected_completed_batches": 4479,
+    "expected_completed_updates": 44790,
+    "expected_nonfinite_gradient_steps": 0,
+    "fold1_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "planned_total_batches": 8958,
+    "planned_total_updates": 89580,
+    "source_revision": "a266b036b02e8e012c6eb31072291dad618a169d",
+    "updates_per_epoch": 14930
+  },
+  "limits": [
+    "No remote collection, support unit, SSH, provider call, training, GPU, or checkpoint tensor load was performed.",
+    "No actual F1 epoch-2 artifact bytes were verified by this local preparation.",
+    "The helper does not establish next_epoch=3 from the serialized training_state payload.",
+    "Resume parity, model/optimizer finiteness, predictions, score and quality remain unchecked."
+  ],
+  "output": {
+    "artifacts": [
+      "model_ep2.pt",
+      "provenance.json",
+      "training_state.pt"
+    ],
+    "create_only": true,
+    "receipt_relative_path": "runtime/receipts/RANK01_WIDE_F1_S1001_EP2_COLLECTION.json",
+    "snapshot_relative_path": "checkpoint_snapshots/rr18_r01_wide_f1_s1001_e6/epoch2"
+  },
+  "recovery_binding": {
+    "attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+    "binding_helper_path": "f1_recovery_r1/checkpoints/f1_checkpoint_common.py",
+    "binding_helper_sha256": "6531e841cedaf9c5cd960dbe44c29a11fb89b65e15a781c07cea9c3fd2b5284e",
+    "plan_path": "f1_recovery_r1/F1_RECOVERY_PLAN.json",
+    "plan_sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+    "rejected_attempt_path": "f1_recovery_r1/REJECTED_ATTEMPT_V1.json",
+    "rejected_attempt_sha256": "c1f506e3e4015903b3a067a5f7a34814694916a73d928a989a9b67fac09e22f0"
+  },
+  "resource_bounds": {
+    "collector_cpu_max": "25%",
+    "collector_memory_max_bytes": 512000000,
+    "collector_runtime_seconds": 120,
+    "collector_swap_max_bytes": 0,
+    "parent_admission": "parent memory.current + 8,000,000,000 worker reserve + 512,000,000 support reserve <= min(memory.max, 17,000,000,000); campaign slice swap must be disabled",
+    "torch_or_cuda_import": false
+  },
+  "schema": "priority25.f1_wide_epoch2_collection_preparation.v1",
+  "scope": "Collect only wide F1/seed1001 continuation model_ep2.pt, provenance.json, and training_state.pt for recovery attempt computer-vision-homework-r01-wide-f1s1001-ep25-v2. No checkpoint tensor load or quality claim.",
+  "stage1_parent": {
+    "next_epoch": 2,
+    "phase": "stage1",
+    "state_remote_path": "checkpoint_snapshots/rr18_r01_wide_f1_s1001/stage1_epoch1/training_state.pt",
+    "state_sha256": "8cb3dde79550355303cbede0d0953864046b7594c16af648423d4a3c9af92255",
+    "verification_dependencies_sha256": {
+      "collect_f1_checkpoint.py": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+      "f1_checkpoint_common.py": "07d596a1b69574e266a909bfe2e24e4c82d1e9cd778c7338bc5855688159f5c5",
+      "f1_checkpoint_evidence.py": "8b50fcdc51dd9d040816dae7117de8c965366d0dd03c7bef8e26856325f790ce",
+      "f1_checkpoint_lineage.py": "c6aec1daace1fd200d60bcc5cc9532aa9d98f76d99bd01e0ca39c65eb727e81d",
+      "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+      "wnn/training_state.py": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+    },
+    "verification_helper_sha256": "d022367b0e4091b1fd4179ff1b5ea8d9f5722ae8ef686bd86fe5774869dc2186",
+    "verification_receipt_remote_path": "runtime/receipts/RANK01_WIDE_F1_S1001_STAGE1_VERIFICATION.json",
+    "verification_receipt_sha256": "b9cf2eb40fe3ba8018c2c98c015d5069bc5eca422a2c384de743f0426866bc81"
+  },
+  "status": "PREPARATION_ONLY_REVIEW_REQUESTED",
+  "support_files_sha256": {
+    "README.md": "31d61c42d0526fb998dbbdb49a34d9cb338b6723bd9eab51a99b4cc216f1ad1e",
+    "collect_f1_wide_epoch2.py": "d6ed3fbaef76fc7c3feb998020905499f316305d3c6908a35ce46b1913b87e2d",
+    "test_collect_f1_wide_epoch2.py": "174cbbc9de1e955d95680dfec50096c3b4dd491e7e908623d45dcb2588b98a58"
+  },
+  "validation": {
+    "local_scope": "Synthetic producer-shaped epoch-2 counters, exact attempt-byte hashing and copy races; actual V2 stage1 receipt hash/schema exercised.",
+    "py_compile": "passed",
+    "ruff_check": "passed",
+    "ruff_format": "passed",
+    "unit_test_file": "test_collect_f1_wide_epoch2.py",
+    "unit_tests_passed": 7
+  }
+}

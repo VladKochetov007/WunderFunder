@@ -1,0 +1,8 @@
+{
+  "created_utc": "2026-10-18 10:56:43 UTC",
+  "status": "preflight_failed_no_unit_started",
+  "reason": "Root preflight indexed absent exit_status on a running attempt; canonical running attempt omits the field. No collector was invoked.",
+  "exit_code": 1,
+  "stderr": "Traceback (most recent call last):\n  File \"<stdin>\", line 20, in <module>\nKeyError: 'exit_status'\n",
+  "correction": "Use a.get('exit_status') is None for the running state; completed states still require explicit integer zero."
+}
