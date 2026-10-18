@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 
+from wnn.innovation_gain_gru import InnovationGainGRU
 from wnn.specialist import PrefixAdapterGRUModel
 
 
@@ -58,9 +59,10 @@ def add_architecture_arguments(ap: argparse.ArgumentParser) -> None:
             "specialist",
             "prefix-adapter",
             "block-memory",
+            "innovation-gain",
         ],
         default="gru",
-        help="tcn: causal dilated conv stack, --hidden channels, --layers blocks (receptive field 2^layers); twoclock: --layers x GRU(--hidden) on rows + GRU(--event-hidden) stepping on a6 endpoint rows; specialist: shared GRU plus always-updated expert GRUs; prefix-adapter: matched low-rank arms; block-memory: causal block attention; width is --hidden; layers default 4; --block-heads 8; --block-rows 256",
+        help="tcn: causal dilated conv stack; twoclock: row/event GRUs; specialist: shared/expert GRUs; prefix-adapter: low-rank adapters; block-memory: causal block attention; innovation-gain: latent innovation-conditioned predict/correct adapter around the fused GRU; block-memory layers default to 4",
     )
     ap.add_argument(
         "--block-heads",
@@ -129,6 +131,18 @@ def add_architecture_arguments(ap: argparse.ArgumentParser) -> None:
         type=int,
         default=99,
         help="maximum causal prefix rows used for routing and input adaptation",
+    )
+    ap.add_argument(
+        "--innovation-state-width",
+        type=int,
+        default=64,
+        help="--arch innovation-gain: width of its causal latent observation and gain state",
+    )
+    ap.add_argument(
+        "--innovation-gain-conditioning",
+        choices=InnovationGainGRU.MODES,
+        default="innovation",
+        help="--arch innovation-gain: innovation-conditioned candidate or matched context-only gain control",
     )
     ap.add_argument(
         "--gate-ce",

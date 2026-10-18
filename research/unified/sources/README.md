@@ -5,6 +5,7 @@ External writeups and literature provenance; external results do not establish l
 ## Current navigation
 
 - [October 18 ranking source check](../ideas/PRIORITIZED_25_20261018_R3.md) - primary FitNets, Mamba-3 and xLSTM abstracts rechecked for intermediate hints, MIMO and scalar/matrix memory. These support operator descriptions only; local priority comes from project evidence and an explicit exploration judgment.
+- [KalmanNet-inspired innovation-gain observer](KALMANNET_INNOVATION_GAIN_GRU_20261018_R1.md) reviews KalmanNet and two neighboring learned-filter papers. They motivate an innovation-conditioned recurrent update, not a score prediction: those methods use explicit state-estimation tasks, while this draft has anonymous channels and no latent-state labels or calibrated covariance model. Local output-filter and feature screens are explicitly separated from evidence for the proposed GRU.
 
 - [R2 mechanism sources](../../campaign_2026-10-17/research_reset_r2/reflection/SOURCE_MANIFEST.md) and [state-clock/query transfer](../../campaign_2026-10-17/research_reset_r2/theory/STATE_CLOCKS_AND_PREDICTIVE_QUERIES.md) — scoped primary-source checks covering semi-Markov/sticky-state/point-process/Rao–Blackwell/compressed-memory mechanisms, Phased LSTM, Skip RNN, hierarchical recurrence, predictive states and Chronos-2. Abstract/formulation inspection and local transfer inferences are separated; no pretrained weights or published gains are imported. Old-code overlap is linked before retaining a proposal.
 

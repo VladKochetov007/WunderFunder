@@ -120,6 +120,13 @@ def record_provenance(run: TrainingRun) -> None:
         provenance["model_source_sha256"] = file_sha256(
             environment.source_root / "src/wnn/specialist.py"
         )
+    if args.arch == "innovation-gain":
+        provenance["model_source_sha256"] = {
+            "src/wnn/innovation_gain_gru.py": file_sha256(
+                environment.source_root / "src/wnn/innovation_gain_gru.py"
+            ),
+            "src/wnn/nn.py": file_sha256(environment.source_root / "src/wnn/nn.py"),
+        }
     if quote_cache_provenance is not None:
         provenance["quote_cache"] = quote_cache_provenance
     if args.propensity:

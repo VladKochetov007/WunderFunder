@@ -71,6 +71,32 @@ def block_memory_rejection(args: argparse.Namespace) -> str | None:
     return "block-memory raw scratch rejects " + ", ".join(rejected)
 
 
+def innovation_gain_rejection(args: argparse.Namespace) -> str | None:
+    """Reject unsupported inherited or compressed modes for the observer GRU."""
+    if args.arch != "innovation-gain":
+        return None
+    rejected: list[str] = []
+    if args.cell != "gru":
+        rejected.append("--cell")
+    if args.enc != "linear":
+        rejected.append("--enc")
+    if args.numeric_map != "none":
+        rejected.append("--numeric-map")
+    if args.recurrent_rank:
+        rejected.append("--recurrent-rank")
+    if args.qat != "none":
+        rejected.append("--qat")
+    if args.activation_backend != "none":
+        rejected.append("--activation-backend")
+    if args.init:
+        rejected.append("--init (cross-architecture adapter transfer is not implemented)")
+    if args.innovation_state_width <= 0:
+        rejected.append("non-positive --innovation-state-width")
+    if not rejected:
+        return None
+    return "innovation-gain raw scratch rejects " + ", ".join(rejected)
+
+
 def independent_width_configuration_error(
     args_dict: dict[str, Any], n_in: int | None = None
 ) -> str | None:

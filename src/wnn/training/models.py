@@ -8,6 +8,7 @@ import torch
 
 from wnn.block_memory_attention import BlockMemoryAttention
 from wnn.event_content import EventContentModel
+from wnn.innovation_gain_gru import InnovationGainGRU
 from wnn.nn import DualClockModel, GatedRNNModel, RNNModel, TCNModel, TwoClockModel
 from wnn.sentinel import SentinelInputProjection
 from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
@@ -33,6 +34,22 @@ def make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Mod
         or args_dict.get("enc", "linear") != "linear"
     ):
         raise ValueError("fixed readout mixture requires a plain GRU and linear encoder")
+    if args_dict.get("arch") == "innovation-gain":
+        if args_dict.get("cell", "gru") != "gru" or args_dict.get("enc", "linear") != "linear":
+            raise ValueError("innovation-gain requires a GRU cell and linear input encoder")
+        if numeric_map != "none" or args_dict.get("recurrent_rank", 0):
+            raise ValueError(
+                "innovation-gain does not support numeric maps or factorized recurrence"
+            )
+        return InnovationGainGRU(
+            n_in,
+            args_dict["hidden"],
+            args_dict["layers"],
+            args_dict["dropout"],
+            n_out=n_out,
+            state_width=args_dict.get("innovation_state_width", 64),
+            gain_conditioning=args_dict.get("innovation_gain_conditioning", "innovation"),
+        )
     if args_dict.get("arch") == "specialist":
         if (
             args_dict.get("cell", "gru") != "gru"

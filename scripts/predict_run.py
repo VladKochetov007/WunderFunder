@@ -166,6 +166,16 @@ def main():
     checkpoint_name = f"model_ep{args.epoch}.pt" if args.epoch is not None else "model.pt"
     checkpoint_path = ROOT / "artifacts" / "runs" / name / checkpoint_name
     ck = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    model_source_sha256 = ck.get("provenance", {}).get("model_source_sha256")
+    if ck.get("args", {}).get("arch") == "innovation-gain":
+        expected_sources = {
+            "src/wnn/innovation_gain_gru.py": file_sha256(
+                SOURCE_ROOT / "src/wnn/innovation_gain_gru.py"
+            ),
+            "src/wnn/nn.py": file_sha256(SOURCE_ROOT / "src/wnn/nn.py"),
+        }
+        if model_source_sha256 != expected_sources:
+            raise ValueError("innovation-gain model source differs from its training checkpoint")
     if ck["args"].get("privileged_mode", "none") != "none":
         raise ValueError(
             "privileged teachers require component-crossfit extraction, not causal prediction export"
@@ -307,6 +317,8 @@ def main():
         "split": split,
         "epoch": ck.get("epoch"),
         "checkpoint_sha256": file_sha256(checkpoint_path),
+        "model_source_sha256": model_source_sha256,
+        "prediction_driver_sha256": file_sha256(Path(__file__).resolve()),
         "prediction_sha256": file_sha256(final),
         "split_manifest_sha256": ck["args"].get("split_manifest_sha256"),
         "quote_cache": quote_cache,

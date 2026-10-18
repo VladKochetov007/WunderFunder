@@ -5,7 +5,11 @@ import math
 import torch
 
 from wnn.training.inheritance import inherit_init_arguments
-from wnn.training.model_validation import apply_block_memory_defaults, block_memory_rejection
+from wnn.training.model_validation import (
+    apply_block_memory_defaults,
+    block_memory_rejection,
+    innovation_gain_rejection,
+)
 from wnn.training.state import TrainingRun
 from wnn.training_qat import QAT_LEARN_SCALE_MODES
 
@@ -34,6 +38,9 @@ def validate_inputs(run: TrainingRun) -> None:
     block_memory_error = block_memory_rejection(args)
     if block_memory_error is not None:
         ap.error(block_memory_error)
+    innovation_gain_error = innovation_gain_rejection(args)
+    if innovation_gain_error is not None:
+        ap.error(innovation_gain_error)
     if args.numeric_map != "none":
         if (
             args.arch != "gru"

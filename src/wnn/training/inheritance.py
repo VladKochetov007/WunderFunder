@@ -39,6 +39,8 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "adapter_rank",
         "adapter_mode",
         "prefix_rows",
+        "innovation_state_width",
+        "innovation_gain_conditioning",
         "online_norm",
         "raw_only",
         "heuristics",

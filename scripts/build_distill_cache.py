@@ -249,6 +249,17 @@ def _inspect_teacher(
         raise ValueError(f"teacher {run} checkpoint is not the requested fixed clean-fold epoch")
     checkpoint_provenance = checkpoint.get("provenance", {})
     _verify_run_membership(checkpoint_provenance, split, run)
+    model_source_sha256 = checkpoint_provenance.get("model_source_sha256")
+    if args.get("arch") == "innovation-gain":
+        source_root = Path(__file__).resolve().parents[1]
+        expected_sources = {
+            "src/wnn/innovation_gain_gru.py": file_sha256(
+                source_root / "src/wnn/innovation_gain_gru.py"
+            ),
+            "src/wnn/nn.py": file_sha256(source_root / "src/wnn/nn.py"),
+        }
+        if model_source_sha256 != expected_sources:
+            raise ValueError(f"teacher {run} model source differs from its trained checkpoint")
     model_state = checkpoint.get("model", {})
     hidden = int(args.get("hidden", 0))
     layers = int(args.get("layers", 0))
@@ -289,6 +300,15 @@ def _inspect_teacher(
             or sidecar.get("epoch") != epoch
             or sidecar.get("split_manifest_sha256") != split.sha256
             or sidecar.get("checkpoint_sha256") != checkpoint_sha256
+            or (
+                args.get("arch") == "innovation-gain"
+                and sidecar.get("model_source_sha256") != model_source_sha256
+            )
+            or (
+                args.get("arch") == "innovation-gain"
+                and sidecar.get("prediction_driver_sha256")
+                != file_sha256(Path(__file__).resolve().parents[1] / "scripts/predict_run.py")
+            )
         ):
             raise ValueError(
                 f"teacher {run} {split_name} prediction sidecar is not bound to its checkpoint"

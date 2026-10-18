@@ -5,6 +5,7 @@ The active [rank1 continuation handoff](https://github.com/VladKochetov007/Wunde
 The [October 18 base-sync receipt](BRANCH_SYNC_20261018_R3.json) records the no-rewrite merge of current `main` into `research-team`, including append-only conflict handling. The [October 17 receipt](BRANCH_SYNC_20261017_R2.json) remains the historical synchronization record for the original fourteen branches. No B300 quality result follows from publishing or synchronizing draft code. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records handoff scope and evidence limits.
 
 - [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.
+- [Innovation-conditioned latent gain GRU](kalman_innovation_gain_gru_b300/README.md) is a separate code-only B300 draft: one standard GRU reference, a matched context-only observer, an innovation-conditioned observer and three matched student cache conditions. The 30-cell-per-arm recipe is unprofiled and has no task results.
 - [Workflow](../unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) defines30 paired cells per scientific arm, strictFP32, source-clean evaluation and separate logs/weights archives.
 
 - [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.

@@ -51,7 +51,7 @@ from wnn.training.runner import run_training
 | [losses](losses.py) | Main and auxiliary objectives with unchanged reduction/summation order. |
 | [macro_updates](macro_updates.py) | Controlled macro losses and carried recurrent/initializer state. |
 | [membership](membership.py) | Bounded component-subset manifests and membership validation. |
-| [model_validation](model_validation.py) | Architecture/width restrictions and block-memory defaults. |
+| [model_validation](model_validation.py) | Architecture/width restrictions and block-memory/innovation-gain defaults. |
 | [models](models.py) | Reusable architecture factory with the original constructor order. |
 | [normalization](normalization.py) | Fitting-only normalization and numeric-map calibration. |
 | [optimization](optimization.py) | Optimizer/scheduler/objective/averaging construction and preflight exits. |
