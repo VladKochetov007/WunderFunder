@@ -19,6 +19,11 @@ from wnn.training.inheritance import (
     validate_campaign_checkpoint,
 )
 from wnn.training.state import TrainingRun
+from wnn.training.tiedlead import (
+    TIEDLEAD_BASE_WIDTH,
+    TIEDLEAD_INPUT_WIDTH,
+    tiedlead_configuration_error,
+)
 from wnn.training_sampling import init_qmc_
 
 
@@ -57,6 +62,14 @@ def build_model(run: TrainingRun) -> None:
         + len(research_feature_names(environment.inputs.research_features))
         + (N_FEATURES if environment.inputs.privileged_mode != "none" else 0)
     )
+    environment.inputs.tiedlead = args.arch == "tiedlead"
+    if environment.inputs.tiedlead:
+        error = tiedlead_configuration_error(vars(args))
+        if error is not None:
+            ap.error(error)
+        if n_in != TIEDLEAD_BASE_WIDTH:
+            ap.error("tiedlead requires the canonical 211-channel base input profile")
+        n_in = TIEDLEAD_INPUT_WIDTH
     if args.raw_only:
         environment.inputs.raw_only = True
     if args.heuristics:

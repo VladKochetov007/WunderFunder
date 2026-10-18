@@ -1,0 +1,3 @@
+# Validation receipt erratum
+
+The first generated `VALIDATION_V1.json` was reported as SHA-256 `aca8ac5508aaf514c8f4b4068a710559ac0b966f4d8d683d5aa12f7d72a7b603`. Its exact bytes were overwritten before they were saved, so that original receipt cannot be restored or independently verified. The current file named `VALIDATION_V1.json` has SHA-256 `0d90ac9d32ec984ba75f8f2c6535b3714938d33d112c3ae4f2bcd7020a676167 and contains the later exact-expanded Ruff command arguments. `VALIDATION_V2.json` is the authoritative receipt and explicitly supersedes the current V1 bytes; it also documents that the earlier original bytes are unavailable. Source, test, README, and source-manifest bytes were not changed for this receipt correction.

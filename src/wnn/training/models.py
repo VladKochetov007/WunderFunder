@@ -13,6 +13,11 @@ from wnn.sentinel import SentinelInputProjection
 from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
 from wnn.structured_state import StructuredStateModel
 from wnn.training.model_validation import independent_width_configuration_error
+from wnn.training.tiedlead import (
+    TIEDLEAD_INPUT_WIDTH,
+    TiedLeadRNNModel,
+    tiedlead_configuration_error,
+)
 
 
 def make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Module:
@@ -33,6 +38,15 @@ def make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Mod
         or args_dict.get("enc", "linear") != "linear"
     ):
         raise ValueError("fixed readout mixture requires a plain GRU and linear encoder")
+    if args_dict.get("arch") == "tiedlead":
+        error = tiedlead_configuration_error(args_dict)
+        if error is not None:
+            raise ValueError(error)
+        if n_in != TIEDLEAD_INPUT_WIDTH:
+            raise ValueError(
+                f"tiedlead model requires exactly {TIEDLEAD_INPUT_WIDTH} input channels"
+            )
+        return TiedLeadRNNModel(n_in, n_out)
     if args_dict.get("arch") == "specialist":
         if (
             args_dict.get("cell", "gru") != "gru"

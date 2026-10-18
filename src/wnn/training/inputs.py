@@ -18,6 +18,7 @@ from wnn.research_features import (
     validate_causal_moment_prior,
 )
 from wnn.training.environment import TrainingEnvironment
+from wnn.training.tiedlead import build_tiedlead_inputs
 
 
 def build_inputs(
@@ -42,6 +43,19 @@ def build_inputs(
     ev = event_features_torch(raw)
     if environment.inputs.raw_only:
         ev = torch.zeros_like(ev)
+    if environment.inputs.tiedlead:
+        if (
+            environment.inputs.raw_only
+            or environment.inputs.online_norm
+            or environment.inputs.heuristics
+            or environment.inputs.research_features != "none"
+            or environment.inputs.privileged_mode != "none"
+            or environment.inputs.propensity_model is not None
+            or environment.inputs.sentinel_preprocessor is not None
+            or extra.shape[-1] != 0
+        ):
+            raise ValueError("tiedlead inputs require the unmodified canonical 211-channel base")
+        return build_tiedlead_inputs(raw, ev)
     if (
         environment.inputs.research_features in MOMENT_FEATURE_MODES
         and (not environment.inputs.online_norm)

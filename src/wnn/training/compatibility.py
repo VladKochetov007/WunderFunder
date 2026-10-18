@@ -67,6 +67,7 @@ INPUT_FIELDS = {
     "ONLINE_NORM": "online_norm",
     "HEURISTICS": "heuristics",
     "RAW_ONLY": "raw_only",
+    "INPUT_TIEDLEAD": "tiedlead",
     "RESEARCH_FEATURES": "research_features",
     "RESEARCH_FEATURE_PRIOR": "research_feature_prior",
     "RESEARCH_FEATURE_CONTROL": "research_feature_control",

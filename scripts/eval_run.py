@@ -14,6 +14,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
+import train_rnn
 from torch.utils.data import DataLoader
 from train_rnn import Sequences, make_model, predict
 
@@ -33,16 +34,22 @@ def main():
     run = ROOT / "artifacts" / "runs" / args.name
     ckpt = torch.load(run / "model.pt", map_location="cpu", weights_only=False)
     a = ckpt["args"]
+    train_rnn.INPUT_TIEDLEAD = a.get("arch") == "tiedlead"
     n_out = 2 + 2 * len([v for v in a.get("aux", "").split(",") if v])
     device = torch.device("cuda")
     if a.get("prop_input"):
-        import train_rnn
-
         from wnn.propensity import load_propensity
 
-        train_rnn.INPUT_PROPENSITY = load_propensity(ROOT / "artifacts" / "runs" / a["prop_input"] / "model.pt", device)
+        train_rnn.INPUT_PROPENSITY = load_propensity(
+            ROOT / "artifacts" / "runs" / a["prop_input"] / "model.pt", device
+        )
     model = make_model(a, ckpt["n_in"], n_out).to(device)
     model.load_state_dict(ckpt["model"])
+    if a.get("arch") == "tiedlead":
+        from wnn.resources import configure_strict_fp32
+
+        configure_strict_fp32()
+        model._inference_fp32 = True
     dev, hold = valid_row_groups(ROOT / "datasets" / "valid.parquet")
     groups = hold if args.holdout else dev
     split = "holdout" if args.holdout else "dev"
@@ -60,9 +67,20 @@ def main():
     classes = np.array(classes)
     np.savez(run / f"scores_{split}.npz", row_groups=groups, classes=classes, scores=scores)
     per = scores.mean(1)
-    print(json.dumps({"run": args.name, "split": split, "n": int(len(per)),
-                      "wp": float(np.nanmean(per)),
-                      "by_class": {int(c): round(float(np.nanmean(per[classes == c])), 4) for c in np.unique(classes)}}))
+    print(
+        json.dumps(
+            {
+                "run": args.name,
+                "split": split,
+                "n": int(len(per)),
+                "wp": float(np.nanmean(per)),
+                "by_class": {
+                    int(c): round(float(np.nanmean(per[classes == c])), 4)
+                    for c in np.unique(classes)
+                },
+            }
+        )
+    )
 
 
 if __name__ == "__main__":

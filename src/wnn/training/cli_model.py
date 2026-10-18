@@ -58,9 +58,10 @@ def add_architecture_arguments(ap: argparse.ArgumentParser) -> None:
             "specialist",
             "prefix-adapter",
             "block-memory",
+            "tiedlead",
         ],
         default="gru",
-        help="tcn: causal dilated conv stack, --hidden channels, --layers blocks (receptive field 2^layers); twoclock: --layers x GRU(--hidden) on rows + GRU(--event-hidden) stepping on a6 endpoint rows; specialist: shared GRU plus always-updated expert GRUs; prefix-adapter: matched low-rank arms; block-memory: causal block attention; width is --hidden; layers default 4; --block-heads 8; --block-rows 256",
+        help="tiedlead: fixed 211 raw/event channels plus 52 causal lead channels, shared raw-scale encoder, 256x2 FP32 GRU; tcn: causal dilated conv stack; twoclock: row/event clocks; specialist: shared GRU and expert GRUs; prefix-adapter: low-rank arms; block-memory: causal block attention",
     )
     ap.add_argument(
         "--block-heads",

@@ -54,6 +54,32 @@ def record_provenance(run: TrainingRun) -> None:
         "checkpoint_sha256": {},
     }
     provenance["trainer_implementation"] = training_source_identity(environment)
+    if args.arch == "tiedlead":
+        implementation_files = provenance["trainer_implementation"]["files"]
+        bound_paths = (
+            "scripts/train_rnn.py",
+            "scripts/predict_run.py",
+            "scripts/eval_run.py",
+            "src/wnn/training/tiedlead.py",
+            "src/wnn/training/inputs.py",
+            "src/wnn/training/models.py",
+            "src/wnn/training/environment.py",
+            "src/wnn/training/compatibility.py",
+            "src/wnn/data.py",
+            "src/wnn/features.py",
+            "src/wnn/nn.py",
+        )
+        provenance["tiedlead_profile"] = {
+            "schema": "wnn.tiedlead.input-encoder.v1",
+            "input_width": 263,
+            "input_order": ["raw_0:112", "event_features_0:99", "i1_at_last_i0_price_event_0:52"],
+            "shared_encoder": "Linear(104,128), GELU, Linear(128,64), GELU",
+            "raw_scale_reconstruction": "normalized_input * fitted_std + fitted_mean",
+            "residuals": ["Linear(128,256), zero initialized", "Linear(64,256), zero initialized"],
+            "chunk_semantics": "delta resets at each encode call; GRU state is passed across chunks",
+            "lead_semantics": "sequence-wide causal gather; row zero is an initial i0-price event",
+            "source_sha256": {path: implementation_files[path] for path in bound_paths},
+        }
     if fit_subset is not None:
         provenance["fit_subset_manifest_sha256"] = args.fit_subset_manifest_sha256
         provenance["fit_subset_members_sha256"] = fit_subset["manifest"]["selected_members_sha256"]

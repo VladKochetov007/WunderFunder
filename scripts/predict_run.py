@@ -217,6 +217,7 @@ def main():
     elif args.gate_mode != "soft":
         parser.error("--gate-mode requires a gated checkpoint")
     train_rnn.RAW_ONLY = bool(ck["args"].get("raw_only"))
+    train_rnn.INPUT_TIEDLEAD = ck["args"].get("arch") == "tiedlead"
     train_rnn.ONLINE_NORM = bool(ck["args"].get("online_norm"))
     train_rnn.HEURISTICS = bool(ck["args"].get("heuristics"))
     train_rnn.INPUT_LEAD = int(ck["args"].get("input_lead", 0))

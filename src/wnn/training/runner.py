@@ -35,6 +35,7 @@ def run_training(
     run = TrainingRun(environment)
     run.options.ap = build_parser()
     run.options.args = run.options.ap.parse_args(argv)
+    environment.inputs.tiedlead = run.options.args.arch == "tiedlead"
     validate_inputs(run)
     validate_distillation(run)
     validate_models(run)

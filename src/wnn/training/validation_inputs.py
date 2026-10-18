@@ -7,6 +7,7 @@ import torch
 from wnn.training.inheritance import inherit_init_arguments
 from wnn.training.model_validation import apply_block_memory_defaults, block_memory_rejection
 from wnn.training.state import TrainingRun
+from wnn.training.tiedlead import tiedlead_configuration_error
 from wnn.training_qat import QAT_LEARN_SCALE_MODES
 
 
@@ -34,6 +35,10 @@ def validate_inputs(run: TrainingRun) -> None:
     block_memory_error = block_memory_rejection(args)
     if block_memory_error is not None:
         ap.error(block_memory_error)
+    if args.arch == "tiedlead":
+        tiedlead_error = tiedlead_configuration_error(vars(args))
+        if tiedlead_error is not None:
+            ap.error(tiedlead_error)
     if args.numeric_map != "none":
         if (
             args.arch != "gru"
