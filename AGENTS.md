@@ -1,5 +1,19 @@
 # Project agent instructions
 
+## Active continuation plan — user instruction, 2026-10-19
+
+After compaction, read the [accepted local/Kaggle plan](specs/plans/2026-10-20-plateau-review-local-kaggle.md)
+and [campaign frontier](research/campaign_2026-10-20/plateau_review_r1/FRONTIER.md)
+before choosing work. The user requested implementation and durable preservation.
+Prepare now; the agreed fitting start is October 20 Kyiv. This cycle has 15 local
+GPU-hours plus verified available Kaggle quota in parallel, with **no mandatory
+30 paired cells per arm**. Full-data fits remain allowed within that budget.
+Retain two aggregate local CPU cores, one GPU worker, 5,000,000,000-byte aggregate
+task RAM, 5 GB VRAM, no swap and physical-disk scratch. No paid compute. Preserve
+the October 18 stop as history; this scoped authorization does not reopen
+unrelated jobs or consume another agent's Kaggle reservation. Record actual
+progress and evidence links in the frontier before handoff.
+
 ## Python training architecture — user instruction, 2026-10-17
 
 Use `$python-standards` proactively for Python changes. The [training component map](src/wnn/training/README.md) is canonical: reuse its datasets, input assembly, model factory, objectives, update, checkpoint and provenance components. `scripts/train_rnn.py` is a compatibility entrypoint; do not add orchestration or model/feature/loss implementations there. New training logic belongs in a focused semantic component, never in a copied trainer.

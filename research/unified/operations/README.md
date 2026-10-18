@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [October 19 Kaggle readiness](PLATEAU_KAGGLE_READINESS_20261019_R1.md) — read-only account snapshot from the existing project SDK: about 5.02 GPU quota-hours remain, zero provider reservations, and no running/queued kernels among 29 recent runs. Records working environment and existing bundle/worker paths; no install, upload or job. Availability and separate agent reservations must be rechecked at actual admission.
+
 Execution status, storage locations, preservation receipts and operational incidents.
 
 - [Research stop and graceful drain (2026-10-18)](RESEARCH_STOP_20261018_R1.md) — records the user's no-new-jobs instruction, the closed local admission barrier and completed drain, no terminated healthy process, the one remote run last seen active, and the terminal-collection-only rule. It supersedes the earlier overnight continuation authority.

@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "campaign_id": "plateau-review-local-kaggle-20261020-r1",
+  "status": "implementation_active_fits_not_admitted",
+  "recorded_utc": "2026-10-18 22:42:27 UTC",
+  "objective_mode": "competition",
+  "canonical_plan": "specs/plans/2026-10-20-plateau-review-local-kaggle.md",
+  "authority": {
+    "user_instructions": [
+      "No 30 experiments needed, iterate faster locally and with kaggle",
+      "Adjust to more local compute. I think 15 gpu hours locally and all available kaggle is okay in parallel",
+      "Implement the plan.",
+      "Save plan we are moving with to some spec file or something and do not forget it.",
+      "new-meta-review.txt also think about this and continue to our existing plan. then maybe try this or combine"
+    ],
+    "experiment_start_local": "2026-10-20T00:00:00+03:00",
+    "timezone": "Europe/Kyiv",
+    "preparation_authorized_now": true,
+    "scheduler_created": false,
+    "mandatory_30_cell_matrix": false,
+    "full_data_fits_allowed": true,
+    "prior_stop": "research/campaign_2026-10-18/online_features_r1/runtime/STOP_AUTHORITY_20261018_R1.json",
+    "scope": "Only this campaign succeeds the historical stop; preserve other agents' reservations and unrelated admission barriers.",
+    "paid_compute": false,
+    "external_submission_upload": false
+  },
+  "resources": {
+    "local_gpu_job_seconds_total": 54000,
+    "local_gpu_job_seconds_recorded": 0,
+    "accounting": "Count profiles, fits, prediction/export and failed local GPU attempts. Reserve complete comparisons and recovery before admission.",
+    "cpu_cores_aggregate": 2,
+    "local_gpu_workers": 1,
+    "ram_bytes_aggregate": 5000000000,
+    "vram_bytes_max": 5000000000,
+    "swap_bytes": 0,
+    "scratch": "/home/vlad/development/wunder/research_tmp",
+    "kaggle": "All verified current free GPU quota after other-agent reservations; provider concurrency and session limits apply; live checks required."
+  },
+  "primary_comparison": {
+    "question": "Does i1 help a cold GRU, and does explicit causal i1 history change its incremental value?",
+    "arms": {
+      "A": "i0+additional, all raw/derived i1 masked after preprocessing, history zero",
+      "B": "112raw+99events+156zero history",
+      "C": "112raw+99events+156causal i1 history"
+    },
+    "input_width": 367,
+    "hidden": 512,
+    "layers": 1,
+    "seed": 1001,
+    "epochs": 3,
+    "fixed_checkpoint_epoch": 2,
+    "initial_fit_component_fraction": 0.1,
+    "local_evaluation_fold": 0,
+    "kaggle_evaluation_fold": 2,
+    "matching": [
+      "initial weights",
+      "fitting/evaluation membership",
+      "fitting preprocessing",
+      "sequence order",
+      "optimizer/schedule",
+      "update budget",
+      "checkpoint policy"
+    ],
+    "practical_effect_reference": 0.001,
+    "practical_effect_interpretation": "A useful absolute WP difference for deepening, not a universal rejection or significance cutoff. Keep informative uncertainty and fixed-blend contributions.",
+    "teacher": null,
+    "initializer": null,
+    "quantization": false,
+    "precision": "fp32_autocast_off_tf32_off",
+    "primary_metric": "global_wp_clip2_v1",
+    "evaluation_mask": "need_prediction & is_scored",
+    "evaluation_unit": "source-qualified dependency component",
+    "exposure": "F0-F3 already exposed; no pristine confirmation claim",
+    "fixed_blend": {
+      "control_B": 0.9,
+      "candidate_A_or_C": 0.1
+    },
+    "independent_review_required_before_promotion": true
+  },
+  "admission_dependencies": [
+    "accepted source recipe and frozen membership",
+    "actual-shape resource profile within aggregate limits",
+    "causal/mask/checkpoint engineering checks",
+    "latest live resource/quota and ownership check",
+    "budget reservation including export and grade",
+    "October 20 start"
+  ],
+  "stop_policy": "Close new admission at user stop or allocated budget exhaustion; reserve enough budget to drain admitted work and collect artifacts. Abort unsafe resource behavior, diagnose once, preserve failed attempts.",
+  "current_deliverables": [
+    "source archives and manifest",
+    "canonical spec and frontier",
+    "focused history/mask implementation",
+    "exact paired recipes and existing-tool execution handoff"
+  ],
+  "verification_tier": "Deterministic engineering checks plus exposed-fold empirical development; local metrics do not establish public/private transfer.",
+  "limitations": [
+    "No new model fit or result yet.",
+    "Historical FP16 controls cannot be reused as strict-FP32 controls.",
+    "TL3 ancestry is unknown; no TL3 blend tuning.",
+    "Kaggle quota is shared and must be rechecked before admission."
+  ]
+}

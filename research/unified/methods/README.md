@@ -4,6 +4,10 @@ Reusable metric, causal data handling, statistical and implementation contracts.
 
 ## Current navigation
 
+- [Autoresearch plateau guideline](AUTORESEARCH_PLATEAU_GUIDELINE_20261019_R1.md) — verbatim user `research.txt` with source SHA-256 and English scope. Recommends changing tested assumptions, retaining informative negatives, measuring screen fidelity and choosing work by information value. Selected primary-source checks remain in the October 15 reset note; the imported citations and numerical claims are not all independently verified.
+
+- [Accepted October 20 local/Kaggle plan](../../../specs/plans/2026-10-20-plateau-review-local-kaggle.md) — canonical continuation specification after the user's plateau review and compute revision. Defines 15 local GPU-hours, verified Kaggle parallelism, the scoped 30-run waiver, matched i1 masking/history arms, causal equations, scoring and conditional follow-ups. Implementation is active; no new fits or scores. Read its linked campaign frontier after compaction. Historical instructions and source proposals do not override this accepted scope.
+
 - [Fixed causal Kalman input probe](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/README.md) — a prediction-only frozen-GRU replay on 16 selected exposed-F0 groups. Local-trend replacement is +0.000338 WP versus raw, with a 12-component conditional interval [−0.000019, +0.000716]; random walk is +0.000119. This small fixed-endpoint screen does not evaluate training with learned filter features or online parameter updates. The separate execution receipt records a 1.126 GB worker-cgroup peak and zero OOM events; process RSS differs. The trained retained-raw teacher/student proposal is draft PR #17, with B300 profiling and all task fits pending.
 
 - [No-fit research contract and future CP30 design](../../campaign_2026-10-17/research_reset_r1/README.md) — bounded EDA/frozen inference now, exact30paired cells per arm only after future fit authority, strictFP32, clean ancestry and fixed-fold shared-seed uncertainty. Also links the weighted-target derivation and explicit limitations.

@@ -21,7 +21,7 @@ validation, inference and operations.
 
 ## Status and evidence limits
 
-The latest user instruction authorizes continuous autonomous onlinelearning/feature/model-complementarity research until explicitpause. The [October18 campaign](research/campaign_2026-10-18/online_features_r1/README.md) carries currentresourcebounds and first-wave contract; the earlier [researchreset](research/campaign_2026-10-17/research_reset_r1/README.md) remains a historical no-fit packet. Completed deadline probes and releasedZIPs are indexed in the [October18 overview](research/campaign_2026-10-18/README.md). Those measured local gains and losses do not establish publictransfer; exact externalresults remain separately recorded.
+The user requested implementation of the [accepted October 20 local/Kaggle plan](specs/plans/2026-10-20-plateau-review-local-kaggle.md): 15 local GPU-hours plus verified available Kaggle quota in parallel, without a mandatory 30-run matrix. Preparation is active; the [frontier](research/campaign_2026-10-20/plateau_review_r1/FRONTIER.md) records actual progress and dependencies. The October 18 continuous campaign was stopped; its [closeout](research/campaign_2026-10-18/online_features_r1/CLOSEOUT_20261018_R1.md) preserves completed evidence. No new fit or score is implied by the plan. Completed deadline probes and released ZIPs remain in the [October 18 overview](research/campaign_2026-10-18/README.md).
 
 The 17 October repository snapshot recorded 14 experiment-prefixed draft branches
 and pull requests. They are implementation proposals and handoffs, not 14

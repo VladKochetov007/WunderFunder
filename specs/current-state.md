@@ -1,5 +1,27 @@
 # Current project state
 
+## Active instruction — October 19, 2026
+
+The user accepted the [plateau-review local/Kaggle plan](plans/2026-10-20-plateau-review-local-kaggle.md),
+requested implementation, and asked that it survive context compaction. This is
+the canonical plan; the [campaign frontier](../research/campaign_2026-10-20/plateau_review_r1/FRONTIER.md)
+records actual progress and the next action. Preparation is active. Model fits
+start October 20 Kyiv; no scheduled or running job is claimed at this stage.
+
+Allocation: **15 local GPU-hours**, **all verified available Kaggle quota in
+parallel**, no paid compute, one local GPU worker, two aggregate CPU cores,
+5,000,000,000 bytes task RAM, 5 GB VRAM and no swap. The local/Kaggle cycle has
+**no mandatory 30-cell matrix**; full fitting remains eligible within budget.
+The first comparison is cold, equal-width i0-only / standard / causal i1-history
+GRUs on matched components. The imported review's larger grids are deferred.
+All existing folds are exposed. Code/recipe preparation is not a scientific result.
+
+This scoped authority succeeds the October 18 stop for this cycle. Keep its
+receipts and unrelated campaign restrictions intact. Read the new spec before
+interpreting the dated snapshots below as active instructions.
+
+## Historical October 18 state and results
+
 **Latest instruction, 2026-10-18 08:27 UTC:** the user stopped research admission and prohibited new jobs. The local durable stop barrier `15e691414aa14bb4a3d888b841d85ae3` drained without terminating healthy work. No new fits, scores, packages, uploads or PRs are admitted. One Beleriand F1/seed-1001 run was last observed active at 08:20:52 UTC; let it finish and collect terminal artifacts only, with no successor. The user reports both geometry ZIPs already submitted, so they are not new candidates. See the [stop receipt](../research/campaign_2026-10-18/online_features_r1/runtime/STOP_AUTHORITY_20261018_R1.json), [operations note](../research/unified/operations/RESEARCH_STOP_20261018_R1.md), and [nightly research closeout](../research/campaign_2026-10-18/online_features_r1/CLOSEOUT_20261018_R1.md).
 
 **Snapshot date:** 18 October 2026. **Latest user scope:** deliver one newly trained exploratory ZIP by **02:50 Kyiv (23:50 UTC, 17 October)** and publish the larger study as an 8×B300 draft PR to `research-team`. The multi-day local R4 matrix is stopped and drained. The [completed quick pair](../research/campaign_2026-10-18/quick_geometry_probe_r1/README.md) scored feature 0.6804165 / zero control 0.6804784 / original parent 0.6812265 on one exposed F0; this short continuation did not improve. The [adapter-only followup](../research/campaign_2026-10-18/geometry_adapter_probe_r2/README.md) also completed negatively: 0.6804499040 versus parent 0.6812265132, conditional component interval for the difference [−0.00135282, −0.00027913]. Bitwise checkpoint checks confirm all old weights stayed fixed; 60 new columns learned nonzero weights. Both results are one exposed F0/seed, not robust/public evidence. Local fit admission is drained; no further local fits are planned. The [ready directional q16 quota ZIP](../research/campaign_2026-10-18/geometry_adapter_probe_r2/RELEASE.json) is 5,323,200 bytes (SHA955bff715…): native served F0 WP0.68045197, exact-ZIP Python3.11 and full-F0 replay pass, local row-cost projection40–45minutes with target runtime unmeasured. The predeclared Torch/native FP32 tolerance failed and is explicitly recorded; the actual native endpoint is evaluated directly. It is released under the user's deadline exception, not promoted as a demonstrated gain. The 8×B300 study is published as [draft PR #15](https://github.com/VladKochetov007/WunderFunder/pull/15), base `research-team`.

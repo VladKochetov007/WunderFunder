@@ -1,5 +1,7 @@
 # Validation and public transfer
 
+- [October 20 plateau-review campaign](../../campaign_2026-10-20/plateau_review_r1/README.md) — accepted matched i0/standard/i1-history GRU investigation, with complete-component fitting subsets and full exposed-fold evaluation. The linked spec fixes source-qualified pairing, official scoring and uncertainty limits; its frontier tracks implementation. No new quality result is available yet.
+
 Metric, data membership, exposure, uncertainty and transfer to the public leaderboard.
 
 ## Current navigation
