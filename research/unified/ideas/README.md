@@ -4,7 +4,14 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
-- [Ranked25 execution, October18](../../campaign_2026-10-18/priority25_execution_r4/README.md) — Execution of the current25ranked hypotheses in order; rank1 compares two cold GRU shapes, with matched membership and explicit near-capacity control. Both actual-data profiles passed; the first F0 paired six-epoch pipeline is running with actual optimizer progress. Quality results are pending.
+- Published future-experiment draft PRs: [#22 Adaptive TBPTT](https://github.com/VladKochetov007/WunderFunder/pull/22), [#23 current-moment WP replay](https://github.com/VladKochetov007/WunderFunder/pull/23), and [#24 four-arm architecture handoff](https://github.com/VladKochetov007/WunderFunder/pull/24). Each targets research-team; the first two need adapters, the architecture handoff needs a focused port of preserved source. No model execution or run admission follows from publication.
+
+- [Our published GPU packets](PUBLISHED_GPU_PACKETS_20261018.md) — exact remote source tips for the GRU/Transformer/Mamba-2 four-arm packet and complete causal-smoothing implementation. Preserves code for a focused modular-trainer port; identifies legacy FP32/TF32, CP30, ancestry and target-profile gaps. No run or merge-readiness claim.
+
+- [Gradient estimator continuations](GRADIENT_ESTIMATOR_CONTINUATIONS_20261018.md) — two proposed descendants of H-RR17-19 and H-055: adaptive TBPTT at fixed optimizer cadence, and current-superbatch WP gradient replay. Includes prior negative evidence, 30 paired cells per arm, practical decision thresholds and explicit missing adapters; no fit/profile/tests or change to ranked25 scheduling.
+- [Repository additions and evidence boundaries](../reviews/REPOSITORY_DELTA_20261018.md) — source-pinned F0 width/depth result, submission ZIP limits, retained F1 progress and five new team draft PRs. Includes the later completed F1 pair, strong-control deficit and user-reported public runtime; two cells do not establish CP30, and portal payload hashes remain unverified.
+
+- [Ranked25 execution, October18](../../campaign_2026-10-18/priority25_execution_r4/README.md) — rank1 compares two cold GRU shapes. F0/S1001 delta wide-minus-deep +0.001466984 WP; completed F1/S1001 delta -0.000365601. Both conditional component intervals cross zero; two cells are not CP30. F3 has retained progress at e35220969; see current-state for later evidence.
 - [Rank1 cluster handoff](../../campaign_2026-10-18/priority25_execution_r4/cluster/README.md) — Prepared issue for additional paired folds and remaining CP30 cells, excluding the running Beleriand pair. It documents executable-source references and unresolved cluster paths/scheduler; no issue or cluster fit has yet been created.
 
 - [Current 25 ranked ideas, October 18](PRIORITIZED_25_20261018_R3.md) - ordered H-RR17 portfolio after R2 and the separate geometry pilot: width/depth, causal statistics, teacher/student and intermediate hints lead; architecture exploration is retained and duplicated event auxiliaries move down. Each card has rationale, a decisive comparison and qualitative cost. Informed Luna critique and unchanged no-fit authority are explicit; no new measured gains.
@@ -14,9 +21,8 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 - [RR17 published proposal branches](../../campaign_2026-10-17/research_reset_r1/publication/README.md) —25isolated proposal commits from research-team, remote SHA verification and ready PR bodies. No new PR exists without API authentication; no fit is admitted.
 
 - [Research reset: 25 ideas](../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md) — ranked proposal portfolio with existing-work overlap, counterevidence, no-fit gates and future controls; no training admitted.
-- [Current state](../../../specs/current-state.md) — packet-specific authority, including the separately resumed geometry investigation.
+- [Current state](../../../specs/current-state.md) — packet-specific authority and active ranked25 progress; historical no-fit records elsewhere are not a global statement about all campaigns.
 - [Fixed causal Kalman screen and retained-raw teacher/student proposal](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/RESULTS_R2.md) — fixed local-trend input replacement adds +0.000338 WP on 16 selected exposed-F0 groups, but its component interval nearly crosses zero and post-hoc temporal bins are mixed. It motivates learned smoother features while retaining raw inputs, evaluated at the student endpoint; code and the 30-cell-per-arm B300 proposal are in [draft PR #17](https://github.com/VladKochetov007/WunderFunder/pull/17). No B300 profile, fit or transfer result exists.
-- [Current state](../../../specs/current-state.md) — analysis/EDA is active; model fitting remains paused.
 - [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — established results and corrections to stale pending statuses.
 - [Experiment draft workflow](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) — implementation handoffs are distinct from measured research outcomes.
 
