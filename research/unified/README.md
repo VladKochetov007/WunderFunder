@@ -5,6 +5,8 @@ reset authorizes analysis, EDA and engineering; the separately admitted geometry
 pilot has its own bounded fitting authority.
 This index distinguishes measured results, implementation drafts and historical plans.
 
+Current B300 proposal: [meta-trained causal online GRU adaptation](ideas/ONLINE_META_TTA_GRU_B300_20261018_R1.md) uses input-only fast-weight updates shaped by a later task loss, with a matched static auxiliary and required GRU-student transfer comparison. It is distinct from fixed innovation features (PR #14), Kalman state features (PR #17), and static next-input self-supervision (PR #18). The [independent static review](reviews/ONLINE_META_TTA_IMPLEMENTATION_REVIEW_20261018_R1.md) records two ITERATE reviews and their corrections; final committed-tree review, trainer integration, actual B300 profile, fits, scores, and leaderboard impact remain pending.
+
 Latest research-reset follow-up: [R2 measured exception impact and prediction dynamics](../campaign_2026-10-17/research_reset_r2/README.md)
 — full census, fixed-output interventions, mathematical decomposition and25
 revised decisions. No training or new inference in this packet.

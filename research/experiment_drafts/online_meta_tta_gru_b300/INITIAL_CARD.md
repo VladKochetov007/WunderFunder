@@ -6,6 +6,14 @@
 **Lineage:** teacher/student connection; the adaptive model is a training-time
 teacher, with a conventional GRU student as the required competition endpoint.
 
+**Post-review clarification (18 October 2026):** the initial sentence below
+calling the GRU encoder “frozen” was inaccurate for the proposed meta-training
+loop. Preserve this first card as written; the revised packet treats the GRU,
+task head, adapter initializer, and decoder as outer-trainable, with only the
+per-sequence adapter weights changed by the inner update. See the
+[implementation review](../../unified/reviews/ONLINE_META_TTA_IMPLEMENTATION_REVIEW_20261018_R1.md)
+and current [experiment packet](README.md).
+
 ## Mechanism
 
 The callback receives a long, ordered input stream but never receives target

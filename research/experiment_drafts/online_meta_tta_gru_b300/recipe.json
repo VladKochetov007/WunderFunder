@@ -1,0 +1,165 @@
+{
+  "hypothesis_id": "H-ONLINE-META-TTA-GRU-B300-20261018-R1",
+  "experiment_id": "E-ONLINE-META-TTA-GRU-B300-20261018-R1",
+  "status": "proposal_with_adapter_and_synthetic_profile_only",
+  "launch_ready": false,
+  "objective_mode": "competition",
+  "question": "Does meta-training a GRU to use causal input-only fast updates improve future target prediction, and does the improvement transfer to a conventional GRU student?",
+  "source_main_sha": "24e9001570de158db9a5031e632dbb0b4477145f",
+  "source_research_team_sha": "da90e68e13e8af4f95856f99c4c41a3fdb7cc315",
+  "related_drafts": {
+    "kalman_features": "https://github.com/VladKochetov007/WunderFunder/pull/17",
+    "static_next_input_auxiliary": "https://github.com/VladKochetov007/WunderFunder/pull/18",
+    "causal_innovation_features": "https://github.com/VladKochetov007/WunderFunder/pull/14"
+  },
+  "inputs": {
+    "raw_width": 112,
+    "causal_event_width": 99,
+    "total_width": 211,
+    "auxiliary_target": "next_observed_raw112_after_fit_only_standardization",
+    "normalization": "use_the_immutable_first_112_values_of_the_canonical_model_mean_and_std_buffers_fitted_on_that_cell_training_membership; no_online_or_full_sequence_refit; reject_and_count_nonfinite_values_at_data_ingress"
+  },
+  "adaptation": {
+    "fast_parameterization": "per_sequence_rank16_residual_transform_on_recurrent_state",
+    "transform": "h + (h @ down @ up) / rank",
+    "inner_loss": "mean_SmoothL1(next_input_decoder(adapted_h_t), standardized_x_(t+1)) + 0.01 * squared_distance_to_initial_fast_weights",
+    "inner_optimizer": "one_fixed_SGD_step_per_observed_support_block",
+    "inner_learning_rate": 0.001,
+    "per_sequence_gradient_clip_norm": 1.0,
+    "outer_gradient": "differentiate_through_inner_updates_with_create_graph_true",
+    "meta_graph_boundary": "at_each_exact_2000_row_boundary_carry_GRU_event_fast_weight_and_pending_block_values_but_detach_graphs; complete_a_split_256_row_block_before_update_using_detached_preboundary_and_connected_postboundary_hidden_values"
+  },
+  "outer_trainable_components": [
+    "GRU_encoder_and_task_head",
+    "shared_fast_adapter_initialization",
+    "next_input_decoder"
+  ],
+  "inner_updated_components": [
+    "per_sequence_fast_adapter_down_and_up_weights_only"
+  ],
+  "causal_schedule": {
+    "warmup_rows": [0, 98],
+    "first_update_before_prediction_row": 99,
+    "first_update_pairs": "h[t] -> x[t+1] for t=0..97; h[98] has no in-support successor",
+    "query_block_rows": 256,
+    "final_partial_block_rows_for_20000_row_sequence": 189,
+    "subsequent_update": "only_after_all_predictions_in_the_block_are_fixed; use within-block adjacent pairs and exclude the cross-block transition",
+    "tbptt_chunk_rows": 2000,
+    "first_chunk_shape": "99_support_rows_plus_1901_query_rows; seven_full_256_row_blocks_then_109_rows_of_the_eighth",
+    "split_block_update": "buffer_partial_block_across_TBPTT_boundary; detach_preboundary_values; retain_postboundary_graph; update_only_after_full_block_arrives",
+    "sequence_reset": "reset_GRU_state_fast_weights_event_state_pending_block_buffer_and_counter_on_seq_ix_change; retain_immutable_stateless_fit_scaler",
+    "inference_update_uses": "current_and_past_raw_inputs_only; never task_targets_or_scoring_mask"
+  },
+  "teacher_arms": [
+    {
+      "id": "T0",
+      "description": "cold H512x1 supervised reference"
+    },
+    {
+      "id": "T1",
+      "description": "cold H512x1 plus rank16 adapter and next-input auxiliary objective; no fast updates"
+    },
+    {
+      "id": "T2",
+      "description": "same model/objective as T1 plus causal fast updates meta-trained through next-block task loss"
+    }
+  ],
+  "student_arms": [
+    {
+      "id": "S0",
+      "description": "cold H256x2 supervised reference"
+    },
+    {
+      "id": "S1",
+      "description": "H256x2 distillation from matched static T1 teacher"
+    },
+    {
+      "id": "S2",
+      "description": "H256x2 distillation from matched adapted T2 teacher using causal rollout targets"
+    }
+  ],
+  "teacher_task_objective": {
+    "all_arms": "per_chunk_weighted_MSE_on_two_main_outputs; y_c=clip(y,-2,2); w=abs(y_c)*main_valid; sum(w*(prediction-y_c)^2)/max(sum(w),1e-8)",
+    "T0": "task_objective_only",
+    "T1_T2": "task_objective_plus_0.1_times_mean_SmoothL1_next_standardized_raw112_input_loss",
+    "T2_addition": "same_next_input_loss_drives_one_inner_fast_weight_update_after_each_completed_support_block"
+  },
+  "student_objective": {
+    "S0": "same_weighted_MSE_as_teacher_task_objective_with_target_y_c",
+    "S1_S2": "y_c=clip(y,-2,2); t_c=clip(teacher_prediction,-2,2); target=0.5*y_c+0.5*t_c; w=abs(y_c)*main_valid; sum(w*(student_prediction-target)^2)/max(sum(w),1e-8)",
+    "disabled_options": ["bootstrap", "reanchor", "cache_scale", "family_targets"],
+    "trainer_options": {
+      "distill_alpha": 0.5,
+      "distill_boot_h": 0,
+      "distill_reanchor": 0.0,
+      "distill_cache_scale": 1.0,
+      "distill_family_weight": 0.0
+    }
+  },
+  "fit_settings": {
+    "teacher_width_depth": "H512x1",
+    "student_width_depth": "H256x2",
+    "epochs": 6,
+    "checkpoint": "fixed_model_ep5",
+    "batch_size": 8,
+    "tbptt_chunk_rows": 2000,
+    "task_optimizer": "AdamW",
+    "task_learning_rate": 0.0001,
+    "task_betas": [0.9, 0.999],
+    "task_weight_decay": 0.01,
+    "scheduler": "OneCycleLR_with_0.05_warmup_fraction_over_fixed_update_budget",
+    "task_gradient_clip_norm": 1.0,
+    "task_objective": "weighted_MSE_on_clipped_labels_with_abs_label_times_main_valid_weights",
+    "student_distillation_alpha": 0.5,
+    "precision": "strict_fp32_weights_inputs_states_losses_gradients_and_optimizer; autocast_grad_scaler_and_tf32_disabled"
+  },
+  "matrix": {
+    "folds": {
+      "F0": [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008],
+      "F1": [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008],
+      "F2": [1001, 1002, 1003, 1004, 1005, 1006, 1007],
+      "F3": [1001, 1002, 1003, 1004, 1005, 1006, 1007]
+    },
+    "cells_per_arm": 30,
+    "teacher_fits": 90,
+    "student_fits": 90,
+    "total_fits_if_complete": 180,
+    "pairing": "same_fitting_membership_and_seed_across_all_treatments_with_fold_clean_teacher_initializer_normalizer_and_preprocessor_ancestry",
+    "fold_exposure": "all_four_existing_folds_have_prior_exposure; robustness_only_not_a_fresh_holdout"
+  },
+  "evaluation": {
+    "metric": "global_wp_clip2_v1",
+    "primary_teacher_contrast": "T2_minus_T1",
+    "primary_transfer_contrast": "S2_minus_S1",
+    "practical_endpoint_contrast": "S2_minus_S0",
+    "equal_fold_statistic": "D = mean over four folds of each fold's paired-seed mean difference",
+    "seed_bootstrap": "10000 draws of 8 identities with replacement from 1001-1008 using shared multiplicities across folds; F2_F3_omit_1008_and_renormalize_over_available_7; redraw_if_any_fold_has_zero_available_multiplicity",
+    "component_bootstrap": "separate 10000 paired source-component resamples within each fold, shared across arms and seeds",
+    "multiple_comparisons": "Holm within teacher stage across T2-T1_primary_T2-T0_T1-T0; within student stage across S2-S1_primary_S2-S0_S1-S0",
+    "useful_effect_reference": 0.001,
+    "zero_crossing_interval_policy": "inconclusive_and_may_justify_targeted_followup; not_an_automatic_stop"
+  },
+  "progress_logging": [
+    "episode_id_fold_seed_arm_epoch_and_source_sha",
+    "inner_input_loss_and_outer_task_loss",
+    "task_learning_rate_inner_learning_rate_and_all_optimizer_attempted_and_successful_updates",
+    "preclip_task_gradient_norm_inner_fast_gradient_norm_and_clipping_fraction",
+    "inner_task_gradient_cosine_on_fitting_only_diagnostic_batches",
+    "fast_weight_update_norm_and_proximal_drift",
+    "official_validation_metric_by_source_fold_and_sequence_age",
+    "loader_forward_backward_update_validation_export_and_grade_time",
+    "host_memory_gpu_memory_utilization_nonfinite_events_and_checkpoint_hashes"
+  ],
+  "profile_command": "PYTHONPATH=src python -m research.experiment_drafts.online_meta_tta_gru_b300.profile_episode --hidden 512 --layers 1 --rank 16 --batch-size 8 --initial-support-rows 99 --block-rows 256 --tbptt-rows 2000 --device cuda",
+  "profile_scope": "synthetic_shape_and_second_order_autograd_probe_only; random_task_labels_are_independent_of_inputs; outer_loss_matches_clipped_label_weighted_MSE_but_no_quality_or_full_recipe_fidelity_claim; omits_production_event_builder_and_cross_TBPTT_partial_block_buffering",
+  "missing_before_fit": [
+    "integrate_the_fast_adapter_and_exact_block_schedule_into_the_canonical_modular_trainer",
+    "bind_actual_source_qualified_fold_manifests_and_data_hashes_on_the_worker",
+    "freeze_fit_only_raw112_normalizer_and_event_feature_chunk_state",
+    "implement_fit_fair_static_and_adaptive_teacher_training_and_fold_clean_student_cache_bindings",
+    "profile_actual_B300_topology_real_data_loader_event_features_and_full_meta_backward_across_2000_row_and_split_block_boundaries_with_aggregate_host_and_device_memory",
+    "wire_progress_reporting_checkpoint_resume_prediction_export_and_independent_grade_receipts"
+  ],
+  "result": null,
+  "leaderboard_impact": null
+}

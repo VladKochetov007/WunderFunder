@@ -4,6 +4,8 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [Independent online meta-TTA implementation review](ONLINE_META_TTA_IMPLEMENTATION_REVIEW_20261018_R1.md) — two static reviews confirmed the profiler alignment, weighted-MSE query loss, diagnostic aggregation, and PR #14 distinction, while returning ITERATE for specification details and then an unverified eight-card availability claim. Those corrections are recorded; a final committed-tree check and all trainer/B300/quality work remain pending. No fit, profile, data read, or score.
+
 - [R2 iterative mechanism and implementation review](../../campaign_2026-10-17/research_reset_r2/reflection/README.md) — initial proposals preserved before old-code attack, then25 revised dispositions from measured evidence. Independent review prompted complete target/mask alignment and append-only reporting/variance clarifications. [Integration verification](../../campaign_2026-10-17/research_reset_r2/VERIFICATION.json) binds scores, sufficient statistics, numerical checks and limitations; agreement among agents is not independent model replication.
 
 - [October17 iterative research reviews](../../campaign_2026-10-17/research_reset_r1/reviews/README.md) — independent R2 cross-criticism, R3 EDA/weighted-metric audits, R4 portfolio critique and coordinator resolutions; resulting25cards are proposals, not model results.
