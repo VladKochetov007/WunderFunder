@@ -1,0 +1,9 @@
+# R2 V1 import-only failure capture
+
+The exact unit `computer-vision-homework-eda19-r2-v1.service` exited1 at22:30:33UTC, about one second after launch. R1's package initializer imported `eda_mechanisms.py`, omitted from the copied three-file package. This happened before main/sample loading, model fitting, progress or output directory creation. All five expected SOURCE_MANIFEST/START/DONE/RESULT/progress outputs were absent; no scientific score or negative mechanism result follows.
+
+[Raw capture transport](REMOTE_CAPTURE_TRANSPORT_1.json), [empty SSH stderr](REMOTE_CAPTURE_TRANSPORT_1.stderr.txt), and [local byte/hash validation](CAPTURE_LOCAL_VALIDATION.json) preserve the exact remote evidence. Raw transport SHA8482af7721826f9b7e36b9aaf1dfd3b32304517643fb96a67ee0aaaac44153c0. [Analysis traceback](REMOTE_ANALYSIS_LOG_TAIL.txt), [journal tail](REMOTE_JOURNAL_TAIL.txt), [admission](REMOTE_ROOT_ADMISSION.json) and [launch](REMOTE_ROOT_LAUNCH.json) are byte-identical decoded copies. The failed unit's cgroup was already gone, so child events/CPU/current memory are unavailable; parent counters stayed high757/max561/OOM0, with no new events.
+
+[Exact stop transport](REMOTE_STOP_TRANSPORT_1.json), [decoded stop response](REMOTE_STOP_RESPONSE.json), [stderr](REMOTE_STOP_TRANSPORT_1.stderr.txt) and [local stop validation](STOP_LOCAL_VALIDATION.json) confirm only this exact own failed unit was stopped after durable capture at22:33:41UTC. No source edit, relaunch or other unit stop occurred in this capture. Existing F3 deep remained running.
+
+[Independent delivery correction](../../STAGING_CORRECTION_REVIEW.json) defines the complete seven-file R1 import closure. [Separate V2 invocation](../attempt_v2/README.md) preserves the same scientific R2 sources, sample/grid/folds and caps with corrected delivery; V1 records remain unchanged.

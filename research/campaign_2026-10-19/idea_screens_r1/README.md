@@ -27,3 +27,5 @@ The sample phase coincided with580new hierarchical memory.high events, max561/OO
 ## Figures and next step
 
 [PNG](plots/screens.png) / [SVG](plots/screens.svg) were rendered on B and visually inspected locally. Raw JSON, per-component outcomes and limits are in [RESULTS](RESULTS.md). [Next bounded wave](NEXT_WAVE.md) fixes fit-only regularization selection and separate EMA controls before any new result; it is not executed yet. Full recipe claims retain30pairedcells/arm, strictFP32, clean ancestry and official evaluation. This wave is exploratory, not a complete test of every mechanism or a public-score forecast.
+
+[Completed R2 follow-up](../idea_screens_r2/RESULTS.md) separates fit-selected regularization from alpha1 sensitivity and slices signed/absolute EMA. The initial lag loss largely vanishes in the pooled score, while the joint EMA gain becomes essentially zero under fit-only selection; component concentration and ranking reversals remain material. No full-recipe gain is claimed.

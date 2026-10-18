@@ -1,5 +1,7 @@
 # Validation and public transfer
 
+[R2 measured result and selection limits](../../campaign_2026-10-19/idea_screens_r2/RESULTS.md) report every fit-selected and predeclared alpha1 endpoint, including positive diagnostics that disagree with inner-fit selection. Fixed-prediction drop-one concentration is separate from training variation; all six outer components remain exposed. A larger frozen component panel and matched feature-block/data-size controls are the next allocation questions, not completed tests.
+
 [R2 fixed exploratory protocol](../../campaign_2026-10-19/idea_screens_r2/README.md) chooses one alpha per view only within three fitting-component folds, preserves full held masks and canonical pooled WP, and reports the existing exposed outer panel plus a predeclared alpha1 diagnostic. i0-only jointly removes i1 and eight tail channels; it cannot isolate an instrument effect.
 
 [Bounded48-sequence exploratory screen](../../campaign_2026-10-19/idea_screens_r1/RESULTS.md) uses canonical F0 component separation and unchanged official scoring, but only6exposed evaluation components. [Independent audit](../../campaign_2026-10-19/idea_screens_r1/RESULT_REVIEW.md) shows one component has64.2%of scored rows and reverses the EMA pooled delta when omitted. Exact-row label alignment contextualizes simple probes with existing GRU outputs; different fitting budgets prohibit an equal-budget or full-fold ranking claim.

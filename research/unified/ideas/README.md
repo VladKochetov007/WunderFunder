@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[R2 measured regularization/EMA follow-up](../../campaign_2026-10-19/idea_screens_r2/RESULTS.md) completes six source-bound views on the same small exposed panel. Fit-selected lags recover from the initial loss to near-raw; joint EMA becomes near-raw, while alpha1 signed/absolute diagnostics differ and reveal selection/component sensitivity. The52-channel subset remains locally positive but jointly omits i1 and eight tail channels. No mechanism or full-model improvement is confirmed.
+
 [R2 feature-estimation screen](../../campaign_2026-10-19/idea_screens_r2/README.md) separates signed and absolute EMA channels and asks whether fit-only ridge selection changes the raw/subset/history comparisons. Six views and[1,100,10000] grid are fixed; the same six-component outer panel remains exposed. This is a bounded exploratory follow-up, not a new full-model campaign.
 
 [First actual screen of the new25ideas](../../campaign_2026-10-19/idea_screens_r1/STATUS_25.md) maps measured premises/fixed-ridge proxies and untested mechanisms. [Results](../../campaign_2026-10-19/idea_screens_r1/RESULTS.md) reject claiming a stable EMA winner from one dominant component, distinguish i0-only's small-panel effect from i1 usefulness, and prioritize fit-only regularization and EMA-part controls. No full-recipe/public improvement or automatic25-fit sweep.

@@ -1,0 +1,35 @@
+{
+  "schema": "nf19.r2_staging_correction_review.v1",
+  "status": "PASS",
+  "v1_failure": "R1 package import failed because __init__.py imports .eda_mechanisms while the staged package omitted that module and its local imports.",
+  "r1_package_closure": [
+    "__init__.py",
+    "sample_data.py",
+    "feature_views.py",
+    "eda_mechanisms.py",
+    "constants.py",
+    "input_diagnostics.py",
+    "target_operator.py"
+  ],
+  "r1_source_sha256": {
+    "__init__.py": "74a1bc49240577740207993165aa028f75352814c1a35516b8ded7a6af58e63a",
+    "sample_data.py": "13a4acfeb62ace285184c8fe0f88ff7ba65a3969843eaa0e0f6175189325abc7",
+    "feature_views.py": "60d42c3c961001d9177c7d7d300fcd3472662cc3d024deaac74263e37fe75550",
+    "eda_mechanisms.py": "a677dc1a7ecbdc10a799f918fa8c301af44cc5d339ac51d3f83abf170253b428",
+    "constants.py": "bc7d990835a53586549cf0cf93a2e345098215a3d626f35b195f642cb20f7520",
+    "input_diagnostics.py": "a796ede88e6d80e460c8292a78b066e1be9ca2eab0be70b6c7ab458f0c4f38e7",
+    "target_operator.py": "f92d9cac2776bbb6b91aea7eadeb272d57f7951be9b20e23777b8417b1df1410"
+  },
+  "isolated_import_proof": {
+    "status": "PASS",
+    "method": "Copied only the seven listed R1 files and R2 Python sources into temporary package directories, then imported idea_screens_r1, feature_views, sample_data, and idea_screens_r2.run_analysis.",
+    "array_access": "None; np.load was replaced by a function that raises and was not called.",
+    "extra_external_runtime_dependencies": [
+      "numpy",
+      "pyarrow (required by canonical wnn.data, imported by sample_data)"
+    ],
+    "canonical_local_modules": ["wnn.data", "wnn.gmetric"]
+  },
+  "r2_cli_sha256": "20e9424903b77f847b8ad83c1bf7682497087a3987c827459af6eb717b4c3bbf",
+  "scope_note": "This verifies import closure only. No source code, model math, sample arrays, data reads, or results were changed or tested. Stage the exact seven-file closure in the separate v2 bundle/output paths; retain the same panel, source pins, and resource envelope."
+}

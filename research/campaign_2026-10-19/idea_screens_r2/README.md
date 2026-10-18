@@ -1,5 +1,9 @@
 # Idea screens R2: fixed-alpha selection and EMA parts
 
+**Executed:** [measured results](RESULTS.md), [independent result audit](RESULT_AUDIT.json), [actual raw evidence](records/attempt_v2/terminal_capture/README.md). V1 failed before data loading because the initial staging list below omitted transitive R1 imports; use the [seven-file correction](STAGING_CORRECTION_REVIEW.json). V2 completed all six views, exit0/captured/stopped.
+
+The preparation manifest and initial independent review bind the prepared README/source revision at Git commit `758db928` (also retained byte-for-byte in the remote bundle and raw launch source snapshot). This execution annotation was added later; all six analysis Python source hashes remain unchanged. No prepared receipt or raw output was rewritten.
+
 R2 is a bounded CPU analysis packet for the fixed question in [NEXT_WAVE](../idea_screens_r1/NEXT_WAVE.md). It compares six predeclared representations, selects one ridge alpha per view using only three component-held-out folds inside the 14 fit components, refits on all stride-sampled fit rows, and scores the already exposed six-component outer panel once. This is exploratory regularization evidence on the R1 sample, not a fresh validation result, full-recipe comparison, or expected public gain.
 
 ## Fixed method

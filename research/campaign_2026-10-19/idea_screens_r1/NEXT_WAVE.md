@@ -20,3 +20,7 @@ Do additional raw channels and history features look harmful because the small f
 Code/review/tiny tests first in a separate R2 packet; no copy of the full recurrent trainer. At most one serial CPU50%/1.5GB/no-swap/600s job on B, CUDA hidden, physical scratch, fresh cgroup/headroom check. Reuse deterministic normal-equation sufficient quantities if useful; no queue manager. Existing F3/support always keeps its resources and ownership. Stop rather than enlarge caps or silently shrink/replace the panel after an error. Preserve R1 and any failed R2 output.
 
 After this comparison, prefer a separately frozen larger component panel to confirm an allocation decision. Neither R1 nor this same-panel R2 can establish a full-recipe or public gain. Remaining cards stay explicitly untested until their defining mechanism is instantiated.
+
+## Execution arrived
+
+This fixed follow-up is now [completed as R2](../idea_screens_r2/RESULTS.md). Do not relaunch it. The import-only V1 delivery failure and corrected V2 source closure are preserved; the scientific code, sample, grid, folds and caps did not change.
