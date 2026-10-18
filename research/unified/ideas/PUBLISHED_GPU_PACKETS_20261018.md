@@ -15,6 +15,8 @@ evidence_paths: []
 | Четыре архитектуры | [codex/transformer-mamba-gpu-wave](https://github.com/VladKochetov007/WunderFunder/tree/codex/transformer-mamba-gpu-wave), `bd78ac1048fe9d6534e76cde8c6f8ec0d6aa6acb` | GRU H256×2; causal Transformer D256×4 с окнами 256 и 2048; Mamba-2 D256×4. Реализованные исходники и host-side packet, target GPU не проверен. |
 | Причинное сглаживание | [codex/causal-smoothing-executable](https://github.com/VladKochetov007/WunderFunder/tree/codex/causal-smoothing-executable), `ebc3b9244d07f107f870d5ca1154f4ecc98dbdb0` | Equal-width raw+zero против raw+EWMA/residual; полный per-cell fit → predict → score путь, 30 пар / 60 fits, 12 эпох. Доработка к [PR #9](https://github.com/VladKochetov007/WunderFunder/pull/9); опубликованный код пока находится в отдельной ветке, а не в diff PR #9. |
 
+[Draft PR #24](https://github.com/VladKochetov007/WunderFunder/pull/24) передаёт эту четвёрку в research-team как отдельный future-CP30 handoff; исходный код сохранён в указанном remote snapshot, а его перенос в текущий trainer ещё не сделан.
+
 ## Архитектурная четвёрка
 
 [Замороженный README и recipe](https://github.com/VladKochetov007/WunderFunder/tree/bd78ac1048fe9d6534e76cde8c6f8ec0d6aa6acb/research/campaign_2026-10-17/architecture_gpu_wave_r1) содержат исторический F0/seed3/one-epoch screen. Его не переписывали под вид завершённого CP30. Он привязан к legacy trainer: модели ещё нужно подключить через текущие `wnn.training.models`, input/state/forward/checkpoint/prediction seams. Простое слияние всей старой ветки может конфликтовать с новой архитектурой trainer и общими индексами.
