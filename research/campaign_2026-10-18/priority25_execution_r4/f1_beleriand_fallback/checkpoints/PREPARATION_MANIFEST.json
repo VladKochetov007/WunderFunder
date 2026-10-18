@@ -1,0 +1,82 @@
+{
+  "launch_command_executed": false,
+  "limitations": [
+    "No F1 checkpoint was collected or verified; this packet contains preparation and synthetic schema checks only.",
+    "No training, inference, quality score, convergence result, measured resume parity, latency, or CP30 result is claimed.",
+    "The real-Torch synthetic tensor checks remain to be run in a separately bounded CUDA-hidden CPU support unit.",
+    "Fresh admission must rehash the fold manifest, data registry, archive inventory, source archive, and source tree before any operation."
+  ],
+  "local_validation": {
+    "no_packages_installed": true,
+    "py_compile": "passed",
+    "python": "3.13.11",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "torch_tensor_fixture_executed": false,
+    "unit_tests": {
+      "count": 12,
+      "passed": 11,
+      "skip_reason": "Torch unavailable in lightweight Mac environment",
+      "skipped": 1
+    }
+  },
+  "plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+  "prepared_utc": "2026-10-18T07:00:38.920434+00:00",
+  "runtime_dependency_binding": {
+    "collector_receipt_records": [
+      "collect_f1_checkpoint.py",
+      "f1_checkpoint_common.py"
+    ],
+    "manifest_self_hash_omitted": true,
+    "verifier_receipt_records": [
+      "verify_f1_checkpoint.py",
+      "f1_checkpoint_common.py",
+      "f1_checkpoint_evidence.py",
+      "f1_checkpoint_lineage.py",
+      "f1_checkpoint_tensors.py",
+      "collect_f1_checkpoint.py",
+      "wnn/training_state.py from exact --source-root, checked against checkpoint source map"
+    ]
+  },
+  "schema": "priority25.f1_checkpoint_support_preparation.v1",
+  "source_bindings": {
+    "fold1_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "grader_revision": "6f9fd05e491a9700cce1adf50e58b56cdc5e65bb",
+    "portable_archive_inventory_sha256": "9a90e46958eaed2784f1f12e6a501292e4c865b1bc6d07e3f2bd233271da7341",
+    "portable_registry_sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378",
+    "trainer_entrypoint_sha256": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+    "trainer_revision": "a266b036b02e8e012c6eb31072291dad618a169d",
+    "trainer_source_archive_sha256": "288b4c9dd67b48114240bbf593901fc539de15aa709a1aa63388dccf64a4478a",
+    "trainer_training_state_py_sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+  },
+  "static_schedule": {
+    "batch_size": 8,
+    "batches_per_epoch": 1493,
+    "drop_last": true,
+    "evaluation_components": 149,
+    "evaluation_groups": 457,
+    "fit_train_groups": 10533,
+    "fit_valid_groups": 1416,
+    "observed_training_result": false,
+    "stage1_batches": 2986,
+    "stage1_next_epoch": 2,
+    "stage1_updates": 29860,
+    "terminal_batches": 8958,
+    "terminal_next_epoch": 6,
+    "terminal_updates": 89580,
+    "updates_per_batch": 10,
+    "updates_per_epoch": 14930
+  },
+  "status": "UNADMITTED_PREPARATION_ONLY",
+  "support_file_sha256": {
+    "README.md": "1fb6b7d3b415b867a29af8be10f9ac3ee1469017fee4273da980e2fd919f3165",
+    "collect_f1_checkpoint.py": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+    "f1_checkpoint_common.py": "07d596a1b69574e266a909bfe2e24e4c82d1e9cd778c7338bc5855688159f5c5",
+    "f1_checkpoint_evidence.py": "5ffb3dfe65b542b7bce28e2c020cec203be402d9b0ad081604d08c35ec2a6cc9",
+    "f1_checkpoint_lineage.py": "c6aec1daace1fd200d60bcc5cc9532aa9d98f76d99bd01e0ca39c65eb727e81d",
+    "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+    "test_f1_checkpoint_support.py": "88bab2eeca7db1ff2e83361040ad8d9defa1b10976ecb4dde961e2bc2ce0b32a",
+    "verify_f1_checkpoint.py": "d022367b0e4091b1fd4179ff1b5ea8d9f5722ae8ef686bd86fe5774869dc2186"
+  },
+  "training_or_remote_actions_performed": false
+}
