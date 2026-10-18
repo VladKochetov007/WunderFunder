@@ -1,0 +1,165 @@
+{
+  "schema": "priority25.f1_beleriand_fallback_preparation.v1",
+  "plan_id": "priority25-r01-f1-s1001-beleriand-fallback-prep-v1",
+  "state": "UNADMITTED_PLAN_PREPARATION",
+  "no_launch_command_executed": true,
+  "no_remote_mutation_or_compute": true,
+  "plan_path": "research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/F1_BELERIAND_PLAN.json",
+  "plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+  "plan_branch_base": "83b3ea1e",
+  "source_evidence": {
+    "trainer_commit": "a266b036b02e8e012c6eb31072291dad618a169d",
+    "grader_commit": "6f9fd05e491a9700cce1adf50e58b56cdc5e65bb",
+    "f1_recipe_path": "research/campaign_2026-10-18/priority25_execution_r4/datasphere/f1_fit_recipe.py",
+    "f1_recipe_sha256": "5f1e3d89b8276f3f4a9dd71f4c695fd14c5953b98799db1c6b46b7a92d92b2cb",
+    "profile_spec_sha256": "1ca416cac32fb075b4b9d16683e9a07634f3926e625e62576468c99b2b722d56",
+    "code_archive_sha256": "288b4c9dd67b48114240bbf593901fc539de15aa709a1aa63388dccf64a4478a",
+    "supplemental_archive_sha256": "fec9413bcf73c8c8cc81fc99751eed552d182229b3a859749a55bd0f08deb0f2",
+    "portable_registry_sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378",
+    "grader_file_sha256": "cb90c0bce31cf6aa2b8e4f6a7536c30972b14c6995fb0db1e9f72aa867c30ec0",
+    "F0_profile_comparison_sha256": "0d9dee35cb626b5e640d37f43d66ee8df1a97b8bf765b64df02bc1af34a361c0",
+    "portable_registry_path": "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_SOURCES.json",
+    "portable_registry_path_status": "Root fresh SSH read confirms this copy exists at 2,157 bytes; no copy or remote action by this task."
+  },
+  "fold1_binding": {
+    "canonical_B_path": "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+    "expected_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "sealed_member": "splits/fold1.json",
+    "legacy_local_path": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+    "legacy_local_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "finding": "The local legacy fold1 file does not match the sealed canonical F1 manifest and must not be used."
+  },
+  "parent_live_metadata_observation": {
+    "observed_at_utc": "2026-10-18T06:15:28Z",
+    "reported_by": "Root live B metadata receipt; manifest, counts, source metadata and schedule basis are durably recorded.",
+    "receipt_path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_BELERIAND_FALLBACK_METADATA_20261018.json",
+    "receipt_sha256": "abda35da69495e55360c89c8ea8cce6e35e968d73c72a59de2fa41dfa09ad3b7",
+    "manifest_bytes": 1388742,
+    "manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "counts": {
+      "fit_train": 10533,
+      "fit_valid": 1416,
+      "evaluation_valid": 457,
+      "evaluation_components": 149
+    },
+    "F1_runs_or_attempts_found_at_read": false,
+    "disk_free_at_read_bytes": 88484000075776
+  },
+  "schedule_arithmetic": {
+    "classification": "Static expectation only; no F1 optimizer update has been run.",
+    "combined_fit_groups": 11949,
+    "drop_last_batches_per_epoch": 1493,
+    "chunk_updates_per_batch": 10,
+    "expected_updates_per_epoch": 14930,
+    "expected_stage1_two_epoch_updates": 29860,
+    "expected_six_epoch_schedule_updates": 89580,
+    "actual_counts": null,
+    "admission_gate": "Verify actual training_state contract and counters before continuation."
+  },
+  "profile_reuse_decision": {
+    "decision": "F0 B8/C2000 profiles reused for shape-level reservation evidence only; no F1 profile run or frozen.",
+    "F0_profile_result": "Each arm completed 40 FP32 optimizer updates with finite losses/gradients and zero AMP skips on same B GPU/runtime.",
+    "not_covered": "fold1 membership/cardinality, data/cache hashes and F1 runtime.",
+    "gate": "Fresh F1 data/hash/membership preflight and resource admission; profile first if GPU/kernel/runtime/data route differs or root rejects reuse."
+  },
+  "artifact_and_grade_bindings": {
+    "stage1_runs": [
+      "rr18_r01_wide_f1_s1001",
+      "rr18_r01_deep_f1_s1001"
+    ],
+    "endpoint_runs": [
+      "rr18_r01_wide_f1_s1001_e6",
+      "rr18_r01_deep_f1_s1001_e6"
+    ],
+    "prediction_paths": [
+      "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache/pred_rr18_r01_wide_f1_s1001_e6_valid.npy",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache/pred_rr18_r01_deep_f1_s1001_e6_valid.npy"
+    ],
+    "sidecar_paths": [
+      "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache/pred_rr18_r01_wide_f1_s1001_e6_valid.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache/pred_rr18_r01_deep_f1_s1001_e6_valid.json"
+    ],
+    "grade_path": "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_F1_S1001_GRADE.json",
+    "grader_checks": [
+      "fold1 checkpoint/provenance membership",
+      "ordered fold1 row groups and evaluation mask",
+      "finite float32 prediction shape",
+      "sidecar checkpoint SHA and row order",
+      "global_wp_clip2_v1",
+      "paired component bootstrap 10000"
+    ],
+    "scratch": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp on physical disk; existing grader bounds extraction and memory maps targets/masks",
+    "attempt_receipt_paths": [
+      "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/attempts/computer-vision-homework-r01-wide-f1s1001-ep01-v1.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/attempts/computer-vision-homework-r01-deep-f1s1001-ep01-v1.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/attempts/computer-vision-homework-r01-wide-f1s1001-ep25-v1.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/attempts/computer-vision-homework-r01-deep-f1s1001-ep25-v1.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/attempts/computer-vision-homework-r01-wide-f1s1001-export-ep5-v1.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/attempts/computer-vision-homework-r01-deep-f1s1001-export-ep5-v1.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/attempts/computer-vision-homework-r01-f1s1001-grade-v1.json"
+    ],
+    "stage1_collection_and_verification_receipts": [
+      "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_WIDE_F1_S1001_STAGE1_COLLECTION.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_WIDE_F1_S1001_STAGE1_VERIFICATION.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_DEEP_F1_S1001_STAGE1_COLLECTION.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_DEEP_F1_S1001_STAGE1_VERIFICATION.json"
+    ],
+    "terminal_collection_and_verification_receipts": [
+      "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_WIDE_F1_S1001_TERMINAL_COLLECTION.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_WIDE_F1_S1001_TERMINAL_VERIFICATION.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_DEEP_F1_S1001_TERMINAL_COLLECTION.json",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_DEEP_F1_S1001_TERMINAL_VERIFICATION.json"
+    ]
+  },
+  "offline_validation": {
+    "trainer_grader_commit_objects_resolve": true,
+    "F1_manifest_and_recipe_constants_match_sealed_profile_spec": true,
+    "attempt_ids_unique": true,
+    "every_worker_vector_has_fold1": true,
+    "F0_vectors_transformed_and_guard_worker_vectors_match": true,
+    "trainer_export_help_check": "Blocked by local environment lacking wnn import path/pyarrow; no package installation/network attempted.",
+    "grader_cli_parser": "Argument names read directly from fold-general grade_endpoint.py parser; no data loaded or grade run.",
+    "notes": "Vectors are offline transformations of the frozen F0 pair plan plus the F1 recipe. The plan matches the runner schema but remains UNADMITTED; bandit_sequence was not invoked.",
+    "runner_schema": "plan matches bandit_sequence schema; all seven steps have unique attempt, command, launch_command, output_bytes, must_not_exist and receipt path; runner was not invoked.",
+    "every_worker_vector_binds_fold1_by_step_kind": true,
+    "fold1_vector_checks": [
+      {
+        "step_id": "stage1_wide",
+        "argument": "--valid-fold 1 and --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json"
+      },
+      {
+        "step_id": "stage1_deep",
+        "argument": "--valid-fold 1 and --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json"
+      },
+      {
+        "step_id": "continuation_wide",
+        "argument": "--valid-fold 1 and --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json"
+      },
+      {
+        "step_id": "continuation_deep",
+        "argument": "--valid-fold 1 and --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json"
+      },
+      {
+        "step_id": "export_wide",
+        "argument": "--campaign-split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json"
+      },
+      {
+        "step_id": "export_deep",
+        "argument": "--campaign-split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json"
+      },
+      {
+        "step_id": "grade",
+        "argument": "--split /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json"
+      }
+    ],
+    "portable_registry_path": "Exact existing B path reported by root fresh SSH read; admission still requires fresh hash verification."
+  },
+  "limitations": [
+    "No F1 fit, export, prediction, official score, latency or quality evidence.",
+    "Static schedule values are not observed F1 optimizer counts.",
+    "No F1 runtime or capacity measurement; fresh B worker/cgroup/disk/GPU admission required after F0 drains.",
+    "DataSphere F1 adapter is provider-specific; no DS job active at observed status, but cell ownership must be refreshed.",
+    "F0 checkpoint verifiers encode F0 counts and must not be reused unchanged; fold-general grader is revision 6f9fd05e.",
+    "One exposed fold/seed cannot establish CP30 ranking, convergence, pristine holdout value or public transfer."
+  ]
+}
