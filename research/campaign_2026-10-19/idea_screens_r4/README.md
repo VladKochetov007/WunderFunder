@@ -1,0 +1,19 @@
+# R4 random-feature nonlinear screen
+
+[Measured results](RESULTS.md) close one four-case CPU probe on the completed R3 sample: identity versus tanh random features, paired within raw and signed-EMA input bases. Selected tanh−identity deltas are−0.009039/−0.023440WP; fixed-alpha1 history retains+0.002015with32positive drop-one contrasts. The exposed-panel result is recipe-specific. The exact job exited0at23:46:29UTC18October, was captured and stopped; arrays/models remain on B. Existing F3 maintenance remains separate.
+
+- [Result audit](RESULT_AUDIT.json) reconstructs component-moment scores, fitting-only alpha choices and paired contrasts without new fits or NPZ replay. [Exact descriptive contrasts](DESCRIPTIVE_CONTRASTS.json) preserve both negative selected outcomes and the positive fixed-alpha1 history endpoint. [Resource reconciliation](RESOURCE_RECONCILIATION.json) distinguishes process/unit accounting and confirms no new memory events.
+
+- [Frozen contract](CONTRACT.md) fixes the four cases, projection/selection protocol and stopping bounds before execution. [Design review](DESIGN_REVIEW.json) accepts only a recipe-specific fixed random-feature contrast, not learned MLP/state/gradient or full-recipe claims. [Implementation review](IMPLEMENTATION_REVIEW.json) independently checks all22 current source pins, isolated B-shaped imports with zero data-read sentinel calls and five tiny tests. [Author checks](TEST_RECEIPT.json) preserve the pre-execution CV-count/report-interface correction.
+- [Current preparation manifest](PREPARATION_MANIFEST.json) binds the unchanged R1/R2 numerical/data closure, R3 component folds, six new R4 code/test files, contract and three canonical sources. [Initializer closure addendum](IMPORT_CLOSURE_ADDENDUM.json) explains the separately preserved [earlier21-pin manifest](PREPARATION_MANIFEST_21PIN_V1.json). [Root transcription correction](PRELAUNCH_SOURCEPIN_CORRECTION.json) preserves the [invalid65-character source-pin draft](PREPARATION_MANIFEST_DRAFT_INVALID_SOURCEPIN.json); this was corrected before review, staging or jobs, without changing scientific code.
+- [Execution records](records/README.md) link the exact source/resource admission, launch intent, raw terminal/stop evidence and preserved read-only capture errors. The source bundle is B/support-source/eda19-r4-v1; output B/research_tmp/nf19-r4-v1. Caps are0.5CPU/1.5GB/no-swap/600s, CUDA hidden and one BLAS thread.
+
+All F0 panels are exposed; normalization/alpha selection use fitting components only. The identity projection retains the original linear span but changes penalty geometry. Preserve all four cases and both selected-alpha and predeclared alpha1 endpoints; no evaluation-based retuning, public transfer estimate or new sample follows automatically.
+
+The [CLI](run_probe.py) verifies exact inputs/source before loading sample arrays; [random features](random_features.py) define paired transforms, [fit/CV](analysis_fit.py) owns fitting-only selection, [scoring](analysis_score.py) preserves canonical component moments and [reporting](analysis_report.py) creates contrasts/NPZ provenance. [Five tiny tests](test_probe.py) cover transform/metric/report invariants without real data.
+
+A read-only maintenance snapshot of the existing deep F3 index-3 worker is preserved in [records](records/README.md). The snapshot records live progress and shared-GPU ownership; it did not launch or alter F3 or R4 work.
+
+[Continuation](CONTINUATION.md) records completed evidence, the current CPU-only exploration scope and maintenance-only F3 ownership. No next job is admitted by that note.
+
+[Publication validation](PUBLICATION_VALIDATION.json) checks current source/result/audit pins, local links and the staged metadata snapshot. The validation excludes its own bytes to avoid a circular hash; no arrays or weights enter Git.

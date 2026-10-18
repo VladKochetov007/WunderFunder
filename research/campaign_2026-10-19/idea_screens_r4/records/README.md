@@ -1,0 +1,4 @@
+# R4 operational records
+
+- [F3 health snapshot, 2026-10-18 23:36 UTC](F3_HEALTH_20261018T2335Z/README.md) — read-only status of the existing deep F3 attempt at index 3. It was healthy in epoch 3, batch 1120/1488; parent and F3 cgroup OOM events were unchanged/zero. The record binds raw receipts and the exact runtime log tail, and documents shared selected-GPU ownership. It contains no R4 execution or model artifacts.
+- [R4 frozen probe V1](probe_v1/README.md) — launch and terminal-capture record for the bounded nonlinear random-feature screen. The exact CPU unit exited successfully under its pinned envelope; raw metadata, result/source/sample hashes, stat-only model inventory, cgroup events and exact stop receipt are preserved. The result remains pending independent scientific acceptance.

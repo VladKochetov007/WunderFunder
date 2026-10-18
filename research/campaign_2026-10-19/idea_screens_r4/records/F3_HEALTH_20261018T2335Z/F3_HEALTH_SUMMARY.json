@@ -1,0 +1,415 @@
+{
+  "campaign_cgroup": {
+    "controller_memory_current_bytes": 9621504,
+    "deep_cpu_max": "100000 100000",
+    "deep_memory_current_bytes": 2351824896,
+    "f3_child_events": {
+      "computer-vision-homework-r01-f3-sequence.service": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      }
+    },
+    "parent_cpu_max": "200000 100000",
+    "parent_current_bytes": 5858312192,
+    "parent_events": {
+      "high": 2179,
+      "low": 0,
+      "max": 561,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_events_local": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_high": "17999998976",
+    "parent_memory_max": "19999997952",
+    "populated_children": [
+      "computer-vision-homework-r01-f3-sequence.service",
+      "wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service"
+    ]
+  },
+  "capture_timestamp_local_label": "F3_HEALTH_20261018T2335Z",
+  "captured_utc": "2026-10-18T23:36:20.645880+00:00",
+  "deep_attempt": {
+    "active_state": "active",
+    "cpu_quota": "1s",
+    "elapsed_seconds_at_receipt": 5840.238138559973,
+    "exec_main_code": "0",
+    "exec_main_status": "0",
+    "heartbeat_utc": "2026-10-18T23:36:15.848971+00:00",
+    "id": "computer-vision-homework-r01-deep-f3s1001-ep25-v1",
+    "latest_native_progress": {
+      "batch": 1120,
+      "batches_per_epoch": 1488,
+      "epoch": 3,
+      "line": "ep 3 batch 1120/1488 loss 0.6816 lr 3.37e-05 seq/s 2.8",
+      "loss": 0.6816,
+      "lr": 3.37e-05
+    },
+    "main_pid": "1264295",
+    "memory_current_bytes": "2446053376",
+    "memory_high_bytes": "7200000000",
+    "memory_max_bytes": "8000000000",
+    "peak_parent_ram_bytes": 6405808128,
+    "peak_ram_bytes": 2468188160,
+    "peak_vram_bytes": 6141509632,
+    "phase": "running",
+    "progress_log_file_bytes": 14336,
+    "progress_log_mtime_ns": 1792366532306589133,
+    "progress_log_path": "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/logs/computer-vision-homework-r01-deep-f3s1001-ep25-v1.log",
+    "progress_log_tail_sha256": "c644b759c767c242b588e70f8664c2cc8d4e9624d38f46cab55ceeb1e549ac2f",
+    "started_utc": "2026-10-18T21:58:55.370032+00:00",
+    "status": "running",
+    "sub_state": "running",
+    "swap_max_bytes": "0",
+    "unit": "wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service",
+    "unit_invocation_id": "77a95e8d29ac411181dbb111d752de19"
+  },
+  "host": "beleriand",
+  "last_completed_fit_event": {
+    "epoch": 2,
+    "evaluation": "withheld",
+    "fit_summary": {
+      "learning_rate_by_group": [
+        {
+          "first": 7.961842622402109e-05,
+          "group": 0,
+          "last": 5.414731568670718e-05,
+          "mean": 6.732303351658062e-05
+        }
+      ],
+      "objective_mean": 1.3015291603662635,
+      "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+      "optimizer_updates": {
+        "amp_skipped_updates": 0,
+        "completed_batches": 1488,
+        "ema_updates": 0,
+        "optimizer_attempts": 14880,
+        "optimizer_completed_updates": 14880
+      },
+      "optimizer_windows": 14880
+    },
+    "train_seconds": 2591.4,
+    "update_diagnostics": {
+      "cumulative": {
+        "amp_skipped_updates": 0,
+        "completed_batches": 4464,
+        "ema_updates": 0,
+        "optimizer_attempts": 44640,
+        "optimizer_completed_updates": 44640
+      },
+      "epoch": {
+        "amp_skipped_updates": 0,
+        "completed_batches": 1488,
+        "ema_updates": 0,
+        "optimizer_attempts": 14880,
+        "optimizer_completed_updates": 14880
+      },
+      "grad_stats": {
+        "clip": 1.0,
+        "clip_rate": 0.9218,
+        "epoch": 2,
+        "family_median": {
+          "bias": 0.28557,
+          "head": 1.25754,
+          "inp": 0.83739,
+          "rnn_hh": 0.21344,
+          "rnn_ih": 0.40576
+        },
+        "family_sq_share_mean": {
+          "bias": 0.0352,
+          "head": 0.5916,
+          "inp": 0.2885,
+          "rnn_hh": 0.018,
+          "rnn_ih": 0.0667
+        },
+        "mean_clip_factor": 0.62,
+        "nonfinite_steps": 0,
+        "steps": 14880,
+        "total_q05_q50_q95": [
+          0.93457,
+          1.65412,
+          3.58542
+        ]
+      },
+      "normalization_identity": {
+        "mean": {
+          "bytes_sha256": "af35886e764bf7087956af14d3948f2fec628020f5738e4de3cede3a7f81a82a",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        },
+        "std": {
+          "bytes_sha256": "1c8afe438a38ff7223b2afcd8fa090287768091f79de155357d46a3f8cc5e956",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        }
+      },
+      "sample_order_identity": {
+        "batch_size": 8,
+        "drop_last": true,
+        "loader_generator": "global CPU RNG",
+        "loader_rng": {
+          "bytes_sha256": "39c925a2ff0f873dd1942fbbd59eb54e97b6aa92911c255d50662d64b0ad3f7e",
+          "dtype": "torch.uint8",
+          "shape": [
+            5056
+          ]
+        },
+        "num_workers": 0,
+        "persistent_workers": false,
+        "sampler_class": "EpochOrderSampler",
+        "sampler_generator": "global CPU RNG",
+        "sampler_num_samples": null,
+        "sampler_replacement": null,
+        "sampler_rng": {
+          "bytes_sha256": "39c925a2ff0f873dd1942fbbd59eb54e97b6aa92911c255d50662d64b0ad3f7e",
+          "dtype": "torch.uint8",
+          "shape": [
+            5056
+          ]
+        },
+        "seeded_order": {
+          "antithetic": false,
+          "epoch": 2,
+          "seed": 1001,
+          "shared_dropped_tail": true
+        }
+      }
+    }
+  },
+  "output_metadata_presence": [
+    {
+      "error": "FileNotFoundError(2, 'No such file or directory')",
+      "exists": false,
+      "name": "model_ep5.pt",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f3_s1001_e6/model_ep5.pt"
+    },
+    {
+      "error": "FileNotFoundError(2, 'No such file or directory')",
+      "exists": false,
+      "name": "model.pt",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f3_s1001_e6/model.pt"
+    },
+    {
+      "exists": true,
+      "is_file": true,
+      "mode": 33204,
+      "mtime_ns": 1792363331380102117,
+      "name": "provenance.json",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f3_s1001_e6/provenance.json",
+      "size_bytes": 167970
+    },
+    {
+      "exists": true,
+      "is_file": true,
+      "mode": 33152,
+      "mtime_ns": 1792363331436106021,
+      "name": "training_state.pt",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f3_s1001_e6/training_state.pt",
+      "size_bytes": 25881519
+    },
+    {
+      "error": "FileNotFoundError(2, 'No such file or directory')",
+      "exists": false,
+      "name": "history.json",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f3_s1001_e6/history.json"
+    },
+    {
+      "error": "FileNotFoundError(2, 'No such file or directory')",
+      "exists": false,
+      "name": "attempt.json",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f3_s1001_e6/attempt.json"
+    },
+    {
+      "error": "FileNotFoundError(2, 'No such file or directory')",
+      "exists": false,
+      "name": "training.log",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f3_s1001_e6/training.log"
+    }
+  ],
+  "plan_output_dir_training_log_status": {
+    "error": "FileNotFoundError(2, 'No such file or directory')",
+    "exists": false,
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f3_s1001_e6/training.log"
+  },
+  "raw_capture_validation": {
+    "exact_logtail_sha256": "c644b759c767c242b588e70f8664c2cc8d4e9624d38f46cab55ceeb1e549ac2f",
+    "gpu_uuid_query_returncode": 0,
+    "observer_json_bytes": 205288,
+    "observer_json_sha256": "ebc9f91f0c048020a4e2c2fbc3def5ac5be429f2de10c999718e0bb5077788d4",
+    "payloads": [
+      {
+        "bytes": 63250,
+        "label": "deep_attempt_receipt",
+        "sha256": "bdea965c42d5ca7d3af45834a508b21969f3565e0ad08169f1cd7e9b3235a84f"
+      },
+      {
+        "bytes": 553,
+        "label": "sequence_receipt",
+        "sha256": "a7760cacf26e6ac8c2d83de19d5971f8a66093ca9fa5472f51f23350e8430ee3"
+      },
+      {
+        "bytes": 73439,
+        "label": "all_user_units.stdout",
+        "sha256": "6e48db0cecc8a4fc4128feca0ca9806da168c18b27463438bec7b972cc4b492c"
+      },
+      {
+        "bytes": 0,
+        "label": "all_user_units.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 248,
+        "label": "campaign_slice_show.stdout",
+        "sha256": "f37504f3cb8d420398d83a70f995cdb00f4a21f89b45c131f16212d7ee6db338"
+      },
+      {
+        "bytes": 0,
+        "label": "campaign_slice_show.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 482,
+        "label": "deep_attempt_unit.stdout",
+        "sha256": "0f26815dacf93b4a5c22b2615340594bbf72e36dd9dd93ec4550d20a5f861ec0"
+      },
+      {
+        "bytes": 0,
+        "label": "deep_attempt_unit.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 1278,
+        "label": "nvidia_smi_compute_apps.stdout",
+        "sha256": "173c0fc896327e424c4c9dbe9d30e950317f0f673986eb472a355586ecc31b72"
+      },
+      {
+        "bytes": 0,
+        "label": "nvidia_smi_compute_apps.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 500,
+        "label": "nvidia_smi_gpu.stdout",
+        "sha256": "2a56541c5e3b6476ca7ab3ffbf256a790a9f5e4ecba6bf80febe87bf51d312ae"
+      },
+      {
+        "bytes": 0,
+        "label": "nvidia_smi_gpu.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 511,
+        "label": "nvidia_smi_list.stdout",
+        "sha256": "b94af5bc31623fa59be43e117459baf90ac868780a08aede815fe1d9789d161c"
+      },
+      {
+        "bytes": 0,
+        "label": "nvidia_smi_list.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 2160,
+        "label": "selected_gpu_uuid_ownership",
+        "sha256": "8e80586cc3c2d13d465dbd690ba9d0bed340649a77b75875f9edae802f121a87"
+      },
+      {
+        "bytes": 0,
+        "label": "selected_gpu_uuid_ownership",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "validated_raw_payload_count": 17
+  },
+  "read_only_scope": {
+    "no_arrays_or_checkpoints_read_or_deserialized": true,
+    "no_stage1_or_wide_terminal_recheck": true,
+    "no_units_started_stopped_or_restarted": true,
+    "outputs_stat_only": true,
+    "source_fullhash_scan": false
+  },
+  "schema": "nf19.r4_f3_health_summary.v1",
+  "selected_gpu": {
+    "compute_app_rows": [
+      {
+        "campaign_cgroup_path": null,
+        "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+        "pid": "4142499",
+        "proc_cgroup": "0::/user.slice/user-1155.slice/session-105852.scope\n",
+        "process": "/home/smorodovvl/.venv/bin/python",
+        "used_memory": "932 MiB"
+      },
+      {
+        "campaign_cgroup_path": "wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service",
+        "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+        "pid": "1264305",
+        "proc_cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service\n",
+        "process": "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "used_memory": "1592 MiB"
+      },
+      {
+        "campaign_cgroup_path": null,
+        "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+        "pid": "1352983",
+        "proc_cgroup": "0::/user.slice/user-1124.slice/session-118294.scope\n",
+        "process": "/home/kurilovol/astromer/.venv/bin/python",
+        "used_memory": "1236 MiB"
+      },
+      {
+        "campaign_cgroup_path": null,
+        "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+        "pid": "1398502",
+        "proc_cgroup": "0::/user.slice/user-1124.slice/session-120922.scope\n",
+        "process": "/home/kurilovol/astromer/.venv/bin/python",
+        "used_memory": "1206 MiB"
+      }
+    ],
+    "foreign_processes_touched": false,
+    "metrics": [
+      "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8, 0, 95 %, 11481 MiB, 16376 MiB",
+      "GPU-a922981b-b848-d027-b714-170d91808e71, 1, 100 %, 9520 MiB, 16376 MiB",
+      "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 2, 100 %, 7308 MiB, 16376 MiB",
+      "GPU-972b1ac9-5c27-384f-8f3b-b917fd06deba, 3, 48 %, 4554 MiB, 16376 MiB",
+      "GPU-a8fab7e3-7598-a8c6-a311-4c3fdbd02042, 4, 0 %, 15299 MiB, 16376 MiB",
+      "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c, 5, 98 %, 4997 MiB, 16376 MiB",
+      "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18, 6, 69 %, 5285 MiB, 16376 MiB"
+    ],
+    "ownership_method": "nvidia-smi GPU UUID/PIDs joined to /proc/PID/cgroup and fresh campaign cgroup.procs",
+    "uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c"
+  },
+  "sequence": {
+    "attempt": "computer-vision-homework-r01-deep-f3s1001-ep25-v1",
+    "heartbeat_utc": "2026-10-18T23:36:08.085390+00:00",
+    "index": 3,
+    "status": "running",
+    "worker_heartbeat": "2026-10-18T23:36:05.327377+00:00",
+    "worker_status": "running"
+  },
+  "sequence_controller": {
+    "active_state": "active",
+    "sub_state": "running",
+    "unit": "computer-vision-homework-r01-f3-sequence.service"
+  }
+}

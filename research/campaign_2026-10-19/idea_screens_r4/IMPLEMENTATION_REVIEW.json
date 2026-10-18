@@ -1,0 +1,65 @@
+{
+  "review": "independent_implementation_review",
+  "decision": "PASS",
+  "contract_sha256": "8af9ae4223d236987bd873fe041fc8e15014126d68852f2d335e24fff4abd38f",
+  "preparation_manifest_sha256": "4c2858e2416908aaa4dad1d0a1dafa1fac091ab6cb7f9839e788be012c84365d",
+  "manifest_file_count": 22,
+  "manifest_files_verified_against_local_bytes": true,
+  "reviewed_r4_source_sha256": {
+    "analysis_fit.py": "b8bea38548ff42a283bda69c81d282c8194241876a14376527ecffb5a2b8c8f4",
+    "analysis_report.py": "3216ba12fbf9986a64a0439f47b73aaed7b21f6b38bbcb9a84ed39d0a08f5eb1",
+    "analysis_score.py": "275e77da338f604714a8f140b973f806c472fb4bba7bb8c616d2568f766ffe45",
+    "random_features.py": "ad6dfacabb04a3a8f63ea85a6eda8d985edc716e565a18a80ceb65712f4595c8",
+    "run_probe.py": "294cf91571c1d0847b0f0d460e6d2623d9f4d584314df5fadb0fc30af597bd94",
+    "test_probe.py": "46395eba56eef0c99188d286240b591039c10a938eb451cc097e06f96acd9333"
+  },
+  "checks": {
+    "isolated_b_shaped_closure": {
+      "result": "PASS",
+      "layout": "temporary source/research/campaign_2026-10-19 and source/src tree populated only from the current 22-pin manifest",
+      "preimport_source_verification": "run_probe._verify_preparation verified all 22 files using the pinned manifest before analysis imports",
+      "imports": [
+        "idea_screens_r1.sample_data",
+        "idea_screens_r1.feature_views",
+        "idea_screens_r2.ridge_math",
+        "idea_screens_r3.probe_helpers",
+        "idea_screens_r4.random_features",
+        "idea_screens_r4.analysis_fit",
+        "idea_screens_r4.analysis_score",
+        "idea_screens_r4.analysis_report",
+        "idea_screens_r4.run_probe"
+      ],
+      "data_read_sentinels": {
+        "numpy.load": "blocked; zero calls",
+        "pyarrow.parquet.ParquetFile": "blocked; zero calls"
+      }
+    },
+    "focused_synthetic_tests": "5/5 passed in the isolated closure, including train-only base normalization, shared paired projection, causal history, canonical component pooling/drop-one, and complete report/receipt construction",
+    "synthetic_ridge_and_tie_checks": "PASS; small in-memory synthetic ridge fit/predict was finite and exact alpha ties select 10000",
+    "sample_arrays_or_sample_fits": "not accessed"
+  },
+  "review_findings": {
+    "blockers": [],
+    "verified": [
+      "The signed EMA block is built by the pinned causal R1 transform over each full sequence before stride selection; per-sequence processing resets its history at row zero.",
+      "Each projection draw is generated once per base with the contract RNG order and shared by the identity/tanh pair. Base mean/std are fitted on each fold's fit-stride rows only; the unchanged R2 ridge helper applies its own fit-only augmented-feature normalization.",
+      "Three component folds partition the 64 fit components. Every alpha is scored on complete held-fit masks with canonical pooled WP; the same selected alpha is shared by both targets, exact ties prefer the larger alpha, and alpha=1 is retained as a diagnostic.",
+      "Final refits use all 64 fitting components. Evaluation uses the original scored mask only after fit-only selection and refit; paired contrasts retain all 32 evaluation-component drop-one results.",
+      "The result builder's required budget_folds interface is exercised by the synthetic end-to-end report fixture. The R3 reference is hash-pinned and used descriptively without rerunning it."
+    ],
+    "interpretation_limits": [
+      "One fixed projection draw per base and one width remain a recipe-specific screen, not replication or a learned MLP comparison.",
+      "The R3 panel is exposed discovery evidence. Fixed R3 endpoint contrasts do not establish full-recipe gain, public transfer, or internal-state/gradient claims."
+    ]
+  },
+  "root_launch_gates": [
+    "Rehash the exact 22-pin manifest, canonical wnn initializer/data/scorer, sample manifest/files, and frozen R3 reference on B before imports or sample loading.",
+    "Set one BLAS thread before Python imports NumPy and enforce the declared serial CPU, memory, swap, timeout, CUDA-visibility, and physical-scratch limits."
+  ],
+  "performed_no": [
+    "sample-array loading or inspection",
+    "real-data/model fitting or inference",
+    "dependency installation",
+    "remote operations"
+  ]
+}

@@ -1,0 +1,3 @@
+# R4 frozen probe V1
+
+[Launch intent](LAUNCH_INTENT.json) records the authorized 0.5-CPU, 1.5-GB, no-swap, 600-second envelope; [launch receipt](LAUNCH_STDOUT.json) binds the staged sources, canonical package, and R3 sample. The exact unit completed successfully and was stopped only after its terminal receipts were captured and validated. The [terminal-capture README](terminal_capture/README.md) links raw byte-preserved transport, result/source hashes, stat-only archive inventory, cgroup evidence, and the exact stop receipt. The bounded result is exposed-panel evidence; an independent critic still owns scientific acceptance.

@@ -1,5 +1,7 @@
 # 19 October research
 
+- [R4 measured fixed nonlinear screen](idea_screens_r4/RESULTS.md): four paired identity/tanh cases on the same R3 panel; selected tanh−identity WP−0.009039 raw/−0.023440 history, while fixed-alpha1 history remains+0.002015. Independent moment/selection audit passes; one CPU unit exited0/captured/stopped, no new memory events. Recipe-specific exposed-panel evidence, no MLP/public/CP30 claim.
+
 - [R3 measured component/block follow-up](idea_screens_r3/RESULTS.md): nine fixed ridge cases on64/32 fitting budgets and32evaluation components. Full-budget raw and i0+tail nearly match, while selected signed EMA adds0.010459WP with positive32/32drop-one contrasts. Fixed-alpha1 absolute EMA remains positive despite opposite fit-selected ranking. All endpoints are audited; changed exposed sampling and linear-model limits prevent full-model/public claims. Both the pre-array failed sample and independently corrected successful sample are preserved.
 
 - [No-fit discussion and25hypothesis cards](no_fit_ideation_r1/README.md): independent generation, literature/math and criticism; no data/model execution in that earlier session.

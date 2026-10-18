@@ -1,5 +1,7 @@
 # Статус всех25 после первого bounded screen
 
+Дополнение R4: [четыре фиксированные nonlinear-пробы](../idea_screens_r4/RESULTS.md) не дали selected-выигрыша к identity-контролю на raw/истории; fixedalpha1 история сохраняет+0.002015WP. Это проверка конкретных случайных признаков/регуляризации на той же панели, не learned MLP, moment heads, gradient conflict или recurrent-state механизм. NOT_TESTED ниже остаются в силе.
+
 Дополнение R3: [девять фиксированных probes](../idea_screens_r3/RESULTS.md) расширили проверку карточек2/11/19 до32evaluation-компонент, разделили i1/tail и сравнили nested32/64fit. На полном бюджете raw почти равенi0+tail; selected signed EMA+0.01046WP имеет положительные32/32drop-one-контрасты. Fixed-alpha1 absolute EMA также положителен, но fitting-CV выбирает противоположный по outer результат. Это линейные summaries/ablation, а не state matching, Jordan mechanism или gradient conflict. Остальные NOT_TESTED ниже не заменяются этими результатами.
 
 Дополнение: [R2](../idea_screens_r2/RESULTS.md) завершил fit-only выбор регуляризации и разложение EMA; это всё та же exposed-панель. Ниже сохранены конкретные R1 результаты, а не универсальные выводы о семьях. Лаги при выбранной alpha почти равны raw; joint EMA также почти равна raw, отдельные alpha1 EMA и selected endpoints расходятся по ранжированию. i0-subset остаётся лучше, но не изолирует i1.

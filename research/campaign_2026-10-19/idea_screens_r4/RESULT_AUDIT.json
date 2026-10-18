@@ -1,0 +1,389 @@
+{
+  "audit_scope": "Independent reconstruction from captured compact RESULT/DONE/START/SOURCE/LAUNCH/PRE_STOP/TRANSPORT JSON and frozen R3 result JSON only. No sample array, NPZ, model archive, remote operation, or fit was accessed/performed.",
+  "bindings": {
+    "capture_directory": "records/probe_v1/terminal_capture/capture_02",
+    "r3_reference_result_sha256": "a7e19f6358fbd1f61496efd7c1712b80cb7d582f22445a1e3c12988851b323dc",
+    "r4_preparation_manifest_sha256": "4c2858e2416908aaa4dad1d0a1dafa1fac091ab6cb7f9839e788be012c84365d",
+    "r4_result_bytes": 1119059,
+    "r4_result_sha256": "59a8a7dbdccd9faa04307f79b46dc4332be4132b770791075b38b477a33af418",
+    "r4_source_manifest_sha256": "26edc11a32eff937e9ea4aa403b0a09a1ba9fcbb1a8ab852529fe539b63f0583",
+    "sample_manifest_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64"
+  },
+  "checks": {
+    "96_source_records_partition64_32": true,
+    "all22_pinned_source_files_rehash": true,
+    "all_cases_completed_no_failures": true,
+    "alpha_argmax_fit_only4_reconstructed": true,
+    "canonical_metric_id": true,
+    "caps_frozen": true,
+    "capture_transport_exit0_optional_failure_json_only": true,
+    "components256_reconstructed": true,
+    "dropone256_reconstructed": true,
+    "fold_metrics36_reconstructed": true,
+    "four_archives_stat_only_and_bound": true,
+    "import_smoke_no_data_reads": true,
+    "launch_canonical_pins_match": true,
+    "launch_noncanonical_pins_match": true,
+    "model_archive_design_matches_four_cases": true,
+    "outer8_reconstructed": true,
+    "pooled_cv12_reconstructed": true,
+    "preparation_files_match_source_manifest": true,
+    "preparation_hash_bound": true,
+    "primary_paired_dropone128_reconstructed": true,
+    "primary_paired_full4_reconstructed": true,
+    "r3_same_panel_deltas8_reconstructed": true,
+    "reference_hash_bound": true,
+    "result_hash_done": true,
+    "result_sample_binding_equals_source": true,
+    "root_launch_canonical_source_pins_match": true,
+    "root_launch_preparation_manifest_pin_matches": true,
+    "root_launch_sample_hash_matches_result": true,
+    "sample_acceptance_metadata_pass": true,
+    "sample_counts_match": true,
+    "sample_hash_bound": true,
+    "source_fit_eval_component_disjoint": true,
+    "source_manifest_hash_bound": true
+  },
+  "decision": "PASS_COMPACT_JSON_MOMENT_AUDIT",
+  "interpretation_limits": [
+    "This is one fixed random projection draw per base, comparing identity to tanh, on the exposed R3 sample; it does not establish a general MLP or nonlinear-feature-family result.",
+    "The 32 exposed evaluation components are a bounded screen, not a pristine or broad population holdout. The 64 fit components alone drive pooled inner alpha selection and final fit.",
+    "Selected-alpha results and alpha=1 diagnostics differ: selected tanh-minus-identity WP deltas are negative on both bases, while the signed224 alpha=1 diagnostic is positive. Alpha=1 cannot be promoted by inspecting outer results.",
+    "R3 comparisons are descriptive same-panel references; they are not causal gains over a full trained GRU or public/model-quality acceptance.",
+    "No result measures gradient behavior, latent state, memory mechanisms, or generalization beyond this panel."
+  ],
+  "limitations": "Recomputed correlations derive from six additive raw sums and may have roundoff for extremely small variances; all checked stored endpoint, fold, component, leave-one, paired-contrast and reference fields agreed within the explicit max errors. No model weights/prediction archive was inspected.",
+  "reconstruction": {
+    "alpha_choices": {
+      "raw112_identity64": {
+        "pooled_fit_wp_by_alpha": {
+          "1": 0.32773941895029246,
+          "100": 0.32838451277294106,
+          "10000": 0.3210511451911524
+        },
+        "selected_alpha": 100,
+        "tie_at_max": false
+      },
+      "raw112_tanh64": {
+        "pooled_fit_wp_by_alpha": {
+          "1": 0.3108074652461025,
+          "100": 0.3148346175156299,
+          "10000": 0.32376916186018995
+        },
+        "selected_alpha": 10000,
+        "tie_at_max": false
+      },
+      "raw_signed224_identity64": {
+        "pooled_fit_wp_by_alpha": {
+          "1": 0.34014936198195206,
+          "100": 0.3425370453240261,
+          "10000": 0.3367310500421682
+        },
+        "selected_alpha": 100,
+        "tie_at_max": false
+      },
+      "raw_signed224_tanh64": {
+        "pooled_fit_wp_by_alpha": {
+          "1": 0.335311099635568,
+          "100": 0.33867810540010773,
+          "10000": 0.3395169672483284
+        },
+        "selected_alpha": 10000,
+        "tie_at_max": false
+      }
+    },
+    "alpha_selection": "All four selected alphas independently equal the maximum pooled held-fit-component WP over [1,100,10000], with larger alpha on exact ties; only fit folds enter this choice.",
+    "inner_fold_metrics_reconstructed": 36,
+    "max_abs_error": {
+      "inner_fold": 5.551115123125783e-16,
+      "outer_component": 2.1094237467877974e-15,
+      "outer_drop_one": 6.661338147750939e-16,
+      "outer_endpoint": 4.440892098500626e-16,
+      "pooled_fit_cv": 3.3306690738754696e-16,
+      "primary_full_pair": 5.551115123125783e-16,
+      "primary_paired_drop_one": 8.881784197001252e-16,
+      "r3_reference_delta": 4.440892098500626e-16
+    },
+    "metric": "Canonical src/wnn/gmetric.py::wp_from_sums; global_wp_clip2_v1; official WP is mean(t0,t1).",
+    "outer_component_moments_reconstructed": 256,
+    "outer_drop_one_metrics_reconstructed": 256,
+    "outer_endpoint_count": 8,
+    "outer_metrics": {
+      "raw112_identity64": {
+        "alpha1_baseline": {
+          "alpha": 1,
+          "component_count": 32,
+          "drop_one_count": 32,
+          "drop_one_wp_max": 0.5484003627817731,
+          "drop_one_wp_min": 0.4909420637379547,
+          "metric": {
+            "t0": 0.5358146855865425,
+            "t1": 0.51148809156142,
+            "wp": 0.5236513885739813
+          },
+          "rows": 59436
+        },
+        "selected": {
+          "alpha": 100,
+          "component_count": 32,
+          "drop_one_count": 32,
+          "drop_one_wp_max": 0.5503869714341121,
+          "drop_one_wp_min": 0.49259295831323546,
+          "metric": {
+            "t0": 0.5358009135865089,
+            "t1": 0.5147285091155983,
+            "wp": 0.5252647113510536
+          },
+          "rows": 59436
+        }
+      },
+      "raw112_tanh64": {
+        "alpha1_baseline": {
+          "alpha": 1,
+          "component_count": 32,
+          "drop_one_count": 32,
+          "drop_one_wp_max": 0.5440250771004652,
+          "drop_one_wp_min": 0.4876883075512247,
+          "metric": {
+            "t0": 0.5339301406898472,
+            "t1": 0.5057981663144261,
+            "wp": 0.5198641535021367
+          },
+          "rows": 59436
+        },
+        "selected": {
+          "alpha": 10000,
+          "component_count": 32,
+          "drop_one_count": 32,
+          "drop_one_wp_max": 0.5461068795027384,
+          "drop_one_wp_min": 0.47931715316664436,
+          "metric": {
+            "t0": 0.5184390653552808,
+            "t1": 0.5140130376629906,
+            "wp": 0.5162260515091357
+          },
+          "rows": 59436
+        }
+      },
+      "raw_signed224_identity64": {
+        "alpha1_baseline": {
+          "alpha": 1,
+          "component_count": 32,
+          "drop_one_count": 32,
+          "drop_one_wp_max": 0.5467411143127657,
+          "drop_one_wp_min": 0.4966740584527083,
+          "metric": {
+            "t0": 0.5571564267589854,
+            "t1": 0.5054080486493578,
+            "wp": 0.5312822377041716
+          },
+          "rows": 59436
+        },
+        "selected": {
+          "alpha": 100,
+          "component_count": 32,
+          "drop_one_count": 32,
+          "drop_one_wp_max": 0.5529247042650487,
+          "drop_one_wp_min": 0.5030709874270922,
+          "metric": {
+            "t0": 0.5489803010274871,
+            "t1": 0.5222790885786087,
+            "wp": 0.5356296948030479
+          },
+          "rows": 59436
+        }
+      },
+      "raw_signed224_tanh64": {
+        "alpha1_baseline": {
+          "alpha": 1,
+          "component_count": 32,
+          "drop_one_count": 32,
+          "drop_one_wp_max": 0.5485300096206959,
+          "drop_one_wp_min": 0.4990212194024878,
+          "metric": {
+            "t0": 0.558108687179047,
+            "t1": 0.5084862822637883,
+            "wp": 0.5332974847214177
+          },
+          "rows": 59436
+        },
+        "selected": {
+          "alpha": 10000,
+          "component_count": 32,
+          "drop_one_count": 32,
+          "drop_one_wp_max": 0.5450137664775702,
+          "drop_one_wp_min": 0.47568983919839614,
+          "metric": {
+            "t0": 0.521625794128985,
+            "t1": 0.5027540380625121,
+            "wp": 0.5121899160957486
+          },
+          "rows": 59436
+        }
+      }
+    },
+    "pooled_fit_cv_metrics_reconstructed": 12,
+    "primary_full_pair_contrasts_reconstructed": 4,
+    "primary_paired_drop_one_contrasts_reconstructed": 128,
+    "primary_tanh_minus_identity": {
+      "raw112": {
+        "alpha1_baseline": {
+          "drop_one_count": 32,
+          "drop_one_wp_delta_max": -0.002276943982979396,
+          "drop_one_wp_delta_median": -0.0037976229991364963,
+          "drop_one_wp_delta_min": -0.005047281304885409,
+          "full_tanh_minus_identity": {
+            "t0": -0.001884544896695317,
+            "t1": -0.005689925246993965,
+            "wp": -0.0037872350718446413
+          },
+          "negative_drop_one_n": 32,
+          "positive_drop_one_n": 0
+        },
+        "selected": {
+          "drop_one_count": 32,
+          "drop_one_wp_delta_max": -0.004280091931373686,
+          "drop_one_wp_delta_median": -0.008954711945331595,
+          "drop_one_wp_delta_min": -0.013275805146591102,
+          "full_tanh_minus_identity": {
+            "t0": -0.017361848231228105,
+            "t1": -0.0007154714526077521,
+            "wp": -0.009038659841917873
+          },
+          "negative_drop_one_n": 32,
+          "positive_drop_one_n": 0
+        }
+      },
+      "raw_signed224": {
+        "alpha1_baseline": {
+          "drop_one_count": 32,
+          "drop_one_wp_delta_max": 0.0025995103963083466,
+          "drop_one_wp_delta_median": 0.0020590158547270643,
+          "drop_one_wp_delta_min": 0.0005551664492396968,
+          "full_tanh_minus_identity": {
+            "t0": 0.0009522604200616902,
+            "t1": 0.0030782336144304923,
+            "wp": 0.0020152470172460912
+          },
+          "negative_drop_one_n": 0,
+          "positive_drop_one_n": 32
+        },
+        "selected": {
+          "drop_one_count": 32,
+          "drop_one_wp_delta_max": -0.007910937787478534,
+          "drop_one_wp_delta_median": -0.023509418486115707,
+          "drop_one_wp_delta_min": -0.027447360041793267,
+          "full_tanh_minus_identity": {
+            "t0": -0.02735450689850205,
+            "t1": -0.019525050516096654,
+            "wp": -0.023439778707299297
+          },
+          "negative_drop_one_n": 32,
+          "positive_drop_one_n": 0
+        }
+      }
+    },
+    "same_panel_r3_reference_deltas_reconstructed": 8,
+    "same_panel_r3_reference_differences": {
+      "raw112_identity64": {
+        "alpha1_baseline": {
+          "r3_case": "full64_raw112",
+          "r4_minus_r3_t0_t1_wp": {
+            "t0": -1.1731705390483071e-06,
+            "t1": -1.13362482352386e-05,
+            "wp": -6.254709387087942e-06
+          }
+        },
+        "selected": {
+          "r3_case": "full64_raw112",
+          "r4_minus_r3_t0_t1_wp": {
+            "t0": -3.009865624536978e-05,
+            "t1": -0.0005293152623517816,
+            "wp": -0.0002797069592985757
+          }
+        }
+      },
+      "raw112_tanh64": {
+        "alpha1_baseline": {
+          "r3_case": "full64_raw112",
+          "r4_minus_r3_t0_t1_wp": {
+            "t0": -0.0018857180672343654,
+            "t1": -0.005701261495229204,
+            "wp": -0.003793489781231729
+          }
+        },
+        "selected": {
+          "r3_case": "full64_raw112",
+          "r4_minus_r3_t0_t1_wp": {
+            "t0": -0.017391946887473475,
+            "t1": -0.0012447867149595337,
+            "wp": -0.009318366801216449
+          }
+        }
+      },
+      "raw_signed224_identity64": {
+        "alpha1_baseline": {
+          "r3_case": "full64_raw_signed_ema_hl32",
+          "r4_minus_r3_t0_t1_wp": {
+            "t0": 1.7727937235756386e-05,
+            "t1": -0.00016258298823412787,
+            "wp": -7.242752549918574e-05
+          }
+        },
+        "selected": {
+          "r3_case": "full64_raw_signed_ema_hl32",
+          "r4_minus_r3_t0_t1_wp": {
+            "t0": 0.0004949570284309424,
+            "t1": -0.0012430452259306612,
+            "wp": -0.00037404409874985944
+          }
+        }
+      },
+      "raw_signed224_tanh64": {
+        "alpha1_baseline": {
+          "r3_case": "full64_raw_signed_ema_hl32",
+          "r4_minus_r3_t0_t1_wp": {
+            "t0": 0.0009699883572974466,
+            "t1": 0.0029156506261963644,
+            "wp": 0.0019428194917469055
+          }
+        },
+        "selected": {
+          "r3_case": "full64_raw_signed_ema_hl32",
+          "r4_minus_r3_t0_t1_wp": {
+            "t0": -0.02685954987007111,
+            "t1": -0.020768095742027315,
+            "wp": -0.023813822806049156
+          }
+        }
+      }
+    }
+  },
+  "sample_cost": {
+    "acceptance": "PASS_METADATA_FOR_BOUNDED_PROBE",
+    "caps": {
+      "cpu_quota_per_sec_usec": "500ms",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "runtime_max_usec": "10min",
+      "swap_max_bytes": 0
+    },
+    "elapsed_cpu_s": 95.980208116,
+    "elapsed_wall_s": 192.07667872612365,
+    "eval_components": 32,
+    "eval_scored_rows": 59436,
+    "final_refit_calls": 4,
+    "final_target_solves": 16,
+    "fit_components": 64,
+    "fit_scored_rows": 1273664,
+    "inner_alpha_models": 36,
+    "inner_two_target_solves": 72,
+    "max_rss_kib": 1186596,
+    "npz_handling": "Four archives checked only through producer SHA/size/no-pickle/stat-only captured metadata; payloads were not opened or rehashed.",
+    "outer_prediction_calls": 256,
+    "sequences": 96,
+    "stride_fit_rows": 31808,
+    "systemd_memory_peak_bytes": 369086464
+  },
+  "schema": "idea_screens_r4.result_audit.v1"
+}

@@ -1,0 +1,46 @@
+{
+  "schema": "bounded_r4_local_test_receipt.v1",
+  "contract_sha256": "8af9ae4223d236987bd873fe041fc8e15014126d68852f2d335e24fff4abd38f",
+  "accepted_r3_sample_manifest_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+  "r3_reference_result_sha256": "a7e19f6358fbd1f61496efd7c1712b80cb7d582f22445a1e3c12988851b323dc",
+  "source_files": {
+    "analysis_fit.py": "b8bea38548ff42a283bda69c81d282c8194241876a14376527ecffb5a2b8c8f4",
+    "analysis_report.py": "3216ba12fbf9986a64a0439f47b73aaed7b21f6b38bbcb9a84ed39d0a08f5eb1",
+    "analysis_score.py": "275e77da338f604714a8f140b973f806c472fb4bba7bb8c616d2568f766ffe45",
+    "random_features.py": "ad6dfacabb04a3a8f63ea85a6eda8d985edc716e565a18a80ceb65712f4595c8",
+    "run_probe.py": "294cf91571c1d0847b0f0d460e6d2623d9f4d584314df5fadb0fc30af597bd94",
+    "test_probe.py": "46395eba56eef0c99188d286240b591039c10a938eb451cc097e06f96acd9333"
+  },
+  "reused_import_closure": {
+    "idea_screens_r1/__init__.py": "74a1bc49240577740207993165aa028f75352814c1a35516b8ded7a6af58e63a",
+    "idea_screens_r1/sample_data.py": "13a4acfeb62ace285184c8fe0f88ff7ba65a3969843eaa0e0f6175189325abc7",
+    "idea_screens_r1/feature_views.py": "60d42c3c961001d9177c7d7d300fcd3472662cc3d024deaac74263e37fe75550",
+    "idea_screens_r1/eda_mechanisms.py": "a677dc1a7ecbdc10a799f918fa8c301af44cc5d339ac51d3f83abf170253b428",
+    "idea_screens_r1/constants.py": "bc7d990835a53586549cf0cf93a2e345098215a3d626f35b195f642cb20f7520",
+    "idea_screens_r1/input_diagnostics.py": "a796ede88e6d80e460c8292a78b066e1be9ca2eab0be70b6c7ab458f0c4f38e7",
+    "idea_screens_r1/target_operator.py": "f92d9cac2776bbb6b91aea7eadeb272d57f7951be9b20e23777b8417b1df1410",
+    "idea_screens_r2/__init__.py": "b5cef19fc43cfb5c4777a59d1c3b05d1b4b6c0a71070669d7066f8a438b062a3",
+    "idea_screens_r2/ridge_math.py": "6c3e890aefc211e5d725d9394914c3788bf38c92f8691f8338059259330211ed",
+    "idea_screens_r2/views.py": "685b4f79485edc647d59baa335afc1e6a8a4f84628204f9a4a3124e5678e9af3",
+    "idea_screens_r3/__init__.py": "1e0b10a697431d6301054c8c8ff3f3d5b41d62eaacb0477dfa7fee1c1d320b06",
+    "idea_screens_r3/probe_helpers.py": "f2f222e98b7aad087890d6f211ef8a0aa95b39966cdb0cd109118ea2d4795d68",
+    "canonical:wnn/__init__.py": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+    "canonical:wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "canonical:wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "checks": {
+    "unit_command": "uv run --no-sync python -m unittest discover -s research/campaign_2026-10-19/idea_screens_r4 -p 'test_*.py' -v",
+    "unit_result": "PASS: 5 synthetic tests; fold-train-only normalization, constant-column scale fallback, paired W/b with identity/tanh distinction, causal signed-history prefix, official pooled metric/drop-one moments, and synthetic end-to-end report/reference/DONE construction.",
+    "ruff_format_command": "uv run --no-sync ruff format research/campaign_2026-10-19/idea_screens_r4/*.py",
+    "ruff_format_result": "PASS: formatted files; final focused check reported no changes.",
+    "ruff_check_command": "uv run --no-sync ruff check research/campaign_2026-10-19/idea_screens_r4/*.py",
+    "ruff_check_result": "PASS: all checks passed."
+  },
+  "static_review_note": "Root identified that run_probe supplied a partial CV-count mapping while the report expected fixed fold membership; cross_validate now returns the full counts object and the synthetic report test exercises that interface. Final refit timing and process peak RSS in KiB are recorded.",
+  "data_access": {
+    "sample_arrays_read": false,
+    "real_fits_run": false,
+    "remote_or_gpu_execution": false
+  },
+  "status": "implementation_frozen_pending_independent_critic_review"
+}

@@ -1,0 +1,36 @@
+{
+  "review": "independent_design_review",
+  "decision": "DESIGN_PASS",
+  "contract": "research/campaign_2026-10-19/idea_screens_r4/CONTRACT.md",
+  "contract_sha256": "8af9ae4223d236987bd873fe041fc8e15014126d68852f2d335e24fff4abd38f",
+  "scope": "Design only; no source implementation, sample arrays, fitting, inference, installation, or remote operations reviewed or performed.",
+  "basis": {
+    "sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+    "sample_design": "Reuse the exposed R3 panel unchanged: 64 fit components and 32 evaluation components, one selected sequence per component.",
+    "cases": [
+      "raw112 + 64 identity random-projection features",
+      "raw112 + 64 tanh random-projection features",
+      "raw112 plus signed-delta EMA history (224 base channels) + 64 identity features",
+      "raw112 plus signed-delta EMA history (224 base channels) + 64 tanh features"
+    ],
+    "projection": "One fixed draw per base, NumPy default_rng seeds 19031/19032; W~Normal(0,1/sqrt(d)), b~Uniform[-1,1] from the same generator. Identity/tanh pair shares W,b and base normalization.",
+    "selection": "Three fit-component folds (seed 19025), fold-train-only normalization, pooled canonical WP over alpha grid [1,100,10000], one shared alpha for both targets, exact ties choose the larger alpha; alpha=1 retained as a diagnostic. Evaluation scores do not select hyperparameters.",
+    "primary_contrast": "Tanh minus identity within each fixed base/projection pair, reported for both targets and with all 32 fixed-prediction drop-one component contrasts.",
+    "secondary_reference": "Compare with the matching frozen R3 linear base endpoints from result SHA a7e19f6358fbd1f61496efd7c1712b80cb7d582f22445a1e3c12988851b323dc; do not rerun R3 fits or inference."
+  },
+  "assessment": {
+    "blockers": [],
+    "reasoning": [
+      "The within-base identity/tanh comparison shares sample membership, base normalization, projection draw, width, folds, target procedure, and alpha-selection rule. It is a bounded comparison of nonlinear versus linear random features under the declared ridge geometry.",
+      "Retaining the original base makes identity projection features span-redundant; their role as a dimension/penalty-geometry control is stated explicitly, so the primary contrast is not mislabeled as an independent linear mechanism.",
+      "One draw per base, one width, and one scale support only a recipe-specific screen. The conditional 0.002 WP allocation threshold is appropriately not presented as significance or confirmation.",
+      "The R3 panel is exposed and reused. Results cannot establish pristine-holdout, full-recipe, public-generalization, learned-MLP, optimization, gradient, or internal-state claims."
+    ],
+    "conditions_for_implementation_review": [
+      "Preserve base X while forming projections from fold-train-normalized X; fit every normalizer using only the corresponding fold's training stride rows.",
+      "Use identical W,b for each identity/tanh pair and the exact declared RNG draw order and dtype; do not tune projection seed, width, bias, or bandwidth.",
+      "Confirm signed EMA is causally constructed over each complete sequence before stride sampling and resets at sequence boundaries.",
+      "Keep shared fit-only alpha selection separate from the predeclared alpha=1 diagnostic and outer evaluation; pool component/fold raw moments with the canonical scorer."
+    ]
+  }
+}
