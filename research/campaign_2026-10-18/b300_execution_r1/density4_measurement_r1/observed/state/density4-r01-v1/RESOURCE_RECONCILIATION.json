@@ -1,0 +1,93 @@
+{
+  "schema": "tabdata-r01-profile-resource-reconciliation.v1",
+  "verified": true,
+  "time_unix": 1792359329.2435727,
+  "measurement_state": "/data/epanov_s/tabdata/state/density4-r01-v1",
+  "failed_measurement_retained": true,
+  "failure_reason": "Postprocessing expected a newer profile resource record that the frozen a266 trainer does not emit; both actual profile children returned normally with340finiteupdates.",
+  "failure_sha256": "834cf204894228f03f5694938add3456a81d0189f3d9082ac83b05e25c855b37",
+  "unit_limits": {
+    "RuntimeMaxUSec": "10min",
+    "Result": "exit-code",
+    "ExecMainCode": "1",
+    "ExecMainStatus": "1",
+    "MemoryMax": "34359738368",
+    "MemorySwapMax": "0",
+    "TasksMax": "128",
+    "ActiveState": "failed"
+  },
+  "profiles": [
+    {
+      "gpu_index": 2,
+      "arm": "wide",
+      "pid": 570159,
+      "pgid": 570159,
+      "exited": true,
+      "finite_completed_updates": 340,
+      "precision_recipe": "fp32",
+      "cpu_affinity": [
+        56,
+        58
+      ],
+      "gpu_uuid": "GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67",
+      "allocator_budget_bytes": 6442450944,
+      "log_sha256": "31f614b1993e2c6e7b8ad338864e1c1664b0d31b9f67a72bb5acfafdc30c86db",
+      "request_sha256": "31ded956aa2054e607c107ea6edd6c5bd443f2d90721b84e172cda64df8048c3",
+      "normal_trainer_return_observed": true
+    },
+    {
+      "gpu_index": 7,
+      "arm": "deep",
+      "pid": 570160,
+      "pgid": 570160,
+      "exited": true,
+      "finite_completed_updates": 340,
+      "precision_recipe": "fp32",
+      "cpu_affinity": [
+        61,
+        63
+      ],
+      "gpu_uuid": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+      "allocator_budget_bytes": 6442450944,
+      "log_sha256": "25f4e905d2b72304b342c02ed4d88cf08fee7e472c1464f0c777582731ba583d",
+      "request_sha256": "3c81a9637add0b587437ccb0ebcb0abd1a0eba5876e1906b32dc8ae5d4c54c04",
+      "normal_trainer_return_observed": true
+    }
+  ],
+  "profile_memory_peak_observed_bytes": null,
+  "profile_oom_counters_observed": null,
+  "no_profile_oom_kill_basis": "Both complete finite update traces, normal trainer return lines and exited actor PIDs; no numeric OOM counter is invented.",
+  "original_r01_memory_events": {
+    "low": "0",
+    "high": "0",
+    "max": "0",
+    "oom": "0",
+    "oom_kill": "0",
+    "oom_group_kill": "0"
+  },
+  "original_pr15_completed_fits": 16,
+  "original_pr15_failure": "delivery checkpoint-container identity gate; no nonfinite/fit failure observed",
+  "foreign_clients_still_alive": [
+    {
+      "gpu_uuid": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e",
+      "pid": 4060404,
+      "memory_mib": 56194,
+      "start_ticks": 207469348
+    },
+    {
+      "gpu_uuid": "GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67",
+      "pid": 4086591,
+      "memory_mib": 56196,
+      "start_ticks": 208123403
+    },
+    {
+      "gpu_uuid": "GPU-e6d65cb1-aba4-14f5-d4e5-bf24ef1ee3d8",
+      "pid": 4061037,
+      "memory_mib": 56194,
+      "start_ticks": 207474461
+    }
+  ],
+  "source_manifest_sha256": "95f82d442eefe425dde6574222b037ba1deba2d3ae36534aeec41e31e450874f",
+  "feasibility_sha256": "5e029fd3cb023bafe8c45156d604bb12d0e3caf437ab8794f4c4d39ca2635e9a",
+  "live_monitor_required": true
+}

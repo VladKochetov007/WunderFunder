@@ -1,0 +1,12 @@
+[Unit]
+Description=Watch scored endpoint and terminal receipts, without heartbeat polling
+
+[Path]
+PathChanged=/data/epanov_s/tabdata/state/r01-density4-v1/receipts
+PathChanged=/data/epanov_s/tabdata/state/pr15-execution-v2/endpoints
+PathChanged=/data/epanov_s/tabdata/state/r01-density4-v1/SUMMARY.json
+PathChanged=/data/epanov_s/tabdata/state/pr15-execution-v2/COMPLETE.json
+Unit=tabdata-github-completions.service
+
+[Install]
+WantedBy=default.target

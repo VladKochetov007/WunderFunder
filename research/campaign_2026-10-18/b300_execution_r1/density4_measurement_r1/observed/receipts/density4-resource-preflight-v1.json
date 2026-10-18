@@ -1,0 +1,105 @@
+{
+  "schema": "tabdata-density4-resource-preflight.v1",
+  "time_unix": 1792358679.9743636,
+  "units": {
+    "tabdata-r01-execution-v4": {
+      "RuntimeMaxUSec": "3d",
+      "MainPID": "520360",
+      "ExecMainStartTimestampMonotonic": "2286177069318",
+      "ControlGroup": "/user.slice/user-969845684.slice/user@969845684.service/app.slice/tabdata-r01-execution-v4.service",
+      "MemoryMax": "206158430208",
+      "TasksMax": "512",
+      "ActiveState": "active",
+      "start_ticks": 228617705,
+      "process_state": "S",
+      "argv": [
+        "/data/epanov_s/tabdata/.venv/bin/python",
+        "-u",
+        "/data/epanov_s/tabdata/runtime/b300-r01-v1/execute.py"
+      ],
+      "memory_current_bytes": 21502988288,
+      "memory_peak_bytes": 21757214720,
+      "memory_events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0"
+      },
+      "start_time_unix": 1792345872.0381842
+    },
+    "tabdata-pr15-execution-v1": {
+      "RuntimeMaxUSec": "5d",
+      "MainPID": "533430",
+      "ExecMainStartTimestampMonotonic": "2287836150325",
+      "ControlGroup": "/user.slice/user-969845684.slice/user@969845684.service/app.slice/tabdata-pr15-execution-v1.service",
+      "MemoryMax": "206158430208",
+      "TasksMax": "512",
+      "ActiveState": "active",
+      "start_ticks": 228783612,
+      "process_state": "S",
+      "argv": [
+        "/data/epanov_s/tabdata/.venv/bin/python",
+        "-u",
+        "-c",
+        "from pathlib import Path\nimport hashlib,json,sys,runpy\np=Path('/data/epanov_s/tabdata/runtime/pr15-host-v1')\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nassert sha(p/'EXECUTION_MANIFEST.json')=='950f5178652ad81ae62220a124dc0253cf5f80f9b1dfef7250f39aa1d0c9f1c8'\nm=json.loads((p/'EXECUTION_MANIFEST.json').read_text())\nfor name,expected in m['files'].items():\n assert sha(p/name)==expected,name\nsys.path.insert(0,str(p))\nimport fit_validation\nsys.argv=[str(p/'controller.py'),'fits']\nrunpy.run_path(str(p/'controller.py'),run_name='__main__')\n"
+      ],
+      "memory_current_bytes": 32961032192,
+      "memory_peak_bytes": 44009451520,
+      "memory_events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0"
+      },
+      "start_time_unix": 1792347531.1191912
+    }
+  },
+  "host_memory": {
+    "MemTotal": 2163568705536,
+    "MemAvailable": 2023580844032
+  },
+  "disk_free_bytes": 1203895959552,
+  "proposed_successor_memory_max_bytes": 206158430208,
+  "proposed_successor_tasks_max": 512,
+  "proposed_successor_cpu_affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63
+  ],
+  "four_process_test": "state/density4-r01-v1",
+  "root_only_ssh": true,
+  "foreign_workloads_preserved": true
+}

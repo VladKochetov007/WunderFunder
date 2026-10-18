@@ -1,0 +1,35 @@
+{
+  "schema": "tabdata-b300-r01-decision.v1",
+  "registered_unix": 1792344647.709558,
+  "hypothesis": "At near-matched parameter count, recurrent depth changes learning quality and training cost relative to width under the same fixed six-epoch labels-only recipe.",
+  "comparison": "deep H384x2 minus wide H512x1",
+  "falsifier": "No material or robust paired improvement of depth, or a throughput cost making its gain uneconomic, narrows this fixed-recipe depth proposal. It does not refute depth at matched compute or other schedules.",
+  "pay_to_win": "More independent full fits reduce fitting-noise uncertainty; stronger labels-only parent may later serve fold-clean teacher/student experiments. No extra GPU throughput is assumed before profiling.",
+  "practical_abs_wp_delta": 0.001,
+  "threshold_rationale": "Pre-outcome engineering decision threshold for committing another accelerator-day to depth-specific follow-up. It is a project spending decision, not a universal effect threshold or a power calculation.",
+  "success": "D at least +0.001 with positive conditional crossed-seed interval and no material fold fragility makes deep a follow-up candidate; analogous negative evidence favors wide. Downstream CPU/student transfer remains a separate experiment.",
+  "uncertain": "Wide or zero-crossing intervals, fold reversals, or small effects require a targeted follow-up decision; a zero-crossing interval alone does not close the mechanism.",
+  "negative": "A robust effect at or below -0.001 disfavors deep for this exact fixed-budget recipe.",
+  "primary_estimand": "D=(1/4)*sum_f(mean_s(WPdeep_fs-WPwide_fs)); per-fit official scores, no seed prediction average.",
+  "fitting_interval": {
+    "method": "10000 paired draws of the eight shared seed identities with replacement, same multiplicities across all folds; normalize by present seed multiplicity per fold; redraw if any fold has zero available multiplicity",
+    "seed": 271828,
+    "confidence": 0.95,
+    "conditional_on": "four exposed folds, fixed data/source/recipe/ancestry; only eight seed identities"
+  },
+  "evaluation_interval": "Separate fixed-prediction source-qualified component-cluster paired resampling; unchanged per-pair grader emits component evidence. Do not confuse with fitting variability or private/public transfer.",
+  "primary_comparison_family": [
+    "E-B300-R01 deep versus wide"
+  ],
+  "multiplicity": "One preregistered primary contrast in this family. Any future joint significance claim across backlog families requires a declared family and multiplicity treatment; historical adaptive exposure prevents pristine confirmation.",
+  "leakage_controls": [
+    "canonical component-disjoint splits including source aliases",
+    "normalizers fit only fitting membership",
+    "causal events and sequence resets",
+    "labels-only, no teacher/initializer ancestry",
+    "no outer evaluation during fitting",
+    "fixed epoch5",
+    "feature-only export and unchanged official masked weighted Pearson clip2 grader"
+  ],
+  "representativeness_limit": "Anonymous/source-qualified component folds do not certify chronology or a new market regime. Existing folds are exposed. No public-score claim from these results."
+}

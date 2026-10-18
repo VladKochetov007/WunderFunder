@@ -1,5 +1,11 @@
 # Project agent instructions
 
+## Automatic B300 GitHub reporting, user instruction 19 October2026
+
+The user explicitly authorizes experiment updates as SemyonEpanov, now every10minutes plus completion-triggered scored results. This supersedes older publication holds for this reporting task. Publish geometry results to PR15 and the distinct fixed-budget R01 panel to its own draft PR; never relabel PR2 matched FLOPs as executed. Reuse existing verified Git authorization, private server credential storage and the single SSH console. Retain a durable outbox, reconcile duplicates, and preserve negative/inconclusive evidence and source-qualified contracts. Reporter must not train, export, grade, retry fits, change controllers/recipes, merge, rent or alter account/SSH settings. See [reporting packet](research/campaign_2026-10-18/b300_execution_r1/github_reporting_v1/README.md).
+
+
+
 ## DataSphere allocation — user instruction, 2026-10-18
 
 The user explicitly authorizes discretionary DataSphere use: "сколько хочешь на датасфере делай". This supersedes the ranked25 campaign's pending numeric-budget question and paid-launch hold. Root may choose useful bounded experiments within the existing project balance and actual provider quotas; a null numeric ceiling no longer means missing approval. Preserve per-attempt runtime/cancellation bounds, cost accounting, artifact collection, same-provider paired comparisons and cell ownership. Do not change billing or top up balance. The Beleriand one-GPU limit remains unchanged. See [ADR0042](specs/adr/0042-discretionary-datasphere-execution.md) and the [current authority](research/campaign_2026-10-18/priority25_execution_r4/AUTHORITY.json).

@@ -1,0 +1,174 @@
+{
+  "authenticated": true,
+  "host": "epanov_s@10.14.14.26",
+  "remote_hostname": "ml-app100-lp1.hq.bc",
+  "root": "/data/epanov_s/tabdata",
+  "gpus": 8,
+  "gpu": "NVIDIA B300 SXM6 AC",
+  "gpu_memory_mib_each": 275040,
+  "driver": "580.126.20",
+  "python": "3.12.14",
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "canary": {
+    "completed": true,
+    "strict_fp32": true,
+    "checkpoint_optimizer_continuation_bitwise_equal": true,
+    "receipt": "receipts/B300_CANARY_V1.json",
+    "is_scientific_fit": false
+  },
+  "source": {
+    "claimed_revision": "a266b036b02e8e012c6eb31072291dad618a169d",
+    "deployed_files": 147,
+    "canonical_trainer_files": 61,
+    "normalization": "UTF8 CRLF to LF",
+    "deployed_identity_sha256": "f4ef9ca8450a3e76d6b6f8295259e70aec5024d3a4f3296558bb0323add74130",
+    "actor_bundle_sha256": "e6a155ee13a7e907bb7fca2c1ebed07879e8466422015546e20360af9b404220"
+  },
+  "data": {
+    "hf_dataset": "hft-kagglers/wunder",
+    "hf_access_verified": true,
+    "train_status": "complete full SHA256 verified after exact HTTP Range continuation",
+    "train_bytes_last_observed": 29240219011,
+    "train_bytes_expected": 29240219011,
+    "valid_status": "complete SHA256 verified",
+    "valid_mask_status": "complete SHA256 verified",
+    "train_recovery": {
+      "initial_attempt": "premature EOF at26807040889/29240219011, preserved",
+      "successor": "HTTP206 with exact Content-Range; full SHA4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81 verified",
+      "receipt": "receipts/data-train.parquet-v2.json"
+    },
+    "target_cache_status": "both exact R4 size/SHA/index/raw-content checks passed"
+  },
+  "schema": "tabdata.b300-live-status.v5",
+  "observed_at_utc": "2026-10-18T22:10:35.384567+00:00",
+  "current_receipt": "density4_v1/r01_successor/observed/receipts/b300-density4-live-status-v2.json",
+  "current_receipt_sha256": "5c1de14fdda31eca810fecbb63d7858d0d5db58851a7ea86c558105413e02500",
+  "previous_snapshot": "LIVE_STATUS.pre-density4.json",
+  "persistent_ssh_only": true,
+  "new_parallel_ssh_connections": 0,
+  "execution": {
+    "project": "tabdata",
+    "active_scientific_fits": 32,
+    "active_cuda_actors": 32,
+    "per_gpu": {
+      "r01": 2,
+      "pr15": 2,
+      "total": 4
+    },
+    "r01_controller_unit": "tabdata-r01-density4-v1",
+    "r01_main_pid": 580481,
+    "original_r01_controller_unit": "tabdata-r01-execution-v4",
+    "original_r01_main_pid": 520360,
+    "original_r01_main_intentionally_stopped": true,
+    "original_r01_fits_adopted_without_restart": 8,
+    "new_r01_fits_started": 8,
+    "r01_fit_total": 60,
+    "r01_active": 16,
+    "pr15_controller_unit": "tabdata-pr15-execution-v2",
+    "pr15_main_pid": 576574,
+    "pr15_fit_total": 120,
+    "pr15_active": 16,
+    "completed_and_scored_original_pr15_fits": 16,
+    "total_scientific_fits_planned": 180,
+    "total_unique_scientific_fits_started": 48,
+    "pending_unstarted_cells": 132,
+    "all_32_latest_batch_losses_finite": true,
+    "controller_errors_observed": 0,
+    "oom_events_observed": 0,
+    "strict_fp32": true,
+    "tf32": false,
+    "amp": false
+  },
+  "units": {
+    "tabdata-density4-resource-watch-v1": {
+      "ActiveState": "active",
+      "ControlGroup": "/user.slice/user-969845684.slice/user@969845684.service/app.slice/tabdata-density4-resource-watch-v1.service",
+      "MainPID": "580479",
+      "MemoryCurrent": "9728000"
+    },
+    "tabdata-pr15-execution-v2": {
+      "ActiveState": "active",
+      "ControlGroup": "/user.slice/user-969845684.slice/user@969845684.service/app.slice/tabdata-pr15-execution-v2.service",
+      "MainPID": "576574",
+      "MemoryCurrent": "42371149824"
+    },
+    "tabdata-r01-density4-v1": {
+      "ActiveState": "active",
+      "ControlGroup": "/user.slice/user-969845684.slice/user@969845684.service/app.slice/tabdata-r01-density4-v1.service",
+      "MainPID": "580481",
+      "MemoryCurrent": "20034572288"
+    },
+    "tabdata-r01-execution-v4": {
+      "ActiveState": "active",
+      "ControlGroup": "/user.slice/user-969845684.slice/user@969845684.service/app.slice/tabdata-r01-execution-v4.service",
+      "MainPID": "520360",
+      "MemoryCurrent": "21380759552"
+    }
+  },
+  "allocation_receipt": "density4_v1/r01_successor/observed/receipts/r01-density4-admission-v1/AUTHORITY.json",
+  "resources": {
+    "gpu_utilization_percent": [
+      88,
+      90,
+      90,
+      88,
+      90,
+      90,
+      90,
+      88
+    ],
+    "memory_available_bytes": 1998592917504,
+    "per_training_unit_memory_max_bytes": 206158430208,
+    "swap_bytes": 0,
+    "foreign_vllm_clients_preserved": 3
+  },
+  "first_pr15_outcomes": {
+    "completed_fits": 16,
+    "cells_per_arm": 4,
+    "planned_cells_per_arm": 30,
+    "common_training_seeds": [
+      1001
+    ],
+    "baseline_mean_wp": 0.6784476894287221,
+    "moments_paired_delta": -0.0008168269602270573,
+    "dictionary_paired_delta": -0.0019307415311090037,
+    "combined_paired_delta": -0.0019352139438972016,
+    "exposed_folds": true,
+    "complete_comparison": false,
+    "public_transfer_claim": false,
+    "receipt": "pr15_queue_v2/observed/receipts/pr15-firstwave-outcomes-v1.json"
+  },
+  "historical_profile_fit_queue_projection": {
+    "after_hours": 38.45541027770323,
+    "before_hours": 50.14696378223102,
+    "excludes": [
+      "export",
+      "scoring",
+      "scheduling_and_repairs"
+    ],
+    "measured_campaign_duration": false
+  },
+  "latest_warm_window_fit_forecast": {
+    "source": "density4_measurement_r1/observed/state/density4-followup-v1/LIVE_QUEUE_FORECAST.json",
+    "observed_unix": 1792361373.3659072,
+    "r01_fit_queue_hours": 35.18871921185653,
+    "pr15_fit_queue_hours": 28.582467380954157,
+    "overall_fit_only_hours": 35.18871921185653,
+    "first_r01_fit_eta_hours": [
+      1.6,
+      1.8
+    ],
+    "active_pr15_wave_eta_hours": [
+      3.57,
+      3.8
+    ],
+    "excludes": [
+      "export",
+      "scoring",
+      "repair",
+      "scheduling_and_phase_changes"
+    ],
+    "measured_campaign_duration": false
+  }
+}

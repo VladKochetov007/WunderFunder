@@ -1,0 +1,386 @@
+{
+    "schema":  "tabdata.b300-live-status.v4",
+    "authenticated":  true,
+    "host":  "epanov_s@10.14.14.26",
+    "remote_hostname":  "ml-app100-lp1.hq.bc",
+    "root":  "/data/epanov_s/tabdata",
+    "persistent_ssh_only":  true,
+    "new_parallel_ssh_connections":  0,
+    "gpus":  8,
+    "gpu":  "NVIDIA B300 SXM6 AC",
+    "gpu_memory_mib_each":  275040,
+    "driver":  "580.126.20",
+    "python":  "3.12.14",
+    "torch":  "2.14.0+cu130",
+    "cuda":  "13.0",
+    "canary":  {
+                   "completed":  true,
+                   "strict_fp32":  true,
+                   "checkpoint_optimizer_continuation_bitwise_equal":  true,
+                   "receipt":  "receipts/B300_CANARY_V1.json",
+                   "is_scientific_fit":  false
+               },
+    "source":  {
+                   "claimed_revision":  "a266b036b02e8e012c6eb31072291dad618a169d",
+                   "deployed_files":  147,
+                   "canonical_trainer_files":  61,
+                   "normalization":  "UTF8 CRLF to LF",
+                   "deployed_identity_sha256":  "f4ef9ca8450a3e76d6b6f8295259e70aec5024d3a4f3296558bb0323add74130",
+                   "actor_bundle_sha256":  "e6a155ee13a7e907bb7fca2c1ebed07879e8466422015546e20360af9b404220"
+               },
+    "data":  {
+                 "hf_dataset":  "hft-kagglers/wunder",
+                 "hf_access_verified":  true,
+                 "train_status":  "complete full SHA256 verified after exact HTTP Range continuation",
+                 "train_bytes_last_observed":  29240219011,
+                 "train_bytes_expected":  29240219011,
+                 "valid_status":  "complete SHA256 verified",
+                 "valid_mask_status":  "complete SHA256 verified",
+                 "train_recovery":  {
+                                        "initial_attempt":  "premature EOF at26807040889/29240219011, preserved",
+                                        "successor":  "HTTP206 with exact Content-Range; full SHA4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81 verified",
+                                        "receipt":  "receipts/data-train.parquet-v2.json"
+                                    },
+                 "target_cache_status":  "both exact R4 size/SHA/index/raw-content checks passed"
+             },
+    "units":  {
+                  "download":  "tabdata-data-download-v1",
+                  "preparation":  "tabdata-r01-prep-v2",
+                  "execution":  "tabdata-pr15-execution-v1",
+                  "r01_execution":  "tabdata-r01-execution-v4"
+              },
+    "execution":  {
+                      "controller_unit":  "tabdata-pr15-execution-v1",
+                      "controller_main_pid":  533430,
+                      "worker_pids":  [
+                                          533436,
+                                          533437,
+                                          533438,
+                                          533439,
+                                          533440,
+                                          533441,
+                                          533442,
+                                          533443,
+                                          533444,
+                                          533445,
+                                          533446,
+                                          533447,
+                                          533448,
+                                          533449,
+                                          533450,
+                                          533451
+                                      ],
+                      "worker_count":  16,
+                      "fit_cells":  {
+                                        "queue_total":  120,
+                                        "arms":  4,
+                                        "cells_per_arm":  30,
+                                        "started_cells":  16,
+                                        "started_cells_description":  "seed 1001 in F0-F3 for all four arms"
+                                    },
+                      "profile_packet_sha256":  "c18f1877b8579c03d2a0905534f5ecbd13ed56a54306ba66d63b47d892b665510",
+                      "execution_manifest_sha256":  "950f5178652ad81ae62220a124dc0253cf5f80f9b1dfef7250f39aa1d0c9f1c8",
+                      "trainer_log_observations":  {
+                                                       "parameter_count":  2240000,
+                                                       "full_epochs":  3,
+                                                       "fixed_checkpoint_epoch":  2,
+                                                       "evaluation_during_fit":  false,
+                                                       "optimizer_steps_by_fold":  {
+                                                                                       "F0":  44760,
+                                                                                       "F1":  44790,
+                                                                                       "F2":  44850,
+                                                                                       "F3":  44640
+                                                                                   }
+                                                   },
+                      "started_utc":  "2026-10-18T18:18:51.068Z",
+                      "profile_preflight":  {
+                                                "status":  "passed",
+                                                "observed_utc":  "2026-10-18T18:22:38.754Z",
+                                                "canonical_argv_cells":  16,
+                                                "no_new_gpu_fit_or_quality_score":  true,
+                                                "receipt":  "pr15_execution_v1/fit_preflight.json",
+                                                "receipt_sha256":  "67060f8bfc2fae038a3521fe24f9c95af0c7892b0a8a3cc8fc72ce8876437e6a"
+                                            },
+                      "completed_fits":  0,
+                      "official_scores":  null
+                  },
+    "co_location_authority":  {
+                                  "user_authorized_processes_per_gpu":  3,
+                                  "pr15_additional_slots_launched":  2,
+                                  "24_hour_completion_claim":  false,
+                                  "first_r01_wall_estimate_hours":  65,
+                                  "first_r01_wall_estimate_basis":  "Conservative estimate made before co-location; recompute from sustained measured co-located throughput before using as a current projection.",
+                                  "pr15_additional_slots_per_gpu_preparing":  0,
+                                  "pr15_additional_slots_per_gpu_launched":  2,
+                                  "current_campaign_owned_cuda_processes":  24,
+                                  "current_processes_per_gpu":  3,
+                                  "additional_series_forecast_hours":  46.91,
+                                  "additional_series_forecast_basis":  "Provisional conservative projection using 1.5 runtime margin plus one hour post-processing per job; not observed duration. Existing R01 contention rate was not directly measured."
+                              },
+    "pr15":  {
+                 "source_revision":  "e238fc5c82ac8c4591f3ca3ef87c37b2b73b929e",
+                 "deployed_source_path":  "runtime/pr15-source-e238-v1",
+                 "git_files_transferred":  172,
+                 "profile_status":  "passed",
+                 "fits_started":  16,
+                 "profile_packet_sha256":  "c18f1877b8579c03d2a0905534f5ecbd13ed56a54306ba66d63b47d892b66510",
+                 "execution_manifest_sha256":  "950f5178652ad81ae62220a124dc0253cf5f80f9b1dfef7250f39aa1d0c9f1c8",
+                 "queue_fits":  120,
+                 "arms":  4,
+                 "cells_per_arm":  30,
+                 "fits_completed":  0,
+                 "started_seed":  1001,
+                 "started_folds":  [
+                                       0,
+                                       1,
+                                       2,
+                                       3
+                                   ],
+                 "started_arms":  4,
+                 "worker_pids":  [
+                                     533436,
+                                     533437,
+                                     533438,
+                                     533439,
+                                     533440,
+                                     533441,
+                                     533442,
+                                     533443,
+                                     533444,
+                                     533445,
+                                     533446,
+                                     533447,
+                                     533448,
+                                     533449,
+                                     533450,
+                                     533451
+                                 ],
+                 "execution_unit":  "tabdata-pr15-execution-v1",
+                 "controller_main_pid":  533430,
+                 "trainer_log_observations":  {
+                                                  "parameters":  2240000,
+                                                  "epochs":  3,
+                                                  "fixed_checkpoint_epoch":  2,
+                                                  "evaluation_during_fit":  false,
+                                                  "optimizer_steps_by_fold":  {
+                                                                                  "0":  44760,
+                                                                                  "1":  44790,
+                                                                                  "2":  44850,
+                                                                                  "3":  44640
+                                                                              }
+                                              },
+                 "profile_attempt_history":  [
+                                                 {
+                                                     "version":  "V1",
+                                                     "outcome":  "rejected before CUDA",
+                                                     "reason":  "root seed was outside the original PR15 matrix"
+                                                 },
+                                                 {
+                                                     "version":  "V2",
+                                                     "outcome":  "rejected before updates",
+                                                     "reason":  "profile did not use fresh state"
+                                                 },
+                                                 {
+                                                     "version":  "V3",
+                                                     "outcome":  "rejected before updates",
+                                                     "reason":  "canonical profile command included incompatible --save-training-state"
+                                                 },
+                                                 {
+                                                     "version":  "V4",
+                                                     "outcome":  "passed",
+                                                     "reason":  "profile-only removal of --save-training-state; full fit recipe and argv unchanged"
+                                                 }
+                                             ],
+                 "additional_series_forecast_hours":  46.91,
+                 "ram_gib":  39.37,
+                 "ram_current_gib":  39.37,
+                 "ram_peak_gib":  39.64,
+                 "oom_observed":  false,
+                 "execution_started_utc":  "2026-10-18T18:18:51.068Z",
+                 "fit_preflight_status":  "passed",
+                 "fit_preflight_receipt_sha256":  "67060f8bfc2fae038a3521fe24f9c95af0c7892b0a8a3cc8fc72ce8876437e6a",
+                 "live_receipt_sha256":  "242df284eb3233428b33ca96c465fce25c9defced6581b6b15c877baa90bf6d3",
+                 "density_receipt_sha256":  "ebf4b734b5b928734483e8b4d9a6a52e660a60308161913c33895901d92e18db",
+                 "launch_receipt_sha256":  "973030b3f72c369b7c077cd47ce14c49c552162081728b89624b71312fbc88b4",
+                 "fit_forecast_hours":  46.91,
+                 "forecast_is_observed_duration":  false,
+                 "r01_contention_measured":  false,
+                 "additional_processes_per_gpu_preparing":  0,
+                 "launched":  true,
+                 "additional_processes_per_gpu_launched":  2
+             },
+    "panel":  {
+                  "experiment_id":  "E-B300-R01",
+                  "fits":  60,
+                  "cells_per_arm":  30,
+                  "fold_counts":  [
+                                      8,
+                                      8,
+                                      7,
+                                      7
+                                  ],
+                  "seeds":  "1003..1010; eighth seed only F0/F1",
+                  "excluded_external_seeds":  [
+                                                  1001,
+                                                  1002
+                                              ],
+                  "initial_wave":  "four paired folds, seed1003, eight single-GPU actors",
+                  "fixed_endpoint":  "six epochs; epoch5; no outer evaluation during fitting",
+                  "max_campaign_seconds":  259200,
+                  "max_fit_seconds":  43200
+              },
+    "resources":  {
+                      "fit_cpu_affinity_union":  [
+                                                     0,
+                                                     1,
+                                                     2,
+                                                     3,
+                                                     4,
+                                                     5,
+                                                     6,
+                                                     7,
+                                                     8,
+                                                     9,
+                                                     10,
+                                                     11,
+                                                     12,
+                                                     13,
+                                                     14,
+                                                     15
+                                                 ],
+                      "cpu_enforcement":  "kernel affinity; CPU cgroup controller not delegated to this user",
+                      "memory_max_gib":  192,
+                      "swap_max_bytes":  0,
+                      "tasks_max":  512,
+                      "foreign_vllm_gpu_indices":  [
+                                                       0,
+                                                       2,
+                                                       4
+                                                   ],
+                      "foreign_workloads_preserved":  true,
+                      "ancestor_limits_verified":  true
+                  },
+    "credentials_saved_or_logged":  false,
+    "controller_successor":  {
+                                 "previous":  "r01-execution-v1",
+                                 "profiles_or_fits_in_previous":  0,
+                                 "reason":  "Numba cache outside frozen source; whole retained artifact accounting; measured full-panel wall forecast before admission"
+                             },
+    "r01_execution_history":  {
+                                  "controller_unit":  "tabdata-r01-execution-v4",
+                                  "controller_main_pid":  520360,
+                                  "prior_observed_utc":  "2026-10-18T17:58:00Z",
+                                  "workers_preserved_at_latest_observation":  8,
+                                  "worker_pids_last_listed":  [
+                                                                  520417,
+                                                                  520420,
+                                                                  520423,
+                                                                  520426,
+                                                                  520430,
+                                                                  520434,
+                                                                  520441,
+                                                                  520449
+                                                              ],
+                                  "profile_count":  4,
+                                  "finite_optimizer_updates_each":  40,
+                                  "completed_fits":  0,
+                                  "official_scores":  null,
+                                  "actor_bundle_sha256":  "e6a155ee13a7e907bb7fca2c1ebed07879e8466422015546e20360af9b404220",
+                                  "execution_manifest_sha256":  "7727cb9dfde5be5af7802d6917d5206096efe296ff1a62ac1ae3296b099f61c7"
+                              },
+    "profiles":  {
+                     "r01":  {
+                                 "status":  "passed",
+                                 "profile_count":  4,
+                                 "finite_optimizer_updates_each":  40,
+                                 "observed_utc":  "2026-10-18T17:58:00Z"
+                             },
+                     "pr15_density_v4":  {
+                                             "status":  "passed",
+                                             "profile_count":  6,
+                                             "finite_optimizer_updates_each":  100,
+                                             "all_finite":  true,
+                                             "oom_count":  0,
+                                             "frozen_profile_packet_sha256":  "c18f1877b8579c03d2a0905534f5ecbd13ed56a54306ba66d63b47d892b665510",
+                                             "gpu7":  {
+                                                          "single_seq_per_s":  4.02,
+                                                          "two_process_seq_per_s":  [
+                                                                                        3.26,
+                                                                                        3.14
+                                                                                    ],
+                                                          "two_process_aggregate_seq_per_s":  6.4,
+                                                          "aggregate_gain_percent":  59.2
+                                                      },
+                                             "gpu2":  {
+                                                          "single_seq_per_s":  4.14,
+                                                          "two_process_seq_per_s":  [
+                                                                                        3.07,
+                                                                                        3.08
+                                                                                    ],
+                                                          "two_process_aggregate_seq_per_s":  6.15,
+                                                          "aggregate_gain_percent":  48.6
+                                                      },
+                                             "observed_utc":  "2026-10-18T18:15:35.783Z",
+                                             "optimizer_attempts_per_profile":  100,
+                                             "warmup_batches":  2,
+                                             "timed_batches":  8,
+                                             "density_receipt_sha256":  "ebf4b734b5b928734483e8b4d9a6a52e660a60308161913c33895901d92e18db"
+                                         }
+                 },
+    "active_r01_fit_count":  8,
+    "active_pr15_fit_count":  16,
+    "b300_scientific_fits_started":  24,
+    "b300_scientific_fits_completed":  0,
+    "recorded_utc":  "2026-10-18T18:20:04.728Z",
+    "evidence_note":  "Root-provided live receipt observed at 2026-10-18T18:20:04.728Z; fit preflight separately passed at 2026-10-18T18:22:38.754Z. This local documentation update made no SSH observation.",
+    "last_observed_stage":  "PR15 seed1001 first 16 fits running across four arms and folds; eight R01 fits preserved; NVSM sampled 24 campaign-owned CUDA processes, exactly three per GPU; zero completed fits and no scores.",
+    "scientific_fits_started":  24,
+    "scientific_fits_completed":  0,
+    "scores_available":  false,
+    "latest_resource_observation":  {
+                                        "observed_utc":  "2026-10-18T18:20:04.728Z",
+                                        "own_cuda_process_count":  24,
+                                        "own_cuda_processes_per_gpu":  3,
+                                        "nvsm_verified":  true,
+                                        "nvsm_sample_count":  5,
+                                        "nvsm_gpu_utilization_mean_percent_by_index":  [
+                                                                                           81.6,
+                                                                                           90.2,
+                                                                                           90.2,
+                                                                                           82.2,
+                                                                                           85.4,
+                                                                                           89.6,
+                                                                                           80.8,
+                                                                                           86.6
+                                                                                       ],
+                                        "nvsm_gpu_utilization_mean_percent_overall":  85.8,
+                                        "prior_gpu_utilization_observation_utc":  "2026-10-18T17:58:00Z",
+                                        "prior_gpu_utilization_percent":  "41-46 across eight devices",
+                                        "r01_workers_preserved":  8,
+                                        "pr15_fit_workers":  16,
+                                        "pr15_ram_current_gib":  39.37,
+                                        "pr15_ram_peak_gib":  39.64,
+                                        "r01_ram_current_gib":  19.45,
+                                        "r01_ram_peak_gib":  19.72,
+                                        "combined_ram_current_gib":  58.82,
+                                        "combined_ram_peak_gib":  59.36,
+                                        "oom_observed":  false,
+                                        "memory_event_counts":  {
+                                                                    "high":  0,
+                                                                    "low":  0,
+                                                                    "max":  0,
+                                                                    "oom":  0,
+                                                                    "oom_group_kill":  0,
+                                                                    "oom_kill":  0
+                                                                },
+                                        "foreign_vllm_gpu_indices":  [
+                                                                         0,
+                                                                         2,
+                                                                         4
+                                                                     ],
+                                        "foreign_workloads_preserved":  true,
+                                        "live_receipt":  "pr15_execution_v1/live_receipt.json",
+                                        "live_receipt_sha256":  "242df284eb3233428b33ca96c465fce25c9defced6581b6b15c877baa90bf6d3"
+                                    },
+    "tests":  "10 Linux CPU integrity/input tests and strict-FP32 canary passed; six PR15 density profiles passed with 100 finite optimizer updates each; six focused PR15 CPU tests passed in 3.98s; 16-cell fit argv/resource preflight passed without starting a GPU fit; 24 scientific fits started (8 R01 preserved,16 PR15), none completed, no scores"
+}

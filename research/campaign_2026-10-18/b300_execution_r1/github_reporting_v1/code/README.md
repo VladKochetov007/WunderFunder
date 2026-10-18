@@ -1,0 +1,3 @@
+# Receipt-only reporting components
+
+`collect_r01.py` and `collect_pr15.py` validate the corresponding immutable runtime and receipt chains. `render_report.py` distinguishes partial equal-fold means from inferential decisions. `github_api.py` scopes requests to this repository; `publish_updates.py` reconciles author-owned markers, stores the outbox before HTTP writes, and updates a single status comment. `report_state.py` writes durable atomic state. `package_evidence.py` keeps separate bounded evidence/weights archives on approved physical storage. Tests exercise lost acknowledgments, ownership boundaries, weighting, receipt rejection and archive behavior. No module is a trainer or a scheduler of scientific fits.

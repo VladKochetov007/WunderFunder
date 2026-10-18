@@ -1,0 +1,24 @@
+{
+  "schema": "tabdata.ssh_access_check.v1",
+  "host": "10.14.14.26",
+  "port": 22,
+  "user": "epanov_s",
+  "started_utc": "2026-10-18T16:37:46Z",
+  "terminal_observed_by_utc": "2026-10-18T16:39:26Z",
+  "attempt_count": 1,
+  "command": "ssh -tt -o ConnectionAttempts=1 -o ConnectTimeout=90 -o NumberOfPasswordPrompts=1 -o ServerAliveInterval=30 -o ServerAliveCountMax=6 epanov_s@10.14.14.26",
+  "exit_code": 1,
+  "stderr": [
+    "Connection timed out during banner exchange",
+    "Connection to 10.14.14.26 port 22 timed out"
+  ],
+  "password_prompt_observed": false,
+  "password_submitted": false,
+  "authenticated": false,
+  "remote_commands_executed": 0,
+  "remote_changes": false,
+  "scientific_fits_started": 0,
+  "interpretation": "SSH banner exchange did not complete. This is not a Permission denied authentication result. The available evidence does not identify a server, network, VPN or filtering cause.",
+  "retry_scheduled": false,
+  "next_required_evidence": "A working SSH route/banner to this host; retain one persistent session after a successful later authorized connection."
+}

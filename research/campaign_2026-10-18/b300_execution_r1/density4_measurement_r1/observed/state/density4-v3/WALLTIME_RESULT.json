@@ -1,0 +1,271 @@
+{
+  "schema": "tabdata-density4-walltime.v1",
+  "results": {
+    "2": {
+      "baseline_three": {
+        "pr15_b300_v1_dictionary_f0_s1001": {
+          "sequences_per_second": 3.196621338402616,
+          "observed_seconds": 50.052847385406494,
+          "completed_batches": 20,
+          "completed_optimizer_updates": 200
+        },
+        "pr15_b300_v1_dictionary_f2_s1001": {
+          "sequences_per_second": 3.2081904121302993,
+          "observed_seconds": 99.7447030544281,
+          "completed_batches": 40,
+          "completed_optimizer_updates": 400
+        },
+        "tabdata_b300_r01_v1_deep_f1_s1003": {
+          "sequences_per_second": 2.649299579024658,
+          "observed_seconds": 120.78664207458496,
+          "completed_batches": 40,
+          "completed_optimizer_updates": 400
+        }
+      },
+      "existing_during_four": {
+        "pr15_b300_v1_dictionary_f0_s1001": {
+          "sequences_per_second": 2.434825680262149,
+          "observed_seconds": 197.13936972618103,
+          "completed_batches": 60,
+          "completed_optimizer_updates": 600,
+          "first_unix": 1792358255.1421316,
+          "last_unix": 1792358452.2815013
+        },
+        "pr15_b300_v1_dictionary_f2_s1001": {
+          "sequences_per_second": 2.440948483815884,
+          "observed_seconds": 131.09658074378967,
+          "completed_batches": 40,
+          "completed_optimizer_updates": 400,
+          "first_unix": 1792358276.3360746,
+          "last_unix": 1792358407.4326553
+        },
+        "tabdata_b300_r01_v1_deep_f1_s1003": {
+          "sequences_per_second": 2.270332191031758,
+          "observed_seconds": 140.9485366344452,
+          "completed_batches": 40,
+          "completed_optimizer_updates": 400,
+          "first_unix": 1792358293.6840253,
+          "last_unix": 1792358434.632562
+        }
+      },
+      "added_profile": {
+        "sequences_per_second": 2.4289291480485424,
+        "completed_batches": 66,
+        "completed_optimizer_updates": 660,
+        "observed_seconds": 217.37974548339844
+      },
+      "before_sequences_per_second": 9.054111329557573,
+      "after_sequences_per_second": 9.575035503158333,
+      "aggregate_gain_fraction": 0.05753454476533526,
+      "epoch_budget_normalized_gain_fraction": 0.09190910180698708,
+      "r01_rate_change_fraction": -0.14304436953574617,
+      "profile": {
+        "backward": 1503.18,
+        "forward": 1325.5,
+        "gpu_total": 3004.05,
+        "h2d": 6.25,
+        "inputs": 167.95,
+        "labels": 0.0,
+        "loss": 0.53,
+        "optimizer": 9.01,
+        "weights": 0.01,
+        "loader_wait": 0.0,
+        "step_wall": 3269.52,
+        "seq_per_s": 2.45,
+        "syncs_per_step": 5.03
+      },
+      "updates": {
+        "optimizer_attempts": 660,
+        "optimizer_completed_updates": 660,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 660,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 660,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "resource": {
+        "cuda_peak_allocated_bytes": 961830400,
+        "cuda_peak_reserved_bytes": 1363148800,
+        "precision": "fp32",
+        "matmul_tf32": false,
+        "cudnn_tf32": false,
+        "float32_matmul_precision": "highest",
+        "process_peak_rss_bytes": 3370147840,
+        "process_current_rss_bytes": 3231956992,
+        "cgroup": "/user.slice/user-969845684.slice/user@969845684.service/app.slice/tabdata-density4-v3.service",
+        "memory_current": "5124067328",
+        "memory_peak": "5418811392",
+        "memory_max": "34359738368",
+        "memory_swap_max": "0",
+        "memory_events": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0
+        }
+      },
+      "envelope": {
+        "schema": "tabdata-b300-process-envelope.v1",
+        "pid": 568889,
+        "script": "train_cell.py",
+        "torch": "2.14.0+cu130",
+        "cuda": "13.0",
+        "gpu": "NVIDIA B300 SXM6 AC",
+        "visible_devices": "GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67",
+        "cpu_affinity": [
+          56,
+          58
+        ],
+        "torch_threads": 2,
+        "allocator_budget_bytes": 6442450944,
+        "allocator_limit_is_not_a_device_memory_reservation": true
+      },
+      "window_start_unix": 1792358237.5745203,
+      "window_end_unix": 1792358454.9542658
+    },
+    "7": {
+      "baseline_three": {
+        "pr15_b300_v1_combined_f1_s1001": {
+          "sequences_per_second": 3.1326576053311106,
+          "observed_seconds": 102.1496889591217,
+          "completed_batches": 40,
+          "completed_optimizer_updates": 400
+        },
+        "pr15_b300_v1_combined_f3_s1001": {
+          "sequences_per_second": 3.176440682350389,
+          "observed_seconds": 50.37084460258484,
+          "completed_batches": 20,
+          "completed_optimizer_updates": 200
+        },
+        "tabdata_b300_r01_v1_wide_f3_s1003": {
+          "sequences_per_second": 3.355257201317045,
+          "observed_seconds": 95.372718334198,
+          "completed_batches": 40,
+          "completed_optimizer_updates": 400
+        }
+      },
+      "existing_during_four": {
+        "pr15_b300_v1_combined_f1_s1001": {
+          "sequences_per_second": 2.451551431278018,
+          "observed_seconds": 130.52958869934082,
+          "completed_batches": 40,
+          "completed_optimizer_updates": 400,
+          "first_unix": 1792358266.3981028,
+          "last_unix": 1792358396.9276915
+        },
+        "pr15_b300_v1_combined_f3_s1001": {
+          "sequences_per_second": 2.446304194859553,
+          "observed_seconds": 130.80957007408142,
+          "completed_batches": 40,
+          "completed_optimizer_updates": 400,
+          "first_unix": 1792358296.0580187,
+          "last_unix": 1792358426.8675888
+        },
+        "tabdata_b300_r01_v1_wide_f3_s1003": {
+          "sequences_per_second": 2.5914580851918405,
+          "observed_seconds": 123.48260688781738,
+          "completed_batches": 40,
+          "completed_optimizer_updates": 400,
+          "first_unix": 1792358276.4110744,
+          "last_unix": 1792358399.8936813
+        }
+      },
+      "added_profile": {
+        "sequences_per_second": 2.4458401858542658,
+        "completed_batches": 66,
+        "completed_optimizer_updates": 660,
+        "observed_seconds": 215.8767375946045
+      },
+      "before_sequences_per_second": 9.664355488998545,
+      "after_sequences_per_second": 9.935153897183678,
+      "aggregate_gain_fraction": 0.028020327738709216,
+      "epoch_budget_normalized_gain_fraction": 0.08172283532076463,
+      "r01_rate_change_fraction": -0.22764249364412037,
+      "profile": {
+        "backward": 1487.7,
+        "forward": 1328.02,
+        "gpu_total": 3001.23,
+        "h2d": 6.17,
+        "inputs": 161.53,
+        "labels": 0.0,
+        "loss": 0.53,
+        "optimizer": 11.37,
+        "weights": 0.01,
+        "loader_wait": 0.0,
+        "step_wall": 3270.23,
+        "seq_per_s": 2.45,
+        "syncs_per_step": 5.03
+      },
+      "updates": {
+        "optimizer_attempts": 660,
+        "optimizer_completed_updates": 660,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 660,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 660,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      },
+      "resource": {
+        "cuda_peak_allocated_bytes": 961830400,
+        "cuda_peak_reserved_bytes": 1363148800,
+        "precision": "fp32",
+        "matmul_tf32": false,
+        "cudnn_tf32": false,
+        "float32_matmul_precision": "highest",
+        "process_peak_rss_bytes": 3365781504,
+        "process_current_rss_bytes": 3227262976,
+        "cgroup": "/user.slice/user-969845684.slice/user@969845684.service/app.slice/tabdata-density4-v3.service",
+        "memory_current": "5260742656",
+        "memory_peak": "5418811392",
+        "memory_max": "34359738368",
+        "memory_swap_max": "0",
+        "memory_events": {
+          "low": 0,
+          "high": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0
+        }
+      },
+      "envelope": {
+        "schema": "tabdata-b300-process-envelope.v1",
+        "pid": 568890,
+        "script": "train_cell.py",
+        "torch": "2.14.0+cu130",
+        "cuda": "13.0",
+        "gpu": "NVIDIA B300 SXM6 AC",
+        "visible_devices": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+        "cpu_affinity": [
+          61,
+          63
+        ],
+        "torch_threads": 2,
+        "allocator_budget_bytes": 6442450944,
+        "allocator_limit_is_not_a_device_memory_reservation": true
+      },
+      "window_start_unix": 1792358238.0753095,
+      "window_end_unix": 1792358453.952047
+    }
+  },
+  "interpretation": "Engineering throughput only; existing actor rates from progress-log intervals. Added actor rate is all 528 sequences over observed loader-to-complete walltime, including warmup/overhead. Two GPUs and one short window do not establish sustained 8-GPU throughput.",
+  "scientific_recipe_changed": false,
+  "original_controllers_untouched": true,
+  "source_hashes": {
+    "runtime/density4-v3/bench.py": "8ecd331424018ff7046fe4f0db00c1b5cec53ee678893e4ce61b49c252ead85a",
+    "runtime/density4-v3/observe.py": "3ad33bb074aa30bcdd0bac73e52d5347fc39fed97d7b1ad1567b712201984f7e",
+    "runtime/density4-v3/analyze.py": "4c9eaa17f81c797dd2c2852db83f4d3a8f5373cf4da058a142bd620d40f2de7b"
+  }
+}

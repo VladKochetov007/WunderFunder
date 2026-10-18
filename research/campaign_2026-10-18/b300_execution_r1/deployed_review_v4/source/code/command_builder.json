@@ -1,0 +1,233 @@
+{
+  "schema": "tabdata-b300-command-builder.v1",
+  "experiment_id": "E-B300-R01",
+  "source_recipe": "research/campaign_2026-10-18/priority25_execution_r4/RANK01_RECIPE.json",
+  "source_recipe_sha256": "ef3c5572dccdc4dab5d2a6980de212eb48b3adc229c85c15db2ad0e5bda6d74f",
+  "expected_base_source_revision": "a266b036b02e8e012c6eb31072291dad618a169d",
+  "source_manifest": "a266_source_manifest.json",
+  "source_manifest_sha256": "a072293668dc8d0dd1201ea4641a1f5e9b99da718744bf33e89639abff3b8b7c",
+  "expected_source_identity_sha256": "fce5257e02b8d4fa701f987af1b662bf4190050f9167b0e66a9ed935da375189",
+  "adapter_bundle_files": [
+    "adapter_common.py",
+    "fit_recipe.py",
+    "fit_workspace.py",
+    "fit_receipt.py",
+    "train_cell.py",
+    "export_contract.py",
+    "export_cell.py",
+    "gpu_entrypoint.py",
+    "command_builder.json",
+    "a266_source_manifest.json",
+    "source_package_manifest.json",
+    "source_package_verify.py"
+  ],
+  "predictor": "scripts/predict_run.py",
+  "predictor_sha256": "750b9e77aa55673f61a4dd84d809d91dd315bf86eb36c36b065bc67a7d0f4b65",
+  "r4_grader": "research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py",
+  "r4_grader_sha256": "56ffc693da52668726bab1f7008e31753a76aed3ff5d79089167785079d9eb31",
+  "export_endpoint_epoch": 5,
+  "target_recipe": "original labels only; wMSE with chunk denominator",
+  "teacher": null,
+  "propensity": null,
+  "initial_cells": [
+    {
+      "fold": 0,
+      "seed": 1003
+    },
+    {
+      "fold": 1,
+      "seed": 1003
+    },
+    {
+      "fold": 2,
+      "seed": 1003
+    },
+    {
+      "fold": 3,
+      "seed": 1003
+    }
+  ],
+  "excluded_seed": 1001,
+  "arms": [
+    {
+      "name": "wide",
+      "hidden": 512,
+      "layers": 1,
+      "trainable_parameters": 2210306
+    },
+    {
+      "name": "deep",
+      "hidden": 384,
+      "layers": 2,
+      "trainable_parameters": 2151554
+    }
+  ],
+  "hyperparameters": {
+    "batch": 8,
+    "chunk": 2000,
+    "precision": "fp32",
+    "dropout": 0,
+    "optim": "adamw",
+    "lr": 0.0001,
+    "beta2": 0.999,
+    "weight_decay": 0.01,
+    "scheduler": "onecycle",
+    "warmup_fraction": 0.05,
+    "head_lr_multiplier": 1,
+    "gradient_clip": 1,
+    "batch_order": "seeded",
+    "fused_adam": true,
+    "sync_free": true,
+    "pin_memory": false,
+    "loader_workers": 0,
+    "grad_stats": true,
+    "deterministic": true
+  },
+  "primary_endpoint": {
+    "epochs": 6,
+    "checkpoint_zero_based": 5,
+    "outer_validation_during_fit": false,
+    "selection": "fixed"
+  },
+  "command_inputs": {
+    "source_root": "explicit; base trainer source is a266b036b02e8e012c6eb31072291dad618a169d",
+    "data_root": "explicit; read-only source for datasets/ and required cache files",
+    "split_manifest": "explicit absolute foldN.json",
+    "run_root": "$WNN_RUN_DIR"
+  },
+  "workspace_layout": {
+    "datasets": "directory symlink to <data_root>/datasets",
+    "cache": "local writable directory; symlink chains.npz, chain_folds.npz, train_targets.npz and valid_targets.npz",
+    "trainer_outputs": "$WNN_RUN_DIR/artifacts/runs/<run_name>",
+    "predictions": "$WNN_RUN_DIR/cache/pred_<run_name>_valid.npy"
+  },
+  "modes": {
+    "profile": [
+      "--profile-steps",
+      "3",
+      "--profile-warmup",
+      "1"
+    ],
+    "fit": [
+      "--save-training-state"
+    ],
+    "resume": [
+      "--save-training-state",
+      "--resume-state",
+      "<previous training_state.pt>"
+    ]
+  },
+  "fit_outputs": [
+    "model_ep0.pt",
+    "model_ep1.pt",
+    "model_ep2.pt",
+    "model_ep3.pt",
+    "model_ep4.pt",
+    "model_ep5.pt",
+    "model.pt",
+    "history.json",
+    "provenance.json",
+    "training_state.pt"
+  ],
+  "fit_receipt_fields": [
+    "all output sizes and SHA256 values",
+    "selected epoch and six epoch update counts",
+    "fit train/valid group counts and split-manifest SHA256",
+    "trainer source identity, adapter SHA256 and exact command SHA256",
+    "source identities from the campaign split manifest"
+  ],
+  "export_adapter": {
+    "script": "export_cell.py",
+    "invokes": "the pinned a266 scripts/predict_run.py main() with --campaign-evaluation-only",
+    "grader": "the pinned R4 grade_endpoint.validate_prediction() and validate_export_manifest()",
+    "command_template": [
+      "python",
+      "gpu_entrypoint.py",
+      "export_cell.py",
+      "--source-root",
+      "<frozen-a266-source>",
+      "--run-dir",
+      "<completed-fit-root>",
+      "--export-dir",
+      "<fresh-export-root>",
+      "--split-manifest",
+      "<verified-split>/fold{fold}.json",
+      "--run-name",
+      "tabdata_b300_r01_v1_{arm}_f{fold}_s{seed}",
+      "--fold",
+      "{fold}",
+      "--seed",
+      "{seed}",
+      "--grader-script",
+      "<repo>/research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py"
+    ],
+    "checkpoint": "artifacts/runs/<run_name>/model_ep5.pt",
+    "output": "cache/pred_<run_name>_valid.npy",
+    "sidecar": "cache/pred_<run_name>_valid.json",
+    "shape": "[evaluation_group_count, 20000, 2] float32",
+    "epoch": 5,
+    "inference_precision": "fp32",
+    "feature_only": true,
+    "target_reads_during_export": false,
+    "receipt": "export_receipt.json",
+    "requires_fresh_export_dir": true
+  },
+  "source_tree_manifest": "source_package_manifest.json",
+  "source_tree_manifest_sha256": "6f2d3188ae3c547976d6948044bfd97fe9036b12092ce675c5c779ea033791bd",
+  "expected_source_tree_identity_sha256": "f4ef9ca8450a3e76d6b6f8295259e70aec5024d3a4f3296558bb0323add74130",
+  "source_tree_archive_sha256": "420395e9fd1206ec0466c8304b80dc095e9d416b97752ebfe39ac53a78e5b2b1",
+  "process_entrypoint": {
+    "script": "gpu_entrypoint.py",
+    "actor_invocation": "python gpu_entrypoint.py <train_cell.py|export_cell.py> <actor-args...>",
+    "required_environment": {
+      "WNN_RUN_DIR": "fresh, empty output root for this fit or export actor"
+    },
+    "visible_cuda_devices": 1,
+    "allocator_budget_bytes": 6442450944,
+    "strict_fp32": true,
+    "bytecode_generation": false,
+    "cpu_thread_environment": {
+      "WNN_THREADS": "2",
+      "OMP_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "OPENBLAS_NUM_THREADS": "2",
+      "NUMEXPR_NUM_THREADS": "2"
+    }
+  },
+  "export_resource_gate": {
+    "predictor_default_batch_size": 16,
+    "predictor_default_chunk_steps": 4000,
+    "allocator_budget_bytes": 6442450944,
+    "admission_rule": "The first completed-fit export is the exact-path B300 resource check; inspect its successful process receipt and peak allocation before authorizing further exports.",
+    "receipt": "export_cell_resource_receipt.json"
+  },
+  "export_recovery": {
+    "fit_outputs_are_immutable": true,
+    "failed_export_retry": "Use a fresh --export-dir linked to the existing --run-dir fit; never refit a valid completed cell solely because export failed.",
+    "export_workspace_layout": "local cache output plus links to fit artifacts, datasets and frozen input caches"
+  },
+  "fit_adapter_command_template": [
+    "python",
+    "gpu_entrypoint.py",
+    "train_cell.py",
+    "--source-root",
+    "<frozen-a266-source>",
+    "--data-root",
+    "<verified-data-root>",
+    "--split-manifest",
+    "<verified-split>/fold{fold}.json",
+    "--arm",
+    "{arm}",
+    "--fold",
+    "{fold}",
+    "--seed",
+    "{seed}",
+    "--mode",
+    "fit"
+  ],
+  "source_packaging_kind": "LF normalized 147-file subset; full 533-file tree is upstream reference only",
+  "excluded_external_seeds": [
+    1001,
+    1002
+  ]
+}

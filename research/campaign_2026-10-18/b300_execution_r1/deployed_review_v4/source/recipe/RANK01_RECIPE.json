@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "experiment_id": "E-RR18-01-LABELS",
+  "hypothesis_id": "H-RR17-01",
+  "rank": 1,
+  "status": "preregistered_before_fit",
+  "question": "Does a wide one-layer GRU improve the final labels-only endpoint against a near-capacity two-layer GRU?",
+  "arms": [
+    {
+      "name": "wide",
+      "hidden": 512,
+      "layers": 1,
+      "trainable_parameters": 2210306
+    },
+    {
+      "name": "deep",
+      "hidden": 384,
+      "layers": 2,
+      "trainable_parameters": 2151554
+    }
+  ],
+  "parameter_match": "wide has 2.73% more parameters; no exact parameter identity claim",
+  "cold_initialization": true,
+  "teacher": null,
+  "propensity": null,
+  "target_recipe": "original supervised labels, wmse, chunk denominator; distinct from historical alpha0.9 KD screen",
+  "inputs": "raw112 + canonical99 event features, fit-only two-batch normalization; identical seeded batch membership within pair",
+  "split_source": "canonical Main four source-qualified component-disjoint folds; restored cache binding documented separately",
+  "primary_endpoint": {
+    "epochs": 6,
+    "checkpoint_zero_based": 5,
+    "outer_validation_during_fit": false,
+    "selection": "fixed; no best-checkpoint selection"
+  },
+  "convergence_limitation": "Six epochs is a longer matched budget, not a guarantee of convergence. Inspect fit-only epoch loss/update/gradient trajectories; if unresolved, preregister a longer matched comparison before any convergence claim. Keep six-epoch result regardless.",
+  "execution_staging": "profile both shapes; first four fold pairs seed1001 exploratory, then remaining CP30 cells as measured capacity permits; stage at epoch1 with the full six-epoch schedule and exact optimizer/RNG continuation",
+  "hyperparameters": {
+    "batch": 8,
+    "chunk": 2000,
+    "precision": "fp32",
+    "dropout": 0,
+    "optim": "adamw",
+    "lr": 0.0001,
+    "beta2": 0.999,
+    "weight_decay": 0.01,
+    "scheduler": "onecycle",
+    "warmup_fraction": 0.05,
+    "head_lr_multiplier": 1,
+    "gradient_clip": 1,
+    "batch_order": "seeded",
+    "fused_adam": true,
+    "sync_free": true,
+    "pin_memory": false,
+    "loader_workers": 0,
+    "grad_stats": true,
+    "deterministic": true
+  },
+  "required_outputs": [
+    "command and source identities",
+    "split/cache/normalization/sampler identities",
+    "finite profile and measured resources",
+    "epoch losses, learning rate, preclip gradient norms and update counts",
+    "checkpoints and exact-resume state",
+    "causal full-sequence FP32 evaluation predictions with row identities",
+    "independent official grade and paired cross-fold aggregation",
+    "CPU serving latency before final architecture recommendation"
+  ],
+  "quality_result": null
+}

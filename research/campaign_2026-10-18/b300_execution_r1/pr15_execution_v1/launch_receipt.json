@@ -1,0 +1,24 @@
+{
+  "schema": "tabdata-pr15-launch.v1",
+  "time_unix": 1792347531.067987,
+  "execution_manifest_sha256": "950f5178652ad81ae62220a124dc0253cf5f80f9b1dfef7250f39aa1d0c9f1c8",
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=tabdata-pr15-execution-v1",
+    "--property=MemoryMax=192G",
+    "--property=MemorySwapMax=0",
+    "--property=TasksMax=512",
+    "--property=RuntimeMaxSec=432000",
+    "--property=KillMode=control-group",
+    "--property=CPUAffinity=16-47",
+    "--working-directory=/data/epanov_s/tabdata",
+    "/data/epanov_s/tabdata/.venv/bin/python",
+    "-u",
+    "-c",
+    "from pathlib import Path\nimport hashlib,json,sys,runpy\np=Path('/data/epanov_s/tabdata/runtime/pr15-host-v1')\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nassert sha(p/'EXECUTION_MANIFEST.json')=='950f5178652ad81ae62220a124dc0253cf5f80f9b1dfef7250f39aa1d0c9f1c8'\nm=json.loads((p/'EXECUTION_MANIFEST.json').read_text())\nfor name,expected in m['files'].items():\n assert sha(p/name)==expected,name\nsys.path.insert(0,str(p))\nimport fit_validation\nsys.argv=[str(p/'controller.py'),'fits']\nrunpy.run_path(str(p/'controller.py'),run_name='__main__')\n"
+  ],
+  "profile_packet_sha256": "c18f1877b8579c03d2a0905534f5ecbd13ed56a54306ba66d63b47d892b66510",
+  "scientific_full_fit_jobs_queued": 120,
+  "initial_additional_full_fits": 16
+}

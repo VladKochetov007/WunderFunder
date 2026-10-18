@@ -1,0 +1,32 @@
+{
+  "schema": "tabdata.b300_execution_authority.v2",
+  "recorded_utc": "2026-10-18T22:06:35.814912+00:00",
+  "project": "tabdata",
+  "host": "epanov_s@10.14.14.26",
+  "user_authorized": [
+    "Execute reviewed runnable experiments on the existing eight B300 GPUs.",
+    "Increase co-location after measuring useful throughput while preserving healthy and foreign jobs.",
+    "Use the existing single SSH session without parallel/repeated connections."
+  ],
+  "scope_supersedes": "The former three-process ceiling; no scientific recipe/deadline/CP30 change.",
+  "observed_allocation": {
+    "r01_per_gpu": 2,
+    "pr15_per_gpu": 2,
+    "total_per_gpu": 4,
+    "active_fits": 32
+  },
+  "constraints": [
+    "Preserve foreign jobs, credentials, account and SSH settings.",
+    "Strict FP32; autocast and TF32 off; unchanged canonical trainers and official metric.",
+    "Retain exact source/data/seed/fold bindings, original CP30 panels and campaign deadlines.",
+    "One pending-cell admission owner; preserve and adopt original healthy process identities.",
+    "Per-unit cgroup192GiB/swap0/tasks512 plus actual host headroom/RSS/OOM observation.",
+    "No rentals, billing changes, privilege changes, publication or implicit refits."
+  ],
+  "r01_takeover_authority": "density4_v1/r01_successor/observed/receipts/r01-density4-admission-v1/AUTHORITY.json",
+  "r01_control_bundle_sha256": "89ccb760cdb05609bbce5239274c407922169dfbcfd1bccd44935fc1241ab238",
+  "pr15_queue_manifest": "pr15_queue_v2/observed/runtime/pr15-host-v2/QUEUE_EXECUTION_MANIFEST.json",
+  "current_live_receipt": "density4_v1/r01_successor/observed/receipts/b300-density4-live-status-v1.json",
+  "previous_authority": "AUTHORITY.pre-density4.json",
+  "independent_review_and_actual_linux_tests": "density4_v1/r01_successor/README.md"
+}

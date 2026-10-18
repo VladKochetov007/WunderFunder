@@ -1,5 +1,7 @@
 # Research-team experiment catalogue
 
+[E-B300-R01 fixed-budget capacity](tabdata-b300-r01/README.md): executing60-fit B300-only CP30 panel, H512x1 versus H384x2 cold GRU, fixed six-epoch recipe; distinct from PR2 matched FLOPs. The reporting packet records actual PR and publication receipts.
+
 - Published future-experiment draft PRs: [#22 Adaptive TBPTT](https://github.com/VladKochetov007/WunderFunder/pull/22), [#23 current-moment WP replay](https://github.com/VladKochetov007/WunderFunder/pull/23), and [#24 four-arm architecture handoff](https://github.com/VladKochetov007/WunderFunder/pull/24). Each targets research-team; the first two need adapters, the architecture handoff needs a focused port of preserved source. No model execution or run admission follows from publication.
 
 The active [rank1 continuation handoff](https://github.com/VladKochetov007/WunderFunder/tree/experiment/rr18-01-labels/research/experiment_drafts/rr18-01-labels) is tied to the [October 18 execution packet](../campaign_2026-10-18/priority25_execution_r4/README.md); F0/S1001 and F1/S1001 are graded at audited source e35220969 (two of 30 paired cells); F3 has retained progress. See [the source-pinned review](../unified/reviews/REPOSITORY_DELTA_20261018.md) for uncertainty and the five newer team draft PRs. The [gradient-estimator continuations](../unified/ideas/GRADIENT_ESTIMATOR_CONTINUATIONS_20261018.md) add two unrun proposals without changing the active queue. These are separate from the historical fourteen-PR catalogue below.

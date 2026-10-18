@@ -1,0 +1,2055 @@
+{
+    "schema":  "b300-backlog-review.v2",
+    "created_utc":  "2026-10-18T17:28:43Z",
+    "scope":  "Local read-only source/recipe inventory for the original 16 experiment PRs plus ranked-25 hypotheses; no B300 connection, profiles, optimizer steps, fits, remote edits, publication, or spending performed by this review.",
+    "execution_context":  {
+                              "operator_report":  "Root reports B300 environment/data delivery is working and 147 source files plus canonical 61-file trainer identity are verified.",
+                              "independently_verified_by_this_review":  false,
+                              "fit_or_profile_status":  "not inspected by this review; no result is claimed",
+                              "no_false_ready_rule":  "A native CLI surface means implementation reuse only; every proposed family remains blocked on its listed recipe, control, lineage, actual B300 profile, cell-owner, and resource gates.",
+                              "attribution":  "The original PR account is not evidence of proposal authorship by named collaborators; preserve each PR source SHA and do not invent authorship."
+                          },
+    "source_bindings":  {
+                            "historical_review_packet":  "research/campaign_2026-10-18/b300_queue_preparation_r1/queue.json",
+                            "canonical_trainer_revision":  "a266b036b02e8e012c6eb31072291dad618a169d",
+                            "canonical_61_file_manifest_sha256":  "a072293668dc8d0dd1201ea4641a1f5e9b99da718744bf33e89639abff3b8b7c",
+                            "canonical_source_identity_sha256":  "fce5257e02b8d4fa701f987af1b662bf4190050f9167b0e66a9ed935da375189",
+                            "trainer_cli_sources":  [
+                                                        "src/wnn/training/cli_model.py",
+                                                        "src/wnn/training/cli_features.py",
+                                                        "src/wnn/training/cli_views.py",
+                                                        "src/wnn/training/cli_targets.py",
+                                                        "src/wnn/research_features.py"
+                                                    ],
+                            "ranked1_recipe":  {
+                                                   "path":  "research/campaign_2026-10-18/priority25_execution_r4/RANK01_RECIPE.json",
+                                                   "source_revision":  "a266b036b02e8e012c6eb31072291dad618a169d",
+                                                   "raw_current_checkout_bytes_sha256":  "ef3c5572dccdc4dab5d2a6980de212eb48b3adc229c85c15db2ad0e5bda6d74f",
+                                                   "raw_current_checkout_size_bytes":  2802,
+                                                   "historical_git_blob_lf_bytes_sha256":  "9292b545fd088df40c4cc54066a745025ee4d30c2bf1574bdb4df341eb16937c",
+                                                   "historical_git_blob_lf_size_bytes":  2733,
+                                                   "qualification":  "The two SHA-256 values cover different byte representations; 9292... is the LF Git-object/source revision binding, while ef3c... is the current CRLF checkout file. Do not compare them as if they hash identical bytes."
+                                               },
+                            "grader_revision":  "6f9fd05e491a9700cce1adf50e58b56cdc5e65bb",
+                            "fit_policy_reference":  "research/unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md"
+                        },
+    "current_priority_after_rank1":  [
+                                         {
+                                             "order":  1,
+                                             "item":  "PR-2 / H-RR17-01",
+                                             "why":  "Direct native GRU shapes; freeze measured-compute recipe before a controlled CP30 comparison."
+                                         },
+                                         {
+                                             "order":  2,
+                                             "item":  "PR-4",
+                                             "why":  "Group-age versus field-age feature modes are source-native; confirm draft semantics, clean lineage, FP32 recipe and confound control."
+                                         },
+                                         {
+                                             "order":  3,
+                                             "item":  "PR-14",
+                                             "why":  "Native innovation path has same-width zero-innovation control; historical cache-schema issue needs repair or explicit successor registration."
+                                         },
+                                         {
+                                             "order":  4,
+                                             "item":  "H-RR17-06 causal moments",
+                                             "why":  "Small source-native moment-vs-zero-block family; this is a useful partial test, not the full raw/normalized ranked hypothesis."
+                                         },
+                                         {
+                                             "order":  5,
+                                             "item":  "H-RR17-19 ARTBP",
+                                             "why":  "Flag exists but admit only after BPTT toy parity and actual-shape resource profile; high-cost lower-ranked follow-up."
+                                         }
+                                     ],
+    "minimum_family_recipes":  [
+                                   {
+                                       "id":  "R01-F2-seed1001-labels-only-pair",
+                                       "basis":  "Existing preregistered R4 recipe and issue #16; one paired cell only.",
+                                       "arms":  [
+                                                    "wide: --arch gru --cell gru --enc linear --hidden 512 --layers 1",
+                                                    "deep: --arch gru --cell gru --enc linear --hidden 384 --layers 2"
+                                                ],
+                                       "common_recipe_path":  "research/campaign_2026-10-18/priority25_execution_r4/RANK01_RECIPE.json",
+                                       "target":  "Original labels, FP32 wMSE/chunk denominator, six epochs, fixed epoch5, batch8/chunk2000, seeded order, matched optimizer/schedule; full settings are in referenced recipe/commands.",
+                                       "admission":  "Recipe is source-bound, not a B300 launch claim: bind current B300 paths/owner and inspect actual-shape FP32 profiles/resources first.",
+                                       "fit_count":  2,
+                                       "status":  "source_recipe_pinned_profile_and_host_binding_required"
+                                   },
+                                   {
+                                       "id":  "PR2-native-GRU-shape-screen",
+                                       "basis":  "Five draft shapes; new explicit compute-match recipe required.",
+                                       "arms":  [
+                                                    "H256x2",
+                                                    "H512x1",
+                                                    "H640x1",
+                                                    "H512x2",
+                                                    "H448x3"
+                                                ],
+                                       "common_delta_flags":  "--arch gru --cell gru --enc linear --hidden \u003cH\u003e --layers \u003cL\u003e",
+                                       "target":  "Cold start; matched measured compute/update view and fixed-update view must be explicitly reconciled; do not copy PR draft 12-epoch WSD values as a frozen recipe.",
+                                       "admission":  "Measure every actual shape and freeze budget, scheduler, endpoint and threshold before allocating CP30; pair all arms in fold/seed identity.",
+                                       "fit_count":  150,
+                                       "status":  "native_shapes_recipe_not_frozen"
+                                   },
+                                   {
+                                       "id":  "PR4-native-age-feature-pair",
+                                       "basis":  "Source-native representation pair; faithful status contingent on draft/source semantic diff.",
+                                       "arms":  [
+                                                    "group clocks: --research-features group_age",
+                                                    "per-field clocks: --research-features field_age"
+                                                ],
+                                       "target":  "Same base model, optimizer, input normalization, fold/seed membership and fixed endpoint; decide clean cold start versus inherited fold-clean parent before freezing.",
+                                       "admission":  "Run causal prefix/reset and streaming-chunk parity checks; no teacher/cache/parent reuse across folds; record PR4 historic profile as engineering only.",
+                                       "fit_count":  60,
+                                       "status":  "feature_modes_present_recipe_lineage_profile_open"
+                                   },
+                                   {
+                                       "id":  "PR14-native-causal-innovation-ablation",
+                                       "basis":  "Native-source successor candidate; historical cache implementation is a distinct lineage.",
+                                       "arms":  [
+                                                    "innovation channels active: --research-features causal_innovations --research-feature-control none",
+                                                    "same-width moment backbone with innovation suffix zeroed: --research-features causal_innovations --research-feature-control newest"
+                                                ],
+                                       "target":  "80 appended channels (64 moments + 16 innovation); fitting-only moment prior; identical model/seed/fold and no cross-fold cache reuse.",
+                                       "admission":  "Fixture-test cache producer/consumer or state this is a new native-source successor; verify current-row prediction alignment, prefix/reset and prior ancestry, then profile.",
+                                       "fit_count":  60,
+                                       "status":  "native_mode_present_cache_and_recipe_gates_open"
+                                   },
+                                   {
+                                       "id":  "H-RR17-06-minimal-causal-moments-screen",
+                                       "basis":  "Minimum discriminating subfamily only; does not satisfy the complete ranked three-path hypothesis.",
+                                       "arms":  [
+                                                    "moments active: --research-features causal_moments --research-feature-control none",
+                                                    "same-width zero moment block: --research-features causal_moments --research-feature-control newest"
+                                                ],
+                                       "target":  "Fit-only prior and fixed model budget; consider base raw-input arm as third arm only after matching feature/parameter capacity.",
+                                       "admission":  "Prefix/reset parity, fold-local prior, both-shape profile and freeze an explicit threshold; --online-norm is a separate behavior and cannot be silently substituted.",
+                                       "fit_count":  60,
+                                       "status":  "native_partial_test_available_full_ranked_hypothesis_not_implemented"
+                                   },
+                                   {
+                                       "id":  "H-RR17-19-ARTBP-parity-first",
+                                       "basis":  "Low-priority mechanism with native option but no parity evidence in this inventory.",
+                                       "arms":  [
+                                                    "deterministic BPTT control",
+                                                    "ARTBP: --credit-mode artbp --credit-keep-probability \u003cp\u003e --credit-seed \u003cseed\u003e"
+                                                ],
+                                       "common_delta_flags":  "--chunk 2000 --update-rows 20000 --detach-rows 20000",
+                                       "target":  "Strict FP32, SGD, no gradient clipping; preserve identical full update-window objective and fixed endpoint.",
+                                       "admission":  "First pass exact toy BPTT gradient parity plus variance/bias tests; then measured full-shape time/VRAM. Frozen validation constraints additionally require chunk \u003c update_rows, detach_rows 0 or update_rows, update_rows divides 20,000-row sequence, and no origin/noise/jitter options.",
+                                       "fit_count":  60,
+                                       "status":  "native_flag_parity_and_profile_blocked"
+                                   }
+                               ],
+    "original_prs":  [
+                         {
+                             "id":  "PR-2",
+                             "number":  2,
+                             "title":  "[Experiment] Cold GRU width versus depth at matched compute",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/2",
+                             "branch":  "experiment/gru-capacity",
+                             "head_sha":  "d3ed4c94c6415bcae54c1b24eb9115c4bc9a504c",
+                             "historical_review_status":  "blocked_recipe_profile",
+                             "mechanism":  "Cold GRU width/depth at matched measured compute and fixed-update view.",
+                             "draft_implementation_summary":  "150 planned; five one-seed F0 screens, no scaling law.",
+                             "arms":  [
+                                          "h256x2",
+                                          "h512x1",
+                                          "h640x1",
+                                          "h512x2",
+                                          "h448x3"
+                                      ],
+                             "planned_fit_count":  150,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-01 architecture lineage; R4 near-parameter comparison is a different frozen recipe",
+                             "historical_dependencies":  "Freeze actual batch/context/update budget, compute matching, schedule/checkpoint, threshold, fold-clean source and FP32 recipe.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "native_GRU_shape_family_but_compute_matched_recipe_not_frozen",
+                                                                 "implementation":  "model_shapes_supported_training_budget_unresolved",
+                                                                 "native_flags":  [
+                                                                                      "--arch gru",
+                                                                                      "--cell gru",
+                                                                                      "--enc linear",
+                                                                                      "--hidden \u003cH\u003e",
+                                                                                      "--layers \u003cL\u003e"
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "canonical GRU model factory"
+                                                                                             ],
+                                                                 "next_gate":  "Freeze five exact arms, useful compute/update estimand, schedule/checkpoint and decision threshold; profile real shapes, then bind fold-clean source and CP30 cells.",
+                                                                 "hazards":  [
+                                                                                 "PR2 compute matching is distinct from R4 near-parameter H512x1/H384x2",
+                                                                                 "Draft 12-epoch WSD recipe is a proposal, not current frozen command",
+                                                                                 "Five one-seed F0 screens are exploratory and do not establish a scaling law"
+                                                                             ],
+                                                                 "queue_priority":  "first_after_R01"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-2",
+                                                          "number":  2,
+                                                          "title":  "[Experiment] Cold GRU width versus depth at matched compute",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/2",
+                                                          "branch":  "experiment/gru-capacity",
+                                                          "head_sha":  "d3ed4c94c6415bcae54c1b24eb9115c4bc9a504c",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_recipe_profile",
+                                                          "implementation":  "150 planned; five one-seed F0 screens, no scaling law.",
+                                                          "mechanism":  "Cold GRU width/depth at matched measured compute and fixed-update view.",
+                                                          "matched_control":  "h256x2,h512x1,h640x1,h512x2,h448x3.",
+                                                          "dependencies":  "Freeze actual batch/context/update budget, compute matching, schedule/checkpoint, threshold, fold-clean source and FP32 recipe.",
+                                                          "rank25_mapping":  "H-RR17-01 architecture lineage; R4 near-parameter comparison is a different frozen recipe",
+                                                          "arms":  [
+                                                                       "h256x2",
+                                                                       "h512x1",
+                                                                       "h640x1",
+                                                                       "h512x2",
+                                                                       "h448x3"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  150,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  10,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-15",
+                             "number":  15,
+                             "title":  "[Experiment] causal-geometry-discrete-b300: Causal geometry and discrete state features on B300",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/15",
+                             "branch":  "experiment/causal-geometry-b300",
+                             "head_sha":  "e238fc5c82ac8c4591f3ca3ef87c37b2b73b929e",
+                             "historical_review_status":  "profile_ready_pending_host_and_manifests",
+                             "mechanism":  "Causal moment/geometry and discrete occupancy/event/dwell features with fresh H512x1.",
+                             "draft_implementation_summary":  "120 planned in 15 waves of eight; no B300 profiles or optimizer steps.",
+                             "arms":  [
+                                          {
+                                              "name":  "baseline",
+                                              "control":  "all",
+                                              "feature_index_space":  "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+                                              "visible_feature_index_range_inclusive":  null,
+                                              "zeroed_feature_index_range_inclusive":  [
+                                                                                           0,
+                                                                                           59
+                                                                                       ],
+                                              "description":  "211 raw/event channels plus the same 60-wide geometry suffix, all zeroed; matched input width and parameters."
+                                          },
+                                          {
+                                              "name":  "moments",
+                                              "control":  "moments_only",
+                                              "feature_index_space":  "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+                                              "visible_feature_index_range_inclusive":  [
+                                                                                            0,
+                                                                                            19
+                                                                                        ],
+                                              "zeroed_feature_index_range_inclusive":  [
+                                                                                           20,
+                                                                                           59
+                                                                                       ],
+                                              "description":  "20 causal moment/arc/anchor/current channels; 40 dictionary/event/dwell channels zeroed."
+                                          },
+                                          {
+                                              "name":  "dictionary",
+                                              "control":  "dictionary_only",
+                                              "feature_index_space":  "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+                                              "visible_feature_index_range_inclusive":  [
+                                                                                            20,
+                                                                                            59
+                                                                                        ],
+                                              "zeroed_feature_index_range_inclusive":  [
+                                                                                           0,
+                                                                                           19
+                                                                                       ],
+                                              "description":  "40 exact-level/dictionary/row occupancy/event/dwell channels; 20 moment/arc/anchor/current channels zeroed."
+                                          },
+                                          {
+                                              "name":  "combined",
+                                              "control":  "none",
+                                              "feature_index_space":  "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+                                              "visible_feature_index_range_inclusive":  [
+                                                                                            0,
+                                                                                            59
+                                                                                        ],
+                                              "zeroed_feature_index_range_inclusive":  null,
+                                              "description":  "All 60 appended causal channels."
+                                          }
+                                      ],
+                             "planned_fit_count":  120,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-06/H-RR17-23 adjacent only; exact exposed-F0 geometry adapters prior negative.",
+                             "historical_dependencies":  "Exact source/data manifests; clean checkout; all 8 unique B300 cards; overlapping strict-FP32 2-warmup/8-measured update profile; 5,371,320 planned updates.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "feature_and_recipe_specified_but_not_source_bound_for_B300",
+                                                                 "implementation":  "some_neighboring_moment_features_native_geometry_dictionary_controls_incomplete",
+                                                                 "native_flags":  [
+                                                                                      "--research-features causal_moments is related but not the full geometry/discrete mechanism"
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "causal moment feature path only"
+                                                                                             ],
+                                                                 "next_gate":  "Bind immutable source/data manifests and exact arms, then full-shape strict-FP32 profile on actual cards; evaluate planned 5,371,320-update budget and controls before queue admission.",
+                                                                 "hazards":  [
+                                                                                 "H-RR17-06 and H-RR17-23 are adjacent, not exact",
+                                                                                 "Prior 8-card profile requirement is historical and must be regenerated on current host",
+                                                                                 "120-fit/15-wave budget is proposal, not current admission"
+                                                                             ],
+                                                                 "queue_priority":  "after_low_cost_native_feature_families"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-15",
+                                                          "number":  15,
+                                                          "title":  "[Experiment] causal-geometry-discrete-b300: Causal geometry and discrete state features on B300",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/15",
+                                                          "branch":  "experiment/causal-geometry-b300",
+                                                          "head_sha":  "e238fc5c82ac8c4591f3ca3ef87c37b2b73b929e",
+                                                          "base":  "research-team",
+                                                          "status":  "profile_ready_pending_host_and_manifests",
+                                                          "implementation":  "120 planned in 15 waves of eight; no B300 profiles or optimizer steps.",
+                                                          "mechanism":  "Causal moment/geometry and discrete occupancy/event/dwell features with fresh H512x1.",
+                                                          "matched_control":  "Four arms: all-zero baseline, moments-only, dictionary-only, combined; matched 60-wide suffix.",
+                                                          "dependencies":  "Exact source/data manifests; clean checkout; all 8 unique B300 cards; overlapping strict-FP32 2-warmup/8-measured update profile; 5,371,320 planned updates.",
+                                                          "rank25_mapping":  "H-RR17-06/H-RR17-23 adjacent only; exact exposed-F0 geometry adapters prior negative.",
+                                                          "arms":  [
+                                                                       {
+                                                                           "name":  "baseline",
+                                                                           "control":  "all",
+                                                                           "feature_index_space":  "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+                                                                           "visible_feature_index_range_inclusive":  null,
+                                                                           "zeroed_feature_index_range_inclusive":  [
+                                                                                                                        0,
+                                                                                                                        59
+                                                                                                                    ],
+                                                                           "description":  "211 raw/event channels plus the same 60-wide geometry suffix, all zeroed; matched input width and parameters."
+                                                                       },
+                                                                       {
+                                                                           "name":  "moments",
+                                                                           "control":  "moments_only",
+                                                                           "feature_index_space":  "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+                                                                           "visible_feature_index_range_inclusive":  [
+                                                                                                                         0,
+                                                                                                                         19
+                                                                                                                     ],
+                                                                           "zeroed_feature_index_range_inclusive":  [
+                                                                                                                        20,
+                                                                                                                        59
+                                                                                                                    ],
+                                                                           "description":  "20 causal moment/arc/anchor/current channels; 40 dictionary/event/dwell channels zeroed."
+                                                                       },
+                                                                       {
+                                                                           "name":  "dictionary",
+                                                                           "control":  "dictionary_only",
+                                                                           "feature_index_space":  "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+                                                                           "visible_feature_index_range_inclusive":  [
+                                                                                                                         20,
+                                                                                                                         59
+                                                                                                                     ],
+                                                                           "zeroed_feature_index_range_inclusive":  [
+                                                                                                                        0,
+                                                                                                                        19
+                                                                                                                    ],
+                                                                           "description":  "40 exact-level/dictionary/row occupancy/event/dwell channels; 20 moment/arc/anchor/current channels zeroed."
+                                                                       },
+                                                                       {
+                                                                           "name":  "combined",
+                                                                           "control":  "none",
+                                                                           "feature_index_space":  "geometry suffix only; inclusive interval endpoints 0..59, appended after 211 raw/event channels",
+                                                                           "visible_feature_index_range_inclusive":  [
+                                                                                                                         0,
+                                                                                                                         59
+                                                                                                                     ],
+                                                                           "zeroed_feature_index_range_inclusive":  null,
+                                                                           "description":  "All 60 appended causal channels."
+                                                                       }
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  120,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  30,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-12",
+                             "number":  12,
+                             "title":  "[Experiment] Expand clean heterogeneous recurrent teacher cohort",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/12",
+                             "branch":  "experiment/teacher-cohort",
+                             "head_sha":  "6a32fc40ca962f9d45aeaf387f81ed4c546b8eaa",
+                             "historical_review_status":  "blocked_clean_cohort",
+                             "mechanism":  "Expand clean heterogeneous recurrent teacher cohort.",
+                             "draft_implementation_summary":  "60 planned; one clean F3 teacher/FP32 exports complete.",
+                             "arms":  [
+                                          "single-family-target",
+                                          "fixed-diverse-cohort"
+                                      ],
+                             "planned_fit_count":  60,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-02/PR#3 related cohort path.",
+                             "historical_dependencies":  "No duplicate export-only work; rebuild FP32 clean cohorts per fold, bind each teacher fit membership and fixed coefficients.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "partial_existing_F3_teacher_only",
+                                                                 "implementation":  "teacher_cache_consumer_exists_cohort_incomplete",
+                                                                 "native_flags":  [
+                                                                                      "--distill-cache-root \u003cverified-cache\u003e",
+                                                                                      "--distill \u003cteacher-run[*scale]\u003e (existing-run consumer path)"
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "existing cached/main-output distillation routes"
+                                                                                             ],
+                                                                 "next_gate":  "Construct clean FP32 teacher cohort per fold and seed, bind every checkpoint/cache ancestry, freeze mixture weights and train same student endpoint.",
+                                                                 "hazards":  [
+                                                                                 "One F3 teacher/export is not a complete heterogeneous cohort",
+                                                                                 "No cross-fold teacher/cache reuse",
+                                                                                 "Do not count export-only tasks as new mechanism fits"
+                                                                             ],
+                                                                 "queue_priority":  "after_R01_if_existing_cohort_reusable"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-12",
+                                                          "number":  12,
+                                                          "title":  "[Experiment] Expand clean heterogeneous recurrent teacher cohort",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/12",
+                                                          "branch":  "experiment/teacher-cohort",
+                                                          "head_sha":  "6a32fc40ca962f9d45aeaf387f81ed4c546b8eaa",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_clean_cohort",
+                                                          "implementation":  "60 planned; one clean F3 teacher/FP32 exports complete.",
+                                                          "mechanism":  "Expand clean heterogeneous recurrent teacher cohort.",
+                                                          "matched_control":  "Single-family target vs fixed diverse cohort through same student.",
+                                                          "dependencies":  "No duplicate export-only work; rebuild FP32 clean cohorts per fold, bind each teacher fit membership and fixed coefficients.",
+                                                          "rank25_mapping":  "H-RR17-02/PR#3 related cohort path.",
+                                                          "arms":  [
+                                                                       "single-family-target",
+                                                                       "fixed-diverse-cohort"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  60,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  40,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-1",
+                             "number":  1,
+                             "title":  "[Experiment] Causal Transformer with output autoregression",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/1",
+                             "branch":  "experiment/transformer-ar",
+                             "head_sha":  "87b9b3ea396ff3bd4685d51420405a293a411db0",
+                             "historical_review_status":  "blocked_implementation",
+                             "mechanism":  "Causal Transformer teacher with own-output AR recurrence.",
+                             "draft_implementation_summary":  "60 planned; starter only, no trainer/KV/DDP/cache exporter.",
+                             "arms":  [
+                                          "direct-transformer",
+                                          "output-ar-transformer"
+                                      ],
+                             "planned_fit_count":  60,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-02 adjacent teacher-to-student; not output-AR hypothesis.",
+                             "historical_dependencies":  "Full real-data teacher optimizer, cache export, strict-FP32 attention/serial-AR profile, student/OOF ancestry, DDP path and effect threshold.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "proposal_only",
+                                                                 "implementation":  "missing_transformer_and_output_autoregression",
+                                                                 "native_flags":  [
+
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+
+                                                                                             ],
+                                                                 "next_gate":  "Implement causal teacher with model-prediction-only output AR, strict-FP32 profile, exporter and matched no-AR control; no DDP assumption.",
+                                                                 "hazards":  [
+                                                                                 "Teacher forcing with future labels would leak",
+                                                                                 "KV/serial-AR cost must be measured at the 20k context",
+                                                                                 "Transformer teacher/cache ancestry must exclude evaluated outer components"
+                                                                             ],
+                                                                 "queue_priority":  "later_teacher_infrastructure"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-1",
+                                                          "number":  1,
+                                                          "title":  "[Experiment] Causal Transformer with output autoregression",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/1",
+                                                          "branch":  "experiment/transformer-ar",
+                                                          "head_sha":  "87b9b3ea396ff3bd4685d51420405a293a411db0",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_implementation",
+                                                          "implementation":  "60 planned; starter only, no trainer/KV/DDP/cache exporter.",
+                                                          "mechanism":  "Causal Transformer teacher with own-output AR recurrence.",
+                                                          "matched_control":  "Direct transformer vs output-AR transformer; same teacher/transfer and causal own-prediction feedback.",
+                                                          "dependencies":  "Full real-data teacher optimizer, cache export, strict-FP32 attention/serial-AR profile, student/OOF ancestry, DDP path and effect threshold.",
+                                                          "rank25_mapping":  "H-RR17-02 adjacent teacher-to-student; not output-AR hypothesis.",
+                                                          "arms":  [
+                                                                       "direct-transformer",
+                                                                       "output-ar-transformer"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  60,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  50,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-3",
+                             "number":  3,
+                             "title":  "[Experiment] GRU versus Transformer teachers for the same GRU student",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/3",
+                             "branch":  "experiment/teacher-family",
+                             "head_sha":  "689f4f19db9a5257edd595bb0f9e60e53f36e414",
+                             "historical_review_status":  "blocked_teacher_cache",
+                             "mechanism":  "GRU and causal Transformer teacher families through same GRU student.",
+                             "draft_implementation_summary":  "120 planned; no complete teacher training/cache integration.",
+                             "arms":  [
+                                          "label-only",
+                                          "gru-teacher",
+                                          "transformer-teacher",
+                                          "fixed-heterogeneous"
+                                      ],
+                             "planned_fit_count":  120,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-02 exact broad teacher-to-student direction.",
+                             "historical_dependencies":  "Clean free-running teacher caches, outer-fold-clean teacher ancestry; optional inner OOF arm, fixed student/teacher configs, target calibration, ancestry and profile.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "teacher_family_question_preserved_but_no_complete_teacher_pipeline",
+                                                                 "implementation":  "student_consumer_partial_teacher_producers_missing",
+                                                                 "native_flags":  [
+                                                                                      "--distill-cache-root \u003cverified-cache\u003e",
+                                                                                      "--distill-cache-variant \u003csource|normalized|homogeneous\u003e",
+                                                                                      "--distill-family-weight \u003cweight\u003e"
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "validated cached-teacher consumer",
+                                                                                                 "existing GRU student trainer"
+                                                                                             ],
+                                                                 "next_gate":  "Produce free-running GRU and causal Transformer caches with fold-clean ancestry, then fix student recipe and target calibration across families.",
+                                                                 "hazards":  [
+                                                                                 "Native cache consumption does not provide either teacher or cache producer",
+                                                                                 "Cache alignment, calibration and evaluated-component exclusion need producer receipts",
+                                                                                 "Optional inner OOF is a separate arm, not a universal prerequisite"
+                                                                             ],
+                                                                 "queue_priority":  "after_teacher_producer"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-3",
+                                                          "number":  3,
+                                                          "title":  "[Experiment] GRU versus Transformer teachers for the same GRU student",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/3",
+                                                          "branch":  "experiment/teacher-family",
+                                                          "head_sha":  "689f4f19db9a5257edd595bb0f9e60e53f36e414",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_teacher_cache",
+                                                          "implementation":  "120 planned; no complete teacher training/cache integration.",
+                                                          "mechanism":  "GRU and causal Transformer teacher families through same GRU student.",
+                                                          "matched_control":  "label-only, GRU, Transformer and fixed heterogeneous KD; same student.",
+                                                          "dependencies":  "Clean free-running teacher caches, outer-fold-clean teacher ancestry; optional inner OOF arm, fixed student/teacher configs, target calibration, ancestry and profile.",
+                                                          "rank25_mapping":  "H-RR17-02 exact broad teacher-to-student direction.",
+                                                          "arms":  [
+                                                                       "label-only",
+                                                                       "gru-teacher",
+                                                                       "transformer-teacher",
+                                                                       "fixed-heterogeneous"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  120,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  60,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-8",
+                             "number":  8,
+                             "title":  "[Experiment] Grouped feature encoding for causal Transformer",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/8",
+                             "branch":  "experiment/input-encoding",
+                             "head_sha":  "017e94bd636943afc020a8904dea907838269464",
+                             "historical_review_status":  "blocked_control_implementation",
+                             "mechanism":  "Grouped feature encoding for causal Transformer.",
+                             "draft_implementation_summary":  "60 planned; grouped starter only.",
+                             "arms":  [
+                                          "flat-projection",
+                                          "grouped-projection"
+                                      ],
+                             "planned_fit_count":  60,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-22 adjacent shared transforms, not identical.",
+                             "historical_dependencies":  "Add flat parameter-matched control, freeze exact 13 groups and temporal positions, full teacher trainer/profile.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "grouped_encoder_starter_not_matched_experiment",
+                                                                 "implementation":  "no_transformer_or_exact_group_id_encoder",
+                                                                 "native_flags":  [
+
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "--enc is not an implementation of grouped feature IDs"
+                                                                                             ],
+                                                                 "next_gate":  "Implement exact 13-group temporal encoder and flat parameter-matched control, then profile full teacher.",
+                                                                 "hazards":  [
+                                                                                 "Grouped starter lacks the necessary flat control",
+                                                                                 "Feature grouping and positions must be frozen before seeing evaluation",
+                                                                                 "Transformer path and DDP are not implied by current GRU runner"
+                                                                             ],
+                                                                 "queue_priority":  "later_architecture"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-8",
+                                                          "number":  8,
+                                                          "title":  "[Experiment] Grouped feature encoding for causal Transformer",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/8",
+                                                          "branch":  "experiment/input-encoding",
+                                                          "head_sha":  "017e94bd636943afc020a8904dea907838269464",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_control_implementation",
+                                                          "implementation":  "60 planned; grouped starter only.",
+                                                          "mechanism":  "Grouped feature encoding for causal Transformer.",
+                                                          "matched_control":  "flat projection vs grouped projection, matched parameter count/position semantics.",
+                                                          "dependencies":  "Add flat parameter-matched control, freeze exact 13 groups and temporal positions, full teacher trainer/profile.",
+                                                          "rank25_mapping":  "H-RR17-22 adjacent shared transforms, not identical.",
+                                                          "arms":  [
+                                                                       "flat-projection",
+                                                                       "grouped-projection"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  60,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  70,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-17",
+                             "number":  17,
+                             "title":  "Causal smoother GRU teachers and distillation on B300",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/17",
+                             "branch":  "experiment/kalman-teacher-gru-distill-b300",
+                             "head_sha":  "588b93f9c2ad7e53aac7b1e2a39f30c32047ea22",
+                             "historical_review_status":  "profile_blocked_pytorch_smoke_and_registry",
+                             "mechanism":  "Causal local-linear trend smoother teacher plus GRU student-cache replacement.",
+                             "draft_implementation_summary":  "330 planned/42 waves; no PyTorch smoke/profile/fit/cache. NumPy precursor synthetic-only RSS 841376 KiB \u003e 500 MiB bound.",
+                             "arms":  [
+                                          "raw-pilot4",
+                                          "ema-pilot4",
+                                          "fixed-pilot4",
+                                          "learned-pilot4",
+                                          "raw-all112",
+                                          "ema-all112",
+                                          "fixed-all112",
+                                          "learned-all112",
+                                          "matched-cache-student",
+                                          "pilot4-smoother-student",
+                                          "all112-smoother-student"
+                                      ],
+                             "planned_fit_count":  330,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-06 adjacent causal statistics/raw bypass, not exact.",
+                             "historical_dependencies":  "PyTorch smoke, full all112 H1024x2 profile (Python loop), fold-clean per-cell teacher registry/checkpoint/cache hashes, source ancestry and full-cost admission.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "NumPy_precursor_is_not_PyTorch_training_implementation",
+                                                                 "implementation":  "smoother_teacher_missing_registry_and_cache_producer_missing",
+                                                                 "native_flags":  [
+                                                                                      "--distill-cache-root is downstream only"
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "student cached-target consumer"
+                                                                                             ],
+                                                                 "next_gate":  "Run bounded PyTorch smoke then full all-112 H1024x2 profile, establish per-cell fold-clean teacher/checkpoint/cache registry and approve full cost.",
+                                                                 "hazards":  [
+                                                                                 "Synthetic NumPy precursor RSS exceeded its 500 MiB bound",
+                                                                                 "Long Python-loop profile may dominate wall time",
+                                                                                 "330 fits/42 waves are not admitted; no cache or teacher can be assumed"
+                                                                             ],
+                                                                 "queue_priority":  "later_high_cost_teacher"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-17",
+                                                          "number":  17,
+                                                          "title":  "Causal smoother GRU teachers and distillation on B300",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/17",
+                                                          "branch":  "experiment/kalman-teacher-gru-distill-b300",
+                                                          "head_sha":  "588b93f9c2ad7e53aac7b1e2a39f30c32047ea22",
+                                                          "base":  "research-team",
+                                                          "status":  "profile_blocked_pytorch_smoke_and_registry",
+                                                          "implementation":  "330 planned/42 waves; no PyTorch smoke/profile/fit/cache. NumPy precursor synthetic-only RSS 841376 KiB \u003e 500 MiB bound.",
+                                                          "mechanism":  "Causal local-linear trend smoother teacher plus GRU student-cache replacement.",
+                                                          "matched_control":  "Raw, EMA, fixed trend, learned trend at pilot4/all112; matched existing cache plus two learned-teacher student arms.",
+                                                          "dependencies":  "PyTorch smoke, full all112 H1024x2 profile (Python loop), fold-clean per-cell teacher registry/checkpoint/cache hashes, source ancestry and full-cost admission.",
+                                                          "rank25_mapping":  "H-RR17-06 adjacent causal statistics/raw bypass, not exact.",
+                                                          "arms":  [
+                                                                       "raw-pilot4",
+                                                                       "ema-pilot4",
+                                                                       "fixed-pilot4",
+                                                                       "learned-pilot4",
+                                                                       "raw-all112",
+                                                                       "ema-all112",
+                                                                       "fixed-all112",
+                                                                       "learned-all112",
+                                                                       "matched-cache-student",
+                                                                       "pilot4-smoother-student",
+                                                                       "all112-smoother-student"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  330,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  80,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-4",
+                             "number":  4,
+                             "title":  "[Experiment] Per-field ages versus seven group clocks",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/4",
+                             "branch":  "experiment/field-age",
+                             "head_sha":  "cc0cc8c5f25d7dd8df0de136cc01acdb5da3fe4d",
+                             "historical_review_status":  "blocked_confound_control",
+                             "mechanism":  "Per-field ages versus seven group clocks.",
+                             "draft_implementation_summary":  "60 planned; F only profiled 50 updates; G-C +0.00002956 conditional interval crosses 0.",
+                             "arms":  [
+                                          "group-age-G",
+                                          "field-age-F"
+                                      ],
+                             "planned_fit_count":  60,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-05 adjacent only; not i1/lag contrast.",
+                             "historical_dependencies":  "FP32 successor; regenerate fold-clean teachers/caches/parents; freeze age-input semantics, threshold and compute.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "source_native_group_vs_field_age_candidate; verify exact draft semantics before calling faithful",
+                                                                 "implementation":  "feature_modes_available_recipe_and_lineage_gates_open",
+                                                                 "native_flags":  [
+                                                                                      "--research-features group_age",
+                                                                                      "--research-features field_age"
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "canonical causal age feature modes",
+                                                                                                 "fold-scoped preprocessing/parent hooks"
+                                                                                             ],
+                                                                 "next_gate":  "Diff draft feature definition against pinned source; choose exact lineage versus explicitly named cold-start successor; freeze FP32 recipe, rank/optimizer confounds, cutoff and clean fold/seed parent/cache bindings.",
+                                                                 "hazards":  [
+                                                                                 "Age clocks are not i1 reliability/lag or CUSUM",
+                                                                                 "Old F/G short profile and conditional interval are not CP30 quality evidence",
+                                                                                 "Do not reuse teachers/caches/parents across outer folds"
+                                                                             ],
+                                                                 "queue_priority":  "second_after_R01"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-4",
+                                                          "number":  4,
+                                                          "title":  "[Experiment] Per-field ages versus seven group clocks",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/4",
+                                                          "branch":  "experiment/field-age",
+                                                          "head_sha":  "cc0cc8c5f25d7dd8df0de136cc01acdb5da3fe4d",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_confound_control",
+                                                          "implementation":  "60 planned; F only profiled 50 updates; G-C +0.00002956 conditional interval crosses 0.",
+                                                          "mechanism":  "Per-field ages versus seven group clocks.",
+                                                          "matched_control":  "group-age-G vs field-age-F with rank/optimizer-geometry confound controls.",
+                                                          "dependencies":  "FP32 successor; regenerate fold-clean teachers/caches/parents; freeze age-input semantics, threshold and compute.",
+                                                          "rank25_mapping":  "H-RR17-05 adjacent only; not i1/lag contrast.",
+                                                          "arms":  [
+                                                                       "group-age-G",
+                                                                       "field-age-F"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  60,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  90,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-9",
+                             "number":  9,
+                             "title":  "[Experiment] Past-only smoothing while retaining raw inputs",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/9",
+                             "branch":  "experiment/causal-smoothing",
+                             "head_sha":  "a972168f5af24060fc053f569abcf5433b251de7",
+                             "historical_review_status":  "blocked_stream_cache",
+                             "mechanism":  "Past-only EWMA/residual features while retaining raw input.",
+                             "draft_implementation_summary":  "60 planned; helper only, no fit.",
+                             "arms":  [
+                                          "raw-plus-control",
+                                          "raw-plus-causal-ewma"
+                                      ],
+                             "planned_fit_count":  60,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-06 adjacent feature family, not exact prefix-stat design.",
+                             "historical_dependencies":  "Wire feature/cache/streaming path, freeze fitting-only EWMA coefficient, test prefix/reset; no centered smoothing.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "helper_only_not_wired",
+                                                                 "implementation":  "no_EWMA_plus_raw_feature_mode",
+                                                                 "native_flags":  [
+                                                                                      "--online-norm (different semantics; not an EWMA smoother)"
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "online normalization appends causal normalized values while preserving base raw inputs"
+                                                                                             ],
+                                                                 "next_gate":  "Implement past-only EWMA/residual feature/cache path; fit coefficient on fitting components; prefix/reset test and freeze controls.",
+                                                                 "hazards":  [
+                                                                                 "Centered/future smoothing leaks",
+                                                                                 "--online-norm is not the proposed smoothing mechanism",
+                                                                                 "Full ranked-2 raw/raw+stats/normalized+raw-bypass triplet lacks same-width control"
+                                                                             ],
+                                                                 "queue_priority":  "after_native_moments_if_R2_remains"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-9",
+                                                          "number":  9,
+                                                          "title":  "[Experiment] Past-only smoothing while retaining raw inputs",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/9",
+                                                          "branch":  "experiment/causal-smoothing",
+                                                          "head_sha":  "a972168f5af24060fc053f569abcf5433b251de7",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_stream_cache",
+                                                          "implementation":  "60 planned; helper only, no fit.",
+                                                          "mechanism":  "Past-only EWMA/residual features while retaining raw input.",
+                                                          "matched_control":  "raw-plus-control vs raw-plus-causal-EWMA.",
+                                                          "dependencies":  "Wire feature/cache/streaming path, freeze fitting-only EWMA coefficient, test prefix/reset; no centered smoothing.",
+                                                          "rank25_mapping":  "H-RR17-06 adjacent feature family, not exact prefix-stat design.",
+                                                          "arms":  [
+                                                                       "raw-plus-control",
+                                                                       "raw-plus-causal-ewma"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  60,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  100,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-14",
+                             "number":  14,
+                             "title":  "[Experiment] Causal innovation residuals beyond moment features",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/14",
+                             "branch":  "experiment/causal-innovation",
+                             "head_sha":  "3c534a41fe26bdb61eb6b66f5da94965148e12db",
+                             "historical_review_status":  "blocked_cache_schema",
+                             "mechanism":  "Causal innovation residuals beyond moment features.",
+                             "draft_implementation_summary":  "60 planned; prior pair blocked before fit, not negative evidence.",
+                             "arms":  [
+                                          "matched-moments",
+                                          "moments-plus-innovation"
+                                      ],
+                             "planned_fit_count":  60,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-06 adjacent causal statistics, distinct innovation contrast.",
+                             "historical_dependencies":  "Repair producer/consumer cache schema against fixtures, bind fold-clean FP32 inputs and check predictor alignment.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "source_native_innovation_successor_candidate; historical cache schema path remains distinct",
+                                                                 "implementation":  "innovation_features_and_same_width_innovation_ablation_supported_cache_repair_still_open",
+                                                                 "native_flags":  [
+                                                                                      "--research-features causal_innovations --research-feature-control none",
+                                                                                      "--research-features causal_innovations --research-feature-control newest"
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "80-channel causal moments-plus-innovation feature mode",
+                                                                                                 "newest control zeros the last 16 innovation channels without changing width",
+                                                                                                 "fold-local fitted moment prior"
+                                                                                             ],
+                                                                 "next_gate":  "First fix/fixture-test historical producer-consumer cache contract or explicitly register native-source successor; verify causal prefix/reset, fold-local prior, predictor alignment and train-only fit; then profile.",
+                                                                 "hazards":  [
+                                                                                 "Blocked prior cache attempt is infrastructure failure, not negative evidence",
+                                                                                 "Do not reuse cached features/prior across folds",
+                                                                                 "Comparison to causal_moments changes feature width; newest same-mode control isolates innovation channels more cleanly"
+                                                                             ],
+                                                                 "queue_priority":  "third_after_R01"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-14",
+                                                          "number":  14,
+                                                          "title":  "[Experiment] Causal innovation residuals beyond moment features",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/14",
+                                                          "branch":  "experiment/causal-innovation",
+                                                          "head_sha":  "3c534a41fe26bdb61eb6b66f5da94965148e12db",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_cache_schema",
+                                                          "implementation":  "60 planned; prior pair blocked before fit, not negative evidence.",
+                                                          "mechanism":  "Causal innovation residuals beyond moment features.",
+                                                          "matched_control":  "Matched moments vs moments-plus-innovation.",
+                                                          "dependencies":  "Repair producer/consumer cache schema against fixtures, bind fold-clean FP32 inputs and check predictor alignment.",
+                                                          "rank25_mapping":  "H-RR17-06 adjacent causal statistics, distinct innovation contrast.",
+                                                          "arms":  [
+                                                                       "matched-moments",
+                                                                       "moments-plus-innovation"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  60,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  110,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-10",
+                             "number":  10,
+                             "title":  "[Experiment] Trailing geometry and circle residual feature",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/10",
+                             "branch":  "experiment/circle-feature",
+                             "head_sha":  "d8f14f583793ceacb1f15dae32f19a072b98e941",
+                             "historical_review_status":  "blocked_feature_definition",
+                             "mechanism":  "Trailing geometric circle residual feature.",
+                             "draft_implementation_summary":  "60 planned; coordinate meaning unverified, helper is not evidence.",
+                             "arms":  [
+                                          "matched-moment-control",
+                                          "trailing-circle-residual"
+                                      ],
+                             "planned_fit_count":  60,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-23/H-RR17-06 neighboring evidence, not same features.",
+                             "historical_dependencies":  "Freeze coordinate pairs/window/epsilon from fitting data; degeneracy/cancellation and prefix checks.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "feature_definition_unverified",
+                                                                 "implementation":  "no_exact_trailing_circle_feature",
+                                                                 "native_flags":  [
+
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+
+                                                                                             ],
+                                                                 "next_gate":  "Freeze coordinate pairs/window/epsilon from fitting data; define degeneracy handling and prove prefix/reset invariance.",
+                                                                 "hazards":  [
+                                                                                 "Coordinates may not have claimed geometric meaning",
+                                                                                 "Near-collinear and zero-radius cases can dominate",
+                                                                                 "A helper alone is not a trainer feature or validated cache"
+                                                                             ],
+                                                                 "queue_priority":  "later_feature_definition"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-10",
+                                                          "number":  10,
+                                                          "title":  "[Experiment] Trailing geometry and circle residual feature",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/10",
+                                                          "branch":  "experiment/circle-feature",
+                                                          "head_sha":  "d8f14f583793ceacb1f15dae32f19a072b98e941",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_feature_definition",
+                                                          "implementation":  "60 planned; coordinate meaning unverified, helper is not evidence.",
+                                                          "mechanism":  "Trailing geometric circle residual feature.",
+                                                          "matched_control":  "Matched moment control vs trailing-circle residual.",
+                                                          "dependencies":  "Freeze coordinate pairs/window/epsilon from fitting data; degeneracy/cancellation and prefix checks.",
+                                                          "rank25_mapping":  "H-RR17-23/H-RR17-06 neighboring evidence, not same features.",
+                                                          "arms":  [
+                                                                       "matched-moment-control",
+                                                                       "trailing-circle-residual"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  60,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  120,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-5",
+                             "number":  5,
+                             "title":  "[Experiment] Function-preserving GRU widening",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/5",
+                             "branch":  "experiment/gru-growth",
+                             "head_sha":  "39e0fefbb344f7caea7463a7861f4ecbed99f00a",
+                             "historical_review_status":  "blocked_fold_parent",
+                             "mechanism":  "Function-preserving GRU widening versus continued parent.",
+                             "draft_implementation_summary":  "60 planned; W 50-update profile and init parity done, no fullfit.",
+                             "arms":  [
+                                          "continue-parent",
+                                          "grow-256x2-to-384x2"
+                                      ],
+                             "planned_fit_count":  60,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-01 adjacent capacity family.",
+                             "historical_dependencies":  "Clean fold parents, pinned grow initializer, FP32 function parity and matched compute/threshold.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "initializer_parity_prototype_only",
+                                                                 "implementation":  "no_growth_initializer_or_resize_cli",
+                                                                 "native_flags":  [
+
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "same-shape --init is not a grow operation"
+                                                                                             ],
+                                                                 "next_gate":  "Implement/pin width-growth map, test function and optimizer-state parity, bind fold-clean parents and matched continuation budget.",
+                                                                 "hazards":  [
+                                                                                 "--init cannot resize a checkpoint",
+                                                                                 "Parent must exclude evaluated outer fold",
+                                                                                 "Short initialization parity/profile does not imply full-fit utility"
+                                                                             ],
+                                                                 "queue_priority":  "later_after_growth_adapter"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-5",
+                                                          "number":  5,
+                                                          "title":  "[Experiment] Function-preserving GRU widening",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/5",
+                                                          "branch":  "experiment/gru-growth",
+                                                          "head_sha":  "39e0fefbb344f7caea7463a7861f4ecbed99f00a",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_fold_parent",
+                                                          "implementation":  "60 planned; W 50-update profile and init parity done, no fullfit.",
+                                                          "mechanism":  "Function-preserving GRU widening versus continued parent.",
+                                                          "matched_control":  "continue-parent vs grow 256x2 to 384x2; cold wide is separate arm.",
+                                                          "dependencies":  "Clean fold parents, pinned grow initializer, FP32 function parity and matched compute/threshold.",
+                                                          "rank25_mapping":  "H-RR17-01 adjacent capacity family.",
+                                                          "arms":  [
+                                                                       "continue-parent",
+                                                                       "grow-256x2-to-384x2"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  60,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  130,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-6",
+                             "number":  6,
+                             "title":  "[Experiment] Frozen-parent output anchor",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/6",
+                             "branch":  "experiment/parent-anchor",
+                             "head_sha":  "06fd0f1290a07ad04aeea794a645b7534dfc7b76",
+                             "historical_review_status":  "blocked_parent_fp32",
+                             "mechanism":  "Frozen-parent output anchor for student KD.",
+                             "draft_implementation_summary":  "60 planned; S resource profile only, no fullfit.",
+                             "arms":  [
+                                          "teacher-target-control",
+                                          "frozen-parent-anchor"
+                                      ],
+                             "planned_fit_count":  60,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-02 adjacent KD allocation.",
+                             "historical_dependencies":  "Verified-FP32 parent export, clean fold ancestry, separate calibration from teacher-function effect.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "profiled_anchor_concept_not_complete_recipe",
+                                                                 "implementation":  "generic_distillation_consumer_only",
+                                                                 "native_flags":  [
+                                                                                      "--distill-cache-root \u003cverified-cache\u003e"
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "cached teacher main-output target consumption"
+                                                                                             ],
+                                                                 "next_gate":  "Validate FP32 frozen-parent export and cache semantics; separate anchor function from target calibration; bind clean ancestry.",
+                                                                 "hazards":  [
+                                                                                 "Generic KD cache is not proof of the proposal\u0027s anchor regularizer",
+                                                                                 "Need same-cell clean parent and fixed weighting",
+                                                                                 "Existing resource profile is not a quality fit"
+                                                                             ],
+                                                                 "queue_priority":  "later_teacher_lineage"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-6",
+                                                          "number":  6,
+                                                          "title":  "[Experiment] Frozen-parent output anchor",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/6",
+                                                          "branch":  "experiment/parent-anchor",
+                                                          "head_sha":  "06fd0f1290a07ad04aeea794a645b7534dfc7b76",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_parent_fp32",
+                                                          "implementation":  "60 planned; S resource profile only, no fullfit.",
+                                                          "mechanism":  "Frozen-parent output anchor for student KD.",
+                                                          "matched_control":  "teacher-target control vs frozen-parent-anchor with teacher function/calibration controlled.",
+                                                          "dependencies":  "Verified-FP32 parent export, clean fold ancestry, separate calibration from teacher-function effect.",
+                                                          "rank25_mapping":  "H-RR17-02 adjacent KD allocation.",
+                                                          "arms":  [
+                                                                       "teacher-target-control",
+                                                                       "frozen-parent-anchor"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  60,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  140,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-7",
+                             "number":  7,
+                             "title":  "[Experiment] Learned causal initial-state family",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/7",
+                             "branch":  "experiment/initial-state",
+                             "head_sha":  "95272e102ef61a0852f084d0af47aa796a8817e2",
+                             "historical_review_status":  "blocked_subset_scope",
+                             "mechanism":  "Causal recurrent initial-state family: learned constant, first row and prefix MLP.",
+                             "draft_implementation_summary":  "120 planned; subset recipes only, no profile/preflight.",
+                             "arms":  [
+                                          "zero",
+                                          "learned-constant",
+                                          "first-row",
+                                          "prefix-mlp"
+                                      ],
+                             "planned_fit_count":  120,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "H-RR17-03 adjacent state theme, different mechanism.",
+                             "historical_dependencies":  "Expand beyond 104-sequence subset, preserve prefix timing/initializer gradients, rebuild clean fold parents.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "subset_proposal_only",
+                                                                 "implementation":  "initial_state_family_not_in_cli",
+                                                                 "native_flags":  [
+
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+
+                                                                                             ],
+                                                                 "next_gate":  "Implement zero/learned-constant/first-row/prefix-MLP arms; expand beyond the 104-sequence subset and test prefix-time/reset/gradient behavior.",
+                                                                 "hazards":  [
+                                                                                 "Chronological initialization is not the proposed family",
+                                                                                 "Prefix features must not use labels or future rows",
+                                                                                 "Rebuild clean parents per outer fold"
+                                                                             ],
+                                                                 "queue_priority":  "later_model_change"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-7",
+                                                          "number":  7,
+                                                          "title":  "[Experiment] Learned causal initial-state family",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/7",
+                                                          "branch":  "experiment/initial-state",
+                                                          "head_sha":  "95272e102ef61a0852f084d0af47aa796a8817e2",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_subset_scope",
+                                                          "implementation":  "120 planned; subset recipes only, no profile/preflight.",
+                                                          "mechanism":  "Causal recurrent initial-state family: learned constant, first row and prefix MLP.",
+                                                          "matched_control":  "zero vs learned-constant vs first-row vs prefix-MLP.",
+                                                          "dependencies":  "Expand beyond 104-sequence subset, preserve prefix timing/initializer gradients, rebuild clean fold parents.",
+                                                          "rank25_mapping":  "H-RR17-03 adjacent state theme, different mechanism.",
+                                                          "arms":  [
+                                                                       "zero",
+                                                                       "learned-constant",
+                                                                       "first-row",
+                                                                       "prefix-mlp"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  120,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  150,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-13",
+                             "number":  13,
+                             "title":  "[Experiment] Fixed checkpoint trajectory averaging",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/13",
+                             "branch":  "experiment/trajectory-average",
+                             "head_sha":  "3b6ddd1c8c53f28d96c719482c06d40eb7a56076",
+                             "historical_review_status":  "blocked_export_grade",
+                             "mechanism":  "Fixed checkpoint trajectory averaging.",
+                             "draft_implementation_summary":  "60 planned; two F0 averages built, export/grade pending.",
+                             "arms":  [
+                                          "fixed-final-checkpoint",
+                                          "fixed-trajectory-average"
+                                      ],
+                             "planned_fit_count":  60,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "No exact R3 item.",
+                             "historical_dependencies":  "Rebind fixed epochs/norm per fold/seed; preserve built F0 averages, export/grade FP32 endpoints.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "fixed_checkpoint_average_not_native_SWA_equivalent",
+                                                                 "implementation":  "partial_F0_averages_export_grade_pending",
+                                                                 "native_flags":  [
+                                                                                      "--swa-frac \u003cfraction\u003e is online step-averaged SWA, not fixed endpoint trajectory averaging"
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "checkpoint loading/export infrastructure"
+                                                                                             ],
+                                                                 "next_gate":  "Preserve built F0 averages; bind exact fixed epochs and normalization for each fold/seed; export and official-grade before creating more averages.",
+                                                                 "hazards":  [
+                                                                                 "Do not substitute --swa-frac and call it faithful",
+                                                                                 "Endpoint averaging requires checkpoint/norm alignment",
+                                                                                 "Existing ungraded artifacts are not a quality claim"
+                                                                             ],
+                                                                 "queue_priority":  "reuse_existing_before_new_fits"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-13",
+                                                          "number":  13,
+                                                          "title":  "[Experiment] Fixed checkpoint trajectory averaging",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/13",
+                                                          "branch":  "experiment/trajectory-average",
+                                                          "head_sha":  "3b6ddd1c8c53f28d96c719482c06d40eb7a56076",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_export_grade",
+                                                          "implementation":  "60 planned; two F0 averages built, export/grade pending.",
+                                                          "mechanism":  "Fixed checkpoint trajectory averaging.",
+                                                          "matched_control":  "Fixed final checkpoint vs fixed trajectory average.",
+                                                          "dependencies":  "Rebind fixed epochs/norm per fold/seed; preserve built F0 averages, export/grade FP32 endpoints.",
+                                                          "rank25_mapping":  "No exact R3 item.",
+                                                          "arms":  [
+                                                                       "fixed-final-checkpoint",
+                                                                       "fixed-trajectory-average"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  60,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  160,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account"
+                                                      }
+                         },
+                         {
+                             "id":  "PR-11",
+                             "number":  11,
+                             "title":  "[Experiment] Permitted Chronos or TimesFM teacher transfer",
+                             "url":  "https://github.com/VladKochetov007/WunderFunder/pull/11",
+                             "branch":  "experiment/pretrained-teacher",
+                             "head_sha":  "8a0a1f100d171a3779bc4bb06d91e34bda649541",
+                             "historical_review_status":  "blocked_asset_license_adapter",
+                             "mechanism":  "Chronos/TimesFM pretrained teacher transfer to GRU student.",
+                             "draft_implementation_summary":  "60 planned; unimplemented.",
+                             "arms":  [
+                                          "in-domain-teacher",
+                                          "pretrained-adapted-teacher"
+                                      ],
+                             "planned_fit_count":  60,
+                             "replications_per_arm":  30,
+                             "rank25_mapping":  "No exact R3 item.",
+                             "historical_dependencies":  "Select permitted checkpoint, license/hash/pretraining scope, implement causal multivariate adapter and target mapping.",
+                             "fidelity_and_native_binding":  {
+                                                                 "faithfulness":  "proposal_only",
+                                                                 "implementation":  "no_eligible_asset_or_adapter",
+                                                                 "native_flags":  [
+                                                                                      "--distill-cache-root is only downstream consumer if a permitted producer exists"
+                                                                                  ],
+                                                                 "reusable_native_surface":  [
+                                                                                                 "generic cached-target consumer"
+                                                                                             ],
+                                                                 "next_gate":  "Resolve source/task eligibility, exact checkpoint/license/hash/pretraining scope and causal multivariate target adapter before any download or fit.",
+                                                                 "hazards":  [
+                                                                                 "No permission/provenance inferred for pretrained assets",
+                                                                                 "External market pretraining scope is unresolved",
+                                                                                 "Target mapping and free-running causality need tests"
+                                                                             ],
+                                                                 "queue_priority":  "blocked_external_asset"
+                                                             },
+                             "source_review_record":  {
+                                                          "id":  "PR-11",
+                                                          "number":  11,
+                                                          "title":  "[Experiment] Permitted Chronos or TimesFM teacher transfer",
+                                                          "url":  "https://github.com/VladKochetov007/WunderFunder/pull/11",
+                                                          "branch":  "experiment/pretrained-teacher",
+                                                          "head_sha":  "8a0a1f100d171a3779bc4bb06d91e34bda649541",
+                                                          "base":  "research-team",
+                                                          "status":  "blocked_asset_license_adapter",
+                                                          "implementation":  "60 planned; unimplemented.",
+                                                          "mechanism":  "Chronos/TimesFM pretrained teacher transfer to GRU student.",
+                                                          "matched_control":  "In-domain teacher vs pretrained-adapted teacher.",
+                                                          "dependencies":  "Select permitted checkpoint, license/hash/pretraining scope, implement causal multivariate adapter and target mapping.",
+                                                          "rank25_mapping":  "No exact R3 item.",
+                                                          "arms":  [
+                                                                       "in-domain-teacher",
+                                                                       "pretrained-adapted-teacher"
+                                                                   ],
+                                                          "replications_per_arm":  30,
+                                                          "planned_fit_count":  60,
+                                                          "launch_ready":  false,
+                                                          "fit_admitted":  false,
+                                                          "preparation_order":  200,
+                                                          "account_author":  "VladKochetov007",
+                                                          "idea_author":  "not inferred from PR account",
+                                                          "additional_rule_gate":  "Original Chronos external FX and Moirai/LOTSA external market corpora excluded; TimesFM/Chronos-2 provenance unresolved. No pretrained download admitted."
+                                                      }
+                         }
+                     ],
+    "ranked25":  [
+                     {
+                         "rank":  1,
+                         "hypothesis_id":  "H-RR17-01",
+                         "idea":  "Wide shallow GRU convergence",
+                         "related_prs":  [
+                                             2
+                                         ],
+                         "historical_match_label":  "exact",
+                         "historical_dependency":  "Measured-compute matched full FP32 width/depth recipe; current screen one seed/short budget.",
+                         "current_source_binding":  {
+                                                        "implementation":  "direct_native_GRU_shape_support",
+                                                        "native_flags":  [
+                                                                             "--arch gru",
+                                                                             "--cell gru",
+                                                                             "--enc linear",
+                                                                             "--hidden \u003cH\u003e",
+                                                                             "--layers \u003cL\u003e"
+                                                                         ],
+                                                        "exact_PR_relation":  "PR-2 exact family; R4 rank1 is separate near-parameter recipe",
+                                                        "minimum_next_gate":  "Matched compute/update definition, actual-shape profile, frozen budget and CP30 recipe."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-01",
+                                                      "prs":  [
+                                                                  2
+                                                              ],
+                                                      "match":  "exact",
+                                                      "idea":  "Wide shallow GRU convergence",
+                                                      "rank":  1,
+                                                      "dependency":  "Measured-compute matched full FP32 width/depth recipe; current screen one seed/short budget."
+                                                  }
+                     },
+                     {
+                         "rank":  2,
+                         "hypothesis_id":  "H-RR17-06",
+                         "idea":  "Causal prefix statistics/normalization with raw bypass",
+                         "related_prs":  [
+                                             9,
+                                             14,
+                                             15,
+                                             17
+                                         ],
+                         "historical_match_label":  "adjacent-distinct",
+                         "historical_dependency":  "No PR is the exact raw vs raw+prefix stats vs normalized path+raw bypass sequence; keep smoothing, innovation, geometry and local trend as separate arms.",
+                         "current_source_binding":  {
+                                                        "implementation":  "partial_native_moments_only_full_three_way_missing",
+                                                        "native_flags":  [
+                                                                             "--research-features causal_moments --research-feature-control none",
+                                                                             "--research-features causal_moments --research-feature-control newest",
+                                                                             "--online-norm (separate raw-plus-normalized path)"
+                                                                         ],
+                                                        "exact_PR_relation":  "PR-9/14/15/17 adjacent-distinct, none implements raw -\u003e raw+prefix statistics -\u003e normalized+raw-bypass full triplet",
+                                                        "minimum_next_gate":  "Run a same-width causal-moment active-vs-zero control first; implement parameter-matched normalized/raw bypass before claiming full ranked hypothesis."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-06",
+                                                      "prs":  [
+                                                                  9,
+                                                                  14,
+                                                                  15,
+                                                                  17
+                                                              ],
+                                                      "match":  "adjacent-distinct",
+                                                      "idea":  "Causal prefix statistics/normalization with raw bypass",
+                                                      "rank":  2,
+                                                      "dependency":  "No PR is the exact raw vs raw+prefix stats vs normalized path+raw bypass sequence; keep smoothing, innovation, geometry and local trend as separate arms."
+                                                  }
+                     },
+                     {
+                         "rank":  3,
+                         "hypothesis_id":  "H-RR17-02",
+                         "idea":  "Strong causal teacher to compact student",
+                         "related_prs":  [
+                                             1,
+                                             3,
+                                             12,
+                                             17
+                                         ],
+                         "historical_match_label":  "broad-direction",
+                         "historical_dependency":  "Student official score endpoint; outer-fold-clean teacher ancestry; optional inner OOF targets; exact teacher/student ancestry and calibration.",
+                         "current_source_binding":  {
+                                                        "implementation":  "student_consumer_supported_teacher_system_incomplete",
+                                                        "native_flags":  [
+                                                                             "--distill-cache-root \u003cverified-cache\u003e",
+                                                                             "--distill-cache-variant \u003csource|normalized|homogeneous\u003e"
+                                                                         ],
+                                                        "exact_PR_relation":  "PR-1/3/12/17 broad direction only",
+                                                        "minimum_next_gate":  "A fold-clean high-quality teacher/cache producer plus fixed student recipe/calibration and official student endpoint."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-02",
+                                                      "prs":  [
+                                                                  1,
+                                                                  3,
+                                                                  12,
+                                                                  17
+                                                              ],
+                                                      "match":  "broad-direction",
+                                                      "idea":  "Strong causal teacher to compact student",
+                                                      "rank":  3,
+                                                      "dependency":  "Student official score endpoint; outer-fold-clean teacher ancestry; optional inner OOF targets; exact teacher/student ancestry and calibration."
+                                                  }
+                     },
+                     {
+                         "rank":  4,
+                         "hypothesis_id":  "H-RR17-04",
+                         "idea":  "Intermediate teacher hidden-state hints",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Freeze teacher/student, add projected hints as separate arm; semantic queries need prior audit.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Implement projected intermediate hidden hints and control; freeze teacher/student and audit causal alignment."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-04",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "Intermediate teacher hidden-state hints",
+                                                      "rank":  4,
+                                                      "dependency":  "Freeze teacher/student, add projected hints as separate arm; semantic queries need prior audit."
+                                                  }
+                     },
+                     {
+                         "rank":  5,
+                         "hypothesis_id":  "H-RR17-10",
+                         "idea":  "Different output-component capacity",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Match parameters; score reconstructed two targets.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Implement output-component-specific capacity and parameter-matched readout control."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-10",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "Different output-component capacity",
+                                                      "rank":  5,
+                                                      "dependency":  "Match parameters; score reconstructed two targets."
+                                                  }
+                     },
+                     {
+                         "rank":  6,
+                         "hypothesis_id":  "H-RR17-22",
+                         "idea":  "Shared transforms with feature IDs",
+                         "related_prs":  [
+                                             8
+                                         ],
+                         "historical_match_label":  "adjacent",
+                         "historical_dependency":  "Grouped projection does not test shared within-group encoder plus ID/escape.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_exact_shared_ID_encoder",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "PR-8 grouped encoder adjacent only",
+                                                        "minimum_next_gate":  "Add shared within-group transform, feature-ID and escape path plus flat parameter-matched control."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-22",
+                                                      "prs":  [
+                                                                  8
+                                                              ],
+                                                      "match":  "adjacent",
+                                                      "idea":  "Shared transforms with feature IDs",
+                                                      "rank":  6,
+                                                      "dependency":  "Grouped projection does not test shared within-group encoder plus ID/escape."
+                                                  }
+                     },
+                     {
+                         "rank":  7,
+                         "hypothesis_id":  "H-RR17-05",
+                         "idea":  "i1 reliability and inter-instrument lags",
+                         "related_prs":  [
+                                             4
+                                         ],
+                         "historical_match_label":  "adjacent",
+                         "historical_dependency":  "Field-age is not i1/lag ablation; test no-i1, i1 and fixed lag basis.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_i1_lag_mechanism",
+                                                        "native_flags":  [
+                                                                             "--research-features field_age is not i1/lag ablation"
+                                                                         ],
+                                                        "exact_PR_relation":  "PR-4 adjacent only",
+                                                        "minimum_next_gate":  "Compare no-i1, i1-only and fixed lag-basis under identical inputs/normalization."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-05",
+                                                      "prs":  [
+                                                                  4
+                                                              ],
+                                                      "match":  "adjacent",
+                                                      "idea":  "i1 reliability and inter-instrument lags",
+                                                      "rank":  7,
+                                                      "dependency":  "Field-age is not i1/lag ablation; test no-i1, i1 and fixed lag basis."
+                                                  }
+                     },
+                     {
+                         "rank":  8,
+                         "hypothesis_id":  "H-RR17-16",
+                         "idea":  "Local causal attention plus recurrence",
+                         "related_prs":  [
+                                             1
+                                         ],
+                         "historical_match_label":  "adjacent",
+                         "historical_dependency":  "PR1 is output AR, not local attention windows; compare fixed left-causal window to same backbone without it.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_local_attention",
+                                                        "native_flags":  [
+                                                                             "PR-1 output autoregression is not local attention"
+                                                                         ],
+                                                        "exact_PR_relation":  "PR-1 adjacent only",
+                                                        "minimum_next_gate":  "Implement fixed left-causal local window and matched no-window backbone control."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-16",
+                                                      "prs":  [
+                                                                  1
+                                                              ],
+                                                      "match":  "adjacent",
+                                                      "idea":  "Local causal attention plus recurrence",
+                                                      "rank":  8,
+                                                      "dependency":  "PR1 is output AR, not local attention windows; compare fixed left-causal window to same backbone without it."
+                                                  }
+                     },
+                     {
+                         "rank":  9,
+                         "hypothesis_id":  "H-RR17-11",
+                         "idea":  "Covariance orientation of feature groups",
+                         "related_prs":  [
+                                             15
+                                         ],
+                         "historical_match_label":  "adjacent",
+                         "historical_dependency":  "Geometry features are not covariance orientation; trace/activity control plus small causal covariance.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_covariance_orientation",
+                                                        "native_flags":  [
+                                                                             "PR-15 geometry/discrete features are not covariance orientation"
+                                                                         ],
+                                                        "exact_PR_relation":  "PR-15 adjacent only",
+                                                        "minimum_next_gate":  "Implement causal covariance/orientation and trace/activity control."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-11",
+                                                      "prs":  [
+                                                                  15
+                                                              ],
+                                                      "match":  "adjacent",
+                                                      "idea":  "Covariance orientation of feature groups",
+                                                      "rank":  9,
+                                                      "dependency":  "Geometry features are not covariance orientation; trace/activity control plus small causal covariance."
+                                                  }
+                     },
+                     {
+                         "rank":  10,
+                         "hypothesis_id":  "H-RR17-14",
+                         "idea":  "Mamba-3 MIMO versus SISO teacher",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Streaming/reset/causal parity then matched resources and same student.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_Mamba3_MIMO_SISO",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Implement both modes and test streaming/reset/causal parity before matched teacher/student comparison."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-14",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "Mamba-3 MIMO versus SISO teacher",
+                                                      "rank":  10,
+                                                      "dependency":  "Streaming/reset/causal parity then matched resources and same student."
+                                                  }
+                     },
+                     {
+                         "rank":  11,
+                         "hypothesis_id":  "H-RR17-15",
+                         "idea":  "xLSTM matrix-memory teacher",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Scalar/matrix memory with matched capacity and same student-transfer.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_xLSTM_matrix_memory",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Implement scalar and matrix-memory versions with capacity-matched transfer comparison."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-15",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "xLSTM matrix-memory teacher",
+                                                      "rank":  11,
+                                                      "dependency":  "Scalar/matrix memory with matched capacity and same student-transfer."
+                                                  }
+                     },
+                     {
+                         "rank":  12,
+                         "hypothesis_id":  "H-RR17-20",
+                         "idea":  "Nonlinear calibration for weighted metric",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Low-cost calendar candidate; fitting-only groups and predeclared weighted bins.",
+                         "current_source_binding":  {
+                                                        "implementation":  "no_offline_nonlinear_calibrator",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Fit calibrator only on fit groups, freeze weighted bins and test unchanged official scorer."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-20",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "Nonlinear calibration for weighted metric",
+                                                      "rank":  12,
+                                                      "dependency":  "Low-cost calendar candidate; fitting-only groups and predeclared weighted bins."
+                                                  }
+                     },
+                     {
+                         "rank":  13,
+                         "hypothesis_id":  "H-RR17-08",
+                         "idea":  "New observable future queries",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Define novelty beyond Belief/aux_quote/future moments and censoring.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_new_query_definition",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Define novel observable future queries and censoring beyond existing Belief/aux_quote/future moments."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-08",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "New observable future queries",
+                                                      "rank":  13,
+                                                      "dependency":  "Define novelty beyond Belief/aux_quote/future moments and censoring."
+                                                  }
+                     },
+                     {
+                         "rank":  14,
+                         "hypothesis_id":  "H-RR17-03",
+                         "idea":  "Soft write to primary hidden state",
+                         "related_prs":  [
+                                             7
+                                         ],
+                         "historical_match_label":  "adjacent",
+                         "historical_dependency":  "Initial-state differs from soft write; source-bound replay then soft-write vs dense recurrence.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_soft_write",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "PR-7 initial-state family adjacent but different",
+                                                        "minimum_next_gate":  "Implement bounded soft-write gate and dense-recurrence control; test resets and state causality."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-03",
+                                                      "prs":  [
+                                                                  7
+                                                              ],
+                                                      "match":  "adjacent",
+                                                      "idea":  "Soft write to primary hidden state",
+                                                      "rank":  14,
+                                                      "dependency":  "Initial-state differs from soft write; source-bound replay then soft-write vs dense recurrence."
+                                                  }
+                     },
+                     {
+                         "rank":  15,
+                         "hypothesis_id":  "H-RR17-21",
+                         "idea":  "Bounded group-robust objective",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Fit-only group definitions, one bounded change vs original pooled objective.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_group_robust_objective",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Define fit-only groups, bounded one-term objective change and pooled-score guard."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-21",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "Bounded group-robust objective",
+                                                      "rank":  15,
+                                                      "dependency":  "Fit-only group definitions, one bounded change vs original pooled objective."
+                                                  }
+                     },
+                     {
+                         "rank":  16,
+                         "hypothesis_id":  "H-RR17-12",
+                         "idea":  "CUSUM adaptation for slow memory",
+                         "related_prs":  [
+                                             4
+                                         ],
+                         "historical_match_label":  "adjacent",
+                         "historical_dependency":  "Field age is not CUSUM; compare against age/EW activity on fixed shifts.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_CUSUM",
+                                                        "native_flags":  [
+                                                                             "PR-4 age clocks and --online-norm are not CUSUM"
+                                                                         ],
+                                                        "exact_PR_relation":  "PR-4 adjacent only",
+                                                        "minimum_next_gate":  "Causal observable innovation, threshold and reset tests; compare against age/EW activity on fixed shifts."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-12",
+                                                      "prs":  [
+                                                                  4
+                                                              ],
+                                                      "match":  "adjacent",
+                                                      "idea":  "CUSUM adaptation for slow memory",
+                                                      "rank":  16,
+                                                      "dependency":  "Field age is not CUSUM; compare against age/EW activity on fixed shifts."
+                                                  }
+                     },
+                     {
+                         "rank":  17,
+                         "hypothesis_id":  "H-RR17-09",
+                         "idea":  "Cross-stream event-order feature",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Antisymmetric area vs fixed cross-lags and count/sum-preserving shuffle.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_cross_stream_event_order",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Implement antisymmetric order statistic; compare fixed lags and count/sum-preserving shuffle."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-09",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "Cross-stream event-order feature",
+                                                      "rank":  17,
+                                                      "dependency":  "Antisymmetric area vs fixed cross-lags and count/sum-preserving shuffle."
+                                                  }
+                     },
+                     {
+                         "rank":  18,
+                         "hypothesis_id":  "H-RR17-17",
+                         "idea":  "Masked current-feature reconstruction",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Mask delta/normalization/skip paths; same supervised student.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_current_feature_reconstruction",
+                                                        "native_flags":  [
+                                                                             "--aux-mask predicts scoring mask; it is not feature reconstruction"
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Implement masked-feature target/objective and mask/skip controls on same student."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-17",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "Masked current-feature reconstruction",
+                                                      "rank":  18,
+                                                      "dependency":  "Mask delta/normalization/skip paths; same supervised student."
+                                                  }
+                     },
+                     {
+                         "rank":  19,
+                         "hypothesis_id":  "H-RR17-18",
+                         "idea":  "CPC future input states",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Same-sequence negatives, persistence control and same student.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_CPC_future_state",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Implement same-sequence negative sampling, persistence control and downstream student comparison."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-18",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "CPC future input states",
+                                                      "rank":  19,
+                                                      "dependency":  "Same-sequence negatives, persistence control and same student."
+                                                  }
+                     },
+                     {
+                         "rank":  20,
+                         "hypothesis_id":  "H-RR17-07",
+                         "idea":  "Distribution/dependency distillation",
+                         "related_prs":  [
+                                             3
+                                         ],
+                         "historical_match_label":  "scaffold-only",
+                         "historical_dependency":  "Output-only KD vs fixed distribution summary; preserve two serving outputs.",
+                         "current_source_binding":  {
+                                                        "implementation":  "partial_multi_family_target_consumer_not_distribution_dependency_KD",
+                                                        "native_flags":  [
+                                                                             "--distill-family-weight \u003cweight\u003e for cached family targets",
+                                                                             "--distill-cache-root \u003cverified-cache\u003e"
+                                                                         ],
+                                                        "exact_PR_relation":  "PR-3 scaffold only",
+                                                        "minimum_next_gate":  "Implement fixed distribution/dependency summaries and output-only KD matched control."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-07",
+                                                      "prs":  [
+                                                                  3
+                                                              ],
+                                                      "match":  "scaffold-only",
+                                                      "idea":  "Distribution/dependency distillation",
+                                                      "rank":  20,
+                                                      "dependency":  "Output-only KD vs fixed distribution summary; preserve two serving outputs."
+                                                  }
+                     },
+                     {
+                         "rank":  21,
+                         "hypothesis_id":  "H-RR17-19",
+                         "idea":  "ARTBP compensated truncated gradient",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Exact BPTT toy parity first; high cost.",
+                         "current_source_binding":  {
+                                                        "implementation":  "ARTBP_flag_native_parity_and_cost_gates_open",
+                                                        "native_flags":  [
+                                                                             "--credit-mode artbp",
+                                                                             "--credit-keep-probability \u003cp\u003e",
+                                                                             "--credit-seed \u003cseed\u003e",
+                                                                             "--update-rows 20000",
+                                                                             "--detach-rows 20000",
+                                                                             "--chunk 2000"
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Exact BPTT toy gradient parity and bias/variance characterization, then real-shape profile; compare same-window deterministic BPTT. Constraints: strict FP32, SGD, no clipping, chunk \u003c update_rows, detach_rows 0 or update_rows, update_rows divides 20000-row sequences, no noise/origin/jitter."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-19",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "ARTBP compensated truncated gradient",
+                                                      "rank":  21,
+                                                      "dependency":  "Exact BPTT toy parity first; high cost."
+                                                  }
+                     },
+                     {
+                         "rank":  22,
+                         "hypothesis_id":  "H-RR17-13",
+                         "idea":  "Content-based retrieval of prior states",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "Bound current-sequence memory; recency/taps/shuffled-key control.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_content_based_state_retrieval",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Bound sequence-local memory; compare recency/taps and shuffled-key control."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-13",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "Content-based retrieval of prior states",
+                                                      "rank":  22,
+                                                      "dependency":  "Bound current-sequence memory; recency/taps/shuffled-key control."
+                                                  }
+                     },
+                     {
+                         "rank":  23,
+                         "hypothesis_id":  "H-RR17-23",
+                         "idea":  "Transition/cycle topology in input codes",
+                         "related_prs":  [
+                                             15
+                                         ],
+                         "historical_match_label":  "adjacent",
+                         "historical_dependency":  "Dictionary/event/dwell features are useful occupancy control, not cycle proof.",
+                         "current_source_binding":  {
+                                                        "implementation":  "partial_discrete_occupancy_neighbor_not_transition_cycle_topology",
+                                                        "native_flags":  [
+                                                                             "PR-15 geometry/discrete dictionary is adjacent only"
+                                                                         ],
+                                                        "exact_PR_relation":  "PR-15 adjacent only",
+                                                        "minimum_next_gate":  "Implement ordered transition/cycle statistic and occupancy-preserving control."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-23",
+                                                      "prs":  [
+                                                                  15
+                                                              ],
+                                                      "match":  "adjacent",
+                                                      "idea":  "Transition/cycle topology in input codes",
+                                                      "rank":  23,
+                                                      "dependency":  "Dictionary/event/dwell features are useful occupancy control, not cycle proof."
+                                                  }
+                     },
+                     {
+                         "rank":  24,
+                         "hypothesis_id":  "H-RR17-24",
+                         "idea":  "Adaptive fast memory teacher-only",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "High-cost; reset; final fixed student vs ordinary-teacher KD.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_adaptive_fast_memory_teacher",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Implement reset-safe teacher memory; compare final fixed student to ordinary-teacher distillation."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-24",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "Adaptive fast memory teacher-only",
+                                                      "rank":  24,
+                                                      "dependency":  "High-cost; reset; final fixed student vs ordinary-teacher KD."
+                                                  }
+                     },
+                     {
+                         "rank":  25,
+                         "hypothesis_id":  "H-RR17-25",
+                         "idea":  "Input world model and internal teacher rollouts",
+                         "related_prs":  [
+
+                                         ],
+                         "historical_match_label":  "none",
+                         "historical_dependency":  "High-cost compounded error; beat persistence/one-step and separately test student transfer.",
+                         "current_source_binding":  {
+                                                        "implementation":  "missing_world_model_and_rollouts",
+                                                        "native_flags":  [
+
+                                                                         ],
+                                                        "exact_PR_relation":  "none",
+                                                        "minimum_next_gate":  "Beat persistence/one-step prediction first; bound compounded rollout error and separately test student transfer."
+                                                    },
+                         "source_review_record":  {
+                                                      "id":  "H-RR17-25",
+                                                      "prs":  [
+
+                                                              ],
+                                                      "match":  "none",
+                                                      "idea":  "Input world model and internal teacher rollouts",
+                                                      "rank":  25,
+                                                      "dependency":  "High-cost compounded error; beat persistence/one-step and separately test student transfer."
+                                                  }
+                     }
+                 ],
+    "issue16_rank1_anchor":  {
+                                 "id":  "ISSUE-16",
+                                 "number":  16,
+                                 "title":  "[Cluster] Rank 1: F2/seed1001 paired wide/deep GRU validation",
+                                 "url":  "https://github.com/VladKochetov007/WunderFunder/issues/16",
+                                 "author_login":  "maloimushiy",
+                                 "status":  "worker_binding_profile_blocked",
+                                 "scope":  "F2/seed1001 pair only: fresh H512x1 wide vs H384x2 deep; six epochs; B8/C2000; strict FP32; epoch5 fixed endpoint; no validation selection; original labels only.",
+                                 "source_sha":  "a266b036b02e8e012c6eb31072291dad618a169d",
+                                 "grader_sha":  "6f9fd05e491a9700cce1adf50e58b56cdc5e65bb",
+                                 "recipe_sha256":  "9292b545fd088df40c4cc54066a745025ee4d30c2bf1574bdb4df341eb16937c",
+                                 "fold2_sha256":  "56b0e2ecb6bbda1f34569206cbf2c276544c275bac025793ae450488cf5d17a2",
+                                 "dependencies":  [
+                                                      "Bind real cluster-readable data paths and actual scheduler/worker identity; Beleriand UUID/systemd paths are not cluster commands.",
+                                                      "Run bounded actual-shape engineering profiles, then both matched fits on same provider/GPU/runtime.",
+                                                      "Claim only rr18_r01_wide_f2_s1001 and rr18_r01_deep_f2_s1001; F0/seed1001 belongs to Beleriand, F1/seed1001 is outside issue scope.",
+                                                      "Return identities, resource receipts, checkpoints, FP32 predictions/sidecars and official grades; include failures."
+                                                  ],
+                                 "planned_fit_count":  2,
+                                 "fit_admitted":  false,
+                                 "launch_ready":  false,
+                                 "worker_started":  false,
+                                 "arms":  [
+                                              "wide-H512x1",
+                                              "deep-H384x2"
+                                          ],
+                                 "replications_per_arm":  1
+                             },
+    "source_attribution_caution":  "All PRs list repository account VladKochetov007 as author; do not attribute proposal authorship to named collaborators without commit/coauthor evidence.",
+    "historic_queue_infrastructure_review":  {
+                                                 "b300_allocation_or_inventory_present":  "Inventory observed by root; no allocation verified",
+                                                 "host_topology_driver_runtime_or_scheduler_receipt_present":  false,
+                                                 "no_ddp_trainer":  true,
+                                                 "trainer_limit":  "The audited canonical runner is single-process: no process group, rank/device binding, sequence sharding, gradient reduction, or collective metric path. Do not wrap the current CLI in torchrun and assume it becomes DDP.",
+                                                 "single_gpu_controller":  "bandit_resources.py uses one global lock and is a single-GPU guard; it cannot schedule eight GPU workers.",
+                                                 "current_cell_ownership":  "F0/seed1001 belongs to active Beleriand rank-1 work; issue #16 is F2/seed1001 only. Reconcile claims before assigning. F1/seed1001 is separately prepared for DataSphere and outside issue #16.",
+                                                 "staging":  "Stage source data/cache once on shared fast storage when possible; bind manifests/input identities, writable persistent artifacts and physical-disk scratch.",
+                                                 "ddp_requirements":  "Only after actual implementation: deterministic complete-sequence sharding; equal collective/update counts; global masked-objective denominators before scaling/clipping; global sufficient statistics for official pooled metrics; rank-separated logs and synchronized per-rank checkpoint state.",
+                                                 "precision":  "Strict FP32; autocast/GradScaler off, TF32 off and float32 matmul precision highest; log/check actual attention/scan backend.",
+                                                 "placement":  "If each candidate/control fits one card, place four matched pairs on eight cards per wave, arms sharing host/runtime. A larger teacher using multiple cards needs a correctly implemented DDP path and matched effective global batch/update budget.",
+                                                 "scope":  "Two successful read-only SSH inventories; no assigned UUIDs, topology, runtime, scheduler or cgroup-delegation receipt."
+                                             },
+    "historical_review_adjudications":  [
+                                            "In-sample KD on fitting groups is valid when all ancestors exclude the evaluated outer fold. Inner OOF is a distinct optional arm, not a universal blocker.",
+                                            "Scorer clipping does not mandate clipped teacher targets. Maxim\u0027s raw family targets versus current trainer clipping remain a real replication difference.",
+                                            "PR2 and R4 rank1 share an architecture lineage, not an identical comparison: PR2 compute matching is not R4\u0027s near-parameter matching.",
+                                            "SSH hardware visibility was observed; allocation, topology, stack and performance remain unverified.",
+                                            "Proposal readiness is distinct from SQLite runnable-job admission. No experimental fits are admitted."
+                                        ]
+}
