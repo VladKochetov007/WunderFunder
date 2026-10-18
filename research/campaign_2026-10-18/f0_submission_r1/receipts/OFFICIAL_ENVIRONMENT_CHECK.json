@@ -1,0 +1,31 @@
+{
+  "schema": "f0_submission.official_environment_check.v1",
+  "checked_utc": "2026-10-18T10:08:00Z",
+  "source": "https://wundernn.io/connectome/docs/submission_guide",
+  "retrieval": "Official-domain indexed page through web search; direct JS page returned no readable body. Search crawl reported six days earlier.",
+  "official": {
+    "python": "3.11",
+    "base": "python:3.11-slim-bookworm",
+    "cpu": "AMD EPYC 9224; documented avx512_vnni flag",
+    "cpu_count": 1,
+    "memory_gb": 16,
+    "runtime_seconds": 3600,
+    "zip_max_bytes": 20000000,
+    "network": false,
+    "numpy_requirement": ">=1.26,<3",
+    "pyarrow_requirement": ">=15,<19"
+  },
+  "tested": {
+    "python": "3.11.16",
+    "numpy": "2.2.6",
+    "cpu": "Xeon Gold 6230, AVX512VNNI",
+    "libc": "2.39; all packaged ELF symbols require at most2.34",
+    "pyarrow_harness": "19.0.1",
+    "packaged_imports": "stdlib,numpy,local ABI3 extension; no pyarrow dependency"
+  },
+  "limitations": [
+    "Exact scorer image not executed: Docker socket access denied during discovery; no escalation or permissions change.",
+    "Harness parquet reader version differs from official range, but is not imported by the delivered package.",
+    "One-host relative incumbent calibration cannot guarantee competition runtime."
+  ]
+}

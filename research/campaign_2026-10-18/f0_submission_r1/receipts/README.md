@@ -33,3 +33,7 @@ FP32 selection, actual native serving and independent artifact checks.
   complete two-sequence Python3.11 callbacks and resets match the V3 native
   predictions bit-for-bit on the same VNNI-capable CPU. These are library-level
   checks, not a claim about the speed of a CPU lacking VNNI.
+
+- [NATIVE_GRADER_REVIEW](NATIVE_GRADER_REVIEW.json): independent producer/schema and metric review; source dataset binding was strengthened before any grader execution.
+
+- [OFFICIAL_ENVIRONMENT_CHECK](OFFICIAL_ENVIRONMENT_CHECK.json): official guide requirements and the limits of the actual Linux/Python3.11 test environment. The delivered package uses NumPy within the stated range; PyArrow is only a validation-harness dependency.

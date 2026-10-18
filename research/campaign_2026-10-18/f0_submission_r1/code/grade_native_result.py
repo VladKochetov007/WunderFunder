@@ -26,6 +26,8 @@ def main() -> None:
     args = parser.parse_args()
     work = args.base / "submission-f0-r1"
     report = json.loads((work / "Q8_FULL_F0.json").read_text())
+    if report["status"] != "passed_panel_check":
+        raise ValueError("native replay did not complete")
     pred_path = work / "q8_full_f0.npy"
     if digest(pred_path) != report["predictions_sha256"]:
         raise ValueError("native prediction hash mismatch")
@@ -36,7 +38,20 @@ def main() -> None:
     if report["selected_source_row_groups"] != groups or report["rows"] != 9360000:
         raise ValueError("native replay omitted or reordered groups")
     prediction = np.load(pred_path, mmap_mode="r")
-    source = pq.ParquetFile(args.base / "data/datasets/valid.parquet")
+    if prediction.dtype != np.float32 or prediction.shape != (len(groups), 20000, 2):
+        raise ValueError("native prediction shape/dtype mismatch")
+    source_path = (args.base / "data/datasets/valid.parquet").resolve()
+    source_stat = source_path.stat()
+    if str(source_path) != report["panel"]:
+        raise ValueError("parquet source path differs from replay")
+    if source_stat.st_size != report["panel_bytes"]:
+        raise ValueError("parquet source size differs from replay")
+    if source_stat.st_mtime_ns != report["panel_mtime_ns_after"]:
+        raise ValueError("parquet source modification time differs from replay")
+    source_hash = digest(source_path)
+    if source_hash != report["panel_sha256"]:
+        raise ValueError("parquet source hash differs from replay")
+    source = pq.ParquetFile(source_path)
     accumulated = GlobalAccumulator()
     selected: list[np.ndarray] = []
     for index, group in enumerate(groups):
@@ -52,6 +67,13 @@ def main() -> None:
         accumulated.add(target, prediction[index], mask)
         selected.append(np.asarray(prediction[index][mask]))
     score = accumulated.result()
+    source_stat_after = source_path.stat()
+    if (source_stat.st_size, source_stat.st_mtime_ns, source_stat.st_ino) != (
+        source_stat_after.st_size,
+        source_stat_after.st_mtime_ns,
+        source_stat_after.st_ino,
+    ):
+        raise ValueError("parquet changed during independent grade")
     for key in ("t0", "t1", "wp"):
         if abs(score[key] - report["official_score"][key]) > 1e-12:
             raise ValueError(f"independent canonical metric differs for {key}")
@@ -66,6 +88,7 @@ def main() -> None:
         "score": score,
         "groups": len(groups),
         "zip_sha256": report["zip_sha256"],
+        "parquet_sha256": source_hash,
         "prediction_sha256": report["predictions_sha256"],
         "native_replay_receipt_sha256": digest(work / "Q8_FULL_F0.json"),
         "scored_prediction_sha256": digest(compact_path),
